@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
-{
+namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
     using System;
     
     

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { Credentials } from './../../authentication/credentials';
+import { Credentials, ChangePasswordInfo } from './../../authentication/credentials';
 import { LoginService } from './../../services/login.service';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from "@angular/router";
@@ -30,6 +30,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   openChangePasswordDialog: boolean = false;
   changePasswordResult: boolean = false;
   changePasswordFields: Array<{ label: string, value: string, hide: boolean }>;
+  // msgdialog variables
+  openMsgDialog: boolean = false;
+  msgDialog: string;
+  // resetdialog variables
+  openResetPasswordDialog: boolean = false;
+  resetPasswordResult: boolean = false;
 
   //--------------------------------------------------------------------------------
   constructor(private route: ActivatedRoute, private loginService: LoginService) { 
@@ -55,6 +61,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       let opRes:OperationResult = msg;
 
       if (!opRes.Result) {
+  
+        if (opRes.Code == 19){
+        this.openChangePasswordDialog = true;
+        }
         this.errorMessage = opRes.Message;
       }
 
@@ -204,12 +214,40 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.appBusy = true;
     this.loginService.login(this.credentials, this.returnUrl, this.selectedInstanceKey);
+  
   }
 
+
+// evento sulla chiusura della dialog di cambio password
+//--------------------------------------------------------------------------------------------------------
+onCloseResetPasswordDialog() {
+  // if 'No' button has been clicked I return
+  if (!this.resetPasswordResult)
+    return;
+    let accountName: string = this.route.snapshot.queryParams['accountNameToEdit'];
+
+  let resetPassword = this.loginService.resetPassword(this.credentials.accountName).
+    subscribe(
+    changeResult => {
+
+      if (changeResult.Result) {
+      }
+      else
+        alert('Error resetting password! ' + changeResult.Message);
+
+
+     resetPassword.unsubscribe();
+    },
+    changeError => {
+      console.log(changeError);
+      alert(changeError);
+      resetPassword.unsubscribe();
+    }
+    );
+}
   //--------------------------------------------------------------------------------
   doForgottenPassword() {
-    alert('Sorry, not implemented yet.');
-    return;
+    this.openResetPasswordDialog = true;
   }
 
   //--------------------------------------------------------------------------------
@@ -248,18 +286,30 @@ export class LoginComponent implements OnInit, OnDestroy {
       alert('Passwords are different!');
       return;
     }
+    let changePasswordInfo = new ChangePasswordInfo();
+    changePasswordInfo.AccountName =this.credentials.accountName ;
+    changePasswordInfo.Password = this.credentials.password;
+    changePasswordInfo.NewPassword = newPw;
+    changePasswordInfo.Temporary = true;
 
-    let changePassword = this.loginService.changePassword(newPw).
+
+    let changePassword = this.loginService.changePassword(changePasswordInfo).
       subscribe(
       changeResult => {
 
         if (changeResult.Result) {
+          this.msgDialog = 'Password changed successfully! Please login with the new password' ;
+          this.openMsgDialog = true;
+       
+          this.credentials.password= '';
+          this.errorMessage = '';
+          
         }
         else
           alert('Error changing password! ' + changeResult.Message);
 
         // clear local array with dialog values
-        //this.credentialsFields.forEach(element => { element.value = '' });
+        this.changePasswordFields.forEach(element => { element.value = '' });
         changePassword.unsubscribe();
       },
       changeError => {

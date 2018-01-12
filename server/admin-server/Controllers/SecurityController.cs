@@ -7,7 +7,7 @@ using Microarea.AdminServer.Model.Services.Queries;
 using Microarea.AdminServer.Properties;
 using Microarea.AdminServer.Services;
 using Microarea.AdminServer.Services.BurgerData;
-using Microarea.AdminServer.Services.GWAMCaller;
+using Microarea.AdminServer.Services.ExternalUrlCallers;
 using Microarea.AdminServer.Services.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
