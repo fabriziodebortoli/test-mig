@@ -6,11 +6,14 @@ export function createEmptyModel(): any {
     };
 }
 export function addModelBehaviour(model: any) {
-    if (model._status) {//solo se è un dataobj
-        addControlModelBehaviour(model);
-    } else {
-        for (const prop in model)
-        addModelBehaviour(model[prop]);
+    if (model instanceof Object) {
+        if (model._status !== undefined) {//solo se è un dataobj
+            addControlModelBehaviour(model);
+        } else {
+            for (const prop in model) {
+                addModelBehaviour(model[prop]);
+            }
+        }
     }
 }
 export function addControlModelBehaviour(model: any) {

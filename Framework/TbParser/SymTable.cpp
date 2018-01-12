@@ -29,44 +29,24 @@ SymField::SymField
 					BOOL bOwnData /*= TRUE*/
 				)
 	:
-		IDisposingSourceImpl(this),
+	BaseField(strName, dt, pValue, bOwnData),
 
-		m_strName		(strName),
-		m_DataType		(dt),
-		m_wId			(wId),
-		m_pData			(NULL),
-		m_bOwnData		(bOwnData),
-		m_pTable		(NULL),
-		m_parMethods	(NULL),
-		m_nRefCount		(0),
-		m_nLeftRefCount (0),
-		m_pProvider		(NULL),
-		m_pCustomData	(NULL)
+	m_wId			(wId),
+	m_pTable		(NULL),
+	m_parMethods	(NULL),
+	m_nRefCount		(0),
+	m_nLeftRefCount (0),
+	m_pProvider		(NULL),
+	m_pCustomData	(NULL)
 { 
-	if (pValue) 
-	{
-		if (bOwnData)
-		{
-			m_pData = DataObj::DataObjCreate(dt);
-			m_pData->Assign(*pValue);
-		}
-		else
-			m_pData = pValue;
-	}
-	else
-		AllocData();
 }
 
 //------------------------------------------------------------------------------
 SymField::SymField (const SymField& f)
 	:
-	IDisposingSourceImpl(this),
+	BaseField		(f),
 
-	m_strName		(f.m_strName),
-	m_DataType		(f.m_DataType),
 	m_wId			(f.m_wId),
-	m_pData			(NULL),
-	m_bOwnData		(f.m_bOwnData),
 	m_pTable		(f.m_pTable),
 	m_parMethods	(NULL/*f.m_parMethods*/),	//TODO
 	m_nRefCount		(f.m_nRefCount),
@@ -74,28 +54,11 @@ SymField::SymField (const SymField& f)
 	m_pProvider		(f.m_pProvider),
 	m_pCustomData	(f.m_pCustomData)
 { 
-	if (f.m_pData) 
-	{
-		if (m_bOwnData)
-		{
-			m_pData = DataObj::DataObjCreate(m_DataType);
-			m_pData->Assign(*f.m_pData);
-			//TODO Elisa
-			//if array -> setnbasedatatype(f.GetBaseDataType)
-		}
-		else
-		{
-			m_pData = f.m_pData;
-		}
-	}
-	else
-		AllocData();
 }
 
 //------------------------------------------------------------------------------
 SymField::~SymField ()
 { 
-	if (m_bOwnData) SAFE_DELETE(m_pData); 
 	SAFE_DELETE(m_parMethods);
 }
 
@@ -145,16 +108,6 @@ void SymField::SetTag (LPCTSTR pszTag)
 }	
 
 //------------------------------------------------------------------------------
-void SymField::SetDataPtr (DataObj* pData, BOOL bOwnData /*= TRUE*/)
-{
-	if (m_bOwnData) SAFE_DELETE(m_pData); 
-	m_pData = pData;
-	m_bOwnData = bOwnData;
-	if (pData)
-		m_DataType = pData->GetDataType();
-}
-
-//------------------------------------------------------------------------------
 DataObj* SymField::GetData (int /*nDataLevel = -1*/) const 
 { 
 	if (m_pProvider)
@@ -176,14 +129,7 @@ DataObj* SymField::GetData (int /*nDataLevel = -1*/) const
 //------------------------------------------------------------------------------
 void SymField::AssignData (const DataObj& aData)
 {
-	if (m_pData == NULL)
-	{
-		m_DataType = aData.GetDataType();
-		AllocData();
-	}
-	ASSERT (DataType::IsCompatible(aData.GetDataType(), m_DataType)); 
-	
-	m_pData->Assign(aData);
+	__super::AssignData(aData);
 
 	if (m_pProvider)
 	{
@@ -235,63 +181,6 @@ void SymField::AssignIndexedData (int nIdx, const DataObj& aData)
 		ASSERT_VALID(pD);
 		if (pD) pD->Assign(aData);
 	}
-}
-
-//------------------------------------------------------------------------------
-BOOL SymField::AllocData ()
-{ 
-	if (m_bOwnData) 
-		SAFE_DELETE(m_pData);
-
-	if (m_DataType == DataType::Null)
-		return FALSE;
-
-	if (m_DataType != DataType::Variant)
-	{
-		m_bOwnData = TRUE;
-		m_pData = DataObj::DataObjCreate(m_DataType); 
-	}
-	return TRUE;	
-}
-
-//----------------------------------------------------------------------------
-void SymField::SetDataType(const DataType& newDataType, BOOL bArray/*= FALSE*/)
-{
-	if 
-		(
-			m_pData  &&
-			m_pData->GetDataType() == DataType::Array &&
-			bArray && 
-			m_DataType == DataType::Array)
-	{
-		if (((DataArray*)m_pData)->GetBaseDataType() != newDataType)
-		{
-			((DataArray*)m_pData)->RemoveAll();
-			((DataArray*)m_pData)->SetBaseDataType(newDataType);
-		}
-	}
-	else if	(
-				newDataType != DataType::Null &&
-					(
-						m_pData == NULL || 
-						newDataType != m_pData->GetDataType() ||
-						bArray != m_pData->IsKindOf(RUNTIME_CLASS(DataArray))
-					)
-			)
-	{
-		if (m_bOwnData) SAFE_DELETE(m_pData);
-		if (bArray)
-		{
-			m_pData	= DataObj::DataObjCreate(DataType::Array);
-			((DataArray*)m_pData)->SetBaseDataType(newDataType);
-			m_DataType = DataType::Array;
- 		}
-		else
-		{
-			m_pData	= DataObj::DataObjCreate(newDataType);
-			m_DataType = newDataType;
-		}
-    }
 }
 
 //------------------------------------------------------------------------------

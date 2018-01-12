@@ -7,6 +7,7 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { ControlComponent } from './../control.component';
+import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     selectedItem: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
-    @Input() public hotLink: { namespace: string, name: string };
+    @Input() public hotLink: HotLinkInfo;
     public isCombo = true;
 
     constructor(

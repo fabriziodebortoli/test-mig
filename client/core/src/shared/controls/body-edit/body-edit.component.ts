@@ -15,7 +15,6 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   selector: 'tb-body-edit',
   templateUrl: './body-edit.component.html',
   styleUrls: ['./body-edit.component.scss'],
-  exportAs: 'body',
   encapsulation: ViewEncapsulation.None
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit {
@@ -49,7 +48,25 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   ben_row_changed(item) {
-    // console.log(item);
+
+    //qui devo inviare al server il cambio riga
+
+    //le colonne si abilitano chiedendo al prototipo del sql record lo stato dei suoi dataobj
     this.currentRow = item.selectedRows[0].dataItem;
+    for (var prop in this.currentRow) {
+      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
+    }
+  }
+
+  public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
+    if (!isEdited) {
+      let columns = Object.getOwnPropertyNames(dataItem);
+      let colName = columns[columnIndex];
+      if (dataItem[colName].enabled)
+        sender.editCell(rowIndex, columnIndex);
+    }
+  }
+
+  public cellCloseHandler(args: any) {
   }
 }

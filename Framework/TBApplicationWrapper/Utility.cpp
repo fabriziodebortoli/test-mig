@@ -406,6 +406,17 @@ bool CUtility::SendAsAttachments(List<System::String^>^ attachmentsFiles, List<S
 }
 
 //------------------------------------------------------------------------------------
+System::String^ CUtility::GetAppTitleByAppName(System::String^ appName)
+{
+	AddOnApplication* pAddOnApp = AfxGetAddOnApp(appName);
+
+	if (pAddOnApp)
+		return gcnew String(pAddOnApp->GetTitle());
+	
+	return gcnew String(_T(""));
+}
+
+//------------------------------------------------------------------------------------
 void CUtility::GetDocuments
 				(
 					List<System::Tuple<System::String^, System::String^, System::String^, System::String^>^>^ docsInfos
@@ -425,7 +436,7 @@ void CUtility::GetDocuments
 
 			if (!pAddOnMod || !pAddOnMod->m_bIsValid || !AfxIsActivated(pAddOnMod->GetApplicationName(), pAddOnMod->GetModuleName()))
 			{
-				arExcludedModules.Add(pAddOnMod->GetModuleName());
+				arExcludedModules.Add(pAddOnApp->m_strAddOnAppName + pAddOnMod->GetModuleName());
 				continue;
 			}
 		}
@@ -444,19 +455,20 @@ void CUtility::GetDocuments
 		if (!pDocDescri || !pDocDescri->IsRunnableAlone())
 			continue;
 
+		// devo saltare i finder
+		CViewModeDescription* pViewMode = pDocDescri->GetFirstViewMode();
+		if (pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
+			continue;
+
 		BOOL bFound = FALSE;
-		for (int i = 0; i < arExcludedModules.GetCount() && !bFound; i++)
+		for (int k = 0; k < arExcludedModules.GetCount() && !bFound; k++)
 		{
-			if (!pDocDescri->GetOwner().GetModuleName().Compare(arExcludedModules.GetAt(i)))
+			CString keyDoc = pDocDescri->GetOwner().GetApplicationName() + pDocDescri->GetOwner().GetModuleName();
+			if (!keyDoc.Compare(arExcludedModules.GetAt(k)))
 				bFound = TRUE;
 		}
 
 		if (bFound)
-			continue;
-
-		// devo saltare i finder
-		CViewModeDescription* pViewMode = pDocDescri->GetFirstViewMode();
-		if (pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
 			continue;
 
 		docsInfos->Add

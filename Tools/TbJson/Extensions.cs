@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
-using System.Web;
-using System.Text.RegularExpressions;
 
 namespace Microarea.TbJson
 {
@@ -122,8 +121,7 @@ namespace Microarea.TbJson
             string text = result.Value<string>();
             if (text.StartsWith("{{") && text.EndsWith("}}"))
             {
-                text = text.Substring(2, text.Length - 4);
-                return string.Concat("eventData?.model?.", text);
+                return text.ResolveInterplation();
             }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
@@ -297,7 +295,7 @@ namespace Microarea.TbJson
                 val = result.ToString();
                 if (val.StartsWith("{{") && val.EndsWith("}}"))
                 {
-                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
+                    val = val.ResolveInterplation();
                     return ValueType.EXPRESSION;
                 }
                 return ValueType.PLAIN;
@@ -315,11 +313,14 @@ namespace Microarea.TbJson
                 return ValueType.CONSTANT;
             }
 
-
-
             val = result.ToString();
             return ValueType.PLAIN;
         }
+
+        /// <summary>
+        /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo")
+        /// </summary>
+        public static string ResolveInterplation(this string str) => Regex.Replace(str, "{{2}([a-zA-Z0-9]*)}{2}", "eventData?.model?.$1"); //https://regex101.com/r/40sP9b/1
 
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo

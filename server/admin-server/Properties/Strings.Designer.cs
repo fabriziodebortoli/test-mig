@@ -205,6 +205,15 @@ namespace Microarea.AdminServer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not responding {1}.
+        /// </summary>
+        public static string GenericServiceNotResponding {
+            get {
+                return ResourceManager.GetString("GenericServiceNotResponding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while getting data from GWAM..
         /// </summary>
         public static string GWAMCommunicationError {

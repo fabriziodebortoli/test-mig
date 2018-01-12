@@ -80,7 +80,7 @@ namespace Microarea.TbLoaderGate
 
                     bool newInstance;
                     TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
-                    if (tb == null)
+                    if (tb == null || !tb.connected)
                     {
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                         string json = JsonConvert.SerializeObject(res);

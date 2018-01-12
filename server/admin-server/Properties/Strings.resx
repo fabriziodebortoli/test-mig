@@ -297,4 +297,7 @@
   <data name="NoExternalSourcesAvailable" xml:space="preserve">
     <value>No external sources available.</value>
   </data>
+  <data name="GenericServiceNotResponding" xml:space="preserve">
+    <value>{0} is not responding {1}</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -10,7 +11,7 @@ namespace Microarea.TbLoaderGate
 {
     public class TBLoaderCommand
     {
-        public enum CommandType { Start, Stop }
+        public enum CommandType { Ping, Start, Stop }
         public CommandType Type { get; set; }
         public int ProcessId { get; set; }
         public string ClientId { get; set; }
@@ -18,11 +19,11 @@ namespace Microarea.TbLoaderGate
 
     public class TBLoaderResponse
     {
-		public bool Result { get; set; }
-		public string Message { get; set; }
-		public int Port { get; set; }
-		public int ProcessId { get; set; }
-	}
+        public bool Result { get; set; }
+        public string Message { get; set; }
+        public int Port { get; set; }
+        public int ProcessId { get; set; }
+    }
 
     public class TBLoaderConnectionParameters
     {
@@ -44,14 +45,14 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------
-        private Task<Socket> ConnectSocket(string server, int port)
+        private async Task<Socket> ConnectSocket(string server, int port)
         {
             // Get host related information.
-            return Dns.GetHostEntryAsync(server).ContinueWith(t =>
-            {
-                Socket s = null;
-                IPHostEntry hostEntry = t.Result;
+            IPHostEntry hostEntry = await Dns.GetHostEntryAsync(server);
 
+            Socket s = null;
+            try
+            {
                 // Loop through the AddressList to obtain the supported AddressFamily. This is to avoid
                 // an exception that occurs when the host IP Address is not compatible with the address family
                 // (typical in the IPv6 case).
@@ -59,10 +60,10 @@ namespace Microarea.TbLoaderGate
                 {
                     if (address.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)
                         continue;
-                    
-					IPEndPoint ipe = new IPEndPoint(address, port);
+
+                    IPEndPoint ipe = new IPEndPoint(address, port);
                     Socket tempSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                    tempSocket.Connect(ipe);
+                    await tempSocket.ConnectAsync(ipe);
 
                     if (tempSocket.Connected)
                     {
@@ -74,62 +75,64 @@ namespace Microarea.TbLoaderGate
                         continue;
                     }
                 }
-                return s;
-            });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return s;
         }
 
         // This method requests the home page content for the specified server.
         //-----------------------------------------------------------------------
-        private Task<TBLoaderResponse> SocketSendReceive(string server, int port, TBLoaderCommand request)
+        private async Task<TBLoaderResponse> SocketSendReceive(string server, int port, TBLoaderCommand request)
         {
             // Create a socket connection with the specified server and port.
-            return ConnectSocket(server, port).ContinueWith(t =>
+            Socket s = await ConnectSocket(server, port);
+
+            if (s == null)
             {
-                Socket s = t.Result;
-                if (s == null)
-                {
-                    TBLoaderResponse resp = new TBLoaderResponse();
-                    resp.Result = false;
-                    resp.Message = "Connection failed";
-                    return resp;
-                }
+                TBLoaderResponse resp = new TBLoaderResponse();
+                resp.Result = false;
+                resp.Message = "Connection failed";
+                return resp;
+            }
 
-                string json = JsonConvert.SerializeObject(request);
-                byte[] bytesSent = Encoding.UTF8.GetBytes(json);
+            string json = JsonConvert.SerializeObject(request);
+            byte[] bytesSent = Encoding.UTF8.GetBytes(json);
 
-                // Send request to the server.
-                s.Send(bytesSent, bytesSent.Length, 0);
+            // Send request to the server.
+            s.Send(bytesSent, bytesSent.Length, 0);
 
-                // Receive the server home page content.
-                int bytes = 0;
-                MemoryStream ms = new MemoryStream();
+            // Receive the server home page content.
+            int bytes = 0;
+            MemoryStream ms = new MemoryStream();
 
-                // The following will block until te page is transmitted.
-                do
-                {
-                    Byte[] bytesReceived = new Byte[256];
-                    bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
-                    ms.Write(bytesReceived, 0, bytes);
+            // The following will block until te page is transmitted.
+            do
+            {
+                Byte[] bytesReceived = new Byte[256];
+                bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
+                ms.Write(bytesReceived, 0, bytes);
 
-                }
-                while (bytes > 0);
-                ms.Seek(0, SeekOrigin.Begin);
-                try
-                {
-                    string jsonResp = Encoding.UTF8.GetString(ms.ToArray());
-                    TBLoaderResponse resp = JsonConvert.DeserializeObject<TBLoaderResponse>(jsonResp);
-                    s.Dispose();
-                    return resp;
-                }
-                catch (Exception ex)
-                {
-                    TBLoaderResponse resp = new TBLoaderResponse();
-                    resp.Result = false;
-                    resp.Message = ex.ToString();
-                    s.Dispose();
-                    return resp;
-                }
-            });
+            }
+            while (bytes > 0);
+            ms.Seek(0, SeekOrigin.Begin);
+            try
+            {
+                string jsonResp = Encoding.UTF8.GetString(ms.ToArray());
+                TBLoaderResponse resp = JsonConvert.DeserializeObject<TBLoaderResponse>(jsonResp);
+                s.Dispose();
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                TBLoaderResponse resp = new TBLoaderResponse();
+                resp.Result = false;
+                resp.Message = ex.ToString();
+                s.Dispose();
+                return resp;
+            }
         }
 
         //-----------------------------------------------------------------------
@@ -140,10 +143,7 @@ namespace Microarea.TbLoaderGate
                 TBLoaderCommand cmd = new TBLoaderCommand();
                 cmd.Type = TBLoaderCommand.CommandType.Start;
                 cmd.ClientId = clientID;
-                TBLoaderResponse res = await SocketSendReceive(serviceComputerName, servicePort, cmd);
-                if (!res.Result)
-                    throw new Exception(res.Message);
-                return res;
+                return await SocketSendReceive(serviceComputerName, servicePort, cmd);
             }
             catch (Exception e)
             {

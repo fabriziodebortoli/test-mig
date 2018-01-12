@@ -1,3 +1,4 @@
+import { ReportGaugeComponent } from './report-objects/layout/gauge/gauge.component';
 import { BarcodeComponent } from './report-objects/layout/barcode/barcode.component';
 import { ReportChartPolarComponent } from './report-objects/layout/chart/chart-polar/chart-polar.component';
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
@@ -85,6 +86,7 @@ export { TemplateItem } from './models/template-item.model';
     ReportImageComponent,
     ReportLinkComponent,
     ReportRectComponent,
+    ReportGaugeComponent,
     AskCheckComponent,
     AskDropdownlistComponent,
     AskGroupComponent,

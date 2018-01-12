@@ -4,22 +4,23 @@
         "experimentalDecorators": true,
         "moduleResolution": "node",
         "rootDir": "./src",
+        "target": "es6",
         "lib": [
             "es2015",
             "dom"
         ],
         "skipLibCheck": true,
         "types": [],
-        // "paths": {
-        //     "@angular/*": [
-        //         "../../web-form/node_modules/@angular/*"
-        //     ],
-        //     "@taskbuilder/*": [
-        //         "../../web-form/node_modules/@taskbuilder/*"
-        //     ],
-        //     "rxjs/*": [
-        //         "../../web-form/node_modules/rxjs/*"
-        //     ]
-        // }
+        "paths": {
+            "@angular/*": [
+                "../../web-form/node_modules/@angular/*"
+            ],
+            "@taskbuilder/*": [
+                "../../web-form/node_modules/@taskbuilder/*"
+            ],
+            "rxjs/*": [
+                "../../web-form/node_modules/rxjs/*"
+            ]
+        }
     }
 }

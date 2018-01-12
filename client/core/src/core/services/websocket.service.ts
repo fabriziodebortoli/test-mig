@@ -1,4 +1,5 @@
-﻿import { EventEmitter, Injectable } from '@angular/core';
+﻿import { DiagnosticService } from './diagnostic.service';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
@@ -37,7 +38,8 @@ export class WebSocketService extends LocalizationService {
         public infoService: InfoService,
         public httpService: HttpService,
         public logger: Logger,
-        public loadingService: LoadingService, ) {
+        public loadingService: LoadingService,
+        public diagnosticService: DiagnosticService) {
         super(infoService, httpService);
     }
 
@@ -140,7 +142,9 @@ export class WebSocketService extends LocalizationService {
 
     safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if (this._socketConnectionStatus === ConnectionStatus.Connected) {
+            if (this._socketConnectionStatus === ConnectionStatus.Unavailable) {
+                throw this._TB('Backend services unavailable, cannot execute requested operation');
+            } else if (this._socketConnectionStatus === ConnectionStatus.Connected) {
                 this.connection.send(JSON.stringify(data));
                 resolve();
             } else {
@@ -150,7 +154,7 @@ export class WebSocketService extends LocalizationService {
                         this.connection.send(JSON.stringify(data));
                         resolve();
                         sub.unsubscribe();
-                        //this.loadingService.setLoading(false);
+                        this.loadingService.setLoading(false);
                     }
                 });
             }

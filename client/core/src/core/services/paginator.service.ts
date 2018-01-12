@@ -4,7 +4,6 @@ import * as _ from 'lodash';
 
 export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number,
     columns: any[], ignore: boolean};
-export type ServerPage = {key: string, rows: any[], columns: any[]};
 export type ServerNeededParams = { model: any, customFilters: any };
 
 @Injectable()
@@ -17,12 +16,12 @@ export class PaginatorService implements OnDestroy {
     private configurationChanged = new BehaviorSubject(false);
     private displayedClientPages = 10;
     private get serverPage(): number { return this.clientPage * this.displayedClientPages; }
-    private serverData: ServerPage;
+    private serverData: any;
     private currentServerPageNumber = -1;
     private clientPage = 10;
     private sizeOfLastServer: number | null = null;
     private higherServerPage = 0;
-    private lookAheadServerPageCache: {page: number, data: ServerPage} = {page: -1, data: null};
+    private lookAheadServerPageCache: {page: number, data: any} = {page: -1, data: null};
     private prevSkip = -1;
     private _skip = 0;
     private get skip(): number { return this._skip; }
@@ -54,11 +53,16 @@ export class PaginatorService implements OnDestroy {
 
     private _clientData: BehaviorSubject<ClientPage> = new BehaviorSubject(this.defaultClientData);
     public get clientData(): Observable<ClientPage> {
-        return this._clientData.asObservable().filter(x => !x.ignore);
+        return this._clientData.asObservable().filter(x => {
+            return !x.ignore});
     }
 
     public get isFirstPage(): boolean {
         return this.clientStartOffset === 0 && this.currentServerPageNumber === 0;
+    }
+
+    public get thereAreData(): boolean {
+        return true;
     }
 
     public get noMorePages(): boolean {
@@ -106,13 +110,12 @@ export class PaginatorService implements OnDestroy {
         }
     }
 
-    private async loadServerPage(currentServerPage: number, serverPage: number, otherParams: ServerNeededParams): Promise<ServerPage> {
+    private async loadServerPage(currentServerPage: number, serverPage: number, otherParams: ServerNeededParams): Promise<any> {
         if (currentServerPage === this.lookAheadServerPageCache.page) {
             return this.lookAheadServerPageCache.data;
         }
         let data = this.ngZone.runOutsideAngular(async () =>
-            await this.getFreshData(currentServerPage, serverPage, otherParams).toPromise() as ServerPage);
-        // this._lookAheadServerPageCache = {page: currentServerPage, data: data};
+            await this.getFreshData(currentServerPage, serverPage, otherParams).toPromise());
         return data;
     }
 
@@ -130,7 +133,9 @@ export class PaginatorService implements OnDestroy {
         if (newServerPageNeeded) {
             let data = await this.loadServerPage(newServerPage, this.serverPage, this.lastServNeededParams);
             if (!data || !data.rows || data.rows.length === 0) {
-                if (this.currentServerPageNumber === 0) { this._clientData.next(this.noDataClientPage); }
+                if (this.currentServerPageNumber < 0) { 
+                    this._clientData.next(this.noDataClientPage); 
+                }
                 return;
             }
             if (data.rows.length > 0) {
@@ -146,7 +151,7 @@ export class PaginatorService implements OnDestroy {
 
         let newTotal = await this.getNewTotal();
         this._clientData.next({
-            key: this.serverData.key,
+            key: this.serverData.key ?  this.serverData.key : '',
             rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
             total: newTotal,
             oldTotal: this._clientData.value.total,
@@ -171,7 +176,7 @@ export class PaginatorService implements OnDestroy {
         }
 
         this._clientData.next({
-            key: this.serverData.key,
+            key: this.serverData.key ?  this.serverData.key : '',
             rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
             total: this._clientData.value.total,
             oldTotal: this._clientData.value.total,
@@ -183,7 +188,8 @@ export class PaginatorService implements OnDestroy {
     public start(displayedClientPages: number,
                 rowsPerPage: number,
                 queryTrigger$: Observable<ServerNeededParams>,
-                f: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>) {
+                f: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>,
+                intialServerParams?: ServerNeededParams) {
         this.isCorrectlyConfigured = f && (displayedClientPages >= 1) && (rowsPerPage > 0);
         if (!this.isCorrectlyConfigured) { return; }
         this._clientData.complete();
@@ -201,6 +207,10 @@ export class PaginatorService implements OnDestroy {
             });
         }
         this.configurationChanged.next(true);
+        if (intialServerParams) { 
+            this.lastServNeededParams = intialServerParams;
+            this.firstPage();
+        }
     }
 
     public stop() {

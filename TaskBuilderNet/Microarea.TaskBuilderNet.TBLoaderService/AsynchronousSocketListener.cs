@@ -187,7 +187,9 @@ namespace Microarea.TaskBuilderNet.TbLoaderService
 			engine.Message("Executing command: " + cmd.Type.ToString(), DiagnosticType.Information);
 			switch (cmd.Type)
 			{
-				case TBLoaderCommand.CommandType.Start:
+                case TBLoaderCommand.CommandType.Ping:
+                    return new TBLoaderResponse() { Result=true };
+                case TBLoaderCommand.CommandType.Start:
 					return engine.Start(cmd, false);
 				case TBLoaderCommand.CommandType.Stop:
 					return engine.Stop(cmd);

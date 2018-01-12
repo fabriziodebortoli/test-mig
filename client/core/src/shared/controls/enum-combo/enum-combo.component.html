@@ -1,4 +1,4 @@
 <div class="tb-control tb-enum-combo" [ngClass]="componentClass()">
-    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <kendo-dropdownlist id="{{cmpId}}" [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (selectionChange)="onChange()" (open)="fillListBox()" [style.width.px]="width"> </kendo-dropdownlist>
 </div>
