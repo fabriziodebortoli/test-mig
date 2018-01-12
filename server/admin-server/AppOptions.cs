@@ -27,7 +27,8 @@ namespace Microarea.AdminServer
     public class ExternalUrls
     {
         public string GWAMUrl { get; set; }
-    }
+		public string DatabaseServiceUrl { get; set; }
+	}
 
 	//================================================================================
 	public class SecretsKeys
