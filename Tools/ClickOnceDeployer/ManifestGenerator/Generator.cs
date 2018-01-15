@@ -315,7 +315,10 @@ namespace ManifestGenerator
 
 							//Genero il web.config per disabilitare il request filtering sui file *.exe.config per il deploy via clickonce
 							GenerateWebConfig();
-							
+
+                            //Genero il web.config di istanza per la configurazione dei mime types
+                            GenerateWebConfigForMimeTypes();
+
                             //se la cartella esiste, aggiorno il manifest con eventuali nuove dll (verticali)
                             bool ok = false;
                             if (updating)
@@ -341,7 +344,13 @@ namespace ManifestGenerator
 							{
 								setupAdjustmentThread = StartSetupServer(uiCulture, appCulture, webServicesPort, true);
 
-								return UpdateDeployment(installationName, fileHostName, webHostName, uiCulture, appCulture, webServicesPort, debugOrRelease, multiInstance);
+                                //Genero il web.config per disabilitare il request filtering sui file *.exe.config per il deploy via clickonce
+                                GenerateWebConfig();
+
+                                //Genero il web.config di istanza per la configurazione dei mime types
+                                GenerateWebConfigForMimeTypes();
+
+                                return UpdateDeployment(installationName, fileHostName, webHostName, uiCulture, appCulture, webServicesPort, debugOrRelease, multiInstance);
 							}
 							finally
 							{
@@ -1475,11 +1484,39 @@ namespace ManifestGenerator
 			return true;
 		}
 
-		//--------------------------------------------------------------------------------
-		/// <summary>
-		/// Genera il file ServerConnection.config (se non esiste)
-		/// </summary>
-		private bool GenerateServerConnection(string uiCulture, string appCulture, int webServicesPort)
+        //--------------------------------------------------------------------------------
+        private bool GenerateWebConfigForMimeTypes()
+        {
+            var instanceDirInfo = new DirectoryInfo(Path.GetDirectoryName(rootPath));
+            var webConfigFileInfo = new FileInfo(Path.Combine(instanceDirInfo.FullName, "web.config"));
+
+            if (webConfigFileInfo.Exists)
+            {
+                File.Move(
+                    webConfigFileInfo.FullName,
+                    Path.Combine(
+                        instanceDirInfo.FullName,
+                        string.Format(CultureInfo.InvariantCulture, "web.config.{0}", DateTime.Now.ToString("yyyyMMddHHmmss"))
+                        )
+                    );
+            }
+
+            XmlDocument doc = new XmlDocument();
+            using (MemoryStream ms = new MemoryStream(Resource.MimeTypesWeb_config))
+            {
+                doc.Load(ms);
+            }
+
+            doc.Save(webConfigFileInfo.FullName);
+
+            return true;
+        }
+
+        //--------------------------------------------------------------------------------
+        /// <summary>
+        /// Genera il file ServerConnection.config (se non esiste)
+        /// </summary>
+        private bool GenerateServerConnection(string uiCulture, string appCulture, int webServicesPort)
 		{
 			string filePath = Path.Combine(Path.GetDirectoryName(rootPath), "Custom\\ServerConnection.config");
             XmlDocument doc = new XmlDocument();

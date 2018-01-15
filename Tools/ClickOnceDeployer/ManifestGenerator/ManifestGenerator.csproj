@@ -189,6 +189,7 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <None Include="MimeTypesWeb.config.template" />
     <None Include="web.config.template" />
   </ItemGroup>
   <ItemGroup>
