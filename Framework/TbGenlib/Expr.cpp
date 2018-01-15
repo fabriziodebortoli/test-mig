@@ -413,9 +413,12 @@ BOOL Expression::InitExpressionMaps()
 	RelMap [DATA_GUID_TYPE][DATA_STR_TYPE]	= DATA_GUID_TYPE;
 	RelMap [DATA_TXT_TYPE][DATA_TXT_TYPE]	= DATA_TXT_TYPE;
 	RelMap [DATA_TXT_TYPE][DATA_STR_TYPE]	= DATA_TXT_TYPE;	
+
 	RelMap [DATA_ARRAY_TYPE][DATA_ARRAY_TYPE]	= DATA_ARRAY_TYPE;	
+
 	RelMap [DATA_RECORD_TYPE][DATA_RECORD_TYPE]	= DATA_RECORD_TYPE;	
-	
+	RelMap [DATA_TRECORD_TYPE][DATA_TRECORD_TYPE] = DATA_TRECORD_TYPE;
+
 	for (col = 0; col <= LAST_MAPPED_DATA_TYPE; col++)
 	{
 		PlusMap	[DATA_VARIANT_TYPE][col] = DATA_VARIANT_TYPE;
@@ -1091,7 +1094,8 @@ void Expression::AssignResult(DataObj& d, ExpItemVal& res)
 		case DATA_GUID_TYPE	: ((DataGuid&) d).	Assign( CastGuid(res) );	break;
 		case DATA_TXT_TYPE	: ((DataText&) d).	Assign( CastTxt (res) );	break;	
 		case DATA_ARRAY_TYPE	: ((DataArray&) d).		Assign( * CastArray (res) );	break;	
-		case DATA_RECORD_TYPE	: ((DataTRecord&) d).	Assign( * CastTRecord (res) );	break;	
+		case DATA_TRECORD_TYPE	: ((DataTRecord&) d).	Assign( * CastTRecord (res) );	break;	
+		//case DATA_RECORD_TYPE: ((DataRecord&)d).Assign(*CastRecord(res));	break;
 		default: TRACE(_T(" Il tipo del DataObj che deve contenere il risultato dell’espressione non è dei tipi supportati.")); ASSERT(FALSE);		// se succede vuol dire che le mappe di compatibilita` sono errate
 	} // switch
 	

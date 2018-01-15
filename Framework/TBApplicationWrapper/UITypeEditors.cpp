@@ -242,7 +242,7 @@ TreeView^ ControlClassUITypeEditor::BuildControlTree (CRegisteredParsedCtrl* pOl
 
 		if	(	pCtrl->GetDataType() == DATA_NULL_TYPE ||
 				pCtrl->GetDataType() == DATA_ARRAY_TYPE ||
-				pCtrl->GetDataType() == DATA_RECORD_TYPE ||
+				pCtrl->GetDataType() == DATA_RECORD_TYPE || pCtrl->GetDataType() == DATA_TRECORD_TYPE ||
 				pCtrl->GetDataType() == ::DataType(DATA_NULL_TYPE, ::DataObj::TB_VOID)
 			) 
 				continue;

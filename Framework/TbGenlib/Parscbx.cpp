@@ -3844,7 +3844,8 @@ void CDataObjTypesCombo::OnFillListBox()
 			case DATA_BLOB_TYPE	:	
 			case DATA_ARRAY_TYPE :	
 			case DATA_RECORD_TYPE :	
-			case DATA_VARIANT_TYPE :	
+			case DATA_TRECORD_TYPE:
+			case DATA_VARIANT_TYPE :
 				continue;
 
 			default	:

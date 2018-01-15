@@ -1305,6 +1305,7 @@ Token FromDataTypeToToken(const DataType& aDataType)
 	case DATA_BLOB_TYPE	:	return T_TBLOB;
 	case DATA_ARRAY_TYPE	:	return T_ARRAY;
 	case DATA_RECORD_TYPE	:	return T_RECORD;
+	case DATA_TRECORD_TYPE	:	return T_RECORD;
 	default				:	return T_NOTOKEN;
 	}
 }

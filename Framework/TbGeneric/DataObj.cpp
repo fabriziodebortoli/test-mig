@@ -190,7 +190,8 @@ DataObj* DataObj::DataObjCreate(const DataType& aDataType/*, LPCSTR pszFile, int
 	case DATA_TXT_TYPE: pObj = new DataText(); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(); break;
+	case DATA_TRECORD_TYPE: pObj = new DataTRecord(); break;
+	//case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
 	case DATA_VARIANT_TYPE: return NULL;
 	default: ASSERT_TRACE1(FALSE, "Bad type: %d", aDataType.m_wType); return NULL;
 	}
@@ -253,7 +254,8 @@ DataObj* DataObj::DataObjClone(/*LPCSTR pszFile, int nLine*/) const
 	case DATA_TXT_TYPE: pObj = new DataText(*(DataText*)this); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(*(DataBlob*)this); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(*(DataArray*)this); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
+	case DATA_TRECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
+	//case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataTRecord*)this); break;
 	default: return NULL;
 	}
 #ifdef _DEBUG
@@ -284,6 +286,7 @@ CString FromTBTypeToNetType(const DataType& aDataType)
 	case DATA_TXT_TYPE: return _T("String");
 	case DATA_ARRAY_TYPE: { /*ASSERT(FALSE);*/ return _T("Array"); }
 	case DATA_RECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("Record"); }
+	case DATA_TRECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("TRecord"); }
 	case DATA_VARIANT_TYPE: { /*ASSERT(FALSE);*/ return _T("Variant"); }
 							//case DATA_OBJECT_TYPE	: { /*ASSERT(FALSE);*/ return _T("Object");}
 	case DATA_BLOB_TYPE: { ASSERT_TRACE(FALSE, "Blob type not allowed here"); return _T("Blob"); }
@@ -323,6 +326,7 @@ CString FromDataTypeToDescr(const DataType& aDataType)
 	case DATA_TXT_TYPE:	return _TB("Text");
 	case DATA_ARRAY_TYPE:	return _TB("Array");
 	case DATA_RECORD_TYPE:	return _TB("Record");
+	case DATA_TRECORD_TYPE:	return _TB("TRecord");
 		//case DATA_BLOB_TYPE	:	return _TB("Blob");
 	case DATA_VARIANT_TYPE:	return _TB("Variant");
 		//case DATA_OBJECT_TYPE	:	return _TB("Object");
@@ -365,7 +369,9 @@ CString FromDataTypeToScriptType(const DataType& aDataType)
 	case DATA_GUID_TYPE:		return _T("Uuid");
 	case DATA_TXT_TYPE:		return _T("Text");
 	case DATA_ARRAY_TYPE:	return _T("Array");
+
 	case DATA_RECORD_TYPE:	return _T("Record");
+	case DATA_TRECORD_TYPE:	return _T("TRecord");
 
 	case DATA_VARIANT_TYPE:	return _T("Var");
 

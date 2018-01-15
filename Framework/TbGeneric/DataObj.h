@@ -2583,7 +2583,7 @@ public:
 	BOOL			operator==	(const DataArray& ar) const { return IsEqual (ar); }
 	BOOL			operator!=	(const DataArray& ar) const { return !IsEqual (ar); }
 
-	virtual DataType    GetDataType () const { return DataType(DATA_RECORD_TYPE, 0); }
+	virtual DataType    GetDataType () const { return DataType(DATA_TRECORD_TYPE, 0); }
 
 	virtual void		Clear	(BOOL bValid = TRUE);
 
