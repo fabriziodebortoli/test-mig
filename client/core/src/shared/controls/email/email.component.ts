@@ -61,7 +61,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   onMailClick() {
-    if (this.model.enabled)
+    if (this.model.enabled || this.model.value.trim().length == 0)
       return;
     location.href = "mailto:" + this.model.value;
     return 0;
@@ -75,7 +75,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     
     if (arEmail.length > 0) {
       for (var i = 0; i < arEmail.length; i++) { 
-        if (!this.constraint.test(arEmail[i])) {
+        if (!this.constraint.test(arEmail[i].trim())) {
           this.errorMessage = 'Input not in correct form';
           this.showError = 'inputError';
           break;
