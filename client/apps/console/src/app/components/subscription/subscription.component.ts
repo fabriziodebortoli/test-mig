@@ -8,6 +8,7 @@ import { OperationResult } from '../../services/operationResult';
 import { SubscriptionDatabase } from '../../model/subscriptionDatabase';
 import { AuthorizationProperties } from 'app/authentication/auth-info';
 import { SubscriptionExternalSource } from '../../model/subscriptionExternalSource';
+import { AdminCheckBoxListComponent } from '../../../../../../console/src/components/admin-checkbox-list/admin-checkbox-list.component';
 
 @Component({
   selector: 'app-subscription',
@@ -32,6 +33,12 @@ export class SubscriptionComponent implements OnInit {
   readingExternalSource: boolean;
   externalUnderMaintenance: boolean;
   deleteExternalSourceClicked: boolean = false;
+  externalSourceSelectedItem: object;
+
+  // DeleteSourceDialog variables
+  openDeleteSourceDialog: boolean = false;
+  deleteSourceDialogResult: boolean = false;
+  msgDeleteSource: string;
 
   //--------------------------------------------------------------------------------------------------------
   constructor(private modelService: ModelService, private router: Router, private route: ActivatedRoute) {
@@ -221,37 +228,13 @@ export class SubscriptionComponent implements OnInit {
   //--------------------------------------------------------------------------------------------------------
   openExternalSource(item: object) {
 
-    // per differenziare il click su delete e sulla open
+    // per differenziare il click generico sulla lista: se si tratta di una delete o di una open
     if (this.deleteExternalSourceClicked) {
 
-      // faccio un reverse loop ed elimino la riga corrispondente dalla lista
-      for (var i = this.externalSources.length - 1; i >= 0; i--) {
-        var source = this.externalSources[i];
-        if (source.Source === item['Source']) {
-          this.externalSources.splice(i, 1);
-          break;
-        }
-      }
+      this.externalSourceSelectedItem = item;
 
-      this.deleteExternalSourceClicked = false;
-
-      // chiamo l'API per eseguire la delete sul database
-      let queryDelete = this.modelService.queryAdminDelete(
-        this.model.SubscriptionKey, 
-        'SUBSCRIPTIONEXTERNALSOURCES', 
-        { MatchingFields: { InstanceKey: item['InstanceKey'], SubscriptionKey: item['SubscriptionKey'], Source: item['Source'] } }).subscribe(
-        deleteResult => {
-          if (!deleteResult.Result) {
-          }
-
-          queryDelete.unsubscribe();
-        },
-        deleteError => {
-          console.log(deleteError);
-          alert(deleteError);
-          queryDelete.unsubscribe();
-        }
-      )
+      this.openDeleteSourceDialog = true;
+      this.msgDeleteSource = 'Are you sure to delete ' + item['Source'] + ' external source?';
 
       return;
     }
@@ -267,9 +250,50 @@ export class SubscriptionComponent implements OnInit {
     this.router.navigate(['/externalsource'], { queryParamsHandling: "preserve" });
   }
 
-  // sto eliminando una riga
+  // sto eliminando una riga dalla lista degli external sources
   //--------------------------------------------------------------------------------------------------------
   deleteExternalSource() {
     this.deleteExternalSourceClicked = true;
+  }
+
+  // evento sulla chiusura della dialog di conferma cancellazione external source
+  //--------------------------------------------------------------------------------------------------------
+  onCloseDeleteSourceDialog() {
+
+    this.deleteExternalSourceClicked = false;
+
+    // if 'No' button has been clicked I return
+    if (!this.deleteSourceDialogResult)
+      return;
+
+    // faccio un reverse loop ed elimino la riga corrispondente dalla lista
+    for (var i = this.externalSources.length - 1; i >= 0; i--) {
+      var source = this.externalSources[i];
+      if (source.Source === this.externalSourceSelectedItem['Source']) {
+        this.externalSources.splice(i, 1);
+        break;
+      }
+    }
+
+    // chiamo l'API per eseguire la delete sul database
+    let queryDelete = this.modelService.queryAdminDelete(
+      this.model.SubscriptionKey,
+      'SUBSCRIPTIONEXTERNALSOURCES',
+      {
+        MatchingFields: {
+          InstanceKey: this.externalSourceSelectedItem['InstanceKey'],
+          SubscriptionKey: this.externalSourceSelectedItem['SubscriptionKey'],
+          Source: this.externalSourceSelectedItem['Source']
+        }
+      }).subscribe(
+      deleteResult => {
+        queryDelete.unsubscribe();
+      },
+      deleteError => {
+        console.log(deleteError);
+        alert(deleteError);
+        queryDelete.unsubscribe();
+      }
+      )
   }
 }
