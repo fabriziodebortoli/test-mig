@@ -82,6 +82,36 @@ export class InstanceComponent implements OnInit, OnDestroy {
     }
   }
 
+  //--------------------------------------------------------------------------------------------------------
+  submitInstance() {
+
+    if (this.model.InstanceKey == '') {
+      alert('Mandatory fields are empty! Check Instance key!');
+      return;
+    }
+
+    this.subscription = this.modelService.saveInstance(this.model, true, '').subscribe(
+      res => {
+
+        if (!res.Result) {
+          alert(res.Message);
+          return;
+        }
+
+        this.model = new Instance();
+        
+        if (this.editing) {
+          this.editing = !this.editing;
+        }
+
+        this.router.navigateByUrl('/instancesHome');
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
   //--------------------------------------------------------------------------------
   initDialogFields() {
     this.fields = [
