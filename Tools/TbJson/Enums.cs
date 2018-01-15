@@ -55,8 +55,12 @@
         Search = 3,
         Print = 4,
         Tools = 5,
-        Advanced = 6
-    }
+        Advanced = 6,
+		Radar = 7,
+		Fab = 8,
+		Exit = 9
+
+	}
 
     public enum ViewCategory
     {

@@ -68,7 +68,8 @@
           "isDropdown": true,
           "name": "Radar",
           "text": "Radar",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 7 /*radar*/
         },
         {
           "id": "ID_SEPARATOR",
@@ -83,7 +84,7 @@
           "name": "Query",
           "text": "Query",
           "type": 15 /*ToolbarButton*/,
-          "category": 2 /*Navigate*/
+          "category": 5 /*Advanced*/
         },
         {
           "id": "ID_SEPARATOR",
@@ -158,7 +159,7 @@
           "name": "Exit",
           "text": "Exit",
           "type": 15 /*ToolbarButton*/,
-          "category": 2 /*Navigate*/
+          "category": 9 /*Exit*/
         }
       ],
       "name": "Main",
@@ -202,7 +203,7 @@
           "name": "Customize",
           "text": "Customize",
           "type": 15 /*ToolbarButton*/,
-          "category": 5 /*Tools*/
+          "category": 6 /*Advanced*/
         },
         {
           "hint": "Generate json model for this documentfor testing purposes",
@@ -211,7 +212,7 @@
           "name": "GenJsonModel",
           "text": "Generate json model",
           "type": 15 /*ToolbarButton*/,
-          "category": 5 /*Tools*/,
+          "category": 6 /*Advanced*/,
           "activation": "_DEBUG"
         },
         {
@@ -222,7 +223,7 @@
           "name": "ShareDocument",
           "text": "Share",
           "type": 15 /*ToolbarButton*/,
-          "category": 5 /*Tools*/
+          "category":6 /*Advanced*/
         },
         {
           "alignRight": true,
@@ -232,7 +233,7 @@
           "name": "Exit",
           "text": "Exit",
           "type": 15 /*ToolbarButton*/,
-          "category": 2 /*Navigate*/
+          "category": 9 /*Exit*/
         }
       ],
       "name": "Tools",

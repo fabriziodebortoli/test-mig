@@ -417,7 +417,7 @@ namespace Microarea.TbJson
                     map[tag] = buttons;
                 }
                 if (!btn.GetBool(Constants.isSeparator) && buttons.Find(btn.GetId()) == null)
-                    buttons.Add(btn);
+                    buttons.Add(btn);      
             }
         }
 

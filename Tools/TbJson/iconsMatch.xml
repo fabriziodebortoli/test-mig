@@ -538,4 +538,6 @@
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.tb-editfilled.png" icon="editfilled"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.tb-resume.png" icon="resume"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.tb-rename.png" icon="rename"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.radar.png" icon="tb-radar"></icon>
+	
 </icons>

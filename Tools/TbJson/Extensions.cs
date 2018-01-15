@@ -163,8 +163,16 @@ namespace Microarea.TbJson
             JArray jAr = jObj.GetItems();
             if (jAr == null)
                 return;
+			//toolbar
             JArray sorted = new JArray(jAr.OrderBy(obj => obj.GetCategoryOrdinal()));
-            jObj[Constants.items] = sorted;
+			jObj[Constants.items] = sorted;
+
+			foreach (JObject item in sorted)
+			{
+				JArray tbbuttons = item.GetItems();
+				JArray inter = new JArray(tbbuttons.OrderBy(t => t.GetCategoryOrdinal()));
+				item[Constants.items] = inter;
+			}
         }
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
@@ -184,14 +192,18 @@ namespace Microarea.TbJson
             switch (jObj.GetCommandCategory())
             {
                 case CommandCategory.Search:
-                case CommandCategory.Navigation:
+				case CommandCategory.Radar:
+				case CommandCategory.Navigation:
                 case CommandCategory.Advanced:
                 case CommandCategory.Tools:
-                    return Constants.tbToolbarTopButton;
+				case CommandCategory.Edit:
+				case CommandCategory.Exit:
+					return Constants.tbToolbarTopButton;
                 case CommandCategory.Print:
-                case CommandCategory.Edit:
+                //case CommandCategory.Edit:
                 case CommandCategory.Undefined:
-                default:
+				case CommandCategory.Fab:
+				default:
                     return Constants.tbToolbarBottomButton;
             }
         }
@@ -203,12 +215,14 @@ namespace Microarea.TbJson
             switch (jObj.GetCommandCategory())
             {
                 case CommandCategory.Search:
-                case CommandCategory.Navigation:
+				case CommandCategory.Radar:
+				case CommandCategory.Navigation:
                 case CommandCategory.Advanced:
                 case CommandCategory.Tools:
-                    return Constants.tbToolbarTop;
+				case CommandCategory.Edit:
+				case CommandCategory.Exit:
+					return Constants.tbToolbarTop;
                 case CommandCategory.Print:
-                case CommandCategory.Edit:
                 case CommandCategory.Undefined:
                 default:
                     return Constants.tbToolbarBottom;
@@ -327,29 +341,33 @@ namespace Microarea.TbJson
         internal static int GetCategoryOrdinal(this JToken jObj)
         {
             WndObjType type = jObj.GetWndObjType();
-            if (type == WndObjType.Toolbar)
-            {
+            if (type == WndObjType.Toolbar || type == WndObjType.ToolbarButton)
+			{
                 switch (jObj.GetCommandCategory())
                 {
-                    case CommandCategory.Search:
-                        return 1;
-                    case CommandCategory.Navigation:
+					case CommandCategory.Edit:
+						return 1;
+					case CommandCategory.Search:
                         return 2;
-                    case CommandCategory.Advanced:
-                        return 3;
-                    case CommandCategory.Tools:
+					case CommandCategory.Radar:
+						return 3;
+					case CommandCategory.Navigation:
                         return 4;
+                    case CommandCategory.Advanced:
+                        return 5;
+                    case CommandCategory.Tools:
+                        return 6;
                     case CommandCategory.Print:
                         return 20;
-                    case CommandCategory.Edit:
-                        return 21;
-                    case CommandCategory.Undefined:
+					case CommandCategory.Exit:
+						return 22;
+					case CommandCategory.Undefined:
                     default:
-                        return 22;
+                        return 23;
                 }
             }
 
-            return 10;//vista o altri oggetti analoghi
+				return 10;//vista o altri oggetti analoghi
         }
 
         /// <summary>
