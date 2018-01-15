@@ -959,6 +959,10 @@ namespace Microarea.RSWeb.WoormViewer
                     {
                         baseObject = new Chart(this); break;
                     }
+                    case Token.GAUGE:
+                        {
+                            baseObject = new Gauge(this); break;
+                        }
 
                     case Token.RNDRECT  : // mantiene la compatibilita' con il passato
 					case Token.SQRRECT  : baseObject = new SqrRect      (this); break;
