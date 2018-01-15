@@ -30,6 +30,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   ngOnInit() {
+   
   }
 
   public onChange(val: any) {
@@ -41,6 +42,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
       this.model = { enable: 'true', value: '' };
     }
     this.model.value = newValue;
+
   }
 
   ngAfterViewInit(): void {
@@ -58,18 +60,29 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     return this.model !== undefined && this.model !== null;
   }
 
+  onMailClick() {
+    if (this.model.enabled)
+      return;
+    location.href = "mailto:" + this.model.value;
+    return 0;
+  }
 
   onBlur(): any {
     this.constraint = new RegExp('^[a-zA-Z0-9_\+-]+(\.[a-zA-Z0-9_\+-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.([a-zA-Z]{2,})$', 'i');
-    if (!this.constraint.test(this.model.value)) {
-      this.errorMessage = 'Input not in correct form';
-      this.showError = 'inputError';
+    this.errorMessage = '';
+    this.showError = '';
+    var arEmail = this.model.value.split(";");
+    
+    if (arEmail.length > 0) {
+      for (var i = 0; i < arEmail.length; i++) { 
+        if (!this.constraint.test(arEmail[i])) {
+          this.errorMessage = 'Input not in correct form';
+          this.showError = 'inputError';
+          break;
+        }  
+      }
     }
-    else {
-      this.errorMessage = '';
-      this.showError = '';
-    }
-
+   
     this.eventData.change.emit(this.cmpId);
   }
 }
