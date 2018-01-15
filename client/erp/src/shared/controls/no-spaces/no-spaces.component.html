@@ -1,10 +1,12 @@
 <div class="tb-control no-spaces" [ngClass]="componentClass()">
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
-        <input kendoTextBox [ngModel]="model?.value" required="required" (blur)="removeSpaces()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" (keydown)="onKeyDown($event)">
-        <ng-template [ngIf]="hotLink">
-            <ng-template [tbHotLink]="hotLink"></ng-template>
-        </ng-template>
+        <kendo-maskedtextbox #textbox [ngModel]="model?.value" required="required" (blur)="removeSpaces()" [disabled]="!(model?.enabled)"
+            (ngModelChange)="model.value=$event" [style.width.px]="width" (keydown)="onKeyDown($event)">
+            <ng-template [ngIf]="hotLink">
+                <ng-template [tbHotLink]="hotLink"></ng-template>
+            </ng-template>
+        </kendo-maskedtextbox>
         <p>{{errorMessage}}</p>
     </div>
 </div>
