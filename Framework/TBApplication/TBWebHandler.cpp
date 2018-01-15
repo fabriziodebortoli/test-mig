@@ -557,6 +557,14 @@ void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNa
 	int y = _ttoi(year);
 
 	DataDate date(d, m, y);
+	if (!date.IsValid())
+	{
+		jsonResponse.SetError();
+		jsonResponse.SetMessage(_TB("The date is invalid"));
+		response.SetData(jsonResponse.GetJson());
+		return;
+	}
+
 	AfxSetApplicationDate(date);
 	//ChangeOperationsDate();
 	jsonResponse.SetOK();
