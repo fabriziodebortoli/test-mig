@@ -58,7 +58,16 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     private _filter: CompositeFilterDescriptor;
     private state = new RadarState();
     pinned = false;
+    areFiltersVisible = false;
     canNavigate: Observable<boolean>;
+
+    get pinnedIcon() {
+        return this.pinned ? 'tb-classicpin' : 'tb-unpin';
+    }
+
+    get areFiltersVisibleIcon() {
+        return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
+    }
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
@@ -69,14 +78,14 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     }
 
     private start() {
-        this.filterer.configure(200);
+        this.filterer.start(200);
         this.paginator.start(1, this.pageSize,
             combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: l, model: r })),
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
                 p.set('filter', JSON.stringify(otherParams.model.value));
-                p.set('customFilters', JSON.stringify(otherParams.customFilters));
+                // p.set('customFilters', JSON.stringify(otherParams.customFilters));
                 p.set('page', JSON.stringify(pageNumber + 1)); // test numbers
                 p.set('per_page', JSON.stringify(serverPageSize));
                 return this.dataService.getRadarData(p);
@@ -90,7 +99,7 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
             this.gridStyle$.next(GridStyles.default);
         });
         this.filterer.filterChanging$.subscribe(x => this.gridStyle$.next(GridStyles.filterTyping));
-        this.canNavigate = this.store.select(m => m.FormMode.value).map(m => m !== FormMode.EDIT);
+        this.canNavigate = this.store.select(m => _.get(m, 'FormMode.value')).map(m => m !== FormMode.EDIT);
         this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
     }
 

@@ -26,6 +26,7 @@ tb-radar {
     box-shadow: none;
 }
 
+
 .radar-container h5 {
     margin: 10px;
     text-transform: uppercase;
@@ -104,15 +105,31 @@ tb-radar {
     background: none;
 }
 
-.top-button:hover {
+.radar-container .toggle-button m4-icon {
+    font-size: 16px;
+}
+
+.radar-container .top-button:hover {
     background: #f1f1f1
 }
 
-.k-button>span {
+.radar-container .top-button:focus {
+    box-shadow: none;
+}
+
+.radar-container .toggle-button:hover {
+    background: #f1f1f1
+}
+
+.radar-container .toggle-button:focus {
+    box-shadow: none;
+}
+
+.radar-container .k-button>span {
     font-size: 12px;
     line-height: 30px;
     height: 30px;
-    margin: 0;
+    margin: 0; 
     padding: 0 8px 0 0;
     display: none;
 }
@@ -150,7 +167,7 @@ tb-radar {
     margin-top: 4px;
 }
 
-.radar-container .toolbarIcon {
+.radar-container .toolbar-icon {
     font-size: 24px;
     padding-right: 8px;
 }
@@ -165,4 +182,14 @@ tb-radar {
     padding: 0;
     border: 0;
     background: none;
+}
+
+.radar-container .pager-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.radar-container .pager-buttons .toolbar-icon {
+    font-size: 1em;
 }
