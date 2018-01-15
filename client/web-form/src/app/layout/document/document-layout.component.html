@@ -219,31 +219,27 @@
             </tb-view>
         </tb-view-container>
         <tb-dockpane-container>
-            <!-- <tb-dockpane *ngIf="eventData?.activation?.IDD_DATASYNCHRO_DOCK_PANE" [title]="_TB('Data Synchronizer')">
-                <tb-view>
-                    <tb-tile-group [active]="true" tbLayoutTypeVbox>
-                        <ng-template>
-                            <tb-panel [title]="_TB('Data Validation Status')" tbTileStandard>
-                                <tb-image [height]="16" [width]="16" cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
-                                <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" [model]="eventData?.model?.ValidationStatus"></tb-text>
-                            </tb-tile>
-                            <tb-panel [title]="_TB('Data Synchronization Technical Details')" tbTileStandard>
-                                <tb-image [height]="16" [width]="16" cmpId="IDC_DS_SYNCHSTATUS_PICTURE" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
-                                <tb-caption cmpId="IDC_STATIC_1" [caption]="_TB('Time')"></tb-caption>
-                                <tb-date-input formatter="DateTime" [readonly]="false" cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" [model]="eventData?.model?.SynchDate"></tb-date-input>
-                                <tb-caption cmpId="IDC_STATIC_3" [caption]="_TB('Direction')"></tb-caption>
-                                <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" [model]="eventData?.model?.SynchDirection"></tb-text>
-                                <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" [model]="eventData?.model?.SynchStatusHints"></tb-text>
-                                <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" [caption]="_TB('Copy Msg')"></tb-button>
-                            </tb-tile>
-                            <tb-panel [title]="_TB('Data Synchronization Status')" tbTileStandard>
-                                <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" [model]="eventData?.model?.SynchMsg"></tb-text>
-                                <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" [caption]="_TB('Copy Msg')"></tb-button>
-                            </tb-tile>
-                        </ng-template>
-                    </tb-tile-group>
-                </tb-view>
-            </tb-dockpane> -->
+            <tb-dockpane [title]="_TB('A')" iconType="M4" icon="erp-cash">
+                <ng-template>
+                    <tb-view>
+                        <p>AAA</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('B')" iconType="M4" icon="erp-checkprices">
+                <ng-template>
+                    <tb-view>
+                        <p>BBB</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('C')" iconType="M4" icon="erp-components">
+                <ng-template>
+                    <tb-view>
+                        <p>CCC</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
         </tb-dockpane-container>
     </tb-frame-content>
     <tb-toolbar-bottom>
