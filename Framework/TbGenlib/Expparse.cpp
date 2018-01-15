@@ -200,8 +200,9 @@ static const int BASED_CODE function_Table[][MAX_FuncParametersTable] =
 	{T_FGETTHREADCONTEXT,		2, DATA_BOOL_TYPE,		DATA_STR_TYPE, DATA_VARIANT_TYPE },
 	{T_FOWNTHREADCONTEXT,		1, DATA_BOOL_TYPE,		DATA_VARIANT_TYPE },
 	
-	{T_FRECORD_GETFIELD,		2, DATA_VARIANT_TYPE,	DATA_TRECORD_TYPE,	DATA_STR_TYPE },
-	{T_FOBJECT_GETFIELD,		2, DATA_VARIANT_TYPE,	DATA_LNG_TYPE,		DATA_STR_TYPE },
+	{T_FRECORD_GETFIELD,		2, DATA_VARIANT_TYPE,	DATA_RECORD_TYPE,		DATA_STR_TYPE },
+	{T_FSQLRECORD_GETFIELD,		2, DATA_VARIANT_TYPE,	DATA_SQLRECORD_TYPE,	DATA_STR_TYPE },
+	{T_FOBJECT_GETFIELD,		2, DATA_VARIANT_TYPE,	DATA_LNG_TYPE,			DATA_STR_TYPE },
 
 	{T_FCOLUMN_GETAT,			2, DATA_VARIANT_TYPE,	DATA_VARIANT_TYPE,	DATA_LNG_TYPE },
 	{T_FCOLUMN_FIND,			2, DATA_LNG_TYPE,		DATA_VARIANT_TYPE,	DATA_VARIANT_TYPE/*Legal parameter Data-Type depends on the first parameter Base Data-Type*/ },
@@ -406,8 +407,11 @@ static const int BASED_CODE function_Table_Group[][2] =
 
 	{ G_PRIVATE, T_FGETTHREADCONTEXT },
 	{ G_PRIVATE, T_FOWNTHREADCONTEXT },
+
 	{ G_PRIVATE, T_FRECORD_GETFIELD },
+	{ G_PRIVATE, T_FSQLRECORD_GETFIELD },
 	{ G_PRIVATE, T_FOBJECT_GETFIELD },
+
 	{ G_PRIVATE, T_FCOLUMN_GETAT },
 	{ G_PRIVATE, T_FCOLUMN_FIND },
 	{ G_PRIVATE, T_FCOLUMN_SIZE },
@@ -1553,11 +1557,11 @@ void ExpParse::Factor(Parser& lex, Stack& exprStack)
 							CString sRecName = strName.Left(idx);
 							pField = m_pSymTable->GetField(sRecName);
 
-							if (pField && pField->GetDataType() == DataType::Record)
+							if (pField && pField->GetDataType() == DataType::SqlRecord)
 							{
 								exprStack.Push(new ExpItemVrb(sRecName, lex.GetCurrentPos())); //record name
 								exprStack.Push(new ExpItemVal(new DataStr(strName.Mid(idx + 1)), lex.GetCurrentPos())); //field name
-								exprStack.Push(new ExpItemFun(T_FRECORD_GETFIELD, 2, lex.GetCurrentPos()));
+								exprStack.Push(new ExpItemFun(T_FSQLRECORD_GETFIELD, 2, lex.GetCurrentPos()));
 								break;
 							}
 							else if (pField && pField->GetDataType() == DataType::Object)
@@ -1722,6 +1726,7 @@ void ExpParse::Factor(Parser& lex, Stack& exprStack)
 		case T_FCOLUMN_SUM:
 
 		case T_FRECORD_GETFIELD:
+		case T_FSQLRECORD_GETFIELD:
 		case T_FOBJECT_GETFIELD:
 
 		case T_FISWEB:
@@ -1824,7 +1829,7 @@ BOOL ExpParse::ParseArrayIndexer(CString& strName, Parser& lex, Stack& exprStack
 			}
 #endif
 			exprStack.Push(new ExpItemVal(new DataStr(sFieldName), lex.GetCurrentPos())); //field name
-			exprStack.Push(new ExpItemFun(T_FRECORD_GETFIELD, 2, lex.GetCurrentPos()));
+			exprStack.Push(new ExpItemFun(T_FSQLRECORD_GETFIELD, 2, lex.GetCurrentPos()));
 		}
 	}
 

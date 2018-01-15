@@ -167,7 +167,7 @@ TB_EXPORT int SelectCompareType(CComboBox*, ECompareType);
 #define DATA_VARIANT_TYPE	WORD(14)
 //TODO
 #define DATA_RECORD_TYPE	WORD(15)
-#define DATA_TRECORD_TYPE	WORD(16)	//map to a SqlRecord
+#define DATA_SQLRECORD_TYPE	WORD(16)	//map to a SqlRecord
 #define DATA_BLOB_TYPE		WORD(17)	//NON implementato
 
 //	WARNING! The DataType sequence must not be changed because
@@ -227,7 +227,7 @@ public:
    	static  const DataType	Object;
   	static  const DataType	Void;
  	static  const DataType	Record;
-	static  const DataType	TRecord;
+	static  const DataType	SqlRecord;
 
 public:
 	BOOL 	IsFullDate		()		const;
@@ -2470,7 +2470,7 @@ public:
 	DataArray ();
 	DataArray (const DataArray& ar) { Assign(ar); }
 	DataArray (DataType baseType) { m_BaseDataType = baseType; }
-	~DataArray () {}
+	virtual ~DataArray () {}
 
 	DataArray&	operator=	(const DataArray& ar)			{ 	Assign(ar); return *this; }
 
@@ -2553,9 +2553,24 @@ public:
 };
 
 //============================================================================
-class TB_EXPORT DataTRecord : public DataObj
+class TB_EXPORT DataRecord : public DataArray
 {
-	DECLARE_DYNCREATE (DataTRecord)
+	DECLARE_DYNCREATE(DataRecord)
+
+public:
+	// constructors & destructor
+	DataRecord() {}
+	DataRecord(const DataRecord& ar) { Assign(ar); }
+	virtual ~DataRecord() {}
+
+	virtual DataType    GetDataType() const { return DataType(DATA_RECORD_TYPE, 0); }
+
+};
+
+//============================================================================
+class TB_EXPORT DataSqlRecord : public DataObj
+{
+	DECLARE_DYNCREATE (DataSqlRecord)
 
 protected:
 	ISqlRecord*	m_pRecord;
@@ -2563,12 +2578,12 @@ protected:
 
 public:
 	// constructors & destructor
-	DataTRecord ();
-	DataTRecord (const DataTRecord& ar);
-	DataTRecord (ISqlRecord* pRec, BOOL bOwnRecord);
-	~DataTRecord ();
+	DataSqlRecord ();
+	DataSqlRecord (const DataSqlRecord& ar);
+	DataSqlRecord (ISqlRecord* pRec, BOOL bOwnRecord);
+	~DataSqlRecord ();
 
-	DataTRecord&	operator=	(const DataTRecord& ar) {  Assign(ar); return *this; }
+	DataSqlRecord&	operator=	(const DataSqlRecord& ar) {  Assign(ar); return *this; }
 
 	virtual void    Assign	(const DataObj& ar);
 
@@ -2583,7 +2598,7 @@ public:
 	BOOL			operator==	(const DataArray& ar) const { return IsEqual (ar); }
 	BOOL			operator!=	(const DataArray& ar) const { return !IsEqual (ar); }
 
-	virtual DataType    GetDataType () const { return DataType(DATA_TRECORD_TYPE, 0); }
+	virtual DataType    GetDataType () const { return DataType(DATA_SQLRECORD_TYPE, 0); }
 
 	virtual void		Clear	(BOOL bValid = TRUE);
 

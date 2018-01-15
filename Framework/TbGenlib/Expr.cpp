@@ -417,7 +417,7 @@ BOOL Expression::InitExpressionMaps()
 	RelMap [DATA_ARRAY_TYPE][DATA_ARRAY_TYPE]	= DATA_ARRAY_TYPE;	
 
 	RelMap [DATA_RECORD_TYPE][DATA_RECORD_TYPE]	= DATA_RECORD_TYPE;	
-	RelMap [DATA_TRECORD_TYPE][DATA_TRECORD_TYPE] = DATA_TRECORD_TYPE;
+	RelMap [DATA_SQLRECORD_TYPE][DATA_SQLRECORD_TYPE] = DATA_SQLRECORD_TYPE;
 
 	for (col = 0; col <= LAST_MAPPED_DATA_TYPE; col++)
 	{
@@ -1094,8 +1094,8 @@ void Expression::AssignResult(DataObj& d, ExpItemVal& res)
 		case DATA_GUID_TYPE	: ((DataGuid&) d).	Assign( CastGuid(res) );	break;
 		case DATA_TXT_TYPE	: ((DataText&) d).	Assign( CastTxt (res) );	break;	
 		case DATA_ARRAY_TYPE	: ((DataArray&) d).		Assign( * CastArray (res) );	break;	
-		case DATA_TRECORD_TYPE	: ((DataTRecord&) d).	Assign( * CastTRecord (res) );	break;	
-		//case DATA_RECORD_TYPE: ((DataRecord&)d).Assign(*CastRecord(res));	break;
+		case DATA_SQLRECORD_TYPE	: ((DataSqlRecord&) d).	Assign( * CastSqlRecord (res) );	break;	
+		case DATA_RECORD_TYPE: ((DataRecord&)d).Assign(*CastRecord(res));	break;
 		default: TRACE(_T(" Il tipo del DataObj che deve contenere il risultato dell’espressione non è dei tipi supportati.")); ASSERT(FALSE);		// se succede vuol dire che le mappe di compatibilita` sono errate
 	} // switch
 	
@@ -1491,7 +1491,7 @@ DataArray* Expression::CastArray(ExpItemVal& d)
 }
 
 //-----------------------------------------------------------------------------
-/*
+
 DataRecord* Expression::CastRecord(ExpItemVal& d)
 {
 	if (d.m_pVal && d.m_pVal->IsKindOf(RUNTIME_CLASS(DataRecord)))
@@ -1500,12 +1500,12 @@ DataRecord* Expression::CastRecord(ExpItemVal& d)
 	ASSERT(FALSE);
 	return NULL;
 }
-*/
+
 //-----------------------------------------------------------------------------
-DataTRecord* Expression::CastTRecord(ExpItemVal& d)
+DataSqlRecord* Expression::CastSqlRecord(ExpItemVal& d)
 {
-	if (d.m_pVal && d.m_pVal->IsKindOf(RUNTIME_CLASS(DataTRecord)))
-		return ((DataTRecord*)d.m_pVal);
+	if (d.m_pVal && d.m_pVal->IsKindOf(RUNTIME_CLASS(DataSqlRecord)))
+		return ((DataSqlRecord*)d.m_pVal);
 
 	ASSERT(FALSE);
 	return NULL;
@@ -4187,10 +4187,10 @@ ExpItemVal* Expression::ApplyFunction(ExpItemFun* itemFun, Stack& paramStack)
 		}
 
 		//---------------------------------------------------
-		case T_FRECORD_GETFIELD:
+		case T_FSQLRECORD_GETFIELD:
 		{
 			p1 = (ExpItemVal*) paramStack.Pop();
-			DataTRecord* dr = CastTRecord(*p1);
+			DataSqlRecord* dr = CastSqlRecord(*p1);
 
 			p2 = (ExpItemVal*) paramStack.Pop();
 			CString sRecField = CastStr(*p2);
@@ -4211,6 +4211,12 @@ ExpItemVal* Expression::ApplyFunction(ExpItemFun* itemFun, Stack& paramStack)
 			}
 
 			pData = pObj->DataObjClone();
+			break;
+		}
+		case T_FRECORD_GETFIELD:
+		{
+			//TODO
+			ASSERT(FALSE);
 			break;
 		}
 

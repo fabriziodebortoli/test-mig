@@ -70,7 +70,7 @@ const DataType  DataType::Array(DATA_ARRAY_TYPE, 0);
 const DataType  DataType::Variant(DATA_VARIANT_TYPE, 0);
 const DataType  DataType::Object(DATA_LNG_TYPE, DataObj::TB_HANDLE);
 const DataType  DataType::Record(DATA_RECORD_TYPE, 0);
-const DataType  DataType::TRecord(DATA_TRECORD_TYPE, 0);
+const DataType  DataType::SqlRecord(DATA_SQLRECORD_TYPE, 0);
 
 CString DataType::ToString() const
 {
@@ -141,7 +141,9 @@ static const TCHAR szDataTxt[] = _T("DataTxt");
 static const TCHAR szDataBlob[] = _T("DataBlob");
 static const TCHAR szSeparator[] = _T("::");
 static const TCHAR szDataArray[] = _T("DataArray");
-static const TCHAR szDataTRecord[] = _T("DataTRecord");
+static const TCHAR szDataSqlRecord[] = _T("DataSqlRecord");
+static const TCHAR szDataRecord[] = _T("DataRecord");
+
 
 //////////////////////////////////////////////////////////////////////////////
 //  COMMON FUNCTION 
@@ -190,8 +192,8 @@ DataObj* DataObj::DataObjCreate(const DataType& aDataType/*, LPCSTR pszFile, int
 	case DATA_TXT_TYPE: pObj = new DataText(); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(); break;
-	case DATA_TRECORD_TYPE: pObj = new DataTRecord(); break;
-	//case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
+	case DATA_SQLRECORD_TYPE: pObj = new DataSqlRecord(); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
 	case DATA_VARIANT_TYPE: return NULL;
 	default: ASSERT_TRACE1(FALSE, "Bad type: %d", aDataType.m_wType); return NULL;
 	}
@@ -254,8 +256,8 @@ DataObj* DataObj::DataObjClone(/*LPCSTR pszFile, int nLine*/) const
 	case DATA_TXT_TYPE: pObj = new DataText(*(DataText*)this); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(*(DataBlob*)this); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(*(DataArray*)this); break;
-	case DATA_TRECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
-	//case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataTRecord*)this); break;
+	case DATA_SQLRECORD_TYPE: pObj = new DataSqlRecord(*(DataSqlRecord*)this); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataRecord*)this); break;
 	default: return NULL;
 	}
 #ifdef _DEBUG
@@ -286,7 +288,7 @@ CString FromTBTypeToNetType(const DataType& aDataType)
 	case DATA_TXT_TYPE: return _T("String");
 	case DATA_ARRAY_TYPE: { /*ASSERT(FALSE);*/ return _T("Array"); }
 	case DATA_RECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("Record"); }
-	case DATA_TRECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("TRecord"); }
+	case DATA_SQLRECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("SqlRecord"); }
 	case DATA_VARIANT_TYPE: { /*ASSERT(FALSE);*/ return _T("Variant"); }
 							//case DATA_OBJECT_TYPE	: { /*ASSERT(FALSE);*/ return _T("Object");}
 	case DATA_BLOB_TYPE: { ASSERT_TRACE(FALSE, "Blob type not allowed here"); return _T("Blob"); }
@@ -326,7 +328,7 @@ CString FromDataTypeToDescr(const DataType& aDataType)
 	case DATA_TXT_TYPE:	return _TB("Text");
 	case DATA_ARRAY_TYPE:	return _TB("Array");
 	case DATA_RECORD_TYPE:	return _TB("Record");
-	case DATA_TRECORD_TYPE:	return _TB("TRecord");
+	case DATA_SQLRECORD_TYPE:	return _TB("SqlRecord");
 		//case DATA_BLOB_TYPE	:	return _TB("Blob");
 	case DATA_VARIANT_TYPE:	return _TB("Variant");
 		//case DATA_OBJECT_TYPE	:	return _TB("Object");
@@ -371,7 +373,7 @@ CString FromDataTypeToScriptType(const DataType& aDataType)
 	case DATA_ARRAY_TYPE:	return _T("Array");
 
 	case DATA_RECORD_TYPE:	return _T("Record");
-	case DATA_TRECORD_TYPE:	return _T("TRecord");
+	case DATA_SQLRECORD_TYPE:	return _T("SqlRecord");
 
 	case DATA_VARIANT_TYPE:	return _T("Var");
 
@@ -7111,14 +7113,21 @@ void DataArray::AssertValid() const
 #endif //_DEBUG
 
 //============================================================================
-//          DataTRecord class implementations
+//          DataRecord class implementations
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNCREATE(DataTRecord, DataObj)
+IMPLEMENT_DYNCREATE(DataRecord, DataArray)
+
+//============================================================================
+//          DataSqlRecord class implementations
+//////////////////////////////////////////////////////////////////////////////
+//
+//-----------------------------------------------------------------------------
+IMPLEMENT_DYNCREATE(DataSqlRecord, DataObj)
 
 //-----------------------------------------------------------------------------
-DataTRecord::DataTRecord()
+DataSqlRecord::DataSqlRecord()
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7127,7 +7136,7 @@ DataTRecord::DataTRecord()
 	SetDirty();
 }
 
-DataTRecord::DataTRecord(const DataTRecord& ar)
+DataSqlRecord::DataSqlRecord(const DataSqlRecord& ar)
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7135,19 +7144,19 @@ DataTRecord::DataTRecord(const DataTRecord& ar)
 	Assign(ar);
 }
 
-DataTRecord::DataTRecord(ISqlRecord* pRec, BOOL bOwnRecord)
+DataSqlRecord::DataSqlRecord(ISqlRecord* pRec, BOOL bOwnRecord)
 	:
 	m_pRecord(pRec),
 	m_bOwnRecord(bOwnRecord)
 {}
 
-DataTRecord::~DataTRecord()
+DataSqlRecord::~DataSqlRecord()
 {
 	if (m_bOwnRecord && m_pRecord)
 		m_pRecord->Dispose();
 }
 
-void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
+void DataSqlRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 {
 	if (m_pRecord && m_bOwnRecord)
 		m_pRecord->Dispose();
@@ -7157,31 +7166,31 @@ void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::Str(int, int) const
+CString DataSqlRecord::Str(int, int) const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::ToString() const
+CString DataSqlRecord::ToString() const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const DataObj& aDataObj)
+void DataSqlRecord::Assign(const DataObj& aDataObj)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
 		return;
 
-	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataTRecord)))
+	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataSqlRecord)))
 	{
 		ASSERT(FALSE);
 		return;
 	}
 
-	DataTRecord* pDRSrc = dynamic_cast<DataTRecord*>(const_cast<DataObj*>(&aDataObj));
+	DataSqlRecord* pDRSrc = dynamic_cast<DataSqlRecord*>(const_cast<DataObj*>(&aDataObj));
 
 	if (m_pRecord)
 	{
@@ -7207,7 +7216,7 @@ void DataTRecord::Assign(const DataObj& aDataObj)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(LPCTSTR)
+void DataSqlRecord::Assign(LPCTSTR)
 {
 	if (IsValueLocked())
 		return;
@@ -7216,7 +7225,7 @@ void DataTRecord::Assign(LPCTSTR)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const VARIANT& v)
+void DataSqlRecord::Assign(const VARIANT& v)
 {
 	if (IsValueLocked())
 		return;
@@ -7225,7 +7234,7 @@ void DataTRecord::Assign(const VARIANT& v)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const RDEData& aRDEData)
+void DataSqlRecord::Assign(const RDEData& aRDEData)
 {
 	if (IsValueLocked())
 		return;
@@ -7234,7 +7243,7 @@ void DataTRecord::Assign(const RDEData& aRDEData)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Clear(BOOL bValid)
+void DataSqlRecord::Clear(BOOL bValid)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
@@ -7251,13 +7260,13 @@ void DataTRecord::Clear(BOOL bValid)
 }
 
 //-----------------------------------------------------------------------------
-int DataTRecord::IsEqual(const DataObj& o)	const
+int DataSqlRecord::IsEqual(const DataObj& o)	const
 {
-	DataTRecord* par = (DataTRecord*)(const_cast<DataObj*>(&o));
+	DataSqlRecord* par = (DataSqlRecord*)(const_cast<DataObj*>(&o));
 	return m_pRecord->IIsEqual(*(par->m_pRecord));
 }
 
-int DataTRecord::IsLessThan(const DataObj& o)	const
+int DataSqlRecord::IsLessThan(const DataObj& o)	const
 {
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
 
@@ -7265,7 +7274,7 @@ int DataTRecord::IsLessThan(const DataObj& o)	const
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::FormatDataForXML(BOOL b) const
+CString DataSqlRecord::FormatDataForXML(BOOL b) const
 {
 	//TODO
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
@@ -7282,7 +7291,7 @@ CString DataTRecord::FormatDataForXML(BOOL b) const
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
+void DataSqlRecord::AssignFromXMLString(LPCTSTR lpszValue)
 {
 	Assign(lpszValue);
 }
@@ -7291,7 +7300,7 @@ void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
 // Diagnostics
 
 #ifdef _DEBUG
-void DataTRecord::Dump(CDumpContext& dc) const
+void DataSqlRecord::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
 	AFX_DUMP0(dc, "\nDataTRecord:");
@@ -7299,7 +7308,7 @@ void DataTRecord::Dump(CDumpContext& dc) const
 	AFX_DUMP1(dc, "\n\tContent= ", Str());
 }
 
-void DataTRecord::AssertValid() const
+void DataSqlRecord::AssertValid() const
 {
 	DataObj::AssertValid();
 }

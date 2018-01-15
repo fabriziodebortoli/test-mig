@@ -1028,18 +1028,18 @@ void CEqnEditDlg::VarFieldChanged()
 			{
 				strType += L"{object}";
 			}
-			else  if (pFld->GetDataType() == DATA_TRECORD_TYPE)
+			else  if (pFld->GetDataType() == DATA_SQLRECORD_TYPE)
 			{
-				DataTRecord* par = dynamic_cast<DataTRecord*>(pFld->GetData());
+				DataSqlRecord* par = dynamic_cast<DataSqlRecord*>(pFld->GetData());
 				//TODO
 				ASSERT(FALSE);
 			}
-			//else  if (pFld->GetDataType() == DATA_RECORD_TYPE)
-			//{
-			//	DataRecord* par = dynamic_cast<DataRecord*>(pFld->GetData());
-			//	//TODO
-			//	ASSERT(FALSE);
-			//}
+			else  if (pFld->GetDataType() == DATA_RECORD_TYPE)
+			{
+				DataRecord* par = dynamic_cast<DataRecord*>(pFld->GetData());
+				//TODO
+				ASSERT(FALSE);
+			}
 			else if (pFld->GetProvider())
 				strType += L"[*]";
 

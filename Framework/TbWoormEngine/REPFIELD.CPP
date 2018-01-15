@@ -1362,7 +1362,7 @@ void WoormField::UnparseDataType(Unparser& oFile, BOOL bIndent)
 			{
 				if (pArray->GetSize() > 0)
 				{
-					DataTRecord* pDRec = dynamic_cast<DataTRecord*>(pArray->GetAt(0));
+					DataSqlRecord* pDRec = dynamic_cast<DataSqlRecord*>(pArray->GetAt(0));
 					if (pDRec->GetIRecord())
 						oFile.Write(pDRec->GetIRecord()->GetTableName(), FALSE);
 					else
@@ -1377,10 +1377,10 @@ void WoormField::UnparseDataType(Unparser& oFile, BOOL bIndent)
 			CString sRecName;
 			DataObj* pObj = this->GetData();
 			ASSERT_VALID(pObj);
-			ASSERT_KINDOF(DataTRecord, pObj);
+			ASSERT_KINDOF(DataSqlRecord, pObj);
 			if (pObj)
 			{
-				DataTRecord* pDR = dynamic_cast<DataTRecord*>(pObj);
+				DataSqlRecord* pDR = dynamic_cast<DataSqlRecord*>(pObj);
 				if (pDR->GetIRecord())
 				{
 					sRecName = pDR->GetIRecord()->GetTableName();

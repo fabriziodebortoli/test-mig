@@ -124,7 +124,6 @@ static const TToken g_WoormTokens [] =
 	{ T_CCAT                 , _T("Ccat") },
 	{ T_FCEIL                , _T("Ceiling") },
 	{ T_CELL                 , _T("Cell") },
-	{ T_CHART				 , _T("Chart") },
 	{ T_CHECK                , _T("Check") },
 	{ T_FCHR                 , _T("Chr") },
 	{ T_CLOSE                , _T("Close") },
@@ -545,12 +544,16 @@ static const TToken g_WoormTokens [] =
 	{ T_FPADRIGHT				, _T("PadRight") },
 	{ T_FCOMPARE_NO_CASE		, _T("CompareNoCase") },
 
-	{ T_DISPLAY_CHART			, _T("DisplayChart") },
-
+	{ T_CHART					, _T("Chart") },
 	{ T_CHART_CATEGORIES        , _T("ChartCategories") },
 	{ T_CHART_SERIES			, _T("ChartSeries") },
 	{ T_CHART_LEGEND			, _T("ChartLegend") },
 	{ T_CHART_AXIS				, _T("ChartAxis") },
+
+	{ T_GAUGE					, _T("Gauge") },
+	{ T_GAUGE_POINTER			, _T("GaugePointer") },
+	{ T_GAUGE_RANGE_COLOR		, _T("GaugeRangeColor") },
+	{ T_GAUGE_SCALE				, _T("GaugeScale") },
 
 	{ T_CCOUNT			, _T("CCount") },
 	{ T_CAVG			, _T("CAvg") },
@@ -558,7 +561,8 @@ static const TToken g_WoormTokens [] =
 	{ T_CLAST			, _T("CLast") },
 
 //UNDOCUMENTED
-	{ T_RECORD					, _T("Record") },	//datatype  es: RECORD TCustSupp rec; rec.CustSupp = '0001'
+	{ T_RECORD					, _T("Record") },		//datatype  custom record
+	{ T_SQLRECORD				, _T("SqlRecord") },	//datatype  es: SQLRECORD TCustSupp rec; rec.CustSupp = '0001'
 
 	{ T_FCOLUMN_GETAT			, _T("Column_GetAt") },
 	{ T_FCOLUMN_FIND			, _T("Column_Find") },
@@ -566,8 +570,11 @@ static const TToken g_WoormTokens [] =
 	{ T_FCOLUMN_SUM				, _T("Column_Sum") },
 
 	{ T_FRECORD_GETFIELD		, _T("Record_GetField") },
+	{ T_FSQLRECORD_GETFIELD		, _T("SqlRecord_GetField") },
 	{ T_FOBJECT_GETFIELD		, _T("Object_GetField") },
-	
+
+	{ T_DISPLAY_CHART			, _T("DisplayChart") },
+
 	//{ T_TOBJECT					, _T("Object") },
 	{ T_FCONVERT				, _T("Convert") },
 	{ T_FTYPEOF					, _T("TypeOf") },

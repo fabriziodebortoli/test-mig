@@ -366,6 +366,7 @@ ActionObj* Block::ParseAction(Parser& parser)
 			pActionObj = new DisplayFieldsAction(this, GetWoormTable(), GetRepEngine ());
 			break;
 		}
+
 		case T_DISPLAY_CHART:
 		{
 			if (!m_bRaiseEvents)
@@ -1079,9 +1080,9 @@ BOOL AssignAction::Exec()
 		{
 			DataObj* pObj = m_pField->GetData();
 			ASSERT_VALID(pObj);
-			ASSERT_KINDOF(DataTRecord, pObj);
+			ASSERT_KINDOF(DataSqlRecord, pObj);
 
-			DataTRecord* pDR = dynamic_cast<DataTRecord*>(pObj);
+			DataSqlRecord* pDR = dynamic_cast<DataSqlRecord*>(pObj);
 			ASSERT(pDR->GetIRecord());
 
 			pObj = pDR->GetIRecord()->GetDataObjFromColumnName(this->m_sRecordFieldName);
@@ -2989,9 +2990,9 @@ BOOL DeclareAction::Parse(Parser& parser)
 
 		DataObj* pObj = m_pLocalField->GetData();
 		ASSERT_VALID(pObj);
-		ASSERT_KINDOF(DataTRecord, pObj);
+		ASSERT_KINDOF(DataSqlRecord, pObj);
 
-		DataTRecord* pDRec = dynamic_cast<DataTRecord*> (pObj);
+		DataSqlRecord* pDRec = dynamic_cast<DataSqlRecord*> (pObj);
 		pDRec->SetIRecord(pRec, TRUE);
 	}
 

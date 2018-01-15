@@ -1279,6 +1279,7 @@ DataType FromTokenToDataType(const Token& aToken)
 	case T_TBLOB		:	return DataType::Blob;
 	case T_ARRAY		:	return DataType::Array;
 	case T_RECORD		:	return DataType::Record;
+	case T_SQLRECORD	:	return DataType::Record;
 	default				:	return DataType::Null;
 	}
 }
@@ -1302,10 +1303,10 @@ Token FromDataTypeToToken(const DataType& aDataType)
 	case DATA_ENUM_TYPE	:	return T_TENUM;
 	case DATA_GUID_TYPE	:	return T_UUID;
 	case DATA_TXT_TYPE	:	return T_TTEXT;			
-	case DATA_BLOB_TYPE	:	return T_TBLOB;
-	case DATA_ARRAY_TYPE	:	return T_ARRAY;
-	case DATA_RECORD_TYPE	:	return T_RECORD;
-	case DATA_TRECORD_TYPE	:	return T_RECORD;
+	case DATA_BLOB_TYPE			:	return T_TBLOB;
+	case DATA_ARRAY_TYPE		:	return T_ARRAY;
+	case DATA_RECORD_TYPE		:	return T_RECORD;
+	case DATA_SQLRECORD_TYPE	:	return T_SQLRECORD;
 	default				:	return T_NOTOKEN;
 	}
 }
