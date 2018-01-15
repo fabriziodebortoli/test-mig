@@ -1,4 +1,9 @@
+import { ReportGaugeRadialComponent } from './report-objects/layout/gauge/radial/gauge.radial.component';
+import { ReportGaugeLinearComponent } from './report-objects/layout/gauge/linear/gauge.linear.component';
+import { ReportGaugeArcComponent } from './report-objects/layout/gauge/arc/gauge.arc.component';
 import { ReportGaugeComponent } from './report-objects/layout/gauge/gauge.component';
+
+
 import { BarcodeComponent } from './report-objects/layout/barcode/barcode.component';
 import { ReportChartPolarComponent } from './report-objects/layout/chart/chart-polar/chart-polar.component';
 import { ReportChartPieComponent } from './report-objects/layout/chart/chart-pie/chart-pie.component';
@@ -38,6 +43,7 @@ export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 export * from './rs-test.component';
 
@@ -87,6 +93,9 @@ export { TemplateItem } from './models/template-item.model';
     ReportLinkComponent,
     ReportRectComponent,
     ReportGaugeComponent,
+    ReportGaugeArcComponent,
+    ReportGaugeLinearComponent,
+    ReportGaugeRadialComponent,
     AskCheckComponent,
     AskDropdownlistComponent,
     AskGroupComponent,
