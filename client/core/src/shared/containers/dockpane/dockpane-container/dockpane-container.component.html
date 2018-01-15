@@ -1,5 +1,18 @@
-<div class="dockpane-tabber">
-    <kendo-tabstrip #dockpaneTabber="kendoTabStrip">
+<div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState">
+
+    <div class="dockpane-tabber-selector">
+
+        <ul class="selector">
+            <li *ngFor="let t of getDockpanes();let i = index" (click)="changeDockpaneByIndex(i)" [class.active]="idxActive === i">
+                <tb-icon [iconType]="t?.iconType" [icon]="t?.icon" [title]="t?.title"></tb-icon>
+            </li>
+        </ul>
+
+    </div>
+
+    <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" class="dockpane-content"></kendo-tabstrip>
+
+    <!-- <kendo-tabstrip #dockpaneTabber="kendoTabStrip">
         <kendo-tabstrip-tab *ngFor="let dockpane of getDockpanes();">
             <ng-template kendoTabTitle>
                 <div (click)="toggleDockpane(dockpane)" class="dockpane-tab">
@@ -12,5 +25,5 @@
                 </div>
             </ng-template>
         </kendo-tabstrip-tab>
-    </kendo-tabstrip>
+    </kendo-tabstrip> -->
 </div>

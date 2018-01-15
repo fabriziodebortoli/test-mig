@@ -1,3 +1,5 @@
-<div class="dockpane">
-    <ng-content></ng-content>
-</div>
+<kendo-tabstrip-tab>
+    <ng-template kendoTabContent>
+        <ng-template [ngTemplateOutlet]="templateRef"> </ng-template>
+    </ng-template>
+</kendo-tabstrip-tab>
