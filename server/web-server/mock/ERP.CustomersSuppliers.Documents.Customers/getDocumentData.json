@@ -2,7 +2,7 @@
    "items" : [
       {
          "args" : {
-            "id" : "1050770",
+            "id" : "199036",
             "map" : [
                "IDC_CS_ACC_AREA",
                "IDC_CS_ACC_SALESPERSON",
@@ -388,9 +388,9 @@
                      "IDD_TD_CUSTSUPP_CREDIT" : false,
                      "IDD_TD_PNL_LINKSPANEL" : true,
                      "ID_EXTDOC_GEN_JSON_MODEL" : true,
-                     "ID_INSPECT" : false
+                     "ID_INSPECT" : true
                   },
-                  "id" : "1050770"
+                  "id" : "199036"
                }
             ]
          },

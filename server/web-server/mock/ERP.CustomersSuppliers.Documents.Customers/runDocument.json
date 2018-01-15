@@ -4,7 +4,7 @@
          "args" : {
             "component" : {
                "app" : "ERP",
-               "id" : "1050770",
+               "id" : "199036",
                "mod" : "CustomersSuppliers",
                "name" : "IDD_CUSTOMERS_COMPLETE"
             }
