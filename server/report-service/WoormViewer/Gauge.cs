@@ -275,14 +275,14 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Unparse(Unparser ofile)
         {
-            //TODO CHART
+            //TODO unparse GAUGE
 
             //---- Template Override
             BaseRect tempDefault = Default;
             if (IsTemplate && Document.Template.IsSavingTemplate)
                 Default = null;
             //----
-            //TODO CHART
+            //TODO 
 
             UnparseProp(ofile);
 
@@ -351,7 +351,8 @@ namespace Microarea.RSWeb.Objects
         {
              string s = "{";
 
- 
+            s += pointer.BindedField.Data.ToJson("value");
+
             if (pointer.Colored)
                 s += ',' + pointer.Color.ToJson("color");
 
