@@ -107,11 +107,11 @@ protected:
 	
 protected:
 	CWndObjDescription* ParseDescription(CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
-	CWndObjDescription* ParseDescription(CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
+	void ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
 	CString CalculateLURect(CWndObjDescription* pWndDesc, CJsonContextObj* pContext);
 	void UpdateAnchorInfo(const CString& sAnchor, CWndObjDescription* pWndDesc, CJsonContextObj* pContext);
 public:
-	static CWndObjDescription* ParseDescriptionFromText(CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
+	static void ParseDescriptionFromText(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
 };
 
 class TB_EXPORT CJsonFormParser : public CJsonParser

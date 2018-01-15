@@ -965,7 +965,14 @@ CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResour
 		PathCombine(path, m_sCachePath, sJsonResource.m_strName + szTBJsonFileExt);
 		if (PathFileExists(path))
 		{
-			pDescription = ParseDescription(pContext, path, NULL, NULL, CWndObjDescription::Undefined);
+			CArray<CWndObjDescription*>ar;
+			ParseDescription(ar, pContext, path, NULL, NULL, CWndObjDescription::Undefined);
+			
+			if (ar.GetSize())
+			{
+				pDescription = ar[0];
+				ASSERT(ar.GetSize() == 1);
+			}
 		}
 	}
 	if (!pDescription)
