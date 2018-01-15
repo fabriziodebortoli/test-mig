@@ -8,10 +8,8 @@
     display: flex;
     min-height: 100%;
     overflow: hidden;
-    background: red;
     .dockpane-tabber-selector {
-        background: #ddd;
-        border-left: 1px solid #ddd;
+        background: #333;
         width: 40px;
         padding: 0;
         margin: 0;
@@ -24,19 +22,20 @@
                 line-height: 30px;
                 padding: 2px 0 0;
                 white-space: nowrap;
-                color: #333;
+                color: #ccc;
                 &:hover {
                     cursor: pointer;
-                    background: #f1f1f1;
+                    transition: background-color 0.5s ease;
+                    background-color: #0277bd;
                 }
                 &>tb-icon {
                     font-size: 22px;
                     padding-top: 3px;
                     margin: 0 8px;
+                    color: #ccc;
                 }
             }
             li.active {
-                background: #f1f1f1;
                 background: #0277bd;
                 color: #fff;
                 span {
@@ -46,74 +45,25 @@
         }
     }
     .dockpane-content {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        border: none;
+        overflow: hidden;
+    }
+    .dockpane-content {
         flex: 0 0 200px;
         background: green;
     }
 }
 
-// tb-dockpane-container {
-//     overflow: hidden;
-//     // flex: 0 0 400px;
-// }
-// .dockingSlide {
-//     background: green;
-// }
-// .dockpane-tabber {
-//     display: flex;
-//     flex: 1;
-//     min-height: 100%;
-//     overflow: hidden;
-//     .k-tabstrip {
-//         display: flex;
-//         flex: 1;
-//         flex-direction: row;
-//     }
-//     .k-tabstrip-top {}
-//     .k-tabstrip-top>.k-content {
-//         border: none;
-//         // border-left: 1px solid #ddd;
-//         box-shadow: -1px 1px 5px -1px rgba(117, 117, 117, 0.55);
-//         border-radius: 0;
-//         padding: 0;
-//     }
-// }
-// .dockpane-tabber>.k-tabstrip>.k-tabstrip-items,
-// {
-//     background-color: transparent;
-//     flex-direction: column;
-//     padding-left: 3px;
-// }
-// .dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-item {
-//     margin: 3px 0 0;
-//     padding: 0;
-//     background-color: #fff;
-//     border: none;
-//     border-radius: 5px 0 0 5px;
-//     box-shadow: -1px 1px 5px -1px rgba(117, 117, 117, 0.55);
-// }
-// .dockpane-tabber>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
-//     padding: 0;
-//     padding-top: 4px;
-// }
-// .dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-state-active {
-//     background-color: #3e3e3e;
-// }
-// .dockpane-tabber>.k-tabstrip-top>.k-tabstrip-items .k-state-active .dockpane-tab>span {
-//     color: #fff;
-// }
-// .dockpane-tabber>.k-tabstrip .dockpane-tab {
-//     padding: 6px 3px 4px;
-// }
-// .dockpane-tabber>.k-tabstrip .dockpane-tab>span {
-//     writing-mode: tb-rl;
-//     white-space: nowrap;
-//     display: inline-block;
-//     overflow: visible;
-//     transform: rotate(180deg);
-//     color: #0277bd;
-//     font-size: 12px
-// }
-// /**/
-// .dockpane .k-tabstrip {
-//     flex-direction: column
-// }
+::ng-deep .dockpane-tabber {
+    .k-tabstrip-top>.k-tabstrip-items {
+        display: none;
+    }
+    .k-tabstrip>.k-content {
+        background: #fff;
+        border: none;
+        padding: 4px 6px;
+    }
+}

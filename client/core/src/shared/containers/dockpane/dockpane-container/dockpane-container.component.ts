@@ -28,9 +28,8 @@ export class DockpaneContainerComponent implements AfterContentInit {
     return this.dockpanes.toArray();
   }
 
-  dockState:string = 'expanded';
-  idxActive:number;
-
+  dockState:string = 'collapsed';
+  idxActive:number = null;
 
   ngAfterContentInit() {
     resolvedPromise.then(() => {
@@ -57,41 +56,4 @@ export class DockpaneContainerComponent implements AfterContentInit {
     
   }
 
-  // public dockState: string = 'closed';
-
-  // @ViewChild('dockpaneTabber') dockpaneTabber: TabStripComponent;
-  // @ContentChildren(DockpaneComponent) dockpanes: QueryList<DockpaneComponent>;
-
-  // ngAfterContentInit() {
-  //   let activeTiles = this.dockpanes.filter((tile) => tile.active);
-
-  //   //if there is no active tab set, activate the first
-  //   if (activeTiles.length === 0 && this.dockpanes.toArray().length > 0) {
-  //     this.selectDock(this.dockpanes.first);
-  //   }
-  // }
-
-  // selectDock(dockpane: DockpaneComponent) {
-  //   if (dockpane.active) return;
-
-  //   // deactivate all tabs
-  //   this.dockpanes.toArray().forEach(dockpane => dockpane.active = false);
-
-  //   // activate the tab the user has clicked on.
-  //   dockpane.active = true;
-  // }
-
-  // getDockpanes() {
-  //   return this.dockpanes.toArray();
-  // }
-
-  // toggleDockpane(dockpane: DockpaneComponent) {
-
-  //   if (dockpane.active) {
-  //     this.dockState = 'opened';
-  //   }
-
-
-  //   this.dockState = dockpane.active ? 'opened' : this.dockState === 'opened' ? 'closed' : 'opened';
-  // }
 }
