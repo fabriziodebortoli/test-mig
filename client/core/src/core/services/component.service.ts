@@ -30,6 +30,7 @@ export class ComponentService {
     public utils: UtilsService) {
 
     this.subscriptions.push(this.webSocketService.windowOpen.subscribe(data => {
+      data.component.tbLoaderDoc = true; //tengo traccia dei componenti che corrispondono a documenti MFC
       this.componentsToCreate.push(data.component);
       this.createNextComponent();
 
@@ -38,6 +39,15 @@ export class ComponentService {
     this.subscriptions.push(this.webSocketService.windowClose.subscribe(data => {
       if (data && data.id) {
         this.removeComponentById(data.id);
+      }
+    }));
+
+    this.subscriptions.push(this.webSocketService.close.subscribe(data => {
+      for (let i = this.components.length - 1; i >= 0; i--) {
+        let cmp = this.components[i];
+        if (cmp.tbLoaderDoc) {
+          this.removeComponentById(cmp.id);
+        }
       }
     }));
   }
