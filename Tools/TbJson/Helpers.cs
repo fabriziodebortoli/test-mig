@@ -9,22 +9,25 @@ namespace Microarea.TbJson
 {
     public static class Helpers
     {
+        static Regex exp = new Regex("{{2}([a-zA-Z0-9]*)}{2}", RegexOptions.Compiled);
         /// <summary>
         /// Racchiude un tag tra parentesi quadre
         /// </summary>
         public static string Square(string tag) => $"[{tag}]";
         public static bool AdjustExpression(ref string text)
         {
-            if (text.StartsWith("{{") && text.EndsWith("}}"))
-            {
-                text = text.ResolveInterplation();
-                return true;
-            }
-            else
-            {
+            string s = exp.Replace(text, "eventData?.model?.$1");
+            if (s == text)
                 return false;
-            }
+            text = s;
+            return true;
         }
+        /// <summary>
+        /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo")
+        /// </summary>
+        public static string ResolveInterplation(this string str) => Regex.Replace(str, "{{2}([a-zA-Z0-9]*)}{2}", "eventData?.model?.$1"); //https://regex101.com/r/40sP9b/1
+
+
         public static JObject FindAnchoredObjectInSiblings(JArray jItems, JObject currentObject)
         {
             string anchorName = string.Empty;

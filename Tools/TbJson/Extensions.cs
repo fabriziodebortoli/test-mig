@@ -317,11 +317,6 @@ namespace Microarea.TbJson
         }
 
         /// <summary>
-        /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo")
-        /// </summary>
-        public static string ResolveInterplation(this string str) => Regex.Replace(str, "{{2}([a-zA-Z0-9]*)}{2}", "eventData?.model?.$1"); //https://regex101.com/r/40sP9b/1
-
-        /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
         /// </summary>
         internal static int GetCategoryOrdinal(this JToken jObj)
