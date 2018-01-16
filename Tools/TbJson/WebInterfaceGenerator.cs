@@ -416,7 +416,7 @@ namespace Microarea.TbJson
                     buttons = new JArray();
                     map[tag] = buttons;
                 }
-                if (!btn.GetBool(Constants.isSeparator) && buttons.Find(btn.GetId()) == null)
+                if (buttons.Find(btn.GetId()) == null)
                     buttons.Add(btn);      
             }
         }
@@ -672,7 +672,15 @@ namespace Microarea.TbJson
                 case WndObjType.Toolbar:
                     {
                         string tag = (string)jObj[Constants.ngTag];
-                        if (!string.IsNullOrEmpty(tag))
+						bool isSeparator = jObj.GetBool(Constants.isSeparator);
+
+						if ((isSeparator == true))
+						{
+							htmlWriter.Write("<tb-toolbar-separator></tb-toolbar-separator>");
+							break;
+						}
+
+							if (!string.IsNullOrEmpty(tag))
                         {
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                             {
@@ -726,34 +734,30 @@ namespace Microarea.TbJson
 
                 case WndObjType.ToolbarButton:
                     {
-                        bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
+                        bool isSeparator = jObj.GetBool(Constants.isSeparator);
 
-                        if (!(isSeparator == true))
-                        {
-                            /*	using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbToolbarSeparator, this, true, true))
-                            {
+						if (!isSeparator)
+						{
+							using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
+							{
+								WriteActivationAttribute(jObj);
 
-                            }
-                        else*/
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
-                            {
-                                WriteActivationAttribute(jObj);
+								string id = jObj.GetId();
+								if (!string.IsNullOrEmpty(id))
+									htmlWriter.WriteAttribute("[disabled]", string.Concat("!eventData?.buttonsState?.", id, "?.enabled"));
 
-                                string id = jObj.GetId();
-                                if (!string.IsNullOrEmpty(id))
-                                    htmlWriter.WriteAttribute("[disabled]", string.Concat("!eventData?.buttonsState?.", id, "?.enabled"));
+								AddIconAttribute(jObj);
 
-                                AddIconAttribute(jObj);
-
-                                string caption = jObj.GetLocalizableString(Constants.text);
-                                if (!string.IsNullOrEmpty(caption))
-                                    htmlWriter.WriteAttribute(Square(Constants.caption), caption);
-                                string cmpId = jObj.GetId();
-                                if (!string.IsNullOrEmpty(cmpId))
-                                    htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
-                                w.CloseBeginTag();
-                            }
-                        }
+								string caption = jObj.GetLocalizableString(Constants.text);
+								if (!string.IsNullOrEmpty(caption))
+									htmlWriter.WriteAttribute(Square(Constants.caption), caption);
+								string cmpId = jObj.GetId();
+								if (!string.IsNullOrEmpty(cmpId))
+									htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
+								w.CloseBeginTag();
+							}
+						}
+						else {htmlWriter.Write("<tb-toolbar-separator></tb-toolbar-separator>");}
 
                         break;
                     }
