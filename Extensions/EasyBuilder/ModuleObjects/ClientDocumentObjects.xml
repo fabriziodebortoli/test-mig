@@ -7,5 +7,6 @@
   </ClientDocuments>
   <ClientForms>
     <ClientForm name="D.Extensions.EasyBuilder.CDEasyBuilder.IDD_EASYSTUDIO_TOOLBAR" server="IDD_MASTER_FRAME" />
+    <ClientForm name="D.Extensions.EasyBuilder.CDEasyBuilder.IDD_EASYSTUDIO_BATCH_TOOLBAR" server="IDD_EXTDOC_BATCH_TOOLBAR" />
   </ClientForms>
 </ClientDocumentObjects>
