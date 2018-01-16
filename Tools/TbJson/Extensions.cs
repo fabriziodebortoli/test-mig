@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -264,7 +265,20 @@ namespace Microarea.TbJson
             }
             return null;
         }
+        //-----------------------------------------------------------------------------
+        internal static void FindAll(this JObject jRoot, string id, List<JObject> list)
+        {
+            if (jRoot.MatchId(id))
+                list.Add(jRoot);
 
+            JArray items = jRoot.GetItems();
+            if (items == null)
+                return;
+            foreach (JObject child in items)
+            {
+                FindAll(child, id, list);
+            }
+        }
         //-----------------------------------------------------------------------------
         internal static string GetFlatString(this JToken jObj, string name)
         {
