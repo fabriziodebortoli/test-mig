@@ -170,7 +170,7 @@ Example call:
       alert ("VAT number has invalid format");
                     
 ---------------------------------------------------------------------------------------------------*/
-function checkVATNumber(toCheck) {
+function checkTaxIDNumber(toCheck) {
 
   // Array holds the regular expressions for the valid VAT number
   var vatexp = new Array();
@@ -1262,18 +1262,18 @@ function SIVATCheckDigit(vatnumber) {
     return false;
 }
 
-function SKVATCheckDigit(vatnumber) {
+// function SKVATCheckDigit(vatnumber) {
 
-  // Checks the check digits of a Slovakian VAT number.
+//   // Checks the check digits of a Slovakian VAT number.
 
-  // Check that the modulus of the whole VAT number is 0 - else error
-  if (Number(vatnumber % 11) === 0)
-    return true
-  else
-    return false;
-}
+//   // Check that the modulus of the whole VAT number is 0 - else error
+//   if (Number(vatnumber % 11) === 0)
+//     return true
+//   else
+//     return false;
+// }
 
-export default class JsVat {
+export default class JsCheckTaxId {
   static isSupported(country: string): boolean {
     if (!country) return false;
     const supported = [
@@ -1326,6 +1326,6 @@ export default class JsVat {
 
   static isTaxIdValid(vatnumber, country): boolean {
     if (!this.isSupported(country)) return true;
-    return !!checkVATNumber(country + vatnumber);
+    return !!checkTaxIDNumber(country + vatnumber);
   }
 }

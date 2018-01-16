@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TaskbuilderCoreModule } from '@taskbuilder/core';
 
 import { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
-import { VatComponent } from './controls/vat/vat.component';
+import { TaxIdEditComponent } from './controls/taxid-edit/taxid-edit.component';
 import { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
 import { EsrComponent } from './controls/esr/esr.component';
 import { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
@@ -16,7 +16,7 @@ import { ChartOfAccountComponent } from './controls/chart-of-account/chart-of-ac
 import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 
 export { NoSpacesEditComponent } from './controls/no-spaces/no-spaces.component';
-export { VatComponent } from './controls/vat/vat.component';
+export { TaxIdEditComponent } from './controls/taxid-edit/taxid-edit.component';
 export { NumberEditWithFillerComponent } from './controls/number-edit-with-filler/tb-number-edit-with-filler.component';
 export { EsrComponent } from './controls/esr/esr.component';
 export { StrBinEditComponent } from './controls/str-bin-edit/str-bin-edit.component';
@@ -35,7 +35,7 @@ const ERP_COMPONENTS = [
     NoSpacesEditComponent,
     NumberEditWithFillerComponent,
     StrBinEditComponent,
-    VatComponent,
+    TaxIdEditComponent,
     ChartOfAccountComponent
 ];
 

@@ -1,7 +1,0 @@
-<!-- http://www.telerik.com/kendo-angular-ui/components/inputs/maskedtextbox/ -->
-<div class="tb-control tb-vat-code" [ngClass]="componentClass()">
-    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <input kendoTextBox maxlength="{{model?.length}}" (blur)="onBlur($event)" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [style.width.px]="width"/>
-    <button kendoButton (click)="onRealCheck($event)">RealCheck</button>
-    <p class="has-error">{{errorMessage}}</p>
-</div>
