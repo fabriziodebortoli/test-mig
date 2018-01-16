@@ -1251,6 +1251,10 @@ namespace Microarea.TbJson
                 else
                     htmlWriter.WriteAttribute(Constants.icon, icon);
             }
+            else
+            {
+                htmlWriter.WriteAttribute(Constants.icon, "tb-productinfo");
+            }
         }
 
         //-----------------------------------------------------------------------------------------
