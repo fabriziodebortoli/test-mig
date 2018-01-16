@@ -119,6 +119,8 @@ namespace Microarea.TbJson
             if (result == null || !(result is JValue))
                 return null;
             string text = result.Value<string>();
+            if (text == null)
+                return null;
             if (Helpers.AdjustExpression(ref text))
             {
                 return text;

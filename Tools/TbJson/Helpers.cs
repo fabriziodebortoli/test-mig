@@ -16,6 +16,8 @@ namespace Microarea.TbJson
         public static string Square(string tag) => $"[{tag}]";
         public static bool AdjustExpression(ref string text)
         {
+            if (text == null)
+                return false;
             string s = exp.Replace(text, "eventData?.model?.$1");
             if (s == text)
                 return false;
