@@ -15,7 +15,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
     trigger('collapsing', [
       state('expanded', style({ width:'400px', overflow:'hidden' })),
       state('collapsed', style({ width:'40px', overflow:'hidden' })),
-      transition('expanded <=> collapsed', animate('250ms ease-in-out')),
+      transition('expanded <=> collapsed', animate('400ms ease')),
     ])
   ]
 })

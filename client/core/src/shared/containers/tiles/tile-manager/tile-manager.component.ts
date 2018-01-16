@@ -14,9 +14,9 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./tile-manager.component.scss'],
   animations: [
     trigger('collapsing', [
-        state('expanded', style({ overflow:'auto' })),
-        state('collapsed', style({ flex:'0 0 40px', overflow:'hidden' })),
-        transition('expanded <=> collapsed', animate('250ms ease-in-out')),
+        state('expanded', style({ width: '220px', overflow:'hidden' })),
+        state('collapsed', style({ width: '40px', overflow:'hidden' })),
+        transition('expanded <=> collapsed', animate('400ms ease')),
     ])
   ]
 })
