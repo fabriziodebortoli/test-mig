@@ -77,7 +77,7 @@ export class TaxIdEditComponent extends ControlComponent {
     this.errorMessage = '';
     if (!this.model) return;
     if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode))
-      this.errorMessage = this._TB('Vat code is not valid');
+      this.errorMessage = this._TB('Incorrect Tax Number');
   }
 
   get isValid(): boolean { return !this.errorMessage; }

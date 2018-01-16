@@ -1,4 +1,4 @@
-<div class="tb-control erp-taxid-edit">
+<div class="tb-control erp-fiscalcode-edit">
     <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <input kendoTextBox maxlength="{{model?.length}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)" [style.width.px]="width" />
     <div class="has-error">{{errorMessage}}</div>
