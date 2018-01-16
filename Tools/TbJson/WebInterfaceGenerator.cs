@@ -708,6 +708,15 @@ namespace Microarea.TbJson
                         {
                             WriteActivationAttribute(jObj);
                             htmlWriter.WriteAttribute("[title]", jObj.GetLocalizableString(Constants.text));
+
+                            string iconType = jObj.GetFlatString(Constants.iconType);
+                            iconType = string.IsNullOrEmpty(iconType) ? "M4" : iconType ;
+                            htmlWriter.WriteAttribute(Constants.iconType, iconType);
+
+                            string icon = jObj.GetFlatString(Constants.icon);
+                            icon = string.IsNullOrEmpty(icon) ? "tb-openpane" : icon;
+                            htmlWriter.WriteAttribute(Constants.icon, icon);
+
                             w.CloseBeginTag();
                             GenerateHtmlChildren(jObj, type);
                         }

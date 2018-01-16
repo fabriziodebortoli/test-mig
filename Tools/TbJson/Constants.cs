@@ -50,6 +50,7 @@
         internal const string idHierarchy = "idHierarchy";
         internal const string items = "items";
         internal const string icon = "icon";
+        internal const string iconType = "iconType";
         internal const string type = "type";
         internal const string category = "category";
         internal const string tileStyle = "tileStyle";
