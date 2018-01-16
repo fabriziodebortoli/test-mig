@@ -318,6 +318,8 @@ namespace Microarea.TbJson
             return ValueType.PLAIN;
         }
 
+        
+
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
         /// </summary>

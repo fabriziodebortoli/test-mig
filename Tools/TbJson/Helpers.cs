@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Web;
 using Newtonsoft.Json.Linq;
 using SharedCode;
 
@@ -9,7 +8,8 @@ namespace Microarea.TbJson
 {
     public static class Helpers
     {
-        static Regex exp = new Regex("{{2}([a-zA-Z0-9]*)}{2}", RegexOptions.Compiled);
+        private static readonly Regex exp = new Regex("{{2}([a-zA-Z0-9]*)}{2}", RegexOptions.Compiled);
+
         /// <summary>
         /// Racchiude un tag tra parentesi quadre
         /// </summary>
@@ -24,11 +24,20 @@ namespace Microarea.TbJson
             text = s;
             return true;
         }
-        /// <summary>
-        /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo")
-        /// </summary>
-        public static string ResolveInterplation(this string str) => Regex.Replace(str, "{{2}([a-zA-Z0-9]*)}{2}", "eventData?.model?.$1"); //https://regex101.com/r/40sP9b/1
 
+        /// <summary>
+        /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo"). Supporta il Not, l'And e l'Or (es. {{!campo && campo2 || !campo3}})
+        /// </summary>
+        public static string ResolveInterplation(this string str) => //https://stackoverflow.com/a/48271222/1538384
+            Regex.Replace(str, @"{{!?\w+(?:\s*(?:&&|\|\|)\s*!?\w+)*}}", m =>
+              Regex.Replace(
+                  Regex.Replace(m.Value, @"\s*(&&|\|\|)\s*", " $1 "),
+                   @"\w+",
+                   "eventData?.model?.$&"
+                  )
+             )
+             .Replace("{{", "")
+             .Replace("}}", "");
 
         public static JObject FindAnchoredObjectInSiblings(JArray jItems, JObject currentObject)
         {
