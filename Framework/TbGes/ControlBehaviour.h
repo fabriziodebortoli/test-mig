@@ -29,7 +29,7 @@ public:
 
 	void SetDocument(CAbstractFormDoc* pDocument) { m_pDocument = pDocument; OnAttachDocument(); }
 	virtual void OnAttachDocument() {}
-	virtual void OnSelect(DataObj* pDataObj) {}//per le liste, quando viene selezionato un elemento
+	virtual void OnSelect(DataObj* pDataObj, int nIndex) {}//per le liste, quando viene selezionato un elemento
 	virtual void OnValueChanged() {}//quando cambia il dato imputato dall'utente
 	virtual void SetName(const CString& strName) { m_strName = strName; }
 	virtual void SetNamespace(const CString& strNamespace) { m_strNamespace = strNamespace; }
