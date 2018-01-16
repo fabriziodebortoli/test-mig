@@ -241,7 +241,7 @@ namespace Microarea.RSWeb.Objects
                 lex.ParseDouble(out Min) && lex.ParseTag(Token.COMMA) &&
                 lex.ParseDouble(out Max) && lex.ParseTag(Token.COMMA) &&
                 lex.ParseDouble(out MinorUnit) && lex.ParseTag(Token.COMMA) &&
-                lex.ParseDouble(out MajorUnit) && lex.ParseTag(Token.COMMA) &&
+                lex.ParseDouble(out MajorUnit) && 
                 lex.ParseTag(Token.ROUNDCLOSE);
             if (!ok)
                 return false;
