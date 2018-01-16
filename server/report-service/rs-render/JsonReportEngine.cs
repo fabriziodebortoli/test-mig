@@ -14,14 +14,22 @@ using Microarea.RSWeb.WoormEngine;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using spreadsheet = DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
 using System.Diagnostics;
 
+
 namespace Microarea.RSWeb.Render
 {
+    public class InfoSheet
+    {
+        public WorksheetPart worksheetPart { get; set; }
+        public spreadsheet.Sheet sheet { get; set; }
+        public spreadsheet.SheetData sheetData { get; set; }
+        public string nameTable { get; set; }
+    }
+
     public class JsonReportEngine
     {
         public TbReportSession ReportSession;
@@ -370,8 +378,8 @@ namespace Microarea.RSWeb.Render
             string result = Path.GetTempPath();
             string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
 
-            int numFoglio = 1;
-            string tableName = "";
+            int numFoglio = 0;
+            List<InfoSheet> fogli = new List<InfoSheet>();
 
             using (SpreadsheetDocument document = SpreadsheetDocument.Create(fileName, SpreadsheetDocumentType.Workbook))
             {
@@ -389,31 +397,43 @@ namespace Microarea.RSWeb.Render
                 stylePart.Stylesheet.Save();
 
                 spreadsheet.SheetData sheetData = new spreadsheet.SheetData();
-
                 spreadsheet.Sheets sheets = workbookPart.Workbook.AppendChild(new spreadsheet.Sheets());
-                spreadsheet.Sheet sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = 1, Name = "Foglio" + numFoglio };
+                spreadsheet.Sheet sheet = new spreadsheet.Sheet();
+
 
                 for (int i = firstPage; i <= lastPage; i++)
                 {
                     woorm.LoadPage(currentPage);
-
+                    
                     foreach (BaseObj o in woorm.Objects)
                     {
-                        if (o is Objects.Table)
-                        {   
-                            Objects.Table t = o as Objects.Table;
+                        if (o is Table)
+                        {
+                            bool tableExist = false;
+                            Table t = o as Table;
+                            foreach (InfoSheet iSheet in fogli)
+                            {
+                                if (iSheet.nameTable == t.GetTableName())
+                                {
+                                    tableExist = true;
+                                    sheet = iSheet.sheet;
+                                    sheetData = iSheet.sheetData;
+                                    break;
+                                }
+                            }
 
-                            //Crea un nuovo foglio se ho due tabelle differenti
-                            if (t.GetTableName() != tableName && tableName != "")
+                            //Crea un nuovo foglio se ho tabelle differenti
+                            if (!tableExist)
                             {
                                 numFoglio++;
                                 worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
                                 worksheetPart.Worksheet = new spreadsheet.Worksheet();
                                 sheetData = new spreadsheet.SheetData();
-                                sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)numFoglio, Name = "Foglio" + numFoglio };
+                                sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)numFoglio, Name = "Foglio " + t.GetTableName() };
+                                fogli.Add(new InfoSheet() { sheet = sheet, sheetData = sheetData, worksheetPart = worksheetPart, nameTable = t.GetTableName() });
                             }
 
-                            if (currentPage == firstPage || t.GetTableName() != tableName)
+                            if (currentPage == firstPage || !tableExist)
                             {
                                 List<spreadsheet.Column> columList = new List<spreadsheet.Column>();
                                 List<spreadsheet.Cell> cells = new List<spreadsheet.Cell>();
@@ -424,7 +444,7 @@ namespace Microarea.RSWeb.Render
                                 uint minCol = 0;
                                 uint maxCol = 0;
 
-                                foreach (Objects.Column col in t.Columns)
+                                foreach (Column col in t.Columns)
                                 {
                                     minCol++;
                                     maxCol++;
@@ -447,23 +467,23 @@ namespace Microarea.RSWeb.Render
                                 sheets.Append(sheet);
                                 workbookPart.Workbook.Save();
 
-                                sheetData = worksheetPart.Worksheet.AppendChild(new spreadsheet.SheetData());
+                                worksheetPart.Worksheet.AppendChild(sheetData);
 
                                 // Insert the header row to the Sheet Data 
                                 row.Append(cells);
                                 sheetData.AppendChild(row);
                             }
 
-                            // Inserting each row
                             for (int r = 0; r < t.RowNumber; r++)
                             {
                                 spreadsheet.Row row = new spreadsheet.Row();
-
+                                bool isEmpty = true;
                                 List<spreadsheet.Cell> dataCells = new List<spreadsheet.Cell>();
                                 for (int c = 0; c < t.ColumnNumber; c++)
                                 {
-                                    Objects.Column colData = t.Columns[c];
+                                    Column colData = t.Columns[c];
                                     string v = colData.Cells[r].Value.FormattedData;
+                                    if (!v.IsNullOrEmpty()) isEmpty = false;
 
                                     /*if (colData.Cells[r].Value.DataType.CompareNoCase("Number"))
                                         dataCells.Add(ConstructCell(v, CellValues.Number, 3));
@@ -472,15 +492,16 @@ namespace Microarea.RSWeb.Render
                                     else if (colData.Cells[r].Value.DataType.CompareNoCase("DateTime"))
                                         dataCells.Add(ConstructCell(v, CellValues.Date, 5));
                                     else*/
-                                        dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
+                                    dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
                                 }
-                                row.Append(dataCells);
-                                sheetData.AppendChild(row);
+                                if (!isEmpty)
+                                {
+                                    row.Append(dataCells);
+                                    sheetData.AppendChild(row);
+                                }
                             }
+
                             worksheetPart.Worksheet.Save();
-                            
-                            //Salvo il nome della tabella
-                            tableName = t.GetTableName();
 
                             if (currentPage == lastPage)
                                 return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
@@ -490,7 +511,7 @@ namespace Microarea.RSWeb.Render
                     currentPage++;
                 }
             }
-            if(tableName != "")
+            if (fogli.Count > 0)
                 return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
             else
                 return "Errore".ToJson();
