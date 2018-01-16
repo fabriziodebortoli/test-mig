@@ -83,6 +83,8 @@ namespace Microarea.RSWeb.Objects
         public double MinorUnit = 0;
         public double MajorUnit = 0;
 
+        public bool Landscape = false;
+
         //------------------------------------------------------------------------------
         public Gauge(WoormDocument document)
             : base(document)
@@ -246,6 +248,8 @@ namespace Microarea.RSWeb.Objects
             if (!ok)
                 return false;
 
+            Landscape = lex.Matched(Token.LANDSCAPE);
+
             while (lex.Matched(Token.GAUGE_RANGE_COLOR))
             {
                 GaugeRangeColor r = new GaugeRangeColor(this);
@@ -303,8 +307,11 @@ namespace Microarea.RSWeb.Objects
             string s = '\"' + name + "\":";
 
             s += '{' +
-               base.ToJsonTemplate(false) + ',' +
-               GaugeType.ToJson("gaugeType");
+               base.ToJsonTemplate(false) + 
+               ',' + GaugeType.ToJson("gaugeType");
+
+            if (this.GaugeType == EnumGaugeType.Linear)
+                s += ',' + (Landscape ? false : true).ToJson("vertical");//  <kendo-lineargauge [pointer]="{ value: value }" [scale]="{ vertical: true }">
 
             //TODO 
             /*
@@ -381,10 +388,11 @@ namespace Microarea.RSWeb.Objects
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
-            s += '{' + base.ToJsonData(false) + ',';
+            s += '{' + base.ToJsonData(false);
 
             //---------------------------
             //TODO
+            //s +=  ',' + 
             //---------------------------
             s += '}';
 

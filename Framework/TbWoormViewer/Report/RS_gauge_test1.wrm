@@ -17,6 +17,7 @@ Gauge Gauge_1
 			End
 			
 		GaugeScale(10, 90, 5, 10)
+		Landscape 
 		
 		GaugeRangeColor(10, 35, color(255,0,0))
 		GaugeRangeColor(36, 65, color(255,0,255))
