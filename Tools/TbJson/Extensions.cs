@@ -119,6 +119,8 @@ namespace Microarea.TbJson
             if (result == null || !(result is JValue))
                 return null;
             string text = result.Value<string>();
+            if (text == null)
+                return null;
             if (Helpers.AdjustExpression(ref text))
             {
                 return text;
@@ -315,6 +317,8 @@ namespace Microarea.TbJson
             val = result.ToString();
             return ValueType.PLAIN;
         }
+
+        
 
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo

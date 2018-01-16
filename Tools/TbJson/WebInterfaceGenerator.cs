@@ -63,7 +63,7 @@ namespace Microarea.TbJson
             FileAttributes attr = File.GetAttributes(fileOrFolder);
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                //non ho estensione: è una cartella, quindi applico ricorsivamente a tutti i file rc trovati nella cartella e nelle sottocartelle
+                //non ho estensione: ï¿½ una cartella, quindi applico ricorsivamente a tutti i file rc trovati nella cartella e nelle sottocartelle
                 string[] files = Directory.GetFiles(fileOrFolder, "*.tbjson", SearchOption.AllDirectories);
                 Array.Sort(files);
                 foreach (var file in files)
@@ -349,7 +349,7 @@ namespace Microarea.TbJson
                 string text = jProp.ToString();
                 if (Helpers.AdjustExpression(ref text))
                     jTo[propNameTo] = text;
-               
+
             }
         }
 
@@ -566,7 +566,7 @@ namespace Microarea.TbJson
                     }
                     string route = string.Concat(app, "/", mod);
                     if (Regex.IsMatch(content, "\\b" + route.ToLower() + "\\b"))
-                        return;//esiste già
+                        return;//esiste giï¿½
 
                     //string pattern = "RouterModule\\s*.\\s*forRoot\\s*\\=\\s*\\[";
 
@@ -867,7 +867,7 @@ namespace Microarea.TbJson
                             if (!string.IsNullOrEmpty(wCol.Name))
                                 htmlWriter.WriteAttribute(Constants.columnType, wCol.Name);
 
-                            //TODOLUCA non serve? è già il cmpId che scrive la WriteControlAttributes?
+                            //TODOLUCA non serve? ï¿½ giï¿½ il cmpId che scrive la WriteControlAttributes?
                             //string id = jObj.GetId();
                             //if (!string.IsNullOrEmpty(id))
                             //    htmlWriter.WriteAttribute(Constants.columnName, id);
@@ -1141,7 +1141,7 @@ namespace Microarea.TbJson
                     {
                         var wc = GetWebControl(jObj);
 
-                        //la proprietà name non deve finire nel testo
+                        //la proprietï¿½ name non deve finire nel testo
                         var text = jObj.GetLocalizableString(Constants.text);
                         var hint = jObj.GetLocalizableString(Constants.hint);
                         JArray jItems = jObj.GetItems();
@@ -1285,14 +1285,14 @@ namespace Microarea.TbJson
 
             bool isSlaveBuffered = false;
             JObject jParentObject = null;
-            //se l'owner è nullo...ma si tratta di un binding di uno slave buffered, risalgo la catena di parentela per trovare il bodyedit
+            //se l'owner ï¿½ nullo...ma si tratta di un binding di uno slave buffered, risalgo la catena di parentela per trovare il bodyedit
             if (string.IsNullOrEmpty(owner) && (jParentObject = jObj.GetParentItem()) != null)
             {
                 string type = jParentObject.GetFlatString(Constants.type);
                 if (string.Compare(type, "bodyedit", StringComparison.InvariantCultureIgnoreCase) == 0)
                 {
                     //una volte trovato il bodyedit, ne prendo il binding source e lo uso come owner implicito
-                    JObject jBodyEditBinding = jParentObject[Constants.binding] as JObject;
+                    var jBodyEditBinding = jParentObject[Constants.binding] as JObject;
                     if (jBodyEditBinding != null)
                     {
                         owner = jBodyEditBinding[Constants.datasource]?.ToString();
@@ -1338,7 +1338,6 @@ namespace Microarea.TbJson
                         string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
                         hkl = hkl.Replace(hklExpr, hklValue);
                     }
-
                     htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
                 }
             }
@@ -1426,7 +1425,7 @@ namespace Microarea.TbJson
                 }
             }
 
-            // se il selettore è descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
+            // se il selettore ï¿½ descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
             if (jObj[Constants.selector] is JObject jSelector)
             {
                 WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
