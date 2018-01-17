@@ -19,7 +19,6 @@ import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from 
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
 import * as _ from 'lodash';
-import { isArray } from '@progress/kendo-angular-grid/dist/es/utils';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, filterTyping: { 'color': 'darkgrey' } };
 export const ViewStates = { opened: 'opened', closed: 'closed' };
