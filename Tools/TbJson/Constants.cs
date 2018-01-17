@@ -29,7 +29,7 @@
         internal const string tbTilePanel = "tb-tilepanel";
         internal const string tbBodyEdit = "tb-body-edit";
         internal const string tbBodyEditColumn = "tb-body-edit-column";
-        internal const string tbLayoutContainer = "tb-layoutcontainer";
+        internal const string tbLayoutContainer = "tb-layout-container";
         internal const string tbCaption = "tb-caption";
         internal const string tbText = "tb-text";
         internal const string tbCombo = "tb-combo";
@@ -57,8 +57,8 @@
 
         internal const string Const = "const";
         internal const string text = "text";
-		internal const string hint = "hint";
-		internal const string border = "border";
+        internal const string hint = "hint";
+        internal const string border = "border";
         internal const string hScroll = "hScroll";
         internal const string disableDragDrop = "disableDragDrop";
         internal const string hasButtons = "hasButtons";
@@ -115,17 +115,17 @@
 
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
-		internal const string decimals = "decimals";
+        internal const string decimals = "decimals";
         internal const string numberDecimal = "numberDecimal";
 
         internal const string ngTag = "ng-tag";
         internal const string ngTemplate = "ng-template";
         internal const string chars = "chars";
-        internal const string textLimit= "textLimit";
+        internal const string textLimit = "textLimit";
         internal const string controlBehaviour = "controlBehaviour";
         internal const string menu = "menu";
-        internal const string sort= "sort";
-        internal const string stateData= "stateData";
+        internal const string sort = "sort";
+        internal const string stateData = "stateData";
         internal const string rowViewForm = "rowViewForm";
     }
 }

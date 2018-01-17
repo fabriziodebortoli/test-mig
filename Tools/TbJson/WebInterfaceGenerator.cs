@@ -976,11 +976,12 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbLayoutContainer, this, false))
                         {
                             string title = jObj.GetLocalizableString(Constants.text);
-                            if (!string.IsNullOrEmpty(title))
+
+                            /*if (!string.IsNullOrEmpty(title))
                                 htmlWriter.WriteAttribute(Square(Constants.title), title);
 
                             WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
-                            WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
+                            WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);*/
 
                             htmlWriter.Write(" tbLayoutType");
                             htmlWriter.Write(jObj.GetLayoutType().ToString());

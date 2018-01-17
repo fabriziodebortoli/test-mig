@@ -66,7 +66,7 @@
                                         est laborum.
                                     </p>
                                 </tb-panel>
-                                <tb-layoutcontainer [isCollapsible]="True" tbLayoutTypeColumn>
+                                <tb-layout-container tbLayoutTypeColumn>
                                     <tb-panel [title]="_TB('Main Data')" tbTileStandard isCollapsible="True">
                                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                                             commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
@@ -95,7 +95,7 @@
                                             anim id est laborum.
                                         </p>
                                     </tb-panel>
-                                </tb-layoutcontainer>
+                                </tb-layout-container>
                                 <tb-panel [title]="_TB('Main Data')" tbTileWide isCollapsible="True">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
                                         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
@@ -140,7 +140,7 @@
                     <tb-tile-manager-tab [title]="_TB('Summa&ry')" icon="erp-money">
                         <ng-template>
                             <tb-tile-group tbLayoutTypeVbox>
-                                <tb-layoutcontainer isCollapsible="True" tbLayoutTypeColumn>
+                                <tb-layout-container tbLayoutTypeColumn>
                                     <tb-panel [title]="_TB('Charges')" tbTileStandard isCollapsible="False" hasTitle="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_CHARGES_BR">
                                         <tb-numeric-text-box formatter="Money" [caption]="_TB('Shipment')" cmpId="IDC_QUOTATIONS_EXPENSES_SHIPPING" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.ShippingCharges"></tb-numeric-text-box>
                                         <tb-numeric-text-box formatter="Money" [caption]="_TB('Insurance')" cmpId="IDC_QUOTATIONS_EXPENSES_INSURANCE" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.InsuranceCharges"></tb-numeric-text-box>
@@ -176,7 +176,7 @@
                                             </tb-body-edit-column>
                                         </tb-body-edit>
                                     </tb-panel>
-                                </tb-layoutcontainer>
+                                </tb-layout-container>
                                 <tb-panel [title]="_TB('Totals')" tbTileWide>
                                     <div class="col col1">
                                         <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Goods')" cmpId="IDC_QUOTATIONS_CCO_TOT_GOODS" width="68" [model]="eventData?.model?.CustQuotasSummary?.GoodsAmount"></tb-numeric-text-box>
