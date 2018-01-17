@@ -746,9 +746,9 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		///	}
 		///</returns>
 		//---------------------------------------------------------------------
-		[HttpGet("api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
+		[HttpGet("api/database/configurations/{configType}/{iso}")]
 		[Produces("application/json")]
-		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
+		public IActionResult ApiGetConfigurations(string checkCode, string configType, string iso)
 		{
 			OperationResult opRes = new OperationResult();
 
