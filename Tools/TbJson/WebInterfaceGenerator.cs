@@ -924,29 +924,50 @@ namespace Microarea.TbJson
 
                 case WndObjType.Tile:
                     {
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTile, this, false))
+                        string title = jObj.GetLocalizableString(Constants.text);
+                        if (!string.IsNullOrEmpty(title))
                         {
-                            string title = jObj.GetLocalizableString(Constants.text);
-                            if (!string.IsNullOrEmpty(title))
+                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbPanel, this, false))
+                            {
                                 htmlWriter.WriteAttribute(Square(Constants.title), title);
 
-                            htmlWriter.Write(" tbTile");
-                            htmlWriter.Write(jObj.GetTileDialogSize().ToString());
-                            htmlWriter.Write(" ");
+                                htmlWriter.Write(" tbTile");
+                                htmlWriter.Write(jObj.GetTileDialogSize().ToString());
+                                htmlWriter.Write(" ");
 
-                            WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
-                            WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
-                            
-                            WriteActivationAttribute(jObj);
+                                WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
+                                WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
 
-                            w.CloseBeginTag();
+                                WriteActivationAttribute(jObj);
 
-                            if (jObj.GetTileDialogSize() == TileDialogSize.Wide)
-                                GenerateColsHtmlChildren(jObj, type);
-                            else
-                                GenerateHtmlChildren(jObj, type);
+                                w.CloseBeginTag();
+
+                                if (jObj.GetTileDialogSize() == TileDialogSize.Wide)
+                                    GenerateColsHtmlChildren(jObj, type);
+                                else
+                                    GenerateHtmlChildren(jObj, type);
+                            }
                         }
+                        else
+                        {
+                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTile, this, false))
+                            {
 
+                                htmlWriter.Write(" tbTile");
+                                htmlWriter.Write(jObj.GetTileDialogSize().ToString());
+                                htmlWriter.Write(" ");
+
+                                WriteActivationAttribute(jObj);
+
+                                w.CloseBeginTag();
+
+                                if (jObj.GetTileDialogSize() == TileDialogSize.Wide)
+                                    GenerateColsHtmlChildren(jObj, type);
+                                else
+                                    GenerateHtmlChildren(jObj, type);
+                            }
+                        }
+                        
                         break;
                     }
 

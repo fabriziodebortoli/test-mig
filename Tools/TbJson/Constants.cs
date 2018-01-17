@@ -26,8 +26,8 @@
         internal const string tbStatusTilePanel = "tb-status-tile-panel";
         internal const string tbStatusTile = "tb-status-tile";
         internal const string tbTile = "tb-tile";
-        internal const string tbTilePanel = "tb-tilepanel";
         internal const string tbTilePanel = "tb-tile-panel";
+        internal const string tbPanel = "tb-panel";
         internal const string tbBodyEdit = "tb-body-edit";
         internal const string tbBodyEditColumn = "tb-body-edit-column";
         internal const string tbLayoutContainer = "tb-layout-container";
