@@ -559,6 +559,10 @@ CAbstractFormDoc::~CAbstractFormDoc()
 		m_pTbContext->UnlockDocument();
 
 	//SAFE_DELETE(m_pMessages);
+	//li cancello uno a uno ed ogni volta ricontrollo la size: potrebbe infatti succedere che, in presenza di BSP,
+	//la distruzione di un client document causi la distruzione di un altro
+	while (m_pClientDocs->GetSize())
+		m_pClientDocs->RemoveAt(m_pClientDocs->GetUpperBound());
 	SAFE_DELETE(m_pClientDocs);
 	while (m_pBSPs->GetSize())
 		delete m_pBSPs->GetAt(0);//il distruttore si rimuoverà dall'array
