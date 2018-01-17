@@ -40,7 +40,7 @@ export abstract class TbComponent implements OnInit {
 
   private checkIfReady() {
     if (--this.cmpCount === 0) {
-      setTimeout(() => this.changeDetectorRef.detectChanges(), 0);
+      this.changeDetectorRef.detectChanges();
       this.onTranslationsReady();
     }
   }
