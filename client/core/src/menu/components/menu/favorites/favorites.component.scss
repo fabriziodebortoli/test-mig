@@ -20,7 +20,7 @@ ul.favorites-list {
     &>span {
         flex: 1;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 500;
     }
     &:hover span {
         color: #fff;
@@ -56,7 +56,7 @@ ul.favorites-list {
 .sidenav {
     .favorite-item {
         &>span {
-            font-weight: 600;
+            font-weight: 500;
         }
     }
     m4-icon.close {
