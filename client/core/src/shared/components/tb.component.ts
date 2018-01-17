@@ -5,10 +5,10 @@ import { Input, OnInit, ChangeDetectorRef } from '@angular/core';
 export abstract class TbComponent implements OnInit {
   @Input()
   public cmpId = '';
-
   public dictionaryId = '';
   public translations = [];
   private cmpCount = 0;
+  protected destroyed = false;
   constructor(
     public tbComponentService: TbComponentService,
     protected changeDetectorRef: ChangeDetectorRef) {
@@ -40,9 +40,13 @@ export abstract class TbComponent implements OnInit {
 
   private checkIfReady() {
     if (--this.cmpCount === 0) {
-      this.changeDetectorRef.detectChanges();
+      setTimeout(() => !this.destroyed && this.changeDetectorRef.detectChanges(), 0);
       this.onTranslationsReady();
     }
+  }
+
+  ngOnDestroy() {
+    this.destroyed = true;
   }
 
   protected onTranslationsReady() { }
