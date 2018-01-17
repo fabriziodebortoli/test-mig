@@ -8,18 +8,21 @@ import { EventDataService } from './../../../../../core/services/eventdata.servi
   templateUrl: './toolbar-bottom-button.component.html',
   styleUrls: ['./toolbar-bottom-button.component.scss']
 })
-export class ToolbarBottomButtonComponent implements OnInit {
+export class ToolbarBottomButtonComponent {
 
   @Input() caption: string = '--unknown--';
   @Input() cmpId: string = '';
-
   @Input() disabled: boolean = false;
 
   constructor(public eventData: EventDataService, public ciService: ComponentInfoService) { }
 
-  ngOnInit() {
-  }
 
+  isDisabled(): boolean {
+    return this.disabled ||
+    !this.eventData.buttonsState || 
+    !this.eventData.buttonsState[this.cmpId] || 
+    !this.eventData.buttonsState[this.cmpId].enabled;
+  }
   onCommand() {
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }

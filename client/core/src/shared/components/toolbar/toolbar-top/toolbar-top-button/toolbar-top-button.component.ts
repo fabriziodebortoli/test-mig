@@ -42,4 +42,10 @@ export class ToolbarTopButtonComponent extends TbComponent {
       return;
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
+  isDisabled(): boolean {
+    return this.disabled ||
+    !this.eventData.buttonsState || 
+    !this.eventData.buttonsState[this.cmpId] || 
+    !this.eventData.buttonsState[this.cmpId].enabled;
+  }
 }

@@ -166,6 +166,14 @@ namespace Microarea.TbJson
                 return;
             JArray sorted = new JArray(jAr.OrderBy(obj => obj.GetCategoryOrdinal()));
             jObj[Constants.items] = sorted;
+            foreach (JObject jButton in sorted)
+            {
+                jAr = jButton.GetItems();
+                if (jAr == null)
+                    continue;
+                JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
+                jButton[Constants.items] = buttonsSorted;
+            }
         }
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
@@ -331,9 +339,33 @@ namespace Microarea.TbJson
             val = result.ToString();
             return ValueType.PLAIN;
         }
+        /// <summary>
+        /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
+        /// </summary>
+        internal static int GetButtonOrdinal(this JToken jObj)
+        {
+            string[] ar = new string[]{
+                "ID_EXTDOC_EDIT",
+                "ID_EXTDOC_NEW",
+                "ID_EXTDOC_DELETE",
+                "ID_EXTDOC_FIRST",
+                "ID_EXTDOC_PREV",
+                "ID_EXTDOC_NEXT",
+                "ID_EXTDOC_LAST",
+                "ID_EXTDOC_EXIT"
+            };
+            WndObjType type = jObj.GetWndObjType();
+            if (type == WndObjType.ToolbarButton)
+            {
+               
+                string id = jObj.GetId();
+                int idx = ar.ToList().IndexOf(id);
+                return idx;
+                
+            }
 
-        
-
+            return 10;//vista o altri oggetti analoghi
+        }
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
         /// </summary>

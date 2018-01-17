@@ -709,7 +709,7 @@ namespace Microarea.TbJson
                         }
 
                         //Passaggio intermedio, per inserire il radar subito sotto la toolbartop
-                        if (string.Compare(tag, "tb-toolbar-top", true) == 0)
+                        if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
                             htmlWriter.Write("\t<ng-container #radar></ng-container>\r\n");
 
                         break;
@@ -754,10 +754,6 @@ namespace Microarea.TbJson
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
                             {
                                 WriteActivationAttribute(jObj);
-
-                                string id = jObj.GetId();
-                                if (!string.IsNullOrEmpty(id))
-                                    htmlWriter.WriteAttribute("[disabled]", string.Concat("!eventData?.buttonsState?.", id, "?.enabled"));
 
                                 AddIconAttribute(jObj);
 
