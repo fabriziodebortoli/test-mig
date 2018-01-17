@@ -16,7 +16,7 @@
     <PackageReference Include="MySql.Data" Version="6.10.5" />
     <PackageReference Include="Npgsql" Version="3.2.6" />
     <PackageReference Include="NuGet.CommandLine" Version="4.4.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.2" />
   </ItemGroup>
 
 </Project>
