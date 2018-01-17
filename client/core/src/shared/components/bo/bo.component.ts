@@ -32,10 +32,6 @@ export class BOComponent extends BOCommonComponent implements OnInit, AfterConte
     public componentResolver: ComponentFactoryResolver
   ) {
     super(bo, eventData, ciService, changeDetectorRef);
-
-    this.subscriptions.push(eventData.radarInfos.subscribe((radarInfos: string) => {
-      this.radarObj._component.init(radarInfos);
-    }));
   }
 
   ngOnInit() {

@@ -409,10 +409,16 @@
       <Keyword>InvertOrientation</Keyword>
       <Keyword>PrinterPageInfo</Keyword>
 
+      <Keyword>Chart</Keyword>
       <Keyword>ChartCategories</Keyword>
       <Keyword>ChartSeries</Keyword>
       <Keyword>ChartLegend</Keyword>
       <Keyword>ChartAxis</Keyword>
+
+      <Keyword>Gauge</Keyword>
+      <Keyword>GaugePointer</Keyword>
+      <Keyword>GaugeRangeColor</Keyword>
+      <Keyword>GaugeScale</Keyword>
 
       <Keyword>Message</Keyword>
       <Keyword>Abort</Keyword>

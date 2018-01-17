@@ -2,7 +2,7 @@
    "items" : [
       {
          "args" : {
-            "id" : "1574834",
+            "id" : "395016",
             "map" : [
                "IDC_CONTACTS_CHECK_PERSON",
                "IDC_CONTACTS_TITLECODE",
@@ -112,7 +112,7 @@
                      "ID_EXTDOC_GEN_JSON_MODEL" : true,
                      "ID_INSPECT" : true
                   },
-                  "id" : "1574834"
+                  "id" : "395016"
                }
             ]
          },

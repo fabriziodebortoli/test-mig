@@ -42,8 +42,8 @@ typedef UINT	DataSize;
 
 //===========================================================================
 
-//spostato qui poichè viene usato anche in dataobj.cpp. Per non fare l'inclusione di parsobj.h
-//in parsobj.cpp invece c'è già l'include di dataobj.h
+//spostato qui poichï¿½ viene usato anche in dataobj.cpp. Per non fare l'inclusione di parsobj.h
+//in parsobj.cpp invece c'ï¿½ giï¿½ l'include di dataobj.h
 #define UNDEF_FORMAT	-2		// e` usato dal costruttore di CParsedCtrl
 
 // per la conversione da stringa a datatime utilizzata in fase di parsing-unparsing (anche per il 
@@ -167,7 +167,7 @@ TB_EXPORT int SelectCompareType(CComboBox*, ECompareType);
 #define DATA_VARIANT_TYPE	WORD(14)
 //TODO
 #define DATA_RECORD_TYPE	WORD(15)
-#define DATA_TRECORD_TYPE	WORD(16)	//map to a SqlRecord
+#define DATA_SQLRECORD_TYPE	WORD(16)	//map to a SqlRecord
 #define DATA_BLOB_TYPE		WORD(17)	//NON implementato
 
 //	WARNING! The DataType sequence must not be changed because
@@ -227,7 +227,7 @@ public:
    	static  const DataType	Object;
   	static  const DataType	Void;
  	static  const DataType	Record;
-	static  const DataType	TRecord;
+	static  const DataType	SqlRecord;
 
 public:
 	BOOL 	IsFullDate		()		const;
@@ -277,7 +277,7 @@ class TB_EXPORT DataObj : public CContextObject
 
 protected:                                                                         
 	DWORD	m_wDataStatus;
-	CArray<HotKeyLink*> m_arAlignedHKLs;//elenco di hotlink per cui la find è stata effettuata e non necessita di essere rifatta
+	CArray<HotKeyLink*> m_arAlignedHKLs;//elenco di hotlink per cui la find ï¿½ stata effettuata e non necessita di essere rifatta
 public:
 	BEGIN_TB_STRING_MAP(Strings)
 		TB_LOCALIZED(YES, "Yes")
@@ -295,9 +295,9 @@ public:
 										// per indicare che e` un Ora 
 										// usato come attributo del DATA_LONG_TYPE
 										// per indicare che e` un Tempo
-		ACCOUNTABLE			= 0x0008,   // usato nel DATA_MON_TYPE per definire se l'importo è Accountable o Not Accountable
+		ACCOUNTABLE			= 0x0008,   // usato nel DATA_MON_TYPE per definire se l'importo ï¿½ Accountable o Not Accountable
 		TB_HANDLE			= 0x0004,	// usato come attributo del DATA_LONG_TYPE (DataType::Long) 
-										// per indicare che il contenuto è un handle (DataType::Object)
+										// per indicare che il contenuto ï¿½ un handle (DataType::Object)
 		TB_VOID				= 0x0008,	// usato come attributo del DATA_NULL_TYPE (DataType::Null)
 										// per indicare un valore di ritorno void (DataType::Void)
 		
@@ -313,11 +313,11 @@ public:
 		OSL_HIDE			= 0x02000,	// OSL: per gestire il hide/show dei controls
 		ALWAYS_READONLY		= 0x04000,	// per gestire il readonly nei controls indipendentemente dallo stato del documento
 		VALUE_LOCKED		= 0x08000,	// per impedire l'assegnazione di un nuovo valore al DataObj
-		PRIVATE				= 0x10000,   // è un dato privato. Per la visualizzazione viene utilizzato il formattatore CPrivacyFormatter //utilizzato dalla RowSecurity.
-										// @@BAUZI: non ho potuto usare OSL_HIHE poichè legato al control e non al dato come invece serve per la RowSecurity
-		ALWAYS_EDITABLE		= 0x20000,	// @@PERA: per rendere il campo editabile anche se il documento è in stato di browse
-		WEB_BOUND			= 0x40000,	// @@PERA: per segnalare che il campo è utilizzato nell'interfaccia web e quindi deve essere inserito nel model
-		BPM_READONLY		= 0x80000	// readonly perchè gestito da processi di BPM
+		PRIVATE				= 0x10000,   // ï¿½ un dato privato. Per la visualizzazione viene utilizzato il formattatore CPrivacyFormatter //utilizzato dalla RowSecurity.
+										// @@BAUZI: non ho potuto usare OSL_HIHE poichï¿½ legato al control e non al dato come invece serve per la RowSecurity
+		ALWAYS_EDITABLE		= 0x20000,	// @@PERA: per rendere il campo editabile anche se il documento ï¿½ in stato di browse
+		WEB_BOUND			= 0x40000,	// @@PERA: per segnalare che il campo ï¿½ utilizzato nell'interfaccia web e quindi deve essere inserito nel model
+		BPM_READONLY		= 0x80000	// readonly perchï¿½ gestito da processi di BPM
 	};
 public:
 	// constructors & destructor
@@ -388,10 +388,10 @@ protected:
 	public:
 /*
 DataObjClone e DataObjCreate in debug simulano il comportamento della DEBUG_NEW 
-che è abilitata di default in stdafx.h
+che ï¿½ abilitata di default in stdafx.h
 Per tracciare la sorgente dell'istruzione di allocazione dell'oggetto viene utilizzato un oggetto apposito
 di classe MemoryLeakTrackNew.
-Il metodo Clone è lasciato per retrocompatibilità
+Il metodo Clone ï¿½ lasciato per retrocompatibilitï¿½
 */
 	virtual DataObj*	Clone				() const;
 #ifdef _DEBUG
@@ -2470,7 +2470,7 @@ public:
 	DataArray ();
 	DataArray (const DataArray& ar) { Assign(ar); }
 	DataArray (DataType baseType) { m_BaseDataType = baseType; }
-	~DataArray () {}
+	virtual ~DataArray () {}
 
 	DataArray&	operator=	(const DataArray& ar)			{ 	Assign(ar); return *this; }
 
@@ -2553,9 +2553,24 @@ public:
 };
 
 //============================================================================
-class TB_EXPORT DataTRecord : public DataObj
+class TB_EXPORT DataRecord : public DataArray
 {
-	DECLARE_DYNCREATE (DataTRecord)
+	DECLARE_DYNCREATE(DataRecord)
+
+public:
+	// constructors & destructor
+	DataRecord() {}
+	DataRecord(const DataRecord& ar) { Assign(ar); }
+	virtual ~DataRecord() {}
+
+	virtual DataType    GetDataType() const { return DataType(DATA_RECORD_TYPE, 0); }
+
+};
+
+//============================================================================
+class TB_EXPORT DataSqlRecord : public DataObj
+{
+	DECLARE_DYNCREATE (DataSqlRecord)
 
 protected:
 	ISqlRecord*	m_pRecord;
@@ -2563,12 +2578,12 @@ protected:
 
 public:
 	// constructors & destructor
-	DataTRecord ();
-	DataTRecord (const DataTRecord& ar);
-	DataTRecord (ISqlRecord* pRec, BOOL bOwnRecord);
-	~DataTRecord ();
+	DataSqlRecord ();
+	DataSqlRecord (const DataSqlRecord& ar);
+	DataSqlRecord (ISqlRecord* pRec, BOOL bOwnRecord);
+	~DataSqlRecord ();
 
-	DataTRecord&	operator=	(const DataTRecord& ar) {  Assign(ar); return *this; }
+	DataSqlRecord&	operator=	(const DataSqlRecord& ar) {  Assign(ar); return *this; }
 
 	virtual void    Assign	(const DataObj& ar);
 
@@ -2583,7 +2598,7 @@ public:
 	BOOL			operator==	(const DataArray& ar) const { return IsEqual (ar); }
 	BOOL			operator!=	(const DataArray& ar) const { return !IsEqual (ar); }
 
-	virtual DataType    GetDataType () const { return DataType(DATA_RECORD_TYPE, 0); }
+	virtual DataType    GetDataType () const { return DataType(DATA_SQLRECORD_TYPE, 0); }
 
 	virtual void		Clear	(BOOL bValid = TRUE);
 

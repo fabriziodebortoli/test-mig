@@ -602,8 +602,16 @@ BOOL CEasyStudioDesignerView::UpdateFromSourceCode(const CString& sCode)
 	CJsonContextObj* pNewContext = CJsonFormEngineObj::GetInstance()->CreateContext();
 	pNewContext->m_JsonResource.PopulateFromFile(sFile);
 	pNewContext->m_strCurrentResourceContext = pNewContext->m_JsonResource.m_strContext;
-
-	pNewContext->m_pDescription = (CWndPanelDescription*)CJsonFormEngineObj::ParseDescriptionFromText(pNewContext, sCode, NULL, NULL, CWndObjDescription::Undefined);
+	CArray<CWndObjDescription*>ar;
+	CJsonFormEngineObj::ParseDescriptionFromText(ar, pNewContext, sCode, NULL, NULL, CWndObjDescription::Undefined);
+	if (ar.GetSize())
+	{
+		ASSERT(ar.GetSize() == 1);
+		CWndObjDescription* pDesc = ar[0];
+		if (pDesc->IsKindOf(RUNTIME_CLASS(CWndPanelDescription)))
+			pNewContext->m_pDescription = (CWndPanelDescription*)pDesc;
+	}
+	
 	if (pNewContext->m_pDescription == NULL)
 		AfxGetDiagnostic()->Show();
 	m_pDialog->DestroyWindow();

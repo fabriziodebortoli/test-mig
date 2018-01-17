@@ -1,7 +1,14 @@
-<div class="tb-control tb-text">
+<div class="tb-control tb-text" [ngClass]="componentClass()">
     <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
-        <kendo-maskedtextbox [mask]="mask" [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"></kendo-maskedtextbox>
+        <ng-template [ngIf]="rows<2">
+            <input kendoTextBox maxlength="{{model?.length}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur()"
+                [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
+        </ng-template>
+        <ng-template [ngIf]="rows>1">
+            <textarea name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event"
+                [disabled]="!model?.enabled" [style.width.px]="width" rows = "{{rows}}"></textarea>
+        </ng-template>
         <ng-template [ngIf]="hotLink">
             <ng-template [tbHotLink]="hotLink"></ng-template>
         </ng-template>

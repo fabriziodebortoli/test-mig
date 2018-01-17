@@ -31,7 +31,9 @@ namespace Microarea.Common.CoreTypes
 		public static readonly DataType Guid		= new DataType(12, 0);
 		public static readonly DataType Text		= new DataType(13, 0);
 		public static readonly DataType Variant		= new DataType(14, 0);
-		public static readonly DataType Blob		= new DataType(15, 0);
+        public static readonly DataType Record      = new DataType(15, 0);  //TODO
+        public static readonly DataType SqlRecord   = new DataType(16, 0);  //TODO
+        public static readonly DataType Blob		= new DataType(17, 0);
 
 		private static Enums enums;
 		//---------------------------------------------------------------------

@@ -231,7 +231,6 @@ import { LabelStaticComponent } from './controls/label-static/label-static.compo
 import { TextComponent } from './controls/text/text.component';
 import { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 import { ControlComponent } from './controls/control.component';
-import { VATCodeComponent } from './controls/vat-code/vat-code.component';
 import { AddressEditComponent } from './controls/address-edit/address-edit.component';
 import { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
@@ -272,7 +271,6 @@ export { LabelStaticComponent } from './controls/label-static/label-static.compo
 export { TextComponent } from './controls/text/text.component';
 export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 export { ControlComponent } from './controls/control.component';
-export { VATCodeComponent } from './controls/vat-code/vat-code.component';
 export { AddressEditComponent } from './controls/address-edit/address-edit.component';
 export { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
@@ -280,7 +278,7 @@ export { PropertyGridItemComponent } from './controls/property-grid/property-gri
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 
 const TB_CONTROLS = [
-    ControlComponent, VATCodeComponent, ColoredStaticComponent, AddressEditComponent,
+    ControlComponent, ColoredStaticComponent, AddressEditComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
@@ -326,7 +324,7 @@ export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 
 const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
 
-
+export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';
 export { ContextMenuItem } from './models/context-menu-item.model';
 export { ControlTypes } from './models/control-types.enum';
@@ -358,7 +356,7 @@ import { TreeModule } from 'angular-tree-component';
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
-    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule, TB_PIPES],
     entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent]
 })
 export class TbSharedModule { }

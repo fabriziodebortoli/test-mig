@@ -70,7 +70,7 @@ const DataType  DataType::Array(DATA_ARRAY_TYPE, 0);
 const DataType  DataType::Variant(DATA_VARIANT_TYPE, 0);
 const DataType  DataType::Object(DATA_LNG_TYPE, DataObj::TB_HANDLE);
 const DataType  DataType::Record(DATA_RECORD_TYPE, 0);
-const DataType  DataType::TRecord(DATA_TRECORD_TYPE, 0);
+const DataType  DataType::SqlRecord(DATA_SQLRECORD_TYPE, 0);
 
 CString DataType::ToString() const
 {
@@ -141,7 +141,9 @@ static const TCHAR szDataTxt[] = _T("DataTxt");
 static const TCHAR szDataBlob[] = _T("DataBlob");
 static const TCHAR szSeparator[] = _T("::");
 static const TCHAR szDataArray[] = _T("DataArray");
-static const TCHAR szDataTRecord[] = _T("DataTRecord");
+static const TCHAR szDataSqlRecord[] = _T("DataSqlRecord");
+static const TCHAR szDataRecord[] = _T("DataRecord");
+
 
 //////////////////////////////////////////////////////////////////////////////
 //  COMMON FUNCTION 
@@ -190,7 +192,8 @@ DataObj* DataObj::DataObjCreate(const DataType& aDataType/*, LPCSTR pszFile, int
 	case DATA_TXT_TYPE: pObj = new DataText(); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(); break;
+	case DATA_SQLRECORD_TYPE: pObj = new DataSqlRecord(); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(); break;
 	case DATA_VARIANT_TYPE: return NULL;
 	default: ASSERT_TRACE1(FALSE, "Bad type: %d", aDataType.m_wType); return NULL;
 	}
@@ -253,7 +256,8 @@ DataObj* DataObj::DataObjClone(/*LPCSTR pszFile, int nLine*/) const
 	case DATA_TXT_TYPE: pObj = new DataText(*(DataText*)this); break;
 	case DATA_BLOB_TYPE: pObj = new DataBlob(*(DataBlob*)this); break;
 	case DATA_ARRAY_TYPE: pObj = new DataArray(*(DataArray*)this); break;
-	case DATA_RECORD_TYPE: pObj = new DataTRecord(*(DataTRecord*)this); break;
+	case DATA_SQLRECORD_TYPE: pObj = new DataSqlRecord(*(DataSqlRecord*)this); break;
+	case DATA_RECORD_TYPE: pObj = new DataRecord(*(DataRecord*)this); break;
 	default: return NULL;
 	}
 #ifdef _DEBUG
@@ -284,6 +288,7 @@ CString FromTBTypeToNetType(const DataType& aDataType)
 	case DATA_TXT_TYPE: return _T("String");
 	case DATA_ARRAY_TYPE: { /*ASSERT(FALSE);*/ return _T("Array"); }
 	case DATA_RECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("Record"); }
+	case DATA_SQLRECORD_TYPE: { /*ASSERT(FALSE);*/ return _T("SqlRecord"); }
 	case DATA_VARIANT_TYPE: { /*ASSERT(FALSE);*/ return _T("Variant"); }
 							//case DATA_OBJECT_TYPE	: { /*ASSERT(FALSE);*/ return _T("Object");}
 	case DATA_BLOB_TYPE: { ASSERT_TRACE(FALSE, "Blob type not allowed here"); return _T("Blob"); }
@@ -323,6 +328,7 @@ CString FromDataTypeToDescr(const DataType& aDataType)
 	case DATA_TXT_TYPE:	return _TB("Text");
 	case DATA_ARRAY_TYPE:	return _TB("Array");
 	case DATA_RECORD_TYPE:	return _TB("Record");
+	case DATA_SQLRECORD_TYPE:	return _TB("SqlRecord");
 		//case DATA_BLOB_TYPE	:	return _TB("Blob");
 	case DATA_VARIANT_TYPE:	return _TB("Variant");
 		//case DATA_OBJECT_TYPE	:	return _TB("Object");
@@ -365,7 +371,9 @@ CString FromDataTypeToScriptType(const DataType& aDataType)
 	case DATA_GUID_TYPE:		return _T("Uuid");
 	case DATA_TXT_TYPE:		return _T("Text");
 	case DATA_ARRAY_TYPE:	return _T("Array");
+
 	case DATA_RECORD_TYPE:	return _T("Record");
+	case DATA_SQLRECORD_TYPE:	return _T("SqlRecord");
 
 	case DATA_VARIANT_TYPE:	return _T("Var");
 
@@ -1381,13 +1389,13 @@ void DataObj::AssignStatus(const DataObj& aDataObj)
 	SetValid(aDataObj.IsValid());
 	if (aDataObj.IsCollateCultureSensitive())
 		SetCollateCultureSensitive();
-	if (aDataObj.IsPrivate()) //@@BAUZI lo stato di PRIVATE è legato al singolo valore del dato 
+	if (aDataObj.IsPrivate()) //@@BAUZI lo stato di PRIVATE ï¿½ legato al singolo valore del dato 
 		SetPrivate();
 }
 //-----------------------------------------------------------------------------
 bool DataObj::AlignHKL(HotKeyLink* pHKL)
 {
-	//se il puntatore è presente in lista, vuol dire che la find per questo valore è stata fatta
+	//se il puntatore ï¿½ presente in lista, vuol dire che la find per questo valore ï¿½ stata fatta
 	for (int i = 0; i < m_arAlignedHKLs.GetCount(); i++)
 	{
 		if (m_arAlignedHKLs[i] == pHKL)
@@ -1423,7 +1431,7 @@ void DataObj::AssignJsonValue(CJsonParser& jsonParser)
 void DataObj::SignalOnChanged()
 {
 	Signal(ON_CHANGED);
-	m_arAlignedHKLs.RemoveAll();//tutti gli evedntuali hotlink dovranno rieffettuare la find, perché il valore è cambiato
+	m_arAlignedHKLs.RemoveAll();//tutti gli evedntuali hotlink dovranno rieffettuare la find, perchï¿½ il valore ï¿½ cambiato
 }
 //-----------------------------------------------------------------------------
 void DataObj::AssignFromJson(CJsonParser& jsonParser)
@@ -1447,7 +1455,7 @@ void DataObj::Clear(BOOL bValid)
 
 	SetValueChanged(FALSE);
 
-	if (IsPrivate()) //@@BAUZI lo stato di PRIVATE è legato al singolo valore del dato
+	if (IsPrivate()) //@@BAUZI lo stato di PRIVATE ï¿½ legato al singolo valore del dato
 		SetPrivate(FALSE);
 
 	// non va chiamata per evitare duplicazioni, chiamarlo nel figlio!
@@ -1915,7 +1923,7 @@ void DataStr::StripBlank()
 	//::StripBlank(m_strText); 
 	int len = m_strText.GetLength();
 	m_strText.TrimRight(BLANK_CHAR); //bugfix 24701 (When used with no parameters, TrimRight removes trailing newline, space, and tab characters from the string.) 
-									// invece è necessario eliminare solo il ' '
+									// invece ï¿½ necessario eliminare solo il ' '
 
 	//SetModified(); 
 	//SetDirty();  
@@ -5018,7 +5026,7 @@ BOOL DataDate::SetTime(const UWORD wHour, const UWORD wMin, const UWORD wSec)
 
 		// a questo punto si puo` valorizzare la parte ora
 		// questo codice impedisce l'assegnazione di un hh/mm/ss se la
-		// data è nulldate. Non sappiamo perchè, il controllo risale a . 
+		// data ï¿½ nulldate. Non sappiamo perchï¿½, il controllo risale a . 
 		// i tempi di MagoXp
 		if (IsNullDate(m_DateStruct))
 			return FALSE;
@@ -5673,7 +5681,7 @@ CString DataEnum::GetXMLType(BOOL bSoapType) const
 	return SCHEMA_XSD_DATATYPE_STRING_VALUE;
 }
 
-// occorre considerarlo unsigned per compatibilitá con TBC#
+// occorre considerarlo unsigned per compatibilitï¿½ con TBC#
 //-----------------------------------------------------------------------------
 CString DataEnum::FormatDataForXML(BOOL bSoapType) const
 {
@@ -7079,7 +7087,7 @@ BOOL DataArray::FixDataType(DataType newType)
 			DataObj* pVal = DataObj::DataObjCreate(newType);
 			pVal->Assign(*pE);
 
-			SetAt(i, pVal);	//la delete di pE è interna
+			SetAt(i, pVal);	//la delete di pE ï¿½ interna
 		}
 	}
 	this->m_BaseDataType = newType;
@@ -7109,10 +7117,17 @@ void DataArray::AssertValid() const
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNCREATE(DataTRecord, DataObj)
+IMPLEMENT_DYNCREATE(DataRecord, DataArray)
+
+//============================================================================
+//          DataSqlRecord class implementations
+//////////////////////////////////////////////////////////////////////////////
+//
+//-----------------------------------------------------------------------------
+IMPLEMENT_DYNCREATE(DataSqlRecord, DataObj)
 
 //-----------------------------------------------------------------------------
-DataTRecord::DataTRecord()
+DataSqlRecord::DataSqlRecord()
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7121,7 +7136,7 @@ DataTRecord::DataTRecord()
 	SetDirty();
 }
 
-DataTRecord::DataTRecord(const DataTRecord& ar)
+DataSqlRecord::DataSqlRecord(const DataSqlRecord& ar)
 	:
 	m_pRecord(NULL),
 	m_bOwnRecord(FALSE)
@@ -7129,19 +7144,19 @@ DataTRecord::DataTRecord(const DataTRecord& ar)
 	Assign(ar);
 }
 
-DataTRecord::DataTRecord(ISqlRecord* pRec, BOOL bOwnRecord)
+DataSqlRecord::DataSqlRecord(ISqlRecord* pRec, BOOL bOwnRecord)
 	:
 	m_pRecord(pRec),
 	m_bOwnRecord(bOwnRecord)
 {}
 
-DataTRecord::~DataTRecord()
+DataSqlRecord::~DataSqlRecord()
 {
 	if (m_bOwnRecord && m_pRecord)
 		m_pRecord->Dispose();
 }
 
-void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
+void DataSqlRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 {
 	if (m_pRecord && m_bOwnRecord)
 		m_pRecord->Dispose();
@@ -7151,31 +7166,31 @@ void DataTRecord::SetIRecord(ISqlRecord* rec, BOOL bOwnRecord)
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::Str(int, int) const
+CString DataSqlRecord::Str(int, int) const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::ToString() const
+CString DataSqlRecord::ToString() const
 {
 	return m_pRecord ? m_pRecord->ToString() : L"";
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const DataObj& aDataObj)
+void DataSqlRecord::Assign(const DataObj& aDataObj)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
 		return;
 
-	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataTRecord)))
+	if (!aDataObj.IsKindOf(RUNTIME_CLASS(DataSqlRecord)))
 	{
 		ASSERT(FALSE);
 		return;
 	}
 
-	DataTRecord* pDRSrc = dynamic_cast<DataTRecord*>(const_cast<DataObj*>(&aDataObj));
+	DataSqlRecord* pDRSrc = dynamic_cast<DataSqlRecord*>(const_cast<DataObj*>(&aDataObj));
 
 	if (m_pRecord)
 	{
@@ -7201,7 +7216,7 @@ void DataTRecord::Assign(const DataObj& aDataObj)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(LPCTSTR)
+void DataSqlRecord::Assign(LPCTSTR)
 {
 	if (IsValueLocked())
 		return;
@@ -7210,7 +7225,7 @@ void DataTRecord::Assign(LPCTSTR)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const VARIANT& v)
+void DataSqlRecord::Assign(const VARIANT& v)
 {
 	if (IsValueLocked())
 		return;
@@ -7219,7 +7234,7 @@ void DataTRecord::Assign(const VARIANT& v)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Assign(const RDEData& aRDEData)
+void DataSqlRecord::Assign(const RDEData& aRDEData)
 {
 	if (IsValueLocked())
 		return;
@@ -7228,7 +7243,7 @@ void DataTRecord::Assign(const RDEData& aRDEData)
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::Clear(BOOL bValid)
+void DataSqlRecord::Clear(BOOL bValid)
 {
 	Signal(ON_CHANGING);
 	if (IsValueLocked())
@@ -7245,13 +7260,13 @@ void DataTRecord::Clear(BOOL bValid)
 }
 
 //-----------------------------------------------------------------------------
-int DataTRecord::IsEqual(const DataObj& o)	const
+int DataSqlRecord::IsEqual(const DataObj& o)	const
 {
-	DataTRecord* par = (DataTRecord*)(const_cast<DataObj*>(&o));
+	DataSqlRecord* par = (DataSqlRecord*)(const_cast<DataObj*>(&o));
 	return m_pRecord->IIsEqual(*(par->m_pRecord));
 }
 
-int DataTRecord::IsLessThan(const DataObj& o)	const
+int DataSqlRecord::IsLessThan(const DataObj& o)	const
 {
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
 
@@ -7259,7 +7274,7 @@ int DataTRecord::IsLessThan(const DataObj& o)	const
 }
 
 //-----------------------------------------------------------------------------
-CString DataTRecord::FormatDataForXML(BOOL b) const
+CString DataSqlRecord::FormatDataForXML(BOOL b) const
 {
 	//TODO
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
@@ -7276,7 +7291,7 @@ CString DataTRecord::FormatDataForXML(BOOL b) const
 }
 
 //-----------------------------------------------------------------------------
-void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
+void DataSqlRecord::AssignFromXMLString(LPCTSTR lpszValue)
 {
 	Assign(lpszValue);
 }
@@ -7285,7 +7300,7 @@ void DataTRecord::AssignFromXMLString(LPCTSTR lpszValue)
 // Diagnostics
 
 #ifdef _DEBUG
-void DataTRecord::Dump(CDumpContext& dc) const
+void DataSqlRecord::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
 	AFX_DUMP0(dc, "\nDataTRecord:");
@@ -7293,7 +7308,7 @@ void DataTRecord::Dump(CDumpContext& dc) const
 	AFX_DUMP1(dc, "\n\tContent= ", Str());
 }
 
-void DataTRecord::AssertValid() const
+void DataSqlRecord::AssertValid() const
 {
 	DataObj::AssertValid();
 }
@@ -7604,7 +7619,7 @@ void RDEData::SetData(RDEcmd Status, const DataObj* pDataObj, BOOL bIsTailMultiL
 			//ASSERT_TRACE2(FALSE, "Overflow RDE string value with Len = %d must be less than or equal to max field size is %d", m_Len, 0x7FFF / 2);
 			//m_Len = 0x7FFF;
 
-			m_dsOverflowError = cwsprintf(_TB("*** The string value is too long: {0-%d}, the max allowed length is {1-%d} ***"), m_Len / 2 - 3, (0x7FFF / 2)); // /2 è per l'unicode
+			m_dsOverflowError = cwsprintf(_TB("*** The string value is too long: {0-%d}, the max allowed length is {1-%d} ***"), m_Len / 2 - 3, (0x7FFF / 2)); // /2 ï¿½ per l'unicode
 			m_pData = m_dsOverflowError.GetRawData(&m_Len);
 		}
 

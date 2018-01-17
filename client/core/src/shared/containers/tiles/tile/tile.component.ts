@@ -7,9 +7,9 @@ import { Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
 })
 export class TileComponent implements OnInit {
   @Input() title: string;
-  public _isCollapsed: boolean = false;
-  public _isCollapsible: boolean = true;
-  
+  _isCollapsed = false;
+  _isCollapsible = true;
+  _hasTitle = true;
   constructor() { }
 
   ngOnInit() { 
@@ -38,5 +38,14 @@ export class TileComponent implements OnInit {
 
   get isCollapsible(): boolean {
     return this._isCollapsible;
+  }
+
+  @Input()
+  set hasTitle(value: boolean) {
+    this._hasTitle = value;
+  }
+
+  get hasTitle(): boolean {
+    return this._hasTitle;
   }
 }

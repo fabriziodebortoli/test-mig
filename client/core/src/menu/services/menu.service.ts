@@ -1,3 +1,4 @@
+import { DiagnosticService } from './../../core/services/diagnostic.service';
 import { SettingsService } from './../../core/services/settings.service';
 import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
@@ -93,7 +94,8 @@ export class MenuService {
         public settingsService: SettingsService,
         public componentService: ComponentService,
         public infoService: InfoService,
-        public loadingService: LoadingService
+        public diagnosticService: DiagnosticService,
+        public loadingService: LoadingService        
     ) {
         this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
     }
@@ -232,7 +234,10 @@ export class MenuService {
             }
             else {
                 this.webSocketService.runDocument(object.target, object.args)
-                    .catch(() => { object.isLoading = this.isLoading = false; });
+                    .catch((e) => {
+                        object.isLoading = this.isLoading = false;
+                        this.diagnosticService.showError(e);
+                    });
             }
         }
         this.addToMostUsed(object);
@@ -624,7 +629,7 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed(object) {
         this.removeFromMostUsedArray(object);
-        let subs =  this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
+        let subs = this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
             subs.unsubscribe()
         });
     };
@@ -720,8 +725,8 @@ export class MenuService {
                 tile.currentAppTitle = this.selectedApplication.title;
                 tile.currentGroupTitle = this.selectedGroup.title;
                 tile.currentMenuTitle = menu.title;
-                
-                tile.tooltip = tile.currentAppTitle + " | " +  tile.currentGroupTitle + " | " +  tile.currentMenuTitle;
+
+                tile.tooltip = tile.currentAppTitle + " | " + tile.currentGroupTitle + " | " + tile.currentMenuTitle;
 
                 this.addToHiddenTilesArray(tile);
                 this.selectedMenuChanged.emit(); //stuzzico la rigenerazione delle tiles

@@ -800,8 +800,10 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pConte
 		ASSERT(FALSE);
 		return NULL;
 	}
-
-	CWndObjDescription* pDesc = ParseDescription(pContext, sFile, sActivation, pDescriptionToMerge, expectedType);
+	CArray<CWndObjDescription*>ar;
+	ParseDescription(ar, pContext, sFile, sActivation, pDescriptionToMerge, expectedType);
+	CWndObjDescription* pDesc = ar.GetSize() ? ar[0] : NULL;
+	ASSERT(ar.GetSize() == 1);
 	if (pDesc)
 	{
 		CJsonResource* pRes = new CJsonResource(source);
@@ -811,7 +813,7 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pConte
 	return pDesc;
 }
 //-----------------------------------------------------------------------------
-CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
+void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
 {
 	CLineFile file;
 	if (!file.Open(sFile, CFile::modeRead | CFile::typeText))
@@ -819,13 +821,13 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pConte
 
 		ASSERT(FALSE);
 		TRACE1("Cannot open file: %s", sFile);
-		return NULL;
+		return;
 	}
-	return ParseDescriptionFromText(pContext, file.ReadToEnd(), sActivation, pDescriptionToMerge, expectedType);
+	return ParseDescriptionFromText(ar, pContext, file.ReadToEnd(), sActivation, pDescriptionToMerge, expectedType);
 }
 
 //-----------------------------------------------------------------------------
-CWndObjDescription* CJsonFormEngineObj::ParseDescriptionFromText(CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
+void CJsonFormEngineObj::ParseDescriptionFromText(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
 {
 	CJsonFormParser parser;
 	parser.m_pRootContext = pContext;
@@ -837,7 +839,7 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptionFromText(CJsonContextObj
 		AfxGetDiagnostic()->Add(sError);
 		TRACE(sError);
 		MessageBox(0, _TB("" + sErrorMex + "\n" + sError), (LPCWSTR)sErrorMex, 0);
-		return NULL;
+		return;
 	}
 
 	if (pDescriptionToMerge)//leggo un delta
@@ -847,17 +849,24 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptionFromText(CJsonContextObj
 		CString sId;
 		if (parser.Has(szJsonId))
 			sId = parser.ReadString(szJsonId);
-
-		CWndObjDescription* pDescription = pDescriptionToMerge->Find(sId);
-		if (pDescription)
+		CArray<CWndObjDescription*>arFound;
+		pDescriptionToMerge->FindAll(sId, arFound);
+		if (arFound.GetCount())
 		{
-			pDescription->ParseJson(parser);
-			parser.m_bForAppend = bOldForAppend;
-			return pDescription;
+			for (int i = 0; i < arFound.GetCount(); i++)
+			{
+				CWndObjDescription* pDescription = arFound[i];
+				pDescription->ParseJson(parser);
+				parser.m_bForAppend = bOldForAppend;
+				ar.Add(pDescription);
+				if (arFound.GetCount() > 1)
+					parser.Reset();
+			}
+			return;
 		}
 		parser.m_bForAppend = bOldForAppend;
 	}
-	return CWndObjDescription::ParseJsonObject(parser, NULL, (CWndObjDescription::WndObjType) expectedType);
+	ar.Add(CWndObjDescription::ParseJsonObject(parser, NULL, (CWndObjDescription::WndObjType) expectedType));
 }
 
 

@@ -844,6 +844,7 @@ public:
 	CWndObjDescription* GetParent() { return m_pParent; }
 	CWndObjDescription* GetRoot();
 	CWndObjDescription* Find(const CString& id);
+	void FindAll(const CString& id, CArray<CWndObjDescription*>&ar);
 	CWndObjDescription* FindUpwards(const CString& id);
 	static CString GetTempImagesPath(const CString& sFileName);
 	static CString GetTempFilesPath(const CString& sFileName);

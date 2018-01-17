@@ -29,8 +29,8 @@ static const char BASED_CODE THIS_FILE[] = __FILE__;
 // Nome della sezione, nel file .INI dell'applicazione, in cui viene salvata
 // l'attuale configurazione grafica 
 //-----------------------------------------------------------------------------
-static const TCHAR szEquationEditorFull	[] = _T("WP_EquationEditorFull");
-static const TCHAR szEquationEditor		[] = _T("WP_EquationEditor");
+static const TCHAR szEquationEditorFull[] = _T("WP_EquationEditorFull");
+static const TCHAR szEquationEditor[] = _T("WP_EquationEditor");
 
 //----------------------------------------------------------------------------
 #define EQNEDIT_SELECT_ALL_FIELDS			0
@@ -38,7 +38,7 @@ static const TCHAR szEquationEditor		[] = _T("WP_EquationEditor");
 #define EQNEDIT_SELECT_ONLY_EXPRULE_FIELDS	2
 #define EQNEDIT_SELECT_ONLY_FUNC_FIELDS		3
 #define EQNEDIT_SELECT_ONLY_ASK_FIELDS		4
-		
+
 const UINT BASED_CODE eqnedit_indicators[] =
 {
 	ID_EQNEDIT_FIELD_NAME,
@@ -58,64 +58,64 @@ CEqnItemNoLoc::CEqnItemNoLoc(CString strName)
 IMPLEMENT_DYNAMIC(CEqnEditDlg, CParsedDialog)
 BEGIN_MESSAGE_MAP(CEqnEditDlg, CParsedDialog)
 	//{{AFX_MSG_MAP( CEqnEditDlg )
-	ON_CBN_SELCHANGE(IDC_EQNEDIT_SEL_FIELDS,		ShowVars)
-	ON_CBN_SELCHANGE(IDC_EQNEDIT_SEL_TABLE,			ShowVars)
-	ON_CBN_SELCHANGE(IDC_EQNEDIT_FILTER_FIELDS,		ShowVars)
-	ON_CBN_EDITCHANGE(IDC_EQNEDIT_FILTER_FIELDS,	ShowVars)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_SEL_FIELDS, ShowVars)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_SEL_TABLE, ShowVars)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_FILTER_FIELDS, ShowVars)
+	ON_CBN_EDITCHANGE(IDC_EQNEDIT_FILTER_FIELDS, ShowVars)
 
-	ON_CBN_SELCHANGE(IDC_EQNEDIT_TAG_NAME,		TagNameChanged)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_TAG_NAME, TagNameChanged)
 
-	ON_LBN_SELCHANGE(IDC_EQNEDIT_FUNCTSLB,		SelChangeFunct)
-	ON_LBN_SELCHANGE(IDC_EQNEDIT_EXT_FUNCTSLB,	SelChangeExtFunct)
-	ON_LBN_SELCHANGE(IDC_EQNEDIT_PHISIC_FIELDS,	SelChangePhysicalFields)
-    ON_LBN_SELCHANGE(IDC_EQNEDIT_VARSLB,       	VarFieldChanged)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_FUNCTSLB, SelChangeFunct)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_EXT_FUNCTSLB, SelChangeExtFunct)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_PHISIC_FIELDS, SelChangePhysicalFields)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_VARSLB, VarFieldChanged)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_EQNEDIT_ITEM_NAME, EnumSetItemChanged)
-    ON_LBN_SELCHANGE(IDC_EQNEDIT_LST_EVENTACTIONS,		SelChangeActionEvents)
-	ON_LBN_SELCHANGE(IDC_EQNEDIT_FUNCTSLB,		SelChangeActionEvents)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_LST_EVENTACTIONS, SelChangeActionEvents)
+	ON_LBN_SELCHANGE(IDC_EQNEDIT_FUNCTSLB, SelChangeActionEvents)
 
-	ON_LBN_DBLCLK	(IDC_EQNEDIT_FUNCTSLB,		SelFunct)
-	ON_LBN_DBLCLK	(IDC_EQNEDIT_EXT_FUNCTSLB,	SelExtFunct)
-	ON_LBN_DBLCLK	(IDC_EQNEDIT_VARSLB,		SelVar)
-	ON_LBN_DBLCLK	(IDC_EQNEDIT_PHISIC_FIELDS,	SelPhysicalFields)
-	ON_NOTIFY		(NM_DBLCLK, IDC_EQNEDIT_ITEM_NAME, SelEnumSetItem)
-	ON_LBN_DBLCLK	(IDC_EQNEDIT_LST_EVENTACTIONS,	SelActionEvents)
+	ON_LBN_DBLCLK(IDC_EQNEDIT_FUNCTSLB, SelFunct)
+	ON_LBN_DBLCLK(IDC_EQNEDIT_EXT_FUNCTSLB, SelExtFunct)
+	ON_LBN_DBLCLK(IDC_EQNEDIT_VARSLB, SelVar)
+	ON_LBN_DBLCLK(IDC_EQNEDIT_PHISIC_FIELDS, SelPhysicalFields)
+	ON_NOTIFY(NM_DBLCLK, IDC_EQNEDIT_ITEM_NAME, SelEnumSetItem)
+	ON_LBN_DBLCLK(IDC_EQNEDIT_LST_EVENTACTIONS, SelActionEvents)
 
-	ON_BN_CLICKED	(IDC_CHECK_LONG,			OnClickedCheckLong)
-	ON_BN_CLICKED	(IDC_EQNEDIT_ENUMSVIEWER,	OnRunEnumsViewer)
+	ON_BN_CLICKED(IDC_CHECK_LONG, OnClickedCheckLong)
+	ON_BN_CLICKED(IDC_EQNEDIT_ENUMSVIEWER, OnRunEnumsViewer)
 
-	ON_CBN_SELCHANGE	(IDC_EQNEDIT_EXT_COMBOAPP,	OnComboAppChanged)
-	ON_CBN_SELCHANGE	(IDC_EQNEDIT_EXT_COMBOMOD,	OnComboModChanged)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_EXT_COMBOAPP, OnComboAppChanged)
+	ON_CBN_SELCHANGE(IDC_EQNEDIT_EXT_COMBOMOD, OnComboModChanged)
 
-	ON_WM_SIZE ()
+	ON_WM_SIZE()
 
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 //----------------------------------------------------------------------------
 CEqnEditDlg::CEqnEditDlg
-	(
-		CWnd*			pParent, 
-		SymTable*		pSymTable, 
-		CString& 		strToEdit,
-		DWORD			dwPosSel,
-		RuleDataArray*		pRuleData,
-		TblRuleData*	pTblRule,
-		SqlTableInfoArray arSqlTableInfo
-	) 
+(
+	CWnd*			pParent,
+	SymTable*		pSymTable,
+	CString& 		strToEdit,
+	DWORD			dwPosSel,
+	RuleDataArray*		pRuleData,
+	TblRuleData*	pTblRule,
+	SqlTableInfoArray arSqlTableInfo
+)
 	:
-	CParsedDialog	(pSymTable ? IDD_EQNEDIT : IDD_EQNEDIT_NO_PUB_NAMES, pParent),
-	m_strExpr		(strToEdit),
-	m_pSymTable		(pSymTable),
-	m_dwStartPos	(dwPosSel),
-	m_pTblRule		(pTblRule),
-    m_arSqlTableInfo (arSqlTableInfo),
+	CParsedDialog(pSymTable ? IDD_EQNEDIT : IDD_EQNEDIT_NO_PUB_NAMES, pParent),
+	m_strExpr(strToEdit),
+	m_pSymTable(pSymTable),
+	m_dwStartPos(dwPosSel),
+	m_pTblRule(pTblRule),
+	m_arSqlTableInfo(arSqlTableInfo),
 	m_lbPhisicFields(IDB_KEY),
-	m_bOnlyPubNames (FALSE) 
+	m_bOnlyPubNames(FALSE)
 {
-	if (pRuleData)           
+	if (pRuleData)
 		for (int i = 0; i < pRuleData->GetSize(); i++)
 		{
-			RuleDataObj* pRule = (RuleDataObj*) (pRuleData->GetAt(i));
+			RuleDataObj* pRule = (RuleDataObj*)(pRuleData->GetAt(i));
 			if (pRule->IsARule() == RULE_DATA_TABLE)
 				m_Rules.Add(pRule);
 		}
@@ -123,39 +123,39 @@ CEqnEditDlg::CEqnEditDlg
 
 //----------------------------------------------------------------------------
 CEqnEditDlg::CEqnEditDlg
-	(
-		CWnd*			pParent, 
-		SymTable*		pSymTable, 
-		CString& 		strToEdit,
-		DWORD			dwPosSel,
-		RuleDataArray*		pRuleData,
-		TblRuleData*	pTblRule,
-		SqlTableInfo*	pSqlTableInfo
-	) 
+(
+	CWnd*			pParent,
+	SymTable*		pSymTable,
+	CString& 		strToEdit,
+	DWORD			dwPosSel,
+	RuleDataArray*		pRuleData,
+	TblRuleData*	pTblRule,
+	SqlTableInfo*	pSqlTableInfo
+)
 	:
-	CParsedDialog	(pSymTable ? IDD_EQNEDIT : IDD_EQNEDIT_NO_PUB_NAMES, pParent),
-	m_strExpr		(strToEdit),
-	m_pSymTable		(pSymTable),
-	m_dwStartPos	(dwPosSel),
-	m_pTblRule		(pTblRule),
+	CParsedDialog(pSymTable ? IDD_EQNEDIT : IDD_EQNEDIT_NO_PUB_NAMES, pParent),
+	m_strExpr(strToEdit),
+	m_pSymTable(pSymTable),
+	m_dwStartPos(dwPosSel),
+	m_pTblRule(pTblRule),
 	m_lbPhisicFields(IDB_KEY),
-	m_bOnlyPubNames (FALSE) 
+	m_bOnlyPubNames(FALSE)
 {
 	m_arSqlTableInfo.Add(pSqlTableInfo);
-	if (pRuleData)           
+	if (pRuleData)
 		for (int i = 0; i < pRuleData->GetSize(); i++)
 		{
-			RuleDataObj* pRule = (RuleDataObj*) (pRuleData->GetAt(i));
+			RuleDataObj* pRule = (RuleDataObj*)(pRuleData->GetAt(i));
 			if (pRule->IsARule() == RULE_DATA_TABLE)
 				m_Rules.Add(pRule);
 		}
 }
 
 //------------------------------------------------------------------------------
-void CEqnEditDlg::OnSize (UINT nType, int cx, int cy)
+void CEqnEditDlg::OnSize(UINT nType, int cx, int cy)
 {
-	CParsedDialog::OnSize (nType, cx, cy); 
-	
+	CParsedDialog::OnSize(nType, cx, cy);
+
 	RecalcLayout();
 }
 
@@ -165,42 +165,42 @@ BOOL CEqnEditDlg::BelongsToDataTable(WoormField* pRfd)
 	int nIdxRule = -1;
 	int nIdxTableInfo = -1;
 	int numRules = m_Rules.GetSize();
-	
+
 	if (numRules == 0)
 		return FALSE;
-		
+
 	CString selectedTable;
 	m_cbSelTable.GetLBText(m_cbSelTable.GetCurSel(), selectedTable);
 
-	if (selectedTable.Find('[') != -1 && selectedTable.Find(']') != -1) 
-		selectedTable = selectedTable.Mid(selectedTable.Find(']') + 1 );
+	if (selectedTable.Find('[') != -1 && selectedTable.Find(']') != -1)
+		selectedTable = selectedTable.Mid(selectedTable.Find(']') + 1);
 
 	for (int i = 0; i < numRules; i++)
 	{
 		CStringArray arTableNames;
 		((TblRuleData*)m_Rules[i])->GetTableNames(arTableNames);
-		
-		for (int j = 0; j < arTableNames.GetSize(); j++) 
+
+		for (int j = 0; j < arTableNames.GetSize(); j++)
 			if (arTableNames.GetAt(j).CompareNoCase(selectedTable) == 0)
 			{
 				nIdxRule = i;
 				nIdxTableInfo = j;
 			}
 	}
-	
+
 	if (nIdxRule == -1)
 		return FALSE;
 
-	TblRuleData* pTblRule = (TblRuleData*) m_Rules[nIdxRule];
-	
+	TblRuleData* pTblRule = (TblRuleData*)m_Rules[nIdxRule];
+
 	if (pTblRule == NULL)
 	{
 		ASSERT(FALSE);
 		return FALSE;
 	}
-		
-	if (pTblRule-> ExistPublicNameInTableInfo(pRfd->GetName(), nIdxTableInfo))
-			return TRUE;
+
+	if (pTblRule->ExistPublicNameInTableInfo(pRfd->GetName(), nIdxTableInfo))
+		return TRUE;
 
 	return FALSE;
 }
@@ -219,11 +219,11 @@ BOOL CEqnEditDlg::IsFieldApplicable(SymField* pF)
 
 	if (!pF->IsKindOf(RUNTIME_CLASS(WoormField)))
 		return TRUE;
-		
+
 	WoormField* pRfd = dynamic_cast<WoormField*>(pF);
 
-	int nFieldType		= m_cbSelFields.GetCurSel();
-	int nIdxSelTable	= m_cbSelTable.GetCurSel();
+	int nFieldType = m_cbSelFields.GetCurSel();
+	int nIdxSelTable = m_cbSelTable.GetCurSel();
 
 	// if the field appartain to current table rule then it musn't be showed
 	//
@@ -232,137 +232,137 @@ BOOL CEqnEditDlg::IsFieldApplicable(SymField* pF)
 
 	switch (nFieldType)
 	{
-		case EQNEDIT_SELECT_ALL_FIELDS:
+	case EQNEDIT_SELECT_ALL_FIELDS:
+	{
+		if (nIdxSelTable > 0)
+			return BelongsToDataTable(pRfd);
+
+		// se non si sta editando una where clause o un order by si inserisce
+		// la variabile di stato predefinita
+		if (m_pTblRule && pRfd->IsPredefinedField())
+			return FALSE;
+
+		return TRUE;
+	}
+
+	case EQNEDIT_SELECT_ONLY_TBLRULE_FIELDS:
+		if (pRfd->IsTableRuleField())
 		{
 			if (nIdxSelTable > 0)
 				return BelongsToDataTable(pRfd);
 
-			// se non si sta editando una where clause o un order by si inserisce
-			// la variabile di stato predefinita
-			if (m_pTblRule && pRfd->IsPredefinedField())
-				return FALSE;
-					
 			return TRUE;
 		}
+		break;
 
-		case EQNEDIT_SELECT_ONLY_TBLRULE_FIELDS:
-			if (pRfd->IsTableRuleField())
-			{
-				if (nIdxSelTable > 0)
-					return BelongsToDataTable(pRfd);				
+	case EQNEDIT_SELECT_ONLY_EXPRULE_FIELDS:
+		return (pRfd->IsExprRuleField());
 
-				return TRUE;
-			}
-			break;
+	case EQNEDIT_SELECT_ONLY_FUNC_FIELDS:
+		return (pRfd->HasAFunction());
 
-		case EQNEDIT_SELECT_ONLY_EXPRULE_FIELDS:
-			return (pRfd->IsExprRuleField());
-			
-		case EQNEDIT_SELECT_ONLY_FUNC_FIELDS:
-			return (pRfd->HasAFunction());
-		
-		case EQNEDIT_SELECT_ONLY_ASK_FIELDS:
-			return (pRfd->IsInput());
+	case EQNEDIT_SELECT_ONLY_ASK_FIELDS:
+		return (pRfd->IsInput());
 	}
-	
+
 	return FALSE;
 }
 
 //----------------------------------------------------------------------------
 void CEqnEditDlg::SetCaptionButtons()
 {
-	GetDlgItem(IDC_EQNEDIT_ISNULL)		->SetWindowText(_T("Is Null"));
-	GetDlgItem(IDC_EQNEDIT_CLOSEG)		->SetWindowText(_T("}"));
-	GetDlgItem(IDC_EQNEDIT_OPENG)		->SetWindowText(_T("{"));
-	GetDlgItem(IDC_EQNEDIT_CLOSEROUND)	->SetWindowText(_T(" ) "));
-	GetDlgItem(IDC_EQNEDIT_OPENROUND)	->SetWindowText(_T(" ( "));
-	GetDlgItem(IDC_EQNEDIT_PLUS)		->SetWindowText(_T(" + "));
-	GetDlgItem(IDC_EQNEDIT_MINUS)		->SetWindowText(_T(" - "));
-	GetDlgItem(IDC_EQNEDIT_TIMES)		->SetWindowText(_T(" * "));
-	GetDlgItem(IDC_EQNEDIT_SLASH)		->SetWindowText(_T(" / "));
-	GetDlgItem(IDC_EQNEDIT_ASSIGN)		->SetWindowText(_T("="));
-	GetDlgItem(IDC_EQNEDIT_THEN)		->SetWindowText(_T("Then"));
-	GetDlgItem(IDC_EQNEDIT_ELSE)		->SetWindowText(_T("Else"));
-	GetDlgItem(IDC_EQNEDIT_IF)			->SetWindowText(_T("If"));
-	GetDlgItem(IDC_EQNEDIT_BETWEEN)		->SetWindowText(_T("Between "));
-	GetDlgItem(IDC_EQNEDIT_LIKE)		->SetWindowText(_T("Like "));
-	GetDlgItem(IDC_EQNEDIT_NOT)			->SetWindowText(_T(" Not "));
-	GetDlgItem(IDC_EQNEDIT_OR)			->SetWindowText(_T(" Or "));
-	GetDlgItem(IDC_EQNEDIT_AND)			->SetWindowText(_T(" And "));
-	GetDlgItem(IDC_EQNEDIT_NE)			->SetWindowText(_T(" != "));
-	GetDlgItem(IDC_EQNEDIT_GT)			->SetWindowText(_T(" > "));
-	GetDlgItem(IDC_EQNEDIT_GE)			->SetWindowText(_T(" >= "));
-	GetDlgItem(IDC_EQNEDIT_LE)			->SetWindowText(_T(" <= "));
-	GetDlgItem(IDC_EQNEDIT_LT)			->SetWindowText(_T(" < "));
-	GetDlgItem(IDC_EQNEDIT_EQ)			->SetWindowText(_T(" == "));
-	GetDlgItem(IDC_EQNEDIT_AT)			->SetWindowText(_T(";"));
-	GetDlgItem(IDC_EQNEDIT_DOT)			->SetWindowText(_T("."));
-	GetDlgItem(IDC_EQNEDIT_COMMA)		->SetWindowText(_T(", "));
-	GetDlgItem(IDC_EQNEDIT_PERC)		->SetWindowText(_T("%"));
-	GetDlgItem(IDC_EQNEDIT_DQUOTE)		->SetWindowText(_T("\""));
-	GetDlgItem(IDC_EQNEDIT_QUOTE)		->SetWindowText(_T("'"));
+	GetDlgItem(IDC_EQNEDIT_ISNULL)->SetWindowText(_T("Is Null"));
+	GetDlgItem(IDC_EQNEDIT_CLOSEG)->SetWindowText(_T("}"));
+	GetDlgItem(IDC_EQNEDIT_OPENG)->SetWindowText(_T("{"));
+	GetDlgItem(IDC_EQNEDIT_CLOSEROUND)->SetWindowText(_T(" ) "));
+	GetDlgItem(IDC_EQNEDIT_OPENROUND)->SetWindowText(_T(" ( "));
+	GetDlgItem(IDC_EQNEDIT_PLUS)->SetWindowText(_T(" + "));
+	GetDlgItem(IDC_EQNEDIT_MINUS)->SetWindowText(_T(" - "));
+	GetDlgItem(IDC_EQNEDIT_TIMES)->SetWindowText(_T(" * "));
+	GetDlgItem(IDC_EQNEDIT_SLASH)->SetWindowText(_T(" / "));
+	GetDlgItem(IDC_EQNEDIT_ASSIGN)->SetWindowText(_T("="));
+	GetDlgItem(IDC_EQNEDIT_THEN)->SetWindowText(_T("Then"));
+	GetDlgItem(IDC_EQNEDIT_ELSE)->SetWindowText(_T("Else"));
+	GetDlgItem(IDC_EQNEDIT_IF)->SetWindowText(_T("If"));
+	GetDlgItem(IDC_EQNEDIT_BETWEEN)->SetWindowText(_T("Between "));
+	GetDlgItem(IDC_EQNEDIT_LIKE)->SetWindowText(_T("Like "));
+	GetDlgItem(IDC_EQNEDIT_NOT)->SetWindowText(_T(" Not "));
+	GetDlgItem(IDC_EQNEDIT_OR)->SetWindowText(_T(" Or "));
+	GetDlgItem(IDC_EQNEDIT_AND)->SetWindowText(_T(" And "));
+	GetDlgItem(IDC_EQNEDIT_NE)->SetWindowText(_T(" != "));
+	GetDlgItem(IDC_EQNEDIT_GT)->SetWindowText(_T(" > "));
+	GetDlgItem(IDC_EQNEDIT_GE)->SetWindowText(_T(" >= "));
+	GetDlgItem(IDC_EQNEDIT_LE)->SetWindowText(_T(" <= "));
+	GetDlgItem(IDC_EQNEDIT_LT)->SetWindowText(_T(" < "));
+	GetDlgItem(IDC_EQNEDIT_EQ)->SetWindowText(_T(" == "));
+	GetDlgItem(IDC_EQNEDIT_AT)->SetWindowText(_T(";"));
+	GetDlgItem(IDC_EQNEDIT_DOT)->SetWindowText(_T("."));
+	GetDlgItem(IDC_EQNEDIT_COMMA)->SetWindowText(_T(", "));
+	GetDlgItem(IDC_EQNEDIT_PERC)->SetWindowText(_T("%"));
+	GetDlgItem(IDC_EQNEDIT_DQUOTE)->SetWindowText(_T("\""));
+	GetDlgItem(IDC_EQNEDIT_QUOTE)->SetWindowText(_T("'"));
 }
 
 //----------------------------------------------------------------------------
 BOOL CEqnEditDlg::OnInitDialog()
 {
 	CParsedDialog::OnInitDialog();
-	
+
 	EnableToolTips();
 	SetCaptionButtons();
 
-	m_edtExpr.SubclassEdit(IDC_EQNEDIT_EDIT,	this);
+	m_edtExpr.SubclassEdit(IDC_EQNEDIT_EDIT, this);
 
 	if (m_pSymTable)
 	{
-		m_cbSelFields.	SubclassDlgItem(IDC_EQNEDIT_SEL_FIELDS,	this);
-		m_cbSelTable.	SubclassDlgItem(IDC_EQNEDIT_SEL_TABLE,	this);
-		m_lbVars.		SubclassDlgItem(IDC_EQNEDIT_VARSLB,		this);
-		m_lbExtFuncts.	SubclassDlgItem(IDC_EQNEDIT_EXT_FUNCTSLB,	this);
-		m_cbSelApplication.	SubclassDlgItem	(IDC_EQNEDIT_EXT_COMBOAPP,	this);
-		m_cbSelModule.		SubclassDlgItem	(IDC_EQNEDIT_EXT_COMBOMOD,	this);
+		m_cbSelFields.SubclassDlgItem(IDC_EQNEDIT_SEL_FIELDS, this);
+		m_cbSelTable.SubclassDlgItem(IDC_EQNEDIT_SEL_TABLE, this);
+		m_lbVars.SubclassDlgItem(IDC_EQNEDIT_VARSLB, this);
+		m_lbExtFuncts.SubclassDlgItem(IDC_EQNEDIT_EXT_FUNCTSLB, this);
+		m_cbSelApplication.SubclassDlgItem(IDC_EQNEDIT_EXT_COMBOAPP, this);
+		m_cbSelModule.SubclassDlgItem(IDC_EQNEDIT_EXT_COMBOMOD, this);
 
-		m_cbFilterSelFields.SubclassDlgItem	(IDC_EQNEDIT_FILTER_FIELDS,	this);
+		m_cbFilterSelFields.SubclassDlgItem(IDC_EQNEDIT_FILTER_FIELDS, this);
 
 		if (!m_bOnlyPubNames)
-			m_edtShowDescr.		SubclassEdit	(IDC_EQNEDIT_EXT_EDITDESCR,	this);
+			m_edtShowDescr.SubclassEdit(IDC_EQNEDIT_EXT_EDITDESCR, this);
 	}
 
-	m_cbTagName.		SubclassEdit(IDC_EQNEDIT_TAG_NAME,		this);
-	m_lbItemName.		SubclassDlgItem(IDC_EQNEDIT_ITEM_NAME,	this);
+	m_cbTagName.SubclassEdit(IDC_EQNEDIT_TAG_NAME, this);
+	m_lbItemName.SubclassDlgItem(IDC_EQNEDIT_ITEM_NAME, this);
 	m_lbItemName.InsertColumn(0, _TB("Name"), LVCFMT_LEFT, 130, 0);
 	m_lbItemName.InsertColumn(1, _TB("Value"), LVCFMT_LEFT, 0, 0);
-		
+
 	VERIFY(m_ck_viewLong.SubclassDlgItem(IDC_CHECK_LONG, this));
 	m_ck_viewLong.SetCheck(FALSE);
 
-	m_lbFuncts.			SubclassDlgItem	(IDC_EQNEDIT_FUNCTSLB,		this);
-	m_lbEventActions.	SubclassDlgItem	(IDC_EQNEDIT_LST_EVENTACTIONS,	this);
-	m_lbPhisicFields.	SubclassDlgItem	(IDC_EQNEDIT_PHISIC_FIELDS,	this);
+	m_lbFuncts.SubclassDlgItem(IDC_EQNEDIT_FUNCTSLB, this);
+	m_lbEventActions.SubclassDlgItem(IDC_EQNEDIT_LST_EVENTACTIONS, this);
+	m_lbPhisicFields.SubclassDlgItem(IDC_EQNEDIT_PHISIC_FIELDS, this);
 
-	m_lbPhisicFields.	SetTabStops(16);
-	m_lbPhisicFields.	SetStyle(CMultiListBox::SORT_ON_FIRST_STRING);
+	m_lbPhisicFields.SetTabStops(16);
+	m_lbPhisicFields.SetStyle(CMultiListBox::SORT_ON_FIRST_STRING);
 
-	ShowPhysicalNames	();
+	ShowPhysicalNames();
 
-	TypeChecked			();
+	TypeChecked();
 
-	ShowComboBoxes		();
+	ShowComboBoxes();
 
 	CTBNamespace Ns;
-	ShowBaseFunctions	();
-	CEqnEditDlg::ShowFunctions		(m_cbSelApplication, m_cbSelModule, m_lbExtFuncts);
+	ShowBaseFunctions();
+	CEqnEditDlg::ShowFunctions(m_cbSelApplication, m_cbSelModule, m_lbExtFuncts);
 
-	ShowVars			();
+	ShowVars();
 
-	ShowEventActions	();
+	ShowEventActions();
 
 	m_edtExpr.SetTabStops(8);
 	m_edtExpr.SetWindowText(m_strExpr);
 	m_edtExpr.PositionCursor(m_dwStartPos);
 
-	InitStatusBar	();	
-	RecalcLayout	();
+	InitStatusBar();
+	RecalcLayout();
 
 	// Controllo dell'esistenza di un precedente salvataggio della posizione
 	// e dimensione della finestra principale
@@ -371,7 +371,7 @@ BOOL CEqnEditDlg::OnInitDialog()
 	if (LoadWindowPlacement(m_nID == IDD_EQNEDIT ? szEquationEditorFull : szEquationEditor, wp))
 	{
 		// Lettura dal file .INI dell'applicazione 
-		SetWindowPlacement	(&wp);
+		SetWindowPlacement(&wp);
 	}
 
 	return FALSE;
@@ -382,22 +382,22 @@ void CEqnEditDlg::InitStatusBar()
 {
 	UINT	nID, nStyle;
 	int		cxWidth;
-	
-	if	(
-			!m_sbInfo.Create(this) || 
-			!m_sbInfo.SetIndicators(eqnedit_indicators, sizeof(eqnedit_indicators) / sizeof(UINT))
+
+	if (
+		!m_sbInfo.Create(this) ||
+		!m_sbInfo.SetIndicators(eqnedit_indicators, sizeof(eqnedit_indicators) / sizeof(UINT))
 		)
 	{
 		TRACE("Failed to create status bar\n");
 		return;
 	}
 
-	m_sbInfo.GetPaneInfo( 0, nID, nStyle, cxWidth);
-	m_sbInfo.GetPaneInfo( 1, nID, nStyle, cxWidth);
+	m_sbInfo.GetPaneInfo(0, nID, nStyle, cxWidth);
+	m_sbInfo.GetPaneInfo(1, nID, nStyle, cxWidth);
 
-	m_sbInfo.SetPaneInfo( 0, nID, SBPS_STRETCH | SBPS_NORMAL, cxWidth);
-	m_sbInfo.SetPaneInfo( 1, nID, SBPS_NORMAL, cxWidth);
-	
+	m_sbInfo.SetPaneInfo(0, nID, SBPS_STRETCH | SBPS_NORMAL, cxWidth);
+	m_sbInfo.SetPaneInfo(1, nID, SBPS_NORMAL, cxWidth);
+
 	m_sbInfo.SetPaneText(0, NULL);
 	m_sbInfo.SetPaneText(1, NULL);
 }
@@ -419,8 +419,8 @@ void CEqnEditDlg::ShowVars()
 			m_lbVars.EnableWindow(FALSE);
 		return;
 	}
-		
-	int nFieldType	= m_cbSelFields.GetCurSel();
+
+	int nFieldType = m_cbSelFields.GetCurSel();
 	if (nFieldType == EQNEDIT_SELECT_ONLY_TBLRULE_FIELDS && m_Rules.GetSize() > 0)
 	{
 		m_cbSelTable.ShowWindow(SW_SHOW);
@@ -431,8 +431,8 @@ void CEqnEditDlg::ShowVars()
 		m_cbSelTable.SetCurSel(0);
 		GetDlgItem(IDC_EQNEDIT_TBL_CAPTION)->ShowWindow(SW_HIDE);
 		m_cbSelTable.ShowWindow(SW_HIDE);
-	}		
-	
+	}
+
 	if (m_sbInfo.m_hWnd)
 	{
 		m_sbInfo.SetPaneText(0, L"");
@@ -440,7 +440,7 @@ void CEqnEditDlg::ShowVars()
 	}
 	m_lbVars.SetRedraw(FALSE);
 	m_lbVars.ResetContent();
-		
+
 	CString sMatch;
 	BOOL bFirst = m_cbFilterSelFields.GetCount() == 0;
 	if (bFirst)
@@ -456,7 +456,7 @@ void CEqnEditDlg::ShowVars()
 			m_cbFilterSelFields.GetWindowText(sMatch);
 	}
 
-	for (int i = 0; i <= m_pSymTable->GetUpperBound(); i ++)
+	for (int i = 0; i <= m_pSymTable->GetUpperBound(); i++)
 	{
 		SymField* pF = m_pSymTable->GetAt(i);
 
@@ -468,7 +468,7 @@ void CEqnEditDlg::ShowVars()
 				int i = s.ReverseFind('.');
 				if (i > 0)
 				{
-					CString pref = s.Left(i+1);
+					CString pref = s.Left(i + 1);
 					if (m_cbFilterSelFields.SelectString(-1, pref) < 0)
 						m_cbFilterSelFields.AddString(pref);
 				}
@@ -495,7 +495,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 	m_lbFuncts.SetRedraw(FALSE);
 	m_lbFuncts.ResetContent();
 
-	for (Token tk = T_FUNCTION_START; tk <= T_FUNCTION_PUBLIC_END; tk = (Token)(int(tk)+1))
+	for (Token tk = T_FUNCTION_START; tk <= T_FUNCTION_PUBLIC_END; tk = (Token)(int(tk) + 1))
 	{
 		//if (
 		//		tk == T_FCONVERT || tk == T_FTYPEOF || tk == T_FADDRESSOF || 
@@ -505,7 +505,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 		//	)
 		//	continue;
 
-		m_lbFuncts.AddString( cwsprintf(tk) );
+		m_lbFuncts.AddString(cwsprintf(tk));
 	}
 
 	m_lbFuncts.CalcHorizontalExtent();
@@ -521,13 +521,13 @@ void CEqnEditDlg::ShowBaseFunctions()
 
 	CString sApp = _T("");
 	CString sMod = _T("");
-	GetAppModSel (cbSelApplication, cbSelModule, sApp, sMod);
+	GetAppModSel(cbSelApplication, cbSelModule, sApp, sMod);
 
 	lbExtFuncts.SetRedraw(FALSE);
 	lbExtFuncts.ResetContent();
 
 	CObArray arFunctions;
-	// itero su tutte le AddOnApplication per scoprire si è registrato all'evento
+	// itero su tutte le AddOnApplication per scoprire si ? registrato all'evento
 	for (int i = 0; i <= AfxGetAddOnAppsTable()->GetUpperBound(); i++)
 	{
 		AddOnApplication* pAddOnApp = AfxGetAddOnAppsTable()->GetAt(i);
@@ -535,7 +535,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 
 		if (sApp.IsEmpty())
 		{
-			for (int j = 0; j <= pAddOnApp->m_pAddOnModules->GetUpperBound(); j++) 
+			for (int j = 0; j <= pAddOnApp->m_pAddOnModules->GetUpperBound(); j++)
 			{
 				AddOnModule* pAddOnModApp = pAddOnApp->m_pAddOnModules->GetAt(j);
 				FillExtFuncList(lbExtFuncts, pAddOnModApp);
@@ -543,7 +543,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 		}
 		else
 		{
-			for (int j = 0; j <= pAddOnApp->m_pAddOnModules->GetUpperBound(); j++) 
+			for (int j = 0; j <= pAddOnApp->m_pAddOnModules->GetUpperBound(); j++)
 			{
 				AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(j);
 				if (pAddOnApp->m_strAddOnAppName.CompareNoCase(sApp) == 0)
@@ -555,7 +555,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 						if (pAddOnMod->GetModuleName().CompareNoCase(sMod) == 0)
 							FillExtFuncList(lbExtFuncts, pAddOnMod);
 					}
-				}				
+				}
 			}
 		}
 	}
@@ -573,7 +573,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 	const CBaseDescriptionArray &arFunctions = pAddOnMod->m_XmlDescription.GetFunctionsInfo().GetFunctions();
 	for (int k = 0; k <= arFunctions.GetUpperBound(); k++)
 	{
-		CFunctionDescription* pFun = (CFunctionDescription*) arFunctions.GetAt(k);
+		CFunctionDescription* pFun = (CFunctionDescription*)arFunctions.GetAt(k);
 		if (!pFun->IsPublished())
 			continue;
 		if (AfxIsActivated(pAddOnMod->GetApplicationName(), pAddOnMod->GetModuleName()))
@@ -592,7 +592,7 @@ void CEqnEditDlg::ShowBaseFunctions()
 	const CBaseDescriptionArray &arFunctions = pAddOnMod->m_XmlDescription.GetFunctionsInfo().GetFunctions();
 	for (int k = 0; k <= arFunctions.GetUpperBound(); k++)
 	{
-		CFunctionDescription* pFun = (CFunctionDescription*) arFunctions.GetAt(k);
+		CFunctionDescription* pFun = (CFunctionDescription*)arFunctions.GetAt(k);
 		if (!pFun->IsPublished())
 			continue;
 		if (AfxIsActivated(pAddOnMod->GetApplicationName(), pAddOnMod->GetModuleName()))
@@ -614,28 +614,28 @@ void CEqnEditDlg::ShowPhysicalNames()
 		return;
 	}
 
-	m_lbPhisicFields.SetRedraw(FALSE);	
+	m_lbPhisicFields.SetRedraw(FALSE);
 	for (int i = 0; i < m_arSqlTableInfo.GetSize(); i++)
-	{   
+	{
 		// non deve far vedere i campi virtuali definiti dal programmatore
 		// ed inseriti nel TableInfo dalla prima istanza di record derivato 
 		// che definisce eventuali campi virtuali
 		const SqlTableInfo* pTableInfo = m_arSqlTableInfo.GetAt(i);
 		const Array* pColums = pTableInfo->GetPhysicalColumns();
 		for (int j = 0; j < pColums->GetSize(); j++)
-		{ 
-			SqlColumnInfo* pSqlColumnInfo = (SqlColumnInfo*) pColums->GetAt(j);
-			ASSERT (pSqlColumnInfo);
+		{
+			SqlColumnInfo* pSqlColumnInfo = (SqlColumnInfo*)pColums->GetAt(j);
+			ASSERT(pSqlColumnInfo);
 			ASSERT(!pSqlColumnInfo->m_bVirtual);
 
 			int nIdx = m_lbPhisicFields.AddString
-				(
-					pSqlColumnInfo->GetColumnName(), 
-					_T(""),
-					pSqlColumnInfo->m_bSpecial
-						? CMultiListBox::CHECK_ONE
-						: CMultiListBox::UNCHECKED
-				);
+			(
+				pSqlColumnInfo->GetColumnName(),
+				_T(""),
+				pSqlColumnInfo->m_bSpecial
+				? CMultiListBox::CHECK_ONE
+				: CMultiListBox::UNCHECKED
+			);
 			m_lbPhisicFields.SetItemDataPtr(nIdx, pSqlColumnInfo);
 		}
 
@@ -644,9 +644,9 @@ void CEqnEditDlg::ShowPhysicalNames()
 		tablesName += m_arSqlTableInfo.GetAt(i)->GetTableName();
 		tablesName += "] ";
 	}
-	m_lbPhisicFields.SetRedraw(TRUE);	
-	m_lbPhisicFields.Invalidate(FALSE);	
-	SetWindowText (cwsprintf(_TB("Query generator on tables {0-%s}"), (LPCTSTR) tablesName));
+	m_lbPhisicFields.SetRedraw(TRUE);
+	m_lbPhisicFields.Invalidate(FALSE);
+	SetWindowText(cwsprintf(_TB("Query generator on tables {0-%s}"), (LPCTSTR)tablesName));
 }
 
 //----------------------------------------------------------------------------
@@ -654,7 +654,7 @@ void CEqnEditDlg::ShowComboBoxes()
 {
 	if (m_pSymTable == NULL)
 		return;
-		
+
 	//	Fill Selection fields comboBox
 	//
 	m_cbSelFields.AddString(_TB("All fields"));
@@ -663,20 +663,20 @@ void CEqnEditDlg::ShowComboBoxes()
 	m_cbSelFields.AddString(_TB("Only function fields"));
 	m_cbSelFields.AddString(_TB("Only request fields"));
 	m_cbSelFields.SetCurSel(0);
-	
+
 	//	Fill DataTable names comboBox
 	//
 	m_cbSelTable.AddString(_TB("All archives"));
 	for (int i = 0; i < m_Rules.GetSize(); i++)
 	{
-		TblRuleData* pTRD = (TblRuleData*) m_Rules[i];
+		TblRuleData* pTRD = (TblRuleData*)m_Rules[i];
 		if (pTRD == m_pTblRule) continue;
-		
+
 		CStringArray tableNames;
 		pTRD->GetTableNames(tableNames);
 		for (int j = 0; j < tableNames.GetSize(); j++)
 		{
-			m_cbSelTable.AddString(cwsprintf(_T("[%d]%s"),i, tableNames.GetAt(j)));
+			m_cbSelTable.AddString(cwsprintf(_T("[%d]%s"), i, tableNames.GetAt(j)));
 		}
 	}
 	m_cbSelTable.SetCurSel(0);
@@ -689,7 +689,7 @@ void CEqnEditDlg::ShowComboBoxes()
 }
 
 //----------------------------------------------------------------------------
-/*static */void CEqnEditDlg::FillAppCombo (CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, Array& arAppItemLoc)
+/*static */void CEqnEditDlg::FillAppCombo(CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, Array& arAppItemLoc)
 {
 	if (!cbSelApplication.m_hWnd)
 		return;
@@ -700,17 +700,17 @@ void CEqnEditDlg::ShowComboBoxes()
 	CStringArray	aApplications;
 	CString			strApps;
 	int				nIdx;
-	CEqnItemNoLoc*	pAppItemNoLoc	= NULL;
+	CEqnItemNoLoc*	pAppItemNoLoc = NULL;
 
 	for (int i = 0; i <= AfxGetAddOnAppsTable()->GetUpperBound(); i++)
 	{
 		AddOnApplication* pApp = AfxGetAddOnAppsTable()->GetAt(i);
 		strApps = pApp->m_strAddOnAppName;
 
-		nIdx			= cbSelApplication.AddString(AfxGetAddOnApp(strApps)->GetTitle());
-		pAppItemNoLoc	= new CEqnItemNoLoc(strApps);
+		nIdx = cbSelApplication.AddString(AfxGetAddOnApp(strApps)->GetTitle());
+		pAppItemNoLoc = new CEqnItemNoLoc(strApps);
 		arAppItemLoc.Add(pAppItemNoLoc);
-		cbSelApplication.SetItemData(nIdx, (DWORD) pAppItemNoLoc);
+		cbSelApplication.SetItemData(nIdx, (DWORD)pAppItemNoLoc);
 	}
 
 	cbSelApplication.SetCurSel(0);
@@ -727,9 +727,9 @@ void CEqnEditDlg::ShowEventActions()
 		return;
 	CStringArray arKeywords;
 	AddEventActionsKeywords(arKeywords);
-	for (int i =0; i < arKeywords.GetCount(); i++)
+	for (int i = 0; i < arKeywords.GetCount(); i++)
 		m_lbEventActions.AddString(arKeywords[i]);
-//	
+	//	
 }
 
 //--------------------------------------------------------------------------
@@ -737,15 +737,15 @@ void CEqnEditDlg::ShowEventActions()
 {
 	CStringArray	aModules;
 	CTBNamespace	Ns;
-	CEqnItemNoLoc*	pModItemNoLoc	= NULL;
+	CEqnItemNoLoc*	pModItemNoLoc = NULL;
 	CString			strMods;
 	int				nIdx;
 
 	cbSelModule.ResetContent();
 	cbSelModule.AddString(_TB("<All modules>"));
 	arModItemLoc.RemoveAll();
-	
-	AddOnApplication* pAddOnApplication =  AfxGetAddOnApp(strLabel);
+
+	AddOnApplication* pAddOnApplication = AfxGetAddOnApp(strLabel);
 	if (pAddOnApplication)
 		for (int a = 0; a <= pAddOnApplication->m_pAddOnModules->GetUpperBound(); a++)
 		{
@@ -756,22 +756,22 @@ void CEqnEditDlg::ShowEventActions()
 			nIdx = cbSelModule.AddString(pAddOnMod->GetModuleTitle());
 			pModItemNoLoc = new CEqnItemNoLoc(pAddOnMod->GetModuleName());
 			arModItemLoc.Add(pModItemNoLoc);
-			cbSelModule.SetItemData(nIdx, (DWORD) pModItemNoLoc);	
-		}	
+			cbSelModule.SetItemData(nIdx, (DWORD)pModItemNoLoc);
+		}
 	cbSelModule.SetCurSel(0);
 
-	CEqnEditDlg::ShowFunctions (cbSelApplication, cbSelModule, lbExtFuncts);
+	CEqnEditDlg::ShowFunctions(cbSelApplication, cbSelModule, lbExtFuncts);
 }
 
 //----------------------------------------------------------------------------
-/*static */void CEqnEditDlg::GetAppModSel (CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, CString& sApplication, CString& sModule)
+/*static */void CEqnEditDlg::GetAppModSel(CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, CString& sApplication, CString& sModule)
 {
 	CEqnItemNoLoc* pItemNoLoc = NULL;
 
 	int nCurSel = cbSelApplication.GetCurSel();
 	if (nCurSel >= 0)
 	{
-		pItemNoLoc = (CEqnItemNoLoc*) cbSelApplication.GetItemData(nCurSel);
+		pItemNoLoc = (CEqnItemNoLoc*)cbSelApplication.GetItemData(nCurSel);
 		if (pItemNoLoc) sApplication = pItemNoLoc->m_strName;
 	}
 	else
@@ -780,7 +780,7 @@ void CEqnEditDlg::ShowEventActions()
 	nCurSel = cbSelModule.GetCurSel();
 	if (nCurSel >= 0)
 	{
-		pItemNoLoc = (CEqnItemNoLoc*) cbSelModule.GetItemData(nCurSel);
+		pItemNoLoc = (CEqnItemNoLoc*)cbSelModule.GetItemData(nCurSel);
 		if (pItemNoLoc) sModule = pItemNoLoc->m_strName;
 	}
 }
@@ -795,12 +795,12 @@ void CEqnEditDlg::SelChangeActionEvents()
 //----------------------------------------------------------------------------
 void CEqnEditDlg::SelActionEvents()
 {
-	CString cs;	
-	m_lbEventActions.GetText( m_lbEventActions.GetCurSel(), cs );
+	CString cs;
+	m_lbEventActions.GetText(m_lbEventActions.GetCurSel(), cs);
 	if (!cs.IsEmpty())
 	{
 		::CEditReplaceSelection(m_edtExpr, cs);
-	}		
+	}
 }
 
 //----------------------------------------------------------------------------
@@ -831,7 +831,7 @@ void CEqnEditDlg::TagNameChanged()
 	m_lbItemName.DeleteAllItems();
 	if (m_cbTagName.GetCurSel() < 0 || m_cbTagName.GetTypeValue().m_wType == DATA_NULL_TYPE)
 		return;
-	
+
 	WORD wTagValue = m_cbTagName.GetTypeValue().m_wTag;
 	const EnumItemArray* pEnumItemArray = AfxGetEnumsTable()->GetEnumItems(wTagValue);
 
@@ -854,13 +854,13 @@ void CEqnEditDlg::EnumSetItemChanged(NMHDR *pNMHDR, LRESULT *pResult)
 	if (m_cbTagName.GetCurSel() < 0 || /*m_lbItemName.GetSelCount() < 0*/m_lbItemName.GetSelectedCount() < 1)
 		return;
 
-	//	non si può avere la multiselezione per gli enumerativi e visto che i Set
-	//	saranno eliminati, è stato impostato che il CListCtrl sia senza multisel
+	//	non si pu? avere la multiselezione per gli enumerativi e visto che i Set
+	//	saranno eliminati, ? stato impostato che il CListCtrl sia senza multisel
 	CString strItem;
 
-	POSITION	Pos		= m_lbItemName.GetFirstSelectedItemPosition();
-	int			nItem	= 0;
-	
+	POSITION	Pos = m_lbItemName.GetFirstSelectedItemPosition();
+	int			nItem = 0;
+
 	while (Pos)
 		nItem = m_lbItemName.GetNextSelectedItem(Pos);
 
@@ -874,24 +874,24 @@ void CEqnEditDlg::SelEnumSetItem(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	if (m_cbTagName.GetCurSel() < 0 || m_lbItemName.GetSelectedCount() < 1/*m_lbItemName.GetSelCount() <= 0*/)
 		return;
-	
+
 	DataObj*	pDataObj = NULL;
 	int			nSel = m_lbItemName.GetSelectedCount();
 	int*		idxs = new int[nSel];
-	
-	POSITION	Pos	  = m_lbItemName.GetFirstSelectedItemPosition();
+
+	POSITION	Pos = m_lbItemName.GetFirstSelectedItemPosition();
 	int			nItem = 0;
-	
+
 	while (Pos)
-		nItem	= m_lbItemName.GetNextSelectedItem(Pos);
+		nItem = m_lbItemName.GetNextSelectedItem(Pos);
 
 	pDataObj = new DataEnum(m_lbItemName.GetItemData(nItem));
 
-	delete []idxs;
+	delete[]idxs;
 
 	// compone la stringa
 	::CEditReplaceSel(m_edtExpr, ExpUnparse::UnparseData(*pDataObj));
-	
+
 	delete pDataObj;
 }
 
@@ -923,37 +923,37 @@ void CEqnEditDlg::SelFunct()
 {
 	CString cs;
 	int 	nStart, nStop, nLenFunc;
-	
-	m_lbFuncts.GetText( m_lbFuncts.GetCurSel(), cs );
+
+	m_lbFuncts.GetText(m_lbFuncts.GetCurSel(), cs);
 	if (!cs.IsEmpty())
 	{
-		::CEditGetSel(m_edtExpr,nStart,nStop);
+		::CEditGetSel(m_edtExpr, nStart, nStop);
 		nLenFunc = cs.GetLength();
-		
+
 		cs += "( ) ";
 		::CEditReplaceSel(m_edtExpr, cs);
-		m_edtExpr.SetSel(nStart+nLenFunc+1, nStart+nLenFunc+1);
-	}		
+		m_edtExpr.SetSel(nStart + nLenFunc + 1, nStart + nLenFunc + 1);
+	}
 }
 
 //----------------------------------------------------------------------------
 void CEqnEditDlg::SelExtFunct()
 {
 	int 	nStart, nStop, nLenFunc;
-	
-	CFunctionDescription* pFunc = (CFunctionDescription*) m_lbExtFuncts.GetItemDataPtr(m_lbExtFuncts.GetCurSel());
-		
+
+	CFunctionDescription* pFunc = (CFunctionDescription*)m_lbExtFuncts.GetItemDataPtr(m_lbExtFuncts.GetCurSel());
+
 	if (pFunc)
 	{
 		CString cs = pFunc->GetNamespace().ToUnparsedString();
 
-		::CEditGetSel(m_edtExpr,nStart,nStop);
+		::CEditGetSel(m_edtExpr, nStart, nStop);
 		nLenFunc = cs.GetLength();
-		
+
 		cs += "( ) ";
 		::CEditReplaceSel(m_edtExpr, cs);
-		m_edtExpr.SetSel(nStart+nLenFunc+1, nStart+nLenFunc+1);
-	}		
+		m_edtExpr.SetSel(nStart + nLenFunc + 1, nStart + nLenFunc + 1);
+	}
 }
 
 //----------------------------------------------------------------------------
@@ -962,7 +962,7 @@ void CEqnEditDlg::SelVar()
 	if (m_pSymTable == NULL)
 		return;
 	CString cs;
-	if (m_lbVars.GetCurSel() >= 0 )
+	if (m_lbVars.GetCurSel() >= 0)
 	{
 		m_lbVars.GetText(m_lbVars.GetCurSel(), cs);
 		cs += " ";
@@ -978,7 +978,7 @@ void CEqnEditDlg::SelPhysicalFields()
 
 	cs += GetTableName();
 	cs += ".";
-	
+
 	nIdx = m_lbPhisicFields.GetCurSel();
 	if (nIdx >= 0)
 	{
@@ -993,30 +993,30 @@ void CEqnEditDlg::VarFieldChanged()
 {
 	if (m_pSymTable == NULL)
 		return;
-		
+
 	CString			strFieldName;
-    CString    		strType;
+	CString    		strType;
 	int				nCurIdx = m_lbVars.GetCurSel();
 
-    if (nCurIdx >= 0)
+	if (nCurIdx >= 0)
 	{
 		m_lbVars.GetText(nCurIdx, strFieldName);//controlla che non sia -1  
 
 		SymField* pFld = m_pSymTable->GetField(strFieldName);
 
 		if (pFld)
-		{	
+		{
 			strType = FromDataTypeToDescr(pFld->GetDataType());
 
 			if (pFld->GetDataType() == DATA_STR_TYPE)
 			{
-        		strType += cwsprintf(_T("(%d)"), pFld->GetLen());
+				strType += cwsprintf(_T("(%d)"), pFld->GetLen());
 			}
 			else  if (pFld->GetDataType() == DATA_ARRAY_TYPE)
 			{
 				DataArray* par = dynamic_cast<DataArray*>(pFld->GetData());
 				DataType dt = par->GetBaseDataType();
-        		strType += cwsprintf(_T("[%s]"), FromDataTypeToDescr(dt));
+				strType += cwsprintf(_T("[%s]"), FromDataTypeToDescr(dt));
 				if (dt == DATA_ENUM_TYPE)
 					SelDataType(dt);
 			}
@@ -1028,22 +1028,26 @@ void CEqnEditDlg::VarFieldChanged()
 			{
 				strType += L"{object}";
 			}
-			else  if (pFld->GetDataType() == DATA_RECORD_TYPE)
+			else  if (pFld->GetDataType() == DATA_SQLRECORD_TYPE)
 			{
-				DataTRecord* par = dynamic_cast<DataTRecord*>(pFld->GetData());
+				DataSqlRecord* par = dynamic_cast<DataSqlRecord*>(pFld->GetData());
 				//TODO
 				ASSERT(FALSE);
 			}
-			else 
-
-			if (pFld->GetProvider())
+			else  if (pFld->GetDataType() == DATA_RECORD_TYPE)
+			{
+				DataRecord* par = dynamic_cast<DataRecord*>(pFld->GetData());
+				//TODO
+				ASSERT(FALSE);
+			}
+			else if (pFld->GetProvider())
 				strType += L"[*]";
 
 			CString sTitle = pFld->GetTitle();
 			if (!sTitle.IsEmpty())
 				strFieldName += L" - " + sTitle;
-		}                	
-	                
+		}
+
 		m_sbInfo.SetPaneText(0, strFieldName);
 		m_sbInfo.SetPaneText(1, strType);
 	}
@@ -1053,7 +1057,7 @@ void CEqnEditDlg::VarFieldChanged()
 void CEqnEditDlg::SelChangeExtFunct()
 {
 	m_edtShowDescr.SetWindowText(CEqnEditDlg::SelChangeExtFunct(m_lbExtFuncts));
-}	
+}
 
 //----------------------------------------------------------------------------
 /*static */CString CEqnEditDlg::SelChangeExtFunct(CResizableListBox& lbExtFuncts)
@@ -1062,13 +1066,13 @@ void CEqnEditDlg::SelChangeExtFunct()
 	if (nIdx >= 0)
 	{
 		CString strHelp;
-		CFunctionDescription* pFunc = (CFunctionDescription*) lbExtFuncts.GetItemDataPtr(nIdx);
+		CFunctionDescription* pFunc = (CFunctionDescription*)lbExtFuncts.GetItemDataPtr(nIdx);
 
-		if(pFunc)
-		{	
+		if (pFunc)
+		{
 			BOOL bIsRunReport = pFunc->GetName().CompareNoCase(_T("RunReport")) == 0;
 			strHelp = pFunc->GetHelpSignature();
-			
+
 			if (bIsRunReport)
 			{
 				strHelp += _T("\r\n");
@@ -1076,7 +1080,7 @@ void CEqnEditDlg::SelChangeExtFunct()
 				strHelp += _T("\r\n");
 				strHelp += _TB("Optional parameters must be pairs: the first is the field name of called report to valorize with the value of the second parameter");
 			}
-			
+
 			return (strHelp);
 		}
 	}
@@ -1095,18 +1099,18 @@ void CEqnEditDlg::SelChangePhysicalFields()
 	int nIdx = m_lbPhisicFields.GetCurSel();
 	if (nIdx >= 0)
 	{
-		CString cs = AfxLoadDatabaseString(GetTableName(),GetTableName()/*m_strTableName, m_strTableName*/);
+		CString cs = AfxLoadDatabaseString(GetTableName(), GetTableName()/*m_strTableName, m_strTableName*/);
 		cs += ".";
 		cs += AfxLoadDatabaseString(m_lbPhisicFields.GetString1(nIdx), GetTableName()/*m_strTableName*/);
 
 		CString strBuffer;
-		SqlColumnInfo* pCol = (SqlColumnInfo*) m_lbPhisicFields.GetItemDataPtr(nIdx);
-		if(pCol)
+		SqlColumnInfo* pCol = (SqlColumnInfo*)m_lbPhisicFields.GetItemDataPtr(nIdx);
+		if (pCol)
 		{
 			//ASSERT_KINDOF(SqlColumnInfo, pCol);
 			strBuffer = FromDataTypeToDescr(pCol->GetDataObjType());
 			if (pCol->GetDataObjType() == DATA_STR_TYPE)
-        		strBuffer += cwsprintf(_T("(%d)"), pCol->GetColumnLength());
+				strBuffer += cwsprintf(_T("(%d)"), pCol->GetColumnLength());
 			else if (pCol->GetDataObjType() == DATA_ENUM_TYPE)
 			{
 				SelDataType(pCol->GetDataObjType());
@@ -1186,7 +1190,7 @@ void CEqnEditDlg::OnClickedCheckLong()
 	if (nCheck)
 	{
 		m_lbItemName.SetColumnWidth(0, 85);
-		m_lbItemName.SetColumnWidth(1, 130);	
+		m_lbItemName.SetColumnWidth(1, 130);
 	}
 	else
 	{
@@ -1196,9 +1200,9 @@ void CEqnEditDlg::OnClickedCheckLong()
 }
 
 //----------------------------------------------------------------------------
-void CEqnEditDlg::OnRunEnumsViewer ()
+void CEqnEditDlg::OnRunEnumsViewer()
 {
-	AfxRunEnumsViewer ();
+	AfxRunEnumsViewer();
 }
 
 //----------------------------------------------------------------------------
@@ -1209,25 +1213,25 @@ void CEqnEditDlg::OnComboAppChanged()
 }
 
 //----------------------------------------------------------------------------
-/*static */void CEqnEditDlg::ShowModules (CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, CResizableListBox& lbExtFuncts, Array& arModItemLoc)
+/*static */void CEqnEditDlg::ShowModules(CResizableComboBox& cbSelApplication, CResizableComboBox& cbSelModule, CResizableListBox& lbExtFuncts, Array& arModItemLoc)
 {
-	BOOL			bFind			= FALSE;
-	int				nCurSel			= cbSelApplication.GetCurSel();
-	
+	BOOL			bFind = FALSE;
+	int				nCurSel = cbSelApplication.GetCurSel();
+
 	if (nCurSel >= 0)
 		cbSelModule.EnableWindow();
 	else
 	{
-		cbSelModule.EnableWindow(FALSE);		
+		cbSelModule.EnableWindow(FALSE);
 		cbSelModule.SetCurSel(0);
 
 		CEqnEditDlg::ShowFunctions(cbSelApplication, cbSelModule, lbExtFuncts);
 		return;
 	}
-	
+
 	cbSelModule.SetCurSel(0);
 
-	CEqnItemNoLoc* pItemNoLoc = (CEqnItemNoLoc*) cbSelApplication.GetItemData(nCurSel);
+	CEqnItemNoLoc* pItemNoLoc = (CEqnItemNoLoc*)cbSelApplication.GetItemData(nCurSel);
 	cbSelModule.ResetContent();
 
 	CString sLabel = pItemNoLoc ? pItemNoLoc->m_strName : _T("");
@@ -1236,7 +1240,7 @@ void CEqnEditDlg::OnComboAppChanged()
 	{
 		CString strApps = AfxGetAddOnAppsTable()->GetAt(i)->m_strAddOnAppName;
 		if (strApps == sLabel)
-			bFind = TRUE; 
+			bFind = TRUE;
 	}
 
 	CEqnEditDlg::FillModuleCombo(cbSelApplication, cbSelModule, lbExtFuncts, arModItemLoc, sLabel);
@@ -1256,13 +1260,13 @@ INT_PTR CEqnEditDlg::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 	CString strTableName;
 	strTableName = GetTableName();
 	if (::OnToolHitTest
-			(
-				this,
-				m_lbPhisicFields, 
-				point, 
-				pTI, 
-				strTableName
-			)
+	(
+		this,
+		m_lbPhisicFields,
+		point,
+		pTI,
+		strTableName
+	)
 		)
 	{
 		return IDC_EQNEDIT_PHISIC_FIELDS;
@@ -1275,13 +1279,12 @@ INT_PTR CEqnEditDlg::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 CString CEqnEditDlg::GetTableName() const
 {
 	int nIdx = m_lbPhisicFields.GetCurSel();
-    if (nIdx >= 0)
+	if (nIdx >= 0)
 	{
-	 SqlColumnInfo* pCol = (SqlColumnInfo*) m_lbPhisicFields.GetItemDataPtr(nIdx);
-	 return pCol->GetTableName();
+		SqlColumnInfo* pCol = (SqlColumnInfo*)m_lbPhisicFields.GetItemDataPtr(nIdx);
+		return pCol->GetTableName();
 	}
 	if (m_arSqlTableInfo.GetSize() != 0)
-	    return  (m_arSqlTableInfo.GetAt(0))->GetTableName();
+		return  (m_arSqlTableInfo.GetAt(0))->GetTableName();
 	return CString("");
 }
-

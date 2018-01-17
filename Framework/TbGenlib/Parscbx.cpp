@@ -1613,8 +1613,11 @@ BOOL CParsedCombo::DoSelection()
 		GetDescription(GetCtrlData(), m_sReadOnlyText);
 	}
 	if (m_pControlBehaviour)
-		m_pControlBehaviour->OnSelect(GetCtrlData());
-
+	{
+		int nIndex = GetCurSel();
+		m_pControlBehaviour->OnSelect(GetCtrlData(), nIndex);
+	}
+	
 	//Anomalia 14854: forza il ridisegno se la tendina copre il control
 	this->SetFocus();
 
@@ -3844,7 +3847,8 @@ void CDataObjTypesCombo::OnFillListBox()
 			case DATA_BLOB_TYPE	:	
 			case DATA_ARRAY_TYPE :	
 			case DATA_RECORD_TYPE :	
-			case DATA_VARIANT_TYPE :	
+			case DATA_SQLRECORD_TYPE:
+			case DATA_VARIANT_TYPE :
 				continue;
 
 			default	:

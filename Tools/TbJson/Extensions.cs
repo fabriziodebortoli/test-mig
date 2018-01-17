@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using Newtonsoft.Json.Linq;
-using System.Web;
-using System.Text.RegularExpressions;
 
 namespace Microarea.TbJson
 {
@@ -120,10 +119,11 @@ namespace Microarea.TbJson
             if (result == null || !(result is JValue))
                 return null;
             string text = result.Value<string>();
-            if (text.StartsWith("{{") && text.EndsWith("}}"))
+            if (text == null)
+                return null;
+            if (Helpers.AdjustExpression(ref text))
             {
-                text = text.Substring(2, text.Length - 4);
-                return string.Concat("eventData?.model?.", text);
+                return text;
             }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
@@ -309,9 +309,8 @@ namespace Microarea.TbJson
             if (result.Type == JTokenType.Property || result.Type == JTokenType.String)
             {
                 val = result.ToString();
-                if (val.StartsWith("{{") && val.EndsWith("}}"))
+                if (Helpers.AdjustExpression(ref val))
                 {
-                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
                 }
                 return ValueType.PLAIN;
@@ -329,11 +328,11 @@ namespace Microarea.TbJson
                 return ValueType.CONSTANT;
             }
 
-
-
             val = result.ToString();
             return ValueType.PLAIN;
         }
+
+        
 
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo

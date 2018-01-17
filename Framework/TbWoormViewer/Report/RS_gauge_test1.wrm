@@ -1,0 +1,69 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageLayout "default" 
+	Begin
+	
+Gauge Gauge_1
+	Begin
+		Alias 21
+		Type 1 /*Linear=1, Radial=2, Arc=3*/
+		Rect (58,57,172,309) 
+			Begin
+				Transparent
+				DropShadow 4 Color (240,230,140) 
+			End
+			
+		GaugeScale(10, 90, 5, 10)
+		Landscape 
+		
+		GaugeRangeColor(10, 35, color(255,0,0))
+		GaugeRangeColor(36, 65, color(255,0,255))
+		GaugeRangeColor(66, 90, color(255,255,0))
+		
+		GaugePointer 
+			Begin
+				DataSource w_pointer1
+				Style 1 /*(shape)arrow=1 (default), (bar)=2*/ 
+				Color (0,255,0)
+				Transparent 0.5
+			End
+		GaugePointer 
+			Begin
+				DataSource w_pointer2
+				Style 1 /*(shape)arrow=1 (default), (bar)=2*/ 
+				Color (0,255,255)
+				Transparent 0.5
+			End
+	End	
+	
+	
+				
+		Field (68,412,96,559) Alias 1  /* w_pointer1 */ FormatStyle "Double" 
+			Begin
+				Label "w_pointer1" 
+			End
+		Field (143,418,171,565) Alias 2  /* w_pointer2 */ FormatStyle "Double" 
+			Begin
+				Label "w_pointer2" 
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			Double       w_pointer1 [23] Alias 1 ;
+			Double       w_pointer2 [23] Alias 2 ;
+		End
+
+		Rules
+			w_pointer1 = 30 ;
+
+			w_pointer2 = 50 ;
+		End
+
+End
+

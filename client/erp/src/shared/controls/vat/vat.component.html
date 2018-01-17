@@ -1,5 +1,0 @@
-<div class="tb-control erp-vat" [ngClass]="componentClass()">
-    <tb-caption caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox [ngModel]="model?.value" required="required" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)" [style.width.px]="width"></kendo-maskedtextbox>
-    <div class="has-error">{{errorMessage}}</div>
-</div>

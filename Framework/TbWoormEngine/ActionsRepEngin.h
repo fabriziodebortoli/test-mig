@@ -403,6 +403,7 @@ public:
 
 //============================================================================
 //DISPLAY_CHART
+
 class TB_EXPORT DisplayChartAction : public ActionObj
 {
 	DECLARE_DYNAMIC(DisplayChartAction)

@@ -1640,6 +1640,17 @@ CWndObjDescription* CWndObjDescription::Find(const CString& id)
 	}
 	return NULL;
 }
+
+//-----------------------------------------------------------------------------
+void CWndObjDescription::FindAll(const CString& id, CArray<CWndObjDescription*>&ar)
+{
+	if (HasID(id))
+		ar.Add(this);
+	for (int i = 0; i < m_Children.GetCount(); i++)
+	{
+		m_Children.GetAt(i)->FindAll(id, ar);
+	}
+}
 //-----------------------------------------------------------------------------
 CWndObjDescription* CWndObjDescription::FindUpwards(const CString& id)
 {
@@ -2313,127 +2324,6 @@ BOOL CWndObjDescription::SkipWindow(CWnd* pWnd)
 	}
 }
 
-
-
-//Find the label next to the edit/combo control passed as first argument
-//-----------------------------------------------------------------------------
-#ifdef TBWEB
-CWndObjDescription* FindLabel(CRect targetBox, CWndObjDescriptionContainer* arDescriptions)
-{
-	CWndObjDescription*  pDescLabel = NULL;
-
-	// tolerance in pixel
-	LONG tolLimitA = 15; // space
-	LONG tolLimitB = 15; // intersection
-
-	// edit Box
-	LONG edit_L = targetBox.left;
-	LONG edit_R = targetBox.right;
-	LONG edit_T = targetBox.top;
-	LONG edit_B = targetBox.bottom;
-
-	int iDescriptionsCount = arDescriptions->GetCount();
-	for (int i = 0; i < iDescriptionsCount; i++)
-	{
-		CWndObjDescription* pDescCandidateLabel = arDescriptions->GetAt(i);
-		if (pDescCandidateLabel)
-		{
-			if (pDescCandidateLabel->m_Type == CWndObjDescription::Label &&
-				!pDescCandidateLabel->m_bUsed)
-			{
-				// label rect
-				LONG label_L = pDescCandidateLabel->m_X;
-				LONG label_R = pDescCandidateLabel->m_X + pDescCandidateLabel->m_Width;
-				LONG label_T = pDescCandidateLabel->m_Y;
-				LONG label_B = pDescCandidateLabel->m_Y + pDescCandidateLabel->m_Height;
-
-				// ________________________
-				// |LABEL				   |
-				// |_______________________|_____________
-				// |INPUT AREA                           | 
-				// |_____________________________________|
-				// is top label
-				if (
-					(
-					((label_L <= edit_L) && (edit_L - label_L <= tolLimitA)) ||
-						((label_L > edit_L) && (label_L - edit_L <= tolLimitA))
-						)
-					&&
-					(
-					((label_B <= edit_T) && (edit_T - label_B <= tolLimitA)) ||
-						((label_B > edit_T) && (label_B - edit_T <= tolLimitB))
-						)
-					)
-				{
-					pDescCandidateLabel->m_bUsed = TRUE;
-					pDescLabel = pDescCandidateLabel;
-					// remove the label from the collection as it infos will 
-					// be attached to the given control
-					arDescriptions->RemoveAt(i);
-					break;
-
-				}
-
-
-				//  _____________  ______________________________________
-				// |LABEL       |  |INPUT AREA                           | 
-				// |____________|  |_____________________________________|
-				// is left label
-				if (
-					(
-					((label_R <= edit_L) && (edit_L - label_R <= tolLimitA)) ||
-						((label_R > edit_L) && (label_R - edit_L <= tolLimitB))
-						)
-					&&
-					(
-					((label_T <= edit_T) && (edit_T - label_T <= tolLimitA)) ||
-						((label_T > edit_T) && (label_T - edit_T <= tolLimitA))
-						)
-					&&
-					(
-					((label_B <= edit_B) && (edit_B - label_B <= tolLimitA)) ||
-						((label_B > edit_B) && (label_B - edit_B <= tolLimitA))
-						)
-					)
-				{
-					pDescCandidateLabel->m_bUsed = TRUE;
-					pDescLabel = pDescCandidateLabel;
-					// remove the label from the collection as it infos will 
-					// be attached to the given control
-					arDescriptions->RemoveAt(i);
-					break;
-				}
-			}
-		}
-	}
-
-	return pDescLabel;
-	/*if (pDescCandidateLabelTemp != NULL)
-	{
-	pDescCandidateLabelTemp->m_bUsed = TRUE;
-	return pDescCandidateLabelTemp;
-	}*/
-
-	//return NULL;
-}
-
-//Find the object previous, return object position
-//-----------------------------------------------------------------------------
-int FindObjectNext(CRect targetBox, CWndObjDescriptionContainer* arDescriptions)
-{
-	CWndObjDescription*  pDescCandidateObjTemp = NULL;
-	LONG target_top = targetBox.top;
-	for (int i = arDescriptions->GetCount() - 1; i >= 0; i--)
-	{
-		CWndObjDescription*  pDescCandidate = arDescriptions->GetAt(i);
-		if (pDescCandidate->m_Y < target_top)
-			return i;
-	}
-	// the label is in Top screen
-	return 0;
-}
-
-
 //-----------------------------------------------------------------------------
 CString CWndObjDescription::GetJsonID()
 {
@@ -2498,18 +2388,6 @@ void CWndObjDescription::AddChildWindows(CWnd* pWnd)
 	}
 }
 
-#else
-//-----------------------------------------------------------------------------
-void CWndObjDescription::AddChildWindows(CWnd* pWnd)
-{
-	CWnd* pChild = pWnd->GetWindow(GW_CHILD);
-	while (pChild)
-	{
-		AddChildWindow(pChild);
-		pChild = pChild->GetWindow(GW_HWNDNEXT);
-	}
-}
-#endif //TBWEB
 
 //-----------------------------------------------------------------------------
 CString CWndObjDescriptionContainer::GetCtrlID(CWnd* pWnd)

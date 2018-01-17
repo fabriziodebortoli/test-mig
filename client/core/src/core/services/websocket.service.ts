@@ -1,4 +1,5 @@
-﻿import { EventEmitter, Injectable } from '@angular/core';
+﻿import { DiagnosticService } from './diagnostic.service';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
@@ -28,7 +29,6 @@ export class WebSocketService extends LocalizationService {
     public message = new EventEmitter<MessageDlgArgs>();
     public diagnostic = new EventEmitter<DiagnosticData>();
     public buttonsState = new EventEmitter<any>();
-    public radarInfos = new EventEmitter<any>();
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     public windowStrings = new EventEmitter<any>();
     public behaviours = new EventEmitter<any>();
@@ -37,7 +37,8 @@ export class WebSocketService extends LocalizationService {
         public infoService: InfoService,
         public httpService: HttpService,
         public logger: Logger,
-        public loadingService: LoadingService, ) {
+        public loadingService: LoadingService,
+        public diagnosticService: DiagnosticService) {
         super(infoService, httpService);
     }
 
@@ -84,7 +85,6 @@ export class WebSocketService extends LocalizationService {
                         case 'MessageDialog': $this.message.emit(obj.args); break;
                         case 'Diagnostic': $this.diagnostic.emit(obj.args); break;
                         case 'ButtonsState': $this.buttonsState.emit(obj.args); break;
-                        case 'RadarInfos': $this.radarInfos.emit(obj.args); break;
                         case 'Behaviours': $this.behaviours.emit(obj.args); break;
 
                         default: break;
@@ -140,7 +140,9 @@ export class WebSocketService extends LocalizationService {
 
     safeSend(data: any): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if (this._socketConnectionStatus === ConnectionStatus.Connected) {
+            if (this._socketConnectionStatus === ConnectionStatus.Unavailable) {
+                throw this._TB('Backend services unavailable, cannot execute requested operation');
+            } else if (this._socketConnectionStatus === ConnectionStatus.Connected) {
                 this.connection.send(JSON.stringify(data));
                 resolve();
             } else {
@@ -187,12 +189,6 @@ export class WebSocketService extends LocalizationService {
         const data = { cmd: 'browseRecord', cmpId: cmpId, tbGuid: tbGuid };
         this.safeSend(data);
     }
-
-    getRadarInfos(cmpId: String) {
-        const data = { cmd: 'getRadarInfos', cmpId: cmpId };
-        this.safeSend(data);
-    }
-
 
     /* doValueChanged(cmpId: String, id: String, modelData?: any): void {
          const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };

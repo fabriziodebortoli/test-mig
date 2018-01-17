@@ -10,5 +10,6 @@ export class ComponentInfo {
     modal = false;//indica se si tratta di una finestra modale
     // document: DocumentService = null;
     document = null;
+    tbLoaderDoc = false;//indica se si tratta di un componente che corrisponde ad un documento tbloader
     args: any = {};
 }

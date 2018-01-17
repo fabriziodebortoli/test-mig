@@ -12,6 +12,7 @@ namespace Microarea.TbLoaderGate
     {
         public string name;
         public int httpPort = 11000;
+        public bool connected = false;
         public int socketPort = 4502;
         public int processId = -1;
         public string server = "localhost";
@@ -34,6 +35,7 @@ namespace Microarea.TbLoaderGate
             TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(name);
             httpPort = response.Port;
             processId = response.ProcessId;
+            connected = response.Result;
         }
 
        

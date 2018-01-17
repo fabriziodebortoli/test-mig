@@ -1,10 +1,5 @@
- <kendo-grid
-  [kendoGridBinding]="model" 
-  [resizable]="true" 
-  (selectionChange)="ben_row_changed($event)"
-   [selectable]="selectableSettings"
-   (cellClick)="cellClickHandler($event)"
-   (cellClose)="cellCloseHandler($event)">
+<kendo-grid [kendoGridBinding]="model?.rows" [resizable]="true" (selectionChange)="ben_row_changed($event)" [selectable]="selectableSettings"
+    (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)">
 
 </kendo-grid> 
 
@@ -24,9 +19,3 @@
 
 
 <ng-content></ng-content>
-
-
-
-
-
-

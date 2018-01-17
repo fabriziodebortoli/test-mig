@@ -1556,4 +1556,7 @@ Not Found</value>
   <data name="HRefDefinition" xml:space="preserve">
     <value>Namespace of the page the link goes to</value>
   </data>
+  <data name="ObjectNotEmpty" xml:space="preserve">
+    <value>Cannot delete {0} as is not empty!</value>
+  </data>
 </root>

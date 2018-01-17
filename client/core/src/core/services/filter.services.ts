@@ -1,9 +1,16 @@
 import { Observable, BehaviorSubject } from '../../rxjs.imports';
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
+import { debounceFirst } from './../../shared/commons/debounceFirst';
 import * as _ from 'lodash';
 
 export type SimpleFilter = { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
 export type CompositeFilter = { logic?: 'or' | 'and', filters?: Array<CompositeFilter|SimpleFilter> }
+
+export function combineFiltersMap<T, T2, R>(left: Observable<T>, right: Observable<T2>, project: (v1: T, v2: T2) => R): Observable<R> {
+    if (!left && !right)  { return Observable.throw('You must specify at least one argument'); }
+    return left.combineLatest(right, project);
+}
+
 export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>): Observable<{left?: L, right?: R}> {
     if (!left && !right)  { return Observable.throw('You must specify at least one argument'); }
     if (!left) { return right.map(x => ({ right: x })); }
@@ -11,14 +18,6 @@ export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>):
     return left.combineLatest(right, (v1, v2) => {
         return {left: v1, right: v2}
     });
-}
-
-function debounceFirst<T>(observable: Observable<T>, dueTime: number): Observable<{ value: T, isFirst: boolean }> {
-    return Observable.merge(
-        observable.map((value: T) => ({ value, isFirst: true })),
-        observable.debounceTime(dueTime).map((value: T) => ({value, isFirst: false}))
-    )
-    .distinctUntilChanged((a, b) => a.isFirst === b.isFirst);
 }
 
 @Injectable()
@@ -53,7 +52,7 @@ export class FilterService implements OnDestroy {
     }
 
     private get filterTyping$(): Observable<any> {
-        return this.filterSubject$.let(x => debounceFirst<CompositeFilter>(x, this.debounceTime));
+        return this.filterSubject$.pipe(debounceFirst(this.debounceTime));
     }
 
     public get filterChanged$(): Observable<CompositeFilter> {

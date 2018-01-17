@@ -1,1 +1,0 @@
-export enum SocketConnectionStatus {None, Connected, Disconnected, Connecting};

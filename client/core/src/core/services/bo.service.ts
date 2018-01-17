@@ -150,14 +150,6 @@ export class BOService extends DocumentService {
             }
         }));
 
-        this.subscriptions.push(this.webSocketService.radarInfos.subscribe(data => {
-            const cmpId = this.mainCmpId;
-            if (data.response.id === cmpId) {
-                this.eventData.radarInfos.emit(data.response.radarInfo);
-                this.eventData.change.emit('');
-            }
-        }));
-       
         this.subscriptions.push(this.webSocketService.behaviours.subscribe(data => {
             const cmpId = this.mainCmpId;
             if (data.response.id === cmpId) {

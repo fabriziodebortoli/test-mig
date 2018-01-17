@@ -120,5 +120,12 @@
 
         internal const string ngTag = "ng-tag";
         internal const string ngTemplate = "ng-template";
+        internal const string chars = "chars";
+        internal const string textLimit= "textLimit";
+        internal const string controlBehaviour = "controlBehaviour";
+        internal const string menu = "menu";
+        internal const string sort= "sort";
+        internal const string stateData= "stateData";
+        internal const string rowViewForm = "rowViewForm";
     }
 }

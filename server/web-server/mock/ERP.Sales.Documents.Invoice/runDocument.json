@@ -4,7 +4,7 @@
          "args" : {
             "component" : {
                "app" : "ERP",
-               "id" : "1118490",
+               "id" : "198972",
                "mod" : "Sales",
                "name" : "IDD_SALE_DOCUMENT"
             }

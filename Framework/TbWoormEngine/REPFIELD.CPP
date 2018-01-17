@@ -538,7 +538,7 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 	fieldWidthFactors.m_nWidth = max(1, int(fieldWidthFactors.m_nWidth * ColumnWidthPercentage));
 
 	//----
-	CString strData(strRDEData);	//dopo conterrà la formattazione
+	CString strData(strRDEData);	//dopo conterrï¿½ la formattazione
 	if (fieldWidthFactors.m_pFormatStyle)
 	{
 		fieldWidthFactors.m_pFormatStyle->FormatDataObj (DataStr(strRDEData), strData);
@@ -644,20 +644,20 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 						(
 							_istdigit(sLine[nLenBreak])
 							&&
-							wcschr(L"€£$", sLine[nLenBreak - 1])
+							wcschr(L"ï¿½ï¿½$", sLine[nLenBreak - 1])
 						)
 						||
 						(
 							_istdigit(sLine[nLenBreak - 1])
 							&&
-							wcschr(L"€£$", sLine[nLenBreak])
+							wcschr(L"ï¿½ï¿½$", sLine[nLenBreak])
 						)
 					);
 					nLenBreak--
 				)
 			{
 				//It is better brutal break on special char than breaking on the last char
-				if (nLenSpecialChar < 0 && wcschr(L".,-:/€£$", sLine[nLenBreak]))
+				if (nLenSpecialChar < 0 && wcschr(L".,-:/ï¿½ï¿½$", sLine[nLenBreak]))
 					nLenSpecialChar = min (nLenBreak + 1, nLenHeadLine);
 			}
 
@@ -753,7 +753,7 @@ BOOL WoormField::Display (RepEngine& aRepEngine)
 
 	if (m_Substrings.GetSize() > 0 && (GetDisplayTableEngine() && GetDisplayTableEngine()->m_pDT && GetDisplayTableEngine()->m_pDT->m_nMultiLineFieldsCurrLine == 0))
 	{
-		// ho fatto prima una display di un campo multiline che non è stata consumata da un WriteLine
+		// ho fatto prima una display di un campo multiline che non ï¿½ stata consumata da un WriteLine
 		// -> ripulisco variabili
 		m_Substrings.RemoveAll();
 		GetDisplayTableEngine()->m_pDT->m_nMultiLineFieldsNum--;
@@ -869,7 +869,7 @@ BOOL WoormField::Write (RepEngine& aRepEngine, BOOL bWriteSpecial /*= FALSE*/)
 	{
 		int nMultiLineFieldsCurrLine = GetDisplayTableEngine()->m_pDT->m_nMultiLineFieldsCurrLine;
 
-		// ci si e` protetti gia` prima sull'esaurimento delle sotto-stringhe, ... ma è meglio rifarlo!
+		// ci si e` protetti gia` prima sull'esaurimento delle sotto-stringhe, ... ma ï¿½ meglio rifarlo!
 		if (nMultiLineFieldsCurrLine <= m_Substrings.GetUpperBound())
 		{
 			dataStr = m_Substrings.GetAt(nMultiLineFieldsCurrLine);
@@ -961,7 +961,7 @@ void WoormField::ReattachDisplayTable (const CString& sLayout)
 	{
 		m_pDisplayTable = GetSymTable()->GetDisplayTables()->GetAt(idx);
 	}
-	//else	//succede se il campo è una colonna di una tabella che non appartiene al layout in cui si sta switcciando
+	//else	//succede se il campo ï¿½ una colonna di una tabella che non appartiene al layout in cui si sta switcciando
 	//	ASSERT(FALSE);
 }
 
@@ -1003,7 +1003,7 @@ BOOL WoormField::ParseDisplayAttribute (Parser& parser, WoormTable* pSymTable)
 		}
 		case T_COLUMN :
 		{
-			//NB:Nei report Intrastat/AnnualIntraDispatched2A/Quaterly...può essere preceduto da Hidden
+			//NB:Nei report Intrastat/AnnualIntraDispatched2A/Quaterly...puï¿½ essere preceduto da Hidden
 			parser.SkipToken();
 			m_strDisplayTable.Empty();
 
@@ -1190,7 +1190,7 @@ BOOL WoormField::Parse (Parser& parser, WoormTable* aSymTable)
 			//cerco nella symbol table di ViewMode che viene parsata per prima con gli oggetti grafici
 			SymField* pF = aSymTable->GetDocument()->GetSymTable()->GetFieldByID(wInternalId);
 			if (pF && pF->OwnThreadContextVar())
-				m_bOwnThreadContextVar = TRUE;	//è dello stesso report
+				m_bOwnThreadContextVar = TRUE;	//ï¿½ dello stesso report
 		}
 
 		DataObj* pThData = AddContextDataObj(AfxGetThreadContextBag(), m_sThreadContextVar, __super::GetData()->GetRuntimeClass(), FALSE);
@@ -1362,7 +1362,7 @@ void WoormField::UnparseDataType(Unparser& oFile, BOOL bIndent)
 			{
 				if (pArray->GetSize() > 0)
 				{
-					DataTRecord* pDRec = dynamic_cast<DataTRecord*>(pArray->GetAt(0));
+					DataSqlRecord* pDRec = dynamic_cast<DataSqlRecord*>(pArray->GetAt(0));
 					if (pDRec->GetIRecord())
 						oFile.Write(pDRec->GetIRecord()->GetTableName(), FALSE);
 					else
@@ -1377,10 +1377,10 @@ void WoormField::UnparseDataType(Unparser& oFile, BOOL bIndent)
 			CString sRecName;
 			DataObj* pObj = this->GetData();
 			ASSERT_VALID(pObj);
-			ASSERT_KINDOF(DataTRecord, pObj);
+			ASSERT_KINDOF(DataSqlRecord, pObj);
 			if (pObj)
 			{
-				DataTRecord* pDR = dynamic_cast<DataTRecord*>(pObj);
+				DataSqlRecord* pDR = dynamic_cast<DataSqlRecord*>(pObj);
 				if (pDR->GetIRecord())
 				{
 					sRecName = pDR->GetIRecord()->GetTableName();

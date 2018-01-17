@@ -1,4 +1,4 @@
-<div class="tb-control tb-combo-simple">
+<div class="tb-control tb-combo-simple" [ngClass]="componentClass()">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem" (selectionChange)="selectionChange($event)">
         <ng-template kendoDropDownListNoDataTemplate>

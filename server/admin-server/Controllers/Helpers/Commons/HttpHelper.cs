@@ -1,3 +1,4 @@
+using Microarea.AdminServer.Libraries;
 ﻿using Microarea.AdminServer.Libraries;
 using Microarea.AdminServer.Services;
 using System;
@@ -46,6 +47,23 @@ namespace Microarea.AdminServer.Controllers.Helpers.Commons
                     client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authorizationHeader);
              
                 HttpResponseMessage responseMessage = await client.GetAsync(url);
+
+				if (responseMessage == null)
+				{
+					operationResult.Code = (int)AppReturnCodes.GWAMNotResponding;
+					operationResult.Result = false;
+					operationResult.Message = "An error occurred while executing GetDataAsync: ResponseMessage is null";
+					return operationResult;
+				}
+
+				if (responseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+				{
+					operationResult.Code = (int)AppReturnCodes.GWAMNotResponding;
+					operationResult.Result = false;
+					operationResult.Message = "An error occurred while executing GetDataAsync: HttpStatusCode = NotFound";
+					return operationResult;
+				}
+
                 var responseData = responseMessage.Content.ReadAsStringAsync();
                 operationResult.Content = responseData;
                 operationResult.Result = true;

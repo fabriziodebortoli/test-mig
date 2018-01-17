@@ -1312,6 +1312,9 @@ namespace Microarea.EasyBuilder
 		//-----------------------------------------------------------------------------
 		internal void TryDeleteEasyBuilderComponents(IWindowWrapper[] components)
 		{
+            if (MessageBox.Show(Resources.AreYouSureDeleteItem, Resources.DeleteItemCaption, MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
 			List<EasyBuilderComponent> ebComponents = new List<EasyBuilderComponent>();
 			foreach (var item in components)
 				if (item is EasyBuilderComponent)
@@ -1324,6 +1327,7 @@ namespace Microarea.EasyBuilder
 		//-----------------------------------------------------------------------------
 		internal void TryDeleteEasyBuilderComponents(List<EasyBuilderComponent> components)
 		{
+
 			string whyNot;
 			StringBuilder whyNots = new StringBuilder();
 			foreach (EasyBuilderComponent item in components)
@@ -1354,7 +1358,14 @@ namespace Microarea.EasyBuilder
 				return false;
 			}
 
-			string referencedByList = ebComponent.GetReferencedByList();
+            IContainer container = ebComponent as IContainer;
+            if (container != null && container.Components.Count > 0)
+            {
+                whyNot = string.Format(Resources.ObjectNotEmpty, ebComponent.SerializedName);
+                return false;
+            }
+
+            string referencedByList = ebComponent.GetReferencedByList();
 			if (!string.IsNullOrEmpty(referencedByList))
 			{
 				StringBuilder msg = new StringBuilder();
@@ -1367,7 +1378,20 @@ namespace Microarea.EasyBuilder
 				return false;
 			}
 
-			if (ebComponent.CanBeDeleted)
+            if (ebComponent.ChangedEventsCount > 0)
+            {
+                StringBuilder msg = new StringBuilder();
+                msg.AppendFormat(Resources.CannotDeleteObject, ebComponent.SerializedName);
+                msg.Append("\n");
+                msg.Append(ebComponent.ChangedEvents.ToString());
+                msg.Append(Resources.DeleteReferencingObjects);
+                msg.Append("\n");
+                whyNot = msg.ToString();
+                return false;
+            }
+
+
+            if (ebComponent.CanBeDeleted)
 				return true;
 			whyNot = string.Format(Resources.CannotDeleteHasCodeBehind, ebComponent.SerializedName);
 			return false;

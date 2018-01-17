@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>Microarea.ProvisioningDatabase</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Helpers\" />
     <Folder Include="Infrastructure\Model\Interfaces\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
@@ -37,6 +39,33 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0-preview1-25914-04" />
     <PackageReference Include="Microsoft.Windows.Compatibility.Shims" Version="2.0.0-preview1-25914-04" />  </ItemGroup>
 
- 
+   <ItemGroup>
+    <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
+    <ProjectReference Include="..\library\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <Compile Update="Libraries\DatabaseManager\DatabaseManagerStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DatabaseManagerStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Libraries\DatabaseManager\DatabaseManagerStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DatabaseManagerStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

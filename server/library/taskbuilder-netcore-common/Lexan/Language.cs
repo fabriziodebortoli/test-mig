@@ -327,6 +327,11 @@ namespace Microarea.Common.Lexan
             keywords.Add("Full"                 ,Token.FULL);
             keywords.Add("FuncPrototypes"       ,Token.FUNCPROTOTYPES);
 
+            keywords.Add("Gauge"                , Token.GAUGE);
+            keywords.Add("GaugePointer"         , Token.GAUGE_POINTER);
+            keywords.Add("GaugeRangeColor"      , Token.GAUGE_RANGE_COLOR);
+            keywords.Add("GaugeScale"           , Token.GAUGE_SCALE);
+
 			keywords.Add("GetApplicationTitleFromNs" ,Token.GETAPPTITLE);
             keywords.Add("GetBarCodeID"         , Token.GETBARCODE_ID);
 			keywords.Add("GetCompanyName"		,Token.GETCOMPANYNAME);
@@ -887,6 +892,11 @@ namespace Microarea.Common.Lexan
 		FROM,
 		FULL,
 		FUNCPROTOTYPES,
+
+        GAUGE,
+        GAUGE_POINTER,
+        GAUGE_RANGE_COLOR,
+        GAUGE_SCALE,
 
 		GETAPPTITLE,
 		GETBARCODE_ID,

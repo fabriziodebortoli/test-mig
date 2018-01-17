@@ -16,9 +16,14 @@ export class ToolbarTopButtonComponent extends TbComponent {
 
   @Input() caption: string = '';
   @Input() disabled: boolean = false;
-
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
   @Input() icon: string = '';
+
+  /**
+   * Optional command called on button click.
+   * @returns {boolean} return true to call default command as well.
+   */
+  @Input() command: () => boolean = () => true;
 
   imgUrl: string;
 
@@ -33,6 +38,8 @@ export class ToolbarTopButtonComponent extends TbComponent {
     //this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {
+    if (!this.command())
+      return;
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
 }

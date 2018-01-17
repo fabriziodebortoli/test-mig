@@ -5,7 +5,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 	[Serializable]
 	public class TBLoaderCommand
 	{
-		public enum CommandType{Start, Stop}
+		public enum CommandType{Ping, Start, Stop}
 		public string Path { get; set; }
 		public string Arguments { get; set; }
 		public int ProcessId { get; set; }

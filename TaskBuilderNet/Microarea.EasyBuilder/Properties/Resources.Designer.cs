@@ -19,7 +19,7 @@ namespace Microarea.EasyBuilder.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -1618,7 +1618,7 @@ namespace Microarea.EasyBuilder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Found errors parsing nested items.
         /// </summary>
         internal static string ErrorParsingJson {
             get {
@@ -2996,6 +2996,15 @@ namespace Microarea.EasyBuilder.Properties {
         internal static string ObjectModelTitle {
             get {
                 return ResourceManager.GetString("ObjectModelTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot delete {0} as is not empty!.
+        /// </summary>
+        internal static string ObjectNotEmpty {
+            get {
+                return ResourceManager.GetString("ObjectNotEmpty", resourceCulture);
             }
         }
         

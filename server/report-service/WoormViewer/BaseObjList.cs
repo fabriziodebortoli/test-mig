@@ -163,8 +163,9 @@ namespace Microarea.RSWeb.WoormViewer
                             template ||
                             item is FieldRect ||
                             item is Table ||
-                            item is Chart ||
                             item is Repeater ||
+                            item is Chart ||
+                            item is Gauge ||
                             item.IsDynamic()
                         )
                     )
