@@ -218,8 +218,8 @@ DWORD CJsonFormEngineObj::GetID(CWndObjDescription* pWndDesc)
 {
 	TbResourceType type = TbResourceType::TbControls;
 	CWndPanelDescription* pParentDesc = dynamic_cast<CWndPanelDescription*>(pWndDesc->GetParent());
-	CString sId = pParentDesc && pParentDesc->m_bUserControl 
-		? pParentDesc->GetID() + _T('_') +  pWndDesc->GetID()
+	CString sId = pParentDesc && pParentDesc->m_bUserControl
+		? pParentDesc->GetID() + _T('_') + pWndDesc->GetID()
 		: pWndDesc->GetID();
 	switch (pWndDesc->m_Type)
 	{
@@ -238,10 +238,10 @@ DWORD CJsonFormEngineObj::GetID(CWndObjDescription* pWndDesc)
 	}
 	return AfxGetTBResourcesMap()->GetTbResourceID(sId, type);
 
-//DWORD CJsonFormEngineObj::GetIDD(LPCTSTR lpszId)
-//	return AfxGetTBResourcesMap()->GetTbResourceID(lpszId, TbResourceType::TbResources);
-//DWORD CJsonFormEngineObj::GetID(LPCTSTR lpszId)
-//	return AfxGetTBResourcesMap()->GetTbResourceID(lpszId, TbResourceType::TbCommands);
+	//DWORD CJsonFormEngineObj::GetIDD(LPCTSTR lpszId)
+	//	return AfxGetTBResourcesMap()->GetTbResourceID(lpszId, TbResourceType::TbResources);
+	//DWORD CJsonFormEngineObj::GetID(LPCTSTR lpszId)
+	//	return AfxGetTBResourcesMap()->GetTbResourceID(lpszId, TbResourceType::TbCommands);
 }
 
 //-----------------------------------------------------------------------------
@@ -768,13 +768,18 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptions(CJsonContextObj* pCont
 		CJsonResource source = sources[i];
 		if (source.m_bExclude)
 			continue;
-		CWndObjDescription *pNewDescription = ParseDescription(pContext, source, L"", pDescription, CWndObjDescription::Undefined);
-		if (!pDescription)
+		CArray<CWndObjDescription*>ar;
+		ParseDescription(ar, pContext, source, L"", pDescription, CWndObjDescription::Undefined);
+		if (!pDescription && ar.GetCount())
 		{
-			pDescription = pNewDescription;
-			if (pNewDescription && pNewDescription->IsKindOf(RUNTIME_CLASS(CWndFrameDescription)))
+			//se pDescription è NULL, sono nella root, e allora troverò solo una descrizione
+			//posso trovare più descrizioni solo se parso json forms, che potrebbero andare 
+			//a modificare più di un elemento del server form
+			ASSERT(ar.GetCount() == 1);
+			pDescription = ar[0];
+			if (pDescription && pDescription->IsKindOf(RUNTIME_CLASS(CWndFrameDescription)))
 			{
-				CWndFrameDescription* pFrameDesc = (CWndFrameDescription*)pNewDescription;
+				CWndFrameDescription* pFrameDesc = (CWndFrameDescription*)pDescription;
 				for (int i = 0; i < pFrameDesc->m_arHrefHierarchy.GetCount(); i++)
 				{
 					CString sHref = pFrameDesc->m_arHrefHierarchy[i];
@@ -786,11 +791,12 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptions(CJsonContextObj* pCont
 			}
 		}
 	}
+	ASSERT(pDescription);
 	return pDescription;
 }
 
 //-----------------------------------------------------------------------------
-CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
+void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
 {
 	CString sFile;
 	CTBNamespace moduleNamespace;
@@ -798,19 +804,16 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescription(CJsonContextObj* pConte
 	if (sFile.IsEmpty())
 	{
 		ASSERT(FALSE);
-		return NULL;
+		return;
 	}
-	CArray<CWndObjDescription*>ar;
 	ParseDescription(ar, pContext, sFile, sActivation, pDescriptionToMerge, expectedType);
-	CWndObjDescription* pDesc = ar.GetSize() ? ar[0] : NULL;
-	ASSERT(ar.GetSize() == 1);
-	if (pDesc)
+	for (int i = 0; i < ar.GetCount(); i++)
 	{
+		CWndObjDescription* pDesc = ar[i];
 		CJsonResource* pRes = new CJsonResource(source);
 		pRes->m_strJsonContext = pDesc->m_strContext;
 		pDesc->m_Resources.Add(pRes);
 	}
-	return pDesc;
 }
 //-----------------------------------------------------------------------------
 void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
@@ -858,7 +861,8 @@ void CJsonFormEngineObj::ParseDescriptionFromText(CArray<CWndObjDescription*>&ar
 				CWndObjDescription* pDescription = arFound[i];
 				pDescription->ParseJson(parser);
 				parser.m_bForAppend = bOldForAppend;
-				ar.Add(pDescription);
+				if (pDescription)
+					ar.Add(pDescription);
 				if (arFound.GetCount() > 1)
 					parser.Reset();
 			}
@@ -866,7 +870,9 @@ void CJsonFormEngineObj::ParseDescriptionFromText(CArray<CWndObjDescription*>&ar
 		}
 		parser.m_bForAppend = bOldForAppend;
 	}
-	ar.Add(CWndObjDescription::ParseJsonObject(parser, NULL, (CWndObjDescription::WndObjType) expectedType));
+	CWndObjDescription* pDesc = CWndObjDescription::ParseJsonObject(parser, NULL, (CWndObjDescription::WndObjType) expectedType);
+	if (pDesc)
+		ar.Add(pDesc);
 }
 
 
