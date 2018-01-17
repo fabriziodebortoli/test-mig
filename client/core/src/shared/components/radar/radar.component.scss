@@ -175,6 +175,7 @@ tb-radar {
 .radar-container #cell-icon {
     min-width: 0px;
     font-size: 24px;
+    padding-right: 0px;
 }
 
 .radar-container .cell-button {
@@ -182,6 +183,10 @@ tb-radar {
     padding: 0;
     border: 0;
     background: none;
+    display: block;
+    position: relative;
+    top: -2px;
+    left: -14px;
 }
 
 .radar-container .pager-buttons {
@@ -192,4 +197,12 @@ tb-radar {
 
 .radar-container .pager-buttons .toolbar-icon {
     font-size: 1em;
+}
+
+.radar-container .radar-grid thead > tr:first-child > th:first-child .k-link {
+    padding-left: 30px;
+}
+
+.radar-container .radar-grid tbody > tr > td:first-child #cell-container {
+    padding-left: 13px;
 }
