@@ -198,6 +198,11 @@ public:
 	/// Internal Use
 	///</summary>
 	static System::String^ GetAppTitleByAppName(System::String^ appName);
+
+	///<summary>
+	/// Internal Use
+	///</summary>
+	static System::String^ GetModuleTitleByAppAndModuleName(System::String^ appName, System::String^ modName);
 	
 	/// <summary>
 	/// Internal Use

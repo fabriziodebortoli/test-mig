@@ -231,10 +231,7 @@ namespace Microarea.EasyBuilder.UI
                             if (bFirstTime)
                             {
                                 //add module node only whether has children to add to
-                                string modTitle = "";
-                                IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
-                                IBaseModuleInfo modInfo = appInfo.GetModuleInfoByName(mod.Item2);
-                                modTitle = modInfo.Title;
+                                string modTitle = CUtility.GetModuleTitleByAppAndModuleName(doc.Item1, doc.Item2);
                                 modNode = AddNode(appNode.Nodes, modTitle, (int)ImageLists.TreeBusinessObjectImageIndex.Module, string.Concat(app, mod.Item2));
                                 bFirstTime = false;
                             }

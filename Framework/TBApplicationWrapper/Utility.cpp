@@ -416,6 +416,25 @@ System::String^ CUtility::GetAppTitleByAppName(System::String^ appName)
 	return gcnew String(_T(""));
 }
 
+//----------------------------------------------------------------------------------------------------
+System::String^ CUtility::GetModuleTitleByAppAndModuleName(System::String^ appName, System::String^ modName)
+{
+	AddOnApplication* pAddOnApp = AfxGetAddOnApp(appName);
+
+	if (!pAddOnApp)
+		return gcnew String(_T(""));
+
+	for (int n = 0; n <= pAddOnApp->m_pAddOnModules->GetUpperBound(); n++)
+	{
+		AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(n);
+
+		if (pAddOnMod && pAddOnMod->GetModuleName().Compare(CString(modName)) == 0)
+			return gcnew String(pAddOnMod->GetModuleTitle());
+	}
+
+	return gcnew String(_T(""));
+}
+
 //------------------------------------------------------------------------------------
 void CUtility::GetDocuments
 				(
