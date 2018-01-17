@@ -2,7 +2,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-    selector: 'tb-tilepanel',
+    selector: 'tb-tile-panel',
     templateUrl: './tile-panel.component.html',
     styleUrls: ['./tile-panel.component.scss']
 })
