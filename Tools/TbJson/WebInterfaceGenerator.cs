@@ -1020,7 +1020,7 @@ namespace Microarea.TbJson
                 case WndObjType.Combo:
                     {
                         WebControl wc = GetWebControl(jObj);
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(wc.Name, this, true))
+                        using (var w = new OpenCloseTagWriter(wc.Name, this, true))
                         {
                             WriteActivationAttribute(jObj);
 
@@ -1450,37 +1450,45 @@ namespace Microarea.TbJson
             var jItemSource = jObj[Constants.itemSource] as JObject;
             if (jItemSource != null)
             {
-                htmlWriter.Write($" [{Constants.itemSource}]=\"{cmpId}_{Constants.itemSource}\"");
+                var strItemSource = $"{cmpId}_{Constants.itemSource}";
 
-                toAppendToDeclaration.AppendIfNotExist($"public {cmpId}_{Constants.itemSource}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{cmpId}_{Constants.itemSource} = {jItemSource}; \r\n");
+                htmlWriter.Write($" [{Constants.itemSource}]=\"{strItemSource}\"");
+
+                toAppendToDeclaration.AppendIfNotExist($"public {strItemSource}: any;\r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strItemSource} = {jItemSource}; \r\n");
             }
 
             JArray jArray = jObj[Constants.validators] as JArray;
             if (jArray != null)
             {
-                htmlWriter.Write($" [{Constants.validators}]=\"{cmpId}_{Constants.validators}\"");
+                var strValidators = $"{cmpId}_{Constants.validators}";
 
-                toAppendToDeclaration.AppendIfNotExist($"public {cmpId}_{Constants.validators}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{cmpId}_{Constants.validators} = {jArray}; \r\n");
+                htmlWriter.Write($" [{Constants.validators}]=\"{strValidators}\"");
+
+                toAppendToDeclaration.AppendIfNotExist($"public {strValidators}: any;\r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strValidators} = {jArray}; \r\n");
             }
 
             jItemSource = jObj[Constants.contextMenu] as JObject;
             if (jItemSource != null)
             {
-                htmlWriter.Write($" [{Constants.tbContextMenu}]=\"{cmpId}_{Constants.contextMenu}\"");
+                var strContextMenu = $"{cmpId}_{Constants.contextMenu}";
 
-                toAppendToDeclaration.AppendIfNotExist($"public {cmpId}_{Constants.contextMenu}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{cmpId}_{Constants.contextMenu} = {jItemSource}; \r\n");
+                htmlWriter.Write($" [{Constants.tbContextMenu}]=\"{strContextMenu}\"");
+
+                toAppendToDeclaration.AppendIfNotExist($"public {strContextMenu}: any;\r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strContextMenu} = {jItemSource}; \r\n");
             }
 
             jItemSource = jObj[Constants.dataAdapter] as JObject;
             if (jItemSource != null)
             {
-                htmlWriter.Write($" [{Constants.dataAdapter}]=\"{cmpId}_{Constants.dataAdapter}\"");
+                var strDataAdapter = $"{cmpId}_{Constants.dataAdapter}";
 
-                toAppendToDeclaration.AppendIfNotExist($"public {cmpId}_{Constants.dataAdapter}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{cmpId}_{Constants.dataAdapter} = {jItemSource}; \r\n");
+                htmlWriter.Write($" [{Constants.dataAdapter}]=\"{strDataAdapter}\"");
+
+                toAppendToDeclaration.AppendIfNotExist($"public {strDataAdapter}: any;\r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strDataAdapter} = {jItemSource}; \r\n");
             }
         }
 

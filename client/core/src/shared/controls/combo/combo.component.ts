@@ -18,7 +18,7 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
-    items: Array<any> = [];
+    items: any[] = [];
     selectedItem: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
@@ -35,13 +35,12 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         super(layoutService, tbComponentService, changeDetectorRef);
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            if (result.itemSource) { this.items = result.itemSource};
+            if (result.itemSource) { this.items = result.itemSource };
         });
     }
 
     fillListBox() {
         this.items.splice(0, this.items.length);
-
 
         this.eventDataService.openDropdown.emit(this);
     }
