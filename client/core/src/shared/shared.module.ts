@@ -330,6 +330,7 @@ export { StateButton } from './models/state-button.model';
 export { ViewModeType } from './models/view-mode-type.model';
 export { ConnectionStatus } from './models/connection-status.enum';
 export { FormMode } from './models/form-mode.enum';
+export { CommandCategory } from './models/command-category.enum';
 export * from './models/store.models';
 export * from './commons/selector';
 

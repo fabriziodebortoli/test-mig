@@ -51,6 +51,7 @@
         internal const string type = "type";
         internal const string category = "category";
         internal const string tileStyle = "tileStyle";
+        internal const string buttonClick = "click";
 
         internal const string Const = "const";
         internal const string text = "text";
@@ -100,6 +101,7 @@
         internal const string activation = "activation";
         internal const string size = "size";
         internal const string layoutType = "layoutType";
+        internal const string ngif = "ngif";
 
         internal const string controlClass = "controlClass";
 

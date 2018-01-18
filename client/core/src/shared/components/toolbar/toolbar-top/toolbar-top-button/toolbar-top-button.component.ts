@@ -23,7 +23,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
    * Optional command called on button click.
    * @returns {boolean} return true to call default command as well.
    */
-  @Input() command: () => boolean = () => true;
+  @Input() click: () => boolean = () => true;
 
   imgUrl: string;
 
@@ -38,7 +38,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
     //this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {
-    if (!this.command())
+    if (!this.click())
       return;
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }

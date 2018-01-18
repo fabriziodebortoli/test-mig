@@ -1,3 +1,8 @@
+using Microarea.TbJson.Exceptions;
+using Microarea.TbJson.Properties;
+using Microarea.TbJson.Utils;
+using Newtonsoft.Json.Linq;
+using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +11,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
-using Microarea.TbJson.Exceptions;
-using Microarea.TbJson.Properties;
-using Microarea.TbJson.Utils;
-using Newtonsoft.Json.Linq;
-using SharedCode;
 using static Microarea.TbJson.Helpers;
 
 namespace Microarea.TbJson
@@ -699,18 +699,15 @@ namespace Microarea.TbJson
                         string tag = (string)jObj[Constants.ngTag];
                         if (!string.IsNullOrEmpty(tag))
                         {
+                            if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
+                                htmlWriter.Write("  <ng-container #radar></ng-container>\r\n");
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                             {
                                 WriteActivationAttribute(jObj);
                                 w.CloseBeginTag();
-
                                 GenerateHtmlChildren(jObj, type);
                             }
                         }
-
-                        //Passaggio intermedio, per inserire il radar subito sotto la toolbartop
-                        if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
-                            htmlWriter.Write("\t<ng-container #radar></ng-container>\r\n");
 
                         break;
                     }
@@ -754,8 +751,9 @@ namespace Microarea.TbJson
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
                             {
                                 WriteActivationAttribute(jObj);
-
+                                WriteHideAttribute(jObj);
                                 AddIconAttribute(jObj);
+                                WriteToolbarTopButtonInfo(jObj);
 
                                 string caption = jObj.GetLocalizableString(Constants.text);
                                 if (!string.IsNullOrEmpty(caption))
@@ -763,6 +761,9 @@ namespace Microarea.TbJson
                                 string cmpId = jObj.GetId();
                                 if (!string.IsNullOrEmpty(cmpId))
                                     htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
+                                var cmd = jObj.GetClick();
+                                if (!string.IsNullOrEmpty(cmd))
+                                    htmlWriter.WriteAttribute(Square(Constants.buttonClick), cmd);
                                 w.CloseBeginTag();
                             }
                         }
@@ -1254,6 +1255,14 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + id);
         }
 
+        private void WriteHideAttribute(JObject jObj)
+        {
+            string activation = jObj.GetFlatString(Constants.activation);
+            string id = jObj.GetId();
+            if (string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
+                htmlWriter.WriteAttribute("*ngIf", "!hide" + id);
+        }
+
         private void WriteBindingAttributes(JObject jObj, bool writeHtml)
         {
             JObject jBinding = jObj[Constants.binding] as JObject;
@@ -1637,6 +1646,14 @@ namespace Microarea.TbJson
 
             htmlWriter.WriteAttribute(Square("slice"), $"{slice} | async");
             htmlWriter.WriteAttribute(Square("selector"), $"{selector}");
+        }
+
+        private void WriteToolbarTopButtonInfo(JObject jObj)
+        {
+            if (!string.IsNullOrEmpty(jObj.GetFlatString(Constants.activation))
+                || jObj.GetToolbarButtonTag() != Constants.tbToolbarTopButton) return;
+            if (jObj.TryGetId(out string id))
+                toAppendToDefinition.Append($"this.toolbarButtons.push({{id: '{id}', category: {(int)jObj.GetCommandCategory()}}});\r\n");
         }
     }
 }

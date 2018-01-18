@@ -49,7 +49,7 @@ export class RadarState {
     providers: [PaginatorService, FilterService]
 })
 export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
-    @Input() pageSize = 7;
+    @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
     sort: SortDescriptor[] = [];
@@ -61,6 +61,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     pinned = false;
     areFiltersVisible = false;
     public selectableSettings: SelectableSettings;
+    private lastSelectedKeyOnPageChange: string;
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
@@ -84,6 +85,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
+            this.exitFindMode();
             this.setState(d);
             this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIdx);
         });
@@ -93,7 +95,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         });
         this.filterer.filterChanging$.subscribe(x => this.gridStyle$.next(GridStyles.filterTyping));
         this.store.select(m => _.get(m, 'FormMode.value'))
-            .subscribe(m => this.canNavigate$.next(m !== FormMode.EDIT));
+            .subscribe(m => this.canNavigate$.next(m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND));
         this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
     }
@@ -129,9 +131,19 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     get areFiltersVisibleIcon() {
         return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
     }
+
     async pageChange(event: PageChangeEvent) {
+        if (this.state.selectionKeys.length)
+            this.lastSelectedKeyOnPageChange = this.state.selectionKeys[0];
         await this.paginator.pageChange(event.skip, event.take);
+        this.restoreViewSelectionByKey(this.lastSelectedKeyOnPageChange);
+    }
+
+    private restoreViewSelectionByKey(key: string) { // workaround for kendo-grid issue 1040
         this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
+        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === key)
+        if (idx === -1) return;
+        this.state = { ...this.state, selectionKeys: [key], selectedIndex: idx };
     }
 
     sortChange(sort: SortDescriptor[]): void {
@@ -168,7 +180,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     exitFindMode() {
-        if (this.isFormMode(FormMode.EDIT))
+        if (this.isFormMode(FormMode.FIND))
             this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
@@ -179,7 +191,6 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     private show(show: boolean) {
         this.state = { ...this.state, view: show ? ViewStates.opened : ViewStates.closed };
         this.changeDetectorRef.detectChanges();
-        show && this.exitFindMode();
     }
 
     private setFocus(selector: string, index: number) {

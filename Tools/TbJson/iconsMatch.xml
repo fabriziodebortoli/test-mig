@@ -426,6 +426,7 @@
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.ok.png" icon="tb-ok"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.checkFilled.png" icon="tb-checkFilled.svg"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.find.png" icon="tb-find"></icon>
+  <icon iconNs="Framework.TbFrameworkImages.Images.25x25.radar.png" icon="tb-radar"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.favorites.png" icon="tb-favorites"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.favoritesPin.png" icon="tb-favoritesPin"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.info.png" icon="tb-info"></icon>

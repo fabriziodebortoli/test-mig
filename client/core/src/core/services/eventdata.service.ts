@@ -38,6 +38,8 @@ export class EventDataService implements OnDestroy {
 
     ngOnDestroy() {
         this.change.complete();
+        this.showRadar.complete();
+        this.radarRecordSelected.complete();
     }
 }
 

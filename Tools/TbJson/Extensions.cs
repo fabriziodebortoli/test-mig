@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
-using Newtonsoft.Json.Linq;
 
 namespace Microarea.TbJson
 {
@@ -29,6 +29,17 @@ namespace Microarea.TbJson
         {
             return jObj.GetFlatString(Constants.id);
         }
+
+        internal static bool TryGetId(this JToken jObj, out string id) =>
+            (id = jObj.GetFlatString(Constants.id)) != null;
+
+        internal static string GetClick(this JToken jObj)
+        {
+            if (jObj.GetFlatString(Constants.id) == "ID_EXTDOC_RADAR") // TODOPD
+                return "openRadar";
+            return jObj.GetFlatString(Constants.buttonClick);
+        }
+
         //-----------------------------------------------------------------------------
         internal static WndObjType GetWndObjType(this JToken jObj)
         {
@@ -85,6 +96,8 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         internal static CommandCategory GetCommandCategory(this JToken jObj)
         {
+            if (jObj.GetFlatString(Constants.id) == "ID_EXTDOC_RADAR")
+                return CommandCategory.Search; // TODOPD
             JToken cat = jObj[Constants.category];
             return cat == null ? CommandCategory.Undefined : (CommandCategory)cat.Value<int>();
         }
@@ -357,11 +370,9 @@ namespace Microarea.TbJson
             WndObjType type = jObj.GetWndObjType();
             if (type == WndObjType.ToolbarButton)
             {
-               
                 string id = jObj.GetId();
                 int idx = ar.ToList().IndexOf(id);
                 return idx;
-                
             }
 
             return 10;//vista o altri oggetti analoghi
