@@ -1,4 +1,5 @@
-﻿import { ThemeService } from './theme.service';
+﻿import { DiagnosticService } from './diagnostic.service';
+import { ThemeService } from './theme.service';
 import { AuthService } from './auth.service';
 import { EventManagerService } from './event-manager.service';
 import { DialogService } from '@progress/kendo-angular-dialog';
@@ -35,7 +36,8 @@ export class TaskBuilderService {
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
         public authService: AuthService,
-        private themeService: ThemeService
+        private themeService: ThemeService,
+        private diagnosticService: DiagnosticService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -65,7 +67,7 @@ export class TaskBuilderService {
 
             this.setConnectionStatus(ConnectionStatus.Disconnected);
             this.logger.debug("Riconnessione in corso...")
-            this.openConnection();
+            let sub = this.openTbConnection().subscribe(res => { sub.unsubscribe(); });
 
         }));
 
@@ -86,41 +88,42 @@ export class TaskBuilderService {
         this.connected.next(false);
     }
 
-    // provo ad aprire connessione TB
-    public openConnection() {
-        this.openTbConnection().subscribe();
-    }
-
-    openTbConnection(): Observable<boolean> {
+    openTbConnection(): Observable<OperationResult> {
 
         this.setConnectionStatus(ConnectionStatus.Connecting);
         const authtoken = sessionStorage.getItem('authtoken');
         this.logger.debug('openTbConnection...', authtoken);
         const isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
-            this.httpService.openTBConnection({ authtoken: authtoken, isDesktop: isDesktop })
+            this.httpService.initTBLogin({ authtoken: authtoken, isDesktop: isDesktop })
                 .timeout(this.timeout)
                 .catch((error: any) => Observable.throw(error))
                 .subscribe((tbRes: OperationResult) => {
-                    this.logger.debug('openTBConnection result...', tbRes);
+                    this.logger.debug('initTBLogin result...', tbRes);
 
                     if (tbRes.error) {
                         this.logger.debug('error messages:', tbRes.messages);
                         this.tbConnection.next(false);
                         this.setConnectionStatus(ConnectionStatus.Unavailable);
                         this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
+                        if (tbRes.messages) {
+                            this.diagnosticService.showDiagnostic(tbRes.messages);
+                        }
+                        
+                        
                     } else {
                         this.themeService.loadThemes();
                         this.tbConnection.next(true);
                     }
 
-                    observer.next(true);
+                    observer.next(tbRes);
                     observer.complete();
 
                 }, (error) => {
-                    this.logger.error("openTBConnection Connection failed", error);
+                    this.logger.error("initTBLogin Connection failed", error);
                     this.tbConnection.next(false);
-                    observer.next(false);
+                    let res = new OperationResult(false, [{text:error}]);
+                    observer.next(res);
                     observer.complete();
                 });
         })

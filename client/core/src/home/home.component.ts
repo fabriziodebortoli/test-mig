@@ -74,7 +74,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public eventManagerService: EventManagerService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
     this.initialize();
@@ -82,7 +82,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
   initialize() {
 
-    this.loadingService.setLoading(true,  this._TB('connecting...'));
+    this.loadingService.setLoading(true, this._TB('connecting...'));
 
     this.isDesktop = this.infoService.isDesktop;
 
@@ -128,12 +128,20 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
     this.formattersService.loadFormattersTable();
-    this.loadingService.setLoading(false);
+    //in modalità web non aspetto che tbloader venga su
+    if (!this.isDesktop) {
+      this.loadingService.setLoading(false);
+    }
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.taskbuilderService.openConnection();
+    let sub = this.taskbuilderService.openTbConnection().subscribe(res => {
+      sub.unsubscribe();
+      if (this.isDesktop) {
+        this.loadingService.setLoading(false);
+      }
+    });
   }
 
   ngAfterContentInit() {
