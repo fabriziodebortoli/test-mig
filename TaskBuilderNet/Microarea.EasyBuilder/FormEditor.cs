@@ -3379,8 +3379,10 @@ namespace Microarea.EasyBuilder
 				//se sto creando un nuovo documento, di default pubblico la customizzazione, o sono in edit di un serverdoc creato con EB
 				bool publish = newDocument || BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp.ApplicationType == ApplicationType.Standardization;
 				bool isActive = newDocument; //se sto inserendo un nuovo documento, la prima è la sua customizzazione di default
-											 //Se il path della customizzazione esiste, allora è già stata salvata e non chiedo niente, 
-											 //altrimenti chiedo il nome della customizzazione
+                                             //Se il path della customizzazione esiste, allora è già stata salvata e non chiedo niente, 
+                                             //altrimenti chiedo il nome della customizzazione
+                bool saveForWeb = false;    // TODOWEB mettere a true quando serve a noi
+
 				if (existing)
 				{
 					//l'utente ha chiesto di salvare oppure sto inserendo un nuovo documento: non chiedo nulla, la risposta implicita è YES
@@ -3389,7 +3391,7 @@ namespace Microarea.EasyBuilder
 					else
 					{
 						if (askForOptions)
-							res = SaveCustomization.SaveExistingCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive);
+							res = SaveCustomization.SaveExistingCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, ref saveForWeb);
 						else
 						{
 							res = DialogResult.Yes;
@@ -3402,7 +3404,7 @@ namespace Microarea.EasyBuilder
 					if (newDocument)//nuovo documento: non devo chiedere ulteriori informazioni, sono già implicite nel nome documento
 						res = DialogResult.Yes;
 					else//l'applicazione è in chiusura: chiedo all'utente se voglio salvare ed il nome della customizzazione
-						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive);
+						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, saveForWeb);
 				}
 
 
