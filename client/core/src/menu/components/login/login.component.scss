@@ -19,6 +19,7 @@
             min-width: 400px;
             .form-group {
                 margin-top: 20px;
+                flex: 1;
                 .k-textbox {
                     font-size: 13px;
                     padding: 14px 8px;
@@ -34,7 +35,7 @@
                 .floatingLabel {
                     font-size: 13px;
                     margin: 3px 0;
-                    color: #858585;
+                    color: #333;
                     font-weight: 500;
                 }
                 .form-button {
@@ -42,14 +43,6 @@
                     width: 100%;
                 }
             }
-            // .form-group .form-control {
-            //     width: 100%;
-            //     margin: 10px 0
-            // }
-            // .form-group .form-button {
-            //     margin-top: 20px;
-            //     width: 100%;
-            // }
             div.error {
                 background: #d51923;
                 margin: 20px 0 0;
@@ -64,6 +57,9 @@
             .mat-spinner path {
                 stroke: #0277BD;
             }
+            .chkClearCache {
+                margin-top: 15px;
+            }
         }
     }
     footer {
@@ -72,7 +68,6 @@
         color: #fff;
         font-weight: 300;
         font-size: 12px;
-        //flex-basis: 50px;
     }
     footer a {
         color: #fff;

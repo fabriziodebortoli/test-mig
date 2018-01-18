@@ -524,6 +524,12 @@ tb-caption label {
     height: calc(1.42857em + (4px * 2) + (1px * 2));
 }
 
+.k-checkbox-label,
+.k-radio-label {
+    font-size: 13px;
+    line-height: 18px;
+    color: #333;
+}
 .advanced-header-strip {
     background: #fff;
     border: 1px solid #ccc;
