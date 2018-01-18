@@ -1698,7 +1698,7 @@ namespace Microarea.RSWeb.WoormEngine
 
         //---------------------------------------------------------------------------
         // Aggiunge subito una variabile predefinita di nome ReportCurrentCopyNumber che contiene 
-        // il numero di copia corrente di pagina del report che si sta salvando in pdf
+        // il numero di copia corrente del report che si sta salvando in pdf
         private void AddReportCurrentCopyNumberField()
         {
             Field rf = new Field("Int32", SpecialReportField.NAME.CURRENT_COPY, this);
