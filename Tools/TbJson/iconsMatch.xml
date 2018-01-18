@@ -170,11 +170,11 @@
   <icon iconNs="ERP.Core.Images.25x25.ToolItem_w.png" icon="erp-toolitem"></icon>
   <icon iconNs="ERP.Core.Images.25x25.ExtraEU_w.png" icon="erp-extraeu"></icon>
   <icon iconNs="ERP.Core.Images.25x25.ExtraEU.png" icon="erp-extraeu"></icon>
-  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote_w.png" icon="erp-deliverynote"></icon>
+  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote_w.png" icon="erp-deliverynote-c"></icon>
   <icon iconNs="ERP.Core.Images.25x25.DeliveryNoteError_w.png" icon="erp-deliverynoteerror"></icon>
-  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote.png" icon="erp-deliverynote"></icon>
+  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote.png" icon="erp-deliverynote-c"></icon>
   <icon iconNs="ERP.Core.Images.25x25.DeliveryNoteError.png" icon="erp-deliverynoteerror"></icon>
-  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote_c.png" icon="erp-deliverynote"></icon>
+  <icon iconNs="ERP.Core.Images.25x25.DeliveryNote_c.png" icon="erp-deliverynote-c"></icon>
   <icon iconNs="ERP.Core.Images.25x25.QualityMore_c.png" icon="erp-qualitymore"></icon>
   <icon iconNs="ERP.Core.Images.25x25.Quality.png" icon="erp-quality"></icon>
   <icon iconNs="ERP.Core.Images.25x25.Quality_w.png" icon="erp-quality"></icon>
