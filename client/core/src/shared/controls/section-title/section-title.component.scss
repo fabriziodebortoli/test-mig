@@ -1,15 +1,15 @@
-$primary-color: rgb(51, 153, 255);
-.class1 {
-    color: $primary-color;
+$color:#0277bd;
+:host {
+    margin: 3px 0 2px;
 }
 
-.line-separator {
-    height: 1px;
-    background: $primary-color;
-    border-bottom: 1px solid $primary-color;
+hr {
+    height: 2px;
+    background: $color;
+    border: none;
+    margin-bottom: 0;
 }
 
-.separator {
-    padding-top: 10px;
-    padding-bottom: 10px;
+label {
+    color: $color;
 }
