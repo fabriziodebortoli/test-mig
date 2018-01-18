@@ -2023,9 +2023,16 @@ namespace Microarea.EasyBuilder
 			try
 			{
                 WindowWrapperContainer wndContainer = selections.Parent;
-               
-                wndContainer.Invalidate();
-                wndContainer.UpdateWindow();
+                if (wndContainer == null)
+                {
+                    view.Invalidate();
+                    view.UpdateWindow();
+                }
+                else if (wndContainer != null)
+                {
+                    wndContainer.Invalidate();
+                    wndContainer.UpdateWindow();
+                }
 
                 if (zIndexManager.Editing)
 					zIndexManager.DrawZIndexMarkers(g, view);
@@ -2690,7 +2697,7 @@ namespace Microarea.EasyBuilder
 			if (view == null)
 				return;
 
-			IWindowWrapper child = null;
+            IWindowWrapper child = null;
 
 			//Se ho fatto click su uno dei gripper allora il control selezionato
 			//rimane quello che è attualmente, parent compreso.
@@ -2792,7 +2799,7 @@ namespace Microarea.EasyBuilder
 
                 ProcessMouseMoveAction(MousePosition);
 
-               wrapperView = View as MView;
+                wrapperView = View as MView;
                 if (wrapperView != null)
                     wrapperView.SuspendLayout = false;
             }
@@ -2808,10 +2815,10 @@ namespace Microarea.EasyBuilder
 		{
 			base.OnMouseUp(e);
 
-			FinalizeMoveAction(IsCopyActive());
+            FinalizeMoveAction(IsCopyActive());
 
 			Capture = false;
-		}
+        }
 
 		//--------------------------------------------------------------------------------
 		private IWindowWrapper GetChildFromPos(Point screenPoint, bool bodyEditColumnSelectionAllowed = true)

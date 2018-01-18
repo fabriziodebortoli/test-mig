@@ -248,6 +248,16 @@ namespace Microarea {	namespace Framework	{		namespace TBApplicationWrapper
 		[System::ComponentModel::Browsable(false), ExcludeFromIntellisense]
 		virtual void AfterSelectionChanged(bool IAmSelected) override;
 
+		/// <summary>
+		/// Forces the refresh of the current window
+		/// </summary>
+		virtual void Invalidate() override;
+
+		/// <summary>
+		/// Updates the client area of the specified window
+		/// </summary>
+		virtual void UpdateWindow() override;
+
 	public:
 		/// <summary>
 		/// Internal Use: Constructor
