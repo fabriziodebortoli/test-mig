@@ -8228,6 +8228,7 @@ CControlBehaviour* CAbstractFormDoc::GetControlBehaviour(const CString& sName, c
 			pControlBehaviour->SetName(sName);
 			pControlBehaviour->SetNamespace(aNameSpace.ToString());
 			pControlBehaviour->SetDocument(this);
+			OnControlBehaviourCreated(pControlBehaviour);
 			m_ControlBehaviours.Add(pControlBehaviour);
 		}
 		else
