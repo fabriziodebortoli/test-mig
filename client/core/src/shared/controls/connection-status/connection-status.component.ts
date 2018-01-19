@@ -69,7 +69,7 @@ export class ConnectionStatusComponent extends TbComponent implements OnDestroy 
   }
   reconnect() {
     if (this.tbService._connectionStatus == ConnectionStatus.Unavailable) {
-      let sub = this.tbService.openTbConnection().subscribe(res => { sub.unsubscribe();});
+      let sub = this.tbService.openTbConnectionAndShowDiagnostic().subscribe(res => { sub.unsubscribe();});
     }
 
   }

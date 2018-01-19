@@ -74,7 +74,6 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public resolver: ComponentFactoryResolver,
     public themeService: ThemeService,
     public eventManagerService: EventManagerService,
-    private diagnosticService: DiagnosticService,
     private authService: AuthService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
@@ -140,22 +139,16 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
   ngOnInit() {
     super.ngOnInit();
-    let sub = this.taskbuilderService.openTbConnection().subscribe(res => {
+    let sub = this.taskbuilderService.openTbConnectionAndShowDiagnostic().subscribe(ok => {
       sub.unsubscribe();
       if (this.isDesktop) {
         this.loadingService.setLoading(false);
-      }
-      if (res.error) {
-        let sub = this.diagnosticService.showDiagnostic(res.messages).subscribe(obs => {
-          sub.unsubscribe();
-          if (this.isDesktop) {
-            this.authService.logout();
-          }
-        });
+        if (!ok) {
+          this.authService.logout();
+        }
       }
     });
   }
-
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
 

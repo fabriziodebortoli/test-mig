@@ -451,19 +451,22 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 		SendCurrentToken(AfxGetMenuWindowHandle(), authToken);
 
 	CLoginContext* pContext = CTBRequestHandlerObj::GetLoginContext(authToken, TRUE);//forza la creazione del login context
+	if (pContext)
+	{
+		//travaso eventuali messaggi (ad es. esercizio non definito)
+		CString message;
+		GetDiagnosticMessages(pContext, message);
+		jsonResponse.SetMessage(message);
+	}
 	if (pContext == NULL || !pContext->IsValid())
 	{
 		//_TB("Invalid LoginContext. Check if company database is up to date."));
 		jsonResponse.SetError();
-		CString message;
-		GetDiagnosticMessages(pContext, message);
-		jsonResponse.SetMessage(message);
+		
 		response.SetData(jsonResponse);
 		return;
 	}
 
-	response.SetCookie(AUTH_TOKEN_PARAM, authToken);
-	
 	AfxGetApplicationContext()->SetRemoteInterface(isRemoteInterface);
 	if (!isRemoteInterface)
 	{

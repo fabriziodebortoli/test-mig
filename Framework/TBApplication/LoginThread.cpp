@@ -100,6 +100,10 @@ BOOL CLoginThread::InitInstance()
 //-----------------------------------------------------------------------------
 BOOL CLoginThread::InitInstanceInternal()
 {
+	CThreadContext* pThread = AfxGetThreadContext();
+	//in fase di partenza non visualizzo message box, perché sono causa di deadlock
+	UserInteractionMode mode = pThread->GetUserInteractionMode();
+	pThread->SetUserInteractionMode(UNATTENDED);
 	//CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	if (!__super::InitInstance())
 		return FALSE;
@@ -138,7 +142,8 @@ BOOL CLoginThread::InitInstanceInternal()
 	m_StartupReady.Set();
 	if (!m_bProxy)
 		SetThreadPriority(THREAD_PRIORITY_LOWEST);
-		
+
+	pThread->SetUserInteractionMode(mode);
 	return TRUE;
 }
 

@@ -13,6 +13,7 @@ import { HttpService } from './http.service';
 import { WebSocketService } from './websocket.service';
 import { Logger } from './logger.service';
 import { ConnectionStatus } from './../../shared/models/connection-status.enum';
+import { DiagnosticService } from './../../core/services/diagnostic.service';
 
 @Injectable()
 export class TaskBuilderService {
@@ -35,7 +36,8 @@ export class TaskBuilderService {
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
         public authService: AuthService,
-        private themeService: ThemeService
+        private themeService: ThemeService,
+        private diagnosticService: DiagnosticService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -65,7 +67,7 @@ export class TaskBuilderService {
 
             this.setConnectionStatus(ConnectionStatus.Disconnected);
             this.logger.debug("Riconnessione in corso...")
-            let sub = this.openTbConnection().subscribe(res => { sub.unsubscribe(); });
+            let sub = this.openTbConnectionAndShowDiagnostic().subscribe(res => { sub.unsubscribe(); });
 
         }));
 
@@ -85,12 +87,27 @@ export class TaskBuilderService {
         this.tbConnection.next(false);
         this.connected.next(false);
     }
-
+    openTbConnectionAndShowDiagnostic(): Observable<boolean> {
+        return new Observable(observer => {
+            let sub = this.openTbConnection().subscribe(res => {
+                sub.unsubscribe();
+                if (res.messages) {
+                    let sub = this.diagnosticService.showDiagnostic(res.messages).subscribe(obs => {
+                        sub.unsubscribe();
+                        observer.next(!res.error);
+                        observer.complete();
+                    });
+                } else {
+                    observer.next(!res.error);
+                    observer.complete();
+                }
+            });
+        });
+    }
     openTbConnection(): Observable<OperationResult> {
 
         this.setConnectionStatus(ConnectionStatus.Connecting);
         const authtoken = sessionStorage.getItem('authtoken');
-        this.logger.debug('openTbConnection...', authtoken);
         const isDesktop = this.infoService.isDesktop;
         return new Observable(observer => {
             this.httpService.initTBLogin({ authtoken: authtoken, isDesktop: isDesktop })
@@ -103,7 +120,7 @@ export class TaskBuilderService {
                         this.logger.debug('error messages:', tbRes.messages);
                         this.tbConnection.next(false);
                         this.setConnectionStatus(ConnectionStatus.Unavailable);
-                        this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);   
+                        this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
                     } else {
                         this.themeService.loadThemes();
                         this.tbConnection.next(true);
@@ -115,7 +132,7 @@ export class TaskBuilderService {
                 }, (error) => {
                     this.logger.error("initTBLogin Connection failed", error);
                     this.tbConnection.next(false);
-                    let res = new OperationResult(false, [{text:error}]);
+                    let res = new OperationResult(true, [{ text: error }]);
                     observer.next(res);
                     observer.complete();
                 });
