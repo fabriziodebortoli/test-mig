@@ -43,12 +43,13 @@ export class RadarState {
         trigger('shrinkOut', [
             state(ViewStates.opened, style({ height: '*' })),
             state(ViewStates.closed, style({ height: 0, overflow: 'hidden' })),
-            transition('opened <=> closed', animate('250ms ease-in-out')),
+            transition(ViewStates.opened + ' <=> ' + ViewStates.closed, animate('250ms ease-in-out')),
         ])
     ],
     providers: [PaginatorService, FilterService]
 })
 export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
+    @Input() maxColumns = 10;
     @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
@@ -74,46 +75,42 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         this.setSelectableSettings();
         this.filterer.start(200);
         this.paginator.start(1, this.pageSize,
-            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ model: l, customFilters: r })),
+            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: r })),
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
-                p.set('filter', JSON.stringify(otherParams.model.value));
-                p.set('page', JSON.stringify(pageNumber + 1)); // test numbers
-                p.set('per_page', JSON.stringify(serverPageSize));
+                p.set('page', (pageNumber + 1).toString()); // test numbers
+                p.set('per_page', serverPageSize.toString());
                 if (otherParams.customFilters)
                     p.set('customFilters', JSON.stringify(otherParams.customFilters));
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
             this.exitFindMode();
-            this.storeViewSelectionByKey();
             this.setState(d);
-            this.restoreViewSelectionByKey();
             this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIdx);
         });
-        this.filterer.filterChanged$.subscribe(x => {
-            this.gridData$.next({ data: [], total: 0, columns: this.state.columns });
-            this.gridStyle$.next(GridStyles.default);
-        });
-        this.filterer.filterChanging$.subscribe(x => this.gridStyle$.next(GridStyles.filterTyping));
+        this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
+        this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.filterTyping));
         this.store.select(m => _.get(m, 'FormMode.value'))
             .subscribe(m => this.canNavigate$.next(m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND));
         this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
     }
 
-    setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }, maxColumns = 10) {
-        maxColumns = Math.min(d.columns.length, maxColumns);
-        const rows = d.columns.length < maxColumns ? d.rows :
+    setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
+        this.storeViewSelectionByKey();
+        let maxCols = Math.min(d.columns.length, this.maxColumns);
+        const rows = d.columns.length < maxCols ? d.rows :
             d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
-                .slice(0, maxColumns).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
+                .slice(0, maxCols).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
         this.state = {
             ...this.state,
-            columns: [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxColumns),
+            columns: [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols),
             rows: rows
         };
         this.gridData$.next({ data: this.state.rows, total: d.total, columns: this.state.columns });
+        this.restoreViewSelectionByKey();
     }
 
     private get filter(): CompositeFilterDescriptor {
@@ -123,12 +120,16 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = _.cloneDeep(value);
         this.filterer.filter = _.cloneDeep(value);
-        this.state = { ...this.state, lastChangedFilterIdx: this.state.columns.findIndex(c => c.id === this.filterer.changedField) };
+        this.state = { ...this.state, lastChangedFilterIdx: this.state.columns.findIndex(c => c.id === this.filterer.changedField) - 1 };
         this.filterer.onFilterChanged(value);
     }
 
-    onFilterChange(filter: CompositeFilterDescriptor): void {
+    filterChange(filter: CompositeFilterDescriptor): void {
         this.filter = filter;
+    }
+
+    sortChange(sort: SortDescriptor[]): void {
+        this.sort = sort;
     }
 
     get pinnedIcon() {
@@ -140,12 +141,10 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     async pageChange(event: PageChangeEvent) {
-        this.storeViewSelectionByKey();
-        await this.paginator.pageChange(event.skip, event.take);
-        this.restoreViewSelectionByKey();
+        this.paginator.pageChange(event.skip, event.take);
     }
 
-    private storeViewSelectionByKey() { // workaround for kendo-grid issue 1040}
+    private storeViewSelectionByKey() { // workaround for kendo-grid issue 1040
         if (this.state.selectionKeys.length)
             this.lastSelectedKeyOnChange = this.state.selectionKeys[0];
     }
@@ -155,11 +154,6 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKeyOnChange)
         if (idx === -1) return;
         this.state = { ...this.state, selectionKeys: [this.lastSelectedKeyOnChange], selectedIndex: idx };
-    }
-
-    sortChange(sort: SortDescriptor[]): void {
-        this.sort = sort;
-        // this.setState();
     }
 
     selectedKeysChange(e) {

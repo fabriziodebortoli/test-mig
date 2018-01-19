@@ -21,9 +21,9 @@
     </div>
     <kendo-grid #grid [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [height]="300" [data]="gridData$ | async"
         [pageSize]="pageSize" [selectable]="canNavigate$ | async" [skip]="paginator.skip" [filterable]="areFiltersVisible" [filter]="filter"
-        (filterChange)="onFilterChange($event)" (selectedKeysChange)="selectedKeysChange($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)"
-        [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }" [resizable]="true" [selectedKeys]="state.selectionKeys"
-        [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
+        (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange($event)" [ngStyle]="gridStyle$ | async"
+        (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
+        [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
         <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
             field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first">
             <ng-template kendoGridCellTemplate let-dataItem>
@@ -46,6 +46,9 @@
             <kendo-pager-numeric-buttons></kendo-pager-numeric-buttons>
             <kendo-pager-next-buttons></kendo-pager-next-buttons>
             <div class="pager-buttons">
+                <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
+                    <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
+                </button>
                 <button kendoButton class="top-button toggle-button" (click)="areFiltersVisible = !areFiltersVisible" [title]="_TB('Show Filters')">
                     <tb-icon [iconType]="'M4'" [icon]="areFiltersVisibleIcon" class="toolbar-icon"></tb-icon>
                 </button>
