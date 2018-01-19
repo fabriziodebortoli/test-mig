@@ -7977,8 +7977,17 @@ BOOL CParsedCtrl::OnShowingPopupMenu(CMenu& menu)
 
 	if (m_pOwnerWndDescription && m_pOwnerWndDescription->m_pMenu)
 	{
-		CLocalizableDialog* pForm = dynamic_cast<CLocalizableDialog*>(GetCtrlParent());
-		CJsonContextObj* pContext = pForm ? pForm->GetJsonContext() : NULL;
+		CWnd* pParent = GetCtrlParent();
+		CJsonContextObj* pContext = NULL;
+		while (pParent)
+		{
+			if (pParent->IsKindOf(RUNTIME_CLASS(CLocalizableDialog)))
+			{
+				pContext = ((CLocalizableDialog*)pParent)->GetJsonContext();
+				break;
+			}
+			pParent = pParent->GetParent();
+		}
 		if (pContext)
 			m_pOwnerWndDescription->m_pMenu->EvaluateExpressions(pContext);
 		if (menu.GetMenuItemCount() > 0)
