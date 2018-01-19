@@ -56,12 +56,12 @@ export class FilterService implements OnDestroy {
     }
 
     public get filterChanged$(): Observable<CompositeFilter> {
-        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configure. Must call configure(...).'); }
+        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configured. Must call start(...).'); }
         return this.filterTyping$.filter(x => !x.isFirst).map(x => x.value);
     }
 
     public get filterChanging$(): Observable<void> {
-        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configure. Must call configure(...).'); }
+        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configured. Must call start(...).'); }
         return this.filterTyping$.filter(x => x.isFirst);
     }
 

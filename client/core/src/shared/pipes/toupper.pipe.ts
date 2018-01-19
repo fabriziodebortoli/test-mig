@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TbToUpper implements PipeTransform {
 
     transform(value: any, isuppercase: boolean): string {
-        if (isuppercase) {
+        if (isuppercase && value) {
             return value.toUpperCase();
         } else {
             return value;

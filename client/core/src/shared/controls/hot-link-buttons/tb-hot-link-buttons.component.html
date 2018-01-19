@@ -50,6 +50,7 @@
                     [style.width.px]="width"
                     [filterable]="true"
                     (filterChange)="onComboFilterChange($event)"
+                    (selectionChange)="selectionChanged($event)"
                     [disabled]="!(slice$ | async)?.enabled">
         <ng-template kendoDropDownListItemTemplate let-dataItem>
             <div class="dropDownItem dropDownItemId">{{ dataItem.id }}</div>
