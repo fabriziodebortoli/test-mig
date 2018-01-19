@@ -12,13 +12,13 @@ export class gauge extends baserect {
     min: number;
     minorUnit: number;
     majorUnit: number;
-    ranges: range[];
-    pointers: pointer[];
+    ranges: range[]=[];
+    pointers: pointer[]=[];
     scale = "{ vertical: false }";
     constructor(jsonObj: any) {
         super(jsonObj.baserect);
         this.value = jsonObj.value;
-        this.type = jsonObj.Type;
+        this.type = jsonObj.gaugeType;
         this.max = jsonObj.max;
         this.min = jsonObj.min;
         this.minorUnit = jsonObj.minorUnit;
