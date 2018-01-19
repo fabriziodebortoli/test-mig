@@ -30,6 +30,9 @@ PageLayout "default"
 						TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
 					End
 			End
+		Field (87,420,115,541) Alias 16  /* FieldWithoutLabel */ 
+			Begin
+			End
 		Table (10,5) "Table_7" Alias 7  /* Table_7 */ Origin (138,127) Heights (26,35,14,14) 
 		HideTitle
 			Begin
@@ -59,6 +62,7 @@ Report
 			String       MA_Banks_City [23] Alias 6  Column ;
 			String       FieldLabel [15] Alias 8 ;
 			String       TestLabelStatica [15] Alias 15 ;
+			String       FieldWithoutLabel [15] Alias 16 ;
 		End
 
 		Rules
@@ -75,6 +79,8 @@ Report
 			FieldLabel = "" ;
 
 			TestLabelStatica = "" ;
+
+			FieldWithoutLabel = "" ;
 		End
 
 
