@@ -1,3 +1,4 @@
+import { AuthService } from './../core/services/auth.service';
 import { TbComponentService } from './../core/services/tbcomponent.service';
 import { EventManagerService } from './../core/services/event-manager.service';
 import { ThemeService } from './../core/services/theme.service';
@@ -29,6 +30,7 @@ import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
 import { TbComponent } from './../shared/components/tb.component';
+import { DiagnosticService } from './../core/services/diagnostic.service';
 
 @Component({
   selector: 'tb-home',
@@ -72,6 +74,8 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public resolver: ComponentFactoryResolver,
     public themeService: ThemeService,
     public eventManagerService: EventManagerService,
+    private diagnosticService: DiagnosticService,
+    private authService: AuthService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
@@ -140,6 +144,14 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
       sub.unsubscribe();
       if (this.isDesktop) {
         this.loadingService.setLoading(false);
+      }
+      if (res.error) {
+        let sub = this.diagnosticService.showDiagnostic(res.messages).subscribe(obs => {
+          sub.unsubscribe();
+          if (this.isDesktop) {
+            this.authService.logout();
+          }
+        });
       }
     });
   }

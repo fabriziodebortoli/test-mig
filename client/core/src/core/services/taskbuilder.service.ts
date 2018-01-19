@@ -1,5 +1,4 @@
-﻿import { DiagnosticService } from './diagnostic.service';
-import { ThemeService } from './theme.service';
+﻿import { ThemeService } from './theme.service';
 import { AuthService } from './auth.service';
 import { EventManagerService } from './event-manager.service';
 import { DialogService } from '@progress/kendo-angular-dialog';
@@ -36,8 +35,7 @@ export class TaskBuilderService {
         public infoService: InfoService,
         public eventManagerService: EventManagerService,
         public authService: AuthService,
-        private themeService: ThemeService,
-        private diagnosticService: DiagnosticService
+        private themeService: ThemeService
     ) {
 
         // Connessione WS quando viene aperta connessione al tbLoader
@@ -105,12 +103,7 @@ export class TaskBuilderService {
                         this.logger.debug('error messages:', tbRes.messages);
                         this.tbConnection.next(false);
                         this.setConnectionStatus(ConnectionStatus.Unavailable);
-                        this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
-                        if (tbRes.messages) {
-                            this.diagnosticService.showDiagnostic(tbRes.messages);
-                        }
-                        
-                        
+                        this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);   
                     } else {
                         this.themeService.loadThemes();
                         this.tbConnection.next(true);
