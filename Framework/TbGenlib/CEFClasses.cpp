@@ -465,9 +465,7 @@ CLoginContext* CTBRequestHandlerObj::Login(CString authenticationToken)
 		AfxGetTbCmdManager()->Login(authenticationToken);
 		pContext = AfxGetLoginContext(authenticationToken);
 	}
-	
-	AfxGetApplicationContext()->SetRemoteInterface(TRUE);
-	
+
 	return pContext;
 }
 

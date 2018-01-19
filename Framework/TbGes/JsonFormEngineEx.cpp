@@ -3178,7 +3178,6 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 		//solo i parsed controls
 		if (!pChild->m_strControlClass.IsEmpty())
 		{
-			CString sHotLink;
 			HotKeyLink* pHotLink = NULL;
 			HotLinkInfo* pInfo = NULL;
 			if (pChild->m_pBindings)
@@ -3210,9 +3209,9 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 			}
 			if (pDataObj)
 			{
-				if (pInfo && !sHotLink.IsEmpty() && pContext->m_pDoc)
+				if (pInfo && !pInfo->m_strName.IsEmpty() && pContext->m_pDoc)
 				{
-					pHotLink = pContext->m_pDoc->GetHotLink(sHotLink, CTBNamespace(CTBNamespace::HOTLINK, pInfo->m_strNamespace));
+					pHotLink = pContext->m_pDoc->GetHotLink(pInfo->m_strName, CTBNamespace(CTBNamespace::HOTLINK, pInfo->m_strNamespace));
 
 #ifdef DEBUG
 					if (pContext->m_pDoc->GetDesignMode() != CBaseDocument::DM_STATIC)

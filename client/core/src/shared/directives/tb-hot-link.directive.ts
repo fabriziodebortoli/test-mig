@@ -18,6 +18,20 @@ export class TbHotLinkDirective implements OnInit {
     hotLinkInfo: HotLinkInfo;
     model: any;
     private cmp: ComponentRef<TbHotlinkButtonsComponent>
+    private get compMod(): any {
+        return this.cmp.instance.modelComponent.model;
+    }
+
+    private getFromEdsModel(path: string): any {
+        return _.get(this.eventDataService.model, path);
+    }
+
+    private _ancestor : HlComponent;
+    private get ancestor() : HlComponent {
+        if(!this._ancestor)
+            this._ancestor = (this.viewContainer as any)._view.component as HlComponent;
+        return this._ancestor;
+    }
 
     @Input() set tbHotLink(hl: HotLinkInfo) {
         this.hotLinkInfo = hl;
@@ -32,33 +46,28 @@ export class TbHotLinkDirective implements OnInit {
         private eventDataService: EventDataService) {
     }
 
+    private getSliceSelector(ancestor: HlComponent): any {
+        return createSelector(
+            s => this.compMod ? this.compMod.enabled : false,
+            s => this.compMod ? this.compMod.value : undefined,
+            s => this.getFromEdsModel(ancestor.hotLink.selector),
+            s =>  this.compMod ? { value: this.compMod.value, 
+                                   enabled: this.compMod.enabled,
+                                   selector: this.getFromEdsModel(ancestor.hotLink.selector) }
+                   : { value: undefined,
+                       enabled: false,
+                       selector: this.getFromEdsModel(ancestor.hotLink.selector) }
+                );
+    }
+
     ngOnInit() {
         const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
         this.cmp = this.viewContainer.createComponent(compFactory);
-        let selTest =  createSelector(s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : '',
-        p => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : '');
-        let selector;
         if (!this.model) {
-            let ancestor = (this.viewContainer as any)._view.component as HlComponent;
-            if (ancestor) { this.cmp.instance.modelComponent = ancestor; }
-            selector = createSelector(
-                s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.enabled : false,
-                s => this.cmp.instance.modelComponent.model ? this.cmp.instance.modelComponent.model.value : undefined,
-                s => _.get(ancestor.hotLink.selector, this.eventDataService.model) ? 
-                            _.get(ancestor.hotLink.selector, this.eventDataService.model) : undefined,
-                s => { 
-                           if (this.cmp.instance.modelComponent.model){
-                           return { value: this.cmp.instance.modelComponent.model.value,
-                                    enabled: this.cmp.instance.modelComponent.model.enabled,
-                                    selector: _.get(ancestor.hotLink.selector, this.eventDataService.model),
-                                     };
-                       } else {
-                           return { value: undefined, enabled: false, selector: _.get(ancestor.hotLink.selector, this.eventDataService.model) }
-                       }
-                    });
-            this.cmp.instance.slice$ = this.store
-            .select(selector)
-            .filter(x => !x.value || (x.value !== this.cmp.instance.value));
+            if(this.ancestor) {
+                this.cmp.instance.modelComponent = this.ancestor;
+                this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
+            } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null });
         } else {
             this.cmp.instance.model = this.model;
             this.cmp.instance.slice$ = Observable.of(this.model);

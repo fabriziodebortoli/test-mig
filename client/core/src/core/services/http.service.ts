@@ -113,7 +113,7 @@ export class HttpService {
             });
     }
 
-    openTBConnection(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
+    initTBLogin(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
         return this.postData(this.infoService.getDocumentBaseUrl() + 'initTBLogin/', params)
             .map((res: Response) => {
 

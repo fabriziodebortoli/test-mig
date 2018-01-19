@@ -1,3 +1,4 @@
+import { AuthService } from './../core/services/auth.service';
 import { TbComponentService } from './../core/services/tbcomponent.service';
 import { EventManagerService } from './../core/services/event-manager.service';
 import { ThemeService } from './../core/services/theme.service';
@@ -29,6 +30,7 @@ import { LoadingService } from './../core/services/loading.service';
 
 import { MenuService } from './../menu/services/menu.service';
 import { TbComponent } from './../shared/components/tb.component';
+import { DiagnosticService } from './../core/services/diagnostic.service';
 
 @Component({
   selector: 'tb-home',
@@ -72,9 +74,10 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public resolver: ComponentFactoryResolver,
     public themeService: ThemeService,
     public eventManagerService: EventManagerService,
+    private authService: AuthService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
     this.initialize();
@@ -82,7 +85,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
   initialize() {
 
-    this.loadingService.setLoading(true,  this._TB('connecting...'));
+    this.loadingService.setLoading(true, this._TB('connecting...'));
 
     this.isDesktop = this.infoService.isDesktop;
 
@@ -128,14 +131,24 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
     this.formattersService.loadFormattersTable();
-    this.loadingService.setLoading(false);
+    //in modalità web non aspetto che tbloader venga su
+    if (!this.isDesktop) {
+      this.loadingService.setLoading(false);
+    }
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.taskbuilderService.openConnection();
+    let sub = this.taskbuilderService.openTbConnectionAndShowDiagnostic().subscribe(ok => {
+      sub.unsubscribe();
+      if (this.isDesktop) {
+        this.loadingService.setLoading(false);
+        if (!ok) {
+          this.authService.logout();
+        }
+      }
+    });
   }
-
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
 

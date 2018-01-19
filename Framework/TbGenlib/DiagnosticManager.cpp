@@ -1105,7 +1105,7 @@ BOOL CMessagesWebViewer::Show(CDiagnostic* pDiagnostic, BOOL bClearMessages)
 {
 	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
 	ASSERT(pSession);
-	BOOL b = pSession->DiagnosticDialog(pDiagnostic);
+	BOOL b = pSession ? pSession->DiagnosticDialog(pDiagnostic) : FALSE;
 	if (bClearMessages)
 		pDiagnostic->ClearMessages(TRUE);
 	return b;

@@ -12,7 +12,7 @@ import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress
 import { PopupService, PopupSettings, PopupRef, Align } from '@progress/kendo-angular-popup';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters } from '../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import * as _ from 'lodash';
 
@@ -177,7 +177,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
   }
 
-   @HostListener('keydown', ['$event'])
+   @HostListener('document:keydown', ['$event'])
    public keydown(event: any): void {
      if (event.keyCode === 27) { this.closePopups(); }
    }
@@ -250,13 +250,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   openTable() { this.showTableSubj$.next(true); }
   closePopups() { this.closeOptions(); this.closeTable(); }
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
-
   private start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200);
     this.paginator.start(1, this.pageSize,
-      combineFilters(this.filterer.filterChanged$, this.slice$)
-        .map(x => ({ model: x.right, customFilters: x.left} as ServerNeededParams)),
+      combineFiltersMap(this.slice$, this.filterer.filterChanged$, (l, r) => ({ model: l, customFilters: r})),
       (pageNumber, serverPageSize, otherParams) => {
         let ns = this.hotLinkInfo.namespace;
         if (!ns && otherParams.model.selector && otherParams.model.selector !== '') { 
@@ -274,7 +272,14 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        this.selectionColumn = d.key;
+        let key = d.key;
+        // TODO: remove once this bug has been fixed on server side.
+        if(key.indexOf('.')) {
+          let splitted = d.key.split('.');
+          key = splitted.splice(splitted.length -1)[0];
+        }
+
+        this.selectionColumn = key
         if (d.columns) {
           this.columns = d.columns;
         }
@@ -289,14 +294,9 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
           }
         }, 100);
     });
-    this.filterer.filterChanged$.subscribe(x => {
-      this.gridView$.next({data: [], total: 0, columns: this.columns });
-      this._gridStyle$.next(this._defaultGridStyle);
-    });
 
-    this.filterer.filterChanging$.subscribe(x => {
-      this._gridStyle$.next(this._filterTypingGridStyle);
-    });
+    this.filterer.filterChanged$.subscribe(x => this._gridStyle$.next(this._defaultGridStyle));
+    this.filterer.filterChanging$.subscribe(x => this._gridStyle$.next(this._filterTypingGridStyle));
   }
 
   private stop() {
@@ -339,13 +339,20 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionChanged(value: any) {
-    let idx = this.paginator.getClientPageIndex(value.index);
-    let k = this.gridView$.value.data.slice(idx, idx + 1);
-    this.value = k[0][this.selectionColumn];
-    if (this.modelComponent && this.modelComponent.model) {
-      this.modelComponent.model.value = this.value;
-    }
+    if (this.isAttachedToAComboBox) { 
+      _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
+    } else {
+      let idx = this.paginator.getClientPageIndex(value.index);
+      let k = this.gridView$.value.data.slice(idx, idx + 1);
+      this.value = k[0][this.selectionColumn];
+      if (this.modelComponent && this.modelComponent.model) {
+        this.modelComponent.model.value = this.value;
+      }
+      let v = _.get(k[0], 'Description');
+      _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', v);
+    }    
     this.emitModelChange();
+    this.closePopups();
   }
 
   emitModelChange() {

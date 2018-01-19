@@ -1,7 +1,7 @@
 <kendo-dialog title="{{_TB('Error')}}" *ngIf="diagnosticService.isVisible" (close)="close()">
     <div class="messagesContainer">
         <div *ngFor="let message of diagnosticService.messages">
-            {{message?.text}}
+            {{message.text ? message.text : message}}
         </div>
     </div>
     <div>
