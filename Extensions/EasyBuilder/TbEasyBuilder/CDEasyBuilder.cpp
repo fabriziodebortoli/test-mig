@@ -319,10 +319,11 @@ BEGIN_MESSAGE_MAP(CDEasyBuilder, CClientDoc)
 	// comandi per la gestione dei radar-woorm 
 
 	ON_COMMAND(ID_CHOOSE_CONTEXT, ChooseContext)
-	ON_COMMAND_RANGE(ID_FORM_EDITOR_EDIT, (UINT)(ID_FORM_EDITOR_EDIT + MAX_EB_COMMANDS-1), OnEditForm)
+	ON_COMMAND(ID_FORM_EDITOR_EDIT, OnEditForm)
+	ON_COMMAND_RANGE(ID_FORM_EDITOR_RANGE, (UINT)(ID_FORM_EDITOR_RANGE + MAX_EB_COMMANDS-1), OnEditForm)
 	ON_UPDATE_COMMAND_UI(ID_FORM_EDITOR_EDIT,   OnUpdateEditForm)
 
-	ON_UPDATE_COMMAND_UI_RANGE(ID_FORM_EDITOR_EDIT, (UINT)(ID_FORM_EDITOR_EDIT + MAX_EB_COMMANDS - 1), OnUpdateDropdown)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_FORM_EDITOR_RANGE, (UINT)(ID_FORM_EDITOR_RANGE + MAX_EB_COMMANDS - 1), OnUpdateDropdown)
 
 END_MESSAGE_MAP()
 
@@ -348,7 +349,12 @@ CDEasyBuilder::~CDEasyBuilder()
 //-----------------------------------------------------------------------------
 WebCommandType CDEasyBuilder::OnGetWebCommandType(UINT commandID)
 {
-	if (commandID >= ID_FORM_EDITOR_EDIT && commandID < (ID_FORM_EDITOR_EDIT + MAX_EB_COMMANDS))
+	if (
+			commandID == ID_FORM_EDITOR_EDIT || 
+			(
+				commandID >= ID_FORM_EDITOR_RANGE && commandID < (ID_FORM_EDITOR_RANGE + MAX_EB_COMMANDS)
+			)
+		)
 		return WEB_UNSUPPORTED;
 
 	return __super::OnGetWebCommandType(commandID);
@@ -383,7 +389,7 @@ BOOL CDEasyBuilder::PreTranslateMsg	(HWND hWnd, MSG* pMsg)
 //-----------------------------------------------------------------------------
 BOOL CDEasyBuilder::OnGetToolTipText (UINT nId, CString& strMessage)
 {
-	if (nId >= ID_FORM_EDITOR_EDIT && nId < (ID_FORM_EDITOR_EDIT + MAX_EB_COMMANDS))
+	if ((nId == ID_FORM_EDITOR_EDIT) || (nId >= ID_FORM_EDITOR_RANGE && nId < (ID_FORM_EDITOR_RANGE + MAX_EB_COMMANDS)))
 	{
 		if (hInstance == NULL)
 			GET_DLL_HINSTANCE(hInstance);
@@ -452,7 +458,7 @@ BOOL CDEasyBuilder::OnToolbarDropDown (UINT nID, CMenu& menu)
 	if (nID != ID_FORM_EDITOR_EDIT)
 		return FALSE;
 
-	int i = ID_FORM_EDITOR_EDIT;
+	int i = ID_FORM_EDITOR_RANGE;
 
 	if (BaseCustomizationContext::CustomizationContextInstance->CurrentEasyBuilderApp == nullptr)
 	{
@@ -878,7 +884,7 @@ void CDEasyBuilder::ChooseCustomizationContextAndRunEasyStudio()
 //-----------------------------------------------------------------------------
 void CDEasyBuilder::OnUpdateDropdown(CCmdUI* pCmdUI)
 {
-	int i = ID_FORM_EDITOR_EDIT;
+	int i = ID_FORM_EDITOR_RANGE;
 
 	DocumentControllers^ controllers = documentControllers;
 	if (controllers)
@@ -904,6 +910,12 @@ void CDEasyBuilder::OnUpdateDropdown(CCmdUI* pCmdUI)
 }
 
 //-----------------------------------------------------------------------------
+void CDEasyBuilder::OnEditForm()
+{
+	OnEditForm(ID_FORM_EDITOR_EDIT);
+}
+
+//-----------------------------------------------------------------------------
 void CDEasyBuilder::OnEditForm(UINT nCmd)
 {
 	if (IsEditing() || !IsLicenseForEasyBuilderVerified())
@@ -916,7 +928,7 @@ void CDEasyBuilder::OnEditForm(UINT nCmd)
 	if (!isEasyStudioDesigner && !BaseCustomizationContext::CustomizationContextInstance->ExistsCurrentEasyBuilderApp)
 		return;
 	
-	int nControllerIdx = nCmd - ID_FORM_EDITOR_EDIT - 1;
+	int nControllerIdx = nCmd - ID_FORM_EDITOR_RANGE - 1;
 
 	DockPanel^ panel = CUtility::GetHostingPanel((IntPtr)m_pServerDocument);
 	if (panel == nullptr)

@@ -106,7 +106,7 @@ protected:
 	virtual BOOL ProcessWndDescription(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJsonContextObj*);
 	
 protected:
-	CWndObjDescription* ParseDescription(CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
+	void ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
 	void ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, const CString& sFile, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
 	CString CalculateLURect(CWndObjDescription* pWndDesc, CJsonContextObj* pContext);
 	void UpdateAnchorInfo(const CString& sAnchor, CWndObjDescription* pWndDesc, CJsonContextObj* pContext);

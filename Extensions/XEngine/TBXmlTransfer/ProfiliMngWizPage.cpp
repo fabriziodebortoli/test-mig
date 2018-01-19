@@ -629,7 +629,7 @@ void CXRefTreeCtrl::FillTree(CXMLProfileInfo* pProfileInfo)
 	{
 		CXMLDBTInfo* pDBTInfo = pProfileInfo->GetDBTAt(nDBTIdx);
 
-		if (!pDBTInfo || !pDBTInfo->IsToExport())
+		if (!pDBTInfo) // || !pDBTInfo->IsToExport())
 			continue;
 
 		HTREEITEM hDBTItem = InsertDBTItem (pDBTInfo, hDocTreeItem);

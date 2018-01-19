@@ -468,7 +468,7 @@ namespace Microarea.EasyAttachment.BusinessLogic
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
 
-            // infine guardo le customizzazioni realizzate con EasyBuilder
+            // infine guardo le customizzazioni realizzate con EasyStudio
             BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.Customization, out supportList);
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);

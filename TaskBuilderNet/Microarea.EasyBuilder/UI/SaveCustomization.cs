@@ -46,8 +46,11 @@ namespace Microarea.EasyBuilder.UI
 			string windowTitle,
 			string message,
 			bool existingCustomization,
-			SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel)
+            bool saveForWeb,
+            SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel
+            )
 		{
+            chkSaveForWeb.Visible = false;
 			InitializeComponent();
 			this.editor = editor;
 			this.buttons = buttons;
@@ -79,9 +82,11 @@ namespace Microarea.EasyBuilder.UI
 			ref NameSpace ns,
 			ref bool publish,
 			out bool isDefault,
-			SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel)
+            bool saveForWeb,
+            SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel
+            )
 		{
-			SaveCustomization saveWindow = new SaveCustomization(editor, windowTitle, message, false, buttons);
+			SaveCustomization saveWindow = new SaveCustomization(editor, windowTitle, message, false, saveForWeb, buttons);
 			saveWindow.chkPublish.Checked = publish;
 
 			IUIService service = editor.GetService(typeof(IUIService)) as IUIService;
@@ -91,8 +96,9 @@ namespace Microarea.EasyBuilder.UI
 			//le standardizzazioni sono pubblicate di default.
 			//Se è un nuovo documento allora è pubblicato di default.
 			publish = saveWindow.chkPublish.Checked;
-			//Se è salvato come un nuovo documento allora è marchiato come customizzazione di default per quel documento nel corrente contesto di customizzazione.
-			isDefault = false;
+            saveForWeb = saveWindow.chkSaveForWeb.Checked;
+            //Se è salvato come un nuovo documento allora è marchiato come customizzazione di default per quel documento nel corrente contesto di customizzazione.
+            isDefault = false;
 
 			if (result == DialogResult.Yes)
 				ns = saveWindow.CustomizationNamespace;
@@ -107,15 +113,18 @@ namespace Microarea.EasyBuilder.UI
 			ref NameSpace ns,
 			ref bool publish,
 			out bool isDefault,
-			SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel)
+            ref bool saveForWeb,
+            SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel
+            )
 		{
-			SaveCustomization saveWindow = new SaveCustomization(editor, windowTitle, message, true, buttons);
+            SaveCustomization saveWindow = new SaveCustomization(editor, windowTitle, message, true, saveForWeb, buttons);
 			saveWindow.chkPublish.Checked = publish;
 
 			IUIService service = editor.GetService(typeof(IUIService)) as IUIService;
 			DialogResult result = service.ShowDialog(saveWindow);
 			publish = saveWindow.chkPublish.Checked;
-			isDefault = false;
+            saveForWeb = saveWindow.chkSaveForWeb.Checked;
+            isDefault = false;
 			if (result == DialogResult.Yes)
 				ns = saveWindow.CustomizationNamespace;
 			return result;
@@ -238,5 +247,11 @@ namespace Microarea.EasyBuilder.UI
 
 			e.Handled = true;
 		}
+
+        //--------------------------------------------------------------------------------
+        private void chkSaveForWeb_CheckedChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

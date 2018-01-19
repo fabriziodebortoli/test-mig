@@ -191,6 +191,8 @@ CImpCriteriaWizardDoc::CImpCriteriaWizardDoc()
 	m_CurrentThread			(0),
 	m_bValidateOnParse		(FALSE)
 {
+	DisableFamilyClientDoc(TRUE);
+	DisableLoadXMLDocInfo();
 	m_strEnvelopePath = GetXMLImportPath(FALSE);
 }
 //------------------------------------------------------------------

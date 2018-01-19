@@ -6,7 +6,6 @@
             <span id="microarea">Microarea Spa</span>
         </mat-toolbar>
     </header>
-
     <div class="login-main-content">
         <div class="login-form" *ngIf="!loadingService.isLoading">
             <tb-card>
@@ -18,7 +17,8 @@
                         <div class="form-control">
                             <p class="floatingLabel">{{_TB('User')}}</p>
                             <kendo-textbox-container>
-                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
+                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)"
+                                    name="user">
                             </kendo-textbox-container>
                         </div>
 

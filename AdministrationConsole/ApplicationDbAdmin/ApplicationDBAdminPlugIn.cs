@@ -835,7 +835,6 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 				return;
 			}
 
-			PlugInTreeNode companyNode = (PlugInTreeNode)this.consoleTree.SelectedNode;
 
 			if (DiagnosticViewer.ShowQuestion(Strings.MsgStartRewindDatabase, String.Empty) == DialogResult.No)
 				return;
@@ -856,6 +855,8 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 				true
 				);
 			AddEventsInDatabaseManager();
+
+			PlugInTreeNode companyNode = (PlugInTreeNode)this.consoleTree.SelectedNode;
 
 			// connessione al database aziendale e check della sua struttura
 			if (!dbManager.ConnectAndCheckDBStructure(companyNode.Id))

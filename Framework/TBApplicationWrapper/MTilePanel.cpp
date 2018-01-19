@@ -431,6 +431,27 @@ CLayoutContainer* MTilePanelTab::GetLayoutContainer()
 	return m_pTilePanelTab->GetLayoutContainer();
 }
 
+//-------------------------------------------------------------------------------
+void MTilePanelTab::Invalidate()
+{
+	MTilePanel^ pParent = dynamic_cast<MTilePanel^>(Parent);
+
+	if (pParent == nullptr)
+		return;
+
+	pParent->Invalidate();
+}
+
+//--------------------------------------------------------------------------------------
+void MTilePanelTab::UpdateWindow()
+{
+	MTilePanel^ pParent = dynamic_cast<MTilePanel^>(Parent);
+
+	if (pParent == nullptr)
+		return;
+	pParent->UpdateWindow();
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // 						class MTilePanel Implementation
 /////////////////////////////////////////////////////////////////////////////
@@ -644,6 +665,26 @@ IntPtr MTilePanel::Handle::get()
 		return (IntPtr)m_pTilePanel->m_hWnd;
 
 	return __super::Handle;
+}
+
+//-----------------------------------------------------------------------------------
+void MTilePanel::Invalidate()
+{
+	MTileGroup^ pParent = dynamic_cast<MTileGroup^>(Parent);
+
+	if (pParent == nullptr)
+		return;
+	pParent->Invalidate();
+}
+
+//--------------------------------------------------------------------------------------
+void MTilePanel::UpdateWindow()
+{
+	MTileGroup^ pParent = dynamic_cast<MTileGroup^>(Parent);
+
+	if (pParent == nullptr)
+		return;
+	pParent->UpdateWindow();
 }
 
 //----------------------------------------------------------------------------

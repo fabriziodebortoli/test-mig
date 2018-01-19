@@ -342,33 +342,6 @@
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="chkDefaultCustomization.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="chkDefaultCustomization.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 87</value>
-  </data>
-  <data name="chkDefaultCustomization.Size" type="System.Drawing.Size, System.Drawing">
-    <value>401, 20</value>
-  </data>
-  <data name="chkDefaultCustomization.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="chkDefaultCustomization.Text" xml:space="preserve">
-    <value>Preferred customization for this document</value>
-  </data>
-  <data name="&gt;&gt;chkDefaultCustomization.Name" xml:space="preserve">
-    <value>chkDefaultCustomization</value>
-  </data>
-  <data name="&gt;&gt;chkDefaultCustomization.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chkDefaultCustomization.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;chkDefaultCustomization.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="chkPublish.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
@@ -398,6 +371,36 @@
   </data>
   <data name="&gt;&gt;chkPublish.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="chkSaveForWeb.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="chkSaveForWeb.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkSaveForWeb.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 87</value>
+  </data>
+  <data name="chkSaveForWeb.Size" type="System.Drawing.Size, System.Drawing">
+    <value>401, 20</value>
+  </data>
+  <data name="chkSaveForWeb.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="chkSaveForWeb.Text" xml:space="preserve">
+    <value>Save for Web</value>
+  </data>
+  <data name="&gt;&gt;chkSaveForWeb.Name" xml:space="preserve">
+    <value>chkSaveForWeb</value>
+  </data>
+  <data name="&gt;&gt;chkSaveForWeb.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkSaveForWeb.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chkSaveForWeb.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -873,6 +876,6 @@
     <value>SaveCustomization</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Microarea.TaskBuilderNet.Core.GenericForms.ThemedForm, Microarea.TaskBuilderNet.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

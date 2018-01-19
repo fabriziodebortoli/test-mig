@@ -574,16 +574,20 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------------
 		private static void AddConfiguration(PathFinder pf, string appName, string modName, ref List<string> configList, string configType, string iso)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			DirectoryInfo standardDir = new DirectoryInfo
+				(
+				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
 				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetStandardDataManagerSamplePath(appName, modName, iso));
+				: pf.GetStandardDataManagerSamplePath(appName, modName, iso)
+				);
 
 			// da decidere se la Custom andra' sempre caricata
-			DirectoryInfo customDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			DirectoryInfo customDir = new DirectoryInfo
+				(
+				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
 				? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetCustomDataManagerSamplePath(appName, modName, iso));
+				: pf.GetCustomDataManagerSamplePath(appName, modName, iso)
+				);
 
 			StringCollection tempList = new StringCollection();
 

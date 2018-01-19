@@ -29,15 +29,13 @@ namespace Microarea.TbJson
         /// Risolve le interplazioni delle stringhe (es. "{{campo}}" diventa "eventData?.model?.campo"). Supporta il Not, l'And e l'Or (es. {{!campo && campo2 || !campo3}})
         /// </summary>
         public static string ResolveInterplation(this string str) => //https://stackoverflow.com/a/48271222/1538384
-            Regex.Replace(str, @"{{!?\w+(?:\s*(?:&&|\|\|)\s*!?\w+)*}}", m =>
+            Regex.Replace(str, @"{{(!?\w+(?:\s*(?:&&|\|\|)\s*!?\w+)*)}}", m =>
               Regex.Replace(
-                  Regex.Replace(m.Value, @"\s*(&&|\|\|)\s*", " $1 "),
+                  Regex.Replace(m.Groups[1].Value, @"\s*(&&|\|\|)\s*", " $1 "),
                    @"\w+",
                    "eventData?.model?.$&"
                   )
-             )
-             .Replace("{{", "")
-             .Replace("}}", "");
+             );
 
         public static JObject FindAnchoredObjectInSiblings(JArray jItems, JObject currentObject)
         {

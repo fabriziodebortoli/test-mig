@@ -64,7 +64,7 @@ export class ItemCustomizationsDropdownComponent extends TbComponent implements 
   ngOnDestroy() {
     if (this.popupRef)
       this.popupRef.close();
-
+    super.ngOnDestroy();
   }
 
   //--------------------------------------------------------------------------------

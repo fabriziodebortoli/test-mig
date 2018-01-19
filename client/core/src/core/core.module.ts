@@ -120,8 +120,47 @@ const TB_PAGES = [
  * Culture
  */
 import { LOCALE_ID } from '@angular/core';
-const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
+import { registerLocaleData } from '@angular/common';
 
+import localebg from '@angular/common/locales/bg';
+import localedech from '@angular/common/locales/de-CH';
+import localeel from '@angular/common/locales/el';
+import localeen from '@angular/common/locales/en';
+import localeescl from '@angular/common/locales/es-CL';
+import localehu from '@angular/common/locales/hu';
+import localeit from '@angular/common/locales/it';
+import localeitch from '@angular/common/locales/it-CH';
+import localepl from '@angular/common/locales/pl';
+import localero from '@angular/common/locales/ro';
+import localesi from '@angular/common/locales/si';
+import localetr from '@angular/common/locales/tr';
+
+const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
+registerLocaleData(findLocaleData(culture));
+findLocaleData(culture);
+export function findLocaleData(locale: string): any {
+    const normalizedLocale = locale.toLowerCase().replace(/_/g, '-');
+    switch (normalizedLocale) {
+        case 'de-CH': return localedech;
+        case 'es-CL': return localeescl;
+        case 'it-CH': return localeitch;
+    }
+
+    const parentLocale = normalizedLocale.split('-')[0];
+    switch (parentLocale) {
+        case 'bg': return localebg;
+        case 'el': return localeel;
+        case 'en': return localeen;
+        case 'hu': return localehu;
+        case 'it': return localeit;
+        case 'pl': return localepl;
+        case 'ro': return localero;
+        case 'si': return localesi;
+        case 'tr': return localetr;
+    }
+
+    return localeit;
+}
 @NgModule({
     imports: [
         TbSharedModule,

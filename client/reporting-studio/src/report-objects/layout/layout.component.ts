@@ -180,14 +180,30 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       let element = this.reportData.page.layout.objects[index];
       try {
         if (element.fieldrect !== undefined) {
+         
           id = element.fieldrect.baserect.baseobj.id;
           value = element.fieldrect.value;
           let obj = this.FindObj(id);
           if (obj === undefined) {
             continue;
           }
+          if (element.fieldrect.label !== undefined)
+          {
+            obj.label.caption = element.fieldrect.label.caption;
+            if (element.fieldrect.label.textcolor !== undefined) {
+              obj.label.textcolor = element.fieldrect.label.textcolor;
+            }
+          }
+
           if (obj.link !== undefined) {
             obj.link = new link(element.fieldrect.link);
+          }
+          
+          if (element.fieldrect.textcolor !== undefined) {
+            obj.textcolor = element.fieldrect.textcolor;
+          }
+          if (element.fieldrect.bkgcolor !== undefined) {
+            obj.bkgcolor = element.fieldrect.bkgcolor;
           }
           obj.value = value;
         }
@@ -198,6 +214,13 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
+          if (obj.textcolor !== undefined) {
+            obj.textcolor = element.textrect.textcolor;
+          }
+          if (obj.bkgcolor !== undefined) {
+            obj.bkgcolor = element.textrect.bkgcolor;
+          }
+          
           obj.value = value;
         }
         else if (element.table !== undefined) {

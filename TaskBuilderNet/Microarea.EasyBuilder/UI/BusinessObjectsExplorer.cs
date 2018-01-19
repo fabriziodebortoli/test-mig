@@ -29,16 +29,16 @@ namespace Microarea.EasyBuilder.UI
 
         List<Tuple<string, string, string, string>> DocsInfos = null; 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        //--------------------------------------------------------------------------------
-        public BusinessObjectsExplorer(Editor editor)
+		/// <summary>
+		/// 
+		/// </summary>
+		//--------------------------------------------------------------------------------
+		public BusinessObjectsExplorer(Editor editor)
 		{
 			InitializeComponent();
 			this.Text = Resources.BusinessObjectsExplorer;
 
-            this.editor = editor;
+			this.editor = editor;
             this.editor.ComponentDeleted += new EventHandler<DeleteObjectEventArgs>(editor_ComponentDeleted);
 
             InitTreeNodesInfos();
@@ -52,7 +52,7 @@ namespace Microarea.EasyBuilder.UI
             DocsInfos = new List<Tuple<string, string, string, string>>();
         }
 
-        //--------------------------------------------------------------------------------
+		//--------------------------------------------------------------------------------
         private void editor_ComponentDeleted(object sender, DeleteObjectEventArgs e)
         {
             string selectedNode = string.Empty;
@@ -102,12 +102,12 @@ namespace Microarea.EasyBuilder.UI
             }
 
             if (selectedNode != string.Empty)
-            {
+		{
                 TreeNode[] nodes = treeBusinessObjects.Nodes.Find(selectedNode, true);
                 if (nodes.Length > 0)
                     treeBusinessObjects.SelectedNode = nodes[0];
             }
-        }
+		}
 
 		/// <summary>
 		/// 
@@ -164,7 +164,7 @@ namespace Microarea.EasyBuilder.UI
 				Cursor = Cursors.Default;
 				treeBusinessObjects.Scrollable = true;
                 documentsNode.Expand();
-                treeBusinessObjects.EndUpdate();
+				treeBusinessObjects.EndUpdate();
                 ResumeLayout();
 			}
 		}
@@ -187,14 +187,14 @@ namespace Microarea.EasyBuilder.UI
 					node.ForeColor = treeBusinessObjects.ForeColor;
 					break;
 			}
-        }
+		}
 
 		//--------------------------------------------------------------------------------
 		private void LoadTreeWithDocuments()
 		{
             TreeNode appNode = null;
 
-            documentsNode = new TreeNode(ControllerSources.BusinessObjectsPropertyName, 0, 0);
+			documentsNode = new TreeNode(ControllerSources.BusinessObjectsPropertyName, 0, 0);
 			treeBusinessObjects.Nodes.Add(documentsNode);
 
 			try
@@ -203,7 +203,7 @@ namespace Microarea.EasyBuilder.UI
 				CUtility.GetDocuments(DocsInfos);
                 
                 if (DocsInfos.Count == 0)
-                    return;
+					return;
 
                 var apps = DocsInfos.OrderBy(y => y.Item1).GroupBy(x => x.Item1).Select(x => x.First().Item1);
                 foreach (string app in apps)
@@ -214,7 +214,7 @@ namespace Microarea.EasyBuilder.UI
                     //load all modules
                     var mods = DocsInfos.OrderBy(y => y.Item2).GroupBy(x => new { x.Item1, x.Item2 }).Where(x => x.First().Item1 == app).Select(x => x.First());
                     foreach (Tuple<string, string, string, string> mod in mods)
-                    {
+				{
                         TreeNode modNode = null; 
 
                         var docs = DocsInfos.Where(d => (d.Item1 == app && d.Item2 == mod.Item2)).OrderBy(x => x.Item3);
@@ -225,24 +225,21 @@ namespace Microarea.EasyBuilder.UI
                             string ns = doc.Item4;
                             NameSpace docNS = new NameSpace(ns);
                             Status status = GetStatus(docNS);
-                            if (IsFiltered(status))
-                                continue;
-
+					if (IsFiltered(status))
+						continue;
+					
                             if (bFirstTime)
                             {
                                 //add module node only whether has children to add to
-                                string modTitle = "";
-                                IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
-                                IBaseModuleInfo modInfo = appInfo.GetModuleInfoByName(mod.Item2);
-                                modTitle = modInfo.Title;
+                                string modTitle = CUtility.GetModuleTitleByAppAndModuleName(doc.Item1, doc.Item2);
                                 modNode = AddNode(appNode.Nodes, modTitle, (int)ImageLists.TreeBusinessObjectImageIndex.Module, string.Concat(app, mod.Item2));
                                 bFirstTime = false;
                             }
                             //load documents for this mod
                             TreeNode docNode = AddNode(modNode.Nodes, doc.Item3, (int)ImageLists.TreeBusinessObjectImageIndex.BusinessObject24x24, ns, docNS);
-                            UpdateNodeUI(docNode, status);
-                        }
-                    }
+					UpdateNodeUI(docNode, status);
+				}
+			}
                 }
             }
 			finally
@@ -280,10 +277,10 @@ namespace Microarea.EasyBuilder.UI
 
         //------------------------------------------------------------------------------------------------------------------
         private TreeNode GetNodeByName(TreeNodeCollection nodes, string name)
-        {
-            foreach (TreeNode node in nodes)
+		{
+			foreach (TreeNode node in nodes)
                 if (node.Name.Equals(name))
-                    return node;
+					return node;
 
             return null;
         }
@@ -291,19 +288,19 @@ namespace Microarea.EasyBuilder.UI
         //-----------------------------------------------------------------------------------------------------------------
         private TreeNode AddNode(TreeNodeCollection nodes, string text, int imageindex, string name, NameSpace ns = null)
         {
-            TreeNode n = new TreeNode(text, imageindex, imageindex);
+			TreeNode n = new TreeNode(text, imageindex, imageindex);
 
             if (n == null)
                 return null;
 
             n.Name = name;
-            nodes.Add(n);
+			nodes.Add(n);
 
             if (ns != null)
                 n.Tag = ns;
            
-            return n;
-        }
+			return n;
+		}
 
 		//-----------------------------------------------------------------------------
 		private void ExpandFirstNode()
@@ -355,11 +352,11 @@ namespace Microarea.EasyBuilder.UI
 				
 				Status status = GetStatus(nameSpace);
 
-                if (IsFiltered(status))
-                    dragNode.Parent.Nodes.Remove(dragNode);
-                else
+				if (IsFiltered(status))
+					dragNode.Parent.Nodes.Remove(dragNode);
+				else
                 {
-                    UpdateNodeUI(dragNode, status);
+					UpdateNodeUI(dragNode, status);
                     //treeBusinessObjects.Update();
                 }
 			}

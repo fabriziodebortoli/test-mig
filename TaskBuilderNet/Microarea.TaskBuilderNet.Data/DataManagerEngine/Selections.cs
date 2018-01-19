@@ -70,9 +70,14 @@ namespace Microarea.TaskBuilderNet.Data.DataManagerEngine
 			contextInfo.PathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
 			for (int i = 0; i < supportList.Count; i++)
 				applicationList.Add(supportList[i]);
+
+			// per caricare le customizzazioni realizzate in EasyStudio
+			contextInfo.PathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
+			for (int i = 0; i < supportList.Count; i++)
+				applicationList.Add(supportList[i]);
 		}
-		
-		# region Caricamento tabelle suddivise per applicazione/modulo
+
+		#region Caricamento tabelle suddivise per applicazione/modulo
 		/// <summary>
 		/// carico la lista delle tabelle suddivise per application/modulo e elimino 
 		/// eventualmente le tabelle non presenti nel database

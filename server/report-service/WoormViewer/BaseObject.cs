@@ -2450,13 +2450,14 @@ namespace Microarea.RSWeb.Objects
                base.ToJsonTemplate(false) + ',';
 
             if (this.LabelTextExpr != null || !this.Label.Text.IsNullOrEmpty())
+            {
                 s += "\"label\":{" +
                         this.TemplateLabelLocalizedText.ToJson("caption", false, true) + ',' +
                         this.TemplateLabelTextColor.ToJson("textcolor") + ',' +
                         this.Label.FontData.ToJson() + ',' +
                         this.Label.Align.ToHtml_align() +
                     "},";
-
+            }
             s +=
                 this.Value.FontData.ToJson() + ',' +
                 this.Value.Align.ToHtml_align() + ',' +
@@ -2503,8 +2504,7 @@ namespace Microarea.RSWeb.Objects
             if (this.LabelTextColorExpr != null || this.LabelTextExpr != null)
                 s +=
                     "\"label\":{" +
-                        (this.LabelTextExpr != null ? this.DynamicLabelLocalizedText.ToJson("caption", false, true) : "") +
-                        ((this.LabelTextColorExpr != null && this.LabelTextExpr != null) ? "," : "") +
+                        (this.LabelTextExpr != null ? this.DynamicLabelLocalizedText.ToJson("caption", false, true) + "," : "") +
                         (this.LabelTextColorExpr != null ? this.DynamicLabelTextColor.ToJson("textcolor") : "") +
                     "},";
 

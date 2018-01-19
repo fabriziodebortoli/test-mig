@@ -1,3 +1,4 @@
+import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, ChangeDetectorRef } from '@angular/core';
 
 import { SettingsService } from './../../core/services/settings.service';
@@ -16,6 +17,8 @@ import { TbComponentService } from './../../core/services/tbcomponent.service';
 export class DashboardComponent extends TbComponent {
 
   favorites: Array<any> = [];
+  private subscriptions = [];
+  public userName : string;
 
   constructor(
     public menuService: MenuService,
@@ -23,11 +26,23 @@ export class DashboardComponent extends TbComponent {
     public utilsService: UtilsService,
     public settingsService: SettingsService,
     public themeService: ThemeService,
+    public httpMenuService: HttpMenuService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) { 
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.subscriptions.push(this.httpMenuService.getConnectionInfo().subscribe(result => {
+      this.userName = result.user;
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subs => subs.unsubscribe());
   }
 
   runFunction(object) {

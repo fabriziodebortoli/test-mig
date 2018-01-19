@@ -1,0 +1,90 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+FormatStyles 
+	Begin
+		LongString "TextPagSucc"   Prefix "PagSuc " ;
+		String "Text1"   Prefix "Pag1" ;
+	End
+
+PageLayout "default" 
+	Begin
+		Text (28,174,62,293) "{Page}" 
+			Begin
+				BkgColor = ReportCurrentPageNumber == 1 ? RGB ( 255 , 0 , 0 ) : RGB ( 0 , 255 , 0 ) ;
+				TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+				Special
+			End
+		Field (32,421,66,542) Alias 15  /* TestLabelStatica */ FormatStyle "Text1" 
+			Begin
+				Label "TestLabelStatica" 
+			End
+		Field (82,172,110,293) Alias 8  /* FieldLabel */ FormatStyle = ReportCurrentPageNumber == 1 ? "Text" : "TextPagSucc" ;
+			Begin
+				TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+				BkgColor = ReportCurrentPageNumber == 1 ? RGB ( 255 , 0 , 0 ) : RGB ( 0 , 255 , 0 ) ;
+				Label = ReportCurrentPageNumber == 1 ? "label pag 1" : "label pag > 1" ;
+					Begin
+						TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
+					End
+			End
+		Field (87,420,115,541) Alias 16  /* FieldWithoutLabel */ 
+			Begin
+			End
+		Table (10,5) "Table_7" Alias 7  /* Table_7 */ Origin (138,127) Heights (26,35,14,14) 
+		HideTitle
+			Begin
+				"MA_Banks_ABI" Alias 2  /* MA_Banks_ABI */ Width 121 ;
+				"MA_Banks_Address" Alias 3  /* MA_Banks_Address */ Width 121 ;
+				"MA_Banks_Agency" Alias 4  /* MA_Banks_Agency */ Width 121 ;
+				"MA_Banks_Bank" Alias 5  /* MA_Banks_Bank */ Width 121 ;
+				"MA_Banks_City" Alias 6  /* MA_Banks_City */ Width 121 ;
+			End
+
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_7 [10] Alias 7 ;
+		End
+
+		Variables
+			Integer      guard [6] Alias 1  Hidden ;
+			String       MA_Banks_ABI [23] Alias 2  Column ;
+			String       MA_Banks_Address [23] Alias 3  Column ;
+			String       MA_Banks_Agency [23] Alias 4  Column ;
+			String       MA_Banks_Bank [23] Alias 5  Column ;
+			String       MA_Banks_City [23] Alias 6  Column ;
+			String       FieldLabel [15] Alias 8 ;
+			String       TestLabelStatica [15] Alias 15 ;
+			String       FieldWithoutLabel [15] Alias 16 ;
+		End
+
+		Rules
+			guard = 0 ;
+
+			From MA_Banks 
+			Select 
+				ABI                  Into MA_Banks_ABI ,
+				Address              Into MA_Banks_Address ,
+				Agency               Into MA_Banks_Agency ,
+				Bank                 Into MA_Banks_Bank ,
+				City                 Into MA_Banks_City ;
+
+			FieldLabel = "" ;
+
+			TestLabelStatica = "" ;
+
+			FieldWithoutLabel = "" ;
+		End
+
+
+		Events
+		End
+End
+

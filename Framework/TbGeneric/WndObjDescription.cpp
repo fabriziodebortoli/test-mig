@@ -2953,9 +2953,12 @@ CWndObjDescription* CWndObjDescription::ParseHref(CJsonFormParser& parser, const
 	WndObjType expectedType = Undefined;
 	PARSE_ENUM(expectedType, szJsonType, WndObjType);
 	//carico il file esterno
-	CWndObjDescription* pObj = CJsonFormEngineObj::GetInstance()->ParseDescription(parser.m_pRootContext, res, sActivation, pDescriptionToMerge, expectedType);
+	CArray<CWndObjDescription*>ar;
+	CJsonFormEngineObj::GetInstance()->ParseDescription(ar, parser.m_pRootContext, res, sActivation, pDescriptionToMerge, expectedType);
 	if (!sOldContext.IsEmpty())
 		parser.m_pRootContext->m_strCurrentResourceContext = sOldContext;
+	//se parso un href, troverò al più una descrizione
+	CWndObjDescription* pObj = ar.GetCount() ? ar[0] : NULL;
 	//ed eventualmente integro con gli attributi presenti nel corrente (es tag activation)
 	if (pObj)
 	{

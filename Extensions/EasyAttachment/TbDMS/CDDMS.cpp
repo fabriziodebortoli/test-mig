@@ -785,6 +785,8 @@ void CDDMS::SetCurrentAttachment()
 		if (!pTempAtt->m_IsAPapery)
 		{
 			Microarea::EasyAttachment::Components::AttachmentInfo^ attachment = dmsDocOrchestrator->GetCompletedAttachmentInfoFromAttachmentId(pTempAtt->m_attachmentID);
+			if (attachment == nullptr)
+				return;
 			DMSAttachmentInfo* attInfo = CreateDMSAttachmentInfo(attachment);
 			*m_pCurrAttachmentInfo = *attInfo;
 			delete attInfo;

@@ -26,10 +26,9 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		private IJsonHelper jsonHelper;
 
 		//---------------------------------------------------------------------
-		public ProvisioningDatabaseController(/*IOptions<AppOptions> settings, */IJsonHelper jsonHelper)
+		public ProvisioningDatabaseController(IJsonHelper jsonHelper)
 		{
 			this.jsonHelper = jsonHelper;
-			//this.settings = settings.Value;
 		}
 
 		[HttpGet]
@@ -48,6 +47,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		{
 			OperationResult opRes = new OperationResult();
 			opRes.Result = true;
+			opRes.Message = Strings.DatabaseServiceStatusValid;
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
@@ -261,8 +261,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// </summary>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/testconnection/{subscriptionKey}")]
-		public IActionResult ApiTestConnection(string subscriptionKey, [FromBody] DatabaseCredentials dbCredentials)
+		[HttpPost("api/database/testconnection")]
+		public IActionResult ApiTestConnection(string checkCode, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -307,7 +307,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 						)
 					{
 						opRes.Result = false;
-						opRes.Message = "The provider and the edition of SQL Server you are chosen are not compatible. Please choose another one.";
+						opRes.Message = Strings.SQLProviderAndEditionNotCompatible;
 					}
 				}
 			}
@@ -319,13 +319,12 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Try to open connection with administrative credentials in the body and check if dbName already exists
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="dbName"></param>
 		/// <param name="dbCredentials"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/exist/{subscriptionKey}/{dbName}")]
-		public IActionResult ApiExistDatabase(string subscriptionKey, string dbName, [FromBody] DatabaseCredentials dbCredentials)
+		[HttpPost("api/database/exist/{dbName}")]
+		public IActionResult ApiExistDatabase(string checkCode, string dbName, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -369,8 +368,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		}
 
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/check/{subscriptionKey}")]
-		public IActionResult ApiCheck(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		[HttpPost("api/database/check")]
+		public IActionResult ApiCheck(string checkCode, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -391,12 +390,11 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Update subscription database
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="extSubDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/update/{subscriptionKey}")]
-		public IActionResult ApiUpdate(string subscriptionKey, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		[HttpPost("api/database/update")]
+		public IActionResult ApiUpdate(string checkCode, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -472,24 +470,15 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Import default data in SubscriptionDatabase
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="iso"></param>
 		/// <param name="configuration"></param>
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/import/default/{subscriptionKey}/{iso}/{configuration}")]
-		public IActionResult ApiImportDefaultData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
+		[HttpPost("api/database/import/default/{iso}/{configuration}")]
+		public IActionResult ApiImportDefaultData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
-
-			if (importDataContent == null || importDataContent.Database == null)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.NoValidInput;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
 
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database , false); // il param 2 effettua il controllo solo sul db di ERP
@@ -503,7 +492,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
 			{
 				opRes.Result = false;
-				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				opRes.Message = Strings.ImportDataNotAvailable;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -528,18 +517,10 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <param name="importDataContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/import/sample/{subscriptionKey}/{iso}/{configuration}")]
-		public IActionResult ApiImportSampleData(string subscriptionKey, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
+		[HttpPost("api/database/import/sample/{iso}/{configuration}")]
+		public IActionResult ApiImportSampleData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = new OperationResult();
-
-			if (importDataContent == null || importDataContent.Database == null)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.NoValidInput;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
 
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database, false); // il param 2 effettua il controllo solo sul db di ERP
@@ -553,7 +534,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
 			{
 				opRes.Result = false;
-				opRes.Message = "ERP database does not contain any table, unable to proceed!";
+				opRes.Message = Strings.ImportDataNotAvailable;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
@@ -572,12 +553,11 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Delete only objects (tables, views, stored procedures, triggers) in ERP database (no DMS db is involved!)
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/deleteobjects/{subscriptionKey}")]
-		public IActionResult ApiDeleteDatabaseObjects(string subscriptionKey, [FromBody]SubscriptionDatabase subDatabase)
+		[HttpPost("api/database/deleteobjects")]
+		public IActionResult ApiDeleteDatabaseObjects(string checkCode, [FromBody]SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -611,12 +591,11 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Delete the SubscriptionDatabase row and, eventually, the database containers
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="deleteContent"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/delete/{subscriptionKey}")]
-		public IActionResult ApiDeleteDatabase(string subscriptionKey, [FromBody]DeleteDatabaseBodyContent deleteContent)
+		[HttpPost("api/database/delete")]
+		public IActionResult ApiDeleteDatabase(string checkCode, [FromBody]DeleteDatabaseBodyContent deleteContent)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -640,7 +619,6 @@ namespace Microarea.ProvisioningDatabase.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}*/
 
-
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
@@ -648,23 +626,13 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Esegue il check della struttura di un SubscriptionDatabase (per il db di ERP ed il db del DMS)
 		/// </summary>		
-		/// <param name="subscriptionKey"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/checkstructure/{subscriptionKey}")]
-		public IActionResult ApiCheckDatabaseStructure(string subscriptionKey, [FromBody] SubscriptionDatabase subDatabase)
+		[HttpPost("api/database/checkstructure")]
+		public IActionResult ApiCheckDatabaseStructure(string checkCode, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
-
-			if (subDatabase == null)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.NoValidInput;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
 
 			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
@@ -673,12 +641,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 
 			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
 			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
-			/*if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
-			{
-				if (!this.canMigrate)
-				{
-				}
-			}*/
+			//if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
+				//if (!this.canMigrate) { }
 
 			if (opRes.Result)
 			{
@@ -710,13 +674,12 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// Esegue l'upgrade di un SubscriptionDatabase (per il db di ERP ed il db del DMS)
 		/// Se specificata una configurazione importo anche i relativi dati di default
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="configuration"></param>
 		/// <param name="subDatabase"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		[HttpPost("api/database/upgradestructure/{subscriptionKey}/{configuration?}")]
-		public IActionResult ApiUpgradeDatabaseStructure(string subscriptionKey, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		[HttpPost("api/database/upgradestructure/{configuration?}")]
+		public IActionResult ApiUpgradeDatabaseStructure(string checkCode, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -783,9 +746,9 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		///	}
 		///</returns>
 		//---------------------------------------------------------------------
-		[HttpGet("api/database/configurations/{subscriptionKey}/{configType}/{iso}")]
+		[HttpGet("api/database/configurations/{configType}/{iso}")]
 		[Produces("application/json")]
-		public IActionResult ApiGetConfigurations(string subscriptionKey, string configType, string iso)
+		public IActionResult ApiGetConfigurations(string checkCode, string configType, string iso)
 		{
 			OperationResult opRes = new OperationResult();
 

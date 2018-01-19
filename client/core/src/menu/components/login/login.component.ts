@@ -2,7 +2,7 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { AnyFn } from './../../../shared/commons/selector';
 import { LoadingService } from './../../../core/services/loading.service';
 import { MenuService } from './../../services/menu.service';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from '../../../rxjs.imports';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
@@ -14,6 +14,7 @@ import { Logger } from './../../../core/services/logger.service';
 import { HttpService } from './../../../core/services/http.service';
 import { AuthService } from './../../../core/services/auth.service';
 import { TbComponent } from './../../../shared/components/tb.component';
+import { ChangePasswordComponent } from './../../../shared/components/change-password/change-password.component';
 
 @Component({
   selector: 'tb-login',
@@ -37,10 +38,10 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
   connectionData: LoginSession = new LoginSession();
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
-  changePasswordOpened: boolean = false;
   clearCachedData: boolean = false;
-  confirmPassword: string = "";
-  newPassword: string = "";
+
+
+  @ViewChild('changePassword') changePassword: ChangePasswordComponent
 
   constructor(
     public authService: AuthService,
@@ -165,7 +166,14 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
         }
         else if (result.errorCode == 19) //UserMustChangePasswordError
         {
-          this.changePasswordOpened = true;
+          this.changePassword.changePasswordOpened = true;
+          const sub = this.changePassword.passwordChanged.subscribe((newPassword) => {
+            sub.unsubscribe();
+            if (newPassword != "") {
+              this.connectionData.password = newPassword;
+              this.login();
+            }
+          });
         }
       }
       subs.unsubscribe();
@@ -187,15 +195,7 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
     this.userAlreadyConnectedOpened = false;
   }
 
-  changePasswordOk() {
-    this.authService.changePassword(this.connectionData, this.newPassword).
-      subscribe((res) => {
-
-        if (res.success) {
-          this.changePasswordOpened = false;
-          this.connectionData.password = this.newPassword;
-          this.login();
-        }
-      });
+  c() {
+    this.changePassword.changePasswordOpened = true;
   }
 }

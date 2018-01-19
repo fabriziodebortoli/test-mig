@@ -193,12 +193,7 @@ namespace Microarea.Console
                 //Ilaria/Luca: trick per far apparire subito prima della splash una finestra di attesa in caso non avessimo già disponibile il nome della solution master
                 SplashManager.TemporarySplashForBrandLoading();
 
-
-                WaitingWindow ww = new WaitingWindow(String.Format(WinControlsStrings.LoadingConfiguration, InstallationData.InstallationName));
-                ww.Show();
-
                 BrandLoader.PreLoadMasterSolutionName();
-
 
                 //Matteo/Luca: trick per far apparire subito la splash.
                 //In questo modo non dobbiamo chiedere la country a LoginManager.

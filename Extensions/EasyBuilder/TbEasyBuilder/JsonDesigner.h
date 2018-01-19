@@ -55,14 +55,15 @@ class CEasyStudioDesignerView : public CDynamicFormView
 	gcroot<Microarea::EasyBuilder::UI::JsonCodeControl^> m_CodeControl;
 public:
 	CEasyStudioDesignerDialog* m_pDialog = NULL;
+	CString m_sCurrentFile;
 
 	DECLARE_DYNCREATE(CEasyStudioDesignerView)
 
 	CEasyStudioDesignerView();
 	~CEasyStudioDesignerView();
 	virtual	void BuildDataControlLinks();
-	BOOL OpenDialog(const CString& sFile);
-	BOOL CloseDialog(const CString& sFile);
+	BOOL OpenDialog(const CString& sFile, bool isDocOutline);
+	BOOL CloseDialog(const CString& sFile, bool isDocOutline);
 	void SetDirty(bool bDirty);
 	DECLARE_MESSAGE_MAP()
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);

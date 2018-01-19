@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
-using Newtonsoft.Json.Linq;
 
 namespace Microarea.TbJson
 {
@@ -28,6 +29,17 @@ namespace Microarea.TbJson
         {
             return jObj.GetFlatString(Constants.id);
         }
+
+        internal static bool TryGetId(this JToken jObj, out string id) =>
+            (id = jObj.GetFlatString(Constants.id)) != null;
+
+        internal static string GetClick(this JToken jObj)
+        {
+            if (jObj.GetFlatString(Constants.id) == "ID_EXTDOC_RADAR") // TODOPD
+                return "openRadar";
+            return jObj.GetFlatString(Constants.buttonClick);
+        }
+
         //-----------------------------------------------------------------------------
         internal static WndObjType GetWndObjType(this JToken jObj)
         {
@@ -84,6 +96,8 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         internal static CommandCategory GetCommandCategory(this JToken jObj)
         {
+            if (jObj.GetFlatString(Constants.id) == "ID_EXTDOC_RADAR")
+                return CommandCategory.Search; // TODOPD
             JToken cat = jObj[Constants.category];
             return cat == null ? CommandCategory.Undefined : (CommandCategory)cat.Value<int>();
         }
@@ -106,32 +120,32 @@ namespace Microarea.TbJson
             ? jObj[name] as JObject
             : null;
         }
-        /// <summary>
-        /// Prepara una stringa alla localizzazione con _TB()
-        /// </summary>
-        //-----------------------------------------------------------------------------
-        internal static string GetLocalizableString(this JToken jObj, string name)
-        {
-            if (!(jObj is JObject))
-                return null;
-            var result = jObj[name];
+		/// <summary>
+		/// Prepara una stringa alla localizzazione con _TB()
+		/// </summary>
+		//-----------------------------------------------------------------------------
+		internal static string GetLocalizableString(this JToken jObj, string name)
+		{
+			if (!(jObj is JObject))
+				return null;
+			var result = jObj[name];
 
-            if (result == null || !(result is JValue))
-                return null;
-            string text = result.Value<string>();
+			if (result == null || !(result is JValue))
+				return null;
+			string text = result.Value<string>();
             if (text == null)
                 return null;
             if (Helpers.AdjustExpression(ref text))
-            {
+			{
                 return text;
-            }
+			}
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
             //HttpUtility.HtmlEncode(text.Replace("'", "\\'"));
 
             return string.Concat("_TB('", text, "')");
-        }
-
+		}
+  
         //-----------------------------------------------------------------------------
         private static string ReplaceInLocalizableString(Match match)
         {
@@ -165,14 +179,15 @@ namespace Microarea.TbJson
                 return;
 			//toolbar
             JArray sorted = new JArray(jAr.OrderBy(obj => obj.GetCategoryOrdinal()));
-			jObj[Constants.items] = sorted;
-
-			foreach (JObject item in sorted)
-			{
-				JArray tbbuttons = item.GetItems();
-				JArray inter = new JArray(tbbuttons.OrderBy(t => t.GetCategoryOrdinal()));
-				item[Constants.items] = inter;
-			}
+            jObj[Constants.items] = sorted;
+            foreach (JObject jButton in sorted)
+            {
+                jAr = jButton.GetItems();
+                if (jAr == null)
+                    continue;
+                JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
+                jButton[Constants.items] = buttonsSorted;
+        }
         }
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
@@ -278,7 +293,20 @@ namespace Microarea.TbJson
             }
             return null;
         }
+        //-----------------------------------------------------------------------------
+        internal static void FindAll(this JObject jRoot, string id, List<JObject> list)
+        {
+            if (jRoot.MatchId(id))
+                list.Add(jRoot);
 
+            JArray items = jRoot.GetItems();
+            if (items == null)
+                return;
+            foreach (JObject child in items)
+            {
+                FindAll(child, id, list);
+            }
+        }
         //-----------------------------------------------------------------------------
         internal static string GetFlatString(this JToken jObj, string name)
         {
@@ -311,6 +339,7 @@ namespace Microarea.TbJson
                 val = result.ToString();
                 if (Helpers.AdjustExpression(ref val))
                 {
+                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
                 }
                 return ValueType.PLAIN;
@@ -323,7 +352,7 @@ namespace Microarea.TbJson
                     val = "";
                     return ValueType.NOT_FOUND;
                 }
-
+                
                 val = c;
                 return ValueType.CONSTANT;
             }
@@ -331,9 +360,31 @@ namespace Microarea.TbJson
             val = result.ToString();
             return ValueType.PLAIN;
         }
+        /// <summary>
+        /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
+        /// </summary>
+        internal static int GetButtonOrdinal(this JToken jObj)
+        {
+            string[] ar = new string[]{
+                "ID_EXTDOC_EDIT",
+                "ID_EXTDOC_NEW",
+                "ID_EXTDOC_DELETE",
+                "ID_EXTDOC_FIRST",
+                "ID_EXTDOC_PREV",
+                "ID_EXTDOC_NEXT",
+                "ID_EXTDOC_LAST",
+                "ID_EXTDOC_EXIT"
+            };
+            WndObjType type = jObj.GetWndObjType();
+            if (type == WndObjType.ToolbarButton)
+            {
+                string id = jObj.GetId();
+                int idx = ar.ToList().IndexOf(id);
+                return idx;
+            }
 
-        
-
+            return 10;//vista o altri oggetti analoghi
+        }
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
         /// </summary>

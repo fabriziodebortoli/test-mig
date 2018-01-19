@@ -8,4 +8,10 @@ export class StringUtils {
         let pad = Array(m + 1).join(String(' ').charAt(0));
         return (n < 0) ? pad + val : val + pad;
     };
+
+    // Replaces \r\n (win) and \r (osx) with \n (unix)
+    static toUnixEOL(s: string): string {
+        s = s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        return s;
+    }
 }

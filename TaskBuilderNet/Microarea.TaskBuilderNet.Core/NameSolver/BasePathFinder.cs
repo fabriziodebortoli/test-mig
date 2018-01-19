@@ -3780,12 +3780,12 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		{
 			try
 			{
-				// potrebbe arrivare un filename con sintassi Unix cioè anche con "/"
-				sObjectFullPath = sObjectFullPath.Replace('/', Path.DirectorySeparatorChar);
-
 				// TODOBRUNA 
 				if (sObjectFullPath == null || sObjectFullPath.Length == 0)
-					return null;
+					return null;				
+				
+				// potrebbe arrivare un filename con sintassi Unix cioè anche con "/"
+				sObjectFullPath = sObjectFullPath.Replace('/', Path.DirectorySeparatorChar);
 
 				FileInfo sObjectFullPathInfo = new FileInfo(sObjectFullPath);
 

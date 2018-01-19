@@ -231,6 +231,8 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
+                        Variable currentCopyField = StateMachine.Woorm.SymbolTable.FindById(SpecialReportField.ID.CURRENT_COPY);
+                        currentCopyField.Data = 1;
                         int pos = msg.page.IndexOf(',');
                         if (pos > -1)
                         {
@@ -242,6 +244,12 @@ namespace Microarea.RSWeb.Render
                                 break;
                             if (!int.TryParse(copyNum, out copies))
                                 break;
+                          
+                            if (currentCopyField != null)
+                            {
+                                currentCopyField.Data = copies;
+                            }
+                           
                             //TODO RSWEB set copies number into symbol table
                         }
                         else if (!int.TryParse(msg.page, out pageNum))
@@ -400,7 +408,6 @@ namespace Microarea.RSWeb.Render
                 spreadsheet.Sheets sheets = workbookPart.Workbook.AppendChild(new spreadsheet.Sheets());
                 spreadsheet.Sheet sheet = new spreadsheet.Sheet();
 
-
                 for (int i = firstPage; i <= lastPage; i++)
                 {
                     woorm.LoadPage(currentPage);
@@ -429,7 +436,7 @@ namespace Microarea.RSWeb.Render
                                 worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
                                 worksheetPart.Worksheet = new spreadsheet.Worksheet();
                                 sheetData = new spreadsheet.SheetData();
-                                sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)numFoglio, Name = "Foglio " + t.GetTableName() };
+                                sheet = new spreadsheet.Sheet() { Id = workbookPart.GetIdOfPart(worksheetPart), SheetId = (uint)numFoglio, Name = "Foglio" +  numFoglio};
                                 fogli.Add(new InfoSheet() { sheet = sheet, sheetData = sheetData, worksheetPart = worksheetPart, nameTable = t.GetTableName() });
                             }
 
@@ -486,11 +493,11 @@ namespace Microarea.RSWeb.Render
                                     if (!v.IsNullOrEmpty()) isEmpty = false;
 
                                     /*if (colData.Cells[r].Value.DataType.CompareNoCase("Number"))
-                                        dataCells.Add(ConstructCell(v, CellValues.Number, 3));
+                                        dataCells.Add(ConstructCell(v, spreadsheet.CellValues.Number, 3));
                                     else if (colData.Cells[r].Value.DataType.CompareNoCase("Double"))
-                                        dataCells.Add(ConstructCell(v, CellValues.Number, 4));
+                                        dataCells.Add(ConstructCell(v, spreadsheet.CellValues.Number, 4));
                                     else if (colData.Cells[r].Value.DataType.CompareNoCase("DateTime"))
-                                        dataCells.Add(ConstructCell(v, CellValues.Date, 5));
+                                        dataCells.Add(ConstructCell(v, spreadsheet.CellValues.Date, 5));
                                     else*/
                                     dataCells.Add(ConstructCell(v, spreadsheet.CellValues.String, 1));
                                 }

@@ -273,12 +273,22 @@ namespace Microarea.TbJson
             {
                 string id = jHref.GetId();
                 if (string.IsNullOrEmpty(id))
-                    throw new Exception(string.Concat("Invalid href: ", href, " - Root element has no id, cannot merge files"));
-                JObject jInner = jRoot.Find(id);
-                if (jInner != null)
-                    jRoot = jInner;
+                    throw new Exception(string.Concat("Invalid href: ", href, " - Root element has no id, cannot merge client form"));
+                List<JObject> list = new List<JObject>();
+                jRoot.FindAll(id, list);
+                if (list.Count == 0)
+                    throw new Exception(string.Concat("Id '", id, "'not found, cannot merge client form"));
+                foreach (JObject jInner in list)
+                    ParseHref(jInner, activation, jHref);
             }
+            else
+            {
+                ParseHref(jRoot, activation, jHref);
+            }
+        }
 
+        private void ParseHref(JObject jRoot, string activation, JToken jHref)
+        {
             if (jHref is JObject)
             {
                 //prima di tutto effettuo il merge fra il nodo che contiene href, e il file referenziato

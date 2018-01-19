@@ -29,6 +29,8 @@ export class RsExportService {
     snapshots: Snapshot[];
     dateSnap: string;
 
+    currentPDFCopy = 1;
+
     @Output() eventNextPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
     @Output() eventCurrentPage = new EventEmitter<void>();

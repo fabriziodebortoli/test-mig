@@ -1,0 +1,62 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageLayout "default" 
+	Begin
+		Text (53,122,93,198) "{EVAL CurrentCopyNumber == 1 ? 'Copia Utente' : 'Copia Ente' } - {Page} /  {Page Number} " 
+			Begin
+				Special
+			End
+		Table (10,4) "Table_7" Alias 7  /* Table_7 */ Origin (110,148) Heights (26,18,14,14) 
+		HideTitle
+			Begin
+				"MA_Banks_Account" Alias 3  /* MA_Banks_Account */ Width 121 ;
+				"MA_Banks_Address" Alias 4  /* MA_Banks_Address */ Width 121 ;
+				"MA_Banks_Agency" Alias 6  /* MA_Banks_Agency */ Width 121 ;
+				"MA_Banks_Bank" Alias 2  /* MA_Banks_Bank */ Width 121 ;
+			End
+
+
+		Field (430,183,458,304) Alias 8  /* a */ 
+			Begin
+				Label = CurrentCopyNumber == 1 ? "Copia Utente" : "Copia Ente";
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_7 [10] Alias 7 ;
+		End
+
+		Variables
+			String       MA_Banks_ABI [15] Alias 1  Hidden ;
+			String       MA_Banks_Bank [23] Alias 2  Column ;
+			String       MA_Banks_Account [23] Alias 3  Column ;
+			String       MA_Banks_Address [23] Alias 4  Column ;
+			String       MA_Banks_Address2 [23] Alias 5  Hidden ;
+			String       MA_Banks_Agency [23] Alias 6  Column ;
+			String       a [15] Alias 8 Init = "Sono il value" ;
+		End
+
+		Rules
+			From MA_Banks 
+			Select 
+				ABI                  Into MA_Banks_ABI ,
+				Bank                 Into MA_Banks_Bank ,
+				Account              Into MA_Banks_Account ,
+				Address              Into MA_Banks_Address ,
+				Address2             Into MA_Banks_Address2 ,
+				Agency               Into MA_Banks_Agency ;
+
+		
+		End
+
+
+		Events
+		End
+End
+

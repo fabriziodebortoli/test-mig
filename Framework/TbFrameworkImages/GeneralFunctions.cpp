@@ -991,6 +991,9 @@ HICON TBLoadPng(CString strImageNS)
 //----------------------------------------------------------------------------
 HICON TBLoadImage(CString strImageNS, CDC* pDC /* =NULL */, UINT nWidth /*= 32*/, COLORREF bkgColor /*= RGB(255, 255, 255)*/)
 {
+	if(strImageNS == _T("")) //in a json, ' icon : "" '
+		return NULL;
+
 	HICON icon = NULL;
 	BOOL bAddToCache = FALSE;
 	Gdiplus::Bitmap* bitmapIcon = m_GlobalCacheImages.GetImage(strImageNS); //GetImage(strImageNS);

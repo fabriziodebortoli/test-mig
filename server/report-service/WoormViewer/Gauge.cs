@@ -54,6 +54,15 @@ namespace Microarea.RSWeb.Objects
         public EnumGaugeStyle Style = EnumGaugeStyle.Arrow;
 
         public GaugePointer(Gauge p) { Parent = p; }
+
+        public string ToJson()
+        {
+            string s = "{";
+            s += "\"color\":" + Color.ToJson() + ",";
+            s += "\"transparent\":" + Transparent.ToJson() + ",";
+            s += "\"style\":" + (int)Style + "}";
+            return s;
+        }
     };
 
     class GaugeRangeColor
@@ -67,6 +76,15 @@ namespace Microarea.RSWeb.Objects
         public bool Colored = false;
 
         public GaugeRangeColor(Gauge p) { Parent = p; }
+
+        public string ToJson()  
+        {
+            string s = "{";
+            s += "\"color\":" + Color.ToJson() + ",";
+            s += "\"from\":" + From.ToJson() + ",";
+            s += "\"to\":" + To.ToJson() + "}";
+            return s;
+        }
     };
 
     public class Gauge : BaseRect
@@ -190,7 +208,7 @@ namespace Microarea.RSWeb.Objects
                     return false;
                 pointer.Style = (EnumGaugeStyle)st;
             }
- 
+
             if (lex.LookAhead(Token.COLOR))
             {
                 if (!lex.ParseColor(Token.COLOR, out pointer.Color))
@@ -212,15 +230,15 @@ namespace Microarea.RSWeb.Objects
         }
 
         //------------------------------------------------------------------------------
-       bool ParseRangeColor(WoormParser lex, GaugeRangeColor range)
-       {
+        bool ParseRangeColor(WoormParser lex, GaugeRangeColor range)
+        {
             bool ok = lex.ParseTag(Token.ROUNDOPEN) &&
                     lex.ParseDouble(out range.From) && lex.ParseTag(Token.COMMA) &&
                     lex.ParseDouble(out range.To) && lex.ParseTag(Token.COMMA) &&
                     lex.ParseColor(Token.COLOR, out range.Color) &&
-                    lex.ParseTag(Token.ROUNDCLOSE); 
+                    lex.ParseTag(Token.ROUNDCLOSE);
             return ok;
-       }
+        }
 
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
@@ -243,7 +261,7 @@ namespace Microarea.RSWeb.Objects
                 lex.ParseDouble(out Min) && lex.ParseTag(Token.COMMA) &&
                 lex.ParseDouble(out Max) && lex.ParseTag(Token.COMMA) &&
                 lex.ParseDouble(out MinorUnit) && lex.ParseTag(Token.COMMA) &&
-                lex.ParseDouble(out MajorUnit) && 
+                lex.ParseDouble(out MajorUnit) &&
                 lex.ParseTag(Token.ROUNDCLOSE);
             if (!ok)
                 return false;
@@ -307,43 +325,37 @@ namespace Microarea.RSWeb.Objects
             string s = '\"' + name + "\":";
 
             s += '{' +
-               base.ToJsonTemplate(false) + 
+               base.ToJsonTemplate(false) +
                ',' + GaugeType.ToJson("gaugeType");
 
             if (this.GaugeType == EnumGaugeType.Linear)
                 s += ',' + (Landscape ? false : true).ToJson("vertical");//  <kendo-lineargauge [pointer]="{ value: value }" [scale]="{ vertical: true }">
 
-            //TODO 
-            /*
-              <kendo-lineargauge-scale [minorUnit]="5" [majorUnit]="10" [min]="20" [max]="80">
+            s += ',' + this.MinorUnit.ToJson("monirUnit");
+            s += ',' + this.MajorUnit.ToJson("majorUnit");
+            s += ',' + this.Min.ToJson("min");
+            s += ',' + this.Max.ToJson("max");
 
-                   public double Min = 0;
-                   public double Max = 0;
 
-                   public double MinorUnit = 0;
-                   public double MajorUnit = 0;
+            s += ',' + " \"ranges\":[";
+            for (int i = 0; i < ranges.Count; i++)
+            {
+                var range = ranges[i];
+                s += range.ToJson() + ((i < ranges.Count - 1) ? "," : "");
+            }
 
-                -----------------------------------------------------------------------
-                    List<GaugeRangeColor> ranges = new List<GaugeRangeColor>();
+            s += "]";
 
-              <kendo-lineargauge-scale-ranges>
-                               <kendo-lineargauge-scale-range  *ngFor="let range of ranges"
-                                   [from]="range.from" [to]="range.to" [color]="range.color">
-                               </kendo-lineargauge-scale-range>
-               </kendo-lineargauge-scale-ranges>
 
- 
-             -------------------------------------------------------------------
-               List<GaugePointer> pointers = new List<GaugePointer>();
+            s += ',' + " \"pointers\":[";
+            for (int i = 0; i < pointers.Count; i++)
+            {
+                var point = pointers[i];
+                s += point.ToJson() + ((i < pointers.Count - 1) ? "," : "");
+            }
 
-                 <kendo-lineargauge-pointers>
-                    <kendo-lineargauge-pointer *ngFor="let pointer of pointers"
-                               [value]="pointer.value" [color]="pointer.color" shape="arrow">
-                    </kendo-lineargauge-pointer>
-                </kendo-lineargauge-pointers>
+            s += "]";
 
- 
-            */
             s += '}';
 
             if (bracket)
@@ -352,11 +364,11 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-         //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
 
         string ToJsonData(GaugePointer pointer)
         {
-             string s = "{";
+            string s = "{";
 
             s += pointer.BindedField.Data.ToJson("value");
 
@@ -370,8 +382,8 @@ namespace Microarea.RSWeb.Objects
                 case EnumGaugeStyle.Arrow:
                     s += ',' + "arrow".ToJson("style");
                     break;
-               case EnumGaugeStyle.Bar:
-               default:
+                case EnumGaugeStyle.Bar:
+                default:
                     //s += ',' + "smooth".ToJson("style");
                     break;
             }
@@ -379,7 +391,7 @@ namespace Microarea.RSWeb.Objects
             return s + '}';
         }
 
-         //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
         {
             string name = "gauge";

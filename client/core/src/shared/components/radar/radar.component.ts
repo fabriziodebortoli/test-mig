@@ -5,8 +5,8 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
-import { Component, ViewEncapsulation, ChangeDetectorRef, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
-import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent } from '@progress/kendo-angular-grid';
+import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
+import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -15,7 +15,7 @@ import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { Subscription, BehaviorSubject, Observable } from './../../../rxjs.imports';
+import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
 import * as _ from 'lodash';
@@ -27,7 +27,7 @@ export class RadarState {
     readonly rows = [];
     readonly columns = [];
     readonly selectedIndex: number = 0;
-    readonly lastChangedFilterIndex: number = 0;
+    readonly lastChangedFilterIdx: number = 0;
     readonly view = ViewStates.closed;
     readonly gridStyle = GridStyles.default;
     readonly selectionKeys = [];
@@ -48,36 +48,30 @@ export class RadarState {
     ],
     providers: [PaginatorService, FilterService]
 })
-export class RadarComponent extends ControlComponent implements OnDestroy {
-    @Input() pageSize: number = 7;
-    @Input() selectionColumnId: string = 'TBGuid';
+export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
+    @Input() pageSize = 10;
+    @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
     sort: SortDescriptor[] = [];
     gridData$ = new BehaviorSubject<{ data: any[], total: number, columns: any[] }>({ data: [], total: 0, columns: [] });
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
+    canNavigate$ = new BehaviorSubject<boolean>(true);
     private _filter: CompositeFilterDescriptor;
     private state = new RadarState();
     pinned = false;
     areFiltersVisible = false;
-    canNavigate: Observable<boolean>;
-
-    get pinnedIcon() {
-        return this.pinned ? 'tb-classicpin' : 'tb-unpin';
-    }
-
-    get areFiltersVisibleIcon() {
-        return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
-    }
+    public selectableSettings: SelectableSettings;
+    private lastSelectedKeyOnPageChange: string;
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
         private paginator: PaginatorService, private filterer: FilterService, layoutService: LayoutService,
         tbComponentService: TbComponentService, private store: Store) {
         super(layoutService, tbComponentService, changeDetectorRef)
-        this.start();
     }
 
-    private start() {
+    ngOnInit() {
+        this.setSelectableSettings();
         this.filterer.start(200);
         this.paginator.start(1, this.pageSize,
             combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: l, model: r })),
@@ -85,31 +79,35 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
                 p.set('filter', JSON.stringify(otherParams.model.value));
-                // p.set('customFilters', JSON.stringify(otherParams.customFilters));
                 p.set('page', JSON.stringify(pageNumber + 1)); // test numbers
                 p.set('per_page', JSON.stringify(serverPageSize));
+                // p.set('customFilters', JSON.stringify(otherParams.customFilters));
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
+            this.exitFindMode();
             this.setState(d);
-            this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIndex);
+            this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIdx);
         });
         this.filterer.filterChanged$.subscribe(x => {
             this.gridData$.next({ data: [], total: 0, columns: this.state.columns });
             this.gridStyle$.next(GridStyles.default);
         });
         this.filterer.filterChanging$.subscribe(x => this.gridStyle$.next(GridStyles.filterTyping));
-        this.canNavigate = this.store.select(m => _.get(m, 'FormMode.value')).map(m => m !== FormMode.EDIT);
+        this.store.select(m => _.get(m, 'FormMode.value'))
+            .subscribe(m => this.canNavigate$.next(m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND));
         this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
+        super.ngOnInit();
     }
 
     setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }, maxColumns = 10) {
         maxColumns = Math.min(d.columns.length, maxColumns);
         const rows = d.columns.length < maxColumns ? d.rows :
-            d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)].slice(0, maxColumns).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
+            d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
+                .slice(0, maxColumns).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
         this.state = {
             ...this.state,
-            columns: [d.columns.find(c => c.id == this.selectionColumnId), ...d.columns].slice(0, maxColumns),
+            columns: [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxColumns),
             rows: rows
         };
         this.gridData$.next({ data: this.state.rows, total: d.total, columns: this.state.columns });
@@ -122,12 +120,30 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = _.cloneDeep(value);
         this.filterer.filter = _.cloneDeep(value);
-        this.state = { ...this.state, lastChangedFilterIndex: this.state.columns.findIndex(c => c.id === this.filterer.changedField) };
+        this.state = { ...this.state, lastChangedFilterIdx: this.state.columns.findIndex(c => c.id === this.filterer.changedField) };
         this.filterer.onFilterChanged(value);
     }
 
+    get pinnedIcon() {
+        return this.pinned ? 'tb-classicpin' : 'tb-unpin';
+    }
+
+    get areFiltersVisibleIcon() {
+        return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
+    }
+
     async pageChange(event: PageChangeEvent) {
+        if (this.state.selectionKeys.length)
+            this.lastSelectedKeyOnPageChange = this.state.selectionKeys[0];
         await this.paginator.pageChange(event.skip, event.take);
+        this.restoreViewSelectionByKey(this.lastSelectedKeyOnPageChange);
+    }
+
+    private restoreViewSelectionByKey(key: string) { // workaround for kendo-grid issue 1040
+        this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
+        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === key)
+        if (idx === -1) return;
+        this.state = { ...this.state, selectionKeys: [key], selectedIndex: idx };
     }
 
     sortChange(sort: SortDescriptor[]): void {
@@ -135,9 +151,11 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
         // this.setState();
     }
 
-    selectionChanged(event: SelectionEvent) {
-        if (!event.selected) return;
-        this.selectByIndex(event.index);
+    selectedKeysChange(e) {
+        if (e.length && e[0]) {
+            this.state = { ...this.state, selectedIndex: this.state.rows.findIndex(x => x[this.selectionColumnId] === e[0]) };
+            this.eventData.radarRecordSelected.emit(e[0]);
+        }
     }
 
     selectByIndex(idx: number) {
@@ -156,12 +174,13 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
         if (!this.pinned) this.eventData.showRadar.next(false);
-        this.selectByItem(item);
+        this.canNavigate$.next(false);
         this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
+        this.selectByItem(item);
     }
 
     exitFindMode() {
-        if (this.isFormMode(FormMode.EDIT))
+        if (this.isFormMode(FormMode.FIND))
             this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
@@ -170,8 +189,8 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
     }
 
     private show(show: boolean) {
-        show && this.exitFindMode();
         this.state = { ...this.state, view: show ? ViewStates.opened : ViewStates.closed };
+        this.changeDetectorRef.detectChanges();
     }
 
     private setFocus(selector: string, index: number) {
@@ -181,8 +200,14 @@ export class RadarComponent extends ControlComponent implements OnDestroy {
         }, 100);
     }
 
+    public setSelectableSettings(): void {
+        this.selectableSettings = {
+            mode: 'single'
+        };
+    }
+
     isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
-    coerce = (value: number, min: number = 0, max: number): number => Math.min(max - 1, Math.max(value, min));
+    coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
     selectPrevious = () => this.selectByIndex(this.state.selectedIndex - 1);
     selectNext = () => this.selectByIndex(this.state.selectedIndex + 1);
     stop = () => this.paginator.stop();

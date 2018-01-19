@@ -388,6 +388,67 @@ void MTileDialog::AfterSelectionChanged(bool IAmSelected)
 	}
 }
 
+//-----------------------------------------------------------------------------------
+void MTileDialog::Invalidate()
+{
+	IWindowWrapperContainer^ pParent = Parent;
+	MTileGroup^ pTileGroup = dynamic_cast<MTileGroup^>(pParent);
+
+	if (pTileGroup != nullptr)
+	{
+		__super::Invalidate();
+		return;
+	}
+
+	pParent = pParent->Parent;
+	BOOL bFound = FALSE;
+	while (pParent && !bFound)
+	{
+		pTileGroup = dynamic_cast<MTileGroup^>(pParent);
+		if (pTileGroup != nullptr)
+		{
+			pTileGroup->Invalidate();
+			bFound = TRUE;
+		}
+		else
+			pParent = pParent->Parent;
+	}
+
+	if (!bFound || (pParent == nullptr))
+		__super::Invalidate();
+}
+
+//--------------------------------------------------------------------------------------
+void MTileDialog::UpdateWindow()
+{
+	IWindowWrapperContainer^ pParent = Parent;
+	MTileGroup^ pTileGroup = dynamic_cast<MTileGroup^>(pParent);
+
+	if (pTileGroup != nullptr)
+	{
+		__super::UpdateWindow();
+		return;
+	}
+
+	pParent = pParent->Parent;
+	BOOL bFound = FALSE;
+	while (pParent && !bFound)
+	{
+		pTileGroup = dynamic_cast<MTileGroup^>(pParent);
+		if (pTileGroup != nullptr)
+		{
+			pTileGroup->UpdateWindow();
+			bFound = TRUE;
+		}
+		else
+			pParent = pParent->Parent;
+	}
+
+	if (!bFound || (pParent == nullptr))
+		__super::UpdateWindow();
+	
+}
+
 //----------------------------------------------------------------------------
 void MTileDialog::ParentLayoutAlign::set(ELayoutAlign layoutType)
 {

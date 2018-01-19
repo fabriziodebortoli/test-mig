@@ -980,7 +980,8 @@ namespace Microarea.EasyAttachment.BusinessLogic
 		public AttachmentInfo GetCompletedAttachmentInfoFromAttachmentId(int attachmentId)
 		{
 			AttachmentInfo attInfo = SearchManager.GetAttachmentInfoFromAttachmentId(attachmentId);
-			ArchiveManager.GetBookmarksValues(attInfo.CollectionID, ref attInfo);
+			if (attInfo != null)
+				ArchiveManager.GetBookmarksValues(attInfo.CollectionID, ref attInfo);
 			return attInfo;
 		}
 
@@ -995,7 +996,8 @@ namespace Microarea.EasyAttachment.BusinessLogic
 		public AttachmentInfo GetCompletedAttachmentInfoFromArchivedDocId(int archivedDocId)
 		{
 			AttachmentInfo attInfo = SearchManager.GetAttachmentInfoFromArchivedDocId(archivedDocId);
-			ArchiveManager.GetBookmarksValues(attInfo.CollectionID, ref attInfo);
+			if (attInfo != null)
+				ArchiveManager.GetBookmarksValues(attInfo.CollectionID, ref attInfo);
 			return attInfo;
 		}
 

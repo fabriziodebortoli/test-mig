@@ -3,135 +3,135 @@
   <xsl:template match="/">
 	<html>
 	  <script>
-		function ShowAll()
-		{
-		var obj = document.getElementById('Mostra');
-		obj.bShow = !eval(obj.bShow);
-		obj.value = obj.bShow ? obj.expandText : obj.collapseText;
+      function ShowAll()
+      {
+      var obj = document.getElementById('Mostra');
+      obj.bShow = !eval(obj.bShow);
+      obj.value = obj.bShow ? obj.getAttribute("expandText") : obj.getAttribute("collapseText");
 
-		var nodes = document.getElementsByTagName('td');
-		for (i=0; i!=nodes.length; i++)
-		{
-		if(nodes[i].name == 'MessageNode')
-		{
-		nodes[i].isVisible = obj.bShow;
-		nodes[i].fireEvent('onclick');
-		}
-		}
-		obj.scrollIntoView(true);
-		}
+      var nodes = document.getElementsByTagName('td');
+      for (i=0; i!=nodes.length; i++)
+      {
+      if(nodes[i].getAttribute("name") == 'MessageNode')
+      {
+      nodes[i].isVisible = obj.bShow;
+      ShowNode(nodes[i]);
+      }
+      }
+      obj.scrollIntoView(true);
+      }
 
-		function Filter()
-		{
-		var bError = document.getElementById('Error').checked;
-		var bWarning = document.getElementById('Warning').checked;
-		var bInfo = document.getElementById('Info').checked;
+      function Filter()
+      {
+      var bError = document.getElementById('Error').checked;
+      var bWarning = document.getElementById('Warning').checked;
+      var bInfo = document.getElementById('Info').checked;
 
-		var nodes = new Array();
-		GetDescendantsByName(document.documentElement, 'MessageLine', nodes)
-		for (i=0; i!=nodes.length; i++)
-		{
-		var n = nodes[i];
-		if (typeof(n.getAttribute) == "undefined")
-		continue;
-		switch(n.getAttribute('type'))
-		{
-		case 'Info':
-		displayObject(n, bInfo);
-		break;
-		case 'Warning':
-		displayObject(n, bWarning);
-		break;
-		case 'Error':
-		displayObject(n, bError);
-		break;
-		}
-		}
-		delete nodes;
+      var nodes = new Array();
+      GetDescendantsByName(document.documentElement, 'MessageLine', nodes)
+      for (i=0; i!=nodes.length; i++)
+      {
+      var n = nodes[i];
+      if (typeof(n.getAttribute) == "undefined")
+      continue;
+      switch(n.getAttribute('type'))
+      {
+      case 'Info':
+      displayObject(n, bInfo);
+      break;
+      case 'Warning':
+      displayObject(n, bWarning);
+      break;
+      case 'Error':
+      displayObject(n, bError);
+      break;
+      }
+      }
+      delete nodes;
 
-		nodes = new Array();
-		GetDescendantsByName(document.documentElement, 'MessageGroup', nodes)
-		for (j=0; j!=nodes.length; j++)
-		ShowGroupNode(nodes[j]);
-		delete nodes;
+      nodes = new Array();
+      GetDescendantsByName(document.documentElement, 'MessageGroup', nodes)
+      for (j=0; j!=nodes.length; j++)
+      ShowGroupNode(nodes[j]);
+      delete nodes;
 
-		event.srcElement.scrollIntoView(true);
-		}
+      event.srcElement.scrollIntoView(true);
+      }
 
-		function GetDescendantsByName(obj, aName, aList)
-		{
-		if(!aName || !aList || !obj) return;
+      function GetDescendantsByName(obj, aName, aList)
+      {
+      if(!aName || !aList || !obj) return;
 
-		var nodes = obj.childNodes;
-		for (var i=0; i!=nodes.length; i++)
-		{
-		var n = nodes[i];
-		if (typeof(n.getAttribute) == "undefined")
-		continue;
-		if (n.getAttribute('name') == aName)
-		aList.push(n);
+      var nodes = obj.childNodes;
+      for (var i=0; i!=nodes.length; i++)
+      {
+      var n = nodes[i];
+      if (typeof(n.getAttribute) == "undefined")
+      continue;
+      if (n.getAttribute('name') == aName)
+      aList.push(n);
 
-		GetDescendantsByName(n, aName, aList);
-		}
-		}
+      GetDescendantsByName(n, aName, aList);
+      }
+      }
 
-		function ShowGroupNode(obj)
-		{
-		displayObject(obj, hasVisibleChilds(obj))
-		}
+      function ShowGroupNode(obj)
+      {
+      displayObject(obj, hasVisibleChilds(obj))
+      }
 
-		function hasVisibleChilds(obj)
-		{
-		if(!obj) return false;
+      function hasVisibleChilds(obj)
+      {
+      if(!obj) return false;
 
-		var nodes = obj.childNodes;
-		for (var i=0; i!=nodes.length; i++)
-		{
-		if(nodes[i].name=='MessageLine')
-		if(nodes[i].isVisible)
-		return true;
+      var nodes = obj.childNodes;
+      for (var i=0; i!=nodes.length; i++)
+      {
+      if(nodes[i].name=='MessageLine')
+      if(nodes[i].isVisible)
+      return true;
 
-		if(hasVisibleChilds(nodes[i]))
-		return true;
-		}
+      if(hasVisibleChilds(nodes[i]))
+      return true;
+      }
 
-		return false;
-		}
+      return false;
+      }
 
-		function ShowNode(obj)
-		{
-		obj.isVisible = !eval(obj.isVisible);
-		if(obj.isVisible)
-		{
-		displayObject(obj.parentNode.childNodes[3],false);
-		displayObject(obj.parentNode.childNodes[5], true);
-		obj.innerText='-';
-		}
-		else
-		{
-		displayObject(obj.parentNode.childNodes[3], true);
-		displayObject(obj.parentNode.childNodes[5], false);
-		obj.innerText='+';
-		}
-		}
+      function ShowNode(obj)
+      {
+      obj.isVisible = !eval(obj.isVisible);
+      if(obj.isVisible)
+      {
+      displayObject(obj.parentNode.childNodes[3],false);
+      displayObject(obj.parentNode.childNodes[5], true);
+      obj.innerText='-';
+      }
+      else
+      {
+      displayObject(obj.parentNode.childNodes[3], true);
+      displayObject(obj.parentNode.childNodes[5], false);
+      obj.innerText='+';
+      }
+      }
 
-		function displayObject(obj, bShow)
-		{
-		if(bShow)
-		{
-		obj.style.display='block';
-		obj.style.visible='true';
-		}
-		else
-		{
-		obj.style.display='none';
-		obj.style.visible='false';
-		}
+      function displayObject(obj, bShow)
+      {
+      if(bShow)
+      {
+      obj.style.display='block';
+      obj.style.visible='true';
+      }
+      else
+      {
+      obj.style.display='none';
+      obj.style.visible='false';
+      }
 
-		obj.isVisible = bShow;
-		}
+      obj.isVisible = bShow;
+      }
 
-	  </script>
+    </script>
 	  <body onload="ShowAll();">
 		<h2 style="text-align:center">
 		  <xsl:value-of select="//LocalizedStrings/@messageList"/>

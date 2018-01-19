@@ -8,7 +8,7 @@
             true,
             "check-space"
         ],
-        "curly": true,
+        "curly": false,
         "eofline": true,
         "forin": true,
         "indent": [
@@ -96,7 +96,7 @@
         "use-host-property-decorator": true,
         "no-input-rename": true,
         "no-output-rename": true,
-        "use-life-cycle-interface": true,
+        "use-life-cycle-interface": false,
         "use-pipe-transform-interface": true,
         "component-class-suffix": true,
         "directive-class-suffix": true

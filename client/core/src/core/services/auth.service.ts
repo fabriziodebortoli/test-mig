@@ -54,8 +54,8 @@ export class AuthService {
         });
     }
 
-    changePassword(connectionData: LoginSession, newPassword: string): Observable<LoginCompact> {
-        return this.httpService.changePassword({ user: connectionData.user, oldPassword: connectionData.password, newPassword: newPassword }).map(result => {
+    changePassword(user: string, oldPassword:string, newPassword: string): Observable<LoginCompact> {
+        return this.httpService.changePassword({ user: user, oldPassword: oldPassword, newPassword: newPassword }).map(result => {
             return result;
         });
     }

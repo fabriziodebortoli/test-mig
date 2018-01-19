@@ -764,11 +764,20 @@ namespace Microarea.Common.MenuLoader {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The passwords are not matching.
+        ///   Looks up a localized string similar to The passwords do not match.
         /// </summary>
         public static string PasswordsNotMatching {
             get {
                 return ResourceManager.GetString("PasswordsNotMatching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password successfully changed.
+        /// </summary>
+        public static string PasswordSuccessfullyChanged {
+            get {
+                return ResourceManager.GetString("PasswordSuccessfullyChanged", resourceCulture);
             }
         }
         
@@ -958,6 +967,15 @@ namespace Microarea.Common.MenuLoader {
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Info.
+        /// </summary>
+        public static string ViewAccountInfo {
+            get {
+                return ResourceManager.GetString("ViewAccountInfo", resourceCulture);
             }
         }
         

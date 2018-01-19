@@ -449,7 +449,8 @@ public:
 	virtual CValidator* GetValidator(const CString& sName, const CTBNamespace& aNameSpace);
 	virtual CDataAdapter* GetDataAdapter(const CString& sName, const CTBNamespace& aNameSpace);
 	virtual CControlBehaviour* GetControlBehaviour(const CString& sName, const CTBNamespace& aNameSpace);
-	
+	virtual void OnControlBehaviourCreated(CControlBehaviour* pBehaviour) {}
+
 	void		RegisterForwardHotLink(const CString& sName, const CString& aNameSpace);
 	void		RemoveHotLink(HotKeyLink* pHotKeyLink);
 

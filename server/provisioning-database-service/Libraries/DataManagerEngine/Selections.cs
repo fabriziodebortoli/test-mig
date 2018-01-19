@@ -123,15 +123,19 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------------
 		private void AddConfiguration(string appName, string modName, ref StringCollection configList, string configType, string language)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			DirectoryInfo standardDir = new DirectoryInfo
+				(
+				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
 				? contextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language));
+				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language)
+				);
 
-			DirectoryInfo customDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			DirectoryInfo customDir = new DirectoryInfo
+				(
+				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
 				? contextInfo.PathFinder.GetCustomDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language));
+				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language)
+				);
 
 			StringCollection tempList = new StringCollection();
 
@@ -140,8 +144,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				foreach (DirectoryInfo dir in customDir.GetDirectories())
 					tempList.Add(dir.Name);
 			}
-
-			string tempName = string.Empty;
 
 			if (standardDir.Exists)
 			{

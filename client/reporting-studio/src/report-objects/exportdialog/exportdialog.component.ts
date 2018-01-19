@@ -41,6 +41,7 @@ export class ExportdialogComponent implements OnDestroy {
     }
 
     startExport() {
+        this.rsExportService.currentPDFCopy = 1;
         this.rsExportService.initializedExport(this.from, this.to, this.copy, this.multicopy);
         this.rsExportService.exportfile = false;
     }

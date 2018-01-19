@@ -206,6 +206,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void ChooseContext();
 	afx_msg void OnEditForm					(UINT nCmd);
+	afx_msg void OnEditForm					();
 	afx_msg void OnUpdateEditForm			(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateDropdown			(CCmdUI* PCCmdUI);
 

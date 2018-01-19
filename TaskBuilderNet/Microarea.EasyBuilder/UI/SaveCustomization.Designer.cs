@@ -38,6 +38,7 @@
             this.lblText = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chkPublish = new System.Windows.Forms.CheckBox();
+            this.chkSaveForWeb = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,6 +92,13 @@
             this.chkPublish.Name = "chkPublish";
             this.chkPublish.UseVisualStyleBackColor = true;
             // 
+            // chkSaveForWeb
+            // 
+            resources.ApplyResources(this.chkSaveForWeb, "chkSaveForWeb");
+            this.chkSaveForWeb.Name = "chkSaveForWeb";
+            this.chkSaveForWeb.UseVisualStyleBackColor = true;
+            this.chkSaveForWeb.CheckedChanged += new System.EventHandler(this.chkSaveForWeb_CheckedChanged);
+            // 
             // SaveCustomization
             // 
             this.AcceptButton = this.btnYes;
@@ -98,6 +106,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ControlBox = false;
+            this.Controls.Add(this.chkSaveForWeb);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.btnNo);
@@ -125,5 +134,6 @@
 		private System.Windows.Forms.Label lblText;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.CheckBox chkPublish;
-	}
+        private System.Windows.Forms.CheckBox chkSaveForWeb;
+    }
 }
