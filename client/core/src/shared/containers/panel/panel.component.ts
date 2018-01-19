@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
+import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'tb-panel',
@@ -6,37 +6,24 @@ import { Component, OnInit, Input, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent implements OnInit {
-  @Input() title: string;
-  public _isCollapsed: boolean = false;
-  public _isCollapsible: boolean = true;
   
-  constructor() { }
+  ngOnInit() {  }
+  
+  @Input() title: string;
+  @Input() isCollapsed: boolean = false;
+  @Input() isCollapsible: boolean = true;
 
-  ngOnInit() { 
-   
-  }
-
-  toggleCollapse(event: MouseEvent): void {
-    if (!this._isCollapsible)
+  @Output() toggle = new EventEmitter<boolean>();
+  
+  toggleCollapse(emit:boolean = true): void {
+    
+    if (!this.isCollapsible)
       return;
-    this._isCollapsed = !this._isCollapsed;
-  }
-
-  @Input()
-  set isCollapsed(value: boolean) {
-    this._isCollapsed = value;
-  }
-
-  get isCollapsed(): boolean {
-    return this._isCollapsed;
-  }
-
-  @Input()
-  set isCollapsible(value: boolean) {
-    this._isCollapsible = value;
-  }
-
-  get isCollapsible(): boolean {
-    return this._isCollapsible;
+    
+      this.isCollapsed = !this.isCollapsed;
+    
+    if(emit)
+      this.toggle.emit(this.isCollapsed);
+      
   }
 }

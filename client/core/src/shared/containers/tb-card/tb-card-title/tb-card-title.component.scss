@@ -1,13 +1,12 @@
 tb-card-title {
     position: relative;
     font-weight: 500;
-    color: #000;
+    color: #0277bd;
     font-size: 14px;
     div {
         display: flex;
         flex-wrap: nowrap;
         flex-basis: row;
-        margin-bottom: 8px;
         span {
             flex: 2 0 0%;
             align-self: flex-start;

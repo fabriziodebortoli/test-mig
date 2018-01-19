@@ -1,0 +1,12 @@
+:host(tb-card-content) {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    margin-top: 8px;
+}
+
+@media screen and (min-width: 75em) {
+     :host(tb-card-content) {
+        flex-direction: row;
+    }
+}

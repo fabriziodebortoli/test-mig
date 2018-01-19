@@ -8,4 +8,5 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 })
 export class TbCardComponent {
   @Input() isCollapsed: boolean;
+  @Input() isCollapsible: boolean;
 }
