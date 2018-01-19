@@ -620,12 +620,28 @@ namespace Microarea.Common.Hotlink
 
             if (XmlDescription != null && columns.Count > 0)
             {
+                string keyName = string.Empty;
+
                 SymField f0 = columns[0] as SymField;
-                int idx = f0.Name.IndexOf('.');
-                if (idx > 0)
-                    records += XmlDescription.DbFieldName.Replace(".", "__").ToJson("key") + ',';
+                int idxColDot = f0.Name.IndexOf('.');
+                int idxXmlDot = XmlDescription.DbFieldName.IndexOf('.');
+
+                if (idxColDot > 0)
+                {
+                    if (idxXmlDot >= 0)
+                        keyName = XmlDescription.DbFieldName.Replace(".", "__");
+                    else 
+                        keyName = f0.Name.Left(idxColDot) + "__" + XmlDescription.DbFieldName ;
+                }
                 else
-                    records += XmlDescription.DbFieldName.Mid(idx + 1).ToJson("key") + ',';
+                {
+                     if (idxXmlDot > 0)
+                        keyName = XmlDescription.DbFieldName.Mid(idxXmlDot + 1);
+                    else 
+                        keyName = XmlDescription.DbFieldName;
+                }
+
+                records += keyName.ToJson("key") + ',';
             }
             if (recordKeys != null)
             {
