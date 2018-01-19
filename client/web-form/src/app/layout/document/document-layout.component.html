@@ -52,88 +52,80 @@
                     <tb-tile-manager-tab [title]="_TB('Main &Data')" icon="erp-sales">
                         <ng-template>
                             <tb-tile-group tbLayoutTypeVbox>
-                                <tb-panel [title]="_TB('Main Data')" tbTileWide isCollapsible="True">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
+                                <tb-panel [title]="_TB('Main Data')" tbTileWide [isCollapsible]="True">
+                                    <div class="col col1">
+                                        <div class="anchored">
+                                            <tb-combo cmpId="IDC_QUOTATIONS_TST_PYMTTERM" [caption]="_TB('Payment')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Payment" [hotLink]="{'name':'HKLPaymentTerms','namespace':'ERP.PaymentTerms.Dbl.PaymentTerms'}"></tb-combo>
+                                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_PYMTTERMDESCRI" [width]="154" [model]="eventData?.model?.HKLPaymentTerms?.Description"></tb-label-static>
+                                        </div>
+                                    </div>
+                                    <div class="col col2">
+                                        <div class="anchored">
+                                            <tb-combo cmpId="IDC_QUOTATIONS_ADT_PRICELIST" [caption]="_TB('Price List')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.PriceList" [hotLink]="{'name':'HKLPriceLists','namespace':'ERP.PricePolicies.Dbl.PriceLists','mustExistData':true}"></tb-combo>
+                                            <tb-label-static cmpId="IDC_QUOTATIONS_ADT_DESCRI_PRICELIST" [width]="154" [model]="eventData?.model?.HKLPriceLists?.Description"></tb-label-static>
+                                        </div>
+                                        <tb-checkbox cmpId="IDC_QUOTATIONS_ADT_AMOUNTS_DETAIL_AL_NET_TAX" [width]="109" [model]="eventData?.model?.CustomerQuotation?.NetOfTax" [caption]="_TB('Prices do not include Tax  ')"></tb-checkbox>
+                                    </div>
                                 </tb-panel>
                                 <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel [title]="_TB('Main Data')" tbTileStandard isCollapsible="True">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
+                                    <tb-panel [title]="_TB('Currency')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col col1">
+                                            <div class="anchored">
+                                                <tb-combo cmpId="IDC_QUOTATIONS_TST_CURRENCY" [caption]="_TB('Currency')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Currency" [hotLink]="{'name':'HKLCurrenciesCurrObj','namespace':'ERP.Currencies.Dbl.Currencies','mustExistData':true}"></tb-combo>
+                                                <tb-label-static cmpId="IDC_QUOTATIONS_TST_DESCRI_CURRENCY" [width]="154" [model]="eventData?.model?.HKLCurrenciesCurrObj?.Description"></tb-label-static>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-date-input cmpId="IDC_QUOTATIONS_TST_DATE_FIXING" formatter="Date" [readonly]="false" [caption]="_TB('Fixing Date')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.FixingDate"></tb-date-input>
+                                                <tb-text cmpId="IDC_QUOTATIONS_DOC_FIXING" [caption]="_TB('Fixing Value')" [width]="68" [model]="eventData?.model?.CustomerQuotation?.Fixing" [hotLink]="{'name':'HKLFixing','namespace':'ERP.Currencies.Components.FixingForCurrencyDoc'}"></tb-text>
+                                            </div>
+                                        </div>
                                     </tb-panel>
-                                    <tb-panel [title]="_TB('Main Data')" tbTileStandard isCollapsible="True">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                                            anim id est laborum.
-                                        </p>
+                                    <tb-panel [title]="_TB('Delivery')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col col1">
+                                            <tb-date-input cmpId="IDC_QUOTATIONS_TST_EXPECTEDDELIVERYDATE" formatter="Date" [readonly]="false" [caption]="_TB('Deliver on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ExpectedDeliveryDate"></tb-date-input>
+                                            <tb-date-input cmpId="IDC_QUOTATIONS_EXPIRINGDATE" formatter="Date" [readonly]="false" [caption]="_TB('Expire on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ValidityEndingDate"></tb-date-input>
+                                        </div>
+
                                     </tb-panel>
                                 </tb-layout-container>
-                                <tb-panel [title]="_TB('Main Data')" tbTileWide isCollapsible="True">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-                                        est laborum.
-                                    </p>
+                                <tb-panel [title]="_TB('Detail')" tbTileAutoFill>
+                                    <tb-body-edit cmpId="IDC_CUSTQUOTA_DOC_BODY_DETAIL" [width]="325" [model]="eventData?.model?.Detail" [height]="126">
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_POSITION" formatter="Integer" [model]="eventData?.model?.Detail?.Position" [title]="_TB('Position')" columnType="tb-numeric-text-box">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_BE_LINETYPE" [model]="eventData?.model?.Detail?.LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DOC_DETAIL_DRAWING" [model]="eventData?.model?.Detail?.Drawing" [hotLink]="{'name':'HKLDrawingsDetail','namespace':'ERP.BillOfMaterials.Dbl.Drawings'}" [title]="_TB('Drawing')" columnType="erp-item-edit" *ngIf="eventData?.activation?.IDC_QUOTATIONS_DOC_DETAIL_DRAWING">
+                                        </tb-body-edit-column>
+                                    </tb-body-edit>
                                 </tb-panel>
+                                <tb-layout-container tbLayoutTypeColumn>
+                                    <tb-panel [title]="_TB('Shipping Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col">
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_NO_PACKS" formatter="Integer" [caption]="_TB('No. of Packs')" [width]="57" [model]="eventData?.model?.Shipping?.NoOfPacks"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_NET" formatter="Double" [caption]="_TB('Net Weight')" [width]="57" [model]="eventData?.model?.Shipping?.NetWeight"></tb-numeric-text-box>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_GROSSVOLUME" formatter="Double" [caption]="_TB('Gross Volume')" [width]="57" [model]="eventData?.model?.Shipping?.GrossVolume"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_GROSS" formatter="Double" [caption]="_TB('Gross Weight')" [width]="57" [model]="eventData?.model?.Shipping?.GrossWeight"></tb-numeric-text-box>
+                                            </div>
+                                        </div>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col">
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('Total Free Samples')" [decimals]="eventData?.model?.CurrencyDecimal"
+                                                [width]="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamplesDocCurr"></tb-numeric-text-box>
+                                            <div class="anchored">
+                                                <tb-text cmpId="IDC_QUOTATIONS_CCO_SUMMARY_DISCOUNT" [caption]="_TB('Additional Discount')" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountFormula"></tb-text>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_AMOUNT_DISCOUNT" formatter="Money" [caption]="_TB('Discount Amount')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.Discounts"></tb-numeric-text-box>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_DOC" formatter="Money" disabled="true" [caption]="_TB('Total')" [decimals]="eventData?.model?.MoneyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmount"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_FROM_PAY" formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.PayableAmount"></tb-numeric-text-box>
+                                            </div>
+                                        </div>
+                                    </tb-panel>
+                                </tb-layout-container>
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
