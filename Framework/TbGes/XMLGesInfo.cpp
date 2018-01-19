@@ -1299,7 +1299,6 @@ BOOL CXMLSegmentInfo::IsEqual(const CXMLSegmentInfo& aSegInfo) const
 	
 	return
 		(
-			*m_pXRefInfo == *aSegInfo.m_pXRefInfo &&
 			m_strFKSegment == aSegInfo.m_strFKSegment &&
 			m_strReferencedSegment == aSegInfo.m_strReferencedSegment
 		);

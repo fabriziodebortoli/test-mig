@@ -237,6 +237,7 @@ static TCHAR szIconSwitchTo		             []	= _T("SwitchTo");
 static TCHAR szCopyDocumentLink	             []	= _T("SocialShare");
 static TCHAR szGlyphSchedule	             [] = _T("Schedule");
 
+
 //T
 static TCHAR szIconTileBottom	             []	= _T("TileBottom");
 static TCHAR szIconTileLeft		             []	= _T("TileLeft");
@@ -369,21 +370,25 @@ static TCHAR szIconToggle                    [] = _T("Toggle");
 static TCHAR szIconTBFramework               [] = _T("Applicazione24");
 
 // CDocDescrTreeCtrl document
-static TCHAR szIconDbtMaster                 [] = _T("dbtmaster");
-static TCHAR szIconDbtSlave                  [] = _T("dbtslave");
-static TCHAR szIconDbtBuffered               [] = _T("dbtbuffered");
-static TCHAR szIconTreeDbt                   [] = _T("treedbt");
-static TCHAR szIconExtRef                    [] = _T("extref");
-static TCHAR szIconSegment                   [] = _T("segment");
+static TCHAR szGlyphDBTs[] = _T("DBTs");
+static TCHAR szGlyphDBTMaster[] = _T("DBTMaster");
+static TCHAR szGlyphDBTSlave[] = _T("DBTSlave");
+static TCHAR szGlyphDBTBuffered[] = _T("DBTBuffered");
+static TCHAR szGlyphDBTMasterNotExp[] = _T("DBTMasterNotExp");
+static TCHAR szGlyphDBTSlaveNotExp[] = _T("DBTSlaveNotExp");;
+static TCHAR szGlyphDBTBufferedNotExp[] = _T("DBTBufferedNotExp");
+
+static TCHAR szGlyphExtRef                    [] = _T("XRef");
 static TCHAR szIconDbtMastExp                [] = _T("dbt_mast_exp");
 static TCHAR szIconDbtSlavExp                [] = _T("dbt_slav_exp");
 static TCHAR szIconDbtSlavBufExp             [] = _T("dbt_slav_buf_exp");
-static TCHAR szIconXRefCon                   [] = _T("xref_con");
-static TCHAR szIconUniversalKey              [] = _T("universa");
-static TCHAR szIconUniversalKeyGroup         [] = _T("ukgroup");
-static TCHAR szIconXRefUniversalKey          [] = _T("xref_uni");
-static TCHAR szIconXRefCondUK                [] = _T("xrefconduk");
-static TCHAR szIconXRefNotExported           [] = _T("xref_not");
+static TCHAR szIconXRefCon                   [] = _T("XRef_Con");
+static TCHAR szGlyphUniversalKey             [] = _T("Key");
+static TCHAR szGlyphUniversalKeyGroup		 [] = _T("UniversalKeyGroup");
+static TCHAR szGlyphSegment					 [] = _T("Segment");
+static TCHAR szGlyphXRefUniversalKey          [] = _T("XRef_Con");
+static TCHAR szGlyphXRefCondUK                [] = _T("XRefCondUk");
+static TCHAR szGlyphXRefNotExported           [] = _T("XRef_Not");
 
 // ges info
 static TCHAR szIconAddOn                     [] = _T("Add");

@@ -2038,22 +2038,22 @@ void CDocDescrTreeCtrl::InitializeImageList()
 {	
 	CString asPaths[16];
 	asPaths[0] = TBGlyph(szIconDocument);
-	asPaths[1] = TBGlyph(szIconDbtMaster);
-	asPaths[2] = TBGlyph(szIconDbtSlave);
-	asPaths[3] = TBGlyph(szIconDbtBuffered);
+	asPaths[1] = TBGlyph(szGlyphDBTMasterNotExp);
+	asPaths[2] = TBGlyph(szGlyphDBTSlaveNotExp);
+	asPaths[3] = TBGlyph(szGlyphDBTBufferedNotExp);
 	
-	asPaths[4] = TBGlyph(szIconTreeDbt);
-	asPaths[5] = TBGlyph(szIconExtRef);
-	asPaths[6] = TBGlyph(szIconSegment);
-	asPaths[7] = TBGlyph(szIconDbtMastExp);
-	asPaths[8] = TBGlyph(szIconDbtSlavExp);
-	asPaths[9] = TBGlyph(szIconDbtSlavBufExp);
+	asPaths[4] = TBGlyph(szGlyphDBTs);
+	asPaths[5] = TBGlyph(szGlyphExtRef);
+	asPaths[6] = TBGlyph(szGlyphSegment);
+	asPaths[7] = TBGlyph(szGlyphDBTMaster);
+	asPaths[8] = TBGlyph(szGlyphDBTSlave);
+	asPaths[9] = TBGlyph(szGlyphDBTBuffered);
 	asPaths[10] = TBGlyph(szIconXRefCon);
-	asPaths[11] = TBGlyph(szIconUniversalKey);
-	asPaths[12] = TBGlyph(szIconUniversalKeyGroup);
-	asPaths[13] = TBGlyph(szIconXRefUniversalKey);
-	asPaths[14] = TBGlyph(szIconXRefCondUK);
-	asPaths[15] = TBGlyph(szIconXRefNotExported);
+	asPaths[11] = TBGlyph(szGlyphUniversalKey);
+	asPaths[12] = TBGlyph(szGlyphUniversalKeyGroup);
+	asPaths[13] = TBGlyph(szGlyphXRefUniversalKey);
+	asPaths[14] = TBGlyph(szGlyphXRefCondUK);
+	asPaths[15] = TBGlyph(szGlyphXRefNotExported);
 
 	for (size_t i = 0; i < 16; i++)
 	{

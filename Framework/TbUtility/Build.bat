@@ -4,11 +4,11 @@ rem Build [BUILD-REBUILD] [TB-ERP-PAI-RT-ALL] [DEBUG-RELEASE-ALL-DICONLY] [DIC]
 
 for /f "delims=\ tokens=2*" %%x in ("%CD%") do set _root=%%x
 
-set VSPath=%ProgramFiles%\Microsoft Visual Studio 14.0\Common7\IDE
+set VSPath=%ProgramFiles%\Microsoft Visual Studio\2017\Professional\Common7\IDE
 set LOCALIZERHOME=%ProgramFiles%\Microarea\Microarea TBLocalizer
 
 if exist "%VSPath%\devenv.com" goto Build
-set VSPath=%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\Common7\IDE
+set VSPath=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Professional\Common7\IDE
 set LOCALIZERHOME=%ProgramFiles(x86)%\Microarea\Microarea TBLocalizer
 
 
@@ -59,35 +59,35 @@ goto Error
 :BuildTbDebug
 
 echo ===== Build TaskBuilder.sln in Debug
-del TaskBuilder3Deb.log
-"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder3.sln" /out TaskBuilder3Deb.log /build Debug
+del TaskBuilderDeb.log
+"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder.sln" /out TaskBuilderDeb.log /build Debug
 
 if "%3" == "DEBUG" goto EndTb
 
 
 :BuildTbRelease
 
-echo ===== Build TaskBuilder3.sln in Release
-del TaskBuilder3Rel.log
-"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder3.sln" /out TaskBuilder3Rel.log /build Release
+echo ===== Build TaskBuilder.sln in Release
+del TaskBuilderRel.log
+"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder.sln" /out TaskBuilderRel.log /build Release
 
 goto EndTb
 
 
 :RebuildTbDebug
 
-echo ===== Rebuild TaskBuilder3.sln in Debug
-del TaskBuilder3Deb.log
-"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder3.sln" /out TaskBuilder3Deb.log /rebuild Debug
+echo ===== Rebuild TaskBuilder.sln in Debug
+del TaskBuilderDeb.log
+"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder.sln" /out TaskBuilderDeb.log /rebuild Debug
 
 if "%3" == "DEBUG" goto EndTb
 
 
 :RebuildTbRelease
 
-echo ===== Rebuild TaskBuilder3.sln in Release
-del TaskBuilder3Rel.log
-"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder3.sln" /out TaskBuilder3Rel.log /rebuild Release
+echo ===== Rebuild TaskBuilder.sln in Release
+del TaskBuilderRel.log
+"%VSPath%\devenv.com" "C:\%_root%\Standard\TaskBuilder\TaskBuilder.sln" /out TaskBuilderRel.log /rebuild Release
 
 :EndTb
 

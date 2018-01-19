@@ -1936,7 +1936,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 			basePathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
 			for (int i = 0; i < supportList.Count; i++)
 				applicationsList.Add(supportList[i]);
-			// poi guardo le customizzazioni
+			// poi guardo le customizzazioni di EasyStudio
 			basePathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
 			for (int i = 0; i < supportList.Count; i++)
 				applicationsList.Add(supportList[i]);

@@ -124,6 +124,7 @@ namespace Microarea.EasyBuilder
 
 		//-----------------------------------------------------------------------------
 		internal string CurrentJsonFile { get { return currentJsonFile; } }
+		internal bool CurrentJsonIsDocOutline { get; set; }
 		internal DocumentView View { get { return view; } }
 		//---------------------------------------------------------------------
 		internal override bool CanUpdateObjectModel { get { return suspendObjectModelUpdate == 0; } }
@@ -1365,7 +1366,7 @@ namespace Microarea.EasyBuilder
                 return false;
             }
 
-            string referencedByList = ebComponent.GetReferencedByList();
+			string referencedByList = ebComponent.GetReferencedByList();
 			if (!string.IsNullOrEmpty(referencedByList))
 			{
 				StringBuilder msg = new StringBuilder();
@@ -1391,7 +1392,7 @@ namespace Microarea.EasyBuilder
             }
 
 
-            if (ebComponent.CanBeDeleted)
+			if (ebComponent.CanBeDeleted)
 				return true;
 			whyNot = string.Format(Resources.CannotDeleteHasCodeBehind, ebComponent.SerializedName);
 			return false;
@@ -2022,7 +2023,7 @@ namespace Microarea.EasyBuilder
 				return;
 			try
 			{
-                WindowWrapperContainer wndContainer = selections.Parent;
+                WindowWrapperContainer wndContainer = selections?.Parent;
                 if (wndContainer == null)
                 {
                     view.Invalidate();
@@ -2697,7 +2698,7 @@ namespace Microarea.EasyBuilder
 			if (view == null)
 				return;
 
-            IWindowWrapper child = null;
+			IWindowWrapper child = null;
 
 			//Se ho fatto click su uno dei gripper allora il control selezionato
 			//rimane quello che è attualmente, parent compreso.
@@ -2799,7 +2800,7 @@ namespace Microarea.EasyBuilder
 
                 ProcessMouseMoveAction(MousePosition);
 
-                wrapperView = View as MView;
+               wrapperView = View as MView;
                 if (wrapperView != null)
                     wrapperView.SuspendLayout = false;
             }
@@ -2815,10 +2816,10 @@ namespace Microarea.EasyBuilder
 		{
 			base.OnMouseUp(e);
 
-            FinalizeMoveAction(IsCopyActive());
+			FinalizeMoveAction(IsCopyActive());
 
 			Capture = false;
-        }
+		}
 
 		//--------------------------------------------------------------------------------
 		private IWindowWrapper GetChildFromPos(Point screenPoint, bool bodyEditColumnSelectionAllowed = true)
@@ -3379,8 +3380,8 @@ namespace Microarea.EasyBuilder
 				//se sto creando un nuovo documento, di default pubblico la customizzazione, o sono in edit di un serverdoc creato con EB
 				bool publish = newDocument || BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp.ApplicationType == ApplicationType.Standardization;
 				bool isActive = newDocument; //se sto inserendo un nuovo documento, la prima è la sua customizzazione di default
-                                             //Se il path della customizzazione esiste, allora è già stata salvata e non chiedo niente, 
-                                             //altrimenti chiedo il nome della customizzazione
+											 //Se il path della customizzazione esiste, allora è già stata salvata e non chiedo niente, 
+											 //altrimenti chiedo il nome della customizzazione
                 bool saveForWeb = false;    // TODOWEB mettere a true quando serve a noi
 
 				if (existing)
@@ -3817,7 +3818,7 @@ namespace Microarea.EasyBuilder
 			using (SuspendObjectModelUpdate upd = new SuspendObjectModelUpdate(this))//per sospendere l'update dell'object model
 			{
 				SetHasCodeBehind(view.Components, true);
-				if (!jsonEditorConnector.CloseJson(currentJsonFile))
+				if (!jsonEditorConnector.CloseJson(currentJsonFile, CurrentJsonIsDocOutline))
 				{
 					return false;
 				}
@@ -3877,7 +3878,8 @@ namespace Microarea.EasyBuilder
 				view.ClearComponents();
 
 				//creo la dialog a partire dal tbjson selezionato
-				bool successfullOpening = jsonEditorConnector.OpenJson(file);
+				CurrentJsonIsDocOutline = mainForm.HostedControl.OpenDocOutlineIfNeeded(new JsonFormSelectedEventArgs(file, null));
+				bool successfullOpening = jsonEditorConnector.OpenJson(file, CurrentJsonIsDocOutline);
 				if (!successfullOpening)
 				{
 					MessageBox.Show(string.Format( Resources.CannotOpenThisFile, file));
@@ -3899,7 +3901,6 @@ namespace Microarea.EasyBuilder
 				// nelle istanze degli oggetti del data model corretti
 				TBSite.AdjustSites(this);
 			}
-			mainForm.HostedControl.OpenDocOutlineIfNeeded(new JsonFormSelectedEventArgs(file, null));
 			UpdateClearSetDirty(false);	//aggiorno la finestra del View Model, SelectionService, selection e SetDirty(setDirty)	
 			SelectFileInTree(file);		//aggiorno il Json tree
 		}

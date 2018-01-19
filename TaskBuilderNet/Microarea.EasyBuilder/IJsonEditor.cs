@@ -30,11 +30,11 @@ namespace Microarea.EasyBuilder
 		/// <summary>
 		/// Internal Use
 		/// </summary>
-		bool OpenJson(string file);
+		bool OpenJson(string file, bool isDocOutline);
 		/// <summary>
 		/// Internal Use
 		/// </summary>
-		bool CloseJson(string file);
+		bool CloseJson(string file, bool isDocOutline);
 		/// <summary>
 		/// Internal Use
 		/// </summary>

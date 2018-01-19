@@ -17,12 +17,12 @@
 static const char THIS_FILE[] = __FILE__;
 #endif
 
-static const TCHAR szDefaultBaseParents[]	= _T("CBaseDocument");
-static const TCHAR szHierarchySeparator[]	= _T(".");
+static const TCHAR szDefaultBaseParents[] = _T("CBaseDocument");
+static const TCHAR szHierarchySeparator[] = _T(".");
 const TCHAR szDefaultFamilyParents[] = _T("CAbstractDoc.CAbstractFormDoc.");
 
 //------------------------------------------------------------------------------
-const CServerDocDescriArray* AFXAPI AfxGetClientDocsTable ()
+const CServerDocDescriArray* AFXAPI AfxGetClientDocsTable()
 {
 	return AfxGetApplicationContext()->GetObject< const CServerDocDescriArray>(&CApplicationContext::GetClientDocsTable);
 }
@@ -60,7 +60,7 @@ BOOL CServerFormDescription::RemoveClient(const CString& sName, BOOL bPersistOnF
 			if (bPersistOnFileSystem && !pDescri->RemoveFromFileSystem())
 				return FALSE;
 			m_arClientForms.RemoveAt(i);
-			
+
 			return TRUE;
 		}
 	}
@@ -131,12 +131,12 @@ BOOL CClientFormDescription::PersistOnFileSystem()
 ////////////////////////////////////////////////////////////////////////////////
 //
 //------------------------------------------------------------------------------
-CDocUIObjectsCache::CDocUIObjectsCache ()
+CDocUIObjectsCache::CDocUIObjectsCache()
 {
 }
 
 //-----------------------------------------------------------------------------
-CObject* CDocUIObjectsCache::GetCachedObject (const CTBNamespace& aNamespace)
+CObject* CDocUIObjectsCache::GetCachedObject(const CTBNamespace& aNamespace)
 {
 	CObject* pValue = NULL;
 	CString sKey = aNamespace.ToString();
@@ -146,11 +146,11 @@ CObject* CDocUIObjectsCache::GetCachedObject (const CTBNamespace& aNamespace)
 }
 
 //-----------------------------------------------------------------------------
-void CDocUIObjectsCache::AddCachedObject (const CTBNamespace& aNamespace, CObject* pObject)
+void CDocUIObjectsCache::AddCachedObject(const CTBNamespace& aNamespace, CObject* pObject)
 {
 	if (GetCachedObject(aNamespace))
 	{
-		ASSERT_TRACE1(FALSE,"namespace %s already cached. Substituting object.",aNamespace.ToString());
+		ASSERT_TRACE1(FALSE, "namespace %s already cached. Substituting object.", aNamespace.ToString());
 	}
 	CString sKey = aNamespace.ToString();
 	SetAt(sKey.MakeLower(), pObject);
@@ -163,30 +163,30 @@ void CDocUIObjectsCache::AddCachedObject (const CTBNamespace& aNamespace, CObjec
 IMPLEMENT_DYNCREATE(CViewModeDescription, CBaseDescription)
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription ::CViewModeDescription ()
+CViewModeDescription::CViewModeDescription()
 	:
 	CBaseDescription(CTBNamespace::FORM),
-	m_Type			(VMT_DATAENTRY),
-	m_bSchedulable	(TRUE),
-	m_bNoWeb		(FALSE),
-	m_loadingMode	(CDocumentPartDescription::Automatic)
+	m_Type(VMT_DATAENTRY),
+	m_bSchedulable(TRUE),
+	m_bNoWeb(FALSE),
+	m_loadingMode(CDocumentPartDescription::Automatic)
 {
 }
 
 //----------------------------------------------------------------------------------------------
-void CViewModeDescription::SetType (const ViewModeType aType)
+void CViewModeDescription::SetType(const ViewModeType aType)
 {
 	m_Type = aType;
 }
 
 //----------------------------------------------------------------------------------------------
-void CViewModeDescription::SetSchedulable (const BOOL& bSchedulable)
+void CViewModeDescription::SetSchedulable(const BOOL& bSchedulable)
 {
 	m_bSchedulable = bSchedulable;
 }
 
 //----------------------------------------------------------------------------------------------
-void CViewModeDescription::SetNoWeb (const BOOL bNoWeb)
+void CViewModeDescription::SetNoWeb(const BOOL bNoWeb)
 {
 	m_bNoWeb = bNoWeb;
 }
@@ -204,7 +204,7 @@ void CViewModeDescription::SetManagedType(CString sManagedType)
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CViewModeDescription::Clone ()
+CViewModeDescription* CViewModeDescription::Clone()
 {
 	CViewModeDescription* pNewDescri = new CViewModeDescription();
 	pNewDescri->Assign(*this);
@@ -212,12 +212,12 @@ CViewModeDescription* CViewModeDescription::Clone ()
 }
 
 //----------------------------------------------------------------------------------------------
-void CViewModeDescription::Assign (const CViewModeDescription& vd)
+void CViewModeDescription::Assign(const CViewModeDescription& vd)
 {
 	CBaseDescription::Assign(vd);
 
-	m_Type				= vd.m_Type;
-	m_bSchedulable		= vd.m_bSchedulable;
+	m_Type = vd.m_Type;
+	m_bSchedulable = vd.m_bSchedulable;
 }
 
 //=============================================================================        
@@ -226,49 +226,49 @@ void CViewModeDescription::Assign (const CViewModeDescription& vd)
 IMPLEMENT_DYNAMIC(CDocumentPartDescription, CBaseDescription)
 
 //----------------------------------------------------------------------------------------------
-CDocumentPartDescription::CDocumentPartDescription ()
+CDocumentPartDescription::CDocumentPartDescription()
 {
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentPartDescription::SetClass	(const CString& sClass)
+void CDocumentPartDescription::SetClass(const CString& sClass)
 {
 	m_sClass = sClass;
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentPartDescription::SetLoadingMode (const LoadingMode aLoadingMode)
+void CDocumentPartDescription::SetLoadingMode(const LoadingMode aLoadingMode)
 {
 	m_LoadingMode = aLoadingMode;
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentPartDescription::AddViewMode (CViewModeDescription* pDescri)
+void CDocumentPartDescription::AddViewMode(CViewModeDescription* pDescri)
 {
-	m_arViewModes.Add (pDescri);
+	m_arViewModes.Add(pDescri);
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentPartDescription::GetViewMode (const CTBNamespace& aNamespace) const
+CViewModeDescription* CDocumentPartDescription::GetViewMode(const CTBNamespace& aNamespace) const
 {
-	return (CViewModeDescription*) m_arViewModes.GetInfo(aNamespace);
+	return (CViewModeDescription*)m_arViewModes.GetInfo(aNamespace);
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentPartDescription::GetViewMode (const CString& sViewMode) const
+CViewModeDescription* CDocumentPartDescription::GetViewMode(const CString& sViewMode) const
 {
-	return (CViewModeDescription*) m_arViewModes.GetInfo(sViewMode);
+	return (CViewModeDescription*)m_arViewModes.GetInfo(sViewMode);
 }
 
 //----------------------------------------------------------------------------------------------
-CBaseDescriptionArray& CDocumentPartDescription::GetViewModes ()
+CBaseDescriptionArray& CDocumentPartDescription::GetViewModes()
 {
 	return m_arViewModes;
 }
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentPartDescription::GetFirstViewMode () const 
-{ 
-	return m_arViewModes.GetSize() > 0 ? (CViewModeDescription*) m_arViewModes.GetAt(0) : NULL;
+CViewModeDescription* CDocumentPartDescription::GetFirstViewMode() const
+{
+	return m_arViewModes.GetSize() > 0 ? (CViewModeDescription*)m_arViewModes.GetAt(0) : NULL;
 }
 
 //=============================================================================        
@@ -277,13 +277,13 @@ CViewModeDescription* CDocumentPartDescription::GetFirstViewMode () const
 IMPLEMENT_DYNCREATE(CDocumentDescription, CBaseDescription)
 
 //----------------------------------------------------------------------------------------------
-CDocumentDescription::CDocumentDescription ()
+CDocumentDescription::CDocumentDescription()
 	:
 	m_bExcludeFromFamily(FALSE),
-	CBaseDescription	(CTBNamespace::DOCUMENT),
+	CBaseDescription(CTBNamespace::DOCUMENT),
 	m_bTransferDisabled(FALSE),
 	m_bExcludeFromExtRef(FALSE),
-	m_bDynamic(FALSE), 
+	m_bDynamic(FALSE),
 	m_bLiveInStandard(FALSE),
 	m_bRunnableAlone(TRUE),
 	m_pTemplateNamespace(NULL),
@@ -294,10 +294,10 @@ CDocumentDescription::CDocumentDescription ()
 }
 
 //----------------------------------------------------------------------------------------------
-CDocumentDescription::CDocumentDescription (const CTBNamespace& aNamespace, const CString& sTitle)
+CDocumentDescription::CDocumentDescription(const CTBNamespace& aNamespace, const CString& sTitle)
 	:
 	m_bExcludeFromFamily(FALSE),
-	CBaseDescription	(CTBNamespace::DOCUMENT),
+	CBaseDescription(CTBNamespace::DOCUMENT),
 	m_bTransferDisabled(FALSE),
 	m_bExcludeFromExtRef(FALSE),
 	m_bDynamic(FALSE),
@@ -309,61 +309,61 @@ CDocumentDescription::CDocumentDescription (const CTBNamespace& aNamespace, cons
 	m_Namespace = aNamespace;
 	m_sNotLocalizedTitle = sTitle;
 	m_arDescriptionKeys = new CStringArray();
-	m_sNotLocalizedCaption = _T(""); 
+	m_sNotLocalizedCaption = _T("");
 }
 
-	
+
 //----------------------------------------------------------------------------------------------
-CDocumentDescription::~CDocumentDescription ()
+CDocumentDescription::~CDocumentDescription()
 {
 	delete m_pTemplateNamespace;
 	delete m_arDescriptionKeys;
 }
 
 //----------------------------------------------------------------------------------------------
-CString CDocumentDescription::GetClassHierarchy () const
-{ 
+CString CDocumentDescription::GetClassHierarchy() const
+{
 	return GetClassHierarchy(m_sClassHierarchy);
 }
 
 // la classe di gerarchia di default è quella dei documenti gestionali. E' possibile comunque
 // definirne una personalizzata ripartendo da quelle definite come szDefaultBaseParents
 //----------------------------------------------------------------------------------------------
-CString CDocumentDescription::GetClassHierarchy (const CString& sClassName)
-{ 
+CString CDocumentDescription::GetClassHierarchy(const CString& sClassName)
+{
 	CString sBase(szDefaultBaseParents);
 
 	if (_tcsicmp(sClassName.Left(sBase.GetLength()), sBase) == 0)
 		return sClassName;
 
-	return CString(szDefaultBaseParents) + szHierarchySeparator + szDefaultFamilyParents + sClassName; 
+	return CString(szDefaultBaseParents) + szHierarchySeparator + szDefaultFamilyParents + sClassName;
 }
 
 //----------------------------------------------------------------------------------------------
-const CString CDocumentDescription::GetTitle () const
+const CString CDocumentDescription::GetTitle() const
 {
-	return AfxLoadXMLString 
-						(
-							m_sNotLocalizedTitle, 
-							szDocumentObjects, 
-							AfxGetDictionaryPathFromNamespace(m_Namespace, TRUE)
-						);
+	return AfxLoadXMLString
+	(
+		m_sNotLocalizedTitle,
+		szDocumentObjects,
+		AfxGetDictionaryPathFromNamespace(m_Namespace, TRUE)
+	);
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CDocumentDescription::GetCaption() const
 {
 	return AfxLoadXMLString
-		(
+	(
 		m_sNotLocalizedCaption,
 		szDocumentObjects,
 		AfxGetDictionaryPathFromNamespace(m_Namespace, TRUE)
-		);
+	);
 }
 
 
 //----------------------------------------------------------------------------------------------
-BOOL CDocumentDescription::IsMyClass (const CString& sClassName, BOOL bExactMatch /*FALSE*/) const
+BOOL CDocumentDescription::IsMyClass(const CString& sClassName, BOOL bExactMatch /*FALSE*/) const
 {
 	CString sMyClass = GetClassHierarchy();
 	if (_tcsicmp(sClassName, sMyClass) == 0)
@@ -377,74 +377,74 @@ BOOL CDocumentDescription::IsMyClass (const CString& sClassName, BOOL bExactMatc
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentDescription::GetViewMode (const CTBNamespace& aNamespace) const
+CViewModeDescription* CDocumentDescription::GetViewMode(const CTBNamespace& aNamespace) const
 {
-	return (CViewModeDescription*) m_arViewModes.GetInfo(aNamespace);
+	return (CViewModeDescription*)m_arViewModes.GetInfo(aNamespace);
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentDescription::GetViewMode (const CString& sViewMode) const
+CViewModeDescription* CDocumentDescription::GetViewMode(const CString& sViewMode) const
 {
-	return (CViewModeDescription*) m_arViewModes.GetInfo(sViewMode);
+	return (CViewModeDescription*)m_arViewModes.GetInfo(sViewMode);
 }
 
 //----------------------------------------------------------------------------------------------
-CBaseDescriptionArray& CDocumentDescription::GetViewModes ()
+CBaseDescriptionArray& CDocumentDescription::GetViewModes()
 {
 	return m_arViewModes;
 }
 
 //----------------------------------------------------------------------------------------------
-CViewModeDescription* CDocumentDescription::GetFirstViewMode () const 
-{ 
-	return m_arViewModes.GetSize() > 0 ? (CViewModeDescription*) m_arViewModes.GetAt(0) : NULL;
+CViewModeDescription* CDocumentDescription::GetFirstViewMode() const
+{
+	return m_arViewModes.GetSize() > 0 ? (CViewModeDescription*)m_arViewModes.GetAt(0) : NULL;
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentDescription::SetClassHierarchy (const CString& sClass)
+void CDocumentDescription::SetClassHierarchy(const CString& sClass)
 {
 	m_sClassHierarchy = sClass;
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentDescription::SetInterfaceClass (const CString& sClass)
+void CDocumentDescription::SetInterfaceClass(const CString& sClass)
 {
 	m_sInterfaceClass = sClass;
 }
 
 
 //----------------------------------------------------------------------------------------------
-void CDocumentDescription::AddViewMode (CViewModeDescription* pDescri)
+void CDocumentDescription::AddViewMode(CViewModeDescription* pDescri)
 {
-	m_arViewModes.Add (pDescri);
+	m_arViewModes.Add(pDescri);
 }
 
 //----------------------------------------------------------------------------------------------
-void CDocumentDescription::Assign (const CDocumentDescription& dd)
+void CDocumentDescription::Assign(const CDocumentDescription& dd)
 {
 	__super::Assign(dd);
 
-	m_sClassHierarchy		= dd.m_sClassHierarchy;
-	m_sInterfaceClass		= dd.m_sInterfaceClass;
-	m_bExcludeFromFamily	= dd.m_bExcludeFromFamily;
-	m_arViewModes			= dd.m_arViewModes;
-	m_bLiveInStandard		= dd.m_bLiveInStandard;
-	m_bRunnableAlone		= dd.m_bRunnableAlone;
-	m_bDynamic				= dd.m_bDynamic;
-	m_bTransferDisabled		= dd.m_bTransferDisabled;	
-	m_bExcludeFromExtRef	= dd.m_bExcludeFromExtRef;
+	m_sClassHierarchy = dd.m_sClassHierarchy;
+	m_sInterfaceClass = dd.m_sInterfaceClass;
+	m_bExcludeFromFamily = dd.m_bExcludeFromFamily;
+	m_arViewModes = dd.m_arViewModes;
+	m_bLiveInStandard = dd.m_bLiveInStandard;
+	m_bRunnableAlone = dd.m_bRunnableAlone;
+	m_bDynamic = dd.m_bDynamic;
+	m_bTransferDisabled = dd.m_bTransferDisabled;
+	m_bExcludeFromExtRef = dd.m_bExcludeFromExtRef;
 
 	m_arViewModes.RemoveAll();
-	for (int i=0; i <= dd.m_arViewModes.GetUpperBound(); i++)
+	for (int i = 0; i <= dd.m_arViewModes.GetUpperBound(); i++)
 	{
-		CViewModeDescription* pDescri = (CViewModeDescription*) dd.m_arViewModes.GetAt(i);
-		m_arViewModes.Add (pDescri->Clone());
+		CViewModeDescription* pDescri = (CViewModeDescription*)dd.m_arViewModes.GetAt(i);
+		m_arViewModes.Add(pDescri->Clone());
 	}
 
 }
 
 //----------------------------------------------------------------------------------------------
-CDocumentDescription* CDocumentDescription::Clone ()
+CDocumentDescription* CDocumentDescription::Clone()
 {
 	CDocumentDescription* pNewDescri = new CDocumentDescription();
 
@@ -459,20 +459,20 @@ CDocumentDescription* CDocumentDescription::Clone ()
 IMPLEMENT_DYNCREATE(CClientDocDescription, CObject)
 
 //----------------------------------------------------------------
-CClientDocDescription::CClientDocDescription ()
-	: 
-	CBaseDescription	(CTBNamespace::DOCUMENT),
-	m_Type				(CClientDocDescription::NORMAL),
-	m_MsgRouting		(CClientDocDescription::CD_MSG_BEFORE)
+CClientDocDescription::CClientDocDescription()
+	:
+	CBaseDescription(CTBNamespace::DOCUMENT),
+	m_Type(CClientDocDescription::NORMAL),
+	m_MsgRouting(CClientDocDescription::CD_MSG_BEFORE)
 {
 }
 
 //----------------------------------------------------------------
-CClientDocDescription::CClientDocDescription (const CTBNamespace& aNamespace, const CString& sTitle)
-	: 
-	CBaseDescription	(CTBNamespace::DOCUMENT),
-	m_Type				(CClientDocDescription::NORMAL),
-	m_MsgRouting		(CClientDocDescription::CD_MSG_BEFORE)
+CClientDocDescription::CClientDocDescription(const CTBNamespace& aNamespace, const CString& sTitle)
+	:
+	CBaseDescription(CTBNamespace::DOCUMENT),
+	m_Type(CClientDocDescription::NORMAL),
+	m_MsgRouting(CClientDocDescription::CD_MSG_BEFORE)
 {
 	m_Namespace = aNamespace;
 	m_sNotLocalizedTitle = sTitle;
@@ -499,49 +499,49 @@ CViewModeDescription* CClientDocDescription::GetViewModeDescription(CString sNam
 IMPLEMENT_DYNCREATE(CServerDocDescription, CObject)
 
 //----------------------------------------------------------------
-CServerDocDescription::CServerDocDescription (const CString& sClass, const BOOL& bIsFamily, const CTBNamespace& aNamespace)
+CServerDocDescription::CServerDocDescription(const CString& sClass, const BOOL& bIsFamily, const CTBNamespace& aNamespace)
 	:
-	m_bIsFamily	(bIsFamily),
-	m_sClass	(sClass),
-	m_Namespace	(aNamespace)
+	m_bIsFamily(bIsFamily),
+	m_sClass(sClass),
+	m_Namespace(aNamespace)
 {
 }
 
 //----------------------------------------------------------------
-void CServerDocDescription::SetClass (const CString& sClass)
+void CServerDocDescription::SetClass(const CString& sClass)
 {
 	m_sClass = sClass;
 }
 
 //----------------------------------------------------------------
-void CServerDocDescription::SetIsFamily	(const BOOL& bValue)
+void CServerDocDescription::SetIsFamily(const BOOL& bValue)
 {
 	m_bIsFamily = bValue;
 }
 
 //----------------------------------------------------------------
-void CServerDocDescription::SetNamespace (const CTBNamespace& aNS)
+void CServerDocDescription::SetNamespace(const CTBNamespace& aNS)
 {
 	m_Namespace = aNS;
 }
 
 //----------------------------------------------------------------
-void CServerDocDescription::AddClientDoc (CClientDocDescription* pDescri)
+void CServerDocDescription::AddClientDoc(CClientDocDescription* pDescri)
 {
-	m_arClientDocs.Add (pDescri);
-	
+	m_arClientDocs.Add(pDescri);
+
 	// aggiungo all' elenco la libreria solo se non esiste già
-	CTBNamespace aLibNs 
-		(
-			CTBNamespace::LIBRARY, 
-			pDescri->GetNamespace().GetApplicationName() 
-			+ CTBNamespace::GetSeparator() + 
-			pDescri->GetNamespace().GetObjectName(CTBNamespace::MODULE)
-		);
+	CTBNamespace aLibNs
+	(
+		CTBNamespace::LIBRARY,
+		pDescri->GetNamespace().GetApplicationName()
+		+ CTBNamespace::GetSeparator() +
+		pDescri->GetNamespace().GetObjectName(CTBNamespace::MODULE)
+	);
 	aLibNs.SetObjectName(pDescri->GetNamespace().GetObjectName(CTBNamespace::LIBRARY));
 
 	BOOL bFound = FALSE;
-	for (int i=0; i <= m_arLibraries.GetUpperBound(); i++)
+	for (int i = 0; i <= m_arLibraries.GetUpperBound(); i++)
 		if (*m_arLibraries.GetAt(i) == aLibNs)
 		{
 			bFound = TRUE;
@@ -549,17 +549,17 @@ void CServerDocDescription::AddClientDoc (CClientDocDescription* pDescri)
 		}
 
 	if (!bFound)
-		m_arLibraries.Add (new CTBNamespace(aLibNs));
+		m_arLibraries.Add(new CTBNamespace(aLibNs));
 }
 
 //----------------------------------------------------------------
-CBaseDescriptionArray& CServerDocDescription::GetClientDocs ()
+CBaseDescriptionArray& CServerDocDescription::GetClientDocs()
 {
 	return m_arClientDocs;
 }
 
 //----------------------------------------------------------------
-CTBNamespaceArray& CServerDocDescription::GetLibraries ()
+CTBNamespaceArray& CServerDocDescription::GetLibraries()
 {
 	return m_arLibraries;
 }
@@ -567,7 +567,7 @@ CTBNamespaceArray& CServerDocDescription::GetLibraries ()
 // determina se il When Server rappresentato rientra nella gerarchia 
 // di classi indicata preoccupandomi però con non sia una sottoparola
 //----------------------------------------------------------------
-BOOL CServerDocDescription::IsHierarchyOf (const CString& sHierarchyClass) const
+BOOL CServerDocDescription::IsHierarchyOf(const CString& sHierarchyClass) const
 {
 	if (sHierarchyClass.IsEmpty() || m_sClass.IsEmpty())
 		return FALSE;
@@ -581,7 +581,7 @@ BOOL CServerDocDescription::IsHierarchyOf (const CString& sHierarchyClass) const
 	int lenClass = m_sClass.GetLength();
 
 	// poi provo a cercarlo all'inizio della gerarchia compreso del separatore finale
-	if (_tcsicmp(sHierarchyClass.Left (lenClass + 1), m_sClass + szHierarchySeparator) == 0)
+	if (_tcsicmp(sHierarchyClass.Left(lenClass + 1), m_sClass + szHierarchySeparator) == 0)
 		return TRUE;
 
 	// adesso provo a cercarlo al termine della gerarchia ed adesso tengo
@@ -589,11 +589,11 @@ BOOL CServerDocDescription::IsHierarchyOf (const CString& sHierarchyClass) const
 	nPos = lenHierarchy - lenClass - 1;
 
 	// carattere precedente
-	CString sCarPrec = sHierarchyClass.Mid (nPos, 1);
-	
-	BOOL bOk =	_tcsicmp(sHierarchyClass.Right (lenClass), m_sClass) == 0 &&
-			(lenClass == lenHierarchy || _tcsicmp(sCarPrec, szHierarchySeparator) == 0);
-	
+	CString sCarPrec = sHierarchyClass.Mid(nPos, 1);
+
+	BOOL bOk = _tcsicmp(sHierarchyClass.Right(lenClass), m_sClass) == 0 &&
+		(lenClass == lenHierarchy || _tcsicmp(sCarPrec, szHierarchySeparator) == 0);
+
 	return bOk;
 }
 
@@ -631,17 +631,17 @@ CServerFormDescription* CServerFormDescriArray::Get(const CString &sName, BOOL b
 //=============================================================================        
 
 //----------------------------------------------------------------
-CClientDocDescription* CServerDocDescriArray::GetClientDocInfo (const CTBNamespace& aDocNS) const
+CClientDocDescription* CServerDocDescriArray::GetClientDocInfo(const CTBNamespace& aDocNS) const
 {
 	CServerDocDescription* pServerInfo;
 	CClientDocDescription* pClientDoc;
-	for (int nIdx=0; nIdx < GetSize(); nIdx++)
+	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
 	{
 		pServerInfo = GetAt(nIdx);
 		if (!pServerInfo)
 			continue;
-		
-		pClientDoc = (CClientDocDescription*) pServerInfo->m_arClientDocs.GetInfo(aDocNS);
+
+		pClientDoc = (CClientDocDescription*)pServerInfo->m_arClientDocs.GetInfo(aDocNS);
 
 		if (pClientDoc)
 			return pClientDoc;
@@ -652,20 +652,20 @@ CClientDocDescription* CServerDocDescriArray::GetClientDocInfo (const CTBNamespa
 
 
 //------------------------------------------------------------------------------
-void CServerDocDescriArray::AddClientDocsOnServer (CServerDocDescription* pServerInfo)
+void CServerDocDescriArray::AddClientDocsOnServer(CServerDocDescription* pServerInfo)
 {
 	if (!pServerInfo)
 		return;
 
 	CServerDocDescription* pServerDescri = NULL;
 	// cerco se esiste
-	for (int i=0; i <= AfxGetClientDocsTable()->GetUpperBound(); i++)
+	for (int i = 0; i <= AfxGetClientDocsTable()->GetUpperBound(); i++)
 	{
 		pServerDescri = AfxGetClientDocsTable()->GetAt(i);
 		if (
-				pServerInfo->GetIsFamily() == pServerDescri->GetIsFamily() &&
-				pServerInfo->GetClass() == pServerDescri->GetClass() &&
-				pServerInfo->GetNamespace() == pServerDescri->GetNamespace()
+			pServerInfo->GetIsFamily() == pServerDescri->GetIsFamily() &&
+			pServerInfo->GetClass() == pServerDescri->GetClass() &&
+			pServerInfo->GetNamespace() == pServerDescri->GetNamespace()
 			)
 			break;
 
@@ -675,10 +675,10 @@ void CServerDocDescriArray::AddClientDocsOnServer (CServerDocDescription* pServe
 	// se esiste già, travaso nell'esistente
 	if (pServerDescri)
 	{
-		for (int i=0; i <= pServerInfo->GetClientDocs().GetUpperBound(); i++)
+		for (int i = 0; i <= pServerInfo->GetClientDocs().GetUpperBound(); i++)
 		{
-			CClientDocDescription* pClientDoc = (CClientDocDescription*) pServerInfo->GetClientDocs().GetAt(i); 
-			
+			CClientDocDescription* pClientDoc = (CClientDocDescription*)pServerInfo->GetClientDocs().GetAt(i);
+
 			// esiste già una dichiarazione sulla stessa library
 			if (!pClientDoc)
 				continue;
@@ -686,12 +686,12 @@ void CServerDocDescriArray::AddClientDocsOnServer (CServerDocDescription* pServe
 			CClientDocDescription* pNewClientDoc = new CClientDocDescription();
 			*pNewClientDoc = *pClientDoc;
 			pServerDescri->AddClientDoc(pNewClientDoc);
-		}	
+		}
 
 		delete pServerInfo;
 	}
 	else
-		this->Add (pServerInfo);
+		this->Add(pServerInfo);
 }
 
 //=============================================================================        
@@ -702,13 +702,13 @@ void CServerDocDescriArray::AddClientDocsOnServer (CServerDocDescription* pServe
 //-----------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-DocumentObjectsTablePtr AFXAPI AfxGetWritableDocumentObjectsTable () 
+DocumentObjectsTablePtr AFXAPI AfxGetWritableDocumentObjectsTable()
 {
 	CLoginContext* pContext = AfxGetLoginContext();
 
 	// standard context
 	if (!pContext)
-		return DocumentObjectsTablePtr(AfxGetApplicationContext ()->GetObject<DocumentObjectsTable>(&CApplicationContext::GetStandardDocumentsTable), TRUE);
+		return DocumentObjectsTablePtr(AfxGetApplicationContext()->GetObject<DocumentObjectsTable>(&CApplicationContext::GetStandardDocumentsTable), TRUE);
 
 	// loguin context exist but table is not attached
 	if (!pContext->GetDocumentObjectsTable())
@@ -731,9 +731,9 @@ const CDocumentDescription* AFXAPI AfxGetDocumentDescription(const CTBNamespace&
 
 	//nelle mappe i namespace sono nel formato document.Erp..... per cui autocompleto 
 	//i namespace per assicurarmi che vengano cercati in maniera corretta
-	CTBNamespace aNs (aNamespace);
+	CTBNamespace aNs(aNamespace);
 	aNs.AutoCompleteNamespace(CTBNamespace::DOCUMENT, aNamespace.ToString(), CTBNamespace());
-	
+
 	if (pCustomTable)
 		pDescri = pCustomTable->GetDescription(aNs);
 
@@ -741,13 +741,13 @@ const CDocumentDescription* AFXAPI AfxGetDocumentDescription(const CTBNamespace&
 	if (pDescri)
 		return pDescri;
 
-	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*) AfxGetApplicationContext()->GetStandardDocumentsTable ();
+	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*)AfxGetApplicationContext()->GetStandardDocumentsTable();
 	return pStandardTable->GetDescription(aNs);
 }
 //----------------------------------------------------------------------------
 void AFXAPI AfxAddDocumentDescription(const CDocumentDescription* pDescription)
 {
-	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*) AfxGetApplicationContext()->GetStandardDocumentsTable ();
+	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*)AfxGetApplicationContext()->GetStandardDocumentsTable();
 	pStandardTable->AddObject((CDocumentDescription*)pDescription);
 }
 
@@ -757,7 +757,7 @@ CBaseDescriptionArray* AFXAPI AfxGetDocumentDescriptionsOf(const CTBNamespace& a
 	CBaseDescriptionArray* pDescriptions = new CBaseDescriptionArray();
 	pDescriptions->SetOwns(FALSE);
 
-	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*) AfxGetApplicationContext()->GetStandardDocumentsTable ();
+	DocumentObjectsTable* pStandardTable = (DocumentObjectsTable*)AfxGetApplicationContext()->GetStandardDocumentsTable();
 
 	// standard descriptions
 	if (pStandardTable)
@@ -782,11 +782,11 @@ CBaseDescriptionArray* AFXAPI AfxGetDocumentDescriptionsOf(const CTBNamespace& a
 	CDocumentDescription* pStdDescri;
 	for (int i = 0; i <= arCustomDescriptions.GetUpperBound(); i++)
 	{
-		pCstDescri = (CDocumentDescription*) arCustomDescriptions.GetAt(i);
+		pCstDescri = (CDocumentDescription*)arCustomDescriptions.GetAt(i);
 
-		for (int n=0; n <= pDescriptions->GetUpperBound(); n++)
+		for (int n = 0; n <= pDescriptions->GetUpperBound(); n++)
 		{
-			pStdDescri = (CDocumentDescription*) pDescriptions->GetAt(n);
+			pStdDescri = (CDocumentDescription*)pDescriptions->GetAt(n);
 			if (pStdDescri && pCstDescri && pStdDescri->GetNamespace() == pCstDescri->GetNamespace())
 				pDescriptions->SetAt(n, pCstDescri);
 		}
@@ -841,7 +841,7 @@ CBaseDescriptionArray* AFXAPI AfxGetDocumentsDescriptions()
 IMPLEMENT_DYNAMIC(DocumentObjectsTable, CObject)
 
 //------------------------------------------------------------------------------
-DocumentObjectsTable::DocumentObjectsTable ()
+DocumentObjectsTable::DocumentObjectsTable()
 {
 }
 
@@ -864,7 +864,7 @@ DocumentObjectsTable::~DocumentObjectsTable()
 }
 
 //------------------------------------------------------------------------------
-int DocumentObjectsTable::AddObject (CDocumentDescription* pDescri)
+int DocumentObjectsTable::AddObject(CDocumentDescription* pDescri)
 {
 	TB_LOCK_FOR_WRITE();
 
@@ -874,7 +874,7 @@ int DocumentObjectsTable::AddObject (CDocumentDescription* pDescri)
 	// first of all I lookup into the table if I have to merge with an existing 
 	CDocumentDescription* pExistingDescri = NULL;
 	if (m_Documents.Lookup(sKey, (CObject*&)pExistingDescri) && pExistingDescri)
-		return Merge (pExistingDescri, pDescri);
+		return Merge(pExistingDescri, pDescri);
 
 	// If an existing description does not exist I have to considerate
 	// if I'm writing standard or custom table. Custom table contains only
@@ -889,8 +889,8 @@ int DocumentObjectsTable::AddObject (CDocumentDescription* pDescri)
 	}
 
 	// I' in the customizations table, first of all I search standard description
-	CDocumentDescription* pStandardDescri = ((DocumentObjectsTable*) AfxGetApplicationContext()->GetStandardDocumentsTable())->GetDescription(pDescri->GetNamespace());
-	
+	CDocumentDescription* pStandardDescri = ((DocumentObjectsTable*)AfxGetApplicationContext()->GetStandardDocumentsTable())->GetDescription(pDescri->GetNamespace());
+
 	if (pStandardDescri)
 	{
 		// if exist first of all a clone the standard one
@@ -898,28 +898,28 @@ int DocumentObjectsTable::AddObject (CDocumentDescription* pDescri)
 		m_Documents.SetAt(sKey, pExistingDescri);
 
 		//  the I merge the customization
-		return Merge (pExistingDescri, pDescri);
+		return Merge(pExistingDescri, pDescri);
 	}
-	
+
 	// if standard does not exists, I insert only the custom declaration
 	m_Documents.SetAt(sKey, pDescri);
 	return 1;
 }
 
 //------------------------------------------------------------------------------
-CDocumentDescription* DocumentObjectsTable::GetDescription (const CTBNamespace& nsDoc) const
+CDocumentDescription* DocumentObjectsTable::GetDescription(const CTBNamespace& nsDoc) const
 {
 	TB_LOCK_FOR_READ();
 
 	CString sKey = nsDoc.ToString();
 	CDocumentDescription* pDescri = NULL;
-	m_Documents.Lookup(sKey.MakeLower(), (CObject*&) pDescri);
-	
+	m_Documents.Lookup(sKey.MakeLower(), (CObject*&)pDescri);
+
 	return pDescri;
 }
 
 //------------------------------------------------------------------------------
-void DocumentObjectsTable::GetDescriptionsOf (const CTBNamespace& nsModule, CObArray& arDescri) const
+void DocumentObjectsTable::GetDescriptionsOf(const CTBNamespace& nsModule, CObArray& arDescri) const
 {
 	CDocumentDescription* pItem;
 	CString strKey;
@@ -929,13 +929,13 @@ void DocumentObjectsTable::GetDescriptionsOf (const CTBNamespace& nsModule, CObA
 	{
 		m_Documents.GetNextAssoc(pos, strKey, (CObject*&)pItem);
 		if (
-			pItem 
-			&& 
-			_tcsicmp (pItem->GetOwner().GetApplicationName(), nsModule.GetApplicationName()) == 0 
+			pItem
 			&&
-			_tcsicmp (pItem->GetOwner().GetModuleName(), nsModule.GetModuleName()) == 0
-			) 
-			arDescri.Add (pItem);
+			_tcsicmp(pItem->GetOwner().GetApplicationName(), nsModule.GetApplicationName()) == 0
+			&&
+			_tcsicmp(pItem->GetOwner().GetModuleName(), nsModule.GetModuleName()) == 0
+			)
+			arDescri.Add(pItem);
 	}
 }
 
@@ -955,7 +955,7 @@ void DocumentObjectsTable::GetDescriptions(CObArray& arDescri) const
 }
 
 //------------------------------------------------------------------------------
-int DocumentObjectsTable::Merge	(CDocumentDescription* pExistingDescri, CDocumentDescription* pNewDescri)
+int DocumentObjectsTable::Merge(CDocumentDescription* pExistingDescri, CDocumentDescription* pNewDescri)
 {
 	return -1;
 }

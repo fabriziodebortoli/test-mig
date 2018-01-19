@@ -194,9 +194,9 @@ public:
 	/// </summary>
 	static bool SendAsAttachments(System::Collections::Generic::List<System::String^>^ attachmentsFiles, System::Collections::Generic::List<System::String^>^ attachmentsTitles, System::String^ errorMsg);
 
-	///<summary>
+	/// <summary>
 	/// Internal Use
-	///</summary>
+	/// </summary>
 	static System::String^ GetAppTitleByAppName(System::String^ appName);
 
 	///<summary>

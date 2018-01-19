@@ -37,7 +37,8 @@ body {
     width: 100%;
     height: 100%;
     color: #222;
-    background: #efefef
+    background: #efefef;
+    overflow: hidden;
 }
 
 h1 {
@@ -247,3 +248,9 @@ md-card-title.mat-card-title m4-icon {
 //     border-radius: 0px !important;
 //     padding: 10px 0px 10px 15px;
 // }
+
+/*AUTOCOMPLETE SEARCH*/
+
+.mat-autocomplete-panel.mat-search {
+    border-radius: 4px;
+}

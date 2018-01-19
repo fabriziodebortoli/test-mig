@@ -29,17 +29,17 @@ bool JsonConnector::SaveJson()
 	return m_pDesignerView->m_pDialog ? m_pDesignerView->m_pDialog->SaveFile() : false;
 }
 //-----------------------------------------------------------------------------
-bool JsonConnector::OpenJson(System::String^ file)
+bool JsonConnector::OpenJson(System::String^ file, bool isDocOutline)
 {
-	if (!m_pDesignerView->OpenDialog(file))
+	if (!m_pDesignerView->OpenDialog(file, isDocOutline))
 		return false;
 	m_pDesignerView->UpdateSourceCode();
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool JsonConnector::CloseJson(System::String^ file)
+bool JsonConnector::CloseJson(System::String^ file, bool isDocOutline)
 {
-	if (!m_pDesignerView->CloseDialog(file))
+	if (!m_pDesignerView->CloseDialog(file, isDocOutline))
 		return false;
 	m_pDesignerView->UpdateSourceCode(CString(""));
 	return true;

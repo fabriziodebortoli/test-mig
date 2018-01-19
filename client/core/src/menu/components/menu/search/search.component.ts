@@ -10,8 +10,7 @@ import { TbComponent } from './../../../../shared/components/tb.component';
 @Component({
   selector: 'tb-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent extends TbComponent implements OnInit, OnDestroy {
   public selected: string = '';

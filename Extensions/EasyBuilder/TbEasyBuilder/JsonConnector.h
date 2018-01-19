@@ -16,8 +16,8 @@ public:
 	virtual void AttachCodeEditor(Microarea::EasyBuilder::UI::JsonCodeControl^ c);
 	virtual void UpdateFromSourceCode(System::String^ value);
 	virtual bool SaveJson();
-	virtual bool OpenJson(System::String^ file);
-	virtual bool CloseJson(System::String^ file);
+	virtual bool OpenJson(System::String^ file, bool isDocOutline);
+	virtual bool CloseJson(System::String^ file, bool isDocOutline);
 	virtual bool UpdateWindow(System::IntPtr hwnd);
 	virtual bool UpdateWindow(System::String^ code);
 	virtual bool UpdateTabOrder(System::IntPtr hwnd);

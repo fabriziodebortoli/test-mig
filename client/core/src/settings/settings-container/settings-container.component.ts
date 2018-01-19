@@ -1,5 +1,6 @@
+import { ChangePasswordComponent } from './../../shared/components/change-password/change-password.component';
 import { ComponentService } from '../../core/services/component.service';
-import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { DocumentComponent } from './../../shared/components/document.component';
 import { DataService } from './../../core/services/data.service';
@@ -18,6 +19,7 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
 
   isDesktop: boolean;
 
+
   constructor(
     eventData: EventDataService, 
     public dataService: DataService, 
@@ -33,6 +35,8 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': 'Settings Page' } };
   }
+
+  
 
 }
 @Component({

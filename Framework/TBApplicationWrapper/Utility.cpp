@@ -448,7 +448,7 @@ void CUtility::GetDocuments
 		AddOnApplication* pAddOnApp = AfxGetAddOnAppsTable()->GetAt(i);
 		if (!pAddOnApp || AfxGetPathFinder()->IsASystemApplication(pAddOnApp->m_strAddOnAppName))
 			continue;
-		
+
 		for (int n = 0; n <= pAddOnApp->m_pAddOnModules->GetUpperBound(); n++)
 		{
 			AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(n);
@@ -460,32 +460,32 @@ void CUtility::GetDocuments
 			}
 		}
 	}
-
+			
 	CBaseDescriptionArray* pDescriptions = AfxGetDocumentsDescriptions();
 	CDocumentDescription* pDocDescri = NULL;
 
 	if (!pDescriptions)
 		return;
-	
+
 	for (int i = 0; i < pDescriptions->GetCount(); i++)
-	{
+			{
 		pDocDescri = (CDocumentDescription*)pDescriptions->GetAt(i);
 				
 		if (!pDocDescri || !pDocDescri->IsRunnableAlone())
-			continue;
-
-		// devo saltare i finder
+					continue;			
+				
+				// devo saltare i finder
 		CViewModeDescription* pViewMode = pDocDescri->GetFirstViewMode();
-		if (pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
-			continue;
-
+				if	(pViewMode == NULL || pViewMode->GetType() == VMT_FINDER)
+					continue;
+				
 		BOOL bFound = FALSE;
 		for (int k = 0; k < arExcludedModules.GetCount() && !bFound; k++)
 		{
 			CString keyDoc = pDocDescri->GetOwner().GetApplicationName() + pDocDescri->GetOwner().GetModuleName();
 			if (!keyDoc.Compare(arExcludedModules.GetAt(k)))
 				bFound = TRUE;
-		}
+			}
 
 		if (bFound)
 			continue;
@@ -502,7 +502,7 @@ void CUtility::GetDocuments
 		);
 
 
-	}
+		}
 	delete pDescriptions;
 }
 

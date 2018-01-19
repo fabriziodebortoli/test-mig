@@ -564,28 +564,33 @@ namespace Microarea.EasyBuilder.UI
 			}
 
 			CreateDocOutlineTree();
-			docOutlineTree.HostedControl.DeserializeJson(e.JsonFile);
-			HideComponents(true);
+			docOutlineTree?.HostedControl.DeserializeJson(e.JsonFile);
+			ChangeComponents4DocOut(true);
 			return true;
 		}
 
 		//-----------------------------------------------------------------------------
-		private void HideComponents(bool hideOrShow)
+		private void ChangeComponents4DocOut(bool openingDocOut)
 		{
-			if (hideOrShow)
+			if (openingDocOut)
 			{
 				viewOutlineTree?.Close();
 				toolboxControl?.Close();
+				hostingPanel.DockBottomPortion = 0.9F;
+				hostingPanel.DockLeftPortion = hostingPanel.DockRightPortion = 0.26F;
 			}
 			else
 			{
 				CreateViewOutline();
 				CreateToolboxControl();
+				hostingPanel.DockBottomPortion = 0.2F;
+				hostingPanel.DockLeftPortion = 0.12F;
+				hostingPanel.DockRightPortion = 0.20F;
 			}
 
 			tsbViewOutline.Enabled =
 				tsbToolbox.Enabled =
-				formEditor.Enabled = !hideOrShow;
+				formEditor.Enabled = !openingDocOut;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -995,7 +1000,7 @@ namespace Microarea.EasyBuilder.UI
 			{
 				docOutlineTree.Close();
 				docOutlineTree = null;
-				HideComponents(false); //False To Show
+				ChangeComponents4DocOut(false); //False To return tile-mode
 			}
 			jsonFormsTree.Activate();
 		}

@@ -526,15 +526,18 @@ BOOL CEasyStudioDesignerView::OnWndMsg(UINT message, WPARAM wParam, LPARAM lPara
 	return CDynamicFormView::OnWndMsg(message, wParam, lParam, pResult);
 }
 //-----------------------------------------------------------------------------
-BOOL CEasyStudioDesignerView::CloseDialog(const CString& sFile)
+BOOL CEasyStudioDesignerView::CloseDialog(const CString& sFile, bool isDocOutline)
 {
+	CAbstractFormDoc* pDoc = GetDocument();
+	const CDocumentDescription* pDescri = pDoc->GetXmlDescription();
+	pDoc->SetTitle(pDescri->GetTitle());
+	m_sCurrentFile = _T("");
+	if (isDocOutline) return TRUE;
+
 	if (m_pDialog && m_pDialog->m_strJsonFile.CompareNoCase(sFile) == 0)
 	{
 		m_pDialog->DestroyWindow();
 		m_pDialog = NULL;
-		CAbstractFormDoc* pDoc = GetDocument();
-		const CDocumentDescription* pDescri = pDoc->GetXmlDescription();
-		pDoc->SetTitle(pDescri->GetTitle());
 		m_nCodePointer = -1;
 		m_arCodeStack.RemoveAll();
 		return TRUE;
@@ -619,8 +622,13 @@ BOOL CEasyStudioDesignerView::UpdateFromSourceCode(const CString& sCode)
 	return m_pDialog->Create(this, GetDocument());
 }
 //-----------------------------------------------------------------------------
-BOOL CEasyStudioDesignerView::OpenDialog(const CString& sFile)
+BOOL CEasyStudioDesignerView::OpenDialog(const CString& sFile, bool isDocOutline)
 {
+	CAbstractFormDoc* pDoc = GetDocument();
+	m_sCurrentFile = GetName(sFile);
+	pDoc->SetTitle(m_sCurrentFile);
+	if (isDocOutline) return TRUE;
+	
 	if (m_pDialog)
 	{
 		m_pDialog->DestroyWindow();
@@ -629,11 +637,9 @@ BOOL CEasyStudioDesignerView::OpenDialog(const CString& sFile)
 		m_arCodeStack.RemoveAll();
 	}
 	m_pDialog = new CEasyStudioDesignerDialog(sFile);
-	CAbstractFormDoc* pDoc = GetDocument();
-	pDoc->SetTitle(GetName(sFile));
 	if (!m_pDialog->Create(this, GetDocument()))
 	{
-		CloseDialog(sFile);
+		CloseDialog(sFile, isDocOutline);
 		return FALSE;
 	}
 	//voglio le scrollBar se l'area diventa più piccola dell'area stessa della dialog
@@ -646,11 +652,18 @@ BOOL CEasyStudioDesignerView::OpenDialog(const CString& sFile)
 //-----------------------------------------------------------------------------
 void CEasyStudioDesignerView::SetDirty(bool bDirty)
 {
-	if (!m_pDialog)
-		return;
-	CString sFile = GetName(m_pDialog->m_strJsonFile);
+	CString sFile = m_sCurrentFile;
+	if (m_pDialog)
+		sFile = GetName(m_pDialog->m_strJsonFile);
 	CAbstractFormDoc* pDoc = GetDocument();
-	pDoc->SetTitle(bDirty ? sFile + '*' : sFile);
+	if(sFile)
+		pDoc->SetTitle(bDirty ? sFile + '*' : sFile);
+	else 
+	{
+		const CDocumentDescription* pDescri = pDoc->GetXmlDescription();
+		pDoc->SetTitle(pDescri->GetTitle());
+	}
+
 }
 
 //-----------------------------------------------------------------------------

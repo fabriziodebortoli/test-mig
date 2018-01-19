@@ -1512,7 +1512,8 @@ DMSAttachmentInfo* TbRepositoryManager::GetAttachmentInfoFromArchivedDocId(int a
 	if (m_pDMSOrchestrator)
 	{
 		Microarea::EasyAttachment::Components::AttachmentInfo^ attachment = m_pDMSOrchestrator->dmsOrchestrator->GetCompletedAttachmentInfoFromArchivedDocId(archivedDocId);
-		attInfo = CreateDMSAttachmentInfo(attachment, TRUE);
+		if (attachment != nullptr)
+			attInfo = CreateDMSAttachmentInfo(attachment, TRUE);
 	}
 
 	return attInfo;

@@ -27,6 +27,17 @@
                             </tb-layoutcontainer>
                         </ng-template>
                     </tb-tilegroup>
+
+                    <tb-tilegroup title="{{localizationService.localizedElements?.ViewAccountInfo}}" icon="tb-user">
+                        <ng-template>
+                            <tb-layoutcontainer tbLayoutTypeColumn>
+                                <tb-tile title="{{localizationService.localizedElements?.ViewAccountInfo}}" tbTileStandard>
+                                    <!-- CHANGE PASSWORD -->
+                                    <tb-change-password-host></tb-change-password-host>
+                                </tb-tile>
+                            </tb-layoutcontainer>
+                        </ng-template>
+                    </tb-tilegroup>
                 </tb-tilemanager>
             </tb-view>
         </tb-view-container>

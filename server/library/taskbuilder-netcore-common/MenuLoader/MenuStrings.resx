@@ -132,4 +132,10 @@
   <data name="Enabled" xml:space="preserve">
     <value>Enabled</value>
   </data>
+  <data name="PasswordSuccessfullyChanged" xml:space="preserve">
+    <value>Password successfully changed</value>
+  </data>
+  <data name="ViewAccountInfo" xml:space="preserve">
+    <value>Account Info</value>
+  </data>
 </root>

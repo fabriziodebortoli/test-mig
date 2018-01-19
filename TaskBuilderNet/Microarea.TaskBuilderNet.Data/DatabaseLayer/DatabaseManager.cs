@@ -235,13 +235,11 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 						// poi guardo le AddOn di TaskBuilderApplications
 						contextInfo.PathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
-
 						for (int i = 0; i < supportList.Count; i++)
 							applicationsList.Add(supportList[i]);
 
-						// infine guardo le customizzazioni realizzate con EasyBuilder
+						// infine guardo le customizzazioni realizzate con EasyStudio
 						contextInfo.PathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
-
 						for (int i = 0; i < supportList.Count; i++)
 							applicationsList.Add(supportList[i]);
 

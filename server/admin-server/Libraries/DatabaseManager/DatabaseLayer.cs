@@ -1755,15 +1755,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			basePathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
 			for (int i = 0; i < supportList.Count; i++)
 				applicationsList.Add(supportList[i]);
-			// poi guardo i verticali realizzati con EasyBuilder su moduli c++ esistenti
-			basePathFinder.GetApplicationsList(ApplicationType.StandardModuleWrapper, out supportList);
-			for (int i = 0; i < supportList.Count; i++)
-				applicationsList.Add(supportList[i]);
-			// poi guardo i verticali realizzati con EasyBuilder
-			basePathFinder.GetApplicationsList(ApplicationType.Standardization, out supportList);
-			for (int i = 0; i < supportList.Count; i++)
-				applicationsList.Add(supportList[i]);
-			// poi guardo le customizzazioni
+			// poi guardo le customizzazioni di EasyStudio
 			basePathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
 			for (int i = 0; i < supportList.Count; i++)
 				applicationsList.Add(supportList[i]);

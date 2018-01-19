@@ -30,7 +30,7 @@ namespace Microarea.Common.NameSolver
 	public class BasePathFinder : IBasePathFinder
 	{
 		#region costanti
-		private const string logManagerFile = "XMLLogManager.xsl";
+		private const string logManagerFile = "XMLLogManager.xsl"; 
 		private const string xmlExt = "Xml";
 		private const string description = "Description";
 		private const string views = "Views";
@@ -121,7 +121,7 @@ namespace Microarea.Common.NameSolver
 
 		#endregion
 
-		#region proprietà
+		#region proprietï¿½
 
 		//----------------------------------------------------------------------------
 		/// <summary>
@@ -276,7 +276,7 @@ namespace Microarea.Common.NameSolver
 
 				string webSrv = RemoteWebServer;
                 //ottimizzazione rimossa, sotto netcore, quando il client gira su una macchina remota (cosa molto probabile) non mi deve tornare "localhost", 
-                //perchè non ha nessun senso, mi serve il nome della macchina a cui connettermi
+                //perchï¿½ non ha nessun senso, mi serve il nome della macchina a cui connettermi
 				//if (string.Compare(RemoteWebServer, Dns.GetHostName(), StringComparison.OrdinalIgnoreCase) == 0)
 				//	webSrv = "LocalHost";
 
@@ -526,7 +526,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		/// <summary>
-		/// Questa init è da usare in un applicazione che gira in un server !=
+		/// Questa init ï¿½ da usare in un applicazione che gira in un server !=
 		/// dal server di installazione che non risiede nella microarea client
 		/// es un woorm su un server che chiede servizi ad un login manager su un
 		/// altro server
@@ -593,7 +593,7 @@ namespace Microarea.Common.NameSolver
 
 		/// <summary>
 		/// Inizializza i path standardPath, customPath e appsPath se determina che il basepath 
-		/// è all'interno dell'installazione corrente
+		/// ï¿½ all'interno dell'installazione corrente
 		/// </summary>
 		/// <param name="basePath"></param>
 		//---------------------------------------------------------------------
@@ -984,10 +984,10 @@ namespace Microarea.Common.NameSolver
 		}
 
 		/// <summary>
-		/// Analizza la path passata per vedere se è standard
+		/// Analizza la path passata per vedere se ï¿½ standard
 		/// </summary>
 		/// <param name="aPath"></param>
-		/// <returns>true se è standard</returns>
+		/// <returns>true se ï¿½ standard</returns>
 		//-----------------------------------------------------------------------------
 		public bool IsStandardPath(string aPath)
 		{
@@ -1471,7 +1471,7 @@ namespace Microarea.Common.NameSolver
 					//per testare le proprie applicazioni con o senza altre. 
 					//se noi carichiamo solo le solution che appartengono ad una applicazione valida 
 					//li obblighiamo ogni volta a riattivare 
-					//oltretutto questo è un effetto non voluto che prima dell a 2.7 non c'era.
+					//oltretutto questo ï¿½ un effetto non voluto che prima dell a 2.7 non c'era.
                     if (checkApplicationConfig && !IsApplicationDirectory(appPath))
                     {//non tradurre
                         diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning, "Missing application.config in: " + appPath);
@@ -1638,7 +1638,7 @@ namespace Microarea.Common.NameSolver
 		/// <summary>
 		/// per rintracciare i file contenenti gli script delle tabelle del database:
 		/// - per la creazione non si scende nel dettaglio del numero di release
-		/// - per l'upgrade occorre comporre il path con un livello in più (per es: "Release_2")
+		/// - per l'upgrade occorre comporre il path con un livello in piï¿½ (per es: "Release_2")
 		/// In base al provider vengono cercate in directory specifiche, altrimenti si cerca nella "all"
 		/// </summary>
 		//---------------------------------------------------------------------------------
@@ -2324,7 +2324,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		/// <summary>
-		/// True se il namespace fornito è nella forma http://www.microarea.it/Schema/2004/Smart/... 
+		/// True se il namespace fornito ï¿½ nella forma http://www.microarea.it/Schema/2004/Smart/... 
 		/// </summary>
 		//---------------------------------------------------------------------------------
 		public bool IsMicroareaSchema(string namespaceURI)
@@ -2665,7 +2665,7 @@ namespace Microarea.Common.NameSolver
 		/// (path finder potrebbe non avere informazioni sufficienti, in tal caso viene restituito null)
 		/// </summary>
 		//--------------------------------------------------------------------------------------------------------------------------------
-		public string GetMagoNetApplicationPath() //NON RINOMINARE IN GetTbAppManagerApplicationPath altrimenti non funziona più il test manager
+		public string GetMagoNetApplicationPath() //NON RINOMINARE IN GetTbAppManagerApplicationPath altrimenti non funziona piï¿½ il test manager
 		{
             return Path.Combine(GetExecutablePath(ref magonetApplicationPath, "TbAppManager.exe", "TbAppManager"), "TbAppManager.exe");
 		}
@@ -2858,7 +2858,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		/// <summary>
-		/// True se il path è di tipo custom
+		/// True se il path ï¿½ di tipo custom
 		/// </summary>
 		//-----------------------------------------------------------------------------
 		public bool IsCustomPath(string aPath)
@@ -3121,7 +3121,7 @@ namespace Microarea.Common.NameSolver
 					{
 						foreach (FileInfo fileName in tempList)
 						{
-							// é stato inserito giá quello presente nella custom
+							// ï¿½ stato inserito giï¿½ quello presente nella custom
 							if (string.Compare(fileName.Name, file.Name, StringComparison.OrdinalIgnoreCase) == 0)
 							{
 								insert = false;
@@ -3229,7 +3229,7 @@ namespace Microarea.Common.NameSolver
 
 		///<summary>
 		/// Ritorna il path \Custom\Companies\"companyName"\DataTransfer
-		/// il parametro "companyName" può ricevere un nome azienda oppure AllCompanies
+		/// il parametro "companyName" puï¿½ ricevere un nome azienda oppure AllCompanies
 		///</summary>
 		//---------------------------------------------------------------------
 		public string GetCustomCompanyDataTransferPath(string companyName)
@@ -3242,7 +3242,7 @@ namespace Microarea.Common.NameSolver
 
 		///<summary>
 		/// Ritorna il path \Custom\Companies\"companyName"\Log
-		/// il parametro "companyName" può ricevere un nome azienda oppure AllCompanies
+		/// il parametro "companyName" puï¿½ ricevere un nome azienda oppure AllCompanies
 		///</summary>
 		//---------------------------------------------------------------------
 		public string GetCustomCompanyLogPath(string companyName)
@@ -3263,8 +3263,8 @@ namespace Microarea.Common.NameSolver
 		}
 		///<summary>
 		/// Ritorna il path \Custom\Companies\"companyName"\Log\"userName"
-		/// il parametro "companyName" può ricevere un nome azienda oppure AllCompanies
-		/// il parametro "userName" può ricevere un nome utente oppure AllUsers
+		/// il parametro "companyName" puï¿½ ricevere un nome azienda oppure AllCompanies
+		/// il parametro "userName" puï¿½ ricevere un nome utente oppure AllUsers
 		///</summary>
 		//---------------------------------------------------------------------
 		public string GetCustomCompanyLogPath(string companyName, string userName)
@@ -3762,7 +3762,7 @@ namespace Microarea.Common.NameSolver
 		{
 			try
 			{
-				// potrebbe arrivare un filename con sintassi Unix cioè anche con "/"
+				// potrebbe arrivare un filename con sintassi Unix cioï¿½ anche con "/"
 				sObjectFullPath = sObjectFullPath.Replace('/', Path.DirectorySeparatorChar);
 
 				// TODOBRUNA 
@@ -3779,7 +3779,7 @@ namespace Microarea.Common.NameSolver
 				string[] tokens = sObjectFullPath.Split(System.IO.Path.DirectorySeparatorChar);
 
 				int nPathToken = tokens.Length;
-				// il minimo che posso rappresentare è applicazione e modulo, quindi
+				// il minimo che posso rappresentare ï¿½ applicazione e modulo, quindi
 				// con il tipo devo avere almeno tre segmenti di path per poterlo fare 
 				if (nPathToken < 8)
 					return null;
@@ -3808,7 +3808,7 @@ namespace Microarea.Common.NameSolver
 				string dirName = dirInfo.Name;
 
 				// devo aggiungere il tipo di oggetto al namespace.
-				// nella custom ho un livello in più e posso avere:
+				// nella custom ho un livello in piï¿½ e posso avere:
 				//		AllUsers/....
 				// oppure: 
 				//		User/[UserName]/.....
@@ -3850,7 +3850,7 @@ namespace Microarea.Common.NameSolver
 		//-------------------------------------------------------------------------------------
 		public INameSpace GetAppModNSFromFilePath(string sObjectFullPath)
 		{
-			// potrebbe arrivare un filename con sintassi Unix cioè anche con "/"
+			// potrebbe arrivare un filename con sintassi Unix cioï¿½ anche con "/"
 			sObjectFullPath = sObjectFullPath.Replace('/', Path.DirectorySeparatorChar);
 
 			// TODOBRUNA 
@@ -3867,7 +3867,7 @@ namespace Microarea.Common.NameSolver
 			string[] tokens = sObjectFullPath.Split(System.IO.Path.DirectorySeparatorChar);
 
 			int nPathToken = tokens.Length;
-			// il minimo che posso rappresentare è applicazione e modulo, quindi
+			// il minimo che posso rappresentare ï¿½ applicazione e modulo, quindi
 			// con il tipo devo avere almeno tre segmenti di path per poterlo fare 
 			if (nPathToken <= 3)
 				return null;
@@ -4078,7 +4078,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		/// <summary>
-		/// Dato un namespace di una customizzazione torna la folder in cui è contenuta
+		/// Dato un namespace di una customizzazione torna la folder in cui ï¿½ contenuta
 		/// es: Customization.ERP.Shippings.Documents.Ports.Prova 
 		/// torna
 		/// C:\Development\Custom\Companies\AllCompanies\Applications\ERP\Shippings\ModuleObjects\Ports\
@@ -4101,7 +4101,7 @@ namespace Microarea.Common.NameSolver
             return GetApplicationDocumentPath(documentNamespace.Application, documentNamespace.Module, documentNamespace.Document);
         }
         /// <summary>
-        /// Dato un namespace di una standardizzazione torna la folder in cui è contenuta se è nella cartella: Standard altrimenti stringa vuota
+        /// Dato un namespace di una standardizzazione torna la folder in cui ï¿½ contenuta se ï¿½ nella cartella: Standard altrimenti stringa vuota
         /// </summary>
         /// <returns></returns>
         //--------------------------------------------------------------------------------
@@ -4214,7 +4214,7 @@ namespace Microarea.Common.NameSolver
 
 		//--------------------------------------------------------------------------------
 		/// <summary>
-		/// Dato il namespace di un oggetto json, ritorna il percorso dove verrà salvato il file json
+		/// Dato il namespace di un oggetto json, ritorna il percorso dove verrï¿½ salvato il file json
 		/// </summary>
 		/// <param name="nameSpace"></param>
 		/// <returns></returns>

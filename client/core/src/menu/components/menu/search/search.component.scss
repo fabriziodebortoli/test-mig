@@ -1,137 +1,69 @@
-.cdk-overlay-pane {
-    width: 257px !important;
-    margin-left: -28px;
-}
-
-.mat-input-infix,
-.mat-form-field-infix {
-    width: 100%!important;
-}
-
-.mat-form-field-subscript-wrapper,
-.mat-form-field-underline {
-    display: none;
-}
-
-.mat-form-field-label {
-    line-height: 42px !important;
-    font-size: 18px !important;
-    padding-left: 40px;
-}
-
-.mat-input-infix .mat-input-placeholder-wrapper .mat-empty {
-    display: none;
-}
-
 .tb-search {
-    mat-input-container,
-    .mat-input-container {
-        background: #f1f1f1;
-        padding: 1px 5px;
-        border-radius: 3px;
-        border: 1px solid #044e7b;
-        border: none;
-        height: 36px;
-        width: 250px;
-        margin-bottom: 3px;
-        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .1), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .1);
-        display: flex;
-        margin: 0 auto;
-        .mat-form-field-wrapper {
-            width: 100%;
+    mat-form-field {
+        width: 300px;
+         ::ng-deep .mat-form-field-infix {
+            padding: 5px 0;
+            border: none;
         }
-        .mat-form-field-infix {
-            width: 100%;
-            display: flex;
+         ::ng-deep .mat-form-field-wrapper {
             padding: 0;
-            border: none;
-        }
-        input {
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 0 3px;
-            color: #000;
-        }
-        input:focus {
-            border: none;
-            outline: none;
-        }
-        m4-icon {
-            margin: 0px 7px 0 7px;
-            color: #00578c;
-            line-height: 40px;
-        }
-    }
-}
-
-.mat-option-text {
-    display: block;
-}
-
-.mat-autocomplete-panel.mat-autocomplete-visible {
-    visibility: visible;
-    max-height: 500px;
-    overflow: auto;
-}
-
-.mat-autocomplete-panel {
-    overflow: auto;
-}
-
-.search-element {
-    .menu-element {
-        margin: 0;
-        padding: 0;
-        background: #fff;
-        .object-type {
-            margin: 2px 0px 2px 5px;
-        }
-    }
-    .menu-element-content .mat-icon {
-        margin-right: 0;
-    }
-    .menu-element span {
-        font-size: 12px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1;
-    }
-}
-
-.mat-option {
-    line-height: 28px;
-    height: 26px;
-    padding: 0;
-}
-
-.mat-active .menu-element {
-    background: #fffbe0;
-}
-
-@media screen and (min-width: 768px) {
-    .cdk-overlay-pane {
-        width: 307px !important;
-    }
-    .tb-search {
-        mat-input-container {
             width: 300px;
         }
+    }
+     ::ng-deep mat-input-container {
+        border-radius: 3px;
+        background: #fff;
+        box-shadow: inset 0 3px 1px -2px rgba(0, 0, 0, 0.2), inset 0 2px 2px 0 rgba(0, 0, 0, 0.14), inset 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+        m4-icon {
+            margin: 0px 5px 0 2px;
+            color: #00578c;
+            line-height: 26px;
+        }
+        input.mat-input-element {
+            margin-top: -0.0625em;
+            font-size: 14px;
+            height: 31px;
+            width: 93%;
+            color: #000;
+        }
+    }
+     ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+        display: none;
+    }
+     ::ng-deep .mat-form-field-underline {
+        display: none;
+    }
+     ::ng-deep .mat-empty {
+        display: none;
     }
 }
 
 @media screen and (min-width: 1025px) {
-    .cdk-overlay-pane {
-        width: 457px !important;
-        margin-left: -34px;
-    }
     .tb-search {
-        mat-input-container {
+        mat-form-field {
             width: 450px;
+             ::ng-deep .mat-form-field-infix {
+                padding: 5px 0;
+                border: none;
+            }
+             ::ng-deep .mat-form-field-wrapper {
+                padding: 0;
+                width: 450px;
+            }
+        }
+         ::ng-deep mat-input-container {
             m4-icon {
-                margin: 0px 5px 0;
+                margin: 0px 7px 0 7px;
             }
         }
     }
+}
+
+
+/* DROPDOWN AUTOCOMPLETE */
+
+::ng-deep .mat-option {
+    line-height: 28px;
+    height: 26px;
+    padding: 0 3px;
 }

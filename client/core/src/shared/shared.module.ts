@@ -74,6 +74,8 @@ import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -116,6 +118,8 @@ export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
+export { ChangePasswordComponent } from './components/change-password/change-password.component';
+export { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 
 
 const TB_COMPONENTS = [
@@ -124,7 +128,7 @@ const TB_COMPONENTS = [
     TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
-    TbHotlinkButtonsComponent
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent
 ];
 
 /**
@@ -346,6 +350,7 @@ const _MODULES = [
 ];
 
 import { TreeModule } from 'angular-tree-component';
+
 
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],

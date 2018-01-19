@@ -766,7 +766,7 @@ void CEFUninitialize()
 	
 	VERIFY(CefPostTask(TID_UI, CefCreateClosureTask(base::Bind(&CefQuitMessageLoop))));
 	WaitForSingleObject(hCefThread, INFINITE);
-	
+
 	DeleteCache();
 }
 

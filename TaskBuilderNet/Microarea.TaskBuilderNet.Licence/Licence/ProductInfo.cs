@@ -407,7 +407,15 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
                 if (!hasserial)
                     articleNode.SetAttribute(WceAttribute.HasSerial, bool.FalseString.ToLower(CultureInfo.InvariantCulture));
 
-               if(serialNumberS==null)serialNumberS = new string[]{};
+                if (serialNumberS == null || serialNumberS.Length==0)
+                {
+                    serialNumberS = new string[] { };
+                    if ((!specialVersion && noAddMOdule) ||
+                    (specialVersion && noAddMOdule))
+                        //per chiarezza lasciamo l'if così grazie.
+                        add = false;
+
+                }
 
                foreach (string serialNumber in serialNumberS)
                {
@@ -427,12 +435,13 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
                         //per chiarezza lasciamo l'if così grazie.
                        add = false;
                   
-                }
+               }
 
-                //il modulo lo devo aggiugere 
+
+                //il modulo lo devo aggiugere
                 if (add)
                     productNode.AppendChild(articleNode);
-            }
+                }
 			documentElement.AppendChild(productNode);
 			return currentDocument;
 		}

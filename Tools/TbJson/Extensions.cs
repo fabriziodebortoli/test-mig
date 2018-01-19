@@ -120,32 +120,32 @@ namespace Microarea.TbJson
             ? jObj[name] as JObject
             : null;
         }
-        /// <summary>
-        /// Prepara una stringa alla localizzazione con _TB()
-        /// </summary>
-        //-----------------------------------------------------------------------------
-        internal static string GetLocalizableString(this JToken jObj, string name)
-        {
-            if (!(jObj is JObject))
-                return null;
-            var result = jObj[name];
+		/// <summary>
+		/// Prepara una stringa alla localizzazione con _TB()
+		/// </summary>
+		//-----------------------------------------------------------------------------
+		internal static string GetLocalizableString(this JToken jObj, string name)
+		{
+			if (!(jObj is JObject))
+				return null;
+			var result = jObj[name];
 
-            if (result == null || !(result is JValue))
-                return null;
-            string text = result.Value<string>();
+			if (result == null || !(result is JValue))
+				return null;
+			string text = result.Value<string>();
             if (text == null)
                 return null;
             if (Helpers.AdjustExpression(ref text))
-            {
+			{
                 return text;
-            }
+			}
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
             //HttpUtility.HtmlEncode(text.Replace("'", "\\'"));
 
             return string.Concat("_TB('", text, "')");
-        }
-
+		}
+  
         //-----------------------------------------------------------------------------
         private static string ReplaceInLocalizableString(Match match)
         {
@@ -186,7 +186,7 @@ namespace Microarea.TbJson
                     continue;
                 JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
                 jButton[Constants.items] = buttonsSorted;
-            }
+        }
         }
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
@@ -332,6 +332,7 @@ namespace Microarea.TbJson
                 val = result.ToString();
                 if (Helpers.AdjustExpression(ref val))
                 {
+                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
                 }
                 return ValueType.PLAIN;
@@ -344,7 +345,7 @@ namespace Microarea.TbJson
                     val = "";
                     return ValueType.NOT_FOUND;
                 }
-
+                
                 val = c;
                 return ValueType.CONSTANT;
             }

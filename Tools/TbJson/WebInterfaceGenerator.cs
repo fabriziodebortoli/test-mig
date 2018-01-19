@@ -802,21 +802,21 @@ namespace Microarea.TbJson
 
                             //string currentAppendToDeclaration = string.Format("public {0}_{1}: any;\r\n", cmpId, Constants.columns);
                             //if (!toAppendToDeclaration.ToString().Contains(currentAppendToDeclaration))
-                            //    toAppendToDeclaration.Append(currentAppendToDeclaration);
+                            //	toAppendToDeclaration.Append(currentAppendToDeclaration);
 
                             //JArray jBinding = jObj[Constants.items] as JArray;
-                            //if (jBinding != null)
-                            //{
-                            //    //string currentAppendToDefinition = string.Format("this.{0}_{1} = {2}; \r\n", cmpId, Constants.columns, jBinding.ToString());
-                            //    //if (!toAppendToDefinition.ToString().Contains(currentAppendToDefinition))
-                            //    //    toAppendToDefinition.Append(currentAppendToDefinition);
+                            //                     if (jBinding != null)
+                            //                     {
+                            //                         //string currentAppendToDefinition = string.Format("this.{0}_{1} = {2}; \r\n", cmpId, Constants.columns, jBinding.ToString());
+                            //                         //if (!toAppendToDefinition.ToString().Contains(currentAppendToDefinition))
+                            //                         //	toAppendToDefinition.Append(currentAppendToDefinition);
 
-                            //    for (int i = 0; i < jBinding.Count; i++)
-                            //    {
-                            //        JObject current = jBinding[i] as JObject;
+                            //                         for (int i = 0; i < jBinding.Count; i++)
+                            //                         {
+                            //                             JObject current = jBinding[i] as JObject;
                             //        WriteBindingAttributes(current, true, false);
-                            //    }
-                            //}
+                            //                         }
+                            //                     }
 
                             w.CloseBeginTag();
 
@@ -855,7 +855,7 @@ namespace Microarea.TbJson
                             if (jObj == null)
                                 break;
 
-                            WriteColumnAttributes(jObj, wCol);
+                            //WriteControlAttributes(jObj, wc, true);
 
                             string title = jObj.GetLocalizableString(Constants.text);
                             if (!string.IsNullOrEmpty(title))
@@ -1331,22 +1331,22 @@ namespace Microarea.TbJson
                         field));
                 }
 
-                JObject jHKL = jBinding.GetObject(Constants.hotLink);
-                if (jHKL != null)
-                {
-                    string hkl = jHKL.ToString();
-                    hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
-
-                    if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
+                    JObject jHKL = jBinding.GetObject(Constants.hotLink);
+                    if (jHKL != null)
                     {
-                        string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
-                        string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
-                        hkl = hkl.Replace(hklExpr, hklValue);
-                    }
+                        string hkl = jHKL.ToString();
+                        hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
+
+                        if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
+                        {
+                            string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
+                            string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
+                            hkl = hkl.Replace(hklExpr, hklValue);
+                        }
                     htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
+                    }
                 }
             }
-        }
 
         //-----------------------------------------------------------------------------------------
         private void WriteTreeAttributes(JObject jObj, WebControl wc)
@@ -1377,7 +1377,7 @@ namespace Microarea.TbJson
                 {
                     String value = arg.Value;
                     if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
-                    {
+        {
                         value = jObj.GetFlatString(value.Substring(1, value.Length - 2));
                     }
 
@@ -1431,23 +1431,23 @@ namespace Microarea.TbJson
             }
 
             // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
-            if (jObj[Constants.selector] is JObject jSelector)
-            {
-                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
-            }
-            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
-            {
-                WriteSelector(cmpId, wc.Selector.value, jObj);
-            }
+                if (jObj[Constants.selector] is JObject jSelector)
+                {
+                    WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
+                }
+                else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
+                {
+                    WriteSelector(cmpId, wc.Selector.value, jObj);
+                }
 
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
+                
 
-
-            WriteAttribute(jObj, Constants.decimals, Constants.decimals);
+			WriteAttribute(jObj, Constants.decimals, Constants.decimals);
             WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
-            WriteAttribute(jObj, Constants.width, Constants.width);
+			WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
 

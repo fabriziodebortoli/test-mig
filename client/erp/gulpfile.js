@@ -76,11 +76,12 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core',
-                '@angular/common',
-                '@angular/forms',
-                '@angular/http',
-                '@taskbuilder/core'
+                '@taskbuilder/core',
+                '@angular/core', '@angular/common', '@angular/forms', '@angular/http',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval', 'rxjs/add/observable/timer',
+                'rxjs/add/observable/combineLatest', 'rxjs/add/operator/share', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil',
+                'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/reduce', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged', 'rxjs/operator/reduce', 'rxjs/Subject',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/util/isNumeric', 'lodash'
             ],
 
             // Format of generated bundle
@@ -121,11 +122,12 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core',
-                '@angular/common',
-                '@angular/forms',
-                '@angular/http',
-                '@taskbuilder/core'
+                '@taskbuilder/core',
+                '@angular/core', '@angular/common', '@angular/forms', '@angular/http',
+                'rxjs/add/operator/catch', 'rxjs/add/observable/throw', 'rxjs/add/operator/distinctUntilChanged', 'rxjs/add/operator/filter', 'rxjs/add/operator/first', 'rxjs/add/observable/interval', 'rxjs/add/observable/timer',
+                'rxjs/add/observable/combineLatest', 'rxjs/add/operator/share', 'rxjs/add/operator/toPromise', 'rxjs/add/operator/map', 'rxjs/add/observable/of', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil',
+                'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/reduce', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged', 'rxjs/operator/reduce', 'rxjs/Subject',
+                'rxjs/Subscription', 'rxjs/Observer', 'rxjs/Observable', 'rxjs/BehaviorSubject', 'rxjs/util/TimeoutError', 'rxjs/util/isNumeric', 'lodash'
             ],
 
             // Format of generated bundle
@@ -148,7 +150,19 @@ gulp.task('rollup:umd', function() {
                 '@angular/common': 'common',
                 '@angular/http': 'http',
                 '@taskbuilder/core': 'core$1',
-                '@angular/forms': 'forms'
+                '@angular/forms': 'forms',
+                'lodash': '_',
+                'rxjs/operator/map': 'map$1',
+                'rxjs/operator/pluck': 'pluck',
+                'rxjs/operator/distinctUntilChanged': 'distinctUntilChanged$1',
+                'rxjs/operator/reduce': 'reduce$1',
+                'rxjs/Subject': 'Subject',
+                'rxjs/Subscription': 'Subscription',
+                'rxjs/Observer': 'Observer',
+                'rxjs/Observable': 'Observable',
+                'rxjs/BehaviorSubject': 'BehaviorSubject',
+                'rxjs/util/TimeoutError': 'TimeoutError',
+                'rxjs/util/isNumeric': 'isNumeric'
             },
 
             // Skip THIS_IS_UNDEFINED warnings 

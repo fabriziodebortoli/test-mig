@@ -15,7 +15,7 @@ EasyBuilderComponents::EasyBuilderComponents (EasyBuilderComponent^ parent)
 
 	this->canBeExtendedByUI = true;
 	this->canBeReducedByUI	= true;
-	this->canBeExtendedByUI = false;
+	this->canBeModifiedByUI = false;
 }
 
 //----------------------------------------------------------------------------

@@ -265,7 +265,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 					else
 						type = typeAttribute.Value;
 
-					string localize	= functionTag.Attributes[ReferenceObjectsXML.Attribute.Localize].Value;
+					string localize	= functionTag.Attributes[ReferenceObjectsXML.Attribute.Localize]?.Value;
 
                     NameSpace aNameSpace = new NameSpace(nameSpace, NameSpaceObjectType.HotKeyLink);    //Hotlink
 

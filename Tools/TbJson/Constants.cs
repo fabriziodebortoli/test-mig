@@ -55,8 +55,8 @@
 
         internal const string Const = "const";
         internal const string text = "text";
-        internal const string hint = "hint";
-        internal const string border = "border";
+		internal const string hint = "hint";
+		internal const string border = "border";
         internal const string hScroll = "hScroll";
         internal const string disableDragDrop = "disableDragDrop";
         internal const string hasButtons = "hasButtons";
@@ -114,7 +114,7 @@
 
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
-        internal const string decimals = "decimals";
+		internal const string decimals = "decimals";
         internal const string numberDecimal = "numberDecimal";
 
         internal const string ngTag = "ng-tag";

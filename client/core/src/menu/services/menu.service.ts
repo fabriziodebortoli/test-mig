@@ -495,11 +495,17 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     resetMenuServices() {
+        this._selectedApplication = undefined;
+        this._selectedGroup = undefined;
+        this._selectedMenu = undefined;
+        this.searchSources = [];
         this.allMenus = [];
         this.favoritesCount = 0;
         this.mostUsedCount = 0;
+        this.hiddenTilesCount = 0;
         this.favorites = [];
         this.mostUsed = [];
+        this.hiddenTiles = [];
     }
 
     //---------------------------------------------------------------------------------------------
@@ -538,32 +544,37 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     sanitizeAllMenus(allApps) {
-        allApps.forEach(app => {
+        if (allApps) {
+            allApps.forEach(app => {
 
-            app.Group = app.Group;
-            app.Group.forEach(menu => {
-                //menu.Menu = this.utilsService.toArray(menu.Menu);
-                menu.Menu = this.utilsService.toArray(menu.Menu).filter(
-                    currentMenu => {
-                        return this.utilsService.toArray(currentMenu.Menu).length > 0 || this.utilsService.toArray(currentMenu.Object).length > 0;
+                app.Group = this.utilsService.toArray(app.Group);
+                if (app.Group) {
+                    app.Group.forEach(menu => {
+                        menu.Menu = this.utilsService.toArray(menu.Menu).filter(
+                            currentMenu => {
+                                return this.utilsService.toArray(currentMenu.Menu).length > 0 || this.utilsService.toArray(currentMenu.Object).length > 0;
+                            });
+
+                        //menu orfani a tre livelli
+                        if (menu.Object) {
+                            menu.Object = this.utilsService.toArray(menu.Object);
+                        }
+
+                        if (menu.Menu) {
+                            menu.Menu.forEach(subMenu => {
+                                subMenu.Menu = this.utilsService.toArray(subMenu.Menu);
+
+                                if (subMenu.Menu) {
+                                    subMenu.Menu.forEach(object => {
+                                        object.Object = this.utilsService.toArray(object.Object);
+                                    });
+                                }
+                            });
+                        }
                     });
-
-                //menu orfani a tre livelli
-                if (menu.Object) {
-                    menu.Object = this.utilsService.toArray(menu.Object);
                 }
-
-                menu.Menu.forEach(subMenu => {
-                    subMenu.Menu = this.utilsService.toArray(subMenu.Menu);
-                    subMenu.Menu.forEach(object => {
-                        object.Object = this.utilsService.toArray(object.Object);
-                    });
-
-                });
-
             });
-
-        });;
+        }
 
         this.allMenus = allApps;
     }

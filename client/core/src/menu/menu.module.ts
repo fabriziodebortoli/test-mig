@@ -22,6 +22,7 @@ import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-ta
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 
+
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
@@ -41,6 +42,7 @@ export { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tile
 import { MenuService } from './services/menu.service';
 import { HttpMenuService } from './services/http-menu.service';
 import { ImageService } from './services/image.service';
+
 
 //WARNING: put here only GLOBAL services, NOT component level services
 export const TB_MENU_SERVICES = [
