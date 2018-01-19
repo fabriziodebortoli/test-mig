@@ -19,8 +19,9 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit {
 
-
+  @Input() height: number;
   @Input() columns: Array<any>;
+  
   public selectableSettings: SelectableSettings;
 
   @ContentChildren(BodyEditColumnComponent) be_columns;
