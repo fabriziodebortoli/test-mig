@@ -1,7 +1,9 @@
-.tile-group {
+:host {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    // background: rgb(56, 56, 253)
+    align-items: stretch;
+    align-content: stretch;
+    flex: 1;
 }
