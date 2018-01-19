@@ -61,7 +61,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     pinned = false;
     areFiltersVisible = false;
     public selectableSettings: SelectableSettings;
-    private lastSelectedKeyOnPageChange: string;
+    private lastSelectedKeyOnChange: string;
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
@@ -74,19 +74,22 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         this.setSelectableSettings();
         this.filterer.start(200);
         this.paginator.start(1, this.pageSize,
-            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: l, model: r })),
+            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ model: l, customFilters: r })),
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
                 p.set('filter', JSON.stringify(otherParams.model.value));
                 p.set('page', JSON.stringify(pageNumber + 1)); // test numbers
                 p.set('per_page', JSON.stringify(serverPageSize));
-                // p.set('customFilters', JSON.stringify(otherParams.customFilters));
+                if (otherParams.customFilters)
+                    p.set('customFilters', JSON.stringify(otherParams.customFilters));
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
             this.exitFindMode();
+            this.storeViewSelectionByKey();
             this.setState(d);
+            this.restoreViewSelectionByKey();
             this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIdx);
         });
         this.filterer.filterChanged$.subscribe(x => {
@@ -124,6 +127,10 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         this.filterer.onFilterChanged(value);
     }
 
+    onFilterChange(filter: CompositeFilterDescriptor): void {
+        this.filter = filter;
+    }
+
     get pinnedIcon() {
         return this.pinned ? 'tb-classicpin' : 'tb-unpin';
     }
@@ -133,17 +140,21 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     async pageChange(event: PageChangeEvent) {
-        if (this.state.selectionKeys.length)
-            this.lastSelectedKeyOnPageChange = this.state.selectionKeys[0];
+        this.storeViewSelectionByKey();
         await this.paginator.pageChange(event.skip, event.take);
-        this.restoreViewSelectionByKey(this.lastSelectedKeyOnPageChange);
+        this.restoreViewSelectionByKey();
     }
 
-    private restoreViewSelectionByKey(key: string) { // workaround for kendo-grid issue 1040
+    private storeViewSelectionByKey() { // workaround for kendo-grid issue 1040}
+        if (this.state.selectionKeys.length)
+            this.lastSelectedKeyOnChange = this.state.selectionKeys[0];
+    }
+
+    private restoreViewSelectionByKey() { // workaround for kendo-grid issue 1040
         this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
-        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === key)
+        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKeyOnChange)
         if (idx === -1) return;
-        this.state = { ...this.state, selectionKeys: [key], selectedIndex: idx };
+        this.state = { ...this.state, selectionKeys: [this.lastSelectedKeyOnChange], selectedIndex: idx };
     }
 
     sortChange(sort: SortDescriptor[]): void {

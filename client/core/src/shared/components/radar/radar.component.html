@@ -5,13 +5,13 @@
         </div>
         <div class="toolbar-top-item functions"></div>
         <div class="toolbar-top-item navigation">
-            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]='state.selectedIndex === 0 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === 0 || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='state.selectedIndex === 0 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === 0 || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-prev'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='state.selectedIndex === state.rows.length - 1 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === state.rows.length - 1 || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-next'" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="eventData.showRadar.next(false)" [title]="_TB('Close')">
