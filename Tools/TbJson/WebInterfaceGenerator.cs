@@ -802,6 +802,7 @@ namespace Microarea.TbJson
                             WebControl wc = GetWebControl(jObj);
 
                             WriteControlAttributes(jObj, wc);
+                            WriteAttribute(jObj, Constants.height, Constants.height);
 
                             jObj.GetString(Constants.id, out string cmpId);
 
