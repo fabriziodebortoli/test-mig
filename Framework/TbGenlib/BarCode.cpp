@@ -455,7 +455,6 @@ BOOL CBarCode::DrawGDPicture
 	int nRows = m_nRowsNo;
 	int nColumns = m_nColumnsNo;
 
-
 	CString	strValue = strOriginalValue;
 
 	// se mi arriva un bar code composto (esiste il tag 0x01) allora gli ultimi byte
@@ -466,9 +465,6 @@ BOOL CBarCode::DrawGDPicture
 	if (pszType)
 	{
 		barcodeType = _tstol(&pszType[1]);
-
-		if (barcodeType == CBarCodeTypes::BC_DEFAULT)
-			barcodeType = m_nBCDefaultType;
 
 		TCHAR* pChkSum = _tcschr(&pszType[2], CBarCodeTypes::BC_SEP);
 
@@ -527,6 +523,12 @@ BOOL CBarCode::DrawGDPicture
 		*pszType = NULL_CHAR;
 	}
 
+	if (m_nBarCodeTypeAlias)
+		barcodeType = m_nBarCodeType;
+
+	if (barcodeType == CBarCodeTypes::BC_DEFAULT)
+		barcodeType = m_nBCDefaultType;
+
 	CString str_barcodeType = CBarCodeTypes::BarCodeDescription(barcodeType);
 	BarCodeCreator* barCodeCreator = new BarCodeCreator();
 
@@ -569,7 +571,7 @@ BOOL CBarCode::DrawGDPicture
 	}
 
 	// - BC Error Correction Level
-	if (bBarcode2D && barcodeType!= BC_DATAMATRIX && (barcodeType == BC_PDF417 ? nErrCorrLevel < -1 : nErrCorrLevel < 0))
+	if (bBarcode2D && barcodeType != BC_DATAMATRIX && (barcodeType == BC_PDF417 ? nErrCorrLevel < -1 : nErrCorrLevel < 0))
 	{
 		//recupero il valore dal setting
 		if (barcodeType != BC_PDF417)
