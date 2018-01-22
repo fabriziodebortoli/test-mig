@@ -1,106 +1,108 @@
-{
-  "collapsible": true,
-  "context": "uinotification",
-  "height": 123,
-  "id": "IDD_DATA_SYNCHRO_HISTORY_IMS_HINTS",
-  "items": [
-    {
-      "binding": {
-        "datasource": "SynchStatusPicture"
+﻿{
+   "collapsed" : true,
+   "collapsible" : true,
+   "context" : "uinotification",
+   "height" : 208,
+   "id" : "IDD_DATA_SYNCHRO_HISTORY_IMS_HINTS",
+   "items" : [
+      {
+         "binding" : {
+            "datasource" : "SynchStatusPicture"
+         },
+         "bitmap" : true,
+         "controlClass" : "PictureStatic",
+         "group" : true,
+         "height" : 29,
+         "id" : "IDC_DS_SYNCHSTATUS_PICTURE",
+         "name" : "SynchStatusPicture",
+         "type" : "Label",
+         "width" : 48,
+         "x" : 26,
+         "y" : 4
       },
-      "bitmap": true,
-      "controlClass": "PictureStatic",
-      "group": true,
-      "height": 16,
-      "id": "IDC_DS_SYNCHSTATUS_PICTURE",
-      "name": "SynchStatusPicture",
-      "type": 2, /*Label*/
-      "width": 16,
-      "x": 48,
-      "y": 4
-    },
-    {
-      "group": true,
-      "height": 8,
-      "id": "IDC_STATIC_1",
-      "text": "Time",
-      "textAlign": 2, /*Right*/
-      "type": 2, /*Label*/
-      "width": 48,
-      "y": 4,
-      "x": 81
-    },
-    {
-      "autoHScroll": true,
-      "binding": {
-        "datasource": "SynchDate"
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC_1",
+         "text" : "Last Synch Datetime",
+         "textAlign" : "Right",
+         "type" : "Label",
+         "width" : 78,
+         "x" : 141,
+         "y" : 6
       },
-      "controlClass": "DateTimeEdit",
-      "height": 12,
-      "id": "IDC_DS_LASTSYNCH_TIMESTAMP",
-      "readOnly": true,
-      "type": 13, /*Edit*/
-      "width": 80,
-      "x": 131,
-      "y": 2
-    },
-    {
-      "group": true,
-      "height": 8,
-      "id": "IDC_STATIC_3",
-      "text": "Direction",
-      "textAlign": 2, /*Right*/
-      "type": 2, /*Label*/
-      "width": 48,
-      "y": 24
-    },
-    {
-      "autoHScroll": true,
-      "binding": {
-        "datasource": "SynchDirection"
+      {
+         "autoHScroll" : true,
+         "binding" : {
+            "datasource" : "SynchDate"
+         },
+         "controlClass" : "DateTimeEdit",
+         "height" : 12,
+         "id" : "IDC_DS_LASTSYNCH_TIMESTAMP",
+         "readOnly" : true,
+         "type" : "Edit",
+         "width" : 80,
+         "x" : 221,
+         "y" : 4
       },
-      "controlClass": "StringEdit",
-      "height": 12,
-      "id": "IDC_DS_LASTSYNCH_DIRECTION",
-      "readOnly": true,
-      "type": 13, /*Edit*/
-      "width": 150,
-      "x": 51,
-      "y": 22
-    },
-    {
-      "binding": {
-        "datasource": "SynchStatusHints"
+      {
+         "autoHScroll" : true,
+         "binding" : {
+            "datasource" : "SynchDirection"
+         },
+         "controlClass" : "StringEdit",
+         "height" : 12,
+         "id" : "IDC_DS_LASTSYNCH_DIRECTION",
+         "readOnly" : true,
+         "type" : "Edit",
+         "width" : 150,
+         "x" : 150,
+         "y" : 23
       },
-      "controlClass": "StringEdit",
-      "enabled": false,
-      "group": true,
-      "height": 200,
-      "id": "IDC_DS_LASTSYNCH_STATUS_HINTSS",
-      "multiline": true,
-      "name": "SynchStatusHints",
-      "readOnly": true,
-      "type": 13, /*Edit*/
-      "vScroll": true,
-      "width": 268,
-      "x": 51,
-      "y": 36
-    },
-    {
-      "height": 12,
-      "id": "IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS",
-      "isText": true,
-      "text": "Copy Msg",
-      "textAlign": 1, /*Center*/
-      "type": 3, /*Button*/
-      "vertAlign": 1, /*Center*/
-      "width": 41,
-      "x": 6,
-      "y": 38
-    }
-  ],
-  "name": "DataSynchStatusHintsTileDlg",
-  "text": "Data Synchronization Technical Details",
-  "type": 71, /*Tile*/
-  "width": 325
+      {
+         "binding" : {
+            "datasource" : "SynchStatusHints"
+         },
+         "controlClass" : "StringEdit",
+         "enabled" : false,
+         "group" : true,
+         "height" : 150,
+         "id" : "IDC_DS_LASTSYNCH_STATUS_HINTSS",
+         "multiline" : true,
+         "name" : "SynchStatusHints",
+         "readOnly" : true,
+         "type" : "Edit",
+         "vScroll" : true,
+         "width" : 277,
+         "x" : 24,
+         "y" : 53
+      },
+      {
+         "height" : 12,
+         "id" : "IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS",
+         "isText" : true,
+         "text" : "Copy Text",
+         "textAlign" : "Center",
+         "type" : "Button",
+         "vertAlign" : "Center",
+         "width" : 41,
+         "x" : 24,
+         "y" : 38
+      },
+      {
+         "group" : true,
+         "height" : 8,
+         "id" : "IDC_STATIC",
+         "text" : "Direction",
+         "textAlign" : "Right",
+         "type" : "Label",
+         "width" : 90,
+         "x" : 58,
+         "y" : 25
+      }
+   ],
+   "name" : "DataSynchStatusHintsTileDlg",
+   "text" : "Data Synchronization Status",
+   "type" : "Tile",
+   "width" : 334
 }
