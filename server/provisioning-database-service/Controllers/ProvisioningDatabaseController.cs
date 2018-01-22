@@ -1,16 +1,13 @@
-﻿using Microarea.Common.DiagnosticManager;
-using Microarea.Common.Generic;
+﻿using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Controllers.Helpers;
 using Microarea.ProvisioningDatabase.Infrastructure;
 using Microarea.ProvisioningDatabase.Infrastructure.Model;
-using Microarea.ProvisioningDatabase.Libraries;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
 using Microarea.ProvisioningDatabase.Libraries.DataManagerEngine;
 using Microarea.ProvisioningDatabase.Properties;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Data.SqlClient;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.ProvisioningDatabase.Controllers
@@ -190,7 +187,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 					}
 
 					// il Provider deve essere definito a livello di subscription
-					subDatabase.Provider = "SQLAzure";
+					subDatabase.Provider = NameSolverStrings.SQLAzure;
 
 					subDatabase.DBName = dbName;
 					subDatabase.DBServer = settings.DatabaseInfo.DBServer;
@@ -274,44 +271,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// if databaseName is empty I use master
-			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
-
-			string connectionString =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				dbCredentials.Server,
-				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
-				dbCredentials.Login,
-				dbCredentials.Password
-				);
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB);
-			dTask.CurrentStringConnection = connectionString;
-
-			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-			// se sono riuscita a connettermi allora
-			// vado a controllare che se l'edizione di SQL sia compatibile con il provider prescelto
-			if (opRes.Result)
-			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
-					if (
-						(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
-						(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
-						)
-					{
-						opRes.Result = false;
-						opRes.Message = Strings.SQLProviderAndEditionNotCompatible;
-					}
-				}
-			}
-
+			opRes = APIDatabaseHelper.TestConnection(dbCredentials);
+			
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
@@ -336,32 +297,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// I use master database to load all dbs
-			bool isAzureDB = (dbCredentials.Provider == "SQLAzure");
-
-			string connectionString =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				dbCredentials.Server,
-				DatabaseLayerConsts.MasterDatabase,
-				dbCredentials.Login,
-				dbCredentials.Password
-				);
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB);
-			dTask.CurrentStringConnection = connectionString;
-
-			opRes.Result = dTask.ExistDataBase(dbName);
-
-			// controllo se nel diagnostico c'e' un errore e imposto il result a false
-			if (dTask.Diagnostic.Error)
-			{
-				opRes.Result = false;
-				opRes.Message = dTask.Diagnostic.ToJson(true);
-			}
-			else
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes = APIDatabaseHelper.ExistDatabase(dbName, dbCredentials);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -478,32 +414,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		[HttpPost("api/database/import/default/{iso}/{configuration}")]
 		public IActionResult ApiImportDefaultData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
-			OperationResult opRes = new OperationResult();
-
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database , false); // il param 2 effettua il controllo solo sul db di ERP
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.ImportDataNotAvailable;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
-			{
-				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
-				importExportManager.SetDefaultDataConfiguration(configuration);
-				importExportManager.ImportDefaultDataForSubscription(importDataContent.ImportParameters);
-			}
-
+			OperationResult opRes = APIDatabaseHelper.ImportData(NameSolverStrings.Default, iso, configuration, importDataContent);
+			
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
@@ -511,7 +423,6 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <summary>
 		/// Import sample data in SubscriptionDatabase
 		/// </summary>
-		/// <param name="subscriptionKey"></param>
 		/// <param name="iso"></param>
 		/// <param name="configuration"></param>
 		/// <param name="importDataContent"></param>
@@ -520,31 +431,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		[HttpPost("api/database/import/sample/{iso}/{configuration}")]
 		public IActionResult ApiImportSampleData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
-			OperationResult opRes = new OperationResult();
-
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database, false); // il param 2 effettua il controllo solo sul db di ERP
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.ImportDataNotAvailable;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
-			{
-				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
-				importExportManager.SetSampleDataConfiguration(configuration, iso);
-				importExportManager.ImportSampleDataForSubscription(importDataContent.ImportParameters);
-			}
+			OperationResult opRes = APIDatabaseHelper.ImportData(NameSolverStrings.Sample, iso, configuration, importDataContent);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -569,20 +456,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			bool isAzureDB = (subDatabase.Provider == "SQLAzure");
-			string connectionString =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				subDatabase.DBServer,
-				subDatabase.DBName,
-				subDatabase.DBOwner,
-				subDatabase.DBPassword
-				);
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
-			opRes.Result = dTask.DeleteDatabaseObjects();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes = APIDatabaseHelper.DeleteDatabaseObjects(subDatabase);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -632,39 +506,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		[HttpPost("api/database/checkstructure")]
 		public IActionResult ApiCheckDatabaseStructure(string checkCode, [FromBody] SubscriptionDatabase subDatabase)
 		{
-			OperationResult opRes = new OperationResult();
-
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
-
-			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
-			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
-			//if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
-				//if (!this.canMigrate) { }
-
-			if (opRes.Result)
-			{
-				if (
-					((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					!dbManager.ContextInfo.HasSlaves)
-					||
-					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
-					)
-				{
-					// significa che non e' possibile procedere con l'aggiornamento perche':
-					// - i database sono gia' aggiornati
-					// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
-					opRes.Code = (int)AppReturnCodes.InternalError;
-				}
-				else
-					opRes.Code = (int)AppReturnCodes.OK;
-			}
-			else // anche se la connessione non e' andata a buon fine ritorno il codice -1 cosi da inibire l'upgrade
-				opRes.Code = (int)AppReturnCodes.InternalError;
+			OperationResult opRes = APIDatabaseHelper.CheckDatabaseStructure(subDatabase);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
@@ -681,38 +523,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		[HttpPost("api/database/upgradestructure/{configuration?}")]
 		public IActionResult ApiUpgradeDatabaseStructure(string checkCode, string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
-			OperationResult opRes = new OperationResult();
-
-			if (subDatabase == null)
-			{
-				opRes.Result = false;
-				opRes.Message = Strings.NoValidInput;
-				opRes.Code = (int)AppReturnCodes.InvalidData;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			// set Configuration for default data
-			dbManager.ImportSampleData = false;
-			dbManager.ImportDefaultData = false;
-			if (!string.IsNullOrWhiteSpace(configuration))
-			{
-				dbManager.ImportDefaultData = true;
-				dbManager.ImpExpManager.SetDefaultDataConfiguration(configuration);
-			}
-			
-			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			opRes.Content = APIDatabaseHelper.GetMessagesList(dbManager.DBManagerDiagnostic);
+			OperationResult opRes = APIDatabaseHelper.UpgradeDatabaseStructure(configuration, subDatabase);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
