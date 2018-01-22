@@ -27,7 +27,9 @@ export class HttpService {
         let ok = jObject && jObject.success === true;
         let message = jObject && jObject.message ? jObject.message : "";
         let messages = jObject && jObject.messages ? jObject.messages : [];
-        messages.push(message);
+        if (message) {
+            messages.push(message);
+        }
 
         return new OperationResult(!ok, messages);
     }
