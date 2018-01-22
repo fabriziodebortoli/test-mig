@@ -55,7 +55,7 @@ import { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 import { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 import { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 import { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-//import {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+import {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
 import {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
 
 import { TopbarComponent } from './components/topbar/topbar.component';
@@ -102,7 +102,7 @@ export { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 export { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 export { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 export { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-// export {//ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+export {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
 export {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
 export { TopbarComponent } from './components/topbar/topbar.component';
 export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
@@ -129,7 +129,7 @@ export { ChangePasswordHostComponent } from './components/change-password-host/c
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
-    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,//ToolbarBottomButtonDropupComponent,
+    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
