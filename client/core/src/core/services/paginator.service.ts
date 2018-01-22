@@ -57,6 +57,10 @@ export class PaginatorService implements OnDestroy {
             return !x.ignore});
     }
 
+    public get currentPage() {
+        return this.currentServerPageNumber;
+    }
+
     public get isFirstPage(): boolean {
         return this.clientStartOffset === 0 && this.currentServerPageNumber === 0;
     }

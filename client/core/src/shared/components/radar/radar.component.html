@@ -5,13 +5,13 @@
         </div>
         <div class="toolbar-top-item functions"></div>
         <div class="toolbar-top-item navigation">
-            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]=''>
+            <button kendoButton class="top-button" (click)="selectFirst()" [title]="_TB('First')" [disabled]='!canFirst || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === 0 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='!canPrev || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-prev'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === state.rows.length - 1 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !(canNavigate$ | async)'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-next'" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="eventData.showRadar.next(false)" [title]="_TB('Close')">
@@ -50,10 +50,10 @@
                 <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
                     <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
                 </button>
-                <button kendoButton class="top-button toggle-button" (click)="areFiltersVisible = !areFiltersVisible" [title]="_TB('Show Filters')">
+                <button kendoButton class="top-button toggle-button" (click)="areFiltersVisible = !areFiltersVisible" [title]="areFiltersVisibleText">
                     <tb-icon [iconType]="'M4'" [icon]="areFiltersVisibleIcon" class="toolbar-icon"></tb-icon>
                 </button>
-                <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="_TB('Pin')">
+                <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
                     <tb-icon [iconType]="'M4'" [icon]="pinnedIcon" class="toolbar-icon"></tb-icon>
                 </button>
             </div>
