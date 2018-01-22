@@ -1726,11 +1726,29 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specified database {0} already exists on server {1}..
+        /// </summary>
+        internal static string WarningDBAlreadyExists {
+            get {
+                return ResourceManager.GetString("WarningDBAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specified database {0} does not exist on server {1}, so it will be created..
         /// </summary>
         internal static string WarningDBNotExists {
             get {
                 return ResourceManager.GetString("WarningDBNotExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified login {0} exists on server {1}..
+        /// </summary>
+        internal static string WarningLoginAlreadyExists {
+            get {
+                return ResourceManager.GetString("WarningLoginAlreadyExists", resourceCulture);
             }
         }
         
