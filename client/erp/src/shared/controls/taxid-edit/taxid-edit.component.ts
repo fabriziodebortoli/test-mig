@@ -85,8 +85,8 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     if (this.isTaxIdField(this.model.value, false))
       this.checktaxidcodeContextMenu.push(this.menuItemITCheck);
 
-    // if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, false))
-    this.checktaxidcodeContextMenu.push(this.menuItemROCheck);
+    if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, false))
+      this.checktaxidcodeContextMenu.push(this.menuItemROCheck);
 
     if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, false))
       this.checktaxidcodeContextMenu.push(this.menuItemEUCheck);
@@ -135,14 +135,13 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
       let found = r.json().found;
       if (found.length) {
         this.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
-        this.fillFields(found);
+        // this.fillFields(found);
       } else {
         this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
       }
     } catch (exc) {
       this.errorMessage = exc;
     }
-
   }
 
   async checkEU() {
@@ -157,6 +156,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     this.changeDetectorRef.detectChanges();
   }
 
+  // todo - Leggere i dati dal result e inserirli nei campi indirizzo, company, county
   async fillFields(result: any) {
     let slice = await this.store.select(this.selector).take(1).toPromise();
     if (slice.companyName) {
@@ -193,25 +193,6 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
       return false;
     }
     return fiscalcode.charAt(0) >= '0' && fiscalcode.charAt(0) <= '9';
-  }
-
-  postRquest(vatCode: string) {
-    var now = moment();
-    let today = now.format('YYYY-MM-DD');
-    vatCode = '23260646';
-
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    headers.append('Access-Control-Allow-Origin', '*');
-    let options = new RequestOptions({ headers: headers });
-    let params = [{ "cui": vatCode, "data": today }];
-    let body = JSON.stringify(params);
-
-    return this.http.post('https://webservicesp.anaf.ro/PlatitorTvaRest/api/v1/ws/tva', body, options)
-      .toPromise()
-      .then((response) => { return response.json() })
-      .catch(error => {
-        console.log('Errore ' + error);
-      });
   }
 
   get isValid(): boolean { return !this.errorMessage; }
