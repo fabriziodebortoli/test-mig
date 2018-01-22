@@ -21,7 +21,6 @@ namespace Microarea.TbLoaderGate.Application
         private WebSocket webSocket;
         private string mockFolder = "mock";
 
-
         public string MockFolder { get { return Path.Combine(hostingEnvironment.ContentRootPath, mockFolder); } }
 
         public TBLoaderStub(IHostingEnvironment hostingEnvironment, WebSocket webSocket)
@@ -38,6 +37,9 @@ namespace Microarea.TbLoaderGate.Application
             switch (url)
             {
                 case "/tb/document/initTBLogin/":
+                    text = "{\"success\" : true}";
+                    break;
+                case "/tb/document/canLogoff/":
                     text = "{\"success\" : true}";
                     break;
                 case "/tb/document/getThemes/":

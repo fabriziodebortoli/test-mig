@@ -60,7 +60,7 @@ export class ThemeService {
             if (!res.error) {
                 this.loadThemes();
             }
-            else if (res.messages) {
+            else if (res.messages && res.messages.length) {
                 this.diagnosticService.showDiagnostic(res.messages);
             }
             subs.unsubscribe();

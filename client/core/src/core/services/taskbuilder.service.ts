@@ -91,7 +91,7 @@ export class TaskBuilderService {
         return new Observable(observer => {
             let sub = this.openTbConnection().subscribe(res => {
                 sub.unsubscribe();
-                if (res.error && res.messages) {
+                if (res.error && res.messages && res.messages.length) {
                     let sub = this.diagnosticService.showDiagnostic(res.messages).subscribe(obs => {
                         sub.unsubscribe();
                         observer.next(!res.error);

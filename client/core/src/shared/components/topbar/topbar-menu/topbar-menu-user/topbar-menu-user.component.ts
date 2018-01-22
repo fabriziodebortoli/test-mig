@@ -69,7 +69,7 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
             if (!res.error) {
                 this.authService.logout();
             }
-            else {
+            else if (res.messages && res.messages.length){
                 this.diagnosticService.showDiagnostic(res.messages);
             }
             subs.unsubscribe();
