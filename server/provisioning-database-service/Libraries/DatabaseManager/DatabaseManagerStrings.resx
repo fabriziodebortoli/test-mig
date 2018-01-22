@@ -691,4 +691,10 @@ Please contact your reseller for further information.</value>
   <data name="ErrorChangingDbo" xml:space="preserve">
     <value>An error occurred during set '{0}' login as dbowner for database '{1}'.</value>
   </data>
+  <data name="WarningDBAlreadyExists" xml:space="preserve">
+    <value>Specified database {0} already exists on server {1}.</value>
+  </data>
+  <data name="WarningLoginAlreadyExists" xml:space="preserve">
+    <value>Specified login {0} exists on server {1}.</value>
+  </data>
 </root>
