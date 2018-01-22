@@ -43,8 +43,10 @@ export class TopbarMenuTestComponent  extends TbComponent{
                     return this.openTestRadar();
                 case 'idTestTree':
                     return this.openTestTree();
-                case 'idTestLayout':
+                    case 'idTestLayout':
                     return this.openTestLayout();
+                    case 'idTestMenu':
+                    return this.openTestMenu();
                 default:
                     break;
             }
@@ -61,7 +63,8 @@ export class TopbarMenuTestComponent  extends TbComponent{
         const item6 = new ContextMenuItem(this._TB('Test Radar'), 'idTestRadar', true, false);
         const item7 = new ContextMenuItem(this._TB('Test Tree'), 'idTestTree', true, false);
         const item8 = new ContextMenuItem(this._TB('Test Layout'), 'idTestLayout', true, false);
-        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7, item8);
+        const item9 = new ContextMenuItem(this._TB('Test New Toolbar'), 'idTestMenu', true, false);
+        this.menuElements.push(item1, item2, item3, item4, item5, item6, item7, item8, item9);
     }
     openDataService() {
         this.componentService.createComponentFromUrl('test/dataservice', true);
@@ -93,5 +96,8 @@ export class TopbarMenuTestComponent  extends TbComponent{
 
     openTestLayout() {
         this.componentService.createComponentFromUrl('layout/document', true);
+    }
+    openTestMenu() {
+        this.componentService.createComponentFromUrl('layout/document-menu', true);
     }
 }

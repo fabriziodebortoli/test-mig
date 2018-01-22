@@ -11,6 +11,7 @@ import { SharedModule } from './../shared/shared.module';
         CommonModule,
         RouterModule.forChild([
             { path: 'document', component: DocumentLayoutFactoryComponent },
+            { path: 'document-menu', component: DocumentLayoutFactoryComponent },
         ])],
     declarations: [
             DocumentLayoutComponent, DocumentLayoutFactoryComponent,

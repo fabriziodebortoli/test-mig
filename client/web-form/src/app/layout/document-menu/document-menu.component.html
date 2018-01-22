@@ -1,0 +1,249 @@
+﻿<tb-frame tbDataEntry>
+    <tb-toolbar-top title="Titolo della pagina" history=true>
+        <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-radar" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-top-button>
+
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+        <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+    </tb-toolbar-top>
+    <ng-container #radar></ng-container>
+    <tb-frame-content>
+        <tb-view-container>
+            <tb-view>
+                <!--    HEADER  -->
+                <tb-header tbLayoutTypeHbox tdsHeader>
+                    <tb-tile tbTileMini>
+                        <div class=col1>
+                            <tb-text caption="Number" cmpId="IDC_QUOTATIONS_TST_QUOTATIONNO" width="90" [model]="eventData?.model?.CustomerQuotation?.QuotationNo"></tb-text>
+                            <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_QUOTATIONS_TST_QUOTATIONDATE" width="57" [model]="eventData?.model?.CustomerQuotation?.QuotationDate"></tb-date-input>
+                        </div>
+                    </tb-tile>
+                    <tb-tile tbTileStandard>
+                        <div class=col1>
+                            <div class="anchored">
+                                <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
+                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
+                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
+                            </div>
+                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
+                        </div>
+                    </tb-tile>
+                    <!-- <tb-tile tbTileStandard>
+                        <div class=col1>
+                            <div class="anchored">
+                                <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
+                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
+                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
+                            </div>
+                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
+                        </div>
+                    </tb-tile> -->
+                </tb-header>
+                <!-- END HEADER -->
+
+                <!-- tilemanager -->
+                <tb-tile-manager>
+                    <tb-tile-manager-tab [title]="_TB('Main &Data')" icon="erp-sales">
+                        <ng-template>
+                            <tb-tile-group tbLayoutTypeVbox>
+                                <tb-panel [title]="_TB('Main Data')" tbTileWide [isCollapsible]="True">
+                                    <div class="col col1">
+                                        <div class="anchored">
+                                            <tb-combo cmpId="IDC_QUOTATIONS_TST_PYMTTERM" [caption]="_TB('Payment')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Payment" [hotLink]="{'name':'HKLPaymentTerms','namespace':'ERP.PaymentTerms.Dbl.PaymentTerms'}"></tb-combo>
+                                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_PYMTTERMDESCRI" [width]="154" [model]="eventData?.model?.HKLPaymentTerms?.Description"></tb-label-static>
+                                        </div>
+                                    </div>
+                                    <div class="col col2">
+                                        <div class="anchored">
+                                            <tb-combo cmpId="IDC_QUOTATIONS_ADT_PRICELIST" [caption]="_TB('Price List')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.PriceList" [hotLink]="{'name':'HKLPriceLists','namespace':'ERP.PricePolicies.Dbl.PriceLists','mustExistData':true}"></tb-combo>
+                                            <tb-label-static cmpId="IDC_QUOTATIONS_ADT_DESCRI_PRICELIST" [width]="154" [model]="eventData?.model?.HKLPriceLists?.Description"></tb-label-static>
+                                        </div>
+                                        <tb-checkbox cmpId="IDC_QUOTATIONS_ADT_AMOUNTS_DETAIL_AL_NET_TAX" [width]="109" [model]="eventData?.model?.CustomerQuotation?.NetOfTax" [caption]="_TB('Prices do not include Tax  ')"></tb-checkbox>
+                                    </div>
+                                </tb-panel>
+                                <tb-layout-container tbLayoutTypeColumn>
+                                    <tb-panel [title]="_TB('Currency')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col col1">
+                                            <div class="anchored">
+                                                <tb-combo cmpId="IDC_QUOTATIONS_TST_CURRENCY" [caption]="_TB('Currency')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Currency" [hotLink]="{'name':'HKLCurrenciesCurrObj','namespace':'ERP.Currencies.Dbl.Currencies','mustExistData':true}"></tb-combo>
+                                                <tb-label-static cmpId="IDC_QUOTATIONS_TST_DESCRI_CURRENCY" [width]="154" [model]="eventData?.model?.HKLCurrenciesCurrObj?.Description"></tb-label-static>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-date-input cmpId="IDC_QUOTATIONS_TST_DATE_FIXING" formatter="Date" [readonly]="false" [caption]="_TB('Fixing Date')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.FixingDate"></tb-date-input>
+                                                <tb-text cmpId="IDC_QUOTATIONS_DOC_FIXING" [caption]="_TB('Fixing Value')" [width]="68" [model]="eventData?.model?.CustomerQuotation?.Fixing" [hotLink]="{'name':'HKLFixing','namespace':'ERP.Currencies.Components.FixingForCurrencyDoc'}"></tb-text>
+                                            </div>
+                                        </div>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Delivery')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col col1">
+                                            <tb-date-input cmpId="IDC_QUOTATIONS_TST_EXPECTEDDELIVERYDATE" formatter="Date" [readonly]="false" [caption]="_TB('Deliver on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ExpectedDeliveryDate"></tb-date-input>
+                                            <tb-date-input cmpId="IDC_QUOTATIONS_EXPIRINGDATE" formatter="Date" [readonly]="false" [caption]="_TB('Expire on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ValidityEndingDate"></tb-date-input>
+                                        </div>
+
+                                    </tb-panel>
+                                </tb-layout-container>
+                                <tb-panel [title]="_TB('Detail')" tbTileAutoFill>
+                                    <tb-body-edit cmpId="IDC_CUSTQUOTA_DOC_BODY_DETAIL" [width]="325" [model]="eventData?.model?.Detail" [height]="126">
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_POSITION" formatter="Integer" [model]="eventData?.model?.Detail?.Position" [title]="_TB('Position')" columnType="tb-numeric-text-box">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_BE_LINETYPE" [model]="eventData?.model?.Detail?.LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DOC_DETAIL_DRAWING" [model]="eventData?.model?.Detail?.Drawing" [hotLink]="{'name':'HKLDrawingsDetail','namespace':'ERP.BillOfMaterials.Dbl.Drawings'}" [title]="_TB('Drawing')" columnType="erp-item-edit" *ngIf="eventData?.activation?.IDC_QUOTATIONS_DOC_DETAIL_DRAWING">
+                                        </tb-body-edit-column>
+                                    </tb-body-edit>
+                                </tb-panel>
+                                <tb-layout-container tbLayoutTypeColumn>
+                                    <tb-panel [title]="_TB('Shipping Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col">
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_NO_PACKS" formatter="Integer" [caption]="_TB('No. of Packs')" [width]="57" [model]="eventData?.model?.Shipping?.NoOfPacks"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_NET" formatter="Double" [caption]="_TB('Net Weight')" [width]="57" [model]="eventData?.model?.Shipping?.NetWeight"></tb-numeric-text-box>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_GROSSVOLUME" formatter="Double" [caption]="_TB('Gross Volume')" [width]="57" [model]="eventData?.model?.Shipping?.GrossVolume"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_GROSS" formatter="Double" [caption]="_TB('Gross Weight')" [width]="57" [model]="eventData?.model?.Shipping?.GrossWeight"></tb-numeric-text-box>
+                                            </div>
+                                        </div>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                        <div class="col">
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('Total Free Samples')" [decimals]="eventData?.model?.CurrencyDecimal"
+                                                [width]="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamplesDocCurr"></tb-numeric-text-box>
+                                            <div class="anchored">
+                                                <tb-text cmpId="IDC_QUOTATIONS_CCO_SUMMARY_DISCOUNT" [caption]="_TB('Additional Discount')" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountFormula"></tb-text>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_AMOUNT_DISCOUNT" formatter="Money" [caption]="_TB('Discount Amount')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.Discounts"></tb-numeric-text-box>
+                                            </div>
+                                            <div class="anchored">
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_DOC" formatter="Money" disabled="true" [caption]="_TB('Total')" [decimals]="eventData?.model?.MoneyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmount"></tb-numeric-text-box>
+                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_FROM_PAY" formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.PayableAmount"></tb-numeric-text-box>
+                                            </div>
+                                        </div>
+                                    </tb-panel>
+                                </tb-layout-container>
+                            </tb-tile-group>
+                        </ng-template>
+                    </tb-tile-manager-tab>
+                    <tb-tile-manager-tab [title]="_TB('Summa&ry')" icon="erp-money">
+                        <ng-template>
+                            <tb-tile-group tbLayoutTypeVbox>
+                                <tb-layout-container tbLayoutTypeColumn>
+                                    <tb-panel [title]="_TB('Charges')" tbTileStandard isCollapsible="False" hasTitle="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_CHARGES_BR">
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Shipment')" cmpId="IDC_QUOTATIONS_EXPENSES_SHIPPING" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.ShippingCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Insurance')" cmpId="IDC_QUOTATIONS_EXPENSES_INSURANCE" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.InsuranceCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Additional')" cmpId="IDC_QUOTATIONS_EXPENSES_ADDITIONAL" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.AdditionalCharges"></tb-numeric-text-box>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Charges')" tbTileStandard isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_CHARGES">
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Shipment')" cmpId="IDC_QUOTATIONS_EXPENSES_SHIPPING" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.ShippingCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Packing')" cmpId="IDC_QUOTATIONS_EXPENSES_PACKAGE" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.PackagingCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Collection')" cmpId="IDC_QUOTATIONS_EXPENSES_COLLECTION" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.CollectionCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Additional')" cmpId="IDC_QUOTATIONS_EXPENSES_ADDITIONAL" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.AdditionalCharges"></tb-numeric-text-box>
+                                        <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_EXPENSES_STAMPS" formatter="Money" [caption]="_TB('Stamps')" cmpId="IDC_QUOTATIONS_EXPENSES_STAMPS" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.StampsCharges"></tb-numeric-text-box>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Tax Summary')" tbTileStandard isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_TAX_SUMMARY">
+                                        <tb-body-edit cmpId="IDC_QUOTATIONS_CCO_BODY_TAXSUMMARY" width="325" [model]="eventData?.model?.TaxSummary">
+                                            <tb-body-edit-column cmpId="IDC_QUOTATIONS_RIV_COD_TAX" [model]="eventData?.model?.TaxSummary?.TaxCode" [title]="_TB('Tax Code')" columnType="tb-label-static">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TaxableAmount" [title]="_TB('Taxable Amount')" columnType="tb-numeric-text-box">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TaxAmount" [title]="_TB('Tax')" columnType="tb-numeric-text-box">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.AdditionalTaxAmount" [title]="_TB('Additional Tax')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_TAX">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TOTALAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TotalAmount" [title]="_TB('Total')" columnType="tb-numeric-text-box">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TaxableAmountDocCurr" [title]="_TB('Taxable Amount (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_CURRENCY">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TaxAmountDocCurr" [title]="_TB('Tax (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TAXAMOUNT_CURRENCY">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.AdditionalTaxAmountDocCurr" [title]="_TB('Additional Tax (Foreign Currency)')" columnType="tb-numeric-text-box"
+                                                *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_CURRENCY">
+                                            </tb-body-edit-column>
+                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TOTALAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TotalAmountDocCurr" [title]="_TB('Total (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TOTALAMOUNT_CURRENCY">
+                                            </tb-body-edit-column>
+                                        </tb-body-edit>
+                                    </tb-panel>
+                                </tb-layout-container>
+                                <tb-panel [title]="_TB('Totals')" tbTileWide>
+                                    <div class="col col1">
+                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Goods')" cmpId="IDC_QUOTATIONS_CCO_TOT_GOODS" width="68" [model]="eventData?.model?.CustQuotasSummary?.GoodsAmount"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Services')" cmpId="IDC_QUOTATIONS_CCO_TOT_SERVICEAMOUNTS" width="68" [model]="eventData?.model?.CustQuotasSummary?.ServiceAmounts"></tb-numeric-text-box>
+                                        <div class="anchored">
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('Free Samples')" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" width="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamplesDocCurr"></tb-numeric-text-box>
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES" formatter="Money" disabled="true" [caption]="_TB('in Base Currency')" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES" width="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamples"></tb-numeric-text-box>
+                                        </div>
+                                        <tb-section-title cmpId="IDC_STATIC_DISCOUNT" width="325" [caption]="_TB('Discounts')"></tb-section-title>
+                                        <div class="anchored">
+                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Goods')" cmpId="IDC_QUOTATIONS_CCO_TOT_DISCOUNTS_GOODS_DETAIL" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountOnGoods"></tb-numeric-text-box>
+                                            <tb-numeric-text-box formatter="Money" [caption]="_TB('Discount Amount')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_DISCOUNT" width="68" [model]="eventData?.model?.CustQuotasSummary?.Discounts"></tb-numeric-text-box>
+                                        </div>
+                                        <div class="anchored">
+                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Services')" cmpId="IDC_QUOTATIONS_CCO_TOT_DISCOUNTS_SERVICEAMOUNTS_DETAIL" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountOnServices"></tb-numeric-text-box>
+                                            <tb-text [caption]="_TB('Additional Discount')" cmpId="IDC_QUOTATIONS_CCO_SUMMARY_DISCOUNT" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountFormula"></tb-text>
+                                        </div>
+                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_QUOTATIONS_CCO_TOT_GEN_DISCOUNTS" width="68" [model]="eventData?.model?.CustQuotasSummary?.GeneralDiscountTot"></tb-numeric-text-box>
+                                    </div>
+                                    <div class="col col2">
+                                        <div class="anchored">
+                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Document Total')" cmpId="IDC_QUOTATIONS_CCO_TOT_DOC" width="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmount"></tb-numeric-text-box>
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_DOC_IN_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('in Foreign Currency')" cmpId="IDC_QUOTATIONS_CCO_TOT_DOC_IN_CURRENCY" width="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmountDocCurr"></tb-numeric-text-box>
+                                        </div>
+                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Advances')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_ADVANCES" width="68" [model]="eventData?.model?.CustQuotasSummary?.Advance"></tb-numeric-text-box>
+                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Allowances')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_ALLOWANCES" width="68" [model]="eventData?.model?.CustQuotasSummary?.Allowances"></tb-numeric-text-box>
+                                        <div class="anchored">
+                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" cmpId="IDC_QUOTATIONS_CCO_TOT_FROM_PAY" width="68" [model]="eventData?.model?.CustQuotasSummary?.PayableAmount"></tb-numeric-text-box>
+                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_PAYABLEAMOUNTINBASECURR_CURRENCY_BASE" formatter="Money" disabled="true" [caption]="_TB('in Base Currency')" cmpId="IDC_QUOTATIONS_CCO_PAYABLEAMOUNTINBASECURR_CURRENCY_BASE" width="68"
+                                                [model]="eventData?.model?.CustQuotasSummary?.PayableAmountInBaseCurr"></tb-numeric-text-box>
+                                        </div>
+                                    </div>
+                                </tb-panel>
+                            </tb-tile-group>
+                        </ng-template>
+                    </tb-tile-manager-tab>
+                </tb-tile-manager>
+                <!-- END tilemanager -->
+
+            </tb-view>
+        </tb-view-container>
+        <tb-dockpane-container>
+            <tb-dockpane [title]="_TB('A')" iconType="M4" icon="erp-cash">
+                <ng-template>
+                    <tb-view>
+                        <p>AAA</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('B')" iconType="M4" icon="erp-checkprices">
+                <ng-template>
+                    <tb-view>
+                        <p>BBB</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('C')" iconType="M4" icon="erp-components">
+                <ng-template>
+                    <tb-view>
+                        <p>CCC</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+        </tb-dockpane-container>
+    </tb-frame-content>
+    <tb-toolbar-bottom>
+        <!-- <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_IMPORT_XML_DATA?.enabled" icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXPORT_XML_DATA?.enabled" icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-toolbar-bottom-button> -->
+        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+    </tb-toolbar-bottom>
+</tb-frame>
