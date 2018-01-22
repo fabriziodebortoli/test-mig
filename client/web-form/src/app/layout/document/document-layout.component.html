@@ -2,15 +2,16 @@
     <tb-toolbar-top title="Titolo della pagina" history=true>
         <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-radar" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-top-button>
-
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button-dropdown></tb-toolbar-top-button-dropdown>
         <tb-toolbar-separator></tb-toolbar-separator>
         <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
         <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
-
         <tb-toolbar-separator></tb-toolbar-separator>
         <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+
     </tb-toolbar-top>
     <ng-container #radar></ng-container>
     <tb-frame-content>
