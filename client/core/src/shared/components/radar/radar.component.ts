@@ -25,7 +25,7 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
 
 export class RadarState {
     readonly rows = [];
-    readonly columns = [];
+    readonly columns = []; ager
     readonly selectedIndex: number = 0;
     readonly lastChangedFilterIdx: number = 0;
     readonly view = ViewStates.closed;
@@ -62,7 +62,8 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     pinned = false;
     areFiltersVisible = false;
     public selectableSettings: SelectableSettings;
-    private lastSelectedKeyOnChange: string;
+    private lastSelectedKey: string;
+    private lastSelectedKeyPage = -1;
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
@@ -79,7 +80,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
-                p.set('page', (pageNumber + 1).toString()); // test numbers
+                p.set('page', (pageNumber + 1).toString());
                 p.set('per_page', serverPageSize.toString());
                 if (otherParams.customFilters)
                     p.set('customFilters', JSON.stringify(otherParams.customFilters));
@@ -99,7 +100,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
-        this.storeViewSelectionByKey();
+        this.storeViewSelection();
         let maxCols = Math.min(d.columns.length, this.maxColumns);
         const rows = d.columns.length < maxCols ? d.rows :
             d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
@@ -110,7 +111,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
             rows: rows
         };
         this.gridData$.next({ data: this.state.rows, total: d.total, columns: this.state.columns });
-        this.restoreViewSelectionByKey();
+        this.restoreViewSelection();
     }
 
     private get filter(): CompositeFilterDescriptor {
@@ -140,20 +141,16 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
     }
 
+    get pinnedText() {
+        return this.pinned ? this._TB('Unpin Radar') : this._TB('Pin Radar');
+    }
+
+    get areFiltersVisibleText() {
+        return this.areFiltersVisible ? this._TB('Hide Filters') : this._TB('Show Filters');
+    }
+
     async pageChange(event: PageChangeEvent) {
         this.paginator.pageChange(event.skip, event.take);
-    }
-
-    private storeViewSelectionByKey() { // workaround for kendo-grid issue 1040
-        if (this.state.selectionKeys.length)
-            this.lastSelectedKeyOnChange = this.state.selectionKeys[0];
-    }
-
-    private restoreViewSelectionByKey() { // workaround for kendo-grid issue 1040
-        this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
-        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKeyOnChange)
-        if (idx === -1) return;
-        this.state = { ...this.state, selectionKeys: [this.lastSelectedKeyOnChange], selectedIndex: idx };
     }
 
     selectedKeysChange(e) {
@@ -205,16 +202,70 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         }, 100);
     }
 
-    public setSelectableSettings(): void {
+    public setSelectableSettings() {
         this.selectableSettings = {
             mode: 'single'
         };
     }
 
-    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
+    async selectFirst() {
+        this.unselect();
+        if (!this.paginator.isFirstPage)
+            await this.paginator.firstPage();
+        this.selectByIndex(0);
+    }
+
+    async selectPrevious() {
+        if (this.state.selectedIndex === 0 && this.paginator.currentPage > 0) {
+            this.unselect();
+            await this.paginator.pageChange((this.paginator.currentPage - 1) * this.pageSize, this.pageSize);
+            this.selectByIndex(this.state.rows.length - 1);
+            return;
+        }
+        this.selectByIndex(this.state.selectedIndex - 1);
+    }
+
+    async selectNext() {
+        if (this.state.selectedIndex === this.state.rows.length - 1) {
+            this.unselect();
+            await this.paginator.pageChange((this.paginator.currentPage + 1) * this.pageSize, this.pageSize);
+            this.selectByIndex(0);
+            return;
+        }
+        this.selectByIndex(this.state.selectedIndex + 1);
+    }
+
+    private unselect() {
+        this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
+    }
+
+    get canFirst() {
+        return this.state.selectedIndex !== -1 && (!this.paginator.isFirstPage || this.state.selectedIndex > 0);
+    }
+
+    get canNext() {
+        return this.state.selectedIndex !== -1 && (!this.paginator.noMorePages || this.state.selectedIndex < this.state.rows.length - 1);
+    }
+
+    get canPrev() {
+        return this.state.selectedIndex !== -1 && (!this.paginator.isFirstPage || this.state.selectedIndex > 0);
+    }
+
     coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
-    selectPrevious = () => this.selectByIndex(this.state.selectedIndex - 1);
-    selectNext = () => this.selectByIndex(this.state.selectedIndex + 1);
+    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
     stop = () => this.paginator.stop();
-    toggle = () => this.state = { ...this.state, view: this.state.view === ViewStates.opened ? ViewStates.closed : ViewStates.opened };
+    toggle = () => this.state = { ...this.state, view: this.state.view === ViewStates.opened ? ViewStates.closed : ViewStates.opened }
+
+    private storeViewSelection() { // workaround for kendo-grid issue 1040
+        if (this.state.selectionKeys.length) {
+            this.lastSelectedKey = this.state.selectionKeys[0];
+        }
+    }
+
+    private restoreViewSelection() { // workaround for kendo-grid issue 1040
+        this.unselect();
+        let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKey)
+        if (idx === -1) return;
+        this.state = { ...this.state, selectionKeys: [this.lastSelectedKey], selectedIndex: idx };
+    }
 }

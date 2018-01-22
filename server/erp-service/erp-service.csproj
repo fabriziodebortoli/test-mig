@@ -48,6 +48,10 @@
   <ItemGroup>
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
+  </ItemGroup>
   
     <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <Exec Command="dotnet bundle" />
