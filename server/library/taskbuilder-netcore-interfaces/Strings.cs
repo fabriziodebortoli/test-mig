@@ -1105,12 +1105,13 @@ namespace TaskBuilderNetCore.Interfaces
         public const string UpgradeScript = "Upgrade";
         public const string All = "all";
         public const string SqlServer = "SqlServer";
-        public const string Oracle = "Oracle";
+		public const string SQLAzure = "SQLAzure";
+		public const string Oracle = "Oracle";
         public const string Postgre = "Postgre";
-        #endregion
+		#endregion
 
-        #region Contenitori di applicazioni
-        public const string TaskBuilder = "TaskBuilder";
+		#region Contenitori di applicazioni
+		public const string TaskBuilder = "TaskBuilder";
         public const string TaskBuilderApplications = "Applications";
         public const string TbApplication = "TbApplication";
         public const string EasyBuilderApplication = "EasyBuilderApplication";
