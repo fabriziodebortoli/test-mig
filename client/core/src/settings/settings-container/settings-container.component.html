@@ -19,14 +19,14 @@
                     </tb-tile-manager-tab>
                     <tb-tile-manager-tab title="{{_TB('Product info')}}" icon="tb-info">
                         <ng-template>
-                            <tb-tilegroup title="{{localizationService.localizedElements?.ViewAccountInfo}}" icon="tb-user">
-                                <tb-layoutcontainer tbLayoutTypeColumn>
+                            <tb-tile-group title="{{localizationService.localizedElements?.ViewAccountInfo}}" icon="tb-user">
+                                <tb-layout-container tbLayoutTypeColumn>
                                     <tb-tile title="{{localizationService.localizedElements?.ViewAccountInfo}}" tbTileStandard>
                                         <!-- CHANGE PASSWORD -->
                                         <tb-change-password-host></tb-change-password-host>
                                     </tb-tile>
-                                </tb-layoutcontainer>
-                            </tb-tilegroup>
+                                </tb-layout-container>
+                            </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
                 </tb-tile-manager>
