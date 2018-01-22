@@ -96,6 +96,7 @@
         "@progress/kendo-file-saver": "^1.0.4",
         "@progress/kendo-popup-common": "^1.2.3",
         "@progress/kendo-theme-default": "^2.45.2",
+        "@progress/kendo-angular-gauges": "^1.0.0",
         "bwip-angular2": "^1.0.4",
         "moment": "^2.19.1"
     }
