@@ -37,29 +37,7 @@ namespace Microarea.TbJson
                   )
              );
 
-        public static JObject FindAnchoredObjectInSiblings(JArray jItems, JObject currentObject)
-        {
-            string anchorName = string.Empty;
-            if (currentObject["id"] != null)
-            {
-                anchorName = currentObject["id"].ToString();
-            }
 
-            foreach (JObject current in jItems.Children<JObject>())
-            {
-                if (current["anchor"] != null)
-                {
-                    string anchor = current["anchor"].ToString();
-                    if (string.Compare(anchor, "col1", true) == 0 || string.Compare(anchor, "col2", true) == 0)
-                        continue;
-
-                    if (string.Compare(anchor, anchorName, true) == 0)
-                        return current;
-                }
-            }
-
-            return null;
-        }
 
         public static string ResolveGetParentNameFunction(string ds, JObject jObj)
         {

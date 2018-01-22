@@ -442,7 +442,7 @@ namespace Microarea.TbJson
                     map[tag] = buttons;
                 }
                 if (!btn.GetBool(Constants.isSeparator) && buttons.Find(btn.GetId()) == null)
-                    buttons.Add(btn);      
+                    buttons.Add(btn);
             }
         }
 
@@ -732,7 +732,7 @@ namespace Microarea.TbJson
                             htmlWriter.WriteAttribute("[title]", jObj.GetLocalizableString(Constants.text));
 
                             string iconType = jObj.GetFlatString(Constants.iconType);
-                            iconType = string.IsNullOrEmpty(iconType) ? "M4" : iconType ;
+                            iconType = string.IsNullOrEmpty(iconType) ? "M4" : iconType;
                             htmlWriter.WriteAttribute(Constants.iconType, iconType);
 
                             string icon = jObj.GetFlatString(Constants.icon);
@@ -906,11 +906,11 @@ namespace Microarea.TbJson
                                 {
                                     w2.CloseBeginTag();
 
-                                    GenerateTileGroup(jObj, Constants.tbTileGroup, type);                                    
+                                    GenerateTileGroup(jObj, Constants.tbTileGroup, type);
                                 }
-                                
+
                             }
-                            
+
                             break;
                         }
 
@@ -923,49 +923,25 @@ namespace Microarea.TbJson
                 case WndObjType.Tile:
                     {
                         string title = jObj.GetLocalizableString(Constants.text);
-                        if (!string.IsNullOrEmpty(title))
+                        string tag = string.IsNullOrEmpty(title) ? Constants.tbTile : Constants.tbPanel;
+                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbPanel, this, false))
-                            {
-                                htmlWriter.WriteAttribute(Square(Constants.title), title);
+                            htmlWriter.WriteAttribute(Square(Constants.title), title);
 
-                                htmlWriter.Write(" tbTile");
-                                htmlWriter.Write(jObj.GetTileDialogSize().ToString());
-                                htmlWriter.Write(" ");
+                            htmlWriter.Write(" tbTile");
+                            htmlWriter.Write(jObj.GetTileDialogSize().ToString());
+                            htmlWriter.Write(" ");
 
-                                WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
-                                WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
+                            WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
+                            WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
 
-                                WriteActivationAttribute(jObj);
+                            WriteActivationAttribute(jObj);
 
-                                w.CloseBeginTag();
+                            w.CloseBeginTag();
+                            GenerateTileChildren(jObj, type);
 
-                                if (jObj.GetTileDialogSize() == TileDialogSize.Wide)
-                                    GenerateColsHtmlChildren(jObj, type);
-                                else
-                                    GenerateHtmlChildren(jObj, type);
-                            }
                         }
-                        else
-                        {
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTile, this, false))
-                            {
 
-                                htmlWriter.Write(" tbTile");
-                                htmlWriter.Write(jObj.GetTileDialogSize().ToString());
-                                htmlWriter.Write(" ");
-
-                                WriteActivationAttribute(jObj);
-
-                                w.CloseBeginTag();
-
-                                if (jObj.GetTileDialogSize() == TileDialogSize.Wide)
-                                    GenerateColsHtmlChildren(jObj, type);
-                                else
-                                    GenerateHtmlChildren(jObj, type);
-                            }
-                        }
-                        
                         break;
                     }
 
@@ -1268,18 +1244,6 @@ namespace Microarea.TbJson
             }
             htmlWriter.WriteAttribute(tsPropName, val);
         }
-        //internal void WriteTextHint(JObject jObj)
-        //{
-        //    var text = jObj["text"];
-        //    var hint = jObj["hint"] ?? text;
-
-        //    if (text == null) return;
-
-        //    var varName = (jObj["id"] ?? jObj["name"]).ToString();
-
-        //    toAppendToDeclaration.AppendIfNotExist($"public {varName}_Strings: {{ text: string, hint: string }};\r\n");
-        //    toAppendToDefinition.AppendIfNotExist($"this.{varName}_Strings = {{text: '{text}', hint: '{hint}'}}; \r\n");
-        //}
 
         //-----------------------------------------------------------------------------------------
         private void AddIconAttribute(JObject jObj)
@@ -1388,22 +1352,22 @@ namespace Microarea.TbJson
                         field));
                 }
 
-                    JObject jHKL = jBinding.GetObject(Constants.hotLink);
-                    if (jHKL != null)
-                    {
-                        string hkl = jHKL.ToString();
-                        hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
+                JObject jHKL = jBinding.GetObject(Constants.hotLink);
+                if (jHKL != null)
+                {
+                    string hkl = jHKL.ToString();
+                    hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
 
-                        if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
-                        {
-                            string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
-                            string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
-                            hkl = hkl.Replace(hklExpr, hklValue);
-                        }
-                    htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
+                    if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
+                    {
+                        string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
+                        string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
+                        hkl = hkl.Replace(hklExpr, hklValue);
                     }
+                    htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
                 }
             }
+        }
 
         //-----------------------------------------------------------------------------------------
         private void WriteTreeAttributes(JObject jObj, WebControl wc)
@@ -1434,7 +1398,7 @@ namespace Microarea.TbJson
                 {
                     String value = arg.Value;
                     if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
-        {
+                    {
                         value = jObj.GetFlatString(value.Substring(1, value.Length - 2));
                     }
 
@@ -1488,23 +1452,23 @@ namespace Microarea.TbJson
             }
 
             // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
-                if (jObj[Constants.selector] is JObject jSelector)
-                {
-                    WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
-                }
-                else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
-                {
-                    WriteSelector(cmpId, wc.Selector.value, jObj);
-                }
+            if (jObj[Constants.selector] is JObject jSelector)
+            {
+                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
+            }
+            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
+            {
+                WriteSelector(cmpId, wc.Selector.value, jObj);
+            }
 
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
-                
 
-			WriteAttribute(jObj, Constants.decimals, Constants.decimals);
+
+            WriteAttribute(jObj, Constants.decimals, Constants.decimals);
             WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
-			WriteAttribute(jObj, Constants.width, Constants.width);
+            WriteAttribute(jObj, Constants.width, Constants.width);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
 
@@ -1572,78 +1536,98 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------
-        private void GenerateColsHtmlChildren(JToken jObj, WndObjType parentType)
+        private void GenerateTileChildren(JToken jObj, WndObjType parentType)
         {
-            JArray alreadyAddedObjects = new JArray();
+            Dictionary<string, List<JObject>> anchorMap = new Dictionary<string, List<JObject>>();
             JArray jItems = jObj.GetItems();
-            if (jItems != null)
-            {
-                JEnumerable<JObject> children = jItems.Children<JObject>();
-
-                htmlWriter.Write("<div class=\"col col1\">");
-                foreach (JObject obj in children)
-                {
-                    if (alreadyAddedObjects.Find((JObject)obj))
-                        continue;
-
-                    if (obj["anchor"] != null && string.Compare(obj["anchor"].ToString(), "col1", true) == 0)
-                    {
-                        GenerateItemsOnSameLine(alreadyAddedObjects, jItems, obj, parentType);
-                    }
-                }
-                htmlWriter.Write("</div>");
-
-                htmlWriter.Write("<div class=\"col col2\">");
-                foreach (JObject obj in children)
-                {
-                    if (alreadyAddedObjects.Find((JObject)obj))
-                        continue;
-                    if (obj["anchor"] != null && string.Compare(obj["anchor"].ToString(), "col2", true) == 0)
-                    {
-                        GenerateItemsOnSameLine(alreadyAddedObjects, jItems, obj, parentType);
-                    }
-                }
-                htmlWriter.Write("</div>");
-            }
-        }
-
-        //-----------------------------------------------------------------------------
-        private void GenerateItemsOnSameLine(JArray alreadyAddedObjects, JArray jItems, JObject obj, WndObjType parentType)
-        {
-            JObject foundObject = FindAnchoredObjectInSiblings(jItems, obj);
-            if (foundObject == null)
-            {
-                if (alreadyAddedObjects.Find(obj))
-                    return;
-
-                GenerateHtml(obj, parentType);
+            if (jItems == null)
                 return;
-            }
 
-            htmlWriter.Write("<div class=\"anchored\">");
-
-            GenerateHtml(obj, parentType);
-
-            while (foundObject != null)
+            List<JObject> l = null;
+            JEnumerable<JObject> children = jItems.Children<JObject>();
+            foreach (JObject obj in children)
             {
-                alreadyAddedObjects.Add(foundObject);
+                string anchor = obj.GetFlatString(Constants.anchor);
+                if (string.IsNullOrEmpty(anchor))
+                    anchor = Constants.COL1;
 
-                GenerateHtml(foundObject, parentType);
-                foundObject = FindAnchoredObjectInSiblings(jItems, foundObject);
+                if (!anchorMap.TryGetValue(anchor, out l))
+                {
+                    l = new List<JObject>();
+                    anchorMap[anchor] = l;
+                }
+                l.Add(obj);
+
             }
-            htmlWriter.Write("</div>");
+
+            if (anchorMap.TryGetValue(Constants.COL1, out l))
+            {
+                using (OpenCloseTagWriter w = new OpenCloseTagWriter("div", this, false))
+                {
+                    htmlWriter.Write(" class=\"col col1\"");
+                    w.CloseBeginTag();
+                    foreach (JObject obj in l)
+                    {
+                        GenerateInlineControls(obj, parentType, anchorMap, true);
+
+                    }
+                }
+            }
+
+            if (anchorMap.TryGetValue(Constants.COL2, out l))
+            {
+                using (OpenCloseTagWriter w = new OpenCloseTagWriter("div", this, false))
+                {
+                    htmlWriter.Write(" class=\"col col2\"");
+                    w.CloseBeginTag();
+                    foreach (JObject obj in l)
+                    {
+                        GenerateInlineControls(obj, parentType, anchorMap, true);
+
+                    }
+                } 
+            }
+
         }
+
+        private void GenerateInlineControls(JObject obj, WndObjType parentType, Dictionary<string, List<JObject>> anchorMap, bool needOuterDiv)
+        {
+            List<JObject> l = null;
+            string id = obj.GetId();
+            
+            if (!string.IsNullOrEmpty(id) && anchorMap.TryGetValue(id, out l))
+            {
+                OpenCloseTagWriter w = null;
+                if (needOuterDiv)
+                {
+                    w = new OpenCloseTagWriter("div", this, false);
+                    htmlWriter.Write(" class=\"anchored\"");
+                    w.CloseBeginTag();
+                }
+                GenerateHtml(obj, parentType);
+                foreach (JObject objSameLine in l)
+                    GenerateInlineControls(objSameLine, parentType, anchorMap, false);
+
+                if (w != null)
+                    w.Dispose();
+
+            }
+            else
+            {
+                GenerateHtml(obj, parentType);
+            }
+        }
+
 
         //-----------------------------------------------------------------------------
         private void GenerateHtmlChildren(JToken jObj, WndObjType parentType)
         {
-            var alreadyAddedObjects = new JArray();
             JArray jItems = jObj.GetItems();
             if (jItems != null)
             {
                 foreach (JObject obj in jItems.Children<JObject>())
                 {
-                    GenerateItemsOnSameLine(alreadyAddedObjects, jItems, obj, parentType);
+                    GenerateHtml(obj, parentType);
                 }
             }
         }

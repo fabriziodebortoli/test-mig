@@ -131,5 +131,8 @@
         internal const string sort = "sort";
         internal const string stateData = "stateData";
         internal const string rowViewForm = "rowViewForm";
+        internal const string anchor = "anchor";
+        internal const string COL1 = "COL1";
+        internal const string COL2 = "COL2";
     }
 }

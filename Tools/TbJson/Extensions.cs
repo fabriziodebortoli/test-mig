@@ -344,6 +344,11 @@ namespace Microarea.TbJson
                 }
                 return ValueType.PLAIN;
             }
+            if (result.Type == JTokenType.Boolean)
+            {
+                val = result.ToString().ToLowerInvariant();
+                return ValueType.PLAIN;
+            }
             if (result.Type == JTokenType.Object)
             {
                 string c = result[Constants.Const]?.ToString();
