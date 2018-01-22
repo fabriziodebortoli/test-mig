@@ -5,7 +5,7 @@
         </div>
         <div class="toolbar-top-item functions"></div>
         <div class="toolbar-top-item navigation">
-            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === 0 || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectByIndex(0)" [title]="_TB('First')" [disabled]=''>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='state.selectedIndex === -1 || state.selectedIndex === 0 || !(canNavigate$ | async)'>
@@ -44,6 +44,7 @@
         <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
             <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
             <kendo-pager-numeric-buttons></kendo-pager-numeric-buttons>
+            <div class="pager-number">{{currentPage}}</div>
             <kendo-pager-next-buttons></kendo-pager-next-buttons>
             <div class="pager-buttons">
                 <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">

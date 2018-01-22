@@ -79,7 +79,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
-                p.set('page', (pageNumber + 1).toString()); // test numbers
+                p.set('page', (pageNumber + 1).toString());
                 p.set('per_page', serverPageSize.toString());
                 if (otherParams.customFilters)
                     p.set('customFilters', JSON.stringify(otherParams.customFilters));
@@ -216,5 +216,5 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     selectPrevious = () => this.selectByIndex(this.state.selectedIndex - 1);
     selectNext = () => this.selectByIndex(this.state.selectedIndex + 1);
     stop = () => this.paginator.stop();
-    toggle = () => this.state = { ...this.state, view: this.state.view === ViewStates.opened ? ViewStates.closed : ViewStates.opened };
+    toggle = () => this.state = { ...this.state, view: this.state.view === ViewStates.opened ? ViewStates.closed : ViewStates.opened }
 }
