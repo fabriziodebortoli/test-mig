@@ -57,12 +57,34 @@ Report
 		Variables
 			Double       w_pointer1 [23] Alias 1 ;
 			Double       w_pointer2 [23] Alias 2 ;
+			
+			String       w_CompanyName [64] Alias 3 Hidden;
 		End
 
 		Rules
+			From MA_Company 
+			Select  Not NULL 
+				CompanyName          Into w_CompanyName ;
+
 			w_pointer1 = 30 ;
 
 			w_pointer2 = 50 ;
+		End
+		Events
+			Report : Do
+				Always 
+					Begin
+						Display w_pointer1, w_pointer2;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
 		End
 
 End

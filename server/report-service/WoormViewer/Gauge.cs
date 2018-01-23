@@ -376,17 +376,19 @@ namespace Microarea.RSWeb.Objects
         //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
         {
+            Document.SynchronizeSymbolTable();
+
             string name = "gauge";
 
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
-            s += '{' + base.ToJsonData(false)+'}';
+            s += '{' + base.ToJsonData(false);
 
 
             if (pointers.Count > 0)
-                s += ", pointers:[";
+                s += ", \"pointers\":[";
             for(int i = 0; i < pointers.Count; i++)
             {
                 var pointer = pointers[i];
@@ -397,7 +399,7 @@ namespace Microarea.RSWeb.Objects
             }
            
             if (pointers.Count > 0)
-                s += "]";
+                s += "]}";
 
             if (bracket)
                 s = '{' + s + '}';

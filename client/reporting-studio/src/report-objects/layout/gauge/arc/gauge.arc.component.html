@@ -1,4 +1,4 @@
-<kendo-arcgauge [value]="5" >
+<kendo-arcgauge [value]="gauge.pointers[0].value" [colors]="gauge.ranges">
     <ng-template kendoArcGaugeCenterTemplate let-value="value" let-color="color">
         <span [style.color]="color">{{ value }}</span>
     </ng-template>
