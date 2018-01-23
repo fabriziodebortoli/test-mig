@@ -694,23 +694,7 @@ namespace Microarea.TbJson
                         break;
                     }
 
-                case WndObjType.Toolbar:
-                    {
-                        string tag = (string)jObj[Constants.ngTag];
-                        if (!string.IsNullOrEmpty(tag))
-                        {
-                            if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
-                                htmlWriter.Write("  <ng-container #radar></ng-container>\r\n");
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
-                            {
-                                WriteActivationAttribute(jObj);
-                                w.CloseBeginTag();
-                                GenerateHtmlChildren(jObj, type);
-                            }
-                        }
-
-                        break;
-                    }
+         
 
                 case WndObjType.View:
                     {
@@ -745,7 +729,23 @@ namespace Microarea.TbJson
 
                         break;
                     }
+                case WndObjType.Toolbar:
+                    {
+                        string tag = (string)jObj[Constants.ngTag];
+                        if (!string.IsNullOrEmpty(tag))
+                        {
+                            if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
+                                htmlWriter.Write("  <ng-container #radar></ng-container>\r\n");
+                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
+                            {
+                                WriteActivationAttribute(jObj);
+                                w.CloseBeginTag();
+                                GenerateHtmlChildren(jObj, type);
+                            }
+                        }
 
+                        break;
+                    }
                 case WndObjType.ToolbarButton:
                     {
                         bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();

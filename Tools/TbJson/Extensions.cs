@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -120,32 +121,32 @@ namespace Microarea.TbJson
             ? jObj[name] as JObject
             : null;
         }
-		/// <summary>
-		/// Prepara una stringa alla localizzazione con _TB()
-		/// </summary>
-		//-----------------------------------------------------------------------------
-		internal static string GetLocalizableString(this JToken jObj, string name)
-		{
-			if (!(jObj is JObject))
-				return null;
-			var result = jObj[name];
+        /// <summary>
+        /// Prepara una stringa alla localizzazione con _TB()
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        internal static string GetLocalizableString(this JToken jObj, string name)
+        {
+            if (!(jObj is JObject))
+                return null;
+            var result = jObj[name];
 
-			if (result == null || !(result is JValue))
-				return null;
-			string text = result.Value<string>();
+            if (result == null || !(result is JValue))
+                return null;
+            string text = result.Value<string>();
             if (text == null)
                 return null;
             if (Helpers.AdjustExpression(ref text))
-			{
+            {
                 return text;
-			}
+            }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
             text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
             //HttpUtility.HtmlEncode(text.Replace("'", "\\'"));
 
             return string.Concat("_TB('", text, "')");
-		}
-  
+        }
+
         //-----------------------------------------------------------------------------
         private static string ReplaceInLocalizableString(Match match)
         {
@@ -177,7 +178,7 @@ namespace Microarea.TbJson
             JArray jAr = jObj.GetItems();
             if (jAr == null)
                 return;
-			//toolbar
+            //toolbar
             JArray sorted = new JArray(jAr.OrderBy(obj => obj.GetCategoryOrdinal()));
             jObj[Constants.items] = sorted;
             foreach (JObject jButton in sorted)
@@ -187,7 +188,7 @@ namespace Microarea.TbJson
                     continue;
                 JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
                 jButton[Constants.items] = buttonsSorted;
-        }
+            }
         }
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
@@ -207,18 +208,18 @@ namespace Microarea.TbJson
             switch (jObj.GetCommandCategory())
             {
                 case CommandCategory.Search:
-				case CommandCategory.Radar:
-				case CommandCategory.Navigation:
+                case CommandCategory.Radar:
+                case CommandCategory.Navigation:
                 case CommandCategory.Advanced:
                 case CommandCategory.Tools:
-				case CommandCategory.Edit:
-				case CommandCategory.Exit:
-					return Constants.tbToolbarTopButton;
+                case CommandCategory.Edit:
+                case CommandCategory.Exit:
+                    return Constants.tbToolbarTopButton;
                 case CommandCategory.Print:
                 //case CommandCategory.Edit:
                 case CommandCategory.Undefined:
-				case CommandCategory.Fab:
-				default:
+                case CommandCategory.Fab:
+                default:
                     return Constants.tbToolbarBottomButton;
             }
         }
@@ -230,13 +231,13 @@ namespace Microarea.TbJson
             switch (jObj.GetCommandCategory())
             {
                 case CommandCategory.Search:
-				case CommandCategory.Radar:
-				case CommandCategory.Navigation:
+                case CommandCategory.Radar:
+                case CommandCategory.Navigation:
                 case CommandCategory.Advanced:
                 case CommandCategory.Tools:
-				case CommandCategory.Edit:
-				case CommandCategory.Exit:
-					return Constants.tbToolbarTop;
+                case CommandCategory.Edit:
+                case CommandCategory.Exit:
+                    return Constants.tbToolbarTop;
                 case CommandCategory.Print:
                 case CommandCategory.Undefined:
                 default:
@@ -357,7 +358,7 @@ namespace Microarea.TbJson
                     val = "";
                     return ValueType.NOT_FOUND;
                 }
-                
+
                 val = c;
                 return ValueType.CONSTANT;
             }
@@ -365,30 +366,37 @@ namespace Microarea.TbJson
             val = result.ToString();
             return ValueType.PLAIN;
         }
+        static IList buttonOrder = new string[]{
+                "ID_EXTDOC_FIND",
+                "ID_EXTDOC_RADAR",
+
+                "ID_EXTDOC_FIRST",
+                "ID_EXTDOC_PREV",
+                "ID_EXTDOC_NEXT",
+                "ID_EXTDOC_LAST",
+
+                "ID_EXTDOC_NEW",
+                "ID_EXTDOC_EDIT",
+                "ID_EXTDOC_DELETE",
+
+                "ID_EXTDOC_REFRESH_ROWSET",
+                "ID_EXTDOC_EXIT"
+            }.ToList();
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
         /// </summary>
         internal static int GetButtonOrdinal(this JToken jObj)
         {
-            string[] ar = new string[]{
-                "ID_EXTDOC_EDIT",
-                "ID_EXTDOC_NEW",
-                "ID_EXTDOC_DELETE",
-                "ID_EXTDOC_FIRST",
-                "ID_EXTDOC_PREV",
-                "ID_EXTDOC_NEXT",
-                "ID_EXTDOC_LAST",
-                "ID_EXTDOC_EXIT"
-            };
+
             WndObjType type = jObj.GetWndObjType();
             if (type == WndObjType.ToolbarButton)
             {
                 string id = jObj.GetId();
-                int idx = ar.ToList().IndexOf(id);
+                int idx = buttonOrder.IndexOf(id);
                 return idx;
             }
 
-            return 10;//vista o altri oggetti analoghi
+            return 100;//bottoni residuali
         }
         /// <summary>
         /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
@@ -397,32 +405,33 @@ namespace Microarea.TbJson
         {
             WndObjType type = jObj.GetWndObjType();
             if (type == WndObjType.Toolbar || type == WndObjType.ToolbarButton)
-			{
+            {
                 switch (jObj.GetCommandCategory())
                 {
-					case CommandCategory.Edit:
-						return 1;
-					case CommandCategory.Search:
+                    case CommandCategory.Search:
+                        return 1;
+                    case CommandCategory.Navigation:
                         return 2;
-					case CommandCategory.Radar:
-						return 3;
-					case CommandCategory.Navigation:
+                    case CommandCategory.Edit:
+                        return 3;
+                    case CommandCategory.Exit:
                         return 4;
-                    case CommandCategory.Advanced:
+
+                    case CommandCategory.Radar:
                         return 5;
-                    case CommandCategory.Tools:
+                    case CommandCategory.Advanced:
                         return 6;
+                    case CommandCategory.Tools:
+                        return 7;
                     case CommandCategory.Print:
-                        return 20;
-					case CommandCategory.Exit:
-						return 22;
-					case CommandCategory.Undefined:
+                        return 9;
+                    case CommandCategory.Undefined:
                     default:
-                        return 23;
+                        return 9;
                 }
             }
 
-				return 10;//vista o altri oggetti analoghi
+            return 10;//vista o altri oggetti analoghi
         }
 
         /// <summary>
