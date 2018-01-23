@@ -1,1 +1,4 @@
-<button kendoButton title='{{caption}}' (click)='onCommand()' [disabled]="isDisabled()">{{caption}}</button>
+<button kendoButton title='{{caption}}' (click)='onCommand()' class="content" [disabled]="isDisabled()">
+    <m4-icon icon="{{icon}}"></m4-icon>
+    <span> {{caption}} </span>
+</button>

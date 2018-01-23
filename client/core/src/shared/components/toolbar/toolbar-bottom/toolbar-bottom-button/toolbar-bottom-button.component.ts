@@ -13,15 +13,17 @@ export class ToolbarBottomButtonComponent {
   @Input() caption: string = '--unknown--';
   @Input() cmpId: string = '';
   @Input() disabled: boolean = false;
+  @Input() icon:string = '';
 
   constructor(public eventData: EventDataService, public ciService: ComponentInfoService) { }
 
 
   isDisabled(): boolean {
-    return this.disabled ||
-    !this.eventData.buttonsState || 
-    !this.eventData.buttonsState[this.cmpId] || 
-    !this.eventData.buttonsState[this.cmpId].enabled;
+    return false;
+    // return this.disabled ||
+    // !this.eventData.buttonsState || 
+    // !this.eventData.buttonsState[this.cmpId] || 
+    // !this.eventData.buttonsState[this.cmpId].enabled;
   }
   onCommand() {
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);

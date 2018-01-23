@@ -25,14 +25,11 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
   anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   public show = false;
-  isMouseDown = false;
-  currentItem: ContextMenuItem;
-  public fontIcon: string;
-  
+    
   @ViewChild('anchor') divFocus: HTMLElement;
+  @Input() icon:string;
+  @Input() caption:string;
 
-
-  public menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
   public viewProductInfo: string;
   private eventDataServiceSubscription;
 
@@ -55,83 +52,28 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
   }); 
 }
  
- onTranslationsReady() {
-  super.onTranslationsReady();
-  this.menuElements.splice(0, this.menuElements.length);
-  const item1 = new ContextMenuItem(this._TB('Query'), 'idQueryButton', true, false);
-  const item2 = new ContextMenuItem(this._TB('Share'), 'iShareButton', true, false);
-  const item3 = new ContextMenuItem(this._TB('Refresh'), 'idRefreshButton', true, false);
-  const item4 = new ContextMenuItem(this._TB('Inspect'), 'idInspectButton', true, false);
-  const item5 = new ContextMenuItem(this._TB('Customize'), 'idCustomizeButton', true, false);
-  this.menuElements.push(item1, item2, item3, item4,item5);
-
-
-  
-}
-ngOnDestroy() {
-  this.eventDataServiceSubscription.unsubscribe();
-}
-
-onOpen() {
-}
-public doCommand(menuItem: any) {
-  if (!menuItem) {
-      return;
+  onTranslationsReady() {
+    super.onTranslationsReady();
+    
   }
- console.log(menuItem.id + " clicked!");
-  this.eventDataService.raiseCommand('', menuItem.id);
-  this.onToggle();
-}
-public onToggle(): void {
-  this.show = !this.show;
-  if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
-      this.currentItem.showMySub = false;
-  }
-}
-public closePopupIf(): void {
-  if (this.isMouseDown) {
-      this.isMouseDown = false;
-      document.getElementById('anchor').focus();
-      return;
-  }
-  this.outView(this.currentItem);
-}
-outView(item: ContextMenuItem) {
-  if (item !== null && item !== undefined) {
-      item.showMySub = false;
+  ngOnDestroy() {
+    this.eventDataServiceSubscription.unsubscribe();
   }
 
-  this.show = false;
-  this.currentItem = null;
-  this.isMouseDown = false;
-}
-
-
-setMouseDown() {
-  this.isMouseDown = true;
-}
-
-public getCorrectIcon(menuItem: any)
-{
-  switch(menuItem.id)
-  {
-    case 'idQueryButton':
-      return 'tb-query';
-
-    case 'iShareButton':
-    return 'tb-socialshare';
-
-    case 'idRefreshButton':
-    return 'tb-refresh';
-
-    case 'idInspectButton':
-    return 'tb-inspect';
-
-    case 'idCustomizeButton':
-    return 'tb-customize';
-
-    default:
-      break;
+  onOpen() {
   }
-}
+
+  public onToggle(): void {
+    this.show = !this.show;
+  }
+  public closePopupIf(): void {
+       this.outView(null);
+  }
+  outView(item: ContextMenuItem) {
+    if (item !== null && item !== undefined) {
+        item.showMySub = false;
+    }
+
+    this.show = false;
+  }
 }

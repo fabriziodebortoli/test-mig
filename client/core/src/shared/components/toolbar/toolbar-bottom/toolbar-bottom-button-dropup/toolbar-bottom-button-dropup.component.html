@@ -1,18 +1,16 @@
   
-<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()" class="top-button" (click)="onToggle()">
-    <m4-icon icon="tb-menu2"></m4-icon>
+<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
+    <button class="bottom-button">
+    <span> {{caption}} </span>
+    <m4-icon icon="{{icon}}"></m4-icon>
+    </button>
     <kendo-popup *ngIf="show" class='wrapper' [anchor]="anchor" (anchorViewportLeave)="outView(null)" 
     (open)="onOpen()" [collision]="collision" 
     [anchorAlign]="anchorAlign" 
     [popupAlign]="popupAlign" 
-    style="left: 631px; top: 115px;"
     >
     <div class="popup">
-        <button kendoButton *ngFor="let menuItem of menuElements" class="content" [disabled]="!menuItem?.enabled"
-       (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
-            <m4-icon icon="{{getCorrectIcon(menuItem)}}"></m4-icon>
-                 <span> {{menuItem?.text}} </span>
-    </button>
+        <ng-content></ng-content>
     </div>
     </kendo-popup>
 </div>
