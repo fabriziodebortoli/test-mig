@@ -50,9 +50,9 @@ namespace Microarea.EasyBuilder.UI
             SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel
             )
 		{
-            chkSaveForWeb.Visible = false;
 			InitializeComponent();
-			this.editor = editor;
+            chkSaveForWeb.Visible = false;
+            this.editor = editor;
 			this.buttons = buttons;
 			this.Text = windowTitle;
 			this.existingCustomization = existingCustomization;
