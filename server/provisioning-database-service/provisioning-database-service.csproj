@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Helpers\" />
     <Folder Include="Infrastructure\Model\Interfaces\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>

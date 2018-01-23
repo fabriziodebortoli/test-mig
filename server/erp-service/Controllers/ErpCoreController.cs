@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Microarea.Common;
 using Microarea.Common.Applications;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +17,47 @@ namespace ErpService.Controllers
     [Route("erp-core")]
     public class ErpCoreController : Controller
     {
+        [Route("CheckVatEU")]
+        public async Task<IActionResult> CheckVatEU([FromBody] JObject value)
+        {
+            var countryCode = value["countryCode"]?.Value<string>();
+            var vatNumber = value["vatNumber"]?.Value<string>();
+            var result = await callCheckEUAsync(countryCode, vatNumber);
+            return new JsonResult(new { IsValid = result });
+        }
+
+        [Route("CheckVatRO")]
+        public async Task<IActionResult> CheckVatRO([FromBody] JObject value)
+        {
+            const string url = "https://webservicesp.anaf.ro/PlatitorTvaRest/api/v1/ws/tva";
+
+            using (var _httpClient = new HttpClient())
+            {
+                var cui = value["cui"]?.Value<string>();
+                var data = value["data"]?.Value<string>();
+                var postData = $"[{{\"cui\":\"{cui}\",\"data\":\"{data}\"}}]";
+                var stringdata = new StringContent(content: postData,
+                             encoding: Encoding.UTF8,
+                             mediaType: "application/json");
+
+                var response = await _httpClient.PostAsync(url, stringdata);
+                var content = await response.Content.ReadAsStringAsync();
+                return new ContentResult { Content = content, ContentType = "application/json" };
+            }
+        }
+
+        private async Task<bool> callCheckEUAsync(string countryCode, string vatNumber)
+        {
+            var check = new CheckVatReference.checkVatPortTypeClient();
+            var refer = new CheckVatReference.checkVatRequest(countryCode, vatNumber);
+            var result = await check.checkVatAsync(refer);
+            var isValid = result.valid;
+
+            return isValid;
+        }
+
+
+
         [Route("CheckVatDuplicate")]
         public IActionResult CheckVatDuplicate([FromBody] string vat)
         {

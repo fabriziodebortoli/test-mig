@@ -24,6 +24,9 @@
 static TCHAR szNamespace[] = _T("Image.Framework.TbFrameworkImages.Images.%s.%s.png");
 static TCHAR szGlyphF[]    = _T("Glyph");
 
+static TCHAR szOK[] = _T("SynchroOK");
+static TCHAR szWarning[] = _T("SynchroWarning");
+
 static TCHAR szParamProvider	[]	= _T("P1");
 static TCHAR szParamTBGuid		[]	= _T("P2");
 static TCHAR szParamDocNamespace[]	= _T("P3");
@@ -465,9 +468,9 @@ CDNotification::CDNotification()
 
 	m_pSqlSession = AfxGetDefaultSqlConnection()->GetNewSqlSession();
 
-	swprintf_s(m_strImgOk, szNamespace, szGlyphF, szGlyphOk);
-	swprintf_s(m_strImgWait, szNamespace, szGlyphF, szGlyphWait);
-	swprintf_s(m_strImgError, szNamespace, szGlyphF, szIconError);
+	swprintf_s(m_strImgOk, szNamespace, szGlyphF, szOK);
+	swprintf_s(m_strImgWait, szNamespace, szGlyphF, szIconWarning);
+	swprintf_s(m_strImgError, szNamespace, szGlyphF, szWarning);
 	swprintf_s(m_strImgExcluded, szNamespace, szGlyphF, szGlyphRemove);
 }
 
@@ -1448,7 +1451,7 @@ void CDNotification::ParseXMLLogs(const CString strProviderName, CString XmlLog,
 		CString strErrorMsg = _T("");
 		CString strFlow;
 		CString strDir = _T("");
-		m_SynchStatusHints = _T("");
+		m_SynchStatusHints = _TB("Yeah! Synchronization successfully done :) ");
 
 		CXMLNode* pNode = pRoot->GetChildByName(_T("Flows"));
 
@@ -1518,9 +1521,16 @@ void CDNotification::ParseXMLLogs(const CString strProviderName, CString XmlLog,
 							if SUCCEEDED(hr)
 							{
 								strTmpMessage.Assign(bstrToConvert);
-								m_SynchStatusHints +=  strTmpMessage.ToString() + _T("\r\n\r\n");
+								if (status == E_SYNCHROSTATUS_TYPE_ERROR && strTmpMessage.IsEmpty())
+								{
+									m_SynchStatusHints += _TB("Oops...something gone wrong during the data synchronization. Please check technical details.") + _T("\r\n\r\n");
+								}
+								else if (status == E_SYNCHROSTATUS_TYPE_ERROR)
+									m_SynchStatusHints +=  strTmpMessage.ToString() + _T("\r\n\r\n");
 							}
 						}
+						else if (status == E_SYNCHROSTATUS_TYPE_ERROR)
+							m_SynchStatusHints = _TB("Oops...something gone wrong during the data synchronization. Please check technical details.") + _T("\r\n\r\n");
 					}
 				}
 			} 

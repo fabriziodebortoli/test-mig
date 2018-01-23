@@ -9,18 +9,18 @@
         {
             "icon": "Image.Framework.TbFrameworkImages.Images.25x25.OutBound.png",
             "id": "ID_FORCE_SYNCHRONIZATION",
-            "name": "Force",
-            "text": "Force",
+            "name": "Synchronize",
+            "text": "Synchronize",
             "hint": "Force Synchronization",
             "type": 15 /*ToolbarButton*/,
-            "visible":  true
+            "visible": true
         },
         {
             "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Ok.png",
             "id": "ID_FORCE_VALIDATION",
             "name": "Validation",
-            "text": "Validation",
-            "hint": "Validation",
+            "text": "Validate",
+            "hint": "Validate",
             "type": 15, /*ToolbarButton*/
             "visible": true
         },

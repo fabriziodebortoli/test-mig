@@ -260,7 +260,7 @@ export class MenuService {
         let ns = encodeURIComponent(object.target.toLowerCase());
         let type = object.sub_type ? object.sub_type : '';
         let app = object.application ? object.application : '';
-        let args = object.arguments ? encodeURIComponent(object.arguments) : '';
+        let args = object.arguments ? object.arguments : '';
 
         if (objType == 'document')
             urlToRun = 'runDocument/';

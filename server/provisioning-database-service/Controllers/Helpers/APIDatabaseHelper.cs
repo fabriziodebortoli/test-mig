@@ -2,7 +2,9 @@
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Infrastructure;
+using Microarea.ProvisioningDatabase.Infrastructure.Model;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
+using Microarea.ProvisioningDatabase.Libraries.DataManagerEngine;
 using Microarea.ProvisioningDatabase.Properties;
 using System;
 using System.Collections.Generic;
@@ -20,13 +22,508 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 	//============================================================================
 	public class APIDatabaseHelper
 	{
+		/// <summary>
+		/// Try to open connection with credentials
+		/// </summary>
+		//---------------------------------------------------------------------
+		public static OperationResult TestConnection(DatabaseCredentials dbCredentials)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// if databaseName is empty I use master
+			bool isAzureDB = (dbCredentials.Provider == NameSolverStrings.SQLAzure);
+
+			string connectionString =
+				string.Format
+				(
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				dbCredentials.Server,
+				string.IsNullOrWhiteSpace(dbCredentials.Database) ? DatabaseLayerConsts.MasterDatabase : dbCredentials.Database,
+				dbCredentials.Login,
+				dbCredentials.Password
+				);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
+			dTask.CurrentStringConnection = connectionString;
+
+			opRes.Result = dTask.TryToConnect();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			// se sono riuscita a connettermi allora
+			// vado a controllare che se l'edizione di SQL sia compatibile con il provider prescelto
+			if (opRes.Result)
+			{
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+					SQLServerEdition sqlEdition = TBCheckDatabase.GetSQLServerEdition(connection);
+					if (
+						(isAzureDB && sqlEdition != SQLServerEdition.SqlAzureV12) ||
+						(!isAzureDB && sqlEdition == SQLServerEdition.SqlAzureV12)
+						)
+					{
+						opRes.Result = false;
+						opRes.Message = Strings.SQLProviderAndEditionNotCompatible;
+					}
+				}
+			}
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Try to open connection with administrative credentials and check if dbName already exists
+		/// </summary>
+		/// <param name="dbName"></param>
+		/// <param name="dbCredentials"></param>
+		//---------------------------------------------------------------------
+		public static OperationResult ExistDatabase(string dbName, DatabaseCredentials dbCredentials)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// I use master database to load all dbs
+			bool isAzureDB = (dbCredentials.Provider == NameSolverStrings.SQLAzure);
+
+			string connectionString =
+				string.Format
+				(
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				dbCredentials.Server,
+				DatabaseLayerConsts.MasterDatabase,
+				dbCredentials.Login,
+				dbCredentials.Password
+				);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
+			dTask.CurrentStringConnection = connectionString;
+
+			opRes.Result = dTask.ExistDataBase(dbName);
+
+			// controllo se nel diagnostico c'e' un errore e imposto il result a false
+			if (dTask.Diagnostic.Error)
+			{
+				opRes.Result = false;
+				opRes.Message = dTask.Diagnostic.ToJson(true);
+			}
+			else
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare il database
+		/// </summary>
+		/// <param name="extSubDatabase"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public static OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
+		{
+			// result globale dell'operazione, imposto un numero di codice per capire se ci sono operazioni da eseguire
+			OperationResult opRes = new OperationResult { Result = true };
+
+			List<OperationResult> msgList = new List<OperationResult>();
+
+			// I use master database to load all dbs
+			bool isAzureDB = (extSubDatabase.AdminCredentials.Provider == NameSolverStrings.SQLAzure);
+
+			string masterConnectionString =
+				string.Format
+				(
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				extSubDatabase.AdminCredentials.Server,
+				DatabaseLayerConsts.MasterDatabase,
+				extSubDatabase.AdminCredentials.Login,
+				extSubDatabase.AdminCredentials.Password
+				);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = masterConnectionString };
+
+			// check databases existence
+			bool existERPDb = dTask.ExistDataBase(extSubDatabase.Database.DBName);
+
+			if (dTask.Diagnostic.Error)
+			{
+				opRes.Result = false;
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
+				opRes.Content = msgList;
+				opRes.Code = -1;
+				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
+				return opRes;
+			}
+
+			if (!existERPDb)
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+			else
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+
+			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
+			if (dTask.Diagnostic.Error)
+			{
+				opRes.Result = false;
+				opRes.Content = msgList;
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
+				opRes.Code = -1;
+				// faccio return perche' si e' verificata un'eccezione sul server e non procedo ulteriormente
+				return opRes;
+			}
+
+			if (!existDMSDb)
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+			else
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+			//
+
+			// check informazioni database (Unicode - Collation)
+			if (existERPDb && existDMSDb)
+			{
+				DBInfo erpDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DBName);
+				DBInfo dmsDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DMSDBName);
+
+				if (erpDBInfo.HasError || dmsDBInfo.HasError)
+				{
+					opRes.Result = false;
+					msgList.Add(new OperationResult() { Message = erpDBInfo.Error + "\r\n" + dmsDBInfo.Error });
+					opRes.Code = -1;
+				}
+				else
+				{
+					if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
+					{
+						if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
+						{
+							opRes.Result = false;
+							msgList.Add(new OperationResult() { Message = DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible });
+							opRes.Code = -1;
+						}
+
+						if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
+						{
+							opRes.Result = false;
+							msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation) });
+							opRes.Code = -1;
+						}
+						else
+						{
+							//@@TODO: verifica compatibilita' collation con ISOSTATO attivazione
+							// se non va bene return false
+						}
+					}
+				}
+			}
+			//
+
+			// check esistenza login
+			bool existLogin = dTask.ExistLogin(extSubDatabase.Database.DBOwner);
+			// se nel diagnostico c'e' un errore ritorno subito
+			if (dTask.Diagnostic.Error)
+			{
+				opRes.Result = false;
+				//opRes.Message = dTask.Diagnostic.ToJson(true);
+				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
+				opRes.Code = -1;
+			}
+			else
+			{
+				if (!existLogin)
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+				else
+				{
+					// check validita' login e password per il db di ERP (solo se la login esiste)
+					// provo a connettermi con la login specificata per il db di ERP al master
+					dTask.CurrentStringConnection =
+						string.Format
+						(
+						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+						extSubDatabase.Database.DBServer,
+						DatabaseLayerConsts.MasterDatabase,
+						extSubDatabase.Database.DBOwner,
+						extSubDatabase.Database.DBPassword
+						);
+
+					dTask.TryToConnect(out int err);
+					if (dTask.Diagnostic.Error)
+					{
+						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+						if (err == 916)
+							opRes.Result = true;
+						else
+						{
+							if (err == 18456)
+								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
+
+							opRes.Result = false;
+							opRes.Code = -1;
+						}
+					}
+					else
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+				}
+			}
+			//
+
+			bool sameLogin = string.Compare(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DMSDBOwner, StringComparison.InvariantCultureIgnoreCase) == 0;
+			bool existDMSLogin = existLogin;
+
+			// se la login e' diversa allora devo tentare di connettermi
+			if (!sameLogin)
+			{
+				// check esistenza login
+				existDMSLogin = dTask.ExistLogin(extSubDatabase.Database.DMSDBOwner);
+
+				// se nel diagnostico c'e' un errore ritorno subito
+				if (dTask.Diagnostic.Error)
+				{
+					opRes.Result = false;
+					msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
+					opRes.Code = -1;
+				}
+
+				if (existDMSLogin)
+				{
+					// check validita' login e password per il db del DMS (solo se esiste)
+					// provo a connettermi con la login specificata per il db del DMS al master
+					dTask.CurrentStringConnection =
+						string.Format
+						(
+						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+						extSubDatabase.Database.DMSDBServer,
+						DatabaseLayerConsts.MasterDatabase,
+						extSubDatabase.Database.DMSDBOwner,
+						extSubDatabase.Database.DMSDBPassword
+						);
+
+					dTask.TryToConnect(out int errorNr);
+
+					if (dTask.Diagnostic.Error)
+					{
+						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+						if (errorNr == 916)
+							opRes.Result = true;
+						else
+						{
+							if (errorNr == 18456)
+								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
+
+							opRes.Result = false;
+							opRes.Code = -1;
+						}
+					}
+					else
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+				}
+			}
+			//
+
+			// check preventivo struttura dei database, se esistono
+			/*			if (existERPDb && existDMSDb)
+						{
+							DatabaseManager dbManager = CreateDatabaseManager();
+							opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+
+							IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
+							if (items != null)
+							{
+								foreach (IDiagnosticItem item in items)
+									if (!string.IsNullOrWhiteSpace(item.FullExplain))
+										msgList.Add(new OperationResult() { Message = item.FullExplain });
+							}
+
+							if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								!dbManager.ContextInfo.HasSlaves)
+								||
+								(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+								(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+								dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
+							{
+								opRes.Code = -1;
+							}
+						}
+						//
+			*/
+
+			opRes.Content = msgList;
+			return opRes;
+		}
+
+		/// <summary>
+		/// Metodo generico per importazione dati in SubscriptionDatabase
+		/// </summary>
+		/// <param name="configType">default / sample</param>
+		/// <param name="iso"></param>
+		/// <param name="configuration"></param>
+		/// <param name="importDataContent"></param>
+		//---------------------------------------------------------------------
+		public static OperationResult ImportData(string configType, string iso, string configuration, ImportDataBodyContent importDataContent)
+		{
+			OperationResult opRes = new OperationResult();
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(importDataContent.Database, false); // il param 2 effettua il controllo solo sul db di ERP
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+				return opRes;
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.ImportDataNotAvailable;
+				return opRes;
+			}
+
+			if (dbManager.ContextInfo.MakeSubscriptionDatabaseConnection(importDataContent.Database))
+			{
+				BaseImportExportManager importExportManager = new BaseImportExportManager(dbManager.ContextInfo, (BrandLoader)InstallationData.BrandLoader);
+
+				if (string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
+				{
+					importExportManager.SetDefaultDataConfiguration(configuration);
+					opRes.Result = importExportManager.ImportDefaultDataForSubscription(importDataContent.ImportParameters);
+				}
+				else
+				{
+					importExportManager.SetSampleDataConfiguration(configuration, iso);
+					opRes.Result = importExportManager.ImportSampleDataForSubscription(importDataContent.ImportParameters);
+				}
+			}
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Delete only objects (tables, views, stored procedures, triggers) in ERP database (no DMS db is involved!)
+		/// </summary>
+		/// <param name="subDatabase"></param>
+		//---------------------------------------------------------------------
+		public static OperationResult DeleteDatabaseObjects(SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			bool isAzureDB = (subDatabase.Provider == NameSolverStrings.SQLAzure);
+			string connectionString =
+				string.Format
+				(
+				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+				subDatabase.DBServer,
+				subDatabase.DBName,
+				subDatabase.DBOwner,
+				subDatabase.DBPassword
+				);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
+			opRes.Result = dTask.DeleteDatabaseObjects();
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Esegue il check della struttura di un SubscriptionDatabase (per il db di ERP ed il db del DMS)
+		/// </summary>		
+		/// <param name="subDatabase"></param>
+		//---------------------------------------------------------------------
+		public static OperationResult CheckDatabaseStructure(SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+
+			// TODO: dall'attivazione della Subscription devo sapere se provengo da una vecchia versione
+			// forse questo controllo non sara' piu' necessario, dipende cosa verra' deciso a livello commerciale
+			//if ((dbManager.StatusDB & DatabaseStatus.PRE_40) == DatabaseStatus.PRE_40)
+			//if (!this.canMigrate) { }
+
+			if (opRes.Result)
+			{
+				if (
+					((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					!dbManager.ContextInfo.HasSlaves)
+					||
+					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY)
+					)
+				{
+					// significa che non e' possibile procedere con l'aggiornamento perche':
+					// - i database sono gia' aggiornati
+					// - i database sono privi della TB_DBMark e pertanto sono in uno stato non recuperabile
+					opRes.Code = (int)AppReturnCodes.InternalError;
+				}
+				else
+					opRes.Code = (int)AppReturnCodes.OK;
+			}
+			else // anche se la connessione non e' andata a buon fine ritorno il codice -1 cosi da inibire l'upgrade
+				opRes.Code = (int)AppReturnCodes.InternalError;
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Esegue l'upgrade di un SubscriptionDatabase (per il db di ERP ed il db del DMS)
+		/// Se specificata una configurazione importo anche i relativi dati di default
+		/// </summary>
+		/// <param name="configuration"></param>
+		/// <param name="subDatabase"></param>
+		//---------------------------------------------------------------------
+		public static OperationResult UpgradeDatabaseStructure(string configuration, SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+				return opRes;
+
+			// set Configuration for default data
+			dbManager.ImportSampleData = false;
+			dbManager.ImportDefaultData = false;
+			if (!string.IsNullOrWhiteSpace(configuration))
+			{
+				dbManager.ImportDefaultData = true;
+				dbManager.ImpExpManager.SetDefaultDataConfiguration(configuration);
+			}
+
+			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			opRes.Content = GetMessagesList(dbManager.DBManagerDiagnostic);
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Metodo che si occupa della cancellazione dei contenitori dei database
+		/// Se il provider e' Azure e' necessario effettuare una connessione con le credenziali
+		/// di amministrazione
+		/// </summary>
+		/// <param name="deleteContent"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public static OperationResult DeleteDatabase(DeleteDatabaseBodyContent deleteContent)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// qualcuno deve aver testato la connessione del db admin per Azure
+
+			bool isAzureDB = (deleteContent.Database.Provider == NameSolverStrings.SQLAzure);
+
+			DatabaseTask dTask = new DatabaseTask(isAzureDB);
+			opRes.Result = dTask.DeleteDatabase(deleteContent);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			return opRes;
+		}
+
 		//---------------------------------------------------------------------
 		public static OperationResult CheckDatabases(ExtendedSubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
 			// I use master database to load information
-			bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
+			bool isAzureDB = (subDatabase.AdminCredentials.Provider == NameSolverStrings.SQLAzure);
 
 			string masterConnectionString =
 				string.Format
@@ -176,7 +673,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			}
 
 			// I use master database to load information
-			bool isAzureDB = (subDatabase.AdminCredentials.Provider == "SQLAzure");
+			bool isAzureDB = (subDatabase.AdminCredentials.Provider == NameSolverStrings.SQLAzure);
 
 			string masterConnectionString =
 				string.Format
@@ -233,7 +730,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		}
 
 		//---------------------------------------------------------------------
-		public static DBInfo LoadDBMarkInfo(string connectionString, string dbName)
+		private static DBInfo LoadDBMarkInfo(string connectionString, string dbName)
 		{
 			// devo cambiare il nome del database senza utilizzare la ChangeDatabase, non supportata da Azure
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = dbName };
@@ -269,259 +766,23 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		}
 
 		/// <summary>
-		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare il database
-		/// </summary>
-		/// <param name="extSubDatabase"></param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static OperationResult PrecheckSubscriptionDB(ExtendedSubscriptionDatabase extSubDatabase)
-		{
-			// result globale dell'operazione, imposto un numero di codice per capire se ci sono operazioni da eseguire
-			OperationResult opRes = new OperationResult { Result = true };
-
-			List<OperationResult> msgList = new List<OperationResult>();
-
-			// I use master database to load all dbs
-			bool isAzureDB = (extSubDatabase.AdminCredentials.Provider == "SQLAzure");
-
-			string masterConnectionString =
-				string.Format
-				(
-				isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-				extSubDatabase.AdminCredentials.Server,
-				DatabaseLayerConsts.MasterDatabase,
-				extSubDatabase.AdminCredentials.Login,
-				extSubDatabase.AdminCredentials.Password
-				);
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = masterConnectionString };
-
-			// check databases existence
-			bool existERPDb = dTask.ExistDataBase(extSubDatabase.Database.DBName);
-
-			if (dTask.Diagnostic.Error)
-			{
-				opRes.Result = false;
-				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
-				opRes.Content = msgList;
-				opRes.Code = -1;
-				// faccio return perche' si e' verificata un'eccezione sul server e, visto che il server del DMS e' uguale, non procedo ulteriormente
-				return opRes;
-			}
-
-			if (!existERPDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
-			else
-				msgList.Add(new OperationResult() { Message = string.Format("Specified database {0} already exists on server {1}", extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
-
-			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
-			if (dTask.Diagnostic.Error)
-			{
-				opRes.Result = false;
-				opRes.Content = msgList;
-				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
-				opRes.Code = -1;
-				// faccio return perche' si e' verificata un'eccezione sul server e non procedo ulteriormente
-				return opRes;
-			}
-
-			if (!existDMSDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
-			else
-				msgList.Add(new OperationResult() { Message = string.Format("Specified database {0} already exists on server {1}", extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
-			//
-
-			// check informazioni database (Unicode - Collation)
-			if (existERPDb && existDMSDb)
-			{
-				DBInfo erpDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DBName);
-				DBInfo dmsDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DMSDBName);
-
-				if (erpDBInfo.HasError || dmsDBInfo.HasError)
-				{
-					opRes.Result = false;
-					msgList.Add(new OperationResult() { Message = erpDBInfo.Error + "\r\n" + dmsDBInfo.Error });
-					opRes.Code = -1;
-				}
-				else
-				{
-					if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
-					{
-						if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
-						{
-							opRes.Result = false;
-							msgList.Add(new OperationResult() { Message = DatabaseManagerStrings.ErrorUnicodeValuesNotCompatible });
-							opRes.Code = -1;
-						}
-
-						if (string.Compare(erpDBInfo.Collation, dmsDBInfo.Collation, StringComparison.InvariantCultureIgnoreCase) != 0)
-						{
-							opRes.Result = false;
-							msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorCollationNotCompatible, erpDBInfo.Name, erpDBInfo.Collation, dmsDBInfo.Name, dmsDBInfo.Collation) });
-							opRes.Code = -1;
-						}
-						else
-						{
-							//@@TODO: verifica compatibilita' collation con ISOSTATO attivazione
-							// se non va bene return false
-						}
-					}
-				}
-			}
-			//
-
-			// check esistenza login
-			bool existLogin = dTask.ExistLogin(extSubDatabase.Database.DBOwner);
-			// se nel diagnostico c'e' un errore ritorno subito
-			if (dTask.Diagnostic.Error)
-			{
-				opRes.Result = false;
-				//opRes.Message = dTask.Diagnostic.ToJson(true);
-				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
-				opRes.Code = -1;
-			}
-			else
-			{
-				if (!existLogin)
-					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
-				else
-				{
-					// check validita' login e password per il db di ERP (solo se la login esiste)
-					// provo a connettermi con la login specificata per il db di ERP al master
-					dTask.CurrentStringConnection =
-						string.Format
-						(
-						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-						extSubDatabase.Database.DBServer,
-						DatabaseLayerConsts.MasterDatabase,
-						extSubDatabase.Database.DBOwner,
-						extSubDatabase.Database.DBPassword
-						);
-
-					dTask.TryToConnect(out int err);
-					if (dTask.Diagnostic.Error)
-					{
-						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
-						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
-						if (err == 916)
-							opRes.Result = true;
-						else
-						{
-							if (err == 18456)
-								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DBOwner) });
-
-							opRes.Result = false;
-							opRes.Code = -1;
-						}
-					}
-					else
-						msgList.Add(new OperationResult() { Message = string.Format("Specified login {0} exists on server {1}", extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
-				}
-			}
-			//
-
-			bool sameLogin = string.Compare(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DMSDBOwner, StringComparison.InvariantCultureIgnoreCase) == 0;
-			bool existDMSLogin = existLogin;
-
-			// se la login e' diversa allora devo tentare di connettermi
-			if (!sameLogin)
-			{
-				// check esistenza login
-				existDMSLogin = dTask.ExistLogin(extSubDatabase.Database.DMSDBOwner);
-
-				// se nel diagnostico c'e' un errore ritorno subito
-				if (dTask.Diagnostic.Error)
-				{
-					opRes.Result = false;
-					msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
-					opRes.Code = -1;
-				}
-
-				if (existDMSLogin)
-				{
-					// check validita' login e password per il db del DMS (solo se esiste)
-					// provo a connettermi con la login specificata per il db del DMS al master
-					dTask.CurrentStringConnection =
-						string.Format
-						(
-						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-						extSubDatabase.Database.DMSDBServer,
-						DatabaseLayerConsts.MasterDatabase,
-						extSubDatabase.Database.DMSDBOwner,
-						extSubDatabase.Database.DMSDBPassword
-						);
-
-					dTask.TryToConnect(out int errorNr);
-
-					if (dTask.Diagnostic.Error)
-					{
-						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
-						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
-						if (errorNr == 916)
-							opRes.Result = true;
-						else
-						{
-							if (errorNr == 18456)
-								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
-
-							opRes.Result = false;
-							opRes.Code = -1;
-						}
-					}
-					else
-						msgList.Add(new OperationResult() { Message = string.Format("Specified login {0} exists on server {1}", extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
-				}
-			}
-			//
-
-			// check preventivo struttura dei database, se esistono
-			/*			if (existERPDb && existDMSDb)
-						{
-							DatabaseManager dbManager = CreateDatabaseManager();
-							opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
-
-							IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
-							if (items != null)
-							{
-								foreach (IDiagnosticItem item in items)
-									if (!string.IsNullOrWhiteSpace(item.FullExplain))
-										msgList.Add(new OperationResult() { Message = item.FullExplain });
-							}
-
-							if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-								!dbManager.ContextInfo.HasSlaves)
-								||
-								(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-								(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-								dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
-							{
-								opRes.Code = -1;
-							}
-						}
-						//
-			*/
-
-			opRes.Content = msgList;
-			return opRes;
-		}
-
-		/// <summary>
 		/// Crea un oggetto di tipo DatabaseManager per richiamare i controlli sui database
 		/// </summary>
 		//---------------------------------------------------------------------
 		public static DatabaseManager CreateDatabaseManager()
 		{
 			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa") { Edition = "Professional" };
-			return new DatabaseManager(pf, new Diagnostic("DatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
+			return new DatabaseManager(pf, new Diagnostic("ProvisioningDatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
 		}
 
+		#region Metodi per caricamento configurazioni dati di default/esempio
 		/// <summary>
 		/// dato un tipo di configurazione (Default/Sample) restituisce un dictionary con 
 		/// la lista delle possibili configurazioni suddivise per iso stato
 		/// </summary>
 		/// <param name="configList">lista dei nomi delle configurazioni</param>
 		/// <param name="configType">tipo di configurazione (Default oppure Sample)</param>
-		/// <param name="language">iso stato</param>
+		/// <param name="iso">iso stato</param>
 		//---------------------------------------------------------------------------
 		public static Dictionary<string, List<string>> GetConfigurationList(PathFinder pf, string configType, string iso)
 		{
@@ -530,7 +791,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			foreach (string appName in GetApplications(pf))
 			{
-				foreach (Common.NameSolver.ModuleInfo modInfo in pf.GetModulesList(appName))
+				foreach (ModuleInfo modInfo in pf.GetModulesList(appName))
 				{
 					// skippo il modulo TbOleDb per non considerare la TB_DBMark
 					if (string.Compare(modInfo.Name, DatabaseLayerConsts.TbOleDbModuleName, StringComparison.OrdinalIgnoreCase) != 0)
@@ -604,28 +865,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				if (!configList.Contains(dirName))
 					configList.Add(dirName);
 		}
-
-		/// <summary>
-		/// Metodo che si occupa della cancellazione dei contenitori dei database
-		/// Se il provider e' Azure e' necessario effettuare una connessione con le credenziali
-		/// di amministrazione
-		/// </summary>
-		/// <param name="deleteContent"></param>
-		/// <returns></returns>
-		//---------------------------------------------------------------------
-		public static OperationResult DeleteDatabase(DeleteDatabaseBodyContent deleteContent)
-		{
-			OperationResult opRes = new OperationResult();
-
-			// qualcuno deve aver testato la connessione del db admin per Azure
-
-			bool isAzureDB = (deleteContent.Database.Provider == "SQLAzure");
-
-			DatabaseTask dTask = new DatabaseTask(isAzureDB);
-			opRes.Result = dTask.DeleteDatabase(deleteContent);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-			return opRes;
-		}
+		#endregion
 
 		//---------------------------------------------------------------------
 		public static List<OperationResult> GetMessagesList(Diagnostic diagnostic)

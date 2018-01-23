@@ -9,6 +9,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule, GridComponent } from '@progress/kendo-angular-grid';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { GaugesModule  } from '@progress/kendo-angular-gauges';
 
 import '@progress/kendo-angular-intl/locales/bg/numbers';
 import '@progress/kendo-angular-intl/locales/bg/calendar';
@@ -39,6 +40,7 @@ import '@progress/kendo-angular-intl/locales/tr/calendar';
 
 const KENDO_UI_MODULES = [
     GridModule,
+    GaugesModule,
     ChartsModule,
     DialogModule,
     DateInputsModule,

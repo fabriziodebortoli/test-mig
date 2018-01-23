@@ -13,4 +13,12 @@ export class CoreHttpService {
     isVatDuplicate(vat: string): Observable<Response> {
         return this.httpService.execPost(this.controllerRoute, 'CheckVatDuplicate', vat);
     }
+
+    checkVatEU(countryCode: string, vatNumber: string) : Observable<Response> {
+        return this.httpService.execPost(this.controllerRoute, 'CheckVatEU', {'countryCode': countryCode, 'vatNumber': vatNumber})
+    }
+
+    checkVatRO(vatNumber: string, date: string): Observable<Response> {
+        return this.httpService.execPost(this.controllerRoute, 'CheckVatRO', {'cui': vatNumber, 'data': date});
+    }
 }

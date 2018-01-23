@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 
 export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number,
     columns: any[], ignore: boolean};
-export type ServerNeededParams = { model: any, customFilters: any };
+export type ServerNeededParams = { model?: any, customFilters?: any, customSort?: any };
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
@@ -55,6 +55,10 @@ export class PaginatorService implements OnDestroy {
     public get clientData(): Observable<ClientPage> {
         return this._clientData.asObservable().filter(x => {
             return !x.ignore});
+    }
+
+    public get currentPage() {
+        return this.currentServerPageNumber;
     }
 
     public get isFirstPage(): boolean {

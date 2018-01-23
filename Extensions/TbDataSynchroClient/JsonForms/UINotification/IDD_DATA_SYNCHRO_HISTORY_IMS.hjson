@@ -1,6 +1,5 @@
-#pragma once
+﻿#pragma once
 #include	<TbNameSolver\TBResourcesMap.h>
 #define IDD_DATA_SYNCHRO_HISTORY_IMS	GET_IDD(IDD_DATA_SYNCHRO_HISTORY_IMS,M.Extensions.TbDataSynchroClient.UINotification)
 #define IDC_DS_LASTSYNCH_MSG_IMS	GET_IDC(IDC_DS_LASTSYNCH_MSG_IMS)
 #define IDC_IDC_DS_LASTSYNCH_COPYMSG	GET_IDC(IDC_IDC_DS_LASTSYNCH_COPYMSG)
-

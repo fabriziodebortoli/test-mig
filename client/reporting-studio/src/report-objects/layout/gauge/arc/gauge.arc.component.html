@@ -1,1 +1,5 @@
-gauge arc works!
+<kendo-arcgauge [value]="5" >
+    <ng-template kendoArcGaugeCenterTemplate let-value="value" let-color="color">
+        <span [style.color]="color">{{ value }}</span>
+    </ng-template>
+</kendo-arcgauge>

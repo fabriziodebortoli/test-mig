@@ -1,40 +1,41 @@
-{
+﻿{
+   "collapsed" : true,
    "collapsible" : true,
    "context" : "uinotification",
-   "height" : 123,
+   "height" : 185,
    "id" : "IDD_DATA_SYNCHRO_HISTORY_IMS",
-  "items": [
-    {
-      "autoVScroll": true,
-      "binding": {
-        "datasource": "SynchMsg"
+   "items" : [
+      {
+         "autoVScroll" : true,
+         "binding" : {
+            "datasource" : "SynchMsg"
+         },
+         "controlClass" : "StringEdit",
+         "height" : 150,
+         "id" : "IDC_DS_LASTSYNCH_MSG_IMS",
+         "multiline" : true,
+         "readOnly" : true,
+         "type" : "Edit",
+         "vScroll" : true,
+         "width" : 277,
+         "x" : 24,
+         "y" : 26
       },
-      "controlClass": "StringEdit",
-      "height": 150,
-      "id": "IDC_DS_LASTSYNCH_MSG_IMS",
-      "multiline": true,
-      "readOnly": true,
-      "type": 13, /*Edit*/
-      "vScroll": true,
-      "width": 268,
-      "x": 49,
-      "y": 4
-    },
-    {
-      "height": 12,
-      "id": "IDC_IDC_DS_LASTSYNCH_COPYMSG",
-      "isText": true,
-      "text": "Copy Msg",
-      "textAlign": 1, /*Center*/
-      "type": 3, /*Button*/
-      "vertAlign": 1, /*Center*/
-      "width": 41,
-      "x": 6,
-      "y": 4
-    }
-  ],
+      {
+         "height" : 12,
+         "id" : "IDC_IDC_DS_LASTSYNCH_COPYMSG",
+         "isText" : true,
+         "text" : "Copy Text",
+         "textAlign" : "Center",
+         "type" : "Button",
+         "vertAlign" : "Center",
+         "width" : 41,
+         "x" : 24,
+         "y" : 9
+      }
+   ],
    "name" : "HistoryTileDlg",
-   "text" : "Data Synchronization Status",
-   "type" : 71, /*Tile*/
+   "text" : "Data Synchronization Technical Details",
+   "type" : "Tile",
    "width" : 325
 }

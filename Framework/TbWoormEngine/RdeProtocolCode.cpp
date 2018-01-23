@@ -121,8 +121,8 @@
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
+#define RDE_BUFFER_SIZE		65536 //16384 
 
-#define RDE_BUFFER_SIZE		16384
 static const TCHAR szRdeExt [] = _T("rde");
 
 //==============================================================================
