@@ -1,0 +1,22 @@
+﻿{
+  "id": "IDD_COMPANY_USER_SETTINGS",
+  "rcId": 7630,
+  "type": 66,
+  "x": 0,
+  "y": 0,
+  "width": 420,
+  "height": 265,
+  "child": true,
+  "context": "uiparametersdoc",
+  "items": [
+    {
+      "id": "IDC_TG_COMPANY_USER_SETTINGS",
+      "type": 3,
+      "x": 0,
+      "y": 0,
+      "width": 420,
+      "height": 265,
+      "clipChildren": true
+    }
+  ]
+}

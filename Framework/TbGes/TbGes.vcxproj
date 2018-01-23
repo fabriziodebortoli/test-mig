@@ -492,6 +492,7 @@
     <ClCompile Include="CustomSaveDialog.cpp" />
     <ClCompile Include="DataAdapter.cpp" />
     <ClCompile Include="DocumentSession.cpp" />
+    <ClCompile Include="DParametersDoc.cpp" />
     <ClCompile Include="Validator.cpp" />
     <ClCompile Include="DataPickerRecordSet.cpp" />
     <ClCompile Include="HotFilter.cpp" />
@@ -845,6 +846,7 @@
     <ClInclude Include="CustomSaveDialog.h" />
     <ClInclude Include="DataPickerRecordSet.h" />
     <ClInclude Include="DocumentSession.h" />
+    <ClInclude Include="DParametersDoc.h" />
     <ClInclude Include="HotFilter.h" />
     <ClInclude Include="HotFilterDataPicker.h" />
     <ClInclude Include="HotFilterManager.h" />
