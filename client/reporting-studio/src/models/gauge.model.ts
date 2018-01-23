@@ -1,5 +1,6 @@
 import { ComboSimpleComponent } from '@taskbuilder/core';
 import { baserect } from './baserect.model';
+import { ReportObjectType } from './report-object-type.model';
 
 
 export enum GaugeObjectType { none, arc, linear, radial, wrong }
@@ -12,11 +13,12 @@ export class gauge extends baserect {
     min: number;
     minorUnit: number;
     majorUnit: number;
-    ranges: range[]=[];
-    pointers: pointer[]=[];
+    ranges: range[] = [];
+    pointers: pointer[] = [];
     scale = "{ vertical: false }";
     constructor(jsonObj: any) {
         super(jsonObj.baserect);
+        this.obj = ReportObjectType.gauge;
         this.value = jsonObj.value;
         this.type = jsonObj.gaugeType;
         this.max = jsonObj.max;

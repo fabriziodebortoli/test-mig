@@ -11,9 +11,12 @@ export class DiagnosticService {
 
     constructor() { }
     showError(message: string) {
-        this.showDiagnostic([{text: message}]);
+        this.showDiagnostic([{ text: message }]);
     }
     showDiagnostic(messages) {
+        if (!messages || !messages.length) {
+            return;
+        }
         this.observer = new Subject<any>();
         this.messages = messages;
         this.isVisible = true;

@@ -1,4 +1,4 @@
-<div [ngSwitch]="gauge.type">
+<div [ngSwitch]="gauge.type" [ngStyle]="applyStyle()">
     <div *ngSwitchCase="GOT.arc">
         <rs-gauge-arc [gauge]="gauge"></rs-gauge-arc>
     </div>
