@@ -268,7 +268,13 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
-          obj.value = value;
+          if (element.gauge.pointers && obj.pointers)
+          {
+            for (let i=0;i<element.gauge.pointers.length;i++){
+              let pointer=element.gauge.pointers[i];
+              obj.pointers[i].value=pointer.value;
+            }
+          }
         }
       } catch (a) {
         console.log(a);
