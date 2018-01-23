@@ -18,10 +18,8 @@ export class HttpMenuService {
         public utilsService: UtilsService,
         public logger: Logger,
         public httpService: HttpService,
-        public infoService: InfoService) {
-
-        this.logger.debug('HttpMenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
+        public infoService: InfoService
+    ) { }
 
     getMenuElements(clearCachedData: boolean): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company'), authtoken: sessionStorage.getItem('authtoken'), clearCachedData: clearCachedData }

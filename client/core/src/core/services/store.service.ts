@@ -130,6 +130,5 @@ export class StoreT<T> extends Observable<T> {
 export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService, private logger: Logger) {
     super(Observable.of(eventDataService.model).concat(eventDataService.change.map(id => eventDataService.model)));
-    this.logger.debug('Store instantiated ' + Math.round(new Date().getTime() / 1000));
   }
 }

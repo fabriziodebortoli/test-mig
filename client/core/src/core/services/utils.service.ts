@@ -5,10 +5,7 @@ import { Logger } from './logger.service';
 @Injectable()
 export class UtilsService {
 
-
-  constructor(public logger: Logger) {
-    this.logger.debug('UtilsService instantiated - ' + Math.round(new Date().getTime() / 1000));
-  }
+  constructor(public logger: Logger) { }
 
   serializeData(data) {
     let buffer = [];

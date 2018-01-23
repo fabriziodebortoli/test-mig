@@ -102,9 +102,5 @@ const NG_MODULES = [
     ],
     providers: [TB_MENU_SERVICES]
 })
-export class TbMenuModule {
-    constructor(public logger: Logger) {
-        this.logger.debug('TbMenuModule from Core instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
-}
+export class TbMenuModule {}
 

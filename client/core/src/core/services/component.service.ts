@@ -103,7 +103,7 @@ export class ComponentService {
   removeComponent(component: ComponentInfo) {
     let idx = this.components.indexOf(component);
     if (idx === -1) {
-      console.debug('ComponentService: cannot remove component with id ' + component.id + ' because it does not exist');
+      this.logger.debug('ComponentService: cannot remove component with id ' + component.id + ' because it does not exist');
       return;
     }
     this.components.splice(idx, 1);
@@ -122,7 +122,7 @@ export class ComponentService {
       }
     }
     if (idx === -1) {
-      console.debug('ComponentService: cannot remove component with id ' + componentId + ' because it does not exist');
+      this.logger.debug('ComponentService: cannot remove component with id ' + componentId + ' because it does not exist');
       return;
     }
     this.components.splice(idx, 1);
@@ -142,7 +142,7 @@ export class ComponentService {
       }
       )
       .catch(reason => {
-        console.log(reason);
+        this.logger.warn(reason);
         this.componentCreationError.emit(reason);
         //cannot create client component: close server one!
         this.webSocketService.closeServerComponent(this.currentComponent.id);

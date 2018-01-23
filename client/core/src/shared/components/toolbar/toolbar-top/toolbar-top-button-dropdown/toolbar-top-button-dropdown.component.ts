@@ -1,3 +1,4 @@
+import { Logger } from './../../../../../core/services/logger.service';
 import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
@@ -40,7 +41,8 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   public eventDataService: EventDataService,
   public infoService: InfoService,
   tbComponentService: TbComponentService,
-  changeDetectorRef: ChangeDetectorRef
+  changeDetectorRef: ChangeDetectorRef,
+  public logger: Logger
 ) {
    super(tbComponentService, changeDetectorRef);
   this.enableLocalization();
@@ -77,7 +79,7 @@ public doCommand(menuItem: any) {
   if (!menuItem) {
       return;
   }
- console.log(menuItem.id + " clicked!");
+ this.logger.debug(menuItem.id + " clicked!");
   this.eventDataService.raiseCommand('', menuItem.id);
   this.onToggle();
 }

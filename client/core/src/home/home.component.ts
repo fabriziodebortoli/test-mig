@@ -1,3 +1,4 @@
+import { Logger } from './../core/services/logger.service';
 import { AuthService } from './../core/services/auth.service';
 import { TbComponentService } from './../core/services/tbcomponent.service';
 import { EventManagerService } from './../core/services/event-manager.service';
@@ -76,7 +77,8 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public eventManagerService: EventManagerService,
     private authService: AuthService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public logger: Logger
   ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
@@ -102,7 +104,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.subscriptions.push(this.eventManagerService.loggingOff.subscribe(() => {
       //sulla logout, se serve, chiudo i settings
-      console.log("loggedOff");
+      this.logger.debug("loggedOff");
       this.closeSettings();
       //eventualmente altre chiusure??? TODOLUCA
     }));
@@ -160,7 +162,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.calcViewHeight();
   }
   calcViewHeight() {
-    console.log("screen.height", screen.height);
+    // this.logger.debug("screen.height", screen.height);
     this.viewHeight = this.tabberContainer ? this.tabberContainer.nativeElement.offsetHeight - 31 : screen.height;
     this.layoutService.setViewHeight(this.viewHeight);
   }
@@ -186,10 +188,10 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
   }
 
   closeSettings() {
-    console.log("closeSettings", this.settingsPageComponent);
+    this.logger.debug("closeSettings", this.settingsPageComponent);
     if (this.settingsPageComponent != null && this.componentService.components.find(current => current == this.settingsPageComponent)) {
       this.componentService.removeComponent(this.settingsPageComponent);
-      console.log("remove setting", this.settingsPageComponent);
+      this.logger.debug("remove setting", this.settingsPageComponent);
     }
     this.settingsPageComponent = null;
   }

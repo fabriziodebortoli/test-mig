@@ -18,7 +18,7 @@ export class CoreGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         let url: string = state.url;
-        this.logger.info('canActivate => Url: ' + url);
+        // this.logger.info('canActivate => Url: ' + url);
 
         return this.authService.isLogged().map(isLogged => {
             if (isLogged) {

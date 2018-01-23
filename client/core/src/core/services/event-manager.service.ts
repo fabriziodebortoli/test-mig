@@ -8,9 +8,7 @@ export class EventManagerService {
     loggedIn: EventEmitter<any> = new EventEmitter();
     loggingOff: EventEmitter<any> = new EventEmitter();
 
-    constructor(public logger: Logger) {
-        this.logger.debug('EventManagerService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
+    constructor(public logger: Logger) { }
 
     emitPreferenceLoaded() {
         this.preferenceLoaded.emit();

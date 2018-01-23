@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter } from '@angular/core';
+
+import { Logger } from './../../../core/services/logger.service';
 import { AuthService } from './../../../core/services/auth.service';
-
-
 
 @Component({
     selector: 'tb-change-password',
@@ -18,7 +18,8 @@ export class ChangePasswordComponent implements OnDestroy {
     oldPassword: string = "";
     public changePasswordOpened: boolean = false;
     constructor(
-        public authService: AuthService
+        public authService: AuthService,
+        public logger: Logger
     ) {
     }
 
@@ -35,7 +36,7 @@ export class ChangePasswordComponent implements OnDestroy {
         this.authService.changePassword(localStorage.getItem('_user'), this.oldPassword, this.newPassword).
             subscribe((res) => {
 
-                console.log(res);
+                this.logger.debug(res);
                 if (res.success) {
                     this.changePasswordOpened = false;
                     //this.connectionData.password = this.newPassword;

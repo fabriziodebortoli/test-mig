@@ -1,3 +1,4 @@
+import { Logger } from './../../../../core/services/logger.service';
 import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
@@ -47,7 +48,7 @@ export class TileManagerComponent implements AfterContentInit {
   changeTilegroupByIndex(i) {
     this.idxActive = i;
     this.kendoTabStripInstance.selectTab(i)
-    console.log("this.idxActive", this.idxActive)
+    // this.logger.debug("this.idxActive", this.idxActive)
   }
 
   getSelectorIcon(){
@@ -62,7 +63,10 @@ export class TileManagerComponent implements AfterContentInit {
   // public viewHeightSubscription: Subscription;
   // viewHeight: number;
 
-  constructor(public layoutService: LayoutService) { }
+  constructor(
+    public layoutService: LayoutService,
+    public logger: Logger
+  ) { }
 
   ngOnInit() {
     // this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);//TODO riattivare nel caso

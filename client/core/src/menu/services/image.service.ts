@@ -13,9 +13,7 @@ export class ImageService {
         public logger: Logger,
         public httpService: HttpService,
         public infoService: InfoService
-    ) {
-        this.logger.debug('ImageService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
+    ) { }
 
     getApplicationIcon(application) {
 

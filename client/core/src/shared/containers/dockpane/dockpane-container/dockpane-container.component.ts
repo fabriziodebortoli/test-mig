@@ -51,7 +51,6 @@ export class DockpaneContainerComponent implements AfterContentInit {
       this.dockState = 'expanded';
       this.idxActive = i;
       this.kendoTabStripInstance.selectTab(i);
-      console.log("this.idxActive", this.idxActive);
     }
     
   }

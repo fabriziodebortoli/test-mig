@@ -1,4 +1,5 @@
-﻿import { TbComponentService } from './../../../core/services/tbcomponent.service';
+﻿import { Logger } from './../../../core/services/logger.service';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
@@ -30,7 +31,8 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         public enumsService: EnumsService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        changeDetectorRef:ChangeDetectorRef
+        changeDetectorRef:ChangeDetectorRef,
+        public logger: Logger
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
 
@@ -57,7 +59,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
     }
 
     onChange() {
-        console.log(this.selectedItem);
+        this.logger.debug(this.selectedItem);
     }
 
     ngDoCheck() {
@@ -89,7 +91,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
             return;
 
         if (this.model.type != 10) {
-            console.log("wrong databinding, not a data enum");
+            this.logger.debug("wrong databinding, not a data enum");
         }
 
         this.tag = this.model.tag;

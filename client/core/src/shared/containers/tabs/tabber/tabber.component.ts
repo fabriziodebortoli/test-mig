@@ -1,3 +1,4 @@
+import { Logger } from './../../../../core/services/logger.service';
 import { AfterViewInit, Component, Output, EventEmitter, OnInit, AfterContentInit, Input, ViewChild, ElementRef, ContentChildren, QueryList, HostListener } from '@angular/core';
 
 import { LayoutService } from './../../../../core/services/layout.service';
@@ -19,7 +20,10 @@ export class TabberComponent implements AfterContentInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   @Output() selectedTab: EventEmitter<any> = new EventEmitter(true);
 
-  constructor(public layoutService: LayoutService) {
+  constructor(
+    public layoutService: LayoutService,
+    public logger: Logger
+  ) {
   }
 
   getTabs() {
@@ -33,7 +37,7 @@ export class TabberComponent implements AfterContentInit {
   calcViewHeight() {
     // this.viewHeight = this.tabContent ? this.tabContent.nativeElement.offsetHeight : 0;
     this.layoutService.setViewHeight(this.viewHeight);
-    console.log("viewHeight", this.viewHeight);
+    // this.logger.debug("viewHeight", this.viewHeight);
   }
 
   ngAfterContentInit() {

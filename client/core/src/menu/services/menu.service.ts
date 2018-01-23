@@ -96,9 +96,7 @@ export class MenuService {
         public infoService: InfoService,
         public diagnosticService: DiagnosticService,
         public loadingService: LoadingService        
-    ) {
-        this.logger.debug('MenuService instantiated - ' + Math.round(new Date().getTime() / 1000));
-    }
+    ) { }
 
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup() {

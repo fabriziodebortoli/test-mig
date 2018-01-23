@@ -10,6 +10,7 @@ import { ContextMenuDirective } from './../../directives/context-menu.directive'
 import { ContextMenuItem } from './../../models/context-menu-item.model';
 import { TbComponent } from './../../../shared/components/tb.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { Logger } from './../../../core/services/logger.service';
 
 @Component({
   selector: 'tb-context-menu',
@@ -38,7 +39,8 @@ export class ContextMenuComponent  extends TbComponent {
     public webSocketService: WebSocketService, 
     public eventDataService: EventDataService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public logger: Logger
 ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
@@ -73,13 +75,12 @@ export class ContextMenuComponent  extends TbComponent {
 
   ngOnInit() {
     super.ngOnInit();
-    console.log('ngoninit contextmenu');
-    console.log(this.contextMenu);
   }
 
   public doCommand(menuItem: any) {
     if (!menuItem) {
-      console.log('NOT doCommand for ContextMenu!'); return;
+      this.logger.debug('NOT doCommand for ContextMenu!'); 
+      return;
     }
     if (this.hasSubItems(menuItem)) {
       return;
@@ -96,7 +97,7 @@ export class ContextMenuComponent  extends TbComponent {
   ///////////////////////////////////////////////////////////////////////////////////
 
   public onToggle(): void {
-    console.log(this.show);
+    this.logger.debug(this.show);
     this.show = !this.show;
     if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
       this.currentItem.showMySub = false;

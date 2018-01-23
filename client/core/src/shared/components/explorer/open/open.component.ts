@@ -8,6 +8,7 @@ import { UtilsService } from './../../../../core/services/utils.service';
 import { EventDataService } from './../../../../core/services/eventdata.service';
 import { ExplorerService } from './../../../../core/services/explorer.service';
 
+import { Logger } from './../../../../core/services/logger.service';
 import { MenuService } from './../../../../menu/services/menu.service';
 import { ImageService } from './../../../../menu/services/image.service';
 
@@ -38,7 +39,9 @@ export class OpenComponent extends DocumentComponent implements OnInit {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public http: Http, 
-    changeDetectorRef: ChangeDetectorRef) {
+    changeDetectorRef: ChangeDetectorRef,
+    public logger: Logger
+  ) {
     super(explorerService, eventData, null, changeDetectorRef);
   }
 
@@ -86,11 +89,11 @@ export class OpenComponent extends DocumentComponent implements OnInit {
   }
 
   selecteFolder(folder) {
-    console.log('sono nella selectFolder');
+    this.logger.debug('sono nella selectFolder');
     this.filesSubscription = this.callGetFolderFiles(folder).subscribe(result => {
-      console.log(result);
+      this.logger.debug(result);
       this.files = result.Files.File;
-      console.log(this.files);
+      this.logger.debug(this.files);
     });
   }
 

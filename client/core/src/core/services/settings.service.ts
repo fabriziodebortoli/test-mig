@@ -27,7 +27,7 @@ export class SettingsService {
         public logger: Logger,
         public utilsService: UtilsService
     ) {
-        this.logger.debug('SettingsService instantiated - ' + Math.round(new Date().getTime() / 1000));
+        
     }
 
     //---------------------------------------------------------------------------------------------
