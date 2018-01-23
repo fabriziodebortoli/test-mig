@@ -40,6 +40,20 @@ namespace Microarea.TbLoaderGate.Application
                 case "/tb/document/initTBLogin/":
                     text = "{\"success\" : true}";
                     break;
+                case "/tb/document/canLogoff/":
+                    if (Cache.Documents.Length == 0)
+                        text = "{\"success\" : true}";
+                    else
+                    {
+                        JObject jRes = new JObject();
+                        jRes["success"] = false;
+                        JObject jMsg = new JObject();
+                        jRes["message"] = jMsg;
+                        jMsg["text"] = "Cannot logout.\r\nPlease, check whether there are any opened documents in the application framework.";
+                        text = jRes.ToString();
+                    }
+                        
+                    break;
                 case "/tb/document/getThemes/":
                     text = "{\"Themes\" : {\"Theme\" : []}}";
                     break;
