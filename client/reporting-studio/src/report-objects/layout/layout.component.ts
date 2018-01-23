@@ -1,4 +1,3 @@
-import { gauge } from './../../models/gauge.model';
 import { LayoutService } from '@taskbuilder/core';
 import { ReportingStudioService } from './../../reporting-studio.service';
 import { RsExportService } from './../../rs-export.service';
@@ -15,6 +14,8 @@ import { table } from './../../models/table.model';
 import { sqrrect } from '../../models/sqrrect.model';
 import { baseobj } from '../../models/baseobj.model';
 import { repeater } from '../../models/repeater.model';
+import { title } from './../../models/title.model';
+import { gauge } from './../../models/gauge.model';
 import { TemplateItem } from '../../models/template-item.model';
 
 import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
@@ -75,7 +76,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         if (this.rsExportService.pdfState == PdfType.PDF) {
           this.createPDF();
         }
-        else this.UpdateData(); 
+        else this.UpdateData();
         if (this.rsExportService.svgState == SvgType.SVG) {
           this.rsExportService.exportSVG();
         }
@@ -187,18 +188,17 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
-          if (element.fieldrect.label !== undefined)
-          {
+          if (element.fieldrect.label !== undefined) {
             obj.label.caption = element.fieldrect.label.caption;
             if (element.fieldrect.label.textcolor !== undefined) {
               obj.label.textcolor = element.fieldrect.label.textcolor;
             }
           }
 
-          if (obj.link !== undefined) {
+          if (element.fieldrect.link !== undefined) {
             obj.link = new link(element.fieldrect.link);
           }
-          
+
           if (element.fieldrect.textcolor !== undefined) {
             obj.textcolor = element.fieldrect.textcolor;
           }
@@ -215,13 +215,12 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
-          if (obj.textcolor !== undefined) {
+          if (element.textrect.textcolor !== undefined) {
             obj.textcolor = element.textrect.textcolor;
           }
-          if (obj.bkgcolor !== undefined) {
+          if (element.textrect.bkgcolor !== undefined) {
             obj.bkgcolor = element.textrect.bkgcolor;
           }
-          
           obj.value = value;
         }
         else if (element.table !== undefined) {
@@ -244,7 +243,21 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             if (source.hidden !== undefined) {
               target.hidden = source.hidden;
             }
+
+            if (source.title !== undefined) {
+
+              if (source.title.textcolor !== undefined) {
+                target.title.textcolor = source.title.textcolor;
+              }
+
+              if (source.title.bkgcolor !== undefined) {
+                target.title.bkgcolor = source.title.bkgcolor;
+              }
+            }
           }
+
+
+
           obj.value = value;
         }
         else if (element.chart !== undefined) {

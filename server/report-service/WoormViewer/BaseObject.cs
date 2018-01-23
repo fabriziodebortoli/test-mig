@@ -2512,6 +2512,15 @@ namespace Microarea.RSWeb.Objects
                 (this.TextColorExpr != null ? this.DynamicTextColor.ToJson("textcolor") + ',' : "") +
                 (this.BkgColorExpr != null ? this.DynamicBkgColor.ToJson("bkgcolor") + ',' : "");
 
+            
+            if (HasFormatStyleExpr)
+            {
+                if (DynamicFormatStyleName.Length > 0)
+                {
+                    this.Value.FormattedData = this.Document.FormatFromSoapData(DynamicFormatStyleName, InternalID, Value.RDEData);
+                }
+            }
+
             s += this.Value.FormattedData.ToJson("value", false, true);
 
             string link = BaseObj.GetLink(false, this.Document, this.InternalID);

@@ -28,6 +28,12 @@ export class ReportTableComponent {
 
   // -----------------------------------------------------
   getTitleStyle(): any {
+
+    let rgbaBkgColor = this.utils.hexToRgba(this.table.title.bkgcolor);
+    let backgroundColor = 'rgba(' + rgbaBkgColor.r + ',' + rgbaBkgColor.g + ',' +rgbaBkgColor.b + ',' + 1 + ')';
+    let rgbaTextColor = this.utils.hexToRgba(this.table.title.textcolor);
+    let textColor = 'rgba(' + rgbaTextColor.r + ',' + rgbaTextColor.g + ',' +rgbaTextColor.b + ',' + 1 + ')';
+  
     let obj = {
       'height': this.table.title.rect.bottom - this.table.title.rect.top + 'px',
       'border-left': this.table.title.borders.left ? this.table.title.pen.width + 'px' : '0px',
@@ -42,7 +48,9 @@ export class ReportTableComponent {
       'font-weight': this.table.title.font.bold ? 'bold' : 'normal',
       'text-decoration': this.table.title.font.underline ? 'underline' : 'none',
       'text-align': this.table.title.text_align,
-      'vertical-align': this.table.title.vertical_align
+      'vertical-align': this.table.title.vertical_align,
+      'background-color': backgroundColor,
+      'color': textColor
     };
 
     return obj;
