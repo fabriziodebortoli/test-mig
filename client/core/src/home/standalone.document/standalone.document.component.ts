@@ -41,7 +41,7 @@ export class StandaloneDocumentComponent implements OnInit {
   }
 
   ngOnInit() {
-    let sub = this.taskbuilderService.openTbConnection().subscribe(res => { sub.unsubscribe();});
+    let sub = this.taskbuilderService.openTbConnectionAndShowDiagnostic().subscribe(res => { sub.unsubscribe();});
   }
 
 }
