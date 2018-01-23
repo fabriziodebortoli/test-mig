@@ -59,12 +59,12 @@ export class pointer {
     transparent: number;
     color: string;
     style: GaugeObjectStyle;
-    value:any;
+    value: number;
 
     constructor(jsonObj: any) {
         this.transparent = jsonObj.transparent;
         this.color = jsonObj.color;
         this.style = jsonObj.style;
-        this.value=jsonObj.value;
+        this.value = jsonObj.value ? jsonObj.value : 0;
     }
 }
