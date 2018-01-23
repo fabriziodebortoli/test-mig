@@ -2370,7 +2370,7 @@ namespace Microarea.RSWeb.Objects
 		public bool HideColumnsTitle = false;
 
 		public BorderPen TitlePen = new BorderPen();
-		public BasicText Title = new BasicText();
+		public BasicText Title = null;
 
 		public List<Column> Columns;
 		public bool[] Interlines;
@@ -2432,13 +2432,15 @@ namespace Microarea.RSWeb.Objects
 		public Table(WoormDocument document, int rows, int cols)
 			: base(document)
 		{
-			Title.TextColor = Defaults.DefaultTableTitleForeground;
-			Title.BkgColor = Defaults.DefaultTableTitleBackground;
-			Title.FontStyleName = DefaultFont.TitoloTabella;
-			Title.Align = Defaults.DefaultAlign;
-
-			// dimensione di default per celle e titolo
-			Size defaultCell = new Size(CELL_WIDTH, CELL_HEIGHT);
+            Title = new BasicText(document)
+            {
+                TextColor = Defaults.DefaultTableTitleForeground,
+                BkgColor = Defaults.DefaultTableTitleBackground,
+                FontStyleName = DefaultFont.TitoloTabella,
+                Align = Defaults.DefaultAlign
+            };
+            // dimensione di default per celle e titolo
+            Size defaultCell = new Size(CELL_WIDTH, CELL_HEIGHT);
 			Size defaultColumnTitle = new Size(defaultCell.Width, COLUMN_TITLE_HEIGHT);
 
 			// origine e dimensione iniziale
