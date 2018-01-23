@@ -13,7 +13,7 @@
 #include "JsonFormEngineEx.h"
 #include "TBActivityDocument.h"
 #include "TBBaseNavigation.h"
-
+#include "DParametersDoc.h"
 #include "ItemSource.h"
 #include "Validator.h"
 #include "ComposedHotLink.h"
@@ -107,7 +107,10 @@ BEGIN_ADDON_INTERFACE()
 
 	BEGIN_FAMILY_CLIENT_DOC()
 		WHEN_FAMILY_SERVER_DOC(CAbstractFormDoc)
-			ATTACH_FAMILY_CLIENT_DOC_EXCLUDE_BATCH_MODE(CDFieldInspector,			_NS_CD("FieldInspector"))
+			ATTACH_FAMILY_CLIENT_DOC_EXCLUDE_BATCH_MODE(CDFieldInspector,	_NS_CD("FieldInspector"))
+		END_FAMILY_SERVER_DOC()
+		WHEN_FAMILY_SERVER_DOC(DParametersDoc)
+			ATTACH_FAMILY_CLIENT_DOC(CDParametersDoc, _NS_CD("CDParametersDoc"))
 		END_FAMILY_SERVER_DOC()
 	END_FAMILY_CLIENT_DOC()
 	
