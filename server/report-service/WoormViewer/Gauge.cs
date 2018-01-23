@@ -63,6 +63,14 @@ namespace Microarea.RSWeb.Objects
             s += "\"style\":" + (int)Style + "}";
             return s;
         }
+        public string ToJsonData()
+        {
+            string s = "{";
+
+            s += BindedField.Data.ToJson("value");
+
+            return s + '}';
+        }
     };
 
     class GaugeRangeColor
@@ -346,7 +354,6 @@ namespace Microarea.RSWeb.Objects
 
             s += "]";
 
-
             s += ',' + " \"pointers\":[";
             for (int i = 0; i < pointers.Count; i++)
             {
@@ -364,32 +371,7 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-        //---------------------------------------------------------------------
-
-        string ToJsonData(GaugePointer pointer)
-        {
-            string s = "{";
-
-            s += pointer.BindedField.Data.ToJson("value");
-
-            if (pointer.Colored)
-                s += ',' + pointer.Color.ToJson("color");
-
-            s += ',' + pointer.Transparent.ToJson("transparent");
-
-            switch (pointer.Style)
-            {
-                case EnumGaugeStyle.Arrow:
-                    s += ',' + "arrow".ToJson("style");
-                    break;
-                case EnumGaugeStyle.Bar:
-                default:
-                    //s += ',' + "smooth".ToJson("style");
-                    break;
-            }
-
-            return s + '}';
-        }
+        
 
         //---------------------------------------------------------------------
         public override string ToJsonData(bool bracket)
@@ -400,13 +382,22 @@ namespace Microarea.RSWeb.Objects
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
 
-            s += '{' + base.ToJsonData(false);
+            s += '{' + base.ToJsonData(false)+'}';
 
-            //---------------------------
-            //TODO
-            //s +=  ',' + 
-            //---------------------------
-            s += '}';
+
+            if (pointers.Count > 0)
+                s += ", pointers:[";
+            for(int i = 0; i < pointers.Count; i++)
+            {
+                var pointer = pointers[i];
+                s += pointer.ToJsonData();
+
+                if (i < pointers.Count - 1)
+                    s += ',';
+            }
+           
+            if (pointers.Count > 0)
+                s += "]";
 
             if (bracket)
                 s = '{' + s + '}';
