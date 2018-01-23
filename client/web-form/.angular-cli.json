@@ -77,6 +77,9 @@
             "module": false,
             "pipe": false,
             "service": false
+        },
+        "build": {
+            "preserveSymlinks": true
         }
     }
 }
