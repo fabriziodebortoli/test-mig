@@ -5,8 +5,8 @@ import { Store, createSelectorByMap } from '@taskbuilder/core';
 import { DocumentMenuService } from './document-menu.service';
 
 @Component({
-    selector: 'tb-document-layout',
-    templateUrl: './document-layout.component.html',
+    selector: 'tb-document-menu',
+    templateUrl: './document-menu.component.html',
     providers: [DocumentMenuService, ComponentInfoService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -17,13 +17,15 @@ export class DocumentMenuComponent extends BOComponent implements OnInit, OnDest
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        changeDetectorRef: ChangeDetectorRef) {
+        changeDetectorRef: ChangeDetectorRef
+    ) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
+        this.eventData.model = { 'Title': { 'value': "Test nuova toolbar" } };
     }
 
     ngOnDestroy() {

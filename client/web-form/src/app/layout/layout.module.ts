@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { DocumentLayoutComponent, DocumentLayoutFactoryComponent } from './document/document-layout.component';
+import { DocumentMenuComponent, DocumentMenuFactoryComponent } from './document-menu/document-menu.component';
 import { SharedModule } from './../shared/shared.module';
 
 @NgModule({
@@ -11,16 +12,17 @@ import { SharedModule } from './../shared/shared.module';
         CommonModule,
         RouterModule.forChild([
             { path: 'document', component: DocumentLayoutFactoryComponent },
-            { path: 'document-menu', component: DocumentLayoutFactoryComponent },
+            { path: 'document-menu', component: DocumentMenuFactoryComponent }
         ])],
     declarations: [
             DocumentLayoutComponent, DocumentLayoutFactoryComponent,
+            DocumentMenuComponent, DocumentMenuFactoryComponent
     ],
     exports: [
-            DocumentLayoutFactoryComponent,
+            DocumentLayoutFactoryComponent,DocumentMenuFactoryComponent
     ],
     entryComponents: [
-            DocumentLayoutComponent,
+            DocumentLayoutComponent,DocumentMenuComponent
     ]
 })
 

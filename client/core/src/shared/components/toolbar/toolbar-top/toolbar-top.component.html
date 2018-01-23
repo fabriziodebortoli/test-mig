@@ -1,12 +1,15 @@
 <div class="toolbar-top">
-    <div class="history" *ngIf=history>
-        <m4-icon icon="tb-clock"></m4-icon>
+    <div class="menu">
+        <ng-content select=".toolbar-menu"></ng-content>
     </div>
+    <!-- <div class="history" *ngIf=history>
+        <m4-icon icon="tb-clock"></m4-icon>
+    </div> -->
     <div class="title">
         <span class="truncate">{{eventData?.model?.HeaderStripTitle?.value || eventData?.model?.Title?.value || title}}</span>
     </div>
 
-    <div class="menu">
-        <ng-content></ng-content>
+    <div class="right">
+        <ng-content select=".toolbar-right"></ng-content>
     </div>
 </div>

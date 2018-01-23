@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [`
     div{
       width:1px;
-      height:30px;
+      height:35px;
       background:#ddd;
     }
   `]

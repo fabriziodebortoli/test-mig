@@ -91,6 +91,12 @@ tb-root>.k-icon.k-i-loading {
     visibility: hidden;
 }
 
+.toolbar-menu,
+.toolbar-right,
+.menu-category {
+    display: flex;
+}
+
 
 /* 
     Material Design theming
