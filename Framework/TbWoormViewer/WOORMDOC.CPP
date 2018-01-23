@@ -6651,7 +6651,7 @@ void CWoormDocMng::OnSendMail()
 		return;
 	}
 
-	if (AfxIsActivated(MAGONET_APP, IMAGO_ACT))
+	if (AfxIsActivated(MAGONET_APP, IMAGO_ACT) && AfxGetLoginContext()->GetLoginInfos()->m_bDataSynchro)
 	{
 		CTBNamespace ns(_NS_MOD("Module.Extensions.TbMailer"));
 		DataObj* pSetting = AfxGetSettingValue(ns, _T("MailServer"), _T("UseMago"), DataBool(TRUE));

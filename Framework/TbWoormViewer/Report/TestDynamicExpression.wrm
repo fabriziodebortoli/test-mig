@@ -17,11 +17,11 @@ PageLayout "default"
 				TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
 				Special
 			End
-		Field (32,421,66,542) Alias 15  /* TestLabelStatica */ FormatStyle "Text1" 
+		Field (32,421,66,542) Alias 15  /* TestLabelStatica */ FormatStyle = ReportCurrentPageNumber == 1 ? "Text1" : "TextPagSucc" ;
 			Begin
 				Label "TestLabelStatica" 
 			End
-		Field (82,172,110,293) Alias 8  /* FieldLabel */ FormatStyle = ReportCurrentPageNumber == 1 ? "Text" : "TextPagSucc" ;
+		Field (82,172,110,293) Alias 8  /* FieldLabel */ FormatStyle = ReportCurrentPageNumber == 1 ? "Text1" : "TextPagSucc" ;
 			Begin
 				TextColor = ReportCurrentPageNumber == 1 ? RGB ( 0 , 255 , 0 ) : RGB ( 255 , 0 , 0 ) ;
 				BkgColor = ReportCurrentPageNumber == 1 ? RGB ( 255 , 0 , 0 ) : RGB ( 0 , 255 , 0 ) ;
@@ -41,6 +41,11 @@ PageLayout "default"
 				"MA_Banks_Agency" Alias 4  /* MA_Banks_Agency */ Width 121 ;
 				"MA_Banks_Bank" Alias 5  /* MA_Banks_Bank */ Width 121 ;
 				"MA_Banks_City" Alias 6  /* MA_Banks_City */ Width 121 ;
+				Title Column (0,4)  BkgColor (50,205,50) ;
+				ColTotal Column (0,4)  BkgColor (255,20,147) ;
+
+				Body All BkgColor (255,20,147) ;
+
 			End
 
 

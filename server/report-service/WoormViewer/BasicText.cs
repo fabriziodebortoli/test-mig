@@ -170,6 +170,7 @@ namespace Microarea.RSWeb.Objects
 			FontStyleName = s.FontStyleName;
             fontData = s.FontData;
             DataType = s.DataType;
-		}
+            document = s.document;
+        }
 	}
 }
