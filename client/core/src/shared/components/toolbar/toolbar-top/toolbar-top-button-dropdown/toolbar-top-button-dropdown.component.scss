@@ -22,12 +22,7 @@
         border: 0px;
     }
 }
-.k-animation-container-shown, .k-animation-container[_ngcontent-c95] > .k-popup[_ngcontent-c95]
-{
-    -webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
-}
+
 .popup
 {
    border: 1px solid #b9b7b7;
@@ -42,8 +37,8 @@ kendo-popup[style] {
     background: transparent !important;
     top: 115px  !important;
  }
- .wrapper:after, 
-.wrapper:before {
+ 
+ .wrapper:before {
     content: "";
     width: 0;
     height: 0;

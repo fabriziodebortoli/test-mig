@@ -5,11 +5,10 @@
     (open)="onOpen()" [collision]="collision" 
     [anchorAlign]="anchorAlign" 
     [popupAlign]="popupAlign" 
-    style="left: 631px; top: 115px;"
     >
     <div class="popup">
         <button kendoButton *ngFor="let menuItem of menuElements" class="content" [disabled]="!menuItem?.enabled"
-       (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
+      (click)="doCommand(menuItem)">
             <m4-icon icon="{{getCorrectIcon(menuItem)}}"></m4-icon>
                  <span> {{menuItem?.text}} </span>
     </button>

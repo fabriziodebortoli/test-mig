@@ -25,7 +25,6 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   public show = false;
-  isMouseDown = false;
   currentItem: ContextMenuItem;
   public fontIcon: string;
   
@@ -89,12 +88,7 @@ public onToggle(): void {
   }
 }
 public closePopupIf(): void {
-  if (this.isMouseDown) {
-      this.isMouseDown = false;
-      document.getElementById('anchor').focus();
-      return;
-  }
-  this.outView(this.currentItem);
+   this.outView(this.currentItem);
 }
 outView(item: ContextMenuItem) {
   if (item !== null && item !== undefined) {
@@ -103,12 +97,6 @@ outView(item: ContextMenuItem) {
 
   this.show = false;
   this.currentItem = null;
-  this.isMouseDown = false;
-}
-
-
-setMouseDown() {
-  this.isMouseDown = true;
 }
 
 public getCorrectIcon(menuItem: any)
