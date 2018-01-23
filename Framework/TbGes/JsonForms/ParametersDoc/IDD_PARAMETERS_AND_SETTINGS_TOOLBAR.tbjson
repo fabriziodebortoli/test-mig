@@ -1,0 +1,34 @@
+﻿{
+    "id": "ID_EXTDOC_TOOLBAR_MAIN",
+    "type":  "Toolbar",
+    "items": [        
+        {
+            "id": "ID_EXTDOC_FIRST",
+            "activation": "false"
+        },
+        {
+            "id": "ID_EXTDOC_PREV",
+            "activation": "false"
+        },
+        {
+            "id": "ID_EXTDOC_NEXT",
+            "activation": "false"
+        },
+        {
+            "id": "ID_EXTDOC_LAST",
+            "activation": "false"
+        },        
+        {
+            "id": "ID_EXTDOC_NEW",
+            "activation": "false"
+        },
+        {
+            "id": "ID_EXTDOC_DELETE",
+            "activation": "false"
+        },
+        {
+            "id": "ID_EXTDOC_REPORT",
+            "activation": "false"
+        }
+    ]
+}
