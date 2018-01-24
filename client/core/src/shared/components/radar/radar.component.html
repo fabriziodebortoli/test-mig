@@ -19,13 +19,13 @@
             </button>
         </div>
     </div>
-    <kendo-grid #grid [sortable]="true" [sort]="sort" (sortChange)="sortChange($event)" class="radar-grid" [height]="300" [data]="gridData$ | async"
+    <kendo-grid #grid [sortable]="true" [sort]="sort$ | async" (sortChange)="sortChange($event)" class="radar-grid" [height]="300" [data]="gridData$ | async"
         [pageSize]="pageSize" [selectable]="canNavigate$ | async" [skip]="paginator.skip" [filterable]="areFiltersVisible" [filter]="filter"
         (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange($event)" [ngStyle]="gridStyle$ | async"
         (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
         [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
         <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
-            field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first">
+            field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="200">
             <ng-template kendoGridCellTemplate let-dataItem>
                 <div id="cell-container">
                     <div [ngSwitch]="col.type">
