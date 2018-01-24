@@ -147,7 +147,7 @@ namespace Microarea.TbJson
                 return text;
             }
             //la rimozione di '&' va fatta lato client nell a_TB, altrimenti non trova le traduzioni
-            text = Regex.Replace(text, "'|\\\"", new MatchEvaluator(ReplaceInLocalizableString));
+            text = Regex.Replace(text, "'|\\\"|\r|\n|\t", new MatchEvaluator(ReplaceInLocalizableString));
             //HttpUtility.HtmlEncode(text.Replace("'", "\\'"));
 
             return string.Concat("_TB('", text, "')");
@@ -158,6 +158,12 @@ namespace Microarea.TbJson
         {
             if (match.Value == "'")
                 return "\\'";
+            if (match.Value == "\r")
+                return "\\r";
+            if (match.Value == "\n")
+                return "\\n";
+            if (match.Value == "\t")
+                return "\\t";
             return HttpUtility.HtmlEncode(match.Value);
         }
 
