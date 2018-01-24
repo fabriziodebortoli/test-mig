@@ -396,7 +396,8 @@ public:
 	BOOL	Parse	(Parser& parser);
 	void	Unparse(Unparser&, BOOL bNewLine = TRUE, BOOL bSkipBeginEnd = FALSE);
 
-	void DeleteTable (LPCTSTR pszDispTableName);
+	virtual void DeleteTable (LPCTSTR pszDispTableName);
+	virtual void DispTableChanged(LPCTSTR pszOldName, LPCTSTR pszNewName);
 
 	virtual void SetTableName(LPCTSTR pszNewName);
 };

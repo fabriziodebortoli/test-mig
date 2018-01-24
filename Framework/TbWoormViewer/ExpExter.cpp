@@ -207,18 +207,12 @@ BOOL CExportData::AddRemoveTable(BaseObj* pBaseObj, CPoint point, BOOL bSelForTi
 //------------------------------------------------------------------------------
 void CExportData::AutoAddTable(CArray<CExportTableItem*>& m_parTables )
 {
-	int i;
-	BaseObj* pObj;
-
-	for (i = 0; i <= m_pWoormDoc->GetObjects().GetUpperBound(); i++)
+	for (int i = 0; i <= m_pWoormDoc->GetObjects().GetUpperBound(); i++)
 	{
-		pObj = m_pWoormDoc->GetObjects()[i];
+		BaseObj* pObj = m_pWoormDoc->GetObjects()[i];
 
 		if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
 		{
-			if (i > m_pWoormDoc->GetObjects().GetUpperBound())
-				continue;
-
 			WORD wID = pObj->GetInternalID();
 			m_pItem = new CExportTableItem(wID);
 			
@@ -236,6 +230,7 @@ void CExportData::AutoAddTable(CArray<CExportTableItem*>& m_parTables )
 			}
 
 			m_parTables.Add(pItem);
+			return;
 		}
 	}
 }
