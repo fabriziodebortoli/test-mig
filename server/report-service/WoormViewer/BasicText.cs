@@ -35,10 +35,10 @@ namespace Microarea.RSWeb.Objects
 			if (fe == null)
 				return;
 
-			//Italic		= (FontStyle.Italic & fe.FontStyle) == FontStyle.Italic;
-			//Bold		= (FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;
-			//Strikeout	= (FontStyle.Strikeout & fe.FontStyle) == FontStyle.Strikeout;
-			//Underline	= (FontStyle.Underline & fe.FontStyle) == FontStyle.Underline;   TODO rsweb non esiste FontStyle
+			Italic		= (FontStyle.Italic & fe.FontStyle) == FontStyle.Italic;
+			Bold		= (FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;
+			Strikeout	= (FontStyle.Strikeout & fe.FontStyle) == FontStyle.Strikeout;
+			Underline	= (FontStyle.Underline & fe.FontStyle) == FontStyle.Underline;
 
 			Family	= fe.FaceName; 
 			Size	= fe.Size; 
@@ -72,8 +72,8 @@ namespace Microarea.RSWeb.Objects
             string s = name.ToJson() + ":{" +
                                         Family.ToJson("face") + ',' +
                                         Size.ToJson("size") + ',' +
-                                        Bold.ToJson("italic") + ',' +
-                                        Italic.ToJson("bold") + ',' +
+                                        Italic.ToJson("italic") + ',' +
+                                        Bold.ToJson("bold") + ',' +
                                         Underline.ToJson("underline") + //',' +
                                         //Strikeout.ToJson("strikeout") + 
                                      '}';

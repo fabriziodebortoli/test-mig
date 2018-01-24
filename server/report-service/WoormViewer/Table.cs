@@ -3765,8 +3765,8 @@ namespace Microarea.RSWeb.Objects
 		private bool ParseBodyVariations(WoormParser lex)
 		{
 			Color[] allColors = new Color[(int)ElementColor.MAX];
-			allColors[(int)ElementColor.VALUE] = Color.FromArgb(255, 255, 255, 255); ;
-			allColors[(int)ElementColor.BACKGROUND] = Color.FromArgb(255, 0, 0, 0); ;
+			allColors[(int)ElementColor.VALUE] = Color.FromArgb(255, 0, 0, 0); ;
+			allColors[(int)ElementColor.BACKGROUND] = Color.FromArgb(255, 255, 255, 255); ;
 
 			if (lex.LookAhead(Token.BEGIN))
 				return
