@@ -102,10 +102,17 @@ namespace Microarea.Common.Hotlink
         public string logic { get; set; }
     }
 
-
-    public class GridCustomFilters
+    //-------------------------------------------------------------------------
+    public class SortField
     {
-        public CustomFilters cf { get; set; }
+        public string Dir { get; set; }
+
+        public string Field { get; set; }
+    }
+
+    public class CustomSortFields
+    {
+        public List<SortField> fields { get; set; }
     }
 
     //-------------------------------------------------------------------------
@@ -149,49 +156,84 @@ namespace Microarea.Common.Hotlink
             customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
             if (customFilters == null || customFilters.filters == null)
             {
-                Debug.Fail("Missing Xml Description of " + Session.Namespace);
+                Debug.Fail("Wrong custom filters ");
                 return string.Empty;
             }
-            
-            if (customFilters != null && customFilters.filters != null && customFilters.filters.Count > 0)
-            {
-                bool first = true;
-                foreach (FilterField ff in customFilters.filters)
-                {
-                    string colName = ff.field.Replace("__", ".");
-                    if (!first)
-                    {
-                        customWhere += ' ' + customFilters.logic + ' ';
-                    }
-                    else
-                        first = false;
+            if (customFilters.filters.Count == 0)
+                return string.Empty;
 
-                    if (ff.Operator.CompareNoCase("Contains"))
-                        customWhere += colName + string.Format(" LIKE '%{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("DoesNotContain"))
-                        customWhere += colName + string.Format("NOT LIKE '%{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsEqualTo"))
-                        customWhere += colName + string.Format(" = {0}", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
-                        customWhere += colName + string.Format(" <> {0}", ff.Value);
-                    else if (ff.Operator.CompareNoCase("StartsWith"))
-                        customWhere += colName + string.Format(" LIKE '{0}%'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("EndsWith"))
-                        customWhere += colName + string.Format(" LIKE '%{0}'", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNull"))
-                        customWhere += colName + string.Format(" IS NULL", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotNull"))
-                        customWhere += colName + string.Format(" IS NOT NULL", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsEmpty"))
-                        customWhere += colName + string.Format(" = ''", ff.Value);
-                    else if (ff.Operator.CompareNoCase("IsNotEmpty"))
-                        customWhere += colName + string.Format(" <> ''", ff.Value);
+            bool first = true;
+            foreach (FilterField ff in customFilters.filters)
+            {
+                string colName = ff.field.Replace("__", ".");
+                if (!first)
+                {
+                    customWhere += ' ' + customFilters.logic + ' ';
                 }
+                else
+                    first = false;
+
+                if (ff.Operator.CompareNoCase("Contains"))
+                    customWhere += colName + string.Format(" LIKE '%{0}%'", ff.Value);
+                else if (ff.Operator.CompareNoCase("DoesNotContain"))
+                    customWhere += colName + string.Format("NOT LIKE '%{0}%'", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsEqualTo"))
+                    customWhere += colName + string.Format(" = {0}", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
+                    customWhere += colName + string.Format(" <> {0}", ff.Value);
+                else if (ff.Operator.CompareNoCase("StartsWith"))
+                    customWhere += colName + string.Format(" LIKE '{0}%'", ff.Value);
+                else if (ff.Operator.CompareNoCase("EndsWith"))
+                    customWhere += colName + string.Format(" LIKE '%{0}'", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsNull"))
+                    customWhere += colName + string.Format(" IS NULL", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsNotNull"))
+                    customWhere += colName + string.Format(" IS NOT NULL", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsEmpty"))
+                    customWhere += colName + string.Format(" = ''", ff.Value);
+                else if (ff.Operator.CompareNoCase("IsNotEmpty"))
+                    customWhere += colName + string.Format(" <> ''", ff.Value);
             }
 
             return customWhere;
         }
- 
+        //---------------------------------------------------------------------
+        private string PrepareCustomSort(string cs)
+        {
+            string customSort = string.Empty;
+            CustomSortFields customSortFields = null;
+
+            if (cs.IsNullOrEmpty() || cs == "{}" || /*tapullo*/ cs == "\"\"")
+                return string.Empty;
+
+            customSortFields = JsonConvert.DeserializeObject<CustomSortFields>(cs);
+            if (customSortFields == null || customSortFields.fields == null)
+            {
+                Debug.Fail("Wrong custom sort fields ");
+                return string.Empty;
+            }
+
+            if (customSortFields.fields.Count > 0)
+                return string.Empty;
+
+            bool first = true;
+            foreach (SortField sf in customSortFields.fields)
+            {
+                string colName = sf.Field.Replace("__", ".");
+                if (!first)
+                {
+                    customSort += ',';
+                }
+                else
+                    first = false;
+
+                customSort += colName;
+                if (sf.Dir.CompareNoCase("DESC"))
+                    customSort += " DESC";
+            }
+            return customSort;
+        }
+
         //---------------------------------------------------------------------
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
@@ -239,6 +281,7 @@ namespace Microarea.Common.Hotlink
             }
 
             string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
+            string customSort = PrepareCustomSort(requestQuery["customSort"]);
 
             //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
             FunctionPrototype args = new FunctionPrototype();
@@ -342,6 +385,7 @@ namespace Microarea.Common.Hotlink
             }
 
             this.CurrentQuery.SetCustomWhere(customWhere);
+            this.CurrentQuery.SetCustomSort(customSort);
 
             if (isPaged)
             {
@@ -378,6 +422,7 @@ namespace Microarea.Common.Hotlink
             }
 
             string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
+            string customSort = PrepareCustomSort(requestQuery["customSort"]);
 
             string response = await TbSession.GetRadarQuery(Session, documentId, name);
             if (response.IsNullOrEmpty())
@@ -402,6 +447,7 @@ namespace Microarea.Common.Hotlink
             }
 
             this.CurrentQuery.SetCustomWhere(customWhere);
+            this.CurrentQuery.SetCustomSort(customSort);
 
             if (isPaged)
             {
