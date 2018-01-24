@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,15 @@ using TaskBuilderNetCore.Documents.Model.Interfaces;
 namespace Microarea.TbfWebGate.Application
 {
     //===============================================================================================
-    public class OrchestratorService
+    public class OrchestratorService : IDisposable
     {
-        private IHostingEnvironment hostingEnvironment;
-        private WebSocket webSocket;
-        private Orchestrator orchestrator;
+        IHostingEnvironment hostingEnvironment;
+        WebSocket webSocket;
+        Orchestrator orchestrator;
+        bool disposed;
 
 
-        //-----------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------
         public OrchestratorService(IHostingEnvironment hostingEnvironment, WebSocket webSocket)
         {
             this.hostingEnvironment = hostingEnvironment;
@@ -28,7 +30,7 @@ namespace Microarea.TbfWebGate.Application
             this.orchestrator.Configure();
         }
 
-        //-----------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------
         //internal async Task ProcessRequest(string url, HttpRequest request, HttpResponse response, string authHeader)
         //{
         //    // tolgo l'url
@@ -75,6 +77,7 @@ namespace Microarea.TbfWebGate.Application
         //    await response.WriteAsync(outputMessage);
         //}
 
+        //---------------------------------------------------------------------
         public string GetDocument(CallerContext context)
         {
             string outputMessage;
@@ -86,10 +89,30 @@ namespace Microarea.TbfWebGate.Application
             return outputMessage;
         }
 
-        /// <summary>
-        ///  Blocco di test dimostrtivo per adesso tutto sincrono
-        /// </summary>
-        //-----------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    if (this.webSocket != null)
+                    {
+                        this.webSocket.Dispose();
+                        this.webSocket = null;
+                    }
+                }
+
+                disposed = true;
+            }
+        }
+
+        //---------------------------------------------------------------------
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 
     //===============================================================================================
