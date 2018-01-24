@@ -194,8 +194,6 @@ void CLoginThread::PostLoginInitializations()
 	if (!aLoader.IntergrateLoginDefinitions (&statusBar))
 		m_bValid = FALSE;
 
-	// Data Caching needs Settings Loaded to initialize
-	InitDataCachingManager  ();
 
 	LoadTaskBuilderParameters ();
 
@@ -932,19 +930,6 @@ void CLoginThread::AddFormatter(Formatter* pFormatter)
 {
 	if (GetFormatsTable())
 		((FormatStyleTable*) GetFormatsTable ())->AddFormatter(pFormatter->Clone());
-}
-
-//----------------------------------------------------------------------------------------------
-void CLoginThread::InitDataCachingManager ()
-{
-	AttachDataCachingUpdatesListener(new CDataCachingUpdatesListener());
-	
-	CDataCachingSettings* pSettings = new CDataCachingSettings();
-	AttachDataCachingSettings(pSettings);
-
-	// lock is not needed as LoginThread and all LoginContext objects are initializing
-	if (pSettings->IsDataCachingEnabled() && pSettings->GetCacheScope() == CDataCachingSettings::LOGIN)
-		AfxGetOleDbMng()->GetDataCachingContext()->CreateCache ();
 }
 //-----------------------------------------------------------------------------
 CXMLVariable* CLoginThread::GetVariable(const CString& sName)

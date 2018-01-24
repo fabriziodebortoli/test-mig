@@ -139,23 +139,23 @@ class RecordArray;
 //-----------------------------------------------------------------------------
 #define LOCAL_ADDON_COLLATE_CULTURE_SENSITIVE_STR(a,b,c,d)\
 	ASSERT(b.GetDataType() == DATA_STR_TYPE);\
-		m_pSqlRecParent->BindLocalDataObj(nPos++, a, b, c, d);
+		m_pSqlRecParent->BindAddOnLocalDataObj(nPos++, a, b, c, d);
 
 //-----------------------------------------------------------------------------
 #define LOCAL_ADDON_DATA(a,b)\
 	ASSERT(b.GetDataType() != DATA_STR_TYPE);\
-		m_pSqlRecParent->BindLocalDataObj(nPos++, a, b);
+		m_pSqlRecParent->BindAddOnLocalDataObj(nPos++, a, b);
 
 //-----------------------------------------------------------------------------
 #define BIND_ADDON_DATA(a,b)\
 		m_arPhysicalColumnsNames.Add(CString(a));\
-	    m_pSqlRecParent->BindDataObj(nPos++, a, b);
+	    m_pSqlRecParent->BindAddOnDataObj(nPos++, a, b);
 
 //-----------------------------------------------------------------------------
 #define BIND_ADDON_AUTOINCREMENT(a,b)\
 		ASSERT(b.GetDataType() == DATA_LNG_TYPE);\
 		m_arPhysicalColumnsNames.Add(CString(a));\
-		m_pSqlRecParent->BindAutoIncrementDataObj(nPos++, a, b);
+		m_pSqlRecParent->BindAddnOnAutoIncrementDataObj(nPos++, a, b);
 
 //-----------------------------------------------------------------------------
 #define BIND_ADDON_DATA_CONTEXT(a,b,c)\
@@ -164,11 +164,22 @@ class RecordArray;
 
 //==============================================================================
 #define BEGIN_REGISTER_TABLES()\
+	if (pSqlConnection->GetAlias().CompareNoCase(_T("PRIMARY")))\
+		return TRUE;\
 	if (!pSqlConnection->IsValid())\
 		return FALSE;\
 	BOOL	bOk = TRUE;\
 	AfxGetApp()->BeginWaitCursor();\
 
+//registro le sole tabelle del database correlato avente alias = a
+//==============================================================================
+#define BEGIN_REGISTER_EXTERNAL_TABLES(a)\
+	if (pSqlConnection->GetAlias().CompareNoCase(CString(a)))\
+		return TRUE;\
+	if (!pSqlConnection->IsValid())\
+		return FALSE;\
+	BOOL	bOk = TRUE;\
+	AfxGetApp()->BeginWaitCursor();\
 //-----------------------------------------------------------------------------
 #define REGISTER_TABLE(a)\
 	aTblNamespace.SetObjectName(CTBNamespace::TABLE, a::GetStaticName(), TRUE);\
@@ -210,6 +221,7 @@ protected:
 	DataObj*		m_pDataObj;				// Usato come DataValue in BindParam                                    
 	CString			m_strColumnName;		// mi serve memorizzarlo per la Rebind
 	BOOL			m_bDynamicallyBound;	// it is an item created by dynamic sqlrecord
+	BOOL			m_bIsAddOn;				// it is an item created using SqlAddOnFields
 
 public:
 	CString			m_strContextElementName; //è una colonna che nel caso viene utilizzato per effettuare a basso livello filtraggi legati al contesto (vedi contribuente, anno e attività per i commercialisti)
@@ -279,6 +291,7 @@ class TB_EXPORT SqlRecordItem : public SqlBindItem
 
 protected:
 	const SqlColumnInfo*	m_pColumnInfo;
+
 public:
 	BOOL					m_bOwnColumnInfo;
 	int						m_lLength;
@@ -293,6 +306,8 @@ public:
 	BOOL	IsEqual		(const SqlRecordItem&)	const;
 	BOOL	IsSpecial	()	const	{ return m_pColumnInfo ? m_pColumnInfo->m_bSpecial : FALSE; }
 	BOOL	IsMandatory ()	const;
+	BOOL	IsVirtual	()	const { return m_pColumnInfo && m_pColumnInfo->m_bVirtual; }
+
 	const SqlColumnInfo*	GetColumnInfo() const { return m_pColumnInfo; }
 	void SetColumnInfo(const SqlColumnInfo*);
 
@@ -571,6 +586,9 @@ public:
 	SqlRecordItem* BindDataObj				(int nPos, const CString& strColumnName, DataObj& pDataObj);
 	SqlRecordItem* BindLocalDataObj			(int nPos, const CString& strColumnName, DataObj& aDataObj, int nLen = 0, BOOL bIsCollateCultureSensitive = TRUE);
 	SqlRecordItem* BindAutoIncrementDataObj	(int nPos, const CString& strColumnName, DataObj& aDataObj);
+	SqlRecordItem* BindAddOnDataObj			(int nPos, const CString& strColumnName, DataObj& aDataObj);
+	SqlRecordItem* BindAddOnLocalDataObj	(int nPos, const CString& strColumnName, DataObj& aDataObj, int nLen = 0, BOOL bIsCollateCultureSensitive = TRUE);
+	SqlRecordItem* BindAddnOnAutoIncrementDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj);
 	SqlRecordItem* BindContextDataObj		(int nPos, const CString& strColumnName, DataObj& aDataObj, const CString& strContextElementName);
 	SqlRecordItem* BindDynamicDataObj		(const CString& strColumnName, DataObj& aDataObj, int nLen);
 	const SqlTableInfo* GetTableInfo	();
@@ -697,6 +715,9 @@ public:
 
 	/*TBWebMethod*/DataBool	TbScriptIsStorable	(); 
 	/*TBWebMethod*/void		TbScriptSetStorable	(DataBool bStorable); 
+	
+	void ValorizeDBObjectDescription(CDbObjectDescription*);
+
 // diagnostics
 #ifdef _DEBUG
 public:	

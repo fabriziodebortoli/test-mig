@@ -29,7 +29,7 @@ namespace Microarea.Common.NameSolver
 		{
 		}
 		//---------------------------------------------------------------------
-		public SettingItem GetSettingItem(string sectionName, string settingName, BaseModuleInfo aModuleInfo)
+		public SettingItem GetSettingItem(string sectionName, string settingName, ModuleInfo aModuleInfo)
 		{
 			SettingItem setting = null;
 
@@ -64,18 +64,18 @@ namespace Microarea.Common.NameSolver
 		private	bool			valid;
 		private	string			parsingError;
 
-		private BaseModuleInfo	parentModuleInfo;
+		private ModuleInfo	parentModuleInfo;
 		private ArrayList		sections;
 
 		public	string			FileName		{ get { return fileName; } }
 		public	bool			Valid			{ get { return valid; } }
 		public	string			ParsingError	{ get { return parsingError; } }
 
-		public BaseModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
+		public ModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
 		public ArrayList		Sections			{ get { return sections; } }
 
 		//---------------------------------------------------------------------
-		public SettingsConfigInfo(string aFilename, BaseModuleInfo	aParentModuleInfo)
+		public SettingsConfigInfo(string aFilename, ModuleInfo	aParentModuleInfo)
 		{
 			if (aFilename == null || aFilename == string.Empty || 
 				aFilename == string.Empty || aParentModuleInfo == null)
@@ -147,7 +147,7 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		private bool ParseSingleFile(string aFilePath, SourceOfSettingsConfig source)
 		{
-			if (!File.Exists(aFilePath))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(aFilePath))
 				return false;
 
 			LocalizableXmlDocument settingsDocument = 
@@ -155,8 +155,8 @@ namespace Microarea.Common.NameSolver
 									(
 										parentModuleInfo.ParentApplicationInfo.Name,
 										parentModuleInfo.Name,
-										parentModuleInfo.PathFinder
-									);
+										parentModuleInfo.CurrentPathFinder
+                                    );
 			try
 			{
 				//leggo il file
@@ -691,7 +691,7 @@ namespace Microarea.Common.NameSolver
 	//============================================================================
 	public class ReadSetting
 	{
-		public static string GetMaxString(IPathFinder pathFinder, string culture)
+		public static string GetMaxString(PathFinder pathFinder, string culture)
 		{	
 			ModuleInfo m = (ModuleInfo)pathFinder.GetModuleInfo(new NameSpace("Module.Framework.TbGenlib"));
 
@@ -723,7 +723,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		//---------------------------------------------------------------------------
-		public static double GetDataDblDecimal(IPathFinder pathFinder)
+		public static double GetDataDblDecimal(PathFinder pathFinder)
 		{
 			ModuleInfo m = (ModuleInfo)pathFinder.GetModuleInfo(new NameSpace("Module.Framework.TbGenlib"));
 
@@ -753,7 +753,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		//---------------------------------------------------------------------------
-		public static object GetSettings (IPathFinder pathFinder, string namespaceSetting, string sSection, string sEntry, object defaultSettingValue)
+		public static object GetSettings (PathFinder pathFinder, string namespaceSetting, string sSection, string sEntry, object defaultSettingValue)
 		{
 			NameSpace nsSetting = new NameSpace(namespaceSetting, NameSpaceObjectType.Setting);
 			NameSpace nsModule = new NameSpace(nsSetting.Application + '.' + nsSetting.Module, NameSpaceObjectType.Module);
@@ -800,7 +800,7 @@ namespace Microarea.Common.NameSolver
 			if (String.Compare(extension, ".config",StringComparison.OrdinalIgnoreCase) != 0)
 			  path = String.Concat(path, ".config");
 					
-			if (!System.IO.File.Exists(path))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
 			{
 				if (mandatory) Debug.Fail("missing " + path);
 				return null;

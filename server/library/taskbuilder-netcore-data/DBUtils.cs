@@ -152,7 +152,7 @@ namespace TaskBuilderNetCore.Data
         // costanti per controllare l'IsActivated
         public const string MicroareaConsole = "MicroareaConsole";
         public const string SecurityAdmin = "SecurityAdmin";
-        public const string SecurityLight = "SecurityLight";
+
         public const string AuditingAdmin = "AuditingAdmin";
         public const string TbRowSecurity = "TbRowSecurity";
         public const string RowSecurityToolKit = "RowSecurityToolKit";

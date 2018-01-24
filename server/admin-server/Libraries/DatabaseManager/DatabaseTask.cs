@@ -800,7 +800,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				string instanceName = string.Empty;
 
 				// estrapolo il nome dell'istanza dal nome del server
-				int pos = connection.DataSource.IndexOf(Path.DirectorySeparatorChar);
+				int pos = connection.DataSource.IndexOf(NameSolverStrings.Directoryseparetor);
 				if (pos > 0)
 				{
 					serverName = connection.DataSource.Substring(0, pos);

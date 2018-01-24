@@ -131,7 +131,7 @@ public:
 		
 		if (strLogFile.IsEmpty())
 		{
-			CString sPath = AfxGetPathFinder()->GetLogDataIOPath(TRUE, CPathFinder::ALL_COMPANIES);
+			CString sPath = AfxGetPathFinder()->GetLogDataIOPath(TRUE);
 			SYSTEMTIME	systime;
 			::GetLocalTime (&systime);
 			m_sFileName.Format(_T("%s\\%s-%u-%.2u-%.2u-%.2u-%.2u-%.2u.log"),

@@ -19,6 +19,7 @@ using Microarea.Common.StringLoader;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.Common.Hotlink
 {
@@ -424,14 +425,14 @@ namespace Microarea.Common.Hotlink
             if (!ns.IsValid())
                 return false;
 
-            IBaseModuleInfo mi = Session.PathFinder.GetModuleInfo(ns);
+            ModuleInfo mi = Session.PathFinder.GetModuleInfo(ns);
             if (mi == null)
                 return false;
 
             string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) +
-                 Path.DirectorySeparatorChar +
+                 NameSolverStrings.Directoryseparetor +
                  ns.ObjectName + ".xml";
-            if (!File.Exists(path))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
                 return false;
 
             // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
@@ -495,7 +496,7 @@ namespace Microarea.Common.Hotlink
                     SelectionField field = new SelectionField(selName, selValue);
                     fieldList.Fields.Add(field);
                 }
-             }
+            }
             return true;
         }
 
@@ -511,7 +512,7 @@ namespace Microarea.Common.Hotlink
             if (XmlDescription.SelectionTypeList.Count == 0)
             {
                 list = "{\"selections\":[";
-               
+
                 list += '\"' + "code" + '\"' + ',';
                 list += '\"' + "description" + '\"' + ',';
                 list += '\"' + "combo" + '\"';
@@ -577,7 +578,7 @@ namespace Microarea.Common.Hotlink
             List<SymField> columns = new List<SymField>();
             CurrentQuery.EnumColumns(columns);
             CurrentQuery.Close();
- 
+
             //emit json record header (localized title column, column name, datatype column
             list = "{\"columns\":[";
             bool first = true;
@@ -589,7 +590,7 @@ namespace Microarea.Common.Hotlink
                     list += ',';
 
                 list += '{' +
-                             f.Name.Replace('.', '_').ToJson("id") +  ',' +
+                             f.Name.Replace('.', '_').ToJson("id") + ',' +
                              f.Title.ToJson("caption", false, true) + ',' +
                              f.DataType.ToJson("type", false, true) +
                          '}';
@@ -767,5 +768,5 @@ namespace Microarea.Common.Hotlink
         }
 
         //---------------------------------------------------------------------
-     }
+    }
 }

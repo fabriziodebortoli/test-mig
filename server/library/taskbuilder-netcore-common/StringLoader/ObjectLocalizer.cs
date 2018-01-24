@@ -1,3 +1,4 @@
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.StringLoader
@@ -40,7 +41,7 @@ namespace Microarea.Common.StringLoader
 		}
 
         //--------------------------------------------------------------------------------
-        public void Build(string filepath, IBasePathFinder pathFinder) 
+        public void Build(string filepath) 
         { }
 
 		#endregion

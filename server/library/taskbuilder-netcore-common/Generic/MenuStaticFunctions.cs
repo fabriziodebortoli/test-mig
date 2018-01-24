@@ -12,7 +12,7 @@ namespace Microarea.TaskBuilderNet.Core.Generic
 		//--------------------------------------------------------------------------------------------------------------------------------
 		public static string PingViaSMSUrl()
 		{
-			return BasePathFinder.BasePathFinderInstance.PingViaSMSPage;
+			return PathFinder.PathFinderInstance.PingViaSMSPage;
 		}
 
 		//--------------------------------------------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ namespace Microarea.TaskBuilderNet.Core.Generic
 		////  /\
 		////  questi due metodi invertiti come da mail di germano del 27/6/11
 		////  \/
-		////go to private area = BasePathFinder.BasePathFinderInstance.LoginManagerBaseUrl + "SitePrivateArea.aspx" + "?u=" + HttpUtility.UrlEncode(CreateTempToken(LoginManagerPrivateAreaUrl))
+		////go to private area = PathFinder.PathFinderInstance.LoginManagerBaseUrl + "SitePrivateArea.aspx" + "?u=" + HttpUtility.UrlEncode(CreateTempToken(LoginManagerPrivateAreaUrl))
 		////--------------------------------------------------------------------------------------------------------------------------------
 		//public static void GoToPrivateArea(string authToken)
 		//{

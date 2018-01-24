@@ -154,7 +154,7 @@ void	MSqlTable::Open (bool updatable, bool scrollable, bool sensitivity)
 		if (GetSqlTable()->IsOpen())
 			GetSqlTable()->Close();
 
-		GetSqlTable()->Open(updatable, scrollable, sensitivity);
+		GetSqlTable()->Open(updatable, scrollable);
 	}
 }
 

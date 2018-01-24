@@ -46,7 +46,8 @@ CClientObjects::~CClientObjects()
 BOOL CClientObjects::InitWebServicesConnections(const CString& strWebServer, const CString& strInstallation)
 { 
 	CPathFinder* pPathFinder = AfxGetPathFinder();
-	
+	pPathFinder->SetWebServiceInstallation(strInstallation);
+
 	// se deve essere tutto inizializzato chiudo la 
 	// comunicazione con i server e la rigenero 
 	if (m_pServerConnectionInfo)

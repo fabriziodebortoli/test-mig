@@ -1351,17 +1351,14 @@ enumQueryExec AllQueries::ExecQuery (BOOL bFromAttach, CWnd* pParent/* = NULL*/,
 			if (m_pTable->IsOpen())	
 				m_pTable->Close();
 			
-			m_pTable->Open(FALSE, E_KEYSET_CURSOR, FALSE); // utilizzo cursore scrollabile
-			m_pTable->EnableRemoveDeletedRow(); //cancellazione dei record (vedi anomalia: 18257)
-
+			m_pTable->Open(FALSE, E_KEYSET_CURSOR); // utilizzo cursore scrollabile
 			m_pTable->SelectAll();
 		}
 		else
 		{
 			if (!m_pTable->IsOpen())
-				m_pTable->Open(FALSE, E_KEYSET_CURSOR, FALSE);
-			m_pTable->EnableRemoveDeletedRow(); //cancellazione dei record (vedi anomalia: 18257)
-
+				m_pTable->Open(FALSE, E_KEYSET_CURSOR);
+		
 			ASSERT_VALID(m_TableInfo.m_pTableInfoArray);
 			WClause aWC (m_pSqlConnection, pQuery->m_pPrgData ? pQuery->m_pPrgData->GetSymTable() : NULL, *m_TableInfo.m_pTableInfoArray, m_pTable);
 			aWC.SetNative(m_pSelectedQuery->IsPredefiniteQuery() || pQuery->m_bNativeExpr);

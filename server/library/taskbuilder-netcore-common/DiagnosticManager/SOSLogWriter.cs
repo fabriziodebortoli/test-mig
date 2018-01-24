@@ -15,15 +15,15 @@ namespace Microarea.Common.DiagnosticManager
 		//---------------------------------------------------------------------
 		public static void WriteLogEntry(string companyName, string message, string methodName = "", string extendedInfo = "", string logName = "")
 		{
-			string dirPath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
+			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
-			if (!Directory.Exists(dirPath))
-				Directory.CreateDirectory(dirPath);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 
-			if (!File.Exists(filePath))
-			{
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+            {
 				// Create a file to write to.
 				using (StreamWriter sw = File.CreateText(filePath))
 					sw.WriteLine("-------------------------------");
@@ -46,16 +46,16 @@ namespace Microarea.Common.DiagnosticManager
 		//---------------------------------------------------------------------
 		public static void AppendText(string companyName, string message, string logName = "")
 		{
-			string dirPath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
+			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
-			if (!Directory.Exists(dirPath))
-				Directory.CreateDirectory(dirPath);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 
-			// se il file non esiste non procedo
-			if (!File.Exists(filePath))
-				return;
+            // se il file non esiste non procedo
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+                return;
 
 			using (StreamWriter writer = File.AppendText(filePath))
 				writer.WriteLine("  : {0}", message);

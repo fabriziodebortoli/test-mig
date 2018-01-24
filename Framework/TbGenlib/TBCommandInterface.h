@@ -30,6 +30,7 @@ class CBehavioursRegistryService;
 class CItemSource;
 class CValidator;
 class CDataAdapter;
+class SqlConnection;
 
 // Alcuni namespace di default utilizzati da TaskBuilder
 //-----------------------------------------------------------------------------
@@ -188,6 +189,7 @@ private:
 	const CDocumentDescription*		m_pDocDescri;	// XML document description allows dynamic document to kwnow himself
 	BOOL							m_bIsRunningAsADM;
 	CManagedDocComponentObj*		m_pManagedParameters;
+	SqlConnection*					m_pSqlConnection; // valorizzato solo se il documento parte su una connessione ad un database diverso da quello della login
 
 public:
 	DocInvocationParams () 
@@ -195,13 +197,15 @@ public:
 		m_pDocInfo			(NULL),
 		m_pDocDescri		(NULL),
 		m_bIsRunningAsADM	(FALSE),
-		m_pManagedParameters(NULL)
+		m_pManagedParameters(NULL),
+		m_pSqlConnection	(NULL)
 		{
 		}
 		~DocInvocationParams (){}
 public:
 	DocInvocationInfo* GetDocInvocationInfo() const { return m_pDocInfo; }
 	const CDocumentDescription* GetDocumentDescription() const { return m_pDocDescri; }
+	SqlConnection* GetSqlConnection() const { return m_pSqlConnection;	}
 };
 
 //-----------------------------------------------------------------------------

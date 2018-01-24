@@ -31,7 +31,6 @@ IMPLEMENT_DYNAMIC(CXMLOutDateObjectsParser, CObject)
 
 //----------------------------------------------------------------------------------------------
 CXMLOutDateObjectsParser::CXMLOutDateObjectsParser()
-
 {
 }
 
@@ -44,17 +43,17 @@ CXMLOutDateObjectsParser::~CXMLOutDateObjectsParser()
 BOOL CXMLOutDateObjectsParser::Load (COutDateObjectsDescription* pDescri, const CTBNamespace& aMoudleNs, CPathFinder* pPathFinder)
 {
 	CString sFileName = pPathFinder->GetOutDateObjectsFullName(aMoudleNs);
-	if (!ExistFile (sFileName))
+	if (!ExistFile(sFileName))
 		return TRUE;
 
 	// da fare una LoadOutDateObjects!!
 	CLocalizableXMLDocument aXMLModDoc(aMoudleNs, pPathFinder);
 	aXMLModDoc.EnableMsgMode(FALSE);
 
-	if (!aXMLModDoc.LoadXMLFile (sFileName))
+	if (!aXMLModDoc.LoadXMLFile(sFileName))
 		return FALSE;
 
-	return Parse (&aXMLModDoc, pDescri, aMoudleNs);
+	return Parse(&aXMLModDoc, pDescri, aMoudleNs);
 }
 
 //----------------------------------------------------------------------------------------------

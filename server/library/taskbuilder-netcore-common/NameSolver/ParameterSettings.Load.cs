@@ -16,7 +16,7 @@
         //---------------------------------------------------------------------
         public static ParameterSettings Load(string themeFilePath)
         {
-            if (!File.Exists(themeFilePath))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(themeFilePath))
             {
                 return null;
             }

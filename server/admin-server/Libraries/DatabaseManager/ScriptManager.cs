@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Microarea.Common.DiagnosticManager;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DatabaseManager
 {
@@ -44,8 +45,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 		private string stringConnection = string.Empty;
 		private TBConnection connection = null;
-		private FileInfo fi = null;
-
+        //		private FileInfo fi = null;
+        private string FileSqlFullName = string.Empty;
 		private Diagnostic diagnostic = null;
 		#endregion
 
@@ -263,9 +264,9 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			error = string.Empty;
 			string scriptText = string.Empty;
 
-			fi = new FileInfo(pathFileSql);
+            FileSqlFullName = pathFileSql;
 
-			if (!fi.Exists)
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(pathFileSql))
 			{
 				error = DatabaseManagerStrings.FileNotFound;
 				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.FileNotFound);
@@ -274,9 +275,10 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			try
 			{
-				using (Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-				using (StreamReader reader = new StreamReader(fs))
-					scriptText = reader.ReadToEnd();
+                using (Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(pathFileSql, true)) //TODO lara
+
+                using (StreamReader reader = new StreamReader(fs))
+                    scriptText = reader.ReadToEnd();
 			}
 			catch (IOException e)
 			{
@@ -334,8 +336,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// gli statement da eseguire sono splittati tramite il GO
 			Split(strConvert, out List<string> strList);
 
-			if (fi != null)
-				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, fi.FullName));
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FileSqlFullName))
+				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, FileSqlFullName));
 
 			TBCommand command = new TBCommand(connection);
 			command.CommandTimeout = timeOut;
@@ -407,7 +409,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					Diagnostic.Set(DiagnosticType.LogOnFile, error);
 
 					Debug.WriteLine(e.Message);
-					Debug.WriteLine(fi != null ? "Path file: " + fi.FullName : string.Empty);
+					Debug.WriteLine(PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FileSqlFullName) ? "Path file: " + FileSqlFullName : string.Empty);
 					Debug.WriteLine("Script text: " + statement);
 
 					if (altOnError)

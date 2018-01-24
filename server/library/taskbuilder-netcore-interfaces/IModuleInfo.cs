@@ -3,7 +3,7 @@
 namespace TaskBuilderNetCore.Interfaces
 {
 	//=========================================================================
-	public interface IModuleInfo : IBaseModuleInfo
+	public interface ModuleInfo //: ModuleInfo
 	{
 		string CustomPath { get; }
 		System.Collections.ArrayList GetConfigFileArray();

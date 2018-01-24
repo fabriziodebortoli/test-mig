@@ -47,6 +47,7 @@ protected:
 	BOOL	 			m_bForceQuery;
 	
 	SqlSession*			m_pSqlSession; // sessione di lavoro del TableReader
+	BOOL				m_bOnlyOneRecord;
 
 public:
 	// constructors
@@ -67,11 +68,6 @@ public:
 
 protected:
 	virtual void Free ();
-
-	// DA NON REIMPLEMENTARE. Cambia il tipo di cursore per ottimizzare le performance in funzione del tipo di rowset
-	// Il TableReader e` ottimizzato per estrarre 1 record alla volta, il RowsetReader (vedi dopo) per estrarre piu` record, 
-	// e scorrerli solo forward
-	virtual CursorType	GetCursorType()		{ return E_FAST_FORWARD_ONLY; }
 
 	// DEVONO essere implementate dal programmatore
 	virtual void OnDefineQuery		() = 0;
@@ -107,6 +103,7 @@ public:
 		// rieseguendo una Find con gli stessi parametri resterebbe in fondo al rowset precedente. Il tipo
 		// di cursore solo forward impedisce di fare MoveFirst
 		SetForceQuery(TRUE);
+		m_bOnlyOneRecord = FALSE; 
 	}
 	RowsetReader	(const CString& sTableName, CBaseDocument* pDocument)
 		:
@@ -116,12 +113,9 @@ public:
 		// rieseguendo una Find con gli stessi parametri resterebbe in fondo al rowset precedente. Il tipo
 		// di cursore solo forward impedisce di fare MoveFirst
 		SetForceQuery(TRUE);
+		m_bOnlyOneRecord = FALSE;
 	}
 
-protected:
-	// DA NON REIMPLEMENTARE. Cambia il tipo di cursore per ottimizzare le performance in funzione del tipo di rowset
-	// Il RowsetReader è ottimizzato per estrarre piu` record, e scorrerli solo forward	
-	virtual CursorType	GetCursorType()		{ return E_FORWARD_ONLY; }
 
 public:
 	BOOL IsEOF()		{ return !m_pTable || m_pTable->IsEOF(); }

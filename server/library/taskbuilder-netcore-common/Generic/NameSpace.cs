@@ -201,7 +201,7 @@ namespace Microarea.Common.Generic
             nameNameSpaceTypeTable.Add(aNameSpaceType.PublicName, aNameSpaceType);
             nameSpaceObjectTypeNameSpaceTypeTable.Add(aNameSpaceType.Type, aNameSpaceType);
 
-            aNameSpaceType = new NameSpaceType(NameSpaceObjectType.Standardization, 5, NameSpaceSegment.Standardization);
+            aNameSpaceType = new NameSpaceType(NameSpaceObjectType.Component, 4, NameSpaceSegment.Component);
             nameNameSpaceTypeTable.Add(aNameSpaceType.PublicName, aNameSpaceType);
             nameSpaceObjectTypeNameSpaceTypeTable.Add(aNameSpaceType.Type, aNameSpaceType);
 

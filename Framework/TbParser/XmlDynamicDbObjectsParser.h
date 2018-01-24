@@ -16,6 +16,7 @@ public:
 
 public:
 	BOOL LoadDatabaseObjects		(const CTBNamespace& aNamespace, DatabaseObjectsTable* pTable);
+	BOOL SaveDatabaseObjects		(DatabaseObjectsTable* pTable);
 
 public:
 	static BOOL ParseDynamicData
@@ -52,6 +53,34 @@ private:
 								const CTBNamespace&		moduleNamespace,
 								CAlterTableDescription* pAlterDescri,
 								BOOL bIsAdditionalColumns
+						);
+
+
+private:
+	void Unparse		(
+							CXMLDocumentObject*		pDoc,
+							DatabaseObjectsTable*	pTable,
+							CDbReleaseDescription* pDBRel,
+							const CTBNamespace&		aParent
+						);
+
+	void UnparseGroup	(
+							CXMLNode*				pNode,
+							DatabaseObjectsTable*	pTable,
+							const CTBNamespace&		aParent
+						);
+
+	void UnparseDbObject(
+							CXMLNode*				pNode,
+							CDbObjectDescription*	pDescri,
+							const CTBNamespace&		aParent
+						);
+public:
+	static void UnparseFields(
+							CXMLNode*				pNode,
+							CDbObjectDescription*	pDescri, 
+							const CTBNamespace&		nsOwner
+
 						);
 };
 

@@ -2,6 +2,7 @@
 
 #include <TbNameSolver\PathFinder.h>
 #include <TbNameSolver\IFileSystemManager.h>
+#include <TbDatabaseManaged\TBFSDatabaseDriver.h>
 #include <TbOleDb\OledbMng.h>
 #include <TbOleDb\Sqlconnect.h>
 #include <TbOleDb\SqlAccessor.h>
@@ -1058,7 +1059,7 @@ void CRSMaintenanceManager::ManageSubjects(CRSResourcesArray* pResources)
 		m_pSqlSession->StartTransaction();
 		aTblSubjects.Query();
 
-		if (aTblSubjects.GetRowSetCount())
+		if (aTblSubjects.HasRows())
 		{
 			while (!aTblSubjects.IsEOF())
 			{
@@ -2000,21 +2001,22 @@ void CRowSecurityManager::LoadProtectionInformation()
 	//devo caricare le informazioni di RowSecurity indipendentemente dall'attivazione di un'applicazione/modulo 
 	//vado direttamente sul FileSystem e non mi baso sulla struttura in memoria
 	CPathFinder* pPathFinder = AfxGetPathFinder();
-	CStringArray arApps;
-	CString strAppName;
-	CStringArray aAppModules;
-	pPathFinder->GetCandidateApplications(&arApps); 
+	CStringArray arApplicationArray;
+	CStringArray arModuleArray;
+	CString strAppName, strModuleName;
+	pPathFinder->GetCandidateApplications(&arApplicationArray);
 
-	for (int i=0; i <= arApps.GetUpperBound(); i++)
+	for (int i=0; i <= arApplicationArray.GetUpperBound(); i++)
 	{
-		strAppName = arApps.GetAt(i);
-		aAppModules.RemoveAll();
+		strAppName = GetName(arApplicationArray.GetAt(i));
+		arModuleArray.RemoveAll();
 		if (!strAppName.IsEmpty())
 		{
-			AfxGetPathFinder()->GetCandidateModulesOfApp(strAppName, &aAppModules); 
-			for (int i=0; i <= aAppModules.GetUpperBound(); i++)
+			AfxGetPathFinder()->GetCandidateModulesOfApp(strAppName, &arModuleArray);
+			for (int i=0; i <= arModuleArray.GetUpperBound(); i++)
 			{
-				CTBNamespace aModuleNS(CTBNamespace::MODULE, strAppName + CTBNamespace::GetSeparator() + aAppModules.GetAt (i));
+				strModuleName = GetName(arModuleArray.GetAt(i));
+				CTBNamespace aModuleNS(CTBNamespace::MODULE, strAppName + CTBNamespace::GetSeparator() + strModuleName);
 				LoadSingleRowSecurityInfo(aModuleNS);
 			}
 		}				

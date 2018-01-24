@@ -168,60 +168,60 @@ COLEDBProviderProperties::COLEDBProviderProperties()
 //-----------------------------------------------------------------------------
 BOOL COLEDBProviderProperties::GetProperties(SqlConnection* pSqlConnection)
 {
-	USES_CONVERSION;
-	if (!pSqlConnection || !pSqlConnection->GetDataSource())
-		return FALSE;
+	//USES_CONVERSION;
+	//if (!pSqlConnection || !pSqlConnection->GetDataSource())
+	//	return FALSE;
 
-	const CDataSource* pDataSource = (const CDataSource*)pSqlConnection->GetDataSource();
-	CComVariant var;
+	//const CDataSource* pDataSource = (const CDataSource*)pSqlConnection->GetDataSource();
+	//CComVariant var;
 
-	if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_SUPPORTEDTXNISOLEVELS, &var)))
-		m_dwTxnIsolationOptions = var.ulVal;
+	//if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_SUPPORTEDTXNISOLEVELS, &var)))
+	//	m_dwTxnIsolationOptions = var.ulVal;
 
-	/*DBPROPVAL_CB_DELETE  - Aborting/Commit a transaction deletes prepared commands. 
-							 The application must reprepare commands before executing them. 
-	  DBPROPAL_CB_PRESERVE ?Aborting/Commit a transaction preserves prepared commands. 
-							 The application can reexecute commands without repreparing them. */
+	///*DBPROPVAL_CB_DELETE  - Aborting/Commit a transaction deletes prepared commands. 
+	//						 The application must reprepare commands before executing them. 
+	//  DBPROPAL_CB_PRESERVE ?Aborting/Commit a transaction preserves prepared commands. 
+	//						 The application can reexecute commands without repreparing them. */
 
-	if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PREPAREABORTBEHAVIOR, &var)))
-		m_dwCursorAbortBehavior = var.ulVal;
+	//if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PREPAREABORTBEHAVIOR, &var)))
+	//	m_dwCursorAbortBehavior = var.ulVal;
 
-	if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PREPARECOMMITBEHAVIOR, &var)))
-		m_dwCursorCommitBehavior = var.ulVal;
+	//if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PREPARECOMMITBEHAVIOR, &var)))
+	//	m_dwCursorCommitBehavior = var.ulVal;
 
-	if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_IDENTIFIERCASE, &var)))
-		m_dwIdentifierCase = var.ulVal;
+	//if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_IDENTIFIERCASE, &var)))
+	//	m_dwIdentifierCase = var.ulVal;
 
-	if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_MULTIPLESTORAGEOBJECTS, &var)))
-		m_bMultiStorageObj = var.boolVal;
+	//if (SUCCEEDED(pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_MULTIPLESTORAGEOBJECTS, &var)))
+	//	m_bMultiStorageObj = var.boolVal;
 
 
-	// controllo se il provider gestisce le transazioni
-	CSession aSession;
-	aSession.Open(*pDataSource);
-	ATLASSERT(aSession.m_spOpenRowset != NULL);
-	CComPtr<ITransactionLocal> spTransactionLocal;
-	m_bTxnCapable = (aSession.m_spOpenRowset->QueryInterface(&spTransactionLocal) == S_OK);
-	aSession.Close();
+	//// controllo se il provider gestisce le transazioni
+	//CSession aSession;
+	//aSession.Open(*pDataSource);
+	//ATLASSERT(aSession.m_spOpenRowset != NULL);
+	//CComPtr<ITransactionLocal> spTransactionLocal;
+	//m_bTxnCapable = (aSession.m_spOpenRowset->QueryInterface(&spTransactionLocal) == S_OK);
+	//aSession.Close();
 
-	// Determine if there are any literal characters that specify
-	// table and column names.
-	CComQIPtr<IDBInfo> spInfo(pDataSource->m_spInit);
-	if (spInfo != NULL)
-	{
-		DBLITERAL dbLit = DBLITERAL_QUOTE;
-		ULONG ulLiteralInfo = 0;
-		DBLITERALINFO* pLiteralInfo = NULL;
-		OLECHAR* pChar = NULL;
-		
-		if (SUCCEEDED(spInfo->GetLiteralInfo(1, &dbLit, &ulLiteralInfo,	&pLiteralInfo, &pChar)))
-			m_strQuote = (pLiteralInfo) ? OLE2T(pLiteralInfo[0].pwszLiteralValue) : _T("");
-		
-		if (pLiteralInfo != NULL)
-			CoTaskMemFree(pLiteralInfo);
-		if (pChar != NULL)
-			CoTaskMemFree(pChar);
-	}	
+	//// Determine if there are any literal characters that specify
+	//// table and column names.
+	//CComQIPtr<IDBInfo> spInfo(pDataSource->m_spInit);
+	//if (spInfo != NULL)
+	//{
+	//	DBLITERAL dbLit = DBLITERAL_QUOTE;
+	//	ULONG ulLiteralInfo = 0;
+	//	DBLITERALINFO* pLiteralInfo = NULL;
+	//	OLECHAR* pChar = NULL;
+	//	
+	//	if (SUCCEEDED(spInfo->GetLiteralInfo(1, &dbLit, &ulLiteralInfo,	&pLiteralInfo, &pChar)))
+	//		m_strQuote = (pLiteralInfo) ? OLE2T(pLiteralInfo[0].pwszLiteralValue) : _T("");
+	//	
+	//	if (pLiteralInfo != NULL)
+	//		CoTaskMemFree(pLiteralInfo);
+	//	if (pChar != NULL)
+	//		CoTaskMemFree(pChar);
+	//}	
 	return TRUE;
 }
 
@@ -610,13 +610,13 @@ BOOL SqlProviderInfo::LoadProviderInfo(SqlConnection* pConnection)
 	if (!m_pProviderProperties->GetProperties(pConnection))
 	{
 		AfxGetLoginContext()->Lock ();
-		ThrowSqlException(cwsprintf(_TB("Error reading the properties of provider {0-%s}\r\nused for connecting to database {1-%s}"), m_strProviderName, pConnection->m_strDBName));
+		ThrowSqlException(cwsprintf(_TB("Error reading the properties of provider {0-%s}\r\nused for connecting to database {1-%s}"), m_strProviderName, pConnection->GetDatabaseName()));
 	}
 	
 	if (!m_pSysAdminParams->ReadParams(pConnection->GetProviderId()))
 	{
 		AfxGetLoginContext()->Lock ();
-		ThrowSqlException(cwsprintf(_TB("Error reading customization parameters of provider {0-%s}\r\nused for connecting to database {1-%s}"), m_strProviderName, pConnection->m_strDBName)); 
+		ThrowSqlException(cwsprintf(_TB("Error reading customization parameters of provider {0-%s}\r\nused for connecting to database {1-%s}"), m_strProviderName, pConnection->GetDatabaseName()));
 	}
 
 	// associo il tipo database/OLEDB/DataObj

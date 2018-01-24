@@ -9,6 +9,7 @@
 
 #include <TbGeneric\TbStrings.h>
 #include <TbGeneric\GeneralFunctions.h>
+#include <TbGeneric\WndObjDescription.h>
 #include "globals.h"
 
 #include "pictures.h"
@@ -376,8 +377,8 @@ BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bChe
 	{
 		if (!strNS.IsEmpty())
 			m_pImage = LoadGdiplusBitmapOrPng(strNS);//cmq ritorna NULL se non trova niente in cache o file system
-		else if (::ExistFile(m_strFileName))
-			m_pImage = Gdiplus::Bitmap::FromFile(m_strFileName);
+		else
+			m_pImage = LoadGdiplusBitmapOrPngFromFile(m_strFileName);//cmq ritorna NULL 
 				
 		if (m_pImage == NULL || GDIPLUS_IMG(m_pImage)->GetFlags() == Gdiplus::ImageFlagsNone) 
 		{
@@ -429,8 +430,20 @@ BOOL CTBPicture::SaveFile (const CString& strFileName)
 			CLSID clsidEncoder = CLSID_NULL;
 			// Determine clsid from extension
 			clsidEncoder = FindCodecForExtension( ::PathFindExtension( strFileName ), pEncoders, nEncoders );
+			IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
+			if (pFileSystemManager && pFileSystemManager->IsManagedByAlternativeDriver(strFileName))
+			{
+				CImageBuffer imageBuffer;
+				//Come secondo parametro non serve un Id, visto che qui il CImageBuffer viene usato solo per farsi popolare lo stream di Bytes 
+				imageBuffer.Assign(m_pImage, _T("dummyID"));
+				int nLen = 0;
+				BYTE* pContent = NULL;
+				imageBuffer.GetData(nLen, pContent);
+				return pFileSystemManager->SaveBinaryFile(strFileName, pContent, nLen);
 
-			return Gdiplus::Ok == pBmp->Save(strFileName, &clsidEncoder); 
+			}
+			else
+				return Gdiplus::Ok == pBmp->Save(strFileName, &clsidEncoder); 
 		}
 		return FALSE;
 	}

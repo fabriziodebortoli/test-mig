@@ -21,9 +21,11 @@
 #include <TbGenlib\TbCommandInterface.h>
 #include <TbWoormEngine\QueryObject.h>
 
+
 #include <TbParser\XmlDynamicDbObjectsParser.h>
 #include <TbParser\XmlAddOnDatabaseObjectsParser.h>
 
+#include <TbDatabaseManaged\SqlSchemaInfo.h>
 
 #include "sqlrec.h"
 #include "sqlcatalog.h"
@@ -65,11 +67,10 @@ CString GetTypeString(int nType)
 	}
 	return _TB("Unknown object");
 }
-
 //-----------------------------------------------------------------------------
 CString AddSquareWhenNeeds(LPCTSTR sz)
 {
-	if (!sz || !*sz) 
+	if (!sz || !*sz)
 		return sz;
 	if (*sz == '[')
 		return sz;
@@ -82,7 +83,7 @@ CString AddSquareWhenNeeds(LPCTSTR sz)
 
 BOOL AddSquareWhenNeeds(CString& str, LPCTSTR sz)
 {
-	if (!sz || !*sz) 
+	if (!sz || !*sz)
 		return FALSE;
 
 	if (*sz == '[')
@@ -633,7 +634,6 @@ void SqlTableJoinInfoArray::QualifiedLinks()
 		QualifiedLinks(i);
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////////
 //							SqlColumnInfo
 //////////////////////////////////////////////////////////////////////////////
@@ -642,32 +642,8 @@ void SqlTableJoinInfoArray::QualifiedLinks()
 //-----------------------------------------------------------------------------
 SqlColumnInfo::SqlColumnInfo()
 	:
-	m_bVirtual				(FALSE),
-	m_bVisible				(true),
-	m_DataObjType			(DATA_NULL_TYPE),
-	m_bUseCollationCulture	(FALSE),
-
-	m_bDataObjInfoUpdated   (false),
-	m_bLoadedFromDB			(FALSE),
-
-	m_nSqlDataType			(0),	
-	m_lPrecision			(0),
-	m_lLength				(0),
-	m_nScale				(0),
-	m_nDecimal				(0),
-	m_nRadix				(0),
-
-	m_bSpecial				(false),
-	m_bIndexed				(FALSE),
-	m_bAutoIncrement		(false),
-	m_bNullable				(FALSE),
-	m_bNativeColumnExpr		(FALSE),
-
-	m_RuntimeClass		    (NULL)
-#ifdef _DEBUG
-	, m_pOwnerSqlRecordClass (NULL)
-#endif
-{
+	SqlColumnInfoObject()
+{	
 }
 
 // costruttore utile per gestire le colonne vituali (cioe' presenti nel record
@@ -675,118 +651,24 @@ SqlColumnInfo::SqlColumnInfo()
 // le conversioni canoniche
 //-----------------------------------------------------------------------------
 SqlColumnInfo::SqlColumnInfo
-	(
-		const	CString&		strTableName, 
-		const	CString&		strColumnName,
-		const	DataObj&		aDataObj
-	)
+(
+	const	CString&		strTableName,
+	const	CString&		strColumnName,
+	const	DataObj&		aDataObj
+)
 	:
-	m_bVirtual			    (TRUE),
-	m_bVisible			    (false),
-	m_DataObjType		    (aDataObj.GetDataType()),
-	m_bUseCollationCulture	(aDataObj.IsCollateCultureSensitive()),
-
-	m_strTableName			(strTableName),
-	m_strColumnName			(strColumnName),
-
-	m_bDataObjInfoUpdated   (false),
-	m_bLoadedFromDB			(FALSE),
-
-	m_nSqlDataType			(0),	
-	m_lPrecision			(0),
-	m_lLength				(0),
-	m_nScale				(0),
-	m_nDecimal				(0),
-	m_nRadix				(0),
-
-	m_bSpecial				(false),
-	m_bIndexed				(FALSE),
-	m_bAutoIncrement		(false),
-	m_bNullable				(FALSE),
-	m_bNativeColumnExpr		(FALSE),
-
-	m_RuntimeClass		    (NULL)
-#ifdef _DEBUG
-	, m_pOwnerSqlRecordClass (NULL)
-#endif
+	SqlColumnInfoObject(strTableName, strColumnName, aDataObj)	
 {
 }
 
-//-----------------------------------------------------------------------------
-SqlColumnInfo::SqlColumnInfo(const SqlColumnInfo& cf)
-{
-	m_strTableCatalog		= cf.m_strTableCatalog;
-	m_strTableSchema		= cf.m_strTableSchema;
-	m_strTableName			= cf.m_strTableName;
-	m_strColumnName			= cf.m_strColumnName;
-	m_strRemarks			= cf.m_strRemarks;
-
-	m_nSqlDataType			= cf.m_nSqlDataType;
-	m_lPrecision			= cf.m_lPrecision;
-	m_lLength				= cf.m_lLength;
-	m_nScale				= cf.m_nScale;
-	m_nDecimal				= cf.m_nDecimal;
-	m_nRadix				= cf.m_nRadix;
-
-	m_DataObjType			= cf.m_DataObjType;
-	m_bUseCollationCulture	= cf.m_bUseCollationCulture;
-
-	m_bVirtual				= cf.m_bVirtual;
-	m_bVisible				= cf.m_bVisible;
-	m_bSpecial				= cf.m_bSpecial;
-	m_bIndexed				= cf.m_bIndexed;
-	m_bAutoIncrement		= cf.m_bAutoIncrement;
-	m_bNativeColumnExpr 	= cf.m_bNativeColumnExpr;
-
-	m_bDataObjInfoUpdated	= cf.m_bDataObjInfoUpdated;
-	m_bLoadedFromDB			= cf.m_bLoadedFromDB;
-}
-
-//-----------------------------------------------------------------------------
-BOOL SqlColumnInfo::IsEqual(const SqlColumnInfo& cf) const
-{
-	return 
-		m_strTableCatalog	.CompareNoCase(cf.m_strTableCatalog) == 0 &&
-		m_strTableSchema	.CompareNoCase(cf.m_strTableSchema) == 0 &&
-		m_strTableName		.CompareNoCase(cf.m_strTableName) == 0 &&
-		m_strColumnName		.CompareNoCase(cf.m_strColumnName) == 0 &&
-		m_strRemarks		.CompareNoCase(cf.m_strRemarks) == 0 &&
-
-		m_nSqlDataType			== cf.m_nSqlDataType &&
-		m_lPrecision			== cf.m_lPrecision &&
-		m_lLength				== cf.m_lLength &&
-		m_nScale				== cf.m_nScale &&
-		m_nDecimal				== cf.m_nDecimal &&
-		m_nRadix				== cf.m_nRadix &&
-
-		m_DataObjType			== cf.m_DataObjType &&
-		m_bUseCollationCulture	== cf.m_bUseCollationCulture &&
-
-		m_bVirtual				== cf.m_bVirtual &&
-		m_bVisible				== cf.m_bVisible &&
-		m_bSpecial				== cf.m_bSpecial &&
-		m_bIndexed				== cf.m_bIndexed &&
-		m_bAutoIncrement		== cf.m_bAutoIncrement &&
-		m_bNativeColumnExpr 	== cf.m_bNativeColumnExpr &&
-
-		m_bDataObjInfoUpdated	== cf.m_bDataObjInfoUpdated &&
-		m_bLoadedFromDB			== cf.m_bLoadedFromDB;
-}
-
-// Si potrebbe usare m_strRemark per avere nomi belli, ma alcuni database
-// (Watcom) tornano porcheria ed altri (Access, DBase) tornano niente
-//-----------------------------------------------------------------------------
-CString SqlColumnInfo::GetColumnTitle () const
-{
-	return AfxLoadDatabaseString(m_strColumnName, m_strTableName);
-}
 
 // Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
 //-----------------------------------------------------------------------------
 void SqlColumnInfo::SetDataObjInfo(DataObj* pDataObj) const
 {
 	pDataObj->SetAllocSize(GetColumnLength());
-	pDataObj->SetCollateCultureSensitive(m_bUseCollationCulture == TRUE);
+	//pDataObj->SetCollateCultureSensitive(m_bUseCollationCulture == TRUE);
+	pDataObj->SetSqlDataType(m_nSqlDataType);
 }
 
 // Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
@@ -811,99 +693,103 @@ void SqlColumnInfo::UpdateDataObjType(DataObj* pDataObj)
 	{
 		if (m_DataObjType.m_wType == DATA_ENUM_TYPE)
 		{
-	       	m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
+			m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
 
 #ifdef _DEBUG
 			if (m_DataObjType.m_wTag == 0)
 			{
-	       		ASSERT_TRACE2
-	       		(
+				ASSERT_TRACE2
+				(
 					FALSE,
-	       			"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
-	       			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
-	       		);
-	       	}
+					"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
+					(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+				);
+			}
 #endif		
 		}
 		return;
 	}
 
+	//questo switch serve solo per i campi locali utilizzati per le query
 	switch (m_DataObjType.m_wType)
 	{
-		case DATA_STR_TYPE:
-			m_nSqlDataType	= DBTYPE_WSTR ;		
-			//TODO m_lLength		= nLen;
-			break;
+	case DATA_STR_TYPE:
+		m_nSqlDataType = DBTYPE_WSTR;
+		//TODO m_lLength		= nLen;
+		break;
 
-		case DATA_MON_TYPE:
-		case DATA_QTA_TYPE:
-		case DATA_PERC_TYPE:
-		case DATA_DBL_TYPE:
-			m_nSqlDataType	= DBTYPE_R8;		
-			m_lPrecision	= 15;
-			m_lLength		= 8;
-			break;
+	case DATA_MON_TYPE:
+	case DATA_QTA_TYPE:
+	case DATA_PERC_TYPE:
+	case DATA_DBL_TYPE:
+		m_nSqlDataType = DBTYPE_R8;
+		m_lPrecision = 15;
+		m_lLength = 8;
+		break;
 
-		case DATA_DATE_TYPE:
-			m_nSqlDataType	= DBTYPE_DBTIMESTAMP;		
-			m_lPrecision	= 19;
-			m_lLength		= 4;
-			break;
+	case DATA_DATE_TYPE:
+		m_nSqlDataType = DBTYPE_DBTIMESTAMP;
+		m_lPrecision = 19;
+		m_lLength = 4;
+		break;
 
-		case DATA_LNG_TYPE:
-			m_nSqlDataType	= DBTYPE_I4;		
-			m_lPrecision	= LONG_PRECISION;
-			m_lLength		= 4;
-			break;
+	case DATA_LNG_TYPE:
+		m_nSqlDataType = DBTYPE_I4;
+		m_lPrecision = LONG_PRECISION;
+		m_lLength = 4;
+		break;
 
-		case DATA_ENUM_TYPE:
-			m_nSqlDataType	= DBTYPE_I4;		
-			m_lPrecision	= LONG_PRECISION;
-			m_lLength		= 4;
+	case DATA_ENUM_TYPE:
+		m_nSqlDataType = DBTYPE_I4;
+		m_lPrecision = LONG_PRECISION;
+		m_lLength = 4;
 
-	       	m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
+		m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
 
 #ifdef _DEBUG
-			if (m_DataObjType.m_wTag == 0)
-			{
-	       		ASSERT_TRACE2
-	       		(
-					FALSE,
-	       			"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
-	       			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
-	       		);
-	       	}
+		if (m_DataObjType.m_wTag == 0)
+		{
+			ASSERT_TRACE2
+			(
+				FALSE,
+				"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
+				(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+			);
+		}
 #endif
-		   	break;
+		break;
 
-		case DATA_BOOL_TYPE:
-			m_nSqlDataType	= DBTYPE_WSTR;			
-			m_lPrecision	= 1;
-			m_lLength		= 1;
-			break;
+	case DATA_BOOL_TYPE:
+		m_nSqlDataType = DBTYPE_STR;
+		m_lPrecision = 1;
+		m_lLength = 1;
+		break;
 
-		case DATA_INT_TYPE:
-			m_nSqlDataType	= DBTYPE_I2;		
-			m_lPrecision	= INT_PRECISION;
-			m_lLength		= 2;
-			break;
+	case DATA_INT_TYPE:
+		m_nSqlDataType = DBTYPE_I2;
+		m_lPrecision = INT_PRECISION;
+		m_lLength = 2;
+		break;
 
-		case DATA_GUID_TYPE:
-			m_nSqlDataType = DBTYPE_GUID;
-			m_lLength	   = 16;
-			break;
+	case DATA_GUID_TYPE:
+		m_nSqlDataType = DBTYPE_GUID;
+		m_lLength = 16;
+		break;
 
-		case DATA_TXT_TYPE:
-			m_nSqlDataType = DBTYPE_IUNKNOWN;
-			break;
-		
+	case DATA_TXT_TYPE:
+		m_nSqlDataType = DBTYPE_STR;
+
+	case DATA_BLOB_TYPE:
+		m_nSqlDataType = DBTYPE_BYTES;
+		break;
+
 		//case DATA_BLOB_TYPE:	
-		default:
-			ASSERT_TRACE2(FALSE, 
-	       			"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid datatype\n",
-	       			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
-				); 
-			break;		
+	default:
+		ASSERT_TRACE2(FALSE,
+			"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid datatype\n",
+			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+		);
+		break;
 	}
 }
 // Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
@@ -914,7 +800,7 @@ void SqlColumnInfo::ForceUpdateDataObjType(DataObj* pDataObj)
 	m_lLength = 50;
 
 	m_bDataObjInfoUpdated = false;
-	m_bLoadedFromDB		  = FALSE;
+	m_bLoadedFromDB = FALSE;
 
 	UpdateDataObjType(pDataObj);
 }
@@ -925,103 +811,105 @@ void SqlColumnInfo::ForceUpdateDataObjType(DataObj* pDataObj)
 // allocato fuori, ma puo' non essere inizializzato).
 //
 //-----------------------------------------------------------------------------
-BOOL SqlColumnInfo::GetDataObjTypes	(CWordArray& aDataObjTypes) const
+BOOL SqlColumnInfo::GetDataObjTypes(CWordArray& aDataObjTypes) const
 {
 	// Cosi' siamo sicuri che non rimangano precedenti conversioni
 	aDataObjTypes.RemoveAll();
-	
+
 	// tipo base SQL (vedi SQLColumns in ODBC help)
-	switch(m_nSqlDataType)
+	switch (m_nSqlDataType)
 	{
-		case DBTYPE_I2:
-			aDataObjTypes.Add(DATA_INT_TYPE);
-			return TRUE;
-	
-		case DBTYPE_I4:
-			aDataObjTypes.Add(DATA_LNG_TYPE);
-			aDataObjTypes.Add(DATA_ENUM_TYPE);
-			aDataObjTypes.Add(DATA_INT_TYPE);
-			return TRUE;
-	
-		case DBTYPE_R4:
-		case DBTYPE_R8:
-			aDataObjTypes.Add(DATA_DBL_TYPE);
-			aDataObjTypes.Add(DATA_QTA_TYPE);
-			aDataObjTypes.Add(DATA_MON_TYPE);
-			aDataObjTypes.Add(DATA_PERC_TYPE);
-			return TRUE;
+	case DBTYPE_I2:
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		return TRUE;
 
-		case DBTYPE_DBTIMESTAMP:
-			aDataObjTypes.Add(DATA_DATE_TYPE);
-			return TRUE;
-	
-		case DBTYPE_NUMERIC:
-			if (m_lPrecision == 1 && m_nScale == 0)
-				aDataObjTypes.Add(DATA_BOOL_TYPE);
-			//continue on next cases
-		case DBTYPE_DECIMAL:
-		case DBTYPE_VARNUMERIC:
-			if (m_nScale) // e' sicuramente un valore in floating point
-			{
-				aDataObjTypes.Add(DATA_DBL_TYPE);
-				aDataObjTypes.Add(DATA_QTA_TYPE);
-				aDataObjTypes.Add(DATA_MON_TYPE);
-				aDataObjTypes.Add(DATA_PERC_TYPE);
-				return TRUE;
-            }
-            
-            // scala = 0 e superiore al max integer
-            if (m_lPrecision > INT_PRECISION)
-            {
-				aDataObjTypes.Add(DATA_LNG_TYPE);
-				aDataObjTypes.Add(DATA_ENUM_TYPE);
-				aDataObjTypes.Add(DATA_DBL_TYPE);
-				aDataObjTypes.Add(DATA_QTA_TYPE);
-				aDataObjTypes.Add(DATA_MON_TYPE);
-				aDataObjTypes.Add(DATA_PERC_TYPE);
-				return TRUE;
-			}
-			
-			aDataObjTypes.Add(DATA_INT_TYPE);
-			aDataObjTypes.Add(DATA_LNG_TYPE);
-			aDataObjTypes.Add(DATA_ENUM_TYPE);
+	case DBTYPE_I4:
+		aDataObjTypes.Add(DATA_LNG_TYPE);
+		aDataObjTypes.Add(DATA_ENUM_TYPE);
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		return TRUE;
 
-			aDataObjTypes.Add(DATA_DBL_TYPE);
-			aDataObjTypes.Add(DATA_QTA_TYPE);
-			aDataObjTypes.Add(DATA_MON_TYPE);
-			aDataObjTypes.Add(DATA_PERC_TYPE);
-			return TRUE;
+	case DBTYPE_R4:
+	case DBTYPE_R8:
+		aDataObjTypes.Add(DATA_DBL_TYPE);
+		aDataObjTypes.Add(DATA_QTA_TYPE);
+		aDataObjTypes.Add(DATA_MON_TYPE);
+		aDataObjTypes.Add(DATA_PERC_TYPE);
+		return TRUE;
 
-		case DBTYPE_WSTR:
-		case DBTYPE_STR:
-			if (m_lLength == 1)
-				aDataObjTypes.Add(DATA_BOOL_TYPE);
-			aDataObjTypes.Add(DATA_STR_TYPE);
-			aDataObjTypes.Add(DATA_TXT_TYPE);
-			aDataObjTypes.Add(DATA_GUID_TYPE); //per ORACLE
-			return TRUE;
+	case DBTYPE_DBDATE:
+	case DBTYPE_DBTIME:
+	case DBTYPE_DBTIMESTAMP:
+		aDataObjTypes.Add(DATA_DATE_TYPE);
+		return TRUE;
 
-		case DBTYPE_BOOL:
+	case DBTYPE_NUMERIC:
+		if (m_lPrecision == 1 && m_nScale == 0)
 			aDataObjTypes.Add(DATA_BOOL_TYPE);
+		//continue on next cases
+	case DBTYPE_DECIMAL:
+	case DBTYPE_VARNUMERIC:
+		if (m_nScale) // e' sicuramente un valore in floating point
+		{
+			aDataObjTypes.Add(DATA_DBL_TYPE);
+			aDataObjTypes.Add(DATA_QTA_TYPE);
+			aDataObjTypes.Add(DATA_MON_TYPE);
+			aDataObjTypes.Add(DATA_PERC_TYPE);
 			return TRUE;
-		
-		case DBTYPE_GUID:
-			aDataObjTypes.Add(DATA_GUID_TYPE);			
-			aDataObjTypes.Add(DATA_STR_TYPE); //per ORACLE
+		}
+
+		// scala = 0 e superiore al max integer
+		if (m_lPrecision > INT_PRECISION)
+		{
+			aDataObjTypes.Add(DATA_LNG_TYPE);
+			aDataObjTypes.Add(DATA_ENUM_TYPE);
+			aDataObjTypes.Add(DATA_DBL_TYPE);
+			aDataObjTypes.Add(DATA_QTA_TYPE);
+			aDataObjTypes.Add(DATA_MON_TYPE);
+			aDataObjTypes.Add(DATA_PERC_TYPE);
 			return TRUE;
-	
+		}
+
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		aDataObjTypes.Add(DATA_LNG_TYPE);
+		aDataObjTypes.Add(DATA_ENUM_TYPE);
+
+		aDataObjTypes.Add(DATA_DBL_TYPE);
+		aDataObjTypes.Add(DATA_QTA_TYPE);
+		aDataObjTypes.Add(DATA_MON_TYPE);
+		aDataObjTypes.Add(DATA_PERC_TYPE);
+		return TRUE;
+
+	case DBTYPE_WSTR:
+	case DBTYPE_STR:
+		if (m_lLength == 1)
+			aDataObjTypes.Add(DATA_BOOL_TYPE);
+		aDataObjTypes.Add(DATA_STR_TYPE);
+		aDataObjTypes.Add(DATA_TXT_TYPE);
+		aDataObjTypes.Add(DATA_GUID_TYPE); //per ORACLE
+		return TRUE;
+
+	case DBTYPE_BOOL:
+		aDataObjTypes.Add(DATA_BOOL_TYPE);
+		return TRUE;
+
+	case DBTYPE_GUID:
+		aDataObjTypes.Add(DATA_GUID_TYPE);
+		aDataObjTypes.Add(DATA_STR_TYPE); //per ORACLE
+		return TRUE;
+
 		// conversione parzialmente supportata da MicroArea
-		case DBTYPE_BYTES:
-			aDataObjTypes.Add(DATA_BLOB_TYPE);	//@@TODO
-			return FALSE;
+	case DBTYPE_BYTES:
+		aDataObjTypes.Add(DATA_BLOB_TYPE);	//@@TODO
+		return FALSE;
 	}
-	
+
 	return FALSE;
 }
 
 //-----------------------------------------------------------------------------------------
-DataType SqlColumnInfo::GetDataObjType() const 
-{ 
+DataType SqlColumnInfo::GetDataObjType() const
+{
 	if (m_DataObjType == DataType::Null)
 	{
 		CWordArray wa;
@@ -1029,14 +917,17 @@ DataType SqlColumnInfo::GetDataObjType() const
 			return wa[0];
 	}
 
-	return m_DataObjType; 
+	return m_DataObjType;
 }
+
+
+
 
 //-----------------------------------------------------------------------------------------
 #ifdef _DEBUG
 void SqlColumnInfo::Dump(CDumpContext& dc) const
 {
-	ASSERT_VALID(this); 
+	ASSERT_VALID(this);
 	AFX_DUMP0(dc, " SqlColumnInfo\n");
 	dc << "\tTable Name = " << m_strTableName << "\n";
 	dc << "\tColumn Name = " << m_strColumnName << "\n";
@@ -1045,67 +936,8 @@ void SqlColumnInfo::Dump(CDumpContext& dc) const
 }
 #endif
 
-//////////////////////////////////////////////////////////////////////////////
-//							SqlProcedureParamInfo Definition
-//////////////////////////////////////////////////////////////////////////////
-//
-//-----------------------------------------------------------------------------
-SqlProcedureParamInfo::SqlProcedureParamInfo(const SqlProcedureParamInfo& aProcParamInfo)	
-{
-	m_strProcCatalog	= aProcParamInfo.m_strProcCatalog; 
-	m_strProcSchema		= aProcParamInfo.m_strProcSchema;
-	m_strProcName		= aProcParamInfo.m_strProcName; 
-	m_strParamName		= aProcParamInfo.m_strParamName;
-	m_nOrdinalPosition	= aProcParamInfo.m_nOrdinalPosition;
-	m_nType				= aProcParamInfo.m_nType;
-	m_bHasDefault		= aProcParamInfo.m_bHasDefault;
-	m_strDefault		= aProcParamInfo.m_strDefault;
-	m_bIsNullable		= aProcParamInfo.m_bIsNullable;
-	m_nDataType			= aProcParamInfo.m_nDataType;
-	m_nMaxLength		= aProcParamInfo.m_nMaxLength; 
-	m_nOctetLength		= aProcParamInfo.m_nOctetLength;
-	m_nPrecision		= aProcParamInfo.m_nPrecision;
-	m_nScale			= aProcParamInfo.m_nScale;
-	m_strDescription	= aProcParamInfo.m_strDescription;
-}				 
 
-// Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
-//-----------------------------------------------------------------------------
-void SqlProcedureParamInfo::UpdateDataObjInfo(DataObj* pDataObj)
-{
-	pDataObj->SetAllocSize(m_nMaxLength);	
-}
 
-#ifdef _DEBUG
-void SqlProcedureParamInfo::Dump(CDumpContext& dc) const
-{
-	ASSERT_VALID(this); 
-	AFX_DUMP0(dc, " SqlProcedureParamInfo\n");
-	dc << "\tProcedure Name = " << m_strProcName << "\n";
-	dc << "\tParameter Name = " << m_strParamName << "\n";
-
-	CObject::Dump(dc);
-}
-#endif
-
-//////////////////////////////////////////////////////////////////////////////
-//							SqlTablesItem
-//////////////////////////////////////////////////////////////////////////////
-//
-//-----------------------------------------------------------------------------
-SqlTablesItem::SqlTablesItem()
-{
-}
-
-//-----------------------------------------------------------------------------
-SqlTablesItem::SqlTablesItem(const SqlTablesItem& cf)
-{
-	m_strQualifier	= cf.m_strQualifier;
-	m_strOwner		= cf.m_strOwner;
-	m_strName		= cf.m_strName;
-	m_strType		= cf.m_strType;
-	m_strRemarks	= cf.m_strRemarks;
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // 								SqlTables
@@ -1119,157 +951,24 @@ SqlTables::SqlTables(SqlConnection* pSqlConnect)
 :
 	m_pSqlConnection(pSqlConnect)
 {
-}
-
-// per caricare i sinonimi suddivisi per table/view/stored procedure devo interrogare direttamente le tabelle di
-// sistema di Oracle
-//-----------------------------------------------------------------------------
-BOOL SqlTables::GetSynonyms(const CString& strType)
-{
-	DataStr strSynonym;
-	strSynonym.SetAllocSize(SYNONYM_COLUMN_LENGHT);
-	SqlTable aTable(m_pSqlConnection->GetDefaultSqlSession());
-	if (strType == _T("PROCEDURE"))
-		aTable.m_strSQL = cwsprintf(_T("select SYNONYM_NAME from USER_SYNONYMS, ALL_PROCEDURES where OWNER = '{0-%s}' and SYNONYM_NAME = OBJECT_NAME"),
-										(LPCTSTR)m_pSqlConnection->m_strDBOwner);
-	else
-		aTable.m_strSQL = cwsprintf(_T("select SYNONYM_NAME from USER_SYNONYMS U, {0-%s} A where A.OWNER = '{1-%s}' and U.SYNONYM_NAME = A.{2-%s} and U.TABLE_OWNER = A.OWNER"), 
-									(strType == _T("TABLE")) ? _T("ALL_TABLES") : _T("ALL_VIEWS"),
-									(LPCTSTR)m_pSqlConnection->m_strDBOwner,
-									(strType == _T("TABLE")) ? _T("TABLE_NAME") : _T("VIEW_NAME"));
-	aTable.m_pColumnArray->Add(_T("SYNONYM_NAME"), &strSynonym, m_pSqlConnection->GetSqlDataType(DATA_STR_TYPE), nEmptySqlRecIdx);
-	
-	TRY
-	{
-		aTable.Open();
-		aTable.Query();
-		while (!aTable.IsEOF())
-		{
-			SqlTablesItem* pItem = new SqlTablesItem();		
-
-			pItem->m_strQualifier	=  _T("");
-			pItem->m_strOwner		= m_pSqlConnection->m_strUserName;
-			pItem->m_strName		= strSynonym.Str();;
-			pItem->m_strType		= strType;
-			pItem->m_strRemarks		= _T("");
-			Add(pItem);
-			aTable.MoveNext();
-		}
-		aTable.Close();
-	}
-
-	CATCH(SqlException, e)
-	{
-		if (aTable.IsOpen())
-			aTable.Close();
-		return FALSE;
-	}
-	END_CATCH
-
-	return TRUE;
+	SetOwns(FALSE);
 }
 
 //-----------------------------------------------------------------------------
 BOOL SqlTables::GetInfo(BOOL bTable)
 {
-	USES_CONVERSION;
-
-	CTables*    pTableSet = new CTables;
 	TRY
-	{ 
-		CString strTableType = (bTable) ? _T("TABLE") : _T("VIEW");		
-
-		if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
-		{
-			if (!m_pSqlConnection->IsUserConnectDbOwner())
-			{
-				delete pTableSet;
-				return GetSynonyms(strTableType);
-			}
-
-			if (
-				pTableSet->Open(
-								*(CSession*)m_pSqlConnection->GetDefaultSqlSession()->GetSession(), 
-								NULL, 
-								m_pSqlConnection->GetDatabaseName(), 
-								NULL, 
-								strTableType
-							) != S_OK
-			)
-			return FALSE;
-		}
+	{
+		/*if (bTable)
+			m_pSqlConnection->LoadTables(this);
 		else
-		{
-			if (
-				pTableSet->Open(
-									*(CSession*)m_pSqlConnection->GetDefaultSqlSession()->GetSession(), 
-									NULL, 
-									NULL, 
-									NULL, 
-									strTableType
-								) != S_OK
-				)
-				return FALSE;
-		}
-
-		DBMSType eDBType = m_pSqlConnection->GetProviderInfo()->GetDBMSType();
-
-		while (pTableSet->MoveNext() == S_OK)
-		{
-			if (IsSystemTable((TCHAR*)pTableSet->m_szSchema, (TCHAR*)pTableSet->m_szName, eDBType))
-				continue;
-
-			if (_tcschr(pTableSet->m_szName, _T(' ')) != NULL)
-			{
-				//continue;
-				CString s(pTableSet->m_szName);
-				s.Trim();
-
-				if (s.GetLength() > sizeof(pTableSet->m_szName) - 2)
-				{
-					ASSERT_TRACE(FALSE, (LPCTSTR)(CString(L"Catalog Table Name too long: ") + pTableSet->m_szName + '\n'));
-				}
-				s = '[' + s + ']';
-
-				//wcscpy_s(pTableSet->m_szName, s.GetLength(), (LPCTSTR) s);
-				int i = 0; 
-				for (; i < s.GetLength(); i++)
-				{
-					pTableSet->m_szName[i] = s[i];
-				} 
-				pTableSet->m_szName[i] = '\0';
-			}
-
-			SqlTablesItem* pItem = new SqlTablesItem();		
-
-				pItem->m_strQualifier	= pTableSet->m_szCatalog;
-				pItem->m_strOwner		= pTableSet->m_szSchema;
-				pItem->m_strName		= pTableSet->m_szName;
-				pItem->m_strType		= pTableSet->m_szType;
-				pItem->m_strRemarks		= pTableSet->m_szDescription;
-		
-				pItem->m_strType.MakeUpper();
-
-			Add(pItem);
-
-			pTableSet->m_szCatalog[0] = '\0';
-			pTableSet->m_szSchema[0] = '\0';
-			pTableSet->m_szName[0] = '\0';
-			pTableSet->m_szType[0] = '\0';
-			pTableSet->m_szDescription[0] = '\0';
-		}
-		delete pTableSet;
-		pTableSet = NULL;
+			m_pSqlConnection->LoadViews(this);*/
 	}
 	CATCH(SqlException, e)
 	{
-		if (pTableSet)
-		{
-			delete pTableSet;
-			pTableSet = NULL;
-		}
-		m_pSqlConnection->GetDefaultSqlSession()->m_pContext->AddMessage(e->m_strError);
+		m_pSqlConnection->m_pContext->AddMessage(e->m_strError);
 		return FALSE;
+
 	}
 	END_CATCH
 
@@ -1279,102 +978,21 @@ BOOL SqlTables::GetInfo(BOOL bTable)
 //-----------------------------------------------------------------------------
 BOOL SqlTables::GetStoredProcedures()
 {
-	USES_CONVERSION;
-
-	CProcedures*   pProcSet = new CProcedures;
 	TRY
-	{ 
-		if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
-		{
-			if (!m_pSqlConnection->IsUserConnectDbOwner())
-			{
-				delete pProcSet;
-				return GetSynonyms(_T("PROCEDURE"));
-			}
-
-			if (
-				pProcSet->Open(
-								*(CSession*)m_pSqlConnection->GetDefaultSqlSession()->GetSession(), 
-								NULL, 
-								m_pSqlConnection->GetDatabaseName(), 
-								NULL, 
-								NULL
-							) != S_OK
-			)
-			return FALSE;
-		}
-		else
-		{
-			if (
-				pProcSet->Open(
-									*(CSession*)m_pSqlConnection->GetDefaultSqlSession()->GetSession(), 
-									NULL, 
-									NULL, 
-									NULL, 
-									NULL
-								) != S_OK
-				)
-				return FALSE;
-		}
-		int nPos = 0;
-		while(pProcSet->MoveNext() == S_OK)
-		{
-			if (_tcsstr(pProcSet->m_szName, _T("dt_")) != NULL )
-				continue;
-
-			SqlTablesItem* pItem = new SqlTablesItem();		
-
-			pItem->m_strQualifier	= pProcSet->m_szCatalog;
-			pItem->m_strOwner		= pProcSet->m_szSchema;
-			pItem->m_strName		= pProcSet->m_szName;
-			
-			// in SqlServer il nome viene restituito come "ProcName;n"
-			nPos = pItem->m_strName.Find(_T(';'));
-			pItem->m_strName = (nPos >= 0) ? pItem->m_strName.Left(nPos) : pItem->m_strName;
-
-			pItem->m_strType		= _T("PROCEDURE");
-			pItem->m_strRemarks		= pProcSet->m_szDescription;
-	
-			Add(pItem);
-		}
-		delete pProcSet;
-		pProcSet = NULL;
-	}
-	CATCH(SqlException, e)
 	{
-		if (pProcSet)
-		{
-			delete pProcSet;
-			pProcSet = NULL;
-		}	
-		m_pSqlConnection->GetDefaultSqlSession()->m_pContext->AddMessage(e->m_strError);
+		//m_pSqlConnection->LoadProcedures(this);
+	}
+		CATCH(SqlException, e)
+	{
+		m_pSqlConnection->m_pContext->AddMessage(e->m_strError);
 		return FALSE;
+
 	}
 	END_CATCH
+
 	return TRUE;
 }
 
-//-----------------------------------------------------------------------------
-BOOL SqlTables::IsSystemTable(TCHAR* szTableSchema, TCHAR* szName, DBMSType eDBType) const
-{
-	//devo escludere la lettura delle tabelle-vista di sistema
-	// per SqlServer
-	if (eDBType == DBMS_SQLSERVER) 
-		return(
-				_tcsicmp((TCHAR*)szTableSchema,_T("INFORMATION_SCHEMA"))  == 0	||
-				_tcsicmp((TCHAR*)szName, _T("dtproperties"))	  == 0	||		
-				_tcsicmp((TCHAR*)szName, _T("sysalternates"))	  == 0	||
-				_tcsicmp((TCHAR*)szName, _T("syssegments"))		  == 0	||
-				_tcsicmp((TCHAR*)szName, _T("sysconstraints"))	  == 0	
-
-			   );
-
-	// per Oracle
-	if (eDBType == DBMS_ORACLE) 
-		return (_tcsicmp((TCHAR*)szName,_T("MICROSOFTDTPROPERTIES")) == 0);
-
-	return FALSE;
-}
 
 //////////////////////////////////////////////////////////////////////////////
 //								SqlForeignKeysReader
@@ -1382,9 +1000,6 @@ BOOL SqlTables::IsSystemTable(TCHAR* szTableSchema, TCHAR* szName, DBMSType eDBT
 //-----------------------------------------------------------------------------
 void SqlForeignKeysReader::LoadForeignKeys (CString sFromTableName, CString sToTableName, SqlSession* pSqlSession, BOOL bLoadAllToTables /*= FALSE*/)
 {
-	sFromTableName.Remove('['); sFromTableName.Remove(']');
-	sToTableName.Remove('['); sToTableName.Remove(']');
-
 	if (
 			!pSqlSession || 
 			(
@@ -1395,47 +1010,21 @@ void SqlForeignKeysReader::LoadForeignKeys (CString sFromTableName, CString sToT
 					(!bLoadAllToTables && !sToTableName.IsEmpty() && sToTableName.CompareNoCase(m_sLastToTableName) == 0) ||
 					(bLoadAllToTables  && sToTableName.IsEmpty()  && m_sLastToTableName.IsEmpty())
 				)
+				
 			)
 		)
 		return;
 
 	RemoveAll ();
-
-	CForeignKeys* pKeys = new CForeignKeys;
-
 	TRY
-	{ 	
-		ASSERT(pKeys != NULL);
-
-		if (pKeys->Open(*(CSession*)pSqlSession->GetSession(), NULL, NULL, sFromTableName) != S_OK)
-			return;//@@TODO exception
-
-		CString str;
-		while(pKeys->MoveNext() == S_OK)
-		{
-			if (!bLoadAllToTables && sToTableName.CompareNoCase(pKeys->m_szFKTableName))
-				continue;
-
-			str = AddSquareWhenNeeds(pKeys->m_szFKTableName) + _T(".") + AddSquareWhenNeeds(pKeys->m_szFKColumnName) + szFKSep;
-			str += AddSquareWhenNeeds(pKeys->m_szPKTableName) + _T(".") + AddSquareWhenNeeds(pKeys->m_szPKColumnName);
-			
-			Add(str);
-		}
-
-		delete pKeys;
-		pKeys = NULL;
-
+	{
+		pSqlSession->GetSqlConnection()->LoadForeignKeys(sFromTableName, sToTableName, bLoadAllToTables, this);
 		m_sLastFromTableName = sFromTableName;
-		m_sLastToTableName	= bLoadAllToTables ? _T("") : sToTableName;
+		m_sLastToTableName = bLoadAllToTables ? _T("") : sToTableName;
 
 	}
 	CATCH(SqlException, e)
 	{
-		if (pKeys)
-		{
-			delete pKeys;
-			pKeys = NULL;
-		}
 		THROW_LAST();
 	}
 	END_CATCH
@@ -1494,43 +1083,6 @@ CString SqlForeignKeysReader::GetForeignKeyOf (const CString& sTable, const CStr
 			return sToCol;
 	}
 	return _T("");
-}
-
-//////////////////////////////////////////////////////////////////////////////
-//								SqlUniqueColumns
-//////////////////////////////////////////////////////////////////////////////
-//
-//-----------------------------------------------------------------------------
-void SqlUniqueColumns::LoadPrimaryKey(const CString& strTableName, SqlSession* pSqlSession)
-{
-	if(!pSqlSession) 
-		return;
-
-	CPrimaryKeys* pKeys = new CPrimaryKeys;
-
-	TRY
-	{ 	
-		ASSERT(pKeys != NULL);
-
-		if(pKeys->Open(*(CSession*)pSqlSession->GetSession(), NULL, NULL, strTableName) != S_OK)
-			return;//@@TODO exception
-
-		while(pKeys->MoveNext() == S_OK)
-			m_aSqlPrimaryKeys.Add((LPTSTR)pKeys->m_szColumnName);
-
-		delete pKeys;
-		pKeys = NULL;
-	}
-	CATCH(SqlException, e)
-	{
-		if (pKeys)
-		{
-			delete pKeys;
-			pKeys = NULL;
-		}
-		THROW_LAST();
-	}
-	END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1617,15 +1169,8 @@ CTBNamespace CRTAddOnNewFieldsArray::GetNsOwnerLibrary (CRuntimeClass* pRTNewFie
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-SqlTableInfo::SqlTableInfo
-				(
-					const CString& strTableName, 
-					int nType,		//TABLE, VIEW, PROCEDURE
-					SqlCatalogEntry* pSqlCatalogEntry,
-					SqlConnection *pConnection
-				)
+SqlTableInfo::SqlTableInfo(SqlCatalogEntry* pSqlCatalogEntry, SqlConnection *pConnection, BOOL bReloadTableInfo /* = FALSE */)
 	:
-	m_strTableName		(strTableName),
 	m_pSqlUniqueColumns	(NULL),
 	m_pProcParameters	(NULL), //lo utilizzo solo per le StoredProcedure
 	m_pSqlNewFieldRT	(NULL),
@@ -1640,22 +1185,23 @@ SqlTableInfo::SqlTableInfo
 	m_pModifiedIDColumn		(NULL),
 	m_pGuidColumn			(NULL)
 {
-	switch (nType)
+	m_strTableName = pSqlCatalogEntry->m_strTableName;
+
+	switch (pSqlCatalogEntry->m_nType)
 	{
 		case TABLE_TYPE:
 			m_pSqlUniqueColumns = new SqlUniqueColumns();
-			LoadColumnsInfo(pConnection);	 
-			LoadPrimaryKeyInfo(pConnection);
+			LoadColumnsInfo(pConnection, bReloadTableInfo);
 			m_bValid = m_arPhisycalColumns.GetSize() > 0;			
 			break;
 		
 		case VIEW_TYPE:
-			LoadColumnsInfo(pConnection);  
+			LoadColumnsInfo(pConnection, bReloadTableInfo);
 			m_bValid = m_arPhisycalColumns.GetSize() > 0;
 			break;
 		
 		case PROC_TYPE:
-			LoadProcParametersInfo(pConnection); 
+			LoadProcParametersInfo(pConnection, bReloadTableInfo);
 			break; 
 		
 		case VIRTUAL_TYPE: break;
@@ -1694,60 +1240,107 @@ void SqlTableInfo::SetNamespace	(const CTBNamespace& aNamespace)
 		m_pSqlCatalogEntry->SetNamespace(aNamespace);
 }
 
+
 //-----------------------------------------------------------------------------
-void SqlTableInfo::LoadProcParametersInfo(SqlConnection *pConnection)
+void SqlTableInfo::LoadColumnsInfo(SqlConnection* pSqlConnection, BOOL bReloadTableInfo /*= FALSE*/)
 {
-    if (m_pProcParameters)
-		return;
-
-	m_pProcParameters = new SqlProcedureParameters;
-	CProcedureParameters* pProcParams = new CProcedureParameters;
-
 	TRY
-	{ 	
-		if(pProcParams->Open(*((CSession*)pConnection->GetDefaultSession()), NULL, NULL, (LPCTSTR)m_strTableName) != S_OK)
+	{
+		if (!m_pSqlCatalogEntry || !m_pSqlCatalogEntry->m_pTableItem)
 			return;
-				
-		while (pProcParams->MoveNext() == S_OK)
-		{			
-			// Alloca la nuova entry		
-			SqlProcedureParamInfo* pProcInfo = new SqlProcedureParamInfo();
-	
-			pProcInfo->m_strProcCatalog	= (LPTSTR) pProcParams->m_szCatalog; 
-			pProcInfo->m_strProcSchema	= (LPTSTR) pProcParams->m_szSchema;
-			pProcInfo->m_strProcName		= (LPTSTR) pProcParams->m_szName;
-			pProcInfo->m_strParamName		= (LPTSTR) pProcParams->m_szParameterName;
-			pProcInfo->m_nOrdinalPosition	= pProcParams->m_nOrdinalPosition;
-			pProcInfo->m_nType			= pProcParams->m_nType;
-			pProcInfo->m_bHasDefault	= pProcParams->m_bHasDefault;
-			pProcInfo->m_strDefault		= (LPTSTR) pProcParams->m_szDefault;
-			pProcInfo->m_bIsNullable	= pProcParams->m_bIsNullable;
-			pProcInfo->m_nDataType		= pProcParams->m_nDataType;
-			pProcInfo->m_nMaxLength = (pConnection->GetDBMSType() == DBMS_ORACLE && pProcInfo->m_nDataType == DBTYPE_STR)
-									   ? 255
-									   : pProcParams->m_nMaxLength;
-			pProcInfo->m_nOctetLength	= pProcParams->m_nOctetLength;
-			pProcInfo->m_nPrecision		= pProcParams->m_nPrecision;
-			pProcInfo->m_nScale			= pProcParams->m_nScale;
-			pProcInfo->m_strDescription = (LPTSTR) pProcParams->m_szDescription;
 
-			m_pProcParameters->Add(pProcInfo);
+		if (bReloadTableInfo)
+			pSqlConnection->LoadColumnsInfo(m_strTableName, &m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo);
+
+		SqlColumnInfo* pColumnInfo = NULL;
+		if (!m_pSqlUniqueColumns)
+			m_pSqlUniqueColumns = new SqlUniqueColumns();
+		for (int i = 0; i < m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo.GetSize(); i++)
+		{
+			pColumnInfo = (SqlColumnInfo*)m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo.GetAt(i);
+			//vado ad inserire il titolo corretto al campo in base alla lingua scelta
+			pColumnInfo->m_strColumnTitle = AfxLoadDatabaseString(pColumnInfo->m_strColumnName, pColumnInfo->m_strTableName);
+			//vado a controllare se il campo è sensibile alla localizzazione (collate diversa dal database)
+			//@@TODOBAUZI da farlo solo se il database lo prevede
+			pColumnInfo->m_bUseCollationCulture = false; // SqlConnection->IsCollationCultureSensitive(pColumnInfo);
+
+			//considero anche i campi di tipo chiave e li inserisco nell'array m_pSqlUniqueColumns
+			if (pColumnInfo->m_bSpecial)
+			{
+				m_pSqlUniqueColumns->AddSpecialColumn(pColumnInfo->m_strColumnName);
+			}
+			else if (pColumnInfo->m_strColumnName.CompareNoCase(CREATED_COL_NAME) == 0)
+			{
+				m_pCreatedColumn = pColumnInfo;
+			}
+			else if (pColumnInfo->m_strColumnName.CompareNoCase(MODIFIED_COL_NAME) == 0)
+			{
+				m_pModifiedColumn = pColumnInfo;
+			}
+			else if (pColumnInfo->m_strColumnName.CompareNoCase(CREATED_ID_COL_NAME) == 0)
+			{
+				m_pCreatedIDColumn = pColumnInfo;
+			}
+			else if (pColumnInfo->m_strColumnName.CompareNoCase(MODIFIED_ID_COL_NAME) == 0)
+			{
+				m_pModifiedIDColumn = pColumnInfo;
+			}
+			else if (pColumnInfo->m_strColumnName.CompareNoCase(GUID_COL_NAME) == 0)
+			{
+				m_pGuidColumn = pColumnInfo;
+			}
+
+			m_arPhisycalColumns.Add(pColumnInfo);
 		}
 
-		delete pProcParams;
-		pProcParams = NULL;
+		//non ho bisogno più dell'array di appoggio
+		m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo.RemoveAll();
+	}
+		CATCH(SqlException, e)
+	{
+		pSqlConnection->m_pContext->AddMessage(e->m_strError);
+	}
+	END_CATCH
+
+}
+
+//-----------------------------------------------------------------------------
+void SqlTableInfo::LoadProcParametersInfo(SqlConnection* pSqlConnection, BOOL bReloadTableInfo /*= FALSE*/)
+{
+	if (m_pProcParameters)
+		return;
+
+	m_pProcParameters = new SqlProcedureParameters();
+	if (!m_pSqlCatalogEntry || !m_pSqlCatalogEntry->m_pTableItem)
+		return;
+	TRY
+	{
+
+		if (bReloadTableInfo)
+			pSqlConnection->LoadProcedureParametersInfo(m_strTableName, &m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams);
+
+		SqlProcedureParamInfo* pProcParamInfo = NULL;
+		for (int i = 0; i < m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.GetSize(); i++)
+		{
+			pProcParamInfo = (SqlProcedureParamInfo*)m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.GetAt(i);
+			m_pProcParameters->Add(pProcParamInfo);
+			//pSqlConnection->LoadProcedureParametersInfo(m_strTableName, m_pProcParameters);
+		}
+		m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.RemoveAll();
 	}
 	CATCH(SqlException, e)
 	{
-		e->ShowError();
-		if (pProcParams) 
+		//e->ShowError();
+		pSqlConnection->m_pContext->AddMessage(e->m_strError);
+		if (m_pProcParameters)
 		{
-			delete pProcParams;
-			pProcParams = NULL;
-		}		
+			delete m_pProcParameters;
+			m_pProcParameters = NULL;
+		}
 	}
 	END_CATCH
 }
+
 //-----------------------------------------------------------------------------
 void SqlTableInfo::RemoveDynamicColumnInfo (const CString& strColumnName)
 {
@@ -1894,95 +1487,6 @@ SqlColumnInfo*&	SqlTableInfo::ElementAt (int nIndex)
 	return (SqlColumnInfo*&) m_arVirtualColumns.ElementAt(nIndex - len); 
 }
 
-//-----------------------------------------------------------------------------
-void SqlTableInfo::LoadColumnsInfo(SqlConnection *pConnection)
-{
-	CColumns* pColumns = new CColumns;
-
-	TRY
-	{ 	
-		CString strSchemaName;
-		LPCTSTR lpszSchemaName(NULL);
-		if (pConnection->GetDBMSType() == DBMS_ORACLE)
-		{
-			strSchemaName = (pConnection->IsUserConnectDbOwner()) ? pConnection->GetDatabaseName() : pConnection->GetDatabaseOwner();
-			lpszSchemaName = (LPCTSTR)strSchemaName;
-		}
-
-		if (pColumns->Open(*((CSession*)pConnection->GetDefaultSession()), NULL, lpszSchemaName, (LPCTSTR)m_strTableName) != S_OK)
-			return;
-	
-		//? const CDbObjectDescription* pDescri = AfxGetDatabaseObjectsTable()->GetDescription(m_strTableName);
-		BOOL bSquare = m_strTableName[0] == '[';
-
-		while (pColumns->MoveNext() == S_OK)
-		{			
-			// Alloca la nuova entry		
-			SqlColumnInfo* pColumnInfo = new SqlColumnInfo();
-
-			pColumnInfo->m_bLoadedFromDB			= TRUE;
-
-			pColumnInfo->m_strTableCatalog			= pColumns->m_szTableCatalog;
-			pColumnInfo->m_strTableSchema			= pColumns->m_szTableSchema;
-
-			AddSquareWhenNeeds(pColumnInfo->m_strTableName, pColumns->m_szTableName);
-			AddSquareWhenNeeds(pColumnInfo->m_strColumnName, pColumns->m_szColumnName);
-
-			pColumnInfo->m_nSqlDataType				= pColumns->m_nDataType;
-			pColumnInfo->m_lPrecision				= pColumns->m_nNumericPrecision;
-			pColumnInfo->m_lLength					= pColumns->m_nMaxLength;
-			pColumnInfo->m_bUseCollationCulture		= pConnection->IsCollationCultureSensitive(pColumnInfo);
-			pColumnInfo->m_nScale					= pColumns->m_nNumericScale;
-			pColumnInfo->m_bNullable				= pColumns->m_bIsNullable;
-			pColumnInfo->m_strRemarks				= pColumns->m_szDescription;
-
-			// VERIFICO SE il campo é special.
-			// questa informazione viene utilizzata se la tabella non gestisce campi
-			// di primary key
-			BOOL bSpecial	= ((pColumns->m_nColumnFlags & DBCOLUMNFLAGS_ISROWID) == DBCOLUMNFLAGS_ISROWID &&
-								(pColumns->m_nColumnFlags & DBCOLUMNFLAGS_ISROWVER) == DBCOLUMNFLAGS_ISROWVER);		
-			if (bSpecial)
-			{	
-				if (!m_pSqlUniqueColumns)
-					m_pSqlUniqueColumns = new SqlUniqueColumns();
-			
-				m_pSqlUniqueColumns->AddSpecialColumn(pColumnInfo->m_strColumnName);
-			}
-			else if (pColumnInfo->m_strColumnName.CompareNoCase(CREATED_COL_NAME) == 0)
-			{
-				m_pCreatedColumn = pColumnInfo;
-			}
-			else if (pColumnInfo->m_strColumnName.CompareNoCase(MODIFIED_COL_NAME) == 0)
-			{
-				m_pModifiedColumn = pColumnInfo;
-			}
-			else if (pColumnInfo->m_strColumnName.CompareNoCase(CREATED_ID_COL_NAME) == 0)
-			{
-				m_pCreatedIDColumn = pColumnInfo;
-			}
-			else if (pColumnInfo->m_strColumnName.CompareNoCase(MODIFIED_ID_COL_NAME) == 0)
-			{
-				m_pModifiedIDColumn = pColumnInfo;
-			}
-			else if (pColumnInfo->m_strColumnName.CompareNoCase(GUID_COL_NAME) == 0)
-			{
-				m_pGuidColumn = pColumnInfo;
-			}
-			
-			//----
-			m_arPhisycalColumns.Add(pColumnInfo);
-		}
-
-		delete pColumns;
-		pColumns = NULL;
-	}
-	CATCH(SqlException, e)
-	{
-		e->ShowError();
-		SAFE_DELETE (pColumns);
-	}
-	END_CATCH
-}
 
 //-----------------------------------------------------------------------------
 BOOL SqlTableInfo::IsMasterTable() const
@@ -2219,71 +1723,45 @@ BOOL SqlTableInfo::ExistIndex(const SqlColumnInfo* pColumnInfo) const
 //-----------------------------------------------------------------------------
 void SqlTableInfo::LoadIndexInfo(SqlConnection *pConnection)
 {
-    ASSERT_VALID(this);
-	CIndexes* pIndexes = new CIndexes;
+ //   ASSERT_VALID(this);
+	//CIndexes* pIndexes = new CIndexes;
 
-	TRY
-	{ 	
-		//@@OLEDB
-		// per Oracle (@@TODO da verificare)
-		//	CString strTableName = m_strTableName; 
-		//	CString strOwner = (AfxGetDefaultWorkspace()->m_pDriver->m_nDbmsType == DBMS_ORACLE)
-		//						? AfxGetOleDbMng()->m_strOwner
-		//						: _T("");
+	//TRY
+	//{ 	
+	//	//@@OLEDB
+	//	// per Oracle (@@TODO da verificare)
+	//	//	CString strTableName = m_strTableName; 
+	//	//	CString strOwner = (AfxGetDefaultWorkspace()->m_pDriver->m_nDbmsType == DBMS_ORACLE)
+	//	//						? AfxGetOleDbMng()->m_strOwner
+	//	//						: _T("");
 
-		//	if	(AfxGetDefaultWorkspace()->m_pDriver->m_bColumnsBug)
-		//	{
-		//		strOwner.MakeUpper();			
-		//		strTableName.MakeUpper();
-		//	}	
+	//	//	if	(AfxGetDefaultWorkspace()->m_pDriver->m_bColumnsBug)
+	//	//	{
+	//	//		strOwner.MakeUpper();			
+	//	//		strTableName.MakeUpper();
+	//	//	}	
 
-		if(pIndexes->Open(*((CSession*)pConnection->GetDefaultSession()), NULL, NULL, NULL, NULL,(LPCTSTR)m_strTableName) != S_OK)
-			return;
-				
-		while (pIndexes->MoveNext() == S_OK)
-			SetExistIndex((LPCTSTR)pIndexes->m_szColumnName);
-		
-		delete pIndexes;
-		pIndexes = NULL;
-	}
-	CATCH(SqlException, e)
-	{
-		if (pIndexes) 
-		{
-			delete pIndexes;
-			pIndexes = NULL;
-		}
-		THROW_LAST();
-	}
-	END_CATCH
+	//	if(pIndexes->Open(*((CSession*)pConnection->GetDefaultSession()), NULL, NULL, NULL, NULL,(LPCTSTR)m_strTableName) != S_OK)
+	//		return;
+	//			
+	//	while (pIndexes->MoveNext() == S_OK)
+	//		SetExistIndex((LPCTSTR)pIndexes->m_szColumnName);
+	//	
+	//	delete pIndexes;
+	//	pIndexes = NULL;
+	//}
+	//CATCH(SqlException, e)
+	//{
+	//	if (pIndexes) 
+	//	{
+	//		delete pIndexes;
+	//		pIndexes = NULL;
+	//	}
+	//	THROW_LAST();
+	//}
+	//END_CATCH
 }
 
-// carico le informazioni sulle chiavi primarie
-//-----------------------------------------------------------------------------
-void SqlTableInfo::LoadPrimaryKeyInfo(SqlConnection *pConnection)
-{
-	if (!m_pSqlUniqueColumns || !pConnection)
-		return;
-
-	// si settano le colonne di chiave primaria se esistono oppure si considera le
-	// special columns
-	TRY
-	{
-		m_pSqlUniqueColumns->LoadPrimaryKey(m_strTableName, pConnection->GetDefaultSqlSession());
-		for (int i = 0; i <= m_pSqlUniqueColumns->GetUpperBound(); i++)
-		{
-			SqlColumnInfo* pColumnInfo = const_cast<SqlColumnInfo*>(GetColumnInfo(m_pSqlUniqueColumns->GetAt(i)));
-			if (pColumnInfo)
-				pColumnInfo->m_bSpecial = TRUE;
-		}
-	}
-
-	CATCH(SqlException, e)
-	{
-		e->ShowError();
-	}
-	END_CATCH
-}
 
 //-----------------------------------------------------------------------------
 int SqlTableInfo::GetParamInfoPos (const CString& strParamName, int nPos/* = -1*/) const
@@ -2300,6 +1778,7 @@ int SqlTableInfo::GetParamInfoPos (const CString& strParamName, int nPos/* = -1*
 			return nPos;
 	}
 	
+
 	for (int i = 0; i <= m_pProcParameters->GetUpperBound(); i++)
 	{
 		pParamInfo = m_pProcParameters->GetAt(i);
@@ -2307,6 +1786,23 @@ int SqlTableInfo::GetParamInfoPos (const CString& strParamName, int nPos/* = -1*
 			return i;
 	}
 	return -1;
+}
+
+//-----------------------------------------------------------------------------
+SqlProcedureParamInfo* SqlTableInfo::GetParamInfoByName(const CString& strParamName) const
+{
+	if (strParamName.IsEmpty() || !m_pProcParameters)
+		return NULL;
+
+	SqlProcedureParamInfo* pParamInfo = NULL;
+
+	for (int i = 0; i <= m_pProcParameters->GetUpperBound(); i++)
+	{
+		pParamInfo = m_pProcParameters->GetAt(i);
+		if (pParamInfo->m_strParamName.CompareNoCase(strParamName) == 0)
+			return pParamInfo;
+	}
+	return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -2457,6 +1953,7 @@ SqlCatalogEntry::SqlCatalogEntry
 	m_bExist 			= bExist;
 	m_bVirtual 			= bVirtual == TRUE;
 	m_nType 			= nType;
+	m_pTableItem		= NULL;
 	m_pTableInfo		= NULL;
 	m_pAuditingMng		= NULL;
 	m_pTableRowSecurityMng	= NULL;
@@ -2469,6 +1966,7 @@ SqlCatalogEntry::~SqlCatalogEntry()
 	SAFE_DELETE(m_pTableInfo);
 	SAFE_DELETE(m_pAuditingMng);
 	SAFE_DELETE(m_pTableRowSecurityMng);
+	SAFE_DELETE(m_pTableItem);
 }
 
 //-----------------------------------------------------------------------------
@@ -2613,16 +2111,15 @@ BOOL SqlCatalogEntry::SortTableInfoColumns()
 		ASSERT_VALID(pRec);
 		ASSERT_VALID(pRec->m_pTableInfo);
 		ASSERT(m_pTableInfo == pRec->m_pTableInfo);
+		/*if(!pRec->IsKindOf(RUNTIME_CLASS(DynamicSqlRecord)))
+			pRec->ValorizeDBObjectDescription(m_pDBObjectDescription);*/
+
 		if (m_pTableInfo && m_pTableInfo->m_bValid)
 		{
 			if (!pRec->IsKindOf(RUNTIME_CLASS(DynamicSqlRecord)) && !pRec->IsKindOf(RUNTIME_CLASS(UnregisteredSqlRecord)))
-			{
 				VERIFY(m_pTableInfo->SortColumns(pRec));
-			}
 			else
-			{
 				SAFE_DELETE(pRec);
-			}
 		}
 		else
 			delete pRec;
@@ -2639,6 +2136,15 @@ BOOL SqlCatalogEntry::SortTableInfoColumns()
 			msg += _T("record without runtime class");
 
 		TRACE3("Cannot create record of table %s\n in %s\n%s\n", (LPCTSTR)m_strTableName, (LPCTSTR)GetInfoOSL()->m_Namespace.ToString(), (LPCTSTR)msg);
+
+		//se non è una tabella registrata allora rimuovo le informazioni  di schema. Saranno eventualmente lette all'occorrenza
+		if (m_pTableItem)
+		{
+			m_pTableItem->m_arColumnsInfo.SetOwns(TRUE);
+			m_pTableItem->m_arColumnsInfo.RemoveAll();
+			m_pTableItem->m_arProcedureParams.SetOwns(TRUE);
+			m_pTableItem->m_arProcedureParams.RemoveAll();
+		}
 	}
 	return FALSE;
 }
@@ -2696,6 +2202,10 @@ static void ShowRegistration (const CString& strTableName)
 	AfxSetStatusBarText(cwsprintf(_TB("Registrating {0-%s}... Please wait."), (LPCTSTR)strTableName));
 }
 
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////
 //								COslObArray
 //////////////////////////////////////////////////////////////////////////////
@@ -2725,50 +2235,104 @@ void SqlCatalog::Load(SqlConnection *pConnection)
 	
 	m_bLoaded = TRUE;
 
-	// usa il datasource di default
-	SqlTables tables(pConnection);
+	//// usa il datasource di default
+	//SqlTables tables(pConnection);
+	//
+	//m_bValid = tables.GetTables() && tables.GetStoredProcedures() && tables.GetSize() > 0;
+
+	//// Riempie la mappa del catalog
+	//int nType;
+	//for (int i = 0; i <= tables.GetUpperBound(); i++)
+	//{
+	//	SqlTablesItem* pTable = tables[i];
+	//	if (pTable->m_strType.Find(_T("BASE TABLE")) >= 0)
+	//		nType = TABLE_TYPE;
+	//	else
+	//	{
+	//		if (pTable->m_strType.Find(_T("VIEW")) >= 0)
+	//			nType = VIEW_TYPE;
+	//		else 
+	//			nType = PROC_TYPE;
+	//	}
+	//	
+	//	//i moduli dinamici non hanno m_pSqlRecordClass
+	//	const CDbObjectDescription* pXmlDescri = AfxGetDbObjectDescription(pTable->m_strName);	
+	//	AddOnModule *pModule = pXmlDescri ? AfxGetAddOnModule(pXmlDescri->GetNamespace()) : NULL;
+
+	//	SqlCatalogEntry* pCatalogEntry = new SqlCatalogEntry(pTable->m_strName, nType);
+	//	pCatalogEntry->m_pTableItem = pTable;
+	//	//in caso di modulo dinamico, imposto già adesso le informazioni: non ci sarà una successiva fase di registrazione
+	//	if (pModule && pCatalogEntry->m_strSignature.IsEmpty())
+	//	{
+	//		pCatalogEntry->SetNamespace(pXmlDescri->GetNamespace());
+	//		pCatalogEntry->m_strSignature = pModule->GetModuleSignature();
+	//	}
+	//	SetEntry
+	//		(
+	//			pTable->m_strName, 
+	//			pCatalogEntry
+	//		);
+	//}   
+
 	
-	m_bValid = tables.GetTables() && tables.GetViews() && tables.GetStoredProcedures() && tables.GetSize() > 0;
+	CMapStringToOb tablesMap;
+
+	TRY
+	{
+		pConnection->LoadTables(&tablesMap);
+		pConnection->LoadProcedures(&tablesMap);
+	}
+	CATCH(SqlException, e)
+	{
+		pConnection->m_pContext->AddMessage(e->m_strError);
+		m_bValid = FALSE;
+		return;
+	}
+	END_CATCH
+
+	m_bValid = tablesMap.GetSize() > 0;
 
 	// Riempie la mappa del catalog
 	int nType;
-	for (int i = 0; i <= tables.GetUpperBound(); i++)
-	{
-		SqlTablesItem* pTable = tables[i];
-		ASSERT_VALID(pTable);
 
-		if (pTable->m_strType.Find(_T("TABLE")) >= 0)
+	SqlTablesItem* pTable;
+	CString strKey;
+	POSITION pos;
+
+	for (pos = tablesMap.GetStartPosition(); pos != NULL;)
+	{
+		tablesMap.GetNextAssoc(pos, strKey, (CObject*&)pTable);
+		if (!pTable)
+			continue;
+
+		if (pTable->m_strType.Find(_T("BASE TABLE")) >= 0)
 			nType = TABLE_TYPE;
 		else
 		{
 			if (pTable->m_strType.Find(_T("VIEW")) >= 0)
 				nType = VIEW_TYPE;
-			else 
+			else
 				nType = PROC_TYPE;
 		}
-		
+
 		//i moduli dinamici non hanno m_pSqlRecordClass
-		const CDbObjectDescription* pXmlDescri = AfxGetDbObjectDescription(pTable->m_strName);	
+		const CDbObjectDescription* pXmlDescri = AfxGetDbObjectDescription(pTable->m_strName);
 		AddOnModule *pModule = pXmlDescri ? AfxGetAddOnModule(pXmlDescri->GetNamespace()) : NULL;
 
 		SqlCatalogEntry* pCatalogEntry = new SqlCatalogEntry(pTable->m_strName, nType);
+		pCatalogEntry->m_pTableItem = pTable;
 		//in caso di modulo dinamico, imposto già adesso le informazioni: non ci sarà una successiva fase di registrazione
 		if (pModule && pCatalogEntry->m_strSignature.IsEmpty())
 		{
 			pCatalogEntry->SetNamespace(pXmlDescri->GetNamespace());
 			pCatalogEntry->m_strSignature = pModule->GetModuleSignature();
 		}
-		else
-		{
-			//TRACE(pTable->m_strName + '\n');
-		}
-		
 		SetEntry
-			(
-				pTable->m_strName, 
-				pCatalogEntry
-			);
-	}    
+		(
+			pTable->m_strName,
+			pCatalogEntry
+		);
+	}
 
 	if (!LoadColumnCollations(pConnection))
 		AfxGetDiagnostic()->Add(_TB("Cannot load columns collation information from the catalog of the connected company database. The program will work with database default collation."), CDiagnostic::Warning);
@@ -2901,6 +2465,15 @@ void SqlCatalog::SortTableInfoColumns()
 		
 		pCatalogEntry->SortTableInfoColumns();
 	}
+
+	//CXMLDatabaseObjectsParser aDbParser;
+	//DatabaseObjectsTablePtr pTablePtr = AfxGetWritableDatabaseObjectsTable();
+	//aDbParser.SaveDatabaseObjects(pTablePtr.GetPointer());
+
+	//CXMLAddOnDatabaseObjectsParser aAddOnDbParse;
+	//CAlterTableDescriptionArray* pAlterTable = (CAlterTableDescriptionArray*)AfxGetAddOnFieldsTable();
+	//aAddOnDbParse.SaveAdddOnDatabaseObjects(pAlterTable);
+
 }
 
 //-----------------------------------------------------------------------------
@@ -2990,7 +2563,7 @@ SqlTableInfo* SqlCatalog::GetTableInfo(const CString& strTableName, SqlConnectio
 	ShowRegistration(pCatalogEntry->m_strTableName);
 	//TB_LOCK_FOR_WRITE()
 	if (!pCatalogEntry->m_pTableInfo) //nel frattempo quelche altro thread potrebbe averlo valorizzato
-		pCatalogEntry->m_pTableInfo = new SqlTableInfo(pCatalogEntry->m_strTableName, pCatalogEntry->m_nType, pCatalogEntry, pConnection);
+		pCatalogEntry->m_pTableInfo = new SqlTableInfo(pCatalogEntry, pConnection);
 	
 	return pCatalogEntry->m_pTableInfo;
 }
@@ -3052,101 +2625,72 @@ const CString& SqlCatalog::GetDatabaseCollation () const
 }
 
 //-----------------------------------------------------------------------------
-CString SqlCatalog::ReadServerCollationName (SqlConnection *pConnection)
+CString SqlCatalog::ReadServerCollationName(SqlConnection *pConnection)
 {
-	// query
-	CCollationOleDbQuery oleDbQuery;
-	oleDbQuery.PrepareQuery	
-			(
-				(CSession*)pConnection->GetDefaultSession(), 
-				(CSession*)pConnection->m_pProviderInfo && pConnection->m_pProviderInfo->UseUnicode (), 
-				szServerCollationQuery, 
-				1
-			);
-	
-	if (oleDbQuery.Query ())
-		return oleDbQuery.GetColumn ();
+	DataStr aDBCollate;
 
-	return _T("");
+	SqlTable aTable(pConnection->GetDefaultSqlSession());
+	aTable.Select(_T("DBCollation"), &aDBCollate);
+	aTable.m_strSQL = szServerCollationQuery;
+	TRY
+	{
+		aTable.Open();
+		aTable.ScalarQuery();
+	}
+		CATCH(SqlException, e)
+	{
+		if (aTable.IsOpen())
+			aTable.Close();
+	}
+	END_CATCH
+		if (aTable.IsOpen())
+			aTable.Close();
+
+	return aDBCollate.Str();
 }
 
+//-----------------------------------------------------------------------------
+CString SqlCatalog::ReadDatabaseCollationName(SqlConnection* pConnection)
+{
+	CString sDbSyntax = _T("'") + pConnection->m_strDBName + _T("'");
+
+	if (pConnection->UseUnicode())
+		sDbSyntax = _T("N") + sDbSyntax;
+
+	SqlTable aTable(pConnection->GetDefaultSqlSession());
+	DataStr aDBCollate;
+	aTable.Select(_T("DBCollation"), &aDBCollate);
+	aTable.m_strSQL = cwsprintf(szDatabaseCollationQuery, sDbSyntax);
+	TRY
+	{
+		aTable.Open();
+		aTable.ScalarQuery();
+	}
+		CATCH(SqlException, e)
+	{
+		if (aTable.IsOpen())
+			aTable.Close();
+	}
+	END_CATCH
+		if (aTable.IsOpen())
+			aTable.Close();
+
+	return aDBCollate.Str();
+}
 
 //-----------------------------------------------------------------------------
-BOOL SqlCatalog::LoadColumnCollations (SqlConnection *pConnection)
+BOOL SqlCatalog::LoadColumnCollations(SqlConnection *pConnection)
 {
 	// databasepropertyex collation ATL query
-	m_sDatabaseCollation = ReadDatabaseCollationName (pConnection);
-	
+	m_sDatabaseCollation = ReadDatabaseCollationName(pConnection);
+
 	// serverproperty collation ATL query
 	if (m_sDatabaseCollation.IsEmpty())
-		m_sDatabaseCollation = ReadServerCollationName (pConnection);
-	
-	if (pConnection->GetDBMSType() != DBMS_SQLSERVER)
-		return TRUE;
-
-	CString sQuery = cwsprintf (szColumnCollationQuery, pConnection->m_strDBName);
-
-	// query
-	CCollationOleDbQuery oleDbQuery;
-	oleDbQuery.PrepareQuery	
-			(
-				(CSession*)pConnection->GetDefaultSession(), 
-				pConnection->m_pProviderInfo && pConnection->m_pProviderInfo->UseUnicode(),
-				sQuery, 
-				3
-			);
-	
-	if (!oleDbQuery.Query ())
-	{
-		ASSERT(FALSE);
-		TRACE1 ("Cannot load columns collation names with query %s. The data will be treated with invariant culture", szColumnCollationQuery);
-		return TRUE;
-	}
-
-	// columns read operations
-	CString sCollationName, sTableName, sColumnName;
-	SqlCatalogEntry *pEntry = NULL;
-	do
-	{
-		sTableName = oleDbQuery.GetColumn (0);
-		sColumnName = oleDbQuery.GetColumn (1);
-		sCollationName = oleDbQuery.GetColumn (2);
-		
-		// empty collation info is not stored
-		if (!sCollationName.IsEmpty())
-		{
-			if (!pEntry || pEntry->m_strTableName != sTableName)
-				pEntry = GetEntry(sTableName);
-			if (pEntry)
-				pEntry->m_ColumnsCollations[sColumnName] = sCollationName;
-		}
-	}
-	while (oleDbQuery.MoveNext ());
+		m_sDatabaseCollation = ReadServerCollationName(pConnection);
 	
 	return TRUE;
 }
 
-//-----------------------------------------------------------------------------
-CString SqlCatalog::ReadDatabaseCollationName (SqlConnection *pConnection)
-{
-	CString sDbSyntax = _T("'") + pConnection->m_strDBName + _T("'");
-
-	// unicode
-	BOOL bUseUnicode = pConnection->m_pProviderInfo && pConnection->m_pProviderInfo->UseUnicode();
-	if (bUseUnicode)
-		sDbSyntax = _T("N") + sDbSyntax;
-	
-	CString sQuery = cwsprintf(szDatabaseCollationQuery, sDbSyntax);
-
-	// query
-	CCollationOleDbQuery oleDbQuery;
-	oleDbQuery.PrepareQuery	((CSession*)pConnection->GetDefaultSession(), bUseUnicode, sQuery, 1);
-	
-	if (oleDbQuery.Query ())
-		return oleDbQuery.GetColumn ();
-
-	return _T("");
-}
 
 //-----------------------------------------------------------------------------
 BOOL SqlCatalog::IsCollationCultureSensitive (SqlColumnInfo* pColumnInfo, SqlConnection *pConnection) const
@@ -3154,9 +2698,6 @@ BOOL SqlCatalog::IsCollationCultureSensitive (SqlColumnInfo* pColumnInfo, SqlCon
 	if (!pColumnInfo || AfxGetCultureInfo()->IsInvariantCulture())
 		return FALSE;
 
-	// Oracle has different VARCHAR2, NVARCHAR2 data types
-	if (pConnection->GetDBMSType() == DBMS_ORACLE)
-		return pColumnInfo->m_nSqlDataType == DBTYPE_WSTR;
 
 	CString sCollationName = GetColumnCollationName (pColumnInfo->m_strTableName, pColumnInfo->m_strColumnName);
 	
@@ -3297,7 +2838,7 @@ BOOL SqlCatalog::ReloadTableInfo(const CString& strTableName, SqlConnection* pCo
 		delete pCatalogEntry->m_pTableInfo;
 	
 	//nel frattempo quelche altro thread potrebbe averlo valorizzato
-	pCatalogEntry->m_pTableInfo = new SqlTableInfo(pCatalogEntry->m_strTableName, pCatalogEntry->m_nType, pCatalogEntry, pConnection);
+	pCatalogEntry->m_pTableInfo = new SqlTableInfo(pCatalogEntry, pConnection, TRUE);
 
 	return TRUE;
 }
@@ -3698,8 +3239,6 @@ void CHelperSqlCatalog::Load()
 	//---------------
 	SqlCatalogConstPtr pCatalog = AfxGetDefaultSqlConnection()->GetCatalog();
 
-	TRACE(L"CHelperSqlCatalog::Load\n");
-
 	CString		key;
 	const SqlCatalogEntry* pCatalogEntry;
 
@@ -3719,10 +3258,6 @@ void CHelperSqlCatalog::Load()
 			sModKey.MakeUpper();
 
 			mapModules.Lookup(sModKey, (void*&)(pModT));
-		}
-		else
-		{
-			TRACE(pCatalogEntry->m_strTableName + '\n');
 		}
 
 		FillTable(pCatalogEntry, pModT);
@@ -3805,10 +3340,10 @@ Array& CHelperSqlCatalog::CTableColumns::GetForeignKeys()
 //-----------------------------------------------------------------------------
 BOOL CHelperSqlCatalog::CTableColumns::LoadForeignKeys()
 {
-	m_mapForeignTables.RemoveAll();	
-
 	SqlForeignKeysReader aFKReader;
 	CString str;
+	m_mapForeignTables.RemoveAll();
+
 
 	CString sDummyTableName, sColumnName, sForeignTableName, sForeignColumnName;//per aFKReader.GetForeignKey
 	CString sUpperForeignTableName;
@@ -3830,11 +3365,12 @@ BOOL CHelperSqlCatalog::CTableColumns::LoadForeignKeys()
 
 			// scompone la stringa ForeignTable.ForeignColumn;Table.Column nei suoi componenti
 			aFKReader.GetForeignKey(i, sForeignTableName, sForeignColumnName, sDummyTableName, sColumnName);
+			// maiuscolo del nome tabella foreign per la mappa
+
 			AddSquareWhenNeeds(sForeignTableName, (LPCTSTR)sForeignTableName);
 			AddSquareWhenNeeds(sForeignColumnName, (LPCTSTR)sForeignColumnName);
 			AddSquareWhenNeeds(sColumnName, (LPCTSTR)sColumnName);
 
-			// maiuscolo del nome tabella foreign per la mappa
 			sUpperForeignTableName = sForeignTableName;
 			sUpperForeignTableName.MakeUpper();
 			// se tabella foreign già caricata salta altrimenti crea l'oggetto e lo aggiunge in array
@@ -3851,86 +3387,81 @@ BOOL CHelperSqlCatalog::CTableColumns::LoadForeignKeys()
 		}
 	}
 
-	if (AfxGetLoginInfos()->m_strDatabaseType.Find(_T("ORACLE")) < 0)
+	/*if (AfxGetLoginInfos()->m_strDatabaseType.Find(_T("ORACLE")) < 0)
+	{*/
+	SqlRecordDynamic* m_poSqlRecord = new SqlRecordDynamic();
+	SqlTable* m_poSqlTable = new SqlTable(AfxGetDefaultSqlSession());
+
+	CString sTableName(m_pCatalogEntry->m_strTableName);
+	sTableName.Remove('['); sTableName.Remove(']');
+
+	m_poSqlTable->m_strSQL = L" SELECT tab2.name AS[table],col2.name AS[column],col1.name AS[columnlocal] ";
+	m_poSqlTable->m_strSQL.Append(L"FROM sys.foreign_key_columns fkc ");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.objects obj ON obj.object_id = fkc.constraint_object_id ");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.tables tab1 ON tab1.object_id = fkc.parent_object_id ");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.schemas sch ON tab1.schema_id = sch.schema_id	");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.columns col1 ON col1.column_id = parent_column_id AND col1.object_id = tab1.object_id ");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.tables tab2 ON tab2.object_id = fkc.referenced_object_id ");
+	m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.columns col2 ON col2.column_id = referenced_column_id AND col2.object_id = tab2.object_id ");
+	m_poSqlTable->m_strSQL.Append(L"where  tab1.name ='" + sTableName + L"'");
+
+	DataStr* tbl = new DataStr(L"");
+	DataStr* col = new DataStr(L"");
+	DataStr* colLocal = new DataStr(L"");
+	sForeignTableName.Empty();
+
+	col->SetAllocSize(500);
+	tbl->SetAllocSize(500);
+	colLocal->SetAllocSize(500);
+
+	m_poSqlTable->Select(_T("table"), tbl);
+	m_poSqlTable->Select(_T("column"), col);
+	m_poSqlTable->Select(_T("columnlocal"), colLocal);
+
+	TRY
 	{
-		SqlRecordDynamic* m_poSqlRecord = new SqlRecordDynamic();
-		SqlTable* m_poSqlTable = new SqlTable(AfxGetDefaultSqlSession());
+		m_poSqlTable->Open();
+		m_poSqlTable->SetDatabaseQuery(TRUE);
+		m_poSqlTable->Query();
 
-		CString sTableName (m_pCatalogEntry->m_strTableName);
-		sTableName.Remove('['); sTableName.Remove(']');
-
-		m_poSqlTable->m_strSQL = L" SELECT tab2.name AS[table],col2.name AS[column],col1.name AS[columnlocal] ";
-		m_poSqlTable->m_strSQL.Append(L"FROM sys.foreign_key_columns fkc ");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.objects obj ON obj.object_id = fkc.constraint_object_id ");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.tables tab1 ON tab1.object_id = fkc.parent_object_id ");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.schemas sch ON tab1.schema_id = sch.schema_id	");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.columns col1 ON col1.column_id = parent_column_id AND col1.object_id = tab1.object_id ");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.tables tab2 ON tab2.object_id = fkc.referenced_object_id ");
-		m_poSqlTable->m_strSQL.Append(L"INNER JOIN sys.columns col2 ON col2.column_id = referenced_column_id AND col2.object_id = tab2.object_id ");
-		m_poSqlTable->m_strSQL.Append(L"where  tab1.name ='" + sTableName + L"'");
-
-		DataStr* tbl = new DataStr(L"");
-		DataStr* col = new DataStr(L"");
-		DataStr* colLocal = new DataStr(L"");
-		sForeignTableName.Empty();
-
-		col->SetAllocSize(500);
-		tbl->SetAllocSize(500);
-		colLocal->SetAllocSize(500);
-
-		DBTYPE eSqlType = AfxGetDefaultSqlSession()->GetSqlConnection()->GetSqlDataType(DataType(DATA_STR_TYPE, 0));
-
-		m_poSqlTable->m_pColumnArray->Add(_T("table"), tbl, eSqlType, 0);
-		m_poSqlTable->m_pColumnArray->Add(_T("column"), col, eSqlType, 1);
-		m_poSqlTable->m_pColumnArray->Add(_T("columnlocal"), colLocal, eSqlType, 2);
-
-		TRY
+		while (!m_poSqlTable->IsEOF())
 		{
-			m_poSqlTable->Open(FALSE, E_FORWARD_ONLY);
+			CHelperSqlCatalog::CTableForeignTables*		pTable = NULL;
+			CHelperSqlCatalog::CTableForeignTablesKeys*	pTableKeys = NULL;
 
-			m_poSqlTable->SetDatabaseQuery(TRUE);
+			AddSquareWhenNeeds(sForeignTableName, (LPCTSTR)tbl->GetString());
+			sUpperForeignTableName = sForeignTableName;
+			sUpperForeignTableName.MakeUpper();
 
-			m_poSqlTable->Query();
-
-			while (!m_poSqlTable->IsEOF())
+			// se tabella foreign già caricata salta altrimenti crea l'oggetto e lo aggiunge in array
+			if (!m_mapForeignTables.Lookup(sUpperForeignTableName, (CObject*&)pTable))
 			{
-				CHelperSqlCatalog::CTableForeignTables*		pTable = NULL;
-				CHelperSqlCatalog::CTableForeignTablesKeys*	pTableKeys = NULL;
-
-				AddSquareWhenNeeds(sForeignTableName, (LPCTSTR)tbl->GetString());
-
-				sUpperForeignTableName = sForeignTableName;
-				sUpperForeignTableName.MakeUpper();
-
-				// se tabella foreign già caricata salta altrimenti crea l'oggetto e lo aggiunge in array
-				if (!m_mapForeignTables.Lookup(sUpperForeignTableName, (CObject*&)pTable))
-				{
-					pTable = new CHelperSqlCatalog::CTableForeignTables(sForeignTableName);
-					m_mapForeignTables.SetAt(sUpperForeignTableName, pTable);
-					m_arForeignTables.Add(pTable);
-				}
-				// crea un oggetto con le due colonne chiave e lo aggiunge in array
-				pTableKeys = new CHelperSqlCatalog::CTableForeignTablesKeys(pTable, 
-									AddSquareWhenNeeds(colLocal->GetString()), AddSquareWhenNeeds(col->GetString()));
-				pTable->m_arForeignKeys.Add(pTableKeys);
-
-				m_poSqlTable->MoveNext();
+				pTable = new CHelperSqlCatalog::CTableForeignTables(sForeignTableName);
+				m_mapForeignTables.SetAt(sUpperForeignTableName, pTable);
+				m_arForeignTables.Add(pTable);
 			}
+			// crea un oggetto con le due colonne chiave e lo aggiunge in array
+			pTableKeys = new CHelperSqlCatalog::CTableForeignTablesKeys(pTable, colLocal->GetString(), col->GetString());
+			AddSquareWhenNeeds(colLocal->GetString()), AddSquareWhenNeeds(col->GetString());
+			pTable->m_arForeignKeys.Add(pTableKeys);
+
+			m_poSqlTable->MoveNext();
+		}
 
 			m_poSqlTable->Close();
-		}
-		CATCH(SqlException, e)
-		{
-		}
-		END_CATCH
-
-		SAFE_DELETE(tbl);
-		SAFE_DELETE(col);
-		SAFE_DELETE(colLocal);
 	}
+	CATCH(SqlException, e)
+	{	
+	}
+	END_CATCH
+
+	SAFE_DELETE(tbl);
+	SAFE_DELETE(col);
+	SAFE_DELETE(colLocal);
+		
+
 	return m_arForeignTables.GetSize();
 }
-
 
 //-----------------------------------------------------------------------------
 Array& CHelperSqlCatalog::GetForeignKeys(CHelperSqlCatalog::CTableColumns* pTC)
@@ -3950,5 +3481,6 @@ Array* CHelperSqlCatalog::GetForeignKeys(const CString& sTableName)
 
 	return & pTC->GetForeignKeys();
 }
+
 
 //=============================================================================

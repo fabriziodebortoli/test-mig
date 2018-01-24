@@ -4,6 +4,7 @@
 
 #include <TbNameSolver\IFileSystemManager.h>
 #include <TbNameSolver\Diagnostic.h>
+#include <TbNameSolver\PathFinder.h>
 
 #include "XMLSaxReader.h"
 
@@ -1617,4 +1618,16 @@ BOOL CXMLSaxReader::Read (const CString& sDoc, LPCTSTR pszFileName /*NULL*/)
 		return FALSE;
 
 	return TRUE;
+}
+
+
+//----------------------------------------------------------------------------
+BOOL CXMLSaxReader::ReadMetadata(TBFile* pMetaDataFile)
+{
+	if (!pMetaDataFile)
+		return TRUE;
+
+	return  (pMetaDataFile->m_pFileContent)
+		? Read(pMetaDataFile->GetContentAsString(), pMetaDataFile->m_strCompleteFileName)
+		: ReadFile(pMetaDataFile->m_strCompleteFileName);
 }

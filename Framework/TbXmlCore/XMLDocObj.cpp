@@ -1757,15 +1757,44 @@ BOOL CXMLDocumentObject::LoadXML(LPCTSTR lpszXML)
 }
 
 //=============================================================================
+BOOL CXMLDocumentObject::LoadMetadata(TBFile* pMetaDataFile)
+{
+	if (!pMetaDataFile)
+		return TRUE;
+	
+	return  (pMetaDataFile->m_pFileContent)
+		? LoadXML(pMetaDataFile->GetContentAsString())
+		: LoadXMLFile(pMetaDataFile->m_strCompleteFileName);
+}
+
+
+//=============================================================================
+BOOL CXMLDocumentObject::SaveMetadata(TBFile* pMetaDataFile)
+{
+	if (!pMetaDataFile)
+		return TRUE;
+
+	if (pMetaDataFile->m_pFileContent)
+	{
+		ASSERT(FALSE);
+		CString strXML;
+		GetXML(strXML);
+		//return pMetaDataFile->SetContentFromString(strXML);
+		return FALSE;
+	}
+
+	 return SaveXMLFile(pMetaDataFile->m_strCompleteFileName);
+}
+
+//=============================================================================
 BOOL CXMLDocumentObject::LoadXMLFile (const CString& strFileName)
 {
 	m_bLoaded = FALSE; 
 	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
 	if (pFileSystemManager && pFileSystemManager->IsManagedByAlternativeDriver(strFileName))
 	{
-		CString sFileContent = pFileSystemManager->GetTextFile (strFileName);
-		if (!sFileContent.IsEmpty())
-			return LoadXML (sFileContent);
+		CString sFileContent = pFileSystemManager->GetTextFile (strFileName);		
+		return !sFileContent.IsEmpty() && LoadXML(sFileContent);
 	}
 
 	// sono su file system
@@ -1774,6 +1803,7 @@ BOOL CXMLDocumentObject::LoadXMLFile (const CString& strFileName)
 	
 	return LoadXMLFromUrl(strFileName);
 }
+
 //=============================================================================
 BOOL CXMLDocumentObject::LoadXMLFromUrl (const CString& strUrl)
 {
@@ -2497,7 +2527,7 @@ BOOL CXMLDocumentObject::SaveXMLFile(const CString& strFileName, BOOL bCreatePat
 	{
 		CString sContent;
 		this->GetXML (sContent);
-		bOk = pFileSystemManager->SetTextFile (strFileName, sContent);
+		bOk = pFileSystemManager->SaveTextFile (strFileName, sContent);
 		if (bOk && AfxGetPathFinder()->IsCustomPath(strFileName))
 		{
 			//Aggiunge il file alla customizzazione corrente

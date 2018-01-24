@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Xml;
-
+using System.IO;
 using Microarea.Common.StringLoader;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.Common.NameSolver
 {
@@ -36,7 +36,7 @@ namespace Microarea.Common.NameSolver
 				if (!outputDir)
 					return string.Empty;
 
-				return subDir + Path.DirectorySeparatorChar + NameSolverStrings.Debug;
+				return subDir + NameSolverStrings.Directoryseparetor + NameSolverStrings.Debug;
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace Microarea.Common.NameSolver
 				if (!outputDir)
 					return string.Empty;
 
-				return subDir + Path.DirectorySeparatorChar + NameSolverStrings.Release;
+				return subDir + NameSolverStrings.Directoryseparetor + NameSolverStrings.Release;
 			}
 		}
 
@@ -87,10 +87,10 @@ namespace Microarea.Common.NameSolver
 	/// Classe che legge il file Module.config e ne mantiene i dati.
 	/// </summary>
 	//=========================================================================
-	public sealed class ModuleConfigInfo : IModuleConfigInfo
+	public sealed class ModuleConfigInfo 
 	{
 		private string			moduleName			= string.Empty;
-		private BaseModuleInfo	parentModuleInfo;
+		private ModuleInfo	parentModuleInfo;
 		private string			moduleConfigFile	= string.Empty;
 		private string			title				= string.Empty;
 		private string			localizedTitle		= null;
@@ -103,11 +103,11 @@ namespace Microarea.Common.NameSolver
         private int             release             = 0;
 
 		#region Properties
-		public	IBaseModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
+		public	ModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
 		public  IList			ModuleFolders		{ get { return moduleFolders; } }
 		public  IList			Libraries			{ get { return libraries; } }
 		public	string			ModuleConfigFile	{ get { return moduleConfigFile; } }
-		public	string			ModuleName			{ get { return moduleName; } }
+		public	string			ModuleName			{ get { return moduleName; } set { moduleName = value; } }
 		public	string			Title
 		{
 			get
@@ -132,7 +132,7 @@ namespace Microarea.Common.NameSolver
 		/// </summary>
 		public bool				Optional			{ get { return optional; } }
         //Signature e release del modulo, dal vecchio DatabaseObjects.xml
-        public string           Signature           { get { return signature; } }
+        public string Signature { get { return signature; } set { signature = value; } }
         public int              Release             { get { return release; } }
 		#endregion
 
@@ -141,7 +141,7 @@ namespace Microarea.Common.NameSolver
 		/// </summary>
 		/// <param name="aModuleConfigFile">Path del file module.config</param>
 		//---------------------------------------------------------------------
-		public ModuleConfigInfo(string moduleName, BaseModuleInfo parentModuleInfo, string moduleConfigFile)
+		public ModuleConfigInfo(string moduleName, ModuleInfo parentModuleInfo, string moduleConfigFile)
 		{
 			this.moduleName			= moduleName;
 			this.title				= moduleName;
@@ -156,7 +156,7 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		public bool Parse()
 		{
-			if (parentModuleInfo == null || parentModuleInfo.ParentApplicationInfo == null || !File.Exists(moduleConfigFile))
+			if (parentModuleInfo == null || parentModuleInfo.ParentApplicationInfo == null || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(moduleConfigFile))
 				return false;
 
 			XmlDocument moduleConfigDocument = null;
@@ -164,9 +164,11 @@ namespace Microarea.Common.NameSolver
 			try
 			{
 				moduleConfigDocument = new XmlDocument();
-				moduleConfigDocument.Load(File.OpenRead(moduleConfigFile));
-				
-				XmlElement root = moduleConfigDocument.DocumentElement;
+			
+                moduleConfigDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(moduleConfigDocument, moduleConfigFile);
+
+
+                XmlElement root = moduleConfigDocument.DocumentElement;
 				if (root == null)
 				{
 					Debug.Fail("Sintassi del file " + moduleConfigFile);
@@ -229,16 +231,15 @@ namespace Microarea.Common.NameSolver
 				moduleFolders.Add(moduleFolderInfo);
 
 				//cartella di help
-				if (Directory.Exists(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin"))
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin"))
 				{
-					DirectoryInfo helpBin = new DirectoryInfo(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin");
-					DirectoryInfo[] helpLangs = helpBin.GetDirectories();
-					foreach (DirectoryInfo helpLang in helpLangs)
+					List<TBDirectoryInfo> helpLangs = PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin");
+					foreach (TBDirectoryInfo helpLang in helpLangs)
 					{
-						DirectoryInfo[] helpEditions = helpLang.GetDirectories();
-						foreach (DirectoryInfo helpEdition in helpEditions)
+                        List<TBDirectoryInfo> helpEditions = PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(helpLang.CompleteDirectoryPath);
+                        foreach (TBDirectoryInfo helpEdition in helpEditions)
 						{
-							ModuleFolderInfo helpFolderInfo = new ModuleFolderInfo(NameSolverStrings.Help + "\\Bin\\" + helpLang.Name + "\\" + helpEdition.Name, false);
+							ModuleFolderInfo helpFolderInfo = new ModuleFolderInfo(NameSolverStrings.Help + "\\Bin\\" + helpLang.name + "\\" + helpEdition.name, false);
 							helpFolderInfo.FilesExtensions.Add("*.chm");
 							moduleFolders.Add(helpFolderInfo);
 						}
@@ -296,7 +297,7 @@ namespace Microarea.Common.NameSolver
 							string libfullPath = Path.Combine(this.parentModuleInfo.Path, sourceFolder);
                             if (String.IsNullOrEmpty(sourceFolder))
                             {
-								int lastSepIdx = libfullPath.LastIndexOf(Path.DirectorySeparatorChar);
+								int lastSepIdx = libfullPath.LastIndexOf(NameSolverStrings.Directoryseparetor);
 								if (lastSepIdx < (libfullPath.Length - 1))
 									libraryInfo.Path = libfullPath.Substring(lastSepIdx + 1);
                             }
@@ -306,7 +307,7 @@ namespace Microarea.Common.NameSolver
 							if (sourceFolder == string.Empty)
 								sourceFolder =	NameSolverStrings.Bin;
 							else
-								sourceFolder +=	Path.DirectorySeparatorChar	+ NameSolverStrings.Bin;
+								sourceFolder +=	NameSolverStrings.Directoryseparetor	+ NameSolverStrings.Bin;
 
 							moduleFolderInfo = new ModuleFolderInfo(sourceFolder, true);
 							
@@ -358,5 +359,26 @@ namespace Microarea.Common.NameSolver
 
 			return string.Empty;
 		}
-	}
+
+        //---------------------------------------------------------------------
+        //---------------------------------------------------------------------
+        public bool Save()
+        {
+            XmlDocument xDoc = new XmlDocument();
+
+            XmlDeclaration xmlDeclaration = xDoc.CreateXmlDeclaration(NameSolverStrings.XmlDeclarationVersion, NameSolverStrings.XmlDeclarationEncoding, null);
+            XmlElement rootNode = xDoc.CreateElement(ModuleConfigXML.Element.ModuleInfo);
+            xDoc.AppendChild(rootNode);
+            xDoc.InsertBefore(xmlDeclaration, xDoc.DocumentElement);
+            xDoc.AppendChild(rootNode);
+
+            rootNode.SetAttribute(ModuleConfigXML.Attribute.Localize, moduleName);
+
+            XmlElement typeNode = xDoc.CreateElement(ModuleConfigXML.Element.Components);
+            rootNode.AppendChild(typeNode);
+
+            xDoc.Save(moduleConfigFile);
+            return true;
+        }
+    }
 }

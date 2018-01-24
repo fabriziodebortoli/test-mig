@@ -90,7 +90,7 @@ namespace Microarea.Common.Generic
 
 			try
 			{
-                if (!File.Exists(file))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
                 {
                     InstallationVersion iv = new InstallationVersion();
                     iv.Save(file);
@@ -110,7 +110,7 @@ namespace Microarea.Common.Generic
 		public void UpdateCachedDateAndSave()
 		{
 			CDate = DateTime.Now;
-			this.Save(BasePathFinder.BasePathFinderInstance.GetInstallationVersionPath());
+			this.Save(PathFinder.PathFinderInstance.GetInstallationVersionPath());
 		}
 	}
 }

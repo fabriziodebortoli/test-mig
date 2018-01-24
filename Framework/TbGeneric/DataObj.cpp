@@ -1735,6 +1735,7 @@ DataStr::DataStr()
 {
 	SetModified();
 	SetDirty();
+	m_nSqlDataType = DBTYPE_STR;
 }
 
 //-----------------------------------------------------------------------------
@@ -1746,6 +1747,7 @@ DataStr::DataStr(LPCTSTR pszString)
 {
 	SetModified();
 	SetDirty();
+	m_nSqlDataType = DBTYPE_STR;
 }
 
 //-----------------------------------------------------------------------------
@@ -1760,10 +1762,12 @@ DataStr::DataStr(const DataStr& aDataStr)
 	SetModified();
 	SetDirty();
 
-	// l'assign status evaluates single cases,
-	// copy contructor assign status always
-	if (aDataStr.IsCollateCultureSensitive())
-		SetCollateCultureSensitive(TRUE);
+	//// l'assign status evaluates single cases,
+	//// copy contructor assign status always
+	//if (aDataStr.IsCollateCultureSensitive())
+	//	SetCollateCultureSensitive(TRUE);
+	
+	m_nSqlDataType = aDataStr.m_nSqlDataType;
 }
 
 //-----------------------------------------------------------------------------
@@ -1775,6 +1779,7 @@ DataStr::DataStr(const CString& aString)
 {
 	SetModified();
 	SetDirty();
+	m_nSqlDataType = DBTYPE_STR;
 }
 
 //-----------------------------------------------------------------------------
@@ -2530,8 +2535,9 @@ IMPLEMENT_DYNCREATE(DataBool, DataObj)
 //-----------------------------------------------------------------------------
 DataBool::DataBool(const BOOL bValue)
 	:
-	m_bValue(bValue)
+	m_bValue(bValue)	
 {
+	m_nSqlDataType = DBTYPE_STR;
 	SetModified();
 	SetDirty();
 }
@@ -2541,10 +2547,12 @@ DataBool::DataBool(const DataBool& aDataBool)
 	:
 	m_bValue(aDataBool.m_bValue)
 {
+	m_nSqlDataType = DBTYPE_STR;
 	AssignStatus(aDataBool);
 	SetModified();
 	SetDirty();
 }
+
 
 //-----------------------------------------------------------------------------
 VARIANT DataBool::ToVariant() const
@@ -2805,6 +2813,7 @@ DataInt::DataInt(const int nValue)
 	:
 	m_nValue(nValue)
 {
+	m_nSqlDataType = DBTYPE_I2;
 	SetModified();
 	SetDirty();
 }
@@ -2814,6 +2823,7 @@ DataInt::DataInt(const DataInt& aDataInt)
 	:
 	m_nValue(aDataInt.m_nValue)
 {
+	m_nSqlDataType = DBTYPE_I2;
 	AssignStatus(aDataInt);
 	SetModified();
 	SetDirty();
@@ -3078,6 +3088,7 @@ DataLng::DataLng(const long nVal)
 	:
 	m_nValue(nVal)
 {
+	m_nSqlDataType = DBTYPE_I4;
 	SetModified();
 	SetDirty();
 }
@@ -3087,6 +3098,7 @@ DataLng::DataLng(const DataLng& aDataLng)
 	:
 	m_nValue(aDataLng.m_nValue)
 {
+	m_nSqlDataType = DBTYPE_I4;
 	AssignStatus(aDataLng);
 	SetAsTime(aDataLng.IsATime());	//@@ElapsedTime
 	SetModified();
@@ -3616,6 +3628,7 @@ DataDbl::DataDbl(const double aDouble)
 	:
 	m_nValue(aDouble)
 {
+	m_nSqlDataType = DBTYPE_R8;
 	SetModified();
 	SetDirty();
 }
@@ -3625,6 +3638,7 @@ DataDbl::DataDbl(const DataDbl& aDataDbl)
 	:
 	m_nValue(aDataDbl.m_nValue)
 {
+	m_nSqlDataType = DBTYPE_R8;
 	AssignStatus(aDataDbl);
 	SetModified();
 	SetDirty();
@@ -4070,12 +4084,14 @@ IMPLEMENT_DYNCREATE(DataDate, DataObj)
 //-----------------------------------------------------------------------------
 DataDate::DataDate()
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	Clear();
 }
 
 //-----------------------------------------------------------------------------
 DataDate::DataDate(const DataDate& aDataDate)
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	Clear();
 
 	if (aDataDate.IsFullDate())
@@ -4090,6 +4106,7 @@ DataDate::DataDate(const DataDate& aDataDate)
 //-----------------------------------------------------------------------------
 DataDate::DataDate(const DBTIMESTAMP& aDateTimeParam)
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	DBTIMESTAMP aDateTime = aDateTimeParam;
 
 	Clear();
@@ -4099,6 +4116,7 @@ DataDate::DataDate(const DBTIMESTAMP& aDateTimeParam)
 //-----------------------------------------------------------------------------
 DataDate::DataDate(const CTime& aTime)
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	Clear();
 
 	DBTIMESTAMP aDateTime;
@@ -4122,6 +4140,7 @@ DataDate::DataDate
 	const UWORD nHour, const UWORD nMinute, const UWORD nSecond
 )
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	Clear();
 
 	DBTIMESTAMP aDateTime;
@@ -4141,6 +4160,7 @@ DataDate::DataDate
 //-----------------------------------------------------------------------------
 DataDate::DataDate(const long nLongDate, const long nLongTime)
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	Clear();
 
 	// prima si cerca di preimpostare la tipologia sulla base dei valori
@@ -4167,6 +4187,7 @@ DataDate::DataDate(const long nLongDate, const long nLongTime)
 //-----------------------------------------------------------------------------
 DataDate::DataDate(LPCTSTR pszDateStr, BOOL bFixFormat /* = FALSE */)
 {
+	m_nSqlDataType = DBTYPE_DBTIMESTAMP;
 	DBTIMESTAMP aDateTime;
 
 	BOOL bOk = bFixFormat
@@ -5298,6 +5319,7 @@ DataEnum::DataEnum(WORD wTagValue, WORD wItemValue)
 	:
 	m_dwValue(GET_TI_VALUE(wItemValue, wTagValue))
 {
+	m_nSqlDataType = DBTYPE_I4;
 	if
 		(
 		(
@@ -5331,7 +5353,7 @@ DataEnum::DataEnum(DWORD dwValue)
 	:
 	m_dwValue(dwValue)
 {
-
+	m_nSqlDataType = DBTYPE_I4;
 	if
 		(
 			m_dwValue != 0 &&
@@ -5371,6 +5393,7 @@ DataEnum::DataEnum(const DataEnum& aDataEnum)
 	:
 	m_dwValue(aDataEnum.m_dwValue)
 {
+	m_nSqlDataType = DBTYPE_I4;
 	m_wBirthTag = aDataEnum.m_wBirthTag;
 
 	AssignStatus(aDataEnum);
@@ -5764,6 +5787,7 @@ DataGuid::DataGuid()
 	:
 	m_guid(NULL_GUID)
 {
+	m_nSqlDataType = DBTYPE_GUID;
 }
 
 //-----------------------------------------------------------------------------
@@ -5772,6 +5796,7 @@ DataGuid::DataGuid(const GUID& guid)
 	m_guid(guid)
 
 {
+	m_nSqlDataType = DBTYPE_GUID;
 	SetModified();
 	SetDirty();
 }
@@ -5779,6 +5804,7 @@ DataGuid::DataGuid(const GUID& guid)
 //-----------------------------------------------------------------------------
 DataGuid::DataGuid(LPCTSTR lpszGUID)
 {
+	m_nSqlDataType = DBTYPE_GUID;
 	Assign(lpszGUID);
 }
 
@@ -5788,12 +5814,11 @@ DataGuid::DataGuid(const DataGuid& aDataGuid)
 	m_guid(aDataGuid.m_guid)
 
 {
+	m_nSqlDataType = DBTYPE_GUID;
 	AssignStatus(aDataGuid);
 	SetModified();
 	SetDirty();
 }
-
-
 
 //-----------------------------------------------------------------------------
 void DataGuid::Clear(BOOL bValid)
@@ -6465,6 +6490,7 @@ DataBlob::DataBlob()
 	m_nAllocSize(0),
 	m_nUsedLen(0)
 {
+	m_nSqlDataType = DBTYPE_BYTES;
 	SetModified();
 	SetDirty();
 }
@@ -6476,6 +6502,7 @@ DataBlob::DataBlob(void* pBuf, int nSize)
 	m_nAllocSize(nSize),
 	m_nUsedLen(nSize)
 {
+	m_nSqlDataType = DBTYPE_BYTES;
 	SetModified();
 	SetDirty();
 
@@ -6490,6 +6517,7 @@ DataBlob::DataBlob(const DataBlob& aDataBlob)
 	m_nAllocSize(0),
 	m_nUsedLen(0)
 {
+	m_nSqlDataType = DBTYPE_BYTES;
 	Assign(aDataBlob);
 }
 
@@ -6502,6 +6530,19 @@ DataBlob::~DataBlob()
 		m_pBuffer = NULL;
 	}
 }
+
+
+//-----------------------------------------------------------------------------
+void DataBlob::Null()
+{
+	if (m_pBuffer)
+	{
+		m_pBuffer = NULL;
+		m_nUsedLen = 0;
+		m_nAllocSize = 0;
+	}
+}
+
 
 // Prealloca per gestire bene il bind delle colonne
 //-----------------------------------------------------------------------------
@@ -6569,7 +6610,6 @@ void* DataBlob::GetRawData(DataSize* pDataSize) const
 CString DataBlob::Str(int nLen, int) const
 {
 	ASSERT_TRACE(FALSE, "This feature is not implemented");
-
 	return _T("");
 }
 //-----------------------------------------------------------------------------

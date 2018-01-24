@@ -1,6 +1,7 @@
+using Microarea.Common.NameSolver;
 using System;
 using System.Collections;
-using System.IO;
+
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -78,10 +79,10 @@ namespace Microarea.RSWeb.WoormWebControl
 				try
 				{
 					// rimuovo l'oggetto fisico associato
-					if (File.Exists(path))
-						File.Delete(path);
-					else if (Directory.Exists(path) && Directory.GetFiles(path).Length == 0)
-						Directory.Delete(path);
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(path);
+					else if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path) && PathFinder.PathFinderInstance.FileSystemManager.GetFiles(path, "*.*").Count == 0)
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFolder(path, true, true,true);
 				}
 				catch
 				{

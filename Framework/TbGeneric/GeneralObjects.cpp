@@ -2,6 +2,7 @@
 #include "DataTypesFormatters.h"
 #include ".\generalobjects.h"
 
+static const TCHAR szSeparator[] = _T(".");
 
 IMPLEMENT_DYNCREATE(CManagedDllLoader, CObject)
 //-----------------------------------------------------------------------------
@@ -93,6 +94,13 @@ void CPerformanceCrono::Resume()
 	m_bRunning = TRUE;
 }
 
+//----------------------------------------------------------------------------
+CString CPerformanceCrono::GetFormattedElapsedTime()
+{
+	CTickTimeFormatter aTickFormatter;
+	return aTickFormatter.FormatTime(m_dElapsedTick);
+}
+
 
 //----------------------------------------------------------------------------
 CPerformanceCrono& CPerformanceCrono::operator =(const CPerformanceCrono& aPerformanceCrono)
@@ -181,15 +189,29 @@ DWORD CCounterArray::MakeTotalTime() const
 	return dTotalTime;
 }
 
+
+//-----------------------------------------------------------------------------
+CString CCounterArray::GetFormattedCountAt(int nIdx) const
+{
+	if (nIdx < 0 || nIdx >= GetSize())
+		return _T("");
+
+	const rsize_t nLen = 10;
+	TCHAR buff[nLen];
+
+	_ltot_s(GetAt(nIdx)->m_lCount, buff, nLen, 10);
+	FormatHelpers::InsertThousandSeparator(buff, szSeparator);
+
+	return CString(buff);
+}
+
 //-----------------------------------------------------------------------------
 CString CCounterArray::GetFormattedTimeAt(int nIdx) const
 {
 	if (nIdx < 0 || nIdx >= GetSize())
 		return _T("");
 
-	CString s;
-	s.Format(_T("%d"), GetAt(nIdx)->m_dTotalTime);
-	return s;
+	return GetAt(nIdx)->GetFormattedTime();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -249,7 +271,7 @@ void PerformanceManager::MakeTimeOperation(int nCounter, int eTime)
 
 	CCounterElem* pCounterElem = m_aCounters.GetAt(nCounter);
 
-	if (!pCounterElem)
+	if (pCounterElem)
 		MakeTimeOperation(pCounterElem, eTime);
 	else
 		ASSERT(FALSE);

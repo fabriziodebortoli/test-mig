@@ -51,25 +51,15 @@ SqlBrowser::SqlBrowser(DBTMaster* pDBTMaster)
 	m_bNoRecord		(TRUE)
 {
 	m_pRecord	= m_pDBTMaster->GetRecord()->Create();
-	m_pTable	= new SqlTable(m_pRecord, m_pDBTMaster->GetDocument()->GetReadOnlySqlSession());
+
+	m_pSqlSession = m_pDBTMaster->GetDocument()->GetSqlConnection()->GetNewSqlSession();
+
+	m_pTable	= new SqlTable(m_pRecord, m_pSqlSession);
 
 	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDisplayBrowsingLimits, DataBool(m_bPingPong), szTbDefaultSettingFileName);
 	m_bPingPong = pSetting ? *((DataBool*) pSetting) : FALSE;
-	
-
-	// Correzione An. 14.111
-	// utilizzo del cursore scrollabile ma non si può utilizzare la sensitivity
-	// a causa di un anomalia OleDb sulla proprietà DBPROP_OTHERUPDATEDELETE in
-	// combinazione con DBPROP_CANFETCHBACKWARDS,DBPROP_CANSCROLLBACKWARDS (perde
-	// il posizionamento del cursore in caso di MovePrev). In SQLServer 2005 invece
-	// funziona tutto semza bisogno di eliminare la sensitivity. Ripristinarla
-	// quando non si supporterà più SQLServer2000
-
-	//Improvement #4620: per un problema di performance si è deciso di porre la sensitivity == FALSE sia per la query
-	//di browse sia per la query personalizzata dall'utente attraverso il Barquery
-	//per ovviare ai problemi relativi alla cancellazione dei record bisogna chiamare la funzione EnableRemoveDeletedRow (che comunque è sotto il setting RemoveDeletedRows)
-	m_pTable->Open(FALSE, E_KEYSET_CURSOR, !m_pDBTMaster->GetDocument()->m_pTbContext->GetSqlConnection()->RemoveDeletedRows()); 
-	m_pTable->EnableRemoveDeletedRow();
+	m_pTable->Open(FALSE, E_KEYSET_CURSOR); 
+	m_pTable->EnablePaging(10); //al momento è cablato
 
 	m_pDBTMaster->PrepareBrowser(m_pTable);
 }
@@ -85,6 +75,8 @@ SqlBrowser::~SqlBrowser()
 			
 	SAFE_DELETE (m_pTable);
 	SAFE_DELETE (m_pRecord);
+	
+	SAFE_DELETE (m_pSqlSession);
 }
 
 // controlla di non essere sul primo record
@@ -132,10 +124,9 @@ void SqlBrowser::ReInit (BOOL bCopyBuffer/*=TRUE*/)
 	m_bValid		= TRUE;
 	m_bNoRecord		= TRUE;
 
-	m_pTable	= new SqlTable(m_pRecord, m_pDBTMaster->GetDocument()->GetReadOnlySqlSession());
+	m_pTable	= new SqlTable(m_pRecord, m_pSqlSession);
 
-	m_pTable->Open(FALSE, E_KEYSET_CURSOR, !m_pDBTMaster->GetDocument()->m_pTbContext->GetSqlConnection()->RemoveDeletedRows()); 
-	m_pTable->EnableRemoveDeletedRow();
+	m_pTable->Open(FALSE, E_KEYSET_CURSOR); 
 
 	m_pDBTMaster->PrepareBrowser(m_pTable);
 
@@ -246,12 +237,17 @@ void SqlBrowser::SetNoRecord ()
 //-----------------------------------------------------------------------------	
 BOOL SqlBrowser::FirstRecord ()
 {
-	if (m_bInvalidQuery && !Query())
-		return FALSE;
 		
 	TRY
-	{
-		m_pTable->MoveFirst();
+	{	
+		if (m_bInvalidQuery)
+		{
+			if (!Query(E_MOVE_FIRST))
+				return FALSE;
+		}
+		else
+			m_pTable->MoveFirst();
+
 		m_bFirstRecord = TRUE;
 
 		if (m_pTable->IsEmpty())
@@ -260,7 +256,7 @@ BOOL SqlBrowser::FirstRecord ()
 			return FALSE;
 		}
 		m_bNoRecord = FALSE;
-		CheckLastRecord();
+		CheckLastRecord();		
 	}
 	CATCH(SqlException, e)
 	{
@@ -280,7 +276,7 @@ BOOL SqlBrowser::FirstRecord ()
 }
 
 //-----------------------------------------------------------------------------	
-BOOL SqlBrowser::PrevRecord	()
+BOOL SqlBrowser::PrevRecord	() 
 {
 	if (m_bInvalidQuery && !Query())
 		return FALSE;
@@ -375,14 +371,17 @@ BOOL SqlBrowser::NextRecord ()
 //-----------------------------------------------------------------------------	
 BOOL SqlBrowser::LastRecord ()
 {
-	if (m_bInvalidQuery && !Query())
-		return FALSE;
-
 	TRY
-	{
-		m_pTable->MoveLast();
-		m_bLastRecord = TRUE;
+	{	
+		if (m_bInvalidQuery)
+		{
+			if (!Query(E_MOVE_LAST))
+				return FALSE;
+		}
+		else
+			m_pTable->MoveLast();
 
+		m_bLastRecord = TRUE;
 		if (m_pTable->IsEmpty())
 		{
 			SetNoRecord();
@@ -426,17 +425,21 @@ BOOL SqlBrowser::LastRecord ()
 }*/
 
 //-----------------------------------------------------------------------------	
-BOOL SqlBrowser::Query(BOOL bCopyBuffer)
+BOOL SqlBrowser::Query(MoveType moveType /*= SqlTable::E_MOVE_NEXT*/)
 {
 	TRY
 	{
 		if (!m_bValid)
 			return FALSE;
 
-		m_pTable->Query();
-		Initialize(bCopyBuffer);
-		
+		m_pSqlSession->Open();
+
+		m_pTable->Query(moveType);
+		Initialize();
 		m_bInvalidQuery = FALSE;
+
+		//dopo la query mi disconnetto
+		m_pSqlSession->Close();
 
 		// se lavoro disconnesso allora mi creo l'array delle chiavi
 		//if (m_pTable->m_pSqlConnection->m_bWorkOffline) 

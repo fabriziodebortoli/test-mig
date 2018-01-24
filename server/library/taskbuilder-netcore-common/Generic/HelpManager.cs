@@ -28,7 +28,7 @@ namespace Microarea.Common.Generic
         {
             get
             {
-                return string.Format("{0}OnlineHelp.aspx", BasePathFinder.BasePathFinderInstance.LoginManagerBaseUrl);
+                return string.Format("{0}OnlineHelp.aspx", PathFinder.PathFinderInstance.LoginManagerBaseUrl);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Microarea.Common.Generic
         {
             get
             {
-                return string.Format("{0}OnlineHelp.aspx", BasePathFinder.BasePathFinderInstance.EasyLookServiceBaseUrl);
+                return string.Format("{0}OnlineHelp.aspx", PathFinder.PathFinderInstance.EasyLookServiceBaseUrl);
             }
         }
 
@@ -46,7 +46,7 @@ namespace Microarea.Common.Generic
         {
             get
             {
-                return string.Format("{0}SitePrivateArea.aspx", BasePathFinder.BasePathFinderInstance.LoginManagerBaseUrl);
+                return string.Format("{0}SitePrivateArea.aspx", PathFinder.PathFinderInstance.LoginManagerBaseUrl);
             }
         }
 

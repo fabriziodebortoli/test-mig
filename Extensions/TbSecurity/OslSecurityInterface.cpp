@@ -324,9 +324,8 @@ BOOL CSecurityInterface::GetObjectGrant (CInfoOSL* pInfoOSL)
 	{
 		TCHAR szError[8000];
 		CString strErr;
-		e->GetErrorString(e->m_nHResult, strErr);
 		e->GetErrorMessage(szError, 8000);
-		TRACE(_T("%s ; %s\n"), (LPCTSTR)e->m_strError, szError, (LPCTSTR)strErr);
+		TRACE(_T("%s ; %s\n"), (LPCTSTR)e->m_strError, szError, (LPCTSTR)e->m_strError);
 
 		aTable.Close();
 		AfxGetSecuritySqlConnection()->m_pContext->ShowMessage((LPCTSTR)e->m_strError);
@@ -587,12 +586,11 @@ BOOL CSecurityInterface::InsertObjectIntoOSL (CInfoOSL* pInfoOSL, long* nFlags, 
 	{
 		TCHAR szError[4000];
 		CString strErr;
-		e->GetErrorString(e->m_nHResult, strErr);
 		e->GetErrorMessage(szError, 4000);
-		TRACE(_T("%s ; %s; %s\n"), (LPCTSTR)e->m_strError, szError, (LPCTSTR)strErr, (LPCTSTR)aSpInsertObject.f_In_ParentNamespace.GetString());
+		TRACE(_T("%s ; %s; %s\n"), (LPCTSTR)e->m_strError, szError, (LPCTSTR)e->m_strError, (LPCTSTR)aSpInsertObject.f_In_ParentNamespace.GetString());
 
 		aTable.Close();
-		if (e->m_nHResult != DB_E_INTEGRITYVIOLATION)
+		if (e->m_nHResult != 547) //DB_E_INTEGRITYVIOLATION
 			AfxGetSecuritySqlConnection()->m_pContext->ShowMessage((LPCTSTR)(e->m_strError + _T(" ") + aSpInsertObject.f_In_ParentNamespace.GetString()));
 	}
 	if (nRetVal)

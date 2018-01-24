@@ -6,7 +6,7 @@
 #include "beginh.dex"
 
 
-enum TB_EXPORT SqlResult { ResOk, End, Begin, Error };
+enum TB_EXPORT SqlFetchResult { FetchOk, EndOfRowSet, BeginOfRowSet, Error };
 enum TB_EXPORT SqlParamType { NoParam, Input, InputOutput, Output, ReturnValue };
 
 //===========================================================================
@@ -18,6 +18,7 @@ public:
 	DataObj* m_pDataObj;
 	DataObj* m_pOldDataObj;
 	CString m_strBindName;
+	CString m_strParamName; // se necessario deve essere anteposto il simbolo @ al nome del parametro passato dal programmatore (in genere P1, P2...)
 	SqlParamType m_eParamType;
 	bool	m_bAutoIncrement;
 	bool	m_bOwnData;			//se TRUE il dataobj é stato creato al volo e va cancellato nel distruttore altrimenti
@@ -31,7 +32,7 @@ protected:
 	int		m_nSqlRecIdx;
 
 public:
-	SqlBindObject(const CString& strBindName, DataObj* pDataObj);
+	SqlBindObject(const CString& strBindName, DataObj* pDataObj, SqlParamType eParamType = NoParam);
 	~SqlBindObject();
 };
 

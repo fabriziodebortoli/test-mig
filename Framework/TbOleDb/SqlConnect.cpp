@@ -15,6 +15,7 @@
 #include <TbGenlib\messages.h>
 #include <TbGenlib\baseapp.h>
 #include <TbGenlibUI\SettingsTableManager.h>
+#include <TbDatabaseManaged\MSqlConnection.h>
 
 #include "sqlconnect.h"
 #include "sqlmark.h"
@@ -24,7 +25,6 @@
 #include "sqlcatalog.h"
 #include "sqlaccessor.h"
 #include "sqlRecoveryManager.h"
-#include "ATLSession.h"
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -48,7 +48,45 @@ static const int nNoPrimaryConnection	= -1;
 //						SqlCommandPool Implementation
 //////////////////////////////////////////////////////////////////////////////
 //=============================================================================
+//
 IMPLEMENT_DYNAMIC(SqlCommandPool, CObArray)
+
+//-----------------------------------------------------------------------------
+void SqlCommandPool::AddCommand(SqlRowSet* pSqlCommand)
+{
+	//se non c'è lo aggiungo
+	SqlRowSet* pCurrCommand;
+	bool bFound = false;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		pCurrCommand = GetAt(i);
+		if (pCurrCommand && pCurrCommand == pSqlCommand)
+		{
+			bFound = true;
+			break;
+		}
+	}
+
+	if (!bFound)
+		Add(pSqlCommand);
+}
+
+//-----------------------------------------------------------------------------
+void SqlCommandPool::RemoveCommand(SqlRowSet* pSqlCommand)
+{
+
+	SqlRowSet* pCurrCommand;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		pCurrCommand = GetAt(i);
+		if (pCurrCommand && pCurrCommand == pSqlCommand)
+		{
+			RemoveAt(i);
+			break;
+		}
+	}
+}
+
 
 //-----------------------------------------------------------------------------
 void SqlCommandPool::CloseAllCommands()
@@ -70,37 +108,30 @@ void SqlCommandPool::CloseAllCommands()
 void SqlCommandPool::ReleaseAllCommands ()
 {
 	SqlRowSet* pRowSet;
-	SqlRowSet* pUpdRowSet;
-	CCommand<CManualAccessor>* pCommand;
-	SqlTable* pTable;
-	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
+	for (int nIdx = GetSize() - 1; nIdx >= 0 ; nIdx--)
 	{
-		// readonly rowsets
 		pRowSet = GetAt(nIdx);
-		if (pRowSet->IsOpen())
+	
+		if (pRowSet && pRowSet->m_pRowSet && pRowSet->m_pRowSet->IsConnected())
 		{
-			pCommand = (CCommand<CManualAccessor>*) pRowSet->m_pRowSet;
-			pCommand->Close();
-			pCommand->ReleaseCommand();
-			pRowSet->Invalidate();
+			//START_DB_TIME(DB_CLOSE_ROWSET)
+				pRowSet->m_pRowSet->Disconnect();
+			//STOP_DB_TIME(DB_CLOSE_ROWSET)
 		}
-
-		// updatable rowsets are not contained into commands array
-		if (pRowSet->IsKindOf(RUNTIME_CLASS(SqlTable)))
-		{
-			pTable = (SqlTable*) pRowSet;
-			pUpdRowSet = pTable->m_pUpdateRowSet;
-			if (pUpdRowSet && pUpdRowSet->IsOpen())
-			{
-				pCommand = (CCommand<CManualAccessor>*) pUpdRowSet->m_pRowSet;
-				pCommand->Close();
-				pCommand->ReleaseCommand();
-				pUpdRowSet->Invalidate();
-			}
-		}
+		//pRowSet->Disconnect();
+		RemoveAt(nIdx);
 	}
 }	
 
+void SqlSessionPool::ForceCloseSessions()
+{
+	SqlSession* pSession;
+	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
+	{
+		pSession = GetAt(nIdx);
+		pSession->ForceClose();
+	}
+}
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -112,29 +143,64 @@ IMPLEMENT_DYNAMIC(SqlSession, SqlObject)
 //-----------------------------------------------------------------------------
 SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NULL*/)
 	:
-	SqlObject		(pContext ? pContext : pConnection->m_pContext),
-	m_pSqlConnection(pConnection),
-	m_bTxnInProgress(FALSE),
-	m_bOwnSession	(TRUE)
+	SqlObject(pContext ? pContext : pConnection->m_pContext),
+	m_pSqlConnection		(pConnection),
+	m_pUpdatableSqlSession	(NULL),
+	m_bForUpdate			(false),
+	m_bTxnInProgress		(FALSE),
+	m_bOwnSession			(TRUE),
+	m_bStayOpen				(FALSE)
 {
-	m_pSession = new ATLSession;	
+	m_pSession = new MSqlConnection();
+	m_pSession->SetConnectionString(pConnection->m_strConnectionString);
 }
 
 //-----------------------------------------------------------------------------
-SqlSession::SqlSession(ATLSession* pSession, SqlConnection* pConnection, CBaseContext* pContext/*=NULL*/)
+SqlSession::SqlSession(MSqlConnection* pSession, SqlConnection* pConnection, CBaseContext* pContext/*=NULL*/)
 	:
-	SqlObject		(pContext ? pContext : pConnection->m_pContext),
-	m_pSqlConnection(pConnection),
-	m_bTxnInProgress(FALSE),
-	m_bOwnSession	(FALSE)
+	SqlObject				(pContext ? pContext : pConnection->m_pContext),
+	m_pSqlConnection		(pConnection),
+	m_pUpdatableSqlSession	(NULL),
+	m_bForUpdate			(false),
+	m_bTxnInProgress		(FALSE),
+	m_bOwnSession			(FALSE),
+	m_bStayOpen				(FALSE)
 {
-	m_pSession = pSession;
+	m_pSession = pSession;	
+
 }
 //-----------------------------------------------------------------------------
 SqlSession::~SqlSession()
 {
+	Close();	
+	m_pSqlConnection->RemoveSession(this);
+
+	if (m_pUpdatableSqlSession)
+	{
+		delete m_pUpdatableSqlSession;
+		m_pUpdatableSqlSession = NULL;
+	}
+
 	if (m_pSession && m_bOwnSession)
 		delete m_pSession;
+}
+
+//-----------------------------------------------------------------------------
+MSqlConnection*	SqlSession::GetMSqlConnection() const
+{
+	return m_pSession;
+}
+
+//-----------------------------------------------------------------------------
+::DBMSType SqlSession::GetDBMSType() const
+{
+	return m_pSqlConnection->GetDBMSType();
+}
+
+//-----------------------------------------------------------------------------	
+BOOL SqlSession::IsOpen() const
+{
+	return m_pSession && m_pSession->IsOpen();
 }
 
 //-----------------------------------------------------------------------------	
@@ -150,21 +216,95 @@ void SqlSession::ReleaseCommands()
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
+
+	if (m_pUpdatableSqlSession)
+		m_pUpdatableSqlSession->ReleaseCommands();
+
 	m_pSession->Close ();
+}
+
+//-----------------------------------------------------------------------------
+SqlSession* SqlSession::GetUpdatableSqlSession()
+{
+	if (!m_pUpdatableSqlSession)
+	{
+		m_pUpdatableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
+		m_pUpdatableSqlSession->m_bForUpdate = true;		
+	}
+	return m_pUpdatableSqlSession;
+}
+
+//-----------------------------------------------------------------------------
+void SqlSession::Open()
+{
+	TRY
+	{
+
+		if (!m_pSession->IsOpen())
+		{
+			//se non è la DefaultSqlSession allora guardo lo stato di open della DefaultSqlSession
+			START_PROC_TIME(PROC_OPEN_CONNECTION)
+			m_pSession->Open();
+			STOP_PROC_TIME(PROC_OPEN_CONNECTION)
+			TRACE_SQL(_T("Open session"), this);
+			if (m_pUpdatableSqlSession)
+				m_pUpdatableSqlSession->Open();
+		}
+	}
+	
+		
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(cwsprintf(_TB("Unable to open the connection {0-%s} for the following error: \n\r {1-%s}"), m_pSession->GetDBName(), e->m_strError));
+
+	}
+	END_CATCH
 }
 
 //-----------------------------------------------------------------------------	
 ///<summary>
 ///Close sql connection
+/// bForceClose = TRUE if you need to close the session with bStayOpen = TRUE
 ///</summary>
 //[TBWebMethod(name = Connection_Close, thiscall_method=true)]
 void SqlSession::Close()
 {
+	//non faccio niente 
+	if (m_pSqlConnection->AlwaysConnected() || !m_pContext->IsOwnContext())
+		return;
+	
 	if (m_bTxnInProgress)
 		Commit();
 
-	m_arCommandPool.CloseAllCommands();
-	m_pSqlConnection->RemoveSession(this);
+	m_arCommandPool.ReleaseAllCommands();
+
+	if (m_pUpdatableSqlSession)
+		m_pUpdatableSqlSession->Close();
+	
+	START_PROC_TIME(PROC_CLOSE_CONNECTION)
+	m_pSession->Close();
+	STOP_PROC_TIME(PROC_CLOSE_CONNECTION)
+	TRACE_SQL(_T("Close session"), this);
+}
+
+//-----------------------------------------------------------------------------	
+void SqlSession::ForceClose()
+{
+	if (!m_pContext->IsOwnContext())
+		return; 
+
+	if (m_bTxnInProgress)
+		Commit();
+
+	m_arCommandPool.ReleaseAllCommands();
+			
+	/*if (m_pUpdatableSqlSession)
+		m_pUpdatableSqlSession->ForceClose();*/
+
+	START_PROC_TIME(PROC_CLOSE_CONNECTION)
+	m_pSession->Close();
+	STOP_PROC_TIME(PROC_CLOSE_CONNECTION)
+	TRACE_SQL(_T("ForceClose session"), this);
 }
 
 //-----------------------------------------------------------------------------	
@@ -180,48 +320,29 @@ void SqlSession::GetErrorString(HRESULT nResult, CString& m_strError)
 }
 
 //-----------------------------------------------------------------------------
-DBMSType SqlSession::GetDBMSType() const
-{
-	return m_pSqlConnection->GetDBMSType();
-}
-//-----------------------------------------------------------------------------
-void SqlSession::Open()
-{
-	SetPropGUID(DBPROPSET_SESSION);
-
-	if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
-		AddProperty(DBPROP_SESS_AUTOCOMMITISOLEVELS, DBPROPVAL_TI_READCOMMITTED); 
-	else
-		AddProperty(DBPROP_SESS_AUTOCOMMITISOLEVELS, DBPROPVAL_TI_READUNCOMMITTED); 
-		
-	if (!Check(m_pSession->Open(*(const CDataSource*)m_pSqlConnection->GetDataSource(), (CDBPropSet*)m_pDBPropSet)))
-	{
-		if (m_pSession->m_spOpenRowset)
-			ThrowSqlException(((CSession*)m_pSession)->m_spOpenRowset, IID_IOpenRowset, m_hResult);	
-		else
-			ThrowSqlException(((const CDataSource*)m_pSqlConnection->GetDataSource())->m_spInit, IID_IDBCreateSession, m_hResult);	
-	}
-}	
-
-//-----------------------------------------------------------------------------
 ///<summary>
 ///Begin sql transaction
 ///</summary>
 //[TBWebMethod(name = Connection_BeginTransaction, thiscall_method=true)]
 void SqlSession::StartTransaction()
 {
-	if (m_pSqlConnection->m_bAutocommit || m_bTxnInProgress)
+	if (m_pSqlConnection->m_bAutocommit || m_bTxnInProgress || !m_pUpdatableSqlSession)
 		return;
 
-	if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
+	TRY
 	{
-		if (!Check(m_pSession->StartTransaction(ISOLATIONLEVEL_READCOMMITTED)))
-			ThrowSqlException(m_pSession->m_spOpenRowset, IID_ITransactionLocal, m_hResult);	
-	}
-	else
-		if (!Check(m_pSession->StartTransaction(ISOLATIONLEVEL_READUNCOMMITTED)))
-			ThrowSqlException(m_pSession->m_spOpenRowset, IID_ITransactionLocal, m_hResult);	
+		if (!m_pUpdatableSqlSession->IsOpen())
+			m_pUpdatableSqlSession->Open();
 
+		m_pUpdatableSqlSession->m_pSession->BeginTransaction();
+	}
+		CATCH(MSqlException, e)
+	{
+		m_pUpdatableSqlSession->AddMessage(cwsprintf(_TB("Unable to open the transaction for the following error: \n\r {0-%s}"), e->m_strError));
+		//ThrowSqlException(cwsprintf(_TB("Unable to open the transaction for the following error: \n\r {0-%s}"), e->m_strError));
+	}
+	END_CATCH
+		m_bTxnInProgress = TRUE;
 	m_bTxnInProgress = TRUE;
 }
 
@@ -240,14 +361,21 @@ void SqlSession::Commit()
 	if (pLockMng && pLockMng->HasRestarted())
 		ThrowSqlException(_TB("Lock Manager Web Services has been restarted. The current transaction will be aborted!\r\tIt is recommended to Logout e re-Login the application!"));	
 
-	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress)
+	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress || !m_pUpdatableSqlSession)
 		return;
 
-	if (!Check(m_pSession->Commit()))
+	TRY
 	{
-		m_bTxnInProgress = FALSE;
-		ThrowSqlException(m_pSession->m_spOpenRowset, IID_ITransactionLocal, m_hResult);	
+		m_pUpdatableSqlSession->m_pSession->Commit();
+		m_pUpdatableSqlSession->Close();
 	}
+	
+	CATCH(MSqlException, e)
+	{
+		m_pUpdatableSqlSession->AddMessage(cwsprintf(_TB("Unable to commit the transaction for the following error: \n\r {0-%s}"), e->m_strError));
+		//ThrowSqlException(cwsprintf(_TB("Unable to commit the transaction for the following error: \n\r {0-%s}"), e->m_strError));
+	}
+	END_CATCH
 
 	//InvalidateCommands(TRUE);
 	m_bTxnInProgress = FALSE; // ho terminato la transazione
@@ -260,51 +388,44 @@ void SqlSession::Commit()
 //[TBWebMethod(name = Connection_Rollback, thiscall_method=true)]
 void SqlSession::Abort()
 {
-	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress)
+	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress || !m_pUpdatableSqlSession)
 		return;
 
-	if (!Check(m_pSession->Abort()))
+	TRY
+	{
+		m_pUpdatableSqlSession->m_pSession->Rollback();
+		m_pUpdatableSqlSession->Close();
+	}
+		CATCH(MSqlException, e)
 	{
 		m_bTxnInProgress = FALSE;
-		ThrowSqlException(m_pSession->m_spOpenRowset, IID_ITransactionLocal, m_hResult);	
+		m_pUpdatableSqlSession->AddMessage(cwsprintf(_TB("Unable to abort the transaction for the following error: \n\r {0-%s}"), e->m_strError));
+
+		//ThrowSqlException(cwsprintf(_TB("Unable to abort the transaction for the following error: \n\r {0-%s}"), e->m_strError));
 	}
 
-	//InvalidateCommands(FALSE);
+	END_CATCH
 	m_bTxnInProgress = FALSE; // ho terminato la transazione
 }
 
 //-----------------------------------------------------------------------------
-void SqlSession::AddCommand(SqlRowSet* pSqlRowSet)
+void SqlSession::AddCommand(SqlRowSet* pSqlCommand)
 {
-	m_arCommandPool.Add(pSqlRowSet); 
+	m_arCommandPool.AddCommand(pSqlCommand);
+	Open(); //se la connessione è chiusa viene riaperta
 }
 
 //-----------------------------------------------------------------------------
-void SqlSession::RemoveCommand(SqlRowSet* pSqlRowSet)
+void SqlSession::RemoveCommand(SqlRowSet* pSqlCommand)
 {
-	SqlRowSet* pCurrRowSet;
-	for (int i = 0; i < m_arCommandPool.GetSize(); i++)
-	{
-		pCurrRowSet = m_arCommandPool.GetAt(i); 
-		if (pCurrRowSet && pCurrRowSet == pSqlRowSet)
-		{
-			m_arCommandPool.RemoveAt(i);
-			return;
-		}
-	}
+	m_arCommandPool.RemoveCommand(pSqlCommand);
+
+	//chiudo la sessione nel caso in cui non ci sia più nessun sqlrowset aperto e nel caso in cui la connessione non sia forzata
+	if (!m_pSqlConnection->AlwaysConnected() && m_arCommandPool.GetSize() == 0)
+		Close();
 }
 
-//-----------------------------------------------------------------------------
-void SqlSession:: SetDataCachingContext(CDataCachingContext* pDataCachingContext)
-{
-	SqlRowSet* pCurrRowSet;
-	for (int i = 0; i < m_arCommandPool.GetSize(); i++)
-	{
-		pCurrRowSet = m_arCommandPool.GetAt(i); 
-		if (pCurrRowSet && pCurrRowSet->IsKindOf(RUNTIME_CLASS(SqlTable)))
-			((SqlTable*)pCurrRowSet)->SetDataCachingContext(pDataCachingContext);
-	}
-}
+
 
 
 
@@ -327,12 +448,6 @@ void SqlSessionPool::RemoveSession(SqlSession* pSession)
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////
-//					ATLDataSource Implementation
-//////////////////////////////////////////////////////////////////////////////
-//-----------------------------------------------------------------------------
-class ATLDataSource : public CDataSource
-{};
 
 //////////////////////////////////////////////////////////////////////////////
 //					CDefaultSqlSessions Implementation
@@ -372,21 +487,13 @@ public:
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC(SqlConnection, SqlObject)
 
-//only document thread has to destroy default session, because login
-//thread is cleaned when destroying OleDbManager
-DECLARE_THREAD_VARIABLE
-	(	
-	CDefaultSqlSessions,
-	m_DefaultSqlSessions
-	);
 // costruttore di default Lo utilizzo solo per la Primary Connection
 //-----------------------------------------------------------------------------
-SqlConnection::SqlConnection(CBaseContext* pContext /*= NULL*/, CString dbOwner /*= _T("")*/)
+SqlConnection::SqlConnection(CBaseContext* pContext /*= NULL*/)
 :
 	SqlObject				(pContext),
 	m_bCheckRegisterTable	(TRUE),
-	m_bCheckDBMark			(FALSE),
-	m_strDBOwner			(dbOwner)
+	m_nAlwaysConnectedRef	(0)
 {
 	Initialize();	
 }
@@ -395,42 +502,37 @@ SqlConnection::SqlConnection(CBaseContext* pContext /*= NULL*/, CString dbOwner 
 //-----------------------------------------------------------------------------
 SqlConnection::SqlConnection
 					(
-						BOOL bCheckRegisterTable, 
-						BOOL bUseLockMng, 
-						BOOL bCheckDBMark, 
-						CBaseContext* pContext /*= NULL*/, 
-						CString dbOwner /*= _T("")*/
+						const CString& strConnectionString, 
+						BOOL bCheckRegisterTable,
+						CBaseContext* pContext /*= NULL*/,
+						const CString& strAlias /*= _T("")*/
 					)
 :
 	SqlObject				(pContext),
 	m_bCheckRegisterTable	(bCheckRegisterTable),
-	m_bCheckDBMark			(bCheckDBMark),
-	m_strDBOwner			(dbOwner)
+	m_nAlwaysConnectedRef	(0),
+	m_strAlias				(strAlias)
 {
+	SetConnectionString(strConnectionString);
 	Initialize();
 }
 
 //-----------------------------------------------------------------------------
 SqlConnection::~SqlConnection()
-{
-	if (m_pCheckTable)
-		delete m_pCheckTable;
-	
-	if (m_pSqlMarkRec)
-		delete m_pSqlMarkRec;
-
-	if (m_pDataSource)
-	{
-		m_pDataSource->Close();
-		delete m_pDataSource;
-	}
-
+{	
 	if (m_arSessionPool.GetSize() > 0)
 	{
 		ASSERT(FALSE);
 		TRACE1("SqlConnection::~SqlConnection(): sessions of the database %s aren't closed", (LPCTSTR)m_strDBName);
 		Close();
 	}
+}
+//-----------------------------------------------------------------------------
+void SqlConnection::SetConnectionString(const CString& strConnectionString)
+{
+	m_strConnectionString = strConnectionString;
+	if (m_strConnectionString.Find(_T("MultipleActiveResultSets=True"), 0) == -1)
+		m_strConnectionString += _T(";MultipleActiveResultSets=True;"); 
 }
 
 //-----------------------------------------------------------------------------
@@ -441,62 +543,60 @@ void SqlConnection::Initialize()
 	m_bTablesPresent		= FALSE;
 	m_bAutocommit			= FALSE;
 	m_bUseUnicode			= TRUE;
-	m_bOptimizedHKL			= TRUE;
-	m_pSqlMarkRec  			= NULL;
-	m_pCheckTable			= NULL;	
-	m_pProviderInfo			= NULL;
 	m_pCatalog				= NULL;
 	m_nProviderID			= -1;
-	m_bRemoveDeletedRows    = TRUE;
+	m_bAlwaysConnected		= false;
 
-	DataObj* pDataObj = AfxGetSettingValue(snsTbOleDb, szConnectionSection, szHKLTableReaderCursor, DataInt(m_eHKLTRCursor));
-	if (pDataObj)
-		m_eHKLTRCursor = (CursorType)(int) *((DataInt*) pDataObj) ;
-
-	pDataObj =  AfxGetSettingValue(snsTbOleDb, szConnectionSection, szROForwardTableCursor, DataInt(m_eROForwardCursor));
-	if (pDataObj)
-		m_eROForwardCursor = (CursorType)(int) *((DataInt*) pDataObj) ;
-
-	pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(m_bUsePerformanceMng));
+	
+	DataObj* pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(m_bUsePerformanceMng));
 	if (pDataObj)
 		m_bUsePerformanceMng = *((DataBool*) pDataObj) ;
-	
+
 	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(m_bOptimizedHKL), szTbDefaultSettingFileName);
 	if (pDataObj)
-		m_bOptimizedHKL	=  *((DataBool*) pDataObj) ;
-	
-	pDataObj = AfxGetSettingValue(snsTbOleDb, szConnectionSection, _T("RemoveDeletedRows"), DataBool(m_bRemoveDeletedRows));
-	if (pDataObj)
-		m_bRemoveDeletedRows = *((DataBool*) pDataObj) ;
+		m_bOptimizedHKL = *((DataBool*)pDataObj);
 
-	
-	m_pDataSource = new ATLDataSource;
 }
 
-
-
-
-// restituisce la sessione di default
 //-----------------------------------------------------------------------------
-ATLSession* SqlConnection::GetDefaultSession()	
+SqlConnection* SqlConnection::Clone()
 {
-	return GetDefaultSqlSession()->m_pSession;
+	SqlConnection* pConnection = new SqlConnection(m_strConnectionString, FALSE);
+
+	pConnection->m_strDBName = this->m_strDBName;
+	pConnection->m_strServerName = this->m_strServerName;
+	pConnection->m_strDbmsName = this->m_strDbmsName;
+	pConnection->m_strDbmsVersion = this->m_strDbmsVersion;
+	pConnection->m_strAlias = this->m_strAlias;
+	pConnection->m_bOpen = this->m_bOpen;
+	pConnection->m_pCatalog = this->m_pCatalog;
+	pConnection->m_bValid = this->m_bValid;
+	pConnection->m_bTablesPresent = this->m_bTablesPresent;
+
+	return pConnection;
 }
 
 
+//-----------------------------------------------------------------------------
+::DBMSType SqlConnection::GetDBMSType() const
+{
+	return DBMSType::DBMS_SQLSERVER;
+}
 
 // restituisce la sessione di default di tipo SqlSession
 //-----------------------------------------------------------------------------
 SqlSession* SqlConnection::GetDefaultSqlSession()	
 {
-	GET_THREAD_VARIABLE(CDefaultSqlSessions, m_DefaultSqlSessions);
-	SqlSession *pSession = m_DefaultSqlSessions[this];
-	if (!pSession)
+	SqlSession* pSession = NULL;
+	if (m_arSessionPool.GetSize() > 0)
+		pSession = m_arSessionPool[0];	
+	else
 	{
 		pSession = GetNewSqlSession();
-		m_DefaultSqlSessions[this] = pSession;
+		m_arSessionPool[0] = pSession;
 	}
-	return pSession; 
+	return pSession;
+
 }
 
 // crea una nuova sessione e la inserisce in m_arSessionPool e ritorna un SqlSession
@@ -514,7 +614,6 @@ SqlSession* SqlConnection::GetNewSqlSession(CTBContext* pTBContext)
 		THROW_LAST();
 	}	
 	END_CATCH
-
 }
 
 //-----------------------------------------------------------------------------
@@ -525,7 +624,7 @@ SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext /*=NULL*/)
 
 	TRY
 	{
-		pSession->Open();
+		//pSession->Open();
 		m_arSessionPool.Add(pSession);
 	}
 	CATCH(SqlException, e)	
@@ -540,26 +639,6 @@ SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext /*=NULL*/)
 	return pSession;	
 }
 
-// crea una nuova sessione e la inserisce in m_arSessionPool e ritorna un ATLSession
-//-----------------------------------------------------------------------------
-ATLSession* SqlConnection::GetNewSession(CBaseContext* pContext /*=NULL*/)
-{
-	SqlSession* pSession = NULL;
-		
-	TRY
-	{
-		pSession = GetNewSqlSession(pContext);
-	}
-	return pSession->m_pSession;
-
-	CATCH(SqlException, e)	
-	{
-		TRACE("%s\n", (LPCTSTR)e->m_strError);
-		THROW_LAST();
-	}
-	END_CATCH
-}
-
 //-----------------------------------------------------------------------------
 void SqlConnection::RemoveSession(SqlSession* pSession)
 {
@@ -568,32 +647,12 @@ void SqlConnection::RemoveSession(SqlSession* pSession)
 }
 
 //-----------------------------------------------------------------------------
-const ATLDataSource* SqlConnection::GetDataSource()
-{
-	return m_pDataSource;	
-}
-
-//-----------------------------------------------------------------------------
 SqlCatalogConstPtr SqlConnection::GetCatalog()
 {
 	return SqlCatalogConstPtr(m_pCatalog, FALSE); //READ ONLY LOCK
 }
 
-//-----------------------------------------------------------------------------
-BOOL SqlConnection::Open(LPCWSTR szInitString)
-{ 
-	if (!Check(m_pDataSource->OpenFromInitializationString(szInitString)))
-		ThrowSqlException(GetDataSource()->m_spInit, IID_IDBInitialize, m_hResult);	
 
-	// carico le properties
-	if (!InitConnectionInfo())
-	{
-		AddMessage(_TB("I's impossible to read OLE DB Provider information"));
-		return FALSE;
-	}
-
-	return TRUE;
-}
 
 // chiudere una connessione: questo vuole dire che non ci devono essere appesi
 // command, transazioni, ecc.
@@ -614,79 +673,47 @@ BOOL SqlConnection::CanClose()
 void SqlConnection::Close()
 { 
 	TB_LOCK_FOR_WRITE();
-	if (m_pCheckTable && m_pCheckTable->IsOpen())
-		m_pCheckTable->Close();
-
 	
 	//default sqlsession
-	GET_THREAD_VARIABLE(CDefaultSqlSessions, m_DefaultSqlSessions);
-	m_DefaultSqlSessions[this] = NULL;
-	
+	//GET_THREAD_VARIABLE(CDefaultSqlSessions, m_DefaultSqlSessions);
+	//m_DefaultSqlSessions[this] = NULL;
+
 	SqlSession* pSession;	
 	for (int nIdx = m_arSessionPool.GetUpperBound(); nIdx >= 0; nIdx--) 	
 	{
 		pSession = m_arSessionPool.GetAt(nIdx);
-		if (pSession)
+		if (pSession && !pSession->m_bForUpdate) //nel caso di pSession->m_bForUpdate = true sarà la sessione che l'ha istanziata che si preoccuperà di distruggerla
+		{
 			pSession->Close();
-		delete pSession;
+			delete pSession;			
+		}
 	}
 	m_arSessionPool.RemoveAll();
 
 }
 
 //-----------------------------------------------------------------------------
-BOOL SqlConnection::InitSysAdminParams()
-{
-	m_bAutocommit = !(m_pProviderInfo->m_bTransactions && AfxGetLoginInfos()->m_bTransactionUse);
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------
-BOOL SqlConnection::InitConnectionInfo()
-{
-	USES_CONVERSION;
-	CComVariant var1, var2;		
-
-	if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PROVIDERNAME, &var1)) &&
-		SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_PROVIDERVER, &var2)))
-		m_pProviderInfo = AfxGetOleDbMng()->GetProviderInfo(OLE2T(var1.bstrVal), OLE2T(var2.bstrVal), this); 
-	// nome del server
-	if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_DATASOURCENAME, &var1)))
-		m_strServerName = OLE2T(var1.bstrVal);
-
-	// nome del DBMS (Sql Server / Oracle)
-	if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_DBMSNAME, &var1)))
-		m_strDbmsName = OLE2T(var1.bstrVal);
-
-	// versione del DBMS
-	if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_DBMSVER, &var1)))
-		m_strDbmsVersion = OLE2T(var1.bstrVal);
-
-	// nome del database
-	if (m_pProviderInfo->GetDBMSType() == DBMS_ORACLE)
+void SqlConnection::SetAlwaysConnected(bool bSet)
+{ 
+	if (bSet)
 	{
-		if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_USERNAME, &var1)))
-			m_strDBName = m_strUserName = OLE2T(var1.bstrVal);
-		if (m_strDBName.IsEmpty()) // sono in sicurezza integrata
-			m_strDBName = m_strUserName = AfxGetLoginInfos()->m_strUserName;
+		if (m_nAlwaysConnectedRef == 0)
+			m_bAlwaysConnected = TRUE;
+		m_nAlwaysConnectedRef++;
 	}
 	else
 	{
-		if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCE, DBPROP_CURRENTCATALOG, &var1)))
-			m_strDBName = OLE2T(var1.bstrVal);
-
-		// nome utente connesso
-		if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_USERNAME, &var1)))
-			m_strUserName = OLE2T(var1.bstrVal);
-		if (m_strUserName.IsEmpty()) // sono in sicurezza integrata
-			m_strUserName = AfxGetLoginInfos()->m_strUserName;
+		ASSERT(m_nAlwaysConnectedRef > 0);
+		m_nAlwaysConnectedRef = (m_nAlwaysConnectedRef > 0) ? m_nAlwaysConnectedRef - 1 : 0;
+		if (m_nAlwaysConnectedRef == 0)
+		{
+			m_bAlwaysConnected = FALSE;
+			m_arSessionPool.ForceCloseSessions();
+		}
 	}
-
-	if (m_pProviderInfo)
-		InitSysAdminParams();
-
-	return m_pProviderInfo != NULL;
 }
+
+
 
 // stringa di connessione
 // Provider SqlServer
@@ -706,44 +733,83 @@ BOOL SqlConnection::InitConnectionInfo()
 
 
 //-----------------------------------------------------------------------------
-BOOL SqlConnection::MakeConnection(LPCWSTR szInitString)
-{ 
+BOOL SqlConnection::MakeConnection()
+{
 	if (m_bOpen)
 	{
 		TRACE("SqlConnection::MakeConnection: the connection is already opened\n");
-		AddMessage(cwsprintf(_TB("The connection {0-%s} it is already open"), szInitString));
+		AddMessage(cwsprintf(_TB("The connection {0-%s} it is already open"), m_strConnectionString));
 		return FALSE;
 	}
 
-	m_bValid = TRUE;
-	
-	if (!Open(szInitString))
-		return FALSE;
-	
-	m_bOpen = TRUE;
+	m_bValid = FALSE;
 
-	// carico il catalog
-	m_pCatalog = AfxGetSqlCatalog(this);
-	
-	if (m_pCatalog->DatabaseEmpty())
+	TRY
 	{
-		AddMessage(_TB("The database has not been created.\r\nPlease contact the program administrator."));
-		return FALSE;
-	}
-	//se é una connessione che utilizza i meccanismi di TaskBuilder
-	// allora devo gestire anche i Lock
-	// e registrare le tabelle
-	if (m_bCheckRegisterTable)
-	{
-		m_bTablesPresent = RegisterTables();
-		if (!m_bTablesPresent)
+		
+		SqlSession* pDefaultSqlSession = GetDefaultSqlSession();
+
+		SetAlwaysConnected(true);
+		//apro la connessione
+		pDefaultSqlSession->Open(); //true = sono io che decido quando chiudere la connessione e non mi affido agli automatismi
+		m_strDBName = pDefaultSqlSession->m_pSession->GetDBName();
+		m_strServerName = pDefaultSqlSession->m_pSession->GetServerName();
+		m_strUserName = pDefaultSqlSession->m_pSession->GetDBUserName();
+		m_strDbmsName = pDefaultSqlSession->m_pSession->GetDbmsName();
+		m_strDbmsVersion = pDefaultSqlSession->m_pSession->DbmsVersion();
+
+		m_bOpen = TRUE;	
+		
+		CTickTimeFormatter aTickFormatter;		
+		DWORD dTotStartTick = GetTickCount();
+		DWORD dElapsedTick = 0;
+		// carico il catalog
+		DWORD dStartTick = GetTickCount();
+		m_pCatalog = AfxGetSqlCatalog(this);
+		DWORD dStopTick = GetTickCount();
+		dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+		TRACE1("AfxGetSqlCatalog Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		if (m_pCatalog->DatabaseEmpty())
 		{
-			AddMessage(_TB("Some tables required by the application are missing.\r\nPlease contact the program administrator."));
+			AddMessage(_TB("The database has not been created.\r\nPlease contact the program administrator."));
 			return FALSE;
 		}
-	}
 
-	m_bValid = !m_bCheckDBMark || CheckDatabase();
+		m_bValid = TRUE;
+		//se é una connessione che utilizza i meccanismi di TaskBuilder
+		// allora devo gestire anche i Lock
+		// e registrare le tabelle
+		if (m_bCheckRegisterTable)
+		{
+			dStartTick = GetTickCount();
+			m_bTablesPresent = RegisterTables();
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("RegisterTables Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+			if (!m_bTablesPresent)
+			{
+				AddMessage(_TB("Some tables required by the application are missing.\r\nPlease contact the program administrator."));
+				m_bValid = FALSE;
+			}
+		}
+		
+		//chiudo la connessione
+		SetAlwaysConnected(false);
+		//pDefaultSqlSession->ForceClose();
+
+		dStopTick = GetTickCount();
+		dElapsedTick = (dStopTick >= dTotStartTick) ? dStopTick - dTotStartTick : 0;
+		TRACE1("MakeConnection Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+
+	}
+	CATCH(SqlException, e)
+	{
+		AddMessage(e->m_strError);
+		m_bValid = FALSE;
+		return FALSE;
+	}
+	END_CATCH
+		
 	
 	return m_bValid;		
 }
@@ -806,176 +872,6 @@ BOOL SqlConnection::RegisterAddOnLibrayTables(AddOnLibrary* pAddOnLib, AddOnAppl
 	return pAddOnLib->m_pAddOn->AOI_RegisterTables(this, pApp->GetSignature(), &pAddOnLib->m_Namespace);
 }
 
-//-----------------------------------------------------------------------------
-void SqlConnection::DefineCheckQuery()
-{ 
-	m_pCheckTable->Open();
-	m_pCheckTable->SelectAll		();
-	m_pCheckTable->AddFilterColumn	(m_pSqlMarkRec->f_Signature);
-	m_pCheckTable->AddFilterColumn	(m_pSqlMarkRec->f_Module);
-	m_pCheckTable->AddParam			(szParamSignature,	m_pSqlMarkRec->f_Signature);
-	m_pCheckTable->AddParam			(szParamModule,		m_pSqlMarkRec->f_Module);		
-}
-
-
-//-----------------------------------------------------------------------------
-BOOL SqlConnection::CheckRelease(AddOnModule* pAddOnMod, AddOnApplication* pAddOnApp /*=NULL*/)
-{
-	// se non prevedere database release non faccio nessun controllo
-	if (!pAddOnMod || pAddOnMod->GetDatabaseRelease() == -1)
-		return TRUE;
-
-	AddOnApplication* pApp = (pAddOnApp) ? pAddOnApp : AfxGetAddOnApp(pAddOnMod->GetApplicationName()); 
-
-	m_pCheckTable->SetParamValue	(szParamSignature,	DataStr(pApp->GetSignature()));
-	m_pCheckTable->SetParamValue	(szParamModule,		DataStr(pAddOnMod->GetModuleSignature()));			
-	m_pCheckTable->Query();
-
-	return (m_pSqlMarkRec->f_Status);
-}
-
-//-----------------------------------------------------------------------------
-void SqlConnection::CleanupCheckStructures()
-{
-	if (m_pCheckTable && m_pCheckTable->IsOpen())
-		m_pCheckTable->Close();
-
-	SAFE_DELETE(m_pCheckTable);
-	SAFE_DELETE(m_pSqlMarkRec);
-}
-
-// devo confrontare le versioni attuali dei moduli con quelli presenti nella TB_DBMark 
-// controllo il singolo modulo. Questo serve per il caricamento ondemand
-//-----------------------------------------------------------------------------
-BOOL SqlConnection::CheckAddOnModuleRelease(AddOnModule* pAddOnMod, CDiagnostic* pDiagnostic)
-{
-	TB_LOCK_FOR_WRITE();
-	// se non prevedere database release non faccio nessun controllo
-	if (!pAddOnMod || pAddOnMod->GetDatabaseRelease() == -1)
-		return TRUE;
-	
-	if (!m_pSqlMarkRec && !m_pCheckTable)
-	{
-		m_pSqlMarkRec  = new SqlDBMark;
-		m_pCheckTable  = new SqlTable(m_pSqlMarkRec, GetDefaultSqlSession());
-	}
-
-	ASSERT(m_pSqlMarkRec && m_pCheckTable);
-
-	if (!m_pCheckTable->IsOpen())
-		DefineCheckQuery();
-
-	BOOL bOk = FALSE;
-	TRY
-	{
-		bOk = CheckRelease(pAddOnMod);
-		if (!bOk)
-		{
-			pDiagnostic->Add(
-							cwsprintf
-								(
-									_TB("Signature: {0-%s}\tModule: {1-%s}\tExpected release: {2-%d}\tRelease on database: {3-%d}\tStatus: {4-%s}"),
-									(LPCTSTR) pAddOnMod->GetApplicationName(), 
-									(LPCTSTR) pAddOnMod->GetModuleName(), 
-											  pAddOnMod->GetDatabaseRelease(),
-									(int)	  m_pSqlMarkRec->f_DBRelease,
-									(m_pSqlMarkRec->f_Status) ? _TB("Consistent") : _TB("Inconsistent")
-								)
-							);
-			AfxGetLoginContext()->Lock ();
-		}
-	}
-	CATCH(SqlException, e)
-	{
-		pDiagnostic->Add(e->m_strError);
-		AfxGetLoginContext()->Lock ();
-		return FALSE;
-	}
-	END_CATCH	
-	
-	return bOk;
-}
-
-// controllo di tutti i moduli caricati in memoria al momento della connessione
-//-----------------------------------------------------------------------------
-BOOL SqlConnection::CheckDatabase()
-{ 
-	// mi serve per la primaria che chiama in maniera esplicita il checkdatabase 
-	m_bCheckDBMark = TRUE;
-
-	//se non esiste il DBMark allora segnalo l'errore e mi fermo
-	if (!ExistTable(SqlDBMark::GetStaticName()))
-	{
-		AddMessage(_TB("Not exist the table TB_DBMark. Please contact the administrator."));
-		AfxGetLoginContext()->Lock ();
-		return FALSE;
-	}
-
-	if (!m_pSqlMarkRec && !m_pCheckTable)
-	{
-		m_pSqlMarkRec  = new SqlDBMark;
-		m_pCheckTable  = new SqlTable(m_pSqlMarkRec, GetDefaultSqlSession());
-	}
-
-	ASSERT(m_pSqlMarkRec && m_pCheckTable);
-
-	if (!m_pCheckTable->IsOpen())
-		DefineCheckQuery();
-
-	//faccio il controllo solo per i moduli caricati in memoria
-	BOOL			bOk = TRUE;
-	BOOL			bFirstMsg = TRUE;
-
-	AddOnApplication*	pAddOnApp;
-	AddOnModule*		pAddOnMod;
-
-	TRY
-	{
-		// scorro tutte le addonapplication
-		for (int nApp = 0; nApp < AfxGetAddOnAppsTable()->GetSize(); nApp++)
-		{
-			pAddOnApp = AfxGetAddOnAppsTable()->GetAt(nApp);
-			
-			//scorro tutti i moduli caricati
-			for (int nMod = 0; nMod < pAddOnApp->m_pAddOnModules->GetSize(); nMod++)
-			{
-				pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(nMod);
-
-				if (!CheckRelease(pAddOnMod, pAddOnApp))
-				{
-					if (bFirstMsg)
-					{
-						AddMessage(_TB("Warning! The following database incompatibilities have been detected when connecting:"), CDiagnostic::Info);
-						AddMessage(_T("==================================================="), CDiagnostic::Info);
-						bFirstMsg = FALSE;
-					}
-
-					AddMessage(cwsprintf(
-						_TB("Signature: {0-%s}\tModule: {1-%s}\tExpected release: {2-%d}\tRelease on database: {3-%d}\tStatus: {4-%s}"),
-									(LPCTSTR) pAddOnMod->GetApplicationName(), 
-									(LPCTSTR) pAddOnMod->GetModuleName(), 
-											  pAddOnMod->GetDatabaseRelease(),
-									(int)	  m_pSqlMarkRec->f_DBRelease,
-									(m_pSqlMarkRec->f_Status) ? _TB("Consistent") : _TB("Inconsistent")
-									));
-					bOk = FALSE;
-					AfxGetLoginContext()->Lock ();
-				}
-			}
-		}
-		if (!bOk)
-			ShowMessage(TRUE);
-	}
-	CATCH(SqlException, e)	
-	{
-		AddMessage(e->m_strError);
-		AfxGetLoginContext()->Lock ();
-		return FALSE;
-	}
-	END_CATCH	
-
-	return bOk;	
-}
 
 //-----------------------------------------------------------------------------
 SqlTableInfo* SqlConnection::GetTableInfo(const CString& strTableName)
@@ -1114,47 +1010,87 @@ BOOL SqlConnection::RunScript(LPCTSTR lpszFileName)
 	return TRUE;
 }
 
-// da vedere per OLEDB
-
-
 
 //-----------------------------------------------------------------------------
-DBTYPE SqlConnection::GetSqlDataType (const DataType& aDataObjType)
+CString SqlConnection::NativeConvert(const DataObj* pDataObj) 
 {
-	return m_pProviderInfo->GetSqlDataType(aDataObjType);
+	return  GetDefaultSqlSession()->m_pSession->NativeConvert(pDataObj, m_bUseUnicode);
 }
 
 //-----------------------------------------------------------------------------
-SqlColumnTypeItem* SqlConnection::GetSqlColumnTypeItem (const DataType& aDataObjType)
+void SqlConnection::LoadTables(::CMapStringToOb* pTables)
 {
-	return m_pProviderInfo->GetSqlColumnTypeItem(aDataObjType);
-}
-
-//
-//-----------------------------------------------------------------------------
-CString SqlConnection::NativeConvert (const DataObj* pDataObj, SqlRowSet* pRowSet /*NULL*/)
-{
-	// DataText before 3.0 where dealed always as unicode so by default NativeConvert 
-	// behaves at the old way. In order to NativeConvert correctly DataText basing on
-	// single column TEXT/NTEXT declaration the pRowSet is needed to inspect catalog 
-	// information. 
-	if (pDataObj->GetDataType() == DATA_TXT_TYPE && pRowSet)
-	{
-		SqlBindingElem* pBindElem = pRowSet->m_pColumnArray->GetElemByDataObj(pDataObj);
-		if (pBindElem)
-			return m_pProviderInfo->NativeConvert(pDataObj, pBindElem->IsUnicodeInDB());
+	TRY
+	{ 
+		GetDefaultSqlSession()->m_pSession->LoadSchemaInfo(_T("Tables"), pTables);
 	}
-
-	// default behaviour
-	return m_pProviderInfo->NativeConvert(pDataObj);
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
 }
 
 
 //-----------------------------------------------------------------------------
-DBMSType SqlConnection::GetDBMSType() const
+void SqlConnection::LoadProcedures(::CMapStringToOb* pTables)
 {
-	return m_pProviderInfo->m_eDbmsType;
+	TRY
+	{ 
+		GetDefaultSqlSession()->m_pSession->LoadSchemaInfo(_T("Procedures"), pTables);
+	}
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
 }
+
+
+//-----------------------------------------------------------------------------
+void SqlConnection::LoadProcedureParametersInfo(const CString& strProcName, ::Array* pProcedureParams)
+{
+	TRY
+	{ 
+		GetDefaultSqlSession()->m_pSession->LoadProcedureParametersInfo(strProcName, pProcedureParams);
+	}
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
+}
+
+//-----------------------------------------------------------------------------
+void SqlConnection::LoadColumnsInfo(const CString&  strTableName, ::Array* arPhisycalColumns)
+{
+	TRY
+	{ 
+		GetDefaultSqlSession()->m_pSession->LoadColumnsInfo(strTableName, arPhisycalColumns);
+	}
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlConnection::LoadForeignKeys(const CString& sFromTableName, const CString& sToTableName, BOOL bLoadAllToTables, CStringArray* pFKReader)
+{
+	TRY
+	{
+		GetDefaultSqlSession()->m_pSession->LoadForeignKeys(sFromTableName, sToTableName, bLoadAllToTables, pFKReader);
+	}
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
+}
+
+
 
 // dato il nome fisico della tabella verifica se la tabella è vuota o meno
 //-----------------------------------------------------------------------------
@@ -1172,7 +1108,7 @@ long SqlConnection::RecordCountNumber(const CString& strTableName)
 	SqlTable aTable(GetDefaultSqlSession());
 
 	aTable.m_strSQL = cwsprintf (_T("SELECT COUNT(*) FROM %s"), (LPCTSTR)strTableName);
-	aTable.m_pColumnArray->Add(_T("COUNT(*)"), &aCount, GetSqlDataType(DATA_LNG_TYPE), nEmptySqlRecIdx);
+	aTable.Select(_T("COUNT(*)"), &aCount);
 	TRY
 	{
 		aTable.Open();
@@ -1204,13 +1140,7 @@ void SqlConnection::RefreshTraces ()
 //-----------------------------------------------------------------------------
 BOOL SqlConnection::IsAlive () const 	
 {
-	USES_CONVERSION;
-	CComVariant var;		
-
-	if (SUCCEEDED(m_pDataSource->GetProperty(DBPROPSET_DATASOURCEINFO, DBPROP_CONNECTIONSTATUS, &var)))
-		return var.lVal == DBPROPVAL_CS_INITIALIZED;
-
-	// if GetProperty fails, default is ok
+	ThrowSqlException(_T(" SqlConnection::IsAlive method to implements"));
 	return TRUE;
 }
 
@@ -1291,7 +1221,8 @@ void SqlConnectionPool::SetPrimaryConnection(SqlConnection* pConnection)
 {
 	if (!pConnection)
 		return;
-	
+
+	pConnection->m_strAlias = _T("PRIMARY");
 	m_nPrimaryConnection = Add(pConnection);
 }
 
@@ -1304,16 +1235,17 @@ SqlConnection* SqlConnectionPool::GetPrimaryConnection()
 	return NULL;
 }
 
-////-----------------------------------------------------------------------------
-//SqlConnection* SqlConnectionPool::GetFirstActiveConnection (const CString& strServerName,
-//																  const CString& strDBName)
-//{
-//	for (int i = 0; i < GetSize(); i++)
-//	{
-//		if ((GetAt(i)->m_strDBName.CompareNoCase(strDBName) == 0) &&
-//			(GetAt(i)->m_strServerName.CompareNoCase(strServerName) == 0))
-//			return GetAt(i);
-//	}
-//
-//	return NULL;
-//}
+//-----------------------------------------------------------------------------
+SqlConnection* SqlConnectionPool::GetSqlConnectionByAlias(const CString& strAlias)
+{
+	SqlConnection* pConnection = NULL;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		pConnection = GetAt(i);
+		if (pConnection && pConnection->GetAlias().CompareNoCase(strAlias) == 0)
+			return pConnection;
+	}
+
+	return NULL;
+}
+

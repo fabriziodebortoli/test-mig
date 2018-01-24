@@ -13,7 +13,7 @@ namespace Microarea.Common.NameSolver
     //=========================================================================
     public class DBObjects : IDBObjects
 	{
-		private IBaseModuleInfo parentModuleInfo;
+		private ModuleInfo parentModuleInfo;
 
 		protected List<IDbObjectInfo> tableInfoList;
 		protected List<IDbObjectInfo> viewInfoList;
@@ -22,7 +22,7 @@ namespace Microarea.Common.NameSolver
 
 		// Properties
 		//--------------------------------------------------------------------------------
-		public IBaseModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
+		public ModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
 
 		// Liste delle tabelle, view, procedure, additionalColumns
 		//--------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace Microarea.Common.NameSolver
 		public List<IAddOnDbObjectInfo> ExtraAddedColsList	{ get { return extraAddedColsList; } }
 
 		//--------------------------------------------------------------------------------
-		public DBObjects(IBaseModuleInfo parentModuleInfo)
+		public DBObjects(ModuleInfo parentModuleInfo)
 		{
 			this.parentModuleInfo = parentModuleInfo;
 			tableInfoList = new List<IDbObjectInfo>();
@@ -54,7 +54,7 @@ namespace Microarea.Common.NameSolver
 	{
 		private XmlDocument myDocument = new XmlDocument();
 
-		private IBaseModuleInfo parentModuleInfo;
+		private ModuleInfo parentModuleInfo;
 
 		protected List<IDbObjectInfo> tableInfoList;
 		protected List<IDbObjectInfo> viewInfoList;
@@ -63,7 +63,7 @@ namespace Microarea.Common.NameSolver
 
 		// Properties
 		//--------------------------------------------------------------------------------
-		public IBaseModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
+		public ModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
 
 		// Liste delle tabelle, view, procedure, additionalColumns
 		//--------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ namespace Microarea.Common.NameSolver
 		/// Costruttore
 		///</summary>
 		//---------------------------------------------------------------------
-		public DBObjectInfo(IBaseModuleInfo parentModuleInfo)
+		public DBObjectInfo(ModuleInfo parentModuleInfo)
 		{
 			this.parentModuleInfo = parentModuleInfo;
 
@@ -92,12 +92,12 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		public bool ParseObjectsFromFile(string filePath)
 		{
-			if (!File.Exists(filePath))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
 				return false;
 
 			try
 			{
-				myDocument.Load(File.OpenRead(filePath));
+                myDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(myDocument, filePath);
 
 				// check nome root
 				if (string.Compare(myDocument.DocumentElement.Name, DBObjectXML.Element.RootElement, StringComparison.OrdinalIgnoreCase) != 0)

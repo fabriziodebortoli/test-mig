@@ -10,7 +10,7 @@ namespace Microarea.Common.StringLoader
 		
 		//--------------------------------------------------------------------------------
 		public DatabaseLocalizer(string tableName)
-			: this(tableName, BasePathFinder.BasePathFinderInstance.GetDictionaryFilePathFromTableName(tableName))
+			: this(tableName, PathFinder.PathFinderInstance.GetDictionaryFilePathFromTableName(tableName))
 		{
 		}
 

@@ -596,27 +596,25 @@ namespace Microarea.AdminServer.Controllers.Helpers.Database
 		//---------------------------------------------------------------------------
 		private static void AddConfiguration(PathFinder pf, string appName, string modName, ref List<string> configList, string configType, string iso)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			string standardDir =(configType.CompareTo(NameSolverStrings.Default) == 0)
 				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetStandardDataManagerSamplePath(appName, modName, iso));
+				: pf.GetStandardDataManagerSamplePath(appName, modName, iso);
 
-			// da decidere se la Custom andra' sempre caricata
-			DirectoryInfo customDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+            // da decidere se la Custom andra' sempre caricata
+            string customDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
 				? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetCustomDataManagerSamplePath(appName, modName, iso));
+				: pf.GetCustomDataManagerSamplePath(appName, modName, iso);
 
 			StringCollection tempList = new StringCollection();
 
-			if (customDir.Exists)
-				foreach (DirectoryInfo dir in customDir.GetDirectories())
-					tempList.Add(dir.Name);
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(customDir))
+				foreach (TBDirectoryInfo dir in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(customDir))
+					tempList.Add(dir.name);
 
-			if (standardDir.Exists)
-				foreach (DirectoryInfo dir in standardDir.GetDirectories())
-					if (!tempList.Contains(dir.Name))
-						tempList.Add(dir.Name);
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(standardDir))
+				foreach (TBDirectoryInfo dir in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(standardDir))
+					if (!tempList.Contains(dir.name))
+						tempList.Add(dir.name);
 
 			foreach (string dirName in tempList)
 				if (!configList.Contains(dirName))

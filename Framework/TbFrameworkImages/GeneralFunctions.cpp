@@ -8,6 +8,7 @@
 #include	<TbNameSolver\PathFinder.h>
 #include	<TbNameSolver\LoginContext.h>
 #include	<TbNameSolver\FileSystemFunctions.h>
+#include	<TbNameSolver\IFileSystemManager.h>
 
 //	local	declarations
 #include	"CommonImages.h"	
@@ -332,39 +333,45 @@ Gdiplus::Bitmap* LoadPNG(CString sImgName, BOOL forceLoad)
 	if (AfxIsRemoteInterface() && !forceLoad)
 		return NULL;
 
-	CFile imgFile;
-	CFileException fileExc;
-
-	if (!imgFile.Open(sImgName, CFile::modeRead|CFile::shareDenyNone, &fileExc))
-	{
-		return NULL;
-	}
-
+	BYTE* temp = NULL;
 	COleStreamFile stream;
 	if (!stream.CreateMemoryStream(NULL))
-	{
 		return NULL;
+
+	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
+	if (pFileSystemManager && pFileSystemManager->IsManagedByAlternativeDriver(sImgName))
+	{
+		int nFileLen = 0;
+		temp = pFileSystemManager->GetBinaryFile(sImgName, nFileLen);
+		if (temp != NULL && nFileLen > 0)
+			stream.Write(temp, nFileLen);	
 	}
+	else
+	{
 
-	int nFileLen = (int)imgFile.GetLength();
-	BYTE* temp = new BYTE[nFileLen];
-	int nRead = 0;
+		CFile imgFile;
+		CFileException fileExc;
+		if (!imgFile.Open(sImgName, CFile::modeRead | CFile::shareDenyNone, &fileExc))
+			return NULL;
 
-	nRead = imgFile.Read(temp, nFileLen);
-	stream.Write(temp, nRead);
-
-	imgFile.Close();
-
-	stream.SeekToBegin();
-
+		int nFileLen = (int)imgFile.GetLength();
+		temp = new BYTE[nFileLen];
+		int nRead = 0;
+		nRead = imgFile.Read(temp, nFileLen);
+		stream.Write(temp, nRead);
+		imgFile.Close();
+	}
 	Gdiplus::Bitmap* pImg = NULL;
-
-	pImg = Gdiplus::Bitmap::FromStream(stream.GetStream());
-
-	delete temp;
-
-	stream.Close();
-
+	if (stream.GetLength() > 0)
+	{
+		stream.SeekToBegin();
+		pImg = Gdiplus::Bitmap::FromStream(stream.GetStream());
+	}
+	
+	if (temp)
+		delete temp;
+	
+	stream.Close();	
 	return pImg;
 
 }
@@ -699,6 +706,41 @@ Gdiplus::Bitmap* LoadGdiplusBitmapOrPng(CString strImageNS, BOOL bUseColoredImag
 	}
 
 	return NULL;
+}
+//----------------------------------------------------------------------------
+Gdiplus::Bitmap* LoadGdiplusBitmapOrPngFromFile(CString strFileName)
+{
+	if (strFileName.IsEmpty())
+		return NULL;
+	
+	BYTE* temp = NULL;
+	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
+	if (pFileSystemManager && pFileSystemManager->IsManagedByAlternativeDriver(strFileName))
+	{
+		int nFileLen = 0;
+		Gdiplus::Bitmap* pImg = NULL;
+		temp = pFileSystemManager->GetBinaryFile(strFileName, nFileLen);		
+		if (temp && nFileLen > 0)
+		{
+			COleStreamFile stream;
+			if (!stream.CreateMemoryStream(NULL))
+				return NULL;
+			stream.Write(temp, nFileLen);
+			if (stream.GetLength() > 0)
+			{
+				stream.SeekToBegin();
+				pImg = Gdiplus::Bitmap::FromStream(stream.GetStream());
+			}
+		}
+		if (temp)
+			delete temp;
+		return pImg;
+	}
+	else
+		if (::ExistFile(strFileName))
+			return  Gdiplus::Bitmap::FromFile(strFileName);
+
+	return NULL;	
 }
 
 //----------------------------------------------------------------------------

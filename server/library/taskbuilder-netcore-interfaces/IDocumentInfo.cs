@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace TaskBuilderNetCore.Interfaces
 {
@@ -16,10 +17,18 @@ namespace TaskBuilderNetCore.Interfaces
 		string Title { get; }
 		string Description { get; }
 		IList ViewModes { get; }
-
-		bool IsBatch { get; set; }
+        bool IsDynamic { get; set; }
+        bool IsBatch { get; set; }
 		bool IsFinder { get; set; }
 		bool IsDataEntry { get; set; }
 		bool IsSchedulable { get; set; }
+        List<IDocumentInfoComponent> Components { get; }
 	}
+
+    //=========================================================================
+    public interface IDocumentInfoComponent
+    {
+        INameSpace NameSpace { get; }
+        string Activation { get; set; }
+    }
 }

@@ -37,6 +37,7 @@ protected:
 	SqlRecord*		m_pOldRecord;
 	SqlTable*		m_pTable;
 	CBaseDocument*	m_pDocument;
+	BOOL			m_bOnlyOneRecord;
 	
 public:
 	// pClass è il puntatore alla CRuntimeClass del record che viene gestito 
@@ -78,12 +79,6 @@ public:
 	// connessione che prevede l'utilizzo delle transazioni
 	// tale istruzione deve essere utilizzata con molta ATTENZIONE									
 	void	SetAutocommit(); 
-
-	//Per l'OSLActivityMonitor
-	GUID	GetOslTransactionId		();
-	CString	GetOslTransactionNote	();
-	void	SetOslTransactionId		(const GUID& g = NULL_GUID);
-	void	SetOslTransactionNote	(LPCTSTR pszNote = _T(""));
 
 	void	AttachDocument	(CBaseDocument*	pDocument)	{ ASSERT(m_pDocument == NULL); m_pDocument = pDocument; }
 	void	SetSqlSession	(SqlSession* pSession);
@@ -131,6 +126,7 @@ public:
 		:
 		TableUpdater(pClass, pDocument, pDiagnostic)
 	{
+		m_bOnlyOneRecord = FALSE;
 	}
 
 	RowsetUpdater
@@ -142,6 +138,7 @@ public:
 		:
 		TableUpdater(sTableName, pDocument, pDiagnostic)
 	{
+		m_bOnlyOneRecord = FALSE;
 	}
 
 	//@@TODO Bauzi + Rinaldi cambiare il tipo di cursore per ottimizzazioni performance

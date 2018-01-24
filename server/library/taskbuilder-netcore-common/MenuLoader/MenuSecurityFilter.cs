@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Data.SqlClient;
 using Microarea.Common.Generic;
-using Microarea.Common.SecurityLayer.SecurityLightObjects;
+using Microarea.Common.SecurityLayer.SecurityObjects;
 
 namespace Microarea.Common.MenuLoader
 {

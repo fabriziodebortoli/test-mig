@@ -40,6 +40,7 @@ namespace Microarea.Common.MenuLoader
 					int nMenuRows = mgmenu.ExistMenu(Int32.Parse(LoginId), Int32.Parse(CompanyId));
 					if (nMenuRows > -1)
 					{
+                        //Lara
 						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user);
 						if (pInfo != null && nMenuRows > 0)
 							return null;
@@ -108,15 +109,16 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken, bool clearCachedData)
 		{
-			string originalStandardFile = MenuInfo.GetFullMenuCachingFullFileName(user);
-			FileInfo originalStandardFileInfo = new FileInfo(originalStandardFile);
+            
+        	string originalStandardFile = MenuInfo.GetFullMenuCachingFullFileName(user); 
+            FileInfo originalStandardFileInfo = new FileInfo(originalStandardFile);
 
-			if (originalStandardFileInfo.Exists)
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(originalStandardFile))
 			{
 				string result = File.ReadAllText(originalStandardFileInfo.FullName);
 				try
 				{
-					File.Delete(originalStandardFileInfo.FullName);
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(originalStandardFileInfo.FullName);
 				}
 				catch (Exception)
 				{
@@ -354,8 +356,8 @@ namespace Microarea.Common.MenuLoader
 
 			try
 			{
-				string installationPath = BasePathFinder.BasePathFinderInstance.GetStandardPath() + Path.DirectorySeparatorChar;
-				return BasePathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(imageNamespace)).Replace(installationPath, "");
+				string installationPath = PathFinder.PathFinderInstance.GetStandardPath + NameSolverStrings.Directoryseparetor;
+				return PathFinder.PathFinderInstance.GetImagePath(new NameSpace(imageNamespace)).Replace(installationPath, "");
 			}
 			catch
 			{
@@ -503,6 +505,7 @@ namespace Microarea.Common.MenuLoader
 			userInfoCompany = null;
 			version = null;
 
+            //Lara
 			XmlDocument xDoc = new XmlDocument();
 			xDoc.LoadXml(LoginManager.LoginManagerInstance.GetUserInfo());
 			XmlNode node = xDoc.SelectSingleNode("//Name");
@@ -615,11 +618,11 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(loginManagerSession.DbName);
 
 					jsonWriter.WritePropertyName("installation");
-					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation);
+					jsonWriter.WriteValue(PathFinder.PathFinderInstance.Installation);
 					jsonWriter.WritePropertyName("remotefileserver");
-					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteFileServer);
+					jsonWriter.WriteValue(PathFinder.PathFinderInstance.RemoteFileServer);
 					jsonWriter.WritePropertyName("remotewebserver");
-					jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.RemoteWebServer);
+					jsonWriter.WriteValue(PathFinder.PathFinderInstance.RemoteWebServer);
 
 					jsonWriter.WritePropertyName("security");
 					jsonWriter.WriteValue(loginManagerSession.Security ? MenuStrings.Enabled : MenuStrings.Disabled);
@@ -677,7 +680,7 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteValue(session != null);
 
 				jsonWriter.WritePropertyName("installationName");
-				jsonWriter.WriteValue(BasePathFinder.BasePathFinderInstance.Installation); ////jsonWriter.WriteString(_T("installationName"), AfxGetPathFinder()->GetInstallationName());
+				jsonWriter.WriteValue(PathFinder.PathFinderInstance.Installation); ////jsonWriter.WriteString(_T("installationName"), AfxGetPathFinder()->GetInstallationName());
 
                 jsonWriter.WritePropertyName("activationState");
                 jsonWriter.WriteValue(LoginManager.LoginManagerInstance.GetActivationStateInfo());
@@ -692,14 +695,14 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("Applications");
 				jsonWriter.WriteStartArray();
 				
-                BasePathFinder.BasePathFinderInstance.GetApplicationsList(ApplicationType.TaskBuilder | ApplicationType.TaskBuilderApplication, out StringCollection apps);
-                BrandLoader brand = new BrandLoader();
+				PathFinder.PathFinderInstance.GetApplicationsList(ApplicationType.All, out StringCollection apps);
+			    BrandLoader brand = new BrandLoader();
 
-                foreach (string app in apps)
-                {
-                    IBaseApplicationInfo appInfo = BasePathFinder.BasePathFinderInstance.GetApplicationInfoByName(app);
-                    //appInfo.Name
 
+              foreach (string app in apps)
+				{
+					ApplicationInfo appInfo = PathFinder.PathFinderInstance.GetApplicationInfoByName(app);
+					//appInfo.Name
                     if (appInfo.Modules.Count <= 0)
                         continue;
 
@@ -707,7 +710,7 @@ namespace Microarea.Common.MenuLoader
                     if (!enumerator.MoveNext())
                         continue;
 
-                    IBaseModuleInfo firstModule = enumerator.Current as IBaseModuleInfo;
+                    ModuleInfo firstModule = enumerator.Current as ModuleInfo;
                     if (firstModule == null)
                         continue;
                     string sActive = session != null && session.IsActivated(appInfo.Name, firstModule.Name)
@@ -876,6 +879,7 @@ namespace Microarea.Common.MenuLoader
 			_loginId = Int32.Parse(loginid);
 			_CompanyId = Int32.Parse(companyid);
 
+            //Lara
 			_doc = new XmlDocument();
 			_doc.LoadXml(xmldoc);
 
@@ -953,8 +957,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					string dirPath = Path.GetDirectoryName(_logfile);
-					if (!Directory.Exists(dirPath))
-						Directory.CreateDirectory(dirPath);
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
 					sw = File.AppendText(_logfile);
 				}
 				catch (Exception ex)
@@ -1057,8 +1061,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					string dirPath = Path.GetDirectoryName(_logfile);
-					if (!Directory.Exists(dirPath))
-						Directory.CreateDirectory(dirPath);
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
 					sw = File.AppendText(_logfile);
 				}
 				catch (Exception ex)

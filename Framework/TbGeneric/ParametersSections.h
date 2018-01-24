@@ -98,12 +98,8 @@ extern const TB_EXPORT CTBNamespace snsTbGes;
 
 extern const TB_EXPORT CTBNamespace snsTbOleDb;
 extern const TB_EXPORT TCHAR szConnectionSection[];
-extern const TB_EXPORT TCHAR szHKLTableReaderCursor[];
-extern const TB_EXPORT TCHAR szROForwardTableCursor[];
-extern const TB_EXPORT TCHAR szROScrollTableCursor[];
 extern const TB_EXPORT TCHAR szDebugSqlTrace[];
 extern const TB_EXPORT TCHAR szEnableEventViewerLog[];
-extern const TB_EXPORT TCHAR szReadTraceColumnsAfterUpdate[];
 
 extern const TB_EXPORT TCHAR szDataCaching[];					// Caching
 extern const TB_EXPORT TCHAR szOptimizeHotLinkQuery[];
@@ -121,6 +117,7 @@ extern const TB_EXPORT TCHAR szRecoverySystemRetries[];
 extern const TB_EXPORT TCHAR szRecoverySystemRetriesInterval[];
 
 extern const TB_EXPORT TCHAR szLockManager[];					// LockManager
+extern const TB_EXPORT TCHAR szUseOptimisticLock[];
 extern const TB_EXPORT TCHAR szDisableLockRetry[];
 extern const TB_EXPORT TCHAR szDisableBeep[];
 extern const TB_EXPORT TCHAR szDisableBatchBeep[];

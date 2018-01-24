@@ -21,16 +21,31 @@ static const TCHAR szXmlDriverKey[]			= _T("/FileSystemManager/Driver");
 static const TCHAR szXmlCachingKey[]			= _T("/FileSystemManager/Caching");
 static const TCHAR szXmlPerformanceCheckKey[]	= _T("/FileSystemManager/PerformanceCheck");
 static const TCHAR szXmlWebServiceDriverKey[]	= _T("/FileSystemManager/WebServiceDriver");
+static const TCHAR szXmlFileSystemDriverKey[] = _T("/FileSystemManager/FileSystemDriver");
+static const TCHAR szXmlDatabaseDriverKey[] = _T("/FileSystemManager/DatabaseDriver");
+
 static const TCHAR szXmlDriverTag[]			= _T("Driver");
 static const TCHAR szXmlCachingTag[]			= _T("Caching");
 static const TCHAR szXmlPerformanceCheckTag[]	= _T("PerformanceCheck");
 static const TCHAR szXmlWebServiceDriverTag[]	= _T("WebServiceDriver");
+static const TCHAR szXmlFileSystemDriverTag[] = _T("FileSystemDriver");
 static const TCHAR szXmlEnabled[]				= _T("enabled");
 static const TCHAR szXmlValue[]				= _T("value");
 static const TCHAR szXmlAutodetect[]			= _T("autodetect");
 static const TCHAR szXmlPort[]				= _T("port");
 static const TCHAR szXmlService[]				= _T("service");
 static const TCHAR szXmlNamespace[]			= _T("namespace");
+
+static const TCHAR szXmlFSDriverTag[]		= _T("FileSystemDriver");
+static const TCHAR szXmlInstance[]			= _T("instance");
+static const TCHAR szXmlServer[]			= _T("server");
+static const TCHAR szXmlStandardPath[]		= _T("standardpath");
+static const TCHAR szXmlCustomPath[]		= _T("custompath");
+
+static const TCHAR szXmlDBDriverTag[]		= _T("DatabaseDriver");
+static const TCHAR szXmlStandardConnectionString[] = _T("standardconnectionstring");
+
+
 
 static const TCHAR szXmlTrueValue[]			= _T("True");
 static const TCHAR szXmlFalseValue[]			= _T("False");
@@ -60,6 +75,9 @@ void CFileSystemManagerContent::OnBindParseFunctions ()
 	BIND_PARSE_ATTRIBUTES	(szXmlCachingKey,			&CFileSystemManagerContent::ParseCaching);
 	BIND_PARSE_ATTRIBUTES	(szXmlPerformanceCheckKey,	&CFileSystemManagerContent::ParsePerformanceCheck);
 	BIND_PARSE_ATTRIBUTES	(szXmlWebServiceDriverKey ,	&CFileSystemManagerContent::ParseWebServiceDriver);
+	BIND_PARSE_ATTRIBUTES	(szXmlFileSystemDriverKey,	&CFileSystemManagerContent::ParseFileSystemDriver);
+	BIND_PARSE_ATTRIBUTES	(szXmlDatabaseDriverKey,	&CFileSystemManagerContent::ParserDatabaseDriverKey);
+	
 }
 
 //------------------------------------------------------------------------------
@@ -152,6 +170,52 @@ int CFileSystemManagerContent::ParseWebServiceDriver (const CString& sUri, const
 	return CXMLSaxContent::OK;
 }
 
+
+//------------------------------------------------------------------------------
+int CFileSystemManagerContent::ParseFileSystemDriver(const CString& sUri, const CXMLSaxContentAttributes& arAttributes)
+{
+	if (!m_pConfigInfo)
+		return CXMLSaxContent::ABORT;
+
+	if (!arAttributes.GetSize())
+		return CXMLSaxContent::OK;
+
+	CString sTmp = arAttributes.GetAttributeByName(szXmlInstance);
+
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_sFSInstanceName = sTmp;
+
+	sTmp = arAttributes.GetAttributeByName(szXmlServer);
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_sFSServerName = sTmp.Trim();
+
+	sTmp = arAttributes.GetAttributeByName(szXmlStandardPath);
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_sFSStandardPath = sTmp.Trim();
+
+	sTmp = arAttributes.GetAttributeByName(szXmlCustomPath);
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_sFSCustomPath = sTmp.Trim();
+
+	return CXMLSaxContent::OK;
+}
+
+
+//----------------------------------------------------------------------------
+int CFileSystemManagerContent::ParserDatabaseDriverKey(const CString& sUri, const CXMLSaxContentAttributes& arAttributes)
+{
+	if (!m_pConfigInfo)
+		return CXMLSaxContent::ABORT;
+
+	if (!arAttributes.GetSize())
+		return CXMLSaxContent::OK;
+	CString sTmp = arAttributes.GetAttributeByName(szXmlStandardConnectionString);
+
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_strStandardConnectionString = sTmp;
+
+	return CXMLSaxContent::OK;
+}
 
 //=============================================================================
 //							CFileSystemManagerInfo
@@ -273,6 +337,14 @@ const BOOL CFileSystemManagerInfo::SaveFile ()
 	// Performance Check
 	pNewNode = pRoot->CreateNewChild (szXmlPerformanceCheckTag);
 	pNewNode->SetAttribute	(szXmlEnabled, (LPCTSTR) m_bEnablePerformanceCheck ? szXmlTrueValue : szXmlFalseValue);
+
+
+	// File System Driver
+	pNewNode = pRoot->CreateNewChild(szXmlFileSystemDriverTag);
+	pNewNode->SetAttribute(szXmlInstance,	(LPCTSTR)m_sFSInstanceName);
+	pNewNode->SetAttribute(szXmlServer,		(LPCTSTR)m_sFSServerName);
+	pNewNode->SetAttribute(szXmlStandardPath,(LPCTSTR)m_sFSStandardPath);
+	pNewNode->SetAttribute(szXmlCustomPath,	(LPCTSTR)m_sFSCustomPath);
 
 	const rsize_t nLen = 5;
 	TCHAR szBuffer [nLen];

@@ -358,10 +358,9 @@ public:	//	Data Member
 	/*TBWebMethod*/virtual SqlSession*		GetUpdatableSqlSession  () ;
 	virtual SqlConnection*	GetSqlConnection		() ;
 
+	virtual void ConnectToDatabase(LPCTSTR pszActionName = NULL); //permette al documento di connettersi al DB. Il parametro serve per totalizzare il tempo relativo all'azione passata 
+	virtual void DisconnectFromDatabase();
 
-	//per compatibilità con la versione WEB
-	virtual void ConnectToDatabase(LPCTSTR = NULL) {}
-	virtual void DisconnectFromDatabase() {}
 
 
 	BEGIN_TB_STRING_MAP(QueryNames)
@@ -388,8 +387,6 @@ public:		// constructors
 	
 private:	
 	CString GetDocumentObjectCaption();
-	// Data Caching Management
-	void SetDataCacheStatus		();
 	BOOL TranslateDataSourceAlias(CString& sDataSource);
 	BOOL TranslateFieldAlias(const CString& sActualDataSource, CString& sField);
 	BOOL TranslateAlias(CString& sAlias);

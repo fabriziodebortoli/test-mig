@@ -9,6 +9,7 @@
 #include <tbgeneric\localizableobjs.h>
 #include <tbgeneric\webservicestateobjects.h>
 #include <TbGenlib\diagnosticmanager.h>
+#include <TBOleDB\OleDbMng.h>
 
 #include "DocumentThread.h"
 #include "LoginThread.h"
@@ -228,6 +229,9 @@ CDocument* CDocumentThread::OpenDocument()
 	{
 		USES_CONVERSION;
 		SetThreadName(T2A(((CSingleExtDocTemplate*)m_pOriginalTemplate)->GetNamespace().ToString()));
+		if (m_pInfo && m_pInfo->GetSqlConnection())
+			 AfxSetDefaultSqlConnection(m_pInfo->GetSqlConnection());
+
 	}
 
 	CSingleExtDocTemplate *pNewTemplate = new CSingleExtDocTemplate((CSingleExtDocTemplate*)m_pOriginalTemplate, m_pInfo);

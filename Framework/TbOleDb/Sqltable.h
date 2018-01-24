@@ -10,6 +10,9 @@
 #include "sqlconnect.h"
 #include "performanceanalizer.h"
 
+#include <TbDatabaseManaged\SqlBindingObjects.h>
+#include <TbDatabaseManaged\MSqlConnection.h>
+
 //includere alla fine degli include del .H
 #include "beginh.dex"
 
@@ -46,9 +49,6 @@
 				class SqlSession;
 		class DataObj;
 		class SqlRecord;   	// Single Data Row
-	
-	//CCommand<CManualAccessor>
-		class ATLCommand; //x evitare di includere gli h di atl
 
 	// CDocument
 		class CBaseDocument;
@@ -70,6 +70,9 @@ TB_EXPORT void AFXAPI TraceError			(LPCTSTR szTrace);
 #define UPDATE_FAILED		0   // update fallita
 #define UPDATE_SUCCESS		1	// update eseguita con successo
 #define UPDATE_NO_DATA		2	// updaate non eseguita. Il record non era stato modificato
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 //						class SqlRowSet
@@ -101,26 +104,24 @@ public:
 	CString						m_strSelect;   	 	// Select-Update-Delete clause   
 	CString						m_strFilter;   	 	// Where clause
 
-protected:
-	long						m_lRowCount;
+	//per la parte di update/delete con il lock ottimistico
+	CString						m_strFilterKeys;
+	CString						m_strFilterOldValues;
 
 protected:
-	ATLCommand*	m_pRowSet;	
+	MSqlCommand*	m_pRowSet;
 	BOOL m_bScrollable;
 	BOOL m_bUpdatable;
-	BOOL m_bSensitivity;
-	BOOL m_bRemoveDeletedRow; ////Improvement #4620: per un problema di performance si è deciso di porre la sensitivity == FALSE sia per la query
-	//di browse sia per la query personalizzata dall'utente attraverso il Barquery (anche radar);. 
-	//Per certi casi (vedi View, GroupBy e funzioni di SUM, COUNT, MAX etc etc) non deve essere impostata alcuna visibility mentre normalmente può
-	//essere impostata la sola proprietà di 
-	//per ovviare ai problemi relativi alla cancellazione dei record (vedi anomalia: ) è stato necessario creare un parametro 
 	BOOL m_bInit;
 	BOOL m_bErrorFound;	// se ci sono degli errori in fase di costruzione della query
 						// se TRUE non devo eseguire la query
 	CString m_strErrorFound;	// descrizione dell'errore
 							
 	CursorType m_eCursorType;
-	BOOL m_bOwnSqlSession; //x i cursori forward viene creata una nuova sessione di lavoro
+	//paging
+	int			m_nPageSize;
+
+	
 
 public:
 	SqlRowSet();
@@ -130,31 +131,21 @@ public:
 private:
 	void Initialize();
 
-	//per incapsulare i metodi della classe atl CCommand. Tali metodi sono usati da SqlAccessor
-	BOOL IsNull() const;
-	HRESULT CreateAccessor(int, void*, ULONG);
-	HRESULT CreateParameterAccessor(int, void*, ULONG);
-	void AddParameterEntry(ULONG, WORD, ULONG, void*, void*, void*, DWORD);
-	void AddBindEntry(ULONG, WORD, ULONG, void*, void*, void*);
-	HRESULT SetParameterInfo(ULONG, const ULONG*, void*);
-	void CreateStreamObject(int);
-	void CreateParamStreamObject(int);
-
 public: 
 	virtual	void Open
-					(
-						BOOL bUpdatable = FALSE,   // é un rowset su cui verranno effettuate operazioni di insert/update/delete
-						BOOL bScrollable = FALSE,  // é un rowset con un cursore di tipo forward-only
-						BOOL bSensitivity= TRUE    // é un rowset aggiornato dinamicamente con le modifiche effettuate sul database (in base al tipo poi di cursore richiesto)						
-					);
+	(
+		BOOL bUpdatable = FALSE,   // é un rowset su cui verranno effettuate operazioni di insert/update/delete
+		BOOL bScrollable = FALSE	// se TRUE un rowset con un cursore scrollabile altrimenti forward-only
+	);
+	virtual void Open(BOOL bUpdatable, CursorType eCursorType);
 
-	virtual void Open(BOOL bUpdatable, CursorType eCursorType, BOOL bSensitivity = TRUE);
+	virtual void Connect(); //serve solo per connettere il SqlCommand alla connessione
+	virtual void Disconnect(); //serve solo per disconnettere il SqlCommand dalla connessione
 
 	virtual void Close();
-	virtual void SetProperties(); 
 	virtual void SetSqlSession(SqlSession*);
 	virtual void Invalidate() {}
-	virtual BOOL FixupColumns();	
+	virtual void FixupColumns();
 
 
 	virtual ::DBMSType GetDBMSType () const;
@@ -171,15 +162,16 @@ public:
 			}
 	
 	BOOL IsOpen() const;
+	BOOL IsConnected() const;
+
 	void ClearParams();
 	void ClearColumns();
 	BOOL ExistParam			(const CString& strParamName) const;
 	// Params management helper functions
-	void	AddParam		(const CString& strParamName, const DataObj& aDataObj, const DBPARAMIO& eType = DBPARAMIO_INPUT, int nInsertPos = -1);
-	void	AddParam		(const int& nParamIdx, const DataObj& aDataObj, const DBPARAMIO& eType = DBPARAMIO_INPUT);
-	void	AddParam		(const CString& strParamName, const DataType& nDataType, const DBLENGTH& nLen, const DBPARAMIO& eType = DBPARAMIO_INPUT, const CString& strColumnName = _T(""), int nInsertPos = -1);
+	void	AddParam		(const CString& strParamName, const DataObj& aDataObj, SqlParamType eParamType = Input, int nInsertPos = -1);
+	void	AddParam		(const CString& strParamName, const DataType& nDataType, const int nLen, SqlParamType eParamType = Input, const SWORD nSqlDataType = DBTYPE_EMPTY, const CString& strColumnName = _T(""), int nInsertPos = -1);
 	//per aggiungere un parametro su un campo DataText è necessario indicare anche il nome della colonna su cui viene effettuato il filtro
-	void	AddDataTextParam(const CString& strParamName, const DataObj& aDataObj, const CString& strColumnName, const DBPARAMIO& eType = DBPARAMIO_INPUT);
+	void	AddDataTextParam(const CString& strParamName, const DataObj& aDataObj, const CString& strColumnName, SqlParamType eParamType = Input);
 
 		//per i parametri di una stored procedure
 	void	AddProcParam	(SqlProcedureParamInfo*	pParamInfo, DataObj* pDataObj);
@@ -191,39 +183,56 @@ public:
 
 	// Routines utili per ricostruire i DataObj a partire dai parametri
 	void		GetParamValue	(const CString& strParamName, DataObj* pDataObj) const;
-	DataType	GetParamType	(const CString& strParamName) const;
 	void		GetParamValue	(int nPos, DataObj* pDataObj) const;
 	DataType	GetParamType	(int nPos) const;
+
 	CursorType GetCursorType() const { return m_eCursorType; }
 
-	long		GetRowSetCount() const { return m_lRowCount; }
+	long		GetRowSetCount();
+	
 
 protected:
-	void	OpenRowSet		(DBROWCOUNT* pRowsAffected = NULL);
-	void	ClearRowSet		();
+	void	ClearRowSet();
+	BOOL	IsNull() const;
+
+	void SubstituteQuestionMarks(CString& strSQL); //sostituisce i vecchi ? con @nomeParam
 
 	//gestione esecuzione query
-	HRESULT Prepare				();
 	BOOL	BindParameters		();
 	BOOL	BindColumns			();
-	
-	BOOL	InitBuffer		();
-	BOOL	FixupBuffer		();
-	BOOL	FixupParameters	();
+	void	InitColumns			();
+	BOOL	FixupParameters		();
 
-	BOOL	Check(HRESULT); 
-	void	GetErrorString	(HRESULT hResult, CString& strError);
-	
+	//lasciato per compatibilità (serve per far compilare ERP nella versione Desktop)
+	HRESULT Prepare();
+
+	//lasciato per compatibilità con il passato (serve per ERP Desktop)
+	void	OpenRowSet() { ExecuteNonQuery(); }
+	void	ExecutePagingCommand(MoveType eMoveType = E_MOVE_FIRST);
 
 public:
-
-	void SubstituteQuestionMarks(CString& strSQL);
-	void ExecuteQuery(LPCTSTR lpszSQL);
+	//esecuzione del comando
+	void	ExecuteCommand();
+	int		ExecuteNonQuery();
+	void	ExecuteScalar();
+	void	ExecuteQuery(LPCTSTR lpszSQL);
 	// esecuzione query e script
-	void ExecuteScript(LPCTSTR lpszFileName);
+	void	ExecuteScript(LPCTSTR lpszFileName);
+
+	//Paging
+	void	GetFirstPage();
+	void	GetNextPage();
+	void	GetPrevPage();
+	void	GetLastPage();
+	
+	BOOL HasRows() const { return m_pRowSet->HasRows(); }
+
 
 	BOOL HasError() { return m_bErrorFound; }
 	CString	GetError() { return m_strErrorFound; }
+
+	//Paging
+	void EnablePaging(int nPageSize);
 
 	SqlConnection*	GetConnection() const { ASSERT_VALID(m_pSqlConnection); return	m_pSqlConnection; }
 };
@@ -245,7 +254,6 @@ class TB_EXPORT SqlTable : public SqlRowSet, public IDisposingSourceImpl
 
 public:
     enum SelectKeywordType	{ DISTINCT, TOP, TOP_PERCENT, TOP_WITH_TIES};
-	enum MoveType { E_MOVE_REFRESH , E_MOVE_FIRST , E_MOVE_PREV , E_MOVE_NEXT ,E_MOVE_LAST };
 
 public:
 	SqlRowSet*	m_pUpdateRowSet; // Utilizzato per INSERT/DELETE/UPDATE statement per la gestione del KeyeUpdate
@@ -267,14 +275,16 @@ protected:
 	enum EditMode { noMode, edit, addnew };
 	UINT m_nEditMode;
 
-	SqlRecord*		m_pRecord;			// record corrente
+	SqlRecord*		m_pRecord;			// record corrente	
+
+	SqlRecordProcedure* m_pParamsRecord; // per i paramentri di una Stored Procedure
 	SqlTableArray*	m_pTableArray;		// usato in caso di From da + tabelle
 	CStringArray*	m_pKeysArray;		// utilizzato se il programmatore vuole indicare le colonne da utilizzare
 										// nella keyed update/delete mediante il metodo AddUpdateKey
 	DataObjArray*	m_pExtraColumns;	// utilizzato per aggiungere nella Select i campi presenti nell'orderby nel caso in cui nella select sia presente la DISTINCT
 
-	BOOL m_bInvalid;	// la Transazione invalida la query che deve essere rifatta
 	BOOL m_bFirstQuery;
+
 	BOOL m_bBOF;
 	BOOL m_bEOF;
 	BOOL m_bEOFSeen;
@@ -285,38 +295,39 @@ protected:
 	BOOL m_bForceQuery;		 // serve per eseguire in ogni caso la query su tabella. Vedi SetForceQuery di TableReader
 	BOOL m_bForceAutocommit; //se devo utilizzare x forza l'autocommit anche se la connessione
 							 // prevede l'utilizzo delle transazioni
-	BOOL m_bForceReadTraceColumns; //permette di rileggere TBCreated e TBModified dopo l'inserimento/aggiornamento del record. 
-									//Per problemi di performance questo non viene fatto di default
-
-	SqlRecord*	m_pOldRecord; // serve x l'updatekey e l'auditing 	
-	SqlTable*  m_pMandatoryColTable; //use to read the value of TBCreated and TBModified field when a row has been inserted or updated.
-
+	SqlFetchResult m_sqlFetchResult;
+	SqlRecord*	m_pOldRecord; // serve x l'updatekey, auditing e lock ottimistico
+	
+	BOOL	   m_bOnlyOneRecordExpected; //vuol dire che la query mi estrae un solo record (vedi oggetti come DBTMaster, DBTSlave, TableReader e TableUpdater)
+										//serve per ottimizzare il processo di disconessione automantico
 private:
-	// Data Caching Management
-	BOOL					m_bCachingSettingStatus;
-	CDataCachingContext*	m_pDataCachingContext;
-	BOOL					m_bCanUseDataCaching;
 	CString					m_strParamsList;
-	BOOL					m_bIsEmpty;
-	BOOL					m_bCurrentReadFromDatabase;	// means that current result is read from database and not from the cache area
 
 	SqlForeignKeysReader	m_FKReader;
 	CCallbackHandler		m_Handler;
 	BOOL					m_bSkipContextBagParameters;
 
+	//@@ROWSECURITY
 	BOOL					m_bSkipRowSecurity;
 	DataLng* 				m_pRSFilterWorkerID; // worker utilizzato per i filtri della RowSecurity. Se il puntatore è NULL viene utilizzato il worker connesso
 	DataLng*				m_pRSSelectWorkerID;
 	BOOL					m_bSelectGrantInformation; //viene chiesto alla tabella di estrarre anche le informazioni di grant per ogni record estratto. Le informazioni di grant sono relative
 													// o al worker connesso oppure al worker m_pRSWorkerID
+
+	//BOOL					m_bOptimisticLock; //@@OPTIMISTICLOCK
+
 public:
 	// costruttori
 	SqlTable();
 	SqlTable(SqlSession*);
 	SqlTable(SqlRecord*, SqlSession* = NULL, CBaseDocument* = NULL);
+	//stored procedure e function
+	SqlTable(SqlRecordProcedure* pRecordParams, SqlRecord* pSqlRecord, SqlSession* pSqlSession = NULL, CBaseDocument* pDocument = NULL);
+	SqlTable(SqlRecordProcedure* pRecordParams, SqlSession* pSqlSession = NULL, CBaseDocument* pDocument = NULL);
 	virtual ~SqlTable();
 
 private:
+	void InitDataMember		();
 	// reset query operation
 	void ClearTables		(); 
 	void ClearKeys			();
@@ -329,7 +340,7 @@ private:
 	int	 KeyedUpdate			(BOOL bForceTBModified = FALSE);
 	int	 BuildSetClause		(CString& strSelect, BOOL bCheckOldValues = TRUE);
 	int	 BindSetParameters	(BOOL bPrepare);
-	void BindKeyParameters	(BOOL bPrepare, int nStart);
+	void BindKeyParameters	(BOOL bPrepare, int& nParam);
 	
 	int  GetKeySegmentCount();	
 	
@@ -351,7 +362,8 @@ private:
 	// caso di inserimento di record in connessione ORACLE
 	void GetNextAutoincrementValue();
 	void FixupAutoIncColumns(); 
-	void FixupMandatoryColumns();
+
+	void ExecuteStoredProcedure();
 
 public:
 	void ValorizeContextBagParameters	();
@@ -369,6 +381,7 @@ private: //TBROWSECURITY
 	CString GetSelectGrantString();
 	void AddRowSecurityFilters();		
 	void ValorizeRowSecurityParameters();
+
 public:
 	void		SetSkipRowSecurity	()						{ m_bSkipRowSecurity = TRUE; } // allow the developer to disable query restrictions based on RowSecurityLayer
 	BOOL		IsSkipRowSecurity	()			const		{ return m_bSkipRowSecurity; } // allow the developer to disable query restrictions based on RowSecurityLayer	
@@ -379,18 +392,14 @@ public:
 	void		SetSelectGrantInformation(DataLng* pRSWorkerID)		{ m_bSelectGrantInformation = TRUE;  m_pRSSelectWorkerID = pRSWorkerID; }
 	BOOL		IsSelectGrantInformation()		const				{ return m_bSelectGrantInformation; }
 	void		SetDatabaseQuery(BOOL isDBQuery)					{ m_bFirstQuery = isDBQuery; }
+
+
+	//void		EnableOptimisticLock() { m_bOptimisticLock = TRUE; } //@@OPTIMISTICLOCK
+	
 private:
-	// Data Caching Management
 	void					BuildParamsList			();
-	BOOL					ReadCache				();
-	void					WriteCache				();
 
 public:
-	// Data Caching Management
-	BOOL			CanUseDataCaching		();
-	void			SetUseDataCaching		(BOOL bEnable);
-	void			SetDataCachingContext	(CDataCachingContext*);
-
 	void			Attach				(SymTable* pSymTable) {m_pSymTable = pSymTable;}
 	SqlTableArray*	GetTableArray		() const { return m_pTableArray;	}	// usato in caso di From da + tabelle
 	CString			GetAllTableName		() const;	// usato in caso di From da + tabelle
@@ -402,7 +411,9 @@ public:
 
 	SqlForeignKeysReader& GetForeignKeyReader () { return m_FKReader; }
 
-	void EnableRemoveDeletedRow();
+
+	BOOL	SameQuery() const;
+
 
 protected:	
 	void InitRow		();
@@ -432,7 +443,8 @@ public: //in line fuction
 	void	ModifyRecord	(SqlRecord* pRecord)	{ *m_pRecord = *pRecord; }
 	CString	 GetPrimaryKeyDescription () const { return m_pRecord->GetPrimaryKeyDescription(); }
 
-	void SetDBTMasterQuery	(BOOL bSet = TRUE)			{ m_bDBTMasterQuery = bSet; }
+	void SetDBTMasterQuery(BOOL bSet = TRUE) { m_bDBTMasterQuery = bSet; m_bOnlyOneRecordExpected = TRUE; }
+
 	// obbligo il cursore in modifica a utilizzare l'autocommit anche se sono in una
 	// connessione che prevede l'utilizzo delle transazioni
 	// tale istruzione deve essere utilizzata con molta ATTENZIONE									
@@ -443,9 +455,6 @@ public: //in line fuction
 
 	// allow the developer to disable query restrictions based on context to perform manual queries
 	void SetSkipContextBagParameters	(BOOL bSet)		{ m_bSkipContextBagParameters = bSet; }
-	
-	void SetForceReadTraceColumns(BOOL bSet = FALSE) {m_bForceReadTraceColumns =  bSet;}
-	BOOL ReadTraceColumns() const { return m_bForceReadTraceColumns || !AfxGetOleDbMng()->ReadTraceColumnsAfterUpdate(); }
 
    	// Records seen so far or -1 if unknown
    	BOOL InvalidCounter	() const	{ return m_bEOFSeen < 0 || m_lCurrentRecord < 0; }
@@ -455,11 +464,17 @@ public: //in line fuction
     // permette di gestire gli alias nei nomi di tabella (SELECT ... FROM nome As alias)
 	void SetAliasName 	(const CString& strAliasName) { m_strAliasName = strAliasName; }
 
+	BOOL IsOnlyOneRecordExpected() const				 { return m_bOnlyOneRecordExpected; }
+	void SetOnlyOneRecordExpected(BOOL bSet = TRUE)		 { m_bOnlyOneRecordExpected = bSet; }
+
 public: 
+	//permette di eseguire la query e nel caso di cursori scrollabili di eseguire una move differente rispetto al MoveNext
+	void Query(MoveType moveType, int lSkip = 0);
+
 	// cursor operations con copia nel record passato se trovato qualcosa
 	BOOL MoveNextCopy	(SqlRecord*);
 	BOOL MovePrevCopy	(SqlRecord*);
-	void MoveCopy		(MoveType eTypeMove, SqlRecord* pRecord, DBROWOFFSET lSkip = 0);
+	void MoveCopy		(MoveType eTypeMove, SqlRecord* pRecord);
 
 	// Usa sintassi nativa "INSERT e DELETE/UPDATE ... WHERE COLNAME = ? AND COLNAME = ?...."
 	BOOL NativeInsert	(BOOL bTraced = TRUE); //attenzione questa non l'exception controllare il valore di ritorno
@@ -491,10 +506,11 @@ public:
 	
 	void	Select		(DataObj* pDataObj);
 	void	Select		(DataObj& aDataObj);
-	void	Select		(SqlRecord* pRecord, DataObj* pDataObj);
-	void	Select		(SqlRecord* pRecord, DataObj& aDataObj);
-	void	Select		(const CString& strColumnName, DataObj* pDataObj, int nAllocSize = 0, BOOL bAutoIncrement = FALSE);
-	void	Select		(const CString& strColumnName, DataObj& aDataObj, int nAllocSize = 0, BOOL bAutoIncrement = FALSE);
+	void	Select		(SqlRecord* pRecord, int nIdx, int nInsertPos = -1);
+	void	Select		(SqlRecord* pRecord, DataObj* pDataObj, int nInsertPos = -1);
+	void	Select		(SqlRecord* pRecord, DataObj& aDataObj, int nInsertPos = -1);
+	void	Select		(const CString& strColumnName, DataObj* pDataObj, int nAllocSize = 0, BOOL bAutoIncrement = FALSE, int nInsertPos = -1);
+	void	Select		(const CString& strColumnName, DataObj& aDataObj, int nAllocSize = 0, BOOL bAutoIncrement = FALSE, int nInsertPos = -1);
 	
 
 	//seleziono tutto tranne i campi elencati nell'array (o tramite il nome campo oppure tramite il dataobj)
@@ -504,10 +520,10 @@ public:
 	void	SelectAllExceptFields(DataObjArray* pExceptedDataObj);
 	void	SelectAllExceptFields(SqlRecord* pRecord, DataObjArray* pExceptedDataObj);
 
-	void	SelectSqlFun	(LPCTSTR szFunction, DataObj* pResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL);
-	void	SelectSqlFun	(LPCTSTR szFunction, DataObj& aResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL);
-	void	SelectSqlFun	(LPCTSTR szFunction, DataObj* pParamDataObj, DataObj* pResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL);
- 	void	SelectSqlFun	(LPCTSTR szFunction, DataObj& aParamDataObj, DataObj& aResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL);
+	void	SelectSqlFun	(LPCTSTR szFunction, DataObj* pResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL, int nInsertPos = -1);
+	void	SelectSqlFun	(LPCTSTR szFunction, DataObj& aResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL, int nInsertPos = -1);
+	void	SelectSqlFun	(LPCTSTR szFunction, DataObj* pParamDataObj, DataObj* pResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL, int nInsertPos = -1);
+ 	void	SelectSqlFun	(LPCTSTR szFunction, DataObj& aParamDataObj, DataObj& aResDataObj, int nAllocSize = 0, SqlRecord* pRecord = NULL, int nInsertPos = -1);
 		
 	// to check if select clause is empty
 	BOOL	IsSelectEmpty	() const;	
@@ -587,8 +603,6 @@ public:
 	CString		GetColumnName 			(const DataObj* pColumnDataObj);
 	CString		GetQualifiedColumnName	(const DataObj* pColumnDataObj);
 
-	BOOL	SameQuery		() const;	
-	
 	// LOCK support
 	void	EnableLocksCache(const BOOL bValue = TRUE); 
 	void	ClearLocksCache	(const CString sLockContextKey = _T(""));
@@ -619,9 +633,6 @@ public:
 	void	Call(); 
 	void	DirectCall(); //used by framework, woorm engine
 
-	//NEW DATABASE LAYER Compatibility
-	virtual void Connect() {}
-	virtual void Disconnect() {}
 
 public: //virtual method
 	// edit buffer operations
@@ -632,35 +643,48 @@ public: //virtual method
 	virtual	void Open
 					(
 						BOOL bUpdatable = FALSE,   // é un rowset su cui verranno effettuate operazioni di insert/update/delete
-						BOOL bScrollable = FALSE,   // é un rowset con un cursore di tipo forward-only
-						BOOL bSensitivity = TRUE   // é un rowset aggiornato dinamicamente con le modifiche effettuate sul database (in base al tipo poi di cursore richiesto)						
+						BOOL bScrollable = FALSE,   // se TRUE é un rowset con un cursore scrollabile altrimenti un forward-only
+						BOOL bSensitivity = TRUE  // non usato ma lasciato per compatibilità con il passato
 					);
 
 	virtual void Open(BOOL bUpdatable, CursorType eCursorType);
-
+	//virtual void Connect(); //serve solo per connettere il SqlCommand alla connessione
+	virtual void Disconnect();
 	virtual void Close();
-	virtual void SetProperties();
 	virtual void SetSqlSession(SqlSession*);
 	
 	virtual BOOL IsEmpty	();
-	virtual void Invalidate	()	{ m_bInvalid = TRUE; }
+	//virtual void Invalidate	()	{ m_bInvalid = TRUE; }
 	
-	virtual BOOL FixupColumns();
+	virtual void FixupColumns();
 
 	// cursor operations //move with data fetch
-	virtual void MoveNext(int lSkip = 0) { Move(E_MOVE_NEXT, lSkip); }
-	virtual void MovePrev(int lSkip = 0) { Move(E_MOVE_PREV, lSkip); }
-
+	virtual void MoveNext	(int lSkip = 0)	{ Move(E_MOVE_NEXT, lSkip); }
+	virtual void MovePrev	(int lSkip = 0)	{ Move(E_MOVE_PREV, lSkip); }
 	virtual void MoveFirst	()	{ Move(E_MOVE_FIRST); }
 	virtual void MoveLast	()	{ Move(E_MOVE_LAST); }
-	virtual void Move		(MoveType, DBROWOFFSET lSkip = 0);
+	virtual void Move		(MoveType  moveType, int lSkip = 0);
 
-	//esegue la prima fetch
-	virtual void Query		();
-	virtual BOOL BuildQuery ();	//used by ReportingStudio - convert table-rule to named-query
-
-	long GetExtractedRows(); //attenzione operazione molto onerosa coprattutto con un cursore di tipo forwardonly
+	//le funzioni di query al db eseguono se necessario la BindColumns, BindParameters e le Fixup
+	//esegue query che restituisce un rowset e la prima fetch
+	virtual void Query() {
+		Query(E_MOVE_NEXT);
+	}
 	
+	virtual BOOL BuildQuery();	//used by ReportingStudio - convert table-rule to named-query
+
+	//  when you call an SQL scalar function that just returns a single number i.e. Select count(*) from TableName
+	// si ha il risultato nel DataObj di cui si è fatta la select
+	virtual void ScalarQuery();
+
+	//   is used when there is no return value of any kind expected from SQL server, an example being a simple UPDATE statement.
+	virtual int NonQuery();
+
+	long GetRowSetCount(); //attenzione operazione molto onerosa soprattutto con un cursore di tipo forwardonly
+	
+	void ReadMandatoryColumns(); //permette di leggere le mandatory columns di m_pRecord passato nel costruttore del SqlTable
+	void UpdateOnlyTBModified(); //permette di aggiornare solo i campi TBModified e TB
+
 	//aggiunge una callback da chiamare alla distruzione del documento
 	//void AddDisposingHandler (CObject* pListener, ON_DISPOSING_METHOD pHandler) { m_Handler.AddDisposingHandler(pListener, pHandler); }
 	//void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }

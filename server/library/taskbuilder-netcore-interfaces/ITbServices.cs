@@ -6,7 +6,7 @@ namespace TaskBuilderNetCore.Interfaces
     public interface ITbServices
     {
         void CloseTB(string authenticationToken);
-        ITbLoaderClient CreateTB(IBasePathFinder pathFinder, string authenticationToken, string companyName, ITbLoaderClient tbInterface, DateTime applicationDate, bool useRemoteServer = false);
+  //      ITbLoaderClient CreateTB(PathFinder pathFinder, string authenticationToken, string companyName, ITbLoaderClient tbInterface, DateTime applicationDate, bool useRemoteServer = false);
         string[] GetData(string authenticationToken, XmlDocument paramsDoc, DateTime applicationDate, bool useApproximation);
         string GetDocumentSchema(string authenticationToken, string documentNamespace, string profileName, string forUser);
         string GetReportSchema(string authenticationToken, string reportNamespace, string forUser);

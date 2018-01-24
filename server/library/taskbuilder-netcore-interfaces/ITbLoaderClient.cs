@@ -14,7 +14,7 @@ namespace TaskBuilderNetCore.Interfaces
         bool CanChangeLogin(bool lockTbLoader);
         bool CanCloseLogin();
         bool CanCloseTB();
-        int ChangeLogin(string oldAuthenticationToken, string newAuthenticationToken, IBasePathFinder pathFinder, bool unlock);
+  //      int ChangeLogin(string oldAuthenticationToken, string newAuthenticationToken, PathFinder pathFinder, bool unlock);
         //int ChangeLogin(string oldAuthenticationToken, string newAuthenticationToken, bool unlock);
         void ClearCache();
         bool CloseDocument(int handle);

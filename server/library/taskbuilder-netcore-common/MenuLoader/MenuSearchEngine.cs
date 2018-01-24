@@ -1,3 +1,4 @@
+using Microarea.Common.NameSolver;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -43,7 +44,7 @@ namespace Microarea.Common.MenuLoader
 
 		#region Private Data Member
 
-		private IPathFinder				pathFinder			= null;
+		private PathFinder				pathFinder			= null;
 		private MenuXmlParser			parser				= null;
 		private MenuXmlNode				startSearchNode		= null;
 		private Criteria				criteria			= Criteria.Undefined;
@@ -71,7 +72,7 @@ namespace Microarea.Common.MenuLoader
 
 		#region Properties
 		//---------------------------------------------------------------------
-		public IPathFinder				PathFinder	{ get { return pathFinder; }}
+		public PathFinder				PathFinder	{ get { return pathFinder; }}
 		public MenuXmlParser			Parser		{ get { return parser; }}
 		public MenuXmlNodeCollection	LastResults	{ get { return lastResults; } set { lastResults = value; }}
 		
@@ -292,7 +293,7 @@ namespace Microarea.Common.MenuLoader
 		#region Costructor
 
 		//---------------------------------------------------------------------
-		public MenuSearchEngine(IPathFinder aPathFinder, MenuXmlParser aMenuXmlParser)
+		public MenuSearchEngine(PathFinder aPathFinder, MenuXmlParser aMenuXmlParser)
 		{
 			pathFinder			= aPathFinder;
 			parser				= aMenuXmlParser;

@@ -26,6 +26,9 @@
     <ClInclude Include="SqlBindingObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TBFSDatabaseDriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TbDatabaseManaged.cpp">
@@ -41,6 +44,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SqlBindingObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBFSDatabaseDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

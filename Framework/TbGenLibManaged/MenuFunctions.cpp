@@ -398,7 +398,7 @@ CString GetUserPreferredTheme(CLoginContext* pLoginContext)
 		? CString(NewMenuFunctions::GetUserPreferredTheme(gcnew String(strUser), gcnew String(strCompany)))
 		: brandedDefaultTheme;
 
-	CString strThemeFullFileName = AfxGetPathFinder()->GetThemeElementFullName(strThemePath);
+	CString strThemeFullFileName = AfxGetPathFinder()->GetThemeElementFullName(strThemePath);	
 	return ExistFile(strThemeFullFileName) ? strThemePath : _T("");
 }
 

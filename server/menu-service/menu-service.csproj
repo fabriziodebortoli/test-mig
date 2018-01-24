@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\TBResourcesController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
   </ItemGroup>
 

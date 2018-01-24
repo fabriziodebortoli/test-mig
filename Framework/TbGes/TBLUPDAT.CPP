@@ -39,6 +39,7 @@ TableUpdater::TableUpdater
 	m_pSqlSession		(NULL),
 	m_Status			(NONE),
 	m_bForceAutocommit	(FALSE),
+	m_bOnlyOneRecord	(TRUE),
 	m_pDiagnostic		(pDiagnostic)
 {
 	// Mi creo un SqlRecord dove salvare il vecchio record
@@ -64,6 +65,7 @@ TableUpdater::TableUpdater
 	m_pSqlSession		(NULL),
 	m_Status			(NONE),
 	m_bForceAutocommit	(FALSE),
+	m_bOnlyOneRecord	(TRUE),
 	m_pDiagnostic		(pDiagnostic)
 {
 	// Mi creo un SqlRecord dove salvare il vecchio record
@@ -159,7 +161,7 @@ TableUpdater::FindResult TableUpdater::FindRecord(BOOL bLock, LockRetriesMng* pR
 		// valorizza i parametri per la query ad accesso diretto
 		OnPrepareQuery();
 		m_pTable->Query();
-		
+
 		// mi salvo di dati letti per poi riutilizzarne i criteri di estrazione 
 		*m_pOldRecord = *m_pRecord;
 
@@ -230,7 +232,10 @@ BOOL TableUpdater::UpdateRecord(BOOL bForceTBModified /*=FALSE*/)
 		ASSERT(m_pOldRecord);
 
 		m_pTable->Update(m_pOldRecord, bForceTBModified);
-	    
+		
+	/*	if (m_bOnlyOneRecord)
+			m_pTable->Disconnect();*/
+
 	    bResult = TRUE;
 	}
 	CATCH(SqlException, e)	
@@ -279,8 +284,10 @@ BOOL TableUpdater::DeleteRecord()
 		ASSERT(m_pOldRecord);
 
 		m_pTable->Delete(m_pOldRecord);
-
-	    
+		
+		/*if (m_bOnlyOneRecord)
+			m_pTable->Disconnect();
+	*/    
 	    bResult = TRUE;
 	}
 	CATCH(SqlException, e)	
@@ -319,6 +326,7 @@ BOOL TableUpdater::TableCreated()
 	}
 
 	m_pTable = new SqlTable(m_pRecord, m_pSqlSession);
+	m_pTable->SetOnlyOneRecordExpected(m_bOnlyOneRecord);
 	m_pOldRecord->SetConnection(m_pRecord->GetConnection());
 	if (m_bForceAutocommit)
 		m_pTable->SetAutocommit();

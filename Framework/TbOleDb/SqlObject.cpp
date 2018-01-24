@@ -104,48 +104,52 @@ CString AFXAPI GetSQLActionCounters(const CString& strMess)
 		return NULL;
 	return pOleDbManager->GetSQLActionCounters(strMess);
 }
+
+////-----------------------------------------------------------------------------
+//void AFXAPI ThrowSqlException(LPUNKNOWN lpUnk, const IID& iid, SqlResult nHResult, SqlObject* pSqlObj)
+//{
+//	SqlException* pExceptionOle = new SqlException(lpUnk, iid, nHResult, pSqlObj);
+//	
+//	pExceptionOle->BuildErrorString(nHResult, lpUnk, iid);
+//
+//	// I try to manage the event. I remove the original SqlException
+//	// and I thow another one to skip original code and stop operations
+//	if (
+//			pSqlObj && pSqlObj->m_pContext && AfxGetSqlRecoveryManager() && 
+//			!AfxIsInUnattendedMode() && pExceptionOle->IsLostConnectionError (pSqlObj->GetDBMSType())
+//		)
+//	{	
+//		AfxInvokeAsyncThreadFunction<BOOL, SqlRecoveryManager, CString>
+//		(
+//			AfxGetLoginContext()->GetThreadId(),
+//			AfxGetSqlRecoveryManager(), 
+//			&SqlRecoveryManager::ON_CONNECTION_LOST,	
+//			pExceptionOle->m_strError
+//		);
+//		pExceptionOle->SetDeletable(TRUE);
+//		delete pExceptionOle;
+//		AfxThrowUserException();
+//	}
+//
+//	THROW(pExceptionOle);
+//}
+
 //-----------------------------------------------------------------------------
-void AFXAPI ThrowSqlException(LPUNKNOWN lpUnk, const IID& iid, HRESULT nHResult, SqlObject* pSqlObj)
+void AFXAPI ThrowSqlException(LPCTSTR pszError, SqlObject* pSqlObj)
 {
-	SqlException* pExceptionOle = new SqlException(lpUnk, iid, nHResult, pSqlObj);
-	
-	pExceptionOle->BuildErrorString(nHResult, lpUnk, iid);
-
-	// I try to manage the event. I remove the original SqlException
-	// and I thow another one to skip original code and stop operations
-	if (
-			pSqlObj && pSqlObj->m_pContext && AfxGetSqlRecoveryManager() && 
-			!AfxIsInUnattendedMode() && pExceptionOle->IsLostConnectionError (pSqlObj->GetDBMSType())
-		)
-	{	
-		AfxInvokeAsyncThreadFunction<BOOL, SqlRecoveryManager, CString>
-		(
-			AfxGetLoginContext()->GetThreadId(),
-			AfxGetSqlRecoveryManager(), 
-			&SqlRecoveryManager::ON_CONNECTION_LOST,	
-			pExceptionOle->m_strError
-		);
-		pExceptionOle->SetDeletable(TRUE);
-		delete pExceptionOle;
-		AfxThrowUserException();
-	}
-
-	THROW(pExceptionOle);
+	SqlException* pException = new SqlException(pszError);	
+	pException->m_pSqlObj = pSqlObj;	
+	THROW(pException);
 }
 
-//-----------------------------------------------------------------------------
-void AFXAPI ThrowSqlException(LPCTSTR pszError, HRESULT nHResult, SqlObject* pSqlObj)
-{
-	SqlException* pExceptionOle = new SqlException();
-	
-	pExceptionOle->m_strError = pszError;
-	pExceptionOle->m_nHResult = nHResult;
-	pExceptionOle->m_pSqlObj = pSqlObj;	
 
-	// #3218 (di qui no ho l'errore di perdita di connessione. 
-	// Vedere i casi in cui viene usato questo metodo)
-	THROW(pExceptionOle);
+//-----------------------------------------------------------------------------
+void AFXAPI ThrowSqlException(MSqlException* pMSqlException)
+{
+	SqlException* pException = new SqlException(*pMSqlException);
+	THROW(pException);
 }
+
 
 /////////////////////////////////////////////////////////////////////////////
 //						class CBaseContext
@@ -159,8 +163,9 @@ CBaseContext::CBaseContext(CBaseDocument* pDocument /*= NULL*/)
 	m_pSqlPerformanceMng	(NULL),
 	m_pLockMng				(NULL),
 	m_pDiagnosticPool		(NULL),
-	m_bCanUnlock			(TRUE),
-	m_bCanDeleteLockMng		(FALSE)
+	//m_bCanUnlock			(TRUE),
+	m_bCanDeleteLockMng		(FALSE),
+	m_bOptimisticLock		(NULL)
 {
 	if (m_pDocument)	
 		m_pDiagnostic = m_pDocument->m_pMessages;
@@ -169,6 +174,8 @@ CBaseContext::CBaseContext(CBaseDocument* pDocument /*= NULL*/)
 	
 	m_pDiagnosticPool = new CArray<CDiagnostic*, CDiagnostic*>;
 	m_pDiagnosticPool->Add(m_pDiagnostic);
+
+	m_bOptimisticLock = new bool(false);
 }
 
 //-----------------------------------------------------------------------------
@@ -179,8 +186,9 @@ CBaseContext::CBaseContext(const CBaseContext& aBaseContext)
 	m_pSqlPerformanceMng	(NULL),
 	m_pLockMng				(NULL),
 	m_pDiagnosticPool		(NULL),
-	m_bCanUnlock			(FALSE),
-	m_bCanDeleteLockMng		(FALSE)
+	//m_bCanUnlock			(FALSE),
+	m_bCanDeleteLockMng		(FALSE),
+	m_bOptimisticLock		(NULL)
 
 {
 	m_pDiagnostic		= aBaseContext.m_pDiagnostic;
@@ -188,6 +196,7 @@ CBaseContext::CBaseContext(const CBaseContext& aBaseContext)
 	m_pSqlPerformanceMng = aBaseContext.m_pSqlPerformanceMng;
 	m_pLockMng			= aBaseContext.m_pLockMng;
 	m_bLocked			= aBaseContext.m_bLocked;
+	m_bOptimisticLock	= aBaseContext.m_bOptimisticLock;
 }
 
 //-----------------------------------------------------------------------------
@@ -198,13 +207,15 @@ CBaseContext::CBaseContext(CDiagnostic* pDiagnostic)
 	m_pSqlPerformanceMng	(NULL),
 	m_pLockMng				(NULL),
 	m_pDiagnosticPool		(NULL),
-	m_bCanUnlock			(FALSE),	
-	m_bCanDeleteLockMng		(FALSE)
+	//m_bCanUnlock			(FALSE),	
+	m_bCanDeleteLockMng		(FALSE),
+	m_bOptimisticLock		(NULL)
 
 {
 	m_pDiagnostic = pDiagnostic;	
 	m_pDiagnosticPool = new CArray<CDiagnostic*, CDiagnostic*>;
 	m_pDiagnosticPool->Add(m_pDiagnostic);
+	m_bOptimisticLock = new bool(false);
 }
 
 //-----------------------------------------------------------------------------
@@ -223,6 +234,10 @@ CBaseContext::~CBaseContext()
 		ASSERT(FALSE); // non è stata chiamata la EndShareDiagnostic
 	m_pDiagnosticPool->RemoveAt(m_pDiagnosticPool->GetUpperBound());
 	delete m_pDiagnosticPool;
+
+	//@@OPTIMISTICLOCK
+	if (m_bOwnedContext && m_bOptimisticLock)
+		delete m_bOptimisticLock;
 }
 
 //-----------------------------------------------------------------------------
@@ -401,143 +416,6 @@ SqlLockMng* CBaseContext::GetLockMng(const CString& strDBName)
 	return m_pLockMng;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-//						class CDataCachingContext
-/////////////////////////////////////////////////////////////////////////////
-//
-//-----------------------------------------------------------------------------
-CDataCachingContext::CDataCachingContext(CBaseContext* pBaseContext, CBaseDocument* pDocument /*= NULL*/)
-	:	
-	CSharedContext			(pDocument),
-	m_pDataCachingManager	(NULL),
-	m_pContext				(pBaseContext),
-	m_bOwnDataCachingManager(FALSE)
-{
-	InheritDataCachingManager (pDocument);
-}
-
-//-----------------------------------------------------------------------------
-CDataCachingContext::CDataCachingContext(const CDataCachingContext& aDataCachingContext)
-	:
-	CSharedContext(aDataCachingContext),
-	m_pDataCachingManager	(NULL),
-	m_pContext				(NULL),
-	m_bOwnDataCachingManager(FALSE)
-{
-	m_pDataCachingManager	= aDataCachingContext.m_pDataCachingManager;
-	m_pContext				= aDataCachingContext.m_pContext;
-	m_bOwnDataCachingManager= aDataCachingContext.m_bOwnDataCachingManager;
-}
-
-//-----------------------------------------------------------------------------
-CDataCachingContext::~CDataCachingContext ()
-{
-	if (m_bOwnedContext && m_bOwnDataCachingManager)
-	{
-		AfxGetDataCachingUpdatesListener()->RemoveManager (m_pDataCachingManager);
-		SAFE_DELETE(m_pDataCachingManager);
-	}
-}
-
-//----------------------------------------------------------------------------------------------
-CDataCachingManager* CDataCachingContext::GetDataCachingManager ()
-{
-	return m_pDataCachingManager;
-}
-
-//----------------------------------------------------------------------------------------------
-BOOL CDataCachingContext::IsOwnDataCachingManager()
-{
-	return m_bOwnDataCachingManager;
-}
-
-//----------------------------------------------------------------------------------------------
-void CDataCachingContext::SetDataCachingManager (CDataCachingManager* pDataCachingManager)
-{
-	if (!pDataCachingManager || !AfxGetDataCachingSettings()->IsDataCachingEnabled()) 
-		return;
-
-	if (pDataCachingManager == m_pDataCachingManager)
-		return;
-
-	if (pDataCachingManager && m_bOwnDataCachingManager)
-	{
-		AfxGetDataCachingUpdatesListener()->RemoveManager (m_pDataCachingManager);
-		SAFE_DELETE (m_pDataCachingManager);
-	}
-
-	m_pDataCachingManager	 = pDataCachingManager;
-	m_bOwnDataCachingManager = FALSE;
-
-}
-
-//----------------------------------------------------------------------------------------------
-void CDataCachingContext::CreateCache ()
-{
-	if (m_pDataCachingManager && m_bOwnDataCachingManager)
-	{
-		// add the manager for updates notifications
-		AfxGetDataCachingUpdatesListener()->RemoveManager(m_pDataCachingManager);
-		SAFE_DELETE(m_pDataCachingManager);
-	}
-	else 
-		m_pDataCachingManager = NULL;
-
-	if (!m_pDataCachingManager)
-	{
-		m_pDataCachingManager = new CDataCachingManager();
-		m_bOwnDataCachingManager = TRUE;
-		
-		// add the manager for updates notifications
-		AfxGetDataCachingUpdatesListener()->AddManager (m_pDataCachingManager);
-	}
-}
-
-//----------------------------------------------------------------------------------------------
-void CDataCachingContext::ClearCache ()
-{
-	if (m_pDataCachingManager)
-	{
-		TB_OBJECT_LOCK(m_pDataCachingManager);
-		m_pDataCachingManager->ClearCache();
-	}
-}
-
-//----------------------------------------------------------------------------------------------
-void CDataCachingContext::InheritDataCachingManager(CBaseDocument* pDocument)
-{
-	if (!AfxGetDataCachingSettings() || !AfxGetDataCachingSettings()->IsDataCachingEnabled())
-		return;
-
-	switch (AfxGetDataCachingSettings()->GetCacheScope())
-	{
-		case CDataCachingSettings::LOGIN:
-		{
-			CDataCachingManager* pDataCachingManager = AfxGetOleDbMng() ? AfxGetOleDbMng()->GetDataCachingManager() : NULL;
-			if (pDataCachingManager)
-				SetDataCachingManager (pDataCachingManager);
-			break;
-		}
-
-		case CDataCachingSettings::DOCUMENT_CONTEXT:
-
-		case CDataCachingSettings::DOCUMENT_TRANSACTION:
-		{
-			if	(pDocument && pDocument->m_pTbContext)
-			{
-				CDataCachingContext* pDataCachingContext = (CDataCachingContext*) pDocument->m_pTbContext;
-				if (pDataCachingContext->GetDataCachingManager())
-					SetDataCachingManager (pDataCachingContext->GetDataCachingManager());
-			}
-			break;
-		}
-		default:
-		{
-			CreateCache ();
-			break;
-		}
-	}
-}
 
 /////////////////////////////////////////////////////////////////////////////
 //						class CTBContext
@@ -545,25 +423,16 @@ void CDataCachingContext::InheritDataCachingManager(CBaseDocument* pDocument)
 //
 //-----------------------------------------------------------------------------
 CTransactionContext::CTransactionContext(SqlConnection* pSqlConnection, CTBContext* pTBContext, CBaseDocument* pDocument)
-:
-	CSharedContext			(pDocument),
-	m_pSqlConnection		(NULL),
-	m_pReadOnlySqlSession	(NULL),
-	m_pUpdateSqlSession		(NULL),
-	m_pTBContext			(pTBContext),
-	m_bTxError				(FALSE)
+	:
+	CSharedContext(pDocument),
+	m_pSqlConnection(NULL),
+	m_pSqlSession(NULL),
+	//m_pUpdateSqlSession		(NULL),
+	m_pTBContext(pTBContext),
+	m_bTxError(FALSE)
 {
-
 	if (pSqlConnection && pSqlConnection->IsValid())
-	{
-		m_pUpdateSqlSession   =	pSqlConnection->GetNewSqlSession(m_pTBContext->m_pBaseContext);	
-		if (pSqlConnection->GetDBMSType() == DBMS_ORACLE)
-			m_pReadOnlySqlSession = m_pUpdateSqlSession;
-		else
-			m_pReadOnlySqlSession = pSqlConnection->GetNewSqlSession(m_pTBContext->m_pBaseContext);
 		m_pSqlConnection = pSqlConnection;
-		m_pTBContext->m_pBaseContext->SetCanUnlock();
-	}
 }
 
 
@@ -572,15 +441,15 @@ CTransactionContext::CTransactionContext(const CTransactionContext& aTransaction
 :
 	CSharedContext			(aTransactionContext),
 	m_pSqlConnection		(NULL),
-	m_pReadOnlySqlSession	(NULL),	
-	m_pUpdateSqlSession		(NULL),
+	m_pSqlSession(NULL),
+	//m_pUpdateSqlSession		(NULL),
 	m_pTBContext			(NULL),
 	m_bTxError				(FALSE)
 
 {
 	m_pSqlConnection		= aTransactionContext.m_pSqlConnection;
-	m_pReadOnlySqlSession	= aTransactionContext.m_pReadOnlySqlSession;
-	m_pUpdateSqlSession		= aTransactionContext.m_pUpdateSqlSession;
+	m_pSqlSession			= aTransactionContext.m_pSqlSession;
+	//m_pUpdateSqlSession	= aTransactionContext.m_pUpdateSqlSession;
 	m_pTBContext			= aTransactionContext.m_pTBContext;
 	m_bTxError				= aTransactionContext.m_bTxError;
 }
@@ -591,36 +460,82 @@ CTransactionContext::~CTransactionContext()
 	if (!m_bOwnedContext)
 		return;
 
-	if (m_pUpdateSqlSession)
+	if (m_pSqlSession)
 	{
-		if (m_pReadOnlySqlSession == m_pUpdateSqlSession)
-			m_pReadOnlySqlSession = NULL;
+	/*	if (m_pReadOnlySqlSession == m_pUpdateSqlSession)
+			m_pReadOnlySqlSession = NULL;*/
 		
-		m_pUpdateSqlSession->Close();
-		delete m_pUpdateSqlSession;			
-	}			
-		
-	if (m_pReadOnlySqlSession)
-	{
-		m_pReadOnlySqlSession->Close();
-		delete m_pReadOnlySqlSession;
-	}
+		m_pSqlSession->ForceClose();
+		delete m_pSqlSession;
+	}				
 }
 
 //-----------------------------------------------------------------------------
 BOOL CTransactionContext::IsValid()
 {
-	return 	m_pSqlConnection && 
-			m_pSqlConnection->IsValid() &&
-			m_pSqlConnection->TablesPresent(); //é giusto ció?????
+	return 	m_pSqlConnection && m_pSqlConnection->IsValid();
+		//&&	m_pSqlConnection->TablesPresent(); //é giusto ció?????
 }
+//-----------------------------------------------------------------------------
+SqlSession*	CTransactionContext::GetSqlSession()
+{ 
+	if (!m_pSqlSession && m_bOwnedContext && m_pSqlConnection)
+		m_pSqlSession = m_pSqlConnection->GetNewSqlSession(m_pTBContext->m_pBaseContext);
+	
+	return m_pSqlSession;
+}
+
+
+//per aprire e chiudere la connessione associata al contesto
+//viene usata dal documento nelle sue varie fasi di vita (FIND, BROWSE, SAVE, NEW)
+//-----------------------------------------------------------------------------
+BOOL CTransactionContext::Connect()
+{
+	TRY
+	{
+		if (m_bOwnedContext)
+			m_pSqlConnection->SetAlwaysConnected(true);
+	
+	}
+	
+	CATCH(SqlException, e)
+	{
+		ASSERT(FALSE);
+		TRACE1("CTransactionContext::Connect(): error connecting to database", e->m_strError);
+		return FALSE;
+	}
+	END_CATCH
+
+		return TRUE;
+}
+
+//-----------------------------------------------------------------------------
+BOOL CTransactionContext::Disconnect()
+{
+	TRY
+	{
+		if (m_bOwnedContext)		
+			m_pSqlConnection->SetAlwaysConnected(false);
+	}
+
+	CATCH(SqlException, e)
+	{
+		ASSERT(FALSE);
+		TRACE1("CTransactionContext::Close(): error disconnecting from database", e->m_strError);
+		return FALSE;
+	}
+	END_CATCH
+
+	return TRUE;
+}
+
 
 //-----------------------------------------------------------------------------
 SqlSession* CTransactionContext::OpenNewSqlSession()
 {
 	SqlSession* pSqlSession = NULL;
 	if (m_pSqlConnection && m_pSqlConnection->IsValid())
-		pSqlSession = m_pSqlConnection->GetNewSqlSession(m_pReadOnlySqlSession->m_pContext);
+		pSqlSession = m_pSqlConnection->GetNewSqlSession(m_pSqlSession->m_pContext);
 	
 	return pSqlSession;
 }
@@ -628,25 +543,23 @@ SqlSession* CTransactionContext::OpenNewSqlSession()
 //-----------------------------------------------------------------------------
 BOOL CTransactionContext::TransactionPending()
 {
-	return m_pUpdateSqlSession && m_pUpdateSqlSession->m_bTxnInProgress;
+	return m_pSqlSession && m_pSqlSession->m_bTxnInProgress;
 }
 
 //-----------------------------------------------------------------------------
 BOOL CTransactionContext::StartTransaction()
 {
-	if (!m_pUpdateSqlSession)
+	if (!m_pSqlSession)
 		ThrowSqlException(_TB("Invalid session. Unable to perform transaction operations.")); 
 	TRY
 	{
 		// se lo spazio transazionale non è più condiviso oppure è condiviso ma il metodo è stato chiamato dal creatore del contesto
-		if (m_bOwnedContext || !m_pUpdateSqlSession->IsTxnInProgress())
+		if (m_bOwnedContext || !m_pSqlSession->IsTxnInProgress())
 		{
-			m_pUpdateSqlSession->StartTransaction();
-			//TraceError(cwsprintf(_T("Transaction start on session %lp, context %lp for document class %s\r\n"),	m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)));
+			m_pSqlSession->StartTransaction();
 			m_bTxError = FALSE;
 			TRACE_SQL(cwsprintf(_T("Transaction start on session %lp, context %lp for document class %s"),
-								m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), 
-								m_pUpdateSqlSession);
+				m_pSqlSession, m_pSqlSession->m_pContext, CString(m_pSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), m_pSqlSession);
 		}
 	}
 	CATCH(SqlException, e)
@@ -661,7 +574,7 @@ BOOL CTransactionContext::StartTransaction()
 //-----------------------------------------------------------------------------
 void CTransactionContext::Rollback(SqlPerformanceManager* pSqlPerformanceMng)
 {
-	if (!m_pUpdateSqlSession)
+	if (!m_pSqlSession)
 		ThrowSqlException(_TB("Invalid session. Unable to perform transaction operations.")); 
 
 	TRY
@@ -670,13 +583,11 @@ void CTransactionContext::Rollback(SqlPerformanceManager* pSqlPerformanceMng)
 		if (m_bOwnedContext) 
 		{
 			if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(START_TIME, PROC_ROLLBACK);
-			m_pUpdateSqlSession->Abort();
+			m_pSqlSession->Abort();
 			m_pTBContext->OnRollbackTransaction();
 			if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(STOP_TIME, PROC_ROLLBACK);
-			//TraceError(cwsprintf(_T("Transaction rollback on session %lp, context %lp for document class %s\r\n"), m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)));
 			TRACE_SQL(cwsprintf(_T("Transaction rollback on session %lp, context %lp for document class %s"),
-								m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), 
-								m_pUpdateSqlSession);
+				m_pSqlSession, m_pSqlSession->m_pContext, CString(m_pSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), m_pSqlSession);
 								
 		}
 		else
@@ -694,7 +605,7 @@ void CTransactionContext::Rollback(SqlPerformanceManager* pSqlPerformanceMng)
 //-----------------------------------------------------------------------------
 void CTransactionContext::Commit(SqlPerformanceManager* pSqlPerformanceMng)
 {
-	if (!m_pUpdateSqlSession)
+	if (!m_pSqlSession)
 		ThrowSqlException(_TB("Invalid session. Unable to perform transaction operations.")); 
 	
 	TRY
@@ -703,55 +614,39 @@ void CTransactionContext::Commit(SqlPerformanceManager* pSqlPerformanceMng)
 		{
 			if (m_bTxError)
 			{
-				m_pUpdateSqlSession->AddMessage(_TB("Transaction error. Changes effected will be not saved!"));
+				m_pSqlSession->AddMessage(_TB("Transaction error. Changes effected will be not saved!"));
 				if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(START_TIME, PROC_ROLLBACK);
-				m_pUpdateSqlSession->Abort();
+				m_pSqlSession->Abort();
 				m_pTBContext->OnRollbackTransaction();
 
 				if (m_pDocument)
 					m_pDocument->RemoveNotifications();
 
 				if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(STOP_TIME, PROC_ROLLBACK);	
-				/*TraceError(cwsprintf(_T("Transaction rollback due to commit with error on session %lp, context %lp for document class %s"),
-									m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)));*/
 				TRACE_SQL(cwsprintf(_T("Transaction rollback due to commit with error on session %lp, context %lp for document class %s"),
-									m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), 
-									m_pUpdateSqlSession);
+					m_pSqlSession, m_pSqlSession->m_pContext, CString(m_pSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), m_pSqlSession);
 			}
 			else
 			{
 				if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(START_TIME, PROC_COMMIT);
-				m_pUpdateSqlSession->Commit();		
+				m_pSqlSession->Commit();
 				//fare commit degli oggetti condivisi
 				m_pTBContext->OnCommitTransaction();
-				/*TraceError(cwsprintf(_T("Transaction commit on session %lp, context %lp for document class %s"),
-									 m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)));*/
 				if (m_pDocument)
 					m_pDocument->NotifiyToDataSynchronizer();
 
 				if (pSqlPerformanceMng) pSqlPerformanceMng->MakeProcTimeOperation(STOP_TIME, PROC_COMMIT);			
 				TRACE_SQL(cwsprintf(_T("Transaction commit on session %lp, context %lp for document class %s"),
-									m_pUpdateSqlSession, m_pUpdateSqlSession->m_pContext, CString(m_pUpdateSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)), 
-									m_pUpdateSqlSession);
+					m_pSqlSession, m_pSqlSession->m_pContext, CString(m_pSqlSession->m_pContext->GetDocument()->GetRuntimeClass()->m_lpszClassName)),m_pSqlSession);
 			}		
 			m_bTxError = FALSE;
 		}
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
-}
-
-
-//-----------------------------------------------------------------------------
-void CTransactionContext::SetDataCachingContext(CDataCachingContext* pDataCachingContext)
-{
-	if (m_pReadOnlySqlSession)
-		m_pReadOnlySqlSession->SetDataCachingContext(pDataCachingContext);
-	if (m_pUpdateSqlSession)
-		m_pUpdateSqlSession->SetDataCachingContext(pDataCachingContext);
 }
 
 
@@ -763,7 +658,6 @@ void CTransactionContext::SetDataCachingContext(CDataCachingContext* pDataCachin
 CTBContext::CTBContext()
 :
 	m_pBaseContext				(NULL),
-	m_pCurrDataCachingContext	(NULL),
 	m_pCurrTransactionContext	(NULL),
 	m_pSqlPerformanceDlg		(NULL),
 	m_bShareTransactionContext	(TRUE),
@@ -777,7 +671,6 @@ CTBContext::CTBContext()
 CTBContext::CTBContext(SqlConnection* pSqlConnection, CBaseDocument* pDocument /*=NULL*/)
 :
 	m_pBaseContext				(NULL),
-	m_pCurrDataCachingContext	(NULL),
 	m_pCurrTransactionContext	(NULL),
 	m_pCustomObjects			(NULL),
 	m_pSqlPerformanceMng		(NULL),
@@ -788,15 +681,12 @@ CTBContext::CTBContext(SqlConnection* pSqlConnection, CBaseDocument* pDocument /
 	m_wContextStatus = TRANSACTION_STATUS | CACHING_STATUS | DIAGNOSTIC_STATUS;	
 	m_pBaseContext = new CBaseContext(pDocument);
 	m_pCurrTransactionContext = new CTransactionContext((pSqlConnection) ? pSqlConnection : AfxGetDefaultSqlConnection(), this, pDocument);
-	m_pCurrDataCachingContext = new CDataCachingContext(m_pBaseContext, pDocument);
-	m_pCurrTransactionContext->SetDataCachingContext(m_pCurrDataCachingContext);
 	m_pCustomObjects = new CArray<CContextObject*, CContextObject*>;
 }
 
 //-----------------------------------------------------------------------------
 CTBContext::CTBContext(const CTBContext& aTBContext, CBaseDocument* pDocument)
 :
-	m_pCurrDataCachingContext	(NULL),
 	m_pCurrTransactionContext	(NULL),
 	m_pSqlPerformanceMng		(NULL),
 	m_pSqlPerformanceDlg		(NULL),
@@ -807,40 +697,27 @@ CTBContext::CTBContext(const CTBContext& aTBContext, CBaseDocument* pDocument)
 	m_pSqlPerformanceMng	 = aTBContext.m_pSqlPerformanceMng;
 	m_pSqlPerformanceDlg	 = aTBContext.m_pSqlPerformanceDlg;
 	m_pCustomObjects		 = aTBContext.m_pCustomObjects;
-	//m_bShareTransactionContext = aTBContext.m_bShareTransactionContext;
-	//m_bShareDataCachingContext = aTBContext.m_bShareDataCachingContext;
-
+	
 	m_pBaseContext = new CBaseContext(*aTBContext.m_pBaseContext);
 
 	if (aTBContext.m_bShareTransactionContext)
 	{
 		m_pCurrTransactionContext = new CTransactionContext(*aTBContext.m_pCurrTransactionContext);
-		/*TraceError(cwsprintf(_T("CTBContext using same transaction context with UpdatableSession %lp (original UpdatableSqlSession : %lp)"), 
-								m_pCurrTransactionContext->GetUpdatableSqlSession(), 
-								aTBContext.m_pCurrTransactionContext->GetUpdatableSqlSession())); */
-
+	
 		TRACE_SQL(cwsprintf(_T("CTBContext using same transaction context with UpdatableSession %lp (original UpdatableSqlSession : %lp)"), 
-								m_pCurrTransactionContext->GetUpdatableSqlSession(), 
-								aTBContext.m_pCurrTransactionContext->GetUpdatableSqlSession()),
-								m_pCurrTransactionContext->GetUpdatableSqlSession());
+								m_pCurrTransactionContext->GetSqlSession(), 
+								aTBContext.m_pCurrTransactionContext->GetSqlSession()),
+								m_pCurrTransactionContext->GetSqlSession());
 	}
 	else
 	{
 		m_pCurrTransactionContext = new CTransactionContext((aTBContext.GetSqlConnection()) ? aTBContext.GetSqlConnection() : AfxGetDefaultSqlConnection(), this, pDocument);
-		/*TraceError(cwsprintf(_T("CTBContext create new transaction context with UpdatableSession %lp (original UpdatableSqlSession : %lp)"), 
-								m_pCurrTransactionContext->GetUpdatableSqlSession(), 
-								aTBContext.m_pCurrTransactionContext->GetUpdatableSqlSession()));*/
 		TRACE_SQL(cwsprintf(_T("CTBContext create new transaction context with UpdatableSession %lp (original UpdatableSqlSession : %lp)"), 
-								m_pCurrTransactionContext->GetUpdatableSqlSession(), 
-								aTBContext.m_pCurrTransactionContext->GetUpdatableSqlSession()),
-								m_pCurrTransactionContext->GetUpdatableSqlSession());
+								m_pCurrTransactionContext->GetSqlSession(),
+								aTBContext.m_pCurrTransactionContext->GetSqlSession()),
+								m_pCurrTransactionContext->GetSqlSession());
 	}
 
-
-	if (aTBContext.m_bShareDataCachingContext)
-		m_pCurrDataCachingContext = new CDataCachingContext(*aTBContext.m_pCurrDataCachingContext); 
-	else
-		m_pCurrDataCachingContext = new CDataCachingContext(m_pBaseContext, pDocument);
 }
 
 
@@ -867,7 +744,6 @@ CTBContext::~CTBContext()
 		}
 	}
 	delete m_pCurrTransactionContext;		
-	delete m_pCurrDataCachingContext;	
 	delete m_pBaseContext;
 }
 
@@ -923,7 +799,14 @@ CContextObject*	CTBContext::GetCustomObject(LPCTSTR lpszObjectName)
 	}
 	return NULL;
 }
+//-----------------------------------------------------------------------------
+void CTBContext::EnableOptimisticLock(bool bEnable /*= true*/)
+{ 
+	return;
 
+	if (IsOwnContext())
+		m_pBaseContext->EnableOptimisticLock(bEnable); 
+}
 
 //-----------------------------------------------------------------------------
 void CTBContext::Rollback()
@@ -942,9 +825,9 @@ void CTBContext::Rollback()
 		if (pSetting && pSetting->GetDataType() == DATA_BOOL_TYPE && *((DataBool*) pSetting))
 			WriteEventViewerMessage(FormatRollbackLogMessage(), EVENTLOG_WARNING_TYPE);
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 
@@ -957,9 +840,9 @@ void CTBContext::Commit()
 	{
 		m_pCurrTransactionContext->Commit(m_pSqlPerformanceMng);
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 
@@ -1117,26 +1000,19 @@ IMPLEMENT_DYNAMIC(SqlObject, CObject)
 
 //-----------------------------------------------------------------------------
 SqlObject::SqlObject(CBaseContext* pBaseContext/* = NULL*/, CBaseDocument* pDocument/*NULL*/)
-:
-	m_pDBPropSet			(NULL),
-	m_hResult				(S_OK)
 {
 
 	m_bOwnContext	= (pBaseContext == NULL);
 	m_pContext		= (pBaseContext) 
 						? pBaseContext
 						: new CBaseContext(pDocument);
-
-	m_pDBPropSet = new ATLDBPropSet;	
 }
 
 
 //-----------------------------------------------------------------------------
 SqlObject::~SqlObject()
 {
-	if (m_pDBPropSet)
-		delete m_pDBPropSet;
-
+	
 	if (m_pContext && m_bOwnContext)
 		delete m_pContext;
 }
@@ -1154,68 +1030,8 @@ void SqlObject::SetContext(CBaseContext* pBaseContext)
 	}
 }
 
-//-----------------------------------------------------------------------------
-void SqlObject::CreatePropertySet()
-{
-	if (!m_pDBPropSet)
-		m_pDBPropSet = new ATLDBPropSet();
-}
 
-//-----------------------------------------------------------------------------
-void SqlObject::RemovePropertySet()
-{
-	if (m_pDBPropSet)
-	{
-		delete m_pDBPropSet;
-		m_pDBPropSet = NULL;
-	}
-}
-//-----------------------------------------------------------------------------
-void SqlObject::SetPropGUID(const GUID& guid)
-{
-	if (m_pDBPropSet)
-		m_pDBPropSet->SetGUID(guid);	
-}
 
-//-----------------------------------------------------------------------------
-BOOL SqlObject::AddProperty(DWORD dwPropertyIDSet, const VARIANT& varValue)
-{	
-	return m_pDBPropSet && m_pDBPropSet->AddProperty(dwPropertyIDSet, varValue);
-}
-
-//-----------------------------------------------------------------------------
-BOOL SqlObject::AddProperty(DWORD dwPropertyIDSet, bool bValue)
-{	
-	return m_pDBPropSet && m_pDBPropSet->AddProperty(dwPropertyIDSet, bValue);
-}	
-
-//-----------------------------------------------------------------------------
-BOOL SqlObject::AddProperty(DWORD dwPropertyIDSet, long lValue)
-{	
-	return m_pDBPropSet && m_pDBPropSet->AddProperty(dwPropertyIDSet, lValue);
-}	
-
-//-----------------------------------------------------------------------------
-HRESULT SqlObject::GetProperty(DWORD dwPropertyID, VARIANT* pVarValue)
-{
-	if (!m_pDBPropSet)
-		return FALSE; 
-
-	for (ULONG i = 0; i <= m_pDBPropSet->cProperties; i++)
-	{
-		if (m_pDBPropSet->rgProperties[i].dwPropertyID  == dwPropertyID)
-			return ::VariantCopy(pVarValue, &(m_pDBPropSet->rgProperties[i].vValue));			
-	}
-	
-	return S_FALSE;
-}
-
-//-----------------------------------------------------------------------------
-BOOL SqlObject::Check(HRESULT hResult)
-{
-	m_hResult = hResult;
-	return m_hResult == S_OK;
-}
 
 //-----------------------------------------------------------------------------
 void SqlObject::EnableLocksCache (SqlTable* pTable, const BOOL bValue /*TRUE*/)
@@ -1268,196 +1084,19 @@ BOOL SqlObject::IsCurrentLocked(SqlTable* pTable)
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNAMIC(SqlException, CException)
+IMPLEMENT_DYNAMIC(SqlException, MSqlException)
 
-//-----------------------------------------------------------------------------
-SqlException::SqlException
-	(
-		LPUNKNOWN		lpUnk, 
-		const IID&		iid, 
-		HRESULT			nHResult/*= S_OK*/,
-		SqlObject*		pSqlObj /*=NULL*/,
-		DWORD			wNativeErrCode /*= 0*/
-	)
-:
-	m_pSqlObj		(pSqlObj),
-	m_nHResult		(nHResult),
-	m_iid			(iid),
-	m_lpUnk			(lpUnk),
-	m_wNativeErrCode(wNativeErrCode)
-{	
-	if (m_lpUnk != NULL)
-		m_lpUnk->AddRef();	
-}
+SqlException::SqlException(const CString& strError)
+	:
+	MSqlException(strError),
+	m_pSqlObj(NULL)
+{}
 
-//-----------------------------------------------------------------------------
-SqlException::SqlException()	
-:
-	m_pSqlObj		(NULL),
-	m_nHResult		(S_OK),
-	m_iid			(NULL_GUID),
-	m_lpUnk			(NULL),
-	m_wNativeErrCode(0)
+SqlException::SqlException(MSqlException& mSqlException)
+	:
+	MSqlException(mSqlException),
+	m_pSqlObj(NULL)
 {
-}
-
-//-----------------------------------------------------------------------------
-SqlException::~SqlException()
-{
-	if (m_lpUnk != NULL)
-	{
-		m_lpUnk->Release();
-		m_lpUnk = NULL;
-	}
-}
-
-//-----------------------------------------------------------------------------
-void SqlException::BuildErrorString(HRESULT hResult, LPUNKNOWN lpUnk, const IID& m_iid)
-{
-	ASSERT_VALID(this);
-	
-	//STE
-	USES_CONVERSION;
-
-	CDBErrorInfo errInfo;
-	ULONG ulRecords = 0;
-	HRESULT hr;
-	IErrorRecords* pErrRecords = NULL;
-
-	// non riesco ad avere il messaggio di errore allora
-	// me lo costruisco 
-	if (!m_lpUnk)
-	{
-		GetErrorString(hResult, m_strError);
-		return;
-	}
-
-	hr = errInfo.GetErrorRecords(m_lpUnk, m_iid, &ulRecords);
-	if (
-			FAILED(hr)|| 
-			hr == S_FALSE || 
-			ulRecords == 0
-		)
-	{
-		GetErrorString(hResult, m_strError);
-		return;
-	}
-
-	//errInfo.QueryInterface(IID_IErrorRecords,	(void **) &pErrRecords);
-	//if (pErrRecords == NULL) 
-	//{
-	//	GetErrorString(hResult, m_strError);
-	//	return;
-	//}
-
-	LCID lcid = GetUserDefaultLCID();
-	struct SQLERRORINFO* pInfo = new SQLERRORINFO;
-
-	for (ULONG nRec = 0; nRec < ulRecords; nRec++)
-	{
-		// Get the error information from the source
-		hr = errInfo.GetAllErrorInfo(nRec, lcid, &pInfo->bstrDescription,
-			&pInfo->bstrSource, &pInfo->guid, &pInfo->dwHelpContext,
-			&pInfo->bstrHelpFile);
-		if (FAILED(hr))
-			continue;
-		//gestione della stringa....  m_strError
-		m_strError +=  pInfo->bstrDescription;
-
-		ERRORINFO aErr;
-		errInfo.GetBasicErrorInfo(nRec, &aErr);
-		m_wNativeErrCode =  aErr.dwMinor;
-		if (!m_wNativeErrCode)
-			m_wNativeErrCode = GetNativeFromDescription(m_strError);
-	}	
-	
-	if (pInfo) delete pInfo;
-}	
-
-//-----------------------------------------------------------------------------	
-DWORD SqlException::GetNativeFromDescription(const CString& strNewError)
-{
-	int nErrNative = 0;
-
-	if (!m_pSqlObj || m_pSqlObj->GetDBMSType() == DBMS_ORACLE)
-		return nErrNative; 
-
-	CString sError (strNewError);
-	sError = sError.MakeLower();
-	if (
-			sError.Find (_T("[dbnetlib]")) >= 0||
-			sError.Find (_T("connection")) >= 0
-		)
-		nErrNative = SQLSERVER_CONNECTION_LOST_ERR;
-	
-	return nErrNative;
-}
-	
-//-----------------------------------------------------------------------------	
-BOOL SqlException::GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext /*= NULL*/) const 
-{
-	_tcscpy_s(lpszError, nMaxError, m_strError);
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------	
-BOOL SqlException::GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext /*= NULL*/)
-{
-	_tcscpy_s(lpszError, nMaxError, m_strError);
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------	
-void SqlException::GetErrorString(HRESULT hResult, CString& m_strError)
-{
-	switch (hResult)
-	{
-		case E_NOINTERFACE:
-			m_strError = _TB("OLEDB: The method requires an interface not supported by the provider.");
-			break;
-		case DB_E_NOTSUPPORTED:
-			m_strError = _TB("OLEDB: Method not supported by the provider.");
-			break;
-		case E_INVALIDARG:
-			m_strError = _TB("OLEDB: Argument error for OLEDB call.");
-			break;
-		case E_FAIL:
-			m_strError = _TB("OLEDB: Provider specific error.");
-			break;
-		case E_UNEXPECTED:
-			m_strError = _TB("OLEDB: An interface method has been called, and the object is in zombie status.");
-			break;
-		case DB_E_NOTREENTRANT:
-			m_strError = _TB("OLEDB: The provider calls a method in the consumer that has not yet returned any."); 
-			break;
-		case DB_E_ABORTLIMITREACHED:
-			m_strError = _TB("OLEDB: has been aborted because a resource limit has been reached. For example, the preparation timed out.");
-			break;
-		case E_OUTOFMEMORY:
-			m_strError = _TB("OLEDB: The provider is unable to allocate sufficient memory to handle the rowset.");
-			break;
-		case DB_E_NOTABLE:
-			m_strError = _TB("OLEDB: The specific table or view does not exist in the data store.");
-			break;
-		default:
-			if (m_pSqlObj)
-				m_pSqlObj->GetErrorString(hResult, m_strError);
-	}
-	if (m_strError.IsEmpty())
-		m_strError = _TB("OLEDB: Generic error while communicating with database.");
-
-	TRACE1("%s\n", m_strError);
-}
-
-// arrichisce la stringa di errore di ulteriori informazioni, ponendo la nuova informazione
-// dopo (default) o prima del vecchio messaggio
-//-----------------------------------------------------------------------------
-void SqlException::UpdateErrorString(const CString& strNewError, BOOL bAppend /*= TRUE*/)
-{
-	if (bAppend)
-		m_strError += LF_CHAR + strNewError;
-	else
-		m_strError = strNewError + LF_CHAR + m_strError;
 }
 
 
@@ -1466,69 +1105,282 @@ void SqlException::UpdateErrorString(const CString& strNewError, BOOL bAppend /*
 BOOL SqlException::ShowError(LPCTSTR pszError/* = _T("")*/)
 {
 	CString msg = pszError;
-	msg += _T("\n")+ m_strError;
-			
-	AfxMessageBox (msg, MB_OK | MB_ICONSTOP);
-    return FALSE;
-}
+	msg += _T("\n") + m_strError;
 
-//-----------------------------------------------------------------------------
-void SqlException::SetDeletable	(const BOOL& bValue)
-{
-#ifdef _DEBUG
-	m_bReadyForDelete = bValue;
-#endif
-}
-
-//-----------------------------------------------------------------------------
-void SqlException::GetLostConnectionErrors (CWordArray& arErrors, const int eDBMSType) const
-{
-	arErrors.RemoveAll();
-
-	if (!m_pSqlObj)
-	{
-		ASSERT(FALSE);
-		TRACE ("SqlException::GetLostConnectionErrors call with null SqlObject");
-		return;
-	}
-
-	// supported errors for connection lost
-	switch (m_pSqlObj->GetDBMSType())
-	{
-	case DBMS_SQLSERVER:
-		arErrors.Add (SQLSERVER_CONNECTION_LOST_ERR);
-		break;
-	case DBMS_ORACLE:
-		arErrors.Add (ORACLE_CONNECTION_LOST_ERR_DISCONNECTED);
-		arErrors.Add (ORACLE_CONNECTION_LOST_ERR_NOTAVAILABLE);
-		arErrors.Add (ORACLE_CONNECTION_LOST_ERR_FATALDISCONNECTED);
-		arErrors.Add (ORACLE_CONNECTION_LOST_ERR_QUERYDISCONNECTED);
-		arErrors.Add (ORACLE_CONNECTION_LOST_ERR_EOFONCHANNEL);
-		break;
-	default:	//DBMS_UNKNOWN
-		ASSERT(FALSE);
-		TRACE ("SqlException::GetLostConnectionErrors call with unknown DBMS_TYPE");
-	}
-}
-
-//-----------------------------------------------------------------------------
-const BOOL SqlException::IsLostConnectionError (const int eDBMSType) const
-{
-	CWordArray arErrors;
-	GetLostConnectionErrors(arErrors, eDBMSType);
-
-	if (!arErrors.GetSize())
-		return FALSE;
-	
-	for (int i=0; i <= arErrors.GetUpperBound(); i++)
-		if (m_wNativeErrCode == arErrors.GetAt(i))
-			return TRUE;
-	
+	AfxMessageBox(msg, MB_OK | MB_ICONSTOP);
 	return FALSE;
 }
 
-//-----------------------------------------------------------------------------
-void SqlException::Empty()
-{
-	m_strError.Empty();
-}
+//@@BAUZI OLD VERSION
+//
+///////////////////////////////////////////////////////////////////////////////
+////						class SqlException
+///////////////////////////////////////////////////////////////////////////////
+////
+////-----------------------------------------------------------------------------
+//
+////-----------------------------------------------------------------------------
+//IMPLEMENT_DYNAMIC(SqlException, CException)
+//
+////-----------------------------------------------------------------------------
+//SqlException::SqlException
+//(
+//	LPUNKNOWN		lpUnk,
+//	const IID&		iid,
+//	HRESULT			nHResult/*= S_OK*/,
+//	SqlObject*		pSqlObj /*=NULL*/,
+//	DWORD			wNativeErrCode /*= 0*/
+//)
+//	:
+//	m_pSqlObj(pSqlObj),
+//	m_nHResult(nHResult),
+//	m_iid(iid),
+//	m_lpUnk(lpUnk),
+//	m_wNativeErrCode(wNativeErrCode)
+//{
+//	if (m_lpUnk != NULL)
+//		m_lpUnk->AddRef();
+//}
+//
+////-----------------------------------------------------------------------------
+//SqlException::SqlException()
+//	:
+//	m_pSqlObj(NULL),
+//	m_nHResult(S_OK),
+//	m_iid(NULL_GUID),
+//	m_lpUnk(NULL),
+//	m_wNativeErrCode(0)
+//{
+//}
+//
+////-----------------------------------------------------------------------------
+//SqlException::~SqlException()
+//{
+//	if (m_lpUnk != NULL)
+//	{
+//		m_lpUnk->Release();
+//		m_lpUnk = NULL;
+//	}
+//}
+//
+////-----------------------------------------------------------------------------
+//void SqlException::BuildErrorString(HRESULT hResult, LPUNKNOWN lpUnk, const IID& m_iid)
+//{
+//	ASSERT_VALID(this);
+//
+//	//STE
+//	USES_CONVERSION;
+//
+//	CDBErrorInfo errInfo;
+//	ULONG ulRecords = 0;
+//	HRESULT hr;
+//	IErrorRecords* pErrRecords = NULL;
+//
+//	// non riesco ad avere il messaggio di errore allora
+//	// me lo costruisco 
+//	if (!m_lpUnk)
+//	{
+//		GetErrorString(hResult, m_strError);
+//		return;
+//	}
+//
+//	hr = errInfo.GetErrorRecords(m_lpUnk, m_iid, &ulRecords);
+//	if (
+//		FAILED(hr) ||
+//		hr == S_FALSE ||
+//		ulRecords == 0
+//		)
+//	{
+//		GetErrorString(hResult, m_strError);
+//		return;
+//	}
+//
+//	//errInfo.QueryInterface(IID_IErrorRecords,	(void **) &pErrRecords);
+//	//if (pErrRecords == NULL) 
+//	//{
+//	//	GetErrorString(hResult, m_strError);
+//	//	return;
+//	//}
+//
+//	LCID lcid = GetUserDefaultLCID();
+//	struct SQLERRORINFO* pInfo = new SQLERRORINFO;
+//
+//	for (ULONG nRec = 0; nRec < ulRecords; nRec++)
+//	{
+//		// Get the error information from the source
+//		hr = errInfo.GetAllErrorInfo(nRec, lcid, &pInfo->bstrDescription,
+//			&pInfo->bstrSource, &pInfo->guid, &pInfo->dwHelpContext,
+//			&pInfo->bstrHelpFile);
+//		if (FAILED(hr))
+//			continue;
+//		//gestione della stringa....  m_strError
+//		m_strError += pInfo->bstrDescription;
+//
+//		ERRORINFO aErr;
+//		errInfo.GetBasicErrorInfo(nRec, &aErr);
+//		m_wNativeErrCode = aErr.dwMinor;
+//		if (!m_wNativeErrCode)
+//			m_wNativeErrCode = GetNativeFromDescription(m_strError);
+//	}
+//
+//	if (pInfo) delete pInfo;
+//}
+//
+////-----------------------------------------------------------------------------	
+//DWORD SqlException::GetNativeFromDescription(const CString& strNewError)
+//{
+//	int nErrNative = 0;
+//
+//	if (!m_pSqlObj || m_pSqlObj->GetDBMSType() == DBMS_ORACLE)
+//		return nErrNative;
+//
+//	CString sError(strNewError);
+//	sError = sError.MakeLower();
+//	if (
+//		sError.Find(_T("[dbnetlib]")) >= 0 ||
+//		sError.Find(_T("connection")) >= 0
+//		)
+//		nErrNative = SQLSERVER_CONNECTION_LOST_ERR;
+//
+//	return nErrNative;
+//}
+//
+////-----------------------------------------------------------------------------	
+//BOOL SqlException::GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext /*= NULL*/) const
+//{
+//	_tcscpy_s(lpszError, nMaxError, m_strError);
+//	return TRUE;
+//}
+//
+////-----------------------------------------------------------------------------	
+//BOOL SqlException::GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext /*= NULL*/)
+//{
+//	_tcscpy_s(lpszError, nMaxError, m_strError);
+//	return TRUE;
+//}
+//
+////-----------------------------------------------------------------------------	
+//void SqlException::GetErrorString(HRESULT hResult, CString& m_strError)
+//{
+//	switch (hResult)
+//	{
+//	case E_NOINTERFACE:
+//		m_strError = _TB("OLEDB: The method requires an interface not supported by the provider.");
+//		break;
+//	case DB_E_NOTSUPPORTED:
+//		m_strError = _TB("OLEDB: Method not supported by the provider.");
+//		break;
+//	case E_INVALIDARG:
+//		m_strError = _TB("OLEDB: Argument error for OLEDB call.");
+//		break;
+//	case E_FAIL:
+//		m_strError = _TB("OLEDB: Provider specific error.");
+//		break;
+//	case E_UNEXPECTED:
+//		m_strError = _TB("OLEDB: An interface method has been called, and the object is in zombie status.");
+//		break;
+//	case DB_E_NOTREENTRANT:
+//		m_strError = _TB("OLEDB: The provider calls a method in the consumer that has not yet returned any.");
+//		break;
+//	case DB_E_ABORTLIMITREACHED:
+//		m_strError = _TB("OLEDB: has been aborted because a resource limit has been reached. For example, the preparation timed out.");
+//		break;
+//	case E_OUTOFMEMORY:
+//		m_strError = _TB("OLEDB: The provider is unable to allocate sufficient memory to handle the rowset.");
+//		break;
+//	case DB_E_NOTABLE:
+//		m_strError = _TB("OLEDB: The specific table or view does not exist in the data store.");
+//		break;
+//	default:
+//		if (m_pSqlObj)
+//			m_pSqlObj->GetErrorString(hResult, m_strError);
+//	}
+//	if (m_strError.IsEmpty())
+//		m_strError = _TB("OLEDB: Generic error while communicating with database.");
+//
+//	TRACE1("%s\n", m_strError);
+//}
+//
+//// arrichisce la stringa di errore di ulteriori informazioni, ponendo la nuova informazione
+//// dopo (default) o prima del vecchio messaggio
+////-----------------------------------------------------------------------------
+//void SqlException::UpdateErrorString(const CString& strNewError, BOOL bAppend /*= TRUE*/)
+//{
+//	if (bAppend)
+//		m_strError += LF_CHAR + strNewError;
+//	else
+//		m_strError = strNewError + LF_CHAR + m_strError;
+//}
+//
+//
+//// Display Error Message and alway return FALSE
+////-----------------------------------------------------------------------------	
+//BOOL SqlException::ShowError(LPCTSTR pszError/* = _T("")*/)
+//{
+//	CString msg = pszError;
+//	msg += _T("\n") + m_strError;
+//
+//	AfxMessageBox(msg, MB_OK | MB_ICONSTOP);
+//	return FALSE;
+//}
+//
+////-----------------------------------------------------------------------------
+//void SqlException::SetDeletable(const BOOL& bValue)
+//{
+//#ifdef _DEBUG
+//	m_bReadyForDelete = bValue;
+//#endif
+//}
+//
+////-----------------------------------------------------------------------------
+//void SqlException::GetLostConnectionErrors(CWordArray& arErrors, const int eDBMSType) const
+//{
+//	arErrors.RemoveAll();
+//
+//	if (!m_pSqlObj)
+//	{
+//		ASSERT(FALSE);
+//		TRACE("SqlException::GetLostConnectionErrors call with null SqlObject");
+//		return;
+//	}
+//
+//	// supported errors for connection lost
+//	switch (m_pSqlObj->GetDBMSType())
+//	{
+//	case DBMS_SQLSERVER:
+//		arErrors.Add(SQLSERVER_CONNECTION_LOST_ERR);
+//		break;
+//	case DBMS_ORACLE:
+//		arErrors.Add(ORACLE_CONNECTION_LOST_ERR_DISCONNECTED);
+//		arErrors.Add(ORACLE_CONNECTION_LOST_ERR_NOTAVAILABLE);
+//		arErrors.Add(ORACLE_CONNECTION_LOST_ERR_FATALDISCONNECTED);
+//		arErrors.Add(ORACLE_CONNECTION_LOST_ERR_QUERYDISCONNECTED);
+//		arErrors.Add(ORACLE_CONNECTION_LOST_ERR_EOFONCHANNEL);
+//		break;
+//	default:	//DBMS_UNKNOWN
+//		ASSERT(FALSE);
+//		TRACE("SqlException::GetLostConnectionErrors call with unknown DBMS_TYPE");
+//	}
+//}
+//
+////-----------------------------------------------------------------------------
+//const BOOL SqlException::IsLostConnectionError(const int eDBMSType) const
+//{
+//	CWordArray arErrors;
+//	GetLostConnectionErrors(arErrors, eDBMSType);
+//
+//	if (!arErrors.GetSize())
+//		return FALSE;
+//
+//	for (int i = 0; i <= arErrors.GetUpperBound(); i++)
+//		if (m_wNativeErrCode == arErrors.GetAt(i))
+//			return TRUE;
+//
+//	return FALSE;
+//}
+//
+////-----------------------------------------------------------------------------
+//void SqlException::Empty()
+//{
+//	m_strError.Empty();
+//}

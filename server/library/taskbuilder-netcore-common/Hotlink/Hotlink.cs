@@ -58,9 +58,9 @@ namespace Microarea.Common.Hotlink
 		//----------------------------------------------------------------------------
 		public string GetActualParamsAsXML(object fieldData)
 		{
-			XmlDocument dom = new XmlDocument();
-			dom.LoadXml(string.Format("<{0}/>", ReferenceObjectsXML.Element.HotKeyLink));
-			StringBuilder s = new StringBuilder();
+            XmlDocument dom = new XmlDocument();
+            dom.LoadXml(string.Format("<{0}/>", ReferenceObjectsXML.Element.HotKeyLink));
+            StringBuilder s = new StringBuilder();
 			StringWriter writer = new StringWriter(s);
 
 			// Aggiunge il valore del field attivo
@@ -160,7 +160,7 @@ namespace Microarea.Common.Hotlink
 
 			try
 			{
-				XmlDocument dom = new XmlDocument();
+                XmlDocument dom = new XmlDocument();
 				dom.LoadXml(response);
 				XmlNode root = dom.DocumentElement;
 

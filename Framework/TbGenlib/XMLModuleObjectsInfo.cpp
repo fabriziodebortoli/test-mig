@@ -733,7 +733,7 @@ void CModuleDescription::LoadEventHandlerObjects ()
 void CModuleDescription::LoadReferenceObjects()
 {
 	LoadReferenceObjects(CPathFinder::STANDARD);
-	LoadReferenceObjects(CPathFinder::CUSTOM, CPathFinder::ALL_COMPANIES);
+	LoadReferenceObjects(CPathFinder::CUSTOM);
 	m_ReferencesInfo.SetLoaded(true);
 }
 
@@ -819,16 +819,14 @@ BOOL CModuleDescription::IsOutDated (const CTBNamespace& aNamespace, const int& 
 											CXMLDocumentObject* pDoc
 										)
 {
-	if (!pDoc || sTagName.IsEmpty() || sFileName.IsEmpty())
+	if (!pDoc || sTagName.IsEmpty() || sFileName.IsEmpty() || !ExistFile(sFileName))
 		return FALSE;
 	
 	CString strTagVal;
 
 	if (!pDoc->LoadXMLFile(sFileName))
-	{
-		if (ExistFile(sFileName))
-			AfxGetDiagnostic()->Add (cwsprintf(_TB(" XML description {0-%s} cannot be read. File not loaded."), (LPCTSTR) sFileName), CDiagnostic::Warning);
-		
+	{		
+		AfxGetDiagnostic()->Add (cwsprintf(_TB(" XML description {0-%s} cannot be read. File not loaded."), (LPCTSTR) sFileName), CDiagnostic::Warning);		
 		return FALSE;
 	}
 	

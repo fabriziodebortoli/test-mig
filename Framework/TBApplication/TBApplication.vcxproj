@@ -246,6 +246,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+    <ProjectReference Include="..\TbDatabaseManaged\TbDatabaseManaged.vcxproj">
+      <Project>{5130f124-732c-4972-8922-fa70d5d493d9}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\TbFrameworkImages\TbFrameworkImages.vcxproj">
       <Project>{fa802c42-4615-4053-985a-70dc6b15784a}</Project>
     </ProjectReference>

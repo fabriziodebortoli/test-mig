@@ -205,12 +205,12 @@ namespace Microarea.Common.WebServicesWrapper
                 //si lavora su un elenco di moduli che computa solo i moduli della Standard e non anche quelli delle customizzaizoni.
                 modules = LoginManager.LoginManagerInstance.GetModules();
                  //le customizzazioni sono di default attivate
-                foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+                foreach (ApplicationInfo bai in PathFinder.PathFinderInstance.ApplicationInfos)
                 {
                     if (bai.ApplicationType != ApplicationType.Customization)
                         continue;
 
-                    foreach (BaseModuleInfo bmi in bai.Modules)
+                    foreach (ModuleInfo bmi in bai.Modules)
                         modules.Add(bai.Name + "." + bmi.Name);
                 }
                 return modules;
@@ -227,7 +227,7 @@ namespace Microarea.Common.WebServicesWrapper
 
         //----------------------------------------------------------------------------
         /// <summary>
-        /// Oggetto statico globale BasePathFinder utilizzato ovunque in Mago.Net siano necessarie
+        /// Oggetto statico globale PathFinder utilizzato ovunque in Mago.Net siano necessarie
         /// informazioni non dipendenti da username e company
         /// </summary>
         public static Microarea.Common.WebServicesWrapper.LoginManager LoginManagerInstance
@@ -263,7 +263,7 @@ namespace Microarea.Common.WebServicesWrapper
         //-----------------------------------------------------------------------------------------
         private void ConfigureWebService()
         {
-             loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(PathFinder.BasePathFinderInstance.LoginManagerUrl);
+             loginManagerClient.Endpoint.Address = new System.ServiceModel.EndpointAddress(PathFinder.PathFinderInstance.LoginManagerUrl);
         }
 
 
@@ -654,13 +654,6 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //---------------------------------------------------------------------------
-        internal bool IsSecurityLightEnabled()
-        {
-            Task<bool> task = loginManagerClient.IsSecurityLightEnabledAsync();
-            return task.Result;
-        }
-
-        //---------------------------------------------------------------------------
         internal void RefreshSecurityStatus()
         {
             Task task = loginManagerClient.RefreshSecurityStatusAsync();
@@ -697,8 +690,8 @@ namespace Microarea.Common.WebServicesWrapper
 
                     if (expression[0] == '?')
                     {
-                        string instPath = PathFinder.BasePathFinderInstance.GetInstallationPath();
-                        return File.Exists(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
+                        string instPath = PathFinder.PathFinderInstance.GetInstallationPath;
+                        return PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
                     }
 
                     bool negateToken = (expression[0] == '!');

@@ -23,6 +23,7 @@
     <ProjectReference Include="..\menu-service\menu-service.csproj" />
     <ProjectReference Include="..\provisioning-database-service\provisioning-database-service.csproj" />
     <ProjectReference Include="..\report-service\report-service.csproj" />
+    <ProjectReference Include="..\tbfs-service\tbfs-service.csproj" />
     <ProjectReference Include="..\tbloader-gate\tbloader-gate.csproj" />
     <ProjectReference Include="..\widgets-service\widgets-service.csproj" />
     <ProjectReference Include="..\manufacturing-service\manufacturing-service.csproj" />

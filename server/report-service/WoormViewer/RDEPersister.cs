@@ -3,6 +3,7 @@ using System.Xml;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -84,11 +85,12 @@ namespace Microarea.RSWeb.WoormViewer
 				true
 				);
 			
-			foreach (string file in Directory.GetFiles(originPath))
-			{
-				string destFileName = Path.Combine(destinationPath, Path.GetFileName(file));
-				File.Copy(file, destFileName);
-			}
+            //TODO LARA
+			//foreach (string file in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(originPath, "*.*"))
+			//{
+			//	string destFileName = Path.Combine(destinationPath, Path.GetFileName(file));
+   //             PathFinder.PathFinderInstance.FileSystemManager.CopyFile(file, destFileName, false );
+			//}
 
 			return true;
 		}
@@ -96,11 +98,11 @@ namespace Microarea.RSWeb.WoormViewer
 		//---------------------------------------------------------------------------
 		public void AddGraphicInfos(string infoFileName, string graphics, string source, string description)
 		{
-			XmlDocument d = new XmlDocument();
-            FileStream s = File.Open(infoFileName, FileMode.Open);
-			d.Load(s);
-			
-			XmlElement descriptionNode = d.CreateElement("Description");
+            XmlDocument d = new XmlDocument();
+            Stream s = PathFinder.PathFinderInstance.FileSystemManager.GetStream(infoFileName , true);//TODO lara
+            d.Load(s);
+
+            XmlElement descriptionNode = d.CreateElement("Description");
 			descriptionNode.InnerText = description;
 			d.DocumentElement.AppendChild(descriptionNode);
 			

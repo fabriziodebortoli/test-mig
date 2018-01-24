@@ -614,7 +614,7 @@ BOOL SqlLockMng::UnlockAll(CBaseContext* pContext)
 		return FALSE;
 	}
 	// solo il proprietario del contesto puó effettuare un lockall
-	if (!pContext->m_bCanUnlock)
+	if (!pContext->m_bOwnedContext)
 		return TRUE;
 	
 	if (m_pLockManagerInterface->UnlockAllContext(m_strDBName, cwsprintf(_T("%lp"), pContext)))

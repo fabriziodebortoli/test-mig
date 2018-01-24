@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using TaskBuilderNetCore.Interfaces;
 
-namespace Microarea.Common.SecurityLayer.SecurityLightObjects
+namespace Microarea.Common.SecurityLayer.SecurityObjects
 {
 	public enum SecurityType
 	{

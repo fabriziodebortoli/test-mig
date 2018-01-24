@@ -1194,9 +1194,9 @@ BOOL QueryObject::BindColumn (SqlTable* pSqlTable, SqlRecord* pSqlRecord, int& n
 			pRecItem->m_lLength = pTag->m_nLen;
 		pSqlRecord->Add(pRecItem);
 
-		DBTYPE eSqlType = m_pSqlSession->GetSqlConnection()->GetSqlDataType(pTag->m_pData->GetDataType());
+		//DBTYPE eSqlType = m_pSqlSession->GetSqlConnection()->GetSqlDataType(pTag->m_pData->GetDataType());
 
-		pSqlTable->m_pColumnArray->Add(pTag->m_strSqlName, pTag->m_pData, eSqlType, nEmptySqlRecIdx);
+		pSqlTable->Select(pTag->m_strSqlName, pTag->m_pData);
 	}
 	return TRUE;
 }
@@ -1229,19 +1229,19 @@ BOOL QueryObject::BindParameter (SqlTable* pSqlTable, SqlRecord* pSqlRecord, int
 		pTag->m_strSqlName = cwsprintf(_T("%s_%d"), pTag->m_strName, ++nBind);
 
 		short nOleDbParamType = DBPARAMTYPE_INPUT;
-		DBPARAMIO eParamType = DBPARAMIO_INPUT;
+		SqlParamType eParamType = Input;
 		switch (pTag->m_Direction)
 		{
 			case QueryObject::_IN:
-					eParamType		= DBPARAMIO_INPUT;
+					eParamType = Input;
 					nOleDbParamType = DBPARAMTYPE_INPUT;
 					break;
 			case QueryObject::_OUT:
-					eParamType		= DBPARAMIO_OUTPUT;
+					eParamType		= Output;
 					nOleDbParamType = DBPARAMTYPE_OUTPUT;
 					break;
 			case QueryObject::_INOUT:
-					eParamType		= DBPARAMIO_OUTPUT | DBPARAMIO_INPUT;
+					eParamType		= InputOutput;
 					nOleDbParamType = DBPARAMTYPE_INPUTOUTPUT;
 					break;
 			default:
@@ -1357,9 +1357,8 @@ DataBool QueryObject::Open ()
 
 	TRY
 	{
-		m_poSqlTable->SetUseDataCaching (FALSE);
 		if (m_bUseCursor)
-			m_poSqlTable->Open(m_bCursorUpdatable, m_CursorType, m_bSensibility);		
+			m_poSqlTable->Open(m_bCursorUpdatable, m_CursorType);		
 		else
 			m_poSqlTable->Open(FALSE, E_FAST_FORWARD_ONLY);
 	}
@@ -1703,6 +1702,9 @@ GO
 
 */
 
+//@@TODO BAUZI E RICHI da adeguare alla nuova layer ADO.NET
+//Non è più necessario nella m_strSQL indicare l'intero comando di CALL ProcName(, ?, ?, ?).... ma basta passare il nome della StoredProcedure poiche con SqlCommandType = StoredProcedure
+//e la gestione dei parametri il SqlCommand ci pensa lui a fare la CALL
 //------------------------------------------------------------------------------
 DataBool QueryObject::Call ()
 {

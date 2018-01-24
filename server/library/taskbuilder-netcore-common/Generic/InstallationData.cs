@@ -93,9 +93,9 @@ namespace Microarea.Common.Generic
 
 					serverConnectionInfo = new ServerConnectionInfo();
 
-					if (File.Exists(BasePathFinder.BasePathFinderInstance.ServerConnectionFile) &&
-						!serverConnectionInfo.Parse(BasePathFinder.BasePathFinderInstance.ServerConnectionFile))
-						throw new Exception(string.Format(Messages.ErrorReadingFile, BasePathFinder.BasePathFinderInstance.ServerConnectionFile));
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile) &&
+						!serverConnectionInfo.Parse(PathFinder.PathFinderInstance.ServerConnectionFile))
+						throw new Exception(string.Format(Messages.ErrorReadingFile, PathFinder.PathFinderInstance.ServerConnectionFile));
 
 					return serverConnectionInfo;
 				}
@@ -113,7 +113,7 @@ namespace Microarea.Common.Generic
 					{
 						if (installationDate == DateTime.MinValue)
 						{
-							string file = BasePathFinder.BasePathFinderInstance.GetInstallationVersionPath();
+							string file = PathFinder.PathFinderInstance.GetInstallationVersionPath();
 							InstallationVersion info = InstallationVersion.LoadFromOrCreate(file);
 
 							installationDate = info.IDate;
@@ -129,7 +129,7 @@ namespace Microarea.Common.Generic
 		{
 			get
 			{
-				string file = BasePathFinder.BasePathFinderInstance.GetInstallationVersionPath();
+				string file = PathFinder.PathFinderInstance.GetInstallationVersionPath();
 				InstallationVersion info = InstallationVersion.LoadFromOrCreate(file);
 
 				return info.CDate;
@@ -233,7 +233,7 @@ namespace Microarea.Common.Generic
 				cultures.Add(new CultureInfo(string.Empty));    //lingua nativa
  				try
                 {
-					if (Directory.Exists(path))
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
 					{
 						foreach (string folder in Directory.GetDirectories(path))
 						{
@@ -253,11 +253,12 @@ namespace Microarea.Common.Generic
 
 			return cultures.ToArray();
 		}
+        
 
-		//---------------------------------------------------------------------
-		public static CultureInfo[] GetInstalledDictionaries()
+        //---------------------------------------------------------------------
+        public static CultureInfo[] GetInstalledDictionaries()
 		{
-			string path = BasePathFinder.BasePathFinderInstance.GetStandardDictionaryPath("framework", "tbloader");//Functions.GetAssemblyPath(Assembly.GetEntryAssembly());
+			string path = PathFinder.PathFinderInstance.GetStandardDictionaryPath("framework", "tbloader");//Functions.GetAssemblyPath(Assembly.GetEntryAssembly());
 			return InternalGetInstalledDictionaries(path);
 		}
 

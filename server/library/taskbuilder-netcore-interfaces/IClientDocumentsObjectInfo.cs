@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TaskBuilderNetCore.Documents.Model.Interfaces;
 
 namespace TaskBuilderNetCore.Interfaces
 {
@@ -10,5 +11,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string ParsingError { get; }
 		IList ServerDocuments { get; }
 		bool Valid { get; }
-	}
+
+        IList GetClientDocumentsFor(IDocument document);
+    }
 }

@@ -22,10 +22,13 @@ public:
 	CString 	m_strType;
 	CString 	m_strRemarks;
 
+	::Array		m_arColumnsInfo; //array contenente le columnsInfo
+	::Array		m_arProcedureParams; //array contenente le paramsinfo x le stored procedure
+
 	// constructor	
 public:
 	SqlTablesItem();
-	SqlTablesItem(const SqlTablesItem&);
+	//SqlTablesItem(const SqlTablesItem&);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,7 +58,24 @@ public:
 	int			m_nDecimal;
 	BOOL		m_bLoadedFromDB;
 	BOOL		m_bNullable;
+
+	CRuntimeClass*	m_RuntimeClass;
+	BOOL			m_bVirtual;				// Indica che il dato non e' in tabella ma e' virtuale
+	BOOL			m_bIndexed;				// é una colonna su cui é stato definito un indice
+	BOOL			m_bNativeColumnExpr;	// é una espressione sql: count(*), Max(col), etc
+	volatile bool	m_bAutoIncrement;	// é una colonna di tipi identity
+	volatile bool	m_bDataObjInfoUpdated;
+	volatile bool	m_bVisible;
 	volatile bool	m_bSpecial;		// Utilizzato per individuare univocamente la riga (o segmento di chiave primaria (se definita) o special column)
+
+
+	DataType	m_DataObjType;	// DataObj Usato dal programmatore o scelto dall'utente (in woorm)
+	BOOL		m_bUseCollationCulture;
+	
+#ifdef _DEBUG
+	CRuntimeClass* m_pOwnerSqlRecordClass;
+#endif
+	// constructor	
 
 	// constructor	
 public:
@@ -82,7 +102,7 @@ public:
 //								SqlProcedureParamInfo
 ///////////////////////////////////////////////////////////////////////////////
 //
-class TB_EXPORT SqlProcedureParamInfo : public CObject
+class TB_EXPORT SqlProcedureParamInfoObject : public CObject
 {
 public:
 	// Column info retrieved by SQL direct call
@@ -95,7 +115,12 @@ public:
 	BOOL	    m_bHasDefault;
 	CString     m_strDefault;
 	BOOL		m_bIsNullable;
-	short       m_nDataType;
+
+	//short       m_nDataType; 
+	
+	SWORD		m_nSqlDataType;
+	CString		m_strSqlDataType; //NEWDBLAYER
+
 	long		m_nMaxLength;
 	long		m_nOctetLength;
 	short		m_nPrecision;
@@ -104,8 +129,8 @@ public:
 
 	// constructor	
 public:
-	SqlProcedureParamInfo() {}
-	SqlProcedureParamInfo(const SqlProcedureParamInfo&);
+	SqlProcedureParamInfoObject() {}
+	SqlProcedureParamInfoObject(const SqlProcedureParamInfoObject&);
 
 public:
 	// Aggiorna i dati correlati al dataobj
@@ -119,20 +144,5 @@ public:
 #endif //_DEBUG
 };
 
-///////////////////////////////////////////////////////////////////////////////
-//								SqlProcedureParameters
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlProcedureParameters :public ::Array
-{
-public:
-	// accessing elements
-	SqlProcedureParamInfo *		GetAt(int nIndex) const { return (SqlProcedureParamInfo *)Array::GetAt(nIndex); }
-	SqlProcedureParamInfo *&	ElementAt(int nIndex) { return (SqlProcedureParamInfo *&)Array::ElementAt(nIndex); }
-
-	// overloaded operator helpers
-	SqlProcedureParamInfo *		operator[]	(int nIndex) const { return GetAt(nIndex); }
-	SqlProcedureParamInfo *&	operator[]	(int nIndex) { return ElementAt(nIndex); }
-};
 
 #include "endh.dex"

@@ -81,7 +81,7 @@ static const TCHAR szEmptyParameter[]	= _T("EmptyParameter");
 	{\
 		command\
 	}\
-	CATCH(SqlException, e)\
+	CATCH(MSqlException, e)\
 	{\
 		e->UpdateErrorString(cwsprintf(SqlErrorString::SQL_ERROR_BUILD_QUERY(), m_pRecord->GetTableName()), FALSE);\
 		m_bErrorFound = TRUE;\
@@ -247,14 +247,6 @@ CString	SqlTableArray::ToString()
 	return s;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-//						class ATLCommand
-/////////////////////////////////////////////////////////////////////////////
-//
-//-----------------------------------------------------------------------------
-//===========================================================================
-class ATLCommand : public CCommand<CManualAccessor>
-{};
     
 
 /////////////////////////////////////////////////////////////////////////////
@@ -270,12 +262,11 @@ SqlRowSet::SqlRowSet()
 	m_pRowSet				(NULL),
 	m_pSqlConnection		(NULL),
 	m_pSqlSession			(NULL),
-	m_pOldSqlSession		(NULL),
-	m_bOwnSqlSession		(FALSE)
+	m_pOldSqlSession		(NULL)
 {	
     Initialize();
-	m_pParamArray = new SqlParamArray(this);  
-	m_pColumnArray = new SqlColumnArray(this);  	
+	m_pParamArray = new SqlParamArray();  
+	m_pColumnArray = new SqlColumnArray();  	
 }
 
 //-----------------------------------------------------------------------------
@@ -285,8 +276,7 @@ SqlRowSet::SqlRowSet(SqlSession* pSqlSession, CBaseDocument* pDocument)
 	m_pRowSet				(NULL),
 	m_pSqlConnection		(NULL),	
 	m_pSqlSession			(pSqlSession),
-	m_pOldSqlSession		(m_pSqlSession),
-	m_bOwnSqlSession		(FALSE)
+	m_pOldSqlSession		(m_pSqlSession)
 {
 	if (m_pSqlSession)
 	{
@@ -296,8 +286,8 @@ SqlRowSet::SqlRowSet(SqlSession* pSqlSession, CBaseDocument* pDocument)
 	}
 
 	Initialize();
-	m_pParamArray = new SqlParamArray(this);  
-	m_pColumnArray = new SqlColumnArray(this); 	
+	m_pParamArray = new SqlParamArray();  
+	m_pColumnArray = new SqlColumnArray(); 	
 }
 
 //-----------------------------------------------------------------------------
@@ -314,14 +304,12 @@ SqlRowSet::~SqlRowSet()
 void SqlRowSet::Initialize()
 {
 	m_bScrollable	= FALSE;
-	m_bSensitivity	= TRUE;
-	m_bRemoveDeletedRow = FALSE;
 	m_bUpdatable	= FALSE;
 	m_bInit			= FALSE;
 	m_bErrorFound	= FALSE;
 	m_strErrorFound.Empty();
-	m_eCursorType	= E_KEYSET_CURSOR;
-	m_lRowCount		= 0;
+	m_eCursorType	= E_FAST_FORWARD_ONLY;
+	m_nPageSize = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -333,7 +321,6 @@ void SqlRowSet::SetSqlSession(SqlSession* pSqlSession)
 		m_pSqlSession = pSqlSession;
 		m_pSqlConnection = pSqlSession->GetSqlConnection();
 		SetContext(m_pSqlSession->m_pContext);
-		m_bOwnSqlSession = FALSE;
 
 	}
 	else
@@ -344,97 +331,34 @@ void SqlRowSet::SetSqlSession(SqlSession* pSqlSession)
 }
 
 
-//sostituisce i nomi dei parametri ai punti ? (venivano usati con ODBC e poi OLEDB)
 //-----------------------------------------------------------------------------
-void SqlRowSet::SubstituteQuestionMarks(CString& strSQL)
+::DBMSType SqlRowSet::GetDBMSType() const
 {
-	if (strSQL.IsEmpty() || strSQL.Find(_T('?')) < 0)
-		return;
-
-	CString strFilter;
-
-	int nParam = 0;
-	int nStart = 0;
-	int nEnd = 0;
-	int nSingleQuot = 0;
-	int nParamCount = 0;
-	CString strParamName;
-
-	for (nEnd = 0; nEnd < strSQL.GetLength(); nEnd++)
-	{
-		//ho trovato una stringa 
-		if (strSQL[nEnd] == _T('\''))
-		{
-			nSingleQuot++;
-			if (nSingleQuot == 2) //ho trovato sia l'apice di apertura stringa che quello di chiusura. Riazzero il contatore
-				nSingleQuot = 0;
-			continue;
-		}
-
-		if (strSQL[nEnd] == _T('?'))
-		{
-			if (nSingleQuot == 0) //sono in presenza di un parametro 
-			{
-				strFilter += strSQL.Mid(nStart, nEnd - nStart);
-				DataObj* pObj = m_pParamArray->GetDataObjAt(nParamCount);
-				CString strValue = m_pSqlConnection->NativeConvert(pObj);
-
-				//strParamName = m_pParamArray->GetParamName(nParamCount);
-				//strFilter += (strParamName.Find(_T("@"), 0) != 0) ? _T("@") + strParamName : strParamName;
-				strFilter += strValue;
-
-				nStart = nEnd + 1;
-				nParamCount++;
-			}
-		}
-	}
-	if (nEnd > nStart)
-		strFilter += strSQL.Mid(nStart, nEnd - nStart);
-
-	strSQL = strFilter;
+	return m_pSqlSession && m_pSqlSession->GetDBMSType() != DBMS_UNKNOWN ?
+		m_pSqlSession->GetDBMSType() :
+		m_pSqlConnection->GetDBMSType();
 }
-
-
 
 // Gestione dei cursori: VEDI DOCUMENTAZIONE TBOLEDB-REFGUIDE.DOC nella documentazione progetto
 // E'possibile modificare il comportamento di default attraverso i due parametri booleani oppure
 // passando in pDBPropSet le proprietá che deve assumere il RowSet
 //-----------------------------------------------------------------------------
-void SqlRowSet::Open(BOOL bUpdatable, CursorType eCursorType, BOOL bSensitivity /*= TRUE*/ )
+void SqlRowSet::Open(BOOL bUpdatable, CursorType eCursorType)
 {
-	TRACE_SQL(_T("Open"), this);
+	TRACE_SQL(_T("OpenSqlRowSet"), this);
 
-	m_bUpdatable   = bUpdatable;
-	m_eCursorType  = eCursorType;
+	m_eCursorType = eCursorType;
+	SqlRowSet::Open(bUpdatable, (m_eCursorType == E_KEYSET_CURSOR || m_eCursorType == E_DYNAMIC_CURSOR));
+	
+}
 
-	// m_bSensitivity può essere stato cambiato dai metodi SelectSqlFun e AddSelectKeyword poichè con funzioni di aggregazione
-	// o  keyword (TOP, DISTINCT,..) nella SELECT il cursore non può aggiornare il rowset con le modifiche\cancellazioni fatte da altri cursori 
-	m_bSensitivity	= m_bSensitivity && bSensitivity;
-	m_bScrollable = (m_eCursorType == E_KEYSET_CURSOR || m_eCursorType == E_DYNAMIC_CURSOR);
-	TRY
-	{
-		if (m_eCursorType == E_FORWARD_ONLY)
-		{
-			if (!m_bUpdatable && !m_bOwnSqlSession && m_pSqlConnection->GetDBMSType() == DBMS_SQLSERVER)
-			{
-				if (m_pSqlSession)
-					m_pOldSqlSession = m_pSqlSession;
+//-----------------------------------------------------------------------------
+void SqlRowSet::Open(BOOL bUpdatable /*=FALSE*/, BOOL bScrollable /*=FALSE*/)
+{             
+	m_bUpdatable = bUpdatable;
+	m_bScrollable = bScrollable;
 
-				m_pSqlSession = m_pSqlConnection->GetNewSqlSession(m_pSqlConnection->m_pContext);
-				SetSqlSession(m_pSqlSession);
-				m_bOwnSqlSession = TRUE;
-			}
-			else
-				m_eCursorType = E_FAST_FORWARD_ONLY;
-
-		}		
-	}
-	CATCH(SqlException, e)
-	{
-		TRACE(e->m_strError);
-	}
-	END_CATCH
-
+	START_DB_TIME(DB_OPEN_TABLE)
 	if (!m_pSqlSession)
 		ThrowSqlException(_TB("SqlRowSet::Open: attempt to open a rowset in an invalid session."));
 
@@ -442,96 +366,10 @@ void SqlRowSet::Open(BOOL bUpdatable, CursorType eCursorType, BOOL bSensitivity 
 		ThrowSqlException(_TB("SqlRowSet::Open: Rowset already open"));
 
 
-	m_pRowSet = new ATLCommand;
-	
-	// se utilizzo le transazioni non posso aprire un cursore updatable sulla sessione
-	// di default. Questa la posso usare solo in caso di lettura di parametri globali
-	// quando non ho il contesto
-	if (
-			m_bUpdatable && 
-			!m_pSqlConnection->IsAutocommit() && 
-			m_pSqlSession == AfxGetDefaultSqlSession()
-		)
-	{
-		delete m_pRowSet;
-		ThrowSqlException(_TB("SplRowSet:: Open: unable to use the primary session to open tables in write mode\r\n"));
-	}
+	m_pRowSet = new MSqlCommand(m_pSqlSession->GetMSqlConnection());
+	m_pRowSet->Create(bScrollable == TRUE);
 
-	m_pSqlSession->AddCommand(this);
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::Open(
-						BOOL bUpdatable /*=FALSE*/, 
-						BOOL bScrollable /*=FALSE*/, 
-						BOOL bSensitivity /*= TRUE*/
-					 )
-{             
-	return SqlRowSet::Open(bUpdatable, (bScrollable) ? E_KEYSET_CURSOR : m_pSqlConnection->m_eROForwardCursor, bSensitivity);	
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::SetProperties() 
-{
-	if (m_bInit)
-		return;
-
-	TRACE_SQL(_T("SetProperties"), this);
-
-	m_bInit = TRUE;
-	
-	START_DB_TIME(DB_ADD_PROPERTIES)
-	
-	// nel caso in cui il cursore venga chiuso e riaperto
-	CreatePropertySet();
-	SetPropGUID(DBPROPSET_ROWSET);	
-
-	if (m_eCursorType == E_NO_CURSOR) //non utilizzo cursori
-	{
-		STOP_DB_TIME(DB_ADD_PROPERTIES)
-		return;
-	}
-		
-	//va bene anche per il FAST-FORWARDONLY (verificare x ORACLE)
-	// questo vale solo se nella tabella della query non sono presenti campi
-	// di tipo text-image, nel caso si trasforma in un cursore dinamico
-	if (m_eCursorType != E_FORWARD_ONLY)
-		AddProperty(DBPROP_SERVERCURSOR, true);	
-		
-	switch (m_eCursorType)
-	{
-		case E_DYNAMIC_CURSOR:
-				AddProperty(DBPROP_CANFETCHBACKWARDS, true); 
-				AddProperty(DBPROP_CANSCROLLBACKWARDS, true);
-				if (m_bSensitivity)
-				{
-					AddProperty(DBPROP_OTHERINSERT, true);
-					AddProperty(DBPROP_OTHERUPDATEDELETE, true);	
-					if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE) //Bug fix 13772
-						AddProperty(DBPROP_REMOVEDELETED, true);						
-				}
-				else
-					if (m_bRemoveDeletedRow)
-						AddProperty(DBPROP_REMOVEDELETED, true);
-				break;
-
-		case E_KEYSET_CURSOR: 
-				AddProperty(DBPROP_CANFETCHBACKWARDS, true); 
-				AddProperty(DBPROP_CANSCROLLBACKWARDS, true);
-				if (m_bSensitivity)
-				{
-					AddProperty(DBPROP_OTHERUPDATEDELETE, true);	
-					if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE) //Bug fix 13772
-						AddProperty(DBPROP_REMOVEDELETED, true);	
-				}
-				else
-					if (m_bRemoveDeletedRow)
-						AddProperty(DBPROP_REMOVEDELETED, true);	
-				break;
-		default: break;
-	}			
-
-	STOP_DB_TIME(DB_ADD_PROPERTIES)
+	STOP_DB_TIME(DB_OPEN_TABLE)
 }
 
 
@@ -542,38 +380,67 @@ BOOL SqlRowSet::IsOpen() const
 }	
 
 
+//-----------------------------------------------------------------------------
+BOOL SqlRowSet::IsConnected() const
+{
+	return m_pRowSet && m_pRowSet->IsConnected();
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::Connect()
+{
+	TRACE_SQL(_T("ConnectCommand"), this);
+	START_DB_TIME(DB_CONNECT_CMD)
+		
+	if (m_pSqlSession)
+		m_pSqlSession->AddCommand(this);
+
+	STOP_DB_TIME(DB_CONNECT_CMD)
+}
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::Disconnect()
+{
+	ASSERT_VALID(this);
+	TRACE_SQL(_T("DisconnectCommand"), this);
+	START_DB_TIME(DB_DISCONNECT_CMD)
+
+	if (m_pRowSet && m_pRowSet->IsConnected())
+		m_pRowSet->Disconnect();
+	if (m_pSqlSession)
+		m_pSqlSession->RemoveCommand(this);
+
+	STOP_DB_TIME(DB_DISCONNECT_CMD)
+	
+}
+
 // deve evitare di usare la ClearQuery perche` il record potrebbe essere stato
 // cancellato da fuori ma il puntatore non essere ancora NULL;
 //-----------------------------------------------------------------------------
 void SqlRowSet::Close()
 {
 	ASSERT_VALID(this);
-	TRACE_SQL(_T("Close"), this);
+	TRACE_SQL(_T("CloseRowSet"), this);
 
 	ClearRowSet();
+	START_DB_TIME(DB_CLOSE_TABLE)
 	if (m_pRowSet)
 	{
 		delete m_pRowSet;
 		m_pRowSet = NULL;
-	}
-	
-	RemovePropertySet();
-	Initialize();
+	}	
 
-	if (m_pSqlSession)
-	{
-		if (m_bOwnSqlSession)
-		{
-			m_pSqlSession->Close();
-			delete m_pSqlSession;
-			m_pSqlSession = NULL;
-			m_bOwnSqlSession = FALSE;
-			m_pSqlSession = m_pOldSqlSession;
-		}
-		else
-			m_pSqlSession->RemoveCommand(this);				
-	}
+	Initialize();	
+	STOP_DB_TIME(DB_CLOSE_TABLE)
 }
+//-----------------------------------------------------------------------------
+void SqlRowSet::EnablePaging(int nPageSize) 
+{ 
+	m_nPageSize = nPageSize; 	
+};
+
+
 //-----------------------------------------------------------------------------
 BOOL SqlRowSet::ExistParam (const CString& strParamName) const
 {
@@ -590,7 +457,7 @@ void SqlRowSet::ClearParams()
 	if (m_pParamArray)
 		delete m_pParamArray; 
 	
-	m_pParamArray = new SqlParamArray(this);
+	m_pParamArray = new SqlParamArray();
 }
 
 //-----------------------------------------------------------------------------
@@ -601,7 +468,7 @@ void SqlRowSet::ClearColumns()
 	if (m_pColumnArray)
 		delete m_pColumnArray; 
 	
-	m_pColumnArray = new SqlColumnArray(this);
+	m_pColumnArray = new SqlColumnArray();
 }
 
 // Pulisce tutti i parametri, le colonne e le stringhe preposte alla query
@@ -610,47 +477,52 @@ void SqlRowSet::ClearRowSet()
 {	
 	TRACE_SQL(_T("ClearRowSet"), this);
 
-	m_lRowCount = 0; 
 
 	m_strSQL		.Empty();	// SQL completa
 	m_strSelect		.Empty();	// Select-Update-Delete clause        
 	m_strFilter		.Empty();	// WHERE clause	
-	m_strCurrentTables.RemoveAll();
 
-	if (m_pRowSet)
-	{
-		START_DB_TIME(DB_CLOSE_ROWSET)
-		m_pRowSet->Close();
-		m_pRowSet->ReleaseCommand();
-		STOP_DB_TIME(DB_CLOSE_ROWSET)
-	}
+	//where clause lock ottimistico chiavi + old values
+	m_strFilterKeys.Empty();
+	m_strFilterOldValues.Empty();
+
+	m_strCurrentTables.RemoveAll();
 	ClearColumns();
 	ClearParams	();
+	
+	Disconnect();	
 }
 
+//-----------------------------------------------------------------------------
+long SqlRowSet::GetRowSetCount() 
+{
+	//Remarks: The RecordsAffected property is not set until all rows are read and you close the SqlDataReader.
+	//The number of rows changed, inserted, or deleted; 0 if no rows were affected or the statement failed; and -1 for SELECT statements.
+	// solo nel caso di SqlDataAdapter (che simula il cursore scrollabile) ho un numero veritiero
+	return (m_pRowSet) ? m_pRowSet->GetRecordsAffected() : 0;
+}
 
 // Aggiunge un nuovo parametro controllando che non sia gia` stato definito 
 // un parametro con lo stesso nome e che la Table non sia ancora aperta perche`
 // il numero di parametri dopo la open non puo` essere modificato
 //-----------------------------------------------------------------------------
-void SqlRowSet::AddParam (const CString& strParamName, const DataObj& aDataObj, const DBPARAMIO& eType /*= DBPARAMIO_INPUT*/, int nInsertPos /*=-1*/)
+void SqlRowSet::AddParam (const CString& strParamName, const DataObj& aDataObj, SqlParamType eParamType /*= Input*/,  int nInsertPos /*=-1*/)
 {                  
 	DBLENGTH nLen = 0;
 	if (aDataObj.GetDataType() == DATA_STR_TYPE)
 	{
-		if ((aDataObj.GetColumnLen() <= 0))
-			nLen = (m_pSqlConnection->m_bUseUnicode) ? PARAM_ALLOC_SIZE_UNI : PARAM_ALLOC_SIZE;  // x i parametri da woorm x cui non ho l'AllocSize		
-		else
-			nLen = aDataObj.GetColumnLen();
+		nLen = aDataObj.GetColumnLen();
+		if ((nLen <= 0))
+			nLen = (m_pSqlConnection->m_bUseUnicode) ? PARAM_ALLOC_SIZE_UNI : PARAM_ALLOC_SIZE;  // x i parametri da woorm x cui non ho l'AllocSize				
 	}
 	else
 		nLen = aDataObj.GetOleDBSize();
 
-	AddParam(strParamName, aDataObj.GetDataType(), nLen, eType, _T(""), nInsertPos);
+	AddParam(strParamName, aDataObj.GetDataType(), nLen, eParamType, aDataObj.GetSqlDataType(), _T(""), nInsertPos);
 }
 
 //-----------------------------------------------------------------------------
-void SqlRowSet::AddDataTextParam(const CString& strParamName, const DataObj& aDataObj, const CString& strColumnName, const DBPARAMIO& eType /*= DBPARAMIO_INPUT*/)
+void SqlRowSet::AddDataTextParam(const CString& strParamName, const DataObj& aDataObj, const CString& strColumnName, SqlParamType eParamType /*= Input*/)
 {
 	DBLENGTH nLen = 0;
 	if (aDataObj.GetDataType() != DATA_TXT_TYPE)
@@ -659,7 +531,7 @@ void SqlRowSet::AddDataTextParam(const CString& strParamName, const DataObj& aDa
 		return;
 	}
 
-	AddParam(strParamName, aDataObj.GetDataType(), nLen, eType, strColumnName);
+	AddParam(strParamName, aDataObj.GetDataType(), nLen, eParamType, aDataObj.GetSqlDataType(), strColumnName);
 }
 
 
@@ -670,62 +542,13 @@ BOOL SqlRowSet::IsNull() const
 }
 
 //-----------------------------------------------------------------------------
-HRESULT SqlRowSet::CreateAccessor(int nBindEntries, void* pBuffer, ULONG nBufferSize)
-{
-	 return m_pRowSet->CreateAccessor(nBindEntries, pBuffer, nBufferSize);
-}
-
-//-----------------------------------------------------------------------------
-HRESULT SqlRowSet::CreateParameterAccessor(int nBindEntries, void* pBuffer, ULONG nBufferSize)
-{
-	 return m_pRowSet->CreateParameterAccessor(nBindEntries, pBuffer, nBufferSize);
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::AddParameterEntry(ULONG nOrdinal, WORD wType, ULONG nColumnSize, void* pData, void* pLength, void* pStatus, DWORD eParamIO)
-{
-	m_pRowSet->AddParameterEntry(nOrdinal, wType, nColumnSize, pData, pLength, pStatus, eParamIO);
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::AddBindEntry(ULONG nOrdinal, WORD wType, ULONG nColumnSize, void* pData, void* pLength, void* pStatus)
-{
-	m_pRowSet->AddBindEntry(nOrdinal, wType, nColumnSize, pData, pLength, pStatus);
-}
-
-//-----------------------------------------------------------------------------
-HRESULT SqlRowSet::SetParameterInfo(ULONG ulParams, const ULONG* pOrdinals, void* pParamInfo)
-{
-	return m_pRowSet->SetParameterInfo(ulParams, pOrdinals, (DBPARAMBINDINFO*)pParamInfo);
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::CreateStreamObject(int nBindEntry)
-{
-	DBOBJECT* pObject = new DBOBJECT;
-	pObject->dwFlags = STGM_READ;
-	pObject->iid = IID_ISequentialStream;
-
-	m_pRowSet->m_pEntry[nBindEntry].pObject = pObject;			
-}
-
-//-----------------------------------------------------------------------------
-void SqlRowSet::CreateParamStreamObject(int nBindEntry)
-{
-	DBOBJECT* pObject = new DBOBJECT;
-	pObject->dwFlags = STGM_READ;
-	pObject->iid = IID_ISequentialStream;
-
-	m_pRowSet->m_pParameterEntry[nBindEntry].pObject = pObject;			
-}
-
-//-----------------------------------------------------------------------------
 void SqlRowSet::AddParam 
 		(
 			const CString&  strParamName, 
 			const DataType& nDataType, 
-			const DBLENGTH& nLen, 
-			const DBPARAMIO& eType, /*= DBPARAMIO_INPUT*/
+			const int		nLen, 
+			SqlParamType eParamType /*= Input*/, 
+			const SWORD nSqlDataType /*= DBTYPE_EMPTY*/,
 			const CString&  strColumnName,
 			int nInsertPos /*=-1*/
 		)
@@ -733,7 +556,8 @@ void SqlRowSet::AddParam
 	if (!strParamName.IsEmpty() && m_pParamArray->ExistParam(strParamName))
 		ThrowSqlException(_TB("SqlRowSet::AddParam: Query parameters duplicated."));
 	
-	m_pParamArray->Add(strParamName, nDataType, m_pSqlConnection->GetSqlDataType(nDataType), nLen, nEmptySqlRecIdx, eType, strColumnName, nInsertPos);	
+
+	m_pParamArray->AddParam(strParamName, nDataType, nLen, eParamType, nSqlDataType, nInsertPos);
 }
 
 //-----------------------------------------------------------------------------
@@ -742,33 +566,33 @@ void SqlRowSet::AddProcParam(const CString& strParamName, short nOleDbParamType,
 	if (!strParamName.IsEmpty() && m_pParamArray->ExistParam(strParamName))
 		ThrowSqlException(_TB("SqlRowSet::AddProcParam: procedure parameters duplicated."));	
 
-	DBPARAMIO eParamType; 
+	SqlParamType eParamType;
 	switch (nOleDbParamType)
 	{
-		case DBPARAMTYPE_OUTPUT:
-		case DBPARAMTYPE_RETURNVALUE:
-			eParamType = DBPARAMIO_OUTPUT;
-			break;
-		case DBPARAMTYPE_INPUT:
-			eParamType = DBPARAMIO_INPUT;
-			break;
-		case DBPARAMTYPE_INPUTOUTPUT:
-			eParamType = DBPARAMIO_INPUT | DBPARAMIO_OUTPUT;
-			break;
-		default:
-			eParamType = DBPARAMIO_INPUT | DBPARAMIO_OUTPUT;
-			break;
-	}	
-
+	case DBPARAMTYPE_OUTPUT:
+		eParamType = Output;
+		break;
+	case DBPARAMTYPE_RETURNVALUE:
+		eParamType = ReturnValue;
+		break;
+	case DBPARAMTYPE_INPUT:
+		eParamType = Input;
+		break;
+	case DBPARAMTYPE_INPUTOUTPUT:
+		eParamType = InputOutput;
+		break;
+	default:
+		eParamType = InputOutput;
+		break;
+	}
 	DBLENGTH nLen = 0;
 	if (pDataObj->GetDataType() == DATA_STR_TYPE && pDataObj->GetColumnLen() <= 0)
 		pDataObj->SetAllocSize(PARAM_ALLOC_SIZE);  // x i parametri da woorm x cui non ho l'AllocSize
 
-	m_pParamArray->Add
+	m_pParamArray->AddParam
 					(
 						strParamName, 
 						pDataObj, 
-						m_pSqlConnection->GetSqlDataType(pDataObj->GetDataType()), 
 						eParamType,
 						nEmptySqlRecIdx
 					);	
@@ -800,11 +624,6 @@ void SqlRowSet::GetParamValue (const CString& strParamName, DataObj* pDataObj) c
 	m_pParamArray->GetParamValue(strParamName, pDataObj);
 }
 
-//-----------------------------------------------------------------------------
-DataType SqlRowSet::GetParamType (const CString& strParamName) const
-{
-	return m_pParamArray->GetParamDataType(strParamName);
-}
 
 //-----------------------------------------------------------------------------
 void SqlRowSet::GetParamValue (int nPos, DataObj* pDataObj) const
@@ -818,38 +637,10 @@ DataType SqlRowSet::GetParamType (int nPos) const
 	return m_pParamArray->GetParamDataType(nPos);
 }
 
-// I need to call Setparameterinfo method after the command creating for the following subquery problem
-// see  MSDN: Q235053
-// PRB: E_FAIL Returned from Prepare() When SQL Statement Contains a Parameter in a Subquery
-//-----------------------------------------------------------------------------
-HRESULT SqlRowSet::Prepare()
-{
-	TRACE_SQL(cwsprintf(_T("Prepare %s"), m_strSQL), this);
-
-	START_DB_TIME(DB_PREPARE)
-	if 	(
-			!(
-				Check(m_pRowSet->Create(*((CSession*)m_pSqlSession->GetSession()), m_strSQL)) &&
-				Check(m_pParamArray->SetParameterInfo()) &&
-				Check(m_pRowSet->Prepare())
-			  )
-		)
-	{
-		STOP_DB_TIME(DB_PREPARE)
-		if (m_pRowSet->m_spRowset)
-			ThrowSqlException(m_pRowSet->m_spRowset, IID_IRowset, m_hResult, this);	
-		else
-			ThrowSqlException(m_pRowSet->m_spCommand , IID_ICommand, m_hResult, this);
-	}
-	STOP_DB_TIME(DB_PREPARE)
-
-	return m_hResult;	
-};
-
 //-----------------------------------------------------------------------------
 CString GetParamStr(SqlRowSet* pRowSet)
 {
-	if	(!IsTraceSQLEnabled() || !pRowSet->m_pParamArray)
+	if	(!IsTraceSQLEnabled() || !pRowSet->m_pParamArray || pRowSet->m_pParamArray->GetSize() == 0)
 		return _T("");
 
 	CString strParams;
@@ -862,41 +653,157 @@ CString GetParamStr(SqlRowSet* pRowSet)
 	return strParams;
 }
 
+
+//sostituisce i nomi dei parametri ai punti ? (venivano usati con ODBC e poi OLEDB)
 //-----------------------------------------------------------------------------
-void SqlRowSet::OpenRowSet(DBROWCOUNT* pRowsAffected /*= NULL*/)
+void SqlRowSet::SubstituteQuestionMarks(CString& strSQL)
 {
-	TRACE_SQL(cwsprintf(_T("OpenRowSet %s"), (LPCTSTR)GetParamStr(this)), this);
+	if (strSQL.IsEmpty() || strSQL.Find(_T("?")) < 0)
+		return;
 
-	SetProperties();
+	CString strFilter;
 
-	START_DB_TIME(DB_OPEN_ROWSET)
-	m_lRowCount = 0;
+	int nParam = 0;
+	int nStart = 0;
+	int nEnd = 0;
+	int nSingleQuot = 0;
+	int nParamCount = 0;
+	CString strParamName;
 
-	if (!Check(m_pRowSet->Open((CDBPropSet*)m_pDBPropSet, &m_lRowCount)))
+	for (nEnd = 0; nEnd < strSQL.GetLength(); nEnd++)
 	{
-		if (m_hResult == DB_E_ERRORSOCCURRED)
+		//ho trovato una stringa 
+		if (strSQL[nEnd] == _T('\''))
 		{
-			if (m_pColumnArray && !m_pColumnArray->CheckStatus(m_pContext->GetDiagnostic()))
-				ShowMessage(TRUE); 
-			else
+			nSingleQuot++;
+			if (nSingleQuot == 2) //ho trovato sia l'apice di apertura stringa che quello di chiusura. Riazzero il contatore
+				nSingleQuot = 0;
+			continue;
+		}
+
+		if (strSQL[nEnd] == _T('?'))
+		{
+			if (nSingleQuot == 0) //sono in presenza di un parametro 
 			{
-				ASSERT_TRACE1(FALSE,
-					    "SqlTable::OpenRowSet: query %s \nit's possible that there are some parameters added with AddParam method\n and not set with the SetParamValue\n",
-						(LPCTSTR)m_strSQL
-					   );
+				strFilter += strSQL.Mid(nStart, nEnd - nStart);
+				strParamName = m_pParamArray->GetParamName(nParamCount);
+				strFilter += (strParamName.Find(_T("@"), 0) != 0) ? _T("@") + strParamName : strParamName;
+				nStart = nEnd + 1;
+				nParamCount++;
 			}
 		}
-		STOP_DB_TIME(DB_OPEN_ROWSET)
-
-		if (m_pRowSet->m_spRowset)
-			ThrowSqlException(m_pRowSet->m_spRowset , IID_IRowset, m_hResult, this);
-		else
-			ThrowSqlException(m_pRowSet->m_spCommand , IID_ICommand, m_hResult, this);
 	}
-	if (pRowsAffected)
-		*pRowsAffected = m_lRowCount;
+	if (nEnd > nStart)
+		strFilter += strSQL.Mid(nStart, nEnd - nStart);
 
-	STOP_DB_TIME(DB_OPEN_ROWSET)
+	strSQL = strFilter;
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::ExecutePagingCommand(MoveType eMoveType /*= E_MOVE_NEXT*/)
+{
+	ASSERT(m_bScrollable && m_nPageSize > 0);
+
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		TRACE_SQL(cwsprintf(_T("ExecutePagingCommand %s"), (LPCTSTR)GetParamStr(this)), this);
+		START_DB_TIME(DB_EXECUTE_CMD)
+		m_pRowSet->EnablePaging(m_nPageSize);
+		m_pRowSet->SetCommandText(m_strSQL);
+		m_pRowSet->ExecutePagingCommand(eMoveType, false);
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		Disconnect();
+	}
+		CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+			ThrowSqlException(e->m_strError);
+	}
+	END_CATCH
+}
+
+
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::ExecuteCommand()
+{
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		TRACE_SQL(cwsprintf(_T("ExecuteCommand %s"), (LPCTSTR)GetParamStr(this)), this);
+		START_DB_TIME(DB_EXECUTE_CMD)
+		m_pRowSet->SetCommandText(m_strSQL);
+		m_pRowSet->ExecuteCommand(false);
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		if (m_bScrollable)
+			Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		ThrowSqlException(e->m_strError);
+	}
+	END_CATCH	
+}
+
+
+
+//-----------------------------------------------------------------------------
+HRESULT SqlRowSet::Prepare()
+{ 	
+	return S_OK; 
+}
+
+//-----------------------------------------------------------------------------
+int SqlRowSet::ExecuteNonQuery()
+{
+	TRACE_SQL(cwsprintf(_T("ExecuteNoQuery %s"), (LPCTSTR)GetParamStr(this)), this);
+	int nAffectedRow = 0;
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		START_DB_TIME(DB_EXECUTE_NOQUERY)
+		m_pRowSet->SetCommandText(m_strSQL);
+		nAffectedRow = m_pRowSet->ExecuteNonQuery(false);
+		STOP_DB_TIME(DB_EXECUTE_NOQUERY)
+
+		Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_NOQUERY)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+
+	return nAffectedRow;	
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::ExecuteScalar()
+{
+	TRACE_SQL(cwsprintf(_T("ExecuteScalar %s"), (LPCTSTR)GetParamStr(this)), this);	
+
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		m_pRowSet->SetCommandText(m_strSQL);
+		START_DB_TIME(DB_EXECUTE_SCALAR)
+			m_pRowSet->ExecuteScalar(false); // bPrepare == TRUE);
+		STOP_DB_TIME(DB_EXECUTE_SCALAR)
+	
+		Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_SCALAR)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+	
 }
 
 //-----------------------------------------------------------------------------
@@ -904,7 +811,21 @@ BOOL SqlRowSet::BindColumns()
 {
 	TRACE_SQL(_T("BindColumns"), this);
 
-	return m_pColumnArray->BindColumns();
+	TRY
+	{
+		START_DB_TIME(DB_BIND_COLUMNS)
+		m_pRowSet->BindColumns(m_pColumnArray);
+		STOP_DB_TIME(DB_BIND_COLUMNS)
+	}
+
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_BIND_COLUMNS)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -912,32 +833,53 @@ BOOL SqlRowSet::BindParameters()
 {
 	TRACE_SQL(_T("BindParameters"), this);
 
-	return m_pParamArray->BindParameters();
+	TRY
+	{
+		START_DB_TIME(DB_BIND_PARAMS)
+		m_pRowSet->BindParameters(m_pParamArray);
+		STOP_DB_TIME(DB_BIND_PARAMS)
+		START_DB_TIME(DB_SET_PARAMS_VALUE)
+		m_pRowSet->SetParametersValues();
+		STOP_DB_TIME(DB_SET_PARAMS_VALUE)
+	
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_SET_PARAMS_VALUE)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+	
+	return TRUE;
 }	
 
 //-----------------------------------------------------------------------------
-BOOL SqlRowSet::FixupColumns()
+void SqlRowSet::FixupColumns()
 {
 	TRACE_SQL(_T("FixupColumns"), this);
 
-	return m_pColumnArray->FixupColumns();
+	TRY
+	{ 
+		START_DB_TIME(DB_FIXUP_COLUMNS)
+		m_pRowSet->FixupColumns();
+		STOP_DB_TIME(DB_FIXUP_COLUMNS)
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_FIXUP_COLUMNS)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+	
 }
 
 //-----------------------------------------------------------------------------
-BOOL SqlRowSet::FixupBuffer()
-{
-	TRACE_SQL(_T("FixupBuffer"), this);
-
-	return m_pColumnArray->FixupBuffer(FALSE);		
-}
-
-
-//-----------------------------------------------------------------------------
-BOOL SqlRowSet::InitBuffer()
+void SqlRowSet::InitColumns()
 {
 	TRACE_SQL(_T("InitBuffer"), this);
-
-	return m_pColumnArray->InitBuffer();
+	START_PROC_TIME(PROC_INIT_BUFFER)
+	m_pColumnArray->InitColumns();
+	STOP_PROC_TIME(PROC_INIT_BUFFER)
 }
 
 //-----------------------------------------------------------------------------
@@ -945,32 +887,42 @@ BOOL SqlRowSet::FixupParameters()
 {
 	TRACE_SQL(_T("FixupParameters"), this);
 
-	return	m_pColumnArray->RibindColumns() && m_pParamArray->FixupParameters();
+	TRY
+	{ 
+		START_DB_TIME(DB_SET_PARAMS_VALUE)
+		m_pRowSet->SetParametersValues();
+		STOP_DB_TIME(DB_SET_PARAMS_VALUE)
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_SET_PARAMS_VALUE)
+		ThrowSqlException(e);
+	}
+	END_CATCH
+	
+	return TRUE;
 }
 
 // esecuzione query e script
 //-----------------------------------------------------------------------------
 void SqlRowSet::ExecuteQuery(LPCTSTR lpszSQL)
 {
-	m_lRowCount = 0;
-
 	if (!IsOpen())
 	{
 		ASSERT(FALSE);
 		return;
 	}
-	if (!
-			(
-				Check(m_pRowSet->Create(*((CSession*)m_pSqlSession->GetSession()), lpszSQL)) && 
-				Check(m_pRowSet->Open((CDBPropSet*)m_pDBPropSet, &m_lRowCount))
-			)
-		)
+
+	m_strSQL = lpszSQL;
+	TRY
 	{
-		if (m_pRowSet->m_spRowset)
-			ThrowSqlException(m_pRowSet->m_spRowset , IID_IRowset, m_hResult, this);
-		else
-			ThrowSqlException(m_pRowSet->m_spCommand , IID_ICommand, m_hResult, this);
+		ExecuteCommand();
 	}
+	CATCH(MSqlException, e)
+	{
+		ThrowSqlException(e);
+	}
+	END_CATCH
 }
 
 //-----------------------------------------------------------------------------
@@ -980,113 +932,75 @@ void SqlRowSet::ExecuteScript(LPCTSTR lpszFileName)
 	ASSERT(FALSE);
 }
 
+//Paging
 //-----------------------------------------------------------------------------
-BOOL SqlRowSet::Check(HRESULT hResult)
+void SqlRowSet::GetFirstPage()
 {
-	return SqlObject::Check(hResult) ||
-			hResult == DB_S_ENDOFROWSET ||
-			hResult == DB_E_DELETEDROW;			
+	ASSERT(m_bScrollable && m_nPageSize > 0);
 }
 
-//-----------------------------------------------------------------------------	
-void SqlRowSet::GetErrorString(HRESULT nResult, CString& m_strError)
+//-----------------------------------------------------------------------------
+void SqlRowSet::GetNextPage()
 {
-	if (!m_strSQL.IsEmpty())
-		m_strError = cwsprintf(_TB("The following error occurred while executing query {0-%s}:"), m_strSQL);
-	switch (nResult)
+	ASSERT(m_bScrollable && m_nPageSize > 0);
+	TRY
 	{
-		case DB_S_ENDOFROWSET:			
-			m_strError += _TB("Attempt positioning beyond rowset beginning or end.");
-			break;
-		case DB_S_ERRORSOCCURRED:
-		case DB_E_ERRORSOCCURRED:
-			m_strError += _TB("Error executing query");
-			break;			
-		case DB_E_PARAMNOTOPTIONAL:
-			m_strError += _TB("Parameters in query not extended\r\n");
-			break;
-		case DB_E_ROWSNOTRELEASED:
-			m_strError += _TB("Row set must be regenerated. Release rows.");
-			break;
-		case DB_SEC_E_PERMISSIONDENIED:
-			m_strError += _TB("Consumer does not have sufficient permission to reset the next set position."); 
-			break;
-		case DB_S_ROWLIMITEXCEEDED:
-			m_strError = _TB("The number of rows specified in cRow is greater than tha maximum authorized by the rowset");
-			break;
-		case DB_S_STOPLIMITREACHED:
-			m_strError = _TB("The fetching operation requested a subsequent command execution.  The execution was stopped because a resource limit has been reached");				
-			break;
-		case DB_E_BADBINDINFO:
-			m_strError = _TB("The accessor has binding information for more than one column.");
-			break;
-		case DB_E_CANTFETCHBACKWARDS:
-			m_strError = _TB("Unable to fetch backwards in the rowset.");
-			break;
-		case DB_E_CANTSCROLLBACKWARDS:
-			m_strError = _TB("Unable to scroll backwards in the rowset.");
-			break;
-		case DB_E_BADACCESSORTYPE:
-			m_strError = _TB("Wrong accessor type");
-			break;
-		case DB_E_BADROWHANDLE:
-			m_strError = _TB("Invalid Handle Row");
-			break;
-		case DB_E_NEWLYINSERTED:
-			m_strError = _TB("The provider is unable to identify the row for which the insertion was requested.");
-			break;
-		case DB_S_COLUMNSCHANGED:
-			m_strError = _TB("Column arrangement not specified in object that created the rowset.");
-			break;
-		case DB_S_COMMANDREEXECUTED:
-			m_strError = _TB("Command associated to rowset rerun.");
-			break;
-		case DB_E_CANCELED:
-			m_strError = _TB("Irowset::RestartPosition erased during notice.  Fetch position remained unchanged");
-			break;
-		case DB_E_CANNOTRESTART:
-			m_strError = _TB("The rowset is built over an active datastream and the position cannot be re-initialized.");
-			break;		
-		case DB_E_CANTTRANSLATE:
-			m_strError = _TB("OLEDB: The last command was set using ICommandStream::SetCommandStream, not ICommandText::SetCommandText.");
-			break;
-		case DB_E_NOCOMMAND:
-			m_strError = _TB("No query text associated to command.");
-			break;
-		case DB_E_NOTPREPARED:
-			m_strError = _TB("Provider unable to obtain information on the parameters.  The command goes to unprepared status, and no information on the parameters is specified with ICommandWithParameters::SetParameterInfo.");
-			break;
-		case DB_E_PARAMUNAVAILABLE:
-			m_strError = _TB("ICommandWithParameters::SetParametersInfo not invoked to insert information on parameters.");
-			break;
-		case DB_E_ERRORSINCOMMAND:
-			m_strError = _TB("Command text contains syntax errors.");
-			break;
-		case DB_E_NOTABLE:
-			m_strError = _TB("Nonexistent table or view in database");
-			break;
-		case DB_E_OBJECTOPEN:
-			m_strError = _TB("Rowset already open in command.");
-			break;
-		case DB_E_BADORDINAL:
-			m_strError = _TB("Parameter with invalid ordinal number.");
-			break;
-		case DB_E_BADPARAMETERNAME:
-			m_strError = _TB("Parameter name invalid.");
-			break;
-		case DB_E_BADTYPENAME :
-			m_strError = _TB("Parameter name type invalid.");
-			break;	
+		Connect(); //comunico che ho bisogno di connettermi al db
+		TRACE_SQL(cwsprintf(_T("GetNextPage %s"), (LPCTSTR)GetParamStr(this)), this);
+		START_DB_TIME(DB_EXECUTE_CMD)
+		m_pRowSet->GetNextPage();
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		Disconnect();
 	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		ThrowSqlException(e->m_strError);
+	}
+	END_CATCH
 }
 
 //-----------------------------------------------------------------------------
-DBMSType SqlRowSet::GetDBMSType () const
+void SqlRowSet::GetPrevPage()
 {
-	return m_pSqlSession && m_pSqlSession->GetDBMSType() != DBMS_UNKNOWN ? 
-				m_pSqlSession->GetDBMSType() : 
-				m_pSqlConnection->GetDBMSType();
+	ASSERT(m_bScrollable && m_nPageSize > 0);
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		TRACE_SQL(cwsprintf(_T("GetPrevPage %s"), (LPCTSTR)GetParamStr(this)), this);
+		START_DB_TIME(DB_EXECUTE_CMD)
+		m_pRowSet->GetPrevPage();
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		ThrowSqlException(e->m_strError);
+	}
+	END_CATCH
 }
+
+//-----------------------------------------------------------------------------
+void SqlRowSet::GetLastPage()
+{
+	ASSERT(m_bScrollable && m_nPageSize > 0);
+	TRY
+	{
+		Connect(); //comunico che ho bisogno di connettermi al db
+		TRACE_SQL(cwsprintf(_T("GetLastPage %s"), (LPCTSTR)GetParamStr(this)), this);
+		START_DB_TIME(DB_EXECUTE_CMD)
+			m_pRowSet->GetLastPage();
+		Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{
+		STOP_DB_TIME(DB_EXECUTE_CMD)
+		ThrowSqlException(e->m_strError);
+	}
+	END_CATCH
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 //						class SqlTable
@@ -1099,87 +1013,35 @@ IMPLEMENT_DYNAMIC(SqlTable, SqlRowSet)
 //-----------------------------------------------------------------------------
 SqlTable::SqlTable()
 	:
-	IDisposingSourceImpl		(this),
-
-	m_pUpdateRowSet				(NULL),
-	m_bDBTMasterQuery			(FALSE),
-	m_bForceAutocommit			(FALSE),
-	m_pKeysArray				(NULL),
-	m_pTableArray				(NULL),
-	m_pExtraColumns				(NULL),
-	m_pOldRecord				(NULL),
-	m_pMandatoryColTable		(NULL),
-	m_pDataCachingContext		(NULL),
-	m_bCanUseDataCaching		(FALSE),
-	m_bCurrentReadFromDatabase	(FALSE),
-	m_bForceQuery				(FALSE),
-	m_pSymTable					(NULL),
-	m_bSkipContextBagParameters	(FALSE),
-	m_bSkipRowSecurity			(FALSE),
-	m_bSelectGrantInformation	(FALSE),
-	m_pRSSelectWorkerID			(NULL),
-	m_pRSFilterWorkerID			(NULL)	
+	IDisposingSourceImpl		(this)
 {
-	m_pRecord 	= NULL;
+	InitDataMember();
 	Initialize();
 }
 
 //-----------------------------------------------------------------------------
 SqlTable::SqlTable(SqlSession* pSqlSession)
 	:
-	SqlRowSet					(pSqlSession),
-	IDisposingSourceImpl		(this),
-
-	m_pUpdateRowSet				(NULL),
-	m_bDBTMasterQuery			(FALSE),
-	m_bForceAutocommit			(FALSE),
-	m_pKeysArray				(NULL),
-	m_pTableArray				(NULL),
-	m_pExtraColumns				(NULL),
-	m_pOldRecord				(NULL),
-	m_pMandatoryColTable		(NULL),
-	m_pDataCachingContext		(NULL),
-	m_bCanUseDataCaching		(FALSE),
-	m_bCurrentReadFromDatabase	(FALSE),
-	m_bForceQuery				(FALSE),
-	m_pSymTable					(NULL),
-	m_bSkipContextBagParameters	(FALSE),
-	m_bSkipRowSecurity			(FALSE),
-	m_bSelectGrantInformation	(FALSE),
-	m_pRSSelectWorkerID			(NULL),
-	m_pRSFilterWorkerID			(NULL)
+	IDisposingSourceImpl	(this),
+	SqlRowSet				(pSqlSession),
+	m_pRecord				(NULL),
+	m_pParamsRecord			(NULL)
+	
 {
-	m_pRecord 	= NULL;	
+	InitDataMember();
 	Initialize();
 }
 
 //-----------------------------------------------------------------------------
 SqlTable::SqlTable(SqlRecord* pRecord, SqlSession* pSqlSession, /*=NULL*/CBaseDocument* pDocument /*NULL*/)
 	:
-	SqlRowSet					(pSqlSession, pDocument),
 	IDisposingSourceImpl		(this),
+	SqlRowSet					(pSqlSession, pDocument),
+	m_pRecord					(pRecord),
+	m_pParamsRecord				(NULL)
+{	
+	InitDataMember();
 
-	m_pUpdateRowSet				(NULL),
-	m_bDBTMasterQuery			(FALSE),
-	m_bForceAutocommit			(FALSE),
-	m_pKeysArray				(NULL),
-	m_pTableArray				(NULL),
-	m_pExtraColumns				(NULL),
-	m_pOldRecord				(NULL),
-	m_pMandatoryColTable		(NULL),
-	m_pDataCachingContext		(NULL),
-	m_bCanUseDataCaching		(FALSE),
-	m_bCurrentReadFromDatabase	(FALSE),	
-	m_bForceQuery				(FALSE),
-	m_pSymTable					(NULL),
-	m_bSkipContextBagParameters	(FALSE),
-	m_bSkipRowSecurity			(FALSE),
-	m_bSelectGrantInformation	(FALSE),
-	m_pRSSelectWorkerID			(NULL),
-	m_pRSFilterWorkerID			(NULL)
-{
-	m_pRecord	= pRecord;
-	
 	//cambio la connessione al SqlRecord
 	// questo viene fatta se quella associata al record é differente da
 	// quella passata come parametro
@@ -1193,12 +1055,84 @@ SqlTable::SqlTable(SqlRecord* pRecord, SqlSession* pSqlSession, /*=NULL*/CBaseDo
 		m_strTableName = m_pRecord->GetTableName();
 }
 
+//-----------------------------------------------------------------------------
+SqlTable::SqlTable(SqlRecordProcedure* pRecordParams, SqlSession* pSqlSession, /*=NULL*/CBaseDocument* pDocument /*NULL*/)
+	:
+	IDisposingSourceImpl	(this),
+	SqlRowSet				(pSqlSession, pDocument),
+	m_pRecord				(NULL),
+	m_pParamsRecord			(pRecordParams)
+{
+	InitDataMember();
+
+	//cambio la connessione al SqlRecord
+	// questo viene fatta se quella associata al record é differente da
+	// quella passata come parametro
+	// Il sqlrecord nasce con le info della connessione di default
+	if (m_pSqlConnection)
+		pRecordParams->SetConnection(m_pSqlConnection);
+
+	Initialize();
+	//il nome della tabella lo prendo dal SqlRecord
+	if (pRecordParams->IsValid())
+		m_strTableName = pRecordParams->GetTableName();
+}
+
+
+//-----------------------------------------------------------------------------
+SqlTable::SqlTable(SqlRecordProcedure* pRecordParams, SqlRecord* pSqlRecord, SqlSession* pSqlSession /*=NULL*/, CBaseDocument* pDocument /*NULL*/)
+	:
+	IDisposingSourceImpl	(this),
+	SqlRowSet				(pSqlSession, pDocument),
+	m_pRecord				(pSqlRecord),
+	m_pParamsRecord			(pRecordParams)
+{
+	InitDataMember();
+
+	//cambio la connessione al SqlRecord
+	// questo viene fatta se quella associata al record é differente da
+	// quella passata come parametro
+	// Il sqlrecord nasce con le info della connessione di default
+	if (m_pSqlConnection)
+	{
+		m_pParamsRecord->SetConnection(m_pSqlConnection);
+		m_pRecord->SetConnection(m_pSqlConnection);
+	}
+
+	Initialize();
+	//il nome della tabella lo prendo dal SqlRecord
+	if (m_pParamsRecord->IsValid())
+		m_strTableName = pRecordParams->GetTableName();
+
+	if (m_pRecord->IsValid())
+		m_strTableName = m_pRecord->GetTableName();
+}
+
+//-----------------------------------------------------------------------------
+void SqlTable::InitDataMember()
+{
+	m_pUpdateRowSet = NULL;
+	m_bDBTMasterQuery = FALSE;
+	m_bForceAutocommit = FALSE;
+
+	m_pKeysArray = NULL;
+	m_pTableArray = NULL;
+	m_pExtraColumns = NULL;
+
+	m_bForceQuery = FALSE;
+	m_pSymTable = NULL;
+	m_bSkipContextBagParameters = FALSE;
+	m_bSkipRowSecurity = FALSE;
+	m_bSelectGrantInformation = FALSE;
+	m_pRSSelectWorkerID = NULL;
+	m_pRSFilterWorkerID = NULL;
+	m_bOnlyOneRecordExpected = FALSE;
+	m_pOldRecord = NULL;
+}
 
 //-----------------------------------------------------------------------------
 void SqlTable::Initialize()
 {
-	m_bCachingSettingStatus = AfxGetDataCachingSettings() && AfxGetDataCachingSettings()->IsDataCachingEnabled();
-
 	// Extended Fetch return state
 	m_bEOFSeen		= FALSE;
 	m_bDeleted		= FALSE;
@@ -1210,9 +1144,8 @@ void SqlTable::Initialize()
 	m_bBOF			= TRUE;
 	m_bEOF			= TRUE;
 	m_bFirstQuery	= TRUE;
-	m_bInvalid		= FALSE;
 	m_bKeyChanged	= FALSE;
-	m_bIsEmpty		= TRUE;
+	m_sqlFetchResult = FetchOk;
 }
 
 //-----------------------------------------------------------------------------
@@ -1235,14 +1168,6 @@ SqlTable::~SqlTable()
 
 	if (m_pExtraColumns)
 		delete m_pExtraColumns;
-
-	if (m_pMandatoryColTable)
-	{
-		if (m_pMandatoryColTable->IsOpen())
-			m_pMandatoryColTable->Close();
-
-		delete m_pMandatoryColTable;
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1254,10 +1179,10 @@ void SqlTable::SetSqlSession(SqlSession* pSqlSession)
 		if (m_pRecord)
 			m_pRecord->SetConnection(m_pSqlConnection);
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		TRACE(e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
@@ -1300,13 +1225,13 @@ void SqlTable::Open(BOOL bUpdatable, CursorType eCursorType)
 		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui é necessario creare
 		// una session x ogni cursore aperto
 		if (bUpdatable)
-			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession);
+			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession->GetUpdatableSqlSession(), (m_pContext) ? m_pContext->GetDocument() : NULL);
 
-		SqlRowSet::Open(bUpdatable, eCursorType, (!m_pRecord || !m_pRecord->IsAView()));
+		SqlRowSet::Open(bUpdatable, eCursorType);
 		CheckRecord();		
 	}
 
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		m_bErrorFound = TRUE;
 		m_strErrorFound = e->m_strError;
@@ -1317,12 +1242,7 @@ void SqlTable::Open(BOOL bUpdatable, CursorType eCursorType)
 
 
 //-----------------------------------------------------------------------------
-void SqlTable::Open
-				(
-					BOOL bUpdatable /*=FALSE*/, 
-					BOOL bScrollable /*=TRUE*/, 
-					BOOL bSensitivity /*=TRUE*/
-				)
+void SqlTable::Open(BOOL bUpdatable /*=FALSE*/, BOOL bScrollable /*=FALSE*/, BOOL bSensitivity /*= TRUE*/)
 {             
 	// se é una view non devo permettere la visibilitá delle modifiche
 	TRY
@@ -1334,12 +1254,12 @@ void SqlTable::Open
 		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui é necessario creare
 		// una session x ogni cursore aperto
 		if (bUpdatable)
-			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession);
-		SqlRowSet::Open(bUpdatable, bScrollable, bSensitivity && (!m_pRecord || !m_pRecord->IsAView()));
+			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession->GetUpdatableSqlSession());
+		SqlRowSet::Open(bUpdatable, bScrollable);
 		CheckRecord();		
 	}
 
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		TRACE(e->m_strError);
 		m_bErrorFound = TRUE;
@@ -1348,21 +1268,7 @@ void SqlTable::Open
 	END_CATCH
 }
 
-//dal row set verranno eliminate le righe cancellate
-//-----------------------------------------------------------------------------
-void SqlTable::EnableRemoveDeletedRow()
-{ 
-	m_bRemoveDeletedRow = m_pSqlConnection->RemoveDeletedRows() && (!m_pRecord || !m_pRecord->IsAView()); 
-} 
 
-//-----------------------------------------------------------------------------
-void SqlTable::SetProperties()
-{
-	if (m_bInit)
-		return; 
-
-	SqlRowSet::SetProperties();
-}
 
 //-----------------------------------------------------------------------------
 void SqlTable::ClearSQL()
@@ -1388,11 +1294,20 @@ void SqlTable::Close()
 	ClearExtraColunms	();
 	ClearSQL			();
 
-	if (m_pMandatoryColTable && m_pMandatoryColTable->IsOpen())
-		m_pMandatoryColTable->Close();
-
 	SqlRowSet::Close();
 }
+
+//-----------------------------------------------------------------------------
+void SqlTable::Disconnect()
+{
+	ASSERT_VALID(this);
+
+	if (m_pUpdateRowSet)
+		m_pUpdateRowSet->Disconnect();
+
+	SqlRowSet::Disconnect();
+}
+
 
 //-----------------------------------------------------------------------------
 void SqlTable::ClearTables	()	{ if (m_pTableArray) m_pTableArray->RemoveAll(); }
@@ -1417,19 +1332,15 @@ void SqlTable::ClearQuery()
 	// nel caso di collegamento ad un SqlRecord il nome lo prendo da lui
 	if (m_pRecord && m_pRecord->IsValid())
 		m_strTableName = m_pRecord->GetTableName();	
-
-	if (m_pMandatoryColTable)
-		m_pMandatoryColTable->ClearQuery();
 }
- 
+
 //-----------------------------------------------------------------------------
 BOOL SqlTable::SameQuery() const
 {
-	return	m_pSqlConnection->m_bOptimizedHKL && 
-			m_strSQL.CompareNoCase(m_strOldSQL) == 0 && 
-			m_pParamArray->SameValues();
+	return	m_pSqlConnection->m_bOptimizedHKL &&
+		m_strSQL.CompareNoCase(m_strOldSQL) == 0 &&
+		m_pParamArray->SameValues();
 }
-
 //-----------------------------------------------------------------------------
 CString SqlTable::GetColumnName (const DataObj* pColumnDataObj)
 { 
@@ -1868,57 +1779,21 @@ void SqlTable::AddUpdateKey(const CString& strColumnName)
 	m_pKeysArray->Add(strColumnName);
 }
 
+
 //-----------------------------------------------------------------------------
-long SqlTable::GetExtractedRows()
+long SqlTable::GetRowSetCount() 
 {
 	//se ho un valore corretto restituito dal rows allora utilizzo quello
-	if (m_lRowCount > 0)
-		return m_lRowCount;
-
-	//vuol dire che il programmatore ha utilizzato la m_strSql...in questo caso dubito di poter riuscire a fare qualcosa
-	if (m_strFrom.IsEmpty())
+	if (m_strSQL.IsEmpty())
 		return 0;
 
-	DataLng aRowCount = 0;		
-	SqlTable aCountTbl(this->m_pSqlSession);
-		//dalla query di sqltable devo costruirmi una query con il count eliminando le colonne della select e l'eventuale order by della query principale
-	TRY
-	{
-		aCountTbl.Open(FALSE, E_NO_CURSOR);
-		aCountTbl.SelectSqlFun(_T("COUNT(*)"), aRowCount);
-		//due casi:
-		//Caso 1: query costruita con i costrutti standard di SqlTable per cui avente i vari pezzi separati
-		CString strCountText;
-		aCountTbl.m_strFrom += m_strFrom;
-		if (!m_strFilter.IsEmpty())
-		{
-			aCountTbl.m_strFilter = m_strFilter;
-			if (m_pParamArray && m_pParamArray->GetSize() > 0)
-			{
-				for (int i = 0; i < m_pParamArray->GetSize(); i++)
-				{
-					SqlBindingElem* pParam = m_pParamArray->GetAt(i);
-					aCountTbl.AddParam(pParam->GetBindName(), *pParam->GetDataObj());
-					aCountTbl.SetParamValue(pParam->GetBindName(), *pParam->GetDataObj());
-				}
-			}
-			aCountTbl.m_strGroupBy = m_strGroupBy;
-			aCountTbl.m_strHaving = m_strHaving;
-		}
-		aCountTbl.Query();
-		aCountTbl.Close();
-	}
+	//se è un cursore scrollabile oppure in caso di forwardonly ho terminato il ciclo di fetch
+	if (m_bScrollable || m_bEOF || m_bUpdatable)
+		return m_pRowSet->GetRecordsAffected();
 
-	CATCH(SqlException, e)
-	{
-		if (aCountTbl.IsOpen())
-			aCountTbl.Close();
-		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
-		THROW_LAST();
-	}
-	END_CATCH
+	//eseguo una select count(*) from (m_strSQL tolta la ORDER BY)
+	return m_pRowSet->GetTotalRecords();
 
-	return aRowCount;
 }
 
 
@@ -1927,222 +1802,164 @@ long SqlTable::GetExtractedRows()
 // E_MOVE_LAST
 // E_MOVE_NEXT
 // E_MOVE_PREV
-// lRows il numero di righe di skip nel caso di MoveNext e MovePrev
 //-----------------------------------------------------------------------------
-void SqlTable::Move(MoveType eTypeMove, DBROWOFFSET lSkip /*= 0*/)
+void SqlTable::Move(MoveType eTypeMove, int lSkip /*= 0*/)
 {
+	m_sqlFetchResult = FetchOk;
+	BOOL	 bForward = TRUE;
+	
+	int moveTime = DB_MOVE_NEXT;
 	TRY
 	{
 		ASSERT(IsOpen());
 
 		if (m_bErrorFound)
 			ThrowSqlException(cwsprintf(_TB("SqlTable::Move:errors occurred in the command construction phase {0-%s}.\r\nUnable to carry out the move requested."), m_strSQL));
-		    
-	    // Esce da un evetuale stato di Edit o AddNew
+
+		// Esce da un evetuale stato di Edit o AddNew
 		m_nEditMode = noMode;
-		
-		if (eTypeMove == E_MOVE_REFRESH || IsEmpty())
+
+		if (eTypeMove == E_MOVE_REFRESH || (m_bEOF && m_bBOF))
 			return;
-		
-		// Data Caching
-		// if the first query has not been executed (the record has been extracted from cache area)
-		// I have to execute the query
-		if (CanUseDataCaching() && !m_bCurrentReadFromDatabase)
+			
+		switch (eTypeMove)
 		{
-			Query();
-			m_bCurrentReadFromDatabase = TRUE;
-			return;
-		}
-
-		if (CanUseDataCaching())
-			SetUseDataCaching(FALSE);
-
-		BOOL	 bForward	= TRUE;
-		MoveType eNextMove	= eTypeMove;
-		m_hResult = S_OK;
-
-		// Skip deleted rows
-		while (Check(m_hResult) && m_hResult != DB_S_ENDOFROWSET && lSkip >= 0)
-		{
-			switch (eNextMove)
+		case E_MOVE_NEXT:
+			if (m_bEOF)
 			{
-				case E_MOVE_FIRST : 
-						TRACE_SQL(_T("MoveFirst"), this);
-						if (!m_bScrollable)
-						{
-							Query();
-							return;
-						}
-						START_DB_TIME(DB_MOVE_FIRST)
-						m_hResult = m_pRowSet->MoveFirst(); 
-						STOP_DB_TIME(DB_MOVE_FIRST)						
-					break;
+				TRACE0("Error: attempted to move past EOF.\n");
+				ThrowSqlException(_TB("SqlTable::Move: attempt to position after end of table."));
+			}
+			TRACE_SQL(_T("MoveNext"), this);
+			START_DB_TIME(DB_MOVE_NEXT)
+			moveTime = DB_MOVE_NEXT;
+			m_sqlFetchResult = m_pRowSet->Move(E_MOVE_NEXT, lSkip);
+			STOP_DB_TIME(DB_MOVE_NEXT)				
+			break;
 
-				case E_MOVE_LAST :			
-						if (!m_bScrollable)
-						{
-							TRACE0("Error: MoveLast using a forward cursor.\n");
-							ThrowSqlException(_TB("SqlTable::Move: if using a forward cursor.\r\nUnable to perform shift on last record in the rowset."));
-						}
-						TRACE_SQL(_T("MoveLast"), this);
-						START_DB_TIME(DB_MOVE_LAST)
-						m_hResult = m_pRowSet->MoveLast();						  
-						STOP_DB_TIME(DB_MOVE_LAST)			
-						bForward = FALSE;						
-					break;
-					
-				case E_MOVE_PREV :	
-						if (!m_bScrollable)
-						{
-							TRACE0("Error: MovePrev using a forward cursor .\n");
-							ThrowSqlException(_TB("SQlTable::Move: if using a forward cursor.\r\nUnable to perform shift on previous record"));
-						}						
-						if (m_bBOF)
-						{
-							TRACE0("Error: attempted to move before BOF.\n");
-							ThrowSqlException(_TB("SqlTable::Move: attempt to position before start of table."));
-						}
-						if (lSkip > 0)
-						{
-							TRACE_SQL(_T("MovePrev"), this);
-							START_DB_TIME(DB_MOVE_PREV)
-							m_hResult = m_pRowSet->MoveNext(-lSkip);  
-							STOP_DB_TIME(DB_MOVE_PREV)			
-							lSkip = 0;
-						}
-						else
-						{
-							// problema ORACLE, dopo aver fatto il MoveFirst, se effettuo il MovePrev viene effettuato
-							// un movimento del cursore in avanti, posizionandosi sul secondo record
-							if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE && m_lCurrentRecord == 0)
-								return; //rimango sullo stesso
-							TRACE_SQL(_T("MovePrev"), this);
-							START_DB_TIME(DB_MOVE_PREV)
-							m_hResult = m_pRowSet->MovePrev(); 
-							STOP_DB_TIME(DB_MOVE_PREV)				
-						}
-						bForward = FALSE;
-										
-					break;
-
-
-				case E_MOVE_NEXT :	 
-					if (m_bEOF)
-						{
-							TRACE0("Error: attempted to move past EOF.\n");
-							ThrowSqlException(_TB("SqlTable::Move: attempt to position after end of table."));
-						}
-						TRACE_SQL(_T("MoveNext"), this);
-						START_DB_TIME(DB_MOVE_NEXT)
-						m_hResult = m_pRowSet->MoveNext(lSkip);
-						STOP_DB_TIME(DB_MOVE_NEXT)						
-						if (lSkip > 0)
-							lSkip = 0;								
-					break;
+		case E_MOVE_PREV:
+			if (!m_bScrollable)
+			{
+				TRACE0("Error: MovePrev using a forward cursor .\n");
+				ThrowSqlException(_TB("SQlTable::Move: if using a forward cursor.\r\nUnable to perform shift on previous record"));
+			}
+			if (m_bBOF)
+			{
+				TRACE0("Error: attempted to move before BOF.\n");
+				ThrowSqlException(_TB("SqlTable::Move: attempt to position before start of table."));
 			}
 
-			if (!Check(m_hResult))
-				ThrowSqlException(m_pRowSet->m_spRowset, IID_IRowset, m_hResult, this);
+			TRACE_SQL(_T("MovePrev"), this);
+			START_DB_TIME(DB_MOVE_PREV)
+			moveTime = DB_MOVE_PREV;
+			m_sqlFetchResult = m_pRowSet->Move(E_MOVE_PREV, lSkip);
+			STOP_DB_TIME(DB_MOVE_PREV)
+			bForward = FALSE;
+			break;
 
-			BOOL bFixupCol = TRUE;
-			if (m_hResult == S_OK)
-				bFixupCol = FixupColumns();	
-			else
-				InitBuffer();
-
-			if (!bFixupCol && (eTypeMove == E_MOVE_FIRST || eTypeMove == E_MOVE_LAST)) //Bug fix 13772
+		case E_MOVE_FIRST:
+			TRACE_SQL(_T("MoveFirst"), this);
+			if (!m_bScrollable)
 			{
 				Query();
-				eNextMove = eTypeMove;
-				continue;
+				return;
 			}
-			
-			// If doing MoveFirst/Last and first/last record is deleted, 
-			// must do MoveNext/Prev
-			if (eTypeMove == E_MOVE_FIRST || eTypeMove == E_MOVE_LAST)
-				eNextMove = (bForward) ? E_MOVE_NEXT : E_MOVE_PREV;
-	        
-	        // gestione delle righe deletate
-			m_bDeleted = (m_hResult == DB_E_DELETEDROW);  //Bug fix 13772 
-			
-			if (!m_bDeleted)
+			START_DB_TIME(DB_MOVE_FIRST)
+			moveTime = DB_MOVE_FIRST;
+			m_sqlFetchResult = m_pRowSet->Move(E_MOVE_FIRST);
+			STOP_DB_TIME(DB_MOVE_FIRST)
+			break;
+
+		case E_MOVE_LAST:
+			if (!m_bScrollable)
 			{
-				lSkip--;
-				if (m_hResult != DB_S_ENDOFROWSET)
+				TRACE0("Error: MoveLast using a forward cursor.\n");
+				ThrowSqlException(_TB("SqlTable::Move: if using a forward cursor.\r\nUnable to perform shift on last record in the rowset."));
+			}
+			TRACE_SQL(_T("MoveLast"), this);
+			START_DB_TIME(DB_MOVE_LAST)
+			moveTime = DB_MOVE_LAST;
+			m_sqlFetchResult = m_pRowSet->Move(E_MOVE_LAST);
+			STOP_DB_TIME(DB_MOVE_LAST)
+			bForward = FALSE;
+			break;
+		}
+
+		switch (m_sqlFetchResult)
+		{
+			case FetchOk:
+				FixupColumns();
+				if (eTypeMove == E_MOVE_FIRST)
+					m_lCurrentRecord = 0;
+				else if (eTypeMove == E_MOVE_LAST)
 				{
-					if (eTypeMove == E_MOVE_FIRST)
-						m_lCurrentRecord = 0;
-					else if (eTypeMove == E_MOVE_LAST)
-					{
-						if (m_bEOFSeen)
-							m_lCurrentRecord = m_lRecordCount-1;
-						else
-							m_lRecordCount = m_lCurrentRecord = SQL_CURRENT_RECORD_UNDEFINED;
-					}
-					else if (m_lCurrentRecord != SQL_CURRENT_RECORD_UNDEFINED)
-					{
-						if (bForward)
-							m_lCurrentRecord++;
-						else
-							// If past end, current record already decremented
-							if (!m_bEOF)
-								m_lCurrentRecord--;
-					}
-	
-					// Must not be at EOF/BOF anymore
-					m_bEOF = m_bBOF = FALSE;
+					if (m_bEOFSeen)
+						m_lCurrentRecord = m_lRecordCount - 1;
+					else
+						m_lRecordCount = m_lCurrentRecord = SQL_CURRENT_RECORD_UNDEFINED;
 				}
-			}
+				else if (m_lCurrentRecord != SQL_CURRENT_RECORD_UNDEFINED)
+				{
+					if (bForward && !m_bScrollable)
+						m_lCurrentRecord++;
+					else
+						// If past end, current record already decremented
+						if (!m_bEOF && !m_bScrollable)
+							m_lCurrentRecord--;
+				}
+				// Must not be at EOF/BOF anymore
+				m_bEOF = m_bBOF = FALSE;
+				// mette non dirty per ottimizzare gli update e modified per il refresh dei controls
+				if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
+
+				// aggiusta il contatore di righe viste (contatore annacquato)
+				if (m_lCurrentRecord + 1 > m_lRecordCount && !m_bScrollable)
+					m_lRecordCount = m_lCurrentRecord + 1;
+				break;
+
+			case EndOfRowSet:
+				InitColumns();
+				if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
+
+				// hit end of set
+				m_bEOF = TRUE;
+				// If current record is known
+				if (m_lCurrentRecord != SQL_CURRENT_RECORD_UNDEFINED)
+				{
+					m_bEOFSeen = TRUE;
+					if (!m_bScrollable)
+						m_lRecordCount = m_lCurrentRecord + 1;
+				}
+				break;
+
+			case BeginOfRowSet:
+				InitColumns();
+				if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
+
+				m_bBOF = TRUE;
+				m_lCurrentRecord = SQL_CURRENT_RECORD_BOF;
+				break;
+
+			case Error:
+				InitColumns();
+				STOP_DB_TIME(moveTime)
+				m_pRowSet->Dispose();
+				ThrowSqlException(_TB("Error in fetch operation"), this);
+				break;
 		}
 
-		// mette non dirty per ottimizzare gli update e modified per il refresh dei controls
-		if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
-		
-		if (m_hResult != DB_S_ENDOFROWSET)
-		{
-			// aggiusta il contatore di righe viste (contatore annacquato)
-			ASSERT(m_hResult != DB_E_BADROWHANDLE);
-			if (m_lCurrentRecord + 1 > m_lRecordCount)
-				m_lRecordCount = m_lCurrentRecord + 1;
-	
-			m_bBOF = FALSE;
-			m_bEOF = FALSE;
-			
-			return;
-		}
-	
-		// Only deleted records are left in set
-		if (m_bDeleted)
-		{
-			m_bEOF = m_bBOF = m_bEOFSeen = TRUE;
-			return;
-		}
-	
-		// DB_S_ENDOFROWSET
-		if (bForward)
-		{
-			// hit end of set
-			m_bEOF = TRUE;
-	
-			// If current record is known
-			if (m_lCurrentRecord != SQL_CURRENT_RECORD_UNDEFINED)
-			{
-				m_bEOFSeen = TRUE;
-				m_lRecordCount = m_lCurrentRecord+1;
-			}
-		}
-		else
-		{
-			m_bBOF = TRUE;
-			m_lCurrentRecord = SQL_CURRENT_RECORD_BOF;
-		}
+		STOP_DB_TIME(moveTime);
+		// non ho più record da estrarre, mi disconnetto
+		if ((!m_bScrollable && m_bEOF) || m_bOnlyOneRecordExpected)
+			Disconnect();
 	}
-
-	CATCH(SqlException, e)	
+	
+	CATCH(MSqlException, e)
 	{
 		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
-		m_pRowSet->Close();
-		THROW_LAST();
+		STOP_DB_TIME(moveTime);
+		m_pRowSet->Dispose();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
@@ -2158,10 +1975,10 @@ BOOL SqlTable::MoveNextCopy (SqlRecord* pRecord)
 	{ 	
  		SqlTable::Move(E_MOVE_NEXT);
  	}
- 	CATCH (SqlException, e)
+ 	CATCH (MSqlException, e)
  	{
 		AfxMessageBox(e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
  	}
  	END_CATCH
 
@@ -2188,7 +2005,7 @@ BOOL SqlTable::MovePrevCopy (SqlRecord* pRecord)
  	CATCH (SqlException, e)
  	{
 		AfxMessageBox(e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
  	}
  	END_CATCH
 
@@ -2202,7 +2019,7 @@ BOOL SqlTable::MovePrevCopy (SqlRecord* pRecord)
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::MoveCopy(MoveType eTypeMove, SqlRecord* pRecord, DBROWOFFSET lSkip /*= 0*/)
+void SqlTable::MoveCopy(MoveType eTypeMove, SqlRecord* pRecord)
 {
  	ASSERT(IsOpen()); 
  	ASSERT(pRecord);
@@ -2210,12 +2027,12 @@ void SqlTable::MoveCopy(MoveType eTypeMove, SqlRecord* pRecord, DBROWOFFSET lSki
 
 	TRY
 	{
- 		SqlTable::Move(eTypeMove, lSkip);
+ 		SqlTable::Move(eTypeMove);
  	}
- 	CATCH (SqlException, e)
+ 	CATCH (MSqlException, e)
  	{
 		AfxMessageBox(e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
  	}
  	END_CATCH
  	
@@ -2250,10 +2067,10 @@ void SqlTable::SelectAll()
 		{
 			if (m_pRecord->IsVirtual(nIdx))
 				continue;
-			m_pColumnArray->Add(m_pRecord, nIdx);
+			Select(m_pRecord, nIdx);
 		}
 	}	
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		e->UpdateErrorString(cwsprintf(SqlErrorString::SQL_ERROR_BUILD_QUERY(), m_pRecord->GetTableName()), FALSE);
 		m_bErrorFound = TRUE;
@@ -2278,7 +2095,7 @@ void SqlTable::SelectAll(SqlRecord* pRecord)
 		{
 			if (pRecord->IsVirtual(nIdx))
 				continue;
-			m_pColumnArray->Add(pRecord, nIdx);
+			Select(pRecord, nIdx);
 		}
 	)
 }
@@ -2319,11 +2136,11 @@ void SqlTable::SelectAllExceptFields(SqlRecord* pRecord, CStringArray* pExcepted
 				}
 			}
 			if (!bExclude)
-				m_pColumnArray->Add(m_pRecord, nIdx);
+				Select(pRecord, nIdx);
 
 		}
 	}
-		CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		e->UpdateErrorString(cwsprintf(SqlErrorString::SQL_ERROR_BUILD_QUERY(), pRecord->GetTableName()), FALSE);
 		m_bErrorFound = TRUE;
@@ -2369,11 +2186,10 @@ void SqlTable::SelectAllExceptFields(SqlRecord* pRecord, DataObjArray* pExcepted
 				}
 			}
 			if (!bExclude)
-				m_pColumnArray->Add(m_pRecord, nIdx);
-
+				Select(pRecord, nIdx);
 		}
 	}
-		CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		e->UpdateErrorString(cwsprintf(SqlErrorString::SQL_ERROR_BUILD_QUERY(), pRecord->GetTableName()), FALSE);
 		m_bErrorFound = TRUE;
@@ -2453,7 +2269,7 @@ void SqlTable::SelectFromAllTable()
 				if (pRec->IsVirtual(nIdx))
 					continue;
 
-				m_pColumnArray->Add(pRec, nIdx);
+				Select(pRec, nIdx);
 			}
 		}
 	)
@@ -2474,48 +2290,83 @@ void SqlTable::Select(DataObj& aDataObj)
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::Select(SqlRecord* pRecord, DataObj* pDataObj)
+void SqlTable::Select(SqlRecord* pRecord, int nIdx, int nInsertPos /*= -1*/)
+{
+	ASSERT(pRecord);
+	if (!pRecord)
+		return;
+	CHECK_BUILD_ERROR
+	(
+		SqlRecordItem* pRecItem = pRecord->GetAt(nIdx);
+	if (!pRecItem)
+		return;
+	CString sQualifiedColumnName = pRecord->GetQualifiedColumnName(pRecItem->m_pColumnInfo);
+	DataObj* pDataObj = pRecItem->GetDataObj();
+
+	if (pRecItem->m_pColumnInfo->m_bNativeColumnExpr)
+	{
+		//expand sQualifiedColumnName
+		if (m_pSymTable)
+			ExpandContentOfClause(sQualifiedColumnName, m_pSymTable, pRecord->GetConnection());
+	}
+
+	m_pColumnArray->AddColumn
+	(
+		sQualifiedColumnName,
+		pDataObj,
+		nIdx,
+		pRecItem->m_pColumnInfo->m_bAutoIncrement == TRUE,
+		nInsertPos
+	);
+	)
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlTable::Select(SqlRecord* pRecord, DataObj* pDataObj, int nInsertPos /*= -1*/)
 {
 	ASSERT_VALID(pRecord);
 	CHECK_BUILD_ERROR
 	(
 		if (pRecord)
 		{
-			int idx = m_pColumnArray->Add(pRecord, pDataObj);
-			if (idx >= 0 && pRecord != m_pRecord)
-			{
-				m_pColumnArray->GetAt(idx)->SetReadOnly();
-			}
+			int nIdx = pRecord->Lookup(pDataObj);
+			if (nIdx < 0) return;
+
+			int nCol = m_pColumnArray->AddColumn
+			(
+				pRecord->GetQualifiedColumnName(nIdx),
+				pDataObj,
+				nIdx,
+				pRecord->IsAutoIncrement(nIdx) == TRUE,
+				nInsertPos
+			);
 		}
 	)
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::Select(SqlRecord* pRecord, DataObj& aDataObj)
+void SqlTable::Select(SqlRecord* pRecord, DataObj& aDataObj, int nInsertPos /*= -1*/)
 {
-	Select(pRecord, &aDataObj);
+	Select(pRecord, &aDataObj, nInsertPos);
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::Select(const CString& strColumnName, DataObj* pDataObj, int nAllocSize /*= 0*/, BOOL bAutoIncrement /*=FALSE*/)
+void SqlTable::Select(const CString& strColumnName, DataObj* pDataObj, int nAllocSize /*= 0*/, BOOL bAutoIncrement /*=FALSE*/, int nInsertPos /*= -1*/)
 {
 	ASSERT(!strColumnName.IsEmpty());
 
-	DBTYPE eOLEType =  m_pSqlConnection->GetSqlDataType(pDataObj->GetDataType());
-	
-	if ((eOLEType == DBTYPE_WSTR || eOLEType == DBTYPE_STR) && nAllocSize > 0)
-		pDataObj->SetAllocSize(nAllocSize);
-
 	CHECK_BUILD_ERROR
 	(
-		m_pColumnArray->Add(strColumnName, pDataObj, eOLEType, nEmptySqlRecIdx, bAutoIncrement);
+
+		m_pColumnArray->AddColumn(strColumnName, pDataObj, nEmptySqlRecIdx, bAutoIncrement == TRUE, nInsertPos);
 	)	
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::Select(const CString& strColumnName, DataObj& aDataObj, int nAllocSize /*= 0*/, BOOL bAutoIncrement /*=FALSE*/)
+void SqlTable::Select(const CString& strColumnName, DataObj& aDataObj, int nAllocSize /*= 0*/, BOOL bAutoIncrement /*=FALSE*/, int nInsertPos /*= -1*/)
 {
-	Select(strColumnName, &aDataObj, nAllocSize, bAutoIncrement);
+	Select(strColumnName, &aDataObj, nAllocSize, bAutoIncrement, nInsertPos);
 }
 
 // Si assume che l'funzione sia stata scritta all'esterno dal programmatore
@@ -2524,14 +2375,14 @@ void SqlTable::Select(const CString& strColumnName, DataObj& aDataObj, int nAllo
 //		SELECT a+b
 //		SELECT CASE col WHEN val1 THEN calc1 ... ELSE default_calc_val
 //-----------------------------------------------------------------------------
-void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pResDataObj /*=NULL*/, int nAllocSize /*= 0*/, SqlRecord* pRec/*= NULL*/)
+void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pResDataObj /*=NULL*/, int nAllocSize /*= 0*/, SqlRecord* pRec/*= NULL*/, int nInsertPos /*= -1*/)
 {
-	DBTYPE eOLEType =  m_pSqlConnection->GetSqlDataType(pResDataObj->GetDataType());
+	//DBTYPE eOLEType =  m_pSqlConnection->GetSqlDataType(pResDataObj->GetDataType());
 
-	if (pResDataObj && (eOLEType == DBTYPE_WSTR|| eOLEType == DBTYPE_STR) && nAllocSize > 0)
-		pResDataObj->SetAllocSize(nAllocSize);
+	//if (pResDataObj && (eOLEType == DBTYPE_WSTR|| eOLEType == DBTYPE_STR) && nAllocSize > 0)
+	//	pResDataObj->SetAllocSize(nAllocSize);
 
-	m_pColumnArray->Add(szFunction, pResDataObj, eOLEType, nEmptySqlRecIdx);
+	m_pColumnArray->AddColumn(szFunction, pResDataObj, nEmptySqlRecIdx, false, nInsertPos);
 
 	if (pResDataObj && pRec)
 	{
@@ -2550,11 +2401,7 @@ void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pResDataObj /*=NULL*/, 
 	}
 	// se esiste una group by nella select allora non posso fare
 	// nessun update del database (in paticolar modo se sono in KeyedUpdate)
-	m_bUpdatable = FALSE;
-	
-	// se nella query ho un funzione non posso settare le proprietá relative alla visibilitá
-	m_bSensitivity = FALSE;			
-	m_bRemoveDeletedRow = FALSE;			
+	m_bUpdatable = FALSE;		
 }
 
 // Costruisce un column name del tipo :
@@ -2563,7 +2410,7 @@ void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pResDataObj /*=NULL*/, 
 // della colonna
 //
 //-----------------------------------------------------------------------------
-void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pParamDataObj, DataObj* pResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec /*= NULL*/)
+void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pParamDataObj, DataObj* pResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec /*= NULL*/, int nInsertPos /*= -1*/)
 {
 	SqlRecord* pRecord = pRec ? pRec : m_pRecord;
 	ASSERT_VALID(pRecord);
@@ -2577,19 +2424,19 @@ void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj* pParamDataObj, DataObj*
 	else
 		ASSERT(FALSE);
 
-	SelectSqlFun(strFunction, pResDataObj, nAllocSize, pRecord);
+	SelectSqlFun(strFunction, pResDataObj, nAllocSize, pRecord, nInsertPos);
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj& aResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec /*= NULL*/)
+void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj& aResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec /*= NULL*/, int nInsertPos /*= -1*/)
 {
-	SelectSqlFun(szFunction, &aResDataObj, nAllocSize, pRec);
+	SelectSqlFun(szFunction, &aResDataObj, nAllocSize, pRec, nInsertPos);
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj& aParamDataObj, DataObj& aResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec/*= NULL*/)
+void SqlTable::SelectSqlFun(LPCTSTR szFunction, DataObj& aParamDataObj, DataObj& aResDataObj, int nAllocSize /*= 0*/, SqlRecord* pRec/*= NULL*/, int nInsertPos /*= -1*/)
 {
-	SelectSqlFun(szFunction, &aParamDataObj, &aResDataObj, nAllocSize, pRec);
+	SelectSqlFun(szFunction, &aParamDataObj, &aResDataObj, nAllocSize, pRec, nInsertPos);
 }
 
 
@@ -2626,11 +2473,7 @@ void SqlTable::AddSelectKeyword(SelectKeywordType aType, const int& nTopValue)
 	
 	// se esiste una group by nella select allora non posso fare
 	// nessun update del database (in paticolar modo se sono in KeyedUpdate)
-	m_bUpdatable = FALSE;
-	
-	// se nella query ho un funzione non posso settare le proprietá relative alla visibilitá
-	m_bSensitivity = FALSE;			
-	m_bRemoveDeletedRow = FALSE;	
+	m_bUpdatable = FALSE;	
 }
 
 //-----------------------------------------------------------------------------
@@ -2643,8 +2486,7 @@ BOOL SqlTable::IsSelectEmpty() const
 void SqlTable::InitRow()
 {
 	TRACE_SQL(_T("InitRow"), this);
-	//OnInitRow();
-	InitBuffer();
+	InitColumns();
 	if (m_pRecord) 
 		m_pRecord->Init();
 }
@@ -2713,11 +2555,7 @@ BOOL SqlTable::ParseOrderBy(CStringArray& items)
 				ASSERT(FALSE);
 				return FALSE;
 			}
-
-			//TODO non posso aggiungerlo perchè la BindExtraColumns NON è attrezzata
-			//strPhysicalName = lex.GetAuditString();
-			//strPhysicalName.Trim();
-			//items.Add(strPhysicalName);
+			
 		}
 
 		switch(lex.LookAhead())
@@ -2802,26 +2640,85 @@ BOOL SqlTable::CheckOrderBy()
 	return bOk;
 }
 
+
+// UPDATE <tablename> SET <TBModifiedID>=? ,<TBModified>= GetDate() WHERE KeySeg = ? AND....
 //-----------------------------------------------------------------------------
-void SqlTable::FixupMandatoryColumns()
+void SqlTable::UpdateOnlyTBModified()
 {
-	if (!m_pRecord || !ReadTraceColumns() || m_pRecord->GetType() != TABLE_TYPE || !m_pRecord->m_pTableInfo)
+	if (!m_pRecord || m_pRecord->GetType() != TABLE_TYPE || !m_pRecord->m_pTableInfo)
+		return;
+
+	if (!m_pRecord->m_pTableInfo->ExistModifiedColumn() || !m_pRecord->m_pTableInfo->ExistModifiedIDColumn())
+		return;
+
+	TRY
+	{
+		CString strSelect;
+		CString strSQL;
+		//valorizzo il campo TBModifiedID con il WorkerID assegnato all'utente connesso 
+		
+		strSelect = szUpdate;
+		strSelect += GetTableName();
+		strSelect += szSet;
+		strSelect +=  cwsprintf(_T("%s = %s"), MODIFIED_COL_NAME, GetDateFunction(m_pSqlConnection->GetDBMSType()));
+		if (m_pRecord->f_TBModifiedID != AfxGetWorkerId())
+		{
+			m_pRecord->f_TBModifiedID = AfxGetWorkerId();
+			strSelect += cwsprintf(_T(" , %s = %s"), MODIFIED_ID_COL_NAME, m_pSqlConnection->NativeConvert(&m_pRecord->f_TBModifiedID));
+		}
+
+		BOOL bPrepare = OpenUpdateRowSet(strSelect);
+
+		if (m_pUpdateRowSet)
+		{
+			m_pUpdateRowSet->m_strCurrentTables.RemoveAll();
+			m_pUpdateRowSet->m_strCurrentTables.Add(GetTableName());
+		}
+		//where con le chiavi
+		int nParam = 0;
+		BindKeyParameters(bPrepare, nParam);
+		if (bPrepare)
+		{
+			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strSelect;
+			m_pUpdateRowSet->m_strSQL += szWhere;
+			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilterKeys;
+			m_pUpdateRowSet->BindParameters();
+			TRACE_SQL(cwsprintf(_T("UpdateOnlyTBModified %s (%s)"), (LPCTSTR)m_pUpdateRowSet->m_strSQL, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
+		}
+		else
+		{
+			m_pUpdateRowSet->FixupParameters();
+			TRACE_SQL(cwsprintf(_T("UpdateOnlyTBModified(p) %s (%s)"), (LPCTSTR)m_pUpdateRowSet->m_strSQL, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
+		}
+		m_pUpdateRowSet->ExecuteNonQuery();
+		
+		m_pRecord->GetTableInfo()->GetSqlCatalogEntry()->TraceOperation(AUDIT_UPDATE_OP, this);
+	}
+
+	CATCH(SqlException, e)
+	{
+		if (m_pUpdateRowSet->IsOpen())
+			m_pUpdateRowSet->Close();
+		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
+
+	}
+	END_CATCH
+}
+
+//-----------------------------------------------------------------------------
+void SqlTable::ReadMandatoryColumns()
+{
+	if (!m_pRecord || m_pRecord->GetType() != TABLE_TYPE || !m_pRecord->m_pTableInfo)
 		return;
 
 	if (!m_pRecord->m_pTableInfo->ExistCreatedColumn() && !m_pRecord->m_pTableInfo->ExistModifiedColumn())
 		return;
 
-
-	BOOL bFirst = FALSE;
+	CString strColName;
 
 	DataObjArray aPK;
 	aPK.SetOwns(FALSE);
-
-	if (!m_pMandatoryColTable)
-	{
-		m_pMandatoryColTable = new SqlTable(m_pRecord, m_pSqlSession);	
-		m_pMandatoryColTable->SetSkipRowSecurity();
-	}
+	SetSkipRowSecurity();
 	
 	TRY
 	{
@@ -2829,16 +2726,12 @@ void SqlTable::FixupMandatoryColumns()
 		if (aPK.GetSize() <= 0)
 			ThrowSqlException(cwsprintf(_TB("Unable to read value of mandatory columns of table {0-%s}. No data value available."), m_pRecord->GetTableName()));
 		
-		if (!m_pMandatoryColTable->IsOpen())
-		{
-			bFirst = TRUE;
-			m_pMandatoryColTable->Open();
-			m_pMandatoryColTable->Select(m_pRecord->f_TBCreated);
-			m_pMandatoryColTable->Select(m_pRecord->f_TBModified);
-			m_pMandatoryColTable->Select(m_pRecord->f_TBCreatedID);
-			m_pMandatoryColTable->Select(m_pRecord->f_TBModifiedID);
-			m_pMandatoryColTable->SetAliasName(m_pRecord->GetQualifier());
-		}
+		Open();
+		Select(m_pRecord->f_TBCreated);
+		Select(m_pRecord->f_TBModified);
+		Select(m_pRecord->f_TBCreatedID);
+		Select(m_pRecord->f_TBModifiedID);
+		SetAliasName(m_pRecord->GetQualifier());		
 
 		//Add the primary key values in the WHERE clause as parameters
 		for (int nIdx = 0; nIdx <= aPK.GetUpperBound(); nIdx++)
@@ -2847,24 +2740,19 @@ void SqlTable::FixupMandatoryColumns()
 			if (!pDataObj)
 				ThrowSqlException(cwsprintf(_TB("Unable to read value of mandatory columns of table {0-%s}. No data value available."), m_pRecord->GetTableName()));
 							
-			if (bFirst)
-			{
-				m_pMandatoryColTable->AddFilterColumn(m_pRecord->GetQualifiedColumnName(pDataObj));
-				m_pMandatoryColTable->AddParam(_T(""), *pDataObj);
-			}
-			SqlBindingElem* pElem = m_pMandatoryColTable->m_pParamArray->GetAt(nIdx);
-			if (!pElem)
-				ThrowSqlException(cwsprintf(_TB("Unable to read value of mandatory columns of table {0-%s}. No data value available."), m_pRecord->GetTableName()));
-
-			pElem->SetParamValue(*pDataObj);
+			strColName = m_pRecord->GetColumnName(pDataObj);
+			AddFilterColumn(strColName);
+			AddParam(strColName, *pDataObj);
+			SetParamValue(strColName, *pDataObj);			
 		}
-		m_pMandatoryColTable->Query();
+		Query();
+		Close();
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
-		if (m_pMandatoryColTable->IsOpen())
-			m_pMandatoryColTable->Close();
-		THROW_LAST();
+		if (IsOpen())
+			Close();
+		TRACE1("SqlTable::ReadMandatoryColumns() error: ", e->m_strError);
 	}
 	END_CATCH
 }
@@ -2884,15 +2772,15 @@ void SqlTable::FixupAutoIncColumns()
 		CString strAutoIncCol = m_pRecord->GetAutoIncrementColumn();
 		aTable.Open();
 		aTable.m_strSQL = cwsprintf( _T("SELECT IDENT_CURRENT('%s')"), m_strTableName);
-		aTable.m_pColumnArray->Add(m_pRecord, m_pRecord->GetDataObjFromColumnName(strAutoIncCol));		
+		aTable.Select(m_pRecord, m_pRecord->GetDataObjFromColumnName(strAutoIncCol));		
 		aTable.Query();
 		aTable.Close();
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		if (aTable.IsOpen())
 			aTable.Close();
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
@@ -2915,16 +2803,16 @@ void SqlTable::GetNextAutoincrementValue()
 		DataLng lMax = 0;
 		aTable.Open();
 		aTable.m_strSQL = cwsprintf( _T("SELECT MAX(%s) from %s"), strAutoIncCol, m_strTableName);
-		aTable.m_pColumnArray->Add(strAutoIncCol, &lMax, m_pSqlConnection->GetSqlDataType(DATA_LNG_TYPE), nEmptySqlRecIdx);
+		aTable.Select(strAutoIncCol, &lMax);
 		aTable.Query();
 		aTable.Close();
 		m_pRecord->GetDataObjFromColumnName(strAutoIncCol)->Assign(++lMax);
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		if (aTable.IsOpen())
 			aTable.Close();
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
@@ -2983,7 +2871,7 @@ void SqlTable::BindExtraColumns()
 		if (!m_pExtraColumns)
 			m_pExtraColumns = new DataObjArray;
 		m_pExtraColumns->Add(pDataObj);
-		m_pColumnArray->Add(strColumnName, pDataObj, m_pSqlConnection->GetSqlDataType(pDataObj->GetDataType()), nEmptySqlRecIdx);
+		Select(strColumnName, pDataObj);
 	}
 }
 
@@ -3014,21 +2902,16 @@ void SqlTable::BindAllColumns()
 }
 
 //-----------------------------------------------------------------------------
-BOOL SqlTable::FixupColumns()
+void SqlTable::FixupColumns()
 {
-	BOOL bResult = SqlRowSet::FixupColumns();
-	if (bResult)
+	SqlRowSet::FixupColumns();
+	//se la tabella è protetta 
+	if (m_bSelectGrantInformation && m_pRecord)
 	{
-		//se la tabella è protetta 
-		if (m_bSelectGrantInformation && m_pRecord)
-		{
-			const SqlCatalogEntry* pConstCatalogEntry = m_pSqlConnection->GetCatalogEntry(GetRecord()->GetTableName());
-			if (pConstCatalogEntry && pConstCatalogEntry->IsProtected()) //@@BAUZI TODO da ottimizzare. Portare il flag m_bIsUnderProtection in SqlRecord così si evita di interrogare il catalog
-				pConstCatalogEntry->HideProtectedFields(m_pRecord);
-		}
+		const SqlCatalogEntry* pConstCatalogEntry = m_pSqlConnection->GetCatalogEntry(GetRecord()->GetTableName());
+		if (pConstCatalogEntry && pConstCatalogEntry->IsProtected()) //@@BAUZI TODO da ottimizzare. Portare il flag m_bIsUnderProtection in SqlRecord così si evita di interrogare il catalog
+			pConstCatalogEntry->HideProtectedFields(m_pRecord);
 	}
-	return bResult;
-
 }
 
 //-----------------------------------------------------------------------------
@@ -3049,6 +2932,71 @@ CString SqlTable::GetBuildSelect() const
 	}
 
 	return strSelect;
+}
+
+
+//-----------------------------------------------------------------------------
+CString SqlTable::GetQuery()
+{
+	if (m_pRecord && m_pRecord->IsVirtual())
+		return _T("");
+
+	if (!m_pRowSet)
+		ThrowSqlException(cwsprintf(_TB("SqlTable::Query: before carry out query\n  table {0-%s} isn't open."), m_strTableName));
+
+	if (m_bErrorFound)
+		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
+
+
+	BOOL bContinue = FALSE;
+	m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
+	m_bDeleted = FALSE;
+	TRY
+	{
+		// database query
+		if (m_bFirstQuery)
+		{
+			BuildSelect();
+			TRACE_SQL(cwsprintf(_T("Query %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
+			Prepare();
+			VERIFY(BindColumns());
+			BindParameters();
+			m_bFirstQuery = FALSE;
+
+		}
+		else
+		{
+			// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
+			if (m_strOldSQL != m_strSQL)
+				ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));
+
+			m_pRowSet->Dispose();
+
+			ValorizeContextBagParameters();
+			ValorizeRowSecurityParameters();
+			FixupParameters();
+		}
+	}
+	CATCH(MSqlException, e)
+	{
+		m_pSqlSession->ShowMessage(
+			cwsprintf
+			(
+				_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
+				(LPCTSTR)m_strTableName,
+				(LPCTSTR)e->m_strError
+			)
+		);
+
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();
+		return _T("");
+	}
+	END_CATCH	
+
+	CString sqlTemp = m_strSQL;
+	SubstituteQuestionMarks(sqlTemp);
+	return sqlTemp;
 }
 
 //-----------------------------------------------------------------------------
@@ -3389,97 +3337,43 @@ void SqlTable::BuildSelect()
 				m_strSQL += szHaving;
 				m_strSQL += m_strHaving;
 			}
-			// se nella query ho un GROUP BY non posso settare le proprietá relative alla visibilitá
-			m_bSensitivity = FALSE;			
-			m_bRemoveDeletedRow = FALSE;	
+			
 		}
 
-		// Alcuni database non ammettono "order by" se la select e' "for update of"
 		// ORDER BY....
-		if	(!m_strSort.IsEmpty())
+		//se devo effettuare il paging ho bisogno del sorting
+		//considero le chiavi primarie
+		if (m_nPageSize > 0 && m_strSort.IsEmpty())
 		{
-			if (
-					m_eCursorType == E_DYNAMIC_CURSOR &&
-					!CheckOrderBy()
-				)
+			int nIdxPos = 0;
+			for (int i = 0; i < m_pRecord->m_aSqlPrimaryKeyIndexes.GetSize(); i++)
+			{
+				nIdxPos = m_pRecord->m_aSqlPrimaryKeyIndexes.GetAt(i);
+				AddSortColumn(m_pRecord->GetColumnName(nIdxPos));
+			}
+		}
+		if (!m_strSort.IsEmpty())
+		{
+			m_strSQL += szOrderBy;
+			m_strSQL += m_strSort;
+		}
+		else
+			//non posso fare il paging
+			if (m_nPageSize > 0)
 			{
 				ASSERT(FALSE);
-				m_pContext->ShowMessage(_TB("Warning: query changed.\r\nScheduled arrangement not carried out owing to fields without indexes and use of dynamic cursors"));
+				EnablePaging(0);
 			}
-			if (!m_strSort.IsEmpty())
-			{
-				m_strSQL += szOrderBy;
-				m_strSQL += m_strSort;
-			}
-		}
-
-
 	}
-		
+
+	SubstituteQuestionMarks(m_strSQL); //sostituisce i nomi dei parametri ai punti ? (venivano usati con ODBC e poi OLEDB)
+
 	// salva la query per controllare che non venga cambiata senza
 	// chiudere e riaprire la tabella
 	m_strOldSQL = m_strSQL;
 }
 
-//-----------------------------------------------------------------------------
-CString SqlTable::GetQuery()
-{
-	if (m_pRecord && m_pRecord->IsVirtual())
-		return _T("");
-
-	if (!m_pRowSet)
-		ThrowSqlException(cwsprintf(_TB("SqlTable::Query: before carry out query\n  table {0-%s} isn't open."), m_strTableName));
-
-	if (m_bErrorFound)
-		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
-
-
-	BOOL bContinue = FALSE;
-	m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
-	m_bDeleted = FALSE;
-
-	// Data Caching Management
-	if (CanUseDataCaching() && ReadCache())
-		return _T("");
-
-	// database query
-	if (m_bFirstQuery)
-	{
-		BuildSelect();
-		TRACE_SQL(cwsprintf(_T("Query %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
-		Prepare();
-		VERIFY(BindColumns());
-		BindParameters();
-		m_bFirstQuery = FALSE;
-	}
-	else
-	{
-		// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
-		if (m_strOldSQL != m_strSQL)
-			ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));
-
-		m_pRowSet->Close();
-
-		//la query é stata invalidata
-		if (m_bInvalid)
-		{
-			TRACE_SQL(cwsprintf(_T("Query(i) %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
-			Prepare();
-			m_bInvalid = FALSE;
-		}
-		else
-			TRACE_SQL(cwsprintf(_T("Query(p) %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)GetParamStr(this)), this);
-
-		ValorizeContextBagParameters();
-		ValorizeRowSecurityParameters();
-		FixupParameters();
-	}
-	CString sqlTemp = m_strSQL;
-	SubstituteQuestionMarks(sqlTemp);
-	return sqlTemp;
-}
 	
-
 
 //-----------------------------------------------------------------------------
 BOOL SqlTable::BuildQuery()
@@ -3506,51 +3400,29 @@ BOOL SqlTable::BuildQuery()
 			BindParameters();
 			m_bFirstQuery = FALSE;
 		}
-	}	
-	CATCH(SqlException, e)
+	}
+	CATCH(MSqlException, e)
 	{
-		// verifico se l'errore non é dovuto alla mancanza di chiave primaria / indice univoco
-		// sulla tabella della query
-		if (
-			m_hResult == DB_E_ERRORSOCCURRED &&
-			m_pRecord &&
-			m_pRecord->m_pTableInfo &&
-			(!m_pRecord->m_pTableInfo->GetSqlUniqueColumns() ||
-				m_pRecord->m_pTableInfo->GetSqlUniqueColumns()->GetSize() <= 0)
+		m_pSqlSession->ShowMessage(
+			cwsprintf
+			(
+				_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
+				(LPCTSTR)m_strTableName,
+				(LPCTSTR)e->m_strError
 			)
-		{
-			m_pSqlSession->ShowMessage(
-				cwsprintf
-				(
-					_TB("{0-%s}.\r\nMake sure that the primary key or unique index is in the table {1-%s}"),
-					(LPCTSTR)e->m_strError,
-					(LPCTSTR)m_strTableName
-				)
-			);
-		}
-		else if (m_hResult == DB_E_ERRORSINCOMMAND)
-		{
-			m_pSqlSession->ShowMessage(
-				cwsprintf
-				(
-					_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
-					(LPCTSTR)m_strTableName,
-					(LPCTSTR)e->m_strError
-				)
-			);
-		}
-		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
-		m_pRowSet->Close();
+		);
 
-		ASSERT(FALSE);
-		return FALSE;
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();		
+		ThrowSqlException(e);
 	}
 	END_CATCH
 	return TRUE;
- }
+}
+
            
 //-----------------------------------------------------------------------------
-void SqlTable::Query()
+void SqlTable::Query(MoveType  moveType, int lSkip /*= 0*/)
 {
 	if (m_pRecord && m_pRecord->IsVirtual())
 		return;
@@ -3561,137 +3433,147 @@ void SqlTable::Query()
 	if (m_bErrorFound)
 		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
 	
+	m_sqlFetchResult = FetchOk;
+
 	TRY
 	{
 		BOOL bContinue = FALSE;
 		m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
 		m_bDeleted = FALSE;
 
-		// Data Caching Management
-		if (CanUseDataCaching() && ReadCache())
-			return;
-
 		// database query
 		if (m_bFirstQuery)
 		{
-			BuildSelect		();
-			TRACE_SQL(cwsprintf(_T("Query %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
-			Prepare			();					
-			VERIFY(BindColumns ());				
-			BindParameters	();
+			BuildSelect();
+			TRACE_SQL(cwsprintf(_T("Query first%s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
+			BindColumns();
+			BindParameters();
 			m_bFirstQuery = FALSE;
 		}
-		else 
+		else
 		{
 			// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
 			if (m_strOldSQL != m_strSQL)
-				ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));	
-			
-			m_pRowSet->Close(); 
+				ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));
 
-			//la query é stata invalidata
-			if (m_bInvalid)
-			{
-				TRACE_SQL(cwsprintf(_T("Query(i) %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
-				Prepare();
-				m_bInvalid = FALSE;
-			}
-			else
-				TRACE_SQL(cwsprintf(_T("Query(p) %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)GetParamStr(this)), this);
+			m_pRowSet->Dispose();
 
-			ValorizeContextBagParameters();		
+			//ValorizeContextBagParameters();		
 			ValorizeRowSecurityParameters();
-			FixupParameters();			
+			FixupParameters();
 		}
-	
-		OpenRowSet();
 
-		// non devo effettuare la fetch
-		if (m_pColumnArray->GetCount() == 0)
-			return;
+		TRACE_SQL(cwsprintf(_T("Execute query %s with params %s"), m_strSQL, (LPCTSTR)GetParamStr(this)), this);
 
+		if (m_nPageSize > 0)
+			ExecutePagingCommand(moveType);
+		else
+			ExecuteCommand();
+
+		
 		// faccio la prima fetch del dato
 		// gestione eccezione
 		START_DB_TIME(DB_MOVE_NEXT)
 		TRACE_SQL(_T("MoveNext"), this);
 
-		if (!m_pRowSet->m_spRowset)
+		if (m_pRowSet->IsNull())
 		{
-			TRACE_SQL(cwsprintf(_T("Query(n) %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)GetParamStr(this)), this);
-			ThrowSqlException(_TB("SqlTable::Query(): Rowset is null"));	
+			TRACE_SQL(cwsprintf(_T("Query(n) %s (%s) is null"), (LPCTSTR)GetTableName(), (LPCTSTR)GetParamStr(this)), this);
+			ThrowSqlException(_TB("SqlTable::Query(): Rowset is null"));
 		}
 
-		if (!Check(m_pRowSet->MoveNext()))  
+		if (!m_pRowSet->HasRows())
 		{
-			STOP_DB_TIME(DB_MOVE_NEXT)
-
-			if (m_pColumnArray && !m_pColumnArray->CheckStatus(m_pContext->GetDiagnostic()))
-				ShowMessage(TRUE); 
-
-			ThrowSqlException(m_pRowSet->m_spRowset, IID_IRowset, m_hResult, this);
-		}
-				
-		if (m_hResult != DB_S_ENDOFROWSET)
-		{
-			FixupColumns();
-			// mette non dirty per ottimizzare gli update e modified per il refresh dei controls
-			if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
-			m_bEOFSeen = m_bBOF = m_bEOF = FALSE;
-			m_lCurrentRecord = 0;
-			m_lRecordCount = 1;
-
-			// Data Caching Management
-			if (CanUseDataCaching())
-				WriteCache();
-		}
-		else
-		{
-			InitRow();	
+			InitRow();
 			// If recordset empty, it doesn't make sense to check
 			// record count and current record, but we'll set them anyway
 			m_lCurrentRecord = SQL_CURRENT_RECORD_UNDEFINED;
 			m_lRecordCount = 0;
-		}	
-		STOP_DB_TIME(DB_MOVE_NEXT)
+			Disconnect();
+			return;
+		}
+		
+		m_bBOF = m_bEOF = FALSE;
+		m_bEOFSeen = m_bScrollable;
+		m_lCurrentRecord = 0;
+		m_lRecordCount = (m_bScrollable) ? m_pRowSet->GetRecordsAffected(): 1;
+
+		Move(moveType, lSkip);
 		
 	}
-	CATCH(SqlException, e)	
-	{
-		// verifico se l'errore non é dovuto alla mancanza di chiave primaria / indice univoco
-		// sulla tabella della query
-		if (
-				m_hResult == DB_E_ERRORSOCCURRED && 
-				m_pRecord &&
-				m_pRecord->m_pTableInfo &&
-				( !m_pRecord->m_pTableInfo->GetSqlUniqueColumns() ||
-				  m_pRecord->m_pTableInfo->GetSqlUniqueColumns()->GetSize() <= 0)
-			)
-		{
-			m_pSqlSession->ShowMessage(
-										cwsprintf
-											(
-												_TB("{0-%s}.\r\nMake sure that the primary key or unique index is in the table {1-%s}"),
-												(LPCTSTR)e->m_strError,
-												(LPCTSTR)m_strTableName
-											)
-									   );
-		}
-		else if (m_hResult == DB_E_ERRORSINCOMMAND) 
-		{
-			m_pSqlSession->ShowMessage(
-										cwsprintf
-											(
-												_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
-												(LPCTSTR)m_strTableName,
-												(LPCTSTR)e->m_strError
-											)
-									   );
-		}
+	CATCH(MSqlException, e)
+	{		
+		m_pSqlSession->ShowMessage(
+									cwsprintf
+										(
+											_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
+											(LPCTSTR)m_strTableName,
+											(LPCTSTR)e->m_strError
+										)
+									);
+	
 		TRACE(L"%s\n", (LPCTSTR)e->m_strError);	
-		m_pRowSet->Close(); 
-		THROW_LAST();
+		m_pRowSet->Dispose();
+		Disconnect();
+		ThrowSqlException(e);
 	}
 	END_CATCH
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlTable::ScalarQuery()
+{
+	if (m_strSQL.IsEmpty())
+		ThrowSqlException(_TB("SqlTable::ScalarQuery: command string empty."));
+
+	if (!m_pRowSet)
+		ThrowSqlException(cwsprintf(_TB("SqlTable::ScalarQuery: the table is not opened for command {0-%s}."), m_strSQL));
+
+	TRY
+	{		
+		// database query
+		if (m_bFirstQuery)
+		{
+			m_strOldSQL = m_strSQL;
+			BindColumns();
+			BindParameters();
+			m_bFirstQuery = FALSE;
+		}
+		else
+		{
+			// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
+			if (m_strOldSQL != m_strSQL)
+				ThrowSqlException(_TB("SqlTable::ScalarQuery(): query changed without closing or reopening the table."));
+
+			m_pRowSet->Dispose();
+			ValorizeRowSecurityParameters();
+			FixupParameters();
+		}
+	}
+
+	TRACE_SQL(cwsprintf(_T("ScalarQuery %s with params %s"), m_strSQL, (LPCTSTR)GetParamStr(this)), this);
+
+	ExecuteScalar();
+
+
+	CATCH(MSqlException, e)
+	{
+		m_pSqlSession->ShowMessage(cwsprintf(_TB("Error during execution of scalar query %s with params %s"), m_strSQL, (LPCTSTR)GetParamStr(this)));
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();
+		ThrowSqlException(e);
+	}
+	END_CATCH
+}
+
+//   is used when there is no return value of any kind expected from SQL server, an example being a simple UPDATE statement.
+//-----------------------------------------------------------------------------
+int SqlTable::NonQuery()
+{
+	ThrowSqlException(_TB("SqlTable::NonQuery() not implemented"));
+
+	return -1;
 }
 
 //-----------------------------------------------------------------------------
@@ -3716,10 +3598,10 @@ void SqlTable::Edit()
 	
 		m_nEditMode = edit;
 	}
-	CATCH(SqlException, e)	
+	CATCH(MSqlException, e)
 	{
 		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }            
@@ -3755,34 +3637,32 @@ BOOL SqlTable::KeyedDelete()
 			m_pUpdateRowSet->m_strCurrentTables.Add(GetTableName());
 		}
 
-		if (!bPrepare)		
-			m_pUpdateRowSet->m_pRowSet->Close();
-
-		BindKeyParameters(bPrepare, 0);		
+	
+		int nParam = 0;
+		BindKeyParameters(bPrepare, nParam);
 
         if (bPrepare)
 		{	
 			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strSelect;
-			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilter;
-			m_pUpdateRowSet->Prepare();
-			bContinue = m_pUpdateRowSet->BindParameters();
+			m_pUpdateRowSet->m_strSQL += szWhere;
+			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilterKeys;
+			m_pUpdateRowSet->BindParameters();				
 			TRACE_SQL(cwsprintf(_T("KeyedDelete %s (%s)"), (LPCTSTR)strSelect, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);	
 		}
 		else
 		{
-			bContinue = m_pUpdateRowSet->FixupParameters();
+			m_pUpdateRowSet->FixupParameters();
 			TRACE_SQL(cwsprintf(_T("KeyedDelete(p) %s (%s)"), (LPCTSTR)strSelect, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
 		}	
 
-		if (bContinue)
-			m_pUpdateRowSet->OpenRowSet();
+		m_pUpdateRowSet->ExecuteNonQuery();
 
 		return TRUE;
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
 		return FALSE;
 	}
 	END_CATCH
@@ -3795,13 +3675,19 @@ BOOL SqlTable::OpenUpdateRowSet(const CString& strSelect)
 	if (!m_pUpdateRowSet)
 		ThrowSqlException(cwsprintf(_TB("SqlTable::OpenUpdateRowSet: unable to open update cursor on table {0-%s}./n"), (LPCTSTR)m_strTableName));
 
-	// devo riprepararmi lo statement  anche se la stringa di update é differente da quella precedente 
-	if (m_pUpdateRowSet->IsOpen() && m_pUpdateRowSet->m_strSelect.CompareNoCase(strSelect) == 0)
+	// devo riprepararmi lo statement  anche se la stringa di update é differente da quella precedente oppure è variato il valore del flag relativo all'optimisticlock del contesto di appartenenza
+	if (
+		m_pUpdateRowSet->IsOpen() && 
+		m_pUpdateRowSet->m_strSelect.CompareNoCase(strSelect) == 0 &&
+		(
+			(*m_pContext->m_bOptimisticLock && !m_pUpdateRowSet->m_strFilterOldValues.IsEmpty()) ||
+			(!*m_pContext->m_bOptimisticLock && m_pUpdateRowSet->m_strFilterOldValues.IsEmpty())
+		)
+	)
 		return FALSE;
 
 	if (!m_pUpdateRowSet->IsOpen())
-		// non ha senso utilizzare un cursore per lo statement di update/insert/delete. Il rowset è composto da un solo record
-		m_pUpdateRowSet->Open(FALSE, E_NO_CURSOR);
+		m_pUpdateRowSet->Open();
 	
 	//devo costruirmi la struttura di binding dei parametri e riprepararmi la query
 	m_pUpdateRowSet->ClearRowSet();
@@ -3838,8 +3724,7 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 	
 		CString strInsert; // INSERT INTO <tablename> (<colname1>[,<colname2>])
 		CString strValues; // VALUE (?, ?...)
-		BOOL bContinue = FALSE;
-
+		
 		strInsert = szInsertInto;
 		strInsert += GetTableName();
 		strInsert += szLeftParen;
@@ -3883,9 +3768,10 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 				continue;
 			}				
 
-			strInsert += pBindElem->GetBindName();
+			strInsert += pBindElem->m_strBindName;
 			strInsert += szComma;
-			strValues += "?,";			
+			strValues += (pBindElem->m_strBindName.Find(_T("@"), 0) != 0) ? _T("@") + pBindElem->m_strBindName : pBindElem->m_strBindName;
+			strValues += _T(",");			
 		}
 
 		// overwrite last ',' with ')'
@@ -3950,29 +3836,26 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 		if (bPrepare)
 		{	
 			m_pUpdateRowSet->m_strSQL = strInsert + strValues;
-			m_pUpdateRowSet->Prepare();
-			bContinue = m_pUpdateRowSet->BindParameters();
+			m_pUpdateRowSet->BindParameters();
 			TRACE_SQL(cwsprintf(_T("NativeInsert %s (%s)"), (LPCTSTR)strInsert, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
 		}
 		else			
 		{	
-			bContinue = m_pUpdateRowSet->FixupParameters();
+			m_pUpdateRowSet->FixupParameters();
 			TRACE_SQL(cwsprintf(_T("NativeInsert(p) %s (%s)"), (LPCTSTR)strInsert, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
 		}
 
-		if (bContinue)
-		{
-			m_pUpdateRowSet->OpenRowSet();
+		m_pUpdateRowSet->ExecuteNonQuery();
 	
-			// devo fare un'interrogazione al database x farmi restituire
-			// i campi di tipo autincremental				
-			if (m_pRecord && m_pRecord->m_bAutoIncrement)
-				FixupAutoIncColumns();
+		// devo fare un'interrogazione al database x farmi restituire
+		// i campi di tipo autincremental				
+		if (m_pRecord && m_pRecord->m_bAutoIncrement)
+			FixupAutoIncColumns();
 
-			//I have to read the TBCreated and TBModified column value
-			if (bFixupMandatory)
-				FixupMandatoryColumns();
-		}
+		////I have to read the TBCreated and TBModified column value
+		//if (bFixupMandatory)
+		//	FixupMandatoryColumns();
+		
 		
 		if (bTraced) 
 			m_pRecord->GetTableInfo()->GetSqlCatalogEntry()->TraceOperation
@@ -3982,11 +3865,10 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 				);		
 		return TRUE;
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
 		m_strError = e->m_strError;
-		m_hResult = e->m_nHResult;
 		return FALSE;
 	}
 	END_CATCH
@@ -4002,8 +3884,7 @@ BOOL SqlTable::NativeDelete()
 		TRACE_SQL(_T("NativeDelete"), this);
 		
 		CString strSQL;
-		BOOL bContinue = FALSE;
-
+	
 		strSQL	=  szDeleteFrom;
 		strSQL	+= GetTableName();
 
@@ -4012,6 +3893,9 @@ BOOL SqlTable::NativeDelete()
 			strSQL	+= szWhere;
 			strSQL	+= m_strFilter;
 		}
+		
+		SubstituteQuestionMarks(strSQL);
+
 
 		BOOL bPrepare = OpenUpdateRowSet(strSQL);
 		
@@ -4022,6 +3906,7 @@ BOOL SqlTable::NativeDelete()
 		}
 
 		DataObj* pDataObj	= NULL;
+		SqlBindingElem* pElem = NULL;
 
 		// se bPrepare = TRUE
 		// devo rieffettuare la prepare dello statement. Cambia il buffer di bind
@@ -4029,10 +3914,11 @@ BOOL SqlTable::NativeDelete()
 		// facciamo la binding dei parametri per la WHERER clause
 		for (int i = 0; i <= m_pParamArray->GetUpperBound(); i++)
 		{
-			pDataObj = m_pParamArray->GetDataObjAt(i);
+			pElem = m_pParamArray->GetAt(i);
+			pDataObj = pElem->GetDataObj();
 			if (bPrepare)
 			{
-				m_pUpdateRowSet->AddParam(_T(""), *pDataObj);	
+				m_pUpdateRowSet->AddParam(pElem->m_strBindName, *pDataObj);
 				m_pUpdateRowSet->m_pParamArray->GetAt(m_pUpdateRowSet->m_pParamArray->GetUpperBound())->SetParamValue(*pDataObj);
 			}
 			else
@@ -4042,21 +3928,20 @@ BOOL SqlTable::NativeDelete()
 		if (bPrepare)
 		{	
 			m_pUpdateRowSet->m_strSQL = m_pUpdateRowSet->m_strSelect;
-			m_pUpdateRowSet->Prepare();
-			bContinue = m_pUpdateRowSet->BindParameters();
+			m_pUpdateRowSet->BindParameters();
 		}
 		else
-			bContinue = m_pUpdateRowSet->FixupParameters();
+			m_pUpdateRowSet->FixupParameters();
 
-		if (bContinue)
-			m_pUpdateRowSet->OpenRowSet();
+		m_pUpdateRowSet->ExecuteNonQuery();
 
 		return TRUE;
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
+		return FALSE;
 	}
 	END_CATCH
 }
@@ -4071,13 +3956,14 @@ int SqlTable::NativeUpdate(BOOL bForceTBModified /*=FALSE*/)
 	{
 		CString strSelect;
 		CString strSQL;
-		BOOL bContinue = FALSE;
 
 		strSelect = szUpdate;
 		strSelect += GetTableName();
 		strSelect += szSet;
 
 		DataObj* pDataObj = NULL;
+		SqlBindingElem* pElem = NULL;
+
 
 		// per prima cosa costruisco la stringa di query. Questa mi serve per confrontarla
 		// con l'eventuale query di update fatta in precedenza. Due casi:
@@ -4085,16 +3971,16 @@ int SqlTable::NativeUpdate(BOOL bForceTBModified /*=FALSE*/)
 		// 2 - diverse. Devo fare tutti i passi relativi alla prepare e alla bind dei 
 		// parametri. Passi eseguiti la prima volta 
 		if (BuildSetClause(strSelect, FALSE) == 0 && !bForceTBModified)
-			return UPDATE_NO_DATA; 
-		
+			return UPDATE_NO_DATA;
+
 		// Update need "WHERE COLUMN1 = ? AND ..."
 		if (!m_strFilter.IsEmpty())
 		{
 			strSQL += szWhere;
-			strSQL += m_strFilter;	
+			strSQL += m_strFilter;
 		}
 
-        BOOL bPrepare = OpenUpdateRowSet(strSQL);		
+		BOOL bPrepare = OpenUpdateRowSet(strSQL);
 
 		if (m_pUpdateRowSet)
 		{
@@ -4110,40 +3996,40 @@ int SqlTable::NativeUpdate(BOOL bForceTBModified /*=FALSE*/)
 		nParam = 0;
 		for (int i = 0; i <= m_pParamArray->GetUpperBound(); i++)
 		{
-			pDataObj = m_pParamArray->GetDataObjAt(i);
+			pElem = m_pParamArray->GetAt(i);
+			pDataObj = pElem->GetOldDataObj();
 			if (bPrepare)
 			{
-				m_pUpdateRowSet->AddParam(_T(""), *pDataObj);	
+				m_pUpdateRowSet->AddParam(pElem->m_strBindName, *pDataObj);
 				m_pUpdateRowSet->m_pParamArray->GetAt(m_pUpdateRowSet->m_pParamArray->GetUpperBound())->SetParamValue(*pDataObj);
 			}
 			else
 			{
-				m_pUpdateRowSet->m_pParamArray->GetAt(nParam)->SetParamValue(*pDataObj);			
+				m_pUpdateRowSet->m_pParamArray->GetAt(nParam)->SetParamValue(*pDataObj);
 				nParam++;
 			}
-		}	
-       
+		}
+
 		if (bPrepare)
-		{	
+		{
 			m_pUpdateRowSet->m_strSQL = m_pUpdateRowSet->m_strSelect;
-			m_pUpdateRowSet->Prepare();
-			bContinue = m_pUpdateRowSet->BindParameters();
+			m_pUpdateRowSet->BindParameters();
 		}
 		else
-			bContinue = m_pUpdateRowSet->FixupParameters();
+			m_pUpdateRowSet->FixupParameters();
 
-		if (bContinue)
-			m_pUpdateRowSet->OpenRowSet();
-
-
+		m_pUpdateRowSet->ExecuteNonQuery();
 		return UPDATE_SUCCESS;
 	}
-	CATCH(SqlException, e)
+	
+	CATCH(MSqlException, e)
 	{
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
+		return UPDATE_FAILED;
 	}
 	END_CATCH
+
 }
 
 
@@ -4159,7 +4045,7 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 	DataObj*		pOldDataObj;
 	int				nPos;
 	SqlBindingElem* pBindElem;
-	// costruzione clausola di SET considerando le sole colonne modificate			
+	// costruzione clausola di SET e considerando le sole colonne modificate			
 	for (int i = 0; i <= m_pColumnArray->GetUpperBound(); i++)
 	{
 		pBindElem = m_pColumnArray->GetAt(i);
@@ -4174,6 +4060,7 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 		}
 		
 		pDataObj = pBindElem->m_pDataObj;
+		CString strBindName = pBindElem->GetBindName();
 
 		//devo escludere i campi local
 		const SqlColumnInfo* pItem = pRec->GetColumnInfo(pDataObj);
@@ -4181,13 +4068,11 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 			continue;
 
 		// is TBCreated column its value must be skipped by update operations
-		//if (!pBindElem->GetBindName().CompareNoCase(CREATED_COL_NAME))
 		if (pDataObj == &(pRec->f_TBCreated))
 		{
 			pBindElem->SetUpdatable(FALSE);
 			continue;
 		}
-		//if (!pBindElem->GetBindName().CompareNoCase(CREATED_ID_COL_NAME))
 		if (pDataObj == &(pRec->f_TBCreatedID))
 		{
 			pBindElem->SetUpdatable(FALSE);
@@ -4195,28 +4080,31 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 		}
 		
 		// is TBModified column its value is automatically set by the DBMS using the function 
-		//if (!pBindElem->GetBindName().CompareNoCase(MODIFIED_COL_NAME))
 		if (pDataObj == &(pRec->f_TBModified))
 		{
-			strSelect += pBindElem->GetBindName() + cwsprintf(_T(" = %s,"), GetDateFunction(m_pSqlConnection->GetDBMSType()));
+			strSelect += strBindName + cwsprintf(_T(" = %s,"), GetDateFunction(m_pSqlConnection->GetDBMSType()));
 			pBindElem->SetUpdatable(FALSE);
 			continue;
 		}
-
+		
+		
 		//impr. 5936
 		// is TBGuid column. If it's empty then I must valorize it with a new guid
 		if (pDataObj == &(pRec->f_TBGuid) && pRec->f_TBGuid.IsEmpty())
 		{
 			pRec->f_TBGuid.AssignNewGuid();
 			pBindElem->SetUpdatable();
-			strSelect += pBindElem->GetBindName() + _T("=?,");
-			nParam++;
+			
+			strSelect += strBindName + _T("=");
+			strSelect += (strBindName.Find(_T("@"), 0) != 0) ? _T("@") + strBindName : strBindName;
+			strSelect +=  _T(",");
+				nParam++;
 			continue;
 		}
 
 		if (bCheckOldValues)
 		{
-			// se ho un oldrecord (vedi DBTSlaveBuffered) allora confronto i valori con quelli presenti nell'old
+			// se ho un oldrecord (vedi DBTSlaveBuffered o TableUpdater) allora confronto i valori con quelli presenti nell'old
 			if (m_pOldRecord)
 			{
 				nPos = (pBindElem->m_nSqlRecIdx == nEmptySqlRecIdx ? m_pRecord->Lookup(pDataObj) : pBindElem->m_nSqlRecIdx);
@@ -4238,8 +4126,19 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 			}
 		}
 
+		//TBModifiedID non lo inserisco nei parametri perchè potrebbe essere l'unico campo risulato cambiato
+		//in questo eseguo la query di update solo se ForceTBModified = TRUE
+		if (pDataObj == &(pRec->f_TBModifiedID))
+		{
+			strSelect += strBindName + cwsprintf(_T(" = %s,"), m_pSqlConnection->NativeConvert(pDataObj));
+			pBindElem->SetUpdatable(FALSE);
+			continue;
+		}
+
 		pBindElem->SetUpdatable();
-		strSelect += pBindElem->GetBindName() + _T("=?,");
+		strSelect += strBindName + _T("=");
+		strSelect += (strBindName.Find(_T("@"), 0) != 0) ? _T("@") + strBindName : strBindName;
+		strSelect += _T(",");
 		nParam++;
 	}
 	// overwrite last ',' with ' '
@@ -4260,7 +4159,8 @@ int SqlTable::BindSetParameters(BOOL bPrepare)
 	// devo rieffettuare la prepare dello statement. Cambia il buffer di bind
 	// devo riallocarmi la struttura di binding			
 	// facciamo la binding dei parametri per la SET clause
-	SqlBindingElem*  pBindElem;
+	SqlBindingElem*  pBindElem = NULL;
+	SqlBindingElem* pParameter = NULL;
 	for (int i = 0; i <= m_pColumnArray->GetUpperBound(); i++)
 	{
 		pBindElem = m_pColumnArray->GetAt(i);
@@ -4270,12 +4170,12 @@ int SqlTable::BindSetParameters(BOOL bPrepare)
 			continue;		
 		
 		if (bPrepare)
-		{
 			m_pUpdateRowSet->AddParam(pBindElem->m_strBindName, *pDataObj);	
-			m_pUpdateRowSet->m_pParamArray->GetAt(m_pUpdateRowSet->m_pParamArray->GetUpperBound())->SetParamValue(*pDataObj);
-		}
-		else
-			m_pUpdateRowSet->m_pParamArray->GetAt(nParam)->SetParamValue(*pDataObj);			
+		
+
+		pParameter = m_pUpdateRowSet->m_pParamArray->GetAt(nParam);
+		pParameter->SetParamValue(*pDataObj);
+		pParameter->AssignOldDataObj(*pBindElem->m_pOldDataObj); //assegno il vecchio valore che uso poi nella where clause
 		nParam++;
 	}
 	return nParam;
@@ -4296,7 +4196,7 @@ int SqlTable::GetKeySegmentCount()
 }
 
 //-----------------------------------------------------------------------------
-void SqlTable::BindKeyParameters(BOOL bPrepare, int nStart)
+void SqlTable::BindKeyParameters(BOOL bPrepare, int& nParam)
 {
 	BOOL bMakeFilter = FALSE;
 	CString strKeySegment;
@@ -4306,57 +4206,61 @@ void SqlTable::BindKeyParameters(BOOL bPrepare, int nStart)
 	DataObj* pDataObj = NULL;
 
 	SqlBindingElem* pBindElem = NULL;
-	int nParam = nStart;
+	
 
 	TRACE_SQL(_T("BindKeyParameters"), this);
 	// costruzione WHERE Clause considerando i campi di chiave primaria
 	// la prima volta devo costruirmi la stringa di where le volte successive
 	// devo solo agire sui parametri
-	if (m_pUpdateRowSet->m_strFilter.IsEmpty())
-	{
-		m_pUpdateRowSet->m_strFilter += szWhere;
+	if (m_pUpdateRowSet->m_strFilterKeys.IsEmpty())
 		bMakeFilter = TRUE;
-	}	
+		
 
 	int nSize = GetKeySegmentCount();
 	if (nSize == 0)
 		ThrowSqlException(cwsprintf(_TB("SqlTable::BindkeyParameters:  unable to proceed with query {0-%s}/nAccess keys not available"), (LPCTSTR)m_pUpdateRowSet->m_strSelect));
 
 	//@@OLEDB da gestire errore di mancanza primary key o special columns 
+	CString strParamName;
 	for (int j = 0; j < nSize ; j++)
 	{
 		strKeySegment = (m_pKeysArray && m_pKeysArray->GetSize() > 0) 
 						? m_pKeysArray->GetAt(j)
 						: m_pRecord->m_pTableInfo->GetSqlUniqueColumns()->GetAt(j);
-
+		
+		pBindElem = m_pColumnArray->GetParamByName(strKeySegment);
+		ASSERT(pBindElem);
+		strParamName = pBindElem->m_strBindName + _T("_w");
 		// la WHERE clause la costruisco solo la prima volta
 		if (bMakeFilter)
 		{
 			if (!strKeyWhere.IsEmpty()) 
 				strKeyWhere += _T(" AND ");
-			strKeyWhere += strKeySegment + _T(" = ?");
+			
+			strKeyWhere += strKeySegment;
+			strKeyWhere += _T(" = ");
+			strKeyWhere += (strParamName.Find(_T("@"), 0) != 0) ? _T("@") + strParamName : strParamName;
+			
 		}
 		
-		pBindElem = m_pColumnArray->GetParamByName(strKeySegment);
-		
-		ASSERT(pBindElem);
 		// verifico il valore del campo chiave 
 		// se é stato modificato devo considerare quello prima della modifica
 		// altrimenti quello invariato		
-		pOldDataObj =GetOldDataObj(strKeySegment);
+		pOldDataObj = GetOldDataObj(strKeySegment);
 		m_bKeyChanged = pOldDataObj && !(pOldDataObj->IsEqual(*pBindElem->m_pDataObj));
 		pDataObj = (m_bKeyChanged) ?  pOldDataObj : pBindElem->m_pDataObj;
 
 		if (bPrepare)
 		{
-			m_pUpdateRowSet->AddParam(_T(""), *pDataObj);			
+			m_pUpdateRowSet->AddParam(strParamName, *pDataObj);
 			m_pUpdateRowSet->m_pParamArray->GetAt(m_pUpdateRowSet->m_pParamArray->GetUpperBound())->SetParamValue(*pDataObj);
 		}
 		else
 			m_pUpdateRowSet->m_pParamArray->GetAt(nParam)->SetParamValue(*pDataObj);	
 		nParam++;	
 	} 
-	m_pUpdateRowSet->m_strFilter +=  strKeyWhere;
+	if (bMakeFilter)
+		m_pUpdateRowSet->m_strFilterKeys =  strKeyWhere;
 }
 
 // UPDATE <tablename> SET <colname1>=?[,<colname2>=?] WHERE KeySeg = ? AND....
@@ -4379,8 +4283,7 @@ int SqlTable::KeyedUpdate(BOOL bForceTBModified /*=FALSE*/)
 		CString strSQL;
 		//valorizzo il campo TBModifiedID con il WorkerID assegnato all'utente connesso 
 		m_pRecord->f_TBModifiedID = AfxGetWorkerId();
-		BOOL bContinue = FALSE;
-
+		
 		strSelect = szUpdate;
 		strSelect += GetTableName();
 		strSelect += szSet;
@@ -4391,7 +4294,12 @@ int SqlTable::KeyedUpdate(BOOL bForceTBModified /*=FALSE*/)
 		// 2 - diverse. Devo fare tutti i passi relativi alla prepare e alla bind dei 
 		// parametri. Passi eseguiti la prima volta 
 		if (BuildSetClause(strSelect) == 0 && !bForceTBModified)
-			return UPDATE_NO_DATA; 
+		{
+			//rimetto il valore precedente
+			if (m_pOldRecord)
+				m_pRecord->f_TBModifiedID = m_pOldRecord->f_TBModifiedID;
+			return UPDATE_NO_DATA;
+		}
 
         BOOL bPrepare = OpenUpdateRowSet(strSelect);
 				
@@ -4405,34 +4313,81 @@ int SqlTable::KeyedUpdate(BOOL bForceTBModified /*=FALSE*/)
 		if (nParam == 0 && !bForceTBModified)
 			return UPDATE_NO_DATA; 
 		
+		//le chiavi all'inizio
 		BindKeyParameters(bPrepare, nParam);
-		
+		if (*m_pContext->m_bOptimisticLock)
+		{
+			//lock ottimistico
+			SqlBindingElem* pElem = NULL;
+			SqlBindingElem* pParameter = NULL;
+			DataObj* pDataObj = NULL;
+			CString paramName;
+			CString strBindName;
+			for (int i = 0; i <= m_pColumnArray->GetUpperBound(); i++)
+			{
+				pElem = m_pColumnArray->GetAt(i);
+				//devo considerare solo i cambi modificati 
+				if (pElem->IsUpdatable())
+				{
+					strBindName = pElem->GetBindName();
+					pDataObj = GetOldDataObj(strBindName);
+					//nella where clause non devo considerare se cambiati gli eventuali campi chiave
+					if (bPrepare)
+					{
+						paramName = strBindName + _T("_w");
+						//è il parametro di tipo chiave aggiunto  nella BindKyeParameters
+						if (m_pParamArray->ExistParam(paramName))
+							continue;
+						if (!m_pUpdateRowSet->m_strFilterOldValues.IsEmpty())
+							m_pUpdateRowSet->m_strFilterOldValues += _T(" AND ");
+						m_pUpdateRowSet->m_strFilterOldValues += strBindName + _T("=");
+						m_pUpdateRowSet->m_strFilterOldValues += (paramName.Find(_T("@"), 0) != 0) ? _T("@") + paramName : paramName;
+						m_pUpdateRowSet->AddParam(paramName, *pDataObj);
+					}
+					pParameter = m_pUpdateRowSet->m_pParamArray->GetAt(nParam);
+					pParameter->SetParamValue(*pDataObj);
+					nParam++;
+				}
+			}
+		}
+				
 		if (bPrepare)
 		{	
 			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strSelect;
-			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilter;
-			m_pUpdateRowSet->Prepare();
-			bContinue = m_pUpdateRowSet->BindParameters();
+			m_pUpdateRowSet->m_strSQL += szWhere;
+			m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilterKeys;
+			if (*m_pContext->m_bOptimisticLock && !m_pUpdateRowSet->m_strFilterOldValues.IsEmpty())
+			{
+				m_pUpdateRowSet->m_strSQL += _T(" AND ");				
+				m_pUpdateRowSet->m_strSQL += m_pUpdateRowSet->m_strFilterOldValues;
+			}
+			m_pUpdateRowSet->BindParameters();
 			TRACE_SQL(cwsprintf(_T("KeyedUpdate %s (%s)"), (LPCTSTR)strSelect, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);	
 		}
 		else
 		{
-			bContinue = m_pUpdateRowSet->FixupParameters();
+			m_pUpdateRowSet->FixupParameters();
 			TRACE_SQL(cwsprintf(_T("KeyedUpdate(p) %s (%s)"), (LPCTSTR)strSelect, (LPCTSTR)GetParamStr(m_pUpdateRowSet)), this);
 		}
 
-		if (bContinue)
-			m_pUpdateRowSet->OpenRowSet();
+		int nAffectedRow = m_pUpdateRowSet->ExecuteNonQuery();		
+		//sono in presenza di un conflitto
+		if (nAffectedRow == 0 && *m_pContext->m_bOptimisticLock)	
+		{
+			ThrowSqlException(new SqlException(cwsprintf(_TB("A conflict occured updating the record of the table {0} with keys {1}"), m_pRecord->GetTableName(), m_pRecord->GetPrimaryKeyDescription())));
+			return UPDATE_FAILED;
+		}		
 
-		FixupMandatoryColumns();
+		//FixupMandatoryColumns();
 		return UPDATE_SUCCESS;
 	}
-	CATCH(SqlException, e)
+	CATCH(MSqlException, e)
 	{
 		if (m_pUpdateRowSet->IsOpen())
 			m_pUpdateRowSet->Close();
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
-		THROW_LAST();
+		ThrowSqlException(e);
+		return UPDATE_FAILED;
 	}
 	END_CATCH
 }
@@ -4514,7 +4469,7 @@ int SqlTable::Update(SqlRecord* pOldRecord /*=NULL*/, BOOL bForceTBModified /*=F
 			// dei casi in cui viene chiamata solo la NativeInsert e non deve 
 			// essere dato il messaggio
 			if (!NativeInsert(FALSE))
-				ThrowSqlException(cwsprintf(_TB("Attempt to add new record failed: {0-%s}"), m_strError), m_hResult, this);									
+				ThrowSqlException(cwsprintf(_TB("Attempt to add new record failed: {0-%s}"), m_strError), this);									
 			result = UPDATE_SUCCESS;
 		
 		// gestione del numero di records presenti
@@ -4527,8 +4482,8 @@ int SqlTable::Update(SqlRecord* pOldRecord /*=NULL*/, BOOL bForceTBModified /*=F
 		}
 		// se il database è Oracle devo togliere l'eventuale spazio inserito al posto
 		// della stringa vuota
-		if (m_pSqlConnection->m_pProviderInfo->m_eDbmsType == DBMS_ORACLE)
-			StripRecordSpaces();
+		//if (m_pSqlConnection->m_pProviderInfo->m_eDbmsType == DBMS_ORACLE)
+		//	StripRecordSpaces();
 
 		//@@AUDITING 
 		if (result == UPDATE_SUCCESS)
@@ -4538,19 +4493,15 @@ int SqlTable::Update(SqlRecord* pOldRecord /*=NULL*/, BOOL bForceTBModified /*=F
 					m_nEditMode == edit ? AUDIT_UPDATE_OP : AUDIT_INSERT_OP, 
 					this
 				);
-
-			// Data Caching Managemnt
-			if (m_bCachingSettingStatus)
-				AfxGetDataCachingUpdatesListener()->UpdateRecord (m_pRecord);
 		}
 	}
 
-	CATCH(SqlException, e)	
+	CATCH(MSqlException, e)
 	{
 		m_nEditMode = noMode;
 		m_pOldRecord = NULL;
 		m_bKeyChanged = FALSE;
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 
@@ -4610,22 +4561,18 @@ void SqlTable::Delete(SqlRecord* pOldRecord /*= NULL*/)
 					this					
 				);
 
-		// Data Caching Managemnt
-		if (m_bCachingSettingStatus)
-			AfxGetDataCachingUpdatesListener()->DeleteRecord (m_pRecord);
-
 		// indicate on a deleted record
 		m_bDeleted = TRUE;
 		m_pOldRecord = NULL;
 		m_bKeyChanged = FALSE;
 		InitRow();
 	}
-	CATCH(SqlException, e)	
+	CATCH(MSqlException, e)
 	{
 		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
 		m_pOldRecord = NULL;
 		m_bKeyChanged = FALSE;
-		THROW_LAST();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
@@ -4633,7 +4580,7 @@ void SqlTable::Delete(SqlRecord* pOldRecord /*= NULL*/)
 //----------------------------------------------------------------------------------
 BOOL SqlTable::MoreDataAvailable() const
 { 
-	return m_hResult != DB_S_ENDOFROWSET; 
+	return m_sqlFetchResult != EndOfRowSet;
 }
 
 //----------------------------------------------------------------------------------
@@ -4656,7 +4603,7 @@ CString SqlTable::GetNativeFilter() const
 			DataObj* pDataObj = DataObj::DataObjCreate (dataType);
 			GetParamValue (nParam++, pDataObj);
 			
-			strFilter += m_pSqlConnection->m_pProviderInfo->NativeConvert(pDataObj);
+			strFilter += m_pSqlConnection->NativeConvert(pDataObj);
 			delete pDataObj;
 
 			nStart = nEnd + 1;
@@ -4678,11 +4625,11 @@ void SqlTable::BuildCall()
 	TRACE_SQL(_T("BuildCall"), this);
 
 	SqlRecordProcedure* pRecProc = (SqlRecordProcedure*)m_pRecord;
-	
+
 	SqlProcedureParamInfo*	pParamInfo = NULL;
 	SqlProcParamItem* pItem;
-	
-	const SqlProcedureParameters* pParameters =  pRecProc->GetTableInfo()->m_pProcParameters;
+
+	const SqlProcedureParameters* pParameters = pRecProc->GetTableInfo()->m_pProcParameters;
 
 	strProc.Format(_T("Call %s "), m_pRecord->GetTableName());
 
@@ -4726,73 +4673,197 @@ void SqlTable::BuildCall()
 	}
 	if (!bFirst)
 		strProc += ")";
-	
+
 	m_strSQL.Format(_T("{ %s }"), strProc);
 }
+
+
+//-----------------------------------------------------------------------------
+void SqlTable::ExecuteStoredProcedure()
+{
+	TRACE_SQL(_T("Call"), this);
+	m_sqlFetchResult = FetchOk;
+
+	TRY
+	{
+		m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
+	
+
+	if (!m_pColumnArray || m_pColumnArray->GetSize() == 0)
+		ExecuteScalar();
+	else
+	{
+		ExecuteCommand();
+		if (m_pRowSet->IsNull())
+		{
+			TRACE_SQL(cwsprintf(_T("Query(n) %s (%s) is null"), (LPCTSTR)GetTableName(), (LPCTSTR)GetParamStr(this)), this);
+			ThrowSqlException(_TB("SqlTable::Query(): Rowset is null"));
+		}
+		START_DB_TIME(DB_MOVE_NEXT)
+		m_sqlFetchResult = m_pRowSet->Move();
+		if (m_sqlFetchResult == Error)
+		{
+			TRACE_SQL(_T("Query fetch error"), this);
+			STOP_DB_TIME(DB_MOVE_NEXT)
+			ThrowSqlException(_T("Error in fetch operation"), this);
+		}
+
+		if (m_sqlFetchResult == FetchOk)
+		{
+			FixupColumns();
+			// mette non dirty per ottimizzare gli update e modified per il refresh dei controls
+			if (m_pRecord) 
+				m_pRecord->SetFlags(FALSE, TRUE);
+			m_bEOFSeen = m_bBOF = m_bEOF = FALSE;
+			m_lCurrentRecord = 0;
+			m_lRecordCount = 1;
+		}
+		else
+		{
+			InitRow();
+			// If recordset empty, it doesn't make sense to check
+			// record count and current record, but we'll set them anyway
+			m_lCurrentRecord = SQL_CURRENT_RECORD_UNDEFINED;
+			m_lRecordCount = 0;
+		}
+		STOP_DB_TIME(DB_MOVE_NEXT)
+	}
+	//se mi aspetto un solo record o non ci sono record da estrarre allora mi disconnetto subito
+	if (m_bOnlyOneRecordExpected || m_lRecordCount == 0)
+		Disconnect();
+	}
+	CATCH(MSqlException, e)
+	{		
+		ThrowSqlException(e);
+	}
+	END_CATCH
+}
+
+
 
 // gestione della stored procedure associata al SqlTable
 //-----------------------------------------------------------------------------
 void SqlTable::Call()
 {
 	if (
-			!m_pRecord || 
-			!m_pRecord->IsKindOf(RUNTIME_CLASS(SqlRecordProcedure)) ||
-			!m_pRecord->IsValid())
+		!m_pRowSet ||
+		!m_pParamsRecord ||
+		!m_pParamsRecord->IsKindOf(RUNTIME_CLASS(SqlRecordProcedure)) ||
+		!m_pParamsRecord->IsValid())
 
 	{
 		TRACE(L"Invalid SqlRecord in SqlTable::Call function");
 		ASSERT(FALSE);
-		LPCTSTR lpszName = (m_pRecord && m_pRecord->GetNamespace())
-			? m_pRecord->GetNamespace()->GetObjectName()
+		LPCTSTR lpszName = (m_pParamsRecord && m_pParamsRecord->GetNamespace())
+			? m_pParamsRecord->GetNamespace()->GetObjectName()
 			: _T("");
 		ThrowSqlException(cwsprintf
-							(
-								_TB("SqlTable::procedure identified by namespace {0-%s} not in database {1-%s}"),
-								(LPCTSTR)lpszName,
-								(LPCTSTR)m_pSqlConnection->m_strDBName
-							)
-						  );
+		(
+			_TB("SqlTable::procedure identified by namespace {0-%s} not in database {1-%s}"),
+			(LPCTSTR)lpszName,
+			(LPCTSTR)m_pSqlConnection->m_strDBName
+		)
+		);
 		return;
 	}
 
 	TRACE_SQL(_T("Call"), this);
+	m_sqlFetchResult = FetchOk;
 
-	BuildCall();
-
-	if (m_strSQL.IsEmpty())
+	TRY
 	{
-		ASSERT(FALSE);
-		return;
-	}
+		m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
+	// database query
+		if (m_bFirstQuery)
+		{
+			m_pRowSet->SetSqlCommandType(MSqlCommand::StoredProcedure);
+			//eventuale bind delle colonne se la SP restituisce un rowset
+			if (m_pRecord && m_pRecord->IsValid())
+			{
+				SelectAll();
+				BindColumns();
+			}
 
-	DirectCall();
+			//Bind dei parametri
+			SqlProcedureParamInfo*	pParamInfo = NULL;
+			SqlProcParamItem* pItem = NULL;
+			const SqlProcedureParameters* pParameters = m_pParamsRecord->GetTableInfo()->m_pProcParameters;
+			// i parametri devono essere inseriti nell'Accessor nell'esatto ordine previsto dalla stored procedure
+			for (int i = 0; i <= pParameters->GetUpperBound(); i++)
+			{
+				pItem = NULL;
+				pParamInfo = pParameters->GetAt(i);
+				if (!pParamInfo)
+				{
+					ASSERT(FALSE);
+					m_strSQL.Empty();
+					return;
+				}
+				pItem = m_pParamsRecord->GetParamItemFromParamInfo(pParamInfo);
+				if (!pItem)
+				{
+					ASSERT(FALSE);
+					m_strSQL.Empty();
+					return;
+				}
+				AddProcParam(pParamInfo, pItem->GetDataObj());
+			}
+
+			BindParameters();
+			m_strSQL = m_strOldSQL = m_strTableName;
+			m_bFirstQuery = FALSE;
+		}
+		else
+		{
+			m_pRowSet->Dispose();
+			FixupParameters();
+		}
+		ExecuteStoredProcedure();
+	}
+	
+	CATCH(SqlException, e)
+	{
+		m_pSqlSession->ShowMessage(
+			cwsprintf
+			(
+				_TB("Errors on execute stored procedure {0-%s}.\r\n{1-%s}"),
+				(LPCTSTR)m_strTableName,
+				(LPCTSTR)e->m_strError
+			)
+		);
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();
+		ThrowSqlException(e);
+	}
+	END_CATCH
 }
 
-//-----------------------------------------------------------------------------
+////-----------------------------------------------------------------------------
 void SqlTable::DirectCall()
 {
 	TRY
 	{
 		BindParameters();
-
-		HRESULT hr = m_pRowSet->Open(*((CSession*)m_pSqlSession->GetSession()), m_strSQL);
-		if (!Check(hr))
-		{
-			if (m_pRowSet->m_spRowset)
-				ThrowSqlException(m_pRowSet->m_spRowset , IID_IRowset, m_hResult, this);
-			else
-				ThrowSqlException(m_pRowSet->m_spCommand , IID_ICommand, m_hResult, this);
-		}
-		m_pParamArray->FixupOutParams();
+		BindColumns();
+		ExecuteStoredProcedure();
 	}
-	CATCH(SqlException, e)	
+	CATCH(SqlException, e)
 	{
-		TRACE(_T("%s\n"), (LPCTSTR)e->m_strError);
-		m_pRowSet->Close(); 
-		THROW_LAST();
+		m_pSqlSession->ShowMessage(
+			cwsprintf
+			(
+				_TB("Errors on execute stored procedure {0-%s}.\r\n{1-%s}"),
+				(LPCTSTR)m_strTableName,
+				(LPCTSTR)e->m_strError
+			)
+		);
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();
+		ThrowSqlException(e);
 	}
 	END_CATCH
 }
+
 
 // servono per la gestione dell'AUDITING
 //-----------------------------------------------------------------------------
@@ -4847,7 +4918,7 @@ BOOL SqlTable::Parse(CXMLDocumentObject* pDoc, BOOL bWithAttributes /*TRUE*/)
 
 				Update();
 			}
-			CATCH(SqlException, e)
+			CATCH(MSqlException, e)
 			{
 				TRACE(e->m_strError);
 			}
@@ -4954,37 +5025,11 @@ BOOL SqlTable::XmlImport(CString& strPath, BOOL bWithAttributes /*TRUE*/)
 	return bOk;
 }
 
-//-----------------------------------------------------------------------------
-// Data Caching
-//-----------------------------------------------------------------------------
-BOOL SqlTable::CanUseDataCaching ()
-{
-	return	m_bCachingSettingStatus &&
-			m_bCanUseDataCaching &&
-			m_pDataCachingContext;
-}
-
-//-----------------------------------------------------------------------------
-void SqlTable::SetUseDataCaching (BOOL bEnable)
-{
-	m_bCanUseDataCaching = bEnable;
-}
-
-//-----------------------------------------------------------------------------
-void SqlTable::SetDataCachingContext(CDataCachingContext* pDataCachingContext)
-{
-	m_pDataCachingContext = pDataCachingContext;
-}
-
 
 //-----------------------------------------------------------------------------
 BOOL SqlTable::IsEmpty ()
 { 
-	// Data Caching
-	if (!CanUseDataCaching() || m_bCurrentReadFromDatabase) 
-		return IsEOF() && IsBOF(); 
-
-	return m_bIsEmpty;
+	return IsEOF() && IsBOF(); 
 }
 
 //-----------------------------------------------------------------------------
@@ -5000,43 +5045,6 @@ void SqlTable::BuildParamsList()
 			DataObj* pDataObj = m_pParamArray->GetDataObjAt(i);
 			m_strParamsList += pDataObj->FormatData();
 		}
-}
-
-
-//-----------------------------------------------------------------------------
-BOOL SqlTable::ReadCache ()
-{
-	CDataCachingManager* pDataCachingManager = m_pDataCachingContext ? m_pDataCachingContext->GetDataCachingManager() : NULL;
-
-	// if it is the first time i read query and parameters list
-	if (m_bFirstQuery)
-		BuildSelect	();
-
-	BuildParamsList();			
-	
-	if (!m_bForceQuery && pDataCachingManager)
-	{
-		if (!pDataCachingManager->FindRecord(m_strTableName, m_strSQL, m_strParamsList, m_pRecord))
-			return FALSE;
-
-		m_pRecord->SetFlags(FALSE, TRUE);
-		
-		m_bIsEmpty = FALSE;
-		m_bCurrentReadFromDatabase = FALSE;
-		return TRUE;
-	}
-	return FALSE;
-}
-
-//-----------------------------------------------------------------------------
-void SqlTable::WriteCache ()
-{
-	CDataCachingManager* pDataCachingManager = m_pDataCachingContext ? m_pDataCachingContext->GetDataCachingManager() : NULL;
-	
-	m_bCurrentReadFromDatabase = TRUE;
-
-	if (!IsEmpty() && pDataCachingManager) // it is the first record
-		pDataCachingManager->InsertRecord(m_strSQL, m_strParamsList, m_pRecord);
 }
 
 //-----------------------------------------------------------------------------
@@ -5265,7 +5273,7 @@ void SqlTable::SelectColumns(SqlTableStruct& sts)
 		return;
 
 	if (!m_pColumnArray)
-		m_pColumnArray = new SqlColumnArray(this);
+		m_pColumnArray = new SqlColumnArray();
 	else if (m_pColumnArray->GetSize())
 	{
 		ClearColumns();
@@ -5295,7 +5303,7 @@ void SqlTable::SelectColumns(SqlTableStruct& sts)
 
 		//ASSERT(i < m_pRecord->GetSize());
 
-		Select (pSbe->GetBindName(TRUE), pObj);
+		Select(pSbe->GetBindName(TRUE), pObj);
 	}
 }
 
@@ -5374,14 +5382,14 @@ void SqlTableStruct::Assign (const SqlTableStruct& t)
 
 			//TRACE(_T("%s = %s rec:%d idx:%d\n"), pSbe->m_strBindName, pSbe->m_pDataObj->Str(), pSbe->m_nSqlRecIdx, pSbe->GetIndex());
 
-			m_pColumns->Add 
+			m_pColumns->Add
 				(
 					new SqlBindingElem2 
 							(
 								pSbe->GetIndex(),
 								pSbe->m_strBindName,
-								pSbe->m_nDBType,
 								pSbe->m_pDataObj,
+								NoParam,
 								pSbe->m_nSqlRecIdx
 							)
 				);
@@ -5442,8 +5450,8 @@ void SqlTableStruct::Assign (const SqlTable& t)
 						(
 							nIdx,
 							pSbe->m_strBindName,
-							pSbe->m_nDBType,
 							pSbe->m_pDataObj,
+							NoParam,
 							pSbe->m_nSqlRecIdx
 						)
 				);

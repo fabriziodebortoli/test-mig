@@ -68,7 +68,7 @@ namespace Microarea.Common.NameSolver
 		private DefaultTheme(string themeName)
 		{
 			this.name = Path.GetFileNameWithoutExtension(themeName);
-			List<string> themes = BasePathFinder.BasePathFinderInstance.GetAvailableThemesFullNames();
+			List<string> themes = PathFinder.PathFinderInstance.GetAvailableThemesFullNames();
 
 			string themeFileName = string.Empty;
 			foreach (string item in themes)
@@ -80,13 +80,16 @@ namespace Microarea.Common.NameSolver
 				}
 			}
 
-			if (themeFileName.IsNullOrEmpty() || !File.Exists(themeFileName))
+			if (themeFileName.IsNullOrEmpty() || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(themeFileName))
 				return;
 
-			xmlThemeDocument = new XmlDocument();
-			using (FileStream fs = File.Open(themeFileName, FileMode.Open, FileAccess.Read))
-				xmlThemeDocument.Load(fs);
-		}
+            //xmlThemeDocument = new XmlDocument();
+            //using (FileStream fs = File.Open(themeFileName, FileMode.Open, FileAccess.Read))
+            //	xmlThemeDocument.Load(fs);
+            xmlThemeDocument = new XmlDocument();
+            xmlThemeDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xmlThemeDocument, themeFileName);
+
+        }
 
 		//---------------------------------------------------------------------
 		private Color GetColorFromValue(string value)
@@ -274,7 +277,7 @@ namespace Microarea.Common.NameSolver
 
 			try
 			{
-				string imagePath = BasePathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(ns));
+				string imagePath = PathFinder.PathFinderInstance.GetImagePath(new NameSpace(ns));
 				return null; //ImagesHelper.LoadImageWithoutLockFile(imagePath);  TODO rsweb
 			}
 			catch (Exception)

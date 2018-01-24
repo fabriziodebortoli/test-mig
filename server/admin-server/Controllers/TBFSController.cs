@@ -1,6 +1,7 @@
 ﻿using Microarea.AdminServer.Controllers.Helpers;
 using Microarea.AdminServer.Controllers.Helpers.Commons;
 using Microarea.Common;
+using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,9 +40,9 @@ namespace Microarea.AdminServer.Controllers
 
 			try
 			{
-				if (!Directory.Exists(uploadFolder))
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(uploadFolder))
 				{
-					Directory.CreateDirectory(uploadFolder);
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(uploadFolder, false);
 				}
 
 				var path = Path.Combine(

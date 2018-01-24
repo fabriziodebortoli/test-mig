@@ -71,6 +71,9 @@ public:
 	DWORD GetElapsedTime()	const { return m_dElapsedTick; }
 	DWORD GetStartTick()	const { return m_dStartTick; }
 	DWORD GetStopTick()		const { return m_dStopTick; }
+	
+public:
+	CString	GetFormattedElapsedTime();
 
 
 public: //operator
@@ -126,6 +129,7 @@ public:
 	DWORD	MakeTotalTime() const;
 
 	virtual CString	GetFormattedTimeAt	(int) const;
+	virtual CString GetFormattedCountAt(int nIdx) const;
 	// diagnostics
 #ifdef _DEBUG
 public:
@@ -150,8 +154,8 @@ public:
 protected:
 	virtual void InitCounters();
 
-	void MakeTimeOperation(CCounterElem* pCounterElem, int eTime);
-	void MakeTimeOperation(int nCounter, int eTime);
+	virtual void MakeTimeOperation(CCounterElem* pCounterElem, int eTime);
+	virtual void MakeTimeOperation(int nCounter, int eTime);
 
 public:
 	CCounterElem* AddCounter(CString sName);

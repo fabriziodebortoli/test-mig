@@ -15,7 +15,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string PreviousApplication { get; }
 		string PreviousModule { get; }
 
-		IBaseModuleInfo ParentModuleInfo { get; }
+//		ModuleInfo ParentModuleInfo { get; }
 
 		ITableInfo GetTableInfoByName(string tableName);
 		IDbObjectInfo GetViewInfoByName(string viewName);

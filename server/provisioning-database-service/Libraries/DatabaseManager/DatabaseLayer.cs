@@ -1742,7 +1742,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		/// <param name="basePathFinder">pathfinder</param>
 		/// <returns>enum DatabaseCheckError</returns>
 		//-----------------------------------------------------------------------
-		private static DatabaseCheckError CheckDBRelease(TBConnection conn, IBasePathFinder basePathFinder)
+		private static DatabaseCheckError CheckDBRelease(TBConnection conn, PathFinder basePathFinder)
 		{
 			StringCollection applicationsList = new StringCollection();
 			// array di supporto per avere l'elenco totale delle AddOnApplications
@@ -1779,16 +1779,16 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					command.Parameters.Add("@module", ((TBType)SqlDbType.NVarChar), 40);
 					command.Prepare();
 
-					BaseApplicationInfo appInfo = null;
+					ApplicationInfo appInfo = null;
 					bool status = false;
 
 					foreach (string appName in applicationsList)
 					{
-						appInfo = (BaseApplicationInfo)basePathFinder.GetApplicationInfoByName(appName);
+						appInfo = (ApplicationInfo)basePathFinder.GetApplicationInfoByName(appName);
 						if (appInfo.Modules == null)
 							continue;
 
-						foreach (BaseModuleInfo modInfo in appInfo.Modules)
+						foreach (ModuleInfo modInfo in appInfo.Modules)
 						{
 							// se la signature e' vuota oppure il modulo e' per il DMS skippo
 							if (string.IsNullOrWhiteSpace(modInfo.DatabaseObjectsInfo.Signature) || modInfo.DatabaseObjectsInfo.Dms)
@@ -1831,7 +1831,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		}
 
 		//-----------------------------------------------------------------------
-		private static bool InvalidRelease(BaseModuleInfo modInfo)
+		private static bool InvalidRelease(ModuleInfo modInfo)
 		{
 			//se sono una customizzazione, potrei avere il database disallineato ma devo poter entrare comunque
 			return (modInfo.CurrentDBRelease == 0 || modInfo.CurrentDBRelease != modInfo.DatabaseObjectsInfo.Release);
@@ -1840,7 +1840,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 		#region CheckDatabase
 		//-----------------------------------------------------------------------
-		public static DatabaseCheckError CheckDatabase(TBConnection conn, DBNetworkType dbNetworkType, IBasePathFinder basePathFinder, bool isDevelopment)
+		public static DatabaseCheckError CheckDatabase(TBConnection conn, DBNetworkType dbNetworkType, PathFinder basePathFinder, bool isDevelopment)
 		{
 			if (
 				basePathFinder == null ||

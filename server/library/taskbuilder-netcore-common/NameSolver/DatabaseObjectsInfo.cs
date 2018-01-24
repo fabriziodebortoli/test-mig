@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
+
 using System.Xml;
 
 using Microarea.Common.StringLoader;
@@ -21,7 +21,7 @@ namespace Microarea.Common.NameSolver
 		protected string			nameSpace;
 		protected int				release;
 		protected int				createstep;
-		protected IBaseModuleInfo	owner;
+		protected ModuleInfo	owner;
 		protected ILocalizer		localizer;
         protected bool              masterTable = false;
 		
@@ -57,7 +57,7 @@ namespace Microarea.Common.NameSolver
 		/// <param name="aRelease">Release di creazione della tabella</param>
 		/// <param name="aCreatestep">Step di creazione della tabella</param>
 		//---------------------------------------------------------------------
-        public TableInfo(IBaseModuleInfo aOwner, string aName, int aRelease, int aCreatestep, string aNameSpace, bool isMaster)
+        public TableInfo(ModuleInfo aOwner, string aName, int aRelease, int aCreatestep, string aNameSpace, bool isMaster)
 		{
 			name			= aName;
 			nameSpace		= aNameSpace;
@@ -153,7 +153,7 @@ namespace Microarea.Common.NameSolver
 	/// Classe che wrappa in memoria il file DatabaseObjects.xml.
 	/// Contiene l'elenco dei groups e delle additional columns
 	/// </summary>
-	public class DatabaseObjectsInfo : IDatabaseObjectsInfo
+	public class DatabaseObjectsInfo //: IDatabaseObjectsInfo
 	{
 		private string	filePath;
 		private	bool	valid;
@@ -164,7 +164,7 @@ namespace Microarea.Common.NameSolver
 		private string	previousModule;
 		private bool	dms = false;
 
-		private IBaseModuleInfo	parentModuleInfo;
+		private ModuleInfo	parentModuleInfo;
 
 		protected ArrayList tableInfoArray;
 		protected ArrayList viewInfoArray;
@@ -194,7 +194,7 @@ namespace Microarea.Common.NameSolver
 		public string PreviousApplication	{ get { return previousApplication; } }
 		public string PreviousModule		{ get { return previousModule; } }
 		//--------------------------------------------------------------------------------
-		public IBaseModuleInfo	ParentModuleInfo {  get { return parentModuleInfo; } }
+		public ModuleInfo	ParentModuleInfo {  get { return parentModuleInfo; } }
 
 		// Array delle tabelle, view o procedure
 		//--------------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace Microarea.Common.NameSolver
 		/// Costruttore
 		/// </summary>
 		//---------------------------------------------------------------------
-		public DatabaseObjectsInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
+		public DatabaseObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (aFilePath == null || aFilePath.Length == 0)
 				Debug.Fail("Error in DatabaseObjectsInfo");
@@ -264,7 +264,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if	(
-				!File.Exists(filePath)		|| 
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath)||
 				parentModuleInfo == null	|| 
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -275,8 +275,8 @@ namespace Microarea.Common.NameSolver
 				(
 				parentModuleInfo.ParentApplicationInfo.Name,
 				parentModuleInfo.Name,
-				parentModuleInfo.PathFinder
-				);
+				parentModuleInfo.CurrentPathFinder
+                );
 			
 			try
 			{

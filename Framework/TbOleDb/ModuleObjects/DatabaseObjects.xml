@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <DatabaseObjects>
 	<Signature>TbOledb</Signature>
-	<Release>400</Release>
+	<Release>401</Release>
 	<Tables>
 		<Table namespace="Framework.TbOleDb.TbOleDb.TB_DBMark">
 			<Create release="1" createstep="1" />
 		</Table>
+    <Table namespace="Framework.TbOleDb.TbOleDb.TB_CustomMetadata">
+      <Create release="401" createstep="2" />
+    </Table>
 	</Tables>
 </DatabaseObjects>

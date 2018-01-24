@@ -495,7 +495,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 									newPath = Path.Combine(newPath, fileName);
 
 									// solo se il file con il nuovo path ricalcolato esiste viene assegnato
-									if (File.Exists(newPath))
+									if (importSel.ContextInfo.PathFinder.FileSystemManager.ExistFile(newPath))
 										importFile = new FileInfo(newPath);
 								}
 								else

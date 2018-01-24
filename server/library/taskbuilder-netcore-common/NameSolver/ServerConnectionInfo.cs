@@ -116,17 +116,17 @@ namespace Microarea.Common.NameSolver
         public bool Parse(string aServerConnectionFile)
         {
             ServerConnectionFile = aServerConnectionFile;
-            if (!File.Exists(aServerConnectionFile))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(aServerConnectionFile))
             {
                 Debug.WriteLine(string.Format("File {0} does not exist!", aServerConnectionFile));
                 return false;
             }
 
-            XmlDocument ServerConnectionDocument = new XmlDocument();
+            XmlDocument ServerConnectionDocument = null;
 
             try
             {
-                ServerConnectionDocument.Load(File.OpenRead(ServerConnectionFile));
+                ServerConnectionDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(ServerConnectionDocument, ServerConnectionFile);
 
                 XmlElement root = ServerConnectionDocument.DocumentElement;
                 if (root == null)

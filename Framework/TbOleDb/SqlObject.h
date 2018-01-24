@@ -5,6 +5,8 @@
 #include <TBGenlib\Messages.h>
 #include <TBGenlib\BaseDoc.h>
 #include <TbNameSolver\ThreadContext.h>
+#include <TbDatabaseManaged\SqlBindingObjects.h>
+#include <TbDatabaseManaged\MSqlConnection.h>
 
 #include "sqlcache.h"
 #include "sqllock.h"
@@ -18,8 +20,6 @@ class SqlRowSet;
 class SqlSession;
 class SqlObject;
 class CTBContext;
-class ATLDBPropSet; //deriva da CDBPropSet
-
 
 //x la tracciatura delle istruzioni x la comunicazione con il DB
 // .............................................................. Debug
@@ -46,22 +46,9 @@ TB_EXPORT void AFXAPI TraceSQLSeparator(const CString& strMess);
 TB_EXPORT CString AFXAPI GetSQLActionCounters(const CString& strMess);
 
 //-------------------------------------------------------------------------------------
-TB_EXPORT void AFXAPI ThrowSqlException	(LPUNKNOWN lpUnk, const IID& iid, HRESULT nHResult, SqlObject* = NULL);
-TB_EXPORT void AFXAPI ThrowSqlException	(LPCTSTR pszError, HRESULT nHResult =  E_FAIL, SqlObject* = NULL);
-
-///Classe base che definisce gli oggetti custom che possono essere aggiunti al contesto
-///per propagare informazioni, ad esempio, in una catena di ADM
-//class CContextObject : public CObject
-//{
-//public:
-//	virtual ~CContextObject() {}
-//	virtual LPCTSTR GetObjectName() = 0;
-//
-//public:
-//	virtual void OnStartTransaction()  {};
-//	virtual void OnCommitTransaction() {};
-//	virtual void OnRollbackTransaction()  {};
-//};
+//TB_EXPORT void AFXAPI ThrowSqlException	(LPUNKNOWN lpUnk, const IID& iid, HRESULT nHResult, SqlObject* = NULL);
+TB_EXPORT void AFXAPI ThrowSqlException	(LPCTSTR pszError, SqlObject* = NULL);
+TB_EXPORT void AFXAPI ThrowSqlException	(MSqlException* pMSqlException);
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -72,7 +59,7 @@ class TB_EXPORT CSharedContext : public CObject
 protected:
 	BOOL				m_bOwnedContext;
 	BOOL				m_bUnchangeable;
-	CBaseDocument*		m_pDocument;
+	CBaseDocument*		m_pDocument;	
 
 public:
 	CSharedContext(CBaseDocument* pDocument) 
@@ -108,11 +95,15 @@ private:
 	SqlLockMng*		m_pLockMng;
 	CDiagnostic*	m_pDiagnostic;
 	CArray<CDiagnostic*, CDiagnostic*>*	m_pDiagnosticPool;
-	BOOL			m_bCanUnlock;
+	//BOOL			m_bCanUnlock;
 	BOOL			m_bCanDeleteLockMng;
+		
 
 protected:
 	BOOL			m_bLocked;
+
+public:
+	bool*			m_bOptimisticLock;
 
 public:
 	//gestione performance
@@ -135,7 +126,7 @@ public:
 	void	StartNewDiagnostic(BOOL bShowMsg = TRUE);
 	void	EndNewDiagnostic(BOOL bCopy =FALSE, const CString& strOpeningBanner = _T("") , const CString& strClosingBanner = _T(""));
 
-	void	SetCanUnlock() {m_bCanUnlock = TRUE;}
+	//void	SetCanUnlock() {m_bCanUnlock = TRUE;}
 
 public: 	
 	CBaseDocument*	GetDocument	()	const  { return m_pDocument; }
@@ -147,8 +138,10 @@ public:
 	BOOL	IsLocked		()	const { return m_bLocked; }
 
 public:
-    // Lock support
-	
+	//@@OPTIMISTICLOCK Optimistic lock support
+	void	EnableOptimisticLock(bool bEnable = true) { *m_bOptimisticLock = bEnable;	}
+
+    // Pessimistic Lock support	
 	BOOL 	IsCurrentLocked	(SqlTable* pTable);
 	BOOL 	LockCurrent		(SqlTable* pTable, BOOL bUseMessageBox = TRUE, LockRetriesMng* pRetriesMng = NULL);
 	//to lock a document so to avoid multiuser m_pDocument runs.
@@ -177,39 +170,6 @@ public:
 	BOOL	UnlockAllLockContextKeys(const CString& sLockContextKey, SqlTable* pTable);
 };
 
-// parte di contesto relativo alla gestione deldatacaching
-//============================================================================
-class TB_EXPORT CDataCachingContext : public CSharedContext
-{
-	friend class CTBContext;
-	friend class COleDbManager;
-	friend class CAbstractFormDoc;
-	friend class SqlTable;
-	friend class CLoginThread;
-
-
-private:
-	BOOL					m_bOwnDataCachingManager;
-	CDataCachingManager*	m_pDataCachingManager;
-	CBaseContext*			m_pContext;
-
-public:
-	CDataCachingContext(CBaseContext* pBaseContext, CBaseDocument* pDocument = NULL);
-	CDataCachingContext(const CDataCachingContext&);
-	~CDataCachingContext();
-
-private: 
-	CDataCachingManager* GetDataCachingManager	();
-	BOOL				 IsOwnDataCachingManager();
-	void				 SetDataCachingManager	(CDataCachingManager* pDataCachingManager);
-	void				 CreateCache			();
-	void				 ClearCache				();
-
-private:
-	void				InheritDataCachingManager(CBaseDocument* pDocument);
-};
-
-
 /////////////////////////////////////////////////////////////////////////////
 //						class CTransactionContext
 /////////////////////////////////////////////////////////////////////////////
@@ -224,9 +184,11 @@ public:
 
 	SqlConnection*	m_pSqlConnection;
 	CTBContext*		m_pTBContext;
-	SqlSession*		m_pReadOnlySqlSession;	 //utilizzata per le sole operazioni di lettura sequenziale (FORWARD)
-	SqlSession*		m_pUpdateSqlSession;	//utilizzata dalla transazione
+	SqlSession*		m_pSqlSession;	 
 	BOOL			m_bTxError;				//ci sono stati errori nel corso della transazione. Il proprietario del contesto fará roolback
+
+private:
+	int m_nRefOpenCount;
 
 public:
 	CTransactionContext(SqlConnection*, CTBContext*, CBaseDocument*);
@@ -234,21 +196,21 @@ public:
 	~CTransactionContext();
 
 public:
-	SqlSession*		GetReadOnlySqlSession()		const { return m_pReadOnlySqlSession; }
-	SqlSession*		GetUpdatableSqlSession ()	const { return m_pUpdateSqlSession; }
+	SqlSession*		GetSqlSession();
 
 public:
-	//transaction management
+	//per aprire e chiudere la connessione associata al contesto
+	BOOL Connect();
+	BOOL Disconnect();
+
 	BOOL IsValid();
 	SqlSession* OpenNewSqlSession();
 
+	//transaction management
 	BOOL StartTransaction();
 	void Commit(SqlPerformanceManager*);
 	void Rollback(SqlPerformanceManager*);
-	BOOL TransactionPending();	// mi dice se la session ha una transazione ancora in esecuzione 
-	
-	//datacaching management
-	void SetDataCachingContext(CDataCachingContext*); //modifica il DataCachingContext degli oggetti di database legati alle due SqlSession del CTransactionContext
+	BOOL TransactionPending();	// mi dice se la session ha una transazione ancora in esecuzione 	
 };
 
 
@@ -278,7 +240,6 @@ private:
 
 public:
 	CBaseContext*			m_pBaseContext;
-	CDataCachingContext*	m_pCurrDataCachingContext;
 	CTransactionContext*	m_pCurrTransactionContext;
 	
 public:
@@ -293,17 +254,26 @@ public:
 	~CTBContext();
 
 public:
-	//Diagnostic and lock management
+	//Diagnostic  management
 	CBaseDocument*	GetDocument() const		{ return m_pBaseContext->m_pDocument; }
 	CDiagnostic*	GetDiagnostic() const	{ return m_pBaseContext->m_pDiagnostic; }
+
+	//@@OPTIMISTICLOCK Optimistic lock support
+	void	EnableOptimisticLock(bool bEnable = true);
+
+	//Pessimistic lock support
 	void UnlockAll()						{ m_pBaseContext->UnlockAll(); }		
 
 	BOOL	LockDocument	() { return m_pBaseContext->LockDocument(); }	
 	BOOL	UnlockDocument	() { return m_pBaseContext->UnlockDocument(); }	
 
 	//transaction management 
-	SqlSession*		GetReadOnlySqlSession()		const { return m_pCurrTransactionContext->m_pReadOnlySqlSession; }
-	SqlSession*		GetUpdatableSqlSession ()	const { return m_pCurrTransactionContext->m_pUpdateSqlSession; }
+	BOOL			Connect()					const { return m_pCurrTransactionContext->Connect(); }
+	BOOL			Disconnect()				const { return m_pCurrTransactionContext->Disconnect(); }
+
+	SqlSession*		GetReadOnlySqlSession()		 { return m_pCurrTransactionContext->GetSqlSession(); }
+	SqlSession*		GetUpdatableSqlSession ()	 { return m_pCurrTransactionContext->GetSqlSession(); }
+
 	BOOL			IsValid();
 	SqlConnection*	GetSqlConnection()   const	{ return m_pCurrTransactionContext->m_pSqlConnection; }
 	BOOL			TransactionPending() const	{ return m_pCurrTransactionContext->TransactionPending(); }// mi dice se la session ha una transazione ancora in esecuzione 
@@ -311,11 +281,6 @@ public:
 	BOOL			StartTransaction()			{ return m_pCurrTransactionContext->StartTransaction(); }
 	void			Commit();
 	void			Rollback();
-	
-	//datacaching management
-	void	CreateCache()				{ return m_pCurrDataCachingContext->CreateCache(); }
-	void	ClearCache()				{ return m_pCurrDataCachingContext->ClearCache(); }
-	BOOL	IsOwnDataCachingManager()	{ return m_pCurrDataCachingContext->IsOwnDataCachingManager(); }
 
 	//gestione customobjects
 	void	AttachCustomObject(CContextObject* pObject);
@@ -379,21 +344,15 @@ class TB_EXPORT SqlObject : public CObject
 	DECLARE_DYNAMIC(SqlObject);
 
 public:
-	HRESULT			m_hResult;
 	CString			m_strError;
 	CBaseContext*	m_pContext;	
 
 protected:
-	ATLDBPropSet*	m_pDBPropSet; 
 	BOOL			m_bOwnContext;
 
 protected:
 	SqlObject(CBaseContext* pContext = NULL, CBaseDocument* = NULL);
 	virtual ~SqlObject();
-
-protected:
-	virtual BOOL Check					(HRESULT hResult);
-    virtual void GetErrorString			(HRESULT, CString&)		{}
 
 	//x la gestione del controllo della performance
 	virtual	void	LoadSqlOperations	()	{}
@@ -414,16 +373,7 @@ public:
 
 	void		SetContext	(CBaseContext*);
 
-
-// gestione delle property
-	void	RemovePropertySet();
-	void	CreatePropertySet();
-	void	SetPropGUID	(const GUID&);
-	BOOL	AddProperty	(DWORD dwPropertyID, const VARIANT& varValue); 
-	BOOL	AddProperty	(DWORD dwPropertyID, bool bValue); 
-	BOOL	AddProperty	(DWORD dwPropertyID, long lValue); 	
-	HRESULT	GetProperty	(DWORD dwPropertyID, VARIANT* pVarValue);
-
+	
 	// lock management
 	void	EnableLocksCache		(SqlTable* pTable, const BOOL bValue = TRUE);
 	void	ClearLocksCache			(SqlTable* pTable, const CString sLockContextKey = _T(""));
@@ -452,42 +402,65 @@ public:
 /////////////////////////////////////////////////////////////////////////////
 //
 //===========================================================================
-class TB_EXPORT SqlException : public CException
+class TB_EXPORT SqlException : public MSqlException
 {
 	DECLARE_DYNAMIC(SqlException)
 
-
-// Attributes
 public:
-	HRESULT			m_nHResult;
-	LPUNKNOWN		m_lpUnk;
-	IID				m_iid;
-	CString			m_strError;
-	SqlObject*		m_pSqlObj;
-	DWORD			m_wNativeErrCode;
-
-// Implementation (use AfxThrowDBException to create)
-public:
-	SqlException();
-	SqlException(LPUNKNOWN lpUnk, const IID& iid, HRESULT nHResult = S_OK, SqlObject* pSqlObj = NULL, DWORD wNativeErrCode = 0);
-	virtual ~SqlException();
+	SqlObject* m_pSqlObj; //l'oggetto che ha generato l'eccezione
 
 public:
-	void Empty			();
-	BOOL ShowError		(LPCTSTR pszError = _T(""));
-	void SetDeletable	(const BOOL& bValue);
-
-	const BOOL	IsLostConnectionError	(const int eDBMSType) const;
-	void		GetLostConnectionErrors	(CWordArray& arErrors, const int eDBMSType) const;
+	SqlException(const CString& strError);
+	SqlException(MSqlException& mSqlException);
 
 public:
-	void	GetErrorString			(HRESULT hResult, CString& strError);
-	void	UpdateErrorString		(const CString& strNewError, BOOL bAppend = TRUE);
-	DWORD	GetNativeFromDescription(const CString& strNewError);
-	virtual void BuildErrorString(HRESULT nHResult, LPUNKNOWN lpUnk, const IID& iid);
-	virtual BOOL GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext = NULL) const ;
-	virtual BOOL GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext = NULL);
+
+	BOOL	ShowError(LPCTSTR pszError = _T(""));
 };
+
+//@@BAUZI OLD VERSIONE
+///////////////////////////////////////////////////////////////////////////////
+////						class SqlException
+///////////////////////////////////////////////////////////////////////////////
+////
+////===========================================================================
+//class TB_EXPORT SqlException : public CException
+//{
+//	DECLARE_DYNAMIC(SqlException)
+//
+//
+//	// Attributes
+//public:
+//	HRESULT			m_nHResult;
+//	LPUNKNOWN		m_lpUnk;
+//	IID				m_iid;
+//	CString			m_strError;
+//	SqlObject*		m_pSqlObj;
+//	DWORD			m_wNativeErrCode;
+//
+//	// Implementation (use AfxThrowDBException to create)
+//public:
+//	SqlException();
+//	SqlException(LPUNKNOWN lpUnk, const IID& iid, HRESULT nHResult = S_OK, SqlObject* pSqlObj = NULL, DWORD wNativeErrCode = 0);
+//	virtual ~SqlException();
+//
+//public:
+//	void Empty();
+//	BOOL ShowError(LPCTSTR pszError = _T(""));
+//	void SetDeletable(const BOOL& bValue);
+//
+//	const BOOL	IsLostConnectionError(const int eDBMSType) const;
+//	void		GetLostConnectionErrors(CWordArray& arErrors, const int eDBMSType) const;
+//
+//public:
+//	void	GetErrorString(HRESULT hResult, CString& strError);
+//	void	UpdateErrorString(const CString& strNewError, BOOL bAppend = TRUE);
+//	DWORD	GetNativeFromDescription(const CString& strNewError);
+//	virtual void BuildErrorString(HRESULT nHResult, LPUNKNOWN lpUnk, const IID& iid);
+//	virtual BOOL GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext = NULL) const;
+//	virtual BOOL GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext = NULL);
+//};
+
 
 // costanti stringa
 BEGIN_TB_STRING_MAP(SqlErrorString)

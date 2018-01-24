@@ -8,7 +8,7 @@
 
 #include <TbClientCore\ClientObjects.h>
 #include <TbWebServicesWrappers\LoginManagerInterface.h>
-
+#include <TbNameSolver\IFileSystemManager.h>
 #include <TBClientCore\ModuleConfigInfo.h>
 
 #include <TbGeneric\Critical.h>
@@ -26,6 +26,7 @@
 
 #include <TbGenlib\baseapp.h>
 
+#include <TbOleDb\PerformanceAnalizer.h>
 
 #include <TbParser\EnumsParser.h>
 #include <TbParser\FormatsParser.h>
@@ -64,7 +65,7 @@ static const TCHAR szXmlModule[]			= _T("Module");
 // operations. It is removed from memory when operations are closed.
 //==============================================================================
 class CParsersForModule
-{   
+{
 public:
 	// utility
 	CStatusBarMsg*	m_pStatusBar;
@@ -79,13 +80,15 @@ public:
 	FontsParser							m_FontsParser;
 
 public:
-	CParsersForModule (CPathFinder* pPathFinder, CStatusBarMsg* pStatusBar)
+	CParsersForModule(CPathFinder* pPathFinder, CStatusBarMsg* pStatusBar)
 		:
-		m_pPathFinder	(pPathFinder),
-		m_pStatusBar	(pStatusBar)
+		m_pPathFinder(pPathFinder),
+		m_pStatusBar(pStatusBar)
 	{
 	}
 };
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 //					CApplicationsLoader implementation
@@ -96,28 +99,32 @@ public:
 //-----------------------------------------------------------------------------
 BOOL CApplicationsLoader::LoadApplications (CStatusBarMsg*	pStatusBar)
 {
+	CPerformanceCrono aCrono;
+
+	aCrono.Start();
 	CBaseApp* pBaseApp = AfxGetBaseApp();
 	
 	CPathFinder* pPathFinder = AfxGetPathFinder();
+
 	CStringArray arApps;
 
-
-	pPathFinder->GetCandidateApplications (&arApps); 
+	pPathFinder->GetCandidateApplications(&arApps);
 
 	// check for duplicate applications
-	if (ThereDuplicatesApplications (&arApps))
-		return FALSE;
+	if (ThereDuplicatesApplications(&arApps))
 
 	AfxGetApplicationContext()->SetCustomSaveDialogClass(RUNTIME_CLASS(CCustomSaveDialog));
 
 	CParsersForModule aParsers (pPathFinder, pStatusBar);
 
 	// AddOnApplications create operations
-	for (int i=0; i <= arApps.GetUpperBound (); i++)
+	for (int i = 0; i <= arApps.GetUpperBound(); i++)
 		if (!arApps.GetAt(i).IsEmpty())
-			LoadSingleApplication(arApps.GetAt(i), aParsers);
-
+			LoadSingleApplication(arApps.GetAt(i), aParsers);	
+	
 	LoadApplicationsStep2(pStatusBar);
+	aCrono.Stop();	
+	TRACE(_T("Load StartUp files total time: %s\n\r"), (LPCTSTR)aCrono.GetFormattedElapsedTime());
 
 	// if ok set the master application
 	if (AfxGetAddOnAppsTable()->GetSize() > 1 && pBaseApp->GetMasterAddOnApp())
@@ -145,12 +152,13 @@ BOOL CApplicationsLoader::LoadApplicationsStep2 (CStatusBarMsg*	pStatusBar)
 	// loads dynamic objects descriptions 
 	CXMLDatabaseObjectsParser aDbParser;
 	
+	CPerformanceCrono aCrono;
 	for (int a = 0; a < AfxGetAddOnAppsTable()->GetSize(); a++)
 	{
 		pAddOnApp = AfxGetAddOnAppsTable()->GetAt(a);
 		if (!pAddOnApp)
 			continue;
-	
+
 		for (int m = 0; m < pAddOnApp->m_pAddOnModules->GetSize(); m++)
 		{
 			pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(m);
@@ -158,14 +166,34 @@ BOOL CApplicationsLoader::LoadApplicationsStep2 (CStatusBarMsg*	pStatusBar)
 				continue;
 
 			pAddOnMod->m_XmlDescription.LoadFunctionsObjects();
+			pAddOnMod->m_XmlDescription.LoadEventHandlerObjects();
+			pAddOnMod->m_XmlDescription.LoadReferenceObjects();
 
+		}
+
+	}
+	int nFileCount = 0;
+	aCrono.Start();
+	for (int a = 0; a < AfxGetAddOnAppsTable()->GetSize(); a++)
+	{
+		pAddOnApp = AfxGetAddOnAppsTable()->GetAt(a);
+		if (!pAddOnApp)
+			continue;
+
+		for (int m = 0; m < pAddOnApp->m_pAddOnModules->GetSize(); m++)
+		{
+			pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(m);
+			if (!pAddOnMod)
+				continue;
 			//lock scope
 			DatabaseObjectsTablePtr pTablePtr = AfxGetWritableDatabaseObjectsTable();
-			
-			if (pAddOnMod)
-				aDbParser.LoadDatabaseObjects (pAddOnMod->m_Namespace, pTablePtr.GetPointer());
-		}
+			aDbParser.LoadDatabaseObjects(pAddOnMod->m_Namespace, pTablePtr.GetPointer());
+			nFileCount++;
+		}	
 	}
+	aCrono.Stop();
+	TRACE(_T("Load DatabaseObjects %d files total time: %s\n\r"), nFileCount, (LPCTSTR)aCrono.GetFormattedElapsedTime());
+
 
 	//devo farlo DOPO avere caricato TUTTI i DatabaseObjects di TUTTE le appa!
 	CXMLAddOnDatabaseObjectsParser addOnDbParser;
@@ -181,20 +209,7 @@ BOOL CApplicationsLoader::LoadApplicationsStep2 (CStatusBarMsg*	pStatusBar)
 		for (int n = 0; n <= pAddOnApp->m_pAddOnModules->GetUpperBound(); n++)
 		{
 			pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(n);
-			
-			// addon ai database objects
-			CString sFileName = pPathFinder->GetAddOnDbObjectsFullName (pAddOnMod->m_Namespace, CPathFinder::STANDARD);
-			if (!ExistFile(sFileName))
-				sFileName = pPathFinder->GetAddOnDbObjectsFullName (pAddOnMod->m_Namespace, CPathFinder::CUSTOM);
-	
-			if (ExistFile(sFileName))
-			{
-				CLocalizableXMLDocument aXMLModDoc(pAddOnMod->m_Namespace, pPathFinder);
-				aXMLModDoc.EnableMsgMode(FALSE);
-
-				if (aXMLModDoc.LoadXMLFile (sFileName))
-					addOnDbParser.Parse(&aXMLModDoc, pAddOnMod->m_Namespace);
-			}
+			addOnDbParser.LoadAdddOnDatabaseObjects(pAddOnMod->m_Namespace);
 		}
 	}
 	return TRUE;
@@ -236,7 +251,6 @@ BOOL CApplicationsLoader::ReloadApplication (const CString& sAppName)
 {
 	CStatusBarMsg statusBar(TRUE, TRUE, FALSE); // disabilita, hourglass
 	CParsersForModule aParsers (AfxGetPathFinder(), &statusBar);
-
 	//Ripulisco la cache dei moduli in modo che venga ricaricata l'applicazione correttamente
 	AfxGetPathFinder()->ClearApplicationsModulesMap();
 
@@ -248,11 +262,10 @@ BOOL CApplicationsLoader::LoadSingleApplication (const CString& strAppName, CPar
 {
 	CStringArray aAppModules;
 
-	AfxGetPathFinder()->GetCandidateModulesOfApp(strAppName, &aAppModules); 
+	AfxGetPathFinder()->GetCandidateModulesOfApp(strAppName, &aAppModules);
 
-	if (aAppModules.GetSize () <= 0)
+	if (aAppModules.GetSize() <= 0)
 		return FALSE;
-
 	// application check
 	AddOnApplication* pAddOnApp = AfxGetAddOnApp(strAppName);
 	if (!pAddOnApp)
@@ -287,7 +300,7 @@ BOOL CApplicationsLoader::LoadSingleApplication (const CString& strAppName, CPar
 	AddOnModule* pAddOnMod;
 	for (int i=0; i <= aAppModules.GetUpperBound(); i++)
 	{
-		CTBNamespace aModuleNS(CTBNamespace::MODULE, strAppName + CTBNamespace::GetSeparator() + aAppModules.GetAt (i));
+		CTBNamespace aModuleNS(CTBNamespace::MODULE, strAppName + CTBNamespace::GetSeparator() + aAppModules.GetAt(i));
 		
 		// existing moodules are validated
 		pAddOnMod = AfxGetAddOnModule(aModuleNS);
@@ -300,31 +313,31 @@ BOOL CApplicationsLoader::LoadSingleApplication (const CString& strAppName, CPar
 			continue;
 		}
 
-		pAddOnMod = LoadSingleModule(strAppName, aAppModules.GetAt (i), aParsers, pAddOnMods, pAddOnApp);
+		pAddOnMod = LoadSingleModule(strAppName, aAppModules.GetAt(i), aParsers, pAddOnMods, pAddOnApp);
 		if (pAddOnMod)
 		{
 			pAddOnMods->Add(pAddOnMod);
 			// i try to load localizableapplication.config file
 			LoadLocalizableApplicationInfo (pAddOnApp, pAddOnMod, aParsers);
 
-				CTBNamespace aLibNs (CTBNamespace::LIBRARY, pAddOnMod->GetApplicationName() + CTBNamespace::GetSeparator () + pAddOnMod->GetModuleName());
-				const CModuleConfigLibrariesInfo& aLibrariesInfo = pAddOnMod->m_XmlDescription.GetConfigInfo().GetLibrariesInfo();
+			CTBNamespace aLibNs (CTBNamespace::LIBRARY, pAddOnMod->GetApplicationName() + CTBNamespace::GetSeparator () + pAddOnMod->GetModuleName());
+			const CModuleConfigLibrariesInfo& aLibrariesInfo = pAddOnMod->m_XmlDescription.GetConfigInfo().GetLibrariesInfo();
 
-				CModuleConfigLibraryInfo* pInfo;
-				CString sName, sAlias;
-				for (int i=0; i <= aLibrariesInfo.GetUpperBound(); i++)
-				{
-					pInfo = aLibrariesInfo.GetAt (i);
+			CModuleConfigLibraryInfo* pInfo;
+			CString sName, sAlias;
+			for (int i=0; i <= aLibrariesInfo.GetUpperBound(); i++)
+			{
+				pInfo = aLibrariesInfo.GetAt (i);
 		
-					sName = pInfo->GetLibraryName();
-					sName = sName.MakeLower();
+				sName = pInfo->GetLibraryName();
+				sName = sName.MakeLower();
 		
-					aLibNs.SetObjectName (pInfo->GetAlias());
-					sAlias = aLibNs.ToString();
-					sAlias.MakeLower();
+				aLibNs.SetObjectName (pInfo->GetAlias());
+				sAlias = aLibNs.ToString();
+				sAlias.MakeLower();
 		
-					pAddOnApp->AddAlias (sName, sAlias);
-				}
+				pAddOnApp->AddAlias (sName, sAlias);
+			}
 		}
 	}
 
@@ -346,7 +359,7 @@ BOOL CApplicationsLoader::LoadSingleApplication (const CString& strAppName, CPar
 AddOnModule* CApplicationsLoader::LoadSingleModule 
 		(
 			const	CString&			strAddOnAppName,
-			const	CString&			strAddOnName, 
+			const	CString&			strAddOnName,
 					CParsersForModule&	aParsers,
 					AddOnModsArray*		pModules,
 					AddOnApplication*	pAddOnApp
@@ -628,14 +641,13 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 
 	// behaviours
 	CString sFile = AfxGetPathFinder()->GetBehaviourObjectsFullName(pAddOnMod->m_Namespace,CPathFinder::STANDARD);
-	if (ExistFile (sFile))
+	if (ExistFile(sFile))
 	{
 		CBehavioursContent aContent;
 		CXMLSaxReader aReader;
 		aReader.AttachContent(&aContent);
-		aReader.ReadFile (sFile);	
+		aReader.ReadFile(sFile);
 	}
-
 	return TRUE;
 }
 
@@ -645,17 +657,14 @@ BOOL CApplicationsLoader::LoadEnums	(AddOnModule* pAddOnMod, CParsersForModule& 
 {
 	// Enums files
 	CString sFileName = aParsers.m_pPathFinder->GetEnumsFullName (pAddOnMod->m_Namespace, aPos);
-	if (!ExistFile (sFileName))
+	if (!ExistFile(sFileName))
 		return TRUE;
 
 	aParsers.m_pStatusBar->Show(cwsprintf(_TB("Loading Enums for the Module {0-%s}..."), pAddOnMod->m_Namespace.ToString()));
-
 	aParsers.m_EnumsParser.SetCurrentModule (pAddOnMod->m_Namespace);
 	aParsers.m_EnumsParser.AttachTable (pTable);
-
 	aParsers.m_SaxReader.AttachContent (&aParsers.m_EnumsParser);
-	aParsers.m_SaxReader.ReadFile (sFileName);
-
+	aParsers.m_SaxReader.ReadFile(sFileName);
 	return TRUE;
 }
 
@@ -671,14 +680,13 @@ BOOL CApplicationsLoader::LoadApplicationInfo (AddOnApplication* pAddOnApp, CPar
 	// application config must exist as it has been just checked
 	CApplicationConfigContent aAppContent (&pAddOnApp->m_XmlDescription.m_Info);
 	aParsers.m_SaxReader.AttachContent(&aAppContent);
-
 	CString sFileName = aParsers.m_pPathFinder->GetApplicationConfigFullName(pAddOnApp->m_strAddOnAppName);
-	BOOL bOk = aParsers.m_SaxReader.ReadFile (sFileName);
-
-	if (!bOk)
-		return FALSE;
-	pAddOnApp->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
-	return TRUE;
+	if (aParsers.m_SaxReader.ReadFile(sFileName))
+	{
+		pAddOnApp->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -703,9 +711,12 @@ BOOL CApplicationsLoader::LoadLocalizableApplicationInfo
 	CLocalizableApplicationConfigContent aLocAppContent (&pAddOnApp->m_XmlDescription.m_LocalizableInfo);
 	aParsers.m_SaxReader.AttachContent(&aLocAppContent);
 
-	BOOL bOk = aParsers.m_SaxReader.ReadFile (sFileName);
-
-	return bOk;
+	if (aParsers.m_SaxReader.ReadFile(sFileName))
+	{
+		pAddOnApp->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -721,12 +732,13 @@ BOOL CApplicationsLoader::LoadModuleInfo (AddOnModule* pAddOnMod, CParsersForMod
 
 	CModuleConfigContent aModContent (const_cast<CModuleConfigInfo*>(&pAddOnMod->m_XmlDescription.GetConfigInfo()));
 	aParsers.m_SaxReader.AttachContent(&aModContent);
-
-	BOOL bOk = aParsers.m_SaxReader.ReadFile (sFileName);
-	pAddOnMod->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
-	if (pAddOnMod->m_bIsCustom)
-		AfxGetCommonClientObjects()->AddInActivationInfo(pAddOnMod->GetApplicationName() + _T(".") + pAddOnMod->GetModuleName());
-	return bOk;
+	if (aParsers.m_SaxReader.ReadFile(sFileName))
+	{
+		if (pAddOnMod->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName))
+			AfxGetCommonClientObjects()->AddInActivationInfo(pAddOnMod->GetApplicationName() + _T(".") + pAddOnMod->GetModuleName());
+		return TRUE;
+	}
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -738,11 +750,12 @@ BOOL CApplicationsLoader::LoadAddOnComponents (AddOnModule*	pAddOnMod, CParsersF
 	CString sFileName = aParsers.m_pPathFinder->GetClientDocumentObjectsFullName (pAddOnMod->m_Namespace);
 	if (ExistFile(sFileName))
 	{
-		aParsers.m_ClientDocParser.SetCurrentModule (pAddOnMod->m_Namespace);
+		aParsers.m_ClientDocParser.SetCurrentModule(pAddOnMod->m_Namespace);
 
-		aParsers.m_SaxReader.AttachContent (&aParsers.m_ClientDocParser);
-		aParsers.m_SaxReader.ReadFile (sFileName);
+		aParsers.m_SaxReader.AttachContent(&aParsers.m_ClientDocParser);
+		aParsers.m_SaxReader.ReadFile(sFileName);
 	}
+
 
 	return TRUE;
 }

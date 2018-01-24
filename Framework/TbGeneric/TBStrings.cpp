@@ -370,17 +370,13 @@ CLocalizableXMLDocument::CLocalizableXMLDocument (const CTBNamespace& aNamespace
 	m_pPathFinder = pPathFinder;
 	
 } 
-
 //-----------------------------------------------------------------------------
-BOOL CLocalizableXMLDocument::LoadXMLFile (const CString& strFileName)
+void CLocalizableXMLDocument::LocalizeXMLDocument()
 {
-	m_sFileName		= strFileName;
-	if (!__super::LoadXMLFile(strFileName))
-		return FALSE;
-	CStringLoader *pStrLoader = AfxGetStringLoader();  
+	CStringLoader *pStrLoader = AfxGetStringLoader();
 	if (!pStrLoader)
-		return TRUE;
-		
+		return;
+
 	CString strFile = GetName(m_sFileName);
 	CString strDictionaryPath = GetDictionaryPath();
 	CXMLNodeChildsList *pList = SelectNodes(_T("//node()[@localizable='true']/text()"));
@@ -390,16 +386,16 @@ BOOL CLocalizableXMLDocument::LoadXMLFile (const CString& strFileName)
 		CString strNodeText;
 		pTextNode->GetNodeValue(strNodeText);
 		CString strLocalizedText = AfxLoadXMLString(strNodeText, strFile, strDictionaryPath);
-		
+
 		CXMLNode *pParentNode = pTextNode->GetParentNode();
 		CString strNodeName;
 		pParentNode->GetName(strNodeName);
 		pParentNode->SetAttribute(_T("sl:") + strNodeName, strNodeText);
 		pTextNode->SetNodeValue(strLocalizedText);
-				
+
 	}
 	delete pList;
-			
+
 
 	pList = SelectNodes(_T("//node()[@localize]"));
 	for (int i = 0; i < pList->GetSize(); i++)
@@ -408,16 +404,37 @@ BOOL CLocalizableXMLDocument::LoadXMLFile (const CString& strFileName)
 		CString strNodeText;
 		pNode->GetAttribute(_T("localize"), strNodeText);
 		CString strLocalizedText = AfxLoadXMLString(strNodeText, strFile, strDictionaryPath);
-		
+
 		pNode->SetAttribute(_T("sl:baseLocalize"), strNodeText);
 		pNode->SetAttribute(_T("localize"), strLocalizedText);
 	}
 	delete pList;
+}
+
+
+//-----------------------------------------------------------------------------
+BOOL CLocalizableXMLDocument::LoadXMLFile (const CString& strFileName)
+{
+	m_sFileName		= strFileName;
+	if (!__super::LoadXMLFile(strFileName))
+		return FALSE;
+
+	LocalizeXMLDocument();	
 
 	return TRUE;
-
-
 } 
+
+//-----------------------------------------------------------------------------
+BOOL CLocalizableXMLDocument::LoadXML(LPCTSTR strXMLString)
+{
+	if (!__super::LoadXML(strXMLString))
+		return FALSE;
+
+	LocalizeXMLDocument();
+	return TRUE;
+}
+
+
 
 //-----------------------------------------------------------------------------
 BOOL CLocalizableXMLDocument::SaveXMLFile (const CString& strFileName, BOOL bCreatePath /*= FALSE*/)

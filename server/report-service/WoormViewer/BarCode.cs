@@ -28,7 +28,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 
 		//--------------------------------------------------------------------------------
-		public BarCode(IPathFinder pathFinder)
+		public BarCode(PathFinder pathFinder)
 		{
 			string defaultBarCode = ReadSetting.GetSettings(pathFinder, "Framework.TbGenlib.Settings", "Environment", "BarCodeType", BarCodeWrapper.GetBarCodeDescription(BarCodeWrapper.Type.BC_EAN13)) as string;
 			if (!string.IsNullOrWhiteSpace(defaultBarCode))
@@ -191,7 +191,7 @@ namespace Microarea.RSWeb.WoormViewer
 		private static int		references			= 0;
 
 		//--------------------------------------------------------------------------------
-		public BarCodeWrapper(IPathFinder pf)
+		public BarCodeWrapper(PathFinder pf)
 		{
 			lock (typeof(BarCodeWrapper))
 			{

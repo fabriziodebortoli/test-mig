@@ -31,7 +31,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 		// array di appoggio x la gestione dell'importazione dei dati di esempio
 		// in fase di creazione/aggiornamento del database aziendale
-		private List<FileInfo> importFileList = new List<FileInfo>();
+		private List<TBFile> importFileList = new List<TBFile>();
 
 		// array di appoggio x tenere traccia dei file contenenti i dati di esempio da richiamare
 		// per le sole tabelle mancanti
@@ -108,8 +108,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 							(sampleSel.ExportSel.ContextInfo.PathFinder.GetCustomDataManagerSamplePath(entry.Application, entry.Module, sampleSel.SelectedIsoState),
 							sampleSel.SelectedConfiguration);
 
-						if (!Directory.Exists(expMng.DataMngPath))
-							Directory.CreateDirectory(expMng.DataMngPath);
+						if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(expMng.DataMngPath))
+                            PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(expMng.DataMngPath, true);
 
 						//@@TODOMICHI
 						//expMng.ExportTable(entry, ref dataSet);
@@ -183,13 +183,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				return false;
 
 			StringCollection appendFiles = new StringCollection();
-			foreach (FileInfo file in importFileList)
+			foreach (TBFile file in importFileList)
 			{
 				// devo inserire in coda quelli con prefisso Append
-				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
-					appendFiles.Add(file.FullName);
+				if (Path.GetFileNameWithoutExtension(file.name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+					appendFiles.Add(file.completeFileName);
 				else
-					sampleSel.ImportSel.AddItemInImportList(file.FullName);
+					sampleSel.ImportSel.AddItemInImportList(file.completeFileName);
 			}
 
 			//inserisco quelli con prefisso Append
@@ -244,30 +244,28 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				sampleSel.ImportSel.ImportList.Clear();
 
 			string fileName = string.Empty, table = string.Empty;
-			DirectoryInfo di = null;
 			int idx = 0;
 
 			foreach (FileForMissingTable file in importAppendFileForMissingTableList)
 			{
-				di = new DirectoryInfo(file.StandardPath);
-				if (di.Exists)
+
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.StandardPath))
 				{
-					foreach (FileInfo fi in di.GetFiles("*Append.xml"))
+					foreach (TBFile fi in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(file.StandardPath, "*Append.xml"))
 					{
-						idx = fi.Name.IndexOf("Append");
-						table = fi.Name.Substring(0, idx);
+						idx = fi.name.IndexOf("Append");
+						table = fi.name.Substring(0, idx);
 						if (missingTablesListForAppend.Contains(table))
 							importFileList.Add(fi);
 					}
 				}
 
-				di = new DirectoryInfo(file.CustomPath);
-				if (di.Exists)
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.CustomPath))
 				{
-					foreach (FileInfo fi in di.GetFiles("*Append.xml"))
+                    foreach (TBFile fi in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(file.CustomPath, "*Append.xml"))
 					{
-						idx = fi.Name.IndexOf("Append");
-						table = fi.Name.Substring(0, idx);
+						idx = fi.name.IndexOf("Append");
+						table = fi.name.Substring(0, idx);
 						if (missingTablesListForAppend.Contains(table))
 							importFileList.Add(fi);
 					}
@@ -318,20 +316,20 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				// controllo se alla tabella sono associati dei dati di default
 				// prima nella custom del modulo (sia tablename.xml che appendtablename.xml)
 				// poi nella standard del modulo per il solo file tablename.xml
-				if (File.Exists(fileName))
-					importFileList.Add(new FileInfo(fileName));
-				else
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
+					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName)));
+                else
 				{
 					fileName = stdPath + file.Table + NameSolverStrings.XmlExtension;
-					if (File.Exists(fileName))
-						importFileList.Add(new FileInfo(fileName));
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
+						importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName))); 
 				}
 
 				// controllo se esiste nella custom il file tablenameappend.xml che permette di caricare altri dati di default
 				fileName = custPath + file.Table + DataManagerConsts.Append + NameSolverStrings.XmlExtension;
-				if (File.Exists(fileName))
-					importFileList.Add(new FileInfo(fileName));
-			}
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
+					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName)));
+            }
 		}
 
 		/// <summary>
@@ -341,19 +339,12 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------------
 		public void AddSampleDataTable(string appName, string moduleName)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo
-				(
-				Path.Combine
-				(contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, moduleName, SelectedIsoState),
-				SelectedConfiguration)
-				);
-
-			DirectoryInfo customDir = new DirectoryInfo
-				(
-				Path.Combine
-				(contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, moduleName, SelectedIsoState),
-				SelectedConfiguration)
-				);
+            string standardDir = Path.Combine
+                (contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, moduleName, SelectedIsoState),
+                SelectedConfiguration);
+				
+            string customDir = Path.Combine(contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, moduleName, SelectedIsoState),
+				SelectedConfiguration);
 
 			contextInfo.PathFinder.GetXMLFilesInPath(standardDir, customDir, ref importFileList);
 		}

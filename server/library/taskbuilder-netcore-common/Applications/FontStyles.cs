@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+
 using System.Drawing;
 
 using Microarea.Common.Generic;
@@ -10,6 +10,7 @@ using Microarea.Common.NameSolver;
 
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Temp;
+
 
 namespace Microarea.Common.Applications
 {
@@ -275,14 +276,14 @@ namespace Microarea.Common.Applications
 		private FontStyles	fs;
 		private bool		loaded = true;
         //	private TbSession		reportSession;
-        private BasePathFinder pathFinder;
+        private PathFinder pathFinder;
         //-----------------------------------------------------------------------------
         public bool		Loaded	{ get { return loaded; }}
-		public BasePathFinder PathFinder { get { return pathFinder; } set { pathFinder = value; }}
+		public PathFinder PathFinder { get { return pathFinder; } set { pathFinder = value; }}
         public FontStyles Fs { get { return fs; } }
 
         //------------------------------------------------------------------------------
-        public ApplicationFontStyles(BasePathFinder aPathFinder)
+        public ApplicationFontStyles(PathFinder aPathFinder)
 		{
 			// è necessario inizializzare prima una sessione di lavoro.
 			this.pathFinder = aPathFinder;
@@ -302,8 +303,8 @@ namespace Microarea.Common.Applications
 			loaded = true;
 
 			// carica tutti gli enums che fanno parte della applicazione (controllando che esista)
-			foreach (BaseApplicationInfo ai in pathFinder.ApplicationInfos)
-				foreach (BaseModuleInfo mi in ai.Modules)
+			foreach (ApplicationInfo ai in pathFinder.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
 				{
 					NameSpace nsOwner = new NameSpace(ai.Name + NameSpace.TokenSeparator + mi.Name, NameSpaceObjectType.Module);
 					if (!fs.Load(mi.GetFontsFullFilename(), nsOwner, FontElement.FontSource.STANDARD, ai.Name, mi.Name)) 
@@ -611,8 +612,9 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public bool Load(string filename, NameSpace owner, FontElement.FontSource source, string appName, String moduleName)
 		{
-			if (!File.Exists(filename))
-				return true;
+
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                return true;
 		
 			// mi evito di passarli di metodo in metodo
 			this.source = source;

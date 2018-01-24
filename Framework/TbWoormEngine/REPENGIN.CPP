@@ -798,6 +798,7 @@ void RepEngine::ExecEngine ()
 {
 	m_EngineStatus = RE_BEFORE;
 
+	GetCallerDoc()->m_pTbContext->Connect();
 	// report starts then it must do de report before actions
 	if (m_pReportEvents && !m_pReportEvents->GetBeforeActions().Exec())
 		goto endExec;
@@ -831,10 +832,12 @@ void RepEngine::ExecEngine ()
 		goto endExec;
 
 	m_AsyncEngineRunningStatus = 1;
+	GetCallerDoc()->m_pTbContext->Disconnect();
 	return;
 
 endExec:
 	m_AsyncEngineRunningStatus = 0;
+	GetCallerDoc()->m_pTbContext->Disconnect();
 }
 
 //---------------------------------------------------------------------------

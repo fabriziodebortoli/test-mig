@@ -162,6 +162,7 @@ void CXMLDefaultInfo::SetDocumentNamespace (const CTBNamespace& nsDoc)
 //----------------------------------------------------------------------------------------------
 void CXMLDefaultInfo::SetFileName ()
 {
+
 	m_strFileName = AfxGetPathFinder()->GetDocumentDefaultsFile(m_nsDoc, CPathFinder::USERS, AfxGetLoginInfos()->m_strUserName);
 	if (ExistFile(m_strFileName))
 		return;
@@ -171,7 +172,7 @@ void CXMLDefaultInfo::SetFileName ()
 		return;
 
 	//const CDocumentDescription* pDocDescri = AfxGetDocumentDescription(m_nsDoc);
-	
+
 	// dynamic document has description in custom directory or in standard
 	m_strFileName = AfxGetPathFinder()->GetDocumentDefaultsFile(m_nsDoc, CPathFinder::CUSTOM);
 	if (ExistFile(m_strFileName))
@@ -196,23 +197,23 @@ BOOL CXMLDefaultInfo::Parse(CPathFinder::PosType ePosType, const CString& strUse
 }
 
 //-------------------------------------------------------------------------------------------
-BOOL CXMLDefaultInfo::Parse() 
+BOOL CXMLDefaultInfo::Parse()
 {
 	m_bIsLoaded = FALSE;
-	
+
 	if (m_strFileName.IsEmpty() || !ExistFile(m_strFileName))
 		return TRUE;
-	
+
 	CLocalizableXMLDocument aXMLDefDoc(m_nsDoc, AfxGetPathFinder());
 	aXMLDefDoc.EnableMsgMode(FALSE);
-									
+
 	if (!aXMLDefDoc.LoadXMLFile(m_strFileName))
 		return FALSE;
 
 	CXMLNode* pRoot = aXMLDefDoc.GetRoot();
-	if (!pRoot) 
+	if (!pRoot)
 		return FALSE;
-		
+
 	CXMLNode* pProfNode;
 	if (pProfNode = pRoot->GetChildByName(XML_DEFAULT_PROFILE_TAG))
 		pProfNode->GetAttribute(XML_PREFERRED_PROFILE_TAG, m_strPrefProfile);
@@ -220,6 +221,7 @@ BOOL CXMLDefaultInfo::Parse()
 	m_bIsLoaded = TRUE;
 	return TRUE;
 }
+
 //---------------------------------------------------------------------------------
 BOOL CXMLDefaultInfo::UnParse(CPathFinder::PosType ePosType, const CString& strUserRole)
 {
@@ -2041,6 +2043,7 @@ CString CXMLXRefInfo::GetReferencedTableName()
 	CString strFileDBT = AfxGetPathFinder()->GetDocumentDbtsFullName(GetDocumentNamespace());
 	if (strFileDBT.IsEmpty()) 
 		return _T("");
+
 	
 	CLocalizableXMLDocument	aXMLDBTDoc(m_nsDoc, AfxGetPathFinder());
 	CXMLDBTInfoArray	aXMLDBTInfoArray;
@@ -2060,10 +2063,10 @@ CString CXMLXRefInfo::GetReferencedTableName()
 		m_strReferencedTableName = strTableName;
 		CString strNameSpace;
 		pDBTMasterTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strNameSpace);
-		if(!strNameSpace.IsEmpty())
+		if (!strNameSpace.IsEmpty())
 			m_nsReferencedTable.AutoCompleteNamespace(CTBNamespace::TABLE, strNameSpace, m_nsReferencedTable);
 		return m_strReferencedTableName;
-	}	
+	}
 	return _T("");
 }
 
@@ -2091,62 +2094,63 @@ void CXMLXRefInfo::GetReferencedDBTList(CObArray& arDBTs)
 		return;
 	
 	CLocalizableXMLDocument	aXMLDBTDoc(m_nsDoc, AfxGetPathFinder());
-	if (!aXMLDBTDoc.LoadXMLFile(strFileDBT))
-		return;
-
-	CXMLNode* pDBTMasterNode = aXMLDBTDoc.GetRootChildByName(XML_DBT_TYPE_MASTER_TAG);
-	if (!pDBTMasterNode)
-		return;
-
-	CString strTitle;
-	CString strTableNamespace;
-	CString strNamespace;
-
-	pDBTMasterNode->GetAttribute (XML_NAMESPACE_ATTRIBUTE, strNamespace);
-
-	// master data
-	CXMLNode* pTitleNode = pDBTMasterNode->GetChildByName(XML_TITLE_TAG);
-	if (pTitleNode)
-		pTitleNode->GetText(strTitle);
-
-	CXMLNode* pTableNode = pDBTMasterNode->GetChildByName(XML_TABLE_TAG);
-	if (pTableNode)
-		pTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strTableNamespace);
-
-	arDBTs.Add(new CXMLDBTData(strNamespace, strTitle, strTableNamespace));
-
-	// slaves data
-	CXMLNode* pSlavesNode = pDBTMasterNode->GetChildByName(XML_SLAVES_TAG);
-	if (!pSlavesNode || !pSlavesNode->GetChilds())
-		return;
-
-	CXMLNode* pSlaveNode;
-	CString sNodeName;
-	for (int i=0; i <= pSlavesNode->GetChilds()->GetUpperBound(); i++)
+	if (aXMLDBTDoc.LoadXMLFile(strFileDBT))
 	{
-		pSlaveNode = pSlavesNode->GetChilds()->GetAt (i);
-		if (
-				!pSlaveNode || !pSlaveNode->GetName(sNodeName) || 
-				(
-					sNodeName.CompareNoCase(XML_DBT_TYPE_SLAVE_TAG) && 
-					sNodeName.CompareNoCase(XML_DBT_TYPE_BUFFERED_TAG) &&
-					sNodeName.CompareNoCase(XML_DBT_TYPE_SLAVABLE_TAG)
-				)
-			)
-			continue;
-		
-		pSlaveNode->GetAttribute (XML_NAMESPACE_ATTRIBUTE, strNamespace);
+		CXMLNode* pDBTMasterNode = aXMLDBTDoc.GetRootChildByName(XML_DBT_TYPE_MASTER_TAG);
+		if (pDBTMasterNode)
+		{
 
-		pTitleNode = pSlaveNode->GetChildByName(XML_TITLE_TAG);
-		if (pTitleNode)
-			pTitleNode->GetText(strTitle);
+			CString strTitle;
+			CString strTableNamespace;
+			CString strNamespace;
 
-		pTableNode = pSlaveNode->GetChildByName(XML_TABLE_TAG);
-		if (pTableNode)
-			pTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strTableNamespace);
+			pDBTMasterNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strNamespace);
 
-		arDBTs.Add(new CXMLDBTData(strNamespace, strTitle, strTableNamespace));
-	}	
+			// master data
+			CXMLNode* pTitleNode = pDBTMasterNode->GetChildByName(XML_TITLE_TAG);
+			if (pTitleNode)
+				pTitleNode->GetText(strTitle);
+
+			CXMLNode* pTableNode = pDBTMasterNode->GetChildByName(XML_TABLE_TAG);
+			if (pTableNode)
+				pTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strTableNamespace);
+
+			arDBTs.Add(new CXMLDBTData(strNamespace, strTitle, strTableNamespace));
+
+			// slaves data
+			CXMLNode* pSlavesNode = pDBTMasterNode->GetChildByName(XML_SLAVES_TAG);
+			if (!pSlavesNode || !pSlavesNode->GetChilds())
+				return;
+
+			CXMLNode* pSlaveNode;
+			CString sNodeName;
+			for (int i = 0; i <= pSlavesNode->GetChilds()->GetUpperBound(); i++)
+			{
+				pSlaveNode = pSlavesNode->GetChilds()->GetAt(i);
+				if (
+					!pSlaveNode || !pSlaveNode->GetName(sNodeName) ||
+					(
+						sNodeName.CompareNoCase(XML_DBT_TYPE_SLAVE_TAG) &&
+						sNodeName.CompareNoCase(XML_DBT_TYPE_BUFFERED_TAG) &&
+						sNodeName.CompareNoCase(XML_DBT_TYPE_SLAVABLE_TAG)
+						)
+					)
+					continue;
+
+				pSlaveNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strNamespace);
+
+				pTitleNode = pSlaveNode->GetChildByName(XML_TITLE_TAG);
+				if (pTitleNode)
+					pTitleNode->GetText(strTitle);
+
+				pTableNode = pSlaveNode->GetChildByName(XML_TABLE_TAG);
+				if (pTableNode)
+					pTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strTableNamespace);
+
+				arDBTs.Add(new CXMLDBTData(strNamespace, strTitle, strTableNamespace));
+			}
+		}
+	}
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2475,7 +2479,7 @@ BOOL CXMLXReferencesToAppend::Parse(const CString& strDocNamespace, const CStrin
 	aXMLXRefDoc.EnableMsgMode(FALSE);
 	CXMLNode* pExtRefsNode = NULL;
 	BOOL bResult = FALSE;
-	if(aXMLXRefDoc.LoadXMLFile(m_strFileName))
+	if (aXMLXRefDoc.LoadXMLFile(m_strFileName))
 	{	
 		pExtRefsNode = aXMLXRefDoc.GetRootChildByName(XML_EXTERNAL_REFERENCES_TAG);
 		if (pExtRefsNode)
@@ -2486,7 +2490,6 @@ BOOL CXMLXReferencesToAppend::Parse(const CString& strDocNamespace, const CStrin
 		}
 	}
 
-	aXMLXRefDoc.Close();
 	return bResult;	
 }
 
@@ -2534,7 +2537,6 @@ void CXMLXReferencesToAppend::Unparse(const CString& strTableName)
 	}
 
 	aXMLXRefDoc.SaveXMLFile(m_strFileName);
-	aXMLXRefDoc.Close();
 }
 
 //----------------------------------------------------------------------------------------------
@@ -5253,10 +5255,8 @@ BOOL CXMLDBTInfoArray::LoadFieldInfoFile(const CString& strFieldFileName)
 {
 	ASSERT(GetSize());
 	CXMLDBTInfo* pDbt = GetAt(0);
-
 	CLocalizableXMLDocument aXMLFieldDoc(pDbt->m_nsDBT, AfxGetPathFinder());
-	
-	if(!aXMLFieldDoc.LoadXMLFile(strFieldFileName))
+	if (!aXMLFieldDoc.LoadXMLFile(strFieldFileName))
 		return FALSE;
 
 	CXMLNode* pnRooth = aXMLFieldDoc.GetRoot();
@@ -5326,10 +5326,8 @@ BOOL CXMLDBTInfoArray::LoadHotKeyLinkInfoFile(const CString& strFieldFileName)
 {
 	ASSERT(GetSize());
 	CXMLDBTInfo* pDbt = GetAt(0);
-
 	CLocalizableXMLDocument aXMLHKLDoc(pDbt->m_nsDBT, AfxGetPathFinder());
-	
-	if(!aXMLHKLDoc.LoadXMLFile(strFieldFileName))
+	if (!aXMLHKLDoc.LoadXMLFile(strFieldFileName))
 		return FALSE;
 
 	CXMLNode* pnRooth = aXMLHKLDoc.GetRoot();
@@ -5884,45 +5882,36 @@ BOOL CXMLClientDocInfo::ParseDBTFile(CXMLDBTInfoArray* pDBTDoc)
 	}
 
 	int nOldDBTDoc = pDBTDoc->GetSize(); //numero di dbt già presenti nel documento
-
 	CLocalizableXMLDocument aXMLDBTDoc(m_nsClientDoc, AfxGetPathFinder());
-	CLocalizableXMLDocument aXMLXRefDoc(m_nsClientDoc, AfxGetPathFinder());
-
-	aXMLDBTDoc.EnableMsgMode(FALSE);	
-	aXMLXRefDoc.EnableMsgMode(FALSE); 
-	
-	CXMLNode* pDBTSlavesNode = NULL;
-
-	if(aXMLDBTDoc.LoadXMLFile(m_strDBTFileName))
+	if (aXMLDBTDoc.LoadXMLFile(m_strDBTFileName))
 	{
-		pDBTSlavesNode = aXMLDBTDoc.GetRootChildByName(XML_SLAVES_TAG);
-		if (!pDBTSlavesNode) 
-			return TRUE;
-	
-		CString strXRefFile;
-	
-		if (
-			!m_strXRefDescriName.IsEmpty() &&
-			ExistFile(m_strXRefDescriName)
-			)
-			strXRefFile = m_strXRefDescriName;
+		CLocalizableXMLDocument aXMLXRefDoc(m_nsClientDoc, AfxGetPathFinder());
+		aXMLDBTDoc.EnableMsgMode(FALSE);
+		aXMLXRefDoc.EnableMsgMode(FALSE);
 
-			
-		if (!strXRefFile.IsEmpty() && !aXMLXRefDoc.LoadXMLFile(strXRefFile))
-			return FALSE;
-	
-		if (pDBTDoc->ParseSlaves(pDBTSlavesNode, (!strXRefFile.IsEmpty()) ? &aXMLXRefDoc : NULL))
+		CXMLNode* pDBTSlavesNode = NULL;
+
+		pDBTSlavesNode = aXMLDBTDoc.GetRootChildByName(XML_SLAVES_TAG);
+		if (!pDBTSlavesNode)
+			return TRUE;
+
+		if (!m_strXRefDescriName.IsEmpty() && ExistFile(m_strXRefDescriName))
+		{
+			if (!aXMLXRefDoc.LoadXMLFile(m_strXRefDescriName))
+				return FALSE;
+		}
+		if (pDBTDoc->ParseSlaves(pDBTSlavesNode, (!m_strXRefDescriName.IsEmpty()) ? &aXMLXRefDoc : NULL))
 		{
 			int nNewDBTDoc = pDBTDoc->GetSize();
-			
-			if (nOldDBTDoc >= nNewDBTDoc) 
+
+			if (nOldDBTDoc >= nNewDBTDoc)
 				return TRUE;
-			
-			int nDiff = nNewDBTDoc - nOldDBTDoc; 
-				
+
+			int nDiff = nNewDBTDoc - nOldDBTDoc;
+
 			for (int i = nNewDBTDoc - nDiff; i < pDBTDoc->GetSize(); i++)
 			{
-				CXMLDBTInfo* pDBTInfo = pDBTDoc->GetAt(i); 
+				CXMLDBTInfo* pDBTInfo = pDBTDoc->GetAt(i);
 				if (pDBTInfo)
 				{
 					pDBTInfo->SetFromClientDoc();
@@ -5930,9 +5919,8 @@ BOOL CXMLClientDocInfo::ParseDBTFile(CXMLDBTInfoArray* pDBTDoc)
 				}
 			}
 			return TRUE;
-		}
+		}		
 	}
-	
 	return FALSE;	
 }
 
@@ -6019,7 +6007,10 @@ BOOL CXMLClientDocInfo::SaveXRefFile(BOOL bDescription /*=TRUE*/)
 BOOL CXMLClientDocInfo::LoadDBTFile()
 {
 	// posso avere clientdoc senza dbtslave
-	if (m_strDBTFileName.IsEmpty() || !ExistFile(m_strDBTFileName)) 
+	if (m_strDBTFileName.IsEmpty())		
+		return TRUE;
+
+	if (m_strDBTFileName.IsEmpty() || !ExistFile(m_strDBTFileName))
 		return TRUE;
 
 	if (!m_pXMLClientDBTDoc)
@@ -6030,7 +6021,8 @@ BOOL CXMLClientDocInfo::LoadDBTFile()
 	m_pXMLClientDBTDoc->EnableMsgMode(FALSE);	
 	m_pXMLClientXRefDoc->EnableMsgMode(FALSE);
 
-	if(m_pXMLClientDBTDoc->LoadXMLFile(m_strDBTFileName))
+
+	if (m_pXMLClientDBTDoc->LoadXMLFile(m_strDBTFileName))
 	{
 		if (!m_strXRefFileName.IsEmpty() && ExistFile(m_strXRefFileName))
 		{
@@ -6042,10 +6034,9 @@ BOOL CXMLClientDocInfo::LoadDBTFile()
 		}
 		else
 			SAFE_DELETE(m_pXMLClientXRefDoc);
-		
+
 		return TRUE;
 	}
-
 	SAFE_DELETE(m_pDBTArray);
 	SAFE_DELETE(m_pXMLClientDBTDoc);
 	SAFE_DELETE(m_pXMLClientXRefDoc);
@@ -6646,14 +6637,12 @@ BOOL CXMLDocObjectInfo::LoadHeaderFile()
 
 	CLocalizableXMLDocument aXMLHdrDoc(m_nsDoc, AfxGetPathFinder());
 	aXMLHdrDoc.EnableMsgMode(FALSE);
-
-	if
-		(
-			aXMLHdrDoc.LoadXMLFile(strDocFileToLoad) && 
+	if (
+			aXMLHdrDoc.LoadXMLFile(strDocFileToLoad) &&
 			m_pHeaderInfo->Parse(&aXMLHdrDoc)
 		)
-		return TRUE;		
-
+		return TRUE;
+	
 	SAFE_DELETE(m_pHeaderInfo);
 	return FALSE;
 }
@@ -6682,24 +6671,23 @@ BOOL CXMLDocObjectInfo::LoadDBTFiles
 	if (!pDBTDoc)  pDBTDoc  = new CLocalizableXMLDocument(m_nsDoc, AfxGetPathFinder());
 
 	pDBTDoc->EnableMsgMode(FALSE);	
-
 	if (!pDBTDoc->LoadXMLFile(m_strDBTFileName))
 	{
 		SAFE_DELETE(pDBTDoc);
 		return FALSE;
 	}
-		
-	// related external refereces
-	if (!pXRefDoc) pXRefDoc = new CLocalizableXMLDocument(m_nsDoc, AfxGetPathFinder());
-	pXRefDoc->EnableMsgMode(FALSE);
 
 	if (!m_strXRefFileName.IsEmpty() && ExistFile(m_strXRefFileName))
 	{
+		// related external refereces
+		if (!pXRefDoc) 
+			pXRefDoc = new CLocalizableXMLDocument(m_nsDoc, AfxGetPathFinder());
+		pXRefDoc->EnableMsgMode(FALSE);
 		if (!pXRefDoc->LoadXMLFile(m_strXRefFileName))
 		{
 			SAFE_DELETE(pXRefDoc);
 			return FALSE;
-		}
+		}		
 	}
 	else
 		SAFE_DELETE(pXRefDoc);
@@ -7207,26 +7195,25 @@ CString CXMLDocInfo::GetMasterTableNamespace(const CTBNamespace& aDocNamespace)
 		return _T("");
 
 	CLocalizableXMLDocument	aXMLDBTDoc(aDocNamespace, AfxGetPathFinder());
-	CXMLDBTInfoArray	aXMLDBTInfoArray;
-
-	if (!aXMLDBTDoc.LoadXMLFile(strFileDBT))
-		return _T("");
-
-	CXMLNode* pDBTMasterNode = aXMLDBTDoc.GetRootChildByName(XML_DBT_TYPE_MASTER_TAG);
-	if (!pDBTMasterNode)
-		return _T("");
-
-	CXMLNode* pDBTMasterTableNode = pDBTMasterNode->GetChildByName(XML_TABLE_TAG);
-
-	CString strTableName;
-	CTBNamespace aTableNamespace;
-	if (pDBTMasterTableNode  && pDBTMasterTableNode->GetText(strTableName))
+	if (aXMLDBTDoc.LoadXMLFile(strFileDBT))
 	{
-		CString strNameSpace;
-		pDBTMasterTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strNameSpace);
-		if (!strNameSpace.IsEmpty())
-			aTableNamespace.AutoCompleteNamespace(CTBNamespace::TABLE, strNameSpace, aTableNamespace);
-		return aTableNamespace.ToString();
+		CXMLDBTInfoArray	aXMLDBTInfoArray;
+		CXMLNode* pDBTMasterNode = aXMLDBTDoc.GetRootChildByName(XML_DBT_TYPE_MASTER_TAG);
+		if (!pDBTMasterNode)
+			return _T("");
+
+		CXMLNode* pDBTMasterTableNode = pDBTMasterNode->GetChildByName(XML_TABLE_TAG);
+
+		CString strTableName;
+		CTBNamespace aTableNamespace;
+		if (pDBTMasterTableNode  && pDBTMasterTableNode->GetText(strTableName))
+		{
+			CString strNameSpace;
+			pDBTMasterTableNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, strNameSpace);
+			if (!strNameSpace.IsEmpty())
+				aTableNamespace.AutoCompleteNamespace(CTBNamespace::TABLE, strNameSpace, aTableNamespace);
+			return aTableNamespace.ToString();
+		}		
 	}
 	return _T("");
 }

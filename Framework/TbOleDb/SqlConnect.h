@@ -28,9 +28,10 @@ class AddOnModule;
 class AddOnApplication;
 class SqlColumnInfo;
 
-// classi di ATL
-class ATLDataSource;
-class ATLSession;
+// classi di TBDatabaseManaged
+class 	MSqlConnection;
+
+
 
 //in questo file sono presenti le classi per la gestione della connessione
 // e della sessione
@@ -50,13 +51,16 @@ class TB_EXPORT SqlCommandPool : public CObArray
 	DECLARE_DYNAMIC(SqlCommandPool)
 
 public:                                  
-    SqlRowSet*	GetAt		(int nIndex) const	{ return (SqlRowSet*) CObArray::GetAt(nIndex); }
+	SqlRowSet*	GetAt		(int nIndex) const	{ return (SqlRowSet*) CObArray::GetAt(nIndex); }
 	SqlRowSet*&	ElementAt	(int nIndex)		{ return (SqlRowSet*&) CObArray::ElementAt(nIndex); }
 
 	SqlRowSet*	operator[]	(int nIndex) const	{ return GetAt(nIndex); }
 	SqlRowSet*&	operator[]	(int nIndex)		{ return ElementAt(nIndex); }
 
 public:
+	void AddCommand				(SqlRowSet* pSqlCommand);
+	void RemoveCommand			(SqlRowSet* pSqlCommand);
+
 	void CloseAllCommands		();
 	void ReleaseAllCommands		();
 
@@ -83,13 +87,23 @@ class TB_EXPORT SqlSession : public SqlObject
 
 	DECLARE_DYNAMIC(SqlSession)
 
+private:
+	MSqlConnection*		m_pSession;
+	bool				m_bForUpdate; //false di default; se true vuo dire che è una sessione istanziata per la gestione dei command di tipo Update, Insert e Delete
+
 protected:
-	ATLSession*			m_pSession;
 	SqlCommandPool		m_arCommandPool;	// array di comandi attualmente attivi legati alla sessione
 	
 	BOOL				m_bTxnInProgress;// TRUE se é aperta la transazione é in corso
 	BOOL				m_bOwnSession;	// TRUE se la sessione è stata aperta direttamente
 										// FALSE se il puntatore ci viene passato da fuori
+	BOOL			    m_bStayOpen;
+
+	//serve per la transazione. 
+	//In caso di SqlDataReader ancora attivi sulla sessione la transazione non andrà a buon fine
+	// devo nettamente dividere i command di lettura (che utilizzano quindi i SqlDataReader) da quelli di scrittura (con ExecuteNonQuery)
+	SqlSession*			m_pUpdatableSqlSession;
+
 public:
 	SqlConnection*		m_pSqlConnection;	// connessione che ha generato la sessione
 
@@ -97,12 +111,17 @@ public:
 	//posso lavorare in un contesto differente rispetto a quello della connessione
 	// vedi gestione messaggi legati al contesto del documento
 	SqlSession	(SqlConnection* pConnection, CBaseContext* = NULL);
-	SqlSession	(ATLSession*, SqlConnection*, CBaseContext* = NULL);
+	SqlSession	(MSqlConnection*, SqlConnection*, CBaseContext* = NULL);
 	~SqlSession	();
 
 public:
+	MSqlConnection*		GetMSqlConnection() const;
+	virtual ::DBMSType	GetDBMSType() const;
+
 	void		Open			();
+	BOOL		IsOpen			() const;	
 	// metodi per la gestione delle transazioni da parte della session
+	SqlSession*				GetUpdatableSqlSession();
 	/*TBWebMethod*/void		StartTransaction	();
 	/*TBWebMethod*/void		Commit				();
 	/*TBWebMethod*/void		Abort				();
@@ -112,22 +131,21 @@ public:
 	void		RemoveCommand	(SqlRowSet*);
 
 	BOOL		CanClose		() const;
-	/*TBWebMethod*/void		Close			();
-	void		ReleaseCommands	();
+	/*TBWebMethod*/void		Close (); 
+	void ForceClose();//serve per forzare la chiusura indipendentemente dal valore di bStayOpen
 	
-	//DataCaching management
-	void SetDataCachingContext(CDataCachingContext* pDataCachingContext);
+	void		ReleaseCommands	();	
 
 public:
 	SqlConnection*		GetSqlConnection()	const { return m_pSqlConnection; }
+
 	BOOL				IsTxnInProgress()	const { return m_bTxnInProgress; }
 
 public:
-	virtual ::DBMSType	GetDBMSType			() const;
 	virtual void		GetErrorString(HRESULT nResult, CString& m_strError);
 
 public:
-	ATLSession* GetSession() const { return m_pSession; }
+	MSqlConnection* GetSession() const { return m_pSession; }
 
 // diagnostics
 #ifdef _DEBUG
@@ -154,6 +172,7 @@ public:
 
 public:
 	void RemoveSession(SqlSession*);
+	void ForceCloseSessions(); 
 
 // diagnostics
 #ifdef _DEBUG
@@ -175,44 +194,33 @@ class TB_EXPORT SqlConnection : public SqlObject, public CTBLockable
 	friend class SqlTables;
 	friend class SqlTable;
 	friend class SqlRowSet;
-	friend class SqlProviderInfo;
+	//friend class SqlProviderInfo;
 	friend class CBaseContext;
 	friend class CTBContext;
 	friend class SqlRecoveryManager;
 	friend class CLoginThread;
 	friend class SqlRecord;
+	friend class SqlConnectionPool;
 
 	DECLARE_DYNAMIC(SqlConnection)
 
 private:
 	// m_bCheckRegisterTable = TRUE controllo l'esistenza delle tabelle registrate dall'applicativo
-	// m_bUseLockMng = TRUE uso il lock manager via socket
-	// m_bCheckDBMark = TRUE controllo la tabella TB_DBMARK 
-    // attenzione il controllo della TB_DBMARK in caso di primary connection sono fatti esternamente dopo
-	// aver creato la connessione di default
-	BOOL m_bCheckRegisterTable; 
-	BOOL m_bCheckDBMark;
-
-	// mi tengo aperto il cursore nel caso devo effettuare il controllo del database
-	SqlTable*	m_pCheckTable;
-	SqlDBMark*	m_pSqlMarkRec;
-	
+	BOOL				m_bCheckRegisterTable; 
 	SqlCatalog*			m_pCatalog;
-	ATLDataSource*		m_pDataSource;
-	
 	SqlSessionPool		m_arSessionPool; // array di sessioni
 
 	BOOL				m_bValid;
 	BOOL				m_bTablesPresent;
-
-	// START ************ da SqlDatabase *********************
 	BOOL				m_bOpen;
 	long				m_nProviderID;
 	BOOL				m_bAutocommit;
 	BOOL				m_bUseUnicode;
-
+	CString				m_strConnectionString;
+	bool				m_bAlwaysConnected;
+	int					m_nAlwaysConnectedRef; //serve per capire quante volte è stato chiamato la AlwaysConnect poichè la connessione di documentThread è condivisa tra tutti i documenti istanziati nel thread.
+												// Viene incrementato e decrementato nella SetAlwaysConnected a seconda del valore del booleano
 public:
-	const SqlProviderInfo*	m_pProviderInfo;
 	enum  ExecuteResult { EXECUTE_ERROR, EXECUTE_SUCCESS, LOCKED };
 
 private:
@@ -223,6 +231,7 @@ private:
 	CString			m_strDBOwner;		// database owner
 	CString			m_strDbmsName;		// nome del DBMS
     CString			m_strDbmsVersion;	// versione del DBMS
+	CString			m_strAlias;			//è possibile identificare la connessione con un alias
 
 
 	//gestione dei settings. Li leggo nella conessione x non dover ogni volta in fase di istanziazione
@@ -230,22 +239,14 @@ private:
 	BOOL m_bUsePerformanceMng; //gestione delle performance	
 	BOOL m_bOptimizedHKL; //ottimizzazione query hotlink
 
-	CursorType m_eHKLTRCursor; //Cursor Type for TableReader and HotLink
-	CursorType m_eROForwardCursor; //Cursor Type for read only forward SqlTable
-
-	BOOL	   m_bRemoveDeletedRows;
+public:
+	SqlConnection() {}
+	SqlConnection(const CString& strConnectionString, BOOL bCheckRegisterTable, CBaseContext* = NULL, const CString& strAlias = _T(""));
+	SqlConnection(CBaseContext*);
+	~SqlConnection();
 
 public:
-	SqlConnection	(CBaseContext* = NULL, CString dbOwner= _T(""));
-    SqlConnection	(BOOL bCheckRegisterTable, BOOL bUseLockMng, BOOL bCheckDBMark, CBaseContext* = NULL, CString dbOwner = _T(""));
-	~SqlConnection	();
-
-public:
-	// restituisce la session di default come m_arSessionPool->GetAt(0)->m_pSession 
-	ATLSession*	GetDefaultSession	();	
-	
-	// crea una nuova sessione e la inserisce in m_arSessionPool
-	ATLSession*	GetNewSession		(CBaseContext* pContext = NULL); 
+	virtual ::DBMSType	GetDBMSType() const;
 
 	// restituisce la session di default come m_arSessionPool->GetAt(0) (di tipo SqlSession)
 	SqlSession*	GetDefaultSqlSession();	
@@ -257,9 +258,9 @@ public:
 	// rimuove la sessione dalla session pool
 	void		RemoveSession(SqlSession*);
 
-	// restituisce un m_pDataSource castato a ATLDataSource
-	const ATLDataSource*	GetDataSource		();
-	
+	void				SetConnectionString(const CString& strConnectionString);
+	const CString&		GetConnectionString() { return m_strConnectionString; };
+
 	// se si può chiudere o meno una connessione
 	BOOL		CanClose			();
 	void		Close				();
@@ -268,8 +269,23 @@ public:
 	BOOL		IsAutocommit		() const { return m_bAutocommit; }
 	BOOL		UseUnicode			() const { return m_bUseUnicode; }
 	BOOL		IsAlive				() const;
-	
-	SqlCatalogConstPtr 		GetCatalog		();
+
+	bool		AlwaysConnected		()		const	{ return m_bAlwaysConnected; }
+	void		SetAlwaysConnected(bool bSet);
+
+	SqlConnection* Clone();
+
+	SqlCatalogConstPtr 		GetCatalog	();
+
+	void LoadTables(::CMapStringToOb* pTables);
+	void LoadProcedures(::CMapStringToOb* pTables);
+
+	void LoadColumnsInfo(const CString&  strTableName, ::Array* arPhisycalColumns);
+	void LoadProcedureParametersInfo(const CString& strProcName, Array* pProcedureParams);
+
+	void LoadForeignKeys(const CString& sFromTableName, const CString& sToTableName, BOOL bLoadAllToTables, CStringArray* pFKReader);
+
+
 	
 	BOOL					ExistTable				(const CString& strTableName);
 	SqlTableInfo*			GetTableInfo			(const CString& strTableName);
@@ -287,40 +303,26 @@ public:
 									int					nType 
 								);
 	BOOL RegisterAddOnLibrayTables	(AddOnLibrary*, AddOnApplication* = NULL);	
-	BOOL CheckAddOnModuleRelease	(AddOnModule*,  CDiagnostic*);
-	void CleanupCheckStructures		();
 
 	// retituisce le infomazioni sul Provider
-	const SqlProviderInfo*	GetProviderInfo	()	const { return m_pProviderInfo; }
 	BOOL					TablesPresent	()	const { return m_bTablesPresent; }
 	
 	virtual LPCSTR		GetObjectName() const	 { return "SqlConnection"; }
 
 private:
-	void Initialize			();
-	BOOL MakeConnection		(LPCOLESTR szInitString);
-	BOOL Open				(LPCWSTR szInitString);
-	BOOL InitConnectionInfo	();
-	void InitQuoteChar		();
-	BOOL InitSysAdminParams	();
+	void Initialize		();
+	BOOL MakeConnection();
+	
 
-	BOOL RegisterTables		();
-	void DefineCheckQuery	();
-	BOOL CheckRelease		(AddOnModule*, AddOnApplication* = NULL);
-
-	BOOL CheckDatabase		();
-
+	BOOL RegisterTables		();	
+	
 	// ATL queries to read collation settings
 	void	RefreshTraces				();
 	void	SetUseUnicode				(BOOL bSet)		{ m_bUseUnicode = bSet; }
 	void	SetProviderId				(long nProvID)	{ m_nProviderID = nProvID; }
 
 public:
-	// ProviderInfo dependent function
-	DBTYPE					GetSqlDataType		(const DataType&);
-	SqlColumnTypeItem*		GetSqlColumnTypeItem(const DataType&);
-	CString					NativeConvert		(const DataObj* pDataObj, SqlRowSet* pRowSet = NULL);
-	virtual ::DBMSType		GetDBMSType			() const;
+	CString		NativeConvert		(const DataObj* pDataObj);
 
 	// direct SQL execution without bind columns
 	void ExecuteSQL(LPCTSTR lpszSQL, SqlSession* pSession = NULL);	
@@ -344,13 +346,10 @@ public:
 	CString			GetDatabaseOwner			() const	{ return m_strDBOwner; }
 	CString			GetDbmsVersion				() const	{ return m_strDbmsVersion; }
 	CString			GetDbmsName					() const	{ return m_strDbmsName; }
-	BOOL			GetUsePerformanceMng		() const	{ return m_bUsePerformanceMng; }
-	CursorType		GetROForwardCursor			() const	{ return m_eROForwardCursor; }
-	CursorType		GetHKLTRCursor				() const	{ return m_eHKLTRCursor; }
-	BOOL			RemoveDeletedRows			() const	{ return m_bRemoveDeletedRows; }
-	const CString&	GetDatabaseCollation		();
-	BOOL			IsCollationCultureSensitive	(SqlColumnInfo* pColumnInfo){ return m_pCatalog->IsCollationCultureSensitive(pColumnInfo, this); }
+	CString			GetAlias					() const	{ return m_strAlias; }
 
+	const CString&	GetDatabaseCollation		();
+	BOOL			GetUsePerformanceMng		() const	{ return m_bUsePerformanceMng; }
 
 	int		GetProviderId()			const	{ return m_nProviderID; }
 	BOOL	IsUserConnectDbOwner()	const   { return m_strDBOwner.IsEmpty()|| m_strDBOwner.Compare(m_strUserName) == 0;}
@@ -395,7 +394,7 @@ public:
 	
 public:
 	SqlConnection* GetPrimaryConnection		();
-	//SqlConnection* GetFirstActiveConnection	(const CString&, const CString&);
+	SqlConnection* GetSqlConnectionByAlias(const CString& strAlias);
 
 // diagnostics
 #ifdef _DEBUG

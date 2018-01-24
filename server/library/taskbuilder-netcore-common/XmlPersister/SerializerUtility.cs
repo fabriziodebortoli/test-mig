@@ -41,7 +41,7 @@ namespace Microarea.Common.XmlPersister
 		{
 			MemoryStream ms = null;
 			try
-			{
+			{   //Lara
 				XmlSerializer serializer = new XmlSerializer(obj.GetType());
 				ms = new MemoryStream();
 				serializer.Serialize(ms, obj);

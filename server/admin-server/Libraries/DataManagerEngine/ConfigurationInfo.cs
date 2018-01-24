@@ -5,6 +5,7 @@ using System.Xml;
 using Microarea.Common.DiagnosticManager;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -172,7 +173,8 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 
 			try
 			{
-				document.Load(File.OpenText(FilePath));
+                document = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(document, FilePath);
+
 				
 				XmlElement root = document.DocumentElement;
 				if (root == null)

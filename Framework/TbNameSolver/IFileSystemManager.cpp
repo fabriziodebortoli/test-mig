@@ -3,6 +3,7 @@
 #include "IFileSystemDriver.h"
 #include "IFileSystemManager.h"
 #include "ApplicationContext.h"
+#include "PathFinder.h"
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -187,12 +188,12 @@ void CFileSystemOperations::Dump(CDumpContext& dc) const
 //
 
 //-----------------------------------------------------------------------------
-IFileSystemManager::IFileSystemManager(BOOL bCacheEnabled /*TRUE*/)
+IFileSystemManager::IFileSystemManager(BOOL bCacheEnabled /*FALSE*/)
 	:
 	m_pFileSystemDriver			(NULL),
 	m_pAlternativeDriver		(NULL)
 {
-	m_Cacher.m_bEnabled = bCacheEnabled;
+	//m_Cacher.m_bEnabled = bCacheEnabled;
 }
 
 //-----------------------------------------------------------------------------
@@ -203,7 +204,7 @@ IFileSystemManager::IFileSystemManager (IFileSystemDriver* pFileSystem, IFileSys
 	m_bFileSystemDriverOwner	(TRUE),
 	m_bAlternativeDriverOwner	(TRUE)
 {
-	m_Cacher.m_bEnabled = bCacheEnabled;
+	//m_Cacher.m_bEnabled = bCacheEnabled;
 
 	AttachFileSystemDriver	(pFileSystem,	FALSE);
 	AttachAlternativeDriver (pAlternative,	FALSE);
@@ -238,11 +239,11 @@ BOOL IFileSystemManager::IsFileSystemDriverEnabled	() const
 }
 
 //-----------------------------------------------------------------------------
-BOOL IFileSystemManager::IsManagedByAlternativeDriver (const CString& sName) const
+BOOL IFileSystemManager::IsManagedByAlternativeDriver (const CString& sFileName) const
 {
 	// no lock is required as it checks object and conditions that are defined 
 	// in InitInstance and never changed
-	return IsAlternativeDriverEnabled () && m_pAlternativeDriver->IsAManagedObject(sName);
+	return IsAlternativeDriverEnabled() && (AfxGetPathFinder()->IsStandardPath(sFileName) || AfxGetPathFinder()->IsCustomPath(sFileName)); //m_pAlternativeDriver->IsAManagedObject(sName);
 }
 
 //-----------------------------------------------------------------------------
@@ -259,8 +260,8 @@ void IFileSystemManager::AttachAlternativeDriver (IFileSystemDriver* pDriver, BO
 
 	m_bAlternativeDriverOwner = bDriverOwner;
 	
-	if (bReloadCache)
-		LoadCaches ();
+	/*if (bReloadCache)
+		LoadCaches ();*/
 }
 
 //-----------------------------------------------------------------------------
@@ -277,8 +278,8 @@ void IFileSystemManager::AttachFileSystemDriver (IFileSystemDriver* pDriver, BOO
 
 	m_bFileSystemDriverOwner = bDriverOwner;
 
-	if (bReloadCache)
-		LoadCaches ();
+	/*if (bReloadCache)
+		LoadCaches ();*/
 }
 
 //-----------------------------------------------------------------------------
@@ -309,8 +310,8 @@ BOOL IFileSystemManager::Start (BOOL bLoadCaches  /*TRUE*/)
 	if (m_pAlternativeDriver)
 		m_pAlternativeDriver->Start ();
 
-	if (m_Cacher.IsEnabled())
-		LoadCaches ();
+	/*if (m_Cacher.IsEnabled())
+		LoadCaches ();*/
 
 	 return TRUE;
 }
@@ -325,38 +326,38 @@ BOOL IFileSystemManager::Stop (BOOL bLoadCaches  /*TRUE*/)
 	if (m_pAlternativeDriver)
 		m_pAlternativeDriver->Stop ();
 
-	if (m_Cacher.IsEnabled ())
-		m_Cacher.ClearCaches ();
+	/*if (m_Cacher.IsEnabled ())
+		m_Cacher.ClearCaches ();*/
 	
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
-BOOL IFileSystemManager::LoadCaches ()
-{
-	// no lock is required as invoked in InitInstance
-	BOOL bOk = TRUE;
-
-	// prepares the caches needed
-	m_Cacher.ClearCaches ();
-
-	if (!m_Cacher.IsEnabled())
-		return TRUE;
-
-	if (m_pAlternativeDriver && m_pAlternativeDriver->CanCache ())
-		m_pAlternativeDriver->LoadCache (&m_Cacher);
-	else if (m_pFileSystemDriver && m_pFileSystemDriver->CanCache())
-		m_pFileSystemDriver->LoadCache (&m_Cacher);
-	
-	return TRUE;
-}
-
-//-----------------------------------------------------------------------------
-BOOL IFileSystemManager::AreCachesLoaded () const
-{
-	// no lock is required as overload 
-	return m_Cacher.AreCachesLoaded();
-}
+//BOOL IFileSystemManager::LoadCaches ()
+//{
+//	// no lock is required as invoked in InitInstance
+//	BOOL bOk = TRUE;
+//
+//	// prepares the caches needed
+//	m_Cacher.ClearCaches ();
+//
+//	if (!m_Cacher.IsEnabled())
+//		return TRUE;
+//
+//	if (m_pAlternativeDriver && m_pAlternativeDriver->CanCache ())
+//		m_pAlternativeDriver->LoadCache (&m_Cacher);
+//	else if (m_pFileSystemDriver && m_pFileSystemDriver->CanCache())
+//		m_pFileSystemDriver->LoadCache (&m_Cacher);
+//	
+//	return TRUE;
+//}
+//
+////-----------------------------------------------------------------------------
+//BOOL IFileSystemManager::AreCachesLoaded () const
+//{
+//	// no lock is required as overload 
+//	return m_Cacher.AreCachesLoaded();
+//}
 
 /////////////////////////////////////////////////////////////////////////////
 // Diagnostics

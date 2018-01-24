@@ -13,6 +13,7 @@ using Microarea.RSWeb.Objects;
 
 using Microarea.Common;
 using System.Diagnostics;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -87,7 +88,7 @@ namespace Microarea.RSWeb.WoormViewer
                             pageNo--;
                         break;
                     }
-                case PageType.Last: while (File.Exists(Filename)) { pageNo++; }; pageNo--; break;
+                case PageType.Last: while (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Filename)) { pageNo++; }; pageNo--; break;
                 case PageType.Current: break;
             }
         }
@@ -111,7 +112,7 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------------
         public bool IsPageReady()
         {
-            return File.Exists(Filename);
+            return PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Filename);
         }
 
         //---------------------------------------------------------------------------
@@ -123,7 +124,7 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------------
         public bool IsPageReady(int page)
         {
-            return File.Exists(woorm.CurrentRdeFilename(page));
+            return PathFinder.PathFinderInstance.FileSystemManager.ExistFile(woorm.CurrentRdeFilename(page));
         }
 
         //------------------------------------------------------------------------------
@@ -161,14 +162,14 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         public bool LoadTotPage()
         {
-            if (!File.Exists(this.TotPageFilename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(this.TotPageFilename))
                 return false;
 
             XmlReader reader = null;
-            FileStream fs = null;
+            Stream fs = null;
             try
             {
-                fs = File.OpenRead(TotPageFilename);
+                fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(TotPageFilename, false);
                 reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
  
                 while (reader.Read())
@@ -207,7 +208,7 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         public void LoadInfo()
         {
-            if (!File.Exists(InfoFilename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(InfoFilename))
                 return;
 
             //pulisco symbolTable e AliasTable
@@ -219,10 +220,10 @@ namespace Microarea.RSWeb.WoormViewer
             AddSpecialFields();
 
             XmlReader reader = null;
-            FileStream fs = null;
+            Stream fs = null;
             try
             {
-                fs = File.Open(InfoFilename, FileMode.Open);
+                fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(InfoFilename,false);
                 reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
 
                 while (reader.Read())
@@ -635,7 +636,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             woorm.CurrentPage = pageNo;
 
-            if (!File.Exists(Filename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Filename))
             {
                 LoadTotPage();
                 return;
@@ -647,7 +648,7 @@ namespace Microarea.RSWeb.WoormViewer
                 //a volte risulta che il writer non ha ancora rilasciato il file
                 if (this.woorm.ReportSession.EngineType == EngineType.Paginated_Standard)
                 {
-                    using (FileStream fs1 = File.Open(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    using (Stream fs1 = PathFinder.PathFinderInstance.FileSystemManager.GetStream(Filename, true))
                     {
                         fs1.Dispose();
                     }
@@ -658,10 +659,10 @@ namespace Microarea.RSWeb.WoormViewer
                 // The file is not locked
 
                 XmlReader reader = null;
-                FileStream fs = null;
+                Stream fs = null;
                 try
                 {
-                    fs = File.OpenRead(Filename);
+                    fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(Filename, false);
                     reader = XmlReader.Create(fs, new XmlReaderSettings() { /*DtdProcessing = DtdProcessing.Prohibit,*/ IgnoreWhitespace = true });
 
                     while (reader.Read())

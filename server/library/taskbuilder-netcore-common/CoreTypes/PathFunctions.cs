@@ -1,5 +1,6 @@
-using System;
+using Microarea.Common.NameSolver;
 using System.IO;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.CoreTypes
 {
@@ -22,8 +23,8 @@ namespace Microarea.Common.CoreTypes
 
             if (create && !createdWoormTempPath)
             {
-                if (!Directory.Exists(woormTempPath))
-                    Directory.CreateDirectory(woormTempPath);
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(woormTempPath))
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(woormTempPath, false);
                 createdWoormTempPath = true;
             }
             return woormTempPath;
@@ -32,10 +33,10 @@ namespace Microarea.Common.CoreTypes
 		//--------------------------------------------------------------------------------
 		static private string WoormSessionPath(string sessionID, bool create)
 		{
-			string path = WoormTempPath(create) + Path.DirectorySeparatorChar + sessionID; 
+			string path = WoormTempPath(create) + NameSolverStrings.Directoryseparetor + sessionID; 
 			
-			if (create && !Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (create && !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return path;
 		}	
@@ -44,13 +45,13 @@ namespace Microarea.Common.CoreTypes
 		static public string WoormRunnedReportPath(string customReportPath, string reportName, bool create)
 		{
             string path = customReportPath +
-                Path.DirectorySeparatorChar +
+                NameSolverStrings.Directoryseparetor +
                 reportName +
-                Path.DirectorySeparatorChar;  
+                NameSolverStrings.Directoryseparetor;  
 				//DateTime.Now.ToString(ReportFolderNameFormatter);
 
-			if (create && !Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (create && !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return path;
 		}
@@ -60,10 +61,10 @@ namespace Microarea.Common.CoreTypes
 		//--------------------------------------------------------------------------------
 		static public string WoormTempFilePath(string sessionID, string uniqueID, bool create)
 		{
-			string path = WoormSessionPath(sessionID, create) + Path.DirectorySeparatorChar + uniqueID;
+			string path = WoormSessionPath(sessionID, create) + NameSolverStrings.Directoryseparetor + uniqueID;
 			
-			if (create && !Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (create && !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return path;
 		}
@@ -72,7 +73,7 @@ namespace Microarea.Common.CoreTypes
 		static public string WoormTempFilename(string sessionID, string uniqueID, string filename)
 		{
 			string fn =
-				WoormTempFilePath(sessionID, uniqueID) + Path.DirectorySeparatorChar +
+				WoormTempFilePath(sessionID, uniqueID) + NameSolverStrings.Directoryseparetor +
 				Path.GetFileNameWithoutExtension(filename);
 
 			return Path.ChangeExtension(fn, XmlExtension);
@@ -82,7 +83,7 @@ namespace Microarea.Common.CoreTypes
 		static public string WoormTempFilename(string sessionID, string uniqueID, string filename, int pageNo)
 		{
 			string fn =
-				WoormTempFilePath(sessionID, uniqueID) + Path.DirectorySeparatorChar +
+				WoormTempFilePath(sessionID, uniqueID) + NameSolverStrings.Directoryseparetor +
 				Path.GetFileNameWithoutExtension(filename) +
 				pageNo.ToString();
 
@@ -93,7 +94,7 @@ namespace Microarea.Common.CoreTypes
 		static public string RdeFilename(string rdeInfoFilename, int pageNo)
 		{
 			string fn = Path.GetDirectoryName(rdeInfoFilename) +
-				Path.DirectorySeparatorChar +
+				NameSolverStrings.Directoryseparetor +
 				Path.GetFileNameWithoutExtension(rdeInfoFilename) +
 				pageNo.ToString();
 
@@ -104,7 +105,7 @@ namespace Microarea.Common.CoreTypes
 		static public string TotPageFilename(string infoFilename)
 		{
 			string fn = Path.GetDirectoryName(infoFilename) +
-				Path.DirectorySeparatorChar +
+				NameSolverStrings.Directoryseparetor +
 				Path.GetFileNameWithoutExtension(infoFilename) + "Pages";
 
 			return Path.ChangeExtension(fn,XmlExtension);
@@ -117,24 +118,24 @@ namespace Microarea.Common.CoreTypes
 				return;
 
 			string path = WoormTempFilePath(sessionID, uniqueID, false);
-			if (!Directory.Exists(path))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
 				return;
 
             try
             {
-                Directory.Delete(path, true);
+                PathFinder.PathFinderInstance.FileSystemManager.RemoveFolder(path, true, true, true);
             }
             catch
             {
             }
 
 			path = WoormSessionPath(sessionID, false);
-			if (!Directory.Exists(path) || Directory.GetDirectories(path).Length > 0)
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path) || PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(path).Count > 0)
 				return;
 
             try
             {
-                Directory.Delete(path, true);
+                PathFinder.PathFinderInstance.FileSystemManager.RemoveFolder(path, true, true, true);
             }
             catch
             {

@@ -110,7 +110,8 @@ HotKeyLink::HotKeyLink(CRuntimeClass* pClass, CString sAddOnFlyNamespace /*_T(""
 	m_pRSWorkerID(NULL),
 	m_pCatalogEntry(NULL),
 	m_nDbFieldRecIndex(-1),
-	m_bSkipEmptyDataObj(FALSE)
+	m_bSkipEmptyDataObj(FALSE),
+	m_pSqlSession(NULL)
 {
 	ASSERT(pClass);
 
@@ -120,7 +121,12 @@ HotKeyLink::HotKeyLink(CRuntimeClass* pClass, CString sAddOnFlyNamespace /*_T(""
 
 	m_sAddOnFlyNamespace = sAddOnFlyNamespace;
 
-	m_pTable = new SqlTable(m_pRecord, (pSqlConnection) ? pSqlConnection->GetDefaultSqlSession() : AfxGetDefaultSqlSession());
+	//m_pSqlSession = (pSqlConnection) ? pSqlConnection->GetNewSqlSession() : AfxGetDefaultSqlConnection()->GetNewSqlSession();
+
+	m_pSqlSession = (pSqlConnection) ? pSqlConnection->GetDefaultSqlSession() : AfxGetDefaultSqlSession();
+
+	m_pTable = new SqlTable(m_pRecord, m_pSqlSession);
+	m_pTable->SetOnlyOneRecordExpected();
 
 	m_pSymTable = new SymTable();
 
@@ -147,7 +153,8 @@ HotKeyLink::HotKeyLink(const CString& sTableName, CString sAddOnFlyNamespace /*_
 	m_pRSWorkerID(NULL),
 	m_pCatalogEntry(NULL),
 	m_nDbFieldRecIndex(-1),
-	m_bSkipEmptyDataObj(FALSE)
+	m_bSkipEmptyDataObj(FALSE),
+	m_pSqlSession(NULL)
 {
 	ASSERT(!sTableName.IsEmpty());
 
@@ -160,7 +167,11 @@ HotKeyLink::HotKeyLink(const CString& sTableName, CString sAddOnFlyNamespace /*_
 	if (pSqlConnection)
 		m_pRecord->SetConnection(pSqlConnection);
 
-	m_pTable = new SqlTable(m_pRecord, (pSqlConnection) ? pSqlConnection->GetDefaultSqlSession() : AfxGetDefaultSqlSession());
+	//m_pSqlSession = (pSqlConnection) ? pSqlConnection->GetNewSqlSession() : AfxGetDefaultSqlConnection()->GetNewSqlSession();
+	m_pSqlSession = (pSqlConnection) ? pSqlConnection->GetDefaultSqlSession() : AfxGetDefaultSqlSession();
+
+	m_pTable = new SqlTable(m_pRecord, m_pSqlSession);
+	m_pTable->SetOnlyOneRecordExpected();
 
 	m_pSymTable = new SymTable();
 
@@ -388,13 +399,11 @@ void HotKeyLink::AttachDocument(CBaseDocument* pDocument)
 			CloseTable();
 			delete m_pTable;
 		}
-
-		// Data Caching Management
-		// se non viene passato il puntatore al documento, utilizzo come connessione quella su cui è istanziato il SqlRecord
-		//vedi miglioria #4732
-		m_pTable = new SqlTable(m_pRecord, (m_pDocument && m_pDocument->GetSqlConnection() == m_pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() : m_pRecord->GetConnection()->GetDefaultSqlSession(), pDocument);
-		//m_pTable = new SqlTable(m_pRecord, pDocument->GetReadOnlySqlSession(), pDocument);
-		m_pTable->SetUseDataCaching(TRUE);
+		
+		m_pSqlSession = (m_pDocument && m_pDocument->GetSqlConnection() == m_pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() : m_pRecord->GetConnection()->GetDefaultSqlSession();		
+		
+		m_pTable = new SqlTable(m_pRecord, m_pSqlSession, pDocument);
+		m_pTable->SetOnlyOneRecordExpected();
 
 		SetProtectedState();
 	}
@@ -511,83 +520,85 @@ HotKeyLink::FindResult HotKeyLink::FindRecord
 		OnPreprocessDataObj(pDataObj, bFromControl);
 
 	// In caso di dato di find senza valore non effettua la find
-	if (pDataObj->GetDataType() == DATA_STR_TYPE && pDataObj->IsEmpty())
-	{
-		// devo rifare il settaggio dei parametri per gestire il confronto di query
-		if (m_pTable->IsOpen())
+		if (pDataObj->GetDataType() == DATA_STR_TYPE && pDataObj->IsEmpty())
 		{
-			DoPrepareQuery(pDataObj);
-		}
+			// devo rifare il settaggio dei parametri per gestire il confronto di query
+			if (m_pTable->IsOpen())
+			{
+				DoPrepareQuery(pDataObj);
+			}
 
-		m_pRecord->Init();
-		m_PrevResult = EMPTY;
-		OnPrepareAuxData();
-		return m_PrevResult;
-	}
-
-	//ROWSECURITY righe spostate nel costruttore (Riccardo x ottimizzazione find ripetute)
-	//const SqlCatalogEntry* pConstCatalogEntry = m_pTable->m_pSqlConnection->GetCatalogEntry(m_pTable->GetRecord()->GetTableName());					
-	//BOOL bIsProtected = (pConstCatalogEntry && pConstCatalogEntry->IsProtected());
-
-	if (!m_pTable->IsOpen())
-	{
-		//@@FORWARD
-		//m_pTable->Open(FALSE, E_FAST_FORWARD_ONLY);
-		m_pTable->Open(FALSE, m_pTable->m_pSqlConnection->GetHKLTRCursor());
-
-		//devo controllare se il record richiesto sia sotto protezione e se l'utente abbia o meno i grant
-		//pr cui devo temporaneamente togliere la query di filtro 
-		//il parametro lo devo aggiungere per primo altrimenti va in coda a tutti gli altri parametri della where
-		if (IsProtected())
-		{
-			m_pTable->SetSkipRowSecurity();
-			if (m_pRSWorkerID)
-				m_pTable->SetRowSecurityFilterWorker(m_pRSWorkerID);
-			m_pTable->SetSelectGrantInformation(m_pRSWorkerID);
-		}
-
-		DoDefineQuery();
-		DoPrepareQuery(pDataObj);
-	}
-	else
-	{
-		DoPrepareQuery(pDataObj);
-		if (
-				!bFromControl			  &&
-				m_PrevResult != NOT_FOUND &&
-				m_PrevResult != NONE &&
-				m_pTable->SameQuery() &&
-				!m_bForceQuery
-			)
-		{
+			m_pRecord->Init();
+			m_PrevResult = EMPTY;
 			OnPrepareAuxData();
 			return m_PrevResult;
 		}
+
+		//ROWSECURITY righe spostate nel costruttore (Riccardo x ottimizzazione find ripetute)
+		//const SqlCatalogEntry* pConstCatalogEntry = m_pTable->m_pSqlConnection->GetCatalogEntry(m_pTable->GetRecord()->GetTableName());					
+		//BOOL bIsProtected = (pConstCatalogEntry && pConstCatalogEntry->IsProtected());
+
+			if (!m_pTable->IsOpen())
+			{
+				//@@FORWARD
+				//m_pTable->Open(FALSE, E_FAST_FORWARD_ONLY);
+				m_pTable->Open();
+
+				//devo controllare se il record richiesto sia sotto protezione e se l'utente abbia o meno i grant
+				//pr cui devo temporaneamente togliere la query di filtro 
+				//il parametro lo devo aggiungere per primo altrimenti va in coda a tutti gli altri parametri della where
+				if (IsProtected())
+				{
+					m_pTable->SetSkipRowSecurity();
+					if (m_pRSWorkerID)
+						m_pTable->SetRowSecurityFilterWorker(m_pRSWorkerID);
+					m_pTable->SetSelectGrantInformation(m_pRSWorkerID);
+				}
+
+				DoDefineQuery();
+				DoPrepareQuery(pDataObj);
+			}
+			else
+			{
+				DoPrepareQuery(pDataObj);
+				if (
+						!bFromControl			  &&
+						m_PrevResult != NOT_FOUND &&
+						m_PrevResult != NONE &&
+						m_pTable->SameQuery() &&
+						!m_bForceQuery
+					)
+				{
+					OnPrepareAuxData();
+					return m_PrevResult;
+				}
+
+				// esegue la query scelta
+				m_pTable->Query();
+
+				eResult = m_pTable->IsEmpty() ? NOT_FOUND : FOUND;
+
+				//se provengo dal control devo controllare se il record è protetto o meno
+				if (m_pCatalogEntry && m_pCatalogEntry->IsProtected() && eResult == FOUND)
+					eResult = (m_pCatalogEntry->CanCurrentWorkerUsesRecord(m_pTable->GetRecord(), m_pTable)) ? FOUND : PROTECTED;
+
+				// Effettua il controllo di query
+				m_PrevResult = eResult = OnFindRecord
+					(
+						eResult,
+						pDataObj,
+						bCallLink,
+						bFromControl
+					);
+				CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
+				if (bFromControl && pOwnerCtrl && pOwnerCtrl->GetHotLinkController())
+					pOwnerCtrl->GetHotLinkController()->OnAfterFindRecord();
+
+				//m_pSqlSession->Close();
+
+			}
 	}
-
-	// esegue la query scelta
-	m_pTable->Query();
-
-	eResult = m_pTable->IsEmpty() ? NOT_FOUND : FOUND;
-
-	//se provengo dal control devo controllare se il record è protetto o meno
-	if (m_pCatalogEntry && m_pCatalogEntry->IsProtected() && eResult == FOUND)
-		eResult = (m_pCatalogEntry->CanCurrentWorkerUsesRecord(m_pTable->GetRecord(), m_pTable)) ? FOUND : PROTECTED;
-
-	// Effettua il controllo di query
-	m_PrevResult = eResult = OnFindRecord
-		(
-			eResult,
-			pDataObj,
-			bCallLink,
-			bFromControl
-		);
-	CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
-	if (bFromControl && pOwnerCtrl && pOwnerCtrl->GetHotLinkController())
-		pOwnerCtrl->GetHotLinkController()->OnAfterFindRecord();
-
-	}
-		CATCH(SqlException, e)
+	CATCH(SqlException, e)
 	{
 		if (m_pTable && m_pTable->m_pSqlSession)
 			m_pTable->m_pSqlSession->ShowMessage(e->m_strError + L" - " + m_pTable->m_strTableName);
@@ -1410,10 +1421,9 @@ BOOL HotKeyLink::SearchOnLink(DataObj* pData, SelectionType nQuerySelection)
 	// é una tabella con cursore scrollable
 	// se non viene passato il puntatore al documento, utilizzo come connessione quella su cui è istanziato il SqlRecord
 	//vedi miglioria #4732
-	m_pSearchTable = new SqlTable(m_pRecord, (m_pDocument && m_pDocument->GetSqlConnection() == m_pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() : m_pRecord->GetConnection()->GetDefaultSqlSession());
+	//m_pSearchTable = new SqlTable(m_pRecord, (m_pDocument && m_pDocument->GetSqlConnection() == m_pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() :  m_pRecord->GetConnection()->GetDefaultSqlSession());
+	m_pSearchTable = new SqlTable(m_pRecord, m_pSqlSession);
 
-	// Data Caching disable for radar 
-	m_pSearchTable->SetUseDataCaching(FALSE);
 	const SqlCatalogEntry* pConstCatalogEntry = m_pTable->m_pSqlConnection->GetCatalogEntry(m_pTable->GetRecord()->GetTableName());
 	BOOL bIsProtected = (pConstCatalogEntry && pConstCatalogEntry->IsProtected());
 	//Copy the RowSecurity properties
@@ -1568,8 +1578,8 @@ int HotKeyLink::SearchComboQueryData(const int& nMaxItems, DataObjArray& arKeyDa
 
 	// se non viene passato il puntatore al documento, utilizzo come connessione quella su cui è istanziato il SqlRecord
 	//vedi miglioria #4732
-	SqlTable* pTable = new SqlTable(pRecord, (m_pDocument && m_pDocument->GetSqlConnection() == pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() : pRecord->GetConnection()->GetDefaultSqlSession());
-
+	//SqlTable* pTable = new SqlTable(pRecord, (m_pDocument && m_pDocument->GetSqlConnection() == pRecord->GetConnection()) ? m_pDocument->GetReadOnlySqlSession() :  pRecord->GetConnection()->GetDefaultSqlSession());
+	SqlTable* pTable = new SqlTable(pRecord, m_pSqlSession);
 	int nResult = 1;
 	TRY
 	{
@@ -1641,21 +1651,20 @@ int HotKeyLink::SearchComboQueryData(const int& nMaxItems, DataObjArray& arKeyDa
 		pOriginalRecord = NULL;
 	}
 
-	if (pOriginalTable)
-	{
-		m_pTable = pOriginalTable;
-		pOriginalTable = NULL;
-	}
+		if (pOriginalTable)
+		{
+			m_pTable = pOriginalTable;
+			pOriginalTable = NULL;
+		}
+	
+		// Oracle doesn't support TOP sintax
+		if (nMaxItems > 0 && m_pRecord->GetConnection()->GetDBMSType() != DBMS_ORACLE)
+		{
+			pTable->AddSelectKeyword(SqlTable::TOP, nMaxItems + 1);
+		}
 
-	// Oracle doesn't support TOP sintax
-	if (nMaxItems > 0 && m_pRecord->GetConnection()->GetDBMSType() != DBMS_ORACLE)
-	{
-		pTable->AddSelectKeyword(SqlTable::TOP, nMaxItems + 1);
-	}
-
-	pTable->Query();
-
-	PrepareFormatComboItem(m_pTable->GetRecord());
+		pTable->Query();
+		PrepareFormatComboItem(m_pTable->GetRecord());
 
 	int idxDbField = GetDbFieldRecIndex(pRecord);
 	if (idxDbField < 0)
@@ -1677,12 +1686,14 @@ int HotKeyLink::SearchComboQueryData(const int& nMaxItems, DataObjArray& arKeyDa
 		arDescriptions.Add(FormatComboItem(pRecord));
 	}
 
-	if (pOwnerCtrl)
-		delete pDataObj;
-
-	// è nr. massimo di elementi richiesti
-	if (!pTable->IsEOF())
-		nResult = 2;
+		if (pOwnerCtrl)
+			delete pDataObj;
+		
+		// è nr. massimo di elementi richiesti
+		if (!pTable->IsEOF())
+			nResult = 2;
+		
+	
 	}
 
 		CATCH(SqlException, e)
@@ -1698,6 +1709,8 @@ int HotKeyLink::SearchComboQueryData(const int& nMaxItems, DataObjArray& arKeyDa
 			delete pTable;
 		}
 		delete pRecord;
+
+		//m_pSqlSession->Close();
 
 		// se sono arrivata a scambiare i 
 		// puntatori ripristino gli originali
@@ -1716,6 +1729,8 @@ int HotKeyLink::SearchComboQueryData(const int& nMaxItems, DataObjArray& arKeyDa
 
 	delete pTable;
 	delete pRecord;
+
+	//m_pSqlSession->Close();
 
 	return nResult;
 }

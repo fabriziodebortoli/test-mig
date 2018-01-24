@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
+    <ProjectReference Include="..\library\taskbuilder-netcore-documents\taskbuilder-netcore-documents.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,10 +1,9 @@
-﻿using Microarea.Common.StringLoader;
+﻿using Microarea.Common.NameSolver;
+using Microarea.Common.StringLoader;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Text;
 using System.Xml;
 using TaskBuilderNetCore.Interfaces;
 
@@ -13,13 +12,13 @@ namespace Microarea.Common.CoreTypes
 
     class EventHandlerObjects
     {
-        private IBaseModuleInfo parentModuleInfo;
+        private ModuleInfo parentModuleInfo;
         private List<Function> functions = new List<Function>();
 
         public IList Functions { get { return functions; } }
 
         //---------------------------------------------------------------------
-        public EventHandlerObjects(IBaseModuleInfo aParentModuleInfo)
+        public EventHandlerObjects(ModuleInfo aParentModuleInfo)
         {
             parentModuleInfo = aParentModuleInfo;
         }
@@ -30,14 +29,14 @@ namespace Microarea.Common.CoreTypes
             LocalizableXmlDocument eventHandlerDocument = null;
             if (parentModuleInfo != null)
             {
-                if (!File.Exists(filePath))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
                     return false;
 
                 eventHandlerDocument = new LocalizableXmlDocument
                                             (
                                                 parentModuleInfo.ParentApplicationInfo.Name,
                                                 parentModuleInfo.Name,
-                                                parentModuleInfo.PathFinder
+                                                parentModuleInfo.CurrentPathFinder
                                             );
 
                 //leggo il file
@@ -45,14 +44,14 @@ namespace Microarea.Common.CoreTypes
             }
             return Parse(eventHandlerDocument);
         }
-        //---------------------------------------------------------------------
-        public bool Parse(Stream fileStream)
-        {
-            XmlDocument document = new XmlDocument();
-            //leggo il file
-            document.Load(fileStream);
-            return Parse(document);
-        }
+        ////---------------------------------------------------------------------
+        //public bool Parse(Stream fileStream)
+        //{
+        //    XmlDocument document = new XmlDocument();
+        //    //leggo il file
+        //    document.Load(fileStream);
+        //    return Parse(document);
+        //}
         //---------------------------------------------------------------------
         public bool Parse(XmlDocument documentObjectsDocument)
         {

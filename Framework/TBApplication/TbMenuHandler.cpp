@@ -169,7 +169,7 @@ void CTbMenuHandler::ProcessRequest(const CString& path, const CNameValueCollect
 	//una staticimage é un'immagine presa da file system
 	if ((LPCTSTR)path == wcsstr(path, L"staticimage/"))
 	{
-		CString file = m_strStandard + SLASH_CHAR + (((LPCTSTR)path) + 12) /*salto staticimage/*/;
+		CString file = m_strStandard + (((LPCTSTR)path) + 12) /*salto staticimage/*/;
 		if (ReadFileContent(file, response))
 		{
 			SetMimeType(path, response);
@@ -900,7 +900,7 @@ void CTbMenuHandler::GetLoginBackgroundImageFunction(const CString& path, const 
 //--------------------------------------------------------------------------------
 void CTbMenuHandler::StaticImageFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
-	CString file = m_strStandard + SLASH_CHAR + (((LPCTSTR)path) + 12) /*salto staticimage/*/;
+	CString file = m_strStandard + (((LPCTSTR)path) + 12) /*salto staticimage/*/;
 	if (ReadFileContent(file, response))
 	{
 		SetMimeType(path, response);

@@ -89,7 +89,7 @@ TB_EXPORT HBITMAP	LoadBitmapOrPng(UINT nIDB);
 TB_EXPORT HBITMAP	LoadBitmapOrPng(CString strImageNS, BOOL bUseColoredImage = FALSE);
 		  Gdiplus::Bitmap* LoadGdiplusBitmapOrPngInternal(CString strImageNS, BOOL bUseColoredImage, BOOL bForceLoad);
 TB_EXPORT Gdiplus::Bitmap* LoadGdiplusBitmapOrPng(CString strImageNS, BOOL bUseColoredImage = FALSE, BOOL bForceLoad = FALSE);
-
+TB_EXPORT Gdiplus::Bitmap* LoadGdiplusBitmapOrPngFromFile(CString strFileName);
 
 TB_EXPORT BOOL		LoadBitmapOrPng(CBitmap* pBmp, UINT nIDB);
 TB_EXPORT BOOL		LoadBitmapOrPng(CBitmap* pBmp, CString strImageNS);

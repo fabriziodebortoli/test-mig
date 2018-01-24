@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 using Microarea.Common.Applications;
 using Microarea.Common.Generic;
-
+using Microarea.Common.NameSolver;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using Microarea.RSWeb.WoormEngine;
@@ -756,21 +756,20 @@ namespace Microarea.RSWeb.Render
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-            DirectoryInfo dUser = new DirectoryInfo(destinationPath);
 
             string s = "[";
             //bool first = true;
 
-            foreach (FileInfo file in dUser.GetFiles("*.json"))
+            foreach (TBFile file in ReportSession.PathFinder.FileSystemManager.GetFiles(destinationPath, "*.json"))
             {
-                string[] split = file.Name.Split('_');
+                string[] split = file.name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
                 //if (first) first = false;
                 //else s += ',';
 
                 DateTime dt;
-                bool b = DateTime.TryParse(file.Name, out dt);
+                bool b = DateTime.TryParse(file.name, out dt);
 
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
@@ -778,19 +777,18 @@ namespace Microarea.RSWeb.Render
 
             customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, NameSolverStrings.AllUsers);
             destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-            DirectoryInfo dAllUser = new DirectoryInfo(destinationPath);
 
             //first = true;
-            foreach (FileInfo file in dAllUser.GetFiles("*.json"))
+            foreach (TBFile file in ReportSession.PathFinder.FileSystemManager.GetFiles(destinationPath, "*.json"))
             {
-                string[] split = file.Name.Split('_');
+                string[] split = file.name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
                 //if (first) first = false;
                 //else s += ',';
 
                 DateTime dt;
-                bool b = DateTime.TryParse(file.Name, out dt);
+                bool b = DateTime.TryParse(file.name, out dt);
 
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";

@@ -37,17 +37,17 @@ CFileSystemDriver::CFileSystemDriver()
 {
 }
 
-//-----------------------------------------------------------------------------
-BOOL CFileSystemDriver::CanCache () const
-{
-	return FALSE;
-}
-
-//-----------------------------------------------------------------------------
-BOOL CFileSystemDriver::LoadCache (CFileSystemCacher* pCacher)
-{
-	return TRUE;
-}
+////-----------------------------------------------------------------------------
+//BOOL CFileSystemDriver::CanCache () const
+//{
+//	return FALSE;
+//}
+//
+////-----------------------------------------------------------------------------
+//BOOL CFileSystemDriver::LoadCache (CFileSystemCacher* pCacher)
+//{
+//	return TRUE;
+//}
 
 //-----------------------------------------------------------------------------
 BOOL CFileSystemDriver::IsAManagedObject (const CString& sFileName) const
@@ -58,15 +58,27 @@ BOOL CFileSystemDriver::IsAManagedObject (const CString& sFileName) const
 //-----------------------------------------------------------------------------
 CString	CFileSystemDriver::GetDriverDescription () const
 {
-	return _TB("File System from LAN Sharings");
+	return _TB("File System from LAN Sharings");	
 }
 
 // see use of CPiture, CImage, etc...
 //-----------------------------------------------------------------------------
-DataBlob CFileSystemDriver::GetBinaryFile (const CString& sFileName)
+BYTE* CFileSystemDriver::GetBinaryFile (const CString& sFileName, int& nLen)
 {
-	ASSERT (FALSE);
-	return DataBlob ();
+	CFile f;
+	f.Open(sFileName, CFile::modeRead | CFile::typeBinary);
+	nLen = (int)f.GetLength();
+	BYTE* buff = new BYTE[nLen];
+	f.Read(buff, nLen);
+	return buff;
+}
+
+// see use of CPiture, CImage, etc...
+//-----------------------------------------------------------------------------
+BOOL CFileSystemDriver::SaveBinaryFile(const CString& sFileName, BYTE* sBinaryContent, int nLen)
+{
+	ASSERT(FALSE);
+	return TRUE;
 }
 
 // see use of CLineFile, CXmlSaxReader, CXmlDocObj
@@ -78,7 +90,7 @@ CString CFileSystemDriver::GetTextFile (const CString& sFileName)
 }
 
 //-----------------------------------------------------------------------------
-BOOL CFileSystemDriver::SetTextFile (const CString& sFileName, const CString& sFileContent)
+BOOL CFileSystemDriver::SaveTextFile(const CString& sFileName, const CString& sFileContent)
 {
 	ASSERT (FALSE);
 	return TRUE;
@@ -130,6 +142,9 @@ BOOL CFileSystemDriver::CreateFolder(const CString& sPathName, const BOOL& bRecu
 	if (sPathName.IsEmpty ())
 		return FALSE;
 
+	if (ExistPath(sPathName))
+		return TRUE;
+
 	// file system
 	if (!bRecursive)
 		return  ::CreateDirectory (sPathName, NULL);
@@ -142,7 +157,7 @@ BOOL CFileSystemDriver::CreateFolder(const CString& sPathName, const BOOL& bRecu
 	else
 		strParentPath = GetPath(sPathName);
 
-	if (!ExistPath(strParentPath) && !CreateFolder(strParentPath, bRecursive))
+	if (!CreateFolder(strParentPath, bRecursive))
 		bOk = FALSE;
 	else
 		bOk =  ::CreateDirectory(sPathName, NULL);
@@ -288,7 +303,7 @@ BOOL CFileSystemDriver::RenameFile (const CString& sOldFileName, const CString& 
 }
 
 //-----------------------------------------------------------------------------
-BOOL CFileSystemDriver::CopyFile (const CString& sOldFileName, const CString& sNewFileName, const BOOL& bOverWrite)
+BOOL CFileSystemDriver::CopySingleFile(const CString& sOldFileName, const CString& sNewFileName, const BOOL& bOverWrite)
 {
 	BOOL bSetReadOnly = FALSE;
 	if (bOverWrite && ExistFile(sNewFileName))
@@ -477,6 +492,82 @@ CString	CFileSystemDriver::GetServerConnectionConfig ()
 	
 	return sInnerText;
 }
+
+//-------------------------------------------------------------------------------------
+void CFileSystemDriver::AddApplicationDirectories(const CString& sAppContainerPath, CStringArray* pAppsPath)
+{
+	BOOL bIsCustom = AfxGetPathFinder()->IsCustomPath(sAppContainerPath);
+	CStringArray arFolders;
+	TBFile* pMetadataObj = NULL;
+	//CString strFileName;
+	CString strFolder;
+	CString strPath;
+	GetSubFolders(sAppContainerPath, &arFolders);
+	for (int i = 0; i <= arFolders.GetUpperBound(); i++)
+	{
+		strFolder = arFolders.GetAt(i);
+		strPath = sAppContainerPath + SLASH_CHAR + strFolder;
+		strPath.MakeLower();
+		if (ExistFile(AfxGetPathFinder()->GetApplicationConfigFullNameFromPath(strPath)))
+			pAppsPath->Add(strPath);
+	}
+}
+//-----------------------------------------------------------------------------
+void CFileSystemDriver::GetAllApplicationInfo(CStringArray* pAppsPath)
+{
+	if (!pAppsPath)
+		pAppsPath = new CStringArray();
+
+	const CString sAppContainerPath = AfxGetPathFinder()->GetContainerPath(CPathFinder::TB);
+	CString strFolder = szTaskBuilderApp;
+	CString strPath = sAppContainerPath + SLASH_CHAR + strFolder;
+	strPath.MakeLower();
+	pAppsPath->Add(strPath); 
+
+	strFolder = szExtensionsApp;
+	strPath = sAppContainerPath + SLASH_CHAR + strFolder;
+	strPath.MakeLower();	
+	pAppsPath->Add(strPath);
+
+	AddApplicationDirectories(AfxGetPathFinder()->GetContainerPath(CPathFinder::TB_APPLICATION), pAppsPath);
+	AddApplicationDirectories(AfxGetPathFinder()->GetCustomApplicationsPath(), pAppsPath);
+}
+
+
+
+//-------------------------------------------------------------------------------------
+void CFileSystemDriver::AddApplicationModules(const CString& sApplicationPath, CStringArray* pModulesPath, bool isCustom)
+{
+	CStringArray arFolders;
+	GetSubFolders(sApplicationPath, &arFolders);
+
+	CString strModulePath;
+	CString strModuleName;
+
+	for (int i = 0; i <= arFolders.GetUpperBound(); i++)
+	{
+		strModuleName = arFolders.GetAt(i);
+		strModulePath = sApplicationPath + SLASH_CHAR + strModuleName;
+		if (!strModuleName.IsEmpty() && ExistFile(strModulePath + SLASH_CHAR + AfxGetPathFinder()->GetModuleConfigName()))
+			pModulesPath->Add(strModulePath);
+	}
+}
+
+//-----------------------------------------------------------------------------
+void CFileSystemDriver::GetAllModuleInfo(const CString& strAppName, CStringArray* pModulesPath)
+{
+	ASSERT(pModulesPath);
+	// load modules namespaces into map form file system
+	AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::STANDARD), pModulesPath, false);
+	if (pModulesPath->GetSize() == 0) //non ho moduli: si tratta di un'applicazione nella custom?
+		AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE), pModulesPath, true);
+}
+
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Diagnostics

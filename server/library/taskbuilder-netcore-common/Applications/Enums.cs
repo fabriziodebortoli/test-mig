@@ -17,6 +17,7 @@ using System.Xml;
 using System.Text;
 using Newtonsoft.Json;
 
+
 namespace Microarea.Common.Applications
 {
 
@@ -70,7 +71,7 @@ namespace Microarea.Common.Applications
 		private int stored;
         private string externalValue;
 	
-		private IBaseModuleInfo	moduleInfo;
+		private NameSolver.ModuleInfo moduleInfo;
 		private EnumTag owner;
 
 		//EasyBuilderPropertiesManager readOnlyPropertiesManager;
@@ -156,7 +157,7 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public EnumItem(EnumTag owner, string	aName, ushort aValue, IBaseModuleInfo moduleInfo)
+		public EnumItem(EnumTag owner, string	aName, ushort aValue, ModuleInfo moduleInfo)
 		{
 			this.Name	= aName;
 			this.value = aValue;
@@ -206,7 +207,7 @@ namespace Microarea.Common.Applications
 		public string FullValue { get { return string.Format("{{{0}:{1}}}", owner.Value, value); } }
 		//-----------------------------------------------------------------------------
 		[Browsable(false)]
-		public IBaseModuleInfo	OwnerModule { get { return moduleInfo == null ? owner.OwnerModule : moduleInfo; } }
+		public ModuleInfo	OwnerModule { get { return moduleInfo == null ? owner.OwnerModule : moduleInfo; } }
 		
 		//-----------------------------------------------------------------------------
 		public string LocalizedName { get { return owner.Localizer.Translate(name); } }
@@ -521,7 +522,7 @@ namespace Microarea.Common.Applications
 		private string description = "";
 		public EnumItems EnumItems	=  new EnumItems();
 		
-		private IBaseModuleInfo owner;
+		private ModuleInfo owner;
 
 		private Hashtable localizers = new Hashtable();	//different localizers depending on thread culture (multithreading support)
 
@@ -532,7 +533,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public EnumTag
 			(
-			IBaseModuleInfo		owner,
+			ModuleInfo		owner,
 			string				name,
 			ushort				aValue,
 			ushort				defaultValue			
@@ -632,7 +633,7 @@ namespace Microarea.Common.Applications
 		
 		//-----------------------------------------------------------------------------
 		[Browsable(false)]
-		public IBaseModuleInfo OwnerModule { get { return owner; } }
+		public ModuleInfo OwnerModule { get { return owner; } }
 
 		//-----------------------------------------------------------------------------
 		public string LocalizedName { get { return Localizer.Translate(name); } }
@@ -680,7 +681,7 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public EnumItem AddItem(string aName, ushort aValue, string aDescription, IBaseModuleInfo moduleInfo)
+		public EnumItem AddItem(string aName, ushort aValue, string aDescription, ModuleInfo moduleInfo)
 		{
 			if (ExistItem(aName, aValue))
 				return null;
@@ -1120,11 +1121,11 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public EnumTag AddTag (IBaseModuleInfo owner, string aName, ushort aValue) { return AddTag(owner, aName, aValue, 0); }
+		public EnumTag AddTag (ModuleInfo owner, string aName, ushort aValue) { return AddTag(owner, aName, aValue, 0); }
 		//--------------------------------------------------------------------------------
 		public EnumTag AddTag 
 			(
-			IBaseModuleInfo	owner,
+			ModuleInfo	owner,
 			string			aName, 
 			ushort			aValue, 
 			ushort			defaultItemValue
@@ -1208,7 +1209,7 @@ namespace Microarea.Common.Applications
 		//		SET COLORE_SET = 10 (ROSSO, BIANCO = 2, VERDE)	// 2 = secondo bit alzato
 		//
 		//-----------------------------------------------------------------------------
-		internal bool Parse (Parser lex, IBaseModuleInfo owner)
+		internal bool Parse (Parser lex, ModuleInfo owner)
 		{
 			string		itemName;
 			ushort		itemValue = 0;
@@ -1350,9 +1351,9 @@ namespace Microarea.Common.Applications
 		/// <param name="owner"></param>
 		/// <returns></returns>
 		//-----------------------------------------------------------------------------
-		public bool LoadXml(string filename, string appName, IBaseModuleInfo owner = null, bool checkActivation = false)
+		public bool LoadXml(string filename, string appName, ModuleInfo owner = null, bool checkActivation = false)
 		{
-            if (String.IsNullOrEmpty(filename) || !File.Exists(filename))
+            if (String.IsNullOrEmpty(filename) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
                 return true;
 
 			ushort		itemValue = 0;
@@ -1362,8 +1363,8 @@ namespace Microarea.Common.Applications
             this.ApplicationName = appName;
             this.ModuleName = owner.Name;
 
-            XmlDocument dom = new XmlDocument();
-			dom.Load(File.OpenRead(filename));
+            XmlDocument dom = null;
+            dom = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(dom, filename);
 
 			if (!dom.DocumentElement.HasChildNodes)
 				return true;
@@ -1735,8 +1736,8 @@ namespace Microarea.Common.Applications
 		public void LoadIni()
 		{
 			loaded = true;
-			foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
-				foreach (BaseModuleInfo mi in ai.Modules)
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
 				{
 					string filename = mi.GetEnumsIniPath();
 					if (!LoadIni(filename, mi)) loaded = false;
@@ -1754,11 +1755,11 @@ namespace Microarea.Common.Applications
 			this.loaded = true;
 
 			//Le applicazioni EasyBuilder che vivono nella custom appaiono comunque
-			//in BasePathFinder.BasePathFinderInstance.ApplicationInfos...
-			foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+			//in PathFinder.PathFinderInstance.ApplicationInfos...
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
 			{
 				//...quindi, per ogni modulo...
-				foreach (BaseModuleInfo mi in ai.Modules)
+				foreach (ModuleInfo mi in ai.Modules)
 				{
 					//...GetEnumsPath() può ritornare il percorso al file degli
 					//enumerativi nella custom (per una customizzazione EasyBuilder)...
@@ -1791,8 +1792,8 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public string ConvertAllIniIntoXml()
 		{
-			foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
-				foreach (BaseModuleInfo mi in ai.Modules)
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
 				{
 					string filename = mi.GetEnumsIniPath();
 					if (!FromIniToXml(filename, mi)) 
@@ -1803,12 +1804,12 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public EnumTag AddEnumTag(IBaseModuleInfo owner, string aName, ushort aValue)	{ return AddEnumTag(owner, aName, aValue, 0);}
+		public EnumTag AddEnumTag(ModuleInfo owner, string aName, ushort aValue)	{ return AddEnumTag(owner, aName, aValue, 0);}
 		
 		//--------------------------------------------------------------------------------
 		public EnumTag AddEnumTag
 			(
-			IBaseModuleInfo owner,
+			ModuleInfo owner,
 			string		aName,
 			ushort		aValue,
 			ushort		defaultItemValue
@@ -1818,13 +1819,13 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool AddEnumValue (EnumTag tag, string aName, ushort aValue, IBaseModuleInfo moduleInfo)	
+		public bool AddEnumValue (EnumTag tag, string aName, ushort aValue, ModuleInfo moduleInfo)	
 		{ 
 			return tag.AddItem(aName, aValue, "", moduleInfo) != null; 
 		}
 
 		//-----------------------------------------------------------------------------
-		private bool Parse(Parser lex, IBaseModuleInfo owner)
+		private bool Parse(Parser lex, ModuleInfo owner)
 		{
 			int	nRelease = 1;
 		    
@@ -1876,11 +1877,13 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool LoadIni(string filename, IBaseModuleInfo owner)
+		public bool LoadIni(string filename, ModuleInfo owner)
 		{
 			Parser lex = new Parser(Parser.SourceType.FromFile);
-			if (!File.Exists(filename))
-				return true;
+
+
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                return true;
 				
 			if (lex.Open(filename))
 			{
@@ -1892,7 +1895,7 @@ namespace Microarea.Common.Applications
 		}
 
 		//-----------------------------------------------------------------------------
-        public bool LoadXml(string filename, IBaseModuleInfo owner, bool checkActivation, string appName)
+        public bool LoadXml(string filename, ModuleInfo owner, bool checkActivation, string appName)
 		{
 			try
 			{
@@ -1925,16 +1928,17 @@ namespace Microarea.Common.Applications
 		}
 
         //-----------------------------------------------------------------------------
-        //public bool LoadXml(string filename, IBaseModuleInfo owner)
+        //public bool LoadXml(string filename, ModuleInfo owner)
         //{
         //    return LoadXml(filename, owner, true);
         //}
 		// converte il singolo file da formato .ini in formato .xml
 		//-----------------------------------------------------------------------------
-		public bool FromIniToXml(string filename, IBaseModuleInfo owner)
+		public bool FromIniToXml(string filename, ModuleInfo owner)
 		{
-			if (!File.Exists(filename))
-				return true;
+      
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                return true;
 
 			// pulisce tutto quello che era stato caricato
 			enumTags = new EnumTags();

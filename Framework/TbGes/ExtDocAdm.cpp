@@ -40,6 +40,16 @@
 #define DELAY_ADM_MS		500		// Delay of refresh of ADM in ms
 #define PROGRESS_BAR_MAX	50
 
+
+
+static const TCHAR szOpenAction[] = _T("Apertura documento");
+static const TCHAR szFindAction[] = _T("Ricerca documento");
+static const TCHAR szBrowseAction[] = _T("Browse documento");
+static const TCHAR szEditAction[] = _T("Edit documento");
+static const TCHAR szNewAction[] = _T("Nuovo documento");
+static const TCHAR szSaveAction[] = _T("Salvataggio documento");
+static const TCHAR szDeleteAction[] = _T("Cancellazione documento");
+
 IMPLEMENT_ADMCLASS(ADMObj)
 
 //-----------------------------------------------------------------------------
@@ -109,9 +119,12 @@ BOOL ADMObj::ADMNewDocument()
     m_pDocument->m_bBatchRunning = TRUE;
 	m_pDocument->m_BatchScheduler.Start();
 
+	m_pDocument->ConnectToDatabase(szNewAction);
+
 	if (!m_pDocument->OnOkNewRecord() || !m_pDocument->m_pClientDocs->OnOkNewRecord())
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
 	}
 
@@ -119,6 +132,7 @@ BOOL ADMObj::ADMNewDocument()
 	if (!m_pDocument->m_pDBTMaster->AddNew())
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -128,9 +142,12 @@ BOOL ADMObj::ADMNewDocument()
 	if (!m_pDocument->DispatchPrepareAuxData(TRUE))
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
-			
+		
+	m_pDocument->DisconnectFromDatabase();
+
 	m_pDocument->EnableControls();
 	m_pDocument->ToolBarButtonsHideGhost(0);
 
@@ -154,6 +171,8 @@ BOOL ADMObj::ADMEditDocument()
     m_pDocument->m_bBatchRunning = TRUE;
 	m_pDocument->m_BatchScheduler.Start();
    	
+	m_pDocument->ConnectToDatabase(szEditAction);
+
     // mi metto in stato di Browse e forzo (TRUE in FindData) il caricamento
 	// di tutti i DBT anche per quelli DELAYED (EDIT e ALL) 
 	//
@@ -172,6 +191,7 @@ BOOL ADMObj::ADMEditDocument()
 
 		m_pDocument->ClearCurrentRecord();
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
     }
 
@@ -179,6 +199,7 @@ BOOL ADMObj::ADMEditDocument()
 	if (!m_pDocument->LockMaster(!m_pDocument->IsInUnattendedMode()))
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
 	}
 	
@@ -189,12 +210,14 @@ BOOL ADMObj::ADMEditDocument()
 		// serve a far ricaricare i DBT delayed
 		m_pDocument->DispatchPrepareAuxData();
 		ADMGoInBrowseMode();	
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
     }
 
 	if (!m_pDocument->m_pDBTMaster->Edit())
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
     }
 
@@ -211,8 +234,11 @@ BOOL ADMObj::ADMEditDocument()
 	if (!m_pDocument->DispatchPrepareAuxData())
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
     }
+
+	m_pDocument->DisconnectFromDatabase();
 
 	m_pDocument->EnableControls();
 	m_pDocument->ToolBarButtonsHideGhost(0);
@@ -234,6 +260,8 @@ BOOL ADMObj::ADMDeleteDocument()
     m_pDocument->m_bBatchRunning = TRUE;
 	m_pDocument->m_BatchScheduler.Start();
 
+	m_pDocument->ConnectToDatabase(szDeleteAction);
+
 	if	(m_pDocument->GetFormMode() == CBaseDocument::BROWSE && !m_pDocument->m_pDBTMaster->FindData())
 	{
 		m_pDocument->m_pMessages->Add(cwsprintf
@@ -242,6 +270,7 @@ BOOL ADMObj::ADMDeleteDocument()
 				(LPCTSTR)m_pDocument->m_pDBTMaster->GetRecord()->GetPrimaryKeyDescription())
 			);
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		return FALSE;
     }
 
@@ -254,6 +283,7 @@ BOOL ADMObj::ADMDeleteDocument()
 		)
 	{
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -261,6 +291,7 @@ BOOL ADMObj::ADMDeleteDocument()
 	{
 		m_pDocument->m_pMessages->Add(_TB("Unable to open a new transaction.\r\nDocument not deleted"));
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -276,6 +307,7 @@ BOOL ADMObj::ADMDeleteDocument()
 	{
 		m_pDocument->m_pTbContext->Rollback();	
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -285,6 +317,7 @@ BOOL ADMObj::ADMDeleteDocument()
 	m_pDocument->m_pClientDocs->OnExtraDeleteTransaction();
 	m_pDocument->InitData();
 	ADMGoInBrowseMode();
+	m_pDocument->DisconnectFromDatabase();
 	return TRUE;
 }
 
@@ -307,6 +340,7 @@ void ADMObj::ADMGoInBrowseMode()
 }
 
 
+
 // non gestisce la transazione, in quanto si resta dentro a quella del
 // documento chiamante
 //-----------------------------------------------------------------------------
@@ -317,19 +351,19 @@ BOOL ADMObj::ADMSaveDocument()
 
 	m_pDocument->DispatchOnBeforeSave();
 
-	m_pDocument->m_pTbContext->StartTime(TOTAL_TIME, _T("SAVE"));
-
+	
+	m_pDocument->ConnectToDatabase(szSaveAction);
 	m_pDocument->m_pTbContext->StartTime(ONOK_TIME);
 	if (
-		!(
-			!ADMIsAborted() &&
-			ADMOnSaveDocument() &&
-			m_pDocument->m_pDBTMaster->CheckTransaction() &&
-			m_pDocument->m_pClientDocs->OnBeforeOkTransaction() &&
-			m_pDocument->OnOkTransaction() &&
-			m_pDocument->m_pClientDocs->OnOkTransaction() &&
-			m_pDocument->LockDocument()
-			)
+			!(
+				!ADMIsAborted() &&
+				ADMOnSaveDocument() &&
+				m_pDocument->m_pDBTMaster->CheckTransaction() &&
+				m_pDocument->m_pClientDocs->OnBeforeOkTransaction() &&
+				m_pDocument->OnOkTransaction() &&
+				m_pDocument->m_pClientDocs->OnOkTransaction() &&
+				m_pDocument->LockDocument()
+			 )
 		)
 	{
 		// ripristina lo stato d partenza
@@ -361,102 +395,101 @@ BOOL ADMObj::ADMSaveDocument()
 	{
 		switch (m_pDocument->GetFormMode())
 		{
-		case CBaseDocument::NEW:
-		{
-			// qualcuno ha gia` inserito il dato
-			if (m_pDocument->m_pDBTMaster->Exist())
+			case CBaseDocument::NEW:
 			{
-				m_pDocument->m_pMessages->Add(cwsprintf
-				(
-					_TB("The document {0-%s} already exists. Insertion failed."),
-					(LPCTSTR)m_pDocument->m_pDBTMaster->GetRecord()->GetPrimaryKeyDescription())
-				);
-				m_pDocument->m_pTbContext->Rollback();
-				bOk = FALSE;
-				break;
-			}
+				// qualcuno ha gia` inserito il dato
+				if (m_pDocument->m_pDBTMaster->Exist())
+				{
+					m_pDocument->m_pMessages->Add(cwsprintf
+						(
+							_TB("The document {0-%s} already exists. Insertion failed."),
+							(LPCTSTR)m_pDocument->m_pDBTMaster->GetRecord()->GetPrimaryKeyDescription())
+						);
+					m_pDocument->m_pTbContext->Rollback();
+					bOk = FALSE;
+					break;
+				}
 
-			// primary transaction
-			m_pDocument->m_pTbContext->StartTime(PRIMARY_TIME);
-			bPrimary = m_pDocument->m_pDBTMaster->Update();
-			m_pDocument->m_pTbContext->StopTime(PRIMARY_TIME);
-			// secondary transaction
-			m_pDocument->m_pTbContext->StartTime(SECONDARY_TIME);
-			bSecondary = m_pDocument->m_pClientDocs->OnBeforeNewTransaction() &&
-				m_pDocument->FireBehaviour(bhe_NewTransaction) &&
-				m_pDocument->OnNewTransaction() &&
-				m_pDocument->m_pClientDocs->OnNewTransaction();
+				// primary transaction
+				m_pDocument->m_pTbContext->StartTime(PRIMARY_TIME);
+				bPrimary = m_pDocument->m_pDBTMaster->Update();
+				m_pDocument->m_pTbContext->StopTime(PRIMARY_TIME);
+				// secondary transaction
+				m_pDocument->m_pTbContext->StartTime(SECONDARY_TIME);
+				bSecondary = m_pDocument->m_pClientDocs->OnBeforeNewTransaction() &&
+							 m_pDocument->FireBehaviour(bhe_NewTransaction) &&
+							 m_pDocument->OnNewTransaction() &&
+							 m_pDocument->m_pClientDocs->OnNewTransaction();
 
-			if (!(bPrimary && bSecondary))
-			{
-				m_pDocument->m_pTbContext->Rollback();
+				if (!(bPrimary && bSecondary))
+				{
+					m_pDocument->m_pTbContext->Rollback();
+					m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
+					bOk = FALSE;
+					break;
+				}
+
+				m_pDocument->m_pTbContext->Commit();
 				m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
-				bOk = FALSE;
+
+				m_pDocument->SaveCurrentRecord();
+				//auxiliary transaction
+				m_pDocument->m_pTbContext->StartTime(AUXILIARY_TIME);
+				m_pDocument->OnExtraNewTransaction();
+				m_pDocument->m_pClientDocs->OnExtraNewTransaction();
+				m_pDocument->m_pTbContext->StopTime(AUXILIARY_TIME);
 				break;
 			}
 
-			m_pDocument->m_pTbContext->Commit();
-			m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
-
-			m_pDocument->SaveCurrentRecord();
-			//auxiliary transaction
-			m_pDocument->m_pTbContext->StartTime(AUXILIARY_TIME);
-			m_pDocument->OnExtraNewTransaction();
-			m_pDocument->m_pClientDocs->OnExtraNewTransaction();
-			m_pDocument->m_pTbContext->StopTime(AUXILIARY_TIME);
-			break;
-		}
-
-		case CBaseDocument::EDIT:
-		{
-			m_pDocument->m_pTbContext->StartTime(PRIMARY_TIME);
-			bPrimary = m_pDocument->m_pDBTMaster->Update();
-			m_pDocument->m_pTbContext->StopTime(PRIMARY_TIME);
-
-			// secondary transaction
-			m_pDocument->m_pTbContext->StartTime(SECONDARY_TIME);
-			bSecondary = m_pDocument->m_pClientDocs->OnBeforeEditTransaction() &&
-				m_pDocument->FireBehaviour(bhe_EditTransaction) &&
-				m_pDocument->OnEditTransaction() &&
-				m_pDocument->m_pClientDocs->OnEditTransaction();
-
-
-			if (!(bPrimary && bSecondary))
+			case CBaseDocument::EDIT:
 			{
-				m_pDocument->m_pTbContext->Rollback();
+				m_pDocument->m_pTbContext->StartTime(PRIMARY_TIME);
+				bPrimary = m_pDocument->m_pDBTMaster->Update();
+				m_pDocument->m_pTbContext->StopTime(PRIMARY_TIME);
+
+				// secondary transaction
+				m_pDocument->m_pTbContext->StartTime(SECONDARY_TIME);
+				bSecondary = m_pDocument->m_pClientDocs->OnBeforeEditTransaction() &&
+							 m_pDocument->FireBehaviour(bhe_EditTransaction) &&
+							 m_pDocument->OnEditTransaction() &&
+							 m_pDocument->m_pClientDocs->OnEditTransaction();
+
+
+				if (!(bPrimary && bSecondary))
+				{
+					m_pDocument->m_pTbContext->Rollback();
+					m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
+					bOk = FALSE;
+					break;
+				}
+
+				m_pDocument->m_pTbContext->Commit();
 				m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
-				bOk = FALSE;
+
+				//auxiliary transaction
+				m_pDocument->m_pTbContext->StartTime(AUXILIARY_TIME);
+				m_pDocument->OnExtraEditTransaction();
+				m_pDocument->m_pClientDocs->OnExtraEditTransaction();
+				m_pDocument->m_pTbContext->StopTime(AUXILIARY_TIME);
 				break;
 			}
 
-			m_pDocument->m_pTbContext->Commit();
-			m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
-
-			//auxiliary transaction
-			m_pDocument->m_pTbContext->StartTime(AUXILIARY_TIME);
-			m_pDocument->OnExtraEditTransaction();
-			m_pDocument->m_pClientDocs->OnExtraEditTransaction();
-			m_pDocument->m_pTbContext->StopTime(AUXILIARY_TIME);
-			break;
+			default:
+				ASSERT(FALSE);
+				break;
 		}
 
-		default:
-			ASSERT(FALSE);
-			break;
-		}
-
-	m_pDocument->DispatchOnAfterSave();
+		m_pDocument->DispatchOnAfterSave();
 	}
-		CATCH(SqlException, e)
+	CATCH(SqlException, e)
 	{
-
 		m_pDocument->m_pTbContext->StopTime(PRIMARY_TIME);
 		m_pDocument->m_pTbContext->StopTime(SECONDARY_TIME);
 		m_pDocument->m_pTbContext->StopTime(AUXILIARY_TIME);
-		m_pDocument->m_pTbContext->StopTime(TOTAL_TIME);
 		m_pDocument->m_pMessages->Add(cwsprintf(_TB("Unable to save the document due to the following exception: %s"), e->m_strError));
 		m_pDocument->m_pTbContext->Rollback();
 		ADMGoInBrowseMode();
+		m_pDocument->DisconnectFromDatabase();
 		m_pDocument->ToolBarButtonsHideGhost(1);
 		return FALSE;
 	}
@@ -465,6 +498,7 @@ BOOL ADMObj::ADMSaveDocument()
 	m_pDocument->m_pTbContext->StopTime(TOTAL_TIME);
 	// ripristina lo stato d partenza
 	ADMGoInBrowseMode();
+	m_pDocument->DisconnectFromDatabase();
 	m_pDocument->ToolBarButtonsHideGhost(1);
 	return bOk;
 }
@@ -489,9 +523,12 @@ BOOL ADMObj::ADMFetchDocument(BOOL bForEdit /*TRUE*/)
 	// DBT anche per quelli DELAYED (EDIT e ALL)
 	//
 	m_pDocument->CBaseDocument::SetFormMode(CAbstractFormDoc::BROWSE);
+
+	m_pDocument->ConnectToDatabase(szBrowseAction);
 	if (!m_pDocument->m_pDBTMaster->FindData())
 	{
 		m_pDocument->m_pMessages->Add(_TB("Document not found!"));
+		m_pDocument->DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -505,9 +542,13 @@ BOOL ADMObj::ADMFetchDocument(BOOL bForEdit /*TRUE*/)
 	m_pDocument->OnPrepareAuxData() && 
 	m_pDocument->m_pClientDocs->OnPrepareAuxData();		
 	
+	
+	
 	if (bForEdit)
 		m_pDocument->CBaseDocument::SetFormMode(CAbstractFormDoc::BROWSE);
-
+	
+	m_pDocument->DisconnectFromDatabase();
+	
 	return TRUE;
 } 
 	

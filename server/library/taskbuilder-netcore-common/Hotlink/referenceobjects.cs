@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -45,16 +45,16 @@ namespace Microarea.Common.Hotlink
 		namespace/name localize	namespace /nome/nome pubblico in lingua
 		HotKeyLink			dichiarazione del singolo elemento
 		Function			il contenuto di questa sezione descrive in dettaglio le parametrizzazioni e i filtri resi 
-							disponibili dall’oggetto (vd. AskDialog di Woorm). La grammatica utilizzata è quella relativa ai 
+							disponibili dallï¿½oggetto (vd. AskDialog di Woorm). La grammatica utilizzata ï¿½ quella relativa ai 
 		FunctionsObjects,	(vedi  progetto 1700).
-		ComboBox			indica cosa deve essere visualizzato quando l’oggetto è disegnato in forma di combobox.
+		ComboBox			indica cosa deve essere visualizzato quando lï¿½oggetto ï¿½ disegnato in forma di combobox.
 		Column				descrive il contenuto di una colonna e le sue caratteristiche grafiche. Di default (SelectAll)
-		when				espressione che indica se il campo è da visualizzare o meno su una condizione. Opzionale
+		when				espressione che indica se il campo ï¿½ da visualizzare o meno su una condizione. Opzionale
 		length				indica il numero di caratteri da usare nella tendina. Opzionale.
 		formatter			indica il formattatore specifico (di default viene preso quello associato al datatype)
 		source				contiene il nome del campo di tabella che deve essere usato oppure una stringa. Opzionale.
 		localize 			consente di definire una stringa da usare come prefisso al campo source (se esistente).
-							Se non è in combinazione con l’ attributo source identifica una stringa letterale in lingua.
+							Se non ï¿½ in combinazione con lï¿½ attributo source identifica una stringa letterale in lingua.
 	 */
 
     public class SelectionMode
@@ -162,7 +162,7 @@ namespace Microarea.Common.Hotlink
             int port,
             string service,
             string serviceNamespace,
-            IBaseModuleInfo moduleInfo
+            ModuleInfo moduleInfo
             )
             :
             base(name, localizedName, returnType, String.Empty)
@@ -195,13 +195,13 @@ namespace Microarea.Common.Hotlink
         public TbSession TbSession { get { return tbSession; } }
 
         //-----------------------------------------------------------------------------
-        public IBasePathFinder PathFinder
+        public PathFinder PathFinder
         {
             get
             {
                 return tbSession != null && tbSession.PathFinder != null ?
-                   (tbSession.PathFinder as IBasePathFinder) :
-                   BasePathFinder.BasePathFinderInstance;
+                   (tbSession.PathFinder as PathFinder) :
+                   PathFinder.PathFinderInstance;
             }
         }
 
@@ -209,7 +209,7 @@ namespace Microarea.Common.Hotlink
         //-----------------------------------------------------------------------------
         public ReferenceObjectsList(TbSession session)
         {
-            // è necessario inizializzare prima una sessione di lavoro.
+            // ï¿½ necessario inizializzare prima una sessione di lavoro.
             this.tbSession = session;
             //if (session == null)
             //	throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
@@ -249,22 +249,22 @@ namespace Microarea.Common.Hotlink
         //Gli oggetti query in C++ li trovi in
         //...\Framework\TbWoormEngine\QueryObject.cpp        
 
-        static public ReferenceObjectsPrototype LoadPrototypeFromXml(string name, IBasePathFinder PathFinder)
+        static public ReferenceObjectsPrototype LoadPrototypeFromXml(string name, PathFinder PathFinder)
         {
             NameSpace ns = new NameSpace(name, NameSpaceObjectType.HotKeyLink);
             if (!ns.IsValid())
                 return null;
 
-            IBaseModuleInfo mi = PathFinder.GetModuleInfo(ns);
+            ModuleInfo mi = PathFinder.GetModuleInfo(ns);
             if (mi == null)
                 return null;
 
-            // se il file delle funzioni esterne non esiste allora la funzione è indefinita
+            // se il file delle funzioni esterne non esiste allora la funzione ï¿½ indefinita
             string path = mi.GetReferenceObjectFileName(ns);
-            if (!File.Exists(path))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
                 return null;
 
-            // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati
+            // restituisce il dom giï¿½ tradotto per i Tag o gli Attribute che sono localizzati
             LocalizableXmlDocument dom = new LocalizableXmlDocument(ns.Application, ns.Module, PathFinder);
             dom.Load(path);
 
@@ -278,13 +278,13 @@ namespace Microarea.Common.Hotlink
                 ReferenceObjectsXML.Attribute.Namespace
                 );
 
-            // se non esiste la sezione allora il ReferenceObject è Undefined
+            // se non esiste la sezione allora il ReferenceObject ï¿½ Undefined
             XmlNodeList functions = root.SelectNodes(xpath);
             if (functions == null) return null;
 
             foreach (XmlElement function in functions)
             {
-                // controllo che il namespace sia quello giusto in modalità CaseInsensitive
+                // controllo che il namespace sia quello giusto in modalitï¿½ CaseInsensitive
                 string namespaceAttribute = function.GetAttribute(ReferenceObjectsXML.Attribute.Namespace);
                 if ((namespaceAttribute == null) || (string.Compare(namespaceAttribute, name, StringComparison.OrdinalIgnoreCase) != 0))
                     continue;
@@ -415,7 +415,7 @@ namespace Microarea.Common.Hotlink
                 return fp;
             }
 
-            // la funzione non è dichiarata
+            // la funzione non ï¿½ dichiarata
             return null;
         }
 

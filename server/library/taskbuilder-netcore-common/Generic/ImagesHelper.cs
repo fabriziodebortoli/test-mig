@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microarea.Common.NameSolver;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+
 
 
 
@@ -161,7 +161,7 @@ namespace Microarea.Common.Generic
                         {
                             string file = GetImagePath(imageFile);
                             //poi su file system
-                            if (!File.Exists(file))
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
                             {
                                 string folder = Path.GetDirectoryName(file);
                                 if (!Directory.Exists(folder))
@@ -212,8 +212,8 @@ namespace Microarea.Common.Generic
 		/// </summary>
 		public static string GetImagePath(string imageFile)
 		{
-            if (!Directory.Exists(TempImagesPath))
-                Directory.CreateDirectory(TempImagesPath);
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(TempImagesPath))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(TempImagesPath, false);
 
             return Path.Combine(TempImagesPath, imageFile);
 		}
@@ -229,15 +229,15 @@ namespace Microarea.Common.Generic
 				string imageName = Path.GetFileName(appImageFile);
 				if (!ImagesHelper.HasImageInCache(imageName))
 				{
-					if (File.Exists(appImageFile))
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(appImageFile))
 					{
 						string file = ImagesHelper.GetImagePath(imageName);
 
-                        if (!File.Exists(file))
+                        if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
 						{
 							try
 							{
-								File.Copy(appImageFile, file);
+                                PathFinder.PathFinderInstance.FileSystemManager.CopyFile(appImageFile, file, false);
 							}
 							catch (Exception)
 							{

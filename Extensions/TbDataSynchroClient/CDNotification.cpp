@@ -226,8 +226,8 @@ DataLng CDataSynchroNotifier::InsertLogAction(CNotificationInfo* pNotificationIn
 		{
 			//chiamo SELECT IDENT_CURRENT ed effettuo il binding dell'unico campo autoincremental della tabella
 			aTable.Open();
-			aTable.m_strSQL = cwsprintf(_T("SELECT IDENT_CURRENT('%s')"), TDS_ActionsLog::GetStaticName());
-			aTable.m_pColumnArray->Add(_T("Ident"), &logId, m_pSqlConnection->GetSqlDataType(DATA_LNG_TYPE), -1);
+			aTable.m_strSQL = cwsprintf(_T("SELECT IDENT_CURRENT('%s')"), TDS_ActionsLog::GetStaticName());	
+			aTable.Select(_T("Ident"), &logId, -1);
 			aTable.Query();
 			aTable.Close();
 		}

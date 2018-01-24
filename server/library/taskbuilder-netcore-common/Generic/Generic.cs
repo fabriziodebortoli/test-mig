@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -25,7 +25,7 @@ namespace Microarea.Common.Generic
     /// <summary>
     /// Classe per la lettura scrittura del file contenente le informazioni di connessione ad una installazione remota
     /// </summary>
-    /// <remarks>Questa classe viene usata da path finder per leggere, in ultima istanza, le informazioni di connessione da file system (usato da EasyLook in modalità remota)</remarks>
+    /// <remarks>Questa classe viene usata da path finder per leggere, in ultima istanza, le informazioni di connessione da file system (usato da EasyLook in modalitï¿½ remota)</remarks>
     //=========================================================================
     [Serializable]
     public class InstallationInfo
@@ -68,7 +68,7 @@ namespace Microarea.Common.Generic
         {
             string path = Functions.GetExecutingAssemblyFolderPath();
             FilePath = Path.Combine(path, FileName);
-            Exists = File.Exists(FilePath);
+            Exists = PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath);   
         }
 
         //---------------------------------------------------------------------------
@@ -106,8 +106,8 @@ namespace Microarea.Common.Generic
             {
                 try
                 {
-                    if (File.Exists(path))
-                        File.Delete(path);
+                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(path);
                 }
                 catch { }
 
@@ -138,7 +138,7 @@ namespace Microarea.Common.Generic
         {
             try
             {
-                if (!File.Exists(FilePath))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
                     return new InstallationInfo("", "", "");
 
                 XmlSerializer x = new XmlSerializer(typeof(InstallationInfo));
@@ -149,8 +149,8 @@ namespace Microarea.Common.Generic
             {
                 try
                 {
-                    if (File.Exists(FilePath))
-                        File.Delete(FilePath);
+                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(FilePath);
                 }
                 catch { }
 
@@ -161,15 +161,15 @@ namespace Microarea.Common.Generic
         //---------------------------------------------------------------------------
         public void Delete()
         {
-            if (File.Exists(FilePath))
-                File.Delete(FilePath);
+            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
+                PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(FilePath);
         }
 
         //--------------------------------------------------------------------------
         public static void TestInstallation()
         {
             //se sto girando all'interno dell'installazione non mi devo porre problemi di compatibilita`
-            if (BasePathFinder.BasePathFinderInstance.IsRunningInsideInstallation)
+            if (PathFinder.PathFinderInstance.IsRunningInsideInstallation)
                 return;
             //se sono un client clickonce non mi devo porre problemi di compatibilita`
             if (InstallationData.IsClickOnceInstallation)
@@ -182,9 +182,9 @@ namespace Microarea.Common.Generic
         //--------------------------------------------------------------------------------
         public static bool SameVersion(out string localVer, out string serverVer)
         {
-            string path = BasePathFinder.BasePathFinderInstance.GetApplicationModulePath(NameSolverStrings.WebFramework, NameSolverStrings.LoginManager);
-            if (!Directory.Exists(path))
-                throw new Exception(string.Format(GenericStrings.InvalidInstallation, BasePathFinder.BasePathFinderInstance.Installation, path));
+            string path = PathFinder.PathFinderInstance.GetApplicationModulePath(NameSolverStrings.WebFramework, NameSolverStrings.LoginManager);
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                throw new Exception(string.Format(GenericStrings.InvalidInstallation, PathFinder.PathFinderInstance.Installation, path));
 
             //confronto le versioni della dll corrente con quella del server 
             //Assembly assembly = Assembly.GetExecutingAssembly();
@@ -208,24 +208,24 @@ namespace Microarea.Common.Generic
         public class Functions
         {
 
-			/// <summary>
-			/// clear cached data
-			/// </summary>
-			/// <returns></returns>
-			//---------------------------------------------------------------------
-			public static void ClearCachedData(string currentUser)
-			{
-				Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
-				MenuInfo.CachedMenuInfos.Delete(currentUser);
-			}
+            /// <summary>
+            /// clear cached data
+            /// </summary>
+            /// <returns></returns>
+            //---------------------------------------------------------------------
+            public static void ClearCachedData(string currentUser)
+            {
+                Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
+                MenuInfo.CachedMenuInfos.Delete(currentUser);
+            }
 
-			/// <summary>
-			/// DevelopmentIstance
-			/// Legge la variabile di ambiente MicroareaVersion
-			/// </summary>
-			/// <returns></returns>
-			//---------------------------------------------------------------------
-			public static string GetDevelopmentIstance()
+            /// <summary>
+            /// DevelopmentIstance
+            /// Legge la variabile di ambiente MicroareaVersion
+            /// </summary>
+            /// <returns></returns>
+            //---------------------------------------------------------------------
+            public static string GetDevelopmentIstance()
             {
                 string MicroareaVersion = string.Empty;
                 MicroareaVersion = Environment.GetEnvironmentVariable("MicroareaVersion");
@@ -237,7 +237,7 @@ namespace Microarea.Common.Generic
             public static bool IsDebug()
             {
 #if DEBUG
-			return true;
+                return true;
 #else
                 return false;
 #endif
@@ -297,7 +297,7 @@ namespace Microarea.Common.Generic
             /// <param name="path">la path di partenza</param>
             /// <param name="steps">il numero di cartelle padre</param>
             /// <returns>la path risultante</returns>
-            /// <remarks>E' stata fatta perchè Directory.GetParent() richiede particolari permessi</remarks>
+            /// <remarks>E' stata fatta perchï¿½ Directory.GetParent() richiede particolari permessi</remarks>
             //---------------------------------------------------------------------
             public static string GetParentDirectory(string path, int steps)
             {
@@ -309,10 +309,10 @@ namespace Microarea.Common.Generic
 
                 int i = path.Length;
 
-                if (path[i - 1] == Path.DirectorySeparatorChar)
+                if (path[i - 1] == NameSolverStrings.Directoryseparetor)
                     i -= 1;
 
-                while (path[i - 1] != Path.DirectorySeparatorChar && i >= 0)
+                while (path[i - 1] != NameSolverStrings.Directoryseparetor && i >= 0)
                     i--;
 
                 return GetParentDirectory(path.Substring(0, path.Length - (path.Length - i) - 1), steps - 1);
@@ -345,7 +345,7 @@ namespace Microarea.Common.Generic
                     Debug.Fail(string.Format("Error in Functions.GetDirectoryName. Invalid path {0}", dirPath));
                     return string.Empty;
                 }
-                if (dirPath[dirPath.Length - 1] == Path.DirectorySeparatorChar)
+                if (dirPath[dirPath.Length - 1] == NameSolverStrings.Directoryseparetor)
                     return Path.GetDirectoryName(dirPath);
                 else
                     return Path.GetFileName(dirPath);
@@ -362,16 +362,16 @@ namespace Microarea.Common.Generic
                 aSubDirs = new ArrayList();
 
                 // controllo prima che esista la directory
-                if (!Directory.Exists(aHomeDir))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aHomeDir))
                     return;
 
                 DirectoryInfo di = new DirectoryInfo(aHomeDir);
-                foreach (DirectoryInfo sd in di.GetDirectories())
+                foreach (DirectoryInfo sd in di.GetDirectories())// OK
                     aSubDirs.Add(sd.Name);
             }
 
             /// <summary>
-            /// Copia un file se la data di creazione è differente. La destinazione deve mantiene i flag di stato della origine.
+            /// Copia un file se la data di creazione ï¿½ differente. La destinazione deve mantiene i flag di stato della origine.
             /// </summary>
             /// <param name="sourceFile">path del file origine</param>
             /// <param name="destinationFile">path del file destinazione</param>
@@ -384,12 +384,12 @@ namespace Microarea.Common.Generic
             }
 
             /// <summary>
-            /// Copia un file se la data di creazione è differente. La destinazione deve mantiene i flag di stato della origine.
+            /// Copia un file se la data di creazione ï¿½ differente. La destinazione deve mantiene i flag di stato della origine.
             /// </summary>
             /// <param name="sourceFile">file origine</param>
             /// <param name="destinationFile">file destinazione</param>
-            /// <param name="error">Se c'è stato un errore qui viene indicato.</param>
-            /// <param name="modifiedFiles">1 se è stato modificato il file destinazione 0 se non è cambiato.</param>
+            /// <param name="error">Se c'ï¿½ stato un errore qui viene indicato.</param>
+            /// <param name="modifiedFiles">1 se ï¿½ stato modificato il file destinazione 0 se non ï¿½ cambiato.</param>
             /// <returns>true se la copia ha vuto successo</returns>
             //---------------------------------------------------------------------
             public static bool CopyDifferentFile(string sourceFile, string destinationFile, out string error, ref int modifiedFiles)
@@ -402,27 +402,26 @@ namespace Microarea.Common.Generic
                     return false;
                 }
 
-                if (!System.IO.File.Exists(sourceFile))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFile))
                 {
-                    error = sourceFile;
+                    error = sourceFile; 
                     return false;
                 }
 
                 FileInfo sourceFileInfo = new FileInfo(sourceFile);
                 FileInfo destinationFileInfo = new FileInfo(destinationFile);
 
-                try
+                try 
                 {
-                    if (!Directory.Exists(destinationFileInfo.Directory.FullName))
-                        Directory.CreateDirectory(destinationFileInfo.Directory.FullName);
+                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(destinationFileInfo.Directory.FullName))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(destinationFileInfo.Directory.FullName, false);
 
                     if (destinationFileInfo.LastWriteTimeUtc.ToString("s") != sourceFileInfo.LastWriteTimeUtc.ToString("s"))
                     {
-
-                        if (System.IO.File.Exists(destinationFile) && (destinationFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                        if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(destinationFile)&& (destinationFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                             destinationFileInfo.Attributes -= FileAttributes.ReadOnly;
 
-                        System.IO.File.Copy(sourceFileInfo.FullName, destinationFile, true);
+                        PathFinder.PathFinderInstance.FileSystemManager.CopyFile(sourceFileInfo.FullName, destinationFile, true);
 
                         modifiedFiles++;
                     }
@@ -456,115 +455,9 @@ namespace Microarea.Common.Generic
                     Debug.Fail("Unable to set security on the mutex, error " + Marshal.GetLastWin32Error());
                 }
             }
-            //------------------------------------------------------------------------------
-            public static void CopyDirectory(string source, string destination, bool recursive)
-            {
-                CopyDirectory(source, destination, recursive, true);
-            }
+         
 
-            //------------------------------------------------------------------------------
-            public static void CopyDirectory(string source, string destination, bool recursive, bool overwrite)
-            {
-                if (!Directory.Exists(source))
-                    throw new ArgumentException();
-
-                if (destination[destination.Length - 1] != Path.DirectorySeparatorChar)
-                    destination += Path.DirectorySeparatorChar;
-
-                if (!Directory.Exists(destination))
-                    Directory.CreateDirectory(destination);
-
-                string[] files = Directory.GetFiles(source);
-                foreach (string element in files)
-                {
-                    string destinationFile = destination + Path.GetFileName(element);
-                    if (!overwrite && System.IO.File.Exists(destinationFile))
-                        continue;
-                    System.IO.File.Copy(element, destinationFile, overwrite);
-                }
-
-                if (!recursive)
-                    return;
-
-                string[] directories = Directory.GetDirectories(source);
-                foreach (string element in directories)
-                    CopyDirectory(element, destination + Path.GetFileName(element), recursive);
-            }
-
-            /// <summary>
-            /// Copia files da una dir ad un'altra
-            /// </summary>
-            /// <param name="sourcePath">Cartella origine</param>
-            /// <param name="destinationPath">Cartella destinazione</param>
-            /// <param name="search">Filtro di copia es. *.dll</param>
-            /// <param name="recursive">true se si vogliono copiare anche le sottocartelle</param>
-            /// <param name="modifiedFiles">numero di file copiati</param>
-            /// <param name="errorFile">file che non si sono copiati</param>
-            /// <returns>true se ha successo</returns>
-            //---------------------------------------------------------------------
-            public static bool CopyFiles(string sourcePath, string destinationPath, string searchPattern, bool recursive, ref int modifiedFiles, out string errorFile)
-            {
-                errorFile = string.Empty;
-
-                if (sourcePath == null || sourcePath == string.Empty || destinationPath == null || destinationPath == string.Empty)
-                    return true;
-
-                if (searchPattern == null || searchPattern == string.Empty)
-                    searchPattern = "*.*";
-
-                DirectoryInfo sourceDirectory = new DirectoryInfo(sourcePath);
-
-                if (!sourceDirectory.Exists)
-                    return true;
-
-                FileInfo[] files = sourceDirectory.GetFiles(searchPattern);
-                foreach (FileInfo file in files)
-                {
-                    if (!CopyDifferentFile(file.FullName, destinationPath + Path.DirectorySeparatorChar + file.Name, ref modifiedFiles))
-                    {
-                        errorFile = file.FullName;
-                        return false;
-                    }
-                }
-
-                if (recursive)
-                {
-                    DirectoryInfo[] subFolders = sourceDirectory.GetDirectories();
-                    foreach (DirectoryInfo subFolder in subFolders)
-                    {
-                        if (!CopyFiles(subFolder.FullName, destinationPath + Path.DirectorySeparatorChar + subFolder.Name, searchPattern, recursive, ref modifiedFiles, out errorFile))
-                        {
-                            errorFile = subFolder.FullName;
-                            return false;
-                        }
-                    }
-                }
-
-                return true;
-            }
-
-            /// <summary>
-            /// Salva il contenuto di uno Stream in un file.
-            /// Il file viene creato, se esiste viene cancellato e ricreato.
-            /// </summary>
-            /// <param name="aStream">Lo Stream da salvare su file.</param>
-            /// <param name="fileFullName">Il nome completo del file da salvare.</param>
-            /// <param name="lastWriteTimeUtc">La data di ultima modifica da impostare sul file.</param>
-            /// <returns>true se riesce a salvare lo stream in un file, false altrimenti.</returns>
-            /// <remarks>
-            /// Il file viene creato ex novo, se dovesse servire un metodo simile
-            /// per l'inserimento in coda fare un overload.
-            /// </remarks>
-            //---------------------------------------------------------------------
-            public static bool CopyToFile(Stream aStream, string fileFullName, DateTime lastWriteTimeUtc, out string error)
-            {
-                bool ok = CopyToFile(aStream, fileFullName, out error);
-
-                if (ok && error == string.Empty)
-                    System.IO.File.SetLastWriteTimeUtc(fileFullName, lastWriteTimeUtc);
-
-                return ok;
-            }
+       
 
             /// <summary>
             /// Salva il contenuto di uno Stream in un file.
@@ -585,10 +478,10 @@ namespace Microarea.Common.Generic
                 try
                 {
                     string dir = Path.GetDirectoryName(fileFullName);
-                    if (!Directory.Exists(dir))
-                        Directory.CreateDirectory(dir);
+                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dir))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dir, false);
 
-                    if (System.IO.File.Exists(fileFullName))
+                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileFullName))
                         System.IO.File.SetAttributes(fileFullName, FileAttributes.Normal);
 
                     FileStream streamWriter;
@@ -618,92 +511,7 @@ namespace Microarea.Common.Generic
                 }
             }
 
-            /// <summary>
-            /// Cancella tutti i file di un certo tipo ricorsivamente.
-            /// </summary>
-            /// <param name="rootPath">Cartella in cui cercare i file da cancellare.</param>
-            /// <param name="fileMask">Tipo di file da cancellare.</param>
-            /// <param name="recursive">true per cancellare ricorsivamente nelle sottocartelle, false altrimenti</param>
-            /// <returns>true se ha successo</returns>
-            //---------------------------------------------------------------------
-            public static bool DeleteFiles(string rootPath, string fileMask, bool recursive)
-            {
-                DirectoryInfo sourceDirectory = new DirectoryInfo(rootPath);
-
-                if (!sourceDirectory.Exists)
-                    return true;
-
-                FileInfo[] files = sourceDirectory.GetFiles(fileMask);
-                foreach (FileInfo file in files)
-                    DeleteFile(file);
-
-                if (recursive)
-                {
-                    DirectoryInfo[] subFolders = sourceDirectory.GetDirectories();
-                    foreach (DirectoryInfo subFolder in subFolders)
-                    {
-                        DeleteFiles(subFolder.FullName, fileMask, recursive);
-                        if (subFolder.GetDirectories().Length == 0 && subFolder.GetFiles().Length == 0)
-                            subFolder.Delete();
-                    }
-                }
-
-                return true;
-            }
-
-            /// <summary>
-            /// Cancella i tipi di file elencati ricorsivamente.
-            /// </summary>
-            /// <param name="rootPath">Cartella in cui cercare i file da cancellare.</param>
-            /// <param name="searchPatterns">Tipi di file da cancellare.</param>
-            /// <param name="recursive">true per cancellare ricorsivamente nelle sottocartelle, false altrimenti</param>
-            /// <returns>true se ha successo</returns>
-            //---------------------------------------------------------------------
-            public static bool DeleteFiles(string rootPath, string[] searchPatterns, bool recursive)
-            {
-                DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
-
-                if (!dirInfo.Exists)
-                    return true;
-
-                foreach (string searchPattern in searchPatterns)
-                {
-                    FileInfo[] files = dirInfo.GetFiles(searchPattern);
-
-                    foreach (FileInfo file in files)
-                        DeleteFile(file);
-                }
-
-                if (recursive)
-                {
-                    DirectoryInfo[] subFolders = dirInfo.GetDirectories();
-
-                    foreach (DirectoryInfo subFolder in subFolders)
-                    {
-                        DeleteFiles(subFolder.FullName, searchPatterns, recursive);
-
-                        if (subFolder.GetDirectories().Length == 0 && subFolder.GetFiles().Length == 0)
-                            subFolder.Delete();
-                    }
-                }
-
-                return true;
-            }
-
-            /// <summary>
-            /// Elimina un file
-            /// </summary>
-            /// <param name="file">Il file da cancellare</param>
-            //---------------------------------------------------------------------
-            public static void DeleteFile(FileInfo file)
-            {
-                if (!file.Exists)
-                    return;
-
-                // si assicura che non sia read-only per cancellarlo
-                file.Attributes = ~FileAttributes.ReadOnly;
-                file.Delete();
-            }
+   
 
 
             /// <summary>
@@ -723,7 +531,7 @@ namespace Microarea.Common.Generic
                 char[] charChars = new char[]
                                     {
                                     Path.AltDirectorySeparatorChar ,
-                                    Path.DirectorySeparatorChar,
+                                    NameSolverStrings.Directoryseparetor,
                                     Path.PathSeparator,
                                     Path.VolumeSeparatorChar,
                                     '?',
@@ -792,61 +600,7 @@ namespace Microarea.Common.Generic
                         Help.ShowHelp(parent, helpUrl, keyWord);
                     }
     */
-            //-------------------------------------------------------------------------
-            public static ArrayList GetFiles(string directoryPath, string filter)
-            {
-                ArrayList files = new ArrayList();
-                if (directoryPath == null || !Directory.Exists(directoryPath))
-                    return files;
-                string[] f = Directory.GetFiles(directoryPath, filter);
-                if (f != null && f.Length > 0)
-                    files.AddRange(f);
-                string[] dirs = Directory.GetDirectories(directoryPath);
-                if (dirs != null && dirs.Length > 0)
-                {
-                    foreach (string dir in dirs)
-                        files.AddRange(GetFiles(dir, filter));
-                }
-                return files;
-            }
-
-            //-------------------------------------------------------------------------
-            public static void GetFileDate(string filePath, out DateTime lastWriteTimeUtc, out DateTime creationTimeUtc, out DateTime accessTimeUtc)
-            {
-                lastWriteTimeUtc = DateTime.Now;
-                creationTimeUtc = DateTime.Now;
-                accessTimeUtc = DateTime.Now;
-
-                try
-                {
-                    FileInfo fi = null;
-                    if (System.IO.File.Exists(filePath))
-                    {
-                        fi = new FileInfo(filePath);
-                        lastWriteTimeUtc = fi.LastWriteTimeUtc;
-                        creationTimeUtc = fi.CreationTimeUtc;
-                        accessTimeUtc = fi.LastAccessTimeUtc;
-                    }
-                }
-                catch { }
-            }
-
-            //-------------------------------------------------------------------------
-            public static void SetFileDate(string filePath, DateTime lastWriteTimeUtc, DateTime creationTimeUtc, DateTime accessTimeUtc)
-            {
-                try
-                {
-                    FileInfo fi = null;
-                    if (System.IO.File.Exists(filePath))
-                    {
-                        fi = new FileInfo(filePath);
-                        fi.LastWriteTimeUtc = lastWriteTimeUtc;
-                        fi.CreationTimeUtc = creationTimeUtc;
-                        fi.LastAccessTimeUtc = accessTimeUtc;
-                    }
-                }
-                catch { }
-            }
+      
 
             /// <summary>
             /// Creates a relative path from one file
@@ -886,9 +640,9 @@ namespace Microarea.Common.Generic
 
                 StringCollection relativePath = new StringCollection();
                 string[] fromDirectories = fromDirectory.Split(
-                    Path.DirectorySeparatorChar);
+                    NameSolverStrings.Directoryseparetor);
                 string[] toDirectories = toPath.Split(
-                    Path.DirectorySeparatorChar);
+                    NameSolverStrings.Directoryseparetor);
                 int length = Math.Min(
                     fromDirectories.Length,
                     toDirectories.Length);
@@ -914,7 +668,7 @@ namespace Microarea.Common.Generic
                 string[] relativeParts = new string[relativePath.Count];
                 relativePath.CopyTo(relativeParts, 0);
                 string newPath = string.Join(
-                    Path.DirectorySeparatorChar.ToString(),
+                    NameSolverStrings.Directoryseparetor.ToString(),
                     relativeParts);
                 return newPath;
             }
@@ -1038,8 +792,8 @@ namespace Microarea.Common.Generic
 
             //----------------------------------------------------------------------
             /// <summary>
-            /// Verifica se la dimensione del db è vicina al massimo indicato nel serverconnection.config
-            /// se la size è compresa (estremi inclusi) tra la 'limit' (es: 1.95GB) e la max (2GB),  o se è minore di 0, per me è warning
+            /// Verifica se la dimensione del db ï¿½ vicina al massimo indicato nel serverconnection.config
+            /// se la size ï¿½ compresa (estremi inclusi) tra la 'limit' (es: 1.95GB) e la max (2GB),  o se ï¿½ minore di 0, per me ï¿½ warning
             /// </summary>
             /// <param name="tbConnection"></param>
             /// <returns></returns>
@@ -1156,16 +910,17 @@ namespace Microarea.Common.Generic
                 const string xPathMainQuery = "//Auxdata/Elements/Element/Field[@name='Code' and text()= '{0}']";
                 const string xPathSecondaryQuery = "Field[@name='Country']";
 
-                string path = BasePathFinder.BasePathFinderInstance.GetStandardDataManagerPath(NameSolverStrings.Extensions, NameSolverStrings.TbMailer);
+                string path = PathFinder.PathFinderInstance.GetStandardDataManagerPath(NameSolverStrings.Extensions, NameSolverStrings.TbMailer);
                 path = Path.Combine(path, NameSolverStrings.DataFile, defaultIso, "State.xml");
 
-                if (!File.Exists(path))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
                     return defaultCountry;
 
                 try
                 {
-                    XmlDocument xDoc = new XmlDocument();
-                    xDoc.Load(File.OpenRead(path));
+
+                    XmlDocument xDoc = null;
+                    xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, path);
 
                     //cerco nel file xml "state.xml" nel modulo tbmailer: cerco un nodo che abbio Code uguale
                     //a quello desiderato

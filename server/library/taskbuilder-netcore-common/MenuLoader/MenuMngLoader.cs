@@ -15,7 +15,7 @@ using Microarea.Common.StringLoader;
 using Microarea.Common.WebServicesWrapper;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.MenuLoader.MenuLoader;
-using Microarea.Common.SecurityLayer.SecurityLightObjects;
+
 
 namespace Microarea.Common.MenuLoader
 {
@@ -115,9 +115,9 @@ namespace Microarea.Common.MenuLoader
                 if (aPath == null || aPath.Length == 0)
                     return;
 
-                customAllUsersMenuPath = aPath + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers;
+                customAllUsersMenuPath = aPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers;
                 if (aUserName != null && aUserName.Length > 0 && aUserName != NameSolverStrings.AllUsers)
-                    customCurrentUserMenuPath = aPath + Path.DirectorySeparatorChar + Microarea.Common.NameSolver.PathFinder.GetUserPath(aUserName);
+                    customCurrentUserMenuPath = aPath + NameSolverStrings.Directoryseparetor + PathFinder.GetUserPath(aUserName);
             }
 
             //---------------------------------------------------------------------------
@@ -130,7 +130,7 @@ namespace Microarea.Common.MenuLoader
             public string StandardMenuPath
             {
                 get { return standardMenuPath; }
-                set { standardMenuPath = (value != null && value.Length > 0 && Directory.Exists(value)) ? value : String.Empty; }
+                set { standardMenuPath = (value != null && value.Length > 0 && PathFinder.PathFinderInstance.FileSystemManager.ExistPath(value)) ? value : String.Empty; }
             }
             //---------------------------------------------------------------------------
             public ArrayList StandardMenuFiles { get { return standardMenuFiles; } set { standardMenuFiles = value; } }
@@ -281,7 +281,7 @@ namespace Microarea.Common.MenuLoader
 			/// </summary>
 			private bool fromFile;
 
-            private IPathFinder pathFinder;
+            private PathFinder pathFinder;
 
             public bool FromFile
             {
@@ -300,7 +300,7 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public CachedMenuInfos(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, IPathFinder pathFinder)
+            public CachedMenuInfos(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, PathFinder pathFinder)
             {
                 //se uso questo costruttore non sono stato creato dal serializzatore, 
                 //quindi non provengo da file
@@ -340,11 +340,11 @@ namespace Microarea.Common.MenuLoader
             //---------------------------------------------------------------------------
             public static string GetStandardMenuCachingFullFileName(string user)
             {
-                string clientInstallationPath = BasePathFinder.BasePathFinderInstance.GetAppDataPath(true);
+                string clientInstallationPath = PathFinder.PathFinderInstance.GetAppDataPath(true);
                 clientInstallationPath = Path.Combine(clientInstallationPath, user);
 
-                if (!Directory.Exists(clientInstallationPath))
-                    Directory.CreateDirectory(clientInstallationPath);
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(clientInstallationPath))
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(clientInstallationPath, false);
 
                 return Path.Combine(
                     clientInstallationPath,
@@ -355,13 +355,14 @@ namespace Microarea.Common.MenuLoader
             //---------------------------------------------------------------------------
             public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string user)
             {
-                string file = GetStandardMenuCachingFullFileName(user);
-                if (!File.Exists(file))
+               //Dve rimanere  cosi
+                string file = GetStandardMenuCachingFullFileName(user); 
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
                     return null;
                 try
                 {
                     XmlSerializer ser = GetSerializer();
-                    FileInfo fi = new FileInfo(file);
+                    FileInfo fi = new FileInfo(file);  //ok
 
                     using (StreamReader sw = new StreamReader(fi.OpenRead()))
                     {
@@ -388,12 +389,12 @@ namespace Microarea.Common.MenuLoader
             //---------------------------------------------------------------------------
             public void Save(string user)
             {
+                //Deve rimanere cosi
                 string file = GetStandardMenuCachingFullFileName(user);
                 try
                 {
                     XmlSerializer ser = GetSerializer();
-
-                    FileInfo fi = new FileInfo(file);
+                    FileInfo fi = new FileInfo(file); //OK
                     using (StreamWriter sw = fi.CreateText())
                         ser.Serialize(sw, this);
                 }
@@ -407,10 +408,10 @@ namespace Microarea.Common.MenuLoader
             {
                 try
                 {
-                    string file = GetStandardMenuCachingFullFileName(user);
-                    DirectoryInfo di = new DirectoryInfo(Path.GetDirectoryName(file));
-                    if (di.Exists)
-                        di.Delete(true);
+                    string file = GetStandardMenuCachingFullFileName(user); 
+
+                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(Path.GetDirectoryName(file)))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFolder(Path.GetDirectoryName(file), true, true, true);
                 }
                 catch (Exception)
                 {
@@ -425,7 +426,7 @@ namespace Microarea.Common.MenuLoader
         private MenuXmlParser traceFavoritesChanges = null;
         private MenuSecurityFilter menuSecurityFilter = null;
         private string authenticationToken = null;
-        private IPathFinder menuPathFinder = null;
+        private PathFinder menuPathFinder = null;
 
         //---------------------------------------------------------------------------
         public event MenuParserEventHandler ScanStandardMenuComponentsStarted;
@@ -444,7 +445,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public MenuInfo(IPathFinder aPathFinder, string authenticationToken, bool applySecurityFilter)
+        public MenuInfo(PathFinder aPathFinder, string authenticationToken, bool applySecurityFilter)
         {
             menuPathFinder = aPathFinder;
             this.authenticationToken = authenticationToken;
@@ -464,8 +465,6 @@ namespace Microarea.Common.MenuLoader
                     applySecurityFilter
                     );
             }
-
-            InitSecurityLightDeniedAccesses();
         }
 
         //---------------------------------------------------------------------------
@@ -543,7 +542,7 @@ namespace Microarea.Common.MenuLoader
                 )
                 return;
 
-            if (menuFilesToLoad == null || menuFilesToLoad.Count == 0 || filesPath == null || filesPath.Length == 0 || !Directory.Exists(filesPath))
+            if (menuFilesToLoad == null || menuFilesToLoad.Count == 0 || filesPath == null || filesPath.Length == 0 || !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(filesPath))
                 return;
 
             if (aApplicationType == ApplicationType.TaskBuilder && EnvironmentXmlParser != null)
@@ -553,7 +552,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        private bool AddUserCreatedReportsGroup(string aApplicationName, BaseModuleInfo aModule, ArrayList userCreatedReports)
+        private bool AddUserCreatedReportsGroup(string aApplicationName, ModuleInfo aModule, ArrayList userCreatedReports)
         {
             if (userCreatedReports == null || userCreatedReports.Count <= 0)
                 return false;
@@ -620,20 +619,19 @@ namespace Microarea.Common.MenuLoader
         // Quindi, per ciascun file nella Custom vado a vedere se esiste o meno un file
         // con lo stesso nome nella corrispondente sottodirectory della Standard.
         //---------------------------------------------------------------------------
-        private ArrayList SearchUserCreatedReportFiles(BaseApplicationInfo aApplication, string aModuleName)
+        private ArrayList SearchUserCreatedReportFiles(ApplicationInfo aApplication, string aModuleName)
         {
             if (aApplication == null || aModuleName.IsNullOrEmpty())
                 return null;
 
-            string fullCustomPath = PathFinder.GetCustomModulePath(aApplication.Name, aModuleName);
-            if (!Directory.Exists(fullCustomPath))
+            string fullCustomPath = CurrentPathFinder.GetCustomModulePath(aApplication.Name, aModuleName);
+            if (!CurrentPathFinder.FileSystemManager.ExistPath(fullCustomPath))
                 return null;
 
-            string customModuleReportPath = fullCustomPath + Path.DirectorySeparatorChar + NameSolverStrings.Report;
+            string customModuleReportPath = fullCustomPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Report;
 
-            DirectoryInfo customModuleReportDirInfo = new DirectoryInfo(customModuleReportPath);
 
-            if (customModuleReportDirInfo == null || !customModuleReportDirInfo.Exists)
+            if (!CurrentPathFinder.FileSystemManager.ExistPath(customModuleReportPath))
                 return null;
 
             string userDirectoryName = GetValidUserDirectoryOrFileName();
@@ -641,35 +639,36 @@ namespace Microarea.Common.MenuLoader
             if (userDirectoryName == null || userDirectoryName.Length == 0)
                 return null;
 
-            string standardModuleReportpath = PathFinder.GetApplicationModulePath(aApplication.Name, aModuleName) + Path.DirectorySeparatorChar + NameSolverStrings.Report;
-            DirectoryInfo standardModuleReportDirInfo = new DirectoryInfo(standardModuleReportpath);
+            string standardModuleReportpath = CurrentPathFinder.GetApplicationModulePath(aApplication.Name, aModuleName) + NameSolverStrings.Directoryseparetor + NameSolverStrings.Report;
 
-            bool addAllCustomReports = (standardModuleReportDirInfo == null || !standardModuleReportDirInfo.Exists);
+
+            bool addAllCustomReports = !CurrentPathFinder.FileSystemManager.ExistPath(standardModuleReportpath);
 
             ArrayList userCreatedReports = new ArrayList();
 
             // Prima carico i report relativi all'utente corrente. Infatti, se esiste per tale utente
             // un report con un dato nome, poi non devo considerare file di report "omonimi" relativi 
             // a tutti gli utenti (AllUsers)
-            FileInfo[] currentUserCustomReportFiles = null;
+            List<TBFile> currentUserCustomReportFiles = null;
             if
                 (
                 userDirectoryName != null &&
                 userDirectoryName.Length > 0 &&
                 userDirectoryName != NameSolverStrings.AllUsers &&
-                Directory.Exists(customModuleReportDirInfo.FullName + Path.DirectorySeparatorChar + Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName))
+                CurrentPathFinder.FileSystemManager.ExistPath(customModuleReportPath + NameSolverStrings.Directoryseparetor + Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName))
                 )
             {
-                currentUserCustomReportFiles = customModuleReportDirInfo.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WrmExtension);
-                if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Length > 0)
+                currentUserCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) , "*" + NameSolverStrings.WrmExtension);
+                if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Count > 0)
                 {
-                    foreach (FileInfo currentUserCustomReportFileInfo in currentUserCustomReportFiles)
+                    foreach (TBFile currentUserCustomReportFileInfo in currentUserCustomReportFiles)
                     {
+
                         string reportNamespace = string.Join(
                             ".",
                             aApplication.Name,
                             aModuleName,
-                            currentUserCustomReportFileInfo.Name.Replace(currentUserCustomReportFileInfo.Extension, string.Empty)
+                            currentUserCustomReportFileInfo.completeFileName.Replace(NameSolverStrings.WrmExtension, string.Empty)
                             );
 
                         // Controllo che non esista un file omonimo sotto la standard perch?in tal caso
@@ -679,54 +678,54 @@ namespace Microarea.Common.MenuLoader
                         // va comunque aggiunto nei report dell'utente (anche se c'?un file omonimo nella standsard)
                         if
                             (
-                            BaseApplicationInfo.IsValidReportFileName(currentUserCustomReportFileInfo.Name) &&
-                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, currentUserCustomReportFileInfo.Name) &&
+                            ApplicationInfo.IsValidReportFileName(currentUserCustomReportFileInfo.name) &&
+                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, currentUserCustomReportFileInfo.name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, reportNamespace, MenuXmlNode.XML_TAG_REPORT) &&
                             (
                             addAllCustomReports ||
-                            !File.Exists(standardModuleReportDirInfo.FullName + Path.DirectorySeparatorChar + currentUserCustomReportFileInfo.Name)
+                            !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + currentUserCustomReportFileInfo.name)
+                             )
                             )
-                            )
-                            userCreatedReports.Add(currentUserCustomReportFileInfo.Name);
+                            userCreatedReports.Add(currentUserCustomReportFileInfo.name);
                     }
                 }
             }
             // Una volta caricati gli eventuali nuovi report per l'utente corrente posso vedere quali altri
             // report di questo tipo trovo sotto AllUsers
-            if (Directory.Exists(customModuleReportDirInfo.FullName + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers))
+            if (CurrentPathFinder.FileSystemManager.ExistPath(customModuleReportPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers))
             {
-                FileInfo[] allUsersCustomReportFiles = customModuleReportDirInfo.GetFiles(NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WrmExtension);
-                if (allUsersCustomReportFiles != null && allUsersCustomReportFiles.Length > 0)
+                List<TBFile> allUsersCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(customModuleReportPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers , "*" + NameSolverStrings.WrmExtension);
+                if (allUsersCustomReportFiles != null && allUsersCustomReportFiles.Count > 0)
                 {
-                    foreach (FileInfo allUsersCustomReportFileInfo in allUsersCustomReportFiles)
+                    foreach (TBFile allUsersCustomReportFileInfo in allUsersCustomReportFiles)
                     {
                         string reportNamespace = string.Join(
                             ".",
                             aApplication.Name,
                             aModuleName,
-                            allUsersCustomReportFileInfo.Name.Replace(allUsersCustomReportFileInfo.Extension, string.Empty)
+                            allUsersCustomReportFileInfo.name.Replace(NameSolverStrings.WrmExtension, string.Empty)
                             );
 
                         // Prima controllo che non esista un file omonimo sotto la standard o che
                         // il report non venga mai menzionato nel men?di applicazione.
                         if
                             (
-                            BaseApplicationInfo.IsValidReportFileName(allUsersCustomReportFileInfo.Name) &&
-                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, allUsersCustomReportFileInfo.Name) &&
+                            ApplicationInfo.IsValidReportFileName(allUsersCustomReportFileInfo.name) &&
+                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, allUsersCustomReportFileInfo.name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, reportNamespace, MenuXmlNode.XML_TAG_REPORT) &&
                             (
                             addAllCustomReports ||
-                            !File.Exists(standardModuleReportDirInfo.FullName + Path.DirectorySeparatorChar + allUsersCustomReportFileInfo.Name)
+                            !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + allUsersCustomReportFileInfo.name)
                             )
                             )
                         {
                             bool ignoreReport = false;
                             // Adesso vedo se ho precedentemente trovato un report con lo stesso nome relativo all'utente corrente
-                            if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Length > 0)
+                            if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Count > 0)
                             {
-                                foreach (FileInfo currentUserCustomReportFileInfo in currentUserCustomReportFiles)
+                                foreach (TBFile currentUserCustomReportFileInfo in currentUserCustomReportFiles)
                                 {
-                                    if (String.Compare(currentUserCustomReportFileInfo.Name, allUsersCustomReportFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0)
+                                    if (String.Compare(currentUserCustomReportFileInfo.name, allUsersCustomReportFileInfo.name, StringComparison.OrdinalIgnoreCase) == 0)
                                     {
                                         ignoreReport = true;
                                         break;
@@ -734,7 +733,7 @@ namespace Microarea.Common.MenuLoader
                                 }
                             }
                             if (!ignoreReport)
-                                userCreatedReports.Add(allUsersCustomReportFileInfo.Name);
+                                userCreatedReports.Add(allUsersCustomReportFileInfo.name);
                         }
                     }
                 }
@@ -744,7 +743,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        private bool AddUserCreatedOfficeFilesGroup(string aApplicationName, BaseModuleInfo aModule, ArrayList userCreatedOfficeFiles)
+        private bool AddUserCreatedOfficeFilesGroup(string aApplicationName, ModuleInfo aModule, ArrayList userCreatedOfficeFiles)
         {
             if (userCreatedOfficeFiles == null || userCreatedOfficeFiles.Count <= 0)
                 return false;
@@ -800,7 +799,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         private ArrayList SearchUserCreatedOfficeFiles
             (
-            BaseApplicationInfo aApplication,
+            ApplicationInfo aApplication,
             string aModuleName,
             CommandsTypeToLoad commandsTypeToLoad
             )
@@ -808,13 +807,11 @@ namespace Microarea.Common.MenuLoader
             if (aApplication == null || aModuleName.IsNullOrEmpty())
                 return null;
 
-            string customModuleOfficeFilesPath = PathFinder.GetCustomModulePath(aApplication.Name, aModuleName);
-            if (!Directory.Exists(customModuleOfficeFilesPath))
+            string customModuleOfficeFilesPath = CurrentPathFinder.GetCustomModulePath(aApplication.Name, aModuleName);
+            if (!CurrentPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath))
                 return null;
 
-            DirectoryInfo customModuleOfficeFilesDirInfo = new DirectoryInfo(customModuleOfficeFilesPath);
-
-            if (customModuleOfficeFilesDirInfo == null || !customModuleOfficeFilesDirInfo.Exists)
+            if (!CurrentPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath))
                 return null;
 
             string userDirectoryName = GetValidUserDirectoryOrFileName();
@@ -822,10 +819,10 @@ namespace Microarea.Common.MenuLoader
             if (userDirectoryName == null || userDirectoryName.Length == 0)
                 return null;
 
-            string standardModuleOfficeFilespath = PathFinder.GetApplicationModulePath(aApplication.Name, aModuleName);
-            DirectoryInfo standardModuleOfficeFilesDirInfo = new DirectoryInfo(standardModuleOfficeFilespath);
+            string standardModuleOfficeFilespath = CurrentPathFinder.GetApplicationModulePath(aApplication.Name, aModuleName);
 
-            bool addAllCustomOfficeFiles = (standardModuleOfficeFilesDirInfo == null || !standardModuleOfficeFilesDirInfo.Exists);
+
+            bool addAllCustomOfficeFiles = !CurrentPathFinder.FileSystemManager.ExistPath(standardModuleOfficeFilespath);
 
             ArrayList userCreatedOfficeFiles = new ArrayList();
 
@@ -845,28 +842,28 @@ namespace Microarea.Common.MenuLoader
                 if
                     (
                     ((commandsTypeToLoad & CommandsTypeToLoad.ExcelItem) == CommandsTypeToLoad.ExcelItem) &&
-                    Directory.Exists(customModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Excel + Path.DirectorySeparatorChar + userPath)
+                    menuPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + userPath)
                     )
                 {
-                    FileInfo[] excelDocuments = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Excel + Path.DirectorySeparatorChar + userPath + Path.DirectorySeparatorChar + "*" + NameSolverStrings.ExcelDocumentExtension);
-                    if (excelDocuments != null && excelDocuments.Length > 0)
+                    List<TBFile> excelDocuments = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + userPath ,"*" + NameSolverStrings.ExcelDocumentExtension);
+                    if (excelDocuments != null && excelDocuments.Count > 0)
                         currentUserCustomOfficeFiles.AddRange(excelDocuments);
-                    FileInfo[] excelTemplates = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Excel + Path.DirectorySeparatorChar + userPath + Path.DirectorySeparatorChar + "*" + NameSolverStrings.ExcelTemplateExtension);
-                    if (excelTemplates != null && excelTemplates.Length > 0)
+                    List<TBFile> excelTemplates = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + userPath , "*" + NameSolverStrings.ExcelTemplateExtension);
+                    if (excelTemplates != null && excelTemplates.Count > 0)
                         currentUserCustomOfficeFiles.AddRange(excelTemplates);
                 }
 
                 if
                     (
                     ((commandsTypeToLoad & CommandsTypeToLoad.WordItem) == CommandsTypeToLoad.WordItem) &&
-                    Directory.Exists(customModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Word + Path.DirectorySeparatorChar + userPath)
+                    menuPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Word + NameSolverStrings.Directoryseparetor + userPath)
                     )
                 {
-                    FileInfo[] wordDocuments = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Word + Path.DirectorySeparatorChar + userPath + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WordDocumentExtension);
-                    if (wordDocuments != null && wordDocuments.Length > 0)
+                    List<TBFile> wordDocuments = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Word + NameSolverStrings.Directoryseparetor + userPath , "*" + NameSolverStrings.WordDocumentExtension);
+                    if (wordDocuments != null && wordDocuments.Count > 0)
                         currentUserCustomOfficeFiles.AddRange(wordDocuments);
-                    FileInfo[] wordTemplates = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Word + Path.DirectorySeparatorChar + userPath + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WordTemplateExtension);
-                    if (wordTemplates != null && wordTemplates.Length > 0)
+                    List<TBFile> wordTemplates = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Word + NameSolverStrings.Directoryseparetor , "*" + NameSolverStrings.WordTemplateExtension);
+                    if (wordTemplates != null && wordTemplates.Count > 0)
                         currentUserCustomOfficeFiles.AddRange(wordTemplates);
                 }
 
@@ -888,12 +885,12 @@ namespace Microarea.Common.MenuLoader
                         // va comunque aggiunto nei file di Office dell'utente (anche se c'è un file omonimo nella
                         // standard)
                         if (
-                            BaseApplicationInfo.IsValidOfficeFileName(currentUserCustomOfficeFileInfo.Name) &&
+                            ApplicationInfo.IsValidOfficeFileName(currentUserCustomOfficeFileInfo.Name) &&
                             !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, currentUserCustomOfficeFileInfo.Name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, officeNamespace, MenuXmlNode.XML_TAG_OFFICE_ITEM) &&
                             (
                             addAllCustomOfficeFiles ||
-                            !File.Exists(standardModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + currentUserCustomOfficeFileInfo.Name)
+                            !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + currentUserCustomOfficeFileInfo.Name)
                             )
                             )
                             userCreatedOfficeFiles.Add(currentUserCustomOfficeFileInfo.Name);
@@ -907,29 +904,29 @@ namespace Microarea.Common.MenuLoader
             if
                 (
                 ((commandsTypeToLoad & CommandsTypeToLoad.ExcelItem) == CommandsTypeToLoad.ExcelItem) &&
-                Directory.Exists(customModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Excel + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers)
+                menuPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers)
                 )
             {
-                FileInfo[] excelDocuments = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Excel + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.ExcelDocumentExtension);
-                if (excelDocuments != null && excelDocuments.Length > 0)
+                List<TBFile> excelDocuments = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers, "*" + NameSolverStrings.ExcelDocumentExtension);
+                if (excelDocuments != null && excelDocuments.Count > 0)
                     allUsersCustomOfficeFiles.AddRange(excelDocuments);
 
-                FileInfo[] excelTemplates = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Excel + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.ExcelTemplateExtension);
-                if (excelTemplates != null && excelTemplates.Length > 0)
+                List<TBFile> excelTemplates = menuPathFinder.FileSystemManager.GetFiles(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Excel + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers , "*" + NameSolverStrings.ExcelTemplateExtension);
+                if (excelTemplates != null && excelTemplates.Count > 0)
                     allUsersCustomOfficeFiles.AddRange(excelTemplates);
             }
 
             if
                 (
                 ((commandsTypeToLoad & CommandsTypeToLoad.WordItem) == CommandsTypeToLoad.WordItem) &&
-                Directory.Exists(customModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Word + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers)
+                menuPathFinder.FileSystemManager.ExistPath(customModuleOfficeFilesPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Word + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers)
                 )
             {
-                FileInfo[] wordDocuments = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Word + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WordDocumentExtension);
-                if (wordDocuments != null && wordDocuments.Length > 0)
+                List<TBFile> wordDocuments = menuPathFinder.FileSystemManager.GetFiles(NameSolverStrings.Word + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers + NameSolverStrings.Directoryseparetor , "*" + NameSolverStrings.WordDocumentExtension);
+                if (wordDocuments != null && wordDocuments.Count > 0)
                     allUsersCustomOfficeFiles.AddRange(wordDocuments);
-                FileInfo[] wordTemplates = customModuleOfficeFilesDirInfo.GetFiles(NameSolverStrings.Word + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.WordTemplateExtension);
-                if (wordTemplates != null && wordTemplates.Length > 0)
+                List<TBFile> wordTemplates = menuPathFinder.FileSystemManager.GetFiles(NameSolverStrings.Word + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers + NameSolverStrings.Directoryseparetor , "*" + NameSolverStrings.WordTemplateExtension);
+                if (wordTemplates != null && wordTemplates.Count > 0)
                     allUsersCustomOfficeFiles.AddRange(wordTemplates);
             }
 
@@ -947,12 +944,12 @@ namespace Microarea.Common.MenuLoader
                     // il file di Office non venga mai menzionato nel men?di applicazione.
                     if
                         (
-                        BaseApplicationInfo.IsValidOfficeFileName(allUsersCustomOfficeFileInfo.Name) &&
+                        ApplicationInfo.IsValidOfficeFileName(allUsersCustomOfficeFileInfo.Name) &&
                         !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, allUsersCustomOfficeFileInfo.Name) &&
                         !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, officeNamespace, MenuXmlNode.XML_TAG_OFFICE_ITEM) &&
                         (
                         addAllCustomOfficeFiles ||
-                        !File.Exists(standardModuleOfficeFilesDirInfo.FullName + Path.DirectorySeparatorChar + allUsersCustomOfficeFileInfo.Name)
+                        !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + allUsersCustomOfficeFileInfo.Name)
                         )
                         )
                     {
@@ -1025,40 +1022,6 @@ namespace Microarea.Common.MenuLoader
             return appNode.ExistsOfficeMenuCommand(aModuleName, aOfficeFileName);
         }
 
-        //---------------------------------------------------------------------------
-        private void InitSecurityLightDeniedAccesses()
-        {
-            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-            if (session == null || session.LoginManagerSessionState != LoginManagerState.Logged)
-                return;
-
-            LoginManager.LoginManagerInstance.RefreshSecurityStatus();
-            if (!LoginManager.LoginManagerInstance.IsSecurityLightEnabled())
-                return;
-        }
-
-        //---------------------------------------------------------------------------
-        private bool CleanSecurityLightDeniedAccesses(MenuXmlParser aParser, CommandsTypeToLoad commandTypesToClean)
-        {
-            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-            if (
-                aParser == null ||
-                session == null ||
-                session.LoginManagerSessionState != LoginManagerState.Logged ||
-                !LoginManager.LoginManagerInstance.IsSecurityLightEnabled()
-                )
-                return false;
-
-            SecurityLightManager.CleanDeniedAccesses(aParser, commandTypesToClean, menuPathFinder, LoginManager.LoginManagerInstance.GetSystemDBConnectionString(session.AuthenticationToken));
-            return true;
-        }
-
-        //---------------------------------------------------------------------------
-        private bool CleanSecurityLightDeniedAccesses(MenuXmlParser aParser)
-        {
-            return CleanSecurityLightDeniedAccesses(aParser, CommandsTypeToLoad.All);
-        }
-
         #region MenuInfo standard menu caching
 
         //---------------------------------------------------------------------------
@@ -1097,7 +1060,7 @@ namespace Microarea.Common.MenuLoader
         #region MenuInfo private static methods
 
         //---------------------------------------------------------------------------
-        private static string GetExternalAppCmdDescription(IPathFinder aPathFinder, MenuXmlNode aCommandNode)
+        private static string GetExternalAppCmdDescription(PathFinder aPathFinder, MenuXmlNode aCommandNode)
         {
             if
                 (
@@ -1146,7 +1109,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public MenuXmlParser EnvironmentXmlParser { get { return cachedInfos.EnvironmentXmlParser; } }
         //---------------------------------------------------------------------------
-        public IPathFinder PathFinder { get { return menuPathFinder; } }
+        public PathFinder CurrentPathFinder { get { return menuPathFinder; } }
         //---------------------------------------------------------------------------
         public List<ApplicationMenuInfo> ApplicationsInfo { get { return cachedInfos.ApplicationsInfo; } }
         //---------------------------------------------------------------------------
@@ -1200,12 +1163,12 @@ namespace Microarea.Common.MenuLoader
                 {
                     int modulesTotalCount = 0;
                     //prima li conto tutti per sapere il totale a beneficio della progress bar
-                    foreach (BaseApplicationInfo appInfo in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+                    foreach (ApplicationInfo appInfo in CurrentPathFinder.ApplicationInfos)
                     {
                         if (appInfo.ApplicationType != ApplicationType.TaskBuilderApplication && appInfo.ApplicationType != ApplicationType.TaskBuilder)
                             continue;
 
-                        foreach (BaseModuleInfo moduleInfo in appInfo.Modules)
+                        foreach (ModuleInfo moduleInfo in appInfo.Modules)
                         {
                             bool moduleFound = activatedModules.Exists((s) => { return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0; });
                             if (moduleFound)
@@ -1218,7 +1181,7 @@ namespace Microarea.Common.MenuLoader
                 cachedInfos.ApplicationsInfo = new List<ApplicationMenuInfo>();
 
                 //poi inizio a leggere le informazioni
-                foreach (BaseApplicationInfo appInfo in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+                foreach (ApplicationInfo appInfo in CurrentPathFinder.ApplicationInfos)
                 {
                     if (
                         appInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
@@ -1234,7 +1197,7 @@ namespace Microarea.Common.MenuLoader
 
                     if (appInfo.Modules != null && aApplication != null)
                     {
-                        foreach (BaseModuleInfo moduleInfo in appInfo.Modules)
+                        foreach (ModuleInfo moduleInfo in appInfo.Modules)
                         {
                             bool moduleFound = activatedModules.Exists((s) => { return string.Compare(s, appInfo.Name + "." + moduleInfo.Name, StringComparison.OrdinalIgnoreCase) == 0; });
                             if (!moduleFound)
@@ -1242,9 +1205,9 @@ namespace Microarea.Common.MenuLoader
 
                             ModuleMenuInfo aModule = new ModuleMenuInfo(moduleInfo.Name, moduleInfo.ModuleConfigInfo.Title, moduleInfo.ModuleConfigInfo.MenuViewOrder);
 
-                            string fullStandardPath = BasePathFinder.BasePathFinderInstance.GetApplicationModulePath(aApplication.Name, aModule.Name);
+                            string fullStandardPath = CurrentPathFinder.GetApplicationModulePath(aApplication.Name, aModule.Name);
 
-                            DirectoryInfo moduleMenuDirInfo = new DirectoryInfo(fullStandardPath + Path.DirectorySeparatorChar + NameSolverStrings.Menu);
+                            string moduleMenuDirInfopath = fullStandardPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Menu;
 
                             if (
                                 appInfo.ApplicationType == ApplicationType.Customization ||
@@ -1252,41 +1215,40 @@ namespace Microarea.Common.MenuLoader
                                 appInfo.ApplicationType == ApplicationType.StandardModuleWrapper
                                 )
                             {
-                                aModule.StandardMenuPath = moduleMenuDirInfo.FullName;
+                                aModule.StandardMenuPath = moduleMenuDirInfopath;
                                 //Do per scontato che menuPathFinder.User abbia un valore sensato perchè se invece è vuoto allora c'e un problema a monte.
-                                string workingMenuPath = Path.Combine(moduleMenuDirInfo.FullName, menuPathFinder.User);
+                                string workingMenuPath = Path.Combine(moduleMenuDirInfopath, menuPathFinder.User);
 
-                                DirectoryInfo workingDirInfo = new DirectoryInfo(workingMenuPath);
-                                FileInfo[] menuFiles = null;
+                                List<TBFile> menuFiles = null;
 
-                                if (workingDirInfo.Exists)
+                                if (CurrentPathFinder.FileSystemManager.ExistPath(workingMenuPath))
                                 {
-                                    menuFiles = workingDirInfo.GetFiles("*" + NameSolverStrings.MenuExtension);
-                                    aModule.StandardMenuPath = workingDirInfo.FullName;
+                                    menuFiles = CurrentPathFinder.FileSystemManager.GetFiles(workingMenuPath, "*" + NameSolverStrings.MenuExtension);
+                                    aModule.StandardMenuPath = workingMenuPath;
                                 }
-                                if ((menuFiles == null || menuFiles.Length <= 0) && moduleMenuDirInfo.Exists)
+                                if (CurrentPathFinder.FileSystemManager.ExistPath(moduleMenuDirInfopath))
                                 {
-                                    menuFiles = moduleMenuDirInfo.GetFiles("*" + NameSolverStrings.MenuExtension);
-                                    aModule.StandardMenuPath = moduleMenuDirInfo.FullName;
+                                    menuFiles = CurrentPathFinder.FileSystemManager.GetFiles(moduleMenuDirInfopath, "*" + NameSolverStrings.MenuExtension);
+                                    aModule.StandardMenuPath = moduleMenuDirInfopath;
                                 }
 
-                                if (menuFiles == null || menuFiles.Length <= 0)
+                                if (menuFiles == null || menuFiles.Count <= 0)
                                     continue;
 
-                                foreach (FileInfo aMenuFileInfo in menuFiles)
-                                    aModule.AddStandardMenuFile(aMenuFileInfo.Name);
+                                foreach (TBFile aMenuFileInfo in menuFiles)
+                                    aModule.AddStandardMenuFile(aMenuFileInfo.name);
                             }
-                            else if (moduleMenuDirInfo != null && moduleMenuDirInfo.Exists)
+                            else if (CurrentPathFinder.FileSystemManager.ExistPath(moduleMenuDirInfopath))
                             {
-                                aModule.StandardMenuPath = moduleMenuDirInfo.FullName;
+                                aModule.StandardMenuPath = moduleMenuDirInfopath;
                                 // Se c'?la directory Menu e contiene dei file .menu inserisco
                                 // il modulo nella lista
-                                FileInfo[] menuFiles = moduleMenuDirInfo.GetFiles("*" + NameSolverStrings.MenuExtension);
-                                if (menuFiles.Length <= 0)
+                                List<TBFile> menuFiles = CurrentPathFinder.FileSystemManager.GetFiles(moduleMenuDirInfopath, "*" + NameSolverStrings.MenuExtension);
+                                if (menuFiles.Count <= 0)
                                     continue;
 
-                                foreach (FileInfo aMenuFileInfo in menuFiles)
-                                    aModule.AddStandardMenuFile(aMenuFileInfo.Name);
+                                foreach (TBFile aMenuFileInfo in menuFiles)
+                                    aModule.AddStandardMenuFile(aMenuFileInfo.name);
                             }
 
                             aApplication.AddModuleMenuInfos(aModule);
@@ -1338,31 +1300,31 @@ namespace Microarea.Common.MenuLoader
 
                 foreach (ModuleMenuInfo aModule in aApplication.ModulesMenuInfos)
                 {
-                    string fullCustomPath = PathFinder.GetCustomModulePath(aApplication.Name, aModule.Name);
-                    DirectoryInfo moduleCustomMenuDirInfo = new DirectoryInfo(fullCustomPath + Path.DirectorySeparatorChar + NameSolverStrings.Menu);
-                    if (moduleCustomMenuDirInfo != null && moduleCustomMenuDirInfo.Exists)
+                    string fullCustomPath = CurrentPathFinder.GetCustomModulePath(aApplication.Name, aModule.Name);
+                    
+                    if (CurrentPathFinder.FileSystemManager.ExistPath(fullCustomPath))
                     {
-                        aModule.SetCustomMenuPaths(moduleCustomMenuDirInfo.FullName, userName);
+                        aModule.SetCustomMenuPaths(fullCustomPath, userName);
 
-                        FileInfo[] menuFiles = null;
-                        if (Directory.Exists(aModule.CustomAllUsersMenuPath))
+                        List<TBFile> menuFiles = null;
+                        if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aModule.CustomAllUsersMenuPath))
                         {
-                            menuFiles = moduleCustomMenuDirInfo.GetFiles(NameSolverStrings.AllUsers + Path.DirectorySeparatorChar + "*" + NameSolverStrings.MenuExtension);
-                            if (menuFiles.Length > 0)
+                            menuFiles = CurrentPathFinder.FileSystemManager.GetFiles(fullCustomPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers + NameSolverStrings.Directoryseparetor , "*" + NameSolverStrings.MenuExtension);
+                            if (menuFiles.Count  > 0)
                             {
-                                foreach (FileInfo aMenuFileInfo in menuFiles)
-                                    aModule.AddCustomAllUsersMenuFile(aMenuFileInfo.Name);
+                                foreach (TBFile aMenuFileInfo in menuFiles)
+                                    aModule.AddCustomAllUsersMenuFile(aMenuFileInfo.name);
                             }
                         }
                         if (userName != null && userName.Length > 0 && userName != NameSolverStrings.AllUsers)
                         {
-                            if (Directory.Exists(aModule.CustomCurrentUserMenuPath))
+                            if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aModule.CustomCurrentUserMenuPath))
                             {
-                                menuFiles = moduleCustomMenuDirInfo.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userName) + Path.DirectorySeparatorChar + "*" + NameSolverStrings.MenuExtension);
-                                if (menuFiles.Length > 0)
+                                menuFiles = PathFinder.PathFinderInstance.FileSystemManager.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userName) , "*" + NameSolverStrings.MenuExtension);
+                                if (menuFiles.Count  > 0)
                                 {
-                                    foreach (FileInfo aMenuFileInfo in menuFiles)
-                                        aModule.AddCustomCurrentUserMenuFile(aMenuFileInfo.Name);
+                                    foreach (TBFile aMenuFileInfo in menuFiles)
+                                        aModule.AddCustomCurrentUserMenuFile(aMenuFileInfo.name);
                                 }
                             }
                         }
@@ -1463,13 +1425,13 @@ namespace Microarea.Common.MenuLoader
             }
 
             //leggo i documentobjects in un task a parte
-            Task<List<DocumentInfo>> docInfoTask = Task.Factory.StartNew<List<DocumentInfo>>(() => { return GetCustomDocuments(this.AppsMenuXmlParser, commandsTypeToLoad); });
+            Task<List<DocumentInfo>> docInfoTask = Task.Factory.StartNew<List<DocumentInfo>>(() => { return GetCustomDocuments(this.AppsMenuXmlParser, commandsTypeToLoad, CurrentPathFinder); });
 
             // Adesso che ho caricato i menu di TUTTE le applicazioni ed il mio menu completo, devo
             // andare a vedere se ci sono dei nuovi report o dei file di Office costruiti ex-novo dall'utente.
             // Lo faccio DOPO aver caricato i menù di tutti i moduli di ciascuna applicazione di modo che il
             // gruppo dei report dell'utente compaia sempre per ultimo!!!
-            foreach (BaseApplicationInfo aApplication in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            foreach (ApplicationInfo aApplication in CurrentPathFinder.ApplicationInfos)
             {
                 //report dell'utente
                 if ((commandsTypeToLoad & CommandsTypeToLoad.Report) == CommandsTypeToLoad.Report)
@@ -1485,10 +1447,6 @@ namespace Microarea.Common.MenuLoader
 
             if (!ignoreAllSecurityChecks)
             {
-                CleanSecurityLightDeniedAccesses(AppsMenuXmlParser, commandsTypeToLoad);
-                if (environmentStandAlone)
-                    CleanSecurityLightDeniedAccesses(EnvironmentXmlParser, commandsTypeToLoad);
-
                 if (menuSecurityFilter != null)
                 {
                     menuSecurityFilter.Filter(cachedInfos.AppsMenuXmlParser);
@@ -1502,11 +1460,11 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public static string GetFullMenuCachingFullFileName(string user)
         {
-            string clientInstallationPath = BasePathFinder.BasePathFinderInstance.GetAppDataPath(true);
+            string clientInstallationPath = PathFinder.PathFinderInstance.GetAppDataPath(true);
             clientInstallationPath = Path.Combine(clientInstallationPath, user);
 
-            if (!Directory.Exists(clientInstallationPath))
-                Directory.CreateDirectory(clientInstallationPath);
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(clientInstallationPath))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(clientInstallationPath, false);
 
             return Path.Combine(
                 clientInstallationPath,
@@ -1523,9 +1481,9 @@ namespace Microarea.Common.MenuLoader
         /// I comandi hanno come titolo il nome file del report.
         /// </summary>
         //---------------------------------------------------------------------------
-        private void SearchAndAddUserCreatedReportsGroup(BaseApplicationInfo aApplication)
+        private void SearchAndAddUserCreatedReportsGroup(ApplicationInfo aApplication)
         {
-            foreach (BaseModuleInfo aModule in aApplication.Modules)
+            foreach (ModuleInfo aModule in aApplication.Modules)
             {
                 ArrayList userCreatedReports = SearchUserCreatedReportFiles(aApplication, aModule.Name);
                 AddUserCreatedReportsGroup(aApplication.Name, aModule, userCreatedReports);
@@ -1537,20 +1495,73 @@ namespace Microarea.Common.MenuLoader
         /// dell'utente" nel menù
         /// </summary>
         //---------------------------------------------------------------------------
-        private void SearchAndAddUserCreatedOfficeFilesGroup(BaseApplicationInfo aApplication, CommandsTypeToLoad commandsTypeToLoad)
+        private void SearchAndAddUserCreatedOfficeFilesGroup(ApplicationInfo aApplication, CommandsTypeToLoad commandsTypeToLoad)
         {
-            foreach (BaseModuleInfo aModule in aApplication.Modules)
+            foreach (ModuleInfo aModule in aApplication.Modules)
             {
                 ArrayList userCreatedOfficeFiles = SearchUserCreatedOfficeFiles(aApplication, aModule.Name, commandsTypeToLoad);
                 AddUserCreatedOfficeFilesGroup(aApplication.Name, aModule, userCreatedOfficeFiles);
             }
         }
 
+        //---------------------------------------------------------------------
+        private static List<DocumentInfo> GetCustomDocuments(
+            MenuXmlParser xmlParser,
+            CommandsTypeToLoad commandsTypeToLoad
+            )
+        {
+            List<DocumentInfo> dynamicDocuments = new List<DocumentInfo>();
 
+            if (
+                (commandsTypeToLoad & CommandsTypeToLoad.Form) != CommandsTypeToLoad.Form &&
+                (commandsTypeToLoad & CommandsTypeToLoad.Batch) != CommandsTypeToLoad.Batch
+                )
+                return dynamicDocuments;
+
+            string nodeTypeName = null;
+            foreach (ApplicationInfo bai in PathFinder.PathFinderInstance.ApplicationInfos)
+            {
+                //La standardizzazione fatta con EasyBuilder viene qui saltata perchè i suoi documenti sono messi
+                //a menù dai relativi file di menù.
+                //Serve anche per le logiche di attivazione, altirmenti, nel caso in cui un eventuale modulo non fosse attivato,
+                //il relativo documento verrebbe caricato nel gruppo "Custom Documents".
+                if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
+                    continue;
+
+                foreach (ModuleInfo bmi in bai.Modules)
+                {
+                    if (bmi.Documents == null || bmi.Documents.Count == 0)
+                        continue;
+
+                    foreach (DocumentInfo di in bmi.Documents)
+                    {
+                        if (!di.IsDynamic && di.TemplateNamespace == null)
+                            continue;
+
+                        if (di.NameSpace == null)
+                            continue;
+
+                        if (di.IsDataEntry)
+                            nodeTypeName = MenuXmlNode.XML_TAG_DOCUMENT;
+                        else if (di.IsBatch)
+                            nodeTypeName = MenuXmlNode.XML_TAG_BATCH;
+                        else
+                        {
+                            nodeTypeName = null;
+                            continue;
+                        }
+                        if (!ExistInCustomizedMenu(xmlParser.MenuXmlDoc, di.NameSpace.GetNameSpaceWithoutType(), nodeTypeName))
+                            dynamicDocuments.Add(di);
+                    }
+                }
+            }
+            return dynamicDocuments;
+        }
         //---------------------------------------------------------------------------
         public void RefreshUserDocumentsGroup()
         {
             CommandsTypeToLoad commandsTypeToLoad = CommandsTypeToLoad.Form;
+
             //leggo i documentobjects in un task a parte
             Task<List<DocumentInfo>> docInfoTask = Task.Factory.StartNew<List<DocumentInfo>>(() => { return GetCustomDocuments(cachedInfos.AppsMenuXmlParser, commandsTypeToLoad); });
 
@@ -1591,17 +1602,18 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public void RefreshUserReportsGroup()
         {
-            foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            foreach (ApplicationInfo bai in CurrentPathFinder.ApplicationInfos)
                 ClearUserGroup(bai.Name, GetUserReportsGroupName(bai.Name));
 
-            foreach (BaseApplicationInfo aApplication in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            foreach (ApplicationInfo aApplication in CurrentPathFinder.ApplicationInfos)
                 SearchAndAddUserCreatedReportsGroup(aApplication);
         }
 
         //---------------------------------------------------------------------------
         private static List<DocumentInfo> GetCustomDocuments(
             MenuXmlParser xmlParser,
-            CommandsTypeToLoad commandsTypeToLoad
+            CommandsTypeToLoad commandsTypeToLoad,
+            PathFinder pathFinder
             )
         {
             List<DocumentInfo> dynamicDocuments = new List<DocumentInfo>();
@@ -1613,7 +1625,7 @@ namespace Microarea.Common.MenuLoader
                 return dynamicDocuments;
 
             string nodeTypeName = null;
-            foreach (BaseApplicationInfo bai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            foreach (ApplicationInfo bai in pathFinder.ApplicationInfos)
             {
                 //La standardizzazione fatta con EasyBuilder viene qui saltata perchè i suoi documenti sono messi
                 //a menù dai relativi file di menù.
@@ -1622,7 +1634,7 @@ namespace Microarea.Common.MenuLoader
                 if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
                     continue;
 
-                foreach (BaseModuleInfo bmi in bai.Modules)
+                foreach (ModuleInfo bmi in bai.Modules)
                 {
                     if (bmi.Documents == null || bmi.Documents.Count == 0)
                         continue;
@@ -1725,7 +1737,7 @@ namespace Microarea.Common.MenuLoader
                 return;
 
             string moduleName = di.NameSpace.Module/*di.OwnerModule.Name*/;
-            IBaseModuleInfo bmi = BasePathFinder.BasePathFinderInstance.GetModuleInfoByName(aApplicationName, moduleName);
+            ModuleInfo bmi = CurrentPathFinder.GetModuleInfoByName(aApplicationName, moduleName);
             if (bmi == null)
                 return;
             MenuXmlNode menuNode = groupNode.GetMenuNodeByTitle(bmi.Title);
@@ -1766,9 +1778,9 @@ namespace Microarea.Common.MenuLoader
 
             MenuXmlParser tmpfavoritesXmlParser = new MenuXmlParser();
 
-            if (!File.Exists(allUsersPrefFileName))// non esiste AllUsers.menu
+            if (!CurrentPathFinder.FileSystemManager.ExistFile(allUsersPrefFileName))
             {
-                if (userPrefFileName == null || userPrefFileName.Length == 0 || !File.Exists(userPrefFileName))// non esistono men?preferiti 
+                if (userPrefFileName == null || userPrefFileName.Length == 0 || !CurrentPathFinder.FileSystemManager.ExistFile(userPrefFileName))// non esistono men?preferiti 
                     return false;
 
                 if (!tmpfavoritesXmlParser.LoadFavoritesMenuFile(this, userPrefFileName, commandsTypeToLoad, false))
@@ -1778,8 +1790,6 @@ namespace Microarea.Common.MenuLoader
 
                 if (!ignoreAllSecurityChecks)
                 {
-                    CleanSecurityLightDeniedAccesses(favoritesXmlParser, commandsTypeToLoad);
-
                     if (menuSecurityFilter != null)
                         menuSecurityFilter.Filter(favoritesXmlParser);
                 }
@@ -1791,15 +1801,13 @@ namespace Microarea.Common.MenuLoader
             bool menuLoaded = tmpfavoritesXmlParser.LoadFavoritesMenuFile(this, allUsersPrefFileName, commandsTypeToLoad, false);
 
             // carico <user_name>.menu
-            if (userPrefFileName != null && userPrefFileName.Length > 0 && File.Exists(userPrefFileName))
+            if (userPrefFileName != null && userPrefFileName.Length > 0 && CurrentPathFinder.FileSystemManager.ExistFile(userPrefFileName))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(userPrefFileName))
                 menuLoaded = tmpfavoritesXmlParser.LoadFavoritesMenuFile(this, userPrefFileName, commandsTypeToLoad, false) || menuLoaded;
 
             favoritesXmlParser = tmpfavoritesXmlParser;
 
             if (!ignoreAllSecurityChecks)
             {
-                CleanSecurityLightDeniedAccesses(favoritesXmlParser, commandsTypeToLoad);
-
                 if (menuSecurityFilter != null)
                     menuSecurityFilter.Filter(favoritesXmlParser);
             }
@@ -1810,6 +1818,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public bool SaveUserFavoritesMenu()
         {
+            //deve rimanere cosi
             //if (favoritesXmlParser == null || favoritesXmlParser.XmlDocument == null)
             //    return false;
 
@@ -1832,13 +1841,13 @@ namespace Microarea.Common.MenuLoader
                 MenuXmlParser tmpfavoritesXmlParser = new MenuXmlParser();
 
                 // carico il file <user_name>.menu preesistente
-                if (!File.Exists(userPrefFileName))
+                if (!CurrentPathFinder.FileSystemManager.ExistFile(userPrefFileName))
                 {
                     // Se il file non esiste devo controllare che almeno esista la sua
                     // directory, altrimenti il salvataggio solleva un'eccezione
                     string userPrefFilePath = GetFavoritesMenuPath();
-                    if (!Directory.Exists(userPrefFilePath))
-                        Directory.CreateDirectory(userPrefFilePath);
+                    if (!CurrentPathFinder.FileSystemManager.ExistPath(userPrefFilePath))
+                        CurrentPathFinder.FileSystemManager.CreateFolder(userPrefFilePath, false);
                 }
                 else
                     tmpfavoritesXmlParser.LoadFavoritesMenuFile(this, userPrefFileName, CommandsTypeToLoad.All, true);
@@ -1846,7 +1855,7 @@ namespace Microarea.Common.MenuLoader
                 tmpfavoritesXmlParser.ApplyMenuChanges(traceFavoritesChanges.MenuActionsNode, CommandsTypeToLoad.All, true);
 
 
-                FileInfo file = new FileInfo(userPrefFileName);
+                FileInfo file = new FileInfo(userPrefFileName);// OK
                 using (StreamWriter sw = file.CreateText())
                 {
                     tmpfavoritesXmlParser.MenuXmlDoc.Save(sw);
@@ -1901,7 +1910,7 @@ namespace Microarea.Common.MenuLoader
             if (tmpfavoritesXmlParser.AddMenuNode(aMenuNodeToAdd, true, commandsTypeToLoad) == null)
                 return false;
 
-            tmpfavoritesXmlParser.CopyNodeImageInfos(aMenuNodeToAdd, originalMenuParser, this.PathFinder);
+            tmpfavoritesXmlParser.CopyNodeImageInfos(aMenuNodeToAdd, originalMenuParser, this.CurrentPathFinder);
 
             favoritesXmlParser = tmpfavoritesXmlParser;
 
@@ -1939,7 +1948,7 @@ namespace Microarea.Common.MenuLoader
             if (tmpfavoritesXmlParser.AddCommandNode(aCmdNodeToAdd, true, commandsTypeToLoad) == null)
                 return false;
 
-            tmpfavoritesXmlParser.CopyNodeImageInfos(aCmdNodeToAdd, originalMenuParser, this.PathFinder);
+            tmpfavoritesXmlParser.CopyNodeImageInfos(aCmdNodeToAdd, originalMenuParser, this.CurrentPathFinder);
 
             favoritesXmlParser = tmpfavoritesXmlParser;
 
@@ -2115,7 +2124,7 @@ namespace Microarea.Common.MenuLoader
 
         //TODOLUCA
         ////---------------------------------------------------------------------------
-        //public static string GetOfficeItemFileName(string itemObject, MenuXmlNode.MenuXmlNodeCommandSubType commandSubType, MenuXmlNode.OfficeItemApplication application, IPathFinder pathFinder, string languageName)
+        //public static string GetOfficeItemFileName(string itemObject, MenuXmlNode.MenuXmlNodeCommandSubType commandSubType, MenuXmlNode.OfficeItemApplication application, PathFinder pathFinder, string languageName)
         //{
         //	if
         //		(
@@ -2126,7 +2135,7 @@ namespace Microarea.Common.MenuLoader
         //		)
         //		return String.Empty;
 
-        //	NameSpace officeFileNameSpace = BasePathFinder.BasePathFinderInstance.GetOfficeItemNamespace(
+        //	NameSpace officeFileNameSpace = PathFinder.PathFinderInstance.GetOfficeItemNamespace(
         //		itemObject,
         //		commandSubType,
         //		application
@@ -2136,7 +2145,7 @@ namespace Microarea.Common.MenuLoader
         //}
 
         ////---------------------------------------------------------------------------
-        //public string GetOfficeItemFileName(MenuXmlNode aOfficeItemNode, IPathFinder pathFinder, string languageName)
+        //public string GetOfficeItemFileName(MenuXmlNode aOfficeItemNode, PathFinder pathFinder, string languageName)
         //{
         //	if (aOfficeItemNode == null || !aOfficeItemNode.IsOfficeItem)
         //		return String.Empty;
@@ -2156,7 +2165,7 @@ namespace Microarea.Common.MenuLoader
             if (index != -1)
             {
                 string newFileName = oldFileName.Insert(index, languageName);
-                if (newFileName != null && newFileName.Length > 0 && File.Exists(newFileName))
+                if (newFileName != null && newFileName.Length > 0 && PathFinder.PathFinderInstance.FileSystemManager.ExistFile(newFileName))
                     return newFileName;
             }
 
@@ -2175,7 +2184,7 @@ namespace Microarea.Common.MenuLoader
         //		)
         //		return String.Empty;
 
-        //	return BasePathFinder.BasePathFinderInstance.GetCustomAllCompaniesOfficeItem
+        //	return PathFinder.PathFinderInstance.GetCustomAllCompaniesOfficeItem
         //		(
         //		itemObject,
         //		commandSubType, 
@@ -2190,7 +2199,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static CommandOrigin GetMenuCommandOrigin(IPathFinder aPathFinder, MenuXmlNode aCommandNode, string language)
+        public static CommandOrigin GetMenuCommandOrigin(PathFinder aPathFinder, MenuXmlNode aCommandNode, string language)
         {
             if
                 (
@@ -2254,7 +2263,7 @@ namespace Microarea.Common.MenuLoader
         #region MenuInfo public static methods
 
         //---------------------------------------------------------------------------
-        public static CommandOrigin SetMenuCommandOrigin(IPathFinder aPathFinder, MenuXmlNode aCommandNode, string language)
+        public static CommandOrigin SetMenuCommandOrigin(PathFinder aPathFinder, MenuXmlNode aCommandNode, string language)
         {
             CommandOrigin commandOrigin = GetMenuCommandOrigin(aPathFinder, aCommandNode, language);
 
@@ -2265,7 +2274,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetUserFavoritesMenuFileName(IPathFinder aPathFinder)
+        public static string GetUserFavoritesMenuFileName(PathFinder aPathFinder)
         {
             string userDirectoryName = GetValidUserDirectoryOrFileName(aPathFinder);
 
@@ -2276,11 +2285,11 @@ namespace Microarea.Common.MenuLoader
             if (filePath == null || filePath.Length == 0)
                 return String.Empty;
 
-            return filePath + Path.DirectorySeparatorChar + userDirectoryName + NameSolverStrings.MenuExtension;
+            return filePath + NameSolverStrings.Directoryseparetor + userDirectoryName + NameSolverStrings.MenuExtension;
         }
 
         //---------------------------------------------------------------------------
-        public static string GetValidUserDirectoryOrFileName(IPathFinder aPathFinder)
+        public static string GetValidUserDirectoryOrFileName(PathFinder aPathFinder)
         {
             if
                 (
@@ -2295,7 +2304,7 @@ namespace Microarea.Common.MenuLoader
             char[] invalidFilenameChars = new char[]
                                 {
                                     Path.AltDirectorySeparatorChar ,
-                                    Path.DirectorySeparatorChar,
+                                    NameSolverStrings.Directoryseparetor,
                                     Path.PathSeparator,
                                     Path.VolumeSeparatorChar,
                                     '\"',
@@ -2324,17 +2333,17 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetAllUsersFavoritesMenuFileName(IPathFinder aPathFinder)
+        public static string GetAllUsersFavoritesMenuFileName(PathFinder aPathFinder)
         {
             string filePath = GetFavoritesMenuPath(aPathFinder);
             if (filePath == null || filePath.Length == 0)
                 return String.Empty;
 
-            return filePath + Path.DirectorySeparatorChar + NameSolverStrings.AllUsers + NameSolverStrings.MenuExtension;
+            return filePath + NameSolverStrings.Directoryseparetor + NameSolverStrings.AllUsers + NameSolverStrings.MenuExtension;
         }
 
         //---------------------------------------------------------------------------
-        public static string GetFavoritesMenuPath(IPathFinder aPathFinder)
+        public static string GetFavoritesMenuPath(PathFinder aPathFinder)
         {
             if (aPathFinder == null || aPathFinder.Company == null || aPathFinder.Company.Length == 0)
                 return String.Empty;
@@ -2350,11 +2359,11 @@ namespace Microarea.Common.MenuLoader
             if (customCompanyPath == null || customCompanyPath.Length == 0)
                 return String.Empty;
 
-            return customCompanyPath + Path.DirectorySeparatorChar + NameSolverStrings.Favorites + Path.DirectorySeparatorChar + NameSolverStrings.Menu;
+            return customCompanyPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Favorites + NameSolverStrings.Directoryseparetor + NameSolverStrings.Menu;
         }
 
         //---------------------------------------------------------------------------
-        public static string GetExternalDocumentDescription(IPathFinder aPathFinder, MenuXmlNode aDocumentNode)
+        public static string GetExternalDocumentDescription(PathFinder aPathFinder, MenuXmlNode aDocumentNode)
         {
             if
                 (
@@ -2370,7 +2379,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string SetExternalDocumentDescription(IPathFinder aPathFinder, MenuXmlNode aDocumentNode)
+        public static string SetExternalDocumentDescription(PathFinder aPathFinder, MenuXmlNode aDocumentNode)
         {
             if (aDocumentNode == null)
                 return String.Empty;
@@ -2384,7 +2393,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetExternalBatchDescription(IPathFinder aPathFinder, MenuXmlNode aBatchNode)
+        public static string GetExternalBatchDescription(PathFinder aPathFinder, MenuXmlNode aBatchNode)
         {
             if
                 (
@@ -2400,7 +2409,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string SetExternalBatchDescription(IPathFinder aPathFinder, MenuXmlNode aBatchNode)
+        public static string SetExternalBatchDescription(PathFinder aPathFinder, MenuXmlNode aBatchNode)
         {
             if (aBatchNode == null)
                 return String.Empty;
@@ -2414,7 +2423,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetExternalFunctionDescription(IPathFinder aPathFinder, MenuXmlNode aFunctionNode)
+        public static string GetExternalFunctionDescription(PathFinder aPathFinder, MenuXmlNode aFunctionNode)
         {
             if
                 (
@@ -2430,7 +2439,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string SetExternalFunctionDescription(IPathFinder aPathFinder, MenuXmlNode aFunctionNode)
+        public static string SetExternalFunctionDescription(PathFinder aPathFinder, MenuXmlNode aFunctionNode)
         {
             if (aFunctionNode == null)
                 return String.Empty;
@@ -2450,7 +2459,7 @@ namespace Microarea.Common.MenuLoader
         /// <returns></returns>
 
         //---------------------------------------------------------------------------
-        public static string GetExternalReportDescription(IPathFinder aPathFinder, MenuXmlNode aReportNode)
+        public static string GetExternalReportDescription(PathFinder aPathFinder, MenuXmlNode aReportNode)
         {
             if
                 (
@@ -2474,7 +2483,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetReportDescriptionFromNameSpace(IPathFinder aPathFinder, INameSpace reportNameSpace)
+        public static string GetReportDescriptionFromNameSpace(PathFinder aPathFinder, INameSpace reportNameSpace)
         {
             if
                 (
@@ -2490,7 +2499,7 @@ namespace Microarea.Common.MenuLoader
             //standard divisi per lingua. Con string.empty cerca nella cartella di default 19/6/2006
             string reportFileName = aPathFinder.GetFilename(reportNameSpace, string.Empty);
 
-            if (reportFileName == null || reportFileName.Length == 0 || !File.Exists(reportFileName))
+            if (reportFileName == null || reportFileName.Length == 0 || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(reportFileName))
                 return String.Empty;
 
             Parser reportParser = new Parser(Parser.SourceType.FromFile);
@@ -2516,7 +2525,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string SetExternalReportDescription(IPathFinder aPathFinder, MenuXmlNode aReportNode)
+        public static string SetExternalReportDescription(PathFinder aPathFinder, MenuXmlNode aReportNode)
         {
             if (aReportNode == null)
                 return String.Empty;
@@ -2530,7 +2539,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string GetExternalDescription(IPathFinder aPathFinder, MenuXmlNode aCommandNode)
+        public static string GetExternalDescription(PathFinder aPathFinder, MenuXmlNode aCommandNode)
         {
             if (aCommandNode == null || !(aCommandNode.IsCommand || aCommandNode.IsShortcut))
                 return String.Empty;
@@ -2551,7 +2560,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static string SetExternalDescription(IPathFinder aPathFinder, MenuXmlNode aCommandNode)
+        public static string SetExternalDescription(PathFinder aPathFinder, MenuXmlNode aCommandNode)
         {
             if (aCommandNode == null || !(aCommandNode.IsCommand || aCommandNode.IsShortcut))
                 return String.Empty;
@@ -2572,7 +2581,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public static bool GetReportFileDateTimes(IPathFinder aPathFinder, MenuXmlNode aReportNode, out DateTime creationTime, out DateTime lastWriteTime)
+        public static bool GetReportFileDateTimes(PathFinder aPathFinder, MenuXmlNode aReportNode, out DateTime creationTime, out DateTime lastWriteTime)
         {
             creationTime = DateTime.MinValue;
             lastWriteTime = DateTime.MinValue;
@@ -2603,12 +2612,12 @@ namespace Microarea.Common.MenuLoader
             //standard divisi per lingua. Con string.empty cerca nella cartella di default 19/6/2006
             string fullReportFileName = aPathFinder.GetFilename(reportNameSpace, string.Empty);
 
-            if (fullReportFileName == null || fullReportFileName.Length == 0 || !File.Exists(fullReportFileName))
+            if (fullReportFileName == null || fullReportFileName.Length == 0 || !aPathFinder.FileSystemManager.ExistFile(fullReportFileName))
                 return false;
 
             try
             {
-                FileInfo reportFileInfo = new FileInfo(fullReportFileName);
+                TBFile reportFileInfo = new TBFile(fullReportFileName, aPathFinder.FileSystemManager.GetAlternativeDriverIfManagedFile(fullReportFileName));
 
                 creationTime = reportFileInfo.CreationTime;
                 lastWriteTime = reportFileInfo.LastWriteTime;
@@ -2625,7 +2634,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------	
-        public static bool SetReportFileDateTimes(IPathFinder aPathFinder, MenuXmlNode aReportNode)
+        public static bool SetReportFileDateTimes(PathFinder aPathFinder, MenuXmlNode aReportNode)
         {
             if (aReportNode == null)
                 return false;
@@ -2691,7 +2700,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //----------------------------------------------------------------------------
-        public MenuParserEventArgs(int aNumber, BaseModuleInfo aModuleInfo)
+        public MenuParserEventArgs(int aNumber, ModuleInfo aModuleInfo)
         {
             counter = aNumber;
 
@@ -2736,7 +2745,7 @@ namespace Microarea.Common.MenuLoader
 
         private MenuInfo menuInfo = null;
         private bool environmentStandAlone = false;
-        private IPathFinder pathFinder = null;
+        private PathFinder pathFinder = null;
         private string authenticationToken = string.Empty;
 
         private IBrandLoader brandLoader = null;
@@ -2744,7 +2753,7 @@ namespace Microarea.Common.MenuLoader
         #region MenuLoader constructors
 
         //----------------------------------------------------------------------------
-        public MenuLoader(IPathFinder aPathFinder, string authenticationToken, bool aEnvironmentStandAloneFlag)
+        public MenuLoader(PathFinder aPathFinder, string authenticationToken, bool aEnvironmentStandAloneFlag)
         {
             pathFinder = aPathFinder;
             this.authenticationToken = authenticationToken;
@@ -2754,12 +2763,12 @@ namespace Microarea.Common.MenuLoader
         }
 
         //----------------------------------------------------------------------------
-        public MenuLoader(IPathFinder aPathFinder, bool aEnvironmentStandAloneFlag) : this(aPathFinder, null, aEnvironmentStandAloneFlag)
+        public MenuLoader(PathFinder aPathFinder, bool aEnvironmentStandAloneFlag) : this(aPathFinder, null, aEnvironmentStandAloneFlag)
         {
         }
 
         //----------------------------------------------------------------------------
-        public MenuLoader(IPathFinder aPathFinder) : this(aPathFinder, null, false)
+        public MenuLoader(PathFinder aPathFinder) : this(aPathFinder, null, false)
         {
         }
 
@@ -2821,13 +2830,21 @@ namespace Microarea.Common.MenuLoader
             menuInfo.ScanStandardMenuComponentsEnded += new MenuParserEventHandler(MenuInfo_ScanStandardMenuComponentsEnded);
 
             if (clearCachedData)
-                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.PathFinder.User);
+            {
+                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.User);
+                //menuInfo.DeleteCachedStandardMenu();
+                //LoginManager.LoginManagerInstance.init
+            }
+
+            Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.User);
 
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
             menuInfo.ScanCustomMenuComponents();
 
+
             string file = MenuInfo.CachedMenuInfos.GetStandardMenuCachingFullFileName(pathFinder.User);
-            menuInfo.LoadAllMenuFiles(environmentStandAlone, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData || !File.Exists(file));
+
+            menuInfo.LoadAllMenuFiles(environmentStandAlone, commandsTypeToLoad, ignoreAllSecurityChecks, clearCachedData || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file));//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file));
 
             return true;
         }
@@ -2889,7 +2906,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public bool IsEnvironmentStandAlone { get { return environmentStandAlone; } }
         //---------------------------------------------------------------------------
-        public IPathFinder PathFinder { get { return pathFinder; } }
+        public PathFinder PathFinder { get { return pathFinder; } }
         //---------------------------------------------------------------------------
         public IBrandLoader BrandLoader { get { return brandLoader; } }
 
@@ -2898,19 +2915,19 @@ namespace Microarea.Common.MenuLoader
         #region MenuLoader static methods
 
         //---------------------------------------------------------------------------
-        public static string GetUserFavoritesMenuFileName(IPathFinder aPathFinder)
+        public static string GetUserFavoritesMenuFileName(PathFinder aPathFinder)
         {
             return MenuInfo.GetUserFavoritesMenuFileName(aPathFinder);
         }
 
         //---------------------------------------------------------------------------
-        public static string GetAllUsersFavoritesMenuFileName(IPathFinder aPathFinder)
+        public static string GetAllUsersFavoritesMenuFileName(PathFinder aPathFinder)
         {
             return MenuInfo.GetAllUsersFavoritesMenuFileName(aPathFinder);
         }
 
         //---------------------------------------------------------------------------
-        public static string GetFavoritesMenuPath(IPathFinder aPathFinder)
+        public static string GetFavoritesMenuPath(PathFinder aPathFinder)
         {
             return MenuInfo.GetFavoritesMenuPath(aPathFinder);
         }

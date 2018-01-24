@@ -37,10 +37,10 @@ namespace Microarea.Common.NameSolver
 
 		#region Properties
 		public string		Name		{ get { return name;		} }
-		public string		Type		{ get { return appType;		} }
+		public string       Type        { get { return appType; } set { appType = value; } }
 		public string		Icon		{ get { return icon;		} }
 		public string		WelcomeBmp	{ get { return welcomeBmp;	} }
-		public string		DbSignature	{ get { return dbSignature; } }
+		public string		DbSignature	{ get { return dbSignature; } set { dbSignature = value; } }
 		public string		Version		{ get { return version;		} set { version = value; } }
 		public string		Uuid		{ get { return uuid;		} }
 		public bool			Visible		{ get { return visible;		} }
@@ -67,6 +67,7 @@ namespace Microarea.Common.NameSolver
 		{
 			try
 			{
+                //Lara
 				appConfigDocument = new XmlDocument();
 				appConfigDocument.Load(stream);
 

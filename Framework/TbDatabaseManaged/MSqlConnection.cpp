@@ -1,9 +1,11 @@
 #include "stdafx.h" 
 
-
 #include <TbGeneric\GeneralFunctions.h>
 #include <TbGeneric\Array.h>
 #include <TbGeneric\DataObj.h>
+#include <TbGeneric\DataTypesFormatters.h>
+
+#include <TbNameSolver\Chars.h>
 
 #include "SqlSchemaInfo.h"
 #include "MSqlConnection.h"
@@ -12,8 +14,19 @@ using namespace System;
 using namespace System::Data;
 using namespace System::Text;
 using namespace System::Data::SqlClient;
+using namespace System::Runtime::InteropServices;
 
+//---------------------------------------------------------------------------
+CString AddSquareWhenNeeds(CString name)
+{
+	if (name.Find(_T(' ')) < 0)
+		return name;
 
+	if (name.IsEmpty() || name.FindOneOf(_T("[")) == 0)
+		return name;
+
+	return ::cwsprintf(L"[%s]", name);
+}
 
 //===========================================================================
 //	SqlExceptionClient
@@ -48,47 +61,62 @@ IMPLEMENT_DYNAMIC(MSqlException, CException)
 //---------------------------------------------------------------------------
 MSqlException::MSqlException(SqlExceptionClient* pSqlException)
 	:
-	m_pSqlException(pSqlException) 
+	m_nHResult(S_OK),
+	m_wNativeErrCode(0)
 {
-	StringBuilder^ errorMessages = gcnew StringBuilder();
-
-	SqlException^ ex = (SqlException^)m_pSqlException->mSqlException;
-	for (int i = 0; i < ex->Errors->Count; i++)
+	if (pSqlException)
 	{
+		StringBuilder^ errorMessages = gcnew StringBuilder();
 
-		errorMessages->Append("Index #" + i + "\n" +
-			"Message: " + ex->Errors[i]->Message + "\n" +
-			"LineNumber: " + ex->Errors[i]->LineNumber + "\n" +
-			"Source: " + ex->Errors[i]->Source + "\n" +
-			"Procedure: " + ex->Errors[i]->Procedure + "\n");
+		SqlException^ ex = (SqlException^)pSqlException->mSqlException;
+		m_nHResult = ex->HResult;
+		m_wNativeErrCode = ex->Number;
+		for (int i = 0; i < ex->Errors->Count; i++)
+		{
+
+			errorMessages->Append("Index #" + i + "\n" +
+				"Message: " + ex->Errors[i]->Message + "\n" +
+				"LineNumber: " + ex->Errors[i]->LineNumber + "\n" +
+				"Source: " + ex->Errors[i]->Source + "\n" +
+				"Procedure: " + ex->Errors[i]->Procedure + "\n" +
+				"Number: " + ex->Errors[i]->Number + "\n");
+		}
+
+		m_strError = errorMessages->ToString();
 	}
-
-	m_strError = errorMessages->ToString();
+}
+//---------------------------------------------------------------------------
+MSqlException::MSqlException(const MSqlException& mSqlException)
+{
+	m_strError = mSqlException.m_strError;
+	m_nHResult = mSqlException.m_nHResult;
+	m_wNativeErrCode = mSqlException.m_wNativeErrCode;
 }
 
 //---------------------------------------------------------------------------
 MSqlException::MSqlException(const CString& strError)
-	: 
-	m_pSqlException(nullptr),
+	:
+	m_nHResult(E_FAIL),
+	m_wNativeErrCode(0),
 	m_strError(strError)
 {	
 }
 
 
-//---------------------------------------------------------------------------
-MSqlException::~MSqlException()
-{
-	if (m_pSqlException)
-		delete m_pSqlException;
-}
-
 //-----------------------------------------------------------------------------
 void MSqlException::BuildErrorString()
 {
-	if (!m_pSqlException || ((SqlException^)m_pSqlException->mSqlException == nullptr))
-		return;
+}
 
-	
+// arrichisce la stringa di errore di ulteriori informazioni, ponEndOfRowSeto la nuova informazione
+// dopo (default) o prima del vecchio messaggio
+//-----------------------------------------------------------------------------
+void MSqlException::UpdateErrorString(const CString& strNewError, BOOL bAppEndOfRowSet /*= TRUE*/)
+{
+	if (bAppEndOfRowSet)
+		m_strError += LF_CHAR + strNewError;
+	else
+		m_strError = strNewError + LF_CHAR + m_strError;
 }
 
 //===========================================================================
@@ -151,7 +179,11 @@ public:
 MSqlConnection::MSqlConnection()
 :
 	m_pSqlConnectionClient(NULL),
-	m_pSqlTransactionClient(NULL)
+	m_pSqlTransactionClient(NULL),
+	m_bKeepOpen (false),
+	m_QuerySchemaTimeCounter(0, _T("QuerySchema")),
+	m_FetchSchemaTimeCounter(1, _T("FetchSchema")),
+	m_PrimaryKeyTimeCounter(2, _T("PrimaryKey"))
 {
 	m_pSqlConnectionClient = new SqlConnectionClient();
 };
@@ -165,17 +197,24 @@ MSqlConnection::~MSqlConnection()
 }
 
 //---------------------------------------------------------------------------
-void MSqlConnection::Open()
+void MSqlConnection::Open(bool keepOpen)
 {
 	if (String::IsNullOrEmpty(m_pSqlConnectionClient->mSqlConnection->ConnectionString))
 		return throw(gcnew Exception("Connection string empty"));
-
+	
+	SqlCommand^ command = nullptr;
 	try
 	{
 		m_pSqlConnectionClient->mSqlConnection->Open();
+		SqlCommand^ command = gcnew SqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", m_pSqlConnectionClient->mSqlConnection);
+		command->ExecuteNonQuery();
+		m_bKeepOpen = keepOpen;
+		delete command;
 	}
 	catch (SqlException^ e)
 	{
+		if (command != nullptr)
+			delete command;
 		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
 }
@@ -220,32 +259,49 @@ CString MSqlConnection::DbmsVersion()
 }
 
 
-
 //---------------------------------------------------------------------------
 void MSqlConnection::SetConnectionString(const CString& strConnectionString)
 {
 	m_pSqlConnectionClient->mSqlConnection->ConnectionString = gcnew String(strConnectionString);
 }
 
+
+//---------------------------------------------------------------------------
+bool MSqlConnection::IsOpen() const
+{
+	return m_pSqlConnectionClient && ((SqlConnection^)m_pSqlConnectionClient->mSqlConnection) != nullptr && m_pSqlConnectionClient->mSqlConnection->State == ConnectionState::Open;
+}
+
 //---------------------------------------------------------------------------
 void MSqlConnection::Close()
 {
 	if (m_pSqlConnectionClient->mSqlConnection->State != ConnectionState::Closed)
+	{
+		if (m_pSqlTransactionClient)
+		{
+			delete m_pSqlTransactionClient;
+			m_pSqlTransactionClient = NULL;
+		}
 		m_pSqlConnectionClient->mSqlConnection->Close();
+	}
 }
+
 
 //---------------------------------------------------------------------------
 int MSqlConnection::GetConnectionState() const
 {
-	return(int)m_pSqlConnectionClient->mSqlConnection->State;
+	return (int)m_pSqlConnectionClient->mSqlConnection->State;
 }
 
 
 //---------------------------------------------------------------------------
 void MSqlConnection::BeginTransaction()
-{
+{	
 	SqlTransaction^ sqlTrans = nullptr;
 	
+	if (m_pSqlTransactionClient)
+		return;
+
 	try
 	{
 		sqlTrans = m_pSqlConnectionClient->mSqlConnection->BeginTransaction(IsolationLevel::ReadUncommitted);
@@ -402,144 +458,401 @@ CString MSqlConnection::NativeConvert(const DataObj* pDataObj, const BOOL& bUseU
 	return _T("BadDataType");
 }
 
-//---------------------------------------------------------------------------
-void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::Array* pSqlTables)
-{
-	
-	if (m_pSqlConnectionClient->mSqlConnection->State == ConnectionState::Closed)
-		return;
-	
-	SqlTablesItem* pTableItem = NULL;
-	bool isProcedure = String::Compare(gcnew String(strSchemaType), gcnew String("Procedures"), true) == 0;
-	bool isTable = String::Compare(gcnew String(strSchemaType), gcnew String("Tables"), true) == 0;
-
-	DataTable^ dataTable = m_pSqlConnectionClient->mSqlConnection->GetSchema(gcnew String(strSchemaType));
-	for each(DataRow^ row in dataTable->Rows)
-	{
-		pTableItem = new SqlTablesItem();
-		if (isProcedure)
-		{
-			String^ procName = row["ROUTINE_NAME"]->ToString();
-			if (!String::IsNullOrEmpty(procName))
-			{
-				int pos = procName->IndexOf(gcnew String(";"));
-				pTableItem->m_strName = (pos >= 0) ? procName->Substring(0, pos) : procName;
-				pTableItem->m_strType = _T("PROCEDURE");
-				pTableItem->m_strQualifier = row["SPECIFIC_CATALOG"]->ToString();
-				pTableItem->m_strOwner = row["SPECIFIC_SCHEMA"]->ToString();
-
-
-			}
-		}
-		else
-		{
-			//faccio lo skip delle tabelle di sistema e quelle con nome vuoto
-			String^ schemaName = row["TABLE_SCHEMA"]->ToString();
-			String^ tableName = row["TABLE_NAME"]->ToString();
-
-			if (
-				(String::Compare(schemaName, gcnew String("INFORMATION_SCHEMA"), true) == 0) ||
-				(String::Compare(tableName, gcnew String("dtproperties"), true) == 0) ||
-				(String::Compare(tableName, gcnew String("sysalternates"), true) == 0) ||
-				(String::Compare(tableName, gcnew String("syssegments"), true) == 0) ||
-				(String::Compare(tableName, gcnew String("sysconstraints"), true) == 0) ||
-				(String::Compare(tableName, gcnew String(" "), true) == 0)
-				)
-				continue;
-
-			pTableItem->m_strName = row["TABLE_NAME"]->ToString();
-			pTableItem->m_strType = (isTable) ? _T("TABLE") : _T("VIEW");
-			pTableItem->m_strQualifier = row["TABLE_CATALOG"]->ToString();
-			pTableItem->m_strOwner = row["TABLE_SCHEMA"]->ToString();
-
-		}
-		pSqlTables->Add(pTableItem);
-	}		
-}
-
 //@BAUZITODO da togliere: per rendere ancora compatibile il codice con OLEDB ma presto andrà tolto
 SWORD GetOLEDBType(CString sqlType)
 {
-	if (sqlType == "BigInt")
+	if (!sqlType.CompareNoCase(_T("BigInt")))
 		return DBTYPE_I8;
 
-	if (sqlType == "Binary")
+	if (!sqlType.CompareNoCase(_T("Binary")))
 		return DBTYPE_BYTES;
 
-	if (sqlType == "Bit")
+	if (!sqlType.CompareNoCase(_T("Bit")))
 		return DBTYPE_BOOL;
 
-	if (sqlType == "Char")
+	if (!sqlType.CompareNoCase(_T("Char")))
 		return DBTYPE_STR;
 
-	if (sqlType == "DateTime")
+	if (!sqlType.CompareNoCase(_T("DateTime")))
 		return DBTYPE_DBTIMESTAMP;
 
-	if (sqlType == "Decimal")
+	if (!sqlType.CompareNoCase(_T("Decimal")))
 		return DBTYPE_DECIMAL;
-	if (sqlType == "Float")
+	if (!sqlType.CompareNoCase(_T("Float")))
 		return DBTYPE_R8;
 
-	if (sqlType == "Image")
+	if (!sqlType.CompareNoCase(_T("Image")))
 		return DBTYPE_BYTES;
 
-	if (sqlType == "Int")
+	if (!sqlType.CompareNoCase(_T("Int")))
 		return DBTYPE_I4;
 
-	if (sqlType == "Money")
+	if (!sqlType.CompareNoCase(_T("Money")))
 		return DBTYPE_CY;
 
 
-	if (sqlType == "NChar")
+	if (!sqlType.CompareNoCase(_T("NChar")))
 		return DBTYPE_WSTR;
-	if (sqlType == "NText")
+	if (!sqlType.CompareNoCase(_T("NText")))
 		return DBTYPE_WSTR;
-	if (sqlType == "NVarChar")
+	if (!sqlType.CompareNoCase(_T("NVarChar")))
 		return DBTYPE_WSTR;
-	if (sqlType == "Real")
+	if (!sqlType.CompareNoCase(_T("Real")))
 		return DBTYPE_R4;
-	if (sqlType == "UniqueIdentifier")
+	if (!sqlType.CompareNoCase(_T("UniqueIdentifier")))
 		return DBTYPE_GUID;
-	if (sqlType == "SmallDateTime")
+
+	if (!sqlType.CompareNoCase(_T("SmallDateTime")))
 		return DBTYPE_DBTIMESTAMP;
-	if (sqlType == "SmallInt")
+	if (!sqlType.CompareNoCase(_T("SmallInt")))
 		return DBTYPE_I2;
-	if (sqlType == "SmallMoney")
+	if (!sqlType.CompareNoCase(_T("SmallMoney")))
 		return DBTYPE_CY;
-	if (sqlType == "Text")
+	if (!sqlType.CompareNoCase(_T("Text")))
 		return DBTYPE_STR;
-	if (sqlType == "Timestamp")
+	if (!sqlType.CompareNoCase(_T("Timestamp")))
 		return DBTYPE_DBTIMESTAMP;
-	if (sqlType == "TinyInt")
+	if (!sqlType.CompareNoCase(_T("TinyInt")))
 		return DBTYPE_UI1;
-	if (sqlType == "VarBinary")
+	if (!sqlType.CompareNoCase(_T("VarBinary")))
 		return DBTYPE_BYTES;
-	if (sqlType == "VarChar")
+	if (!sqlType.CompareNoCase(_T("VarChar")))
 		return DBTYPE_STR;
-	if (sqlType == "Variant")
+	if (!sqlType.CompareNoCase(_T("Variant")))
 		return DBTYPE_VARIANT;
 
-	if (sqlType == "Xml")
+	if (!sqlType.CompareNoCase(_T("Xml")))
 		return DBTYPE_I8;
-	
-	if (sqlType == "Udt")
+
+	if (!sqlType.CompareNoCase(_T("Udt")))
 		return DBTYPE_UDT;
-	
-	if (sqlType == "Structured")
+
+	if (!sqlType.CompareNoCase(_T("Structured")))
 		return DBTYPE_I8;
 	//???????????????????
-	if (sqlType == "Date")
+	if (!sqlType.CompareNoCase(_T("Date")))
+		return DBTYPE_DBDATE;
+	if (!sqlType.CompareNoCase(_T("Time")))
+		return DBTYPE_DBTIME;
+
+
+	if (!sqlType.CompareNoCase(_T("DateTime2")))
 		return DBTYPE_DBTIMESTAMP;
-	if (sqlType == "Time")
-		return DBTYPE_DBTIMESTAMP;
-	if (sqlType == "DateTime2")
-		return DBTYPE_DBTIMESTAMP;
-	if (sqlType == "DateTimeOffset")
+	if (!sqlType.CompareNoCase(_T("DateTimeOffset")))
 		return DBTYPE_DBTIMESTAMP;
 
 	return DBTYPE_WSTR;
 
 };
+//---------------------------------------------------------------------------
+void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringToOb* pSqlTables)
+{
+	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
+	if (oldConnState == ConnectionState::Closed)
+		Open();
+	
+	SqlCommand^ command = nullptr;
+	SqlDataReader^ reader = nullptr;
+	SqlTablesItem* pTableItem = NULL;
+	bool isProcedure = String::Compare(gcnew String(strSchemaType), gcnew String("Procedures"), true) == 0;
+	String^ commandText;
+	CTickTimeFormatter aTickFormatter;
+	DWORD dStartTick = 0;
+	DWORD dElapsedTick = 0;
+	DWORD dStopTick = 0;
+
+	if (!pSqlTables)
+		pSqlTables = new CMapStringToOb();
+	try
+	{
+		dStartTick = GetTickCount();
+		if (isProcedure)
+			commandText = "SELECT ROUTINE_NAME, SPECIFIC_CATALOG, SPECIFIC_SCHEMA FROM INFORMATION_SCHEMA.ROUTINES";
+		else
+			commandText = "SELECT TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM INFORMATION_SCHEMA.TABLES";
+
+		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
+
+	
+		reader = command->ExecuteReader();
+
+		dStopTick = GetTickCount();
+		dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+		if (isProcedure) 
+			TRACE1("Query Procedures Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		else
+			TRACE1("Query Tables Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		
+		dStartTick = GetTickCount();
+		while (reader->Read())
+		{
+			pTableItem = new SqlTablesItem();
+			if (isProcedure)
+			{
+				String^ procName = (String^)reader["ROUTINE_NAME"];
+				if (!String::IsNullOrEmpty(procName))
+				{
+					int pos = procName->IndexOf(gcnew String(";"));
+					pTableItem->m_strName = AddSquareWhenNeeds((pos >= 0) ? procName->Substring(0, pos) : procName);
+					pTableItem->m_strType = _T("PROCEDURE");
+					pTableItem->m_strQualifier = (String^)reader["SPECIFIC_CATALOG"];
+					pTableItem->m_strOwner = (String^)reader["SPECIFIC_SCHEMA"];
+
+
+				}
+			}
+			else
+			{
+				 
+				CString strTableName = AddSquareWhenNeeds((String^)reader["TABLE_NAME"]);			
+				pTableItem->m_strName = strTableName;
+				pTableItem->m_strType = (String^)reader["TABLE_TYPE"]; //BASE TABLE or VIEW
+				pTableItem->m_strQualifier = (String^)reader["TABLE_CATALOG"];
+				pTableItem->m_strOwner = (String^)reader["TABLE_SCHEMA"];
+			}
+
+			pSqlTables->SetAt(pTableItem->m_strName, pTableItem);
+			
+		}
+		dStopTick = GetTickCount();
+		dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+		
+		if (isProcedure)
+			TRACE1("Fetch Procedures Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		else
+			TRACE1("Fetch Tables Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+	catch (Exception^ ex)
+	{
+		throw(new MSqlException(CString(ex->ToString())));
+	}
+
+	finally
+	{
+		if (reader != nullptr && !reader->IsClosed)
+		{
+			reader->Close();
+			delete reader;
+		}
+	}
+
+
+	if (pSqlTables->GetCount() == 0)
+	{
+		if (command != nullptr)
+		delete command;
+
+		if (oldConnState == ConnectionState::Closed)
+		Close();
+		return;
+	}
+
+	//carico le colonne
+	try
+	{
+		dStartTick = GetTickCount();
+
+		if (isProcedure)
+		{
+			commandText = "SELECT SPECIFIC_NAME, ORDINAL_POSITION, PARAMETER_MODE, PARAMETER_NAME,DATA_TYPE";
+			commandText += " FROM INFORMATION_SCHEMA.PARAMETERS";
+			commandText += " ORDER BY SPECIFIC_NAME, ORDINAL_POSITION";
+
+			command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+			reader = command->ExecuteReader();
+
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Query Parameters Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+			
+			SqlProcedureParamInfoObject* pParamInfo = NULL;
+			CString strTableName;
+			SqlTablesItem* pCurrTable = NULL;
+
+			dStartTick = GetTickCount();
+			while (reader->Read())
+			{
+				strTableName = AddSquareWhenNeeds((String^)reader["SPECIFIC_NAME"]);
+				if (!pCurrTable || pCurrTable->m_strName.CompareNoCase(strTableName) != 0)
+				{
+					//cambio tabella
+					pCurrTable = NULL;
+					pSqlTables->Lookup(strTableName, (CObject*&)pCurrTable);
+				}
+
+				if (pCurrTable)
+				{
+					pParamInfo = new SqlProcedureParamInfoObject();
+
+					pParamInfo->m_strParamName = (String^)reader["PARAMETER_NAME"];
+					//Int32 paraPosition = (Int32)reader["ORDINAL_POSITION"];
+					if ((Int32)reader["ORDINAL_POSITION"] == 0)
+					{
+						pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
+						pParamInfo->m_strParamName = _T("@Returned");
+					}
+					else
+					{
+						pParamInfo->m_nType = DBPARAMTYPE_INPUT;
+						String^ paramDirection = (String^)reader["PARAMETER_MODE"];
+						if (paramDirection = "IN")
+							pParamInfo->m_nType = DBPARAMTYPE_INPUT;
+						else
+							if (paramDirection = "OUT")
+								pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
+							else
+								if (paramDirection = "INOUT ")
+									pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
+					}
+
+					pParamInfo->m_strSqlDataType = (String^)reader["DATA_TYPE"];
+					pParamInfo->m_nSqlDataType = GetOLEDBType(pParamInfo->m_strSqlDataType);
+
+					pCurrTable->m_arProcedureParams.Add(pParamInfo);
+				}
+			}
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Fetch Parameters Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		}
+		else
+		{
+
+			dStartTick = GetTickCount();
+
+			commandText = "SELECT TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,ORDINAL_POSITION,COLUMN_DEFAULT,IS_NULLABLE,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE,COLLATION_NAME";
+			//commandText += "KEYPOSITION = (SELECT ORDINAL_POSITION from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T WHERE C.COLUMN_NAME = K.COLUMN_NAME AND C.TABLE_NAME = K.TABLE_NAME AND K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = \'PRIMARY KEY\' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME)";
+			commandText += " FROM INFORMATION_SCHEMA.COLUMNS C";
+			commandText += " ORDER BY TABLE_NAME, ORDINAL_POSITION";
+
+			SqlColumnInfoObject* pColumnInfo = NULL;
+			command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+			reader = command->ExecuteReader();
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Query Columns Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+
+			Object^ value;
+			CString strTableName;
+			SqlTablesItem* pCurrTable = NULL;
+
+			dStartTick = GetTickCount();
+			while (reader->Read())
+			{
+				strTableName = AddSquareWhenNeeds((String^)reader["TABLE_NAME"]);
+
+				if (!pCurrTable || pCurrTable->m_strName.CompareNoCase(strTableName) != 0)
+				{
+					//cambio tabella
+					pCurrTable = NULL;
+					pSqlTables->Lookup(strTableName, (CObject*&)pCurrTable);					
+				}
+
+				if (pCurrTable)
+				{
+					pColumnInfo = new SqlColumnInfoObject();
+					pColumnInfo->m_bLoadedFromDB = TRUE;
+					pColumnInfo->m_strTableCatalog = (String^)reader["TABLE_CATALOG"];
+					pColumnInfo->m_strTableSchema = (String^)reader["TABLE_SCHEMA"];
+					pColumnInfo->m_strTableName = strTableName;
+					pColumnInfo->m_strColumnName = (String^)reader["COLUMN_NAME"];
+					pColumnInfo->m_strSqlDataType = (String^)reader["DATA_TYPE"];
+					pColumnInfo->m_nSqlDataType = GetOLEDBType(pColumnInfo->m_strSqlDataType);
+
+					value = reader["NUMERIC_PRECISION"];
+					pColumnInfo->m_lPrecision = (value == System::DBNull::Value) ? 0 : (Byte)value;
+
+					value = reader["CHARACTER_MAXIMUM_LENGTH"];
+					pColumnInfo->m_lLength = (value == System::DBNull::Value) ? 0 : (Int32)value;
+
+					value = (reader["NUMERIC_SCALE"]);
+					pColumnInfo->m_nScale = (value == System::DBNull::Value) ? 0 : (Int32)value;
+
+					pColumnInfo->m_bNullable = ((String^)reader["IS_NULLABLE"] == "YES");
+
+					value = (reader["COLLATION_NAME"]);
+					pColumnInfo->m_strCollatioName = (value == System::DBNull::Value) ? String::Empty : (String^)value;
+
+					//value = (reader["KEYPOSITION"]);
+					pColumnInfo->m_bSpecial = false; // (value != System::DBNull::Value);
+
+					pCurrTable->m_arColumnsInfo.Add(pColumnInfo);
+				}
+			}
+			if (reader)
+				reader->Close();
+
+			//Check the primarykey columns
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Fetch Columns Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+
+			dStartTick = GetTickCount();
+
+			commandText = "SELECT K.TABLE_NAME, K.COLUMN_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T ";
+			commandText += " WHERE K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = 'PRIMARY KEY' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME";
+			commandText += " ORDER BY K.TABLE_NAME, ORDINAL_POSITION";
+			
+			pColumnInfo = NULL;
+			CString strColumnName;
+			command->CommandText = commandText;
+			reader = command->ExecuteReader();
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Query PrimaryKey Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+			while (reader->Read())
+			{
+				strTableName = AddSquareWhenNeeds((String^)reader["TABLE_NAME"]);
+				strColumnName = AddSquareWhenNeeds((String^)reader["COLUMN_NAME"]);
+				if (!pCurrTable || pCurrTable->m_strName.CompareNoCase(strTableName) != 0)
+				{
+					//cambio tabella
+					pCurrTable = NULL;
+					pSqlTables->Lookup(strTableName, (CObject*&)pCurrTable);
+				}
+
+				if (pCurrTable)
+				{
+					for (int i = 0; i < pCurrTable->m_arColumnsInfo.GetCount(); i++)
+					{
+						SqlColumnInfoObject* pCurrColInfo = (SqlColumnInfoObject*)pCurrTable->m_arColumnsInfo.GetAt(i);
+						if (pCurrColInfo->m_strColumnName.CompareNoCase(strColumnName) == 0)
+							pCurrColInfo->m_bSpecial = true;
+					}
+				}
+			}
+			dStopTick = GetTickCount();
+			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+			TRACE1("Fetch PrimaryKey Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
+		}
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+	finally
+	{
+		if (reader != nullptr && !reader->IsClosed)
+		{
+			reader->Close();
+			delete reader;
+		}
+
+		if (command != nullptr)
+			delete command;
+
+		if (oldConnState == ConnectionState::Closed)
+			Close();
+	}
+}
+
 
 //---------------------------------------------------------------------------
 void MSqlConnection::LoadColumnsInfo(const CString& strTableName, ::Array* pPhisycalColumns)
@@ -547,31 +860,43 @@ void MSqlConnection::LoadColumnsInfo(const CString& strTableName, ::Array* pPhis
 	SqlCommand^ command = nullptr;
 	SqlDataReader^ reader = nullptr;
 	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
+	
+	m_QuerySchemaTimeCounter.Start();		
 	if (oldConnState == ConnectionState::Closed)
 		Open();
 	
+	ASSERT(pPhisycalColumns);
 	
-	String^ commandText = "SELECT TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,ORDINAL_POSITION,COLUMN_DEFAULT,IS_NULLABLE,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE,COLLATION_NAME,";
-	commandText += "KEYPOSITION = (SELECT ORDINAL_POSITION from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T WHERE C.COLUMN_NAME = K.COLUMN_NAME AND C.TABLE_NAME = K.TABLE_NAME AND K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = \'PRIMARY KEY\' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME)";
-	commandText += " FROM INFORMATION_SCHEMA.COLUMNS C";
-	commandText += " WHERE C.TABLE_NAME = N\'" + gcnew String(strTableName) + "\'";
+	pPhisycalColumns->RemoveAll();	
+
+	//String^ commandText = "SELECT TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,ORDINAL_POSITION,COLUMN_DEFAULT,IS_NULLABLE,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE,COLLATION_NAME,";
+
+	String^ commandText = "SELECT TABLE_CATALOG, TABLE_SCHEMA, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE";
+	commandText += " FROM INFORMATION_SCHEMA.COLUMNS";
+	commandText += " WHERE TABLE_NAME = @TableName";
 	commandText += " ORDER BY ORDINAL_POSITION";
 	
 	SqlColumnInfoObject* pColumnInfo = NULL;
 	try
 	{
 		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		command->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
 		reader = command->ExecuteReader();
+		m_QuerySchemaTimeCounter.Stop();
+
+		m_FetchSchemaTimeCounter.Start();
 		Object^ value;
 		while (reader->Read())
 		{
 			pColumnInfo = new SqlColumnInfoObject();
 			pColumnInfo->m_bLoadedFromDB = TRUE;
-			pColumnInfo->m_strTableCatalog = reader["TABLE_CATALOG"]->ToString();
-			pColumnInfo->m_strTableSchema = reader["TABLE_SCHEMA"]->ToString();
-			pColumnInfo->m_strTableName = reader["TABLE_NAME"]->ToString();
-			pColumnInfo->m_strColumnName = reader["COLUMN_NAME"]->ToString();
-			pColumnInfo->m_strSqlDataType = reader["DATA_TYPE"]->ToString();
+			pColumnInfo->m_strTableCatalog = (String^)reader["TABLE_CATALOG"];
+			pColumnInfo->m_strTableSchema = (String^)reader["TABLE_SCHEMA"];
+			pColumnInfo->m_strTableName = strTableName;
+			pColumnInfo->m_strColumnName = AddSquareWhenNeeds((String^)reader["COLUMN_NAME"]);
+			pColumnInfo->m_strSqlDataType = (String^)reader["DATA_TYPE"];
 			pColumnInfo->m_nSqlDataType = GetOLEDBType(pColumnInfo->m_strSqlDataType);
 			
 			value = reader["NUMERIC_PRECISION"];
@@ -583,20 +908,50 @@ void MSqlConnection::LoadColumnsInfo(const CString& strTableName, ::Array* pPhis
 			value = (reader["NUMERIC_SCALE"]);
 			pColumnInfo->m_nScale = (value == System::DBNull::Value) ? 0 : (Int32)value;
 			
-			pColumnInfo->m_bNullable = (reader["IS_NULLABLE"]->ToString() == "YES");
+			/*pColumnInfo->m_bNullable = ((String^)reader["IS_NULLABLE"] == "YES");
 
 			value = (reader["COLLATION_NAME"]);
-			pColumnInfo->m_strCollatioName = (value == System::DBNull::Value) ? String::Empty : value->ToString();
+			pColumnInfo->m_strCollatioName = (value == System::DBNull::Value) ? String::Empty : (String^)value;*/
 			
-			value = (reader["KEYPOSITION"]);
-			pColumnInfo->m_bSpecial = (value != System::DBNull::Value);
+			//value = (reader["KEYPOSITION"]);
+			pColumnInfo->m_bSpecial = false; // (value != System::DBNull::Value);
 
 			pPhisycalColumns->Add(pColumnInfo);
+		}
+		m_FetchSchemaTimeCounter.Stop();
+
+		//Check the primarykey columns
+		if (pPhisycalColumns && pPhisycalColumns->GetCount() > 0)
+		{
+			reader->Close();
+			m_QuerySchemaTimeCounter.Start();
+
+			commandText = "SELECT K.TABLE_NAME, K.COLUMN_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T ";
+			commandText += " WHERE K.TABLE_NAME = @TableName AND K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = 'PRIMARY KEY' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME";
+			commandText += " ORDER BY K.TABLE_NAME, ORDINAL_POSITION";
+
+			pColumnInfo = NULL;
+			CString strColumnName;
+			command->CommandText = commandText;
+			reader = command->ExecuteReader();
+			m_QuerySchemaTimeCounter.Stop();
+			m_FetchSchemaTimeCounter.Start();
+			while (reader->Read())
+			{
+				strColumnName = AddSquareWhenNeeds((String^)reader["COLUMN_NAME"]);
+				for (int i = 0; i < pPhisycalColumns->GetCount(); i++)
+				{
+					SqlColumnInfoObject* pCurrColInfo = (SqlColumnInfoObject*)pPhisycalColumns->GetAt(i);
+					if (pCurrColInfo->m_strColumnName.CompareNoCase(strColumnName) == 0)
+						pCurrColInfo->m_bSpecial = true;
+				}
+			}
+			m_FetchSchemaTimeCounter.Stop();
 		}
 	}
 	catch (SqlException^ e)
 	{
-		throw(new MSqlException(CString(e->ToString())));
+		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
 	finally
 	{
@@ -615,52 +970,37 @@ void MSqlConnection::LoadColumnsInfo(const CString& strTableName, ::Array* pPhis
 }
 
 //---------------------------------------------------------------------------
-void MSqlConnection::LoadProcedureParametersInfo(const CString& strProcedureName, SqlProcedureParameters* pProcedureParams)
+void MSqlConnection::LoadPrimaryKey(const CString& strTableName, CStringArray* pPKColumnsName) 
 {
 	SqlCommand^ command = nullptr;
 	SqlDataReader^ reader = nullptr;
 	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
+
+	m_PrimaryKeyTimeCounter.Start();
 	if (oldConnState == ConnectionState::Closed)
 		Open();
 
+	ASSERT(pPKColumnsName);
 
-	String^ commandText = "SELECT SPECIFIC_NAME, ORDINAL_POSITION, PARAMETER_MODE, PARAMETER_NAME,DATA_TYPE";
-	commandText += " FROM INFORMATION_SCHEMA.PARAMETERS";
-	commandText += " WHERE SPECIFIC_NAMEE = N\'" + gcnew String(strProcedureName) + "\'";
-	commandText += " ORDER BY ORDINAL_POSITION";
+	pPKColumnsName->RemoveAll();
 
+	String^ commandText = "SELECT K.COLUMN_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T WHERE K.TABLE_NAME = @TableName AND K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = 'PRIMARY KEY' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME ORDER BY K.ORDINAL_POSITION";
 	try
 	{
 		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		command->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
 		reader = command->ExecuteReader();
-		SqlProcedureParamInfo* pParamInfo = NULL;
-		while (reader->Read())
-		{
-			pParamInfo = new SqlProcedureParamInfo();
 
-			pParamInfo->m_strParamName =  reader["SPECIFIC_NAME"]->ToString();
-			Int16 paraPosition = (Int16)reader["ORDINAL_POSITION"];
-			if (paraPosition == 0)
-				pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
-			else
-			{
-				pParamInfo->m_nType = DBPARAMTYPE_INPUT;
-				String^ paramDirection = reader["PARAMETER_MODE"]->ToString();
-				if (paramDirection = "IN")
-					pParamInfo->m_nType = DBPARAMTYPE_INPUT;
-				else
-					if (paramDirection = "OUT")
-						pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
-					else
-						if (paramDirection = "INOUT ")
-							pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
-			}
-			pProcedureParams->Add(pParamInfo);
-		}
+		while (reader->Read())
+			pPKColumnsName->Add((String^)reader["COLUMN_NAME"]);
+
+		m_PrimaryKeyTimeCounter.Stop();
 	}
 	catch (SqlException^ e)
 	{
-		throw(new MSqlException(CString(e->ToString())));
+		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
 	finally
 	{
@@ -679,8 +1019,132 @@ void MSqlConnection::LoadProcedureParametersInfo(const CString& strProcedureName
 }
 
 //---------------------------------------------------------------------------
+void MSqlConnection::LoadUniqueFields(const CString& strTableName, CStringArray* pUniqueFields)
+{
+	SqlCommand^ command = nullptr;
+	SqlDataReader^ reader = nullptr;
+	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
+
+	m_PrimaryKeyTimeCounter.Start();
+	if (oldConnState == ConnectionState::Closed)
+		Open();
+
+	ASSERT(pUniqueFields);
+
+	pUniqueFields->RemoveAll();
+
+	String^ commandText = "SELECT K.COLUMN_NAME from INFORMATION_SCHEMA.KEY_COLUMN_USAGE K, INFORMATION_SCHEMA.TABLE_CONSTRAINTS T WHERE K.TABLE_NAME = @TableName AND K.TABLE_NAME = T.TABLE_NAME AND T.CONSTRAINT_TYPE = 'UNIQUE' AND T.CONSTRAINT_NAME = K.CONSTRAINT_NAME ORDER BY K.ORDINAL_POSITION";
+	try
+	{
+		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		command->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
+		reader = command->ExecuteReader();
+
+		while (reader->Read())
+			pUniqueFields->Add((String^)reader["COLUMN_NAME"]);
+
+		m_PrimaryKeyTimeCounter.Stop();
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+	finally
+	{
+		if (reader != nullptr && !reader->IsClosed)
+		{
+			reader->Close();
+			delete reader;
+		}
+
+		if (command != nullptr)
+			delete command;
+
+		if (oldConnState == ConnectionState::Closed)
+			Close();
+	}
+}
+
+
+//---------------------------------------------------------------------------
+void MSqlConnection::LoadProcedureParametersInfo(const CString& strProcedureName, ::Array* pProcedureParams)
+{
+	SqlCommand^ command = nullptr;
+	SqlDataReader^ reader = nullptr;
+	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
+	if (oldConnState == ConnectionState::Closed)
+		Open();
+
+
+	String^ commandText = "SELECT SPECIFIC_NAME, ORDINAL_POSITION, PARAMETER_MODE, PARAMETER_NAME,DATA_TYPE";
+	commandText += " FROM INFORMATION_SCHEMA.PARAMETERS";
+	commandText += " WHERE SPECIFIC_NAME = N\'" + gcnew String(strProcedureName) + "\'";
+	commandText += " ORDER BY ORDINAL_POSITION";
+
+	try
+	{
+		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
+		reader = command->ExecuteReader();
+		SqlProcedureParamInfoObject* pParamInfo = NULL;
+		while (reader->Read())
+		{
+			pParamInfo = new SqlProcedureParamInfoObject();
+
+			pParamInfo->m_strParamName = (String^)reader["SPECIFIC_NAME"];
+			Int16 paraPosition = (Int16)reader["ORDINAL_POSITION"];
+			if (paraPosition == 0)
+				pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
+			else
+			{
+				pParamInfo->m_nType = DBPARAMTYPE_INPUT;
+				String^ paramDirection = (String^)reader["PARAMETER_MODE"];
+				if (paramDirection = "IN")
+					pParamInfo->m_nType = DBPARAMTYPE_INPUT;
+				else
+					if (paramDirection = "OUT")
+						pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
+					else
+						if (paramDirection = "INOUT ")
+							pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
+			}
+			pProcedureParams->Add(pParamInfo);
+		}
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+	finally
+	{
+		if (reader != nullptr && !reader->IsClosed)
+		{
+			reader->Close();
+			delete reader;
+		}
+
+		if (command != nullptr)
+			delete command;
+
+		if (oldConnState == ConnectionState::Closed)
+			Close();
+	}
+}
+
+
+
+//---------------------------------------------------------------------------
 void MSqlConnection::LoadForeignKeys(const CString& sPrimaryTableName, const CString& sForeignTableName, BOOL bLoadAllToTables, CStringArray* pFKReader)
 {
+	CString sFromTableName = sPrimaryTableName;
+	CString sToTableName = sForeignTableName;
+
+	sFromTableName.Remove('['); sFromTableName.Remove(']');
+	sToTableName.Remove('['); sToTableName.Remove(']');
+
 	SqlCommand^ command = gcnew SqlCommand();
 	SqlDataReader^ reader = nullptr;
 	ConnectionState oldConnState = m_pSqlConnectionClient->mSqlConnection->State;
@@ -699,16 +1163,21 @@ void MSqlConnection::LoadForeignKeys(const CString& sPrimaryTableName, const CSt
 			if (!sPrimaryTableName.IsEmpty())
 			{
 				commandText += " tab2.name = @PKTablename";
-				command->Parameters->AddWithValue("@PKTablename", gcnew String(sPrimaryTableName));
+				command->Parameters->AddWithValue("@PKTablename", gcnew String(sFromTableName));
 			}
 			if (!sForeignTableName.IsEmpty())
 			{
+				if (!sPrimaryTableName.IsEmpty())
+					commandText += " AND ";
 				commandText += " tab1.name = @FKTablename";
-				command->Parameters->AddWithValue("@FKTablename", gcnew String(sForeignTableName));
+				command->Parameters->AddWithValue("@FKTablename", gcnew String(sToTableName));
 			}
 		}
 		
 		command->Connection = m_pSqlConnectionClient->mSqlConnection;
+		
+		if (m_pSqlTransactionClient)
+			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
 		command->CommandText = commandText;
 
 		reader = command->ExecuteReader();
@@ -716,8 +1185,8 @@ void MSqlConnection::LoadForeignKeys(const CString& sPrimaryTableName, const CSt
 		while (reader->Read())
 		{
 									
-			CString str = CString(reader["FKTableName"]->ToString()) + _T(".") + CString(reader["FKColumnName"]->ToString()) + ';';
-			str += CString(reader["PKTableName"]->ToString()) + _T(".") + CString(reader["PKColumnName"]->ToString());
+			CString str = AddSquareWhenNeeds(((String^)reader["FKTableName"])) + _T(".") + AddSquareWhenNeeds(((String^)reader["FKColumnName"])) + ';';
+			str += AddSquareWhenNeeds(((String^)reader["PKTableName"])) + _T(".") + AddSquareWhenNeeds(((String^)reader["PKColumnName"]));
 
 			pFKReader->Add(str);
 			
@@ -725,7 +1194,7 @@ void MSqlConnection::LoadForeignKeys(const CString& sPrimaryTableName, const CSt
 	}
 	catch (SqlException^ e)
 	{
-		throw(new MSqlException(CString(e->ToString())));
+		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
 	finally
 	{
@@ -744,6 +1213,7 @@ void MSqlConnection::LoadForeignKeys(const CString& sPrimaryTableName, const CSt
 }
 
 
+
 //---------------------------------------------------------------------------
 void FetchSingleColumn(Object^ value, SqlBindObject* pColumn)
 {
@@ -760,20 +1230,26 @@ void FetchSingleColumn(Object^ value, SqlBindObject* pColumn)
 		switch (pDataObj->GetDataType())
 		{
 			case DATA_INT_TYPE:
-				((DataInt*)pDataObj)->Assign((Int16)value);
+				if (value->GetType() == Int32::typeid)
+					((DataInt*)pDataObj)->Assign((Int32)value);
+				else
+					((DataInt*)pDataObj)->Assign((Int16)value);
 				break;
 
 			case DATA_LNG_TYPE:
-				((DataLng*)pDataObj)->Assign((Int32)value); break;
+				if (value->GetType() == Int32::typeid)
+					((DataLng*)pDataObj)->Assign((Int32)value);
+				else
+					((DataLng*)pDataObj)->Assign((Int16)value);
+				break;
+
 
 			case DATA_STR_TYPE:
 				*(DataStr*)pDataObj = (String^)value; break;
 
 			case DATA_BOOL_TYPE:
-				pDataObj->Clear(); 
-				(*(DataBool*)pDataObj) = ((String^)value == "1"); //->ToString() == "1");
-				//break;
-				//((DataBool*)pDataObj)->Assign(CString(value->ToString())); break;
+				//pDataObj->Clear(); 
+				(*(DataBool*)pDataObj) = ((String^)value == "1");	break;
 
 			case DATA_ENUM_TYPE:
 			{
@@ -785,20 +1261,18 @@ void FetchSingleColumn(Object^ value, SqlBindObject* pColumn)
 			case DATA_QTA_TYPE:
 			case DATA_PERC_TYPE:
 			case DATA_MON_TYPE:
-				((DataDbl*)pDataObj)->Assign((double)value); break;
+				((DataDbl*)pDataObj)->Assign((Double)value); break;
 
 			case DATA_DATE_TYPE:
 			{
-				//m_pSqlDataReaderClient->mSqlDataReader->GetDateTime(i);
-				//DataDate aDataTime(((DateTime)value).Day, ((DateTime)value).Month, ((DateTime)value).Year, ((DateTime)value).Hour, ((DateTime)value).Minute, ((DateTime)value).Second, ((DateTime)value).Millisecond);
-				DataDate aDataTime(((DateTime)value).Day, ((DateTime)value).Month, ((DateTime)value).Year, ((DateTime)value).Hour, ((DateTime)value).Minute, ((DateTime)value).Second);
+					DataDate aDataTime(((DateTime)value).Day, ((DateTime)value).Month, ((DateTime)value).Year, ((DateTime)value).Hour, ((DateTime)value).Minute, ((DateTime)value).Second);
 				*pDataObj = aDataTime;
 				break;
 			}
 
 			case DATA_GUID_TYPE:
 			{
-				Guid^ g = (Guid^)value;//mSqlDataReader->GetGuid(i);
+				Guid^ g = (Guid^)value;
 				array<Byte>^ guidData = g->ToByteArray();
 				pin_ptr<Byte> data = &(guidData[0]);
 				*(DataGuid*)pDataObj = *(GUID*)data;
@@ -806,6 +1280,17 @@ void FetchSingleColumn(Object^ value, SqlBindObject* pColumn)
 			}
 			case DATA_TXT_TYPE:
 			*(DataText*)pDataObj = (String^)value; break;
+
+			case DATA_BLOB_TYPE:
+			{	
+				//Byte^ byteData = value;
+				array<Byte>^ byteData = ((array<Byte>^)value);
+				pin_ptr<Byte> data = &byteData[0];
+				((DataBlob*)pDataObj)->Assign(data, byteData->Length);
+				break;
+			}
+			
+
 		}
 		//assegno il valore estratto nell'old. Serve solo per la parte di update
 		//@@TODO
@@ -837,7 +1322,7 @@ public:
 
 public:
 	void Close();
-	SqlResult Read();
+	SqlFetchResult Read(int lSkip = 0);
 	void FixupColumns();
 };
 
@@ -867,15 +1352,25 @@ void SqlDataReaderClient::Close()
 
 
 //---------------------------------------------------------------------------
-SqlResult SqlDataReaderClient::Read()
+SqlFetchResult SqlDataReaderClient::Read(int lSkip /*= 0*/)
 {
-	SqlResult result = ResOk;
+	SqlFetchResult result = FetchOk;
 	if ( !((SqlDataReader^)mSqlDataReader) || mSqlDataReader->IsClosed || !m_pColumnsArray)
 		return Error;
 	
 	try
 	{
-		result = mSqlDataReader->Read() ? ResOk : End;
+		if (lSkip == 0)
+			result = mSqlDataReader->Read() ? FetchOk : EndOfRowSet;
+		else
+		{
+			int count = lSkip;
+			while (count > 0 && result == FetchOk)
+			{
+				result = mSqlDataReader->Read() ? FetchOk : EndOfRowSet;
+				count--;
+			}
+		}
 	}
 	catch (SqlException^ e)
 	{
@@ -924,10 +1419,11 @@ public:
 public:
 
 	void AddParam(const CString& paramName, DataObj* pDataObj, SqlParamType eParamType);
-	void SetParamValue(const CString& paramName, DataObj* pDataObj);
+	//void SetParamValue(const CString& paramName, DataObj* pDataObj);
 	void SetParamValue(int nPos, DataObj* pDataObj);
 	void SetParam(SqlParameter^ sqlParam, DataObj* pDataObj);
 	void RemoveParam(int nPos);
+	void RemoveAllParameters();
 	void FetchOutputParameters(SqlBindObjectArray* pParamArray);
 };
 
@@ -965,116 +1461,163 @@ void SqlCommandClient::AddParam(const CString& paramName, DataObj* pDataObj, Sql
 	}
 	SqlParameter^ sqlParam = nullptr;
 	String^ name = gcnew String(paramName);
+	int nLen = pDataObj->GetColumnLen();
 	try
 	{
-		switch (pDataObj->GetDataType())
+		
+
+		switch (pDataObj->GetSqlDataType())
+		{
+			case DBTYPE_I2:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::SmallInt, 0);	break;
+			case DBTYPE_I4:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Int, 0);	break;
+			case DBTYPE_R4:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Real, 0);	break;
+			case DBTYPE_R8:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Float, 0);	break;
+			case DBTYPE_DBTIMESTAMP:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::DateTime, 0);	break;
+			case DBTYPE_DBDATE:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Date, 0);	break;
+			case DBTYPE_DBTIME:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Time, 0);	break;
+			case DBTYPE_DECIMAL:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Decimal, 0);	break;
+			case DBTYPE_BYTES:
+			{
+				ASSERT(pDataObj->GetDataType() == DATA_BLOB_TYPE);
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Binary, 0); 
+				break;
+			}
+			case DBTYPE_BOOL:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Bit, 0); break;
+			case DBTYPE_STR:
+			{
+				if (pDataObj->GetDataType() == DATA_STR_TYPE)
+				{
+					ASSERT(nLen > 0);
+					sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::VarChar, nLen);
+				}
+				else
+				{
+					if (pDataObj->GetDataType() == DATA_BOOL_TYPE)
+						sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Char, 1);
+					else
+					{
+						if (pDataObj->GetDataType() == DATA_TXT_TYPE)
+						{
+							sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Text, -1);
+						}
+					}
+				}
+				break;
+			}	
+			case DBTYPE_WSTR:
+			{
+				if (pDataObj->GetDataType() == DATA_STR_TYPE)
+				{
+					ASSERT(nLen > 0);
+					sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::NVarChar, nLen);
+				}
+				else
+				{
+					if (pDataObj->GetDataType() == DATA_BOOL_TYPE)
+						sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::NChar, 1);
+					else
+					{
+						if (pDataObj->GetDataType() == DATA_TXT_TYPE)
+						{
+							sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::NText, -1);
+						}
+					}
+				}
+				break;
+			}
+
+			case DBTYPE_GUID:
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::UniqueIdentifier, 0);	break;
+
+			default:
+			{
+				ASSERT(FALSE);
+				sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::NVarChar, nLen > 0 ? nLen : 0);
+			}
+
+		}
+
+		/*switch (pDataObj->GetDataType())
 		{
 		case DATA_INT_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::SmallInt); break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::SmallInt, 0); break;
 
 		case DATA_LNG_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Int); break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Int, 0); break;
 
 		case DATA_STR_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::VarChar, pDataObj->GetColumnLen()); break;
+			ASSERT(nLen > 0);
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::VarChar, nLen); break;
 
 		case DATA_BOOL_TYPE:
 			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Char, 1); break;
 
 		case DATA_ENUM_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Int); break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Int, 0); break;
 
 		case DATA_DBL_TYPE:
 		case DATA_QTA_TYPE:
 		case DATA_PERC_TYPE:
 		case DATA_MON_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Float);	break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Float, 0);	break;
 
 		case DATA_DATE_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::DateTime);	break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::DateTime, 0);	break;
 
 		case DATA_GUID_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::UniqueIdentifier); break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::UniqueIdentifier, 0); break;
 
 		case DATA_TXT_TYPE:
-			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Text); break;
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::Text, -1); break;
+
+		case DATA_BLOB_TYPE:
+			sqlParam = mSqlCommand->Parameters->Add(name, SqlDbType::VarBinary); break;
 
 		default:
 			ASSERT(FALSE); break;
-		}
+		}*/
 		if (sqlParam != nullptr)
 			sqlParam->Direction = eDirection;
-	}		
+	}
+	catch (SqlException^ sqle)
+	{
+		throw(sqle);
+	}
 	catch (Exception^ e)
 	{
-		TRACE(CString(e->ToString()));
-		ASSERT(FALSE);
+		throw(e);
 	}
+	
 }
 
 //---------------------------------------------------------------------------
 void SqlCommandClient::SetParam(SqlParameter^ sqlParam, DataObj* pDataObj)
 {
-	switch (pDataObj->GetDataType())
-	{
-	case DATA_INT_TYPE:
-		sqlParam->Value = ((DataInt*)pDataObj)->GetSoapValue(); break;
-
-	case DATA_LNG_TYPE:
-		sqlParam->Value = ((DataLng*)pDataObj)->GetSoapValue();	break;
-
-	case DATA_STR_TYPE:
-		sqlParam->Value = gcnew String(((DataStr*)pDataObj)->GetString()); break;
-
-	case DATA_BOOL_TYPE:
-		sqlParam->Value = (*((DataBool*)pDataObj) == TRUE) ? "1" : "0"; break;
-
-	case DATA_ENUM_TYPE:
-		sqlParam->Value = ((DataEnum*)pDataObj)->GetSoapValue(); break;
-
-	case DATA_DBL_TYPE:
-	case DATA_QTA_TYPE:
-	case DATA_PERC_TYPE:
-	case DATA_MON_TYPE:
-		sqlParam->Value = ((DataDbl*)pDataObj)->GetSoapValue();	break;
-
-	case DATA_DATE_TYPE:
-	{
-		//DataDate* pDate = (DataDate*)pDataObj;		
-		//m_pSqlCommandClient->mSqlCommand->Parameters->AddWithValue(name, gcnew DateTime(pDate->Year(), pDate->Month(), pDate->Day(), pDate->Hour(), pDate->Minute(), pDate->Second()));
-
-		const DBTIMESTAMP&	dBTimeStamp = ((DataDate*)pDataObj)->GetDateTime();
-		sqlParam->Value = gcnew DateTime(dBTimeStamp.year, dBTimeStamp.month, dBTimeStamp.day, dBTimeStamp.hour, dBTimeStamp.minute, dBTimeStamp.second, dBTimeStamp.fraction);
-		break;
-	}
-
-	case DATA_GUID_TYPE:
-	{
-		sqlParam->Value = *reinterpret_cast<Guid *>(const_cast<GUID *>(&((DataGuid*)pDataObj)->GetGUID())); break;
-	}
-
-	case DATA_TXT_TYPE:
-		sqlParam->Value = gcnew String(((DataText*)pDataObj)->ToString()); break;
-
-	}
+	
 }
 
-//---------------------------------------------------------------------------
-void SqlCommandClient::SetParamValue(const CString& paramName, DataObj* pDataObj)
-{
-	String^ name = gcnew String(paramName);
-	SqlParameter^ sqlParam = mSqlCommand->Parameters[name];
-	if (sqlParam != nullptr)
-		SetParam(sqlParam, pDataObj);
-}
+////---------------------------------------------------------------------------
+//void SqlCommandClient::SetParamValue(const CString& paramName, DataObj* pDataObj)
+//{
+//	String^ name = gcnew String(paramName);
+//	SqlParameter^ sqlParam = mSqlCommand->Parameters[name];
+//	if (sqlParam != nullptr)
+//		SetParam(sqlParam, pDataObj);
+//}
 
 
 //---------------------------------------------------------------------------
 void SqlCommandClient::SetParamValue(int nPos, DataObj* pDataObj)
-{
-	SqlParameter^ sqlParam = mSqlCommand->Parameters[nPos];
-	if (sqlParam != nullptr)
-		SetParam(sqlParam, pDataObj);
+{	
 }
 
 
@@ -1084,20 +1627,37 @@ void SqlCommandClient::RemoveParam(int nPos)
 	mSqlCommand->Parameters->RemoveAt(nPos); //delete dei parametri della setclause poichè sono cambiati altri valori rispetto all'aggiornamento precedente		
 }
 
+
+//---------------------------------------------------------------------------
+void SqlCommandClient::RemoveAllParameters()
+{
+	mSqlCommand->Parameters->Clear();
+}
+
 //---------------------------------------------------------------------------
 void SqlCommandClient::FetchOutputParameters(SqlBindObjectArray* pParamArray)
 {
-	if (!mSqlCommand->Parameters)
+	if (!mSqlCommand->Parameters || !mSqlCommand->Parameters->Count == 0)
 		return;
-
-	for (int i = 0; i < mSqlCommand->Parameters->Count; i++)
+	try
 	{
-		SqlParameter^ sqlParam = mSqlCommand->Parameters[i];
-		if (sqlParam && (sqlParam->Direction == ParameterDirection::ReturnValue || sqlParam->Direction == ParameterDirection::InputOutput || sqlParam->Direction == ParameterDirection::Output))
+		for (int i = 0; i < mSqlCommand->Parameters->Count; i++)
 		{
-			Object^ value = sqlParam->Value;
-			FetchSingleColumn(value, (SqlBindObject*)pParamArray->GetAt(i));
+			SqlParameter^ sqlParam = mSqlCommand->Parameters[i];
+			if (sqlParam && (sqlParam->Direction == ParameterDirection::ReturnValue || sqlParam->Direction == ParameterDirection::InputOutput || sqlParam->Direction == ParameterDirection::Output))
+			{
+				Object^ value = sqlParam->Value;
+				FetchSingleColumn(value, (SqlBindObject*)pParamArray->GetAt(i));
+			}
 		}
+	}
+	catch (SqlException^ sqlE)
+	{
+		throw(sqlE);
+	}
+	catch (Exception^ e)
+	{
+		throw(e);
 	}
 }
 
@@ -1119,7 +1679,7 @@ public:
 	~SqlDataTableClient();
 
 public:
-	SqlResult Move(SqlMoveType eMoveType);
+	SqlFetchResult Move(MoveType eMoveType, int lSkip /*= 0*/);
 	void FixupColumns();
 };
 
@@ -1143,34 +1703,64 @@ SqlDataTableClient::~SqlDataTableClient()
 }
 
 //---------------------------------------------------------------------------
-SqlResult SqlDataTableClient::Move(SqlMoveType eMoveType)
+SqlFetchResult SqlDataTableClient::Move(MoveType eMoveType, int lSkip /*= 0*/)
 {
-	SqlResult result = ResOk;
+	SqlFetchResult result = FetchOk;
+	long nCurrentRow = m_nDataTableSeek + 1;
 
 	switch (eMoveType)
 	{
-		case MoveFirst:
+		case E_MOVE_FIRST:
+		{
 			m_nDataTableSeek = 0;
 			break;
-		case MovePrev:
+		}
+		case E_MOVE_PREV:
 		{
 			if (m_nDataTableSeek == 0)
-				result = Begin;
+				result = BeginOfRowSet;
 			else
-				m_nDataTableSeek--;
+			{
+				if (lSkip == 0)
+					m_nDataTableSeek--;
+				else
+				{
+					if (nCurrentRow - lSkip >= 0)
+						m_nDataTableSeek = nCurrentRow - lSkip;
+					else
+					{
+						m_nDataTableSeek = 0;
+						result = BeginOfRowSet;
+					}
+				}
+			}
 			break;
 		}
-		case MoveNext:
+		case E_MOVE_NEXT:
 		{
-			if (m_nDataTableSeek == mSqlDataTable->Rows->Count - 1)
-				result = End;
+			result = FetchOk;
+			if (nCurrentRow == mSqlDataTable->Rows->Count)
+				result = EndOfRowSet;
 			else
-				m_nDataTableSeek++;
+			{
+				if (lSkip == 0)
+					m_nDataTableSeek++;
+				else
+				{
+					if (nCurrentRow + lSkip < mSqlDataTable->Rows->Count)
+						m_nDataTableSeek = nCurrentRow + lSkip;
+					else
+					{
+						m_nDataTableSeek = mSqlDataTable->Rows->Count - 1;
+						result = EndOfRowSet;
+					}
+				}
+			}
 			break;
 		}
-		case MoveLast:
+		case E_MOVE_LAST:
 			m_nDataTableSeek = mSqlDataTable->Rows->Count - 1;
-			break;
+			break;		
 	}	
 
 	return result;
@@ -1211,39 +1801,43 @@ void SqlDataTableClient::FixupColumns()
 //---------------------------------------------------------------------------
 MSqlCommand::MSqlCommand(MSqlConnection* pSqlConnection)
 	:
-	m_pSqlCommandClient(NULL),
-	m_pSqlConnection(pSqlConnection),
-	m_pSqlDataReaderClient(NULL),
-	m_pFetchedData(NULL),
-	m_pUpdatableCmd(NULL),	
-	m_pSqlDataTableClient(NULL),
-	m_pFetchMandatoryColCmd(NULL),
-	m_bUpdatable(false),
-	m_bUseDataTable(false),
-	m_bIsOpen(false),
-	m_nCommandTimeout(30)
+	m_pSqlCommandClient		(NULL),
+	m_pSqlConnection		(pSqlConnection),
+	m_pSqlDataReaderClient	(NULL),
+	m_pFetchedData			(NULL),
+	m_pSqlDataTableClient	(NULL),
+	m_bUseDataTable			(false)
 {
+	Init();
 }
 
 //
 //---------------------------------------------------------------------------
 MSqlCommand::~MSqlCommand()
-{
-	if (m_pUpdatableCmd)
-		delete m_pUpdatableCmd;
+{	
+	Dispose();
 
 	if (m_pSqlCommandClient)
 		delete m_pSqlCommandClient;
 
 	if (m_pSqlDataReaderClient)
 		delete m_pSqlDataReaderClient;
+}
 
-	if (m_pFetchMandatoryColCmd)
-		delete m_pFetchMandatoryColCmd;
+
+//---------------------------------------------------------------------------
+void MSqlCommand::Init()
+{
+	m_lRecordCounts = -1;
+	m_nCommandTimeout = 30;
+	m_nPageSize = 0;
+	m_nCurrentPage = 0;
+	m_nLastPage = 0;
+	m_ePagingResult = FistPage;
 }
 
 //---------------------------------------------------------------------------
-void MSqlCommand::Open(bool bUpdate, bool bScrollable)
+void MSqlCommand::Create(bool bScrollable)
 {
 	if (m_pSqlCommandClient)
 	{
@@ -1251,15 +1845,13 @@ void MSqlCommand::Open(bool bUpdate, bool bScrollable)
 		return;
 	}
 
-	m_bUpdatable = bUpdate;
-	m_pSqlCommandClient = new SqlCommandClient();
-	m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
-	m_bUseDataTable = bScrollable;//(bUpdate || bScrollable); 
-	m_bIsOpen = true;	
+	m_pSqlCommandClient = new SqlCommandClient();	
+	m_bUseDataTable = bScrollable;	
 }
 
+
 //---------------------------------------------------------------------------
-void MSqlCommand::Close()
+void MSqlCommand::Dispose()
 {
 	if (m_bUseDataTable)
 	{
@@ -1274,23 +1866,40 @@ void MSqlCommand::Close()
 		{
 			delete m_pSqlDataReaderClient;
 			m_pSqlDataReaderClient = NULL;
-		}
+		}	
+	
+	Init();
+}
+
+//disconnetto solo i SqlDataReader 
+//---------------------------------------------------------------------------
+void MSqlCommand::Disconnect()
+{	
+	if (m_pSqlDataReaderClient)
+	{
+		delete m_pSqlDataReaderClient;
+		m_pSqlDataReaderClient = NULL;
+	}
+}
 
 
-	m_bIsOpen = false;
+//---------------------------------------------------------------------------
+bool MSqlCommand::IsConnected() const
+{
+	return (m_bUseDataTable) ? m_pSqlDataTableClient != NULL : m_pSqlDataReaderClient != NULL;
 }
 
 //---------------------------------------------------------------------------
-bool MSqlCommand::IsOpen()
+bool MSqlCommand::IsNull() const
 {
-	return m_bIsOpen;
+	return m_pSqlCommandClient == NULL || ((SqlCommand^)m_pSqlCommandClient->mSqlCommand == nullptr);
 }
 
 
 //---------------------------------------------------------------------------
 void MSqlCommand::SetCommandText(CString strCmdText)
 {
-	m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String (strCmdText);
+	m_strCommandText = strCmdText;
 }
 
 //---------------------------------------------------------------------------
@@ -1328,38 +1937,279 @@ void MSqlCommand::SetCommandTimeout(int nTimeout)
 }
 
 //---------------------------------------------------------------------------
-void MSqlCommand::SetCurrentTransaction()
+void MSqlCommand::SetCurrentTransaction(bool setTransaction)
 {
-	m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
+	if (!setTransaction && m_pSqlCommandClient && (SqlCommand^)m_pSqlCommandClient->mSqlCommand != nullptr)
+		m_pSqlCommandClient->mSqlCommand->Transaction = nullptr;
 }
 
 //---------------------------------------------------------------------------
-void MSqlCommand::Prepare()
+void MSqlCommand::EnablePaging(int nPageSize)
 {
-	if (m_pSqlCommandClient)
-		m_pSqlCommandClient->mSqlCommand->Prepare();
+	m_bUseDataTable = true;
+	m_nPageSize = nPageSize;
 }
+
+
 //---------------------------------------------------------------------------
-void MSqlCommand::ExecuteCommand()
+long  MSqlCommand::GetTotalRecords()
 {
-	if (!m_pSqlCommandClient)
+	if (m_lRecordCounts > -1)
+		return m_lRecordCounts;
+
+
+	SqlCommand^ pCommand = gcnew SqlCommand();
+	try
+	{
+		String^ strCommandText = gcnew String(m_strCommandText);
+		int nPos = strCommandText->LastIndexOf("ORDER BY", StringComparison::InvariantCultureIgnoreCase) ;
+		if ( nPos > 0 )
+			strCommandText = strCommandText->Substring(0, nPos);
+
+		pCommand->Connection = m_pSqlCommandClient->mSqlCommand->Connection;
+		pCommand->Transaction = m_pSqlCommandClient->mSqlCommand->Transaction;
+		pCommand->CommandText = String::Format("SELECT COUNT(*) FROM ( {0} ) AS CT", strCommandText);
+		for each (SqlParameter^ param in m_pSqlCommandClient->mSqlCommand->Parameters)
+		{
+			SqlParameter^ newParam = gcnew SqlParameter(param->ParameterName, param->Value);
+			pCommand->Parameters->Add(newParam);
+		}
+
+		m_lRecordCounts = (long)pCommand->ExecuteScalar();
+		return m_lRecordCounts;
+	}
+	catch (SqlException^ e)
+	{
+		throw(e);		
+	}
+}
+
+//---------------------------------------------------------------------------
+void MSqlCommand::GetCurrentPage()
+{
+	int nRowsNumb =  (m_nCurrentPage > 0) ? (m_nCurrentPage - 1) * m_nPageSize : 0;
+	String^ offsetClause = String::Format(" OFFSET {0} ROWS FETCH NEXT {1} ROWS ONLY", nRowsNumb, m_nPageSize);
+	try
+	{
+		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText + offsetClause);
+		if (m_pSqlDataTableClient)
+			delete m_pSqlDataTableClient;
+
+		m_pSqlDataTableClient = new SqlDataTableClient(m_pFetchedData);
+
+		SqlDataAdapter^ dataAdapter = gcnew SqlDataAdapter(m_pSqlCommandClient->mSqlCommand);
+		dataAdapter->Fill(m_pSqlDataTableClient->mSqlDataTable);
+		m_pSqlDataTableClient->m_nDataTableSeek = -1;	
+		if (m_pSqlDataTableClient->mSqlDataTable->Rows->Count == 0)
+		{
+			m_ePagingResult = (m_nCurrentPage == 1) ? SqlPagingResult::NoData : SqlPagingResult::LastPage;
+			if (m_nLastPage == -1)
+			{
+				m_nCurrentPage = (m_nCurrentPage == 1) ? m_nCurrentPage - 1 : 1;
+				m_nLastPage = m_nCurrentPage;
+			}
+		}
+		else
+			if (m_pSqlDataTableClient->mSqlDataTable->Rows->Count < m_nPageSize)
+				if (m_nLastPage == -1)
+					m_nLastPage = m_nCurrentPage;
+
+		delete dataAdapter;
+	}
+	catch (SqlException^ e)
+	{
+		SAFE_DELETE(m_pSqlDataTableClient);
+
+		m_ePagingResult = SqlPagingResult::ErrorPage;
+
+		throw(e);
+	}
+}
+
+//---------------------------------------------------------------------------
+void MSqlCommand::GetFirstPage()
+{
+	m_ePagingResult = SqlPagingResult::FistPage;
+	
+//sono già all'inizio, non devo fare nulla
+	if (m_nCurrentPage == 1 && m_pSqlDataTableClient)
+	{
+		m_pSqlDataTableClient->m_nDataTableSeek = -1;
+		return;
+	}
+
+	m_nCurrentPage = 1;
+	try
+	{
+		GetCurrentPage();	
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+}
+
+//---------------------------------------------------------------------------
+void MSqlCommand::GetNextPage()
+{
+	//sono già in fondo, non devo fare nulla
+	if (m_nLastPage != -1 && m_nCurrentPage == m_nLastPage)
+	{
+		if (m_pSqlDataTableClient)
+			m_pSqlDataTableClient->m_nDataTableSeek = -1;
+		m_ePagingResult = SqlPagingResult::LastPage;
+		return;
+	}
+
+	m_nCurrentPage++;
+	try
+	{
+		GetCurrentPage();		
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+}
+
+//---------------------------------------------------------------------------
+void MSqlCommand::GetPrevPage()
+{
+	//sono già in fondo, non devo fare nulla
+	if (m_nCurrentPage == 1)
+	{
+		if (m_pSqlDataTableClient)
+			m_pSqlDataTableClient->m_nDataTableSeek = -1;
+		m_ePagingResult = SqlPagingResult::FistPage;
+		return;
+	}	
+
+	m_nCurrentPage--;
+	try
+	{
+		GetCurrentPage();
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+}
+
+//---------------------------------------------------------------------------
+void MSqlCommand::GetLastPage()
+{	
+	//ho già trovato l'ultima pagina	
+	if (m_nLastPage == -1)
+	{
+		//devo andare a blocchi finchè non trovo l'ultima pagina
+		while (m_ePagingResult != SqlPagingResult::LastPage)
+		{
+			m_nCurrentPage++;
+			GetCurrentPage();			
+		}
+		return;
+	}
+	else
+		//sono già in fondo, non devo fare nulla
+		if (m_nCurrentPage == m_nLastPage)
+		{
+			if (m_pSqlDataTableClient)
+				m_pSqlDataTableClient->m_nDataTableSeek = -1;
+			m_ePagingResult = SqlPagingResult::LastPage;
+			return;
+		}
+	
+	m_nCurrentPage = m_nLastPage;
+	try
+	{
+		GetCurrentPage();
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+}
+
+
+//---------------------------------------------------------------------------
+void MSqlCommand::ExecutePagingCommand(MoveType eMoveType, bool bPrepared /*= false*/)
+{
+	if (!m_pSqlConnection || !m_pSqlCommandClient || m_nPageSize <= 0)
 	{
 		ASSERT(FALSE);
 		return;
 	}
 	try
 	{
-		if (m_bUseDataTable)
+		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
+
+		if (m_pSqlConnection->m_pSqlTransactionClient)
+			m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
+		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText);
+
+		if (bPrepared)
+			m_pSqlCommandClient->mSqlCommand->Prepare();
+
+
+		GetTotalRecords();
+		//se ci sono dei record
+		if (m_lRecordCounts > 0)
 		{
-			if (m_pSqlDataTableClient)
-				delete m_pSqlDataTableClient;
+			int mod = m_lRecordCounts % m_nPageSize;
+			int div = m_lRecordCounts / m_nPageSize;
+			m_nLastPage = (mod > 0) ? ++div : div;
+		}
+		else
+		{
+			m_nCurrentPage = m_nLastPage = 0; //non ci sono dati
+			return;
+		}
+		if (m_lRecordCounts < m_nPageSize)
+			m_nPageSize = m_lRecordCounts;
+
+		(eMoveType == E_MOVE_LAST) ? GetLastPage() : GetFirstPage();
+	}
+	catch (SqlException^ e)
+	{
+		SAFE_DELETE(m_pSqlDataTableClient);		
+
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+}
+	
+	
+	
+//---------------------------------------------------------------------------
+void MSqlCommand::ExecuteCommand(bool bPrepared /*= false*/)
+{
+	if (!m_pSqlConnection || !m_pSqlCommandClient)
+	{
+		ASSERT(FALSE);
+		return;
+	}	
+	
+	try
+	{		
+		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
+
+		if (m_pSqlConnection->m_pSqlTransactionClient)
+			m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
+		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText);
+		
+		if (bPrepared)
+			m_pSqlCommandClient->mSqlCommand->Prepare();
+
+
+		if (m_bUseDataTable)
+		{			
+			SAFE_DELETE(m_pSqlDataTableClient);
 
 			m_pSqlDataTableClient = new SqlDataTableClient(m_pFetchedData);
-			//@@TODO utilizzare quella con maxrec e startrec
+
 			SqlDataAdapter^ dataAdapter = gcnew SqlDataAdapter(m_pSqlCommandClient->mSqlCommand);
 			dataAdapter->Fill(m_pSqlDataTableClient->mSqlDataTable);
 			delete dataAdapter;
-			return;
+			return;			
 		}
 
 		if (m_pSqlDataReaderClient)
@@ -1367,39 +2217,131 @@ void MSqlCommand::ExecuteCommand()
 
 		m_pSqlDataReaderClient = new SqlDataReaderClient(m_pFetchedData);
 		m_pSqlDataReaderClient->mSqlDataReader = m_pSqlCommandClient->mSqlCommand->ExecuteReader();
+
+		//se si tratta di un SP con solo valori scalari allora devo fare la fixup degli eventuali parametri di tipo output e del result value
+		if (m_pSqlCommandClient->mSqlCommand->CommandType == CommandType::StoredProcedure)
+			m_pSqlCommandClient->FetchOutputParameters(m_pParameters);
+
 	}
 	catch (SqlException^ e)
 	{
-		if (m_pSqlDataTableClient)
-			delete m_pSqlDataTableClient;
-
-		if (m_pSqlDataReaderClient)
-			delete m_pSqlDataReaderClient;
-
+		SAFE_DELETE(m_pSqlDataTableClient);
+		SAFE_DELETE(m_pSqlDataReaderClient);
+	
 		throw(new MSqlException(new SqlExceptionClient(e)));		
 	}
 }
 
+
 //---------------------------------------------------------------------------
-bool MSqlCommand::HasRows()
+long MSqlCommand::GetRecordsAffected() const
 {
 	if (m_bUseDataTable)
-		return  m_pSqlDataTableClient && m_pSqlDataTableClient->mSqlDataTable->Rows->Count;
+		return  (m_nPageSize > 0)
+			? m_lRecordCounts
+			: (m_pSqlDataTableClient && ((DataTable^)m_pSqlDataTableClient->mSqlDataTable) != nullptr) ? m_pSqlDataTableClient->mSqlDataTable->Rows->Count : 0;
 	else
-		return  m_pSqlDataReaderClient && m_pSqlDataReaderClient->mSqlDataReader->HasRows;
+		return (m_pSqlDataReaderClient && ((SqlDataReader^)m_pSqlDataReaderClient->mSqlDataReader) != nullptr) ? m_pSqlDataReaderClient->mSqlDataReader->RecordsAffected : 0;
 }
 
+//---------------------------------------------------------------------------
+bool MSqlCommand::HasRows() const
+{
+	if (m_bUseDataTable)
+		return  (m_nPageSize > 0)
+			? m_lRecordCounts > 0
+			: m_pSqlDataTableClient && ((DataTable^)m_pSqlDataTableClient->mSqlDataTable) != nullptr && m_pSqlDataTableClient->mSqlDataTable->Rows->Count > 0 ;	
+	else
+		return  m_pSqlDataReaderClient && ((SqlDataReader^)m_pSqlDataReaderClient->mSqlDataReader) != nullptr && m_pSqlDataReaderClient->mSqlDataReader->HasRows;
+}
 
 //---------------------------------------------------------------------------
-SqlResult MSqlCommand::Move(SqlMoveType eMoveType)
+SqlFetchResult MSqlCommand::MoveOnPaging(MoveType eMoveType, int lSkip /*= 0*/)
 {
-	SqlResult eResult;
-	if (m_pSqlDataReaderClient)
-		eResult = m_pSqlDataReaderClient->Read();
-	else
-		if (m_pSqlDataTableClient)
-			eResult = m_pSqlDataTableClient->Move(eMoveType);		
-	
+	SqlFetchResult result = FetchOk;
+	try
+	{
+		switch (eMoveType)
+		{
+			case E_MOVE_FIRST:
+			{
+				if (m_nCurrentPage != 1)
+					GetFirstPage();
+				result = m_pSqlDataTableClient->Move(E_MOVE_FIRST, 0);
+				break;
+			}
+			case E_MOVE_PREV:
+			{
+				result = m_pSqlDataTableClient->Move(E_MOVE_PREV, lSkip);
+				//sono all'inzio del rowset	e sono in una pagina diversa dalla prima
+				//devo andare a leggere il blocco precedente ed andare sull'ultimo record
+				if (result == BeginOfRowSet && m_nCurrentPage != 1)
+				{
+					GetPrevPage();
+					result = m_pSqlDataTableClient->Move(E_MOVE_LAST, lSkip);
+					if (lSkip > 1)
+						result = m_pSqlDataTableClient->Move(E_MOVE_PREV, lSkip - 1);
+				}
+				break;
+			}
+			case E_MOVE_NEXT:
+			{
+				result = m_pSqlDataTableClient->Move(E_MOVE_NEXT, lSkip);
+				//sono all'inzio del rowset	e sono in una pagina diversa dalla prima
+				//devo andare a leggere il blocco precedente ed andare sull'ultimo record
+				if (result == EndOfRowSet && m_nCurrentPage != m_nLastPage)
+				{
+					GetNextPage();
+					result = m_pSqlDataTableClient->Move(E_MOVE_NEXT, lSkip);
+				}
+				break;
+			}
+			case E_MOVE_LAST:
+			{
+				if (m_nCurrentPage != m_nLastPage)
+					GetLastPage();
+				result = m_pSqlDataTableClient->Move(E_MOVE_LAST, 0);
+				break;
+			}
+		}
+	}
+	catch (MSqlException* e)
+	{
+		throw(e);
+	}
+	return result;
+}
+
+//---------------------------------------------------------------------------
+SqlFetchResult MSqlCommand::Move(MoveType eMoveType, int lSkip /*= 0*/)
+{
+	SqlFetchResult eResult = Error;
+
+	if (!m_pSqlDataReaderClient && !m_pSqlDataTableClient)
+		throw(new MSqlException(_TB("No rowset to move in.")));
+	try
+	{
+		if (m_pSqlDataReaderClient)
+			eResult = m_pSqlDataReaderClient->Read(lSkip);
+		else
+			if (m_pSqlDataTableClient)
+			{
+				//se effettuo il paging
+				if (m_nPageSize > 0)
+					eResult = MoveOnPaging(eMoveType, lSkip); 
+				else
+					eResult = m_pSqlDataTableClient->Move(eMoveType, lSkip);
+			}
+	}
+	catch (SqlException^ e)
+	{
+		throw(new MSqlException(new SqlExceptionClient(e)));
+	}
+	catch (MSqlException* me)
+	{
+		throw(me);
+	}
+
 	return eResult;
 }
 
@@ -1426,8 +2368,9 @@ void MSqlCommand::FixupColumns()
 
 
 
+
 //---------------------------------------------------------------------------
-void MSqlCommand::ExecuteScalar()
+void MSqlCommand::ExecuteScalar(bool bPrepared /*=false*/)
 {
 	if (!m_pSqlCommandClient)
 	{
@@ -1437,9 +2380,23 @@ void MSqlCommand::ExecuteScalar()
 
 	try
 	{
+		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
+		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText);
+
+		if (m_pSqlConnection->m_pSqlTransactionClient)
+			m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
+		
+		if (bPrepared)
+			m_pSqlCommandClient->mSqlCommand->Prepare();
+
 		Object^ obj = m_pSqlCommandClient->mSqlCommand->ExecuteScalar();
-		if (m_pFetchedData && m_pFetchedData->GetCount() >= 1)
-			FetchSingleColumn(obj, (SqlBindObject*)m_pFetchedData->GetAt(0));
+
+		//se si tratta di un SP con solo valori scalari allora devo fare la fixup dei parametri di tipo output e del result value
+		if (m_pSqlCommandClient->mSqlCommand->CommandType == CommandType::StoredProcedure)
+			m_pSqlCommandClient->FetchOutputParameters(m_pParameters);
+		else
+			if (m_pFetchedData && m_pFetchedData->GetCount() >= 1)
+				FetchSingleColumn(obj, (SqlBindObject*)m_pFetchedData->GetAt(0));
 	}
 	catch (SqlException^ sqlE)
 	{
@@ -1452,52 +2409,37 @@ void MSqlCommand::ExecuteScalar()
 }
 
 //---------------------------------------------------------------------------
-void MSqlCommand::ExecuteNonQuery()
+int MSqlCommand::ExecuteNonQuery(bool bPrepared /*=false*/)
 {
 	if (!m_pSqlCommandClient)
 	{
 		ASSERT(FALSE);
-		return;
+		return 0;
 	}
 
 	try
 	{
-		m_pSqlCommandClient->mSqlCommand->ExecuteNonQuery();
+		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
+		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText);
+
+		if (m_pSqlConnection->m_pSqlTransactionClient)
+			m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
+		
+		if (bPrepared)
+			m_pSqlCommandClient->mSqlCommand->Prepare();
+
+		return m_pSqlCommandClient->mSqlCommand->ExecuteNonQuery();
 	}
 	catch (SqlException^ sqlE)
-	{
+	{		
 		throw(new MSqlException(new SqlExceptionClient(sqlE)));
 	}
 	catch (Exception^ e)
-	{
+	{		
 		throw(new MSqlException(CString(e->ToString())));
-	}
+	}	
 }
 
-//---------------------------------------------------------------------------
-void MSqlCommand::ExecuteCall()
-{
-	if (!m_pSqlCommandClient)
-	{
-		ASSERT(FALSE);
-		return;
-	}
-
-	try
-	{
-		m_pSqlCommandClient->mSqlCommand->CommandType = CommandType::StoredProcedure;
-		m_pSqlCommandClient->mSqlCommand->ExecuteNonQuery();
-		m_pSqlCommandClient->FetchOutputParameters(m_pParameters);
-	}
-	catch (SqlException^ sqlE)
-	{
-		throw(new MSqlException(new SqlExceptionClient(sqlE)));
-	}
-	catch (Exception^ e)
-	{
-		throw(new MSqlException(CString(e->ToString())));
-	}
-}
 
 
 //---------------------------------------------------------------------------
@@ -1511,15 +2453,27 @@ void MSqlCommand::BindParameters(SqlBindObjectArray* pParamArray)
 		ASSERT(FALSE);
 		return;
 	}
-
+	m_pSqlCommandClient->RemoveAllParameters();
 	m_pParameters = pParamArray;
 	SqlBindObject* pBindElem = NULL;
-	for (int i = 0; i < m_pParameters->GetSize(); i++)
+	
+	try
 	{
-		pBindElem = (SqlBindObject*)m_pParameters->GetAt(i);
-		if (pBindElem)
-			m_pSqlCommandClient->AddParam(pBindElem->m_strBindName, pBindElem->m_pDataObj, pBindElem->m_eParamType);
+		for (int i = 0; i < m_pParameters->GetSize(); i++)
+		{
+			pBindElem = (SqlBindObject*)m_pParameters->GetAt(i);
+			if (pBindElem)
+				m_pSqlCommandClient->AddParam(pBindElem->m_strParamName, pBindElem->m_pDataObj, pBindElem->m_eParamType);
+		}
 	}
+	catch (SqlException^ sqlE)
+	{
+		throw(new MSqlException((new SqlExceptionClient(sqlE))));
+	}
+	catch (Exception^ e)
+	{
+		throw(new MSqlException(CString(e->ToString())));
+	}	
 }
 
 
@@ -1530,74 +2484,77 @@ void MSqlCommand::SetParametersValues()
 		return;
 
 
-	if (!m_pSqlCommandClient)
+	if (!m_pSqlCommandClient || ((SqlCommand^)(m_pSqlCommandClient->mSqlCommand)) == nullptr)
 	{
 		ASSERT(FALSE);
 		return;
 	}
 
 	SqlBindObject* pBindElem = NULL;
-	for (int i = 0; i < m_pParameters->GetSize(); i++)
+	SqlParameter^ sqlParam = nullptr;
+	DataObj* pDataObj = NULL;
+
+	for (int nPos = 0; nPos < m_pParameters->GetSize(); nPos++)
 	{
-		pBindElem = (SqlBindObject*)m_pParameters->GetAt(i);
-		if (pBindElem)
-			m_pSqlCommandClient->SetParamValue(i, pBindElem->m_pDataObj);
+		pBindElem = (SqlBindObject*)m_pParameters->GetAt(nPos);
+		sqlParam = m_pSqlCommandClient->mSqlCommand->Parameters[nPos];
+		if (pBindElem && sqlParam != nullptr && pBindElem->m_pDataObj)
+		{
+			pDataObj = pBindElem->m_pDataObj;
+			switch (pDataObj->GetDataType())
+			{
+				case DATA_INT_TYPE:						
+					sqlParam->Value = ((DataInt*)pDataObj)->GetSoapValue(); break;
+
+				case DATA_LNG_TYPE:
+					sqlParam->Value = ((DataLng*)pDataObj)->GetSoapValue();	break;
+
+				case DATA_STR_TYPE:
+					sqlParam->Value = gcnew String(((DataStr*)pDataObj)->GetString()); break;
+
+				case DATA_BOOL_TYPE:
+					sqlParam->Value = (*((DataBool*)pDataObj) == TRUE) ? "1" : "0"; break;
+
+				case DATA_ENUM_TYPE:
+					sqlParam->Value = ((DataEnum*)pDataObj)->GetSoapValue(); break;
+
+				case DATA_DBL_TYPE:
+				case DATA_QTA_TYPE:
+				case DATA_PERC_TYPE:
+				case DATA_MON_TYPE:
+					sqlParam->Value = ((DataDbl*)pDataObj)->GetSoapValue();	break;
+
+				case DATA_DATE_TYPE:
+				{
+					//DataDate* pDate = (DataDate*)pDataObj;		
+					//m_pSqlCommandClient->mSqlCommand->Parameters->AddWithValue(name, gcnew DateTime(pDate->Year(), pDate->Month(), pDate->Day(), pDate->Hour(), pDate->Minute(), pDate->Second()));
+
+					const DBTIMESTAMP&	dBTimeStamp = ((DataDate*)pDataObj)->GetDateTime();
+					sqlParam->Value = gcnew DateTime(dBTimeStamp.year, dBTimeStamp.month, dBTimeStamp.day, dBTimeStamp.hour, dBTimeStamp.minute, dBTimeStamp.second, dBTimeStamp.fraction);
+					break;
+				}
+
+				case DATA_GUID_TYPE:
+				{
+					sqlParam->Value = *reinterpret_cast<Guid *>(const_cast<GUID *>(&((DataGuid*)pDataObj)->GetGUID())); break;
+				}
+
+				case DATA_TXT_TYPE:
+					sqlParam->Value = gcnew String(((DataText*)pDataObj)->GetString()); break;
+
+
+				case DATA_BLOB_TYPE:
+					DataBlob* pDataBlob = (DataBlob*)pDataObj;
+					int size = pDataBlob->GetAllocSize();					
+					array<Byte>^ arr = gcnew array<Byte>(size);					
+					Marshal::Copy((IntPtr)pDataBlob->GetOleDBDataPtr(), arr, 0,  size);
+					sqlParam->Value = arr;
+
+			}
+		}
 	}
 }
 
-
-//-----------------------------------------------------------------------------
-//void MSqlCommand::FixupMandatoryColumns(SqlBindObjectArray* pMandatoryCols)
-//{
-	//CString paramName;
-	//CString strWhereKeyCols;
-	//if (!m_pFetchMandatoryColCmd)
-	//{
-	//	m_pFetchMandatoryColCmd = new MSqlCommand(m_pSqlConnection);
-	//	m_pFetchMandatoryColCmd->Open();
-	//	m_pFetchMandatoryColCmd->m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
-	//	m_pFetchMandatoryColCmd->BindColumns(pMandatoryCols);	
-	//	
-	//	CString strSelect;
-	//	for (int i = 0; i < pMandatoryCols->GetSize(); i++)
-	//	{
-	//		SqlBindingElem* pCol = (SqlBindingElem*)pMandatoryCols->GetAt(i);
-	//		DataObj* pDataObj = pCol->m_pDataObj;
-	//		if (!strSelect.IsEmpty())
-	//			strSelect += _T(", ");
-	//		strSelect += pCol->m_strBindName;
-
-	//		if (pCol->m_bIsKey)
-	//		{
-	//			paramName = cwsprintf(_T("@PK%d"), i);
-	//			if (!strWhereKeyCols.IsEmpty())
-	//					strWhereKeyCols += _T(" AND ");
-	//				strWhereKeyCols += cwsprintf(_T("%s = %s"), pCol->m_strBindName, paramName);				
-
-	//			m_pFetchMandatoryColCmd->AddParam(paramName, pDataObj);
-	//			m_pFetchMandatoryColCmd->SetParamValue(paramName, pDataObj);
-	//		}
-	//	}
-	//	m_pFetchMandatoryColCmd->SetCommandText(cwsprintf(_T("SELECT %s FROM %s WHERE %s"), strSelect, m_strTableName, strWhereKeyCols));
-	//}
-	//else
-	//	for (int i = 0; i < pMandatoryCols->GetSize(); i++)
-	//	{
-	//		SqlBindingElem* pCol = (SqlBindingElem*)pMandatoryCols->GetAt(i);
-	//		DataObj* pDataObj = pCol->m_pDataObj;
-	//		if (pCol->m_bIsKey)
-	//		{
-	//			paramName = cwsprintf(_T("@PK%d"), i);
-	//			//per leggere il campo TBModified aggiornato dal db mediante funzione getdate()
-	//			m_pFetchMandatoryColCmd->SetParamValue(paramName, pDataObj);
-	//		}
-	//	}
-
-
-	//m_pFetchMandatoryColCmd->ExecuteCommand();
-	//m_pFetchMandatoryColCmd->Move();
-	//m_pFetchMandatoryColCmd->Close();
-//}
 
 
 

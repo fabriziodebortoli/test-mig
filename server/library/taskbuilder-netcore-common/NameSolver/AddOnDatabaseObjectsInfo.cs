@@ -183,7 +183,7 @@ namespace Microarea.Common.NameSolver
 	/// contiene l'elenco delle additional columns
 	/// </summary>
 	//=========================================================================
-	public class AddOnDatabaseObjectsInfo : IAddOnDatabaseObjectsInfo
+	public class AddOnDatabaseObjectsInfo //: AddOnDatabaseObjectsInfo
 	{
 		private string		appName;
 		private string		modName;
@@ -192,7 +192,7 @@ namespace Microarea.Common.NameSolver
 		private	bool		valid;
 		private	string		parsingError;
 
-		private IBaseModuleInfo	parentModuleInfo;
+		private ModuleInfo	parentModuleInfo;
 		private IList	addColumnsInfoArray;
 
 		public  string		AppName 		{ get { return appName; }	set { appName = value; } }
@@ -202,13 +202,13 @@ namespace Microarea.Common.NameSolver
 		public	bool		Valid			{ get { return valid; }	set { valid = value; } }
 		public	string		ParsingError	{ get { return parsingError; } set { parsingError = value; } }
 
-		public  IBaseModuleInfo	ParentModuleInfo{  get { return parentModuleInfo; } }
+		public  ModuleInfo	ParentModuleInfo{  get { return parentModuleInfo; } }
 
 		// Array delle AdditionalColumns
 		public IList	AdditionalColumns { get { return addColumnsInfoArray; } }
 	
 		//---------------------------------------------------------------------
-		public AddOnDatabaseObjectsInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
+		public AddOnDatabaseObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (aFilePath == null || aFilePath.Length == 0)
 			{
@@ -229,7 +229,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if	(
-				!File.Exists(filePath)		|| 
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath)||
 				parentModuleInfo == null	|| 
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -240,7 +240,7 @@ namespace Microarea.Common.NameSolver
 				(
 				parentModuleInfo.ParentApplicationInfo.Name,
 				parentModuleInfo.Name,
-				parentModuleInfo.PathFinder
+				parentModuleInfo.CurrentPathFinder
 				);
 			
 			try

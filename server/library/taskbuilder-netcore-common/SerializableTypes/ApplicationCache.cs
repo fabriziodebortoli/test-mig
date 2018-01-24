@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using Microarea.Common.NameSolver;
+using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.SerializableTypes
 {
@@ -32,7 +33,7 @@ namespace Microarea.Common.SerializableTypes
 		{
 			try
 			{
-				file = Path.Combine(BasePathFinder.BasePathFinderInstance.GetAppDataPath(true), fileName);
+				file = Path.Combine(PathFinder.PathFinderInstance.GetAppDataPath(true), fileName);
 			}
 			catch 
 			{
@@ -94,11 +95,11 @@ namespace Microarea.Common.SerializableTypes
 			lock (typeof(ApplicationCache))
 			{
 				FileInfo fi = new FileInfo(file);
-				foreach (DirectoryInfo d in fi.Directory.Parent.GetDirectories())
+				foreach (TBDirectoryInfo d in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(fi.Directory.Parent.FullName))
 				{
-					if (d.Name.StartsWith("tbappmanager", StringComparison.OrdinalIgnoreCase))
+					if (d.name.StartsWith("tbappmanager", StringComparison.OrdinalIgnoreCase))
 					{
-						Save(Path.Combine(d.FullName, fi.Name), serializadTypes);
+						Save(Path.Combine(d.CompleteDirectoryPath, fi.Name), serializadTypes);
 						return;
 					}
 				}

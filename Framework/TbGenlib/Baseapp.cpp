@@ -457,7 +457,7 @@ void AFXAPI AfxGetClientDocs (const CTBNamespace& aServerNs, CObArray& arClientD
 
 // Ritorna la descrizione Xml di un oggetto di database sulla base del suo nome
 //----------------------------------------------------------------------------
-const CDbObjectDescription* AFXAPI AfxGetDbObjectDescription (const CString& sName)
+CDbObjectDescription* AFXAPI AfxGetDbObjectDescription (const CString& sName)
 {
 	return	AfxGetDatabaseObjectsTable() ? 
 			AfxGetDatabaseObjectsTable()->GetDescription(sName) :

@@ -5,6 +5,7 @@
 #include <TbGeneric\dataobj.h>
 #include <TbGenlib\addonmng.h>
 #include <TbNameSolver\TBNamespaces.h>
+#include <TbDatabaseManaged\SqlSchemaInfo.h>
 
 #include "sqlproviderinfo.h"
 #include "TbExtensionsInterface.h"
@@ -46,159 +47,54 @@ CString GetTypeString(int nType);
 //								SqlColumnInfo
 ///////////////////////////////////////////////////////////////////////////////
 //
-class TB_EXPORT SqlColumnInfo : public CObject, public CTBLockable
+class TB_EXPORT SqlColumnInfo : public SqlColumnInfoObject, public CTBLockable
 {
+	// constructor	
 public:
-	// Column info retrieved by SQL direct call
-	CString		m_strTableName;
-	CString		m_strColumnName;
-
-	CString		m_strTableCatalog; 
-	CString		m_strTableSchema;
-	CString		m_strTypeName;		
-	CString		m_strRemarks;
-
-	DataType	m_DataObjType;	// DataObj Usato dal programmatore o scelto dall'utente (in woorm)
-	BOOL		m_bUseCollationCulture;		
-	
-	SWORD		m_nSqlDataType;		
-	long		m_lPrecision;
-	long		m_lLength;
-	int			m_nScale;
-	int			m_nRadix;
-	int			m_nDecimal;
-
-	CRuntimeClass* m_RuntimeClass;
-	
-	BOOL		m_bNullable;
-	BOOL		m_bVirtual;				// Indica che il dato non e' in tabella ma e' virtuale
-	BOOL		m_bIndexed;				// é una colonna su cui é stato definito un indice
-	BOOL		m_bNativeColumnExpr;	// é una espressione sql: count(*), Max(col), etc
-	
-	volatile bool m_bSpecial;		// Utilizzato per individuare univocamente la riga (o segmento di chiave primaria (se definita) o special column)
-	volatile bool m_bAutoIncrement;	// é una colonna di tipi identity
-	volatile bool m_bVisible;
-	volatile bool m_bDataObjInfoUpdated;
-	BOOL		  m_bLoadedFromDB;
-
-#ifdef _DEBUG
-	CRuntimeClass* m_pOwnerSqlRecordClass;
-#endif
-// constructor	
-public:
-	SqlColumnInfo();	
-	SqlColumnInfo(const SqlColumnInfo&);	
+	SqlColumnInfo();
 	SqlColumnInfo::SqlColumnInfo
-		(
-			const	CString&	strTableName, 
-			const	CString&	strColumnName,
-			const	DataObj&	aDataObj
-		);
+	(
+		const	CString&	strTableName,
+		const	CString&	strColumnName,
+		const	DataObj&	aDataObj
+	);
+
+public:
+	/*long			GetColumnLength() const;
+	int				GetColumnDecimal() const;
+	
+	const CString&	GetTableName() const;
+	const CString&	GetColumnName() const;
+	CString			GetQualifiedColumnName() const;
+	CString			GetColumnTitle() const;*/
+
+	//-----------------------------------------------------------------------------------------
+	long			GetColumnLength() const { return m_lLength; }
+	int				GetColumnDecimal() const { return m_nDecimal; }
+	const CString&	GetTableName() const { return m_strTableName; }
+	const CString&	GetColumnName() const { return m_strColumnName; }
+	CString			GetQualifiedColumnName() const { return m_strTableName + '.' + m_strColumnName; }
+	CString			GetColumnTitle() const { return m_strColumnTitle; }
+
+	DataType 		GetDataObjType() const;
+	// Aggiorna i dati correlati al dataobj
+	void SetDataObjInfo(DataObj* pDataObj) const;
+	void UpdateDataObjType(DataObj* pDataObj);
+	void ForceUpdateDataObjType(DataObj* pDataObj);
+	BOOL GetDataObjTypes(CWordArray& aDataObjTypes) const;
+
 
 	virtual LPCSTR  GetObjectName() const { return "SqlColumnInfo"; }
 
-	BOOL IsEqual (const SqlColumnInfo& cf) const;
-	
-public:                    
-	long			GetColumnLength	() const	{ return m_lLength; }
-	int				GetColumnDecimal() const	{ return m_nDecimal; }
-	DataType 		GetDataObjType() const;// { return m_DataObjType; }
-	const CString&	GetTableName	() const	{ return m_strTableName; }
-	const CString&	GetColumnName	() const	{ return m_strColumnName; }
-	CString			GetQualifiedColumnName	() const	{ return m_strTableName + '.' + m_strColumnName; }
-	CString			GetColumnTitle	() const;
-
-	// Aggiorna i dati correlati al dataobj
-	void SetDataObjInfo	(DataObj* pDataObj) const;
-	void UpdateDataObjType	(DataObj* pDataObj); 
-	void ForceUpdateDataObjType	(DataObj* pDataObj);
-	BOOL GetDataObjTypes	(CWordArray& aDataObjTypes) const;
-
-// diagnostics
+	// diagnostics
 #ifdef _DEBUG
-public:	
+public:
 	void Dump(CDumpContext& dc) const;
-	void AssertValid() const{ CObject::AssertValid(); }
+	void AssertValid() const { SqlColumnInfoObject::AssertValid(); }
 #endif //_DEBUG
+
 };
 
-///////////////////////////////////////////////////////////////////////////////
-//								SqlProcedureParamInfo
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlProcedureParamInfo : public CObject
-{
-public:
-	// Column info retrieved by SQL direct call
-	CString		m_strProcCatalog; 
-	CString		m_strProcSchema;
-	CString		m_strProcName;
-	CString		m_strParamName;
-	short       m_nOrdinalPosition;
-	short	    m_nType;
-	BOOL	    m_bHasDefault;
-	CString     m_strDefault;
-	BOOL		m_bIsNullable;
-	short       m_nDataType;
-	long		m_nMaxLength;
-	long		m_nOctetLength;
-	short		m_nPrecision;
-	short       m_nScale;
-	CString     m_strDescription;
-
-// constructor	
-public:
-	SqlProcedureParamInfo() {}
-	SqlProcedureParamInfo(const SqlProcedureParamInfo&);	
-	
-public:                    
-	// Aggiorna i dati correlati al dataobj
-	void UpdateDataObjInfo	(DataObj* pDataObj);
-	
-// diagnostics
-#ifdef _DEBUG
-public:	
-	void Dump(CDumpContext& dc) const;
-	void AssertValid() const{ CObject::AssertValid(); }
-#endif //_DEBUG
-};
-
-///////////////////////////////////////////////////////////////////////////////
-//								SqlProcedureParameters
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlProcedureParameters :public Array
-{
-public:
-	// accessing elements
-	SqlProcedureParamInfo *		GetAt			(int nIndex) const	{ return (SqlProcedureParamInfo *) Array::GetAt(nIndex); }
-	SqlProcedureParamInfo *&	ElementAt		(int nIndex)		{ return (SqlProcedureParamInfo *&) Array::ElementAt(nIndex); }
-	
-	// overloaded operator helpers
-	SqlProcedureParamInfo *		operator[]	(int nIndex) const	{ return GetAt(nIndex); }
-	SqlProcedureParamInfo *&	operator[]	(int nIndex)		{ return ElementAt(nIndex); }
-};
-
-
-///////////////////////////////////////////////////////////////////////////////
-//								SqlTablesItem
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlTablesItem : public CObject
-{
-public:
-	// Column info retrieved by SQL direct call
-	CString		m_strQualifier;
-	CString 	m_strOwner;
-	CString 	m_strName;
-	CString 	m_strType;
-	CString 	m_strRemarks;
-
-// constructor	
-public:
-	SqlTablesItem();	
-	SqlTablesItem(const SqlTablesItem&);
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 //								SqlTables
@@ -207,6 +103,7 @@ public:
 class TB_EXPORT SqlTables : public Array
 {
 	DECLARE_DYNAMIC(SqlTables)
+
 private:
 	SqlConnection* m_pSqlConnection;
 
@@ -214,7 +111,6 @@ public:
 	SqlTables(SqlConnection*);
 
 private:
-	BOOL IsSystemTable(TCHAR*, TCHAR*, ::DBMSType) const;
 	BOOL GetInfo(BOOL bTable);
 
 public:
@@ -226,8 +122,6 @@ public:
 	SqlTablesItem*	operator[]	(int nIndex) const	{ return GetAt(nIndex); }
 	SqlTablesItem*&	operator[]	(int nIndex)		{ return ElementAt(nIndex); }
 
-private:
-	BOOL GetSynonyms(const CString& strType);
 
 public:
 	BOOL GetTables()			{ return GetInfo(TRUE);  }
@@ -290,6 +184,32 @@ public:
 	CTBNamespace	GetNsOwnerLibrary(CRuntimeClass*) const;
 };
 
+//////////////////////////////////////////////////////////////////////////////
+//								SqlProcedureParamInfo
+///////////////////////////////////////////////////////////////////////////////
+//
+class TB_EXPORT SqlProcedureParamInfo : public	SqlProcedureParamInfoObject
+{
+};
+
+///////////////////////////////////////////////////////////////////////////////
+//								SqlProcedureParameters
+///////////////////////////////////////////////////////////////////////////////
+//
+class TB_EXPORT SqlProcedureParameters :public ::Array
+{
+public:
+	// accessing elements
+	SqlProcedureParamInfo *		GetAt(int nIndex) const { return (SqlProcedureParamInfo *)Array::GetAt(nIndex); }
+	SqlProcedureParamInfo *&	ElementAt(int nIndex) { return (SqlProcedureParamInfo *&)Array::ElementAt(nIndex); }
+
+	// overloaded operator helpers
+	SqlProcedureParamInfo *		operator[]	(int nIndex) const { return GetAt(nIndex); }
+	SqlProcedureParamInfo *&	operator[]	(int nIndex) { return ElementAt(nIndex); }
+};
+
+
+
 ///////////////////////////////////////////////////////////////////////////////
 typedef CMap<int, int, int , int> CIntMap;
 
@@ -346,7 +266,7 @@ public:
 	const SqlColumnInfo*	GetGuidColumnInfo		() const { return m_pGuidColumn; }
 
 protected:
-	void	LoadColumnsInfo (SqlConnection *pConnection);
+	void	LoadColumnsInfo (SqlConnection *pConnection, BOOL bReloadTableInfo = FALSE);
 
 	CString GetName(const CString& strColumnName) const; //serve per togliere l'eventuale qualifica
 	CString GetName(const CString& strColumnName, int nDotIndex) const;
@@ -378,7 +298,8 @@ private:
 	void RemoveDynamicColumnInfo	(const CString&	strColumnName);
 
 public:
-	SqlTableInfo (const CString& strTableName, int nType, SqlCatalogEntry* pCatalogEntry, SqlConnection *pConnection);
+	//SqlTableInfo (const CString& strTableName, int nType, SqlCatalogEntry* pCatalogEntry, SqlConnection *pConnection);
+	SqlTableInfo(SqlCatalogEntry* pCatalogEntry, SqlConnection *pConnection, BOOL bReloadTableInfo = FALSE);
 	virtual ~SqlTableInfo();
 	
 public:
@@ -424,12 +345,15 @@ public:
 	BOOL ExistIndex		(const SqlColumnInfo*) const;	
 	
 	void LoadIndexInfo			(SqlConnection *pConnection);
-	void LoadPrimaryKeyInfo		(SqlConnection *pConnection);
+	//void LoadPrimaryKeyInfo		(SqlConnection *pConnection);
 
 	//per la parte relativa alle StoredProcedure
-	void LoadProcParametersInfo	(SqlConnection *pConnection);
+	void LoadProcParametersInfo	(SqlConnection *pConnection, BOOL bReloadTableInfo = FALSE);
 	int	 GetParamInfoPos(const CString& strParamName, int nPos = -1) const;
-	SqlProcedureParamInfo* GetParamAt(int nIdx) const { return (m_pProcParameters) ? m_pProcParameters->GetAt(nIdx) : NULL; }
+
+	//SqlProcedureParamInfo* GetParamAt(int nIdx) const { return (m_pProcParameters) ? m_pProcParameters->GetAt(nIdx) : NULL; }
+
+	SqlProcedureParamInfo* GetParamInfoByName(const CString& strParamName) const;
 
 	void SetNamespace	(const CTBNamespace& aNamespace);
 
@@ -598,7 +522,9 @@ private:
 	CMapStringToString		m_ColumnsCollations;
 
 	CTableRowSecurityMngObj* m_pTableRowSecurityMng; //indica che la tabella è sotto protezione (ROWSECURITY LAYER)
-	const CDbObjectDescription*	m_pDBObjectDescription;
+	CDbObjectDescription*	m_pDBObjectDescription;
+
+	SqlTablesItem*			m_pTableItem; //temporaneo
 
 public:
 	CString 				m_strTableName;
@@ -697,20 +623,10 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 //								SqlUniqueColumns
 ///////////////////////////////////////////////////////////////////////////////
-class TB_EXPORT SqlUniqueColumns : public CObject
+class TB_EXPORT SqlUniqueColumns : public CStringArray
 {
-protected:
-	CStringArray	m_aSqlPrimaryKeys;		// chiavi primarie della tabella
-	CStringArray	m_aSqlSpecialColumns;	// colonne che identificano in modo univoco un record
-
-
 public:
-	int		GetUpperBound() const	{ return m_aSqlPrimaryKeys.GetSize() ? m_aSqlPrimaryKeys.GetUpperBound(): m_aSqlSpecialColumns.GetUpperBound(); }
-	int		GetSize() const			{ return m_aSqlPrimaryKeys.GetSize() ? m_aSqlPrimaryKeys.GetSize()		: m_aSqlSpecialColumns.GetSize(); }
-	CString	GetAt(int nIndex) const	{ return m_aSqlPrimaryKeys.GetSize() ? m_aSqlPrimaryKeys.GetAt(nIndex)	: m_aSqlSpecialColumns.GetAt(nIndex); }
-
-	int		AddSpecialColumn(const CString& strColumnName) { return m_aSqlSpecialColumns.Add(strColumnName); }
-	void	LoadPrimaryKey	(const CString& strTableName, SqlSession* pSqlSession);
+	int	AddSpecialColumn(const CString& strColumnName) { return CStringArray::Add(strColumnName); }
 
 // diagnostics
 #ifdef _DEBUG

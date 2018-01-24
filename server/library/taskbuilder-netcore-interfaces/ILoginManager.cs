@@ -129,8 +129,6 @@ namespace TaskBuilderNetCore.Interfaces
         bool IsRegistered(out string message, out ActivationState actState);
         bool IsRegisteredTrapped(out string message, out ActivationState actState);
         bool IsReseller();
-        bool IsSecurityLightAccessAllowed(string nameSpace, bool unattended);
-        bool IsSecurityLightEnabled();
         bool IsSynchActivation();
         bool IsUserLogged();
         bool IsUserLogged(int loginID);

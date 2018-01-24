@@ -38,7 +38,7 @@ namespace Microarea.Common.NameSolver
 	//================================================================================
 	public class RSEntity
 	{
-		private IBaseModuleInfo parentModuleInfo;
+		private ModuleInfo parentModuleInfo;
 		
 		private string name;
 		private string masterTableNamespace;
@@ -52,7 +52,7 @@ namespace Microarea.Common.NameSolver
 
 		// Properties
 		//--------------------------------------------------------------------------------
-		public IBaseModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
+		public ModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
 		
 		public string Name { get { return name; } }
 		public string MasterTableNamespace { get { return masterTableNamespace; } }
@@ -77,7 +77,7 @@ namespace Microarea.Common.NameSolver
 		/// Constructor
 		///</summary>
 		//--------------------------------------------------------------------------------
-		public RSEntity(string name, string masterTableNs, string documentNs, string hklNs, string numbererNs, string description, int priority, IBaseModuleInfo parentModuleInfo)
+		public RSEntity(string name, string masterTableNs, string documentNs, string hklNs, string numbererNs, string description, int priority, ModuleInfo parentModuleInfo)
 		{
 			this.name = name;
 			this.masterTableNamespace = masterTableNs;
@@ -160,14 +160,14 @@ namespace Microarea.Common.NameSolver
 	public class RowSecurityObjectsInfo
 	{
 		private string filePath;
-		private IBaseModuleInfo parentModuleInfo;
+		private ModuleInfo parentModuleInfo;
 
 		private List<RSEntity> rsEntitiesList = new List<RSEntity>();
 		private List<RSTable> rsTablesList = new List<RSTable>();
 
 		//--------------------------------------------------------------------------------
 		public string FilePath { get { return filePath; } }
-		public IBaseModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
+		public ModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
 
 		public List<RSEntity> RSEntities { get { return rsEntitiesList; } }
 		public List<RSTable> RSTables { get { return rsTablesList; } }
@@ -176,7 +176,7 @@ namespace Microarea.Common.NameSolver
 		/// constructor
 		/// </summary>
 		//---------------------------------------------------------------------
-		public RowSecurityObjectsInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
+		public RowSecurityObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (string.IsNullOrWhiteSpace(aFilePath))
 				Debug.Fail("Error in RowSecurityObjectsInfo file");
@@ -194,7 +194,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if (
-				!File.Exists(filePath) ||
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath) ||
 				parentModuleInfo == null ||
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -204,8 +204,8 @@ namespace Microarea.Common.NameSolver
 				(
 				parentModuleInfo.ParentApplicationInfo.Name,
 				parentModuleInfo.Name,
-				parentModuleInfo.PathFinder
-				);
+				parentModuleInfo.CurrentPathFinder
+                );
 
 			try
 			{
@@ -477,19 +477,16 @@ namespace Microarea.Common.NameSolver
 					UnparseTableNode(t, tablesElement, rowSecurityObjectsXmlDoc);
 
 				// salvataggio del file (sovrascrivendo il contenuto del file se gia' esistente)
-				if (File.Exists(this.filePath) && (File.GetAttributes(this.filePath) & FileAttributes.ReadOnly)== FileAttributes.ReadOnly)
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(this.filePath) && (File.GetAttributes(this.filePath) & FileAttributes.ReadOnly)== FileAttributes.ReadOnly)
 					File.SetAttributes(this.filePath, FileAttributes.Normal);
 
-				//FileInfo rowSecurityObjectsFileInfo = new FileInfo(this.filePath);
-				//if (rowSecurityObjectsFileInfo.Exists && ((rowSecurityObjectsFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly))
-				//    rowSecurityObjectsFileInfo.Attributes -= FileAttributes.ReadOnly;
 				rowSecurityObjectsXmlDoc.Save(File.Open(filePath, FileMode.Open));
 
 				File.SetAttributes(this.filePath, FileAttributes.ReadOnly);
 				//rowSecurityObjectsFileInfo.Attributes = rowSecurityObjectsFileInfo.Attributes | FileAttributes.ReadOnly; // ri-assegno il readonly
 
 				// avendo effettuato l'Unparse devo forzare il reload del file, quindi metto il RowSecurityObjectsInfo a null
-				BaseModuleInfo modInfo = parentModuleInfo as BaseModuleInfo;
+				ModuleInfo modInfo = parentModuleInfo as ModuleInfo;
 				modInfo.RowSecurityObjectsInfo = null;
 			}
 			catch (XmlException xe)

@@ -90,13 +90,19 @@ class TB_EXPORT CLocalizableXMLDocument : public CXMLDocumentObject
 public:
 	CLocalizableXMLDocument(const CTBNamespace& moduleNamespace, CPathFinder* pPathFinder);
 	virtual BOOL		LoadXMLFile				(const CString&);
+	virtual BOOL		LoadXML					(LPCTSTR);
+
 	virtual BOOL		SaveXMLFile				(const CString&, BOOL = FALSE);
+
 
 	BOOL	GetLocalizableText(CXMLNode *pNode, CString &strText);
 	BOOL	SetLocalizableText(CXMLNode *pNode, LPCTSTR lpszText, LPCTSTR lpszDictionary = NULL);
 
 	BOOL	GetLocalizableAttribute(CXMLNode *pNode, CString &strText);
 	BOOL	SetLocalizableAttribute(CXMLNode *pNode, LPCTSTR lpszText);
+
+private:
+	void	LocalizeXMLDocument();
 
 };
 

@@ -522,8 +522,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			{
 				try
 				{
-					if (!Directory.Exists(path))
-						Directory.CreateDirectory(path);
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}

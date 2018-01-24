@@ -66,6 +66,7 @@ public:
 
 
 class IFileSystemDriver;
+class TBFile;
 class DataBlob;
 // manager for all file system access 
 //==============================================================================
@@ -76,7 +77,7 @@ class TB_EXPORT IFileSystemManager : public CObject, public CTBLockable
 	friend class CTaskBuilderApp;
 
 private:
-	CFileSystemCacher		m_Cacher;
+	//CFileSystemCacher		m_Cacher;
 	IFileSystemDriver*		m_pFileSystemDriver;
 	IFileSystemDriver*		m_pAlternativeDriver;
 	BOOL					m_bFileSystemDriverOwner;
@@ -93,9 +94,8 @@ public:
 	virtual LPCSTR			GetObjectName() const { return "IFileSystemManager"; }
 
 private:
-
-	BOOL				LoadCaches	();
-	BOOL				AreCachesLoaded				() const;
+	//BOOL				LoadCaches	();
+	//BOOL				AreCachesLoaded				() const;
 
 	// drivers
 	BOOL				IsAlternativeDriverEnabled		() const;
@@ -107,10 +107,14 @@ private:
 	IFileSystemDriver*		GetAlternativeDriver();
 
 public:
-	virtual CString		GetServerConnectionConfig	() = 0;
+	virtual CString		GetServerConnectionConfig				() = 0;
+	virtual BOOL		DetectAndAttachAlternativeDriver		() = 0;
+	virtual void		GetAllApplicationInfo		(CStringArray*  pAppsPath) = 0;
+	virtual void		GetAllModuleInfo			(const CString& strAppName, CStringArray* pModulesPath) = 0;
 	virtual CString		GetTextFile					(const CString& sFileName) = 0;
-	virtual BOOL		SetTextFile					(const CString& sFileName, const CString& sFileContent)  = 0;
-	virtual DataBlob	GetBinaryFile				(const CString& sFileName) = 0;
+	virtual BOOL		SaveTextFile				(const CString& sFileName, const CString& sFileContent)  = 0;
+	virtual BYTE*		GetBinaryFile				(const CString& sFileName, int& nLen) = 0;
+	virtual BOOL 		SaveBinaryFile				(const CString& sFileName, BYTE* pBinaryContent, int nLen) = 0;
 	virtual BOOL		ExistFile					(const CString& sFileName) = 0;
 	virtual BOOL		RemoveFile					(const CString& sFileName) = 0;
 	virtual BOOL		RenameFile					(const CString& sOldFileName, const CString& sNewName) = 0;
@@ -129,10 +133,14 @@ public:
 	// utility
 	virtual const CString	GetTemporaryBinaryFile		(const CString& sFileName) = 0;
 
+public:
+	virtual CString GetFormattedQueryTime() { return _T(""); }
+	virtual CString GetFormattedFetchTime() { return _T(""); }
+
 private:
 
 	virtual BOOL	Init	(const CString& strServer, const CString& strInstallation, const CString& strMasterSolutionName) = 0;
-	virtual BOOL	Start	(BOOL bLoadCaches  = TRUE);
+	virtual BOOL	Start	(BOOL bLoadCaches  = FALSE);
 	virtual BOOL	Stop	(BOOL bClearCaches = TRUE);
 
 #ifdef _DEBUG

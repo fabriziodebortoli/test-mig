@@ -1,3 +1,4 @@
+using Microarea.Common.NameSolver;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,7 +40,7 @@ namespace Microarea.Common.StringLoader
 			return Path.Combine(Path.Combine(genericDictionaryPath, Culture), "Dictionary.bin");
 		}
 		//--------------------------------------------------------------------------------
-		internal static string GetSpecificDictionaryFilePath(string application, string module, string fileName, IBasePathFinder pf)
+		internal static string GetSpecificDictionaryFilePath(string application, string module, string fileName, PathFinder pf)
 		{
 			if (pf == null)
 				return string.Empty;
@@ -51,7 +52,7 @@ namespace Microarea.Common.StringLoader
 		public static bool ValidateDictionaryPath(ref string dictionaryPath)
 		{
 			// se il percorso esiste, tutto ok
-			if (Directory.Exists(dictionaryPath))
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dictionaryPath))
 				return true;
 			// se la culture non è specifica (es en-us) allora non ho alternative
 			if (Culture.Length <= 2)
@@ -60,7 +61,7 @@ namespace Microarea.Common.StringLoader
 			// provo con la culture generica
 			dictionaryPath = Path.Combine(Path.GetDirectoryName(dictionaryPath), Culture.Substring(0, 2));
 
-			if (!Directory.Exists(dictionaryPath))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dictionaryPath))
 			{
 				dictionaryPath = string.Empty;
 				return false;

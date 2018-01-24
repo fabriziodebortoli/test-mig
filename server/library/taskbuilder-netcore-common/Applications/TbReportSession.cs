@@ -60,7 +60,7 @@ namespace Microarea.Common.Applications
 
         public WebSocket WebSocket = null;
 
-        public IPathFinder PathFinder = null;
+        public PathFinder PathFinder = null;
 
         private string sNamespace;
         public string Namespace { get { return sNamespace; } set { sNamespace = value; } }
@@ -159,7 +159,7 @@ namespace Microarea.Common.Applications
             get
             {
                 //TODO RSWEB
-                return BasePathFinder.BasePathFinderInstance.WebMethods;
+                return PathFinder.WebMethods;
 
             }
         }
@@ -200,7 +200,7 @@ namespace Microarea.Common.Applications
                 //Tutto nuovo
                 //Istanzio
                 Enums = new Enums();
-                ApplicationFontStyles = new ApplicationFontStyles(BasePathFinder.BasePathFinderInstance);
+                ApplicationFontStyles = new ApplicationFontStyles(PathFinder);
                 ApplicationFormatStyles = new ApplicationFormatStyles(this);
 
                 //Leggo gli enumerativi
@@ -236,16 +236,12 @@ namespace Microarea.Common.Applications
                 {
                     //Me li associo
                     ApplicationFontStyles = fonts;
-                    //LARA
-                    //  ApplicationFontStyles.ReportSession = this;
-                    ApplicationFontStyles.PathFinder = BasePathFinder.BasePathFinderInstance;
+                    ApplicationFontStyles.PathFinder = PathFinder;
                 }
                 else
                 {
                     //Me li ricarico
-                    //LARA
-                    // ApplicationFontStyles = new ApplicationFontStyles(this);
-                    ApplicationFontStyles = new ApplicationFontStyles(BasePathFinder.BasePathFinderInstance);
+                    ApplicationFontStyles = new ApplicationFontStyles(PathFinder);
                     ApplicationFontStyles.Load();
                     applicationBag[fontName] = ApplicationFontStyles;
                 }
@@ -346,7 +342,6 @@ namespace Microarea.Common.Applications
             string xargs = d.OuterXml;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute) );
-           
             using (var client = new HttpClient())
             {
                 try
@@ -427,7 +422,7 @@ namespace Microarea.Common.Applications
         public static async Task<string> GetHotLinkQuery(TbSession session, string aParams, /*Hotlink.HklAction*/int action,string filter = "", string documentID =  "", string hklName = "")
         {
             string ns = session.Namespace;
-           
+
             /*TODO RSWEB REFACTORING estrarre metodo usato anche da runfunction, assignwoormparameter ecc..*/
             bool retLogin = TbSession.TbLogin(session).Result;
             if (!retLogin)
@@ -616,7 +611,7 @@ namespace Microarea.Common.Applications
                 }
             }
         }
-    
+
     }
 
     /// <summary>
@@ -628,7 +623,7 @@ namespace Microarea.Common.Applications
 
     public class TbReportSession : TbSession
     {
-       
+
         NameSpace ReportNameSpace = null;
 
         public int PageRendered = -1;
@@ -702,7 +697,7 @@ namespace Microarea.Common.Applications
             this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
             this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
             this.ReportParameters = parameters;
-           
+
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
@@ -726,4 +721,3 @@ namespace Microarea.Common.Applications
     }
 
 }
-

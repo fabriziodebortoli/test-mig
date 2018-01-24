@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Xml;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
@@ -129,7 +128,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------
 		private static void AdaptImageFilePath(XmlNode appMenu)
 		{
-			string installationPath = BasePathFinder.BasePathFinderInstance.GetStandardPath() + Path.DirectorySeparatorChar;
+			string installationPath = PathFinder.PathFinderInstance.GetStandardPath + NameSolverStrings.Directoryseparetor;
 
 			XmlNodeList imageFileNodes = appMenu.SelectNodes(string.Format(".//*/@{0}", MenuJsonStrings.imageFileAttributeName));
 		
@@ -146,13 +145,13 @@ namespace Microarea.Common.MenuLoader
 				string imageFile = string.Empty;
 				if (!theme.Name.IsNullOrEmpty())
 				{
-					imageFile = BasePathFinder.BasePathFinderInstance.GetGroupImagePathByTheme(new NameSpace(attrib.Value), theme.Name);
+					imageFile = PathFinder.PathFinderInstance.GetGroupImagePathByTheme(new NameSpace(attrib.Value), theme.Name);
 
 					if (imageFile.IsNullOrEmpty())
-						imageFile = BasePathFinder.BasePathFinderInstance.GetGroupImagePath(new NameSpace(attrib.Value));
+						imageFile = PathFinder.PathFinderInstance.GetGroupImagePath(new NameSpace(attrib.Value));
 				}
 				else
-					imageFile = BasePathFinder.BasePathFinderInstance.GetGroupImagePath(new NameSpace(attrib.Value));
+					imageFile = PathFinder.PathFinderInstance.GetGroupImagePath(new NameSpace(attrib.Value));
 
 				string newValue = imageFile.ReplaceNoCase(installationPath, "");
 				XmlAttribute newAttr = appMenu.OwnerDocument.CreateAttribute(MenuJsonStrings.imageFileAttributeName);

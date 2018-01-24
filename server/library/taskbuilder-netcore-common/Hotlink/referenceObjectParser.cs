@@ -88,7 +88,7 @@ namespace Microarea.Common.Hotlink
 		/// <summary>
 		/// Modulo contenete il file
 		/// </summary>
-		private IBaseModuleInfo	parentModuleInfo;
+		private ModuleInfo	parentModuleInfo;
 		/// <summary>
 		/// Array dei HotKeyLink ricavati da parsing
 		/// </summary>
@@ -111,7 +111,7 @@ namespace Microarea.Common.Hotlink
 		/// <summary>
 		/// Get del modulo padre del file
 		/// </summary>
-		public  IBaseModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
+		public  ModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
 		/// <summary>
 		/// Get del Diagnostic del parsing
 		/// </summary>
@@ -133,7 +133,7 @@ namespace Microarea.Common.Hotlink
 		/// </summary>
 		/// <param name="nsHotlink">namespace dell'hotlink richiesto</param>
 		//---------------------------------------------------------------------
-		public ReferenceObjectsInfo(INameSpace nsHotlink, IBaseModuleInfo aParentModuleInfo)
+		public ReferenceObjectsInfo(INameSpace nsHotlink, ModuleInfo aParentModuleInfo)
 		{
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (nsHotlink == null || !nsHotlink.IsValid())
@@ -152,7 +152,7 @@ namespace Microarea.Common.Hotlink
 		/// </summary>
 		/// <param name="aFilePath">path del file DatabaseObjects del modulo</param>
 		//---------------------------------------------------------------------
-		public ReferenceObjectsInfo(IBaseModuleInfo aParentModuleInfo)
+		public ReferenceObjectsInfo(ModuleInfo aParentModuleInfo)
 		{
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (aParentModuleInfo == null)
@@ -164,14 +164,13 @@ namespace Microarea.Common.Hotlink
 			valid				= true;
 	
 			filePath = parentModuleInfo.GetReferenceObjectsPath();
-			if (!Directory.Exists(filePath))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(filePath))
 				return;
 
-			string[] hklfiles = Directory.GetFiles (filePath, NameSolverStrings.MaskFileXml); 	
-			
-			foreach (string file in hklfiles)
+		
+			foreach (TBFile file in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(filePath, NameSolverStrings.MaskFileXml))
 			{
-				filePath = file;
+				filePath = file.completeFileName;
 				Parse();
 			}
 		}
@@ -181,7 +180,7 @@ namespace Microarea.Common.Hotlink
 		/// </summary>
 		/// <param name="aFilePath">path del file DatabaseObjects del modulo</param>
 		//---------------------------------------------------------------------
-		public ReferenceObjectsInfo(IBaseModuleInfo aParentModuleInfo, string aFilePath)
+		public ReferenceObjectsInfo(ModuleInfo aParentModuleInfo, string aFilePath)
 		{
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (aParentModuleInfo == null)
@@ -193,7 +192,7 @@ namespace Microarea.Common.Hotlink
 			valid				= true;
 	
 			filePath = aFilePath;
-			if (!File.Exists(filePath))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
 				return;
 
 			filePath = aFilePath;
@@ -213,7 +212,7 @@ namespace Microarea.Common.Hotlink
 		{
 
 			if	(
-				!File.Exists(filePath)		|| 
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath) ||
 				parentModuleInfo == null	|| 
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -224,13 +223,13 @@ namespace Microarea.Common.Hotlink
 				(
 				parentModuleInfo.ParentApplicationInfo.Name,
 				parentModuleInfo.Name,
-				parentModuleInfo.PathFinder   
-				);
+				parentModuleInfo.CurrentPathFinder
+                );
 
 			try
 			{
 				//leggo il file
-				if (!File.Exists(filePath))
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
 				{
 					Debug.Fail("File not found");
 					return false;
@@ -378,13 +377,13 @@ namespace Microarea.Common.Hotlink
 
 			try
 			{
-				string referenceObjectsFolderPath = BasePathFinder
-					.BasePathFinderInstance
-					.GetStandardReferenceObjectsPath(applicationName, moduleName);
+                string referenceObjectsFolderPath = PathFinder
+                    .PathFinderInstance
+                    .GetStandardReferenceObjectsPath(applicationName, moduleName);
 
-				if (!Directory.Exists(referenceObjectsFolderPath))
+                if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(referenceObjectsFolderPath))
 				{
-					Directory.CreateDirectory(referenceObjectsFolderPath);
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(referenceObjectsFolderPath, false);
 				}
 
 				string referenceOnbjectsFileName = Path.Combine(
@@ -392,12 +391,15 @@ namespace Microarea.Common.Hotlink
 					mHotLink.SerializedType + NameSolverStrings.XmlExtension
 					);
 
-				FileInfo referenceObjectsFileInfo = new FileInfo(referenceOnbjectsFileName);
 
-				if (referenceObjectsFileInfo.Exists && ((referenceObjectsFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly))
-					referenceObjectsFileInfo.Attributes -= FileAttributes.ReadOnly;
+				TBFile referenceObjectsFileInfo = new TBFile(referenceOnbjectsFileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(referenceOnbjectsFileName));
 
-				referenceObjectXmlDocument.Save(File.OpenWrite(referenceOnbjectsFileName));
+				if (referenceObjectsFileInfo != null && referenceObjectsFileInfo.Readonly)
+					referenceObjectsFileInfo.Readonly = false;
+
+                PathFinder.PathFinderInstance.FileSystemManager.SaveTextFileFromXml(referenceOnbjectsFileName, referenceObjectXmlDocument);
+                
+
 
 				return referenceOnbjectsFileName;
 			}

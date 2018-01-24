@@ -16,8 +16,10 @@
 class TB_EXPORT CDbFieldDescription : public CDataObjDescription
 {
 	DECLARE_DYNAMIC(CDbFieldDescription)
-	CTBNamespace m_OwnerModule;
+
+
 public:
+	CDbFieldDescription(const CString& strName, DataObj* pValue, const CTBNamespace& ownerModule);
 	CDbFieldDescription (const CDbFieldDescription* pDescri);
 	CDbFieldDescription (const CTBNamespace& ownerModule);
 
@@ -25,24 +27,30 @@ public:
 	enum DbColumnType { Column, Variable, Parameter };
 
 private:
+	CTBNamespace			m_OwnerModule;
 	DbColumnType			m_eColType;
+	BOOL					m_bIsSegmentKey;
 	BOOL					m_bIsAddOn;
 	int						m_nCreationRelease;
 	CString					m_sContextName;
 	
 public:
-	const DbColumnType	GetColType		() const { return m_eColType; }
-	const BOOL&			IsAddOn			() const { return m_bIsAddOn; }
-	const int			GetCreationRelease	() const { return m_nCreationRelease; }
-	const CString&		GetContextName	() const { return m_sContextName; }
-	
-	void 	SetColType			(const DbColumnType		aColType);
-	void 	SetIsAddOn			(const BOOL				bIsAddOn);
+	DbColumnType	GetColType			() const { return m_eColType; }
+	BOOL			IsAddOn				() const { return m_bIsAddOn; }
+	int				GetCreationRelease	() const { return m_nCreationRelease; }
+	const CString&		GetContextName() const { return m_sContextName; }
+	BOOL			IsSegmentKey		() const { return m_bIsSegmentKey; }
+	const CTBNamespace&	GetOwnerModule		() const  { return m_OwnerModule; }
+
+	void 	SetColType			(DbColumnType aColType) { m_eColType = aColType; }
+	void 	SetIsAddOn			(BOOL bIsAddOn)			{ m_bIsAddOn = bIsAddOn; }
 	void	SetCreationRelease	(const int nRelease)	{ m_nCreationRelease = nRelease; }
-	void	SetContextName		(const CString& sName)	{ m_sContextName = sName; }
+	void	SetContextName		(const CString& sName) { m_sContextName = sName; }
+	void	SetIsSegmentKey		(BOOL bIsKey)			{ m_bIsSegmentKey = bIsKey; }
 	
-	void	Assign			(const CDbFieldDescription* pDescri);
-	const CTBNamespace&		GetOwnerModule() { return m_OwnerModule; }
+	
+	void	Assign				(const CDbFieldDescription* pDescri);
+	
 };
 
 // Table/View/Procedure
@@ -56,6 +64,7 @@ public:
 
 private:
 	int				m_nCreationRelease;
+	int				m_nCreationStep;
 	Array			m_arDynamicFields;
 	DeclarationType	m_DeclarationType;
 	CTBNamespace	m_TemplateNamespace;
@@ -68,6 +77,7 @@ public:
 	virtual const CString	GetTitle	() const;
 	
 	const int				GetCreationRelease		() const { return m_nCreationRelease; }
+	const int				GetCreationStep			() const { return m_nCreationStep; }
 	const Array&			GetDynamicFields		() const { return m_arDynamicFields; }
 	const int				GetSqlRecType			() const;
 	CDbFieldDescription*	GetDynamicFieldByName	(const CString& sName) const;
@@ -76,12 +86,15 @@ public:
 	const BOOL				IsMasterTable()			const { return m_bMasterTable; }
 
 	// metodi di settaggio
-	void	SetCreationRelease	(const int nRelease);
-	void	SetDeclarationType (const CDbObjectDescription::DeclarationType bValue);
-	void	SetTemplateNamespace(const CTBNamespace& aNs);
-	void	SetMasterTable		(BOOL bMaster);
+	void	SetCreationRelease(const int nRelease)	{ m_nCreationRelease = nRelease; }
+	void	SetCreationStep		(const int nStep)	{ m_nCreationStep = nStep; }
+	void	SetDeclarationType(const CDbObjectDescription::DeclarationType bValue) { m_DeclarationType = bValue; };
+	void	SetTemplateNamespace(const CTBNamespace& aNs)	{ m_TemplateNamespace = aNs; }
+	void	SetMasterTable(BOOL bSet)						 { m_bMasterTable = bSet; }
+
 	void	AddDynamicField		(CDbFieldDescription* pField);
 	void	RemoveDynamicField	(int nIdx);
+	void	RemoveAllDynamicFields();
 };
 
 // AdditionalColumns/AlterTable
@@ -92,15 +105,18 @@ class TB_EXPORT CAlterTableDescription : public CBaseDescription
 
 private:
 	int	m_nCreationRelease;
+	int m_nCreationStep;
 
 public:
 	CAlterTableDescription ();
 
 public:
 	const int&	GetCreationRelease	() const { return m_nCreationRelease; }
+	const int&	GetCreationStep() const { return m_nCreationStep; }
 
 	// metodi di settaggio
-	void	SetCreationRelease	(const int& nRelease);
+	void	SetCreationRelease(const int& nRelease) { m_nCreationRelease = nRelease; }
+	void	SetCreationStep		(const int& nStep)  { m_nCreationStep = nStep; }
 };
 
 // AdditionalColumns/Table
@@ -129,8 +145,8 @@ public:
 };
 
 //=============================================================================        
-const TB_EXPORT CBaseDescriptionArray*	AFXAPI AfxGetAddOnFieldsTable ();
-const TB_EXPORT CAddColsTableDescription* AFXAPI AfxGetAddOnFieldsOnTable (const CTBNamespace& aTableNs);
+const TB_EXPORT CAlterTableDescriptionArray*	AFXAPI AfxGetAddOnFieldsTable ();
+const TB_EXPORT CAddColsTableDescription*		AFXAPI AfxGetAddOnFieldsOnTable (const CTBNamespace& aTableNs);
 
 //=============================================================================        
 //			DatabaseObjectsTable needed structures related to #3617
@@ -159,7 +175,7 @@ public:
 class TB_EXPORT DatabaseReleasesTable : public CObject, public CTBLockable
 {
 private:
-	CMapStringToOb	m_Releases;
+	CMapStringToOb*	m_pReleases;
 
 public:
 	DatabaseReleasesTable ();
@@ -170,6 +186,8 @@ public:
 	const int		GetReleaseOf	(CString sKey) const;
 
 	BOOL AddRelease	(CString sKey, const CString& sSignature, const int& nRelease);
+	CMapStringToOb* GetDatabaseReleaseMap() const {return m_pReleases;	}
+
 
 public:
 	virtual LPCSTR  GetObjectName() const { return "DatabaseReleasesTable"; }
