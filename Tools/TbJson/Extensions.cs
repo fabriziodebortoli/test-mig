@@ -21,9 +21,15 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------
-        internal static JArray GetItems(this JToken jObj)
+        internal static JArray GetItems(this JToken jObj, bool createIfNone = false)
         {
-            return jObj[Constants.items] as JArray;
+            JArray ar = jObj[Constants.items] as JArray;
+            if (ar == null && createIfNone)
+            {
+                ar = new JArray();
+                jObj[Constants.items] = ar;
+            }
+            return ar;
         }
         //-----------------------------------------------------------------------------
         internal static string GetId(this JToken jObj)
@@ -179,7 +185,20 @@ namespace Microarea.TbJson
             if (jAr == null)
                 return;
             //toolbar
-            JArray sorted = new JArray(jAr.OrderBy(obj => obj.GetCategoryOrdinal()));
+            JArray sorted = new JArray(jAr.OrderBy(obj => {
+                    //la toolbar top ma in testa, poi gli altri oggetti, infine la toolbar bottom
+                    WndObjType type = obj.GetWndObjType();
+                    if (type == WndObjType.Toolbar)
+                    {
+                        string ngTag = obj.GetFlatString(Constants.ngTag);
+                        if (ngTag == Constants.tbToolbarTop)
+                            return 1;
+                        else
+                            return 20;
+                    }
+
+                    return 10;//vista o altri oggetti analoghi
+            }));
             jObj[Constants.items] = sorted;
             foreach (JObject jButton in sorted)
             {
@@ -225,25 +244,7 @@ namespace Microarea.TbJson
         }
 
 
-        //-----------------------------------------------------------------------------
-        internal static string GetToolbarTag(this JObject jObj)
-        {
-            switch (jObj.GetCommandCategory())
-            {
-                case CommandCategory.Search:
-                case CommandCategory.Radar:
-                case CommandCategory.Navigation:
-                case CommandCategory.Advanced:
-                case CommandCategory.Tools:
-                case CommandCategory.Edit:
-                case CommandCategory.Exit:
-                    return Constants.tbToolbarTop;
-                case CommandCategory.Print:
-                case CommandCategory.Undefined:
-                default:
-                    return Constants.tbToolbarBottom;
-            }
-        }
+      
         //-----------------------------------------------------------------------------
         internal static bool MatchId(this JObject jObj, string id)
         {
@@ -398,41 +399,7 @@ namespace Microarea.TbJson
 
             return 100;//bottoni residuali
         }
-        /// <summary>
-        /// Serve per ordinare vista e toolbar in base alle rispettive categorie; alcune toolbar vanno prima della vista, altre dopo
-        /// </summary>
-        internal static int GetCategoryOrdinal(this JToken jObj)
-        {
-            WndObjType type = jObj.GetWndObjType();
-            if (type == WndObjType.Toolbar || type == WndObjType.ToolbarButton)
-            {
-                switch (jObj.GetCommandCategory())
-                {
-                    case CommandCategory.Search:
-                        return 1;
-                    case CommandCategory.Navigation:
-                        return 2;
-                    case CommandCategory.Edit:
-                        return 3;
-                    case CommandCategory.Exit:
-                        return 4;
 
-                    case CommandCategory.Radar:
-                        return 5;
-                    case CommandCategory.Advanced:
-                        return 6;
-                    case CommandCategory.Tools:
-                        return 7;
-                    case CommandCategory.Print:
-                        return 9;
-                    case CommandCategory.Undefined:
-                    default:
-                        return 9;
-                }
-            }
-
-            return 10;//vista o altri oggetti analoghi
-        }
 
         /// <summary>
         /// Appende una stringa allo StringBuilder controllando che non sia già presente

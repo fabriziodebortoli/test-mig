@@ -356,7 +356,6 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         private void AdjustStructure(JObject jRoot)
         {
-            Dictionary<string, JArray> map = new Dictionary<string, JArray>();
             JArray ar = jRoot.GetItems();
             JObject jViewContainer = CreateDummy(WndObjType.ViewContainer);
             JObject jDockPaneContainer = CreateDummy(WndObjType.DockPaneContainer);
@@ -385,13 +384,13 @@ namespace Microarea.TbJson
                     {
                         foreach (JObject toolbar in item.GetItems())
                         {
-                            ToolbarToMap(map, toolbar);
+                            ToolbarInfo.ToolbarToMap(ar, toolbar);
                         }
                         ar.RemoveAt(i);
                     }
                     else if (item.GetWndObjType() == WndObjType.Toolbar)
                     {
-                        ToolbarToMap(map, (JObject)item);
+                        ToolbarInfo.ToolbarToMap(ar, (JObject)item);
                         ar.RemoveAt(i);
                     }
                     else if (item.GetWndObjType() == WndObjType.View)
@@ -406,15 +405,6 @@ namespace Microarea.TbJson
                     }
                 }
             }
-            foreach (var pair in map)
-            {
-                JObject toolbar = new JObject();
-                toolbar[Constants.type] = (int)WndObjType.Toolbar;
-                toolbar[Constants.ngTag] = pair.Key;
-                toolbar[Constants.category] = (int)pair.Value[0].GetCommandCategory();
-                toolbar[Constants.items] = pair.Value;
-                ar.Add(toolbar);
-            }
             jRoot.GetItems().Add(jFrameContent);
             jRoot.ReplaceEnums();
             jRoot.SortItems();
@@ -428,24 +418,8 @@ namespace Microarea.TbJson
             return jObj;
         }
 
-
-        //-----------------------------------------------------------------------------
-        private static void ToolbarToMap(Dictionary<string, JArray> map, JObject toolbar)
-        {
-            foreach (JObject btn in toolbar.GetItems())
-            {
-                string tag = btn.GetToolbarTag();
-                JArray buttons = null;
-                if (!map.TryGetValue(tag, out buttons))
-                {
-                    buttons = new JArray();
-                    map[tag] = buttons;
-                }
-                if (!btn.GetBool(Constants.isSeparator) && buttons.Find(btn.GetId()) == null)
-                    buttons.Add(btn);
-            }
-        }
-
+       
+       
         //-----------------------------------------------------------------------------
         private void UpdateModuleFile(string modulePath, string moduleName, string container, string componentName)
         {
@@ -731,16 +705,27 @@ namespace Microarea.TbJson
                     }
                 case WndObjType.Toolbar:
                     {
-                        string tag = (string)jObj[Constants.ngTag];
+                        string tag = jObj.GetFlatString(Constants.ngTag);
+                        string sClass = jObj.GetFlatString(Constants.ngClass);
                         if (!string.IsNullOrEmpty(tag))
                         {
-                            if (string.Compare(tag, Constants.tbToolbarTop, true) == 0)
+                            if (tag == Constants.tbToolbarTop)
                                 htmlWriter.Write("  <ng-container #radar></ng-container>\r\n");
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
+
+                            //se ho una div ma nessuna classe, è inutile metterla
+                            if (tag == Constants.div && string.IsNullOrEmpty(sClass))
                             {
-                                WriteActivationAttribute(jObj);
-                                w.CloseBeginTag();
                                 GenerateHtmlChildren(jObj, type);
+                            }
+                            else
+                            {
+                                using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
+                                {
+                                    if (!string.IsNullOrEmpty(sClass))
+                                        htmlWriter.WriteAttribute(Constants.sClass, sClass);
+                                    w.CloseBeginTag();
+                                    GenerateHtmlChildren(jObj, type);
+                                }
                             }
                         }
 
@@ -830,7 +815,7 @@ namespace Microarea.TbJson
 
                             w.CloseBeginTag();
 
-                            //using (OpenCloseTagWriter wDiv = new OpenCloseTagWriter("div", this, true))
+                            //using (OpenCloseTagWriter wDiv = new OpenCloseTagWriter(Constants.div, this, true))
                             //{
                             //    htmlWriter.Write(string.Format(" class=\"editableRow\" *ngIf=\"{0}?.currentRow\"", cmpId));
                             //    wDiv.CloseBeginTag();
@@ -1562,7 +1547,7 @@ namespace Microarea.TbJson
 
             if (anchorMap.TryGetValue(Constants.COL1, out l))
             {
-                using (OpenCloseTagWriter w = new OpenCloseTagWriter("div", this, false))
+                using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.div, this, false))
                 {
                     htmlWriter.Write(" class=\"col col1\"");
                     w.CloseBeginTag();
@@ -1576,7 +1561,7 @@ namespace Microarea.TbJson
 
             if (anchorMap.TryGetValue(Constants.COL2, out l))
             {
-                using (OpenCloseTagWriter w = new OpenCloseTagWriter("div", this, false))
+                using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.div, this, false))
                 {
                     htmlWriter.Write(" class=\"col col2\"");
                     w.CloseBeginTag();
@@ -1600,7 +1585,7 @@ namespace Microarea.TbJson
                 OpenCloseTagWriter w = null;
                 if (needOuterDiv)
                 {
-                    w = new OpenCloseTagWriter("div", this, false);
+                    w = new OpenCloseTagWriter(Constants.div, this, false);
                     htmlWriter.Write(" class=\"anchored\"");
                     w.CloseBeginTag();
                 }

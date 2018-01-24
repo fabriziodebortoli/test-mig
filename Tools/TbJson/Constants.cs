@@ -123,6 +123,7 @@
         internal const string numberDecimal = "numberDecimal";
 
         internal const string ngTag = "ng-tag";
+        internal const string ngClass = "ng-class";
         internal const string ngTemplate = "ng-template";
         internal const string chars = "chars";
         internal const string textLimit = "textLimit";
@@ -134,5 +135,7 @@
         internal const string anchor = "anchor";
         internal const string COL1 = "COL1";
         internal const string COL2 = "COL2";
+        internal const string sClass = "class";
+        internal const string div= "div";
     }
 }
