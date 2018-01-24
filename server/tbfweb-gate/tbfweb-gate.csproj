@@ -1,38 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <DebugType>portable</DebugType>
-    <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>web-server</AssemblyName>
-    <OutputType>Exe</OutputType>
-    <PackageId>web-server</PackageId>
-    <UserSecretsId>aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5</UserSecretsId>
-     
+    <RootNamespace>Microarea.TbfWebGate</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.json" />
-    <Content Remove="tbloader.config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\data-service\data-service.csproj" />
-    <ProjectReference Include="..\account-manager\account-manager.csproj" />
-    <ProjectReference Include="..\erp-service\erp-service.csproj" />
-    <ProjectReference Include="..\menu-service\menu-service.csproj" />
-    <ProjectReference Include="..\provisioning-database-service\provisioning-database-service.csproj" />
-    <ProjectReference Include="..\report-service\report-service.csproj" />
-    <ProjectReference Include="..\tbfs-service\tbfs-service.csproj" />
-    <ProjectReference Include="..\tbfweb-gate\tbfweb-gate.csproj" />
-    <ProjectReference Include="..\tbloader-gate\tbloader-gate.csproj" />
-    <ProjectReference Include="..\widgets-service\widgets-service.csproj" />
-    <ProjectReference Include="..\manufacturing-service\manufacturing-service.csproj" />
-    <ProjectReference Include="..\licensing-manager\licensing-manager.csproj" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCaching" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.WebSockets.Server" Version="0.1.0" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.1.2-alpha" />
@@ -61,17 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="tbloader.config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\library\taskbuilder-netcore-documents\taskbuilder-netcore-documents.csproj" />
   </ItemGroup>
 
 </Project>

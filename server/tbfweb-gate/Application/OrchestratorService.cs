@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using TaskBuilderNetCore.Documents.Controllers;
 using TaskBuilderNetCore.Documents.Model;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
-using TaskBuilderNetCore.Documents.Model.TbModel;
 
-namespace Microarea.TbLoaderGate.Application
+namespace Microarea.TbfWebGate.Application
 {
     //===============================================================================================
     public class OrchestratorService
@@ -18,8 +17,6 @@ namespace Microarea.TbLoaderGate.Application
         private IHostingEnvironment hostingEnvironment;
         private WebSocket webSocket;
         private Orchestrator orchestrator;
-
-        static public string SubUrl { get => "/tbo/"; }
 
 
         //-----------------------------------------------------------------------------------------------------
@@ -32,83 +29,68 @@ namespace Microarea.TbLoaderGate.Application
         }
 
         //-----------------------------------------------------------------------------------------------------
-        private CallerContext GetContextFromParameters(HttpRequest request)
+        //internal async Task ProcessRequest(string url, HttpRequest request, HttpResponse response, string authHeader)
+        //{
+        //    // tolgo l'url
+        //    url = url.Substring(SubUrl.Length);
+
+        //    CallerContext context = GetContextFromParameters(request);
+        //    context.AuthToken = authHeader;
+
+        //    string outputMessage = string.Empty;
+        //    response.StatusCode = 200;
+
+        //    switch (url.ToLower())
+        //    {
+        //        case "getcomponent":
+
+        //            outputMessage = GetDocument(context);
+        //            break;
+        //        case "closecomponent":
+        //            orchestrator.CloseComponent(context);
+        //            break;
+        //        case "getdocument":
+
+        //            IDocument document = orchestrator.GetDocument(context);
+        //            if (document == null)
+        //                outputMessage = "{\"Success\" : \"Document not found\"}";
+        //            else
+        //                outputMessage = "{\"Success\" : \"Document found\"}";
+        //            break;
+        //        case "closedocument":
+        //            orchestrator.CloseDocument(context); break;
+        //        case "test":
+        //            TestSamples samples = new TestSamples(orchestrator);
+        //            outputMessage = samples.RunAllTests();
+        //            samples = null;
+        //            break;
+        //        case "saveorders":
+        //            TestSamples testSaveOrders = new TestSamples(orchestrator);
+        //            outputMessage = testSaveOrders.ExecuteSaveOrders();
+        //            samples = null;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //    await response.WriteAsync(outputMessage);
+        //}
+
+        public string GetDocument(CallerContext context)
         {
-            CallerContext context = null;
-            string callerContext = request.Query["context"];
-            if (!string.IsNullOrEmpty(callerContext))
-                context = JsonConvert.DeserializeObject<CallerContext>(callerContext);
-
-            if (context == null)
-                context = new CallerContext();
-
-            string name = request.Query["name"];
-            if (!string.IsNullOrEmpty(name))
-                context.ObjectName = name;
-            string company = request.Query["company"];
-
-            if (!string.IsNullOrEmpty(company))
-                context.Company = company;
-
-            return context;
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        internal async Task ProcessRequest(string url, HttpRequest request, HttpResponse response, string authHeader)
-        {
-            // tolgo l'url
-            url = url.Substring(SubUrl.Length);
-
-            CallerContext context = GetContextFromParameters(request);
-            context.AuthToken = authHeader;
-
-            string outputMessage = string.Empty;
-            response.StatusCode = 200;
-
-            switch (url.ToLower())
-            {
-                case "getcomponent":
-
-                    IComponent component = orchestrator.GetComponent(context);
-                    if (component == null)
-                        outputMessage = "{\"Success\" : \"Component not found\"}";
-                    else
-                        outputMessage = "{\"Success\" : \"Component found\"}";
-                    break;
-                case "closecomponent":
-                    orchestrator.CloseComponent(context);
-                    break;
-                case "getdocument":
-
-                    IDocument document = orchestrator.GetDocument(context);
-                    if (document == null)
-                        outputMessage = "{\"Success\" : \"Document not found\"}";
-                    else
-                        outputMessage = "{\"Success\" : \"Document found\"}";
-                    break;
-                case "closedocument":
-                    orchestrator.CloseDocument(context); break;
-                case "test":
-                    TestSamples samples = new TestSamples(orchestrator);
-                    outputMessage = samples.RunAllTests();
-                    samples = null;
-                    break;
-                case "saveorders":
-                    TestSamples testSaveOrders = new TestSamples(orchestrator);
-                    outputMessage = testSaveOrders.ExecuteSaveOrders();
-                    samples = null;
-                    break;
-                default:
-                    break;
-            }
-            await response.WriteAsync(outputMessage);
+            string outputMessage;
+            IComponent component = orchestrator.GetComponent(context);
+            if (component == null)
+                outputMessage = "{\"Success\" : \"Document not found\"}";
+            else
+                outputMessage = "{\"Success\" : \"Document found\"}";
+            return outputMessage;
         }
 
         /// <summary>
         ///  Blocco di test dimostrtivo per adesso tutto sincrono
         /// </summary>
         //-----------------------------------------------------------------------------------------------------
-        }
+    }
 
     //===============================================================================================
     internal class TestSamples
