@@ -1015,7 +1015,7 @@ namespace Microarea.EasyBuilder.UI
                     myLocalization.PopulateStrings(((CultureInfo)tscomboLanguages.SelectedItem).Name);
             }
             
-            if (formEditor != null && formEditor.Site.DesignMode)
+            if (formEditor != null && formEditor.Site.DesignMode && !formEditor.SuspendDirtyChanges)
                 formEditor.Build(true, string.Empty);
         }
 

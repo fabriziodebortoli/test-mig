@@ -134,6 +134,17 @@ import localepl from '@angular/common/locales/pl';
 import localero from '@angular/common/locales/ro';
 import localesi from '@angular/common/locales/si';
 import localetr from '@angular/common/locales/tr';
+import localept from '@angular/common/locales/pt';
+import localezh from '@angular/common/locales/zh';
+import localehr from '@angular/common/locales/hr';
+import localede from '@angular/common/locales/de';
+import localees from '@angular/common/locales/es';
+import localefr from '@angular/common/locales/fr';
+import localesr from '@angular/common/locales/sr';
+import localesrcyrl from '@angular/common/locales/sr-Cyrl';
+import localesrlatn from '@angular/common/locales/sr-Latn';
+import localesl from '@angular/common/locales/sl';
+import localeru from '@angular/common/locales/ru';
 
 const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_culture') : 'en-EN';
 registerLocaleData(findLocaleData(culture));
@@ -141,9 +152,11 @@ findLocaleData(culture);
 export function findLocaleData(locale: string): any {
     const normalizedLocale = locale.toLowerCase().replace(/_/g, '-');
     switch (normalizedLocale) {
-        case 'de-CH': return localedech;
-        case 'es-CL': return localeescl;
-        case 'it-CH': return localeitch;
+        case 'de-ch': return localedech;
+        case 'es-cl': return localeescl;
+        case 'it-ch': return localeitch;
+        case 'sr-cyrl': return localesrcyrl;
+        case 'sr-latn': return localesrlatn;
     }
 
     const parentLocale = normalizedLocale.split('-')[0];
@@ -157,6 +170,15 @@ export function findLocaleData(locale: string): any {
         case 'ro': return localero;
         case 'si': return localesi;
         case 'tr': return localetr;
+        case 'pt': return localept;
+        case 'zh': return localezh;
+        case 'hr': return localehr;
+        case 'de': return localede;
+        case 'es': return localees;
+        case 'fr': return localefr;
+        case 'sr': return localesr;
+        case 'sl': return localesl;
+        case 'ru': return localeru;
     }
 
     return localeit;

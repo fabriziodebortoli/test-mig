@@ -35,7 +35,7 @@ namespace Microarea.Common.Applications
 		public static AlignType DefaultTotalStringAlign = AlignType.DT_LEFT | AlignType.DT_TOP | AlignType.DT_NOPREFIX | AlignType.DT_EXPANDTABS;
 		public static AlignType DefaultTotalNumAlign = AlignType.DT_RIGHT | AlignType.DT_TOP | AlignType.DT_NOPREFIX | AlignType.DT_EXPANDTABS;
 
-		public static Color DefaultColumnTitleForeground = Color.FromArgb(255, 255, 255, 255);
+		public static Color DefaultColumnTitleForeground = Color.FromArgb(255, 0, 0, 0);
 		public static Color DefaultColumnTitleBackground = Color.FromArgb(255,192, 192, 192);
 
 		public static Color DefaultColumnBorderColor = Color.FromArgb(255, 255, 255, 255);

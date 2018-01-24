@@ -1542,6 +1542,12 @@ void WhileLoopAction::Unparse(Unparser& oFile, BOOL /*bNewLine = TRUE*/, BOOL /*
 }
 
 //----------------------------------------------------------------------------
+BOOL WhileLoopAction::IsEmpty() const
+{
+	return m_Block.IsEmpty();
+}
+
+//----------------------------------------------------------------------------
 BOOL WhileLoopAction::CanDeleteField(LPCTSTR pszFieldName)
 {
 	if (m_ConditionExpr.HasMember(pszFieldName))
@@ -1565,12 +1571,6 @@ void WhileLoopAction::DeleteTable(LPCTSTR pszDispTableName)
 {
     if (!m_Block.IsEmpty())	
 		m_Block.DeleteTable(pszDispTableName);
-}
-
-//----------------------------------------------------------------------------
-BOOL WhileLoopAction::IsEmpty() const
-{
-	return m_Block.IsEmpty();
 }
 
 //----------------------------------------------------------------------------
@@ -2146,6 +2146,14 @@ void DisplayTableAction::DeleteTable(LPCTSTR pszDispTableName)
 		}
 	}
 }
+
+//----------------------------------------------------------------------------
+void DisplayTableAction::DispTableChanged(LPCTSTR pszOldName, LPCTSTR pszNewName)
+{
+	if (m_sTableName.CompareNoCase(pszOldName) == 0)
+		m_sTableName = pszNewName;
+}
+
 
 //===========================================================================
 //              Class DisplayChartAction implementation
