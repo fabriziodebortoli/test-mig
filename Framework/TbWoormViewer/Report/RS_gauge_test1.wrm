@@ -9,7 +9,7 @@ PageLayout "default"
 Gauge Gauge_1
 	Begin
 		Alias 21
-		Type 1 /*Linear=1, Radial=2, Arc=3*/
+		Type 2 /*Linear=2, Radial=3, Arc=1*/
 		Rect (58,57,172,309) 
 			Begin
 				Transparent
@@ -19,9 +19,9 @@ Gauge Gauge_1
 		GaugeScale(10, 90, 5, 10)
 		Landscape 
 		
-		GaugeRangeColor(10, 35, color(255,0,0))
-		GaugeRangeColor(36, 65, color(255,0,255))
-		GaugeRangeColor(66, 90, color(255,255,0))
+		GaugeRangeColor(10, 35, color(206, 249, 251))
+		GaugeRangeColor(36, 65, color(206, 147, 251))
+		GaugeRangeColor(66, 90, color(206, 147, 178))
 		
 		GaugePointer 
 			Begin

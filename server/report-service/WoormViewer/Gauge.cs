@@ -339,7 +339,7 @@ namespace Microarea.RSWeb.Objects
             if (this.GaugeType == EnumGaugeType.Linear)
                 s += ',' + (Landscape ? false : true).ToJson("vertical");//  <kendo-lineargauge [pointer]="{ value: value }" [scale]="{ vertical: true }">
 
-            s += ',' + this.MinorUnit.ToJson("monirUnit");
+            s += ',' + this.MinorUnit.ToJson("minorUnit");
             s += ',' + this.MajorUnit.ToJson("majorUnit");
             s += ',' + this.Min.ToJson("min");
             s += ',' + this.Max.ToJson("max");

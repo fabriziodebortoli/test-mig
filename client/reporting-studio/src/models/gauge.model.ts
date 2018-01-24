@@ -67,4 +67,15 @@ export class pointer {
         this.style = jsonObj.style;
         this.value = jsonObj.value ? jsonObj.value : 0;
     }
+
+    getStyleName(): string {
+        switch (this.style) {
+            case GaugeObjectStyle.arrow:
+                return 'arrow';
+            case GaugeObjectStyle.bar:
+                return 'bar';
+            default:
+                return 'arrow';
+        }
+    }
 }
