@@ -58,13 +58,6 @@
     <PackageReference Include="Microsoft.Windows.Compatibility.Shims" Version="2.0.0-preview1-25914-04" />
   </ItemGroup>
 
-  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="npm install" />
-    <!--<Exec Command="bower install" />
-    <Exec Command="gulp clean" />
-    <Exec Command="gulp min" />-->
-  </Target>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
