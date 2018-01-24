@@ -1,7 +1,10 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { Logger } from './../../../core/services/logger.service';
 import { AuthService } from './../../../core/services/auth.service';
+
+import { TbComponent } from '../tb.component';
 
 @Component({
     selector: 'tb-change-password',
@@ -9,7 +12,7 @@ import { AuthService } from './../../../core/services/auth.service';
     styleUrls: ['./change-password.component.scss']
 })
 
-export class ChangePasswordComponent implements OnDestroy {
+export class ChangePasswordComponent extends TbComponent implements OnDestroy {
     passwordChanged: EventEmitter<string> = new EventEmitter();
 
     public errorMessage: string = "";
@@ -19,8 +22,11 @@ export class ChangePasswordComponent implements OnDestroy {
     public changePasswordOpened: boolean = false;
     constructor(
         public authService: AuthService,
+        public tbComponentService: TbComponentService,
+        protected changeDetectorRef: ChangeDetectorRef,
         public logger: Logger
     ) {
+        super(tbComponentService, changeDetectorRef);
     }
 
     ngOnDestroy() {

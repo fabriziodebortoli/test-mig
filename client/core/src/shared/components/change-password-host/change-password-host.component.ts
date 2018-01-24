@@ -1,10 +1,12 @@
-import { PasswordComponent } from './../../controls/password/password.component';
+import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 
-import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter, ViewChild } from '@angular/core';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { AuthService } from './../../../core/services/auth.service';
+
+import { TbComponent } from '../tb.component';
+
 import { ChangePasswordComponent } from './../change-password/change-password.component';
-
-
+import { PasswordComponent } from './../../controls/password/password.component';
 
 @Component({
     selector: 'tb-change-password-host',
@@ -12,12 +14,15 @@ import { ChangePasswordComponent } from './../change-password/change-password.co
     styleUrls: ['./change-password-host.component.scss']
 })
 
-export class ChangePasswordHostComponent implements OnDestroy {
+export class ChangePasswordHostComponent extends TbComponent implements OnDestroy {
     @ViewChild('changePassword') changePassword: ChangePasswordComponent
     passwordChanged: boolean = false;
     constructor(
-        public authService: AuthService
+        public authService: AuthService,
+        public tbComponentService: TbComponentService,
+        protected changeDetectorRef: ChangeDetectorRef
     ) {
+        super(tbComponentService, changeDetectorRef);
     }
 
     ngOnDestroy() {
