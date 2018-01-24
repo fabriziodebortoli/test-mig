@@ -25,6 +25,8 @@ private:
 	int ParseCaching				(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int ParsePerformanceCheck		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int ParseWebServiceDriver		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
+	int	ParseFileSystemDriver		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
+	int ParserDatabaseDriverKey		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 };
 
 //=============================================================================
@@ -40,9 +42,19 @@ private:
 	BOOL		m_bAutoDetectDriver;
 	BOOL		m_bEnableCaching;
 	BOOL		m_bEnablePerformanceCheck;
+	//FileSystemDriver
+	CString		m_sFSServerName;
+	CString		m_sFSInstanceName;
+	CString		m_sFSStandardPath;
+	CString		m_sFSCustomPath;
+
+	//WebServiceDriver
 	int			m_nWebServiceDriverPort;
 	CString		m_sWebServiceDriverService;
 	CString		m_sWebServiceDriverNamespace;
+
+	//DatabaseDriver
+	CString		m_strStandardConnectionString;
 
 public:
 	CFileSystemManagerInfo();
@@ -58,10 +70,18 @@ public:
 	BOOL		IsCachingEnabled			() const;
 	BOOL		IsPerformanceCheckEnabled	() const;
 
+	const CString&	GetFSServerName() const { return m_sFSServerName; }
+	const CString&	GetFSInstanceName() const { return m_sFSInstanceName; } 
+	const CString&	GetFSStandardPath() const { return m_sFSStandardPath; }
+	const CString&	GetFSCustomPath() const { return m_sFSCustomPath; }
 
-	const int&		GetWebServiceDriverPort		() const;
-	const CString&	GetWebServiceDriverService	() const;
+	const int&		GetWebServiceDriverPort() const;
+	const CString&	GetWebServiceDriverService() const;
 	const CString&	GetWebServiceDriverNamespace() const;
+
+	const CString&	GetStandardConnectionString() const { return m_strStandardConnectionString; }
+	
+	
 
 private:
 	CString GetFileName () const;

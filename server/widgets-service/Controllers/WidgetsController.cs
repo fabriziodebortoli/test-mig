@@ -78,14 +78,14 @@ namespace widgets_service.Controllers
             NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.File);
             string widgetFilename = pathFinder.GetFilename(ns, string.Empty) + ".widget.json";
 
-            if (!System.IO.File.Exists(widgetFilename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFilename))
                 return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "text/plan" };
 
             try
             {
-                using (StreamReader sr = System.IO.File.OpenText(widgetFilename))
+                using (Stream sr = PathFinder.PathFinderInstance.FileSystemManager.GetStream(widgetFilename, true))
                 {
-                    content = sr.ReadToEnd();
+                    content = PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(widgetFilename);
                 }
             }
             catch (Exception e)
@@ -124,11 +124,11 @@ namespace widgets_service.Controllers
 				DirectoryInfo di = new DirectoryInfo(code);
                 PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
                 widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
-                if (!System.IO.File.Exists(widgetFileFullName))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFileFullName))
                 {
                     // user configured widgets are missing, create a default one
                     string defaultWidgetFileFullName = di.FullName.ToLower().Replace("web-server.dll", "widgets.json");
-                    System.IO.File.Copy(defaultWidgetFileFullName, widgetFileFullName);
+                    PathFinder.PathFinderInstance.FileSystemManager.CopyFile(defaultWidgetFileFullName, widgetFileFullName, false);
                     statusCode = 203; // success with info
                 }
                 else
@@ -141,7 +141,7 @@ namespace widgets_service.Controllers
 			}
 
 			// no configured widgets, is not an error
-			if (!System.IO.File.Exists(widgetFileFullName))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFileFullName))
 				return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "application/text" };
 
 

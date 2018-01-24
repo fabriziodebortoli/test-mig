@@ -18,7 +18,7 @@ namespace Microarea.RSWeb.WoormWebControl
                     string imageFolder = userPage.MapPath(imageRelativeFolder);
                     string imagePath = Path.Combine(imageFolder, imageFile); 
 
-                    if (!File.Exists(imagePath))
+                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(imagePath))
                     {
                         // creo la cartella e la referenzio nell'oggetto application
                         // (così verrà rimossa al termine dell'applicazione)

@@ -779,10 +779,7 @@ BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 			// corretta an. 24514
 			// caso speciale costante stringa unicode tipo : N'0001'
 			// eliminiamo la N perche' verra' riaggiunta successivamente dalla nativeconvert
-			BOOL bSkipUnicodeMark = m_pSqlConnection ?
-									((strName.Compare(L"N") == 0) && lex.LookAhead(T_STR) && m_pSqlConnection->UseUnicode() && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
-									:
-									FALSE;
+			BOOL bSkipUnicodeMark = m_pSqlConnection->UseUnicode() && strName.Compare(L"N") == 0 && lex.LookAhead(T_STR);
 			if (!bSkipUnicodeMark)
 			{
 				strSubexpr += strName + BLANK_CHAR;
@@ -841,15 +838,16 @@ BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 
 			m_strExprString += lex.GetAuditString();
 
-			//@@OLE
-			if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
-			{
-				strSubexpr = m_pSqlConnection->NativeConvert(pData) + BLANK_CHAR;
-				delete pData;
-				m_ExprStack.Add(new ExpItemValWC(new DataStr(strSubexpr), lex.GetCurrentPos()));
-			}
-			else
-				m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
+			////@@OLE
+			//if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
+			//{
+			//	strSubexpr = m_pSqlConnection->NativeConvert(pData) + BLANK_CHAR;
+			//	delete pData;
+			//	m_ExprStack.Add(new ExpItemValWC(new DataStr(strSubexpr), lex.GetCurrentPos()));
+			//}
+			//else
+			//	
+			m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
 
 			break;
 		}
@@ -870,14 +868,15 @@ BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 
 			m_strExprString += lex.GetAuditString();
 			
-			if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
+			/*if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
 			{
 				strSubexpr = m_pSqlConnection->NativeConvert(pData) + BLANK_CHAR;
 				delete pData;
 				m_ExprStack.Add(new ExpItemValWC(new DataStr(strSubexpr), lex.GetCurrentPos()));
 			}
 			else
-				m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
+				*/
+			m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
 
 			break;
 	    }
@@ -911,14 +910,15 @@ BOOL WClauseExpr::ParseVariableOrConstForNativeWhere(Parser& lex)
 
 			m_strExprString += lex.GetAuditString();
 
-			if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
+			/*if (m_pSqlConnection && m_pSqlConnection->m_pProviderInfo->UseConstParameter())
 			{
 				strSubexpr = m_pSqlConnection->NativeConvert(pData) + BLANK_CHAR;
 				delete pData;
 				m_ExprStack.Add(new ExpItemValWC(new DataStr(strSubexpr), lex.GetCurrentPos()));
 			}
 			else
-				m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
+				*/
+			m_ExprStack.Add(new ExpItemVal(pData, lex.GetCurrentPos()));
 
 			break;
         }
@@ -1212,10 +1212,10 @@ BOOL WClauseExpr::ModifyVariableOrConst	(Stack& modifiedStack)
 
 					strVrbName += BLANK_CHAR;
 				}
-				else if (m_pSqlConnection->m_pProviderInfo->UseConstParameter())
+				/*else if (m_pSqlConnection->m_pProviderInfo->UseConstParameter())
 				{
 					strVrbName = m_pSqlConnection->NativeConvert(pDataObj) + BLANK_CHAR;
-				}
+				}*/
 				else
 				{
 					if (m_pParamsArray == NULL)

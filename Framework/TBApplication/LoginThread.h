@@ -82,7 +82,6 @@ private:
 
 	BOOL InternalCanUseNamespace		(const CString&	nameSpace, int grantType, BOOL& bCanUse);
 	void InternalSetCanUseNamespace		(const CString&	nameSpace, int grantType, BOOL bCanUse);
-	void InitDataCachingManager			();
 public:
 	virtual CWnd* GetMainWnd();
 	virtual int Run();

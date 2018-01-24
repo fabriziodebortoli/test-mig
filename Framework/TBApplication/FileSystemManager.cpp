@@ -5,6 +5,8 @@
 #include <errno.h>
 
 #include <TbNameSolver\Diagnostic.h>
+#include <TbDatabaseManaged\TBFSDatabaseDriver.h>
+
 #include <TbWebServicesWrappers\FileSystemManagerWebService.h>
 #include <TbClientCore\ClientObjects.h>
 
@@ -40,70 +42,82 @@ CFileSystemManager::~CFileSystemManager()
 }
 
 //-----------------------------------------------------------------------------
-BOOL CFileSystemManager::Init(const CString& strServer, const CString& strInstallation, const CString& strMasterSolutionName)
+BOOL CFileSystemManager::Init(const CString& strFileServer, const CString& strInstallation, const CString& strMasterSolutionName)
 {
-	// No lock is required as it is performed only in InitInstance
-
 	// FileSystemManager parsing
-	m_ConfigFile.LoadFile ();
+	m_ConfigFile.LoadFile ();	
+	CString strServerName = strFileServer;
+	CString strInstance = strInstallation;
+	CString strMaster = strMasterSolutionName;
+	if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::FileSystem)
+	{
+		if (!m_ConfigFile.GetFSServerName().IsEmpty())
+			strServerName = m_ConfigFile.GetFSServerName();
+		if (!m_ConfigFile.GetFSInstanceName().IsEmpty())
+			strInstance = m_ConfigFile.GetFSInstanceName();
+	}
+	CPathFinder* pPathFinder = AfxGetPathFinder();
+	pPathFinder->Init
+	(
+		strServerName,
+		strInstance,
+		strMasterSolutionName
+	);
+	
+	return TRUE;
+}
 
-	CPathFinder aPathFinder;
-	aPathFinder.Init 
-		(
-			strServer,
-			strInstallation,
-			strMasterSolutionName
-		);
+//-----------------------------------------------------------------------------
+BOOL CFileSystemManager::DetectAndAttachAlternativeDriver()
+{
+	
+	BOOL bWSAvailable = FALSE;
+	CString strSysDBConnectionString = m_ConfigFile.GetStandardConnectionString();
+	//if (strSysDBConnectionString)
+	//	strSysDBConnectionString = AfxGetProvisiongDBConnectionString();
 
-	//-------------------------------------------------------------
-	// initializing Web Service
-	/*AfxGetFileSystemManagerWebService()->InitService 
-		(
-			aPathFinder.GetInstallationName () + m_ConfigFile.GetWebServiceDriverService(),
-			m_ConfigFile.GetWebServiceDriverNamespace(),
-			pClientInfo->m_strApplicationServer,
-			m_ConfigFile.GetWebServiceDriverPort ()
-		);
-	  bWSAvailable	= AfxGetFileSystemManagerWebService()->IsAlive ();*/
-	BOOL bWSAvailable	= FALSE; 
-	//-------------------------------------------------------------
-
-	// database connection is not yet available
-	BOOL bExistFileSystem	= ExistPath (aPathFinder.GetStandardPath ()) && ExistPath (aPathFinder.GetCustomPath ());
+	BOOL bDBAvailable = !strSysDBConnectionString.IsEmpty(); //! AfxGetLoginManager()->GetSystemDBConnectionString().IsEmpty(); //@@TODO BAUZI fare una condizione più furba																					
+	BOOL bExistFileSystem = ExistPath(AfxGetPathFinder()->GetStandardPath()) && ExistPath(AfxGetPathFinder()->GetCustomPath());
 
 	// I cannot work without file system and web service
-	if (!bExistFileSystem && !bWSAvailable)
+	if (!bExistFileSystem && !bWSAvailable && !bDBAvailable)
 	{
-		ASSERT (FALSE);
-		AfxGetDiagnostic()->Add (_T("The \\Standard and \\Custom folders are not reacheable on server structure!"));
-		AfxGetDiagnostic()->Add (_T("Please, check network sharings if you are on a client/server installation."));
+		ASSERT(FALSE);
+		AfxGetDiagnostic()->Add(_T("The \\Standard and \\Custom folders are not reacheable on server structure!"));
+		AfxGetDiagnostic()->Add(_T("Please, check network sharings if you are on a client/server installation."));
 		return FALSE;
 	}
 
-	// autodetect operations
 	if (m_ConfigFile.IsAutoDetectDriver())
 	{
 		if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::FileSystem && !bExistFileSystem)
-			m_ConfigFile.SetDriver(CFileSystemManagerInfo::WebService);
-		else if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::WebService && !bWSAvailable)
-			m_ConfigFile.SetDriver(CFileSystemManagerInfo::FileSystem);
+			m_ConfigFile.SetDriver(CFileSystemManagerInfo::Database);
+		else
+		{
+			if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::Database && !bDBAvailable)
+				m_ConfigFile.SetDriver(CFileSystemManagerInfo::WebService);
+			else
+				if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::WebService && !bWSAvailable)
+					m_ConfigFile.SetDriver(CFileSystemManagerInfo::FileSystem);
+		}
+
 	}
-
-	if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::WebService)
-		AttachAlternativeDriver(AfxGetFileSystemManagerWebService(), FALSE, FALSE);
-
-	//-------------------------------------------------------------
-	//	else if (_ConfigFile.GetDriver() == CFileSystemManagerInfo::Database)
-	//		AttachAlternativeDriver(new CFileSystemOnDbDriver(), FALSE);
-	//-------------------------------------------------------------
-
-	m_Cacher.m_bEnabled = m_ConfigFile.IsCachingEnabled();
+		
+	if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::Database)
+	{
+		int nPos = strSysDBConnectionString.Find(_T("Data Source"));
+		if (nPos > 0)
+			strSysDBConnectionString = strSysDBConnectionString.Right(strSysDBConnectionString.GetLength() - nPos);
+			
+		AttachAlternativeDriver(new TBFSDatabaseDriver(strSysDBConnectionString), FALSE, TRUE);
+	}
+	else
+		if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::WebService)
+			AttachAlternativeDriver(AfxGetFileSystemManagerWebService(), FALSE, TRUE);
 
 	return TRUE;
 }
 
-
-// no content cached
 //-----------------------------------------------------------------------------
 CString CFileSystemManager::GetServerConnectionConfig ()
 {
@@ -119,7 +133,24 @@ CString CFileSystemManager::GetServerConnectionConfig ()
 	return sContent;
 }
 
-// no content cached
+//-----------------------------------------------------------------------------
+void CFileSystemManager::GetAllApplicationInfo(CStringArray* pReturnArray)
+{
+	if (GetAlternativeDriver())
+		GetAlternativeDriver()->GetAllApplicationInfo(pReturnArray);
+	else
+		GetFileSystemDriver()->GetAllApplicationInfo(pReturnArray);
+}
+
+//-----------------------------------------------------------------------------
+void CFileSystemManager::GetAllModuleInfo(const CString& strAppName, CStringArray* pReturnArray)
+{
+	if (GetAlternativeDriver())
+		GetAlternativeDriver()->GetAllModuleInfo(strAppName, pReturnArray);
+	else
+		GetFileSystemDriver()->GetAllModuleInfo(strAppName, pReturnArray);
+}
+
 //-----------------------------------------------------------------------------
 CString CFileSystemManager::GetTextFile (const CString& sFileName)
 {
@@ -136,7 +167,7 @@ CString CFileSystemManager::GetTextFile (const CString& sFileName)
 }
 
 //-----------------------------------------------------------------------------
-BOOL CFileSystemManager::SetTextFile (const CString& sFileName, const CString& sFileContent)
+BOOL CFileSystemManager::SaveTextFile (const CString& sFileName, const CString& sFileContent)
 {
 	// no lock is required as methods invoked work only on local variables
 	// an they don't locks other objects
@@ -144,28 +175,33 @@ BOOL CFileSystemManager::SetTextFile (const CString& sFileName, const CString& s
 	BOOL bOk = FALSE;
 
 	if (IsManagedByAlternativeDriver (sFileName))
-		bOk = GetAlternativeDriver()->SetTextFile (sFileName, sFileContent);
+		bOk = GetAlternativeDriver()->SaveTextFile(sFileName, sFileContent);
 	else
-		bOk = GetFileSystemDriver()->SetTextFile (sFileName, sFileContent);
+		bOk = GetFileSystemDriver()->SaveTextFile(sFileName, sFileContent);
 
 	return bOk;
 }
 
 // no cached content
 //-----------------------------------------------------------------------------
-DataBlob CFileSystemManager::GetBinaryFile	(const CString& sFileName)
+BYTE* CFileSystemManager::GetBinaryFile	(const CString& sFileName, int& nLen)
 {
-	// no lock is required as methods invoked work only on local variables
-	// an they don't locks other objects
-	DataBlob aContent;
-
-	CString sContent; 
+	BYTE* pBinaryContent;
+ 
 	if (IsManagedByAlternativeDriver (sFileName))
-		aContent.Assign(GetAlternativeDriver()->GetBinaryFile (sFileName));
+		pBinaryContent = GetAlternativeDriver()->GetBinaryFile (sFileName, nLen);
 	else
-		aContent.Assign(GetFileSystemDriver()->GetBinaryFile (sFileName));
+		pBinaryContent = GetFileSystemDriver()->GetBinaryFile (sFileName, nLen);
 
-	return aContent;
+	return pBinaryContent;
+}
+
+//-----------------------------------------------------------------------------
+BOOL CFileSystemManager::SaveBinaryFile(const CString& sFileName, BYTE* pBinaryContent, int nLen)
+{
+	return (IsManagedByAlternativeDriver(sFileName)) 
+			? GetAlternativeDriver()->SaveBinaryFile(sFileName, pBinaryContent, nLen) 
+			: GetFileSystemDriver()->SaveBinaryFile(sFileName, pBinaryContent, nLen);
 }
 
 //-----------------------------------------------------------------------------
@@ -177,12 +213,12 @@ BOOL CFileSystemManager::ExistFile (const CString& sFileName)
 	BOOL bOk = FALSE;
 
 
-	// caching (no lock is required as demanded to the single methods if needed)
-	if (m_Cacher.IsAManagedObject (sFileName))
-	{
-		bOk = m_Cacher.ExistFile (sFileName);
-		return bOk;
-	}
+	//// caching (no lock is required as demanded to the single methods if needed)
+	//if (m_Cacher.IsAManagedObject (sFileName))
+	//{
+	//	bOk = m_Cacher.ExistFile (sFileName);
+	//	return bOk;
+	//}
 
 	if (IsManagedByAlternativeDriver (sFileName))
 		bOk = GetAlternativeDriver()->ExistFile (sFileName);
@@ -201,11 +237,11 @@ BOOL CFileSystemManager::ExistPath (const CString& sPathName)
 	BOOL bOk = FALSE;
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (m_Cacher.IsAManagedObject (sPathName))
+	/*if (m_Cacher.IsAManagedObject (sPathName))
 	{
 		bOk =  m_Cacher.ExistPath (sPathName);
 		return bOk;
-	}
+	}*/
     	
 	if (IsManagedByAlternativeDriver (sPathName))
 		bOk = GetAlternativeDriver()->ExistPath (sPathName);
@@ -229,8 +265,8 @@ BOOL CFileSystemManager::CreateFolder(const CString& sPathName, const BOOL& bRec
 		bOk = GetFileSystemDriver()->CreateFolder (sPathName, bRecursive);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && m_Cacher.IsAManagedObject (sPathName))
-		bOk = m_Cacher.CreateFolder (sPathName, bRecursive);
+	/*if (bOk && m_Cacher.IsAManagedObject (sPathName))
+		bOk = m_Cacher.CreateFolder (sPathName, bRecursive);*/
 
 	return bOk;
 }
@@ -246,8 +282,8 @@ BOOL CFileSystemManager::RemoveFolder(const CString& sPathName, const BOOL& bRec
 		bOk = GetFileSystemDriver()->RemoveFolder (sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && m_Cacher.IsAManagedObject (sPathName))
-		bOk =  m_Cacher.RemoveFolder (sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
+	/*if (bOk && m_Cacher.IsAManagedObject (sPathName))
+		bOk =  m_Cacher.RemoveFolder (sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);*/
 
 	return bOk;
 }
@@ -263,8 +299,8 @@ BOOL CFileSystemManager::RemoveFile (const CString& sFileName)
 		bOk = GetFileSystemDriver()->RemoveFile (sFileName);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && m_Cacher.IsAManagedObject (sFileName))
-		bOk = m_Cacher.RemoveFile (sFileName);
+	/*if (bOk && m_Cacher.IsAManagedObject (sFileName))
+		bOk = m_Cacher.RemoveFile (sFileName);*/
 
 	return bOk;
 }
@@ -277,24 +313,24 @@ BOOL CFileSystemManager::RenameFile (const CString& sOldFileName, const CString&
 	BOOL bOldOnAlternative = IsManagedByAlternativeDriver (sOldFileName);
 	BOOL bNewOnAlternative = IsManagedByAlternativeDriver (sNewFileName);
 
-	if (IsManagedByAlternativeDriver (sOldFileName) || IsManagedByAlternativeDriver (sNewFileName))
+	if (bOldOnAlternative && bNewOnAlternative)
 		bOk = GetAlternativeDriver()->RenameFile (sOldFileName, sNewFileName);
 	else  if (bOldOnAlternative && !bNewOnAlternative)
 	{
 		CString sContent = GetAlternativeDriver()->GetTextFile (sOldFileName);
-		bOk  = sContent.IsEmpty() || GetFileSystemDriver()->SetTextFile (sNewFileName, sContent);
+		bOk  = sContent.IsEmpty() || GetFileSystemDriver()->SaveTextFile (sNewFileName, sContent);
 	}	
 	else  if (!bOldOnAlternative && bNewOnAlternative)
 	{
 		CString sContent = GetFileSystemDriver()->GetTextFile (sOldFileName);
-		bOk  = sContent.IsEmpty() || GetAlternativeDriver()->SetTextFile (sNewFileName, sContent);
+		bOk  = sContent.IsEmpty() || GetAlternativeDriver()->SaveTextFile(sNewFileName, sContent);
 	}
 	else
 		bOk = GetFileSystemDriver()->RenameFile (sOldFileName, sNewFileName);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && (m_Cacher.IsAManagedObject (sOldFileName) || m_Cacher.IsAManagedObject (sNewFileName)))
-		bOk = m_Cacher.RenameFile (sOldFileName, sNewFileName);
+	/*if (bOk && (m_Cacher.IsAManagedObject (sOldFileName) || m_Cacher.IsAManagedObject (sNewFileName)))
+		bOk = m_Cacher.RenameFile (sOldFileName, sNewFileName);*/
 
 	return bOk;
 }
@@ -307,29 +343,29 @@ BOOL CFileSystemManager::CopyFile (const CString& sOldFileName, const CString& s
 	BOOL bOldOnAlternative = IsManagedByAlternativeDriver (sOldFileName);
 	BOOL bNewOnAlternative = IsManagedByAlternativeDriver (sNewFileName);
 
-	if (bOldOnAlternative && bOldOnAlternative)
-		bOk = GetAlternativeDriver()->CopyFile (sOldFileName, sNewFileName, bOverWrite);
+	if (bOldOnAlternative && bNewOnAlternative)
+		bOk = GetAlternativeDriver()->CopySingleFile(sOldFileName, sNewFileName, bOverWrite);
 	else  if (bOldOnAlternative && !bNewOnAlternative)
 	{
 		CString sContent = GetAlternativeDriver()->GetTextFile (sOldFileName);
-		bOk  = sContent.IsEmpty() || GetFileSystemDriver()->SetTextFile (sNewFileName, sContent);
+		bOk  = sContent.IsEmpty() || GetFileSystemDriver()->SaveTextFile(sNewFileName, sContent);
 	}
 	else  if (!bOldOnAlternative && bNewOnAlternative)
 	{
 		CString sContent = GetFileSystemDriver()->GetTextFile (sOldFileName);
-		bOk  = sContent.IsEmpty() || GetAlternativeDriver()->SetTextFile (sNewFileName, sContent);
+		bOk  = sContent.IsEmpty() || GetAlternativeDriver()->SaveTextFile(sNewFileName, sContent);
 	}
 	else  
-		bOk = GetFileSystemDriver()->CopyFile (sOldFileName, sNewFileName, bOverWrite);
+		bOk = GetFileSystemDriver()->CopySingleFile(sOldFileName, sNewFileName, bOverWrite);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && m_Cacher.IsAManagedObject (sNewFileName))
+	/*if (bOk && m_Cacher.IsAManagedObject (sNewFileName))
 	{
 		CString sPath = GetPath	(sNewFileName);
 		CString sFile = GetNameWithExtension(sNewFileName);
 
 		bOk = m_Cacher.AddInCache (sPath, sFile);
-	}
+	}*/
 
 	return bOk;
 }
@@ -378,8 +414,8 @@ BOOL CFileSystemManager::CopyFolder (const CString& sOldPathName, const CString&
 		bOk = GetFileSystemDriver()->CopyFolder (sOldPathName, sNewPathName, bOverwrite, bRecursive);
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (bOk && m_Cacher.IsAManagedObject (sNewPathName))
-		bOk = m_Cacher.CreateFolder (sNewPathName, bRecursive);
+	/*if (bOk && m_Cacher.IsAManagedObject (sNewPathName))
+		bOk = m_Cacher.CreateFolder (sNewPathName, bRecursive);*/
 
 	return bOk;
 }
@@ -390,11 +426,11 @@ BOOL CFileSystemManager::GetSubFolders (const CString& sPathName, CStringArray* 
 	BOOL bOk = FALSE;
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (m_Cacher.IsAManagedObject (sPathName))
+	/*if (m_Cacher.IsAManagedObject (sPathName))
 	{
 		bOk =  m_Cacher.GetSubFolders (sPathName, pSubFolders);
 		return bOk;
-	}
+	}*/
     	
 	if (IsManagedByAlternativeDriver (sPathName))
 		bOk = GetAlternativeDriver()->GetSubFolders (sPathName, pSubFolders);
@@ -410,11 +446,11 @@ BOOL CFileSystemManager::GetFiles (const CString& sPathName, const CString& sFil
 	BOOL bOk = FALSE;
 
 	// caching (no lock is required as demanded to the single methods if needed)
-	if (m_Cacher.IsAManagedObject (sPathName))
+	/*if (m_Cacher.IsAManagedObject (sPathName))
 	{
 		bOk =  m_Cacher.GetFiles (sPathName, sFileExt, pFiles);
 		return bOk;
-	}
+	}*/
     	
 	if (IsManagedByAlternativeDriver (sPathName))
 		bOk = GetAlternativeDriver()->GetFiles (sPathName, sFileExt, pFiles);
@@ -441,14 +477,15 @@ BOOL CFileSystemManager::GetPathContent	(const CString& sPathName, BOOL bFolders
 //-----------------------------------------------------------------------------
 const CString CFileSystemManager::GetTemporaryBinaryFile (const CString& sFileName)
 {
-	DataBlob aBlob = GetBinaryFile (sFileName);
-	if (aBlob.IsEmpty())
+	int nLen = 0;
+	BYTE* pBinaryContent = GetBinaryFile (sFileName, nLen);
+	if (pBinaryContent == NULL)
 		return sFileName;
 
 	CString sExtension		= GetExtension(sFileName);
 	CString sTempFileName	= GetTempName() + _T(".") + sExtension;
 
-	void* buff = aBlob.GetRawData();
+	void* buff = (void*)pBinaryContent;
 
 	CFile aFile;
 	CFileException exc;
@@ -457,7 +494,7 @@ const CString CFileSystemManager::GetTemporaryBinaryFile (const CString& sFileNa
 	{
 		if (aFile.Open (sTempFileName, CFile::typeBinary | CFile::modeCreate | CFile::modeWrite), &exc)
 		{
-			aFile.Write (buff, aBlob.GetLen());
+			aFile.Write (buff, nLen);
 			aFile.Flush	();
 			aFile.Close ();
 		}
@@ -476,6 +513,23 @@ const CString CFileSystemManager::GetTemporaryBinaryFile (const CString& sFileNa
 	END_CATCH
 	
 	return sTempFileName;
+}
+
+//-----------------------------------------------------------------------------
+CString CFileSystemManager::GetFormattedQueryTime()
+{
+	if (IsAlternativeDriverEnabled() && GetAlternativeDriver()->IsKindOf(RUNTIME_CLASS(TBFSDatabaseDriver)))
+		return ((TBFSDatabaseDriver*)m_pAlternativeDriver)->GetFormattedQueryTime();
+
+	return _T("");
+}
+//-----------------------------------------------------------------------------
+CString CFileSystemManager::GetFormattedFetchTime()
+{
+	if (IsAlternativeDriverEnabled() && GetAlternativeDriver()->IsKindOf(RUNTIME_CLASS(TBFSDatabaseDriver)))
+		return ((TBFSDatabaseDriver*)m_pAlternativeDriver)->GetFormattedFetchTime();
+
+	return _T("");
 }
 
 /////////////////////////////////////////////////////////////////////////////

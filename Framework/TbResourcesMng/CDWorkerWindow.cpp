@@ -47,8 +47,6 @@ CDWorkerWindow::~CDWorkerWindow()
 //-----------------------------------------------------------------------------
 BOOL CDWorkerWindow::OnAttachData()
 { 
-	if (GetServerDoc()->m_pDBTMaster)
-		GetServerDoc()->m_pDBTMaster->GetTable()->SetForceReadTraceColumns(TRUE);
 	m_pTRWorkers = new TRWorkers (GetServerDoc());
 	return TRUE;
 }
@@ -85,24 +83,20 @@ void CDWorkerWindow::OnWorkerWindow()
 //-----------------------------------------------------------------------------
 BOOL CDWorkerWindow::OnPrepareAuxData()
 { 
-	LoadWorker();
-
 	if (m_pDoc)
-	{
-		if (GetServerDoc()->GetFormMode() ==  CBaseDocument::BROWSE)
-			m_pDoc->SetWorker(	m_CreatedWorker,	m_CreatedWorkerDes,		m_CreatedDate,	m_CreatedWorkerOfficePhone,		m_CreatedWorkerEmail,	m_CreatedWorkerPicture,
-								m_ModifiedWorker,	m_ModifiedWorkerDes,	m_ModifiedDate,	m_ModifiedWorkerOfficePhone,	m_ModifiedWorkerEmail,	m_ModifiedWorkerPicture);
+	{			
+		if (GetServerDoc()->GetFormMode() == CBaseDocument::BROWSE)
+		{
+			LoadWorker();
+			m_pDoc->SetWorker(m_CreatedWorker, m_CreatedWorkerDes, m_CreatedDate, m_CreatedWorkerOfficePhone, m_CreatedWorkerEmail, m_CreatedWorkerPicture,
+				m_ModifiedWorker, m_ModifiedWorkerDes, m_ModifiedDate, m_ModifiedWorkerOfficePhone, m_ModifiedWorkerEmail, m_ModifiedWorkerPicture);
+		}
 		else
 			m_pDoc->GetDocument()->GetMasterFrame()->SendMessage(WM_CLOSE);
 	}
 	return TRUE;
 }
 
-//-----------------------------------------------------------------------------
-void CDWorkerWindow::OnGoInBrowseMode()
-{ 
-	LoadWorker();
-}
 
 //-----------------------------------------------------------------------------
 void CDWorkerWindow::LoadWorker()
@@ -125,6 +119,9 @@ void CDWorkerWindow::LoadWorker()
 		m_ModifiedWorkerPicture.	Clear();
 		return;
 	}
+
+	SqlTable aMandatoryTable(GetServerDoc()->m_pDBTMaster->GetRecord(), GetServerDoc()->GetReadOnlySqlSession());
+	aMandatoryTable.ReadMandatoryColumns();
 
 	m_CreatedWorker		= GetServerDoc()->m_pDBTMaster->GetDBTRecord()->f_TBCreatedID;
 	m_CreatedDate		= GetServerDoc()->m_pDBTMaster->GetDBTRecord()->f_TBCreated;
@@ -166,19 +163,4 @@ void CDWorkerWindow::LoadWorker()
 		m_ModifiedWorkerEmail		= m_pTRWorkers->GetRecord()->f_Email;
 		m_ModifiedWorkerPicture		= m_pTRWorkers->GetRecord()->f_ImagePath;
 	}
-}
-
-//-----------------------------------------------------------------------------
-BOOL CDWorkerWindow::OnShowStatusBarMsg(CString& sMsg)
-{ 
-	if (m_CreatedWorkerLastName.IsEmpty() && m_ModifiedWorkerLastName.IsEmpty())
-		return TRUE;
-
-	sMsg = _T("");
-
-	if (m_ModifiedWorkerLastName.IsEmpty() || (m_CreatedWorkerLastName == m_ModifiedWorkerLastName && m_CreatedDate == m_ModifiedDate))
-		sMsg = cwsprintf(_TB("Created: {0-%s} on {1-%s}"), m_CreatedWorkerLastName.GetString(), m_CreatedDate.FormatData());
-	else
-		sMsg = cwsprintf(_TB("Modified: {0-%s} on {1-%s}"), m_ModifiedWorkerLastName.GetString(), m_ModifiedDate.FormatData());
-	return TRUE;
 }

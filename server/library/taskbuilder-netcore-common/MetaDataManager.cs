@@ -93,12 +93,12 @@ namespace Microarea.Common
                 id = InsertDir(dir, isCustom, 0, ai.Name, string.Empty);
                 //...quindi, per ogni modulo...
                 if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Application + NameSolverStrings.ConfigExtension)))
-                    InsertFile(new FileInfo(dir.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Application + NameSolverStrings.ConfigExtension), isCustom, id, ai.Name, string.Empty);
+                    InsertFile(new FileInfo(dir.FullName + NameSolverStrings.Directoryseparetor + NameSolverStrings.Application + NameSolverStrings.ConfigExtension), isCustom, id, ai.Name, string.Empty);
 
                 //File di brand
-                OneLevelInsertFileByType(dir.FullName + Path.DirectorySeparatorChar + "Solutions", id, isCustom, ai.Name, string.Empty, ".Brand.xml");
+                OneLevelInsertFileByType(dir.FullName + NameSolverStrings.Directoryseparetor + "Solutions", id, isCustom, ai.Name, string.Empty, ".Brand.xml");
                 //File di temi
-                ThemesInsert(dir.FullName + Path.DirectorySeparatorChar + "Themes", id, isCustom, ai.Name, string.Empty);
+                ThemesInsert(dir.FullName + NameSolverStrings.Directoryseparetor + "Themes", id, isCustom, ai.Name, string.Empty);
 
                 foreach (ModuleInfo mi in ai.Modules)
                 {
@@ -106,11 +106,11 @@ namespace Microarea.Common
                     int idModulo = InsertDir(dir, isCustom, id, ai.Name, mi.Name);
 
                     if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Module + NameSolverStrings.ConfigExtension)))
-                        InsertFile(new FileInfo(dir.FullName + Path.DirectorySeparatorChar + NameSolverStrings.Module + NameSolverStrings.ConfigExtension), isCustom, idModulo, ai.Name, mi.Name);
+                        InsertFile(new FileInfo(dir.FullName + NameSolverStrings.Directoryseparetor + NameSolverStrings.Module + NameSolverStrings.ConfigExtension), isCustom, idModulo, ai.Name, mi.Name);
 
-                    if (Directory.Exists(mi.Path + Path.DirectorySeparatorChar + "ModuleObjects"))
+                    if (Directory.Exists(mi.Path + NameSolverStrings.Directoryseparetor + "ModuleObjects"))
                     {
-                        dir = new DirectoryInfo(mi.Path + Path.DirectorySeparatorChar + "ModuleObjects");
+                        dir = new DirectoryInfo(mi.Path + NameSolverStrings.Directoryseparetor + "ModuleObjects");
                         id = InsertDir(dir, isCustom, idModulo, ai.Name, mi.Name);
                         foreach (FileInfo file in dir.GetFiles())
                             InsertFile(file, isCustom, id, ai.Name, mi.Name); ;
@@ -135,25 +135,25 @@ namespace Microarea.Common
                         }
                     }
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Settings", idModulo, isCustom, ai.Name, mi.Name);
+                    OneLevelInsert(mi.Path + NameSolverStrings.Directoryseparetor + "Settings", idModulo, isCustom, ai.Name, mi.Name);
 
-                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "Files", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + NameSolverStrings.Directoryseparetor + "Files", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "ReferenceObjects", idModulo, isCustom, ai.Name, mi.Name);
+                    OneLevelInsert(mi.Path + NameSolverStrings.Directoryseparetor + "ReferenceObjects", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Report", idModulo, isCustom, ai.Name, mi.Name);
+                    OneLevelInsert(mi.Path + NameSolverStrings.Directoryseparetor + "Report", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Menu", idModulo, isCustom, ai.Name, mi.Name);
+                    OneLevelInsert(mi.Path + NameSolverStrings.Directoryseparetor + "Menu", idModulo, isCustom, ai.Name, mi.Name);
 
-                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "JsonForms", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + NameSolverStrings.Directoryseparetor + "JsonForms", idModulo, isCustom, ai.Name, mi.Name);
 
-                    OneLevelInsert(mi.Path + Path.DirectorySeparatorChar + "Companies", idModulo, isCustom, ai.Name, mi.Name);
+                    OneLevelInsert(mi.Path + NameSolverStrings.Directoryseparetor + "Companies", idModulo, isCustom, ai.Name, mi.Name);
 
-                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "DataManager", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + NameSolverStrings.Directoryseparetor + "DataManager", idModulo, isCustom, ai.Name, mi.Name);
 
-                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "DatabaseScript", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + NameSolverStrings.Directoryseparetor + "DatabaseScript", idModulo, isCustom, ai.Name, mi.Name);
 
-                    RecourseInsert(mi.Path + Path.DirectorySeparatorChar + "XML", idModulo, isCustom, ai.Name, mi.Name);
+                    RecourseInsert(mi.Path + NameSolverStrings.Directoryseparetor + "XML", idModulo, isCustom, ai.Name, mi.Name);
                 }
 
             }
@@ -181,9 +181,9 @@ namespace Microarea.Common
                 int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
                 foreach (FileInfo file in dir.GetFiles())
                     InsertFile(file, isCustom, id, appName, moduleName);
-                if (Directory.Exists(folderPath + Path.DirectorySeparatorChar + "Images"))
+                if (Directory.Exists(folderPath + NameSolverStrings.Directoryseparetor + "Images"))
                 {
-                    DirectoryInfo dirSub = new DirectoryInfo(folderPath + Path.DirectorySeparatorChar + "Images");
+                    DirectoryInfo dirSub = new DirectoryInfo(folderPath + NameSolverStrings.Directoryseparetor + "Images");
                     int idsub = InsertDir(dirSub, isCustom, idModulo, appName, moduleName);
                     foreach (FileInfo subFile in dirSub.GetFiles())
                         InsertFile(subFile, isCustom, idsub, appName, moduleName);
@@ -340,10 +340,17 @@ namespace Microarea.Common
             {
                 string nameSpace = string.Empty;
 				string fileFullName = aFile.FullName;
+
+                string a = "";
+                if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
+                    a = "";
+                if (PathFinder.PathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
+
                 //if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
-                if (BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
+                if (PathFinder.PathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
+
                 {
-                    nameSpace = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
+                    nameSpace = PathFinder.PathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
                     if (nameSpace.Contains(".wrm"))
                         nameSpace = nameSpace.Substring(0, nameSpace.LastIndexOf('.'));
                 }

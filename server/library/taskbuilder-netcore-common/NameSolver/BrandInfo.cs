@@ -57,14 +57,14 @@ namespace Microarea.Common.NameSolver
             //LoginManager loginManager = new LoginManager();
 
             //InstallationData.ServerConnectionInfo.MasterSolutionName = loginManager.GetMasterSolution();
-            InstallationData.ServerConnectionInfo.UnParse(BasePathFinder.BasePathFinderInstance.ServerConnectionFile);
+            InstallationData.ServerConnectionInfo.UnParse(PathFinder.PathFinderInstance.ServerConnectionFile);
         }
 
         #region Load From files
         //-----------------------------------------------------------------------------
         private bool LoadFromFiles()
 		{
-			FileInfo[] filesToLoad = BasePathFinder.BasePathFinderInstance.GetBrandFiles();
+			FileInfo[] filesToLoad = PathFinder.PathFinderInstance.GetBrandFiles();
 			if (filesToLoad == null || filesToLoad.Length == 0)
 				return false;
 			
@@ -84,11 +84,10 @@ namespace Microarea.Common.NameSolver
 			// sempre su quelle contenute in eventuali file di brand aggiuntivi
             bool isMainBrand = aFileToLoad.Name.CompareNoCase(InstallationData.ServerConnectionInfo.MasterSolutionName + NameSolverStrings.BrandExtension);
 
-            XmlDocument brandXmlDocument = new XmlDocument();
-
 			try
 			{
-				brandXmlDocument.Load(File.OpenRead(aFileToLoad.FullName));
+                XmlDocument brandXmlDocument = null;
+                brandXmlDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(brandXmlDocument, aFileToLoad.FullName);
 				if 
 					(
 						brandXmlDocument.DocumentElement == null || 
@@ -270,7 +269,7 @@ namespace Microarea.Common.NameSolver
             string image;
             try
             {
-                image = BasePathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(ns));
+                image = PathFinder.PathFinderInstance.GetImagePath(new NameSpace(ns));
             }
             catch (Exception)
             {
@@ -283,61 +282,7 @@ namespace Microarea.Common.NameSolver
             return null; // return ImagesHelper.LoadImageWithoutLockFile(image);             TODO rsweb
         }
 
-		//--------------------------------------------------------------------------------
-		//      public Icon GetTbAppManagerApplicationIcon()           TODO rsweb
-		//{
-		//	try
-		//	{
-		//		if (brandedTbAppManagerApplicationIcon == null)
-		//		{
-		//			string appIconNS = GetBrandedStringBySourceString("TbAppManagerApplicationIcon");
-		//                  if (!String.IsNullOrWhiteSpace(appIconNS) && (String.Compare(appIconNS, "TbAppManagerApplicationIcon", true) != 0))
-		//			{
-		//				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
-		//				if (File.Exists(appIconPath))
-		//					brandedTbAppManagerApplicationIcon = new Icon(appIconPath);
-
-		//				if (brandedTbAppManagerApplicationIcon == null)
-		//					return null;//errore
-		//			}
-		//		}
-		//	}
-		//	catch
-		//	{
-		//		return null;//errore
-		//	}
-
-		//	return brandedTbAppManagerApplicationIcon;
-
-		//}
-
-		//--------------------------------------------------------------------------------
-		//      public Icon GetConsoleApplicationIcon()                             TODO rsweb
-		//{
-		//	try
-		//	{
-		//		if (brandedConsoleApplicationIcon == null)
-		//		{
-		//			string appIconNS = GetBrandedStringBySourceString("ConsoleApplicationIcon");
-		//			if (!String.IsNullOrWhiteSpace(appIconNS))
-		//			{
-		//				string appIconPath = PathFinder.BasePathFinderInstance.GetImagePath(new NameSpace(appIconNS));
-		//				if (File.Exists(appIconPath))
-		//					brandedConsoleApplicationIcon = new Icon(appIconPath);
-
-		//				if (brandedConsoleApplicationIcon == null)
-		//					return null;//errore
-		//			}
-		//		}
-		//	}
-		//	catch
-		//	{
-		//		return null;//errore
-		//	}
-
-		//	return brandedConsoleApplicationIcon;
-
-		//}
+		
 
 
 		#endregion
@@ -559,7 +504,7 @@ namespace Microarea.Common.NameSolver
 		#endregion
 	}
 	#endregion 
-
+     
 	#region Class ApplicationBrandInfo
 	//============================================================================
 	public class ApplicationBrandInfo : IApplicationBrandInfo

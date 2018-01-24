@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AddOnDatabaseObjects>
   <AdditionalColumns>
-    <!--<Table namespace="ERP.SalesPeople.Dbl.MA_SalesPeople">
-      <AlterTable namespace="Library.Extensions.TBRowSecurity.TBRowSecurity" release="1" createstep="1" />
-    </Table>-->
-    <Table namespace="ERP.CustomersSuppliers.Dbl.MA_CustSupp">
+    <Table namespace="ERP.SalesPeople.Dbl.MA_SalesPeople">
       <AlterTable namespace="Library.Extensions.TBRowSecurity.TBRowSecurity" release="1" createstep="1" />
     </Table>
+    <!--<Table namespace="ERP.CustomersSuppliers.Dbl.MA_CustSupp">
+      <AlterTable namespace="Library.Extensions.TBRowSecurity.TBRowSecurity" release="1" createstep="1" />
+    </Table>-->
   </AdditionalColumns>
 </AddOnDatabaseObjects>

@@ -3588,7 +3588,7 @@ namespace Microarea.Common.MenuLoader
 			string imageNamespace = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_IMAGE_NAMESPACE);
             if (imageNamespace != null && imageNamespace.Trim().Length > 0)
 	        {
-		        return BasePathFinder.BasePathFinderInstance.GetGroupImagePath((NameSpace)imageNamespace);
+		        return PathFinder.PathFinderInstance.GetGroupImagePath((NameSpace)imageNamespace);
 	        }
 
             return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_IMAGE_FILENAME);

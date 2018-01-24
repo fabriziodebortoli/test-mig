@@ -9,7 +9,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string AppName { get; set; }
 		string FilePath { get; }
 		string ModName { get; set; }
-		IBaseModuleInfo ParentModuleInfo { get; }
+		BaseModuleInfo ParentModuleInfo { get; }
 		bool Parse();
 		string ParsingError { get; set; }
 		bool Valid { get; set; }

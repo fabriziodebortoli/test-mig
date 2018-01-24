@@ -92,6 +92,7 @@ protected:
 	ITBRadar*			m_pRadarDoc;
 	CAbstractFormDoc*	m_pCallLinkDoc;
 	SqlRecord*			m_pRecord;
+	SqlSession*			m_pSqlSession; //per lavorare in modalità disconnessa
 	SqlTable*			m_pTable;
 	SqlTable*			m_pSearchTable;
 	CString				m_strError;

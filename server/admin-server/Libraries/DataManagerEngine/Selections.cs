@@ -123,32 +123,30 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------------
 		private void AddConfiguration(string appName, string modName, ref StringCollection configList, string configType, string language)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+			string standardDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
 				? contextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language));
+				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language);
 
-			DirectoryInfo customDir = new DirectoryInfo(
-				(configType.CompareTo(NameSolverStrings.Default) == 0)
+            string customDir =(configType.CompareTo(NameSolverStrings.Default) == 0)
 				? contextInfo.PathFinder.GetCustomDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language));
+				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language);
 
 			StringCollection tempList = new StringCollection();
 
-			if (customDir.Exists)
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(customDir))
 			{
-				foreach (DirectoryInfo dir in customDir.GetDirectories())
-					tempList.Add(dir.Name);
+				foreach (TBDirectoryInfo dir in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(customDir))
+					tempList.Add(dir.name);
 			}
 
 			string tempName = string.Empty;
 
-			if (standardDir.Exists)
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(standardDir))
 			{
-				foreach (DirectoryInfo dir in standardDir.GetDirectories())
+				foreach (TBDirectoryInfo dir in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(standardDir))
 				{
-					if (!tempList.Contains(dir.Name))
-						tempList.Add(dir.Name);
+					if (!tempList.Contains(dir.name))
+						tempList.Add(dir.name);
 				}
 			}
 
@@ -178,8 +176,8 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			{
 				try
 				{
-					if (!Directory.Exists(path))
-						Directory.CreateDirectory(path);
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}

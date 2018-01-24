@@ -2132,7 +2132,7 @@ namespace Microarea.RSWeb.Objects
             if (IsCut)
                 unparser.WriteRect(RectCutted, false);
 
-            INameSpace ns = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(ImageFile);
+            INameSpace ns = PathFinder.PathFinderInstance.GetNamespaceFromPath(ImageFile);
             if (
                 ns.IsValid() &&
                 (ns.NameSpaceType.Type == NameSpaceObjectType.Image || ns.NameSpaceType.Type == NameSpaceObjectType.File)
@@ -2233,7 +2233,7 @@ namespace Microarea.RSWeb.Objects
                 unparser.WriteRatio(HRatio, VRatio, false);
 
             //TODOLUCA fileName è vuota, non ancora valorizzata
-            INameSpace ns = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(fileName);
+            INameSpace ns = PathFinder.PathFinderInstance.GetNamespaceFromPath(fileName);
             if (
                 ns.IsValid() &&
                 (ns.NameSpaceType.Type == NameSpaceObjectType.Text || ns.NameSpaceType.Type == NameSpaceObjectType.File)

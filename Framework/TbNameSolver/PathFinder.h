@@ -62,24 +62,147 @@ public:
 
 };
 
+
+#define QUERY_METADATA		0
+#define FETCH_METADATA		1
+
+///////////////////////////////////////////////////////////////////////////////
+//								TBMetadataManager
+///////////////////////////////////////////////////////////////////////////////
+//
+class TB_EXPORT TBFile : public CObject
+{
+public:
+	long		m_FileID;
+	long		m_ParentID;
+	CString		m_strName;
+	CString		m_strFileType;
+	CString		m_strPathName;
+	CString		m_strNamespace;
+	CString		m_strAppName;
+	CString		m_strModuleName;
+	CString		m_ObjectType;
+	long		m_FileSize;
+	BYTE*		m_pFileContent;
+	CString		m_strFileContent; //contenuto del file di tipo testo
+	CString		m_strCompleteFileName;
+	BOOL		m_bIsCustomPath;
+	CTime		m_CreationTime;
+	CTime		m_LastWriteTime;
+	BOOL		m_IsReadOnly;
+	BOOL		m_IsDirectory;
+
+	//serve per la custom
+	CString		m_strAccountName;
+
+public:
+	TBFile(const CString& strCompleteFileName);
+	TBFile(const CString& strName, const CString& strPathName);
+	~TBFile();
+
+	CString GetContentAsString();
+	BYTE*	GetContentAsBinary();
+};
+
+//enum StorageType { FileSystem, Database };
+////////////////////////////////////////////////////////////////////////
+////					TBMetadataManagerObj							//
+////////////////////////////////////////////////////////////////////////
+//class TB_EXPORT TBMetadataManagerObj
+//{
+//	friend class CPathFinder;
+//
+//protected:
+//	CPathFinder* m_pPathFinder;
+//	StorageType  m_eStorageType;
+//
+//public:
+//	TBMetadataManagerObj(CPathFinder* pPathFinder)
+//		:
+//		m_pPathFinder(pPathFinder)
+//	{
+//	}
+//
+//public:
+//	virtual BOOL ExistMetadataDirectory(const CString& strPath) const = 0;
+//	virtual void CreateMetadataDirectory(const CString& strPathName) const = 0;	
+//	
+//	virtual void  GetMetadataNameInDirectory(const CString& strPathName, const CString& extensionsType, CStringArray* pFoundedFile) const = 0;
+//	virtual void GetAllApplicationInfo(CObArray*)  = 0;
+//	virtual void GetAllModuleInfo(TBFile*, CObArray*)  = 0;
+//	
+//	virtual BOOL ExistMetadataFile(const CString& strFileName)  const = 0;
+//
+//	virtual TBFile* GetMetadataFile(const CString& strPathFileName)  = 0;
+//	virtual void RemoveMetadataFile(const CString& strPathFileName) = 0;
+//	virtual void SaveMetadataTextFile(const CString& strPathFileName, const CString& fileTextContent) = 0;
+//
+//
+//public:
+//	virtual void StartTimeOperation(int) {}
+//	virtual void StopTimeOperation(int) {}
+//
+//	virtual CString GetFormattedQueryTime() { return _T(""); }
+//	virtual CString GetFormattedConvertTime() { return _T(""); }
+//
+//public:
+//	StorageType GetStorageType() const { return m_eStorageType;	}
+//};
+//
+//
+////////////////////////////////////////////////////////////////////////
+////					TBFileSystemManager
+////////////////////////////////////////////////////////////////////////
+//class TB_EXPORT TBFileSystemManager : public TBMetadataManagerObj
+//{
+//	friend class CPathFinder;
+//
+//public:
+//	TBFileSystemManager(CPathFinder* pPathFinder)
+//	:
+//	TBMetadataManagerObj(pPathFinder)
+//	{
+//		m_eStorageType = StorageType::FileSystem;
+//	}
+//
+//private:
+//	void AddApplicationDirectories(const CString& sAppContainerPath, CObArray* pReturnArray) const;
+//	void AddApplicationModules(const CString& sApplicationPath, CObArray* pReturnArray, bool isCustom ) const;
+//
+//public:
+//	virtual BOOL ExistMetadataDirectory(const CString& strPathName) const;
+//	virtual void CreateMetadataDirectory(const CString& strPathName) const;
+//	virtual void GetMetadataNameInDirectory(const CString& strPathName, const CString& extensionsType, CStringArray* pFoundedFile) const;
+//	virtual void GetAllApplicationInfo(CObArray*);
+//	virtual void GetAllModuleInfo(TBFile*, CObArray*);
+//	
+//	virtual BOOL ExistMetadataFile(const CString& strFileName) const;
+//	virtual TBFile* GetMetadataFile(const CString& strFileName);
+//	virtual void RemoveMetadataFile(const CString& strPathFileName);
+//	virtual void SaveMetadataTextFile(const CString& strPathFileName, const CString& fileTextContent) {};
+//};
+
+
 //==============================================================================
 class TB_EXPORT CPathFinder : public CObject
 {
 	friend class CApplicationsLoader;
 	friend class CDeveloperConfigManager;
 	friend class CClientObjects;
+	friend class TBFileSystemManager;
 
 private:
-
 	CString		m_sTbDllPath;
 	CString		m_sServerName;
 	CString		m_sStandardPath;
 	CString		m_sCustomPath;
 	CString		m_sInstallation;
+	CString		m_sWebServiceInstallation;
 	CString		m_sMasterSolution;
 	BOOL		m_bIsStandAlone;
 
 	CDictionaryPathFinderObj *m_pDictionaryPathFinder;
+	//TBMetadataManagerObj*	  m_pMetadataManager;
 
 	// contains the base candidate applications and modules that are passed to ApplicationLoader.
 	// They are not the real loaded applications, as running applications are rappresented by AddOnMng
@@ -103,23 +226,44 @@ private:
 	CString GetCompanyName() const;
 	CString GetUserName() const;
 
+	CString GetApplicationContainer(const CString strPath) const; 
+
 public:
 	void Init(const CString& sServer, const CString& sInstallationName, const CString& strMasterSolution);
+	void SetWebServiceInstallation(const CString& sServiceInstallation) { m_sWebServiceInstallation = sServiceInstallation; }
 	void AttachDictionaryPathFinder(CDictionaryPathFinderObj *pDictionaryPathFinder);
 
 	void ClearApplicationsModulesMap()			{ m_ApplicationsModulesMap.RemoveAll(); }
 
 	void GetCandidateApplications(CStringArray* pAppsArray);
-	void GetCandidateModulesOfApp(const CString& sAppName, CStringArray* pModsArray);
+	void GetCandidateModulesOfApp(const CString& sAppName, CStringArray* pAppsArray);
+
+
+	//void AttachMetadataManager(TBMetadataManagerObj* pMetadataMng) { m_pMetadataManager = pMetadataMng;	}
+	//TBMetadataManagerObj* GetMetadataManager() const { return m_pMetadataManager; }
+	//StorageType GetMetadataStorageType() const { return m_pMetadataManager->GetStorageType(); }
+
+	//BOOL ExistMetadataDirectory(const CString& strPath) const;
+	//void CreateMetadataDirectory(const CString& strPath) const;
+	//
+	//BOOL			ExistMetadataFile(const CString& strPathFileName) const;
+	//TBFile* GetMetadataFile(const CString& strPathFileName) const;
+	//void			RemoveMetadataFile(const CString& strPathFileName);
+	//void			SaveMetadataTextFile(const CString& strPathFileName, const CString& fileTextContent);
+	//
+	//void GetMetadataNameInDirectory(const CString& strPathName, const CString& extensionsType, CStringArray* pFoundedFile) const;
+
 
 	// utility
 	BOOL IsStandAlone() const;
 	const CString&	GetServerName() const;
-
+	//data una path mi restituisce l'applicazione ed il modulo di appartenenza
+	void					GetApplicationModuleNameFromPath(const CString& sObjectFullPath, CString& strApplication, CString& strModule);
 	CTBNamespace			GetNamespaceFromPath(const CString& sObjectFullPath);
 	CString					GetUserNameFromPath(const CString& sObjectFullPath) const;
 	CPathFinder::PosType	GetPosTypeFromPath(const CString& sObjectFullPath) const;
-	CString					GetFileNameFromNamespace(const CTBNamespace& aNamespace, const CString& sUser, const CString& sCulture = _T("")) const;
+	
+	CString			GetFileNameFromNamespace(const CTBNamespace& aNamespace, const CString& sUser, const CString& sCulture = _T("")) const;
 
 	// estensioni di files
 	const CString	GetObjectDefaultExtension(const CTBNamespace& aNamespace) const;
@@ -170,8 +314,9 @@ public:
 	const CString GetModulePath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 
 	const CString GetSemaphoreFilePath() const;
-	const CString GetTaskBuilderXmlPath() const;
 	const CString GetDateRangesFilePath() const;
+
+	const CString GetTaskBuilderXmlPath() const;
 	const CString GetModuleObjectsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetCustomAllCompaniesModuleObjectsPath(const CTBNamespace& ownerModule) const;
 	const CString GetJsonFormsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT, const CString& sUserRole = _T("")) const;
@@ -187,16 +332,19 @@ public:
 	const CString GetDocumentQueryPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentDescriptionPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetDocumentSchemaPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+	
 	const CString GetDocumentReportsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentRadarsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentBarcodeFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentDefaultsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
+	
 	const CString GetModuleDataFilePath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetModuleReferenceObjectsPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetDocumentExportProfilesPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetExportProfilePath(const CTBNamespace& nsProfile, PosType pos, const CString& strUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetExportProfilePath(const CTBNamespace& nsDocument, const CString& strProfileName, PosType pos, const CString& strUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const; const CString GetPartialProfilePathForClientDoc(const CTBNamespace& aProfileNamespace, PosType pos, const CString& strUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
-	const CString GetDocumentFormNSChangesFile(const CTBNamespace& aNamespace) const;
+	
+	const CString GetDocumentFormNSChangesFile(const CTBNamespace& aNamespace) const;	
 	const CString GetDocumentEventsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 
 	const CString GetAppDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
@@ -217,10 +365,13 @@ public:
 	const CString GetModuleReferenceObjectsSearch() const;
 
 	// file names
-	const CString GetClientConnectionConfigFullName() const;
 	const CString GetServerConnectionConfigFullName() const;
 
+	//const CString GetFontsFullName(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE) const;
 	const CString GetFontsFullName(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE) const;
+
+
+
 	const CString GetFormatsFullName(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE) const;
 	const CString GetEnumsFullName(const CTBNamespace& aNamespace, PosType pos) const;
 	const CString GetDocumentDbtsFullName(const CTBNamespace& aNamespace, PosType pos) const;
@@ -248,8 +399,8 @@ public:
 	const CString GetOutDateObjectsFullName(const CTBNamespace& aNamespace) const;
 	const CString GetEnvelopeObjectsFullName(const CTBNamespace& aNamespace) const;
 	const CString GetItemSourceObjectsFullName(const CTBNamespace& aNamespace) const;
-
 	const CString GetLocalizApplicationConfigFullName(const CString& sAppName, const CString& sModName) const;
+	
 	const CString GetStartupLogFullName(const CString& sUser, BOOL bCreateDir = FALSE) const;
 	const CString GetExitLogFullName(const CString& sUser, BOOL bCreateDir = FALSE, BOOL bOnClient = FALSE) const;
 	const CString GetUserLogPath(const CString& sUser, const CString& sCompany, BOOL bCreateDir = FALSE, BOOL bOnClient = FALSE) const;
@@ -259,9 +410,11 @@ public:
 	const CString GetDictionaryPathFromNamespace(const CTBNamespace& aNamespace, BOOL bStandard);
 	const CString GetDictionaryPathFromTableName(const CString& strTableName);
 	const CString GetDictionaryPathFromFileName(const CString& strFileName);
+	
 	void GetDictionaryPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
 	void GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
-	CString GetJsonFormPath(const CTBNamespace& ns);
+	const CString GetJsonFormPath(const CTBNamespace& ns);
+
 	const CString GetNumberToLiteralXmlFullName(const CTBNamespace& aNamespace, const CString& sCulture = _T("")) const;
 
 	const CString GetActionSubscriptionsFolderPath(Company aCompany = CURRENT) const;
@@ -313,16 +466,12 @@ public:
 	CString			GetCustomDebugSymbolsPath() const;
 	CString			GetCustomUserApplicationDataPath(BOOL bCreateDir = TRUE) const;
 
-	CString			FromNs2Path(const CString& sName, CTBNamespace::NSObjectType t1, CTBNamespace::NSObjectType t2);
+	const CString FromNs2Path(const CString& sName, CTBNamespace::NSObjectType t1, CTBNamespace::NSObjectType t2);
 
 	CString CPathFinder::GetXmlParametersDirectory();
 
 private:
-	BOOL IsApplicationDirectory(const CString& sAppPath);
-	BOOL IsModuleDirectory(const CString& sModulePath);
-	void AddApplicationDirectories(const CString& sAppContainerPath, CStringArray* pReturnArray = NULL);
 	int	 AddApplicationModules(const CString& sApplicationPath);
-	void AddTBBaseDirectories(CStringArray* pReturnArray);
 
 	const CString GetApplicationThemeFullName(CString strThemeName, BOOL bTB = FALSE) const;
 	const CString GetApplicationThemeCssFullName(CString strThemeName, BOOL bTB = FALSE) const;

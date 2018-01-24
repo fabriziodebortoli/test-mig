@@ -1943,32 +1943,32 @@
 //        /// e numeri di release specificati nei DatabaseObjects.xml
 //        /// </summary>
 //        /// <param name="conn">connessione aperta sul db</param>
-//        /// <param name="basePathFinder">pathfinder</param>
+//        /// <param name="PathFinder">pathfinder</param>
 //        /// <returns>enum DatabaseCheckError</returns>
 //        //-----------------------------------------------------------------------
-//        //private static DatabaseCheckError CheckDBRelease(TBConnection conn, IBasePathFinder basePathFinder)
+//        //private static DatabaseCheckError CheckDBRelease(TBConnection conn, PathFinder PathFinder)
 //        //{
 //        //    StringCollection applicationsList = new StringCollection();
 //        //    // array di supporto per avere l'elenco totale delle AddOnApplications
 //        //    // (finchè non cambia il pathfinder e vengono unificati gli ApplicationType)
 //        //    StringCollection supportList = new StringCollection();
 //        //    // prima guardo le AddOn di TaskBuilder
-//        //    basePathFinder.GetApplicationsList(ApplicationType.TaskBuilder, out supportList);
+//        //    PathFinder.GetApplicationsList(ApplicationType.TaskBuilder, out supportList);
 //        //    applicationsList = supportList;
 //        //    // poi guardo le AddOn di TaskBuilderApplications
-//        //    basePathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
+//        //    PathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)
 //        //        applicationsList.Add(supportList[i]);
 //        //    // poi guardo i verticali realizzati con EasyBuilder su moduli c++ esistenti
-//        //    basePathFinder.GetApplicationsList(ApplicationType.StandardModuleWrapper, out supportList);
+//        //    PathFinder.GetApplicationsList(ApplicationType.StandardModuleWrapper, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)
 //        //        applicationsList.Add(supportList[i]);
 //        //    // poi guardo i verticali realizzati con EasyBuilder
-//        //    basePathFinder.GetApplicationsList(ApplicationType.Standardization, out supportList);
+//        //    PathFinder.GetApplicationsList(ApplicationType.Standardization, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)
 //        //        applicationsList.Add(supportList[i]);
 //        //    // poi guardo le customizzazioni
-//        //    basePathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
+//        //    PathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)
 //        //        applicationsList.Add(supportList[i]);
 
@@ -1988,16 +1988,16 @@
 //        //        command.Parameters.Add("@module", ((TBType)SqlDbType.NVarChar), 40);
 //        //        command.Prepare();
 
-//        //        BaseApplicationInfo appInfo = null;
+//        //        ApplicationInfo appInfo = null;
 //        //        bool status = false;
 
 //        //        foreach (string appName in applicationsList)
 //        //        {
-//        //            appInfo = (BaseApplicationInfo)basePathFinder.GetApplicationInfoByName(appName);
+//        //            appInfo = (ApplicationInfo)PathFinder.GetApplicationInfoByName(appName);
 //        //            if (appInfo.Modules == null)
 //        //                continue;
 
-//        //            foreach (BaseModuleInfo modInfo in appInfo.Modules)
+//        //            foreach (ModuleInfo modInfo in appInfo.Modules)
 //        //            {
 //        //                // se la signature e' vuota oppure il modulo e' per il DMS skippo
 //        //                if (string.IsNullOrWhiteSpace(modInfo.DatabaseObjectsInfo.Signature) || modInfo.DatabaseObjectsInfo.Dms)
@@ -2055,7 +2055,7 @@
 //        //}
 
 //        ////-----------------------------------------------------------------------
-//        //private static bool InvalidRelease(BaseModuleInfo modInfo)
+//        //private static bool InvalidRelease(ModuleInfo modInfo)
 //        //{
 //        //    //se sono una customizzazione, potrei avere il database disallineato ma devo poter entrare comunque
 //        //    return (modInfo.CurrentDBRelease == 0 || modInfo.CurrentDBRelease != modInfo.DatabaseObjectsInfo.Release);
@@ -2065,22 +2065,22 @@
 //        #region CheckDatabase
 //        //-----------------------------------------------------------------------
 //    //    public static DatabaseCheckError CheckDatabase
-//    //        (TBConnection conn, DBNetworkType dbNetworkType, IBasePathFinder basePathFinder, bool isDevelopment)
+//    //        (TBConnection conn, DBNetworkType dbNetworkType, PathFinder PathFinder, bool isDevelopment)
 //    //    {
 //    //        if (
-//    //            basePathFinder == null ||
+//    //            PathFinder == null ||
 //    //            conn == null ||
 //    //            conn.State != ConnectionState.Open ||
 //    //            dbNetworkType == DBNetworkType.Undefined
 //    //            )
 //    //            return DatabaseCheckError.NoActivatedDatabase;
 
-//    //        DatabaseCheckError eCheck = CheckDBRelease(conn, basePathFinder);
+//    //        DatabaseCheckError eCheck = CheckDBRelease(conn, PathFinder);
 //    //        //prima si distingueva fra sviluppo e non, ma generava confusione neglii utenti Microarea,
 //    //        //quindi è stato allineato al comportamento di release
 //    //        /*(isDevelopment) 
 //				//? CheckDBDevelopment(conn) 
-//				//: CheckDBRelease(conn, basePathFinder);*/
+//				//: CheckDBRelease(conn, PathFinder);*/
 
 //    //        if (eCheck != DatabaseCheckError.NoError)
 //    //            return eCheck;

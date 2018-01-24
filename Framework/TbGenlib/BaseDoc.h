@@ -284,6 +284,12 @@ public:
 	virtual	void		OnOpenCompleted			()  { } //default does nothing
 
 	virtual CString		FormatRollbackLogMessage ();
+
+	//connessione/disconnessione al database @@BAUZI
+	virtual void ConnectToDatabase(LPCTSTR pszActionName = NULL) {};
+	virtual void DisconnectFromDatabase() {};
+
+
 	virtual void		SuspendUpdateDataView() {}
 	virtual void		ResumeUpdateDataView()	{}
 public:

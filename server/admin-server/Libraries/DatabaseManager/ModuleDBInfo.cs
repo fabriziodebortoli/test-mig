@@ -80,7 +80,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 
 			try
 			{
-				xDoc.Load(File.OpenText(fileXML));
+                xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, fileXML);
 			}
 			catch(XmlException e)
 			{
@@ -520,7 +520,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 		/// dopo aver parsato il file DatabaseObjects.xml
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public bool LoadDatabaseObjectsInfo(IDatabaseObjectsInfo databaseObjInfo)
+		public bool LoadDatabaseObjectsInfo(DatabaseObjectsInfo databaseObjInfo)
 		{		
 			if (databaseObjInfo == null)
 				return false;
@@ -731,8 +731,8 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			
 			try
 			{
-				// leggo il file
-				xDoc.Load(File.OpenText(fileXML));
+                // leggo il file
+                xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, fileXML);
 			}
 			catch(XmlException e)
 			{
@@ -1334,13 +1334,14 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 			// quindi se l'xDoc è uguale a null, oppure il path passato come parametro è 
 			// differente da quello caricato nel DOM precedentemente
 			if (xDoc == null || 
-				string.Compare(xmlPath, xDoc.BaseURI.Substring(8).Replace("/", Path.DirectorySeparatorChar.ToString()), StringComparison.OrdinalIgnoreCase) != 0)
+				string.Compare(xmlPath, xDoc.BaseURI.Substring(8).Replace("/", NameSolverStrings.Directoryseparetor.ToString()), StringComparison.OrdinalIgnoreCase) != 0)
 			{
 				xDoc = new XmlDocument();
 				
 				try
 				{
-					xDoc.Load(File.OpenText(xmlPath));
+                    xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, xmlPath);
+
 				}
 				catch(XmlException e)
 				{
@@ -1354,7 +1355,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 				// la property BaseURI mi propone il path con il separatore "/"
 				// il pathfinder ritorna stringhe con il separatore "\"
 				// devo fare quindi un replace prima di confrontare le due stringhe.
-				path = path.Replace("/", Path.DirectorySeparatorChar.ToString());
+				path = path.Replace("/", NameSolverStrings.Directoryseparetor.ToString());
 
 				// se il path caricato nel DOM è diverso da quello passatogli come parametro,
 				// allora faccio la load del file nuovo.

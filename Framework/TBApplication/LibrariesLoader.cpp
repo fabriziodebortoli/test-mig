@@ -588,17 +588,6 @@ BOOL CLibrariesLoader::RegisterAddOnInterface (AddOnLibrary* pAddOnLib, AddOnMod
 	bOk = pAddOnLib->m_pAddOn->AOI_EndRegistration(pAddOnLib->m_Namespace);
 
 	pAddOnLib->m_pAddOn->SetRegisterState(AddOnInterfaceObj::Registered);
-	
-	// bugfix #17185
-	// checks database release
-	
-	if (bCheckDB)
-	{
-		COleDbManager *pOleDb = AfxGetOleDbMng();
-		if (pOleDb)
-			bOk = bOk && pOleDb->CheckAddOnModuleRelease(pAddOnMod, AfxGetDiagnostic());
-	}
-
 	return bOk;
 }
 

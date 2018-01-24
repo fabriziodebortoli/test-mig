@@ -32,7 +32,6 @@ namespace Microarea.AdminServer.Model.Interfaces
             byte[] encodedBytes = Encoding.UTF8.GetBytes(val);
             return Convert.ToBase64String(encodedBytes);
         }
-        
+
     }
 }
-  

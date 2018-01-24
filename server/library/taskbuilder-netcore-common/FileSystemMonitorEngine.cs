@@ -73,7 +73,7 @@ namespace Microarea.Common
 
 		// utility data members
 	//	private LoginManager		loginManager		= null; TODO LARA
-		private BasePathFinder		pathFinder			= null;
+		private PathFinder		pathFinder			= null;
 		private Diagnostic			diagnostic			= new Diagnostic("FileSystemMonitor"); 
 
 	    // file system data members
@@ -100,15 +100,15 @@ namespace Microarea.Common
 			diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning, "FileSystemMonitorEngine Init");
 			managedExtensions = Strings.ManagedExtensions.Split (';');
 
-			pathFinder = BasePathFinder.BasePathFinderInstance;
-            //LARA Dovrebbe farla gia dentro a .BasePathFinderInstance
+			pathFinder = PathFinder.PathFinderInstance;
+            //LARA Dovrebbe farla gia dentro a .PathFinderInstance
             //pathFinder.Init ();
             FileSystem.InitServerPath (pathFinder);
 
             // TODO LARA
             //loginManager = new LoginManager (pathFinder.LoginManagerUrl, pathFinder.ServerConnectionInfo.WebServicesTimeOut);
             //watcher = new FileSystemWatcher (pathFinder.GetRunningPath()); 
-            watcher = new FileSystemWatcher(pathFinder.GetStandardPath());
+            watcher = new FileSystemWatcher(pathFinder.GetStandardPath);
 
             watcher.Filter		 = "*.*";
 			watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite;
@@ -264,7 +264,7 @@ namespace Microarea.Common
             XmlElement rootEvent = eventHandlerObjctsDocument.CreateElement(Strings.Applications);
             eventHandlerObjctsDocument.AppendChild(rootEvent);
 
-            foreach (BaseApplicationInfo aApplication in pathFinder.ApplicationInfos)
+            foreach (ApplicationInfo aApplication in pathFinder.ApplicationInfos)
             {
 
                 if (aApplication.ApplicationType != ApplicationType.TaskBuilderApplication && 
@@ -321,7 +321,7 @@ namespace Microarea.Common
 
         //    string filePath = string.Empty;
 
-        //    foreach (BaseModuleInfo baseModule in aModules)
+        //    foreach (ModuleInfo baseModule in aModules)
         //    {
         //        if (baseModule.Libraries == null || baseModule.Libraries.Count == 0)
         //            continue;
@@ -382,7 +382,7 @@ namespace Microarea.Common
             
             string filePath = string.Empty;
 
-            foreach (BaseModuleInfo baseModule in aModules)
+            foreach (ModuleInfo baseModule in aModules)
             {
                 if (baseModule.Libraries == null || baseModule.Libraries.Count == 0)
                     continue;
@@ -453,7 +453,7 @@ namespace Microarea.Common
 
             EventHandlerObjects eventHandlerObjects;
 
-            foreach (BaseModuleInfo baseModule in aModules)
+            foreach (ModuleInfo baseModule in aModules)
             {
                 if (baseModule.Libraries == null || baseModule.Libraries.Count == 0)
                     continue;
@@ -501,7 +501,7 @@ namespace Microarea.Common
             string filePath = string.Empty;
             DatabaseObjectsInfo databaseObjectsInfo;
 
-            foreach (BaseModuleInfo baseModule in aModules)
+            foreach (ModuleInfo baseModule in aModules)
             {
                 if (baseModule.Libraries == null || baseModule.Libraries.Count == 0)
                     continue;
@@ -512,7 +512,7 @@ namespace Microarea.Common
                 databaseObjectsInfo = new DatabaseObjectsInfo(databaseObjFile, baseModule);
 
                 //se il file non esiste esco
-                if (!File.Exists(databaseObjFile))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(databaseObjFile))
                     continue;
 
                 databaseObjectsInfo.Parse();
@@ -581,7 +581,7 @@ namespace Microarea.Common
             string filePath = string.Empty;
             DocumentsObjectInfo documentsObjectInfo;
 
-            foreach (BaseModuleInfo baseModule in aModules)
+            foreach (ModuleInfo baseModule in aModules)
             {
                 if (baseModule.Libraries == null || baseModule.Libraries.Count == 0)
                     continue;
@@ -589,7 +589,7 @@ namespace Microarea.Common
                 filePath = baseModule.GetDocumentObjectsPath();
 
                 //se il file non esiste esco
-                if (!File.Exists(filePath))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
                     continue;
 
                 // Oggetto che sa parsare BehaviourObjects.xml
@@ -616,7 +616,7 @@ namespace Microarea.Common
             string filePath = string.Empty;
             BehaviourObjectsInfo behaviourObjectsInfo;
 
-            foreach (BaseModuleInfo aModule in aModules)
+            foreach (ModuleInfo aModule in aModules)
             {
                 if (aModule.Libraries == null || aModule.Libraries.Count == 0)
                     continue;
@@ -627,7 +627,7 @@ namespace Microarea.Common
                 behaviourObjectsInfo = new BehaviourObjectsInfo(filePath, aModule);
 
                 //se il file non esiste esco
-                if (!File.Exists(filePath))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
                     continue;
 
                 behaviourObjectsInfo.Parse();
@@ -665,13 +665,13 @@ namespace Microarea.Common
             string filePath = string.Empty;
             ClientDocumentsObjectInfo clientDocumentsObjectInfo;
 
-            foreach (BaseModuleInfo aModule in aModules)
+            foreach (ModuleInfo aModule in aModules)
             {
                 if (aModule.Libraries == null || aModule.Libraries.Count == 0)
                     continue;
 
                 filePath = aModule.GetClientDocumentObjectsPath();
-                if (!File.Exists(filePath))
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
                     continue;
 
                 XmlElement module = clientDocumentObjectsDocument.CreateElement("Module");
@@ -924,7 +924,7 @@ namespace Microarea.Common
 				// only standard, custom is excluded
 				XmlNode st = doc.CreateNode(XmlNodeType.Element, "Standard", "" );
 				ms.AppendChild(st);
-				WriteCacheFile (ref st, ref doc, pathFinder.GetStandardPath(), FileSystem.ExcludedPath, FileSystem.IncludedFiles);
+				WriteCacheFile (ref st, ref doc, pathFinder.GetStandardPath, FileSystem.ExcludedPath, FileSystem.IncludedFiles);
 
 				// save della cache
 				string fileName = GetTbCacheFileName();
@@ -1022,37 +1022,39 @@ namespace Microarea.Common
 		}
 
         //-------------------------------------------------------------------------
-        public string GetServerConnectionConfig ()
+        public Stream GetServerConnectionConfig ()
 		{
 			return GetTextFile (pathFinder.ServerConnectionFile);
 		}
 
         //-----------------------------------------------------------------------
-        public string GetTextFile (string theFileName)
+        public Stream GetTextFile (string theFileName)
 		{
 			string fileContent = string.Empty;
+            StreamReader sr = null;
 
-			if (theFileName == string.Empty)
-				return string.Empty;
+            if (theFileName == string.Empty)
+				return null;
 
 			string fileName = GetAdjustedPath(theFileName); 
 			
 			if (!File.Exists(fileName))
-				return string.Empty;
+				return null;
 			try
 			{
-				// file content
-				StreamReader sr = new StreamReader(File.OpenRead(fileName), true);
+                // file content
+				sr = new StreamReader(File.OpenRead(fileName), true);
 				fileContent = sr.ReadToEnd();
-                //sr.Close (); Lara
+                sr.Close(); 
                 sr.Dispose();
-			}
+            }
 			catch (Exception)
 			{
-				return string.Empty;
+				return null;
 			}
-			return fileContent;
-		}
+
+            return sr.BaseStream;
+        }
 
         //-----------------------------------------------------------------------
         public bool SetTextFile (string theFileName, string fileContent)
@@ -1077,7 +1079,7 @@ namespace Microarea.Common
                 //StreamWriter sw = new StreamWriter(File.OpenRead(fileName), false,System.Text.Encoding.UTF8);
                 StreamWriter sw = new StreamWriter(File.OpenRead(fileName), System.Text.Encoding.UTF8);
                 sw.Write(fileContent);
-                //sw.Close (); Lara
+                sw.Close (); 
                 sw.Dispose();
 				
 				return true;
@@ -1481,7 +1483,7 @@ namespace Microarea.Common
             try
             {
                 if (SetFileWriteAttributes (fileName))
-                    File.Delete(fileName);
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(fileName);
             }
             catch (Exception)
             {
@@ -1654,13 +1656,13 @@ namespace Microarea.Common
 				localPath = localPath.Replace (NameSolverStrings.Running.ToLower(), "");
 				//Lara
                 //localPath = pathFinder.GetRunningPath() + localPath;
-                localPath = pathFinder.GetStandardPath() + localPath;
+                localPath = pathFinder.GetStandardPath + localPath;
 
             } 
 			else if (localPath.StartsWith (NameSolverStrings.Standard.ToLower()))
 			{
 				localPath = localPath.Replace (NameSolverStrings.Standard.ToLower(), "");
-				localPath = pathFinder.GetStandardPath() + localPath;
+				localPath = pathFinder.GetStandardPath + localPath;
 			}
 			else if (localPath.StartsWith (NameSolverStrings.Custom.ToLower()))
 			{
@@ -1690,7 +1692,7 @@ namespace Microarea.Common
 		//-------------------------------------------------------------------------
 		private string PathReplace(string filepath)
 		{
-			string pathToReplace = pathFinder.IsStandardPath(filepath) ? pathFinder.GetStandardPath() : pathFinder.GetCustomPath();
+			string pathToReplace = pathFinder.IsStandardPath(filepath) ? pathFinder.GetStandardPath : pathFinder.GetCustomPath();
 			pathToReplace = pathToReplace.ToLower();
 			filepath = filepath.ToLower().Replace(pathToReplace, "");
 
@@ -1780,7 +1782,7 @@ namespace Microarea.Common
 			}
 
 			//-----------------------------------------------------------------------
-			public static void InitServerPath (BasePathFinder pathFinder)
+			public static void InitServerPath (PathFinder pathFinder)
 			{
                 //Lara
           //      serverPath = string.Concat(Path.DirectorySeparatorChar, Path.DirectorySeparatorChar,

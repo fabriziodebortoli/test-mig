@@ -61,19 +61,19 @@ namespace Microarea.Common.NameSolver
 	public class BehaviourObjectsInfo
 	{
 		private string filePath;
-		private IBaseModuleInfo parentModuleInfo;
+		private ModuleInfo parentModuleInfo;
 		List<Entity> entitiesList = new List<Entity>();
 		List<Service> servicesList = new List<Service>();
 
 		//--------------------------------------------------------------------------------
 		public string FilePath { get { return filePath; } }
-		public IBaseModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
+		public ModuleInfo ParentModuleInfo { get { return parentModuleInfo; } }
 
 		public List<Entity> Entities { get { return entitiesList; } }
 		public List<Service> Services { get { return servicesList; } }
 
 		//--------------------------------------------------------------------------------
-		public BehaviourObjectsInfo(string aFilePath, IBaseModuleInfo aParentModuleInfo)
+		public BehaviourObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (string.IsNullOrWhiteSpace(aFilePath))
 				Debug.Fail("Error in BehaviourObjectsInfo file");
@@ -90,7 +90,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if (
-				!File.Exists(filePath) ||
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath)||
 				parentModuleInfo == null ||
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -100,8 +100,8 @@ namespace Microarea.Common.NameSolver
 				(
 				parentModuleInfo.ParentApplicationInfo.Name,
 				parentModuleInfo.Name,
-				parentModuleInfo.PathFinder
-				);
+				parentModuleInfo.CurrentPathFinder
+                );
 
 			try
 			{

@@ -11,6 +11,7 @@ using Microarea.AdminServer.Services.BurgerData;
 using Microarea.AdminServer.Services.PostMan;
 using Microarea.AdminServer.Services.PostMan.actuators;
 using Microarea.AdminServer.Services.Security;
+using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -68,7 +69,7 @@ namespace Microarea.AdminServer.Controllers
 
             string file = Path.Combine(_env.WebRootPath, "index.html");
 
-            if (!System.IO.File.Exists(file))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
             {
 				jsonHelper.AddJsonCouple<string>("message", "index.html doesn't exist");
 				return new ContentResult { Content = jsonHelper.WriteFromKeysAndClear(), ContentType = "application/json" };

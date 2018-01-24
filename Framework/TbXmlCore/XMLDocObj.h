@@ -20,6 +20,7 @@
 
 class CXMLDocumentObject;
 class CXMLNodeChildsList;
+class TBFile;
 
 /////////////////////////////////////////////////////////////////////////////
 // CXMLNode Declaration
@@ -259,6 +260,12 @@ public:
 
 protected:
 	BOOL			SaveFormattedXML					(const CString&, BOOL = FALSE);
+
+
+public:
+	BOOL LoadMetadata(TBFile* pMetaDataFile);
+	BOOL SaveMetadata(TBFile* pMetaDataFile);
+
 
 // diagnostics
 #ifdef _DEBUG

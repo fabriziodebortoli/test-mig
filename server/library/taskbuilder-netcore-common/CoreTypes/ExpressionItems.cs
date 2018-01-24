@@ -433,7 +433,7 @@ namespace Microarea.Common.CoreTypes
 			if (object.Equals(v2, null) && !object.Equals(v1, null)) return false;
 			if (object.Equals(v1, null) && !object.Equals(v2, null)) return false;
 			
-			//LARA 21-01-05
+
 			//Senza si tromba il libro brogliaccio
 			if (v1.Data == null || v2.Data == null)
 				return false;

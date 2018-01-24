@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include <atlenc.h>
 #include "Chars.h"
 #include "FileSystemFunctions.h"
 #include "IFileSystemManager.h"
@@ -19,7 +19,7 @@ static const char THIS_FILE[] = __FILE__;
 static const TCHAR szCustom[] = _T("Custom");
 static const TCHAR szConfiguration[] = _T("Configuration");
 static const TCHAR szEBAssemblies[] = _T("ReferencedAssemblies");
-static const TCHAR szCompanies[] = _T("Companies");
+static const TCHAR szSubscriptions[] = _T("Subscriptions");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
 static const TCHAR szDictionary[] = _T("Dictionary");
 static const TCHAR szDictionaryFile[] = _T("Dictionary.bin");
@@ -164,11 +164,130 @@ const TCHAR szCandidateModulesSep[] = _T(";");
 
 //DataSynchronizer
 static const TCHAR szSynchroProviders[] = _T("SynchroProviders");
+enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE };	//UTF16_BE: Big Endian (swap sui byte); UTF16_LE: Little Endian 
 
-//============================================================================
-//	Static Objects & general functions
-//============================================================================
+//-------------------------------------------------------------
+EncodingType GetEncodingType(BYTE* pBinaryContent, long nSize)
+{
+	EncodingType encodingType = ANSI;
+	if (!pBinaryContent || nSize < 3)
+		return encodingType;
 
+	if (pBinaryContent[0] == 0xFF && pBinaryContent[1] == 0xFE)		//UTF-16 (LE)  little endian -- Unicode
+		encodingType = UTF16_LE;
+	else
+	{
+		if (pBinaryContent[0] == 0xFF && pBinaryContent[1] == 0xFF)	//UTF- 16 (BE) big endian
+			encodingType = UTF16_BE;
+		else
+			if (pBinaryContent[0] == 0xEF && pBinaryContent[1] == 0xBB && pBinaryContent[2] == 0xBF)	//UTF8
+				encodingType = UTF8;
+	}
+
+	return encodingType;
+
+}
+///////////////////////////////////////////////////////////////////////////////
+//								TBFile
+///////////////////////////////////////////////////////////////////////////////
+//
+//----------------------------------------------------------------------------
+//----------------------------------------------------------------------------
+TBFile::TBFile(const CString& strCompleteFileName)
+	:
+	m_strCompleteFileName(strCompleteFileName),
+	m_bIsCustomPath(FALSE),
+	m_pFileContent(NULL),
+	m_FileSize(0)
+{
+	m_strName = ::GetName(strCompleteFileName);
+	m_strPathName = ::GetPath(strCompleteFileName);
+	m_strFileType = ::GetExtension(m_strName);
+}
+//----------------------------------------------------------------------------
+TBFile::TBFile(const CString& strName, const CString& strPathName)
+	:
+	m_strName(strName),
+	m_strPathName(strPathName),
+	m_bIsCustomPath(FALSE),
+	m_pFileContent(NULL),
+	m_FileSize(0)
+{
+	m_strCompleteFileName = strPathName + SLASH_CHAR + strName;
+	m_strFileType = ::GetExtension(m_strName);
+}
+
+//----------------------------------------------------------------------------
+TBFile::~TBFile()
+{
+	if (m_pFileContent)
+		delete m_pFileContent;
+}
+
+//----------------------------------------------------------------------------
+CString TBFile::GetContentAsString()
+{
+	if (!m_strFileContent.IsEmpty())
+		return m_strFileContent;
+
+	if (!m_pFileContent || m_FileSize == 0)
+		return _T("");
+
+	//AfxGetPathFinder()->GetMetadataManager()->StartTimeOperation(CONVERT_METADATA);
+	CString strContent;
+	//devo convertire il binario nella giusta stringa a seconda del suo tipo
+	EncodingType encodingType = GetEncodingType(m_pFileContent, m_FileSize);
+	switch (encodingType)
+	{
+		case ANSI:
+		{
+			//devo mettere il carattere terminatore
+			char* pANSIBuff = new char[m_FileSize+1];
+			memcpy(pANSIBuff, m_pFileContent, m_FileSize);
+			pANSIBuff[m_FileSize] = _T('\0');
+			CString str = CString(pANSIBuff);
+			delete[] pANSIBuff;
+			return str;
+		}
+
+		case UTF16_BE:
+		case UTF16_LE:
+		{
+			ASSERT(FALSE);
+			break;
+		}
+
+		case UTF8:
+		{
+			DWORD dwLenght = m_FileSize - 3;
+			wchar_t * pUnicodeBuff = new wchar_t[dwLenght + 1];
+			dwLenght = MultiByteToWideChar(CP_UTF8, 0, (char*)(m_pFileContent + 3), dwLenght, pUnicodeBuff, dwLenght);
+			pUnicodeBuff[dwLenght] = _T('\0');
+			CString str = CString(pUnicodeBuff);
+			delete[] pUnicodeBuff;
+			return str;
+		}
+	}
+	//AfxGetPathFinder()->GetMetadataManager()->StopTimeOperation(CONVERT_METADATA);
+
+	return _T("");
+}
+
+//----------------------------------------------------------------------------
+BYTE* TBFile::GetContentAsBinary()
+{
+	if (m_pFileContent)
+		return m_pFileContent;
+
+	if (m_strFileContent.IsEmpty())
+		return NULL;
+	
+	int nBytesLength = AtlUnicodeToUTF8(m_strFileContent, m_strFileContent.GetLength(), NULL, 0); //calcolo la dimensione richiesta per il buffer
+	BYTE* pResponseBytes = new BYTE[nBytesLength];
+	AtlUnicodeToUTF8(m_strFileContent, m_strFileContent.GetLength(), (LPSTR)pResponseBytes, nBytesLength);
+
+	return pResponseBytes;
+}
 
 //-----------------------------------------------------------------------------
 TB_EXPORT CPathFinder* AFXAPI AfxGetPathFinder()
@@ -218,26 +337,30 @@ void CPathFinder::Init(const CString& sServer, const CString& sInstallationName,
 	m_sInstallation = sInstallationName;
 
 	ASSERT(!m_sInstallation.IsEmpty());
-
-	CString sPath = GetTBDllPath();
-	TCHAR szFolder[MAX_PATH];
-	SHGetSpecialFolderPath(NULL, szFolder, CSIDL_PROFILE, FALSE);
-	BOOL isClickOnce = sPath.Find(szFolder) != -1;
-	int appsIdx = isClickOnce ? -1 : sPath.Find(_T("\\Apps\\"));
-	//se nel path dove sto girando e` presente Apps, allora sto girando nell'installazione e non ho bisogno dello share
-	if (appsIdx > -1)
-	{
-		CString sInstallationPath = sPath.Mid(0, appsIdx);
-		m_sStandardPath = sInstallationPath + SLASH_CHAR + szStandard;
-		m_sCustomPath = sInstallationPath + SLASH_CHAR + szCustom;
-		m_bIsRunningInsideInstallation = TRUE;
-	}
-	else
+	m_bIsStandAlone = _tcsicmp(sServer, GetComputerName(FALSE)) == 0;	
+	//mi è stato detto (mediante il file FileSystemManager.config o il ClickOnce) di andare a pescare i dati da un'altra parte	
+	if (!m_bIsStandAlone)
 	{
 		m_sStandardPath = CString(SLASH_CHAR) + SLASH_CHAR + sServer + SLASH_CHAR + sInstallationName + _T("_") + szStandard;
 		m_sCustomPath = CString(SLASH_CHAR) + SLASH_CHAR + sServer + SLASH_CHAR + sInstallationName + _T("_") + szCustom;
 	}
-	m_bIsStandAlone = _tcsicmp(sServer, GetComputerName(FALSE)) == 0;
+	else
+	{
+
+		CString sPath = GetTBDllPath();
+		TCHAR szFolder[MAX_PATH];
+		SHGetSpecialFolderPath(NULL, szFolder, CSIDL_PROFILE, FALSE);
+		BOOL isClickOnce = sPath.Find(szFolder) != -1;
+		int appsIdx = isClickOnce ? -1 : sPath.Find(_T("\\Apps\\"));
+		//se nel path dove sto girando e` presente Apps, allora sto girando nell'installazione e non ho bisogno dello share
+		if (appsIdx > -1)
+		{
+			CString sInstallationPath = sPath.Mid(0, appsIdx);
+			m_sStandardPath = sInstallationPath + SLASH_CHAR + szStandard;
+			m_sCustomPath = sInstallationPath + SLASH_CHAR + szCustom;
+			m_bIsRunningInsideInstallation = TRUE;
+		}
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -247,6 +370,8 @@ void CPathFinder::AttachDictionaryPathFinder(CDictionaryPathFinderObj *pDictiona
 	m_pDictionaryPathFinder = pDictionaryPathFinder;
 	m_pDictionaryPathFinder->m_pPathFinder = this;
 }
+
+
 
 //-----------------------------------------------------------------------------
 const CString& CPathFinder::GetServerName() const
@@ -266,6 +391,7 @@ CString CPathFinder::GetCompanyName() const
 	sRet.Trim();
 	return sRet;
 }
+
 //-----------------------------------------------------------------------------
 CString CPathFinder::GetUserName() const
 {
@@ -308,6 +434,7 @@ CString CPathFinder::GetCustomDebugSymbolsPath() const
 {
 	return GetCustomPath() + SLASH_CHAR + szDebugSymbols;
 }
+
 //---------------------------------------------------------------------------------
 CString CPathFinder::GetCustomUserApplicationDataPath(BOOL bCreateDir /*= TRUE*/) const
 {
@@ -324,20 +451,6 @@ CString CPathFinder::GetCustomUserApplicationDataPath(BOOL bCreateDir /*= TRUE*/
 		CreateDirectory(sPath);
 	return sPath;
 }
-//-----------------------------------------------------------------------------
-BOOL CPathFinder::IsApplicationDirectory(const CString& sAppPath)
-{
-	if (sAppPath.IsEmpty())
-		return FALSE;
-
-	return ExistFile(GetApplicationConfigFullNameFromPath(sAppPath));
-}
-
-//-----------------------------------------------------------------------------
-BOOL CPathFinder::IsModuleDirectory(const CString& sModulePath)
-{
-	return !sModulePath.IsEmpty() && ExistFile(sModulePath + SLASH_CHAR + GetModuleConfigName());
-}
 
 //-------------------------------------------------------------------------------------
 const CString CPathFinder::GetCustomApplicationsPath() const
@@ -346,25 +459,50 @@ const CString CPathFinder::GetCustomApplicationsPath() const
 }
 
 //-------------------------------------------------------------------------------------
+CString CPathFinder::GetApplicationContainer(const CString strPath) const
+{
+	CString strPathLower = strPath;
+	
+	strPathLower.MakeLower();
+	CString strAppContainerPath = GetContainerPath(CPathFinder::TB);
+	strAppContainerPath.MakeLower();
+	if (strPathLower.Find(strAppContainerPath) >= 0)
+		return GetName(strAppContainerPath);
+
+	strAppContainerPath = GetContainerPath(CPathFinder::TB_APPLICATION);
+	strAppContainerPath.MakeLower();
+	if (strPathLower.Find(strAppContainerPath) >= 0)
+		return GetName(strAppContainerPath);
+
+	strAppContainerPath = GetCustomApplicationsPath();
+	strAppContainerPath.MakeLower();
+	if (strPathLower.Find(strAppContainerPath) >= 0)
+		return GetName(strAppContainerPath);
+
+	ASSERT(FALSE);
+	return _T("");
+}
+
+//-------------------------------------------------------------------------------------
 void CPathFinder::GetCandidateApplications(CStringArray* pAppsArray)
 {
 	if (!pAppsArray)
 		return;
-
+	
+	CString strApplicationPath;
+	CString strApplicationName;
+	CStringArray applicationPathArray ;
+	AfxGetFileSystemManager()->GetAllApplicationInfo(&applicationPathArray);
 	if (m_ApplicationContainerMap.IsEmpty())
 	{
-		AddTBBaseDirectories(pAppsArray);
-		AddApplicationDirectories(GetContainerPath(CPathFinder::TB_APPLICATION), pAppsArray);
-		AddApplicationDirectories(GetCustomApplicationsPath(), pAppsArray);
-		return;
-	}
-
-	POSITION pos = m_ApplicationContainerMap.GetStartPosition();
-	CString strKey, strValue;
-	while (pos)
-	{
-		m_ApplicationContainerMap.GetNextAssoc(pos, strKey, strValue);
-		pAppsArray->Add(strKey);
+		for (int i = 0; i < applicationPathArray.GetSize(); i++)
+		{
+			strApplicationPath = applicationPathArray.GetAt(i);
+			strApplicationName = GetName(strApplicationPath);
+			strApplicationName.MakeLower();
+			m_ApplicationContainerMap[strApplicationName] = GetApplicationContainer(strApplicationPath);
+			pAppsArray->Add(strApplicationName);
+		}
 	}
 }
 
@@ -374,93 +512,32 @@ void CPathFinder::GetCandidateModulesOfApp(const CString& sAppName, CStringArray
 	if (!pModsArray)
 		return;
 
-	CString sApplicationName = sAppName;
-	sApplicationName.MakeLower();
+	pModsArray->RemoveAll();
 
-	// load modules namespaces into map form file system
-	CString sValue;
-	if (!m_ApplicationsModulesMap.Lookup(sApplicationName, sValue))
-	{
-		int nModules = AddApplicationModules(GetApplicationPath(sAppName, CPathFinder::STANDARD));
-		if (nModules == 0) //non ho moduli: si tratta di un'applicazione nella custom?
-			nModules = AddApplicationModules(GetApplicationPath(sAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES));
-	}
+	CString strApplicationName = sAppName;
+	CString strModuleName;
+	CString strValue;
+	strApplicationName.MakeLower();
+	CStringArray modulePathArray;
 
-	// no modules
-	if (!m_ApplicationsModulesMap.Lookup(sApplicationName, sValue) || sValue.IsEmpty())
-	{
-		pModsArray->RemoveAll();
-		return;
-	}
-
-	int nCurrPos = 0;
-	CString sToken = sValue.Tokenize(szCandidateModulesSep, nCurrPos);
-	while (sToken != "")
-	{
-		pModsArray->Add(sToken);
-		sToken = sValue.Tokenize(szCandidateModulesSep, nCurrPos);
-	}
-
-}
-//-------------------------------------------------------------------------------------
-void CPathFinder::AddTBBaseDirectories(CStringArray* pReturnArray)
-{
-	const CString sAppContainerPath = GetContainerPath(CPathFinder::TB);
-	
-	CString strFolder = szTaskBuilderApp;
-	pReturnArray->Add(strFolder);
-	strFolder.MakeLower();
-	m_ApplicationContainerMap[strFolder] = GetName(sAppContainerPath);
-
-	strFolder = szExtensionsApp;
-	pReturnArray->Add(szExtensionsApp);
-	strFolder.MakeLower();
-	m_ApplicationContainerMap[strFolder] = GetName(sAppContainerPath);	
-}
-
-//-------------------------------------------------------------------------------------
-void CPathFinder::AddApplicationDirectories(const CString& sAppContainerPath, CStringArray* pReturnArray /*FALSE*/)
-{
-	CStringArray arFolders;
-	GetSubFolders(sAppContainerPath, &arFolders);
-	for (int i = 0; i <= arFolders.GetUpperBound(); i++)
-	{
-		CString strFolder = arFolders.GetAt(i);
-		if (IsApplicationDirectory(sAppContainerPath + SLASH_CHAR + strFolder))
-		{
-			if (pReturnArray)
-				pReturnArray->Add(strFolder);
-			strFolder.MakeLower();
-			m_ApplicationContainerMap[strFolder] = GetName(sAppContainerPath);
-		}
-	}
-}
-
-//-------------------------------------------------------------------------------------
-int CPathFinder::AddApplicationModules(const CString& sApplicationPath)
-{
+	AfxGetFileSystemManager()->GetAllModuleInfo(sAppName, &modulePathArray);
 	int nModules = 0;
-	CStringArray arFolders;
-	GetSubFolders(sApplicationPath, &arFolders);
 
-	CString sValue;
-	CString sModuleName;
-	for (int i = 0; i <= arFolders.GetUpperBound(); i++)
+	for (int i = 0; i < modulePathArray.GetSize(); i++)
 	{
-		sModuleName = arFolders.GetAt(i);
-		if (!sModuleName.IsEmpty() && IsModuleDirectory(sApplicationPath + SLASH_CHAR + sModuleName))
+		strModuleName = GetName(modulePathArray.GetAt(i));
+		if (!strModuleName.IsEmpty())
 		{
-			sValue += sModuleName + szCandidateModulesSep;
+			strValue += strModuleName + szCandidateModulesSep;
 			nModules++;
 		}
+		pModsArray->Add(strModuleName);
+		
+		if (nModules > 0)
+			m_ApplicationsModulesMap[strApplicationName] = strValue;
 	}
-
-	CString sAppName = GetName(sApplicationPath);
-	sAppName.MakeLower();
-
-	m_ApplicationsModulesMap[sAppName] = sValue;
-	return nModules;
 }
+
 
 //-------------------------------------------------------------------------------------
 const BOOL CPathFinder::IsStandardPath(CString sPath) const
@@ -620,6 +697,75 @@ l_step2:
 
 	return CTBNamespace::FILE;
 }
+//-------------------------------------------------------------------------------------
+void CPathFinder::GetApplicationModuleNameFromPath(const CString& sObjectFullPath, CString& strApplication, CString& strModule)
+{	
+	int nPathToken = 0;
+	int nPos = 0;
+	strApplication.Empty();
+	strApplication.Empty();
+
+	while (nPos >= 0)
+	{
+		nPos = sObjectFullPath.Find(SLASH_CHAR, nPos + 1);
+		if (nPos >= 0)
+			nPathToken++;
+	}
+
+	// il minimo che posso rappresentare è applicazione e modulo, quindi
+	// con il tipo devo avere almeno tre segmenti di path per poterlo fare 
+	if (nPathToken <= 3)
+		return;
+
+	BOOL bStandard = IsStandardPath(sObjectFullPath);
+
+	CString sStdCstPath;
+	CString sTemp = sObjectFullPath;
+	sTemp.Replace(SLASH_CHAR, URL_SLASH_CHAR);
+	sTemp.MakeLower();
+
+	// le replace sono Case Sensitive!
+	if (bStandard)
+		sStdCstPath = GetStandardPath();
+	else
+	{
+		sStdCstPath = GetCompanyPath();
+		// bug 13.914 point at the end of company name is not allowed
+		if (sStdCstPath.Right(1).Compare(_T(".")) == 0)
+			sStdCstPath = sStdCstPath.Left(sStdCstPath.GetLength() - 1);
+	}
+
+	sStdCstPath.Replace(SLASH_CHAR, URL_SLASH_CHAR);
+	sStdCstPath.MakeLower();
+
+	if (sTemp.Find(sStdCstPath) != 0)
+	{
+		TRACE2("GetApplicationModuleNameFromPath: Invalid application path: %s\n%s\n", (LPCTSTR)sStdCstPath, (LPCTSTR)sObjectFullPath);
+		return;
+	}
+	sTemp = sTemp.Mid(sStdCstPath.GetLength() + 1);
+	//sTemp.Replace(sStdCstPath + URL_SLASH_CHAR, _T(""));
+
+	// la container la salto
+	int nPosDir = sTemp.Find(URL_SLASH_CHAR);
+	if (nPosDir > 0)
+		sTemp = sTemp.Mid(nPosDir + 1);
+
+	// l' application e module fanno parte del namespace
+	nPosDir = sTemp.Find(URL_SLASH_CHAR);
+	if (nPosDir > 0)
+	{
+		strApplication = sTemp.Left(nPosDir);
+		sTemp = sTemp.Mid(nPosDir + 1);
+	}
+
+	nPosDir = sTemp.Find(URL_SLASH_CHAR);
+	if (nPosDir > 0)
+	{
+		strModule = sTemp.Left(nPosDir);
+		sTemp = sTemp.Mid(nPosDir + 1);
+	}	
+}
 
 // Questo metodo ricostruisce il namespace dell'oggetto a partire dal Path. Di default
 // ricostruisce quello di modulo e SOLO per gli oggetti che hanno una sottodirectory
@@ -630,7 +776,7 @@ CTBNamespace CPathFinder::GetNamespaceFromPath(const CString& sObjectFullPath)
 	// prima controllo le cose di base
 	if (sObjectFullPath.IsEmpty() || GetName(sObjectFullPath).IsEmpty() || GetPath(sObjectFullPath).IsEmpty())
 		return CTBNamespace();
-
+	CString sModule, sApplication, sType;
 	// poi la consistenza dei token di path
 	int nPathToken = 0;
 	int nPos = 0;
@@ -648,7 +794,7 @@ CTBNamespace CPathFinder::GetNamespaceFromPath(const CString& sObjectFullPath)
 
 	BOOL bStandard = IsStandardPath(sObjectFullPath);
 
-	CString sModule, sApplication, sType;
+
 	CString sStdCstPath;
 	CString sTemp = sObjectFullPath;
 	sTemp.Replace(SLASH_CHAR, URL_SLASH_CHAR);
@@ -837,110 +983,98 @@ CString	CPathFinder::GetFileNameFromNamespace(const CTBNamespace& aNamespace, co
 	CString sFullFileName;
 	switch (aNamespace.GetType())
 	{
-	case (CTBNamespace::REPORT) :
-		sFullFileName = GetModuleReportPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+		case (CTBNamespace::REPORT):
+			sFullFileName = GetModuleReportPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetModuleReportPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetModuleReportPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		return GetModuleReportPath(aNamespace, CPathFinder::STANDARD) + sFileName;
+			return GetModuleReportPath(aNamespace, CPathFinder::STANDARD) + sFileName;
 
-	case (CTBNamespace::IMAGE) :
-	case (CTBNamespace::TEXT) :
-	case (CTBNamespace::PDF) :
-	case (CTBNamespace::RTF) :
-	case (CTBNamespace::FILE) :
-	{
-		sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+		case (CTBNamespace::IMAGE):
+		case (CTBNamespace::TEXT):
+		case (CTBNamespace::PDF):
+		case (CTBNamespace::RTF):
+			//case (CTBNamespace::ODF) :
+		case (CTBNamespace::FILE):
+		{
+			sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::USERS, sUser, FALSE, CPathFinder::ALL_COMPANIES) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			return GetModuleFilesPath(aNamespace, CPathFinder::STANDARD) + sFileName;
+		}
+		case (CTBNamespace::DATAFILE):
+		{
+			ASSERT(!sCulture.IsEmpty());
+			sFileName += szXmlExt;
 
-		sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::ALL_USERS, sUser, FALSE, CPathFinder::ALL_COMPANIES) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetModuleDataFilePath(aNamespace, CPathFinder::USERS, sUser) + SLASH_CHAR + sCulture + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetModuleFilesPath(aNamespace, CPathFinder::CUSTOM, sUser, FALSE, CPathFinder::ALL_COMPANIES) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetModuleDataFilePath(aNamespace, CPathFinder::ALL_USERS) + SLASH_CHAR + sCulture + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		return GetModuleFilesPath(aNamespace, CPathFinder::STANDARD) + sFileName;
-	}
-	case (CTBNamespace::DATAFILE) :
-	{
-		ASSERT(!sCulture.IsEmpty());
-		sFileName += szXmlExt;
+			return GetModuleDataFilePath(aNamespace, CPathFinder::STANDARD) + SLASH_CHAR + sCulture + sFileName;
+		}
 
-		sFullFileName = GetModuleDataFilePath(aNamespace, CPathFinder::USERS, sUser) + SLASH_CHAR + sCulture + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+		case (CTBNamespace::PROFILE):
+		{
+			CTBNamespace nsDocument =
+				sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
+			if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
+				return sFullFileName;
 
-		sFullFileName = GetModuleDataFilePath(aNamespace, CPathFinder::ALL_USERS) + SLASH_CHAR + sCulture + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
+			if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
+				return sFullFileName;
 
-		return GetModuleDataFilePath(aNamespace, CPathFinder::STANDARD) + SLASH_CHAR + sCulture + sFileName;
-	}
+			return GetDocumentExportProfilesPath(aNamespace, CPathFinder::STANDARD) + sFileName;
+		}
 
-	case (CTBNamespace::PROFILE) :
-	{
-		CTBNamespace nsDocument =
-			sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-		if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
-			return sFullFileName;
+		case CTBNamespace::WORDDOCUMENT:
+		case CTBNamespace::WORDTEMPLATE:
+		case CTBNamespace::ODT:
+		{
+			sFullFileName = GetModuleWordDocPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-		if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
-			return sFullFileName;
+			sFullFileName = GetModuleWordDocPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		return GetDocumentExportProfilesPath(aNamespace, CPathFinder::STANDARD) + sFileName;
-	}
+			return GetModuleWordDocPath(aNamespace, CPathFinder::STANDARD) + sFileName;
+		}
 
-	case CTBNamespace::WORDDOCUMENT:
-	case CTBNamespace::WORDTEMPLATE:
-	case CTBNamespace::ODT:
-	{
-		sFullFileName = GetModuleWordDocPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+		case CTBNamespace::EXCELDOCUMENT:
+		case CTBNamespace::EXCELTEMPLATE:
+		case CTBNamespace::ODS:
+		{
+			sFullFileName = GetModuleExcelDocPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		sFullFileName = GetModuleWordDocPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
+			sFullFileName = GetModuleExcelDocPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
+			if (ExistFile(sFullFileName))
+				return sFullFileName;
 
-		return GetModuleWordDocPath(aNamespace, CPathFinder::STANDARD) + sFileName;
-	}
-
-	case CTBNamespace::EXCELDOCUMENT:
-	case CTBNamespace::EXCELTEMPLATE:
-	case CTBNamespace::ODS:
-	{
-		sFullFileName = GetModuleExcelDocPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
-
-		sFullFileName = GetModuleExcelDocPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-		if (ExistFile(sFullFileName))
-			return sFullFileName;
-
-		return GetModuleExcelDocPath(aNamespace, CPathFinder::STANDARD) + sFileName;
-	}
+			return GetModuleExcelDocPath(aNamespace, CPathFinder::STANDARD) + sFileName;
+		}
 
 	}
 
 	return sFullFileName;
 }
-
 
 //-------------------------------------------------------------------------------------
 const CString CPathFinder::GetModuleConfigName() const
@@ -1013,7 +1147,7 @@ const CString CPathFinder::GetInstallationPath() const
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetCustomPath(BOOL bCreateDir) const
 {
-	if (bCreateDir && !ExistPath(m_sCustomPath))
+	if (bCreateDir)
 		CreateDirectory(m_sCustomPath);
 
 	return m_sCustomPath;
@@ -1022,8 +1156,10 @@ const CString CPathFinder::GetCustomPath(BOOL bCreateDir) const
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetCompaniesPath(BOOL bCreateDir) const
 {
-	CString sPath = GetCustomPath(bCreateDir) + SLASH_CHAR + szCompanies;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	CString sPath = GetCustomPath(bCreateDir) + SLASH_CHAR + szSubscriptions; 
+	
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1035,15 +1171,15 @@ const CString CPathFinder::GetApplicationPath(const CString& sAppName, PosType p
 		return m_sStandardPath + SLASH_CHAR + GetAppContainerName(sAppName) + SLASH_CHAR + sAppName;
 
 	// container
-	CString sPath = (aCompany == ALL_COMPANIES ? GetAllCompaniesPath(bCreateDir) : GetCompanyPath(bCreateDir))
-		+ SLASH_CHAR
-		+ GetAppContainerName(sAppName);
+	CString sPath = GetCompanyPath(bCreateDir) + SLASH_CHAR	+ GetAppContainerName(sAppName);
 
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	// applicazione
 	sPath += SLASH_CHAR + sAppName;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1053,6 +1189,7 @@ const CString CPathFinder::GetConfigurationPath() const
 {
 	return m_sCustomPath + SLASH_CHAR + szConfiguration;
 }
+
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetEBReferencedAssembliesPath() const
 {
@@ -1068,7 +1205,7 @@ const CString CPathFinder::GetCompanyPath(BOOL bCreateDir) const
 	else
 		sPath = GetCompaniesPath(bCreateDir) + SLASH_CHAR + sCompanyName;
 
-	if (bCreateDir && !ExistPath(sPath))
+	if (bCreateDir)
 		CreateDirectory(sPath);
 
 	return sPath;
@@ -1078,7 +1215,7 @@ const CString CPathFinder::GetTempPath(BOOL bCreateDir) const
 {
 	CString sPath = GetCustomPath() + SLASH_CHAR + _T("Temp");
 
-	if (bCreateDir && !ExistPath(sPath))
+	if (bCreateDir)
 		CreateDirectory(sPath);
 
 	return sPath;
@@ -1119,7 +1256,7 @@ const CString CPathFinder::GetWebProxyImagesPath(BOOL bCreateDir) const
 {
 	CString sPath = GetTempPath(bCreateDir) + SLASH_CHAR + _T("WebProxyImages");
 
-	if (bCreateDir && !ExistPath(sPath))
+	if (bCreateDir)
 		CreateDirectory(sPath);
 
 	return sPath;
@@ -1131,7 +1268,7 @@ const CString CPathFinder::GetWebProxyFilesPath(BOOL bCreateDir) const
 {
 	CString sPath = GetTempPath(bCreateDir) + SLASH_CHAR + _T("WebProxyFiles");
 
-	if (bCreateDir && !ExistPath(sPath))
+	if (bCreateDir)
 		CreateDirectory(sPath);
 
 	return sPath;
@@ -1141,7 +1278,8 @@ const CString CPathFinder::GetWebProxyFilesPath(BOOL bCreateDir) const
 const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 {
 	CString sPath = GetCompaniesPath(bCreateDir) + SLASH_CHAR + szAllCompanies;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 	return sPath;
 }
 
@@ -1149,7 +1287,8 @@ const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 const CString CPathFinder::GetModulePath(const CString& sAppName, const CString& sModuleName, PosType pos, BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetApplicationPath(sAppName, pos, bCreateDir, aCompany) + SLASH_CHAR + sModuleName;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1159,13 +1298,12 @@ const CString CPathFinder::GetModulePath(const CTBNamespace& aNamespace, PosType
 {
 	//se sono un namespace dinamico, pesco dalla custom e non dalla standard
 	if (pos == STANDARD && aNamespace.HasAFakeLibrary())
-	{
 		pos = CUSTOM;
-		aCompany = ALL_COMPANIES;
-	}
+
 	CString sPath = GetApplicationPath(aNamespace.GetApplicationName(), pos, bCreateDir, aCompany)
 		+ SLASH_CHAR + aNamespace.GetObjectName(CTBNamespace::MODULE);
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1174,7 +1312,8 @@ const CString CPathFinder::GetModulePath(const CTBNamespace& aNamespace, PosType
 const CString CPathFinder::GetModuleSettingsPath(const CTBNamespace& aNamespace, PosType pos, const CString sUserRole, BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szSettings;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1183,7 +1322,8 @@ const CString CPathFinder::GetModuleSettingsPath(const CTBNamespace& aNamespace,
 const CString CPathFinder::GetModuleObjectsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szModuleObjects;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1200,7 +1340,8 @@ const CString CPathFinder::GetCustomAllCompaniesModuleObjectsPath(const CTBNames
 const CString CPathFinder::GetJsonFormsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany, const CString& sUserRole) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szJsonForms;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);;
 }
 //-----------------------------------------------------------------------------
@@ -1219,12 +1360,6 @@ const CString CPathFinder::GetModuleDictionaryFilePath(const CTBNamespace& aName
 	sPath.ReleaseBuffer();
 
 	return sPath;
-}
-
-//-----------------------------------------------------------------------------
-const CString CPathFinder::GetClientConnectionConfigFullName() const
-{
-	return CString(_T(".\\")) + szClientConnectionConfig;
 }
 
 //-----------------------------------------------------------------------------
@@ -1453,7 +1588,6 @@ void CPathFinder::GetAllObjInFolder(CStringArray& aAllObjInFolder, CTBNamespace&
 					strFound = strFileName;
 					aAllObjInFolder.Add(strFound);
 				}
-
 			}
 		}
 	}
@@ -1464,7 +1598,8 @@ void CPathFinder::GetAllObjInFolder(CStringArray& aAllObjInFolder, CTBNamespace&
 const CString CPathFinder::GetModuleReportPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szReport;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1473,7 +1608,8 @@ const CString CPathFinder::GetModuleReportPath(const CTBNamespace& aNamespace, P
 const CString CPathFinder::GetModuleWordDocPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szWord;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1482,7 +1618,8 @@ const CString CPathFinder::GetModuleWordDocPath(const CTBNamespace& aNamespace, 
 const CString CPathFinder::GetModuleExcelDocPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szExcel;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1501,7 +1638,8 @@ const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosTy
 	}
 
 	CString sPath = GetModuleObjectsPath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + aNamespace.GetObjectName(CTBNamespace::DOCUMENT);
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1510,7 +1648,8 @@ const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosTy
 const CString CPathFinder::GetDocumentRadarPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetDocumentPath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szRadar;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1519,7 +1658,8 @@ const CString CPathFinder::GetDocumentRadarPath(const CTBNamespace& aNamespace, 
 const CString CPathFinder::GetDocumentQueryPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetDocumentPath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szQuery;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1528,7 +1668,8 @@ const CString CPathFinder::GetDocumentQueryPath(const CTBNamespace& aNamespace, 
 const CString CPathFinder::GetDocumentDescriptionPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir /*= FALSE*/, Company aCompany) const
 {
 	CString sPath = GetDocumentPath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szDescription;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1536,7 +1677,8 @@ const CString CPathFinder::GetDocumentDescriptionPath(const CTBNamespace& aNames
 const CString CPathFinder::GetDocumentSchemaPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir /*= FALSE*/, Company aCompany) const
 {
 	CString sPath = GetDocumentPath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szExportProfiles;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1618,9 +1760,10 @@ const CString CPathFinder::GetDocumentDefaultsFile(const CTBNamespace& aNamespac
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetAppDataIOPath(BOOL bCreateDir, Company aCompany) const
 {
-	CString sPath = (aCompany == ALL_COMPANIES ? GetAllCompaniesPath() : GetCompanyPath(bCreateDir)) + SLASH_CHAR + szDataIO;
+	CString sPath = GetCompanyPath(bCreateDir) + SLASH_CHAR + szDataIO;
 
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1629,7 +1772,8 @@ const CString CPathFinder::GetAppDataIOPath(BOOL bCreateDir, Company aCompany) c
 const CString CPathFinder::GetAppXTechDataIOPath(BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetAppDataIOPath(bCreateDir) + SLASH_CHAR + szXTechDataIO;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1637,11 +1781,9 @@ const CString CPathFinder::GetAppXTechDataIOPath(BOOL bCreateDir, Company aCompa
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetLogDataIOPath(BOOL bCreateDir, Company aCompany) const
 {
-	CString sPath = (aCompany == ALL_COMPANIES ? GetAllCompaniesPath() : GetCompanyPath(bCreateDir));
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
-
-	sPath = sPath + SLASH_CHAR + szLogDataIO;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	CString sPath = GetCompanyPath(bCreateDir) + SLASH_CHAR + szLogDataIO;
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return sPath;
 }
@@ -1715,9 +1857,11 @@ const CString CPathFinder::GetModuleFilesPath(const CTBNamespace& aNamespace, Po
 	}
 
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szFiles;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 	sPath += SLASH_CHAR + sSubPath;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1730,7 +1874,8 @@ const CString CPathFinder::GetModuleXmlPath(const CTBNamespace& aNamespace, PosT
 		sPath += SLASH_CHAR;
 	sPath += szXml;
 
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1739,7 +1884,8 @@ const CString CPathFinder::GetModuleXmlPath(const CTBNamespace& aNamespace, PosT
 const CString CPathFinder::GetModuleXmlPathCulture(const CTBNamespace& aNamespace, PosType pos, const CString& sCulture, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetModuleXmlPath(aNamespace, pos, sUserRole, bCreateDir) + SLASH_CHAR + sCulture;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1748,7 +1894,8 @@ const CString CPathFinder::GetModuleXmlPathCulture(const CTBNamespace& aNamespac
 const CString CPathFinder::GetModuleHelpPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir/*FALSE*/) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szHelp;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1757,7 +1904,8 @@ const CString CPathFinder::GetModuleHelpPath(const CTBNamespace& aNamespace, Pos
 const CString CPathFinder::GetModuleDataFilePath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir) + SLASH_CHAR + szDataManager + SLASH_CHAR + szDataFile;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1789,7 +1937,7 @@ const CString CPathFinder::GetDocumentXSLTExportFullName(const CTBNamespace& aNa
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetEnumsFullName(const CTBNamespace& aNamespace, PosType pos) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE, ALL_COMPANIES) + CString(SLASH_CHAR) + szEnumsFileName;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE) + CString(SLASH_CHAR) + szEnumsFileName;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -1851,9 +1999,9 @@ const CString CPathFinder::GetDocumentCodingRulesFullName(const CTBNamespace& aN
 {
 	CString strDocPath = GetDocumentDescriptionPath(aNamespace, pos);
 	if (strDocPath.IsEmpty())
-		return _T("");
+		return NULL;
 
-	return  strDocPath + SLASH_CHAR + szCodingRules;
+	return strDocPath + SLASH_CHAR + szCodingRules;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -1906,25 +2054,25 @@ const CString CPathFinder::GetReportFullNameIn(const CTBNamespace& aNamespace, P
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetDatabaseObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE, ALL_COMPANIES) + SLASH_CHAR + szDatabaseObjectsXml;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE) + SLASH_CHAR + szDatabaseObjectsXml;
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetAddOnDbObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE, ALL_COMPANIES) + SLASH_CHAR + szAddOnDbObjects;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE) + SLASH_CHAR + szAddOnDbObjects;
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE, ALL_COMPANIES) + SLASH_CHAR + szDocumentObjects;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE) + SLASH_CHAR + szDocumentObjects;
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetBehaviourObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE, ALL_COMPANIES) + SLASH_CHAR + szBehaviourObjects;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE) + SLASH_CHAR + szBehaviourObjects;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -1964,7 +2112,8 @@ const CString CPathFinder::GetItemSourceObjectsFullName(const CTBNamespace& aNam
 const CString CPathFinder::GetModuleReferenceObjectsPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole, BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + szReferenceObjects;
-	if (bCreateDir && !ExistPath(sPath))	CreateDirectory(sPath);
+	if (bCreateDir)
+		CreateDirectory(sPath);
 
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
@@ -1980,7 +2129,8 @@ const CString CPathFinder::GetDocumentExportProfilesPath(const CTBNamespace& aNa
 	}
 
 	CString strPath = GetModuleObjectsPath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + aNamespace.GetObjectName(CTBNamespace::DOCUMENT);
-	if (bCreateDir && !ExistPath(strPath))	CreateDirectory(strPath);
+	if (bCreateDir)
+		CreateDirectory(strPath);
 	strPath += SLASH_CHAR;
 	strPath += szExportProfiles;
 	return ToPosDirectory(strPath, pos, strUserRole, bCreateDir);
@@ -1998,7 +2148,7 @@ const CString CPathFinder::GetExportProfilePath(const CTBNamespace& nsDocument, 
 	{
 		strPath += SLASH_CHAR;
 		strPath += strProfileName;
-		if (bCreateDir && !ExistPath(strPath))
+		if (bCreateDir)
 			CreateDirectory(strPath);
 	}
 	return strPath;
@@ -2062,7 +2212,7 @@ const CString CPathFinder::GetPartialProfilePathForClientDoc(const CTBNamespace&
 		}
 	}
 
-	if (bCreateDir && !ExistPath(strPath))
+	if (bCreateDir)
 		CreateDirectory(strPath);
 
 	return strPath;
@@ -2092,7 +2242,7 @@ const CString CPathFinder::GetModuleConfigFullName(const CString& sAppName, cons
 {
 	CString sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::STANDARD);
 	if (!ExistPath(sModulePath))
-		sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES);
+		sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::CUSTOM, FALSE);
 
 	return sModulePath + SLASH_CHAR + szModuleConfigName;
 }
@@ -2130,7 +2280,7 @@ void CPathFinder::GetProfilesFromPath(const CString& strProfilesPath, CStringArr
 		CString strFileName = CString(arProfiles.GetAt(i));
 		// per essere un profilo da caricare deve avere il file document.xml.
 		// questo perchè si utilizza la custom di un profilo anche per il salvataggio dei soli file ExpCriteriaVars.xml
-		if (strFileName == "." || strFileName == ".." || !::ExistFile(strProfilesPath + SLASH_CHAR + strFileName + SLASH_CHAR + szDocument))
+		if (strFileName == "." || strFileName == ".." || !ExistFile(strProfilesPath + SLASH_CHAR + strFileName + SLASH_CHAR + szDocument))
 			continue;
 
 		//se non è stato ancora caricato lo inserisco
@@ -2271,7 +2421,7 @@ const CString CPathFinder::GetThemeElementFullName(CString fileName) const
 const CString CPathFinder::GetThemeCssFullNameFromThemeName(CString strThemeName)
 {
 	if (strThemeName.IsEmpty())
-		return _T("");
+		return NULL;
 
 	CString cssName = PathFindFileName(strThemeName);
 	if (cssName.Find(szThemeExt >= 0))
@@ -2323,30 +2473,32 @@ const CString CPathFinder::GetMasterApplicationPath() const
 {
 	CStringArray arFolders;
 	CString applicationsFolder = GetContainerPath(CPathFinder::TB_APPLICATION);
-	GetSubFolders(applicationsFolder, &arFolders);
-
-	CString strApplication;
-	CString strAppFolder;
-	CString strMasterBrandFile;
-	for (int i = 0; i <= arFolders.GetUpperBound(); i++)
+	
+	//faccio il ciclo tra le applicazione caricate (è inutile che vada su file system)
+	POSITION	pos;
+	CString		strValue;
+	CString		strApplication;
+	CString		strAppFolder;
+	CString		strMasterBrandFile;	
+	for (pos = m_ApplicationContainerMap.GetStartPosition(); pos != NULL;)
 	{
-		strApplication = arFolders.GetAt(i);
+		m_ApplicationContainerMap.GetNextAssoc(pos, strApplication, strValue);
 		strAppFolder = GetApplicationPath(strApplication, CPathFinder::STANDARD);
 		strMasterBrandFile = strAppFolder + SLASH_CHAR + szSolutions + SLASH_CHAR + m_sMasterSolution + szBrandExtension;
 		if (ExistFile(strMasterBrandFile))
 			return strAppFolder;
-	}
-	return _T("");
+	}	
+	return _T("");	
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetApplicationConfigFullName(const CString& sAppName) const
 {
 	if (sAppName.IsEmpty())
-		return _T("");
+		return NULL;
 	CString sPath = GetApplicationPath(sAppName, CPathFinder::STANDARD);
 	if (!ExistPath(sPath))
-		sPath = GetApplicationPath(sAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES);
+		sPath = GetApplicationPath(sAppName, CPathFinder::CUSTOM, FALSE);
 	return GetApplicationConfigFullNameFromPath(sPath);
 }
 
@@ -2354,9 +2506,9 @@ const CString CPathFinder::GetApplicationConfigFullName(const CString& sAppName)
 const CString CPathFinder::GetApplicationConfigFullNameFromPath(const CString& sAppPath) const
 {
 	if (sAppPath.IsEmpty())
-		return _T("");
+		return NULL;
 
-	return sAppPath + SLASH_CHAR + GetAppConfigName();
+	return sAppPath + SLASH_CHAR + GetAppConfigName();	
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2376,7 +2528,8 @@ const CString CPathFinder::GetStartupLogFullName(const CString& sUser, BOOL bCre
 
 	CString sName(szFile);
 
-	return ToPosDirectory(GetLogDataIOPath(bCreateDir), (sUser.IsEmpty() ? CPathFinder::ALL_USERS : CPathFinder::USERS), sUser, bCreateDir) + SLASH_CHAR + sName;
+	//Se ho il nome dell'utente vado in custom altrimenti nella temp
+	return (sUser.IsEmpty()) ? GetAppDataPath(bCreateDir) + SLASH_CHAR + sName + szTBJsonFileExt : ToPosDirectory(GetLogDataIOPath(bCreateDir), (sUser.IsEmpty() ? CPathFinder::ALL_USERS : CPathFinder::USERS), sUser, bCreateDir) + SLASH_CHAR + sName;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2387,7 +2540,7 @@ const CString CPathFinder::GetUserLogPath(const CString& sUser, const CString& s
 	{
 		sPath = GetTBDllPath() + SLASH_CHAR + (sCompany.IsEmpty() ? szAllCompanies : sCompany);
 
-		if (bCreateDir && !ExistPath(sPath))
+		if (bCreateDir)
 			CreateDirectory(sPath);
 	}
 	else
@@ -2410,7 +2563,7 @@ const CString CPathFinder::GetExitLogFullName(const CString& sUser, BOOL bCreate
 		+ SLASH_CHAR
 		: GetLogDataIOPath(bCreateDir);
 
-	if (bCreateDir && !ExistPath(sPath))
+	if (bCreateDir)
 		CreateDirectory(sPath);
 
 	SYSTEMTIME now;
@@ -2438,39 +2591,37 @@ const CString CPathFinder::GetNumberToLiteralXmlFullName(const CTBNamespace& aNa
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetLoginServiceName() const
 {
-	if (m_sInstallation.IsEmpty())
+	if (m_sWebServiceInstallation.IsEmpty())
 	{
 		ASSERT(FALSE);
 		return _T("");
 	}
 
-	return  m_sInstallation + _T("/LoginManager/LoginManager.asmx");
+	return  m_sWebServiceInstallation + _T("/LoginManager/LoginManager.asmx");
 }
 
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetTbServicesName() const
 {
-	if (m_sInstallation.IsEmpty())
+	if (m_sWebServiceInstallation.IsEmpty())
 		return _T("");
 
-	return  m_sInstallation + _T("/TbServices/TbServices.asmx");
+	return  m_sWebServiceInstallation + _T("/TbServices/TbServices.asmx");
 }
 
 //---------------------------------------------------------------------------------------------
 const CString CPathFinder::GetLockServiceName() const
 {
-	if (m_sInstallation.IsEmpty())
+	if (m_sWebServiceInstallation.IsEmpty())
 		return _T("");
 
-	return  m_sInstallation + _T("/LockManager/LockManager.asmx");
+	return  m_sWebServiceInstallation + _T("/LockManager/LockManager.asmx");
 }
 
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetActionSubscriptionsFolderPath(Company aCompany) const
 {
-	CString sPath = (aCompany == ALL_COMPANIES ? GetAllCompaniesPath() : GetCompanyPath()) + SLASH_CHAR + szActionSubscriptions;
-
-	return sPath;
+	return GetCompanyPath() + SLASH_CHAR + szActionSubscriptions;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2497,18 +2648,17 @@ CString	CPathFinder::ToPosDirectory(const CString& sPath, PosType pos, const CSt
 
 	case USERS:
 		sTmp = sTmp + SLASH_CHAR + szUsers;
-		if (bCreateDir && !ExistPath(sTmp))	CreateDirectory(sTmp);
+		if (bCreateDir)	CreateDirectory(sTmp);
 		sTmp += SLASH_CHAR + sUserRole;
 		break;
 
 	case ROLES:
 		sTmp = sTmp + SLASH_CHAR + szRoles;
-		if (bCreateDir && !ExistPath(sTmp))	CreateDirectory(sTmp);
+		if (bCreateDir)	CreateDirectory(sTmp);
 		sTmp += SLASH_CHAR + sUserRole;
 	}
 
-	if (bCreateDir && !ExistPath(sTmp))
-		CreateDirectory(sTmp);
+	if (bCreateDir)	CreateDirectory(sTmp);
 
 	return sTmp;
 }
@@ -2552,6 +2702,7 @@ CPathFinder::ApplicationType CPathFinder::StringToApplicationType(const CString&
 
 	if (_tcsicmp(sType, szCustomization) == 0)
 		return CPathFinder::CUSTOMIZATION;
+
 	return CPathFinder::UNDEFINED;
 }
 
@@ -2559,7 +2710,6 @@ CPathFinder::ApplicationType CPathFinder::StringToApplicationType(const CString&
 BOOL CPathFinder::IsASystemApplication(const CString& sAppName) const
 {
 	ApplicationType aType = GetContainerApplicationType(GetAppContainerName(sAppName));
-
 	return aType == CPathFinder::TB;
 }
 
@@ -2575,12 +2725,14 @@ CPathFinder::ApplicationType CPathFinder::GetContainerApplicationType(const CStr
 	return CPathFinder::UNDEFINED;
 }
 
+
 //----------------------------------------------------------------------------------------------
 const void CPathFinder::GetDictionaryPathsFromString(LPCTSTR lpcszString, CStringArray &paths)
 {
 	if (m_pDictionaryPathFinder)
 		m_pDictionaryPathFinder->GetDictionaryPathsFromString(lpcszString, paths);
 }
+
 //----------------------------------------------------------------------------------------------
 const void CPathFinder::GetDictionaryPathsFromID(UINT nIDD, LPCTSTR lpszType, CStringArray &paths)
 {
@@ -2623,7 +2775,7 @@ void CPathFinder::GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStri
 		arPaths[i] = arPaths[i] + SLASH_CHAR + szJsonForms;
 }
 //----------------------------------------------------------------------------------------------
-CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns)
+const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns)
 {
 	if (ns.GetType() == CTBNamespace::DOCUMENT)
 		return GetDocumentPath(ns, CPathFinder::STANDARD) + SLASH_CHAR + szJsonForms;
@@ -2632,9 +2784,8 @@ CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns)
 	return _T("");
 }
 
-
 //------------------------------------------------------------------------------
-CString CPathFinder::FromNs2Path(const CString& sName, CTBNamespace::NSObjectType t1, CTBNamespace::NSObjectType t2)
+const CString CPathFinder::FromNs2Path(const CString& sName, CTBNamespace::NSObjectType t1, CTBNamespace::NSObjectType t2)
 {
 	if (sName.IsEmpty() || IsFileName(sName))
 		return sName;
@@ -2666,8 +2817,7 @@ CString CPathFinder::FromNs2Path(const CString& sName, CTBNamespace::NSObjectTyp
 CString CPathFinder::GetMenuThumbnailsFolderPath()
 {
 	CString sPath = GetAppDataPath(TRUE) + SLASH_CHAR + szThumbnails;
-	if (!ExistPath(sPath))
-		::CreateDirectory(sPath);
+	CreateDirectory(sPath);
 	return sPath;
 }
 
@@ -2677,6 +2827,8 @@ const CString CPathFinder::GetJsonFormsFullFileName(const CTBNamespace& aNamespa
 	CString sPath = AfxGetPathFinder()->GetJsonFormsPath(aNamespace, pos, bCreateDir, aCompany, sUserRole);
 	return sPath + SLASH_CHAR + sId + szTBJsonFileExt;
 }
+
+
 
 /////////////////////////////////////////////////////////////////////////////
 // Diagnostics

@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			if (string.IsNullOrWhiteSpace(SelectedConfiguration) || string.IsNullOrWhiteSpace(SelectedIsoState))
 				return;
 
-			List<FileInfo> fileList = new List<FileInfo>();
+			List<TBFile> fileList = new List<TBFile>();
 			GetAllApplication();
 
 			foreach (string appName in applicationList)
@@ -43,19 +43,19 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			}
 			
 			StringCollection appendFiles = new StringCollection();
-			foreach (FileInfo file in fileList)
+			foreach (TBFile file in fileList)
 			{
 				// skippo i file con un nome che inizia con DeploymentManifest (visto che potrebbe essere
 				// presente per esigenze di installazione di specifiche configurazioni dati di default/esempio 
 				// (esigenza sorta principalmente con i partner polacchi - miglioria 3067)
-				if (file.Name.StartsWith("DeploymentManifest", StringComparison.OrdinalIgnoreCase))
+				if (file.name.StartsWith("DeploymentManifest", StringComparison.OrdinalIgnoreCase))
 					continue;
 
 				// devo inserire in coda quelli con suffisso Append
-				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
-					appendFiles.Add(file.FullName);
+				if (Path.GetFileNameWithoutExtension(file.name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+					appendFiles.Add(file.completeFileName);
 				else
-					ImportSel.AddItemInImportList(file.FullName);
+					ImportSel.AddItemInImportList(file.completeFileName);
 			}
 
 			//inserisco quelli con suffisso Append
@@ -64,10 +64,10 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		}
 		
 		//---------------------------------------------------------------------------
-		public void AddSampleFiles(string appName, string moduleName, ref List<FileInfo> fileList)
-		{	
-			DirectoryInfo standardDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, moduleName, SelectedIsoState), SelectedConfiguration));			
-			DirectoryInfo customDir = new DirectoryInfo(Path.Combine(ContextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, moduleName, SelectedIsoState),SelectedConfiguration));
+		public void AddSampleFiles(string appName, string moduleName, ref List<TBFile> fileList)
+		{
+            string standardDir = Path.Combine(ContextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, moduleName, SelectedIsoState), SelectedConfiguration);
+            string customDir = Path.Combine(ContextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, moduleName, SelectedIsoState),SelectedConfiguration);
 			ContextInfo.PathFinder.GetXMLFilesInPath(standardDir, customDir, ref fileList);
 		}
 		

@@ -123,34 +123,33 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------------
 		private void AddConfiguration(string appName, string modName, ref StringCollection configList, string configType, string language)
 		{
-			DirectoryInfo standardDir = new DirectoryInfo
-				(
-				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
-				? contextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language)
-				);
 
-			DirectoryInfo customDir = new DirectoryInfo
-				(
-				(string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0)
+            string standardDir =(configType.CompareTo(NameSolverStrings.Default) == 0)
+				? contextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, modName, language)
+				: contextInfo.PathFinder.GetStandardDataManagerSamplePath(appName, modName, language);
+
+			string customDir =(configType.CompareTo(NameSolverStrings.Default) == 0)
 				? contextInfo.PathFinder.GetCustomDataManagerDefaultPath(appName, modName, language)
-				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language)
-				);
+				: contextInfo.PathFinder.GetCustomDataManagerSamplePath(appName, modName, language);
+
 
 			StringCollection tempList = new StringCollection();
 
-			if (customDir.Exists)
+			if (contextInfo.PathFinder.FileSystemManager.ExistPath(customDir))
 			{
-				foreach (DirectoryInfo dir in customDir.GetDirectories())
-					tempList.Add(dir.Name);
+                
+				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.FileSystemManager.GetSubFolders(customDir))
+					tempList.Add(dir.name);
 			}
 
-			if (standardDir.Exists)
+			string tempName = string.Empty;
+
+			if (contextInfo.PathFinder.FileSystemManager.ExistPath(standardDir))
 			{
-				foreach (DirectoryInfo dir in standardDir.GetDirectories())
+				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.FileSystemManager.GetSubFolders(standardDir))
 				{
-					if (!tempList.Contains(dir.Name))
-						tempList.Add(dir.Name);
+					if (!tempList.Contains(dir.name))
+						tempList.Add(dir.name);
 				}
 			}
 
@@ -180,8 +179,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			{
 				try
 				{
-					if (!Directory.Exists(path))
-						Directory.CreateDirectory(path);
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, true);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}

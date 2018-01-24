@@ -1906,28 +1906,7 @@ BOOL CFormManager::ParseTBF()
 								FALSE
 							) + sFormName;
 
-	// quindi nell'utente di tutte le companies
-	if (!ExistFile(sFormPath))
-		sFormPath = AfxGetPathFinder()->GetDocumentDescriptionPath
-							(
-								m_pDocument->GetNamespace(), 
-								CPathFinder::USERS,
-								AfxGetLoginInfos()->m_strUserName,
-								FALSE,
-								CPathFinder::ALL_COMPANIES
-							) + sFormName;
-
-	// quindi nella AllUsers di tutte le companies
-	if (!ExistFile(sFormPath))
-		sFormPath = AfxGetPathFinder()->GetDocumentDescriptionPath
-							(
-								m_pDocument->GetNamespace(), 
-								CPathFinder::ALL_USERS,
-								_T(""),
-								FALSE,
-								CPathFinder::ALL_COMPANIES
-							) + sFormName;
-
+	
 	// non esiste proprio
 	if (!ExistFile(sFormPath))
 		return TRUE;
@@ -2249,7 +2228,6 @@ BOOL CFormManager::ParseProperties(Parser& lex)
 BOOL CFormManager::UnparseTBF()
 {
 	CStringArray arUsers;
-	BOOL bForAllCompanies	= FALSE;
 	BOOL bForStandard		= FALSE;
 
 	// finestra di richiesta salvataggio
@@ -2268,7 +2246,6 @@ BOOL CFormManager::UnparseTBF()
 		if (aDlg.DoModal() == IDCANCEL)
 			return FALSE;
 	}
-	bForAllCompanies = aSaveInterface.m_eSaveMode == CCustomSaveInterface::ALLCOMPANY_USERS;
 	bForStandard	 = aSaveInterface.m_eSaveMode == CCustomSaveInterface::STANDARD;
 
 	// per lo standard lo faccio secco
@@ -2299,7 +2276,7 @@ BOOL CFormManager::UnparseTBF()
 						aSaveInterface.m_bSaveAllUsers ? CPathFinder::ALL_USERS : CPathFinder::USERS, 
 						arUsers.GetAt(i), 
 						TRUE, 
-						bForAllCompanies ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT
+						CPathFinder::CURRENT
 					)
 					+ SLASH_CHAR + m_pDocument->GetFormName();
 
@@ -2329,7 +2306,7 @@ BOOL CFormManager::UnparseTBFSilent()
 						m_ForCurrentUser ? CPathFinder::USERS : CPathFinder::ALL_USERS, 
 						AfxGetLoginInfos()->m_strUserName, 
 						TRUE, 
-						m_InAllCompanies ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT
+						CPathFinder::CURRENT
 					)
 					+ SLASH_CHAR + m_pDocument->GetFormName();
 

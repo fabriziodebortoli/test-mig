@@ -8,11 +8,11 @@ using System.Xml;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Newtonsoft.Json;
-using Microarea.Common.EasyBuilder;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.Generic.InstallationInfo;
 using System.Runtime.InteropServices;
-
+using TaskBuilderNetCore.EasyStudio.Interfaces;
+using TaskBuilderNetCore.EasyStudio.Engine;
 namespace Microarea.Common.MenuLoader
 {
 	//---------------------------------------------------------------------------
@@ -62,21 +62,21 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------------
-		internal static string GetCustomUserPreferencesFile(IPathFinder pathFinder)
+		internal static string GetCustomUserPreferencesFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return Path.Combine(path, "preferences.bin");
 		}
 
 		//---------------------------------------------------------------------------------
-		internal static string GetCustomUserMostUsedFile(IPathFinder pathFinder)
+		internal static string GetCustomUserMostUsedFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return Path.Combine(path, "mostUsed.bin");
 		}
@@ -130,21 +130,21 @@ namespace Microarea.Common.MenuLoader
         //} //TODOLUCA
 
         //---------------------------------------------------------------------------------
-        internal static string GetCustomUserHiddenTilesFile(IPathFinder pathFinder)
+        internal static string GetCustomUserHiddenTilesFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return Path.Combine(path, "hiddenTiles.bin");
 		}
 
 		//---------------------------------------------------------------------------------
-		internal static string GetCustomUserHistoryFile(IPathFinder pathFinder)
+		internal static string GetCustomUserHistoryFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return Path.Combine(path, "history.bin");
 		}
@@ -176,18 +176,12 @@ namespace Microarea.Common.MenuLoader
 		internal static XmlDocument GetCustomUserAppDataXmlDocument(string file)
 		{
 			XmlDocument doc = new XmlDocument();
-			if (File.Exists(file))
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
 			{
 				try
 				{
-					//doc.Load(file);  TODOLUCA
-					FileInfo fileLoad = new FileInfo(file);
-					using (FileStream text = fileLoad.Open(FileMode.Open, FileAccess.Read))
-					{
-						doc.Load(text);
-					}
-
-					return doc;
+                    doc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(doc, file);
+                    return doc;
 				}
 				catch { }
 			}
@@ -198,11 +192,11 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		internal static string GetCustomUserFavoriteFile(IPathFinder pathFinder)
+		internal static string GetCustomUserFavoriteFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
 
 			return Path.Combine(path, "favorites.bin");
 		}
@@ -370,8 +364,7 @@ namespace Microarea.Common.MenuLoader
 		//--------------------------------------------------------------------------------
 		public static string GetEasyBuilderAppAssembliesPathsAsJson(string nameSpace, string user)
 		{
-			//string[] customizations = BasePathFinder.BasePathFinderInstance.GetEasyBuilderAppAssembliesPaths(new NameSpace(nameSpace), user, BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications);
-			
+				
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);
 			JsonWriter jsonWriter = new JsonTextWriter(sw);
@@ -380,10 +373,10 @@ namespace Microarea.Common.MenuLoader
 
 			jsonWriter.WriteStartArray();
 
-			foreach (IEasyBuilderApp app  in BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications)
+			foreach (IEasyStudioApp app  in BaseCustomizationContext.CustomizationContextInstance.EasyStudioApplications)
             {
                 Dictionary<string, string> fileMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                BasePathFinder.BasePathFinderInstance.GetEasyBuilderAppAssembliesPaths(fileMap, new NameSpace(nameSpace), user, app);
+                PathFinder.PathFinderInstance.GetEasyBuilderAppAssembliesPaths(fileMap, new NameSpace(nameSpace), user, app);
                 List<string> items = fileMap.Values.ToList();
 
                 foreach (var item in items)
@@ -392,14 +385,14 @@ namespace Microarea.Common.MenuLoader
 					if (fi == null || !fi.Exists)
 						continue;
 
-                    DirectoryInfo di = new DirectoryInfo(fi.Directory.FullName);
-                    if (!di.Exists)
+
+                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(fi.Directory.FullName))
                         continue;
 
                     //Fix anomalia 23468: non serve controllare se ci siano i sorgenti per elencare la personalizzazione,
                     //tanto se i sorgenti non ci sono EasyStudio non partira`, il controllo e` fatto a valle.
                     //string srcFolder = Path.Combine(di.FullName, Path.GetFileNameWithoutExtension(fi.Name) + "_Src");
-                    //if (!Directory.Exists(srcFolder))
+                    //if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(srcFolder))
                     //    continue;
 
 					jsonWriter.WriteStartObject();

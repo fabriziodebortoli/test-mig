@@ -2205,16 +2205,17 @@ namespace Microarea.Common.ExpressionManager
 						StreamReader inputFile = null;
 						try
 						{
-							if (!File.Exists(filename))
-							{
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            {
 								NameSpace ns = new NameSpace(filename);
 								if (ns.IsValid())
 									filename = TbSession.PathFinder.GetFilename(ns, string.Empty);
 							}
 
-							if (File.Exists(filename))
-							{
-								FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+              
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            {
+								Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
 								inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
 								result = inputFile.ReadToEnd();
 							}
@@ -2268,16 +2269,18 @@ namespace Microarea.Common.ExpressionManager
 
 						try
 						{
-							if (!File.Exists(filename))
-							{
+                            
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            {
 								NameSpace ns = new NameSpace(filename);
 								if (ns.IsValid())
 									filename = TbSession.PathFinder.GetFilename(ns, string.Empty);
 							}
 
-							if (File.Exists(filename))
-							{
-								FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read);
+                           
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            {
+								Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
 								oFile = new StreamWriter(fs, enc);
 								oFile.Write(text);
 							}
@@ -2849,8 +2852,8 @@ namespace Microarea.Common.ExpressionManager
 						Value v1 = (Value)paramStack.Pop();
 						string ns = CastString(v1);
 						NameSpace aNameSpace = new NameSpace(ns, NameSpaceObjectType.Document);
-						IBaseModuleInfo baseModuleInfo = TbSession.PathFinder.GetModuleInfoByName(aNameSpace.Application, aNameSpace.Module);
-						return new Value(baseModuleInfo.Title);
+						ModuleInfo ModuleInfo = TbSession.PathFinder.GetModuleInfoByName(aNameSpace.Application, aNameSpace.Module);
+						return new Value(ModuleInfo.Title);
 					}
 				case Token.GETDOCTITLE:
 					{
@@ -2928,9 +2931,9 @@ namespace Microarea.Common.ExpressionManager
 						//					string computerName		= System.Net.Dns.GetHostName();
 						//					string loginName		= System.Windows.Forms.SystemInformation.UserName;
 						//					string userDomainName	= System.Windows.Forms.SystemInformation.UserDomainName;
-						//					string fullLoginName	= userDomainName + Path.DirectorySeparatorChar + loginName;
+						//					string fullLoginName	= userDomainName + NameSolverStrings.Directoryseparetor + loginName;
 						//					if (userDomainName.Length == 0)
-						//						fullLoginName = computerName + Path.DirectorySeparatorChar + loginName;
+						//						fullLoginName = computerName + NameSolverStrings.Directoryseparetor + loginName;
 						//					return new Value(fullLoginName);
 
 						//TODO RSWEB return new Value(System.Windows.Forms.SystemInformation.UserName);
@@ -2942,7 +2945,7 @@ namespace Microarea.Common.ExpressionManager
 					}
 				case Token.GETINSTALLATIONPATH:
 					{
-						return new Value(TbSession.PathFinder.GetInstallationPath());
+						return new Value(TbSession.PathFinder.GetInstallationPath);
 					}
 				case Token.GETINSTALLATIONVERSION:
 					{
@@ -3486,7 +3489,7 @@ namespace Microarea.Common.ExpressionManager
 					{
 						Value v1 = (Value)paramStack.Pop();
 						string sPath = CastString(v1);
-						return new Value(File.Exists(sPath));
+						return new Value(PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sPath));
 					}
 				case Token.SETCULTURE:  /*M. 4211*/
 					{
@@ -3497,7 +3500,7 @@ namespace Microarea.Common.ExpressionManager
 						System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(sUICulture);
 						TbSession.UserInfo.SetCulture(sUICulture, TbSession.UserInfo.UserCulture.ToString());
 
-						this.Localizer.Build(TbSession.FilePath, TbSession.PathFinder);
+                        this.Localizer.Build(TbSession.FilePath);
 
 						return new Value(sPrevUICulture);
 					}
@@ -3915,7 +3918,7 @@ namespace Microarea.Common.ExpressionManager
 				XmlDocument XmlRetParameters = new XmlDocument();
 				XmlRetParameters.LoadXml(functionResult.args);
 
-				FunctionPrototype info = new FunctionPrototype();   //forse si puo' usare fun
+                FunctionPrototype info = new FunctionPrototype();   //forse si puo' usare fun
 				FunctionPrototype.ParseParameters(XmlRetParameters.DocumentElement, info);
 
 				for (int i = 0; i < function.Parameters.Count; i++)
@@ -3944,7 +3947,6 @@ namespace Microarea.Common.ExpressionManager
 						Debug.Fail("Unmatched parameters" + '(' + pIN.Name + " <> " + pOUT.Name + ')');
 				}
 
-                
                 XmlDocument XmlRetValue = new XmlDocument();
                 XmlRetValue.LoadXml(functionResult.returnValue);
                 Parameter retValue = new Parameter();

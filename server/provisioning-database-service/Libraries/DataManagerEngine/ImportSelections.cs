@@ -216,14 +216,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		{
 			strings = new StringCollection();
 
-			DirectoryInfo dir = new DirectoryInfo(pathName);
-
-			foreach (FileInfo file in dir.GetFiles())
-			{
-				// memorizzo solo i file con estensione xml
-				if (string.Compare(file.Extension, NameSolverStrings.XmlExtension, StringComparison.OrdinalIgnoreCase) == 0)
-					strings.Add(file.Name);
-			}
+			foreach (TBFile file in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(pathName, "*" + NameSolverStrings.XmlExtension))
+			    strings.Add(file.name);
 		}
 
 		/// <summary>

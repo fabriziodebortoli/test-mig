@@ -7,6 +7,7 @@ using System.Threading;
 using System.Xml;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -55,8 +56,8 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			try
 			{
 				//DataSet dataSet = null;
-				if (!Directory.Exists(DataMngPath))
-					Directory.CreateDirectory(DataMngPath);
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(DataMngPath))
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(DataMngPath, false);
 						
 				if (!expSelections.OneFileForTable)
 				{
@@ -299,7 +300,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		//		string fileName, detail;
 		//		if (expSelections.OneFileForTable)
 		//		{
-		//			fileName = DataMngPath + Path.DirectorySeparatorChar;
+		//			fileName = DataMngPath + NameSolverStrings.Directoryseparetor;
 
 		//			if (entry.Append)
 		//				fileName = fileName + entry.TableName + DataManagerConsts.Append + NameSolverStrings.XmlExtension;
@@ -430,8 +431,8 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 		public void SetFileXmlOptional(string fileName)
 		{
 			XmlDocument xDoc = new XmlDocument();
-			xDoc.Load(File.OpenText(fileName));
-						
+            xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, fileName);
+
 			//root del documento (DataTables)
 			XmlElement root = xDoc.DocumentElement;
 			if (root != null)
@@ -527,10 +528,10 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 			try
 			{
 				// elimino il vecchio file (se esiste)
-				if (File.Exists(fileName))
-					File.Delete(fileName);
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(fileName);
 				// rinomino il nuovo (se esiste) con il file originale
-				if (File.Exists(newFileName))
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(newFileName))
 					File.Move(newFileName, fileName);
 			}
 			catch (Exception ex)
@@ -661,7 +662,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 
 			try
 			{
-				xDoc.Load(File.OpenText(fileName));
+                xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, fileName);
 
 				//root del documento (DataTables)
 				XmlElement root = xDoc.DocumentElement;

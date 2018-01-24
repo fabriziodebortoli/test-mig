@@ -119,7 +119,7 @@ namespace Microarea.RSWeb.WoormViewer
 
                 case SPECIAL_APP_REL:
                 case OLD_SPECIAL_APP_REL:
-                    return document.ReportSession.PathFinder.ProductVersion;
+                    return document.ReportSession.PathFinder.InstallationVer.Version;
                 case SPECIAL_TB_REL:
                 case OLD_SPECIAL_TB_REL:
                     return ".Net";
@@ -216,7 +216,7 @@ namespace Microarea.RSWeb.WoormViewer
                     {
                         //TODO RSWEB DateTime d = document.ReportSession.PathFinder.ProductDate;
                         //string formatStyleName = ObjectHelper.DefaultFormatStyleName(d);
-                        return document.ReportSession.PathFinder.ProductDate.ToString(shortDatePattern);
+                        return document.ReportSession.PathFinder.InstallationVer.InstallationDate; //.ToString(shortDatePattern);
                     }
             }
 
@@ -492,11 +492,11 @@ namespace Microarea.RSWeb.WoormViewer
 			if (mi == null)	return true;
 
 			string path = mi.GetOutDateObjectsPath();
-			if (!File.Exists(path))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
 				return true;
 
 			XmlDocument dom = new XmlDocument();
-			dom.Load(File.OpenRead(path));
+            dom = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(dom, path);
 
 			// cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
 			XmlNode root = dom.DocumentElement;
@@ -793,7 +793,7 @@ namespace Microarea.RSWeb.WoormViewer
 			if (pageFilenameWithoutExt == string.Empty)
 			{
 				pageFilenameWithoutExt = PathFunctions.WoormTempFilePath(SessionID,UniqueID) +
-								Path.DirectorySeparatorChar +
+								NameSolverStrings.Directoryseparetor +
 								Path.GetFileNameWithoutExtension(Filename);
 			}
 			return pageFilenameWithoutExt + pageNo.ToString() + ".xml";
@@ -1581,10 +1581,10 @@ namespace Microarea.RSWeb.WoormViewer
 			//ottengo il path del file a partire dal namespace, cercando prima nella custom, poi nella standard
 			string file = "";
 			NameSpace ns = new NameSpace(Template.NsTemplate);
-			file = BasePathFinder.BasePathFinderInstance.GetCustomReportFullNameFromNamespace(ns, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
-			if (string.IsNullOrEmpty(file) || !File.Exists(file))
-				file = BasePathFinder.BasePathFinderInstance.GetStandardReportFullNameFromNamespace(ns);
-			if (string.IsNullOrEmpty(file) || !File.Exists(file))
+			file = PathFinder.PathFinderInstance.GetCustomReportFullNameFromNamespace(ns, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
+			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+				file = PathFinder.PathFinderInstance.GetStandardReportFullNameFromNamespace(ns);
+			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
 			{
 				Diagnostic.SetError(string.Format("{0} {1}", WoormViewerStrings.ErrorReadingTemplate, file));
 				return false;

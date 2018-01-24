@@ -1,3 +1,4 @@
+using Microarea.Common.NameSolver;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -31,7 +32,7 @@ namespace Microarea.Common.StringLoader
 		private string					application		= null;
 		private string					module			= null;
 		private string					fileName		= null;
-		private IBasePathFinder				pathFinder		= null;
+		private PathFinder				pathFinder		= null;
 
 		//--------------------------------------------------------------------------------
 		public static string NamespaceUri { get { return namespaceURI; } }
@@ -43,7 +44,7 @@ namespace Microarea.Common.StringLoader
 		/// <param name="moduleName">Nome del modulo a cui appartiene il file XML</param>
 		/// <param name="pathFinder">Oggetto PathFinder necessario per ottenere i percorsi su file system</param>
 		//---------------------------------------------------------------------
-		public LocalizableXmlDocument(string appName, string moduleName, IBasePathFinder pathFinder) : base()
+		public LocalizableXmlDocument(string appName, string moduleName, PathFinder pathFinder) : base()
 		{	
 			this.application = appName;
 			this.module		 = moduleName;
@@ -57,7 +58,7 @@ namespace Microarea.Common.StringLoader
 		/// <param name="dictionaryPath">Path della root del dizionario</param>
 		/// <param name="pathFinder">Oggetto PathFinder necessario per ottenere i percorsi su file system</param>
 		//---------------------------------------------------------------------
-		public LocalizableXmlDocument(string dictionaryPath, IBasePathFinder pathFinder) : base()
+		public LocalizableXmlDocument(string dictionaryPath, PathFinder pathFinder) : base()
 		{	
 			this.dictionaryPath = dictionaryPath; 
 			this.pathFinder = pathFinder;
@@ -71,7 +72,8 @@ namespace Microarea.Common.StringLoader
 		public override void Load(string file)
 		{
             FileStream stream = File.OpenRead(file);
-            base.Load(stream);
+
+            base.Load(stream); 
             fileName = file;
 			if (pathFinder != null && Helper.Culture != string.Empty)
 				LoadTransform();

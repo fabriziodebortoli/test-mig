@@ -180,7 +180,7 @@ namespace Microarea.RSWeb.WoormViewer
 				if (ns.IsValid())
 					aFileNs = ns;
 				//else if (IsDosName(bkgnBitmap))  //TODOLUCA
-				//	aFileNs = BasePathFinder.BasePathFinderInstance.GetNamespaceFromPath(bkgnBitmap) as NameSpace;
+				//	aFileNs = PathFinder.PathFinderInstance.GetNamespaceFromPath(bkgnBitmap) as NameSpace;
 
 				if (
 					aFileNs != null && aFileNs.IsValid() && 

@@ -70,8 +70,8 @@ private:
 	virtual BOOL	GetPathContent				(const CString& sPathName, BOOL bFolders, CStringArray* pSubFolders,  BOOL bFiles, const CString& sFileExt, CStringArray* pFiles);
 	virtual BOOL	GetFiles					(const CString& sPathName, const CString& sFileExt, CStringArray* pFiles);
 
-	virtual BOOL	CanCache					() const;
-	virtual BOOL	LoadCache					(CFileSystemCacher* pCacher);
+	/*virtual BOOL	CanCache					() const;
+	virtual BOOL	LoadCache					(CFileSystemCacher* pCacher);*/
 };
 
 //-----------------------------------------------------------------------------

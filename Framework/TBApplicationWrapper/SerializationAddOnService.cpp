@@ -39,7 +39,7 @@ System::String^ SerializationAddOnService::GenerateJsonFor(IWindowWrapper^ windo
 	aNs.SetModuleName(NameSolverStrings::EasyStudio);
 	
 	CPathFinder::PosType pos = bInCustom ? CPathFinder::ALL_USERS : CPathFinder::STANDARD;
-	CPathFinder::Company company = bInCustom ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT;
+	CPathFinder::Company company = CPathFinder::CURRENT;
 	CString sFileName = AfxGetPathFinder()->GetJsonFormsFullFileName(aNs, CString(window->Id), pos, TRUE, company, AfxGetLoginInfos()->m_strUserName);
 	fileName = gcnew System::String(sFileName);
 	bool bSaved = EasyStudioTemplate::Save(pNewDescription, fileName);
@@ -51,7 +51,7 @@ System::String^ SerializationAddOnService::GenerateJsonFor(IWindowWrapper^ windo
 bool SerializationAddOnService::SerializePublishedHotLinks(MDocument^ document, System::String^ currentApplication, String^ currentModule)
 {
 	CTBNamespace aModule(CTBNamespace::MODULE, CString(currentApplication) + CTBNamespace::GetSeparator() + CString(currentModule));
-	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES));
+	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE));
 
 	// prima rimuove quelli da eliminare
 	RemoveHotLinks(currentApplication, currentModule);
@@ -279,7 +279,7 @@ bool SerializationAddOnService::RemoveHotLink(NameSpace^ hotlinkNS)
 	if (!pAddOnMod)
 		return false;
 
-	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::ALL_COMPANIES);
+	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE);
 	String^ fileName = gcnew String(sPath + SLASH_CHAR + aNamespace.GetObjectName() + _T(".xml"));
 	try
 	{

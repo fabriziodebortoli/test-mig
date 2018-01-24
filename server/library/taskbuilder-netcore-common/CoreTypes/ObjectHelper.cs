@@ -2,13 +2,11 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using System.Threading;
-
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 using TaskBuilderNetCore.Data;
 using Microarea.Common.Hotlink;
-using System.IO;
+
 
 namespace Microarea.Common.CoreTypes
 {

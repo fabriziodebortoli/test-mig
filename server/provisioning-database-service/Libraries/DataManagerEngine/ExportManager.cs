@@ -527,10 +527,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			try
 			{
 				// elimino il vecchio file (se esiste)
-				if (File.Exists(fileName))
+				if (expSelections.ContextInfo.PathFinder.FileSystemManager.ExistFile(fileName))
 					File.Delete(fileName);
 				// rinomino il nuovo (se esiste) con il file originale
-				if (File.Exists(newFileName))
+				if (expSelections.ContextInfo.PathFinder.FileSystemManager.ExistFile(newFileName))
 					File.Move(newFileName, fileName);
 			}
 			catch (Exception ex)

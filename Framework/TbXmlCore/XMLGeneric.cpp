@@ -354,6 +354,31 @@ CString FormatStringForXML (LPCTSTR lpszString)
 }
 
 //----------------------------------------------------------------------------
+CString	FormatIntForXML(int nValue)
+{
+	CString strValue;
+	strValue.Format(_T("%i"), nValue);
+	return strValue;
+}
+
+//----------------------------------------------------------------------------
+CString	FormatLongForXML(long lValue)
+{
+	CString strValue;
+	strValue.Format(_T("%ld"), lValue);
+	return strValue;
+}
+
+//----------------------------------------------------------------------------
+CString	FormaDoubleForXML(double dValue)
+{
+	CString strValue;
+	strValue.Format(_T("%f"), dValue);
+	return strValue;
+}
+
+
+//----------------------------------------------------------------------------
 // XML Data Type: boolean
 // 0 or 1, where 0 == "false" and 1 =="true".
 //----------------------------------------------------------------------------

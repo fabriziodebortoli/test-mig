@@ -41,17 +41,17 @@ CFileSystemManagerWebService::CFileSystemManagerWebService (const CString& strSe
 {
 }
 
-//-----------------------------------------------------------------------------
-BOOL CFileSystemManagerWebService::CanCache () const
-{
-	return FALSE;
-}
-
-//-----------------------------------------------------------------------------
-BOOL CFileSystemManagerWebService::LoadCache (CFileSystemCacher* pCacher)
-{
-	return TRUE;
-}
+////-----------------------------------------------------------------------------
+//BOOL CFileSystemManagerWebService::CanCache () const
+//{
+//	return FALSE;
+//}
+//
+////-----------------------------------------------------------------------------
+//BOOL CFileSystemManagerWebService::LoadCache (CFileSystemCacher* pCacher)
+//{
+//	return TRUE;
+//}
 
 //-----------------------------------------------------------------------------
 CString	CFileSystemManagerWebService::GetDriverDescription () const

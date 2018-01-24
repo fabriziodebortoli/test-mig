@@ -50,19 +50,18 @@ BOOL CXMLDocumentObjectsParser::LoadDocumentObjects (const CTBNamespace& aNamesp
 		sFileName = AfxGetPathFinder()->GetDocumentObjectsFullName(aNamespace, CPathFinder::CUSTOM);
 	if (!ExistFile(sFileName))
 		return TRUE;
-
+	
 	CXMLDocumentObject aDoc;
-
 	TRY
 	{
-		if (aDoc.LoadXMLFile (sFileName) && Parse (&aDoc, pTable, aNamespace))
-			return TRUE;
+		if (aDoc.LoadXMLFile(sFileName) && Parse(&aDoc, pTable, aNamespace))
+		return TRUE;
 	}
-	CATCH (CException, e)
+		CATCH(CException, e)
 	{
 		TCHAR szError[1024];
 		e->GetErrorMessage(szError, 1024);
-		AfxGetDiagnostic()->Add (cwsprintf(_TB("{0-%s} file has not been loaded due to the following error {1-%s} "), sFileName, szError), CDiagnostic::Warning);
+		AfxGetDiagnostic()->Add(cwsprintf(_TB("{0-%s} file has not been loaded due to the following error {1-%s} "), sFileName, szError), CDiagnostic::Warning);
 		return FALSE;
 	}
 	END_CATCH
@@ -168,7 +167,7 @@ BOOL CXMLDocumentObjectsParser::ParseDocument(CXMLNode* pNode, CDocumentDescript
 		pDescri->SetRunnableAlone(GetBoolFromXML(sValue));
 	
 	//documenti dinamici di easy builder sono apportati dalla custom o dalla standard?
-	if (ExistFile(AfxGetPathFinder()->GetDocumentObjectsFullName(aModuleNS, CPathFinder::STANDARD)))
+	if (AfxGetPathFinder()->GetDocumentObjectsFullName(aModuleNS, CPathFinder::STANDARD))
 		pDescri->SetLiveInStandard(TRUE);
 
 	//to disable transfer operation

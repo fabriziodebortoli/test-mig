@@ -595,6 +595,9 @@ CBaseDocument* CTbCommandManager::RunDocument
 try
 #endif
 	{
+		CPerformanceCrono aCrono;
+		aCrono.Start();
+
 		if (AfxMultiThreadedDocument()) 
 		{
 			CWinThread *pThread = AfxGetThread();
@@ -609,7 +612,11 @@ try
 			}
 			else
 			{
-				CDocumentThread* pNewThread = (CDocumentThread*)RUNTIME_CLASS(CDocumentThread)->CreateObject();
+			/*	SqlConnection* pSqlConnection = AfxGetOleDbMng()->GetNewConnection(_T("Server = USR-GRILLOLARA1; Database = ERP_ANNA; User ID = sa; Password = Microarea.; Connect Timeout = 30; MultipleActiveResultSets = true"), TRUE);
+				if (!pParams)
+					pParams = new DocInvocationParams();
+				pParams->m_pSqlConnection = pSqlConnection;
+			*/	CDocumentThread* pNewThread = (CDocumentThread*)RUNTIME_CLASS(CDocumentThread)->CreateObject();
 				pDocument = (CBaseDocument*)pNewThread->OpenDocumentOnNewThread
 					(
 					pTemplate, 
@@ -628,6 +635,9 @@ try
 						_tcsicmp(pszViewMode, szNoInterface) != 0
 						);
 		}
+		aCrono.Stop();
+
+		TRACE(_T("Running document in: %s\n\r"), (LPCTSTR)aCrono.GetFormattedElapsedTime());
 	}
 #ifndef _DEBUG
 	catch (CException* e)

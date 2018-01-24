@@ -61,7 +61,7 @@ DataLng GetNextAutoincrementValue(SqlSession* pSqlSession, const CString& strTab
 		//considero l'unica colonna autoincrementale del record
 		aTable.Open();
 		aTable.m_strSQL = cwsprintf( _T("SELECT MAX(%s) from %s"), strAutoIncCol, strTableName);
-		aTable.m_pColumnArray->Add(strAutoIncCol, &lMax, pSqlSession->GetSqlConnection()->GetSqlDataType(DATA_LNG_TYPE), nEmptySqlRecIdx);
+		aTable.Select(strAutoIncCol, &lMax, nEmptySqlRecIdx);
 		aTable.Query();
 		aTable.Close();
 	}
@@ -127,8 +127,7 @@ BOOL AuditingInterface::OpenAuditing()
 	}
 
 	// é il login manager che mi fornisce la login 
-	LPCWSTR szConnectionString = T2W((LPTSTR) ((LPCTSTR)AfxGetLoginInfos()->m_strProviderCompanyConnectionString));
-	m_pSqlConnection = AfxGetOleDbMng()->MakeNewConnection(szConnectionString, false, false, false, AfxGetDefaultSqlConnection()->GetDatabaseOwner());
+	m_pSqlConnection = AfxGetOleDbMng()->GetNewConnection(AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString);
 
 	//carico la mappa di lookup per la gestione dei namespaces
 	if (m_pSqlConnection)

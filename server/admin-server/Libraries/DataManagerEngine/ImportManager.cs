@@ -11,6 +11,7 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.AdminServer.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.Generic.InstallationInfo;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.AdminServer.Libraries.DataManagerEngine
 {
@@ -251,10 +252,10 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 				currentApplication = Functions.GetDirectoryAncestor(importFile.DirectoryName, 6);
 				currentModule = Functions.GetDirectoryAncestor(importFile.DirectoryName, 5);
 
-				int lastLocation = currentApplication.LastIndexOf(Path.DirectorySeparatorChar);
+				int lastLocation = currentApplication.LastIndexOf(NameSolverStrings.Directoryseparetor);
 				if (lastLocation >= 0)
 					currentApplication = currentApplication.Substring(lastLocation + 1);
-				lastLocation = currentModule.LastIndexOf(Path.DirectorySeparatorChar);
+				lastLocation = currentModule.LastIndexOf(NameSolverStrings.Directoryseparetor);
 				if (lastLocation >= 0)
 					currentModule = currentModule.Substring(lastLocation + 1);
 				//
@@ -495,7 +496,7 @@ namespace Microarea.AdminServer.Libraries.DataManagerEngine
 									newPath = Path.Combine(newPath, fileName);
 
 									// solo se il file con il nuovo path ricalcolato esiste viene assegnato
-									if (File.Exists(newPath))
+									if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(newPath))
 										importFile = new FileInfo(newPath);
 								}
 								else

@@ -33,7 +33,7 @@ namespace Microarea.Common.Applications
 				return GetRunnedReports(company, user);
 
 			string reportFileName = Path.GetFileNameWithoutExtension(reportNamespace.Report);
-			string path = BasePathFinder.BasePathFinderInstance.GetCustomReportPathFromNamespace(reportNamespace, company, user);
+			string path = PathFinder.PathFinderInstance.GetCustomReportPathFromNamespace(reportNamespace, company, user);
 			path = Path.Combine(path, reportFileName);
 			
 			return ReadReports(path, company, user, reportNamespace, reportFileName);
@@ -43,28 +43,29 @@ namespace Microarea.Common.Applications
 		public RunnedReport[] GetRunnedReports(string company, string user)
 		{
 			ArrayList list = new ArrayList();
-
-			foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
+            //TODO RSWEB 
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
 			{
 				if (ai.ApplicationType != ApplicationType.TaskBuilderApplication)
 					continue;
 
-				foreach (BaseModuleInfo mi in ai.Modules)
+				foreach (ModuleInfo mi in ai.Modules)
 				{
 					string reportPath = mi.GetCustomReportPath(company, user);
 
-					if (!Directory.Exists(reportPath))
+					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(reportPath))
 						continue;
 
-					foreach (string subPath in Directory.GetDirectories(reportPath))
+					foreach (TBDirectoryInfo subPath in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(reportPath))
 					{
-						string reportName = Path.GetFileName(subPath);
+                        //TODO RSWEB subPath ritorna il path di una dir mentre invece dovresti prenere i wrm nella dir
+                        string reportName = Path.GetFileName(subPath.CompleteDirectoryPath);
 						NameSpace ns = new NameSpace
 								(
 									ai.Name + NameSpace.TokenSeparator + mi.Name + NameSpace.TokenSeparator + reportName, 
 									NameSpaceObjectType.Report
 								);
-						list.AddRange(ReadReports(subPath, company, user, ns, reportName));
+						list.AddRange(ReadReports(subPath.CompleteDirectoryPath, company, user, ns, reportName));
 					}
 				}
 			}
@@ -75,25 +76,25 @@ namespace Microarea.Common.Applications
 		//--------------------------------------------------------------------------------
 		private RunnedReport[] ReadReports(string path, string company, string user, INameSpace reportNamespace, string reportFileName)
 		{	
-			if (!Directory.Exists(path))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
 				return new RunnedReport[0];
 
 			ArrayList list = new ArrayList();
-			foreach (string report in Directory.GetDirectories(path))
+			foreach (TBDirectoryInfo subDir in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(path))
 			{
-				string reportPath = Path.Combine(report, reportFileName) + NameSolverStrings.XmlExtension;
-
-				if (!File.Exists(reportPath))
-					continue;
+				string reportPath = Path.Combine(subDir.CompleteDirectoryPath, reportFileName) + NameSolverStrings.XmlExtension;
+                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(reportPath))
+                    continue;
 
 				RunnedReport r = new RunnedReport(reportNamespace, company, user);
 
-				string file = Path.GetFileNameWithoutExtension(report);
+				string file = Path.GetFileNameWithoutExtension(reportFileName);
 				r.TimeStamp = DateTime.ParseExact(file, PathFunctions.ReportFolderNameFormatter, null);
 				r.FilePath = reportPath;
-				
-				XmlDocument d = new XmlDocument();
-				d.Load(File.OpenRead(r.FilePath));
+
+                XmlDocument d = null;
+                d = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(d, r.FilePath);
+
 				XmlNode descriptionNode = d.SelectSingleNode("//Description");
 				r.Description = descriptionNode == null ? string.Empty : descriptionNode.InnerText;
 
@@ -164,7 +165,7 @@ namespace Microarea.Common.Applications
 
 		//--------------------------------------------------------------------------------
 		public INameSpace OwnerReportNamespace { get { return ownerReportNamespace; } }
-		public string		FilePath			{ get { return filePath; }		set { if (File.Exists(value)) filePath = value; else filePath = String.Empty; } }
+		public string		FilePath			{ get { return filePath; }		set { if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(value)) filePath = value; else filePath = String.Empty; } }
 		public string		Description			{ get { return description; }	set { description = value; } }
 		public DateTime		TimeStamp			{ get { return timeStamp; }		set { timeStamp = value; } }
 		public string		Company				{ get { return company; }		set { company = value; } }
@@ -184,7 +185,7 @@ namespace Microarea.Common.Applications
 			if (filePath == null || filePath == String.Empty)
 				return;
 
-			Directory.Delete(Path.GetDirectoryName(filePath), true);
+            PathFinder.PathFinderInstance.FileSystemManager.RemoveFolder(Path.GetDirectoryName(filePath), true, true, true);
 		}
 	}
 	

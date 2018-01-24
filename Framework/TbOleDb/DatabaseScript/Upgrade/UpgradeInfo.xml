@@ -11,4 +11,9 @@
 			<Step numstep="1" script="Alter_Release_400.sql" />
 		</Level1>
 	</DBRel>
+  <DBRel numrel="401">
+    <Level1>
+      <Step numstep="1" script="Create_TB_CustomMetadata.sql" />
+    </Level1>
+  </DBRel>
 </UpgradeInfo>

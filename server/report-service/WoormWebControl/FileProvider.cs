@@ -3,6 +3,7 @@ using System.IO;
 
 using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -42,7 +43,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
 							genericTmpFile = ImagesHelper.GetImagePath(fileName);
 						} 
-						while (File.Exists(genericTmpFile));
+						while (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(genericTmpFile));
 
 						woorm.Disposed += new EventHandler(Woorm_Disposed);
 					}
@@ -57,8 +58,8 @@ namespace Microarea.RSWeb.WoormWebControl
 		{
 			try
 			{
-				if (File.Exists(genericTmpFile))
-					File.Delete(genericTmpFile);
+				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(genericTmpFile))
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(genericTmpFile);
 			}
 			catch
 			{

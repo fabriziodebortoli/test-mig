@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -1097,7 +1098,7 @@ namespace Microarea.Common.MenuLoader
             (
             string aApplicationName,
             string aModuleName,
-            IPathFinder aPathFinder,
+            PathFinder aPathFinder,
             string filesPath,
             ArrayList menuFilesToLoad,
             CommandsTypeToLoad commandsTypeToLoad
@@ -1114,14 +1115,14 @@ namespace Microarea.Common.MenuLoader
                 aModuleName.Length == 0 ||
                 filesPath == null ||
                 filesPath.Length == 0 ||
-                !Directory.Exists(filesPath) ||
+                !aPathFinder.FileSystemManager.ExistPath(filesPath) ||
                 commandsTypeToLoad == CommandsTypeToLoad.Undefined
                 )
                 return;
 
             foreach (string aMenuFilename in menuFilesToLoad)
             {
-                string menuFullFileName = filesPath + Path.DirectorySeparatorChar + aMenuFilename;
+                string menuFullFileName = filesPath + NameSolverStrings.Directoryseparetor + aMenuFilename;
                 try
                 {
                     LoadMenuFile(aApplicationName, aModuleName, aPathFinder, menuFullFileName, commandsTypeToLoad);
@@ -1151,7 +1152,7 @@ namespace Microarea.Common.MenuLoader
             if (!appBrandMenuImage.IsNullOrEmpty())
                 applicationImageName = appBrandMenuImage;
 
-            string imgFileFullName = FindNamedImageFile(new DirectoryInfo(filesPath), applicationImageName);
+            string imgFileFullName = FindNamedImageFile(filesPath, applicationImageName);
             if (imgFileFullName != null && imgFileFullName.Length > 0)
             {
                 AddApplicationImageInfo(aApplicationName, imgFileFullName);
@@ -1180,16 +1181,11 @@ namespace Microarea.Common.MenuLoader
 
 				if (menuXmlDoc == null)
 					menuXmlDoc = new XmlDocument();
-				
-				XmlDocument tmpMenuXmlDoc = new XmlDocument();
 
-				FileInfo file = new FileInfo(fileToLoad);
-				using (FileStream sr = file.OpenRead())
-				{
-					tmpMenuXmlDoc.Load(sr);
-				}
-			
-				MenuXmlNode tmpRoot = new MenuXmlNode(tmpMenuXmlDoc.DocumentElement);
+                XmlDocument tmpMenuXmlDoc = null;
+                tmpMenuXmlDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(tmpMenuXmlDoc, fileToLoad);
+
+                MenuXmlNode tmpRoot = new MenuXmlNode(tmpMenuXmlDoc.DocumentElement);
 				
 				if (tmpRoot.Node == null || !tmpRoot.IsRoot)
 				{
@@ -1203,8 +1199,8 @@ namespace Microarea.Common.MenuLoader
 				if (Root == null && !CreateRoot())
 					return false;
 
-				string installationPath = (aMenuInfo != null && aMenuInfo.PathFinder != null) 
-					? aMenuInfo.PathFinder.GetInstallationPath() 
+				string installationPath = (aMenuInfo != null && aMenuInfo.CurrentPathFinder != null) 
+					? aMenuInfo.CurrentPathFinder.GetInstallationPath
 					: String.Empty;
 				
 				ArrayList applicationItems = tmpRoot.ApplicationsItems;
@@ -1244,7 +1240,7 @@ namespace Microarea.Common.MenuLoader
 											AddGroupImageInfo(applicationName, groupName, groupImageLink);
 										}
 									}
-									FindGroupCommandsImages(null, aGroupNode, (aMenuInfo != null) ? aMenuInfo.PathFinder : null);
+									FindGroupCommandsImages(null, aGroupNode, (aMenuInfo != null) ? aMenuInfo.CurrentPathFinder : null);
 								}
 							}
 						}
@@ -2251,13 +2247,13 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public void CopyNodeImageInfos(MenuXmlNode aNode, MenuXmlParser originalMenuParser, IPathFinder aPathFinder)
+		public void CopyNodeImageInfos(MenuXmlNode aNode, MenuXmlParser originalMenuParser, PathFinder aPathFinder)
 		{
 			CopyNodeImageInfos(aNode, originalMenuParser, aPathFinder, true);
 		}
 		
 		//---------------------------------------------------------------------------
-		public static string MakeFileNameRelativeToInstallationPath(IPathFinder aPathFinder, string aFileName)
+		public static string MakeFileNameRelativeToInstallationPath(PathFinder aPathFinder, string aFileName)
 		{
 			if (aPathFinder == null)
 				return aFileName;
@@ -2265,7 +2261,7 @@ namespace Microarea.Common.MenuLoader
 			if (aFileName == null || aFileName.Length == 0)
 				return String.Empty;
 
-			string installationPath = aPathFinder.GetInstallationPath();
+			string installationPath = aPathFinder.GetInstallationPath;
 
 			if (string.IsNullOrEmpty(installationPath))
 				return aFileName;
@@ -2273,8 +2269,8 @@ namespace Microarea.Common.MenuLoader
 			int backDirCount = 0;
 			string commonPath = installationPath;
 
-			if (commonPath[commonPath.Length - 1] != Path.DirectorySeparatorChar)
-				commonPath += Path.DirectorySeparatorChar;
+			if (commonPath[commonPath.Length - 1] != NameSolverStrings.Directoryseparetor)
+				commonPath += NameSolverStrings.Directoryseparetor;
 
 			int lastDirSeparatorIndex = commonPath.Length - 1;
 
@@ -2285,14 +2281,14 @@ namespace Microarea.Common.MenuLoader
 				{
 					aFileName = aFileName.Substring(commonPathStartIndex + commonPath.Length);
 					while (0 < backDirCount--)
-						aFileName = ".." + Path.DirectorySeparatorChar + aFileName;
+						aFileName = ".." + NameSolverStrings.Directoryseparetor + aFileName;
 					return aFileName;
 				}
 				backDirCount++;
 				commonPath = commonPath.Substring(0, lastDirSeparatorIndex); // tolgo lo slash in fondo
 				if (commonPath != null && commonPath.Length > 0)
 				{
-					lastDirSeparatorIndex = commonPath.LastIndexOf(Path.DirectorySeparatorChar);
+					lastDirSeparatorIndex = commonPath.LastIndexOf(NameSolverStrings.Directoryseparetor);
 					if (lastDirSeparatorIndex >= 0)
 						commonPath = commonPath.Substring(0, lastDirSeparatorIndex + 1); // tolgo lo slash in fondo
 				}
@@ -2385,14 +2381,14 @@ namespace Microarea.Common.MenuLoader
 		}
 
         //---------------------------------------------------------------------------
-        public static bool IsImageFileSupported(FileInfo aFileInfo)
+        public static bool IsImageFileSupported(string  fileExt)
         {
-            if (aFileInfo == null)
+            if (string.IsNullOrEmpty(fileExt))
                 return false;
 
             foreach (string imageFileExtension in supportedImageFilesExtensions)
             {
-                if (String.Compare(aFileInfo.Extension, imageFileExtension, StringComparison.OrdinalIgnoreCase) == 0)
+                if (String.Compare(fileExt, imageFileExtension, StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
             }
             return false;
@@ -2407,7 +2403,7 @@ namespace Microarea.Common.MenuLoader
 			(
 			string							aApplicationName, 
 			string							aModuleName, 
-			IPathFinder						aPathFinder, 
+			PathFinder						aPathFinder, 
 			string							fileToLoad,
 			CommandsTypeToLoad	commandsTypeToLoad
 			) 
@@ -2421,7 +2417,7 @@ namespace Microarea.Common.MenuLoader
 				aModuleName.Length == 0 ||
 				fileToLoad == null || 
 				fileToLoad.Length == 0 || 
-				!File.Exists(fileToLoad) ||
+				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileToLoad)||
 				commandsTypeToLoad == CommandsTypeToLoad.Undefined
 				)
 				return false;
@@ -3519,7 +3515,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private void FindGroupCommandsImages(DirectoryInfo dirInfo, MenuXmlNode aGroupNode, IPathFinder aPathFinder)
+		private void FindGroupCommandsImages(string dirPath, MenuXmlNode aGroupNode, PathFinder aPathFinder)
 		{
 			if (aGroupNode == null || !aGroupNode.IsGroup)
 				return;
@@ -3530,11 +3526,11 @@ namespace Microarea.Common.MenuLoader
 				return;
 	
 			foreach(MenuXmlNode aMenuNode in menuItems)
-				FindMenuCommandsImages(dirInfo, aMenuNode, aPathFinder);
+				FindMenuCommandsImages(dirPath, aMenuNode, aPathFinder);
 		}
 
 		//---------------------------------------------------------------------------
-		private void FindMenuCommandsImages(DirectoryInfo dirInfo, MenuXmlNode aMenuNode, IPathFinder aPathFinder)
+		private void FindMenuCommandsImages(string dirPath, MenuXmlNode aMenuNode, PathFinder aPathFinder)
 		{
 			if (aMenuNode == null || !aMenuNode.IsMenu || !aMenuNode.HasMenuCommandImagesToSearch)
 				return;
@@ -3557,17 +3553,17 @@ namespace Microarea.Common.MenuLoader
 					{
 						if (aPathFinder != null)
 						{
-							string installationPath = aPathFinder.GetInstallationPath(); 
+							string installationPath = aPathFinder.GetInstallationPath; 
 							if (!string.IsNullOrEmpty(installationPath) && !Path.IsPathRooted(imageFile))
 								imageFile = Path.Combine(installationPath, imageFile);
 						}
 					}
-					else if (dirInfo != null)
+					else if (aPathFinder.FileSystemManager.ExistPath(dirPath))
 					{
 						// Se nella directory trovo un file immagine che si chiama 
 						// <command_object>.<ext>, dove <ext> può essere ".bmp"o ".jpg" ecc., 
 						// esso va usato per rappresentare graficamente il comando
-						imageFile = FindNamedImageFile(dirInfo, commandItem.ItemObject);
+						imageFile = FindNamedImageFile(dirPath, commandItem.ItemObject);
 						if (imageFile != null && imageFile.Length > 0)
 							commandItem.SetImageFileName(imageFile);
 					}
@@ -3584,7 +3580,7 @@ namespace Microarea.Common.MenuLoader
 				return;
 
 			foreach(MenuXmlNode subMenu in subMenuItems)
-				FindMenuCommandsImages(dirInfo, subMenu, aPathFinder);
+				FindMenuCommandsImages(dirPath, subMenu, aPathFinder);
 		}
 
 		//---------------------------------------------------------------------------
@@ -3602,7 +3598,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private void CopyNodeImageFileLink(MenuXmlNode aNode, MenuXmlParser originalMenuParser, IPathFinder aPathFinder)
+		private void CopyNodeImageFileLink(MenuXmlNode aNode, MenuXmlParser originalMenuParser, PathFinder aPathFinder)
 		{
 			if 
 				(
@@ -3627,7 +3623,7 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		private void CopyNodeImageInfos(MenuXmlNode aNode, MenuXmlParser originalMenuParser, IPathFinder aPathFinder, bool deep)
+		private void CopyNodeImageInfos(MenuXmlNode aNode, MenuXmlParser originalMenuParser, PathFinder aPathFinder, bool deep)
 		{
 			if (aNode == null || originalMenuParser == null)
 				return;
@@ -3704,9 +3700,9 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private static FileInfo FindNamedImageFileInfo(DirectoryInfo dirInfo, string imgFileName)
+		private static TBFile  FindNamedImageFileInfo(string dirPath, string imgFileName)
 		{
-			if (dirInfo == null || imgFileName == null || imgFileName.Length == 0)
+			if (dirPath.IsNullOrEmpty() || imgFileName == null || imgFileName.Length == 0)
 				return null;
 
 			// Se nella directory dei file che ho caricato trovo un file immagine
@@ -3714,13 +3710,13 @@ namespace Microarea.Common.MenuLoader
 			// o ".jpg" ecc., esso va usato per rappresentare graficamente l'applicazione
 			bool isFileNameComplete = IsValidImageFileExtension(imgFileName);
 
-			FileInfo[] fileInfos = dirInfo.GetFiles(isFileNameComplete ? imgFileName : (imgFileName + ".*"));
+			List<TBFile> fileInfos = PathFinder.PathFinderInstance.FileSystemManager.GetFiles(dirPath, isFileNameComplete ? imgFileName : (imgFileName + ".*"));
 			
-			if (fileInfos.Length > 0)
+			if (fileInfos.Count > 0)
 			{
-				foreach (FileInfo aFileInfo in fileInfos)
+				foreach (TBFile aFileInfo in fileInfos)
 				{
-					if (IsImageFileSupported(aFileInfo))
+					if (IsImageFileSupported(aFileInfo.FileExtension))
 					{
 						// Occorre controllare che il nome del file corrisponda
 						// effettivamente a <imgFileName>.<ext>. Infatti, avendo
@@ -3728,7 +3724,7 @@ namespace Microarea.Common.MenuLoader
 						// un namespace, possono contenere a loro volta dei punti
 						// e, quindi, si possono incontrare file del tipo
 						// <imgFileName>.<restante_parte_di_namespace>.<ext>
-						if (isFileNameComplete || String.Compare(imgFileName + aFileInfo.Extension, aFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0)
+						if (isFileNameComplete || String.Compare(imgFileName + aFileInfo.FileExtension, aFileInfo.name, StringComparison.OrdinalIgnoreCase) == 0)
 							return aFileInfo;
 					}
 				}
@@ -3737,14 +3733,14 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		private static string FindNamedImageFile(DirectoryInfo dirInfo, string imgFileName)
+		private static string FindNamedImageFile(string dirPath, string imgFileName)
 		{
-			if (dirInfo == null || imgFileName == null || imgFileName.Length == 0)
+			if (string.IsNullOrEmpty(dirPath) || imgFileName == null || imgFileName.Length == 0)
 				return String.Empty;
 
-			FileInfo imageFileInfo = FindNamedImageFileInfo(dirInfo, imgFileName);
+			TBFile imageFileInfo = FindNamedImageFileInfo(dirPath, imgFileName);
 			
-			return (imageFileInfo != null) ? imageFileInfo.FullName : String.Empty;
+			return (imageFileInfo != null) ? imageFileInfo.completeFileName : String.Empty;
 		}
 		
 		#endregion
@@ -3754,7 +3750,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		internal bool LoadMenuXml
 			(
-			IPathFinder						aPathFinder, 
+			PathFinder						aPathFinder, 
 			string							menuFileName,
 			XmlElement						menuElement,
 			CommandsTypeToLoad	commandsTypeToLoad
@@ -3799,12 +3795,12 @@ namespace Microarea.Common.MenuLoader
 					ArrayList groupItems = appNode.GroupItems;
 					if (groupItems != null)
 					{
-						DirectoryInfo menuFileDirectory = null;
+						TBDirectoryInfo menuFileDirectory = null;
 						if (menuFileName != null && menuFileName.Length > 0)
 						{
-							FileInfo loadedFileInfo = new FileInfo(menuFileName);
-							menuFileDirectory = loadedFileInfo.Directory;
-						}
+							TBFile loadedFileInfo = new TBFile(menuFileName, aPathFinder.FileSystemManager.GetAlternativeDriverIfManagedFile(menuFileName));
+							menuFileDirectory = new TBDirectoryInfo(loadedFileInfo.PathName, aPathFinder.FileSystemManager.GetAlternativeDriverIfManagedFile(menuFileName));
+                        }
 
 						foreach (MenuXmlNode aGroupNode in groupItems)
 						{
@@ -3822,7 +3818,7 @@ namespace Microarea.Common.MenuLoader
 									// Se nella directory del file che ho caricato trovo un file immagine
 									// che si chiama <aGroupNode.Name>.<ext>, dove <ext> può essere ".bmp" 
 									// o ".jpg" ecc., esso va usato per rappresentare graficamente il gruppo
-									imgFileFullName = FindNamedImageFile(menuFileDirectory, groupName);
+									imgFileFullName = FindNamedImageFile(menuFileDirectory.CompleteDirectoryPath, groupName);
 									if (imgFileFullName != null && imgFileFullName.Length > 0)
 										aGroupNode.SetImageFileName(imgFileFullName);
 								}
@@ -3830,7 +3826,7 @@ namespace Microarea.Common.MenuLoader
 								if (imgFileFullName != null && imgFileFullName.Length > 0)
 									AddGroupImageInfo(aGroupNode.GetApplicationName(), groupName, imgFileFullName);
 							}
-							FindGroupCommandsImages(menuFileDirectory, aGroupNode, aPathFinder);
+							FindGroupCommandsImages(menuFileDirectory.CompleteDirectoryPath , aGroupNode, aPathFinder);
 						}
 					}
 				}
@@ -3852,7 +3848,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		internal bool LoadMenuXml
 			(
-			IPathFinder						aPathFinder, 
+			PathFinder						aPathFinder, 
 			XmlElement						menuElement,
 			CommandsTypeToLoad	commandsTypeToLoad
 			) 

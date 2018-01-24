@@ -20,7 +20,7 @@ static const char THIS_FILE[] = __FILE__;
 
 
 //------------------------------------------------------------------------------
-const CBaseDescriptionArray* AFXAPI AfxGetAddOnFieldsTable()
+const CAlterTableDescriptionArray* AFXAPI AfxGetAddOnFieldsTable()
 {
 	return AfxGetApplicationContext()->GetObject<const CAlterTableDescriptionArray>(&CApplicationContext::GetAddOnFieldsTable);
 }
@@ -41,7 +41,21 @@ CDbFieldDescription::CDbFieldDescription(const CTBNamespace& ownerModule)
 	:
 	m_OwnerModule		(ownerModule),
 	m_eColType			(CDbFieldDescription::Column),
-	m_bIsAddOn			(FALSE)
+	m_bIsAddOn			(FALSE),
+	m_bIsSegmentKey		(FALSE),
+	m_nCreationRelease	(1)
+{
+}
+
+//----------------------------------------------------------------------------------------------
+CDbFieldDescription::CDbFieldDescription(const CString& strName, DataObj* pValue, const CTBNamespace& ownerModule)
+	:
+	CDataObjDescription	(strName, pValue, FALSE),
+	m_OwnerModule		(ownerModule),
+	m_eColType			(CDbFieldDescription::Column),
+	m_bIsAddOn			(FALSE),
+	m_bIsSegmentKey		(FALSE), 
+	m_nCreationRelease	(1)
 {
 }
 
@@ -49,22 +63,13 @@ CDbFieldDescription::CDbFieldDescription(const CTBNamespace& ownerModule)
 CDbFieldDescription::CDbFieldDescription(const CDbFieldDescription* pDescri)
 	:
 	m_eColType			(CDbFieldDescription::Column),
-	m_bIsAddOn			(FALSE)
+	m_bIsAddOn			(FALSE),
+	m_bIsSegmentKey		(FALSE), 
+	m_nCreationRelease	(1)
 {
 	Assign(pDescri);
 }
 
-//----------------------------------------------------------------------------------------------
-void CDbFieldDescription::SetColType (const DbColumnType aColType)
-{
-	m_eColType = aColType;
-}
-
-//----------------------------------------------------------------------------------------------
-void CDbFieldDescription::SetIsAddOn (const BOOL bIsAddOn)
-{
-	m_bIsAddOn = bIsAddOn;
-}
 
 //----------------------------------------------------------------------------------------------
 void CDbFieldDescription::Assign (const CDbFieldDescription* pDescri)
@@ -74,6 +79,7 @@ void CDbFieldDescription::Assign (const CDbFieldDescription* pDescri)
 	m_eColType		= pDescri->GetColType();
 	m_bIsAddOn		= pDescri->IsAddOn();
 	m_OwnerModule	= pDescri->m_OwnerModule;
+	m_bIsSegmentKey = pDescri->m_bIsSegmentKey;
 }
 
 //=============================================================================        
@@ -97,29 +103,6 @@ const CString CDbObjectDescription::GetTitle () const
 	return AfxBaseLoadDatabaseString (m_sNotLocalizedTitle, m_sName);
 }
 
-//----------------------------------------------------------------------------------------------
-void CDbObjectDescription::SetCreationRelease (const int nRelease)
-{
-	m_nCreationRelease = nRelease;
-}
-
-//----------------------------------------------------------------------------------------------
-void CDbObjectDescription::SetDeclarationType (const CDbObjectDescription::DeclarationType bValue)
-{
-	m_DeclarationType = bValue;
-}
-
-//----------------------------------------------------------------------------------------------
-void CDbObjectDescription::SetTemplateNamespace (const CTBNamespace& aNs)
-{
-	m_TemplateNamespace = aNs;
-}
-
-//----------------------------------------------------------------------------------------------
-void CDbObjectDescription::SetMasterTable(BOOL bSet)
-{
-	m_bMasterTable = bSet;
-}
 
 //----------------------------------------------------------------------------------------------
 CDbFieldDescription* CDbObjectDescription::GetDynamicFieldByName (const CString& sName) const
@@ -147,6 +130,12 @@ void CDbObjectDescription::RemoveDynamicField(int nIdx)
 }
 
 //----------------------------------------------------------------------------------------------
+void CDbObjectDescription::RemoveAllDynamicFields()
+{
+	m_arDynamicFields.RemoveAll();
+}
+
+//----------------------------------------------------------------------------------------------
 const int CDbObjectDescription::GetSqlRecType () const
 {
 	switch (GetType())
@@ -171,15 +160,11 @@ IMPLEMENT_DYNCREATE(CAlterTableDescription, CBaseDescription)
 CAlterTableDescription::CAlterTableDescription ()
 	:
 	CBaseDescription	(CTBNamespace::LIBRARY),
-	m_nCreationRelease	(0)
+	m_nCreationRelease	(0),
+	m_nCreationStep		(0)
 {
 }
 
-//----------------------------------------------------------------------------------------------
-void CAlterTableDescription::SetCreationRelease (const int& nRelease)
-{
-	m_nCreationRelease = nRelease;
-}
 
 //----------------------------------------------------------------------------------------------
 //	class CAddColsTableDescription implementation
@@ -308,6 +293,7 @@ void CDbReleaseDescription::SetRelease (const int& nRelease)
 //------------------------------------------------------------------------------
 DatabaseReleasesTable::DatabaseReleasesTable()
 {
+	m_pReleases = new CMapStringToOb();
 }
 
 //------------------------------------------------------------------------------
@@ -317,15 +303,16 @@ DatabaseReleasesTable::~DatabaseReleasesTable()
 	CString strKey;
 	POSITION pos;
 
-	for (pos = m_Releases.GetStartPosition(); pos != NULL;)
+	for (pos = m_pReleases->GetStartPosition(); pos != NULL;)
 	{
-		m_Releases.GetNextAssoc(pos, strKey, (CObject*&)pItem);
+		m_pReleases->GetNextAssoc(pos, strKey, (CObject*&)pItem);
 		if (pItem)
 		{
-			m_Releases.RemoveKey(strKey);
+			m_pReleases->RemoveKey(strKey);
 			delete pItem;
 		}
 	}
+	delete m_pReleases;
 }
 
 //------------------------------------------------------------------------------
@@ -334,7 +321,7 @@ const CString DatabaseReleasesTable::GetSignatureOf (CString sKey) const
 	TB_LOCK_FOR_READ();
 
 	CDbReleaseDescription* pDescri = NULL;
-	m_Releases.Lookup(sKey.MakeLower(), (CObject*&) pDescri);
+	m_pReleases->Lookup(sKey.MakeLower(), (CObject*&) pDescri);
 	
 	return pDescri ? pDescri->GetSignature() : _T("");
 }
@@ -345,7 +332,7 @@ const int DatabaseReleasesTable::GetReleaseOf (CString sKey) const
 	TB_LOCK_FOR_READ();
 
 	CDbReleaseDescription* pDescri = NULL;
-	m_Releases.Lookup(sKey.MakeLower(), (CObject*&) pDescri);
+	m_pReleases->Lookup(sKey.MakeLower(), (CObject*&) pDescri);
 	
 	return pDescri ? pDescri->GetRelease() : 0;
 }
@@ -358,7 +345,7 @@ BOOL DatabaseReleasesTable::AddRelease(CString sKey, const CString& sSignature, 
 	sKey = sKey.MakeLower();
 
 	CDbReleaseDescription* pExistingDescri = NULL;
-	if (m_Releases.Lookup(sKey, (CObject*&)pExistingDescri) && pExistingDescri)
+	if (m_pReleases->Lookup(sKey, (CObject*&)pExistingDescri) && pExistingDescri)
 	{
 		// if existing is release 0 i can substitute description
 		if (pExistingDescri->GetRelease() == 0 && nRelease > 0)
@@ -381,7 +368,7 @@ BOOL DatabaseReleasesTable::AddRelease(CString sKey, const CString& sSignature, 
 		return FALSE;
 	}
 
-	m_Releases.SetAt(sKey, new CDbReleaseDescription(sSignature, nRelease));
+	m_pReleases->SetAt(sKey, new CDbReleaseDescription(sSignature, nRelease));
 
 	return TRUE;
 }

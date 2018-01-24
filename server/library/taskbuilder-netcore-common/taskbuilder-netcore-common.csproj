@@ -8,6 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="FileSystemManager\FileSystemManagerContent.cs" />
+	  <Compile Remove="FileSystemMonitorEngine.cs" />
+	  <Compile Remove="NameSolver\BaseApplicationInfo.cs" />
+	  <Compile Remove="NameSolver\BasePathFinder.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
 		<ProjectReference Include="..\taskbuilder-netcore-data\taskbuilder-netcore-data.csproj" />
 	</ItemGroup>

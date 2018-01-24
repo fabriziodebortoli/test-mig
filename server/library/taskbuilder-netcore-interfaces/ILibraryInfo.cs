@@ -10,7 +10,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string Path { get; set; }
 		string ParentModuleName { get; }
 
-		IBaseModuleInfo ParentModuleInfo { get; }
+	//	ModuleInfo ParentModuleInfo { get; }
 		IList Documents { get; }
 		IDocumentInfo GetDocumentInfoByNameSpace(string nameSpace);
 	}

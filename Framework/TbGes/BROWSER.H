@@ -1,9 +1,12 @@
 
 #pragma once
 
+#include <TbOleDb\Sqltable.h>
 //includere alla fine degli include del .H
 #include "beginh.dex"
 
+
+class SqlSession;
 class SqlTable;
 class SqlRecord;
 class DBTMaster;
@@ -32,6 +35,8 @@ class TB_EXPORT SqlBrowser : public CObject
 	DECLARE_DYNAMIC(SqlBrowser)
 
 private:
+	SqlSession*	m_pSqlSession; //slego il browser dal documento. Avrà una sua propria sessione
+
 	DBTMaster*	m_pDBTMaster;
 	SqlTable*	m_pTable;
 	SqlRecord*	m_pRecord;
@@ -71,7 +76,7 @@ public:
 	void SetInvalidQuery	(const BOOL bValidQuery = TRUE);
 	BOOL IsEmpty			() const;
 	BOOL NoCurrent			() const;
-	BOOL Query				(BOOL bCopyBuffer = FALSE);
+	BOOL Query				(MoveType moveType = E_MOVE_NEXT);
 
 	BOOL		IsValid		() const { return m_bValid; }
 	SqlTable*	GetTable	() const { return m_pTable; }

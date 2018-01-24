@@ -28,6 +28,7 @@ friend class SqlRecoveryManager;
 friend class DocRecoveryManager;
 
 	DECLARE_DYNAMIC(COleDbManager)
+
 private:
 	SqlConnectionPool				m_aConnectionPool;
 
@@ -39,8 +40,8 @@ private:
 	SqlProviderInfoPool				m_aProviderInfoPool;
 	volatile bool					m_bValid;	
 
-	// parameters caching in order to improve performance
-	BOOL							m_bReadTraceColumnsAfterUpdate;
+	// parameters 
+	BOOL							m_bUseOptimisticLock; //use optimistic lock in primary transaction
 	BOOL							m_bUseLockManager;
 
 	CString							m_strDMSConnectionString; //connection string to Easy Attachment database  @@Easy Attachment
@@ -59,13 +60,9 @@ private:
 	// ciclo su tutte le connessioni che prevedono la registrazione delle tabelle 
 	// dell'applicativo
 	BOOL 	RegisterAddOnTable		(AddOnLibrary*);
-	BOOL 	CheckAddOnModuleRelease	(AddOnModule*, CDiagnostic*);
 	
 	SqlProviderInfo*	GetProviderInfo		(LPCTSTR pszProviderName, LPCTSTR pszProviderVersion, SqlConnection*);
 
-	// Data Caching Management
-	CDataCachingManager* GetDataCachingManager	();
-	CDataCachingContext* GetDataCachingContext	();
 
 public:
 	// richiedo una connessione passando la stringa necessaria alla connessione e
@@ -74,15 +71,29 @@ public:
 	// se devo o meno effettuare la registrazione delle tabelle dell'applicativo
 	// posso passare il dbOwner nel caso di connessione ad un database Oracle con utente non proprietario
 	// ma utilizzatore mediante sinonimi
-	SqlConnection*	MakeNewConnection	
+	// lasciata per compatibilità con la versione desktop
+	SqlConnection*	MakeNewConnection
+	(
+		LPCWSTR szConnectionString,
+		BOOL bCheckDBMark = FALSE,
+		BOOL bUserLockMng = FALSE,
+		BOOL bCheckRegisterTable = FALSE,
+		CString strDbOwner = _T(""),
+		CBaseContext* pContext = NULL
+	) 
+	{
+		return GetNewConnection(szConnectionString, bCheckRegisterTable, pContext);
+	}
+
+
+	SqlConnection*	GetNewConnection
 				(
 					LPCWSTR szConnectionString, 
-					BOOL bCheckDBMark = FALSE, 
-					BOOL bUserLockMng = FALSE, 
 					BOOL bCheckRegisterTable = FALSE,
-					CString strDbOwner = _T(""),
 					CBaseContext* pContext = NULL
 				);
+
+
 	// effettua la chiusura della connessione passata come parametro e la toglie dal
 	// connection pool effettuando il anche il delete del puntatore
 	BOOL			CloseConnection		(SqlConnection*);
@@ -90,14 +101,17 @@ public:
 	
 	SqlConnection*	GetPrimaryConnection	() 	{TB_LOCK_FOR_READ(); return m_aConnectionPool.GetPrimaryConnection(); }
 	SqlSession*		GetDefaultSqlSession	();	
+	
+	//possiamo gestire sullo stesso documento/report più connessioni
+	SqlConnection*	GetDefaultSqlConnection();
+	void			SetDefaultSqlConnection(SqlConnection*);
+	
+	SqlConnection*	GetSecondarySqlConnection(const CString& strAlias);
+	void			SetSecondarySqlConnection(SqlConnection*);
 
-	// controllo nel SqlConnectionPool se esiste già una connessione con lo stesso
-	// nome database e lo stesso server
-	//SqlConnection* GetFirstActiveConnection(const CString&, const CString&);
+	SqlConnection*	GetSqlConnectionByAlias(const CString& strAlias) { TB_LOCK_FOR_READ(); return m_aConnectionPool.GetSqlConnectionByAlias(strAlias); }
 
-	// restituisce le provider info relative al Provider passato come primo parametro
-	// Se le info non sono giá state caricate in una precedente connessione utilizza il secondo
-	// parametro per caricarle
+
 	BOOL				IsValid()			{ return m_bValid;}
 
 	//for lock tracer
@@ -130,7 +144,7 @@ public:
 
 	// parameters caching
 	void  CacheParameters					();
-	const BOOL&	ReadTraceColumnsAfterUpdate	() const { return m_bReadTraceColumnsAfterUpdate; }
+	const BOOL&	UseOptimisticLock			() const { return m_bUseOptimisticLock; }
 	const BOOL&	UseLockManager				() const { return m_bUseLockManager; }
 };
 
@@ -140,7 +154,11 @@ public:
 
 TB_EXPORT COleDbManager* AfxGetOleDbMng ();
 
-TB_EXPORT SqlConnection* AfxGetDefaultSqlConnection ();
+TB_EXPORT SqlConnection* AfxGetDefaultSqlConnection();
+TB_EXPORT void AfxSetDefaultSqlConnection(SqlConnection*);
+
+TB_EXPORT SqlConnection* AfxGetSecondarySqlConnection(const CString& strAlias);
+
 
 /*TBWebMethod*/TB_EXPORT SqlSession*	AfxGetDefaultSqlSession ();
 /*TBWebMethod*/TB_EXPORT SqlSession*	AfxOpenSqlSession (DataStr connectionString);

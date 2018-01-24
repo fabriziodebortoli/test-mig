@@ -44,7 +44,7 @@ namespace TaskBuilderNetCore.Interfaces
 		List<IDbObjectInfo> ProcedureInfoList { get; }
 		List<IAddOnDbObjectInfo> ExtraAddedColsList { get; }
 
-		IBaseModuleInfo ParentModuleInfo { get; }
+//		ModuleInfo ParentModuleInfo { get; }
 	}
 
 	public interface IDatabaseCkecker

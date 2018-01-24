@@ -59,6 +59,7 @@ BOOL FontsParser::LoadFonts
 	if (!ExistFile(strFileName))
 		return FALSE;
 
+
 	AfxGetApp()->BeginWaitCursor();
 	pStatusBar->Show(cwsprintf (_TB("Loading Font Styles for the %s ..."),aModule.ToString()));
 
@@ -71,15 +72,15 @@ BOOL FontsParser::LoadFonts
 	}
 
 	if (posType == CPathFinder::STANDARD)
-		Parse (aModule, FontStyle::FROM_STANDARD, pTable, lex);
+		Parse(aModule, FontStyle::FROM_STANDARD, pTable, lex);
 	else
 	{
 		pTable->AddFileLoaded(aModule, FontStyle::FROM_CUSTOM, ::GetFileDate(strFileName));
-		Parse (aModule, FontStyle::FROM_CUSTOM, pTable, lex);
+		Parse(aModule, FontStyle::FROM_CUSTOM, pTable, lex);
 	}
 
 	AfxGetApp()->EndWaitCursor();
-	
+
 	return TRUE;
 }
 

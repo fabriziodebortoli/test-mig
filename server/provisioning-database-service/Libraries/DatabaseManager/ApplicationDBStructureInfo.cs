@@ -24,7 +24,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 	{
 		# region Variabili private
 		private List<AddOnApplicationDBInfo> applicationDBInfoList;
-		private BasePathFinder pathFinder = null;
+		private PathFinder pathFinder = null;
 		private BrandLoader brandLoader = null;
 
 		private KindOfDatabase kindOfDb = KindOfDatabase.Company;
@@ -58,7 +58,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		/// Costruttore utilizzato per i database di sistema e aziendale
 		///</summary>
 		//---------------------------------------------------------------------
-		public ApplicationDBStructureInfo(BasePathFinder aPathFinder, BrandLoader aBrandLoader)
+		public ApplicationDBStructureInfo(PathFinder aPathFinder, BrandLoader aBrandLoader)
 		{
 			pathFinder = aPathFinder;
 			brandLoader = aBrandLoader;
@@ -69,7 +69,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		/// documentale, che ha una sua gestione a parte)
 		///</summary>
 		//---------------------------------------------------------------------
-		public ApplicationDBStructureInfo(BasePathFinder aPathFinder, BrandLoader aBrandLoader, KindOfDatabase kindOfDb)
+		public ApplicationDBStructureInfo(PathFinder aPathFinder, BrandLoader aBrandLoader, KindOfDatabase kindOfDb)
 			: this(aPathFinder, aBrandLoader)
 		{
 			this.kindOfDb = kindOfDb;
@@ -138,7 +138,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		public void InitApplicationList(StringCollection appList)
 		{
 			applicationDBInfoList = new List<AddOnApplicationDBInfo>();
-			IBaseApplicationInfo appInfo = null;
+			ApplicationInfo appInfo = null;
 
 			int modulesTotalCount = 0;
 			if (LoadDatabaseInfoStarted != null)
@@ -165,11 +165,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				if (appInfo.Modules == null)
 					continue;
 
-				foreach (BaseModuleInfo modInfo in appInfo.Modules)
+				foreach (ModuleInfo modInfo in appInfo.Modules)
 				{
 					ModuleDBInfo modDBInfo = null;
 
-					if (!File.Exists(modInfo.GetDatabaseObjectsPath()))
+					if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetDatabaseObjectsPath()))
 						continue;
 
 					LoadDatabaseInfoModChanged?.Invoke(this, nModCount++);
@@ -226,19 +226,19 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------
 		public void LoadTablesInfo(string appName, ModuleDBInfo modDBInfo)
 		{
-			IBaseApplicationInfo appInfo = pathFinder.GetApplicationInfoByName(appName);
+			ApplicationInfo appInfo = pathFinder.GetApplicationInfoByName(appName);
 
 			if (appInfo == null || modDBInfo == null)
 				return;
 
-			IBaseModuleInfo modInfo = pathFinder.GetModuleInfoByName(appName, modDBInfo.ModuleName);
+			ModuleInfo modInfo = pathFinder.GetModuleInfoByName(appName, modDBInfo.ModuleName);
 
 			// se il file non esiste skippo il modulo (significa che non apporta oggetti di database all'applicazione)
-			if (!File.Exists(modInfo.GetDatabaseObjectsPath()))
+			if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetDatabaseObjectsPath()))
 				return;
 
-			IDatabaseObjectsInfo databaseObjInfo = modInfo.DatabaseObjectsInfo;
-			IAddOnDatabaseObjectsInfo addOnDatabaseObjInfo = modInfo.AddOnDatabaseObjectsInfo;
+			DatabaseObjectsInfo databaseObjInfo = modInfo.DatabaseObjectsInfo;
+			AddOnDatabaseObjectsInfo addOnDatabaseObjInfo = modInfo.AddOnDatabaseObjectsInfo;
 
 			modDBInfo.PathErrorFile = databaseObjInfo.FilePath;
 			modDBInfo.ErrorDescription = databaseObjInfo.ParsingError;
@@ -282,7 +282,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		private void LoadAddOnDatabaseObjectsInfo
 			(
-			IAddOnDatabaseObjectsInfo addOnDatabaseObjInfo,
+			AddOnDatabaseObjectsInfo addOnDatabaseObjInfo,
 			string appSignature,
 			string modSignature
 			)
@@ -385,13 +385,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		{
 			foreach (string appName in appList)
 			{
-				IBaseApplicationInfo appInfo = pathFinder.GetApplicationInfoByName(appName);
+				ApplicationInfo appInfo = pathFinder.GetApplicationInfoByName(appName);
 				if (appInfo.Modules == null)
 					continue;
 
-				foreach (BaseModuleInfo modInfo in appInfo.Modules)
+				foreach (ModuleInfo modInfo in appInfo.Modules)
 				{
-					if (!File.Exists(modInfo.GetRowSecurityObjectsPath()))
+					if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetRowSecurityObjectsPath()))
 						continue;
 
 					foreach (RSEntity entity in modInfo.RowSecurityObjectsInfo.RSEntities)

@@ -3266,6 +3266,8 @@ CMasterFrame* CMasterFormView::GetFrame() const
 //-----------------------------------------------------------------------------
 void CMasterFormView::OnInitialUpdate()
 {
+	GetDocument()->ConnectToDatabase(); //mi devo connettere a forza in modo da evitare aperture e chiusure del db
+
 	if (m_pJsonContext && m_pJsonContext->m_pDescription && !m_pJsonContext->m_pDescription->m_strText.IsEmpty())
 	{
 		CFrameWnd* pWnd = GetParentFrame();
@@ -3279,6 +3281,9 @@ void CMasterFormView::OnInitialUpdate()
 		}
 	}
 	__super::OnInitialUpdate();
+
+	GetDocument()->DisconnectFromDatabase(); 
+
 	
 }
 /////////////////////////////////////////////////////////////////////////////

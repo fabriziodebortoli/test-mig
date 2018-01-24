@@ -10,6 +10,7 @@
 #include <TbXmlCore\XMLTags.h>
 #include <TbXmlCore\XMLDocObj.h>
 #include <TbXmlCore\XMLParser.h>
+#include <TbXmlCore\XMLGeneric.h>
 
 #include <TBGeneric\DatabaseObjectsInfo.h>
 #include <TBGeneric\GeneralFunctions.h>
@@ -28,6 +29,8 @@ static const char THIS_FILE[] = __FILE__;
 static const TCHAR szXmlDbSignature[]			= _T("Signature");
 static const TCHAR szXmlDbRelease[]				= _T("Release");
 static const TCHAR szColumns[]					= _T("Columns");
+static const TCHAR szSegmentKey[]				= _T("SegmentKey");
+
 
 static const TCHAR szParameters[]				= _T("Parameters");
 static const TCHAR szColumn[]					= _T("Column");
@@ -118,12 +121,12 @@ BOOL CXMLDatabaseObjectsParser::Parse(
 	
 	// release di database
 	CString sNodeName;
-
 	pInfoNode = pRoot->GetChildByName (szXmlDbRelease);
 	if (pInfoNode)
 		pInfoNode->GetText(sNodeName);
 
 	int nRelease = sNodeName.IsEmpty () ? 0 : _ttoi(sNodeName);
+
 	DatabaseReleasesTablePtr pReleaseTablePtr = AfxGetWritableDatabaseReleasesTable();
 	DatabaseReleasesTable* pReleaseTable = pReleaseTablePtr.GetPointer();
 	pReleaseTable->AddRelease (aParent.ToString(), sSignature, nRelease);
@@ -258,7 +261,6 @@ BOOL CXMLDatabaseObjectsParser::ParseDbObject	(
 	if (!templateNs.IsEmpty() && templateNs.IsValid())
 		pDescri->SetTemplateNamespace(templateNs);
 
-	// fields
 	CXMLNodeChildsList* pChildNodes = pNode->GetChilds();
 	if (!pChildNodes)
 		return TRUE;
@@ -321,7 +323,7 @@ BOOL CXMLDatabaseObjectsParser::ParseFields(
 		{
 			pFieldDescri = new CDbFieldDescription(moduleNamespace);
 			pFieldDescri->SetColType(eCorrectType);
-			pFieldDescri->SetIsAddOn(bIsAdditionalColumns);
+			pFieldDescri->SetIsAddOn(pDescri->GetNamespace() != moduleNamespace);			
 		}
 
 		if (!pFieldDescri->Parse(pChildNode, TRUE) && bNewed)
@@ -339,7 +341,6 @@ BOOL CXMLDatabaseObjectsParser::ParseFields(
 
 		if (pChildNode->GetAttribute(XML_DEFAULT_VALUE_ATTRIBUTE, sTemp))
 			pFieldDescri->SetValue(sTemp);
-
 		if (pChildNode->GetAttribute(XML_CONTEXT_NAME_ATTRIBUTE, sTemp))
 			pFieldDescri->SetContextName(sTemp);
 
@@ -382,6 +383,8 @@ BOOL CXMLDatabaseObjectsParser::ParseDynamicData(
 		{
 			if (pChildNode->GetAttribute(XML_RELEASE_ATTRIBUTE, sTemp))
 				pTableDescri->SetCreationRelease(_ttoi(sTemp));
+			if (pChildNode->GetAttribute(XML_CREATESTEP_ATTRIBUTE, sTemp))
+				pTableDescri->SetCreationStep(_ttoi(sTemp));
 		}
 		else if (	_tcscmp(sTemp, szColumns) == 0 ||
 				_tcscmp(sTemp, XML_VARIABLES_TAG) == 0 ||
@@ -391,3 +394,240 @@ BOOL CXMLDatabaseObjectsParser::ParseDynamicData(
 	}
 	return TRUE;
 }
+
+
+
+//----------------------------------------------------------------
+BOOL CXMLDatabaseObjectsParser::SaveDatabaseObjects(DatabaseObjectsTable* pTable)
+{
+	if (!pTable)
+		return FALSE;
+
+	CString sFileName;
+	CDbReleaseDescription* pDBRel;
+	CString strModuleNs;
+	POSITION pos;
+	CMapStringToOb* pReleaseMap = AfxGetDatabaseReleasesTable()->GetDatabaseReleaseMap();
+	for (pos = pReleaseMap->GetStartPosition(); pos != NULL;)
+	{
+		pReleaseMap->GetNextAssoc(pos, strModuleNs, (CObject*&)pDBRel);		
+		if (pDBRel && !strModuleNs.IsEmpty())
+		{
+			sFileName = AfxGetPathFinder()->GetDatabaseObjectsFullName(strModuleNs, CPathFinder::STANDARD);
+			if (!ExistFile(sFileName))
+				sFileName = AfxGetPathFinder()->GetDatabaseObjectsFullName(strModuleNs, CPathFinder::CUSTOM);
+
+			if (ExistFile(sFileName))
+			{
+				CXMLDocumentObject aXMLDatabaseObj(TRUE);
+				TRY
+				{
+					Unparse(&aXMLDatabaseObj, pTable, pDBRel, strModuleNs);
+					aXMLDatabaseObj.SaveXMLFile(sFileName);	
+				}
+					CATCH(CException, e)
+				{
+					TCHAR szError[1024];
+					e->GetErrorMessage(szError, 1024);
+					AfxGetDiagnostic()->Add(cwsprintf(_TB("{0-%s} file has not been saved due to the following error {1-%s} "), sFileName, szError), CDiagnostic::Warning);
+					return FALSE;
+				}
+				END_CATCH
+			}
+
+		}
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------------------------
+void CXMLDatabaseObjectsParser::Unparse( CXMLDocumentObject* pDoc,	DatabaseObjectsTable*	pTable, CDbReleaseDescription* pDBRel, const CTBNamespace&	aParent)
+{
+	CXMLNode* pnRoot = pDoc->CreateRoot(XML_DBOBJECTS_TAG);
+	if (!pnRoot)
+		return;
+
+	CXMLNode* pnNode = pnRoot->CreateNewChild(szXmlDbSignature);
+	pnNode->SetText(pDBRel->GetSignature());
+
+	pnNode = pnRoot->CreateNewChild(szXmlDbRelease);
+	pnNode->SetText(FormatIntForXML(pDBRel->GetRelease()));
+
+	UnparseGroup(pnRoot, pTable, aParent);	
+}
+
+//----------------------------------------------------------------------------------------------
+void CXMLDatabaseObjectsParser::UnparseGroup(CXMLNode* pnRoot, DatabaseObjectsTable* pTable, const CTBNamespace& aParent)
+{
+	if (!pnRoot || !pTable)
+		return;
+
+	// elimina gli elementi nella mappa
+	POSITION	pos;
+	CString		strKey;
+	CDbObjectDescription*	pDBObjectDescri;
+	CXMLNode* pTablesNode = NULL;
+	CXMLNode* pViewsNode = NULL;
+	CXMLNode* pProcsNode = NULL;
+	CXMLNode* pVirtualTablesNode = NULL;
+	CXMLNode* pDBObjectNode = NULL;
+
+	for (pos = pTable->m_DbObjects.GetStartPosition(); pos != NULL;)
+	{
+		pTable->m_DbObjects.GetNextAssoc(pos, strKey, (CObject*&)pDBObjectDescri);
+		if (pDBObjectDescri && pDBObjectDescri->GetOwner() == aParent)
+		{
+			switch (pDBObjectDescri->GetType())
+			{
+				case CTBNamespace::TABLE:
+				{
+					if (!pTablesNode)
+						pTablesNode = pnRoot->CreateNewChild(XML_TABLES_TAG);
+					pDBObjectNode = pTablesNode->CreateNewChild(XML_TABLE_TAG);
+					break;
+				}
+				case CTBNamespace::VIEW:
+				{
+
+					if (!pViewsNode)
+						pViewsNode = pnRoot->CreateNewChild(XML_VIEWS_TAG);
+					pDBObjectNode = pViewsNode->CreateNewChild(XML_VIEW_TAG);
+					break;
+				}
+				case CTBNamespace::PROCEDURE:
+				{
+					if (!pProcsNode)
+						pProcsNode = pnRoot->CreateNewChild(XML_PROCEDURES_TAG);
+					pDBObjectNode = pProcsNode->CreateNewChild(XML_PROCEDURE_TAG);
+					break;
+				}				
+			}
+			if (pDBObjectNode)
+				UnparseDbObject(pDBObjectNode, pDBObjectDescri, aParent);
+		}
+	}
+}
+
+//----------------------------------------------------------------------------------------------
+void CXMLDatabaseObjectsParser::UnparseDbObject(
+	CXMLNode* pNode,
+	CDbObjectDescription* pDBObjectDescri,
+	const CTBNamespace& aModuleNS
+)
+{
+
+	if (!pNode || !pDBObjectDescri)
+		return;
+
+	pNode->SetAttribute(XML_NAMESPACE_ATTRIBUTE, pDBObjectDescri->GetNamespace().ToUnparsedString());
+
+	//attributo mastertable
+	pNode->SetAttribute(XML_MASTERTABLE_ATTRIBUTE, FormatBoolForXML(pDBObjectDescri->IsMasterTable(), TRUE));
+	
+	pNode->SetAttribute(XML_LOCALIZE_ATTRIBUTE, pDBObjectDescri->GetNotLocalizedTitle());
+	if (pDBObjectDescri->GetDeclarationType() == CDbObjectDescription::Dynamic || pDBObjectDescri->GetNamespace().HasAFakeLibrary())
+		pNode->SetAttribute(szXmlDynamic, FormatBoolForXML(TRUE, TRUE));
+
+	if (!pDBObjectDescri->GetTemplateNamespace().IsEmpty())
+		pNode->SetAttribute(szTemplateNs, pDBObjectDescri->GetTemplateNamespace().ToUnparsedString());
+	
+	CXMLNode* pCreateNode = pNode->CreateNewChild(XML_CREATE_TAG);
+	pCreateNode->SetAttribute(XML_RELEASE_ATTRIBUTE, FormatIntForXML(pDBObjectDescri->GetCreationRelease()));
+	pCreateNode->SetAttribute(XML_CREATESTEP_ATTRIBUTE, FormatIntForXML(pDBObjectDescri->GetCreationStep()));
+
+	CXMLNode* pFieldsNode;
+	switch (pDBObjectDescri->GetType())
+	{
+		case CTBNamespace::TABLE:
+		case CTBNamespace::VIEW:
+			pFieldsNode = pNode->CreateNewChild(szColumns); break;
+		case CTBNamespace::PROCEDURE:
+			pFieldsNode = pNode->CreateNewChild(szParameters); break;	
+	}
+	if (pFieldsNode)
+		UnparseFields(pFieldsNode, pDBObjectDescri, aModuleNS);
+}
+
+//----------------------------------------------------------------------------------------------
+void CXMLDatabaseObjectsParser::UnparseFields(CXMLNode* pNode, CDbObjectDescription* pDBObjectDescri, const CTBNamespace& nsOwnerModule)
+{
+	CString aType;
+	CString sName;
+	CString sTemp;
+	CDbFieldDescription* pFieldDescri = NULL;
+	CXMLNode* pFieldNode = NULL;
+	for (int i = 0; i < pDBObjectDescri->GetDynamicFields().GetCount(); i++)
+	{
+		// child nodes
+		
+		pFieldDescri = (CDbFieldDescription*)pDBObjectDescri->GetDynamicFields().GetAt(i);
+
+		
+		if (!pFieldDescri)// || pFieldDescri->GetOwnerModule() != nsOwnerModule)
+			continue;
+
+		if (
+			pFieldDescri->GetColType() != CDbFieldDescription::Column &&
+			pFieldDescri->GetDataType() == DataType::String &&
+			pFieldDescri->GetLength() <= 0
+			)
+		{
+			AfxGetDiagnostic()->Add(cwsprintf(_TB("Variable {0-%s} declared into record {1-%s}\r\n has no length declared into {2-%s}!\r\nVariable ignored!"), pFieldDescri->GetName(), pDBObjectDescri->GetName(), pNode->GetXMLDocument()->GetFileName()));
+			continue;
+		}		
+
+		switch (pFieldDescri->GetColType())
+		{
+			case CDbFieldDescription::Column:
+				pFieldNode = pNode->CreateNewChild(szColumn); break;
+			case CDbFieldDescription::Parameter:
+				pFieldNode = pNode->CreateNewChild(szParameter); break;
+		}
+		pFieldDescri->Unparse(pFieldNode, TRUE);
+
+		/*pFieldNode->SetAttribute(XML_NAME_ATTRIBUTE, pFieldDescri->GetName());
+		pFieldNode->SetAttribute(XML_TYPE_ATTRIBUTE, pFieldDescri->ToString(pFieldDescri->GetDataType()));
+	*/	if (pFieldDescri->GetLength() > 0)
+			pFieldNode->SetAttribute(XML_LENGTH_ATTRIBUTE, FormatIntForXML(pFieldDescri->GetLength()));
+		//pFieldNode->SetAttribute(XML_DEFAULT_VALUE_ATTRIBUTE, pFieldDescri->GetValue()->FormatDataForXML());
+
+		//release e contesto ??/ @@BAUZI è necessario
+		if (pFieldDescri->IsSegmentKey())
+			pFieldNode->SetAttribute(szSegmentKey, FormatBoolForXML(TRUE, TRUE));
+		if (pFieldDescri->GetCreationRelease() > 1)
+			pFieldNode->SetAttribute(XML_RELEASE_ATTRIBUTE, FormatIntForXML(pFieldDescri->GetCreationRelease()));
+	}
+}
+//
+////----------------------------------------------------------------
+//BOOL CXMLDatabaseObjectsParser::UnparseDynamicData(
+//	CDbObjectDescription* pDescri,
+//	CXMLNodeChildsList* pChildNodes,
+//	const CTBNamespace& moduleNamespace,
+//	CAlterTableDescription* pAlterDescri)
+//{
+//	CString sTemp;
+//
+//	CDbObjectDescription* pTableDescri = (CDbObjectDescription*)pDescri;
+//
+//	CXMLNode* pChildNode;
+//	for (int i = 0; i <= pChildNodes->GetUpperBound(); iv++)
+//	{
+//		pChildNode = pChildNodes->GetAt(i);
+//		if (!pChildNode->GetName(sTemp))
+//			continue;
+//		if (_tcscmp(sTemp, XML_CREATE_TAG) == 0)
+//		{
+//			if (pChildNode->GetAttribute(XML_RELEASE_ATTRIBUTE, sTemp))
+//				pTableDescri->SetCreationRelease(_ttoi(sTemp));
+//		}
+//		else if (_tcscmp(sTemp, szColumns) == 0 ||
+//			_tcscmp(sTemp, XML_VARIABLES_TAG) == 0 ||
+//			(pDescri->GetType() == CTBNamespace::PROCEDURE && _tcscmp(sTemp, szParameters) == 0)
+//			)
+//			ParseFields(pChildNode, sTemp, pTableDescri, moduleNamespace, pAlterDescri, FALSE);
+//	}
+//	return TRUE;
+//}
+
+

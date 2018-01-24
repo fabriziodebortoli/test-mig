@@ -2694,7 +2694,7 @@ RecordArray* CXMLDataManager::ExecJoinFromSlaves
 			pMasterTable->m_strSQL += cwsprintf(_T(" And %s.%s = %s"), 
 										pXRefInfo->GetReferencedTableName (),
 										pExtRefSegInfo->GetReferencedSegment(), 
-										pExtRefDoc->GetSqlConnection()->m_pProviderInfo->NativeConvert(pRefValue)
+										pExtRefDoc->GetSqlConnection()->NativeConvert(pRefValue)
 									);
 		}
 		pMasterTable->m_strOldSQL = pMasterTable->m_strSQL;

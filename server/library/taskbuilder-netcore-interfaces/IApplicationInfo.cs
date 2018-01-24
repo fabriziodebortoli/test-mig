@@ -1,9 +1,9 @@
 ﻿
 namespace TaskBuilderNetCore.Interfaces
 {
-	//=========================================================================
-	public interface IApplicationInfo : IBaseApplicationInfo
-	{
-		string CustomPath { get; }
-	}
+	////=========================================================================
+	//public interface IApplicationInfo : ApplicationInfo
+	//{
+	////	string CustomPath { get; } TO SPOSTA
+	//}
 }

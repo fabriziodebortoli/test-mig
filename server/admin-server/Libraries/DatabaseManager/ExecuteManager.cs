@@ -758,7 +758,7 @@ namespace Microarea.AdminServer.Libraries.DatabaseManager
 					{
 						scriptLev = sql;
 						// estrapolo dall'intera stringa il solo nome dello script, x visualizzarlo
-						string[] s = scriptLev.Split(new Char[] { Path.DirectorySeparatorChar });
+						string[] s = scriptLev.Split(new Char[] { NameSolverStrings.Directoryseparetor });
 						sql = s[s.Length - 1].ToString();
 					}
 					else

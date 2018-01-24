@@ -8,18 +8,6 @@
     <Function namespace="Framework.TbOleDb.TbOleDb.CreateRecord" type="long" basetype="SqlRecord, Array, CObArray" mode="out" sourceInfo="File: Framework\TbOleDb\OleDbMng.cpp." localize="Create record by table name" report="true" WCF="true">
       <Param name="tableName" type="string" mode="in" />
     </Function>
-    <Function namespace="Framework.TbOleDb.TbOleDb.Connection_Close" type="void" sourceInfo="File: Framework\TbOleDb\SqlConnect.cpp." localize="Close sql connection" report="true" WCF="true" classType="SqlSession, SqlObject">
-      <Param name="handle" type="long" basetype="SqlSession, SqlObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
-    </Function>
-    <Function namespace="Framework.TbOleDb.TbOleDb.Connection_BeginTransaction" type="void" sourceInfo="File: Framework\TbOleDb\SqlConnect.cpp." localize="Begin sql transaction" report="true" WCF="true" classType="SqlSession, SqlObject">
-      <Param name="handle" type="long" basetype="SqlSession, SqlObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
-    </Function>
-    <Function namespace="Framework.TbOleDb.TbOleDb.Connection_Commit" type="void" sourceInfo="File: Framework\TbOleDb\SqlConnect.cpp." localize="Commit sql transaction" report="true" WCF="true" classType="SqlSession, SqlObject">
-      <Param name="handle" type="long" basetype="SqlSession, SqlObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
-    </Function>
-    <Function namespace="Framework.TbOleDb.TbOleDb.Connection_Rollback" type="void" sourceInfo="File: Framework\TbOleDb\SqlConnect.cpp." localize="Rollback sql transaction" report="true" WCF="true" classType="SqlSession, SqlObject">
-      <Param name="handle" type="long" basetype="SqlSession, SqlObject" mode="in" localize="The numeric identifier of the context in which the function is executed" />
-    </Function>
     <Function namespace="Framework.TbOleDb.TbOleDb.GetExtraFiltering" type="string" mode="out" sourceInfo="File: Framework\TbOleDb\SqlRec.cpp." localize="Chiama il metodo per il ritorno dei frammenti di Where da aggiungere per la RowSecurity" report="true" inEasyBuilder="false" WCF="true">
       <Param name="aTablesNames" type="array" basetype="string" mode="in" />
       <Param name="aWC" type="string" mode="in" />

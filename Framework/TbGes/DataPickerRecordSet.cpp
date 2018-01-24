@@ -168,7 +168,7 @@ BOOL DataPickerRecordSet::FindFirstData()
 	{
 		m_pTable->Query();
 
-		m_nExtractedRows	= m_pTable->GetExtractedRows();
+		m_nExtractedRows	= m_pTable->GetRowSetCount();
 		m_nLastBufferedRow	= -1;
 		m_nCurrentCursorPos = -1;
 

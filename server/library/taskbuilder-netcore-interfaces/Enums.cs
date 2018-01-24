@@ -280,6 +280,22 @@ namespace TaskBuilderNetCore.Interfaces
         UNDEFINED
 
     }
+    //=========================================================================
+    [Flags]
+    public enum ApplicationType
+    {
+        Undefined = 0,
+        TaskBuilderNet = 1,
+        TaskBuilderApplication = 2,
+        TaskBuilder = 4,
+        Customization = 8,
+        Standardization = 16,
+        StandardModuleWrapper = 32,
+        All = TaskBuilder | TaskBuilderApplication | TaskBuilderNet | Customization | Standardization
+    }
+
+    //---------------------------------------------------------------------------
+    public enum OfficeType { Word, Excel, All, None };
 
     //public enum FontStyle
     //{
@@ -290,5 +306,5 @@ namespace TaskBuilderNetCore.Interfaces
     //}
     ////
 
- 
+
 }

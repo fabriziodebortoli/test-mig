@@ -41,18 +41,44 @@ static TCHAR const szTraceExt[] = _T(".log");
 static TCHAR const szBackSlashSubstitute = _T('.');
 
 #define TRUNCATE_SIZE		220
+
+
+//////////////////////////////////////////////////////////////////////////////
+//					CDefaultSqlSessions Implementation
+//////////////////////////////////////////////////////////////////////////////
+class ThreadSqlConnectionPool : public SqlConnectionPool
+{
+public:
+	~ThreadSqlConnectionPool()
+	{
+		SqlConnection* pConnection = NULL;
+		for (int i = 0; i < GetSize(); i++)
+		{
+			pConnection = GetAt(i);
+			pConnection->Close();
+		}
+	}	
+};
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //					class COleDbManager implementation
 ///////////////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC(COleDbManager, SqlObject)
 
+DECLARE_THREAD_VARIABLE
+(
+	ThreadSqlConnectionPool,
+	m_arThreadSqlConnections
+);
+
 //-----------------------------------------------------------------------------
 COleDbManager::COleDbManager()
 :
 	m_bValid						(false),
-	m_bReadTraceColumnsAfterUpdate	(FALSE),
-	m_bUseLockManager				(FALSE),
+	m_bUseOptimisticLock			(TRUE),
+	m_bUseLockManager				(TRUE),
 	m_DMSStatus						(DbInvalid)
 {
 }
@@ -106,18 +132,83 @@ void COleDbManager::OnDSNChanged()
 	if (MakePrimaryConnection())
 	{
 
-	}
-		
+	}		
 }
 
 //------------------------------------------------------------------------------
 SqlSession* COleDbManager::GetDefaultSqlSession()
 {
-	SqlConnection* pConnection = GetPrimaryConnection();
+	SqlConnection* pConnection = GetDefaultSqlConnection();
 	
 	return (pConnection) ? pConnection->GetDefaultSqlSession() : NULL;
 }
 
+
+//------------------------------------------------------------------------------
+void COleDbManager::SetDefaultSqlConnection(SqlConnection* pSqlConnection)
+{
+	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	{
+		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
+		m_arThreadSqlConnections.SetPrimaryConnection(pSqlConnection);
+	}
+}
+
+
+//------------------------------------------------------------------------------
+SqlConnection* COleDbManager::GetDefaultSqlConnection()
+{
+	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	{
+		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
+		SqlConnection* pThreadPrimaryConnection = m_arThreadSqlConnections.GetPrimaryConnection();
+
+		if (!pThreadPrimaryConnection)
+		{
+			SqlConnection* pPrimaryConnection = GetPrimaryConnection();
+			if (pPrimaryConnection)
+			{
+				pThreadPrimaryConnection = pPrimaryConnection->Clone();
+				m_arThreadSqlConnections.SetPrimaryConnection(pThreadPrimaryConnection);
+			}
+		}
+		return pThreadPrimaryConnection;
+	}
+	return GetPrimaryConnection();
+
+}
+
+//------------------------------------------------------------------------------
+SqlConnection* COleDbManager::GetSecondarySqlConnection(const CString& strAlias)
+{
+	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	{
+		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
+		SqlConnection* pThreadSqlConnection = m_arThreadSqlConnections.GetSqlConnectionByAlias(strAlias);
+
+		if (!pThreadSqlConnection)
+		{
+			SqlConnection* pSqlConnection = GetSqlConnectionByAlias(strAlias);
+			if (pSqlConnection)
+			{
+				pThreadSqlConnection = pSqlConnection->Clone();
+				m_arThreadSqlConnections.Add(pThreadSqlConnection);
+			}
+		}
+		return pThreadSqlConnection;
+	}
+	return GetSqlConnectionByAlias(strAlias);
+}
+
+//------------------------------------------------------------------------------
+void COleDbManager::SetSecondarySqlConnection(SqlConnection* pSqlConnection)
+{
+	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	{
+		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
+		m_arThreadSqlConnections.Add(pSqlConnection);
+	}
+}
 
 //-----------------------------------------------------------------------------
 CString COleDbManager::GetDMSConnectionString()
@@ -170,29 +261,26 @@ BOOL COleDbManager::DMSSOSEnable()
 }
 
 //-----------------------------------------------------------------------------
-SqlConnection* COleDbManager::MakeNewConnection
+SqlConnection* COleDbManager::GetNewConnection
 									(
 										LPCWSTR	szConnectionString, 
-										BOOL	bCheckDbMark /*= FALSE*/,
-										BOOL	bUseLockMng /*= FALSE*/,
 										BOOL	bCheckRegisterTable /*=FALSE*/,
-										CString	strDbOwner /*=''*/,
 										CBaseContext* pContext /*=NULL*/
 									)
 {
 	//	diagnostica di ausilio
-	TRACE1("COleDbManager::MakeNewConnection: %s\r\n", szConnectionString);
+	TRACE1("COleDbManager::GetNewConnection: %s\r\n", szConnectionString);
 	TB_LOCK_FOR_WRITE();
-	SqlConnection* pSqlConnection = new SqlConnection(bCheckRegisterTable, bUseLockMng, bCheckDbMark, pContext, strDbOwner);
+	SqlConnection* pSqlConnection = new SqlConnection(szConnectionString, bCheckRegisterTable, pContext);
 	if (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginInfos()->m_strProviderCompanyConnectionString))) == 0)
-		pSqlConnection->SetUseUnicode(AfxGetDefaultSqlConnection() != NULL && AfxGetDefaultSqlConnection()->UseUnicode());
+		pSqlConnection->SetUseUnicode(GetPrimaryConnection() != NULL && GetPrimaryConnection()->UseUnicode());
 
 	if (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginManager()->GetSystemDBConnectionString()))) == 0)
 		pSqlConnection->SetUseUnicode(AfxGetLoginInfos()->m_bUseUnicode);
 
 	TRY
 	{
-		if (pSqlConnection->MakeConnection(szConnectionString))
+		if (pSqlConnection->MakeConnection())
 		{
 			m_aConnectionPool.Add(pSqlConnection);
 			CheckLockManager(pSqlConnection);
@@ -247,7 +335,7 @@ BOOL COleDbManager::MakePrimaryConnection()
 				strToken= m_strTraceSqlActions.Tokenize(_T(","),curPos);
 			}
 		}
-
+		 
 		//The framework allows the user to trace only some tables. This is possible 
 		if (!strTraceSqlTables.IsEmpty())
 		{
@@ -264,11 +352,7 @@ BOOL COleDbManager::MakePrimaryConnection()
 
 	AfxSetStatusBarText(cwsprintf(_TB("Connecting to company {0-%s}..."), AfxGetLoginInfos()->m_strCompanyName));
 	
-	LPCWSTR szConnectionString = AfxGetLoginInfos()->m_strProviderCompanyConnectionString;
-	//LPCWSTR szConnectionString = L"Provider=MSDASQL;Driver=MySQL ODBC 5.1 Driver;Database=MySql_Prova;Server=localhost;Uid=root;Pwd=anna;Port=3306;";
-	// nel caso di Oracle devo chiedere anche l'owner del database. Serve per la gestione dei sinonimi in
-	// caso di connessione di un utente != dbowner. Per completezza lo faccio anche per SqlServer.
-	SqlConnection* pSqlConnection = new SqlConnection(m_pContext, AfxGetLoginManager()->GetDbOwner(AfxGetLoginInfos()->m_nCompanyId));
+	SqlConnection* pSqlConnection = new SqlConnection(AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString, TRUE, m_pContext);
 	pSqlConnection->SetProviderId(AfxGetLoginInfos()->m_nProviderId);
 	pSqlConnection->SetUseUnicode(AfxGetLoginInfos()->m_bUseUnicode);
 
@@ -277,9 +361,8 @@ BOOL COleDbManager::MakePrimaryConnection()
 		// il check del database lo devo effettuare esternamente xché prima
 		// devo settare la connessione di default per poter istanziare correttamente
 		// sqlmark
-		TRACE_SQL(_T("Connect"), NULL);
 		m_aConnectionPool.SetPrimaryConnection(pSqlConnection);
-		if (!pSqlConnection->MakeConnection(szConnectionString)) //|| !pSqlConnection->CheckDatabase()) //dalla 4.x è superfluo fare il check della tbdbmark poichè il client dalla 3.0 vi è l'aggiornamento automatico del client x cui le dll sono sempre sincronizzate						
+		if (!pSqlConnection->MakeConnection())
 		{
 			m_aConnectionPool.RemovePrimaryConnection();
 			m_bValid = false;
@@ -337,22 +420,6 @@ BOOL COleDbManager::RegisterAddOnTable(AddOnLibrary* pAddOnLib)
 		SqlConnection* pConnection = m_aConnectionPool.GetAt(i);
 		if (pConnection->m_bCheckRegisterTable)
 			bOk = pConnection->RegisterAddOnLibrayTables(pAddOnLib) && bOk;
-	}	
-	return bOk;
-}
-
-
-//-----------------------------------------------------------------------------
-BOOL COleDbManager::CheckAddOnModuleRelease(AddOnModule* pAddOnMod, CDiagnostic* pDiagnostic)
-{
-	TB_LOCK_FOR_WRITE();
-	BOOL bOk = TRUE;
-	// devo ciclare su tutte le connessioni attive che prevedono il controllo della DBMark 
-	for (int i = 0; i < m_aConnectionPool.GetSize(); i++)
-	{
-		SqlConnection* pConnection = m_aConnectionPool.GetAt(i);
-		if (pConnection->m_bCheckDBMark)
-			bOk = pConnection->CheckAddOnModuleRelease(pAddOnMod, pDiagnostic) && bOk;
 	}	
 	return bOk;
 }
@@ -415,17 +482,6 @@ BOOL COleDbManager::MultiUserModeEnabled() const
 	return /*m_pLockTable ? m_pLockTable->MultiUserModeEnabled() : */TRUE; 
 }
 
-//----------------------------------------------------------------------------------------------
-CDataCachingManager* COleDbManager::GetDataCachingManager ()
-{
-	return m_pContext ? GetDataCachingContext()->GetDataCachingManager() : NULL;
-}
-
-//----------------------------------------------------------------------------------------------
-CDataCachingContext* COleDbManager::GetDataCachingContext ()
-{
-	return (CDataCachingContext*) m_pContext;
-}
 
 //-----------------------------------------------------------------------------
 void COleDbManager::DebugTraceSQL(LPCTSTR szTrace, SqlObject* pSqlObject )
@@ -544,18 +600,42 @@ void COleDbManager::DebugTraceSQL(LPCTSTR szTrace, SqlObject* pSqlObject )
 
 	CString strTrace (_T("   "));
 	oFile.SeekToEnd();
-	if (_tcsicmp(_T("Connect"), szTrace) == 0)
-	{
-		CString sTitle;
-		sTitle.Format(
-			_T("\r\n\r\n")
-			_T("************************************************\r\n")
-			_T("  Connect to database on %s						\r\n")
-			_T("************************************************\r\n\t\r\n"),
-			time);
-		strTrace += sTitle;
-	}
-	else
+	//if (_tcsicmp(_T("Connect"), szTrace) == 0)
+	//{
+	//	SqlSession* pSqlSession = (SqlSession*)pSqlObject;
+
+	//	strTrace += cwsprintf(_T("%s %p %s %s"), time, pSqlObject, szTrace, pSqlSession->m_pSqlConnection->m_strDbmsName);
+
+	//	CString sTitle;
+	//	sTitle.Format(
+	//		_T("\r\n\r\n")
+	//		_T("************************************************\r\n")
+	//		_T("Connect to database %s\r\n")
+	//		_T("%s %p %s\r\n\t\r\n"),
+	//		pSqlSession->m_pSqlConnection->m_strDbmsName,
+	//		time, pSqlObject, szTrace);
+	//	strTrace += sTitle;
+
+	//}
+	//else
+	//if (_tcsicmp(_T("Disconnect"), szTrace) == 0)
+	//{
+	//	SqlSession* pSqlSession = (SqlSession*)pSqlObject;
+
+	//	strTrace += cwsprintf(_T("%s %p %s %s"), time, pSqlObject, szTrace, pSqlSession->m_pSqlConnection->m_strDbmsName);
+
+	//	CString sTitle;
+	//	sTitle.Format(
+	//		_T("\r\n\r\n")
+	//		_T("************************************************\r\n")
+	//		_T("Disconnect to database %s\r\n")
+	//		_T("%s %p %s\r\n\t\r\n"),
+	//		pSqlSession->m_pSqlConnection->m_strDbmsName,
+	//		time, pSqlObject, szTrace);
+	//	strTrace += sTitle;
+
+	//}
+	//else
 		strTrace += cwsprintf(_T("%s %p %s"), time, pSqlObject, szTrace);
 
 	// Display 255 chars/line
@@ -673,15 +753,15 @@ void  COleDbManager::CacheParameters ()
 	TB_LOCK_FOR_WRITE();
 
 	// parameters caching
-	DataObj* pDataObj = AfxGetSettingValue 
-				(
-					snsTbOleDb, 
-					szConnectionSection, 
-					szReadTraceColumnsAfterUpdate, 
-					DataBool(FALSE),
-					szTbDefaultSettingFileName
-				);
-	m_bReadTraceColumnsAfterUpdate = pDataObj && *((DataBool*) pDataObj);
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szConnectionSection,
+		szUseOptimisticLock,
+		DataBool(TRUE),
+		szTbDefaultSettingFileName
+	);
+	m_bUseOptimisticLock = pDataObj && *((DataBool*)pDataObj);
 
 	pDataObj = AfxGetSettingValue 
 				(
@@ -707,8 +787,21 @@ COleDbManager* AfxGetOleDbMng()
 SqlConnection* AfxGetDefaultSqlConnection()
 { 
 	COleDbManager *pOleDB = AfxGetOleDbMng();
-	return pOleDB ? pOleDB->GetPrimaryConnection() : NULL; 
+	return pOleDB ? pOleDB->GetDefaultSqlConnection() : NULL; 
 }     
+
+TB_EXPORT void AfxSetDefaultSqlConnection(SqlConnection* pSqlConnection)
+{
+	COleDbManager *pOleDB = AfxGetOleDbMng();
+	return pOleDB ? pOleDB->SetDefaultSqlConnection(pSqlConnection) : NULL;
+}
+
+//------------------------------------------------------------------------------
+TB_EXPORT SqlConnection* AfxGetSecondarySqlConnection(const CString& strAlias)
+{
+	COleDbManager *pOleDB = AfxGetOleDbMng();
+	return pOleDB ? pOleDB->GetSecondarySqlConnection(strAlias) : NULL;
+}
 
 //------------------------------------------------------------------------------
 ///<summary>
@@ -730,7 +823,7 @@ SqlSession* AfxOpenSqlSession(DataStr connectionString)
 { 
 	COleDbManager *pOleDB = AfxGetOleDbMng();
 	LPCWSTR szConnectionString = T2W((LPTSTR) ((LPCTSTR)(connectionString.GetString())));
-	SqlConnection* pConn = pOleDB->MakeNewConnection(szConnectionString);
+	SqlConnection* pConn = pOleDB->GetNewConnection(szConnectionString);
 	return pConn ? pConn->GetDefaultSqlSession() : NULL;
 }   
 

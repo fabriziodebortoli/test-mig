@@ -274,9 +274,6 @@ void CSubscriptionInfo::Load()
 {
 	//Prima cerco per company corrente
 	Load(AfxGetPathFinder()->GetActionSubscriptionsFolderPath());
-
-	//Poi per all companies
-	Load(AfxGetPathFinder()->GetActionSubscriptionsFolderPath(CPathFinder::ALL_COMPANIES));
 }
 
 //-----------------------------------------------------------------------------

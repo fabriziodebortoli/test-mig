@@ -15,6 +15,7 @@ using Microarea.RSWeb.WoormWebControl;
 using TaskBuilderNetCore.Interfaces;
 using System.Net;
 using Microarea.Common;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -946,9 +947,9 @@ namespace Microarea.RSWeb.WoormViewer
                                 FileProvider fp = new FileProvider(this.connections.Document, ext);
                                 string destPath = fp.GenericTmpFile;
 
-                                if (File.Exists(sourceFilePath))
+                                if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFilePath))
                                 {
-                                    File.Copy(sourceFilePath, destPath, true);
+                                    PathFinder.PathFinderInstance.FileSystemManager.CopyFile(sourceFilePath, destPath, true);
                                     return string.Format("~\\{0}", fp.GenericTmpFileRelPath);
                                 }
                             }

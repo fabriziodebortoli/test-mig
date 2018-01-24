@@ -49,7 +49,7 @@ namespace TaskBuilderNetCore.Interfaces
 		Customization,
 		Leaf,
 		HotKeyLink,
-		Standardization,
+		Component,
         ToolbarButton,
         Toolbar,
         Tabber,

@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microarea.MenuGate.Models;
 using Microarea.Common.MenuLoader;
 using Microarea.TaskBuilderNet.Core.Generic;
 using System.IO;
 using Microarea.Common.NameSolver;
 using System;
 using Microarea.Common.Generic;
-using System.Threading;
-using Microarea.Common.WebServicesWrapper;
 using Newtonsoft.Json.Linq;
 using Microarea.Common;
 using Microarea.Common.Applications;
@@ -278,19 +275,20 @@ namespace Microarea.Menu.Controllers
         [Route("getStaticImage/{imageFile?}")]
         public IActionResult getStaticImage(string imageFile)
         {
-            string fullImagePath = Path.Combine(BasePathFinder.BasePathFinderInstance.GetStandardPath(), imageFile);
-            if (!System.IO.File.Exists(fullImagePath))
+            string fullImagePath = Path.Combine(PathFinder.PathFinderInstance.GetStandardPath, imageFile);
+
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fullImagePath))
                 return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "text/plain" };
 
             string ext = System.IO.Path.GetExtension(fullImagePath);
 
             try
             {
-                FileStream f = System.IO.File.Open(fullImagePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(fullImagePath, false);
 
                 return new FileStreamResult(f, "image/" + ext);
             }
-            catch (Exception)
+            catch (Exception exx)
             {
             }
 
@@ -397,8 +395,9 @@ namespace Microarea.Menu.Controllers
                 if (string.IsNullOrEmpty(authtoken))
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
-                BasePathFinder.BasePathFinderInstance.RefreshEasyBuilderApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
-                BasePathFinder.BasePathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
+                //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
+                PathFinder.PathFinderInstance.RefreshEasyBuilderApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
+                PathFinder.PathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
             }
             catch (Exception e)

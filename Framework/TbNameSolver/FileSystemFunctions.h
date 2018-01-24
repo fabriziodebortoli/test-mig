@@ -8,6 +8,7 @@ const GUID NULL_GUID = {0x0, 0x0, 0x0, {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}}
 
 #define NULL_SZGUID	_T("{00000000-0000-0000-0000-000000000000}")
 
+//class TBFile;
 // File management
 //=============================================================================
 TB_EXPORT BOOL		IsDosName		(const CString& name, BOOL bCheckFullPath = FALSE);
@@ -39,6 +40,7 @@ TB_EXPORT BOOL		ExistPath	(const CString& name);
 TB_EXPORT BOOL		ExistFile	(const CString& name);
 TB_EXPORT BOOL		DeleteFile	(const CString& name);
 TB_EXPORT BOOL		RemoveFile	(const CString& name);
+//TB_EXPORT TBFile* GetTBFile(const CString& name);
 
 //------------------------------------------------------------------------------
 TB_EXPORT CString	AppendExtensionIfNeeded(const CString& name, const CString& ext);

@@ -2,6 +2,7 @@
 
 #include <MSXML6.h>
 
+class TBFile;
 //includere alla fine degli include del .H
 #include "beginh.dex"
 
@@ -535,11 +536,12 @@ public:
 
 	BOOL	ReadFile	(const CString& sFileName);
 	BOOL	Read		(const CString& sDoc, LPCTSTR pszFileName = NULL);
-	
+	BOOL	ReadMetadata(TBFile* pMetaDataFile);
 	CString	GetFileName		() const;
 
 	void	AttachContent	(CXMLSaxContent*);
 	void	DetachContent	();
+
 
 // diagnostics
 #ifdef _DEBUG

@@ -277,6 +277,7 @@ class TB_EXPORT DataObj : public CContextObject
 
 protected:                                                                         
 	DWORD	m_wDataStatus;
+	SWORD	m_nSqlDataType;
 	CArray<HotKeyLink*> m_arAlignedHKLs;//elenco di hotlink per cui la find è stata effettuata e non necessita di essere rifatta
 public:
 	BEGIN_TB_STRING_MAP(Strings)
@@ -372,6 +373,8 @@ public:
 	virtual	int		GetAllocSize() const		{ return 0; }
 	
 	virtual	int		GetColumnLen() const		{ return 0; }
+	virtual void	SetSqlDataType(SWORD sqlDBType) { m_nSqlDataType = sqlDBType; }
+	virtual SWORD	GetSqlDataType() const { return m_nSqlDataType; } 
 
 	virtual VARIANT ToVariant() const { VARIANT v; VariantInit(&v); return v; }
 
@@ -2240,7 +2243,11 @@ public:
 	virtual CString FormatDataForXML(BOOL bSoapType = TRUE) const;
 	virtual void	AssignFromXMLString(LPCTSTR);
 
-	void SetBuffer(BYTE* pBuffer, int nUsedLen);
+public:
+	BYTE* GetBuffer() const { return m_pBuffer; }
+	void  SetBuffer(BYTE* pBuffer, int nUsedLen);
+	void  Null(); //mette a null il puntatore pBuffer, senza cancellare la memoria. Sarà chi consuma l'area di memoria di m_pBuffer ad occuparsi della memoria
+
 	SAFEARRAY* GetSoapValue() const;			
 	void SetSoapValue(SAFEARRAY*);	
 	void SetUsedLen(int nLen) { m_nUsedLen = nLen; }

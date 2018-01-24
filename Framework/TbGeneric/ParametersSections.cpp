@@ -125,12 +125,8 @@ const CTBNamespace snsTbOleDb				= _T("Module.Framework.TbOleDb");
 
 //.Connection............................................................
 const TCHAR szConnectionSection[]				= _T("Connection");
-const TCHAR szHKLTableReaderCursor[]			= _T("HKLTableReaderCursor");
-const TCHAR szROForwardTableCursor[]			= _T("ROForwardTableCursor");
-const TCHAR szROScrollTableCursor[]				= _T("ROScrollTableCursor");
 const TCHAR szDebugSqlTrace[]					= _T("DebugSqlTrace");
 const TCHAR szEnableEventViewerLog[]			= _T("EnableEventViewerLog");
-const TCHAR szReadTraceColumnsAfterUpdate[]		= _T("ReadTraceColumnsAfterUpdate");
 
 //.Caching............................................................
 const TCHAR szDataCaching[]					= _T("Caching");
@@ -151,6 +147,7 @@ const TCHAR szRecoverySystemRetriesInterval[]	= _T("RecoveryRetriesInterval");
 
 //.LockManager........................................................
 const TCHAR szLockManager[]				= _T("LockManager");
+const TCHAR szUseOptimisticLock[]			= _T("UseOptimisticLock");
 const TCHAR szDisableLockRetry[]		= _T("DisableLockRetry");
 const TCHAR szDisableBeep[]				= _T("DisableBeep");
 const TCHAR szDisableBatchBeep[]		= _T("DisableBatchBeep");

@@ -1,28 +1,23 @@
-﻿using Microarea.Common.DiagnosticManager;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using TaskBuilderNetCore.Documents.Interfaces;
 using TaskBuilderNetCore.Interfaces;
+using TaskBuilderNetCore.Documents.Model.Interfaces;
+using TaskBuilderNetCore.Model.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
     //====================================================================================    
-    public abstract class Document : IDocument
+    public class Document : Component, IDocument
     {
-        IOrchestrator orchestrator;
-        List<IExtension> extensions;
-        ICallerContext callerContext;
-        IValidator validator;
-        IDiagnostic diagnostic;
+        ObservableCollection<IDocumentComponent> components;
+        ComponentState documentState;
         string title;
 
         #region events declarations
 
-        public event CancelEventHandler Initializing;
-        public event EventHandler Initialized;
+        public event CancelEventHandler LoadingComponents;
+        public event EventHandler ComponentsLoaded;
         public event CancelEventHandler AttachingDataModel;
         public event EventHandler DataModelAttached;
         public event CancelEventHandler DetachingDataModel;
@@ -41,152 +36,94 @@ namespace TaskBuilderNetCore.Documents.Model
         #endregion
 
         //-----------------------------------------------------------------------------------------------------
-        public IOrchestrator Orchestrator
-        {
-            get
-            {
-                return orchestrator;
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public List<IExtension> Extensions
-        {
-            get
-            {
-                return extensions;
-            }
-
-            set
-            {
-                extensions = value;
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public INameSpace NameSpace
-        {
-            get
-            {
-                var nameSpaceAttribute = GetType().GetTypeInfo().GetCustomAttributes(typeof(NameSpaceAttribute), true).FirstOrDefault() as NameSpaceAttribute;
-                return nameSpaceAttribute == null ? null : nameSpaceAttribute.NameSpace;
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public IValidator Validator
-        {
-            get
-            {
-                return validator;
-            }
-
-            set
-            {
-                validator = value;
-            }
-        }
+        public ObservableCollection<IDocumentComponent> Components { get => components; set => components = value; }
 
         //-----------------------------------------------------------------------------------------------------
         public IDiagnostic Diagnostic
         {
             get
             {
-                return diagnostic;
+                if (CallerContext == null)
+                    return null;
+                if (CallerContext.Diagnostic == null)
+                    CallerContext.Diagnostic = new Microarea.Common.DiagnosticManager.Diagnostic(CallerContext.Identity);
+
+                return CallerContext.Diagnostic;
             }
 
             set
             {
-                diagnostic = value;
+                CallerContext.Diagnostic = value;
             }
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public ICallerContext CallerContext
-        {
-            get
-            {
-                return callerContext;
-            }
-
-            set
-            {
-                callerContext = value;
-            }
-        }
+        public string Title { get => title;  set => title = value; }
 
         //-----------------------------------------------------------------------------------------------------
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
+        public ComponentState DocumentState { get => documentState; set => documentState = value; }
 
-            set
-            {
-                title = value;
-            }
-        }
 
         //-----------------------------------------------------------------------------------------------------
-        public bool Unattended
+        public Document()
         {
-            get
-            {
-                return orchestrator.UIController == null;
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        protected Document()
-        {
-            diagnostic = new Diagnostic(callerContext.Identity);
+            Components = new ObservableCollection<IDocumentComponent>();
+            DocumentState = new ComponentState(this);
             Clear();
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public void Clear()
+        public override void Clear()
         {
-            this.callerContext = null;
-             diagnostic.Clear();
-
             ClearData();
+            if (Diagnostic != null)
+                Diagnostic.Clear();
+
+            base.Clear();
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        protected override bool OnInitialize()
+        {
+             return true;
         }
 
         /// <summary>
-        /// Initialize document 
+        /// It attaches and initialize data model to document
         /// </summary>
-        /// <param name="orchestrator"></param>
-        /// <param name="callerContext"></param>
-        /// <returns></returns>
+        /// <returns>If data model has been attached</returns>
         //-----------------------------------------------------------------------------------------------------
-        public bool Initialize(IOrchestrator orchestrator, ICallerContext callerContext)
+        public bool LoadComponents()
         {
-            // it detach previous objects
-            Clear();
-
-            if (Initializing != null)
+            if (LoadingComponents != null)
             {
                 CancelEventArgs cancelEventArgs = new CancelEventArgs();
-                Initializing(this, cancelEventArgs);
+                LoadingComponents(this, cancelEventArgs);
 
                 if (cancelEventArgs.Cancel)
                     return false;
             }
 
-            this.callerContext = callerContext;
-            this.orchestrator = orchestrator;
-
-            if (!OnInitialize())
+            if (!OnLoadingCoponents())
                 return false;
+            
+            // ora inizializzo i compomenti
+            foreach (DocumentComponent component in Components)
+            {
+                component.Document = this;
+                component.Initialize(CallerContext);
+            }
 
-            Initialized?.Invoke(this, EventArgs.Empty);
+            ComponentsLoaded?.Invoke(this, EventArgs.Empty);
+
             return true;
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnInitialize();
+        protected virtual bool OnLoadingCoponents()
+        {
+            return true;
+        }
 
         /// <summary>
         /// It attaches and initialize data model to document
@@ -215,7 +152,11 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnAttachDataModel();
+        protected virtual bool OnAttachDataModel()
+        {
+            return true;
+
+        }
 
         /// <summary>
         /// It detaches data model from document
@@ -241,7 +182,11 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnDetachDataModel();
+        protected virtual bool OnDetachDataModel()
+        {
+            return true;
+
+        }
 
         /// <summary>
         /// It invokes data loding 
@@ -259,7 +204,13 @@ namespace TaskBuilderNetCore.Documents.Model
                     return false;
             }
 
-            // TODO invocazione del metodo di load del data model
+            if (Components != null)
+                foreach (IDocumentComponent component in Components)
+                {
+                    IDataModel dataModel = component as IDataModel;
+                    if (dataModel != null)
+                        dataModel.LoadData();
+                }
 
             if (!OnLoadData())
                 return false;
@@ -270,7 +221,7 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnLoadData();
+        protected virtual bool OnLoadData() { return true; }
 
         /// <summary>
         /// It clears data 
@@ -287,15 +238,20 @@ namespace TaskBuilderNetCore.Documents.Model
                     return;
             }
 
-            // TODO invocazione del metodo di clear del data model
-
+            if (Components != null)
+                foreach (IDocumentComponent component in Components)
+                {
+                    IDataModel dataModel = component as IDataModel;
+                    if (dataModel != null)
+                        dataModel.ClearData();
+                }
             OnClearData();
 
             DataCleared?.Invoke(this, EventArgs.Empty);
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract void OnClearData();
+        protected virtual void OnClearData() { }
 
         /// <summary>
         /// It validates data
@@ -312,11 +268,16 @@ namespace TaskBuilderNetCore.Documents.Model
                 if (cancelEventArgs.Cancel)
                     return false;
             }
+            bool validated = true;
+            if (Components != null)
+                foreach (IDocumentComponent component in Components)
+                {
+                    IValidator validator = component as IValidator;
+                    if (validator != null)
+                        validated = validated && validator.Validate(this);
+                }
 
-            if (Validator != null)
-                Validator.Validate(this);
-
-            if (!OnValidateData())
+            if (!validated || !OnValidateData())
                 return false;
 
             DataValidated?.Invoke(this, EventArgs.Empty);
@@ -324,17 +285,13 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnValidateData();
+        protected virtual bool OnValidateData() { return true; }
 
         //-----------------------------------------------------------------------------------------------------
         public bool SaveData()
-        {
-            // validation default called on data saving
-            if (Validator == null || Validator.UsedValidationType == ValidationType.SavingData)
-            {
-                if (!ValidateData())
-                    return false;
-            }
+        {      
+            if (!ValidateData())
+                return false;
 
             if (SavingData != null)
             {
@@ -345,7 +302,14 @@ namespace TaskBuilderNetCore.Documents.Model
                     return false;
             }
 
-            // TODO invocazione del save del data model
+            if (Components != null)
+                foreach (IDocumentComponent component in Components)
+                {
+                    IDataModel dataModel = component as IDataModel;
+                    if (dataModel != null)
+                        dataModel.SaveData();
+                }
+
             if (!OnSaveData())
                 return false;
 
@@ -355,7 +319,7 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnSaveData();
+        protected virtual bool OnSaveData() { return true; }
 
         //-----------------------------------------------------------------------------------------------------
         public bool DeleteData()
@@ -369,7 +333,14 @@ namespace TaskBuilderNetCore.Documents.Model
                     return false;
             }
 
-            // TODO invocazine della delete del data model
+            if (Components != null)
+                foreach (IDocumentComponent component in Components)
+                {
+                    IDataModel dataModel = component as IDataModel;
+                    if (dataModel != null)
+                        dataModel.DeleteData();
+                }
+
             if (!OnDeleteData())
                 return false;
 
@@ -379,7 +350,7 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        protected abstract bool OnDeleteData();
+        protected virtual bool OnDeleteData() { return true; }
 
         //-----------------------------------------------------------------------------------------------------
         protected virtual void Dispose(bool disposing)
@@ -391,12 +362,5 @@ namespace TaskBuilderNetCore.Documents.Model
             }
         }
 
-        //-----------------------------------------------------------------------------------------------------
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 }

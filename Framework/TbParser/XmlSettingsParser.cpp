@@ -77,12 +77,6 @@ BOOL XMLSettingsParser::LoadSettings	(
 	m_Source	= SettingObject::FROM_STANDARD;
 	LoadFiles (pPathFinder->GetModuleSettingsPath(aNamespace, CPathFinder::STANDARD));
 	
-	m_Source	= SettingObject::FROM_ALLCOMPANYUSERS;
-	LoadFiles (pPathFinder->GetModuleSettingsPath(aNamespace,  CPathFinder::ALL_USERS, _T(""), FALSE, CPathFinder::ALL_COMPANIES));
-	
-	m_Source	= SettingObject::FROM_ALLCOMPANYUSER;
-	LoadFiles (pPathFinder->GetModuleSettingsPath (aNamespace, CPathFinder::USERS, sUser, FALSE, CPathFinder::ALL_COMPANIES));
-
 	m_Source	= SettingObject::FROM_COMPANYUSERS;
 	LoadFiles (pPathFinder->GetModuleSettingsPath (aNamespace, CPathFinder::ALL_USERS));
 
@@ -243,7 +237,6 @@ BOOL XMLSettingsParser::Unparse (
 		}
 
 	// salvo il file come richiesto
-	BOOL bAllCompanies	= (m_Source == SettingObject::FROM_ALLCOMPANYUSER || m_Source == SettingObject::FROM_ALLCOMPANYUSERS);
 	BOOL bAllUsers		= (m_Source == SettingObject::FROM_ALLCOMPANYUSERS || m_Source == SettingObject::FROM_COMPANYUSERS);
 	CString sFile;
 	if (m_Source == SettingObject::FROM_STANDARD) 
@@ -254,8 +247,7 @@ BOOL XMLSettingsParser::Unparse (
 						aModule, 
 						bAllUsers ? CPathFinder::ALL_USERS : CPathFinder::USERS,
 						sUser, 
-						TRUE, 
-						bAllCompanies ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT
+						TRUE
 					) + SLASH_CHAR + sFileName;
 
 	// se il file si svuota lo elimino da disco
@@ -552,22 +544,6 @@ BOOL XMLSettingsParser::RefreshTable(
 
 	m_Source = SettingObject::FROM_STANDARD;
 	if (ExistFile(sPath) && (!bOnlyModified || IsModifiedFile(aModule, sPath, m_Source, pSettingsTable)))
-		if (!m_pXmlDocument->LoadXMLFile(sPath) || !Parse (m_pXmlDocument, pSettingsTable, sPath))
-			bRefreshed = FALSE;
-
-	// AllCompanies/allUsers
-	sPath = pPathFinder->GetModuleSettingsPath(aModule, CPathFinder::ALL_USERS, _T(""), FALSE, CPathFinder::ALL_COMPANIES) + SLASH_CHAR + sFileName;
-	m_Source = SettingObject::FROM_ALLCOMPANYUSERS;
-
-	if (ExistFile(sPath) && (!bOnlyModified || IsModifiedFile(aModule, sPath, m_Source, pSettingsTable)))
-		if (!m_pXmlDocument->LoadXMLFile(sPath) || !Parse (m_pXmlDocument, pSettingsTable, sPath))
-			bRefreshed = FALSE;
-
-	// AllCompanies/User viene riletto sempre
-	sPath = pPathFinder->GetModuleSettingsPath(aModule, CPathFinder::USERS, sUser, FALSE, CPathFinder::ALL_COMPANIES) + SLASH_CHAR + sFileName;
-	m_Source = SettingObject::FROM_ALLCOMPANYUSER;
-
-	if (ExistFile(sPath))
 		if (!m_pXmlDocument->LoadXMLFile(sPath) || !Parse (m_pXmlDocument, pSettingsTable, sPath))
 			bRefreshed = FALSE;
 

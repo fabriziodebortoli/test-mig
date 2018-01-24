@@ -1,11 +1,13 @@
 
 #include "StdAfx.h"
+#include <TbNameSolver\IFileSystemManager.h>
 #include <TbNameSolver\JsonSerializer.h>
 #include <TbNameSolver\PathFinder.h>
 #include <TbNameSolver\Templates.h>
 #include <TbGeneric\CollateCultureFunctions.h>
 #include <TbGeneric\SettingsTable.h>
 #include <TbGeneric\ParametersSections.h>
+
 #include "TBCommandInterface.h"
 #include "CEFClasses.h"
 
@@ -416,11 +418,13 @@ bool CTBRequestHandlerObj::ReadFileContent(LPCTSTR file, CTBResponse& response)
 		return true;
 	}
 #endif
-	CFile f;
+	int nLength;
+	BYTE* buff = AfxGetFileSystemManager()->GetBinaryFile(file, nLength);
+	/*CFile f;
 	f.Open(file, CFile::modeRead | CFile::typeBinary);
 	int nLength = (int)f.GetLength();
 	BYTE* buff = new BYTE[nLength];
-	f.Read(buff, nLength);
+	f.Read(buff, nLength);*/	
 	response.SetData(buff, nLength);
 #ifndef DEBUG
 	BYTE * pData = new BYTE[nLength];

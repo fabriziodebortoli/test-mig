@@ -213,16 +213,13 @@ public:
 
 	// X-Tech
 	const CStringArray*			GetAvailableDocEnvClasses	(const CTBNamespace& aDocNS);
-
-private:
-
-	// delayed load
-	void LoadEventHandlerObjects	();
-	void LoadReferenceObjects		();
-	void LoadReferenceObjects		(CPathFinder::PosType pos, CPathFinder::Company company = CPathFinder::CURRENT);
+	
 
 public:
 	void LoadFunctionsObjects		();
+	void LoadEventHandlerObjects	();
+	void LoadReferenceObjects		();
+	void LoadReferenceObjects		(CPathFinder::PosType pos, CPathFinder::Company company = CPathFinder::CURRENT);
 
 	static BOOL LoadFunctionsObjects		
 						(

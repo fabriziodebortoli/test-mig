@@ -49,9 +49,7 @@ private:
 protected:
 	virtual BOOL OnAttachData		();
 	virtual BOOL OnPrepareAuxData	();
-	virtual void OnGoInBrowseMode	();
 	virtual void Customize			();
-			BOOL OnShowStatusBarMsg	(CString& sMsg);
 
 protected:
 	//{{AFX_MSG(CDWorkerWindow)

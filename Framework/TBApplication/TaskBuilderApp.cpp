@@ -37,6 +37,7 @@
 
 #include <TbOledb\sqltable.h>
 
+
 #include <TbWoormEngine\ASKDLG.hjson> //JSON AUTOMATIC UPDATE
 #include <TbWoormViewer\Woormdoc.h>
 
@@ -469,10 +470,8 @@ BOOL CTaskBuilderApp::InitApplicationContext(const CString& strFileServer, const
 		);
 
 	pPathfinder->AttachDictionaryPathFinder(new CDictionaryPathFinder());
-	pContext->AttachPathFinder(pPathfinder);
-
+	pContext->AttachPathFinder(pPathfinder);	
 	pContext->AttachClientObjects(new CClientObjects());
-
 	pContext->AttachStringLoader(new CStringLoader(GetInstallationDate().Str(), pPathfinder->GetAppDataPath(TRUE)));
 	pContext->AttachParsedControlsRegistry (new CParsedCtrlRegistry());
 	pContext->AttachBehavioursRegistry (new CBehavioursRegistry());
@@ -671,12 +670,7 @@ void CTaskBuilderApp::InitExtensions ()
 void CTaskBuilderApp::InitServerObjects (const CString& strFileServer, const CString& strWebServer, const CString& strInstallation, const CString& strMasterSolutionName)
 {
 
-	// diagnostic is added by Init method
-	//attualmente non supportato
-	//if (!AfxGetFileSystemManager()->Init (strFileServer, strInstallation))
-	//	return;
-
-	// RichEdit control
+		// RichEdit control
 	AfxInitRichEdit	();
 
 	// ole and soap server components
@@ -685,13 +679,9 @@ void CTaskBuilderApp::InitServerObjects (const CString& strFileServer, const CSt
 	else
 		AfxGetDiagnostic()->Add (_T("Inizializzazione interfaccia OLE fallita."), CDiagnostic::Error);
 
-	CPathFinder* pPathFinder = AfxGetPathFinder();
-	pPathFinder->Init 
-		(
-			strFileServer,
-			strInstallation,
-			strMasterSolutionName
-		);
+	//inizializzo il file system manager ed al suo interno il path finder
+	if (!AfxGetFileSystemManager()->Init (strFileServer, strInstallation, strMasterSolutionName))
+		return;
 
 	// server web services connections
 	if	(AfxGetCommonClientObjects()->InitWebServicesConnections(strWebServer, strInstallation))
@@ -701,11 +691,14 @@ void CTaskBuilderApp::InitServerObjects (const CString& strFileServer, const CSt
 		AfxGetDiagnostic()->Add (szMsgFailed, CDiagnostic::Error);	
 		return;
 	}
-
-	AfxGetFileSystemManager()->Start ();
-
+	
 	// activation state data init
-	AfxGetLoginManager()->InitActivationStateInfo ();
+	AfxGetLoginManager()->InitActivationStateInfo ();	
+
+	if (!AfxGetFileSystemManager()->DetectAndAttachAlternativeDriver())
+		return;
+
+	AfxGetFileSystemManager()->Start ();	
 	
 	if (IsDevelopment())
 		AfxGetStringLoader()->FreeModules();

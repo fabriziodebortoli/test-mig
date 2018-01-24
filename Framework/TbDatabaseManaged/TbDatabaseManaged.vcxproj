@@ -191,6 +191,7 @@
     <ClInclude Include="MSqlConnection.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TbDatabaseManaged.h" />
+    <ClInclude Include="TBFSDatabaseDriver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MSqlConnection.cpp" />
@@ -203,6 +204,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TbDatabaseManaged.cpp" />
+    <ClCompile Include="TBFSDatabaseDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BEGINH.DEX" />

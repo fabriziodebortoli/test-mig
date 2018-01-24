@@ -229,6 +229,7 @@ public:
 	BOOL GetNoDelete	() { return m_bNoDelete; }
 
 public:
+
 	virtual BOOL	FindData			(BOOL bPrepareOld = TRUE);
 	virtual BOOL	AddNew				(BOOL bInit = TRUE);
 	virtual BOOL	Edit				();
@@ -236,6 +237,7 @@ public:
 	virtual BOOL	Update				();
 	virtual void	SetReadOnly			(BOOL bReadOnly = TRUE); //agisce su i campi di m_pSqlRecord. Virtualizzato in DBTSlaveBuffered
 	virtual void	SetAlwaysReadOnly	(BOOL bReadOnly = TRUE); //agisce su i campi di m_pSqlRecord. Virtualizzato in DBTSlaveBuffered
+	virtual void	Disconnect			();
 
 protected:
 	virtual void 	Init		();
@@ -298,7 +300,7 @@ class TB_EXPORT DBTMaster : public DBTObject
 	DECLARE_DYNAMIC(DBTMaster)
 
 protected:
-	DBTArray*		m_pDBTSlaves;
+	DBTArray*				m_pDBTSlaves;
 
 public:
 	// constructors
@@ -331,6 +333,7 @@ public:
 	// NON DEVONO essere reimplementate nelle classi istanziabili
 	virtual	BOOL CheckTransaction	();
 	virtual	BOOL GetCursorType		() { return E_NO_CURSOR; } // x ottimizzare le performance visto che é un rowset di una sola riga nn ha senso usare cursori
+
 public:
 	// base functions
 	void	Attach	(DBTSlave*);
@@ -357,6 +360,7 @@ public:
 	virtual BOOL	Delete		();
 	virtual BOOL	Update		();
 	virtual void 	Init		();
+	virtual void	Disconnect();
 
 	virtual void	OnEnableControlsForFind		();
 	virtual void	OnDisableControlsForEdit	();
@@ -425,6 +429,8 @@ class TB_EXPORT DBTSlave : public DBTObject
 	friend DBTMaster;
 	friend class CXMLDataManager;
 	friend class DBTSlaveBuffered;
+	friend class CAbstractFormDoc;
+
 	DECLARE_DYNCREATE(DBTSlave)
 
 public:
@@ -445,8 +451,10 @@ public:
 	BOOL		m_bLoaded;
 
 protected:
-	DBTObject*	m_pDBTMaster;
-	SqlRecord*	m_pMasterRecord;
+	DBTObject*				m_pDBTMaster;
+	SqlRecord*				m_pMasterRecord;
+	SqlForeignKeysReader*	m_pFKReader; //serve per la find x permettere anche ai campi dei reali dbtslaves (quelli con una relazione di FK sul db) di diventare findable
+
 
 	DBTSlave  ();
 public:
@@ -472,7 +480,8 @@ public:
 		const CString&		sName,
 		BOOL				bAllowEmpty = !ALLOW_EMPTY_BODY
 		);
-	virtual ~DBTSlave() {}
+
+	virtual ~DBTSlave();
 
 public:
 	// abilita solo le funzioni delete per gestire delle persistenze ridotte

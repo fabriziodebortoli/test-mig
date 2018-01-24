@@ -16,6 +16,7 @@ public:
 
 public:
 	virtual BOOL Parse		(CXMLNode*, CBaseDescription* pDescri, const CTBNamespace& aParent, const CString &strTableToAlter);
+	virtual void Unparse	(CXMLNode*, CBaseDescription* pDescri, const CTBNamespace& aParent, const CString &strTableToAlter);
 };
 
 // AdditionalColumns/Table
@@ -32,6 +33,7 @@ public:
 
 public:
 	virtual BOOL Parse		(CXMLNode*, CBaseDescription* pDescri, const CTBNamespace& aParent);
+	virtual void Unparse	(CXMLNode*, CBaseDescription* pDescri, const CTBNamespace& aParent);
 };
 
 // lettura del file AddOnDatabaseObjects.xml. Non ho fatto la 
@@ -48,7 +50,11 @@ private:
 public:
 	CXMLAddOnDatabaseObjectsParser();
 
+private:
+	BOOL Parse(CXMLDocumentObject*, const CTBNamespace& aParent);
+	void Unparse(CXMLDocumentObject*, CAddColsTableDescription*, const CTBNamespace& aParent);
 public:
-	BOOL Parse	(CXMLDocumentObject*, const CTBNamespace& aParent);
+	BOOL LoadAdddOnDatabaseObjects(const CTBNamespace& aModuleNS);	
+	BOOL SaveAdddOnDatabaseObjects(CAlterTableDescriptionArray* pAlterTableDescription);
 };
 #include "endh.dex"

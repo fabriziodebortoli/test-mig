@@ -45,17 +45,19 @@ SqlBindItem::SqlBindItem (DataObj* pDataObj, const CString& strColumnName)
 	:
 	m_pDataObj			(pDataObj),
 	m_strColumnName		(strColumnName),
+	m_bIsAddOn			(FALSE),
 	m_bDynamicallyBound	(FALSE)
 {
 	ASSERT_VALID(m_pDataObj);
 }
 
 //-----------------------------------------------------------------------------
-SqlBindItem::SqlBindItem (const SqlBindItem& bi)
+SqlBindItem::SqlBindItem(const SqlBindItem& bi)
 	:
-	m_pDataObj			(bi.m_pDataObj ? bi.m_pDataObj->Clone() : NULL),
-	m_strColumnName		(bi.m_strColumnName),
-	m_bDynamicallyBound	(bi.m_bDynamicallyBound),
+	m_pDataObj				(bi.m_pDataObj ? bi.m_pDataObj->Clone() : NULL),
+	m_strColumnName			(bi.m_strColumnName),
+	m_bIsAddOn				(bi.m_bIsAddOn),
+	m_bDynamicallyBound		(bi.m_bDynamicallyBound),
 	m_strContextElementName(bi.m_strContextElementName)
 {
 	ASSERT_VALID(m_pDataObj);
@@ -75,6 +77,7 @@ BOOL SqlBindItem::IsEqual(const SqlBindItem& item) const
 	return 
 		!_tcsicmp(m_strColumnName, item.m_strColumnName) &&
     	m_pDataObj->IsEqual(*(item.m_pDataObj)) &&
+		m_bIsAddOn == item.m_bIsAddOn &&
 		m_bDynamicallyBound == item.m_bDynamicallyBound &&
 		m_strContextElementName == item.m_strContextElementName;
 }
@@ -85,6 +88,7 @@ void SqlBindItem::Assign(const SqlBindItem& item)
     m_pDataObj->Assign(*(item.m_pDataObj));
 
 	m_strColumnName = item.m_strColumnName;
+	m_bIsAddOn = item.m_bIsAddOn;
 	m_bDynamicallyBound = item.m_bDynamicallyBound;
 	m_strContextElementName = item.m_strContextElementName;
 }
@@ -466,8 +470,8 @@ void SqlRecord::OnCreated(SqlRecord* pRec) const
 //-----------------------------------------------------------------------------
 SqlRecord* SqlRecord::Create () const
 {
-	ASSERT_VALID(m_pTableInfo);
-	ASSERT_VALID(m_pTableInfo->GetSqlCatalogEntry());
+	/*ASSERT_VALID(m_pTableInfo);
+	ASSERT_VALID(m_pTableInfo->GetSqlCatalogEntry());*/
 
 	// devo assegnare subito il table name per poter ottenere una 
 	// SetConnection che agganci il puntatore al m_pTableInfo corretto
@@ -600,6 +604,7 @@ void SqlRecord::SetConnection(SqlConnection* pConnection)
 
 	m_pSqlConnection = pConnection;
 
+
 	m_pTableInfo  = m_pSqlConnection->GetTableInfo(m_strTableName);
 
 	Clear(TRUE); // inizializza lo stato del record rendendolo valido
@@ -704,7 +709,7 @@ void SqlRecord::BindDynamicDeclarations (int& nStartPos)
 		case CDbFieldDescription::Column:
 			if (pFieldDescri->GetContextName().IsEmpty())
 				BindDataObj(nStartPos++, pFieldDescri->GetName(), *pFieldDescri->GetValue()->Clone());
-			else 
+			else
 				BindContextDataObj(nStartPos++, pFieldDescri->GetName(), *pFieldDescri->GetValue()->Clone(), pFieldDescri->GetContextName());
 			break;
 		case CDbFieldDescription::Variable:
@@ -865,7 +870,7 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 									);	
 		return FALSE;
 	}
-
+//
 #ifdef _DEBUG
 	if (this->GetConnection()->GetDatabaseName().CompareNoCase(AfxGetDefaultSqlConnection()->GetDatabaseName()) == 0)
 	{
@@ -968,6 +973,7 @@ SqlRecordItem* SqlRecord::BindDataObj (int nPos, const CString& strColumnName, D
 	return BindGenericDataObj(nPos, strColumnName, aDataObj);
 }
 
+
 //é un campo di tipo identity
 //-----------------------------------------------------------------------------
 SqlRecordItem* SqlRecord::BindAutoIncrementDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj)
@@ -987,6 +993,30 @@ SqlRecordItem* SqlRecord::BindContextDataObj(int nPos, const CString& strColumnN
 	m_arContextBagElements.Add(pRecItem);
 	return pRecItem;
 }
+//-----------------------------------------------------------------------------
+SqlRecordItem* SqlRecord::BindAddOnDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj)
+{
+	SqlRecordItem*  pRecItem = BindGenericDataObj(nPos, strColumnName, aDataObj);
+	pRecItem->m_bIsAddOn = TRUE;
+	return pRecItem;
+}
+
+//-----------------------------------------------------------------------------
+SqlRecordItem* SqlRecord::BindAddOnLocalDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj, int nLen /*= 0*/, BOOL bIsCollateCultureSensitive /*= TRUE*/)
+{
+	SqlRecordItem*  pRecItem = BindLocalDataObj(nPos, strColumnName, aDataObj, nLen, bIsCollateCultureSensitive);
+	pRecItem->m_bIsAddOn = TRUE;
+	return pRecItem;
+}
+
+//-----------------------------------------------------------------------------
+SqlRecordItem* SqlRecord::BindAddnOnAutoIncrementDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj)
+{
+	SqlRecordItem*  pRecItem = BindAutoIncrementDataObj(nPos, strColumnName, aDataObj);
+	pRecItem->m_bIsAddOn = TRUE;
+	return pRecItem;
+}
+
 
 //-----------------------------------------------------------------------------
 SqlRecordItem* SqlRecord::BindDynamicDataObj(const CString& strColumnName, DataObj& aDataObj, int nLen)
@@ -1453,35 +1483,31 @@ void SqlRecord::BindMandatoryFields(int& nStartPos)
 	{
 		if (m_pTableInfo->ExistCreatedColumn())
 		{
-			ASSERT (GetIndexFromColumnName(CREATED_COL_NAME) < 0);
+		/*	ASSERT (GetIndexFromColumnName(CREATED_COL_NAME) < 0);
 			ASSERT_VALID (m_pTableInfo->GetCreatedColumnInfo());
-			ASSERT (m_pTableInfo->GetCreatedColumnInfo()->m_strColumnName.CompareNoCase(CREATED_COL_NAME) == 0);
-
+			ASSERT (m_pTableInfo->GetCreatedColumnInfo()->m_strColumnName.CompareNoCase(CREATED_COL_NAME) == 0);*/
 			BindGenericDataObj(nStartPos++, m_pTableInfo->GetCreatedColumnInfo()->m_strColumnName, f_TBCreated, FALSE, m_pTableInfo->GetCreatedColumnInfo());
 		}
 		
 		if (m_pTableInfo->ExistModifiedColumn())
 		{
-			ASSERT (GetIndexFromColumnName(MODIFIED_COL_NAME) < 0);
+			//ASSERT (GetIndexFromColumnName(MODIFIED_COL_NAME) < 0);
 			//ASSERT_VALID (m_pTableInfo->GetModifiedColumnInfo());
 			//ASSERT (m_pTableInfo->GetModifiedColumnInfo()->m_strColumnName.CompareNoCase(MODIFIED_COL_NAME) == 0);
-
 			BindGenericDataObj(nStartPos++, m_pTableInfo->GetModifiedColumnInfo()->m_strColumnName, f_TBModified, FALSE, m_pTableInfo->GetModifiedColumnInfo());
 		}
 
 		if (m_pTableInfo->ExistCreatedIDColumn())
 		{
-			ASSERT (GetIndexFromColumnName(CREATED_ID_COL_NAME) < 0);
+		/*	ASSERT (GetIndexFromColumnName(CREATED_ID_COL_NAME) < 0);
 			ASSERT_VALID (m_pTableInfo->GetCreatedIDColumnInfo());
-			ASSERT (m_pTableInfo->GetCreatedIDColumnInfo()->m_strColumnName.CompareNoCase(CREATED_ID_COL_NAME) == 0);
-
+			ASSERT (m_pTableInfo->GetCreatedIDColumnInfo()->m_strColumnName.CompareNoCase(CREATED_ID_COL_NAME) == 0);*/
 			BindGenericDataObj(nStartPos++, m_pTableInfo->GetCreatedIDColumnInfo()->m_strColumnName, f_TBCreatedID, FALSE, m_pTableInfo->GetCreatedIDColumnInfo());
 		}
 				
 		if (m_pTableInfo->ExistModifiedIDColumn())
 		{
-			ASSERT (GetIndexFromColumnName(MODIFIED_ID_COL_NAME) < 0);
-
+			//ASSERT (GetIndexFromColumnName(MODIFIED_ID_COL_NAME) < 0);
 			BindGenericDataObj(nStartPos++, m_pTableInfo->GetModifiedIDColumnInfo()->m_strColumnName, f_TBModifiedID, FALSE, m_pTableInfo->GetModifiedIDColumnInfo());
 		}
 
@@ -1491,7 +1517,7 @@ void SqlRecord::BindMandatoryFields(int& nStartPos)
 		{
 			if (!HasGUID())
 			{
-				ASSERT(GetIndexFromColumnName(GUID_COL_NAME) < 0);
+				//ASSERT(GetIndexFromColumnName(GUID_COL_NAME) < 0);
 				BindGenericDataObj(nStartPos++, m_pTableInfo->GetGuidColumnInfo()->m_strColumnName, f_TBGuid, FALSE, m_pTableInfo->GetGuidColumnInfo());
 				SetWithGUID();
 			}
@@ -2445,6 +2471,28 @@ void SqlRecord::SetWebBound(CJsonParser& jsonParser)
 		}
 	}
 }
+
+//-----------------------------------------------------------------------------
+void SqlRecord::ValorizeDBObjectDescription(CDbObjectDescription* pDBObjectDescri)
+{
+	if (!pDBObjectDescri)
+		return;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		SqlRecordItem* pItem = GetAt(i);
+		if (pItem->IsVirtual() || pItem->m_bIsAddOn || pItem->m_bDynamicallyBound || pItem->IsMandatory())
+			continue;
+		CDbFieldDescription* pDBFieldDescri = new CDbFieldDescription(pItem->m_strColumnName, pItem->GetDataObj(), pDBObjectDescri->GetNamespace());
+		pDBFieldDescri->SetColType(CDbFieldDescription::Column);	
+		if (pItem->GetColumnLength() > 0)
+			pDBFieldDescri->SetLength(pItem->GetColumnLength());
+		if (pItem->IsSpecial())
+			pDBFieldDescri->SetIsSegmentKey(TRUE);
+		//pDBFieldDescri->SetNotLocalizedTitle(pItem->m_strColumnName);
+		pDBObjectDescri->AddDynamicField(pDBFieldDescri);
+	}
+}
+
 //-----------------------------------------------------------------------------
 // diagnostics
 #ifdef _DEBUG
@@ -2587,8 +2635,9 @@ IMPLEMENT_DYNAMIC(SqlVirtualRecord, SqlRecord)
 //-----------------------------------------------------------------------------
 SqlVirtualRecord::SqlVirtualRecord(LPCTSTR szTableName, SqlConnection* pConn /*= NULL*/)
 :
-	SqlRecord	(szTableName, pConn, VIRTUAL_TYPE)
+	SqlRecord	(szTableName, pConn, VIRTUAL_TYPE)	
 {
+	SetValid(TRUE);
 }
 
 //-----------------------------------------------------------------------------
@@ -2698,11 +2747,11 @@ BOOL SqlRecordProcedure::BindParamItem(SqlProcParamItem* pParamItem, int nPos)
 	const SqlTableInfo *pTableInfo = GetTableInfo();
 	if (pTableInfo == NULL) 
 		return FALSE;
-	int nParamPos = pTableInfo->GetParamInfoPos(pParamItem->m_strColumnName, nPos);
+	/*int nParamPos = pTableInfo->GetParamInfoPos(pParamItem->m_strColumnName, nPos);
 	if (nParamPos < 0)	
-		return FALSE;
+		return FALSE;*/
 
-	SqlProcedureParamInfo* pParamInfo = pTableInfo->GetParamAt(nParamPos);	
+	SqlProcedureParamInfo* pParamInfo = pTableInfo->GetParamInfoByName(pParamItem->m_strColumnName);
 	if (!pParamInfo)	
 	{
 		PrepareMessageBanner();
@@ -2711,7 +2760,7 @@ BOOL SqlRecordProcedure::BindParamItem(SqlProcParamItem* pParamItem, int nPos)
 	}
 
 	//effettuo il check di compatibilitá tra i tipi
-	if (!(CheckTypeCompatibility(pParamItem->m_pDataObj->GetDataType(), pParamInfo->m_nDataType)))
+	if (!(CheckTypeCompatibility(pParamItem->m_pDataObj->GetDataType(), pParamInfo->m_nSqlDataType)))
 	{
 		PrepareMessageBanner();
 		m_pSqlConnection->AddMessage(cwsprintf
@@ -2794,17 +2843,7 @@ void SqlRecordProcedure::BindParamDataObj
 	if (!m_pProcedureParamList)
 		m_pProcedureParamList = new SqlProcedureParamList;
 
-	int nIdx = -1;
-	CString strName = strParamName;
-	// La Bind dei nomi viene fatto con la convenzione ANSI 92 con @ davanti 
-	// In Oracle il nome del parametro è senza la @, in SqlServer è standard
-	if (m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
-	{
-		nIdx = strParamName.Find(_T('@'));
-		strName = (nIdx >= 0) ? strParamName.Right(strParamName.GetLength() - (nIdx + 1)) : strParamName;
-	}
-
-	SqlProcParamItem* pParamItem = new SqlProcParamItem(&aDataObj, strName);
+	SqlProcParamItem* pParamItem = new SqlProcParamItem(&aDataObj, strParamName);
 	if (BindParamItem(pParamItem, nPos))
 		m_pProcedureParamList->Add(pParamItem);
 	else

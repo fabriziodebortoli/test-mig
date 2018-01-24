@@ -262,7 +262,7 @@ TB_EXPORT AddOnLibrary*			AFXAPI AfxGetOwnerAddOnLibrary		(const CTBNamespace::N
 //-----------------------------------------------------------------------------
 TB_EXPORT void	AFXAPI AfxGetClientDocs	(const CTBNamespace& aServerNs, CObArray& arClientDocs);
 
-TB_EXPORT const CDbObjectDescription*	AFXAPI AfxGetDbObjectDescription	(const CString& sName);
+TB_EXPORT CDbObjectDescription*	AFXAPI AfxGetDbObjectDescription	(const CString& sName);
 
 //-----------------------------------------------------------------------------
 TB_EXPORT BOOL		AFXAPI AfxIsAppActivated		(const CString& sApplication);

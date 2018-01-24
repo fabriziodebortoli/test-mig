@@ -10,6 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IAddOnDatabaseObjectsInfo.cs" />
+    <Compile Remove="IApplicationInfo.cs" />
+    <Compile Remove="IBaseApplicationInfo.cs" />
+    <Compile Remove="IBaseModuleInfo.cs" />
+    <Compile Remove="IBasePathFinder.cs" />
+    <Compile Remove="ILibraryInfo.cs" />
+    <Compile Remove="IModuleConfigInfo.cs" />
+    <Compile Remove="IModuleInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.4.0" />
     <PackageReference Include="Microsoft.DotNet.Analyzers.Compatibility" Version="0.1.2-alpha" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.0-preview1-25914-04" />

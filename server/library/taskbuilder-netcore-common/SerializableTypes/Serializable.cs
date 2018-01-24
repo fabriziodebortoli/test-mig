@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.Common.NameSolver;
+using System;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -20,8 +21,8 @@ namespace Microarea.Common.SerializableTypes
 			{
 				try
 				{
-					if (File.Exists(filePath))
-						File.Delete(filePath);
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(filePath);
 				}
 				catch { }
 			}
@@ -32,7 +33,7 @@ namespace Microarea.Common.SerializableTypes
 		{
 			try
 			{
-				if (!File.Exists(filePath))
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
 					return new SerializedType();
 
 				XmlSerializer x = new XmlSerializer(typeof(SerializedType), extraTypes);
@@ -43,8 +44,8 @@ namespace Microarea.Common.SerializableTypes
 			{
 				try
 				{
-					if (File.Exists(filePath))
-						File.Delete(filePath);
+					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(filePath);
 				}
 				catch { }
 

@@ -31,7 +31,7 @@ namespace Microarea.AdminServer.Libraries
             //MACAddress = LocalMachine.GetMacAddress();
             //string mykey = CrypterManager.Decrypt(key);
             XmlDocument xmldoc = new XmlDocument();
-            xmldoc.LoadXml(key);
+            xmldoc.LoadXml(key);//lara
             ExpiryDate = xmldoc.DocumentElement.GetAttribute("validto");
             MLUExpiryDate = xmldoc.DocumentElement.GetAttribute("mluexpiry");
             Enum.TryParse(xmldoc.DocumentElement.GetAttribute("extension"), out ExtensionType);

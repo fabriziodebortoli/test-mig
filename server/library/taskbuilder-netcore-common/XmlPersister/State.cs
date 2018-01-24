@@ -1,3 +1,4 @@
+using Microarea.Common.NameSolver;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -90,8 +91,8 @@ namespace Microarea.Common.XmlPersister
 			{
 				string fileName = Path.GetFileName(filePath);
 				string dirPath = filePath.Substring(0, filePath.Length - fileName.Length);
-				if (!Directory.Exists(dirPath))
-					Directory.CreateDirectory(dirPath);
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
+                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
 				
 				XmlSerializer serializer = new XmlSerializer(this.GetType());
 				writer = new StreamWriter(File.OpenWrite(filePath));
@@ -138,7 +139,7 @@ namespace Microarea.Common.XmlPersister
 			try
 			{
 				// A FileStream is needed to read the XML document.
-				if (!File.Exists(fileName))
+				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
 				{
 					message = string.Concat(message, ("GetFromXml-File does not exist: " + fileName), Environment.NewLine);
 					return null;
@@ -240,7 +241,7 @@ namespace Microarea.Common.XmlPersister
 		{
 			MemoryStream ms = null;
 			try
-			{
+			{   //Lara
 				XmlSerializer serializer = new XmlSerializer(this.GetType());
 				ms = new MemoryStream();
 				serializer.Serialize(ms, this);

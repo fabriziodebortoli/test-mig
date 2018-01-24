@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Microarea.Common.Generic
 {

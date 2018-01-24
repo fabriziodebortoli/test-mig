@@ -1095,35 +1095,35 @@ BOOL SqlRecoveryManager::RecoveryConnections ()
 //-----------------------------------------------------------------------------
 BOOL SqlRecoveryManager::CloseOldObjects (SqlConnection* pConnection)
 {
-	CDataSource* pDataSource = (CDataSource*) pConnection->m_pDataSource;
-	if (m_CurrState.m_sInitConn.IsEmpty())
-	{
-		TRY
-		{
-			BSTR bstrConnString;
-			pDataSource->GetInitializationString(&bstrConnString, true);
-			CString strConn (bstrConnString);
-			m_CurrState.m_sInitConn = strConn;
-			
-			// to blank password
-			m_CurrState.m_sInitConnDisplayable = m_CurrState.m_sInitConn;
-			int nPwdPos = m_CurrState.m_sInitConnDisplayable.Find(_T(";Password="));
-			nPwdPos += 10;
-			for (int i=nPwdPos; i <= m_CurrState.m_sInitConnDisplayable.GetLength(); i++)
-			{
-				if (m_CurrState.m_sInitConnDisplayable.GetAt(i) == _T(';'))
-					break;
-				m_CurrState.m_sInitConnDisplayable.SetAt(i, _T('*'));
-			}
-			pDataSource->Close();
-		}
-		CATCH (CException, e)
-		{
-			ASSERT (FALSE);
-			return FALSE;
-		}
-		END_CATCH
-	}
+	//CDataSource* pDataSource = (CDataSource*) pConnection->m_pDataSource;
+	//if (m_CurrState.m_sInitConn.IsEmpty())
+	//{
+	//	TRY
+	//	{
+	//		BSTR bstrConnString;
+	//		pDataSource->GetInitializationString(&bstrConnString, true);
+	//		CString strConn (bstrConnString);
+	//		m_CurrState.m_sInitConn = strConn;
+	//		
+	//		// to blank password
+	//		m_CurrState.m_sInitConnDisplayable = m_CurrState.m_sInitConn;
+	//		int nPwdPos = m_CurrState.m_sInitConnDisplayable.Find(_T(";Password="));
+	//		nPwdPos += 10;
+	//		for (int i=nPwdPos; i <= m_CurrState.m_sInitConnDisplayable.GetLength(); i++)
+	//		{
+	//			if (m_CurrState.m_sInitConnDisplayable.GetAt(i) == _T(';'))
+	//				break;
+	//			m_CurrState.m_sInitConnDisplayable.SetAt(i, _T('*'));
+	//		}
+	//		pDataSource->Close();
+	//	}
+	//	CATCH (CException, e)
+	//	{
+	//		ASSERT (FALSE);
+	//		return FALSE;
+	//	}
+	//	END_CATCH
+	//}
 
 	return TRUE;
 }
@@ -1131,56 +1131,57 @@ BOOL SqlRecoveryManager::CloseOldObjects (SqlConnection* pConnection)
 //-----------------------------------------------------------------------------
 BOOL SqlRecoveryManager::RecoveryConnection (SqlConnection* pConnection)
 {
-	if (m_pUI->IsAborted ())
-	{
-		m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
-		return FALSE;
-	}
+	//if (m_pUI->IsAborted ())
+	//{
+	//	m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
+	//	return FALSE;
+	//}
 
-	//  closes related objects
-	if (!CloseOldObjects (pConnection))
-	{
-		AddError(SqlRecoveryManagerUM::ConnectionNoCloseObjects(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
-		return FALSE;
-	}
+	////  closes related objects
+	//if (!CloseOldObjects (pConnection))
+	//{
+	//	AddError(SqlRecoveryManagerUM::ConnectionNoCloseObjects(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
+	//	return FALSE;
+	//}
 
-	ASSERT (pConnection);
+	//ASSERT (pConnection);
 
-	if (m_pUI->IsAborted ())
-	{
-		m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
-		return FALSE;
-	}
+	//if (m_pUI->IsAborted ())
+	//{
+	//	m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
+	//	return FALSE;
+	//}
 
-	CDataSource* pDataSource = (CDataSource*) pConnection->m_pDataSource;
-	HRESULT hr = pDataSource->OpenFromInitializationString ((LPCWSTR) m_CurrState.m_sInitConn);
+	//CDataSource* pDataSource = (CDataSource*) pConnection->m_pDataSource;
+	//HRESULT hr = pDataSource->OpenFromInitializationString ((LPCWSTR) m_CurrState.m_sInitConn);
 
-	if (hr == E_FAIL)
-	{
-		AddError(SqlRecoveryManagerUM::ConnectionNoReconnect(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
-		return FALSE;
-	}
-		
-	// properties	
-	if (!pConnection->InitConnectionInfo())
-	{
-		AddError(SqlRecoveryManagerUM::ConnectionNoInitConnection(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
-		return FALSE;
-	}
+	//if (hr == E_FAIL)
+	//{
+	//	AddError(SqlRecoveryManagerUM::ConnectionNoReconnect(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
+	//	return FALSE;
+	//}
+	//	
+	//// properties	
+	//if (!pConnection->InitConnectionInfo())
+	//{
+	//	AddError(SqlRecoveryManagerUM::ConnectionNoInitConnection(m_CurrState.GetPhase(), m_CurrState.m_sInitConnDisplayable));
+	//	return FALSE;
+	//}
 
-	if (m_pUI->IsAborted ())
-	{
-		m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
-		return FALSE;
-	}
+	//if (m_pUI->IsAborted ())
+	//{
+	//	m_CurrState.SetState(SqlRecoveryManagerState::Aborted);
+	//	return FALSE;
+	//}
 
-	return RecoverySessions (pConnection);
+	//return RecoverySessions (pConnection);
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
 BOOL SqlRecoveryManager::RecoverySessions (SqlConnection* pConnection)
 {
-	ASSERT (pConnection);
+	/*ASSERT (pConnection);
 
 	SqlSession* pSession;
 	for (int i=0; i <= pConnection->m_arSessionPool.GetUpperBound(); i++)
@@ -1207,7 +1208,7 @@ BOOL SqlRecoveryManager::RecoverySessions (SqlConnection* pConnection)
 			return FALSE;
 		}
 		END_CATCH
-	}
+	}*/
 
 	return TRUE;
 }

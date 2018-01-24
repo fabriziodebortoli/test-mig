@@ -1,52 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TaskBuilderNetCore.Documents.Model.Interfaces;
+using TaskBuilderNetCore.Documents.Controllers.Interfaces;
 using TaskBuilderNetCore.Documents.Model;
-using TaskBuilderNetCore.Documents.Interfaces;
-using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
+using System.Collections.ObjectModel;
+using TaskBuilderNetCore.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Controllers
 {
+    // TODO Gestione chiamate asincrone, thread di documento e sincronizzazione dei thread
     //====================================================================================    
-    public class Orchestrator : IOrchestrator
+    public class Orchestrator : IOrchestrator, IActivatorService
     {
-        // TODO sincronizzazione thread safe degli array
-        Model.Controllers controllers;
-        List<IDocument> documents;
+        PathFinder pathFinder;
+         // TODO sincronizzazione thread safe degli array
+        Controllers controllers;
+        // anche se potenzialmente potrebbe stare tutto in un array 
+        // preferisco tenerli separati logicamente per velocità di 
+        // gestione e scorrimento
+        ObservableCollection<IDocument> documents;
+        ObservableCollection<IComponent> components;
 
-        public Model.Controllers Controllers
+        //-----------------------------------------------------------------------------------------------------
+        public Controllers Controllers { get => controllers; }
+
+        //-----------------------------------------------------------------------------------------------------
+        public ObservableCollection<IDocument> Documents { get => documents; }
+
+        //-----------------------------------------------------------------------------------------------------
+        public Orchestrator(PathFinder pathFinder)
         {
-            get
-            {
-                return controllers;
-            }
+            controllers = new Controllers();
+            documents = new ObservableCollection<IDocument>();
+            components = new ObservableCollection<IComponent>();
+            this.pathFinder = pathFinder;
+         }
+
+        //-----------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Loads default controller list
+        /// </summary>
+        /// <param name="pathFinder"></param>
+        public void Configure()
+        {
+            LoadFromFile();
+            IntegrateMandatories();
+            InitializeControllers();
         }
 
-        public List<IDocument> Documents
+        //-----------------------------------------------------------------------------------------------------
+       private void  InitializeControllers ()
         {
-            get
+            foreach (Controller controller in Controllers)
             {
-                return documents;
+                controller.PathFinder = pathFinder;
             }
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public Orchestrator()
+        private void IntegrateMandatories()
         {
-            controllers = new Model.Controllers();
-            documents = new List<IDocument>();
+            if (this.Loader == null) AddController(new Loader());
+            if (this.LicenceConnector == null) AddController(new LicenceConnector());
         }
 
-
         //-----------------------------------------------------------------------------------------------------
-        public void LoadDefaultConfiguration()
+        /// <summary>
+        /// Load controller list from configuration settings file
+        /// </summary>
+        private void LoadFromFile()
         {
-            AddController(new JsonSerializer());
-            AddController(new Recycler());
-            AddController(new Loader(BasePathFinder.BasePathFinderInstance));
-            AddController(new LicenceConnector());
+            ControllersDeclaration declaration = ControllersDeclaration.LoadFromDefaultFile();
+
+            if (declaration == null || declaration.Controllers == null)
+                return;
+
+            foreach (ControllerDeclaration controllerDeclaration in declaration.Controllers)
+            {
+                Type type = Type.GetType(controllerDeclaration.Type);
+                if (type == null)
+                    continue;
+
+                IController controller = Activator.CreateInstance(type) as IController;
+                if (controller != null)
+                    AddController(controller);
+            }
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -62,87 +101,150 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public ILicenceConnector LicenceConnector
-        {
-            get { return controllers.GetController<ILicenceConnector>(); }
-
-        }
+        public ILicenceConnector LicenceConnector { get=> controllers.GetController<ILicenceConnector>(); }
 
         //-----------------------------------------------------------------------------------------------------
-        public IRecycler Recycler
-        {
-            get { return controllers.GetController<IRecycler>(); }
-        }
+        public IRecycler Recycler { get => controllers.GetController<IRecycler>(); }
 
         //-----------------------------------------------------------------------------------------------------
-        public ILoader Loader
-        {
-            get { return controllers.GetController<ILoader>(); }
-        }
+        public ILoader Loader { get => controllers.GetController<ILoader>(); }
 
         //-----------------------------------------------------------------------------------------------------
-        public IJsonSerializer JsonSerializer
+        public IStateSerializer StateSerializer  { get => controllers.GetController<IStateSerializer>(); }
+
+        //-----------------------------------------------------------------------------------------------------
+        public IUIController UIController  { get => controllers.GetController<IUIController>(); }
+
+        //-----------------------------------------------------------------------------------------------------
+        public ILogger Logger  { get => controllers.GetController<ILogger>(); }
+
+        //-----------------------------------------------------------------------------------------------------
+        public ObservableCollection<IComponent> Components { get => components; }
+
+        //-----------------------------------------------------------------------------------------------------
+        public IDocument GetDocument(ICallerContext callerContext)
         {
-            get
+            foreach (Document doc in Documents)
             {
-                return controllers.GetController<IJsonSerializer>();
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public IWebConnector WebConnector
-        {
-            get
-            {
-                return controllers.GetController<IWebConnector>();
-            }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public IUIController UIController
-        {
-            get { return controllers.GetController<IUIController>(); }
-        }
-
-        //-----------------------------------------------------------------------------------------------------
-        public IDocument GetDocument(CallerContext callerContext)
-        {
-            foreach (IDocument doc in Documents)
-            {
-                if (Recycler.IsAssignable(doc, callerContext))
+                if (Recycler != null && Recycler.IsAssignable(doc, callerContext))
                     return doc;
             }
 
-            if (Loader == null)
-                return null;
+            IDocument document = null;
+            try
+            {
+                document = Loader.GetDocument(callerContext, LicenceConnector);
+                if (document != null)
+                    document.ActivatorService = this;
 
-            // controllo di licencing
-            if (!LicenceConnector.IsActivated(callerContext.NameSpace))
-                return null;
+            }
+            catch (ControllerException loaderEx)
+            {
+                callerContext.Diagnostic.SetError(loaderEx.FullMessage);
+            }
+            catch (Exception ex)
+            {
+                callerContext.Diagnostic.SetError(ex.Message);
+            }
 
-            // gestione del caricamento 
-            Type documentType = Loader.GetDocument(callerContext.NameSpace);
-            if (documentType == null)
-                return null;
+            if (document != null)
+            {
+                if (StateSerializer != null) 
+                    StateSerializer.Add(document);
+                Documents.Add(document);
+            }
 
-            Document document = Activator.CreateInstance(documentType) as Document;
-
-            document.Initialize(this, callerContext);
-            Documents.Add(document);
             return document;
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public void CloseDocument(IDocument document)
+        public IComponent GetComponent(ICallerContext callerContext)
         {
-            if (Recycler.IsRecyclable(document))
+            if (Loader == null)
+                return null;
+
+            foreach (IComponent comp in Components)
             {
-                Recycler.Recycle(document);
-                return;
+                if (Recycler != null && Recycler.IsAssignable(comp, callerContext))
+                    return comp;
             }
 
-            if (Recycler.IsRemovable(document))
+            IComponent component = null;
+            try
+            {
+                component = Loader.GetComponent(callerContext.NameSpace, callerContext, LicenceConnector);
+                if (component != null)
+                    component.ActivatorService = this;
+            }
+            catch (ControllerException loaderEx)
+            {
+                callerContext.Diagnostic.SetError(loaderEx.FullMessage);
+            }
+            catch (Exception ex)
+            {
+                callerContext.Diagnostic.SetError(ex.Message);
+            }
+
+            if (component != null)
+                Components.Add(component);
+            
+            return component;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void CloseDocument(ICallerContext callerContext)
+        {
+            IDocument document = GetDocument(callerContext);
+            if (document == null)
+                return;
+
+            if (StateSerializer != null)
+                StateSerializer.Remove(document);
+
+            CloseDocument(document);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void CloseComponent(ICallerContext callerContext)
+        {
+            IComponent component = GetComponent(callerContext);
+            if (component == null)
+                return;
+
+             CloseComponent(component);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        private void CloseDocument(IDocument document)
+        {
+            IComponent component = document as IComponent;
+
+            if (CanBeRecycled(component))
+                return;
+
+            if (Recycler == null || Recycler.IsRemovable(component))
                 documents.Remove(document);
         }
-    }
+
+        //-----------------------------------------------------------------------------------------------------
+        private void CloseComponent(IComponent component)
+        {
+             if (CanBeRecycled(component))
+                return;
+
+            if (Recycler == null || Recycler.IsRemovable(component))
+                components.Remove(component);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        private bool CanBeRecycled(IComponent component)
+        {
+            if (Recycler != null && Recycler.IsRecyclable(component))
+            {
+                Recycler.Recycle(component);
+                return true;
+            }
+            return false;
+        }
+   }
 }

@@ -17,6 +17,7 @@ using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.Temp;
 using Microarea.RSWeb.WoormWebControl;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.Render
 {
@@ -53,7 +54,7 @@ namespace Microarea.RSWeb.Render
                 if (woorm.Options.BkgnBitmap != null && woorm.Options.BkgnBitmap.Length != 0)
                 {
                     string sourceFilePath = woorm.GetFilename(woorm.Options.BkgnBitmap, NameSpaceObjectType.Image);
-                    if (File.Exists(sourceFilePath))
+                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFilePath))
                     {
                         //TODO RSWEB
                         //Image image = ImagesHelper.LoadImageWithoutLockFile(sourceFilePath);
@@ -448,7 +449,7 @@ namespace Microarea.RSWeb.Render
                     {
                         WriteBarCodeXImage(xg, XImage.FromGdiPlusImage(img), cellRect);
                     }
-                    File.Delete(bcv.GenericTmpFile);
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(bcv.GenericTmpFile);
 
                 }
                 else
@@ -463,7 +464,7 @@ namespace Microarea.RSWeb.Render
             else if (column != null && columnCell != null && column.ShowAsBitmap)
             {
                 string sourceFilePath = woorm.GetFilename(text, NameSpaceObjectType.Image);
-                if (File.Exists(sourceFilePath))        //copio il file sotto webfolder esposta (necessario per problemi d permessi)
+                if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFilePath))        //copio il file sotto webfolder esposta (necessario per problemi d permessi)
                 {
                     WriteXImage(xg, XImage.FromFile(sourceFilePath), cellRect, columnCell.Value.Align);
                 }
@@ -650,7 +651,7 @@ namespace Microarea.RSWeb.Render
             xg.DrawRectangle(brush, xRect);
 
             string sourceFilePath = woorm.GetFilename(obj.ImageFile, NameSpaceObjectType.Image);
-            if (string.IsNullOrWhiteSpace(sourceFilePath) || !File.Exists(sourceFilePath))
+            if (string.IsNullOrWhiteSpace(sourceFilePath) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFilePath))
                 return;
             XImage img = XImage.FromFile(sourceFilePath);
             WriteXImage(xg, img, rect, align);
@@ -707,7 +708,7 @@ namespace Microarea.RSWeb.Render
                         XImage xImg = XImage.FromGdiPlusImage(img);
                         WriteXImage(xg, xImg, inflatedRect, obj.Value.Align);
                     }
-                    File.Delete(bcv.GenericTmpFile);
+                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(bcv.GenericTmpFile);
                 }
                 return;
             }
@@ -731,15 +732,17 @@ namespace Microarea.RSWeb.Render
         {
             // gestisce i Namespace o i filename tradizionali
             string filename = woorm.GetFilename(textFilename, NameSpaceObjectType.Text);
-            if (File.Exists(filename))
+            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
             {
                 try
                 {
                     //using (StreamReader sr = new StreamReader(filename, System.Text.Encoding.UTF8))
-                    using (StreamReader sr = File.OpenText(filename))
-                    {
-                        return sr.ReadToEnd();
-                    }
+                    //using (StreamReader sr = File.OpenText(filename))
+                    //{
+                    //    return sr.ReadToEnd();
+                    //}
+                    //TODO LARA
+                    return PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(filename);
                 }
                 catch (IOException e)
                 {

@@ -23,10 +23,7 @@ static const char THIS_FILE[] = __FILE__;
 //-----------------------------------------------------------------------------
 BEGIN_ADDON_INTERFACE()
 	//-----------------------------------------------------------------------------
-//	BEGIN_TEMPLATE()
-//	END_TEMPLATE()
-
-	DATABASE_RELEASE(400)
+	DATABASE_RELEASE(401)
 
 	//-----------------------------------------------------------------------------
 	BEGIN_TABLES()
@@ -36,8 +33,6 @@ BEGIN_ADDON_INTERFACE()
 	END_TABLES()
 
 	//-----------------------------------------------------------------------------
-//	BEGIN_HOTLINK()
-//	END_HOTLINK ()
 
 END_ADDON_INTERFACE()
 #undef _AddOn_Interface_Of

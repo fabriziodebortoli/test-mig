@@ -520,7 +520,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		/// dopo aver parsato il file DatabaseObjects.xml
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public bool LoadDatabaseObjectsInfo(IDatabaseObjectsInfo databaseObjInfo)
+		public bool LoadDatabaseObjectsInfo(DatabaseObjectsInfo databaseObjInfo)
 		{		
 			if (databaseObjInfo == null)
 				return false;

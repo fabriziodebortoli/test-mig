@@ -135,17 +135,17 @@ namespace Microarea.Common.Applications
             XmlDocument initXmlFile = new XmlDocument();
             string nomeFile = string.Empty;
 
-            try
-            {
-                NameSpace ns = new NameSpace("Module.Framework.TbGenlib");
-                nomeFile = BasePathFinder.BasePathFinderInstance.GetNumberToLiteralXmlFullName(ns, language);
-
-                if (nomeFile == null || nomeFile == string.Empty)
-                    return null;
+			try
+			{
+				NameSpace ns = new NameSpace("Module.Framework.TbGenlib");
+				nomeFile = PathFinder.PathFinderInstance.GetNumberToLiteralXmlFullName(ns, language);
+				
+				if (nomeFile == null || nomeFile == string.Empty)
+					return null;
 
                 CNumberToLiteralLookUpTableManager NTLManager = new CNumberToLiteralLookUpTableManager();
 
-                initXmlFile.Load(File.OpenRead(nomeFile));
+                initXmlFile = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(initXmlFile, nomeFile);
                 foreach (XmlNode n in initXmlFile.SelectSingleNode("LookUp/NameEntryes"))
                 {
                     long v = 0;
@@ -2910,19 +2910,19 @@ public string DecSeparator = ",";
             return bOk;
         }
 
-        //-----------------------------------------------------------------------------
-        public bool Load(string filename, INameSpace owner, Formatter.FormatSource source)
-        {
-            if (!File.Exists(filename))
+		//-----------------------------------------------------------------------------
+		public bool Load(string filename, INameSpace owner, Formatter.FormatSource source)
+		{
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
                 return true;
-
-            Parser lex = new Parser(Parser.SourceType.FromFile);
-            if (lex.Open(filename))
-            {
-                bool ok = Parse(lex, true, owner, source);
-                lex.Close();
-                return ok;
-            }
+		
+			Parser lex = new Parser(Parser.SourceType.FromFile);
+			if (lex.Open(filename))
+			{
+				bool ok = Parse(lex, true, owner, source);
+				lex.Close();
+				return ok;
+			}
 
             return false;
         }
@@ -3810,21 +3810,21 @@ public string DecSeparator = ",";
         }
     }
 
-    /// <summary>
-    /// Summary description for ApplicationFormatStyles.
-    /// </summary>
-    /// ================================================================================
-    public class ApplicationFormatStyles
-    {
-        private FormatStyles fs;
-        private bool loaded = true;
-        private TbSession reportSession;
-        private BasePathFinder pathFinder;
+	/// <summary>
+	/// Summary description for ApplicationFormatStyles.
+	/// </summary>
+	/// ================================================================================
+	public class ApplicationFormatStyles
+	{
+		private FormatStyles	fs;
+		private bool			loaded = true;
+		private TbSession			reportSession;
+        private PathFinder pathFinder;
         //-----------------------------------------------------------------------------
-        public FormatStyles Fs { get { return fs; } }
-        public bool Loaded { get { return loaded; } }
-        public TbSession ReportSession { get { return reportSession; } set { reportSession = value; } }
-        public BasePathFinder PathFinder { get { return pathFinder; } set { pathFinder = value; } }
+        public FormatStyles	Fs		{ get { return fs; }}
+		public bool			Loaded	{ get { return loaded; }}
+		public TbSession		ReportSession	{ get { return reportSession; } set { reportSession = value; }}
+        public PathFinder   PathFinder { get { return pathFinder; } set { pathFinder = value; } }
 
         //------------------------------------------------------------------------------
         public ApplicationFormatStyles(TbSession session)
@@ -3849,21 +3849,21 @@ public string DecSeparator = ",";
             return fs.GetFormatter(name, context);
         }
 
-        //------------------------------------------------------------------------------
-        public void Load()
-        {
-            if (ReportSession == null && BasePathFinder.BasePathFinderInstance == null)
-                return;
+		//------------------------------------------------------------------------------
+		public void Load()
+		{
+			if (ReportSession == null &&  PathFinder.PathFinderInstance == null)
+				return;
 
             // considera che tutto sia ok. Se anche solo uno dei file non è caricato
             // o se la reportSession non è valorizzata allora considera il tutto non caricato.
             loaded = true;
 
-            // carica tutti gli enums che fanno parte della applicazione (controllando che esista)
-            foreach (BaseApplicationInfo ai in BasePathFinder.BasePathFinderInstance.ApplicationInfos)
-                foreach (BaseModuleInfo mi in ai.Modules)
-                {
-                    NameSpace nsOwner = new NameSpace(ai.Name + NameSpace.TokenSeparator + mi.Name, NameSpaceObjectType.Module);
+			// carica tutti gli enums che fanno parte della applicazione (controllando che esista)
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
+				{
+					NameSpace nsOwner = new NameSpace(ai.Name + NameSpace.TokenSeparator + mi.Name, NameSpaceObjectType.Module);
 
                     if (!fs.Load(mi.GetFormatsFullFilename(), nsOwner, Formatter.FormatSource.STANDARD))
                         loaded = false;

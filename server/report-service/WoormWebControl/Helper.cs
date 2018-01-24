@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.IO;
 
 using Microarea.Common.Applications;
 using Microarea.Common.Generic;
@@ -8,6 +7,8 @@ using Microarea.RSWeb.WoormViewer;
 using Microarea.Common.Temp;
 using TaskBuilderNetCore.Interfaces;
 using System.Net;
+using Microarea.Common.NameSolver;
+using System.IO;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -139,26 +140,26 @@ namespace Microarea.RSWeb.WoormWebControl
 		{
 			StreamReader inputFile = null;
 			string text = "";
-            string filename = File.Exists(textFilename) ? 
+            string filename = PathFinder.PathFinderInstance.FileSystemManager.ExistFile(textFilename) ? 
                 textFilename : 
                 woorm.GetFilename(textFilename, NameSpaceObjectType.Text);
 
-			if (File.Exists(filename))
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
 			{
 				try
 				{
-					using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-					{
-						inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
-						string buffer;
+                    using (Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true))//TODO LARA
+                    {
+                        inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
+                        string buffer;
 
-						do
-						{
-							buffer = inputFile.ReadLine();
-							if (buffer != null) text += buffer + "<br/>";
-						}
-						while (buffer != null);
-					}
+                        do
+                        {
+                            buffer = inputFile.ReadLine();
+                            if (buffer != null) text += buffer + "<br/>";
+                        }
+                        while (buffer != null);
+                    }
 				}
 				catch (IOException e)
 				{

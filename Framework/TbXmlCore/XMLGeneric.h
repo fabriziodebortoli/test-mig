@@ -42,6 +42,9 @@ TB_EXPORT BOOL		CreateFileDirectoryIfNecessary	(const CString&);
 
 /////////////////////////////////////////////////////////////////////////////
 TB_EXPORT CString	FormatStringForXML	(LPCTSTR);
+TB_EXPORT CString	FormatIntForXML		(int);
+TB_EXPORT CString	FormatLongForXML	(long);
+TB_EXPORT CString	FormaDoubleForXML	(double);
 TB_EXPORT CString	FormatBoolForXML	(const BOOL&, BOOL bSoapMode = FALSE);
 TB_EXPORT BOOL		GetBoolFromXML		(const CString&);
 /////////////////////////////////////////////////////////////////////////////

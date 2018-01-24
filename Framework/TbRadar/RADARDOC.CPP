@@ -381,14 +381,14 @@ void RadarSqlRecCircleList::SkipRows (BOOL bNextDirection)
 		if (nSkipRows != m_nNrMaxRecords)
 			nSkipRows = pTable->IsBOF() ? GetSize()-1 : GetUpperBound()-2;
 
-		pTable->Move(SqlTable::E_MOVE_NEXT, nSkipRows);
+		pTable->Move(E_MOVE_NEXT, nSkipRows);
 	}
 	else
 	{
 		if (nSkipRows != m_nNrMaxRecords)
 			nSkipRows = pTable->IsEOF() ? GetSize() : GetUpperBound()-1;
 
-		pTable->Move(SqlTable::E_MOVE_PREV, nSkipRows);
+		pTable->Move(E_MOVE_PREV, nSkipRows);
 	}
 }
 
@@ -505,7 +505,8 @@ CRadarDoc::CRadarDoc()
 	m_strRadarFile		(""),
 	m_bEditingQuery		(FALSE),
 	m_bIsSaving			(FALSE),
-	m_iFindCondition	(ECompareType::CMP_EQUAL)
+	m_iFindCondition	(ECompareType::CMP_EQUAL),
+	m_pSqlSession		(NULL)
 {
 	// gestisce le query del documento (predefinite e create da user)
 	m_pQueryManager = new CQueryManager(this, ID_RADAR_EXEC_QUERY);
@@ -548,6 +549,8 @@ CRadarDoc::~CRadarDoc()
 	if (m_pSqlRecCircleList	) delete m_pSqlRecCircleList;
 
 	ASSERT(_CrtCheckMemory());
+
+	SAFE_DELETE(m_pSqlSession);
 }
 
 //-----------------------------------------------------------------------------
@@ -2197,7 +2200,8 @@ void CRadarDoc::Attach (CAbstractFormDoc* pCallerDoc)
 
 	// uso una tabella locale perche modifico la query in maniera libera. La tabella
 	// viene chiusa e distrutta in ~CRadarDoc
-	SqlTable* pTable = new SqlTable (m_pDynamicSqlRecord, pCallerDoc->m_pTbContext->GetReadOnlySqlSession());
+	m_pSqlSession = pCallerDoc->m_pTbContext->GetSqlConnection()->GetNewSqlSession();
+	SqlTable* pTable = new SqlTable (m_pDynamicSqlRecord, m_pSqlSession);
 	
 	// Carico la ORDER BY e la WHERE presente nel documento oppure quella costruita
 	// per fare una find intelligente
@@ -2227,7 +2231,7 @@ void CRadarDoc::Attach (CTBNamespace aCallerNamespace, CRuntimeClass* pRecordCla
 	m_pCallerSqlRecord	= m_pDynamicSqlRecord;
 
 	ASSERT (!m_pCallerSqlRecord->GetTableName().IsEmpty());
-	StartRadar	(new SqlTable(m_pCallerSqlRecord, m_pCallerDoc->m_pSqlConnection->GetDefaultSqlSession()));
+	StartRadar	(new SqlTable(m_pCallerSqlRecord, m_pSqlSession));
 	
 	EnableStayAlive	(TRUE, TRUE);
 	GetRadarFrame()->SetFixedCheck();
@@ -2967,7 +2971,7 @@ BOOL CRadarDoc::OpenTableAndCheckIsEmpty ()
 	{
 		if (!m_pTable->IsOpen())
 		{
-			m_pTable->Open(FALSE, E_KEYSET_CURSOR, m_pCallerHotLink == NULL);
+			m_pTable->Open(FALSE, E_KEYSET_CURSOR);
 
 			if (m_pCallerHotLink)
 			{
@@ -2986,8 +2990,13 @@ BOOL CRadarDoc::OpenTableAndCheckIsEmpty ()
 			m_pTable->Invalidate();
 
 		m_pTable->Query();
+		
 		bEmpty = m_pTable->IsEmpty();
-		m_nRowCount = (bEmpty) ? 0 : m_pTable->GetExtractedRows();
+		m_nRowCount = (bEmpty) ? 0 : m_pTable->GetRowSetCount();
+		
+		//dopo aver fatto la query chiudo la connessione 
+		if (m_pSqlSession)
+			m_pSqlSession->Close();
 	}
 	CATCH(SqlException, e)	
 	{
@@ -3732,7 +3741,7 @@ BOOL CRadarDoc::SaveFromVirtualDriver ()
 		aTempFile.Close ();
 		delete buff;
 	
-		return AfxGetFileSystemManager()->SetTextFile (m_strRadarFile, sContent);
+		return AfxGetFileSystemManager()->SaveTextFile (m_strRadarFile, sContent);
 	}
 
 	return FALSE;

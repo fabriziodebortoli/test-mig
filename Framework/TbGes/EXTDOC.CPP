@@ -486,7 +486,8 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_pHeaderTitle(NULL),
 	m_bUpdateDefaultReport(TRUE),
 	m_pNumbererBinder(NULL)
-{
+{ 
+	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
 	// Imposta il documento in modo BROWSE
 	CBaseDocument::SetFormMode(BROWSE);
 
@@ -1840,7 +1841,7 @@ void CAbstractFormDoc::OnFileWrmRadar(UINT nID)
 		}
 		else
 		{
-			m_pBrowser->Query();	//PERCHé ?
+			m_pBrowser->Query();	//PERCHé ? //@@TODO BAUZI da creare un metodo di clonazione della filter senza necessità di eseguire la query
 
 			if (!m_pBrowser->GetTable()->GetNativeFilter().IsEmpty())
 				strAuxFilter = m_pRadarDoc->UpdateWhereClause(m_pBrowser->GetTable());
@@ -2061,26 +2062,28 @@ void CAbstractFormDoc::PrepareFindQuery(SqlTable* pTable, BOOL bFromXTech /*=FAL
 			int lenWhere = pTable->m_strFilter.GetLength();
 
 			SqlRecord* pSlaveRec = pDBT->GetRecord();
-
 			// enum Master and Slaves Foreign keys to simulate inner join on subquery 
-			SqlForeignKeysReader aFKReader;
-			aFKReader.LoadForeignKeys
-			(
-				pMasterRec->GetTableName(),
-				pSlaveRec->GetTableName(),
-				GetReadOnlySqlSession()
-			);
-			if (!aFKReader.GetSize())
+			if (!pDBT->m_pFKReader)
+			{
+				pDBT->m_pFKReader = new SqlForeignKeysReader();
+				pDBT->m_pFKReader->LoadForeignKeys
+				(
+					m_pDBTMaster->GetRecord()->GetTableName(),
+					pDBT->GetRecord()->GetTableName(),
+					GetReadOnlySqlSession()
+				);
+			}
+			if (!pDBT->m_pFKReader->GetSize())
 				continue;
-
+						
 			// Aggiunge nella WHERE i filtri sui campi compilati nelle tabelle slave
 			BOOL bAdd = PrepareFindQuery(nParamIdx, pTable, pSlaveRec, FALSE);
 			if (bAdd)
 			{
 				CString sSlaveTable, sSlaveCol, sMasterTable, sMasterCol, subSelect;
-				for (int i = 0; i <= aFKReader.GetUpperBound(); i++)
+				for (int i = 0; i <= pDBT->m_pFKReader->GetUpperBound(); i++)
 				{
-					aFKReader.GetForeignKey(i, sSlaveTable, sSlaveCol, sMasterTable, sMasterCol);
+					pDBT->m_pFKReader->GetForeignKey(i, sSlaveTable, sSlaveCol, sMasterTable, sMasterCol);
 
 					DataObj* pMasterDataObj = pMasterRec->GetDataObjFromColumnName(sMasterCol);
 					DataObj* pSlaveDataObj = pSlaveRec->GetDataObjFromColumnName(sSlaveCol);
@@ -3541,6 +3544,8 @@ SqlConnection* CAbstractFormDoc::GetDefaultSqlConnection()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 {
+	AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
+
 	if (!CAbstractDoc::OnOpenDocument(pObject))
 		return FALSE;
 
@@ -3582,10 +3587,7 @@ BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 				m_pTbContext, this, CString(GetRuntimeClass()->m_lpszClassName)),
 				m_pTbContext->GetUpdatableSqlSession());
 
-			// Data Caching Management only if owning context
-			if (AfxGetDataCachingSettings()->IsDocumentScope())
-				m_pTbContext->CreateCache();
-
+			
 			if (m_pTbContext->GetSqlConnection()->GetUsePerformanceMng())
 			{
 				SqlPerformanceDlg* pPerformanceDlg = new SqlPerformanceDlg(m_pTbContext);
@@ -3599,7 +3601,7 @@ BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 
 	m_pSqlConnection = m_pTbContext->GetSqlConnection();
 
-	m_pTbContext->StartTime(TOTAL_TIME, szOpenAction);
+	ConnectToDatabase(szOpenAction);
 
 	//@@BAUZI
 	if ((GetMyAncestor() || GET_CONTEXT(m_pDocInvocationInfo)) && m_bUnattendedMode)
@@ -3655,7 +3657,7 @@ BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 endopen:
 	EndWaitCursor();
 
-	m_pTbContext->StopTime(TOTAL_TIME);
+	DisconnectFromDatabase();
 	return !m_bAborted;
 }
 
@@ -4027,6 +4029,10 @@ void CAbstractFormDoc::DeleteContents()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::LockMaster(BOOL bUseMessageBox)
 {
+	//@@OPTIMISTICLOCK
+	if (AfxGetOleDbMng()->UseOptimisticLock())
+		return TRUE;
+
 	if (!m_pDBTMaster || !AfxIsValidAddress(m_pDBTMaster, sizeof(DBTMaster)))
 		return FALSE;
 
@@ -4179,6 +4185,9 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 
 	TRY
 	{
+		//mi connetto al database
+		//m_pTbContext->Connect();
+
 		switch (GetFormMode())
 		{
 			case NEW:
@@ -4198,9 +4207,11 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 					break;
 				}
 
-				// primary transaction
+				// primary transaction			
 				m_pTbContext->StartTime(PRIMARY_TIME);
+				m_pTbContext->EnableOptimisticLock();
 				bPrimary = !m_pDBTMaster || m_pDBTMaster->Update();
+				m_pTbContext->EnableOptimisticLock(false);
 				m_pTbContext->StopTime(PRIMARY_TIME);
 
 				// secondary transaction
@@ -4260,7 +4271,9 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 			case EDIT:
 				// primary transaction
 				m_pTbContext->StartTime(PRIMARY_TIME);
+				m_pTbContext->EnableOptimisticLock();
 				bPrimary = !m_pDBTMaster || m_pDBTMaster->Update();
+				m_pTbContext->EnableOptimisticLock(false);
 				m_pTbContext->StopTime(PRIMARY_TIME);
 
 				// secondary transaction
@@ -4299,6 +4312,9 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 				GoInBrowseMode();
 				break;
 		}
+		//mi disconnetto al database
+		//m_pTbContext->Disconnect();
+
 	}
 		CATCH(SqlException, e)
 	{
@@ -4622,6 +4638,7 @@ void CAbstractFormDoc::EnableControls()
 //------------------------------------------------------------------------------
 BOOL CAbstractFormDoc::SaveModified()
 {
+
 	if (!__super::SaveModified())
 		return FALSE;
 
@@ -4676,8 +4693,8 @@ BOOL CAbstractFormDoc::SaveModified()
 		// force Update and test for all controls view
 		if (GetNotValidView(TRUE))
 			return FALSE;
-
-		m_pTbContext->StartTime(TOTAL_TIME, szSaveAction);
+		
+		ConnectToDatabase(szSaveAction);
 
 		m_pTbContext->StartTime(ONOK_TIME);
 		// Bad Transaction (single data edit are ok bud trasaction not!)
@@ -4691,7 +4708,7 @@ BOOL CAbstractFormDoc::SaveModified()
 			))
 		{
 			m_pTbContext->StopTime(ONOK_TIME);
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			m_pMessages->Show(TRUE);
 			return FALSE;
 		}
@@ -4700,13 +4717,15 @@ BOOL CAbstractFormDoc::SaveModified()
 		if (!m_pTbContext->StartTransaction())
 		{
 			Message(_TB("Unable to open a new transaction.\r\nDocument not saved"));
-			m_pTbContext->StopTime(TOTAL_TIME);
-			m_pTbContext->StopTime(TOTAL_TIME);
+			m_pTbContext->StopTime(ONOK_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
-		m_pTbContext->StopTime(TOTAL_TIME);
+		m_pTbContext->StopTime(ONOK_TIME);
+
 		bSave = DoSave(NULL);
-		m_pTbContext->StopTime(TOTAL_TIME);
+	
+		DisconnectFromDatabase();
 		break;
 
 	case IDCANCEL: return FALSE;       // don't continue
@@ -4917,15 +4936,12 @@ BOOL CAbstractFormDoc::NewRecord()
 
 	{ //non togliere la graffa: scope della NEEDS_UPDATE_DATA_VIEW()
 		SUSPEND_UPDATE_DATA_VIEW()
-			// Data Caching Management
-			SetDataCacheStatus();
-
 		// Devo fare una query con il browser per vedere quanti record ci sono.
 		// e stabilire se esiste gia` un record. Nel qual caso non abilito l'aggiunta
 		// di nuovi record.
 		ASSERT(m_pBrowser);
 
-		m_pTbContext->StartTime(TOTAL_TIME, szNewAction);
+		ConnectToDatabase(szNewAction);
 		if (
 			m_bOnlyOneRecord &&
 			m_pBrowser &&
@@ -4938,14 +4954,14 @@ BOOL CAbstractFormDoc::NewRecord()
 			Message(_TB("It is possible to insert only one document!"));
 
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
 		if (!OnOkNewRecord() || !m_pClientDocs->OnOkNewRecord())
 		{
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -4954,7 +4970,7 @@ BOOL CAbstractFormDoc::NewRecord()
 		if (m_pDBTMaster && !m_pDBTMaster->AddNew())
 		{
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -4974,7 +4990,7 @@ BOOL CAbstractFormDoc::NewRecord()
 			InitData();
 			ClearCurrentRecord();
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -4985,11 +5001,10 @@ BOOL CAbstractFormDoc::NewRecord()
 		UpdateDataView();
 	}
 
+	DisconnectFromDatabase();
+
 	ToolBarButtonsHideGhost(0);
-
-	SetDefaultFocus();
-
-	m_pTbContext->StopTime(TOTAL_TIME);
+	SetDefaultFocus();	
 	return TRUE;
 }
 
@@ -5041,10 +5056,11 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 		SUSPEND_UPDATE_DATA_VIEW();
 		AbortAllViews();
 
+		
+
 		m_pClientDocs->OnBeforeBrowseRecord();
 
-		m_pTbContext->StartTime(TOTAL_TIME, szBrowseAction);
-
+		ConnectToDatabase(szBrowseAction);
 		CString strKeyDescri;
 		if (m_pDBTMaster)
 			strKeyDescri = m_pDBTMaster->GetRecord()->GetPrimaryKeyDescription();
@@ -5059,7 +5075,7 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 			InitData();
 			ClearCurrentRecord();
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -5068,14 +5084,31 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 
 		UpdateDataView();
 	}
-	if (bFocus) SetDefaultFocus();
-
+	
 	m_pClientDocs->OnAfterBrowseRecord();
+	DisconnectFromDatabase();
 
-	m_pTbContext->StopTime(TOTAL_TIME);
+	if (bFocus)
+		SetDefaultFocus();
 
 	ToolBarButtonsHideGhost(1);
 	return TRUE;
+}
+
+//--------------------------------------------------------------------------
+void CAbstractFormDoc::ConnectToDatabase(LPCTSTR pszActionName/*= NULL*/)
+{
+	//mi connetto al database
+	m_pTbContext->StartTime(TOTAL_TIME, pszActionName);
+	m_pTbContext->Connect();
+}
+
+//--------------------------------------------------------------------------
+void CAbstractFormDoc::DisconnectFromDatabase()
+{
+	//mi disconnetto al database
+	m_pTbContext->Disconnect();
+	m_pTbContext->StopTime(TOTAL_TIME);
 }
 
 //--------------------------------------------------------------------------
@@ -5088,11 +5121,8 @@ BOOL CAbstractFormDoc::EditRecord()
 		return FALSE;
 	{ //non togliere la graffa, scope della NEEDS_UPDATE_DATA_VIEW()
 		SUSPEND_UPDATE_DATA_VIEW();
-		// Data Caching Management
-		SetDataCacheStatus();
-
-		m_pTbContext->StartTime(TOTAL_TIME, szEditAction);
-
+		//mi connetto al database
+		ConnectToDatabase(szEditAction);
 		GetNotValidView(TRUE);
 
 		// Deve essere fatta prima della FindData per permettere al DBT di
@@ -5100,6 +5130,7 @@ BOOL CAbstractFormDoc::EditRecord()
 		FormMode fmOldFormMode = CBaseDocument::SetFormMode(EDIT);
 		OnAfterSetFormMode(fmOldFormMode);
 		m_pClientDocs->OnAfterSetFormMode(fmOldFormMode);
+	
 
 		CString strKeyDescri;
 		if (m_pDBTMaster)
@@ -5117,9 +5148,10 @@ BOOL CAbstractFormDoc::EditRecord()
 			}
 			else
 				SaveCurrentRecord();
-
-			m_pTbContext->StopTime(TOTAL_TIME);
-			GoInBrowseMode();
+			
+			GoInBrowseMode();	
+			//mi disconnetto al database
+			DisconnectFromDatabase();	
 			return FALSE;
 		}
 
@@ -5128,9 +5160,10 @@ BOOL CAbstractFormDoc::EditRecord()
 		if (!OnOkEdit() || !m_pClientDocs->OnOkEdit())
 		{
 			// serve a far ricaricare i DBT delayed
-			DispatchPrepareAuxData();
+			DispatchPrepareAuxData();			
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			//mi disconnetto al database
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -5139,7 +5172,8 @@ BOOL CAbstractFormDoc::EditRecord()
 			// serve a far ricaricare i DBT delayed
 			DispatchPrepareAuxData();
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			//mi disconnetto al database
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -5151,9 +5185,10 @@ BOOL CAbstractFormDoc::EditRecord()
 		// Da una possibilita` al programmatore di personalizzare eventuali dati 
 		// accessori che dipendono dalla logica della applicazione
 		if (!DispatchPrepareAuxData())
-		{
+		{	
 			GoInBrowseMode();
-			m_pTbContext->StopTime(TOTAL_TIME);
+			//mi disconnetto dal database
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -5164,7 +5199,8 @@ BOOL CAbstractFormDoc::EditRecord()
 	}
 	SetDefaultFocus();
 
-	m_pTbContext->StopTime(TOTAL_TIME);
+	//mi disconnetto al database
+	DisconnectFromDatabase();
 
 	ToolBarButtonsHideGhost(0);
 
@@ -5215,8 +5251,9 @@ BOOL CAbstractFormDoc::SaveRecord()
 		return FALSE;
 	}
 
-	m_pTbContext->StartTime(TOTAL_TIME, szSaveAction);
+	ConnectToDatabase(szSaveAction);
 	m_pTbContext->StartTime(ONOK_TIME);
+
 	// Bad Transaction (single data edit are ok, trasaction no yet!)
 	if (!(
 		(!m_pDBTMaster || m_pDBTMaster->CheckTransaction()) &&
@@ -5228,9 +5265,10 @@ BOOL CAbstractFormDoc::SaveRecord()
 		))
 	{
 		m_pTbContext->StopTime(ONOK_TIME);
-		m_pTbContext->StopTime(TOTAL_TIME);
+		DisconnectFromDatabase();
+
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)) && m_pMessages->ErrorFound())
-			m_pMessages->Show(TRUE);
+			m_pMessages->Show(TRUE);		
 		return FALSE;
 	}
 
@@ -5238,12 +5276,16 @@ BOOL CAbstractFormDoc::SaveRecord()
 	if (!m_pTbContext->StartTransaction())
 	{
 		Message(_TB("Unable to open a new transaction.\r\nDocument not saved"));
+		m_pTbContext->StopTime(ONOK_TIME);
+		DisconnectFromDatabase();
 		return FALSE;
 	}
 
-	BOOL bOk = DoSave(NULL);
+	m_pTbContext->StopTime(ONOK_TIME);
 
-	m_pTbContext->StopTime(TOTAL_TIME);
+	BOOL bOk = DoSave(NULL);
+	
+	DisconnectFromDatabase();
 
 	//TODOLUCA  eliminata fino a quando non decidiamo il da farsi
 	/*if (!IsInUnattendedMode())
@@ -5266,6 +5308,8 @@ BOOL CAbstractFormDoc::SaveImportDocument()
 {
 	SetModifiedFlag();
 
+	ConnectToDatabase(szSaveAction);
+
 	// Bad Transaction (single data edit are ok, trasaction no yet!)
 	if (!(m_pDBTMaster->CheckTransaction() &&
 		OnBeforeOkTransaction() &&
@@ -5276,14 +5320,18 @@ BOOL CAbstractFormDoc::SaveImportDocument()
 		))
 	{
 		GoInBrowseMode();
+		DisconnectFromDatabase();
 		return FALSE;
 	}
 
 	if (!DoSave(NULL))
 	{
 		GoInBrowseMode();
+		DisconnectFromDatabase();
 		return FALSE;
 	}
+
+	DisconnectFromDatabase();
 
 	return TRUE;
 }
@@ -5368,18 +5416,23 @@ BOOL CAbstractFormDoc::DeleteImportDocument()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::DeleteRecord()
 {
+	//mi connetto al database
+	//m_pTbContext->Connect();
+
+
 	if (
 		!DispatchCanDoDeleteRecord() ||
-		(!IsInUnattendedMode() && AfxMessageBox(_TB("Are you sure you want to delete it?"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDNO)
+		(!IsInUnattendedMode() && AfxMessageBox(_TB("Are you sure you want to delete it?"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) == IDNO) ||
+		!DispatchOnBeforeDeleteRecord()
 		)
+	{
+		//mi disconnetto dal database
+		//m_pTbContext->Disconnect();
 		return FALSE;
-	if (!DispatchOnBeforeDeleteRecord())
-		return FALSE;
+	}
 
-	// Data Caching Management
-	SetDataCacheStatus();
-
-	m_pTbContext->StartTime(TOTAL_TIME, szDeleteAction);
+	
+	ConnectToDatabase(szDeleteAction);
 
 	// In Stato di Browse devo rileggere l'intero documento per aggiornare il
 	// contenuto dei buffer old onde poter stornare le transazioni in modo opportuno.
@@ -5405,8 +5458,8 @@ BOOL CAbstractFormDoc::DeleteRecord()
 				if (m_pBrowser && m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
 					m_pBrowser->SetInvalidQuery();
 			}
-			m_pTbContext->StopTime(TOTAL_TIME);
 			GoInBrowseMode();
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 	}
@@ -5420,16 +5473,16 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)) && m_pMessages->ErrorFound())
 			m_pMessages->Show(TRUE);
 
-		m_pTbContext->StopTime(TOTAL_TIME);
 		GoInBrowseMode();
+		DisconnectFromDatabase();
 		return FALSE;
 	}
 
 	if (!m_pTbContext->StartTransaction())
 	{
 		Message(_TB("Unable to open a new transaction.\r\nDocument not deleted"));
-		m_pTbContext->StopTime(TOTAL_TIME);
 		GoInBrowseMode();
+		DisconnectFromDatabase(); 
 		return FALSE;
 	}
 
@@ -5471,8 +5524,8 @@ BOOL CAbstractFormDoc::DeleteRecord()
 			msg.Dispose();//permetto la corretta assegnazione del fuoco alla finestra (che viene riabilitata)
 			GoInBrowseMode();
 			m_pMessages->Show(TRUE);
-			m_pTbContext->StopTime(TOTAL_TIME);
 			DispatchOnAfterDelete();
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 		m_pTbContext->Commit();
@@ -5504,12 +5557,11 @@ BOOL CAbstractFormDoc::DeleteRecord()
 			m_pTbContext->StopTime(TOTAL_TIME);
 		}
 
-		m_pTbContext->StopTime(TOTAL_TIME);
 		DispatchOnAfterDelete();
-
+		DisconnectFromDatabase();
 		return TRUE;
 	}
-		CATCH(SqlException, e)
+	CATCH(SqlException, e)
 	{
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)))
 		{
@@ -5528,8 +5580,8 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		m_pTbContext->StopTime(PRIMARY_TIME);
 		m_pTbContext->StopTime(SECONDARY_TIME);
 		m_pTbContext->StopTime(AUXILIARY_TIME);
-		m_pTbContext->StopTime(TOTAL_TIME);
 		DispatchOnAfterDelete();
+		DisconnectFromDatabase();		
 		return FALSE;
 	}
 	END_CATCH;
@@ -5571,8 +5623,10 @@ void CAbstractFormDoc::BatchStart()
 		UpdateDataView();
 
 		m_BatchScheduler.Start();
+		
+		//ConnectToDatabase(szBatchAction);
 
-		//m_pTbContext->StartTime(TOTAL_TIME, szBatchAction);
+		m_pTbContext->Connect();
 
 		// Dipende dalla implementazione del programmatore
 		// ed e' il loop stretto gestito dallo schedule che implementa
@@ -5587,6 +5641,8 @@ void CAbstractFormDoc::BatchStart()
 			}
 			catch (CThreadAbortedException* pException)
 			{
+				//DisconnectFromDatabase();
+				m_pTbContext->Disconnect();
 				throw pException;
 			}
 #ifndef DEBUG
@@ -5601,9 +5657,11 @@ void CAbstractFormDoc::BatchStart()
 			if (!IsInUnattendedMode())
 				GetFirstView()->SendMessage(UM_EXTDOC_BATCH_COMPLETED, NULL, NULL);
 			OnBatchCompleted();
-		}
-
-		//m_pTbContext->StopTime(TOTAL_TIME);
+	}
+		
+		//DisconnectFromDatabase();
+		
+		m_pTbContext->Disconnect();
 
 		if (m_bBatchRunning) // nel frattempo la batch potrbbe anche essere stata stoppata....
 		{
@@ -5644,6 +5702,7 @@ void CAbstractFormDoc::SetBatchAborted(LPCTSTR lpszErrorMessage)
 		: cwsprintf(_TB("Processing failed due to the following error:\r\n {0-%s}"), lpszErrorMessage)
 	);
 
+	//m_pTbContext->Disconnect();
 	m_BatchScheduler.Terminate();
 	m_bBatchRunning = FALSE;
 	if (IsRunningFromExternalController())
@@ -5668,6 +5727,7 @@ void CAbstractFormDoc::BatchStop()
 			)
 
 	{
+		DisconnectFromDatabase();
 		m_BatchScheduler.Terminate();
 		m_bBatchRunning = FALSE;
 		if (IsRunningFromExternalController())
@@ -7665,15 +7725,6 @@ WebCommandType CAbstractFormDoc::OnGetWebCommandType(UINT commandID)
 	return __super::OnGetWebCommandType(commandID);
 }
 
-//------------------------------------------------------------------------------
-void CAbstractFormDoc::SetDataCacheStatus()
-{
-	if (AfxGetDataCachingSettings()->GetCacheScope() != CDataCachingSettings::DOCUMENT_TRANSACTION)
-		return;
-
-	if (m_pTbContext->IsOwnDataCachingManager())
-		m_pTbContext->ClearCache();
-}
 
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::DispatchOnActivate(CAbstractFormFrame* pFrame, UINT nState, CWnd* pWndOther, BOOL bMinimized)

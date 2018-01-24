@@ -56,35 +56,39 @@ void CSqlCounterArray::LoadSqlOperations(PerformanceType ePerfType)
 	{
 		case E_DB_TYPE:
 		{
-			Add(new CCounterElem(DB_ADD_PROPERTIES, _T("AddProperties")));
-			Add(new CCounterElem(DB_PREPARE,		_T("Prepare")));
-			Add(new CCounterElem(DB_BIND_COLUMNS,	_T("BindColumns")));
-			Add(new CCounterElem(DB_BIND_PARAMETERS,_T("BindParameters")));
-			Add(new CCounterElem(DB_OPEN_ROWSET,	_T("OpenRowset")));
-			Add(new CCounterElem(DB_MOVE_FIRST,		_T("MoveFirst")));
-			Add(new CCounterElem(DB_MOVE_PREV,		_T("MovePrev")));
-			Add(new CCounterElem(DB_MOVE_NEXT,		_T("MoveNext")));
-			Add(new CCounterElem(DB_MOVE_LAST,		_T("MoveLast")));
-			/*Add(new CCounterElem(DB_UPDATE,		_T("Update")));
-			Add(new CCounterElem(DB_INSERT,			_T("Insert")));
-		*/	Add(new CCounterElem(DB_CLOSE_ROWSET,	_T("CloseRowset")));
+			
+			Add(new CCounterElem(DB_OPEN_TABLE,			_T("OpenTable")));
+			Add(new CCounterElem(DB_CONNECT_CMD,		_T("Connect")));	
+			Add(new CCounterElem(DB_BIND_COLUMNS,		_T("BindColumns")));
+			Add(new CCounterElem(DB_BIND_PARAMS,		_T("BindParams")));
+			Add(new CCounterElem(DB_SET_PARAMS_VALUE,	_T("SetParamsValue")));
+			Add(new CCounterElem(DB_FIXUP_COLUMNS,		_T("FixupColumns")));		
+			Add(new CCounterElem(DB_EXECUTE_CMD,		_T("ExecuteCmd")));
+			Add(new CCounterElem(DB_EXECUTE_NOQUERY,	_T("ExecuteNoQuery")));
+			Add(new CCounterElem(DB_EXECUTE_SCALAR,		_T("ExecuteScalar")));	
+			Add(new CCounterElem(DB_MOVE_FIRST,			_T("MoveFirst")));
+			Add(new CCounterElem(DB_MOVE_PREV,			_T("MovePrev")));
+			Add(new CCounterElem(DB_MOVE_NEXT,			_T("MoveNext")));
+			Add(new CCounterElem(DB_MOVE_LAST,			_T("MoveLast")));
+			Add(new CCounterElem(DB_DISCONNECT_CMD,		_T("Disconnect")));
+			Add(new CCounterElem(DB_CLOSE_TABLE,		_T("CloseTable")));
+			Add(new CCounterElem(DB_PREPARE,			_T("Prepare")));
 			break;
 		}
 		case E_PROC_TYPE:
 		{
-			Add(new CCounterElem(PROC_STATEMENT_PREPARE, _T("StmPrepare")));
+			Add(new CCounterElem(PROC_OPEN_CONNECTION,	 _T("OpenConn")));
 			Add(new CCounterElem(PROC_INIT_BUFFER,		 _T("InitBuffer")));
-			Add(new CCounterElem(PROC_FIXUP_OPERATION,   _T("Fixup")));
-			Add(new CCounterElem(PROC_ADD_BIND_ELEMENT,  _T("AddBindElem")));
 			Add(new CCounterElem(PROC_COMMIT,			 _T("Commit")));
-			Add(new CCounterElem(PROC_ROLLBACK,			 _T("Rollback")));			
-			
-			// data caching
-			Add(new CCounterElem(DATA_CACHE_CLEAR,				_T("Data Cache Clear")));
-			Add(new CCounterElem(DATA_CACHE_FIND,				_T("Data Cache Find")));
-			Add(new CCounterElem(DATA_CACHE_INSERT,				_T("Data Cache Insert")));
-			Add(new CCounterElem(DATA_CACHE_RECORD_REFRESHED,	_T("Data Cache Update Record")));
-			Add(new CCounterElem(DATA_CACHE_RECORD_DELETED,		_T("Data Cache Delete Record")));
+			Add(new CCounterElem(PROC_ROLLBACK,			 _T("Rollback")));	
+			Add(new CCounterElem(PROC_CLOSE_CONNECTION,	 _T("CloseConn")));
+			//
+			//// data caching
+			//Add(new CCounterElem(DATA_CACHE_CLEAR,			_T("Data Cache Clear")));
+			//Add(new CCounterElem(DATA_CACHE_FIND,				_T("Data Cache Find")));
+			//Add(new CCounterElem(DATA_CACHE_INSERT,			_T("Data Cache Insert")));
+			//Add(new CCounterElem(DATA_CACHE_RECORD_REFRESHED,	_T("Data Cache Update Record")));
+			//Add(new CCounterElem(DATA_CACHE_RECORD_DELETED,	_T("Data Cache Delete Record")));
 			
 			break;
 		}
@@ -127,7 +131,7 @@ void SqlPerformanceManager::MakeDBTimeOperation(TimeOperation eTime, int nOperat
 			//m_aDBCrono.Start(); 
 			pCounterElem->m_lCount++;	
 			pCounterElem->Start();
-			if (nOperation == DB_OPEN_ROWSET)
+			if (nOperation == DB_OPEN_TABLE)
 			{
 				if (pSqlRowSet->m_bScrollable)
 					(pSqlRowSet->m_bUpdatable) ? m_nUpdatableScrollCursor++ : m_nReadOnlyScrollCursor++;
@@ -238,7 +242,6 @@ void SqlPerformanceManager::StartTime(int nType, LPCTSTR pszActionName)
 			m_nRefTotal++;
 			break;
 		}
-
 		case ONOK_TIME:
 		case PRIMARY_TIME:
 			if (!m_bSecondary && !m_bAuxiliary)
@@ -307,7 +310,7 @@ void SqlPerformanceManager::StopTime(int nType)
 					pCounterElem = m_aForwardCounters.GetAt(nPos);
 					TRACE_SQL(cwsprintf(_T("PA %s			count: %d		time: %s"), pCounterElem->m_strTitle, pCounterElem->m_lCount, pCounterElem->GetFormattedTime()), NULL);
 				}
-
+				
 				//poi faccio vedere i tempi dei scrollable
 				TRACE_SQL(cwsprintf(_T("PA ######   SCROLLABLE CURSORS ReadOnlyCount: %d UpdatableCount: %d TIME: %s  ######"), m_nReadOnlyScrollCursor, m_nUpdatableScrollCursor, aTickFormatter.FormatTime(m_dTotalScrollTime)), NULL);
 
@@ -335,7 +338,6 @@ void SqlPerformanceManager::StopTime(int nType)
 			}
 			break;
 		}
-
 		case ONOK_TIME:
 		{
 			if (!m_bSecondary && !m_bAuxiliary)
@@ -348,7 +350,7 @@ void SqlPerformanceManager::StopTime(int nType)
 			break;
 		}
 		
-		case PRIMARY_TIME:
+		case PRIMARY_TIME:		
 		{
 			if (!m_bSecondary && !m_bAuxiliary)
 			{
@@ -598,7 +600,7 @@ void CCounterGrid::RefreshCounters()
 	for (int nPos = 0; nPos < GetItemCount(); nPos++)
 	{
 		SetItemText(nPos, 1, (LPCTSTR)m_pCounters->GetFormattedTimeAt(nPos));
-		SetItemText(nPos, 2, (LPCTSTR) GetFormattedCount(m_pCounters->GetAt(nPos)->m_lCount));
+		SetItemText(nPos, 2, (LPCTSTR)m_pCounters->GetFormattedCountAt(nPos));
 	}
 }
 

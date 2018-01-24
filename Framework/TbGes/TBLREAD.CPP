@@ -36,7 +36,8 @@ TableReader::TableReader (CRuntimeClass* pClass, CBaseDocument* pDocument)
 	m_pTable	  (NULL),
 	m_pSqlSession (NULL),
 	m_PrevResult  (NONE),
-	m_bForceQuery (FALSE)
+	m_bForceQuery (FALSE),
+	m_bOnlyOneRecord (TRUE)
 {
 	m_pRecord = (SqlRecord*) pClass->CreateObject();	
 }
@@ -48,7 +49,8 @@ TableReader::TableReader (const CString& sTableName, CBaseDocument* pDocument)
 	m_pTable	  (NULL),
 	m_pSqlSession (NULL),
 	m_PrevResult  (NONE),
-	m_bForceQuery (FALSE)
+	m_bForceQuery (FALSE),
+	m_bOnlyOneRecord(TRUE)
 {
 	const CDbObjectDescription* pDescri = AfxGetDbObjectDescription(sTableName);
 	if (!pDescri)
@@ -67,7 +69,8 @@ TableReader::TableReader (CRuntimeClass* pClass, SqlSession* pSqlSession)
 	m_pTable	  (NULL),
 	m_pSqlSession (pSqlSession),
 	m_PrevResult  (NONE),
-	m_bForceQuery (FALSE)
+	m_bForceQuery (FALSE),
+	m_bOnlyOneRecord(TRUE)
 {
 	m_pRecord = (SqlRecord*) pClass->CreateObject();	
 }
@@ -119,32 +122,19 @@ TableReader::FindResult TableReader::FindRecord()
 		// ritardo la creazione del cursore e la sua apertura alla prima find
 		if (!m_pTable)
 		{
-			if (m_pDocument)
-				m_pSqlSession =	m_pDocument->GetReadOnlySqlSession();
-			else
-			{
-				if (!m_pSqlSession)
-				{
-					ASSERT(m_pSqlSession);// devo avere la sessione di lavoro
-					//@@TODO BAUZI da ripristinare                                         b,b
-					//	return NONE;
-					//al posto di questo:
-					m_pSqlSession = AfxGetDefaultSqlSession();
-				}
-			}
-			// Data Caching Management
-			m_pTable = new SqlTable(m_pRecord, m_pSqlSession, m_pDocument);						
-			m_pTable->SetUseDataCaching (TRUE);
+			if (m_pDocument && !m_pSqlSession)
+				m_pSqlSession = m_pDocument->GetReadOnlySqlSession();
+
+			if (!m_pSqlSession)
+				m_pSqlSession = AfxGetDefaultSqlSession();
+
+			m_pTable = new SqlTable(m_pRecord, m_pSqlSession, m_pDocument);					
+			m_pTable->SetOnlyOneRecordExpected(m_bOnlyOneRecord);
 		}
 
 		if (!m_pTable->IsOpen())
 		{
-			// attraverso un setting di sistema decido se utilizzare o meno un cursore FORWARD
-			//m_pTable->Open(FALSE, GetCursorType());
-			m_pTable->Open(FALSE, m_pTable->m_pSqlConnection->GetHKLTRCursor());
-			m_pSqlSession = m_pTable->m_pSqlSession; //se ho il cursore FORWARD (in base al parametro NotUseFastForward di connessione)
-													 // allora é stata creata apposta una session di lavoro 
-
+			m_pTable->Open(FALSE);
 			OnDefineQuery();
 			OnPrepareQuery();
 		}
@@ -152,8 +142,8 @@ TableReader::FindResult TableReader::FindRecord()
 		{
 			OnPrepareQuery();
 			// if some parameters are implicitly bound to context objects, need to refresh them
-			// in order to let SameQuery work properly
-			m_pTable->ValorizeContextBagParameters();
+			// in order to let SameQuery work properly	
+			//m_pTable->ValorizeContextBagParameters();
 			if	(m_pTable->SameQuery() && !m_bForceQuery)
 				return m_PrevResult;
 		}

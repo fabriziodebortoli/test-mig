@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Net;
 using System.Threading;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -14,7 +8,6 @@ using Microarea.Common.DiagnosticManager;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
-using System.Security.Principal;
 using static Microarea.Common.Generic.InstallationInfo;
 
 namespace Microarea.Common.GenericForms
@@ -120,7 +113,7 @@ namespace Microarea.Common.GenericForms
 		/// Si connette a login manager per inizializzare i controlli.
 		/// Si autoimposta sull'ultimo utente/azienda che ha effettuato una login
 		/// </summary>
-		/// <param name="basePathFinder">Un path finder inizializzato</param>
+		/// <param name="PathFinder">Un path finder inizializzato</param>
 		/// <returns>true se ha avuto successo</returns>
 		//-----------------------------------------------------------------------
 		public bool Load()
@@ -205,10 +198,10 @@ namespace Microarea.Common.GenericForms
 				return false;
 			}
 
-			if (!File.Exists(BasePathFinder.BasePathFinderInstance.ServerConnectionFile))
+			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile))
 			{
 				diagnostic.Set(DiagnosticType.Information, WebServicesWrapperStrings.RunConsoleFirst);
-				diagnostic.Set(DiagnosticType.Error, string.Format(WebServicesWrapperStrings.ErrFileNotExists, BasePathFinder.BasePathFinderInstance.ServerConnectionFile));
+				diagnostic.Set(DiagnosticType.Error, string.Format(WebServicesWrapperStrings.ErrFileNotExists, PathFinder.PathFinderInstance.ServerConnectionFile));
 				return false;
 			}
 
@@ -277,10 +270,10 @@ namespace Microarea.Common.GenericForms
 
 			//	string loginName = SystemInformation.UserName;
 			//	string userDomainName = SystemInformation.UserDomainName;
-			//	fullLoginName = userDomainName + Path.DirectorySeparatorChar + loginName;
+			//	fullLoginName = userDomainName + NameSolverStrings.Directoryseparetor + loginName;
 
 			//	if (userDomainName.Length == 0)
-			//		fullLoginName = computerName + Path.DirectorySeparatorChar + loginName;
+			//		fullLoginName = computerName + NameSolverStrings.Directoryseparetor + loginName;
 
 
 			//	bool ok = ExistCompanies(fullLoginName);
@@ -307,16 +300,18 @@ namespace Microarea.Common.GenericForms
 		private string GetLoginMngSession()
 		{
 			string pwd = string.Empty;
-			string loginSessionFile = BasePathFinder.BasePathFinderInstance.GetLoginMngSessionFile();
-			if (File.Exists(loginSessionFile))
+			string loginSessionFile = PathFinder.PathFinderInstance.GetLoginMngSessionFile();
+			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(loginSessionFile))
 			{
 				try
 				{
-					FileStream fs = new FileStream(loginSessionFile, FileMode.Open);
-					StreamReader sr = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
-					pwd = sr.ReadToEnd();
-					sr.Dispose();
-				}
+                    //	FileStream fs = new FileStream(loginSessionFile, FileMode.Open);
+                    //	StreamReader sr = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
+                    //	pwd = sr.ReadToEnd();
+                    //	sr.Dispose();
+                    pwd = PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(loginSessionFile);
+
+                }
 				catch
 				{
 					pwd = string.Empty;
@@ -558,7 +553,7 @@ namespace Microarea.Common.GenericForms
 		//		//    SaveLatestUser(username, password, company, rememberMe);
 
 		//		//TODOLUCA
-		//		//LockManager lockManager = new LockManager(BasePathFinder.BasePathFinderInstance.LockManagerUrl);
+		//		//LockManager lockManager = new LockManager(PathFinder.PathFinderInstance.LockManagerUrl);
 		//		//lockManager.RemoveUnusedLocks();
 
 		//		return loginManagerSession.AuthenticationToken;
@@ -582,9 +577,9 @@ namespace Microarea.Common.GenericForms
 			//    string userDomainName = SystemInformation.UserDomainName;
 
 			//    if (userDomainName.Length == 0)
-			//        fullname = Dns.GetHostName() + Path.DirectorySeparatorChar + loginName;
+			//        fullname = Dns.GetHostName() + NameSolverStrings.Directoryseparetor + loginName;
 			//    else
-			//        fullname = userDomainName + Path.DirectorySeparatorChar + loginName;
+			//        fullname = userDomainName + NameSolverStrings.Directoryseparetor + loginName;
 
 			//    if (String.Compare(fullname, user, StringComparison.OrdinalIgnoreCase) == 0)  
 			//        return ExistCompanies(fullname, company);
@@ -1014,7 +1009,7 @@ namespace Microarea.Common.GenericForms
 					SaveLatestUser(username, password, company, rememberMe);
 
 				//TODOLUCA
-				//LockManager lockManager = new LockManager(BasePathFinder.BasePathFinderInstance.LockManagerUrl);
+				//LockManager lockManager = new LockManager(PathFinder.PathFinderInstance.LockManagerUrl);
 				//lockManager.RemoveUnusedLocks();
 
 				return loginManagerSession.AuthenticationToken;

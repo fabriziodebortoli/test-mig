@@ -79,7 +79,7 @@ namespace Microarea.RSWeb.Render
 
 			//reimposto la pagina iniziale
 			woorm.RdeReader.CurrentPage = current;
-
+            //TODO LARA TUTTO IL FILE
 			using (MemoryStream stream = new MemoryStream())
 			{
                 pdfRender.SaveToStreamAndClose(stream, true);

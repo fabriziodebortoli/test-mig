@@ -127,22 +127,12 @@ namespace Microarea.Common.Applications
 			throw new NotImplementedException();
 		}
 
-		public bool IsSecurityLightEnabled()
-		{
-			return false;
-		}
-
 		public bool IsAuthenticated()
 		{
 			return this.AuthenticationToken != string.Empty;
 		}
 
-		public bool IsSecurityLightAccessAllowed(string v1, bool v2)
-		{
-			throw new NotImplementedException();
-		}
-
-		public ISecurity NewSecurity(string company, string user, bool applySecurityFilter)
+	    public ISecurity NewSecurity(string company, string user, bool applySecurityFilter)
 		{
 			throw new NotImplementedException();
 		}

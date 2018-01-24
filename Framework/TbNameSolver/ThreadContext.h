@@ -83,6 +83,7 @@ class TB_EXPORT CContextBag
 
 private:
 	CArray<CContextObject*,	CContextObject*>	m_arContextObjects;
+	
 
 public:	
 	CContextBag();

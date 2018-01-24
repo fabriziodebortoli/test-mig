@@ -13,7 +13,7 @@ namespace TaskBuilderNetCore.Interfaces
 		IList ModuleFolders { get; }
 		string ModuleName { get; }
 		bool Optional { get; }
-		IBaseModuleInfo ParentModuleInfo { get; }
+	//	BaseModuleInfo ParentModuleInfo { get; }
 		bool Parse();
 		string Title { get; }
         string Signature { get; }

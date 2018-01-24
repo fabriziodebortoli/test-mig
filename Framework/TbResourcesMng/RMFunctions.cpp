@@ -56,7 +56,7 @@ DataLng CCheckWorker::GetWorkerID()
 		aTbl.Query();
 		// se il worker non esiste lo creo al volo altrimenti prendo il primo
 		// (dalla 4.0 la gestione multi-login non esiste piu', nel dubbio prendo il primo)
-		aWorkerID = (aTbl.GetRowSetCount() > 0) ? aRec.f_WorkerID : CreateWorker();
+		aWorkerID = (aTbl.HasRows()) ? aRec.f_WorkerID : CreateWorker();
 		aTbl.Close();
 	}
 	CATCH(SqlException, e)
@@ -83,9 +83,11 @@ DataLng CCheckWorker::CreateWorker()
 	DataStr aName = _T("");
 	DataStr aLastName = _T("");
 	int aBlank = -1;
-
+	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
 	SqlSession*	pSession = AfxGetDefaultSqlConnection()->GetNewSqlSession(AfxGetDefaultSqlConnection()->m_pContext);
-	CAutoincrementService aAutoincrement(pSession);
+
+	CAutoincrementService* pAutoincrement;
+	pAutoincrement = new CAutoincrementService(pSession);
 
 	int aResult = UPDATE_SUCCESS;
 
@@ -114,7 +116,7 @@ DataLng CCheckWorker::CreateWorker()
 		aTbl.AddNew();
 		aTbl.LockCurrent();
 
-		aAutoincrement.GetNextNumber(_T("Framework.TbResourcesMng.Workers.WorkerId"), &aRec.f_WorkerID);
+		pAutoincrement->GetNextNumber(_T("Framework.TbResourcesMng.Workers.WorkerId"), &aRec.f_WorkerID);
 
 		aRec.f_CompanyLogin				= aUserName;
 		aRec.f_Name						= aName;
@@ -126,10 +128,12 @@ DataLng CCheckWorker::CreateWorker()
 		aRec.f_Notes					= _TB("Automatically generated");
 
 		aResult = aTbl.Update();
+	
+		(aResult == UPDATE_SUCCESS) ? pSession->Commit() : pSession->Abort();
+		
 		aTbl.UnlockAll();
 		aTbl.Close();
-
-		(aResult == UPDATE_SUCCESS) ? pSession->Commit() : pSession->Abort();
+		delete pAutoincrement;
 
 		if (pSession->CanClose())
 		{
@@ -139,6 +143,8 @@ DataLng CCheckWorker::CreateWorker()
 	}
 	CATCH(SqlException, e)
 	{
+		if (pAutoincrement)
+			delete pAutoincrement;
 		if (aTbl.IsOpen()) aTbl.Close();
 		pSession->Abort();
 		if (pSession->CanClose())
@@ -146,11 +152,13 @@ DataLng CCheckWorker::CreateWorker()
 			pSession->Close();
 			delete pSession;
 		}
+		AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
 		aResult = UPDATE_FAILED;
 		e->ShowError();
 	}
 	END_CATCH
-
+	
+	AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
 	return (aResult == UPDATE_SUCCESS) ? aRec.f_WorkerID : 0;
 }
 
@@ -165,8 +173,8 @@ void CCheckWorker::IntegrateConvertedWorkers()
 	DataStr aLastName = _T("");
 	int aBlank = -1;
 
-	SqlSession*	pSession = AfxGetDefaultSqlConnection()->GetNewSqlSession(AfxGetDefaultSqlConnection()->m_pContext);
-
+	//SqlSession*	pSession = AfxGetDefaultSqlConnection()->GetNewSqlSession(AfxGetDefaultSqlConnection()->m_pContext);
+	SqlSession*	pSession = AfxGetDefaultSqlSession();
 	TWorkers aRec;
 	SqlTable aTbl(&aRec, pSession);
 
@@ -178,10 +186,11 @@ void CCheckWorker::IntegrateConvertedWorkers()
 	aTbl.SetParamValue(szParamNotes, DataStr(_T("##TO_BE_INTEGRATED##")));
 
 	TRY
+	{		
+		aTbl.Query();
+	if (aTbl.HasRows())
 	{
 		pSession->StartTransaction();
-
-		aTbl.Query();
 		while (!aTbl.IsEOF())
 		{
 			if (aTbl.LockCurrent())
@@ -214,24 +223,29 @@ void CCheckWorker::IntegrateConvertedWorkers()
 			}
 			aTbl.MoveNext();
 		}
+		pSession->Commit();
+	}
+
 		aTbl.UnlockAll();
 		aTbl.Close();
-		pSession->Commit();
-		if (pSession->CanClose())
+		
+		/*if (pSession->CanClose())
 		{
 			pSession->Close();
 			delete pSession;
-		}
+		}*/
 	}
 	CATCH(SqlException, e)
 	{
-		if (aTbl.IsOpen()) aTbl.Close();
 		pSession->Abort();
-		if (pSession->CanClose())
+		if (aTbl.IsOpen())
+			aTbl.Close();
+
+		/*if (pSession->CanClose())
 		{
 			pSession->Close();
 			delete pSession;
-		}
+		}*/
 		e->ShowError();
 	}
 	END_CATCH

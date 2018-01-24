@@ -353,7 +353,9 @@ BOOL DBTObject::Open()
 	BOOL bOk = FALSE;
 	TRY
 	{
-		m_pTable->Open(!m_bDBTOnView, GetCursorType());
+		//@@BAUZI TODO da elimniare il cursore scrollabile del DBTSlaveBuffered. Da sostituire con la paginazione per il browser
+		//utilizzando il cursore scollabile il SqlRowSet viene automaticamente sconnesso dopo aver eseguito la query (xchè il risultato viene tenuto in cache)
+		m_pTable->Open(!m_bDBTOnView, this->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered))); 
 
 	// verifico prima se il documento vuole sostituire la query del dbt
 	if (!m_pDocument->OnChangeDBTDefineQuery(this, m_pTable))
@@ -417,6 +419,13 @@ BOOL DBTObject::FindData(BOOL bPrepareOld)
 	END_CATCH
 
 		return bReturn && !m_pTable->IsEmpty();
+}
+
+//-----------------------------------------------------------------------------	
+void DBTObject::Disconnect()
+{
+	ASSERT(m_pTable);
+	m_pTable->Disconnect();	
 }
 
 //-----------------------------------------------------------------------------	
@@ -498,7 +507,7 @@ BOOL DBTObject::Delete()
 
 	// delete non e` lecita in modo edit o addnew pertanto occorre uscire
 	// da questi stati con l'istruzione sotto che non muove il current record.
-	m_pTable->Move(SqlTable::E_MOVE_REFRESH);
+	m_pTable->Move(E_MOVE_REFRESH);
 
 	// cancellazione effettiva utilizzando i dati di chiave primaria del 
 	// record prima di eventuali modifiche in data entry
@@ -833,7 +842,7 @@ DBTMaster::DBTMaster
 {
 	ASSERT(pDocument);
 	m_pDBTSlaves = new DBTArray;
-	m_pTable->SetDBTMasterQuery();
+	m_pTable->SetDBTMasterQuery(); //mette in automatico anche m_bOnlyOneRecordExpected = TRUE
 }
 
 //-----------------------------------------------------------------------------	
@@ -848,7 +857,7 @@ DBTMaster::DBTMaster
 {
 	ASSERT(pDocument);
 	m_pDBTSlaves = new DBTArray;
-	m_pTable->SetDBTMasterQuery();
+	m_pTable->SetDBTMasterQuery(); //mette in automatico anche m_bOnlyOneRecordExpected = TRUE
 }
 
 //-----------------------------------------------------------------------------	
@@ -863,7 +872,7 @@ DBTMaster::DBTMaster
 {
 	ASSERT(pDocument);
 	m_pDBTSlaves = new DBTArray;
-	m_pTable->SetDBTMasterQuery();
+	m_pTable->SetDBTMasterQuery();//mette in automatico anche m_bOnlyOneRecordExpected = TRUE
 }
 
 //-----------------------------------------------------------------------------	
@@ -1096,14 +1105,17 @@ void DBTMaster::EnableControlsForFind()
 			if (!pDBT || pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered))) continue;
 
 			// enum Master and Slaves Foreign keys to simulate inner join on subquery 
-			SqlForeignKeysReader aFKReader;
-			aFKReader.LoadForeignKeys
-			(
-				GetRecord()->GetTableName(),
-				pDBT->GetRecord()->GetTableName(),
-				m_pDocument->GetReadOnlySqlSession()
-			);
-			if (!aFKReader.GetSize())
+			if (!pDBT->m_pFKReader)
+			{
+				pDBT->m_pFKReader = new SqlForeignKeysReader();
+				pDBT->m_pFKReader->LoadForeignKeys
+				(
+					GetRecord()->GetTableName(),
+					pDBT->GetRecord()->GetTableName(),
+					m_pDocument->GetReadOnlySqlSession()
+				);
+			}
+			if (!pDBT->m_pFKReader->GetSize())
 				continue;
 
 			pDBT->SetFindable();
@@ -1303,9 +1315,24 @@ BOOL DBTMaster::FindData(BOOL bPrepareOld)
 			if (!pSlave->FindData(bPrepareOld) && bOk)
 				bOk = FALSE;
 		}
-
+	//una volta caricati i dati scollego le SqlTable
+	//Disconnect();
 	AfxGetApp()->EndWaitCursor();
 	return bOk;
+}
+
+
+//-----------------------------------------------------------------------------	
+void DBTMaster::Disconnect()
+{
+	ASSERT(m_pTable);
+	m_pTable->Disconnect();
+
+	for (int i = 0; i <= m_pDBTSlaves->GetUpperBound(); i++)
+	{
+		DBTSlave* pSlave = m_pDBTSlaves->GetAt(i);
+		pSlave->Disconnect();
+	}
 }
 
 //-----------------------------------------------------------------------------	
@@ -1380,12 +1407,12 @@ BOOL DBTMaster::Update()
 	// @@AUDITING e TBModified
 	// se la master non é stata modificata ma é stato modificato almeno un 
 	// dbtslave allora traccio la modifica alla tabella del master
-	// devo anche modificare il campo TBModified
+	// devo anche modificare i campi TBModified e TBModifiedID
 	if (!m_bUpdated && nUpdatedSlave > 0)
 	{
 		m_pRecord->SetDirty();
 		bOk = DBTObject::Edit();
-		m_pTable->Update(m_pOldRecord, TRUE);
+		m_pTable->UpdateOnlyTBModified();
 	}
 	return bOk;
 }
@@ -1614,7 +1641,8 @@ DBTSlave::DBTSlave()
 	m_bLoaded(FALSE),
 	m_pDBTMaster(NULL),
 	m_pMasterRecord(NULL),
-	m_bOnlyForRead(false)
+	m_bOnlyForRead(false),
+	m_pFKReader(NULL)
 {
 }
 
@@ -1635,7 +1663,8 @@ DBTSlave::DBTSlave
 	m_bLoaded(FALSE),
 	m_pDBTMaster(NULL),
 	m_pMasterRecord(NULL),
-	m_bOnlyForRead(false)
+	m_bOnlyForRead(false),
+	m_pFKReader(NULL)
 {
 }
 
@@ -1656,7 +1685,8 @@ DBTSlave::DBTSlave
 	m_bLoaded(FALSE),
 	m_pDBTMaster(NULL),
 	m_pMasterRecord(NULL),
-	m_bOnlyForRead(false)
+	m_bOnlyForRead(false),
+	m_pFKReader(NULL)
 {
 }
 
@@ -1677,8 +1707,17 @@ DBTSlave::DBTSlave
 	m_bLoaded(FALSE),
 	m_pDBTMaster(NULL),
 	m_pMasterRecord(NULL),
-	m_bOnlyForRead(false)
+	m_bOnlyForRead(false),
+	m_pFKReader(NULL)
 {
+	m_pTable->SetOnlyOneRecordExpected(); 
+}
+
+//-----------------------------------------------------------------------------	
+DBTSlave::~DBTSlave()
+{
+	if (m_pFKReader)
+		delete m_pFKReader;
 }
 
 //-----------------------------------------------------------------------------	
@@ -1764,7 +1803,6 @@ BOOL DBTSlave::LocalFindData(BOOL bPrepareOld)
 {
 	m_bEmpty = !DBTObject::FindData(bPrepareOld);
 	m_bLoaded = TRUE;
-
 	// switch da eventuale stato di AddNew in stato di Edit
 	if (m_bAllowEmpty && !m_bEmpty && !DBTObject::Edit())
 		return FALSE;
@@ -3370,7 +3408,6 @@ BOOL DBTSlaveBuffered::LocalFindData(BOOL bPrepareOld)
 			m_pTable->MoveNext();
 		}
 		m_bLoaded = TRUE;
-
 		// Sicronizzo la posizione per il BodyEdit
 		if (IsEmpty())							SetCurrentRow(-1);
 		else	if (m_nCurrentRow > GetUpperBound())	SetCurrentRow(0);

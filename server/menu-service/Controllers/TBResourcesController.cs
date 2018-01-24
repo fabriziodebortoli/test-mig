@@ -25,7 +25,7 @@ namespace Microarea.Menu.Controllers
         //--------------------------------------------------------------------------
         private IList GetApplications()
         {
-            IList apps=  BasePathFinder.BasePathFinderInstance.ApplicationInfos;
+            IList apps=  PathFinder.PathFinderInstance.ApplicationInfos;
             return apps; 
         }
 
@@ -67,7 +67,7 @@ namespace Microarea.Menu.Controllers
 
             jsonWriter.WriteStartArray();
             
-            foreach (BaseApplicationInfo item in applications)
+            foreach (ApplicationInfo item in applications)
             {
                 jsonWriter.WriteStartObject();
                 jsonWriter.WritePropertyName("name");
@@ -310,7 +310,7 @@ namespace Microarea.Menu.Controllers
         public string GetServerConnectionConfig()
         {
   
-            return FileSystemMonitor.Engine.GetServerConnectionConfig();
+            return FileSystemMonitor.Engine.GetServerConnectionConfig().ToString();
         }
 
 
@@ -461,7 +461,7 @@ namespace Microarea.Menu.Controllers
             if (!FileSystemMonitor.Engine.IsValidToken(authenticationToken))
                 return null;
 
-            fileContent = FileSystemMonitor.Engine.GetTextFile(fileName);
+           fileContent = FileSystemMonitor.Engine.GetTextFile(fileName).ToString();
            StringBuilder sb = new StringBuilder();
            StringWriter sw = new StringWriter(sb);
            JsonWriter jsonWriter = new JsonTextWriter(sw);

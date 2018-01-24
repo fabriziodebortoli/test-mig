@@ -5,8 +5,8 @@
 
 #include "beginh.dex"
 
-class CFileSystemCacher;
-class DataBlob;
+class TBFile;
+
 // interface to all file system access
 //==============================================================================
 class TB_EXPORT IFileSystemDriver : public CObject
@@ -28,15 +28,18 @@ public:
 private:
 	virtual BOOL		IsAManagedObject			(const CString& sFileName) const = 0;
 	virtual CString		GetServerConnectionConfig	() = 0;
+	virtual void		GetAllApplicationInfo		(CStringArray*  pAppsPath) = 0;
+	virtual void		GetAllModuleInfo			(const CString& strAppName, CStringArray* pModulesPath) = 0;
 	virtual CString		GetTextFile					(const CString& sFileName) = 0;
-	virtual BOOL		SetTextFile					(const CString& sFileName, const CString& sFileContent)  = 0;
-	virtual DataBlob	GetBinaryFile				(const CString& sFileName) = 0;
+	virtual BOOL		SaveTextFile				(const CString& sFileName, const CString& sFileContent)  = 0;
+	virtual BYTE*		GetBinaryFile				(const CString& sFileName, int& nLen) = 0;
+	virtual BOOL 		SaveBinaryFile				(const CString& sFileName, BYTE* pBinaryContent, int nLen) = 0;
 	virtual BOOL		ExistFile					(const CString& sFileName) = 0;
 	virtual BOOL		RemoveFile					(const CString& sFileName) = 0;
 	virtual BOOL		RenameFile					(const CString& sOldFileName, const CString& sNewName) = 0;
 	virtual BOOL		GetFileStatus				(const CString& sFileName, CFileStatus& fs) = 0;
 	virtual DWORD		GetFileAttributes			(const CString& sFileName) = 0;
-	virtual BOOL		CopyFile					(const CString& sOldFileName, const CString& sNewName, const BOOL& bOverWrite) = 0;
+	virtual BOOL		CopySingleFile				(const CString& sOldFileName, const CString& sNewName, const BOOL& bOverWrite) = 0;
 
 	virtual BOOL		ExistPath					(const CString& sPathName) = 0;
 	virtual BOOL		CreateFolder				(const CString& sPathName, const BOOL& bRecursive) = 0;
@@ -49,8 +52,8 @@ private:
 	virtual BOOL		Start						();
 	virtual BOOL		Stop						();
 	virtual BOOL		IsStarted					() const;
-	virtual BOOL		CanCache					() const = 0;
-	virtual BOOL		LoadCache					(CFileSystemCacher* aCacher) = 0;
+	//virtual BOOL		CanCache					() const = 0;
+	//virtual BOOL		LoadCache					(CFileSystemCacher* aCacher) = 0;
 };
 
 #include "endh.dex"

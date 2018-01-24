@@ -15,6 +15,7 @@ using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.Models;
 using System.Net.WebSockets;
 using System.Text;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.RSWeb.Render
 {
@@ -319,7 +320,7 @@ namespace Microarea.RSWeb.Render
                     case State.Start:
                         {
                             // controlla che il file sia presente
-                            if (!File.Exists(Filename))
+                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Filename))
                             {
                                 CurrentState = State.FileNotFound;
                                 break;

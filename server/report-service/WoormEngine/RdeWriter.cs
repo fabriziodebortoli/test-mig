@@ -4,6 +4,9 @@ using System.IO;
 using System.Xml;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Applications;
+using Microarea.Common.NameSolver;
+using TaskBuilderNetCore.Interfaces;
+using System.Text;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -53,15 +56,16 @@ namespace Microarea.RSWeb.WoormEngine
 		virtual public void Close(string file)
 		{
             string dirPath = Path.GetDirectoryName(file);
-            Directory.CreateDirectory(dirPath);  //if not existing, directory will be created
+            PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);  //if not existing, directory will be created
 
             if (output != null)
-            {
-                using (FileStream fs = File.OpenWrite(file))
+            {//TODO LARA
+
+                using (FileStream fileStrean = File.Create(file))
                 {
-                    output.Save(fs);
-                    fs.Flush();
-                    fs.Dispose();
+                    fileStrean.Write(Encoding.ASCII.GetBytes(output.InnerXml), 0, Encoding.ASCII.GetByteCount(output.InnerXml));
+                    fileStrean.Flush();
+                    fileStrean.Dispose();
                 }
           }
 
@@ -85,7 +89,7 @@ namespace Microarea.RSWeb.WoormEngine
                 if (pageFilename == string.Empty)
                 {
                     pageFilename = PathFunctions.WoormTempFilePath(report.SessionID, report.UniqueID) +
-                                    Path.DirectorySeparatorChar +
+                                    NameSolverStrings.Directoryseparetor +
                                     Path.GetFileNameWithoutExtension(filename);
                 }
                 return pageFilename + pageNo.ToString() + ".xml";
@@ -100,7 +104,7 @@ namespace Microarea.RSWeb.WoormEngine
                 if (pageFilename == string.Empty)
                 {
                     pageFilename = PathFunctions.WoormTempFilePath(report.SessionID, report.UniqueID) +
-                                    Path.DirectorySeparatorChar +
+                                    NameSolverStrings.Directoryseparetor +
                                     Path.GetFileNameWithoutExtension(filename);
                 }
                 return pageFilename + ".xml";
@@ -116,7 +120,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (pageFilename == string.Empty)
 				{
 					pageFilename = PathFunctions.WoormTempFilePath(report.SessionID,report.UniqueID) +
-                                    Path.DirectorySeparatorChar +
+                                    NameSolverStrings.Directoryseparetor +
                                     Path.GetFileNameWithoutExtension(filename);
 				}
 				return pageFilename + "Pages.xml";

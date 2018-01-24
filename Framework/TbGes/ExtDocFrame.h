@@ -85,7 +85,8 @@ public:
 	virtual void SetToolBarActive(CWnd* pCWnd);
 
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
-	virtual CString GetDocAccelText(WORD id) { return m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T(""); }
+	virtual CString GetDocAccelText(WORD id);
+
 public:
 
 	/// Implementation

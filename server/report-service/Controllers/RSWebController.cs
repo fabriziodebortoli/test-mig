@@ -128,7 +128,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             string filename = nameSpace;
-            if (!System.IO.File.Exists(filename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
             {
                 PathFinder pathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
@@ -142,7 +142,7 @@ namespace Microarea.RSWeb.Controllers
                 if (filename == string.Empty)
                     return new ContentResult { Content = "Empty file name " + nameSpace, ContentType = "application/text" };
             }
-            if (!System.IO.File.Exists(filename))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             string ext = System.IO.Path.GetExtension(filename).TrimStart('.');
@@ -150,7 +150,7 @@ namespace Microarea.RSWeb.Controllers
             try
             {
                 this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                FileStream f = System.IO.File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
                 return new FileStreamResult(f, "image/" + ext);
             }
             catch (Exception)
@@ -173,12 +173,12 @@ namespace Microarea.RSWeb.Controllers
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };*/
 
-            if (!System.IO.File.Exists(pathComplete))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             try
             {
-                FileStream f = System.IO.File.Open(pathComplete, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
 
                 Response.ContentType = "application/vnd.ms-excel";
                 Response.Headers.Add("content-disposition", "attachment; filename="+filename);
@@ -206,12 +206,12 @@ namespace Microarea.RSWeb.Controllers
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
-            if (!System.IO.File.Exists(pathComplete))
+            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             try
             {
-                FileStream f = System.IO.File.Open(pathComplete, FileMode.Open, FileAccess.Read, FileShare.Read);
+                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
 
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
                 Response.Headers.Add("content-disposition", "attachment; filename=" + filename);

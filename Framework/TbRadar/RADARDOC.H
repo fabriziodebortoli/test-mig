@@ -15,6 +15,7 @@
 
 class WClause;
 class DataObj;
+class SqlSession;
 class SqlTable;
 class SqlRecord;
 class SqlColumnInfo;
@@ -139,6 +140,7 @@ protected:
 	// deve operare.
 	//SqlRecord*	m_pCallerSqlRecord;
 	SqlTable*	m_pTable;
+	SqlSession* m_pSqlSession; //session locale per lavorare in modalità disconnessa
 
 	// Documento al quale il radar è collegato (*)
 	//CAbstractFormDoc* m_pCallerDoc;

@@ -20,10 +20,14 @@ public:
 	~CFileSystemManager	();
 	
 public:
-	virtual CString		GetServerConnectionConfig	();
-	virtual DataBlob	GetBinaryFile				(const CString& sFileName);
+	virtual BOOL		DetectAndAttachAlternativeDriver();
+	virtual CString		GetServerConnectionConfig		();
+	virtual void		GetAllApplicationInfo		(CStringArray*  pAppsPath);
+	virtual void		GetAllModuleInfo			(const CString& strAppName, CStringArray* pModulesPath);
+	virtual BYTE*		GetBinaryFile				(const CString& sFileName, int& nLen);
+	virtual BOOL 		SaveBinaryFile				(const CString& sFileName, BYTE* sBinaryContent, int nLen);
 	virtual CString		GetTextFile					(const CString& sFileName);
-	virtual BOOL		SetTextFile					(const CString& sFileName, const CString& sFileContent);
+	virtual BOOL		SaveTextFile				(const CString& sFileName, const CString& sFileContent);
 	virtual BOOL		ExistFile					(const CString& sFileName);
 	virtual BOOL		RemoveFile					(const CString& sFileName);
 	virtual BOOL		RenameFile					(const CString& sOldFileName, const CString& sNewName);
@@ -41,6 +45,10 @@ public:
 
 	// utility
 	virtual const CString	GetTemporaryBinaryFile		(const CString& sFileName);
+
+public:
+	virtual CString GetFormattedQueryTime();
+	virtual CString GetFormattedFetchTime();
 
 private:
 	virtual BOOL		Init				(const CString& strServer, const CString& strInstallation, const CString& strMasterSolutionName);

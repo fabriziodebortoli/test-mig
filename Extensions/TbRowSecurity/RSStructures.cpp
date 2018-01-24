@@ -389,21 +389,21 @@ CString RSEntityTableInfo::GetSelectGrantString(SqlTable* pTable)
 	
 	strSelect += cwsprintf(_T("l_CurrentWorkerGrantType = (select GrantType from RS_SubjectsGrants where WorkerID = %s and EntityName = %s and RowSecurityID = %s.RowSecurityID)"),
 							pTable->m_pSqlConnection->NativeConvert(&DataLng(AfxGetWorkerId())), pTable->m_pSqlConnection->NativeConvert(&DataStr(m_pEntityInfo->m_strName)), pTable->GetTableName());
-	pTable->m_pColumnArray->Add(pTable->GetRecord(), &pAddOnFields->l_CurrentWorkerGrantType, 0); //inserisco in posizione 0 il campo l_CurrentWorkerGrantType per fare la fetch del dato
+	pTable->Select(pTable->GetRecord(), &pAddOnFields->l_CurrentWorkerGrantType, 0); //inserisco in posizione 0 il campo l_CurrentWorkerGrantType per fare la fetch del dato
 	if (pRSWorker)
 	{
 		strSelect += cwsprintf(_T(", l_SpecificWorkerGrantType = (select GrantType from RS_SubjectsGrants where WorkerID = ? and EntityName = %s and RowSecurityID = %s.RowSecurityID)"),
 							pTable->m_pSqlConnection->NativeConvert(&DataStr(m_pEntityInfo->m_strName)), pTable->GetTableName());
-		pTable->m_pColumnArray->Add(pTable->GetRecord(), &pAddOnFields->l_SpecificWorkerGrantType, 1); //inserisco in posizione 0 il campo l_SpecificWorkerGrantType per fare la fetch del dato
+		pTable->Select(pTable->GetRecord(), &pAddOnFields->l_SpecificWorkerGrantType, 1); //inserisco in posizione 0 il campo l_SpecificWorkerGrantType per fare la fetch del dato
 		if (!pTable->ExistParam(_T("SubRSWorkerID")))
-			pTable->AddParam(_T("SubRSWorkerID"),  *pRSWorker, DBPARAMIO_INPUT, 0); 
+			pTable->AddParam(_T("SubRSWorkerID"),  *pRSWorker, SqlParamType::Input, 0); 
 		pTable->SetParamValue(_T("SubRSWorkerID"), *pRSWorker); 
 	}
 
 	if (!bIsProtectedFound)
 	{
 		strSelect += cwsprintf(_T(", %s"), RowSecurityAddOnFields::s_sIsProtected);
-		pTable->m_pColumnArray->Add(pTable->GetRecord(), &pAddOnFields->f_IsProtected, (pRSWorker) ? 2 : 1); //inserisco in posizione 1 (2 se è stato considerato anche il campo l_SpecificWorkerGrantType)  il campo f_IsProtected per fare la fetch del dato		
+		pTable->Select(pTable->GetRecord(), &pAddOnFields->f_IsProtected, (pRSWorker) ? 2 : 1); //inserisco in posizione 1 (2 se è stato considerato anche il campo l_SpecificWorkerGrantType)  il campo f_IsProtected per fare la fetch del dato		
 	}
 	strSelect += _T(", ");
 	

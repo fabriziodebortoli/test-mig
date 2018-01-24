@@ -398,6 +398,16 @@ BOOL ExistFile(const CString& strName)
 	return (_tstat((TCHAR*)(LPCTSTR)strName, &statbuf) == 0) && ((statbuf.st_mode & _S_IFREG) == _S_IFREG);
 }
 
+
+//-----------------------------------------------------------------------------
+TB_EXPORT TBFile* GetTBFile(const CString& name)
+{
+	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
+	//if (pFileSystemManager)
+	//	return pFileSystemManager->GetTBFile(strName);
+	return NULL;
+}
+
 //-----------------------------------------------------------------------------
 BOOL DeleteFile (const CString& strName)
 {

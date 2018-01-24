@@ -155,10 +155,9 @@ SqlConnection* TbRepositoryManager::GetDMSSqlConnection()
 	if (!m_pDMSSqlConnection)
 	{
 		// é il login manager che mi fornisce la login 
-		LPCWSTR szConnectionString = T2W((LPTSTR)((LPCTSTR)cwsprintf(_T("Provider=SQLOLEDB;{0-%s}"), AfxGetOleDbMng()->GetDMSConnectionString())));
 		TRY
 		{
-			m_pDMSSqlConnection = AfxGetOleDbMng()->MakeNewConnection(szConnectionString, false, false, false);
+			m_pDMSSqlConnection = AfxGetOleDbMng()->GetNewConnection(AfxGetOleDbMng()->GetDMSConnectionString());
 		}
 		CATCH(SqlException, e)
 		{

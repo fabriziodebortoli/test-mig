@@ -536,10 +536,7 @@ BOOL CLineFile::FlushBuffer(CFileException& e)
 	
 	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
 	if (pFileSystemManager && pFileSystemManager->IsManagedByAlternativeDriver(m_sFileName))
-	{
-		if (WriteOnVirtualDriver (m_sFileName))
-			return TRUE;
-	}
+		return WriteOnVirtualDriver(m_sFileName);
 
 	if (m_nCurrBuffPos)
 	{
@@ -992,7 +989,7 @@ BOOL CLineFile::WriteOnVirtualDriver (LPCTSTR pszFileName)
 		m_pchBuffer[m_nCurrBuffPos] = _T('\0');
 
 	CString sContent (m_pchBuffer);
-	return pFileSystemManager->SetTextFile (m_sFileName, sContent);
+	return pFileSystemManager->SaveTextFile (m_sFileName, sContent);
 }
 
 //-----------------------------------------------------------------------------

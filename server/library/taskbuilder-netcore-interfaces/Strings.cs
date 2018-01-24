@@ -484,6 +484,8 @@ namespace TaskBuilderNetCore.Interfaces
             public const string ViewModes = "ViewModes";
             public const string Mode = "Mode";
             public const string ClientDocument = "ClientDocument";
+            public const string Components = "Components";
+            public const string Component = "Component";
         }
         public sealed class Attribute
         {
@@ -787,6 +789,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Standardization = "Standardization";
         public const string ToolbarButton = "ToolbarButton";
         public const string Toolbar = "Toolbar";
+        public const string Component = "Component";
     }
 
     //=========================================================================
@@ -861,6 +864,7 @@ namespace TaskBuilderNetCore.Interfaces
         //-----------------------------------------------------------------
         private NameSolverStrings()
         { }
+        public const char Directoryseparetor = '\\';
         // TODO - devono essere tutte split-tate per tipologia e divenire const.
         public const string RunWithoutMenu = "RunWithoutMenu";
         public const string AuthenticationToken = "AuthenticationToken";
@@ -1302,6 +1306,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Namespace   = "namespace";
             public const string Server      = "server";
             public const string Name        = "name";
+            public const string Family      = "family";
         }
     }
 

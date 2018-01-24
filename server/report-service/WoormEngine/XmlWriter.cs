@@ -138,7 +138,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (root.Length == 0) 
 				root = "UnknowReport";
 
-			string user = BasePathFinder.GetUserUri(this.report.ReportSession.UserInfo.ImpersonatedUser);
+			string user = PathFinder.GetUserUri(this.report.ReportSession.UserInfo.ImpersonatedUser);
 
 			namespaceURI = string.Format(XmlWriterTokens.SchemaPrefix, ns.Application, ns.Module, user, ns.Report);
 		}
@@ -222,6 +222,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//------------------------------------------------------------------------------
 		public static string XmlDocumentToString(XmlDocument dom)
 		{
+            //TODO LARA
 			StringWriter s = new StringWriter();
 			dom.Save(s);
 			

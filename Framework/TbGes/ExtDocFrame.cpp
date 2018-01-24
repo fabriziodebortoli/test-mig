@@ -193,6 +193,12 @@ HACCEL CAbstractFrame::GetDocumentAccelerator()
 	return pDoc->GetDocAccel();
 }
 
+//-----------------------------------------------------------------------------
+CString CAbstractFrame::GetDocAccelText(WORD id) 
+{ 
+	return m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T(""); 
+}
+
 // Reimplementa la versione base implementata in winmdi. 
 //-----------------------------------------------------------------------------
 BOOL CAbstractFrame::PreTranslateMessage(MSG* pMsg)
