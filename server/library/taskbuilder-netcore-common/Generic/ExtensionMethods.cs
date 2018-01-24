@@ -89,8 +89,13 @@ namespace Microarea.Common.Generic
 			return string.IsNullOrWhiteSpace(str1);
 		}
 
-		//--------------------------------------------------------------------------------
-		public static int IndexOfNoCase(this string source, string toCheck, int startIndex = 0)
+        public static bool IsJsonEmpty(this string s)
+        {
+            return string.IsNullOrWhiteSpace(s) || s == "{}" || s == "[]" || s == "{[]}" || s == "\"\"";
+        }
+
+        //--------------------------------------------------------------------------------
+        public static int IndexOfNoCase(this string source, string toCheck, int startIndex = 0)
 		{
 			return source.IndexOf(toCheck, startIndex, StringComparison.OrdinalIgnoreCase);
 		}

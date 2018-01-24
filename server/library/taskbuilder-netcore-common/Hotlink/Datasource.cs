@@ -105,9 +105,9 @@ namespace Microarea.Common.Hotlink
     //-------------------------------------------------------------------------
     public class SortField
     {
-        public string Dir { get; set; }
+        public string dir { get; set; }
 
-        public string Field { get; set; }
+        public string field { get; set; }
     }
 
     public class CustomSortFields
@@ -147,13 +147,11 @@ namespace Microarea.Common.Hotlink
         //---------------------------------------------------------------------
         private string PrepareCustomFilter(string cf)
         {
-            string customWhere = string.Empty;
-            CustomFilters customFilters = null;
-
-            if (cf.IsNullOrEmpty() || cf == "{}" || /*tapullo*/ cf == "\"\"")
+            if (cf.IsJsonEmpty())
                 return string.Empty;
 
-            customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
+            string customWhere = string.Empty;
+            CustomFilters customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
             if (customFilters == null || customFilters.filters == null)
             {
                 Debug.Fail("Wrong custom filters ");
@@ -200,26 +198,23 @@ namespace Microarea.Common.Hotlink
         //---------------------------------------------------------------------
         private string PrepareCustomSort(string cs)
         {
-            string customSort = string.Empty;
-            CustomSortFields customSortFields = null;
-
-            if (cs.IsNullOrEmpty() || cs == "{}" || /*tapullo*/ cs == "\"\"")
+            if (cs.IsJsonEmpty())
                 return string.Empty;
 
-            customSortFields = JsonConvert.DeserializeObject<CustomSortFields>(cs);
+            string customSort = string.Empty;
+            CustomSortFields customSortFields = JsonConvert.DeserializeObject<CustomSortFields>("{fields:" + cs + '}');
             if (customSortFields == null || customSortFields.fields == null)
             {
                 Debug.Fail("Wrong custom sort fields ");
                 return string.Empty;
             }
-
-            if (customSortFields.fields.Count > 0)
+            if (customSortFields.fields.Count == 0)
                 return string.Empty;
 
             bool first = true;
             foreach (SortField sf in customSortFields.fields)
             {
-                string colName = sf.Field.Replace("__", ".");
+                string colName = sf.field.Replace("__", ".");
                 if (!first)
                 {
                     customSort += ',';
@@ -228,7 +223,7 @@ namespace Microarea.Common.Hotlink
                     first = false;
 
                 customSort += colName;
-                if (sf.Dir.CompareNoCase("DESC"))
+                if (sf.dir.CompareNoCase("DESC"))
                     customSort += " DESC";
             }
             return customSort;
