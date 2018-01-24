@@ -53,7 +53,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
-    sort: SortDescriptor[] = [];
+    sort$ = new BehaviorSubject<SortDescriptor[]>([]);
     gridData$ = new BehaviorSubject<{ data: any[], total: number, columns: any[] }>({ data: [], total: 0, columns: [] });
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
     canNavigate$ = new BehaviorSubject<boolean>(true);
@@ -74,9 +74,10 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
 
     ngOnInit() {
         this.setSelectableSettings();
-        this.filterer.start(200);
+        this.filterer.start(400);
         this.paginator.start(1, this.pageSize,
-            combineFiltersMap(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, (l, r) => ({ customFilters: r })),
+            Observable.combineLatest(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.sort$,
+                (a, b, c) => ({ model: a, customFilters: b, customSort: c })),
             (pageNumber, serverPageSize, otherParams?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
@@ -84,6 +85,8 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
                 p.set('per_page', serverPageSize.toString());
                 if (otherParams.customFilters)
                     p.set('customFilters', JSON.stringify(otherParams.customFilters));
+                if (otherParams.customSort)
+                    p.set('customSort', JSON.stringify(otherParams.customSort));
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
@@ -130,7 +133,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     sortChange(sort: SortDescriptor[]): void {
-        this.sort = sort;
+        this.sort$.next(sort);
     }
 
     get pinnedIcon() {
