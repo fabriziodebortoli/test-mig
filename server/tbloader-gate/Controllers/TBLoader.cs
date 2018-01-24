@@ -27,7 +27,6 @@ namespace Microarea.TbLoaderGate
     {
         private readonly IHostingEnvironment hostingEnvironment;
         private TBLoaderStub stub;
-        private OrchestratorService orchestratorService;
         TBLoaderConnectionParameters options;
 
         public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters, IHostingEnvironment hostingEnvironment)
@@ -76,13 +75,6 @@ namespace Microarea.TbLoaderGate
                     if (stub == null)
                         stub = new TBLoaderStub(hostingEnvironment, null);
                     await stub.ProcessRequest(subUrl + HttpContext.Request.QueryString.Value, HttpContext.Request, HttpContext.Response);
-                }
-                if (subUrl.StartsWith(OrchestratorService.SubUrl))
-                {
-                    if (orchestratorService == null)
-                        orchestratorService = new OrchestratorService(hostingEnvironment, null);
-                   
-                    await orchestratorService.ProcessRequest(subUrl, HttpContext.Request, HttpContext.Response, authHeader);
                 }
                 else
                 {
