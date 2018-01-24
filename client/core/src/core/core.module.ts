@@ -155,11 +155,7 @@ export function findLocaleData(locale: string): any {
         case 'de-ch': return localedech;
         case 'es-cl': return localeescl;
         case 'it-ch': return localeitch;
-        
-        case 'sr-cyrl':{
-            console.log('sr-cyrl');
-             return localesrcyrl;
-        }
+        case 'sr-cyrl': return localesrcyrl;
         case 'sr-latn': return localesrlatn;
     }
 
