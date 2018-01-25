@@ -1,6 +1,7 @@
 export class MessageDlgArgs {
     public cmpId = '';
     public text = '';
+    public title = '';
     public ok = false;
     public cancel = false;
     public yes = false;

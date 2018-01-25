@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { MessageDlgArgs, MessageDlgResult } from './../../models/message-dialog.model';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
+import { TbComponent } from './../../../shared/components/tb.component';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 
 @Component({
     selector: 'tb-message-dialog',
     templateUrl: './message-dialog.component.html',
     styleUrls: ['./message-dialog.component.scss']
 })
-export class MessageDialogComponent implements OnInit {
+export class MessageDialogComponent extends TbComponent {
 
     opened = false;
     args: MessageDlgArgs;
     eventData: EventDataService;
-    constructor() { }
-
-    ngOnInit() { }
+    constructor(
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef) {
+        super(tbComponentService, changeDetectorRef);
+        this.enableLocalization();
+    }
 
     open(args: MessageDlgArgs, eventData?: EventDataService) {
         this.eventData = eventData;
@@ -32,5 +37,4 @@ export class MessageDialogComponent implements OnInit {
             this.eventData.closeMessageDialog.emit(res);
         }
     }
-
 }

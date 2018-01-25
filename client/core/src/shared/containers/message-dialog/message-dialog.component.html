@@ -1,13 +1,13 @@
-<kendo-dialog title="Please confirm" *ngIf="opened" (close)="close('cancel')">
-  <p style="margin: 30px; text-align: center;">{{args.text}}</p>
-  <kendo-dialog-actions>
-    <button *ngIf="args.no" kendoButton (click)="close('no')">No</button>
-    <button *ngIf="args.yes" kendoButton (click)="close('yes')" primary="true">Yes</button>
-    <button *ngIf="args.cancel" kendoButton (click)="close('cancel')">Cancel</button>
-    <button *ngIf="args.ok" kendoButton (click)="close('ok')"primary="true">Ok</button>
-    <button *ngIf="args.retry" kendoButton (click)="close('retry')">Retry</button>
-    <button *ngIf="args.continue" kendoButton (click)="close('continue')">Continue</button>
-    <button *ngIf="args.abort" kendoButton (click)="close('abort')">Abort</button>
-    <button *ngIf="args.ignore" kendoButton (click)="close('ignore')">Ignore</button>
-  </kendo-dialog-actions>
+<kendo-dialog [title]="args.title? args.title : _TB('Please confirm')" *ngIf="opened" (close)="close('cancel')">
+    <p style="margin: 30px; text-align: center;white-space:pre-wrap;">{{args.text}}</p>
+    <kendo-dialog-actions>
+        <button *ngIf="args.no" kendoButton (click)="close('no')">No</button>
+        <button *ngIf="args.yes" kendoButton (click)="close('yes')" primary="true">Yes</button>
+        <button *ngIf="args.cancel" kendoButton (click)="close('cancel')">Cancel</button>
+        <button *ngIf="args.ok" kendoButton (click)="close('ok')" primary="true">Ok</button>
+        <button *ngIf="args.retry" kendoButton (click)="close('retry')">Retry</button>
+        <button *ngIf="args.continue" kendoButton (click)="close('continue')">Continue</button>
+        <button *ngIf="args.abort" kendoButton (click)="close('abort')">Abort</button>
+        <button *ngIf="args.ignore" kendoButton (click)="close('ignore')">Ignore</button>
+    </kendo-dialog-actions>
 </kendo-dialog>

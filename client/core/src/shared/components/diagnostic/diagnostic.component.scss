@@ -1,9 +1,13 @@
-.messagesContainer{
+.messagesContainer {
     max-width: 500px;
     max-height: 500px;
     overflow: auto;
 }
 
-.closeButton{
+.messageLine {
+    white-space: pre-wrap;
+}
+
+.closeButton {
     margin-top: 20px;
 }
