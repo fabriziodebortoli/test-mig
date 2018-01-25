@@ -155,9 +155,12 @@ dotnet restore
 iisreset
 dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %DevPath%\8_dotnet_publish.log
 
+if "%~1"=="-skipcod" (goto end)
+
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
 
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe Deploy /root %DevPath%\Apps /clean true /version debug
 
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe updatedeployment /root %DevPath%\Apps /version debug
 
+:end
