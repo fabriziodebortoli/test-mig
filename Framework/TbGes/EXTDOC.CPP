@@ -8160,10 +8160,27 @@ HotKeyLink* CAbstractFormDoc::GetHotLink(const CString& sName, CRuntimeClass* pC
 			return NULL;
 		}
 	}
+
+	HotKeyLink* pHotKeyLink = NULL;
+	CString sVal;
+	if (m_ForwardHotlinks.Lookup(sName, sVal))
+	{
+		pHotKeyLink = (HotKeyLink*)AfxGetTbCmdManager()->RunHotlink(CTBNamespace(CTBNamespace::HOTLINK, sVal));
+		if (pHotKeyLink)
+			Attach(pHotKeyLink, sName);
+
+		if (!pClass || pHotKeyLink->IsKindOf(pClass))
+			return pHotKeyLink;
+		USES_CONVERSION;
+		TRACE2("HotLink %s is not of type %s\n", sName, A2T(pClass->m_lpszClassName));
+		ASSERT(FALSE);
+		return NULL;
+	}
+	
 	if (!pClass)
 		return NULL;
 
-	HotKeyLink* pHotKeyLink = (HotKeyLink*)pClass->CreateObject();
+	pHotKeyLink = (HotKeyLink*)pClass->CreateObject();
 	Attach(pHotKeyLink, sName);
 
 	return pHotKeyLink;
