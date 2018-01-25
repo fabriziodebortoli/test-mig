@@ -40,6 +40,20 @@ namespace Microarea.TbfWebGate.Controllers
         }
 
         //---------------------------------------------------------------------
+        // GET api/document/ERP.Sales.Documents.Invoice
+        [HttpGet("{documentNamespace}")]
+        public string Close(string documentNamespace)
+        {
+            var context = new CallerContext
+            {
+                ObjectName = documentNamespace,
+                AuthToken = GetAuthToken(HttpContext.Request)
+            };
+
+            return orchestratorService.CloseDocument(context);
+        }
+
+        //---------------------------------------------------------------------
         private string GetAuthToken(HttpRequest request)
         {
             JObject jObject = null;
