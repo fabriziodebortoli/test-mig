@@ -90,6 +90,14 @@ namespace Microarea.TbfWebGate.Application
         }
 
         //---------------------------------------------------------------------
+        public string CloseDocument(CallerContext context)
+        {
+            orchestrator.CloseDocument(context);
+
+            return "{\"Success\" : \"Document closed\"}";
+        }
+
+        //---------------------------------------------------------------------
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
