@@ -507,7 +507,7 @@ BOOL CRS_PropertyGrid::PreTranslateMessage(MSG* pMsg)
 						if (!commonProp->m_pWndCombo->GetDroppedState() &&
 							 (commonProp->m_eType == CRSCommonProp::NEW_RULE_TABLES ||
 							 commonProp->m_eType == CRSCommonProp::NEW_RULE_MODULE  ||
-							commonProp->m_eType == CRSCommonProp::NEW_TABLE_NAME	||
+							commonProp->m_eType == CRSCommonProp::SELECT_TABLE_NAME	||
 								 commonProp->m_eType == CRSCommonProp::NEW_ENUMTYPE	||
 								 commonProp->m_eType ==CRSCommonProp::PropType::NEW_COLUMN_ENUM
 								 ) )
@@ -554,7 +554,7 @@ BOOL CRS_PropertyGrid::PreTranslateMessage(MSG* pMsg)
 						if (!commonProp->m_pWndCombo->GetDroppedState() &&
 							(commonProp->m_eType == CRSCommonProp::NEW_RULE_TABLES ||
 								commonProp->m_eType == CRSCommonProp::NEW_RULE_MODULE ||
-								commonProp->m_eType == CRSCommonProp::NEW_TABLE_NAME ||
+								commonProp->m_eType == CRSCommonProp::SELECT_TABLE_NAME ||
 								commonProp->m_eType == CRSCommonProp::NEW_ENUMTYPE ||
 								commonProp->m_eType == CRSCommonProp::PropType::NEW_COLUMN_ENUM
 								))
@@ -2142,42 +2142,20 @@ void CRS_ObjectPropertyView::NewBreakingEvent(CNodeTree* pNode, BOOL addNewField
 //-----------------------------------------------------------------------------
 void CRS_ObjectPropertyView::CreateNewBreakingEvent(BOOL onlyColumns)
 {
-	//m_pPropGrid->GetProperty(0)->GetSubItem(0)->GetData();
 	CString name = m_pPropGrid->GetProperty(0)->GetSubItem(0)->GetValue();
 	name.Trim();
 
-	//ELI C
-	/*if(!m_pPropGrid->GetProperty(0)->GetSubItem(0)->CheckPropName(FALSE)) return;
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->CheckPropValue(FALSE, errMsg))
+	{
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
+		return;
+	}
 	else
 	{
-	((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
-	}*/
-
-	//---------------------------------------------------------------------------------------------
-	//if name is empty this block gives higlights the property
-	if (name.IsEmpty())
-	{
-		m_pPropGrid->GetProperty(0)->GetSubItem(0)->SetDescription(_TB("Event name is empty"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Mandatory);
-		return;
+		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::Normal);
 	}
-
-	if (!IsValidName(name))
-	{
-		AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Error);
-		return;
-	}
-
-	if (AfxGetTokensTable()->IsInLanguage(name))
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Error);
-		return;
-	}
-	//--------------------------------------------------------------------------------------------------
-
-	((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Normal);
 
 	EventsData* pEventsData = GetDocument()->m_pEditorManager->GetPrgData()->GetEventsData();
 	ASSERT_VALID(pEventsData);
@@ -2775,8 +2753,6 @@ void CRS_ObjectPropertyView::CreateNewElement()
 
 	DWORD_PTR option = m_pPropGrid->GetProperty(0)->GetSubItem(0)->GetOptionData(index);
 
-
-	//ELI C
 	BOOL bEmptyAllowed = option == 2;
 	CString errMsg = _T("");
 	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->CheckPropValue(bEmptyAllowed, errMsg))
@@ -2791,51 +2767,6 @@ void CRS_ObjectPropertyView::CreateNewElement()
 	}
 
 	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
-
-	//-------------------------------------------------------------------------------------------------
-
-	/*m_NewName.Trim();
-	if (m_NewName.IsEmpty() && option != 2)
-	{
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error); 
-		return;
-	}
-
-	else if (!IsValidName(m_NewName))
-	{
-		AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error);
-		return;
-	}
-
-	else
-	{
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
-	}
-
-	if (AfxGetTokensTable()->IsInLanguage(m_NewName))
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error);
-		return;
-	}
-
-	else
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
-
-
-	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
-
-	if (pSymTable->GetField(m_NewName))
-	{
-		AfxMessageBox(_TB("This name allready exists"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Error);
-		return;
-	}
-	else
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);*/
-
-	//-------------------------------------------------------------------------------------------------
 
 	if (m_NewType == DataType::Null || m_NewType == DataType::Enum /*generic enum type*/)
 	{
@@ -3843,9 +3774,8 @@ void CRS_ObjectPropertyView::LoadVariableGeneralSettings(WoormField* wrmField)
 	{
 		CRSVariableProp* varName = new CRSVariableProp(wrmField, _TB("Name"), 
 											(LPCTSTR)wrmField->GetName(),
-											CRSVariableProp::VariableType::FIELD_NAME);
+											CRSVariableProp::VariableType::FIELD_NAME, 0, _TB("The field can be renamed"));
 		varName->SetColoredState(CrsProp::State::Mandatory);
-		varName->SetDescription(_TB("The field can be renamed"));
 		m_pGeneralSettings->AddSubItem(varName);
 	}
 	else
@@ -4343,9 +4273,8 @@ void CRS_ObjectPropertyView::InsertColumnBlock(CBCGPProp* father, CBCGPProp* cal
 		//Name
 		CString sVarName = GetDocument()->GetEditorSymTable()->GetAdviseName(varPrefix + pSqlColumnInfo->GetColumnName());
 
-		CRSCommonProp* nameCol = new CRSCommonProp(_TB("Name"), (LPCTSTR)sVarName,CRSCommonProp::PropType::COLUMN_BLOCK_NAME,this);
+		CRSCommonProp* nameCol = new CRSCommonProp(_TB("Name"), (LPCTSTR)sVarName,CRSCommonProp::PropType::COLUMN_BLOCK_NAME,this, _TB("Variable name"));
 		nameCol->SetVisible(FALSE);
-		nameCol->SetDescription(_TB("Variable name"));
 		nameCol->SetData((DWORD)pSqlColumnInfo);
 		column->AddSubItem(nameCol);
 		//nameCol->SetOwnerList(m_pPropGrid);
@@ -4492,64 +4421,13 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 		CrsProp* propVarName = dynamic_cast<CrsProp*>(pColProp->GetSubItem(0));
 		ASSERT_VALID(propVarName);
 
-		//ELI C
 		CString errMsg = _T("");
 		if (!propVarName->CheckPropValue(FALSE, errMsg))
 		{
 			if (!errMsg.IsEmpty())
 				AfxMessageBox(errMsg);
 			return;
-		}
-		else
-		{
-			((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(1))->SetColoredState(CrsProp::Normal);
-		}
-
-		CString name = propVarName->GetValue();
-		name = name.Trim();
-
-		//---------------------------------------------------------------------------------
-
-		/*if (name.IsEmpty())
-		{
-			propVarName->SetColoredState(CrsProp::Error);
-			return;
-		}
-
-		else if (!IsValidName(name))
-		{
-			AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-			propVarName->SetColoredState(CrsProp::Error);
-			return;
-		}
-
-		else
-		{
-			propVarName->SetColoredState(CrsProp::Normal);
-		}
-
-		if (AfxGetTokensTable()->IsInLanguage(name))
-		{
-			AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-			propVarName->SetColoredState(CrsProp::Error);
-			return;
-		}
-
-		else
-			propVarName->SetColoredState(CrsProp::Normal);
-
-		if (GetDocument()->GetEditorSymTable()->GetField(name))
-		{
-			propVarName->SetColoredState(CrsProp::Error);
-			AfxMessageBox(_TB("This name allready exists"));
-			return;
-		}
-
-		else
-			propVarName->SetColoredState(CrsProp::Normal);*/
-
-		//---------------------------------------------------------------------------------
-
+		}	
 
 		const SqlColumnInfo* currentColumn = dynamic_cast<const SqlColumnInfo*>((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
@@ -4604,6 +4482,9 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 
 		hidden = (BOOL)propHidden->GetOptionData(hiddenIndex);
 	
+		CString name = propVarName->GetValue();
+		name = name.Trim();
+
 		CString phName = bQualified ? currentColumn->GetQualifiedColumnName() : currentColumn->GetColumnName();
 
 		/*DataFieldLink* pFL = */pTblRule->AddLink(phName, name, FALSE, dType, pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetUpperBound());
@@ -4841,42 +4722,20 @@ void CRS_ObjectPropertyView::NewElement(BOOL newTable, BOOL FromHiddenVariable, 
 //-----------------------------------------------------------------------------
 void CRS_ObjectPropertyView::CreateNewAskField()
 {
-	m_NewName.Trim();
-	if (m_NewName.IsEmpty())
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->CheckPropValue(FALSE, errMsg))
 	{
-		AfxMessageBox(_TB("Field name is mandatory"));
-		return;
-	}
-
-	if (AfxGetTokensTable()->IsInLanguage(m_NewName))
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::Error);
-		return;
-	}
-
-	else if (!IsValidName(m_NewName))
-	{
-	   AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::Error);
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
 		return;
 	}
 	else
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::State::Normal);
+	{
+		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::Normal);
+	}
 
+	m_NewName.Trim();
 	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
-	if (pSymTable->GetField(m_NewName))
-	{
-		AfxMessageBox(_TB("Field with this name already exists"));
-		((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->SetColoredState(CrsProp::Error);
-		return;
-	}
-
-	if (m_NewType == DataType::Enum || m_NewType == DataType::Null)
-	{
-		AfxMessageBox(_TB("Field name has wrong data type"));
-		return;
-	}
 
 	WoormField* pRepField = new WoormField(m_NewName, WoormField::FIELD_INPUT);
 	pRepField->SetDataType(m_NewType);
@@ -11011,8 +10870,8 @@ BOOL CRSIniProp::OnUpdateValue(){
 // Property class for setting property of variables
 
 //-----------------------------------------------------------------------------
-CRSVariableProp::CRSVariableProp(WoormField* wrmField, CString name, LPCTSTR value, VariableType varType, BOOL isFieldProp 	 )
-: CrsProp(name, value)
+CRSVariableProp::CRSVariableProp(WoormField* wrmField, CString name, LPCTSTR value, VariableType varType, BOOL isFieldProp , LPCTSTR originDescr /*= 0*/)
+: CrsProp(name, value, originDescr)
 {
 	this->m_pWrmField = wrmField;
 	this->m_pVarType = varType;
@@ -11020,8 +10879,8 @@ CRSVariableProp::CRSVariableProp(WoormField* wrmField, CString name, LPCTSTR val
 }
 
 //-----------------------------------------------------------------------------
-CRSVariableProp::CRSVariableProp(WoormField* wrmField, CString name, variant_t value, VariableType varType, BOOL isFieldProp)
-: CrsProp(name, value)
+CRSVariableProp::CRSVariableProp(WoormField* wrmField, CString name, variant_t value, VariableType varType, BOOL isFieldProp, LPCTSTR originDescr /*= 0*/)
+: CrsProp(name, value, originDescr)
 {
 	this->m_pWrmField = wrmField;
 	this->m_pVarType = varType;
@@ -11044,37 +10903,9 @@ BOOL CRSVariableProp::OnUpdateValue()
 		{
 			case VariableType::FIELD_NAME:
 			{
-				WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
+				CString errMsg = _T("");
 
-				CString oldValue = m_pWrmField->GetName();
-				if (value.IsEmpty())
-				{
-					SetColoredState(CrsProp::Error);
-					AfxMessageBox(_TB("Field name is mandatory"));
-					//SetValue(oldValue);
-					break;
-				}
-				else if (AfxGetTokensTable()->IsInLanguage(value))
-				{
-					SetColoredState(CrsProp::Error);
-					AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-					//SetValue(oldValue);
-					break;
-				}
-				else if (!IsValidName(value))
-				{
-					SetColoredState(CrsProp::Error);
-					AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-					//SetValue(oldValue);
-					break;
-				} 
-				else if (pSymTable->GetField(value))
-				{
-					SetColoredState(CrsProp::Error);
-					AfxMessageBox(_TB("Field with this name already exists"));
-					break;
-				}
-				else
+				if(this->CheckPropValue(FALSE, errMsg))
 				{
 					GetDocument()->GetEditorManager()->GetPrgData()->RenameField(m_pWrmField->GetName(), value);
 
@@ -21877,12 +21708,11 @@ BOOL CrsProp::CheckPropValue(BOOL bAllowEmpty, CString &errMsg)
 {
 	CString name = GetValue();
 
-	CString emptyErr = _TB("Empty value is not allowed");
+	CString emptyErr = _TB("Empty name is not allowed");
 	CString invalidErr = _TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number");
 	CString reservedErr = _TB("The name collides with a reserved word of TaskBuilder");
-	CString existErr = _TB("TThis name allready exists");
+	CString existErr = _TB("This name already exists");
 
-	CString sCurrDescri = GetDescription();
 	errMsg = _T("");
 
 	if (!bAllowEmpty && name.IsEmpty())
@@ -21911,23 +21741,13 @@ BOOL CrsProp::CheckPropValue(BOOL bAllowEmpty, CString &errMsg)
 
 	if (!errMsg.IsEmpty() )
 	{ 
-		int test = sCurrDescri.Find(errMsg);
-		if(sCurrDescri.Find(errMsg) < 0)
-			SetDescription(sCurrDescri + (!sCurrDescri.IsEmpty() ? _T("\n") : _T("")) + errMsg);
+		SetNewDescription(errMsg, TRUE);
 		return false;
 	}		
 	else
 	{ 
-		sCurrDescri.Replace(emptyErr, _T(""));
-		sCurrDescri.Replace(invalidErr, _T(""));
-		sCurrDescri.Replace(reservedErr, _T(""));
-		sCurrDescri.Replace(existErr, _T(""));
-
-		if (sCurrDescri.ReverseFind('\n') == 0)
-			sCurrDescri.Delete(sCurrDescri.GetLength() - 1, 1);
-
-		SetDescription(sCurrDescri);
-		/*SetOriginalDescription();*/
+		SetOriginalDescription();
+		GetPropertyGrid()->EnableDescriptionArea(TRUE);
 		SetColoredState(CrsProp::Normal);
 		return true;
 	}
@@ -22741,9 +22561,9 @@ BOOL CRSPageBoolProp::OnUpdateValue()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-CRSCommonProp::CRSCommonProp(CString name, LPCTSTR value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView)
+CRSCommonProp::CRSCommonProp(CString name, LPCTSTR value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView, LPCTSTR originDescr /* = 0*/)
 	: 
-	CrsProp				(name, value),
+	CrsProp				(name, value, originDescr),
 	m_pPropertyView		(propertyView),
 	m_eType				(eType)
 {
@@ -22751,16 +22571,16 @@ CRSCommonProp::CRSCommonProp(CString name, LPCTSTR value, CRSCommonProp::PropTyp
 		m_pPropertyView->LoadTypeProp(this);
 	else if (eType == CRSCommonProp::PropType::NEW_ENUMTYPE)
 		m_pPropertyView->LoadEnumTypeProp(this);
-	else if (eType == CRSCommonProp::PropType::NEW_TABLE_MODULE_NAME)
+	else if (eType == CRSCommonProp::PropType::SELECT_TABLE_MODULE_NAME)
 		m_pPropertyView->LoadTableModules(this);
 	else if (eType == CRSCommonProp::PropType::NEW_HOTLINK_MODULE_NAME)
 		m_pPropertyView->LoadHotlinkModules(this);
 }
 
 //-----------------------------------------------------------------------------
-CRSCommonProp::CRSCommonProp(CString name, variant_t value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView)
+CRSCommonProp::CRSCommonProp(CString name, variant_t value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView, LPCTSTR originDescr /* = 0*/)
 	: 
-	CrsProp				(name, value),
+	CrsProp				(name, value, originDescr),
 	m_pPropertyView		(propertyView),
 	m_eType				(eType)
 {
@@ -22768,7 +22588,7 @@ CRSCommonProp::CRSCommonProp(CString name, variant_t value, CRSCommonProp::PropT
 		m_pPropertyView->LoadTypeProp(this);
 	else if (eType == CRSCommonProp::PropType::NEW_ENUMTYPE)
 		m_pPropertyView->LoadEnumTypeProp(this);
-	else if (eType == CRSCommonProp::PropType::NEW_TABLE_MODULE_NAME)
+	else if (eType == CRSCommonProp::PropType::SELECT_TABLE_MODULE_NAME)
 		m_pPropertyView->LoadTableModules(this);
 	else if (eType == CRSCommonProp::PropType::NEW_HOTLINK_MODULE_NAME)
 		m_pPropertyView->LoadHotlinkModules(this);
@@ -23100,28 +22920,6 @@ BOOL CRSCommonProp::OnUpdateValue()
 	{
 	case CRSCommonProp::PropType::NEW_NAME:
 	{
-		CString name = this->GetValue();
-
-		/*if (AfxGetTokensTable()->IsInLanguage(name))
-		{
-			SetColoredState(CrsProp::State::Error);
-			SetDescription(_TB("The name collides with a reserved word of TaskBuilder"));
-			//m_pPropertyView->m_NewName = name;
-			//AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-			break;
-		}
-		else
-			SetColoredState(CrsProp::Normal);
-
-		if (GetDocument()->GetEditorSymTable()->GetField(name))
-		{
-			SetColoredState(CrsProp::State::Error);
-			AfxMessageBox(_TB("Field name already exists"));
-			break;
-		}
-		else
-			SetColoredState(CrsProp::Normal);*/
-
 		CString errMsg = _T("");
 
 		if (CheckPropValue(false, errMsg))
@@ -23134,26 +22932,8 @@ BOOL CRSCommonProp::OnUpdateValue()
 
 	case CRSCommonProp::PropType::COLUMN_BLOCK_NAME:
 	{
-		CString name = this->GetValue();
-
-		if (AfxGetTokensTable()->IsInLanguage(name))
-		{
-			SetColoredState(CrsProp::State::Error);
-			AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-			break;
-		}
-		else
-			SetColoredState(CrsProp::Normal);
-
-		if (GetDocument()->GetEditorSymTable()->GetField(name))
-		{
-			SetColoredState(CrsProp::State::Error);
-			AfxMessageBox(_TB("Field name allready exists"));
-			break;
-		}
-		else
-			SetColoredState(CrsProp::Normal);
-
+		CString errMsg = _T("");
+		CheckPropValue(FALSE, errMsg);
 		break;
 	}
 
@@ -23251,7 +23031,7 @@ BOOL CRSCommonProp::OnUpdateValue()
 		break;
 	}
 
-	case CRSCommonProp::PropType::NEW_TABLE_MODULE_NAME:
+	case CRSCommonProp::PropType::SELECT_TABLE_MODULE_NAME:
 	case CRSCommonProp::PropType::NEW_HOTLINK_MODULE_NAME:
 	{
 		int index = GetSelectedOption();
@@ -23267,7 +23047,7 @@ BOOL CRSCommonProp::OnUpdateValue()
 		m_pChildProp->RemoveAllOptions();
 		m_pChildProp->SetValue(L"");
 		
-		if (m_eType == CRSCommonProp::PropType::NEW_TABLE_MODULE_NAME)
+		if (m_eType == CRSCommonProp::PropType::SELECT_TABLE_MODULE_NAME)
 			m_pPropertyView->LoadTables(this->m_pChildProp, pModule);
 		else if (m_eType == CRSCommonProp::PropType::NEW_HOTLINK_MODULE_NAME)
 			m_pPropertyView->LoadHotlinks(this->m_pChildProp, pModule);
@@ -23278,44 +23058,52 @@ BOOL CRSCommonProp::OnUpdateValue()
 		break;
 	}
 
-	case CRSCommonProp::PropType::NEW_TABLE_NAME:
+	case CRSCommonProp::PropType::SELECT_TABLE_NAME:
 	{
+		SetColoredState(CrsProp::Normal);
+
 		if (m_pPropertyView->m_pPropGrid->GetProperty(0)->GetSubItemsCount() > 2)
 		{
+			CBCGPProp* propColumns = m_pPropertyView->m_pPropGrid->GetProperty(0)->GetSubItem(2);
+
 			// clean all properties under the table property
-			//GetPropertyGrid()->RemovePropertiesAfter(this, FALSE);
-			for (int i = m_pPropertyView->m_pPropGrid->GetProperty(0)->GetSubItemsCount() - 1; i > 0; i--)
+			for (int i = propColumns->GetSubItemsCount() - 1; i > 0; i--)
 			{
-				//int count = m_pPropertyView->m_pPropGrid->GetPropertyCount();
-				CBCGPProp* prop = m_pPropertyView->m_pPropGrid->GetProperty(0)->GetSubItem(i);
-				m_pPropertyView->m_pPropGrid->GetProperty(0)->RemoveSubItem(prop, TRUE);
+				CBCGPProp* prop = propColumns->GetSubItem(i);
+				propColumns->RemoveSubItem(prop, TRUE);
 			}
+			m_pPropertyView->m_pPropGrid->GetProperty(0)->RemoveSubItem(propColumns, TRUE);
+			m_pPropertyView->m_pPropGrid->AdjustLayout();
 		}
 
 		int index = GetSelectedOption();
 		CString table = GetValue();
 		if (index < 0)
 		{
-			if (AfxGetTokensTable()->IsInLanguage(table))
-			{
-				SetColoredState(CrsProp::State::Error);
-				AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
+			/*
+			//Commentato: Il check del nome non serve: non sto creando la tabella ma sto filtrando fra le esistenti
+			CString errMsg = _T("");
+			if(!CheckPropValue(FALSE, errMsg))
 				break;
-			}
 
-			else
-				SetColoredState(CrsProp::Normal);
+			errMsg = _TB("Table name already exists");
+			CString description = GetDescription();
 
 			if (GetDocument()->GetEditorManager()->GetDispTable()->Find(table, GetDocument()->m_Objects->m_strLayoutName) >-1)
 			{
 				SetColoredState(CrsProp::State::Error);
-				AfxMessageBox(_TB("Table name already exists"));
+				if (description.Find(errMsg) < 0)
+					SetDescription(description + (!description.IsEmpty() ? _T("\n") : _T("")) + errMsg);
 				break;
 			}
+			else if (description.Find(errMsg) < 0)
+			{
+				description.Replace(errMsg, _T(""));
 
-			else
-				SetColoredState(CrsProp::Normal);
-
+				if (description.ReverseFind('\n') == description.GetLength() - 1)
+					description.Delete(description.GetLength() - 1, 1);
+			}*/
+		
 			//GetModule
 			CRSCommonProp* prop = (CRSCommonProp*)GetParent()->GetSubItem(0);
 			int indexAddOn = prop->GetSelectedOption();
@@ -23973,10 +23761,10 @@ void CRS_ObjectPropertyView::NewJoinTablePropertyGrid(CNodeTree* pNode)
 
 	CrsProp* pPropGeneral = new CrsProp(_TB("Add join table/view"));
 
-	CRSCommonProp* propModules = new CRSCommonProp(_TB("Module"), L"", CRSCommonProp::PropType::NEW_TABLE_MODULE_NAME, this);
+	CRSCommonProp* propModules = new CRSCommonProp(_TB("Module"), L"", CRSCommonProp::PropType::SELECT_TABLE_MODULE_NAME, this, _TB("Select the Module that the table belong to"));
 	//propModules->AllowEdit(FALSE);
 
-	CRSCommonProp* propTables = new CRSCommonProp(_TB("Table"), L"", CRSCommonProp::PropType::NEW_TABLE_NAME, this);
+	CRSCommonProp* propTables = new CRSCommonProp(_TB("Table"), L"", CRSCommonProp::PropType::SELECT_TABLE_NAME, this, _TB("Select the name of table or start to write it."));
 	LoadTables(propTables, NULL);
 
 	propModules->m_pChildProp = propTables;
@@ -24004,8 +23792,6 @@ void CRS_ObjectPropertyView::CreateNewJoinTable()
 		tableProp->SetColoredState(CrsProp::State::Error);
 		return;
 	}
-
-	tableProp->SetColoredState(CrsProp::State::Normal);
 
 	DWORD_PTR option = tableProp->GetOptionData(index);
 	SqlCatalogEntry* pCatEntry = dynamic_cast<SqlCatalogEntry*>((CObject*)option);
@@ -24085,43 +23871,14 @@ void CRS_ObjectPropertyView::CreateNewJoinTable()
 		//Variable name
 		CrsProp* propVarName = dynamic_cast<CrsProp*>(pColProp->GetSubItem(0));
 		ASSERT_VALID(propVarName);
-		CString name = propVarName->GetValue();
-		name = name.Trim();
-		if (name.IsEmpty())
+
+		CString errMsg = _T("");
+		if (!propVarName->CheckPropValue(FALSE, errMsg))
 		{
-			propVarName->SetColoredState(CrsProp::Error);
+			if (!errMsg.IsEmpty())
+				AfxMessageBox(errMsg);
 			return;
 		}
-
-		else if (!IsValidName(name))
-		{
-			AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-			propVarName->SetColoredState(CrsProp::Error);
-			return;
-		}
-
-		else
-			propVarName->SetColoredState(CrsProp::Normal);
-
-		if (AfxGetTokensTable()->IsInLanguage(name))
-		{
-			AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-			propVarName->SetColoredState(CrsProp::Error);
-			return;
-		}
-
-		else
-			propVarName->SetColoredState(CrsProp::Normal);
-
-		if (GetDocument()->GetEditorSymTable()->GetField(name))
-		{
-			propVarName->SetColoredState(CrsProp::Error);
-			AfxMessageBox(_TB("This name allready exists"));
-			return;
-		}
-
-		else
-			propVarName->SetColoredState(CrsProp::Normal);
 
 		const SqlColumnInfo* currentColumn = dynamic_cast<const SqlColumnInfo*>((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
@@ -24160,6 +23917,7 @@ void CRS_ObjectPropertyView::CreateNewJoinTable()
 			dType = DataType(DATA_ENUM_TYPE, enumType);
 		}
 
+		CString name = propVarName->GetValue();
 		CString phName = bQualified ? currentColumn->GetQualifiedColumnName() : currentColumn->GetColumnName();
 
 		/*DataFieldLink* pFL = */pTblRule->AddLink(phName, name, FALSE, dType, pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetUpperBound());
@@ -24236,31 +23994,17 @@ void CRS_ObjectPropertyView::CreateNewCalcColumn()
 	TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(m_pTreeNode->m_pItemData);
 	ASSERT_VALID(pTblRule);
 
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->CheckPropValue(FALSE, errMsg))
+	{
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
+		return;
+	}
+
 	m_NewName.Trim();
-	if (m_NewName.IsEmpty())
-	{
-		AfxMessageBox(_TB("Name cannot be empty")); 
-		return;
-	}
-
-	else if (!IsValidName(m_NewName))
-	{
-		AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		return;
-	}
 	
-	if (AfxGetTokensTable()->IsInLanguage(m_NewName))
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		return;
-	}
-
 	WoormTable*	pSymTable = GetDocument()->GetEditorSymTable();
-	if (pSymTable->GetField(m_NewName))
-	{
-		AfxMessageBox(_TB("Field name allready exists"));
-		return;	
-	}
 
 	if (m_NewType == DataType::Array || m_NewType == DataType::Null)
 	{
@@ -24527,21 +24271,15 @@ void CRS_ObjectPropertyView::NewProcedurePropertyGrid(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 void CRS_ObjectPropertyView::CreateNewProcedure()
 {
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->CheckPropValue(FALSE, errMsg))
+	{
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
+		return;
+	}
+
 	m_NewName.Trim();
-	if (m_NewName.IsEmpty())
-		return;
-
-	if (!IsValidName(m_NewName))
-	{
-		AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		return;
-	}
-
-	if (AfxGetTokensTable()->GetKeywordsToken(m_NewName) != T_NOTOKEN)
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		return;
-	}
 
 	ProcedureData*	pProcedures = dynamic_cast<ProcedureData*>(m_pTreeNode->m_pItemData);
 	ASSERT_VALID(pProcedures);
@@ -24586,22 +24324,16 @@ void CRS_ObjectPropertyView::NewNamedQueryPropertyGrid(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 void CRS_ObjectPropertyView::CreateNewNamedQuery()
 {
+	CString errMsg = _T("");
+	if (!((CrsProp*)m_pPropGrid->GetProperty(0)->GetSubItem(0))->CheckPropValue(FALSE, errMsg))
+	{
+		if (!errMsg.IsEmpty())
+			AfxMessageBox(errMsg);
+		return;
+	}
+
 	m_NewName.Trim();
-	if (m_NewName.IsEmpty())
-		return;
-
-	if (!IsValidName(m_NewName))
-	{
-		AfxMessageBox(_TB("Name is invalid! The name can contain only letters, numbers and a '_'. The name cannot start with a number"));
-		return;
-	}
-
-	if (AfxGetTokensTable()->GetKeywordsToken(m_NewName) != T_NOTOKEN)
-	{
-		AfxMessageBox(_TB("The name collides with a reserved word of TaskBuilder"));
-		return;
-	}
-
+	
 	QueryObjectData* pQueries = dynamic_cast<QueryObjectData*>(m_pTreeNode->m_pItemData);
 	ASSERT_VALID(pQueries);
 
@@ -25556,13 +25288,15 @@ BOOL CRSTriggerEventProp::OnUpdateValue()
 	{
 		case CRSTriggerEventProp::PropType::EVENT_NAME:
 		{
-			CString name = this->GetValue();
-			
-			name.Trim();
-			
-			m_pEvent->m_strEventName = name;
+			CString errMsg = _T("");
 
-			GetDocument()->UpdateRSTreeNode(ERefreshEditor::Events, GetCurrentNode(), FALSE);
+			if (CheckPropValue(false, errMsg))
+			{
+				CString name = this->GetValue();
+				name.Trim();
+				m_pEvent->m_strEventName = name;
+				GetDocument()->UpdateRSTreeNode(ERefreshEditor::Events, GetCurrentNode(), FALSE);
+			}
 			break;
 		}
 
