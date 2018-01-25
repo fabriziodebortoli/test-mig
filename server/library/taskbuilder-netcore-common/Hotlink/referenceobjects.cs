@@ -146,6 +146,8 @@ namespace Microarea.Common.Hotlink
             }
         }
 
+        public ReferenceObjectsPrototype() { }
+
         //-----------------------------------------------------------------------------
         public ReferenceObjectsPrototype
             (
