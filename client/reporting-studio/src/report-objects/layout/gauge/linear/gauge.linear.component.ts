@@ -1,5 +1,5 @@
 import { gauge } from './../../../../models/gauge.model';
-import { Component, Input, } from '@angular/core';
+import { Component, Input, Type } from '@angular/core';
 
 
 @Component({
