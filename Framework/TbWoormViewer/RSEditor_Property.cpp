@@ -21742,12 +21742,13 @@ BOOL CrsProp::CheckPropValue(BOOL bAllowEmpty, CString &errMsg)
 	if (!errMsg.IsEmpty() )
 	{ 
 		SetNewDescription(errMsg, TRUE);
+		GetPropertyGrid()->AdjustLayout();
 		return false;
 	}		
 	else
 	{ 
 		SetOriginalDescription();
-		GetPropertyGrid()->EnableDescriptionArea(TRUE);
+		GetPropertyGrid()->AdjustLayout();
 		SetColoredState(CrsProp::Normal);
 		return true;
 	}

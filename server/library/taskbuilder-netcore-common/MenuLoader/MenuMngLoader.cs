@@ -658,7 +658,7 @@ namespace Microarea.Common.MenuLoader
                 CurrentPathFinder.FileSystemManager.ExistPath(customModuleReportPath + NameSolverStrings.Directoryseparetor + Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName))
                 )
             {
-                currentUserCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) , "*" + NameSolverStrings.WrmExtension);
+                currentUserCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(customModuleReportPath + NameSolverStrings.Directoryseparetor +  Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) , "*" + NameSolverStrings.WrmExtension);
                 if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Count > 0)
                 {
                     foreach (TBFile currentUserCustomReportFileInfo in currentUserCustomReportFiles)
