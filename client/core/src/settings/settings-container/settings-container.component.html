@@ -8,12 +8,12 @@
                     <tb-tile-manager-tab title="{{_TB('Selections')}}" icon="erp-europe">
                         <ng-template>
                             <tb-tile-group tbLayoutTypeVbox>
-                                <tb-tile title="{{_TB('Select language')}}" *ngIf="!isDesktop" tbTileAutoFill>
+                                <tb-panel title="{{_TB('Select language')}}" *ngIf="!isDesktop" tbTileAutoFill>
                                     <tb-culture-selector></tb-culture-selector>
-                                </tb-tile>
-                                <tb-tile title="{{_TB('Select theme')}}" tbTileStandard>
+                                </tb-panel>
+                                <tb-panel title="{{_TB('Select theme')}}" tbTileStandard>
                                     <tb-theme-changer></tb-theme-changer>
-                                </tb-tile>
+                                </tb-panel>
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
@@ -21,10 +21,10 @@
                         <ng-template>
                             <tb-tile-group title="{{_TB('ViewAccountInfo')}}" icon="tb-user">
                                 <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-tile title="{{_TB('ViewAccountInfo')}}" tbTileStandard>
+                                    <tb-panel title="{{_TB('ViewAccountInfo')}}" tbTileStandard>
                                         <!-- CHANGE PASSWORD -->
                                         <tb-change-password-host></tb-change-password-host>
-                                    </tb-tile>
+                                    </tb-panel>
                                 </tb-layout-container>
                             </tb-tile-group>
                         </ng-template>
