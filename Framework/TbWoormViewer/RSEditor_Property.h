@@ -516,8 +516,8 @@ public:
 	BOOL	AddSubItem(CBCGPProp* pSubProp, CBCGPPropList* pWndList = NULL);
 
 	int GetOptionDataIndex(DWORD_PTR) const;
-
 	BOOL				InsertOption	(int index, LPCTSTR lpszOption, BOOL bInsertUnique/* = TRUE*/, DWORD_PTR dwData/* = 0*/);
+	BOOL				CheckPropValue(BOOL bAllowEmpty, CString &errMsg);
 	CRS_PropertyGrid*	GetPropertyGrid();
 	void				UpdateMmProp	();
 	virtual void		UpdateIntValue	(int previousValue) {};
@@ -1083,8 +1083,8 @@ public:
 		REINIT_ALWAYS, REINIT_NEVER, REINIT_NORMAL
 	};
 
-	CRSVariableProp(WoormField* wrmField, CString name, LPCTSTR value, VariableType varType, BOOL isFieldProp = FALSE);
-	CRSVariableProp(WoormField* wrmField, CString name, variant_t value, VariableType varType, BOOL isFieldProp = FALSE);
+	CRSVariableProp(WoormField* wrmField, CString name, LPCTSTR value, VariableType varType, BOOL isFieldProp = FALSE, LPCTSTR originDescr = 0);
+	CRSVariableProp(WoormField* wrmField, CString name, variant_t value, VariableType varType, BOOL isFieldProp = FALSE, LPCTSTR originDescr = 0);
 
 protected:
 	BOOL OnUpdateValue();
@@ -1174,7 +1174,7 @@ public:
 	enum PropType {
 		NEW_TYPE, NEW_ENUMTYPE, 
 		NEW_NAME, 
-		NEW_TABLE_NAME, NEW_TABLE_MODULE_NAME,
+		SELECT_TABLE_NAME, SELECT_TABLE_MODULE_NAME,
 		NEW_HOTLINK_NAME, NEW_HOTLINK_MODULE_NAME,
 		NEW_VAR_TYPE, NEW_FIELD_TYPE, NEW_FIELD_ISHIDDEN,
 		NEW_COLUMN_TYPE, NEW_COLUMN_ENUM,
@@ -1183,8 +1183,8 @@ public:
 		NEW_HYPERLINK, NEW_HYPERLINK_VAR_FLAG, COLUMN_BLOCK_NAME 
 	};
 
-	CRSCommonProp(CString name, LPCTSTR value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView);
-	CRSCommonProp(CString name, variant_t value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView);
+	CRSCommonProp(CString name, LPCTSTR value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView, LPCTSTR originDescription = 0);
+	CRSCommonProp(CString name, variant_t value, CRSCommonProp::PropType eType, CRS_ObjectPropertyView* propertyView, LPCTSTR originDescription = 0);
 
 protected:
 	BOOL OnUpdateValue();
