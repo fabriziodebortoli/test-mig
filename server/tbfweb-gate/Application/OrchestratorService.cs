@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,76 +15,61 @@ using TaskBuilderNetCore.Documents.Model.Interfaces;
 namespace Microarea.TbfWebGate.Application
 {
     //===============================================================================================
-    public class OrchestratorService : IDisposable
+    public class OrchestratorService : IDisposable, IOrchestratorService
     {
         IHostingEnvironment hostingEnvironment;
-        WebSocket webSocket;
+        //WebSocket webSocket;
         Orchestrator orchestrator;
         bool disposed;
 
 
         //---------------------------------------------------------------------
-        public OrchestratorService(IHostingEnvironment hostingEnvironment, WebSocket webSocket)
+        public OrchestratorService(IHostingEnvironment hostingEnvironment/*, WebSocket webSocket*/)
         {
             this.hostingEnvironment = hostingEnvironment;
-            this.webSocket = webSocket;
+            //this.webSocket = webSocket;
             this.orchestrator = new Orchestrator(PathFinder.PathFinderInstance);
             this.orchestrator.Configure();
         }
+        
+        //---------------------------------------------------------------------
+        public IEnumerable<string> GetAllComponents()
+        {
+            return null;//return orchestrator.Components.Select(c => c.NameSpace.ToString());
+        }
 
         //---------------------------------------------------------------------
-        //internal async Task ProcessRequest(string url, HttpRequest request, HttpResponse response, string authHeader)
-        //{
-        //    // tolgo l'url
-        //    url = url.Substring(SubUrl.Length);
+        public string GetComponent(CallerContext context)
+        {
+            string outputMessage;
+            var component = orchestrator.GetComponent(context);
+            if (component == null)
+                outputMessage = "{\"Success\" : \"Component not found\"}";
+            else
+                outputMessage = "{\"Success\" : \"Component found\"}";
+            return outputMessage;
+        }
 
-        //    CallerContext context = GetContextFromParameters(request);
-        //    context.AuthToken = authHeader;
+        //---------------------------------------------------------------------
+        public string CloseComponent(CallerContext context)
+        {
+            orchestrator.CloseComponent(context);
 
-        //    string outputMessage = string.Empty;
-        //    response.StatusCode = 200;
+            return "{\"Success\" : \"Component closed\"}";
+        }
 
-        //    switch (url.ToLower())
-        //    {
-        //        case "getcomponent":
-
-        //            outputMessage = GetDocument(context);
-        //            break;
-        //        case "closecomponent":
-        //            orchestrator.CloseComponent(context);
-        //            break;
-        //        case "getdocument":
-
-        //            IDocument document = orchestrator.GetDocument(context);
-        //            if (document == null)
-        //                outputMessage = "{\"Success\" : \"Document not found\"}";
-        //            else
-        //                outputMessage = "{\"Success\" : \"Document found\"}";
-        //            break;
-        //        case "closedocument":
-        //            orchestrator.CloseDocument(context); break;
-        //        case "test":
-        //            TestSamples samples = new TestSamples(orchestrator);
-        //            outputMessage = samples.RunAllTests();
-        //            samples = null;
-        //            break;
-        //        case "saveorders":
-        //            TestSamples testSaveOrders = new TestSamples(orchestrator);
-        //            outputMessage = testSaveOrders.ExecuteSaveOrders();
-        //            samples = null;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //    await response.WriteAsync(outputMessage);
-        //}
+        //---------------------------------------------------------------------
+        public IEnumerable<string> GetAllDocuments()
+        {
+            return orchestrator.Documents.Select(d => d.NameSpace.ToString());
+        }
 
         //---------------------------------------------------------------------
         public string GetDocument(CallerContext context)
         {
             string outputMessage;
-            IComponent component = orchestrator.GetComponent(context);
-            if (component == null)
+            var document = orchestrator.GetDocument(context);
+            if (document == null)
                 outputMessage = "{\"Success\" : \"Document not found\"}";
             else
                 outputMessage = "{\"Success\" : \"Document found\"}";
@@ -104,11 +91,11 @@ namespace Microarea.TbfWebGate.Application
             {
                 if (disposing)
                 {
-                    if (this.webSocket != null)
-                    {
-                        this.webSocket.Dispose();
-                        this.webSocket = null;
-                    }
+                    //if (this.webSocket != null)
+                    //{
+                    //    this.webSocket.Dispose();
+                    //    this.webSocket = null;
+                    //}
                 }
 
                 disposed = true;
