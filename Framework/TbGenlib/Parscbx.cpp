@@ -1666,10 +1666,11 @@ void CParsedCombo::FillListBox()
 	{
 		CStringArray descriptions;
 		DataArray values;
+		m_pItemSource->m_bAllowEmptyData = false;
 		m_pItemSource->GetData(values, descriptions, GetCtrlData()->Str()); //TODOLUCA
 		if (values.GetSize() == descriptions.GetSize())
 		{
-			itemSourcePopulated = descriptions.GetSize() > 0;
+			itemSourcePopulated = descriptions.GetSize() > 0 || m_pItemSource->m_bAllowEmptyData;
 			for (int i = 0; i < values.GetSize(); i++)
 			{
 				CString sDesc = descriptions[i];
