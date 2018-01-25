@@ -467,6 +467,7 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 		return;
 	}
 
+	response.SetCookie(AUTH_TOKEN_PARAM, authToken);
 	AfxGetApplicationContext()->SetRemoteInterface(isRemoteInterface);
 	if (!isRemoteInterface)
 	{
