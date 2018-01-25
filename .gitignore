@@ -117,4 +117,4 @@ Tools/InternationalStudio/packages/
 
 # file json di dizionario generati da International Studio per i progetti angular
 */*/src/dictionary/
-WebFramework/LoginManager/App_Data/
+WebFramework/LoginManager/App_Data/*
