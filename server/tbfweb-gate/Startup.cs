@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microarea.Common;
+using Microarea.TbfWebGate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +15,8 @@ namespace Microarea.TbfWebGate
 {
     public class Startup
     {
+        readonly IWebAppConfigurator webAppConfigurator = new TbfWebGateWebAppConfigurator();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,13 +27,7 @@ namespace Microarea.TbfWebGate
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddApiVersioning(o =>
-            {
-                o.ReportApiVersions = true;
-                o.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-                o.AssumeDefaultVersionWhenUnspecified = true;
-            });
+            webAppConfigurator.ConfigureServices(Configuration, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

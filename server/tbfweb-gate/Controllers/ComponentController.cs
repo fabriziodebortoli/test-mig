@@ -1,36 +1,33 @@
-﻿using Microarea.Common.NameSolver;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microarea.TbfWebGate.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using TaskBuilderNetCore.Documents.Controllers;
 using TaskBuilderNetCore.Documents.Model;
 
 namespace Microarea.TbfWebGate.Controllers
 {
     //=========================================================================
-    //[ApiVersion("1.0")]
-    //[Route("api/{version:apiVersion}/[controller]")]
     [Authorize(Policy = "LoggedIn")]
     [Produces("application/json")]
-    [Route("api/[controller]")]
-    public class DocumentController : Microsoft.AspNetCore.Mvc.Controller
+    [Route("api/Component")]
+    public class ComponentController : Controller
     {
         IOrchestratorService orchestratorService;
 
         //---------------------------------------------------------------------
-        public DocumentController(IOrchestratorService orchestratorService)
+        public ComponentController(IOrchestratorService orchestratorService)
         {
             this.orchestratorService = orchestratorService;
         }
 
         //---------------------------------------------------------------------
-        // GET api/document/
+        // GET: api/Component
         [HttpGet]
         public IActionResult Get()
         {
@@ -39,7 +36,7 @@ namespace Microarea.TbfWebGate.Controllers
             {
                 return Forbid();
             }
-            return Json(orchestratorService.GetAllDocuments());
+            return Json(orchestratorService.GetAllComponents());
         }
 
         //---------------------------------------------------------------------
@@ -58,13 +55,13 @@ namespace Microarea.TbfWebGate.Controllers
                 AuthToken = userInfo.AuthenticationToken
             };
 
-            return Json(orchestratorService.GetDocument(context));
+            return Json(orchestratorService.GetComponent(context));
         }
 
         //---------------------------------------------------------------------
-        // GET api/document/close?documentNamespace=ERP.Sales.Documents.Invoice
+        // GET api/component/close?namespace=ERP.Sales.Documents.Invoice
         [Route("close")]
-        public IActionResult Close([FromQuery]string @namespace)
+         public IActionResult Close([FromQuery]string @namespace)
         {
             var userInfo = this.GetLoginInformation(null, HttpContext.Request, HttpContext.Session);
             if (userInfo == null)
@@ -77,7 +74,7 @@ namespace Microarea.TbfWebGate.Controllers
                 AuthToken = userInfo.AuthenticationToken
             };
 
-            return Json(orchestratorService.CloseDocument(context));
+            return Json(orchestratorService.CloseComponent(context));
         }
     }
 }
