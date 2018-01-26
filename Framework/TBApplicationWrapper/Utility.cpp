@@ -950,3 +950,57 @@ System::Drawing::Size CUtility::GetIdealHeaderStripSize()
 }
 /*fine get per le min size dei controlli*/
 
+
+//-----------------------------------------------------------------------------
+PathFinderWrapper::PathFinderWrapper()
+{
+
+}
+
+//-----------------------------------------------------------------------------
+System::String^ PathFinderWrapper::GetCustomApplicationsPath()
+{
+	return gcnew System::String(AfxGetPathFinder()->GetCustomPath());
+}
+
+//-----------------------------------------------------------------------------
+System::String^ PathFinderWrapper::GetTemplatesPath(bool inCustom)
+{
+	return gcnew System::String
+	(
+		AfxGetPathFinder()->GetTemplatesPath
+		(
+			CTBNamespace(_T("Module.Extensions.EasyStudio")), 
+			inCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD,
+			inCustom
+		)
+	);
+}
+
+//-----------------------------------------------------------------------------
+bool PathFinderWrapper::ExistFile(System::String^ fileName)
+{
+	return ::ExistFile(fileName) == TRUE;
+}
+
+//-----------------------------------------------------------------------------
+bool PathFinderWrapper::ExistFolder(System::String^ path)
+{
+	return ExistPath(path) == TRUE;
+}
+
+//-----------------------------------------------------------------------------
+System::Collections::Generic::List<System::String^>^ PathFinderWrapper::GetFiles(System::String^ path, System::String^ searchKey)
+{
+	List<System::String^>^ files = gcnew List<System::String^>();
+	CStringArray aFiles;
+	::GetFiles(CString(path), CString(searchKey), &aFiles);
+	for (int i = 0; i < aFiles.GetSize(); i++)
+	{
+		CString sFileName = aFiles.GetAt(i);
+		files->Add(gcnew String(sFileName));
+	}
+
+	return files;
+}
+
