@@ -4,6 +4,7 @@ import { Http, Headers } from '@angular/http';
 import { Observable, ErrorObservable } from '../../rxjs.imports';
 import { Logger } from './logger.service';
 import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
+import { addModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 
 export function loadConfig(config) {
     return () => config.load();
@@ -18,7 +19,7 @@ export class InfoService {
 
     productInfo: any = null;
     dictionaries: any = null;
-    culture = { enabled: true, value: '' };
+    culture = createEmptyModel();
     cultureId = 'ui_culture';
     tbLoaderInfoId = 'tbLoaderInfo';
     tbLoaderInfo: TBLoaderInfo;
@@ -29,6 +30,7 @@ export class InfoService {
         public logger: Logger,
         public utilsService: UtilsService
     ) {
+        addModelBehaviour(this.culture);
         this.culture.value = localStorage.getItem(this.cultureId);
     }
 
