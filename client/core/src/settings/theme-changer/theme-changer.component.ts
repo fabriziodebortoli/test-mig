@@ -17,8 +17,7 @@ import { ViewEncapsulation } from '@angular/core';
 @Component({
     selector: 'tb-theme-changer',
     templateUrl: './theme-changer.component.html',
-    styleUrls: ['./theme-changer.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./theme-changer.component.scss']
 })
 export class ThemeChangerComponent {
 

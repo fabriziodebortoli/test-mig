@@ -4,8 +4,7 @@ import { PanelComponent } from '../../panel/panel.component';
 @Component({
   selector: 'tb-layout-container',
   templateUrl: './layout-container.component.html',
-  styleUrls: ['./layout-container.component.scss'],
-  exportAs: 'pippo'
+  styleUrls: ['./layout-container.component.scss']
 })
 export class LayoutContainerComponent implements AfterViewInit{
 

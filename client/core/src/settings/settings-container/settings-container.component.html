@@ -5,6 +5,7 @@
         <tb-view-container>
             <tb-view>
                 <tb-tile-manager>
+
                     <tb-tile-manager-tab title="{{_TB('Selections')}}" icon="erp-europe">
                         <ng-template>
                             <tb-tile-group tbLayoutTypeVbox>
@@ -17,18 +18,33 @@
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
+
                     <tb-tile-manager-tab title="{{_TB('Product info')}}" icon="tb-info">
                         <ng-template>
-                            <tb-tile-group title="{{_TB('ViewAccountInfo')}}" icon="tb-user">
+                            <tb-tile-group>
                                 <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel title="{{_TB('ViewAccountInfo')}}" tbTileStandard>
-                                        <!-- CHANGE PASSWORD -->
-                                        <tb-change-password-host></tb-change-password-host>
+                                    <tb-panel title="{{_TB('Product info')}}" tbTileStandard>
+                                        <tb-product-info></tb-product-info>
+                                    </tb-panel>
+                                    <tb-panel title="{{_TB('Connection Info')}}" tbTileStandard>
+                                        <tb-connection-info></tb-connection-info>
                                     </tb-panel>
                                 </tb-layout-container>
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
+
+                    <tb-tile-manager-tab title="{{_TB('ViewAccountInfo')}}" icon="tb-user">
+                        <ng-template>
+                            <tb-tile-group tbLayoutTypeColumn>
+                                <tb-panel title="{{_TB('ViewAccountInfo')}}" tbTileStandard>
+                                    <!-- CHANGE PASSWORD -->
+                                    <tb-change-password-host></tb-change-password-host>
+                                </tb-panel>
+                            </tb-tile-group>
+                        </ng-template>
+                    </tb-tile-manager-tab>
+
                 </tb-tile-manager>
             </tb-view>
         </tb-view-container>
