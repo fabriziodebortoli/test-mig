@@ -16,7 +16,7 @@ namespace Microarea.TbfWebGate.Controllers
     //=========================================================================
     //[ApiVersion("1.0")]
     //[Route("api/{version:apiVersion}/[controller]")]
-    [Authorize(Policy = "LoggedIn")]
+    //[Authorize(Policy = "LoggedIn")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class DocumentController : Microsoft.AspNetCore.Mvc.Controller

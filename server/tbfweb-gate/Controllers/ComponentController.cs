@@ -13,7 +13,7 @@ using TaskBuilderNetCore.Documents.Model;
 namespace Microarea.TbfWebGate.Controllers
 {
     //=========================================================================
-    [Authorize(Policy = "LoggedIn")]
+    //[Authorize(Policy = "LoggedIn")]
     [Produces("application/json")]
     [Route("api/Component")]
     public class ComponentController : Controller
