@@ -456,7 +456,8 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 		//travaso eventuali messaggi (ad es. esercizio non definito)
 		CString message;
 		GetDiagnosticMessages(pContext, message);
-		jsonResponse.SetMessage(message);
+		if (!message->IsEmpty())
+			jsonResponse.SetMessage(message);
 	}
 	if (pContext == NULL || !pContext->IsValid())
 	{
