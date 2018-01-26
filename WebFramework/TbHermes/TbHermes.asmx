@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="TbHermes.asmx.cs" Class="Microarea.WebServices.TbHermes.TbHermes" %>

@@ -117,7 +117,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
 		private TbServices tbService = null;
 		private EasyAttachmentSync eaSync = null;
         private TbSenderWrapper tbsender = null;
-		private TbHermesWrapper tbHermes;
 		private DataSynchronizer dataSynch = null;
 
 		private Diagnostic diagnostic = new Diagnostic("ServicesAdminPlugIn");
@@ -506,7 +505,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
 			tbService = new TbServices(pathFinder.TbServicesUrl, InstallationData.ServerConnectionInfo.WebServicesTimeOut);
 			eaSync = new EasyAttachmentSync(pathFinder.EasyAttachmentSyncUrl);
             tbsender = new TbSenderWrapper(pathFinder.TbSenderUrl);
-			this.tbHermes = new TbHermesWrapper();
 			dataSynch = new DataSynchronizer(pathFinder.DataSynchronizerUrl);
 		}
 		# endregion
@@ -1047,7 +1045,7 @@ namespace Microarea.Console.Plugin.ServicesAdmin
 			workingAreaConsoleBottom.Enabled		= false;
 			workingAreaConsoleBottom.Visible		= false;
 
-			WebServicesDetail webServicesDetail		= new WebServicesDetail(loginManager, lockManager, tbService, eaSync, tbsender, tbHermes, dataSynch, consoleTree.StateImageList);
+			WebServicesDetail webServicesDetail		= new WebServicesDetail(loginManager, lockManager, tbService, eaSync, tbsender, dataSynch, consoleTree.StateImageList);
 			webServicesDetail.OnAskAllCompanies     += new WebServicesDetail.AskAllCompanies(CallOnGetCompanies);
 			webServicesDetail.OnAskAllLogins        += new WebServicesDetail.AskAllLogins(loginsDetail_OnGetApplicationUsers);
 			webServicesDetail.OnAskAllCompanyUsers  += new WebServicesDetail.AskAllCompanyUsers(loginsDetail_OnGetCompanyUsers);
