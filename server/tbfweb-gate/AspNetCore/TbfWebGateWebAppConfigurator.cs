@@ -37,13 +37,13 @@ namespace Microarea.TbfWebGate.AspNetCore
             services.AddSingleton<IOrchestratorService, OrchestratorService>();
 
             //Authorization
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(
-                    "LoggedIn", policy => policy.Requirements.Add(new TbfAuthorizationRequirement())
-                    );
-            });
-            services.AddSingleton<IAuthorizationHandler, TbfAuthorizationHandler>();
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy(
+            //        "LoggedIn", policy => policy.Requirements.Add(new TbfAuthorizationRequirement())
+            //        );
+            //});
+            //services.AddSingleton<IAuthorizationHandler, TbfAuthorizationHandler>();
         }
 
         public void MapRoutes(IRouteBuilder routes)
