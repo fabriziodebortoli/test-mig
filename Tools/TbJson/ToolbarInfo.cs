@@ -74,7 +74,7 @@ namespace Microarea.TbJson
                 case CommandCategory.Print:
                 case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "toolbar-undefined";
             }
         }
         static private string GetToolbarCategoryClass(CommandCategory cat)
@@ -95,7 +95,7 @@ namespace Microarea.TbJson
                 case CommandCategory.Print:
                 case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "menu-category undefined";
             }
         }
     }
