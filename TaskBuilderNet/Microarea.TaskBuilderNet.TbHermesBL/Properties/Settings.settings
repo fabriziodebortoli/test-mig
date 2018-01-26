@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Microarea.TaskBuilderNet.TbHermesBL.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Microarea_TaskBuilderNet_TbHermesBL_tbDms_TbDMS" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://usr-sassofeder:10000/Extensions.EasyAttachment.TbDMS/TbDMS</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>

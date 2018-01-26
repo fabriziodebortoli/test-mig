@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.AttachArchivedDocument" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.AttachArchivedDocument" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="archivedDocId" type="xs:int" />
-  <xs:element name="documentHandle" type="xs:int" />
-  <xs:element name="result" nillable="true" type="xs:string" />
-  <xs:element name="return" type="xs:boolean" />
-</xs:schema>

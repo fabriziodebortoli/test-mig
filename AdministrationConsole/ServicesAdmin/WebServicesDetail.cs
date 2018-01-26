@@ -28,7 +28,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
         private LockManager aLockManager = null;
         private TbServices aTBService = null;
         private TbSenderWrapper tbSender;
-        private TbHermesWrapper tbHermes;
         private EasyAttachmentSync eaSync = null;
         private DataSynchronizer dataSynch = null;
 
@@ -88,7 +87,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
             TbServices tbService,
             EasyAttachmentSync eaSync,
             TbSenderWrapper tbsender,
-            TbHermesWrapper tbHermes,
             DataSynchronizer dataSynch,
             ImageList images
             )
@@ -100,7 +98,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
             aTBService = tbService;
             this.eaSync = eaSync;
             this.tbSender = tbsender;
-            this.tbHermes = tbHermes;
             this.dataSynch = dataSynch;
 
             this.consoleImageList = images;
@@ -974,9 +971,6 @@ namespace Microarea.Console.Plugin.ServicesAdmin
                         // TODO eliminare switch, usare dictionary precaricato con vari ITbWebService e key==Name
                         case NameSolverStrings.TbSender:
                             RestartTbWebService(this.tbSender);
-                            break;
-                        case NameSolverStrings.TbHermes:
-                            RestartTbWebService(this.tbHermes);
                             break;
                         default:
                             break;
