@@ -1,0 +1,350 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SailorsPromises</name>
+    </assembly>
+    <members>
+        <member name="T:SailorsPromises.A">
+            <summary>
+            A factory class to get <code>Sailor</code> instances.
+            </summary>
+        </member>
+        <member name="M:SailorsPromises.A.#ctor">
+            <remarks />
+        </member>
+        <member name="M:SailorsPromises.A.Sailor">
+            <summary>
+            Returns an instance of an object implementing the <code>ISailor</code> interface.
+            </summary>
+            <returns>An object implementing the <code>ISailor</code> interface</returns>        
+        </member>
+        <member name="T:SailorsPromises.AbortablePromise">
+            <summary>
+            Internal class implementing the <code>IPromise</code> interface
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.onFulfilledCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.onRejectedCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.onNotifyCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.onFinallyCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.onAbortCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.value">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.reason">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.followingPromise">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.promiseState">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.AbortablePromise.AbortRequested">
+            <remarks />
+        </member>
+        <member name="M:SailorsPromises.AbortablePromise.#ctor">
+            <remarks />
+        </member>
+        <member name="T:SailorsPromises.CancellationToken">
+            <summary>
+            A token to cancel a pending promise
+            </summary>
+        </member>
+        <member name="P:SailorsPromises.CancellationToken.IsCancellationRequested">
+            <summary>
+            true if a cancellation has been requested, otherwise false.
+            </summary>
+        </member>
+        <member name="T:SailorsPromises.IAbortablePromise">
+            <summary>
+            IAbortablePromise interface.
+            </summary>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.Abort">
+            <summary>
+            The current operation is aborted.
+            </summary>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.OnAbort(SailorsPromises.Action)">
+            <summary>
+            Specify the action to be executed when the promise is aborted.
+            </summary>
+            <param name="onAbort">The action to be executed when the promise is aborted.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="P:SailorsPromises.IAbortablePromise.Value">
+            <summary>
+            Gets the result of a fulfilled promise.
+            </summary>
+            <value>The Value property returns the value of a fulfilled promise.</value>
+            <exception cref="T:System.InvalidOperationException">If the promise is not in the fulfilled state.</exception>
+        </member>
+        <member name="P:SailorsPromises.IAbortablePromise.Reason">
+            <summary>
+            Gets the exception for a rejected promise.
+            </summary>
+            <value>The Reason property returns the exception happened for a rejected promise.</value>
+            <exception cref="T:System.InvalidOperationException">If the promise is not in the fulfilled state.</exception>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.Then(System.Action{System.Object})">
+            <summary>
+            Specify the action to be executed if the promise is fulfilled.
+            </summary>
+            <param name="onFulfilled">The action to be executed if the promise is fulfilled.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.OnError(System.Action{System.Exception})">
+            <summary>
+            Specify the action to be executed if the promise is rejected due to an exception.
+            </summary>
+            <param name="onRejected">The action to be executed if the promise is rejected due to an exception.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.Finally(SailorsPromises.Action)">
+            <summary>
+            Specify the action to be executed at the end of an execution, both fulfilled and rejected.
+            </summary>
+            <param name="onFinally">The action to be executed at the end of an execution.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IAbortablePromise.Notify(System.Action{System.Object})">
+            <summary>
+            Specify the action to be executed to notify events.
+            </summary>
+            <param name="onNotify">The action to be executed to notify something happened.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="T:SailorsPromises.Action">
+            <summary>
+            Delegate to void method which takes no parameters.
+            </summary>
+        </member>
+        <member name="T:SailorsPromises.IPromise">
+            <summary>
+            IPromise interface.
+            </summary>
+        </member>
+        <member name="P:SailorsPromises.IPromise.Value">
+            <summary>
+            Gets the result of a fulfilled promise.
+            </summary>
+            <value>The Value property returns the value of a fulfilled promise.</value>
+            <exception cref="T:System.InvalidOperationException">If the promise is not in the fulfilled state.</exception>
+        </member>
+        <member name="P:SailorsPromises.IPromise.Reason">
+            <summary>
+            Gets the exception for a rejected promise.
+            </summary>
+            <value>The Reason property returns the exception happened for a rejected promise.</value>
+            <exception cref="T:System.InvalidOperationException">If the promise is not in the fulfilled state.</exception>
+        </member>
+        <member name="M:SailorsPromises.IPromise.Then(System.Action{System.Object})">
+            <summary>
+            Specify the action to be executed if the promise is fulfilled.
+            </summary>
+            <param name="onFulfilled">The action to be executed if the promise is fulfilled.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IPromise.OnError(System.Action{System.Exception})">
+            <summary>
+            Specify the action to be executed if the promise is rejected due to an exception.
+            </summary>
+            <param name="onRejected">The action to be executed if the promise is rejected due to an exception.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IPromise.Finally(SailorsPromises.Action)">
+            <summary>
+            Specify the action to be executed at the end of an execution, both fulfilled and rejected.
+            </summary>
+            <param name="onFinally">The action to be executed at the end of an execution.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="M:SailorsPromises.IPromise.Notify(System.Action{System.Object})">
+            <summary>
+            Specify the action to be executed to notify events.
+            </summary>
+            <param name="onNotify">The action to be executed to notify something happened.</param>
+            <returns>A new instance of a promise chained to this one.</returns>
+        </member>
+        <member name="T:SailorsPromises.ISailor">
+            <summary>
+            A Sailor famous for keeping his promises.
+            </summary>
+        </member>
+        <member name="P:SailorsPromises.ISailor.Promise">
+            <summary>
+            Gets the <code>IPromise</code> object to manage the asynchronous operation.
+            </summary>
+            <value>The <code>ISailor</code> promise</value>
+        </member>
+        <member name="M:SailorsPromises.ISailor.Resolve(System.Object)">
+            <summary>
+            Resolves the given promise causing the Then promise action to be called.
+            </summary>
+            <param name="value">The result of the deferred operation if any, null otherwise.</param>
+        </member>
+        <member name="M:SailorsPromises.ISailor.Reject(System.Exception)">
+            <summary>
+            Rejects the give promise causing the OnError action to be called.
+            </summary>
+            <param name="exception">The exception causing the promise to be rejected.</param>
+        </member>
+        <member name="M:SailorsPromises.ISailor.Finally">
+            <summary>
+            Calls the Finally promise action both when the promise is resolved and when it is rejected.
+            </summary>
+            <remarks>It works exactly like the <code>finally</code> C# keyword.</remarks>
+        </member>
+        <member name="M:SailorsPromises.ISailor.Notify(System.Object)">
+            <summary>
+            Calls the Notify promise action to update the state of the current asynchronous operation.
+            </summary>
+            <param name="value">A value indicating the progress if any, otherwise null.</param>
+        </member>
+        <member name="M:SailorsPromises.ISailor.When(SailorsPromises.Action)">
+            <summary>
+            Executes the action asynchronously on another thread and the executes the standard promise pattern (then action if all is good, the OnError action if there are exceptions and so on).
+            </summary>
+            <param name="action">The action to be executed asynchronously on another thread.</param>
+            <returns>The promise to interact with.</returns>
+        </member>
+        <member name="M:SailorsPromises.ISailor.When(System.Action{SailorsPromises.CancellationToken})">
+            <summary>
+            Executes the action asynchronously on another thread and the executes the standard promise pattern (then action if all is good, the OnError action if there are exceptions and so on).
+            </summary>
+            <remarks>A cancellationToken is passed to check if the action should be cancelled</remarks>
+            <param name="action">The action to be executed asynchronously on another thread.</param>
+            <returns>The promise to interact with.</returns>
+        </member>
+        <member name="T:SailorsPromises.Promise">
+            <summary>
+            Internal class implementing the <code>IPromise</code> interface
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.Promise.onFulfilledCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.onRejectedCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.onNotifyCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.onFinallyCallbacks">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.value">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.reason">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.followingPromise">
+            <remarks />
+        </member>
+        <member name="F:SailorsPromises.Promise.promiseState">
+            <remarks />
+        </member>
+        <member name="M:SailorsPromises.Promise.#ctor">
+            <remarks />
+        </member>
+        <member name="T:SailorsPromises.PromiseState">
+            <summary>
+            Describes the state of a give promise.
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.PromiseState.None">
+            <summary>
+            The initial state.
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.PromiseState.Pending">
+            <summary>
+            A promise to be resolved or rejected.
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.PromiseState.Fulfilled">
+            <summary>
+            A resolved promise.
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.PromiseState.Rejected">
+            <summary>
+            A rejected promise.
+            </summary>
+        </member>
+        <member name="F:SailorsPromises.PromiseState.Aborted">
+            <summary>
+            A aborted promise.
+            </summary>
+        </member>
+        <member name="T:SailorsPromises.Sailor">
+            <summary>
+            A Sailor famous for keeping his promises.
+            </summary>
+        </member>
+        <member name="M:SailorsPromises.Sailor.#ctor">
+            <summary>
+            Create a new instance of a Sailor
+            </summary>
+        </member>
+        <member name="P:SailorsPromises.Sailor.Promise">
+            <summary>
+            Gets the <code>IPromise</code> object to manage the asynchronous operation.
+            </summary>
+        </member>
+        <member name="M:SailorsPromises.Sailor.Resolve(System.Object)">
+            <summary>
+            Resolves the given promise causing the Then promise action to be called.
+            </summary>
+            <param name="value">The result of the deferred operation if any, null otherwise.</param>
+        </member>
+        <member name="M:SailorsPromises.Sailor.Reject(System.Exception)">
+            <summary>
+            Rejects the give promise causing the OnError action to be called.
+            </summary>
+            <param name="exception">The exception causing the promise to be rejected.</param>
+        </member>
+        <member name="M:SailorsPromises.Sailor.Finally">
+            <summary>
+            Calls the Finally promise action both when the promise is resolved and when it is rejected.
+            </summary>
+            <remarks>It works exactly like the <code>finally</code> C# keyword.</remarks>
+        </member>
+        <member name="M:SailorsPromises.Sailor.Notify(System.Object)">
+            <summary>
+            Calls the Notify promise action to update the state of the current asynchronous operation.
+            </summary>
+            <param name="value">A value indicating the progress if any, otherwise null.</param>
+        </member>
+        <member name="M:SailorsPromises.Sailor.When(SailorsPromises.Action)">
+            <summary>
+            Executes the action asynchronously on another thread and the executes the standard promise pattern (then action if all is good, the OnError action if there are exceptions and so on).
+            </summary>
+            <param name="action">The action to be executed asynchronously on another thread.</param>
+            <returns>The promise to interact with.</returns>
+        </member>
+        <member name="M:SailorsPromises.Sailor.When(System.Action{SailorsPromises.CancellationToken})">
+            <summary>
+            Executes the action asynchronously on another thread and the executes the standard promise pattern (then action if all is good, the OnError action if there are exceptions and so on).
+            Tha action takes a <see cref="T:SailorsPromises.CancellationToken"/> to give the chance to stop the working thread.
+            </summary>
+            <param name="action">The action to be executed asynchronously on another thread.</param>
+            <returns>The promise to interact with.</returns>
+        </member>
+        <member name="F:SailorsPromises.SyncHelper.synchronizationContext">
+            <remarks />
+        </member>
+    </members>
+</doc>

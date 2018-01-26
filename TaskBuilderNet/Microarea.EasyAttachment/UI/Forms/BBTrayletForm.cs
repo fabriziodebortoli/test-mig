@@ -802,7 +802,7 @@ namespace Microarea.EasyAttachment.UI.Forms
 		/// <param name="a">L'azione che devo andare ad eseguire</param>
 		/// <returns>se è necessario fare la invoke
 		/// </returns>
-		public bool ControlInvokeRequired(Control c, Action a)
+		public bool ControlInvokeRequired(Control c, System.Action a)
 		{
 			if(c.InvokeRequired)
 				c.Invoke(new MethodInvoker(delegate { a(); }));
