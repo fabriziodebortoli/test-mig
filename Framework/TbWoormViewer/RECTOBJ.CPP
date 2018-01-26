@@ -2915,11 +2915,10 @@ void FileRect::Unparse (ViewUnparser& ofile)
 //------------------------------------------------------------------------------
 BOOL FileRect::Parse (ViewParser& lex)
 {
-	CString sFileName;
 	BOOL ok =
 		lex.ParseRect   (T_FILE, m_BaseRect)  &&
 		lex.ParseRatio	(m_nHRatio, m_nVRatio) &&
-		lex.ParseString (sFileName)       &&
+		lex.ParseString (m_strFileName)       &&
 		ParseBlock      (lex);
 
 	if (ok) 
