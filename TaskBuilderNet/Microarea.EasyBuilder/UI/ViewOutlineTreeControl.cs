@@ -789,7 +789,7 @@ namespace Microarea.EasyBuilder.UI
 				return false;
 
 			TreeNode node = treeViewOutlineManagers.SelectedNode;
-			return node != null && node.Tag != null && node.Tag is WindowWrapperContainer;
+			return node != null && node.Tag != null && node.Tag is WindowWrapperContainer && !(node.Tag is MView);
 		}
 
 		//-----------------------------------------------------------------------------

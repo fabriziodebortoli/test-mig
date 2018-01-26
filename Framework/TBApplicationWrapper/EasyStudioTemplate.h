@@ -8,6 +8,7 @@
 #include "MParsedControls.h"
 #include "MPanel.h"
 #include "MHotLink.h"
+#include "beginh.dex"
 
 using namespace Microarea::TaskBuilderNet::Interfaces::View;
 class CWndObjDescription;
@@ -72,9 +73,10 @@ namespace Microarea {
 
 				bool			LoadFrom		(IWindowWrapperContainer^ container);
 				bool			LoadFrom		(System::String^ fileName);
-				bool			Save			(System::String^ path);
+				bool			Save			(bool inCustom);
 				bool			Rename			(System::String^ oldName, System::String^ newName);
 				IWindowWrapper^ ApplyViewModel	(IWindowWrapperContainer^ container, System::Drawing::Point screenLocation);
+				bool			Delete			();
 
 				/// <summary>
 				/// Event raised when the window has to be created
@@ -97,3 +99,5 @@ namespace Microarea {
 		}
 	}
 }
+
+#include "endh.dex"

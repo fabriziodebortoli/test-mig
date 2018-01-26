@@ -165,6 +165,8 @@ const TCHAR szCandidateModulesSep[] = _T(";");
 //DataSynchronizer
 static const TCHAR szSynchroProviders[] = _T("SynchroProviders");
 
+static const TCHAR szTemplate[] = _T("Template");
+
 //============================================================================
 //	Static Objects & general functions
 //============================================================================
@@ -2676,6 +2678,18 @@ const CString CPathFinder::GetJsonFormsFullFileName(const CTBNamespace& aNamespa
 {
 	CString sPath = AfxGetPathFinder()->GetJsonFormsPath(aNamespace, pos, bCreateDir, aCompany, sUserRole);
 	return sPath + SLASH_CHAR + sId + szTBJsonFileExt;
+}
+
+//-----------------------------------------------------------------------------
+const CString CPathFinder::GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir /*FALSE*/, Company aCompany /*CURRENT*/) const
+{
+	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany);
+	sPath = sPath + SLASH_CHAR + CString(szTemplate);
+	
+	if (!ExistPath(sPath))
+		RecursiveCreateFolders(sPath);
+
+	return sPath;
 }
 
 /////////////////////////////////////////////////////////////////////////////

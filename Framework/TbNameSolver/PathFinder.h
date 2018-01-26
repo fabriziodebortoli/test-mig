@@ -199,6 +199,8 @@ public:
 	const CString GetDocumentFormNSChangesFile(const CTBNamespace& aNamespace) const;
 	const CString GetDocumentEventsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 
+	const CString GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+
 	const CString GetAppDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetAppXTechDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetLogDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
