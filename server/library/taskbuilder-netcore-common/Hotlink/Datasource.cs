@@ -233,6 +233,14 @@ namespace Microarea.Common.Hotlink
         //---------------------------------------------------------------------
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
+            // Tappullo (M.R.)
+            // Per poter utilizzare la GetData per caricare un datafile da un datafile invece che da un hotkeylink
+            if (Session.Namespace.StartsWith("DataFile."))
+            {
+                XmlDescription = new ReferenceObjectsPrototype() { Datafile = Session.Namespace , IsDatafile = true};
+                return LoadDataFile();
+            }
+
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
             {

@@ -271,7 +271,7 @@ namespace Microarea.Common.MenuLoader
             /// </summary>
             public DateTime InstallationDate;
             /// <summary>
-            /// Data di confronto per la validità della cache
+            /// Data di confronto per la validitï¿½ della cache
             /// </summary>
             public DateTime CacheDate;
             /// <summary>
@@ -658,7 +658,7 @@ namespace Microarea.Common.MenuLoader
                 CurrentPathFinder.FileSystemManager.ExistPath(customModuleReportPath + NameSolverStrings.Directoryseparetor + Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName))
                 )
             {
-                currentUserCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) , "*" + NameSolverStrings.WrmExtension);
+                currentUserCustomReportFiles = CurrentPathFinder.FileSystemManager.GetFiles(customModuleReportPath + NameSolverStrings.Directoryseparetor +  Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName) , "*" + NameSolverStrings.WrmExtension);
                 if (currentUserCustomReportFiles != null && currentUserCustomReportFiles.Count > 0)
                 {
                     foreach (TBFile currentUserCustomReportFileInfo in currentUserCustomReportFiles)
@@ -878,11 +878,11 @@ namespace Microarea.Common.MenuLoader
                             currentUserCustomOfficeFileInfo.Name.Replace(currentUserCustomOfficeFileInfo.Extension, string.Empty)
                             );
 
-                        // Controllo che non esista un file omonimo sotto la standard perché in tal caso
+                        // Controllo che non esista un file omonimo sotto la standard perchï¿½ in tal caso
                         // si tratterebbe di una personalizzazione di un file di Office "ufficiale" e non di un
                         // file creato ex-novo dall'utente
-                        // Inoltre, devo anche controllare se il file non sia mai utilizzato nel menù. In tal caso
-                        // va comunque aggiunto nei file di Office dell'utente (anche se c'è un file omonimo nella
+                        // Inoltre, devo anche controllare se il file non sia mai utilizzato nel menï¿½. In tal caso
+                        // va comunque aggiunto nei file di Office dell'utente (anche se c'ï¿½ un file omonimo nella
                         // standard)
                         if (
                             ApplicationInfo.IsValidOfficeFileName(currentUserCustomOfficeFileInfo.Name) &&
@@ -1216,7 +1216,7 @@ namespace Microarea.Common.MenuLoader
                                 )
                             {
                                 aModule.StandardMenuPath = moduleMenuDirInfopath;
-                                //Do per scontato che menuPathFinder.User abbia un valore sensato perchè se invece è vuoto allora c'e un problema a monte.
+                                //Do per scontato che menuPathFinder.User abbia un valore sensato perchï¿½ se invece ï¿½ vuoto allora c'e un problema a monte.
                                 string workingMenuPath = Path.Combine(moduleMenuDirInfopath, menuPathFinder.User);
 
                                 List<TBFile> menuFiles = null;
@@ -1429,7 +1429,7 @@ namespace Microarea.Common.MenuLoader
 
             // Adesso che ho caricato i menu di TUTTE le applicazioni ed il mio menu completo, devo
             // andare a vedere se ci sono dei nuovi report o dei file di Office costruiti ex-novo dall'utente.
-            // Lo faccio DOPO aver caricato i menù di tutti i moduli di ciascuna applicazione di modo che il
+            // Lo faccio DOPO aver caricato i menï¿½ di tutti i moduli di ciascuna applicazione di modo che il
             // gruppo dei report dell'utente compaia sempre per ultimo!!!
             foreach (ApplicationInfo aApplication in CurrentPathFinder.ApplicationInfos)
             {
@@ -1474,9 +1474,9 @@ namespace Microarea.Common.MenuLoader
 
         /// <summary>
         /// Se trovo report costruiti dall'utente aggiungo un gruppo denominato "Report dell'utente"
-        /// nel menù
-        /// Tale gruppo è suddiviso per moduli (cioè per ciascuna directory di modulo che contiene
-        /// nuovi report creo una relativa voce di menù avente come titolo il nome del modulo stesso). 
+        /// nel menï¿½
+        /// Tale gruppo ï¿½ suddiviso per moduli (cioï¿½ per ciascuna directory di modulo che contiene
+        /// nuovi report creo una relativa voce di menï¿½ avente come titolo il nome del modulo stesso). 
         /// All'interno di ciascuna di tali voci si hanno come comandi i report suddetti.
         /// I comandi hanno come titolo il nome file del report.
         /// </summary>
@@ -1492,7 +1492,7 @@ namespace Microarea.Common.MenuLoader
 
         /// <summary>
         /// // Se trovo file di Office creati dall'utente aggiungo un gruppo denominato "File di Office
-        /// dell'utente" nel menù
+        /// dell'utente" nel menï¿½
         /// </summary>
         //---------------------------------------------------------------------------
         private void SearchAndAddUserCreatedOfficeFilesGroup(ApplicationInfo aApplication, CommandsTypeToLoad commandsTypeToLoad)
@@ -1521,8 +1521,8 @@ namespace Microarea.Common.MenuLoader
             string nodeTypeName = null;
             foreach (ApplicationInfo bai in PathFinder.PathFinderInstance.ApplicationInfos)
             {
-                //La standardizzazione fatta con EasyBuilder viene qui saltata perchè i suoi documenti sono messi
-                //a menù dai relativi file di menù.
+                //La standardizzazione fatta con EasyBuilder viene qui saltata perchï¿½ i suoi documenti sono messi
+                //a menï¿½ dai relativi file di menï¿½.
                 //Serve anche per le logiche di attivazione, altirmenti, nel caso in cui un eventuale modulo non fosse attivato,
                 //il relativo documento verrebbe caricato nel gruppo "Custom Documents".
                 if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
@@ -1627,8 +1627,8 @@ namespace Microarea.Common.MenuLoader
             string nodeTypeName = null;
             foreach (ApplicationInfo bai in pathFinder.ApplicationInfos)
             {
-                //La standardizzazione fatta con EasyBuilder viene qui saltata perchè i suoi documenti sono messi
-                //a menù dai relativi file di menù.
+                //La standardizzazione fatta con EasyBuilder viene qui saltata perchï¿½ i suoi documenti sono messi
+                //a menï¿½ dai relativi file di menï¿½.
                 //Serve anche per le logiche di attivazione, altirmenti, nel caso in cui un eventuale modulo non fosse attivato,
                 //il relativo documento verrebbe caricato nel gruppo "Custom Documents".
                 if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
@@ -1673,7 +1673,7 @@ namespace Microarea.Common.MenuLoader
                 )
                 return false;
 
-            //Abbiamo usato la IndexOf perchè la Regex in questo caso è 5 volte più lenta da test fatti.
+            //Abbiamo usato la IndexOf perchï¿½ la Regex in questo caso ï¿½ 5 volte piï¿½ lenta da test fatti.
             //se non ne trovo, allora torno false
             bool found = menuXml.OuterXml.IndexOf(nameSpace) > -1;
             if (!found)
@@ -1692,7 +1692,7 @@ namespace Microarea.Common.MenuLoader
                     if (node.ParentNode == null)
                         continue;
 
-                    //per ogni nodo verifico se il parent node è dello stesso tipo
+                    //per ogni nodo verifico se il parent node ï¿½ dello stesso tipo
                     if (node.ParentNode.Name.CompareNoCase(nodeTypeName))
                         return true;
                 }
@@ -2495,7 +2495,7 @@ namespace Microarea.Common.MenuLoader
                 )
                 return String.Empty;
 
-            //TODO il terzo parametro è la lingua dell'utente corrente serve per poter trovare alcuni file nella 
+            //TODO il terzo parametro ï¿½ la lingua dell'utente corrente serve per poter trovare alcuni file nella 
             //standard divisi per lingua. Con string.empty cerca nella cartella di default 19/6/2006
             string reportFileName = aPathFinder.GetFilename(reportNameSpace, string.Empty);
 
@@ -2608,7 +2608,7 @@ namespace Microarea.Common.MenuLoader
 
             NameSpace reportNameSpace = new NameSpace(aReportNode.ItemObject, NameSpaceObjectType.Report);
 
-            //TODO il terzo parametro è la lingua dell'utente corrente serve per poter trovare alcuni file nella 
+            //TODO il terzo parametro ï¿½ la lingua dell'utente corrente serve per poter trovare alcuni file nella 
             //standard divisi per lingua. Con string.empty cerca nella cartella di default 19/6/2006
             string fullReportFileName = aPathFinder.GetFilename(reportNameSpace, string.Empty);
 
@@ -2789,12 +2789,12 @@ namespace Microarea.Common.MenuLoader
         //----------------------------------------------------------------------------
         public bool LoadAllMenus(CommandsTypeToLoad commandsTypeToLoad, bool ignoreAllSecurityChecks, bool clearCachedData)
         {
-            // Per decidere se si deve applicare o meno il filtro sul menù oltre a 
+            // Per decidere se si deve applicare o meno il filtro sul menï¿½ oltre a 
             // verificare l'attivazione del modulo della sicurezza, si deve anche 
             // controllare che l'azienda alla quale ci si ?connessi sia effettivamente
             // posta sotto sicurezza
-            // Inoltre, è importante notare che il controllo dell'azienda sotto sicurezza va
-            // fatto SOLO SE si è loggati !!! 
+            // Inoltre, ï¿½ importante notare che il controllo dell'azienda sotto sicurezza va
+            // fatto SOLO SE si ï¿½ loggati !!! 
             bool applySecurityFilter = false;
 
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);

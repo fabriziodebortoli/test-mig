@@ -1,7 +1,8 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService } from '@taskbuilder/core';
-import { Component, Input, ChangeDetectorRef, OnInit, OnChanges } from '@angular/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
+import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDlgArgs } from '@taskbuilder/core';
+import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import * as moment from 'moment'
 import JsCheckTaxId from './jscheckTaxIDNumber';
 
@@ -32,6 +33,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
 
   constructor(layoutService: LayoutService,
     private eventData: EventDataService,
+    private dataService: DataService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
     private parameterService: ParameterService,
@@ -70,6 +72,13 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
     this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => { this.isMasterRO = res.result; })
     this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
+  }
+
+  public openMessageDialog(message: string): Promise<any> {
+    let args = new MessageDlgArgs();
+    this.eventData.openMessageDialog.emit({ ...args, yes: true, no: true, text: message });
+    // this.eventData.closeMessageDialog.take(1).subscribe(s => console.log(s));
+    return this.eventData.closeMessageDialog.take(1).toPromise();
   }
 
   onFormModeChanged(formMode: FormMode) {
@@ -125,17 +134,23 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     let newWindow = window.open(url, 'blank');
   }
 
+  // '23260646'; taxid RO
   async checkRO() {
     let now = moment();
     let today = now.format('YYYY-MM-DD');
-    // let vatCode = '23260646';
+    let vatCode = this.model.value.replace(/([\D])/g, '');
+
+    if (vatCode.length > 9 || vatCode.length === 0) {
+      this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+      return;
+    }
 
     try {
       let r = await this.httpCore.checkVatRO(this.model.value, today).toPromise();
       let found = r.json().found;
       if (found.length) {
         this.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
-        // this.fillFields(found);
+        this.fillFields(found);
       } else {
         this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
       }
@@ -156,14 +171,54 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     this.changeDetectorRef.detectChanges();
   }
 
-  // todo - Leggere i dati dal result e inserirli nei campi indirizzo, company, county
   async fillFields(result: any) {
     let slice = await this.store.select(this.selector).take(1).toPromise();
     if (slice.companyName) {
       let company = result[0].denumire;
-      if (window.confirm('override ?')) {
-        slice.companyName.value = company;
+      let exTemp = result[0].tva;
 
+      let reg = /(MUN.\s+|MUNICIPUL\s+|MUNICIPIUL\s+|JUD.\s+|JUDETUL\s+|)/g;
+      let splitAddress = (<string>result[0].adresa).replace(reg, '').split(',');
+
+      let data = await this.dataService.getData('DataFile.ERP.Company.County', 'code', new URLSearchParams()).take(1).toPromise();
+      let county: any;
+      if (data !== undefined) {
+        county = data.rows.find(x => x.Description === splitAddress[0]);
+      }
+
+      if (county === undefined)
+        county = { County: '' };
+
+      let city = splitAddress[1];
+      let address = '';
+      if (splitAddress[2] !== '' || splitAddress[3] !== '') {
+        address = splitAddress[2];
+        if (address !== '' && splitAddress[3] !== '') {
+          address = address + ', ' + splitAddress[3];
+        }
+      }
+
+      let taxExempt = exTemp === 'true' ? this._TB('Tax Exempt') : this._TB('Tax Subject');
+
+      let message = this._TB('Tax Number found:\n{0}\n{1},{2},{3}\n{4}\nDo you want to overwrite data?',
+        company, address, city, county.County, taxExempt);
+
+      if ((await this.openMessageDialog(message)).yes) {
+        if (slice.companyName) {
+          slice.companyName.value = company;
+        }
+
+        if (slice.address) {
+          slice.address.value = address;
+        }
+
+        if (slice.city) {
+          slice.city.value = city;
+        }
+
+        if (slice.county) {
+          slice.county.value = county.County;
+        }
         this.changeDetectorRef.detectChanges();
       }
     }

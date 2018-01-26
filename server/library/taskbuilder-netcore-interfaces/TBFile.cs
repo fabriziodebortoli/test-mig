@@ -87,6 +87,8 @@ namespace TaskBuilderNetCore.Interfaces
         //----------------------------------------------------------------------------
         public TBFile(string strCompleteFileName, IFileSystemDriver alternativeDriver)
         {
+
+            //TODO LARA AGGIUNGI PATHNAME
             if (alternativeDriver == null)
             {
                 FileInfo fileInfo = new FileInfo(strCompleteFileName);
@@ -98,7 +100,9 @@ namespace TaskBuilderNetCore.Interfaces
 
             this.alternativeDriver = alternativeDriver;
             completeFileName = strCompleteFileName;
-            name = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('\\'));
+            string path = strCompleteFileName.Substring (0, strCompleteFileName.LastIndexOf('\\'));
+            PathName = path;
+            name = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('\\') + 1);
             FileExtension = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('.'));
 
         }

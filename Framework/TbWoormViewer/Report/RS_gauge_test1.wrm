@@ -9,7 +9,7 @@ PageLayout "default"
 Gauge Gauge_1
 	Begin
 		Alias 21
-		Type 2 /*Linear=2, Radial=3, Arc=1*/
+		Type 3 /*Linear=2, Radial=3, Arc=1*/
 		Rect (58,57,172,309) 
 			Begin
 				Transparent

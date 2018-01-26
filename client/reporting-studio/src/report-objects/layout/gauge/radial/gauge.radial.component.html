@@ -1,1 +1,14 @@
-gauge radial works!
+<kendo-radialgauge>
+    <kendo-radialgauge-pointers>
+        <kendo-radialgauge-pointer *ngFor="let pointer of gauge.pointers" [value]="pointer.value" [color]="pointer.color">
+        </kendo-radialgauge-pointer>
+    </kendo-radialgauge-pointers>
+    <kendo-radialgauge-scale [minorUnit]="gauge.minorUnit" [majorUnit]="gauge.majorUnit" [min]="gauge.min" [max]="gauge.max">
+        <kendo-radialgauge-scale-ranges>
+            <div *ngFor="let range of gauge.ranges">
+                <kendo-radialgauge-scale-range [from]="range.from" [to]="range.to" [color]="range.color">
+                </kendo-radialgauge-scale-range>
+            </div>
+        </kendo-radialgauge-scale-ranges>
+    </kendo-radialgauge-scale>
+</kendo-radialgauge>
