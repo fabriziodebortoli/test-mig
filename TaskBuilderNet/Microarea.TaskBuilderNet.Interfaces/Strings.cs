@@ -1216,7 +1216,6 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string TbServices					= "TbServices";
 		public const string TbSender					= "TbSender";
 		public const string PLProxy						= "PLProxy";
-		public const string TbHermes					= "TbHermes";
 		public const string TbHermesModule				= "Mail";
 		public const string SOSProxy					= "SOSProxy";
 		public const string EasyLook					= "EasyLook";

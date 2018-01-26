@@ -19,7 +19,6 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		string	LoginManagerUrl		{ get; }
 		string	LockManagerUrl		{ get; }
 		string	TbServicesUrl		{ get; }
-		string TbHermesUrl { get; }
 		string	EasyLookServiceUrl	{ get; }
 		string	Installation		{ get; }
 		string	RemoteFileServer	{ get; }

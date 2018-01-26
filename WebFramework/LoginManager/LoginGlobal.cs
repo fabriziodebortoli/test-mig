@@ -619,7 +619,6 @@ namespace Microarea.WebServices.LoginManager
                     }
 
                     WakeUpTbSender();
-                    WakeUpTbHermes();
 
                     return (int)LoginReturnCodes.NoError;
                 }
@@ -661,20 +660,6 @@ namespace Microarea.WebServices.LoginManager
                     {
                         TbSenderWrapper tbSender = new TbSenderWrapper(BasePathFinder.BasePathFinderInstance.TbSenderUrl);
                         tbSender.WakeUp();
-                    }
-                }
-                catch { }
-            }
-
-            //---------------------------------------------------------------------
-            private void WakeUpTbHermes()
-            {
-                try
-                {
-                    if (IsActivatedInternal("OFM", NameSolverStrings.TbHermesModule))
-                    {
-                        TbHermesWrapper tbHermes = new TbHermesWrapper();
-                        tbHermes.WakeUp();
                     }
                 }
                 catch { }

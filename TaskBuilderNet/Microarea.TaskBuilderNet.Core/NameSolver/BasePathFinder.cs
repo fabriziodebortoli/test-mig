@@ -397,18 +397,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		}
 
 		/// <summary>
-		/// Ritorna il path del TbHermes nel formato http://localhost:80/Installation/TbHermes
-		/// </summary>
-		//----------------------------------------------------------------------------
-		public string TbHermesUrl
-		{
-			get
-			{
-				return WebFrameworkMethodsUrl(NameSolverStrings.TbHermes, NameSolverStrings.TbHermes);
-			}
-		}
-
-		/// <summary>
 		/// Ritorna il path del TbServices nel formato http://localhost:80/Installation/TbServices
 		/// </summary>
 		//----------------------------------------------------------------------------
