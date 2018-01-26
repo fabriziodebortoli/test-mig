@@ -446,7 +446,7 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	//TODOLUCA, comunicazione che vengo da desktop, da rivedere
 	BOOL isRemoteInterface = isDesktop != _T("true");
 
-	//se siamo in desktop, comunico al tbappmanager il token, così se qualcuno fa logout dal tbappmanager sa quale token sloggare
+	//se siamo in desktop, comunico al tbappmanager il token, cosï¿½ se qualcuno fa logout dal tbappmanager sa quale token sloggare
 	if (!isRemoteInterface)
 		SendCurrentToken(AfxGetMenuWindowHandle(), authToken);
 
@@ -456,7 +456,8 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 		//travaso eventuali messaggi (ad es. esercizio non definito)
 		CString message;
 		GetDiagnosticMessages(pContext, message);
-		jsonResponse.SetMessage(message);
+		if (!message.IsEmpty())
+			jsonResponse.SetMessage(message);
 	}
 	if (pContext == NULL || !pContext->IsValid())
 	{
@@ -632,7 +633,7 @@ void CTbWebHandler::ProcessRequest(const CString& path, const CNameValueCollecti
 	}
 
 	//confronto il puntatore di inizio stringa col puntatore alla prima occorrenza della stringa cercata
-	//perché la stringa deve essere all'inizio
+	//perchï¿½ la stringa deve essere all'inizio
 	/*if ((LPCTSTR)path == wcsstr(path, L"image/"))
 	{
 		SetMimeType(path, response);
