@@ -14,6 +14,9 @@ namespace Microarea.TbJson
                 }
                 switch (args[0])
                 {
+                    case "/resetRoutes":
+                        new WebInterfaceGenerator().ResetRoutes(args[1]);
+                        break;
                     case "/ts":
                         new WebInterfaceGenerator().Generate(args[1], args.Length >= 3 ? args[2] : "", false);
                         break;
