@@ -562,41 +562,38 @@ HotKeyLink::FindResult HotKeyLink::FindRecord
 			{
 				DoPrepareQuery(pDataObj);
 				if (
-						!bFromControl			  &&
-						m_PrevResult != NOT_FOUND &&
-						m_PrevResult != NONE &&
-						m_pTable->SameQuery() &&
-						!m_bForceQuery
+					!bFromControl			  &&
+					m_PrevResult != NOT_FOUND &&
+					m_PrevResult != NONE &&
+					m_pTable->SameQuery() &&
+					!m_bForceQuery
 					)
 				{
 					OnPrepareAuxData();
 					return m_PrevResult;
 				}
-
-				// esegue la query scelta
-				m_pTable->Query();
-
-				eResult = m_pTable->IsEmpty() ? NOT_FOUND : FOUND;
-
-				//se provengo dal control devo controllare se il record è protetto o meno
-				if (m_pCatalogEntry && m_pCatalogEntry->IsProtected() && eResult == FOUND)
-					eResult = (m_pCatalogEntry->CanCurrentWorkerUsesRecord(m_pTable->GetRecord(), m_pTable)) ? FOUND : PROTECTED;
-
-				// Effettua il controllo di query
-				m_PrevResult = eResult = OnFindRecord
-					(
-						eResult,
-						pDataObj,
-						bCallLink,
-						bFromControl
-					);
-				CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
-				if (bFromControl && pOwnerCtrl && pOwnerCtrl->GetHotLinkController())
-					pOwnerCtrl->GetHotLinkController()->OnAfterFindRecord();
-
-				//m_pSqlSession->Close();
-
 			}
+
+			// esegue la query scelta
+			m_pTable->Query();
+
+			eResult = m_pTable->IsEmpty() ? NOT_FOUND : FOUND;
+
+			//se provengo dal control devo controllare se il record è protetto o meno
+			if (m_pCatalogEntry && m_pCatalogEntry->IsProtected() && eResult == FOUND)
+				eResult = (m_pCatalogEntry->CanCurrentWorkerUsesRecord(m_pTable->GetRecord(), m_pTable)) ? FOUND : PROTECTED;
+
+			// Effettua il controllo di query
+			m_PrevResult = eResult = OnFindRecord
+				(
+					eResult,
+					pDataObj,
+					bCallLink,
+					bFromControl
+				);
+			CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
+			if (bFromControl && pOwnerCtrl && pOwnerCtrl->GetHotLinkController())
+				pOwnerCtrl->GetHotLinkController()->OnAfterFindRecord();			
 	}
 	CATCH(SqlException, e)
 	{
@@ -608,7 +605,7 @@ HotKeyLink::FindResult HotKeyLink::FindRecord
 	}
 	END_CATCH
 
-		OnPrepareAuxData();
+	OnPrepareAuxData();
 	return eResult;
 }
 
