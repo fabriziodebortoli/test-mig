@@ -88,7 +88,7 @@ namespace Microarea.EasyAttachment.UI.Controls
 		/// <param name="c"></param>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public bool ControlInvokeRequired(Control c, Action a)
+		public bool ControlInvokeRequired(Control c, System.Action a)
 		{
 			if(c.InvokeRequired)
 				c.Invoke(new MethodInvoker(delegate { a(); }));

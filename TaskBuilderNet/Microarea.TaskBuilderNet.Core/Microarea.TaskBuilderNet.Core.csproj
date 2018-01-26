@@ -91,7 +91,7 @@
     </Reference>
     <Reference Include="SailorsPromises, Version=1.0.5302.42915, Culture=neutral, PublicKeyToken=c446f2ef1fc4c6fe, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\SailorsPromises\net35\SailorsPromises.dll</HintPath>
+      <HintPath>..\..\OtherComponents\OcBin\Bin\Release\SailorsPromises\SailorsPromises.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
