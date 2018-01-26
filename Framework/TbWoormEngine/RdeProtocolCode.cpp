@@ -121,7 +121,7 @@
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
-#define RDE_BUFFER_SIZE		65536 //16384 
+#define RDE_BUFFER_SIZE		32767
 
 static const TCHAR szRdeExt [] = _T("rde");
 
@@ -453,7 +453,7 @@ BOOL RDEFileWriter::RdeWriteCommand (short nId, RDEcmd Cmd, DataSize Size)
 			if (pF)
 			{
 				ASSERT(pF->IsKindOf(RUNTIME_CLASS(WoormField)));
-				//ritorna sempre -1, è solo per la lettura //int np = aRepEngine.GetOutChannel()->CurrPage();
+				//ritorna sempre -1, ï¿½ solo per la lettura //int np = aRepEngine.GetOutChannel()->CurrPage();
 				DataLng* pNP = (DataLng*) pF->GetData();
 				pF->AssignData (*pNP + 1);
 				((WoormField*)pF)->Write(*(m_TheOwner.m_pEngine->GetEngine()), TRUE);
