@@ -496,6 +496,7 @@
     <ClCompile Include="DataAdapter.cpp" />
     <ClCompile Include="DocumentSession.cpp" />
     <ClCompile Include="DParametersDoc.cpp" />
+    <ClCompile Include="DTBFSettings.cpp" />
     <ClCompile Include="Validator.cpp" />
     <ClCompile Include="DataPickerRecordSet.cpp" />
     <ClCompile Include="HotFilter.cpp" />
@@ -862,6 +863,7 @@
     <ClInclude Include="PredefinedColors.h" />
     <ClInclude Include="StatusTile.h" />
     <ClInclude Include="TBActivityDocument.h" />
+    <ClInclude Include="DTBFSettings.h" />
     <ClInclude Include="TBHtmlParser.h" />
     <ClInclude Include="HtmlParser\DataKeeper.h" />
     <ClInclude Include="HtmlParser\HtmlElementCollection.h" />

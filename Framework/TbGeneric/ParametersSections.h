@@ -99,7 +99,11 @@ extern const TB_EXPORT CTBNamespace snsTbGes;
 extern const TB_EXPORT CTBNamespace snsTbOleDb;
 extern const TB_EXPORT TCHAR szConnectionSection[];
 extern const TB_EXPORT TCHAR szDebugSqlTrace[];
+extern const TB_EXPORT TCHAR szDebugSqlTraceActions[];
+extern const TB_EXPORT TCHAR szDebugSqlTraceTables[];
+
 extern const TB_EXPORT TCHAR szEnableEventViewerLog[];
+
 
 extern const TB_EXPORT TCHAR szDataCaching[];					// Caching
 extern const TB_EXPORT TCHAR szOptimizeHotLinkQuery[];
@@ -109,6 +113,7 @@ extern const TB_EXPORT TCHAR szDataCacheExpirationSeconds[];
 extern const TB_EXPORT TCHAR szDataCacheMaxKbSize[];
 extern const TB_EXPORT TCHAR szDataCacheReductionPerc[];
 extern const TB_EXPORT TCHAR szDataCacheCheckSeconds[];
+
 
 extern const TB_EXPORT TCHAR szRecoverySystem[];				// Recovery System
 extern const TB_EXPORT TCHAR szRecoverySystemEnable[];

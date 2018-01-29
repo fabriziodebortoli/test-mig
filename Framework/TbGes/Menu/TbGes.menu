@@ -1,3 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <AppMenu>
+  <Application name="Framework" image_namespace="Image.Framework.TbApplication.Images.LogoTBF.png">
+    <Title localizable="true">TaskBuilder Framework</Title>
+    <Group name="FrameWork.TBGes"  image_namespace="Image.Framework.TbFrameworkImages.Images.25x25\Tools.png" icon="erp-preferences">
+      <Title localizable="true">Preferences</Title>
+      <Menu name="Preferences" search_command_image="true">
+        <Title localizable="true">Preferences</Title>
+        <Menu name="Settings" search_command_image="true">
+          <Title localizable="true">Settings</Title>
+          <Document>
+            <Title localizable="true">Company/User Framework Settings</Title>
+            <Object>Framework.TbGes.TbGes.TBFSettings</Object>
+          </Document>
+        </Menu>
+      </Menu>
+    </Group>
+  </Application>
 </AppMenu>

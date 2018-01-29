@@ -18,8 +18,10 @@
 #include "Validator.h"
 #include "ComposedHotLink.h"
 #include "ControlBehaviour.h"
+#include "DTBFSettings.h"
 #include "JsonFrame.h"
 #include "JsonForms\JsonModelGenerator\IDD_GENERATE_JSON_MODEL_FRAME.hjson"
+#include "ModuleObjects\TBFSettings\JsonForms\IDD_TBF_COMPANYUSER_SETTINGS.hjson"
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -67,6 +69,10 @@ BEGIN_ADDON_INTERFACE()
 
 		BEGIN_DOCUMENT(_NS_DOC("Browser"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE(szDefaultViewMode, DBrowserDocument, CBrowserFrame, CBrowserDocumentView)
+		END_DOCUMENT()
+
+		BEGIN_DOCUMENT(_NS_DOC("TBFSettings"), TPL_NO_PROTECTION)
+			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode, DTBFSettings, IDD_TBF_COMPANYUSER_SETTINGS)
 		END_DOCUMENT()
 	END_TEMPLATE()
 

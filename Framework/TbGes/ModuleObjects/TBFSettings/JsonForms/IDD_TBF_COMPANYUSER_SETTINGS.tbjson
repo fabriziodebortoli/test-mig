@@ -1,0 +1,12 @@
+{
+  "href": "M.Framework.TbGes.TbGes.IDD_MASTER_FRAME",
+  "name": "TBFSettingsFrame",
+  "items": [
+    {
+      "href": "M.Framework.TbGes.ParametersDoc.IDD_PARAMETERS_AND_SETTINGS_TOOLBAR"
+    },
+    {
+      "href": "IDD_TBF_COMPANYUSER_SETTINGS_VIEW"
+    }
+  ]
+}

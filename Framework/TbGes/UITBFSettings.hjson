@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TBGes\ModuleObjects\TBFSettings\JsonForms\IDD_TD_TBF_COMPANYUSER_SETTINGS.hjson>
+#include	<TBGes\ModuleObjects\TBFSettings\JsonForms\IDD_TBF_COMPANYUSER_SETTINGS.hjson>
+#include	<TBGes\ModuleObjects\TBFSettings\JsonForms\IDD_TBF_COMPANYUSER_SETTINGS_VIEW.hjson>
+

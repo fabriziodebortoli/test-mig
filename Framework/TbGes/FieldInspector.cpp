@@ -934,7 +934,7 @@ IMPLEMENT_DYNCREATE(CDFieldInspector, CClientDoc)
 
 //-----------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CDFieldInspector, CClientDoc)
-	//{{AFX_MSG_MAP(CDPublishingTaxSaleDoc)
+	//{{AFX_MSG_MAP(CDFieldInspector)
 
 	ON_BN_CLICKED			(ID_INSPECT,		OnInspect)
 

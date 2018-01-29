@@ -2,7 +2,7 @@
 <AppMenu>
 	<Application name="Framework" image_namespace="Image.Framework.TbApplication.Images.LogoTBF.png">
 		<Title localizable="true">TaskBuilder Framework</Title>
-		<Group name="FrameWork.Administration"  image_namespace="Image.Framework.TbFrameworkImages.Images.25x25\Tools.png" icon="erp-preferences">
+		<Group name="FrameWork.Administration"  image_namespace="Image.Framework.TbFrameworkImages.Images.25x25\Tools.png" icon="erp-services">
 			<Title localizable="true">Tools</Title>
 			<Menu name="FrameWork.Administration.Tools" search_command_image="true">
 				<Title localizable="true">Tools</Title>
