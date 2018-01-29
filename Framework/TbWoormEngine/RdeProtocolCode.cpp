@@ -628,7 +628,7 @@ RDEFileReader::RDEFileReader(RDEManager& Owner)
 	m_bBuffered		(TRUE),
 	m_nBufferSize	(RDE_BUFFER_SIZE)
 {
-	m_bBuffered		= *((DataBool*) AfxGetSettingValue (snsTbGeneric, szRdeProtocol, szRdeBuffered, DataBool(FALSE)));
+	m_bBuffered		= *((DataBool*) AfxGetSettingValue (snsTbGeneric, szRdeProtocol, szRdeBuffered, DataBool(TRUE)));
 	//DataInt di		= *((DataInt*) AfxGetSettingValue(snsTbGeneric, szRdeProtocol, szRdeBufferSize, DataInt(RDE_BUFFER_SIZE)));
 	//m_nBufferSize	= (UINT)(int) di;
 
@@ -768,17 +768,19 @@ BOOL RDEFileReader::RdeRead (void* pBuff, DataSize Size)
 {
 	if (m_bBuffered)
 	{                   
-		//@@@ da gestire il caso in cui sizeof(DataSize) > sizeof(UINT)
-		//@@@ e quindi la possibilita` che il numero di byte da leggere sia
-		//@@@ superiore a quello gestibile dalla TryRead; 
 		DataSize		RemBytes	= Size;
 		unsigned char*	pchRemBuff	= (unsigned char*)pBuff;
 
+		// m_nBytesNumber: quantità di bytes nel buffer m_pchBuffer già 'letti' dal reader 
+		// ma non ancora richiesti da una RdeRead (li tiene per il prossimo passaggio)
 		if (m_nBytesNumber < Size)
 		{
+			//i bytes in m_pchBuffer non sono sufficienti --> nuova lettura
 			if (m_nBytesNumber)
 			{                                        
-				//@@@ da gestire il caso in cui sizeof(DataSize) > sizeof(UINT)
+				// copio intanto i byte già 'letti', in m_pchBuffer, nel buffer di uscita.
+				// m_pchCurrentByte: puntatore al prossimo byte da leggere
+				// fra quelli salvati in m_pchBuffer
 				memcpy(pchRemBuff, m_pchCurrentByte, (size_t)m_nBytesNumber);
 				RemBytes	-= m_nBytesNumber;
 				pchRemBuff	+= m_nBytesNumber;
@@ -790,11 +792,22 @@ BOOL RDEFileReader::RdeRead (void* pBuff, DataSize Size)
 
 			if (dwDistance < RemBytes)
 			{
+				//se i byte che servono sono più di quelli restanti nel file->errore
 				m_TheOwner.m_MngrStatus = RDEManager::LOCKED;
 				m_TheOwner.MessageError(RDEManager::ErrorMessages::CANT_READ_FILE(), NULL, NULL);
 				return FALSE;
 			}
 
+			// Controllo se la size del dato è compatibile con la dimensione del buffer di lettura,
+			// altrimenti lo sostituisco con uno più grande
+			if (m_nBufferSize < RemBytes)
+			{
+				m_nBufferSize = RemBytes;
+				delete(m_pchBuffer);
+				m_pchBuffer = new unsigned char[m_nBufferSize];
+			}
+
+			//riallineo puntatore byte da leggere con l'inizio del buffer di lettura
 			m_pchCurrentByte = m_pchBuffer;
 			m_nBytesNumber = (UINT) (m_nBufferSize > dwDistance ? dwDistance : m_nBufferSize);
 
@@ -804,7 +817,6 @@ BOOL RDEFileReader::RdeRead (void* pBuff, DataSize Size)
 				return FALSE;
 		}
 
-		//@@@ da gestire il caso in cui sizeof(DataSize) > sizeof(UINT)
 		memcpy(pchRemBuff, m_pchCurrentByte, (size_t)RemBytes);
 		m_nBytesNumber		-= RemBytes;
 		m_pchCurrentByte	+= RemBytes;
