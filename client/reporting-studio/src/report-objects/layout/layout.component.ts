@@ -256,8 +256,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             }
           }
 
-
-
           obj.value = value;
         }
         else if (element.chart !== undefined) {
@@ -276,7 +274,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         }
         else if (element.gauge !== undefined) {
           id = element.gauge.baserect.baseobj.id;
-          value = element.gauge.value;
           let obj = this.FindObj(id);
           if (obj === undefined) {
             continue;
