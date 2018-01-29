@@ -124,7 +124,10 @@ export class ReportTableComponent {
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
       'text-align': defStyle.text_align,
-      'color': specStyle.textcolor === undefined ? defStyle.textcolor : specStyle.textcolor,
+      'color': specStyle.textcolor === undefined ? 
+               specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
+               :
+               specStyle.textcolor,
       'font-family': specStyle.font === undefined ? defStyle.font.face : specStyle.font.face,
       'font-size': specStyle.font === undefined ? (defStyle.font.size + 'px') : (specStyle.font.size + 'px'),
       'font-style': specStyle.font === undefined ? (defStyle.font.italic ? 'italic' : 'normal') : (specStyle.font.italic ? 'italic' : 'normal'),
