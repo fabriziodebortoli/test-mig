@@ -25,6 +25,7 @@ namespace Microarea.RSWeb.Objects
 		public bool Italic = false;
 		public bool Underline = false;
 		public bool Strikeout = false;
+        public Color FontColor = Color.Black;
 		
 		public FontData()
 		{
@@ -39,9 +40,9 @@ namespace Microarea.RSWeb.Objects
 			Bold		= (FontStyle.Bold & fe.FontStyle) == FontStyle.Bold;
 			Strikeout	= (FontStyle.Strikeout & fe.FontStyle) == FontStyle.Strikeout;
 			Underline	= (FontStyle.Underline & fe.FontStyle) == FontStyle.Underline;
-
-			Family	= fe.FaceName; 
-			Size	= fe.Size; 
+            FontColor   = fe.Color;
+			Family	    = fe.FaceName; 
+			Size	    = fe.Size; 
 		}
 
 		//------------------------------------------------------------------------------
@@ -69,14 +70,19 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public string ToJson(string name = "font", bool bracket = false)
         {
+            string fontColorString = FontColor != Color.Black ? FontColor.ToJson("fontcolor") : "";
             string s = name.ToJson() + ":{" +
                                         Family.ToJson("face") + ',' +
                                         Size.ToJson("size") + ',' +
                                         Italic.ToJson("italic") + ',' +
                                         Bold.ToJson("bold") + ',' +
-                                        Underline.ToJson("underline") + //',' +
+                                        Underline.ToJson("underline") + ',' +
+                                        fontColorString  +
+                                        //',' +
                                         //Strikeout.ToJson("strikeout") + 
                                      '}';
+
+
 
             if (bracket)
                 s = '{' + s + '}';

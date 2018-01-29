@@ -430,7 +430,8 @@ namespace Microarea.Common.Applications
 					return false;
 
                 // FW_NORMAL è uguale a 400 come definito in WINGDI.H
-                if (logFont.lfWeight != 400) fontStyle |= FontStyle.Bold;
+                //nel parsing dei file .wrmt il default della lfWeight che arriva è 0. Il bold va applicato solo quando la lfWeight > 400
+                if (logFont.lfWeight > 400) fontStyle |= FontStyle.Bold;   
                 if (logFont.lfItalic != 0) fontStyle |= FontStyle.Italic; 
                 if (logFont.lfUnderline != 0) fontStyle |= FontStyle.Underline;
                 if (logFont.lfStrikeOut != 0) fontStyle |= FontStyle.Strikeout;
