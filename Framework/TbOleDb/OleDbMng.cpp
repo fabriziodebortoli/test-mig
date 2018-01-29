@@ -308,8 +308,8 @@ BOOL COleDbManager::MakePrimaryConnection()
 	//no lock is needed: this method is called only at login time
 	m_bValid = false;
 	
-	m_strTraceSqlActions = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szConnectionSection, _T("DebugSqlTraceActions"), DataStr(_T("")), szTbDefaultSettingFileName);
-	CString strTraceSqlTables = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szConnectionSection, _T("DebugSqlTraceTables"), DataStr(_T("")), szTbDefaultSettingFileName);
+	m_strTraceSqlActions = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szConnectionSection, szDebugSqlTraceActions, DataStr(_T("")), szTbDefaultSettingFileName);
+	CString strTraceSqlTables = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szConnectionSection, szDebugSqlTraceTables, DataStr(_T("")), szTbDefaultSettingFileName);
 	
 	// 03/11/2010: change DebugSqlTrace file log creation. Now I create a file for each day without remove the traced information.
 	// Each days there is one file for each connected user that contains all selected traced operation for one or more connections done during the day. 

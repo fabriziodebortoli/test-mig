@@ -126,28 +126,14 @@ const CTBNamespace snsTbOleDb				= _T("Module.Framework.TbOleDb");
 //.Connection............................................................
 const TCHAR szConnectionSection[]				= _T("Connection");
 const TCHAR szDebugSqlTrace[]					= _T("DebugSqlTrace");
+const TCHAR szDebugSqlTraceActions[]			= _T("DebugSqlTraceActions");
+const TCHAR szDebugSqlTraceTables[]				= _T("DebugSqlTraceTables");
 const TCHAR szEnableEventViewerLog[]			= _T("EnableEventViewerLog");
 
-//.Caching............................................................
-const TCHAR szDataCaching[]					= _T("Caching");
-const TCHAR szOptimizeHotLinkQuery[]		= _T("OptimizeHotLinkQuery");
-const TCHAR szDataCachingEnable[]			= _T("CachingEnable");
-const TCHAR szDataCacheScope[]				= _T("CacheScope");
-const TCHAR szDataCacheExpirationSeconds[]	= _T("CacheExpirationSeconds");
-const TCHAR szDataCacheMaxKbSize[]			= _T("CacheMaxKbSize");
-const TCHAR szDataCacheReductionPerc[]		= _T("CacheReductionPerc");
-const TCHAR szDataCacheCheckSeconds[]		= _T("CacheCheckSeconds");
-
-//.Recovery System............................................................
-const TCHAR szRecoverySystem[]					= _T("RecoverySystem");
-const TCHAR szRecoverySystemEnable[]			= _T("Enabled");
-const TCHAR szRecoverySystemLevel[]				= _T("RecoveryLevel");
-const TCHAR szRecoverySystemRetries[]			= _T("RecoveryRetries");
-const TCHAR szRecoverySystemRetriesInterval[]	= _T("RecoveryRetriesInterval");
 
 //.LockManager........................................................
 const TCHAR szLockManager[]				= _T("LockManager");
-const TCHAR szUseOptimisticLock[]			= _T("UseOptimisticLock");
+const TCHAR szUseOptimisticLock[]		= _T("UseOptimisticLock");
 const TCHAR szDisableLockRetry[]		= _T("DisableLockRetry");
 const TCHAR szDisableBeep[]				= _T("DisableBeep");
 const TCHAR szDisableBatchBeep[]		= _T("DisableBatchBeep");
@@ -159,6 +145,23 @@ const TCHAR szMaxLockTime[]				= _T("MaxLockTime");
 const TCHAR szUseLockManager[]			= _T("UseLockManager");
 const TCHAR szMaxReportLockRetry[]		= _T("MaxReportLockRetry");
 const TCHAR szMaxReportLockTime[]		= _T("MaxReportLockTime");
+
+//.Caching............................................................
+const TCHAR szDataCaching[] = _T("Caching");
+const TCHAR szOptimizeHotLinkQuery[] = _T("OptimizeHotLinkQuery");
+const TCHAR szDataCachingEnable[] = _T("CachingEnable");
+const TCHAR szDataCacheScope[] = _T("CacheScope");
+const TCHAR szDataCacheExpirationSeconds[] = _T("CacheExpirationSeconds");
+const TCHAR szDataCacheMaxKbSize[] = _T("CacheMaxKbSize");
+const TCHAR szDataCacheReductionPerc[] = _T("CacheReductionPerc");
+const TCHAR szDataCacheCheckSeconds[] = _T("CacheCheckSeconds");
+
+//.Recovery System............................................................
+const TCHAR szRecoverySystem[] = _T("RecoverySystem");
+const TCHAR szRecoverySystemEnable[] = _T("Enabled");
+const TCHAR szRecoverySystemLevel[] = _T("RecoveryLevel");
+const TCHAR szRecoverySystemRetries[] = _T("RecoveryRetries");
+const TCHAR szRecoverySystemRetriesInterval[] = _T("RecoveryRetriesInterval");
 
 //.PerformanceAnalizer................................................
 const TCHAR szPerformanceAnalizer[]	= _T("Performance Analyzer"); 
