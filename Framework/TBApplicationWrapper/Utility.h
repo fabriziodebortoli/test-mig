@@ -369,3 +369,20 @@ public:
 
 };
 
+//=============================================================================
+public ref class PathFinderWrapper
+{
+public:
+	PathFinderWrapper();
+
+	/// <summary>
+	/// Internal Use
+	/// </summary>	
+public:
+	static System::String^ GetCustomApplicationsPath();
+	static bool ExistFile(System::String^ path);
+	static bool ExistFolder(System::String^ path);
+	static System::String^ GetTemplatesPath(bool inCustom);
+	static System::Collections::Generic::List<System::String^>^ GetFiles(System::String^ path, System::String^ searchKey);
+};
+

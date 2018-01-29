@@ -166,6 +166,12 @@ const TCHAR szCandidateModulesSep[] = _T(";");
 static const TCHAR szSynchroProviders[] = _T("SynchroProviders");
 enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE };	//UTF16_BE: Big Endian (swap sui byte); UTF16_LE: Little Endian 
 
+static const TCHAR szTemplate[] = _T("Template");
+
+//============================================================================
+//	Static Objects & general functions
+//============================================================================
+
 //-------------------------------------------------------------
 EncodingType GetEncodingType(BYTE* pBinaryContent, long nSize)
 {
@@ -338,7 +344,7 @@ void CPathFinder::Init(const CString& sServer, const CString& sInstallationName,
 
 	ASSERT(!m_sInstallation.IsEmpty());
 	m_bIsStandAlone = _tcsicmp(sServer, GetComputerName(FALSE)) == 0;	
-	//mi è stato detto (mediante il file FileSystemManager.config o il ClickOnce) di andare a pescare i dati da un'altra parte	
+	//mi ï¿½ stato detto (mediante il file FileSystemManager.config o il ClickOnce) di andare a pescare i dati da un'altra parte	
 	if (!m_bIsStandAlone)
 	{
 		m_sStandardPath = CString(SLASH_CHAR) + SLASH_CHAR + sServer + SLASH_CHAR + sInstallationName + _T("_") + szStandard;
@@ -712,7 +718,7 @@ void CPathFinder::GetApplicationModuleNameFromPath(const CString& sObjectFullPat
 			nPathToken++;
 	}
 
-	// il minimo che posso rappresentare è applicazione e modulo, quindi
+	// il minimo che posso rappresentare ï¿½ applicazione e modulo, quindi
 	// con il tipo devo avere almeno tre segmenti di path per poterlo fare 
 	if (nPathToken <= 3)
 		return;
@@ -787,7 +793,7 @@ CTBNamespace CPathFinder::GetNamespaceFromPath(const CString& sObjectFullPath)
 			nPathToken++;
 	}
 
-	// il minimo che posso rappresentare è applicazione e modulo, quindi
+	// il minimo che posso rappresentare ï¿½ applicazione e modulo, quindi
 	// con il tipo devo avere almeno tre segmenti di path per poterlo fare 
 	if (nPathToken <= 3)
 		return CTBNamespace();
@@ -844,7 +850,7 @@ CTBNamespace CPathFinder::GetNamespaceFromPath(const CString& sObjectFullPath)
 
 	CTBNamespace aNamespace(CTBNamespace::MODULE, sApplication + CTBNamespace::GetSeparator() + sModule);
 
-	// il passo successivo è la sottidirectory di tipo
+	// il passo successivo ï¿½ la sottidirectory di tipo
 	nPosDir = sTemp.Find(URL_SLASH_CHAR);
 	if (nPosDir > 0)
 	{
@@ -939,7 +945,7 @@ CString	CPathFinder::GetUserNameFromPath(const CString& sObjectFullPath) const
 	if (_tcsicmp(strUser.Right(1), _T(".")) == 0)
 		strUser = strUser.Left(strUser.GetLength() - 1);
 
-	// se sono in AllUsers ritorno vuoto, cioè non utente
+	// se sono in AllUsers ritorno vuoto, cioï¿½ non utente
 	if (_tcsicmp(strUser, szAllUserDirName) == 0)
 		return _T("");
 
@@ -1821,7 +1827,7 @@ const CString CPathFinder::GetModuleFilesPath(const CTBNamespace& aNamespace, Po
 	// mi faccio ritornare i subfolder del namespace
 	CString sSubPath = aNamespace.GetPathInside();
 
-	// aggiungo i subfolder impliciti del namespace (se non ci sono già)
+	// aggiungo i subfolder impliciti del namespace (se non ci sono giï¿½)
 	switch (aNamespace.GetType())
 	{
 		case CTBNamespace::IMAGE:	::_AddSubFolder(sSubPath, szImages);	break;
@@ -2118,7 +2124,7 @@ const CString CPathFinder::GetModuleReferenceObjectsPath(const CTBNamespace& aNa
 	return ToPosDirectory(sPath, pos, sUserRole, bCreateDir);
 }
 
-// Può ricevere un namespace di un documento o di un profilo
+// Puï¿½ ricevere un namespace di un documento o di un profilo
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetDocumentExportProfilesPath(const CTBNamespace& aNamespace, PosType pos, const CString& strUserRole /*= _T("")*/, BOOL bCreateDir /*= FALSE*/, Company aCompany /*= CURRENT*/) const
 {
@@ -2279,11 +2285,11 @@ void CPathFinder::GetProfilesFromPath(const CString& strProfilesPath, CStringArr
 	{
 		CString strFileName = CString(arProfiles.GetAt(i));
 		// per essere un profilo da caricare deve avere il file document.xml.
-		// questo perchè si utilizza la custom di un profilo anche per il salvataggio dei soli file ExpCriteriaVars.xml
+		// questo perchï¿½ si utilizza la custom di un profilo anche per il salvataggio dei soli file ExpCriteriaVars.xml
 		if (strFileName == "." || strFileName == ".." || !ExistFile(strProfilesPath + SLASH_CHAR + strFileName + SLASH_CHAR + szDocument))
 			continue;
 
-		//se non è stato ancora caricato lo inserisco
+		//se non ï¿½ stato ancora caricato lo inserisco
 		bFound = FALSE;
 		for (int nIdx = 0; nIdx <= pProfilesList.GetUpperBound(); nIdx++)
 		{
@@ -2474,7 +2480,7 @@ const CString CPathFinder::GetMasterApplicationPath() const
 	CStringArray arFolders;
 	CString applicationsFolder = GetContainerPath(CPathFinder::TB_APPLICATION);
 	
-	//faccio il ciclo tra le applicazione caricate (è inutile che vada su file system)
+	//faccio il ciclo tra le applicazione caricate (ï¿½ inutile che vada su file system)
 	POSITION	pos;
 	CString		strValue;
 	CString		strApplication;
@@ -2828,7 +2834,17 @@ const CString CPathFinder::GetJsonFormsFullFileName(const CTBNamespace& aNamespa
 	return sPath + SLASH_CHAR + sId + szTBJsonFileExt;
 }
 
+//-----------------------------------------------------------------------------
+const CString CPathFinder::GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir /*FALSE*/, Company aCompany /*CURRENT*/) const
+{
+	CString sPath = GetModulePath(aNamespace, pos, bCreateDir, aCompany);
+	sPath = sPath + SLASH_CHAR + CString(szTemplate);
+	
+	if (!ExistPath(sPath))
+		RecursiveCreateFolders(sPath);
 
+	return sPath;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // Diagnostics

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
 using TaskBuilderNetCore.Documents.Controllers.Interfaces;
 using TaskBuilderNetCore.Documents.Model;
 using Microarea.Common.NameSolver;
 using System.Collections.ObjectModel;
-using TaskBuilderNetCore.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Controllers
 {

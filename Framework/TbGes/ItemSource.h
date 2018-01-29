@@ -15,6 +15,10 @@ class TB_EXPORT IItemSource
 {
 
 	int m_nMaxItemsNo = DEFAULT_COMBO_ITEMS;
+
+public:
+	bool m_bAllowEmptyData = false;
+
 public:
 	IItemSource();
 	virtual void GetData(DataArray& values, CStringArray& descriptions, CString strCurrentValue) {}

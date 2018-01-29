@@ -20,9 +20,6 @@
     <Setting Name="Microarea_TaskBuilderNet_Core_sosProxy_SOSProxy" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/Development/TbSender/SOSProxy.asmx</Value>
     </Setting>
-    <Setting Name="Microarea_TaskBuilderNet_Core_tbHermes_TbHermes" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:81/DevMZP/TbHermes/TbHermes.asmx</Value>
-    </Setting>
     <Setting Name="Microarea_TaskBuilderNet_Core_tbLoaderLauncher_TBLoaderLauncher" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://localhost/Development_X/TBLoaderLauncher/TbLoaderLauncher.asmx</Value>
     </Setting>

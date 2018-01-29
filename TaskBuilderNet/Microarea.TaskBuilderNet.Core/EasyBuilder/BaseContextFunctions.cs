@@ -214,9 +214,6 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 				string[] dirs = Directory.GetDirectories(appsPath);
 				easyBuilderAppDetailsList.AddRange(GetAllEasyBuilderAppDetailsFromFileSystem(dirs, ApplicationType.Customization));
 
-				//Cerco le standardizzazioni
-				appsPath = BasePathFinder.BasePathFinderInstance.GetStandardApplicationContainerPath(ApplicationType.Standardization);
-
 				dirs = Directory.GetDirectories(appsPath);
 				easyBuilderAppDetailsList.AddRange(GetAllEasyBuilderAppDetailsFromFileSystem(dirs, ApplicationType.Standardization));
 
