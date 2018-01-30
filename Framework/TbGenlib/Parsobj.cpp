@@ -7461,7 +7461,9 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 		return;
 	}
 
-	if (nRelationship != FOREIGN_FOCUSED && !pWnd->IsWindowEnabled())
+	bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
+
+	if (nRelationship != FOREIGN_FOCUSED && (!pWnd->IsWindowEnabled() || !bVisible))
 	{
 		// nel caso in cui le azioni fatte a fronte della UpdateCtrlData()
 		// abbiano disabilitato il control a cui sarebbe dovuto andare il fuoco,
@@ -7473,7 +7475,7 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 		GetCtrlParent()->POST_WM_COMMAND(GetCtrlID(), PCN_SET_FOCUS, m_pOwnerWnd->m_hWnd);
 		return;
 	}
-
+	
 	// se nel frattempo qualcuno ha messo ReadOnly il DataObj si cambia lo
 	// stato esplicitamente poiche` il control si autoprotegge da variazioni
 	// di stato e valore mentre sta eseguendo la UpdateCtrlData()
