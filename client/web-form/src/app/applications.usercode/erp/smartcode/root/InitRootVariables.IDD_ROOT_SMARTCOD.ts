@@ -1,20 +1,12 @@
 import { Observable } from 'rxjs/Rx';
 
-import { BOService, BOClient, MessageDlgArgs } from '@taskbuilder/core';
+import { BOService, BOClient } from '@taskbuilder/core';
+// , MessageDlgArgs
 
 export class InitRootVariables extends BOClient {
-    constructor(
-        boService: BOService) {
+    constructor(boService: BOService) {
         super(boService);
+        this.boService.registerModelField('', 'nRootLength');
     }
 
-    onCommand(id: string): Observable<boolean> {
-        return Observable.create(observer => {
-            if (id === 'ID_EXTDOC_SAVE') {
-            }
-            observer.next(true);
-            observer.complete();
-
-        });
-    }
 }
