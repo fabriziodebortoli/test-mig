@@ -55,7 +55,7 @@ export class TopbarMenuAppComponent extends TbComponent implements OnDestroy {
         const item1 = new ContextMenuItem(this._TB('Producer Site'), 'idGotoProducerSiteButton', true, false);
         const item2 = new ContextMenuItem(this._TB('Clear cached data'), 'idClearCachedDataButton', true, false);
         const item3 = new ContextMenuItem(this._TB('Activate via SMS'), 'idActivateViaSMSButton', true, false);
-        this.menuElements.push(item2, item2, item3);
+        this.menuElements.push(item1, item2, item3);
     }
     ngOnDestroy() {
         this.eventDataServiceSubscription.unsubscribe();
