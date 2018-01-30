@@ -520,15 +520,20 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 		{
 			for (int i = graph.SortedArray.Count - 1; i >= 0; i--)
 			{
-				string[] p = ((string)graph.SortedArray[i]).Split(new Char[] { '.' });
+				string element = (string)graph.SortedArray[i];
+
+				string[] p = element.Split(new Char[] { '.' });
 				string appName = p[0].ToString();
 
 				if (string.Compare(appName, DatabaseLayerConsts.TBModuleName, StringComparison.InvariantCultureIgnoreCase) == 0)
 				{
-					tbLevList.Add(graph.SortedArray[i]);
+					tbLevList.Add(element);
 					graph.SortedArray.RemoveAt(i);
 				}
 			}
+
+			// devo eseguire il reverse per avere un ordinamento corretto!
+			tbLevList.Reverse();
 		}
 		# endregion
 
