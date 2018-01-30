@@ -66,6 +66,7 @@ namespace DataService.Controllers
         }
 
         //---------------------------------------------------------------------
+        [HttpGet]
         [Route("getdata/{namespace}/{selectiontype}")]
         public IActionResult GetData(string nameSpace, string selectionType)
         {

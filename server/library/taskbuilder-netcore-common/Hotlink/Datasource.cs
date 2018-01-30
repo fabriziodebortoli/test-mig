@@ -334,7 +334,7 @@ namespace Microarea.Common.Hotlink
                     //    return false;
                     //}
 
-                    if (hklName.IsNullOrEmpty() != documentId.IsNullOrEmpty())
+                    if (hklName.IsNullOrEmpty() || documentId.IsNullOrEmpty())
                     {
                         Debug.Fail("Hotlink of Document " + hklName);
                         return false;

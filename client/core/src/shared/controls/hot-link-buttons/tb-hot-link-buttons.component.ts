@@ -1,4 +1,5 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
+import { DocumentService } from './../../../core/services/document.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -263,6 +264,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         this.currentHotLinkNamespace = ns;
         let p: URLSearchParams = new URLSearchParams();
         p.set('filter', JSON.stringify(otherParams.model.value));
+        p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
+        p.set('hklName', this.hotLinkInfo.name);
         p.set('customFilters', JSON.stringify(otherParams.customFilters));
         p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
