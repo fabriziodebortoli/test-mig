@@ -250,6 +250,11 @@
             </tb-dockpane>
         </tb-dockpane-container>
     </tb-frame-content>
+    <tb-floating-action-menu>
+        <tb-floating-action-button icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-floating-action-button>
+        <tb-floating-action-button icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-floating-action-button>
+        <tb-floating-action-button icon="erp-variants-c" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-floating-action-button>
+    </tb-floating-action-menu>
     <tb-toolbar-bottom>
         <!-- <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>

@@ -55,8 +55,10 @@ import { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 import { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 import { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 import { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-import {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
-import {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+import { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+import { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+import { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
@@ -102,8 +104,8 @@ export { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 export { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 export { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 export { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-export {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
-export {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+export { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+export { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
 export { TopbarComponent } from './components/topbar/topbar.component';
 export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
 export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
@@ -125,15 +127,16 @@ export { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 export { ChangePasswordComponent } from './components/change-password/change-password.component';
 export { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
-
+export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+export { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
-    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,ToolbarBottomButtonDropupComponent,
+    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
-    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent
 ];
 
 /**
@@ -241,7 +244,7 @@ import { TextComponent } from './controls/text/text.component';
 import { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 import { ControlComponent } from './controls/control.component';
 import { AddressEditComponent } from './controls/address-edit/address-edit.component';
-import { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
+import { ColoredStaticComponent } from './controls/colored-static/coloredstatic.component';
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
@@ -281,7 +284,7 @@ export { TextComponent } from './controls/text/text.component';
 export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 export { ControlComponent } from './controls/control.component';
 export { AddressEditComponent } from './controls/address-edit/address-edit.component';
-export { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
+export { ColoredStaticComponent } from './controls/colored-static/coloredstatic.component';
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
@@ -305,7 +308,7 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
-import { ColoredControlDirective} from './directives/colored-control.directive';
+import { ColoredControlDirective } from './directives/colored-control.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
@@ -313,7 +316,7 @@ export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
-export { ColoredControlDirective} from './directives/colored-control.directive';
+export { ColoredControlDirective } from './directives/colored-control.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
