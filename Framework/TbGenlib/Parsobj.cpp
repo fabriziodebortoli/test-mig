@@ -8833,8 +8833,25 @@ void CParsedCtrl::ReadPropertiesFromJson()
 	CString strCaption;
 	if (m_pCaption)
 		m_pCaption->GetWindowText(strCaption);
-	if (strCaption != m_pOwnerWndDescription->m_strControlCaption)
-		SetCtrlCaption(m_pOwnerWndDescription->m_strControlCaption);
+	CString sNewCaption = AfxLoadJsonString(m_pOwnerWndDescription->m_strControlCaption, m_pOwnerWndDescription);
+	if (strCaption != sNewCaption)
+	{
+		int nCaptionW = m_pOwnerWndDescription->m_CaptionWidth;
+		if (nCaptionW == NULL_COORD)
+			nCaptionW = m_pOwnerWndDescription->GetParent()->m_CaptionWidth;
+		if (nCaptionW != NULL_COORD)
+		{
+			CRect rCaption = CRect(0, 0, nCaptionW, 0);
+			::MapDialogRect(GetCtrlParent()->m_hWnd, rCaption);
+			nCaptionW = rCaption.Width();
+		}
+		SetCtrlCaption(sNewCaption,
+			m_pOwnerWndDescription->m_CaptionHorizontalAlign,
+			m_pOwnerWndDescription->m_CaptionVerticalAlign,
+			CParsedCtrl::Left,
+			nCaptionW,
+			FALSE);
+	}
 }
 
 //=============================================================================
