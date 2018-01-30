@@ -19,7 +19,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 	//=========================================================================
 	public class DefaultManager
 	{
-		# region Variabili private
+		#region Variabili private
+		private Thread myThread;
+
 		private ContextInfo contextInfo;
 		private DatabaseDiagnostic dbDiagnostic;
 		private DefaultSelections defaultSel;
@@ -31,15 +33,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		// array di appoggio x la gestione dell'importazione dei dati di default
 		// in fase di creazione/aggiornamento del database aziendale
 		private List<TBFile> importFileList = new List<TBFile>();
-
-		private Thread myThread;
+		// per gestire l'upgrade dei dati di default 
+		private List<FileForUpgradeDefault> importFilesForUpgradeList = new List<FileForUpgradeDefault>();
 
 		// array di appoggio x tenere traccia dei file contenenti i dati di default da richiamare
 		// per le sole tabelle mancanti
 		private List<FileForMissingTable> importFileForMissingTableList = new List<FileForMissingTable>();
 		private List<FileForMissingTable> importAppendFileForMissingTableList = new List<FileForMissingTable>();
-
-		//private Dictionary<string, ArrayList> filesForAppAndModule = new Dictionary<string, ArrayList>();
 		# endregion
 
 		# region Costruttori
@@ -225,6 +225,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		{
 			if (defaultSel == null)
 				defaultSel = new DefaultSelections(contextInfo, brandLoader);
+			else
+				defaultSel.ImportSel.ImportList.Clear();
 
 			defaultSel.Mode = DefaultSelections.ModeType.IMPORT;
 			defaultSel.ImportSel.ErrorRecovery = ImportSelections.TypeRecovery.CONTINUE_LAST_FILE_ROLLBACK;
@@ -298,6 +300,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			return true;
 		}
 
+		/// <summary>
+		/// Gestione dei file di append per le tabelle mancanti, che devono essere eseguiti in coda
+		/// </summary>
 		//---------------------------------------------------------------------------
 		public bool ImportAppendDefaultData(List<string> missingTablesListForAppend)
 		{
@@ -309,14 +314,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				defaultSel.ImportSel.ImportList.Clear();
 
 			string fileName = string.Empty, table = string.Empty;
-			DirectoryInfo di = null;
 			int idx = 0;
 
 			foreach (FileForMissingTable file in importAppendFileForMissingTableList)
 			{
-
 				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.StandardPath))
-
                 {
 					foreach (TBFile  fi in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(file.StandardPath, "*Append.xml"))
 					{
@@ -326,7 +328,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 							importFileList.Add(fi);
 					}
 				}
-
 
                 if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.CustomPath))
 				{
@@ -342,9 +343,45 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			return ImportDefaultDataSilentMode();
 		}
-		# endregion
 
-		# region Metodi richiamati dal DatabaseManager per gestione dati default delle tabelle da creare
+		/// <summary>
+		/// Gestione dei file di default aggiunti in fase di upgrade
+		/// </summary>
+		//---------------------------------------------------------------------------
+		public bool ImportDefaultDataForUpgrade()
+		{
+			if (defaultSel == null)
+				defaultSel = new DefaultSelections(contextInfo, brandLoader);
+
+			defaultSel.Mode = DefaultSelections.ModeType.IMPORT;
+			defaultSel.ImportSel.ErrorRecovery = ImportSelections.TypeRecovery.CONTINUE_LAST_FILE_ROLLBACK;
+
+			// quando importo i dati contestualmente alla creazione/aggiornamento db aziendale
+			// devo andare in UPDATE delle righe esistenti (i file di Append vengono eseguiti alla fine di tutto e devono
+			// andare, appunto, in Append) // Michela: import dati OFM/ACM
+			defaultSel.ImportSel.UpdateExistRow = ImportSelections.UpdateExistRowType.UPDATE_ROW;
+
+			defaultSel.ImportSel.DeleteTableContext = false; // fix bug 14558
+			defaultSel.ImportSel.DisableCheckFK = true;
+			defaultSel.ImportSel.NoOptional = true;
+			defaultSel.ImportSel.IsSilent = true; // imposto che si tratta di elaborazione silente
+
+			foreach (FileForUpgradeDefault file in this.importFilesForUpgradeList)
+				defaultSel.ImportSel.AddItemInImportList(file.FileForUpgrade.FullName, file.Overwrite);
+
+			// se l'array dei file da importare è vuoto non procedo nell'elaborazione
+			if (defaultSel.ImportSel.ImportList.Count == 0)
+				return false;
+
+			importManager = new ImportManager(defaultSel.ImportSel, dbDiagnostic);
+			// richiamo questo metodo xchè, in modo silente, non faccio il multithread
+			importManager.InternalImport(true);
+
+			return true;
+		}
+		#endregion
+
+		#region Metodi richiamati dal DatabaseManager per gestione dati default delle tabelle da creare
 		/// <summary>
 		/// Chiamata dal Database Manager per aggiungere gli eventuali dati di default di Append
 		/// della singola tabella appartenente al moduleName dell'applicazione appName. Avviene
@@ -435,13 +472,36 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				)
 			);
 		}
-		# endregion
+
+		/// <summary>
+		/// Chiamato dall'ExecuteManager per aggiungere gli eventuali dati di default 
+		/// indicati in uno scatto di release.
+		/// </summary>
+		//---------------------------------------------------------------------------
+		public void AddDefaultDataStepTable(string appName, string moduleName, DefaultDataStep defaultStep)
+		{
+			string standardDir = Path.Combine(contextInfo.PathFinder.GetStandardDataManagerDefaultPath(appName, moduleName, contextInfo.IsoState), defaultStep.Configuration);
+			string customDir = Path.Combine(contextInfo.PathFinder.GetCustomDataManagerDefaultPath(appName, moduleName, contextInfo.IsoState), defaultStep.Configuration);
+
+			List<TBFile> fileList = new List<TBFile>();
+			contextInfo.PathFinder.GetXMLFilesInPath(standardDir, customDir, ref fileList);
+
+			foreach (TBFile tbFile in fileList)
+			{
+				if (string.Compare(Path.GetFileNameWithoutExtension(tbFile.fileInfo.Name), defaultStep.Table, StringComparison.InvariantCultureIgnoreCase) == 0)
+				{
+					FileForUpgradeDefault f = new FileForUpgradeDefault(tbFile.fileInfo, defaultStep.Overwrite);
+					importFilesForUpgradeList.Add(f);
+					break;
+				}
+			}
+		}
+		#endregion
 	}
 
-	# region class FileForMissingTable (per i default delle tabelle mancanti)
+	#region class FileForMissingTable (per i default delle tabelle mancanti)
 	/// <summary>
-	/// classe FileForMissingTable
-	/// è di appoggio per tenere traccia dei possibili path di ogni file (contenente i dati da importare) 
+	/// Classe per tenere traccia dei possibili path di ogni file (contenente i dati da importare) 
 	/// per ogni tabella che risulta mancante (la configurazione prescelta non deve essere cablata in Base!) 
 	/// </summary>
 	//=========================================================================
@@ -459,5 +519,24 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			this.Table = table;
 		}
 	}
-	# endregion
+	#endregion
+
+	#region class FileForUpgradeDefault (per il caricamento dei dati di default da upgrade)
+	/// <summary>
+	/// Classe per memorizzare i file di default da caricare in fase di upgrade del database
+	/// </summary>
+	//=========================================================================
+	public class FileForUpgradeDefault
+	{
+		public FileInfo FileForUpgrade;
+		public bool Overwrite = false;
+
+		//---------------------------------------------------------------------------
+		public FileForUpgradeDefault(FileInfo file, bool overwrite)
+		{
+			this.FileForUpgrade = file;
+			this.Overwrite = overwrite;
+		}
+	}
+	#endregion
 }

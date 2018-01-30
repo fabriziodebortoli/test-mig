@@ -10,7 +10,9 @@ using System.Xml;
 using Microarea.Common.DiagnosticManager;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+
 using static Microarea.Common.Generic.InstallationInfo;
+using static Microarea.ProvisioningDatabase.Libraries.DataManagerEngine.ImportSelections;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 {
@@ -36,6 +38,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		private bool toPrepareUpdate = false;
 		private bool fromUpdate = false;
 		private bool tbModifiedIsPresent = false; // x sapere se la colonna TBModified è presente nel file xml
+
+		// servono per la propagazione dell'opzione overwrite sui singoli file (in caso di upgrade)
+		private bool importDataForUpgrade = false;
+		private UpdateExistRowType updateExistRowTypeForUpgrade = UpdateExistRowType.SKIP_ROW;
+		//
 
 		private string currentTable = string.Empty;
 		private bool currentTableIsMaster = false; // la tabella e' di tipo master (gestione TBGuid introdotta con la 4.0)
@@ -85,8 +92,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------
 		public Thread Import()
 		{
-			Thread myThread = new Thread(new ThreadStart(InternalImport));
-			myThread.Start();
+			Thread myThread = new Thread(new ParameterizedThreadStart(InternalImport));
+			myThread.Start(false);
 			return myThread;
 		}
 
@@ -94,8 +101,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		/// per l'esecuzione del processo di import
 		/// </summary>
 		//---------------------------------------------------------------------
-		public void InternalImport()
+		public void InternalImport(object importDefaultDataForUpgrade = null)
 		{
+			// per gestire l'opzione di overwrite dei dati sul singolo file in caso di upgrade
+			importDataForUpgrade = (importDefaultDataForUpgrade != null) ? (bool)importDefaultDataForUpgrade : false;
+
 			bool error = false;
 
 			if (importSel.ImportList.Count == 0)
@@ -133,8 +143,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					if (error)
 						break;
 
-					foreach (string file in item.SelectedFiles)
+					foreach (ImportItem ii in item.SelectedFiles)
 					{
+						string file = ii.File;
+						updateExistRowTypeForUpgrade = (importDataForUpgrade)
+							? (ii.Overwrite) ? UpdateExistRowType.UPDATE_ROW : UpdateExistRowType.SKIP_ROW
+							: importSel.UpdateExistRow;
+
 						// skippo i file con un nome che inizia con DeploymentManifest (visto che potrebbe essere
 						// presente per esigenze di installazione di specifiche configurazioni dati di default/esempio 
 						// (esigenza sorta principalmente con i partner polacchi - miglioria 3067)
@@ -1117,7 +1132,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				{
 					// se l'utente mi ha detto di effettuare l'update di un record giá esistente
 					// allora non visualizzo errore ma effettuo il comando di update
-					switch (importSel.UpdateExistRow)
+					switch ((importDataForUpgrade) ? updateExistRowTypeForUpgrade : importSel.UpdateExistRow)
 					{
 						case ImportSelections.UpdateExistRowType.UPDATE_ROW:
 							{
@@ -1333,7 +1348,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				return false;
 			}
 
-			toPrepareUpdate = (importSel.UpdateExistRow == ImportSelections.UpdateExistRowType.UPDATE_ROW);
+			toPrepareUpdate = (importDataForUpgrade)
+							? (updateExistRowTypeForUpgrade == ImportSelections.UpdateExistRowType.UPDATE_ROW)
+							: (importSel.UpdateExistRow == ImportSelections.UpdateExistRowType.UPDATE_ROW);
 			return true;
 		}
 

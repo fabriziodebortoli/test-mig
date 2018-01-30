@@ -94,15 +94,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			defManager.AddDefaultDataTable(appName, moduleName);
 		}
 
-		//---------------------------------------------------------------------------
-		public bool ImportAppendDefaultData(List<string> missingTablesListForAppend)
-		{
-			if (defManager != null)
-				return defManager.ImportAppendDefaultData(missingTablesListForAppend);
-
-			return false;
-		}
-
 		/// <summary>
 		/// carica i dati di default di una specifica tabella (gestione tabelle mancanti)
 		/// </summary>
@@ -115,6 +106,15 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			// é l'import manager che controlla l'esistenza del\dei file di dati di default
 			// associati alla tabella. Se esiste l'inserisce nella lista dei file da importare altrimenti no
 			defManager.AddDefaultDataTable(tableName, appName, moduleName);
+		}
+
+		//---------------------------------------------------------------------------
+		public bool ImportAppendDefaultData(List<string> missingTablesListForAppend)
+		{
+			if (defManager != null)
+				return defManager.ImportAppendDefaultData(missingTablesListForAppend);
+
+			return false;
 		}
 
 		/// <summary>
@@ -130,9 +130,31 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			// associati alla tabella. Se esiste l'inserisce nella lista dei file da importare altrimenti no
 			defManager.AddAppendDefaultDataTable(appName, moduleName);
 		}
-		# endregion
 
-		# region Funzioni per l'importazione dei dati di esempio silente
+		//---------------------------------------------------------------------------
+		public bool ImportDefaultDataForUpgrade()
+		{
+			if (defManager != null)
+				return defManager.ImportDefaultDataForUpgrade();
+
+			return false;
+		}
+
+		/// <summary>
+		/// per gestire lo scatto di release per i dati di default
+		/// </summary>
+		//---------------------------------------------------------------------------
+		public void AddDefaultDataStepTable(string appName, string moduleName, DefaultDataStep defaultStep)
+		{
+			if (defManager == null)
+				defManager = new DefaultManager(contextInfo, DBDiagnostic, brandLoader);
+
+			//  mi tengo da parte le informazioni per l'importazione dei dati di default da step di upgrade
+			defManager.AddDefaultDataStepTable(appName, moduleName, defaultStep);
+		}
+		#endregion
+
+		#region Funzioni per l'importazione dei dati di esempio silente
 		/// <summary>
 		/// Impostazione della configurazione da caricare per i dati di esempio
 		/// </summary>

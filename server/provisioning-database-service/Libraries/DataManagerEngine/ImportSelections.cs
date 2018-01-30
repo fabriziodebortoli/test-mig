@@ -100,16 +100,15 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		/// stringcollection dei selectedfiles.
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public void AddItemInImportList(string pathName, string fileName)
+		public void AddItemInImportList(string pathName, string fileName, bool overwrite = true)
 		{
 			StringCollection allFilesList = null;
-			ImportItemInfo item = null;
-			item = GetImportItemInfo(pathName);
+			ImportItemInfo item = GetImportItemInfo(pathName);
 
 			if (item != null)
 			{
 				if (fileName.Length > 0)
-					item.Add(fileName);
+					item.Add(fileName, overwrite);
 				else
 				{
 					// se la stringa relativa al nome del file è vuota significa che devo
@@ -117,7 +116,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					// quindi li carico da file system e li inserisco
 					LoadAndGetAllFiles(pathName, out allFilesList);
 					foreach (string file in allFilesList)
-						item.Add(file);
+						item.Add(file, overwrite);
 				}
 			}
 			else
@@ -126,7 +125,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				item.PathName = pathName;
 
 				if (fileName.Length > 0)
-					item.Add(fileName);
+					item.Add(fileName, overwrite);
 				else
 				{
 					// se la stringa relativa al nome del file è vuota significa che devo
@@ -134,7 +133,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					// quindi li carico da file system e li inserisco
 					LoadAndGetAllFiles(pathName, out allFilesList);
 					foreach (string file in allFilesList)
-						item.Add(file);
+						item.Add(file, overwrite);
 				}
 
 				// aggiungo l'item solo se l'ho creato nuovo
@@ -147,9 +146,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		/// da un nome completo di file
 		/// </summary>
 		//---------------------------------------------------------------------------
-		public void AddItemInImportList(string fullName)
+		public void AddItemInImportList(string fullName, bool overwrite = true)
 		{
-			AddItemInImportList(Path.GetDirectoryName(fullName), Path.GetFileName(fullName));
+			AddItemInImportList(Path.GetDirectoryName(fullName), Path.GetFileName(fullName), overwrite);
 		}
 
 		/// <summary>
@@ -197,7 +196,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				// se è stato specificato un solo file elimino solo quello
 				// altrimenti svuoto completamente la StringCollection
 				if (fileName.Length > 0)
-					item.SelectedFiles.Remove(fileName);
+					item.Remove(fileName);
 				else
 					item.SelectedFiles.Clear();
 
@@ -221,21 +220,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		}
 
 		/// <summary>
-		/// metodo che cerca un path (specificato nel parametro passato) nell'array 
-		/// dei files da importare
-		/// </summary>
-		//---------------------------------------------------------------------------
-		public bool ExistencePathInImportList(string path)
-		{
-			foreach (ImportItemInfo item in ImportList)
-			{
-				if (string.Compare(item.PathName, path, StringComparison.OrdinalIgnoreCase) == 0)
-					return true;
-			}
-			return false;
-		}
-
-		/// <summary>
 		/// metodo che cerca il nome di un file (specificato nel parametro passato) 
 		/// nell'array dei files da importare
 		/// </summary>
@@ -243,13 +227,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		public bool ExistenceFileInImportList(string path, string file)
 		{
 			ImportItemInfo item = GetImportItemInfo(path);
-
-			if (item != null)
-			{
-				if (item.SelectedFiles.Contains(file))
-					return true;
-			}
-			return false;
+			return (item != null) ? item.Exists(file) : false;
 		}
 
 		/// <summary>
@@ -276,27 +254,52 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		}
 	}
 
-	# region Classe ImportItemInfo
+	#region Classi ImportItemInfo e ImportItem
 	//=========================================================================
 	public class ImportItemInfo
 	{
-		// deve contenere l'intero path!
-		public string PathName = string.Empty;
-		public StringCollection SelectedFiles = null;
+		public string PathName = string.Empty; // deve contenere l'intero path!
+		public List<ImportItem> SelectedFiles = null;
 
 		//---------------------------------------------------------------------
 		public ImportItemInfo() { }
 
 		//---------------------------------------------------------------------------
-		public void Add(string file)
+		public void Add(string fileName, bool overwrite = true)
 		{
 			if (SelectedFiles == null)
-				SelectedFiles = new StringCollection();
+				SelectedFiles = new List<ImportItem>();
 
-			// se l'array contiene già quella stringa non la inserisco una seconda volta
-			if (!SelectedFiles.Contains(file))
-				SelectedFiles.Add(file);
+			// se l'array contiene già quel file non lo inserisco una seconda volta
+			if (!SelectedFiles.Exists(f => string.Compare(f.File, fileName, StringComparison.InvariantCultureIgnoreCase) == 0))
+				SelectedFiles.Add(new ImportItem() { File = fileName, Overwrite = overwrite });
+		}
+
+		//---------------------------------------------------------------------------
+		public void Remove(string fileName)
+		{
+			if (SelectedFiles == null)
+				return;
+
+			SelectedFiles.RemoveAll(f => string.Compare(f.File, fileName, StringComparison.InvariantCultureIgnoreCase) == 0);
+		}
+
+		//---------------------------------------------------------------------------
+		public bool Exists(string fileName)
+		{
+			if (SelectedFiles == null)
+				return false;
+
+			return SelectedFiles.Exists(f => string.Compare(f.File, fileName, StringComparison.InvariantCultureIgnoreCase) == 0);
 		}
 	}
-	# endregion
+
+	//=========================================================================
+	public class ImportItem
+	{
+		public string File { get; set; }
+		public bool Overwrite { get; set; }
+	}
+	#endregion
+
 }
