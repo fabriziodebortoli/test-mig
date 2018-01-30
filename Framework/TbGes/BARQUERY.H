@@ -329,7 +329,7 @@ public:
 	const CString GetCurrentQueryName() const { ASSERT_VALID (m_pAllQueries); return m_pAllQueries->GetSelectedQueryName (); }
 	void SetQueryName	();
 	void EditQuery		(BOOL bExecOnly = FALSE);
-	void SelectQuery	(const CString& strQuery);
+	BOOL SelectQuery	(const CString& strQuery);
 	void DisableQuery	(BOOL bDisable = TRUE)		{ m_bDisableQuery = bDisable; }
 	BOOL IsExistQuery	(const CString& strQuery)	{ ASSERT_VALID (m_pAllQueries); return m_pAllQueries->IsExistQuery (strQuery) >= 0; }
 

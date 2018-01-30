@@ -2262,12 +2262,13 @@ CFrameWnd* CQueryManager::GetFrame() const
 
 // Seleziona, se esiste,la query identificata dal parametro e la esegue
 //-----------------------------------------------------------------------------
-void CQueryManager::SelectQuery (const CString& strQuery)
+BOOL CQueryManager::SelectQuery (const CString& strQuery)
 {
 	if (!CheckAllQueries())
-		return;
+		return FALSE;
 	if (m_pAllQueries->SelectQuery (strQuery))
-		ExecSelectedQuery ();
+		return ExecSelectedQuery ();
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -2352,7 +2353,6 @@ void CQueryManager::Dump (CDumpContext& dc) const
 	CObject::Dump(dc);
 }
 #endif // _DEBUG
-
 
 // per la gestione del popup delle query
 /////////////////////////////////////////////////////////////////////////////

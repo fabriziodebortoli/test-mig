@@ -522,7 +522,7 @@ void CDocumentSession::PushActivationDataToClients()
 void CDocumentSession::PushRadarInfoToClient(CAbstractFormDoc* pDoc)
 {
 	BEGIN_JSON_RESPONSE(RadarInfos);
-	pDoc->GetJsonRadarInfos(resp);
+	pDoc->GetJsonRadarInfos(resp, L"");
 	END_JSON_RESPONSE();
 	PushToClients(resp);
 }

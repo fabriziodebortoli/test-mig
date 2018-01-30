@@ -99,7 +99,6 @@ BOOL MExportNet::Export (CExportDataNet* pData, TypeOfExport m_nExportType)
 	for (int i = 0; i < nRowForPage; i++)
 		intrarrayRowsForPage[i] = (int)pData->m_Table.m_arItemForPages[i];
 
-	
 	for (int i = 0; i < nCollsTot; i++)
 	{
 		Object^ o = gcnew String("");

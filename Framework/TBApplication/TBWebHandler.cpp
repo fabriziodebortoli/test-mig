@@ -772,7 +772,7 @@ void CTbWebHandler::GetRadarQuery(const CString& path, const CNameValueCollectio
 	CString name = params.GetValueByName(_T("name"));
 
 	CJsonSerializer resp;
-	pDoc->GetJsonRadarInfos(resp);
+	pDoc->GetJsonRadarInfos(resp, name);
 
 	aResponse.SetOK();
 	response.SetData(resp);

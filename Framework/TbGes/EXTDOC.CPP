@@ -7288,7 +7288,7 @@ DBTMaster* CAbstractFormDoc::GetMaster()
 }
 
 //-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
+void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp, const CString& name)
 {
 	resp.OpenObject(_T("radarInfo"));
 
@@ -7299,12 +7299,19 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 	// viene chiusa e distrutta in ~CRadarDoc
 	SqlTable* pTable = new SqlTable(m_pDynamicSqlRecord, m_pTbContext->GetReadOnlySqlSession());
 
-	// Carico la ORDER BY e la WHERE presente nel documento oppure quella costruita
-	// per fare una find intelligente
-	PrepareRadarQuery(pTable);
+	if (!name.IsEmpty() && name.CompareNoCase(L"default"))
+	{
+		if (!m_pQueryManager->SelectQuery(name))
+			PrepareRadarQuery(pTable);
+	}
+	else
+	{
+		// Carico la ORDER BY e la WHERE presente nel documento oppure quella costruita
+		// per fare una find intelligente
+		PrepareRadarQuery(pTable);
+	}
 
 	pTable->Open();
-
 
 	resp.OpenArray(_T("recordKeys"));
 	for (int i = 0; i <= pTable->GetRecord()->GetPrimaryKeyIndexes().GetUpperBound(); i++)

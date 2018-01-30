@@ -457,7 +457,7 @@ public:
 	/*TBWebMethod*/void			SetFieldValue	(DataStr aTableName, DataStr aFieldName, DataInt nRow, DataStr aValue);
 	/*TBWebMethod*/DBTMaster*	GetMaster();
 	
-	void GetJsonRadarInfos(CJsonSerializer& resp);
+	void GetJsonRadarInfos(CJsonSerializer& resp, const CString& name);
 
 	// DOC_DIAGNOSTIC
 	CMessages*			GetMessages		() const { return m_pMessages; }
