@@ -958,9 +958,9 @@ PathFinderWrapper::PathFinderWrapper()
 }
 
 //-----------------------------------------------------------------------------
-System::String^ PathFinderWrapper::GetCustomApplicationsPath()
+System::String^ PathFinderWrapper::GetEasyStudioCustomizationsPath()
 {
-	return gcnew System::String(AfxGetPathFinder()->GetCustomPath());
+	return gcnew System::String(AfxGetPathFinder()->GetEasyStudioCustomizationsPath());
 }
 
 //-----------------------------------------------------------------------------

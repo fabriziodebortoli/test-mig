@@ -1117,11 +1117,12 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string TBS = "TBS";
 		public const string EasyBuilderApplication	= "EasyBuilderApplication";
 		public const string EasyStudio				= "EasyStudio";
+        public const string EasyStudioHome          = "ESHome";
 
-		#endregion
+        #endregion
 
-		#region Path
-		public const string TbLoader                = "TbLoader";
+        #region Path
+        public const string TbLoader                = "TbLoader";
         public const string OcBin                   = "OcBin";
 		public const string ClientNet				= "ClientNet";
 		public const string MenuManager				= "MenuManager";
