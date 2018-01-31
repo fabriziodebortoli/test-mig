@@ -139,7 +139,7 @@ public:
 public:
 	SqlConnection*		GetSqlConnection()	const { return m_pSqlConnection; }
 
-	BOOL				IsTxnInProgress()	const { return m_bTxnInProgress; }
+	BOOL				IsTxnInProgress()	const;
 
 public:
 	virtual void		GetErrorString(HRESULT nResult, CString& m_strError);
