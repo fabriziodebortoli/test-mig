@@ -176,7 +176,7 @@ namespace Microarea.Console.Core.DataManager.Import
 			connection.Dispose();
 
 			// devo caricare tutte le company presenti nella Custom/Companies (oltre a quelle amministrate in questo system DB)
-			customDir = Path.Combine(importSel.ContextInfo.PathFinder.GetCustomPath(), NameSolverStrings.Companies); 
+			customDir = Path.Combine(importSel.ContextInfo.PathFinder.GetCustomPath(), NameSolverStrings.Subscription); 
 
 			DirectoryInfo dir = new DirectoryInfo(customDir);
 			// se e solo se la directory esiste... allora cerco le companies al suo interno

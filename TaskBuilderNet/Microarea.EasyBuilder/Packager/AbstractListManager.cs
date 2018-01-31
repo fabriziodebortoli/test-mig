@@ -363,8 +363,8 @@ namespace Microarea.EasyBuilder.Packager
 					//Sostituisco nei file memorizzati le aziende vecchie con le nuove
 					CustomList[i].FilePath = CustomList[i].FilePath.ReplaceNoCase
 						(
-						Path.Combine(NameSolverStrings.Custom, NameSolverStrings.Companies, item.OldCompanyName),
-						Path.Combine(NameSolverStrings.Custom, NameSolverStrings.Companies, item.NewCompanyName)
+						Path.Combine(NameSolverStrings.Custom, NameSolverStrings.Subscription, item.OldCompanyName),
+						Path.Combine(NameSolverStrings.Custom, NameSolverStrings.Subscription, item.NewCompanyName)
 						);
 				}
 			}
