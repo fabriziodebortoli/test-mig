@@ -21,7 +21,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   @Input() height: number;
   @Input() columns: Array<any>;
-  
+
   public selectableSettings: SelectableSettings;
 
   @ContentChildren(BodyEditColumnComponent) be_columns;

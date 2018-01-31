@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RootNamespace>Microarea.TbfWebGate</RootNamespace>
-    <AssemblyName>Microarea.TbfWebGate</AssemblyName>
+    <AssemblyName>tbfweb-gate</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

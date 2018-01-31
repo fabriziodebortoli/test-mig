@@ -384,6 +384,7 @@
   <icon iconNs="ERP.Core.Images.25x25.ExportLine.png" icon="erp-exportline"></icon>
   <icon iconNs="ERP.Core.Images.25x25.ImportLine.png" icon="erp-importline"></icon>
   <icon iconNs="ERP.Core.Images.25x25.ImportLine_w.png" icon="erp-importline"></icon>
+  <icon iconNs="erp.core.images.25x25.splitline.png" icon="erp-splitline"></icon>
 
   <!--TaskBuilder-->
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.ImportLine_w.png" icon="erp-importline"></icon>
@@ -540,5 +541,21 @@
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.tb-resume.png" icon="resume"></icon>
   <icon iconNs="Framework.TbFrameworkImages.Images.25x25.tb-rename.png" icon="rename"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.radar.png" icon="tb-radar"></icon>
-	
+  <icon iconNs="framework.tbframeworkimages.images.25x25.applyin.png" icon="tb-applyin"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.extract.png" icon="erp-productin"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.pin.png" icon="tb-pin"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.cleandocument.png" icon="tb-cleandocument"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.processpause.png" icon="tb-processpause"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.processrun.png" icon="tb-processrun"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.easystudio.png" icon="tbs-easybuilder"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.outbound.png" icon="tb-outbound"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.stopextract.png" icon="tb-stopextract"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.resume.png" icon="tb-resume"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.generatejsonmodel.png" icon="tb-generatejsonmodel"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.paste.png" icon="tb-paste"></icon>
+ 
+  <!--Extensions-->
+  <icon iconNs="extensions.extensionsimages.images.20x20.device.png" icon="tb-device"></icon>
+  <icon iconNs="extensions.extensionsimages.images.25x25.checkout.png" icon="tb-export"></icon>
+  <icon iconNs="extensions.extensionsimages.images.25x25.filter.png" icon="tb-filter"></icon>
 </icons>

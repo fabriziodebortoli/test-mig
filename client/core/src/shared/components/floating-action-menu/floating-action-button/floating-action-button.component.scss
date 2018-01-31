@@ -2,10 +2,8 @@
     width: 250px;
     height: 40px;
     left: 7px;
-    // transform: translate3d(0, 0, 0);
-    transition: transform, opacity ease-out 200ms;
-    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition-duration: 180ms;
+    transform: translate3d(0, 0, 0);
+    transition: all 400ms ease-in-out;
     position: absolute;
     cursor: pointer;
     top: 5px;
@@ -42,10 +40,10 @@
     cursor: pointer;
     line-height: 58px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
-    transition: background-color ease-out 200ms;
+    transition: all 400ms ease-in-out;
     &:hover {
         background-color: #00578c;
         color: #fff;
-        transition: background-color ease-out 200ms;
+        transition: all 400ms ease-in-out;
     }
 }

@@ -2029,7 +2029,7 @@ namespace Microarea.EasyBuilder
                     view.Invalidate();
                     view.UpdateWindow();
                 }
-                else if (wndContainer != null)
+                else
                 {
                     wndContainer.Invalidate();
                     wndContainer.UpdateWindow();
@@ -3416,7 +3416,15 @@ namespace Microarea.EasyBuilder
                     case DialogResult.Yes:
                         Cursor.Current = Cursors.WaitCursor;
 
-						NameSpace old = Sources?.Namespace;
+                        //crea/aggiorna il json
+                        if (/*saveForWeb*/true)
+                        {
+                            NameSpace nsForJson = Sources?.Namespace;
+                            SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));
+                            bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson.Leaf);
+                        }
+
+                        NameSpace old = Sources?.Namespace;
                         if (Sources != null)
 							Sources.Namespace = ns;
 

@@ -19,8 +19,10 @@ static const char THIS_FILE[] = __FILE__;
 static const TCHAR szCustom[] = _T("Custom");
 static const TCHAR szConfiguration[] = _T("Configuration");
 static const TCHAR szEBAssemblies[] = _T("ReferencedAssemblies");
-static const TCHAR szSubscriptions[] = _T("Subscriptions");
+static const TCHAR szSubscription[] = _T("Subscription");
+static const TCHAR szCompanies[] = _T("Companies");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
+static const TCHAR szEasyStudio[] = _T("ESHome");
 static const TCHAR szDictionary[] = _T("Dictionary");
 static const TCHAR szDictionaryFile[] = _T("Dictionary.bin");
 static const TCHAR szPreferences[] = _T("Preferences");
@@ -319,7 +321,8 @@ CPathFinder::CPathFinder()
 	:
 	m_bIsStandAlone(FALSE),
 	m_pDictionaryPathFinder(NULL),
-	m_bIsRunningInsideInstallation(FALSE)
+	m_bIsRunningInsideInstallation(FALSE),
+	m_eESAppPosType(PosType::CUSTOM)
 {
 	HINSTANCE hInstance;
 	GET_DLL_HINSTANCE(hInstance);
@@ -459,12 +462,6 @@ CString CPathFinder::GetCustomUserApplicationDataPath(BOOL bCreateDir /*= TRUE*/
 }
 
 //-------------------------------------------------------------------------------------
-const CString CPathFinder::GetCustomApplicationsPath() const
-{
-	return GetAllCompaniesPath(FALSE) + SLASH_CHAR + szContainerApplications;
-}
-
-//-------------------------------------------------------------------------------------
 CString CPathFinder::GetApplicationContainer(const CString strPath) const
 {
 	CString strPathLower = strPath;
@@ -480,7 +477,7 @@ CString CPathFinder::GetApplicationContainer(const CString strPath) const
 	if (strPathLower.Find(strAppContainerPath) >= 0)
 		return GetName(strAppContainerPath);
 
-	strAppContainerPath = GetCustomApplicationsPath();
+	strAppContainerPath = GetEasyStudioCustomizationsPath();
 	strAppContainerPath.MakeLower();
 	if (strPathLower.Find(strAppContainerPath) >= 0)
 		return GetName(strAppContainerPath);
@@ -1162,12 +1159,19 @@ const CString CPathFinder::GetCustomPath(BOOL bCreateDir) const
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetCompaniesPath(BOOL bCreateDir) const
 {
-	CString sPath = GetCustomPath(bCreateDir) + SLASH_CHAR + szSubscriptions; 
+	//@@BAUZI: rename temporaneo così in sviluppo non si perdono le custom
+	// poi sarà il processo di migrazione che si preoccuperà di fare il rename e di portare i file nella tabella TB_CustomData
+	CString sCustomPath = GetCustomPath(bCreateDir);
 	
-	if (bCreateDir)
-		CreateDirectory(sPath);
-
-	return sPath;
+	CString sCompanyPath = sCustomPath + SLASH_CHAR + szCompanies;
+	CString sSubscriptionPath = sCustomPath + SLASH_CHAR + szSubscription;
+	
+	if (::ExistPath(sCompanyPath))
+		::RenameFile(sCompanyPath, sSubscriptionPath);
+	else
+		if (bCreateDir)
+			CreateDirectory(sSubscriptionPath);
+		return sSubscriptionPath;
 }
 
 //-----------------------------------------------------------------------------
@@ -1290,6 +1294,23 @@ const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 }
 
 //-----------------------------------------------------------------------------
+const CString CPathFinder::GetEasyStudioCustomizationsPath(BOOL bCreateDir /*FALSE*/) const
+{
+	CString sPath = m_eESAppPosType ==  CPathFinder::CUSTOM ?
+					GetCompaniesPath(bCreateDir) :
+					GetStandardPath();
+	
+	sPath  = sPath + SLASH_CHAR + szEasyStudio;
+	if (bCreateDir)
+		CreateDirectory(sPath);
+
+	sPath = sPath + SLASH_CHAR + szContainerApplications;
+	if (bCreateDir)
+		CreateDirectory(sPath);
+	return sPath;
+}
+
+//-----------------------------------------------------------------------------
 const CString CPathFinder::GetModulePath(const CString& sAppName, const CString& sModuleName, PosType pos, BOOL bCreateDir, Company aCompany) const
 {
 	CString sPath = GetApplicationPath(sAppName, pos, bCreateDir, aCompany) + SLASH_CHAR + sModuleName;
@@ -1334,14 +1355,6 @@ const CString CPathFinder::GetModuleObjectsPath(const CTBNamespace& aNamespace, 
 	return sPath;
 }
 
-//-----------------------------------------------------------------------------
-const CString CPathFinder::GetCustomAllCompaniesModuleObjectsPath(const CTBNamespace& ownerModule) const
-{
-	return AfxGetPathFinder()->GetCustomApplicationsPath() + SLASH_CHAR +
-		ownerModule.GetApplicationName() + SLASH_CHAR +
-		ownerModule.GetModuleName() + SLASH_CHAR +
-		szModuleObjects;
-}
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetJsonFormsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany, const CString& sUserRole) const
 {
@@ -2781,10 +2794,24 @@ void CPathFinder::GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStri
 		arPaths[i] = arPaths[i] + SLASH_CHAR + szJsonForms;
 }
 //----------------------------------------------------------------------------------------------
-const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns)
+const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns, PosType pos, BOOL bCreateDir /*FALSE*/, CString strSubPath /*_T("")*/)
 {
 	if (ns.GetType() == CTBNamespace::DOCUMENT)
-		return GetDocumentPath(ns, CPathFinder::STANDARD) + SLASH_CHAR + szJsonForms;
+	{
+		CString strPath = GetDocumentPath(ns, pos, bCreateDir, pos == CPathFinder::CUSTOM ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT) + SLASH_CHAR + szJsonForms;
+		if (bCreateDir && !ExistPath(strPath))
+			CreateDirectory(strPath);
+
+		if (!strSubPath.IsEmpty())
+		{
+			strPath += SLASH_CHAR + strSubPath;
+			if (bCreateDir && !ExistPath(strPath))
+				CreateDirectory(strPath);
+		}
+
+		return strPath;
+	}
+
 	if (ns.GetType() == CTBNamespace::MODULE)
 		return GetModulePath(ns, CPathFinder::STANDARD) + SLASH_CHAR + szJsonForms;
 	return _T("");

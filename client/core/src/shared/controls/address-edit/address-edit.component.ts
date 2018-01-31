@@ -9,6 +9,7 @@ import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
 import { Collision } from '@progress/kendo-angular-popup';
+import 'rxjs';
 
 @Component({
     selector: 'tb-addressedit',
@@ -75,26 +76,28 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         if (this.store && this.selector) {
             this.store
                 .select(this.selector)
-                .select('formMode')
+                .selectSlice('formMode', 'address', 'contact')
                 .subscribe(
                 (v) => this.onFormModeChanged(v)
                 );
+             
         }
     }
 
-    onFormModeChanged(formMode: FormMode) {
-        this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
+    onFormModeChanged(slice: any) {
+        this.ctrlEnabled = slice.formMode === FormMode.FIND || slice.formMode === FormMode.NEW || slice.formMode === FormMode.EDIT;
         this.buildContextMenu();
     }
 
     buildContextMenu() {
         this.addressContextMenu.splice(0, this.addressContextMenu.length);
-        if (this.ctrlEnabled) {
-            this.addressContextMenu.push(this.menuItemSearch);
+        if (this.model.value !== '') {
+            if (this.ctrlEnabled) {
+                this.addressContextMenu.push(this.menuItemSearch);
+            }
+            this.addressContextMenu.push(this.menuItemMap);
+            this.addressContextMenu.push(this.menuItemSatellite);
         }
-
-        this.addressContextMenu.push(this.menuItemMap);
-        this.addressContextMenu.push(this.menuItemSatellite);
     }
 
     async showMap() {

@@ -769,17 +769,17 @@ namespace Microarea.EasyBuilder.UI
 		//-----------------------------------------------------------------------------
 		private void ExportToJsonMenuItem_Click(object sender, EventArgs e)
 		{
-			if (!IsExportToJsonEnabled())
-				return;
+			//if (!IsExportToJsonEnabled())
+			//	return;
 
-			TreeNode node = treeViewOutlineManagers.SelectedNode;
-			MTileDialog dialog = node?.Tag as MTileDialog;
-			SerializationAddOnService ser = (SerializationAddOnService)dialog?.Site.GetService(typeof(SerializationAddOnService));
-			string fileName = ser?.GenerateJsonFor(dialog, true);
-			if (!string.IsNullOrEmpty(fileName))
-				MessageBox.Show(this, string.Format(Resources.ExportToJsonOk, fileName), Resources.ExportToJsonCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-			else
-				MessageBox.Show(this, Resources.ExportToJsonError, Resources.ExportToJsonCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			//TreeNode node = treeViewOutlineManagers.SelectedNode;
+			//MTileDialog dialog = node?.Tag as MTileDialog;
+			//SerializationAddOnService ser = (SerializationAddOnService)dialog?.Site.GetService(typeof(SerializationAddOnService));
+			//string fileName = ser?.GenerateJsonFor(dialog, true);
+			//if (!string.IsNullOrEmpty(fileName))
+			//	MessageBox.Show(this, string.Format(Resources.ExportToJsonOk, fileName), Resources.ExportToJsonCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			//else
+			//	MessageBox.Show(this, Resources.ExportToJsonError, Resources.ExportToJsonCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		//-----------------------------------------------------------------------------

@@ -530,7 +530,8 @@ void CFileSystemDriver::GetAllApplicationInfo(CStringArray* pAppsPath)
 	pAppsPath->Add(strPath);
 
 	AddApplicationDirectories(AfxGetPathFinder()->GetContainerPath(CPathFinder::TB_APPLICATION), pAppsPath);
-	AddApplicationDirectories(AfxGetPathFinder()->GetCustomApplicationsPath(), pAppsPath);
+	if (AfxGetPathFinder()->GetEasyStudioCustomizationsPosType() == CPathFinder::CUSTOM)
+		AddApplicationDirectories(AfxGetPathFinder()->GetEasyStudioCustomizationsPath(), pAppsPath);
 }
 
 

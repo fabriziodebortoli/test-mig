@@ -35,7 +35,6 @@ export class ToolbarTopButtonComponent extends TbComponent {
     changeDetectorRef: ChangeDetectorRef
   ) {
     super(tbComponentService, changeDetectorRef);
-    //this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
   onCommand() {
     if (!this.click())

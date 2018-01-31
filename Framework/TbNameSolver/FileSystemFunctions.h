@@ -40,7 +40,7 @@ TB_EXPORT BOOL		ExistPath	(const CString& name);
 TB_EXPORT BOOL		ExistFile	(const CString& name);
 TB_EXPORT BOOL		DeleteFile	(const CString& name);
 TB_EXPORT BOOL		RemoveFile	(const CString& name);
-//TB_EXPORT TBFile* GetTBFile(const CString& name);
+TB_EXPORT BOOL		RenameFile(const CString& sOldFileName, const CString& sNewFileName);
 
 //------------------------------------------------------------------------------
 TB_EXPORT CString	AppendExtensionIfNeeded(const CString& name, const CString& ext);
@@ -55,6 +55,7 @@ TB_EXPORT BOOL		RecursiveCreateFolders	(const CString& path);
 TB_EXPORT BOOL		CreateDirectory			(const CString& path);
 TB_EXPORT void	    GetSubFolders			(const CString sHomeDir, CStringArray* pSubFolders);
 TB_EXPORT void		GetFiles				(const CString& sPathName, const CString& sFileExt, CStringArray* pFiles);
+
 
 //=============================================================================
 TB_EXPORT CString			GetComputerName				(BOOL bStripSpecial = TRUE);

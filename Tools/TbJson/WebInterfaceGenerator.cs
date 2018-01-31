@@ -851,6 +851,7 @@ namespace Microarea.TbJson
                                 break;
 
                             //WriteControlAttributes(jObj, wc, true);
+                            WriteColumnAttributes(jObj, wCol);
 
                             string title = jObj.GetLocalizableString(Constants.text);
                             if (!string.IsNullOrEmpty(title))
@@ -858,12 +859,7 @@ namespace Microarea.TbJson
 
                             if (!string.IsNullOrEmpty(wCol.Name))
                                 htmlWriter.WriteAttribute(Constants.columnType, wCol.Name);
-
-                            //TODOLUCA non serve? � gi� il cmpId che scrive la WriteControlAttributes?
-                            //string id = jObj.GetId();
-                            //if (!string.IsNullOrEmpty(id))
-                            //    htmlWriter.WriteAttribute(Constants.columnName, id);
-
+                         
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
                         }

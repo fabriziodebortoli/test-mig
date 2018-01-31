@@ -68,7 +68,7 @@ namespace Microarea.TbLoaderGate
                     tbLoader = GetTbLoader(name);//ci riprovo, quqlche altro thread potrebbe averlo creato nel frattempo
                     if (tbLoader == null)
                     {
-                        tbLoader = new TBLoaderInstance(server, port);
+                        tbLoader = new TBLoaderInstance(server, port, name);
                         tbLoader.ExecuteAsync().Wait();
                         tbloaders.Add(tbLoader);
                     }

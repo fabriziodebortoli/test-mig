@@ -1,13 +1,14 @@
+::ng-deep .fill {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
 tb-topbar {
     .mat-toolbar {
         min-height: 53px;
     }
     .mat-toolbar-row {
         height: 53px;
-    }
-    .fill {
-        flex: 1 1 auto;
-        text-align: center;
     }
 }
 

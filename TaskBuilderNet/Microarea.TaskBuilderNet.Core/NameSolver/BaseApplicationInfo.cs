@@ -1658,7 +1658,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return 
 				customPath								+
 				System.IO.Path.DirectorySeparatorChar	+
-				NameSolverStrings.Companies				+
+				NameSolverStrings.Subscription +
 				System.IO.Path.DirectorySeparatorChar	+
 				companyName								+
 				System.IO.Path.DirectorySeparatorChar	+

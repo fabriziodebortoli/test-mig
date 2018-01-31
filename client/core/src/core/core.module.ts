@@ -150,6 +150,8 @@ const culture = localStorage.getItem('ui_culture') ? localStorage.getItem('ui_cu
 registerLocaleData(findLocaleData(culture));
 findLocaleData(culture);
 export function findLocaleData(locale: string): any {
+    if (!locale)
+        return localeit;
     const normalizedLocale = locale.toLowerCase().replace(/_/g, '-');
     switch (normalizedLocale) {
         case 'de-ch': return localedech;

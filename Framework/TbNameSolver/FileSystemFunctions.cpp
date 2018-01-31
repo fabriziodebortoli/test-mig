@@ -427,6 +427,16 @@ BOOL RemoveFile (const CString& strName)
 	return DeleteFile(strName);
 }
 
+//-----------------------------------------------------------------------------
+BOOL RenameFile(const CString& sOldFileName, const CString& sNewFileName)
+{
+	IFileSystemManager* pFileSystemManager = AfxGetFileSystemManager();
+	if (pFileSystemManager)
+		return pFileSystemManager->RenameFile(sOldFileName, sNewFileName);
+
+	return _trename(sOldFileName, sNewFileName) == 0;
+}
+
 // se necessario, elimina eventuali caratteri speciali per evitare 
 // turbamenti nelle query di lock con apici o cose strane
 //-----------------------------------------------------------------------------

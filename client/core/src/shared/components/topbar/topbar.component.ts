@@ -5,8 +5,7 @@ import { SidenavService } from './../../../core/services/sidenav.service';
 @Component({
   selector: 'tb-topbar',
   templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./topbar.component.scss']
 })
 
 export class TopbarComponent implements OnInit {

@@ -848,12 +848,12 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			if (pf.FileSystemManager.ExistPath(customDir))
 				foreach (TBDirectoryInfo dir in pf.FileSystemManager.GetSubFolders(customDir))
-					tempList.Add(dir.name);
+					tempList.Add(dir.direcotryInfo.Name);
 
 			if (pf.FileSystemManager.ExistPath(standardDir))
 				foreach (TBDirectoryInfo dir in pf.FileSystemManager.GetSubFolders(standardDir))
-					if (!tempList.Contains(dir.name))
-						tempList.Add(dir.name);
+					if (!tempList.Contains(dir.direcotryInfo.Name))
+						tempList.Add(dir.direcotryInfo.Name);
 
 			foreach (string dirName in tempList)
 				if (!configList.Contains(dirName))
