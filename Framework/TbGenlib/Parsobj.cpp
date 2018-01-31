@@ -7462,8 +7462,9 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 	}
 
 	bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
-
-	if (nRelationship != FOREIGN_FOCUSED && (!pWnd->IsWindowEnabled() || !bVisible))
+	if (!bVisible)
+		return;
+	if (nRelationship != FOREIGN_FOCUSED && !pWnd->IsWindowEnabled())
 	{
 		// nel caso in cui le azioni fatte a fronte della UpdateCtrlData()
 		// abbiano disabilitato il control a cui sarebbe dovuto andare il fuoco,
