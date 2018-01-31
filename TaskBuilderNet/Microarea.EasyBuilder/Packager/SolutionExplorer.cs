@@ -1448,7 +1448,7 @@ namespace Microarea.EasyBuilder.Packager
         {
             foreach (RenamedCompany item in renamedCompanies)
             {
-                string sourceDir = Path.Combine(Path.GetTempPath() + NameSolverStrings.Companies, item.OldCompanyName);
+                string sourceDir = Path.Combine(Path.GetTempPath() + NameSolverStrings.Subscription, item.OldCompanyName);
                 string destDir = Path.Combine(BasePathFinder.BasePathFinderInstance.GetCustomCompaniesPath(), item.NewCompanyName);
 
                 DirectoryInfo source = new DirectoryInfo(sourceDir);

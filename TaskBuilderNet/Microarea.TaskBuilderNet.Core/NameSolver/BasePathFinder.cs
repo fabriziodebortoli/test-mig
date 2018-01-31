@@ -2835,7 +2835,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		//-----------------------------------------------------------------------------
 		public string GetCustomCompaniesPath()
 		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.Companies);
+			return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription);
 		}
 
 		/// <summary>
@@ -3177,7 +3177,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return
 				GetCustomPath() +
                 Path.DirectorySeparatorChar +
-                NameSolverStrings.Companies +
+                NameSolverStrings.Subscription +
                 Path.DirectorySeparatorChar +
                 companyName;
 		}
@@ -3785,7 +3785,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                     for (int i = 0; i <= tokens.Length; i++)
                     {
 
-                        if (string.Compare(NameSolverStrings.Companies, tokens[i], true) == 0)
+                        if (string.Compare(NameSolverStrings.Subscription, tokens[i], true) == 0)
                         {
                             nPosCompaniesPos = i;
                             break;

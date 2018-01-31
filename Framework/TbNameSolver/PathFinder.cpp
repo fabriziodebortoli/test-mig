@@ -19,7 +19,8 @@ static const char THIS_FILE[] = __FILE__;
 static const TCHAR szCustom[] = _T("Custom");
 static const TCHAR szConfiguration[] = _T("Configuration");
 static const TCHAR szEBAssemblies[] = _T("ReferencedAssemblies");
-static const TCHAR szSubscriptions[] = _T("Subscriptions");
+static const TCHAR szSubscription[] = _T("Subscription");
+static const TCHAR szCompanies[] = _T("Companies");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
 static const TCHAR szDictionary[] = _T("Dictionary");
 static const TCHAR szDictionaryFile[] = _T("Dictionary.bin");
@@ -1162,12 +1163,19 @@ const CString CPathFinder::GetCustomPath(BOOL bCreateDir) const
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetCompaniesPath(BOOL bCreateDir) const
 {
-	CString sPath = GetCustomPath(bCreateDir) + SLASH_CHAR + szSubscriptions; 
+	//@@BAUZI: rename temporaneo così in sviluppo non si perdono le custom
+	// poi sarà il processo di migrazione che si preoccuperà di fare il rename e di portare i file nella tabella TB_CustomData
+	CString sCustomPath = GetCustomPath(bCreateDir);
 	
-	if (bCreateDir)
-		CreateDirectory(sPath);
-
-	return sPath;
+	CString sCompanyPath = sCustomPath + SLASH_CHAR + szCompanies;
+	CString sSubscriptionPath = sCustomPath + SLASH_CHAR + szSubscription;
+	
+	if (::ExistPath(sCompanyPath))
+		::RenameFile(sCompanyPath, sSubscriptionPath);
+	else
+		if (bCreateDir)
+			CreateDirectory(sSubscriptionPath);
+		return sSubscriptionPath;
 }
 
 //-----------------------------------------------------------------------------

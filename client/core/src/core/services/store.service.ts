@@ -102,7 +102,9 @@ export class StoreT<T> extends Observable<T> {
 
   selectSlice(...paths: string[]): StoreT<any> {
     const selectors = paths.map(p => s => _.get(s, p));
-    return this.select(createSelector.call(null, selectors, s => s));
+    return this.select(createSelector.call(null, selectors, (...slices: any[]) => {
+      return slices.reduce((o, val, i) => { o[paths[i]] = val; return o; }, {});
+    }));
   }
 
   selectByMap<T>(map: T): StoreT<{[P in keyof T]: any}> {
