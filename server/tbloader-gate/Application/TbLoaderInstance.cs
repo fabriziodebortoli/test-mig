@@ -21,11 +21,11 @@ namespace Microarea.TbLoaderGate
         public string WSBaseUrl { get { return string.Concat("ws://", server, ":", socketPort, "/TBWebSocketsController/"); } }
 
         //-----------------------------------------------------------------------------------------
-        public TBLoaderInstance(string server, int port)
+        public TBLoaderInstance(string server, int port, string name)
         {
             this.httpPort = port;
             this.server = server;
-            this.name = Guid.NewGuid().ToString();
+            this.name = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString() : name;
         }
 
         //-----------------------------------------------------------------------------------------

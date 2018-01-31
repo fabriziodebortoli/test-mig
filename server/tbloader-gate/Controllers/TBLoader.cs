@@ -68,8 +68,8 @@ namespace Microarea.TbLoaderGate
 
                     tbName = jObject.GetValue(TbLoaderName)?.ToString();
                 }
-
-
+                if (string.IsNullOrEmpty(tbName))
+                    tbName = HttpContext.Session.GetString(TbLoaderName);
                 if (options.TestMode)
                 {
                     if (stub == null)
@@ -102,13 +102,14 @@ namespace Microarea.TbLoaderGate
                             jObject[TbLoaderId] = tb.processId;
                             HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
                             HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
-
+                            
                         }
                         HttpContext.Response.StatusCode = (int)resp.StatusCode;
 
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
-
+                    if (newInstance)
+                        HttpContext.Session.SetString(TbLoaderName, tb.name);
                 }
 
             }
