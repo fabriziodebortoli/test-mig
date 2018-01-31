@@ -257,7 +257,7 @@ CString CJsonFormEngineObj::GetObjectName(CWndObjDescription* pWndDesc)
 //-----------------------------------------------------------------------------
 BOOL CJsonFormEngineObj::GetJsonFormInfo(const CString& sName, const CTBNamespace& ns, CString& sJsonFile, CTBNamespace& ownerModule)
 {
-	CString sPath = AfxGetPathFinder()->GetJsonFormPath(ns) + SLASH_CHAR + sName + szTBJsonFileExt;
+	CString sPath = AfxGetPathFinder()->GetJsonFormPath(ns, CPathFinder::PosType::STANDARD) + SLASH_CHAR + sName + szTBJsonFileExt;
 	if (ExistFile(sPath))
 	{
 		sJsonFile = sPath;

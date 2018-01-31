@@ -564,7 +564,7 @@ void CJsonResource::GetInfo(CString& sFile, CTBNamespace& moduleNamespace) const
 			return;
 	}
 	//altrimenti in una sottocartella della jsonforms di modulo
-	sFile = AfxGetPathFinder()->GetJsonFormPath(moduleNamespace);
+	sFile = AfxGetPathFinder()->GetJsonFormPath(moduleNamespace, CPathFinder::PosType::STANDARD);
 	if (!category.IsEmpty() && category != szJsonForms)
 		sFile += SLASH_CHAR + category;
 	sFile += SLASH_CHAR + m_strName + szTBJsonFileExt;

@@ -2608,7 +2608,8 @@ void CWndObjDescription::SerializeJson(CJsonSerializer& strJson)
 	SERIALIZE_STRING(m_strBeforeId, szJsonBeforeItem);
 	SERIALIZE_STRING(m_strContext, szJsonContext);
 	//l'id, type, stato e nome vanno sempre inviati, indipendentemente dalla loro modifica
-	strJson.WriteString(szJsonId, GetJsonID());
+	//modifica per la necessità di serializzare degli href (dalla serializzazione in json di documenti EasyStudio - non si devono scrivere degli Id vuoti)
+	SERIALIZE_STRING(GetJsonID(), szJsonId);
 	SERIALIZE_STRING(m_strName, szJsonName);
 	SERIALIZE_STRING(m_strControlClass, szJsonControlClass);
 	SERIALIZE_ENUM(m_ControlStyle, szJsonControlStyle, CS_NONE);
@@ -2640,6 +2641,15 @@ void CWndObjDescription::SerializeJson(CJsonSerializer& strJson)
 
 	SERIALIZE_BOOL(m_bAcceptFiles, szJsonAcceptFiles, false);
 	SERIALIZE_STRING(m_sAnchor, szJsonAnchor);
+
+	//serialize href tags
+	for (int i = 0; i < m_arHrefHierarchy.GetCount(); i++)
+	{
+		//strJson.WriteString(szJsonId, GetJsonID());
+		CString href = m_arHrefHierarchy.GetAt(i);
+		SERIALIZE_STRING(href, szJsonHref);
+	}
+
 	if (m_pBindings)
 	{
 		m_pBindings->SerializeJson(strJson);

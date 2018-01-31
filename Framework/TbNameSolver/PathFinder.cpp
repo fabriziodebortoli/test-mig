@@ -2781,10 +2781,24 @@ void CPathFinder::GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStri
 		arPaths[i] = arPaths[i] + SLASH_CHAR + szJsonForms;
 }
 //----------------------------------------------------------------------------------------------
-const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns)
+const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns, PosType pos, BOOL bCreateDir /*FALSE*/, CString strSubPath /*_T("")*/)
 {
 	if (ns.GetType() == CTBNamespace::DOCUMENT)
-		return GetDocumentPath(ns, CPathFinder::STANDARD) + SLASH_CHAR + szJsonForms;
+	{
+		CString strPath = GetDocumentPath(ns, pos, bCreateDir, pos == CPathFinder::CUSTOM ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT) + SLASH_CHAR + szJsonForms;
+		if (bCreateDir && !ExistPath(strPath))
+			CreateDirectory(strPath);
+
+		if (!strSubPath.IsEmpty())
+		{
+			strPath += SLASH_CHAR + strSubPath;
+			if (bCreateDir && !ExistPath(strPath))
+				CreateDirectory(strPath);
+		}
+
+		return strPath;
+	}
+
 	if (ns.GetType() == CTBNamespace::MODULE)
 		return GetModulePath(ns, CPathFinder::STANDARD) + SLASH_CHAR + szJsonForms;
 	return _T("");

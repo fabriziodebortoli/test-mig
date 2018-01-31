@@ -415,7 +415,7 @@ public:
 	
 	void GetDictionaryPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
 	void GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
-	const CString GetJsonFormPath(const CTBNamespace& ns);
+	const CString GetJsonFormPath(const CTBNamespace& ns, PosType pos, BOOL bCreateDir = FALSE, CString strSubPath = _T(""));
 
 	const CString GetNumberToLiteralXmlFullName(const CTBNamespace& aNamespace, const CString& sCulture = _T("")) const;
 
