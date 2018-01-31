@@ -248,6 +248,7 @@ import { ColoredStaticComponent } from './controls/colored-static/coloredstatic.
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
+import { ControlContainerComponent } from './controls/control-container/control-container.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -288,6 +289,7 @@ export { ColoredStaticComponent } from './controls/colored-static/coloredstatic.
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
+export { ControlContainerComponent } from './controls/control-container/control-container.component';
 
 const TB_CONTROLS = [
     ControlComponent, ColoredStaticComponent, AddressEditComponent,
@@ -296,7 +298,7 @@ const TB_CONTROLS = [
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
-    PropertyGridItemComponent, PropertyGridItemGroupComponent
+    PropertyGridItemComponent, PropertyGridItemGroupComponent, ControlContainerComponent
 ];
 
 /**

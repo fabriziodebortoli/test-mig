@@ -1,8 +1,4 @@
-<div class="tb-control tb-text">
-    <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <div class="group">
-        <ng-content></ng-content>
-        <ng-container #contextMenu></ng-container>
-        <ng-container #stateButtons></ng-container>
-    </div>
+<div class="tb-control {{type}}" [ngClass]="componentClass()">
+    <ng-content></ng-content>
+    <div class="has-error">{{errorMessage}}</div>
 </div>

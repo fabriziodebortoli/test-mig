@@ -1,6 +1,7 @@
+import { ControlContainerComponent } from './../control-container/control-container.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -15,22 +16,20 @@ import { ControlComponent } from './../control.component';
 
 export class EmailComponent extends ControlComponent implements OnInit, OnChanges, AfterViewInit {
   @Input('readonly') readonly: boolean = false;
-  errorMessage: string;
-  showError = '';
   mask = '';
   public constraint: RegExp;
 
+ @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+  
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef:ChangeDetectorRef) {
     super(layoutService, tbComponentService,changeDetectorRef);
-
   }
 
   ngOnInit() {
-   
   }
 
   public onChange(val: any) {
@@ -69,15 +68,12 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
 
   onBlur(): any {
     this.constraint = new RegExp('^[a-zA-Z0-9_\+-]+(\.[a-zA-Z0-9_\+-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.([a-zA-Z]{2,})$', 'i');
-    this.errorMessage = '';
-    this.showError = '';
     var arEmail = this.model.value.split(";");
-    
+    this.cc.errorMessage = '';
     if (arEmail.length > 0) {
       for (var i = 0; i < arEmail.length; i++) { 
         if (!this.constraint.test(arEmail[i].trim())) {
-          this.errorMessage = 'Input not in correct form';
-          this.showError = 'inputError';
+          this.cc.errorMessage = 'Input not in correct form';
           break;
         }  
       }

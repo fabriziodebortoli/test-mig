@@ -1,8 +1,9 @@
-﻿import { EventDataService } from './../../core/services/eventdata.service';
+﻿import { ControlContainerComponent } from './control-container/control-container.component';
+import { EventDataService } from './../../core/services/eventdata.service';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
-import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
 import { addControlModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 
@@ -28,7 +29,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     public formatter: string;
 
     public widthFactor: number = 1;
-    public heightFactor: number = 1;
+    public heightFactor: number = 1; 
+
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
     subscriptions: Subscription[] = [];
@@ -100,4 +102,5 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     protected onTranslationsReady() { 
         super.onTranslationsReady();
     }
+
 }
