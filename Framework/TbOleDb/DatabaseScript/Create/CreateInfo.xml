@@ -3,7 +3,7 @@
 	<ModuleInfo name="TbOledb" />
 	<Level1>
 		<Step numstep="1" script="TB_DBMark.sql"/>
-    <Step numstep="2" script="TB_CustomMetadata.sql"/>
+    <Step numstep="2" script="TB_CustomTBFS.sql"/>
 	</Level1>
 	<Level2/>
 </CreateInfo>

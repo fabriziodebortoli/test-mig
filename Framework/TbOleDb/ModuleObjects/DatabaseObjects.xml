@@ -6,7 +6,7 @@
 		<Table namespace="Framework.TbOleDb.TbOleDb.TB_DBMark">
 			<Create release="1" createstep="1" />
 		</Table>
-    <Table namespace="Framework.TbOleDb.TbOleDb.TB_CustomMetadata">
+    <Table namespace="Framework.TbOleDb.TbOleDb.TB_CustomTBFS">
       <Create release="401" createstep="2" />
     </Table>
 	</Tables>

@@ -22,7 +22,7 @@ namespace Microarea.Common.FileSystemManager
         private string customConnectionString = string.Empty;
         private const string szInstanceKey = "I-M4";
         private const string szMPInstanceTBFS = "MP_InstanceTBFS";
-        private const string szTBCustomMetadata = "TB_CustomMetadata";
+        private const string szTBCustomMetadata = "TB_CustomTBFS";
         private PathFinder pathFinder = null;
         private bool started = false;
 
@@ -151,7 +151,7 @@ namespace Microarea.Common.FileSystemManager
 
 	        
 	        SqlTransaction trans = null;
-	        String tableName = (bCustom) ? "TB_CustomMetadata" : "MP_InstanceTBFS";
+	        String tableName = (bCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 	        int parentID = -1;
 	        //verifico se la path esiste
 	        String commandText = string.Format("SELECT FileID from {0} WHERE PathName = '{1}' AND IsDirectory = '1'", tableName, strFolder);

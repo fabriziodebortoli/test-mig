@@ -13,7 +13,7 @@
 	</DBRel>
   <DBRel numrel="401">
     <Level1>
-      <Step numstep="1" script="Create_TB_CustomMetadata.sql" />
+      <Step numstep="1" script="Create_TB_CustomTBFS.sql" />
     </Level1>
   </DBRel>
 </UpgradeInfo>
