@@ -550,7 +550,7 @@ namespace Microarea.EasyBuilder.Packager
 			if (group == null)
 				return string.Empty;
 
-			if (group.Value.CompareNoCase(NameSolverStrings.AllCompanies))
+			if (group.Value.CompareNoCase(NameSolverStrings.EasyStudioHome))
 				return string.Empty;
 
 			return group.Value;

@@ -3213,11 +3213,17 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 				return string.Empty;
 			}
 
-			string customCompanyPath = GetCustomCompanyPath(companyName);
-			if (customCompanyPath == string.Empty)
-				return string.Empty;
+            string customCompanyPath = GetCustomCompanyPath(companyName);
 
-			string applicationContainerName = GetApplicationContainerName(aApplicationType);
+			if (customCompanyPath == string.Empty)
+            {
+                if (aApplicationType == ApplicationType.Customization)
+                    customCompanyPath = GetEasyStudioCustomizationsPath();
+                else
+                    return string.Empty;
+            }
+
+            string applicationContainerName = GetApplicationContainerName(aApplicationType);
 			if (applicationContainerName == string.Empty)
 			{
 				diagnostic.Set(DiagnosticType.Error, string.Format(Messages.ApplicationContainerNonManaged, aApplicationType.ToString()));
@@ -4108,7 +4114,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		//--------------------------------------------------------------------------------
 		public string GetCustomApplicationsPath()
 		{
-			return Path.Combine(GetCustomAllCompaniesPath(), NameSolverStrings.Applications);
+			return Path.Combine(GetEasyStudioCustomizationsPath(), NameSolverStrings.Applications);
 		}
 
 		/// <summary>
@@ -4123,7 +4129,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");
 
-			string path = GetCustomDocumentPath(NameSolverStrings.AllCompanies, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
+			string path = GetCustomDocumentPath(NameSolverStrings.EasyStudioHome, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
 			return string.IsNullOrEmpty(user)
 				? path
 				: Path.Combine(path, user);
