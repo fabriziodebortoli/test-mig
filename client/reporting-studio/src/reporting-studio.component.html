@@ -1,13 +1,31 @@
 <tb-frame>
     <iframe id="iframe" style="display:none;"></iframe>
     <tb-toolbar-top>
-        <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" *ngIf="rsService.running"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="ReRunReport()" *ngIf="rsService.runEnabled"></tb-toolbar-top-button>
-        <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" *ngIf="!rsService.runEnabled"></tb-toolbar-top-button>
+
+        <div class="toolbar-menu">
+            <div class="menu-category search">
+                <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
+            </div>
+
+            <div class="menu-category navigation">
+                <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+            </div>
+
+            <div class="menu-category esecution">
+                <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
+            </div>
+        </div>
+
+        <div class="toolbar-right">
+            <div class="menu-category exit">
+                <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" (click)="closeReport()"></tb-toolbar-top-button>
+            </div>
+        </div>
+
     </tb-toolbar-top>
     <tb-frame-content>
         <tb-view-container>
@@ -22,11 +40,11 @@
     <tb-toolbar-bottom>
         <label id="snapshot" *ngIf="runReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
 
-        <tb-toolbar-bottom-button id="firstButton" *ngIf="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button id="firstButton" [disabled]="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsExportService.pdf)"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button *ngIf="!runReport" caption="Export as Excel" (click)="setExportFile(rsExportService.excel)"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button [disabled]="!runReport" caption="Export as Excel" (click)="setExportFile(rsExportService.excel)"></tb-toolbar-bottom-button>
         <!--<tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsExportService.docx)"></tb-toolbar-bottom-button> -->
 
         <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
@@ -36,4 +54,5 @@
 </tb-frame>
 
 
-<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div> <!--NO REFACTORING!! NON TOCCARE! -->
+<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
+<!--NO REFACTORING!! NON TOCCARE! -->
