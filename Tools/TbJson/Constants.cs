@@ -137,5 +137,7 @@
         internal const string COL2 = "COL2";
         internal const string sClass = "class";
         internal const string div= "div";
+
+        internal const string propagateSelectionChange = "propagateSelectionChange";
     }
 }

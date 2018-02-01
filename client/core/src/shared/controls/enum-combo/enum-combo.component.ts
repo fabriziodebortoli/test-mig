@@ -1,7 +1,7 @@
 ﻿import { Logger } from './../../../core/services/logger.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy, ChangeDetectorRef, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { EnumsService } from './../../../core/services/enums.service';
@@ -13,7 +13,8 @@ import { ControlComponent } from './../control.component';
 @Component({
     selector: 'tb-enum-combo',
     templateUrl: 'enum-combo.component.html',
-    styleUrls: ['./enum-combo.component.scss']
+    styleUrls: ['./enum-combo.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
@@ -22,8 +23,11 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
 
     items: Array<any> = [];
     selectedItem: any;
+    private oldValue: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any;
+    @Input() propagateSelectionChange = false;
+    @ViewChild("ddl") dropdownlist: any;
 
     constructor(
         public webSocketService: WebSocketService,
@@ -31,7 +35,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         public enumsService: EnumsService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
-        changeDetectorRef:ChangeDetectorRef,
+        changeDetectorRef: ChangeDetectorRef,
         public logger: Logger
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
@@ -58,8 +62,33 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         }
     }
 
-    onChange() {
-        this.logger.debug(this.selectedItem);
+    @HostListener('keydown', ['$event'])
+    public keydown(event: any): void {
+        if (event.target.id === this.dropdownlist.id) {
+            switch (event.keyCode) {
+                case 9: // tab
+                case 13: // enter
+                    this.oldValue = this.selectedItem;
+                    break;
+                case 27: // esc
+                    this.selectedItem = this.oldValue;
+                    break;
+            }
+        }
+    }
+
+    focus() {
+        this.oldValue = this.selectedItem;
+    }
+
+    valueChange(value) {
+        this.selectedItem = value;
+        this.model.value = this.selectedItem.code;
+        this.eventDataService.change.emit(this.cmpId);
+    }
+
+    selectionChange(value) {
+        if (this.propagateSelectionChange) this.valueChange(value);
     }
 
     ngDoCheck() {

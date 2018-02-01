@@ -14,6 +14,8 @@
         "ms-vscode.PowerShell",
         "robinbentley.sass-indented",
         "ivangabriele.vscode-tfs",
-        "eg2.tslint"
+        "eg2.tslint",
+        "eamodio.gitlens",
+        "donjayamanne.githistory"
     ]
 }

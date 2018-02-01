@@ -1,8 +1,3 @@
-using Microarea.TbJson.Exceptions;
-using Microarea.TbJson.Properties;
-using Microarea.TbJson.Utils;
-using Newtonsoft.Json.Linq;
-using SharedCode;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
+using Microarea.TbJson.Exceptions;
+using Microarea.TbJson.Properties;
+using Microarea.TbJson.Utils;
+using Newtonsoft.Json.Linq;
+using SharedCode;
 using static Microarea.TbJson.Helpers;
 
 namespace Microarea.TbJson
@@ -1004,6 +1004,12 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
 
                             WriteControlAttributes(jObj, wc);
+                            var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
+                            if (propagateSelectionChange != null)
+                            {
+                                htmlWriter.WriteAttribute(Constants.propagateSelectionChange, propagateSelectionChange.ToString());
+                            }
+
                             w.CloseBeginTag();
                         }
                         break;
