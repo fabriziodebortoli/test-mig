@@ -8591,6 +8591,12 @@ void CParsedCtrl::SetNamespace(const CString& strName)
 //-----------------------------------------------------------------------------
 void CParsedCtrl::OnHotLinkClosed()
 {
+	if (m_pDocument) {
+		HotKeyLinkObj* pHKL = GetHotLink();
+		if (pHKL)
+
+		m_pDocument->OnHotLinkClosed(GetCtrlID());
+	}
 }
 
 //-----------------------------------------------------------------------------

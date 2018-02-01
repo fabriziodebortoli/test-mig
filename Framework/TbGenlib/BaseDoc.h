@@ -424,6 +424,8 @@ public:
 	virtual void OnPrepareForFind(HotKeyLinkObj* pHKL, SqlRecord* pRec) {}//called to customize hotlink behavior before FindRecord
 	virtual void OnPrepareAuxData(HotKeyLinkObj* pHKL) {}//called to customize hotlink data after FindRecord
 
+	virtual void OnHotLinkClosed(UINT nIDC) {};
+
 protected:	
 	
 	void		OnBackToMenu();
