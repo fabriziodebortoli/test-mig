@@ -1,6 +1,7 @@
+import { ControlContainerComponent } from './../control-container/control-container.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -17,7 +18,8 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
   @Input() pattern: string;
   public constraint: RegExp;
 
-  errorMessage: string;
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+
   showError = '';
   constructor(
     public eventData: EventDataService,
@@ -63,11 +65,11 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
   onBlur(): any {
     this.constraint = new RegExp('((http|https)(:\/\/))?([a-zA-Z0-9]+[.]{1}){2}[a-zA-z0-9]+(\/{1}[a-zA-Z0-9]+)*\/?', 'i');
     if (!this.constraint.test(this.model.value)) {
-      this.errorMessage = 'Input not in correct form';
+      this.cc.errorMessage = 'Input not in correct form';
       this.showError = 'inputError';
     }
     else {
-      this.errorMessage = '';
+      this.cc.errorMessage = '';
       this.showError = '';
     }
     this.eventData.change.emit(this.cmpId);

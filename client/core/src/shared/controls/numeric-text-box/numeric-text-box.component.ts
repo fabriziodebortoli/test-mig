@@ -1,9 +1,10 @@
+import { ControlContainerComponent } from './../control-container/control-container.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { FormattersService } from './../../../core/services/formatters.service';
 
-import { Component, Input, OnChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
@@ -27,7 +28,9 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
 
   formatterProps: any;
   controlDecimals = 0;
-  errorMessage: string;
+
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+
   public constraint: RegExp = new RegExp('\\d');
   showError = '';
   public selectedValue: number;
@@ -155,11 +158,11 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
     }
 
     if (!this.constraint.test(this.model.value)) {
-      this.errorMessage = 'Input not in correct form';
+      this.cc.errorMessage = 'Input not in correct form';
       this.showError = 'inputError';
     }
     else {
-      this.errorMessage = '';
+      this.cc.errorMessage = '';
       this.showError = '';
     }
     this.eventData.change.emit(this.cmpId);

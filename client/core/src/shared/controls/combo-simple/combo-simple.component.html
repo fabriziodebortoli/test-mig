@@ -1,9 +1,8 @@
-<div class="tb-control tb-combo-simple" [ngClass]="componentClass()">
+<tb-control-container type="tb-combo-simple">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" 
-    [defaultItem]="defaultItem" (selectionChange)="selectionChange($event)" [popupSettings]="{ width: 'auto' }">
+    <kendo-dropdownlist [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem" (selectionChange)="selectionChange($event)" [popupSettings]="{ width: 'auto' }">
         <ng-template kendoDropDownListNoDataTemplate>
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </ng-template>
     </kendo-dropdownlist>
-</div>
+</tb-control-container>
