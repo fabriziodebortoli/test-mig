@@ -1181,7 +1181,12 @@ const CString CPathFinder::GetApplicationPath(const CString& sAppName, PosType p
 		return m_sStandardPath + SLASH_CHAR + GetAppContainerName(sAppName) + SLASH_CHAR + sAppName;
 
 	// container
-	CString sPath = GetCompanyPath(bCreateDir) + SLASH_CHAR	+ GetAppContainerName(sAppName);
+	CString sPath = GetCompanyPath(bCreateDir) + SLASH_CHAR + GetAppContainerName(sAppName);
+
+	// Personalizzazioni di EasyStudio: se sono su file system sono sulla home
+	// mentre se sono nel database sono nella current company
+	if (aCompany == CPathFinder::EASYSTUDIO && !AfxGetFileSystemManager()->IsManagedByAlternativeDriver(sPath))
+		sPath = GetEasyStudioCustomizationsPath();
 
 	if (bCreateDir)
 		CreateDirectory(sPath);
@@ -1644,7 +1649,7 @@ const CString CPathFinder::GetModuleExcelDocPath(const CTBNamespace& aNamespace,
 }
 
 //-----------------------------------------------------------------------------
-const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany) const
+const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany, const CString& sUserRole /*= _T("")*/) const
 {
 	if (
 		aNamespace.GetType() != CTBNamespace::DOCUMENT &&
@@ -1659,6 +1664,13 @@ const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosTy
 	CString sPath = GetModuleObjectsPath(aNamespace, pos, bCreateDir, aCompany) + SLASH_CHAR + aNamespace.GetObjectName(CTBNamespace::DOCUMENT);
 	if (bCreateDir)
 		CreateDirectory(sPath);
+
+	if (!sUserRole.IsEmpty() && IsCustomPath(sPath))
+	{
+		sPath = sPath + SLASH_CHAR + sUserRole;
+		if (bCreateDir)
+			CreateDirectory(sPath);
+	}
 
 	return sPath;
 }
@@ -2798,7 +2810,7 @@ const CString CPathFinder::GetJsonFormPath(const CTBNamespace& ns, PosType pos, 
 {
 	if (ns.GetType() == CTBNamespace::DOCUMENT)
 	{
-		CString strPath = GetDocumentPath(ns, pos, bCreateDir, pos == CPathFinder::CUSTOM ? CPathFinder::ALL_COMPANIES : CPathFinder::CURRENT) + SLASH_CHAR + szJsonForms;
+		CString strPath = GetDocumentPath(ns, pos, bCreateDir, pos == CPathFinder::CUSTOM ? CPathFinder::EASYSTUDIO : CPathFinder::CURRENT) + SLASH_CHAR + szJsonForms;
 		if (bCreateDir && !ExistPath(strPath))
 			CreateDirectory(strPath);
 

@@ -192,7 +192,7 @@ class TB_EXPORT CPathFinder : public CObject
 	friend class TBFileSystemManager;
 public:
 	enum PosType { STANDARD, CUSTOM, ALL_USERS, USERS, ROLES };
-	enum Company { CURRENT, ALL_COMPANIES };
+	enum Company { CURRENT, ALL_COMPANIES, EASYSTUDIO};
 	enum ApplicationType { UNDEFINED, TB_APPLICATION, TB, CUSTOMIZATION, STANDARDIZATION };
 
 
@@ -330,7 +330,7 @@ public:
 	const CString GetModuleXmlPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetModuleXmlPathCulture(const CTBNamespace& aNamespace, PosType pos, const CString& sCulture = _T(""), const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetModuleHelpPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
-	const CString GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+	const CString GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT, const CString& sUserRole = _T("")) const;
 	const CString GetDocumentRadarPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentQueryPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentDescriptionPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
@@ -350,7 +350,7 @@ public:
 	const CString GetDocumentFormNSChangesFile(const CTBNamespace& aNamespace) const;	
 	const CString GetDocumentEventsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 
-	const CString GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+	const CString GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = EASYSTUDIO) const;
 
 	const CString GetAppDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetAppXTechDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;

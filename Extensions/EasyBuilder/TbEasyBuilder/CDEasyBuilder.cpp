@@ -806,51 +806,26 @@ BOOL CDEasyBuilder::OnIdleHandler (LONG lCount)
 //-----------------------------------------------------------------------------
 NameSpace^ CDEasyBuilder::GetNewCustomizationName(INameSpace^ documentNamespace)
 {
-	String^ user = gcnew String(AfxGetLoginInfos()->m_strUserName);
+	CTBNamespace aDocumentNamespace(CTBNamespace::DOCUMENT, CString(documentNamespace->FullNameSpace));
+	// aggiusto sulla base del contesto corrente
+	aDocumentNamespace.SetApplicationName(CString(BaseCustomizationContext::CustomizationContextInstance->CurrentApplication));
+	aDocumentNamespace.SetModuleName (CString(BaseCustomizationContext::CustomizationContextInstance->CurrentModule));
+	
+	CStringArray arFiles;
 
-	String^ path = Microarea::TaskBuilderNet::Core::NameSolver::BasePathFinder::BasePathFinderInstance->GetCustomDocumentPath
-	(
-		NameSolverStrings::AllCompanies, 
-		BaseCustomizationContext::CustomizationContextInstance->CurrentApplication,
-		BaseCustomizationContext::CustomizationContextInstance->CurrentModule,
-		documentNamespace->Document
-	);
-
-	List<String^>^ files = gcnew List<String^>();
-	String^ userPath = Path::Combine(path, user);
-	String^ searchCriteria = "*.dll";
-	if (System::IO::Directory::Exists(path))
+	// published files
+	GetFiles(AfxGetPathFinder()->GetDocumentPath(aDocumentNamespace, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO), _T("*.dll"), &arFiles);
+	// user files
+	CStringArray arUserFiles;
+	GetFiles(AfxGetPathFinder()->GetDocumentPath(aDocumentNamespace, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO, AfxGetLoginInfos()->m_strUserName), _T("*.dll"), &arUserFiles);
+	
+	for (int i = 0; i < arUserFiles.GetSize(); i++)
 	{
-		array<String^>^ allFiles = System::IO::Directory::GetFiles(path, searchCriteria);
-		if (allFiles != nullptr)
-		{
-			for each (String^ file in allFiles)
-				files->Add(file);
-		}
+		CString strFile = arUserFiles.GetAt(i);
+		arFiles.Add(strFile);
 	}
-
-	int nCount = files->Count;
-	if (System::IO::Directory::Exists(userPath))
-	{
-		array<String^>^ userFiles = System::IO::Directory::GetFiles(userPath, searchCriteria);
-		for each (String^ userFile in userFiles)
-		{
-			userFile = System::IO::Path::GetFileName(userFile);
-			bool found = false;
-			for each (String^ file in files)
-			{
-				file = System::IO::Path::GetFileName(file);
-				if (String::Compare(userFile, file))
-				{
-					found = true;
-					break;
-				}
-			}
-
-			if (!found)
-				nCount++;
-		}
-	}
+	
+	int nCount = arFiles.GetSize();
 
 	String^ name = EasyBuilderSerializer::Escape(documentNamespace->Leaf);
 	String^ tempName = (nCount > 0) ? name + nCount : name;
