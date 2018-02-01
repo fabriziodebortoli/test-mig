@@ -70,7 +70,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private set filter(value: CompositeFilterDescriptor) {
     this._filter = _.cloneDeep(value);
     this.filterer.filter = _.cloneDeep(value);
-    this.changedFilterIndex = this.columns.findIndex(c => c.id === this.filterer.changedField);
+    if(this.columns)
+      this.changedFilterIndex = this.columns.findIndex(c => c.id === this.filterer.changedField);
     this.filterer.onFilterChanged(value);
   }
 
@@ -312,7 +313,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   public onComboFilterChange(filter: string): void {
-    this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
+    if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
+    else this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
   }
 
   protected async pageChange(event: PageChangeEvent) {
@@ -341,19 +343,23 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.closeOptions();
   }
 
+  comboSelectionChanged(value: any) {
+    _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
+    if (this.modelComponent && this.modelComponent.model) {
+      this.modelComponent.model.value = this.value;
+      this.emitModelChange();
+    }
+  }
+
   selectionChanged(value: any) {
-    if (this.isAttachedToAComboBox) { 
-      _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
-    } else {
-      let idx = this.paginator.getClientPageIndex(value.index);
-      let k = this.gridView$.value.data.slice(idx, idx + 1);
-      this.value = k[0][this.selectionColumn];
-      if (this.modelComponent && this.modelComponent.model) {
-        this.modelComponent.model.value = this.value;
-      }
-      let v = _.get(k[0], 'Description');
-      _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', v);
-    }    
+    let idx = this.paginator.getClientPageIndex(value.index);
+    let k = this.gridView$.value.data.slice(idx, idx + 1);
+    this.value = k[0][this.selectionColumn];
+    if (this.modelComponent && this.modelComponent.model) {
+      this.modelComponent.model.value = this.value;
+    }
+    let v = _.get(k[0], 'Description');
+    _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', v);
     this.emitModelChange();
     this.closePopups();
   }

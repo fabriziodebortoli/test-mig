@@ -335,8 +335,10 @@ import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
+import { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
+export { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe,TbColorPipe, TbToUpper];
 
 export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';
