@@ -69,6 +69,9 @@ export class TbHotLinkDirective implements OnInit {
                 this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
             } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null });
         } else {
+            if(this.ancestor) {
+                this.cmp.instance.modelComponent = this.ancestor;
+            }
             this.cmp.instance.model = this.model;
             this.cmp.instance.slice$ = Observable.of(this.model);
         }
