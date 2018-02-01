@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { ControlContainerComponent } from './../control-container/control-container.component';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ControlComponent } from './../control.component';
 
 @Component({
@@ -10,7 +11,7 @@ export class FiscalCodeComponent extends ControlComponent {
     @Input() disabled: boolean;
     @Input() mask: string;
 
-    errorMessage = '';
+    @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
     onBlur() {
         this.isValid(this.value);
@@ -27,8 +28,9 @@ export class FiscalCodeComponent extends ControlComponent {
     }
 
     private is16Chars(value: string): boolean {
+        this.cc.errorMessage = "";
         if (value.length == 16) return true;
-        this.errorMessage = 'Fiscal code must be 16 chars';
+        this.cc.errorMessage = 'Fiscal code must be 16 chars';
         return false;
     }
 }
