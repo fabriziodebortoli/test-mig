@@ -7323,36 +7323,6 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp, const CString& n
 	CString strQuery = pTable->GetQuery();
 	resp.WriteString(_T("query"), strQuery);
 
-	resp.OpenArray(_T("columnInfos"));
-
-	for (int i = 0; i < pTable->m_pColumnArray->GetSize(); i++)
-	{
-		SqlBindingElem* pSbi = pTable->m_pColumnArray->GetAt(i);
-		ASSERT_VALID(pSbi);
-
-		resp.OpenObject();
-
-		CString strName = pSbi->GetBindName();
-
-		resp.WriteString(_T("columnName"), strName);
-
-		DataEnum* dEnum = dynamic_cast<DataEnum*>(pSbi->GetDataObj());
-		if (dEnum) 
-		{
-			resp.WriteString(_T("dataType"), ::cwsprintf(_T("Enum[%d]"), dEnum->GetTagValue()));
-			//resp.WriteString(_T("enumTag"), cwsprintf(_T("%d"), dEnum->GetTagValue()));
-		}
-		else
-		{
-			CString strType = pSbi->GetDataType().ToString();
-			resp.WriteString(_T("dataType"), strType);
-		}
-
-		resp.CloseObject();
-	}
-
-	resp.CloseArray();
-
 	pTable->Close();
 
 	resp.CloseObject();

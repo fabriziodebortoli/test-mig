@@ -73,7 +73,6 @@ namespace Microarea.Common.Hotlink
     //-------------------------------------------------------------------------
     public class radarInfo
     {
-       public List<ColumnType> columnInfos { get; set; }
        public string query { get; set; }
        public List<string> recordKeys { get; set; }
     }
@@ -445,7 +444,7 @@ namespace Microarea.Common.Hotlink
 
             this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
 
-            if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query, responseRadarInfo.radarInfo.columnInfos))
+            if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query))
             {
                 Debug.Fail("DS fails to prepare radar query");
                 return null;
