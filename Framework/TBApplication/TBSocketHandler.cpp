@@ -36,7 +36,6 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("doFillListBox")] = &CTBSocketHandler::DoFillListBox;
 	functionMap[_T("setReportResult")] = &CTBSocketHandler::SetReportResult; 
 	functionMap[_T("runDocument")] = &CTBSocketHandler::RunDocument;
-	functionMap[_T("getRadarQuery")] = &CTBSocketHandler::GetRadarQuery;
 	functionMap[_T("browseRecord")] = &CTBSocketHandler::BrowseRecord;
 }
 
@@ -314,26 +313,6 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 	}
 }
 
-
-//--------------------------------------------------------------------------------
-void CTBSocketHandler::GetRadarQuery(CJsonParser& json)
-{
-	CJSonResponse aResponse;
-	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-	if (!pSession)
-	{
-		ASSERT(FALSE);
-		return;
-	}
-
-	HWND cmpId = ReadComponentId(json);
-	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
-	ASSERT(pDoc);
-	if (pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
-	{
-		pSession->PushRadarInfoToClient((CAbstractFormDoc*)pDoc);
-	}
-}
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 {

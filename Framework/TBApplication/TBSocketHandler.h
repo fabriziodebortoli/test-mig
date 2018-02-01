@@ -28,7 +28,6 @@ private:
 	void DoFillListBox(CJsonParser& json);
 	void SetReportResult(CJsonParser& json);
 	void RunDocument(CJsonParser& json);
-	void GetRadarQuery(CJsonParser& json);
 	void BrowseRecord(CJsonParser& json);
 };
 
