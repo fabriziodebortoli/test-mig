@@ -42,6 +42,22 @@
                 </div>
             </tb-view>
         </tb-view-container>
+        <tb-dockpane-container>
+            <tb-dockpane [title]="_TB('Properties')" iconType="M4" icon="tb-options">
+                <ng-template>
+                    <tb-view>
+                        <p>Properties</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('Page Info')" iconType="M4" icon="tb-info">
+                <ng-template>
+                    <tb-view>
+                        <p>Page Info</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+        </tb-dockpane-container>
     </tb-frame-content>
     <tb-toolbar-bottom>
         <label id="snapshot" *ngIf="runReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
