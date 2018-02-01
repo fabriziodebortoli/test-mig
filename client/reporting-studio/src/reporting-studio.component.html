@@ -4,19 +4,19 @@
 
         <div class="toolbar-menu">
             <div class="menu-category search">
-                <tb-toolbar-top-button icon="tb-find" caption="Search"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')"></tb-toolbar-top-button>
             </div>
 
             <div class="menu-category navigation">
-                <tb-toolbar-top-button icon="tb-first" caption="First" (click)="FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-prev" caption="Previous Page" (click)="PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-next" caption="Next Page" (click)="NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-last" caption="Last" (click)="LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" (click)="FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
             </div>
 
             <div class="menu-category esecution">
-                <tb-toolbar-top-button icon="tb-startreport" caption="Run Report" (click)="ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-stopreport" caption="Stop Report" (click)="StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
             </div>
         </div>
 
