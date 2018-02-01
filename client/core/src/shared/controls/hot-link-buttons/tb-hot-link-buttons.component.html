@@ -2,8 +2,14 @@
     <div class="searchOptions" [ngStyle]="optionsPopupStyle">
         <strong>Search for</strong>:
         <br>
-        <div *ngFor="let item of selectionTypes" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}" (click)="selectionTypeChanged(item)">
-            {{item}}
+        
+        <div *ngFor="let item of selectionTypes" style="display: flex; width: auto" [ngClass]="{'elemSelected': item===selectionType, 'selTypeElem':true}" (click)="selectionTypeChanged(item);toggleTableForOptions(tableTemplate);">
+            <div class="grid-container">
+                <div class="grid-item">
+                    <span *ngIf="item===selectionType" class="k-icon k-i-check" style="margin-right: 5px"></span>
+                </div>
+                <div class="grid-item">{{item}}</div>    
+            </div>
         </div>
     </div>
 </ng-template>

@@ -6,7 +6,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { HttpService } from './../../../core/services/http.service';
 import { OnDestroy, OnInit, Component, Input, HostListener, ElementRef, ViewContainerRef,
-  ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation } from '@angular/core';
+  ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation, ViewChild } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent,  } from '@progress/kendo-angular-grid';
 import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -27,6 +27,8 @@ export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: str
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit {
+
+  @ViewChild('anchorTable') anchorTable: ElementRef;
 
   private _modelComponent: HlComponent
   @Input() public get modelComponent(): HlComponent {
@@ -165,6 +167,10 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         }
       });
     }
+  }
+
+  toggleTableForOptions(template) {
+    this.toggleTable(this.anchorTable, template);
   }
 
   toggleTable(anchor, template) {
