@@ -12,11 +12,17 @@
                 <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" (click)="!disabled || FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="!disabled || PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="!disabled || NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="!disabled || LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
             </div>
 
             <div class="menu-category esecution">
                 <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="!disabled || ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="!disabled || StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
             </div>
         </div>
 
