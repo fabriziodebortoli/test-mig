@@ -177,7 +177,7 @@ namespace Microarea.Common.Hotlink
             if (!ok)
                 return false;
 
-            if (columns != null)
+            if (columns != null && sql.IndexOf("{COL") == -1)
             {
                 foreach (ColumnType ct in columns)
                 {
@@ -968,6 +968,11 @@ namespace Microarea.Common.Hotlink
 					) continue;
 	
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
+                if (field == null)
+                {
+                    Debug.Fail("Unknown column: " + tagLink.name);
+                    continue;
+                }
                 object o;
 				if (tagLink.direction == TagType.COL)
 				{

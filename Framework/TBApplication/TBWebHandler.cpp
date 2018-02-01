@@ -735,6 +735,8 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 			return;
 		}
 		pHkl = pDoc->GetHotLink(hklName);
+		if (!pHkl)
+			return;
 	}
 	CString nsHkl = params.GetValueByName(_T("ns"));
 	CString args = params.GetValueByName(_T("args"));

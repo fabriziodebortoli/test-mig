@@ -348,7 +348,8 @@ namespace Microarea.Common.Hotlink
                     else if (selectionType.CompareNoCase("direct"))
                         hklAction = Hotlink.HklAction.DirectAccess;
 
-                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, likeValue, documentId, hklName);
+                    string xmlParameters = args.Parameters.Count > 0 ? args.Parameters.Unparse() : string.Empty;
+                    query = await TbSession.GetHotLinkQuery(Session, xmlParameters, (int)hklAction, likeValue, documentId, hklName);
                     if (query.IsNullOrEmpty())
                     {
                         Debug.Fail("GetHotLinkQuery failed ");
