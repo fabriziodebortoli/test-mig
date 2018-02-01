@@ -6,6 +6,7 @@ import { LayoutService } from './../../core/services/layout.service';
 import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
 import { addControlModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
+import { ContextMenuItem } from './../models/context-menu-item.model';
 
 @Component({
     template: ''
@@ -20,6 +21,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     hideCaption : boolean = false;
+
+    @Input() contextMenu: ContextMenuItem[];
 
     @Input()
     public args: any;

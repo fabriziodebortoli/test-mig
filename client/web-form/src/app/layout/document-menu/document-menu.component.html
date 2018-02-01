@@ -36,7 +36,7 @@
                 <tb-header tbLayoutTypeHbox tdsHeader>
                     <tb-tile tbTileMini>
                         <div class=col1>
-                            <tb-text caption="Number" cmpId="IDC_QUOTATIONS_TST_QUOTATIONNO" width="90" [model]="eventData?.model?.CustomerQuotation?.QuotationNo"></tb-text>
+                            <tb-text [contextMenu]="cm_IDC_QUOTATIONS_TST_QUOTATIONNO" caption="Number" cmpId="IDC_QUOTATIONS_TST_QUOTATIONNO" width="90" [model]="eventData?.model?.CustomerQuotation?.QuotationNo"></tb-text>
                             <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_QUOTATIONS_TST_QUOTATIONDATE" width="57" [model]="eventData?.model?.CustomerQuotation?.QuotationDate"></tb-date-input>
                         </div>
                     </tb-tile>

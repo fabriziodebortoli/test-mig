@@ -1,4 +1,4 @@
-<tb-control-container type="tb-text">
+<tb-control-container type="tb-text" [contextMenu]="contextMenu">
     <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <div class="group">
         <ng-template [ngIf]="rows<2">
@@ -10,6 +10,5 @@
         <ng-template [ngIf]="hotLink">
             <ng-template [tbHotLink]="hotLink"></ng-template>
         </ng-template>
-        <ng-container #contextMenu></ng-container>
     </div>
 </tb-control-container>

@@ -20,7 +20,7 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   @Input('rows') rows: number = 0;
   
 
-  @ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
+  //@ViewChild("contextMenu", { read: ViewContainerRef }) contextMenu: ViewContainerRef;
   // public  contextMenuRef;
 
   public mask = '';

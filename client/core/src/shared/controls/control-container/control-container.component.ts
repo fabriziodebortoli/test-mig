@@ -6,6 +6,8 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 
 import { ControlComponent } from '../control.component';
 
+import { ContextMenuItem } from './../../models/context-menu-item.model';
+
 @Component({
     selector: 'tb-control-container',
     templateUrl: './control-container.component.html',
@@ -13,6 +15,7 @@ import { ControlComponent } from '../control.component';
 })
 
 export class ControlContainerComponent extends ControlComponent {
-    @Input('type') type: string = '';
-    @Input('errorMessage') errorMessage: string = '';
+    @Input() type: string = '';
+    @Input() errorMessage: string = '';
+    @Input() contextMenu: ContextMenuItem[];
 }

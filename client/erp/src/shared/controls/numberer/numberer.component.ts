@@ -29,7 +29,7 @@ export class NumbererComponent extends ControlComponent {
     @Input() slice: any;
     @Input() selector: any;
 
-    @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
+    // @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
     @ViewChild('textbox') textbox: any;
 
     tbEditIcon = 'tb-edit';
