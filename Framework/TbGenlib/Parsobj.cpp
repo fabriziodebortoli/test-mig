@@ -12858,18 +12858,20 @@ BOOL CBaseFormView::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERIN
 {
 	if (nCode == EN_VALUE_CHANGED || nCode == EN_VALUE_CHANGED_FOR_FIND || nCode == BEN_ROW_CHANGED)
 	{
+		BOOL b = FALSE;
 		//chiamo gli eventi della view solo se sono in interattivo
 		if (!m_bUnattendedMode)
-			CWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+			b = CWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
 		// quindi chiamo gli eventi di documento (anche se già gestiti dalla view, a differenza di MFC)
 		if (m_pDocument != NULL)
 		{
 			// special state for saving view before routing to document
 			CPushRoutingView push(this);
-			return m_pDocument->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+			b = m_pDocument->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo) || b;
+			return b;
 		}
-		return FALSE;
+		return b;
 	}
 	else
 	{
