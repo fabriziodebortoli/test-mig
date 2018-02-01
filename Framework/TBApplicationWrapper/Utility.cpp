@@ -1004,3 +1004,12 @@ System::Collections::Generic::List<System::String^>^ PathFinderWrapper::GetFiles
 	return files;
 }
 
+//--------------------------------------------------------------------------------
+String^ PathFinderWrapper::GetEasyStudioAssemblyFullName(String^ customizationNameSpace, String^ user)
+{
+	// devo cambiare il tipo perche' non e' gestito
+	CTBNamespace aNs((CString)customizationNameSpace);
+	aNs.SetType(CTBNamespace::FORM);
+	String^	pathRoot = gcnew String(AfxGetPathFinder()->GetDocumentPath(aNs, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO, (CString) user));
+	return System::IO::Path::Combine(pathRoot, gcnew String(aNs.GetObjectName()) + NameSolverStrings::DllExtension);
+}

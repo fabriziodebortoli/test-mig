@@ -28,7 +28,7 @@ public:
 	static System::String^	staticArea2ID = "IDC_STATIC_AREA_2";
 	System::String^ path;
 
-	bool GenerateJson(MView^ view, System::String^ path);
+	bool GenerateJson(MView^ view, System::String^ nameSpace);
 	bool SerializePublishedHotLinks(MDocument^ document, System::String^ currentApplication, System::String^ currentModule);
 	void RemoveHotLink(MHotLink^ hotlink);
 	bool UpdateDatabaseObjects(MDocument^ document);

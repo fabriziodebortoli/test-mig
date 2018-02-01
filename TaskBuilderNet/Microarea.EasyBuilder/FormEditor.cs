@@ -3420,8 +3420,10 @@ namespace Microarea.EasyBuilder
                         if (/*saveForWeb*/true)
                         {
                             NameSpace nsForJson = Sources?.Namespace;
+                            nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
+                            nsForJson.Module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
                             SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));
-                            bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson.Leaf);
+                            bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson);
                         }
 
                         NameSpace old = Sources?.Namespace;

@@ -22,9 +22,7 @@ SerializationAddOnService::SerializationAddOnService() {}
 //-------------------------------------------------------------------------------
 System::String^ SerializationAddOnService::BuildPath(/*IWindowWrapper^ window*/System::String^ nsDocument, System::String^ lastTokenNS)
 {
-	//CTBNamespace aNs (CString(window->Namespace->FullNameSpace));
-	CString sNs = CString(nsDocument);
-	CTBNamespace aNs(sNs);
+	CTBNamespace aNs((CString) nsDocument);
 
 	CString path = AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, FALSE, lastTokenNS);
 	CString bakPath = path + _T("_bak");
@@ -54,14 +52,25 @@ System::String^ SerializationAddOnService::GetJsonFileCompleteName(System::Strin
 }
 
 //----------------------------------------------------------------------------	
-bool SerializationAddOnService::GenerateJson(MView^ view, /*System::String^ nsDocument,*/ System::String^ lastTokenNS)
+bool SerializationAddOnService::GenerateJson(MView^ view, /*System::String^ nsDocument,*/ System::String^ nameSpace)
 {
 	if (view == nullptr || view->Handle == IntPtr::Zero)
 		return false;
 
-	CString aNs = view->Document->Namespace->FullNameSpace;
-	System::String^ nsDocument = gcnew String(aNs);
-	path = BuildPath(/*view*/nsDocument, lastTokenNS);
+	CTBNamespace aNs(nameSpace);
+	aNs.SetType(CTBNamespace::FORM);
+
+	CTBNamespace aDocumentNs (CTBNamespace::DOCUMENT, 
+		aNs.GetApplicationName() + 
+		CTBNamespace::GetSeparator() +
+		aNs.GetModuleName() + 
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::LIBRARY) +
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::DOCUMENT)
+	);
+	System::String^ lastTokenNS = gcnew String(aNs.GetObjectName());
+	path = BuildPath(/*view*/gcnew String(aDocumentNs.ToString()), lastTokenNS);
 	System::String^ fileName = GetJsonFileCompleteName(path, view->Id);
 
 	HWND hWnd = (HWND)(int)view->Handle.ToInt64();
@@ -218,7 +227,7 @@ CWndObjDescription*	SerializationAddOnService::CreateFromType(System::Type^ type
 bool SerializationAddOnService::SerializePublishedHotLinks(MDocument^ document, System::String^ currentApplication, String^ currentModule)
 {
 	CTBNamespace aModule(CTBNamespace::MODULE, CString(currentApplication) + CTBNamespace::GetSeparator() + CString(currentModule));
-	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES));
+	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO));
 
 	// prima rimuove quelli da eliminare
 	RemoveHotLinks(currentApplication, currentModule);
@@ -446,7 +455,7 @@ bool SerializationAddOnService::RemoveHotLink(NameSpace^ hotlinkNS)
 	if (!pAddOnMod)
 		return false;
 
-	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::ALL_COMPANIES);
+	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::EASYSTUDIO);
 	String^ fileName = gcnew String(sPath + SLASH_CHAR + aNamespace.GetObjectName() + _T(".xml"));
 	try
 	{

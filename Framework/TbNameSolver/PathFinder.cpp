@@ -1651,10 +1651,7 @@ const CString CPathFinder::GetModuleExcelDocPath(const CTBNamespace& aNamespace,
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir, Company aCompany, const CString& sUserRole /*= _T("")*/) const
 {
-	if (
-		aNamespace.GetType() != CTBNamespace::DOCUMENT &&
-		aNamespace.GetType() != CTBNamespace::FORM && aNamespace.GetType() != CTBNamespace::TABDLG
-		)
+	if (aNamespace.GetObjectName(CTBNamespace::DOCUMENT).IsEmpty())
 	{
 		TRACE1("The namespace parameter is not a Document namespace but %s. Document namespace is needed.", aNamespace.ToString());
 		ASSERT(FALSE);

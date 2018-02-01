@@ -379,6 +379,7 @@ public:
 	/// Internal Use
 	/// </summary>	
 public:
+	static System::String^ GetEasyStudioAssemblyFullName(System::String^ customizationNameSpace, System::String^ user);
 	static System::String^ GetEasyStudioCustomizationsPath();
 	static bool ExistFile(System::String^ path);
 	static bool ExistFolder(System::String^ path);

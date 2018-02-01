@@ -440,10 +440,10 @@ namespace Microarea.EasyBuilder.MVC
 				//Carichiamo il controller modificando dalla cartella relativa all'utente corrente.
 				string path = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNameSpace, CUtility.GetUser(), app);
 				//Se non esiste allora entro in modifica della dll pubblicata per tutti gli utenti
-				if (!File.Exists(path))
+				if (!PathFinderWrapper.ExistFile(path))
 					path = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNameSpace, null, app);
 
-				if (File.Exists(path))
+				if (PathFinderWrapper.ExistFile(path))
 				{
 					Assembly asm = null;
 					try

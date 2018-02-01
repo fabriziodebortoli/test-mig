@@ -1054,7 +1054,10 @@ namespace Microarea.EasyBuilder.Packager
 			IEasyBuilderApp app
             )
         {
-            return BasePathFinder.BasePathFinderInstance.GetEasyBuilderAppAssemblyFullName(currentEasyBuilderApp.ApplicationType, customizationNameSpace, user, app);
+            NameSpace nameSpace = new NameSpace(customizationNameSpace.FullNameSpace);
+            nameSpace.Application = app.ApplicationName;
+            nameSpace.Module = app.ModuleName;
+            return PathFinderWrapper.GetEasyStudioAssemblyFullName(nameSpace.FullNameSpace, user);
         }
 
 

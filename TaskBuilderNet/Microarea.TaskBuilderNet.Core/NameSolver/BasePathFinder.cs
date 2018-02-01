@@ -4150,24 +4150,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
             return GetStandardDocumentPath(documentNamespace.Application, documentNamespace.Module, documentNamespace.Document);
         }
 
-        //--------------------------------------------------------------------------------
-        public string GetEasyBuilderAppAssemblyFullName(ApplicationType appType, INameSpace customizationNameSpace, string user, IEasyBuilderApp easybuilderApp)
-		{
-			string pathRoot = null;
-			switch (appType)
-			{
-				case ApplicationType.Customization:
-					pathRoot = BasePathFinder.BasePathFinderInstance.GetCustomizationPath(customizationNameSpace, user, easybuilderApp);
-					break;
-				case ApplicationType.Standardization:
-					pathRoot = BasePathFinder.BasePathFinderInstance.GetApplicationPath(customizationNameSpace);
-					break;
-				default:
-					throw new Exception("Unrecognized EasyBuilder Application type");
-			}
-			return Path.Combine(pathRoot, customizationNameSpace.Leaf + NameSolverStrings.DllExtension);
-		}
-
 		/// <summary>
 		/// Loads all DLLs containing customizations for the document identified by the
 		/// given document namespace.
