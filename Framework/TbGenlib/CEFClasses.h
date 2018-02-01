@@ -4,6 +4,7 @@
 #include <TbNameSolver\FileSystemFunctions.h>
 #include <TbNameSolver\TBResourceLocker.h>
 
+
 #include "beginh.dex"
 
 #define AUTH_TOKEN_PARAM _T("authtoken")
@@ -63,6 +64,7 @@ public:
 	virtual void Reload(){};
 	virtual void ReloadIgnoreCache() {};
 };
+
 class TB_EXPORT CTBResponse
 {
 private:

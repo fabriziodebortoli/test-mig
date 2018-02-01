@@ -248,7 +248,19 @@ CLoginContext* CApplicationContext::GetLoginContext(const CString& strName)
 
 	return NULL;
 }
+//----------------------------------------------------------------------------
+CLoginContext* CApplicationContext::GetLoginContext(DWORD id)
+{
+	TB_OBJECT_LOCK_FOR_READ(&m_arLoginContexts);
+	for (int i = 0; i < m_arLoginContexts.GetCount(); i++)
+	{
+		CLoginContext* pContext = (CLoginContext*) m_arLoginContexts[i];
+		if (pContext->m_nThreadID == id)
+			return pContext;
+	}
 
+	return NULL;
+}
 //----------------------------------------------------------------------------
 void CApplicationContext::AddLoginContext(CLoginContext* pObj)
 {

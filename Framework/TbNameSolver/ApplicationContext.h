@@ -195,6 +195,7 @@ public:
 	CObject*			GetClientObjects()						{ return m_pClientObjects; }
 	IFileSystemManager* GetFileSystemManager()					{ return m_pFileSystemManager; }
 	CLoginContext*		GetLoginContext(const CString& strName);
+	CLoginContext*		GetLoginContext(DWORD id);
 	void				GetLoginContextIds(CDWordArray& arIds);
 	CCompanyContext*	GetCompanyContext(const CString& strKey);
 	void				CloseLoginThread(DWORD nThreadId, HANDLE hThreadHandle);

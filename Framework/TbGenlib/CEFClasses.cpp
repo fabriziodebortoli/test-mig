@@ -7,8 +7,11 @@
 #include <TbGeneric\SettingsTable.h>
 #include <TbGeneric\ParametersSections.h>
 #include "TBCommandInterface.h"
-#include "CEFClasses.h"
 
+#include "CEFClasses.h"
+#include "BASEDOC.H"
+
+#include <include\cef_scheme.h>
 #include <include\cef_parser.h>
 
 #include <include\cef_client.h>
@@ -82,7 +85,7 @@ public:
 
 class TbLoaderResourceHandler : public CefResourceHandler {
 
-	
+
 	CBrowserEventsObj* m_pBrowserEvents;
 	CTBRequestHandlerObj* m_pTbHandler;
 public:
@@ -100,7 +103,7 @@ public:
 	/// <param name="params">Reference to the given CNameValueCollection to be 
 	///	populated with the parsed query parameters. It must reference a not NULL memory position.</param>
 	/// <returns></returns>
-	void GetRequestQueryParams(CStringA sUriQuery, CefRefPtr<CefPostData> postData, CNameValueCollection& params) 
+	void GetRequestQueryParams(CStringA sUriQuery, CefRefPtr<CefPostData> postData, CNameValueCollection& params)
 	{
 		if (!sUriQuery.IsEmpty())
 		{
@@ -142,6 +145,7 @@ public:
 	virtual bool ProcessRequest(CefRefPtr<CefRequest> request,
 		CefRefPtr<CefCallback> callback)
 		OVERRIDE {
+		CStringA query = CefString(request->GetURL()).ToString().c_str();
 		AddRef();//per evitare l'eventuale distruzione, il thread chiamato farà a release
 		if (g_pRequestHandlerThread)
 		{
@@ -174,7 +178,7 @@ public:
 		GetRequestQueryParams(query, postData, params);
 		CefRequest::HeaderMap headerMap;
 		request->GetHeaderMap(headerMap);
-		
+
 		CMap<CString, LPCTSTR, CString, LPCTSTR> requestHeaders;
 		if (headerMap.size() > 0) {
 			CefRequest::HeaderMap::const_iterator it = headerMap.begin();
@@ -198,7 +202,7 @@ public:
 			if (m_pTbHandler->PreProcessRequest(request->GetMethod().c_str(), requestHeaders, urlPath, m_response))
 				m_pTbHandler->ProcessRequest(urlPath, params, m_response);
 		}
-		
+
 		// Indicate the headers are available.
 		callback->Continue();
 		Release();
@@ -291,6 +295,7 @@ private:
 	IMPLEMENT_REFCOUNTING(TbLoaderResourceHandler);
 	IMPLEMENT_LOCKING(TbLoaderResourceHandler);
 };
+
 class TB_EXPORT CBrowser : public CBrowserObj
 {
 	friend class TBHandler;
@@ -319,7 +324,7 @@ public:
 		CefString(&cookie.value) = sValue;
 		CefString(&cookie.path).FromASCII("/");
 		CefString url = sUrl;
-		
+
 		//CefPostTask(TID_IO, NewCefRunnableMethod(manager.get(), &CefCookieManager::SetCookie, url, cookie));
 		EmptyCefSetCookieCallback callback;
 		CefPostTask(TID_IO, CefCreateClosureTask(base::Bind(base::IgnoreResult(&CefCookieManager::SetCookie), manager.get(), url, cookie, callback)));
@@ -485,7 +490,7 @@ void CTBRequestHandlerObj::SetMimeType(LPCTSTR path, CTBResponse& response)
 	if (StrStrI(path, L".ttf") != NULL) { response.SetMimeType(L"application/x-font-TrueType"); return; }
 	if (StrStrI(path, L".svg") != NULL) { response.SetMimeType(L"image/svg+xml"); return; }
 	if (StrStrI(path, L".ico") != NULL) { response.SetMimeType(L"image/x-icon"); return; }
-	
+
 	//in caso non riconosciamo il tipo, proviamo a non mandare niente
 	ASSERT(FALSE);
 	//response.SetMimeType(L"text/html");
@@ -631,8 +636,61 @@ public:
 		}
 		return __super::DoClose(browser);
 	}
+	void RunDocument(DataStr documentNamespace, DataStr arguments)
+	{
+		CBaseDocument* pDocument = AfxGetTbCmdManager()->RunDocument(documentNamespace.GetString());
+
+		if (pDocument && !arguments.IsEmpty() && pDocument->IsADataEntry())
+			AfxInvokeThreadProcedure<CBaseDocument, const DataStr&>(pDocument->GetFrameHandle(), pDocument, &CBaseDocument::AssignParameters, arguments);
+	}
+	virtual bool OnBeforeBrowse(CefRefPtr<CefBrowser> browser,
+		CefRefPtr<CefFrame> frame,
+		CefRefPtr<CefRequest> request,
+		bool is_redirect) {
+		CString query(CefString(request->GetURL()).ToString().c_str(), CefString(request->GetURL()).ToString().length());
+		if (query.Left(3).CompareNoCase(_T("TB:")) == 0)
+		{
+			DataStr documentNamespace, arguments;
+			
+			CString url = query.Right(query.GetLength()-5);
+
+			CStringA csa(url);
+			char* psz = csa.GetBuffer(256);
+
+			char * pch;
+			char *next_token1 = NULL;
+			char * instance = NULL;
+			char *next_token_instance = NULL;
+			CString tkStr;
+
+			pch = strtok_s(psz, "?", &next_token1);
+			documentNamespace = CString(pch);
+			
+			char *tk = strtok_s(NULL, "?", &next_token1);
+			if (tk != NULL)
+				arguments = CString(tk);
+
+			CDWordArray arIds;
+			AfxGetApplicationContext()->GetLoginContextIds(arIds);
+			if (arIds.GetCount())
+			{
+				CLoginContext* pFirstContext = AfxGetApplicationContext()->GetLoginContext(arIds[0]);
+				AfxInvokeAsyncThreadProcedure<TBHandler, DataStr, DataStr>
+					(pFirstContext->m_nThreadID, this, &TBHandler::RunDocument, documentNamespace, arguments);
+
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+
 	IMPLEMENT_REFCOUNTING(TBHandler);
 };
+
+
+
 
 class SimpleApp : public CefApp,
 	public CefBrowserProcessHandler {
@@ -644,10 +702,15 @@ public:
 		OVERRIDE {
 		return this;
 	}
-
+	
 	// CefBrowserProcessHandler methods:
 	virtual void OnContextInitialized() OVERRIDE;
-
+	virtual void OnBeforeChildProcessLaunch(
+		CefRefPtr<CefCommandLine> command_line) {
+		int i = 0;
+		return;
+	}
+	
 private:
 	// Include the default reference counting implementation.
 	IMPLEMENT_REFCOUNTING(SimpleApp);
@@ -675,7 +738,6 @@ void DisposeRequestHandlers()
 }
 
 
-
 DWORD WINAPI CEFThreadFunction(LPVOID param)
 {
 #ifdef DEBUG
@@ -691,7 +753,7 @@ DWORD WINAPI CEFThreadFunction(LPVOID param)
 #ifdef DEBUG
 	settings.log_severity = LOGSEVERITY_ERROR;
 	settings.remote_debugging_port = 1717;
-	
+
 #endif
 	DataInt* pDataObj = (DataInt*)AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, _T("ChromeDebuggingPort"), DataInt(0), szTbDefaultSettingFileName);
 	if (pDataObj && *pDataObj > 0)
@@ -702,7 +764,6 @@ DWORD WINAPI CEFThreadFunction(LPVOID param)
 	CefString(&settings.log_file) = AfxGetPathFinder()->GetTBDllPath() + L"\\cef.log";
 
 	CefRefPtr<CefApp> app = new SimpleApp();
-	
 	CefInitialize(args, settings, app.get(), NULL);
 	SetEvent(hCefReady);
 	CefRunMessageLoop();
@@ -755,13 +816,13 @@ CTBRequestHandlerObj* TB_EXPORT GetRequestHandlerByUrl(CString strUrl)
 
 void CEFUninitialize()
 {
-	
+
 	if (g_pRequestHandlerThread)
 	{
 		g_pRequestHandlerThread->PostThreadMessage(WM_QUIT, NULL, NULL);
 		WaitForSingleObject(g_pRequestHandlerThread->m_hThread, INFINITE);
 	}
-	
+
 	VERIFY(CefPostTask(TID_UI, CefCreateClosureTask(base::Bind(&CefQuitMessageLoop))));
 	WaitForSingleObject(hCefThread, INFINITE);
 
@@ -881,7 +942,7 @@ void GetQueryParams(CStringA& sQuery, CNameValueCollection& params)
 
 	CString strName;
 	CString strValue;
-	if (sQuery.Find("{", 0) >=0) //se mi arriva un object json...TODOLUCA, non è molto elegante, ma mi manca il content type nella richiesta
+	if (sQuery.Find("{", 0) >= 0) //se mi arriva un object json...TODOLUCA, non è molto elegante, ma mi manca il content type nella richiesta
 	{
 		CJsonParser s;
 		CString body(sQuery);
@@ -890,7 +951,7 @@ void GetQueryParams(CStringA& sQuery, CNameValueCollection& params)
 		while (pIterator->GetNext(strName, strValue))
 		{
 			params.Add(strName, strValue);
-		} 
+		}
 	}
 	else
 	{
