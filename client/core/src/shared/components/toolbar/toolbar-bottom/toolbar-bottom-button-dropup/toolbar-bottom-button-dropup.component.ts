@@ -52,10 +52,6 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
   }); 
 }
  
-  onTranslationsReady() {
-    super.onTranslationsReady();
-    
-  }
   ngOnDestroy() {
     this.eventDataServiceSubscription.unsubscribe();
   }

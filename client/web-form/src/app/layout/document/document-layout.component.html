@@ -248,11 +248,17 @@
         <!-- <tb-toolbar-bottom-button [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
         <tb-toolbar-bottom-button [disabled]="false" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button> -->
         <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')"  class="toolbar-bottom">
-            <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-            <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        </tb-toolbar-bottom-button-dropup>
         <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')"  class="toolbar-bottom">
+            <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Export as PNG')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button *ngIf="!runReport" [caption]="_TB('Export as Excel')" (click)="setExportFile(rsExportService.excel)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
+        </tb-toolbar-bottom-button-dropup>
+     
     </tb-toolbar-bottom>
    
 </tb-frame>

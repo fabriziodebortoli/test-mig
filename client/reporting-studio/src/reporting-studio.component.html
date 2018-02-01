@@ -8,10 +8,6 @@
             </div>
 
             <div class="menu-category navigation">
-                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" (click)="FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="LastPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" (click)="!disabled || FirstPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="!disabled || PrevPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="!disabled || NextPage()" [disabled]="rsService.running"></tb-toolbar-top-button>
@@ -19,8 +15,6 @@
             </div>
 
             <div class="menu-category esecution">
-                <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="!disabled || ReRunReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="!disabled || StopReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
             </div>
@@ -61,14 +55,14 @@
     </tb-frame-content>
     <tb-toolbar-bottom>
         <label id="snapshot" *ngIf="runReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
-
-        <tb-toolbar-bottom-button id="firstButton" [disabled]="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as PNG" (click)="startSavePNG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as SVG" (click)="startSaveSVG()"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button caption="Export as PDF" (click)="setExportFile(rsExportService.pdf)"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!runReport" caption="Export as Excel" (click)="setExportFile(rsExportService.excel)"></tb-toolbar-bottom-button>
-        <!--<tb-toolbar-bottom-button caption="Export as DocX" (click)="setExportFile(rsExportService.docx)"></tb-toolbar-bottom-button> -->
-
+        <tb-toolbar-bottom-button id="firstButton" *ngIf="!runReport" caption="Snapshot Report" (click)="startSnapshot()"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Export')"  class="toolbar-bottom">
+            <tb-toolbar-bottom-button [caption]="_TB('Export as PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button icon="tb-exportpdf"  [caption]="_TB('Export as PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button icon="tb-exporttoexcel" *ngIf="!runReport" [caption]="_TB('Export as Excel')" (click)="setExportFile(rsExportService.excel)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button [caption]="_TB('Export as DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
+         </tb-toolbar-bottom-button-dropup>
         <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
         <rs-snapshotdialog *ngIf="rsExportService.snapshot"></rs-snapshotdialog>
 
