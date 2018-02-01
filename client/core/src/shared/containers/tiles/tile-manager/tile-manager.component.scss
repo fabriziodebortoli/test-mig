@@ -17,6 +17,18 @@
         flex: 0 0 auto;
         padding: 0;
         margin: 0;
+        position: relative;
+        h3 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #0277bd;
+            text-transform: uppercase;
+            padding: 0 5px;
+            margin: 10px 5px 7px;
+            line-height: 14px;
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
         ul.selector {
             padding: 0;
             margin: 0;
@@ -29,7 +41,7 @@
                 color: #333;
                 &:hover {
                     cursor: pointer;
-                    transition: background-color 0.5s ease;
+                    transition: background-color 0.4s ease;
                     background-color: #f1f1f1;
                 }
                 &>tb-icon {
@@ -44,7 +56,6 @@
                 }
             }
             li.active {
-                background: #f1f1f1;
                 background: #0277bd;
                 color: #fff;
                 span {
@@ -53,20 +64,31 @@
             }
         }
         .collapser {
-            border-top: 1px solid #ddd;
-            display: flex;
-            flex-direction: row;
-            line-height: 35px;
+            z-index: 2;
+            position: absolute;
+            right: 5px;
+            top: 6px;
             cursor: pointer;
+            color: #0277bd;
+            border-radius: 100%;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 23px;
             m4-icon {
-                padding-top: 2px;
-                margin: 0 11px 0 10px;
-                font-size: 20px;
-                color: #0277bd;
-            }
-            span {
                 font-size: 12px;
-                font-weight: 500;
+                color: #0277bd;
+                padding: 1px 0 3px;
+            }
+        }
+        &.collapsed {
+            h3,
+            span {
+                opacity: 0;
+                transition: opacity 0.4s ease;
+            }
+            .collapser {
+                right: 9px;
             }
         }
     }
