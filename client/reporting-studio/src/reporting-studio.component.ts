@@ -140,7 +140,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   reset() {
-    this.rsService.running = false;
     this.askDialogTemplate = 'empty';
 
     this.reportTemplate = 'empty';
@@ -227,7 +226,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   RunReport() {
-    this.rsService.running = true;
     this.rsService.runEnabled = false;
     let message = {
       commandType: CommandType.ASK,
@@ -249,7 +247,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   StopReport() {
-    this.rsService.running = false;
     let message = {
       commandType: CommandType.STOP,
       message: this.args.nameSpace,
