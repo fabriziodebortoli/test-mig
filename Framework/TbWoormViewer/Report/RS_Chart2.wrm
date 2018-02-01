@@ -3,6 +3,15 @@
 //==============================================================================
 
 Release 7 Rect (49,-1918,1078,-2) 
+Properties
+	Begin
+		Title "Chart2" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Sales,Accounting,cAccounting Operator,cSales Employee" 
+	End
 PageLayout "pie" 
 	Begin
 		Table (4,2) "Pie sample" Alias 1  /* Pie sample */ Origin (0,0) Heights (26,18,14,14) 
