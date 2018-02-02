@@ -26,13 +26,8 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
   popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   public show = false;
-  currentItem: ContextMenuItem;
-  public fontIcon: string;
-  
   @ViewChild('anchor') divFocus: HTMLElement;
 
-
-  public menuElements: ContextMenuItem[] = new Array<ContextMenuItem>();
   public viewProductInfo: string;
   private eventDataServiceSubscription;
 
@@ -55,73 +50,17 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
       }
   }); 
 }
- 
- onTranslationsReady() {
-  super.onTranslationsReady();
-  this.menuElements.splice(0, this.menuElements.length);
-  const item1 = new ContextMenuItem(this._TB('Query'), 'idQueryButton', true, false);
-  const item2 = new ContextMenuItem(this._TB('Share'), 'iShareButton', true, false);
-  const item3 = new ContextMenuItem(this._TB('Refresh'), 'idRefreshButton', true, false);
-  const item4 = new ContextMenuItem(this._TB('Inspect'), 'idInspectButton', true, false);
-  const item5 = new ContextMenuItem(this._TB('Customize'), 'idCustomizeButton', true, false);
-  this.menuElements.push(item1, item2, item3, item4,item5);
 
-
-  
-}
 ngOnDestroy() {
   this.eventDataServiceSubscription.unsubscribe();
 }
 
 onOpen() {
 }
-public doCommand(menuItem: any) {
-  if (!menuItem) {
-      return;
-  }
- this.logger.debug(menuItem.id + " clicked!");
-  this.eventDataService.raiseCommand('', menuItem.id);
-  this.onToggle();
-}
+
 public onToggle(): void {
   this.show = !this.show;
-  if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
-      this.currentItem.showMySub = false;
-  }
 }
 public closePopupIf(): void {
-   this.outView(this.currentItem);
-}
-outView(item: ContextMenuItem) {
-  if (item !== null && item !== undefined) {
-      item.showMySub = false;
-  }
-
-  this.show = false;
-  this.currentItem = null;
-}
-
-public getCorrectIcon(menuItem: any)
-{
-  switch(menuItem.id)
-  {
-    case 'idQueryButton':
-      return 'tb-query';
-
-    case 'iShareButton':
-    return 'tb-socialshare';
-
-    case 'idRefreshButton':
-    return 'tb-refresh';
-
-    case 'idInspectButton':
-    return 'tb-inspect';
-
-    case 'idCustomizeButton':
-    return 'tb-customize';
-
-    default:
-      break;
-  }
-}
+  } 
 }
