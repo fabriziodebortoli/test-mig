@@ -39,6 +39,48 @@ BOOL DTBFSettings::OnAttachData()
 //-----------------------------------------------------------------------------
 void DTBFSettings::DeclareRegisterJson()
 {
+	DECLARE_VAR_JSON(EnableAssertionsInRelease);
+	DECLARE_VAR_JSON(DumpAssertionsIfNoCrash);
+	DECLARE_VAR_JSON(LogDiagnosticInEventViewerUnattendedMode);
+	//Forms
+	DECLARE_VAR_JSON(ImmediateBrowsing);
+	DECLARE_VAR_JSON(DisplayBrowsingLimits);
+	DECLARE_VAR_JSON(HotlinkComboDefaultFields);
+	DECLARE_VAR_JSON(MaxComboBoxItems);
+	DECLARE_VAR_JSON(ShowZerosinInput);
+	DECLARE_VAR_JSON(AllowBodyeditColumnHeaderSmallFont);
+	DECLARE_VAR_JSON(AddBodyeditColumnHeaderExtraSpace);
+	DECLARE_VAR_JSON(DataTipDelay);
+	DECLARE_VAR_JSON(DataTipLevelOnBodyedit);
+	DECLARE_VAR_JSON(DataTipMaxWidth);
+	DECLARE_VAR_JSON(DataTipMaxHeight);
+	DECLARE_VAR_JSON(EnableCenterControls);
+	//Preference
+	DECLARE_VAR_JSON(ShowAdminCustomSaveDialog);
+	DECLARE_VAR_JSON(UseWoormRadar);
+	DECLARE_VAR_JSON(RepeatableNew);
+	DECLARE_VAR_JSON(UseEasyBrowsing);
+	DECLARE_VAR_JSON(EnableFindOnSlaveFields);
+	//DataTypeEpsilons
+	DECLARE_VAR_JSON(DoubleDecimals);
+	DECLARE_VAR_JSON(MonetaryDecimals);
+	DECLARE_VAR_JSON(PercentageDecimals);
+	DECLARE_VAR_JSON(QuantityDecimals);
+	//Report
+	DECLARE_VAR_JSON(BarCodeType);
+	DECLARE_VAR_JSON(ShowPrintSetup);
+	DECLARE_VAR_JSON(UpdateDefaultReport);
+	DECLARE_VAR_JSON(UseMultithreading);
+	//Development
+	DECLARE_VAR_JSON(TBLoaderDefaultSOAPPort);
+	//Culture
+	DECLARE_VAR_JSON(ExcelDateFormat);
+	DECLARE_VAR_JSON(ExcelTimeFormat);
+	DECLARE_VAR_JSON(ExcelDateTimeFormat);
+	//Scheduler
+	DECLARE_VAR_JSON(TaskIsolation);
+	//TBOLEDB
+	//LockManager
 	DECLARE_VAR_JSON(DisableLockRetry);
 	DECLARE_VAR_JSON(DisableBeep);
 	DECLARE_VAR_JSON(MaxLockRetry);
@@ -49,6 +91,7 @@ void DTBFSettings::DeclareRegisterJson()
 	DECLARE_VAR_JSON(MaxBatchLockTime);
 	DECLARE_VAR_JSON(MaxReportLockRetry);
 	DECLARE_VAR_JSON(MaxReportLockTime);
+	//Trace Sql instructions
 	DECLARE_VAR_JSON(DebugSqlTrace);
 	DECLARE_VAR_JSON(DebugSqlTraceActions);
 	DECLARE_VAR_JSON(DebugSqlTraceTables);
@@ -56,11 +99,104 @@ void DTBFSettings::DeclareRegisterJson()
 }
 
 //-----------------------------------------------------------------------------
-BOOL DTBFSettings::GetSaveSettings(BOOL bSave)
+BOOL DTBFSettings::GetSaveTBGenlibSettings(BOOL bSave)
 {
-	BOOL bOk = TRUE;
 	if (bSave)
-	{	
+	{
+		//Environment
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szEnableAssertionsInRelease, m_EnableAssertionsInRelease, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDumpAssertionsIfNoCrash, m_DumpAssertionsIfNoCrash, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szLogDiagnosticInEventViewerUnattendedMode, m_LogDiagnosticInEventViewerUnattendedMode, szTbDefaultSettingFileName);
+		//Forms
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szImmediateBrowsing, m_ImmediateBrowsing, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDisplayBrowsingLimits, m_DisplayBrowsingLimits, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szHotlinkComboDefaultFields, m_HotlinkComboDefaultFields, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szMaxComboBoxItems, m_MaxComboBoxItems, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szShowZerosInInput, m_ShowZerosinInput, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szAllowBodyeditColumnHeaderSmallFont, m_AllowBodyeditColumnHeaderSmallFont, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szAddBodyeditColumnHeaderExtraSpace, m_AddBodyeditColumnHeaderExtraSpace, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDataTipDelay, m_DataTipDelay, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDataTipLevelOnBodyedit, m_DataTipLevelOnBodyedit, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDataTipMaxWidth, m_DataTipMaxWidth, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szDataTipMaxHeight, m_DataTipMaxHeight, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szEnvironment, szEnableCenterControls, m_EnableCenterControls, szTbDefaultSettingFileName);
+		//Preference
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szShowAdminCustomSaveDialog, m_ShowAdminCustomSaveDialog, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szUseWoormRadar, m_UseWoormRadar, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szRepeatableNew, m_RepeatableNew, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szUseEasyBrowsing, m_UseEasyBrowsing, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, m_EnableFindOnSlaveFields, szTbDefaultSettingFileName);
+		//DataTypeEpsilons
+		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szDoubleDecimals, m_DoubleDecimals, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szMonetaryDecimals, m_MonetaryDecimals, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szPercentageDecimals, m_PercentageDecimals, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szQuantityDecimals, m_QuantityDecimals, szTbDefaultSettingFileName);
+		//Report
+		AfxSetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, m_BarCodeType, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szReportSection, szShowPrintSetup, m_ShowPrintSetup, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, m_UpdateDefaultReport, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szReportSection, szUseMultithreading, m_UseMultithreading, szTbDefaultSettingFileName);
+		//Development
+		AfxSetSettingValue(snsTbGenlib, szDevelopmentSection, szTBLoaderDefaultSOAPPort, m_TBLoaderDefaultSOAPPort, szTbDefaultSettingFileName);
+		//Culture
+		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelDateFormat, m_ExcelDateFormat, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelTimeFormat, m_ExcelTimeFormat, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelDateTimeFormat, m_ExcelDateTimeFormat, szTbDefaultSettingFileName);
+		//Culture
+		AfxSetSettingValue(snsTbGenlib, szSchedulerSection, szTaskIsolation, m_TaskIsolation, szTbDefaultSettingFileName);
+	}
+	else	
+	{
+		//Environment
+		m_EnableAssertionsInRelease = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szEnableAssertionsInRelease, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_DumpAssertionsIfNoCrash = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDumpAssertionsIfNoCrash, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_LogDiagnosticInEventViewerUnattendedMode = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szLogDiagnosticInEventViewerUnattendedMode, DataBool(FALSE), szTbDefaultSettingFileName);
+		//Forms
+		m_ImmediateBrowsing = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szImmediateBrowsing, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_DisplayBrowsingLimits = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDisplayBrowsingLimits, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_HotlinkComboDefaultFields = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szHotlinkComboDefaultFields, DataStr(_T("@dbfield,Description, CompanyName")), szTbDefaultSettingFileName);
+		m_MaxComboBoxItems = *(DataLng*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szMaxComboBoxItems, DataLng(300), szTbDefaultSettingFileName);
+		m_ShowZerosinInput = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szShowZerosInInput, DataBool(TRUE), szTbDefaultSettingFileName);
+		m_AllowBodyeditColumnHeaderSmallFont = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szAllowBodyeditColumnHeaderSmallFont, DataInt(3), szTbDefaultSettingFileName);
+		m_AddBodyeditColumnHeaderExtraSpace = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szAddBodyeditColumnHeaderExtraSpace, DataBool(TRUE), szTbDefaultSettingFileName);
+		m_DataTipDelay = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+		m_DataTipLevelOnBodyedit = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDataTipLevelOnBodyedit, DataInt(63), szTbDefaultSettingFileName);
+		m_DataTipMaxWidth = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+		m_DataTipMaxHeight = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+		m_EnableCenterControls = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szEnvironment, szEnableCenterControls, DataBool(TRUE), szTbDefaultSettingFileName);
+		//Preference
+		m_ShowAdminCustomSaveDialog = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szShowAdminCustomSaveDialog, DataBool(TRUE), szTbDefaultSettingFileName);
+		m_UseWoormRadar = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szUseWoormRadar, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_RepeatableNew = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szRepeatableNew, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_UseEasyBrowsing = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szUseEasyBrowsing, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_EnableFindOnSlaveFields = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, DataBool(TRUE), szTbDefaultSettingFileName);
+		//DataTypeEpsilons
+		m_DoubleDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szDoubleDecimals, DataInt(7), szTbDefaultSettingFileName);
+		m_MonetaryDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szMonetaryDecimals, DataInt(7), szTbDefaultSettingFileName);
+		m_PercentageDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szPercentageDecimals, DataInt(7), szTbDefaultSettingFileName);
+		m_QuantityDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szQuantityDecimals, DataInt(7), szTbDefaultSettingFileName);		
+		//Report
+		m_BarCodeType = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+		m_ShowPrintSetup = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szShowPrintSetup, DataBool(FALSE), szTbDefaultSettingFileName);
+		m_UpdateDefaultReport = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, DataBool(TRUE), szTbDefaultSettingFileName);
+		m_UseMultithreading = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szUseMultithreading, DataBool(TRUE), szTbDefaultSettingFileName);
+		//Development
+		m_TBLoaderDefaultSOAPPort = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDevelopmentSection, szTBLoaderDefaultSOAPPort, DataInt(10000), szTbDefaultSettingFileName);
+		//Culture
+		m_ExcelDateFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelDateFormat, DataStr(_T("MM/dd/yyyy")), szTbDefaultSettingFileName);
+		m_ExcelTimeFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelTimeFormat, DataStr(_T("hh:mm")), szTbDefaultSettingFileName);
+		m_ExcelDateTimeFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelDateTimeFormat, DataStr(_T("M/d/yyyy hh:mm;@")), szTbDefaultSettingFileName);
+		//Culture
+		m_TaskIsolation = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szTaskIsolation, DataBool(FALSE), szTbDefaultSettingFileName);
+	}
+	return (bSave) ? AfxSaveSettingsFile(snsTbGenlib, szTbDefaultSettingFileName, TRUE, NULL) : TRUE;
+}
+
+//-----------------------------------------------------------------------------
+BOOL DTBFSettings::GetSaveTBOleDBSettings(BOOL bSave)
+{
+	if (bSave)
+	{
 		//LockManager
 		AfxSetSettingValue(snsTbOleDb, szLockManager, szDisableLockRetry, m_DisableLockRetry, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbOleDb, szLockManager, szDisableBeep, m_DisableBeep, szTbDefaultSettingFileName);
@@ -88,7 +224,7 @@ BOOL DTBFSettings::GetSaveSettings(BOOL bSave)
 		m_DisableBeep = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDisableBeep, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_MaxLockRetry = *(DataInt*)AfxGetSettingValue(snsTbOleDb, szLockManager, szMaxLockRetry, DataInt(2), szTbDefaultSettingFileName);
 		m_MaxLockTime = *(DataInt*)AfxGetSettingValue(snsTbOleDb, szLockManager, szMaxLockTime, DataInt(2000), szTbDefaultSettingFileName);
-		
+
 		m_DisableBatchLockRetry = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDisableBatchLockRetry, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_DisableBatchBeep = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDisableBatchBeep, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_MaxBatchLockRetry = *(DataInt*)AfxGetSettingValue(snsTbOleDb, szLockManager, szMaxBatchLockRetry, DataInt(8), szTbDefaultSettingFileName);
@@ -96,16 +232,22 @@ BOOL DTBFSettings::GetSaveSettings(BOOL bSave)
 
 		m_MaxReportLockRetry = *(DataInt*)AfxGetSettingValue(snsTbOleDb, szLockManager, szMaxReportLockRetry, DataInt(10), szTbDefaultSettingFileName);
 		m_MaxReportLockTime = *(DataInt*)AfxGetSettingValue(snsTbOleDb, szLockManager, szMaxReportLockTime, DataInt(5000), szTbDefaultSettingFileName);
-		
+
 		//Connection
 		m_DebugSqlTrace = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTrace, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_DebugSqlTraceActions = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTraceActions, DataStr(), szTbDefaultSettingFileName);
 		m_DebugSqlTraceTables = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTraceTables, DataStr(), szTbDefaultSettingFileName);
 		m_EnableEventViewerLog = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szEnableEventViewerLog, DataBool(FALSE), szTbDefaultSettingFileName);
 	}
-	
-	if (bSave)
-		bOk = AfxSaveSettingsFile(snsTbOleDb, szTbDefaultSettingFileName, TRUE, NULL);
 
-	return bOk;
+	return (bSave) ? AfxSaveSettingsFile(snsTbOleDb, szTbDefaultSettingFileName, TRUE, NULL) : TRUE;
+}
+
+//-----------------------------------------------------------------------------
+BOOL DTBFSettings::GetSaveSettings(BOOL bSave)
+{
+	BOOL bOKSaveTBOleDB = GetSaveTBOleDBSettings(bSave);
+	BOOL bOKSaveTBGenlib = GetSaveTBGenlibSettings(bSave);
+	
+	return (bSave) ? bOKSaveTBOleDB && bOKSaveTBGenlib : TRUE;
 }

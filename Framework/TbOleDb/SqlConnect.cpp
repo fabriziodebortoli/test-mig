@@ -556,11 +556,11 @@ void SqlConnection::Initialize()
 	m_bAlwaysConnected		= false;
 
 	
-	DataObj* pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(m_bUsePerformanceMng));
+	DataObj* pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(FALSE));
 	if (pDataObj)
 		m_bUsePerformanceMng = *((DataBool*) pDataObj) ;
 
-	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(m_bOptimizedHKL), szTbDefaultSettingFileName);
+	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(FALSE), szTbDefaultSettingFileName);
 	if (pDataObj)
 		m_bOptimizedHKL = *((DataBool*)pDataObj);
 

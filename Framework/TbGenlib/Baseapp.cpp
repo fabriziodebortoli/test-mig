@@ -390,17 +390,10 @@ BOOL AFXAPI AfxIsCurrentlyInUnattendedMode()
 //-----------------------------------------------------------------------------
 BOOL AFXAPI AfxThreadLockTraceEnabled()
 {
-	DataBool* aParam = (DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, szEnableLockTrace, DataBool(FALSE));
+	DataBool* aParam = (DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szDevelopmentSection, szEnableLockTrace, DataBool(FALSE));
 	return aParam && *aParam;
 }
 
-
-//-----------------------------------------------------------------------------
-BOOL AFXAPI AfxAPIHookingEnabled()
-{
-	DataBool* aParam = (DataBool*)AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, szDisableWindowCreation, DataBool(FALSE));
-	return aParam && *aParam;
-}
 
 //-----------------------------------------------------------------------------
 BOOL AFXAPI AfxCenterControlsEnabled()
@@ -1333,7 +1326,7 @@ BOOL CBaseApp::CanCloseApplication (BOOL bWithMsgBox /*FALSE*/)
 //-----------------------------------------------------------------------------
 void CBaseApp::OnUpdatePrintSetup (CCmdUI* pCmdUI) 
 {
-	DataBool* aParam = (DataBool*) AfxGetSettingValue(snsTbGenlib, szEnvironment, szShowPrintSetup, DataBool(FALSE), szTbDefaultSettingFileName);
+	DataBool* aParam = (DataBool*) AfxGetSettingValue(snsTbGenlib, szReportSection, szShowPrintSetup, DataBool(FALSE), szTbDefaultSettingFileName);
 	if (!aParam || *aParam == FALSE)
 	{
 		if (pCmdUI->m_pMenu)

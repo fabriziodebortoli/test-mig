@@ -174,7 +174,7 @@ public:
 			m_LogFile.WriteString(_T("Yes\r\n"));
 
 		m_LogFile.WriteString(_T("TabbedDocuments:"));
-		DataObj* pDataObj = AfxGetSettingValue (snsTbGenlib, szFormsSection, _T("TabbedDocuments"), DataBool(TRUE), szTbDefaultSettingFileName);
+		DataObj* pDataObj = AfxGetSettingValue (snsTbGenlib, szFormsSection, szTabbedDocuments, DataBool(TRUE), szTbDefaultSettingFileName);
 		if (pDataObj != NULL && pDataObj->IsKindOf(RUNTIME_CLASS(DataBool)) && (*(DataBool*)pDataObj) == TRUE)
 			m_LogFile.WriteString(_T("Yes\r\n"));
 		else

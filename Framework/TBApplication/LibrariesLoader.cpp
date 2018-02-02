@@ -48,8 +48,8 @@ CLibrariesLoader::~CLibrariesLoader ()
 //-----------------------------------------------------------------------------
 void CLibrariesLoader::InitOnDemandEnabled() 
 {
-	DataObj* pOnDemandEnabled = AfxGetSettingValue(snsTbGenlib, szEnvironment, szLoadLibrariesOnDemand, DataBool(m_bIsOnDemandEnabled), szTbDefaultSettingFileName);
-	m_bIsOnDemandEnabled = pOnDemandEnabled ?  *(DataBool*) pOnDemandEnabled : TRUE;
+	//DataObj* pOnDemandEnabled = AfxGetSettingValue(snsTbGenlib, szEnvironment, szLoadLibrariesOnDemand, DataBool(m_bIsOnDemandEnabled), szTbDefaultSettingFileName);
+	m_bIsOnDemandEnabled = TRUE; // pOnDemandEnabled ? *(DataBool*)pOnDemandEnabled : TRUE;
 }
 
 //-----------------------------------------------------------------------------

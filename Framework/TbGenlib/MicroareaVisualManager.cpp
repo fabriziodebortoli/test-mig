@@ -32,7 +32,7 @@ CMicroareaVisualManager::CMicroareaVisualManager()
 {
 	SetStyle(CBCGPVisualManager2013::Office2013_Gray);
 
-	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szFormsSection, _T("TabbedDocuments"), DataBool(TRUE), szTbDefaultSettingFileName);
+	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szFormsSection, szTabbedDocuments, DataBool(TRUE), szTbDefaultSettingFileName);
 	m_bUseTabbedDocuments = pDataObj ? (*((DataBool*)(pDataObj))) : FALSE;
 
 	CBCGPDockManager::m_pAutoHideToolbarRTC = RUNTIME_CLASS(CTBAutoHideBar);

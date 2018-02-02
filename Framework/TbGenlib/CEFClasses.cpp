@@ -690,7 +690,7 @@ DWORD WINAPI CEFThreadFunction(LPVOID param)
 	settings.remote_debugging_port = 1717;
 	
 #endif
-	DataInt* pDataObj = (DataInt*)AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, _T("ChromeDebuggingPort"), DataInt(0), szTbDefaultSettingFileName);
+	DataInt* pDataObj = (DataInt*)AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szDevelopmentSection, szChromeDebuggingPort, DataInt(0), szTbDefaultSettingFileName);
 	if (pDataObj && *pDataObj > 0)
 	{
 		settings.remote_debugging_port = *pDataObj;

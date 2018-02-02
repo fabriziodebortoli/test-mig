@@ -269,7 +269,7 @@ CBarCode::CBarCode()
 	m_nRowsNo(-1),
 	m_nColumnsNo(-1)
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib,  szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	
@@ -748,7 +748,7 @@ void CBarCode::Unparse (Unparser& ofile, BOOL bNewline)
 	ofile.UnparseBool (m_bShowLabel,FALSE);
 
 	// default barcode parameter
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	int nBCDefaultType = 0;
 	if (!sDefaultBarcode.IsEmpty()) 
@@ -946,7 +946,7 @@ void CBarCodeAttrsDlg::SetCustomBarHeightControls ()
 //----------------------------------------------------------------------------
 void CBarCodeAttrsDlg::LoadDefaultBarCode ()
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	
@@ -1536,7 +1536,7 @@ void CBarCodeSettingsDlg::SetCheckSumModulesCombo	()
 //----------------------------------------------------------------------------
 void CBarCodeSettingsDlg::LoadDefaultBarCode ()
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	

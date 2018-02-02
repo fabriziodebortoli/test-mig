@@ -30,7 +30,7 @@
 #define KEY_CTRL_DOWN	0x0002
 #define KEY_ALT_DOWN	0x0004
 #define CHECK_UNIQUE_NAME(cl,name) 	{\
-										DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, _T("AllActive"), DataBool(FALSE), szTbDefaultSettingFileName);\
+										DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szDevelopmentSection, szAllActive, DataBool(FALSE), szTbDefaultSettingFileName);\
 										BOOL bByPass = pDataObj && pDataObj->GetDataType() == DATA_BOOL_TYPE ? *((DataBool*)pDataObj) : FALSE;\
 										if (!bByPass)\
 										{\

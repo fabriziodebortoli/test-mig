@@ -8573,7 +8573,7 @@ CExternalControllerInfo::ControllingMode CParsedCtrl::GetControllerMode() const
 //-----------------------------------------------------------------------------
 BOOL CParsedCtrl::ShowZerosInInput()
 {
-	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szShowZerosInInput, DataBool(TRUE), szTbDefaultSettingFileName);
+	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szFormsSection, szShowZerosInInput, DataBool(TRUE), szTbDefaultSettingFileName);
 	if (!pDataObj || !pDataObj->IsKindOf(RUNTIME_CLASS(DataBool)))
 		return TRUE;
 
@@ -9548,7 +9548,7 @@ void CParsedForm::DoFormatStyleChange(WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 BOOL IsEnterAsTab()
 {
-	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szTreatEnterAsTab, DataBool(FALSE), szTbDefaultSettingFileName);
+	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szFormsSection, szTreatEnterAsTab, DataBool(FALSE), szTbDefaultSettingFileName);
 
 	return pDataObj && (*((DataBool*)pDataObj));
 }

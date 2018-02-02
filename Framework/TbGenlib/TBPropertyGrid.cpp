@@ -1594,11 +1594,11 @@ CTBProperty* CTBPropertyGrid::CreateProperty
 	// se viene usata almeno una property multiline si usa il tooltip per visuAlizzarne l'intero testo
 	if (nRowsNumber > 1 && m_pDataTip == NULL)
 	{
-		DataObj* pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+		DataObj* pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
 		TFXDataTip::SetDelay(pS ? *((DataInt*)pS) : 300);
 
-		pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
-		DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+		pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+		DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
 		TFXDataTip::SetMaxDim(pS ? *((DataInt*)pS) : 800, pS2 ? *((DataInt*)pS2) : 600);
 
 		GetParent()->EnableToolTips();

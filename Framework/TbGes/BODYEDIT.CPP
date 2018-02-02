@@ -678,20 +678,20 @@ CBodyEdit::CBodyEdit(const CString sName)
 
 	m_pProcessingMouse = new CriticalArea;
 
-	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(3), szTbDefaultSettingFileName);
+	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(3), szTbDefaultSettingFileName);
 	m_bAllowColumnHeaderSmallFont = pS ? *((DataInt*)pS) > 0 : FALSE;
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szAddBodyeditColumnHeaderExtraSpace, DataBool(FALSE), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAddBodyeditColumnHeaderExtraSpace, DataBool(FALSE), szTbDefaultSettingFileName);
 	m_bAddColumnHeaderExtraSpace = pS ? *((DataBool*)pS) : FALSE;
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
 	TFXDataTip::SetDelay(pS ? *((DataInt*)pS) : 300);
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
-	DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+	DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
 	TFXDataTip::SetMaxDim(pS ? *((DataInt*)pS) : 800, pS2 ? *((DataInt*)pS2) : 600);
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipLevelOnBodyedit, DataInt(BE_DTSTYLE_ALL), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipLevelOnBodyedit, DataInt(BE_DTSTYLE_ALL), szTbDefaultSettingFileName);
 	m_DataTipStyle = pS ? (short)(*((DataInt*)pS)) : BE_DTSTYLE_ALL;
 
 	//istanzio il datatip solo se necessario

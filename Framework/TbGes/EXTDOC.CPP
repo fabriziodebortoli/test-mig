@@ -519,7 +519,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_bUseEasyBrowsing = pUseEasyBrowsing ? *((DataBool*)pUseEasyBrowsing) : FALSE;
 
 	//permette di abilitare/disabilitare il salvataggio del report di default sulla scelta del report da eseguire nella dropdown del pilsate 'Stampa'
-	DataObj* pUpdateDefaultReport = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szUpdateDefaultReport, DataBool(m_bUpdateDefaultReport), szTbDefaultSettingFileName);
+	DataObj* pUpdateDefaultReport = AfxGetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, DataBool(m_bUpdateDefaultReport), szTbDefaultSettingFileName);
 	m_bUpdateDefaultReport = pUpdateDefaultReport ? *((DataBool*)pUpdateDefaultReport) : TRUE;
 
 	/*if (AfxIsRemoteInterface())
@@ -2029,7 +2029,7 @@ BOOL CAbstractFormDoc::CanFindOnSlave() const
 	if (!m_pSqlConnection || m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
 		return FALSE;
 
-	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szFindSlave, DataBool(TRUE), szTbDefaultSettingFileName);
+	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, DataBool(TRUE), szTbDefaultSettingFileName);
 	BOOL bEnableFindSlave = (pB ? *((DataBool*)pB) : TRUE) && m_pFormManager->m_Properties.m_bFindSlave;
 	return bEnableFindSlave;
 }

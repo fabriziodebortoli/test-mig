@@ -7,17 +7,12 @@
 #include <TBNamesolver\ThreadContext.h>
 
 #include "SettingsTable.h"
-
+#include "ParametersSections.h"
 #include "CollateCultureFunctions.h"
 #include "DataObj.h"
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
-
-const TCHAR szSettingsNamespace[]	= _T("Module.Framework.TbGenlib");
-const TCHAR szSettingsFile[]		= _T("Settings.config");
-const TCHAR szSettingsSection[]		= _T("Environment");
-const TCHAR szSettingsName[]		= _T("ManageCompanyDatabaseCulture");
 
 //-----------------------------------------------------------------------------
 CStringA UnicodeToUTF8(CString strData)
@@ -103,11 +98,10 @@ BOOL CCultureInfo::IsManageCompanyDatabaseCultureDisabled()
 {
 	DataObj* pDataObj = AfxGetSettingValue 
 					(
-						CTBNamespace(szSettingsNamespace), 
-						szSettingsSection, 
-						szSettingsName, 
-						DataBool(TRUE), 
-						szSettingsFile
+						CTBNamespace(szTbGenlibNamespace),
+						szEnvironment,
+						szManageCompanyDatabaseCulture,
+						DataBool(TRUE)
 					);
 
 	// not enabled
