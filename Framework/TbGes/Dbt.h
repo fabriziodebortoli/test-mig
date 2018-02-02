@@ -804,7 +804,8 @@ public:
 	
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	virtual void		SetJson(BOOL bWithChildren, CJsonParser& jsonParser);
-
+	
+	virtual void		GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 
 	SqlRecord*	GetCurrentMasterRecord(const CString& strDBTName = _T(""));
 

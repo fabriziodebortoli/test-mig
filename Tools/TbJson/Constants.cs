@@ -85,6 +85,7 @@
         internal const string enableLink = "enableLink";
         internal const string enableHotLink = "enableHotLink";
         internal const string autoFind = "autoFind";
+        internal const string bodyEditName = "bodyEditName";
 
         internal const string tsAppsPath = "Taskbuilder\\client\\web-form\\src\\app\\applications";
         internal const string name = "name";

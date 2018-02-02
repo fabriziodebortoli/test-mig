@@ -38,6 +38,7 @@ TB_EXPORT CString GetJsonMenuSettings();
 TB_EXPORT CString GetLoginInitInformation();
 TB_EXPORT CString GetConnectionInformation();
 TB_EXPORT CString GetLoginInitImage();
+TB_EXPORT CString GetCurrentUTCTime();
 TB_EXPORT CString GetLoginBackgroundImage();
 TB_EXPORT CString IsAutoLoginable();
 TB_EXPORT CString GetRememberMe();

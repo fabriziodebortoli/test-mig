@@ -5,6 +5,7 @@
 #include <TbOledb\sqlcatalog.h>	
 #include <TbOledb\TbExtensionsInterface.h>	
 #include <TbNameSolver\ApplicationContext.h>
+#include <TbGenLibManaged\MenuFunctions.h>
 
 #include "dbt.h"
 #include "dyndbt.h"
@@ -4236,11 +4237,38 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 	}
 	return NULL;
 }
-
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	jsonSerializer.OpenObject(GetName());
+
+	CString timeStamp = GetCurrentUTCTime();
+	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
+
+	//SqlRecord *pPrototypeRecord = this->GetRecord();
+	//jsonSerializer.OpenObject(_T("prototype"));
+	//pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
+	//jsonSerializer.CloseObject();
+
+	/*jsonSerializer.OpenArray(_T("rows"));
+	for (int i = 0; i < GetRowCount(); i++)
+	{
+		SqlRecord *pRecord = GetRow(i);
+		jsonSerializer.OpenObject(i);
+		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
+		jsonSerializer.CloseObject();
+	}
+	jsonSerializer.CloseArray();*/
+	jsonSerializer.CloseObject();
+}
+
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
+{
+	jsonSerializer.OpenObject(_T("dbt"));
+
+	CString timeStamp = GetCurrentUTCTime();
+	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
 
 	SqlRecord *pPrototypeRecord = this->GetRecord();
 	jsonSerializer.OpenObject(_T("prototype"));

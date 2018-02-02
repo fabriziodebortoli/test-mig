@@ -786,6 +786,20 @@ namespace Microarea.TbJson
                             WriteControlAttributes(jObj, wc);
                             WriteAttribute(jObj, Constants.height, Constants.height);
 
+                            //estraggo il bodyeditname dal datasource
+                            string bodyEditName = string.Empty;
+                            JObject jBinding = jObj[Constants.binding] as JObject;
+                            if (jBinding != null)
+                            {
+                                string ds = jBinding[Constants.datasource]?.ToString();
+                                if (!string.IsNullOrEmpty(ds))
+                                {
+                                    bodyEditName = ds;
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(bodyEditName))
+                                htmlWriter.Write(string.Format(" {0}=\"{1}\"",  Constants.bodyEditName, bodyEditName));
+
                             jObj.GetString(Constants.id, out string cmpId);
 
                             //htmlWriter.Write(string.Format(" #{0}=\"body\"", cmpId));

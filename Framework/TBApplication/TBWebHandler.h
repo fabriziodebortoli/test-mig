@@ -52,6 +52,7 @@ private:
 	void GetThemesFunction				(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void ChangeThemesFunction			(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void AssignWoormParameters			(const CString& path, const CNameValueCollection& params, CTBResponse& response);
+	void GetDBTSlaveBufferedModel		(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void AssignWoormParametersInternal  (HWND hWndWoormDoc, CString reportOutParameters);
 
 	void GetAllAppsAndModules(const CString& path, const CNameValueCollection& params, CTBResponse& response);
