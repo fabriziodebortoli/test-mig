@@ -418,8 +418,8 @@ namespace Microarea.TbJson
             return jObj;
         }
 
-       
-       
+
+
         //-----------------------------------------------------------------------------
         private void UpdateModuleFile(string modulePath, string moduleName, string container, string componentName)
         {
@@ -683,7 +683,7 @@ namespace Microarea.TbJson
                         break;
                     }
 
-         
+
 
                 case WndObjType.View:
                     {
@@ -874,7 +874,7 @@ namespace Microarea.TbJson
 
                             if (!string.IsNullOrEmpty(wCol.Name))
                                 htmlWriter.WriteAttribute(Constants.columnType, wCol.Name);
-                         
+
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
                         }
@@ -1479,15 +1479,15 @@ namespace Microarea.TbJson
 
             WriteBindingAttributes(jObj, true);
 
-            var jItemSource = jObj[Constants.itemSource] as JObject;
-            if (jItemSource != null)
+            var jItem = jObj[Constants.itemSource] as JObject;
+            if (jItem != null)
             {
                 var strItemSource = $"{cmpId}_{Constants.itemSource}";
 
                 htmlWriter.Write($" [{Constants.itemSource}]=\"{strItemSource}\"");
 
                 toAppendToDeclaration.AppendIfNotExist($"public {strItemSource}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{strItemSource} = {jItemSource}; \r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strItemSource} = {jItem}; \r\n");
             }
 
             JArray jArray = jObj[Constants.validators] as JArray;
@@ -1501,29 +1501,65 @@ namespace Microarea.TbJson
                 toAppendToDefinition.AppendIfNotExist($"this.{strValidators} = {jArray}; \r\n");
             }
 
-            jItemSource = jObj[Constants.contextMenu] as JObject;
-            if (jItemSource != null)
+            jItem = jObj[Constants.contextMenu] as JObject;
+            if (jItem != null)
             {
                 var strContextMenu = $"{cmpId}_{Constants.contextMenu}";
 
                 htmlWriter.Write($" [{Constants.tbContextMenu}]=\"{strContextMenu}\"");
 
                 toAppendToDeclaration.AppendIfNotExist($"public {strContextMenu}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{strContextMenu} = {jItemSource}; \r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strContextMenu} = {jItem}; \r\n");
             }
 
-            jItemSource = jObj[Constants.dataAdapter] as JObject;
-            if (jItemSource != null)
+            jItem = jObj[Constants.dataAdapter] as JObject;
+            if (jItem != null)
             {
                 var strDataAdapter = $"{cmpId}_{Constants.dataAdapter}";
 
                 htmlWriter.Write($" [{Constants.dataAdapter}]=\"{strDataAdapter}\"");
 
                 toAppendToDeclaration.AppendIfNotExist($"public {strDataAdapter}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{strDataAdapter} = {jItemSource}; \r\n");
+                toAppendToDefinition.AppendIfNotExist($"this.{strDataAdapter} = {jItem}; \r\n");
             }
-        }
 
+            jItem = jObj[Constants.menu] as JObject;
+            if (jItem != null)
+            {
+                /*"menu": {
+               "items": [
+                 {
+                   "type": "MenuItem",
+                   "text": "Search by Code",
+                   "id": "ID_MENU_SEARCH_ABICAB"
+                   }
+                   ]
+               }*/
+                var strContextMenu = $"cm_{cmpId}";
+
+                htmlWriter.WriteAttribute(Square(Constants.contextMenu), strContextMenu);
+
+                toAppendToDeclaration.AppendLine();
+                toAppendToDeclaration.AppendLine($"public {strContextMenu} = [");
+                bool needComma = false;
+                foreach (var menuItem in jItem.GetItems())
+                {
+                    if (menuItem.GetWndObjType() != WndObjType.MenuItem)
+                        continue;
+                    if (needComma)
+                        toAppendToDeclaration.AppendLine(",");
+                    else
+                        needComma = true;
+                    string id = menuItem.GetId();
+                    string text = menuItem.GetLocalizableString(Constants.text);
+                    
+                    toAppendToDeclaration.Append($"new ContextMenuItem(this.{text}, '{id}')");
+                }
+                toAppendToDeclaration.AppendLine();
+                toAppendToDeclaration.AppendLine($"];");
+            }
+           
+        }
         //-----------------------------------------------------------------------------
         private void RegisterModelField(string owner, string field)
         {
@@ -1587,7 +1623,7 @@ namespace Microarea.TbJson
                         GenerateInlineControls(obj, parentType, anchorMap, true);
 
                     }
-                } 
+                }
             }
 
         }
@@ -1596,7 +1632,7 @@ namespace Microarea.TbJson
         {
             List<JObject> l = null;
             string id = obj.GetId();
-            
+
             if (!string.IsNullOrEmpty(id) && anchorMap.TryGetValue(id, out l))
             {
                 OpenCloseTagWriter w = null;
