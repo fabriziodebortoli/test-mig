@@ -74,7 +74,7 @@
 						<IncludeFile name="*.h|*.cpp|*.dex|*.config*|*.Brand.xml|*.Solution.xml"/>
 						<ExcludeFile name="*.2003|*.vssscc|*.vspscc" />
 					</IncludeFolder>
-          <ExcludeFolder name=".git" />
+					<ExcludeFolder name=".git" />
 					<IncludeFile name="*" />
 					<ExcludeFile name="*.vssscc|*.vspscc|*.suo|*.ncb|ERP2003.sln|ERPSolutions.sln|DevelopmentEnvironment.xml|Settings.bin|*.pfx" />
 				</IncludeFolder>
