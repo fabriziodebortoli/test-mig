@@ -244,12 +244,15 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     } as Align;
   }
 
+  private dropDownOpened = false;
   openDropDown() {
     this.start();
+    this.dropDownOpened = true;
   }
 
   closeDropDown() {
     this.stop();
+    this.dropDownOpened = false;
   }
 
   closeOptions() { this.showOptionsSubj$.next(false); }
@@ -262,7 +265,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.defaultPageCounter = 0;
     this.filterer.start(200);
     this.paginator.start(1, this.pageSize,
-      combineFiltersMap(this.slice$, this.filterer.filterChanged$, (l, r) => ({ model: l, customFilters: r})),
+      combineFiltersMap(this.slice$, this.filterer.filterChanged$.filter(x => x.logic !== undefined), (l, r) => ({ model: l, customFilters: r})),
       (pageNumber, serverPageSize, otherParams) => {
         let ns = this.hotLinkInfo.namespace;
         if (!ns && otherParams.model.selector && otherParams.model.selector !== '') { 
@@ -273,7 +276,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('filter', JSON.stringify(otherParams.model.value));
         p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
         p.set('hklName', this.hotLinkInfo.name);
-        p.set('customFilters', JSON.stringify(otherParams.customFilters));
+        if (otherParams.customFilters && otherParams.customFilters.logic)
+          p.set('customFilters', JSON.stringify(otherParams.customFilters));
         p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
@@ -319,8 +323,10 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   public onComboFilterChange(filter: string): void {
-    if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
-    else this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
+    if (this.dropDownOpened) {
+      if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
+      else this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
+    }
   }
 
   protected async pageChange(event: PageChangeEvent) {
@@ -387,6 +393,9 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       let textBox = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0);
       if (textBox) { (textBox as HTMLElement).style.width = 'auto'; }
     }
+
+    if(this.isAttachedToAComboBox) 
+      this.selectionType = 'combo';
   }
 
   ngOnDestroy() {
