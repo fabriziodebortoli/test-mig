@@ -129,7 +129,8 @@ MTileManager::MTileManager(IWindowWrapperContainer^ parentWindow, System::String
 	:
 	MTabber(parentWindow, name, className, location, hasCodeBehind)
 {
-	
+	//if (!this->HasCodeBehind)
+	//	jsonDescription = new CTabberDescription(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -145,6 +146,71 @@ MTileManager::~MTileManager()
 //----------------------------------------------------------------------------
 MTileManager::!MTileManager()
 {
+}
+
+//----------------------------------------------------------------------------------
+CWndObjDescription* MTileManager::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	CDummyDescription* pDummyTMDescription = NULL;
+
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return NULL;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return NULL;
+		__super::UpdateAttributesForJson(pParentDescription);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::TileManager;
+
+		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+		{
+			pDummyTMDescription = new CDummyDescription();
+			pDummyTMDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(pDummyTMDescription);
+			pDummyTMDescription->m_arHrefHierarchy.Add(this->Id);
+		}
+	}
+	else
+	{
+		jsonDescription = new CDummyDescription();
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		jsonDescription->m_strIds.Add(this->Id);
+	}
+
+	for each (WindowWrapperContainer^ wrapper in this->Components)
+	{
+		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
+			continue;
+
+		wrapper->UpdateAttributesForJson(jsonDescription);
+	}
+
+	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //save json di jsonDescription.Serialize
+			this->SaveSerialization(this->Id, jsonDescription);
+		else if (jsonDescription->m_Children.GetCount() > 0)
+			this->SaveSerialization(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id, jsonDescription);
+
+		//update parent => remove details for this from parent
+		for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
+		{
+			if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+			{
+				SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+				pParentDescription->m_Children.RemoveAt(i);
+			}
+		}
+		
+		//SAFE_DELETE(pDummyTGDescription);
+		//SAFE_DELETE(jsonDescription);
+	}
+
+	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

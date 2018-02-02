@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { ComponentService, ComponentInfoService, EventDataService, BOComponent, ControlComponent, BOService, DocumentService, TbComponentService, CommandCategory } from '@taskbuilder/core';
+import { ComponentService, ComponentInfoService, EventDataService, BOComponent, ControlComponent, BOService, DocumentService, TbComponentService, CommandCategory, ContextMenuItem } from '@taskbuilder/core';
 import { Store, createSelectorByMap } from '@taskbuilder/core';
 
 import { @@NAME@@Service } from '@@SERVICEFILE@@';

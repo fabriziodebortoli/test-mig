@@ -268,6 +268,11 @@ namespace Microarea {	namespace Framework	{		namespace TBApplicationWrapper
 		virtual bool Create(IWindowWrapperContainer^ parentWindow, System::Drawing::Point location, System::String^ className) override;
 
 	public:
+		///<summary>
+		///Updates nedeed attributes for json serialization
+		///</summary>
+		virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
 		/// <summary>
 		/// Internal Use
 		/// </summary>

@@ -1,5 +1,4 @@
 import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
-import { DiagnosticItemComponent } from './../../../../containers/diagnostic-dialog/diagnostic-dialog.component';
 import { SettingsService } from './../../../../../core/services/settings.service';
 import { HttpService } from './../../../../../core/services/http.service';
 import { InfoService } from './../../../../../core/services/info.service';

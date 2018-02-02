@@ -135,7 +135,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
+    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent
 ];
 
@@ -153,7 +153,7 @@ import { TbCardComponent } from './containers/tb-card/tb-card.component';
 import { TabComponent } from './containers/tabs/tab/tab.component';
 import { TabberComponent } from './containers/tabs/tabber/tabber.component';
 import { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
-import { DiagnosticDialogComponent, DiagnosticItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
+import { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 import { LayoutContainerComponent } from './containers/tiles/layout-container/layout-container.component';
 import { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.component';
@@ -181,7 +181,7 @@ export { TbCardComponent } from './containers/tb-card/tb-card.component';
 export { TabComponent } from './containers/tabs/tab/tab.component';
 export { TabberComponent } from './containers/tabs/tabber/tabber.component';
 export { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
-export { DiagnosticDialogComponent, DiagnosticItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
+export { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 export { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 export { LayoutContainerComponent } from './containers/tiles/layout-container/layout-container.component';
 export { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.component';
@@ -201,7 +201,7 @@ export { StatusTileComponent } from './containers/tiles/status-tile-panel/status
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent, PanelComponent
 ];

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
-import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent, ComponentInfoService, BOService  } from '@taskbuilder/core';
+import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent, ComponentInfoService, BOService, ContextMenuItem  } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-@@NAME@@',

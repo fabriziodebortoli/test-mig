@@ -124,6 +124,11 @@ namespace Microarea {
 				/// </summary>
 				!MTileManager();
 
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
 				/// <summary>
 				/// Internal Use
 				/// </summary>

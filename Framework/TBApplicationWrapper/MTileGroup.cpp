@@ -209,6 +209,93 @@ MTileGroup::MTileGroup(IWindowWrapperContainer^ parentWindow, System::String^ na
 	else
 		m_pTileGroup = dynamic_cast<CTileGroup*>(GetWnd());
 
+	//if (!this->HasCodeBehind)
+	//	jsonDescription = new CWndLayoutContainerDescription(NULL);
+
+}
+
+//------------------------------------------------------------------------------
+CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	CDummyDescription* pDummyTGDescription = NULL;
+
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return NULL;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
+
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return NULL;
+
+
+		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+		{
+			pDummyTGDescription = new CDummyDescription();
+			pDummyTGDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(pDummyTGDescription);
+			pDummyTGDescription->m_arHrefHierarchy.Add(this->Id);
+		}
+		__super::UpdateAttributesForJson(pParentDescription);
+
+		CWndLayoutContainerDescription* pTileGroupDescription = dynamic_cast<CWndLayoutContainerDescription*>(jsonDescription);
+
+		if (pTileGroupDescription)
+		{
+			pTileGroupDescription->m_Type = CWndObjDescription::WndObjType::TileGroup;
+			pTileGroupDescription->m_LayoutType = CLayoutContainer::COLUMN;	//its own default
+			if (this->TileGroup && this->TileGroup->GetLayoutContainer())
+				pTileGroupDescription->m_LayoutType = this->TileGroup->GetLayoutContainer()->GetLayoutType();
+			if (this->TileGroup && this->TileGroup->GetLayoutContainer())
+				pTileGroupDescription->m_LayoutAlign = this->TileGroup->GetLayoutContainer()->GetLayoutAlign() == CLayoutContainer::LayoutAlign::NO_ALIGN ?
+				CLayoutContainer::LayoutAlign::STRETCH : //its own default
+				this->TileGroup->GetLayoutContainer()->GetLayoutAlign();
+		}
+	}
+	else
+	{
+		jsonDescription = new CDummyDescription();
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		jsonDescription->m_strIds.Add(this->Id);
+	}
+
+	for each (WindowWrapperContainer^ wrapper in this->Components)
+	{
+		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
+			continue;
+
+		CWndObjDescription* pResultDescription = NULL;
+
+		wrapper->UpdateAttributesForJson(jsonDescription);
+
+	}
+	
+	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+		{
+			//save json di jsonDescription.Serialize
+			this->SaveSerialization(this->Id, jsonDescription);
+
+			//update parent => remove details for this from parent
+			for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
+			{
+				if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+				{
+					SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+					pParentDescription->m_Children.RemoveAt(i);
+				}
+			}
+		}
+		
+		//SAFE_DELETE(pDummyTGDescription);
+		//SAFE_DELETE(jsonDescription);
+	}
+
+	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

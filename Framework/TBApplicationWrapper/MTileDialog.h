@@ -79,6 +79,11 @@ namespace Microarea {	namespace Framework	{		namespace TBApplicationWrapper
 		bool			inOwnEditing;
 	public:
 		
+		///<summary>
+		///Updates nedeed attributes for json serialization
+		///</summary>
+		virtual CWndObjDescription * UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
 		/// <summary>
 		/// Internal Use
 		/// </summary>
