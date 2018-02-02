@@ -391,6 +391,7 @@ namespace Microarea {
 				static System::String^	staticArea2Name = "Static Area 2";
 
 				bool EndCreation = false;
+				CWndObjDescription* jsonDescription = NULL;
 
 			protected:
 				System::Drawing::Color			borderColor;
@@ -403,6 +404,11 @@ namespace Microarea {
 
 			protected:
 
+				///<summary>
+				///Calculate left side brother. Used for json serialization
+				///</summary>
+				CString GetHorizontalIdAnchor();
+
 				/// <summary>
 				/// Internal Use
 				/// </summary>
@@ -413,9 +419,9 @@ namespace Microarea {
 
 				//----------------------------------------------------------------------------	
 #pragma region BrowsableFalse properties
-/// <summary>
-/// Internal Use
-/// </summary>
+				/// <summary>
+				/// Internal Use
+				/// </summary>
 				[System::ComponentModel::Browsable(false), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden), ExcludeFromIntellisense]
 				property IEasyBuilderComponentExtenders^ Extensions { virtual  IEasyBuilderComponentExtenders^ get() { return extensions; } }
 
@@ -606,9 +612,9 @@ namespace Microarea {
 #pragma endregion
 				//--------------BOTH----------------------------------------------------------	
 
-								/// <summary>
-								/// Gets the type of the control (as System::String)
-								/// </summary>
+				/// <summary>
+				/// Gets the type of the control (as System::String)
+				/// </summary>
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
 				property System::String^ WindowType { System::String^ get() { return GetType()->ToString(); } }
 
@@ -709,6 +715,13 @@ namespace Microarea {
 
 
 			public:
+				bool SaveSerialization(const CString& fileName, CWndObjDescription* pDescription);
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription);
+
 				/// <summary>
 				/// Event raised when the user click on the active control
 				/// </summary>
@@ -1390,6 +1403,11 @@ namespace Microarea {
 				MESSAGE_HANDLER_EVENT(ValueChanged, EasyBuilderEventArgs, "Occurs when control value is changed.");
 
 			public:
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
 
 				/// <summary>
 				/// Override of the equals method, true if the compared tabs are the same

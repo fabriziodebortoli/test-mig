@@ -543,6 +543,7 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 
 	this->name = name;
 	this->HasCodeBehind = hasCodeBehind;
+
 	this->IsStretchable = false;
 
 	extensions = gcnew EasyBuilderComponentExtenders(this);
@@ -673,6 +674,94 @@ void BaseWindowWrapper::Site::set(ISite^ site)
 void BaseWindowWrapper::OnDesignerControlCreated()
 {
 	SizeLU = AdjustMinSizeOnParent(this, Parent);
+}
+
+//-------------------------------------------------------------------------------------
+CString BaseWindowWrapper::GetHorizontalIdAnchor()
+{
+	CString myAnchor = _T("");
+
+	if (this->HasCodeBehind)
+	{
+		//TODO - ancora niente
+	}
+
+	//calculate possible left side brother (not depending on HasCodeBehind)
+	WindowWrapperContainer^ container = dynamic_cast<WindowWrapperContainer^>(this->Parent);
+	bool bFoundBrotherAnchor = false;
+	if (container != nullptr)
+	{
+		CWnd* pMeWnd = this->GetWnd();
+		CRect aMeRect, aBrotherRect;
+		pMeWnd->GetWindowRect(&aMeRect);
+
+		for each (BaseWindowWrapper^ brother in container->Components)
+		{
+			//skip static area
+			if (brother == nullptr || brother == this || brother->Id->CompareTo(gcnew String(staticAreaID)) == 0 || brother->Id->CompareTo(gcnew String(staticArea1ID)) == 0 || brother->Id->CompareTo(gcnew String(staticArea2ID)) == 0)
+				continue;
+
+			CWnd* pBrotherWnd = brother->GetWnd();
+			if (!pBrotherWnd)
+				continue;
+
+			pBrotherWnd->GetWindowRect(aBrotherRect);
+			if (aBrotherRect.left + aBrotherRect.Width() <= aMeRect.left && !bFoundBrotherAnchor)
+			{
+				myAnchor = brother->Id;
+				bFoundBrotherAnchor = true;
+				break;
+			}
+		}
+	}
+
+	if (!bFoundBrotherAnchor)
+		myAnchor = this->PartAnchor.Y == 0 ? _T("COL1") : _T("COL2");
+
+	return myAnchor;
+}
+
+//----------------------------------------------------------------------------------------------------
+bool BaseWindowWrapper::SaveSerialization(const CString& fileName, CWndObjDescription* pDescription)
+{
+	ASSERT(pDescription);
+	if (!pDescription)
+		return false;
+
+	//TODO
+	CString path = _T("c:\\_aaa\\");
+
+	CString fullFileName = path + fileName + _T(".tbjson");
+
+	CLineFile file;
+	if (!file.Open(CString(fullFileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
+		return false;
+
+	CJsonSerializer ser;
+	pDescription->SerializeJson(ser);
+
+	file.WriteString(ser.GetJson());
+	file.Close();
+
+	return true;
+}
+
+//----------------------------------------------------------------------------------
+CWndObjDescription* BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	if (!jsonDescription)
+		return NULL;
+
+	//initialize common default attributes
+	jsonDescription->m_X = NULL_COORD;
+	jsonDescription->m_Y = NULL_COORD;
+	jsonDescription->m_Width = NULL_COORD;
+	jsonDescription->m_Height = NULL_COORD;
+	jsonDescription->m_strName = this->Name;
+	jsonDescription->m_strIds.Add(this->Id);
+	jsonDescription->m_strText = this->Text;
+
+	return jsonDescription;
 }
 
 //-----------------------------------------------------------------------------
@@ -2568,6 +2657,9 @@ MParsedControl::MParsedControl(IWindowWrapperContainer^ parentWindow, System::St
 
 	Location = location;
 	showHotLinkButton = true;
+
+	if (!this->HasCodeBehind)
+		jsonDescription = new CWndObjDescription(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -2629,6 +2721,69 @@ MParsedControl::!MParsedControl()
 
 	if (hotLink != nullptr)
 		hotLink->AttachedControl = nullptr;
+}
+
+//---------------------------------------------------------------------------------------
+CWndObjDescription* MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return NULL;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
+
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return NULL;
+
+		__super::UpdateAttributesForJson(pParentDescription);
+
+		jsonDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
+		jsonDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
+		jsonDescription->m_strControlCaption = this->Caption;
+		jsonDescription->m_strIds.RemoveAll();
+		jsonDescription->m_strIds.Add(this->Name);
+
+		//manage anchor
+		jsonDescription->m_sAnchor = GetHorizontalIdAnchor();
+
+		//manage data binding
+		if (jsonDescription->m_pBindings)
+		{
+			//exists => clear
+			BindingInfo* pBindings = jsonDescription->m_pBindings;
+			if (pBindings->m_pHotLink)
+			{
+				delete pBindings->m_pHotLink;
+				pBindings->m_pHotLink = NULL;
+			}
+			delete pBindings;
+			jsonDescription->m_pBindings = NULL;
+		}
+		if (this->DataBinding != nullptr)
+		{
+			//update databinding
+			jsonDescription->m_pBindings = new BindingInfo();
+			NameSpace^ parent = (NameSpace^)this->DataBinding->Parent->Namespace;
+			jsonDescription->m_pBindings->m_strDataSource = CString(parent->Leaf) + _T(".") + CString(this->DataBinding->Name);
+			if (this->HotLink != nullptr)
+			{
+				jsonDescription->m_pBindings->m_pHotLink = new HotLinkInfo();
+				jsonDescription->m_pBindings->m_pHotLink->m_strName = CString(this->HotLink->Name);
+				jsonDescription->m_pBindings->m_pHotLink->m_strNamespace = CString(this->HotLink->Namespace->FullNameSpace);
+				jsonDescription->m_pBindings->m_pHotLink->m_bMustExistData = (Bool3)this->HotLink->DataMustExist;
+				jsonDescription->m_pBindings->m_pHotLink->m_bEnableAddOnFly = (Bool3)this->HotLink->CanAddOnFly;
+			}
+		}
+	}
+	else
+	{
+		//TODO: serializze differences
+	}
+	
+	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

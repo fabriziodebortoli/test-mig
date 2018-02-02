@@ -47,6 +47,11 @@ MView::MView(IntPtr handleViewPtr)
 	toolBarLevel = 0;
 	Visible = false;
 	suspendLayout = false;
+
+	if (!this->HasCodeBehind)
+		jsonDescription = new CWndObjDescription(NULL);
+	else
+		jsonDescription = new CDummyDescription();
 }
 
 //----------------------------------------------------------------------------
@@ -66,6 +71,46 @@ MView::!MView()
 {
 	delete frame;
 	m_pView = NULL;
+}
+
+//-------------------------------------------------------------------------------
+CWndObjDescription* MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	if (!this->HasCodeBehind) //not hasCodeBehind
+	{
+		__super::UpdateAttributesForJson(NULL);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::View;
+		jsonDescription->m_bChild = true;
+	}
+	else
+	{
+		jsonDescription->m_strIds.Add(this->Id);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	}
+
+	for each (WindowWrapperContainer^ wrapper in this->Components)
+	{
+		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
+			continue;
+
+		wrapper->UpdateAttributesForJson(jsonDescription);
+	}
+
+	//manage saving
+	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+		this->SaveSerialization(this->Id, jsonDescription);
+	else if (jsonDescription->m_Children.GetCount() > 0)
+		this->SaveSerialization(this->Id + _T("_") + _T("Custom"), jsonDescription);
+	
+	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
+	{
+		SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
+		jsonDescription->m_Children.RemoveAt(i);
+	}
+
+	SAFE_DELETE(jsonDescription);
+
+	return NULL;
 }
 
 //----------------------------------------------------------------------------

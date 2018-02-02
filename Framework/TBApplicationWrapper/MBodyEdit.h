@@ -59,7 +59,7 @@ namespace Microarea {
 				ColumnInfo*		m_pColumnInfo;
 				MParsedControl^	control;
 				MBodyEdit^		bodyEdit;
-
+				
 				static COLORREF DefaultColor = (0xFF << 24);
 
 			public:
@@ -96,6 +96,11 @@ namespace Microarea {
 				!MBodyEditColumn();
 
 			public:
+
+				///<summary>
+				///Updates nedeed attributes for json serialization
+				///</summary>
+				CWndObjDescription * UpdateAttrForJson(CWndBodyColumnDescription* pColumnDescription);
 
 				[System::ComponentModel::Browsable(false), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
 				property System::String^ SerializedPropertyAccessorName { virtual System::String^ get() override { return SerializedName; } }
@@ -606,6 +611,11 @@ namespace Microarea {
 				bool					isSerialized;
 				
 			public:
+				///<summary>
+				///Updates nedeed attributes for json serialization
+				///</summary>
+				virtual CWndObjDescription * UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
 				/// <summary>
 				/// Enables or disables the insertion of new rows
 				/// </summary>
