@@ -13,11 +13,11 @@ import { DocumentMenuService } from './document-menu.service';
 export class DocumentMenuComponent extends BOComponent implements OnInit, OnDestroy {
 
     public cm_IDC_QUOTATIONS_TST_QUOTATIONNO = [
-        new ContextMenuItem('Prova 1', 'CMD_1'),
-        new ContextMenuItem('Prova 1', 'CMD_2'),
-        new ContextMenuItem('Prova 2', 'CMD_3'),
-        new ContextMenuItem('Prova 3', 'CMD_4'),
-        new ContextMenuItem('Prova 4', 'CMD_5')
+        new ContextMenuItem(this._TB('Prova 1'), 'CMD_1'),
+        new ContextMenuItem(this._TB('Prova 1'), 'CMD_2'),
+        new ContextMenuItem(this._TB('Prova 2'), 'CMD_3'),
+        new ContextMenuItem(this._TB('Prova 3'), 'CMD_4'),
+        new ContextMenuItem(this._TB('Prova 4'), 'CMD_5')
     ]
 
     constructor(document: DocumentMenuService,
