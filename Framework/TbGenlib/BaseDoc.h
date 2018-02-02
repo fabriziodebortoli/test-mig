@@ -109,7 +109,7 @@ private:
 	CMap <UINT, UINT, CRuntimeClass*, CRuntimeClass*> m_RegisteredControls;
 protected:
 	BOOL						m_bAborted;			// indica se il documento ha completato la fase di costruzione
-	//BOOL						m_bLocked;			// indica se il documento ha correntemente un lock sul DBTMaster
+	BOOL						m_bClosing;			// indica se il documento è in fase di chiusura
 	BOOL						m_bRetryingLock;	// indica se il documento ha dei tentativi di lock in corso
 
 	CXMLDataManagerObj*			m_pXMLDataManager;
