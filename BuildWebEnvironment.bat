@@ -159,6 +159,7 @@ dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilde
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
 
 robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
+robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
 
 @IF %FROMCMD% EQU 0 PAUSE
 
