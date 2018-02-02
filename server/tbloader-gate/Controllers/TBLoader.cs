@@ -109,7 +109,7 @@ namespace Microarea.TbLoaderGate
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
                     if (newInstance)
-                        HttpContext.Session.SetString(TbLoaderName, tb.name);
+                        HttpContext.Session.SetString(TbLoaderName, tb.Name);
                 }
 
             }
