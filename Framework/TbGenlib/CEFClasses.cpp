@@ -451,13 +451,6 @@ CLoginContext* CTBRequestHandlerObj::GetLoginContext(const CString& authToken, B
 		}
 	}
 
-	if (!pContext || !pContext->IsValid())
-	{
-		return pContext;
-	}
-	//if we are in IIS context, login thread has a timeout
-	//if (m_bIsIISModule)
-	//	AfxInvokeAsyncThreadProcedure<CLoginThread, UINT>(pContext->m_nThreadID, (CLoginThread*)pContext, &CLoginThread::StartTimeoutTimer, SESSION_TIMEOUT);
 	return pContext;
 }
 

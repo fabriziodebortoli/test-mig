@@ -34,7 +34,6 @@ public:
 	void ProcessRequest(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	BOOL ExecuteOnLoginThread(FUNCPTR func, const CString& path, const CNameValueCollection& params, CTBResponse& response);
 private:
-	void GetDiagnosticMessages			(CLoginContext* pContext, CString& messages);
 	CString GetJsonThemesList();
 
 	void InitTBLoginFunction			(const CString& path, const CNameValueCollection& params, CTBResponse& response);

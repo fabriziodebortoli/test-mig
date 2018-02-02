@@ -404,29 +404,6 @@ void CTbWebHandler::DoLogoffFunction(const CString& path, const CNameValueCollec
 }
 
 //--------------------------------------------------------------------------------
-void CTbWebHandler::GetDiagnosticMessages(CLoginContext* pContext, CString& messages)
-{
-	//TODOLUCA
-	if (!pContext || !pContext->m_nThreadID)
-	{
-		//_TB("Invalid LoginContext. Check if company database is up to date."));
-		messages.Append(_TB("Invalid LoginContext. Check if company database is up to date."));
-		return;
-	}
-
-	CStringArray messageArray;
-	CDiagnostic* pDiagnostic = NULL;
-	pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, false);
-	pDiagnostic->ToStringArray(messageArray);
-	for (int i = 0; i < messageArray.GetSize(); i++)
-	{
-		const CString  error = messageArray.GetAt(i);
-		messages.Append(error + _T("\r\n"));
-	}
-	delete pDiagnostic;
-}
-
-//--------------------------------------------------------------------------------
 void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
 	CString authToken = params.GetValueByName(AUTH_TOKEN_PARAM);
@@ -454,12 +431,18 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	if (pContext)
 	{
 		//travaso eventuali messaggi (ad es. esercizio non definito)
-		CString message;
-		GetDiagnosticMessages(pContext, message);
-		if (!message.IsEmpty())
-			jsonResponse.SetMessage(message);
+		CDiagnostic* pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, true);
+		if (pDiagnostic->MessageFound(TRUE))
+			pDiagnostic->ToJson(jsonResponse);
+		delete pDiagnostic;
+
+		if (!pContext->IsValid())
+		{
+			pContext->Close();
+			pContext = NULL;
+		}
 	}
-	if (pContext == NULL || !pContext->IsValid())
+	if (pContext == NULL)
 	{
 		//_TB("Invalid LoginContext. Check if company database is up to date."));
 		jsonResponse.SetError();

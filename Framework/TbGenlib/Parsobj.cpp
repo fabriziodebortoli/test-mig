@@ -7460,7 +7460,10 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 
 		return;
 	}
-
+	//quando ha perso il fuoco il controllo era ovviamente visibile; in questo metodo succedono cose, e queste cose potrebberlo
+	//nasconderlo (ad es. il bodyedit 'spegne' il controllo)
+	//quindi testo se + ancora visibile, se non lo è è dannoso chiamare la UpdateCtrlStatus
+	//(potrebbe renderlo nuovamente visibile) pertanto esco
 	bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
 	if (!bVisible)
 		return;
