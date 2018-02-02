@@ -762,6 +762,7 @@ namespace Microarea.TbJson
                                 WriteActivationAttribute(jObj);
                                 WriteHideAttribute(jObj);
                                 AddIconAttribute(jObj);
+								WriteButtonInfo(jObj);
                                 WriteToolbarTopButtonInfo(jObj);
 
                                 string caption = jObj.GetLocalizableString(Constants.text);
@@ -1748,5 +1749,13 @@ namespace Microarea.TbJson
             if (jObj.TryGetId(out string id))
                 toAppendToDefinition.Append($"this.toolbarButtons.push({{id: '{id}', category: {(int)jObj.GetCommandCategory()}}});\r\n");
         }
-    }
+		private void WriteButtonInfo(JObject jObj)
+		{
+			if (jObj[Constants.ngClass] == null)
+				return;
+
+			if (!string.IsNullOrWhiteSpace(jObj[Constants.ngClass].ToString()))
+			htmlWriter.WriteAttribute(Constants.sClass, jObj[Constants.ngClass].ToString());
+		}
+	}
 }
