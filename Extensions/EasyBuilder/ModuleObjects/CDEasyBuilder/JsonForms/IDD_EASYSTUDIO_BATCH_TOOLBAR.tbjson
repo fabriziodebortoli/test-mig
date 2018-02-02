@@ -8,7 +8,8 @@
       "id": "ID_FORM_EDITOR_EDIT",
       "name": "TbEasyBuilder",
       "text": "EasyStudio",
-      "type": 15
+      "type": 15,
+      "category": 6 /*Advanced*/
     }
 	],
 	"name": "Tools",
