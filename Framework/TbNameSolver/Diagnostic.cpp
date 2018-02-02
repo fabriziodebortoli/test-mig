@@ -99,6 +99,7 @@ TB_EXPORT int WriteEventViewerMessage(
 //				class CDiagnosticItem implementation
 ///////////////////////////////////////////////////////////////////////////////
 //
+IMPLEMENT_DYNAMIC(CDiagnosticItem, CObject)
 //-----------------------------------------------------------------------------
 CDiagnosticItem::CDiagnosticItem(const CString& strErrCode, const CString& sMessage, const CDiagnostic::MsgType eType)
 	:
@@ -185,6 +186,7 @@ BOOL CDiagnosticItem::HasErrorCode(const CString& strErrCode, const BOOL /* = FA
 //          Class CDiagnosticLevel implemetation
 ///////////////////////////////////////////////////////////////////////////////
 //
+IMPLEMENT_DYNAMIC(CDiagnosticLevel, CDiagnosticItem)
 //---------------------------------------------------------------------------
 CDiagnosticLevel::CDiagnosticLevel(CDiagnosticLevel* pParent, const CString& strOpeningBanner, const BOOL& bTraceInEventViewer)
 	:
@@ -239,6 +241,18 @@ void CDiagnosticLevel::ToJson(CJsonSerializer& ser)
 {
 	if (m_arMessages.IsEmpty())
 		return;
+	
+	if (m_arMessages.GetCount() == 1)
+	{
+		//ho un solo figlio ed è un sottolivello: allora taglio il livello
+		CDiagnosticItem* pItem = (CDiagnosticItem*)m_arMessages.GetAt(0);
+		if (pItem->IsKindOf(RUNTIME_CLASS(CDiagnosticLevel)))
+		{
+			pItem->ToJson(ser);
+			return;
+		}
+
+	}
 	ser.OpenArray(_T("messages"));
 
 	CDiagnosticItem* pItem;
@@ -566,7 +580,19 @@ void CDiagnostic::EndSession(const CString& strClosingBanner /*_T("")*/)
 	}
 
 	m_pCurrLevel->EndSession(strClosingBanner);
+	CDiagnosticLevel* pOld = m_pCurrLevel;
 	m_pCurrLevel = m_pCurrLevel->m_pParent;
+	if (!pOld->HasMessages(CDiagnostic::Info, TRUE, TRUE))
+	{
+		for (int i = m_pCurrLevel->m_arMessages.GetUpperBound(); i>=0; i--)
+		{
+			if (m_pCurrLevel->m_arMessages[i] == pOld)
+			{
+				m_pCurrLevel->m_arMessages.RemoveAt(i);
+				delete pOld;
+			}
+		}
+	}
 }
 
 //------------------------------------------------------------------------------

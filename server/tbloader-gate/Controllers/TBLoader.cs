@@ -81,7 +81,7 @@ namespace Microarea.TbLoaderGate
 
                     bool newInstance;
                     TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
-                    if (tb == null || !tb.connected)
+                    if (tb == null || !tb.Connected)
                     {
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                         string json = JsonConvert.SerializeObject(res);
@@ -96,10 +96,10 @@ namespace Microarea.TbLoaderGate
 
                         if (jObject == null)
                             jObject = new JObject();
-                        if (jObject[TbLoaderName]?.Value<string>() != tb.name)
+                        if (jObject[TbLoaderName]?.Value<string>() != tb.Name)
                         {
-                            jObject[TbLoaderName] = tb.name;
-                            jObject[TbLoaderId] = tb.processId;
+                            jObject[TbLoaderName] = tb.Name;
+                            jObject[TbLoaderId] = tb.ProcessId;
                             HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
                             HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
                             

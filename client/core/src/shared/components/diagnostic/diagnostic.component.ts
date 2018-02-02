@@ -8,21 +8,12 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
     templateUrl: './diagnostic.component.html',
     styleUrls: ['./diagnostic.component.scss']
 })
-export class DiagnosticComponent extends TbComponent  {
+export class DiagnosticComponent {
 
     constructor(
-        public diagnosticService: DiagnosticService,
-        tbComponentService: TbComponentService,
-        changeDetectorRef: ChangeDetectorRef
-      ) { 
-        super(tbComponentService, changeDetectorRef);
-        this.enableLocalization();
-      }
+        public diagnosticService: DiagnosticService
+    ) {
 
-   
-
-    close() {
-        this.diagnosticService.resetDiagnostic();
     }
 
 }
