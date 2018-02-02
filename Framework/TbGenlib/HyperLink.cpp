@@ -49,7 +49,8 @@ CHyperLink::CHyperLink(CParsedCtrl* pCtrl)
 	m_bVisible			(TRUE),	// "visibile" in questo caso vuol dire che il suo control di riferimento
 								// è visibile, quindi se serve lui si deve mostrare
 	m_bAlwaysHidden		(FALSE),
-	m_pLinkedDocument	(NULL)
+	m_pLinkedDocument	(NULL),
+	m_hOldCursor		(NULL)
 {
 	ASSERT(pCtrl);
 	
@@ -209,12 +210,11 @@ void CHyperLink::DrawItem(LPDRAWITEMSTRUCT lpDIS)
 //-----------------------------------------------------------------------------
 void CHyperLink::OnLButtonUp (UINT, CPoint ptMousePos)
 {	
-	::SetCursor(m_hOldCursor );
-	ReleaseCapture();
 	m_bMouseInside = FALSE;
 	// attiva l'apertura del documento autoinviandosi un messaggio, in modo da fare finire le attività
 	// legate alla visualizzazione (cambio cursore, ecc.) per non rischiare di inceppare la perdita del fuoco 
 	PostMessage(WM_COMMAND, ID_FOLLOW_HYPERLINK);
+	ReleaseCapture();
 }
 
 //-----------------------------------------------------------------------------
@@ -480,9 +480,19 @@ void CHyperLink::OnMouseMove( UINT nFlags, CPoint point )
 		SetCapture();
 	}
 	else
-	{
-		::SetCursor(m_hOldCursor );
 		ReleaseCapture();
-	}
+}
+
+//----------------------------------------------------------------------------------------------
+BOOL CHyperLink::ReleaseCapture()
+{
+	if (::GetCapture() != GetSafeHwnd())
+		return FALSE;
+
+	if (m_hOldCursor)
+		::SetCursor(m_hOldCursor);
+
+	m_hOldCursor = NULL;
+	return ::ReleaseCapture();
 }
 
