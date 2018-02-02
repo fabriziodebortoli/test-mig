@@ -519,8 +519,8 @@ BOOL CTBProperty::OnEdit(LPPOINT lptClick)
 	{
 		if (m_pParsedCtrl && m_pParsedCtrl->GetHyperLink())
 		{
-			ReleaseCapture();
 			m_pParsedCtrl->GetHyperLink()->DoFollowHyperlink(m_pParsedCtrl->GetCtrlData());
+			ReleaseCapture();
 		}
 		else if (m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CLinkEdit)))
 		{
@@ -529,8 +529,8 @@ BOOL CTBProperty::OnEdit(LPPOINT lptClick)
 			{
 				CLinkEdit* pNsCtrl = (CLinkEdit*)m_pParsedCtrl->GetCtrlCWnd();
 				pNsCtrl->SetValue(pD->GetString());
-				ReleaseCapture();
 				pNsCtrl->OnBrowseLink();
+				ReleaseCapture();
 			}
 		}
 
@@ -874,7 +874,8 @@ CTBPropertyGrid::CTBPropertyGrid(const CString sName /*= _T("")*/)
 	m_pTBThemeManager(NULL),
 	m_pHyperlinkFont(NULL),
 	m_bLButtonDownHit(FALSE),
-	m_bDestroyingCompoents(FALSE)
+	m_bDestroyingCompoents(FALSE),
+	m_hOldCursor(NULL)
 {
 	m_pTBThemeManager = AfxGetThemeManager();
 }
@@ -936,6 +937,19 @@ void CTBPropertyGrid::RemoveAllComponents()
 	BeginDestroyingComponents();
 	RemoveAll();
 	EndDestroyingComponents();
+}
+
+//----------------------------------------------------------------------------------------------
+BOOL CTBPropertyGrid::ReleaseCapture()
+{
+	if (::GetCapture() != GetSafeHwnd())
+		return FALSE;
+
+	if (m_hOldCursor)
+		::SetCursor(m_hOldCursor);
+
+	m_hOldCursor = NULL;
+	return ::ReleaseCapture();
 }
 
 //-----------------------------------------------------------------------------
@@ -1040,12 +1054,11 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 		CRect rectScrollBar;
 		m_wndScrollVert.GetWindowRect(rectScrollBar);
 		ScreenToClient(rectScrollBar);
-		if (ptCursor.x >= rectScrollBar.left && ptCursor.x <= rectScrollBar.right &&
-			ptCursor.y >= rectScrollBar.top  && ptCursor.y <= rectScrollBar.bottom)
-		{
-			if (::GetCapture() == GetSafeHwnd())
-				ReleaseCapture();
-		}
+		if	(
+				ptCursor.x >= rectScrollBar.left && ptCursor.x <= rectScrollBar.right &&
+				ptCursor.y >= rectScrollBar.top  && ptCursor.y <= rectScrollBar.bottom
+			)
+			ReleaseCapture();
 
 		CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(ptCursor));
 		if (pProp)
@@ -1063,21 +1076,14 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 				int xCenter = ((CTBPropertyGrid*)pProp->m_pWndList)->m_rectList.left + ((CTBPropertyGrid*)pProp->m_pWndList)->m_nLeftColumnWidth;
 				if (ptCursor.x > xCenter)
 				{
-					::SetCursor(::LoadCursor(AfxFindResourceHandle(MAKEINTRESOURCE(IDC_TB_HAND), RT_GROUP_CURSOR), MAKEINTRESOURCE(IDC_TB_HAND)));
+					m_hOldCursor = ::SetCursor(::LoadCursor(AfxFindResourceHandle(MAKEINTRESOURCE(IDC_TB_HAND), RT_GROUP_CURSOR), MAKEINTRESOURCE(IDC_TB_HAND)));
 					SetCapture();
 				}
 				else
-				{
-					if (::GetCapture() == GetSafeHwnd())
-						ReleaseCapture();
-				}
+					ReleaseCapture();
 			}
 			else
-			{
-				if (::GetCapture() == GetSafeHwnd())
-					ReleaseCapture();
-
-			}
+				ReleaseCapture();
 	}
 
 	return GetParent()->PreTranslateMessage(pMsg) || __super::PreTranslateMessage(pMsg);
@@ -1176,6 +1182,8 @@ void CTBPropertyGrid::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 //-----------------------------------------------------------------------------
 void CTBPropertyGrid::OnLButtonDown(UINT nFlags, CPoint point)
 {
+//	ReleaseCapture();
+
 	if (!UpdateData(TRUE))
 		return;
 

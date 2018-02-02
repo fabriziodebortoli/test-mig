@@ -51,6 +51,11 @@ public:
 
 protected:
 	virtual void DrawItem(LPDRAWITEMSTRUCT lpDIS);
+
+private:
+	BOOL	ReleaseCapture();
+
+protected:
 	//{{AFX_MSG(CHyperLink)
 	afx_msg void OnLButtonUp 	(UINT nFlags, CPoint ptMousePos);
 	afx_msg void OnRButtonUp	(UINT nFlag, CPoint ptMousePos);
