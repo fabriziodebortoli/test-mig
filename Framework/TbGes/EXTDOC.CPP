@@ -3089,6 +3089,8 @@ void CAbstractFormDoc::ResumeUpdateDataView()
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
+	if (m_bClosing)
+		return;
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	if (m_nUpdateDataViewLevel > 0 && !bForce)

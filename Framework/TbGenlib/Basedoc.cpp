@@ -87,6 +87,7 @@ CBaseDocument::CBaseDocument()
 	:
 	m_FormMode				(NONE),
 	m_bAborted				(FALSE),
+	m_bClosing				(FALSE),
 	m_bRetryingLock			(FALSE),
 	m_bBatch				(FALSE),
 	m_bBatchRunning			(FALSE),
@@ -373,6 +374,9 @@ void CBaseDocument::OnCloseDocument()
 	//sono nel ciclo di lock: non posso uscire altrimenti mi schianterei
 	if (m_bRetryingLock)
 		return;
+	
+	m_bClosing = TRUE;//alcune operazioni in fase di chiusura non hanno più senso o sono dannose
+
 	// finché sono pilotato da un external controller non posso uscire
 	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
