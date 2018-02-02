@@ -74,5 +74,11 @@ Scaricare le **MicroareaExtension** per **VS2017** che si trovano online come da
 
 In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
 
+### (Solo per utenti Windows con IIS)[IIS URL Rewrite 2.1](https://www.iis.net/downloads/microsoft/url-rewrite)
+
+[Install extension](http://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=urlrewrite2)
+
+Scaricare ed installare il modulo aggiuntivo per IIS per URL Rewrite necessario al corretto funzionamento del sistema di routing Angular con IIS
+
 ### (Opzionale) [Visual Studio Code](http://code.visualstudio.com/) 
 Source code editor.
