@@ -336,6 +336,15 @@ BOOL CSmtpNet::SendMail
 		client = gcnew System::Net::Mail::SmtpClient(host, nPort);
 		
 		client->EnableSsl = params.GetUseExplicitSSL() ? true : false;
+		if (client->EnableSsl)
+		{
+			System::Net::ServicePointManager::SecurityProtocol =
+				System::Net::SecurityProtocolType::Ssl3 |
+				System::Net::SecurityProtocolType::Tls |
+				System::Net::SecurityProtocolType::Tls11 | 
+				System::Net::SecurityProtocolType::Tls12;
+		}
+
 		client->Timeout = params.GetTimeout();
 
 		CString sName = params.GetUserName();
