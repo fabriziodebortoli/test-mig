@@ -283,13 +283,17 @@ public:
 class TB_EXPORT ExpParse
 {
 private:
-	CStopTokens*	m_pStopTokens;
-	SymTable*		m_pSymTable;
+	CStopTokens*	m_pStopTokens = NULL;
+	SymTable*		m_pSymTable = NULL;
 	CString			m_strStringParsed;
 
-	BOOL			m_bHasExternalFunctionCall;
-	BOOL			m_bHasRuleFields;
-	BOOL			m_bHasDynamicFragment;	//ContentOf(...), {EVAL <sub-expr> }
+	BOOL			m_bHasFields = FALSE;
+	BOOL			m_bHasRuleFields = FALSE;
+	BOOL			m_bHasInputFields = FALSE;
+	BOOL			m_bHasAskFields = FALSE;
+
+	BOOL			m_bHasExternalFunctionCall = FALSE;
+	BOOL			m_bHasDynamicFragment = FALSE;	//ContentOf(...), {EVAL <sub-expr> }
 public:
 	BOOL			m_bWClause = FALSE;
 public:
@@ -298,8 +302,11 @@ public:
 	BOOL		Parse		(Parser&, Stack&, BOOL bKeepString = FALSE);
 	CString		GetString	();
 
+	BOOL		HasFields			() const { return m_bHasFields; }
+	BOOL		HasRuleFields		() const { return m_bHasRuleFields; }
+	BOOL		HasInputFields		() const { return m_bHasInputFields; }
+	BOOL		HasAskFields		() const { return m_bHasAskFields; }
 	BOOL		HasExternalFunctionCall	() const { return m_bHasExternalFunctionCall; }
-	BOOL		HasRuleFields			() const { return m_bHasRuleFields; }
 	BOOL		HasDynamicFragment		() const { return m_bHasDynamicFragment; }
 
 	static BOOL	CompareStack(const Stack&, const Stack&);
