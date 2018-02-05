@@ -21,6 +21,14 @@ namespace Microarea.Menu.Controllers
 
         }
 
+        [Route("DeleteDatainDB")]
+        //-----------------------------------------------------------------------
+        public void DeleteDatainDB(string istance)
+        {
+            MetaDataManagerTool metadata = new MetaDataManagerTool(istance);
+            metadata.DeleteAllStandardMetaDataInFS();
+
+        }
         [Route("DeleteDatainDBByIstance")]
         //-----------------------------------------------------------------------
         public void DeleteDatainDBByIstance(string istance)

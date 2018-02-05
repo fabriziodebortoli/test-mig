@@ -75,7 +75,15 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public bool SaveBinaryFile( string sFileName, byte[] sBinaryContent, int nLen)
         {
-            return true;
+            try
+            {
+                File.WriteAllBytes(sFileName, sBinaryContent);
+                return true;
+            }
+            catch (Exception exx)
+            {
+                return false;
+            }
         }
 
         ////-----------------------------------------------------------------------
