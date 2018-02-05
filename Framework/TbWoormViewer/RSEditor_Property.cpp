@@ -4233,7 +4233,7 @@ void CRS_ObjectPropertyView::InsertColumnBlock(CBCGPProp* father, CBCGPProp* cal
 
 	for (int i = 0; i < pTC->m_arSortedColumns.GetSize(); i++)
 	{
-		const SqlColumnInfo* pSqlColumnInfo = dynamic_cast<const SqlColumnInfo*>(pTC->m_arSortedColumns.GetAt(i));
+		const SqlColumnInfo* pSqlColumnInfo =  (SqlColumnInfo*)(pTC->m_arSortedColumns.GetAt(i));
 		ASSERT_VALID(pSqlColumnInfo);
 		if (!pSqlColumnInfo)
 			continue;
@@ -4429,7 +4429,7 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 			return;
 		}	
 
-		const SqlColumnInfo* currentColumn = dynamic_cast<const SqlColumnInfo*>((CObject*)propVarName->GetData());
+		const SqlColumnInfo* currentColumn = (SqlColumnInfo*)((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
 
 		// new DataType
@@ -23881,7 +23881,7 @@ void CRS_ObjectPropertyView::CreateNewJoinTable()
 			return;
 		}
 
-		const SqlColumnInfo* currentColumn = dynamic_cast<const SqlColumnInfo*>((CObject*)propVarName->GetData());
+		const SqlColumnInfo* currentColumn = (SqlColumnInfo*)((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
 
 		// new DataType

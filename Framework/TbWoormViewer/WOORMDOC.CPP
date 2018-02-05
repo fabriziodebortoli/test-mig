@@ -14521,7 +14521,7 @@ TblRuleData* CWoormDocMng::AddDBColumns_GetOrCreateTblRule(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 WoormField* CWoormDocMng::AddDBColumns_CreateField(CNodeTree* pNode, TblRuleData* pTblRule, int idxTable)
 {
-	SqlColumnInfo* pColumn = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+	SqlColumnInfo* pColumn = (SqlColumnInfo*)(pNode->m_pItemData);
 
 	return AddDBColumns_CreateField(pColumn, pTblRule, idxTable);
 }

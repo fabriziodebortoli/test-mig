@@ -235,18 +235,18 @@ namespace Microarea.TbJson
                 case CommandCategory.Search:
                 case CommandCategory.Radar:
                 case CommandCategory.Navigation:
-                case CommandCategory.Advanced:
                 case CommandCategory.Tools:
                 case CommandCategory.Edit:
                 case CommandCategory.Exit:
-                    return Constants.tbToolbarTopButton;
-                case CommandCategory.Print:
-                //case CommandCategory.Edit:
-                case CommandCategory.Undefined:
-                case CommandCategory.Fab:
+				case CommandCategory.Advanced:
+					return Constants.tbToolbarTopButton;
+				case CommandCategory.Print:
+					return Constants.tbToolbarBottomButton;
+				case CommandCategory.Fab:
+				case CommandCategory.Undefined:
                 default:
-                    return Constants.tbToolbarBottomButton;
-            }
+					return Constants.tbFloatingActionButton;
+			}
         }
 
 
@@ -387,6 +387,7 @@ namespace Microarea.TbJson
                 "ID_EXTDOC_DELETE",
 
                 "ID_EXTDOC_REFRESH_ROWSET",
+				//"_BUTTONGROUPADVANCED",
                 "ID_EXTDOC_EXIT"
             }.ToList();
         /// <summary>

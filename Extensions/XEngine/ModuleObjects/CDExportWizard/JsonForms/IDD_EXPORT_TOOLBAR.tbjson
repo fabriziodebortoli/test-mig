@@ -1,14 +1,15 @@
 ﻿{
 	"id": "ID_EXTDOC_TOOLBAR_TOOLS",
 	"items": [
-		{
-			"hint": "XML export",
-			"icon": "Framework.TbFrameworkImages.Images.25x25.ExportXml.png",
-			"id": "ID_EXTDOC_EXPORT_XML_DATA",
-			"name": "ExportXml",
-			"text": "Export",
-			"type": 15 /*ToolbarButton*/
-		}
+    {
+      "hint": "XML export",
+      "icon": "Framework.TbFrameworkImages.Images.25x25.ExportXml.png",
+      "id": "ID_EXTDOC_EXPORT_XML_DATA",
+      "name": "ExportXml",
+      "text": "Export",
+      "type": 15, /*ToolbarButton*/
+      "category": 6
+    }
 	],
 	"name": "Tools",
 	"type": 14 /*Toolbar*/

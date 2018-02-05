@@ -1325,7 +1325,7 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 	}
 	else if (eType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO)
 	{
-		const SqlColumnInfo* pCol = dynamic_cast<const SqlColumnInfo*>(pItem);
+		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pItem);
 		if (pCol->m_bSpecial)
 			nImage = CRSTreeCtrlImgIdx::PrimaryKey;
 	}
@@ -4198,7 +4198,7 @@ void CRSTreeCtrl::FillColumns(CHelperSqlCatalog::CTableColumns* pTC, HTREEITEM h
 	ASSERT_VALID(pTC);
 	for (int c = 0; c < pTC->m_arSortedColumns.GetSize(); c++)
 	{
-		SqlColumnInfo* pCol = dynamic_cast<SqlColumnInfo*>(pTC->m_arSortedColumns.GetAt(c));
+		SqlColumnInfo* pCol = (SqlColumnInfo*)(pTC->m_arSortedColumns.GetAt(c));
 		BOOL bLinked = FALSE;
 		if (parLinks)
 		{
@@ -6647,7 +6647,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfo* pCol = dynamic_cast<const SqlColumnInfo*>(pNode->m_pItemData);
+		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pNode->m_pItemData);
 		if (pCol)
 		{
 			CString sNameTrad = pCol->GetColumnTitle();
@@ -9165,7 +9165,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 						{
 							goto l_after_join;
 						}
-						SqlColumnInfo* pColInfo = dynamic_cast<SqlColumnInfo*>(pTargetTC->m_arSortedColumns[idx]);
+						SqlColumnInfo* pColInfo = (SqlColumnInfo*)(pTargetTC->m_arSortedColumns[idx]);
 						if (!pColInfo)
 						{
 							goto l_after_join;
@@ -9216,7 +9216,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 				{
 					goto l_after_join;
 				}
-				SqlColumnInfo* pColInfo = dynamic_cast<SqlColumnInfo*>(pTargetTC->m_arSortedColumns[idx]);
+				SqlColumnInfo* pColInfo = (SqlColumnInfo*)(pTargetTC->m_arSortedColumns[idx]);
 				if (!pColInfo)
 				{
 					goto l_after_join;
@@ -10829,7 +10829,7 @@ void CRSToolBoxDBView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfo* pCol = dynamic_cast<const SqlColumnInfo*>(pNode->m_pItemData);
+		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pNode->m_pItemData);
 		CString sNameTrad = pCol->GetColumnTitle();
 		CString	strBuffer(pCol->GetDataObjType().ToString());
 		strBuffer += cwsprintf(_T("( %d"), pCol->GetColumnLength());

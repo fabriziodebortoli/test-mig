@@ -15,7 +15,11 @@
         internal const string tbToolbarTopButton = "tb-toolbar-top-button";
         internal const string tbToolbarBottomButton = "tb-toolbar-bottom-button";
         internal const string tbToolbarSeparator = "tb-toolbar-separator";
-        internal const string tbView = "tb-view";
+		internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";
+		internal const string tbToolbarTopButtonDropDown = "tb-toolbar-top-button-dropdown";
+		internal const string tbFloatingActionMenu = "tb-floating-action-menu";
+		internal const string tbFloatingActionButton = "tb-floating-action-button";
+		internal const string tbView = "tb-view";
         internal const string tbViewContainer = "tb-view-container";
         internal const string tbDockPane = "tb-dockpane";
         internal const string tbDockPaneContainer = "tb-dockpane-container";
@@ -41,7 +45,8 @@
         internal const string tbPropertyGrid = "tb-property-grid";
         internal const string tbPropertyGridItem = "tb-property-grid-item";
         internal const string tbPropertyGridItemGroup = "tb-property-grid-item-group";
-        internal const string caption = "caption";
+
+		internal const string caption = "caption";
         internal const string title = "title";
         internal const string active = "active";
         internal const string columnType = "columnType";
