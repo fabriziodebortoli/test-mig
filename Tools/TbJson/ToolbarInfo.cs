@@ -38,19 +38,8 @@ namespace Microarea.TbJson
             string group = GetToolbarButtonGroup(btn.GetCommandCategory());
             JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
             JArray jItems = jButton.GetItems(true);
-				JObject jDDGroup = GetItemByTag(jCat.GetItems(true), Constants.tbToolbarTopButtonDropDown, "");
-				jItems = jDDGroup.GetItems(true);
-				if (jItems.Find(btn.GetId()) == null)
-				{
-					btn[Constants.ngClass] = "dropDownButton";
-					jItems.Add(btn);
-				}
-				return;
-			}
-
-			jItems = jCat.GetItems(true);
             if (jItems.Find(btn.GetId()) == null)
-				jItems.Add(btn);
+                jItems.Add(btn);
         }
 
         private static string GetToolbarButtonGroup(CommandCategory cat)
@@ -78,13 +67,12 @@ namespace Microarea.TbJson
                     return Constants.tbToolbarTop;
                 case CommandCategory.Print:
 				case CommandCategory.File:
-					return Constants.tbToolbarBottom;
-				case CommandCategory.Undefined:
-				case CommandCategory.Fab:
-				default:
-					return Constants.tbFloatingActionMenu;
-
-			}
+                    return Constants.tbToolbarBottom;
+                case CommandCategory.Undefined:
+                case CommandCategory.Fab:
+                default:
+                    return Constants.tbFloatingActionMenu;
+            }
         }
 
         static private string GetToolbarInnerSectionClass(CommandCategory cat)
@@ -94,19 +82,18 @@ namespace Microarea.TbJson
                 case CommandCategory.Search:
                 case CommandCategory.Navigation:
                 case CommandCategory.Edit:
-				return "toolbar-menu";
-				case CommandCategory.Advanced:
-				case CommandCategory.Exit:
+                    return "toolbar-menu";
+                case CommandCategory.Exit:
                 case CommandCategory.Advanced:
-					return "toolbar-right";
-				case CommandCategory.Fab:
-				case CommandCategory.Radar:
+                    return "toolbar-right";
+                case CommandCategory.Fab:
+                case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
 				case CommandCategory.File:
-				case CommandCategory.Undefined:
+                case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "toolbar-undefined";
             }
         }
         static private string GetToolbarCategoryClass(CommandCategory cat)
@@ -119,11 +106,9 @@ namespace Microarea.TbJson
                     return "menu-category navigation";
                 case CommandCategory.Edit:
                     return "menu-category edit";
- 				case CommandCategory.Advanced:
-					return "menu-category advanced";
-				case CommandCategory.Exit:
-					return "menu-category exit";
-				case CommandCategory.Fab:
+                case CommandCategory.Exit:
+                    return "menu-category exit";
+                case CommandCategory.Fab:
                 case CommandCategory.Advanced:
                     return "menu-category advanced";
                 case CommandCategory.Radar:
@@ -132,7 +117,7 @@ namespace Microarea.TbJson
 				case CommandCategory.File:
 				case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "menu-category undefined";
             }
         }
     }
