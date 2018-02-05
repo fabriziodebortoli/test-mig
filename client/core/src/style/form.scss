@@ -64,6 +64,7 @@ tb-caption label {
 .k-picker-wrap .k-input,
 .k-numeric-wrap .k-input {
     width: 100%;
+    height: 28px;
     background: #ffffde;
 }
 
@@ -84,7 +85,7 @@ tb-caption label {
 }
 
 .tb-checkbox {
-    height: calc(1.42857em + (4px * 2) + (1px * 2));
+    height: 28px;
 }
 
 .k-checkbox-label,
@@ -101,4 +102,15 @@ tb-caption label {
     margin: 0 8px 8px 8px;
     padding: 5px;
     border-radius: 3px;
+}
+
+.k-button-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+}
+
+#anchor>.k-button-icon {
+    margin-left: -2px;
 }
