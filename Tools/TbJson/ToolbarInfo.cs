@@ -65,6 +65,7 @@ namespace Microarea.TbJson
                 case CommandCategory.Exit:
                     return Constants.tbToolbarTop;
                 case CommandCategory.Print:
+				case CommandCategory.File:
 					return Constants.tbToolbarBottom;
 				case CommandCategory.Undefined:
 				case CommandCategory.Fab:
@@ -89,6 +90,7 @@ namespace Microarea.TbJson
 				case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
+				case CommandCategory.File:
 				case CommandCategory.Undefined:
                 default:
                     return "";
@@ -112,7 +114,8 @@ namespace Microarea.TbJson
 				case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
-                case CommandCategory.Undefined:
+				case CommandCategory.File:
+				case CommandCategory.Undefined:
                 default:
                     return "";
             }

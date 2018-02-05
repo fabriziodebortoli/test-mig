@@ -98,7 +98,7 @@
           "name": "Save",
           "text": "Save",
           "type": 15 /*ToolbarButton*/,
-          "category": 1 /*Edit*/
+          "category": 10 /*File*/
         },
         {
           "hint": "Quit current editing",
@@ -107,7 +107,7 @@
           "name": "Escape",
           "text": "Undo Changes",
           "type": 15 /*ToolbarButton*/,
-          "category": 1 /*Edit*/
+          "category": 10 /*File*/
         },
         {
           "hint": "Create new document",
@@ -176,7 +176,7 @@
           "name": "Save",
           "text": "Save",
           "type": 15 /*ToolbarButton*/,
-          "category": 1 /*Edit*/
+          "category": 10 /*File*/
         },
         {
           "hint": "Quit current editing",
@@ -185,7 +185,7 @@
           "name": "Escape",
           "text": "Undo Changes",
           "type": 15 /*ToolbarButton*/,
-          "category": 1 /*Edit*/
+          "category": 10 /*File*/
         },
         {
           "hint": "Refresh data from company database",
