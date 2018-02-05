@@ -219,10 +219,6 @@ Expression::Expression(SymTable* pSymTable)
 	m_pStopTokens	(NULL),
 	m_nErrorPos		(-1),
 	m_nErrorID		(EMPTY_MESSAGE),
-	m_bVrbCompiled	(FALSE),
-	m_bHasExternalFunctionCall (FALSE),
-	m_bHasRuleFields (FALSE),
-	m_bHasDynamicFragment (FALSE),
 	m_nParseStartLine	(0)
 {}
 
@@ -234,10 +230,6 @@ Expression::Expression(const Expression& aExp)
 	m_pStopTokens	(NULL),
 	m_nErrorPos		(-1),
 	m_nErrorID		(EMPTY_MESSAGE),
-	m_bVrbCompiled	(FALSE),
-	m_bHasExternalFunctionCall (FALSE),
-	m_bHasRuleFields (FALSE),
-	m_bHasDynamicFragment(FALSE),
 	m_nParseStartLine	(0) 
 { 
 	Assign(aExp);
@@ -508,9 +500,12 @@ void Expression::Assign(const Expression& aExp)
 	m_nErrorID	= EMPTY_MESSAGE;
 	m_sErrorDetail.Empty();
 
-	m_bVrbCompiled				= aExp.m_bVrbCompiled;
+	m_bVrbCompiled			= aExp.m_bVrbCompiled;
+	m_bHasFields			= aExp.m_bHasFields;
+	m_bHasRuleFields		= aExp.m_bHasRuleFields;
+	m_bHasInputFields		= aExp.m_bHasInputFields;
+	m_bHasAskFields			= aExp.m_bHasAskFields;
 	m_bHasExternalFunctionCall	= aExp.m_bHasExternalFunctionCall;
-	m_bHasRuleFields			= aExp.m_bHasRuleFields;
 	m_bHasDynamicFragment		= aExp.m_bHasDynamicFragment;
 }
 
@@ -842,8 +837,11 @@ BOOL Expression::Parse(Parser& lex, const DataType& aResultType, BOOL bKeepStrin
 			lex.ConcatAuditString(sAudit);
 	}
 
-	m_bHasExternalFunctionCall	= expParse.HasExternalFunctionCall();
+	m_bHasFields				= expParse.HasFields();
 	m_bHasRuleFields			= expParse.HasRuleFields();
+	m_bHasInputFields			= expParse.HasInputFields();
+	m_bHasAskFields				= expParse.HasAskFields();
+	m_bHasExternalFunctionCall	= expParse.HasExternalFunctionCall();
 	m_bHasDynamicFragment		= expParse.HasDynamicFragment();
 
 	m_strExprString.Empty();

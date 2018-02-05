@@ -1546,8 +1546,20 @@ void ExpParse::Factor(Parser& lex, Stack& exprStack)
 						pField->IncRefCount();
 						m_pSymTable->TraceFieldsUsed(pField->GetName());
 
+						this->m_bHasFields = TRUE;
 						if (pField->IsRuleField())
+						{
 							this->m_bHasRuleFields = TRUE;
+						}
+						else if (pField->IsAsk())
+						{
+							this->m_bHasInputFields = TRUE;
+							this->m_bHasAskFields = TRUE;
+						}
+						else if (pField->IsInput())
+						{
+							this->m_bHasInputFields = TRUE;
+						}
 					}
 					else 
 					{
