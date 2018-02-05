@@ -163,6 +163,12 @@ void CDiagnosticItem::ToJson(CJsonSerializer& ser)
 	ser.WriteString(_T("text"), GetMessageText());
 	ser.WriteInt(_T("type"), GetType());
 }
+//---------------------------------------------------------------------------
+void CDiagnosticItem::PurgeEmptyItems()
+{
+	
+}
+
 //-----------------------------------------------------------------------------
 BOOL CDiagnosticItem::HasMessages(CDiagnostic::MsgType aType, const BOOL bAnyType /*FALSE*/, const BOOL bIncludeChildLevels /*FALSE*/) const
 {
@@ -232,6 +238,23 @@ void CDiagnosticLevel::Clear()
 		{
 			delete pItem;
 			m_arMessages.RemoveAt(i);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+void CDiagnosticLevel::PurgeEmptyItems()
+{
+	if (m_arMessages.IsEmpty())
+		return;
+	CDiagnosticItem* pItem;
+	for (int i = m_arMessages.GetUpperBound(); i >= 0; i--)
+	{
+		pItem = (CDiagnosticItem*)m_arMessages.GetAt(i);
+		pItem->PurgeEmptyItems();
+		if (!pItem->HasMessages(CDiagnostic::Info, TRUE, TRUE))
+		{
+			m_arMessages.RemoveAt(i);
+			delete pItem;
 		}
 	}
 }
@@ -858,6 +881,7 @@ void CDiagnostic::ToStringArray(CStringArray& arMessages, BOOL bAddLFToMessage /
 //------------------------------------------------------------------------------
 void CDiagnostic::ToJson(CJsonSerializer& ser)
 {
+	m_pStartingLevel->PurgeEmptyItems();
 	m_pStartingLevel->ToJson(ser);
 
 }

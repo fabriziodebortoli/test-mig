@@ -526,9 +526,12 @@ void CTbWebHandler::GetApplicationDateFunction(const CString& path, const CNameV
 
 }
 
+
 //--------------------------------------------------------------------------------
 void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
+	//temporaneamente metto lo stato in unattended per evitare message box
+	SwitchTemporarilyMode tmp(UNATTENDED);
 	response.SetMimeType(L"application/json");
 	CJSonResponse jsonResponse;
 	if (AfxGetLoginThread()->GetOpenDocuments() > 0)
@@ -557,6 +560,13 @@ void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNa
 	}
 
 	AfxSetApplicationDate(date);
+
+	//travaso eventuali messaggi (ad es. esercizio non definito)
+	CDiagnostic* pDiagnostic = AfxGetDiagnostic();
+	if (pDiagnostic->MessageFound(TRUE))
+		pDiagnostic->ToJson(jsonResponse);
+	pDiagnostic->ClearMessages(TRUE);
+
 	//ChangeOperationsDate();
 	jsonResponse.SetOK();
 	response.SetData(jsonResponse.GetJson());
