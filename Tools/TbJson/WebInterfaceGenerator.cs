@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Xml;
+using System.Diagnostics;
 using Microarea.TbJson.Exceptions;
 using Microarea.TbJson.Properties;
 using Microarea.TbJson.Utils;
@@ -27,6 +28,8 @@ namespace Microarea.TbJson
         private readonly JsonParser parser = new JsonParser();
         private readonly Dictionary<string, string> iconsConversionDictionary = new Dictionary<string, string>();
         private Dictionary<string, JToken> constants = new Dictionary<string, JToken>();
+        private Dictionary<string, string> strContextMenuIdTest = new Dictionary<string, string>();
+
         //-----------------------------------------------------------------------------------------
         public WebInterfaceGenerator()
         {
@@ -1551,27 +1554,51 @@ namespace Microarea.TbJson
                    ]
                }*/
                 var strContextMenu = $"cm_{cmpId}";
-
-                htmlWriter.WriteAttribute(Square(Constants.contextMenu), strContextMenu);
-
-                toAppendToDeclaration.AppendLine();
-                toAppendToDeclaration.AppendLine($"public {strContextMenu} = [");
-                bool needComma = false;
-                foreach (var menuItem in jItem.GetItems())
+                if (!toAppendToDeclaration.ToString().Contains(strContextMenu))
                 {
-                    if (menuItem.GetWndObjType() != WndObjType.MenuItem)
-                        continue;
-                    if (needComma)
-                        toAppendToDeclaration.AppendLine(",");
-                    else
-                        needComma = true;
-                    string id = menuItem.GetId();
-                    string text = menuItem.GetLocalizableString(Constants.text);
-                    
-                    toAppendToDeclaration.Append($"new ContextMenuItem(this.{text}, '{id}')");
+                    htmlWriter.WriteAttribute(Square(Constants.contextMenu), strContextMenu);
+
+                    toAppendToDeclaration.AppendLine();
+                    toAppendToDeclaration.AppendLine($"public {strContextMenu} = [");
+                    bool needComma = false;
+                    foreach (var menuItem in jItem.GetItems())
+                    {
+                        if (menuItem.GetWndObjType() != WndObjType.MenuItem)
+                            continue;
+                        if (needComma)
+                            toAppendToDeclaration.AppendLine(",");
+                        else
+                            needComma = true;
+                        string id = menuItem.GetId();
+                        string text = menuItem.GetLocalizableString(Constants.text);
+
+                        strContextMenuIdTest.Add(strContextMenu,id);
+
+                        toAppendToDeclaration.Append($"new ContextMenuItem(this.{text}, '{id}')");
+                    }
+                    toAppendToDeclaration.AppendLine();
+                    toAppendToDeclaration.AppendLine($"];");
                 }
-                toAppendToDeclaration.AppendLine();
-                toAppendToDeclaration.AppendLine($"];");
+                else
+                {
+                    if (strContextMenuIdTest.ContainsKey(strContextMenu))
+                    {
+                        string strValID = strContextMenuIdTest[strContextMenu];
+                        bool needComma = false;
+                        foreach (var menuItem in jItem.GetItems())
+                        {
+                            if (menuItem.GetWndObjType() != WndObjType.MenuItem)
+                                continue;
+                            if (!needComma)
+                                needComma = true;
+                            string id = menuItem.GetId();
+
+                            Debug.Assert(id.CompareTo(strValID) == 0,  "ID duplucate: " + id);
+
+                        }
+
+                    }
+                }
             }
            
         }
