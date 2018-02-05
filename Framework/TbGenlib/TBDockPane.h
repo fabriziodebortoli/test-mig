@@ -175,6 +175,9 @@ public:
 	
 	virtual void Slide(BOOL bSlideOut, BOOL bUseTimer = TRUE);
 	virtual void GetMinSize(CSize& size) const;
+	
+	virtual void OnTabAdded(UINT nTabID);
+
 	virtual CBCGPAutoHideToolBar* SetAutoHideMode(BOOL bMode, DWORD dwAlignment, CBCGPAutoHideToolBar* pCurrAutoHideBar = NULL, BOOL bUseTimer = TRUE);
 	void InitialUpdate();
 protected:
