@@ -236,20 +236,21 @@
         </tb-dockpane-container>
     </tb-frame-content>
     <tb-toolbar-bottom>
-        <!-- <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_IMPORT_XML_DATA?.enabled" icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXPORT_XML_DATA?.enabled" icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-toolbar-bottom-button> -->
-        <!-- <tb-toolbar-bottom-button [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="false" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button> -->
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')"  class="toolbar-bottom">
+        <tb-toolbar-bottom-button *ngIf="!hideID_EXTDOC_REPORT" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_FORM_EDITOR_EDIT" icon="tbs-easybuilder" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_EXTDOC_IMPORT_XML_DATA" icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_EXTDOC_EXPORT_XML_DATA" icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_COPY_DOCUMENT" icon="tb-copy" [caption]="_TB('Copy')" cmpId="ID_COPY_DOCUMENT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_DOCUMENT_SENDEMAIL" icon="tb-mail" [caption]="_TB('Send Email')" cmpId="ID_DOCUMENT_SENDEMAIL"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_DOCUMENT_SENDPOSTALITE" icon="tb-mail" [caption]="_TB('Send via PostaLite')" cmpId="ID_DOCUMENT_SENDPOSTALITE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_AMTEXPDETAILDOC_ITEMS" icon="erp-importline" [caption]="_TB('Import')" cmpId="ID_AMTEXPDETAILDOC_ITEMS"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_CASH_AND_CARRY_IMPORT_FROM_MOBILE" icon="erp-mobile" [caption]="_TB('Import Items From Mobile')" cmpId="ID_CASH_AND_CARRY_IMPORT_FROM_MOBILE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_BARCODE_SCANNER_FORM" icon="erp-scanbarcode" [caption]="_TB('Barcode Manager')" cmpId="ID_BARCODE_SCANNER_FORM"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_INVOICE_DOC_LOAD_DOCUMENT" icon="erp-loaddocument" [caption]="_TB('Load')" cmpId="ID_INVOICE_DOC_LOAD_DOCUMENT"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_INVOICE_DOC_ACTIONS" icon="tb-execute" [caption]="_TB('Actions')" cmpId="ID_INVOICE_DOC_ACTIONS"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="!hideID_SELECTSUMMARYLT_BARCODE" icon="erp-barcode" [caption]="_TB('Barcode')" cmpId="ID_SELECTSUMMARYLT_BARCODE"></tb-toolbar-bottom-button>
+        <tb-toolbar-bottom-button *ngIf="eventData?.activation?.ID_SELECTSUMMARYLT_CODCUSTSUPP" icon="erp-custsupp" [caption]="_TB('Item as...')" cmpId="ID_SELECTSUMMARYLT_CODCUSTSUPP"></tb-toolbar-bottom-button>
+        <!-- <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')"  class="toolbar-bottom">
             <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Export as PNG')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button class="dropUpButton" [disabled]="false" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button [caption]="_TB('Export as PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
@@ -257,7 +258,7 @@
             <tb-toolbar-bottom-button [caption]="_TB('Export as PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button *ngIf="!runReport" [caption]="_TB('Export as Excel')" (click)="setExportFile(rsExportService.excel)" class="dropUpButton"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button [caption]="_TB('Export as DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
-        </tb-toolbar-bottom-button-dropup>
+        </tb-toolbar-bottom-button-dropup> -->
      
     </tb-toolbar-bottom>
    
