@@ -145,5 +145,6 @@
         internal const string div= "div";
 
         internal const string propagateSelectionChange = "propagateSelectionChange";
+        internal const string tbToolbarTopDropdown = "tb-toolbar-top-button-dropdown";
     }
 }

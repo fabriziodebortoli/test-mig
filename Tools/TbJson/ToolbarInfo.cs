@@ -35,9 +35,9 @@ namespace Microarea.TbJson
             JObject jOuter = GetItemByTag(items, GetToolbarOuterSection(btn.GetCommandCategory()), "");
             JObject jInner = GetItemByTag(jOuter.GetItems(true), Constants.div, GetToolbarInnerSectionClass(btn.GetCommandCategory()));
             JObject jCat = GetItemByTag(jInner.GetItems(true), Constants.div, GetToolbarCategoryClass(btn.GetCommandCategory()));
-			JArray jItems;
-			if (btn.GetCommandCategory() == CommandCategory.Advanced)
-			{
+            string group = GetToolbarButtonGroup(btn.GetCommandCategory());
+            JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
+            JArray jItems = jButton.GetItems(true);
 				JObject jDDGroup = GetItemByTag(jCat.GetItems(true), Constants.tbToolbarTopButtonDropDown, "");
 				jItems = jDDGroup.GetItems(true);
 				if (jItems.Find(btn.GetId()) == null)
@@ -52,6 +52,18 @@ namespace Microarea.TbJson
             if (jItems.Find(btn.GetId()) == null)
 				jItems.Add(btn);
         }
+
+        private static string GetToolbarButtonGroup(CommandCategory cat)
+        {
+            switch (cat)
+            {
+                case CommandCategory.Advanced:
+                    return Constants.tbToolbarTopDropdown;
+                default:
+                    return "";
+            }
+        }
+
         static private string GetToolbarOuterSection(CommandCategory cat)
         {
             switch (cat)
@@ -85,6 +97,7 @@ namespace Microarea.TbJson
 				return "toolbar-menu";
 				case CommandCategory.Advanced:
 				case CommandCategory.Exit:
+                case CommandCategory.Advanced:
 					return "toolbar-right";
 				case CommandCategory.Fab:
 				case CommandCategory.Radar:
@@ -111,7 +124,9 @@ namespace Microarea.TbJson
 				case CommandCategory.Exit:
 					return "menu-category exit";
 				case CommandCategory.Fab:
-				case CommandCategory.Radar:
+                case CommandCategory.Advanced:
+                    return "menu-category advanced";
+                case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
 				case CommandCategory.File:
