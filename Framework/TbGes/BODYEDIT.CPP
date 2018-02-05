@@ -678,7 +678,7 @@ CBodyEdit::CBodyEdit(const CString sName)
 
 	m_pProcessingMouse = new CriticalArea;
 
-	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(3), szTbDefaultSettingFileName);
+	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(0), szTbDefaultSettingFileName);
 	m_bAllowColumnHeaderSmallFont = pS ? *((DataInt*)pS) > 0 : FALSE;
 
 	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAddBodyeditColumnHeaderExtraSpace, DataBool(FALSE), szTbDefaultSettingFileName);
