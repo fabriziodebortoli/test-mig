@@ -88,6 +88,7 @@ namespace Microarea.TbJson
             modelStructure.Clear();
             toAppendToDefinition.Clear();
             toAppendToDeclaration.Clear();
+            strContextMenuIdTest.Clear();
 
             if (!parser.ExtractPathInfo(tbJsonFile, out string standardFolder, out string app, out string mod, out string container, out string name))
             {
