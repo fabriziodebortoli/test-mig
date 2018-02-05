@@ -958,13 +958,25 @@ PathFinderWrapper::PathFinderWrapper()
 }
 
 //-----------------------------------------------------------------------------
+System::String^ PathFinderWrapper::GetEasyStudioReferenceAssembliesPath()
+{
+	return gcnew String(AfxGetPathFinder()->GetEasyStudioReferencedAssembliesPath());
+}
+
+//-----------------------------------------------------------------------------
+System::String^ PathFinderWrapper::GetEasyStudioEnumsAssemblyName()
+{
+	return gcnew String(AfxGetPathFinder()->GetEasyStudioEnumsAssemblyName());
+}
+
+//-----------------------------------------------------------------------------
 System::String^ PathFinderWrapper::GetEasyStudioCustomizationsPath()
 {
 	return gcnew System::String(AfxGetPathFinder()->GetEasyStudioCustomizationsPath());
 }
 
 //-----------------------------------------------------------------------------
-System::String^ PathFinderWrapper::GetTemplatesPath(bool inCustom)
+System::String^ PathFinderWrapper::GetTemplatesPath(bool inCustom, bool createDir)
 {
 	return gcnew System::String
 	(
@@ -972,7 +984,7 @@ System::String^ PathFinderWrapper::GetTemplatesPath(bool inCustom)
 		(
 			CTBNamespace(_T("Module.Extensions.EasyStudio")), 
 			inCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD,
-			inCustom
+			createDir
 		)
 	);
 }

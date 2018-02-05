@@ -170,7 +170,7 @@ namespace Microarea.EasyBuilder.UI
 
 				try
 				{
-					string referencesPath = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
+					string referencesPath = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
 					if (Directory.Exists(referencesPath))
 					{
 						//prima cancello da file system quelli che ho rimosso
@@ -179,12 +179,14 @@ namespace Microarea.EasyBuilder.UI
 							string name = Path.GetFileName(file);
 							if (!ExistAssembly(name))
 							{
-								//File.Delete(file);
-								BaseCustomizationContext
-									.CustomizationContextInstance
-									.CurrentEasyBuilderApp
-									.EasyBuilderAppFileListManager
-									.RemoveFromCustomListAndFromFileSystem(file);
+                                if (BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp != null)
+                                    BaseCustomizationContext
+                                        .CustomizationContextInstance
+                                        .CurrentEasyBuilderApp
+                                        .EasyBuilderAppFileListManager
+                                        .RemoveFromCustomListAndFromFileSystem(file);
+                                else
+                                    File.Delete(file);
 								referencesChanged = true;
 							}
 						}
@@ -230,11 +232,11 @@ namespace Microarea.EasyBuilder.UI
 
 			referencesAdded = true;
 			treeViewAssemblies.Nodes.Add(referencesRoot);
-			string referencesPath = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
-			if (!Directory.Exists(referencesPath))
+			string referencesPath = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
+            if (!PathFinderWrapper.ExistFolder(referencesPath))
 				return;
 			
-			foreach (string file in Directory.GetFiles(referencesPath, "*.dll"))
+			foreach (string file in PathFinderWrapper.GetFiles(referencesPath, "*.dll"))
 				AddAssembly(file, false);
 						
 		}

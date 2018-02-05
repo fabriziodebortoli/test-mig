@@ -9,6 +9,7 @@ using ICSharpCode.NRefactory;
 
 using System.Diagnostics;
 using ICSharpCode.NRefactory.CSharp;
+using Microarea.TaskBuilderNet.Interfaces;
 
 namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 {
@@ -25,22 +26,16 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 		}
 
 		//------------------------------------------------------------------
-		public static String GetEasyBuilderEnumsDllFilePath()
-		{
-			return Path.Combine(
-						BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath(),
-						Microarea.TaskBuilderNet.Interfaces.NameSolverStrings.EasyBuilderDllFileName
-						);
-		}
-
-		//------------------------------------------------------------------
 		public static void GenerateEasyBuilderEnumsDllIfNecessary()
 		{
-			BasePathFinder basePathFinderRef = BasePathFinder.BasePathFinderInstance;
+            BasePathFinder basePathFinderRef = BasePathFinder.BasePathFinderInstance;
 
-			String enumsDllPath = GetEasyBuilderEnumsDllFilePath();
+			String enumsDllPath = Path.Combine(
+                                    Path.Combine(basePathFinderRef.GetEasyStudioCustomizationsPath(), NameSolverStrings.ReferencedAssemblies),
+                                    Microarea.TaskBuilderNet.Interfaces.NameSolverStrings.EasyStudioDllFileName
+                                    );
 
-			bool enumsDllToBeGenerated = false;
+            bool enumsDllToBeGenerated = false;
 			String enumsDllFolderPath = Path.GetDirectoryName(enumsDllPath);
 
 			try

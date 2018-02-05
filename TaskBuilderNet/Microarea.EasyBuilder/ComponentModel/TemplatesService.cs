@@ -89,10 +89,10 @@ namespace Microarea.EasyBuilder.ComponentModel
         {
             templates.Clear();
             // standard
-            string path = PathFinderWrapper.GetTemplatesPath(false);
+            string path = PathFinderWrapper.GetTemplatesPath(false, false);
             LoadTemplates(path);
             // custom
-            path = PathFinderWrapper.GetTemplatesPath(true);
+            path = PathFinderWrapper.GetTemplatesPath(true, false);
             LoadTemplates(path);
         }
 
