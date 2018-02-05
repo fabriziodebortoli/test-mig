@@ -35,23 +35,24 @@ namespace Microarea.TbJson
             JObject jOuter = GetItemByTag(items, GetToolbarOuterSection(btn.GetCommandCategory()), "");
             JObject jInner = GetItemByTag(jOuter.GetItems(true), Constants.div, GetToolbarInnerSectionClass(btn.GetCommandCategory()));
             JObject jCat = GetItemByTag(jInner.GetItems(true), Constants.div, GetToolbarCategoryClass(btn.GetCommandCategory()));
-			JArray jItems;
-			if (btn.GetCommandCategory() == CommandCategory.Advanced)
-			{
-				JObject jDDGroup = GetItemByTag(jCat.GetItems(true), Constants.tbToolbarTopButtonDropDown, "");
-				jItems = jDDGroup.GetItems(true);
-				if (jItems.Find(btn.GetId()) == null)
-				{
-					btn[Constants.ngClass] = "dropDownButton";
-					jItems.Add(btn);
-				}
-				return;
-			}
-
-			jItems = jCat.GetItems(true);
+            string group = GetToolbarButtonGroup(btn.GetCommandCategory());
+            JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
+            JArray jItems = jButton.GetItems(true);
             if (jItems.Find(btn.GetId()) == null)
-				jItems.Add(btn);
+                jItems.Add(btn);
         }
+
+        private static string GetToolbarButtonGroup(CommandCategory cat)
+        {
+            switch (cat)
+            {
+                case CommandCategory.Advanced:
+                    return Constants.tbToolbarTopDropdown;
+                default:
+                    return "";
+            }
+        }
+
         static private string GetToolbarOuterSection(CommandCategory cat)
         {
             switch (cat)
@@ -65,13 +66,13 @@ namespace Microarea.TbJson
                 case CommandCategory.Exit:
                     return Constants.tbToolbarTop;
                 case CommandCategory.Print:
-					return Constants.tbToolbarBottom;
-				case CommandCategory.Undefined:
-				case CommandCategory.Fab:
-				default:
-					return Constants.tbFloatingActionMenu;
-
-			}
+				case CommandCategory.File:
+                    return Constants.tbToolbarBottom;
+                case CommandCategory.Undefined:
+                case CommandCategory.Fab:
+                default:
+                    return Constants.tbFloatingActionMenu;
+            }
         }
 
         static private string GetToolbarInnerSectionClass(CommandCategory cat)
@@ -81,17 +82,18 @@ namespace Microarea.TbJson
                 case CommandCategory.Search:
                 case CommandCategory.Navigation:
                 case CommandCategory.Edit:
-				return "toolbar-menu";
-				case CommandCategory.Advanced:
-				case CommandCategory.Exit:
-					return "toolbar-right";
-				case CommandCategory.Fab:
-				case CommandCategory.Radar:
+                    return "toolbar-menu";
+                case CommandCategory.Exit:
+                case CommandCategory.Advanced:
+                    return "toolbar-right";
+                case CommandCategory.Fab:
+                case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
-				case CommandCategory.Undefined:
+				case CommandCategory.File:
+                case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "toolbar-undefined";
             }
         }
         static private string GetToolbarCategoryClass(CommandCategory cat)
@@ -104,17 +106,18 @@ namespace Microarea.TbJson
                     return "menu-category navigation";
                 case CommandCategory.Edit:
                     return "menu-category edit";
- 				case CommandCategory.Advanced:
-					return "menu-category advanced";
-				case CommandCategory.Exit:
-					return "menu-category exit";
-				case CommandCategory.Fab:
-				case CommandCategory.Radar:
+                case CommandCategory.Exit:
+                    return "menu-category exit";
+                case CommandCategory.Fab:
+                case CommandCategory.Advanced:
+                    return "menu-category advanced";
+                case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
-                case CommandCategory.Undefined:
+				case CommandCategory.File:
+				case CommandCategory.Undefined:
                 default:
-                    return "";
+                    return "menu-category undefined";
             }
         }
     }

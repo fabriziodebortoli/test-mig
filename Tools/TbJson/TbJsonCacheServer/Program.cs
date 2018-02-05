@@ -10,7 +10,7 @@ namespace ClientFormsProvider
 {
     internal static class Program
     {
-        private const int timeout = 3 * 60000;
+        private const int timeout = 60000;
 
         static void Main(string[] args)
         {

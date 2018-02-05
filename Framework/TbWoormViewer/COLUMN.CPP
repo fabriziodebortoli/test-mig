@@ -578,7 +578,18 @@ int TableColumn::CalculateFieldWidth (const CString& strText) const
 
 //	int nCharWidth = (int) (0.5 + (double) DefaultSize(m_nFontIdx, STRLEN_TEMPLATE).cx / STRLEN_TEMPLATE);
 	int nCharWidth = (int)((double) size.cx / strText.GetLength() + 0.5);
+
 	int nWidth = m_ColumnRect.Width();
+
+	if (m_pDynamicWidthExpr && m_pDynamicWidthExpr->HasFields())
+	{
+		DataInt diWidth;
+		if (m_pDynamicWidthExpr->Eval(diWidth))
+		{
+			nWidth = diWidth;
+		}
+	}
+
 	if (nWidth <= 0 && (m_pHideExpr || m_bIsHidden) && m_nSavedWidth >= 0)
 		nWidth = m_nSavedWidth;
 
@@ -623,6 +634,15 @@ BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactor
 	fieldWidthFactors.m_pFormatStyle = m_pTable->m_pDocument->m_pFormatStyles->GetFormatter(m_nFormatIdx, &m_pTable->m_pDocument->GetNamespace());
 
 	int nWidth = m_ColumnRect.Width();
+	if (m_pDynamicWidthExpr && m_pDynamicWidthExpr->HasFields())
+	{
+		DataInt diWidth;
+		if (m_pDynamicWidthExpr->Eval(diWidth))
+		{
+			nWidth = diWidth;
+		}
+	}
+
 	if (m_pHideExpr || m_bIsHidden)
 	{
 		DataBool bHidden(TRUE);
@@ -2106,10 +2126,13 @@ BOOL TableColumn::Parse (ViewParser& lex)
 			lex.SetError(_TB("Parser error in dynamic width expression:") + _T("\r\n")/* + sTitle*/);
 			return FALSE;
 		}
-		DataInt diWidth;
-		if (m_pDynamicWidthExpr->Eval(diWidth))
+		if (!m_pDynamicWidthExpr->HasFields())
 		{
-			nCurWidth = diWidth;
+			DataInt diWidth;
+			if (m_pDynamicWidthExpr->Eval(diWidth))
+			{
+				nCurWidth = diWidth;
+			}
 		}
 	}
 
