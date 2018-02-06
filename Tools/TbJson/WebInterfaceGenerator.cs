@@ -947,8 +947,11 @@ namespace Microarea.TbJson
                             htmlWriter.Write(jObj.GetTileDialogSize().ToString());
                             htmlWriter.Write(" ");
 
-                            WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
-                            WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
+                            if (tag.Equals(Constants.tbPanel))
+                            {
+                                WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
+                                WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
+                            }                            
 
                             WriteActivationAttribute(jObj);
 
