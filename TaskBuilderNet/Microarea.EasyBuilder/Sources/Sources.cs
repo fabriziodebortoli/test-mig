@@ -282,7 +282,7 @@ namespace Microarea.EasyBuilder
         //-------------------------------------------------------------------------------
         internal void RemoveReferencedAssembly(string dllName, bool signalReferenceUpdated = false)
         {
-            string path = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
+            string path = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
 
             foreach (IAssemblyReference content in ProjectContent.AssemblyReferences)
             {
@@ -313,7 +313,7 @@ namespace Microarea.EasyBuilder
         //-------------------------------------------------------------------------------
         internal void RefreshReferencedAssemblies(bool removeExisting)
         {
-            string path = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
+            string path = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
             if (removeExisting)
             {
                 //prima li tolgo tutti e poi li rimetto così gestisco le cancellazioni

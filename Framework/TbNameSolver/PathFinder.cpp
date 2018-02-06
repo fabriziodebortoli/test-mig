@@ -18,7 +18,7 @@ static const char THIS_FILE[] = __FILE__;
 // path di gestione 
 static const TCHAR szCustom[] = _T("Custom");
 static const TCHAR szConfiguration[] = _T("Configuration");
-static const TCHAR szEBAssemblies[] = _T("ReferencedAssemblies");
+static const TCHAR szReferencedAssemblies[] = _T("ReferencedAssemblies");
 static const TCHAR szSubscription[] = _T("Subscription");
 static const TCHAR szCompanies[] = _T("Companies");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
@@ -1206,9 +1206,15 @@ const CString CPathFinder::GetConfigurationPath() const
 }
 
 //-----------------------------------------------------------------------------
-const CString CPathFinder::GetEBReferencedAssembliesPath() const
+const CString CPathFinder::GetEasyStudioReferencedAssembliesPath() const
 {
-	return m_sCustomPath + SLASH_CHAR + szEBAssemblies;
+	return GetEasyStudioHomePath() + SLASH_CHAR + szReferencedAssemblies;
+}
+
+//-----------------------------------------------------------------------------
+const CString CPathFinder::GetEasyStudioEnumsAssemblyName() const
+{
+	return GetEasyStudioReferencedAssembliesPath() + SLASH_CHAR + _T("Microarea.EasyBuilder.Enums.dll");
 }
 
 //-----------------------------------------------------------------------------
@@ -1299,17 +1305,22 @@ const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 }
 
 //-----------------------------------------------------------------------------
-const CString CPathFinder::GetEasyStudioCustomizationsPath(BOOL bCreateDir /*FALSE*/) const
+const CString CPathFinder::GetEasyStudioHomePath(BOOL bCreateDir /*FALSE*/) const
 {
-	CString sPath = m_eESAppPosType ==  CPathFinder::CUSTOM ?
-					GetCompaniesPath(bCreateDir) :
-					GetStandardPath();
-	
-	sPath  = sPath + SLASH_CHAR + szEasyStudio;
+	CString sPath = m_eESAppPosType == CPathFinder::CUSTOM ?
+		GetCompaniesPath(bCreateDir) :
+		GetStandardPath();
+
+	sPath = sPath + SLASH_CHAR + szEasyStudio;
 	if (bCreateDir)
 		CreateDirectory(sPath);
+	return sPath;
+}
 
-	sPath = sPath + SLASH_CHAR + szContainerApplications;
+//-----------------------------------------------------------------------------
+const CString CPathFinder::GetEasyStudioCustomizationsPath(BOOL bCreateDir /*FALSE*/) const
+{
+	CString sPath = GetEasyStudioHomePath(bCreateDir) + SLASH_CHAR + szContainerApplications;
 	if (bCreateDir)
 		CreateDirectory(sPath);
 	return sPath;

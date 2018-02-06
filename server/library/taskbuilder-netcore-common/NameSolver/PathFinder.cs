@@ -1103,12 +1103,7 @@ namespace Microarea.Common.NameSolver
             return "";
         }
 
-        //--------------------------------------------------------------------------------
-        public string GetCustomEBReferencedAssembliesPath() { return Path.Combine(customPath, NameSolverStrings.ReferencedAssemblies); }
-
-        //--------------------------------------------------------------------------------
-        public string GetDeclarationsPath() { return GetCustomEBReferencedAssembliesPath(); }
-        /// <summary>
+          /// <summary>
         /// Restituisce l'elenco dei nomi delle applicazioni in base al tipo di applicazione specificata
         /// </summary>
         /// <param name="applicationType">tipo dell'applicazione</param>

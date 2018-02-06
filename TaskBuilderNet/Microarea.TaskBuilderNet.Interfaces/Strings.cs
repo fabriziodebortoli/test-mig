@@ -1250,7 +1250,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 
 
 		public const string EnumsNamespace = "Microarea.EasyBuilder";
-		public const string EasyBuilderDllFileName = "Microarea.EasyBuilder.Enums.dll";
+		public const string EasyStudioDllFileName = "Microarea.EasyBuilder.Enums.dll";
 		public const string RemoteClientsFile = "RemoteClients.xml";
 
 		//funzionalità  menu

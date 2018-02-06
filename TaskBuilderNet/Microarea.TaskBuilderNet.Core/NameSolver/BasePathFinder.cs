@@ -4263,13 +4263,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			}
 			return "";
 		}
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomEBReferencedAssembliesPath() { return Path.Combine(customPath, NameSolverStrings.ReferencedAssemblies); }
-		
-		//--------------------------------------------------------------------------------
-		public string GetDeclarationsPath() { return GetCustomEBReferencedAssembliesPath(); }
-
+	
 		//--------------------------------------------------------------------------------
 		public static string[] GetCSharpFilesIn(string sourcesPath)
 		{

@@ -3461,7 +3461,7 @@ namespace Microarea.EasyBuilder
                         else
                             BaseCustomizationContext.CustomizationContextInstance.AddToCurrentCustomizationList(userFilePath, true, isActive, publish ? string.Empty : CUtility.GetUser(), document.Namespace.ToString());
 
-                        string referencedPath = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
+                        string referencedPath = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
                         foreach (AssemblyName an in Controller.GetType().Assembly.GetReferencedAssemblies())
                         {
 							Assembly asm = AssembliesLoader.Load(an);
