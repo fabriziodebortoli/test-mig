@@ -1184,7 +1184,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                 return synchroFilesDictionary;
 
             // carico in una lista di appoggio tutte le applicazione dichiarati nell'installazione
-            // sia nella Standard che nella Custom (ad es. EasyBuilder)
+            // sia nella Standard che nella Custom (ad es. EasyStudio)
             StringCollection supportList = new StringCollection();
             StringCollection applicationsList = new StringCollection();
 
@@ -1193,12 +1193,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
 
-            // poi guardo i verticali realizzati con EasyBuilder
-            GetApplicationsList(ApplicationType.Standardization, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // infine guardo le customizzazioni realizzate con EasyBuilder
+            // infine guardo le customizzazioni realizzate con EasyStudio
             GetApplicationsList(ApplicationType.Customization, out supportList);
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
@@ -4014,26 +4009,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 
 			return Path.Combine(Path.Combine(fileDir, NameSolverStrings.Texts), userName);
 		}
-
-		//---------------------------------------------------------------------------------
-		public string GetEasyBuilderImageNamespace(string appName, string moduleName, string nameWithExtension)
-		{
-			return string.Join(".",
-						NameSolverStrings.Image,
-						appName,
-						moduleName,
-						NameSolverStrings.Images,
-						nameWithExtension);
-		}
-
-		//---------------------------------------------------------------------------------
-		public string GetEasyBuilderImageFolderPath(string appName, string moduleName, bool isStandardization)
-		{
-			return isStandardization 
-				? Path.Combine(GetApplicationModulePath(appName, moduleName), NameSolverStrings.Files, NameSolverStrings.Images)
-				: Path.Combine(GetCustomApplicationsPath(), appName, moduleName, NameSolverStrings.Files, NameSolverStrings.Images);
-		}
-
 
 		#endregion
 

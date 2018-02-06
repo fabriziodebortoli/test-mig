@@ -1025,3 +1025,16 @@ String^ PathFinderWrapper::GetEasyStudioAssemblyFullName(String^ customizationNa
 	String^	pathRoot = gcnew String(AfxGetPathFinder()->GetDocumentPath(aNs, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO, (CString) user));
 	return System::IO::Path::Combine(pathRoot, gcnew String(aNs.GetObjectName()) + NameSolverStrings::DllExtension);
 }
+
+//---------------------------------------------------------------------------------
+String^ PathFinderWrapper::GeImageNamespace(String^ appName, String^ moduleName, String^ nameWithExtension)
+{
+	return String::Join(".",NameSolverStrings::Image, appName, moduleName, NameSolverStrings::Images, nameWithExtension);
+}
+
+//---------------------------------------------------------------------------------
+String^ PathFinderWrapper::GetImageFolderPath(String^ appName, String^ moduleName)
+{
+	CTBNamespace aNs(CTBNamespace::IMAGE, appName + CTBNamespace::GetSeparator() + moduleName);
+	return gcnew String(AfxGetPathFinder()->GetModuleFilesPath(aNs, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::EASYSTUDIO));
+}

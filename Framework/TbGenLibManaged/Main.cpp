@@ -9,6 +9,7 @@
 #include "Main.h"
 #include "wcfservicegenerator.h"
 #include "WCFHelper.h"
+#include "StaticFunctions.h"
 
 using namespace System;
 using namespace System::CodeDom;
@@ -119,7 +120,7 @@ void GenerateEasyBuilderEnumsDllAsync()
 	try
 	{
 	System::Threading::ThreadStart^ threadStart = gcnew System::Threading::ThreadStart(
-			EnumsHelper::GenerateEasyBuilderEnumsDllIfNecessary
+		StaticFunctions::GenerateEasyBuilderEnumsDllIfNecessary
 			);
 		System::Threading::Thread^ asyncThread = gcnew System::Threading::Thread(
 			threadStart

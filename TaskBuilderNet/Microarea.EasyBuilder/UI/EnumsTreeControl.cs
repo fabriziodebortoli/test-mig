@@ -697,7 +697,7 @@ namespace Microarea.EasyBuilder.UI
 
 			}
 
-			EnumsHelper.GenerateEasyBuilderEnumsDllIfNecessary();
+			StaticFunctions.GenerateEasyBuilderEnumsDllIfNecessary();
 
 			editor.Sources.RemoveReferencedAssembly(Path.GetFileNameWithoutExtension(enumsDllPath));
 			editor.Sources.RefreshReferencedAssemblies(false);//false perchè ho già rimosso io la dll incriminata

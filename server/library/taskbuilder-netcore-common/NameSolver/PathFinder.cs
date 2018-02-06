@@ -1481,25 +1481,6 @@ namespace Microarea.Common.NameSolver
             return Path.Combine(Path.Combine(fileDir, NameSolverStrings.Texts), userName);
         }
 
-        //---------------------------------------------------------------------------------
-        public string GetEasyBuilderImageNamespace(string appName, string moduleName, string nameWithExtension)
-        {
-            return string.Join(".",
-                        NameSolverStrings.Image,
-                        appName,
-                        moduleName,
-                        NameSolverStrings.Images,
-                        nameWithExtension);
-        }
-
-        //---------------------------------------------------------------------------------
-        public string GetEasyBuilderImageFolderPath(string appName, string moduleName, bool isStandardization)
-        {
-            return isStandardization
-                ? Path.Combine(GetApplicationModulePath(appName, moduleName), NameSolverStrings.Files, NameSolverStrings.Images)
-                : Path.Combine(GetCustomApplicationsPath(), appName, moduleName, NameSolverStrings.Files, NameSolverStrings.Images);
-        }
-
         /// <summary>
         /// Ritorna il path nella custom della cartella Report dato un woormFilePath
         /// </summary>

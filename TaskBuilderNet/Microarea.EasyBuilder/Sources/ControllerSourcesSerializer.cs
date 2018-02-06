@@ -19,12 +19,7 @@ namespace Microarea.EasyBuilder
 	{
         private const string dummyString = "dummy";
 
-		private const string EasyBuilderDllFileName = "Microarea.EasyBuilder.Enums.dll";
-		/// <remarks/>
-		public const string EnumsNamespace = "Microarea.EasyBuilder";
-		/// <remarks/>
-		public const string DocumentNamespace = "DocumentNamespace";
-		/// <remarks/>
+	    /// <remarks/>
 		public const string ControllerPropertyName = "Controller";
 		/// <remarks/>
 		public const string ModelPropertyName = "Model";
