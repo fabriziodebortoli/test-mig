@@ -141,7 +141,7 @@ call ng-clean.bat
 
 @ECHO ON
 
-%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /resetRoutes %DevPath%\Standard\ 
+%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ 
 
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
 
