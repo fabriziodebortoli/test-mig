@@ -1,114 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <SetupDefinition xmlns="http://schemas.microarea.it/setup"
-                 configuration="debug"
-                 upgradeGuid="8F38AA22-B06F-401F-8FE2-C08E57D5AB08"
-                 producer="Microarea S.p.A."
-                 productName="Microarea Mago4 Sources"
-                 setupOutputFileName="Mago4 Sources"
-                 >
-  <!--Consideriamo questo path come root di partenza: C:\Development\-->
-	<FileSystemStructure virtualPath="[INSTANCENAME]">
-		<IncludeFolder name="Standard" share="[INSTANCENAME]_Standard">
-			<IncludeFolder name="Applications">
-				<IncludeFolder name="ERP">
-          <IncludeFolder name=".vs" recursive="yes">
-            <IncludeFile name=".suo" />
+									configuration="debug"
+									upgradeGuid="8F38AA22-B06F-401F-8FE2-C08E57D5AB08"
+									producer="Microarea	S.p.A."
+									productName="Microarea	Mago4	Sources"
+									setupOutputFileName="Mago4	Sources"
+									>
+  <!--Consideriamo	questo	path	come	root	di	partenza:	C:\Development\-->
+  <FileSystemStructure virtualPath="[INSTANCENAME]">
+    <IncludeFolder name="Standard" share="[INSTANCENAME]_Standard">
+      <IncludeFolder name="Applications">
+        <IncludeFolder name="ERP">
+          <IncludeFolder name=".vs"	recursive="yes">
+            <IncludeFile name=".suo"	/>
           </IncludeFolder>
-          <IncludeFolder name="Themes" recursive="yes">
-            <IncludeFile name="*.theme|*.css" />
+          <IncludeFolder name="Themes"	recursive="yes">
+            <IncludeFile name="*.theme|*.css"	/>
           </IncludeFolder>
-          <IncludeFolder name="Business_BR" fragment="yes">
-            <!--<IncludeFolder name="Dictionary">
-							<IncludeFolder name="*" featureName="[FOLDERNAME]">
-								<IncludeFile name="*.bin" />
-							</IncludeFolder>
-						</IncludeFolder>-->
+          <IncludeFolder name="Business_BR"	fragment="yes">
             <IncludeFolder name="DataManager">
-              <IncludeFolder name="Default" recursive="yes">
-                <IncludeFile name ="*"/>
+              <IncludeFolder name="Default"	recursive="yes">
+                <IncludeFile name	="*"/>
               </IncludeFolder>
-              <IncludeFolder name="Sample" recursive="yes" featureName="Sample Data">
-                <IncludeFile name ="*"/>
+              <IncludeFolder name="Sample"	recursive="yes"	featureName="Sample	Data">
+                <IncludeFile name	="*"/>
               </IncludeFolder>
-              <IncludeFolder name="DataFile" recursive="yes">
+              <IncludeFolder name="DataFile"	recursive="yes">
                 <IncludeFile name="*"/>
               </IncludeFolder>
             </IncludeFolder>
-            <IncludeFolder name="*" recursive="yes">
+            <IncludeFolder name="*"	recursive="yes">
               <IncludeFile name="*"/>
               <ExcludeFile name="*.lastbuildstate|*.tlog|*.log|*.dll|*.exp|*.ilk|*.pdb|*.lib|*.obj|*.res|*.idb|*.htm|*.pch|*.manifest|*.dep|*.vssscc|*.vspscc|*.user|m4*.menu|*.txt|*.resources"/>
             </IncludeFolder>
-            <IncludeFolder name="Modules" recursive="yes">
+            <IncludeFolder name="Modules"	recursive="yes">
               <IncludeFile name="*.csm"/>
             </IncludeFolder>
             <ExcludeFolder name="help|Files"/>
             <IncludeFile name="*.h|*.config*|Main.Brand.xml|*.Solution.xml"/>
-            <ExcludeFile name="*.2003|*.vssscc|*.vspscc" />
+            <ExcludeFile name="*.2003|*.vssscc|*.vspscc"	/>
           </IncludeFolder>
-					<IncludeFolder name="*" fragment="yes">
-						<!--<IncludeFolder name="Dictionary">
-							<IncludeFolder name="*" featureName="[FOLDERNAME]">
-								<IncludeFile name="*.bin" />
-							</IncludeFolder>
-						</IncludeFolder>-->
-						<IncludeFolder name="DataManager">
-							<IncludeFolder name="Default" recursive="yes">
-								<IncludeFile name ="*"/>
-							</IncludeFolder>
-							<IncludeFolder name="Sample" recursive="yes" featureName="Sample Data">
-								<IncludeFile name ="*"/>
-							</IncludeFolder>
-              <IncludeFolder name="DataFile" recursive="yes">
-                <IncludeFile name="*"/>
-              </IncludeFolder>
-						</IncludeFolder>
-						<IncludeFolder name="*" recursive="yes">
-							<IncludeFile name="*"/>
-							<ExcludeFile name="*.lastbuildstate|*.tlog|*.log|*.dll|*.exp|*.ilk|*.pdb|*.lib|*.obj|*.res|*.idb|*.htm|*.pch|*.manifest|*.dep|*.vssscc|*.vspscc|*.user|m4*.menu|*.txt|*.resources"/>
-						</IncludeFolder>
-
-						<IncludeFolder name="Modules" recursive="yes">
-							<IncludeFile name="*.csm"/>
-						</IncludeFolder>
-						<ExcludeFolder name="help"/>
-						<IncludeFile name="*.h|*.cpp|*.dex|*.config*|*.Brand.xml|*.Solution.xml"/>
-						<ExcludeFile name="*.2003|*.vssscc|*.vspscc" />
-					</IncludeFolder>
-					<ExcludeFolder name=".git" />
-					<IncludeFile name="*" />
-					<ExcludeFile name="*.vssscc|*.vspscc|*.suo|*.ncb|ERP2003.sln|ERPSolutions.sln|DevelopmentEnvironment.xml|Settings.bin|*.pfx" />
-				</IncludeFolder>
-        <!--<IncludeFolder name="MDC" featureName="[FOLDERNAME]" mandatory="yes">
-          <IncludeFolder name="*" fragment="yes">
+          <IncludeFolder name="*"	fragment="yes">
             <IncludeFolder name="DataManager">
-              <IncludeFolder name="Default" recursive="yes">
-                <IncludeFile name ="*"/>
+              <IncludeFolder name="Default"	recursive="yes">
+                <IncludeFile name	="*"/>
               </IncludeFolder>
-              <IncludeFolder name="Sample" recursive="yes" featureName="Sample Data">
-                <IncludeFile name ="*"/>
+              <IncludeFolder name="Sample"	recursive="yes"	featureName="Sample	Data">
+                <IncludeFile name	="*"/>
               </IncludeFolder>
-              <IncludeFolder name="DataFile" recursive="yes">
+              <IncludeFolder name="DataFile"	recursive="yes">
                 <IncludeFile name="*"/>
               </IncludeFolder>
             </IncludeFolder>
-            <IncludeFolder name="*" recursive="yes">
+            <IncludeFolder name="*"	recursive="yes">
               <IncludeFile name="*"/>
-              <ExcludeFile name="*.h|*.cpp|*.dex|*.*proj|*.lastbuildstate|*.tlog|*.log|*.dll|*.ilk|*.pdb|*.obj|*.res|*.idb|*.htm|*.pch|*.manifest|*.vssscc|*.vspscc|*.user|m4*.menu|*.rc|*.filters|*.cache|*.cs|*.settings|*.svc*|*.wsdl|*.datasource|*.dll"/>
+              <ExcludeFile name="*.lastbuildstate|*.tlog|*.log|*.dll|*.exp|*.ilk|*.pdb|*.lib|*.obj|*.res|*.idb|*.htm|*.pch|*.manifest|*.dep|*.vssscc|*.vspscc|*.user|m4*.menu|*.txt|*.resources"/>
             </IncludeFolder>
-            <IncludeFolder name="Modules" recursive="yes">
+            <IncludeFolder name="Modules"	recursive="yes">
               <IncludeFile name="*.csm"/>
             </IncludeFolder>
             <ExcludeFolder name="help"/>
-            <IncludeFile name="*.config*|*.Brand.xml|*.Solution.xml"/>
-            <ExcludeFile name="*.h|*.cpp|*.dex|*.2003|*.vssscc|*.vspscc|*.rc|*.cache|*.cs|*.settings|*.hjson" />
+            <IncludeFile name="*.h|*.cpp|*.dex|*.config*|*.Brand.xml|*.Solution.xml"/>
+            <ExcludeFile name="*.2003|*.vssscc|*.vspscc"	/>
           </IncludeFolder>
-          <IncludeFile name="*" />
-          <ExcludeFile name="*.vssscc|*.vspscc|*.suo|*.ncb|*.sln|*.tbfpspec|mdc.xml|*.props" />
-        </IncludeFolder>-->
-			</IncludeFolder>
+          <ExcludeFolder name=".git"	/>
+          <IncludeFile name="*"	/>
+          <ExcludeFile name="*.vssscc|*.vspscc|*.suo|*.ncb|ERP2003.sln|ERPSolutions.sln|DevelopmentEnvironment.xml|Settings.bin|*.pfx"	/>
+        </IncludeFolder>
+      </IncludeFolder>
       <IncludeFile name="*.ver"/>
-		</IncludeFolder>
-
-		<IncludeFolder name="Custom" share="[INSTANCENAME]_Custom" />
-	</FileSystemStructure>
+    </IncludeFolder>
+    <IncludeFolder name="Custom"	share="[INSTANCENAME]_Custom"	/>
+  </FileSystemStructure>
 </SetupDefinition>
