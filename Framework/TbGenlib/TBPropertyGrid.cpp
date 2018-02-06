@@ -292,20 +292,20 @@ void CTBProperty::OnDrawValue(CDC* pDC, CRect rect)
 		}
 	}
 
-	if 	(
-			//m_nRowsNumber > 1 &&
-			//(
-			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
-			//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
-			//) ||
-			m_pParsedCtrl->GetCtrlData() &&
-			(
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
-				m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
+	if (
+		//m_nRowsNumber > 1 &&
+		//(
+		//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
+		//	m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
+		//) ||
+		m_pParsedCtrl->GetCtrlData() &&
+		(
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_INT_TYPE ||
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_LNG_TYPE ||
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_DBL_TYPE ||
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_MON_TYPE ||
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_QTA_TYPE ||
+			m_pParsedCtrl->GetCtrlData()->GetDataType() == DATA_PERC_TYPE
 			)
 		)
 	{
@@ -519,18 +519,18 @@ BOOL CTBProperty::OnEdit(LPPOINT lptClick)
 	{
 		if (m_pParsedCtrl && m_pParsedCtrl->GetHyperLink())
 		{
-			m_pParsedCtrl->GetHyperLink()->DoFollowHyperlink(m_pParsedCtrl->GetCtrlData());
 			ReleaseCapture();
+			m_pParsedCtrl->GetHyperLink()->DoFollowHyperlink(m_pParsedCtrl->GetCtrlData());
 		}
 		else if (m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CLinkEdit)))
 		{
 			DataStr* pD = (DataStr*)m_pParsedCtrl->GetCtrlData();
 			if (pD && !pD->IsEmpty())
 			{
+				ReleaseCapture();
 				CLinkEdit* pNsCtrl = (CLinkEdit*)m_pParsedCtrl->GetCtrlCWnd();
 				pNsCtrl->SetValue(pD->GetString());
 				pNsCtrl->OnBrowseLink();
-				ReleaseCapture();
 			}
 		}
 
@@ -582,11 +582,11 @@ CWnd* CTBProperty::CreateInPlaceEdit(CRect rectEdit, BOOL& bDefaultFormat)
 			if (m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CComboBox)))
 				rectEdit.top -= 2;
 			else
-				if	(
-						m_nRowsNumber > 1 &&
-						(
-							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
-							m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
+				if (
+					m_nRowsNumber > 1 &&
+					(
+						m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrEdit)) ||
+						m_pParsedCtrl->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CStrStatic))
 						)
 					)
 				{
@@ -957,13 +957,13 @@ int	CTBPropertyGrid::DoToolHitTest(CPoint point, TOOLINFO* pTI)
 {
 	//See if the point falls onto a cell
 	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
-	if	(
-			!m_pDataTip							||
-			!pProp								||
-			pProp->m_nRowsNumber == 1			||
-			!pProp->GetControl()				||
-			!pProp->GetControl()->GetCtrlData()	||
-			pProp->GetControl()->GetCtrlData()->IsEmpty()
+	if (
+		!m_pDataTip ||
+		!pProp ||
+		pProp->m_nRowsNumber == 1 ||
+		!pProp->GetControl() ||
+		!pProp->GetControl()->GetCtrlData() ||
+		pProp->GetControl()->GetCtrlData()->IsEmpty()
 		)
 		return __super::OnToolHitTest(point, pTI);
 
@@ -992,13 +992,13 @@ void CTBPropertyGrid::OnMouseMove(UINT nFlags, CPoint point)
 	__super::OnMouseMove(nFlags, point);
 
 	CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(point));
-	if	(
-			!m_pDataTip							||
-			!pProp								||
-			pProp->m_nRowsNumber == 1			||
-			!pProp->GetControl()				||
-			!pProp->GetControl()->GetCtrlData()	||
-			pProp->GetControl()->GetCtrlData()->IsEmpty()
+	if (
+		!m_pDataTip ||
+		!pProp ||
+		pProp->m_nRowsNumber == 1 ||
+		!pProp->GetControl() ||
+		!pProp->GetControl()->GetCtrlData() ||
+		pProp->GetControl()->GetCtrlData()->IsEmpty()
 		)
 		return;
 
@@ -1054,9 +1054,9 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 		CRect rectScrollBar;
 		m_wndScrollVert.GetWindowRect(rectScrollBar);
 		ScreenToClient(rectScrollBar);
-		if	(
-				ptCursor.x >= rectScrollBar.left && ptCursor.x <= rectScrollBar.right &&
-				ptCursor.y >= rectScrollBar.top  && ptCursor.y <= rectScrollBar.bottom
+		if (
+			ptCursor.x >= rectScrollBar.left && ptCursor.x <= rectScrollBar.right &&
+			ptCursor.y >= rectScrollBar.top  && ptCursor.y <= rectScrollBar.bottom
 			)
 			ReleaseCapture();
 
@@ -1182,7 +1182,7 @@ void CTBPropertyGrid::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 //-----------------------------------------------------------------------------
 void CTBPropertyGrid::OnLButtonDown(UINT nFlags, CPoint point)
 {
-//	ReleaseCapture();
+	//	ReleaseCapture();
 
 	if (!UpdateData(TRUE))
 		return;
@@ -1571,7 +1571,7 @@ BOOL CTBPropertyGrid::OnKeyHit(UINT nIDC, UINT nKey, UINT nHitState)
 			return DoKeyDown(nKey);
 
 		return DoKeyUp(nKey);
-	}                           
+	}
 
 	return FALSE;
 }
