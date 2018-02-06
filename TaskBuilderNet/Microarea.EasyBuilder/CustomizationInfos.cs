@@ -134,12 +134,12 @@ public class CustomizationInfos
     /// </summary>
     public static bool ExistCustomizationName(INameSpace customizationNamespace, IEasyBuilderApp app)
     {
-        var dllPath = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNamespace, null, app);
+        var dllPath = PathFinderWrapper.GetEasyStudioAssemblyFullName(customizationNamespace.FullNameSpace, string.Empty);
 
-        if (!File.Exists(dllPath))
+        if (!PathFinderWrapper.ExistFile(dllPath))
         {
-            dllPath = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNamespace, CUtility.GetUser(), app);
-            if (!File.Exists(dllPath))
+            dllPath = PathFinderWrapper.GetEasyStudioAssemblyFullName(customizationNamespace.FullNameSpace, CUtility.GetUser());
+            if (!PathFinderWrapper.ExistFile(dllPath))
             {
                 return false;
             }

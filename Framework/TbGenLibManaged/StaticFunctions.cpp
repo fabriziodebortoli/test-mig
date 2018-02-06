@@ -137,7 +137,7 @@ void StaticFunctions::GenerateEasyBuilderEnumsDllIfNecessary()
 	}
 
 	//Se il file non esiste allora devo generarlo
-	enumsDllToBeGenerated = ExistFile(enumsDllName) == TRUE;
+	enumsDllToBeGenerated = ExistFile(enumsDllName) == FALSE;
 	DateTime^ aLastWrite = nullptr;
 	if (!enumsDllToBeGenerated)
 	{
