@@ -50,6 +50,7 @@
 <div *ngIf="isAttachedToAComboBox" class="hotlinkDropDownContainer" #hotLinkDropDown>
     <kendo-combobox [data]="gridView$ | async | asDropDownData"
                     [allowCustom]="true"
+                    [popupSettings]="{ width: 'auto' }"
                     [value]="slice$ | async | asDropDownValue"
                     [textField]="'id'"
                     [valueField]="'id'"

@@ -50,7 +50,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
   }
 
-  private gridView$ = new BehaviorSubject<{data: any[], total: number, columns: any[] }>
+  private gridView$ = new BehaviorSubject<{key?:string, data: any[], total: number, columns: any[] }>
   ({data: [], total: 0, columns: [] });
   public columns: any[];
   public selectionTypes: any[] = [];
@@ -297,7 +297,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         if (d.columns) {
           this.columns = d.columns;
         }
-        this.gridView$.next({data: d.rows, total: d.total, columns: d.columns });
+        this.gridView$.next({key: key, data: d.rows, total: d.total, columns: d.columns });
         setTimeout(() => {
           if (this.tablePopupRef) {
             this.tablePopupRef.popupElement
@@ -358,7 +358,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   comboSelectionChanged(value: any) {
     _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
     if (this.modelComponent && this.modelComponent.model) {
-      this.modelComponent.model.value = this.value;
+      this.modelComponent.model.value =  _.get(value, 'id');
       this.emitModelChange();
     }
   }
