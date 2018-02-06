@@ -192,18 +192,18 @@ MTileDialog::!MTileDialog()
 }
 
 //---------------------------------------------------------------------------------
-CWndObjDescription* MTileDialog::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	CDummyDescription* pDummyTileDescription = NULL;
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
-		return NULL;
+		return;
 
 	if (!this->HasCodeBehind)
 	{
 		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
 
-		__super::UpdateAttributesForJson(pParentDescription);
+		__super::GenerateJson(pParentDescription, serialization);
 
 		//update parent description id with this
 		pDummyTileDescription = new CDummyDescription();
@@ -218,7 +218,6 @@ CWndObjDescription* MTileDialog::UpdateAttributesForJson(CWndObjDescription* pPa
 			pTileDescription->m_X = 0;
 			pTileDescription->m_Y = 0;
 			pTileDescription->m_bHasStaticArea = (this->m_pTileDialog->HasStaticArea() == TRUE);
-			//pTileDescription->m_arHrefHierarchy.Add(tile->Id);
 			switch (this->TileDialogType)
 			{
 			case ETileDialogSize::AutoFill:
@@ -255,17 +254,37 @@ CWndObjDescription* MTileDialog::UpdateAttributesForJson(CWndObjDescription* pPa
 			if (child->Id->CompareTo(gcnew String(staticAreaID)) == 0 && child->Id->CompareTo(gcnew String(staticArea1ID)) == 0 && child->Id->CompareTo(gcnew String(staticArea2ID)) == 0)
 				continue;
 
-			child->UpdateAttributesForJson(jsonDescription);
+			child->GenerateJson(jsonDescription, serialization);
 		}
 	}
 
 	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) 
 	{
 		//serialize this => HasCodeBehind = false
-		this->SaveSerialization(this->Id, jsonDescription);
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(this->Id),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+		
 	}
 	else if (jsonDescription->m_Children.GetCount() > 0)    //serializza jsonDescription
-		this->SaveSerialization(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id, jsonDescription);
+	{
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+
+		//non sono sul papà
+		SAFE_DELETE(jsonDescription);
+	}
 	
 	//clear parent
 	for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
@@ -276,8 +295,6 @@ CWndObjDescription* MTileDialog::UpdateAttributesForJson(CWndObjDescription* pPa
 			pParentDescription->m_Children.RemoveAt(i);
 		}
 	}
-
-	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

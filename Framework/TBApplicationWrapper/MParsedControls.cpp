@@ -702,11 +702,19 @@ CString BaseWindowWrapper::GetHorizontalIdAnchor()
 				continue;
 
 			CWnd* pBrotherWnd = brother->GetWnd();
-			if (!pBrotherWnd)
+			if (pBrotherWnd == nullptr)
 				continue;
 
 			pBrotherWnd->GetWindowRect(aBrotherRect);
-			if (aBrotherRect.left + aBrotherRect.Width() <= aMeRect.left && !bFoundBrotherAnchor)
+			if 
+				(
+					aBrotherRect.left + aBrotherRect.Width() <= aMeRect.left &&
+					(
+						aMeRect.top >= aBrotherRect.top && aMeRect.top <= aBrotherRect.top + aBrotherRect.Height() || 
+						aMeRect.bottom >= aBrotherRect.top && aMeRect.bottom <= aBrotherRect.top + aBrotherRect.Height()
+					) && 
+					!bFoundBrotherAnchor
+				)
 			{
 				myAnchor = brother->Id;
 				bFoundBrotherAnchor = true;
@@ -721,36 +729,33 @@ CString BaseWindowWrapper::GetHorizontalIdAnchor()
 	return myAnchor;
 }
 
-//----------------------------------------------------------------------------------------------------
-bool BaseWindowWrapper::SaveSerialization(const CString& fileName, CWndObjDescription* pDescription)
+//-------------------------------------------------------------------------------------------------
+CString BaseWindowWrapper::GetSerialization(CWndObjDescription* pWndObjDescription)
 {
-	ASSERT(pDescription);
-	if (!pDescription)
-		return false;
-
-	//TODO
-	CString path = _T("c:\\_aaa\\");
-
-	CString fullFileName = path + fileName + _T(".tbjson");
-
-	CLineFile file;
-	if (!file.Open(CString(fullFileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
-		return false;
-
 	CJsonSerializer ser;
-	pDescription->SerializeJson(ser);
+	pWndObjDescription->SerializeJson(ser);
 
-	file.WriteString(ser.GetJson());
+	return ser.GetJson();
+}
+
+//----------------------------------------------------------------------------------------------------
+bool BaseWindowWrapper::SaveSerialization(const CString& fileName, const CString& sSerialization)
+{
+	CLineFile file;
+	if (!file.Open(CString(fileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
+		return false;
+
+	file.WriteString(sSerialization);
 	file.Close();
 
 	return true;
 }
 
 //----------------------------------------------------------------------------------
-CWndObjDescription* BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	if (!jsonDescription)
-		return NULL;
+		return;
 
 	//initialize common default attributes
 	jsonDescription->m_X = NULL_COORD;
@@ -760,8 +765,6 @@ CWndObjDescription* BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescriptio
 	jsonDescription->m_strName = this->Name;
 	jsonDescription->m_strIds.Add(this->Id);
 	jsonDescription->m_strText = this->Text;
-
-	return jsonDescription;
 }
 
 //-----------------------------------------------------------------------------
@@ -2658,8 +2661,6 @@ MParsedControl::MParsedControl(IWindowWrapperContainer^ parentWindow, System::St
 	Location = location;
 	showHotLinkButton = true;
 
-	if (!this->HasCodeBehind)
-		jsonDescription = new CWndObjDescription(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -2724,11 +2725,11 @@ MParsedControl::!MParsedControl()
 }
 
 //---------------------------------------------------------------------------------------
-CWndObjDescription* MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void MParsedControl::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
-		return NULL;
+		return;
 
 	if (!this->HasCodeBehind)
 	{
@@ -2736,9 +2737,9 @@ CWndObjDescription* MParsedControl::UpdateAttributesForJson(CWndObjDescription* 
 
 		ASSERT(jsonDescription);
 		if (!jsonDescription)
-			return NULL;
+			return;
 
-		__super::UpdateAttributesForJson(pParentDescription);
+		__super::GenerateJson(pParentDescription, serialization);
 
 		jsonDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
 		jsonDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
@@ -2783,7 +2784,6 @@ CWndObjDescription* MParsedControl::UpdateAttributesForJson(CWndObjDescription* 
 		//TODO: serializze differences
 	}
 	
-	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

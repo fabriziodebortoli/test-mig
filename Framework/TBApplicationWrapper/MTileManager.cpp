@@ -149,21 +149,21 @@ MTileManager::!MTileManager()
 }
 
 //----------------------------------------------------------------------------------
-CWndObjDescription* MTileManager::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	CDummyDescription* pDummyTMDescription = NULL;
 
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
-		return NULL;
+		return;
 
 	if (!this->HasCodeBehind)
 	{
 		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
 		ASSERT(jsonDescription);
 		if (!jsonDescription)
-			return NULL;
-		__super::UpdateAttributesForJson(pParentDescription);
+			return;
+		__super::GenerateJson(pParentDescription, serialization);
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::TileManager;
 
 		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
@@ -186,15 +186,33 @@ CWndObjDescription* MTileManager::UpdateAttributesForJson(CWndObjDescription* pP
 		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
 			continue;
 
-		wrapper->UpdateAttributesForJson(jsonDescription);
+		wrapper->GenerateJson(jsonDescription, serialization);
 	}
 
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
 		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //save json di jsonDescription.Serialize
-			this->SaveSerialization(this->Id, jsonDescription);
+		{
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+		}
 		else if (jsonDescription->m_Children.GetCount() > 0)
-			this->SaveSerialization(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id, jsonDescription);
+		{
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+		}
 
 		//update parent => remove details for this from parent
 		for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
@@ -206,11 +224,7 @@ CWndObjDescription* MTileManager::UpdateAttributesForJson(CWndObjDescription* pP
 			}
 		}
 		
-		//SAFE_DELETE(pDummyTGDescription);
-		//SAFE_DELETE(jsonDescription);
 	}
-
-	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

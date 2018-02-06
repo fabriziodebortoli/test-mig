@@ -16,16 +16,59 @@ using namespace System::Windows::Forms;
 using namespace Microarea::Framework::TBApplicationWrapper;
 using namespace Microarea::TaskBuilderNet::Core::NameSolver;
 
+static const TCHAR szBak[] = _T("_bak");
+
 //////////////////////////////////////////////////////////////
 SerializationAddOnService::SerializationAddOnService() {}
 
+//-------------------------------------------------------------------------------
+System::String^ SerializationAddOnService::BuildPath(System::String^ nsDocument, System::String^ lastTokenNS)
+{
+	CTBNamespace aNs((CString)nsDocument);
+
+	CString path = AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, FALSE, lastTokenNS);
+	CString bakPath = path + _T("_bak");
+
+	//delete bakPath if exists
+	if (ExistPath(bakPath))
+	{
+		CStringArray allFiles;
+		GetFiles(bakPath, _T("*.*"), &allFiles);
+		for (int i = allFiles.GetUpperBound(); i >= 0; i--)
+			::RemoveFile(allFiles[i]);
+		
+		::RemoveDirectory(bakPath);
+	}
+
+	if (ExistPath(path))
+		::RenameFilePath(path, bakPath);
+
+	return gcnew System::String(AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, TRUE, CString(lastTokenNS)));
+}
+
 //----------------------------------------------------------------------------	
-bool SerializationAddOnService::GenerateJson(MView^ view, System::String^ lastTokenNS)
+bool SerializationAddOnService::GenerateJson(MView^ view, System::String^ nameSpace)
 {
 	if (view == nullptr || view->Handle == IntPtr::Zero)
 		return false;
 
-	view->UpdateAttributesForJson(NULL);
+	CTBNamespace aNs(nameSpace);
+	aNs.SetType(CTBNamespace::FORM);
+
+	CTBNamespace aDocumentNs(CTBNamespace::DOCUMENT,
+		aNs.GetApplicationName() +
+		CTBNamespace::GetSeparator() +
+		aNs.GetModuleName() +
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::LIBRARY) +
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::DOCUMENT)
+	);
+
+	System::String^ lastTokenNS = gcnew String(aDocumentNs.GetObjectName());
+	System::String^ path = BuildPath(gcnew String(aDocumentNs.ToString()), lastTokenNS);
+	view->SetPathToSerialize(path);
+	view->GenerateJson(NULL, nullptr);
 
 	return true;
 }

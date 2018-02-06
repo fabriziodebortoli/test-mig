@@ -37,4 +37,5 @@ private:
 	void RemoveHotLinks(System::String^ currentApplication, System::String^ currentModule);
 	void PrepareInitialTags(CXMLNode* pRoot, MHotLink^ hotlink);
 	void PrepareQueries(CXMLNode* pSelectionModes, CString queryType, MHotLink^ hotlink);
+	System::String^ BuildPath(System::String^ nsDocument, System::String^ lastTokenNS);
 };

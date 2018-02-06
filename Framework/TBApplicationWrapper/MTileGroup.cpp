@@ -215,13 +215,13 @@ MTileGroup::MTileGroup(IWindowWrapperContainer^ parentWindow, System::String^ na
 }
 
 //------------------------------------------------------------------------------
-CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	CDummyDescription* pDummyTGDescription = NULL;
 
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
-		return NULL;
+		return;
 
 	if (!this->HasCodeBehind)
 	{
@@ -229,7 +229,7 @@ CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pPar
 
 		ASSERT(jsonDescription);
 		if (!jsonDescription)
-			return NULL;
+			return;
 
 
 		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
@@ -239,7 +239,7 @@ CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pPar
 			pParentDescription->m_Children.Add(pDummyTGDescription);
 			pDummyTGDescription->m_arHrefHierarchy.Add(this->Id);
 		}
-		__super::UpdateAttributesForJson(pParentDescription);
+		__super::GenerateJson(pParentDescription, serialization);
 
 		CWndLayoutContainerDescription* pTileGroupDescription = dynamic_cast<CWndLayoutContainerDescription*>(jsonDescription);
 
@@ -269,7 +269,7 @@ CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pPar
 
 		CWndObjDescription* pResultDescription = NULL;
 
-		wrapper->UpdateAttributesForJson(jsonDescription);
+		wrapper->GenerateJson(jsonDescription, serialization);
 
 	}
 	
@@ -278,7 +278,14 @@ CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pPar
 		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 		{
 			//save json di jsonDescription.Serialize
-			this->SaveSerialization(this->Id, jsonDescription);
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
 
 			//update parent => remove details for this from parent
 			for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
@@ -290,12 +297,7 @@ CWndObjDescription* MTileGroup::UpdateAttributesForJson(CWndObjDescription* pPar
 				}
 			}
 		}
-		
-		//SAFE_DELETE(pDummyTGDescription);
-		//SAFE_DELETE(jsonDescription);
 	}
-
-	return jsonDescription;
 }
 
 //----------------------------------------------------------------------------

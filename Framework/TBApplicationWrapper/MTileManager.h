@@ -127,7 +127,7 @@ namespace Microarea {
 				///<summary>
 				///Updates needed attributes for json serialization 
 				///</summary>
-				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 
 				/// <summary>
 				/// Internal Use

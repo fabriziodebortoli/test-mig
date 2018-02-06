@@ -715,12 +715,17 @@ namespace Microarea {
 
 
 			public:
-				bool SaveSerialization(const CString& fileName, CWndObjDescription* pDescription);
+				bool SaveSerialization(const CString& fileName, const CString& sSerialization);
+
+				///<summary>
+				///Get json serialization from description class
+				///</summary>
+				CString GetSerialization(CWndObjDescription* pWndObjDescription);
 
 				///<summary>
 				///Updates needed attributes for json serialization 
 				///</summary>
-				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription);
+				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
 
 				/// <summary>
 				/// Event raised when the user click on the active control
@@ -1407,7 +1412,7 @@ namespace Microarea {
 				///<summary>
 				///Updates needed attributes for json serialization 
 				///</summary>
-				virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 
 				/// <summary>
 				/// Override of the equals method, true if the compared tabs are the same

@@ -54,6 +54,7 @@ namespace Microarea {
 		bool					designerVisible;
 		bool					bVisible;
 		bool					suspendLayout;
+		System::String^			pathToSerialize;
 		
 	public:
 		/// <summary>
@@ -169,8 +170,14 @@ namespace Microarea {
 		///<summary>
 		///Updates nedeed attributes for json serialization
 		///</summary>
-		virtual CWndObjDescription* UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+		virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 		
+		///<summary>
+		///Set the path to serialize to
+		///</summary>
+		void SetPathToSerialize(System::String^ path);
+
+
 		/// <summary>
 		/// Internal Use
 		/// </summary>

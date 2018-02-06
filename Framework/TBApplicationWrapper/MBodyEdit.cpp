@@ -1707,7 +1707,7 @@ MBodyEdit::!MBodyEdit()
 }
 
 //---------------------------------------------------------------------------------
-CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+void MBodyEdit::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	CDummyDescription* pBEDummyDescription = NULL;
 	CWndBodyDescription* pBEDescription = NULL;
@@ -1715,20 +1715,20 @@ CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pPar
 
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
-		return NULL;
+		return;
 
 	jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
 	pBEDescription = dynamic_cast<CWndBodyDescription*>(jsonDescription);
-	__super::UpdateAttributesForJson(pParentDescription);
+	__super::GenerateJson(pParentDescription, serialization);
 	
 	if (!jsonDescription)
-		return NULL;
+		return;
 		
 	if (pBEDescription) //HasCodeBehind = FALSE
 	{
 		ASSERT(pBEDescription);
 		if (!pBEDescription)
-			return NULL;
+			return;
 
 		pBEDescription->m_Width = this->Size.Width;
 		pBEDescription->m_Height = this->Size.Height;
@@ -1783,7 +1783,7 @@ CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pPar
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //tile HasCodeBehind = true
 	{
 		if (!hasNewColumns)
-			return NULL;
+			return;
 
 		pBEDummyDescription = new CDummyDescription();
 		pBEDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
@@ -1793,7 +1793,14 @@ CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pPar
 			//all serialization
 			pBEDummyDescription->m_strIds.Add(pParentDescription->m_strIds.GetAt(0));
 			pBEDummyDescription->m_Children.Add(pBEDescription->DeepClone());
-			this->SaveSerialization(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id, pBEDummyDescription);
+			serialization->Add
+							(
+								gcnew Tuple<System::String^, System::String^>
+								(
+									gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+									gcnew String(GetSerialization(pBEDummyDescription))
+								)
+							);
 		}
 		else
 		{
@@ -1805,7 +1812,14 @@ CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pPar
 				if (pColumnDescription)
 					pBEDummyDescription->m_Children.Add(pColumnDescription->DeepClone());
 			}
-			this->SaveSerialization(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id, pBEDummyDescription);
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(pBEDummyDescription))
+					)
+			);
 		}
 
 		//clear anyway from parent
@@ -1822,7 +1836,6 @@ CWndObjDescription * MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pPar
 		SAFE_DELETE(pBEDummyDescription);
 	}
 	
-	return NULL;
 }
 
 //-----------------------------------------------------------------------------
