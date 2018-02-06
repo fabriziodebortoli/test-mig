@@ -11,7 +11,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { HttpService } from './../../../core/services/http.service';
 import { DocumentService } from './../../../core/services/document.service';
 
-import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
 
 import { ControlComponent } from './../control.component';
@@ -28,7 +28,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   templateUrl: './body-edit.component.html',
   styleUrls: ['./body-edit.component.scss']
 })
-export class BodyEditComponent extends ControlComponent implements AfterContentInit, OnDestroy {
+export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
   @Input() bodyEditName: string;
   @Input() height: number;
@@ -72,6 +72,20 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
+  addRow() {
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName).subscribe((res) => {
+      if (res.dbt) {
+        addModelBehaviour(res.dbt);
+        this.model.rows = res.dbt.rows;
+        this.model.prototype = res.dbt.prototype;
+        this.model.lastTimeStamp = new Date().getTime();
+        this.changeDetectorRef.markForCheck();
+      }
+      sub.unsubscribe();
+    });
+  }
+
   //-----------------------------------------------------------------------------------------------
   getModelForDbt(timeStamp: any) {
     if (!this.model || !timeStamp)
@@ -108,6 +122,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
     this.subscribeToSelector();
+
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  ngAfterViewInit() {
+    this.changeDetectorRef.markForCheck();
   }
 
   //-----------------------------------------------------------------------------------------------

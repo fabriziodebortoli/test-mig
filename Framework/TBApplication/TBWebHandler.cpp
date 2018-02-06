@@ -30,7 +30,7 @@ CTbWebHandler::CTbWebHandler()
 	functionMap.SetAt(_T("getThemes/"),						&CTbWebHandler::GetThemesFunction);
 	functionMap.SetAt(_T("changeThemes/"),					&CTbWebHandler::ChangeThemesFunction);
 	functionMap.SetAt(_T("getDBTSlaveBufferedModel/"),		&CTbWebHandler::GetDBTSlaveBufferedModel);
-	
+	functionMap.SetAt(_T("addRowDBTSlaveBuffered/"),		&CTbWebHandler::AddRowDBTSlaveBuffered);
 	
 	functionMap.SetAt(_T("getAllAppsAndModules/"),		&CTbWebHandler::GetAllAppsAndModules);
 	functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
@@ -744,6 +744,42 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 	aResponse.SetOK();
 	aResponse.WriteString(_T("query"), ds.GetString());
 	response.SetData(aResponse);
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		SqlRecord* pRecord = buffered->AddRecord();
+		pRecord->SetStorable();
+		CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");
+	}
 }
 
 //--------------------------------------------------------------------------------

@@ -262,4 +262,15 @@ export class HttpService {
                 return res.json();
             });
     }
+
+    addRowDBTSlaveBuffered(cmpId: any, dbtName: any) {
+        
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+    
 }

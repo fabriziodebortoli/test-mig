@@ -4244,7 +4244,7 @@ void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializ
 
 	CString timeStamp = GetCurrentUTCTime();
 	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
-
+	
 	//SqlRecord *pPrototypeRecord = this->GetRecord();
 	//jsonSerializer.OpenObject(_T("prototype"));
 	//pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
