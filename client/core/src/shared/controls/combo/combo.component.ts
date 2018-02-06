@@ -19,6 +19,8 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
 
+    @Input() decimals = 0; //todoluca, serve solo per far compilare, poi sarà da gestire
+
     items: any[] = [];
     selectedItem: any;
     private oldValue: any;
