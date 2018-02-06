@@ -14,8 +14,8 @@ import { TbComponent } from '../../../tb.component';
 })
 export class ToolbarTopButtonComponent extends TbComponent {
 
+  private _disabled = false;
   @Input() caption: string = '';
-  @Input() disabled: boolean = false;
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
   @Input() icon: string = '';
 
@@ -41,10 +41,14 @@ export class ToolbarTopButtonComponent extends TbComponent {
       return;
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }
-  isDisabled(): boolean {
-    return this.disabled ||
-    !this.eventData.buttonsState || 
-    !this.eventData.buttonsState[this.cmpId] || 
-    !this.eventData.buttonsState[this.cmpId].enabled;
+
+  @Input() public set disabled(value: boolean) {
+    this._disabled = value;
+  }
+  public get disabled(): boolean {
+    return this._disabled ||
+      (this.eventData.buttonsState &&
+      this.eventData.buttonsState[this.cmpId] &&
+      !this.eventData.buttonsState[this.cmpId].enabled);
   }
 }
