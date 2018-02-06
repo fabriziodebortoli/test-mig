@@ -674,7 +674,7 @@ namespace Microarea.Common.CoreTypes
                 }
             }
 
-            string inEasyBuilder = functionElement.GetAttribute(WebMethodsXML.Attribute.InEasyBuilder);
+            string inEasyBuilder = functionElement.GetAttribute(WebMethodsXML.Attribute.InEasyStudio);
             bool isInEasyBuilder = false;
             if (inEasyBuilder != null && inEasyBuilder.Length > 0)
             {

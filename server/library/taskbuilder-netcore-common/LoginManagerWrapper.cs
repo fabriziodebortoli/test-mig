@@ -195,7 +195,7 @@ namespace Microarea.Common.WebServicesWrapper
                 //modules contiene l'elenco dei module "standard",
                 //viene inizializzata la prima volta che si effettua una chiamata a GetModules e poi mai più.
                 //Ad ogni chiamata, invece, dobbiamo aggiungere l'elenco dei <Applicazione,modulo> che vengono
-                //creati dalle customizzazione EasyBuilder.
+                //creati dalle customizzazione EasyStudio.
                 //Ciò è sensato perchè:
                 //1)i moduli della Standard vengono modificati solamente installando per cui è plausibile
                 //elencarli la prima volta e poi mai più

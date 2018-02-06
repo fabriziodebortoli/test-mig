@@ -423,7 +423,7 @@ namespace Microarea.Common.ExpressionManager
         public bool HasRuleFields = false;
 
 		/// <summary>
-		/// EasyBuilder - abilita il parsing di funzioni del tipo "object.method()"
+		/// EasyStudio - abilita il parsing di funzioni del tipo "object.method()"
 		/// </summary>
 		public bool AllowThisCallMethods
 		{

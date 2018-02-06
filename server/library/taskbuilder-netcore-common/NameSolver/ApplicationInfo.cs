@@ -2008,10 +2008,6 @@ namespace Microarea.Common.NameSolver
                 return ApplicationType.TaskBuilderApplication;
             if (string.Compare(typeString, "Customization", StringComparison.OrdinalIgnoreCase) == 0)
                 return ApplicationType.Customization;
-            if (string.Compare(typeString, "EasyBuilderApplication", StringComparison.OrdinalIgnoreCase) == 0)
-                return ApplicationType.Standardization;
-            if (string.Compare(typeString, "StandardModuleWrapper", StringComparison.OrdinalIgnoreCase) == 0)
-                return ApplicationType.StandardModuleWrapper;
 
             return ApplicationType.Undefined;
         }

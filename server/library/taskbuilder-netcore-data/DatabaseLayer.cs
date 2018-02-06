@@ -1959,14 +1959,7 @@
 //        //    PathFinder.GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)
 //        //        applicationsList.Add(supportList[i]);
-//        //    // poi guardo i verticali realizzati con EasyBuilder su moduli c++ esistenti
-//        //    PathFinder.GetApplicationsList(ApplicationType.StandardModuleWrapper, out supportList);
-//        //    for (int i = 0; i < supportList.Count; i++)
-//        //        applicationsList.Add(supportList[i]);
-//        //    // poi guardo i verticali realizzati con EasyBuilder
-//        //    PathFinder.GetApplicationsList(ApplicationType.Standardization, out supportList);
-//        //    for (int i = 0; i < supportList.Count; i++)
-//        //        applicationsList.Add(supportList[i]);
+//        //    // poi guardo i verticali realizzati con EasyStudio
 //        //    // poi guardo le customizzazioni
 //        //    PathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
 //        //    for (int i = 0; i < supportList.Count; i++)

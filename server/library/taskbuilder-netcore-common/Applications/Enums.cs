@@ -1754,7 +1754,7 @@ namespace Microarea.Common.Applications
 		{
 			this.loaded = true;
 
-			//Le applicazioni EasyBuilder che vivono nella custom appaiono comunque
+			//Le applicazioni EasyStudio che vivono nella custom appaiono comunque
 			//in PathFinder.PathFinderInstance.ApplicationInfos...
 			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
 			{
@@ -1762,7 +1762,7 @@ namespace Microarea.Common.Applications
 				foreach (ModuleInfo mi in ai.Modules)
 				{
 					//...GetEnumsPath() può ritornare il percorso al file degli
-					//enumerativi nella custom (per una customizzazione EasyBuilder)...
+					//enumerativi nella custom (per una customizzazione EasyStudio)...
 					string standardFilename = mi.GetEnumsPath();
 
 					//...comunque per il percorso ritenuto "dalla standard" carico gli enumerativi...

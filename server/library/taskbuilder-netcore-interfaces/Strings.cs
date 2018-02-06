@@ -142,7 +142,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Report = "report";
             public const string DefaultSecurityRoles = "defaultsecurityroles";
             public const string Securityhidden = "securityhidden";
-            public const string InEasyBuilder = "inEasyBuilder";
+            public const string InEasyStudio = "inEasyBuilder";
         }
     }
 
@@ -786,7 +786,6 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Form = "Form";
         public const string Customization = "Customization";
         public const string Documents = "Documents";
-        public const string Standardization = "Standardization";
         public const string ToolbarButton = "ToolbarButton";
         public const string Toolbar = "Toolbar";
         public const string Component = "Component";
@@ -1052,15 +1051,12 @@ namespace TaskBuilderNetCore.Interfaces
         public const string DllSearchCriteria = "*.dll";
         public const string AllFilesSearchCriteria = "*.*";
         public const string EasyStudioDesigner = "EasyStudioDesigner";
-        public const string EasyBuilderPackage = "ebp";
         public const string EbsExtension = ".ebs";
         public const string CrsExtension = ".crs"; // CryptedRowSecurity
         public const string ThemeExtension = ".theme"; // theme
         public const string EbLinkExtension = ".ebl";
 
 
-        public const string EasyBuilderPackageExtension = "." + EasyBuilderPackage;
-        public const string EasyBuilderPackageSearchCriteria = "*" + EasyBuilderPackageExtension;
         public const string PdbExtensionSearchCriteria = "*" + PdbExtension;
 
 
@@ -1118,7 +1114,6 @@ namespace TaskBuilderNetCore.Interfaces
 		public const string TaskBuilder = "TaskBuilder";
         public const string TaskBuilderApplications = "Applications";
         public const string TbApplication = "TbApplication";
-        public const string EasyBuilderApplication = "EasyBuilderApplication";
         public const string EasyStudio = "EasyStudio";
         public const string EasyStudioHome = "ESHome";
 
@@ -1186,7 +1181,6 @@ namespace TaskBuilderNetCore.Interfaces
 
 
         #region Security
-        public const string EasyStudioDeveloperRole = "EasyStudioDeveloper";
         public const string ReportEditorRole = "ReportEditor";
         #endregion
 
@@ -1195,8 +1189,6 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Application = "Application";
         public const string Applications = "Applications";
         public const string Customization = "Customization";
-        public const string Standardization = "Standardization";
-        public const string CustomList = "CustomList";
         public const string CustomizationsLog = "CustomizationsLog";
         public const string Module = "Module";
         public const string Favorites = "Favorites";
@@ -1239,17 +1231,12 @@ namespace TaskBuilderNetCore.Interfaces
         public const string EasyAttachmentSync = "EasyAttachmentSync";
         public const string DataSynchronizer = "DataSynchronizer";
         public const string BackupExtension = ".backup";
-        public const string ReferencedAssemblies = "ReferencedAssemblies";
-        public const string EBSources = "EBSources";
-
         public const string ActivationObject = "ActivationObject";
 
         public const string TbMailer = "TbMailer";
         public const string DataFile = "DataFile";
 
 
-        public const string EnumsNamespace = "Microarea.EasyBuilder";
-        public const string EasyBuilderDllFileName = "Microarea.EasyBuilder.Enums.dll";
         public const string RemoteClientsFile = "RemoteClients.xml";
 
         //funzionalità  menu

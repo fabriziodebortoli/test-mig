@@ -781,7 +781,7 @@ namespace Microarea.Common.NameSolver
             {
                 return
                     AddApplicationsByType(ApplicationType.TaskBuilder | ApplicationType.TaskBuilderNet) &&
-                    AddApplicationsByType(ApplicationType.TaskBuilderApplication | ApplicationType.Standardization | ApplicationType.StandardModuleWrapper) &&
+                    AddApplicationsByType(ApplicationType.TaskBuilderApplication) &&
                     AddApplicationsByType(ApplicationType.Customization);
             }
 
@@ -983,14 +983,8 @@ namespace Microarea.Common.NameSolver
                 case ApplicationType.Customization:
                     pathRoot = GetCustomizationPath(customizationNameSpace, user, easybuilderApp);
                     break;
-                case ApplicationType.Standardization:
-                    pathRoot = GetApplicationPath(customizationNameSpace);
-                    break;
-                case ApplicationType.StandardModuleWrapper:
-                    pathRoot = GetApplicationPath(customizationNameSpace);
-                    break;
                 default:
-                    throw new Exception("Unrecognized EasyBuilder Application type");
+                    throw new Exception("Unrecognized EasyStudio Application type");
             }
             return Path.Combine(pathRoot, customizationNameSpace.Leaf + NameSolverStrings.DllExtension);
         }
@@ -1072,7 +1066,7 @@ namespace Microarea.Common.NameSolver
 
         //---------------------------------------------------------------------
         /// <summary>
-        /// Calculate the path of the EasyBuilder module dll
+        /// Calculate the path of the EasyStudio module dll
         /// </summary>
         /// <returns></returns>
         public string GetEBModuleDllPath(string applicationName, string moduleName)
@@ -2192,10 +2186,6 @@ namespace Microarea.Common.NameSolver
                 return NameSolverStrings.TaskBuilderApplications;
             if (ApplicationInfo.MatchType(applicationType, ApplicationType.Customization))
                 return NameSolverStrings.TaskBuilderApplications;
-            if (ApplicationInfo.MatchType(applicationType, ApplicationType.Standardization))
-                return NameSolverStrings.TaskBuilderApplications;
-            if (ApplicationInfo.MatchType(applicationType, ApplicationType.StandardModuleWrapper))
-                return NameSolverStrings.TaskBuilderApplications;
 
             Debug.Fail("Tipo applicazione non gestito");
 
@@ -2436,7 +2426,7 @@ namespace Microarea.Common.NameSolver
                 return synchroFilesDictionary;
 
             // carico in una lista di appoggio tutte le applicazione dichiarati nell'installazione
-            // sia nella Standard che nella Custom (ad es. EasyBuilder)
+            // sia nella Standard che nella Custom (ad es. EasyStudio)
             StringCollection supportList = new StringCollection();
             StringCollection applicationsList = new StringCollection();
 
@@ -2445,12 +2435,7 @@ namespace Microarea.Common.NameSolver
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
 
-            // poi guardo i verticali realizzati con EasyBuilder
-            GetApplicationsList(ApplicationType.Standardization, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // infine guardo le customizzazioni realizzate con EasyBuilder
+            // infine guardo le customizzazioni realizzate con EasyStudio
             GetApplicationsList(ApplicationType.Customization, out supportList);
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
@@ -4306,9 +4291,7 @@ namespace Microarea.Common.NameSolver
                     {
                         if (applicationInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
                             applicationInfo.ApplicationType != ApplicationType.TaskBuilder &&
-                            applicationInfo.ApplicationType != ApplicationType.Customization &&
-                            applicationInfo.ApplicationType != ApplicationType.Standardization &&
-                            applicationInfo.ApplicationType != ApplicationType.StandardModuleWrapper)
+                            applicationInfo.ApplicationType != ApplicationType.Customization)
                             continue;
                         jsonWriter.WriteStartObject();
 
