@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include	<TbNameSolver\TBResourcesMap.h>
 #define IDD_DATA_VALIDATION_STATUS	GET_IDD(IDD_DATA_VALIDATION_STATUS,M.Extensions.TbDataSynchroClient.UINotification)
 #define IDC_DS_VALIDATIONSTATUS_PICTURE	GET_IDC(IDC_DS_VALIDATIONSTATUS_PICTURE)

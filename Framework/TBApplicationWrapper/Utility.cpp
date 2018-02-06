@@ -38,7 +38,7 @@ WeifenLuo::WinFormsUI::Docking::DockPanel^ CUtility::GetHostingPanel(System::Int
 	
 	if (pFrame == NULL)
 		return nullptr;
-	//la parent della master frame è la finestra dock content che ospita il documento
+	//la parent della master frame ï¿½ la finestra dock content che ospita il documento
 	CWnd* pWnd = pFrame->GetParent();
 
 	if (pWnd == NULL)
@@ -213,7 +213,7 @@ void CUtility::RefreshMenuDocument()
 //------------------------------------------------------------------------------------
 void CUtility::RefreshLogin()
 {
-	//fa uscire la maschera di login gdi che non vogliamo più usare
+	//fa uscire la maschera di login gdi che non vogliamo piï¿½ usare
 	//::PostMessage(AfxGetMenuWindowHandle(), UM_REFRESH_USER_LOGIN, NULL, NULL);
 }
 
@@ -543,7 +543,7 @@ bool CUtility::AddEnumTag (Microarea::TaskBuilderNet::Core::Applications::EnumTa
 	pEnumsTable->AddEnumTag(
 		CString(enumTag->Name),
 		(WORD)enumTag->Value,
-		CString(),//Ho visto che il titolo non è usato dal costruttore C++, siccome non esiste analoga proprietà in C# allora non passo nulla.
+		CString(),//Ho visto che il titolo non ï¿½ usato dal costruttore C++, siccome non esiste analoga proprietï¿½ in C# allora non passo nulla.
 		CTBNamespace(CString(((BaseModuleInfo^)enumTag->OwnerModule)->NameSpace->FullNameSpace)),
 		(WORD)enumTag->DefaultValue
 		);
@@ -651,7 +651,7 @@ void CUtility::GetDataFiles(List<System::String^>^ appTitles, List<System::Strin
 				if (ns.IsValid())
 				{
 					ns.SetType(CTBNamespace::DATAFILE);
-					// devo togliere l'estensione xcheè il DataFileInfo non la vuole
+					// devo togliere l'estensione xcheï¿½ il DataFileInfo non la vuole
 					CString sName = ns.GetObjectName();
 					sName = sName.Left(sName.GetLength() - 4);
 					ns.SetObjectName(sName);

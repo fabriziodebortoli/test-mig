@@ -830,6 +830,22 @@ BOOL CBaseDocument::CanRunDocumentInStandAloneMode() //restituisce TRUE se non c
 	return AfxGetLoginManager()->GetCompanyLoggedUsersNumber(AfxGetLoginInfos()->m_nCompanyId) == 1 && AfxGetLoginContext()->GetOpenDocuments() == 1;
 }
 
+//---------------------------------------------------------------------------
+void CBaseDocument::AssignParameters(const DataStr& arguments)
+{
+	BOOL bOk(FALSE);
+	if (arguments[0] == '<')	//multi tag allowed: <Arguments, Parameters, Function, etc
+	{
+		CFunctionDescription fd;
+		bOk = fd.ParseArguments(arguments);
+		if (bOk)
+			GoInBrowserMode(&fd);
+	}
+	if (!bOk)
+		GoInBrowserMode(arguments);
+}
+
+
 //-----------------------------------------------------------------------------
 BOOL CBaseDocument::CheckContextObject(const CString& strName)
 {

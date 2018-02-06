@@ -52,13 +52,14 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
       return;
     }
 
-    let tempMenuArray = this.menuService.selectedGroup.Menu;
-
     let found = false;
-    for (let i = 0; i < tempMenuArray.length; i++) {
-      if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
-        this.menuService.setSelectedMenu(tempMenuArray[i]);
-        return;
+    let tempMenuArray = this.menuService.selectedGroup.Menu;
+    if (tempMenuArray) {
+      for (let i = 0; i < tempMenuArray.length; i++) {
+        if (tempMenuArray[i].name.toLowerCase() == this.settingsService.LastMenuName.toLowerCase()) {
+          this.menuService.setSelectedMenu(tempMenuArray[i]);
+          return;
+        }
       }
     }
 
@@ -84,10 +85,11 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
 
   findTabIndexByMenu(): number {
     let tempMenuArray = this.menuService.selectedGroup.Menu;
-
-    for (let i = 0; i < tempMenuArray.length; i++) {
-      if (tempMenuArray[i].title == this.menuService.selectedMenu.title)
-        return i;
+    if (tempMenuArray) {
+      for (let i = 0; i < tempMenuArray.length; i++) {
+        if (tempMenuArray[i].title == this.menuService.selectedMenu.title)
+          return i;
+      }
     }
     return -1;
   }
@@ -102,9 +104,11 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
       return;
 
     let tempMenuArray = this.menuService.selectedGroup.Menu;
-    let tab = tempMenuArray[index];
-    if (tab != undefined) {
-      this.menuService.setSelectedMenu(tab);
+    if (tempMenuArray) {
+      let tab = tempMenuArray[index];
+      if (tab != undefined) {
+        this.menuService.setSelectedMenu(tab);
+      }
     }
   }
 
@@ -112,9 +116,11 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
     if (this.menuService.selectedMenu) {
       let array = this.menuService.selectedMenu.Menu;
       let newArray = [];
-      for (let i = 0; i < array.length; i++) {
-        if (this.tileIsVisible(array[i]) && !array[i].hiddenTile)
-          newArray.push(array[i]);
+      if (array) {
+        for (let i = 0; i < array.length; i++) {
+          if (this.tileIsVisible(array[i]) && !array[i].hiddenTile)
+            newArray.push(array[i]);
+        }
       }
 
       // //aggiunto per menù a tre livelli

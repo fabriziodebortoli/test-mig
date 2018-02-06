@@ -210,7 +210,9 @@ public:
 	void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }
 
 	BOOL CanRunDocumentInStandAloneMode(); //restituisce TRUE se non c'è un unico documento aperto e se non ci sono altri utenti connessi all'azienda, FALSE altrimenti
-	
+										   //---------------------------------------------------------------------------
+	void AssignParameters(const DataStr& arguments);
+
 public:
 	virtual void SetPathName(LPCTSTR lpszPathName, BOOL = TRUE)
 		{ CDocument::SetPathName(lpszPathName, FALSE); }

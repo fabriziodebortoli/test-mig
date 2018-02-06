@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // definisce il collegamento fra l'oggetto C++ passato al processore XSLT
 // ed il corrispondente riferimento a tale oggetto nel file di trasformazione 
-// XMLStringLoader.xsl; è importante che questa #define e la corrispondente
+// XMLStringLoader.xsl; ï¿½ importante che questa #define e la corrispondente
 // stringa di namespace definita nel suddetto file rimangano allineati
 #define PATH_FINDER_URN	_T("urn:TBPathFinder")
 #define _PREDEFINED(s) _T(s)
