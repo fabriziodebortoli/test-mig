@@ -67,6 +67,8 @@ const TCHAR szUseWoormRadar[]				= _T("UseWoormRadar");
 const TCHAR szRepeatableNew[]				= _T("RepeatableNew");
 const TCHAR szUseEasyBrowsing[]				= _T("UseEasyBrowsing");
 const TCHAR szEnableFindOnSlaveFields[]		= _T("EnableFindOnSlaveFields");
+const TCHAR szTBLoaderDefaultSOAPPort[]		= _T("TBLoaderDefaultSOAPPort");
+
 
 
 
@@ -79,13 +81,11 @@ const TCHAR szQuantityDecimals[]			= _T("QuantityDecimals");
 
 //.Report.............................................................. 
 const TCHAR szReportSection[] = _T("Report");
-const TCHAR szBarCodeType[]					= _T("BarCodeType");
 const TCHAR szShowPrintSetup[]				= _T("ShowPrintSetup");
 const TCHAR szUpdateDefaultReport[]			= _T("UpdateDefaultReport");
 
 //.Development........................................................
 const  TCHAR szDevelopmentSection[] = _T("Development");		
-const TCHAR szTBLoaderDefaultSOAPPort[]		= _T("TBLoaderDefaultSOAPPort");
 const TCHAR szAllActive[]					= _T("AllActive");
 const TCHAR szEnableLockTrace[]				= _T("EnableLockTrace");
 const TCHAR szLogExitInstance[]				= _T("LogExitInstance");
@@ -241,11 +241,17 @@ const TCHAR szWoormRunningOptions[] = _T("WoormRunningOptions");
 const TCHAR szUseMultithreading[] = _T("UseMultithreading");
 
 //
+//==============================================================================
+const TCHAR szBarcodeConnectorConfigFile[] = _T("Barcode2D.config");
+const TCHAR szDefaultBarcodeSection[] = _T("DefautlBarcode");
+const TCHAR szBarCodeType[] = _T("BarcodeType");
+
+
 //.Default Barcode 2D parameters...............................................
 const TCHAR szDefaultBarcode2DEncoding[] = _T("DefaultBarcode2DEncoding");
 const TCHAR szDefaultBarcode2DVersion[] = _T("DefaultBarcode2DVersion");
 const TCHAR szDefaultBarcode2DErrCorrLevel[] = _T("DefaultBarcode2DErrCorrLevel");
-const TCHAR* szBracodeTypes[] =
+const TCHAR* szBarcodeTypes[] =
 {
 	_T("UPCA"),
 	_T("UPCE"),
@@ -272,8 +278,13 @@ const TCHAR* szBracodeTypes[] =
 	_T("DataMatrix"),
 	_T("MicroQR"),
 	_T("QR")
-
 };
+
+
+const TCHAR	szDataMatrix[] = _T("DataMatrix");
+const TCHAR	szMicroQR[] = _T("MicroQR");
+const TCHAR	szQR[] = _T("QR");
+const TCHAR	szPDF417[] = _T("PDF417");
 
 //==============================================================================
 const TCHAR szMailConnectorConfigFile[]		= _T("MailConnector.config");

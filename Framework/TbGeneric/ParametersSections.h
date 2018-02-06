@@ -54,6 +54,7 @@ extern const TB_EXPORT TCHAR szUseWoormRadar[];
 extern const TB_EXPORT TCHAR szRepeatableNew[];
 extern const TB_EXPORT TCHAR szUseEasyBrowsing[];
 extern const TB_EXPORT TCHAR szEnableFindOnSlaveFields[];
+extern const TB_EXPORT TCHAR szTBLoaderDefaultSOAPPort[];
 
 
 extern const TB_EXPORT TCHAR szDataTypeEpsilonSection[];			// DataTypeEpsilon 
@@ -63,13 +64,11 @@ extern const TB_EXPORT TCHAR szPercentageDecimals[];
 extern const TB_EXPORT TCHAR szQuantityDecimals[];
 
 extern const TB_EXPORT TCHAR szReportSection[];		// Report
-extern const TB_EXPORT TCHAR szBarCodeType[];
 extern const TB_EXPORT TCHAR szShowPrintSetup[];
 extern const TB_EXPORT TCHAR szUpdateDefaultReport[];
 
 
 extern const TB_EXPORT TCHAR szDevelopmentSection[];		// Development
-extern const TB_EXPORT TCHAR szTBLoaderDefaultSOAPPort[];
 extern const TB_EXPORT TCHAR szEnableLockTrace[];
 extern const TB_EXPORT TCHAR szLogExitInstance[];
 extern const TB_EXPORT TCHAR szExpect100Continue[];
@@ -138,10 +137,9 @@ extern const TB_EXPORT TCHAR szAnalizeDocPerformance[];
 
 
 //-------------------------------------------.TbWoormViewer.------------
-
-extern const TB_EXPORT TCHAR szTbWoormViewerSettingFileName[];
 extern const TB_EXPORT CTBNamespace snsTbWoormViewer;
 
+extern const TB_EXPORT TCHAR szTbWoormViewerSettingFileName[];
 extern const TB_EXPORT TCHAR szWoormGeneralOptions[];			// WoormGeneralOptions
 extern const TB_EXPORT TCHAR szRectHRatio[];
 extern const TB_EXPORT TCHAR szRectVRatio[];
@@ -207,13 +205,25 @@ extern const TB_EXPORT TCHAR szFaceName[];
 extern const TB_EXPORT TCHAR szWoormRunningOptions[];			// WoormRunningOptions
 extern const TB_EXPORT TCHAR szUseMultithreading[];
 
-//Barcode 2D
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DEncoding[];
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DVersion[];
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DErrCorrLevel[];
 
+//-------------------------------------------.Barcode.------------
+extern const TB_EXPORT TCHAR szBarcodeConnectorConfigFile[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcodeSection[];
+extern const TB_EXPORT TCHAR	szBarCodeType[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DEncoding[];
+extern const TB_EXPORT TCHAR*	szBarcodeTypes[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DVersion[];
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DErrCorrLevel[];
 extern const TB_EXPORT TCHAR	szBarcode2DFileName[];
-extern const TB_EXPORT TCHAR*	szBracodeTypes[];
+
+extern const TB_EXPORT TCHAR	szDataMatrix[];
+extern const TB_EXPORT TCHAR	szMicroQR[];
+extern const TB_EXPORT TCHAR	szQR[];
+extern const TB_EXPORT TCHAR	szPDF417[];
+
 
 //-------------------------------------------.TbMailer.------------
 

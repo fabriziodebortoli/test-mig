@@ -189,6 +189,9 @@
     <ClCompile Include="ExternalFunctionsTestSuite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DBarcodeSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TbWoormViewer.def">
@@ -906,6 +909,9 @@
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="ExternalFunctionsTestSuite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBarcodeSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,5 @@
 #include "stdafx.h"
 
-//NOW INCLUDED IN COMMON PCH: #include <TbGeneric\GeneralFunctions.h>
-//NOW INCLUDED IN COMMON PCH: #include <TbGenlib\LocalizableObjs.h>
-//#include <TBApplication\Dbl\SalesSettings.h>
 #include <TbGeneric\ParametersSections.h>
 
 #include "DTBFSettings.h"
@@ -61,18 +58,16 @@ void DTBFSettings::DeclareRegisterJson()
 	DECLARE_VAR_JSON(RepeatableNew);
 	DECLARE_VAR_JSON(UseEasyBrowsing);
 	DECLARE_VAR_JSON(EnableFindOnSlaveFields);
+	DECLARE_VAR_JSON(TBLoaderDefaultSOAPPort);
 	//DataTypeEpsilons
 	DECLARE_VAR_JSON(DoubleDecimals);
 	DECLARE_VAR_JSON(MonetaryDecimals);
 	DECLARE_VAR_JSON(PercentageDecimals);
 	DECLARE_VAR_JSON(QuantityDecimals);
 	//Report
-	DECLARE_VAR_JSON(BarCodeType);
 	DECLARE_VAR_JSON(ShowPrintSetup);
 	DECLARE_VAR_JSON(UpdateDefaultReport);
 	DECLARE_VAR_JSON(UseMultithreading);
-	//Development
-	DECLARE_VAR_JSON(TBLoaderDefaultSOAPPort);
 	//Culture
 	DECLARE_VAR_JSON(ExcelDateFormat);
 	DECLARE_VAR_JSON(ExcelTimeFormat);
@@ -126,24 +121,29 @@ BOOL DTBFSettings::GetSaveTBGenlibSettings(BOOL bSave)
 		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szRepeatableNew, m_RepeatableNew, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szUseEasyBrowsing, m_UseEasyBrowsing, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, m_EnableFindOnSlaveFields, szTbDefaultSettingFileName);
+		AfxSetSettingValue(snsTbGenlib, szPreferenceSection, szTBLoaderDefaultSOAPPort, m_TBLoaderDefaultSOAPPort, szTbDefaultSettingFileName);
+
 		//DataTypeEpsilons
 		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szDoubleDecimals, m_DoubleDecimals, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szMonetaryDecimals, m_MonetaryDecimals, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szPercentageDecimals, m_PercentageDecimals, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szQuantityDecimals, m_QuantityDecimals, szTbDefaultSettingFileName);
 		//Report
-		AfxSetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, m_BarCodeType, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szReportSection, szShowPrintSetup, m_ShowPrintSetup, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, m_UpdateDefaultReport, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szReportSection, szUseMultithreading, m_UseMultithreading, szTbDefaultSettingFileName);
-		//Development
-		AfxSetSettingValue(snsTbGenlib, szDevelopmentSection, szTBLoaderDefaultSOAPPort, m_TBLoaderDefaultSOAPPort, szTbDefaultSettingFileName);
 		//Culture
 		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelDateFormat, m_ExcelDateFormat, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelTimeFormat, m_ExcelTimeFormat, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbGenlib, szCultureSection, szExcelDateTimeFormat, m_ExcelDateTimeFormat, szTbDefaultSettingFileName);
 		//Culture
 		AfxSetSettingValue(snsTbGenlib, szSchedulerSection, szTaskIsolation, m_TaskIsolation, szTbDefaultSettingFileName);
+
+		CCustomSaveInterface aCustomSaveInterface;
+		aCustomSaveInterface.m_bSaveAllFile = TRUE;
+		aCustomSaveInterface.m_bSaveAllUsers = TRUE;
+		aCustomSaveInterface.m_eSaveMode = CCustomSaveInterface::COMPANY_USERS;
+		return AfxSaveSettingsFile(snsTbGenlib, szTbDefaultSettingFileName, TRUE, &aCustomSaveInterface);
 	}
 	else	
 	{
@@ -170,26 +170,24 @@ BOOL DTBFSettings::GetSaveTBGenlibSettings(BOOL bSave)
 		m_RepeatableNew = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szRepeatableNew, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_UseEasyBrowsing = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szUseEasyBrowsing, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_EnableFindOnSlaveFields = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, DataBool(TRUE), szTbDefaultSettingFileName);
+		m_TBLoaderDefaultSOAPPort = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szTBLoaderDefaultSOAPPort, DataInt(10000), szTbDefaultSettingFileName);
 		//DataTypeEpsilons
 		m_DoubleDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szDoubleDecimals, DataInt(7), szTbDefaultSettingFileName);
 		m_MonetaryDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szMonetaryDecimals, DataInt(7), szTbDefaultSettingFileName);
 		m_PercentageDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szPercentageDecimals, DataInt(7), szTbDefaultSettingFileName);
 		m_QuantityDecimals = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDataTypeEpsilonSection, szQuantityDecimals, DataInt(7), szTbDefaultSettingFileName);		
 		//Report
-		m_BarCodeType = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 		m_ShowPrintSetup = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szShowPrintSetup, DataBool(FALSE), szTbDefaultSettingFileName);
 		m_UpdateDefaultReport = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, DataBool(TRUE), szTbDefaultSettingFileName);
 		m_UseMultithreading = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szReportSection, szUseMultithreading, DataBool(TRUE), szTbDefaultSettingFileName);
-		//Development
-		m_TBLoaderDefaultSOAPPort = *(DataInt*)AfxGetSettingValue(snsTbGenlib, szDevelopmentSection, szTBLoaderDefaultSOAPPort, DataInt(10000), szTbDefaultSettingFileName);
-		//Culture
+			//Culture
 		m_ExcelDateFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelDateFormat, DataStr(_T("MM/dd/yyyy")), szTbDefaultSettingFileName);
 		m_ExcelTimeFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelTimeFormat, DataStr(_T("hh:mm")), szTbDefaultSettingFileName);
 		m_ExcelDateTimeFormat = *(DataStr*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szExcelDateTimeFormat, DataStr(_T("M/d/yyyy hh:mm;@")), szTbDefaultSettingFileName);
 		//Culture
 		m_TaskIsolation = *(DataBool*)AfxGetSettingValue(snsTbGenlib, szCultureSection, szTaskIsolation, DataBool(FALSE), szTbDefaultSettingFileName);
 	}
-	return (bSave) ? AfxSaveSettingsFile(snsTbGenlib, szTbDefaultSettingFileName, TRUE, NULL) : TRUE;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -216,6 +214,12 @@ BOOL DTBFSettings::GetSaveTBOleDBSettings(BOOL bSave)
 		AfxSetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTraceActions, m_DebugSqlTraceActions, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTraceTables, m_DebugSqlTraceTables, szTbDefaultSettingFileName);
 		AfxSetSettingValue(snsTbOleDb, szLockManager, szEnableEventViewerLog, m_EnableEventViewerLog, szTbDefaultSettingFileName);
+
+		CCustomSaveInterface aCustomSaveInterface;
+		aCustomSaveInterface.m_bSaveAllFile = TRUE;
+		aCustomSaveInterface.m_bSaveAllUsers = TRUE;
+		aCustomSaveInterface.m_eSaveMode = CCustomSaveInterface::COMPANY_USERS;
+		return AfxSaveSettingsFile(snsTbOleDb, szTbDefaultSettingFileName, TRUE, &aCustomSaveInterface);
 	}
 	else
 	{
@@ -239,8 +243,7 @@ BOOL DTBFSettings::GetSaveTBOleDBSettings(BOOL bSave)
 		m_DebugSqlTraceTables = *(DataStr*)AfxGetSettingValue(snsTbOleDb, szLockManager, szDebugSqlTraceTables, DataStr(), szTbDefaultSettingFileName);
 		m_EnableEventViewerLog = *(DataBool*)AfxGetSettingValue(snsTbOleDb, szLockManager, szEnableEventViewerLog, DataBool(FALSE), szTbDefaultSettingFileName);
 	}
-
-	return (bSave) ? AfxSaveSettingsFile(snsTbOleDb, szTbDefaultSettingFileName, TRUE, NULL) : TRUE;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------

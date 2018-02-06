@@ -400,7 +400,7 @@ EngineScheduler::EngineScheduler(ReportEngine* pReportEngine)
 {
 	ResetRTError();
 
-	DataObj* pS = AfxGetSettingValue(snsTbWoormViewer, szWoormRunningOptions, szUseMultithreading, DataBool(FALSE), szTbWoormViewerSettingFileName);
+	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szReportSection, szUseMultithreading, DataBool(FALSE), szTbDefaultSettingFileName);
 	m_bUseMultithreading = pS ? *((DataBool*)pS) : FALSE;
 }
 

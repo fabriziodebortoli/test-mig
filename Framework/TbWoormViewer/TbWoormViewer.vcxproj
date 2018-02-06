@@ -332,6 +332,7 @@
     <ClCompile Include="COLORCBX.CPP" />
     <ClCompile Include="COLUMN.CPP" />
     <ClCompile Include="CustomEditCtrl.cpp" />
+    <ClCompile Include="DBarcodeSettings.cpp" />
     <ClCompile Include="DocProperties.cpp" />
     <ClCompile Include="EditorLinksDlg.cpp" />
     <ClCompile Include="ExpExter.cpp" />
@@ -580,7 +581,9 @@
     <None Include="res\WoormExportText.bmp" />
     <None Include="res\WoormExportWord.bmp" />
     <None Include="res\WoormSendEmail.bmp" />
-    <None Include="ModuleObjects\DocumentObjects.xml" />
+    <None Include="ModuleObjects\DocumentObjects.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ModuleObjects\Enums.xml" />
     <None Include="ModuleObjects\WebMethods.xml">
       <SubType>Designer</SubType>
@@ -599,6 +602,7 @@
     <ClInclude Include="COLORCBX.H" />
     <ClInclude Include="COLUMN.H" />
     <ClInclude Include="CustomEditCtrl.h" />
+    <ClInclude Include="DBarcodeSettings.h" />
     <ClInclude Include="DocProperties.h" />
     <ClInclude Include="EditorLinksDlg.h" />
     <ClInclude Include="ExpExter.h" />

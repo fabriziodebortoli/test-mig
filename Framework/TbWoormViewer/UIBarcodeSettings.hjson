@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TBWoormViewer\ModuleObjects\BarcodeSettings\JsonForms\IDD_TD_BARCODE_COMPANYUSER_SETTINGS.hjson>
+#include	<TBWoormViewer\ModuleObjects\BarcodeSettings\JsonForms\IDD_BARCODE_COMPANYUSER_SETTINGS.hjson>
+#include	<TBWoormViewer\ModuleObjects\BarcodeSettings\JsonForms\IDD_BARCODE_COMPANYUSER_SETTINGS_VIEW.hjson>
+

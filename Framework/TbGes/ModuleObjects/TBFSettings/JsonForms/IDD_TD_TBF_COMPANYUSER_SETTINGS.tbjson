@@ -1,7 +1,7 @@
 {
     "id": "IDD_TD_TBF_COMPANYUSER_SETTINGS",
     "type": 71, //tile
-    "name": "CompanyUserSettings",
+    "name": "TBFCompanyUserSettings",
     "text": "",
     "size": 2, //TILE_STANDARD
     "tileStyle": 6, //TDS_PARAMETERS
@@ -410,15 +410,6 @@
                     "text": "Report",
                     "hint": "Report",
                     "items": [
-                        {
-                            "type": 81,
-                            "name": "BarCodeType",
-                            "text": "Default bar code",
-                            "hint": "Default bar code  (EAN8, EAN13, CODE39, UPCA, UPCE, EXT39, INT25, CODE128, CODABAR, ZIP, MSIPLESSEY, CODE93, EXT93, UCC128, HIBC, PDF417, UPCE0, UPCE1, CODE128A, CODE128B, CODE128C, EAN128, DataMatrix, MicroQR, QR, Default).",
-                            "binding": { "datasource": "BarCodeType" },
-                            "id": "IDC_TBF_REPORT_BARCODE_TYPE",
-                            "controlClass": "StringEdit"
-                        },
                         {
                             "type": 81,
                             "name": "ShowPrintSetup",

@@ -513,7 +513,7 @@ void CTaskBuilderApp::StartWCFServices()
 	CTBNamespace aNs (szTbGenlibNamespace);
 	DataInt* pSetting = NULL;
 	
-	pSetting = (DataInt*) AfxGetSettingValue(aNs, szDevelopmentSection,  szTBLoaderDefaultSOAPPort);
+	pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  szTBLoaderDefaultSOAPPort);
 	int defaultSoapPort = pSetting ? *pSetting : 0;
 	
 	//pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  _T("TBLoaderDefaultTCPPort"));

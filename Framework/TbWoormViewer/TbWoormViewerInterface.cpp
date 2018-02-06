@@ -12,6 +12,7 @@
 #include <tboledb\interfacemacros.h>
 
 #include <TbGes\ExtDocFrame.h>
+#include <TbGes\JsonFrame.h>
 
 #include <TbWoormViewer\woormdoc.h>
 #include <TbWoormViewer\woormfrm.h>
@@ -20,6 +21,9 @@
 #include <TbWoormViewer\RSEditorUI.h>
 #include <TbWoormViewer\RSEditView.h>
 #include "Woormdoc.hjson"
+
+#include <TbWoormViewer\DBarcodeSettings.h>
+#include "ModuleObjects\BarcodeSettings\JsonForms\IDD_BARCODE_COMPANYUSER_SETTINGS.hjson"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -42,6 +46,10 @@ BEGIN_ADDON_INTERFACE()
 			REGISTER_SLAVE_TEMPLATE(CWoormDocMng, CRSEditorFrame, CRSEditView)
 			REGISTER_SLAVE_TEMPLATE(CWoormDocMng, CRSEditorFrameFullText, CRSEditViewFullText)
 			REGISTER_SLAVE_TEMPLATE(CWoormDocMng, CRSEditorDebugFrame, CRSEditViewDebug)
+		END_DOCUMENT()
+
+		BEGIN_DOCUMENT(_NS_DOC("BarcodeSettings"), TPL_NO_PROTECTION)
+			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode, DBarcodeSettings, IDD_BARCODE_COMPANYUSER_SETTINGS)
 		END_DOCUMENT()
 
 	END_TEMPLATE()

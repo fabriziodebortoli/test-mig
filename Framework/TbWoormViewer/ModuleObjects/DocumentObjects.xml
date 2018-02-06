@@ -2,5 +2,10 @@
 <DocumentObjects>
   <Documents>
     <Document namespace="Framework.TbWoormViewer.TbWoormViewer.TbWoorm" localize="Tb Woorm: report generator" classhierarchy="CBaseDocument" securityhidden="true" published="false"/>
+    <Document namespace="Framework.TbWoormViewer.TbWoormViewer.BarcodeSettings" localize="Company/User TBF Settings" classhierarchy="DCompanyUserSettingsDoc.DBarcodeSettings">
+      <ViewModes>
+        <Mode name="Default" />
+      </ViewModes>
+    </Document>
   </Documents>
 </DocumentObjects>

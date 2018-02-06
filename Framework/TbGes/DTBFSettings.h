@@ -46,7 +46,6 @@ public:
 	DECLARE_SETTING(Int, PercentageDecimals);
 	DECLARE_SETTING(Int, QuantityDecimals);
 	//Report
-	DECLARE_SETTING(Str,  BarCodeType);
 	DECLARE_SETTING(Bool, ShowPrintSetup);
 	DECLARE_SETTING(Bool, UpdateDefaultReport);
 	DECLARE_SETTING(Bool, UseMultithreading);
@@ -88,7 +87,7 @@ protected:
 
 
 protected:
-	//{{AFX_MSG(DTBFAccountingSettings)
+	//{{AFX_MSG(DTBFSettings)
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

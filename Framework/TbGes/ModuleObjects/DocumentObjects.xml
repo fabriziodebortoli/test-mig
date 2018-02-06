@@ -14,9 +14,9 @@
 			</ViewModes>
 		</Document>
     <Document namespace="Framework.TbGes.TbGes.TBFSettings" localize="Company/User TBF Settings" classhierarchy="DCompanyUserSettingsDoc.DTBFSettings">
-    <ViewModes>
-      <Mode name="Default" />
-    </ViewModes>
-  </Document>
+      <ViewModes>
+        <Mode name="Default" />
+      </ViewModes>
+    </Document>
 	</Documents>
 </DocumentObjects>
