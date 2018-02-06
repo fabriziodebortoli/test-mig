@@ -10,7 +10,6 @@
 #include "TBEasyBuilder.h"
 #include "CDEasyBuilder.hjson"
 #include "JsonConnector.h"
-#include "SourceControl.h"
 
 using namespace System;
 using namespace System::Threading;
@@ -347,7 +346,6 @@ bool CEasyStudioDesignerDialog::SaveFile()
 		CWndObjDescription* pChild = container[i];
 		RecursiveCreateFolders(GetPath(sJsonFile));
 
-		CSourceControl::CheckOutIfNeeded(gcnew String(sJsonFile));
 		CLineFile file;
 		if (!file.Open(sJsonFile, CFile::modeCreate | CFile::modeWrite | CFile::typeText, NULL, CLineFile::UTF8))
 		{
@@ -364,7 +362,6 @@ bool CEasyStudioDesignerDialog::SaveFile()
 		PathRemoveExtension(sHJsonFile.GetBuffer());
 		sHJsonFile.ReleaseBuffer();
 		sHJsonFile += HjsonExtension;
-		CSourceControl::CheckOutIfNeeded(gcnew String(sHJsonFile));
 		if (!file.Open(sHJsonFile, CFile::modeCreate | CFile::modeWrite | CFile::typeText, NULL, CLineFile::UTF8))
 		{
 			ShowError(cwsprintf(_TB("Cannot save file {0-%s}"), sHJsonFile));
