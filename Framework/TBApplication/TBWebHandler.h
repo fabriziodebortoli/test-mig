@@ -53,7 +53,8 @@ private:
 	void AssignWoormParameters			(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void GetDBTSlaveBufferedModel		(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void AddRowDBTSlaveBuffered			(const CString& path, const CNameValueCollection& params, CTBResponse& response);
-
+	void RemoveRowDBTSlaveBuffered		(const CString& path, const CNameValueCollection& params, CTBResponse& response);
+	void ChangeRowDBTSlaveBuffered		(const CString& path, const CNameValueCollection& params, CTBResponse& response);
 	void AssignWoormParametersInternal  (HWND hWndWoormDoc, CString reportOutParameters);
 
 	void GetAllAppsAndModules(const CString& path, const CNameValueCollection& params, CTBResponse& response);

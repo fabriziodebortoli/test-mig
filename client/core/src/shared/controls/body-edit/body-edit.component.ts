@@ -36,6 +36,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public selector: any;
   public selectableSettings: SelectableSettings;
 
+  currentRowIdx: number = -1;
   subscriptions = [];
 
   @ContentChildren(BodyEditColumnComponent) be_columns;
@@ -51,7 +52,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     public store: Store
   ) {
     super(layoutService, tbComponentService, cdr);
-
 
     this.selectableSettings = {
       checkboxOnly: false,
@@ -72,16 +72,80 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
+  //-----------------------------------------------------------------------------------------------
+  ngAfterContentInit() {
+    resolvedPromise.then(() => {
+      let cols = this.be_columns.toArray();
+      let internalColumnComponents = [];
+      for (let i = 0; i < cols.length; i++) {
+        internalColumnComponents.push(cols[i].columnComponent);
+      }
+      this.grid.columns.reset(internalColumnComponents);
+    });
+
+    this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
+    this.subscribeToSelector();
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  ngAfterViewInit() {
+    this.changeDetectorRef.markForCheck();
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
+    if (!isEdited) {
+      let columns = Object.getOwnPropertyNames(dataItem);
+      let colName = columns[columnIndex];
+      if (dataItem[colName].enabled)
+        sender.editCell(rowIndex, columnIndex);
+    }
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  public cellCloseHandler(args: any) {
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  ben_row_changed(item) {
+
+    console.log("ben_row_changed", item)
+    //qui devo inviare al server il cambio riga
+    //this.changeRow();
+    //le colonne si abilitano chiedendo al prototipo del sql record lo stato dei suoi dataobj
+    this.currentRowIdx = item.selectedRows[0].index
+    this.currentRow = item.selectedRows[0].dataItem;
+    for (var prop in this.currentRow) {
+      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
+    }
+  }
+
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName).subscribe((res) => {
-      if (res.dbt) {
-        addModelBehaviour(res.dbt);
-        this.model.rows = res.dbt.rows;
-        this.model.prototype = res.dbt.prototype;
-        this.model.lastTimeStamp = new Date().getTime();
-        this.changeDetectorRef.markForCheck();
-      }
+      this.updateModel(res.dbt);
+      sub.unsubscribe();
+    });
+  }
+
+  removeRow() {
+    if (this.currentRowIdx < 0)
+      return;
+
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.currentRowIdx).subscribe((res) => {
+      this.updateModel(res.dbt);
+      sub.unsubscribe();
+    });
+  }
+
+  changeRow() {
+    if (this.currentRowIdx < 0)
+      return;
+
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.currentRowIdx).subscribe((res) => {
+      this.updateModel(res.dbt);
       sub.unsubscribe();
     });
   }
@@ -98,61 +162,22 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
       let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName).subscribe((res) => {
 
-        addModelBehaviour(res.dbt);
-        this.model.rows = res.dbt.rows;
-        this.model.prototype = res.dbt.prototype;
-        this.model.lastTimeStamp = new Date().getTime();
-        this.changeDetectorRef.markForCheck();
-
+        this.updateModel(res.dbt);
         sub.unsubscribe();
       });
     }
   }
 
-  //-----------------------------------------------------------------------------------------------
-  ngAfterContentInit() {
-    resolvedPromise.then(() => {
-      let cols = this.be_columns.toArray();
-      let internalColumnComponents = [];
-      for (let i = 0; i < cols.length; i++) {
-        internalColumnComponents.push(cols[i].columnComponent);
-      }
-      this.grid.columns.reset(internalColumnComponents);
-    });
+  private updateModel(dbt: any) {
 
-    this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
-    this.subscribeToSelector();
-
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  ngAfterViewInit() {
+    if (!dbt)
+      return;
+    addModelBehaviour(dbt);
+    this.model.rows = dbt.rows;
+    this.model.prototype = dbt.prototype;
+    //this.model.currentRowIdx = dbt.currentRowIdx;
+    this.model.lastTimeStamp = new Date().getTime();
     this.changeDetectorRef.markForCheck();
   }
 
-  //-----------------------------------------------------------------------------------------------
-  ben_row_changed(item) {
-
-    //qui devo inviare al server il cambio riga
-
-    //le colonne si abilitano chiedendo al prototipo del sql record lo stato dei suoi dataobj
-    this.currentRow = item.selectedRows[0].dataItem;
-    for (var prop in this.currentRow) {
-      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
-    }
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
-    if (!isEdited) {
-      let columns = Object.getOwnPropertyNames(dataItem);
-      let colName = columns[columnIndex];
-      if (dataItem[colName].enabled)
-        sender.editCell(rowIndex, columnIndex);
-    }
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  public cellCloseHandler(args: any) {
-  }
 }

@@ -29,9 +29,13 @@ CTbWebHandler::CTbWebHandler()
 	functionMap.SetAt(_T("getOnlineHelpUrl/"),				&CTbWebHandler::GetOnlineHelpFunction);
 	functionMap.SetAt(_T("getThemes/"),						&CTbWebHandler::GetThemesFunction);
 	functionMap.SetAt(_T("changeThemes/"),					&CTbWebHandler::ChangeThemesFunction);
+
 	functionMap.SetAt(_T("getDBTSlaveBufferedModel/"),		&CTbWebHandler::GetDBTSlaveBufferedModel);
 	functionMap.SetAt(_T("addRowDBTSlaveBuffered/"),		&CTbWebHandler::AddRowDBTSlaveBuffered);
+	functionMap.SetAt(_T("removeRowDBTSlaveBuffered/"),		&CTbWebHandler::RemoveRowDBTSlaveBuffered);
+	functionMap.SetAt(_T("changeRowDBTSlaveBuffered/"),		&CTbWebHandler::ChangeRowDBTSlaveBuffered);
 	
+
 	functionMap.SetAt(_T("getAllAppsAndModules/"),		&CTbWebHandler::GetAllAppsAndModules);
 	functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
 	functionMap.SetAt(_T("createNewContext/"),			&CTbWebHandler::CreateNewContext);
@@ -781,6 +785,83 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 		response.SetMimeType(L"application/json");
 	}
 }
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::ChangeRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+	int nRow = _ttoi(sRowNumber);
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		buffered->SetCurrentRow(nRow);
+		/*CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");*/
+		aResponse.SetOK();
+		response.SetData(aResponse);
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+	int nRowToDelete = _ttoi(sRowNumber);
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		BOOL bOk = buffered->DeleteRecord(nRowToDelete);
+		
+		CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");
+	}
+}
+
 
 //--------------------------------------------------------------------------------
 void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameValueCollection& params, CTBResponse& response)

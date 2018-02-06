@@ -254,7 +254,7 @@ export class HttpService {
     }
 
     getDBTSlaveBufferedModel(cmpId: any, dbtName: any) {
-        
+
         let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'getDBTSlaveBufferedModel/';
         return this.postData(urlToRun, obj)
@@ -264,7 +264,7 @@ export class HttpService {
     }
 
     addRowDBTSlaveBuffered(cmpId: any, dbtName: any) {
-        
+
         let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
@@ -272,5 +272,24 @@ export class HttpService {
                 return res.json();
             });
     }
+
+    removeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'removeRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
     
+    changeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 }
