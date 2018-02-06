@@ -110,6 +110,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private isTablePopupVisible = false;
   private isOptionsPopupVisible = false;
 
+  private loading = false;
+
   constructor(public httpService: HttpService,
     layoutService: LayoutService,
     public enumService: EnumsService,
@@ -281,25 +283,18 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
-        console.log('PAGE NO: '+ JSON.stringify(pageNumber + 1))
-        console.log('ROWS NO: '+ JSON.stringify(serverPageSize))
+        this.loading = true;
         return this.httpService.getHotlinkData(ns, this.selectionType,  p);
       },
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
     this.subscription = this.paginator.clientData.subscribe((d) => {
-        let key = d.key;
-        // TODO: remove once this bug has been fixed on server side.
-        if(key.indexOf('.')) {
-          let splitted = d.key.split('.');
-          key = splitted.splice(splitted.length -1)[0];
-        }
-
-        this.selectionColumn = key
+        this.selectionColumn = d.key
         if (d.columns) {
           this.columns = d.columns;
         }
-        this.gridView$.next({key: key, data: d.rows, total: d.total, columns: d.columns });
+        this.loading = false;
+        this.gridView$.next({key: d.key, data: d.rows, total: d.total, columns: d.columns });
         setTimeout(() => {
           if (this.tablePopupRef) {
             this.tablePopupRef.popupElement

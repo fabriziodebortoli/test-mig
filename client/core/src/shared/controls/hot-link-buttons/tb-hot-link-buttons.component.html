@@ -54,6 +54,7 @@
                     [value]="slice$ | async | asDropDownValue"
                     [textField]="'id'"
                     [valueField]="'id'"
+                    [loading]="loading"
                     (open)="openDropDown()"
                     (close)="closeDropDown()"
                     [style.width.px]="width"
