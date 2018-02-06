@@ -86,7 +86,8 @@ namespace Microarea.TbLoaderGate
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                         string json = JsonConvert.SerializeObject(res);
                         byte[] buff = Encoding.UTF8.GetBytes(json);
-
+                         if (newInstance)
+                            HttpContext.Session.SetString(TbLoaderName, tb.Name);
                         await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
                     }
                     else
@@ -106,10 +107,11 @@ namespace Microarea.TbLoaderGate
                         }
                         HttpContext.Response.StatusCode = (int)resp.StatusCode;
 
+                        if (newInstance)
+                            HttpContext.Session.SetString(TbLoaderName, tb.Name);
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
-                    if (newInstance)
-                        HttpContext.Session.SetString(TbLoaderName, tb.Name);
+                    
                 }
 
             }
