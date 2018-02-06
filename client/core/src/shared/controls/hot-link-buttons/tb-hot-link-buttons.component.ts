@@ -309,11 +309,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         }, 100);
     });
 
-    this.filterer.filterChanged$.subscribe(x => { 
+    this.filterer.filterChanged$.filter(x => (this.isAttachedToAComboBox && x.logic !== undefined) || !this.isAttachedToAComboBox)
+      .subscribe(x => { 
       this._gridStyle$.next(this._defaultGridStyle);
       if (this.isAttachedToAComboBox && this.modelComponent && this.modelComponent.model) {
-        this.modelComponent.model.value = _.get(x, 'filters[0].value');
-        this.emitModelChange();
+          this.modelComponent.model.value = _.get(x, 'filters[0].value');
+          this.emitModelChange();
       }
     });
     this.filterer.filterChanging$.subscribe(x => this._gridStyle$.next(this._filterTypingGridStyle));
