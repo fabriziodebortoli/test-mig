@@ -8856,7 +8856,7 @@ void CParsedCtrl::ReadPropertiesFromJson()
 			m_pOwnerWndDescription->m_CaptionVerticalAlign,
 			CParsedCtrl::Left,
 			nCaptionW,
-			FALSE);
+			TRUE);
 	}
 }
 
