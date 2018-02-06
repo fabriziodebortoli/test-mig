@@ -386,7 +386,7 @@ public:
 	static System::String^ GetEasyStudioCustomizationsPath	();
 	
 	// path generici
-	static System::String^ GeImageNamespace		(System::String^ appName, System::String^ moduleName, System::String^ nameWithExtension);
+	static System::String^ GetImageNamespace	(System::String^ appName, System::String^ moduleName, System::String^ nameWithExtension);
 	static System::String^ GetImageFolderPath	(System::String^ appName, System::String^ moduleName);
 	static System::String^ GetTemplatesPath		(bool inCustom, bool createDir);
 

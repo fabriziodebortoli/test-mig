@@ -89,7 +89,7 @@ namespace Microarea.EasyBuilder.UI
 			ListViewItem lvItem = new ListViewItem();
 			listViewModuleImages.Items.Add(lvItem);
 			lvItem.Text = filename;
-			string ns = PathFinderWrapper.GeImageNamespace(
+			string ns = PathFinderWrapper.GetImageNamespace(
 				BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp.ApplicationName,
 				BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp.ModuleName, 
 				filename);

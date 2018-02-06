@@ -1027,7 +1027,7 @@ String^ PathFinderWrapper::GetEasyStudioAssemblyFullName(String^ customizationNa
 }
 
 //---------------------------------------------------------------------------------
-String^ PathFinderWrapper::GeImageNamespace(String^ appName, String^ moduleName, String^ nameWithExtension)
+String^ PathFinderWrapper::GetImageNamespace(String^ appName, String^ moduleName, String^ nameWithExtension)
 {
 	return String::Join(".",NameSolverStrings::Image, appName, moduleName, NameSolverStrings::Images, nameWithExtension);
 }
