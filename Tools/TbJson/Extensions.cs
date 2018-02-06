@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -327,7 +328,38 @@ namespace Microarea.TbJson
                 return null;
             return result.Value<string>();
         }
+        //-----------------------------------------------------------------------------
+        internal static string GetSafeJsonString(this JToken jObj)
+        {
+            switch (jObj.Type)
+            {
+                case JTokenType.Float:
+                    double f = jObj.Value<double>();
+                    return f.ToString(CultureInfo.InvariantCulture);
+                case JTokenType.Boolean:
+                    return jObj.ToString().ToLowerInvariant();
+                case JTokenType.None:
+                case JTokenType.Object:
+                case JTokenType.Array:
+                case JTokenType.Constructor:
+                case JTokenType.Property:
+                case JTokenType.Comment:
+                case JTokenType.Integer:
+                case JTokenType.String:
+                case JTokenType.Null:
+                case JTokenType.Undefined:
+                case JTokenType.Date:
+                case JTokenType.Raw:
+                case JTokenType.Bytes:
+                case JTokenType.Guid:
+                case JTokenType.Uri:
+                case JTokenType.TimeSpan:
+                default:
+                    break;
+            }
 
+            return jObj.ToString();
+        }
         //-----------------------------------------------------------------------------
         internal static ValueType GetString(this JToken jObj, string name, out string val)
         {
@@ -347,15 +379,8 @@ namespace Microarea.TbJson
             {
                 val = result.ToString();
                 if (Helpers.AdjustExpression(ref val))
-                {
-                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
-                }
-                return ValueType.PLAIN;
-            }
-            if (result.Type == JTokenType.Boolean)
-            {
-                val = result.ToString().ToLowerInvariant();
+
                 return ValueType.PLAIN;
             }
             if (result.Type == JTokenType.Object)
@@ -371,7 +396,7 @@ namespace Microarea.TbJson
                 return ValueType.CONSTANT;
             }
 
-            val = result.ToString();
+            val = result.GetSafeJsonString();
             return ValueType.PLAIN;
         }
         static IList buttonOrder = new string[]{

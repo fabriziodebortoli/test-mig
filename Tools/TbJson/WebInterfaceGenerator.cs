@@ -1256,7 +1256,7 @@ namespace Microarea.TbJson
                     JToken jVal;
                     if (constants.TryGetValue(val, out jVal))
                     {
-                        val = jVal.ToString();
+                        val = jVal.GetSafeJsonString();
                     }
                     else
                     {
