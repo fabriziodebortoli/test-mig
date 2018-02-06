@@ -219,14 +219,35 @@ export function createSelector(...input: any[]): Selector<any, any> {
   });
 }
 
-export function createSelectorByMap<T>(selectorMap: T): Selector<any, {[P in keyof T]: any}> {
+export function createSelectorByMap(selectorMap): Selector<any, any> {
   const props = Object.keys(selectorMap);
   const selectors = props.map(x => s => _.get(s, selectorMap[x]));
-  return createSelector.call(null, selectors,
+  const sel = createSelector.call(null, selectors,
     function fun(...slices: any[]) {
       return slices.reduce((o, val, i) => { o[props[i]] = val; return o; },
         { propertyChangedName: fun.hasOwnProperty('tag') ? props[fun['tag']] : undefined });
     });
+  sel.map = selectorMap;
+  return sel;
 }
 
+export function createSelectorByPaths(paths: string[], propNames: string[] = []): Selector<any, any> {
+  if (propNames.length !== paths.length)
+    propNames = paths.map(p => p.includes('.') ? p.slice(p.lastIndexOf('.') + 1) : p);
+  return createSelectorByMap(propNames.reduce((o, p, i) => { o[p] = paths[i]; return o; }, {}));
+}
+
+export function extendSelectorByMap(selector: Selector<any, any>, selectorMap): Selector<any, any> {
+  const baseMap = (selector as any).map;
+  if (baseMap === undefined)
+    throw new Error('only selectors created by createSelectorByMap or createSelectorByPaths can be extended');
+  return createSelectorByMap(extendMap(baseMap, selectorMap));
+}
+
+function extendMap(baseMap, selectorMap) {
+  const props = Object.keys(selectorMap);
+  const baseProps = Object.keys(baseMap);
+  const paths = props.map(p => selectorMap[p].split('.', 2));
+  return props.reduce((o, p, i) => { o[p] = baseMap[paths[i][0]] + '.' + paths[i][1]; return o; }, {});
+}
 

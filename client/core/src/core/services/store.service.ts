@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged, of, concat } from './../../rxjs.imports';
 import { EventDataService } from './eventdata.service';
 import { Logger } from './logger.service';
-import { createSelector, createSelectorByMap } from './../../shared/commons/selector';
+import { createSelector, createSelectorByMap, createSelectorByPaths } from './../../shared/commons/selector';
 import * as _ from 'lodash';
 
 export interface Action { type: string; }
@@ -88,7 +88,7 @@ export class StoreT<T> extends Observable<T> {
   ): StoreT<any> {
     let mapped$: Observable<any>;
     if (typeof pathOrMapFn === 'string') {
-      mapped$ = pluck.call(this, pathOrMapFn, ...paths);
+      mapped$ = map.call(this, createSelectorByPaths([pathOrMapFn, ...paths]));
     } else if (typeof pathOrMapFn === 'function') {
       mapped$ = map.call(this, pathOrMapFn);
     } else {
