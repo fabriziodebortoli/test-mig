@@ -1,17 +1,17 @@
-<div class="radar-container" [@shrinkOut]="state.view">
+<div class="radar-container" [@shrinkOut]="viewState">
     <div class="toolbar-top">
         <div class="toolbar-top-item title">
             <span class="document-title truncate">{{_TB("Radar")}}</span>
         </div>
         <div class="toolbar-top-item functions"></div>
         <div class="toolbar-top-item navigation">
-            <button kendoButton class="top-button" (click)="selectFirst()" [title]="_TB('First')" [disabled]='!canFirst || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectFirst()" [title]="_TB('First')" [disabled]='!canFirst || !state.canNavigate'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='!canPrev || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='!canPrev || !state.canNavigate'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-prev'" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !(canNavigate$ | async)'>
+            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !state.canNavigate'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-next'" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="eventData.showRadar.next(false)" [title]="_TB('Close')">
@@ -19,44 +19,11 @@
             </button>
         </div>
     </div>
-    <kendo-grid #grid [sortable]="true" [sort]="sort$ | async" (sortChange)="sortChange($event)" class="radar-grid" [height]="300" [data]="gridData$ | async"
-        [pageSize]="pageSize" [selectable]="canNavigate$ | async" [skip]="paginator.skip" [filterable]="areFiltersVisible" [filter]="filter"
-        (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange($event)" [ngStyle]="gridStyle$ | async"
-        (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
-        [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
-        <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
-            field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="200">
-            <ng-template kendoGridCellTemplate let-dataItem>
-                <div id="cell-container">
-                    <div [ngSwitch]="col.type">
-                        <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
-                        <div *ngSwitchDefault class="hotLinkGridCell" style="display: flex">
-                            <button kendoButton class="cell-button" (click)="selectAndEdit(dataItem)" [title]="_TB('Edit')">
-                                <tb-icon id="cell-icon" *ngIf="idx === 1" [iconType]="'M4'" [icon]="'tb-edit'" class="toolbar-icon"></tb-icon>
-                            </button>
-                            <div style="flex: 1">{{dataItem[col.id] | tbEnums: col.type | async}}</div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </kendo-grid-column>
-
-        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-            <kendo-pager-numeric-buttons></kendo-pager-numeric-buttons>
-            <div class="pager-number">{{currentPage}}</div>
-            <kendo-pager-next-buttons></kendo-pager-next-buttons>
-            <div class="pager-buttons">
-                <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
-                    <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
-                </button>
-                <button kendoButton class="top-button toggle-button" (click)="areFiltersVisible = !areFiltersVisible" [title]="areFiltersVisibleText">
-                    <tb-icon [iconType]="'M4'" [icon]="areFiltersVisibleIcon" class="toolbar-icon"></tb-icon>
-                </button>
-                <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
-                    <tb-icon [iconType]="'M4'" [icon]="pinnedIcon" class="toolbar-icon"></tb-icon>
-                </button>
-            </div>
+    <tb-custom-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)">
+        <ng-template #customGridButtonsTemplate>
+            <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
+                <tb-icon [iconType]="'M4'" [icon]="pinnedIcon" class="toolbar-icon"></tb-icon>
+            </button>
         </ng-template>
-    </kendo-grid>
+    </tb-custom-grid>
 </div>

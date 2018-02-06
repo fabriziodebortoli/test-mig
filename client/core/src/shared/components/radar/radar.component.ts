@@ -15,23 +15,14 @@ import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
+import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
+import { State } from './custom-grid.component';
+
 import * as _ from 'lodash';
 
-export const GridStyles = { default: { 'cursor': 'pointer' }, filterTyping: { 'color': 'darkgrey' } };
 export const ViewStates = { opened: 'opened', closed: 'closed' };
-
-export class RadarState {
-    readonly rows = [];
-    readonly columns = []; ager
-    readonly selectedIndex: number = 0;
-    readonly lastChangedFilterIdx: number = 0;
-    readonly view = ViewStates.closed;
-    readonly gridStyle = GridStyles.default;
-    readonly selectionKeys = [];
-}
 
 @Component({
     selector: 'tb-radar',
@@ -53,14 +44,12 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
-    sort$ = new BehaviorSubject<SortDescriptor[]>([]);
-    gridData$ = new BehaviorSubject<{ data: any[], total: number, columns: any[] }>({ data: [], total: 0, columns: [] });
-    gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
-    canNavigate$ = new BehaviorSubject<boolean>(true);
-    private _filter: CompositeFilterDescriptor;
-    private state = new RadarState();
+    private set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
+    private get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
+    state$: Observable<State> = new BehaviorSubject(new State());
     pinned = false;
     areFiltersVisible = false;
+    viewState = ViewStates.closed;
     public selectableSettings: SelectableSettings;
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
@@ -73,87 +62,49 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     ngOnInit() {
-        this.setSelectableSettings();
-        this.filterer.start(400);
+        this.filterer.start(400, this.elRef);
         this.paginator.start(1, this.pageSize,
-            Observable.combineLatest(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.sort$,
+            Observable.combineLatest(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
                 (a, b, c) => ({ model: a, customFilters: b, customSort: c })),
-            (pageNumber, serverPageSize, otherParams?) => {
+            (pageNumber, serverPageSize, data?) => {
                 let p = new URLSearchParams();
                 p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
                 p.set('page', (pageNumber + 1).toString());
                 p.set('per_page', serverPageSize.toString());
-                if (otherParams.customFilters)
-                    p.set('customFilters', JSON.stringify(otherParams.customFilters));
-                if (otherParams.customSort)
-                    p.set('customSort', JSON.stringify(otherParams.customSort));
+                if (data.customFilters)
+                    p.set('customFilters', JSON.stringify(data.customFilters));
+                if (data.customSort)
+                    p.set('customSort', JSON.stringify(data.customSort));
                 return this.dataService.getRadarData(p);
             });
         this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
             this.exitFindMode();
-            this.setState(d);
-            this.setFocus('[kendofilterinput]', this.state.lastChangedFilterIdx);
+            this.setData(d);
+            this.filterer.resetFocus();
         });
-        this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
-        this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.filterTyping));
         this.store.select(m => _.get(m, 'FormMode.value'))
-            .subscribe(m => this.canNavigate$.next(m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND));
+            .subscribe(m => this.state = { ...this.state, canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND });
         this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
     }
 
-    setState(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
+    setData(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
         this.storeViewSelection();
-        let maxCols = Math.min(d.columns.length, this.maxColumns);
+        const maxCols = Math.min(d.columns.length, this.maxColumns);
         const rows = d.columns.length < maxCols ? d.rows :
             d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
                 .slice(0, maxCols).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
-        this.state = {
-            ...this.state,
-            columns: [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols),
-            rows: rows
-        };
-        this.gridData$.next({ data: this.state.rows, total: d.total, columns: this.state.columns });
+        const cols = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
+        this.state = { ...this.state, columns: cols, rows: rows, gridData: { data: rows, total: d.total, columns: cols } };
         this.restoreViewSelection();
-    }
-
-    private get filter(): CompositeFilterDescriptor {
-        return this._filter;
-    }
-
-    private set filter(value: CompositeFilterDescriptor) {
-        this._filter = _.cloneDeep(value);
-        this.filterer.filter = _.cloneDeep(value);
-        this.state = { ...this.state, lastChangedFilterIdx: this.state.columns.findIndex(c => c.id === this.filterer.changedField) - 1 };
-        this.filterer.onFilterChanged(value);
-    }
-
-    filterChange(filter: CompositeFilterDescriptor): void {
-        this.filter = filter;
-    }
-
-    sortChange(sort: SortDescriptor[]): void {
-        this.sort$.next(sort);
     }
 
     get pinnedIcon() {
         return this.pinned ? 'tb-classicpin' : 'tb-unpin';
     }
 
-    get areFiltersVisibleIcon() {
-        return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
-    }
-
     get pinnedText() {
         return this.pinned ? this._TB('Unpin Radar') : this._TB('Pin Radar');
-    }
-
-    get areFiltersVisibleText() {
-        return this.areFiltersVisible ? this._TB('Hide Filters') : this._TB('Show Filters');
-    }
-
-    async pageChange(event: PageChangeEvent) {
-        this.paginator.pageChange(event.skip, event.take);
     }
 
     selectedKeysChange(e) {
@@ -179,7 +130,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
         if (!this.pinned) this.eventData.showRadar.next(false);
-        this.canNavigate$.next(false);
+        this.state = { ...this.state, canNavigate: false };
         this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
         this.selectByItem(item);
     }
@@ -189,26 +140,9 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
             this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
-    ngOnDestroy() {
-        this.stop();
-    }
-
     private show(show: boolean) {
-        this.state = { ...this.state, view: show ? ViewStates.opened : ViewStates.closed };
+        this.viewState = show ? ViewStates.opened : ViewStates.closed;
         this.changeDetectorRef.detectChanges();
-    }
-
-    private setFocus(selector: string, index: number) {
-        setTimeout(() => {
-            const filters = this.elRef.nativeElement.querySelectorAll(selector);
-            filters && filters[index] && filters[index].focus();
-        }, 100);
-    }
-
-    public setSelectableSettings() {
-        this.selectableSettings = {
-            mode: 'single'
-        };
     }
 
     async selectFirst() {
@@ -254,21 +188,20 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         return this.state.selectedIndex !== -1 && (!this.paginator.isFirstPage || this.state.selectedIndex > 0);
     }
 
-    coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
-    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
-    stop = () => this.paginator.stop();
-    toggle = () => this.state = { ...this.state, view: this.state.view === ViewStates.opened ? ViewStates.closed : ViewStates.opened }
-
-    private storeViewSelection() { // workaround for kendo-grid issue 1040
+    private storeViewSelection() {
         if (this.state.selectionKeys.length) {
             this.lastSelectedKey = this.state.selectionKeys[0];
         }
     }
 
-    private restoreViewSelection() { // workaround for kendo-grid issue 1040
+    private restoreViewSelection() {
         this.unselect();
         let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKey)
         if (idx === -1) return;
         this.state = { ...this.state, selectionKeys: [this.lastSelectedKey], selectedIndex: idx };
     }
+
+    coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
+    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
+    toggle = () => this.viewState = this.viewState === ViewStates.opened ? ViewStates.closed : ViewStates.opened;
 }
