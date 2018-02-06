@@ -170,8 +170,6 @@ enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE };	//UTF16_BE: Big Endian (sw
 
 static const TCHAR szTemplate[] = _T("Template");
 
-static const TCHAR szTemplate[] = _T("Template");
-
 //============================================================================
 //	Static Objects & general functions
 //============================================================================
