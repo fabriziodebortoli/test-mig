@@ -3,7 +3,7 @@ import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDl
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
-import * as moment from 'moment'
+import * as moment from 'moment';
 import JsCheckTaxId from './jscheckTaxIDNumber';
 
 @Component({
