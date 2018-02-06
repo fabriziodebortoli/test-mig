@@ -104,6 +104,7 @@ export class PaginatorService implements OnDestroy {
                 if (this.lookAheadServerPageCache.page !== nextPageIdx) {
                     this.lookAheadServerPageCache = {page: nextPageIdx, data: data}
                     if (!data || !data.rows || data.rows.length === 0) {
+                        this.sizeOfLastServer = 0;
                         return this._clientData.value.total;
                     } else { return (this.higherServerPage + 1) * this.serverPage + data.rows.length; }
                 }

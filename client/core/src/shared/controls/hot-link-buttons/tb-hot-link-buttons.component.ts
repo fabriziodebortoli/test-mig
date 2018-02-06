@@ -281,6 +281,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
+        console.log('PAGE NO: '+ JSON.stringify(pageNumber + 1))
+        console.log('ROWS NO: '+ JSON.stringify(serverPageSize))
         return this.httpService.getHotlinkData(ns, this.selectionType,  p);
       },
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
