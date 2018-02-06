@@ -18,7 +18,8 @@ import { ControlComponent } from './../control.component';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
 
 import { addModelBehaviour } from './../../../shared/models/control.model';
-
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
@@ -44,6 +45,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   subscription = [];
 
   public currentRow: any = undefined;
+  isRowSelected = (e: RowArgs) => e.index ==  this.currentRowIdx;
+
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
@@ -57,6 +60,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       checkboxOnly: false,
       mode: "single"
     };
+
+    
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -124,6 +129,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName).subscribe((res) => {
       this.updateModel(res.dbt);
+
       sub.unsubscribe();
     });
   }
@@ -175,9 +181,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     addModelBehaviour(dbt);
     this.model.rows = dbt.rows;
     this.model.prototype = dbt.prototype;
-    //this.model.currentRowIdx = dbt.currentRowIdx;
+    this.currentRowIdx = dbt.currentRowIdx;
     this.model.lastTimeStamp = new Date().getTime();
     this.changeDetectorRef.markForCheck();
-  }
 
+   
+  }
 }
