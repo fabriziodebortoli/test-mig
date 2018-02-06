@@ -60,7 +60,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
     @HostListener('keydown', ['$event'])
     public keydown(event: any): void {
-        if (event.target.id === this.dropdownlist.id) {
+        if (this.dropdownlist && event.target.id === this.dropdownlist.id) {
             switch (event.keyCode) {
                 case 9: // tab
                 case 13: // enter

@@ -309,7 +309,13 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         }, 100);
     });
 
-    this.filterer.filterChanged$.subscribe(x => this._gridStyle$.next(this._defaultGridStyle));
+    this.filterer.filterChanged$.subscribe(x => { 
+      this._gridStyle$.next(this._defaultGridStyle);
+      if (this.isAttachedToAComboBox && this.modelComponent && this.modelComponent.model) {
+        this.modelComponent.model.value = _.get(x, 'filters[0].value');
+        this.emitModelChange();
+      }
+    });
     this.filterer.filterChanging$.subscribe(x => this._gridStyle$.next(this._filterTypingGridStyle));
   }
 
@@ -326,7 +332,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.dropDownOpened) {
       if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
       else this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
-    }
+    } 
   }
 
   protected async pageChange(event: PageChangeEvent) {
