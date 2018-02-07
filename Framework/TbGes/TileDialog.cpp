@@ -208,8 +208,13 @@ CParsedCtrl* CTileDialog::AddLink
 			m_pControlLinks->GetSize()
 		);
 
-	if (CString(pParsedCtrlClass->m_lpszClassName) == _T("CLabelStatic"))
-		return AddLabelLink(nIDC);
+	if (pParsedCtrlClass == RUNTIME_CLASS(CLabelStatic))
+	{
+		CParsedCtrl* pCtrl = AddLabelLink(nIDC);
+		if (pCtrl && pDataObj)
+			pCtrl->Attach(pDataObj);
+		return pCtrl;
+	}
 	else
 	{
 		CParsedCtrl* pCtrl = ::AddLink
