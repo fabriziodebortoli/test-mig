@@ -766,7 +766,7 @@ namespace Microarea.TbJson
                                 WriteActivationAttribute(jObj);
                                 WriteHideAttribute(jObj);
                                 AddIconAttribute(jObj);
-								WriteButtonInfo(jObj);
+                                WriteButtonInfo(jObj);
                                 WriteToolbarTopButtonInfo(jObj);
 
                                 string caption = jObj.GetLocalizableString(Constants.text);
@@ -818,7 +818,7 @@ namespace Microarea.TbJson
                                 }
                             }
                             if (!string.IsNullOrEmpty(bodyEditName))
-                                htmlWriter.Write(string.Format(" {0}=\"{1}\"",  Constants.bodyEditName, bodyEditName));
+                                htmlWriter.Write(string.Format(" {0}=\"{1}\"", Constants.bodyEditName, bodyEditName));
 
                             jObj.GetString(Constants.id, out string cmpId);
 
@@ -951,7 +951,7 @@ namespace Microarea.TbJson
                             {
                                 WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
                                 WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
-                            }                            
+                            }
 
                             WriteActivationAttribute(jObj);
 
@@ -1300,6 +1300,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + id);
         }
 
+        //-----------------------------------------------------------------------------------------
         private void WriteHideAttribute(JObject jObj)
         {
             string activation = jObj.GetFlatString(Constants.activation);
@@ -1308,6 +1309,73 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute("*ngIf", "!hide" + id);
         }
 
+        //-----------------------------------------------------------------------------------------
+        private void WriteColumnBindingAttributes(JObject jObj, bool writeHtml)
+        {
+            JObject jBinding = jObj[Constants.binding] as JObject;
+            if (jBinding == null)
+                return;
+
+            string ds = jBinding[Constants.datasource]?.ToString();
+            if (string.IsNullOrEmpty(ds))
+                return;
+
+            ds = ResolveGetParentNameFunction(ds, jObj);
+
+            ds = ds.Replace("@", "__");
+            int idx = ds.IndexOf('.');
+            string owner = "", field = "";
+            if (idx == -1)
+            {
+                field = ds;
+            }
+            else
+            {
+                owner = ds.Substring(0, idx);
+                field = ds.Substring(idx + 1);
+            }
+
+            JObject jParentObject = null;
+            //se l'owner � nullo...ma si tratta di un binding di uno slave buffered, risalgo la catena di parentela per trovare il bodyedit
+            if (string.IsNullOrEmpty(owner) && (jParentObject = jObj.GetParentItem()) != null)
+            {
+                string type = jParentObject.GetFlatString(Constants.type);
+                if (string.Compare(type, "bodyedit", StringComparison.InvariantCultureIgnoreCase) == 0)
+                {
+                    //una volte trovato il bodyedit, ne prendo il binding source e lo uso come owner implicito
+                    var jBodyEditBinding = jParentObject[Constants.binding] as JObject;
+                    if (jBodyEditBinding != null)
+                    {
+                        owner = jBodyEditBinding[Constants.datasource]?.ToString();
+                    }
+                }
+            }
+
+            RegisterModelField(owner, field);
+
+            //lo scrivo nell'html in tutti i casi, ma non quando sto generando il binding dello slavebuffered
+            if (writeHtml)
+            {
+                htmlWriter.WriteAttribute("columnName", field);
+
+                JObject jHKL = jBinding.GetObject(Constants.hotLink);
+                if (jHKL != null)
+                {
+                    string hkl = jHKL.ToString();
+                    hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
+
+                    if (hkl.IndexOf(Constants.getParentNameFunction) != -1)
+                    {
+                        string hklExpr = jHKL.GetValue("name").ToString().Replace(" ", "");
+                        string hklValue = ResolveGetParentNameFunction(hklExpr, jObj);
+                        hkl = hkl.Replace(hklExpr, hklValue);
+                    }
+                    htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
+                }
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------
         private void WriteBindingAttributes(JObject jObj, bool writeHtml)
         {
             JObject jBinding = jObj[Constants.binding] as JObject;
@@ -1333,48 +1401,17 @@ namespace Microarea.TbJson
                 field = ds.Substring(idx + 1);
             }
 
-            bool isSlaveBuffered = false;
-            JObject jParentObject = null;
-            //se l'owner � nullo...ma si tratta di un binding di uno slave buffered, risalgo la catena di parentela per trovare il bodyedit
-            if (string.IsNullOrEmpty(owner) && (jParentObject = jObj.GetParentItem()) != null)
-            {
-                string type = jParentObject.GetFlatString(Constants.type);
-                if (string.Compare(type, "bodyedit", StringComparison.InvariantCultureIgnoreCase) == 0)
-                {
-                    //una volte trovato il bodyedit, ne prendo il binding source e lo uso come owner implicito
-                    var jBodyEditBinding = jParentObject[Constants.binding] as JObject;
-                    if (jBodyEditBinding != null)
-                    {
-                        owner = jBodyEditBinding[Constants.datasource]?.ToString();
-                        isSlaveBuffered = true;
-                    }
-                }
-            }
-
             RegisterModelField(owner, field);
 
             //lo scrivo nell'html in tutti i casi, ma non quando sto generando il binding dello slavebuffered
             if (writeHtml)
             {
-                if (isSlaveBuffered)
-                {
-                    //if (insideEditingLine)
-                    //{
-                    //    var cmpId = jParentObject.GetId();
-                    //    htmlWriter.WriteAttribute("[model]", string.Format("{0}?.currentRow['{1}']", cmpId, field));
-                    //}
-                    //else
-                    htmlWriter.WriteAttribute("columnName", field);
-                }
-                else
-                {
-                    //[model]="eventData?.data?.DBT?.Languages?.Language"
-                    htmlWriter.WriteAttribute("[model]", string.Concat(
-                        "eventData?.model",
-                        string.IsNullOrEmpty(owner) ? "" : "?." + owner,
-                        "?.",
-                        field));
-                }
+                //[model]="eventData?.data?.DBT?.Languages?.Language"
+                htmlWriter.WriteAttribute("[model]", string.Concat(
+                    "eventData?.model",
+                    string.IsNullOrEmpty(owner) ? "" : "?." + owner,
+                    "?.",
+                    field));
 
                 JObject jHKL = jBinding.GetObject(Constants.hotLink);
                 if (jHKL != null)
@@ -1404,6 +1441,8 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.linesAtRoot, Constants.linesAtRoot);
             WriteAttribute(jObj, Constants.alwaysShowSelection, Constants.alwaysShowSelection);
         }
+
+        //-----------------------------------------------------------------------------------------
         private void WriteColumnAttributes(JObject jObj, WebControl wc)
         {
             var cmpId = getControlId(jObj);
@@ -1435,9 +1474,11 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
 
             WriteAttribute(jObj, Constants.width, Constants.width);
-            WriteBindingAttributes(jObj, true);
+            WriteColumnBindingAttributes(jObj, true);
 
         }
+
+        //-----------------------------------------------------------------------------------------
         string getControlId(JObject jObj)
         {
             var cmpId = jObj.GetId();
@@ -1449,6 +1490,8 @@ namespace Microarea.TbJson
             }
             return cmpId;
         }
+
+        //-----------------------------------------------------------------------------------------
         private void WriteControlAttributes(JObject jObj, WebControl wc)
         {
             var cmpId = getControlId(jObj);
@@ -1558,7 +1601,7 @@ namespace Microarea.TbJson
                    ]
                }*/
                 var strContextMenu = $"cm_{cmpId}";
-                   htmlWriter.WriteAttribute(Square(Constants.contextMenu), strContextMenu);
+                htmlWriter.WriteAttribute(Square(Constants.contextMenu), strContextMenu);
                 bool needComma = false;
                 StringBuilder sbVal = new StringBuilder();
                 foreach (var menuItem in jItem.GetItems())
@@ -1590,9 +1633,9 @@ namespace Microarea.TbJson
 
                     contextMenus.Add(strContextMenu, sbVal);
                 }
-                
+
             }
-           
+
         }
         //-----------------------------------------------------------------------------
         private void RegisterModelField(string owner, string field)
@@ -1768,13 +1811,13 @@ namespace Microarea.TbJson
             if (jObj.TryGetId(out string id))
                 toAppendToDefinition.Append($"this.toolbarButtons.push({{id: '{id}', category: {(int)jObj.GetCommandCategory()}}});\r\n");
         }
-		private void WriteButtonInfo(JObject jObj)
-		{
-			if (jObj[Constants.ngClass] == null)
-				return;
+        private void WriteButtonInfo(JObject jObj)
+        {
+            if (jObj[Constants.ngClass] == null)
+                return;
 
-			if (!string.IsNullOrWhiteSpace(jObj[Constants.ngClass].ToString()))
-			htmlWriter.WriteAttribute(Constants.sClass, jObj[Constants.ngClass].ToString());
-		}
-	}
+            if (!string.IsNullOrWhiteSpace(jObj[Constants.ngClass].ToString()))
+                htmlWriter.WriteAttribute(Constants.sClass, jObj[Constants.ngClass].ToString());
+        }
+    }
 }

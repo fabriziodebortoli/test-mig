@@ -109,16 +109,18 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   public cellCloseHandler(args: any) {
-  }
+  } 
 
   //-----------------------------------------------------------------------------------------------
   ben_row_changed(item) {
 
-    console.log("ben_row_changed", item)
+    console.log("ben_row_changed", item)  
     //qui devo inviare al server il cambio riga
     //this.changeRow();
     //le colonne si abilitano chiedendo al prototipo del sql record lo stato dei suoi dataobj
-    this.currentRowIdx = item.selectedRows[0].index
+
+    addModelBehaviour(item.selectedRows[0].dataItem);
+    this.currentRowIdx = item.selectedRows[0].index;
     this.currentRow = item.selectedRows[0].dataItem;
     for (var prop in this.currentRow) {
       this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
@@ -184,7 +186,5 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.currentRowIdx = dbt.currentRowIdx;
     this.model.lastTimeStamp = new Date().getTime();
     this.changeDetectorRef.markForCheck();
-
-   
   }
 }
