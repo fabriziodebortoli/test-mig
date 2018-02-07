@@ -52,7 +52,7 @@ A shortcut to *rm -rf*
 npm i -g rimraf
 ```
 
-### .NET Core SDK [link](https://www.microsoft.com/net/)
+## .NET Core SDK [link](https://www.microsoft.com/net/)
 
 Windows - [download](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.4-windows-x64-installer)
 
@@ -62,13 +62,13 @@ Linux - [download](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2
 
 Others - [link](https://www.microsoft.com/net/download/)
 
-### Componenti aggiuntivi di Visual Studio
+## Componenti aggiuntivi di Visual Studio
 Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer"). Potrebbe richiedere l'aggiornamento dello stesso Installer o di Visual Studio)
 
 Verificare di avere installato il seguente componente nella sezione "aspnet web development"
 ![Prerequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
 
-### Microarea Extension
+## Microarea Extension
 
 Scaricare le **MicroareaExtension** per **VS2017** che si trovano online come da screenshots.
 ![Tools -> Extension and Updates](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/microarea-extension-1.png)
@@ -76,11 +76,11 @@ Scaricare le **MicroareaExtension** per **VS2017** che si trovano online come da
 
 In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
 
-### IIS URL Rewrite 2.1 (Solo per utenti Windows con IIS) [link](https://www.iis.net/downloads/microsoft/url-rewrite)
+## IIS URL Rewrite 2.1 (Solo per utenti Windows con IIS) [link](https://www.iis.net/downloads/microsoft/url-rewrite)
 
 Estensione IIS URL Rewrite - [download](http://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=urlrewrite2)
 
-### Visual Studio Code (Opzionale) [link](http://code.visualstudio.com/) 
+## Visual Studio Code (Opzionale) [link](http://code.visualstudio.com/) 
 Versione per Windows - [download](https://go.microsoft.com/fwlink/?Linkid=852157)
 
 Versioni per altri Sistemi Operativi - [link](https://code.visualstudio.com/Download)
