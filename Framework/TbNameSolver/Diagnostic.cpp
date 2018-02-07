@@ -276,6 +276,11 @@ void CDiagnosticLevel::ToJson(CJsonSerializer& ser)
 		}
 
 	}
+	if (!m_strOpeningBanner.IsEmpty())
+	{
+		ser.WriteString(_T("text"), m_strOpeningBanner);
+		ser.WriteInt(_T("type"), CDiagnostic::Banner);
+	}
 	ser.OpenArray(_T("messages"));
 
 	CDiagnosticItem* pItem;
@@ -787,9 +792,6 @@ void CDiagnostic::Copy
 
 	if (bNewSession)
 		StartSession(strOpeningBanner);
-
-	CObArray arItems;
-	pDiagnostic->ToArray(arItems, pDiagnostic->m_pStartingLevel);
 
 	for (int i = 0; i <= pDiagnostic->GetUpperBound(); i++)
 	{
