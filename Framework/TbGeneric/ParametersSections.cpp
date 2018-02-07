@@ -642,6 +642,11 @@ static const TCHAR szUseImplicitSSL[]		= _T("UseImplicitSSL");
 static const TCHAR szTimeout[]				= _T("Timeout");
 static const TCHAR szAuthenticationType[]	= _T("AuthenticationType");
 static const TCHAR szConfiguration[]		= _T("Configuration");
+static const TCHAR szSecurityProtocolType[] = _T("SecurityProtocolType");
+
+//-----------------------------------------------------------------------------
+LPCTSTR SmtpMailConnectorParams::st_SecurityProtocolDescr[] = { L"Default" , L"Ssl3" , L"Tls 1.0", L"Tls 1.1" , L"Tls 1.2", L"All" };
+int SmtpMailConnectorParams::st_SecurityProtocolValue[] = { SP_Default, SP_SSL3 , SP_TLS10 , SP_TLS11 , SP_TLS12, SP_All };
 
 //=============================================================================        
 //						SmtpMailConnectorParams
@@ -937,6 +942,22 @@ CString SmtpMailConnectorParams::GetAuthenticationType ()
 void SmtpMailConnectorParams::SetAuthenticationType (const CString& s) 
 {
 	AfxSetSettingValue(m_Owner, m_sCurrentSection, szAuthenticationType, DataStr(s), szSmtpSettingsFile);
+}
+
+//-----------------------------------------------------------------------------
+int SmtpMailConnectorParams::GetSecurityProtocolType()
+{
+	DataObj* pSetting = AfxGetSettingValue(m_Owner, m_sCurrentSection, szSecurityProtocolType, DataLng(0), szSmtpSettingsFile);
+
+	if (!pSetting || (pSetting->GetDataType() != DataType::Long))
+		return 0;
+
+	return *((DataLng*)pSetting);
+}
+//-----------------------------------------------------------------------------
+void SmtpMailConnectorParams::SetSecurityProtocolType(int n)
+{
+	AfxSetSettingValue(m_Owner, m_sCurrentSection, szSecurityProtocolType, DataLng(n), szSmtpSettingsFile);
 }
 
 //=============================================================================

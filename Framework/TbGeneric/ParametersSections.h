@@ -318,6 +318,15 @@ class TB_EXPORT SmtpMailConnectorParams : public TbBaseSettings
 protected:
 	CString	m_sCurrentSection;
 public:
+	enum ESecurityProtocolType { //System::Net::SecurityProtocolType
+				SP_Default = 0, 
+				SP_SSL3 = 48, SP_TLS10 = 192, SP_TLS11 = 768, SP_TLS12 = 3072, 
+				SP_All = (SP_SSL3 | SP_TLS10 | SP_TLS11 | SP_TLS12)
+	};
+	static const int st_SecurityProtocolSize = 6;
+	static LPCTSTR st_SecurityProtocolDescr[];
+	static int st_SecurityProtocolValue[];
+
 	SmtpMailConnectorParams (LPCTSTR szCurrentSection = NULL);
 	
 	const CString& GetCurrentSection () const { return m_sCurrentSection; }
@@ -339,16 +348,16 @@ public:
 	int		GetPort ();
 	void	SetPort (int); 
 
-	CString GetBoundIP ();
-	void	SetBoundIP (const CString&); 
+	//CString GetBoundIP ();
+	//void	SetBoundIP (const CString&); 
 
 	CString GetUserName ();
 	void	SetUserName (const CString&); 
 	CString GetPassword ();
 	void	SetPassword (const CString&); 
 
-	BOOL	GetAutoDial ();
-	void	SetAutoDial (BOOL); 
+	//BOOL	GetAutoDial ();
+	//void	SetAutoDial (BOOL); 
 
 	// get functions in BaseSmtpMailConnectorParams class
 	void	SetFromName (const CString&); 
@@ -356,14 +365,14 @@ public:
 	void	SetReplyToName (const CString&); 
 	void	SetReplyToAddress (const CString&); 
 
-	int		GetPriorityType ();
-	void	SetPriorityType (int); 
+	//int		GetPriorityType ();
+	//void	SetPriorityType (int); 
 
-	CString GetEncodingCharset ();
-	void	SetEncodingCharset (const CString&); 
+	//CString GetEncodingCharset ();
+	//void	SetEncodingCharset (const CString&); 
 
-	CString GetEncodingFriendly ();
-	void	SetEncodingFriendly (const CString&); 
+	//CString GetEncodingFriendly ();
+	//void	SetEncodingFriendly (const CString&); 
 
 	BOOL	GetMimeEncoding ();
 	void	SetMimeEncoding (BOOL); 
@@ -376,16 +385,19 @@ public:
 	BOOL	GetUseImplicitSSL ();
 	void	SetUseImplicitSSL (BOOL b);
 
-	BOOL	GetSupportedByExtendedMapi ();
-	void	SetSupportedByExtendedMapi (BOOL b);
+	//BOOL	GetSupportedByExtendedMapi ();
+	//void	SetSupportedByExtendedMapi (BOOL b);
 
 	int		GetTimeout ();
 	void	SetTimeout (int); 
 
-	//int		GetAuthenticationType ();
+	//int	GetAuthenticationType ();
 	//void	SetAuthenticationType (int); 
 	CString GetAuthenticationType ();
 	void	SetAuthenticationType (const CString& s);
+
+	int		GetSecurityProtocolType();
+	void	SetSecurityProtocolType(int);
 
 	short	GetConfiguration ();
 	void	SetConfiguration (short);
