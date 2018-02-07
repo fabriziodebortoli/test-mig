@@ -223,11 +223,7 @@ CView* CBaseDocument::ViewAlreadyPresent(UINT nFrameId) const
 CLocalizableFrame* CBaseDocument::GetFrame() const
 {
 	ASSERT_VALID(this);
-	CView* pView = GetFirstView();
-	if (!pView)
-		return NULL;
-	ASSERT_VALID(pView);
-	CFrameWnd* pFrame = pView->GetParentFrame();
+	CWnd* pFrame = CWnd::FromHandle(m_hFrameHandle);
 	if (!pFrame)
 		return NULL;
 	ASSERT_VALID(pFrame);
