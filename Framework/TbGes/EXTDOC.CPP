@@ -5686,22 +5686,9 @@ void CAbstractFormDoc::BatchStop()
 void CAbstractFormDoc::SwitchBatchRunButtonState()
 {
 	if (GetType() != VMT_BATCH) return;
-
-	POSITION pos = GetFirstViewPosition();
-	while (pos != NULL)
-	{
-		CView* pView = GetNextView(pos);
-		if (!pView)
-			continue;
-		CFrameWnd* pFrame = pView->GetParentFrame();
-		if (pFrame)
-		{
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CBatchFrame)))
-				((CBatchFrame*)pFrame)->SwitchBatchRunButtonState();
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CJsonFrame)))
-				((CJsonFrame*)pFrame)->SwitchBatchRunButtonState();
-		}
-	}
+	CMasterFrame* pFrame = GetMasterFrame();
+	if (pFrame)
+		pFrame->SwitchBatchRunButtonState();
 }
 
 //-----------------------------------------------------------------------------
