@@ -1,7 +1,9 @@
+import { FormMode } from './../../models/form-mode.enum';
+import { addModelBehaviour } from './../../../shared/models/control.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 
 import { Observable } from 'rxjs/Rx';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { ControlComponent } from './../control.component';
 
 import { Store } from './../../../core/services/store.service';
 import { createSelectorByMap } from './../../commons/selector';
@@ -10,16 +12,17 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { LayoutService } from './../../../core/services/layout.service';
 import { HttpService } from './../../../core/services/http.service';
 import { DocumentService } from './../../../core/services/document.service';
+import { EventDataService } from './../../../core/services/eventdata.service';
 
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
-
-import { ControlComponent } from './../control.component';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
-
-import { addModelBehaviour } from './../../../shared/models/control.model';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridComponent } from '@progress/kendo-angular-grid';
 import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
+
+import * as _ from 'lodash';
+
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
@@ -45,14 +48,16 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   subscription = [];
 
   public currentRow: any = undefined;
-  isRowSelected = (e: RowArgs) => e.index ==  this.currentRowIdx;
+  isRowSelected = (e: RowArgs) => e.index == this.currentRowIdx;
+  public enabled: boolean = false;
 
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     public httpService: HttpService,
-    public store: Store
+    public store: Store,
+    private eventData: EventDataService,
   ) {
     super(layoutService, tbComponentService, cdr);
 
@@ -61,7 +66,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       mode: "single"
     };
 
-    
+
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -74,6 +79,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
           this.getModelForDbt(v.timeStamp);
         }
         );
+
+      this.store.select(m => _.get(m, 'FormMode.value'))
+        .subscribe(m => {
+          this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) &&  (this.model && this.model.enabled);
+          this.changeDetectorRef.markForCheck();
+        });
     }
   }
 
@@ -109,22 +120,22 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   public cellCloseHandler(args: any) {
-  } 
+  }
 
   //-----------------------------------------------------------------------------------------------
   ben_row_changed(item) {
 
-    console.log("ben_row_changed", item)  
-    //qui devo inviare al server il cambio riga
-    //this.changeRow();
-    //le colonne si abilitano chiedendo al prototipo del sql record lo stato dei suoi dataobj
+    let selectedRow = item.selectedRows[0];
 
-    addModelBehaviour(item.selectedRows[0].dataItem);
-    this.currentRowIdx = item.selectedRows[0].index;
-    this.currentRow = item.selectedRows[0].dataItem;
-    for (var prop in this.currentRow) {
-      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
-    }
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, selectedRow.index).subscribe((res) => {
+      addModelBehaviour(selectedRow.dataItem);
+      this.currentRowIdx = selectedRow.index;
+      this.currentRow = selectedRow.dataItem;
+      for (var prop in this.currentRow) {
+        this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
+      }
+    });
   }
 
   addRow() {
@@ -181,9 +192,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     if (!dbt)
       return;
     addModelBehaviour(dbt);
+    this.model.enabled = dbt.enabled;
     this.model.rows = dbt.rows;
     this.model.prototype = dbt.prototype;
-    this.currentRowIdx = dbt.currentRowIdx;
+    //this.currentRowIdx = dbt.currentRowIdx;
     this.model.lastTimeStamp = new Date().getTime();
     this.changeDetectorRef.markForCheck();
   }

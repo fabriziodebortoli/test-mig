@@ -4245,7 +4245,8 @@ void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializ
 	CString timeStamp = GetCurrentUTCTime();
 	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
 
-	jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
+	jsonSerializer.WriteBool(_T("enabled"), !this->m_bReadOnly);
+	//jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
 	
 	//SqlRecord *pPrototypeRecord = this->GetRecord();
 	//jsonSerializer.OpenObject(_T("prototype"));
@@ -4272,7 +4273,8 @@ void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL
 	CString timeStamp = GetCurrentUTCTime();
 	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
 
-	jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
+	jsonSerializer.WriteBool(_T("enabled"), !this->m_bReadOnly);
+	//jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
 
 	SqlRecord *pPrototypeRecord = this->GetRecord();
 	jsonSerializer.OpenObject(_T("prototype"));
