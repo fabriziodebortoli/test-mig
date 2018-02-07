@@ -15,6 +15,7 @@ import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
+import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
 
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
@@ -92,7 +93,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionColumn = '';
-  subscription: Subscription;
 
   _defaultGridStyle = {'cursor': 'pointer'};
   _filterTypingGridStyle = {'color': 'darkgrey'}
@@ -136,7 +136,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   private subscribeOpenTable(anchor, template){
     if(!this.tableSub)
-      this.tableSub = this.showTable$.distinctUntilChanged().subscribe(hasToOpen => {
+      this.tableSub = this.showTable$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
       if(hasToOpen){
         let popupA = this.getPopupAlign(anchor);
         let anchorA = this.getAnchorAlign(anchor);
@@ -156,7 +156,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   private subscribeOpenOptions(anchor, template) {
     if (!this.optionsSub) {
-      this.optionsSub = this.showOptions$.distinctUntilChanged().subscribe(hasToOpen => {
+      this.optionsSub = this.showOptions$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
         if (hasToOpen) {
           this.optionsPopupRef = this.optionsPopupService.open({ anchor: anchor, content: template });
           this.optionsPopupRef.popupOpen.asObservable()
@@ -288,7 +288,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       },
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
-    this.subscription = this.paginator.clientData.subscribe((d) => {
+    this.paginator.clientData.subscribe((d) => {
         this.selectionColumn = d.key
         if (d.columns) {
           this.columns = d.columns;
@@ -403,15 +403,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
     this.closePopups();
-    if (this.tableSub) {
-      this.tableSub.unsubscribe();
-    }
-    if (this.optionsSub) {
-      this.optionsSub.unsubscribe();
-    }
   }
 }
