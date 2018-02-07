@@ -364,7 +364,7 @@ BOOL CCustomEditCtrl::FillIntelliSenseList (CObList& lstIntelliSenseData,
 		return FALSE;
 	}	
 
-	
+	// here substitute with trie
 	IntellisenseData* pData;
 	ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
 	
@@ -411,6 +411,7 @@ BOOL CCustomEditCtrl::OnIntelliSenseComplete(int nIdx, CBCGPIntelliSenseData* pD
 
 }
 
+// here i need to search for the word in trie 
 BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 {
 	if (!IsIntelliSenseEnabled())
@@ -1140,4 +1141,61 @@ BOOL IntellisenseWndExtended::DestroyWindow()
 	/*m_pLstBoxData->DestroyWindow();
 	m_pLstBoxData = NULL;*/
 	return __super::DestroyWindow();
+}
+
+
+
+/////////////////////////////////////////////////////////////
+//////////////////IntellisenseMap////////////////////
+/////////////////////////////////////////////////////////////
+
+
+IntellisenseMap::IntellisenseMap() {
+	root = this->getNode();
+}
+
+IntellisenseMap::IntellisenseNode* IntellisenseMap::getNode() {
+
+ IntellisenseNode *pNode = new IntellisenseNode;
+
+	pNode->isEndOfWord = false;
+
+	for (int i = 0; i < this->alphaberSizeExtended; i++)
+		pNode->children[i] = NULL;
+
+	return pNode;
+}
+
+void IntellisenseMap::insert(CString key, IntellisenseData* data) {
+	 IntellisenseNode *pCrawl = root;
+
+	for (int i = 0; i < key.GetLength(); i++)
+	{
+		int index = key[i] - (char)33;
+		if (!pCrawl->children[index])
+			pCrawl->children[index] = getNode();
+
+		pCrawl = pCrawl->children[index];
+	}
+
+	// mark last node as leaf
+	pCrawl->isEndOfWord = true;
+	pCrawl->data = data;
+}
+
+IntellisenseData* IntellisenseMap::search(CString key) {
+	IntellisenseNode *pCrawl = root;
+
+	for (int i = 0; i < key.GetLength(); i++)
+	{
+		int index = key[i] - (char)33;
+		if (!pCrawl->children[index])
+			return NULL;
+
+		pCrawl = pCrawl->children[index];
+	}
+
+	if (pCrawl != NULL && pCrawl->isEndOfWord && pCrawl->data)
+		return pCrawl->data;
+	else return NULL;
 }

@@ -61,6 +61,33 @@ public:
 
 };
 
+
+// IntellisenseMap is based on TRIE data structure 
+class TB_EXPORT IntellisenseMap {
+
+private:
+	static const int alphaberSizeExtended = 93;
+
+public:
+	class TB_EXPORT IntellisenseNode {
+	public:
+		// alphabet size + special characters  + numbers
+		IntellisenseNode * children[alphaberSizeExtended];
+		bool isEndOfWord = false;
+		IntellisenseData* data = NULL;
+	};
+
+	
+	IntellisenseMap();
+	IntellisenseNode* getNode();
+	void insert(CString key, IntellisenseData* data);
+	IntellisenseData* search(CString key);
+
+protected:
+	IntellisenseNode * root;
+};
+
+
 class TB_EXPORT CCustomEditCtrl : public CBCGPEditCtrl
 {
 	Array m_arGarbage;	//all'uscita deletera tutti gli oggetti contenuti
@@ -159,7 +186,11 @@ public:
 	BOOL IsIntellisenseActive() { return m_pIntelliSenseWnd ? TRUE : FALSE;}
 	void ForceIntellisense();
 	BOOL m_bForceIntellisense = FALSE;
+
+   // intellisense
 	std::multimap <CString, IntellisenseData*> m_mIntelliString;
+
+
 
 	// Generated message map functions
 protected:
