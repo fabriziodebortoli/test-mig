@@ -338,11 +338,21 @@ BOOL CSmtpNet::SendMail
 		client->EnableSsl = params.GetUseExplicitSSL() ? true : false;
 		if (client->EnableSsl)
 		{
-			System::Net::ServicePointManager::SecurityProtocol =
-				System::Net::SecurityProtocolType::Ssl3 |
-				System::Net::SecurityProtocolType::Tls |
-				System::Net::SecurityProtocolType::Tls11 | 
-				System::Net::SecurityProtocolType::Tls12;
+			/*
+			System::Net::SecurityProtocolType::Ssl3 |
+			System::Net::SecurityProtocolType::Tls |
+			System::Net::SecurityProtocolType::Tls11 |
+			System::Net::SecurityProtocolType::Tls12;
+			*/
+			int secProt = params.GetSecurityProtocolType();
+			if (secProt)
+			{
+				try {
+					System::Net::ServicePointManager::SecurityProtocol = (System::Net::SecurityProtocolType)secProt;
+				} 
+				catch(...)
+				{}
+			}
 		}
 
 		client->Timeout = params.GetTimeout();

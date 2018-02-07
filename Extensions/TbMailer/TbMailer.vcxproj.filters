@@ -52,6 +52,9 @@
     <Filter Include="DataFile">
       <UniqueIdentifier>{8102c0be-a6c3-4b00-a05a-bef7afa4d10d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Forms">
+      <UniqueIdentifier>{5cdfd2a0-bd56-405f-8897-6a04b70e14b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CMailConnector.cpp">
@@ -436,6 +439,42 @@
     </None>
     <None Include="commands.hrc">
       <Filter>Resource Files\Header %28hrc%29</Filter>
+    </None>
+    <None Include="JsonForms\SmtpMail\IDD_CONFIGURATION.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\SmtpMail\IDD_CONFIGURATION.tbjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\SmtpMail\IDD_GENERAL_CONFIGURATION.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\SmtpMail\IDD_GENERAL_CONFIGURATION.tbjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAIL_DLG.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAIL_DLG.tbjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAILCHILDS.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAILCHILDS.tbjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_POSTALITE_DLG.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\TbMailer\IDD_SEND_POSTALITE_DLG.tbjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\Postalite\IDD_POSTALITE_SETTINGS.hjson">
+      <Filter>Forms</Filter>
+    </None>
+    <None Include="JsonForms\Postalite\IDD_POSTALITE_SETTINGS.tbjson">
+      <Filter>Forms</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

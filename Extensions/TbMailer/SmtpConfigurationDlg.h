@@ -49,6 +49,10 @@ public:
 	CString	m_sAuthenticationType;
 	CComboBox m_cbxAuthenticationType;
 
+	int			m_nSecurityProtocolType;
+	CString		m_sSecurityProtocolType;
+	CComboBox	m_cbxSecurityProtocolType;
+	
 	CString	m_sConfiguration;
 	short	m_nConfiguration;
 	CComboBox m_cbxConfiguration;
