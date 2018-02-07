@@ -63,10 +63,10 @@
          </tb-toolbar-bottom-button-dropup>
 
         <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Export')"  class="toolbar-bottom">
-            <tb-toolbar-bottom-button [caption]="_TB('Export as PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
-            <tb-toolbar-bottom-button [caption]="_TB('Export as SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button  icon="exporttopng"[caption]="_TB('Export as PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button  icon="exporttosvg"[caption]="_TB('Export as SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button icon="tb-exporttoexcel" *ngIf="!runningReport" [caption]="_TB('Export as Excel')" (click)="setExportFile(rsExportService.excel)" class="dropUpButton"></tb-toolbar-bottom-button>
-            <tb-toolbar-bottom-button [caption]="_TB('Export as DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button  icon="exporttodocx" [caption]="_TB('Export as DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
          </tb-toolbar-bottom-button-dropup>
 
         <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
