@@ -432,10 +432,13 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	{
 		//travaso eventuali messaggi (ad es. esercizio non definito)
 		CDiagnostic* pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, true);
+		CDiagnostic* pAppDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(AfxGetApp()->m_nThreadID, &CloneDiagnostic, true);
+		if (pAppDiagnostic->MessageFound(TRUE))
+			pDiagnostic->Copy(pAppDiagnostic, TRUE, _TB("Application startup messages"));
 		if (pDiagnostic->MessageFound(TRUE))
 			pDiagnostic->ToJson(jsonResponse);
 		delete pDiagnostic;
-
+		delete pAppDiagnostic;
 		if (!pContext->IsValid())
 		{
 			pContext->Close();

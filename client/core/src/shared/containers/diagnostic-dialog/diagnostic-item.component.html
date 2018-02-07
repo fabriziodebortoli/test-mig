@@ -1,4 +1,4 @@
-<div [ngSwitch]="message.type" *ngIf="message.text">
+<div *ngIf="message.text && message.type!=32" [ngSwitch]="message.type">
     <div class="message-icon">
         <m4-icon *ngSwitchDefault icon="tb-cancel" class="icon-error diagnostic-icon"></m4-icon>
         <m4-icon *ngSwitchCase="16" icon="tb-cancel" class="icon-error diagnostic-icon"></m4-icon>
@@ -12,7 +12,7 @@
 <div *ngIf="message.messages" class="message-block">
 
     <div *ngIf="level>0" (click)="toggle()" class="toggler">{{collapsed ? '+' : '-'}}</div>
-    <div *ngIf="level>0" class="block-title">Level {{level}}:</div>
+    <div *ngIf="level>0" class="block-title">{{getBanner()}}</div>
     <div class="message-block-list" [style.display]="collapsed ? 'none' : 'block'">
         <div *ngFor="let message1 of message.messages">
             <tb-diagnostic-dialog-item [message]=message1 [level]=level+1></tb-diagnostic-dialog-item>

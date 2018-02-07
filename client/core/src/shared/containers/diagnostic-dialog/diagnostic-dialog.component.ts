@@ -72,4 +72,9 @@ export class DiagnosticDialogItemComponent {
     toggle() {
         this.collapsed = !this.collapsed;
     }
+    getBanner(): string {
+        return this.message.text
+            ? this.message.text
+            : "Messages";
+    }
 }
