@@ -67,6 +67,10 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         this.iContextMenu = this.cc.contextMenu.length;
     }
 
+    ngOnChanges(changes) {
+        this.buildContextMenu();
+    }
+
     getCorrectHeight() {
         return isNaN(this.height) ? this.height.toString() : this.height + 'px';
     }
@@ -89,6 +93,13 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
                 );
              
         }
+    }
+
+    dataChanged() {
+        this.buildContextMenu();
+        if (this.model.uppercase)
+            return this.model.value.toUpperCase();
+        return this.model.value;
     }
 
     onFormModeChanged(slice: any) {
