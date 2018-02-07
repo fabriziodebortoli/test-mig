@@ -8,9 +8,9 @@ Installare i prerequisiti **con privilegi di Amministratore**.
 
 ## Git (v2+) [link](https://git-scm.com/)
 
-Versione **2.16.1** per Windows a 64bit - [Git-2.16.1.3-64-bit.exe](https://github.com/git-for-windows/git/releases/download/v2.16.1.windows.3/Git-2.16.1.3-64-bit.exe)
+Versione **2.16.1** per Windows a 64bit - [download](https://github.com/git-for-windows/git/releases/download/v2.16.1.windows.3/Git-2.16.1.3-64-bit.exe)
 
-Versioni per altri Sistemi Operativi - [Downloads](https://git-scm.com/downloads)
+Versioni per altri Sistemi Operativi - [downloads](https://git-scm.com/downloads)
 
 ## GitHub Desktop [link](https://desktop.github.com/)
 
