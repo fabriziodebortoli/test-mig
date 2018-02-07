@@ -1,7 +1,7 @@
 {
   "id": "IDD_TBF_COMPANYUSER_SETTINGS_VIEW",
   "name": "TBFCompanyUserSettings",
-  "text": "Company/User TBF Settings",
+  "text": "Framework Settings",
   "type": "View",
   "child": true,
   "items": [

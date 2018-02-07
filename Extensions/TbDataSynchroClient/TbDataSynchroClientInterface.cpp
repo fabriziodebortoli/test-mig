@@ -23,6 +23,8 @@
 #include "UIValidationMonitor.h"
 #include "UINotification.hjson"
 #include "UIValidationMonitor.hjson"
+#include "DDSSettings.h"
+#include "ModuleObjects\DSSettings\JsonForms\IDD_DS_COMPANYUSER_SETTINGS.hjson"
 
 /////////////////////////////////////////////////////////////////////////////
 //				AddOn-Interface declaration
@@ -77,7 +79,9 @@ BEGIN_ADDON_INTERFACE()
 			//REGISTER_MASTER_TEMPLATE	(szDefaultViewMode, DValidationMonitor, CValidationFrame,	CValidationMonitorView)
 			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode, DValidationMonitor, IDD_DATAVALIDATION_MONITOR)
 		END_DOCUMENT ()	
-			
+		BEGIN_DOCUMENT(_NS_DOC("DSSettings"), TPL_ADMIN_PROTECTION)
+			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode, DDSSettings, IDD_DS_COMPANYUSER_SETTINGS)
+		END_DOCUMENT()			
 	END_TEMPLATE()
 	
 

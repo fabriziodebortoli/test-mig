@@ -15,5 +15,18 @@
         </Menu>
       </Menu>
     </Group>
+    <Group name="FrameWork.TBGes"  image_namespace="Image.Framework.TbFrameworkImages.Images.25x25\Tools.png" icon="erp-preferences">
+      <Title localizable="true">Preferences</Title>
+      <Menu name="Preferences" search_command_image="true">
+        <Title localizable="true">Preferences</Title>
+        <Menu name="Settings" search_command_image="true">
+          <Title localizable="true">Settings</Title>
+          <Document activation="Extensions.DataSynchroFunctionality">
+             <Title localizable="true">Data Synchronization Settings</Title>
+            <Object>Extensions.TbDataSynchroClient.TbDataSynchroClient.DSSettings</Object>
+          </Document>
+        </Menu>
+      </Menu>
+    </Group>
   </Application>
 </AppMenu>

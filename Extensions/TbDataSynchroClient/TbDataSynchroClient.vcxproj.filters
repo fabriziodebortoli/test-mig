@@ -89,6 +89,9 @@
     <ClCompile Include="TbDataSynchroClientWCFInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DDSSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDNotification.h">
@@ -143,6 +146,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TbDataSynchroClientFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

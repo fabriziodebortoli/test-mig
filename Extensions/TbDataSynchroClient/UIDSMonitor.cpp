@@ -12,13 +12,8 @@
 #include "UIProviders.h"
 #include "UIDSMonitor.h"
 #include "UIDSMonitor.hjson"
+#include "DDSSettings.h"
 
-//==============================================================================
-const TCHAR szTbDataSynchroClient[]			= _T("Module.Extensions.TbDataSynchroClient");
-const CTBNamespace snsTbDataSynchroClient	= szTbDataSynchroClient;
-//==============================================================================
-const TCHAR szDataSynchronizerMonitor[]		= _T("DataSynchronizerMonitor");
-const TCHAR szRefreshTimer[]				= _T("RefreshTimer");
 //==============================================================================
 
 static TCHAR szIconNamespace		[] = _T("Image.Framework.TbFrameworkImages.Images.%s.%s.png");

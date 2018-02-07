@@ -1,0 +1,6 @@
+﻿#pragma once
+#include	<TbNameSolver\TBResourcesMap.h>
+#include	<TbDataSynchroClient\ModuleObjects\DSSettings\JsonForms\IDD_TD_DS_COMPANYUSER_SETTINGS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSSettings\JsonForms\IDD_DS_COMPANYUSER_SETTINGS.hjson>
+#include	<TbDataSynchroClient\ModuleObjects\DSSettings\JsonForms\IDD_DS_COMPANYUSER_SETTINGS_VIEW.hjson>
+

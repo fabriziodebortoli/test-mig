@@ -9,7 +9,7 @@
         <Menu name="Settings" search_command_image="true">
           <Title localizable="true">Settings</Title>
           <Document>
-            <Title localizable="true">Company/User Barcode Settings</Title>
+            <Title localizable="true">Barcode Settings</Title>
             <Object>Framework.TbWoormViewer.TbWoormViewer.BarcodeSettings</Object>
           </Document>
         </Menu>
