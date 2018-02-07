@@ -1960,10 +1960,7 @@ SqlParamArray* HotKeyLink::GetQuery(SelectionType nQuerySelection, CString& sQue
 		m_pTable->Open(FALSE, E_FAST_FORWARD_ONLY);
 		DoDefineQuery(nQuerySelection);
 		DataObj* pData = GetDataObj();
-		if (!sFilter.IsEmpty())
-		{
-			pData->AssignFromXMLString(sFilter);
-		}
+		pData->AssignFromXMLString(sFilter);
 		DoPrepareQuery(pData, nQuerySelection);
 		m_pTable->BuildSelect();
 	}
