@@ -551,7 +551,7 @@
   <icon iconNs="framework.tbframeworkimages.images.25x25.outbound.png" icon="tb-outbound"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.stopextract.png" icon="tb-stopextract"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.resume.png" icon="tb-resume"></icon>
-  <icon iconNs="framework.tbframeworkimages.images.25x25.generatejsonmodel.png" icon="tb-generatejsonmodel"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.generatejsonmodel.png" icon="tb-generatejsonmode"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.paste.png" icon="tb-paste"></icon>
  
   <!--Extensions-->
