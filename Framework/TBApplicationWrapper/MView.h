@@ -210,8 +210,14 @@ namespace Microarea {
 	private:
 		void GetFrameChildrenFromPos(System::Drawing::Point p, System::IntPtr handleToSkip, System::Collections::Generic::ICollection<IWindowWrapper^>^ foundChildren);
 		void ResizeFrame();
+		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
+		void ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
 		
 	public:
+		///<summary>
+		///Save the json string in the file specified with fileName
+		///</summary>
+		bool SaveSerialization(const CString& fileName, const CString& sSerialization);
 
 		/// <summary>
 		/// Internal Use

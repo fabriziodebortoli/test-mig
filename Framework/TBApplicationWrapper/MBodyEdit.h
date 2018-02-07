@@ -111,7 +111,7 @@ namespace Microarea {
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime),
 					System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden), 
 					System::ComponentModel::ReadOnly(true)]
-				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+				property INameSpace^ Namespace { virtual INameSpace^ get() override; }
 
 				/// <summary>
 				/// Gets or Sets the name for the current column

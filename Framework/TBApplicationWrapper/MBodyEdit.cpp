@@ -1777,13 +1777,18 @@ void MBodyEdit::GenerateJson(CWndObjDescription* pParentDescription, List<System
 			}
 			else //remove from parent
 				pBEDescription->m_Children.RemoveAt(i);
+
+			column->GenerateJsonForEvents(serialization);
 		}
 	}
 
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //tile HasCodeBehind = true
 	{
 		if (!hasNewColumns)
+		{
+			GenerateJsonForEvents(serialization);
 			return;
+		}
 
 		pBEDummyDescription = new CDummyDescription();
 		pBEDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
@@ -1835,6 +1840,8 @@ void MBodyEdit::GenerateJson(CWndObjDescription* pParentDescription, List<System
 		SAFE_DELETE(jsonDescription);
 		SAFE_DELETE(pBEDummyDescription);
 	}
+
+	GenerateJsonForEvents(serialization);
 	
 }
 

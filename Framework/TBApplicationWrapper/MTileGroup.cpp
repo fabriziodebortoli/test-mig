@@ -298,6 +298,8 @@ void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<Syste
 			}
 		}
 	}
+
+	GenerateJsonForEvents(serialization);
 }
 
 //----------------------------------------------------------------------------

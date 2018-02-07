@@ -295,6 +295,8 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 			pParentDescription->m_Children.RemoveAt(i);
 		}
 	}
+
+	GenerateJsonForEvents(serialization);
 }
 
 //----------------------------------------------------------------------------

@@ -318,6 +318,58 @@ Object^ EasyBuilderControlSerializer::Serialize(IDesignerSerializationManager^ m
 	return newCollection;
 }
 
+//----------------------------------------------------------------------------------------------------------------
+void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^>^>^ evSerialization)
+{
+	if (evSerialization == nullptr)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	EasyBuilderControl^ ebControl = dynamic_cast<EasyBuilderControl^>(this);
+	if (ebControl == nullptr)
+		return;
+
+	CJsonSerializer jsonSer;
+	BOOL bFoundEvents = FALSE;
+	int i = 0;
+	System::Collections::Generic::IEnumerator<Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^>^ evEnumerator = ebControl->ChangedEvents->GetEnumerator();
+	while (evEnumerator->MoveNext())
+	{
+		if (!bFoundEvents)
+		{
+			jsonSer.OpenArray(_T("content"));
+			bFoundEvents = TRUE;
+		}
+		jsonSer.OpenObject(i);
+		Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^ ev = evEnumerator->Current;
+		jsonSer.WriteString(_T("namespace"), CString(this->Namespace->ToString()));
+		jsonSer.WriteString(_T("event"), CString(ev->EventName));
+		jsonSer.CloseObject();
+		i++;
+	}
+
+	if (bFoundEvents)
+	{
+		jsonSer.CloseArray();
+		evSerialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(_T("ES_EVENTS_") + this->Name),
+				gcnew String(jsonSer.GetJson())
+				)
+		);
+	}
+}
+
+//----------------------------------------------------------------------------
+INameSpace^ EasyBuilderControl::Namespace::get()
+{
+	return nullptr;
+}
+
 /// <summary>
 /// Internal Use
 /// </summary>
@@ -396,6 +448,7 @@ Point EasyBuilderControlSerializer::GetLocationToSerialize(EasyBuilderControl^ e
 	currentLocation.Offset(scrollOffset);
 	return currentLocation;
 }
+
 //----------------------------------------------------------------------------	
 AstExpression^	EasyBuilderControlSerializer::GetParentWindowReference()
 {
@@ -736,19 +789,6 @@ CString BaseWindowWrapper::GetSerialization(CWndObjDescription* pWndObjDescripti
 	pWndObjDescription->SerializeJson(ser);
 
 	return ser.GetJson();
-}
-
-//----------------------------------------------------------------------------------------------------
-bool BaseWindowWrapper::SaveSerialization(const CString& fileName, const CString& sSerialization)
-{
-	CLineFile file;
-	if (!file.Open(CString(fileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
-		return false;
-
-	file.WriteString(sSerialization);
-	file.Close();
-
-	return true;
 }
 
 //----------------------------------------------------------------------------------
@@ -2783,6 +2823,8 @@ void MParsedControl::GenerateJson(CWndObjDescription* pParentDescription, List<S
 	{
 		//TODO: serializze differences
 	}
+
+	GenerateJsonForEvents(serialization);
 	
 }
 

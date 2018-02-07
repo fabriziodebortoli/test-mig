@@ -225,6 +225,8 @@ void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<Sys
 		}
 		
 	}
+
+	GenerateJsonForEvents(serialization);
 }
 
 //----------------------------------------------------------------------------

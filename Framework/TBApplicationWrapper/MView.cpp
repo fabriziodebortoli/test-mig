@@ -135,11 +135,10 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 		);
 	}
 	
-	for each (Tuple<System::String^, System::String^>^ element in serialization)
-	{
-		this->SaveSerialization(CString(pathToSerialize + _T("\\") + element->Item1 + _T(".tbjson")), element->Item2);
-	}
+	GenerateJsonForEvents(serialization);
 
+	ManageSerializations(serialization);
+	
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
 		SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
@@ -148,6 +147,62 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 
 	SAFE_DELETE(jsonDescription);
 	delete serialization;
+}
+
+//------------------------------------------------------------------------------------------------------------
+void MView::ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	CJsonSerializer jsonSerEv;
+
+	jsonSerEv.OpenArray(_T("items"));
+	int n = 0;
+	for each (Tuple<System::String^, System::String^>^ element in serialization)
+	{
+		if (element->Item1->IndexOf(gcnew String(_T("ES_EVENTS_"))) < 0)
+			this->SaveSerialization(CString(pathToSerialize + _T("\\") + element->Item1 + _T(".tbjson")), element->Item2);
+		else
+			EventsJsonStringDeserialize(CString(element->Item2), jsonSerEv, n);
+	}
+	jsonSerEv.CloseArray();
+
+	this->SaveSerialization(CString(pathToSerialize + _T("\\") + _T("UserMethods.json")), jsonSerEv.GetJson());
+}
+
+//----------------------------------------------------------------------------------
+void MView::EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx)
+{
+	CJsonParser parser;
+	parser.ReadJsonFromString(strEvents);
+	if (parser.BeginReadArray(_T("content")))
+		for (int i = 0; i < parser.GetCount(); i++)
+		{
+			if (parser.BeginReadObject(i))
+			{
+				CString sNs = parser.ReadString(_T("namespace"));
+				CString sEvent = parser.ReadString(_T("event"));
+
+				jsonSer.OpenObject(idx);
+				jsonSer.WriteString(_T("namespace"), sNs);
+				jsonSer.WriteString(_T("event"), sEvent);
+				jsonSer.CloseObject();
+				idx++;
+			}
+			parser.EndReadObject();
+		}
+	parser.EndReadArray();
+}
+
+//----------------------------------------------------------------------------------------------------
+bool MView::SaveSerialization(const CString& fileName, const CString& sSerialization)
+{
+	CLineFile file;
+	if (!file.Open(CString(fileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
+		return false;
+
+	file.WriteString(sSerialization);
+	file.Close();
+
+	return true;
 }
 
 //----------------------------------------------------------------------------

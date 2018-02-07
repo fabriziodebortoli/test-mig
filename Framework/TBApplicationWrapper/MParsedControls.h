@@ -221,6 +221,12 @@ namespace Microarea {
 				[LocalizedCategory("GraphicsCategory", EBCategories::typeid)]
 				property bool TabStop { virtual bool get(); virtual void set(bool value); }
 
+				/// <summary>
+				/// Gets the namespace of the current control
+				/// </summary>
+				[LocalizedCategory("InformationsCategory", EBCategories::typeid)]
+				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+
 			protected:
 				/// <summary>
 				/// Constructor
@@ -235,6 +241,11 @@ namespace Microarea {
 				bool IsInListContainer(Object^ obj);
 
 			public:
+				///<summary>
+				///Generates json for events
+				///</summary>
+				virtual void GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^>^>^ evSerialization);
+
 				/// <summary>
 				/// Activates the control
 				/// </summary>
@@ -607,7 +618,7 @@ namespace Microarea {
 				/// Gets the namespace of the current control
 				/// </summary>
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime)]
-				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+				property INameSpace^ Namespace { virtual INameSpace^ get() override; }
 
 #pragma endregion
 				//--------------BOTH----------------------------------------------------------	
@@ -715,8 +726,6 @@ namespace Microarea {
 
 
 			public:
-				bool SaveSerialization(const CString& fileName, const CString& sSerialization);
-
 				///<summary>
 				///Get json serialization from description class
 				///</summary>
