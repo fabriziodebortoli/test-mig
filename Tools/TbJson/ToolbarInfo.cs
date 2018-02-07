@@ -36,10 +36,15 @@ namespace Microarea.TbJson
             JObject jInner = GetItemByTag(jOuter.GetItems(true), Constants.div, GetToolbarInnerSectionClass(btn.GetCommandCategory()));
             JObject jCat = GetItemByTag(jInner.GetItems(true), Constants.div, GetToolbarCategoryClass(btn.GetCommandCategory()));
             string group = GetToolbarButtonGroup(btn.GetCommandCategory());
-            JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
+			string cssClass = GetToolbarButtonCssClass(btn.GetCommandCategory());
+			JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
             JArray jItems = jButton.GetItems(true);
-            if (jItems.Find(btn.GetId()) == null)
-                jItems.Add(btn);
+			if (jItems.Find(btn.GetId()) == null)
+			{
+				if (!string.IsNullOrWhiteSpace(cssClass))
+					btn[Constants.ngClass] = cssClass;
+				jItems.Add(btn);
+			}
         }
 
         private static string GetToolbarButtonGroup(CommandCategory cat)
@@ -48,12 +53,27 @@ namespace Microarea.TbJson
             {
                 case CommandCategory.Advanced:
                     return Constants.tbToolbarTopDropdown;
-                default:
+				case CommandCategory.Print:
+					return Constants.tbToolbarBottomDropup;
+				default:
                     return "";
             }
         }
 
-        static private string GetToolbarOuterSection(CommandCategory cat)
+		private static string GetToolbarButtonCssClass(CommandCategory cat)
+		{
+			switch (cat)
+			{
+				case CommandCategory.Advanced:
+					return Constants.dropDownButton;
+				case CommandCategory.Print:
+					return Constants.dropUpButton;
+				default:
+					return "";
+			}
+		}
+
+		static private string GetToolbarOuterSection(CommandCategory cat)
         {
             switch (cat)
             {
