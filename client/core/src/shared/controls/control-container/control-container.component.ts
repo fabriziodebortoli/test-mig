@@ -17,5 +17,4 @@ import { ContextMenuItem } from './../../models/context-menu-item.model';
 export class ControlContainerComponent extends ControlComponent {
     @Input() type: string = '';
     @Input() errorMessage: string = '';
-    @Input() contextMenu: ContextMenuItem[];
 }

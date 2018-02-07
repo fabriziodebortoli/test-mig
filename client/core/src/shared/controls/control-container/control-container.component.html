@@ -1,5 +1,5 @@
 <div class="tb-control {{type}}" [ngClass]="componentClass()">
     <ng-content></ng-content>
-    <tb-context-menu *ngIf="contextMenu" [contextMenu]="contextMenu"></tb-context-menu>
+    <tb-context-menu *ngIf="contextMenu.length > 0" [contextMenu]="contextMenu"></tb-context-menu>
     <div class="has-error">{{errorMessage}}</div>
 </div>

@@ -1,3 +1,4 @@
+import { ControlContainerComponent } from './../control-container/control-container.component';
 import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
@@ -26,12 +27,14 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
     @ViewChild('anchor') public anchor: ElementRef;
     @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
+    @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+
     public addresses = [];
     private ctrlEnabled = false;
     private show = false;
     private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+    private iContextMenu = 0;
 
-    addressContextMenu: ContextMenuItem[] = [];
     menuItemSearch = new ContextMenuItem('Search for address', '', true, false, null, this.searchForAddress.bind(this));
     menuItemMap = new ContextMenuItem('Show map', '', true, false, null, this.showMap.bind(this));
     menuItemSatellite = new ContextMenuItem('Show satellite view', '', true, false, null, this.showSatellite.bind(this));
@@ -58,6 +61,10 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         private http: Http
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
+    }
+
+    ngOnInit() {
+        this.iContextMenu = this.cc.contextMenu.length;
     }
 
     getCorrectHeight() {
@@ -88,16 +95,17 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         this.ctrlEnabled = slice.formMode === FormMode.FIND || slice.formMode === FormMode.NEW || slice.formMode === FormMode.EDIT;
         this.buildContextMenu();
     }
-
+    
     buildContextMenu() {
-        this.addressContextMenu.splice(0, this.addressContextMenu.length);
+        this.cc.contextMenu.splice(this.iContextMenu, this.cc.contextMenu.length);
         if (this.model.value !== '') {
             if (this.ctrlEnabled) {
-                this.addressContextMenu.push(this.menuItemSearch);
+                this.cc.contextMenu.push(this.menuItemSearch);
             }
-            this.addressContextMenu.push(this.menuItemMap);
-            this.addressContextMenu.push(this.menuItemSatellite);
+            this.cc.contextMenu.push(this.menuItemMap);
+            this.cc.contextMenu.push(this.menuItemSatellite);
         }
+        this.changeDetectorRef.markForCheck();
     }
 
     async showMap() {
