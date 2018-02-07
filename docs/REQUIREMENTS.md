@@ -1,64 +1,66 @@
+
+
 # Requirements
 
 Eseguire con attenzione l'installazione di tutti questi prerequisiti, verificando di avere le corrette versioni installate.  
 Installare i prerequisiti **con privilegi di Amministratore**.
 
 
-### [Git](http://git-scm.com)
-Installare la [**GitHub app** per Windows](http://windows.github.com).
+## Git (v2+) [link](https://git-scm.com/)
 
-Dopo l'installazione, effettuare la login con le proprie credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
+Versione **2.16.1** per Windows a 64bit - [Git-2.16.1.3-64-bit.exe](https://github.com/git-for-windows/git/releases/download/v2.16.1.windows.3/Git-2.16.1.3-64-bit.exe)
 
-Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
+Versioni per altri Sistemi Operativi - [Downloads](https://git-scm.com/downloads)
 
-### [Node.js](http://nodejs.org), (version `>=6.11`)
-  Installare la 'LTS' (Long Term Support) a **64bit**
+## GitHub Desktop [link](https://desktop.github.com/)
+
+Versione per Windows 64bit - [download](https://central.github.com/deployments/desktop/desktop/latest/win32)
+
+Versione per macOS  - [download](https://central.github.com/deployments/desktop/desktop/latest/darwin)
+
+Terminata l'installazione, seguire questa [guida](https://help.github.com/desktop/guides/getting-started-with-github-desktop/authenticating-to-github/#platform-windows) per autenticarsi con le credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
+
+## Node.js [link](https://nodejs.org/)
   
-  Node.js is used to run a development web server,
-  run tests, and generate distributable files. We also use Node's Package Manager, `npm`
-  which comes with Node. Depending on your system, you can install Node either from
-  source or as a pre-packaged bundle.
-  
-  Se lo si ha già, verificare la versione da riga di comando: `node -v`  
-  Verificare anche la versione di NPM con il comando `npm -v`, deve essere superiore alla 5.0.
+Versione **8.9.4 LTS** per Windows a 64bit - [download](https://nodejs.org/dist/v8.9.4/node-v8.9.4-x64.msi)
 
-### [Typescript](https://www.typescriptlang.org), (version `>= 2.4`) 
-A superset of JavaScript that compiles to clean JavaScript output.
+Versione **8.9.4 LTS** per MacOS - [download](https://nodejs.org/dist/v8.9.4/node-v8.9.4.pkg)
+ 
+## NPM Packages
 
-Per installarlo, da riga di comando
+Tramite riga di comando installare i seguenti pacchetti.
+
+Chi usa Windows può aprire una **Powershell** con privilegi da amministratore.
+
+### Typescript [link](https://www.typescriptlang.org)
 
 ```shell
-# global installation typescript
-$ npm i -g "typescript@latest"
+npm i -g "typescript@latest"
 ```
 
-Se lo si ha già, verificare la versione da riga di comando: `tsc -v`
-
-### [Angular CLI](https://cli.angular.io/), (version `>= 1.4`)
-A command line interface for Angular
-
-Per installarlo, da riga di comando
+### Angular CLI [link](https://cli.angular.io/)
+Angular Command Line Interface
 
 ```shell
-# global installation Angular CLI
-$ npm i -g "@angular/cli"
+npm i -g "@angular/cli"
 ```
 
-Se lo si ha già, verificare la versione da riga di comando: `ng -v`
-
-### [rimraf](https://www.npmjs.com/package/rimraf)
+### rimraf [link](https://www.npmjs.com/package/rimraf)
 A shortcut to *rm -rf*
 
-Per installarlo, da riga di comando
-
 ```shell
-# global installation rimraf
-$ npm i -g rimraf
+npm i -g rimraf
 ```
 
-### .NET Core
+### .NET Core SDK [link](https://www.microsoft.com/net/)
 
-Scaricare ed installare il [**.NET Core 2.0 SDK**](https://www.microsoft.com/net/download/core)
+Windows - [download](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.4-windows-x64-installer)
+
+macOS - [download](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.4-macos-x64-installer)
+
+Linux - [download](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.4-linux-x64-binaries)
+
+Others - [link](https://www.microsoft.com/net/download/)
 
 ### Componenti aggiuntivi di Visual Studio
 Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer"). Potrebbe richiedere l'aggiornamento dello stesso Installer o di Visual Studio)
@@ -74,11 +76,11 @@ Scaricare le **MicroareaExtension** per **VS2017** che si trovano online come da
 
 In seguito, aprire una qualsiasi solution Mago o TB, e dal menu Microarea Tools, scegliere la voce **Create IIS virtual directory**
 
-### (Solo per utenti Windows con IIS)[IIS URL Rewrite 2.1](https://www.iis.net/downloads/microsoft/url-rewrite)
+### IIS URL Rewrite 2.1 (Solo per utenti Windows con IIS) [link](https://www.iis.net/downloads/microsoft/url-rewrite)
 
-[Install extension](http://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=urlrewrite2)
+Estensione IIS URL Rewrite - [download](http://www.microsoft.com/web/handlers/webpi.ashx?command=getinstallerredirect&appid=urlrewrite2)
 
-Scaricare ed installare il modulo aggiuntivo per IIS per URL Rewrite necessario al corretto funzionamento del sistema di routing Angular con IIS
+### Visual Studio Code (Opzionale) [link](http://code.visualstudio.com/) 
+Versione per Windows - [download](https://go.microsoft.com/fwlink/?Linkid=852157)
 
-### (Opzionale) [Visual Studio Code](http://code.visualstudio.com/) 
-Source code editor.
+Versioni per altri Sistemi Operativi - [link](https://code.visualstudio.com/Download)
