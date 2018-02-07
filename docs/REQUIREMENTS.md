@@ -7,9 +7,9 @@ Installare i prerequisiti **con privilegi di Amministratore**.
 ### [Git](http://git-scm.com)
 Installare la [**GitHub app** per Windows](http://windows.github.com).
 
-Dopo l'installazione, effettuare la login con le proprie credenziali di GitHub aziendali. Se non sono state ancora assegnate, chiederle.
+Versione **2.16.1** per Windows a 64bit - [download](https://github.com/git-for-windows/git/releases/download/v2.16.1.windows.3/Git-2.16.1.3-64-bit.exe)
 
-Per saperne di più: [GitHub's Guide to Installing Git](https://help.github.com/articles/set-up-git).
+Versioni per altri Sistemi Operativi - [downloads](https://git-scm.com/downloads)
 
 ### [Node.js](http://nodejs.org), (version `>=6.11`)
   Installare la 'LTS' (Long Term Support). 
