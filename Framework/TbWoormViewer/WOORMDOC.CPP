@@ -3662,11 +3662,7 @@ void CWoormDocMng::RunReport(BOOL bActivate /*= FALSE*/, BOOL bPost/* = TRUE*/)
 void CWoormDocMng::SetDecorateTitle()
 {
 	ASSERT_VALID(this);
-	CWoormFrame* pFrame = GetWoormFrame();
-	ASSERT_VALID(pFrame);
-	if (!::IsWindow(pFrame->m_hWnd))
-		return;
-
+	
 	UINT idi = IDI_REPORT;
 
 	CString str;
