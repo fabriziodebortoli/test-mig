@@ -41,7 +41,7 @@ export class HttpService {
     getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
         const headers = new Headers();
         headers.append('Accept', 'application/json');
-        const url = '/dictionary/' + culture + '/' + dictionaryId + '.json';
+        const url = 'dictionary/' + culture + '/' + dictionaryId + '.json';
         return this.http.get(url, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
