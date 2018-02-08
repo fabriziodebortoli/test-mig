@@ -161,14 +161,14 @@ void MView::ManageSerializations(List<System::Tuple<System::String^, System::Str
 	int n = 0;
 	for each (Tuple<System::String^, System::String^>^ element in serialization)
 	{
-		if (element->Item1->IndexOf(gcnew String(_T("ES_EVENTS_"))) < 0)
-			this->SaveSerialization(CString(pathToSerialize + _T("\\") + element->Item1 + _T(".tbjson")), element->Item2);
+		if (element->Item1->IndexOf(prefixEvent) < 0)
+			this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, element->Item1, tbjsonExtension)), CString(element->Item2));
 		else
 			EventsJsonStringDeserialize(CString(element->Item2), jsonSerEv, n);
 	}
 	jsonSerEv.CloseArray();
 
-	this->SaveSerialization(CString(pathToSerialize + _T("\\") + _T("UserMethods.json")), jsonSerEv.GetJson());
+	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
 }
 
 //----------------------------------------------------------------------------------
@@ -176,17 +176,17 @@ void MView::EventsJsonStringDeserialize(const CString& strEvents, CJsonSerialize
 {
 	CJsonParser parser;
 	parser.ReadJsonFromString(strEvents);
-	if (parser.BeginReadArray(_T("content")))
+	if (parser.BeginReadArray(CString(contentTag)))
 		for (int i = 0; i < parser.GetCount(); i++)
 		{
 			if (parser.BeginReadObject(i))
 			{
-				CString sNs = parser.ReadString(_T("namespace"));
-				CString sEvent = parser.ReadString(_T("event"));
+				CString sNs = parser.ReadString(CString(namespaceTag));
+				CString sEvent = parser.ReadString(CString(eventTag));
 
 				jsonSer.OpenObject(idx);
-				jsonSer.WriteString(_T("namespace"), sNs);
-				jsonSer.WriteString(_T("event"), sEvent);
+				jsonSer.WriteString(CString(namespaceTag), sNs);
+				jsonSer.WriteString(CString(eventTag), sEvent);
 				jsonSer.CloseObject();
 				idx++;
 			}

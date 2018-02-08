@@ -125,6 +125,15 @@ namespace Microarea {
 				IWindowWrapperContainer^	parent;
 
 			public:
+				static System::String^  prefixEvent = "ES_EVENTS_";
+				static System::String^  userMethods = "UserMethods.json";
+				static System::String^  tbjsonExtension = ".tbjson";
+				static System::String^  backSlash = "\\";
+				static System::String^  contentTag = "content";
+				static System::String^  namespaceTag = "namespace";
+				static System::String^  eventTag = "event";
+
+			public:
 				/// <summary>
 				/// Internal Use
 				/// </summary>
@@ -400,7 +409,7 @@ namespace Microarea {
 				static System::String^	staticAreaName = "Static Area";
 				static System::String^	staticArea1Name = "Static Area 1";
 				static System::String^	staticArea2Name = "Static Area 2";
-
+				
 				bool EndCreation = false;
 				CWndObjDescription* jsonDescription = NULL;
 				CDummyDescription* jsonDummyDescription = NULL;

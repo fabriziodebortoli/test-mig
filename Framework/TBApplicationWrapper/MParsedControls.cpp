@@ -339,13 +339,13 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 	{
 		if (!bFoundEvents)
 		{
-			jsonSer.OpenArray(_T("content"));
+			jsonSer.OpenArray(CString(contentTag));
 			bFoundEvents = TRUE;
 		}
 		jsonSer.OpenObject(i);
 		Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^ ev = evEnumerator->Current;
-		jsonSer.WriteString(_T("namespace"), CString(this->Namespace->ToString()));
-		jsonSer.WriteString(_T("event"), CString(ev->EventName));
+		jsonSer.WriteString(CString(namespaceTag), CString(this->Namespace->ToString()));
+		jsonSer.WriteString(CString(eventTag), CString(ev->EventName));
 		jsonSer.CloseObject();
 		i++;
 	}
@@ -357,9 +357,9 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		(
 			gcnew Tuple<System::String^, System::String^>
 			(
-				gcnew String(_T("ES_EVENTS_") + this->Name),
+				String::Concat(prefixEvent, this->Namespace),	
 				gcnew String(jsonSer.GetJson())
-				)
+			)
 		);
 	}
 }
