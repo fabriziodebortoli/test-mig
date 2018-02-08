@@ -3408,16 +3408,6 @@ namespace Microarea.EasyBuilder
 						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, saveForWeb);
 				}
 
-                //crea/aggiorna il json
-                if (/*saveForWeb*/true)
-                {
-                    NameSpace nsForJson = Sources?.Namespace;
-                    nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
-                    nsForJson.Module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
-                    SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));
-                    bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson);
-                }
-
                 switch (res)
 				{
 					case DialogResult.Cancel:
