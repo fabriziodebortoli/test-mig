@@ -1543,6 +1543,7 @@ namespace Microarea.TbJson
             {
                 WriteAttribute(jObj, Constants.rows, Constants.rows);
                 WriteAttribute(jObj, Constants.multiline, Constants.multiline);
+                WriteAttribute(jObj, Constants.textlimit, Constants.textlimit);
             }
 
             WriteBindingAttributes(jObj, true);

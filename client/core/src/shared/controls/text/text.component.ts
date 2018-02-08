@@ -13,11 +13,12 @@ import { ControlComponent } from '../control.component';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss']
 })
-export class TextComponent extends ControlComponent /*implements AfterContentInit, OnChanges */ {
+export class TextComponent extends ControlComponent implements AfterContentInit/*, OnChanges */ {
 
   @Input('readonly') readonly: boolean = false;
   @Input() public hotLink: { namespace: string, name: string};
   @Input('rows') rows: number = 0;
+  @Input('textlimit') textlimit : number = 0;
   @Input('multiline') multiline : boolean = false;
   
 
@@ -25,6 +26,7 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   // public  contextMenuRef;
 
   public mask = '';
+  public maxLenght = 0;
 
   constructor(
     public eventData: EventDataService,
@@ -43,5 +45,9 @@ export class TextComponent extends ControlComponent /*implements AfterContentIni
   }
 
   ngAfterContentInit() {
+    this.maxLenght = this.model ? this.model.length : 0;
+    if (this.textlimit > 0 && (this.maxLenght == 0 || this.textlimit < this.maxLenght)) {
+      this.maxLenght = this.textlimit;
+    }
   }
 }
