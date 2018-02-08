@@ -1408,7 +1408,14 @@ CPushButton::CPushButton(DataBool* pData)
 	:
 	CParsedButton	(pData)
 {}
-                        
+
+// modifica solo la visibilità, perché l'abilitazione sensibile al valore
+//-----------------------------------------------------------------------------
+void CPushButton::UpdateCtrlStatus	() 
+{
+	UpdateCtrlVisibility();
+}                   
+
 //-----------------------------------------------------------------------------
 BOOL CPushButton::OnInitCtrl()
 {
