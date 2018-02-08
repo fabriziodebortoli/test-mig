@@ -938,7 +938,8 @@ namespace Microarea.TbJson
                 case WndObjType.Tile:
                     {
                         string title = jObj.GetLocalizableString(Constants.text);
-                        string tag = string.IsNullOrEmpty(title) ? Constants.tbTile : Constants.tbPanel;
+
+                        string tag = (parentType == WndObjType.TilePanel || string.IsNullOrEmpty(title)) ? Constants.tbTile : Constants.tbPanel;
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
                             htmlWriter.WriteAttribute(Square(Constants.title), title);
