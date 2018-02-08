@@ -203,7 +203,7 @@ void CBaseFrame::MakeSwitchTomenu(CMenu *pMenu)
 //-----------------------------------------------------------------------------
 CExtButton*  CBaseFrame::AddButtonToPane(CTaskBuilderStatusBar* pStatusBar, INT nIDPane, UINT nID, LPCTSTR lpszCaption, CString sNSStdImage, CString sToolTip)
 {
-	if (ULONG(AfxGetThemeManager()->GetStatusbarBkgColor()) < ULONG(RGB(127, 127, 127)))
+	if (ULONG(AfxGetThemeManager()->GetStatusbarBkgColor()) < ULONG(RGB(127, 127, 190)))
 	{
 		// Appen in name fo file icone name _W
 		if (sNSStdImage.Right(4).CompareNoCase(_T(".PNG")) == 0)
