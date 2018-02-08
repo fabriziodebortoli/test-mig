@@ -5956,6 +5956,17 @@ void CParsedCtrl::UpdateCtrlView()
 }
 
 //-----------------------------------------------------------------------------
+void CParsedCtrl::UpdateCtrlVisibility()
+{
+	if (m_pData)
+	{
+		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
+		bool bHide = TRUE == m_pData->IsHide();
+		if (bVisible == bHide)
+			ShowCtrl(m_pData->IsHide() ? SW_HIDE : SW_SHOW);
+	}
+}
+//-----------------------------------------------------------------------------
 void CParsedCtrl::UpdateCtrlStatus()
 {
 	if (m_nValueChanging)
@@ -5966,10 +5977,7 @@ void CParsedCtrl::UpdateCtrlStatus()
 	if (m_pData)
 	{
 		EnableCtrl(!m_pData->IsReadOnly());
-		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
-		bool bHide = TRUE == m_pData->IsHide();
-		if (bVisible == bHide)
-			ShowCtrl (m_pData->IsHide() ? SW_HIDE : SW_SHOW);
+		UpdateCtrlVisibility();
 	}
 }
 

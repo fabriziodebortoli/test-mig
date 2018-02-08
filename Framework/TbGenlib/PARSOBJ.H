@@ -1141,6 +1141,7 @@ public:
 
 	int		GetButtonWidth			(int nExpectedWidth = 0);
 protected:
+	void UpdateCtrlVisibility();
 	// NON user overridables
 	BOOL	CanDoCallLink			() const;
 	BOOL	CheckControl			(UINT nID, CWnd* pParentWnd, LPCTSTR ctrlClassName = NULL);
