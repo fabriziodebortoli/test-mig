@@ -80,20 +80,12 @@ void MView::SetPathToSerialize(System::String^ path)
 	pathToSerialize = path;
 }
 
-//-------------------------------------------------------------------------------
-void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+//------------------------------------------------------------------------------
+void MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
-	if (System::String::IsNullOrEmpty(pathToSerialize))
-		return;
-
-	if (serialization != nullptr)
-		delete serialization;
-		
-	serialization = gcnew List<System::Tuple<System::String^, System::String^>^>();
-	
 	if (!this->HasCodeBehind) //not hasCodeBehind
 	{
-		__super::GenerateJson(NULL, serialization);
+		__super::UpdateAttributesForJson(NULL);
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::View;
 		jsonDescription->m_bChild = true;
 	}
@@ -102,14 +94,12 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 		jsonDescription->m_strIds.Add(this->Id);
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
 	}
+}
 
-	for each (WindowWrapperContainer^ wrapper in this->Components)
-	{
-		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
-			continue;
-
-		wrapper->GenerateJson(jsonDescription, serialization);
-	}
+//-------------------------------------------------------------------------------------
+void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
 
 	//manage saving
 	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
@@ -129,16 +119,14 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 		(
 			gcnew Tuple<System::String^, System::String^>
 			(
-				gcnew String(this->Id + _T("_") + _T("Custom")),
+				gcnew String(this->Id + _T("_") + _T("CUSTOM")),
 				gcnew String(GetSerialization(jsonDescription))
 				)
 		);
 	}
-	
-	GenerateJsonForEvents(serialization);
 
 	ManageSerializations(serialization);
-	
+
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
 		SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
@@ -146,6 +134,21 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 	}
 
 	SAFE_DELETE(jsonDescription);
+}
+
+//-------------------------------------------------------------------------------
+void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	if (System::String::IsNullOrEmpty(pathToSerialize))
+		return;
+
+	if (serialization != nullptr)
+		delete serialization;
+		
+	serialization = gcnew List<System::Tuple<System::String^, System::String^>^>();
+	
+	__super::GenerateJson(NULL, serialization);
+	
 	delete serialization;
 }
 

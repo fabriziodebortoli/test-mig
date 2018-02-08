@@ -794,6 +794,15 @@ CString BaseWindowWrapper::GetSerialization(CWndObjDescription* pWndObjDescripti
 //----------------------------------------------------------------------------------
 void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
+	UpdateAttributesForJson(pParentDescription);
+	GenerateJsonForChildren(jsonDescription, serialization);
+	GenerateSerialization(pParentDescription, serialization);
+}
+
+//------------------------------------------------------------------------------
+void BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	//base implementation
 	if (!jsonDescription)
 		return;
 
@@ -805,6 +814,20 @@ void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, Lis
 	jsonDescription->m_strName = this->Name;
 	jsonDescription->m_strIds.Add(this->Id);
 	jsonDescription->m_strText = this->Text;
+}
+
+//-----------------------------------------------------------------------------------------
+void BaseWindowWrapper::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//base class implementation empty
+}
+
+//---------------------------------------------------------------------------------------------
+void BaseWindowWrapper::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//base class implementation
+	//serialize anyway and always the events for this class
+	GenerateJsonForEvents(serialization);
 }
 
 //-----------------------------------------------------------------------------
@@ -2764,8 +2787,8 @@ MParsedControl::!MParsedControl()
 		hotLink->AttachedControl = nullptr;
 }
 
-//---------------------------------------------------------------------------------------
-void MParsedControl::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+//------------------------------------------------------------------------------------
+void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
@@ -2779,7 +2802,7 @@ void MParsedControl::GenerateJson(CWndObjDescription* pParentDescription, List<S
 		if (!jsonDescription)
 			return;
 
-		__super::GenerateJson(pParentDescription, serialization);
+		__super::UpdateAttributesForJson(pParentDescription);
 
 		jsonDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
 		jsonDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
@@ -2823,9 +2846,12 @@ void MParsedControl::GenerateJson(CWndObjDescription* pParentDescription, List<S
 	{
 		//TODO: serializze differences
 	}
+}
 
-	GenerateJsonForEvents(serialization);
-	
+//-----------------------------------------------------------------------------------------------------
+void MParsedControl::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//no children
 }
 
 //----------------------------------------------------------------------------

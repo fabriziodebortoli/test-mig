@@ -148,11 +148,9 @@ MTileManager::!MTileManager()
 {
 }
 
-//----------------------------------------------------------------------------------
-void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+//------------------------------------------------------------------------------
+void MTileManager::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
-	CDummyDescription* pDummyTMDescription = NULL;
-
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
 		return;
@@ -163,16 +161,8 @@ void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<Sys
 		ASSERT(jsonDescription);
 		if (!jsonDescription)
 			return;
-		__super::GenerateJson(pParentDescription, serialization);
+		__super::UpdateAttributesForJson(pParentDescription);
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::TileManager;
-
-		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
-		{
-			pDummyTMDescription = new CDummyDescription();
-			pDummyTMDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-			pParentDescription->m_Children.Add(pDummyTMDescription);
-			pDummyTMDescription->m_arHrefHierarchy.Add(this->Id);
-		}
 	}
 	else
 	{
@@ -180,19 +170,22 @@ void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<Sys
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
 		jsonDescription->m_strIds.Add(this->Id);
 	}
+}
 
-	for each (WindowWrapperContainer^ wrapper in this->Components)
-	{
-		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
-			continue;
-
-		wrapper->GenerateJson(jsonDescription, serialization);
-	}
+//---------------------------------------------------------------------------------
+void MTileManager::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
 
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
 		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //save json di jsonDescription.Serialize
 		{
+			jsonDummyDescription = new CDummyDescription();
+			jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(jsonDummyDescription);
+			jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+
 			serialization->Add
 			(
 				gcnew Tuple<System::String^, System::String^>
@@ -223,10 +216,8 @@ void MTileManager::GenerateJson(CWndObjDescription* pParentDescription, List<Sys
 				pParentDescription->m_Children.RemoveAt(i);
 			}
 		}
-		
-	}
 
-	GenerateJsonForEvents(serialization);
+	}
 }
 
 //----------------------------------------------------------------------------

@@ -539,6 +539,23 @@ void WindowWrapperContainer::OnDataLoaded()
 	SyncHotLinks();
 }
 
+//-------------------------------------------------------------------------------
+void WindowWrapperContainer::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	for each (IWindowWrapper^ wrapper in this->Components)
+	{
+		BaseWindowWrapper^ child = dynamic_cast<BaseWindowWrapper^>(wrapper);
+		if (child != nullptr && child->Handle != IntPtr::Zero)
+		{
+			//skip always StaticArea
+			if (child->Id->CompareTo(gcnew String(staticAreaID)) == 0 && child->Id->CompareTo(gcnew String(staticArea1ID)) == 0 && child->Id->CompareTo(gcnew String(staticArea2ID)) == 0)
+				continue;
+
+			child->GenerateJson(pParentDescription, serialization);
+		}
+	}
+}
+
 //-----------------------------------------------------------------------------
 void WindowWrapperContainer::SyncHotLinks()
 {

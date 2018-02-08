@@ -191,10 +191,9 @@ MTileDialog::!MTileDialog()
 	//}
 }
 
-//---------------------------------------------------------------------------------
-void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+//----------------------------------------------------------------------------------
+void MTileDialog::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
-	CDummyDescription* pDummyTileDescription = NULL;
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
 		return;
@@ -203,13 +202,7 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 	{
 		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
 
-		__super::GenerateJson(pParentDescription, serialization);
-
-		//update parent description id with this
-		pDummyTileDescription = new CDummyDescription();
-		pDummyTileDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-		pParentDescription->m_Children.Add(pDummyTileDescription);
-		pDummyTileDescription->m_arHrefHierarchy.Add(this->Id);
+		__super::UpdateAttributesForJson(pParentDescription);
 
 		CWndTileDescription* pTileDescription = dynamic_cast<CWndTileDescription*>(jsonDescription);
 
@@ -245,20 +238,20 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 		jsonDescription->m_strIds.Add(this->Id);
 	}
 
-	for each (IWindowWrapper^ wrapper in this->Components)
-	{
-		BaseWindowWrapper^ child = dynamic_cast<BaseWindowWrapper^>(wrapper);
-		if (child != nullptr && child->Handle != IntPtr::Zero)
-		{
-			//skip always StaticArea
-			if (child->Id->CompareTo(gcnew String(staticAreaID)) == 0 && child->Id->CompareTo(gcnew String(staticArea1ID)) == 0 && child->Id->CompareTo(gcnew String(staticArea2ID)) == 0)
-				continue;
+}
 
-			child->GenerateJson(jsonDescription, serialization);
-		}
-	}
+//-------------------------------------------------------------------------------------------------------------
+void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
 
-	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) 
+	//update parent description id with this (always)
+	jsonDummyDescription = new CDummyDescription();
+	jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	pParentDescription->m_Children.Add(jsonDummyDescription);
+	jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+
+	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
 		//serialize this => HasCodeBehind = false
 		serialization->Add
@@ -269,7 +262,7 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 				gcnew String(GetSerialization(jsonDescription))
 				)
 		);
-		
+
 	}
 	else if (jsonDescription->m_Children.GetCount() > 0)    //serializza jsonDescription
 	{
@@ -285,7 +278,7 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 		//non sono sul papà
 		SAFE_DELETE(jsonDescription);
 	}
-	
+
 	//clear parent
 	for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
@@ -295,8 +288,6 @@ void MTileDialog::GenerateJson(CWndObjDescription* pParentDescription, List<Syst
 			pParentDescription->m_Children.RemoveAt(i);
 		}
 	}
-
-	GenerateJsonForEvents(serialization);
 }
 
 //----------------------------------------------------------------------------

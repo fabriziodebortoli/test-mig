@@ -269,9 +269,14 @@ namespace Microarea {	namespace Framework	{		namespace TBApplicationWrapper
 
 	public:
 		///<summary>
-		///Updates nedeed attributes for json serialization
+		///Updates needed attributes for json serialization 
 		///</summary>
-		virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+		virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+		///<summary>
+		///Generates serialization for the class
+		///</summary>
+		virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 
 		/// <summary>
 		/// Internal Use

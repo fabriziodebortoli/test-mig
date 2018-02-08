@@ -403,6 +403,7 @@ namespace Microarea {
 
 				bool EndCreation = false;
 				CWndObjDescription* jsonDescription = NULL;
+				CDummyDescription* jsonDummyDescription = NULL;
 
 			protected:
 				System::Drawing::Color			borderColor;
@@ -735,6 +736,21 @@ namespace Microarea {
 				///Updates needed attributes for json serialization 
 				///</summary>
 				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription);
+
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
+
+				///<summary>
+				///Generates serialization for the class
+				///</summary>
+				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
 
 				/// <summary>
 				/// Event raised when the user click on the active control
@@ -1421,7 +1437,12 @@ namespace Microarea {
 				///<summary>
 				///Updates needed attributes for json serialization 
 				///</summary>
-				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 
 				/// <summary>
 				/// Override of the equals method, true if the compared tabs are the same

@@ -150,6 +150,11 @@ namespace Microarea {
 				MESSAGE_HANDLER_EVENT(ResumeLayout, EasyBuilderEventArgs, "Occurs when layout is resumed.");
 
 			public:
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+
 				/// <summary>
 				/// Method called when the data loading occurs (event linked to client doc "OnPrepareAuxData")
 				/// </summary>

@@ -208,17 +208,11 @@ MTileGroup::MTileGroup(IWindowWrapperContainer^ parentWindow, System::String^ na
 	}
 	else
 		m_pTileGroup = dynamic_cast<CTileGroup*>(GetWnd());
-
-	//if (!this->HasCodeBehind)
-	//	jsonDescription = new CWndLayoutContainerDescription(NULL);
-
 }
 
-//------------------------------------------------------------------------------
-void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+//-------------------------------------------------------------------------------------------
+void MTileGroup::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
-	CDummyDescription* pDummyTGDescription = NULL;
-
 	ASSERT(pParentDescription);
 	if (!pParentDescription)
 		return;
@@ -231,15 +225,7 @@ void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<Syste
 		if (!jsonDescription)
 			return;
 
-
-		if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
-		{
-			pDummyTGDescription = new CDummyDescription();
-			pDummyTGDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-			pParentDescription->m_Children.Add(pDummyTGDescription);
-			pDummyTGDescription->m_arHrefHierarchy.Add(this->Id);
-		}
-		__super::GenerateJson(pParentDescription, serialization);
+		__super::UpdateAttributesForJson(pParentDescription);
 
 		CWndLayoutContainerDescription* pTileGroupDescription = dynamic_cast<CWndLayoutContainerDescription*>(jsonDescription);
 
@@ -261,23 +247,21 @@ void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<Syste
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
 		jsonDescription->m_strIds.Add(this->Id);
 	}
+}
 
-	for each (WindowWrapperContainer^ wrapper in this->Components)
-	{
-		if (wrapper == nullptr || wrapper->Handle == IntPtr::Zero)
-			continue;
-
-		CWndObjDescription* pResultDescription = NULL;
-
-		wrapper->GenerateJson(jsonDescription, serialization);
-
-	}
-	
+//------------------------------------------------------------------------------------
+void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
 		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 		{
-			//save json di jsonDescription.Serialize
+			//add dummy description to my father
+			jsonDummyDescription = new CDummyDescription();
+			jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(jsonDummyDescription);
+			jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+			//add json di jsonDescription.Serialize
 			serialization->Add
 			(
 				gcnew Tuple<System::String^, System::String^>
@@ -298,8 +282,7 @@ void MTileGroup::GenerateJson(CWndObjDescription* pParentDescription, List<Syste
 			}
 		}
 	}
-
-	GenerateJsonForEvents(serialization);
+	__super::GenerateSerialization(pParentDescription, serialization);
 }
 
 //----------------------------------------------------------------------------
