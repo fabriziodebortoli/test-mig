@@ -48,11 +48,6 @@ MView::MView(IntPtr handleViewPtr)
 	Visible = false;
 	suspendLayout = false;
 	pathToSerialize = gcnew String(_T(""));
-
-	if (!this->HasCodeBehind)
-		jsonDescription = new CWndObjDescription(NULL);
-	else
-		jsonDescription = new CDummyDescription();
 }
 
 //----------------------------------------------------------------------------
@@ -133,7 +128,6 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 		jsonDescription->m_Children.RemoveAt(i);
 	}
 
-	SAFE_DELETE(jsonDescription);
 }
 
 //-------------------------------------------------------------------------------
@@ -142,6 +136,11 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 	if (System::String::IsNullOrEmpty(pathToSerialize))
 		return;
 
+	if (!this->HasCodeBehind)
+		jsonDescription = new CWndObjDescription(NULL);
+	else
+		jsonDescription = new CDummyDescription();
+
 	if (serialization != nullptr)
 		delete serialization;
 		
@@ -149,6 +148,7 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 	
 	__super::GenerateJson(NULL, serialization);
 	
+	SAFE_DELETE(jsonDescription);
 	delete serialization;
 }
 
