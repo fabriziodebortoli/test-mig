@@ -1540,7 +1540,10 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
 
             if (wc.Name == Constants.tbText)
+            {
                 WriteAttribute(jObj, Constants.rows, Constants.rows);
+                WriteAttribute(jObj, Constants.multiline, Constants.multiline);
+            }
 
             WriteBindingAttributes(jObj, true);
 
