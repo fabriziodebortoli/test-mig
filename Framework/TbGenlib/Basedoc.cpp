@@ -225,10 +225,16 @@ CLocalizableFrame* CBaseDocument::GetFrame() const
 	ASSERT_VALID(this);
 	CWnd* pFrame = CWnd::FromHandle(m_hFrameHandle);
 	if (!pFrame)
+	{
+		CView* pView = GetFirstView();
+		if (pView)
+			pFrame = pView->GetParentFrame();
+	}
+	if (!pFrame)
 		return NULL;
 	ASSERT_VALID(pFrame);
 	ASSERT(pFrame->IsKindOf(RUNTIME_CLASS(CLocalizableFrame)));
-	return (CLocalizableFrame*) pFrame;
+	return (CLocalizableFrame*)pFrame;
 }
 
 //-----------------------------------------------------------------------------
