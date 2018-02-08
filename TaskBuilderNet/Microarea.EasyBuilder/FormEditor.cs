@@ -3423,7 +3423,7 @@ namespace Microarea.EasyBuilder
                             nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
                             nsForJson.Module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
                             SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));
-                            bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson);
+                          //  bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson);
                         }
 
                         NameSpace old = Sources?.Namespace;
