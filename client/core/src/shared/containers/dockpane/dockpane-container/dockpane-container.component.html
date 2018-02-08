@@ -1,4 +1,4 @@
-<div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState">
+<div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState" *ngIf="getDockpanes().length > 0">
 
     <div class="dockpane-tabber-selector">
 

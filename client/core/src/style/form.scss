@@ -1,3 +1,10 @@
+$background:#ffffde;
+$background-disabled:#fafafa;
+$border:#ddd;
+$border-disabled:#ddd;
+$text-color:#000;
+$text-color-disabled:#333;
+$text-weight:500;
 .anchored {
     display: flex;
 }
@@ -6,6 +13,10 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+}
+
+.group {
+    display: flex;
 }
 
 .tb-control {
@@ -23,6 +34,39 @@ tb-caption label {
     font-size: 13px;
     font-weight: 500;
     padding: 0 5px 0 0;
+    color: $text-color;
+}
+
+.k-list-container .k-nodata .k-button,
+.k-dropdown .k-dropdown-wrap,
+.k-button,
+.k-toolbar .k-split-button .k-button,
+.k-spreadsheet-filter,
+.k-pivot-toolbar .k-button,
+.k-fieldselector .k-list li.k-item,
+.k-colorpicker .k-picker-wrap,
+.k-combobox .k-select,
+.k-datepicker .k-select,
+.k-timepicker .k-select,
+.k-datetimepicker .k-select,
+.k-dateinput .k-select,
+.k-editor .k-editor-toolbar-wrap a.k-tool,
+.k-ct-popup .k-editor-toolbar a.k-tool,
+.editorToolbarWindow.k-header.k-window-content a.k-tool,
+.k-numerictextbox .k-select,
+.k-switch-handle,
+.k-handle,
+.k-gantt-views li,
+.k-scheduler-navigation .k-nav-today,
+.k-scheduler-navigation .k-nav-prev,
+.k-scheduler-navigation .k-nav-next,
+.k-scheduler-views li,
+.k-scheduler-footer li {
+    color: $text-color;
+    background: none;
+    background-color: $background;
+    border: $border;
+    opacity: 1;
 }
 
 .k-colorpicker,
@@ -35,26 +79,90 @@ tb-caption label {
 .k-numerictextbox,
 .k-maskedtextbox,
 .k-timepicker {
-    border-width: 0;
-    background-color: #f3f3f3;
+    border: 1px solid $border-disabled;
+    background-color: $background;
+    opacity: 1;
+}
+
+.k-maskedtextbox {
+    border: none;
+}
+
+.k-combobox .k-dropdown-wrap {
+    opacity: 1;
+    border: none;
+}
+
+.k-dropdown .k-select,
+.k-datepicker .k-select,
+.k-timepicker .k-select,
+.k-datetimepicker .k-select,
+.k-combobox .k-select {
+    border-left: 1px solid $border-disabled;
+    background: $background-disabled;
+}
+
+.k-button-icon {
+    width: 28px;
+    height: 28px;
+    opacity: 1;
+    border-left: 1px solid $border-disabled;
+    background: $background-disabled;
+}
+
+.tb-control .k-button {
+    width: 28px;
+    height: 28px;
+    opacity: 1;
+    border: 1px solid $border-disabled;
+    background: $background-disabled;
 }
 
 .k-textbox:disabled,
 .k-textbox[disabled],
 .k-textbox.k-state-disabled,
 .k-dropdown-wrap.k-state-disabled .k-input,
-.k-dateinput-wrap .k-input[disabled],
-.k-dropdown-wrap .k-input[disabled],
-.k-numeric-wrap .k-input[disabled] {
-    background: transparent !important;
-    border: 1px solid #ddd;
+.k-dropdown-wrap .k-input[disabled] {
+    background: $background-disabled !important;
+    border: 1px solid $border-disabled !important;
     color: #000;
-    opacity: 0.6;
-    font-weight: bold;
+    opacity: 1;
+    font-weight: $text-weight;
 }
 
-.k-dropdown-wrap.k-state-disabled .k-select {
-    // display: none;
+.k-dateinput-wrap .k-input[disabled] {
+    background: $background-disabled !important;
+    border: none;
+    color: #000;
+    opacity: 1;
+    font-weight: $text-weight;
+    height: 26px;
+}
+
+.k-numerictextbox .k-numeric-wrap,
+.k-numeric-wrap .k-input[disabled] {
+    border: none !important;
+    background: $background-disabled !important;
+    color: $text-color-disabled;
+    opacity: 1;
+    font-weight: $text-weight;
+    height: 26px;
+}
+
+.k-dropdown .k-dropdown-wrap {
+    opacity: 1;
+}
+
+.k-dropdown-wrap.k-state-disabled .k-input,
+.k-dropdown-wrap .k-input[disabled] {
+    height: 26px;
+    background: $background-disabled !important;
+    border: 1px solid $border-disabled !important;
+    opacity: 1;
+}
+
+.k-dropdown-wrap.k-state-disabled .k-input {
+    border: none !important;
 }
 
 .k-textbox,
@@ -95,13 +203,16 @@ tb-caption label {
     color: #333;
 }
 
-.advanced-header-strip {
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
-    margin: 0 8px 8px 8px;
-    padding: 5px;
-    border-radius: 3px;
+.k-checkbox-label::before,
+.k-radio-label::before {
+    background-color: $background-disabled;
+    border: 1px solid $border-disabled;
+    opacity: 1;
+}
+
+.k-radio:disabled+.k-radio-label,
+.k-checkbox:disabled+.k-checkbox-label {
+    opacity: 1;
 }
 
 .k-button-icon {
@@ -113,4 +224,47 @@ tb-caption label {
 
 #anchor>.k-button-icon {
     margin-left: -2px;
+}
+
+textarea {
+    background-color: $background;
+    border: 1px solid $border-disabled;
+    opacity: 1;
+    padding: 4px 8px;
+}
+
+textarea[disabled] {
+    background-color: $background-disabled;
+    border: 1px solid $border-disabled;
+    font-weight: $text-weight;
+}
+
+.k-disabled [disabled],
+.k-disabled .k-disabled,
+.k-disabled .k-state-disabled,
+.k-state-disabled [disabled],
+.k-state-disabled .k-disabled,
+.k-state-disabled .k-state-disabled {
+    border: none;
+    background: $background-disabled;
+}
+
+textarea[disabled],
+.k-textbox:disabled,
+.k-textbox[disabled],
+.k-textbox.k-state-disabled,
+.k-disabled [disabled],
+.k-disabled .k-disabled,
+.k-disabled .k-state-disabled,
+.k-state-disabled [disabled],
+.k-state-disabled .k-disabled,
+.k-state-disabled .k-state-disabled,
+.k-textbox:disabled,
+.k-textbox[disabled],
+.k-textbox.k-state-disabled,
+.k-dropdown-wrap.k-state-disabled .k-input,
+.k-dropdown-wrap .k-input[disabled],
+.k-numeric-wrap .k-input[disabled],
+.k-dateinput-wrap .k-input[disabled] {
+    color: $text-color-disabled;
 }

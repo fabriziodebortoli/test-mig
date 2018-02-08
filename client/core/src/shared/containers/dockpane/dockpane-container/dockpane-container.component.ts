@@ -13,8 +13,8 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./dockpane-container.component.scss'],
   animations: [
     trigger('collapsing', [
-      state('expanded', style({ width:'400px', overflow:'hidden' })),
-      state('collapsed', style({ width:'40px', overflow:'hidden' })),
+      state('expanded', style({ width: '400px', overflow: 'hidden' })),
+      state('collapsed', style({ width: '40px', overflow: 'hidden' })),
       transition('expanded <=> collapsed', animate('400ms ease')),
     ])
   ]
@@ -28,31 +28,33 @@ export class DockpaneContainerComponent implements AfterContentInit {
     return this.dockpanes.toArray();
   }
 
-  dockState:string = 'collapsed';
-  idxActive:number = null;
+  dockState: string = 'collapsed';
+  idxActive: number = null;
 
   ngAfterContentInit() {
-    resolvedPromise.then(() => {
-      let dockpanes = this.dockpanes.toArray();
-      let internalTabComponents = [];
-      for (let i = 0; i < dockpanes.length; i++) {
-        internalTabComponents.push(dockpanes[i].tabComponent);
-      }
-      this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-    });
+    if (this.kendoTabStripInstance) {
+      resolvedPromise.then(() => {
+        let dockpanes = this.dockpanes.toArray();
+        let internalTabComponents = [];
+        for (let i = 0; i < dockpanes.length; i++) {
+          internalTabComponents.push(dockpanes[i].tabComponent);
+        }
+        this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+      });
+    }
   }
 
-  changeDockpaneByIndex(i){
+  changeDockpaneByIndex(i) {
 
-    if(this.idxActive === i){
+    if (this.idxActive === i) {
       this.idxActive = null;
       this.dockState = 'collapsed';
-    }else{
+    } else {
       this.dockState = 'expanded';
       this.idxActive = i;
       this.kendoTabStripInstance.selectTab(i);
     }
-    
+
   }
 
 }
