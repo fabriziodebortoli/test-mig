@@ -39,7 +39,7 @@ CMicroareaVisualManager::CMicroareaVisualManager()
 	globalData.m_nCoveredMainWndClientAreaPercent = 100;
 	
 	//disabilito le funzionalità grafiche nel caso di IIS, nessuno le vedrà
-	if (AfxGetApplicationContext()->IsIISModule())
+//	if (AfxGetApplicationContext()->IsIISModule())
 		globalData.m_bShowFrameLayeredShadows = FALSE;
 }
 

@@ -3418,7 +3418,7 @@ namespace Microarea.EasyBuilder
                         //crea/aggiorna il json
                         if (/*saveForWeb*/true)
                         {
-                            NameSpace nsForJson = Sources?.Namespace;
+                            NameSpace nsForJson = new NameSpace(Sources?.Namespace);
                             nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
                             nsForJson.Module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
                             SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));

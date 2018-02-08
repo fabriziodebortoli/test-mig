@@ -65,7 +65,7 @@ bool SerializationAddOnService::GenerateJson(MView^ view, System::String^ nameSp
 		aNs.GetObjectName(CTBNamespace::DOCUMENT)
 	);
 
-	System::String^ lastTokenNS = gcnew String(aDocumentNs.GetObjectName());
+	System::String^ lastTokenNS = gcnew String(aNs.GetObjectName());
 	System::String^ path = BuildPath(gcnew String(aDocumentNs.ToString()), lastTokenNS);
 	view->SetPathToSerialize(path);
 	view->GenerateJson(NULL, nullptr);
