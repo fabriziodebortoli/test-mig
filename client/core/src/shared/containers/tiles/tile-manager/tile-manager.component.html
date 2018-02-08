@@ -6,7 +6,8 @@
             <m4-icon [icon]="selectorCollapsed === 'collapsed' ? 'tb-chevronrightfilled' : 'tb-chevronleftfilled'" [title]="selectorCollapsed === 'collapsed' ? 'Expand' : ''"></m4-icon>
         </a>
 
-        <h3>{{_TB('Sections')}}</h3>
+        <!-- <h3>{{_TB('Sections')}}</h3> -->
+        <h3>&nbsp;</h3>
 
         <ul class="selector">
             <li *ngFor="let t of getTilegroups();let i = index" (click)="changeTilegroupByIndex(i)" [class.active]="idxActive === i">
