@@ -418,7 +418,7 @@ namespace Microarea.Common.ExpressionManager
         private SymbolTable symbolTable = null;
         private TbSession session;
 
-        private bool allowEasyBuilderThisCallMethods = false;
+        private bool allowThisCallMethods = false;
 
         //public bool HasExternalFunctionCall = false;
         public bool HasRuleFields = false;
@@ -438,8 +438,8 @@ namespace Microarea.Common.ExpressionManager
         /// </summary>
         public bool AllowThisCallMethods
         {
-            get { return allowEasyBuilderThisCallMethods; }
-            set { allowEasyBuilderThisCallMethods = value; }
+            get { return allowThisCallMethods; }
+            set { allowThisCallMethods = value; }
         }
 
         //-----------------------------------------------------------------------------
@@ -720,7 +720,7 @@ namespace Microarea.Common.ExpressionManager
                         {
                             //ho trovato un ID che inizia per ".": potrebbe essere una funzione il 
                             //cui oggetto di chiamata (this) � il valore di ritorno dell'espressione precedente
-                            if (allowEasyBuilderThisCallMethods && lex.CurrentLexeme.StartsWith("."))
+                            if (allowThisCallMethods && lex.CurrentLexeme.StartsWith("."))
                             {
                                 Stack tmpStack = (Stack)stack.Clone();
                                 stack.Clear();
@@ -1224,7 +1224,7 @@ namespace Microarea.Common.ExpressionManager
             }
 
             //only WoormScript
-            if (!allowEasyStudioThisCallMethods && name.IndexOf('.') > 0)
+            if (!allowThisCallMethods && name.IndexOf('.') > 0)
             {
                 fp = Session.Functions.GetPrototype(name);
 
@@ -1308,7 +1308,7 @@ namespace Microarea.Common.ExpressionManager
             string varName;
             if (fp == null)
             {
-                if (allowEasyStudioThisCallMethods)
+                if (allowThisCallMethods)
                 {
                     fp = GetThisCallFunction(name, stack, nrParams, out varName);
                     if (fp != null)
