@@ -22,7 +22,7 @@ class TB_EXPORT TileStyle
 {
 public:
 	
-	enum TileAspect { FLAT, EDGE, TOP };
+	enum TileAspect { FLAT, EDGE, TOP, TILE_EDGE };
 
 public:
 	virtual ~TileStyle() {}
