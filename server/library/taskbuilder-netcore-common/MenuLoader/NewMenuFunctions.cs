@@ -359,86 +359,12 @@ namespace Microarea.Common.MenuLoader
 			jsonMessage = lf.Diagnostic.ToJson(false);
 
 			return token;
-		}
+		}      
+    }
 
-		//--------------------------------------------------------------------------------
-		public static string GetEasyBuilderAppAssembliesPathsAsJson(string nameSpace, string user)
-		{
-				
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			JsonWriter jsonWriter = new JsonTextWriter(sw);
-			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("Customizations");
-
-			jsonWriter.WriteStartArray();
-
-			foreach (IEasyStudioApp app  in BaseCustomizationContext.CustomizationContextInstance.EasyStudioApplications)
-            {
-                Dictionary<string, string> fileMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                PathFinder.PathFinderInstance.GetEasyBuilderAppAssembliesPaths(fileMap, new NameSpace(nameSpace), user, app);
-                List<string> items = fileMap.Values.ToList();
-
-                foreach (var item in items)
-				{
-					FileInfo fi = new FileInfo(item);
-					if (fi == null || !fi.Exists)
-						continue;
-
-
-                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(fi.Directory.FullName))
-                        continue;
-
-                    //Fix anomalia 23468: non serve controllare se ci siano i sorgenti per elencare la personalizzazione,
-                    //tanto se i sorgenti non ci sono EasyStudio non partira`, il controllo e` fatto a valle.
-                    //string srcFolder = Path.Combine(di.FullName, Path.GetFileNameWithoutExtension(fi.Name) + "_Src");
-                    //if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(srcFolder))
-                    //    continue;
-
-					jsonWriter.WriteStartObject();
-					jsonWriter.WritePropertyName("fileName");
-					jsonWriter.WriteValue(item);
-
-					jsonWriter.WritePropertyName("customizationName");
-					jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(fi.Name));
-
-					jsonWriter.WritePropertyName("applicationOwner");
-					jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(app.ApplicationName));
-
-					jsonWriter.WritePropertyName("moduleOwner");
-					jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(app.ModuleName));
-
-					jsonWriter.WriteEndObject();
-				}
-			}
-
-			jsonWriter.WriteEndArray();
-			jsonWriter.WriteEndObject();
-
-			string output = sw.ToString();
-
-			jsonWriter.Close();
-			sw.Dispose();
-
-			return sw.ToString();
-		}
-
-		//--------------------------------------------------------------------------------
-		public static void GetEasyBuilderAppAndModule(out string application, out string module)
-		{
-            application = "";
-            module = "";
-            if (BaseCustomizationContext.CustomizationContextInstance != null)
-            {
-                application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
-                module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
-            }
-		}
-	}
-
-	#region DllImport
-	//=======================================================================================================
-	class MenuFunctionsDllImports
+    #region DllImport
+    //=======================================================================================================
+    class MenuFunctionsDllImports
 	{
 
 		public const int UM_MAGO_LINKER = WM_USER + 951;

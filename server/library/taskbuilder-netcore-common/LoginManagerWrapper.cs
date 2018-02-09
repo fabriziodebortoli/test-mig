@@ -463,7 +463,7 @@ namespace Microarea.Common.WebServicesWrapper
         }
 
         //-----------------------------------------------------------------------------------------
-        internal bool IsEasyBuilderDeveloper(string authenticationToken)
+        internal bool IsEasyStudioDeveloper(string authenticationToken)
         {
             Task<bool> task = loginManagerClient.IsEasyBuilderDeveloperAsync(authenticationToken);
             return task.Result;

@@ -292,7 +292,7 @@ namespace Microarea.Common.ExpressionManager
     /// <summary>
     /// Summary description for SymbolTable.
     /// contiene la symbol table delle variabili usate nella valutazione di una espressione
-    /// è case insensitive come il Basic o il Pascal
+    /// ï¿½ case insensitive come il Basic o il Pascal
     /// </summary>
     //============================================================================
 
@@ -478,8 +478,8 @@ namespace Microarea.Common.ExpressionManager
             if (!StopParse(lex))
                 Expression(lex, stack);
 
-            // se non c'è errore allora devo trovare uno token di stop altrimenti
-            // è un  errore di sintassi
+            // se non c'ï¿½ errore allora devo trovare uno token di stop altrimenti
+            // ï¿½ un  errore di sintassi
             if (!lex.Error && !StopParse(lex))
                 lex.SetError(ExpressionManagerStrings.SyntaxError);
 
@@ -719,7 +719,7 @@ namespace Microarea.Common.ExpressionManager
                     case Token.ID:
                         {
                             //ho trovato un ID che inizia per ".": potrebbe essere una funzione il 
-                            //cui oggetto di chiamata (this) è il valore di ritorno dell'espressione precedente
+                            //cui oggetto di chiamata (this) ï¿½ il valore di ritorno dell'espressione precedente
                             if (allowEasyBuilderThisCallMethods && lex.CurrentLexeme.StartsWith("."))
                             {
                                 Stack tmpStack = (Stack)stack.Clone();
@@ -769,7 +769,7 @@ namespace Microarea.Common.ExpressionManager
                         break;
                     }
 
-                // questa è la gestione nuova della vecchia ParseComplexData in C++
+                // questa ï¿½ la gestione nuova della vecchia ParseComplexData in C++
                 case Token.BRACEOPEN:
                     {
                         object anydata = null;
@@ -1224,7 +1224,7 @@ namespace Microarea.Common.ExpressionManager
             }
 
             //only WoormScript
-            if (!allowEasyBuilderThisCallMethods && name.IndexOf('.') > 0)
+            if (!allowEasyStudioThisCallMethods && name.IndexOf('.') > 0)
             {
                 fp = Session.Functions.GetPrototype(name);
 
@@ -1304,11 +1304,11 @@ namespace Microarea.Common.ExpressionManager
                 fp = Session.Functions.GetPrototype(name, np);
             }
 
-            // se non l'ho trovata e le chiamate su oggetto sono abilitate, istanzio una funzione con late binding (non mi arrabbio se non è dichiarata)
+            // se non l'ho trovata e le chiamate su oggetto sono abilitate, istanzio una funzione con late binding (non mi arrabbio se non ï¿½ dichiarata)
             string varName;
             if (fp == null)
             {
-                if (allowEasyBuilderThisCallMethods)
+                if (allowEasyStudioThisCallMethods)
                 {
                     fp = GetThisCallFunction(name, stack, nrParams, out varName);
                     if (fp != null)
@@ -1390,7 +1390,7 @@ namespace Microarea.Common.ExpressionManager
             }
             //nello stack metto l'equivalente stringa del tipo di dato di destinazione
             stack.Push(new Value(woormType));
-            //la funzione è di tipo speciale, non ha prototipo classico
+            //la funzione ï¿½ di tipo speciale, non ha prototipo classico
             stack.Push(new CTypeFunctionItem(woormType));
             return true;
         }
@@ -1404,7 +1404,7 @@ namespace Microarea.Common.ExpressionManager
             int dotIndex = name.LastIndexOf('.');
             varName = "";
             if (dotIndex == -1)
-                return null; //non c'è il punto: non è una chiamata a funzione appartenente ad oggetto
+                return null; //non c'ï¿½ il punto: non ï¿½ una chiamata a funzione appartenente ad oggetto
 
             varName = name.Substring(0, dotIndex);  //nome variabile
             string funcName = name.Substring(dotIndex + 1); //nome funzione
@@ -1416,23 +1416,23 @@ namespace Microarea.Common.ExpressionManager
                     types[i] = GetParameterType((DataItem)tmpStack.Pop());
             }
 
-            return new FunctionPrototype(funcName, "Object", types);//finché non la eseguo non so che tipo di ritorno ha
+            return new FunctionPrototype(funcName, "Object", types);//finchï¿½ non la eseguo non so che tipo di ritorno ha
         }
 
         //-----------------------------------------------------------------------------
         //recupera il tipo del data item, eventualmente andando a controllare nella symbol table
         private string GetParameterType(DataItem di)
         {
-            //caso più semplice: il dataitem contiene un dato
+            //caso piï¿½ semplice: il dataitem contiene un dato
             if (di.Data != null)
                 return di.DataType;
-            else if (di is Variable) //il dataitem non ha dato, ma è una variabile che posso andare a cercare in symbol table
+            else if (di is Variable) //il dataitem non ha dato, ma ï¿½ una variabile che posso andare a cercare in symbol table
             {
                 Variable v = (symbolTable == null) ? null : symbolTable.Find(((Variable)di).Name);
                 if (v != null && v.Data != null)
                     return v.DataType;
             }
-            //non ho informazioni sul tipo: è un generico object
+            //non ho informazioni sul tipo: ï¿½ un generico object
             return "Object";
         }
 
@@ -1558,10 +1558,10 @@ namespace Microarea.Common.ExpressionManager
 
 
         // Siccome esiste la funzione di TB RunReport con parametri variabili che in c#
-        // non è supportata, per compatibilità devo far passare il parsing correttamente
+        // non ï¿½ supportata, per compatibilitï¿½ devo far passare il parsing correttamente
         // pertanto devo skippare tutti i parametri sino alla parentesi tonda.
-        // Tanto in esecuzione la funzione non viene eseguita realmente perchè
-        // non è possibile lanciare un altro report.
+        // Tanto in esecuzione la funzione non viene eseguita realmente perchï¿½
+        // non ï¿½ possibile lanciare un altro report.
         //-----------------------------------------------------------------------------
         private bool SkipNoWebFunctionParameters(Parser lex)
         {

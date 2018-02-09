@@ -396,7 +396,7 @@ namespace Microarea.Menu.Controllers
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
                 //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
-                PathFinder.PathFinderInstance.RefreshEasyBuilderApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
+                PathFinder.PathFinderInstance.RefreshEasyStudioApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
                 PathFinder.PathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
                 return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
             }

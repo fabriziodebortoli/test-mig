@@ -142,7 +142,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Report = "report";
             public const string DefaultSecurityRoles = "defaultsecurityroles";
             public const string Securityhidden = "securityhidden";
-            public const string InEasyStudio = "inEasyBuilder";
+            public const string InEasyStudio = "inEasyStudio";
         }
     }
 
@@ -1315,34 +1315,6 @@ namespace TaskBuilderNetCore.Interfaces
             private Attribute()
             { }
             public const string UtcDate = "utcDate";
-        }
-    }
-
-    //========================================================================
-    public sealed class EasyBuilderAppListXML
-    {
-        private EasyBuilderAppListXML()
-        { }
-        public sealed class Element
-        {
-            private Element()
-            { }
-            public const string CustomList = "CustomList";
-            public const string CustomListItem = "CustomListItem";
-            public const string StandardList = "StandardList";
-            public const string StandardListItem = "StandardListItem";
-        }
-        public sealed class Attribute
-        {
-            private Attribute()
-            { }
-            public const string RelativePath = "relativePath";
-            public const string IsActiveDocument = "isActiveDocument";
-            public const string IsReadOnlyServerDocumentPart = "isReadOnlyServerDocumentPart";
-            public const string PublishedUser = "publishedUser";
-            public const string Enabled = "enabled";
-            public const string ItemSource = "itemSource";
-            public const string DocumentNamespace = "documentNamespace";
         }
     }
 

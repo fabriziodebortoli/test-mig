@@ -360,7 +360,6 @@ namespace Microarea.Common
         //            functionEl.SetAttribute("basetype", functionInfo.ReturnTbBaseType);
         //            functionEl.SetAttribute(WebMethodsXML.Attribute.DefaultSecurityRoles, functionInfo.DefaultSecurityRoles);
         //            functionEl.SetAttribute(WebMethodsXML.Attribute.Securityhidden, functionInfo.IsSecurityhidden.ToString());
-        //            functionEl.SetAttribute(WebMethodsXML.Attribute.InEasyBuilder, functionInfo.InEasyBuilder.ToString());
 
         //            functionEl.SetAttribute(WebMethodsXML.Attribute.ClassType, functionInfo.ClassType);
         //            functionEl.SetAttribute(WebMethodsXML.Attribute.SourceInfo, functionInfo.SourceInfo);
@@ -421,7 +420,7 @@ namespace Microarea.Common
                     functionEl.SetAttribute("basetype", functionInfo.ReturnTbBaseType);
                     functionEl.SetAttribute(WebMethodsXML.Attribute.DefaultSecurityRoles, functionInfo.DefaultSecurityRoles);
                     functionEl.SetAttribute(WebMethodsXML.Attribute.Securityhidden, functionInfo.IsSecurityhidden.ToString());
-                    functionEl.SetAttribute(WebMethodsXML.Attribute.InEasyBuilder, functionInfo.InEasyBuilder.ToString());
+                    functionEl.SetAttribute(WebMethodsXML.Attribute.InEasyStudio, functionInfo.InEasyStudio.ToString());
 
                     functionEl.SetAttribute(WebMethodsXML.Attribute.ClassType, functionInfo.ClassType);
                     functionEl.SetAttribute(WebMethodsXML.Attribute.SourceInfo, functionInfo.SourceInfo);
