@@ -54,6 +54,17 @@ namespace TaskBuilderNetCore.Documents.Controllers
             return Path.Combine(basePath, fileName);
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public void LoadJson(IComponent component, string json)
+        {
+            // devo popolare l'oggetto che mi arriva e non 
+            // deserializzare creando un nuovo oggetto. 
+            // Potrebbero essere cambiati i componenti
+            // (attivazione) e il documento assegnato
+            // deve essere quello istanziato completo
+            JsonConvert.PopulateObject(json, component);
+        }
+
         // questo ad esempio carica lo stato da file system
         //-----------------------------------------------------------------------------------------------------
         public void LoadState(IComponent component)
@@ -66,17 +77,10 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 {
                     using (StreamReader r = new StreamReader(fileName))
                     {
-                        string json = r.ReadToEnd();
-                        // devo popolare l'oggetto che mi arriva e non 
-                        // deserializzare creando un nuovo oggetto. 
-                        // Potrebbero essere cambiati i componenti
-                        // (attivazione) e il documento assegnato
-                        // deve essere quello istanziato completo
-                        JsonConvert.PopulateObject(json, component);
+                        LoadJson(component, r.ReadToEnd());
                         r.Close();
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -84,6 +88,12 @@ namespace TaskBuilderNetCore.Documents.Controllers
             }
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public string GetJson(IComponent component)
+        {
+            return JsonConvert.SerializeObject(component);
+        }
+        
         //-----------------------------------------------------------------------------------------------------
         public async Task<bool> SaveState(IComponent component)
         {
@@ -99,7 +109,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 string fileName = GetFileName(component.CallerContext, true);
                 if (!File.Exists(fileName))
                 {
-                    string json = JsonConvert.SerializeObject(component);
+                    string json = GetJson(component);
                     using (FileStream file = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Write))
                     {
                         StreamWriter sw = new StreamWriter(file);
