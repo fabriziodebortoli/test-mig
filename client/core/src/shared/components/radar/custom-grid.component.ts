@@ -20,7 +20,7 @@ import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
 import * as _ from 'lodash';
 
-export const GridStyles = { default: { 'cursor': 'pointer' }, filterTyping: { 'color': 'darkgrey' } };
+export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
 
 export class State {
     readonly rows = [];
@@ -36,7 +36,6 @@ export class State {
     selector: 'tb-custom-grid',
     templateUrl: './custom-grid.component.html',
     styleUrls: ['./custom-grid.component.scss'],
-    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomGridComponent extends ControlComponent implements OnInit, OnDestroy {
@@ -48,7 +47,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     @Output() selectedKeysChange = new EventEmitter<any>();
     @Output() selectAndEdit = new EventEmitter<any>();
 
-    @ContentChild("customGridButtonsTemplate", { read: TemplateRef }) customGridButtonsTemplate;
+    @ContentChild('customGridButtonsTemplate', { read: TemplateRef }) customGridButtonsTemplate;
     @ViewChild('grid') grid: GridComponent;
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
     pinned = false;
@@ -59,7 +58,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
 
     constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
         private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
-        private paginator: PaginatorService, private filterer: FilterService, layoutService: LayoutService,
+        private paginator: PaginatorService, public filterer: FilterService, layoutService: LayoutService,
         tbComponentService: TbComponentService, private store: Store) {
         super(layoutService, tbComponentService, changeDetectorRef)
     }
@@ -67,7 +66,8 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     ngOnInit() {
         this.setSelectableSettings();
         this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
-        this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.filterTyping));
+        this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
+        this.paginator.waiting$.subscribe(b => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default));
         super.ngOnInit();
     }
 
@@ -84,10 +84,16 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
         return this.areFiltersVisible ? this._TB('Hide Filters') : this._TB('Show Filters');
     }
 
+    private _filter: CompositeFilterDescriptor;
     private set filter(value: CompositeFilterDescriptor) {
-        this.filterer.filter = value;
+        this._filter = _.cloneDeep(value);
+        this.filterer.filter = _.cloneDeep(value);
         this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - 1;
         this.filterer.onFilterChanged(value);
+    }
+
+    private get filter(): CompositeFilterDescriptor {
+      return this._filter;
     }
 
     filterChange(filter: CompositeFilterDescriptor): void {

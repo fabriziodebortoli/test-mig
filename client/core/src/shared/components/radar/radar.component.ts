@@ -28,8 +28,6 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
     selector: 'tb-radar',
     templateUrl: './radar.component.html',
     styleUrls: ['./radar.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('shrinkOut', [
             state(ViewStates.opened, style({ height: '*' })),
@@ -37,6 +35,7 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
             transition(ViewStates.opened + ' <=> ' + ViewStates.closed, animate('250ms ease-in-out')),
         ])
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PaginatorService, FilterService]
 })
 export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
@@ -77,7 +76,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
                     p.set('customSort', JSON.stringify(data.customSort));
                 return this.dataService.getRadarData(p);
             });
-        this.paginator.clientData.pipe(untilDestroy(this)).subscribe(d => {
+        this.paginator.clientData.subscribe(d => {
             this.exitFindMode();
             this.setData(d);
             this.filterer.resetFocus();

@@ -1,174 +1,111 @@
-tb-radar {
-    background: #ffffff;
-    display: block;
-    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-    z-index: 1;
-    margin: 10px 10px;
-    border-radius: 0 0 5px 5px;
-}
-
-.radar-container {
-    .radar-grid {
-        margin: 10px;
-        font-size: 13px;
-        td {
-            padding: 2px 5px;
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        tr.k-state-selected,
-        td.k-state-selected {
-            color: #fff !important;
-            background-color: #0277bd !important;
-        }
-        .k-grid-header .k-header>.k-link {
-            font-weight: bold;
-        }
-        .k-grid-pager {
-            padding: 0px;
-            border-width: 1px 0 0;
-            border-color: #e3e3e3;
-            font-size: 12px;
-        }
-        .k-grid-table {
-            margin-left: 20px;
-        }
-        .k-grid-header-wrap>table {
-            margin-left: 20px;
-        }
+::ng-deep .custom-grid {
+    margin: 10px;
+    font-size: 13px;
+    tr.k-state-selected,
+    td.k-state-selected {
+        color: #fff;
+        background-color: #0277bd;
     }
-    .radar-close {
-        float: right;
+    .k-grid-header .k-header>.k-link {
+        font-weight: bold;
     }
-    .functions button {
-        cursor: pointer;
-        background: #fff;
-        color: #000;
-        padding: 0 15px;
-        line-height: 30px;
-        font-size: 14px;
-        font-weight: 300;
-        border: 0;
-        &:hover {
-            background: #f1f1f1;
-            box-shadow: none;
-        }
+    .k-grid-pager {
+        padding: 0px;
+        border-width: 1px 0 0;
+        border-color: #e3e3e3;
+        font-size: 12px;
     }
-    h5 {
-        margin: 10px;
-        text-transform: uppercase;
-        color: #0277bd;
-        height: 100px;
+    .k-grid-table {
+        margin-left: 20px;
     }
-    .title {
-        flex-grow: 2;
-        display: flex;
-    }
-    .toolbar-top {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: stretch;
-        background: #fff;
-        border-bottom: 1px solid #ddd;
-        height: 30px;
-    }
-    .navigation {
-        display: flex;
-    }
-    .document-title {
-        line-height: 32px;
-        margin: 0 10px;
-        font-weight: 600;
-        font-size: 14px;
-        text-transform: uppercase
-    }
-    .top-button {
-        margin: 0;
-        padding: 0;
-        height: 30px;
-        min-width: 38px;
-        border: 0;
-        background: none;
-        &:hover {
-            background: #f1f1f1
-        }
-        &:focus {
-            box-shadow: none;
-        }
-    }
-    .toggle-button m4-icon {
-        font-size: 16px;
-    }
-    tb-icon {
-        min-width: 30px;
-        font-size: 24px;
-        line-height: 15px;
-    }
-    .div-icon {
-        width: 0px;
-        img {
-            height: 20px;
-            margin-top: 4px;
-        }
-    }
-    #close-button m4-icon {
-        font-size: 17px;
-        .div-icon {
-            line-height: 25px;
-        }
-    }
-    #cell-icon .div-icon {
-        line-height: 9px;
-        width: 0px;
-    }
-    .div-icon .toolbar-icon {
-        font-size: 24px;
-        padding-right: 8px;
-    }
-    .pager-buttons {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-        .toolbar-icon {
-            font-size: 1em;
-        }
-    }
-    #cell-icon {
-        font-size: 1em;
-        padding-right: 0px;
-        width: none;
-        m4-icon {
-            font-size: 9px;
-            margin-left: 3px;
-        }
-    }
-    .cell-button {
-        margin: -4px 0px 0px 0px;
-        padding: 0;
-        border: 0;
-        background: rgba(#000000, .004);
-        display: block;
-        position: absolute;
-        left: -20px;
-        width: 20px;
-        height: 24px;
-        &:hover {
-            background: rgba(#0277bd, .2);
-            box-shadow: none;
-        }
-        &:focus {
-            box-shadow: none;
-        }
+    .k-grid-header-wrap>table {
+        margin-left: 20px;
     }
     .k-button {
         border-radius: 0px;
     }
-    .pager-number {
-        font-weight: bold;
-        font-size: x-small;
+}
+.top-button {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    min-width: 38px;
+    border: 0;
+    background: none;
+    &:hover {
+        background: #f1f1f1
     }
+    &:focus {
+        box-shadow: none;
+    }
+}
+.cell-button {
+    margin: -4px 0px 0px 0px;
+    padding: 0;
+    border: 0;
+    background: rgba(#000000, .004);
+    display: block;
+    position: absolute;
+    left: -20px;
+    width: 20px;
+    height: 24px;
+    &:hover {
+        background: rgba(#0277bd, .2);
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}
+tb-icon {
+    min-width: 30px;
+    font-size: 24px;
+    line-height: 15px;
+}
+#cell-icon {
+    font-size: 1em;
+    padding-right: 0px;
+    width: none;
+    ::ng-deep m4-icon {
+        font-size: 9px;
+        margin-left: 3px;
+    }
+    ::ng-deep .div-icon {line-height:9px;width:0px;}
+}
+.pager-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    .toolbar-icon {
+        font-size: 1em;
+    }
+}
+.pager-number {
+    font-weight: bold;
+    font-size: x-small;
+}
+.cell-button {
+    margin: -4px 0px 0px 0px;
+    padding: 0;
+    border: 0;
+    background: rgba(#000000, .004);
+    display: block;
+    position: absolute;
+    left: -20px;
+    width: 20px;
+    height: 24px;
+    &:hover {
+        background: rgba(#0277bd, .2);
+        box-shadow: none;
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}
+::ng-deep .k-grid th, ::ng-deep .k-grid td {
+    padding: 1px 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

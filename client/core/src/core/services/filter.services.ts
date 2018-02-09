@@ -32,8 +32,8 @@ export class FilterService implements OnDestroy {
     private _previousFilter: CompositeFilter;
     private _changedField: string | Function = '';
     public set filter(value: CompositeFilter) {
-        if (this._filter) { this._previousFilter = _.cloneDeep(this._filter); }
-        this._filter = _.cloneDeep(value);
+        if (this._filter) { this._previousFilter = this._filter; }
+        this._filter = value;
         let diff = this._filter.filters[0];
         if (this._previousFilter) {
             diff = _.differenceWith(this._previousFilter.filters, this._filter.filters, _.isEqual)[0];

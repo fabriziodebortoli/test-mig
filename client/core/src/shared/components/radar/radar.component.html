@@ -6,23 +6,23 @@
         <div class="toolbar-top-item functions"></div>
         <div class="toolbar-top-item navigation">
             <button kendoButton class="top-button" (click)="selectFirst()" [title]="_TB('First')" [disabled]='!canFirst || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-first'" class="toolbar-icon"></tb-icon>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-first'"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='!canPrev || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-prev'" class="toolbar-icon"></tb-icon>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-prev'"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-next'" class="toolbar-icon"></tb-icon>
+                <tb-icon [iconType]="'M4'" [icon]="'tb-next'"></tb-icon>
             </button>
             <button kendoButton class="top-button" (click)="eventData.showRadar.next(false)" [title]="_TB('Close')">
-                <tb-icon id="close-button" [iconType]="'M4'" [icon]="'tb-collapsearrowfilled'" class="toolbar-icon"></tb-icon>
+                <tb-icon id="close-button" [iconType]="'M4'" [icon]="'tb-collapsearrowfilled'"></tb-icon>
             </button>
         </div>
     </div>
     <tb-custom-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)">
         <ng-template #customGridButtonsTemplate>
             <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
-                <tb-icon [iconType]="'M4'" [icon]="pinnedIcon" class="toolbar-icon"></tb-icon>
+                <tb-icon [iconType]="'M4'" [icon]="pinnedIcon"></tb-icon>
             </button>
         </ng-template>
     </tb-custom-grid>

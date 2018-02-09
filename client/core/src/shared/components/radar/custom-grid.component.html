@@ -1,4 +1,4 @@
-<kendo-grid #grid [sortable]="true" [sort]="sort$ | async" (sortChange)="sortChange($event)" class="radar-grid" [height]="300"
+<kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [sort]="filterer.sort" (sortChange)="sortChange($event)" class="custom-grid" [height]="300"
     [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip" [filterable]="areFiltersVisible"
     [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)" [ngStyle]="gridStyle$ | async"
     (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
@@ -19,7 +19,6 @@
             </div>
         </ng-template>
     </kendo-grid-column>
-
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
         <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
         <kendo-pager-numeric-buttons></kendo-pager-numeric-buttons>
