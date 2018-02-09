@@ -4071,21 +4071,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return s;
 		}
 
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomizationLogFolder()
-		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.CustomizationsLog);
-		}
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomizationLogFullName()
-		{
-			string fullPath = Path.Combine(GetCustomizationLogFolder(), "Log");
-			DateTime now = DateTime.Now;
-			return string.Concat(fullPath, "_", now.Year, "_", now.Month, "_", now.Day, ".txt");
-		}
-
 		//--------------------------------------------------------------------------------
 		public string GetCustomApplicationsPath()
 		{

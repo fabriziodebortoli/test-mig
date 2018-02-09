@@ -690,14 +690,8 @@ namespace Microarea.EasyBuilder.MVC
 
 				lock (typeof(DocumentController))
 				{
-					string fileName = BasePathFinder.BasePathFinderInstance.GetCustomizationLogFullName();
-					if (!Directory.Exists(Path.GetDirectoryName(fileName)))
-						Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-
-					File.AppendAllText(
-						fileName,
-						errorMessage + "\r\n-------------------------------------\r\n"
-						);
+                    string message = string.Concat(errorMessage, "\r\n-------------------------------------\r\n");
+                    PathFinderWrapper.TraceEasyStudioCustomizationLog(message);
 				}
 			}
 			catch (Exception)

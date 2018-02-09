@@ -1038,3 +1038,18 @@ String^ PathFinderWrapper::GetImageFolderPath(String^ appName, String^ moduleNam
 	CTBNamespace aNs(CTBNamespace::IMAGE, appName + CTBNamespace::GetSeparator() + moduleName);
 	return gcnew String(AfxGetPathFinder()->GetModuleFilesPath(aNs, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::EASYSTUDIO));
 }
+
+//--------------------------------------------------------------------------------
+void PathFinderWrapper::TraceEasyStudioCustomizationLog(System::String^ text)
+{
+	String^ dirName = System::IO::Path::Combine(GetEasyStudioCustomizationsPath(), NameSolverStrings::CustomizationsLog);
+	dirName = System::IO::Path::Combine(dirName, "Log");
+
+	if (!ExistPath(dirName))
+		RecursiveCreateFolders(dirName);
+
+	DateTime now = DateTime::Now;
+	String^ fullName =  String::Concat(dirName, "_", now.Year, "_", now.Month, "_", now.Day, ".txt");
+
+	System::IO::File::AppendAllText(fullName,text);
+}
