@@ -132,6 +132,7 @@ export class TaskBuilderService {
                 }, (error) => {
                     this.logger.error("initTBLogin Connection failed", error);
                     this.tbConnection.next(false);
+                    this.setConnectionStatus(ConnectionStatus.Unavailable);
                     let res = new OperationResult(true, [{ text: error }]);
                     observer.next(res);
                     observer.complete();
