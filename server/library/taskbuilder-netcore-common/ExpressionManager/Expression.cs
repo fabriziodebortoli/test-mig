@@ -46,13 +46,23 @@ namespace Microarea.Common.ExpressionManager
 		protected StopTokens stopTokens = null;
 		protected string resultType = null;
 
-		protected SymbolTable symbolTable;
+		protected SymbolTable symbolTable = null;
 		protected TbSession tbSession;
 
 		public bool ForceSkipTypeChecking = false;
 
-		//public bool               HasExternalFunctionCall = false;
 		public bool HasRuleFields = false;
+
+        //aggiunte espressioni per allinearsi con la versione gdi
+        public bool hasField = false;
+        public bool hasInputFields = false;
+        public bool hasAskFields = false;
+
+        public bool hasExternalFunctionCall = false;
+        public bool hasDynamicFragment = false;
+
+        public bool vrbCompiled = false;
+
 
 		//-----------------------------------------------------------------------------
 		public Expression Clone()
@@ -1144,8 +1154,15 @@ namespace Microarea.Common.ExpressionManager
 			ExpressionParser expParser = CreateParser();
 			ok = expParser.Parse(parser, expressionStack);
 			this.HasRuleFields = expParser.HasRuleFields;
+            this.hasField = expParser.hasField;
+            this.hasAskFields = expParser.hasAskFields;
+            this.hasInputFields = expParser.hasInputFields;
 
-			this.auditExpr = aParser.GetAuditString();
+            this.vrbCompiled = expParser.vrbCompiled;
+
+
+
+            this.auditExpr = aParser.GetAuditString();
 			if (currDoAudit)
 				aParser.SetAuditString(preExprAudit.IsNullOrEmpty() ? this.auditExpr : preExprAudit + ' ' + this.auditExpr);
 			else

@@ -10,49 +10,43 @@ FontStyles
 
 PageLayout "default" 
 	Begin
-		Text (89,0,129,797) "Campone" 
+		Text (105,0,139,794) "Campone" 
 			Begin
 				Align 2133 ;
 				FontStyle "Text2" ;
 			End
-	
-
-	
-	Table (10,1) "Titolo Tabella" Alias 7  /* Titolo Tabella */ Origin (0,122) Heights (26,35,27,14) 
+		Table (10,1) "Titolo Tabella" Alias 7  /* Titolo Tabella */ Origin (0,192) Heights (25,35,27,14) 
 		Title
-Begin
+			Begin
 				TextColor (220,20,60) ;
 				BkgColor (30,144,255) ;
 			End
-
 			Begin
-				"MA_Banks_Bank" Alias 5  /* MA_Banks_Bank */Width 105 ;
+				"MA_Banks_Bank" Alias 5  /* MA_Banks_Bank */ Width 794 ;
 			End
-	
+
+
 	End
+
 
 Report 
 	Begin NoName
 		Tables
 			Table_7 [10] Alias 7 ;
-	End
-	
-	Variables
-			String       MA_Banks_Bank [23] Alias 5  Column ;
-	End
-	
-	Rules
-	From MA_Banks 
+		End
+
+		Variables
+			String       MA_Banks_Bank [158] Alias 5  Column ;
+		End
+
+		Rules
+			From MA_Banks 
 			Select 
-				
 				Bank                 Into MA_Banks_Bank ;
-				
-
-	End
+		End
 
 
-	Events
-	End
-	
+		Events
+		End
 End
 

@@ -26,6 +26,6 @@
         </kendo-textbox-container>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton *ngIf="rsExportService.snapshot" (click)="createFileJson()">Create new Snapshot</button>
+        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Create new Snapshot</button>
     </kendo-dialog-actions>
 </kendo-dialog>
