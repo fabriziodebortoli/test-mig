@@ -629,7 +629,7 @@ protected:
 	virtual	FormMode	SetFormMode(FormMode aFormMode);
 
 	virtual SqlConnection* GetDefaultSqlConnection();
-	virtual	void OnOpenCompleted();
+	
 	// serve per riconoscere se ho l'interfaccia o meno al di sotto di TbGes
 	virtual IBehaviourContext*	GetBehaviourContext	() { return	this; }
 
