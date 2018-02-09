@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <TbWoormViewer\WOORMDOC.H>
 #include "TBSocketHandler.h"
+#include "DocumentThread.h"
 #include <TbGes\DocumentSession.h>
 #include <TbGes\ExtDocAbstract.h>
 
@@ -66,7 +67,36 @@ void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
 	}	
 }
 
+//--------------------------------------------------------------------------------
+void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments)
+{
+	CBaseDocument* pDoc = NULL;
+	{	//LASCIARE LA GRAFFA, E' LO SCOPE DI SwitchTemporarilyMode tmp
+		//in questa fase non vanno segnalati messaggi con dialog modali
+		SwitchTemporarilyMode tmp(UNATTENDED);
 
+		AfxGetDiagnostic()->StartSession(_TB("Document opening messages"));
+		pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
+
+		if (!pDoc)
+		{
+			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+			if (pSession)
+			{
+				pSession->PushRunErrorToClients();
+			}
+		}
+		AfxGetDiagnostic()->EndSession();
+		return;
+	}
+	
+	if (!sArguments.IsEmpty())
+	{
+		CFunctionDescription fd;
+		if (fd.ParseArguments(sArguments))
+			pDoc->GoInBrowserMode(&fd);
+	}
+}
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::RunDocument(CJsonParser& json)
 {
@@ -77,19 +107,8 @@ void CTBSocketHandler::RunDocument(CJsonParser& json)
 	{
 		return;
 	}
-	CBaseDocument* pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
-
-	if (!pDoc)
-	{
-		return;
-	}
-	else if (!sArguments.IsEmpty())
-	{
-		//ASSERT_VALID(pDoc); non si puo' fare perchè fa un AssertValid anche della view
-		CFunctionDescription fd;
-		if (fd.ParseArguments(sArguments))
-			pDoc->GoInBrowserMode(&fd);
-	}
+	CDocumentThread* pThread = (CDocumentThread*) AfxGetTbCmdManager()->CreateDocumentThread();
+	AfxInvokeThreadGlobalProcedure<const CString&, const CString&>(pThread->m_nThreadID, &RunDocumentOnThreadDocument, sNamespace, sArguments);
 }
 
 //--------------------------------------------------------------------------------

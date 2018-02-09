@@ -562,7 +562,10 @@ int AfxTBMessageBox(LPCTSTR lpszTxt, UINT nType, UINT nIDHelp)
 	// thread is in unattended diagnostic
 	if (AfxIsCurrentlyInUnattendedMode())
 	{	
-		AfxGetDiagnostic()->Add(sText, CDiagnostic::Info);
+		CDiagnostic::MsgType type = CDiagnostic::Info;
+		if ((nType & MB_ICONEXCLAMATION) == MB_ICONEXCLAMATION || (nType & MB_ICONSTOP) == MB_ICONSTOP)
+			type = CDiagnostic::Error;
+		AfxGetDiagnostic()->Add(sText, type);
 		return DefaultMessageResponse(nType);
 	}
 	
