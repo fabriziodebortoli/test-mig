@@ -10,6 +10,7 @@ import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
 import { Collision } from '@progress/kendo-angular-popup';
+import { Selector } from './../../../shared/models/store.models';
 import 'rxjs';
 
 @Component({
@@ -22,7 +23,7 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
 
     @Input('readonly') readonly = false;
     @Input() slice: any;
-    @Input() selector: any;
+    @Input() selector: Selector<any, any>;
 
     @ViewChild('anchor') public anchor: ElementRef;
     @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
@@ -80,19 +81,8 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
     }
 
     ngAfterContentInit() {
-        this.subscribeToSelector();
-    }
-
-    subscribeToSelector() {
-        if (this.store && this.selector) {
-            this.store
-                .select(this.selector)
-                .selectSlice('formMode', 'address', 'contact')
-                .subscribe(
-                (v) => this.onFormModeChanged(v)
-                );
-             
-        }
+        this.store.select(this.selector.nest('formMode', 'address.value'))
+            .subscribe(this.onFormModeChanged.bind(this));
     }
 
     dataChanged() {

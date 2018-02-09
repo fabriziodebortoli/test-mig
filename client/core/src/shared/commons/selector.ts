@@ -1,7 +1,9 @@
-import { Selector } from './../models/store.models';
+import { Selector, SelectorMap } from './../models/store.models';
 import * as _ from 'lodash';
 
 export type AnyFn = (...args: any[]) => any;
+const map = Symbol('map$');
+const tag = Symbol('tag$');
 
 export interface MemoizedSelector<State, Result>
   extends Selector<State, Result> {
@@ -27,7 +29,7 @@ export function memoize(t: AnyFn): { memoized: AnyFn; reset: () => void } {
     }
     for (let i = 0; i < arguments.length; i++) {
       if (arguments[i] !== lastArguments[i]) {
-        t['tag'] = i;
+        t[tag] = i;
         lastResult = t.apply(null, arguments);
         lastArguments = arguments;
 
@@ -41,6 +43,8 @@ export function memoize(t: AnyFn): { memoized: AnyFn; reset: () => void } {
   return { memoized, reset };
 }
 
+export function createSelector<State, Map extends SelectorMap>(map: Map): MemoizedSelector<State, {[P in keyof Map]: any}>;
+export function createSelector<State>(...paths: string[]): MemoizedSelector<State, any>;
 export function createSelector<State, S1, Result>(
   s1: Selector<State, S1>,
   projector: (S1: S1) => Result
@@ -186,8 +190,13 @@ export function createSelector<State, S1, S2, S3, S4, S5, S6, S7, S8, Result>(
     s8: S8
   ) => Result
 ): MemoizedSelector<State, Result>;
-export function createSelector(...input: any[]): Selector<any, any> {
-  let args = input;
+export function createSelector(pathOrMapOrSelector: SelectorMap | Selector<any, any> | string | any[], ...input: any[]): Selector<any, any> {
+  if (input.length === 0 && typeof pathOrMapOrSelector === 'object')
+    return createSelectorByMap(pathOrMapOrSelector as SelectorMap);
+  if (typeof pathOrMapOrSelector === 'string')
+    return createSelectorByPaths(pathOrMapOrSelector, ...input);
+
+  let args = [pathOrMapOrSelector, ...input];
   if (Array.isArray(args[0])) {
     const [head, ...tail] = args;
     args = [...head, ...tail];
@@ -196,58 +205,87 @@ export function createSelector(...input: any[]): Selector<any, any> {
   const selectors = args.slice(0, args.length - 1);
   const projector = args[args.length - 1];
 
-  const memoizedProjector = memoize(function fun(...selectors: any[]) {
-    projector['tag'] = fun['tag'];
-    return projector.apply(null, selectors);
+  const memoizedProjector = memoize(function fun(...selectors_: any[]) {
+    projector[tag] = fun[tag];
+    return projector.apply(null, selectors_);
   });
 
   // pd: can't memoize state due to mutability
   const memoizedState = function (state: any) {
-    const args = selectors.map(fn => fn(state));
-
-    return memoizedProjector.memoized.apply(null, args);
+    return memoizedProjector.memoized.apply(null, selectors.map(fn => fn(state)));
   };
 
   function release() {
-    // memoizedState.reset();
+    // memoizedState.reset(); pd: can't memoize state due to mutability
     memoizedProjector.reset();
   }
 
-  return Object.assign(memoizedState, {
+  return setSelectorDefaults(Object.assign(memoizedState, {
     release,
-    projector: memoizedProjector.memoized,
-  });
+    selectors: selectors,
+    projector: memoizedProjector.memoized
+  }));
 }
 
-export function createSelectorByMap(selectorMap): Selector<any, any> {
+export function createSelectorByMap<Map extends SelectorMap>(selectorMap: Map): Selector<any, {[P in keyof Map]: any}> {
   const props = Object.keys(selectorMap);
   const selectors = props.map(x => s => _.get(s, selectorMap[x]));
-  const sel = createSelector.call(null, selectors,
+  return setSelectorDefaults(createSelector.call(null, selectors,
     function fun(...slices: any[]) {
       return slices.reduce((o, val, i) => { o[props[i]] = val; return o; },
-        { propertyChangedName: fun.hasOwnProperty('tag') ? props[fun['tag']] : undefined });
-    });
-  sel.map = selectorMap;
-  return sel;
+        { propertyChangedName: fun.hasOwnProperty(tag) ? props[fun[tag]] : undefined });
+    }), selectorMap);
 }
 
-export function createSelectorByPaths(paths: string[], propNames: string[] = []): Selector<any, any> {
-  if (propNames.length !== paths.length)
-    propNames = paths.map(p => p.includes('.') ? p.slice(p.lastIndexOf('.') + 1) : p);
-  return createSelectorByMap(propNames.reduce((o, p, i) => { o[p] = paths[i]; return o; }, {}));
+export function createSelectorByPaths(...paths: string[]): Selector<any, any> {
+  return createSelectorByMap(pathsToSelectorMap(...paths));
 }
 
-export function extendSelectorByMap(selector: Selector<any, any>, selectorMap): Selector<any, any> {
-  const baseMap = (selector as any).map;
+/**
+* Creates a selector containing the new properties obtained nesting the new paths to the base ones.
+* The created selector will change on nested properties change, regardless of the base selector properties
+* @param baseSelector the base selector: it has to be created by using
+* createSelectorByMap or createSelectorByPaths or nestSelector itself
+* @param map the selector map
+*/
+export function nestSelector<T, Map extends SelectorMap>(baseSelector: Selector<T, any>, map: Map): Selector<T, {[P in keyof Map]: any}>;
+/**
+* Creates a selector containing the new properties obtained nesting the new paths to the base ones.
+* The created selector will change on nested properties change, regardless of the base selector properties
+* @param baseSelector the base selector: it has to be created by using
+* createSelectorByMap or createSelectorByPaths or nestSelector itself
+* @param paths the paths (same syntax as lodash get)
+*/
+export function nestSelector<T, V>(baseSelector: Selector<T, any>, ...paths: string[]): Selector<T, V>;
+export function nestSelector(baseSelector: Selector<any, any>,
+  selectorMapOrPaths: SelectorMap | string, ...paths: string[]): Selector<any, any> {
+  const baseMap = baseSelector[map];
   if (baseMap === undefined)
-    throw new Error('only selectors created by createSelectorByMap or createSelectorByPaths can be extended');
-  return createSelectorByMap(extendMap(baseMap, selectorMap));
+    throw new Error('only selectors created from a SelectorMap can be extended');
+  if (typeof selectorMapOrPaths === 'string')
+    return createSelectorByMap(nestMap(baseMap, pathsToSelectorMap(selectorMapOrPaths, ...paths)));
+  return createSelectorByMap(nestMap(baseMap, selectorMapOrPaths));
 }
 
-function extendMap(baseMap, selectorMap) {
+function setSelectorDefaults(selector, selectorMap?) {
+  selector[map] = selectorMap;
+  selector.nest = (mapOrPath, ...p) => nestSelector(selector, mapOrPath, ...p);
+  return selector;
+}
+
+function pathsToSelectorMap(...paths: string[]) {
+  return paths.map(p => p.includes('.') ? p.slice(p.lastIndexOf('.') + 1) : p)
+    .reduce((o, p, i) => { o[p] = paths[i]; return o; }, {});
+}
+
+function pathsToPropNames(paths: string[], propNames: string[] = []) {
+  if (propNames.length === paths.length) return propNames;
+  return paths.map(p => p.includes('.') ? p.slice(p.lastIndexOf('.') + 1) : p);
+}
+
+function nestMap(baseMap, selectorMap) {
   const props = Object.keys(selectorMap);
   const baseProps = Object.keys(baseMap);
   const paths = props.map(p => selectorMap[p].split('.', 2));
   return props.reduce((o, p, i) => { o[p] = baseMap[paths[i][0]] + '.' + paths[i][1]; return o; }, {});
 }
-

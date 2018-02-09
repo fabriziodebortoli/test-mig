@@ -33,6 +33,23 @@ export interface StoreFeature<T, V extends Action> {
   metaReducers?: MetaReducer<T, V>[];
 }
 
+export interface SelectorMap {
+  [name: string]: string
+}
+
 export interface Selector<T, V> {
   (state: T): V;
+  /**
+  * Creates a selector containing the new properties obtained nesting the new paths to the current ones.
+  * The created selector will change on nested properties change, regardless of the base selector properties
+  * @param map the selector map
+  */
+  nest?<Map extends SelectorMap>(map: Map): Selector<T, {[P in keyof Map]: any}>;
+  /**
+  * Creates a selector containing the new properties obtained nesting the new paths to the current ones.
+  * The created selector will change on nested properties change, regardless of the base selector properties
+  * @param paths the paths (same syntax as lodash get)
+  */
+  nest?<K>(...paths: string[]): Selector<T, K>;
+  nest?(selectorMapOrPaths: SelectorMap | string, ...paths: string[]): Selector<any, any>;
 }

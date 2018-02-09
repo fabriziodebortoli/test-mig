@@ -3,20 +3,16 @@ import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged, 
 import { EventDataService } from './eventdata.service';
 import { Logger } from './logger.service';
 import { createSelector, createSelectorByMap, createSelectorByPaths } from './../../shared/commons/selector';
+import { SelectorMap } from './../../shared/models/store.models';
 import * as _ from 'lodash';
 
 export interface Action { type: string; }
-
-export abstract class StateObservable extends Observable<any> {}
-
+export abstract class StateObservable extends Observable<any> { }
 export const INIT = '@ngrx/store/init' as '@ngrx/store/init';
 
 @Injectable()
-export class ActionsSubject extends BehaviorSubject<Action>
-  implements OnDestroy {
-  constructor() {
-    super({ type: INIT });
-  }
+export class ActionsSubject extends BehaviorSubject<Action> implements OnDestroy {
+  constructor() { super({ type: INIT }); }
 
   next(action: Action): void {
     if (typeof action === 'undefined') {
@@ -43,72 +39,27 @@ export class StoreT<T> extends Observable<T> {
     this.actionsObserver = new ActionsSubject();
   }
 
-  select<K>(mapFn: (state: T) => K): StoreT<K>;
-  select<a extends keyof T>(key: a): StoreT<T[a]>;
-  select<a extends keyof T, b extends keyof T[a]>(
-    key1: a,
-    key2: b
-  ): StoreT<T[a][b]>;
-  select<a extends keyof T, b extends keyof T[a], c extends keyof T[a][b]>(
-    key1: a,
-    key2: b,
-    key3: c
-  ): StoreT<T[a][b][c]>;
-  select<
-    a extends keyof T,
-    b extends keyof T[a],
-    c extends keyof T[a][b],
-    d extends keyof T[a][b][c]
-    >(key1: a, key2: b, key3: c, key4: d): StoreT<T[a][b][c][d]>;
-  select<
-    a extends keyof T,
-    b extends keyof T[a],
-    c extends keyof T[a][b],
-    d extends keyof T[a][b][c],
-    e extends keyof T[a][b][c][d]
-    >(key1: a, key2: b, key3: c, key4: d, key5: e): StoreT<T[a][b][c][d][e]>;
-  select<
-    a extends keyof T,
-    b extends keyof T[a],
-    c extends keyof T[a][b],
-    d extends keyof T[a][b][c],
-    e extends keyof T[a][b][c][d],
-    f extends keyof T[a][b][c][d][e]
-    >(
-    key1: a,
-    key2: b,
-    key3: c,
-    key4: d,
-    key5: e,
-    key6: f
-    ): StoreT<T[a][b][c][d][e][f]>;
+  select<K>(map: (state: T) => K): StoreT<K>;
+  select<M extends SelectorMap>(map: M): StoreT<{[P in keyof M]: any}>;
+  select(...paths: string[]): StoreT<any>;
   select(
-    pathOrMapFn: ((state: T) => any) | string,
+    pathOrMapFn: ((state: T) => any) | SelectorMap | string,
     ...paths: string[]
   ): StoreT<any> {
     let mapped$: Observable<any>;
     if (typeof pathOrMapFn === 'string') {
-      mapped$ = map.call(this, createSelectorByPaths([pathOrMapFn, ...paths]));
+      mapped$ = map.call(this, createSelectorByPaths(pathOrMapFn, ...paths));
     } else if (typeof pathOrMapFn === 'function') {
       mapped$ = map.call(this, pathOrMapFn);
+    } else if (typeof pathOrMapFn === 'object') {
+      mapped$ = map.call(this, createSelectorByMap(pathOrMapFn));
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` +
-        ` expected 'string' or 'function'`
+        ` expected 'string' or 'function' or 'SelectorMap'`
       );
     }
     return new StoreT<any>(distinctUntilChanged.call(mapped$));
-  }
-
-  selectSlice(...paths: string[]): StoreT<any> {
-    const selectors = paths.map(p => s => _.get(s, p));
-    return this.select(createSelector.call(null, selectors, (...slices: any[]) => {
-      return slices.reduce((o, val, i) => { o[paths[i]] = val; return o; }, {});
-    }));
-  }
-
-  selectByMap<T>(map: T): StoreT<{[P in keyof T]: any}> {
-    return this.select(createSelectorByMap(map));
   }
 
   dispatch<V extends Action>(action: V) {
