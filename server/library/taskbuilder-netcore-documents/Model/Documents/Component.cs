@@ -12,7 +12,7 @@ namespace TaskBuilderNetCore.Documents.Model
     public class Component : Interfaces.IComponent
     {
         ICallerContext callerContext;
-        IActivatorService activatorService;
+        IDocumentServices documentServices;
         //-----------------------------------------------------------------------------------------------------
         [JsonIgnore]
         public INameSpace NameSpace
@@ -32,7 +32,7 @@ namespace TaskBuilderNetCore.Documents.Model
 
         //-----------------------------------------------------------------------------------------------------
         public ICallerContext CallerContext { get => callerContext; set => callerContext = value; }
-        public IActivatorService ActivatorService { get => activatorService; set => activatorService = value; }
+        public IDocumentServices DocumentServices { get => documentServices; set => documentServices = value; }
 
         //-----------------------------------------------------------------------------------------------------
         public virtual void Clear()
@@ -53,7 +53,7 @@ namespace TaskBuilderNetCore.Documents.Model
         /// <param name="callerContext"></param>
         /// <returns></returns>
         //-----------------------------------------------------------------------------------------------------
-        public bool Initialize (ICallerContext callerContext)
+        public bool Initialize (ICallerContext callerContext, IDocumentServices documentServices)
         {
             // it detach previous objects
             Clear();
@@ -68,7 +68,7 @@ namespace TaskBuilderNetCore.Documents.Model
             }
 
             this.callerContext = callerContext;
-  
+            this.documentServices = documentServices;
             if (!OnInitialize())
                 return false;
 

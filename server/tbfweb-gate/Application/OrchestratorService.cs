@@ -180,9 +180,6 @@ namespace Microarea.TbfWebGate.Application
 
             IBatchActivity myBatch = orchestrator.GetDocument(myContext) as IBatchActivity;
 			IDocument doc = myBatch as IDocument;
-			doc.ActivatorService = orchestrator;
-			foreach (Component component in doc.Components)
-				component.ActivatorService = orchestrator;
 
 			if (myBatch != null)
             {

@@ -18,6 +18,11 @@ namespace TaskBuilderNetCore.Documents.Controllers
     public class Loader : Controller, ILoader
     {
         AssemblyLoader assemblyLoader;
+        IDocumentServices documentServices;
+
+        //-----------------------------------------------------------------------------------------------------
+        public IDocumentServices DocumentServices { get => documentServices; set => documentServices = value; }
+
         //-----------------------------------------------------------------------------------------------------
         public Loader()
         {
@@ -47,16 +52,14 @@ namespace TaskBuilderNetCore.Documents.Controllers
             (
                 INameSpace nameSpace,
                 ICallerContext callerContext,
-                ILicenceConnector licenceConnector,
                 IDocument document = null
-            ) => GetComponent(nameSpace, callerContext, licenceConnector, document, document == null ? typeof(Component) : typeof(DocumentComponent));
+            ) => GetComponent(nameSpace, callerContext, document, document == null ? typeof(Component) : typeof(DocumentComponent));
 
         //-----------------------------------------------------------------------------------------------------
         private IComponent GetComponent
         (
                 INameSpace nameSpace, 
-                ICallerContext callerContext, 
-                ILicenceConnector licenceConnector, 
+                ICallerContext callerContext,
                 IDocument document = null, 
                 Type baseType = null, 
                 bool isDynamic = false,
@@ -64,7 +67,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             )
         {
             // controllo di licencing : componente non attivato
-            if (!licenceConnector.IsActivated(nameSpace))
+            if (!documentServices.IsActivated(nameSpace))
                 return null;
 
             // gestione del caricamento 
@@ -80,12 +83,14 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 component = null;
                 return null;
             }
-
+            
             // inizializzo il componente di documento se e' il caso
             if (component is DocumentComponent doc)
+            {
                 doc.Document = document;
+            }
 
-            component?.Initialize(callerContext);
+            component?.Initialize(callerContext, documentServices);
             return component;
         }
 
@@ -101,10 +106,10 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public IDocument GetDocument(ICallerContext callerContext, ILicenceConnector licenceConnector)
+        public IDocument GetDocument(ICallerContext callerContext)
         {
             // controllo di licencing
-            if (!licenceConnector.IsActivated(callerContext.NameSpace))
+            if (!documentServices.IsActivated(callerContext.NameSpace))
                 return null;
 
             // metadati
@@ -122,8 +127,8 @@ namespace TaskBuilderNetCore.Documents.Controllers
             if (
                     document != null &&
                     document.CanBeLoaded(callerContext) &&
-                    document.Initialize(callerContext) &&
-                    ComposeDocument(document, licenceConnector)
+                    document.Initialize(callerContext, documentServices) &&
+                    ComposeDocument(document)
                )
                 return document;
 
@@ -134,7 +139,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
-        private bool ComposeDocument(IDocument document, ILicenceConnector licenceConnector)
+        private bool ComposeDocument(IDocument document)
         {
             IDocumentInfo info = PathFinder.GetDocumentInfo(document.NameSpace);
             if (info == null)
@@ -143,7 +148,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             document.Title = info.Title;
 
             // aggiungo i componenti dichiarati staticamente
-            AddComponents(document, licenceConnector, info);
+            AddComponents(document, info);
 
             // consento al documento di caricare i componenti anche programmativamente
             if (!document.LoadComponents())
@@ -155,11 +160,11 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
-        private void AddComponents(IDocument document, ILicenceConnector licenceConnector, IDocumentInfo info)
+        private void AddComponents(IDocument document, IDocumentInfo info)
         {
             // se ho dei componenti nella dichiarazione li istanzio in automatico
             if (info.Components != null)
-                AddComponents(document, licenceConnector, info.Components);
+                AddComponents(document, info.Components);
 
             // ora vado a caricare i client doc e i relativi componenti
             List<ClientDocumentInfo> clientDocs = PathFinder.GetClientDocumentsFor(document);
@@ -168,19 +173,19 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 foreach (ClientDocumentInfo cInfo in clientDocs)
                 {
                     // per primo guardo se devo creare la classe stessa di clientdoc
-                    DocumentComponent component = GetComponent(cInfo.NameSpace, document.CallerContext, licenceConnector, document, typeof(ClientDoc), cInfo.IsDynamic, cInfo.OjectType) as DocumentComponent;
+                    DocumentComponent component = GetComponent(cInfo.NameSpace, document.CallerContext, document, typeof(ClientDoc), cInfo.IsDynamic, cInfo.OjectType) as DocumentComponent;
                     if (component != null)
                         document.Components.Add(component);
                     
                     // poi aggiungo gli eventuali components dichiarati in esso
                     if (cInfo.Components != null)
-                        AddComponents(document, licenceConnector, cInfo.Components);
+                        AddComponents(document, cInfo.Components);
                 }
             }
         }
 
         //-----------------------------------------------------------------------------------------------------
-        private void AddComponents(IDocument document, ILicenceConnector licenceConnector, List<IDocumentInfoComponent> components)
+        private void AddComponents(IDocument document, List<IDocumentInfoComponent> components)
         {
             // se ho dei componenti li istanzio in automatico
             foreach (IDocumentInfoComponent declaration in components)
@@ -189,10 +194,10 @@ namespace TaskBuilderNetCore.Documents.Controllers
                     continue;
 
                 // controllo attivazione
-                if (!string.IsNullOrEmpty(declaration.Activation) && !licenceConnector.IsActivated(declaration.Activation))
+                if (!string.IsNullOrEmpty(declaration.Activation) && !documentServices.IsActivated(declaration.Activation))
                     continue;
 
-                DocumentComponent documentComponent = GetComponent(declaration.NameSpace, document.CallerContext, licenceConnector, document) as DocumentComponent;
+                DocumentComponent documentComponent = GetComponent(declaration.NameSpace, document.CallerContext, document) as DocumentComponent;
                 if (documentComponent != null)
                     document.Components.Add(documentComponent);
             }

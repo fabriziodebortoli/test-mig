@@ -20,7 +20,7 @@ namespace TaskBuilderNetCore.Documents.Model.Interfaces
         event EventHandler DataModelDetached;
 
         #endregion
-        IActivatorService ActivatorService { get; set; }
+        IDocumentServices DocumentServices { get; set; }
         INameSpace NameSpace { get; }
         ICallerContext CallerContext { get; }
         string Title { get; set; }
@@ -28,7 +28,7 @@ namespace TaskBuilderNetCore.Documents.Model.Interfaces
         IDiagnostic Diagnostic { get; }
         // opening and closing operations
         void Clear();
-        bool Initialize(ICallerContext callerContext);
+        bool Initialize(ICallerContext callerContext, IDocumentServices documentServices);
         bool LoadComponents();
         bool AttachDataModel();
         bool DetachDataModel();

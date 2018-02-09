@@ -20,7 +20,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             DocumentStateSerializer documentStateSerializer = new DocumentStateSerializer();
             documentStateSerializer.Document = document;
             documentStateSerializer.StateSerializer = this;
-            documentStateSerializer.Initialize(document.CallerContext);
+            documentStateSerializer.Initialize(document.CallerContext, document.DocumentServices);
             document.Components.Add(documentStateSerializer);
 
             LoadState(document as IComponent);

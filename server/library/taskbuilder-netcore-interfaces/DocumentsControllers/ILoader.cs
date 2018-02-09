@@ -7,7 +7,8 @@ namespace TaskBuilderNetCore.Documents.Controllers.Interfaces
     //====================================================================================    
     public interface ILoader
     {
-        IDocument GetDocument(ICallerContext callerContext, ILicenceConnector licenceConnector);
-        IComponent GetComponent(INameSpace nameSpace, ICallerContext callerContext, ILicenceConnector licenceConnector, IDocument document = null);
+        IDocumentServices DocumentServices { get; set; }
+        IDocument GetDocument(ICallerContext callerContext);
+        IComponent GetComponent(INameSpace nameSpace, ICallerContext callerContext, IDocument document = null);
     }
 }

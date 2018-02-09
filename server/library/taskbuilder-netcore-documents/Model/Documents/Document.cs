@@ -111,7 +111,7 @@ namespace TaskBuilderNetCore.Documents.Model
             foreach (DocumentComponent component in Components)
             {
                 component.Document = this;
-                component.Initialize(CallerContext);
+                component.Initialize(CallerContext, DocumentServices);
             }
 
             ComponentsLoaded?.Invoke(this, EventArgs.Empty);
