@@ -356,11 +356,13 @@ void Tile::OnTilePaint(CDC* pDC)
 
 	// then, draw the edge, if any
 	CRect originalRectTile;
-	if (GetTileStyle()->GetAspect() == TileStyle::EDGE)
+	if (GetTileStyle()->GetAspect() == TileStyle::EDGE || GetTileStyle()->GetAspect() == TileStyle::TILE_EDGE)
 	{
 		CRect rectTile;
 		GetTileCWnd()->GetClientRect(&rectTile);
-		rectTile.top += m_nTitleHeight / 2;
+		if( GetTileStyle()->GetAspect() == TileStyle::EDGE)
+			rectTile.top += m_nTitleHeight / 2;
+
 		UINT nFlags = IsCollapsed() ? BF_TOP : BF_RECT;
 		originalRectTile = rectTile;
 
@@ -425,7 +427,7 @@ void Tile::OnTilePaint(CDC* pDC)
 		if (bIsTrasparent)
 		{
 			pDC->SetBkMode(TRANSPARENT);
-			if (GetTileStyle()->GetAspect() == TileStyle::EDGE || GetTileStyle()->GetAspect() == TileStyle::TOP)
+			if (GetTileStyle()->GetAspect() == TileStyle::EDGE || GetTileStyle()->GetAspect() == TileStyle::TOP || GetTileStyle()->GetAspect() == TileStyle::TILE_EDGE)
 			{
 				CRect cornerRect(originalRectTile);
 
