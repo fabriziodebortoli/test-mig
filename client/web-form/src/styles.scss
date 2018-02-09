@@ -1,3 +1,85 @@
 // @import '~@taskbuilder/core/style/grid.scss';
 // @import '~@taskbuilder/core/style/form.scss';
 @import '~@taskbuilder/core/style/tb.scss';
+// blue:#0277bd;
+// darkblue:#00578c;
+// $bkg-dark:#00578c;
+// $color-dark:#00578c;
+// $bkg-light:#ecf8ff;
+// $color-light:#fff;
+// .toolbar-top {
+//     background: $bkg-light !important;
+//     border-bottom: 1px solid #ddd !important;
+//     height: 40px !important;
+//     .title>span {
+//         line-height: 40px !important;
+//         color: $color-dark !important;
+//     }
+//     .menu,
+//     .right {
+//         height: 40px !important;
+//     }
+// }
+// .tabber-container>.k-tabstrip>.k-tabstrip-items {
+//     border: none !important;
+//     border-bottom: 1px solid #00578c !important;
+// }
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item {
+//     border-top-right-radius: 5px !important;
+//     border-top-left-radius: 5px !important;
+//     color: $bkg-light !important;
+//     background: $color-dark !important;
+//     border: none !important;
+//     /**/
+//     // background: #0277bd !important;
+//     // border: 1px solid #00578c !important;
+//     // border-bottom: none !important;
+// }
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link>div>span,
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item .k-link>div m4-icon {
+//     color: $color-light !important;
+// }
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
+//     background-color: $bkg-light !important;
+//     /* margin-bottom: -1px; */
+//     border: none;
+//     color: $color-dark !important;
+// }
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active .k-link>div m4-icon,
+// .tabber-container>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active .k-link>div>span {
+//     color: $color-dark !important;
+// }
+// tb-toolbar-top-button {
+//     tb-icon {
+//         box-shadow: none !important;
+//         border: none !important;
+//         border-radius: none !important;
+//         background-color: $bkg-dark;
+//         color: $color-light;
+//         min-width: 32px;
+//         m4-icon {
+//             color: $color-dark
+//         }
+//     }
+//     tb-icon:hover {
+//         border-radius: 4px !important;
+//         background-color: $bkg-dark !important;
+//         m4-icon,
+//         i {
+//             color: $color-light !important;
+//         }
+//     }
+//     // &:first-child tb-icon {
+//     //     border: none !important;
+//     // }
+//     // &:last-child tb-icon {
+//     //     border: none !important;
+//     // }
+// }
+// .rotate180 i {
+//     transform: rotate(180deg);
+//     margin-top: 1px;
+// }
+// .material-icons {
+//     padding-top: 1px;
+// }

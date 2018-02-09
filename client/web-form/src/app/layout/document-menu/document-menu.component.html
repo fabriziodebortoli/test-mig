@@ -2,29 +2,29 @@
     <tb-toolbar-top title="Titolo della pagina" history=true>
         <div class="toolbar-menu">
             <div class="menu-category search">
-                <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-radar" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="search" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="wifi" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-top-button>
             </div>
             <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
             <div class="menu-category navigation">
-                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="skip_previous" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="play_arrow" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV" style="" class="rotate180"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="play_arrow" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="skip_next" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
             </div>
             <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
             <div class="menu-category edit">
-                <tb-toolbar-top-button icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="add_box" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="mode_edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
             </div>
             <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
         </div>
 
         <div class="toolbar-right">
             <div class="menu-category exit">
-                <tb-toolbar-top-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled" icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET" [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" icon="exit_to_app" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
             </div>
         </div>
     </tb-toolbar-top>
