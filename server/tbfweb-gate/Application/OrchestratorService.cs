@@ -85,6 +85,15 @@ namespace Microarea.TbfWebGate.Application
         }
 
         //---------------------------------------------------------------------
+        public string ExecuteActivity(CallerContext context)
+        {
+            if (orchestrator.ExecuteActivity(context))
+                return "{\"Success\" : \"Activity executed\"}";
+
+            return "{\"Success\" : \"Activity not executed\"}";
+        }
+
+        //---------------------------------------------------------------------
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -116,7 +125,7 @@ namespace Microarea.TbfWebGate.Application
         Orchestrator orchestrator;
         internal TestSamples(Orchestrator orchestrator) => this.orchestrator = orchestrator; 
         //-----------------------------------------------------------------------------------------------------
-        internal string RunAllTests() =>    BrowseDataEntries() + ExecuteSaveOrders();
+        internal string RunAllTests() =>    BrowseDataEntries();
 
 
         // questo esempio usa il documento generico
@@ -161,37 +170,6 @@ namespace Microarea.TbfWebGate.Application
                 builder.AppendLine(string.Concat("documento non trovato: ", myContext1.NameSpace));
 
              return builder.ToString();
-        }
-
-        // questo esempio usa l'interfaccia batch
-        // per lanciare un documento batch
-        //-----------------------------------------------------------------------------------------------------
-        internal string ExecuteSaveOrders()
-        {
-            StringBuilder output = new StringBuilder();
-            /////////////////////////////////////////////////////////
-            //      batch unattended implementato con documento programmativo
-            /////////////////////////////////////////////////////////
-            CallerContext myContext = new CallerContext();
-            myContext.ObjectName = "Document.NEWERP.Orders.Documents.SaveOrders";
-            myContext.AuthToken = "1";
-            myContext.Company = "Az1";
-            myContext.Mode = ExecutionMode.Unattended;
-
-            IBatchActivity myBatch = orchestrator.GetDocument(myContext) as IBatchActivity;
-			IDocument doc = myBatch as IDocument;
-
-			if (myBatch != null)
-            {
-                if (myBatch.ExecuteActivity())
-                    output.AppendLine(string.Concat("batchActivity eseguita: ", myBatch.NameSpace));
-                else
-                    output.AppendLine(string.Concat("batchActivity non eseguita: ", myBatch.NameSpace));
-            }
-            else
-                output.AppendLine(string.Concat("batchActivity non trovata: ", myBatch.NameSpace));
-
-            return output.ToString();
         }
     }
 }

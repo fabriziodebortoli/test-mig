@@ -192,7 +192,30 @@ namespace TaskBuilderNetCore.Documents.Controllers
             
             return component;
         }
-#endregion
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool ExecuteActivity(ICallerContext callerContext)
+        {
+            string message = string.Empty;
+            IDocument document = GetDocument(callerContext);
+
+            if (document == null)
+            {
+                message = string.Format(OrchestratorMessages.DocumentNotFound.CompleteMessage, callerContext.NameSpace.GetNameSpaceWithoutType());
+                callerContext.Diagnostic.SetError(message);
+                return false;                
+            }
+
+            IBatchActivity activity = document as IBatchActivity;
+            if (activity != null)
+                return activity.ExecuteActivity();
+
+            message = string.Format(OrchestratorMessages.IsNotActivityDocument.CompleteMessage, callerContext.NameSpace.GetNameSpaceWithoutType());
+            callerContext.Diagnostic.SetError(message);
+            return false;
+        }
+
+        #endregion
         //-----------------------------------------------------------------------------------------------------
         public void CloseDocument(ICallerContext callerContext)
         {

@@ -11,8 +11,11 @@ namespace Microarea.TbfWebGate.Application
 {
     public static class ControllerExtensions
     {
+        //---------------------------------------------------------------------
         public static UserInfo GetLoginInformation(this Controller @this, string elementKey, HttpRequest request, ISession session)
         {
+            //return GetDummyUserInfo();
+
             string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT))
                 return null;
@@ -31,6 +34,17 @@ namespace Microarea.TbfWebGate.Application
             UserInfo ui = new UserInfo(loginInfo, sAuthT);
 
             return ui;
+        }
+
+        //---------------------------------------------------------------------
+        public static UserInfo GetDummyUserInfo()
+        {
+            LoginInfoMessage dummyMessage = new LoginInfoMessage();
+
+            dummyMessage.connectionString = "";
+            dummyMessage.preferredLanguage = "en-us";
+            dummyMessage.applicationLanguage = "en-us";
+            return new UserInfo(dummyMessage, "aa");
         }
     }
 }

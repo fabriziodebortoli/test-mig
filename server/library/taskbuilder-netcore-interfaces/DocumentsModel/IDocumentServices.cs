@@ -11,6 +11,7 @@ namespace TaskBuilderNetCore.Documents.Model.Interfaces
     {
         IDocument GetDocument(ICallerContext callerContext);
         void CloseDocument(ICallerContext callerContext);
+        bool ExecuteActivity(ICallerContext callerContext);
         bool IsActivated(INameSpace nameSpace);
         bool IsActivated(string activation);
     }
