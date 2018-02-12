@@ -462,6 +462,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			string refEdition = string.Empty;
 			string refConfiguration = string.Empty;
+			string refCountry = string.Empty;
 
 			XmlReader xtr = null;
 
@@ -501,17 +502,24 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 									else
 										refEdition = importSel.ContextInfo.PathFinder.Edition;
 
-									// devo ricalcolare il file da tornare in modo da pilotare l'importazione
-									string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, 2);
-									string fileName = Path.GetFileName(importFile.FullName);
+									// se l'attributo refcountry e' vuoto considero l'iso stato corrente
+									if (xtr.MoveToAttribute(DataManagerConsts.RefCountry))
+										refCountry = string.IsNullOrEmpty(xtr.Value) ? this.importSel.ContextInfo.IsoState : xtr.Value;
+									else
+										refCountry = this.importSel.ContextInfo.IsoState;
 
-									string newPath = Path.Combine(absoluteDirName, refEdition);
-									newPath = Path.Combine(newPath, refConfiguration);
-									newPath = Path.Combine(newPath, fileName);
+									// devo ricalcolare il file da tornare in modo da pilotare l'importazione
+									// C:\<nome-istanza>\Standard\Applications\ERP\Accounting\DataManager\Default\
+									string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, 3);
+
+									string newImportFilePath = Path.Combine(absoluteDirName, refCountry);
+									newImportFilePath = Path.Combine(newImportFilePath, refEdition);
+									newImportFilePath = Path.Combine(newImportFilePath, refConfiguration);
+									newImportFilePath = Path.Combine(newImportFilePath, Path.GetFileName(importFile.FullName));
 
 									// solo se il file con il nuovo path ricalcolato esiste viene assegnato
-									if (importSel.ContextInfo.PathFinder.FileSystemManager.ExistFile(newPath))
-										importFile = new FileInfo(newPath);
+									if (File.Exists(newImportFilePath))
+										importFile = new FileInfo(newImportFilePath);
 								}
 								else
 									return true;
