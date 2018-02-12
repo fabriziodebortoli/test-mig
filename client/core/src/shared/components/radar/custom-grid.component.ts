@@ -91,7 +91,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = _.cloneDeep(value);
         this.filterer.filter = _.cloneDeep(value);
-        this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - this.selectionColumnId ? 1 : 0;
+        this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - (this.selectionColumnId ? 1 : 0);
         this.filterer.onFilterChanged(value);
     }
 
