@@ -163,8 +163,8 @@ namespace Microarea.EasyAttachment.Components
 			}
 		}
 
- 	
-        //---------------------------------------------------------------------
+
+		//---------------------------------------------------------------------
 		public void AddXMLSearchBookmark(MXMLSearchBookmark xmlSearchBookmark, DMSDocOrchestrator dmsOrchestrator)
 		{
 			FieldGroup group = FieldGroup.Binding;
@@ -180,11 +180,11 @@ namespace Microarea.EasyAttachment.Components
 				MHotLink hklField = dmsOrchestrator.Document.GetHotLink(xmlSearchBookmark.HKLName);
 				if (hklField != null && hklField.Record != null)
 				{
-					dataRow = NewRow();
-					recItem = (MSqlRecordItem)hklField.Record.GetField(xmlSearchBookmark.FieldName);
-					group = FieldGroup.External;
-					tableName = hklField.TableName;
-					dataRow[CommonStrings.HotKeyLink] = hklField;
+						dataRow = NewRow();
+						recItem = (MSqlRecordItem)hklField.Record.GetField(xmlSearchBookmark.FieldName);
+						group = FieldGroup.External;
+						tableName = hklField.TableName;
+						dataRow[CommonStrings.HotKeyLink] = hklField;
 				}				
 			}
 			else
@@ -788,7 +788,12 @@ namespace Microarea.EasyAttachment.Components
 		public const string EAScanPrefix = "EAScan_";
         public const string StorageType = "StorageType";
 		public const string IsWoormReport = "IsWoormReport";
-		
+
+		//external fields constant string
+		public const string CompanyName = "CompanyName";
+		public const string TaxIdNumber = "TaxIdNumber";
+		public const string FiscalCode = "FiscalCode";
+
 		// SosConnector costant string
 		public const string CodSog = "CodSog";
 		public const string FiscalYear = "FiscalYear";

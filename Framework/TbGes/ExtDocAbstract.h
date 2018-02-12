@@ -1103,11 +1103,22 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 	virtual BOOL CanRunDocument () { return TRUE; } 
 
 
+	//tutti questi metodo virtuali andranno poi a comporre la nuova interfaccia di comunicazione con il DMS
 	//Improvement #5062: SosConnector
 	virtual SWORD GetFiscalYear			() { return MIN_YEAR; }
 	virtual CString GetSosSuffix		() { return _T(""); }
 	//Improvement #5372: creato per procedura stampa di 	
 	virtual CString GetSosDocumentType	() { return _T(""); }
+	//BugFix #26240 questi metodi virtuali sostituiscono i bookmark con hotlink necessari per la SOS
+	// non è più possibile usare l'hkl perchè viene istanziato e findato solo in presenza di interfaccia grafica\
+	//nel caso di unattendedmode ed ADM non è più presente
+	/*<Bookmark name = "CompanyName" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>
+	<Bookmark name = "TaxIdNumber" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>
+	<Bookmark name = "FiscalCode" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>*/
+	virtual CString GetCompanyName() { return _T(""); }
+	virtual CString GetTaxIdNumber() { return _T(""); }
+	virtual CString GetFiscalCode() { return _T(""); }
+
 
 	//import/export function
 	BOOL	SaveImportDocument		();					// per il salvataggio del documento importato
