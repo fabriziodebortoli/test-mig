@@ -1624,8 +1624,11 @@ namespace Microarea.Console.Plugin.SecurityAdmin
 			if (!node.IsCommand)
 				return;
 
-            foreach (MenuXmlNode nodeChild in MenuMngWinCtrl.CurrentCommandNode.CommandItems)
-                node.RemoveChild(nodeChild);
+            if (node.CommandItems != null && node.CommandItems.Count > 0)
+            {
+                foreach (MenuXmlNode nodeChild in node.CommandItems)
+                    node.RemoveChild(nodeChild);
+            }
 
             AddAuxiliaryChildrenObjectsToCommandNode(MenuMngWinCtrl.CurrentCommandNode);
 
