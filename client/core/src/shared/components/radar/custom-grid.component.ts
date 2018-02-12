@@ -67,7 +67,8 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
         this.setSelectableSettings();
         this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
         this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
-        this.paginator.waiting$.subscribe(b => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default));
+        this.paginator.waiting$.subscribe(b => 
+            setTimeout(() => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default), 0));
         super.ngOnInit();
     }
 
