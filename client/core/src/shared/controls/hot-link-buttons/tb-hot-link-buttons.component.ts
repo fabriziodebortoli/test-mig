@@ -414,11 +414,9 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
             this.textBoxInfo.element.style.color = 'blue';
             this.textBoxInfo.element.style.cursor = 'pointer';
             this.textBoxInfo.element.style.pointerEvents = 'all';
-            if(this.hotLinkInfo.enableAddOnFly) {
-              this.textBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
+            this.textBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
               .filter(e => this.textBoxInfo &&  (e as any) && (e as any).target === this.textBoxInfo.element)
               .subscribe(e => this.hyperLinkService.goTo({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
-            }
           } else {
             this.textBoxInfo.element.style.textDecoration = this.textBoxInfo.initInfo.textDecoration;
             this.textBoxInfo.element.style.color = this.textBoxInfo.initInfo.color;
