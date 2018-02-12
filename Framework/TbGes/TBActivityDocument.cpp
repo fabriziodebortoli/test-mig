@@ -176,9 +176,7 @@ END_MESSAGE_MAP()
 CTBActivityDocument::CTBActivityDocument()
 	:
 	m_bExtractingData				(FALSE),
-	m_bIsExecutedRun				(FALSE),
 	m_bExtractData					(FALSE),
-	m_bUndoExtraction				(FALSE),
 	m_bAddMoreData					(FALSE),
 	m_bManageSelectButton			(TRUE),
 	m_pActivityLegend				(NULL),
@@ -362,7 +360,7 @@ void CTBActivityDocument::OnBEEnableButton(CBodyEdit* pBodyEdit, CBEButton* pBut
 	if (nIdButton != ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT)
 		return;
 
-	BOOL bEnable = !m_bBatchRunning && m_bExtractData && !m_bUndoExtraction;
+	BOOL bEnable = !m_bBatchRunning && m_bExtractData;
 
 	pButton->EnableButton(bEnable);
 }
@@ -413,6 +411,10 @@ void CTBActivityDocument::SetPanelEnabled(CTilePanel* pPanel, BOOL bSet)
 		return;
 
 	pPanel->SetActiveTabContentEnable(bSet);
+
+	if (bSet)
+		DispatchDisableControlsForBatch();
+
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -434,8 +436,8 @@ BOOL CTBActivityDocument::BatchEnableControls()
 {
 	BOOL bOK = __super::BatchEnableControls();
 
-	if (bOK && m_bExtractData && !m_bBatchRunning)
-		EnableAllControlLinks(FALSE);
+	if (bOK && !m_bBatchRunning)
+		EnableAllControlLinks(!m_bExtractData);
 
 	return bOK;
 }
@@ -470,7 +472,7 @@ void CTBActivityDocument::DoExtractData()
 	{
 		m_pMessages->Show();
 		ManagePanelsState(FALSE);
-		m_bUndoExtraction = TRUE;	//reset status
+		m_bExtractData = FALSE;	//reset status
 		return;
 	}
 
@@ -481,7 +483,7 @@ void CTBActivityDocument::DoExtractData()
 	UpdateBEButton(IDC_TB_ACTIVITY_DOCUMENT_GRID, ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT, GetCaptionOnSelectButton(), GetCaptionOnSelectButton());
 
 	m_bAddMoreData = TRUE;
-	m_bUndoExtraction = FALSE;
+	m_bExtractData = TRUE;
 
 	//allow other actions from inherited document (added panel/s, tile/s ecc)
 	ManageExtractData();
@@ -546,10 +548,7 @@ BOOL CTBActivityDocument::DoUpdateLoadDataStart()
 	if (m_bExtractingData)
 		return FALSE;
 
-	if (!m_bExtractData && !m_bUndoExtraction)
-		return !m_bIsExecutedRun;
-
-	return m_bUndoExtraction;
+	return !m_bExtractData;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -562,7 +561,7 @@ void CTBActivityDocument::OnLoadDataStart()
 	if (GetNotValidView(TRUE))
 		return;
 
-	if (!m_bExtractData || m_bUndoExtraction)
+	if (!m_bExtractData)
 		LoadStart();
 }
 
@@ -581,8 +580,6 @@ void CTBActivityDocument::LoadStart()
 
 		m_BatchScheduler.Start();
 		m_bExtractData = TRUE;
-		m_bUndoExtraction = TRUE;
-
 		DoExtractData();
 
 		if (m_bExtractData)
@@ -967,7 +964,7 @@ void CTBActivityDocument::DoAddData()
 	SetPanelCollapsed(m_pPanelFooter, m_bActionsAsFilters ? FALSE : m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
 	
 	m_bAddMoreData = FALSE;
-	m_bUndoExtraction = FALSE;
+	m_bExtractData = TRUE;
 
 	//manage your panel/s, tiles/s from outside
 	ManageAddData();
@@ -1026,7 +1023,7 @@ void CTBActivityDocument::DoUndoExtraction()
 		return;
 	}
 
-	m_bUndoExtraction = TRUE;
+	m_bExtractData = FALSE;
 	m_bSelect = TRUE;		//reset Select button
 	UpdateBEButton(IDC_TB_ACTIVITY_DOCUMENT_GRID, ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT, GetCaptionOnSelectButton(), GetCaptionOnSelectButton());
 	
@@ -1087,7 +1084,7 @@ void CTBActivityDocument::OnUpdateUndoExtraction(CCmdUI* pCmdUI)
 //---------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::DoUpdateUndoExtraction()
 {
-	return m_bExtractData && !m_bUndoExtraction;
+	return m_bExtractData;
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -1108,9 +1105,6 @@ BOOL CTBActivityDocument::DoUpdateBatchStartStop()
 //-----------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnUpdateBatchPauseResume(CCmdUI* pCmdUI)
 {
-	if (!m_bIsExecutedRun)
-		m_bIsExecutedRun = m_bBatchRunning;
-
 	pCmdUI->Enable(m_bBatchRunning);
 }
 
