@@ -1,5 +1,5 @@
 ﻿<tb-frame tbDataEntry>
-    <tb-toolbar-top title="Titolo della pagina" history=true>
+    <tb-toolbar-top caption="Titolo della pagina" history=true>
         <div class="toolbar-menu">
             <div class="menu-category search">
                 <tb-toolbar-top-button iconType="MD" icon="search" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
@@ -15,8 +15,8 @@
             <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
             <div class="menu-category edit">
                 <tb-toolbar-top-button iconType="MD" icon="add_box" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="mode_edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" [disabled]="true" icon="mode_edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button iconType="MD" [disabled]="true" icon="delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
             </div>
             <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
         </div>

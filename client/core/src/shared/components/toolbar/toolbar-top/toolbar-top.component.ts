@@ -11,7 +11,7 @@ import { EventDataService } from './../../../../core/services/eventdata.service'
 })
 export class ToolbarTopComponent {
 
-  @Input() title: string = '...';
+  @Input() caption: string = '...';
   @Input() history: boolean = false;
 
   public viewModeTypeModel = ViewModeType;
