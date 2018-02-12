@@ -191,20 +191,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.showOptionsSubj$.value) { this.closeOptions(); } 
     else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
   }
- 
-  @HostListener('document:click', ['$event'])
-  public documentClick(event: any): void {
-    if (!this.isTablePopupVisible && !this.isOptionsPopupVisible) return;
-    let currentElem = event.toElement;
-    do {
-      if((this.tablePopupRef && this.tablePopupRef.popupElement.contains(currentElem))
-         || (this.optionsPopupRef &&this.optionsPopupRef.popupElement.contains(currentElem))) 
-         return;
-      currentElem = currentElem.parentNode;
-    } while (currentElem);
-    this.closeOptions();
-    this.closeTable();
-  }
 
   getPopupAlign(anchor: any): Align {
     let Horizontal = 'left';
@@ -449,6 +435,12 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     .pipe(untilDestroy(this))
     .filter(e => (e as any).keyCode === 27)
     .subscribe(e => this.closePopups());
+    
+    Observable.fromEvent(document, 'click', {capture: true}).pipe(untilDestroy(this))
+    .filter(e => ((this.tablePopupRef && !this.tablePopupRef.popupElement.contains((e as any).toElement))
+                  || (this.optionsPopupRef && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
+              && (this.isTablePopupVisible || this.isOptionsPopupVisible))
+    .subscribe(_ => this.closePopups());
 
     if(this.isAttachedToAComboBox) 
       this.state = {...this.state, selectionType: 'combo'};
