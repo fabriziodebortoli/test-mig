@@ -46,6 +46,7 @@ CEasyStudioDesignerDialog::CEasyStudioDesignerDialog(const CString& sJsonFile)
 	m_DummyParent.SetRuntimeState(CWndObjDescription::STATIC);
 	CJsonResource res;
 	res.PopulateFromFile(m_strJsonFile);
+	res.m_sJsonContext = TRUE;
 	m_pJsonContext = CJsonFormEngineObj::GetInstance()->CreateContext(res, false);
 	Init();
 }
@@ -77,6 +78,7 @@ BOOL CEasyStudioDesignerDialog::Create(CWnd* pParent, CBaseDocument* pDoc)
 	CWndObjDescription* pDescri = m_pJsonContext->m_pDescription;
 	if (!pDescri)
 		return FALSE;
+	//m_pJsonContext->m_bIsJsonDesigner = TRUE;
 	m_nID = AfxGetTBResourcesMap()->GetTbResourceID(m_pJsonContext->m_JsonResource.m_strName, TbResources, 1, m_pJsonContext->m_JsonResource.m_strContext);
 	CString sName = CJsonFormEngineObj::GetObjectName(pDescri);
 	SetFormName(sName);

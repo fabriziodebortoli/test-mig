@@ -46,6 +46,7 @@ public:
 	int m_LatestY2 = 0;//l'ultimo rettangolo associato al controllo posizionato in modalità automatica (che segue il flusso verticale)
 	CMap<CString, LPCTSTR, CRect, CRect> m_Rects;
 	CJsonContextObj* m_pParentContext = NULL;
+	BOOL m_bIsJsonDesigner = FALSE;
 protected:
 	CJsonContextObj(){ m_arFonts.SetOwns(TRUE); }
 

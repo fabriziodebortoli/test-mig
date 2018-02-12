@@ -695,7 +695,8 @@ public:
 		HotFilter = 84,
 		StatusTilePanel = 85,
 		Splitter = 86,
-		DockingPane = 87
+		DockingPane = 87,
+		HRef = 88
 	};
 	enum RuntimeState { UNDEFINED, RUNTIME, STATIC };
 	enum IconTypes { M4, IMG, TB, CLASS };
@@ -1837,7 +1838,27 @@ public:
 };
 
 
+//=============================================================================
+//			Class CHRefDescription
+//=============================================================================
+class TB_EXPORT CHRefDescription : public CWndObjDescription
+{
+	DECLARE_DYNCREATE(CHRefDescription);
 
+	
+public:
+	bool m_bIsNsCorrect = false;
+	CString m_sHRef;
+	CHRefDescription();
+	CHRefDescription(CWndObjDescription* pParent);
+	~CHRefDescription();
+
+	void SerializeJson(CJsonSerializer& strJson);
+	virtual void ParseJson(CJsonFormParser& parser);
+
+protected:
+	virtual void Assign(CWndObjDescription* pDesc);
+};
 
 
 //=============================================================================

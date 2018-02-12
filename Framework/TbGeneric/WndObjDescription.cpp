@@ -2943,6 +2943,13 @@ CWndObjDescription* CWndObjDescription::ParseHref(CJsonFormParser& parser, const
 	CString sResourceName, sContext;
 	CJsonResource::SplitNamespace(sHref, sResourceName, sContext);
 	CString sOldContext;
+
+	if (parser.m_pRootContext->m_bIsJsonDesigner) {
+		CHRefDescription* hrefDescr =  new CHRefDescription(nullptr);
+		hrefDescr->m_sHRef = sHref;
+		return hrefDescr;
+	}
+
 	//se non ho un percorso completo, allora è relativo al contesto (path del json di outline)
 	if (sContext.IsEmpty())
 		sContext = parser.m_pRootContext->m_strCurrentResourceContext;
@@ -6858,4 +6865,43 @@ void EnumDescriptionAssociations::InitEnumDescriptionStructures()
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::M4, _T("M4"));
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::TB, _T("TB"));
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::CLASS, _T("CLASS"));
+}
+
+//==============================================================================
+IMPLEMENT_DYNCREATE(CHRefDescription, CWndObjDescription)
+REGISTER_WND_OBJ_CLASS(CHRefDescription, HRef)
+//-----------------------------------------------------------------------------
+CHRefDescription::CHRefDescription()
+{
+}
+
+//-----------------------------------------------------------------------------
+CHRefDescription::CHRefDescription(CWndObjDescription * pParent)
+{
+}
+
+//-----------------------------------------------------------------------------
+CHRefDescription::~CHRefDescription()
+{
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::SerializeJson(CJsonSerializer & strJson)
+{
+	//SERIALIZE_BOOL(m_bIsNsCorrect, szJsonNamespace, true);
+	SERIALIZE_STRING(m_sHRef, szJsonHref);
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::ParseJson(CJsonFormParser & parser)
+{
+	//PARSE_BOOL(m_bIsNsCorrect, szJsonNamespace);
+	PARSE_STRING(m_sHRef, szJsonHref);
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::Assign(CWndObjDescription * pDesc)
+{
+	//m_bIsNsCorrect = ((CHRefDescription*)pDesc)->m_bIsNsCorrect;
+	m_sHRef = ((CHRefDescription*)pDesc)->m_sHRef;
 }

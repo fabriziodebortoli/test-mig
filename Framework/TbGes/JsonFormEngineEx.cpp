@@ -930,6 +930,7 @@ void CJsonFormEngine::InitCachePath()
 CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions)
 {
 	CJsonContextObj* pContext = CJsonContext::Create();
+	pContext->m_bIsJsonDesigner = sJsonResource.m_sJsonContext;
 	pContext->m_JsonResource = sJsonResource;
 	pContext->m_strCurrentResourceContext = sJsonResource.m_strContext;
 	if (pContext->m_strCurrentResourceContext.IsEmpty()) {
@@ -2070,6 +2071,10 @@ template <class T> void TBJsonBodyEditWrapper<T>::OnBeforeCustomize()
 								pButton->AddMenuItem(pDescMenuItem->m_strName, AfxLoadJsonString(pDescMenuItem->m_strText, pToolBarBtnDesc), nMenuItemId, 1, 0, ((CMenuItemDescription*)pDescMenuItem)->m_strIcon);
 						}
 					}
+					break;
+				}
+				case CWndObjDescription::GenericWndObj:
+				{
 					break;
 				}
 				default:
