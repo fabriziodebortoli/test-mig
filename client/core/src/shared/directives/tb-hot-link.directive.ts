@@ -43,8 +43,7 @@ export class TbHotLinkDirective implements OnInit {
     constructor(private viewContainer: ViewContainerRef,
         private cfr: ComponentFactoryResolver,
         private store: Store,
-        private eventDataService: EventDataService) {
-    }
+        private eventDataService: EventDataService) { }
 
     private getSliceSelector(ancestor: HlComponent): any {
         return createSelector(

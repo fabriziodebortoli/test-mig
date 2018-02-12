@@ -163,6 +163,11 @@ export class WebSocketService extends LocalizationService {
         return this.safeSend(data);
     }
 
+    openHyperLink(name: string, cmpId: string) {
+        const data = { cmd: 'openHyperLink', cmpId: cmpId, name: name };
+        this.safeSend(data);
+    }
+
     doFillListBox(cmpId: String, obj: any): void {
         const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
 

@@ -34,14 +34,36 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("getWindowStrings")] = &CTBSocketHandler::GetWindowStrings;
 	functionMap[_T("checkMessageDialog")] = &CTBSocketHandler::CheckMessageDialog;
 	functionMap[_T("doFillListBox")] = &CTBSocketHandler::DoFillListBox;
-	functionMap[_T("setReportResult")] = &CTBSocketHandler::SetReportResult; 
+	functionMap[_T("setReportResult")] = &CTBSocketHandler::SetReportResult;
 	functionMap[_T("runDocument")] = &CTBSocketHandler::RunDocument;
 	functionMap[_T("browseRecord")] = &CTBSocketHandler::BrowseRecord;
+	functionMap[_T("openHyperLink")] = &CTBSocketHandler::OpenHyperLink;
 }
 
 //--------------------------------------------------------------------------------
 CTBSocketHandler::~CTBSocketHandler()
 {
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
+{
+	CString sName = json.ReadString(_T("name"));
+	HWND cmpId = ReadComponentId(json);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	
+	if (!pDoc) 
+		return;
+
+	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
+	if (pHkl)
+	{
+		CAbstractFormDoc* pHKLDoc = (CAbstractFormDoc*)AfxGetTbCmdManager()->RunDocument(pHkl->GetAddOnFlyNamespace(), szDefaultViewMode, FALSE, NULL, NULL);
+		if (pHKLDoc) 
+		{
+			pHKLDoc->GoInBrowseMode();
+		}
+	}	
 }
 
 
