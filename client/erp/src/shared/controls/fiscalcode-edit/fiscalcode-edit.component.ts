@@ -1,5 +1,5 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService } from '@taskbuilder/core';
-import { Component, Input, ChangeDetectorRef, OnInit, OnChanges } from '@angular/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService, ControlContainerComponent } from '@taskbuilder/core';
+import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers } from '@angular/http';
 
@@ -12,11 +12,10 @@ import JsCheckTaxId from '../taxid-edit/jscheckTaxIDNumber';
 })
 export class FiscalCodeEditComponent extends ControlComponent implements OnInit, OnChanges {
   @Input('readonly') readonly = false;
-
-
   @Input() slice;
   @Input() selector;
-  errorMessage: any;
+
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
   private ctrlEnabled = false;
   private isMasterBR = false;
@@ -24,7 +23,6 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
   private isEuropeanUnion = false;
   private isoCode = '';
 
-  checkfiscalcodeContextMenu: ContextMenuItem[] = [];
   menuItemITCheck = new ContextMenuItem(this._TB('Check TaxId existence (IT site)'), '', true, false, null, this.checkIT.bind(this));
   menuItemEUCheck = new ContextMenuItem(this._TB('Check TaxId existence (EU site)'), '', true, false, null, this.checkEU.bind(this));
   menuItemBRCheck = new ContextMenuItem(this._TB('Check Fiscal Code existence'), '', true, false, null, this.checkBR.bind(this));
@@ -42,14 +40,10 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
   }
 
   ngOnInit() {
-    if (this.store && this.selector) {
-      this.store
-        .select(this.selector)
-        .select('formMode')
-        .subscribe(
-        (v) => this.onFormModeChanged(v)
-        );
-    }
+    this.store
+      .select('FormMode.value')
+      .subscribe(v =>
+        this.onFormModeChanged(v.value));
 
     this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
     this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
@@ -60,7 +54,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     if (changes.slice && changes.slice.isoCode) {
       this.isoCode = changes.slice.isoCode.value;
     }
-    this.validate();
+    this.isFiscalCodeValid(this.changeModelValue.value);
   }
 
   onFormModeChanged(formMode: FormMode) {
@@ -69,18 +63,18 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
   }
 
   buildContextMenu() {
-    this.checkfiscalcodeContextMenu.splice(0, this.checkfiscalcodeContextMenu.length);
+    this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
 
     if (!this.ctrlEnabled) return;
 
     if (this.isTaxIdField(this.model.value, false))
-      this.checkfiscalcodeContextMenu.push(this.menuItemITCheck);
+      this.cc.contextMenu.push(this.menuItemITCheck);
 
     if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, false))
-      this.checkfiscalcodeContextMenu.push(this.menuItemEUCheck);
+      this.cc.contextMenu.push(this.menuItemEUCheck);
 
     if (this.isMasterBR && this.isoCode === 'BR')
-      this.checkfiscalcodeContextMenu.push(this.menuItemBRCheck);
+      this.cc.contextMenu.push(this.menuItemBRCheck);
   }
 
   isTaxIdField(code: string, all: boolean) {
@@ -89,7 +83,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   async onBlur() {
     this.buildContextMenu();
-    this.validate();
+    this.isFiscalCodeValid(this.model.value);
     if (!this.isValid) return;
     this.blur.emit(this);
     this.eventData.change.emit(this.cmpId);
@@ -97,7 +91,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   changeModelValue(value) {
     this.model.value = value;
-    this.validate();
+    this.isFiscalCodeValid(this.changeModelValue.value);
   }
 
   async checkIT() {
@@ -118,14 +112,14 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
     let r = await this.httpCore.checkVatEU(stato, this.model.value).toPromise();
     if (r.json().isValid)
-      this.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
+      this.cc.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
     else
-      this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+      this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
 
     this.changeDetectorRef.detectChanges();
   }
 
-  async getStato() : Promise<string> {
+  async getStato(): Promise<string> {
     let stato = this.isoCode;
     if (stato == '' || stato == undefined) {
       stato = await this.parameterService.getParameter('MA_CustSuppParameters.ISOCountryCode');
@@ -134,14 +128,10 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     if (stato == '' || stato == undefined)
       stato = 'IT'
 
-      return stato;
+    return stato;
   }
 
-  validate() {
-    this.errorMessage = '';
-    if (!this.model) return;
-
-    this.isFiscalCodeValid(this.model.value, this.isoCode);
+  async validate() {
   }
 
   isTaxIdNumber(fiscalcode: string): boolean {
@@ -151,18 +141,18 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     return fiscalcode.charAt(0) >= '0' && fiscalcode.charAt(0) <= '9';
   }
 
-  isFiscalCodeValid(fiscalcode: string, country: string) {
-    if (!this.isSupported(country)) {
-      this.errorMessage = '';
+  async isFiscalCodeValid(fiscalcode: string) {
+
+    this.cc.errorMessage = '';
+    if (!this.model || !fiscalcode) return;
+
+    let stato = await this.getStato();
+
+    if (!this.isSupported(stato)) {
       return;
     }
 
-    if (!fiscalcode) {
-      this.errorMessage = '';
-      return;
-    }
-
-    switch (country) {
+    switch (stato) {
       case 'IT':
         this.FiscalCodeCheckIT(fiscalcode);
         break;
@@ -190,20 +180,20 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   FiscalCodeCheckIT(fiscalcode: string) {
     if (this.isTaxIdNumber(fiscalcode)) {
-      if (!JsCheckTaxId.isTaxIdValid(fiscalcode, this.isoCode))
-        this.errorMessage = this._TB('Incorrect fiscal code number');
+      if (!JsCheckTaxId.isTaxIdValid(fiscalcode, 'IT'))
+        this.cc.errorMessage = this._TB('Incorrect fiscal code number');
       return;
     }
 
     if (fiscalcode.length != 16) {
-      this.errorMessage = this._TB('The fiscal code number must have at least 16 characters!');
+      this.cc.errorMessage = this._TB('The fiscal code number must have at least 16 characters!');
       return;
     }
     const regex = /[A-Za-z]{6}[0-9]{2}[A-Za-z][0-9]{2}[A-Za-z][0-9]{3}[A-Za-z]/g;
     let m;
 
     if ((m = regex.exec(fiscalcode)) === null) {
-      this.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: AAA-AAA-NN-A-NN-ANNN-A");
+      this.cc.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: AAA-AAA-NN-A-NN-ANNN-A");
       return;
     }
 
@@ -235,13 +225,13 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     let check = (nOdd + nEqual) % 26 + 65;
 
     if (check != array[15])
-      this.errorMessage = this._TB('Incorrect fiscal code number');
+      this.cc.errorMessage = this._TB('Incorrect fiscal code number');
 
   }
 
   FiscalCodeCheckBR(fiscalcode: string) {
     if (fiscalcode.length != 14) {
-      this.errorMessage = this._TB('The fiscal code number must have at least 14 characters!');
+      this.cc.errorMessage = this._TB('The fiscal code number must have at least 14 characters!');
       return;
     }
     const regex = /([0-9]{3}[\.]){2}[0-9]{3}[-][0-9]{2}/g;
@@ -249,7 +239,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     let m;
 
     if ((m = regex.exec(fiscalcode)) === null) {
-      this.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: NNN.NNN.NNN-NN");
+      this.cc.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: NNN.NNN.NNN-NN");
       return;
     }
 
@@ -270,12 +260,12 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     if (nCtrlDigit2 > 9) nCtrlDigit2 = 0;
 
     if (nCtrlDigit1 != array[9] || nCtrlDigit2 != array[10])
-      this.errorMessage = this._TB('Incorrect fiscal code number');
+      this.cc.errorMessage = this._TB('Incorrect fiscal code number');
   }
 
   FiscalCodeCheckES(fiscalcode: string) {
     if (fiscalcode.length != 9) {
-      this.errorMessage = this._TB('The fiscal code number must have 9 characters!');
+      this.cc.errorMessage = this._TB('The fiscal code number must have 9 characters!');
       return;
     }
 
@@ -284,10 +274,10 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     let m;
 
     if ((m = regex.exec(fiscalcode)) === null) {
-      this.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: X9999999X");
+      this.cc.errorMessage = this._TB("The fiscal code number entered does not comply with the structure: X9999999X");
       return;
     }
   }
 
-  get isValid(): boolean { return !this.errorMessage; }
+  get isValid(): boolean { return !this.cc.errorMessage; }
 }
