@@ -1,9 +1,8 @@
-<kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [sort]="filterer.sort" (sortChange)="sortChange($event)" class="custom-grid" [height]="300"
-    [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip" [filterable]="areFiltersVisible"
-    [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)" 
-    (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" 
-    [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }" [resizable]="true" [selectedKeys]="state.selectionKeys" 
-    [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
+<kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [class.editable]="editable" [sort]="filterer.sort" (sortChange)="sortChange($event)"
+    class="custom-grid" [height]="300" [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip"
+    [filterable]="areFiltersVisible" [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)"
+    (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
+    [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
     <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
         field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="200">
         <ng-template kendoGridCellTemplate let-dataItem>
@@ -11,7 +10,7 @@
                 <div [ngSwitch]="col.type">
                     <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
                     <div *ngSwitchDefault class="hotLinkGridCell" style="display: flex">
-                        <button kendoButton class="cell-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
+                        <button *ngIf="editable" kendoButton class="cell-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
                             <tb-icon id="cell-icon" *ngIf="idx === 1" [iconType]="'M4'" [icon]="'tb-edit'" class="toolbar-icon"></tb-icon>
                         </button>
                         <div style="flex: 1">{{dataItem[col.id] | tbEnums: col.type | async}}</div>
@@ -26,7 +25,7 @@
         <div class="pager-number">{{currentPage}}</div>
         <kendo-pager-next-buttons></kendo-pager-next-buttons>
         <div class="pager-buttons">
-            <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
+            <button *ngIf="canAutoFit" kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
                 <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button toggle-button" (click)="areFiltersVisible = !areFiltersVisible" [title]="areFiltersVisibleText">

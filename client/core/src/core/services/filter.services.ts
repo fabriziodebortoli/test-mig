@@ -58,12 +58,10 @@ export class FilterService implements OnDestroy {
     }
 
     public get filterChanged$(): Observable<CompositeFilter> {
-        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configured. Must call start(...).'); }
         return this.filterTyping$.filter(x => !x.isFirst).map(x => x.value);
     }
 
     public get filterChanging$(): Observable<void> {
-        if (!this.filterSubject$) { Observable.throw('Filter Service not correctly configured. Must call start(...).'); }
         return this.filterTyping$.filter(x => x.isFirst);
     }
 
@@ -77,8 +75,7 @@ export class FilterService implements OnDestroy {
     }
 
     private reset() {
-        if (this.filterSubject$)
-            this.filterSubject$.complete();
+        this.filterSubject$.complete();
         this.filterSubject$ = new BehaviorSubject<CompositeFilter>({});
         this.debounceTime = 200;
         this._debounced = true;
@@ -94,7 +91,7 @@ export class FilterService implements OnDestroy {
     constructor(private ngZone: NgZone) { }
 
     ngOnDestroy() {
-        if (this.filterSubject$) { this.reset(); }
+        this.reset();
     }
 
     public sortChanged$: Observable<SortDescriptor[]> = new BehaviorSubject<SortDescriptor[]>([]);

@@ -19,7 +19,8 @@
             </button>
         </div>
     </div>
-    <tb-custom-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)">
+    <tb-custom-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
+        [editable]="true" [selectionColumnId]="'TBGuid'" [canAutoFit]="true">
         <ng-template #customGridButtonsTemplate>
             <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
                 <tb-icon [iconType]="'M4'" [icon]="pinnedIcon"></tb-icon>

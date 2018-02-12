@@ -39,10 +39,11 @@ export class State {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomGridComponent extends ControlComponent implements OnInit, OnDestroy {
-    @Input() data;
     @Input() maxColumns = 10;
     @Input() pageSize = 10;
-    @Input() selectionColumnId = 'TBGuid';
+    @Input() editable = false;
+    @Input() canAutoFit = false;
+    @Input() selectionColumnId;
     @Input() state: State;
     @Output() selectedKeysChange = new EventEmitter<any>();
     @Output() selectAndEdit = new EventEmitter<any>();
@@ -68,7 +69,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
         this.setSelectableSettings();
         this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
         this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
-        this.paginator.waiting$.subscribe(b => 
+        this.paginator.waiting$.subscribe(b =>
             setTimeout(() => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default), 0));
         super.ngOnInit();
     }
@@ -90,12 +91,12 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = _.cloneDeep(value);
         this.filterer.filter = _.cloneDeep(value);
-        this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - 1;
+        this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - this.selectionColumnId ? 1 : 0;
         this.filterer.onFilterChanged(value);
     }
 
     private get filter(): CompositeFilterDescriptor {
-      return this._filter;
+        return this._filter;
     }
 
     filterChange(filter: CompositeFilterDescriptor): void {
