@@ -4,6 +4,7 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
+import { State } from './../../components/radar/custom-grid.component';
 import { HttpService } from './../../../core/services/http.service';
 import { OnDestroy, OnInit, Component, Input, HostListener, ElementRef, ViewContainerRef,
   ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation, ViewChild } from '@angular/core';
@@ -19,6 +20,11 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
 
+export class HotLinkState extends State {
+  readonly selectionColumn: string;
+  readonly selectionTypes: any[];
+  readonly selectionType: string = 'code';
+ }
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
 declare var document:any;
 
@@ -53,11 +59,15 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
   }
 
-  private gridView$ = new BehaviorSubject<{key?:string, data: any[], total: number, columns: any[] }>
-  ({data: [], total: 0, columns: [] });
-  public columns: any[];
-  public selectionTypes: any[] = [];
-  public selectionType = 'code';
+  private _state = new HotLinkState();
+  private state$ = new BehaviorSubject(this._state);
+  set state(state: HotLinkState) {
+    this._state = state;
+    this.state$.next(state);
+  }
+  get state(): HotLinkState {
+    return this._state;
+  }
 
   private info = false;
   private type: 'numeric' | 'input' = 'numeric';
@@ -75,8 +85,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private set filter(value: CompositeFilterDescriptor) {
     this._filter = _.cloneDeep(value);
     this.filterer.filter = _.cloneDeep(value);
-    if(this.columns)
-      this.changedFilterIndex = this.columns.findIndex(c => c.id === this.filterer.changedField);
+    if(this.state.columns)
+      this.changedFilterIndex = this.state.columns.findIndex(c => c.id === this.filterer.changedField);
     this.filterer.onFilterChanged(value);
   }
 
@@ -94,8 +104,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     return !this.model.enabled;
   }
 
-  selectionColumn = '';
-
   _defaultGridStyle = {'cursor': 'pointer'};
   _filterTypingGridStyle = {'color': 'darkgrey'}
   _gridStyle$ = new BehaviorSubject<any>(this._defaultGridStyle);
@@ -111,8 +119,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   currentHotLinkNamespace: string;
   private isTablePopupVisible = false;
   private isOptionsPopupVisible = false;
-
-  private loading = false;
 
   constructor(public httpService: HttpService,
     private documentService: DocumentService,
@@ -188,12 +194,16 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
  
   @HostListener('document:click', ['$event'])
   public documentClick(event: any): void {
-    if (this.isTablePopupVisible && !this.tablePopupRef.popupElement.contains(event.toElement)) {
-      this.closeTable();
-    }
-    if (this.isOptionsPopupVisible && !this.optionsPopupRef.popupElement.contains(event.toElement)) {
-      this.closeOptions();
-    }  
+    if (!this.isTablePopupVisible && !this.isOptionsPopupVisible) return;
+    let currentElem = event.toElement;
+    do {
+      if((this.tablePopupRef && this.tablePopupRef.popupElement.contains(currentElem))
+         || (this.optionsPopupRef &&this.optionsPopupRef.popupElement.contains(currentElem))) 
+         return;
+      currentElem = currentElem.parentNode;
+    } while (currentElem);
+    this.closeOptions();
+    this.closeTable();
   }
 
   getPopupAlign(anchor: any): Align {
@@ -277,18 +287,13 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
-        this.loading = true;
-        return this.httpService.getHotlinkData(ns, this.selectionType,  p);
+        return this.httpService.getHotlinkData(ns, this.state.selectionType,  p);
       },
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
     this.paginator.clientData.subscribe((d) => {
-        this.selectionColumn = d.key
-        if (d.columns) {
-          this.columns = d.columns;
-        }
-        this.loading = false;
-        this.gridView$.next({key: d.key, data: d.rows, total: d.total, columns: d.columns });
+        this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };
+        
         setTimeout(() => {
           if (this.tablePopupRef) {
             this.tablePopupRef.popupElement
@@ -323,7 +328,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   public onComboFilterChange(filter: string): void {
     if (this.dropDownOpened) {
       if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
-      else this.filter = {logic: 'and', filters: [{field: this.selectionColumn, operator: 'contains', value: filter}]};
+      else this.filter = {logic: 'and', filters: [{field: this.state.selectionColumn, operator: 'contains', value: filter}]};
     } 
   }
 
@@ -349,7 +354,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private loadTable() { this.start(); }
 
   selectionTypeChanged(type: string) {
-    this.selectionType = type;
+    this.state = {...this.state, selectionType: type };
     this.closeOptions();
   }
 
@@ -363,8 +368,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   selectionChanged(value: any) {
     let idx = this.paginator.getClientPageIndex(value.index);
-    let k = this.gridView$.value.data.slice(idx, idx + 1);
-    this.value = k[0][this.selectionColumn];
+    let k = this.state.gridData.data.slice(idx, idx + 1);
+    this.value = k[0][this.state.selectionColumn];
     if (this.modelComponent && this.modelComponent.model) {
       this.modelComponent.model.value = this.value;
     }
@@ -379,10 +384,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     setTimeout(() => this.eventDataService.change.emit(this.modelComponent.cmpId));
   }
 
-  private loadOptions() {
+  private async loadOptions() {
     let ns = this.currentHotLinkNamespace;
     if (!ns) ns = this.hotLinkInfo.namespace;
-    this.httpService.getHotlinkSelectionTypes(ns).toPromise().then(json => this.selectionTypes = json.selections);
+    let json = await this.httpService.getHotlinkSelectionTypes(ns).toPromise();
+    this.state = {...this.state, selectionTypes: json.selections };
   }
 
   private _tbInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
@@ -445,7 +451,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     .subscribe(e => this.closePopups());
 
     if(this.isAttachedToAComboBox) 
-      this.selectionType = 'combo';
+      this.state = {...this.state, selectionType: 'combo'};
   }
 
   ngOnDestroy() {

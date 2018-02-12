@@ -46,6 +46,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     @Input() state: State;
     @Output() selectedKeysChange = new EventEmitter<any>();
     @Output() selectAndEdit = new EventEmitter<any>();
+    @Output() selectionChange = new EventEmitter<any>();
 
     @ContentChild('customGridButtonsTemplate', { read: TemplateRef }) customGridButtonsTemplate;
     @ViewChild('grid') grid: GridComponent;

@@ -209,14 +209,6 @@ export class PaginatorService implements OnDestroy {
                 intialServerParams?: ServerNeededParams) {
         this.isCorrectlyConfigured = f && (displayedClientPages >= 1) && (rowsPerPage > 0);
         if (!this.isCorrectlyConfigured) { return; }
-        this._clientData.complete();
-        this._clientData = new BehaviorSubject(this.defaultClientData);
-        (this.waiting$ as Subject<boolean>).complete();
-        this.waiting$ = new BehaviorSubject(false).distinctUntilChanged();
-        this._serverData$.complete();
-        this._serverData$ = new Subject<any>();
-        this.configurationChanged.complete();
-        this.configurationChanged = new BehaviorSubject(false);
         this.queryTrigger$ = queryTrigger$;
         this.displayedClientPages = displayedClientPages;
         this.clientPage = rowsPerPage;
@@ -236,11 +228,14 @@ export class PaginatorService implements OnDestroy {
 
     public stop() {
         this.reset();
-        if (this.configurationChanged) { this.configurationChanged.complete(); }
-        if (this._clientData) { this._clientData.complete(); }
-        if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }
-        this._serverData$.complete();
+        this._clientData.complete();
+        this._clientData = new BehaviorSubject(this.defaultClientData);
         (this.waiting$ as Subject<boolean>).complete();
+        this.waiting$ = new BehaviorSubject(false).distinctUntilChanged();
+        this.configurationChanged.complete();
+        this.configurationChanged = new BehaviorSubject(false);
+        if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }
+        
     }
 
     public getClientPageIndex(index: number): number {

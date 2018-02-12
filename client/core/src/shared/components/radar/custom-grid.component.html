@@ -1,8 +1,9 @@
 <kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [sort]="filterer.sort" (sortChange)="sortChange($event)" class="custom-grid" [height]="300"
     [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip" [filterable]="areFiltersVisible"
-    [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)" [ngStyle]="gridStyle$ | async"
-    (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
-    [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
+    [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)" 
+    (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" 
+    [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }" [resizable]="true" [selectedKeys]="state.selectionKeys" 
+    [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings">
     <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
         field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="200">
         <ng-template kendoGridCellTemplate let-dataItem>

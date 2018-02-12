@@ -27,7 +27,7 @@ export class FilterService implements OnDestroy {
     public filtersContainerRef: ElementRef;
     public lastChangedFilterIdx: number = 0;
     private _debounced = true;
-    private filterSubject$: BehaviorSubject<CompositeFilter>;
+    private filterSubject$ = new BehaviorSubject<CompositeFilter>({});
     private _filter: CompositeFilter;
     private _previousFilter: CompositeFilter;
     private _changedField: string | Function = '';
@@ -69,7 +69,6 @@ export class FilterService implements OnDestroy {
 
     public start(debounceTime: number, filterContainer?: ElementRef) {
         if (debounceTime >= this.debounceTime) { this.debounceTime = debounceTime; }
-        this.filterSubject$ = new BehaviorSubject<CompositeFilter>({});
         this.filtersContainerRef = filterContainer;
     }
 
@@ -80,7 +79,7 @@ export class FilterService implements OnDestroy {
     private reset() {
         if (this.filterSubject$)
             this.filterSubject$.complete();
-        this.filterSubject$ = null;
+        this.filterSubject$ = new BehaviorSubject<CompositeFilter>({});
         this.debounceTime = 200;
         this._debounced = true;
         this._filter = null;

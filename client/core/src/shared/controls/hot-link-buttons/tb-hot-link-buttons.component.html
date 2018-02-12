@@ -14,7 +14,8 @@
     </div>
 </ng-template>
 <ng-template #tableTemplate>
-    <kendo-grid class="gridBody"
+    <tb-custom-grid [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-custom-grid>
+    <!-- <kendo-grid class="gridBody"
         [height]="300"
         [data]="gridView$ | async"
         [pageSize]="pageSize"
@@ -41,20 +42,20 @@
             <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
         </ng-template>
         </kendo-grid-column>
-    </kendo-grid>
+    </kendo-grid> -->
 </ng-template>
 <div *ngIf="!isAttachedToAComboBox" class="hotlinkButtonsContainer" #hotLinkButtons>
     <button #anchorOptions kendoButton (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async)?.enabled"></button>
     <button #anchorTable kendoButton (click)="toggleTable(anchorTable, tableTemplate)" [icon]="'search'" [disabled]="!(slice$ | async)?.enabled"></button>
 </div>
 <div *ngIf="isAttachedToAComboBox" class="hotlinkDropDownContainer" #hotLinkDropDown>
-    <kendo-combobox [data]="gridView$ | async | asDropDownData"
+    <kendo-combobox [data]="state$ | async | asDropDownData"
                     [allowCustom]="true"
                     [popupSettings]="{ width: 'auto' }"
                     [value]="slice$ | async | asDropDownValue"
                     [textField]="'id'"
                     [valueField]="'id'"
-                    [loading]="loading"
+                    [loading]="paginator.waiting$ | async"
                     (open)="openDropDown()"
                     (close)="closeDropDown()"
                     [style.width.px]="width"
