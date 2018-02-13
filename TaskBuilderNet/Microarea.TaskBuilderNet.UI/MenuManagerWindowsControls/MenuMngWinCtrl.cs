@@ -1247,31 +1247,31 @@ namespace Microarea.TaskBuilderNet.UI.MenuManagerWindowsControls
 			
 			CommandsTreeView.Nodes.Clear();
 
-			if (currSelectedMenuTreeNode != null && currSelectedMenuTreeNode.Node != null)
-			{
-				MenuXmlNode menuNode = currSelectedMenuTreeNode.Node;
-				ArrayList commandItems = menuNode.CommandItems;
+            if (currSelectedMenuTreeNode != null && currSelectedMenuTreeNode.Node != null)
+            {
+                MenuXmlNode menuNode = currSelectedMenuTreeNode.Node;
+                ArrayList commandItems = menuNode.CommandItems;
 
-				if (commandItems != null && commandItems.Count > 0)
-				{
-					foreach ( MenuXmlNode cmdNode  in commandItems)
-					{
+                if (commandItems != null && commandItems.Count > 0)
+                {
+                    foreach (MenuXmlNode cmdNode in commandItems)
+                    {
                         if (cmdNode.ItemObject.Contains(NameSolverStrings.EasyStudio) && cmdNode.Type.IsRunDocument)
-                            cmdNode.Type =  new Microarea.TaskBuilderNet.Core.MenuManagerLoader.MenuXmlNode.MenuXmlNodeType("Function");
-						
+                            cmdNode.Type = new Microarea.TaskBuilderNet.Core.MenuManagerLoader.MenuXmlNode.MenuXmlNodeType("Function");
+
                         MenuTreeNode commandTreeNode = new MenuTreeNode(cmdNode);
 
                         CommandsTreeView.Nodes.Add(commandTreeNode);
-						
-						// Devo aggiungere i figli solo DOPO aver aggiunto il nodo
-						// all'albero, altrimenti i figli non saprebbero dal loro
-						// padre qual'è il control di appartenenza, cioè la loro 
-						// proprietà TreeView risulterebbe nulla
-						RecursiveFillCommandTreeNode(commandTreeNode);
-					}
-				}
-			}
-			CommandsTreeView.ResumeLayout();	
+
+                        // Devo aggiungere i figli solo DOPO aver aggiunto il nodo
+                        // all'albero, altrimenti i figli non saprebbero dal loro
+                        // padre qual'è il control di appartenenza, cioè la loro 
+                        // proprietà TreeView risulterebbe nulla
+                        RecursiveFillCommandTreeNode(commandTreeNode);
+                    }
+                }
+            }
+            CommandsTreeView.ResumeLayout();	
 			CommandsTreeView.EndUpdate();
 			
 			if (CommandsTreeViewFilled != null)

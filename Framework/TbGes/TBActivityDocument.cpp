@@ -414,6 +414,7 @@ void CTBActivityDocument::SetPanelEnabled(CTilePanel* pPanel, BOOL bSet)
 
 	if (bSet)
 		DispatchDisableControlsForBatch();
+
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -540,7 +541,7 @@ void CTBActivityDocument::OnUpdateLoadDataStart(CCmdUI* pCmdUI)
 //----------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::DoUpdateLoadDataStart()
 {
-	// Se si è in editazione parameteri dello scheduler il bottone estrai è disattivo
+	// Se si ï¿½ in editazione parameteri dello scheduler il bottone estrai ï¿½ disattivo
 	if (IsEditingParamsFromExternalController())
 		return FALSE;		
 	
@@ -553,7 +554,7 @@ BOOL CTBActivityDocument::DoUpdateLoadDataStart()
 //---------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnLoadDataStart()
 {
-	// Se si è in editazione parameteri dello scheduler il bottone estrai è disattivo
+	// Se si ï¿½ in editazione parameteri dello scheduler il bottone estrai ï¿½ disattivo
 	if (IsEditingParamsFromExternalController())
 		return;
 
