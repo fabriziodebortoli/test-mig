@@ -174,8 +174,9 @@ namespace Microarea.Common.NameSolver
             fileSystemManager.FileSystemDriver = new FileSystemDriver(); // lui c e sempre
             FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
             managerInfo.LoadFile();
-            DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
-            fileSystemManager.AlternativeDriver = dataBaseDriver;
+            //Lara
+            //DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
+            //fileSystemManager.AlternativeDriver = dataBaseDriver;
 
             return true;
         }
@@ -2034,6 +2035,12 @@ namespace Microarea.Common.NameSolver
         {
             return string.Format(@"\\{0}\{1}_{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
         }
+        //---------------------------------------------------------------------
+        public string CalculateLocalStandardPath()
+        {
+            return string.Format(@"\\{0}\{1}\{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
+        }
+
         //---------------------------------------------------------------------
         public string CalculateRemoteCustomPath()
         {

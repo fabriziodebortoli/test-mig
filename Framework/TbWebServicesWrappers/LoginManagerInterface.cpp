@@ -1237,7 +1237,7 @@ void CLoginManagerInterface::FillSystemDBConnectionString()
 	if (pStr && !pStr->IsEmpty())
 	{
 		SetAdminAuthenticationToken(*pStr);
-		m_strSysDbConnectionString = _T("Provider=SQLOLEDB; ") + *pStr;
+		m_strSysDbConnectionString = *pStr;
 	}
 }
 

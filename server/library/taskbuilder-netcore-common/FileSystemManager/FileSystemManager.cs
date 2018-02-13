@@ -414,7 +414,7 @@ namespace Microarea.Common.FileSystemManager
             return bOk;
         }
 
-        //TODO LARA
+
         //-----------------------------------------------------------------------------
         public List<TBDirectoryInfo> GetSubFolders(string sPathName)
         {
@@ -445,7 +445,7 @@ namespace Microarea.Common.FileSystemManager
             if (IsManagedByAlternativeDriver(sPathName))
                 result =GetAlternativeDriver().GetPathContent(sPathName, bFolders, out pSubFolders, bFiles, strFileExt, out pFiles);
             else
-                result = GetAlternativeDriver().GetPathContent(sPathName, bFolders, out pSubFolders, bFiles, strFileExt, out pFiles);
+                result = GetFileSystemDriver().GetPathContent(sPathName, bFolders, out pSubFolders, bFiles, strFileExt, out pFiles);
 
             return result;
 
@@ -496,11 +496,7 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public bool IsManagedByAlternativeDriver(string sName)
         {
-            // no lock is required as it checks object and conditions that are defined 
-            // in InitInstance and never changed
-            //TODO LARA PARAMENTO DI C... X Merge se no nn funziona sia mai detto
-            return false;
-            //return IsAlternativeDriverEnabled() && alternativeDriver.IsAManagedObject(sName);
+            return IsAlternativeDriverEnabled() && alternativeDriver.IsAManagedObject(sName);
         }
 
 

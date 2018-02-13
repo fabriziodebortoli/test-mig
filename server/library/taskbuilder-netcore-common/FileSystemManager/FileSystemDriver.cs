@@ -50,7 +50,12 @@ namespace Microarea.Common.FileSystemManager
         {
             try
             {
-                dom.Save(File.OpenWrite(sFileName));
+                using (FileStream fileStrean = File.Create(sFileName))
+                {
+                    fileStrean.Write(Encoding.ASCII.GetBytes(dom.InnerXml), 0, Encoding.ASCII.GetByteCount(dom.InnerXml));
+                    fileStrean.Flush();
+                    fileStrean.Dispose();
+                }
                 return true;
             }
             catch (Exception)
@@ -448,10 +453,17 @@ namespace Microarea.Common.FileSystemManager
             DirectoryInfo dir = new DirectoryInfo(sPathName);
 
             if (bFolders)
-                elements.AddRange(dir.GetDirectories(sPathName, SearchOption.AllDirectories));
-
+            {
+                foreach (string path in Directory.GetDirectories(sPathName))
+                    dirs.Add(new TBDirectoryInfo(path, null));
+            }
+               
             if (bFiles)
-                dirs.AddRange(dir.GetFiles(sFileExt));
+            {
+                foreach (FileInfo file in dir.GetFiles(sFileExt))
+                    elements.Add(new TBFile(file.FullName, null));
+            }
+
 
             return true;
         }
