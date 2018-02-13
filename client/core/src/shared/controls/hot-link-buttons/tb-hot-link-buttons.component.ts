@@ -6,12 +6,12 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { State } from './../../components/radar/custom-grid.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, Component, Input, HostListener, ElementRef, ViewContainerRef,
-  ChangeDetectionStrategy, ChangeDetectorRef, NgZone, ViewEncapsulation, ViewChild } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent,  } from '@progress/kendo-angular-grid';
-import { filterBy, FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
-import { PopupService, PopupSettings, PopupRef, Align } from '@progress/kendo-angular-popup';
+import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { PopupHelper } from './popup';
+import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
@@ -32,12 +32,9 @@ declare var document:any;
   selector: 'tb-hotlink-buttons',
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
-  providers: [PaginatorService, FilterService, HyperLinkService],
-  changeDetection: ChangeDetectionStrategy.Default
+  providers: [PaginatorService, FilterService, HyperLinkService]
 })
 export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit {
-
-  @ViewChild('anchorTable') anchorTable: ElementRef;
 
   private _modelComponent: HlComponent
   @Input() public get modelComponent(): HlComponent {
@@ -85,8 +82,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private set filter(value: CompositeFilterDescriptor) {
     this._filter = _.cloneDeep(value);
     this.filterer.filter = _.cloneDeep(value);
-    if(this.state.columns)
-      this.changedFilterIndex = this.state.columns.findIndex(c => c.id === this.filterer.changedField);
     this.filterer.onFilterChanged(value);
   }
 
@@ -104,16 +99,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     return !this.model.enabled;
   }
 
-  _defaultGridStyle = {'cursor': 'pointer'};
-  _filterTypingGridStyle = {'color': 'darkgrey'}
-  _gridStyle$ = new BehaviorSubject<any>(this._defaultGridStyle);
-  get gridStyle$(): Observable<any> { return this._gridStyle$.asObservable(); }
-
-  private changedFilterIndex = 0;
-
   private optionsPopupRef: PopupRef;
   optionsSub: Subscription;
-
   private tablePopupRef: PopupRef;
   tableSub: Subscription;
   currentHotLinkNamespace: string;
@@ -129,8 +116,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     private paginator: PaginatorService,
     private filterer: FilterService,
     private hyperLinkService: HyperLinkService,
-    private ngZone: NgZone,
-    private elRef: ElementRef,
     private optionsPopupService: PopupService,
     private tablePopupService: PopupService,
     private vcr: ViewContainerRef
@@ -147,8 +132,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if(!this.tableSub)
       this.tableSub = this.showTable$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
       if(hasToOpen){
-        let popupA = this.getPopupAlign(anchor);
-        let anchorA = this.getAnchorAlign(anchor);
+        let popupA = PopupHelper.getPopupAlign(anchor);
+        let anchorA = PopupHelper.getAnchorAlign(anchor);
         this.tablePopupRef = this.tablePopupService.open({anchor: anchor, content: template, popupAlign: popupA, anchorAlign: anchorA });
         this.tablePopupRef.popupOpen.asObservable()
           .do(_ => this.isTablePopupVisible = true)
@@ -192,50 +177,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
   }
 
-  getPopupAlign(anchor: any): Align {
-    let Horizontal = 'left';
-    let Vertical = 'top';
-
-    let height = window.innerHeight;
-    let bottomPoint = anchor.offsetTop + anchor.offsetHeight;
-    if (height - bottomPoint <= 300) {
-      Vertical = 'bottom';
-    }
-
-    let width = window.innerWidth;
-    let rightPoint = anchor.offsetLeft + anchor.offsetWidth;
-    if (rightPoint > (width *0.45)) {
-      Horizontal = 'right';
-    }
-    return {
-      horizontal: Horizontal,
-      vertical: Vertical
-    } as Align;
-
-  }
-
-  getAnchorAlign(anchor: any): Align {
-    let Horizontal = 'left';
-    let Vertical = 'bottom';
-
-    let height = window.innerHeight;
-    let bottomPoint = anchor.offsetTop + anchor.offsetHeight;
-    if (height - bottomPoint <= 300) {
-      Vertical = 'top';
-    }
-
-    let width = window.innerWidth;
-    let rightPoint = anchor.offsetLeft + anchor.offsetWidth;
-    if (rightPoint > (width *0.45)) {
-      Horizontal = 'right';
-    }
-
-    return {
-      horizontal: Horizontal,
-      vertical: Vertical
-    } as Align;
-  }
-
   private dropDownOpened = false;
   openDropDown() {
     this.start();
@@ -257,7 +198,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.defaultPageCounter = 0;
     this.filterer.start(200);
     this.paginator.start(1, this.pageSize,
-      combineFiltersMap(this.slice$.do(x => console.log('SLICE CHANGED')), this.filterer.filterChanged$.filter(x => x.logic !== undefined).do(x => console.log('FILTER CHANGED')), (l, r) => ({ model: l, customFilters: r})),
+      combineFiltersMap(this.slice$, this.filterer.filterChanged$.filter(x => x.logic !== undefined), (l, r) => ({ model: l, customFilters: r})),
       (pageNumber, serverPageSize, otherParams) => {
         let ns = this.hotLinkInfo.namespace;
         if (!ns && otherParams.model.selector && otherParams.model.selector !== '') { 
@@ -278,28 +219,16 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
     this.paginator.clientData.subscribe((d) => {
-        this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };
-        
-        setTimeout(() => {
-          if (this.tablePopupRef) {
-            this.tablePopupRef.popupElement
-            let filters = this.tablePopupRef.popupElement.querySelectorAll('[kendofilterinput]');
-            if (filters && filters[this.changedFilterIndex]) {
-              (filters[this.changedFilterIndex] as HTMLElement).focus();
-            }
-          }
-        }, 100);
+        this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };        
     });
 
     this.filterer.filterChanged$.filter(x => (this.isAttachedToAComboBox && x.logic !== undefined) || !this.isAttachedToAComboBox)
       .subscribe(x => { 
-      this._gridStyle$.next(this._defaultGridStyle);
       if (this.isAttachedToAComboBox && this.modelComponent && this.modelComponent.model) {
           this.modelComponent.model.value = _.get(x, 'filters[0].value');
           this.emitModelChange();
       }
     });
-    this.filterer.filterChanging$.subscribe(x => this._gridStyle$.next(this._filterTypingGridStyle));
   }
 
   private stop() {
@@ -416,7 +345,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
             this.textBoxInfo.element.style.pointerEvents = 'all';
             this.textBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
               .filter(e => this.textBoxInfo &&  (e as any) && (e as any).target === this.textBoxInfo.element)
-              .subscribe(e => this.hyperLinkService.goTo({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
+              .subscribe(e => this.hyperLinkService.follow({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
           } else {
             this.textBoxInfo.element.style.textDecoration = this.textBoxInfo.initInfo.textDecoration;
             this.textBoxInfo.element.style.color = this.textBoxInfo.initInfo.color;

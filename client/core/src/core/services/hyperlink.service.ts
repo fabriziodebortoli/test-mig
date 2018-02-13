@@ -11,7 +11,7 @@ export class HyperLinkService {
 
     }
 
-    public async goTo(p: HyperLinkInfo): Promise<void> {
+    public async follow(p: HyperLinkInfo): Promise<void> {
         await this.wsService.openHyperLink(p.ns, p.cmpId);
     }
 }

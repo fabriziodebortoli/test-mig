@@ -1,20 +1,3 @@
-.tableHeader {
-    background-color: #666;
-    color: #fff;
-    text-align: center;
-}
-
-.gridBody {
-    background: whitesmoke;
-    font-size: small;
-    border: 1px solid rgba(0, 0, 0, .05);
-    width: 700px;
-}
-
-.hotLinkGridCell {
-    text-align: center;
-}
-
 .searchOptions {
     padding: 1px 3px;
 }
@@ -73,14 +56,6 @@
 ::ng-deep .k-animation-container-shown,
 .k-animation-container>.k-popup {
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-}
-
-::ng-deep a.k-link.k-pager-nav.k-pager-last {
-    display: none;
-}
-
-::ng-deep .k-filtercell {
-    padding: 5px 5px;
 }
 
 ::ng-deep .dropDownNoData.k-loading-image::after {

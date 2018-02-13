@@ -15,34 +15,6 @@
 </ng-template>
 <ng-template #tableTemplate>
     <tb-custom-grid [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-custom-grid>
-    <!-- <kendo-grid class="gridBody"
-        [height]="300"
-        [data]="gridView$ | async"
-        [pageSize]="pageSize"
-        [selectable]="true"
-        [skip]="paginator.skip"
-        [filterable]="true"
-        [filter]="filter"
-        (filterChange)="onFilterChange($event)" 
-        (pageChange)="pageChange($event)" 
-        (selectionChange)="selectionChanged($event)" 
-        [pageable]="{
-            buttonCount: 0,
-            info: false,
-            pageSizes: pageSizes,
-            previousNext: previousNext
-        }" 
-        [ngStyle]="gridStyle$ | async">
-        <kendo-grid-column 
-                        *ngFor="let col of columns" field="{{col.id}}" title="{{col.id | uppercase}}" 
-                        [width]="202"
-                        id="{{cmpId + col.id}}"
-                        [headerClass]="{'tableHeader':true}">
-        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
-            <div class="hotLinkGridCell"> {{dataItem[col.id] | tbEnums: col.type | async}} </div>
-        </ng-template>
-        </kendo-grid-column>
-    </kendo-grid> -->
 </ng-template>
 <div *ngIf="!isAttachedToAComboBox" class="hotlinkButtonsContainer" #hotLinkButtons>
     <button #anchorOptions kendoButton (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async)?.enabled"></button>
