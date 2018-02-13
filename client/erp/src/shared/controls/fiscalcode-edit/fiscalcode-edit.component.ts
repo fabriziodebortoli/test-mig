@@ -54,7 +54,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
     if (changes.slice && changes.slice.isoCode) {
       this.isoCode = changes.slice.isoCode.value;
     }
-    this.isFiscalCodeValid(this.changeModelValue.value);
+    this.isFiscalCodeValid(this.model.value);
   }
 
   onFormModeChanged(formMode: FormMode) {
@@ -91,7 +91,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   changeModelValue(value) {
     this.model.value = value;
-    this.isFiscalCodeValid(this.changeModelValue.value);
+    this.isFiscalCodeValid(this.model.value);
   }
 
   async checkIT() {
