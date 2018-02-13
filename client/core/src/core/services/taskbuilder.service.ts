@@ -78,7 +78,9 @@ export class TaskBuilderService {
         }));
 
     }
-
+    public isConnected(): boolean {
+        return this._connectionStatus == ConnectionStatus.Connected;
+    }
     setConnectionStatus(status: ConnectionStatus) {
         this._connectionStatus = status;
         this.connectionStatus.emit(status);

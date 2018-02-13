@@ -11,6 +11,7 @@ import { InfoService } from './info.service';
 import { UtilsService } from './utils.service';
 import { Logger } from './logger.service';
 import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
+import { TaskBuilderService } from './../../core/services/taskbuilder.service';
 
 @Injectable()
 export class HttpService {
@@ -19,7 +20,8 @@ export class HttpService {
         public http: Http,
         public utils: UtilsService,
         public logger: Logger,
-        public infoService: InfoService) {
+        public infoService: InfoService,
+        public taskBuilderService: TaskBuilderService) {
     }
 
     createOperationResult(res: Response): OperationResult {
@@ -109,10 +111,17 @@ export class HttpService {
     }
 
     canLogoff(params: { authtoken: string }): Observable<OperationResult> {
-        return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
-            .map((res: Response) => {
-                return this.createOperationResult(res);
+        if (this.taskBuilderService.isConnected()) {
+            return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
+                .map((res: Response) => {
+                    return this.createOperationResult(res);
+                });
+        } else {
+            return Observable.create(observer => { 
+                observer.next(new OperationResult(true, []);
+                observer.complete();
             });
+        }
     }
 
     initTBLogin(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
@@ -282,7 +291,7 @@ export class HttpService {
                 return res.json();
             });
     }
-    
+
     changeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
