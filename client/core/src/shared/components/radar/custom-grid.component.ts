@@ -39,7 +39,6 @@ export class State {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomGridComponent extends ControlComponent implements OnInit, OnDestroy {
-    @Input() maxColumns = 10;
     @Input() pageSize = 10;
     @Input() editable = false;
     @Input() canAutoFit = false;

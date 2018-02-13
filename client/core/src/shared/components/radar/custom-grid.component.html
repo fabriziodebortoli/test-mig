@@ -10,7 +10,7 @@
                 <div [ngSwitch]="col.type">
                     <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
                     <div *ngSwitchDefault class="hotLinkGridCell" style="display: flex">
-                        <button *ngIf="editable" kendoButton class="cell-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
+                        <button *ngIf="idx === 1 && editable" kendoButton class="cell-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
                             <tb-icon id="cell-icon" *ngIf="idx === 1" [iconType]="'M4'" [icon]="'tb-edit'" class="toolbar-icon"></tb-icon>
                         </button>
                         <div style="flex: 1">{{dataItem[col.id] | tbEnums: col.type | async}}</div>
