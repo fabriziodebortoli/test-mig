@@ -771,6 +771,13 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 		}
 	}
 	m_JsonData.Clear();
+
+	for (int i = 0; i < this->GetMaster()->GetDBTSlaves()->GetSize(); i++)
+	{
+		DBTSlaveBuffered* pBuffered = dynamic_cast<DBTSlaveBuffered*>(this->GetMaster()->GetDBTSlaves()->GetAt(i));
+		if (pBuffered)
+			pBuffered->ResetJsonData();
+	}
 }
 //-----------------------------------------------------------------------------	
 void CAbstractFormDoc::AttachXMLExpCriteria(CXMLBaseAppCriteria* pBaseExportCriteria)

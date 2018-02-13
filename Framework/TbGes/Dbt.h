@@ -636,6 +636,7 @@ class TB_EXPORT DBTSlaveBuffered : public DBTSlave, public IDataProvider
 	enum CompareStatus { NEW_ROW, MODIFIED, EQUAL };
 
 private:
+	CJsonWrapper		m_JsonData;//per i delta dei dati json
 	DATAOBJ_ROW_FUNC	m_pFnDuplicateKey;
 	CBodyEditPointers	m_arBodyPtr;
 	TArray<HKLDescriptionInfo>m_arHKLDescriptionInfos; //array degli hotlink a cui sono associati campi di decodifica dinamici
@@ -748,6 +749,7 @@ public:
 	void	SuspendObservables();
 	void	ResumeObservables();
 
+	void	ResetJsonData();
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//deprecated method
 	GET_DBTSLAVE_DEPRECATED DBTSlave* GetCurrentDBTSlave();

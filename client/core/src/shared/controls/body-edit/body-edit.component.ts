@@ -20,7 +20,7 @@ import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selecti
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
-
+import { apply, diff } from 'json8-patch';
 import * as _ from 'lodash';
 
 
@@ -42,7 +42,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   currentRowIdx: number = -1;
   subscriptions = [];
-
+  lastTimeStamp: number;
   @ContentChildren(BodyEditColumnComponent) be_columns;
   @ViewChild(GridComponent) grid;
   subscription = [];
@@ -82,7 +82,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
       this.store.select(m => _.get(m, 'FormMode.value'))
         .subscribe(m => {
-          this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) &&  (this.model && this.model.enabled);
+          this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
           this.changeDetectorRef.markForCheck();
         });
     }
@@ -176,12 +176,41 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     let serverUtc = new Date(timeStamp).getTime();
 
-    if (!this.model.lastTimeStamp || this.model.lastTimeStamp <= serverUtc) {
-      this.model.lastTimeStamp = serverUtc;
+    if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
+      this.lastTimeStamp = serverUtc;
       let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+      console.log("chiedi i dati", this.bodyEditName, "this.lastTimeStamp", this.lastTimeStamp, "serverUtc", serverUtc);
       let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName).subscribe((res) => {
 
-        this.updateModel(res.dbt);
+        if (res.patch) {
+          const patched = apply({ [this.bodyEditName]: this.model }, res.patch);
+          //res.dbt = patched.doc;
+          res.data = patched.doc;
+        }
+        console.log("resdata", res.data, "bodyedit", this.bodyEditName);
+        if (res.data) {
+
+          let dbt = res.data[this.bodyEditName];
+          if (dbt) {
+            addModelBehaviour(dbt);
+
+            this.model.enabled = dbt.enabled;
+            this.model.rows = dbt.rows;
+            this.model.prototype = dbt.prototype;
+            this.lastTimeStamp = new Date().getTime();
+            this.changeDetectorRef.markForCheck();
+            this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+            console.log("oldmodel", this.eventData.oldModel);
+          }
+          else {
+            console.log("not a dbt", res.data)
+          }
+          //this.eventData.change.emit('');
+
+          //this.model = dbt;
+        }
+
+
         sub.unsubscribe();
       });
     }
@@ -189,14 +218,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   private updateModel(dbt: any) {
 
-    if (!dbt)
-      return;
-    addModelBehaviour(dbt);
-    this.model.enabled = dbt.enabled;
-    this.model.rows = dbt.rows;
-    this.model.prototype = dbt.prototype;
-    //this.currentRowIdx = dbt.currentRowIdx;
-    this.model.lastTimeStamp = new Date().getTime();
-    this.changeDetectorRef.markForCheck();
+    // if (!dbt)
+    //   return;
+    // addModelBehaviour(dbt);
+    // this.model.enabled = dbt.enabled;
+    // this.model.rows = dbt.rows;
+    // this.model.prototype = dbt.prototype;
+    // //this.currentRowIdx = dbt.currentRowIdx;
+    // this.model.lastTimeStamp = new Date().getTime();
+    // this.changeDetectorRef.markForCheck();
   }
 }

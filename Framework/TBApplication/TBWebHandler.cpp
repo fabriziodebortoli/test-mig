@@ -895,6 +895,7 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 
 		CJsonSerializer serializer;
 		buffered->GetJsonForSingleDBT(serializer, TRUE);
+
 		response.SetData(serializer.GetJson());
 		response.SetMimeType(L"application/json");
 	}
