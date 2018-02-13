@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, Con
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 
-import { TabberComponent } from './../../tabs/tabber/tabber.component';
 import { DockpaneComponent } from './../dockpane.component';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout

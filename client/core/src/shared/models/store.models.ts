@@ -50,6 +50,6 @@ export interface Selector<T, V> {
   * The created selector will change on nested properties change, regardless of the base selector properties
   * @param paths the paths (same syntax as lodash get)
   */
-  nest?<K>(...paths: string[]): Selector<T, K>;
+  nest?(...paths: string[]): Selector<any, any>;
   nest?(selectorMapOrPaths: SelectorMap | string, ...paths: string[]): Selector<any, any>;
 }

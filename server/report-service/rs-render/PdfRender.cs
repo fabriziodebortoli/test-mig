@@ -736,12 +736,6 @@ namespace Microarea.RSWeb.Render
             {
                 try
                 {
-                    //using (StreamReader sr = new StreamReader(filename, System.Text.Encoding.UTF8))
-                    //using (StreamReader sr = File.OpenText(filename))
-                    //{
-                    //    return sr.ReadToEnd();
-                    //}
-                    //TODO LARA
                     return PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(filename);
                 }
                 catch (IOException e)

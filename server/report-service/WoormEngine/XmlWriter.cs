@@ -187,17 +187,17 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 		}
 
-		//------------------------------------------------------------------------------
-		public void Close()
-		{
-			RemoveLastEmptyRow();
-			report.XmlResultReports.Add(XmlDocumentToString(output));
-			output = null;
-		}
+        //------------------------------------------------------------------------------
+        public void Close()
+        {
+            RemoveLastEmptyRow();
+            report.XmlResultReports.Add(output.InnerXml); // XmlDocumentToString(output)); lara
+            output = null;
+        }
 
-		// permette di aggiungere eventuali altre informazioni all' xml corrente
-		//------------------------------------------------------------------------------
-		override public void SavePage()
+        // permette di aggiungere eventuali altre informazioni all' xml corrente
+        //------------------------------------------------------------------------------
+        override public void SavePage()
 		{
 			if (output != null)
 			{
@@ -337,7 +337,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (warnings.Count > 0) helper.AddWarning(1, "Easylook", FormatMessage(warnings));
 
 				report.XmlResultReports.Clear();
-				report.XmlResultReports.Add(XmlDocumentToString(helper.Dom));
+                report.XmlResultReports.Add(helper.Dom.InnerXml);//Lara  XmlDocumentToString(helper.Dom));
 			}
 			catch (IOException)
 			{
@@ -369,7 +369,7 @@ namespace Microarea.RSWeb.WoormEngine
 			
 				// pulisco tutto perchè devo ritornare solo il dom dei parametri
 				report.XmlResultReports.Clear();
-				report.XmlResultReports.Add(XmlDocumentToString(dom));
+                report.XmlResultReports.Add(dom.InnerXml);// XmlDocumentToString(dom));
 			}
 			catch (IOException)
 			{

@@ -11,5 +11,7 @@ namespace Microarea.TbfWebGate.Application
         IEnumerable<string> GetAllDocuments();
         string GetComponent(CallerContext context);
         string GetDocument(CallerContext context);
+        string ExecuteActivity(CallerContext context);
+
     }
 }

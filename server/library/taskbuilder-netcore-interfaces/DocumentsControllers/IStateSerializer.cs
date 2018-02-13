@@ -9,6 +9,8 @@ namespace TaskBuilderNetCore.Documents.Controllers.Interfaces
         void Add(IDocument document);
         void Remove(IDocument document);
 
+        string GetJson(IComponent component);
+        void LoadJson(IComponent component, string json);
         void LoadState(IComponent component);
         Task<bool> SaveState(IComponent component);
     }

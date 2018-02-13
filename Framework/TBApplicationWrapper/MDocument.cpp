@@ -1057,6 +1057,25 @@ String^ MDocument::GetSosDocumentType()
 	return (GetDocument()) ? gcnew String(GetDocument()->GetSosDocumentType()) : String::Empty;
 }
 
+
+//-----------------------------------------------------------------------------
+String^ MDocument::GetCompanyName() 
+{
+	return (GetDocument()) ? gcnew String(GetDocument()->GetCompanyName()) : String::Empty;
+}
+
+//-----------------------------------------------------------------------------
+String^ MDocument::GetTaxIdNumber()
+{
+	return (GetDocument()) ? gcnew String(GetDocument()->GetTaxIdNumber()) : String::Empty;
+}
+
+//-----------------------------------------------------------------------------
+String^ MDocument::GetFiscalCode()
+{
+	return (GetDocument()) ? gcnew String(GetDocument()->GetFiscalCode()) : String::Empty;
+}
+
 //----------------------------------------------------------------------------
 SortedDictionary<System::String^, System::String^>^ MDocument::GetUnWrappedHotLinks()
 {

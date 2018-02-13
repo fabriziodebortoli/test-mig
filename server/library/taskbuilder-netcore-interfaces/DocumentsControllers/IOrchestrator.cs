@@ -14,7 +14,5 @@ namespace TaskBuilderNetCore.Documents.Controllers.Interfaces
         IStateSerializer StateSerializer { get; }
         IUIController UIController { get; }
         ILogger Logger { get; }
-        IDocument GetDocument(ICallerContext callerContext);
-        void CloseDocument(ICallerContext callerContext);
     }
 }

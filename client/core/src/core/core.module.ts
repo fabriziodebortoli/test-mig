@@ -41,6 +41,9 @@ import { EventManagerService } from './services/event-manager.service';
 import { Store } from './services/store.service';
 import { ThemeService } from './services/theme.service';
 import { ParameterService } from './services/parameters.service';
+import { PaginatorService } from './services/paginator.service';
+import { FilterService} from './services/filter.services';
+import { HyperLinkService} from './services/hyperlink.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -74,6 +77,9 @@ export { EventManagerService } from './services/event-manager.service';
 export { Store } from './services/store.service';
 export { ThemeService } from './services/theme.service';
 export { ParameterService } from './services/parameters.service';
+export { PaginatorService } from './services/paginator.service';
+export { FilterService} from './services/filter.services';
+export { HyperLinkService} from './services/hyperlink.service';
 
 export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,

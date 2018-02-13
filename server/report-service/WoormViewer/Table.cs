@@ -1447,14 +1447,14 @@ namespace Microarea.RSWeb.Objects
                             Token.COLUMN_HIDE_WHEN_EMPTY, Token.COLUMN_OPTIMIZE_WIDTH
                             });
 
-                if (!(WidthExpr.Compile(lex, CheckResultType.Match, "Integer")))
+                if (!(WidthExpr.Compile(lex, CheckResultType.Match, "Int32")))
                 {
                     lex.SetError(WoormViewerStrings.BadExpression);
                     return false;
                 }
                 if (!WidthExpr.hasField)
                 {
-                    int nWidth = this.DynamicWidth;
+                    nCurWidth = this.DynamicWidth;
                 }
             }
 
@@ -1669,9 +1669,9 @@ namespace Microarea.RSWeb.Objects
                     }
                 }
 
-                width = IsHidden ? 0 : SavedWidth;
+                nCurWidth = IsHidden ? 0 : SavedWidth;
             }
-            else if (width <= 0)
+            else if (Width <= 0)
             {
                 IsHidden = true;
                 SavedWidth = HIDDEN_DEFAULT_WIDTH;
@@ -1712,7 +1712,7 @@ namespace Microarea.RSWeb.Objects
                 return false;
 
 
-            InitializeWidth(IsHidden ? 0 : width);
+            InitializeWidth(IsHidden ? 0 : nCurWidth);
 
             SetAttributes();
             return true;

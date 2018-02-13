@@ -1,5 +1,5 @@
-$background:#ffffde;
-$background-disabled:#fafafa;
+$input-background:#ffffde;
+$input-background-disabled:#fafafa;
 $border:#ddd;
 $border-disabled:#ddd;
 $text-color:#000;
@@ -64,7 +64,7 @@ tb-caption label {
 .k-scheduler-footer li {
     color: $text-color;
     background: none;
-    background-color: $background;
+    background-color: $input-background;
     border: $border;
     opacity: 1;
 }
@@ -80,7 +80,7 @@ tb-caption label {
 .k-maskedtextbox,
 .k-timepicker {
     border: 1px solid $border-disabled;
-    background-color: $background;
+    background-color: $input-background;
     opacity: 1;
 }
 
@@ -99,7 +99,7 @@ tb-caption label {
 .k-datetimepicker .k-select,
 .k-combobox .k-select {
     border-left: 1px solid $border-disabled;
-    background: $background-disabled;
+    background: $input-background-disabled;
 }
 
 .k-button-icon {
@@ -107,7 +107,7 @@ tb-caption label {
     height: 28px;
     opacity: 1;
     border-left: 1px solid $border-disabled;
-    background: $background-disabled;
+    background: $input-background-disabled;
 }
 
 .tb-control .k-button {
@@ -115,7 +115,7 @@ tb-caption label {
     height: 28px;
     opacity: 1;
     border: 1px solid $border-disabled;
-    background: $background-disabled;
+    background: $input-background-disabled;
 }
 
 .k-textbox:disabled,
@@ -123,7 +123,7 @@ tb-caption label {
 .k-textbox.k-state-disabled,
 .k-dropdown-wrap.k-state-disabled .k-input,
 .k-dropdown-wrap .k-input[disabled] {
-    background: $background-disabled !important;
+    background: $input-background-disabled !important;
     border: 1px solid $border-disabled !important;
     color: #000;
     opacity: 1;
@@ -131,7 +131,7 @@ tb-caption label {
 }
 
 .k-dateinput-wrap .k-input[disabled] {
-    background: $background-disabled !important;
+    background: $input-background-disabled !important;
     border: none;
     color: #000;
     opacity: 1;
@@ -142,7 +142,7 @@ tb-caption label {
 .k-numerictextbox .k-numeric-wrap,
 .k-numeric-wrap .k-input[disabled] {
     border: none !important;
-    background: $background-disabled !important;
+    background: $input-background-disabled !important;
     color: $text-color-disabled;
     opacity: 1;
     font-weight: $text-weight;
@@ -156,7 +156,7 @@ tb-caption label {
 .k-dropdown-wrap.k-state-disabled .k-input,
 .k-dropdown-wrap .k-input[disabled] {
     height: 26px;
-    background: $background-disabled !important;
+    background: $input-background-disabled !important;
     border: 1px solid $border-disabled !important;
     opacity: 1;
 }
@@ -205,7 +205,7 @@ tb-caption label {
 
 .k-checkbox-label::before,
 .k-radio-label::before {
-    background-color: $background-disabled;
+    background-color: $input-background-disabled;
     border: 1px solid $border-disabled;
     opacity: 1;
 }
@@ -227,14 +227,14 @@ tb-caption label {
 }
 
 textarea {
-    background-color: $background;
+    background-color: $input-background;
     border: 1px solid $border-disabled;
     opacity: 1;
     padding: 4px 8px;
 }
 
 textarea[disabled] {
-    background-color: $background-disabled;
+    background-color: $input-background-disabled;
     border: 1px solid $border-disabled;
     font-weight: $text-weight;
 }
@@ -246,7 +246,7 @@ textarea[disabled] {
 .k-state-disabled .k-disabled,
 .k-state-disabled .k-state-disabled {
     border: none;
-    background: $background-disabled;
+    background: $input-background-disabled;
 }
 
 textarea[disabled],

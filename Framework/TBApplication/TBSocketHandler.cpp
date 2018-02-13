@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <TbWoormViewer\WOORMDOC.H>
 #include "TBSocketHandler.h"
+#include "DocumentThread.h"
 #include <TbGes\DocumentSession.h>
 #include <TbGes\ExtDocAbstract.h>
 
@@ -34,9 +35,10 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("getWindowStrings")] = &CTBSocketHandler::GetWindowStrings;
 	functionMap[_T("checkMessageDialog")] = &CTBSocketHandler::CheckMessageDialog;
 	functionMap[_T("doFillListBox")] = &CTBSocketHandler::DoFillListBox;
-	functionMap[_T("setReportResult")] = &CTBSocketHandler::SetReportResult; 
+	functionMap[_T("setReportResult")] = &CTBSocketHandler::SetReportResult;
 	functionMap[_T("runDocument")] = &CTBSocketHandler::RunDocument;
 	functionMap[_T("browseRecord")] = &CTBSocketHandler::BrowseRecord;
+	functionMap[_T("openHyperLink")] = &CTBSocketHandler::OpenHyperLink;
 }
 
 //--------------------------------------------------------------------------------
@@ -44,7 +46,57 @@ CTBSocketHandler::~CTBSocketHandler()
 {
 }
 
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
+{
+	CString sName = json.ReadString(_T("name"));
+	HWND cmpId = ReadComponentId(json);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	
+	if (!pDoc) 
+		return;
 
+	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
+	if (pHkl)
+	{
+		CAbstractFormDoc* pHKLDoc = (CAbstractFormDoc*)AfxGetTbCmdManager()->RunDocument(pHkl->GetAddOnFlyNamespace(), szDefaultViewMode, FALSE, NULL, NULL);
+		if (pHKLDoc) 
+		{
+			pHKLDoc->GoInBrowseMode();
+		}
+	}	
+}
+
+//--------------------------------------------------------------------------------
+void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments)
+{
+	CBaseDocument* pDoc = NULL;
+	{	//LASCIARE LA GRAFFA, E' LO SCOPE DI SwitchTemporarilyMode tmp
+		//in questa fase non vanno segnalati messaggi con dialog modali
+		SwitchTemporarilyMode tmp(UNATTENDED);
+
+		AfxGetDiagnostic()->StartSession(_TB("Document opening messages"));
+		pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
+
+		if (!pDoc)
+		{
+			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+			if (pSession)
+			{
+				pSession->PushRunErrorToClients();
+			}
+		}
+		AfxGetDiagnostic()->EndSession();
+		return;
+	}
+	
+	if (!sArguments.IsEmpty())
+	{
+		CFunctionDescription fd;
+		if (fd.ParseArguments(sArguments))
+			pDoc->GoInBrowserMode(&fd);
+	}
+}
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::RunDocument(CJsonParser& json)
 {
@@ -55,19 +107,8 @@ void CTBSocketHandler::RunDocument(CJsonParser& json)
 	{
 		return;
 	}
-	CBaseDocument* pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
-
-	if (!pDoc)
-	{
-		return;
-	}
-	else if (!sArguments.IsEmpty())
-	{
-		//ASSERT_VALID(pDoc); non si puo' fare perchè fa un AssertValid anche della view
-		CFunctionDescription fd;
-		if (fd.ParseArguments(sArguments))
-			pDoc->GoInBrowserMode(&fd);
-	}
+	CDocumentThread* pThread = (CDocumentThread*) AfxGetTbCmdManager()->CreateDocumentThread();
+	AfxInvokeThreadGlobalProcedure<const CString&, const CString&>(pThread->m_nThreadID, &RunDocumentOnThreadDocument, sNamespace, sArguments);
 }
 
 //--------------------------------------------------------------------------------

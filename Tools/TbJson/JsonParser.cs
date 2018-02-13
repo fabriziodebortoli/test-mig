@@ -70,6 +70,8 @@ namespace Microarea.TbJson
             foreach (JToken jRW in jRoot.SelectTokens("..rowView"))
             {
                 string href = jRW.ToString();
+                if (string.IsNullOrEmpty(href))
+                    continue;
                 string resourceName;
                 string file = GetFile(standardFolder, resourcePath, href, out resourceName);
                 if (!File.Exists(file))

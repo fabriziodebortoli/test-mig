@@ -1,14 +1,7 @@
-﻿using Microarea.Common.NameSolver;
-using Microarea.TbfWebGate.Application;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microarea.TbfWebGate.Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using TaskBuilderNetCore.Documents.Controllers;
+using TaskBuilderNetCore.Documents.Model.Interfaces;
 using TaskBuilderNetCore.Documents.Model;
 
 namespace Microarea.TbfWebGate.Controllers
@@ -78,6 +71,26 @@ namespace Microarea.TbfWebGate.Controllers
             };
 
             return Json(orchestratorService.CloseDocument(context));
+        }
+
+        //---------------------------------------------------------------------
+        // GET api/document/execute?documentNamespace=Documet.NEWERP.Orders.Documents.SaveOrders
+        [Route("execute")]
+        public IActionResult Execute([FromQuery]string @namespace)
+        {
+            var userInfo = this.GetLoginInformation(null, HttpContext.Request, HttpContext.Session);
+            if (userInfo == null)
+            {
+                return Forbid();
+            }
+            var context = new CallerContext
+            {
+                ObjectName = @namespace,
+                AuthToken = userInfo.AuthenticationToken,
+                Mode = ExecutionMode.Unattended
+            };
+
+            return Json(orchestratorService.ExecuteActivity(context));
         }
     }
 }

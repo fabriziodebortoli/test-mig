@@ -247,8 +247,6 @@ namespace TaskBuilderNetCore.Interfaces
 
             if (alternativeDriver == null)    
                 this.direcotryInfo = dir;
-            else
-
 
             name = dir.Name;
             CompleteDirectoryPath = dir.FullName; //CHiedi anna

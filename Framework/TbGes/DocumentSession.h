@@ -64,12 +64,13 @@ public:
 	virtual void RemoveJsonModelProvider(IJsonModelProvider* pProvider);
 	virtual int MessageBoxDialog(LPCTSTR lpszText, UINT nType);
 	virtual void PushToClients(CJsonSerializer& resp);
-	virtual BOOL DiagnosticDialog(CDiagnostic*);
+	virtual BOOL DiagnosticDialog(CDiagnostic* pDiagnostic, BOOL bModal);
 	void CloseMessageBoxDialog(CJsonParser& json);
 	void CloseDiagnosticDialog(CJsonParser& json);
 	void PushWindowStringsToClients(HWND cmpId, const CString& sCulture);
 	void PushWindowsToClients();
 	void PushDiagnosticToClients();
+	void PushRunErrorToClients();
 	void PushMessageToClients();
 	void PushActivationDataToClients();
 	void PushRadarInfoToClient(CAbstractFormDoc* pDoc);

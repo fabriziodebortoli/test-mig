@@ -558,12 +558,29 @@ namespace Microarea { namespace Framework	{ namespace TBApplicationWrapper
 		[ExcludeFromIntellisense]
 		System::String^ GetSosSuffix();
 		
-
 		/// <summary>
 		/// Internal Use
 		/// </summary>
 		[ExcludeFromIntellisense]
 		System::String^ MDocument::GetSosDocumentType();
+
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		System::String^ MDocument::GetCompanyName();
+
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		System::String^ MDocument::GetTaxIdNumber();
+
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		System::String^ MDocument::GetFiscalCode();
 
 		/// <summary>
 		/// unlocks all data locked by the document

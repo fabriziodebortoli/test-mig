@@ -1103,9 +1103,16 @@ CWnd* CMessagesWebViewer::ShowNoModal(CDiagnostic* pDiagnostic, int iX /*= 0*/, 
 //-----------------------------------------------------------------------------
 BOOL CMessagesWebViewer::Show(CDiagnostic* pDiagnostic, BOOL bClearMessages)
 {
+	if (!pDiagnostic->IsTopLevel())
+	{
+		// anche le warning sono comunque errori in sessioni batch, e la Clear
+		// e` inutile (i messaggi precedenti devono rimanere). Gli Hint non
+		// vengono volutamente sentiti come errori (sono warning piu` morbide).
+		return !(pDiagnostic->ErrorFound() || pDiagnostic->WarningFound());
+	}
 	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
 	ASSERT(pSession);
-	BOOL b = pSession ? pSession->DiagnosticDialog(pDiagnostic) : FALSE;
+	BOOL b = pSession ? pSession->DiagnosticDialog(pDiagnostic, TRUE) : FALSE;
 	if (bClearMessages)
 		pDiagnostic->ClearMessages(TRUE);
 	return b;

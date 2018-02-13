@@ -68,7 +68,7 @@ namespace Microarea.Common.Generic
         {
             string path = Functions.GetExecutingAssemblyFolderPath();
             FilePath = Path.Combine(path, FileName);
-            Exists = PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath);   
+            Exists = File.Exists(FilePath);   
         }
 
         //---------------------------------------------------------------------------
@@ -365,9 +365,16 @@ namespace Microarea.Common.Generic
                 if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aHomeDir))
                     return;
 
-                DirectoryInfo di = new DirectoryInfo(aHomeDir);
-                foreach (DirectoryInfo sd in di.GetDirectories())// OK
-                    aSubDirs.Add(sd.Name);
+                ArrayList folders = new ArrayList();
+                ArrayList files = new ArrayList();
+                PathFinder.PathFinderInstance.FileSystemManager.GetPathContent(aHomeDir, true, out folders, false, string.Empty, out files);
+                for(int i = 0; i < folders.Count; i ++)// OK
+                {
+                    TBDirectoryInfo dir = ((TBDirectoryInfo)folders[i]);
+                    aSubDirs.Add(dir.name);
+                }
+                    
+
             }
 
             /// <summary>

@@ -5718,8 +5718,7 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 	pWoormInfo->m_bIsReportString = bIsReportString;
 
 	// apro il report senza farne la run
-	UserInteractionMode oldUM = ::AfxGetThreadContext()->GetUserInteractionMode();
-	::AfxGetThreadContext()->SetUserInteractionMode(UNATTENDED);
+	SwitchTemporarilyMode tmp(UNATTENDED);
 
 	CWoormDocMng* pDoc = (CWoormDocMng*)AfxGetTbCmdManager()->RunWoormReport(pWoormInfo, this, NULL, FALSE, FALSE);
 	if (pDoc)
@@ -5739,13 +5738,11 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 			
 		if (pWoormInfo->m_arErrors.GetCount() == 0)
 		{
-			::AfxGetThreadContext()->SetUserInteractionMode(oldUM);
 			return TRUE;
 		}
 	}
 	else pWoormInfo->m_arErrors.Add(_TB("Parse report layout failed"));
 
-	::AfxGetThreadContext()->SetUserInteractionMode(oldUM);
 	return pWoormInfo->m_arErrors.GetCount() == 0;
 }
 

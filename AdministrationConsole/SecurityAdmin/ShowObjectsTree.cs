@@ -740,8 +740,9 @@ namespace Microarea.Console.Plugin.SecurityAdmin
 				)
 				return false;
 
+            
             //----
-			bool addedChildren = AddReportChildren(parentNode);
+            bool addedChildren = AddReportChildren(parentNode);
             //----
 
 			if (dsClientDocuments != null && dsClientDocuments.Tables.Contains("ClientDoc"))
@@ -1623,17 +1624,24 @@ namespace Microarea.Console.Plugin.SecurityAdmin
 			if (!node.IsCommand)
 				return;
 
-			AddAuxiliaryChildrenObjectsToCommandNode(MenuMngWinCtrl.CurrentCommandNode);
+            if (node.CommandItems != null && node.CommandItems.Count > 0)
+            {
+                foreach (MenuXmlNode nodeChild in node.CommandItems)
+                    node.RemoveChild(nodeChild);
+            }
+
+            AddAuxiliaryChildrenObjectsToCommandNode(MenuMngWinCtrl.CurrentCommandNode);
 
 			// Controllo se è da impostare a true la property ProtectedState del nodo corrente
 			CheckObjectProtectedState(MenuMngWinCtrl.CurrentCommandNode);
-			MenuMngWinCtrl.RefreshCommandsTreeView();
+        	MenuMngWinCtrl.RefreshCommandsTreeView();
 
 			AddProtectedStateToNode(MenuMngWinCtrl.CurrentGroupNode);
 			MenuMngWinCtrl.RefreshMenuTreeView();
 
 			MenuMngWinCtrl.SelectCommandNode(node);
-		}
+        //    MenuMngWinCtrl.SelectFirstAvailableCommand();
+        }
 
 		//---------------------------------------------------------------------
 		private void SummaryGrants_Click(object sender, System.EventArgs e)

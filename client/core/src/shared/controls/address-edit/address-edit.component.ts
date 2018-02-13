@@ -8,7 +8,7 @@ import { InfoService } from './../../../core/services/info.service'
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
+import { ContextMenuItem, FormMode, createSelector, createSelectorByPaths } from './../../../shared/shared.module';
 import { Collision } from '@progress/kendo-angular-popup';
 import { Selector } from './../../../shared/models/store.models';
 import 'rxjs';
@@ -81,8 +81,12 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
     }
 
     ngAfterContentInit() {
-        this.store.select(this.selector.nest('formMode', 'address.value'))
-            .subscribe(this.onFormModeChanged.bind(this));
+        this.store.select(
+            createSelector(
+                this.selector.nest('address.value'),
+                createSelector({'formMode': 'FormMode.value'}),
+                (a, b) => ({ address: a.value, formMode: b.formMode})
+            )).subscribe(this.onFormModeChanged.bind(this));
     }
 
     dataChanged() {
@@ -98,7 +102,7 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
     }
     
     buildContextMenu() {
-        this.cc.contextMenu.splice(this.iContextMenu, this.cc.contextMenu.length);
+        this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
         if (this.model.value !== '') {
             if (this.ctrlEnabled) {
                 this.cc.contextMenu.push(this.menuItemSearch);

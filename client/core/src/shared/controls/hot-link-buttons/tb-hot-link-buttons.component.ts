@@ -14,16 +14,19 @@ import { PopupService, PopupSettings, PopupRef, Align } from '@progress/kendo-an
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
+import { HyperLinkService, HyperLinkInfo} from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
+import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
 
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
+declare var document:any;
 
 @Component({
   selector: 'tb-hotlink-buttons',
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
-  providers: [PaginatorService, FilterService],
+  providers: [PaginatorService, FilterService, HyperLinkService],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit {
@@ -92,7 +95,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   }
 
   selectionColumn = '';
-  subscription: Subscription;
 
   _defaultGridStyle = {'cursor': 'pointer'};
   _filterTypingGridStyle = {'color': 'darkgrey'}
@@ -113,20 +115,21 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   private loading = false;
 
   constructor(public httpService: HttpService,
+    private documentService: DocumentService,
     layoutService: LayoutService,
     public enumService: EnumsService,
-    tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
     private eventDataService: EventDataService,
     private paginator: PaginatorService,
     private filterer: FilterService,
+    private hyperLinkService: HyperLinkService,
     private ngZone: NgZone,
     private elRef: ElementRef,
     private optionsPopupService: PopupService,
     private tablePopupService: PopupService,
     private vcr: ViewContainerRef
   ) {
-    super(layoutService, tbComponentService, changeDetectorRef);
+    super(layoutService, documentService, changeDetectorRef);
   }
 
   get isAttachedToAComboBox(): boolean {
@@ -136,7 +139,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   private subscribeOpenTable(anchor, template){
     if(!this.tableSub)
-      this.tableSub = this.showTable$.distinctUntilChanged().subscribe(hasToOpen => {
+      this.tableSub = this.showTable$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
       if(hasToOpen){
         let popupA = this.getPopupAlign(anchor);
         let anchorA = this.getAnchorAlign(anchor);
@@ -156,7 +159,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
 
   private subscribeOpenOptions(anchor, template) {
     if (!this.optionsSub) {
-      this.optionsSub = this.showOptions$.distinctUntilChanged().subscribe(hasToOpen => {
+      this.optionsSub = this.showOptions$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
         if (hasToOpen) {
           this.optionsPopupRef = this.optionsPopupService.open({ anchor: anchor, content: template });
           this.optionsPopupRef.popupOpen.asObservable()
@@ -171,10 +174,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     }
   }
 
-  toggleTableForOptions(template) {
-    this.toggleTable(this.anchorTable, template);
-  }
-
   toggleTable(anchor, template) {
     this.closeOptions();
     if (this.showTableSubj$.value) { this.closeTable(); } 
@@ -186,11 +185,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (this.showOptionsSubj$.value) { this.closeOptions(); } 
     else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
   }
-
-   @HostListener('document:keydown', ['$event'])
-   public keydown(event: any): void {
-     if (event.keyCode === 27) { this.closePopups(); }
-   }
  
   @HostListener('document:click', ['$event'])
   public documentClick(event: any): void {
@@ -288,7 +282,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       },
     {model: {value: this.modelComponent.model.value}, customFilters: ''});
 
-    this.subscription = this.paginator.clientData.subscribe((d) => {
+    this.paginator.clientData.subscribe((d) => {
         this.selectionColumn = d.key
         if (d.columns) {
           this.columns = d.columns;
@@ -391,27 +385,70 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.httpService.getHotlinkSelectionTypes(ns).toPromise().then(json => this.selectionTypes = json.selections);
   }
 
+  private _tbInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
+  get textBoxInfo (): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}  {
+    if(this._tbInfo) return this._tbInfo;
+
+    let tb: HTMLElement;
+    tb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
+    if(!tb) return undefined;
+    let oldColor = tb.style.color;
+    let oldDecoration = tb.style.textDecoration;
+    let oldCursor = tb.style.cursor;
+    let oldPointerEvents = tb.style.pointerEvents;
+    this._tbInfo = { 
+        element: tb,
+        initInfo: {
+          color: oldColor,
+          textDecoration: oldDecoration,
+          cursor: oldCursor,
+          pointerEvents: oldPointerEvents
+        }
+    };
+    return this._tbInfo;
+  }
+
   ngOnInit() {
     // fix for themes css conflict in form.scss style 
-    if(this.modelComponent && !this.modelComponent.width) {
-      let textBox = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0);
-      if (textBox) { (textBox as HTMLElement).style.width = 'auto'; }
+    if(this.modelComponent){
+      if(!this.modelComponent.width) {
+        if (this.textBoxInfo) { this.textBoxInfo.element.style.width = 'auto'; }
+      }
+
+      if (this.textBoxInfo){
+        this.slice$.pipe(untilDestroy(this)).subscribe(x => {
+          if(!x.enabled && x.value) { 
+            this.textBoxInfo.element.style.textDecoration = 'underline'; 
+            this.textBoxInfo.element.style.color = 'blue';
+            this.textBoxInfo.element.style.cursor = 'pointer';
+            this.textBoxInfo.element.style.pointerEvents = 'all';
+            if(this.hotLinkInfo.enableAddOnFly) {
+              this.textBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
+              .filter(e => this.textBoxInfo &&  (e as any) && (e as any).target === this.textBoxInfo.element)
+              .subscribe(e => this.hyperLinkService.goTo({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
+            }
+          } else {
+            this.textBoxInfo.element.style.textDecoration = this.textBoxInfo.initInfo.textDecoration;
+            this.textBoxInfo.element.style.color = this.textBoxInfo.initInfo.color;
+            this.textBoxInfo.element.style.cursor = this.textBoxInfo.initInfo.cursor;
+            this.textBoxInfo.element.style.pointerEvents = this.textBoxInfo.initInfo.pointerEvents;
+            if(this.textBoxInfo.clickSubscription)
+              this.textBoxInfo.clickSubscription.unsubscribe();
+          } 
+        });
+      }
     }
+
+    Observable.fromEvent(document, 'keyup', { capture: true })
+    .pipe(untilDestroy(this))
+    .filter(e => (e as any).keyCode === 27)
+    .subscribe(e => this.closePopups());
 
     if(this.isAttachedToAComboBox) 
       this.selectionType = 'combo';
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
     this.closePopups();
-    if (this.tableSub) {
-      this.tableSub.unsubscribe();
-    }
-    if (this.optionsSub) {
-      this.optionsSub.unsubscribe();
-    }
   }
 }
