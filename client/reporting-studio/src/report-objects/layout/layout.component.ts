@@ -243,6 +243,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             if (source.hidden !== undefined) {
               target.hidden = source.hidden;
             }
+            if (source.width !== undefined) {
+              target.width = source.width;
+            }
 
             if (source.title !== undefined) {
 

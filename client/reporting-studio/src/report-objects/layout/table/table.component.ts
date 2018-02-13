@@ -62,10 +62,18 @@ export class ReportTableComponent {
       'position': 'absolute',
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
-      //'width': (this.table.rect.right - this.table.rect.left) + 'px'
+      'width': this.getColumWidth(this.table.columns) + 2 +'px'
     };
-
     return obj;
+  }
+
+  getColumWidth(columns : column[]){
+    let widthTotal = 0;
+    for(let index = 0; index < columns.length; index++){
+      if(!columns[index].hidden)
+        widthTotal += columns[index].width;
+    }
+    return widthTotal;
   }
 
   // -----------------------------------------------------
@@ -89,7 +97,6 @@ export class ReportTableComponent {
       'text-align': column.title.text_align,
       'vertical-align': column.title.vertical_align
     };
-
     return obj;
   }
 
@@ -99,7 +106,6 @@ export class ReportTableComponent {
       'border': '0px',
       'height': this.table.row_height + 'px',
     };
-
     return obj;
   }
 
