@@ -35,7 +35,6 @@ namespace Microarea.TaskBuilderNet.Data.DataManagerEngine
 		public const string HasReference			= "hasreference";
 		public const string RefConfiguration		= "refconfiguration";
 		public const string RefEdition				= "refedition";
-		public const string RefCountry				= "refcountry";
 
 		// tipi nodo nei controlli del wizard
 		public const string ApplicationNode			= "Application";
