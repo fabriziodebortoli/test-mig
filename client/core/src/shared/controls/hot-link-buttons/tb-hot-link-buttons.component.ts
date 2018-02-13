@@ -4,7 +4,7 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
-import { State } from './../../components/radar/custom-grid.component';
+import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HttpService } from './../../../core/services/http.service';
 import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';

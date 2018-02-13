@@ -81,7 +81,7 @@ import { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
-import { CustomGridComponent } from './components/radar/custom-grid.component';
+import { CustomisableGridComponent } from './components/customisable-grid/customisable-grid.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -137,7 +137,7 @@ const TB_COMPONENTS = [
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
-    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomGridComponent
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent
 ];
 
 /**

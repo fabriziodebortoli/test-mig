@@ -33,12 +33,12 @@ export class State {
 }
 
 @Component({
-    selector: 'tb-custom-grid',
-    templateUrl: './custom-grid.component.html',
-    styleUrls: ['./custom-grid.component.scss'],
+    selector: 'tb-customisable-grid',
+    templateUrl: './customisable-grid.component.html',
+    styleUrls: ['./customisable-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomGridComponent extends ControlComponent implements OnInit, OnDestroy {
+export class CustomisableGridComponent extends ControlComponent implements OnInit, OnDestroy {
     @Input() pageSize = 10;
     @Input() editable = false;
     @Input() canAutoFit = false;
@@ -48,7 +48,7 @@ export class CustomGridComponent extends ControlComponent implements OnInit, OnD
     @Output() selectAndEdit = new EventEmitter<any>();
     @Output() selectionChange = new EventEmitter<any>();
 
-    @ContentChild('customGridButtonsTemplate', { read: TemplateRef }) customGridButtonsTemplate;
+    @ContentChild('customisableGridButtonsTemplate', { read: TemplateRef }) customisableGridButtonsTemplate;
     @ViewChild('grid') grid: GridComponent;
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
     pinned = false;

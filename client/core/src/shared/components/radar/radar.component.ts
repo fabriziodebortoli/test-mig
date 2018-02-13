@@ -18,7 +18,7 @@ import { ControlComponent } from './../../../shared/controls/control.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
-import { State } from './custom-grid.component';
+import { State } from './../customisable-grid/customisable-grid.component';
 
 import * as _ from 'lodash';
 

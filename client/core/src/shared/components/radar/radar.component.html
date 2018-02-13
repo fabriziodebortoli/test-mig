@@ -19,12 +19,12 @@
             </button>
         </div>
     </div>
-    <tb-custom-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
+    <tb-customisable-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
         [editable]="true" [selectionColumnId]="'TBGuid'" [canAutoFit]="true" [pageSize]="pageSize">
-        <ng-template #customGridButtonsTemplate>
+        <ng-template #customisableGridButtonsTemplate>
             <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
                 <tb-icon [iconType]="'M4'" [icon]="pinnedIcon"></tb-icon>
             </button>
         </ng-template>
-    </tb-custom-grid>
+    </tb-customisable-grid>
 </div>

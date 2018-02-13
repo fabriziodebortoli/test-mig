@@ -14,7 +14,7 @@
     </div>
 </ng-template>
 <ng-template #tableTemplate>
-    <tb-custom-grid [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-custom-grid>
+    <tb-customisable-grid [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-customisable-grid>
 </ng-template>
 <div *ngIf="!isAttachedToAComboBox" class="hotlinkButtonsContainer" #hotLinkButtons>
     <button #anchorOptions kendoButton (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async)?.enabled"></button>
