@@ -13,6 +13,7 @@ using Microarea.TbJson.Utils;
 using Newtonsoft.Json.Linq;
 using SharedCode;
 using static Microarea.TbJson.Helpers;
+using System.Globalization;
 
 namespace Microarea.TbJson
 {
@@ -741,7 +742,10 @@ namespace Microarea.TbJson
                                 using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                                 {
                                     if (!string.IsNullOrEmpty(sClass))
+                                    {
                                         htmlWriter.WriteAttribute(Constants.sClass, sClass);
+                                        WriteHideAttributeByCategory(sClass);
+                                    }
                                     w.CloseBeginTag();
                                     GenerateHtmlChildren(jObj, type);
                                 }
@@ -764,10 +768,8 @@ namespace Microarea.TbJson
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
                             {
                                 WriteActivationAttribute(jObj);
-                                WriteHideAttribute(jObj);
                                 AddIconAttribute(jObj);
                                 WriteButtonInfo(jObj);
-                                WriteToolbarTopButtonInfo(jObj);
 
                                 string caption = jObj.GetLocalizableString(Constants.text);
                                 if (!string.IsNullOrEmpty(caption))
@@ -1302,12 +1304,14 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------------------
-        private void WriteHideAttribute(JObject jObj)
+        private void WriteHideAttributeByCategory(string sClass)
         {
-            string activation = jObj.GetFlatString(Constants.activation);
-            string id = jObj.GetId();
-            if (string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
-                htmlWriter.WriteAttribute("*ngIf", "!hide" + id);
+            if (!sClass.Contains(' ')) return;
+            var cat = sClass.Substring(sClass.LastIndexOf(' ') + 1);
+            if (string.IsNullOrWhiteSpace(cat)) return;
+            htmlWriter.WriteAttribute(Constants.ngIf, "!hide" +
+                CultureInfo.InvariantCulture.TextInfo.ToTitleCase(cat.ToLower()) +
+                "Toolbar");
         }
 
         //-----------------------------------------------------------------------------------------
@@ -1809,13 +1813,6 @@ namespace Microarea.TbJson
             htmlWriter.WriteAttribute(Square("selector"), $"{selector}");
         }
 
-        private void WriteToolbarTopButtonInfo(JObject jObj)
-        {
-            if (!string.IsNullOrEmpty(jObj.GetFlatString(Constants.activation))
-                || jObj.GetToolbarButtonTag() != Constants.tbToolbarTopButton) return;
-            if (jObj.TryGetId(out string id))
-                toAppendToDefinition.Append($"this.toolbarButtons.push({{id: '{id}', category: {(int)jObj.GetCommandCategory()}}});\r\n");
-        }
         private void WriteButtonInfo(JObject jObj)
         {
             if (jObj[Constants.ngClass] == null)

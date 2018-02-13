@@ -15,9 +15,9 @@
         internal const string tbToolbarTopButton = "tb-toolbar-top-button";
         internal const string tbToolbarBottomButton = "tb-toolbar-bottom-button";
         internal const string tbToolbarSeparator = "tb-toolbar-separator";
-		internal const string tbFloatingActionMenu = "tb-floating-action-menu";
-		internal const string tbFloatingActionButton = "tb-floating-action-button";
-		internal const string tbView = "tb-view";
+        internal const string tbFloatingActionMenu = "tb-floating-action-menu";
+        internal const string tbFloatingActionButton = "tb-floating-action-button";
+        internal const string tbView = "tb-view";
         internal const string tbViewContainer = "tb-view-container";
         internal const string tbDockPane = "tb-dockpane";
         internal const string tbDockPaneContainer = "tb-dockpane-container";
@@ -44,7 +44,7 @@
         internal const string tbPropertyGridItem = "tb-property-grid-item";
         internal const string tbPropertyGridItemGroup = "tb-property-grid-item-group";
 
-		internal const string caption = "caption";
+        internal const string caption = "caption";
         internal const string title = "title";
         internal const string active = "active";
         internal const string columnType = "columnType";
@@ -109,7 +109,7 @@
         internal const string activation = "activation";
         internal const string size = "size";
         internal const string layoutType = "layoutType";
-        internal const string ngif = "ngif";
+        internal const string ngIf = "*ngIf";
 
         internal const string controlClass = "controlClass";
 
@@ -142,12 +142,12 @@
         internal const string COL1 = "COL1";
         internal const string COL2 = "COL2";
         internal const string sClass = "class";
-        internal const string div= "div";
+        internal const string div = "div";
 
         internal const string propagateSelectionChange = "propagateSelectionChange";
         internal const string tbToolbarTopDropdown = "tb-toolbar-top-button-dropdown";
-		internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";
-		internal const string dropDownButton = "dropDownButton";
-		internal const string dropUpButton = "dropUpButton";
-	}
+        internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";
+        internal const string dropDownButton = "dropDownButton";
+        internal const string dropUpButton = "dropUpButton";
+    }
 }

@@ -192,19 +192,20 @@ namespace Microarea.TbJson
             if (jAr == null)
                 return;
             //toolbar
-            JArray sorted = new JArray(jAr.OrderBy(obj => {
-                    //la toolbar top ma in testa, poi gli altri oggetti, infine la toolbar bottom
-                    WndObjType type = obj.GetWndObjType();
-                    if (type == WndObjType.Toolbar)
-                    {
-                        string ngTag = obj.GetFlatString(Constants.ngTag);
-                        if (ngTag == Constants.tbToolbarTop)
-                            return 1;
-                        else
-                            return 20;
-                    }
+            JArray sorted = new JArray(jAr.OrderBy(obj =>
+            {
+                //la toolbar top ma in testa, poi gli altri oggetti, infine la toolbar bottom
+                WndObjType type = obj.GetWndObjType();
+                if (type == WndObjType.Toolbar)
+                {
+                    string ngTag = obj.GetFlatString(Constants.ngTag);
+                    if (ngTag == Constants.tbToolbarTop)
+                        return 1;
+                    else
+                        return 20;
+                }
 
-                    return 10;//vista o altri oggetti analoghi
+                return 10;//vista o altri oggetti analoghi
             }));
             jObj[Constants.items] = sorted;
             foreach (JObject jButton in sorted)
@@ -239,20 +240,20 @@ namespace Microarea.TbJson
                 case CommandCategory.Tools:
                 case CommandCategory.Edit:
                 case CommandCategory.Exit:
-				case CommandCategory.Advanced:
-					return Constants.tbToolbarTopButton;
-				case CommandCategory.Print:
-				case CommandCategory.File:
-					return Constants.tbToolbarBottomButton;
-				case CommandCategory.Fab:
-				case CommandCategory.Undefined:
+                case CommandCategory.Advanced:
+                    return Constants.tbToolbarTopButton;
+                case CommandCategory.Print:
+                case CommandCategory.File:
+                    return Constants.tbToolbarBottomButton;
+                case CommandCategory.Fab:
+                case CommandCategory.Undefined:
                 default:
-					return Constants.tbFloatingActionButton;
-			}
+                    return Constants.tbFloatingActionButton;
+            }
         }
 
 
-      
+
         //-----------------------------------------------------------------------------
         internal static bool MatchId(this JObject jObj, string id)
         {

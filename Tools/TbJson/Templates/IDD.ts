@@ -18,7 +18,6 @@ import { @@NAME@@Service } from '@@SERVICEFILE@@';
 })
     export class @@NAME@@Component extends BOComponent implements OnInit, OnDestroy {
      /*dichiarazione variabili*/
-    toolbarButtons = [];
 
     constructor(document: @@NAME@@Service,
         eventData: EventDataService,
@@ -28,19 +27,14 @@ import { @@NAME@@Service } from '@@SERVICEFILE@@';
         changeDetectorRef: ChangeDetectorRef) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
 
-        this.eventData.change.subscribe(() => changeDetectorRef.detectChanges());
+        this.eventData.change.subscribe(_ => changeDetectorRef.detectChanges());
     }
 
     ngOnInit() {
         super.ngOnInit();
         /*definizione variabili*/
         @@INITCODE@@
-
-        this.eventData.showRadar.subscribe(hide =>
-            this.toolbarButtons
-                .filter(x => x.category === CommandCategory.Search || x.category === CommandCategory.Navigation)
-                .forEach(x => this['hide' + x.id] = hide)
-        );
+        this.hideToolbarsWhenRadarVisible();
     }
 
     ngOnDestroy() {
@@ -48,6 +42,12 @@ import { @@NAME@@Service } from '@@SERVICEFILE@@';
     }
 
     openRadar = () => this.eventData.showRadar.next(true);
+
+    hideToolbarsWhenRadarVisible = () =>
+        this.eventData.showRadar.subscribe(hide =>
+            ['Search', 'Navigation']
+                .map(x => `hide${x}Toolbar`)
+                .forEach(x => this[x] = hide));
 }
 
 @Component({
