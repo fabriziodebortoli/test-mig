@@ -11493,7 +11493,7 @@ void CBodyEdit::RecalculateAllColPos()
 
 		// le colonne arrivano qui già messe nella corretta posizione da EasyStudio. Se il tbf non l'ha cambiata
 		// allora rifletto le modifiche apportate da EasyStudio anche sul TBF dove possibile
-		BodyEditColumn* pBEInfoCol = pBEInfo ? pBEInfo->GetColumnObject(pColInfo->GetNamespace()) : NULL;
+	/*	BodyEditColumn* pBEInfoCol = pBEInfo ? pBEInfo->GetColumnObject(pColInfo->GetNamespace()) : NULL;
 		if (pBEInfoCol)
 		{
 			// arriva dal TBF quindi lo devo lasciare così come è oppure mi arriva una colonna 
@@ -11512,10 +11512,10 @@ void CBodyEdit::RecalculateAllColPos()
 				pBEInfoCol->m_nColPos = i;
 				pColInfo->SetColPos(i);
 			}
-		}
+		}*/
 	}
 
-	m_AllColumnsInfo.Sort();
+	//m_AllColumnsInfo.Sort();
 }
 
 //-----------------------------------------------------------------------------
