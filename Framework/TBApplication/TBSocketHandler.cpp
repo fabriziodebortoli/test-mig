@@ -53,16 +53,19 @@ void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
 	HWND cmpId = ReadComponentId(json);
 	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
 	
-	if (!pDoc) 
-		return;
+	if (!pDoc) return;
 
 	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
 	if (pHkl)
 	{
-		CAbstractFormDoc* pHKLDoc = (CAbstractFormDoc*)AfxGetTbCmdManager()->RunDocument(pHkl->GetAddOnFlyNamespace(), szDefaultViewMode, FALSE, NULL, NULL);
+		LPAUXINFO pAuxInfo = NULL;
+		pHkl->GetAuxInfoForHklBrowse(pAuxInfo);
+		CAbstractFormDoc* pHKLDoc = dynamic_cast<CAbstractFormDoc*>(AfxGetTbCmdManager()->RunDocument(pHkl->GetAddOnFlyNamespace(), szDefaultViewMode, FALSE, NULL, pAuxInfo, NULL, NULL, NULL, FALSE, NULL, NULL, (pDoc) ? pDoc->m_pContextBag : NULL));
+		//CAbstractFormDoc* pHKLDoc = dynamic_cast<CAbstractFormDoc*>(AfxGetTbCmdManager()->RunDocument(pHkl->GetAddOnFlyNamespace(), szDefaultViewMode, FALSE, NULL, NULL));
 		if (pHKLDoc) 
 		{
-			pHKLDoc->GoInBrowseMode();
+			SqlRecord* pRec = pHkl->GetAttachedRecord();
+			if(pRec) pHKLDoc->GoInBrowserMode(pRec);
 		}
 	}	
 }

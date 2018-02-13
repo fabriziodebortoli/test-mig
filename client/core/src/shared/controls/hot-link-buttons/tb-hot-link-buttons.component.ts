@@ -257,7 +257,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.defaultPageCounter = 0;
     this.filterer.start(200);
     this.paginator.start(1, this.pageSize,
-      combineFiltersMap(this.slice$, this.filterer.filterChanged$.filter(x => x.logic !== undefined), (l, r) => ({ model: l, customFilters: r})),
+      combineFiltersMap(this.slice$.do(x => console.log('SLICE CHANGED')), this.filterer.filterChanged$.filter(x => x.logic !== undefined).do(x => console.log('FILTER CHANGED')), (l, r) => ({ model: l, customFilters: r})),
       (pageNumber, serverPageSize, otherParams) => {
         let ns = this.hotLinkInfo.namespace;
         if (!ns && otherParams.model.selector && otherParams.model.selector !== '') { 
@@ -268,7 +268,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('filter', JSON.stringify(otherParams.model.value));
         p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
         p.set('hklName', this.hotLinkInfo.name);
-        if (otherParams.customFilters && otherParams.customFilters.logic)
+        if (otherParams.customFilters && otherParams.customFilters.logic && otherParams.customFilters.filters && otherParams.customFilters.field)
           p.set('customFilters', JSON.stringify(otherParams.customFilters));
 
         p.set('page', JSON.stringify(pageNumber + 1));
