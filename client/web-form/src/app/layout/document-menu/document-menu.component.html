@@ -22,8 +22,10 @@
         </div>
 
         <div class="toolbar-right">
-            <div class="menu-category exit">
+            <div class="menu-category undefined">
                 <tb-toolbar-top-button iconType="MD" icon="refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET" [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled"></tb-toolbar-top-button>
+            </div>
+            <div class="menu-category exit">
                 <tb-toolbar-top-button iconType="MD" icon="exit_to_app" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
             </div>
         </div>

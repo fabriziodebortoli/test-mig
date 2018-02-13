@@ -1,24 +1,33 @@
-:host {
+@import '../../../../../style/tb.scss';
+:host(tb-toolbar-top-button) {
     &:first-child tb-icon {
         margin-left: 3px;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        border: 1px solid #aed4e6;
+        border-left: 1px solid #aed4e6;
     }
     &:last-child tb-icon {
         margin-right: 3px;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
-        border: 1px solid #aed4e6;
         border-left: none;
+    }
+    &:only-child tb-icon {
+        border-radius: 4px;
+        margin-right: 3px;
+        margin-left: 3px;
+        border-left: 1px solid #aed4e6;
+    }
+    &:hover {
+        cursor: not-allowed;
     }
 }
 
 .top-button {
     margin: 0;
     padding: 0;
-    height: 35px;
-    min-width: 35px;
+    height: 30px;
+    min-width: 32px;
     border: 0;
     background: none;
     &>span {
@@ -30,38 +39,51 @@
         /** da riparlarne */
         display: none;
     }
-}
-
-tb-icon {
-    min-width: 35px;
-    font-size: 20px;
-    margin: 0;
-    padding-top: 4px;
-    box-shadow: inset 0 -1px 0 0 rgba(164, 173, 214, 0.39);
-    background-color: #ecf8ff;
-    transition: background-color 0.2s ease;
-    border: 1px solid #aed4e6;
-    border-left: none;
-    color: #00578c;
-    &:hover {
-        background-color: #f1f1f1;
-        transition: background-color 0.2s ease;
-    }
-    &:active {
-        background-color: #0277bd;
+    tb-icon {
+        min-width: 32px;
+        height: 30px;
+        font-size: 20px;
+        margin: 0;
+        padding-top: 0;
         box-shadow: none;
-        border-color: #00578c;
-        transition: background-color 0.2s ease;
-        color: #fff;
+        background-color: #fff;
+        border: 1px solid #aed4e6;
+        border-left: none;
+        border-radius: none;
+        color: $darkblue;
+        transition: all 0.4s ease;
+        m4-icon {
+            color: $darkblue;
+        }
+        &:hover {
+            transition: all 0.4s ease;
+            background-color: $darkblue;
+            border-color: $darkblue;
+            color: #fff;
+            tb-icon,
+            i {
+                color: #fff;
+            }
+        }
+        &:active {
+            background-color: #0277bd;
+            box-shadow: none;
+            color: #fff;
+        }
+    }
+    &.k-state-disabled {
+        opacity: 1;
+        background-color: $bkg-light;
+        border: none;
+        tb-icon {
+            color: #ccc;
+            background-color: $bkg-light;
+            border: none;
+        }
     }
 }
 
-m4-icon {
-    font-size: 30px;
-    width: 35px;
-}
-
-.div-icon {
+::ng-deep tb-icon .div-icon {
     width: 35px;
     height: 35px;
     line-height: 35px;
@@ -73,18 +95,19 @@ m4-icon {
 }
 
 :host-context(.dropDownButton) {
-     .k-button{
+    .k-button {
         background: #ffffff;
         border: 0px;
         width: 100%;
-        color:black;
+        color: black;
         cursor: pointer;
         line-height: 30px;
         font-size: 14px;
         font-weight: 400;
         border-radius: 0px;
-
-        &:hover, &:focus, &:active{
+        &:hover,
+        &:focus,
+        &:active {
             background: #f7f7f7;
             border: 0px;
         }
@@ -97,11 +120,11 @@ m4-icon {
     tb-icon {
         width: 35px;
         font-size: 20px;
-         margin: 0;
-         padding-top: 0px;
+        margin: 0;
+        padding-top: 0px;
         box-shadow: none;
-        background-color:transparent;
-         transition: none;
+        background-color: transparent;
+        transition: none;
         border: 0px;
         border-left: none;
         color: black;
@@ -111,18 +134,15 @@ m4-icon {
         text-align: left;
         padding-left: 5px;
     }
-    
     m4-icon {
         font-size: 30px;
         width: 35px;
     }
-    
     .div-icon {
         width: 35px;
         height: 35px;
         line-height: 35px;
     }
-    
     .div-icon img {
         height: 20px;
         margin-top: 4px;

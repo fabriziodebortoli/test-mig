@@ -1,13 +1,14 @@
+@import '../../../../style/tb.scss';
 .toolbar-top {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
     align-content: flex-start;
-    background: #fff;
+    background: $bkg-light;
     border-bottom: 1px solid #ddd;
-    height: 44px;
     align-items: center;
+    height: 40px;
 }
 
 .history {
@@ -26,10 +27,11 @@
     display: flex;
     flex: 1 1 auto;
     &>span {
-        line-height: 44px;
+        line-height: 40px;
         margin: 0 10px;
         font-weight: 500;
         font-size: 16px;
+        color: $darkblue;
     }
 }
 
@@ -38,7 +40,7 @@
     flex: 0 1 auto;
     flex-direction: row;
     padding: 0px 0 0 3px;
-    height: 44px;
+    height: 40px;
     align-items: center;
 }
 
@@ -46,6 +48,6 @@
     display: flex;
     flex: 0 1 auto;
     padding: 0px 0 0 3px;
-    height: 44px;
+    height: 40px;
     align-items: center;
 }
