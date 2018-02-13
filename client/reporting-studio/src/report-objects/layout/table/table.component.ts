@@ -78,6 +78,8 @@ export class ReportTableComponent {
 
   // -----------------------------------------------------
   getColumnHeaderStyle(column: column): any {
+    if (column.hidden)
+        return {};
     let obj = {
       'font-family': column.title.font.face,
       'font-size': column.title.font.size + 'px',
