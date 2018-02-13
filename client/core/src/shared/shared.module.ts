@@ -151,8 +151,6 @@ import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-ca
 import { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
 import { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
 import { TbCardComponent } from './containers/tb-card/tb-card.component';
-import { TabComponent } from './containers/tabs/tab/tab.component';
-import { TabberComponent } from './containers/tabs/tabber/tabber.component';
 import { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
 import { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
@@ -179,8 +177,6 @@ export { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-ca
 export { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
 export { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
 export { TbCardComponent } from './containers/tb-card/tb-card.component';
-export { TabComponent } from './containers/tabs/tab/tab.component';
-export { TabberComponent } from './containers/tabs/tabber/tabber.component';
 export { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
 export { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 export { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
@@ -202,8 +198,8 @@ export { StatusTileComponent } from './containers/tiles/status-tile-panel/status
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
-    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent, 
+        TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent, PanelComponent
 ];
 
