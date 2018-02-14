@@ -6873,11 +6873,13 @@ REGISTER_WND_OBJ_CLASS(CHRefDescription, HRef)
 //-----------------------------------------------------------------------------
 CHRefDescription::CHRefDescription()
 {
+	m_Type = CWndObjDescription::HRef;
 }
 
 //-----------------------------------------------------------------------------
-CHRefDescription::CHRefDescription(CWndObjDescription * pParent)
+CHRefDescription::CHRefDescription(CWndObjDescription * pParent) : CWndObjDescription(pParent)
 {
+	m_Type = CWndObjDescription::HRef;
 }
 
 //-----------------------------------------------------------------------------

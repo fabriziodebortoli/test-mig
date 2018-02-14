@@ -46,8 +46,7 @@ CEasyStudioDesignerDialog::CEasyStudioDesignerDialog(const CString& sJsonFile)
 	m_DummyParent.SetRuntimeState(CWndObjDescription::STATIC);
 	CJsonResource res;
 	res.PopulateFromFile(m_strJsonFile);
-	res.m_sJsonContext = TRUE;
-	m_pJsonContext = CJsonFormEngineObj::GetInstance()->CreateContext(res, false);
+	m_pJsonContext = CJsonFormEngineObj::GetInstance()->CreateContext(res, false, true);
 	Init();
 }
 
@@ -78,7 +77,6 @@ BOOL CEasyStudioDesignerDialog::Create(CWnd* pParent, CBaseDocument* pDoc)
 	CWndObjDescription* pDescri = m_pJsonContext->m_pDescription;
 	if (!pDescri)
 		return FALSE;
-	//m_pJsonContext->m_bIsJsonDesigner = TRUE;
 	m_nID = AfxGetTBResourcesMap()->GetTbResourceID(m_pJsonContext->m_JsonResource.m_strName, TbResources, 1, m_pJsonContext->m_JsonResource.m_strContext);
 	CString sName = CJsonFormEngineObj::GetObjectName(pDescri);
 	SetFormName(sName);
@@ -129,8 +127,13 @@ void CEasyStudioDesignerDialog::OnShowWindow(BOOL bShow, UINT nStatus)
 void CEasyStudioDesignerDialog::AppendDefine(CString& sBuffer, CWndObjDescription* pDesc)
 {
 	CString sJsonId = pDesc->GetJsonID();
-	if (sJsonId.IsEmpty())
-		ASSERT(false);
+	if (sJsonId.IsEmpty()) {
+		CHRefDescription* pHrefDesc = (CHRefDescription*)pDesc;
+		if (pHrefDesc && pHrefDesc->m_sHRef != "")			
+			return;
+		else	ASSERT(false);
+	}
+		
 	else if (!AfxGetTBResourcesMap()->IsFixedResource(sJsonId) && pDesc->GetParent() != &m_DummyParent)
 	{
 		sBuffer.Append(_T("#define "));
@@ -257,6 +260,8 @@ CString CEasyStudioDesignerDialog::GetCode()
 //--------------------------------------------------------------------------------
 bool CEasyStudioDesignerDialog::SaveFile()
 {
+	if(!m_pJsonContext || !m_pJsonContext->m_pDescription)
+		return FALSE;
 	CWndObjDescription* pDesc = m_pJsonContext->m_pDescription->DeepClone();
 	CWndObjDescriptionContainer container;
 	container.Add(pDesc);
@@ -601,7 +606,7 @@ BOOL CEasyStudioDesignerView::UpdateFromSourceCode(const CString& sCode)
 		return FALSE;
 
 	CString sFile = m_pDialog->m_strJsonFile;
-	CJsonContextObj* pNewContext = CJsonFormEngineObj::GetInstance()->CreateContext();
+	CJsonContextObj* pNewContext = CJsonFormEngineObj::GetInstance()->CreateContext(true);
 	pNewContext->m_JsonResource.PopulateFromFile(sFile);
 	pNewContext->m_strCurrentResourceContext = pNewContext->m_JsonResource.m_strContext;
 	CArray<CWndObjDescription*>ar;

@@ -89,8 +89,8 @@ public:
 	virtual BOOL CreateChilds(CJsonContextObj* pContext, CWnd* pParentWnd);
 	virtual void ClearCache() = 0;
 	virtual void BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContextObj* pContext) = 0;
-	virtual CJsonContextObj* CreateContext() = 0;
-	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true) = 0;
+	virtual CJsonContextObj* CreateContext(bool bIsJsonEditor = false) = 0;
+	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true, bool bIsJsonEditor = false) = 0;
 	virtual void MergeContext(const CJsonResource& sJsonResource, CJsonContextObj* pContext) = 0;
 	virtual void GetDeltaJsonFormInfos(const CString& sJsonId, CArray<CJsonResource>& sources) = 0;
 	virtual BOOL IsValid(CLocalizableDialog* pDialog) = 0; 

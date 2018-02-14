@@ -10,7 +10,6 @@ enum TbResourceType {TbResources, TbControls, TbCommands };
 class TB_EXPORT CJsonResource
 {
 public:
-	BOOL m_sJsonContext = FALSE;
 	CString m_strName;
 	CString m_strContext;//contesto da cui sta caricando il json corrente (praticamente, la cartella del file json)
 	CString m_strJsonContext; //contesto indicato nel file json (supporto per il pregresso, serve per far funzionare il motore di traduzione)
