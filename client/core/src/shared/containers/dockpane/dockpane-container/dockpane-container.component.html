@@ -1,4 +1,4 @@
-<div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState" *ngIf="getDockpanes().length > 0">
+<div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState">
 
     <div class="dockpane-tabber-selector">
 
@@ -7,6 +7,8 @@
                 <tb-icon [iconType]="t?.iconType" [icon]="t?.icon" [title]="t?.title"></tb-icon>
             </li>
         </ul>
+
+        <m4-icon class="pin" [icon]="getPinIcon()" (click)="pinned=!pinned" *ngIf="dockState === 'expanded'"></m4-icon>
 
     </div>
 
