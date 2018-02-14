@@ -44,6 +44,8 @@ import { ParameterService } from './services/parameters.service';
 import { PaginatorService } from './services/paginator.service';
 import { FilterService} from './services/filter.services';
 import { HyperLinkService} from './services/hyperlink.service';
+import { ComponentMediator } from './services/component-mediator.service';
+import { StorageService } from './services/storage.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -79,13 +81,15 @@ export { ParameterService } from './services/parameters.service';
 export { PaginatorService } from './services/paginator.service';
 export { FilterService} from './services/filter.services';
 export { HyperLinkService} from './services/hyperlink.service';
+export { StorageService } from './services/storage.service';
+export { ComponentMediator } from './services/component-mediator.service';
 
 export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
-    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store
+    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService, ComponentMediator
 ];
 
 import { CoreGuard } from './guards/core.guard';

@@ -2,8 +2,7 @@ import { URLSearchParams } from '@angular/http';
 import { NgForm } from "@angular/forms";
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { EnumsService } from './../../../core/services/enums.service';
-import { EventDataService } from './../../../core/services/eventdata.service';
-import { DocumentService } from './../../../core/services/document.service';
+import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { Store } from './../../../core/services/store.service';
 import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings } from '@progress/kendo-angular-grid';
@@ -21,6 +20,7 @@ import { FormMode } from './../../../shared/models/form-mode.enum';
 import { State } from './../customisable-grid/customisable-grid.component';
 
 import * as _ from 'lodash';
+import { EventDataService } from '../../../core/services/eventdata.service';
 
 export const ViewStates = { opened: 'opened', closed: 'closed' };
 
@@ -36,7 +36,7 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
         ])
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [PaginatorService, FilterService]
+    providers: [PaginatorService, FilterService, ComponentMediator]
 })
 export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
     @Input() maxColumns = 10;
@@ -53,28 +53,25 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
 
-    constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
-        private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
-        private paginator: PaginatorService, private filterer: FilterService, layoutService: LayoutService,
-        tbComponentService: TbComponentService, private store: Store) {
-        super(layoutService, tbComponentService, changeDetectorRef)
+    constructor(public s: ComponentMediator, private enumsService: EnumsService,
+        private elRef: ElementRef, private store: Store,
+        private paginator: PaginatorService, private filterer: FilterService) {
+        super(s.layout, s.tbComponent, s.changeDetectorRef)
     }
 
     ngOnInit() {
         this.filterer.start(400, this.elRef);
         this.paginator.start(1, this.pageSize,
-            Observable.combineLatest(this.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
+            Observable.combineLatest(this.s.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
                 (a, b, c) => ({ model: a, customFilters: b, customSort: c })),
             (pageNumber, serverPageSize, data?) => {
                 let p = new URLSearchParams();
-                p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
+                p.set('documentID', this.s.document.mainCmpId);
                 p.set('page', (pageNumber + 1).toString());
                 p.set('per_page', serverPageSize.toString());
-                if (data.customFilters)
-                    p.set('customFilters', JSON.stringify(data.customFilters));
-                if (data.customSort)
-                    p.set('customSort', JSON.stringify(data.customSort));
-                return this.dataService.getRadarData(p);
+                if (data.customFilters) p.set('customFilters', JSON.stringify(data.customFilters));
+                if (data.customSort) p.set('customSort', JSON.stringify(data.customSort));
+                return this.s.data.getRadarData(p);
             });
         this.paginator.clientData.subscribe(d => {
             this.exitFindMode();
@@ -83,8 +80,13 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         });
         this.store.select(m => _.get(m, 'FormMode.value'))
             .subscribe(m => this.state = { ...this.state, canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND });
-        this.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
+        this.s.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.s.set('columns', JSON.stringify(Object.keys(this.state.columns).map(i => this.state.columns[i].id)));
     }
 
     setData(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
@@ -93,7 +95,12 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         const rows = d.columns.length < maxCols ? d.rows :
             d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
                 .slice(0, maxCols).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
-        const cols = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
+
+        let cols = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
+        const sort = JSON.parse(this.s.get('columns'));
+        if (sort) cols = cols.sort((a, b) => 
+            sort.findIndex(a) - sort.findIndex(a));
+
         this.state = { ...this.state, columns: cols, rows: rows, gridData: { data: rows, total: d.total, columns: cols } };
         this.restoreViewSelection();
     }
@@ -109,7 +116,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     selectedKeysChange(e) {
         if (e.length && e[0]) {
             this.state = { ...this.state, selectedIndex: this.state.rows.findIndex(x => x[this.selectionColumnId] === e[0]) };
-            this.eventData.radarRecordSelected.emit(e[0]);
+            this.s.eventData.radarRecordSelected.emit(e[0]);
         }
     }
 
@@ -123,20 +130,20 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         if (this.isFormMode(FormMode.EDIT)) return;
         const id = item[this.selectionColumnId];
         this.state = { ...this.state, selectionKeys: [id] };
-        this.eventData.radarRecordSelected.emit(id);
+        this.s.eventData.radarRecordSelected.emit(id);
     }
 
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
-        if (!this.pinned) this.eventData.showRadar.next(false);
+        if (!this.pinned) this.s.eventData.showRadar.next(false);
         this.state = { ...this.state, canNavigate: false };
-        this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
+        this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
         this.selectByItem(item);
     }
 
     exitFindMode() {
         if (this.isFormMode(FormMode.FIND))
-            this.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
+            this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
     private show(show: boolean) {
@@ -201,6 +208,6 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
-    isFormMode = (formMode: FormMode): boolean => _.get(this.eventData, 'model.FormMode.value') === formMode;
+    isFormMode = (formMode: FormMode): boolean => _.get(this.s.eventData, 'model.FormMode.value') === formMode;
     toggle = () => this.viewState = this.viewState === ViewStates.opened ? ViewStates.closed : ViewStates.opened;
 }

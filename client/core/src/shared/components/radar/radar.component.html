@@ -14,7 +14,7 @@
             <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !state.canNavigate'>
                 <tb-icon [iconType]="'M4'" [icon]="'tb-next'"></tb-icon>
             </button>
-            <button kendoButton class="top-button" (click)="eventData.showRadar.next(false)" [title]="_TB('Close')">
+            <button kendoButton class="top-button" (click)="s.eventData.showRadar.next(false)" [title]="_TB('Close')">
                 <tb-icon id="close-button" [iconType]="'M4'" [icon]="'tb-collapsearrowfilled'"></tb-icon>
             </button>
         </div>

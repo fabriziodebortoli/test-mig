@@ -6,13 +6,14 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
 import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, Directive, ContentChild, TemplateRef } from '@angular/core';
-import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings, ColumnReorderEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
+import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
@@ -36,7 +37,8 @@ export class State {
     selector: 'tb-customisable-grid',
     templateUrl: './customisable-grid.component.html',
     styleUrls: ['./customisable-grid.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ComponentMediator]
 })
 export class CustomisableGridComponent extends ControlComponent implements OnInit, OnDestroy {
     @Input() pageSize = 10;
@@ -56,12 +58,11 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     public selectableSettings: SelectableSettings;
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
+    private _filter: CompositeFilterDescriptor;
 
-    constructor(public log: Logger, private eventData: EventDataService, private enumsService: EnumsService,
-        private elRef: ElementRef, public changeDetectorRef: ChangeDetectorRef, private dataService: DataService,
-        private paginator: PaginatorService, public filterer: FilterService, layoutService: LayoutService,
-        tbComponentService: TbComponentService, private store: Store) {
-        super(layoutService, tbComponentService, changeDetectorRef)
+    constructor(public s: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
+        private paginator: PaginatorService, public filterer: FilterService, private store: Store) {
+        super(s.layout, s.tbComponent, s.changeDetectorRef);
     }
 
     ngOnInit() {
@@ -78,6 +79,10 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.stop();
     }
 
+    columnReorder(e: ColumnReorderEvent) {
+        
+    }
+
     get areFiltersVisibleIcon() {
         return this.areFiltersVisible ? 'tb-filterandsortfilled' : 'tb-filterandsort';
     }
@@ -86,11 +91,11 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         return this.areFiltersVisible ? this._TB('Hide Filters') : this._TB('Show Filters');
     }
 
-    private _filter: CompositeFilterDescriptor;
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = _.cloneDeep(value);
         this.filterer.filter = _.cloneDeep(value);
-        this.filterer.lastChangedFilterIdx = this.state.columns.findIndex(c => c.id === this.filterer.changedField) - (this.selectionColumnId ? 1 : 0);
+        this.filterer.lastChangedFilterIdx = this.state.columns
+            .findIndex(c => c.id === this.filterer.changedField) - (this.selectionColumnId ? 1 : 0);
         this.filterer.onFilterChanged(value);
     }
 
@@ -99,7 +104,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     filterChange(filter: CompositeFilterDescriptor): void {
-        this.filter = filter;
+        this._filter = filter;
     }
 
     sortChange(sort: SortDescriptor[]): void {
