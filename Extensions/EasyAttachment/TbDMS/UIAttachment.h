@@ -380,6 +380,7 @@ class CAttachmentBarcodeTileDlg : public CAttachmentBaseTileDlg
 
 public:
 	DataBool m_bManualBarcodeDetection;
+	DataStr m_StaticNotes;
 
 public:
 	CAttachmentBarcodeTileDlg();
@@ -424,6 +425,10 @@ public:
 	DataStr		m_RegistrationDate;
 	DataStr		m_Info;
 	DataBool	m_bEnableAttachForSOS;
+
+	DataStr		m_StaticAbsoluteCode;
+	DataStr		m_StaticLotID;
+	DataStr		m_StaticRegistrationDate;
 
 public:
 	CAttachmentSOSTileDlg();
