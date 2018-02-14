@@ -4,14 +4,22 @@
     min-height: 100%;
 }
 
+:host(tb-dockpane-container.pinned) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 40px;
+    overflow: hidden;
+}
+
 .dockpane-tabber {
     display: flex;
     min-height: 100%;
     overflow: hidden;
     .dockpane-tabber-selector {
-        // background: linear-gradient(to bottom, #333333 0%, #333333 14%, #5e5e5e 23%, rgba(241, 241, 241, 0) 60%);
         background: #333;
         width: 40px;
+        position: relative;
         ul.selector {
             padding: 6px 0 0;
             margin: 0;
@@ -48,6 +56,13 @@
                     color: #fff;
                 }
             }
+        }
+        m4-icon.pin {
+            position: absolute;
+            bottom: 5px;
+            left: 14px;
+            color: #fff;
+            cursor: pointer;
         }
     }
     .dockpane-content {
