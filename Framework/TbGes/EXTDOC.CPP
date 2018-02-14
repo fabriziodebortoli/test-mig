@@ -5621,6 +5621,7 @@ void CAbstractFormDoc::BatchStart()
 			}
 		}
 
+		OnManageAfterBatchExecute();
 		EnableControls();
 		UpdateDataView();
 

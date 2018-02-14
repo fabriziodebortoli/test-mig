@@ -945,6 +945,7 @@ public:
 	virtual void OnPrepareAuxData				(CTileDialog*);
 	virtual void OnUpdateTitle					(CTileDialog*){}
 	virtual CString OnGetCaption(CAbstractFormView*) { return _T(""); }
+	virtual void OnManageAfterBatchExecute		() {}
 
 	virtual void DispatchDisableControlsForBatch	();
 	virtual	void DispatchDisableControlsForAddNew	();
@@ -953,7 +954,7 @@ public:
 	virtual	void DispatchDisableControlsAlways		();
 	virtual BOOL DispatchOnBeforeBatchExecute		();
 	virtual void DispatchOnAfterBatchExecute		();
-
+	
 	//da disabilitare i campi se il documento è chiamato da HotLink
 	virtual void OnDisableControlsForCallLink() {};
 
