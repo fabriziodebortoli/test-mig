@@ -3,8 +3,8 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { ControlComponent } from './../control.component';
-import { State } from './../../components/customisable-grid/customisable-grid.component';
+import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
+import { State } from './../../components/radar/custom-grid.component';
 import { HttpService } from './../../../core/services/http.service';
 import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
@@ -17,15 +17,9 @@ import { PaginatorService, ServerNeededParams } from '../../../core/services/pag
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HyperLinkService, HyperLinkInfo} from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
+import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
 import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
-
-export class HotLinkState extends State {
-  readonly selectionColumn: string;
-  readonly selectionTypes: any[];
-  readonly selectionType: string = 'code';
- }
-export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
 declare var document:any;
 
 @Component({
@@ -34,98 +28,71 @@ declare var document:any;
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
   providers: [PaginatorService, FilterService, HyperLinkService]
 })
-export class TbHotlinkButtonsComponent extends ControlComponent implements OnDestroy, OnInit {
+export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
 
-  private _modelComponent: HlComponent
-  @Input() public get modelComponent(): HlComponent {
-    return this._modelComponent;
-  }
-
-  public set modelComponent(value: HlComponent) {
-    this._modelComponent = value;
-    if (value && value.model) { this.model = value.model; }
-  }
-
-  public hotLinkInfo: HotLinkInfo;
-
-  private _slice$: Observable<{ value: any, enabled: boolean, selector: any }>;
-  public set slice$(value: Observable<{ value: any, enabled: boolean, selector: any }>) {
-    this._slice$ = value;
-  }
-  public get slice$(): Observable<{ value: any, enabled: boolean, selector: any }>{
-    return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
-  }
-
-  private _state = new HotLinkState();
-  private state$ = new BehaviorSubject(this._state);
-  set state(state: HotLinkState) {
-    this._state = state;
-    this.state$.next(state);
-  }
-  get state(): HotLinkState {
-    return this._state;
-  }
-
-  private info = false;
-  private type: 'numeric' | 'input' = 'numeric';
-  private pageSizes = false;
-  private previousNext = true;
-  private pageSize = 20;
-  private showTableSubj$ = new BehaviorSubject(false);
-  private defaultPageCounter = 0;
-
-  private _filter: CompositeFilterDescriptor;
-  private get filter(): CompositeFilterDescriptor {
-    return this._filter;
-  }
-
-  private set filter(value: CompositeFilterDescriptor) {
-    this._filter = _.cloneDeep(value);
-    this.filterer.filter = _.cloneDeep(value);
-    this.filterer.onFilterChanged(value);
-  }
-
-  public get showTable$(): Observable<boolean> {
-    return this.showTableSubj$.asObservable();
-  }
-
-  private showOptionsSubj$ = new BehaviorSubject(false);
-  public get showOptions$() {
-    return this.showOptionsSubj$.asObservable();
-  }
-
-  public get isDisabled(): boolean {
-    if (!this.model) { return true; }
-    return !this.model.enabled;
-  }
 
   private optionsPopupRef: PopupRef;
-  optionsSub: Subscription;
   private tablePopupRef: PopupRef;
-  tableSub: Subscription;
-  currentHotLinkNamespace: string;
+  private optionsSub: Subscription;
+  private tableSub: Subscription;
+  private gridAutofitSub: Subscription;
   private isTablePopupVisible = false;
   private isOptionsPopupVisible = false;
 
-  constructor(public httpService: HttpService,
-    private documentService: DocumentService,
-    layoutService: LayoutService,
-    public enumService: EnumsService,
-    changeDetectorRef: ChangeDetectorRef,
-    private eventDataService: EventDataService,
-    private paginator: PaginatorService,
-    private filterer: FilterService,
-    private hyperLinkService: HyperLinkService,
-    private optionsPopupService: PopupService,
-    private tablePopupService: PopupService,
-    private vcr: ViewContainerRef
-  ) {
-    super(layoutService, documentService, changeDetectorRef);
+  private previousNext = true;
+
+  private adjustTableSub: Subscription;
+  private get adjustTable$(): Observable<any> {
+    return this.state$.pipe(untilDestroy(this))
+    .filter(_ => this.tablePopupRef !== undefined)
+    .take(1);
   }
 
-  get isAttachedToAComboBox(): boolean {
-    if (this.modelComponent && this.modelComponent.isCombo) { return true; }
-    return false;
+  private showTableSubj$ = new BehaviorSubject(false);
+  public get showTable$(): Observable<boolean> { return this.showTableSubj$.asObservable(); }
+  
+  private showOptionsSubj$ = new BehaviorSubject(false);
+  public get showOptions$() { return this.showOptionsSubj$.asObservable(); }
+
+  public get isDisabled(): boolean { if (!this.model) { return true; } return !this.model.enabled; }
+
+  private oldTablePopupZIndex: string;
+  private _tbInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
+  get textBoxInfo (): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}  {
+    if(this._tbInfo) return this._tbInfo;
+
+    let tb: HTMLElement;
+    tb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
+    if(!tb) return undefined;
+    let oldColor = tb.style.color;
+    let oldDecoration = tb.style.textDecoration;
+    let oldCursor = tb.style.cursor;
+    let oldPointerEvents = tb.style.pointerEvents;
+    this._tbInfo = { 
+        element: tb,
+        initInfo: {
+          color: oldColor,
+          textDecoration: oldDecoration,
+          cursor: oldCursor,
+          pointerEvents: oldPointerEvents
+        }
+    };
+    return this._tbInfo;
+  }
+
+  constructor(layoutService: LayoutService,
+              protected httpService: HttpService,
+              protected documentService: DocumentService,
+              protected enumService: EnumsService,
+              protected changeDetectorRef: ChangeDetectorRef,
+              protected eventDataService: EventDataService,
+              protected paginator: PaginatorService,
+              protected filterer: FilterService,
+              protected hyperLinkService: HyperLinkService,
+              protected optionsPopupService: PopupService,
+              protected tablePopupService: PopupService,
+              protected vcr: ViewContainerRef) {
+    super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
   }
 
   private subscribeOpenTable(anchor, template){
@@ -134,9 +101,20 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       if(hasToOpen){
         let popupA = PopupHelper.getPopupAlign(anchor);
         let anchorA = PopupHelper.getAnchorAlign(anchor);
-        this.tablePopupRef = this.tablePopupService.open({anchor: anchor, content: template, popupAlign: popupA, anchorAlign: anchorA });
+        this.tablePopupRef = this.tablePopupService.open({
+          anchor: anchor,
+          content: template,
+          popupAlign: popupA,
+          anchorAlign: anchorA,
+          popupClass: 'tb-hotlink-tablePopup',
+          appendTo: this.vcr
+         });
+        if(this.tablePopupRef.popupElement) {
+          this.oldTablePopupZIndex = this.tablePopupRef.popupElement.style.zIndex;
+          this.tablePopupRef.popupElement.style.maxWidth = JSON.stringify(document.body.offsetWidth) + 'px';
+          this.tablePopupRef.popupElement.style.zIndex = '-1'; 
+        }
         this.tablePopupRef.popupOpen.asObservable()
-          .do(_ => this.isTablePopupVisible = true)
           .subscribe(_ => this.loadTable());
       } else {
         if (this.tablePopupRef) { 
@@ -152,7 +130,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     if (!this.optionsSub) {
       this.optionsSub = this.showOptions$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
         if (hasToOpen) {
-          this.optionsPopupRef = this.optionsPopupService.open({ anchor: anchor, content: template });
+          this.optionsPopupRef = this.optionsPopupService.open({ 
+            anchor: anchor,
+            content: template,
+            popupClass: 'tb-hotlink-optionsPopup',
+            appendTo: this.vcr });
           this.optionsPopupRef.popupOpen.asObservable()
             .do(_ => this.isOptionsPopupVisible = true)
             .subscribe(_ => this.loadOptions());
@@ -177,93 +159,60 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
   }
 
-  private dropDownOpened = false;
-  openDropDown() {
-    this.start();
-    this.dropDownOpened = true;
-  }
-
-  closeDropDown() {
-    this.stop();
-    this.dropDownOpened = false;
-  }
-
   closeOptions() { this.showOptionsSubj$.next(false); }
   openOptions() { this.showOptionsSubj$.next(true); }
   closeTable() { this.showTableSubj$.next(false); this.stop(); }
   openTable() { this.showTableSubj$.next(true); }
   closePopups() { this.closeOptions(); this.closeTable(); }
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
-  private start() {
+  protected start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200);
     this.paginator.start(1, this.pageSize,
-      combineFiltersMap(this.slice$, this.filterer.filterChanged$.filter(x => x.logic !== undefined), (l, r) => ({ model: l, customFilters: r})),
-      (pageNumber, serverPageSize, otherParams) => {
+      Observable
+      .combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
+        (slice, filter, sort) => ({ model: slice, customFilters: filter, customSort: sort})),
+      (pageNumber, serverPageSize, args) => {
         let ns = this.hotLinkInfo.namespace;
-        if (!ns && otherParams.model.selector && otherParams.model.selector !== '') { 
-          ns = otherParams.model.items[otherParams.model.selector].namespace;
+        if (!ns && args.model.selector && args.model.selector !== '') { 
+          ns = args.model.items[args.model.selector].namespace;
         }
         this.currentHotLinkNamespace = ns;
         let p: URLSearchParams = new URLSearchParams();
-        p.set('filter', JSON.stringify(otherParams.model.value));
+        p.set('filter', JSON.stringify(args.model.value));
         p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
         p.set('hklName', this.hotLinkInfo.name);
-        if (otherParams.customFilters && otherParams.customFilters.logic && otherParams.customFilters.filters && otherParams.customFilters.field)
-          p.set('customFilters', JSON.stringify(otherParams.customFilters));
-
+        if (args.customFilters && args.customFilters.logic && args.customFilters.filters && args.customFilters.field)
+          p.set('customFilters', JSON.stringify(args.customFilters));
+        if (args.customSort)
+          p.set('customSort', JSON.stringify(args.customSort));
+        p.set('disabled', '0');
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
         return this.httpService.getHotlinkData(ns, this.state.selectionType,  p);
-      },
-    {model: {value: this.modelComponent.model.value}, customFilters: ''});
+      });
+
+     if(this.adjustTableSub && this.adjustTableSub.closed)
+       this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     this.paginator.clientData.subscribe((d) => {
         this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };        
     });
-
-    this.filterer.filterChanged$.filter(x => (this.isAttachedToAComboBox && x.logic !== undefined) || !this.isAttachedToAComboBox)
-      .subscribe(x => { 
-      if (this.isAttachedToAComboBox && this.modelComponent && this.modelComponent.model) {
-          this.modelComponent.model.value = _.get(x, 'filters[0].value');
-          this.emitModelChange();
-      }
-    });
   }
 
-  private stop() {
-    this.paginator.stop();
-    this.filterer.stop();
-  }
-
-  public onFilterChange(filter: CompositeFilterDescriptor): void {
-    this.filter = filter;
-  }
-
-  public onComboFilterChange(filter: string): void {
-    if (this.dropDownOpened) {
-      if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
-      else this.filter = {logic: 'and', filters: [{field: this.state.selectionColumn, operator: 'contains', value: filter}]};
-    } 
-  }
-
-  protected async pageChange(event: PageChangeEvent) {
-    await this.paginator.pageChange(event.skip, event.take);
-  }
-
-  protected async nextDefaultPage() {
-    this.defaultPageCounter++;
-    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
-  }
-
-  protected async prevDefaultPage() {
-    this.defaultPageCounter--;
-    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
-  }
-
-  protected async firstDefaultPage() {
-    this.defaultPageCounter = 0;
-    await this.paginator.pageChange(0, this.pageSize);
+  private adjustTablePopupGrid(): void {
+    if(!this.tablePopupRef) return;
+    let toggleFiltersBtn = ((this.tablePopupRef.popupElement.getElementsByClassName('tb-toggle-filters') as HTMLCollection).item(0) as HTMLElement);
+    if (toggleFiltersBtn) {
+      toggleFiltersBtn.click();
+      setTimeout(() => {
+        let autofitColumnsBtn = ((this.tablePopupRef.popupElement
+          .getElementsByClassName('tb-autofit-columns') as HTMLCollection).item(0) as HTMLElement);
+        if (autofitColumnsBtn) autofitColumnsBtn.click();
+        this.tablePopupRef.popupElement.style.zIndex = this.oldTablePopupZIndex;
+        this.isTablePopupVisible = true
+      });
+    }
   }
 
   private loadTable() { this.start(); }
@@ -271,14 +220,6 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
   selectionTypeChanged(type: string) {
     this.state = {...this.state, selectionType: type };
     this.closeOptions();
-  }
-
-  comboSelectionChanged(value: any) {
-    _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
-    if (this.modelComponent && this.modelComponent.model) {
-      this.modelComponent.model.value =  _.get(value, 'id');
-      this.emitModelChange();
-    }
   }
 
   selectionChanged(value: any) {
@@ -294,39 +235,11 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     this.closePopups();
   }
 
-  emitModelChange() {
-    // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-    setTimeout(() => this.eventDataService.change.emit(this.modelComponent.cmpId));
-  }
-
   private async loadOptions() {
     let ns = this.currentHotLinkNamespace;
     if (!ns) ns = this.hotLinkInfo.namespace;
     let json = await this.httpService.getHotlinkSelectionTypes(ns).toPromise();
     this.state = {...this.state, selectionTypes: json.selections };
-  }
-
-  private _tbInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
-  get textBoxInfo (): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}  {
-    if(this._tbInfo) return this._tbInfo;
-
-    let tb: HTMLElement;
-    tb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
-    if(!tb) return undefined;
-    let oldColor = tb.style.color;
-    let oldDecoration = tb.style.textDecoration;
-    let oldCursor = tb.style.cursor;
-    let oldPointerEvents = tb.style.pointerEvents;
-    this._tbInfo = { 
-        element: tb,
-        initInfo: {
-          color: oldColor,
-          textDecoration: oldDecoration,
-          cursor: oldCursor,
-          pointerEvents: oldPointerEvents
-        }
-    };
-    return this._tbInfo;
   }
 
   ngOnInit() {
@@ -358,6 +271,8 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
       }
     }
 
+    this.adjustTableSub = this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
+
     Observable.fromEvent(document, 'keyup', { capture: true })
     .pipe(untilDestroy(this))
     .filter(e => (e as any).keyCode === 27)
@@ -367,10 +282,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
     .filter(e => ((this.tablePopupRef && !this.tablePopupRef.popupElement.contains((e as any).toElement))
                   || (this.optionsPopupRef && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
               && (this.isTablePopupVisible || this.isOptionsPopupVisible))
-    .subscribe(_ => this.closePopups());
-
-    if(this.isAttachedToAComboBox) 
-      this.state = {...this.state, selectionType: 'combo'};
+    .subscribe(_ => setTimeout(() => this.closePopups()));
   }
 
   ngOnDestroy() {

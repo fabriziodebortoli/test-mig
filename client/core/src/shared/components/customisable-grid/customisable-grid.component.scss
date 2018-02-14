@@ -89,6 +89,6 @@ tb-icon {
     text-overflow: ellipsis;
 }
 
-::ng-deep a.k-link.k-pager-nav.k-pager-last {
+:host ::ng-deep a.k-link.k-pager-nav.k-pager-last {
     display: none;
 }

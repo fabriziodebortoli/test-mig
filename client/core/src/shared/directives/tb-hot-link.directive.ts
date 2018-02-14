@@ -1,11 +1,11 @@
-import {
-    Directive, Input, ViewContainerRef, ComponentFactoryResolver,
-    OnInit, ComponentRef, OnChanges, SimpleChanges
-} from '@angular/core';
-import { TbHotlinkButtonsComponent, HlComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
-import { ControlComponent } from './../controls/control.component';
+import { Directive, Input, ViewContainerRef, ComponentFactory, ComponentFactoryResolver, OnInit, ComponentRef } from '@angular/core';
+import { HlComponent } from './../controls/hot-link-base/hotLinkTypes';
+import { TbHotlinkButtonsComponent } from './../controls/hot-link-buttons/tb-hot-link-buttons.component';
+import { TbHotlinkComboComponent } from './../controls/hot-link-combo/tb-hot-link-combo.component';
+import { TbHotLinkBaseComponent } from './../controls/hot-link-base/tb-hot-link-base.component';
+import { ComboComponent } from './../controls/combo/combo.component';
 import { Store } from '../../core/services/store.service';
-import { createSelector, createSelectorByMap } from '../../shared/commons/selector';
+import { createSelector } from '../../shared/commons/selector';
 import { EventDataService } from '../../core/services/eventdata.service';
 import { Observable } from './../../rxjs.imports';
 import { HotLinkInfo } from './../models/hotLinkInfo.model';
@@ -17,7 +17,7 @@ import * as _ from 'lodash';
 export class TbHotLinkDirective implements OnInit {
     hotLinkInfo: HotLinkInfo;
     model: any;
-    private cmp: ComponentRef<TbHotlinkButtonsComponent>
+    private cmp: ComponentRef<TbHotlinkButtonsComponent | TbHotlinkComboComponent>
     private get compMod(): any {
         return this.cmp.instance.modelComponent.model;
     }
@@ -60,10 +60,11 @@ export class TbHotLinkDirective implements OnInit {
     }
 
     ngOnInit() {
-        const compFactory = this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
-        this.cmp = this.viewContainer.createComponent(compFactory);
+        let compFactory = (this.ancestor && this.ancestor.isCombo) ? this.cfr.resolveComponentFactory(TbHotlinkComboComponent) :
+            this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
+            this.cmp = compFactory ? this.viewContainer.createComponent<TbHotlinkButtonsComponent | TbHotlinkComboComponent>(compFactory) : undefined ;
         if (!this.model) {
-            if(this.ancestor) {
+            if(this.cmp) {
                 this.cmp.instance.modelComponent = this.ancestor;
                 this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
             } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null });

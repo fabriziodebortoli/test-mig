@@ -1,67 +1,46 @@
-.searchOptions {
-    padding: 1px 3px;
-}
-
-.selTypeElem {
-    cursor: pointer;
-    padding: 0 5px;
-}
-
-.selTypeElem:hover {
-    background-color: rgba(202, 230, 247, 0.8);
-}
-
-.elemSelected {
-    background: #bde3f8;
-}
-
 .hotlinkButtonsContainer {
     display: -webkit-inline-box;
 }
 
-.dropDownItem {
-    display: flex;
-    flex: 1
+.tb-hotlink-optionsPopup {
+    .tablePopup {
+        max-width: 50%;
+        font-size: small;
+    }
+    .elemSelected {
+        background: #bde3f8;
+    }
+    .searchOptions {
+        padding: 1px 3px;
+    }
+    
+    .selTypeElem {
+        cursor: pointer;
+        padding: 0 5px;
+    }
+    
+    .selTypeElem:hover {
+        background-color: rgba(202, 230, 247, 0.8);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding: 2px;
+    }
+    
+    .grid-item {
+        padding: 2px;
+        text-align: center;
+    }
 }
 
-.dropDownItemId {
-    font-weight: bold
-}
-
-.dropDownItemDescription {
-    font-style: italic
-}
-
-.comboBoxPageNavigationButton {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-}
-
-.tablePopup {
-    max-width: 50%;
-    font-size: small;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    padding: 2px;
-  }
-  .grid-item {
-    padding: 2px;
-    text-align: center;
-  }
-
-::ng-deep .k-animation-container-shown,
-.k-animation-container>.k-popup {
+:host + ::ng-deep kendo-popup.k-animation-container-shown.k-animation-container {
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-}
-
-::ng-deep .dropDownNoData.k-loading-image::after {
-    margin-top: -0.5em;
-}
-
-::ng-deep .dropDownNoData.k-loading-image::before {
-    margin-top: -0.75em;
+    tb-custom-grid {
+        kendo-grid {
+            margin: auto;
+            width: 100%
+         }
+    }
 }

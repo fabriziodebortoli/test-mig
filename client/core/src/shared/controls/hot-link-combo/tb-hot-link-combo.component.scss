@@ -1,0 +1,26 @@
+.dropDownItem {
+    display: flex;
+    flex: 1
+}
+
+.dropDownItemId {
+    font-weight: bold
+}
+
+.dropDownItemDescription {
+    font-style: italic
+}
+
+.comboBoxPageNavigationButton {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+::ng-deep .dropDownNoData.k-loading-image::after {
+    margin-top: -0.5em;
+}
+
+ ::ng-deep .dropDownNoData.k-loading-image::before {
+    margin-top: -0.75em;
+}

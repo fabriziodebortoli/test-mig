@@ -79,6 +79,8 @@ import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
+import { TbHotlinkComboComponent } from './controls/hot-link-combo/tb-hot-link-combo.component';
+import { TbHotLinkBaseComponent } from './controls/hot-link-base/tb-hot-link-base.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 import { CustomisableGridComponent } from './components/customisable-grid/customisable-grid.component';
@@ -126,6 +128,8 @@ export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
+export { TbHotlinkComboComponent } from './controls/hot-link-combo/tb-hot-link-combo.component';
+export { TbHotLinkBaseComponent } from './controls/hot-link-base/tb-hot-link-base.component';
 export { ChangePasswordComponent } from './components/change-password/change-password.component';
 export { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
@@ -137,7 +141,8 @@ const TB_COMPONENTS = [
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
-    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
+    TbHotlinkComboComponent, TbHotLinkBaseComponent
 ];
 
 /**
@@ -376,6 +381,6 @@ import { TreeModule } from 'angular-tree-component';
     imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
     exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule, TB_PIPES],
-    entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent, TbHotlinkComboComponent, TbHotLinkBaseComponent]
 })
 export class TbSharedModule { }
