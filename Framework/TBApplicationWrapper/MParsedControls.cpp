@@ -2528,6 +2528,9 @@ bool BaseWindowWrapper::CanChangeProperty(System::String^ propertyName)
 {
 	bool canChange = true;
 
+	if (propertyName == "PartAnchor")
+		return false;
+
 	if (!IsStretchable)
 		return __super::CanChangeProperty(propertyName);
 
