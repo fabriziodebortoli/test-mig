@@ -22,7 +22,7 @@ Terminata l'installazione, seguire questa [guida](https://help.github.com/deskto
 
 ## Node.js [link](https://nodejs.org/)
   
-Versione **8.9.4 LTS** per Windows a 64bit - [download](https://nodejs.org/dist/v8.9.4/node-v8.9.4-x64.msi)
+Versione **8.9.4 LTS** per Windows a 64bit - [download](https://nodejs.org/dist/v8.9.4/node-v8.9.4-x64.msi) (***Installare con privilegi di Amministratore***)
 
 Versione **8.9.4 LTS** per MacOS - [download](https://nodejs.org/dist/v8.9.4/node-v8.9.4.pkg)
  
