@@ -46,6 +46,8 @@ class RecordArray;
 #define CREATED_ID_COL_NAME	 _T("TBCreatedID") 
 #define MODIFIED_ID_COL_NAME _T("TBModifiedID")
 
+#define RETURN_VALUE _T("@RETURN_VALUE")
+
 //-----------------------------------------------------------------------------
 #define BEGIN_BIND_DATA()	{int nPos = GetSize();
 #define END_BIND_DATA()		EndBindData(nPos);}
@@ -118,6 +120,10 @@ class RecordArray;
 //-----------------------------------------------------------------------------
 #define BIND_PARAM(a,b)\
 	BindParamDataObj(nParam++, a, b);
+
+#define BIND_RESULT_VALUE(b)	\
+	BindParamDataObj(nParam++, RETURN_VALUE, b);
+
 
 // Bind del campo f_TBGuid che mappa il campo fisico della tabella TBGuid
 // il valore viene assegnato in automatico in fase di inserimento del record
@@ -355,12 +361,14 @@ class TB_EXPORT SqlProcParamItem : public SqlBindItem
 	
 	DECLARE_DYNAMIC (SqlProcParamItem)
 
+
 protected:
 	SqlProcedureParamInfo*	m_pParameterInfo;
 
 public:
 	// costruttori
 	SqlProcParamItem (DataObj* pDataObj, const CString& strColumnName, SqlProcedureParamInfo* pParamInfo = NULL);
+	~SqlProcParamItem();
 
 public:
 	BOOL	IsEqual		(const SqlProcParamItem&)	const;

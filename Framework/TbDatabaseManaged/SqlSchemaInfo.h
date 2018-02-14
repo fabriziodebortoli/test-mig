@@ -81,13 +81,14 @@ public:
 public:
 	SqlColumnInfoObject();
 	SqlColumnInfoObject(const SqlColumnInfoObject&);
-	SqlColumnInfoObject::SqlColumnInfoObject
+	SqlColumnInfoObject
 	(
 		const	CString&	strTableName,
 		const	CString&	strColumnName,
 		const	DataObj&	aDataObj	);
 
 	virtual	BOOL IsEqual(const SqlColumnInfoObject& cf) const;
+
 	// diagnostics
 #ifdef _DEBUG
 public:
@@ -102,7 +103,7 @@ public:
 //								SqlProcedureParamInfo
 ///////////////////////////////////////////////////////////////////////////////
 //
-class TB_EXPORT SqlProcedureParamInfoObject : public CObject
+class TB_EXPORT SqlProcedureParamInfo : public CObject
 {
 public:
 	// Column info retrieved by SQL direct call
@@ -114,25 +115,25 @@ public:
 	short	    m_nType;
 	BOOL	    m_bHasDefault;
 	CString     m_strDefault;
-	BOOL		m_bIsNullable;
-
-	//short       m_nDataType; 
-	
+	BOOL		m_bIsNullable;	
 	SWORD		m_nSqlDataType;
 	CString		m_strSqlDataType; //NEWDBLAYER
 
-	long		m_nMaxLength;
-	long		m_nOctetLength;
-	short		m_nPrecision;
+	long		m_lLength;
+	long		m_lPrecision;
 	short       m_nScale;
 	CString     m_strDescription;
 
+private:
+	bool m_bDataObjInfoUpdated;
+
 	// constructor	
 public:
-	SqlProcedureParamInfoObject() {}
-	SqlProcedureParamInfoObject(const SqlProcedureParamInfoObject&);
+	SqlProcedureParamInfo();
+	SqlProcedureParamInfo(const SqlProcedureParamInfo&);
 
 public:
+	void UpdateResultValueType(DataObj* pResDataObj);
 	// Aggiorna i dati correlati al dataobj
 	void UpdateDataObjInfo(DataObj* pDataObj);
 

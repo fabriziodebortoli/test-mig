@@ -43,32 +43,21 @@ class SqlTableItem;
 //dato il tipo di tabella, view o procedure restituisce la stringa corrispondente
 CString GetTypeString(int nType);
 
-///////////////////////////////////////////////////////////////////////////////
-//								SqlColumnInfo
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlColumnInfo : public SqlColumnInfoObject, public CTBLockable
+/////////////////////////////////////////////////////////////////////////////
+//					SqlColumnInfoObject
+/////////////////////////////////////////////////////////////////////////////
+
+class TB_EXPORT SqlColumnInfo : public SqlColumnInfoObject
 {
 	// constructor	
 public:
-	SqlColumnInfo();
-	SqlColumnInfo::SqlColumnInfo
+	SqlColumnInfo
 	(
 		const	CString&	strTableName,
 		const	CString&	strColumnName,
 		const	DataObj&	aDataObj
 	);
-
 public:
-	/*long			GetColumnLength() const;
-	int				GetColumnDecimal() const;
-	
-	const CString&	GetTableName() const;
-	const CString&	GetColumnName() const;
-	CString			GetQualifiedColumnName() const;
-	CString			GetColumnTitle() const;*/
-
-	//-----------------------------------------------------------------------------------------
 	long			GetColumnLength() const { return m_lLength; }
 	int				GetColumnDecimal() const { return m_nDecimal; }
 	const CString&	GetTableName() const { return m_strTableName; }
@@ -82,10 +71,6 @@ public:
 	void UpdateDataObjType(DataObj* pDataObj);
 	void ForceUpdateDataObjType(DataObj* pDataObj);
 	BOOL GetDataObjTypes(CWordArray& aDataObjTypes) const;
-
-
-	virtual LPCSTR  GetObjectName() const { return "SqlColumnInfo"; }
-
 	// diagnostics
 #ifdef _DEBUG
 public:
@@ -184,13 +169,6 @@ public:
 	CTBNamespace	GetNsOwnerLibrary(CRuntimeClass*) const;
 };
 
-//////////////////////////////////////////////////////////////////////////////
-//								SqlProcedureParamInfo
-///////////////////////////////////////////////////////////////////////////////
-//
-class TB_EXPORT SqlProcedureParamInfo : public	SqlProcedureParamInfoObject
-{
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 //								SqlProcedureParameters

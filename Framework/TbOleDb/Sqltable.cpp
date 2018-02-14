@@ -4614,63 +4614,7 @@ CString SqlTable::GetNativeFilter() const
 //-----------------------------------------------------------------------------
 void SqlTable::BuildCall()
 {
-	CString strTemp("? = ");
-	CString strProc;
-	BOOL bFirst = TRUE;
-
-	TRACE_SQL(_T("BuildCall"), this);
-
-	SqlRecordProcedure* pRecProc = (SqlRecordProcedure*)m_pRecord;
-
-	SqlProcedureParamInfo*	pParamInfo = NULL;
-	SqlProcParamItem* pItem;
-
-	const SqlProcedureParameters* pParameters = pRecProc->GetTableInfo()->m_pProcParameters;
-
-	strProc.Format(_T("Call %s "), m_pRecord->GetTableName());
-
-	// costruisco la stringa di call e intanto effettuo il bind dei parametri
-	for (int i = 0; i <= pParameters->GetUpperBound(); i++)
-	{
-		pItem = NULL;
-		pParamInfo = pParameters->GetAt(i);
-		if (!pParamInfo)
-		{
-			ASSERT(FALSE);
-			m_strSQL.Empty();
-			return;
-		}
-		pItem = pRecProc->GetParamItemFromParamInfo(pParamInfo);
-		if (!pItem)
-		{
-			ASSERT(FALSE);
-			m_strSQL.Empty();
-			return;
-		}
-
-		if (pParamInfo->m_nType == DBPARAMTYPE_RETURNVALUE)
-		{
-			strTemp += strProc;
-			strProc = strTemp;
-		}
-		else
-		{
-			if (bFirst)
-			{
-				strProc += "(?";
-				bFirst = FALSE;
-			}
-			else
-				strProc += ", ?";
-		}
-		// i parametri devono essere inseriti nell'Accessor nell'esatto ordine previsto
-		// dalla stored procedure
-		AddProcParam(pParamInfo, pItem->GetDataObj());
-	}
-	if (!bFirst)
-		strProc += ")";
-
-	m_strSQL.Format(_T("{ %s }"), strProc);
+	
 }
 
 
@@ -4804,6 +4748,9 @@ void SqlTable::Call()
 				}
 				AddProcParam(pParamInfo, pItem->GetDataObj());
 			}
+			pItem = m_pParamsRecord->GetParamItemFromName(RETURN_VALUE);
+			if (pItem)
+				AddProcParam(pItem->m_pParameterInfo, pItem->GetDataObj());
 
 			BindParameters();
 			m_strSQL = m_strOldSQL = m_strTableName;

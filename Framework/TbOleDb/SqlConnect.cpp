@@ -224,13 +224,20 @@ void SqlSession::ReleaseCommands()
 }
 
 //-----------------------------------------------------------------------------
+SqlSession* SqlSession::CreateUpdatableSqlSession()
+{
+	SqlSession* pUpdateableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
+	pUpdateableSqlSession->m_bForUpdate = true;
+	return pUpdateableSqlSession;
+}
+
+
+//-----------------------------------------------------------------------------
 SqlSession* SqlSession::GetUpdatableSqlSession()
 {
 	if (!m_pUpdatableSqlSession)
-	{
-		m_pUpdatableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
-		m_pUpdatableSqlSession->m_bForUpdate = true;		
-	}
+		m_pUpdatableSqlSession = CreateUpdatableSqlSession();
+
 	return m_pUpdatableSqlSession;
 }
 
@@ -332,13 +339,16 @@ BOOL SqlSession::IsTxnInProgress()	const
 //[TBWebMethod(name = Connection_BeginTransaction, thiscall_method=true)]
 void SqlSession::StartTransaction()
 {
-	if (m_pSqlConnection->m_bAutocommit || !m_pUpdatableSqlSession || IsTxnInProgress())
+	if (m_pSqlConnection->m_bAutocommit || IsTxnInProgress())
 		return;
 
 	TRY
 	{
+		if (!m_pUpdatableSqlSession)
+			m_pUpdatableSqlSession = CreateUpdatableSqlSession();
+
 		if (!m_pUpdatableSqlSession->IsOpen())
-			m_pUpdatableSqlSession->Open();
+			 m_pUpdatableSqlSession->Open();
 
 		m_pUpdatableSqlSession->m_pSession->BeginTransaction();
 		m_pUpdatableSqlSession->m_bTxnInProgress = TRUE;
