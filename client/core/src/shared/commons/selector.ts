@@ -220,7 +220,7 @@ export function createSelector(pathOrMapOrSelector: SelectorMap | Selector<any, 
     memoizedProjector.reset();
   }
 
-  return setSelectorDefaults(Object.assign(memoizedState, {
+  return augmentSelector(Object.assign(memoizedState, {
     release,
     selectors: selectors,
     projector: memoizedProjector.memoized
@@ -230,14 +230,16 @@ export function createSelector(pathOrMapOrSelector: SelectorMap | Selector<any, 
 export function createSelectorByMap<Map extends SelectorMap>(selectorMap: Map): Selector<any, {[P in keyof Map]: any}> {
   const props = Object.keys(selectorMap);
   const selectors = props.map(x => s => _.get(s, selectorMap[x]));
-  return setSelectorDefaults(createSelector.call(null, selectors,
+  return augmentSelector(createSelector.call(null, selectors,
     function fun(...slices: any[]) {
-      return slices.reduce((o, val, i) => { o[props[i]] = val; return o; },
+      return slices.reduce((o, v, i) => ({ ...o, [props[i]]: v }),
         { propertyChangedName: fun.hasOwnProperty(tag) ? props[fun[tag]] : undefined });
     }), selectorMap);
 }
 
 export function createSelectorByPaths(...paths: string[]): Selector<any, any> {
+  if (paths.length === 1)
+    return augmentSelector(createSelector.call(null, s => _.get(s, paths[0]), s => s), pathsToSelectorMap(paths[0]));
   return createSelectorByMap(pathsToSelectorMap(...paths));
 }
 
@@ -262,20 +264,16 @@ export function nestSelector(baseSelector: Selector<any, any>,
   const baseMap = baseSelector[map];
   if (baseMap === undefined)
     throw new Error('only selectors created from a SelectorMap can be extended');
-  if (typeof selectorMapOrPaths === 'string')
-    return createSelectorByMap(nestMap(baseMap, pathsToSelectorMap(selectorMapOrPaths, ...paths)));
-  return createSelectorByMap(nestMap(baseMap, selectorMapOrPaths));
-}
-
-function setSelectorDefaults(selector, selectorMap?) {
-  selector[map] = selectorMap;
-  selector.nest = (mapOrPath, ...p) => nestSelector(selector, mapOrPath, ...p);
-  return selector;
+    if (typeof selectorMapOrPaths === 'string') {
+      if (paths.length === 0) return createSelectorByPaths(nestPath(baseMap, selectorMapOrPaths));
+      return createSelectorByMap(nestMap(baseMap, pathsToSelectorMap(selectorMapOrPaths, ...paths)));
+    }
+    return createSelectorByMap(nestMap(baseMap, selectorMapOrPaths));
 }
 
 function pathsToSelectorMap(...paths: string[]) {
   return paths.map(p => p.includes('.') ? p.slice(p.lastIndexOf('.') + 1) : p)
-    .reduce((o, p, i) => { o[p] = paths[i]; return o; }, {});
+  .reduce((o, p, i) => ({ ...o, [p]: paths[i] }), { });
 }
 
 function pathsToPropNames(paths: string[], propNames: string[] = []) {
@@ -284,8 +282,20 @@ function pathsToPropNames(paths: string[], propNames: string[] = []) {
 }
 
 function nestMap(baseMap, selectorMap) {
-  const props = Object.keys(selectorMap);
-  const baseProps = Object.keys(baseMap);
-  const paths = props.map(p => selectorMap[p].split('.', 2));
-  return props.reduce((o, p, i) => { o[p] = baseMap[paths[i][0]] + '.' + paths[i][1]; return o; }, {});
+  return Object.keys(selectorMap)
+    .reduce((o, p: string) => ({ ...o, [p]: nestPath(baseMap, selectorMap[p]) }), {});
+}
+
+function nestPath(baseMap, path) {
+  const idx = path.indexOf('.');
+  if (idx === -1) return baseMap[path];
+  return baseMap[path.slice(0, idx)] + path.slice(idx);
+}
+
+function augmentSelector(selector, selectorMap?) {
+  selector[map] = selectorMap;
+  selector.nest = (mapOrPath, ...p) => nestSelector(selector, mapOrPath, ...p);
+  selector.asPath = n => selector[map][n];
+  selector.asMap = () => selector[map];
+  return selector;
 }

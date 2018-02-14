@@ -61,13 +61,12 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   ngOnInit() {
     this.store
       .select('FormMode.value')
-      .subscribe(v =>
-        this.onFormModeChanged(v.value));
+      .subscribe(this.onFormModeChanged);
 
-    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
-    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
-    this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => { this.isMasterRO = res.result; })
-    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
+    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => this.isMasterBR = res.result);
+    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => this.isMasterIT = res.result);
+    this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => this.isMasterRO = res.result);
+    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => this.isEuropeanUnion = res.result);
   }
 
   public openMessageDialog(message: string): Promise<any> {
@@ -77,8 +76,8 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     return this.eventData.closeMessageDialog.take(1).toPromise();
   }
 
-  onFormModeChanged(formMode: FormMode) {
-    this.ctrlEnabled = formMode == FormMode.FIND || formMode == FormMode.NEW || formMode == FormMode.EDIT;
+  onFormModeChanged = (formMode: FormMode) => {
+    this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
     this.buildContextMenu();
   }
 

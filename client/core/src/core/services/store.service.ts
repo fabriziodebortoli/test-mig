@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject, reduce, map, pluck, distinctUntilChanged, 
 import { EventDataService } from './eventdata.service';
 import { Logger } from './logger.service';
 import { createSelector, createSelectorByMap, createSelectorByPaths } from './../../shared/commons/selector';
-import { SelectorMap } from './../../shared/models/store.models';
+import { SelectorMap, Selector } from './../../shared/models/store.models';
 import * as _ from 'lodash';
 
 export interface Action { type: string; }
@@ -47,19 +47,22 @@ export class StoreT<T> extends Observable<T> {
     ...paths: string[]
   ): StoreT<any> {
     let mapped$: Observable<any>;
+    let selector: Selector<T, any>;
     if (typeof pathOrMapFn === 'string') {
-      mapped$ = map.call(this, createSelectorByPaths(pathOrMapFn, ...paths));
+      mapped$ = map.call(this, selector = createSelectorByPaths(pathOrMapFn, ...paths));
     } else if (typeof pathOrMapFn === 'function') {
-      mapped$ = map.call(this, pathOrMapFn);
+      mapped$ = map.call(this, selector = pathOrMapFn);
     } else if (typeof pathOrMapFn === 'object') {
-      mapped$ = map.call(this, createSelectorByMap(pathOrMapFn));
+      mapped$ = map.call(this, selector = createSelectorByMap(pathOrMapFn));
     } else {
       throw new TypeError(
         `Unexpected type '${typeof pathOrMapFn}' in select operator,` +
         ` expected 'string' or 'function' or 'SelectorMap'`
       );
     }
-    return new StoreT<any>(distinctUntilChanged.call(mapped$));
+    const store = new StoreT<any>(distinctUntilChanged.call(mapped$));
+    store['__selector'] = selector;
+    return store;
   }
 
   dispatch<V extends Action>(action: V) {
@@ -76,6 +79,10 @@ export class StoreT<T> extends Observable<T> {
 
   complete() {
     this.actionsObserver.complete();
+  }
+
+  asSelector(): Selector<T, any> {
+    return this['__selector'];
   }
 }
 

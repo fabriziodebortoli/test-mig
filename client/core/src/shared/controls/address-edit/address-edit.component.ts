@@ -19,7 +19,7 @@ import 'rxjs';
     styleUrls: ['./address-edit.component.scss']
 })
 
-export class AddressEditComponent extends ControlComponent implements AfterContentInit {
+export class AddressEditComponent extends ControlComponent {
 
     @Input('readonly') readonly = false;
     @Input() slice: any;
@@ -66,6 +66,13 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
 
     ngOnInit() {
         this.iContextMenu = this.cc.contextMenu.length;
+        this.store.select(
+            createSelector(
+                this.selector.nest('address.value'),
+                s => s.FormMode.value,
+                (_, fm) => fm
+            )
+        ).subscribe(this.onFormModeChanged);
     }
 
     ngOnChanges(changes) {
@@ -80,15 +87,6 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         return isNaN(this.width) ? this.width.toString() : this.width + 'px';
     }
 
-    ngAfterContentInit() {
-        this.store.select(
-            createSelector(
-                this.selector.nest('address.value'),
-                createSelector({'formMode': 'FormMode.value'}),
-                (a, b) => ({ address: a.value, formMode: b.formMode})
-            )).subscribe(this.onFormModeChanged.bind(this));
-    }
-
     dataChanged() {
         this.buildContextMenu();
         if (this.model.uppercase)
@@ -96,11 +94,11 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         return this.model.value;
     }
 
-    onFormModeChanged(slice: any) {
-        this.ctrlEnabled = slice.formMode === FormMode.FIND || slice.formMode === FormMode.NEW || slice.formMode === FormMode.EDIT;
+    onFormModeChanged = (formMode: FormMode) => {
+        this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
         this.buildContextMenu();
     }
-    
+
     buildContextMenu() {
         this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
         if (this.model.value !== '') {
