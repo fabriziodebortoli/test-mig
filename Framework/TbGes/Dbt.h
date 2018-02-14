@@ -954,7 +954,7 @@ public:
 			SqlRecord*	FindRecord		(const CString& sColumnName, DataObj* aVal, int nStartPos = 0);
 			SqlRecord*	FindRecord		(const CStringArray& arColumnName, const DataObjArray& arValues, int nStartPos = 0);
 
-			BOOL		CalcSum			(int nIndex, DataObj& aSum) const;
+	virtual	BOOL		CalcSum			(int nIndex, DataObj& aSum) const;
 	virtual	BOOL		CalcSum			(const CString& sColumnName, DataObj& aSum) const ;
 
 	virtual DataObj*	GetMinElem		(const CString& /*sColumnName*/);
