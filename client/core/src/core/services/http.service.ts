@@ -11,7 +11,6 @@ import { InfoService } from './info.service';
 import { UtilsService } from './utils.service';
 import { Logger } from './logger.service';
 import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
-import { TaskBuilderService } from './../../core/services/taskbuilder.service';
 
 @Injectable()
 export class HttpService {
@@ -20,8 +19,7 @@ export class HttpService {
         public http: Http,
         public utils: UtilsService,
         public logger: Logger,
-        public infoService: InfoService,
-        public taskBuilderService: TaskBuilderService) {
+        public infoService: InfoService) {
     }
 
     createOperationResult(res: Response): OperationResult {
@@ -111,17 +109,11 @@ export class HttpService {
     }
 
     canLogoff(params: { authtoken: string }): Observable<OperationResult> {
-        if (this.taskBuilderService.isConnected()) {
-            return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
-                .map((res: Response) => {
-                    return this.createOperationResult(res);
-                });
-        } else {
-            return Observable.create(observer => { 
-                observer.next(new OperationResult(true, []));
-                observer.complete();
+        return this.postData(this.infoService.getDocumentBaseUrl() + 'canLogoff/', params)
+            .map((res: Response) => {
+                return this.createOperationResult(res);
             });
-        }
+
     }
 
     initTBLogin(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {

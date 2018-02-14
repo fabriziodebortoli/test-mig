@@ -1,3 +1,4 @@
+import { TaskBuilderService } from './../../../../../core/services/taskbuilder.service';
 import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
 import { SettingsService } from './../../../../../core/services/settings.service';
 import { HttpService } from './../../../../../core/services/http.service';
@@ -33,12 +34,13 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
         public httpService: HttpService,
         public settingsService: SettingsService,
         public diagnosticService: DiagnosticService,
+        public taskBuilderService: TaskBuilderService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef
     ) {
         super(tbComponentService, changeDetectorRef);
         this.enableLocalization();
-        
+
 
         this.commandSubscription = this.eventDataService.command.subscribe((args: CommandEventArgs) => {
 
@@ -54,9 +56,9 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
             }
         });
     }
-    onTranslationsReady(){
+    onTranslationsReady() {
         super.onTranslationsReady();
-        this.menuElements.splice(0,this.menuElements.length);
+        this.menuElements.splice(0, this.menuElements.length);
         const item1 = new ContextMenuItem(this._TB('Settings'), 'idSettingsButton', true, false);
         const item2 = new ContextMenuItem(this._TB('Help'), 'idHelpButton', true, false);
         const item3 = new ContextMenuItem(this._TB('Logout'), 'idSignOutButton', true, false);
@@ -64,15 +66,21 @@ export class TopbarMenuUserComponent extends TbComponent implements OnDestroy {
     }
 
     logout() {
-        let subs = this.httpService.canLogoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe((res) => {
-            if (!res.error) {
-                this.authService.logout();
-            }
-            else if (res.messages && res.messages.length){
-                this.diagnosticService.showDiagnostic(res.messages);
-            }
-            subs.unsubscribe();
-        });
+        if (this.taskBuilderService.isConnected()) {
+            let subs = this.httpService.canLogoff({ authtoken: sessionStorage.getItem('authtoken') }).subscribe((res) => {
+                if (!res.error) {
+                    this.authService.logout();
+                }
+                else if (res.messages && res.messages.length) {
+                    this.diagnosticService.showDiagnostic(res.messages);
+                }
+                subs.unsubscribe();
+            });
+        }
+        else {
+            this.authService.logout();
+        }
+
     }
 
     ngOnDestroy() {
