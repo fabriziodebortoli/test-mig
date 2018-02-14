@@ -30,7 +30,7 @@ namespace Microarea.RSWeb.WoormViewer
 		//--------------------------------------------------------------------------------
 		public BarCode(PathFinder pathFinder)
 		{
-			string defaultBarCode = ReadSetting.GetSettings(pathFinder, "Framework.TbGenlib.Settings", "Environment", "BarCodeType", BarCodeWrapper.GetBarCodeDescription(BarCodeWrapper.Type.BC_EAN13)) as string;
+			string defaultBarCode = ReadSetting.GetSettings(pathFinder, "Framework.TBWoormViewer.Barcode2D", "DefaultBarcode", "BarcodeType", BarCodeWrapper.GetBarCodeDescription(BarCodeWrapper.Type.BC_EAN13)) as string;
 			if (!string.IsNullOrWhiteSpace(defaultBarCode))
 			{
 				BCDefaultType =  BarCodeWrapper.GetBarCodeType(defaultBarCode as string);
