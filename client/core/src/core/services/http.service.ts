@@ -118,7 +118,7 @@ export class HttpService {
                 });
         } else {
             return Observable.create(observer => { 
-                observer.next(new OperationResult(true, []);
+                observer.next(new OperationResult(true, []));
                 observer.complete();
             });
         }
