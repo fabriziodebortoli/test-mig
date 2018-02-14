@@ -1,4 +1,4 @@
-<div [ngSwitch]="gauge.type" [ngStyle]="applyStyle()">
+<div [ngSwitch]="gauge.type" [ngStyle]="applyStyle()" matTooltip="{{gauge.tooltip}}" matTooltipPosition="after">
     <div *ngSwitchCase="GOT.arc">
         <rs-gauge-arc [gauge]="gauge"></rs-gauge-arc>
     </div>

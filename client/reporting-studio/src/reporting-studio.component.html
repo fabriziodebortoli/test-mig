@@ -17,6 +17,8 @@
                 <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="reRunReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="stopReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
             </div>
+
+            <div> <label class="snapshotToolbarTop" *ngIf="runningReport">Snapshot - </label> </div>
         </div>
 
         <div class="toolbar-right">
