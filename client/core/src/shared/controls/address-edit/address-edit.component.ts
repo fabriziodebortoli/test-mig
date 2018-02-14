@@ -70,7 +70,7 @@ export class AddressEditComponent extends ControlComponent {
             createSelector(
                 this.selector.nest('address.value'),
                 s => s.FormMode.value,
-                (_, fm) => fm
+                (_, formMode) => ({ formMode })
             )
         ).subscribe(this.onFormModeChanged);
     }
@@ -94,8 +94,8 @@ export class AddressEditComponent extends ControlComponent {
         return this.model.value;
     }
 
-    onFormModeChanged = (formMode: FormMode) => {
-        this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
+    onFormModeChanged = slice => {
+        this.ctrlEnabled = slice.formMode === FormMode.FIND || slice.formMode === FormMode.NEW || slice.formMode === FormMode.EDIT;
         this.buildContextMenu();
     }
 
