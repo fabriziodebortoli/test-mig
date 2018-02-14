@@ -1,6 +1,5 @@
-import { Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-
-import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode } from '@taskbuilder/core';
+import { Component, Input, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode, ControlContainerComponent } from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
 import { isNumeric } from './../../../rxjs.imports';
 
@@ -16,37 +15,35 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 // menu: insert in search - remove from search
 // state button
 // sistemare la posizione del context menu
-// estendere la tb-text
 
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
-
     @Input() public hotLink: { namespace: string, name: string };
-
     @Input() popUpMenu: boolean = true;
     @Input() maxLength = -1;
-
     @Input() slice: any;
     @Input() selector: any;
 
-    // @ViewChild('contextMenu', { read: ViewContainerRef }) contextMenu: ViewContainerRef;
     @ViewChild('textbox') textbox: any;
+    @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
-    tbEditIcon = 'tb-edit';
-    tbExecuteIcon = 'tb-execute';
+    @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
-    icon: string;
+    // private tbEditIcon = 'tb-edit';
+    // private tbExecuteIcon = 'tb-execute';
+    // private currentState: NumbererStateEnum;
+    // private icon: string;
 
     private tbMask = '';
     private useFormatMask = false;
     private enableCtrlInEdit = false;
     private paddingEnabled = true;
     private subscribedToSelector = false;
+    private ctxMenuIndex = 0;
 
-    numbererContextMenu: ContextMenuItem[] = [];
-    menuItemDisablePadding: ContextMenuItem;
-    menuItemEnablePadding: ContextMenuItem;
-    menuItemDoPadding: ContextMenuItem;
+    private menuItemDisablePadding: ContextMenuItem;
+    private menuItemEnablePadding: ContextMenuItem;
+    private menuItemDoPadding: ContextMenuItem;
 
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
 
@@ -55,7 +52,6 @@ export class NumbererComponent extends ControlComponent {
     ctrlEnabled = false;
     enableStateInEdit = false;
 
-    private currentState: NumbererStateEnum;
     constructor(
         public eventData: EventDataService,
         layoutService: LayoutService,
@@ -69,8 +65,11 @@ export class NumbererComponent extends ControlComponent {
     ngOnInit() {
         // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
         // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
+        super.ngOnInit();
 
-        //console.log(this.textbox.input.nativeElement);
+        this.ctxMenuIndex = this.cc.contextMenu.length;
+
+        this.buildContextMenu();
 
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
@@ -101,14 +100,14 @@ export class NumbererComponent extends ControlComponent {
                 .select(this.selector)
                 .select('value')
                 .subscribe(
-                (v) => this.setComponentMask()
+                    () => this.setComponentMask()
                 );
 
             this.store
                 .select(this.selector)
                 .select('formMode')
                 .subscribe(
-                (v) => this.onFormModeChanged(v)
+                    (v) => this.onFormModeChanged(v.formMode)
                 );
 
             this.subscribedToSelector = true;
@@ -120,26 +119,29 @@ export class NumbererComponent extends ControlComponent {
     onFormModeChanged(formMode: FormMode) {
         this.setComponentMask();
         this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
-        this.buildContextMenu();
         this.valueWasPadded = false;
     }
 
     buildContextMenu() {
-        this.numbererContextMenu.splice(0, this.numbererContextMenu.length);
-        if (this.ctrlEnabled) {
-            if (this.paddingEnabled) {
-                this.numbererContextMenu.push(this.menuItemDisablePadding);
-                this.numbererContextMenu.push(this.menuItemDoPadding);
-            }
-            else {
-                this.numbererContextMenu.push(this.menuItemEnablePadding);
-            }
+        this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
+        if (this.paddingEnabled) {
+            this.cc.contextMenu.push(this.menuItemDisablePadding);
+            this.cc.contextMenu.push(this.menuItemDoPadding);
+        }
+        else {
+            this.cc.contextMenu.push(this.menuItemEnablePadding);
         }
     }
 
     togglePadding() {
-        this.paddingEnabled = !this.paddingEnabled;
-        this.buildContextMenu();
+        switch (this.eventData.model.FormMode.value) {
+            case FormMode.NEW:
+            case FormMode.EDIT:
+                {
+                    this.paddingEnabled = !this.paddingEnabled;
+                    this.buildContextMenu();
+                }
+        }
     }
 
     setComponentMask() {
@@ -281,21 +283,29 @@ export class NumbererComponent extends ControlComponent {
     }
 
     onBlur($event) {
-        if (blur && !blur()) return;
+        this.blur.emit(this);
+        this.eventData.change.emit(this.cmpId);
+
         if (this.eventData.model.FormMode.value === FormMode.FIND && this.paddingEnabled)
             this.doPadding();
     }
 
     doPadding() {
-        let value = this.model.value;
+        switch (this.eventData.model.FormMode.value) {
+            case FormMode.NEW:
+            case FormMode.EDIT:
+                {
+                    let value = this.model.value;
 
-        if (
-            value.trim() !== '' &&
-            isNumeric(value.substr(0, 1)) &&
-            !this.valueWasPadded
-        ) {
-            this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
-            this.valueWasPadded = true;
+                    if (
+                        value.trim() !== '' &&
+                        isNumeric(value.substr(0, 1)) &&
+                        !this.valueWasPadded
+                    ) {
+                        this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
+                        this.valueWasPadded = true;
+                    }
+                }
         }
     }
 
