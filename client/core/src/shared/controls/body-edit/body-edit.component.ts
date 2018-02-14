@@ -179,38 +179,16 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
       this.lastTimeStamp = serverUtc;
       let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-      console.log("chiedi i dati", this.bodyEditName, "this.lastTimeStamp", this.lastTimeStamp, "serverUtc", serverUtc);
       let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName).subscribe((res) => {
 
-        if (res.patch) {
-          const patched = apply({ [this.bodyEditName]: this.model }, res.patch);
-          //res.dbt = patched.doc;
-          res.data = patched.doc;
-        }
-        console.log("resdata", res.data, "bodyedit", this.bodyEditName);
+        // if (res.patch) {
+        //   const patched = apply({ [this.bodyEditName]: this.model }, res.patch);
+        //   res.data = patched.doc;
+        // }
         if (res.data) {
-
           let dbt = res.data[this.bodyEditName];
-          if (dbt) {
-            addModelBehaviour(dbt);
-
-            this.model.enabled = dbt.enabled;
-            this.model.rows = dbt.rows;
-            this.model.prototype = dbt.prototype;
-            this.lastTimeStamp = new Date().getTime();
-            this.changeDetectorRef.markForCheck();
-            this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
-            console.log("oldmodel", this.eventData.oldModel);
-          }
-          else {
-            console.log("not a dbt", res.data)
-          }
-          //this.eventData.change.emit('');
-
-          //this.model = dbt;
+          this.updateModel(dbt);
         }
-
-
         sub.unsubscribe();
       });
     }
@@ -218,14 +196,19 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   private updateModel(dbt: any) {
 
-    // if (!dbt)
-    //   return;
-    // addModelBehaviour(dbt);
-    // this.model.enabled = dbt.enabled;
-    // this.model.rows = dbt.rows;
-    // this.model.prototype = dbt.prototype;
-    // //this.currentRowIdx = dbt.currentRowIdx;
-    // this.model.lastTimeStamp = new Date().getTime();
-    // this.changeDetectorRef.markForCheck();
+    if (!dbt) {
+      console.log("not a dbt", dbt);
+      return;
+    }
+    addModelBehaviour(dbt);
+    this.model.enabled = dbt.enabled;
+    this.model.rows = dbt.rows;
+    this.model.prototype = dbt.prototype;
+    //this.currentRowIdx = dbt.currentRowIdx;
+    this.model.lastTimeStamp = new Date().getTime();
+    this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
+    //this.eventData.change.emit('');
+
+    this.changeDetectorRef.markForCheck();
   }
 }

@@ -39,7 +39,9 @@ export class TextComponent extends ControlComponent implements AfterContentInit/
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
-  onBlur() {
+  onBlur($event) {
+    if ($event == undefined)
+      return;
     this.eventData.change.emit(this.cmpId);
     this.blur.emit(this);
   }

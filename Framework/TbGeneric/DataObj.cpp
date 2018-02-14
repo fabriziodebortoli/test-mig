@@ -3865,12 +3865,12 @@ void DataDbl::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 void DataDbl::AssignJsonValue(CJsonParser& jsonParser)
 {
 	double value;
-	int intValue;
+	CString strVal;
 	if (jsonParser.TryReadDouble(szValue, value))
 		m_nValue = value;
-	else if (jsonParser.TryReadInt(szValue, intValue))
+	else if (jsonParser.TryReadString(szValue, strVal))
 	{
-		m_nValue = intValue;
+		m_nValue = _tstof(strVal);
 	}
 }
 

@@ -1,7 +1,7 @@
 <tb-control-container type="tb-email">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div (click)="onMailClick()">
-        <input kendoTextBox maxlength="{{model?.length}}" id="{{cmpId}}" [ngClass]="showError" class="tb-text" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"
+        <input kendoTextBox maxlength="{{model?.length}}" id="{{cmpId}}" [ngClass]="showError" class="tb-text" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur($event)" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"
         />
     </div>
 </tb-control-container>

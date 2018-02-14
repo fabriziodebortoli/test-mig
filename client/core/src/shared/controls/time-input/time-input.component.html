@@ -1,4 +1,4 @@
 <tb-control-container type="tb-time-input">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-dateinput [(ngModel)]="selectedTime" [format]="'HH:mm:ss'" (valueChange)="onChange($event)" (blur)="onBlur()"></kendo-dateinput>
+    <kendo-dateinput [(ngModel)]="selectedTime" [format]="'HH:mm:ss'" (valueChange)="onChange($event)" (blur)="onBlur($event)"></kendo-dateinput>
 </tb-control-container>
