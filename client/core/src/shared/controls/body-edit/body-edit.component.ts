@@ -50,7 +50,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public currentRow: any = undefined;
   isRowSelected = (e: RowArgs) => e.index == this.currentRowIdx;
   public enabled: boolean = false;
-
+  public isLoading: boolean = false;
+  
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
@@ -177,6 +178,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let serverUtc = new Date(timeStamp).getTime();
 
     if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
+      this.isLoading = true;
       this.lastTimeStamp = serverUtc;
       let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
       let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName).subscribe((res) => {
@@ -189,6 +191,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
           let dbt = res.data[this.bodyEditName];
           this.updateModel(dbt);
         }
+        this.isLoading = false;
         sub.unsubscribe();
       });
     }

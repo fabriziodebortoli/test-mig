@@ -51,7 +51,7 @@ export class TextComponent extends ControlComponent implements OnChanges {
 
   // Metodo con OnChanges
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.model || !this.model.length)
+    if (!changes.model ||   !this.model || !this.model.length)
       return;
 
     this.setlength(this.model.length)

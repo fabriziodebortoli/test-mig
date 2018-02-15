@@ -1,7 +1,8 @@
 <button (click)="addRow()" *ngIf="enabled">   <m4-icon icon="tb-add"></m4-icon></button>
 <button (click)="removeRow()" *ngIf="enabled"> <m4-icon icon="tb-minus"></m4-icon></button>
 
-<kendo-grid [kendoGridBinding]="model?.rows" [resizable]="true" (selectionChange)="ben_row_changed($event)" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height">
+<kendo-grid [ngClass]="isLoading? 'k-loading-image': ''" [kendoGridBinding]="model?.rows" [resizable]="true" (selectionChange)="ben_row_changed($event)" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)"
+    [height]="height">
 
 </kendo-grid>
 
