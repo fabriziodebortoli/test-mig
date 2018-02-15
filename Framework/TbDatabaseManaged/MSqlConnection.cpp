@@ -704,13 +704,13 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 					{
 						pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 						String^ paramDirection = (String^)reader["PARAMETER_MODE"];
-						if (paramDirection = "IN")
+						if (paramDirection == "IN")
 							pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 						else
-							if (paramDirection = "OUT")
+							if (paramDirection == "OUT")
 								pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
 							else
-								if (paramDirection = "INOUT ")
+								if (paramDirection == "INOUT")
 									pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
 					}
 
@@ -1106,13 +1106,13 @@ void MSqlConnection::LoadProcedureParametersInfo(const CString& strProcedureName
 			{
 				pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 				String^ paramDirection = (String^)reader["PARAMETER_MODE"];
-				if (paramDirection = "IN")
+				if (paramDirection == "IN")
 					pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 				else
-					if (paramDirection = "OUT")
+					if (paramDirection == "OUT")
 						pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
 					else
-						if (paramDirection = "INOUT ")
+						if (paramDirection == "INOUT")
 							pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
 			}
 			pProcedureParams->Add(pParamInfo);
@@ -1641,7 +1641,7 @@ void SqlCommandClient::RemoveAllParameters()
 //---------------------------------------------------------------------------
 void SqlCommandClient::FetchOutputParameters(SqlBindObjectArray* pParamArray)
 {
-	if (!mSqlCommand->Parameters || !mSqlCommand->Parameters->Count == 0)
+	if (!mSqlCommand->Parameters || mSqlCommand->Parameters->Count == 0)
 		return;
 	try
 	{

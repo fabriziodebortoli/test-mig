@@ -833,16 +833,13 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 		if (m_pTableInfo->IsSortedWithRecord())
 		{
 			if (pRecItem->m_bDynamicallyBound)
-				pColumnInfo = m_pTableInfo->GetColumnInfo(pRecItem->m_strColumnName);
-			else
-				pColumnInfo = m_pTableInfo->GetPhisycalSortedColumn(nPos - m_nLocalsCount);
-
-
-			if (!pRecItem->m_bDynamicallyBound)
 			{
+				pColumnInfo = m_pTableInfo->GetColumnInfo(pRecItem->m_strColumnName);
 				ASSERT_VALID(pColumnInfo);
 				ASSERT(pRecItem->m_strColumnName.CompareNoCase(pColumnInfo->GetColumnName()) == 0);
 			}
+			else
+				pColumnInfo = m_pTableInfo->GetPhisycalSortedColumn(nPos - m_nLocalsCount);
 		}
 
 		if (pColumnInfo == NULL)

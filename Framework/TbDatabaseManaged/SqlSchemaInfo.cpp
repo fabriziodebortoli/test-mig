@@ -39,20 +39,10 @@ SqlTablesItem::SqlTablesItem()
 	m_strType = _T("");
 	m_strRemarks = _T("");
 
-	m_arColumnsInfo.SetOwns(FALSE);
-	m_arProcedureParams.SetOwns(FALSE);
+	//m_arColumnsInfo.SetOwns(FALSE);
+	//m_arProcedureParams.SetOwns(FALSE);
 }
 
-////-----------------------------------------------------------------------------
-//SqlTablesItem::SqlTablesItem(const SqlTablesItem& cf)
-//{
-//	m_strQualifier = cf.m_strQualifier;
-//	m_strOwner = cf.m_strOwner;
-//	m_strName = cf.m_strName;
-//	m_strType = cf.m_strType;
-//	m_strRemarks = cf.m_strRemarks;	
-//	
-//}
 
 //////////////////////////////////////////////////////////////////////////////
 //							SqlColumnInfoObject
