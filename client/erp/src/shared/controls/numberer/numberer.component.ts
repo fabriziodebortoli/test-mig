@@ -38,7 +38,6 @@ export class NumbererComponent extends ControlComponent {
     private useFormatMask = false;
     private enableCtrlInEdit = false;
     private paddingEnabled = true;
-    private subscribedToSelector = false;
     private ctxMenuIndex = 0;
 
     private menuItemDisablePadding: ContextMenuItem;
@@ -86,31 +85,24 @@ export class NumbererComponent extends ControlComponent {
                 this.setComponentMask();
             }
         });
+
+        this.store
+            .select(this.selector)
+            .select('value')
+            .subscribe(this.setComponentMask.bind(this));
+
+        this.store
+            .select(this.selector)
+            .select('formMode')
+            .subscribe(this.onFormModeChanged.bind(this));
     }
+
     onTranslationsReady() {
         super.onTranslationsReady();
         this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
         this.menuItemEnablePadding = new ContextMenuItem(this._TB('enable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
         this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number'), '', true, false, null, this.doPadding.bind(this));
-
     }
-    subscribeToSelector() {
-        if (!this.subscribedToSelector && this.store && this.selector) {
-            this.store
-                .select(this.selector)
-                .select('value')
-                .subscribe(this.setComponentMask.bind(this));
-
-            this.store
-                .select(this.selector)
-                .select('formMode')
-                .subscribe(this.onFormModeChanged.bind(this));
-
-            this.subscribedToSelector = true;
-        }
-    }
-
-
 
     onFormModeChanged(formMode: FormMode) {
         this.setComponentMask();
@@ -306,8 +298,6 @@ export class NumbererComponent extends ControlComponent {
     }
 
     ngOnChanges(changes) {
-        this.subscribeToSelector();
-
         if (
             changes.maxLength &&
             this.maxLength > -1 &&
