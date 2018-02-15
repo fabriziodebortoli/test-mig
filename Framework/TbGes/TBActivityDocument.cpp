@@ -472,8 +472,8 @@ void CTBActivityDocument::DoExtractData()
 	if (!OnFilterValidate() || !DispatchOnBeforeLoadDBT() || !DispatchOnLoadDBT() || !DispatchOnAfterLoadDBT())
 	{
 		m_pMessages->Show();
-		ManagePanelsState();
 		m_bExtractData = FALSE;	//reset status
+		ManagePanelsState();
 		return;
 	}
 
