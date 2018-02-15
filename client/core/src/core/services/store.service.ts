@@ -89,6 +89,6 @@ export class StoreT<T> extends Observable<T> {
 @Injectable()
 export class Store extends StoreT<any> {
   constructor(private eventDataService: EventDataService, private logger: Logger) {
-    super(Observable.of(eventDataService.model).concat(eventDataService.change.map(_ => eventDataService.model)));
+    super(eventDataService.change.startWith('').map(_ => eventDataService.model).publishReplay(1).refCount())
   }
 }
