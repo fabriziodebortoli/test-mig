@@ -97,10 +97,6 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
                 .slice(0, maxCols).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
 
         let cols = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
-        const sort = JSON.parse(this.s.get('columns'));
-        if (sort) cols = cols.sort((a, b) => 
-            sort.findIndex(a) - sort.findIndex(a));
-
         this.state = { ...this.state, columns: cols, rows: rows, gridData: { data: rows, total: d.total, columns: cols } };
         this.restoreViewSelection();
     }

@@ -5,7 +5,7 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
-import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, Directive, ContentChild, TemplateRef } from '@angular/core';
+import { SimpleChanges, Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, Directive, ContentChild, TemplateRef } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings, ColumnReorderEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
@@ -79,8 +79,24 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.stop();
     }
 
-    columnReorder(e: ColumnReorderEvent) {
-        
+    ngOnChanges(c: SimpleChanges) {
+        if (!c.state) return;
+        let s = c.state.currentValue as State;
+        let cols = this.reorder(s.gridData.columns);
+        this.state = { ...this.state, columns: cols, gridData: { ...this.state.gridData, columns: cols } };
+
+    }
+
+    reorder(cols) {
+        const sort = JSON.parse(this.s.get('reorderMap'));
+        if (sort) cols = cols.sort((a, b) => this.reorderMap[a] - this.reorderMap[b]);
+        return cols;
+    }
+
+    reorderMap: {};
+    columnReorder(e) {
+        this.reorderMap[e.column.field] = e.newIndex;
+        this.s.set('reorderMap', JSON.stringify(this.reorderMap));
     }
 
     get areFiltersVisibleIcon() {
