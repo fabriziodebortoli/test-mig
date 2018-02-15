@@ -96,7 +96,37 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     });
   }
 
-  public onComboFilterChange(filter: string): void {
+  private _filter: CompositeFilterDescriptor;
+    public get filter(): CompositeFilterDescriptor {
+        return this._filter;
+    }
+
+    public set filter(value: CompositeFilterDescriptor) {
+        this._filter = _.cloneDeep(value);
+        this.filterer.filter = _.cloneDeep(value);
+        this.filterer.onFilterChanged(value);
+    }
+    
+    protected async pageChange(event: PageChangeEvent) {
+        await this.paginator.pageChange(event.skip, event.take);
+    }
+    
+    protected async nextDefaultPage() {
+        this.defaultPageCounter++;
+        await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+    }
+    
+    protected async prevDefaultPage() {
+        this.defaultPageCounter--;
+        await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+    }
+    
+    protected async firstDefaultPage() {
+        this.defaultPageCounter = 0;
+        await this.paginator.pageChange(0, this.pageSize);
+    }
+
+  public onFilterChange(filter: string): void {
     if (this.dropDownOpened) {
       if(filter === '' || !filter) this.filter = {logic: 'and', filters: []};
       else this.filter = {logic: 'and', filters: [{field: this.state.selectionColumn, operator: 'contains', value: filter}]};

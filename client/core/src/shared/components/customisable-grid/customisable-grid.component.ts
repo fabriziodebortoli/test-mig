@@ -104,7 +104,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     filterChange(filter: CompositeFilterDescriptor): void {
-        this._filter = filter;
+        this.filter = filter;
     }
 
     sortChange(sort: SortDescriptor[]): void {

@@ -1,4 +1,4 @@
-import { State } from './../../components/radar/custom-grid.component';
+import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };

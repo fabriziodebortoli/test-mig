@@ -9,7 +9,7 @@
                 (close)="closeDropDown()"
                 [style.width.px]="width"
                 [filterable]="true"
-                (filterChange)="onComboFilterChange($event)"
+                (filterChange)="onFilterChange($event)"
                 (selectionChange)="selectionChanged($event)"
                 [disabled]="!(slice$ | async)?.enabled">
         <ng-template kendoDropDownListItemTemplate let-dataItem>

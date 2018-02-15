@@ -60,60 +60,27 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         return this._state;
     }
 
-    private _filter: CompositeFilterDescriptor;
-    public get filter(): CompositeFilterDescriptor {
-        return this._filter;
-    }
-
-    public set filter(value: CompositeFilterDescriptor) {
-        this._filter = _.cloneDeep(value);
-        this.filterer.filter = _.cloneDeep(value);
-        this.filterer.onFilterChanged(value);
-    }
     
     constructor(layoutService: LayoutService,
-                protected documentService: DocumentService,
-                protected changeDetectorRef: ChangeDetectorRef,
-                protected paginator: PaginatorService,
-                protected filterer: FilterService,
-                protected hyperLinkService: HyperLinkService,
-                protected eventDataService: EventDataService
-                ) {
+        protected documentService: DocumentService,
+        protected changeDetectorRef: ChangeDetectorRef,
+        protected paginator: PaginatorService,
+        protected filterer: FilterService,
+        protected hyperLinkService: HyperLinkService,
+        protected eventDataService: EventDataService
+    ) {
         super(layoutService, documentService, changeDetectorRef);
     }
-
+    
     protected start() { };
-
+    
     protected stop() {
         this.paginator.stop();
         this.filterer.stop();
     }
-
+    
     protected emitModelChange() {
         // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
         setTimeout(() => this.eventDataService.change.emit(this.modelComponent.cmpId));
-      }
-    
-    public onFilterChange(filter: CompositeFilterDescriptor): void {
-        this.filter = filter;
-    }
-    
-    protected async pageChange(event: PageChangeEvent) {
-        await this.paginator.pageChange(event.skip, event.take);
-    }
-    
-    protected async nextDefaultPage() {
-        this.defaultPageCounter++;
-        await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
-    }
-    
-    protected async prevDefaultPage() {
-        this.defaultPageCounter--;
-        await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
-    }
-    
-    protected async firstDefaultPage() {
-        this.defaultPageCounter = 0;
-        await this.paginator.pageChange(0, this.pageSize);
     }
 }
