@@ -55,7 +55,6 @@ namespace Microarea.TbLoaderGate
         {
             Debug.WriteLine(HttpContext.Request.Path.Value);
             string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-            bool createTB = true;// subUrl == "/tb/menu/doLogin/";
             string tbName = "";
             try
             {
@@ -80,7 +79,7 @@ namespace Microarea.TbLoaderGate
                 {
 
                     bool newInstance;
-                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
+                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, out newInstance);
                     if (tb == null || !tb.Connected)
                     {
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };

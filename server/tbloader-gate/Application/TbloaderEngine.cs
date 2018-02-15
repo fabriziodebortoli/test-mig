@@ -38,7 +38,7 @@ namespace Microarea.TbLoaderGate
             try
             {
                 Process process = Process.GetProcessById(processId);
-                if (process == null || process.HasExited)
+                if (process == null)
                     return false;
             }
             catch (Exception)
@@ -49,7 +49,7 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------------------------
-        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, bool create, out bool newInstance)
+        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, out bool newInstance)
         {
             newInstance = false;
             var tbLoader = GetTbLoader(name);
@@ -61,7 +61,7 @@ namespace Microarea.TbLoaderGate
                     tbLoader = null;
                 }
             }
-            if (tbLoader == null && create)
+            if (tbLoader == null)
             {
                 using (Locker l = new Locker(rwLock, true))
                 {
