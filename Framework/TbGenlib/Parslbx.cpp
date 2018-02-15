@@ -1958,9 +1958,18 @@ void CParsedCheckListBox::OnFillListBox()
 	if	(!nResult || !m_DataAssociations.GetSize() || m_DataAssociations.GetSize() != aDescriptions.GetSize())
 	{
 		ASSERT(m_DataAssociations.GetSize() == aDescriptions.GetSize());
+
+		if (m_DataAssociations.GetSize() == 0)
+		{
+			DataBool* pDummy = new DataBool();
+			m_pData->SetAlwaysReadOnly();
+
+			m_DataAssociations.GetData().InsertAt(0, pDummy, 1);
+			InsertAssociation(0, cwsprintf(FormatMessage(HOTLINK_NO_DATA_FOUND)), pDummy);
+		}
 		return;
 	}		
-	
+
 	for (int i = 0; i < m_DataAssociations.GetSize(); )
 	{
 		if (AddAssociationUnsorted(aDescriptions.GetAt(i), m_DataAssociations[i]) < 0)

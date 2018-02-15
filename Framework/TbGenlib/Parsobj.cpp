@@ -5889,6 +5889,7 @@ CString CParsedCtrl::FormatMessage(MessageID ID)
 	case HOTLINK_IS_RUNNING:	return _TB("Unable to execute the request before the current operation is ended");
 	case MAX_ITEM_REACHED:		return _TB("!!! THE NUMBER OF ELEMENTS IS HIGHER THAN THE EXTRACTABLE LIMIT ({0-%d}) SET!");
 	case NAMESPACE_EDIT_BAD_NAMESPACE: return _TB("Invalid Namespace name.");
+	case HOTLINK_NO_DATA_FOUND:	return _TB("No data Found");
 	case DUMMY:					return _T("");
 	default:
 		ASSERT(FALSE);
