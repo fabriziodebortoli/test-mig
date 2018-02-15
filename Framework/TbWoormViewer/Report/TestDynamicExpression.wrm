@@ -2,7 +2,7 @@
 // Woorm code behind
 //==============================================================================
 
-Release 7 Rect (49,1922,1038,3838) 
+Release 7 Rect (49,2,1038,1918) 
 FontStyles 
 	Begin
 		"TitleHeaderTable"  Facename "Times New Roman"  Size 16 Style (0,0,0,700,0,0,0,0,3,2,1,18,TextColor (0,0,0) ) ;
@@ -54,14 +54,14 @@ PageLayout "default"
 					End
 				Alias 2  /* MA_Banks_ABI */ BkgColor = MA_Banks_ABI == "25200" ? RGB ( 255 , 255 , 0 ) : RGB ( 0 , 255 , 0 ) Width 99 ;
 				"MA_Banks_Address" Alias 3  /* MA_Banks_Address */ Width 156 ;
-				"MA_Banks_Agency" Alias 4  /* MA_Banks_Agency */ BkgColor = ReportCurrentPageNumber == 1 ? RGB ( 255 , 255 , 0 ) : RGB ( 0 , 255 , 0 ) Width 245 ;
+				"MA_Banks_Agency" Alias 4  /* MA_Banks_Agency */ BkgColor = ReportCurrentPageNumber == 1 ? RGB ( 255 , 255 , 0 ) : RGB ( 0 , 255 , 0 ) Borders = ReportCurrentPageNumber == 1 ? "bottom" : "-bottom" Width 245 ;
 				"MA_Banks_Bank" Alias 5  /* MA_Banks_Bank */ FontStyle = ReportCurrentPageNumber == 1 ? "PagUno" : "CellText" Width 105 Hidden Width 105 When ReportCurrentPageNumber == 1 ? false : true ;
 				"MA_Banks_City" Alias 6  /* MA_Banks_City */ Width 121 , ReportCurrentPageNumber == 1 ? 121 : 80 ;
 				Title
 					Begin
 						Column (0)  BkgColor (50,205,50) ;
 						Column (1)  TextColor (127,255,0) BkgColor (192,0,255) ;
-						Column (2)  TextColor (0,0,255) BkgColor (50,205,50) FontStyle "TitleHeaderTable"  ;
+						Column (2)  TextColor (0,0,255) BkgColor (50,205,50) Pen (255,0,0) Size 2 FontStyle "TitleHeaderTable"  ;
 						Column (3,4)  BkgColor (50,205,50) ;
 					End
 				ColTotal

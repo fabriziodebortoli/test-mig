@@ -2,8 +2,12 @@
 .rsTable {
     .k-grid-header {
         padding: 0px !important;
+        border-style: hidden;
     }
     .k-grid-content{
         overflow-y: unset;
+    }
+    .k-widget {
+        border-style: hidden !important;
     }
 }

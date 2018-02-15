@@ -284,7 +284,7 @@ namespace Microarea.RSWeb.Objects
                 Borders border = new Borders(colBorders.Top, colBorders.Left, colBorders.Bottom, colBorders.Right);
 
                 string s = (val.Data as string).ToUpper();
-                s = s.Remove(' ');
+                s = s.Trim();
 
                 int idx = s.IndexOf("LEFT");
                 if (idx >= 0)
