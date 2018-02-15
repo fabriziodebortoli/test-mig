@@ -54,6 +54,12 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   closeDropDown() {
     this.stop();
     this.dropDownOpened = false;
+    this.disablePager = true;
+  }
+
+  disablePager: boolean = true;
+  get enablePager(): boolean {
+    return !this.disablePager;
   }
 
   protected start() {
@@ -92,7 +98,11 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
       if (this.modelComponent && this.modelComponent.model) {
           this.modelComponent.model.value = _.get(x, 'filters[0].value');
           this.emitModelChange();
-      }
+      }});
+
+    this.paginator.waiting$.pipe(untilDestroy(this))
+      .subscribe(waiting => {
+      this.disablePager = (this.paginator.isFirstPage && this.paginator.noMorePages) || (waiting && this.paginator.isJustInitialized);
     });
   }
 

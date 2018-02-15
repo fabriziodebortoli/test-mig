@@ -66,6 +66,10 @@ export class PaginatorService implements OnDestroy {
         return this.currentServerPageNumber;
     }
 
+    public get isJustInitialized(): boolean{
+        return this.clientStartOffset === 0 && this.currentServerPageNumber === -1;
+    }
+
     public get isFirstPage(): boolean {
         return this.clientStartOffset === 0 && this.currentServerPageNumber === 0;
     }
@@ -78,7 +82,7 @@ export class PaginatorService implements OnDestroy {
         return this.sizeOfLastServer !== null;
     }
 
-    public waiting$ = new BehaviorSubject(false).distinctUntilChanged();
+    public waiting$ = new Subject<boolean>().distinctUntilChanged();
 
     constructor(private ngZone: NgZone) {
         this.configurationChanged.subscribe(c => {
@@ -149,6 +153,8 @@ export class PaginatorService implements OnDestroy {
             if (!data || !data.rows || data.rows.length === 0) {
                 if (this.currentServerPageNumber < 0) { 
                     this._clientData.next(this.noDataClientPage); 
+                    this.currentServerPageNumber = newServerPage;
+                    this.sizeOfLastServer = 0;
                 }
                 (this.waiting$ as Subject<boolean>).next(false);
                 return;
@@ -231,7 +237,7 @@ export class PaginatorService implements OnDestroy {
         this._clientData.complete();
         this._clientData = new BehaviorSubject(this.defaultClientData);
         (this.waiting$ as Subject<boolean>).complete();
-        this.waiting$ = new BehaviorSubject(false).distinctUntilChanged();
+        this.waiting$ = new Subject<boolean>().distinctUntilChanged();
         this.configurationChanged.complete();
         this.configurationChanged = new BehaviorSubject(false);
         if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }

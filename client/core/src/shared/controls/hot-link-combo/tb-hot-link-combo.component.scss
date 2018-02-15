@@ -1,14 +1,16 @@
 .dropDownItem {
     display: flex;
-    flex: 1
 }
 
 .dropDownItemId {
-    font-weight: bold
+    font-weight: bold;
+    flex: 1;
 }
 
 .dropDownItemDescription {
-    font-style: italic
+    font-style: italic;
+    flex: 3;
+    flex-shrink: 0;
 }
 
 .comboBoxPageNavigationButton {

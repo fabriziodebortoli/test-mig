@@ -17,21 +17,24 @@
             <div class="dropDownItem dropDownItemDescription">{{ dataItem.displayString }}</div>
         </ng-template>
         <ng-template kendoComboBoxFooterTemplate>
-            <div *ngIf="!(this.paginator.isFirstPage && this.paginator.noMorePages)" [style.width.px]="width" 
+            <div *ngIf="enablePager"
+                 [style.width.px]="width" 
                  [style.display]="'flex'" 
                  [style.background]="'white'"
                  [style.border-top-style]="'solid'"
                  [style.border-top-width.px]="1"
                  [style.border-top-color]="'#E9E9E9'">
-                <button kendoButton (click)="firstDefaultPage()" [icon]="'arrow-end-left'"
-                    [disabled]="paginator.isFirstPage"
-                    style="flex: 1;"></button>
-                <button kendoButton (click)="prevDefaultPage()" [icon]="'arrow-60-left'"
-                    [disabled]="paginator.isFirstPage"
-                    style="flex: 1;"></button>
+                <div style='display: flex;'>
+                    <button kendoButton (click)="firstDefaultPage()" [icon]="'arrow-end-left'"
+                        [disabled]="paginator.isFirstPage"
+                        style="flex: 1;"></button>
+                    <button kendoButton (click)="prevDefaultPage()" [icon]="'arrow-60-left'"
+                        [disabled]="paginator.isFirstPage"
+                        style="flex: 1;"></button>
+                </div>
                 <button kendoButton (click)="nextDefaultPage()" [icon]="'arrow-60-right'"
                     [disabled]="paginator.noMorePages"
-                    style="flex: 2;"></button>
+                    style="flex: auto;"></button>
             </div>
         </ng-template>
     </kendo-combobox>
