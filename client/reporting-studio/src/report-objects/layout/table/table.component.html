@@ -4,16 +4,17 @@
         <kendo-grid-column *ngFor="let col of table.columns" [field]="col.id" [title]="col.title ? col.title.caption : '' " [editable]="false" [width]="col.width"
             [headerStyle]="getColumnHeaderStyle(col)" [style]="getCellsStyle(col)" [hidden]="col.hidden">
             <ng-template kendoGridHeaderTemplate let-column>
-                <div>
+                <div [ngStyle]="getColumnHeaderFont(col)">
                     {{column.title}}
                 </div>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex" let-rowIndex="rowIndex">
                 <div [ngStyle]="getSingleCellStyle(dataItem[columnIndex], rowIndex, col)">
                     <div *ngIf="!col.value_is_image">
-                        <div *ngIf="!dataItem[columnIndex][col.id].link" [innerHtml]="getValue(dataItem, col.id, columnIndex)">
+                        <div *ngIf="!dataItem[columnIndex][col.id].link" [ngStyle]="getSingleCellFont(dataItem[columnIndex], rowIndex, col)" >
+                                {{getValue(dataItem, col.id, columnIndex)}}
                         </div>
-                        <rs-link *ngIf="dataItem[columnIndex][col.id].link" [link]="dataItem[columnIndex][col.id].link">
+                        <rs-link *ngIf="dataItem[columnIndex][col.id].link" [ngStyle]="getSingleCellFont(dataItem[columnIndex], rowIndex, col)" [link]="dataItem[columnIndex][col.id].link">
                             {{getValue(dataItem, col.id, columnIndex)}}
                         </rs-link>
                     </div>

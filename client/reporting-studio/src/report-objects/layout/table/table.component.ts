@@ -81,10 +81,6 @@ export class ReportTableComponent {
     if (column.hidden)
         return {};
     let obj = {
-      'font-family': column.title.font.face,
-      'font-size': column.title.font.size + 'px',
-      'font-style': column.title.font.italic ? 'italic' : 'normal',
-      'font-weight': column.title.font.bold ? 'bold' : 'normal',
       'text-decoration': column.title.font.underline ? 'underline' : 'none',
       'color': column.title.textcolor,
       'border-left': column.title.borders.left ? column.title.pen.width + 'px' : '0px',
@@ -102,6 +98,20 @@ export class ReportTableComponent {
     return obj;
   }
 
+  // -----------------------------------------------------
+  getColumnHeaderFont(column: column): any {
+    if (column.hidden)
+        return {};
+    let obj = {
+      'font-family': column.title.font.face,
+      'font-size': column.title.font.size + 'px',
+      'font-style': column.title.font.italic ? 'italic' : 'normal',
+      'font-weight': column.title.font.bold ? 'bold' : 'normal',
+    };
+    return obj;
+  }
+
+  // -----------------------------------------------------
   getCellsStyle(column: column): any {
     let obj = {
       'padding': '0px',
@@ -136,10 +146,6 @@ export class ReportTableComponent {
                specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
                :
                specStyle.textcolor,
-      'font-family': specStyle.font === undefined ? defStyle.font.face : specStyle.font.face,
-      'font-size': specStyle.font === undefined ? (defStyle.font.size + 'px') : (specStyle.font.size + 'px'),
-      'font-style': specStyle.font === undefined ? (defStyle.font.italic ? 'italic' : 'normal') : (specStyle.font.italic ? 'italic' : 'normal'),
-      'font-weight': specStyle.font === undefined ? (defStyle.font.bold ? 'bold' : 'normal') : (specStyle.font.bold ? 'bold' : 'normal'),
       'text-decoration': specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
       'padding': '0px'
     };
@@ -149,6 +155,21 @@ export class ReportTableComponent {
       dataItem[column.id].src = this.infoService.getBaseUrl() + '/rs/image/' + dataItem[column.id].value;
     }
     return obj;
+  }
+
+  // -----------------------------------------------------
+  getSingleCellFont(dataItem: any, rowIndex: number, column: column){
+    const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
+    const specStyle: any = dataItem[column.id];
+    let obj = {
+      'font-family': specStyle.font === undefined ? defStyle.font.face : specStyle.font.face,
+      'font-size': specStyle.font === undefined ? (defStyle.font.size + 'px') : (specStyle.font.size + 'px'),
+      'font-style': specStyle.font === undefined ? (defStyle.font.italic ? 'italic' : 'normal') : (specStyle.font.italic ? 'italic' : 'normal'),
+      'font-weight': specStyle.font === undefined ? (defStyle.font.bold ? 'bold' : 'normal') : (specStyle.font.bold ? 'bold' : 'normal'),
+    };
+
+    return obj;
+
   }
 
   // -----------------------------------------------------
