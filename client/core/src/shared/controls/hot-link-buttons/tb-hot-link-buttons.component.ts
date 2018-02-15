@@ -41,6 +41,9 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   private previousNext = true;
 
+  private get hasToAdjustTable(): boolean {
+    return (this.adjustTableSub && this.adjustTableSub.closed) || !this.adjustTableSub;
+  }
   private adjustTableSub: Subscription;
   private get adjustTable$(): Observable<any> {
     return this.state$.pipe(untilDestroy(this))
@@ -111,7 +114,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
          });
         if(this.tablePopupRef.popupElement) {
           this.oldTablePopupZIndex = this.tablePopupRef.popupElement.style.zIndex;
-          this.tablePopupRef.popupElement.style.maxWidth = JSON.stringify(document.body.offsetWidth) + 'px';
+          this.tablePopupRef.popupElement.style.maxWidth = PopupHelper.getScaledDimension(1000);
           this.tablePopupRef.popupElement.style.zIndex = '-1'; 
         }
         this.tablePopupRef.popupOpen.asObservable()
@@ -192,8 +195,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
         return this.httpService.getHotlinkData(ns, this.state.selectionType,  p);
       });
 
-     if(this.adjustTableSub && this.adjustTableSub.closed)
-       this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
+     if(this.hasToAdjustTable) this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     this.paginator.clientData.subscribe((d) => {
         this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };        

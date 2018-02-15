@@ -43,4 +43,14 @@ export class PopupHelper {
           vertical: Vertical
         } as Align;
       }
+
+    public static getDimension(v: string, scale: string = 'px') : number {
+      if(v.includes(scale))
+        return  +v.replace(scale,'');
+      return 0;
+    }
+
+    public static getScaledDimension(n: number, scale: string = 'px') : string {
+      return JSON.stringify(n) + 'px';
+    }
 }
