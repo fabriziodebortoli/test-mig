@@ -32,11 +32,6 @@ export class InfoService {
         this.culture.value = localStorage.getItem(this.cultureId);
     }
 
-    resetCulture() {
-        localStorage.removeItem(this.cultureId);
-        this.culture.value = null;
-    }
-
     saveCulture() {
         localStorage.setItem(this.cultureId, this.culture.value);
     }
