@@ -192,7 +192,9 @@ CAttachmentInfo* CreateCAttachmentInfo(AttachmentInfo^ attachment)
 	attInfo->m_ERPDocNamespace = DataStr((CString)attachment->ERPDocNamespace);
 	attInfo->m_ERPPrimaryKeyValue = DataStr((CString)attachment->ERPPrimaryKeyValue);
 	attInfo->m_StorageFile = DataStr((CString)attachment->StorageFile);
-	// TODO: devo mettere anche qui attachment->IsWoormReport????
+	attInfo->m_IsMainDoc = DataBool(attachment->IsMainDoc);
+	attInfo->m_IsForMail = DataBool(attachment->IsForMail);
+	attInfo->m_IsWoormReport = DataBool(attachment->IsWoormReport);
 
 	return attInfo;
 }
