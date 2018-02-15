@@ -488,7 +488,7 @@ CString CPathFinder::GetApplicationContainer(const CString strPath) const
 
 //-------------------------------------------------------------------------------------
 void CPathFinder::GetCandidateApplications(CStringArray* pAppsArray)
-{
+	{
 	if (!pAppsArray)
 		return;
 	
@@ -2281,7 +2281,7 @@ const CString CPathFinder::GetModuleConfigFullName(const CString& sAppName, cons
 {
 	CString sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::STANDARD);
 	if (!ExistPath(sModulePath))
-		sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::CUSTOM, FALSE);
+		sModulePath = GetModulePath(sAppName, sModuleName, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO);
 
 	return sModulePath + SLASH_CHAR + szModuleConfigName;
 }
@@ -2537,7 +2537,7 @@ const CString CPathFinder::GetApplicationConfigFullName(const CString& sAppName)
 		return NULL;
 	CString sPath = GetApplicationPath(sAppName, CPathFinder::STANDARD);
 	if (!ExistPath(sPath))
-		sPath = GetApplicationPath(sAppName, CPathFinder::CUSTOM, FALSE);
+		sPath = GetApplicationPath(sAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO);
 	return GetApplicationConfigFullNameFromPath(sPath);
 }
 

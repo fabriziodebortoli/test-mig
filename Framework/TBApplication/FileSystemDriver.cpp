@@ -561,7 +561,7 @@ void CFileSystemDriver::GetAllModuleInfo(const CString& strAppName, CStringArray
 	// load modules namespaces into map form file system
 	AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::STANDARD), pModulesPath, false);
 	if (pModulesPath->GetSize() == 0) //non ho moduli: si tratta di un'applicazione nella custom?
-		AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE), pModulesPath, true);
+		AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO), pModulesPath, true);
 }
 
 
