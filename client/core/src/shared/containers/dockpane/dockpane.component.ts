@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ContentChild, TemplateRef } from '@angular/core';
+import { Component, Input, ViewChild, ContentChild, TemplateRef, HostBinding } from '@angular/core';
 
 import { TabStripTabComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component';
 
@@ -17,6 +17,7 @@ export class DockpaneComponent {
   @Input() iconType: string = 'M4';
   @Input() icon: string = 'erp-purchaseorder';
 
-  @Input() activated: boolean = true;
+  @HostBinding('class.activated') @Input() activated:boolean = true;
+  // @HostBinding('class.activated') activated:boolean = true;
 
 }

@@ -229,24 +229,125 @@
             </tb-view>
         </tb-view-container>
         <tb-dockpane-container>
-            <tb-dockpane [title]="_TB('A')" iconType="M4" icon="erp-cash">
+            <tb-dockpane [activated]="false" [title]="_TB('Data Synchronizer')" iconType="M4" icon="tb-refresh">
                 <ng-template>
                     <tb-view>
-                        <p>AAA</p>
+                        <tb-tile-group tbLayoutTypeVbox>
+                            <tb-panel [title]="_TB('Data Validation Status')" tbTileStandard [isCollapsible]="true">
+                                <div class="col col1">
+                                    <tb-image cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" [height]="26" [width]="48" [width]="48" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
+                                    <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" [width]="277" [multiline]="true" [model]="eventData?.model?.ValidationStatus"></tb-text>
+                                </div>
+                            </tb-panel>
+                            <tb-panel [title]="_TB('Data Synchronization Status')" tbTileStandard [isCollapsible]="true" [isCollapsed]="false">
+                                <div class="col col1">
+                                    <tb-image cmpId="IDC_DS_SYNCHSTATUS_PICTURE" [height]="29" [width]="48" [width]="48" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
+                                    <tb-caption cmpId="IDC_STATIC_1" [width]="127" [caption]="_TB('Last Synch Datetime')"></tb-caption>
+                                    <tb-date-input cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" formatter="DateTime" [readonly]="false" [width]="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
+                                    <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" [width]="150" [model]="eventData?.model?.SynchDirection"></tb-text>
+                                    <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" [width]="277" [multiline]="true" [model]="eventData?.model?.SynchStatusHints"></tb-text>
+                                    <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" [width]="41" [caption]="_TB('Copy Text')"></tb-button>
+                                    <tb-caption cmpId="IDC_STATIC" [width]="90" [caption]="_TB('Direction')"></tb-caption>
+                                </div>
+                            </tb-panel>
+                            <tb-panel [title]="_TB('Data Synchronization Technical Details')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
+                                <div class="col col1">
+                                    <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" [width]="277" [multiline]="true" [model]="eventData?.model?.SynchMsg"></tb-text>
+                                    <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" [width]="41" [caption]="_TB('Copy Text')"></tb-button>
+                                </div>
+                            </tb-panel>
+                        </tb-tile-group>
                     </tb-view>
                 </ng-template>
             </tb-dockpane>
-            <tb-dockpane [title]="_TB('B')" iconType="M4" icon="erp-checkprices">
+            <tb-dockpane [activated]="true" [title]="_TB('Links')" iconType="M4" icon="erp-links">
                 <ng-template>
                     <tb-view>
-                        <p>BBB</p>
+                        <tb-tile-group tbLayoutTypeVbox>
+                            <tb-tile [title] tbTileStandard>
+                                <div class="col col1">
+                                    <tb-body-edit cmpId="IDC_PNL_BE" [width]="325" [model]="eventData?.model?.DBTLinksTable" [height]="126" bodyEditName="DBTLinksTable">
+                                        <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static">
+                                        </tb-body-edit-column>
+                                    </tb-body-edit>
+                                </div>
+                            </tb-tile>
+                        </tb-tile-group>
                     </tb-view>
                 </ng-template>
             </tb-dockpane>
-            <tb-dockpane [title]="_TB('C')" iconType="M4" icon="erp-components">
+            <tb-dockpane [activated]="true" [title]="_TB('Credit Limit')" iconType="M4" icon="erp-collectionvoucher">
                 <ng-template>
                     <tb-view>
-                        <p>CCC</p>
+                        <tb-tile-group tbLayoutTypeVbox>
+                            <tb-tile [title] tbTileStandard>
+                                <div class="col col1">
+                                    <div class="anchored">
+                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT" [width]="65" [caption]="_TB('Credit Limit')"></tb-label-static>
+                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_EXPOSURE" [width]="65" [caption]="_TB('Exposure')"></tb-label-static>
+                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_MARGIN" [width]="65" [caption]="_TB('Margin')"></tb-label-static>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Single Order')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderLimit"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderExposure"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderMargin"></tb-numeric-text-box>
+                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_SINGLE_ORDER" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusSingleOrder"></tb-image>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Ordered')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedLimit"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedExposure"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedMargin"></tb-numeric-text-box>
+                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_ORDERED" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusOrdered"></tb-image>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Turnover')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverLimit"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverExposure"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverMargin"></tb-numeric-text-box>
+                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_TURNOVER" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusTurnover"></tb-image>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_VIEWERTURNOVER_BILLS_EXPOSURE" [width]="98" [caption]="eventData?.model?.CLViewerBillsText"></tb-label-static>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_BILLS_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverBills"></tb-numeric-text-box>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-label-static cmpId="IDC_STATIC_8" [width]="98" [caption]="_TB('Other Payment Terms')"></tb-label-static>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_OTHER_PAYMENT_TERMS_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverOtherPaymentTerms"></tb-numeric-text-box>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-label-static cmpId="IDC_STATIC_9" [width]="98" [caption]="_TB('Invoice without Receivables')"></tb-label-static>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_INV_WITHOUT_REC_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverInvWithoutRec"></tb-numeric-text-box>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-label-static *ngIf="eventData?.activation?.IDC_STATIC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" cmpId="IDC_STATIC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" [width]="98" [caption]="_TB('Documents delivered not invoiced')"></tb-label-static>
+                                        <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" cmpId="IDC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerDeliveredDocNotInvoiced"></tb-numeric-text-box>
+                                    </div>
+                                    <div class="anchored">
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Total Exposure (net of Ordered)')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureLimit"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureExposure"></tb-numeric-text-box>
+                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureMargin"></tb-numeric-text-box>
+                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_TOTAL_EXPOSURE" [height]="18" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusTotalExposure"></tb-image>
+                                    </div>
+                                </div>
+                            </tb-tile>
+                            <tb-panel [title]="_TB('Documents')" tbTileAutoFill>
+                                <div class="col col1">
+                                    <tb-body-edit cmpId="IDC_CREDIT_LIMIT_VIEWERBODYEDIT_DOCUMENTS" [width]="325" [model]="eventData?.model?.Documents" [height]="126" bodyEditName="Documents">
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_CREDIT_TYPE" columnName="CreditType" [title]="_TB('Credit\nType')" columnType="tb-enum-combo">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT" columnName="DocumentType" [title]="_TB('Document')" columnType="tb-enum-combo" *ngIf="eventData?.activation?.IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_NUMBER" columnName="DocumentNo" [hotLink]="{'name':'HKLSaleDocument','mustExistData':false}" [title]="_TB('Document\nNumber')" columnType="tb-label-static">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_DATE" formatter="Date" [readonly]="true" columnName="DocumentDate" [title]="_TB('Document\nDate')" columnType="tb-date-input">
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_AMOUNT" formatter="Money" disabled="true" columnName="Amount" [title]="_TB('Amount')" columnType="tb-numeric-text-box">
+                                        </tb-body-edit-column>
+                                    </tb-body-edit>
+                                </div>
+                            </tb-panel>
+                        </tb-tile-group>
                     </tb-view>
                 </ng-template>
             </tb-dockpane>
