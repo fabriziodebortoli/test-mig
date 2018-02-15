@@ -99,16 +99,12 @@ export class NumbererComponent extends ControlComponent {
             this.store
                 .select(this.selector)
                 .select('value')
-                .subscribe(
-                    () => this.setComponentMask()
-                );
+                .subscribe(this.setComponentMask.bind(this));
 
             this.store
                 .select(this.selector)
                 .select('formMode')
-                .subscribe(
-                    (v) => this.onFormModeChanged(v.formMode)
-                );
+                .subscribe(this.onFormModeChanged.bind(this));
 
             this.subscribedToSelector = true;
         }
