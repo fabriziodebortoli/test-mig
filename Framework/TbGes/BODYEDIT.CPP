@@ -8682,19 +8682,15 @@ BOOL CBodyEdit::CallDialog()
 		if (m_pRowFormView == NULL)
 			return FALSE;
 
-		if (m_nCurrRecordIdx < 0 && !m_pRowFormView->GetFrame()->IsPopup())
+		if (m_nCurrRecordIdx < 0)
 		{
 			int r = GetDBT()->GetCurrentRowIdx();
 			if (r >= 0)
-			{
 				SetCurrLine(r);
-				ASSERT(m_nCurrRecordIdx > -1);
-			}
-			//else if  (GetDocument()->GetFormMode() == CBaseDocument::NEW || GetDocument()->GetFormMode() == CBaseDocument::EDIT)
-			//{
-			//	SetCurrLine(0);	//aggiunge una riga
-			//	ASSERT (m_nCurrRecordIdx > -1);
-			//}
+			else if (!GetDBT()->IsEmpty())
+				SetCurrLine(0);
+
+			ASSERT(m_nCurrRecordIdx > -1);
 		}
 
 		m_pRowFormView->Attach(this);
