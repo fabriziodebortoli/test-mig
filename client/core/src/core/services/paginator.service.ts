@@ -19,7 +19,7 @@ export class PaginatorService implements OnDestroy {
     private serverData: any;
     private currentServerPageNumber = -1;
     private clientPage = 10;
-    private sizeOfLastServer: number | null = null;
+    private sizeOfLastServer: number = -1;
     private higherServerPage = 0;
     private lookAheadServerPageCache: {page: number, data: any} = {page: -1, data: null};
     private prevSkip = -1;
@@ -47,7 +47,7 @@ export class PaginatorService implements OnDestroy {
 
     private  get willChangeServerPage() {
         return this.clientEndOffset >= this.serverData.rows.length &&
-        (!this.sizeOfLastServer ||
+        ((this.sizeOfLastServer === -1) ||
             (this.sizeOfLastServer >= 0 && this.currentServerPageNumber < this.higherServerPage));
     }
 
@@ -79,7 +79,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     public get noMorePages(): boolean {
-        return this.sizeOfLastServer !== null;
+        return this.sizeOfLastServer !== -1;
     }
 
     public waiting$ = new Subject<boolean>().distinctUntilChanged();
@@ -106,7 +106,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     private async getNewTotal(): Promise<number> {
-        if (this.sizeOfLastServer) {
+        if (this.sizeOfLastServer !== -1) {
             return this.higherServerPage * this.serverPage + this.sizeOfLastServer;
         } else {
             if (this.willChangeServerPage) {
@@ -138,7 +138,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     private getServerPage(skip: number): number {
-        if (skip === 0) { return 0; }
+        if (skip === 0) { return this.currentServerPageNumber === -1 ? 0 : Math.min(0, this.currentServerPageNumber -1); }
         return Math.trunc(skip / this.serverPage);
     }
 
@@ -190,7 +190,8 @@ export class PaginatorService implements OnDestroy {
         let newServerPage = this.getServerPage(skip);
         let newServerPageNeeded = this.currentServerPageNumber !== newServerPage;
         if (newServerPageNeeded) {
-            this.sizeOfLastServer = null;
+            this.lookAheadServerPageCache = { page: -1, data: null };
+            this.sizeOfLastServer = -1;
             let data = await this.loadServerPage(newServerPage, this.serverPage, this.lastServNeededParams);
             if (!data || !data.rows || data.rows.length === 0) { return; }
             this.serverData = data;
@@ -252,7 +253,7 @@ export class PaginatorService implements OnDestroy {
         this.currentServerPageNumber = -1;
         this.lookAheadServerPageCache = { page: -1, data: null };
         this.higherServerPage = 0;
-        this.sizeOfLastServer = null;
+        this.sizeOfLastServer = -1;
         this.clientStartOffset = 0;
         this.clientEndOffset = 0;
         this.skip = 0;
