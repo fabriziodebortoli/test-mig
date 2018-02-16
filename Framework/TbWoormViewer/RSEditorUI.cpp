@@ -64,8 +64,8 @@ static const char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CNodeTree, CObject)
 
-CNodeTree::CNodeTree(HTREEITEM ht, CRSTreeCtrlImgIdx eImgIndex, ENodeType eNodeType, 
-					CObject* pItemData/*= NULL*/, CObject* pParentItemData/*= NULL*/, CObject* pAncestorItemData /*= NULL*/)
+CNodeTree::CNodeTree(HTREEITEM ht, CRSTreeCtrlImgIdx eImgIndex, ENodeType eNodeType,
+	CObject* pItemData/*= NULL*/, CObject* pParentItemData/*= NULL*/, CObject* pAncestorItemData /*= NULL*/)
 	:
 	IDisposingSourceImpl(this),
 
@@ -153,7 +153,7 @@ BOOL CNodeTreeArray::CheckOneSel(CNodeTree* pNode)
 	int idx = Find(pNode);
 	if (idx >= 0 && this->m_bChecked)
 	{
-		return FALSE; 
+		return FALSE;
 	}
 	else if (idx >= 0)
 	{
@@ -240,7 +240,7 @@ void CWoormFrame::ShowPropertyPanel(BOOL bShow)
 	if (m_pPropertyPane)
 	{
 		m_pPropertyPane->ShowPanel(bShow, FALSE, CBRS_ALIGN_RIGHT | CBRS_BORDER_BOTTOM);
-		m_pPropertyPane->DockToFrameWindow(CBRS_RIGHT,NULL, CBRS_BORDER_BOTTOM);
+		m_pPropertyPane->DockToFrameWindow(CBRS_RIGHT, NULL, CBRS_BORDER_BOTTOM);
 		m_pPropertyPane->SetBCGStyle(m_pPropertyPane->GetBCGStyle() & ~(CBRS_BCGP_CLOSE));
 	}
 }
@@ -314,22 +314,22 @@ void CWoormFrame::ShowDockingPanels(BOOL bShow)
 	//-------------
 	if (m_pToolBoxPane)
 	{
-		m_pToolBoxPane->ShowPanel			(bShow, TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
-		m_pToolBarPane->SetAutoHideMode		(TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
+		m_pToolBoxPane->ShowPanel(bShow, TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
+		m_pToolBarPane->SetAutoHideMode(TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
 		m_pToolBoxPane->SetBCGStyle(m_pToolBoxPane->GetBCGStyle() & ~(CBRS_BCGP_CLOSE));
 	}
 
 	if (m_pToolBarPane)
 	{
-		m_pToolBarPane->ShowPanel			(bShow, FALSE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
-		m_pToolBarPane->SetAutoHideMode		(TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
+		m_pToolBarPane->ShowPanel(bShow, FALSE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
+		m_pToolBarPane->SetAutoHideMode(TRUE, CBRS_ALIGN_LEFT | CBRS_HIDE_INPLACE);
 		m_pToolBarPane->SetBCGStyle(m_pToolBarPane->GetBCGStyle() & ~(CBRS_BCGP_CLOSE));
 	}
 
 	if (m_pToolBoxDBPane)
 	{
-		m_pToolBoxDBPane->ShowPanel			(bShow, FALSE, CBRS_ALIGN_RIGHT | CBRS_HIDE_INPLACE);
-		m_pToolBoxDBPane->SetAutoHideMode	(TRUE, CBRS_ALIGN_RIGHT | CBRS_HIDE_INPLACE);
+		m_pToolBoxDBPane->ShowPanel(bShow, FALSE, CBRS_ALIGN_RIGHT | CBRS_HIDE_INPLACE);
+		m_pToolBoxDBPane->SetAutoHideMode(TRUE, CBRS_ALIGN_RIGHT | CBRS_HIDE_INPLACE);
 		m_pToolBoxDBPane->SetBCGStyle(m_pToolBoxDBPane->GetBCGStyle() & ~(CBRS_BCGP_CLOSE));
 	}
 
@@ -350,7 +350,7 @@ void CWoormFrame::ShowDockingPanels(BOOL bShow)
 			m_pToolBoxDBView->FillTree();
 		}
 	}
-	
+
 	//----------------------
 	if (m_pFullReportPane)
 	{
@@ -448,7 +448,7 @@ void CWoormFrame::ClosePanels()
 		m_pToolBarPane->PrepareForClose();
 
 	if (m_pPropertyPane)
-	{ 
+	{
 		if (m_pObjectPropertyView)
 			m_pObjectPropertyView->GetPropertyGrid()->RemoveAll();
 
@@ -461,14 +461,14 @@ void CWoormFrame::ClosePanels()
 		m_pEditorPane->PrepareForClose();
 
 	m_DockingPanes.RemoveAll();
-/*
-try
-{
-	ShowDockingPanels(FALSE);
-	m_DockingPanes.DestroyPanes(); 
-} catch(...)
-{}
-*/
+	/*
+	try
+	{
+		ShowDockingPanels(FALSE);
+		m_DockingPanes.DestroyPanes();
+	} catch(...)
+	{}
+	*/
 }
 
 //----------------------------------------------------------------------------
@@ -563,9 +563,9 @@ BEGIN_MESSAGE_MAP(CRSTreeCtrl, CTBTreeCtrl)
 	ON_WM_RBUTTONUP()
 	ON_WM_MOUSEMOVE()
 
-	ON_NOTIFY_REFLECT(TVN_BEGINDRAG,		OnBeginDrag)
-	ON_NOTIFY_REFLECT(TVN_ITEMEXPANDING,	OnItemExpanding)
-	ON_NOTIFY_REFLECT(TVN_DELETEITEM,		OnItemDeleted)
+	ON_NOTIFY_REFLECT(TVN_BEGINDRAG, OnBeginDrag)
+	ON_NOTIFY_REFLECT(TVN_ITEMEXPANDING, OnItemExpanding)
+	ON_NOTIFY_REFLECT(TVN_DELETEITEM, OnItemDeleted)
 
 END_MESSAGE_MAP()
 
@@ -589,27 +589,27 @@ CRSTreeCtrl::CRSTreeCtrl()
 	m_htRuleTables(NULL),
 
 	m_htLayouts(NULL),
-		m_htLayoutDefault(NULL),
+	m_htLayoutDefault(NULL),
 
 	m_htLinks(NULL),
 
 	m_htVariables(NULL),
-		m_htHiddenGroupVariables(NULL),
+	m_htHiddenGroupVariables(NULL),
 
 	m_htRules(NULL),
 	m_htTupleRules(NULL),
 
 	m_htEvents(NULL),
-		m_htReportEvents(NULL),
-			m_htReportAlwaysEvent(NULL),
-			m_htReportBeforeEvent(NULL),
-			m_htReportAfterEvent(NULL),
-			m_htReportFinalizeEvent(NULL),
-		m_htFormFeedEvents(NULL),
-			m_htFormFeedBeforeEvent(NULL),
-			m_htFormFeedAfterEvent(NULL),
-		m_htFillTableEvents(NULL),
-		m_htTriggerEvents(NULL),
+	m_htReportEvents(NULL),
+	m_htReportAlwaysEvent(NULL),
+	m_htReportBeforeEvent(NULL),
+	m_htReportAfterEvent(NULL),
+	m_htReportFinalizeEvent(NULL),
+	m_htFormFeedEvents(NULL),
+	m_htFormFeedBeforeEvent(NULL),
+	m_htFormFeedAfterEvent(NULL),
+	m_htFillTableEvents(NULL),
+	m_htTriggerEvents(NULL),
 
 	m_htProcedures(NULL),
 	m_htQueries(NULL),
@@ -637,7 +637,7 @@ CRSTreeCtrl::CRSTreeCtrl()
 	m_pBoldItalic = new CFont(); m_arGarbage.Add(m_pBoldItalic);
 	lf.lfItalic = (BYTE)TRUE;
 	m_pBoldItalic->CreateFontIndirect(&lf);
-	
+
 	pControlFont->GetLogFont(&lf);
 	m_pItalic = new CFont(); m_arGarbage.Add(m_pItalic);
 	//lf.lfWeight = FW_NORMAL;
@@ -647,7 +647,7 @@ CRSTreeCtrl::CRSTreeCtrl()
 	m_bMultiSelectCustom = FALSE;
 
 	m_bMultiSelect = TRUE;
-	
+
 	InitializeImageList();
 
 	m_strDragCommand = _T("");
@@ -668,30 +668,30 @@ Gdiplus::Bitmap* _LoadPNG(CString sImgName, bool forceLoad /*=false*/)
 HICON _TBLoadPng(CString strImageNS)
 {
 	return TBLoadImage(strImageNS, NULL, 20, RGB(255, 255, 255));
-/*
-	if (AfxIsRemoteInterface())
-	{
-		return NULL;
-	}
+	/*
+		if (AfxIsRemoteInterface())
+		{
+			return NULL;
+		}
 
-	HICON hIco = NULL;
+		HICON hIco = NULL;
 
-	CString	sImagePath = AfxGetPathFinder()->GetFileNameFromNamespace(CTBNamespace(strImageNS), AfxGetLoginInfos()->m_strUserName);
-	CString	sFileExtension = sImagePath.Right(4);
-	if (sImagePath.Right(4).CompareNoCase(_T(".PNG")) != 0)
-	{
-		ASSERT(FALSE);
+		CString	sImagePath = AfxGetPathFinder()->GetFileNameFromNamespace(CTBNamespace(strImageNS), AfxGetLoginInfos()->m_strUserName);
+		CString	sFileExtension = sImagePath.Right(4);
+		if (sImagePath.Right(4).CompareNoCase(_T(".PNG")) != 0)
+		{
+			ASSERT(FALSE);
+			return hIco;
+		}
+
+		Gdiplus::Bitmap* gdibitmap = _LoadPNG(sImagePath, TRUE);
+		ASSERT(gdibitmap);
+		if (!gdibitmap) return hIco;
+
+		gdibitmap->GetHICON(&hIco);
+		delete gdibitmap;
 		return hIco;
-	}
-
-	Gdiplus::Bitmap* gdibitmap = _LoadPNG(sImagePath, TRUE);
-	ASSERT(gdibitmap);
-	if (!gdibitmap) return hIco;
-
-	gdibitmap->GetHICON(&hIco);
-	delete gdibitmap;
-	return hIco;
-*/
+	*/
 }
 //-----------------------------------------------------------------------------
 
@@ -713,89 +713,89 @@ void CRSTreeCtrl::InitializeImageList()
 
 	//hIcon[CRSTreeCtrlImgIdx::ColumnGlyph]			= TBLoadImage(TBGlyph(szGlyphColumn), NULL , 20, RGB(255, 255, 255));
 
-	hIcon[CRSTreeCtrlImgIdx::ColumnGlyph]				= TBLoadPng(TBGlyph(szGlyphColumn));
-	hIcon[CRSTreeCtrlImgIdx::ColumnHiddenGlyph]			= TBLoadPng(TBGlyph(szGlyphColumnHidden));
-	hIcon[CRSTreeCtrlImgIdx::ColumnHiddenExprGlyph]		= TBLoadPng(TBGlyph(szGlyphColumnExpr));
-	hIcon[CRSTreeCtrlImgIdx::ColumnTotalGlyph]			= TBLoadPng(TBGlyph(szGlyphColumnTotal));
-	hIcon[CRSTreeCtrlImgIdx::DataGlyph]					= TBLoadPng(TBGlyph(szGlyphData2));
-	hIcon[CRSTreeCtrlImgIdx::DataPrimaryKeyGlyph]		= TBLoadPng(TBGlyph(szGlyphDataPrimaryKey));
-	hIcon[CRSTreeCtrlImgIdx::ImageGlyph]				= TBLoadPng(TBGlyph(szGlyphImage));
-	hIcon[CRSTreeCtrlImgIdx::ImageHiddenGlyph]			= TBLoadPng(TBGlyph(szGlyphImageHidden));
-	hIcon[CRSTreeCtrlImgIdx::ImageHiddenExprGlyph]		= TBLoadPng(TBGlyph(szGlyphImageExpr));
-	hIcon[CRSTreeCtrlImgIdx::RectangleGlyph]			= TBLoadPng(TBGlyph(szGlyphRectangle));
-	hIcon[CRSTreeCtrlImgIdx::RectangleHiddenGlyph]		= TBLoadPng(TBGlyph(szGlyphRectangleHidden));
-	hIcon[CRSTreeCtrlImgIdx::RectangleHiddenExprGlyph]	= TBLoadPng(TBGlyph(szGlyphRectangleExpr));
-	hIcon[CRSTreeCtrlImgIdx::RepeaterGlyph]				= TBLoadPng(TBGlyph(szGlyphRepeater));
-	hIcon[CRSTreeCtrlImgIdx::RepeaterHiddenGlyph]		= TBLoadPng(TBGlyph(szGlyphRepeaterHidden));
-	hIcon[CRSTreeCtrlImgIdx::RepeaterHiddenExprGlyph]	= TBLoadPng(TBGlyph(szGlyphRepeaterExpr));
+	hIcon[CRSTreeCtrlImgIdx::ColumnGlyph] = TBLoadPng(TBGlyph(szGlyphColumn));
+	hIcon[CRSTreeCtrlImgIdx::ColumnHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphColumnHidden));
+	hIcon[CRSTreeCtrlImgIdx::ColumnHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphColumnExpr));
+	hIcon[CRSTreeCtrlImgIdx::ColumnTotalGlyph] = TBLoadPng(TBGlyph(szGlyphColumnTotal));
+	hIcon[CRSTreeCtrlImgIdx::DataGlyph] = TBLoadPng(TBGlyph(szGlyphData2));
+	hIcon[CRSTreeCtrlImgIdx::DataPrimaryKeyGlyph] = TBLoadPng(TBGlyph(szGlyphDataPrimaryKey));
+	hIcon[CRSTreeCtrlImgIdx::ImageGlyph] = TBLoadPng(TBGlyph(szGlyphImage));
+	hIcon[CRSTreeCtrlImgIdx::ImageHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphImageHidden));
+	hIcon[CRSTreeCtrlImgIdx::ImageHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphImageExpr));
+	hIcon[CRSTreeCtrlImgIdx::RectangleGlyph] = TBLoadPng(TBGlyph(szGlyphRectangle));
+	hIcon[CRSTreeCtrlImgIdx::RectangleHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphRectangleHidden));
+	hIcon[CRSTreeCtrlImgIdx::RectangleHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphRectangleExpr));
+	hIcon[CRSTreeCtrlImgIdx::RepeaterGlyph] = TBLoadPng(TBGlyph(szGlyphRepeater));
+	hIcon[CRSTreeCtrlImgIdx::RepeaterHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphRepeaterHidden));
+	hIcon[CRSTreeCtrlImgIdx::RepeaterHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphRepeaterExpr));
 
-	hIcon[CRSTreeCtrlImgIdx::ChartGlyph]				= TBLoadPng(TBGlyph(szGlyphChart));
-	hIcon[CRSTreeCtrlImgIdx::ChartHiddenGlyph]			= TBLoadPng(TBGlyph(szGlyphChartHidden));
-	hIcon[CRSTreeCtrlImgIdx::ChartHiddenExprGlyph]		= TBLoadPng(TBGlyph(szGlyphChartExpr));
+	hIcon[CRSTreeCtrlImgIdx::ChartGlyph] = TBLoadPng(TBGlyph(szGlyphChart));
+	hIcon[CRSTreeCtrlImgIdx::ChartHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphChartHidden));
+	hIcon[CRSTreeCtrlImgIdx::ChartHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphChartExpr));
 
-	hIcon[CRSTreeCtrlImgIdx::ChartCategoryGlyph]		= TBLoadPng(TBGlyph(szGlyphChartCategory));
+	hIcon[CRSTreeCtrlImgIdx::ChartCategoryGlyph] = TBLoadPng(TBGlyph(szGlyphChartCategory));
 	//hIcon[CRSTreeCtrlImgIdx::ChartCategoryHiddenGlyph]	= TBLoadPng(TBGlyph(szGlyphChartCategoryHidden));
 	//hIcon[CRSTreeCtrlImgIdx::ChartCategoryHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphChartCategoryExpr));
 
-	hIcon[CRSTreeCtrlImgIdx::ChartSeriesGlyph]			= TBLoadPng(TBGlyph(szGlyphChartSeries));
-	hIcon[CRSTreeCtrlImgIdx::ChartSeriesHiddenGlyph]	= TBLoadPng(TBGlyph(szGlyphChartSeriesHidden));
+	hIcon[CRSTreeCtrlImgIdx::ChartSeriesGlyph] = TBLoadPng(TBGlyph(szGlyphChartSeries));
+	hIcon[CRSTreeCtrlImgIdx::ChartSeriesHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphChartSeriesHidden));
 	hIcon[CRSTreeCtrlImgIdx::ChartSeriesHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphChartSeriesExpr));
 
-	hIcon[CRSTreeCtrlImgIdx::TableGlyph]				= TBLoadPng(TBGlyph(szGlyphTable));
-	hIcon[CRSTreeCtrlImgIdx::TableHiddenGlyph]			= TBLoadPng(TBGlyph(szGlyphTableHidden));
-	hIcon[CRSTreeCtrlImgIdx::TableHiddenExprGlyph]		= TBLoadPng(TBGlyph(szGlyphTableExpr));
-	hIcon[CRSTreeCtrlImgIdx::TextGlyph]					= TBLoadPng(TBGlyph(szGlyphText));
-	hIcon[CRSTreeCtrlImgIdx::TextHiddenGlyph]			= TBLoadPng(TBGlyph(szGlyphTextHidden));
-	hIcon[CRSTreeCtrlImgIdx::TextHiddenExprGlyph]		= TBLoadPng(TBGlyph(szGlyphTextExpr));
-	hIcon[CRSTreeCtrlImgIdx::TextFileGlyph]				= TBLoadPng(TBGlyph(szGlyphTextFile));
-	hIcon[CRSTreeCtrlImgIdx::TextFileHiddenGlyph]		= TBLoadPng(TBGlyph(szGlyphTextFileHidden));
-	hIcon[CRSTreeCtrlImgIdx::TextFileHiddenExprGlyph]	= TBLoadPng(TBGlyph(szGlyphTextFileExpr));
-	hIcon[CRSTreeCtrlImgIdx::ExprGlyph]					= TBLoadPng(TBGlyph(szGlyphExpression));
-	hIcon[CRSTreeCtrlImgIdx::FuncGlyph]					= TBLoadPng(TBGlyph(szGlyphFunction));
-	hIcon[CRSTreeCtrlImgIdx::FieldGlyph]				= TBLoadPng(TBGlyph(szGlyphField));
-	hIcon[CRSTreeCtrlImgIdx::FieldGlyphHidden]			= TBLoadPng(TBGlyph(szGlyphFieldHidden));
-	hIcon[CRSTreeCtrlImgIdx::FieldGlyphHiddenExpr]		= TBLoadPng(TBGlyph(szGlyphFieldExpr));
-	hIcon[CRSTreeCtrlImgIdx::PrimaryKey]				= TBLoadPng(TBGlyph(szGlyphPrimaryKey));
-	hIcon[CRSTreeCtrlImgIdx::ForeignKey]				= TBLoadPng(TBGlyph(szGlyphForeignKey));
+	hIcon[CRSTreeCtrlImgIdx::TableGlyph] = TBLoadPng(TBGlyph(szGlyphTable));
+	hIcon[CRSTreeCtrlImgIdx::TableHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphTableHidden));
+	hIcon[CRSTreeCtrlImgIdx::TableHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphTableExpr));
+	hIcon[CRSTreeCtrlImgIdx::TextGlyph] = TBLoadPng(TBGlyph(szGlyphText));
+	hIcon[CRSTreeCtrlImgIdx::TextHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphTextHidden));
+	hIcon[CRSTreeCtrlImgIdx::TextHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphTextExpr));
+	hIcon[CRSTreeCtrlImgIdx::TextFileGlyph] = TBLoadPng(TBGlyph(szGlyphTextFile));
+	hIcon[CRSTreeCtrlImgIdx::TextFileHiddenGlyph] = TBLoadPng(TBGlyph(szGlyphTextFileHidden));
+	hIcon[CRSTreeCtrlImgIdx::TextFileHiddenExprGlyph] = TBLoadPng(TBGlyph(szGlyphTextFileExpr));
+	hIcon[CRSTreeCtrlImgIdx::ExprGlyph] = TBLoadPng(TBGlyph(szGlyphExpression));
+	hIcon[CRSTreeCtrlImgIdx::FuncGlyph] = TBLoadPng(TBGlyph(szGlyphFunction));
+	hIcon[CRSTreeCtrlImgIdx::FieldGlyph] = TBLoadPng(TBGlyph(szGlyphField));
+	hIcon[CRSTreeCtrlImgIdx::FieldGlyphHidden] = TBLoadPng(TBGlyph(szGlyphFieldHidden));
+	hIcon[CRSTreeCtrlImgIdx::FieldGlyphHiddenExpr] = TBLoadPng(TBGlyph(szGlyphFieldExpr));
+	hIcon[CRSTreeCtrlImgIdx::PrimaryKey] = TBLoadPng(TBGlyph(szGlyphPrimaryKey));
+	hIcon[CRSTreeCtrlImgIdx::ForeignKey] = TBLoadPng(TBGlyph(szGlyphForeignKey));
 
-	hIcon[CRSTreeCtrlImgIdx::InputVarGlyph]			= TBLoadPng(TBGlyph(szGlyphInputVar));				
-	hIcon[CRSTreeCtrlImgIdx::InputAndAskVarGlyph]	= TBLoadPng(TBGlyph(szGlyphInputAndAskVar));
-	hIcon[CRSTreeCtrlImgIdx::Total]					= TBLoadPng(TBIcon(szIconSigma, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::InputVarGlyph] = TBLoadPng(TBGlyph(szGlyphInputVar));
+	hIcon[CRSTreeCtrlImgIdx::InputAndAskVarGlyph] = TBLoadPng(TBGlyph(szGlyphInputAndAskVar));
+	hIcon[CRSTreeCtrlImgIdx::Total] = TBLoadPng(TBIcon(szIconSigma, CONTROL));
 
-	hIcon[CRSTreeCtrlImgIdx::LinkToRadar]			= TBLoadPng(TBIcon(szIconRadar			, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::LinkToForm]			= TBLoadPng(TBIcon(szIconLinkToForm		, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::LinkToReport]			= TBLoadPng(TBIcon(szIconLinkToReport	, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::LinkToFunction]		= TBLoadPng(TBIcon(szIconLinkToFunction	, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::LinkToFile]			= TBLoadPng(TBIcon(szIconLinkToFile		, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::LinkToUrl]				= TBLoadPng(TBIcon(szIconLinkToUrl		, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::MailTo]				= TBLoadPng(TBIcon(szIconMail			, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::CallTo]				= TBLoadPng(TBIcon(szIconPhone			, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::GoogleMap]				= TBLoadPng(TBIcon(szIconAddress		, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::BarcodeGlyph]			= TBLoadPng(TBIcon(szIconRSBarcode		, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::FuncArrayGlyph]		= TBLoadPng(TBGlyph(szGlyphFuncArray));
+	hIcon[CRSTreeCtrlImgIdx::LinkToRadar] = TBLoadPng(TBIcon(szIconRadar, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::LinkToForm] = TBLoadPng(TBIcon(szIconLinkToForm, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::LinkToReport] = TBLoadPng(TBIcon(szIconLinkToReport, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::LinkToFunction] = TBLoadPng(TBIcon(szIconLinkToFunction, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::LinkToFile] = TBLoadPng(TBIcon(szIconLinkToFile, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::LinkToUrl] = TBLoadPng(TBIcon(szIconLinkToUrl, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::MailTo] = TBLoadPng(TBIcon(szIconMail, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::CallTo] = TBLoadPng(TBIcon(szIconPhone, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::GoogleMap] = TBLoadPng(TBIcon(szIconAddress, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BarcodeGlyph] = TBLoadPng(TBIcon(szIconRSBarcode, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::FuncArrayGlyph] = TBLoadPng(TBGlyph(szGlyphFuncArray));
 
-	hIcon[CRSTreeCtrlImgIdx::BreakPoint]				= TBLoadPng(TBIcon(szIconBreakpoint, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::BreakPointCondition]		= TBLoadPng(TBIcon(szIconBreakpointCondition, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::BreakPointAction]			= TBLoadPng(TBIcon(szIconBreakpointAction, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BreakPoint] = TBLoadPng(TBIcon(szIconBreakpoint, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BreakPointCondition] = TBLoadPng(TBIcon(szIconBreakpointCondition, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BreakPointAction] = TBLoadPng(TBIcon(szIconBreakpointAction, CONTROL));
 	hIcon[CRSTreeCtrlImgIdx::BreakPointConditionAction] = TBLoadPng(TBIcon(szIconBreakpointConditionAction, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::BreakPointCurrent]			= TBLoadPng(TBIcon(szIconBreakpointCurrent, CONTROL));
-	hIcon[CRSTreeCtrlImgIdx::BreakPointDisabled]		= TBLoadPng(TBIcon(szIconBreakpointDisabled, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BreakPointCurrent] = TBLoadPng(TBIcon(szIconBreakpointCurrent, CONTROL));
+	hIcon[CRSTreeCtrlImgIdx::BreakPointDisabled] = TBLoadPng(TBIcon(szIconBreakpointDisabled, CONTROL));
 
-	hIcon[CRSTreeCtrlImgIdx::NoGLyph]				= TBLoadPng(TBGlyph(szGlyphNoImgTreeCtrl));
+	hIcon[CRSTreeCtrlImgIdx::NoGLyph] = TBLoadPng(TBGlyph(szGlyphNoImgTreeCtrl));
 
 	for (int n = 0; n < CRSTreeCtrlImgIdx::MAXGlyph; n++)
 	{
 		int index = m_ImageList.Add(hIcon[n]);
 		ASSERT(index == n);
 		if (index >= 0)
-		::DestroyIcon(hIcon[n]);
+			::DestroyIcon(hIcon[n]);
 	}
 
 	SetImageList(&m_ImageList, TVSIL_NORMAL);
-	m_ImageList.SetBkColor(RGB(255,255,255));
+	m_ImageList.SetBkColor(RGB(255, 255, 255));
 }
 
- BOOL CRSTreeCtrl::PreTranslateMessage(MSG* pMsg)
+BOOL CRSTreeCtrl::PreTranslateMessage(MSG* pMsg)
 {
 	/*SetCapture();
 	if(pMsg->message==WM_RBUTTONUP)
@@ -803,13 +803,13 @@ void CRSTreeCtrl::InitializeImageList()
 	if (pMsg->message == WM_CONTEXTMENU)
 		return TRUE;
 */
-	return __super::PreTranslateMessage(pMsg) ;
+	return __super::PreTranslateMessage(pMsg);
 }
 
 //-----------------------------------------------------------------------------
 BOOL CRSTreeCtrl::IsLayoutNodeType(CNodeTree::ENodeType nodeType)
 {
-	return 
+	return
 		nodeType == CNodeTree::ENodeType::NT_OBJ_FIELDRECT ||
 		nodeType == CNodeTree::ENodeType::NT_OBJ_TEXTRECT ||
 		nodeType == CNodeTree::ENodeType::NT_OBJ_FILERECT ||
@@ -852,10 +852,10 @@ void CRSTreeCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 		m_pWDoc->ClearSelectionFromAllTrees(this);
 	}
 
-	try 
+	try
 	{
 		__super::OnLButtonDown(nFlags, point);
-	} 
+	}
 	catch (...)
 	{	//crash su BCGP scroolbar ?
 		ASSERT(FALSE);
@@ -940,45 +940,45 @@ void CRSTreeCtrl::OnBeginDrag(NMHDR* pNMHDR, LRESULT* pResult)
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_VARIABLE:
-		{
-			WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
-			ASSERT_VALID(pF);
-			if (!pF->IsHidden())
-			{
-				m_hDragItem = NULL;
-				return;
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_LIST_DBTABLE:
-		case CNodeTree::ENodeType::NT_LIST_DBVIEW:
-		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
-
-		case CNodeTree::ENodeType::NT_NAMED_QUERY:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
-
-		case CNodeTree::ENodeType::NT_TOOLBOX_OBJECT:
-
-		case CNodeTree::ENodeType::NT_OBJ_FIELDRECT:
-		case CNodeTree::ENodeType::NT_OBJ_TEXTRECT:
-		case CNodeTree::ENodeType::NT_OBJ_FILERECT:
-		case CNodeTree::ENodeType::NT_OBJ_SQRRECT :
-		case CNodeTree::ENodeType::NT_OBJ_GRAPHRECT:
-		case CNodeTree::ENodeType::NT_OBJ_TABLE:
-		case CNodeTree::ENodeType::NT_OBJ_REPEATER:
-		case CNodeTree::ENodeType::NT_OBJ_CHART:
-		case CNodeTree::ENodeType::NT_OBJ_CATEGORY:
-		case CNodeTree::ENodeType::NT_OBJ_SERIES:
-		{
-			break;
-		}
-
-		default:
+	case CNodeTree::ENodeType::NT_VARIABLE:
+	{
+		WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
+		ASSERT_VALID(pF);
+		if (!pF->IsHidden())
 		{
 			m_hDragItem = NULL;
 			return;
 		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_LIST_DBTABLE:
+	case CNodeTree::ENodeType::NT_LIST_DBVIEW:
+	case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
+
+	case CNodeTree::ENodeType::NT_NAMED_QUERY:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
+
+	case CNodeTree::ENodeType::NT_TOOLBOX_OBJECT:
+
+	case CNodeTree::ENodeType::NT_OBJ_FIELDRECT:
+	case CNodeTree::ENodeType::NT_OBJ_TEXTRECT:
+	case CNodeTree::ENodeType::NT_OBJ_FILERECT:
+	case CNodeTree::ENodeType::NT_OBJ_SQRRECT:
+	case CNodeTree::ENodeType::NT_OBJ_GRAPHRECT:
+	case CNodeTree::ENodeType::NT_OBJ_TABLE:
+	case CNodeTree::ENodeType::NT_OBJ_REPEATER:
+	case CNodeTree::ENodeType::NT_OBJ_CHART:
+	case CNodeTree::ENodeType::NT_OBJ_CATEGORY:
+	case CNodeTree::ENodeType::NT_OBJ_SERIES:
+	{
+		break;
+	}
+
+	default:
+	{
+		m_hDragItem = NULL;
+		return;
+	}
 	}
 
 	if (DragText(m_strDragCommand, DROPEFFECT_MOVE) == DROPEFFECT_MOVE)
@@ -999,7 +999,7 @@ void CRSTreeCtrl::OnItemExpanding(NMHDR* pNMHDR, LRESULT* pResult)
 
 	HTREEITEM hCurrentItem = pNMTreeView->itemNew.hItem;
 	if (!hCurrentItem)
-		hCurrentItem=GetSelectedItem();
+		hCurrentItem = GetSelectedItem();
 	if (!hCurrentItem)
 		return;
 
@@ -1009,168 +1009,168 @@ void CRSTreeCtrl::OnItemExpanding(NMHDR* pNMHDR, LRESULT* pResult)
 
 	ASSERT_VALID(pNode);
 	ASSERT_KINDOF(CNodeTree, pNode);
-	
-	switch(pNode->m_NodeType)
-	{
-		case CNodeTree::ENodeType::NT_ROOT_TABLES:
-		{
-			if ( (pNMTreeView->hdr.code == TVN_ITEMEXPANDING) && (pNMTreeView->action == TVE_EXPAND))
-			{
-				if (m_bShowAllTables)
-					FillAllTables();
-				else
-					FillTables();
-			}
-			else  if (pNMTreeView->action == TVE_COLLAPSE)
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE:
-		{
-			if (pNMTreeView->action == TVE_EXPAND)
-				this->FillSubModuleTables(pNode, hCurrentItem);
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_LIST_DBTABLE:
-		case CNodeTree::ENodeType::NT_LIST_DBVIEW:
-		{
-			if (pNMTreeView->action == TVE_EXPAND)
-			{
-				CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pParentItemData);
 
-				DataFieldLinkArray* pdfLink = NULL;
-				HTREEITEM htParent = GetParentItem(hCurrentItem);
-				if (htParent)
+	switch (pNode->m_NodeType)
+	{
+	case CNodeTree::ENodeType::NT_ROOT_TABLES:
+	{
+		if ((pNMTreeView->hdr.code == TVN_ITEMEXPANDING) && (pNMTreeView->action == TVE_EXPAND))
+		{
+			if (m_bShowAllTables)
+				FillAllTables();
+			else
+				FillTables();
+		}
+		else  if (pNMTreeView->action == TVE_COLLAPSE)
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE:
+	{
+		if (pNMTreeView->action == TVE_EXPAND)
+			this->FillSubModuleTables(pNode, hCurrentItem);
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_LIST_DBTABLE:
+	case CNodeTree::ENodeType::NT_LIST_DBVIEW:
+	{
+		if (pNMTreeView->action == TVE_EXPAND)
+		{
+			CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pParentItemData);
+
+			DataFieldLinkArray* pdfLink = NULL;
+			HTREEITEM htParent = GetParentItem(hCurrentItem);
+			if (htParent)
+			{
+				CNodeTree* pParentNode = GetNode(htParent);
+				ASSERT_VALID(pParentNode);
+				ASSERT_KINDOF(CNodeTree, pParentNode);
+				if (pParentNode)
 				{
-					CNodeTree* pParentNode = GetNode(htParent);
-					ASSERT_VALID(pParentNode);
-					ASSERT_KINDOF(CNodeTree, pParentNode);
-					if (pParentNode)
+					if (pParentNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_USED_TABLES)
 					{
-						if (pParentNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_USED_TABLES)
-						{
-							TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pParentNode->m_pItemData);
-							int idx = pTblRule->m_arSqlTableJoinInfoArray.Find(pTC->m_pCatalogEntry->m_strTableName);
-							if (idx > -1)
-								pdfLink = pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks[idx];
-						}
+						TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pParentNode->m_pItemData);
+						int idx = pTblRule->m_arSqlTableJoinInfoArray.Find(pTC->m_pCatalogEntry->m_strTableName);
+						if (idx > -1)
+							pdfLink = pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks[idx];
 					}
 				}
+			}
 
-				FillTableColumns(pTC, hCurrentItem, pdfLink);
-			}
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+			FillTableColumns(pTC, hCurrentItem, pdfLink);
 		}
-
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN:
+		else
 		{
-			if (pNMTreeView->action == TVE_EXPAND)
-			{
-				FillUnselectedColumns(pNode);
-			}
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
 		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN:
+	{
+		if (pNMTreeView->action == TVE_EXPAND)
 		{
-			if (pNMTreeView->action == TVE_EXPAND)
-			{
-				CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pItemData);
-				FillForeignKey(pTC, hCurrentItem);
-			}
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+			FillUnselectedColumns(pNode);
 		}
-
-		case CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES:
+		else
 		{
-			if (pNMTreeView->action == TVE_EXPAND)
-			{
-				CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pItemData);
-				FillExternalReference(pTC, hCurrentItem);
-			}
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
 		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_COMMANDS:
-			if (pNMTreeView->action == TVE_EXPAND)
-				this->FillCommands(GetDocument()->GetWoormFrame()->m_pEditView);
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+	case CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY:
+	{
+		if (pNMTreeView->action == TVE_EXPAND)
+		{
+			CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pItemData);
+			FillForeignKey(pTC, hCurrentItem);
+		}
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_WEBMETHODS:
-			if (pNMTreeView->action == TVE_EXPAND)
-				this->FillWebMethods(GetDocument()->GetWoormFrame()->m_pEditView);
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+	case CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES:
+	{
+		if (pNMTreeView->action == TVE_EXPAND)
+		{
+			CHelperSqlCatalog::CTableColumns* pTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pNode->m_pItemData);
+			FillExternalReference(pTC, hCurrentItem);
+		}
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_FUNCTIONS:
-			if (pNMTreeView->action == TVE_EXPAND)
-				this->FillFunctions(GetDocument()->GetWoormFrame()->m_pEditView);
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+	case CNodeTree::ENodeType::NT_ROOT_COMMANDS:
+		if (pNMTreeView->action == TVE_EXPAND)
+			this->FillCommands(GetDocument()->GetWoormFrame()->m_pEditView);
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
 
-		case CNodeTree::ENodeType::NT_ROOT_ENUMS:
-			if (pNMTreeView->action == TVE_EXPAND)
-				this->FillEnums(GetDocument()->GetWoormFrame()->m_pEditView);
-			else
-			{
-				RemoveTreeChilds(hCurrentItem);
-				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
-			}
-			break;
+	case CNodeTree::ENodeType::NT_ROOT_WEBMETHODS:
+		if (pNMTreeView->action == TVE_EXPAND)
+			this->FillWebMethods(GetDocument()->GetWoormFrame()->m_pEditView);
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
 
-		case CNodeTree::ENodeType::NT_ROOT_MACRO_TEXT:
-			this->FillSpecialTextRect(FALSE);
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_HTML_TAGS:
-			this->FillHtmlTags( GetDocument()->GetWoormFrame()->m_pEditView, FALSE);
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_QUERY_TAGS:
-			this->FillQueriesTags(GetDocument()->GetWoormFrame()->m_pEditView, FALSE);
-			break;
+	case CNodeTree::ENodeType::NT_ROOT_FUNCTIONS:
+		if (pNMTreeView->action == TVE_EXPAND)
+			this->FillFunctions(GetDocument()->GetWoormFrame()->m_pEditView);
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
 
-		default: 
-			return;
+	case CNodeTree::ENodeType::NT_ROOT_ENUMS:
+		if (pNMTreeView->action == TVE_EXPAND)
+			this->FillEnums(GetDocument()->GetWoormFrame()->m_pEditView);
+		else
+		{
+			RemoveTreeChilds(hCurrentItem);
+			AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, hCurrentItem);
+		}
+		break;
+
+	case CNodeTree::ENodeType::NT_ROOT_MACRO_TEXT:
+		this->FillSpecialTextRect(FALSE);
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_HTML_TAGS:
+		this->FillHtmlTags(GetDocument()->GetWoormFrame()->m_pEditView, FALSE);
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_QUERY_TAGS:
+		this->FillQueriesTags(GetDocument()->GetWoormFrame()->m_pEditView, FALSE);
+		break;
+
+	default:
+		return;
 	}
 }
 
@@ -1196,7 +1196,7 @@ BOOL CRSTreeCtrl::CheckAndClearEdge(HTREEITEM ht)
 //--------------------------------------------------------------------------
 BOOL CRSTreeCtrl::IsEqualItemData(DWORD dwItemData, DWORD dwFindData)
 {
-	ASSERT (dwFindData);
+	ASSERT(dwFindData);
 	if (dwItemData == 0) return FALSE;
 
 	CNodeTree* pNode = dynamic_cast<CNodeTree*>((CObject*)dwItemData);
@@ -1226,8 +1226,8 @@ BOOL CRSTreeCtrl::IsEqualItemData(DWORD dwItemData, DWORD dwFindData)
 //}
 
 //-----------------------------------------------------------------------------
-CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eType, HTREEITEM htParent, 
-								CObject* pItem, CObject* pParentItem, CObject* pAncestorItem, BOOL bIsHidden)
+CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eType, HTREEITEM htParent,
+	CObject* pItem, CObject* pParentItem, CObject* pAncestorItem, BOOL bIsHidden)
 {
 	ASSERT(bIsHidden == FALSE || bIsHidden == TRUE);	//per il cambio del numero dei parametri del metodo
 
@@ -1241,7 +1241,7 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 				nImage = CRSTreeCtrlImgIdx::ColumnHiddenExprGlyph;
 			else if (pCol->IsHidden())
 				nImage = CRSTreeCtrlImgIdx::ColumnHiddenGlyph;
-			else 
+			else
 				nImage = CRSTreeCtrlImgIdx::ColumnGlyph;
 		}
 	}
@@ -1265,7 +1265,7 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 			WoormField* pF = dynamic_cast<WoormField*>(pItem);
 			if (pF)
 			{
-				if(pF->IsColTotal())
+				if (pF->IsColTotal())
 					nImage = CRSTreeCtrlImgIdx::Total;
 				else if (pF->IsSpecialField())
 					nImage = CRSTreeCtrlImgIdx::DataPrimaryKeyGlyph;
@@ -1277,10 +1277,10 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 					nImage = CRSTreeCtrlImgIdx::FuncArrayGlyph;
 				else if (pF->IsInput())
 					nImage = CRSTreeCtrlImgIdx::InputVarGlyph;
-				else 
+				else
 					nImage = CRSTreeCtrlImgIdx::FuncGlyph;
 			}
-		}			
+		}
 	}
 	if (eType == CNodeTree::ENodeType::NT_LINK && nImage < 0)
 	{
@@ -1330,12 +1330,12 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 			nImage = CRSTreeCtrlImgIdx::PrimaryKey;
 	}
 	else if (
-				eType == CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY
-				||
-				eType == CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES
-				||
-				eType == CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE
-			)
+		eType == CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY
+		||
+		eType == CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES
+		||
+		eType == CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE
+		)
 	{
 		nImage = CRSTreeCtrlImgIdx::ForeignKey;
 	}
@@ -1345,112 +1345,112 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 	m_arGarbage.Add(pNode);
 	SetItemData(ht, (DWORD)pNode);
 
-	switch(eType)
+	switch (eType)
 	{
-		case CNodeTree::ENodeType::NT_RULE_QUERY_WHERE:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUPBY:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_HAVING:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_ORDERBY:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_JOIN_ON:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_WHERE:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUPBY:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_HAVING:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_ORDERBY:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_JOIN_ON:
 
-		case CNodeTree::ENodeType::NT_TUPLE_GROUPING_ACTIONS:
+	case CNodeTree::ENodeType::NT_TUPLE_GROUPING_ACTIONS:
 
-			{
-				pNode->SetItemFont(m_pItalic);
-				pNode->SetItemColor(RS_COLOR_ACTIONS);
-				break;
-			}
-		
-		case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST:
-		case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
+	{
+		pNode->SetItemFont(m_pItalic);
+		pNode->SetItemColor(RS_COLOR_ACTIONS);
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
-		case CNodeTree::ENodeType::NT_LAYOUT:
+	case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST:
+	case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
 
-		case CNodeTree::ENodeType::NT_ROOT_LINKS:
-		case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
+	case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
+	case CNodeTree::ENodeType::NT_LAYOUT:
 
-		case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
-		case CNodeTree::ENodeType::NT_ROOT_MODULE:
-		case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
-			
-		case CNodeTree::ENodeType::NT_ROOT_EVENTS:
-		case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
-		case CNodeTree::ENodeType::NT_SUBROOT_REPORT_EVENTS:
-		case CNodeTree::ENodeType::NT_SUBROOT_FORMFEED_EVENTS:
-		case CNodeTree::ENodeType::NT_SUBROOT_FILLTABLE_EVENTS:
+	case CNodeTree::ENodeType::NT_ROOT_LINKS:
+	case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
 
-		case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
-		case CNodeTree::ENodeType::NT_ROOT_QUERIES:
+	case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
+	case CNodeTree::ENodeType::NT_ROOT_MODULE:
+	case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
 
-		case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
-		case CNodeTree::ENodeType::NT_ASKCONTROLS:
+	case CNodeTree::ENodeType::NT_ROOT_EVENTS:
+	case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
+	case CNodeTree::ENodeType::NT_SUBROOT_REPORT_EVENTS:
+	case CNodeTree::ENodeType::NT_SUBROOT_FORMFEED_EVENTS:
+	case CNodeTree::ENodeType::NT_SUBROOT_FILLTABLE_EVENTS:
 
-		case CNodeTree::ENodeType::NT_PAGE:
-		case CNodeTree::ENodeType::NT_PROPERTIES:
-		case CNodeTree::ENodeType::NT_SETTINGS:
+	case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
+	case CNodeTree::ENodeType::NT_ROOT_QUERIES:
 
-		case CNodeTree::ENodeType::NT_ROOT_RULES:
+	case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
+	case CNodeTree::ENodeType::NT_ASKCONTROLS:
 
-		case CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE:
-		case CNodeTree::ENodeType::NT_SUBROOT_MODULE:
-		case CNodeTree::ENodeType::NT_SUBROOT_APP:
+	case CNodeTree::ENodeType::NT_PAGE:
+	case CNodeTree::ENodeType::NT_PROPERTIES:
+	case CNodeTree::ENodeType::NT_SETTINGS:
 
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_SELECT:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_PARAMETERS:
-		case CNodeTree::ENodeType::NT_ROOT_USED_TABLES:
-		case CNodeTree::ENodeType::NT_GROUP_FUNCTIONS:
-		{
-			pNode->SetItemFont(m_pBold);
-			break;
-		}
+	case CNodeTree::ENodeType::NT_ROOT_RULES:
 
-		case CNodeTree::ENodeType::NT_DEBUG_FILTER_TUPLE_RULE:
-		case CNodeTree::ENodeType::NT_DEBUG_GROUPING_RULE:
-		case CNodeTree::ENodeType::NT_DEBUG_HAVINGGROUP_RULE:
+	case CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE:
+	case CNodeTree::ENodeType::NT_SUBROOT_MODULE:
+	case CNodeTree::ENodeType::NT_SUBROOT_APP:
 
-		{
-			pNode->SetItemFont(m_pBoldItalic);
-			break;
-		}
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_SELECT:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_PARAMETERS:
+	case CNodeTree::ENodeType::NT_ROOT_USED_TABLES:
+	case CNodeTree::ENodeType::NT_GROUP_FUNCTIONS:
+	{
+		pNode->SetItemFont(m_pBold);
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_ENUMS:
-		case CNodeTree::ENodeType::NT_ROOT_FUNCTIONS:
-		case CNodeTree::ENodeType::NT_ROOT_WEBMETHODS:
-		case CNodeTree::ENodeType::NT_ROOT_MACRO_TEXT:
-		case CNodeTree::ENodeType::NT_ROOT_COMMANDS:
-		case CNodeTree::ENodeType::NT_ROOT_TABLES:
-		case CNodeTree::ENodeType::NT_ROOT_FONTS_TABLE:
-		case CNodeTree::ENodeType::NT_ROOT_FORMATTERS_TABLE:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN:
-		case CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY:
-		case CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES:
-		case CNodeTree::ENodeType::NT_ROOT_BREAKPOINTS:
-		case CNodeTree::ENodeType::NT_ROOT_HTML_TAGS:
-		case CNodeTree::ENodeType::NT_ROOT_QUERY_TAGS:
-		{
-			pNode->SetItemFont(m_pBold);
-			pNode->SetItemColor(RS_COLOR_FRAMEWORK);
-			break;
-		}
+	case CNodeTree::ENodeType::NT_DEBUG_FILTER_TUPLE_RULE:
+	case CNodeTree::ENodeType::NT_DEBUG_GROUPING_RULE:
+	case CNodeTree::ENodeType::NT_DEBUG_HAVINGGROUP_RULE:
 
-		case CNodeTree::ENodeType::NT_DUMMY_NODE:
-		{
-			pNode->SetItemFont(m_pItalic);
-			pNode->SetItemColor(RS_COLOR_EMPTY);
-			break;
-		}
+	{
+		pNode->SetItemFont(m_pBoldItalic);
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_VARIABLE:
-		{
-			WoormField* pF = dynamic_cast<WoormField*>(pItem);
-			if (pF && pF->GetId() >= SpecialReportField::REPORT_LOWER_SPECIAL_ID)
-				pNode->SetItemColor(RS_COLOR_LIGHT_BLUE);	
-			break;
-		}
+	case CNodeTree::ENodeType::NT_ROOT_ENUMS:
+	case CNodeTree::ENodeType::NT_ROOT_FUNCTIONS:
+	case CNodeTree::ENodeType::NT_ROOT_WEBMETHODS:
+	case CNodeTree::ENodeType::NT_ROOT_MACRO_TEXT:
+	case CNodeTree::ENodeType::NT_ROOT_COMMANDS:
+	case CNodeTree::ENodeType::NT_ROOT_TABLES:
+	case CNodeTree::ENodeType::NT_ROOT_FONTS_TABLE:
+	case CNodeTree::ENodeType::NT_ROOT_FORMATTERS_TABLE:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN:
+	case CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY:
+	case CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES:
+	case CNodeTree::ENodeType::NT_ROOT_BREAKPOINTS:
+	case CNodeTree::ENodeType::NT_ROOT_HTML_TAGS:
+	case CNodeTree::ENodeType::NT_ROOT_QUERY_TAGS:
+	{
+		pNode->SetItemFont(m_pBold);
+		pNode->SetItemColor(RS_COLOR_FRAMEWORK);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_DUMMY_NODE:
+	{
+		pNode->SetItemFont(m_pItalic);
+		pNode->SetItemColor(RS_COLOR_EMPTY);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_VARIABLE:
+	{
+		WoormField* pF = dynamic_cast<WoormField*>(pItem);
+		if (pF && pF->GetId() >= SpecialReportField::REPORT_LOWER_SPECIAL_ID)
+			pNode->SetItemColor(RS_COLOR_LIGHT_BLUE);
+		break;
+	}
 	}
 
 	return *pNode;
@@ -1544,7 +1544,7 @@ CNodeTree* CRSTreeCtrl::GetParentNode(HTREEITEM htItem)
 
 //---------------------------------------------------------------------------
 //loop on parents until type was found
-CNodeTree* CRSTreeCtrl::GetAncientNode(HTREEITEM htItem, CNodeTree::ENodeType type) 
+CNodeTree* CRSTreeCtrl::GetAncientNode(HTREEITEM htItem, CNodeTree::ENodeType type)
 {
 	HTREEITEM ht = htItem;
 
@@ -1588,9 +1588,9 @@ HTREEITEM CRSTreeCtrl::Move(HTREEITEM htCurrent, BOOL bNext)
 //---------------------------------------------------------------------------
 
 BOOL CRSTreeCtrl::OnFindItemTextOnFirstChild(HTREEITEM htItem)
-{ 
+{
 	Expand(htItem, TVE_EXPAND);
-	return TRUE; 
+	return TRUE;
 }
 
 void CRSTreeCtrl::OnFindItemTextOnLastChild(HTREEITEM htItem)
@@ -1599,28 +1599,28 @@ void CRSTreeCtrl::OnFindItemTextOnLastChild(HTREEITEM htItem)
 }
 
 BOOL CRSTreeCtrl::OnFindItemTextOnChild(HTREEITEM htItem, const CString& str)
-{ 
+{
 	CNodeTree* pNode = GetNode(htItem);
 	if (pNode)
 	{
 		if (
 			(
-				this == & GetDocument()->GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl
+				this == &GetDocument()->GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl
 				||
-				this == & GetDocument()->GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl
-			)
+				this == &GetDocument()->GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl
+				)
 			&&
-				GetDocument()->GetWoormFrame()->m_pEditorDockedView->LoadElementFromTree(pNode)
+			GetDocument()->GetWoormFrame()->m_pEditorDockedView->LoadElementFromTree(pNode)
 			)
 		{
 			CString sText = GetDocument()->GetWoormFrame()->m_pEditorDockedView->GetText();
-			CString s = str; 
+			CString s = str;
 			s.Trim('*'); s = '*' + s + '*';
 			if (::WildcardMatch(sText, str))
 				return TRUE;
 		}
 	}
-	return FALSE; 
+	return FALSE;
 }
 
 //--------------------------------------------------------------------------
@@ -1680,9 +1680,9 @@ HTREEITEM CRSTreeCtrl::SelectRSTreeItemByMatchingText(const CString& sMatchText,
 {
 	CWaitCursor wc;
 
-	CString s = sMatchText; 
+	CString s = sMatchText;
 	s.Trim(); s.Trim(L"*%");
-	if (s.IsEmpty()) 
+	if (s.IsEmpty())
 		return NULL;
 	s = '*' + s + '*';
 
@@ -1692,7 +1692,7 @@ HTREEITEM CRSTreeCtrl::SelectRSTreeItemByMatchingText(const CString& sMatchText,
 		SelectItem(ht);
 		EnsureVisible(ht);
 	}
-	else 
+	else
 	{
 		SelectItem(NULL);
 		ExpandAll(TVE_COLLAPSE);
@@ -1700,7 +1700,7 @@ HTREEITEM CRSTreeCtrl::SelectRSTreeItemByMatchingText(const CString& sMatchText,
 	return ht;
 }
 
-HTREEITEM CRSTreeCtrl::FindItem(const CString& name,  HTREEITEM hRoot)
+HTREEITEM CRSTreeCtrl::FindItem(const CString& name, HTREEITEM hRoot)
 {
 	// check whether the current item is the searched one
 	CString text = GetItemText(hRoot);
@@ -1747,7 +1747,7 @@ void CRSTreeCtrl::OnPaint()
 //-----------------------------------------------------------------------------
 BOOL CRSTreeCtrl::IsEmptyNodeGroup(CNodeTree* pNode)
 {
-	switch(pNode->m_NodeType)
+	switch (pNode->m_NodeType)
 	{
 	case CNodeTree::ENodeType::NT_LAYOUT:
 
@@ -1780,10 +1780,10 @@ BOOL CRSTreeCtrl::IsEmptyNodeGroup(CNodeTree* pNode)
 		GroupByData* pGroupBy = dynamic_cast<GroupByData*>(pNode->m_pItemData);
 		if (pGroupBy && !pGroupBy->IsEmpty())
 			return FALSE;
-			
+
 		QueryEngine* pQEngine = dynamic_cast<RepEngine*>(pNode->m_pItemData);
 		if (pQEngine)
-		{ 
+		{
 			if (pQEngine->m_pTupleFilterEngine && !pQEngine->m_pTupleFilterEngine->IsEmpty())
 				return FALSE;
 			if (pQEngine->m_pGroupingTupleEngine && !pQEngine->m_pGroupingTupleEngine->IsEmpty())
@@ -1968,8 +1968,8 @@ void CRSTreeCtrl::PaintItem(HTREEITEM ht)
 	//Add some padding to completely cover the text which is drawn by default by the tree
 	bkRect.right = bkRect.right + bkRect.Width() / 3;
 
-//TAPPULLO
-	//COLORREF bkColor = RGB(255,255,255); //GetBkColor();
+	//TAPPULLO
+		//COLORREF bkColor = RGB(255,255,255); //GetBkColor();
 	COLORREF bkColor = GetBkColor();
 
 	CBrush bkbrush(bkColor);
@@ -2003,7 +2003,7 @@ void CRSTreeCtrl::PaintItem(HTREEITEM ht)
 
 		//Compute the bounding rectangle
 		CRect rc = labelRect;
-	
+
 		//Create a pen of highlight color to draw the border of the highlighting rectangle
 		CPen highlightPen;
 		//highlightPen.CreatePen(PS_ALTERNATE, 1, RGB(0,0,0)); //::GetSysColor(COLOR_HIGHLIGHT));
@@ -2036,8 +2036,8 @@ void CRSTreeCtrl::PaintItem(HTREEITEM ht)
 
 		//Similarly conver the labelRect to client cooridnates
 		ScreenToClient(&labelRect);
-		if(pNode->m_eImgIndex != CRSTreeCtrlImgIdx::NoGLyph)
-			labelRect.left = labelRect.left+2;//perchè sennò altrimenti risulta spostata di 2 pixel
+		if (pNode->m_eImgIndex != CRSTreeCtrlImgIdx::NoGLyph)
+			labelRect.left = labelRect.left + 2;//perchè sennò altrimenti risulta spostata di 2 pixel
 
 		//Set the background mode to transparent so that highlighting rectangle
 		//is not overwritten by bounding rectangle of the text while doing TextOut
@@ -2081,8 +2081,8 @@ BOOL CRSTreeCtrl::IsNodeInMultiSelection(CNodeTree* pNode)
 
 	if (GetDocument()->m_pMultipleSelObj && IsLayoutNodeType(pNode->m_NodeType) && GetDocument()->m_pMultipleSelObj->Find(pNode) != -1)
 		return TRUE;
-	
-	 if (GetDocument()->m_pMultiColumns && IsLayoutNodeType(pNode->m_NodeType) && GetDocument()->m_pMultiColumns->Find(pNode) != -1)
+
+	if (GetDocument()->m_pMultiColumns && IsLayoutNodeType(pNode->m_NodeType) && GetDocument()->m_pMultiColumns->Find(pNode) != -1)
 		return TRUE;
 
 	return FALSE;
@@ -2230,7 +2230,7 @@ BOOL CRSTreeCtrl::FillVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, B
 			continue;
 		}
 		else if (pF->IsAsk())
-			continue; 
+			continue;
 		else if (pF->IsInput() && pF->IsHidden())
 		{
 			//arHiddenInputGroup.Add(pF);
@@ -2238,11 +2238,11 @@ BOOL CRSTreeCtrl::FillVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, B
 			htParent = m_htVariables;
 		}
 		else if (pF->IsInput())
-			continue; 
+			continue;
 		else if (pF->IsHidden())
-			htParent = m_htVariables; 
+			htParent = m_htVariables;
 		else if (pF->IsColumn() || pF->IsColTotal() || pF->IsSubTotal())
-			continue; 
+			continue;
 		else
 			continue;
 
@@ -2255,25 +2255,25 @@ BOOL CRSTreeCtrl::FillVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, B
 	{
 		SortChildren(m_htVariables);
 	}
-/*
-	if (arHiddenInputGroup.GetSize())
-	{
-		HTREEITEM htHiddenInputGroup = AddNode(_T("Input variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
-
-		for (int i=0; i < arHiddenInputGroup.GetSize(); i++)
+	/*
+		if (arHiddenInputGroup.GetSize())
 		{
-			WoormField* pF = arHiddenInputGroup[i];
-			HTREEITEM ht = AddNode(pF->GetName(), CNodeTree::ENodeType::NT_VARIABLE, htHiddenInputGroup, pF, pProgSymTable);
+			HTREEITEM htHiddenInputGroup = AddNode(_T("Input variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
 
-			FillEnumsValue(ht, pF->GetDataType());
-		}
+			for (int i=0; i < arHiddenInputGroup.GetSize(); i++)
+			{
+				WoormField* pF = arHiddenInputGroup[i];
+				HTREEITEM ht = AddNode(pF->GetName(), CNodeTree::ENodeType::NT_VARIABLE, htHiddenInputGroup, pF, pProgSymTable);
 
-		if (bSort)
-		{
-			SortChildren(htHiddenInputGroup);
+				FillEnumsValue(ht, pF->GetDataType());
+			}
+
+			if (bSort)
+			{
+				SortChildren(htHiddenInputGroup);
+			}
 		}
-	}
-*/
+	*/
 	if (!bSkipSpecial && arSpecialGroup.GetSize())
 	{
 		HTREEITEM htSpecialGroup = AddNode(_T("Special variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
@@ -2295,7 +2295,7 @@ BOOL CRSTreeCtrl::FillVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, B
 }
 
 //-----------------------------------------------------------------------------
-BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, BOOL bSkipInput, BOOL bSkipTotal, CRSEditView* editView )
+BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial, BOOL bSkipInput, BOOL bSkipTotal, CRSEditView* editView)
 {
 	if (!m_htVariables)
 	{
@@ -2303,28 +2303,28 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 	}
 	else this->SetItemText(m_htVariables, _T("Variables"));
 
-	if (!CheckAndClearEdge(m_htVariables))															                                      
+	if (!CheckAndClearEdge(m_htVariables))
 		return FALSE;
 
 	CNodeTree& ndCols = AddNode(_T("Columns"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
 	SetItemImage(&ndCols, CRSTreeCtrlImgIdx::ColumnGlyph);	//CRSTreeCtrlImgIdx::TableGlyph;
-	HTREEITEM htColumnGroup	= ndCols;
+	HTREEITEM htColumnGroup = ndCols;
 
 	CNodeTree& ndFields = AddNode(_T("Fields"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
 	SetItemImage(&ndFields, CRSTreeCtrlImgIdx::FieldGlyph);
 	HTREEITEM htFieldGroup = ndFields;
-/*
-	CNodeTree& ndInputFields = AddNode(_T("Input fields"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
-	ndInputFields.m_eImgIndex = CRSTreeCtrlImgIdx::FieldGlyph;
-	SetItemImage(ndInputFields.m_ht, ndInputFields.m_eImgIndex, ndInputFields.m_eImgIndex);
-	HTREEITEM htVisibleInputGroup = ndInputFields;
-*/
+	/*
+		CNodeTree& ndInputFields = AddNode(_T("Input fields"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
+		ndInputFields.m_eImgIndex = CRSTreeCtrlImgIdx::FieldGlyph;
+		SetItemImage(ndInputFields.m_ht, ndInputFields.m_eImgIndex, ndInputFields.m_eImgIndex);
+		HTREEITEM htVisibleInputGroup = ndInputFields;
+	*/
 	CNodeTree& ndAskFields = AddNode(_T("Request fields"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
 	SetItemImage(&ndAskFields, CRSTreeCtrlImgIdx::InputAndAskVarGlyph);
 	HTREEITEM htAskFieldGroup = ndAskFields;
 
-	m_htHiddenGroupVariables		= AddNode(_T("Hidden variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
-	HTREEITEM htSpecialGroup		= bSkipSpecial ? NULL : (HTREEITEM) AddNode(_T("Special variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
+	m_htHiddenGroupVariables = AddNode(_T("Hidden variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
+	HTREEITEM htSpecialGroup = bSkipSpecial ? NULL : (HTREEITEM)AddNode(_T("Special variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htVariables);
 
 	WoormTable*	pProgSymTable = m_pWDoc->m_pEditorManager->GetPrgData()->GetSymTable();
 	ASSERT_VALID(pProgSymTable);
@@ -2369,7 +2369,7 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 		else if (pF->IsAsk())
 		{
 			htParent = htAskFieldGroup;
-			if (!pF->IsHidden()) 
+			if (!pF->IsHidden())
 				htSecondParent = htFieldGroup;
 		}
 		else if (pF->IsInput() && pF->IsHidden())
@@ -2397,7 +2397,7 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 			{
 				HTREEITEM ht = FindItemData((DWORD)pOwn, m_htVariables);
 				if (ht)
-					htParent = ht; 
+					htParent = ht;
 			}
 		}
 
@@ -2406,12 +2406,9 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 		//Fill Intellisense
 		if (this->IsKindOf(RUNTIME_CLASS(CRSEditViewTreeCtrl)) && editView)
 		{
-		
-				CString key = editView->GetEditCtrl()->GetKeyFromWordForIntellisense(pF->GetName());
-				if (!key.IsEmpty())
-					editView->GetEditCtrl()->AddIntellisenseWord(key, pF->GetName(), pF->GetName(),L"",L"");
 
-			}
+			editView->GetEditCtrl()->AddIntellisenseWord(pF->GetName(), pF->GetName(), pF->GetName(), L"", L"");
+		}
 		//
 
 		FillEnumsValue(ht, pF->GetDataType(), editView);
@@ -2431,29 +2428,29 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 		//SortChildren(htVisibleInputGroup);
 		SortChildren(m_htHiddenGroupVariables);
 	}
-/*
-	if (arHiddenInputGroup.GetSize())
-	{
-		HTREEITEM htHiddenInputGroup = AddNode(_T("Input variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htHiddenGroupVariables);
-
-		for (int i = 0; i < arHiddenInputGroup.GetSize(); i++)
+	/*
+		if (arHiddenInputGroup.GetSize())
 		{
-			WoormField* pF = arHiddenInputGroup[i];
+			HTREEITEM htHiddenInputGroup = AddNode(_T("Input variables"), CNodeTree::ENodeType::NT_ROOT_VARIABLES, m_htHiddenGroupVariables);
 
-			CNodeTree& ndHiddenInputFields = AddNode(pF->GetName(), CNodeTree::ENodeType::NT_VARIABLE, htHiddenInputGroup, pF, pSymTable);
-			ndHiddenInputFields.m_eImgIndex = CRSTreeCtrlImgIdx::InputVarGlyph;
-			SetItemImage(ndHiddenInputFields.m_ht, ndHiddenInputFields.m_eImgIndex, ndHiddenInputFields.m_eImgIndex);
-			HTREEITEM ht = ndHiddenInputFields;
+			for (int i = 0; i < arHiddenInputGroup.GetSize(); i++)
+			{
+				WoormField* pF = arHiddenInputGroup[i];
 
-			FillEnumsValue(ht, pF->GetDataType());
+				CNodeTree& ndHiddenInputFields = AddNode(pF->GetName(), CNodeTree::ENodeType::NT_VARIABLE, htHiddenInputGroup, pF, pSymTable);
+				ndHiddenInputFields.m_eImgIndex = CRSTreeCtrlImgIdx::InputVarGlyph;
+				SetItemImage(ndHiddenInputFields.m_ht, ndHiddenInputFields.m_eImgIndex, ndHiddenInputFields.m_eImgIndex);
+				HTREEITEM ht = ndHiddenInputFields;
+
+				FillEnumsValue(ht, pF->GetDataType());
+			}
+
+			if (bSort)
+			{
+				SortChildren(htHiddenInputGroup);
+			}
 		}
-
-		if (bSort)
-		{
-			SortChildren(htHiddenInputGroup);
-		}
-	}
-*/
+	*/
 	return TRUE;
 }
 
@@ -2507,7 +2504,7 @@ BOOL CRSTreeCtrl::FillVariablesGroupingRules(CRSEditView* editView)
 		{
 			if (!pF->IsExprRuleField() && !pF->IsTableRuleField())
 			{
-				std::pair <std::multimap<CString, IntellisenseData*>::iterator, std::multimap<CString, IntellisenseData>::iterator> ret;
+				/*std::pair <std::multimap<CString, IntellisenseData*>::iterator, std::multimap<CString, IntellisenseData>::iterator> ret;
 
 				for (std::multimap<CString, IntellisenseData*>::iterator it = editView->GetEditCtrl()->m_mIntelliString.begin(); it != editView->GetEditCtrl()->m_mIntelliString.end(); ++it)
 				{
@@ -2517,13 +2514,11 @@ BOOL CRSTreeCtrl::FillVariablesGroupingRules(CRSEditView* editView)
 						break;
 					}
 				}
-				continue;
+				continue;	*/
 			}
 			else
 			{
-				CString keyStr = editView->GetEditCtrl()->GetKeyFromWordForIntellisense(pF->GetName());
-				if (!keyStr.IsEmpty())
-					editView->GetEditCtrl()->AddIntellisenseWord(keyStr, pF->GetName(), pF->GetName(), L"",L"");
+				editView->GetEditCtrl()->AddIntellisenseWord(pF->GetName(), pF->GetName(), pF->GetName(), L"", L"");
 			}
 		}
 
@@ -2646,7 +2641,7 @@ BOOL CRSTreeCtrl::FillDialogs()
 		if (!pAskDlg->IsOnAsk())
 		{
 			HTREEITEM htOn = AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Check input")/*+ L"..."*/, htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pOnExpr, DataType::Bool, FALSE);
-				AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Abort message")/*+ L"..."*/, htOn, pAskDlg->GetSymTable(), &pAskDlg->m_pAbortExpr, DataType::String, FALSE);
+			AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Abort message")/*+ L"..."*/, htOn, pAskDlg->GetSymTable(), &pAskDlg->m_pAbortExpr, DataType::String, FALSE);
 
 			AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("After")/*+ L"..."*/, htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pAfterBlock, FALSE);
 		}
@@ -2683,10 +2678,10 @@ BOOL CRSTreeCtrl::FillDialogsForDebug(Block* pCurrent)
 
 		if (!pAskDlg->IsOnAsk())
 		{
-			AddNode(pCurrent && pAskDlg->m_pBeforeBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph, _T("Before"),		htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pBeforeBlock, FALSE);
+			AddNode(pCurrent && pAskDlg->m_pBeforeBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph, _T("Before"), htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pBeforeBlock, FALSE);
 			//AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Show when"),	htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pWhenExpr, DataType::Bool, FALSE);
 
-			AddNode(pCurrent && pAskDlg->m_pAfterBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph, _T("After"),		htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pAfterBlock, FALSE);
+			AddNode(pCurrent && pAskDlg->m_pAfterBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph, _T("After"), htDialog, pAskDlg->GetSymTable(), &pAskDlg->m_pAfterBlock, FALSE);
 
 			if ((pCurrent && pAskDlg->m_pBeforeBlock == pCurrent) || (pCurrent && pAskDlg->m_pAfterBlock == pCurrent))
 			{
@@ -2798,8 +2793,8 @@ CNodeTree& CRSTreeCtrl::FillTriggerEvent(EventsData* pEventsData, TriggEventData
 	HTREEITEM htTrigger = node;
 
 	UpdateTriggerEvent(htTrigger, pEventsData, pTriggerEvent);
-	
-	if (bSelect) 
+
+	if (bSelect)
 	{
 		SelectItem(node.m_ht);
 	}
@@ -2819,11 +2814,11 @@ BOOL CRSTreeCtrl::FillEvents()
 
 	if (m_htEvents == NULL)
 	{
-		m_htEvents			= AddNode(_T("Events"),				CNodeTree::ENodeType::NT_ROOT_EVENTS);
-		m_htReportEvents	= AddNode(_T("Report Events"),		CNodeTree::ENodeType::NT_SUBROOT_REPORT_EVENTS,		m_htEvents, pEventsData->m_pReportActions, pEventsData);
-		m_htFormFeedEvents	= AddNode(_T("FormFeed Events"),	CNodeTree::ENodeType::NT_SUBROOT_FORMFEED_EVENTS,	m_htEvents, pEventsData->m_pNewPageActions, pEventsData);
-		m_htFillTableEvents = AddNode(_T("Fill Table Events"),	CNodeTree::ENodeType::NT_SUBROOT_FILLTABLE_EVENTS,	m_htEvents, pEventsData);
-		m_htTriggerEvents	= AddNode(_T("Breaking Events"),	CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS,	m_htEvents, pEventsData);
+		m_htEvents = AddNode(_T("Events"), CNodeTree::ENodeType::NT_ROOT_EVENTS);
+		m_htReportEvents = AddNode(_T("Report Events"), CNodeTree::ENodeType::NT_SUBROOT_REPORT_EVENTS, m_htEvents, pEventsData->m_pReportActions, pEventsData);
+		m_htFormFeedEvents = AddNode(_T("FormFeed Events"), CNodeTree::ENodeType::NT_SUBROOT_FORMFEED_EVENTS, m_htEvents, pEventsData->m_pNewPageActions, pEventsData);
+		m_htFillTableEvents = AddNode(_T("Fill Table Events"), CNodeTree::ENodeType::NT_SUBROOT_FILLTABLE_EVENTS, m_htEvents, pEventsData);
+		m_htTriggerEvents = AddNode(_T("Breaking Events"), CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS, m_htEvents, pEventsData);
 	}
 
 	//---- Report
@@ -2872,7 +2867,7 @@ BOOL CRSTreeCtrl::FillEvents()
 		ASSERT_VALID(pDispTblObject);
 
 		CString descr = CString(_T("Fill table")) + ' ' + pDispTblObject->m_dsName.GetString();
-			
+
 		HTREEITEM htFillTable = AddNode(descr, CNodeTree::ENodeType::NT_FILLTABLE_EVENT, m_htFillTableEvents);
 
 		TableActionData* pTableEvent = pEventsData->GetTableEvent(pDispTblObject->m_dsName.GetString());
@@ -2897,7 +2892,7 @@ BOOL CRSTreeCtrl::FillEvents()
 		TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pEventsData->m_TriggEvents.GetAt(i));
 		ASSERT_VALID(pTriggerEvent);
 		if (!pTriggerEvent) continue;
-		
+
 		FillTriggerEvent(pEventsData, pTriggerEvent);
 	}
 
@@ -2921,12 +2916,12 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 		if (!CheckAndClearEdge(m_htEvents))
 			return FALSE;
 
-	ReportEvents*		pReportEvents		= pEngine->m_pReportEvents;
+	ReportEvents*		pReportEvents = pEngine->m_pReportEvents;
 	ASSERT_VALID(pReportEvents);
 	if (!pReportEvents)
 		return FALSE;
 
-	FormFeedEvents*		pOnFormFeedEvents	= pEngine->m_pOnFormFeedEvents;
+	FormFeedEvents*		pOnFormFeedEvents = pEngine->m_pOnFormFeedEvents;
 	ASSERT_VALID(pOnFormFeedEvents);
 
 	CNodeTree& nt1 = AddNode(
@@ -2934,9 +2929,9 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 		pReportEvents->m_pBeforeBlock->m_strOwnerName, m_htEvents, &pEngine->m_SymTable,
 		&pReportEvents->m_pBeforeBlock, TRUE);
 	//if (pReportActions->m_pBeforeBlock->m_bHasBreakpoint) nt1.SetItemColor(RS_COLOR_BREAKPOINT);
-	m_htReportBeforeEvent = nt1; 
+	m_htReportBeforeEvent = nt1;
 
-	CNodeTree& nt2	= AddNode(
+	CNodeTree& nt2 = AddNode(
 		(pOnFormFeedEvents->m_pAfterBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph),
 		pOnFormFeedEvents->m_pAfterBlock->m_strOwnerName, m_htEvents, &pEngine->m_SymTable,
 		&pOnFormFeedEvents->m_pAfterBlock, TRUE);
@@ -2948,7 +2943,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 		ASSERT_VALID(pEngine->m_SymTable.GetDisplayTables());
 		DisplayTableEntryEngine* pDisplayTable = dynamic_cast<DisplayTableEntryEngine*>(pEngine->m_SymTable.GetDisplayTables()->GetAt(i));
 		ASSERT_VALID(pDisplayTable);
-		if (!pDisplayTable) 
+		if (!pDisplayTable)
 			continue;
 
 		CNodeTree& nt3 = AddNode(
@@ -2962,7 +2957,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 	{
 		TriggeredEvent* pBreakingEvent = dynamic_cast<TriggeredEvent*>(pEngine->m_TriggeredEvents.GetAt(i));
 		ASSERT_VALID(pBreakingEvent);
-		if (!pBreakingEvent) 
+		if (!pBreakingEvent)
 			continue;
 
 		CNodeTree& nt4 = AddNode(
@@ -2982,7 +2977,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 	for (int i = 0; i < pEngine->m_TriggeredEvents.GetSize(); i++)
 	{
 		TriggeredEvent* pBreakingEvent = dynamic_cast<TriggeredEvent*>(pEngine->m_TriggeredEvents.GetAt(i));
-		if (!pBreakingEvent) 
+		if (!pBreakingEvent)
 			continue;
 
 		CNodeTree& nt6 = AddNode(
@@ -2995,7 +2990,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 	for (int i = 0; i < pEngine->m_SymTable.GetDisplayTablesNum(); i++)
 	{
 		DisplayTableEntryEngine* pDisplayTable = dynamic_cast<DisplayTableEntryEngine*>(pEngine->m_SymTable.GetDisplayTables()->GetAt(i));
-		if (!pDisplayTable) 
+		if (!pDisplayTable)
 			continue;
 
 		CNodeTree& nt7 = AddNode(
@@ -3007,7 +3002,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 
 	CNodeTree& nt8 = AddNode(
 		pOnFormFeedEvents->m_pBeforeBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph,
-		pOnFormFeedEvents->m_pBeforeBlock->m_strOwnerName,	m_htEvents, &pEngine->m_SymTable,
+		pOnFormFeedEvents->m_pBeforeBlock->m_strOwnerName, m_htEvents, &pEngine->m_SymTable,
 		&pOnFormFeedEvents->m_pBeforeBlock, TRUE);
 	//if (pOnFormFeedActions->m_pBeforeBlock->m_bHasBreakpoint) nt8.SetItemColor(RS_COLOR_BREAKPOINT);
 	m_htFormFeedBeforeEvent = nt8;
@@ -3021,15 +3016,15 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 
 	CNodeTree& nt10 = AddNode(
 		pReportEvents->m_pFinalizeBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph,
-		pReportEvents->m_pFinalizeBlock->m_strOwnerName,	m_htEvents, &pEngine->m_SymTable,
+		pReportEvents->m_pFinalizeBlock->m_strOwnerName, m_htEvents, &pEngine->m_SymTable,
 		&pReportEvents->m_pFinalizeBlock, TRUE);
 	//if (pReportActions->m_pFinalizeBlock->m_bHasBreakpoint) nt10.SetItemColor(RS_COLOR_BREAKPOINT);
 	m_htReportFinalizeEvent = nt10;
 
-/* TODO
-RepEngineStatus		m_EngineStatus;
-FormFeedAction*		m_pAutoFormFeed;
-*/
+	/* TODO
+	RepEngineStatus		m_EngineStatus;
+	FormFeedAction*		m_pAutoFormFeed;
+	*/
 	Expand(m_htEvents, TVE_EXPAND);
 	return TRUE;
 }
@@ -3062,7 +3057,7 @@ BOOL CRSTreeCtrl::FillBreakpoints(ActionObj* pCurrentAct)
 
 		Block* pBlock = pB->m_pAction->GetBlockParent();
 		if (!pBlock) continue;
-		
+
 		CString sTitle = pBlock->m_strOwnerName + ::cwsprintf(L" - line: %d", pB->m_pAction->m_nDebugUnparseRow - pBlock->m_nDebugUnparseRow + 1);
 
 		CNodeTree& nd = AddNode(sTitle, CNodeTree::ENodeType::NT_BREAKPOINT_ACTION, m_htBreakpoints, pB->m_pAction, pBlock);
@@ -3075,8 +3070,8 @@ BOOL CRSTreeCtrl::FillBreakpoints(ActionObj* pCurrentAct)
 			SetItemImage(&nd, CRSTreeCtrlImgIdx::BreakPointDisabled);
 		}
 		else if (pB->m_erprCondition && !pB->m_erprCondition->IsEmpty() &&
-				pB->m_erprAction && !pB->m_erprAction->IsEmpty() 
-				)
+			pB->m_erprAction && !pB->m_erprAction->IsEmpty()
+			)
 		{
 			SetItemImage(&nd, CRSTreeCtrlImgIdx::BreakPointConditionAction);
 		}
@@ -3130,7 +3125,7 @@ BOOL CRSTreeCtrl::FillTupleRules()
 	CNodeTree& nodeBy = AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Grouping"), m_htTupleRules, &pQueryData->m_SymTable, ((Expression**)&pQueryData->m_pGroupBy->m_pGroupingTuple), DataType::String, FALSE);
 	nodeBy.m_NodeType = CNodeTree::ENodeType::NT_TUPLE_GROUPING;
 
-		CNodeTree& nodeDo = AddNode(_T("Do") /*+ L"..."*/, CNodeTree::ENodeType::NT_TUPLE_GROUPING_ACTIONS, nodeBy.m_ht, pQueryData->m_pGroupBy/*->m_ActionsArray*/, pQueryData);
+	CNodeTree& nodeDo = AddNode(_T("Do") /*+ L"..."*/, CNodeTree::ENodeType::NT_TUPLE_GROUPING_ACTIONS, nodeBy.m_ht, pQueryData->m_pGroupBy/*->m_ActionsArray*/, pQueryData);
 
 	CNodeTree& nodeHaving = AddNode(CRSTreeCtrlImgIdx::NoGLyph, _T("Having"), m_htTupleRules, &pQueryData->m_SymTable, &pQueryData->m_pGroupBy->m_pHavingTupleFilter, DataType::Bool, FALSE);
 	nodeHaving.m_NodeType = CNodeTree::ENodeType::NT_TUPLE_HAVING_FILTER;
@@ -3176,7 +3171,7 @@ void CRSTreeCtrl::FillTblRule(HTREEITEM htRule, TblRuleData* pTblRule)
 				CString sColumnName = pObjLink->m_strPhysicalName;
 				int idx = sColumnName.Find('.');
 				if (idx > -1)
-					sColumnName = sColumnName.Mid(idx+1);
+					sColumnName = sColumnName.Mid(idx + 1);
 
 				WoormField* pF = pSymTable->GetField(pObjLink->m_strPublicName);
 				//ASSERT_VALID(pF);
@@ -3185,12 +3180,12 @@ void CRSTreeCtrl::FillTblRule(HTREEITEM htRule, TblRuleData* pTblRule)
 				HTREEITEM htCol = AddNode(sColumn, CNodeTree::ENodeType::NT_RULE_QUERY_COLUMN, htColumns, pObjLink, pTblRule);*/
 
 				if (pF)
-					AddNode(/*pF->GetName()*/sColumnName /*+ L" Into " + pObjLink->m_strPublicName*/, 
-								CNodeTree::ENodeType::NT_VARIABLE, htColumns, pF, pSymTable);
+					AddNode(/*pF->GetName()*/sColumnName /*+ L" Into " + pObjLink->m_strPublicName*/,
+						CNodeTree::ENodeType::NT_VARIABLE, htColumns, pF, pSymTable);
 			}
 			{
 				HTREEITEM htUnselectedColumns = AddNode(_T("Unselected Columns"), CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN, htTable,
-											const_cast<SqlTableInfo*>(pTableInfo), pTblRule);
+					const_cast<SqlTableInfo*>(pTableInfo), pTblRule);
 				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, htUnselectedColumns);
 			}
 			//if (m_bShowRelatedTables)
@@ -3201,7 +3196,7 @@ void CRSTreeCtrl::FillTblRule(HTREEITEM htRule, TblRuleData* pTblRule)
 
 				if (pTableInfo->GetSqlCatalogEntry()->m_nType != TABLE_TYPE)
 					continue;
- 
+
 				CHelperSqlCatalog*	pHelperSqlCatalog = m_pWDoc->m_pEditorManager->GetHelperSqlCatalog();
 				ASSERT_VALID(pHelperSqlCatalog);
 
@@ -3210,12 +3205,12 @@ void CRSTreeCtrl::FillTblRule(HTREEITEM htRule, TblRuleData* pTblRule)
 				if (!pTC)
 					continue;
 
-				HTREEITEM htFKTable = AddNode(_T("Foreign Key"), CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY, htTable, 
-												pTC, pTblRule);
+				HTREEITEM htFKTable = AddNode(_T("Foreign Key"), CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY, htTable,
+					pTC, pTblRule);
 				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, htFKTable);
 
-				HTREEITEM htExtRefTable = AddNode(_T("External References"), CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES, htTable, 
-													pTC, pTblRule);
+				HTREEITEM htExtRefTable = AddNode(_T("External References"), CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES, htTable,
+					pTC, pTblRule);
 				AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, htExtRefTable);
 			}
 		}
@@ -3326,36 +3321,36 @@ BOOL CRSTreeCtrl::FillRules()
 		CNodeTree::ENodeType nType = CNodeTree::ENodeType::NT_WRONG;
 		switch (pR->IsARule())
 		{
-			case RULE_DATA_TABLE:
-				nType = CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE;
+		case RULE_DATA_TABLE:
+			nType = CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE;
 
-				sDescr = sDescr /*+ L"..."*/;
-				break;
+			sDescr = sDescr /*+ L"..."*/;
+			break;
 
-			case RULE_EXPR:
-			case RULE_COND_EXPR:
-				{
-				ExpRuleData* pRE = dynamic_cast<ExpRuleData*>(pR);
-				ASSERT_VALID(pRE);
-				WoormField* pF = pRE->GetSymTable()->GetField(pRE->GetPublicName());
-				ASSERT_VALID(pF);
-				if (!pF) continue;
+		case RULE_EXPR:
+		case RULE_COND_EXPR:
+		{
+			ExpRuleData* pRE = dynamic_cast<ExpRuleData*>(pR);
+			ASSERT_VALID(pRE);
+			WoormField* pF = pRE->GetSymTable()->GetField(pRE->GetPublicName());
+			ASSERT_VALID(pF);
+			if (!pF) continue;
 
-				htRule = AddNode(sDescr, CNodeTree::ENodeType::NT_VARIABLE, m_htRules, pF, pRE->GetSymTable(), pRE);
-				break;
-				}
+			htRule = AddNode(sDescr, CNodeTree::ENodeType::NT_VARIABLE, m_htRules, pF, pRE->GetSymTable(), pRE);
+			break;
+		}
 
-			case RULE_NAMED_QUERY:
-				nType = CNodeTree::ENodeType::NT_RULE_NAMED_QUERY;
-				sDescr = pR->GetRuleDescription() /*+ L"..."*/;
-				break;
+		case RULE_NAMED_QUERY:
+			nType = CNodeTree::ENodeType::NT_RULE_NAMED_QUERY;
+			sDescr = pR->GetRuleDescription() /*+ L"..."*/;
+			break;
 
-			case RULE_LOOP_WHILE:
-				nType = CNodeTree::ENodeType::NT_RULE_LOOP;
-				sDescr = pR->GetRuleDescription() /*+ L"..."*/;
-				break;
-			default:
-				continue;
+		case RULE_LOOP_WHILE:
+			nType = CNodeTree::ENodeType::NT_RULE_LOOP;
+			sDescr = pR->GetRuleDescription() /*+ L"..."*/;
+			break;
+		default:
+			continue;
 		}
 
 		if (!htRule)
@@ -3481,9 +3476,9 @@ BOOL CRSTreeCtrl::FillTupleRulesForDebug(Block* pCurrent)
 	BOOL bExpand = FALSE;
 
 	if (
-			pQEngine->m_pTupleFilterEngine == NULL &&
-			pQEngine->m_pGroupingTupleEngine == NULL &&
-			pQEngine->m_pHavingTupleFilterEngine == NULL
+		pQEngine->m_pTupleFilterEngine == NULL &&
+		pQEngine->m_pGroupingTupleEngine == NULL &&
+		pQEngine->m_pHavingTupleFilterEngine == NULL
 		)
 	{
 		pQEngine->m_pTupleFilterEngine = new ExpressionWithDebugBlocks(pQEngine);
@@ -3522,13 +3517,13 @@ BOOL CRSTreeCtrl::FillEnumsValue(HTREEITEM htParent, DataType dt, CRSEditView* e
 	{
 		EnumTag* pTag = AfxGetEnumsTable()->GetEnumTag(dt.m_wTag);
 		ASSERT_VALID(pTag);
-		
+
 		return FillEnumsValue(htParent, pTag, editView, TRUE);
 	}
 	return FALSE;
 }
 
-BOOL CRSTreeCtrl::FillEnumsValue(HTREEITEM htParent, EnumTag* pTag, CRSEditView* editView,  BOOL bColored, BOOL delayed)
+BOOL CRSTreeCtrl::FillEnumsValue(HTREEITEM htParent, EnumTag* pTag, CRSEditView* editView, BOOL bColored, BOOL delayed)
 {
 	for (int k = 0; k < pTag->GetEnumItems()->GetSize(); k++)
 	{
@@ -3536,24 +3531,25 @@ BOOL CRSTreeCtrl::FillEnumsValue(HTREEITEM htParent, EnumTag* pTag, CRSEditView*
 		DataEnum de(pTag->GetTagValue(), pItem->GetItemValue());
 		CString title = pItem->GetTitle();
 		if (m_bShowEnumValues)
-			title += L" "+ de.ToString() + cwsprintf(L" %d", de.GetValue());
+			title += L" " + de.ToString() + cwsprintf(L" %d", de.GetValue());
 
 		if (!delayed && htParent)
 		{
-		CNodeTree& nt = AddNode(title, CNodeTree::ENodeType::NT_LIST_ENUM_VALUE, htParent, pItem, pTag);
+			CNodeTree& nt = AddNode(title, CNodeTree::ENodeType::NT_LIST_ENUM_VALUE, htParent, pItem, pTag);
 
-		if (bColored)
-		{
-			nt.SetItemColor(RGB(0, RS_COLOR_FRAMEWORK, 0));
+			if (bColored)
+			{
+				nt.SetItemColor(RGB(0, RS_COLOR_FRAMEWORK, 0));
+			}
 		}
-	}
 
 		if (delayed && editView)
 		{
 			CString key = pTag->GetTagTitle();
 			key.Replace(L" ", L"_");
 			key.Replace(L"/", L"_");
-			editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper()+L".", title,  de.ToString()+L"/*"+ pTag->GetTagTitle()+ L" : "+ pItem->GetTitle() +L"*/",L"enum",L"");
+			//editView->GetEditCtrl()->AddIntellisenseWord(key,L"key",L"",L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"enum." + key, key, de.ToString() + L"/*" + pTag->GetTagTitle() + L" : " + pItem->GetTitle() + L"*/", L"enum", L"");
 		}
 	}
 	return TRUE;
@@ -3567,6 +3563,8 @@ BOOL CRSTreeCtrl::FillEnums(CRSEditView* editView)
 
 	const EnumTagArray* pTags = m_pWDoc->m_pEditorManager->GetEnumsArray();
 
+	editView->GetEditCtrl()->AddIntellisenseWord(L"enum", L"enum", L"enum", L"", L"");
+
 	for (int j = 0; j < pTags->GetSize(); j++)
 	{
 		EnumTag* pTag = pTags->GetAt(j);
@@ -3574,16 +3572,16 @@ BOOL CRSTreeCtrl::FillEnums(CRSEditView* editView)
 		HTREEITEM htTag = NULL;
 		if (!delayed)
 		{
-			htTag =AddNode(pTag->GetTagTitle(), CNodeTree::ENodeType::NT_LIST_ENUM_TYPE, m_htEnums, pTag);
+			htTag = AddNode(pTag->GetTagTitle(), CNodeTree::ENodeType::NT_LIST_ENUM_TYPE, m_htEnums, pTag);
 		}
-		else if (editView)
+		/*else if (editView)
 		{
 			CString replacedValue = pTag->GetTagTitle();
-			replacedValue.Replace(L" ", L"_");	 
+			replacedValue.Replace(L" ", L"_");
 			replacedValue.Replace(L"/", L"_");
 
-			editView->GetEditCtrl()->AddIntellisenseWord(L"ENUM.", replacedValue, replacedValue,L"",L"");
-		}
+			editView->GetEditCtrl()->AddIntellisenseWord(L"enum." + replacedValue, replacedValue, replacedValue, L"", L"");
+		}  */
 
 		FillEnumsValue(htTag, pTag, editView, FALSE, delayed);
 	}
@@ -3624,48 +3622,43 @@ BOOL CRSTreeCtrl::FillCommands(CRSEditView* editView, BOOL bRaiseEvents /*=TRUE*
 		AddNode(cwsprintf(T_THEN), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
 		if (bRaiseEvents) AddNode(cwsprintf(T_TITLELINE), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
 		if (bRaiseEvents) AddNode(cwsprintf(T_SUBTITLELINE), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
-		AddNode(cwsprintf(T_WHILE), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);	
+		AddNode(cwsprintf(T_WHILE), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
 	}
 
 	if (delayed && editView)
 	{
+		editView->GetEditCtrl()->AddIntellisenseWord(L"cmd", L"cmd", L"cmd", L"", L"");
 		if (bRaiseEvents)
 		{
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_EVAL), cwsprintf(T_EVAL), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_RESET), cwsprintf(T_RESET), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_DISPLAY), cwsprintf(T_DISPLAY), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_DISPLAY_TABLE_ROW), cwsprintf(T_DISPLAY_TABLE_ROW), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_DISPLAY_FREE_FIELDS), cwsprintf(T_DISPLAY_FREE_FIELDS), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_INTERLINE), cwsprintf(T_INTERLINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_NEXTLINE), cwsprintf(T_NEXTLINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_SPACELINE), cwsprintf(T_SPACELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_TITLELINE), cwsprintf(T_TITLELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_SUBTITLELINE), cwsprintf(T_SUBTITLELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_FORMFEED), cwsprintf(T_FORMFEED), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_ASK), cwsprintf(T_ASK), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_EVAL), cwsprintf(T_EVAL), cwsprintf(T_EVAL), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_RESET), cwsprintf(T_RESET), cwsprintf(T_RESET), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY), cwsprintf(T_DISPLAY), cwsprintf(T_DISPLAY), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY_TABLE_ROW), cwsprintf(T_DISPLAY_TABLE_ROW), cwsprintf(T_DISPLAY_TABLE_ROW), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY_FREE_FIELDS), cwsprintf(T_DISPLAY_FREE_FIELDS), cwsprintf(T_DISPLAY_FREE_FIELDS), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_INTERLINE), cwsprintf(T_INTERLINE), cwsprintf(T_INTERLINE), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_NEXTLINE), cwsprintf(T_NEXTLINE), cwsprintf(T_NEXTLINE), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_SPACELINE), cwsprintf(T_SPACELINE), cwsprintf(T_SPACELINE), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_TITLELINE), cwsprintf(T_TITLELINE), cwsprintf(T_TITLELINE), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_SUBTITLELINE), cwsprintf(T_SUBTITLELINE), cwsprintf(T_SUBTITLELINE), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_FORMFEED), cwsprintf(T_FORMFEED), cwsprintf(T_FORMFEED), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ASK), cwsprintf(T_ASK), cwsprintf(T_ASK), L"", L"");
 		}
 
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_CALL), cwsprintf(T_CALL), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_MESSAGE_BOX), cwsprintf(T_MESSAGE_BOX), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_ABORT), cwsprintf(T_ABORT), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_BEGIN), cwsprintf(T_BEGIN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_END), cwsprintf(T_END), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_IF), cwsprintf(T_IF), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_THEN), cwsprintf(T_THEN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_ELSE), cwsprintf(T_ELSE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_WHILE), cwsprintf(T_WHILE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_DO), cwsprintf(T_DO), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_BREAK), cwsprintf(T_BREAK), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_CONTINUE), cwsprintf(T_CONTINUE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_RETURN), cwsprintf(T_RETURN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD.", cwsprintf(T_QUIT), cwsprintf(T_QUIT), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_CALL), cwsprintf(T_CALL), cwsprintf(T_CALL), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_MESSAGE_BOX), cwsprintf(T_MESSAGE_BOX), cwsprintf(T_MESSAGE_BOX), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ABORT), cwsprintf(T_ABORT), cwsprintf(T_ABORT), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_BEGIN), cwsprintf(T_BEGIN), cwsprintf(T_BEGIN), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_END), cwsprintf(T_END), cwsprintf(T_END), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_IF), cwsprintf(T_IF), cwsprintf(T_IF), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_THEN), cwsprintf(T_THEN), cwsprintf(T_THEN), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ELSE), cwsprintf(T_ELSE), cwsprintf(T_ELSE), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_WHILE), cwsprintf(T_WHILE), cwsprintf(T_WHILE), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DO), cwsprintf(T_DO), cwsprintf(T_DO), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_BREAK), cwsprintf(T_BREAK), cwsprintf(T_BREAK), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_CONTINUE), cwsprintf(T_CONTINUE), cwsprintf(T_CONTINUE), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_RETURN), cwsprintf(T_RETURN), cwsprintf(T_RETURN), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_QUIT), cwsprintf(T_QUIT), cwsprintf(T_QUIT), L"", L"");
 	}
-
-	//AddNode(cwsprintf(T_BEFORE), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
-	//AddNode(cwsprintf(T_AFTER), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
-
-	//AddNode(cwsprintf(T_BREAKING), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
-	//AddNode(cwsprintf(T_WHEN), CNodeTree::ENodeType::NT_LIST_COMMAND, m_htCommands);
 
 	return TRUE;
 }
@@ -3674,146 +3667,146 @@ BOOL CRSTreeCtrl::FillCommands(CRSEditView* editView, BOOL bRaiseEvents /*=TRUE*
 CString CRSTreeCtrl::GetCommandDescription(const CString& sCmd)
 {
 	CString sDescr;
-	Token tk = AfxGetTokensTable()->GetKeywordsToken(sCmd) ;
+	Token tk = AfxGetTokensTable()->GetKeywordsToken(sCmd);
 	//if (tk == T_NOTOKEN)
 	//	return sDescr;
 
 	switch (tk)
 	{
-		case Token::T_EVAL:
-		{
-			sDescr = _TB("It evaluates the expression entered in the function field");
-			break;
-		}
-		case Token::T_RESET:
-		{
-			sDescr = _TB("It resets the value of the function field to its initial value.\n"  
-				"If the field has no initial value, the value set matches to the one which identify the type of the field\n" 
-				"Example: string --> \"\", numeric--> 0, boolean: FALSE");
-			break;
-		}
+	case Token::T_EVAL:
+	{
+		sDescr = _TB("It evaluates the expression entered in the function field");
+		break;
+	}
+	case Token::T_RESET:
+	{
+		sDescr = _TB("It resets the value of the function field to its initial value.\n"
+			"If the field has no initial value, the value set matches to the one which identify the type of the field\n"
+			"Example: string --> \"\", numeric--> 0, boolean: FALSE");
+		break;
+	}
 
-		case Token::T_DISPLAY:
-		{
-			sDescr = _TB("It displays the data contained in the specific field (also column)");
-			break;
-		}
-		case Token::T_DISPLAY_TABLE_ROW:
-		{
-			sDescr = _TB("It displays an entire row of data in the table");
-			break;
-		}
+	case Token::T_DISPLAY:
+	{
+		sDescr = _TB("It displays the data contained in the specific field (also column)");
+		break;
+	}
+	case Token::T_DISPLAY_TABLE_ROW:
+	{
+		sDescr = _TB("It displays an entire row of data in the table");
+		break;
+	}
 
-		case Token::T_DISPLAY_FREE_FIELDS:
-		{
-			sDescr = _TB("It displays the data of all single fields (not column)");
-			break;
-		}
-		case Token::T_INTERLINE:
-		{
-			sDescr = _TB("It shows a row separator on the current line");
-			break;
-		}
-		case Token::T_NEXTLINE:
-		{
-			sDescr = _TB("It performs a return (new line) in the table object. If there are more then one table in the report, the name must be specify.");
-			break;
-		}
-		case Token::T_SPACELINE:
-		{
-			sDescr = _TB("It performs a couple of return (new line) in the table object to leave an empty line. If there are more then one table in the report, the name must be specify.");
-			break;
-		}
-		case Token::T_TITLELINE:
-		{
-			sDescr = _TB("It shows the column titles on the current line");
-			break;
-		}
-		case Token::T_SUBTITLELINE:
-		{
-			sDescr = _TB("It shows the custom group title on the current line");
-			break;
-		}
-	
-		case Token::T_FORMFEED:
-		{
-			sDescr = _TB("It performs a formfeed");
-			break;
-		}
+	case Token::T_DISPLAY_FREE_FIELDS:
+	{
+		sDescr = _TB("It displays the data of all single fields (not column)");
+		break;
+	}
+	case Token::T_INTERLINE:
+	{
+		sDescr = _TB("It shows a row separator on the current line");
+		break;
+	}
+	case Token::T_NEXTLINE:
+	{
+		sDescr = _TB("It performs a return (new line) in the table object. If there are more then one table in the report, the name must be specify.");
+		break;
+	}
+	case Token::T_SPACELINE:
+	{
+		sDescr = _TB("It performs a couple of return (new line) in the table object to leave an empty line. If there are more then one table in the report, the name must be specify.");
+		break;
+	}
+	case Token::T_TITLELINE:
+	{
+		sDescr = _TB("It shows the column titles on the current line");
+		break;
+	}
+	case Token::T_SUBTITLELINE:
+	{
+		sDescr = _TB("It shows the custom group title on the current line");
+		break;
+	}
 
-		case Token::T_CALL:
-		{
-			sDescr = _TB("It calls a procedure defined in the current report");
-			break;
-		}
+	case Token::T_FORMFEED:
+	{
+		sDescr = _TB("It performs a formfeed");
+		break;
+	}
 
-		case Token::T_ABORT:
-		{
-			sDescr = _TB("It ends the report and displays a message with the text specified as a parameter");
-			break;
-		}
-		case Token::T_MESSAGE_BOX:
-		{
-			sDescr = _TB("It displays a message in a box and it waits for the user who has to confirm the message by clicking on the Ok button");
-			break;
-		}
+	case Token::T_CALL:
+	{
+		sDescr = _TB("It calls a procedure defined in the current report");
+		break;
+	}
 
-		case Token::T_ASK:
-		{
-			sDescr = _TB("It opens an ask dialog on demand");
-			break;
-		}
-		
-		case Token::T_BEGIN:
-		{
-			sDescr = _TB("It is the statement that opens a group of commands");
-			break;
-		}
-		case Token::T_END:
-		{
-			sDescr = _TB("It is the statement that closes a group of commands");
-			break;
-		}
-		case Token::T_IF:
-		{
-			sDescr = _TB("It is the statement that starts to test a condition");
-			break;
-		}
-		case Token::T_THEN:
-		{
-			sDescr = _TB("It is the statement that indicates what to do when a condition is TRUE");
-			break;
-		}
-		case Token::T_ELSE:
-		{
-			sDescr = _TB("It is the statement that indicates what to do when a condition is FALSE");
-			break;
-		}
-		case Token::T_WHILE:
-		{
-			sDescr = _TB("It is a loop that allows to repeat a block of statements until the condition is TRUE");
-			break;
-		}
-		case Token::T_BREAK:
-		{
-			sDescr = _TB("It exits unconditionally from a while loop");
-			break;
-		}
-		case Token::T_DO:
-		{
-			sDescr = _TB("DO + FUNCTION NAME: It executes the specified function discarding the return value from the same");
-			break;
-		}
-		case Token::T_RETURN:
-		{
-			sDescr = _TB("It immediately exit by events or by procedures");
-			break;
-		}
-		case Token::T_QUIT:
-		{
-			sDescr = _TB("Force the closure of the report");
-			break;
-		}
+	case Token::T_ABORT:
+	{
+		sDescr = _TB("It ends the report and displays a message with the text specified as a parameter");
+		break;
+	}
+	case Token::T_MESSAGE_BOX:
+	{
+		sDescr = _TB("It displays a message in a box and it waits for the user who has to confirm the message by clicking on the Ok button");
+		break;
+	}
+
+	case Token::T_ASK:
+	{
+		sDescr = _TB("It opens an ask dialog on demand");
+		break;
+	}
+
+	case Token::T_BEGIN:
+	{
+		sDescr = _TB("It is the statement that opens a group of commands");
+		break;
+	}
+	case Token::T_END:
+	{
+		sDescr = _TB("It is the statement that closes a group of commands");
+		break;
+	}
+	case Token::T_IF:
+	{
+		sDescr = _TB("It is the statement that starts to test a condition");
+		break;
+	}
+	case Token::T_THEN:
+	{
+		sDescr = _TB("It is the statement that indicates what to do when a condition is TRUE");
+		break;
+	}
+	case Token::T_ELSE:
+	{
+		sDescr = _TB("It is the statement that indicates what to do when a condition is FALSE");
+		break;
+	}
+	case Token::T_WHILE:
+	{
+		sDescr = _TB("It is a loop that allows to repeat a block of statements until the condition is TRUE");
+		break;
+	}
+	case Token::T_BREAK:
+	{
+		sDescr = _TB("It exits unconditionally from a while loop");
+		break;
+	}
+	case Token::T_DO:
+	{
+		sDescr = _TB("DO + FUNCTION NAME: It executes the specified function discarding the return value from the same");
+		break;
+	}
+	case Token::T_RETURN:
+	{
+		sDescr = _TB("It immediately exit by events or by procedures");
+		break;
+	}
+	case Token::T_QUIT:
+	{
+		sDescr = _TB("Force the closure of the report");
+		break;
+	}
 	}
 
 	return sDescr;
@@ -3827,7 +3820,7 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 		return FALSE;
 
 	BOOL delayed = AddDelayedNode(m_htFunctions, _T("Base Functions"), CNodeTree::ENodeType::NT_ROOT_FUNCTIONS, NULL, pFunctions);
-		//return TRUE;
+	//return TRUE;
 
 	CString sFCONTENTOF = ::cwsprintf(Token::T_FCONTENTOF);
 	CString sFVALUEOF = ::cwsprintf(Token::T_FVALUEOF);
@@ -3839,23 +3832,23 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 		CFunctionObjectsDescription* pGroupFunc = pGroup->m_parFunctions;
 		if (!pGroup->m_parFunctions || pGroup->m_parFunctions->m_arFunctions.GetCount() == 0)
 			continue;
-			
+
 		HTREEITEM htGroup = NULL;
-		if (!delayed)		
-			htGroup=AddNode(pGroup->m_sTitle, CNodeTree::ENodeType::NT_GROUP_FUNCTIONS, m_htFunctions, pGroupFunc, pFunctions);
+		if (!delayed)
+			htGroup = AddNode(pGroup->m_sTitle, CNodeTree::ENodeType::NT_GROUP_FUNCTIONS, m_htFunctions, pGroupFunc, pFunctions);
 
 		for (int j = 0; j < pGroup->m_parFunctions->m_arFunctions.GetSize(); j++)
 		{
 			CDecoratedFunctionDescription * pFunDesc = dynamic_cast<CDecoratedFunctionDescription*>(pGroup->m_parFunctions->m_arFunctions.GetAt(j));
-	
+
 			if (!delayed && htGroup)
-			{ 
+			{
 				CNodeTree& node = AddNode(pFunDesc->GetName(), CNodeTree::ENodeType::NT_LIST_FUNCTION, htGroup, pFunDesc, pGroupFunc);
-			
-				if (pFunDesc->GetName().CompareNoCase(sFCONTENTOF) == 0  || pFunDesc->GetName().CompareNoCase(sFVALUEOF) == 0)
+
+				if (pFunDesc->GetName().CompareNoCase(sFCONTENTOF) == 0 || pFunDesc->GetName().CompareNoCase(sFVALUEOF) == 0)
 				{
 					node.SetItemColor(RS_COLOR_LIGHT_BLUE);
-				} 
+				}
 			}
 
 			// fill intellisense
@@ -3863,9 +3856,9 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 			{
 				CString key;
 				CString sDescrName = pFunDesc->GetName();
-				if (pGroup->m_sTitle.CompareNoCase(L"dateandtime")==0)
+				if (pGroup->m_sTitle.CompareNoCase(L"dateandtime") == 0)
 					key = L"date";
-				else if (pGroup->m_sTitle.CompareNoCase(L"miscellaneous")==0)
+				else if (pGroup->m_sTitle.CompareNoCase(L"miscellaneous") == 0)
 					key = L"misc";
 				else if (pGroup->m_sTitle.CompareNoCase(L"math") == 0)
 					key = L"math";
@@ -3879,7 +3872,8 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 					sDescrName = sDescrName.Mid(sDescrName.Find('_') + 1);
 				}
 
-				editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper() + '.', sDescrName,  pFunDesc->GetName()+ L" ( )", L"",L"");
+				//editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper(), key, L"", L"");
+				editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper() + '.' + sDescrName, sDescrName, pFunDesc->GetName() + L" ( )", L"", L"");
 			}
 		}
 	}
@@ -3911,10 +3905,12 @@ BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 	HTREEITEM hTreeItem;
 	HTREEITEM hTreeAttributeItem;
 
+	editView->GetEditCtrl()->AddIntellisenseWord(L"html", L"html", L"html", L"", L"");
+
 	for (int i = CHtmlTag::EHtmlTag::HTML_TAG_NEWLINE; i != CHtmlTag::EHtmlTag::HTML_TAG_LAST; i++)
 	{
 		CHtmlTag::EHtmlTag myTag = static_cast<CHtmlTag::EHtmlTag>(i);
-		
+
 		if (!delayed)
 		{
 			CHtmlTag* myNodeItem = new CHtmlTag(myTag);
@@ -3926,8 +3922,8 @@ BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 			else
 				hTreeItem = AddNode(myNodeItem->GetHtmlName(), CNodeTree::NT_LIST_HTML_TAGS, m_htHTMLTags, myNodeItem);
 		}
-		if(editView)
-			editView->GetEditCtrl()->AddIntellisenseWord(L"HTML.", CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlFragment(myTag), L"", CHtmlTag::GetExample(myTag));
+		if (editView)
+			editView->GetEditCtrl()->AddIntellisenseWord(L"HTML." + CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlFragment(myTag), L"", CHtmlTag::GetExample(myTag));
 	}
 
 	SelectItem(m_htHTMLTags);
@@ -3956,7 +3952,7 @@ BOOL CRSTreeCtrl::FillQueriesTags(CRSEditView* editView, BOOL bExpand)
 
 	HTREEITEM hTreeItem;
 	HTREEITEM hTreeAttributeItem;
-
+	editView->GetEditCtrl()->AddIntellisenseWord(L"query", L"query", L"query", L"", L"");
 	for (int i = CQueryTag::EQueryTag::QUERY_TAG_COL; i != CQueryTag::EQueryTag::QUERY_TAG_LAST; i++)
 	{
 		CQueryTag::EQueryTag myTag = static_cast<CQueryTag::EQueryTag>(i);
@@ -3973,7 +3969,9 @@ BOOL CRSTreeCtrl::FillQueriesTags(CRSEditView* editView, BOOL bExpand)
 				hTreeItem = AddNode(myNodeItem->GetName(), CNodeTree::NT_LIST_QUERY_TAGS, m_htQueriesTags, myNodeItem);
 		}
 		if (editView)
-			editView->GetEditCtrl()->AddIntellisenseWord(L"query.", CQueryTag::GetName(myTag), CQueryTag::GetFragment(myTag), L"", CQueryTag::GetExample(myTag));
+		{
+			editView->GetEditCtrl()->AddIntellisenseWord(L"query." + CQueryTag::GetName(myTag), CQueryTag::GetName(myTag), CQueryTag::GetFragment(myTag), L"", CQueryTag::GetExample(myTag));
+		}
 	}
 
 	SelectItem(m_htQueriesTags);
@@ -4000,18 +3998,16 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 
 		if (pAddOnApplication->m_strAddOnAppName.CompareNoCase(L"TBF") == 0 ||
 			pAddOnApplication->m_strAddOnAppName.CompareNoCase(L"TBS") == 0)
-				continue;
+			continue;
 
 		BOOL bIsFramework = pAddOnApplication->m_strAddOnAppName.CompareNoCase(L"Framework") == 0;
 
 		HTREEITEM htApp = NULL;
-		if (pAddOnApplication->m_pAddOnModules->GetSize()>0 && !delayed)
-			htApp=AddNode(pAddOnApplication->m_strAddOnAppName, CNodeTree::ENodeType::NT_ROOT_MODULE, m_htWebMethods, pAddOnApplication);
+		if (pAddOnApplication->m_pAddOnModules->GetSize() > 0 && !delayed)
+			htApp = AddNode(pAddOnApplication->m_strAddOnAppName, CNodeTree::ENodeType::NT_ROOT_MODULE, m_htWebMethods, pAddOnApplication);
 		if (delayed && editView)
 		{
-			CString keyStr = editView->GetEditCtrl()->GetKeyFromWordForIntellisense(pAddOnApplication->m_strAddOnAppName);
-			if (!keyStr.IsEmpty())
-				editView->GetEditCtrl()->AddIntellisenseWord(keyStr, pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName,L"",L"");
+			editView->GetEditCtrl()->AddIntellisenseWord(pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, L"", L"");
 		}
 
 		for (int m = 0; m < pAddOnApplication->m_pAddOnModules->GetSize(); m++)
@@ -4021,15 +4017,15 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 			if (bIsFramework)
 			{
 				if (
-					pAddOnMod->GetModuleName().CompareNoCase(L"TbWoormViewer") && 
+					pAddOnMod->GetModuleName().CompareNoCase(L"TbWoormViewer") &&
 					pAddOnMod->GetModuleName().CompareNoCase(L"TbResourcesMng")
 					)
-						continue;
+					continue;
 			}
 
 			BOOL bModInserted = FALSE;
 			HTREEITEM htMod = NULL;
-			
+
 			const CBaseDescriptionArray &arFunctions = pAddOnMod->m_XmlDescription.GetFunctionsInfo().GetFunctions();
 			for (int k = 0; k < arFunctions.GetSize(); k++)
 			{
@@ -4042,19 +4038,22 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 
 				if (editView && delayed)
 				{
-					CString fullFuncionName, key, iValue;
+					CString fullFuncionName, iValue;
 					CTBNamespace ns = pFun->GetNamespace();
-					
-					iValue=fullFuncionName = pAddOnApplication->m_strAddOnAppName + L".";
-					for (int j = 2;j < ns.GetTokenArray()->GetCount();j++)
+
+					iValue = fullFuncionName = pAddOnApplication->m_strAddOnAppName + L".";
+
+					editView->GetEditCtrl()->AddIntellisenseWord(pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, L"", L"");
+
+					for (int j = 2; j < ns.GetTokenArray()->GetCount(); j++)
 					{
 						if (j == ns.GetTokenArray()->GetUpperBound())
-							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName.MakeUpper(), ns.GetTokenArray()->GetAt(j), iValue +ns.GetTokenArray()->GetAt(j)+L" ( )", L"",L"");
+							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName + ns.GetTokenArray()->GetAt(j), ns.GetTokenArray()->GetAt(j), iValue + ns.GetTokenArray()->GetAt(j) + L" ( )", L"", L"");
 						else
-							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName.MakeUpper(), ns.GetTokenArray()->GetAt(j), iValue +ns.GetTokenArray()->GetAt(j),L"",L"");
+							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName + ns.GetTokenArray()->GetAt(j), ns.GetTokenArray()->GetAt(j), iValue + ns.GetTokenArray()->GetAt(j), L"", L"");
 
-							fullFuncionName += ns.GetTokenArray()->GetAt(j) + L".";
-						iValue+=  ns.GetTokenArray()->GetAt(j) + L".";	
+						fullFuncionName += ns.GetTokenArray()->GetAt(j) + L".";
+						iValue += ns.GetTokenArray()->GetAt(j) + L".";
 					}
 				}
 
@@ -4092,7 +4091,7 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 					if (htParent)
 					{
 						HTREEITEM htF = AddNode(pFun->GetName(), CNodeTree::ENodeType::NT_LIST_WEBMETHOD, htParent, pFun, pAddOnMod);
-					
+
 						if (bIsFramework)
 						{
 							if (pFun->GetName().CompareNoCase(IDF_WOORM_GetCompanyInfo) == 0)
@@ -4110,7 +4109,7 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 				}
 			}
 			if (htMod)
-			SortChildren(htMod);
+				SortChildren(htMod);
 		}
 		if (htApp)
 			SortChildren(htApp);
@@ -4292,9 +4291,8 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 
 						CString tableName(pCatalogEntry->m_strTableName);
 
-						CString keyStr = editView->GetEditCtrl()->GetKeyFromWordForIntellisense(tableName);
-						if (!keyStr.IsEmpty())
-							editView->GetEditCtrl()->AddIntellisenseWord(keyStr, tableName,tableName,L"",L"");
+
+						editView->GetEditCtrl()->AddIntellisenseWord(tableName, tableName, tableName, L"", L"");
 
 
 						if (pCatalogEntry->m_pTableInfo)
@@ -4308,7 +4306,7 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 								if (!pCol || pCol->m_bVirtual)
 									continue;
 
-								editView->GetEditCtrl()->AddIntellisenseWord(tableNameKey.MakeUpper(), pCol->GetColumnName(), tableName +L"."+ pCol->GetColumnName(),L"",L"");
+								editView->GetEditCtrl()->AddIntellisenseWord(tableNameKey + pCol->GetColumnName(), pCol->GetColumnName(), tableNameKey + pCol->GetColumnName(), L"", L"");
 							}
 						}
 					}
@@ -4329,7 +4327,7 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 	{
 		CHelperSqlCatalog::CModuleTables* pMT = dynamic_cast<CHelperSqlCatalog::CModuleTables*>(pHelperSqlCatalog->m_arModules.GetAt(m));
 		ASSERT_VALID(pMT);
-			
+
 		HTREEITEM htMod = AddNode(pMT->m_sTitle, CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE, m_htTables, pMT, pHelperSqlCatalog);
 		if (m_bShowFilteredTables)
 		{
@@ -4346,7 +4344,7 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 
 	if (pHelperSqlCatalog->m_arExternalTables.GetSize())
 	{
-		CString sExternalTableTitle (_T("<External tables>"));
+		CString sExternalTableTitle(_T("<External tables>"));
 		HTREEITEM htExternalMod = AddNode(sExternalTableTitle, CNodeTree::ENodeType::NT_SUBROOT_DB_MODULE, m_htTables, &pHelperSqlCatalog->m_arExternalTables, pHelperSqlCatalog);
 		AddNode(_T("<Load On Demand>"), CNodeTree::ENodeType::NT_WRONG, htExternalMod);
 	}
@@ -4380,10 +4378,10 @@ BOOL CRSTreeCtrl::FillAllTables()
 
 		if (
 			m_bShowFilteredTables &&
-			! m_FilterTablePattern.IsEmpty() &&
-			! ::WildcardMatch(pTC->m_pCatalogEntry->m_strTableName, m_FilterTablePattern)
+			!m_FilterTablePattern.IsEmpty() &&
+			!::WildcardMatch(pTC->m_pCatalogEntry->m_strTableName, m_FilterTablePattern)
 			)
-				continue;
+			continue;
 
 		CNodeTree::ENodeType nType = CNodeTree::ENodeType::NT_WRONG;
 		switch (pTC->m_pCatalogEntry->m_nType)
@@ -4426,7 +4424,7 @@ BOOL CRSTreeCtrl::FillForeignKey(CHelperSqlCatalog::CTableColumns* pTC, HTREEITE
 	for (int i = 0; i < arFK.GetCount(); i++)
 	{
 		CHelperSqlCatalog::CTableForeignTables* pFK = dynamic_cast<CHelperSqlCatalog::CTableForeignTables*>(arFK.GetAt(i));
-		if (pFK->m_arForeignKeys.GetCount() == 0) 
+		if (pFK->m_arForeignKeys.GetCount() == 0)
 			continue;
 
 		if (pFK->m_arForeignKeys.GetCount() > 1)
@@ -4472,7 +4470,7 @@ BOOL CRSTreeCtrl::FillExternalReference(CHelperSqlCatalog::CTableColumns* pTC, H
 	//----
 	CHelperExternalReferences* pH = m_pWDoc->m_pEditorManager->GetHelperExternalReferences();
 	CHelperExternalReferences::CTableExtRefs* pER = pH->GetTableExtRefs(pTC->m_pCatalogEntry->m_strTableName);
-	if (!pER) 
+	if (!pER)
 		return FALSE;
 
 	HTREEITEM htSER = NULL;
@@ -4480,11 +4478,11 @@ BOOL CRSTreeCtrl::FillExternalReference(CHelperSqlCatalog::CTableColumns* pTC, H
 	CString columnName;
 	CString sFK;
 
-	for (int i = 0; i < pER->m_arExtRefs.GetCount(); i ++)
+	for (int i = 0; i < pER->m_arExtRefs.GetCount(); i++)
 	{
 		CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pER->m_arExtRefs.GetAt(i));
 
-		columnName = pSER->m_sForeignKey; 
+		columnName = pSER->m_sForeignKey;
 
 		if (!pTC->m_pCatalogEntry->m_pTableInfo->ExistColumn(columnName))
 			continue;
@@ -4507,24 +4505,24 @@ BOOL CRSTreeCtrl::FillExternalReference(CHelperSqlCatalog::CTableColumns* pTC, H
 		}
 
 #ifdef  DEBUG
-			if (!AfxGetTbCmdManager()->TableExists(pER->m_sTableName, pSER->m_sForeignKey) || !AfxGetTbCmdManager()->TableExists(pSER->m_sExtTableName, pSER->m_sExtPrimaryKey))
-			{
-			   GetNode(htAux)->SetItemColor(RGB(255, 0, 0));
-			   GetNode(htSER)->SetItemColor(RGB(255, 0, 0));
-			   GetNode(htParent)->SetItemColor(RGB(255, 0, 0));
-			}
-				
+		if (!AfxGetTbCmdManager()->TableExists(pER->m_sTableName, pSER->m_sForeignKey) || !AfxGetTbCmdManager()->TableExists(pSER->m_sExtTableName, pSER->m_sExtPrimaryKey))
+		{
+			GetNode(htAux)->SetItemColor(RGB(255, 0, 0));
+			GetNode(htSER)->SetItemColor(RGB(255, 0, 0));
+			GetNode(htParent)->SetItemColor(RGB(255, 0, 0));
+		}
+
 
 #endif //  DEBUG
 
-		HTREEITEM htDoc = AddNode(pSER->m_sExtDocNS,		CNodeTree::ENodeType::NT_DUMMY_NODE, htAux, pSER, pTC);
+		HTREEITEM htDoc = AddNode(pSER->m_sExtDocNS, CNodeTree::ENodeType::NT_DUMMY_NODE, htAux, pSER, pTC);
 
 		if (!pSER->m_sExpression.IsEmpty())
-			AddNode(pSER->m_sExpression,		CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES, htDoc, pSER, pTC);
+			AddNode(pSER->m_sExpression, CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES, htDoc, pSER, pTC);
 	}
 
 	//TODO da COMPLETARE: non si riesce poi a creare la join		
-																															 
+
 	Array* arr = pH->GetExtRefsToTable(pTC->m_pCatalogEntry->m_strTableName);
 
 	CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
@@ -4532,13 +4530,13 @@ BOOL CRSTreeCtrl::FillExternalReference(CHelperSqlCatalog::CTableColumns* pTC, H
 
 	HTREEITEM refs = htParent; //AddNode(_TB("Referenced In"), CNodeTree::ENodeType::NT_LIST_EXTERNAL_REFERENCES_GENERIC, htParent, pTC);
 	int i = 0;
-	for (;i < arr->GetCount();i++)
+	for (; i < arr->GetCount(); i++)
 	{
 		CHelperExternalReferences::CTableExtRefs* pER = (CHelperExternalReferences::CTableExtRefs*)arr->GetAt(i);
 
 		if (!pER || pER->m_arExtRefs.GetSize() == 0)
 			continue;
-	
+
 		CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pER->m_arExtRefs.GetAt(0));
 
 		CHelperSqlCatalog::CTableColumns* pTC_Target = pHelperSqlCatalog->FindEntryByName(pER->m_sTableName);
@@ -4561,22 +4559,22 @@ BOOL CRSTreeCtrl::FillExternalReference(CHelperSqlCatalog::CTableColumns* pTC, H
 #ifdef  DEBUG
 		if (!AfxGetTbCmdManager()->TableExists(pER->m_sTableName, pSER->m_sForeignKey))
 		{
-			GetNode(fullName)->SetItemColor(RGB(255, 0, 0));   
-			GetNode(tName)->SetItemColor(RGB(255, 0, 0));	   
+			GetNode(fullName)->SetItemColor(RGB(255, 0, 0));
+			GetNode(tName)->SetItemColor(RGB(255, 0, 0));
 			GetNode(refs)->SetItemColor(RGB(255, 0, 0));
 		}
-			
+
 
 #endif //  DEBUG
 
-		HTREEITEM nameSp = AddNode(pER->m_sCurrDocNS , CNodeTree::ENodeType::NT_DUMMY_NODE, fullName, pER, pTC);
+		HTREEITEM nameSp = AddNode(pER->m_sCurrDocNS, CNodeTree::ENodeType::NT_DUMMY_NODE, fullName, pER, pTC);
 
 		if (!pSER->m_sExpression.IsEmpty())
 			AddNode(pSER->m_sExpression, CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE, nameSp, pER, pTC);
 	}
 	if (i)
 		this->SortChildren(htParent);
-	
+
 	m_arGarbage.Add(arr);	//TODO aggiungere nell'helper
 
 	return TRUE;
@@ -4592,7 +4590,7 @@ BOOL CRSTreeCtrl::FillSubModuleTables(CNodeTree * pNode, HTREEITEM htParent)
 		if (pTmpNode->m_NodeType == CNodeTree::ENodeType::NT_WRONG)
 			DeleteItem(htChild);
 	}
-	
+
 	CHelperSqlCatalog*	pHelperSqlCatalog = m_pWDoc->m_pEditorManager->GetHelperSqlCatalog();
 	ASSERT_VALID(pHelperSqlCatalog);
 
@@ -4626,13 +4624,13 @@ BOOL CRSTreeCtrl::FillSubModuleTables(CNodeTree * pNode, HTREEITEM htParent)
 
 //-----------------------------------------------------------------------------
 BOOL CRSTreeCtrl::FillRuleTables(TblRuleData* pTblRule)
-{	
+{
 	if (m_htRuleTables)
 		RemoveTreeChilds(m_htRuleTables);
 
 	ASSERT_VALID(pTblRule);
 
-	SqlTableJoinInfoArray* parTables = & pTblRule->m_arSqlTableJoinInfoArray;
+	SqlTableJoinInfoArray* parTables = &pTblRule->m_arSqlTableJoinInfoArray;
 
 	if (!parTables || parTables->GetSize() == 0)
 		return FALSE;
@@ -4646,7 +4644,7 @@ BOOL CRSTreeCtrl::FillRuleTables(TblRuleData* pTblRule)
 		const SqlTableInfo* pT = (*parTables)[i];
 
 		ASSERT_VALID(pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks[i]);
-		FillTable(pT->GetSqlCatalogEntry(), m_htRuleTables,  pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks[i]);
+		FillTable(pT->GetSqlCatalogEntry(), m_htRuleTables, pTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks[i]);
 	}
 
 	Expand(m_htRuleTables, TVE_EXPAND);
@@ -4660,7 +4658,7 @@ m_arGarbage.Add(f);AddNode(f->GetDescription(),CNodeTree::NT_LIST_SPECIAL_TEXT,m
 BOOL CRSTreeCtrl::FillSpecialTextRect(BOOL bExpand)
 {
 	if (bExpand)
-	{	
+	{
 		//force load
 		if (!m_htSpecialText)
 		{
@@ -4678,56 +4676,56 @@ BOOL CRSTreeCtrl::FillSpecialTextRect(BOOL bExpand)
 	}
 
 	ADD_SPECIAL(SPECIAL_PAGE)
-	ADD_SPECIAL(SPECIAL_TOT_PAGE)
-	ADD_SPECIAL(SPECIAL_PAGE_SPLITTER)
-	ADD_SPECIAL(SPECIAL_SPLITTER)
-	ADD_SPECIAL(SPECIAL_TOT_SPLITTER)
-	ADD_SPECIAL(SPECIAL_APPDATE)
-	ADD_SPECIAL(SPECIAL_TODAY)
-	ADD_SPECIAL(SPECIAL_TODAY2)
-	ADD_SPECIAL(SPECIAL_YEAR)
-	ADD_SPECIAL(SPECIAL_MONTH)
-	ADD_SPECIAL(SPECIAL_MONTH2)
-	ADD_SPECIAL(SPECIAL_DAY)
-	ADD_SPECIAL(SPECIAL_HH_MM)
-	ADD_SPECIAL(SPECIAL_HH)
-	ADD_SPECIAL(SPECIAL_MM)
-	ADD_SPECIAL(SPECIAL_SEC)
+		ADD_SPECIAL(SPECIAL_TOT_PAGE)
+		ADD_SPECIAL(SPECIAL_PAGE_SPLITTER)
+		ADD_SPECIAL(SPECIAL_SPLITTER)
+		ADD_SPECIAL(SPECIAL_TOT_SPLITTER)
+		ADD_SPECIAL(SPECIAL_APPDATE)
+		ADD_SPECIAL(SPECIAL_TODAY)
+		ADD_SPECIAL(SPECIAL_TODAY2)
+		ADD_SPECIAL(SPECIAL_YEAR)
+		ADD_SPECIAL(SPECIAL_MONTH)
+		ADD_SPECIAL(SPECIAL_MONTH2)
+		ADD_SPECIAL(SPECIAL_DAY)
+		ADD_SPECIAL(SPECIAL_HH_MM)
+		ADD_SPECIAL(SPECIAL_HH)
+		ADD_SPECIAL(SPECIAL_MM)
+		ADD_SPECIAL(SPECIAL_SEC)
 
-	ADD_SPECIAL(SPECIAL_USER)
-	ADD_SPECIAL(SPECIAL_LOGINUSER)
-	ADD_SPECIAL(SPECIAL_COMPUTER)
+		ADD_SPECIAL(SPECIAL_USER)
+		ADD_SPECIAL(SPECIAL_LOGINUSER)
+		ADD_SPECIAL(SPECIAL_COMPUTER)
 
-	ADD_SPECIAL(SPECIAL_APP_TITLE)
-	ADD_SPECIAL(SPECIAL_APP_REL)
-	ADD_SPECIAL(SPECIAL_TB_REL)
-	ADD_SPECIAL(SPECIAL_LICENSEE)
-	ADD_SPECIAL(SPECIAL_PRODUCER_NAME)
-	ADD_SPECIAL(SPECIAL_PRODUCT_DATE)
+		ADD_SPECIAL(SPECIAL_APP_TITLE)
+		ADD_SPECIAL(SPECIAL_APP_REL)
+		ADD_SPECIAL(SPECIAL_TB_REL)
+		ADD_SPECIAL(SPECIAL_LICENSEE)
+		ADD_SPECIAL(SPECIAL_PRODUCER_NAME)
+		ADD_SPECIAL(SPECIAL_PRODUCT_DATE)
 
-	ADD_SPECIAL(SPECIAL_REPORTNAME)
-	ADD_SPECIAL(SPECIAL_REPORT_TITLE)
-	ADD_SPECIAL(SPECIAL_REPORT_SUBJECT)
-	ADD_SPECIAL(SPECIAL_REPORT_AUTHOR)
-	ADD_SPECIAL(SPECIAL_REPORT_COMPANY)
-	ADD_SPECIAL(SPECIAL_REPORT_COMMENTS)
+		ADD_SPECIAL(SPECIAL_REPORTNAME)
+		ADD_SPECIAL(SPECIAL_REPORT_TITLE)
+		ADD_SPECIAL(SPECIAL_REPORT_SUBJECT)
+		ADD_SPECIAL(SPECIAL_REPORT_AUTHOR)
+		ADD_SPECIAL(SPECIAL_REPORT_COMPANY)
+		ADD_SPECIAL(SPECIAL_REPORT_COMMENTS)
 
-	ADD_SPECIAL(SPECIAL_SYS_COMPANY_NAME)
-	ADD_SPECIAL(SPECIAL_DB_COMPANY_NAME)
+		ADD_SPECIAL(SPECIAL_SYS_COMPANY_NAME)
+		ADD_SPECIAL(SPECIAL_DB_COMPANY_NAME)
 
-	ADD_SPECIAL(SPECIAL_EVAL_EXPR)
+		ADD_SPECIAL(SPECIAL_EVAL_EXPR)
 
-/* TODO Special macro from CompanyInfo
-	int ni = AfxGetLoginContext()->GetCompanyInfoCount();
-	for (int i = 0; i < ni; i++)
-	{
-		CSpecialField* f = new CSpecialField(AfxGetLoginContext()->GetCompanyTagInfo(i), AfxGetLoginContext()->GetCompanyTagInfo(i));
-		m_arGarbage.Add(f); 
-		AddNode(f->GetDescription(), CNodeTree::NT_LIST_SPECIAL_TEXT, m_htSpecialText, f); 
-	}
-*/
-	//----------
-	SelectItem(m_htSpecialText);
+		/* TODO Special macro from CompanyInfo
+			int ni = AfxGetLoginContext()->GetCompanyInfoCount();
+			for (int i = 0; i < ni; i++)
+			{
+				CSpecialField* f = new CSpecialField(AfxGetLoginContext()->GetCompanyTagInfo(i), AfxGetLoginContext()->GetCompanyTagInfo(i));
+				m_arGarbage.Add(f);
+				AddNode(f->GetDescription(), CNodeTree::NT_LIST_SPECIAL_TEXT, m_htSpecialText, f);
+			}
+		*/
+		//----------
+		SelectItem(m_htSpecialText);
 
 	if (bExpand)
 		Expand(m_htSpecialText, TVE_EXPAND);
@@ -4750,7 +4748,7 @@ BOOL CRSTreeCtrl::FillToolBox(BOOL forceReload)
 	if (forceReload)
 		RemoveTreeChilds(m_htToolBox);
 	else
-	{ 
+	{
 		CNodeTree& ntRoot = AddNode(_T("Report Objects"), CNodeTree::ENodeType::NT_TOOLBOX_ROOT_OBJECTS);
 		ntRoot.SetItemFont(m_pBold);
 		m_htToolBox = ntRoot;
@@ -4765,7 +4763,7 @@ BOOL CRSTreeCtrl::FillToolBox(BOOL forceReload)
 		CNodeTree& nt = AddNode(_T("Image"), CNodeTree::ENodeType::NT_TOOLBOX_OBJECT, m_htToolBox, (CObject*)ID_ADD_GRAPH_RECT);
 		SetItemImage(&nt, CRSTreeCtrlImgIdx::ImageGlyph);
 	}
-	{ 
+	{
 		CNodeTree& nt = AddNode(_T("Text"), CNodeTree::ENodeType::NT_TOOLBOX_OBJECT, m_htToolBox, (CObject*)ID_ADD_TEXT_RECT);
 		SetItemImage(&nt, CRSTreeCtrlImgIdx::TextGlyph);
 	}
@@ -4836,9 +4834,9 @@ BOOL CRSTreeCtrl::FillLayouts(BOOL bSort/* = TRUE*/)
 		CLayout* pObjects = (CLayout*)pObj;
 
 		HTREEITEM htLayout = AddNode(strName, CNodeTree::ENodeType::NT_LAYOUT, m_htLayouts, pObjects, &(m_pWDoc->m_Layouts));
-		
+
 		if (strName.CompareNoCase(REPORT_DEFAULT_LAYOUT_NAME) == 0)
-		{	
+		{
 			m_htLayoutDefault = htLayout;
 		}
 
@@ -4964,7 +4962,7 @@ int  CRSTreeCtrl::GetImgIndex(CObject* pObj)
 
 		return CRSTreeCtrlImgIdx::TableGlyph;
 	}
-	if (pObj->IsKindOf(RUNTIME_CLASS(TableColumn))) 
+	if (pObj->IsKindOf(RUNTIME_CLASS(TableColumn)))
 	{
 		TableColumn* pCol = (TableColumn*)pObj;
 		if (pCol->m_pHideExpr && !pCol->m_pHideExpr->IsEmpty())
@@ -5024,7 +5022,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 				CString descr = pCategory->GetTreeNodeDescription();
 				HTREEITEM htCol = AddNode(descr, CNodeTree::ENodeType::NT_OBJ_CATEGORY, htChart, pCategory, pChart, pObjects);
 			}
-			
+
 			for (int c = 0; c < pChart->GetSeries()->GetSize(); c++)
 			{
 				if (!pChart->AllowMultipleSeries() && c > 0)
@@ -5048,7 +5046,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 				continue;
 
 			CString descr = ((BaseRect*)pB)->GetDescription();
-			
+
 			FieldRect* pFR = dynamic_cast<FieldRect*>(pB);
 			if (pFR)
 			{
@@ -5073,7 +5071,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 			if (pFR)
 			{
 				nt = CNodeTree::ENodeType::NT_OBJ_FIELDRECT;
-				
+
 				//---- PROVA - il field appare anche nel gruppo delle variables
 				ASSERT_VALID(m_pWDoc->m_pEditorManager);
 				ASSERT_VALID(m_pWDoc->m_pEditorManager->GetPrgData());
@@ -5090,11 +5088,11 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 						WoormLink*	pLink = m_pWDoc->m_arWoormLinks.GetAt(k);
 						ASSERT_VALID(pLink);
 						if (pLink->m_LinkType == WoormLink::WoormLinkType::ConnectionRadar) continue;
-					
+
 						if (pLink->m_strLinkOwner.CompareNoCase(pField->GetName()) != 0) continue;
 
 						CNodeTree& nodeLink = AddNode(pLink->m_strLinkOwner, CNodeTree::ENodeType::NT_LINK, htBaseRect, pLink, &(m_pWDoc->m_arWoormLinks));
-						nodeLink.SetItemFont(m_pBold); 
+						nodeLink.SetItemFont(m_pBold);
 
 						FillLink(nodeLink, pLink);
 					}
@@ -5112,7 +5110,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 			CNodeTree* pNode = new CNodeTree(htBaseRect, (CRSTreeCtrlImgIdx)GetImgIndex(pB), nt, pB, pObjects);
 			m_arGarbage.Add(pNode);
 			SetItemData(htBaseRect, (DWORD)pNode);
-			if (!pB->m_bPersistent)   
+			if (!pB->m_bPersistent)
 				pNode->SetItemColor(RS_COLOR_FRAMEWORK);
 		}
 		else if (pB->IsKindOf(RUNTIME_CLASS(Table)))
@@ -5120,7 +5118,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 			Table* pT = (Table*)pB;
 
 			CNodeTree& aTableNode = AddNode(pT->GetDescription(), CNodeTree::ENodeType::NT_OBJ_TABLE, htLayout, pT, pObjects);
-			aTableNode.SetItemFont(m_pBold); 
+			aTableNode.SetItemFont(m_pBold);
 			if (!pT->m_bPersistent)
 				aTableNode.SetItemColor(RS_COLOR_FRAMEWORK);
 			HTREEITEM htTable = aTableNode.m_ht;
@@ -5136,7 +5134,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 					descr = '"' + descr + '"';
 
 				HTREEITEM htCol = AddNode(descr, CNodeTree::ENodeType::NT_OBJ_COLUMN, htTable, pCol, pT, pObjects, pCol->IsHidden());
-				
+
 				//---- PROVA - il field appare anche nel gruppo delle variables
 				ASSERT_VALID(m_pWDoc->m_pEditorManager);
 				ASSERT_VALID(m_pWDoc->m_pEditorManager->GetPrgData());
@@ -5176,7 +5174,7 @@ BOOL CRSTreeCtrl::FillLayout(CLayout* pObjects, HTREEITEM htLayout, BOOL bSkipAn
 					if (pLink->m_strLinkOwner.CompareNoCase(pField->GetName()) != 0) continue;
 
 					CNodeTree& nodeLink = AddNode(pLink->m_strLinkOwner, CNodeTree::ENodeType::NT_LINK, htCol, pLink, &(m_pWDoc->m_arWoormLinks));
-					nodeLink.SetItemFont(m_pBold); 
+					nodeLink.SetItemFont(m_pBold);
 
 					FillLink(nodeLink, pLink);
 				}
@@ -5198,209 +5196,209 @@ void CRSTreeCtrl::UpdateRSTreeNode(CNodeTree* pNode)
 	ASSERT_VALID(pNode);
 	ASSERT(pNode->m_ht);
 
-	switch(pNode->m_NodeType)
+	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ASKDIALOG:
+	case CNodeTree::ENodeType::NT_ASKDIALOG:
+	{
+		AskDialogData*	pAskDlg = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
+		if (pAskDlg)
 		{
-			AskDialogData*	pAskDlg = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
-			if (pAskDlg)
-			{
-				CString sDescr = pAskDlg->GetName();
+			CString sDescr = pAskDlg->GetName();
 
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		case CNodeTree::ENodeType::NT_ASKGROUP:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKGROUP:
+	{
+		AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
+		if (pAskGroup)
 		{
-			AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
-			if (pAskGroup)
-			{
-				CString sTitle = pAskGroup->m_strTitle;
-				if (sTitle.CompareNoCase(AskGroupData::GetEmptyTitle()) == 0)
-					sTitle = '<' + sTitle + '>';
-				else
-					sTitle = '"' + sTitle + '"';
+			CString sTitle = pAskGroup->m_strTitle;
+			if (sTitle.CompareNoCase(AskGroupData::GetEmptyTitle()) == 0)
+				sTitle = '<' + sTitle + '>';
+			else
+				sTitle = '"' + sTitle + '"';
 
-				if (pAskGroup->m_bHiddenTitle)
-					sTitle = '[' + sTitle + ']';
+			if (pAskGroup->m_bHiddenTitle)
+				sTitle = '[' + sTitle + ']';
 
-				SetItemText(pNode->m_ht, sTitle);
-			}
-			break;
+			SetItemText(pNode->m_ht, sTitle);
 		}
-		case CNodeTree::ENodeType::NT_ASKFIELD:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKFIELD:
+	{
+		AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
+		if (pAskField)
 		{
-			AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
-			if (pAskField)
-			{
-				CString sTitle = pAskField->GetCaption();
-				if (sTitle.IsEmpty())
-					sTitle = '<' + _TB("Conditioned Caption") + '>';
-				else
-					sTitle = '"' + sTitle + '"';
+			CString sTitle = pAskField->GetCaption();
+			if (sTitle.IsEmpty())
+				sTitle = '<' + _TB("Conditioned Caption") + '>';
+			else
+				sTitle = '"' + sTitle + '"';
 
-				SetItemText(pNode->m_ht, sTitle);
-			}
-			break;
+			SetItemText(pNode->m_ht, sTitle);
 		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_OBJ_FIELDRECT:
+	case CNodeTree::ENodeType::NT_OBJ_FIELDRECT:
+	{
+		FieldRect* pFR = dynamic_cast<FieldRect*>(pNode->m_pItemData);
+		if (pFR)
 		{
-			FieldRect* pFR = dynamic_cast<FieldRect*>(pNode->m_pItemData);
-			if (pFR)
-			{
-				CString descr = pFR->GetCaption();
-				if (descr.IsEmpty())
-					descr = '<' + pFR->GetFieldName() + '>';
-				else 
-					descr = '"' + descr + '"';
+			CString descr = pFR->GetCaption();
+			if (descr.IsEmpty())
+				descr = '<' + pFR->GetFieldName() + '>';
+			else
+				descr = '"' + descr + '"';
 
-				SetItemText(pNode->m_ht, descr);
-				int imgIdx = GetImgIndex(pFR);
+			SetItemText(pNode->m_ht, descr);
+			int imgIdx = GetImgIndex(pFR);
 
-				IMAGEINFO* pImage = NULL;
-				GetImageList(TVSIL_NORMAL)->GetImageInfo(imgIdx, pImage);
+			IMAGEINFO* pImage = NULL;
+			GetImageList(TVSIL_NORMAL)->GetImageInfo(imgIdx, pImage);
 
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
-			}
-
-			break;
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
 		}
 
-		case CNodeTree::ENodeType::NT_OBJ_GRAPHRECT:
-		case CNodeTree::ENodeType::NT_OBJ_SQRRECT:
-		{
-			BaseRect* pBR = dynamic_cast<BaseRect*>(pNode->m_pItemData);
-			if (pBR)
-			{
-				CString descr = pBR->GetDescription();
+		break;
+	}
 
-				SetItemText(pNode->m_ht, descr);
-				int imgIdx = GetImgIndex(pBR);
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_OBJ_TEXTRECT:
-		case CNodeTree::ENodeType::NT_OBJ_FILERECT:
+	case CNodeTree::ENodeType::NT_OBJ_GRAPHRECT:
+	case CNodeTree::ENodeType::NT_OBJ_SQRRECT:
+	{
+		BaseRect* pBR = dynamic_cast<BaseRect*>(pNode->m_pItemData);
+		if (pBR)
 		{
-			BaseRect* pBR = dynamic_cast<BaseRect*>(pNode->m_pItemData);
-			if (pBR)
-			{
-				CString descr = pBR->GetDescription();
+			CString descr = pBR->GetDescription();
 
-				SetItemText(pNode->m_ht, '"' + descr + '"');
-				int imgIdx = GetImgIndex(pBR);
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
-			}
-			break;
+			SetItemText(pNode->m_ht, descr);
+			int imgIdx = GetImgIndex(pBR);
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
 		}
-		case CNodeTree::ENodeType::NT_OBJ_REPEATER:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_TEXTRECT:
+	case CNodeTree::ENodeType::NT_OBJ_FILERECT:
+	{
+		BaseRect* pBR = dynamic_cast<BaseRect*>(pNode->m_pItemData);
+		if (pBR)
 		{
-			Repeater* pRep = dynamic_cast<Repeater*>(pNode->m_pItemData);
-			if (pRep)
-			{
-				int imgIdx = GetImgIndex(pRep);
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_OBJ_COLUMN:
-		{
-			TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
-			if (pCol)
-			{
-				CString descr = pCol->GetCaption();
-				if (descr.IsEmpty())
-					descr = '<' + pCol->GetFieldName() + '>';
-				else
-					descr = '"' + descr + '"';
+			CString descr = pBR->GetDescription();
 
-				int imgIdx = GetImgIndex(pCol);
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
+			SetItemText(pNode->m_ht, '"' + descr + '"');
+			int imgIdx = GetImgIndex(pBR);
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
+		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_REPEATER:
+	{
+		Repeater* pRep = dynamic_cast<Repeater*>(pNode->m_pItemData);
+		if (pRep)
+		{
+			int imgIdx = GetImgIndex(pRep);
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
+		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_COLUMN:
+	{
+		TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
+		if (pCol)
+		{
+			CString descr = pCol->GetCaption();
+			if (descr.IsEmpty())
+				descr = '<' + pCol->GetFieldName() + '>';
+			else
+				descr = '"' + descr + '"';
 
-				SetItemText(pNode->m_ht, descr);
-			}
-			break;
-		}
-		case CNodeTree::ENodeType::NT_OBJ_TABLE:
-		{
-			Table* pTab = dynamic_cast<Table*>(pNode->m_pItemData);
-			if (pTab)
-			{
-				CString descr = pTab->GetDescription();
+			int imgIdx = GetImgIndex(pCol);
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
 
-				int imgIdx = GetImgIndex(pTab);
-				SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
+			SetItemText(pNode->m_ht, descr);
+		}
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_TABLE:
+	{
+		Table* pTab = dynamic_cast<Table*>(pNode->m_pItemData);
+		if (pTab)
+		{
+			CString descr = pTab->GetDescription();
 
-				SetItemText(pNode->m_ht, descr);
-			}
-			break;
-		}
+			int imgIdx = GetImgIndex(pTab);
+			SetItemImage(pNode, (CRSTreeCtrlImgIdx)imgIdx);
 
-		case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
-		{
-			TriggEventData*	pEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
-			if (pEvent)
-			{
-				CString sDescr = pEvent->m_strEventName /*+ L"..."*/;
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			SetItemText(pNode->m_ht, descr);
 		}
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_PROCEDURE:
+	case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
+	{
+		TriggEventData*	pEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
+		if (pEvent)
 		{
-			ProcedureObjItem*	pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
-			if (pProc)
-			{
-				CString sDescr = pProc->GetName();
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			CString sDescr = pEvent->m_strEventName /*+ L"..."*/;
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		case CNodeTree::ENodeType::NT_NAMED_QUERY:
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_PROCEDURE:
+	{
+		ProcedureObjItem*	pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
+		if (pProc)
 		{
-			QueryObjItem*	pQuery = dynamic_cast<QueryObjItem*>(pNode->m_pItemData);
-			if (pQuery)
-			{
-				CString sDescr = pQuery->GetName();
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			CString sDescr = pProc->GetName();
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		case CNodeTree::ENodeType::NT_OBJ_CHART:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_NAMED_QUERY:
+	{
+		QueryObjItem*	pQuery = dynamic_cast<QueryObjItem*>(pNode->m_pItemData);
+		if (pQuery)
 		{
-			Chart*	pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
-			if (pChart)
-			{
-				CString sDescr = pChart->GetDescription();
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			CString sDescr = pQuery->GetName();
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		case CNodeTree::ENodeType::NT_OBJ_CATEGORY:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_CHART:
+	{
+		Chart*	pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
+		if (pChart)
 		{
-			Chart::CCategories*	pCat = dynamic_cast<Chart::CCategories*>(pNode->m_pItemData);
-			if (pCat)
-			{
-				CString sDescr = pCat->GetTreeNodeDescription();
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			CString sDescr = pChart->GetDescription();
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		case CNodeTree::ENodeType::NT_OBJ_SERIES:
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_CATEGORY:
+	{
+		Chart::CCategories*	pCat = dynamic_cast<Chart::CCategories*>(pNode->m_pItemData);
+		if (pCat)
 		{
-			Chart::CSeries*	pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
-			if (pSeries)
-			{
-				CString sDescr = pSeries->GetTreeNodeDescription();
-				SetItemText(pNode->m_ht, sDescr);
-			}
-			break;
+			CString sDescr = pCat->GetTreeNodeDescription();
+			SetItemText(pNode->m_ht, sDescr);
 		}
-		//TODO
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_SERIES:
+	{
+		Chart::CSeries*	pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
+		if (pSeries)
+		{
+			CString sDescr = pSeries->GetTreeNodeDescription();
+			SetItemText(pNode->m_ht, sDescr);
+		}
+		break;
+	}
+	//TODO
 	}
 }
 
@@ -5557,12 +5555,12 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 {
 	CHTreeItemsArray hItemsArray;
 	GetSelectedHItems(&hItemsArray);
-	
-	if (!m_bMultiSelect || 
-		hItemsArray.IsEmpty()||
+
+	if (!m_bMultiSelect ||
+		hItemsArray.IsEmpty() ||
 		!m_pWDoc ||
 		!m_pWDoc->GetWoormFrame() ||
-		!m_pWDoc->GetWoormFrame()->m_pObjectPropertyView) 
+		!m_pWDoc->GetWoormFrame()->m_pObjectPropertyView)
 		return FALSE;
 
 	int HitemSize = hItemsArray.GetSize();
@@ -5588,7 +5586,7 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 		return FALSE;
 
 	HTREEITEM hFirstItem = hItemsArray.GetAt(0)->m_hItem;
-	
+
 	//controllo il primo elemento della multiselezione 
 	CNodeTree* pNode = (CNodeTree*)GetItemData(hFirstItem);
 
@@ -5618,16 +5616,16 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 		}
 
 		//controlla che abbiano lo stesso padre lo stesso padre
-		if (GetParentItem(hFirstItem) != GetParentItem(hCurrentItem))	
+		if (GetParentItem(hFirstItem) != GetParentItem(hCurrentItem))
 			return FALSE;
 
 		if (bFirstNodeIsOfLayoutType && IsLayoutNodeType(pCurrentNode->m_NodeType))
 			continue;
 		else if (pNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO && pCurrentNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO)
 			continue;
-		else if ( IsHiddenVariable(pNode) && IsHiddenVariable(pCurrentNode))
+		else if (IsHiddenVariable(pNode) && IsHiddenVariable(pCurrentNode))
 			continue;
-		
+
 		else
 			// se sono arrivato qui, in questi casi, non è gestita la multiselezione
 			return  FALSE;
@@ -5650,7 +5648,7 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 			CPoint pt;
 			m_pWDoc->SetCurrentObj(0, pt);
 			m_pWDoc->m_pCurrentObj = NULL;
-			if(m_pWDoc->m_pActiveRect)
+			if (m_pWDoc->m_pActiveRect)
 				m_pWDoc->m_pActiveRect->Clear();
 			//-----------------------------------------------
 
@@ -5746,7 +5744,7 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 		}
 	}
 	//multiselezione delle colonne del database
-	else if(pNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO || IsHiddenVariable(pNode))
+	else if (pNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO || IsHiddenVariable(pNode))
 	{
 		if (m_pWDoc->m_pNodesSelection)
 			m_pWDoc->m_pNodesSelection->RemoveAll();
@@ -5780,7 +5778,7 @@ BOOL CRSTreeCtrl::OnMultiSelect()
 			}
 		}
 	}
-	
+
 	return TRUE;
 }
 
@@ -5794,8 +5792,8 @@ BEGIN_MESSAGE_MAP(CRSDockPane, CTaskBuilderDockPane)
 
 END_MESSAGE_MAP()
 
-CRSDockPane::CRSDockPane(CRuntimeClass* rc) 
-	: 
+CRSDockPane::CRSDockPane(CRuntimeClass* rc)
+	:
 	CTaskBuilderDockPane(rc)
 {
 	SetMinWidth(40);
@@ -5874,7 +5872,7 @@ IMPLEMENT_DYNCREATE(CRSEngineDockPane, CRSFullReportDockPane)
 
 CRSEngineDockPane::~CRSEngineDockPane()
 {
-}	
+}
 
 CRSEngineDockPane::CRSEngineDockPane()
 	:
@@ -5886,10 +5884,10 @@ CRSEngineDockPane::CRSEngineDockPane()
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNCREATE(CRSLayoutDockPane, CRSFullReportDockPane)
 
-CRSLayoutDockPane::CRSLayoutDockPane() 
-	: 
+CRSLayoutDockPane::CRSLayoutDockPane()
+	:
 	CRSFullReportDockPane(RUNTIME_CLASS(CRSLayoutTreeView))
-{ 
+{
 	m_sNsHelp = RS_HELP_PANEL_LAYOUT;
 }
 
@@ -5900,10 +5898,10 @@ CRSLayoutDockPane::~CRSLayoutDockPane()
 //=============================================================================
 IMPLEMENT_DYNCREATE(CRSFullReportDockPane, CRSDockPane)
 
-CRSFullReportDockPane::CRSFullReportDockPane() 
-	: 
+CRSFullReportDockPane::CRSFullReportDockPane()
+	:
 	CRSDockPane(RUNTIME_CLASS(CRSReportTreeView))
-{ 
+{
 	m_sNsHelp = RS_HELP_PANEL_REPORT;
 }
 
@@ -5920,17 +5918,17 @@ CRSFullReportDockPane::~CRSFullReportDockPane()
 //------------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CRSFullReportDockPane, CRSDockPane)
 
-	ON_BN_CLICKED(ID_RS_REFRESH,			OnRefresh)
-	ON_BN_CLICKED(ID_RS_EDIT,				OnOpenEditor)
-	ON_BN_CLICKED(ID_RS_NEW,				OnNew)
-	ON_BN_CLICKED(ID_RS_MORE,				OnMore)
-	ON_BN_CLICKED(ID_RS_DELETE,				OnDelete)
-	ON_BN_CLICKED(ID_RS_UP,					OnUp)
-	ON_BN_CLICKED(ID_RS_DOWN,				OnDown)
-	ON_BN_CLICKED(ID_RS_DLGPREVIEW,			OnDialogPreview)
+	ON_BN_CLICKED(ID_RS_REFRESH, OnRefresh)
+	ON_BN_CLICKED(ID_RS_EDIT, OnOpenEditor)
+	ON_BN_CLICKED(ID_RS_NEW, OnNew)
+	ON_BN_CLICKED(ID_RS_MORE, OnMore)
+	ON_BN_CLICKED(ID_RS_DELETE, OnDelete)
+	ON_BN_CLICKED(ID_RS_UP, OnUp)
+	ON_BN_CLICKED(ID_RS_DOWN, OnDown)
+	ON_BN_CLICKED(ID_RS_DLGPREVIEW, OnDialogPreview)
 
-	ON_BN_CLICKED(ID_RS_COLLAPSEALLTREE,	OnCollapseAll)
-	ON_BN_CLICKED(ID_RS_EXPANDALLTREE,		OnExpandAll)
+	ON_BN_CLICKED(ID_RS_COLLAPSEALLTREE, OnCollapseAll)
+	ON_BN_CLICKED(ID_RS_EXPANDALLTREE, OnExpandAll)
 
 	ON_BN_CLICKED(ID_RS_CHECK_TABLE_FROM_DB, OnCheckAddTable)
 
@@ -5939,25 +5937,25 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 void CRSFullReportDockPane::OnAddToolbarButtons()
 {
-	m_pToolBar->AddButton(ID_RS_EDIT,	RS_DOCK_NS, TBIcon(szIconEdit,	TOOLBAR), _TB("Edit"), _TB("\nEdit current node"));
-	m_pToolBar->AddButton(ID_RS_NEW,	RS_DOCK_NS, TBIcon(szIconAdd,	TOOLBAR), _TB("Add"), _TB("\nAdd new element"));
-	m_pToolBar->AddButton(ID_RS_UP,		RS_DOCK_NS, TBIcon(szIconUp,	TOOLBAR), _TB("Up"), _TB("\nMove to previous/left position"));
-	m_pToolBar->AddButton(ID_RS_DOWN,	RS_DOCK_NS, TBIcon(szIconDown,	TOOLBAR), _TB("Down"), _TB("\nMove to next/right position"));
+	m_pToolBar->AddButton(ID_RS_EDIT, RS_DOCK_NS, TBIcon(szIconEdit, TOOLBAR), _TB("Edit"), _TB("\nEdit current node"));
+	m_pToolBar->AddButton(ID_RS_NEW, RS_DOCK_NS, TBIcon(szIconAdd, TOOLBAR), _TB("Add"), _TB("\nAdd new element"));
+	m_pToolBar->AddButton(ID_RS_UP, RS_DOCK_NS, TBIcon(szIconUp, TOOLBAR), _TB("Up"), _TB("\nMove to previous/left position"));
+	m_pToolBar->AddButton(ID_RS_DOWN, RS_DOCK_NS, TBIcon(szIconDown, TOOLBAR), _TB("Down"), _TB("\nMove to next/right position"));
 
-	m_pToolBar->AddButton(ID_RS_MORE,	RS_DOCK_NS, TBIcon(szIconMore, TOOLBAR), _TB("Show All"), _TB("\nShow all variables grouped by type"));
+	m_pToolBar->AddButton(ID_RS_MORE, RS_DOCK_NS, TBIcon(szIconMore, TOOLBAR), _TB("Show All"), _TB("\nShow all variables grouped by type"));
 	m_pToolBar->PressButton(ID_RS_MORE, TRUE, FALSE);
 
 	m_pToolBar->AddButton(ID_RS_CHECK_TABLE_FROM_DB, RS_DOCK_NS, TBIcon(szIconTable, TOOLBAR), _TB("New Table"), _TB("\nDrag hidden variables to create a new Table"));
 	m_pToolBar->PressButton(ID_RS_CHECK_TABLE_FROM_DB, TRUE, FALSE);
 
-	m_pToolBar->AddButton(ID_RS_DLGPREVIEW, RS_DOCK_NS, TBIcon(szIconDialogPreview,	TOOLBAR), _TB("Preview"), _TB("Opens the dialog preview"));
+	m_pToolBar->AddButton(ID_RS_DLGPREVIEW, RS_DOCK_NS, TBIcon(szIconDialogPreview, TOOLBAR), _TB("Preview"), _TB("Opens the dialog preview"));
 
 	m_pToolBar->AddButton(ID_RS_DELETE, RS_DOCK_NS, TBIcon(szIconDelete, TOOLBAR), _TB("Delete"), _TB("\nDelete the selected object"));
 	m_pToolBar->AddSeparatorBefore(ID_RS_DELETE);
 
-	m_pToolBar->AddButtonToRight(ID_RS_REFRESH, RS_DOCK_NS,			TBIcon(szIconRefresh,			TOOLBAR), _TB("Refresh"), _TB("\nRefresh tree branch"));
+	m_pToolBar->AddButtonToRight(ID_RS_REFRESH, RS_DOCK_NS, TBIcon(szIconRefresh, TOOLBAR), _TB("Refresh"), _TB("\nRefresh tree branch"));
 	m_pToolBar->AddButtonToRight(ID_RS_COLLAPSEALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeCollapseAll, TOOLBAR), _TB("Collapse All"), _TB("\nnCollapse all tree"));
-	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE, RS_DOCK_NS,	TBIcon(szIconBeTreeExpand,		TOOLBAR), _TB("Expand current node"), _TB("\nExpand all children of current node"));
+	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeExpand, TOOLBAR), _TB("Expand current node"), _TB("\nExpand all children of current node"));
 }
 
 //-----------------------------------------------------------------------------
@@ -6065,23 +6063,23 @@ IMPLEMENT_DYNCREATE(CRSObjectPropertyDockPane, CRSDockPane)
 //------------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CRSObjectPropertyDockPane, CRSDockPane)
 
-	ON_BN_CLICKED(ID_RS_COLLAPSEALLTREE,OnCollapseAll)
-	ON_BN_CLICKED(ID_RS_EXPANDALLTREE,	OnExpand)
+	ON_BN_CLICKED(ID_RS_COLLAPSEALLTREE, OnCollapseAll)
+	ON_BN_CLICKED(ID_RS_EXPANDALLTREE, OnExpand)
 
-	ON_BN_CLICKED(ID_RS_SAVE,			OnApply)
+	ON_BN_CLICKED(ID_RS_SAVE, OnApply)
 	//ON_BN_CLICKED(ID_RS_DISCARD,		OnDiscard)
-	ON_BN_CLICKED(ID_RS_REFRESH,		OnRefresh)
+	ON_BN_CLICKED(ID_RS_REFRESH, OnRefresh)
 
-	ON_BN_CLICKED(ID_RS_LAYOUT,			OnLayoutBtn)
-	ON_BN_CLICKED(ID_RS_VARIABLE,		OnVariableBtn)
-	ON_BN_CLICKED(ID_RS_FINDRULE,		OnFindRuleBtn)
-	ON_BN_CLICKED(ID_RS_REQUESTFIELD,	OnRequestFieldBtn)
+	ON_BN_CLICKED(ID_RS_LAYOUT, OnLayoutBtn)
+	ON_BN_CLICKED(ID_RS_VARIABLE, OnVariableBtn)
+	ON_BN_CLICKED(ID_RS_FINDRULE, OnFindRuleBtn)
+	ON_BN_CLICKED(ID_RS_REQUESTFIELD, OnRequestFieldBtn)
 
 END_MESSAGE_MAP()
 
 //-----------------------------------------------------------------------------
 CRSObjectPropertyDockPane::CRSObjectPropertyDockPane()
-	: 
+	:
 	CRSDockPane(RUNTIME_CLASS(CRS_ObjectPropertyView))
 {
 	m_sNsHelp = RS_HELP_PANEL_PROPERTY;
@@ -6090,14 +6088,14 @@ CRSObjectPropertyDockPane::CRSObjectPropertyDockPane()
 //-----------------------------------------------------------------------------
 void CRSObjectPropertyDockPane::OnAddToolbarButtons()
 {
-	m_pToolBar->AddButton(ID_RS_SAVE,			RS_DOCK_NS, TBIcon(szIconSave2,				TOOLBAR),	_TB("Apply"));
-	m_pToolBar->AddButton(ID_RS_LAYOUT,			RS_DOCK_NS, TBIcon(szIconColors,			TOOLBAR),	_TB("Layout"),			_TB("Link to layout object properties"));
-	m_pToolBar->AddButton(ID_RS_VARIABLE,		RS_DOCK_NS, TBIcon(szIconRSFuncExprField,	TOOLBAR),	_TB("Variable"),		_TB("Link to internal data properties"));
-	m_pToolBar->AddButton(ID_RS_REQUESTFIELD,	RS_DOCK_NS, TBIcon(szIconRequestField,		TOOLBAR),	_TB("Request Field"),	_TB("Link to request field properties"));
-	m_pToolBar->AddButton(ID_RS_FINDRULE,		RS_DOCK_NS, TBIcon(szIconTreeSearch,		TOOLBAR),	_TB("Find Rule"),		_TB("Ensure the variable visibility in the Report tree"));
-	
+	m_pToolBar->AddButton(ID_RS_SAVE, RS_DOCK_NS, TBIcon(szIconSave2, TOOLBAR), _TB("Apply"));
+	m_pToolBar->AddButton(ID_RS_LAYOUT, RS_DOCK_NS, TBIcon(szIconColors, TOOLBAR), _TB("Layout"), _TB("Link to layout object properties"));
+	m_pToolBar->AddButton(ID_RS_VARIABLE, RS_DOCK_NS, TBIcon(szIconRSFuncExprField, TOOLBAR), _TB("Variable"), _TB("Link to internal data properties"));
+	m_pToolBar->AddButton(ID_RS_REQUESTFIELD, RS_DOCK_NS, TBIcon(szIconRequestField, TOOLBAR), _TB("Request Field"), _TB("Link to request field properties"));
+	m_pToolBar->AddButton(ID_RS_FINDRULE, RS_DOCK_NS, TBIcon(szIconTreeSearch, TOOLBAR), _TB("Find Rule"), _TB("Ensure the variable visibility in the Report tree"));
+
 	m_pToolBar->AddButtonToRight(ID_RS_COLLAPSEALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeCollapseAll, TOOLBAR), _TB("Collapse All"), _TB("\nCollapse all properties"));
-	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE, RS_DOCK_NS,	TBIcon(szIconBeTreeExpand,		TOOLBAR), _TB("Expand current"), _TB("\nExpand current property"));
+	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeExpand, TOOLBAR), _TB("Expand current"), _TB("\nExpand current property"));
 }
 
 //-----------------------------------------------------------------------------
@@ -6221,33 +6219,33 @@ IMPLEMENT_DYNCREATE(CRSReportTreeView, CRSDockedView)
 
 BEGIN_MESSAGE_MAP(CRSReportTreeView, CRSDockedView)
 
-	ON_NOTIFY(NM_DBLCLK, IDC_RS_Tree,		OnDblclkTree)
+	ON_NOTIFY(NM_DBLCLK, IDC_RS_Tree, OnDblclkTree)
 	ON_NOTIFY(TVN_SELCHANGING, IDC_RS_Tree, OnSelchangingTree)
-	ON_NOTIFY(TVN_SELCHANGED, IDC_RS_Tree,	OnSelchangedTree)
+	ON_NOTIFY(TVN_SELCHANGED, IDC_RS_Tree, OnSelchangedTree)
 
 	ON_UPDATE_COMMAND_UI(ID_RS_REFRESH, OnUpdateRefresh)
-	ON_UPDATE_COMMAND_UI(ID_RS_EDIT,	OnUpdateEdit)
-	ON_UPDATE_COMMAND_UI(ID_RS_NEW,		OnUpdateNew)
-	ON_UPDATE_COMMAND_UI(ID_RS_MORE,	OnUpdateMore)
-	ON_UPDATE_COMMAND_UI(ID_RS_DELETE,	OnUpdateDelete)
+	ON_UPDATE_COMMAND_UI(ID_RS_EDIT, OnUpdateEdit)
+	ON_UPDATE_COMMAND_UI(ID_RS_NEW, OnUpdateNew)
+	ON_UPDATE_COMMAND_UI(ID_RS_MORE, OnUpdateMore)
+	ON_UPDATE_COMMAND_UI(ID_RS_DELETE, OnUpdateDelete)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_UP,		OnUpdateUpDown)
-	ON_UPDATE_COMMAND_UI(ID_RS_DOWN,	OnUpdateUpDown) 
+	ON_UPDATE_COMMAND_UI(ID_RS_UP, OnUpdateUpDown)
+	ON_UPDATE_COMMAND_UI(ID_RS_DOWN, OnUpdateUpDown)
 
 	ON_UPDATE_COMMAND_UI(ID_RS_DLGPREVIEW, OnUpdateDialogPreview)
 
-	ON_UPDATE_COMMAND_UI(ID_VK_LEFT,	OnUpdateVKMove)
-	ON_UPDATE_COMMAND_UI(ID_VK_RIGHT,	OnUpdateVKMove)
-	ON_UPDATE_COMMAND_UI(ID_VK_UP,		OnUpdateVKMove)
-	ON_UPDATE_COMMAND_UI(ID_VK_DOWN,	OnUpdateVKMove)
+	ON_UPDATE_COMMAND_UI(ID_VK_LEFT, OnUpdateVKMove)
+	ON_UPDATE_COMMAND_UI(ID_VK_RIGHT, OnUpdateVKMove)
+	ON_UPDATE_COMMAND_UI(ID_VK_UP, OnUpdateVKMove)
+	ON_UPDATE_COMMAND_UI(ID_VK_DOWN, OnUpdateVKMove)
 
-	ON_COMMAND			(ID_VK_UP,		OnVKUp)
-	ON_COMMAND			(ID_VK_DOWN,	OnVKDown)
-	ON_COMMAND			(ID_VK_LEFT,	OnVKLeft)
-	ON_COMMAND			(ID_VK_RIGHT,	OnVKRight)
+	ON_COMMAND(ID_VK_UP, OnVKUp)
+	ON_COMMAND(ID_VK_DOWN, OnVKDown)
+	ON_COMMAND(ID_VK_LEFT, OnVKLeft)
+	ON_COMMAND(ID_VK_RIGHT, OnVKRight)
 
 	ON_UPDATE_COMMAND_UI(ID_RS_COLLAPSEALLTREE, OnUpdateCollapseAll)
-	ON_UPDATE_COMMAND_UI(ID_RS_EXPANDALLTREE,	OnUpdateExpandAll)
+	ON_UPDATE_COMMAND_UI(ID_RS_EXPANDALLTREE, OnUpdateExpandAll)
 
 	ON_UPDATE_COMMAND_UI(ID_RS_CHECK_TABLE_FROM_DB, OnUpdateCheckAddTable)
 
@@ -6270,7 +6268,7 @@ CRSReportTreeView::CRSReportTreeView(const CString& sName, UINT nIDD)
 
 CRSReportTreeView::~CRSReportTreeView()
 {
-	
+
 }
 
 //------------------------------------------------------------------------------
@@ -6330,7 +6328,7 @@ void CRSReportTreeView::BuildDataControlLinks()
 	m_TreeCtrl.InitializeImageList();
 
 	pWnd = GetDlgItem(IDC_RS_Tree_Finder);
-	if (pWnd) 
+	if (pWnd)
 		pWnd->Detach();
 	m_edtFinder.SubclassEdit(IDC_RS_Tree_Finder, this);
 	m_edtFinder.EnableFindBrowseButton(TRUE, L"", TRUE);
@@ -6405,7 +6403,7 @@ BOOL CRSReportTreeView::CanOpenEditor(CNodeTree* pNode)
 		ASSERT_VALID(pF);
 		if (!pF) return FALSE;
 
-		if (pF->IsTableRuleField() && pF->IsNativeColumnExpr()) 
+		if (pF->IsTableRuleField() && pF->IsNativeColumnExpr())
 		{
 			return TRUE;
 		}
@@ -6417,7 +6415,7 @@ BOOL CRSReportTreeView::CanOpenEditor(CNodeTree* pNode)
 	}
 	default:;
 	}
-	
+
 	return FALSE;
 }
 
@@ -6454,7 +6452,7 @@ void CRSReportTreeView::OnOpenEditor(CNodeTree* pNode)
 	//pEdtView->HideControl(pEdtView->GetDialogID(), TRUE);
 	pEdtView->LoadElementFromTree(pNode);
 	pEdtView->DoEvent();
-	
+
 	if (spNode)
 	{
 		if (
@@ -6484,7 +6482,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 
 	NMTREEVIEW* pNMTreeView = (NMTREEVIEW*)pNMHDR;
-	
+
 	SAFE_DELETE(this->GetDocument()->m_pNodesSelection);	/*MULTISEL*/
 	SAFE_DELETE(this->GetDocument()->m_pMultiColumns);
 
@@ -6493,8 +6491,8 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 
 	HTREEITEM hCurrentItem = pNMTreeView->itemNew.hItem;
 	if (!hCurrentItem)
-	{	
-		if(GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
+	{
+		if (GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
 			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->ClearPropertyGrid();
 		return;
 	}
@@ -6503,20 +6501,20 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 
 	if (!pNode)
 	{
-		if( GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
+		if (GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
 			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->ClearPropertyGrid();
 		return;
 	}
 
 	ASSERT_VALID(pNode);
 	ASSERT_KINDOF(CNodeTree, pNode);
-/* MULTISEL
-	if (this->GetDocument()->m_pNodesSelection)
-	{
-		if (!this->GetDocument()->m_pNodesSelection->CheckOneSel(pNode))
-			SAFE_DELETE(this->GetDocument()->m_pNodesSelection);
-	}
-*/
+	/* MULTISEL
+		if (this->GetDocument()->m_pNodesSelection)
+		{
+			if (!this->GetDocument()->m_pNodesSelection->CheckOneSel(pNode))
+				SAFE_DELETE(this->GetDocument()->m_pNodesSelection);
+		}
+	*/
 	if (!m_TreeCtrl.m_bPassive)
 	{
 		CWoormView* pWView = dynamic_cast<CWoormView*>(GetDocument()->GetFirstView());
@@ -6554,16 +6552,16 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 				GetDocument()->m_pActiveRect->EnsureVisible();
 			}
 		}
-	}	
+	}
 
 	if (pNode->m_NodeType == CNodeTree::ENodeType::NT_LAYOUT)
 	{
 		CLayout*	pLayout = dynamic_cast<CLayout*>(pNode->m_pItemData);
 
 		GetDocument()->ChangeLayout(pLayout->m_strLayoutName);
-		if(GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
+		if (GetDocument()->GetWoormFrame()->m_pObjectPropertyView)
 			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->LoadPropertyGrid(pNode);
-	}	
+	}
 
 	if (!GetDocument()->m_pMultipleSelObj)
 	{
@@ -6574,8 +6572,8 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		//carico l'editview docked (se serve)
 		if (GetDocument()->GetWoormFrame()->m_pEditorDockedView)
 		{
-			GetDocument()->GetWoormFrame()->m_pEditorDockedView->GetEditCtrl()->ColorVariables(GetDocument(),FALSE);
-			GetDocument()->GetWoormFrame()->m_pEditorDockedView->LoadElementFromTree(pNode); 
+			GetDocument()->GetWoormFrame()->m_pEditorDockedView->GetEditCtrl()->ColorVariables(GetDocument(), FALSE);
+			GetDocument()->GetWoormFrame()->m_pEditorDockedView->LoadElementFromTree(pNode);
 		}
 	}
 
@@ -6711,7 +6709,7 @@ BOOL CRSReportTreeView::SelectLayoutObject(CObject* pObj, BOOL bPassive/* = TRUE
 			TableCell* pTCell = dynamic_cast<TableCell*>(pObj);
 
 			pTCell->m_pColumn->GetTable()->m_nActiveRow = pTCell->m_nCurrRow;
-			
+
 			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->LoadTableCellProperties(pTCell);
 
 			return TRUE;
@@ -6759,8 +6757,8 @@ BOOL CRSReportTreeView::FillTree()
 		m_TreeCtrl.m_htPageInfo = m_TreeCtrl.AddNode(_T("Page info"), CNodeTree::ENodeType::NT_PAGE, NULL, &GetDocument()->m_PageInfo);*/
 
 	m_TreeCtrl.FillLayouts();
-		m_TreeCtrl.Expand(m_TreeCtrl.m_htLayouts, TVE_EXPAND);
-		//m_TreeCtrl.Expand(m_TreeCtrl.m_htLayoutDefault, TVE_EXPAND);
+	m_TreeCtrl.Expand(m_TreeCtrl.m_htLayouts, TVE_EXPAND);
+	//m_TreeCtrl.Expand(m_TreeCtrl.m_htLayoutDefault, TVE_EXPAND);
 
 	m_TreeCtrl.FillLinks();
 	//-----------------------------------
@@ -6834,34 +6832,34 @@ void CRSReportTreeView::OnRefresh()
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
-		case CNodeTree::ENodeType::NT_LAYOUT:
-			m_TreeCtrl.FillLayouts();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_LINKS:
-			m_TreeCtrl.FillLinks();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
-			m_TreeCtrl.FillVariables(TRUE, FALSE, TRUE, FALSE, FALSE);
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_RULES:
-			m_TreeCtrl.FillRules();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
-			m_TreeCtrl.FillTupleRules();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_EVENTS:
-			m_TreeCtrl.FillEvents();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
-			m_TreeCtrl.FillProcedures();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_QUERIES:
-			m_TreeCtrl.FillQueries();
-			break;
-		case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
-			m_TreeCtrl.FillDialogs();
-			break;
+	case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
+	case CNodeTree::ENodeType::NT_LAYOUT:
+		m_TreeCtrl.FillLayouts();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_LINKS:
+		m_TreeCtrl.FillLinks();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
+		m_TreeCtrl.FillVariables(TRUE, FALSE, TRUE, FALSE, FALSE);
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_RULES:
+		m_TreeCtrl.FillRules();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
+		m_TreeCtrl.FillTupleRules();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_EVENTS:
+		m_TreeCtrl.FillEvents();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
+		m_TreeCtrl.FillProcedures();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_QUERIES:
+		m_TreeCtrl.FillQueries();
+		break;
+	case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
+		m_TreeCtrl.FillDialogs();
+		break;
 	}
 	m_TreeCtrl.Expand(hCurrentItem, TVE_EXPAND);
 }
@@ -6887,19 +6885,19 @@ void CRSReportTreeView::OnUpdateRefresh(CCmdUI* pCmdUI)
 	BOOL bEnable = FALSE;
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
-		case CNodeTree::ENodeType::NT_LAYOUT:
-		case CNodeTree::ENodeType::NT_ROOT_LINKS:
-		case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
-		case CNodeTree::ENodeType::NT_ROOT_RULES:
-		case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
-		case CNodeTree::ENodeType::NT_ROOT_EVENTS:
-		case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
-		case CNodeTree::ENodeType::NT_ROOT_QUERIES:
-		case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
+	case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
+	case CNodeTree::ENodeType::NT_LAYOUT:
+	case CNodeTree::ENodeType::NT_ROOT_LINKS:
+	case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
+	case CNodeTree::ENodeType::NT_ROOT_RULES:
+	case CNodeTree::ENodeType::NT_ROOT_TUPLE_RULES:
+	case CNodeTree::ENodeType::NT_ROOT_EVENTS:
+	case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
+	case CNodeTree::ENodeType::NT_ROOT_QUERIES:
+	case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
 
-			bEnable = TRUE;
-			break;
+		bEnable = TRUE;
+		break;
 	}
 	pCmdUI->Enable(bEnable);
 }
@@ -6924,235 +6922,235 @@ void CRSReportTreeView::OnNew()
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
-		case CNodeTree::ENodeType::NT_ROOT_RULES:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
+	case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
+	case CNodeTree::ENodeType::NT_ROOT_RULES:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
 
-		case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
-		case CNodeTree::ENodeType::NT_ROOT_QUERIES:
-		case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
-		case CNodeTree::ENodeType::NT_ASKGROUP:	
+	case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
+	case CNodeTree::ENodeType::NT_ROOT_QUERIES:
+	case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
+	case CNodeTree::ENodeType::NT_ASKGROUP:
 
-		case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
+	case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
+	{
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(pNode);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
+	{
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode, TRUE, TRUE, TRUE);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST:
+	{
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode, TRUE, FALSE);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
+	{
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode, FALSE, TRUE);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
+	{
+		WoormTable*	pSymTable = GetDocument()->m_pEditorManager->GetPrgData()->GetSymTable();
+
+		AskRuleData* pAskDialogs = dynamic_cast<AskRuleData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskDialogs);
+
+		AskDialogData* pNewAskDlg = new AskDialogData(*pSymTable, GetDocument());
+		pNewAskDlg->SetName(pAskDialogs->GetAdviseName(NULL));
+		pNewAskDlg->SetTitle(AskDialogData::GetEmptyTitle());
+		pAskDialogs->Add(pNewAskDlg);
+
+		AskGroupData* pNewAskGroup = new AskGroupData(*pSymTable, GetDocument());
+		pNewAskGroup->SetTitle(AskGroupData::GetEmptyTitle());
+		pNewAskDlg->AddAskGroup(pNewAskGroup);
+
+		m_TreeCtrl.FillDialogs();
+
+		HTREEITEM htNewGrp = this->m_TreeCtrl.FindItemData((DWORD)pNewAskGroup, m_TreeCtrl.m_htAskDialogs);
+		ASSERT(htNewGrp);
+		this->m_TreeCtrl.SelectItem(htNewGrp);
+
+		CNodeTree* pGrp = (CNodeTree*)m_TreeCtrl.GetItemData(htNewGrp);
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(pGrp);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKCONTROLS:
+	{
+		WoormTable*	pSymTable = GetDocument()->m_pEditorManager->GetPrgData()->GetSymTable();
+
+		AskDialogData* pAskDlg = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
+		ASSERT_VALID(pAskDlg);
+
+		Array* pArGroups = dynamic_cast<Array*>(pNode->m_pItemData);
+		ASSERT_VALID(pArGroups);
+
+		AskGroupData* pNewAskGroup = new AskGroupData(*pSymTable, GetDocument());
+		pNewAskGroup->SetTitle(AskGroupData::GetEmptyTitle());
+		pAskDlg->AddAskGroup(pNewAskGroup);
+
+		HTREEITEM htControls = this->m_TreeCtrl.FindItemData((DWORD)pArGroups, m_TreeCtrl.m_htAskDialogs);
+		ASSERT(htControls);
+
+		CNodeTree& pGrp = this->m_TreeCtrl.AddNode(AskGroupData::GetEmptyTitle(), CNodeTree::ENodeType::NT_ASKGROUP, htControls, pNewAskGroup, pAskDlg);
+		this->m_TreeCtrl.SelectItem(pGrp.m_ht);
+
+		GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(&pGrp);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
+	{
+		CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
+		ASSERT_VALID(pParentNode);
+		ASSERT(pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN);
+
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pParentNode->m_pParentItemData);
+		ASSERT_VALID(pTblRule);
+		SqlTableInfo* pTableInfo = dynamic_cast<SqlTableInfo*>(pParentNode->m_pItemData);
+		ASSERT_VALID(pTableInfo);
+
+		int idx = pTblRule->m_arSqlTableJoinInfoArray.Find(pTableInfo->GetTableName());
+		ASSERT(idx >= 0);
+		//if (idx < 0) return FALSE;
+
+		WoormField* pNewHiddenField = NULL;
+		if (GetDocument()->m_pNodesSelection && GetDocument()->m_pNodesSelection->GetCount() > 0)
 		{
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(pNode);
-			break;
+			pNewHiddenField = pNewHiddenField = GetDocument()->AddDBColumns_FromToolBar(GetDocument()->m_pNodesSelection, TRUE, pTblRule, idx);
 		}
-		case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
-		{
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode,TRUE,TRUE,TRUE);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST:
-		{
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode, TRUE, FALSE);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
-		{
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewBreakingEvent(pNode,FALSE,TRUE);
-			break;
-		}
+		else
+			pNewHiddenField = pNewHiddenField = GetDocument()->AddDBColumns_FromToolBar(pNode, TRUE, pTblRule, idx, TRUE);
 
-		case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
-		{
-			WoormTable*	pSymTable = GetDocument()->m_pEditorManager->GetPrgData()->GetSymTable();
+		break;
+	}
 
-			AskRuleData* pAskDialogs = dynamic_cast<AskRuleData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskDialogs);
+	case CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY:
+	{
+		CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY);
+		ASSERT_VALID(pAncientNode);
 
-			AskDialogData* pNewAskDlg = new AskDialogData(*pSymTable, GetDocument());
-			pNewAskDlg->SetName(pAskDialogs->GetAdviseName(NULL));
-			pNewAskDlg->SetTitle(AskDialogData::GetEmptyTitle());
-			pAskDialogs->Add(pNewAskDlg);
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
+		ASSERT_VALID(pTblRule);
+		if (!pTblRule)
+			return;
 
-			AskGroupData* pNewAskGroup = new AskGroupData(*pSymTable, GetDocument());
-			pNewAskGroup->SetTitle(AskGroupData::GetEmptyTitle());
-			pNewAskDlg->AddAskGroup(pNewAskGroup);
+		CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
+		ASSERT_VALID(pTargetTC);
+		if (!pTargetTC)
+			return;
 
-			m_TreeCtrl.FillDialogs();
+		CHelperSqlCatalog::CTableForeignTablesKeys* pFTK = dynamic_cast<CHelperSqlCatalog::CTableForeignTablesKeys*>(pNode->m_pItemData);
+		ASSERT_VALID(pFTK);
+		if (!pFTK)
+			return;
 
-			HTREEITEM htNewGrp = this->m_TreeCtrl.FindItemData((DWORD)pNewAskGroup, m_TreeCtrl.m_htAskDialogs);
-			ASSERT(htNewGrp);
-			this->m_TreeCtrl.SelectItem(htNewGrp);
+		CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
+		ASSERT_VALID(pHelperSqlCatalog);
+		CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pFTK->m_pParent->m_sForeignTableName);
+		ASSERT_VALID(pTC);
+		if (!pTC)
+			return;
 
-			CNodeTree* pGrp = (CNodeTree*)m_TreeCtrl.GetItemData(htNewGrp);
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(pGrp);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_ASKCONTROLS:
-		{
-			WoormTable*	pSymTable = GetDocument()->m_pEditorManager->GetPrgData()->GetSymTable();
+		AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pTC->m_pCatalogEntry->m_strTableName, pTargetTC->m_pCatalogEntry->m_strTableName, pFTK);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES:
+	{
+		CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
+		ASSERT_VALID(pAncientNode);
 
-			AskDialogData* pAskDlg = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
-			ASSERT_VALID(pAskDlg);
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
+		ASSERT_VALID(pTblRule);
+		if (!pTblRule)
+			return;
 
-			Array* pArGroups = dynamic_cast<Array*>(pNode->m_pItemData);
-			ASSERT_VALID(pArGroups);
+		CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
+		ASSERT_VALID(pTargetTC);
+		if (!pTargetTC)
+			return;
 
-			AskGroupData* pNewAskGroup = new AskGroupData(*pSymTable, GetDocument());
-			pNewAskGroup->SetTitle(AskGroupData::GetEmptyTitle());
-			pAskDlg->AddAskGroup(pNewAskGroup);
+		CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pNode->m_pItemData);
+		ASSERT_VALID(pSER);
+		if (!pSER)
+			return;
 
-			HTREEITEM htControls = this->m_TreeCtrl.FindItemData((DWORD)pArGroups, m_TreeCtrl.m_htAskDialogs);
-			ASSERT(htControls);
-
-			CNodeTree& pGrp = this->m_TreeCtrl.AddNode(AskGroupData::GetEmptyTitle(), CNodeTree::ENodeType::NT_ASKGROUP, htControls, pNewAskGroup, pAskDlg);
-			this->m_TreeCtrl.SelectItem(pGrp.m_ht);
-
-			GetDocument()->GetWoormFrame()->m_pObjectPropertyView->NewObjectPropertyGrid(&pGrp);
-			break;
-		}
-
-		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
-		{
-			CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
-			ASSERT_VALID(pParentNode);
-			ASSERT(pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_UNSELECTED_COLUMN);
-
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pParentNode->m_pParentItemData);
-			ASSERT_VALID(pTblRule);
-			SqlTableInfo* pTableInfo = dynamic_cast<SqlTableInfo*>(pParentNode->m_pItemData);
-			ASSERT_VALID(pTableInfo);
-
-			int idx = pTblRule->m_arSqlTableJoinInfoArray.Find(pTableInfo->GetTableName());
-			ASSERT(idx >= 0);
-			//if (idx < 0) return FALSE;
-
-			WoormField* pNewHiddenField = NULL;
-			if (GetDocument()->m_pNodesSelection && GetDocument()->m_pNodesSelection->GetCount() > 0)
-			{
-				pNewHiddenField = pNewHiddenField = GetDocument()->AddDBColumns_FromToolBar(GetDocument()->m_pNodesSelection, TRUE, pTblRule, idx);
-			}
-			else
-				pNewHiddenField = pNewHiddenField = GetDocument()->AddDBColumns_FromToolBar(pNode, TRUE, pTblRule, idx, TRUE);
-
-			break;
-		}
-
-		case CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY:
-		{
-			CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY);
-			ASSERT_VALID(pAncientNode);
-
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
-			ASSERT_VALID(pTblRule);
-			if (!pTblRule)	
-				return;
-
-			CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
-			ASSERT_VALID(pTargetTC);
-			if (!pTargetTC)
-				return;
-
-			CHelperSqlCatalog::CTableForeignTablesKeys* pFTK = dynamic_cast<CHelperSqlCatalog::CTableForeignTablesKeys*>(pNode->m_pItemData);
-			ASSERT_VALID(pFTK);
-			if (!pFTK)
-				return;
-
-			CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
-			ASSERT_VALID(pHelperSqlCatalog);
-			CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pFTK->m_pParent->m_sForeignTableName);
-			ASSERT_VALID(pTC);
-			if (!pTC)
-				return;
-
-			AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pTC->m_pCatalogEntry->m_strTableName, pTargetTC->m_pCatalogEntry->m_strTableName, pFTK);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES:
-		{
-			CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
-			ASSERT_VALID(pAncientNode);
-
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
-			ASSERT_VALID(pTblRule);
-			if (!pTblRule)
-				return;
-
-			CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
-			ASSERT_VALID(pTargetTC);
-			if (!pTargetTC)
-				return;
-
-			CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pNode->m_pItemData);
-			ASSERT_VALID(pSER);
-			if (!pSER)
-				return;
-
-			CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
-			ASSERT_VALID(pHelperSqlCatalog);
-			CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pSER->m_sExtTableName);
-			ASSERT_VALID(pTC);
-			if (!pTC)
-				return;
+		CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
+		ASSERT_VALID(pHelperSqlCatalog);
+		CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pSER->m_sExtTableName);
+		ASSERT_VALID(pTC);
+		if (!pTC)
+			return;
 
 
-			AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pTC->m_pCatalogEntry->m_strTableName, pTargetTC->m_pCatalogEntry->m_strTableName, NULL, pSER);
-			break;
-		}
-																		    
-		case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE:
-		{
-			CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
-			ASSERT_VALID(pAncientNode);
+		AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pTC->m_pCatalogEntry->m_strTableName, pTargetTC->m_pCatalogEntry->m_strTableName, NULL, pSER);
+		break;
+	}
 
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
-			ASSERT_VALID(pTblRule);
-			if (!pTblRule)
-				return;
+	case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE:
+	{
+		CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
+		ASSERT_VALID(pAncientNode);
 
-			/*CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
-			ASSERT_VALID(pTargetTC);
-			if (!pTargetTC)
-				return;*/
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
+		ASSERT_VALID(pTblRule);
+		if (!pTblRule)
+			return;
 
-			CHelperExternalReferences::CTableExtRefs* pER = dynamic_cast<CHelperExternalReferences::CTableExtRefs*>(pNode->m_pItemData);
-			ASSERT_VALID(pER);
-			if (!pER)
-				return;
+		/*CHelperSqlCatalog::CTableColumns* pTargetTC = dynamic_cast<CHelperSqlCatalog::CTableColumns*>(pAncientNode->m_pItemData);
+		ASSERT_VALID(pTargetTC);
+		if (!pTargetTC)
+			return;*/
 
-			CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pER->m_arExtRefs.GetAt(0));
+		CHelperExternalReferences::CTableExtRefs* pER = dynamic_cast<CHelperExternalReferences::CTableExtRefs*>(pNode->m_pItemData);
+		ASSERT_VALID(pER);
+		if (!pER)
+			return;
 
-			CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
-			ASSERT_VALID(pHelperSqlCatalog);
-			CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pER->m_sTableName);
+		CHelperExternalReferences::CTableSingleExtRef* pSER = dynamic_cast<CHelperExternalReferences::CTableSingleExtRef*>(pER->m_arExtRefs.GetAt(0));
 
-			ASSERT_VALID(pTC);
-			if (!pTC)
-				return;
+		CHelperSqlCatalog*	pHelperSqlCatalog = GetDocument()->m_pEditorManager->GetHelperSqlCatalog();
+		ASSERT_VALID(pHelperSqlCatalog);
+		CHelperSqlCatalog::CTableColumns* pTC = pHelperSqlCatalog->FindEntryByName(pER->m_sTableName);
 
-			CHelperExternalReferences::CTableSingleExtRef* newRef = new CHelperExternalReferences::CTableSingleExtRef(pSER->m_sExtPrimaryKey,pER->m_sTableName,pSER->m_sForeignKey);
+		ASSERT_VALID(pTC);
+		if (!pTC)
+			return;
 
-			AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pER->m_sTableName, pSER->m_sExtTableName, NULL, newRef);
-			break;
-		}
+		CHelperExternalReferences::CTableSingleExtRef* newRef = new CHelperExternalReferences::CTableSingleExtRef(pSER->m_sExtPrimaryKey, pER->m_sTableName, pSER->m_sForeignKey);
 
-		case  CNodeTree::ENodeType::NT_OBJ_CHART:
-		{
-			Chart* pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
-			ASSERT_VALID(pChart);
-			if (!pChart)
-				return;
-			Chart::CSeries* newSeries = new Chart::CSeries(pChart);
+		AddJoin(pTblRule, pTC->m_pCatalogEntry->m_pTableInfo, pER->m_sTableName, pSER->m_sExtTableName, NULL, newRef);
+		break;
+	}
 
-			int index = 0;
-			if (pChart->GetSeries()->GetSize() > 0)
-				newSeries->SetIndex(pChart->GetSeries()->GetSize());
-			pChart->GetSeries()->Add(newSeries);
+	case  CNodeTree::ENodeType::NT_OBJ_CHART:
+	{
+		Chart* pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
+		ASSERT_VALID(pChart);
+		if (!pChart)
+			return;
+		Chart::CSeries* newSeries = new Chart::CSeries(pChart);
 
-			m_TreeCtrl.FillLayouts();
+		int index = 0;
+		if (pChart->GetSeries()->GetSize() > 0)
+			newSeries->SetIndex(pChart->GetSeries()->GetSize());
+		pChart->GetSeries()->Add(newSeries);
 
-			HTREEITEM htNewSeries = this->m_TreeCtrl.FindItemData((DWORD)newSeries, m_TreeCtrl.m_htLayouts);
-			ASSERT(htNewSeries);
-			this->m_TreeCtrl.SelectItem(htNewSeries);
+		m_TreeCtrl.FillLayouts();
 
-			break; 
-		}
-																		    
-		default: ;
+		HTREEITEM htNewSeries = this->m_TreeCtrl.FindItemData((DWORD)newSeries, m_TreeCtrl.m_htLayouts);
+		ASSERT(htNewSeries);
+		this->m_TreeCtrl.SelectItem(htNewSeries);
+
+		break;
+	}
+
+	default:;
 	}
 
 	return;
@@ -7180,78 +7178,78 @@ void CRSReportTreeView::OnUpdateNew(CCmdUI* pCmdUI)
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
-		{
-			//HTREEITEM hParentItem = m_TreeCtrl.GetParentItem(hCurrentItem);
-			bEnable = hCurrentItem == m_TreeCtrl.m_htHiddenGroupVariables;
-			break;
-		}
+	case CNodeTree::ENodeType::NT_ROOT_VARIABLES:
+	{
+		//HTREEITEM hParentItem = m_TreeCtrl.GetParentItem(hCurrentItem);
+		bEnable = hCurrentItem == m_TreeCtrl.m_htHiddenGroupVariables;
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
+	case CNodeTree::ENodeType::NT_ROOT_LAYOUTS:
 
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
-		case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS:
 
-		case CNodeTree::ENodeType::NT_ROOT_RULES:
+	case CNodeTree::ENodeType::NT_ROOT_RULES:
 
-		case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
-		case CNodeTree::ENodeType::NT_ROOT_QUERIES:
+	case CNodeTree::ENodeType::NT_ROOT_PROCEDURES:
+	case CNodeTree::ENodeType::NT_ROOT_QUERIES:
 
-		case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
-		case CNodeTree::ENodeType::NT_ASKCONTROLS:
-		case CNodeTree::ENodeType::NT_ASKGROUP:
+	case CNodeTree::ENodeType::NT_ROOT_DIALOGS:
+	case CNodeTree::ENodeType::NT_ASKCONTROLS:
+	case CNodeTree::ENodeType::NT_ASKGROUP:
 
-		case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
-		case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST :
-		case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
+	case CNodeTree::ENodeType::NT_SUBROOT_TRIGGER_EVENTS:
+	case CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST:
+	case CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST:
 
-		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
-		{
-			bEnable = TRUE; 
-			break;
-		}
+	case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
+	{
+		bEnable = TRUE;
+		break;
+	}
 
-		case CNodeTree::ENodeType::NT_OBJ_CHART:
-		{
-			Chart* pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
-			ASSERT_VALID(pChart);
-			bEnable = pChart &&
-				pChart->m_eChartType != EnumChartType::Chart_None &&
-				(pChart->AllowMultipleSeries() || pChart->GetSeries()->GetSize() == 0) ;
-			break;
-		}
-		case CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY:
-		{
-			CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY);
-			ASSERT_VALID(pAncientNode);
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
-			//ASSERT_VALID(pTblRule);
-			if (pTblRule)
-				bEnable = TRUE;
-			break;
-		}
-		case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES:
-		case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE:
-		{
-			CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
-			ASSERT_VALID(pAncientNode);
-			TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
-			//ASSERT_VALID(pTblRule);
-			if (pTblRule)
-				bEnable = TRUE;
-			break;
-		}
-		
-		case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
-		{
-			WoormLink* pLink = dynamic_cast<WoormLink*>(pNode->m_pItemData);
-			//ASSERT_VALID(pLink);
-			if (pLink)
-				bEnable = pLink->m_LinkType == WoormLink::ConnectionReport
-                         || (pLink->m_LinkType == WoormLink::ConnectionURL && pLink->m_SubType == WoormLink::WoormLinkSubType::Url);
-			break;
-		}
+	case CNodeTree::ENodeType::NT_OBJ_CHART:
+	{
+		Chart* pChart = dynamic_cast<Chart*>(pNode->m_pItemData);
+		ASSERT_VALID(pChart);
+		bEnable = pChart &&
+			pChart->m_eChartType != EnumChartType::Chart_None &&
+			(pChart->AllowMultipleSeries() || pChart->GetSeries()->GetSize() == 0);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_LIST_DB_FOREIGN_KEY:
+	{
+		CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_FOREIGN_KEY);
+		ASSERT_VALID(pAncientNode);
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
+		//ASSERT_VALID(pTblRule);
+		if (pTblRule)
+			bEnable = TRUE;
+		break;
+	}
+	case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES:
+	case CNodeTree::ENodeType::NT_LIST_DB_EXTERNAL_REFERENCES_INVERSE:
+	{
+		CNodeTree* pAncientNode = m_TreeCtrl.GetAncientNode(pNode->m_ht, CNodeTree::ENodeType::NT_GROUP_DB_EXTERNAL_REFERENCES);
+		ASSERT_VALID(pAncientNode);
+		TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pAncientNode->m_pParentItemData);
+		//ASSERT_VALID(pTblRule);
+		if (pTblRule)
+			bEnable = TRUE;
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_LINK_PARAMETERS:
+	{
+		WoormLink* pLink = dynamic_cast<WoormLink*>(pNode->m_pItemData);
+		//ASSERT_VALID(pLink);
+		if (pLink)
+			bEnable = pLink->m_LinkType == WoormLink::ConnectionReport
+			|| (pLink->m_LinkType == WoormLink::ConnectionURL && pLink->m_SubType == WoormLink::WoormLinkSubType::Url);
+		break;
+	}
 	}
 
 	pCmdUI->Enable(bEnable);
@@ -7338,173 +7336,173 @@ void CRSReportTreeView::OnUp()
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ASKDIALOG:
-		{
-			AskDialogData* pAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskDialog);
-			AskRuleData*	m_pAskRule = GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData();
-			ASSERT_VALID(m_pAskRule);
+	case CNodeTree::ENodeType::NT_ASKDIALOG:
+	{
+		AskDialogData* pAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskDialog);
+		AskRuleData*	m_pAskRule = GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData();
+		ASSERT_VALID(m_pAskRule);
 
-			if (!m_pAskRule->m_AskDialogs.MoveDown(pAskDialog))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskDialog);
+		if (!m_pAskRule->m_AskDialogs.MoveDown(pAskDialog))
 			break;
-		}
-		case CNodeTree::ENodeType::NT_ASKGROUP:
-		{
-			AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskGroup);
-			AskDialogData* m_pCurAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
-			ASSERT_VALID(m_pCurAskDialog);
 
-			if (!m_pCurAskDialog->m_AskGroups.MoveDown(pAskGroup))
-				break;
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskDialog);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKGROUP:
+	{
+		AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskGroup);
+		AskDialogData* m_pCurAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
+		ASSERT_VALID(m_pCurAskDialog);
 
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskGroup);
+		if (!m_pCurAskDialog->m_AskGroups.MoveDown(pAskGroup))
 			break;
-		}
-		case CNodeTree::ENodeType::NT_ASKFIELD:
-		{
-			AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskField);
-			AskGroupData* m_pCurAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pParentItemData);
-			ASSERT_VALID(m_pCurAskGroup);
 
-			if (!m_pCurAskGroup->m_AskFields.MoveDown(pAskField))
-				break;
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskGroup);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKFIELD:
+	{
+		AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskField);
+		AskGroupData* m_pCurAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pParentItemData);
+		ASSERT_VALID(m_pCurAskGroup);
 
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskField);
+		if (!m_pCurAskGroup->m_AskFields.MoveDown(pAskField))
 			break;
-		}
-		case CNodeTree::ENodeType::NT_PROCEDURE:
-		{
-			ProcedureObjItem* pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
-			if (!pProc)
-				break;
 
-			ProcedureData*	pProcedures = dynamic_cast<ProcedureData*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pProcedures);
-			if (!pProcedures)
-				break;
-
-			if (!pProcedures->GetArray().MoveDown(pProc))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Procedures, pProc);
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskField);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_PROCEDURE:
+	{
+		ProcedureObjItem* pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
+		if (!pProc)
 			break;
-		}
 
-		case CNodeTree::ENodeType::NT_OBJ_COLUMN:
-		{
-			TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
-			ASSERT_VALID(pCol);
-			if (!pCol)
-				break;
-
-			Table*	pTable = dynamic_cast<Table*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pTable);
-			if (!pTable)
-				break;
-
-			pTable->MoveColumn(TRUE);
-		
-			//CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Layouts);
-			//pTree->Move(pNode->m_ht, FALSE);
-			GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pCol);
+		ProcedureData*	pProcedures = dynamic_cast<ProcedureData*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pProcedures);
+		if (!pProcedures)
 			break;
-		}
 
-		case CNodeTree::ENodeType::NT_VARIABLE:
-		{
-			WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
-			ASSERT_VALID(pF);
-			if (!pF)
-				break;
-			if (!pF->IsExprRuleField())
-				break;
-
-			CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
-			if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
-				break;
-
-			RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
-			ASSERT_VALID(pRule);
-			if (!pRule)
-				break;
-
-			RuleDataArray* pRules = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
-			ASSERT_VALID(pRules);
-
-			pRules->MoveDown(pRule);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pF);
+		if (!pProcedures->GetArray().MoveDown(pProc))
 			break;
-		}
 
-		case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
-		case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
-		case CNodeTree::ENodeType::NT_RULE_LOOP:
-		{
-			RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pItemData);
-			ASSERT_VALID(pRule);
-			if (!pRule)
-				break;
+		GetDocument()->RefreshRSTree(ERefreshEditor::Procedures, pProc);
+		break;
+	}
 
-			RuleDataArray*	pRules = dynamic_cast<RuleDataArray*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pRules);
-			if (!pRules)
-				break;
-
-			pRules->MoveDown(pRule);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pRule);
+	case CNodeTree::ENodeType::NT_OBJ_COLUMN:
+	{
+		TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
+		ASSERT_VALID(pCol);
+		if (!pCol)
 			break;
-		}
 
-		case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
-		{
-			TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
-			ASSERT_VALID(pTriggerEvent);
-			if (!pTriggerEvent)
-				break;
-
-			EventsData* pEventsData = dynamic_cast<EventsData*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pEventsData);
-			if (!pEventsData)
-				break;
-
-			pEventsData->m_TriggEvents.MoveDown(pTriggerEvent);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Events, pTriggerEvent);
+		Table*	pTable = dynamic_cast<Table*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pTable);
+		if (!pTable)
 			break;
-		}
 
-		case CNodeTree::ENodeType::NT_OBJ_SERIES:
-		{
-			Chart::CSeries* pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
-			ASSERT_VALID(pSeries);
-			if (!pSeries)
-				break;
+		pTable->MoveColumn(TRUE);
 
-			if (!pSeries->GetParent() || !pSeries->GetParent()->AllowMultipleSeries())
-				break;
+		//CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Layouts);
+		//pTree->Move(pNode->m_ht, FALSE);
+		GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pCol);
+		break;
+	}
 
-			pSeries->GetParent()->GetSeries()->MoveDown(pSeries);
-
-			//allineo posizione e index
-			int newIndex = pSeries->GetParent()->GetSeries()->Find(pSeries);
-			int currIndex = pSeries->GetIndex();
-
-			if(currIndex != newIndex)
-			{			
-				pSeries->GetParent()->GetSeries()->GetSeriesAt(currIndex)->SetIndex(currIndex);
-				pSeries->SetIndex(newIndex);
-			}
-					
-			GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pSeries->GetParent());
+	case CNodeTree::ENodeType::NT_VARIABLE:
+	{
+		WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
+		ASSERT_VALID(pF);
+		if (!pF)
 			break;
+		if (!pF->IsExprRuleField())
+			break;
+
+		CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
+		if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
+			break;
+
+		RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
+		ASSERT_VALID(pRule);
+		if (!pRule)
+			break;
+
+		RuleDataArray* pRules = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
+		ASSERT_VALID(pRules);
+
+		pRules->MoveDown(pRule);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pF);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
+	case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
+	case CNodeTree::ENodeType::NT_RULE_LOOP:
+	{
+		RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pItemData);
+		ASSERT_VALID(pRule);
+		if (!pRule)
+			break;
+
+		RuleDataArray*	pRules = dynamic_cast<RuleDataArray*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pRules);
+		if (!pRules)
+			break;
+
+		pRules->MoveDown(pRule);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pRule);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
+	{
+		TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
+		ASSERT_VALID(pTriggerEvent);
+		if (!pTriggerEvent)
+			break;
+
+		EventsData* pEventsData = dynamic_cast<EventsData*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pEventsData);
+		if (!pEventsData)
+			break;
+
+		pEventsData->m_TriggEvents.MoveDown(pTriggerEvent);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Events, pTriggerEvent);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_OBJ_SERIES:
+	{
+		Chart::CSeries* pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
+		ASSERT_VALID(pSeries);
+		if (!pSeries)
+			break;
+
+		if (!pSeries->GetParent() || !pSeries->GetParent()->AllowMultipleSeries())
+			break;
+
+		pSeries->GetParent()->GetSeries()->MoveDown(pSeries);
+
+		//allineo posizione e index
+		int newIndex = pSeries->GetParent()->GetSeries()->Find(pSeries);
+		int currIndex = pSeries->GetIndex();
+
+		if (currIndex != newIndex)
+		{
+			pSeries->GetParent()->GetSeries()->GetSeriesAt(currIndex)->SetIndex(currIndex);
+			pSeries->SetIndex(newIndex);
 		}
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pSeries->GetParent());
+		break;
+	}
 	}
 
 	GetDocument()->SetModifiedFlag();
@@ -7514,11 +7512,11 @@ void CRSReportTreeView::OnDown()
 {
 	//all'interno del metodo, vengono chiamate le MoveUp, per rispecchiare il movimento sul tree percepito dall'utente
 	HTREEITEM hCurrentItem = m_TreeCtrl.GetSelectedItem();
-	if (!hCurrentItem)	
+	if (!hCurrentItem)
 		return;
 
 	CNodeTree* pNode = (CNodeTree*)m_TreeCtrl.GetItemData(hCurrentItem);
-	if (!pNode)	
+	if (!pNode)
 		return;
 
 	ASSERT_VALID(pNode);
@@ -7526,173 +7524,173 @@ void CRSReportTreeView::OnDown()
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_ASKDIALOG:
-		{
-			AskDialogData* pAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskDialog);
-			AskRuleData*	m_pAskRule = GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData();
-			ASSERT_VALID(m_pAskRule);
+	case CNodeTree::ENodeType::NT_ASKDIALOG:
+	{
+		AskDialogData* pAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskDialog);
+		AskRuleData*	m_pAskRule = GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData();
+		ASSERT_VALID(m_pAskRule);
 
-			if (!m_pAskRule->m_AskDialogs.MoveUp(pAskDialog))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskDialog);
+		if (!m_pAskRule->m_AskDialogs.MoveUp(pAskDialog))
 			break;
-		}
-		case CNodeTree::ENodeType::NT_ASKGROUP:
-		{
-			AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskGroup);
-			AskDialogData* m_pCurAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
-			ASSERT_VALID(m_pCurAskDialog);
 
-			if (!m_pCurAskDialog->m_AskGroups.MoveUp(pAskGroup))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskGroup);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_ASKFIELD:
-		{
-			AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
-			ASSERT_VALID(pAskField);
-			AskGroupData* m_pCurAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pParentItemData);
-			ASSERT_VALID(m_pCurAskGroup);
-
-			if (!m_pCurAskGroup->m_AskFields.MoveUp(pAskField))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskField);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_PROCEDURE:
-		{
-			ProcedureObjItem* pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
-			if (!pProc)
-				break;
-
-			ProcedureData*	pProcedures = dynamic_cast<ProcedureData*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pProcedures);
-			if (!pProcedures)
-				break;
-
-			if (!pProcedures->GetArray().MoveUp(pProc))
-				break;
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Procedures, pProc);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_OBJ_COLUMN:
-		{
-			TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
-			ASSERT_VALID(pCol);
-			if (!pCol)
-				break;
-
-			Table*	pTable = dynamic_cast<Table*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pTable);
-			if (!pTable)
-				break;
-
-			pTable->MoveColumn(FALSE);	
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pCol);
-			//CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Layouts);
-			//pTree->Move(pNode->m_ht, TRUE);
-			break;
-		}
-
-		case CNodeTree::ENodeType::NT_VARIABLE:
-		{
-			WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
-			ASSERT_VALID(pF);
-			if (!pF)
-				break;
-			if (!pF->IsExprRuleField())
-				break;
-
-			CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
-			if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
-				break;
-
-			RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
-			ASSERT_VALID(pRule);
-			if (!pRule)
-				break;
-
-			RuleDataArray* pRules = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
-			ASSERT_VALID(pRules);
-
-			pRules->MoveUp(pRule);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pF);
-			break;
-		}
-
-		case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
-		case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
-		case CNodeTree::ENodeType::NT_RULE_LOOP:
-		{
-			RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pItemData);
-			ASSERT_VALID(pRule);
-			if (!pRule)
-				break;
-
-			RuleDataArray*	pRules = dynamic_cast<RuleDataArray*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pRules);
-			if (!pRules)
-				break;
-
-			pRules->MoveUp(pRule);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pRule);
-			break;
-		}
-		case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
-		{
-			TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
-			ASSERT_VALID(pTriggerEvent);
-			if (!pTriggerEvent)
-				break;
-
-			EventsData* pEventsData = dynamic_cast<EventsData*>(pNode->m_pParentItemData);;
-			ASSERT_VALID(pEventsData);
-			if (!pEventsData)
-				break;
-
-			pEventsData->m_TriggEvents.MoveUp(pTriggerEvent);
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Events, pTriggerEvent);
-			break;
-		}
-
-		case CNodeTree::ENodeType::NT_OBJ_SERIES:
-		{
-			Chart::CSeries* pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
-			ASSERT_VALID(pSeries);
-			if (!pSeries)
-				break;
-
-			if (!pSeries->GetParent() || !pSeries->GetParent()->AllowMultipleSeries())
-				break;
-
-			pSeries->GetParent()->GetSeries()->MoveUp(pSeries);
-
-			//allineo posizione e index
-			int newIndex = pSeries->GetParent()->GetSeries()->Find(pSeries);
-			int currIndex = pSeries->GetIndex();
-
-			if (currIndex != newIndex)
-			{
-				pSeries->GetParent()->GetSeries()->GetSeriesAt(currIndex)->SetIndex(currIndex);
-				pSeries->SetIndex(newIndex);
-			}
-
-			GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pSeries->GetParent());
-			break;
-		}
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskDialog);
+		break;
 	}
-	
+	case CNodeTree::ENodeType::NT_ASKGROUP:
+	{
+		AskGroupData* pAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskGroup);
+		AskDialogData* m_pCurAskDialog = dynamic_cast<AskDialogData*>(pNode->m_pParentItemData);
+		ASSERT_VALID(m_pCurAskDialog);
+
+		if (!m_pCurAskDialog->m_AskGroups.MoveUp(pAskGroup))
+			break;
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskGroup);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_ASKFIELD:
+	{
+		AskFieldData* pAskField = dynamic_cast<AskFieldData*>(pNode->m_pItemData);
+		ASSERT_VALID(pAskField);
+		AskGroupData* m_pCurAskGroup = dynamic_cast<AskGroupData*>(pNode->m_pParentItemData);
+		ASSERT_VALID(m_pCurAskGroup);
+
+		if (!m_pCurAskGroup->m_AskFields.MoveUp(pAskField))
+			break;
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Dialogs, pAskField);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_PROCEDURE:
+	{
+		ProcedureObjItem* pProc = dynamic_cast<ProcedureObjItem*>(pNode->m_pItemData);
+		if (!pProc)
+			break;
+
+		ProcedureData*	pProcedures = dynamic_cast<ProcedureData*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pProcedures);
+		if (!pProcedures)
+			break;
+
+		if (!pProcedures->GetArray().MoveUp(pProc))
+			break;
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Procedures, pProc);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_OBJ_COLUMN:
+	{
+		TableColumn* pCol = dynamic_cast<TableColumn*>(pNode->m_pItemData);
+		ASSERT_VALID(pCol);
+		if (!pCol)
+			break;
+
+		Table*	pTable = dynamic_cast<Table*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pTable);
+		if (!pTable)
+			break;
+
+		pTable->MoveColumn(FALSE);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pCol);
+		//CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Layouts);
+		//pTree->Move(pNode->m_ht, TRUE);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_VARIABLE:
+	{
+		WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
+		ASSERT_VALID(pF);
+		if (!pF)
+			break;
+		if (!pF->IsExprRuleField())
+			break;
+
+		CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
+		if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
+			break;
+
+		RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
+		ASSERT_VALID(pRule);
+		if (!pRule)
+			break;
+
+		RuleDataArray* pRules = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
+		ASSERT_VALID(pRules);
+
+		pRules->MoveUp(pRule);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pF);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
+	case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
+	case CNodeTree::ENodeType::NT_RULE_LOOP:
+	{
+		RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pItemData);
+		ASSERT_VALID(pRule);
+		if (!pRule)
+			break;
+
+		RuleDataArray*	pRules = dynamic_cast<RuleDataArray*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pRules);
+		if (!pRules)
+			break;
+
+		pRules->MoveUp(pRule);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pRule);
+		break;
+	}
+	case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
+	{
+		TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pNode->m_pItemData);
+		ASSERT_VALID(pTriggerEvent);
+		if (!pTriggerEvent)
+			break;
+
+		EventsData* pEventsData = dynamic_cast<EventsData*>(pNode->m_pParentItemData);;
+		ASSERT_VALID(pEventsData);
+		if (!pEventsData)
+			break;
+
+		pEventsData->m_TriggEvents.MoveUp(pTriggerEvent);
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Events, pTriggerEvent);
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_OBJ_SERIES:
+	{
+		Chart::CSeries* pSeries = dynamic_cast<Chart::CSeries*>(pNode->m_pItemData);
+		ASSERT_VALID(pSeries);
+		if (!pSeries)
+			break;
+
+		if (!pSeries->GetParent() || !pSeries->GetParent()->AllowMultipleSeries())
+			break;
+
+		pSeries->GetParent()->GetSeries()->MoveUp(pSeries);
+
+		//allineo posizione e index
+		int newIndex = pSeries->GetParent()->GetSeries()->Find(pSeries);
+		int currIndex = pSeries->GetIndex();
+
+		if (currIndex != newIndex)
+		{
+			pSeries->GetParent()->GetSeries()->GetSeriesAt(currIndex)->SetIndex(currIndex);
+			pSeries->SetIndex(newIndex);
+		}
+
+		GetDocument()->RefreshRSTree(ERefreshEditor::Layouts, pSeries->GetParent());
+		break;
+	}
+	}
+
 	GetDocument()->SetModifiedFlag();
 }
 
@@ -7718,45 +7716,45 @@ void CRSReportTreeView::OnUpdateUpDown(CCmdUI* pCmdUI)
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_PROCEDURE:
-		case CNodeTree::ENodeType::NT_ASKDIALOG:
-		case CNodeTree::ENodeType::NT_ASKGROUP:
-		case CNodeTree::ENodeType::NT_ASKFIELD:
-		case CNodeTree::ENodeType::NT_OBJ_COLUMN:
+	case CNodeTree::ENodeType::NT_PROCEDURE:
+	case CNodeTree::ENodeType::NT_ASKDIALOG:
+	case CNodeTree::ENodeType::NT_ASKGROUP:
+	case CNodeTree::ENodeType::NT_ASKFIELD:
+	case CNodeTree::ENodeType::NT_OBJ_COLUMN:
 
-		case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
-		case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
-		case CNodeTree::ENodeType::NT_RULE_LOOP:
+	case CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE:
+	case CNodeTree::ENodeType::NT_RULE_NAMED_QUERY:
+	case CNodeTree::ENodeType::NT_RULE_LOOP:
 
-		case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
-		case CNodeTree::ENodeType::NT_OBJ_SERIES:
-		{
-			bEnable = TRUE;
+	case CNodeTree::ENodeType::NT_TRIGGER_EVENT:
+	case CNodeTree::ENodeType::NT_OBJ_SERIES:
+	{
+		bEnable = TRUE;
+		break;
+	}
+
+	case CNodeTree::ENodeType::NT_VARIABLE:
+	{
+		WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
+		ASSERT_VALID(pF);
+		if (!pF)
 			break;
-		}
-
-		case CNodeTree::ENodeType::NT_VARIABLE:
-		{
-			WoormField* pF = dynamic_cast<WoormField*>(pNode->m_pItemData);
-			ASSERT_VALID(pF);
-			if (!pF)
-				break;
-			if (!pF->IsExprRuleField())
-				break;
-
-			CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
-			if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
-				break;
-
-			RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
-			ASSERT_VALID(pRule);
-			if (!pRule)
-				break;
-
-			bEnable = TRUE;
+		if (!pF->IsExprRuleField())
 			break;
-		}
-	}																																						   
+
+		CNodeTree* pParentNode = m_TreeCtrl.GetNode(m_TreeCtrl.GetParentItem(pNode->m_ht));
+		if (pParentNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES)
+			break;
+
+		RuleDataObj* pRule = dynamic_cast<RuleDataObj*>(pNode->m_pAncestorItemData);
+		ASSERT_VALID(pRule);
+		if (!pRule)
+			break;
+
+		bEnable = TRUE;
+		break;
+	}
+	}
 
 	pCmdUI->Enable(bEnable);
 }
@@ -7817,11 +7815,11 @@ void CRSReportTreeView::OnDialogPreview()
 	if (pAskDialog || !bSingleAsk)
 	{
 		AskDialogInputMng aAskMng
-			(
-				GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData(),
-				GetDocument()->GetEditorSymTable(),
-				GetDocument()
-				);
+		(
+			GetDocument()->m_pEditorManager->GetPrgData()->GetAskRuleData(),
+			GetDocument()->GetEditorSymTable(),
+			GetDocument()
+		);
 
 		if (bSingleAsk)
 			aAskMng.ExecAsk(GetDocument()->GetWoormFrame(), pAskDialog, GetDocument()->m_pEngine, TRUE);
@@ -7886,7 +7884,7 @@ void CRSReportTreeView::OnDelete()
 	//la cancellazione degli oggetti grafici è demandata al documento-------------------------
 	if (m_TreeCtrl.IsLayoutNodeType(pCurrNode->m_NodeType))
 	{
-		GetDocument()->OnObjectCut();	
+		GetDocument()->OnObjectCut();
 		return;
 	}
 	//----------------------------------------------------------------------------------------
@@ -7922,7 +7920,7 @@ void CRSReportTreeView::OnDelete()
 		ASSERT_VALID(GetDocument()->m_pNodesSelection);
 		if (!GetDocument()->m_pNodesSelection) break;
 
-		if (i >= GetDocument()->m_pNodesSelection->GetCount()) 
+		if (i >= GetDocument()->m_pNodesSelection->GetCount())
 		{
 			ASSERT(FALSE);
 			break;
@@ -8025,7 +8023,7 @@ void CRSReportTreeView::OnDelete()
 				HTREEITEM htRule = pTree->RemoveObjectFromItemData(pRules->GetAt(idx));
 
 				pTree->DeleteItem(htRule);
-				pRules->RemoveAt(idx); 
+				pRules->RemoveAt(idx);
 				bNeedsRefreshRule = TRUE;
 			}
 
@@ -8046,7 +8044,7 @@ void CRSReportTreeView::OnDelete()
 			if (ht)
 				pTree->DeleteItem(ht);
 			pTree->DeleteItem(pNode->m_ht);
-			
+
 			int idx = GetDocument()->m_arWoormLinks.FindPtr(pLink);
 			GetDocument()->m_arWoormLinks.RemoveAt(idx); bNeedsRefresh = TRUE;
 			break;
@@ -8079,7 +8077,7 @@ void CRSReportTreeView::OnDelete()
 			}
 			pTree1->RemoveObjectFromItemData(pF);
 
-			VERIFY(pLink->m_pLocalSymbolTable->DelField(pF->GetName())); 
+			VERIFY(pLink->m_pLocalSymbolTable->DelField(pF->GetName()));
 
 			bNeedsRefresh = TRUE;
 			break;
@@ -8112,19 +8110,19 @@ void CRSReportTreeView::OnDelete()
 				break;
 			}
 			else if (
-						pParentNode->m_NodeType == CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST ||
-						pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_SELECT ||
-						pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_PARAMETERS
-					)
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST ||
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_SELECT ||
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_PARAMETERS
+				)
 			{
 				//TODO
 				ASSERT(FALSE);
 				break;
 			}
 			else if (
-						pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS ||
-						pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS
-					)
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS ||
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS
+				)
 			{
 				TblRuleData* pTblRule = dynamic_cast<TblRuleData*>(pParentNode->m_pParentItemData);
 				ASSERT_VALID(pTblRule);
@@ -8133,7 +8131,7 @@ void CRSReportTreeView::OnDelete()
 
 				if (pTblRule->GetTotFieldLinks() < 2)
 					break;
-				
+
 				CString sLog;
 				if (!GetDocument()->GetEditorManager()->GetPrgData()->CanDeleteField(pField->GetName(), sLog))
 				{
@@ -8284,7 +8282,7 @@ void CRSReportTreeView::OnDelete()
 
 			CStringArray strArr;
 			pTriggerEvent->GetSubtotalFields(strArr);
-			for (int k = 0;k < strArr.GetCount();k++)
+			for (int k = 0; k < strArr.GetCount(); k++)
 			{
 				CString strNewName = strArr.GetAt(k);
 
@@ -8296,15 +8294,15 @@ void CRSReportTreeView::OnDelete()
 				CString sSubTotalName = strNewName;
 				int		index = 0;
 				while (pTriggerEvent->m_SymTable.ExistField(sSubTotalName))
-				{					
+				{
 					pTriggerEvent->DeleteField(sSubTotalName);
-					
+
 					WoormField* field = GetDocument()->GetEditorSymTable()->GetField(sSubTotalName);
 					if (field)
 					{
 						field->SetHidden(TRUE);
 						field->SetFieldType(WoormField::FIELD_NORMAL);
-						
+
 					}
 
 					GetDocument()->SyncronizeViewSymbolTable(field);
@@ -8312,7 +8310,7 @@ void CRSReportTreeView::OnDelete()
 					sSubTotalName = strNewName + cwsprintf(_T("_%d"), index);
 				}
 			}
-		
+
 			EventsData* pEventsData = dynamic_cast<EventsData*>(pNode->m_pParentItemData);
 			ASSERT_VALID(pEventsData);
 			if (!pEventsData)
@@ -8320,7 +8318,7 @@ void CRSReportTreeView::OnDelete()
 
 			int nEventIdx = pEventsData->GetEventIdx(pTriggerEvent->GetEventName());
 			ASSERT(nEventIdx >= 0);
-			
+
 			if (nEventIdx >= 0)
 			{
 				CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Events);
@@ -8328,7 +8326,7 @@ void CRSReportTreeView::OnDelete()
 				//pNode->Empty();
 				pTree->DeleteItem(pNode->m_ht);
 
-				pEventsData->m_TriggEvents.RemoveAt(nEventIdx); 
+				pEventsData->m_TriggEvents.RemoveAt(nEventIdx);
 				bNeedsRefresh = TRUE;
 			}
 			break;
@@ -8366,7 +8364,7 @@ void CRSReportTreeView::OnDelete()
 				if (pSeries == pChart->GetSeries()->GetSeriesAt(index))
 					break;
 			}
-			
+
 			int indexDel = index + 1;
 			for (; indexDel < pChart->GetSeries()->GetSize(); indexDel++)
 			{
@@ -8376,7 +8374,7 @@ void CRSReportTreeView::OnDelete()
 
 			if (index < pChart->GetSeries()->GetSize())
 				pChart->GetSeries()->RemoveAt(index);
-			
+
 			CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Layouts);
 			pTree->RemoveObjectFromItemData(pSeries);
 			pTree->DeleteItem(pNode->m_ht);
@@ -8417,7 +8415,7 @@ void CRSReportTreeView::OnDelete()
 			if (bNeedsRefreshRule)
 				GetDocument()->RefreshRSTree(ERefreshEditor::Rules);
 			GetDocument()->RefreshRSTree(ERefreshEditor::Queries, NULL, TRUE);
-		  break;
+			break;
 		}
 
 		case CNodeTree::ENodeType::NT_LINK:
@@ -8463,7 +8461,7 @@ void CRSReportTreeView::OnDelete()
 			GetDocument()->RefreshRSTree(ERefreshEditor::Variables);
 
 			CRSTreeCtrl* pTree = GetDocument()->GetRSTree(ERefreshEditor::Rules);
-			pTree->SelectItem(pTree->m_htRules); 
+			pTree->SelectItem(pTree->m_htRules);
 			//pTree->DeleteItem(nRefreshNode.m_ht);
 			break;
 		}
@@ -8532,10 +8530,10 @@ void CRSReportTreeView::OnUpdateDelete(CCmdUI* pCmdUI)
 	}
 	case CNodeTree::ENodeType::NT_NAMED_QUERY:
 	case CNodeTree::ENodeType::NT_PROCEDURE:
-	{  
+	{
 		bEnable = TRUE;
 		break;
-	}	
+	}
 	case CNodeTree::ENodeType::NT_VARIABLE:
 	{
 		WoormField* pField = dynamic_cast<WoormField*>(pNode->m_pItemData);
@@ -8548,20 +8546,20 @@ void CRSReportTreeView::OnUpdateDelete(CCmdUI* pCmdUI)
 		if (pParentNode)
 		{
 			if (pParentNode->m_NodeType == CNodeTree::ENodeType::NT_EVENT_BREAKING_LIST)
-	//TODO		/*	 pParentNode->m_NodeType == CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST*/
+				//TODO		/*	 pParentNode->m_NodeType == CNodeTree::ENodeType::NT_EVENT_SUBTOTAL_LIST*/
 			{
 				TriggEventData* pTriggerEvent = dynamic_cast<TriggEventData*>(pParentNode->m_pItemData);
 				ASSERT_VALID(pTriggerEvent);
 				if (!pTriggerEvent)
 					break;
 				bEnable = (pTriggerEvent->m_pWhenExpr && !pTriggerEvent->m_pWhenExpr->IsEmpty())
-							||
-							pTriggerEvent->m_BreakList.GetCount() > 1
-							;
+					||
+					pTriggerEvent->m_BreakList.GetCount() > 1
+					;
 				break;
 			}
 			else if (pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS ||
-					pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS)
+				pParentNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_CALC_COLUMNS)
 			{
 				ASSERT(pField->IsTableRuleField());
 
@@ -8597,7 +8595,7 @@ void CRSReportTreeView::OnUpdateDelete(CCmdUI* pCmdUI)
 			for (int r = 0; r < pRuleData->GetSize(); r++)
 			{
 				TblRuleData* pR = dynamic_cast<TblRuleData*>(pRuleData->GetAt(r));
-				if (!pR) 
+				if (!pR)
 					continue;
 
 				CStringArray names, tables;
@@ -8644,15 +8642,15 @@ void CRSReportTreeView::OnUpdateDelete(CCmdUI* pCmdUI)
 		if (!pLink)
 			break;
 
-		bEnable =	pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionForm &&
-					pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionFunction  &&
-					pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionRadar;
+		bEnable = pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionForm &&
+			pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionFunction  &&
+			pLink->m_LinkType != WoormLink::WoormLinkType::ConnectionRadar;
 		break;
 	}
 	}
 
 	if (m_TreeCtrl.IsLayoutNodeType(pNode->m_NodeType))
-		bEnable = TRUE;	
+		bEnable = TRUE;
 
 	pCmdUI->Enable(bEnable);
 }
@@ -8729,7 +8727,7 @@ void CRSReportTreeView::OnVKLeft()
 	if (currItem)
 	{
 		HTREEITEM parentItem = m_TreeCtrl.GetParentItem(currItem);
-		if(m_TreeCtrl.GetItemState(currItem, TVIS_EXPANDED) & TVIS_EXPANDED)
+		if (m_TreeCtrl.GetItemState(currItem, TVIS_EXPANDED) & TVIS_EXPANDED)
 			m_TreeCtrl.Expand(currItem, TVE_COLLAPSE);
 		else if (parentItem)
 			m_TreeCtrl.SelectItem(parentItem);
@@ -8773,7 +8771,7 @@ void CRSReportTreeView::OnUpdateExpandAll(CCmdUI* pCmdUI)
 //-----------------------------------------------------------------------------
 void CRSReportTreeView::OnCollapseAll()
 {
-	m_TreeCtrl.ExpandAll(TVE_COLLAPSE);	
+	m_TreeCtrl.ExpandAll(TVE_COLLAPSE);
 }
 
 //-----------------------------------------------------------------------------
@@ -8859,7 +8857,7 @@ DROPEFFECT CRSReportTreeView::OnDragOver(COleDataObject* pDataObject, DWORD dwKe
 		m_TreeCtrl.GetClientRect(&rectClient);
 		ClientToScreen(&rectClient);
 		ScreenToClient(&rectClient);
-		
+
 		int nScrollDir = -1;
 		if (point.y >= rectClient.bottom - TREE_SCROLL_HEIGHT_AREA)
 			nScrollDir = SB_LINEDOWN;
@@ -8988,7 +8986,7 @@ BOOL CRSReportTreeView::ReadHdropData(COleDataObject* pDataObject, DROPEFFECT dr
 		CString strTarget = m_TreeCtrl.GetItemText(targetHt);
 		CString strSource = sourceTreeCtrl->GetItemText(sourceHt);
 #endif
-		if (targetHt != NULL && 
+		if (targetHt != NULL &&
 			((uFlags2 & TVHT_ONITEM) || (uFlags2 & TVHT_ONITEMINDENT) || (uFlags2 & TVHT_ONITEMRIGHT)))
 		{
 			OnDropAction(sourceTreeCtrl, sourceHt, targetHt, dropEffect);
@@ -9000,7 +8998,7 @@ BOOL CRSReportTreeView::ReadHdropData(COleDataObject* pDataObject, DROPEFFECT dr
 	return TRUE;
 }
 
-void CRSReportTreeView::MoveOrCloneLayoutObjects(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* pSourceNode, HTREEITEM sourceHt, 	CNodeTree* pTargetNode, HTREEITEM targetHt, DROPEFFECT dropEffect)
+void CRSReportTreeView::MoveOrCloneLayoutObjects(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* pSourceNode, HTREEITEM sourceHt, CNodeTree* pTargetNode, HTREEITEM targetHt, DROPEFFECT dropEffect)
 {
 	//target parent
 	HTREEITEM targetParentHt = m_TreeCtrl.GetParentItem(targetHt);
@@ -9079,7 +9077,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 	ASSERT_VALID(pTargetNode);
 	if (
 		pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_ROOT_RULES
-		&& 
+		&&
 		pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
 		)
 	{
@@ -9120,19 +9118,19 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 			sTargetTableName = pDroppedTblRule->m_arSqlTableJoinInfoArray[0]->GetTableName();
 
 			FindJoinReferences
-						(
-							pCatalogEntry->m_strTableName,
-							sTargetTableName,
-							pTargetTC,
-							pFTK,
-							pSER
-						);
+			(
+				pCatalogEntry->m_strTableName,
+				sTargetTableName,
+				pTargetTC,
+				pFTK,
+				pSER
+			);
 		}
 	}
 
 	//-----
 	TblRuleData* pTblRule = new TblRuleData(*GetDocument()->GetEditorSymTable(), AfxGetDefaultSqlConnection(), pCatalogEntry->m_strTableName);
-	
+
 	RuleDataArray* pRuleData = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
 	pRuleData->Add(pTblRule);
 
@@ -9151,11 +9149,11 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 				if (pFTKaux)
 				{
 					CString sTargetVar = pDroppedTblRule->GetPublicNameOf
-													(
-														pDroppedTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetSize() > 1 ?
-														sTargetTableName + '.' + pFTKaux->m_sColumnName :
-														pFTKaux->m_sColumnName
-													);
+					(
+						pDroppedTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetSize() > 1 ?
+						sTargetTableName + '.' + pFTKaux->m_sColumnName :
+						pFTKaux->m_sColumnName
+					);
 					if (sTargetVar.IsEmpty())
 					{
 						DataStr dummy; SqlColumnInfo sci(sTargetTableName, pFTKaux->m_sColumnName, dummy);
@@ -9178,10 +9176,10 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 						sTargetVar = pF->GetName();
 					}
 
-					if (!sWhere.IsEmpty()) 
+					if (!sWhere.IsEmpty())
 						sWhere += L" AND ";
 
-					sWhere += pFTKaux->m_pParent->m_sForeignTableName + '.' + pFTKaux->m_sForeignColumnName  + L" = " + sTargetVar;
+					sWhere += pFTKaux->m_pParent->m_sForeignTableName + '.' + pFTKaux->m_sForeignColumnName + L" = " + sTargetVar;
 				}
 			}
 			if (sWhere.IsEmpty())
@@ -9202,11 +9200,11 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 			ASSERT_VALID(pSER);
 
 			CString sTargetVar = pDroppedTblRule->GetPublicNameOf
-				(
-					pDroppedTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetSize() > 1 ?
-					sTargetTableName + '.' + pSER->m_sExtPrimaryKey :
-					pSER->m_sExtPrimaryKey
-					);
+			(
+				pDroppedTblRule->m_arSqlTableJoinInfoArray.m_arFieldLinks.GetSize() > 1 ?
+				sTargetTableName + '.' + pSER->m_sExtPrimaryKey :
+				pSER->m_sExtPrimaryKey
+			);
 			if (sTargetVar.IsEmpty())
 			{
 				DataStr dummy; SqlColumnInfo sci(sTargetTableName, pSER->m_sExtPrimaryKey, dummy);
@@ -9230,7 +9228,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 			}
 
 			CString sWhere = pSER->m_sExtTableName + '.' + pSER->m_sForeignKey + L" = " +
-				 sTargetVar;
+				sTargetVar;
 
 			pTblRule->AddWhereClause();
 			Parser lex(sWhere);
@@ -9261,13 +9259,13 @@ l_after_join:
 
 //--------------------------------------------------------------------------------------------------------
 void CRSReportTreeView::FindJoinReferences
-							(
-								const CString& sDraggedTableName,
-								const CString& sTargetTableName,
-								CHelperSqlCatalog::CTableColumns*& pTargetTC,
-								CHelperSqlCatalog::CTableForeignTablesKeys*& pFTK,
-								CHelperExternalReferences::CTableSingleExtRef*& pSER
-							)
+(
+	const CString& sDraggedTableName,
+	const CString& sTargetTableName,
+	CHelperSqlCatalog::CTableColumns*& pTargetTC,
+	CHelperSqlCatalog::CTableForeignTablesKeys*& pFTK,
+	CHelperExternalReferences::CTableSingleExtRef*& pSER
+)
 {
 	pFTK = NULL; pSER = NULL;
 	pTargetTC = GetDocument()->m_pEditorManager->GetHelperSqlCatalog()->FindEntryByName(sTargetTableName);
@@ -9316,11 +9314,11 @@ void CRSReportTreeView::AddJoinFromDrop(CRSTreeCtrl*, CNodeTree* pSourceNode, HT
 {
 	ASSERT_VALID(pTargetNode);
 	if (
-			//pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
-			//&&
-			pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
-			&&
-			pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
+		//pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
+		//&&
+		pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
+		&&
+		pTargetNode->m_NodeType != CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
 		)
 	{
 		ASSERT(FALSE);
@@ -9329,9 +9327,9 @@ void CRSReportTreeView::AddJoinFromDrop(CRSTreeCtrl*, CNodeTree* pSourceNode, HT
 
 	ASSERT_VALID(pSourceNode);
 	if (
-			pSourceNode->m_NodeType != CNodeTree::NT_LIST_DBTABLE 
-			&&
-			pSourceNode->m_NodeType != CNodeTree::NT_LIST_DBVIEW)
+		pSourceNode->m_NodeType != CNodeTree::NT_LIST_DBTABLE
+		&&
+		pSourceNode->m_NodeType != CNodeTree::NT_LIST_DBVIEW)
 	{
 		ASSERT(FALSE);
 		return;
@@ -9341,17 +9339,17 @@ void CRSReportTreeView::AddJoinFromDrop(CRSTreeCtrl*, CNodeTree* pSourceNode, HT
 
 	if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE)
 		pTblRule = dynamic_cast<TblRuleData*>(pTargetNode->m_pItemData);
-	else if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM)	
-		pTblRule = dynamic_cast<TblRuleData*>(pTargetNode->m_pItemData);		
+	else if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM)
+		pTblRule = dynamic_cast<TblRuleData*>(pTargetNode->m_pItemData);
 	else if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO)
 		pTblRule = dynamic_cast<TblRuleData*>(pTargetNode->m_pParentItemData);
-	
+
 	CString sTargetTableName;
 	int size = pTblRule->m_arSqlTableJoinInfoArray.GetSize();
 
-	for (int i = 0;i < size;i++)
+	for (int i = 0; i < size; i++)
 	{
-		if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE)		
+		if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE)
 			sTargetTableName = pTblRule->m_arSqlTableJoinInfoArray[i]->GetTableName();
 		else if (pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM)
 			sTargetTableName = pTblRule->m_arSqlTableJoinInfoArray[i]->GetTableName();
@@ -9381,29 +9379,29 @@ void CRSReportTreeView::AddJoinFromDrop(CRSTreeCtrl*, CNodeTree* pSourceNode, HT
 		CHelperExternalReferences::CTableSingleExtRef* pSER = NULL;
 
 		FindJoinReferences
-			(
-				pDraggedTC->m_pCatalogEntry->m_strTableName,
-				sTargetTableName,
-				pTargetTC,
-				pFTK,
-				pSER
-				);
+		(
+			pDraggedTC->m_pCatalogEntry->m_strTableName,
+			sTargetTableName,
+			pTargetTC,
+			pFTK,
+			pSER
+		);
 
 		AddJoin(pTblRule, pDraggedTC->m_pCatalogEntry->m_pTableInfo, pDraggedTC->m_pCatalogEntry->m_strTableName, sTargetTableName, pFTK, pSER);
 	}
 }
 
 //--------------------------------------------------------------------------------------------------------
-void CRSReportTreeView::AddJoin	
-							(
-								TblRuleData* pTblRule,
-								SqlTableInfo* tableInfo,
-								CString sourceTableName,
-								CString sTargetTableName,
-								CHelperSqlCatalog::CTableForeignTablesKeys* pFTK/* = NULL*/,
-								CHelperExternalReferences::CTableSingleExtRef* pSER/* = NULL*/ ,
-								BOOL reloadTree/*=TRUE*/
-							)
+void CRSReportTreeView::AddJoin
+(
+	TblRuleData* pTblRule,
+	SqlTableInfo* tableInfo,
+	CString sourceTableName,
+	CString sTargetTableName,
+	CHelperSqlCatalog::CTableForeignTablesKeys* pFTK/* = NULL*/,
+	CHelperExternalReferences::CTableSingleExtRef* pSER/* = NULL*/,
+	BOOL reloadTree/*=TRUE*/
+)
 {
 	ASSERT_VALID(pTblRule);
 
@@ -9430,9 +9428,9 @@ void CRSReportTreeView::AddJoin
 			sTargetTableName = pTblRule->m_arSqlTableJoinInfoArray[pos - 1]->GetTableName();
 
 		CString sOn = sTargetTableName + '.' + pFTK->m_sColumnName +
-						L" = " +
-						pFTK->m_pParent->m_sForeignTableName + '.' + pFTK->m_sForeignColumnName  ;
-		
+			L" = " +
+			pFTK->m_pParent->m_sForeignTableName + '.' + pFTK->m_sForeignColumnName;
+
 		if (pFTK->m_pParent->m_arForeignKeys.GetSize() > 1)
 		{
 			for (int k = 1; k < pFTK->m_pParent->m_arForeignKeys.GetSize(); k++)
@@ -9460,7 +9458,7 @@ void CRSReportTreeView::AddJoin
 		ASSERT_VALID(pSER);
 		ASSERT(pos > 0);
 
-		WClause* pJoinOn= new WClause(pTblRule->GetConnection(), pTblRule->GetSymTable(), &pTblRule->m_arSqlTableJoinInfoArray);
+		WClause* pJoinOn = new WClause(pTblRule->GetConnection(), pTblRule->GetSymTable(), &pTblRule->m_arSqlTableJoinInfoArray);
 		pJoinOn->SetJoinOnClause();
 		pTblRule->m_arSqlTableJoinInfoArray.m_arJoinOn[pos] = pJoinOn;
 
@@ -9545,7 +9543,7 @@ void CRSReportTreeView::AddColumnsFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTre
 	else
 		pNewHiddenField = GetDocument()->AddDBColumns_FromToolBar(pSourceNode, TRUE, pTblRule, idx, TRUE);
 
-	/*HTREEITEM ht = */GetDocument() ->SelectRSTreeItemData(ERefreshEditor::Rules, pNewHiddenField);
+	/*HTREEITEM ht = */GetDocument()->SelectRSTreeItemData(ERefreshEditor::Rules, pNewHiddenField);
 }
 //-----------------------------------------------------------------------------
 
@@ -9565,32 +9563,32 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 	{
 		//MOVE OR CLONE LAYOUT OBJECTS
 		if (
-					sourceTreeCtrl->IsLayoutNodeType(pSourceNode->m_NodeType) 
-				&&
-				(
-					m_TreeCtrl.IsLayoutNodeType(pTargetNode->m_NodeType) 
-					|| 
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_LAYOUT
+			sourceTreeCtrl->IsLayoutNodeType(pSourceNode->m_NodeType)
+			&&
+			(
+				m_TreeCtrl.IsLayoutNodeType(pTargetNode->m_NodeType)
+				||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_LAYOUT
 				)
 			)
 		{
-			MoveOrCloneLayoutObjects(sourceTreeCtrl, pSourceNode ,sourceHt, pTargetNode ,targetHt, dropEffect);
+			MoveOrCloneLayoutObjects(sourceTreeCtrl, pSourceNode, sourceHt, pTargetNode, targetHt, dropEffect);
 			return;
 		}
 
 		//---------------------------------------
 		//ADD RULE
 		if (
-				(
-					pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBTABLE
-					||
-					pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBVIEW
+			(
+				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBTABLE
+				||
+				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBVIEW
 				)
-			&& 
-				(
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_RULES
-					||
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
+			&&
+			(
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_RULES
+				||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
 				)
 			)
 		{
@@ -9601,12 +9599,12 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 
 		//ADD RULE AND select columns
 		if (
-				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO
+			pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO
 			&&
-				(
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_RULES
-					||
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
+			(
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_ROOT_RULES
+				||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
 				)
 			)
 		{
@@ -9654,19 +9652,19 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 
 		//---------------------------------------
 		//ADD JOIN
-		if ( 
-				(
-					pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBTABLE
-					||
-					pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBVIEW
-				) 
-				&& 
-				(
-					//pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
-					//||
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
-					||
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
+		if (
+			(
+				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBTABLE
+				||
+				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_DBVIEW
+				)
+			&&
+			(
+				//pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_FULL_TABLE
+				//||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
+				||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
 				)
 			)
 		{
@@ -9677,9 +9675,9 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 
 		//ADD SQL COLUMN INFO
 		if (
-				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO 
-				&& 
-				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS
+			pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO
+			&&
+			pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_COLUMNS
 			)
 		{
 			AddColumnsFromDrop(sourceTreeCtrl, pSourceNode, sourceHt, pTargetNode, targetHt, dropEffect);
@@ -9689,12 +9687,12 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 
 		//ADD JOIN and SELECT columns
 		if (
-				pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO
+			pSourceNode->m_NodeType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO
 			&&
-				(
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
-					||
-					pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
+			(
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_GROUP_FROM
+				||
+				pTargetNode->m_NodeType == CNodeTree::ENodeType::NT_RULE_QUERY_TABLEINFO
 				)
 			)
 		{
@@ -9707,11 +9705,11 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 					break;
 				if (sourceTreeCtrl != &(sourceTreeView->m_TreeCtrl))
 					break;
-				
+
 				CNodeTree* pSourceTable = sourceTreeCtrl->GetParentNode(pSourceNode->m_ht);
 				if (!pSourceTable)
 					break;
-				
+
 				TblRuleData* pTbl = dynamic_cast<TblRuleData*>(pTargetNode->m_pItemData);
 				if (!pTbl)
 					pTbl = dynamic_cast<TblRuleData*>(pTargetNode->m_pParentItemData);
@@ -9719,7 +9717,7 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 					pTbl = dynamic_cast<TblRuleData*>(pTargetNode->m_pAncestorItemData);
 
 				AddJoinFromDrop(sourceTreeCtrl, pSourceTable, sourceHt, pTargetNode, targetHt, dropEffect);
-				
+
 				if (pSavedSelection)
 					ASSERT_VALID(pSavedSelection);
 				GetDocument()->m_pNodesSelection = pSavedSelection;
@@ -9745,7 +9743,7 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 					break;
 
 				AddColumnsFromDrop(sourceTreeCtrl, pSourceNode, pSourceNode->m_ht, pColumnsNode, pColumnsNode->m_ht, dropEffect);
-			} while(false);
+			} while (false);
 			SAFE_DELETE(GetDocument()->m_pNodesSelection);
 			return;
 		}
@@ -9773,7 +9771,7 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 
 			RuleDataArray* pRules = GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData();
 			pRules->Add(pQueryRule);
-			
+
 			SAFE_DELETE(GetDocument()->m_pNodesSelection);
 
 			GetDocument()->RefreshRSTree(ERefreshEditor::Rules, pQueryRule);
@@ -9810,8 +9808,8 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 				if (pQueries->Get(sName))
 				{
 					int n = 1;
-					for (;pQueries->Get(cwsprintf(L"%s%d", sName, n)); n++);
-					
+					for (; pQueries->Get(cwsprintf(L"%s%d", sName, n)); n++);
+
 					sName += cwsprintf(L"%d", n);
 				}
 
@@ -9884,8 +9882,8 @@ BOOL CRSLayoutTreeView::FillTree()
 	//	m_TreeCtrl.m_htPageInfo = m_TreeCtrl.AddNode(_T("Page info"), CNodeTree::ENodeType::NT_PAGE, NULL, &GetDocument()->m_PageInfo);
 
 	m_TreeCtrl.FillLayouts();
-		m_TreeCtrl.Expand(m_TreeCtrl.m_htLayouts, TVE_EXPAND);
-		//m_TreeCtrl.Expand(m_TreeCtrl.m_htLayoutDefault, TVE_EXPAND);
+	m_TreeCtrl.Expand(m_TreeCtrl.m_htLayouts, TVE_EXPAND);
+	//m_TreeCtrl.Expand(m_TreeCtrl.m_htLayoutDefault, TVE_EXPAND);
 
 	m_TreeCtrl.FillLinks();
 
@@ -9971,9 +9969,9 @@ BEGIN_MESSAGE_MAP(CRSToolBoxDockPane, CRSDockPane)
 
 END_MESSAGE_MAP()
 
-CRSToolBoxDockPane::CRSToolBoxDockPane() 
-	: 
-	CRSDockPane(RUNTIME_CLASS(CRSToolBoxObjectsView)) 
+CRSToolBoxDockPane::CRSToolBoxDockPane()
+	:
+	CRSDockPane(RUNTIME_CLASS(CRSToolBoxObjectsView))
 {
 	this->m_sNsHelp = RS_HELP_PANEL_TOOLBOX_OBJECT;
 }
@@ -10122,12 +10120,12 @@ BEGIN_MESSAGE_MAP(CRSToolBoxDBDockPane, CRSDockPane)
 
 END_MESSAGE_MAP()
 
-CRSToolBoxDBDockPane::CRSToolBoxDBDockPane() 
-	: 
+CRSToolBoxDBDockPane::CRSToolBoxDBDockPane()
+	:
 	CRSDockPane(RUNTIME_CLASS(CRSToolBoxDBView))
- {
-		this->m_sNsHelp = RS_HELP_PANEL_TOOLBOX_DB;
- }
+{
+	this->m_sNsHelp = RS_HELP_PANEL_TOOLBOX_DB;
+}
 
 //------------------------------------------------------------------------------
 void CRSToolBoxDBDockPane::OnAddToolbarButtons()
@@ -10141,8 +10139,8 @@ void CRSToolBoxDBDockPane::OnAddToolbarButtons()
 	m_pToolBar->AddButton(ID_RS_FILTER, RS_DOCK_NS, TBIcon(szIconFilterRS, TOOLBAR), _TB("Filter"), _TB("\nShow only matching table name"));
 
 	m_pToolBar->AddButtonToRight(ID_RS_ADD_HIDDEN_VAR_FROM_DB, RS_DOCK_NS, TBIcon(szIconAdd, TOOLBAR), _TB("Add Hidden"), _TB("\nSelect columns to create new hidden variables"));
-	m_pToolBar->AddButtonToRight(ID_RS_COLLAPSEALLTREE,		RS_DOCK_NS, TBIcon(szIconBeTreeCollapseAll, TOOLBAR), _TB("Collapse All"),		_TB("\nCollapse all properties"));
-	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE,		RS_DOCK_NS, TBIcon(szIconBeTreeExpand,		TOOLBAR), _TB("Expand current"),	_TB("\nExpand current property"));
+	m_pToolBar->AddButtonToRight(ID_RS_COLLAPSEALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeCollapseAll, TOOLBAR), _TB("Collapse All"), _TB("\nCollapse all properties"));
+	m_pToolBar->AddButtonToRight(ID_RS_EXPANDALLTREE, RS_DOCK_NS, TBIcon(szIconBeTreeExpand, TOOLBAR), _TB("Expand current"), _TB("\nExpand current property"));
 }
 
 //-----------------------------------------------------------------------------
@@ -10218,18 +10216,18 @@ BEGIN_MESSAGE_MAP(CRSToolBoxDBView, CRSDockedView)
 	ON_COMMAND(ID_VK_LEFT, OnVKLeft)
 	ON_COMMAND(ID_VK_RIGHT, OnVKRight)
 
-	ON_COMMAND(IDC_RS_Tree_Finder,						OnFindTree)
+	ON_COMMAND(IDC_RS_Tree_Finder, OnFindTree)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_MORE,					OnUpdateMore)
-	ON_UPDATE_COMMAND_UI(ID_RS_FILTER,					OnUpdateFilter)
+	ON_UPDATE_COMMAND_UI(ID_RS_MORE, OnUpdateMore)
+	ON_UPDATE_COMMAND_UI(ID_RS_FILTER, OnUpdateFilter)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_CHECK_TABLE_FROM_DB,			OnUpdateCheckAddTable)
+	ON_UPDATE_COMMAND_UI(ID_RS_CHECK_TABLE_FROM_DB, OnUpdateCheckAddTable)
 	//ON_UPDATE_COMMAND_UI(ID_RS_CHECK_HIDDEN_VAR_FROM_DB,	OnUpdateCheckAddHidden)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_ADD_HIDDEN_VAR_FROM_DB,		OnUpdateAddHiddenVar)
+	ON_UPDATE_COMMAND_UI(ID_RS_ADD_HIDDEN_VAR_FROM_DB, OnUpdateAddHiddenVar)
 
 	ON_UPDATE_COMMAND_UI(ID_RS_COLLAPSEALLTREE, OnUpdateCollapseAll)
-	ON_UPDATE_COMMAND_UI(ID_RS_EXPANDALLTREE,	OnUpdateExpand)
+	ON_UPDATE_COMMAND_UI(ID_RS_EXPANDALLTREE, OnUpdateExpand)
 
 	ON_NOTIFY(TVN_SELCHANGED, IDC_RS_Tree, OnSelchangedTree)
 	ON_NOTIFY(NM_KILLFOCUS, IDC_RS_Tree, OnKillFocus)
@@ -10333,7 +10331,7 @@ void CRSToolBoxDBView::BuildDataControlLinks()
 
 	CWnd* pWnd = GetDlgItem(IDC_RS_Tree_Finder);
 	if (pWnd)
-		pWnd->Detach();																										  
+		pWnd->Detach();
 	m_edtFinder.SubclassEdit(IDC_RS_Tree_Finder, this);
 	m_edtFinder.EnableFindBrowseButton(TRUE, L"", TRUE);
 	m_edtFinder.SetPrompt(_TB("Search node..."));
@@ -10680,21 +10678,21 @@ void CRSToolBoxDBView::OnAddHiddenVar()
 
 	switch (pNode->m_NodeType)
 	{
-		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
+	case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
+	{
+		TblRuleData* pTblRule = GetDocument()->AddDBColumns_GetOrCreateTblRule(pNode);
+		if (!pTblRule)
 		{
-			TblRuleData* pTblRule = GetDocument()->AddDBColumns_GetOrCreateTblRule(pNode);
-			if (!pTblRule)
-			{
-				return;
-			}
-			if (GetDocument()->m_pNodesSelection && GetDocument()->m_pNodesSelection->GetCount() > 0)
-			{
-				GetDocument()->AddDBColumns_FromToolBar(GetDocument()->m_pNodesSelection, TRUE, pTblRule, 0);
-			}
-			else
-				GetDocument()->AddDBColumns_FromToolBar(pNode, TRUE, pTblRule, 0);
 			return;
 		}
+		if (GetDocument()->m_pNodesSelection && GetDocument()->m_pNodesSelection->GetCount() > 0)
+		{
+			GetDocument()->AddDBColumns_FromToolBar(GetDocument()->m_pNodesSelection, TRUE, pTblRule, 0);
+		}
+		else
+			GetDocument()->AddDBColumns_FromToolBar(pNode, TRUE, pTblRule, 0);
+		return;
+	}
 	}
 }
 
@@ -10722,7 +10720,7 @@ void CRSToolBoxDBView::OnMore()
 ////-----------------------------------------------------------------------------
 void CRSToolBoxDBView::OnFilter()
 {
-	CString filter; 
+	CString filter;
 	m_edtFinder.GetWindowText(filter); filter.Trim();
 	if (!filter.IsEmpty())
 	{
@@ -10746,8 +10744,8 @@ void CRSToolBoxDBView::OnFilter()
 	if (m_TreeCtrl.m_bShowFilteredTables)
 	{
 		m_TreeCtrl.m_FilterTablePattern = filter;
-	} 
-	else 
+	}
+	else
 	{
 		m_TreeCtrl.m_FilterTablePattern.Empty();
 	}
@@ -10844,7 +10842,7 @@ void CRSToolBoxDBView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		GetDocument()->ClearMessageInStatusBar();
 		break;
 	}
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -10882,12 +10880,12 @@ void CRSToolBoxDBView::OnCollapseAll()
 		NM_TREEVIEW NMV;
 		NMV.action = TVE_COLLAPSE;
 		NMV.itemNew.hItem = currItem;
-		LRESULT* pResult= NULL;
+		LRESULT* pResult = NULL;
 
 		m_TreeCtrl.Expand(currItem, TVE_COLLAPSE | TVE_COLLAPSERESET);
 		m_TreeCtrl.OnItemExpanding(&(NMV.hdr), pResult);
 	}
-	else 
+	else
 		m_TreeCtrl.ExpandAll(TVE_COLLAPSE);
 }
 
@@ -10905,7 +10903,7 @@ void CRSToolBoxDBView::OnExpand()
 		m_TreeCtrl.Expand(currItem, TVE_EXPAND | TVE_COLLAPSERESET);
 		m_TreeCtrl.OnItemExpanding(&(NMV.hdr), pResult);
 	}
-	else 
+	else
 		m_TreeCtrl.ExpandAll(TVE_EXPAND);
 }
 
@@ -10949,22 +10947,22 @@ BEGIN_MESSAGE_MAP(CRSToolBarView, CRSDockedView)
 	ON_UPDATE_COMMAND_UI(ID_COL_LMOVE, OnUpdateColMove)
 	ON_UPDATE_COMMAND_UI(ID_COL_RMOVE, OnUpdateColMove)
 
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_HLEFT,		OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_HRIGHT,		OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_HLEFT, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_HRIGHT, OnUpdateAlignmentBar)
 	ON_UPDATE_COMMAND_UI(ID_ALIGN_HSPACE_EQUAL, OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_VTOP,			OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_VBOTTOM,		OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_VTOP, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_VBOTTOM, OnUpdateAlignmentBar)
 	ON_UPDATE_COMMAND_UI(ID_ALIGN_VSPACE_EQUAL, OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_LEFT,	OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_RIGHT,	OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_TOP,	OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_LEFT, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_RIGHT, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_TOP, OnUpdateAlignmentBar)
 	ON_UPDATE_COMMAND_UI(ID_ALIGN_STACK_BOTTOM, OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_H_LEFT,	OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_H_RIGHT,	OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_V_TOP,	OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_H_LEFT, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_H_RIGHT, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_V_TOP, OnUpdateAlignmentBar)
 	ON_UPDATE_COMMAND_UI(ID_ALIGN_CUT_V_BOTTOM, OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_LAST_LARGE,			OnUpdateAlignmentBar)
-	ON_UPDATE_COMMAND_UI(ID_LAST_HIGH,			OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_LAST_LARGE, OnUpdateAlignmentBar)
+	ON_UPDATE_COMMAND_UI(ID_LAST_HIGH, OnUpdateAlignmentBar)
 
 END_MESSAGE_MAP()
 
@@ -11013,10 +11011,10 @@ void CRSToolBarView::BuildDataControlLinks()
 	GetDocument()->GetWoormFrame()->m_pToolBarView = this;
 
 	ModifyStyle(WS_BORDER, WS_CLIPCHILDREN);
-	
+
 	//MISCELLANEOUS
 	addbtn(m_btToggleTrasparent, ID_TOGGLE_TRANSPARENT, TBIcon(szIconTransparent, TOOLBAR), _TB("Transparent"));
-	addbtn(m_btRemoveLayoutObject, ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveField, TOOLBAR),  _TB("Remove layout object. The variable will become hidden."));
+	addbtn(m_btRemoveLayoutObject, ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveField, TOOLBAR), _TB("Remove layout object. The variable will become hidden."));
 
 	//BORDERS
 	addbtn(m_btBorderAll, ID_TOGGLE_BORDER_ALL, TBIcon(szIconBorderAll, TOOLBAR), _TB("Add all borders"));
@@ -11034,7 +11032,7 @@ void CRSToolBarView::BuildDataControlLinks()
 	addbtn(m_btEnlargeBottom, ID_VK_CTRL_DOWN, TBIcon(szIconEnlargeBottom, TOOLBAR), _TB("Enlarge object toward bottom"));
 	addbtn(m_btEnlargeLeft, ID_VK_CTRL_LEFT, TBIcon(szIconEnlargeLeft, TOOLBAR), _TB("Enlarge object toward left"));
 	addbtn(m_btNarrowLeft, ID_VK_CTRL_RIGHT, TBIcon(szIconNarrowLeft, TOOLBAR), _TB("Narrow object from left"));
-	
+
 	/*MOVE*/
 	addbtn(m_btArrowUp, ID_VK_UP, TBIcon(szIconArrowUp, TOOLBAR), _TB("Move up"));
 	addbtn(m_btArrowDown, ID_VK_DOWN, TBIcon(szIconArrowDown, TOOLBAR), _TB("Move down"));
