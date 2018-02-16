@@ -21,9 +21,9 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
 
 
   constructor(
-    eventData: EventDataService, 
-    public dataService: DataService, 
-    settingsPageService: SettingsPageService, 
+    eventData: EventDataService,
+    public dataService: DataService,
+    settingsPageService: SettingsPageService,
     public infoService: InfoService,
     changeDetectorRef: ChangeDetectorRef
   ) {
@@ -33,10 +33,10 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
   }
   ngOnInit() {
     super.ngOnInit();
-    this.eventData.model = { 'Title': { 'value': 'Settings Page' } };
+    this.eventData.model = { 'Title': { 'value': this._TB('Settings Page') } };
   }
 
-  
+
 
 }
 @Component({
