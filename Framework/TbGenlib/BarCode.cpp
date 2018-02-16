@@ -74,7 +74,7 @@ CBarCodeTypes::SBarCodeTypes CBarCodeTypes::s_arBarCodeTypes [CBarCodeTypes::BAR
 	{ BC_MSIPLESSEY, _T("MSIPLESSEY"),	E_BARCODE_TYPE_MSI_PLESSEY,				-1 },
 	{ BC_CODE93,	 _T("CODE93"),		E_BARCODE_TYPE_CODE_93,					-1 },
 	{ BC_EXT93,		 _T("EXT93"),		E_BARCODE_TYPE_EXTENDED_CODE_93,		-1 }, //non supportato da GDPicture.NET
-	{ BC_UCC128,	 _T("UCC128"),		E_BARCODE_TYPE_UCC128,					-1 }, //AI codificati più una serie di combinazioni diverse
+	{ BC_UCC128,	 _T("UCC128"),		E_BARCODE_TYPE_UCC128,					-1 }, //AI codificati piï¿½ una serie di combinazioni diverse
 	{ BC_HIBC,		 _T("HIBC"),		E_BARCODE_TYPE_HIBC,					-1 }, //alfanumerico non supportato da GDPicture.NET
 	{ BC_PDF417,	 _T("PDF417"),		E_BARCODE_TYPE_PDF417,					-1 },
 	{ BC_UPCE0,		 _T("UPCE0"),		E_BARCODE_TYPE_UPCE_E0,					 6 },
@@ -544,11 +544,11 @@ BOOL CBarCodeTypes::CheckAndCompleteBCString(CString& barcode, int nBarCodeType,
 		return TRUE;
 	}
 		
-	// se è troppo lungo lo taglio
+	// se ï¿½ troppo lungo lo taglio
 	if (barcode.GetLength() > nMaxLength)
 		barcode = barcode.Left(nMaxLength);
 
-	//se è troppo corto lo allungo
+	//se ï¿½ troppo corto lo allungo
 	while (barcode.GetLength() < nMinLength)
 		barcode.AppendChar('0');
 
@@ -794,7 +794,7 @@ CBarCode::CBarCode()
 	m_nRowsNo(-1),
 	m_nColumnsNo(-1)
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib,  szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	
@@ -1028,7 +1028,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	}
 	strValue.ReleaseBuffer();
 
-	// a questo punto se è richiesto il type di default lo applico
+	// a questo punto se ï¿½ richiesto il type di default lo applico
 	if (nBarCodeType == CBarCodeTypes::BC_DEFAULT)
 		nBarCodeType = m_nBCDefaultType;
 
@@ -1040,7 +1040,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 
 	if (!bBarcode2D && nNarrowBar < 0)
 	{ 
-		nNarrowBar = 1; //auto bar size è 1 per barcode 1D
+		nNarrowBar = 1; //auto bar size ï¿½ 1 per barcode 1D
 		if (nBarCodeType == BC_ZIP)
 			nNarrowBar = 3;
 	}
@@ -1078,7 +1078,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	}
 	else if (nBarCodeType == BC_PDF417)
 	{
-		//in questo caso è l'altezza della riga
+		//in questo caso ï¿½ l'altezza della riga
 		nHeight = m_nCustomBarHeight;
 	}
 
@@ -1286,7 +1286,7 @@ void CBarCode::Unparse (Unparser& ofile, BOOL bNewline)
 	ofile.UnparseBool (m_bShowLabel,FALSE);
 
 	// default barcode parameter
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	int nBCDefaultType = 0;
 	if (!sDefaultBarcode.IsEmpty()) 
@@ -1484,7 +1484,7 @@ void CBarCodeAttrsDlg::SetCustomBarHeightControls ()
 //----------------------------------------------------------------------------
 void CBarCodeAttrsDlg::LoadDefaultBarCode ()
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	
@@ -2074,7 +2074,7 @@ void CBarCodeSettingsDlg::SetCheckSumModulesCombo	()
 //----------------------------------------------------------------------------
 void CBarCodeSettingsDlg::LoadDefaultBarCode ()
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szEnvironment, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	

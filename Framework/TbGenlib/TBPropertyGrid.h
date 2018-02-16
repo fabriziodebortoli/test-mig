@@ -131,6 +131,7 @@ private:
 	BOOL					m_bDestroyingCompoents;
 	TFXDataTip*				m_pDataTip = NULL;
 	CTooltipProperties		m_ttp;
+	HCURSOR					m_hOldCursor;
 
 protected:
 	CFont*					m_pHyperlinkFont;
@@ -213,7 +214,9 @@ public:
 
 	virtual CString		GetCtrlClass()	{ return _T("TBPropertyGrid"); }
 	virtual CString		GetCtrlName()	{ return GetInfoOSL()->m_Namespace.GetObjectName(); }
+
 private:
+	BOOL				ReleaseCapture();
 	void				BeginDestroyingComponents();
 	void				EndDestroyingComponents();
 

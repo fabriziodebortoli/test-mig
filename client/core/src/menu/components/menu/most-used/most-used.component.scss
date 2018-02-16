@@ -67,16 +67,27 @@ ul.most-used-list {
 /// inizio dashboard
 .dashboard {
     .most-used-item {
-        background: #f1f1f1;
-        border: 1px solid #ddd;
-        margin: 3px 7px;
-        height: 28px;
+        transition: all 0.2s ease;
+        background: #fff;
+        margin: 0px 7px;
+        height: 26px;
+        m4-icon.type {
+            margin: 0px 7px;
+            line-height: 28px;
+            font-size: 15px;
+            padding-top: 2px;
+        }
         &>span {
-            color: #00588c;
+            color: #000;
             line-height: 29px;
         }
-        &:hover span {
-            color: #333;
+        &:hover {
+            transition: all 0.2s ease;
+            background: #f1f1f1;
+            color: #0277bd;
+            span {
+                color: #0277bd;
+            }
         }
         .type {
             margin-right: 7px;

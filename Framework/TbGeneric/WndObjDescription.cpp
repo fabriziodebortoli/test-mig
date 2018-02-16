@@ -2608,7 +2608,8 @@ void CWndObjDescription::SerializeJson(CJsonSerializer& strJson)
 	SERIALIZE_STRING(m_strBeforeId, szJsonBeforeItem);
 	SERIALIZE_STRING(m_strContext, szJsonContext);
 	//l'id, type, stato e nome vanno sempre inviati, indipendentemente dalla loro modifica
-	strJson.WriteString(szJsonId, GetJsonID());
+	//modifica per la necessità di serializzare degli href (dalla serializzazione in json di documenti EasyStudio - non si devono scrivere degli Id vuoti)
+	SERIALIZE_STRING(GetJsonID(), szJsonId);
 	SERIALIZE_STRING(m_strName, szJsonName);
 	SERIALIZE_STRING(m_strControlClass, szJsonControlClass);
 	SERIALIZE_ENUM(m_ControlStyle, szJsonControlStyle, CS_NONE);
@@ -2640,6 +2641,15 @@ void CWndObjDescription::SerializeJson(CJsonSerializer& strJson)
 
 	SERIALIZE_BOOL(m_bAcceptFiles, szJsonAcceptFiles, false);
 	SERIALIZE_STRING(m_sAnchor, szJsonAnchor);
+
+	//serialize href tags
+	for (int i = 0; i < m_arHrefHierarchy.GetCount(); i++)
+	{
+		//strJson.WriteString(szJsonId, GetJsonID());
+		CString href = m_arHrefHierarchy.GetAt(i);
+		SERIALIZE_STRING(href, szJsonHref);
+	}
+
 	if (m_pBindings)
 	{
 		m_pBindings->SerializeJson(strJson);
@@ -2933,6 +2943,13 @@ CWndObjDescription* CWndObjDescription::ParseHref(CJsonFormParser& parser, const
 	CString sResourceName, sContext;
 	CJsonResource::SplitNamespace(sHref, sResourceName, sContext);
 	CString sOldContext;
+
+	if (parser.m_pRootContext->m_bIsJsonDesigner) {
+		CHRefDescription* hrefDescr =  new CHRefDescription(nullptr);
+		hrefDescr->m_sHRef = sHref;
+		return hrefDescr;
+	}
+
 	//se non ho un percorso completo, allora è relativo al contesto (path del json di outline)
 	if (sContext.IsEmpty())
 		sContext = parser.m_pRootContext->m_strCurrentResourceContext;
@@ -6848,4 +6865,45 @@ void EnumDescriptionAssociations::InitEnumDescriptionStructures()
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::M4, _T("M4"));
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::TB, _T("TB"));
 	m_arIconTypes.Add(CWndObjDescription::IconTypes::CLASS, _T("CLASS"));
+}
+
+//==============================================================================
+IMPLEMENT_DYNCREATE(CHRefDescription, CWndObjDescription)
+REGISTER_WND_OBJ_CLASS(CHRefDescription, HRef)
+//-----------------------------------------------------------------------------
+CHRefDescription::CHRefDescription()
+{
+	m_Type = CWndObjDescription::HRef;
+}
+
+//-----------------------------------------------------------------------------
+CHRefDescription::CHRefDescription(CWndObjDescription * pParent) : CWndObjDescription(pParent)
+{
+	m_Type = CWndObjDescription::HRef;
+}
+
+//-----------------------------------------------------------------------------
+CHRefDescription::~CHRefDescription()
+{
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::SerializeJson(CJsonSerializer & strJson)
+{
+	//SERIALIZE_BOOL(m_bIsNsCorrect, szJsonNamespace, true);
+	SERIALIZE_STRING(m_sHRef, szJsonHref);
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::ParseJson(CJsonFormParser & parser)
+{
+	//PARSE_BOOL(m_bIsNsCorrect, szJsonNamespace);
+	PARSE_STRING(m_sHRef, szJsonHref);
+}
+
+//-----------------------------------------------------------------------------
+void CHRefDescription::Assign(CWndObjDescription * pDesc)
+{
+	//m_bIsNsCorrect = ((CHRefDescription*)pDesc)->m_bIsNsCorrect;
+	m_sHRef = ((CHRefDescription*)pDesc)->m_sHRef;
 }

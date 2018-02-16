@@ -1135,4 +1135,10 @@
 .tile-wide,
 .tile-autofill {
     flex: 8;
+    display: inline-block;
+    width: 100%;
+}
+
+.tile-wide .col {
+    max-width: 1148px;
 }

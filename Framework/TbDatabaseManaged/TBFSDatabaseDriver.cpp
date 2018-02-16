@@ -15,7 +15,7 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 
 static const TCHAR szMPInstanceTBFS[] = _T("MP_InstanceTBFS");
-static const TCHAR szTBCustomMetadata[] = _T("TB_CustomMetadata");
+static const TCHAR szTBCustomTBFS[] = _T("TB_CustomTBFS");
 
 static const TCHAR szInstanceKey[] = _T("I-M4"); //da mettere come variabile del TBFSDatabaseDriver
 
@@ -164,7 +164,7 @@ int InsertMetadataFolder(SqlConnection^ sqlConnection, String^ strFolder, String
 
 	SqlCommand^ sqlCommand = nullptr;
 	SqlTransaction^ sqlTrans = nullptr;
-	String^ tableName = (bCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+	String^ tableName = (bCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 	int parentID = -1;
 	//verifico se la path esiste
 	String^ commandText = String::Format("SELECT FileID from {0} WHERE PathName = '{1}' AND IsDirectory = '1'", tableName, strFolder);
@@ -513,7 +513,7 @@ int TBFSDatabaseDriver::GetFile(const CString& strPathFileName)
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strRelativePath = GetRelativePath(strTBFSFileName, isCustom);
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 		
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -616,7 +616,7 @@ BOOL TBFSDatabaseDriver::RemoveFile(const CString& strPathFileName)
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strRelativePath = GetRelativePath(strTBFSFileName, isCustom);
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		sqlConnection = gcnew SqlConnection(connectionString);
 		sqlConnection->Open();
@@ -679,7 +679,7 @@ BOOL TBFSDatabaseDriver::RenameFile(const CString& strOldFileName, const CString
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strOldRelativePath = GetRelativePath(strOldRelativePath, isCustom);
 		strNewRelativePath = GetRelativePath(strNewRelativePath, isCustom);
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 			
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -745,7 +745,7 @@ BOOL TBFSDatabaseDriver::GetFileStatus(const CString& strPathFileName, CFileStat
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strRelativePath = GetRelativePath(strTBFSFileName, isCustom);
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -932,7 +932,7 @@ void TBFSDatabaseDriver::GetCustomTBFileInfo(const CString& whereClause, TBMetad
 		return;
 	try
 	{
-		CString strCommandText = cwsprintf(_T("Select * from %s where %s"), szTBCustomMetadata, whereClause);
+		CString strCommandText = cwsprintf(_T("Select * from %s where %s"), szTBCustomTBFS, whereClause);
 		GetTBFilesInfo(strCustConnectionString, strCommandText, pArray, true , m_pMetadataPerformance);
 	}
 	catch (SqlException^ e)
@@ -976,7 +976,7 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strRelativePath = GetRelativePath(pTBFile->m_strCompleteFileName, isCustom);
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 		
 
 		strCommandText = (fileID > -1)
@@ -1272,7 +1272,7 @@ BOOL TBFSDatabaseDriver::RemoveFolder(const CString& strPathName, const BOOL& bR
 
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		strRelativePath = GetRelativePath(strTBFSFolder, isCustom);
-		String^ tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		String^ tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -1427,7 +1427,7 @@ BOOL TBFSDatabaseDriver::GetSubFolders(const CString& strPathName, CStringArray*
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		relativePath = gcnew String(GetRelativePath(strTBFSFolder, isCustom));
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		commandText = String::Format("Select X.PathName from {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\' AND X.IsDirectory = \'1\'", tableName, relativePath);
 		//devo aggiungere il filtro per l'instance name
@@ -1501,7 +1501,7 @@ BOOL TBFSDatabaseDriver::GetTBFolderContent(const CString& strPathName, TBMetada
 		}
 		strConnectionString = (isCustom) ? GetCustomConnectionString() : m_StandardConnectionString;
 		strRelativePath = GetRelativePath(strTBFSFolder, isCustom);
-		strTableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
+		strTableName = (isCustom) ? szTBCustomTBFS : szMPInstanceTBFS;
 
 		strCommandText = cwsprintf(_T("Select X.* FROM {%s} X,  {%s} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{%s}\''"), strTableName, strRelativePath);
 
@@ -1556,7 +1556,7 @@ BOOL TBFSDatabaseDriver::GetPathContent(const CString& strPathName, BOOL bFolder
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		relativePath = gcnew String(GetRelativePath(strTBFSFolder, isCustom));
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		commandText = String::Format("Select X.CompleteFileName, X.PathName, X.IsDirectory FROM {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\''", tableName, relativePath);
 
@@ -1645,7 +1645,7 @@ BOOL TBFSDatabaseDriver::GetFiles(const CString& strPathName, const CString& str
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
 		relativePath = gcnew String(GetRelativePath(strTBFSFolder, isCustom));
-		tableName = (isCustom) ? gcnew String(szTBCustomMetadata) : gcnew String(szMPInstanceTBFS);
+		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		commandText = String::Format("Select X.CompleteFileName from {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\' AND X.IsDirectory = \'0\'", tableName, relativePath);
 

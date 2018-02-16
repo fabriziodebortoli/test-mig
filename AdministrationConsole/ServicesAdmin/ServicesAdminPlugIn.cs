@@ -550,16 +550,16 @@ namespace Microarea.Console.Plugin.ServicesAdmin
 			rootPlugInNode.ToolTipText  = Strings.ToolTipString;
 
 			//Contenitore delle application dei parametri
-			PlugInTreeNode parametersNode = CreateNode
-				(
-				Strings.SystemParameters,
-                PlugInTreeNode.GetConfigSettingsDefaultImageIndex, 
-				ConstString.applicationsContainer, 
-				null
-				);
-			rootPlugInNode.Nodes.Add(parametersNode);
+			//PlugInTreeNode parametersNode = CreateNode
+			//	(
+			//	Strings.SystemParameters,
+   //             PlugInTreeNode.GetConfigSettingsDefaultImageIndex, 
+			//	ConstString.applicationsContainer, 
+			//	null
+			//	);
+			//rootPlugInNode.Nodes.Add(parametersNode);
 			
-			LoadApplicationSettingsFile(parametersNode);
+			//LoadApplicationSettingsFile(parametersNode);
 			//Nodo per la visualizzazione dello stato dei WebServices
 			PlugInTreeNode webServicesStateNode = CreateNode
 				(

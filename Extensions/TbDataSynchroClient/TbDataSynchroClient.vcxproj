@@ -393,6 +393,7 @@
   <ItemGroup>
     <ClCompile Include="CDNotification.cpp" />
     <ClCompile Include="CDUpdateTBModifiedMaster.cpp" />
+    <ClCompile Include="DDSSettings.cpp" />
     <ClCompile Include="DProviders.cpp" />
     <ClCompile Include="DSComponents.cpp" />
     <ClCompile Include="DSManager.cpp" />
@@ -418,6 +419,7 @@
   <ItemGroup>
     <ClInclude Include="CDNotification.h" />
     <ClInclude Include="CDUpdateTBModifiedMaster.h" />
+    <ClInclude Include="DDSSettings.h" />
     <ClInclude Include="DProviders.h" />
     <ClInclude Include="DSComponents.h" />
     <ClInclude Include="DSManager.h" />

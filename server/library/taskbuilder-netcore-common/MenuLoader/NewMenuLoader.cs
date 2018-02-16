@@ -587,7 +587,7 @@ namespace Microarea.Common.MenuLoader
 			LoginFacilities lf = new LoginFacilities();
 			lf.Load();
 
-			// la chiamata di questo metodo mi serve per caricare l'informazione EasyBuilderDeveloper
+			// la chiamata di questo metodo mi serve per caricare l'informazione EasyStudioDeveloper
 			LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
 			StringBuilder sb = new StringBuilder();
 			using (StringWriter sw = new StringWriter(sb))
@@ -605,7 +605,7 @@ namespace Microarea.Common.MenuLoader
 					jsonWriter.WriteValue(loginManagerSession.Admin ? MenuStrings.Yes : MenuStrings.No);
 					jsonWriter.WritePropertyName("ebdev");
 					bool ok = loginManagerSession.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-                                                    LoginManager.LoginManagerInstance.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
+                                                    LoginManager.LoginManagerInstance.IsEasyStudioDeveloper(loginManagerSession.AuthenticationToken);
 					jsonWriter.WriteValue(ok ? MenuStrings.Yes : MenuStrings.No);
 					jsonWriter.WritePropertyName("company");
 					jsonWriter.WriteValue(loginManagerSession.CompanyName);
@@ -796,7 +796,7 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WriteStartObject();
 
                 bool ok = loginManagerSession.IsActivated(NameSolverStrings.Extensions, NameSolverStrings.EasyStudioDesigner) &&
-                                                LoginFacilities.loginManager.IsEasyBuilderDeveloper(loginManagerSession.AuthenticationToken);
+                                                LoginFacilities.loginManager.IsEasyStudioDeveloper(loginManagerSession.AuthenticationToken);
 
 				jsonWriter.WritePropertyName("isEasyStudioActivated");
 				jsonWriter.WriteValue(ok);

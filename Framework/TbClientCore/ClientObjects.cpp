@@ -176,7 +176,7 @@ void CClientObjects::InitActivationInfos()
 //----------------------------------------------------------------------------
 BOOL CClientObjects::IsActivated(const CTBNamespace& aNamespace)
 {
-	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, _T("AllActive"), DataBool(FALSE), szTbDefaultSettingFileName);
+	DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szDevelopmentSection, szAllActive, DataBool(FALSE), szTbDefaultSettingFileName);
 	BOOL bByPass = pDataObj && pDataObj->GetDataType() == DATA_BOOL_TYPE ? *((DataBool*)pDataObj) : FALSE;
 		
 	CString strTemp = aNamespace.ToString();

@@ -1,0 +1,150 @@
+{
+    "id": "IDD_TD_BARCODE_COMPANYUSER_SETTINGS",
+    "type": 71, //tile
+    "name": "BarcodeCompanyUserSettings",
+    "text": "",
+    "size": 2, //TILE_STANDARD
+    "tileStyle": 6, //TDS_PARAMETERS
+    "hasTitle": false,
+    "width": 325,
+    "height": 265,
+    "child": true,
+    "context": "uibarcodesettings",
+    "items": [
+        {
+            "id": "IDC_PG_BARCODE_COMPANYUSER_SETTINGS",
+            "type": 80, //PropertyGrid
+            "anchor": "COL1",
+            "width": 325,
+            "height": 265,
+            "visible": false,
+            "tabStop": false,
+            "blackFrame": true,
+            "name": "CompanyUserSettingsPropertyGrid",
+            "items": [
+                {
+                    "type": 81,
+                    "name": "DefaultBarcode",
+                    "text": "Barcode Default Version",
+                    "hint": "Barcode Default Version",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "BarcodeType",
+                            "text": "Default barcode",
+                            "hint": "Default barcode  (EAN8, EAN13, CODE39, UPCA, UPCE, EXT39, INT25, CODE128, CODABAR, ZIP, MSIPLESSEY, CODE93, EXT93, UCC128, HIBC, PDF417, UPCE0, UPCE1, CODE128A, CODE128B, CODE128C, EAN128, DataMatrix, MicroQR, QR, Default).",
+                            "binding": { "datasource": "BarcodeType" },
+                            "id": "IDC_BARCODE_DEFAULT_BARCODE_TYPE",
+                            "controlClass": "StringEdit"
+                        }
+                    ]
+                },
+                {
+                    "type": 81,
+                    "name": "DefaultBarcode2DVersion",
+                    "text": "Barcode 2D Default Version",
+                    "hint": "Barcode 2D Default Version",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "DataMatrixVersion",
+                            "text": "DataMatrix version",
+                            "hint": "Default Data Matrix version (Auto, 10x10, 12x12, 14x14, 16x16, 18x18, 20x20, 22x22, 24x24, 26x26, 32x32, 36x36, 40x40, 44x44, 48x48, 52x52, 64x64, 80x80, 88x88, 96x96, 104x104, 120x120, 132x132, 144x144, 8x18, 8x32, 12x26, 12x36, 16x36, 16x48). If Auto, the smallest rectangular symbol to fit the data is chosen.",
+                            "binding": { "datasource": "DataMatrixVersion" },
+                            "id": "IDC_BARCODE_DATAMATRIX_DEFAULT_VERSION",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "PDF417Version",
+                            "text": "PDF417 version",
+                            "hint": "Default PDF417 version with format 'RowsxCols' : Rows: Defines the number of rows constituting the barcode. Use 0 for automatic computation(recommended) or a value in the range [3 - 90]. Cols: Defines the number of columns constituting the barcode. Use 0 for automatic computation(recommended) or a value in the range [3 - 30].",
+                            "binding": { "datasource": "PDF417Version" },
+                            "id": "IDC_BARCODE_PDF417_DEFAULT_VERSION",
+                            "controlClass": "StringEdit"
+                        }
+                    ]
+                },
+                {
+                    "type": 81,
+                    "name": "DefaultBarcode2DEncoding",
+                    "text": "Barcode 2D Default Encoding Mode",
+                    "hint": "Barcode 2D Default Encoding Mode",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "DataMatrixEncoding",
+                            "text": "DataMatrix Encoding",
+                            "hint": "Default DataMatrix Encoding mode: -1 = Undefined; 0 = ASCII; 1 = C40; 2 = Text; 3 = X12; 4 = EDIFACT; 5 = Base 256.",
+                            "binding": { "datasource": "DataMatrixEncoding" },
+                            "id": "IDC_BARCODE_DATAMATRIX_DEFAULT_ENCODING",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MicroQREncoding",
+                            "text": "MicroQR Encoding",
+                            "hint": "Default Micro QR-Code Encoding mode: -1 = Undefined; 0 = Numeric; 1 = Alphanumeric; 2 = Byte; 3 = Kanji.",
+                            "binding": { "datasource": "MicroQREncoding" },
+                            "id": "IDC_BARCODE_MICROQR_DEFAULT_ENCODING",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "QREncoding",
+                            "text": "QR Encoding",
+                            "hint": "Default QR-Code Encoding mode: -1 = Undefined; 0 = Numeric; 1 = Alphanumeric; 2 = Byte; 3 = Kanji.",
+                            "binding": { "datasource": "QREncoding" },
+                            "id": "IDC_BARCODE_QR_DEFAULT_ENCODING",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "PDF417Encoding",
+                            "text": "PDF417 Encoding",
+                            "hint": "Default PDF417 Encoding mode: -1 = Undefined; 0 = Text; 1 = Byte; 2 = Numeric.",
+                            "binding": { "datasource": "PDF417Encoding" },
+                            "id": "IDC_BARCODE_PDF417_DEFAULT_ENCODING",
+                            "controlClass": "IntegerEdit"
+                        }
+                    ]
+                },
+                {
+                    "type": 81,
+                    "name": "DefaultBarcode2DErrCorrLevel",
+                    "text": "Barcode 2D Default Error Correction Level",
+                    "hint": "Barcode 2D Default Error Correction Level",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "MicroQRCorrLevel",
+                            "text": "MicroQR Correction Level",
+                            "hint": "Default Micro QR-Code error correction: L = Level Low – up to 7% damage can be restored; M = Level Medium – up to 15% damage can be restored , Q = Level Quartile – up to 25% damage can be restored. The higher the error correction level, the less storage capacity.",
+                            "binding": { "datasource": "MicroQRCorrLevel" },
+                            "id": "IDC_BARCODE_MICROQR_DEFAULT_CORRLEVEL",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "QRCorrLevel",
+                            "text": "QR Correction Level",
+                            "hint": "Default QR-Code error correction: L = Level Low – up to 7% damage can be restored; M = Level Medium – up to 15% damage can be restored , Q = Level Quartile – up to 25% damage can be restored; H = Level High – up to 30% damage can be restored. The higher the error correction level, the less storage capacity.",
+                            "binding": { "datasource": "QRCorrLevel" },
+                            "id": "IDC_BARCODE_QR_DEFAULT_CORRLEVEL",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "PDF417CorrLevel",
+                            "text": "PDF417 Encoding",
+                            "hint": "Default PDF417 error correction level (Reed Solomon): Use -1 for automatic computation or a value in the range [0 - 8]. The higher the error correction level, the less storage capacity.",
+                            "binding": { "datasource": "PDF417CorrLevel" },
+                            "id": "IDC_BARCODE_PDF417_DEFAULT_CORRLEVEL",
+                            "controlClass": "IntegerEdit"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

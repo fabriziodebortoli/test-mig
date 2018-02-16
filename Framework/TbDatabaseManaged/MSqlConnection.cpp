@@ -672,7 +672,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
 			TRACE1("Query Parameters Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
 			
-			SqlProcedureParamInfoObject* pParamInfo = NULL;
+			SqlProcedureParamInfo* pParamInfo = NULL;
 			CString strTableName;
 			SqlTablesItem* pCurrTable = NULL;
 
@@ -689,26 +689,28 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 
 				if (pCurrTable)
 				{
-					pParamInfo = new SqlProcedureParamInfoObject();
+					pParamInfo = new SqlProcedureParamInfo();
 
+					//per prima cosa aggiungo un parametro di ritorno posticcio
+					pParamInfo->m_strProcName = strTableName;
 					pParamInfo->m_strParamName = (String^)reader["PARAMETER_NAME"];
-					//Int32 paraPosition = (Int32)reader["ORDINAL_POSITION"];
-					if ((Int32)reader["ORDINAL_POSITION"] == 0)
+					pParamInfo->m_nOrdinalPosition = (Int32)reader["ORDINAL_POSITION"];				
+					if (pParamInfo->m_nOrdinalPosition == 0)
 					{
 						pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
-						pParamInfo->m_strParamName = _T("@Returned");
+						pParamInfo->m_strParamName = _T("@RETURN_VALUE");
 					}
 					else
 					{
 						pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 						String^ paramDirection = (String^)reader["PARAMETER_MODE"];
-						if (paramDirection = "IN")
+						if (paramDirection == "IN")
 							pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 						else
-							if (paramDirection = "OUT")
+							if (paramDirection == "OUT")
 								pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
 							else
-								if (paramDirection = "INOUT ")
+								if (paramDirection == "INOUT")
 									pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
 					}
 
@@ -868,8 +870,6 @@ void MSqlConnection::LoadColumnsInfo(const CString& strTableName, ::Array* pPhis
 	ASSERT(pPhisycalColumns);
 	
 	pPhisycalColumns->RemoveAll();	
-
-	//String^ commandText = "SELECT TABLE_CATALOG,TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,ORDINAL_POSITION,COLUMN_DEFAULT,IS_NULLABLE,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE,COLLATION_NAME,";
 
 	String^ commandText = "SELECT TABLE_CATALOG, TABLE_SCHEMA, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, NUMERIC_SCALE";
 	commandText += " FROM INFORMATION_SCHEMA.COLUMNS";
@@ -1089,26 +1089,30 @@ void MSqlConnection::LoadProcedureParametersInfo(const CString& strProcedureName
 		if (m_pSqlTransactionClient)
 			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
 		reader = command->ExecuteReader();
-		SqlProcedureParamInfoObject* pParamInfo = NULL;
+		SqlProcedureParamInfo* pParamInfo = NULL;
 		while (reader->Read())
 		{
-			pParamInfo = new SqlProcedureParamInfoObject();
+			pParamInfo = new SqlProcedureParamInfo();
 
 			pParamInfo->m_strParamName = (String^)reader["SPECIFIC_NAME"];
+			pParamInfo->m_strProcName = strProcedureName;
 			Int16 paraPosition = (Int16)reader["ORDINAL_POSITION"];
-			if (paraPosition == 0)
+			if (pParamInfo->m_nOrdinalPosition == 0)
+			{
 				pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
+				pParamInfo->m_strParamName = _T("@RETURN_VALUE");
+			}
 			else
 			{
 				pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 				String^ paramDirection = (String^)reader["PARAMETER_MODE"];
-				if (paramDirection = "IN")
+				if (paramDirection == "IN")
 					pParamInfo->m_nType = DBPARAMTYPE_INPUT;
 				else
-					if (paramDirection = "OUT")
+					if (paramDirection == "OUT")
 						pParamInfo->m_nType = DBPARAMTYPE_OUTPUT;
 					else
-						if (paramDirection = "INOUT ")
+						if (paramDirection == "INOUT")
 							pParamInfo->m_nType = DBPARAMTYPE_INPUTOUTPUT;
 			}
 			pProcedureParams->Add(pParamInfo);
@@ -1637,7 +1641,7 @@ void SqlCommandClient::RemoveAllParameters()
 //---------------------------------------------------------------------------
 void SqlCommandClient::FetchOutputParameters(SqlBindObjectArray* pParamArray)
 {
-	if (!mSqlCommand->Parameters || !mSqlCommand->Parameters->Count == 0)
+	if (!mSqlCommand->Parameters || mSqlCommand->Parameters->Count == 0)
 		return;
 	try
 	{

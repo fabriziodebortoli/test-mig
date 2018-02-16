@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\data-service\data-service.csproj" />
     <ProjectReference Include="..\account-manager\account-manager.csproj" />
+    <ProjectReference Include="..\easystudio-service\easystudio-service.csproj" />
     <ProjectReference Include="..\erp-service\erp-service.csproj" />
     <ProjectReference Include="..\menu-service\menu-service.csproj" />
     <ProjectReference Include="..\provisioning-database-service\provisioning-database-service.csproj" />

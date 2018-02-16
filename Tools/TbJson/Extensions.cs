@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -191,19 +192,20 @@ namespace Microarea.TbJson
             if (jAr == null)
                 return;
             //toolbar
-            JArray sorted = new JArray(jAr.OrderBy(obj => {
-                    //la toolbar top ma in testa, poi gli altri oggetti, infine la toolbar bottom
-                    WndObjType type = obj.GetWndObjType();
-                    if (type == WndObjType.Toolbar)
-                    {
-                        string ngTag = obj.GetFlatString(Constants.ngTag);
-                        if (ngTag == Constants.tbToolbarTop)
-                            return 1;
-                        else
-                            return 20;
-                    }
+            JArray sorted = new JArray(jAr.OrderBy(obj =>
+            {
+                //la toolbar top ma in testa, poi gli altri oggetti, infine la toolbar bottom
+                WndObjType type = obj.GetWndObjType();
+                if (type == WndObjType.Toolbar)
+                {
+                    string ngTag = obj.GetFlatString(Constants.ngTag);
+                    if (ngTag == Constants.tbToolbarTop)
+                        return 1;
+                    else
+                        return 20;
+                }
 
-                    return 10;//vista o altri oggetti analoghi
+                return 10;//vista o altri oggetti analoghi
             }));
             jObj[Constants.items] = sorted;
             foreach (JObject jButton in sorted)
@@ -235,22 +237,23 @@ namespace Microarea.TbJson
                 case CommandCategory.Search:
                 case CommandCategory.Radar:
                 case CommandCategory.Navigation:
-                case CommandCategory.Advanced:
                 case CommandCategory.Tools:
                 case CommandCategory.Edit:
                 case CommandCategory.Exit:
+                case CommandCategory.Advanced:
                     return Constants.tbToolbarTopButton;
                 case CommandCategory.Print:
-                //case CommandCategory.Edit:
-                case CommandCategory.Undefined:
-                case CommandCategory.Fab:
-                default:
+                case CommandCategory.File:
                     return Constants.tbToolbarBottomButton;
+                case CommandCategory.Fab:
+                case CommandCategory.Undefined:
+                default:
+                    return Constants.tbFloatingActionButton;
             }
         }
 
 
-      
+
         //-----------------------------------------------------------------------------
         internal static bool MatchId(this JObject jObj, string id)
         {
@@ -326,7 +329,38 @@ namespace Microarea.TbJson
                 return null;
             return result.Value<string>();
         }
+        //-----------------------------------------------------------------------------
+        internal static string GetSafeJsonString(this JToken jObj)
+        {
+            switch (jObj.Type)
+            {
+                case JTokenType.Float:
+                    double f = jObj.Value<double>();
+                    return f.ToString(CultureInfo.InvariantCulture);
+                case JTokenType.Boolean:
+                    return jObj.ToString().ToLowerInvariant();
+                case JTokenType.None:
+                case JTokenType.Object:
+                case JTokenType.Array:
+                case JTokenType.Constructor:
+                case JTokenType.Property:
+                case JTokenType.Comment:
+                case JTokenType.Integer:
+                case JTokenType.String:
+                case JTokenType.Null:
+                case JTokenType.Undefined:
+                case JTokenType.Date:
+                case JTokenType.Raw:
+                case JTokenType.Bytes:
+                case JTokenType.Guid:
+                case JTokenType.Uri:
+                case JTokenType.TimeSpan:
+                default:
+                    break;
+            }
 
+            return jObj.ToString();
+        }
         //-----------------------------------------------------------------------------
         internal static ValueType GetString(this JToken jObj, string name, out string val)
         {
@@ -346,15 +380,8 @@ namespace Microarea.TbJson
             {
                 val = result.ToString();
                 if (Helpers.AdjustExpression(ref val))
-                {
-                    val = string.Concat("eventData?.model?.", val.Substring(2, val.Length - 4));
                     return ValueType.EXPRESSION;
-                }
-                return ValueType.PLAIN;
-            }
-            if (result.Type == JTokenType.Boolean)
-            {
-                val = result.ToString().ToLowerInvariant();
+
                 return ValueType.PLAIN;
             }
             if (result.Type == JTokenType.Object)
@@ -370,7 +397,7 @@ namespace Microarea.TbJson
                 return ValueType.CONSTANT;
             }
 
-            val = result.ToString();
+            val = result.GetSafeJsonString();
             return ValueType.PLAIN;
         }
         static IList buttonOrder = new string[]{
@@ -387,6 +414,7 @@ namespace Microarea.TbJson
                 "ID_EXTDOC_DELETE",
 
                 "ID_EXTDOC_REFRESH_ROWSET",
+				//"_BUTTONGROUPADVANCED",
                 "ID_EXTDOC_EXIT"
             }.ToList();
         /// <summary>

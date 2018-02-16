@@ -77,8 +77,6 @@ static const TCHAR szTagRelease		[]	= _T("Release");
 static const TCHAR szCurrentRelease	[]	= _T("0.0.0.5");
 static const TCHAR szSTYLE_CELL_NUM	[]=   _T("CellaNumerica");
 static const TCHAR szSTYLE_RADAR		[]=   _T("Radar");
-static const TCHAR szRadarEndForward	[]=	 _T("RadarEndForward");
-static const TCHAR szForms			[]=	 _T("Forms");
 
 //-----------------------------------------------------------------------------
 // Funzioni che operano un confronto fra data obj dello stesso tipo nel caso di
@@ -3173,7 +3171,7 @@ void CRadarDoc::PageEnd	()
 {
 	if (CanDoMoveDown())
 	{
-		DataBool* bNewEnd = (DataBool*) AfxGetSettingValue(snsTbGenlib, szForms, szRadarEndForward, DataBool(FALSE), szTbDefaultSettingFileName);
+		DataBool* bNewEnd = (DataBool*) AfxGetSettingValue(snsTbGenlib, szFormsSection, szRadarEndForward, DataBool(FALSE), szTbDefaultSettingFileName);
 		if (bNewEnd && *bNewEnd)
 			GoToEndRow ();
 		else 

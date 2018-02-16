@@ -44,7 +44,7 @@ CMailConfigurationDlg::CMailConfigurationDlg(CWnd* pParent /*=NULL*/)
 	m_sAddress = _T("");
 	m_sHost = _T("");
 	m_sName = _T("");
-	m_nTimeout = m_nPort = 0; 
+	m_nTimeout = m_nPort = m_nSecurityProtocolType = 0;
 	m_sPassword = _T("");
 	m_sUsername = _T("");
 	m_bHTML = FALSE;
@@ -56,6 +56,8 @@ CMailConfigurationDlg::CMailConfigurationDlg(CWnd* pParent /*=NULL*/)
 	m_bAccountCertified = FALSE;
 	m_sAuthenticationType = L"NTLM";
 	m_nConfiguration = 0;
+	m_nSecurityProtocolType = 0;
+	m_sSecurityProtocolType = L"Default";
 	//----
 	LoadSettings(FALSE);
 }
@@ -75,10 +77,13 @@ void CMailConfigurationDlg::LoadSettings(BOOL bUpdate)
 	m_sPassword         = m_settings.GetPassword();
 	m_bMime             = m_settings.GetMimeEncoding();
 	m_bHTML             = m_settings.GetHtmlEncoding();
+
 	m_bExplicitSSL		= m_settings.GetUseExplicitSSL();
 	m_bImplicitSSL		= m_settings.GetUseImplicitSSL();
 	m_nTimeout          = m_settings.GetTimeout();
 	m_sAuthenticationType = m_settings.GetAuthenticationType();
+	m_nSecurityProtocolType = m_settings.GetSecurityProtocolType();
+
 	if (m_bAccountDefault)
 	{
 		m_nConfiguration = m_settings.GetConfiguration();
@@ -108,6 +113,14 @@ void CMailConfigurationDlg::SaveSettings()
 	m_settings.SetUseImplicitSSL(m_bImplicitSSL);
 	m_settings.SetTimeout(abs(m_nTimeout));
 	m_settings.SetAuthenticationType(m_sAuthenticationType);
+
+	for (int i = 0; i < SmtpMailConnectorParams::st_SecurityProtocolSize; i++)
+	{
+		if (m_sSecurityProtocolType == SmtpMailConnectorParams::st_SecurityProtocolDescr[i])
+			m_nSecurityProtocolType = SmtpMailConnectorParams::st_SecurityProtocolValue[i];
+	}
+	m_settings.SetSecurityProtocolType(m_nSecurityProtocolType);
+
 	if (m_bAccountDefault)
 	{
 		m_nConfiguration = max(0, m_cbxConfiguration.GetCurSel());
@@ -147,6 +160,17 @@ BOOL CMailConfigurationDlg::OnInitDialog		()
 	m_cbxPortNumber.AddString(L"25");
 	m_cbxPortNumber.AddString(L"465");
 	m_cbxPortNumber.AddString(L"587");
+	//----
+	for (int i = 0; i < SmtpMailConnectorParams::st_SecurityProtocolSize; i++)
+	{
+		m_cbxSecurityProtocolType.AddString(SmtpMailConnectorParams::st_SecurityProtocolDescr[i]);
+
+		if (m_nSecurityProtocolType == SmtpMailConnectorParams::st_SecurityProtocolValue[i])
+			m_sSecurityProtocolType = SmtpMailConnectorParams::st_SecurityProtocolDescr[i];
+	}
+	m_cbxSecurityProtocolType.SelectString(-1, m_sSecurityProtocolType);
+	m_cbxSecurityProtocolType.EnableWindow(m_bExplicitSSL);
+	//----
 
 	return TRUE;
 }
@@ -192,6 +216,8 @@ void CMailConfigurationDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text	(pDX, IDC_CBX_CONFIGURATION,	m_sConfiguration);
 	DDX_Control	(pDX, IDC_CBX_CONFIGURATION,	m_cbxConfiguration);
 
+	DDX_Text	(pDX, IDC_CBX_SECURITY_PROTOCOL_TYPE, m_sSecurityProtocolType);
+	DDX_Control	(pDX, IDC_CBX_SECURITY_PROTOCOL_TYPE, m_cbxSecurityProtocolType);
 }
 
 //-----------------------------------------------------------------------------
@@ -237,6 +263,8 @@ void CMailConfigurationDlg::OnExplicitSSL()
 	CDataExchange DX2(this, FALSE);
 	//DDX_Text(&DX2, IDC_PORT, m_nPort);
 	DDX_Check(&DX2, IDC_IMPLICIT_SSL, m_bImplicitSSL);
+
+	m_cbxSecurityProtocolType.EnableWindow(m_bExplicitSSL);
 }
 
 void CMailConfigurationDlg::OnImplicitSSL() 
@@ -254,6 +282,8 @@ void CMailConfigurationDlg::OnImplicitSSL()
 	CDataExchange DX2(this, FALSE);
 	//DDX_Text(&DX2, IDC_PORT, m_nPort);
 	DDX_Check(&DX2, IDC_EXPLICIT_SSL, m_bExplicitSSL);
+
+	m_cbxSecurityProtocolType.EnableWindow(m_bExplicitSSL);
 }
 
 //-----------------------------------------------------------------------------

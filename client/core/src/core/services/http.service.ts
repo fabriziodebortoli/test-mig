@@ -41,7 +41,7 @@ export class HttpService {
     getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
         const headers = new Headers();
         headers.append('Accept', 'application/json');
-        const url = '/dictionary/' + culture + '/' + dictionaryId + '.json';
+        const url = 'dictionary/' + culture + '/' + dictionaryId + '.json';
         return this.http.get(url, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
@@ -103,7 +103,10 @@ export class HttpService {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
                 let jObj = res.json();
-                this.infoService.resetCulture();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
                 return jObj;
             });
     }
@@ -113,6 +116,7 @@ export class HttpService {
             .map((res: Response) => {
                 return this.createOperationResult(res);
             });
+
     }
 
     initTBLogin(params: { authtoken: string, isDesktop: boolean }): Observable<OperationResult> {
@@ -253,4 +257,43 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    getDBTSlaveBufferedModel(cmpId: any, dbtName: any) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'getDBTSlaveBufferedModel/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+    addRowDBTSlaveBuffered(cmpId: any, dbtName: any) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+    removeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'removeRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+    changeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
+        var urlToRun = this.infoService.getDocumentBaseUrl() + 'changeRowDBTSlaveBuffered/';
+        return this.postData(urlToRun, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
 }

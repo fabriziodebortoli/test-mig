@@ -14,7 +14,6 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using TaskBuilderNetCore.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Interfaces;
 using static Microarea.Common.Generic.InstallationInfo;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
 using Microarea.Common.WebServicesWrapper;
@@ -175,8 +174,9 @@ namespace Microarea.Common.NameSolver
             fileSystemManager.FileSystemDriver = new FileSystemDriver(); // lui c e sempre
             FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
             managerInfo.LoadFile();
-            DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
-            fileSystemManager.AlternativeDriver = dataBaseDriver;
+            //Lara
+            //DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
+            //fileSystemManager.AlternativeDriver = dataBaseDriver;
 
             return true;
         }
@@ -198,7 +198,7 @@ namespace Microarea.Common.NameSolver
         public bool RunAtServer { get { return runAtServer; } }
         //----------------------------------------------------------------------------
         /// <summary>
-        /// Indica se il path finder sta girando ALL'INTERNO del percorso di installazione (es. TBServices, LoginManager)
+        /// Indica se il path finder sta girando ALL'INTERNO del percorso di installebazione (es. TBServices, LoginManager)
         /// </summary>
         public bool IsRunningInsideInstallation { get { return isRunningInsideInstallation; } }
         //-----------------------------------------------------------------------------
@@ -781,7 +781,7 @@ namespace Microarea.Common.NameSolver
             {
                 return
                     AddApplicationsByType(ApplicationType.TaskBuilder | ApplicationType.TaskBuilderNet) &&
-                    AddApplicationsByType(ApplicationType.TaskBuilderApplication | ApplicationType.Standardization | ApplicationType.StandardModuleWrapper) &&
+                    AddApplicationsByType(ApplicationType.TaskBuilderApplication) &&
                     AddApplicationsByType(ApplicationType.Customization);
             }
 
@@ -946,55 +946,7 @@ namespace Microarea.Common.NameSolver
             return s;
         }
 
-        /// <summary>
-        /// Dato un namespace di una customizzazione torna la folder in cui è contenuta
-        /// es: Customization.ERP.Shippings.Documents.Ports.Prova 
-        /// torna
-        /// C:\Development\Custom\Companies\AllCompanies\Applications\ERP\Shippings\ModuleObjects\Ports\
-        /// </summary>
-        //--------------------------------------------------------------------------------
-        public string GetCustomizationPath(INameSpace documentNamespace, string user, IEasyStudioApp easybuilderApp)
-        {
-            if (!user.IsNullOrEmpty())
-                user = user.Replace("\\", ".");
-
-            string path = GetCustomDocumentPath(NameSolverStrings.AllCompanies, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
-            return string.IsNullOrEmpty(user)
-                ? path
-                : Path.Combine(path, user);
-        }
-
-        /// <summary>
-        /// Dato un namespace di una standardizzazione torna la folder in cui è contenuta se è nella cartella: Standard altrimenti stringa vuota
-        /// </summary>
-        /// <returns></returns>
-        //--------------------------------------------------------------------------------
-        public string GetStandardizationPath(INameSpace documentNamespace)
-        {
-            return GetStandardDocumentPath(documentNamespace.Application, documentNamespace.Module, documentNamespace.Document);
-        }
-
-        //--------------------------------------------------------------------------------
-        public string GetEasyBuilderAppAssemblyFullName(ApplicationType appType, INameSpace customizationNameSpace, string user, IEasyStudioApp easybuilderApp)
-        {
-            string pathRoot = null;
-            switch (appType)
-            {
-                case ApplicationType.Customization:
-                    pathRoot = GetCustomizationPath(customizationNameSpace, user, easybuilderApp);
-                    break;
-                case ApplicationType.Standardization:
-                    pathRoot = GetApplicationPath(customizationNameSpace);
-                    break;
-                case ApplicationType.StandardModuleWrapper:
-                    pathRoot = GetApplicationPath(customizationNameSpace);
-                    break;
-                default:
-                    throw new Exception("Unrecognized EasyBuilder Application type");
-            }
-            return Path.Combine(pathRoot, customizationNameSpace.Leaf + NameSolverStrings.DllExtension);
-        }
-
+   
         //--------------------------------------------------------------------------------
         public string GetApplicationPath(INameSpace documentNamespace)
         {
@@ -1011,77 +963,7 @@ namespace Microarea.Common.NameSolver
         /// On the second hand they are overloaded by the DLLs present for any specific user.
         /// </remarks>
 
-        //RIVEDERE POI CON BRUNA LARA
-        //--------------------------------------------------------------------------------
-        public void GetEasyBuilderAppAssembliesPaths(Dictionary<string, string> fileMap, INameSpace documentNamespace, string user, IEasyStudioApp app)
-        {
-            if (app == null)
-                return;
-
-            string standardAllUsersPath = GetStandardizationPath(documentNamespace);
-            string customAllUsersPath = GetCustomizationPath(documentNamespace, null, app);
-            string customUsersPath = GetCustomizationPath(documentNamespace, user, app);
-
-            if (String.Compare(standardAllUsersPath, customAllUsersPath, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                standardAllUsersPath = String.Empty;
-            }
-
-            //prima pesco tutte le dll nella cartella standard
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(standardAllUsersPath))
-            {
-                foreach (string file in Directory.GetFiles(standardAllUsersPath, "*.dll"))
-                    fileMap[String.Concat(NameSolverStrings.Standard, Path.GetFileName(file))] = file;
-            }
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(customAllUsersPath))
-            {
-                foreach (string file in Directory.GetFiles(customAllUsersPath, "*.dll"))
-                    fileMap[String.Concat(NameSolverStrings.Custom, Path.GetFileName(file))] = file;
-            }
-            //poi sovrascrivo quelle dell'utente con lo stesso nome
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(customUsersPath))
-            {
-                foreach (string file in Directory.GetFiles(customUsersPath, "*.dll"))
-                    fileMap[String.Concat(NameSolverStrings.Custom, Path.GetFileName(file))] = file;
-            }
-        }
-        /// <summary>
-        /// Loads all DLLs containing customizations for the document identified by the
-        /// given document namespace.
-        /// </summary>
-        /// <param name="documentNamespace">The namespace of the document to customize.</param>
-        /// <seealso cref="Microarea.TaskBuilderNet.Interfaces.INameSpace"/>
-        /// <remarks>
-        /// At first all DLLs from the common folder are loaded.
-        /// On the second hand they are overloaded by the DLLs present for any specific user.
-        /// </remarks>
-        //--------------------------------------------------------------------------------
-        public List<string> GetEasyBuilderAppAssembliesPaths(INameSpace documentNamespace, string user, IList<IEasyStudioApp> easybuilderApps)
-        {
-            if (easybuilderApps == null)
-                return null;
-
-            Dictionary<string, string> fileMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (IEasyStudioApp app in easybuilderApps)
-            {
-                GetEasyBuilderAppAssembliesPaths(fileMap, documentNamespace, user, app);
-            }
-            return fileMap.Values.ToList();
-        }
-
-        //---------------------------------------------------------------------
-        /// <summary>
-        /// Calculate the path of the EasyBuilder module dll
-        /// </summary>
-        /// <returns></returns>
-        public string GetEBModuleDllPath(string applicationName, string moduleName)
-        {
-            string path = GetApplicationModuleObjectsPath(applicationName, moduleName);
-            //C:\Development\Standard\Applications\WIZARDDEMO\NuovoModulo1\ModuleObjects
-            //C:\Development\Custom\Companies\AllCompanies\Applications\WIZARDDEMO\NuovoModulo1\ModuleObjects
-            return Path.Combine(path, String.Concat(applicationName, '.', moduleName, ".dll"));
-        }
+     
 
         //--------------------------------------------------------------------------------
         /// <summary>
@@ -1103,12 +985,7 @@ namespace Microarea.Common.NameSolver
             return "";
         }
 
-        //--------------------------------------------------------------------------------
-        public string GetCustomEBReferencedAssembliesPath() { return Path.Combine(customPath, NameSolverStrings.ReferencedAssemblies); }
-
-        //--------------------------------------------------------------------------------
-        public string GetDeclarationsPath() { return GetCustomEBReferencedAssembliesPath(); }
-        /// <summary>
+          /// <summary>
         /// Restituisce l'elenco dei nomi delle applicazioni in base al tipo di applicazione specificata
         /// </summary>
         /// <param name="applicationType">tipo dell'applicazione</param>
@@ -1157,7 +1034,7 @@ namespace Microarea.Common.NameSolver
             return settingsTable.GetSettingItem(sectionName, settingName, mi);
         }
         //----------------------------------------------------------------------------
-        public void RefreshEasyBuilderApps(ApplicationType type)
+        public void RefreshEasyStudioApps(ApplicationType type)
         {
             //elimino tutte le applicazioni custom e le ricarico
             for (int i = applications.Count - 1; i >= 0; i--)
@@ -1492,25 +1369,6 @@ namespace Microarea.Common.NameSolver
             return Path.Combine(Path.Combine(fileDir, NameSolverStrings.Texts), userName);
         }
 
-        //---------------------------------------------------------------------------------
-        public string GetEasyBuilderImageNamespace(string appName, string moduleName, string nameWithExtension)
-        {
-            return string.Join(".",
-                        NameSolverStrings.Image,
-                        appName,
-                        moduleName,
-                        NameSolverStrings.Images,
-                        nameWithExtension);
-        }
-
-        //---------------------------------------------------------------------------------
-        public string GetEasyBuilderImageFolderPath(string appName, string moduleName, bool isStandardization)
-        {
-            return isStandardization
-                ? Path.Combine(GetApplicationModulePath(appName, moduleName), NameSolverStrings.Files, NameSolverStrings.Images)
-                : Path.Combine(GetCustomApplicationsPath(), appName, moduleName, NameSolverStrings.Files, NameSolverStrings.Images);
-        }
-
         /// <summary>
         /// Ritorna il path nella custom della cartella Report dato un woormFilePath
         /// </summary>
@@ -1664,11 +1522,7 @@ namespace Microarea.Common.NameSolver
             string path = Path.Combine(GetDescriptionFolder(applicationPath, aNameSpace), GetUserPath(userName));
             return Path.Combine(path, NameSolverStrings.ReportXml);
         }
-        //---------------------------------------------------------------------
-        public void CreateDynamicApplicationInfo(string applicationName, string appsPath)
-        {
-            CreateApplicationInfo(applicationName, ApplicationType.Customization, appsPath);
-        }
+
         //---------------------------------------------------------------------------------
         public string GetStandardUIControllerFilePath(string applicationName, string module, string migrationFileName)
         {
@@ -2182,6 +2036,12 @@ namespace Microarea.Common.NameSolver
             return string.Format(@"\\{0}\{1}_{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
         }
         //---------------------------------------------------------------------
+        public string CalculateLocalStandardPath()
+        {
+            return string.Format(@"\\{0}\{1}\{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
+        }
+
+        //---------------------------------------------------------------------
         public string CalculateRemoteCustomPath()
         {
             return string.Format(@"\\{0}\{1}_{2}", RemoteFileServer, installation, NameSolverStrings.Custom);
@@ -2196,10 +2056,6 @@ namespace Microarea.Common.NameSolver
             if (ApplicationInfo.MatchType(applicationType, ApplicationType.TaskBuilderApplication))
                 return NameSolverStrings.TaskBuilderApplications;
             if (ApplicationInfo.MatchType(applicationType, ApplicationType.Customization))
-                return NameSolverStrings.TaskBuilderApplications;
-            if (ApplicationInfo.MatchType(applicationType, ApplicationType.Standardization))
-                return NameSolverStrings.TaskBuilderApplications;
-            if (ApplicationInfo.MatchType(applicationType, ApplicationType.StandardModuleWrapper))
                 return NameSolverStrings.TaskBuilderApplications;
 
             Debug.Fail("Tipo applicazione non gestito");
@@ -2441,7 +2297,7 @@ namespace Microarea.Common.NameSolver
                 return synchroFilesDictionary;
 
             // carico in una lista di appoggio tutte le applicazione dichiarati nell'installazione
-            // sia nella Standard che nella Custom (ad es. EasyBuilder)
+            // sia nella Standard che nella Custom (ad es. EasyStudio)
             StringCollection supportList = new StringCollection();
             StringCollection applicationsList = new StringCollection();
 
@@ -2450,12 +2306,7 @@ namespace Microarea.Common.NameSolver
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
 
-            // poi guardo i verticali realizzati con EasyBuilder
-            GetApplicationsList(ApplicationType.Standardization, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // infine guardo le customizzazioni realizzate con EasyBuilder
+            // infine guardo le customizzazioni realizzate con EasyStudio
             GetApplicationsList(ApplicationType.Customization, out supportList);
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
@@ -4235,28 +4086,7 @@ namespace Microarea.Common.NameSolver
         {
             return Path.Combine(GetLogManAppDataPath(), NameSolverStrings.ProxiesXml);
         }
-
-
-        //--------------------------------------------------------------------------------
-        public string GetCustomizationLogFolder()
-        {
-            return Path.Combine(GetCustomPath(), NameSolverStrings.CustomizationsLog);
-        }
-
-        //--------------------------------------------------------------------------------
-        public string GetCustomizationLogFullName()
-        {
-            string fullPath = Path.Combine(GetCustomizationLogFolder(), "Log");
-            DateTime now = DateTime.Now;
-            return string.Concat(fullPath, "_", now.Year, "_", now.Month, "_", now.Day, ".txt");
-        }
-
-        //--------------------------------------------------------------------------------
-        public string GetCustomApplicationsPath()
-        {
-            return Path.Combine(GetCustomAllCompaniesPath(), NameSolverStrings.Applications);
-        }
-
+        
         #endregion
 
         //---------------------------------------------------------------------------
@@ -4311,9 +4141,7 @@ namespace Microarea.Common.NameSolver
                     {
                         if (applicationInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
                             applicationInfo.ApplicationType != ApplicationType.TaskBuilder &&
-                            applicationInfo.ApplicationType != ApplicationType.Customization &&
-                            applicationInfo.ApplicationType != ApplicationType.Standardization &&
-                            applicationInfo.ApplicationType != ApplicationType.StandardModuleWrapper)
+                            applicationInfo.ApplicationType != ApplicationType.Customization)
                             continue;
                         jsonWriter.WriteStartObject();
 

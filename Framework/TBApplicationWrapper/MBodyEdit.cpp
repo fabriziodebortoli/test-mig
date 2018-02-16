@@ -265,6 +265,9 @@ MBodyEditColumn::MBodyEditColumn(MBodyEdit^ parentWindow, System::String^ name, 
 		else
 			m_pColumnInfo->SetColPos(1000);
 	}
+
+	//if (!this->HasCodeBehind && !jsonColDescription)
+	//	jsonColDescription = new CWndBodyColumnDescription(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -309,6 +312,9 @@ MBodyEditColumn::MBodyEditColumn(MBodyEdit^ parentWindow, System::Type^ controlT
 	}
 	else
 		m_pColumnInfo->SetColPos(1000);
+
+	//if (!this->HasCodeBehind && !jsonColDescription)
+	//	jsonColDescription = new CWndBodyColumnDescription(NULL);
 }
 //----------------------------------------------------------------------------
 MBodyEditColumn::~MBodyEditColumn()
@@ -333,6 +339,54 @@ void MBodyEditColumn::Activate()
 	WindowWrapperContainer^ container = (WindowWrapperContainer^)Parent;
 	if (container != nullptr)
 		container->Activate();
+}
+
+//-----------------------------------------------------------------------------
+CWndObjDescription * MBodyEditColumn::UpdateAttrForJson(CWndBodyColumnDescription* pColumnDescription)
+{
+	if (!pColumnDescription)
+		return NULL;
+
+	pColumnDescription->m_X = NULL_COORD;
+	pColumnDescription->m_Y = NULL_COORD;
+	pColumnDescription->m_Width = NULL_COORD;
+	pColumnDescription->m_Height = NULL_COORD;
+
+	//binding
+	if (pColumnDescription->m_pBindings)
+	{
+		//exists => clear
+		if (pColumnDescription->m_pBindings->m_pHotLink)
+		{
+			delete pColumnDescription->m_pBindings->m_pHotLink;
+			pColumnDescription->m_pBindings->m_pHotLink = NULL;
+		}
+		BindingInfo* pBindings = pColumnDescription->m_pBindings;
+		delete pBindings;
+		pColumnDescription->m_pBindings = NULL;
+	}
+
+	//manage data binding
+	if (this->DataBinding != nullptr)
+	{
+		pColumnDescription->m_pBindings = new BindingInfo();
+		NameSpace^ parent = (NameSpace^)this->DataBinding->Parent->Namespace;
+		pColumnDescription->m_pBindings->m_strDataSource = CString(parent->Leaf) + _T(".") + CString(this->DataBinding->Name);
+		if (this->HotLink != nullptr)
+		{
+			pColumnDescription->m_pBindings->m_pHotLink = new HotLinkInfo();
+			pColumnDescription->m_pBindings->m_pHotLink->m_strName = CString(this->HotLink->Name);
+			pColumnDescription->m_pBindings->m_pHotLink->m_strNamespace = CString(this->HotLink->Namespace->FullNameSpace);
+			pColumnDescription->m_pBindings->m_pHotLink->m_bEnableAddOnFly = (Bool3)this->HotLink->CanAddOnFly;
+			pColumnDescription->m_pBindings->m_pHotLink->m_bMustExistData = (Bool3)this->HotLink->DataMustExist;
+		}
+	}
+	//grayed
+	pColumnDescription->m_bStatusGrayed = this->IsGrayed;
+	//hidden
+	pColumnDescription->m_bStatusHidden = this->IsHidden;
+
+	return pColumnDescription;
 }
 
 //----------------------------------------------------------------------------
@@ -1605,6 +1659,9 @@ MBodyEdit::MBodyEdit(IWindowWrapperContainer^ parentWindow, System::String^ name
 	IsSerialized = true;
 
 	Location = location;
+
+	//if (!this->HasCodeBehind)
+	//	jsonDescription = new CWndBodyDescription(NULL);
 }
 
 //-----------------------------------------------------------------------------
@@ -1647,6 +1704,163 @@ MBodyEdit::!MBodyEdit()
 	}
 
 	m_pBodyEdit = NULL;
+}
+
+//------------------------------------------------------------------------------------
+void MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	CWndBodyDescription* pBEDescription = NULL;
+	bool hasNewColumns = false;
+
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return;
+
+	jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
+	pBEDescription = dynamic_cast<CWndBodyDescription*>(jsonDescription);
+	__super::UpdateAttributesForJson(pParentDescription);
+
+	if (!jsonDescription)
+		return;
+
+	if (pBEDescription) //HasCodeBehind = FALSE
+	{
+		ASSERT(pBEDescription);
+		if (!pBEDescription)
+			return;
+
+		pBEDescription->m_Width = this->Size.Width;
+		pBEDescription->m_Height = this->Size.Height;
+		//manage anchor
+		pBEDescription->m_sAnchor = GetHorizontalIdAnchor();
+		//TODO: clipChildren && ownerDraw
+		//pBEDescription->Owne
+		pBEDescription->m_bShowColumnHeaders = (Bool3)this->ShowColumnHeaders;
+		pBEDescription->m_bShowHorizLines = (Bool3)this->ShowHorizLines;
+		pBEDescription->m_bShowVertLines = (Bool3)this->ShowVertLines;
+		pBEDescription->m_bShowHeaderToolbar = (Bool3)this->ShowHeaderToolbar;
+		pBEDescription->m_bShowStatusBar = (Bool3)this->ShowStatusBar;
+		pBEDescription->m_bAllowInsert = (Bool3)this->AllowInsert;
+		pBEDescription->m_bAllowDelete = (Bool3)this->AllowDelete;
+
+		//manage data binding
+		if (pBEDescription->m_pBindings)
+		{
+			//exists => clear
+			BindingInfo* pBindings = pBEDescription->m_pBindings;
+			delete pBindings;
+			pBEDescription->m_pBindings = nullptr;
+		}
+		if (this->DataBinding != nullptr)
+		{
+			//update databinding
+			pBEDescription->m_pBindings = new BindingInfo();
+			pBEDescription->m_pBindings->m_strDataSource = (NameSpace^)this->DataBinding->Name;//   Parent->Namespace;
+		}
+
+		//manage columns
+		for (int i = pBEDescription->m_Children.GetUpperBound(); i >= 0; i--)
+		{
+			CWndBodyColumnDescription* pColumnDescription = dynamic_cast<CWndBodyColumnDescription*>(pBEDescription->m_Children.GetAt(i));
+			if (!pColumnDescription)
+				continue;
+
+			MBodyEditColumn^ column = this->GetColumnByName(gcnew String(pColumnDescription->m_strName));
+			if (column == nullptr)
+				continue;
+
+			if (!column->HasCodeBehind)
+			{
+				hasNewColumns = true;
+				column->UpdateAttrForJson(pColumnDescription);
+			}
+			else //remove from parent
+				pBEDescription->m_Children.RemoveAt(i);
+
+			//column->GenerateJsonForEvents(serialization);
+		}
+	}
+
+}
+
+//-------------------------------------------------------------------------------------------------------------
+void MBodyEdit::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//no children container
+}
+
+//--------------------------------------------------------------------------------------------------------------
+void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
+
+	bool hasNewColumns = false;
+	for each (MBodyEditColumn^ column in this->ColumnsCollection)
+	{
+		if (!column->HasCodeBehind)
+			hasNewColumns = true;
+
+		column->GenerateJsonForEvents(serialization);
+	}
+
+	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //tile HasCodeBehind = true
+	{
+		if (!hasNewColumns)
+		{
+			GenerateJsonForEvents(serialization);
+			return;
+		}
+
+		jsonDummyDescription = new CDummyDescription();
+		jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		//manage differences
+		if (!this->HasCodeBehind) //insert new BE
+		{
+			//all serialization
+			jsonDummyDescription->m_strIds.Add(pParentDescription->m_strIds.GetAt(0));
+			jsonDummyDescription->m_Children.Add(jsonDescription->DeepClone());
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDummyDescription))
+					)
+			);
+		}
+		else
+		{
+			//personalize existing BE => only columns - serialize them 
+			jsonDummyDescription->m_strIds.Add(this->Id);
+			for (int i = 0; i < jsonDummyDescription->m_Children.GetCount(); i++)
+			{
+				CWndBodyColumnDescription* pColumnDescription = dynamic_cast<CWndBodyColumnDescription*>(jsonDummyDescription->m_Children.GetAt(i));
+				if (pColumnDescription)
+					jsonDummyDescription->m_Children.Add(pColumnDescription->DeepClone());
+			}
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDummyDescription))
+					)
+			);
+		}
+
+		//clear anyway from parent
+		for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
+		{
+			if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+			{
+				//SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+				pParentDescription->m_Children.RemoveAt(i);
+			}
+		}
+
+		SAFE_DELETE(jsonDescription);
+		SAFE_DELETE(jsonDummyDescription);
+	}
 }
 
 //-----------------------------------------------------------------------------

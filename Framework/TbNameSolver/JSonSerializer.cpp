@@ -294,7 +294,8 @@ Json::Value& CJsonWrapper::GetCurrent()
 //-----------------------------------------------------------------------------
 CString CJsonWrapper::GetJson() const
 {
-	Json::StyledWriter writer;
+	//Json::StyledWriter writer;
+	Json::FastWriter writer;
 	return writer.write(m_Root).c_str();
 }
 

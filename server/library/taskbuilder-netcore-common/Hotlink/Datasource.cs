@@ -73,7 +73,6 @@ namespace Microarea.Common.Hotlink
     //-------------------------------------------------------------------------
     public class radarInfo
     {
-       public List<ColumnType> columnInfos { get; set; }
        public string query { get; set; }
        public List<string> recordKeys { get; set; }
     }
@@ -334,7 +333,7 @@ namespace Microarea.Common.Hotlink
                     //    return false;
                     //}
 
-                    if (hklName.IsNullOrEmpty() != documentId.IsNullOrEmpty())
+                    if (hklName.IsNullOrEmpty() || documentId.IsNullOrEmpty())
                     {
                         Debug.Fail("Hotlink of Document " + hklName);
                         return false;
@@ -348,7 +347,8 @@ namespace Microarea.Common.Hotlink
                     else if (selectionType.CompareNoCase("direct"))
                         hklAction = Hotlink.HklAction.DirectAccess;
 
-                    query = await TbSession.GetHotLinkQuery(Session, args.Parameters.Unparse(), (int)hklAction, likeValue, documentId, hklName);
+                    string xmlParameters = args.Parameters.Count > 0 ? args.Parameters.Unparse() : string.Empty;
+                    query = await TbSession.GetHotLinkQuery(Session, xmlParameters, (int)hklAction, likeValue, documentId, hklName);
                     if (query.IsNullOrEmpty())
                     {
                         Debug.Fail("GetHotLinkQuery failed ");
@@ -444,7 +444,7 @@ namespace Microarea.Common.Hotlink
 
             this.CurrentQuery = new QueryObject("radar", SymTable, Session, null);
 
-            if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query, responseRadarInfo.radarInfo.columnInfos))
+            if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query))
             {
                 Debug.Fail("DS fails to prepare radar query");
                 return null;

@@ -1,6 +1,6 @@
-<kendo-dialog title="Messages" *ngIf="opened" (close)="close()">
-  <tb-diagnostic-item [message]="data"></tb-diagnostic-item>
-  <kendo-dialog-actions>
-    <button *ngFor="let btn of data.buttons" kendoButton (click)="close(btn.ok === true)" [style.display]="btn.enabled ? 'block' : 'none' " [primary]="btn.default === true">{{btn.text}}</button>
-  </kendo-dialog-actions>
+<kendo-dialog [title]="_TB('Messages')" *ngIf="opened" (close)="close()" class="diagnostic-dialog">
+    <tb-diagnostic-dialog-item [message]="data"></tb-diagnostic-dialog-item>
+    <kendo-dialog-actions>
+        <button *ngFor="let btn of data.buttons" kendoButton (click)="close(btn.ok === true)" [style.display]="btn.enabled ? 'block' : 'none' " [primary]="btn.default === true">{{btn.text}}</button>
+    </kendo-dialog-actions>
 </kendo-dialog>

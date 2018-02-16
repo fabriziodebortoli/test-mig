@@ -1,0 +1,20 @@
+{
+    "id": "IDD_BARCODE_COMPANYUSER_SETTINGS_VIEW",
+    "name": "BarcodeCompanyUserSettings",
+    "text": "TBF Barcode Settings",
+    "type": "View",
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_TG_BARCODE_COMPANYUSER_SETTINGS",
+            "name": "TGBarcodeCompanyUserSettings",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_BARCODE_COMPANYUSER_SETTINGS"
+                }
+            ]
+        }
+    ]
+}

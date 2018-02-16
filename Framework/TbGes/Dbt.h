@@ -636,6 +636,7 @@ class TB_EXPORT DBTSlaveBuffered : public DBTSlave, public IDataProvider
 	enum CompareStatus { NEW_ROW, MODIFIED, EQUAL };
 
 private:
+	CJsonWrapper		m_JsonData;//per i delta dei dati json
 	DATAOBJ_ROW_FUNC	m_pFnDuplicateKey;
 	CBodyEditPointers	m_arBodyPtr;
 	TArray<HKLDescriptionInfo>m_arHKLDescriptionInfos; //array degli hotlink a cui sono associati campi di decodifica dinamici
@@ -748,6 +749,7 @@ public:
 	void	SuspendObservables();
 	void	ResumeObservables();
 
+	void	ResetJsonData();
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//deprecated method
 	GET_DBTSLAVE_DEPRECATED DBTSlave* GetCurrentDBTSlave();
@@ -804,7 +806,8 @@ public:
 	
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	virtual void		SetJson(BOOL bWithChildren, CJsonParser& jsonParser);
-
+	
+	virtual void		GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 
 	SqlRecord*	GetCurrentMasterRecord(const CString& strDBTName = _T(""));
 
@@ -963,7 +966,7 @@ public:
 			SqlRecord*	FindRecord		(const CString& sColumnName, DataObj* aVal, int nStartPos = 0);
 			SqlRecord*	FindRecord		(const CStringArray& arColumnName, const DataObjArray& arValues, int nStartPos = 0);
 
-			BOOL		CalcSum			(int nIndex, DataObj& aSum) const;
+	virtual	BOOL		CalcSum			(int nIndex, DataObj& aSum) const;
 	virtual	BOOL		CalcSum			(const CString& sColumnName, DataObj& aSum) const ;
 
 	virtual DataObj*	GetMinElem		(const CString& /*sColumnName*/);

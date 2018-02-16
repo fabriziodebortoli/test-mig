@@ -314,6 +314,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 					if (isDatabaseUpgraded)
 					{
+						// gestione dei dati di default in fase di upgrade
+						impExpManager.ImportDefaultDataForUpgrade();
+
 						// gestione standard dei dati di default/esempio
 						bool existDataToImport = false;
 						if (importDefaultData)
@@ -595,11 +598,12 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 						out statusInDBMark
 						);
 
+					dbInfo = new ModuleDBInfo(listModule[i].ToString());
+
 					// se l'entry esiste nella tabella, allora lo inserisco nell'array
 					// moduli da updatare e valorizzo il suo status esistente
 					if (exist)
 					{
-						dbInfo = new ModuleDBInfo(listModule[i].ToString());
 						dbInfo.StatusOk = statusInDBMark;
 						dbInfo.EntryOnlyInDBMark = true;
 						dbInfo.ApplicationSign = application;
@@ -613,7 +617,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					}
 					else // e se non lo trovo? devo cmq tenerne traccia! e impostare status = false!
 					{
-						dbInfo = new ModuleDBInfo(listModule[i].ToString());
 						dbInfo.StatusOk = false;
 						dbInfo.EntryOnlyInDBMark = true;
 						dbInfo.ApplicationSign = application;
@@ -812,6 +815,18 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					{
 						moduleDBInfo.NrLevel = numLevel;
 						moduleDBInfo.NrStep = Convert.ToInt32(step);
+					}
+				}
+
+				// scorro la lista degli eventuali step per i dati di default e me li tengo da parte 
+				foreach (DefaultDataStep defaultStep in singleInfo.DefaultDataStepList)
+				{
+					if (
+						string.IsNullOrWhiteSpace(defaultStep.Country) ||
+						string.Compare(defaultStep.Country, this.contextInfo.IsoState, StringComparison.InvariantCultureIgnoreCase) == 0
+						)
+					{
+						impExpManager.AddDefaultDataStepTable(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName, defaultStep);
 					}
 				}
 			}

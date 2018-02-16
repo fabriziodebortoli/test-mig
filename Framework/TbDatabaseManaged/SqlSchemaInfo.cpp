@@ -39,20 +39,10 @@ SqlTablesItem::SqlTablesItem()
 	m_strType = _T("");
 	m_strRemarks = _T("");
 
-	m_arColumnsInfo.SetOwns(FALSE);
-	m_arProcedureParams.SetOwns(FALSE);
+	//m_arColumnsInfo.SetOwns(FALSE);
+	//m_arProcedureParams.SetOwns(FALSE);
 }
 
-////-----------------------------------------------------------------------------
-//SqlTablesItem::SqlTablesItem(const SqlTablesItem& cf)
-//{
-//	m_strQualifier = cf.m_strQualifier;
-//	m_strOwner = cf.m_strOwner;
-//	m_strName = cf.m_strName;
-//	m_strType = cf.m_strType;
-//	m_strRemarks = cf.m_strRemarks;	
-//	
-//}
 
 //////////////////////////////////////////////////////////////////////////////
 //							SqlColumnInfoObject
@@ -89,6 +79,7 @@ SqlColumnInfoObject::SqlColumnInfoObject()
 #endif
 {
 }
+
 
 // costruttore utile per gestire le colonne vituali (cioe' presenti nel record
 // ma non nel database). Il tipo usato per il database e' uno dei possibili per
@@ -201,7 +192,7 @@ BOOL SqlColumnInfoObject::IsEqual(const SqlColumnInfoObject& cf) const
 void SqlColumnInfoObject::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
-	AFX_DUMP0(dc, " SqlColumnInfoObject\n");
+	AFX_DUMP0(dc, " SqlColumnInfo\n");
 	dc << "\tTable Name = " << m_strTableName << "\n";
 	dc << "\tColumn Name = " << m_strColumnName << "\n";
 
@@ -209,13 +200,19 @@ void SqlColumnInfoObject::Dump(CDumpContext& dc) const
 }
 #endif
 
-
 //////////////////////////////////////////////////////////////////////////////
-//							SqlProcedureParamInfoObject Definition
+//							SqlProcedureParamInfo Definition
 //////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------
-SqlProcedureParamInfoObject::SqlProcedureParamInfoObject(const SqlProcedureParamInfoObject& aProcParamInfo)
+SqlProcedureParamInfo::SqlProcedureParamInfo()
+	:
+	m_bDataObjInfoUpdated(false)
+{
+}
+
+//-----------------------------------------------------------------------------
+SqlProcedureParamInfo::SqlProcedureParamInfo(const SqlProcedureParamInfo& aProcParamInfo)
 {
 	m_strProcCatalog = aProcParamInfo.m_strProcCatalog;
 	m_strProcSchema = aProcParamInfo.m_strProcSchema;
@@ -228,22 +225,116 @@ SqlProcedureParamInfoObject::SqlProcedureParamInfoObject(const SqlProcedureParam
 	m_bIsNullable = aProcParamInfo.m_bIsNullable;
 	m_nSqlDataType = aProcParamInfo.m_nSqlDataType;
 	m_strSqlDataType = aProcParamInfo.m_strSqlDataType;
-	m_nMaxLength = aProcParamInfo.m_nMaxLength;
-	m_nOctetLength = aProcParamInfo.m_nOctetLength;
-	m_nPrecision = aProcParamInfo.m_nPrecision;
+	m_lLength = aProcParamInfo.m_lLength;
+	m_lPrecision = aProcParamInfo.m_lPrecision;
 	m_nScale = aProcParamInfo.m_nScale;
 	m_strDescription = aProcParamInfo.m_strDescription;
+	m_bDataObjInfoUpdated = aProcParamInfo.m_bDataObjInfoUpdated;
 }
 
 // Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
 //-----------------------------------------------------------------------------
-void SqlProcedureParamInfoObject::UpdateDataObjInfo(DataObj* pDataObj)
+void SqlProcedureParamInfo::UpdateDataObjInfo(DataObj* pDataObj)
 {
-	pDataObj->SetAllocSize(m_nMaxLength);
+	pDataObj->SetAllocSize(m_lLength);
 }
 
+
+// Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
+//-----------------------------------------------------------------------------
+void SqlProcedureParamInfo::UpdateResultValueType(DataObj* pDataObj)
+{
+	ASSERT_VALID(pDataObj);
+
+	if (m_bDataObjInfoUpdated)
+		return;
+
+	m_bDataObjInfoUpdated = true;
+
+	DataType resDataObjType = pDataObj->GetDataType();
+
+	//questo switch serve solo per i campi locali utilizzati per le query
+	switch (resDataObjType.m_wType)
+	{
+		case DATA_STR_TYPE:
+			m_nSqlDataType = DBTYPE_WSTR;
+			//TODO m_lLength		= nLen;
+			break;
+
+		case DATA_MON_TYPE:
+		case DATA_QTA_TYPE:
+		case DATA_PERC_TYPE:
+		case DATA_DBL_TYPE:
+			m_nSqlDataType = DBTYPE_R8;
+			m_lPrecision = 15;
+			m_lLength = 8;
+			break;
+
+		case DATA_DATE_TYPE:
+			m_nSqlDataType = DBTYPE_DBTIMESTAMP;
+			m_lPrecision = 19;
+			m_lLength = 4;
+			break;
+
+		case DATA_LNG_TYPE:
+			m_nSqlDataType = DBTYPE_I4;
+			m_lPrecision = LONG_PRECISION;
+			m_lLength = 4;
+			break;
+
+		case DATA_ENUM_TYPE:
+			m_nSqlDataType = DBTYPE_I4;
+			m_lPrecision = LONG_PRECISION;
+			m_lLength = 4;
+
+			resDataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
+
+	#ifdef _DEBUG
+			if (resDataObjType.m_wTag == 0)
+			{
+				ASSERT_TRACE2
+				(
+					FALSE,
+					"SqlProcedureParamInfo::UpdateResultValueType: the column %s.%s has an invalid DataEnum type : tag is 0\n",
+					(LPCTSTR)m_strParamName, (LPCTSTR)m_strParamName
+				);
+			}
+	#endif
+			break;
+
+		case DATA_BOOL_TYPE:
+			m_nSqlDataType = DBTYPE_STR;
+			m_lLength = 1;
+			break;
+
+		case DATA_INT_TYPE:
+			m_nSqlDataType = DBTYPE_I2;
+			m_lPrecision = INT_PRECISION;
+			m_lLength = 2;
+			break;
+
+		case DATA_GUID_TYPE:
+			m_nSqlDataType = DBTYPE_GUID;
+			m_lLength = 16;
+			break;
+
+		case DATA_TXT_TYPE:
+			m_nSqlDataType = DBTYPE_STR;
+
+		case DATA_BLOB_TYPE:
+			m_nSqlDataType = DBTYPE_BYTES;
+			break;
+
+		default:
+			ASSERT_TRACE2(FALSE,
+				"SqlProcedureParamInfo::UpdateResultValueType: the column %s.%s has an invalid datatype\n",
+				(LPCTSTR)m_strParamName, (LPCTSTR)m_strParamName
+			);
+			break;
+		}
+}
 #ifdef _DEBUG
-void SqlProcedureParamInfoObject::Dump(CDumpContext& dc) const
+void SqlProcedureParamInfo::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
 	AFX_DUMP0(dc, " SqlProcedureParamInfo\n");

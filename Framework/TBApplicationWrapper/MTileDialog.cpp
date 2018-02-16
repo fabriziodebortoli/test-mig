@@ -142,6 +142,9 @@ MTileDialog::MTileDialog(IWindowWrapperContainer^ parentWindow, System::String^ 
 
 	m_staticArea2 = nullptr;
 
+	//if (!this->HasCodeBehind)
+	//	jsonDescription = new CWndTileDescription(NULL);
+
 }
 
 //----------------------------------------------------------------------------
@@ -186,6 +189,105 @@ MTileDialog::!MTileDialog()
 	//	m_pTileDialog->DestroyWindow();
 	//	SAFE_DELETE(m_pTileDialog);
 	//}
+}
+
+//----------------------------------------------------------------------------------
+void MTileDialog::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
+
+		__super::UpdateAttributesForJson(pParentDescription);
+
+		CWndTileDescription* pTileDescription = dynamic_cast<CWndTileDescription*>(jsonDescription);
+
+		if (pTileDescription)
+		{
+			pTileDescription->m_X = 0;
+			pTileDescription->m_Y = 0;
+			pTileDescription->m_bHasStaticArea = (this->m_pTileDialog->HasStaticArea() == TRUE);
+			switch (this->TileDialogType)
+			{
+			case ETileDialogSize::AutoFill:
+				pTileDescription->m_Size = TileDialogSize::TILE_AUTOFILL;
+				break;
+			case ETileDialogSize::Standard:
+				pTileDescription->m_Size = TileDialogSize::TILE_STANDARD;
+				pTileDescription->m_Width = CUtility::GetIdealTileSizeLU(ETileDialogSize::Standard).Width;
+				break;
+			case ETileDialogSize::Wide:
+				pTileDescription->m_Size = TileDialogSize::TILE_WIDE;
+				pTileDescription->m_Width = CUtility::GetIdealTileSizeLU(ETileDialogSize::Wide).Width;
+				break;
+			case ETileDialogSize::Mini:
+				pTileDescription->m_Size = TileDialogSize::TILE_MINI;
+				pTileDescription->m_Width = CUtility::GetIdealTileSizeLU(ETileDialogSize::Mini).Width;
+				break;
+			}
+		}
+	}
+	else
+	{
+		jsonDescription = new CDummyDescription();
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		jsonDescription->m_strIds.Add(this->Id);
+	}
+
+}
+
+//-------------------------------------------------------------------------------------------------------------
+void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
+
+	//update parent description id with this (always)
+	jsonDummyDescription = new CDummyDescription();
+	jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	pParentDescription->m_Children.Add(jsonDummyDescription);
+	jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+
+	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		//serialize this => HasCodeBehind = false
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(this->Id),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+
+	}
+	else if (jsonDescription->m_Children.GetCount() > 0)    //serializza jsonDescription
+	{
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+
+		//non sono sul papà
+		SAFE_DELETE(jsonDescription);
+	}
+
+	//clear parent
+	for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
+	{
+		if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+		{
+			SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+			pParentDescription->m_Children.RemoveAt(i);
+		}
+	}
 }
 
 //----------------------------------------------------------------------------

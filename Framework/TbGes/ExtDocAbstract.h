@@ -457,7 +457,7 @@ public:
 	/*TBWebMethod*/void			SetFieldValue	(DataStr aTableName, DataStr aFieldName, DataInt nRow, DataStr aValue);
 	/*TBWebMethod*/DBTMaster*	GetMaster();
 	
-	void GetJsonRadarInfos(CJsonSerializer& resp);
+	void GetJsonRadarInfos(CJsonSerializer& resp, const CString& name);
 
 	// DOC_DIAGNOSTIC
 	CMessages*			GetMessages		() const { return m_pMessages; }
@@ -626,7 +626,7 @@ protected:
 	virtual	FormMode	SetFormMode(FormMode aFormMode);
 
 	virtual SqlConnection* GetDefaultSqlConnection();
-	virtual	void OnOpenCompleted();
+	
 	// serve per riconoscere se ho l'interfaccia o meno al di sotto di TbGes
 	virtual IBehaviourContext*	GetBehaviourContext	() { return	this; }
 
@@ -1100,11 +1100,22 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 	virtual BOOL CanRunDocument () { return TRUE; } 
 
 
+	//tutti questi metodo virtuali andranno poi a comporre la nuova interfaccia di comunicazione con il DMS
 	//Improvement #5062: SosConnector
 	virtual SWORD GetFiscalYear			() { return MIN_YEAR; }
 	virtual CString GetSosSuffix		() { return _T(""); }
 	//Improvement #5372: creato per procedura stampa di 	
 	virtual CString GetSosDocumentType	() { return _T(""); }
+	//BugFix #26240 questi metodi virtuali sostituiscono i bookmark con hotlink necessari per la SOS
+	// non è più possibile usare l'hkl perchè viene istanziato e findato solo in presenza di interfaccia grafica\
+	//nel caso di unattendedmode ed ADM non è più presente
+	/*<Bookmark name = "CompanyName" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>
+	<Bookmark name = "TaxIdNumber" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>
+	<Bookmark name = "FiscalCode" hklname = "HKLCustomer" fkfield = "CustSupp">< / Bookmark>*/
+	virtual CString GetCompanyName() { return _T(""); }
+	virtual CString GetTaxIdNumber() { return _T(""); }
+	virtual CString GetFiscalCode() { return _T(""); }
+
 
 	//import/export function
 	BOOL	SaveImportDocument		();					// per il salvataggio del documento importato

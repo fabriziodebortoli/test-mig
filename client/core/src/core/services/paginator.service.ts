@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription } from '../../rxjs.imports';
+import { BehaviorSubject, Observable, Subscription, Subject } from '../../rxjs.imports';
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
 import * as _ from 'lodash';
 
@@ -53,8 +53,7 @@ export class PaginatorService implements OnDestroy {
 
     private _clientData: BehaviorSubject<ClientPage> = new BehaviorSubject(this.defaultClientData);
     public get clientData(): Observable<ClientPage> {
-        return this._clientData.asObservable().filter(x => {
-            return !x.ignore});
+        return this._clientData.asObservable().filter(x => !x.ignore);
     }
 
     public get currentPage() {
@@ -72,6 +71,8 @@ export class PaginatorService implements OnDestroy {
     public get noMorePages(): boolean {
         return this.sizeOfLastServer !== null;
     }
+
+    public waiting$ = new BehaviorSubject(false).distinctUntilChanged();
 
     constructor(private ngZone: NgZone) {
         this.configurationChanged.subscribe(c => {
@@ -104,6 +105,7 @@ export class PaginatorService implements OnDestroy {
                 if (this.lookAheadServerPageCache.page !== nextPageIdx) {
                     this.lookAheadServerPageCache = {page: nextPageIdx, data: data}
                     if (!data || !data.rows || data.rows.length === 0) {
+                        this.sizeOfLastServer = 0;
                         return this._clientData.value.total;
                     } else { return (this.higherServerPage + 1) * this.serverPage + data.rows.length; }
                 }
@@ -118,8 +120,9 @@ export class PaginatorService implements OnDestroy {
         if (currentServerPage === this.lookAheadServerPageCache.page) {
             return this.lookAheadServerPageCache.data;
         }
-        let data = this.ngZone.runOutsideAngular(async () =>
-            await this.getFreshData(currentServerPage, serverPage, otherParams).toPromise());
+        (this.waiting$ as Subject<boolean>).next(true);
+        let data = await this.ngZone.runOutsideAngular(() =>
+            this.getFreshData(currentServerPage, serverPage, otherParams).toPromise());
         return data;
     }
 
@@ -140,6 +143,7 @@ export class PaginatorService implements OnDestroy {
                 if (this.currentServerPageNumber < 0) { 
                     this._clientData.next(this.noDataClientPage); 
                 }
+                (this.waiting$ as Subject<boolean>).next(false);
                 return;
             }
             if (data.rows.length > 0) {
@@ -161,6 +165,7 @@ export class PaginatorService implements OnDestroy {
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
             ignore: false });
+        (this.waiting$ as Subject<boolean>).next(false);
     }
 
     private async prevPage(prevSkip: number, skip: number, take: number) {
@@ -186,6 +191,7 @@ export class PaginatorService implements OnDestroy {
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
             ignore: false });
+            (this.waiting$ as Subject<boolean>).next(false);
     }
 
 
@@ -198,6 +204,8 @@ export class PaginatorService implements OnDestroy {
         if (!this.isCorrectlyConfigured) { return; }
         this._clientData.complete();
         this._clientData = new BehaviorSubject(this.defaultClientData);
+        (this.waiting$ as Subject<boolean>).complete();
+        this.waiting$ = new BehaviorSubject(false).distinctUntilChanged();
         this.configurationChanged.complete();
         this.configurationChanged = new BehaviorSubject(false);
         this.queryTrigger$ = queryTrigger$;
@@ -222,6 +230,7 @@ export class PaginatorService implements OnDestroy {
         if (this.configurationChanged) { this.configurationChanged.complete(); }
         if (this._clientData) { this._clientData.complete(); }
         if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }
+        (this.waiting$ as Subject<boolean>).complete();
     }
 
     public getClientPageIndex(index: number): number {

@@ -270,7 +270,6 @@
     <Compile Include="EasyBuilder\EBLink.cs" />
     <Compile Include="EasyBuilder\EnumsDeclarator.cs" />
     <Compile Include="EasyBuilder\EventArgs.cs" />
-    <Compile Include="EasyBuilder\EnumsHelper.cs" />
     <Compile Include="EasyBuilder\EventInfo.cs" />
     <Compile Include="EasyBuilder\ExpandiblePropertyObjects.cs" />
     <Compile Include="EasyBuilder\RecordBindingList.cs" />

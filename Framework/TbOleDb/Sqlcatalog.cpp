@@ -634,17 +634,11 @@ void SqlTableJoinInfoArray::QualifiedLinks()
 		QualifiedLinks(i);
 	}
 }
-//////////////////////////////////////////////////////////////////////////////
-//							SqlColumnInfo
-//////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////							SqlColumnInfo
+////////////////////////////////////////////////////////////////////////////////
+////
 //
-
-//-----------------------------------------------------------------------------
-SqlColumnInfo::SqlColumnInfo()
-	:
-	SqlColumnInfoObject()
-{	
-}
 
 // costruttore utile per gestire le colonne vituali (cioe' presenti nel record
 // ma non nel database). Il tipo usato per il database e' uno dei possibili per
@@ -786,7 +780,7 @@ void SqlColumnInfo::UpdateDataObjType(DataObj* pDataObj)
 		//case DATA_BLOB_TYPE:	
 	default:
 		ASSERT_TRACE2(FALSE,
-			"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid datatype\n",
+			"SqlColumnInfo::UpdateDataObjType: the column %s.%s has an invalid datatype\n",
 			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
 		);
 		break;
@@ -805,11 +799,11 @@ void SqlColumnInfo::ForceUpdateDataObjType(DataObj* pDataObj)
 	UpdateDataObjType(pDataObj);
 }
 
-// Questa  routine serve essenzialmente a Woorm per proporre all'utente tutte
-// le conversioni in DataObj possibili a partire dal tipo SQL della colonna.
-// Il valore di default e' il primo elemento del vettore (che deve essere 
-// allocato fuori, ma puo' non essere inizializzato).
-//
+ /*Questa  routine serve essenzialmente a Woorm per proporre all'utente tutte
+ le conversioni in DataObj possibili a partire dal tipo SQL della colonna.
+ Il valore di default e' il primo elemento del vettore (che deve essere 
+ allocato fuori, ma puo' non essere inizializzato).*/
+
 //-----------------------------------------------------------------------------
 BOOL SqlColumnInfo::GetDataObjTypes(CWordArray& aDataObjTypes) const
 {
@@ -919,9 +913,6 @@ DataType SqlColumnInfo::GetDataObjType() const
 
 	return m_DataObjType;
 }
-
-
-
 
 //-----------------------------------------------------------------------------------------
 #ifdef _DEBUG
@@ -1294,6 +1285,8 @@ void SqlTableInfo::LoadColumnsInfo(SqlConnection* pSqlConnection, BOOL bReloadTa
 		}
 
 		//non ho bisogno più dell'array di appoggio
+		//devo solo cancellare l'array ma non il suo contenuto
+		m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo.SetOwns(FALSE);
 		m_pSqlCatalogEntry->m_pTableItem->m_arColumnsInfo.RemoveAll();
 	}
 		CATCH(SqlException, e)
@@ -1323,9 +1316,10 @@ void SqlTableInfo::LoadProcParametersInfo(SqlConnection* pSqlConnection, BOOL bR
 		for (int i = 0; i < m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.GetSize(); i++)
 		{
 			pProcParamInfo = (SqlProcedureParamInfo*)m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.GetAt(i);
-			m_pProcParameters->Add(pProcParamInfo);
-			//pSqlConnection->LoadProcedureParametersInfo(m_strTableName, m_pProcParameters);
+			m_pProcParameters->Add(pProcParamInfo);			
 		}
+		//devo solo cancellare l'array ma non il suo contenuto
+		m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.SetOwns(FALSE);
 		m_pSqlCatalogEntry->m_pTableItem->m_arProcedureParams.RemoveAll();
 	}
 	CATCH(SqlException, e)
@@ -2140,9 +2134,7 @@ BOOL SqlCatalogEntry::SortTableInfoColumns()
 		//se non è una tabella registrata allora rimuovo le informazioni  di schema. Saranno eventualmente lette all'occorrenza
 		if (m_pTableItem)
 		{
-			m_pTableItem->m_arColumnsInfo.SetOwns(TRUE);
 			m_pTableItem->m_arColumnsInfo.RemoveAll();
-			m_pTableItem->m_arProcedureParams.SetOwns(TRUE);
 			m_pTableItem->m_arProcedureParams.RemoveAll();
 		}
 	}

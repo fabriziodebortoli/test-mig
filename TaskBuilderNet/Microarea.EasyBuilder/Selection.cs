@@ -455,7 +455,7 @@ namespace Microarea.EasyBuilder
                 parent = null;
 
             //memorizza il parent
-            Parent = sel.GetCurrentWindow().Parent as WindowWrapperContainer;
+            Parent = sel?.GetCurrentWindow()?.Parent as WindowWrapperContainer;
 
             //il panel di easystudio non deve essere selezionato con altri controlli
             if (current is MEasyStudioPanel || (list.Count == 1 && (list[0].GetCurrentWindow() is MEasyStudioPanel)))

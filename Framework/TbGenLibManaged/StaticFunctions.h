@@ -12,6 +12,8 @@ public:
 	
 	static System::String^ GetFileFromJsonFileId(System::String ^ jsonFileId);
 
+	static System::Object^ GetAttribute(System::Type^ attrType);
+	static void GenerateEasyBuilderEnumsDllIfNecessary();
 };
 //----------------------------------------------------------------------------
 class DataObj;

@@ -9,7 +9,7 @@
         <Menu name="Settings" search_command_image="true">
           <Title localizable="true">Settings</Title>
           <Document>
-            <Title localizable="true">Company/User Framework Settings</Title>
+            <Title localizable="true">Framework Settings</Title>
             <Object>Framework.TbGes.TbGes.TBFSettings</Object>
           </Document>
         </Menu>

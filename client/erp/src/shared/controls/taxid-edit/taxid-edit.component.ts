@@ -1,9 +1,9 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService } from '@taskbuilder/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, ControlContainerComponent } from '@taskbuilder/core';
 import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDlgArgs } from '@taskbuilder/core';
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
-import * as moment from 'moment'
+import * as moment from 'moment';
 import JsCheckTaxId from './jscheckTaxIDNumber';
 
 @Component({
@@ -15,7 +15,8 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   @Input('readonly') readonly = false;
   @Input() slice;
   @Input() selector;
-  errorMessage: any;
+  
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
   private ctrlEnabled = false;
   private isMasterBR = false;
@@ -25,7 +26,6 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   private naturalPerson = false;
   private isoCode = '';
 
-  checktaxidcodeContextMenu: ContextMenuItem[] = [];
   menuItemITCheck = new ContextMenuItem(this._TB('Check TaxId existence (IT site)'), '', true, false, null, this.checkIT.bind(this));
   menuItemEUCheck = new ContextMenuItem(this._TB('Check TaxId existence (EU site)'), '', true, false, null, this.checkEU.bind(this));
   menuItemBRCheck = new ContextMenuItem(this._TB('Check Fiscal Code existence'), '', true, false, null, this.checkBR.bind(this));
@@ -59,19 +59,14 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   }
 
   ngOnInit() {
-    if (this.store && this.selector) {
-      this.store
-        .select(this.selector)
-        .select('formMode')
-        .subscribe(
-        (v) => this.onFormModeChanged(v)
-        );
-    }
+    this.store
+      .select('FormMode.value')
+      .subscribe(this.onFormModeChanged);
 
-    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
-    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
-    this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => { this.isMasterRO = res.result; })
-    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
+    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => this.isMasterBR = res.result);
+    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => this.isMasterIT = res.result);
+    this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => this.isMasterRO = res.result);
+    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => this.isEuropeanUnion = res.result);
   }
 
   public openMessageDialog(message: string): Promise<any> {
@@ -81,27 +76,27 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     return this.eventData.closeMessageDialog.take(1).toPromise();
   }
 
-  onFormModeChanged(formMode: FormMode) {
+  onFormModeChanged = (formMode: FormMode) => {
     this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
     this.buildContextMenu();
   }
 
   buildContextMenu() {
-    this.checktaxidcodeContextMenu.splice(0, this.checktaxidcodeContextMenu.length);
+    this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
 
     if (!this.ctrlEnabled) return;
 
     if (this.isTaxIdField(this.model.value, false))
-      this.checktaxidcodeContextMenu.push(this.menuItemITCheck);
+    this.cc.contextMenu.push(this.menuItemITCheck);
 
     if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, false))
-      this.checktaxidcodeContextMenu.push(this.menuItemROCheck);
+    this.cc.contextMenu.push(this.menuItemROCheck);
 
     if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, false))
-      this.checktaxidcodeContextMenu.push(this.menuItemEUCheck);
+    this.cc.contextMenu.push(this.menuItemEUCheck);
 
     if (this.isMasterBR && this.isoCode === 'BR')
-      this.checktaxidcodeContextMenu.push(this.menuItemBRCheck);
+    this.cc.contextMenu.push(this.menuItemBRCheck);
   }
 
   isTaxIdField(code: string, all: boolean) {
@@ -141,7 +136,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     let vatCode = this.model.value.replace(/([\D])/g, '');
 
     if (vatCode.length > 9 || vatCode.length === 0) {
-      this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+      this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
       return;
     }
 
@@ -149,13 +144,13 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
       let r = await this.httpCore.checkVatRO(this.model.value, today).toPromise();
       let found = r.json().found;
       if (found.length) {
-        this.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
+        this.cc.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
         this.fillFields(found);
       } else {
-        this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+        this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
       }
     } catch (exc) {
-      this.errorMessage = exc;
+      this.cc.errorMessage = exc;
     }
   }
 
@@ -164,9 +159,9 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
 
     let r = await this.httpCore.checkVatEU(stato, this.model.value).toPromise();
     if (r.json().isValid)
-      this.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
+      this.cc.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
     else
-      this.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+      this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
 
     this.changeDetectorRef.detectChanges();
   }
@@ -237,10 +232,10 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   }
 
   validate() {
-    this.errorMessage = '';
+    this.cc.errorMessage = '';
     if (!this.model) return;
     if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode))
-      this.errorMessage = this._TB('Incorrect Tax Number');
+      this.cc.errorMessage = this._TB('Incorrect Tax Number');
   }
 
   isTaxIdNumber(fiscalcode: string): boolean {
@@ -250,5 +245,5 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     return fiscalcode.charAt(0) >= '0' && fiscalcode.charAt(0) <= '9';
   }
 
-  get isValid(): boolean { return !this.errorMessage; }
+  get isValid(): boolean { return !this.cc.errorMessage; }
 }

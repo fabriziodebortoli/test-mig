@@ -519,7 +519,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_bUseEasyBrowsing = pUseEasyBrowsing ? *((DataBool*)pUseEasyBrowsing) : FALSE;
 
 	//permette di abilitare/disabilitare il salvataggio del report di default sulla scelta del report da eseguire nella dropdown del pilsate 'Stampa'
-	DataObj* pUpdateDefaultReport = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szUpdateDefaultReport, DataBool(m_bUpdateDefaultReport), szTbDefaultSettingFileName);
+	DataObj* pUpdateDefaultReport = AfxGetSettingValue(snsTbGenlib, szReportSection, szUpdateDefaultReport, DataBool(m_bUpdateDefaultReport), szTbDefaultSettingFileName);
 	m_bUpdateDefaultReport = pUpdateDefaultReport ? *((DataBool*)pUpdateDefaultReport) : TRUE;
 
 	/*if (AfxIsRemoteInterface())
@@ -771,6 +771,13 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 		}
 	}
 	m_JsonData.Clear();
+
+	for (int i = 0; i < this->GetMaster()->GetDBTSlaves()->GetSize(); i++)
+	{
+		DBTSlaveBuffered* pBuffered = dynamic_cast<DBTSlaveBuffered*>(this->GetMaster()->GetDBTSlaves()->GetAt(i));
+		if (pBuffered)
+			pBuffered->ResetJsonData();
+	}
 }
 //-----------------------------------------------------------------------------	
 void CAbstractFormDoc::AttachXMLExpCriteria(CXMLBaseAppCriteria* pBaseExportCriteria)
@@ -2029,7 +2036,7 @@ BOOL CAbstractFormDoc::CanFindOnSlave() const
 	if (!m_pSqlConnection || m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
 		return FALSE;
 
-	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szFindSlave, DataBool(TRUE), szTbDefaultSettingFileName);
+	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, DataBool(TRUE), szTbDefaultSettingFileName);
 	BOOL bEnableFindSlave = (pB ? *((DataBool*)pB) : TRUE) && m_pFormManager->m_Properties.m_bFindSlave;
 	return bEnableFindSlave;
 }
@@ -3092,6 +3099,8 @@ void CAbstractFormDoc::ResumeUpdateDataView()
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
+	if (m_bClosing)
+		return;
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	if (m_nUpdateDataViewLevel > 0 && !bForce)
@@ -3526,14 +3535,8 @@ void CAbstractFormDoc::OnFrameCreated()
 		pSession->IgnoreModelChanges(false);//da adesso in avanti posso registrare i cambiamenti del model
 		pSession->ResumePushToClient();
 	}
-
 }
-//-----------------------------------------------------------------------------
-void CAbstractFormDoc::OnOpenCompleted() 
-{	
-	if (!CanRunDocument())
-		CloseDocument();
-} 
+
 //-----------------------------------------------------------------------------
 SqlConnection* CAbstractFormDoc::GetDefaultSqlConnection()
 {
@@ -3664,7 +3667,7 @@ endopen:
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnNewDocument()
 {
-	return CAbstractFormDoc::OnOpenDocument(NULL);
+	return CanRunDocument() && CAbstractFormDoc::OnOpenDocument(NULL);
 }
 
 //-----------------------------------------------------------------------------
@@ -5744,22 +5747,9 @@ void CAbstractFormDoc::BatchStop()
 void CAbstractFormDoc::SwitchBatchRunButtonState()
 {
 	if (GetType() != VMT_BATCH) return;
-
-	POSITION pos = GetFirstViewPosition();
-	while (pos != NULL)
-	{
-		CView* pView = GetNextView(pos);
-		if (!pView)
-			continue;
-		CFrameWnd* pFrame = pView->GetParentFrame();
-		if (pFrame)
-		{
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CBatchFrame)))
-				((CBatchFrame*)pFrame)->SwitchBatchRunButtonState();
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CJsonFrame)))
-				((CJsonFrame*)pFrame)->SwitchBatchRunButtonState();
-		}
-	}
+	CMasterFrame* pFrame = GetMasterFrame();
+	if (pFrame)
+		pFrame->SwitchBatchRunButtonState();
 }
 
 //-----------------------------------------------------------------------------
@@ -7288,7 +7278,7 @@ DBTMaster* CAbstractFormDoc::GetMaster()
 }
 
 //-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
+void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp, const CString& name)
 {
 	resp.OpenObject(_T("radarInfo"));
 
@@ -7299,12 +7289,19 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 	// viene chiusa e distrutta in ~CRadarDoc
 	SqlTable* pTable = new SqlTable(m_pDynamicSqlRecord, m_pTbContext->GetReadOnlySqlSession());
 
-	// Carico la ORDER BY e la WHERE presente nel documento oppure quella costruita
-	// per fare una find intelligente
-	PrepareRadarQuery(pTable);
+	if (!name.IsEmpty() && name.CompareNoCase(L"default"))
+	{
+		if (!m_pQueryManager->SelectQuery(name))
+			PrepareRadarQuery(pTable);
+	}
+	else
+	{
+		// Carico la ORDER BY e la WHERE presente nel documento oppure quella costruita
+		// per fare una find intelligente
+		PrepareRadarQuery(pTable);
+	}
 
 	pTable->Open();
-
 
 	resp.OpenArray(_T("recordKeys"));
 	for (int i = 0; i <= pTable->GetRecord()->GetPrimaryKeyIndexes().GetUpperBound(); i++)
@@ -7315,36 +7312,6 @@ void CAbstractFormDoc::GetJsonRadarInfos(CJsonSerializer& resp)
 
 	CString strQuery = pTable->GetQuery();
 	resp.WriteString(_T("query"), strQuery);
-
-	resp.OpenArray(_T("columnInfos"));
-
-	for (int i = 0; i < pTable->m_pColumnArray->GetSize(); i++)
-	{
-		SqlBindingElem* pSbi = pTable->m_pColumnArray->GetAt(i);
-		ASSERT_VALID(pSbi);
-
-		resp.OpenObject();
-
-		CString strName = pSbi->GetBindName();
-
-		resp.WriteString(_T("columnName"), strName);
-
-		DataEnum* dEnum = dynamic_cast<DataEnum*>(pSbi->GetDataObj());
-		if (dEnum) 
-		{
-			resp.WriteString(_T("dataType"), ::cwsprintf(_T("Enum[%d]"), dEnum->GetTagValue()));
-			//resp.WriteString(_T("enumTag"), cwsprintf(_T("%d"), dEnum->GetTagValue()));
-		}
-		else
-		{
-			CString strType = pSbi->GetDataType().ToString();
-			resp.WriteString(_T("dataType"), strType);
-		}
-
-		resp.CloseObject();
-	}
-
-	resp.CloseArray();
 
 	pTable->Close();
 

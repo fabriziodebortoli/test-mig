@@ -1,11 +1,16 @@
-import { Logger } from './../../../../core/services/logger.service';
-import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input } from '@angular/core';
-import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input, ChangeDetectorRef } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
+
+import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
+
+import { Subscription } from '../../../../rxjs.imports';
+
 import { TileManagerTabComponent } from './tile-manager-tab/tile-manager-tab.component';
+import { TbComponent } from '../../../components/tb.component';
 
 import { LayoutService } from './../../../../core/services/layout.service';
-import { Subscription } from '../../../../rxjs.imports';
+import { Logger } from './../../../../core/services/logger.service';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
@@ -15,16 +20,16 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./tile-manager.component.scss'],
   animations: [
     trigger('collapsing', [
-        state('expanded', style({ width: '220px', overflow:'hidden' })),
-        state('collapsed', style({ width: '40px', overflow:'hidden' })),
-        transition('expanded <=> collapsed', animate('400ms ease')),
+      state('expanded', style({ width: '220px', overflow: 'hidden' })),
+      state('collapsed', style({ width: '40px', overflow: 'hidden' })),
+      transition('expanded <=> collapsed', animate('400ms ease')),
     ])
   ]
 })
-export class TileManagerComponent implements AfterContentInit {
+export class TileManagerComponent extends TbComponent implements AfterContentInit {
 
-  selectorCollapsed:string = localStorage.getItem('selectorCollapsed') ? localStorage.getItem('selectorCollapsed') : 'expanded';
-  idxActive:number = 0;
+  selectorCollapsed: string = localStorage.getItem('selectorCollapsed') ? localStorage.getItem('selectorCollapsed') : 'expanded';
+  idxActive: number = 0;
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
 
@@ -51,11 +56,11 @@ export class TileManagerComponent implements AfterContentInit {
     // this.logger.debug("this.idxActive", this.idxActive)
   }
 
-  getSelectorIcon(){
-        return this.selectorCollapsed ? 'tb-circledrightfilled': 'tb-gobackfilled';
+  getSelectorIcon() {
+    return this.selectorCollapsed ? 'tb-circledrightfilled' : 'tb-gobackfilled';
   }
-  
-  toggleSelector(){
+
+  toggleSelector() {
     this.selectorCollapsed = this.selectorCollapsed === 'expanded' ? 'collapsed' : 'expanded';
     localStorage.setItem('selectorCollapsed', this.selectorCollapsed);
   }
@@ -65,8 +70,12 @@ export class TileManagerComponent implements AfterContentInit {
 
   constructor(
     public layoutService: LayoutService,
-    public logger: Logger
-  ) { }
+    public logger: Logger,
+    public tbComponentService: TbComponentService,
+    protected changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(tbComponentService, changeDetectorRef);
+  }
 
   ngOnInit() {
     // this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);//TODO riattivare nel caso

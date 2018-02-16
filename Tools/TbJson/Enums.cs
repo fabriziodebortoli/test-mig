@@ -58,8 +58,8 @@
         Advanced = 6,
 		Radar = 7,
 		Fab = 8,
-		Exit = 9
-
+		Exit = 9,
+		File = 10
 	}
 
     public enum ViewCategory

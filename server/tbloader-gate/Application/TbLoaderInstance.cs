@@ -10,32 +10,34 @@ namespace Microarea.TbLoaderGate
 {
     public class TBLoaderInstance
     {
-        public string name;
-        public int httpPort = 11000;
-        public bool connected = false;
-        public int socketPort = 4502;
-        public int processId = -1;
-        public string server = "localhost";
+        public string Name;
+        public int HttpPort = 11000;
+        public bool Connected = false;
+        public string ConnectionMessage = "";
+        public int SocketPort = 4502;
+        public int ProcessId = -1;
+        public string Server = "localhost";
 
-        public string BaseUrl { get { return string.Concat("http://", server, ":", httpPort); } }
-        public string WSBaseUrl { get { return string.Concat("ws://", server, ":", socketPort, "/TBWebSocketsController/"); } }
+        public string BaseUrl { get { return string.Concat("http://", Server, ":", HttpPort); } }
+        public string WSBaseUrl { get { return string.Concat("ws://", Server, ":", SocketPort, "/TBWebSocketsController/"); } }
 
         //-----------------------------------------------------------------------------------------
-        public TBLoaderInstance(string server, int port)
+        public TBLoaderInstance(string server, int port, string name)
         {
-            this.httpPort = port;
-            this.server = server;
-            this.name = Guid.NewGuid().ToString();
+            this.HttpPort = port;
+            this.Server = server;
+            this.Name = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString() : name;
         }
 
         //-----------------------------------------------------------------------------------------
         internal async Task ExecuteAsync()
         {
-            TBLoaderService svc = new TBLoaderService(server, httpPort);
-            TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(name);
-            httpPort = response.Port;
-            processId = response.ProcessId;
-            connected = response.Result;
+            TBLoaderService svc = new TBLoaderService(Server, HttpPort);
+            TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(Name);
+            HttpPort = response.Port;
+            ProcessId = response.ProcessId;
+            Connected = response.Result;
+            ConnectionMessage = response.Message;
         }
 
        
@@ -52,7 +54,7 @@ namespace Microarea.TbLoaderGate
                     HttpResponseMessage resp = await client.SendAsync(msg);
                     string ret = await resp.Content.ReadAsStringAsync();
                     JObject jRes = JObject.Parse(ret);
-                    socketPort = jRes["port"].Value<int>();
+                    SocketPort = jRes["port"].Value<int>();
                 }
 
                 ClientWebSocket ws = new ClientWebSocket();

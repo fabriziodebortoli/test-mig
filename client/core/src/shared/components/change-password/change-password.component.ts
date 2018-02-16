@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener, EventEmitter, ChangeDetectorRef } from '@angular/core';
 
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { Logger } from './../../../core/services/logger.service';
 import { AuthService } from './../../../core/services/auth.service';
+import { Logger } from './../../../core/services/logger.service';
 
 import { TbComponent } from '../tb.component';
 

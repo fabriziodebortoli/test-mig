@@ -274,7 +274,7 @@ namespace Microarea.Common.Generic
 		public const int UM_SWITCH_ACTIVE_TAB = ExternalAPI.WM_USER + 944;
 		public const int UM_DESTROYING_DOCKABLE_FRAME = ExternalAPI.WM_USER + 945;
 		public const int UM_REFRESH_USER_LOGIN =  ExternalAPI.WM_USER + 946;
-		public const int UM_CHOOSE_CUSTOMIZATION_CONTEXT_AND_EASYBUILDERIT_AGAIN =  ExternalAPI.WM_USER + 947;
+		//public const int UM_CHOOSE_CUSTOMIZATION_CONTEXT_AND_EASYSTUDIO_AGAIN =  ExternalAPI.WM_USER + 947;
 		public const int UM_IS_ROOT_DOCUMENT = ExternalAPI.WM_USER + 948;
         public const int UM_IMMEDIATE_BALLOON = ExternalAPI.WM_USER + 949;
 		public const int UM_HAS_INVALID_VIEW = ExternalAPI.WM_USER + 950;
@@ -294,7 +294,7 @@ namespace Microarea.Common.Generic
 		public const int UM_OPEN_MENUEDITOR = ExternalAPI.WM_USER + 967;
         public const int UM_LOGGING = ExternalAPI.WM_USER + 968;
         public const int UM_LOGIN_INCOMPLETED= ExternalAPI.WM_USER + 969;
-		public const int UM_CHOOSE_CUSTOMIZATION_CONTEXT = ExternalAPI.WM_USER + 970;
+		//public const int UM_CHOOSE_CUSTOMIZATION_CONTEXT = ExternalAPI.WM_USER + 970;
 		public const int UM_PIN_UNPIN_ACTIONS = ExternalAPI.WM_USER + 971;
 		public const int UM_LAYOUT_SUSPENDED_CHANGED = ExternalAPI.WM_USER + 972;
 		public const int UM_TOOLBAR_UPDATE = ExternalAPI.WM_USER + 973;

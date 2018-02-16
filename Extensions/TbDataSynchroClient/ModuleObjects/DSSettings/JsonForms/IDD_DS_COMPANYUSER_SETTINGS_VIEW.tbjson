@@ -1,0 +1,20 @@
+{
+    "id": "IDD_DS_COMPANYUSER_SETTINGS_VIEW",
+    "name": "DSCompanyUserSettings",
+    "text": "Data Synchronizer Settings",
+    "type": "View",
+    "child": true,
+    "items": [
+        {
+            "id": "IDC_TG_DS_COMPANYUSER_SETTINGS",
+            "name": "TGDGCompanyUserSettings",
+            "type": 72 /*TileGroup*/,
+            "layoutType": 4 /*VBOX*/,
+            "items": [
+                {
+                    "href": "IDD_TD_DS_COMPANYUSER_SETTINGS"
+                }
+            ]
+        }
+    ]
+}

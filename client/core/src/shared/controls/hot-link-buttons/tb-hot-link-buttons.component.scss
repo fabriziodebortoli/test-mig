@@ -1,6 +1,4 @@
 .tableHeader {
-    /*background-color: #0277bd;
-    color: white;*/
     background-color: #666;
     color: #fff;
     text-align: center;
@@ -24,7 +22,6 @@
 .selTypeElem {
     cursor: pointer;
     padding: 0 5px;
-    width: 100%;
 }
 
 .selTypeElem:hover {
@@ -37,7 +34,6 @@
 
 .hotlinkButtonsContainer {
     display: -webkit-inline-box;
-   // margin-bottom: 5px;
 }
 
 .dropDownItem {
@@ -63,6 +59,16 @@
     max-width: 50%;
     font-size: small;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 2px;
+  }
+  .grid-item {
+    padding: 2px;
+    text-align: center;
+  }
 
 ::ng-deep .k-animation-container-shown,
 .k-animation-container>.k-popup {

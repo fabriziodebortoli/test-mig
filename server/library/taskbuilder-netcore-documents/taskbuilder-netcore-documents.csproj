@@ -16,6 +16,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>LoaderMessagesStrings.resx</DependentUpon>
     </Compile>
+    <Compile Update="Controllers\OrchestratorMessagesStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OrchestratorMessagesStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Controllers\StateSerializerMessagesStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -27,6 +32,10 @@
     <EmbeddedResource Update="Controllers\LoaderMessagesStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LoaderMessagesStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controllers\OrchestratorMessagesStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>OrchestratorMessagesStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Controllers\StateSerializerMessagesStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

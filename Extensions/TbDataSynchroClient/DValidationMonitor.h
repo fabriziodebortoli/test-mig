@@ -267,7 +267,7 @@ protected:
 	virtual BOOL	CanRunDocument 			();
 	virtual	BOOL	InitDocument			();
 	virtual void	OnCloseDocument			();
-
+	virtual void	OnPrepareAuxData		(CTileDialog * pTileDialog);
 protected:
 	void LoadDocSummaryDBT					();
 	void LoadKFToFixSummaryDBT				();

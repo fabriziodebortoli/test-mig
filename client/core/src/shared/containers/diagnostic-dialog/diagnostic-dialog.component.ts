@@ -1,7 +1,8 @@
-import { Component, OnInit, Type, Input } from '@angular/core';
+import { Component, OnInit, Type, Input, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 
 import { DiagnosticData, DiagnosticDlgResult, Message } from './../../models/message-dialog.model';
-
+import { TbComponent } from './../../../shared/components/tb.component';
+import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 
 @Component({
@@ -9,16 +10,36 @@ import { EventDataService } from './../../../core/services/eventdata.service';
     templateUrl: './diagnostic-dialog.component.html',
     styleUrls: ['./diagnostic-dialog.component.scss']
 })
-export class DiagnosticDialogComponent implements OnInit {
-
-    opened = false;
+export class DiagnosticDialogComponent extends TbComponent {
+    @Output()
+    public onClose = new EventEmitter();
     eventData: EventDataService;
-    data: DiagnosticData;
-    constructor() { }
+    _opened = false;
+    @Input()
+    public set opened(value: boolean) {
+        if (this._opened === value) {
+            return;
+        }
+        this._opened = value;
+        if (!value) {
+            this.onClose.emit();
+        }
+    }
 
-    ngOnInit() { }
+    public get opened(): boolean {
+        return this._opened;
+    }
 
-    open(data: DiagnosticData, eventData?: EventDataService) {
+    @Input() public data = new DiagnosticData();
+    constructor(
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
+    ) {
+        super(tbComponentService, changeDetectorRef);
+        this.enableLocalization();
+    }
+
+    public open(data: DiagnosticData, eventData?: EventDataService) {
         this.eventData = eventData;
         this.opened = true;
         this.data = data;
@@ -31,22 +52,29 @@ export class DiagnosticDialogComponent implements OnInit {
             res.ok = ok;
             this.eventData.closeDiagnosticDialog.emit(res);
         }
+
     }
+
 
 }
 
 @Component({
-    selector: 'tb-diagnostic-item',
+    selector: 'tb-diagnostic-dialog-item',
     templateUrl: './diagnostic-item.component.html',
     styleUrls: ['./diagnostic-item.component.scss']
 })
-export class DiagnosticItemComponent {
+export class DiagnosticDialogItemComponent {
 
     constructor() { }
-    @Input() message: Message;
-    @Input() level: number = 0;
-    collapsed = false;
+    @Input() public message: Message;
+    @Input() public level: number = 0;
+    public collapsed = false;
     toggle() {
         this.collapsed = !this.collapsed;
+    }
+    getBanner(): string {
+        return this.message.text
+            ? this.message.text
+            : "Messages";
     }
 }

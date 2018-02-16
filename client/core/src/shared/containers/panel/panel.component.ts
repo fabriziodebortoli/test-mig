@@ -11,7 +11,7 @@ export class PanelComponent implements OnInit {
   
   @Input() title: string;
   @Input() isCollapsed: boolean = false;
-  @Input() isCollapsible: boolean = true;
+  @Input() isCollapsible: boolean = false;
 
   @Output() toggle = new EventEmitter<boolean>();
   

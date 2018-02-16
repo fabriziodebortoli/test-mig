@@ -210,10 +210,12 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         }
         else if (element.textrect !== undefined) {
           id = element.textrect.baserect.baseobj.id;
-          value = element.textrect.value;
           let obj = this.FindObj(id);
           if (obj === undefined) {
             continue;
+          }
+          if (element.textrect.value !== undefined) {
+            obj.value = element.textrect.value;
           }
           if (element.textrect.textcolor !== undefined) {
             obj.textcolor = element.textrect.textcolor;
@@ -221,7 +223,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (element.textrect.bkgcolor !== undefined) {
             obj.bkgcolor = element.textrect.bkgcolor;
           }
-          obj.value = value;
         }
         else if (element.table !== undefined) {
           id = element.table.baseobj.id;
@@ -242,6 +243,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             }
             if (source.hidden !== undefined) {
               target.hidden = source.hidden;
+            }
+            if (source.width !== undefined) {
+              target.width = source.width;
             }
 
             if (source.title !== undefined) {

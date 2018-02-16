@@ -8,6 +8,8 @@
             </li>
         </ul>
 
+        <m4-icon class="pin" [icon]="getPinIcon()" (click)="pinned=!pinned" *ngIf="dockState === 'expanded'"></m4-icon>
+
     </div>
 
     <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" class="dockpane-content"></kendo-tabstrip>

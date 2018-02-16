@@ -46,6 +46,7 @@ public:
 	int m_LatestY2 = 0;//l'ultimo rettangolo associato al controllo posizionato in modalità automatica (che segue il flusso verticale)
 	CMap<CString, LPCTSTR, CRect, CRect> m_Rects;
 	CJsonContextObj* m_pParentContext = NULL;
+	BOOL m_bIsJsonDesigner = FALSE;
 protected:
 	CJsonContextObj(){ m_arFonts.SetOwns(TRUE); }
 
@@ -88,8 +89,8 @@ public:
 	virtual BOOL CreateChilds(CJsonContextObj* pContext, CWnd* pParentWnd);
 	virtual void ClearCache() = 0;
 	virtual void BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContextObj* pContext) = 0;
-	virtual CJsonContextObj* CreateContext() = 0;
-	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true) = 0;
+	virtual CJsonContextObj* CreateContext(bool bIsJsonEditor = false) = 0;
+	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true, bool bIsJsonEditor = false) = 0;
 	virtual void MergeContext(const CJsonResource& sJsonResource, CJsonContextObj* pContext) = 0;
 	virtual void GetDeltaJsonFormInfos(const CString& sJsonId, CArray<CJsonResource>& sources) = 0;
 	virtual BOOL IsValid(CLocalizableDialog* pDialog) = 0; 

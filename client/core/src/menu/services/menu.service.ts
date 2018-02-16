@@ -4,7 +4,7 @@ import { LoadingService } from './../../core/services/loading.service';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { Observable, BehaviorSubject } from '../../rxjs.imports';
+import { Observable, BehaviorSubject, Subscription } from '../../rxjs.imports';
 
 import { InfoService } from './../../core/services/info.service';
 import { HttpService } from './../../core/services/http.service';
@@ -95,7 +95,7 @@ export class MenuService {
         public componentService: ComponentService,
         public infoService: InfoService,
         public diagnosticService: DiagnosticService,
-        public loadingService: LoadingService        
+        public loadingService: LoadingService
     ) { }
 
     //---------------------------------------------------------------------------------------------
@@ -239,17 +239,31 @@ export class MenuService {
             }
         }
         this.addToMostUsed(object);
-        object.isLoading = this.isLoading = true;
-        let subs1 = this.componentService.componentInfoCreated.subscribe(arg => {
-            object.isLoading = this.isLoading = false;
-            subs1.unsubscribe();
-        });
 
-        //TODOLUCA, leak, se lancio mille documenti con successo, mi rimangono mille componentCreationError senza unsubscribe
-        let subs2 = this.componentService.componentCreationError.subscribe(reason => {
+        object.isLoading = this.isLoading = true;
+
+
+        //sono mutuamente esclusive, se si verifica un evento non si verificano gli altri
+        //pertanto uno dei tre elimina la sottoscrizione anche per gli altri
+        let subs = new Array<Subscription>();
+
+        let sub = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = this.isLoading = false;
-            subs2.unsubscribe();
+            subs.forEach(sub => sub.unsubscribe());
         });
+        subs.push(sub);
+        sub = this.componentService.componentCreationError.subscribe(reason => {
+            object.isLoading = this.isLoading = false;
+            subs.forEach(sub => sub.unsubscribe());
+        });
+        subs.push(sub);
+        sub = this.webSocketService.runError.subscribe((args) => {
+            this.diagnosticService.showDiagnostic(args.messages);
+            object.isLoading = this.isLoading = false;
+            subs.forEach(sub => sub.unsubscribe());
+        });
+        subs.push(sub);
+
     }
 
     runObject(object: any) {

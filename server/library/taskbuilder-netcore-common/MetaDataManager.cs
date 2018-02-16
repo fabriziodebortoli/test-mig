@@ -23,10 +23,10 @@ namespace Microarea.Common
         {
             this.instanceKey = instanceKey;
 			//pf = new PathFinder("USR-BAUZONEANN", "DEVELOPMENT_NEWDB", "ERP_NEWDB", "sa");
-			pf = new PathFinder("USR-Grillolara1", "DEV_ERP_NEXT", "WebMago", "sa");
+			pf = new PathFinder("USR-Grillolara1", "DEvelopment", "WebMago", "sa");
            // pf = new PathFinder(":microarea.database.windows.net", "DEV_ERP_NEXT", "WebMago", "sa");
             pf.Edition = "Professional";
-            connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'ProvisioningDB'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
+            connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'dbsys'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
 			// connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
 			//connectionStringStandard = "Data Source = USR-BAUZONEANN; Initial Catalog = 'SystemDB_NewDB'; User ID = 'sa'; Password = '16'; Connect Timeout = 30; ";
 
@@ -41,9 +41,10 @@ namespace Microarea.Common
             connectionStringStandard = aConnectionStringStandard;
             connectionStringCustom = aConnectionStringCustom;
 
-            pf = new PathFinder("USR-grillolara1", "DEV_Layer", "company", "sa");
+            pf = new PathFinder("USR-grillolara1", "DEvelopment", "company", "sa");
             pf.Edition = "Professional";
         }
+
         //---------------------------------------------------------------------
         public void InsertAllStandardMetaDataInDB()
         {
@@ -161,6 +162,92 @@ namespace Microarea.Common
         }
 
         //---------------------------------------------------------------------
+        public void DeleteAllStandardMetaDataInFS()
+        {
+            foreach (ApplicationInfo ai in pf.ApplicationInfos)
+            {
+                if (ai.ApplicationType != ApplicationType.TaskBuilderApplication &&
+                        ai.ApplicationType != ApplicationType.TaskBuilder)
+                    continue;
+
+                if (ai.Modules == null || ai.Modules.Count == 0)
+                    continue;
+
+                int id;
+                bool isCustom = ai.Path.Contains("Custom");
+                DirectoryInfo dir = new DirectoryInfo(ai.Path);
+                //inserisco nel db la directory dell app
+                // DeleteDir(dir);
+                //...quindi, per ogni modulo...
+                if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Application + NameSolverStrings.ConfigExtension)))
+                    DeleteFile(new FileInfo(dir.FullName + NameSolverStrings.Directoryseparetor + NameSolverStrings.Application + NameSolverStrings.ConfigExtension));
+
+                //File di brand
+                OneLevelDeleteFileByType(dir.FullName + NameSolverStrings.Directoryseparetor + "Solutions", isCustom, ai.Name, string.Empty, ".Brand.xml");
+                //File di temi
+                ThemesDelete(dir.FullName + NameSolverStrings.Directoryseparetor + "Themes", isCustom, ai.Name, string.Empty);
+
+                foreach (ModuleInfo mi in ai.Modules)
+                {
+                    dir = new DirectoryInfo(mi.Path);
+                  //  int idModulo = InsertDir(dir, isCustom, id, ai.Name, mi.Name);
+
+                    if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Module + NameSolverStrings.ConfigExtension)))
+                        DeleteFile(new FileInfo(dir.FullName + NameSolverStrings.Directoryseparetor + NameSolverStrings.Module + NameSolverStrings.ConfigExtension));
+
+                    if (Directory.Exists(mi.Path + NameSolverStrings.Directoryseparetor + "ModuleObjects"))
+                    {
+                        dir = new DirectoryInfo(mi.Path + NameSolverStrings.Directoryseparetor + "ModuleObjects");
+                     //   id = DeleteDir(dir, isCustom, idModulo, ai.Name, mi.Name);
+                        foreach (FileInfo file in dir.GetFiles())
+                            DeleteFile(file);
+                        foreach (DirectoryInfo subDir in dir.GetDirectories())//es ERP\CustomersSuppliers\ModuleObjects\CircularLetterTemplates
+                        {
+                          //  id = InsertDir(subDir, isCustom, id, ai.Name, mi.Name);
+                            foreach (DirectoryInfo subDir2 in subDir.GetDirectories())//es ERP\CustomersSuppliers\ModuleObjects\CircularLetterTemplates\Description
+                            {
+                            //    id = InsertDir(subDir2, isCustom, id, ai.Name, mi.Name);
+                                foreach (FileInfo file in subDir2.GetFiles())
+                                    DeleteFile(file);
+                                if (subDir2.FullName.Contains("ExportProfiles"))
+                                {
+                                    foreach (DirectoryInfo subDir3 in subDir2.GetDirectories())//es ERP\CustomersSuppliers\ModuleObjects\CircularLetterTemplates\Description
+                                    {
+                             //         id = InsertDir(subDir3, isCustom, id, ai.Name, mi.Name);
+                                        foreach (FileInfo file in subDir3.GetFiles())
+                                            DeleteFile(file);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    OneLevelDelete(mi.Path + NameSolverStrings.Directoryseparetor + "Settings");
+
+                    RecourseDelete(mi.Path + NameSolverStrings.Directoryseparetor + "Files");
+
+                    OneLevelDelete(mi.Path + NameSolverStrings.Directoryseparetor + "ReferenceObjects");
+
+                    OneLevelDelete(mi.Path + NameSolverStrings.Directoryseparetor + "Report");
+
+                    OneLevelDelete(mi.Path + NameSolverStrings.Directoryseparetor + "Menu");
+
+                    RecourseDelete(mi.Path + NameSolverStrings.Directoryseparetor + "JsonForms");
+
+                    OneLevelDelete(mi.Path + NameSolverStrings.Directoryseparetor + "Companies");
+
+                    RecourseDelete(mi.Path + NameSolverStrings.Directoryseparetor + "DataManager");
+
+                    RecourseDelete(mi.Path + NameSolverStrings.Directoryseparetor + "DatabaseScript");
+
+                    RecourseDelete(mi.Path + NameSolverStrings.Directoryseparetor + "XML");
+                }
+
+            }
+            connect.Close();
+        }
+
+        //---------------------------------------------------------------------
         public void DeleteAllStandardMetaDataInDBByInstance(string instanceKey)
         {
             connect = new SqlConnection(connectionStringStandard);
@@ -192,7 +279,26 @@ namespace Microarea.Common
             }
 
         }
+        //---------------------------------------------------------------------
+        private void ThemesDelete(string folderPath, bool isCustom, string appName, string moduleName)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+               // int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    DeleteFile(file);
+                if (Directory.Exists(folderPath + NameSolverStrings.Directoryseparetor + "Images"))
+                {
+                    DirectoryInfo dirSub = new DirectoryInfo(folderPath + NameSolverStrings.Directoryseparetor + "Images");
+                //    int idsub = InsertDir(dirSub, isCustom, idModulo, appName, moduleName);
+                    foreach (FileInfo subFile in dirSub.GetFiles())
+                        DeleteFile(subFile);
+                }
 
+            }
+
+        }
         //---------------------------------------------------------------------
         private void OneLevelInsertFileByType(string folderPath, int idModulo, bool isCustom, string appName, string moduleName, string fileExtension)
         {
@@ -203,6 +309,20 @@ namespace Microarea.Common
                 foreach (FileInfo file in dir.GetFiles())
                     if (file.Name.Contains(fileExtension))
                         InsertFile(file, isCustom, id, appName, moduleName);
+            }
+
+        }
+
+        //---------------------------------------------------------------------
+        private void OneLevelDeleteFileByType(string folderPath,  bool isCustom, string appName, string moduleName, string fileExtension)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+            //    int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    if (file.Name.Contains(fileExtension))
+                        DeleteFile(file);
             }
 
         }
@@ -223,6 +343,23 @@ namespace Microarea.Common
 
         }
 
+
+        //---------------------------------------------------------------------
+        private void RecourseDelete(string folderPath)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+             //   int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    DeleteFile(file);
+
+                foreach (DirectoryInfo info in dir.GetDirectories())
+                    RecourseDelete(info.FullName);
+            }
+
+        }
+
         //---------------------------------------------------------------------
         private void OneLevelInsert(string folderPath, int idModulo, bool isCustom, string appName, string moduleName)
         {
@@ -236,6 +373,25 @@ namespace Microarea.Common
 
         }
 
+        //---------------------------------------------------------------------
+        private void OneLevelDelete(string folderPath)
+        {
+            if (Directory.Exists(folderPath))
+            {
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+              //  int id = InsertDir(dir, isCustom, idModulo, appName, moduleName);
+                foreach (FileInfo file in dir.GetFiles())
+                    DeleteFile(file);
+            }
+
+        }
+
+
+        //---------------------------------------------------------------------
+        private void DeleteDir(DirectoryInfo aDir)
+        {
+            aDir.Delete();
+        }
         //---------------------------------------------------------------------
         private int InsertDir(DirectoryInfo aDir, bool isCustom, int id, string appName, string moduleName)
         {
@@ -333,6 +489,14 @@ namespace Microarea.Common
         //    }
         //    return string.Empty;
         //}
+
+
+        //---------------------------------------------------------------------
+        private void DeleteFile(FileInfo aFile)
+        {
+            aFile.Delete();
+           
+        }
         //---------------------------------------------------------------------
         private void InsertFile(FileInfo aFile, bool isCustom, int id, string appName, string moduleName)
         {

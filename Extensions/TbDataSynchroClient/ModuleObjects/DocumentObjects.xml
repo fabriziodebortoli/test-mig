@@ -19,5 +19,10 @@
         <Mode name="BackGround"/>
       </ViewModes>
     </Document>
+    <Document namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.DSSettings" localize="Data Synchronizer Settings" classhierarchy="DCompanyUserSettingsDoc.DDSSettings">
+      <ViewModes>
+        <Mode name="Default" />
+      </ViewModes>
+    </Document>
 	</Documents>
 </DocumentObjects>

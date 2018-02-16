@@ -274,7 +274,7 @@ BOOL CFileSystemDriver::RenameFile (const CString& sOldFileName, const CString& 
 {
 	BOOL bOk = FALSE;
 
-	if (IsDosName(sOldFileName) && ExistPath(::GetPath(sOldFileName, FALSE)))
+	if (IsDosName(sOldFileName) && ExistPath(::GetPath(sOldFileName, FALSE)) && !ExistPath(::GetPath(sNewFileName, FALSE)))
 	{
 		int nResult = ::_trename(sOldFileName, sNewFileName);
 		if (nResult == 0)
@@ -530,7 +530,8 @@ void CFileSystemDriver::GetAllApplicationInfo(CStringArray* pAppsPath)
 	pAppsPath->Add(strPath);
 
 	AddApplicationDirectories(AfxGetPathFinder()->GetContainerPath(CPathFinder::TB_APPLICATION), pAppsPath);
-	AddApplicationDirectories(AfxGetPathFinder()->GetCustomApplicationsPath(), pAppsPath);
+	if (AfxGetPathFinder()->GetEasyStudioCustomizationsPosType() == CPathFinder::CUSTOM)
+		AddApplicationDirectories(AfxGetPathFinder()->GetEasyStudioCustomizationsPath(), pAppsPath);
 }
 
 
@@ -560,7 +561,7 @@ void CFileSystemDriver::GetAllModuleInfo(const CString& strAppName, CStringArray
 	// load modules namespaces into map form file system
 	AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::STANDARD), pModulesPath, false);
 	if (pModulesPath->GetSize() == 0) //non ho moduli: si tratta di un'applicazione nella custom?
-		AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE), pModulesPath, true);
+		AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO), pModulesPath, true);
 }
 
 

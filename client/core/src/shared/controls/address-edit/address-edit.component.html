@@ -1,9 +1,7 @@
-<div class="tb-control tb-addressedit" [ngClass]="componentClass()">
+<tb-control-container type="tb-addressedit">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <textarea #anchor name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled"
-        [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
-    <tb-context-menu [contextMenu]="addressContextMenu"></tb-context-menu>
+    <textarea #anchor name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="dataChanged()" (ngModelChange)="this.model.value=$event" [disabled]="!model?.enabled" [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
     <kendo-popup #popup *ngIf="show" [anchor]="anchor" [collision]="collision" [popupClass]="'content popup'">
         <button kendoButton *ngFor="let current of addresses" (click)=onclick(current)> {{current.formatted_address}}</button>
     </kendo-popup>
-</div>
+</tb-control-container>

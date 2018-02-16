@@ -279,8 +279,7 @@ public:
 	virtual	void	GetValue			(DataObj& aValue);
 	virtual	BOOL	OnInitCtrl			();
 	
-	// non fa nulla poiche` e` sensibile solo al valore
-	virtual	void	UpdateCtrlStatus	() {}
+	virtual	void	UpdateCtrlStatus	();
 	virtual	BOOL	EnableCtrl			(BOOL bEnable  = TRUE);
 	virtual BOOL	ShowCtrl			(int nCmdShow);
 

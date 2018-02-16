@@ -109,7 +109,7 @@ private:
 	CMap <UINT, UINT, CRuntimeClass*, CRuntimeClass*> m_RegisteredControls;
 protected:
 	BOOL						m_bAborted;			// indica se il documento ha completato la fase di costruzione
-	//BOOL						m_bLocked;			// indica se il documento ha correntemente un lock sul DBTMaster
+	BOOL						m_bClosing;			// indica se il documento è in fase di chiusura
 	BOOL						m_bRetryingLock;	// indica se il documento ha dei tentativi di lock in corso
 
 	CXMLDataManagerObj*			m_pXMLDataManager;
@@ -210,7 +210,9 @@ public:
 	void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }
 
 	BOOL CanRunDocumentInStandAloneMode(); //restituisce TRUE se non c'è un unico documento aperto e se non ci sono altri utenti connessi all'azienda, FALSE altrimenti
-	
+										   //---------------------------------------------------------------------------
+	void AssignParameters(const DataStr& arguments);
+
 public:
 	virtual void SetPathName(LPCTSTR lpszPathName, BOOL = TRUE)
 		{ CDocument::SetPathName(lpszPathName, FALSE); }
@@ -423,6 +425,8 @@ public:
 	virtual BOOL CanPushToClient();
 	virtual void OnPrepareForFind(HotKeyLinkObj* pHKL, SqlRecord* pRec) {}//called to customize hotlink behavior before FindRecord
 	virtual void OnPrepareAuxData(HotKeyLinkObj* pHKL) {}//called to customize hotlink data after FindRecord
+
+	virtual void OnHotLinkClosed(UINT nIDC) {};
 
 protected:	
 	

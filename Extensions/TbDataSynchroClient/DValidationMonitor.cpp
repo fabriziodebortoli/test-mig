@@ -1505,6 +1505,7 @@ CString	DValidationMonitor::OnGetCaption(CAbstractFormView* pView)
 	return _T("");
 }
 
+
 //----------------------------------------------------------------------------
 void DValidationMonitor::SetTileStatus()
 {
@@ -1523,7 +1524,10 @@ void DValidationMonitor::GetResultsTileDialog()
 	if (!pView)
 		return;
 
-	for (int i = 0; i < pView->m_pTileGroups->GetSize(); i++)
+	m_pSummaryTile = GetTileDialog(IDD_DATAVALIDATION_MONITOR_SUMMARY);
+	m_pMonitorTile = GetTileDialog(IDD_DATAVALIDATION_MONITOR_DETAIL);
+
+/*	for (int i = 0; i < pView->m_pTileGroups->GetSize(); i++)
 	{
 		CTileGroup* pGroup = pView->m_pTileGroups->GetAt(i);
 		m_pSummaryTile = pGroup->GetTileDialog(IDD_DATAVALIDATION_MONITOR_SUMMARY);
@@ -1531,6 +1535,7 @@ void DValidationMonitor::GetResultsTileDialog()
 		if (m_pSummaryTile && m_pMonitorTile)
 			break;
 	}
+	*/
 }
 
 //----------------------------------------------------------------------------
@@ -1544,4 +1549,19 @@ void DValidationMonitor::ExpandDetail()
 void DValidationMonitor::DoOpenDockPanel(BOOL bOpen /* = TRUE */)
 {
 	m_pViewFKToFixPanel->SetAutoHideMode(FALSE, CBRS_RIGHT | CBRS_HIDE_INPLACE, 0, TRUE);
+}
+
+//----------------------------------------------------------------------------
+void DValidationMonitor::OnPrepareAuxData(CTileDialog * pTileDlg)
+{
+	if (pTileDlg->GetNamespace().GetObjectName() == _NS_TILEDLG("Summary"))
+	{
+		m_pSummaryTile = pTileDlg;
+	}
+	else if (pTileDlg->GetNamespace().GetObjectName() == _NS_TILEDLG("MonitorDetails"))
+	{
+		m_pMonitorTile = pTileDlg;
+	}
+
+
 }

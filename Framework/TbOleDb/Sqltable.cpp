@@ -2947,8 +2947,6 @@ CString SqlTable::GetQuery()
 	if (m_bErrorFound)
 		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
 
-
-	BOOL bContinue = FALSE;
 	m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
 	m_bDeleted = FALSE;
 	TRY
@@ -2961,8 +2959,8 @@ CString SqlTable::GetQuery()
 			Prepare();
 			VERIFY(BindColumns());
 			BindParameters();
-			m_bFirstQuery = FALSE;
 
+			m_bFirstQuery = FALSE;
 		}
 		else
 		{
@@ -2992,11 +2990,9 @@ CString SqlTable::GetQuery()
 		m_pRowSet->Dispose();
 		return _T("");
 	}
-	END_CATCH	
+	END_CATCH
 
-	CString sqlTemp = m_strSQL;
-	SubstituteQuestionMarks(sqlTemp);
-	return sqlTemp;
+	return ToString(FALSE, FALSE, TRUE);
 }
 
 //-----------------------------------------------------------------------------
@@ -4618,63 +4614,7 @@ CString SqlTable::GetNativeFilter() const
 //-----------------------------------------------------------------------------
 void SqlTable::BuildCall()
 {
-	CString strTemp("? = ");
-	CString strProc;
-	BOOL bFirst = TRUE;
-
-	TRACE_SQL(_T("BuildCall"), this);
-
-	SqlRecordProcedure* pRecProc = (SqlRecordProcedure*)m_pRecord;
-
-	SqlProcedureParamInfo*	pParamInfo = NULL;
-	SqlProcParamItem* pItem;
-
-	const SqlProcedureParameters* pParameters = pRecProc->GetTableInfo()->m_pProcParameters;
-
-	strProc.Format(_T("Call %s "), m_pRecord->GetTableName());
-
-	// costruisco la stringa di call e intanto effettuo il bind dei parametri
-	for (int i = 0; i <= pParameters->GetUpperBound(); i++)
-	{
-		pItem = NULL;
-		pParamInfo = pParameters->GetAt(i);
-		if (!pParamInfo)
-		{
-			ASSERT(FALSE);
-			m_strSQL.Empty();
-			return;
-		}
-		pItem = pRecProc->GetParamItemFromParamInfo(pParamInfo);
-		if (!pItem)
-		{
-			ASSERT(FALSE);
-			m_strSQL.Empty();
-			return;
-		}
-
-		if (pParamInfo->m_nType == DBPARAMTYPE_RETURNVALUE)
-		{
-			strTemp += strProc;
-			strProc = strTemp;
-		}
-		else
-		{
-			if (bFirst)
-			{
-				strProc += "(?";
-				bFirst = FALSE;
-			}
-			else
-				strProc += ", ?";
-		}
-		// i parametri devono essere inseriti nell'Accessor nell'esatto ordine previsto
-		// dalla stored procedure
-		AddProcParam(pParamInfo, pItem->GetDataObj());
-	}
-	if (!bFirst)
-		strProc += ")";
-
-	m_strSQL.Format(_T("{ %s }"), strProc);
+	
 }
 
 
@@ -4808,6 +4748,9 @@ void SqlTable::Call()
 				}
 				AddProcParam(pParamInfo, pItem->GetDataObj());
 			}
+			pItem = m_pParamsRecord->GetParamItemFromName(RETURN_VALUE);
+			if (pItem)
+				AddProcParam(pItem->m_pParameterInfo, pItem->GetDataObj());
 
 			BindParameters();
 			m_strSQL = m_strOldSQL = m_strTableName;
@@ -5231,7 +5174,43 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 				}
 				else
 				{
-					ASSERT_TRACE(FALSE, "Binded parameter placeholder was not found\n");
+					int pos = -1; BOOL found = FALSE;
+					while ((pos = query.Find(pElem->GetBindName(), start) ) > -1)
+					{
+						int c = 0;
+						if (pos > 0 && query[pos - 1] == '@')
+						{
+							pos--; c++;
+						}
+						query.Delete(pos, pElem->GetBindName().GetLength() + c);
+
+						CString rep = GetConnection()->NativeConvert(pElem->GetDataObj());
+
+						CString name = pElem->GetBindName();
+						if (!name.IsEmpty())
+						{
+							int idx = name.ReverseFind('_');	//remove numeric postfix (Woorm table rule and named query)
+							name = name.Left(idx);
+						}
+
+						if (!name.IsEmpty() && !pElem->GetLocalName().IsEmpty())
+							name += L" - ";
+						name += pElem->GetLocalName();
+
+						rep = bAddTagIn ?
+							L"{IN " + name + L" } "
+							:
+							name.IsEmpty() ?
+							rep
+							:
+							L"/*" + name + L"*/ " + rep;
+
+						query.Insert(pos, rep);
+						start = pos + rep.GetLength();
+						found = TRUE;
+					}
+					
+					ASSERT_TRACE(found, "Binded parameter placeholder was not found\n");
 				}
 			}
 		}

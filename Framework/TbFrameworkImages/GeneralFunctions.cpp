@@ -684,10 +684,12 @@ Gdiplus::Bitmap* LoadGdiplusBitmapOrPng(CString strImageNS, BOOL bUseColoredImag
 	}
 
 	CTBNamespace aNs(CTBNamespace::IMAGE, strImageNS);
-	CString	sImagePath = AfxGetPathFinder()->GetFileNameFromNamespace(aNs, AfxGetLoginInfos()->m_strUserName);
+	const CLoginInfos* pInfos = AfxGetLoginInfos();
+	const CString sUser = pInfos ? AfxGetLoginInfos()->m_strUserName : _T("");
+	CString	sImagePath = AfxGetPathFinder()->GetFileNameFromNamespace(aNs, sUser);
+
 	if (bUseColoredImage)
 		sImagePath = GetMoreColoredImage(sImagePath);
-
 	gdibitmap = LoadPNG(sImagePath, bForceLoad);
 
 	if (!gdibitmap)

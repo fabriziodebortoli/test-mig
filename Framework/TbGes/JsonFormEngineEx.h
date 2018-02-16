@@ -279,8 +279,8 @@ private:
 protected:
 	virtual void ClearCache();
 	virtual BOOL ProcessWndDescription(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJsonContextObj* pContext);
-	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true);
-	virtual CJsonContextObj* CreateContext();
+	virtual CJsonContextObj* CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions = true, bool bIsJsonEditor = false);
+	virtual CJsonContextObj* CreateContext(bool bIsJsonEditor = false);
 	virtual void MergeContext(const CJsonResource& sJsonResource, CJsonContextObj* pContext);
 	virtual void GetDeltaJsonFormInfos(const CString& sJsonId, CArray<CJsonResource>& sources);
 	virtual BOOL IsValid(CLocalizableDialog* pDialog);

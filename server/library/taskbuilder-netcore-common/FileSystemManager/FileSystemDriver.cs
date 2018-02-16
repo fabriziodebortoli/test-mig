@@ -34,7 +34,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //---------------------------------------------------------------------
-        public bool IsAManagedObject( string sFileName) 
+        public bool IsAManagedObject( string sFileName) //TODO LARA
         {
 	        return true;
         }
@@ -50,7 +50,12 @@ namespace Microarea.Common.FileSystemManager
         {
             try
             {
-                dom.Save(File.OpenWrite(sFileName));
+                using (FileStream fileStrean = File.Create(sFileName))
+                {
+                    fileStrean.Write(Encoding.ASCII.GetBytes(dom.InnerXml), 0, Encoding.ASCII.GetByteCount(dom.InnerXml));
+                    fileStrean.Flush();
+                    fileStrean.Dispose();
+                }
                 return true;
             }
             catch (Exception)
@@ -61,9 +66,9 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------
         public byte[] GetBinaryFile(string sFileName, int nLen)
         {
+            return File.ReadAllBytes(sFileName);
+	    }
 
-	        return null;
-        }
         //-----------------------------------------------------------------------------
         public string GetDriverDescription() 
         {
@@ -75,7 +80,15 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public bool SaveBinaryFile( string sFileName, byte[] sBinaryContent, int nLen)
         {
-            return true;
+            try
+            {
+                File.WriteAllBytes(sFileName, sBinaryContent);
+                return true;
+            }
+            catch (Exception exx)
+            {
+                return false;
+            }
         }
 
         ////-----------------------------------------------------------------------
@@ -364,19 +377,43 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public bool CopyFolder( string sOldPathName,  string sNewPathName,  bool  bOverwrite,  bool  bRecursive)
         {
-            bool bOk = false;
-            //DirectoryInfo dir = new DirectoryInfo(sOldPathName);
-            //try
-            //{
-            //    System.IO.DirectoryInfo(sOldPathName, sNewPathName, bOverwrite);
-            //    foreach(DirectoryInfo in )
-                bOk = true;
-            //}
-            //catch (Exception exx)
-            //{
-            //    Debug.WriteLine(exx.Message);
-            //}
-            return bOk;
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sOldPathName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sOldPathName);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(sNewPathName))
+            {
+                Directory.CreateDirectory(sNewPathName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(sNewPathName, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (bRecursive)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(sNewPathName, subdir.Name);
+                    CopyFolder(subdir.FullName, temppath, bOverwrite, bRecursive);
+                }
+            }
+
+          
+            return true;
 
         }
 
@@ -416,10 +453,17 @@ namespace Microarea.Common.FileSystemManager
             DirectoryInfo dir = new DirectoryInfo(sPathName);
 
             if (bFolders)
-                elements.AddRange(dir.GetDirectories(sPathName, SearchOption.AllDirectories));
-
+            {
+                foreach (string path in Directory.GetDirectories(sPathName))
+                    dirs.Add(new TBDirectoryInfo(path, null));
+            }
+               
             if (bFiles)
-                dirs.AddRange(dir.GetFiles(sFileExt));
+            {
+                foreach (FileInfo file in dir.GetFiles(sFileExt))
+                    elements.Add(new TBFile(file.FullName, null));
+            }
+
 
             return true;
         }

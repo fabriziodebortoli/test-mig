@@ -28,7 +28,7 @@ export class TileWideDirective {
     }
 }
 
-@Directive({ selector: '[tbTileAutofill]' })
+@Directive({ selector: '[tbTileAutoFill]' })
 export class TileAutofillDirective {
     constructor(el: ElementRef, renderer: Renderer) {
         renderer.setElementClass(el.nativeElement, 'tile-autofill', true);

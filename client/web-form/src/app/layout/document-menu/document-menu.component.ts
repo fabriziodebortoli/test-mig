@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ComponentService, ComponentInfoService, EventDataService, BOComponent, ControlComponent, BOService  } from '@taskbuilder/core';
-import { Store, createSelectorByMap } from '@taskbuilder/core';
+import { Store, createSelectorByMap, ContextMenuItem } from '@taskbuilder/core';
 
 import { DocumentMenuService } from './document-menu.service';
 
@@ -11,6 +11,14 @@ import { DocumentMenuService } from './document-menu.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DocumentMenuComponent extends BOComponent implements OnInit, OnDestroy {
+
+    public cm_IDC_QUOTATIONS_TST_QUOTATIONNO = [
+        new ContextMenuItem(this._TB('Prova 1'), 'CMD_1'),
+        new ContextMenuItem(this._TB('Prova 1'), 'CMD_2'),
+        new ContextMenuItem(this._TB('Prova 2'), 'CMD_3'),
+        new ContextMenuItem(this._TB('Prova 3'), 'CMD_4'),
+        new ContextMenuItem(this._TB('Prova 4'), 'CMD_5')
+    ]
 
     constructor(document: DocumentMenuService,
         eventData: EventDataService,

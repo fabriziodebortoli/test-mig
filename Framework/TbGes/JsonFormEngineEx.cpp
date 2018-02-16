@@ -927,9 +927,10 @@ void CJsonFormEngine::InitCachePath()
 
 }
 //-----------------------------------------------------------------------------
-CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions)
+CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResource, bool bCacheDescriptions, bool bIsJsonEditor)
 {
 	CJsonContextObj* pContext = CJsonContext::Create();
+	pContext->m_bIsJsonDesigner = bIsJsonEditor;
 	pContext->m_JsonResource = sJsonResource;
 	pContext->m_strCurrentResourceContext = sJsonResource.m_strContext;
 	if (pContext->m_strCurrentResourceContext.IsEmpty()) {
@@ -1080,9 +1081,11 @@ BOOL CJsonContext::CreateSplitter(CSplitterDescription* pSplitterDesc, CSplitted
 
 
 //-----------------------------------------------------------------------------
-CJsonContextObj* CJsonFormEngine::CreateContext()
+CJsonContextObj* CJsonFormEngine::CreateContext(bool bIsJsonEditor)
 {
-	return CJsonContext::Create();
+	CJsonContext* pContext = CJsonContext::Create();
+	pContext->m_bIsJsonDesigner = bIsJsonEditor;
+	return pContext;
 }
 //-----------------------------------------------------------------------------
 void CJsonFormEngine::GetDeltaJsonFormInfos(const CString& sJsonId, CArray<CJsonResource>& sources)
@@ -2070,6 +2073,10 @@ template <class T> void TBJsonBodyEditWrapper<T>::OnBeforeCustomize()
 								pButton->AddMenuItem(pDescMenuItem->m_strName, AfxLoadJsonString(pDescMenuItem->m_strText, pToolBarBtnDesc), nMenuItemId, 1, 0, ((CMenuItemDescription*)pDescMenuItem)->m_strIcon);
 						}
 					}
+					break;
+				}
+				case CWndObjDescription::HRef:
+				{ //se ricevo un href dentro una tile, non dveo fare nulla
 					break;
 				}
 				default:

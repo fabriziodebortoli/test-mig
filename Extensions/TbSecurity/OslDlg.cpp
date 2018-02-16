@@ -1495,9 +1495,9 @@ void COslDlgDoc::FillAllTree()
 	CString strTitle = m_pDoc->GetTitle();
 
 	HTREEITEM htmLevDoc = m_ctrlTree.InsertItem(strTitle, nBmp, nBmp, TVI_ROOT, TVI_LAST );
-		COslTreeItem * pDocItemInfo = new COslTreeItem (NULL, m_pDoc->GetInfoOSL(), strTitle);
-		m_arInfoTreeItems.Add(pDocItemInfo);
-		m_ctrlTree.SetItemData (htmLevDoc, (DWORD) pDocItemInfo); 
+	COslTreeItem * pDocItemInfo = new COslTreeItem (NULL, m_pDoc->GetInfoOSL(), strTitle);
+	m_arInfoTreeItems.Add(pDocItemInfo);
+	m_ctrlTree.SetItemData (htmLevDoc, (DWORD) pDocItemInfo); 
 
 	EnumTabbedToolbarElements(pDocItemInfo, htmLevDoc);
 	EnumRibbonBarElements(pDocItemInfo, htmLevDoc);
@@ -1526,25 +1526,25 @@ void COslDlgDoc::FillAllTree()
 	// scorre tutte le child window della dialog
 	CDockingPanes* arrDock = m_pDoc->GetMasterFrame()->GetDockPane();
 
-	for (int i = 0; i < arrDock->GetSize(); i++)
-	{
+	//for (int i = 0; i < arrDock->GetSize(); i++)
+	//{
 
-		CTaskBuilderDockPane* pCtrlBar = dynamic_cast<CTaskBuilderDockPane*>(arrDock->GetAt(i));
-		for (int j = 0; j < pCtrlBar->m_Forms.GetCount(); j++)
-		{
-			CTaskBuilderDockPaneForm* pDlgPanel = (CTaskBuilderDockPaneForm*)pCtrlBar->m_Forms.GetAt(j);
+	//	CTaskBuilderDockPane* pCtrlBar = dynamic_cast<CTaskBuilderDockPane*>(arrDock->GetAt(i));
+	//	for (int j = 0; j < pCtrlBar->m_Forms.GetCount(); j++)
+	//	{
+	//		CTaskBuilderDockPaneForm* pDlgPanel = (CTaskBuilderDockPaneForm*)pCtrlBar->m_Forms.GetAt(j);
 
-			//DIALOG (ES EASYATTACHMENT)
-			CParsedDialog* pDlg = dynamic_cast<CParsedDialog*>(pDlgPanel->GetWnd());
-			if (pDlg)
-				EnumDialog(pDocItemInfo, htmLevDoc, pDlg);
+	//		//DIALOG (ES EASYATTACHMENT)
+	//		CParsedDialog* pDlg = dynamic_cast<CParsedDialog*>(pDlgPanel->GetWnd());
+	//		if (pDlg)
+	//			EnumDialog(pDocItemInfo, htmLevDoc, pDlg);
 
-			//VIEW (ES LINK)
-			CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(pDlgPanel->GetWnd());
-			if (pView != NULL)
-				EnumView(pDocItemInfo, htmLevDoc, pView, FALSE);
-		}
-	}
+	//		//VIEW (ES LINK)
+	//		CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(pDlgPanel->GetWnd());
+	//		if (pView != NULL)
+	//			EnumView(pDocItemInfo, htmLevDoc, pView, FALSE);
+	//	}
+	//}
 	
 	m_pDoc->DispatchBuildingSecurityTree(&m_ctrlTree, &m_arInfoTreeItems);
 	m_bFilling = FALSE;

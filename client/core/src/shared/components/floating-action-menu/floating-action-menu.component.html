@@ -1,0 +1,6 @@
+<nav class="floating-action-menu" [class.active]="state.getValue().display" *ngIf="buttons.toArray()">
+    <a class="fab-toggle" (click)="toggle()">
+        <m4-icon icon="erp-routing-c"></m4-icon>
+    </a>
+    <ng-content></ng-content>
+</nav>

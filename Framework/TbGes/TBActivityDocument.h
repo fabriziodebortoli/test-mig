@@ -245,10 +245,8 @@ public:
 	
 private:	//private members
 	BOOL						m_bExtractingData;
-	BOOL						m_bIsExecutedRun;
 	BOOL						m_bExtractData;
 	BOOL						m_bAddMoreData;
-	BOOL						m_bUndoExtraction;
 	BOOL						m_bManageSelectButton;
 	E_ACTIVITY_PANELACTION		m_eFiltersActionOnExtract;
 	E_ACTIVITY_PANELACTION		m_eActionsActionOnExtract;

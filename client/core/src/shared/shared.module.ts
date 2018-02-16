@@ -55,8 +55,10 @@ import { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 import { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 import { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 import { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-import {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
-import {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+import { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+import { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+import { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
@@ -79,6 +81,7 @@ import { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 import { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
+import { CustomGridComponent } from './components/radar/custom-grid.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -102,8 +105,8 @@ export { ToolbarTopButtonComponent } from './components/toolbar/toolbar-top/tool
 export { ToolbarSeparatorComponent } from './components/toolbar/toolbar-top/toolbar-separator.component';
 export { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom.component';
 export { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
-export {ToolbarBottomButtonDropupComponent} from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
-export {ToolbarTopButtonDrodownComponent} from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
+export { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
+export { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
 export { TopbarComponent } from './components/topbar/topbar.component';
 export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
 export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
@@ -125,15 +128,16 @@ export { DiagnosticComponent } from './components/diagnostic/diagnostic.componen
 export { TbHotlinkButtonsComponent } from './controls/hot-link-buttons/tb-hot-link-buttons.component';
 export { ChangePasswordComponent } from './components/change-password/change-password.component';
 export { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
-
+export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+export { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
-    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent,ToolbarBottomButtonDropupComponent,
+    ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
-    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent
+    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomGridComponent
 ];
 
 /**
@@ -147,10 +151,8 @@ import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-ca
 import { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
 import { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
 import { TbCardComponent } from './containers/tb-card/tb-card.component';
-import { TabComponent } from './containers/tabs/tab/tab.component';
-import { TabberComponent } from './containers/tabs/tabber/tabber.component';
 import { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
-import { DiagnosticDialogComponent, DiagnosticItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
+import { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 import { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 import { LayoutContainerComponent } from './containers/tiles/layout-container/layout-container.component';
 import { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.component';
@@ -175,10 +177,8 @@ export { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-ca
 export { TbCardSubtitleComponent } from './containers/tb-card/tb-card-subtitle/tb-card-subtitle.component';
 export { TbCardTitleComponent } from './containers/tb-card/tb-card-title/tb-card-title.component';
 export { TbCardComponent } from './containers/tb-card/tb-card.component';
-export { TabComponent } from './containers/tabs/tab/tab.component';
-export { TabberComponent } from './containers/tabs/tabber/tabber.component';
 export { DynamicDialogComponent } from './containers/dynamic-dialog/dynamic-dialog.component';
-export { DiagnosticDialogComponent, DiagnosticItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
+export { DiagnosticDialogComponent, DiagnosticDialogItemComponent } from './containers/diagnostic-dialog/diagnostic-dialog.component';
 export { MessageDialogComponent } from './containers/message-dialog/message-dialog.component';
 export { LayoutContainerComponent } from './containers/tiles/layout-container/layout-container.component';
 export { TilePanelComponent } from './containers/tiles/tile-panel/tile-panel.component';
@@ -198,8 +198,8 @@ export { StatusTileComponent } from './containers/tiles/status-tile-panel/status
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticItemComponent, DynamicDialogComponent, TabberComponent, TabComponent,
-    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent, 
+        TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent, PanelComponent
 ];
 
@@ -241,10 +241,11 @@ import { TextComponent } from './controls/text/text.component';
 import { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 import { ControlComponent } from './controls/control.component';
 import { AddressEditComponent } from './controls/address-edit/address-edit.component';
-import { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
+import { ColoredStaticComponent } from './controls/colored-static/coloredstatic.component';
 import { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
+import { ControlContainerComponent } from './controls/control-container/control-container.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -281,10 +282,11 @@ export { TextComponent } from './controls/text/text.component';
 export { ConnectionStatusComponent } from './controls/connection-status/connection-status.component';
 export { ControlComponent } from './controls/control.component';
 export { AddressEditComponent } from './controls/address-edit/address-edit.component';
-export { ColoredStaticComponent} from './controls/colored-static/coloredstatic.component';
+export { ColoredStaticComponent } from './controls/colored-static/coloredstatic.component';
 export { PropertyGridComponent } from './controls/property-grid/property-grid.component';
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
+export { ControlContainerComponent } from './controls/control-container/control-container.component';
 
 const TB_CONTROLS = [
     ControlComponent, ColoredStaticComponent, AddressEditComponent,
@@ -293,7 +295,7 @@ const TB_CONTROLS = [
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
     LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
-    PropertyGridItemComponent, PropertyGridItemGroupComponent
+    PropertyGridItemComponent, PropertyGridItemGroupComponent, ControlContainerComponent
 ];
 
 /**
@@ -305,7 +307,7 @@ import { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 import { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
-import { ColoredControlDirective} from './directives/colored-control.directive';
+import { ColoredControlDirective } from './directives/colored-control.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
@@ -313,7 +315,7 @@ export { TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideD
 export { TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective } from './directives/tile-dialog-style.directive';
 export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
-export { ColoredControlDirective} from './directives/colored-control.directive';
+export { ColoredControlDirective } from './directives/colored-control.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
@@ -330,8 +332,10 @@ import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
+import { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
+export { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbColorPipe, TbToUpper];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe,TbColorPipe, TbToUpper];
 
 export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';

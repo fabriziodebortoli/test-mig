@@ -206,13 +206,13 @@ BOOL SqlSession::IsOpen() const
 //-----------------------------------------------------------------------------	
 BOOL SqlSession::CanClose() const
 {
-	return !m_bTxnInProgress;
+	return !IsTxnInProgress();
 }
 
 //-----------------------------------------------------------------------------	
 void SqlSession::ReleaseCommands()
 {
-	if (m_bTxnInProgress)
+	if (IsTxnInProgress())
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
@@ -224,13 +224,20 @@ void SqlSession::ReleaseCommands()
 }
 
 //-----------------------------------------------------------------------------
+SqlSession* SqlSession::CreateUpdatableSqlSession()
+{
+	SqlSession* pUpdateableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
+	pUpdateableSqlSession->m_bForUpdate = true;
+	return pUpdateableSqlSession;
+}
+
+
+//-----------------------------------------------------------------------------
 SqlSession* SqlSession::GetUpdatableSqlSession()
 {
 	if (!m_pUpdatableSqlSession)
-	{
-		m_pUpdatableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
-		m_pUpdatableSqlSession->m_bForUpdate = true;		
-	}
+		m_pUpdatableSqlSession = CreateUpdatableSqlSession();
+
 	return m_pUpdatableSqlSession;
 }
 
@@ -273,7 +280,7 @@ void SqlSession::Close()
 	if (m_pSqlConnection->AlwaysConnected() || !m_pContext->IsOwnContext())
 		return;
 	
-	if (m_bTxnInProgress)
+	if (IsTxnInProgress())
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
@@ -293,7 +300,7 @@ void SqlSession::ForceClose()
 	if (!m_pContext->IsOwnContext())
 		return; 
 
-	if (m_bTxnInProgress)
+	if (IsTxnInProgress())
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
@@ -320,21 +327,32 @@ void SqlSession::GetErrorString(HRESULT nResult, CString& m_strError)
 }
 
 //-----------------------------------------------------------------------------
+BOOL SqlSession::IsTxnInProgress()	const
+{
+	return	m_bTxnInProgress || (m_pUpdatableSqlSession && m_pUpdatableSqlSession->m_bTxnInProgress);
+}
+
+//-----------------------------------------------------------------------------
 ///<summary>
 ///Begin sql transaction
 ///</summary>
 //[TBWebMethod(name = Connection_BeginTransaction, thiscall_method=true)]
 void SqlSession::StartTransaction()
 {
-	if (m_pSqlConnection->m_bAutocommit || m_bTxnInProgress || !m_pUpdatableSqlSession)
+	if (m_pSqlConnection->m_bAutocommit || IsTxnInProgress())
 		return;
 
 	TRY
 	{
+		if (!m_pUpdatableSqlSession)
+			m_pUpdatableSqlSession = CreateUpdatableSqlSession();
+
 		if (!m_pUpdatableSqlSession->IsOpen())
-			m_pUpdatableSqlSession->Open();
+			 m_pUpdatableSqlSession->Open();
 
 		m_pUpdatableSqlSession->m_pSession->BeginTransaction();
+		m_pUpdatableSqlSession->m_bTxnInProgress = TRUE;
+		m_bTxnInProgress = TRUE;
 	}
 		CATCH(MSqlException, e)
 	{
@@ -342,8 +360,6 @@ void SqlSession::StartTransaction()
 		//ThrowSqlException(cwsprintf(_TB("Unable to open the transaction for the following error: \n\r {0-%s}"), e->m_strError));
 	}
 	END_CATCH
-		m_bTxnInProgress = TRUE;
-	m_bTxnInProgress = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -361,12 +377,13 @@ void SqlSession::Commit()
 	if (pLockMng && pLockMng->HasRestarted())
 		ThrowSqlException(_TB("Lock Manager Web Services has been restarted. The current transaction will be aborted!\r\tIt is recommended to Logout e re-Login the application!"));	
 
-	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress || !m_pUpdatableSqlSession)
+	if (m_pSqlConnection->m_bAutocommit || !m_pUpdatableSqlSession || !IsTxnInProgress())
 		return;
 
 	TRY
 	{
 		m_pUpdatableSqlSession->m_pSession->Commit();
+		m_pUpdatableSqlSession->m_bTxnInProgress = FALSE;
 		m_pUpdatableSqlSession->Close();
 	}
 	
@@ -388,13 +405,15 @@ void SqlSession::Commit()
 //[TBWebMethod(name = Connection_Rollback, thiscall_method=true)]
 void SqlSession::Abort()
 {
-	if (m_pSqlConnection->m_bAutocommit || !m_bTxnInProgress || !m_pUpdatableSqlSession)
+	if (m_pSqlConnection->m_bAutocommit || !m_pUpdatableSqlSession || !IsTxnInProgress())
 		return;
 
 	TRY
 	{
 		m_pUpdatableSqlSession->m_pSession->Rollback();
+		m_pUpdatableSqlSession->m_bTxnInProgress = FALSE;
 		m_pUpdatableSqlSession->Close();
+		m_bTxnInProgress = FALSE; // ho terminato la transazione
 	}
 		CATCH(MSqlException, e)
 	{
@@ -405,7 +424,6 @@ void SqlSession::Abort()
 	}
 
 	END_CATCH
-	m_bTxnInProgress = FALSE; // ho terminato la transazione
 }
 
 //-----------------------------------------------------------------------------
@@ -421,7 +439,7 @@ void SqlSession::RemoveCommand(SqlRowSet* pSqlCommand)
 	m_arCommandPool.RemoveCommand(pSqlCommand);
 
 	//chiudo la sessione nel caso in cui non ci sia più nessun sqlrowset aperto e nel caso in cui la connessione non sia forzata
-	if (!m_pSqlConnection->AlwaysConnected() && m_arCommandPool.GetSize() == 0)
+	if (!m_pSqlConnection->AlwaysConnected() && m_arCommandPool.GetSize() == 0 && !IsTxnInProgress())
 		Close();
 }
 
@@ -548,11 +566,11 @@ void SqlConnection::Initialize()
 	m_bAlwaysConnected		= false;
 
 	
-	DataObj* pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(m_bUsePerformanceMng));
+	DataObj* pDataObj =  AfxGetSettingValue(snsTbOleDb, szPerformanceAnalizer, szAnalizeDocPerformance, DataBool(FALSE));
 	if (pDataObj)
 		m_bUsePerformanceMng = *((DataBool*) pDataObj) ;
 
-	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(m_bOptimizedHKL), szTbDefaultSettingFileName);
+	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(FALSE), szTbDefaultSettingFileName);
 	if (pDataObj)
 		m_bOptimizedHKL = *((DataBool*)pDataObj);
 

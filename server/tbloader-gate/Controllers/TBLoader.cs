@@ -55,7 +55,6 @@ namespace Microarea.TbLoaderGate
         {
             Debug.WriteLine(HttpContext.Request.Path.Value);
             string subUrl = HttpContext.Request.Path.Value.Substring(leftTrimCount);
-            bool createTB = true;// subUrl == "/tb/menu/doLogin/";
             string tbName = "";
             try
             {
@@ -68,8 +67,8 @@ namespace Microarea.TbLoaderGate
 
                     tbName = jObject.GetValue(TbLoaderName)?.ToString();
                 }
-
-
+                if (string.IsNullOrEmpty(tbName))
+                    tbName = HttpContext.Session.GetString(TbLoaderName);
                 if (options.TestMode)
                 {
                     if (stub == null)
@@ -80,13 +79,14 @@ namespace Microarea.TbLoaderGate
                 {
 
                     bool newInstance;
-                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, createTB, out newInstance);
-                    if (tb == null || !tb.connected)
+                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, out newInstance);
+                    if (tb == null || !tb.Connected)
                     {
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
                         string json = JsonConvert.SerializeObject(res);
                         byte[] buff = Encoding.UTF8.GetBytes(json);
-
+                         if (newInstance)
+                            HttpContext.Session.SetString(TbLoaderName, tb.Name);
                         await HttpContext.Response.Body.WriteAsync(buff, 0, buff.Length);
                     }
                     else
@@ -96,19 +96,21 @@ namespace Microarea.TbLoaderGate
 
                         if (jObject == null)
                             jObject = new JObject();
-                        if (jObject[TbLoaderName]?.Value<string>() != tb.name)
+                        if (jObject[TbLoaderName]?.Value<string>() != tb.Name)
                         {
-                            jObject[TbLoaderName] = tb.name;
-                            jObject[TbLoaderId] = tb.processId;
+                            jObject[TbLoaderName] = tb.Name;
+                            jObject[TbLoaderId] = tb.ProcessId;
                             HttpContext.Response.Headers.Add("Authorization", JsonConvert.SerializeObject(jObject, Formatting.None));
                             HttpContext.Response.Headers.Add("Access-control-expose-headers", "Authorization");
-
+                            
                         }
                         HttpContext.Response.StatusCode = (int)resp.StatusCode;
 
+                        if (newInstance)
+                            HttpContext.Session.SetString(TbLoaderName, tb.Name);
                         await resp.Content.CopyToAsync(HttpContext.Response.Body);
                     }
-
+                    
                 }
 
             }

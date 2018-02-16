@@ -257,7 +257,6 @@ int CAttachmentsListBox::GetImageIdx(DataStr sExtensionType)
 	return 0;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //						CAttachmentPane									//
 //////////////////////////////////////////////////////////////////////////
@@ -806,7 +805,6 @@ IMPLEMENT_DYNCREATE(CAttachmentHeadTileDlg, CAttachmentBaseTileDlg)
 BEGIN_MESSAGE_MAP(CAttachmentHeadTileDlg, CAttachmentBaseTileDlg)
 	//{{AFX_MSG_MAP(CAttachmentHeadTileDlg)
 	ON_LBN_DBLCLK(IDC_ATTACHMENTS_LISTBOX, OnAttachmentsListDblClick)
-
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1122,7 +1120,8 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 CAttachmentBarcodeTileDlg::CAttachmentBarcodeTileDlg()
 	:
-	CAttachmentBaseTileDlg(_NS_TILEDLG("Barcode"), IDD_TD_ATTACHMENT_BARCODE)
+	CAttachmentBaseTileDlg(_NS_TILEDLG("Barcode"), IDD_TD_ATTACHMENT_BARCODE),
+	m_bManualBarcodeDetection(FALSE)
 {
 }
 
@@ -1148,13 +1147,14 @@ void CAttachmentBarcodeTileDlg::BuildDataControlLinks()
 	pBarcodeViewer->SetBarcode(pCurrAttInfo->m_BarcodeValue, pCurrAttInfo->m_BarcodeType); // serve per la visualizzazione del barcode
 
 	if (pCurrAttInfo->m_IsAPapery)
+	{
+		AddLink(IDC_ATT_STATIC_BARCODE_NOTES, _NS_LNK("StaticNotes"), NULL, &(m_StaticNotes), RUNTIME_CLASS(CStrStatic));
 		AddLink(IDC_ATT_BARCODE_NOTES, _NS_LNK("Notes"), NULL, &(pCurrAttInfo->m_Description), RUNTIME_CLASS(CStrEdit));
+	}
 	else
 	{
-		CWnd* pWnd = GetDlgItem(IDC_ATT_BARCODE_NOTES);
-		pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_STATIC_BARCODE_NOTES);
-		pWnd->ShowWindow(SW_HIDE);
+		pCurrAttInfo->m_Description.SetHide();
+		m_StaticNotes.SetHide();
 	}
 
 	// visualizzo il pulsante di Detect se l'impostazione e' manuale
@@ -1164,28 +1164,10 @@ void CAttachmentBarcodeTileDlg::BuildDataControlLinks()
 		pCurrAttInfo->m_IsAPapery
 		)
 	{
-		CWnd* pWnd = GetDlgItem(IDC_ATT_DETECT_BARCODE);
-		pWnd->ShowWindow(SW_HIDE);
+		m_bManualBarcodeDetection.SetHide();
 	}
 	else
-	{
-		AddLink
-			(
-				IDC_ATT_DETECT_BARCODE,
-				_NS_LNK("ManualDetectBarcode"),
-				NULL,
-				&(m_bManualBarcodeDetection)
-				);
-
-		/*CExtButton* pButton = (CExtButton*)AddLink
-			(
-				IDC_ATT_DETECT_BARCODE,
-				_NS_LNK("ManualDetectBarcode"),
-				NULL,
-				&(m_bManualBarcodeDetection)
-				);
-		pButton->SetPngImages(ExtensionsIcon(szIconBarcode, CONTROL));*/
-	}
+		AddLink(IDC_ATT_DETECT_BARCODE, _NS_LNK("ManualDetectBarcode"),	NULL, &(m_bManualBarcodeDetection));
 }
 
 //-----------------------------------------------------------------------------
@@ -1195,11 +1177,9 @@ void CAttachmentBarcodeTileDlg::EnableTileDialogControlLinks(BOOL bEnable /*= TR
 	
 	DMSAttachmentInfo* pCurrAttInfo = GetDMSClientDoc()->m_pCurrAttachmentInfo;
 	pCurrAttInfo->m_BarcodeValue.SetReadOnly(!GetDMSClientDoc()->m_bEditMode || GetDMSClientDoc()->m_pCurrAttachmentInfo->m_IsAPapery);
-	
-	CWnd* pWnd = GetDlgItem(IDC_ATT_BARCODE_NOTES);
-	pWnd->ShowWindow((pCurrAttInfo->m_IsAPapery) ? SW_SHOW : SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_STATIC_BARCODE_NOTES);
-	pWnd->ShowWindow((pCurrAttInfo->m_IsAPapery) ? SW_SHOW : SW_HIDE);
+
+	m_StaticNotes.SetHide(!pCurrAttInfo->m_IsAPapery);
+	pCurrAttInfo->m_Description.SetHide(!pCurrAttInfo->m_IsAPapery);
 
 	// il button per il detect barcode manuale e' visibile solo se il barcode e' abilitato, il detect e' manuale e non si tratta di un papery
 	if (
@@ -1208,15 +1188,13 @@ void CAttachmentBarcodeTileDlg::EnableTileDialogControlLinks(BOOL bEnable /*= TR
 		!pCurrAttInfo->m_IsAPapery
 		)
 	{
-		pWnd = GetDlgItem(IDC_ATT_DETECT_BARCODE);
-		pWnd->ShowWindow(SW_SHOW);
+		m_bManualBarcodeDetection.SetHide(FALSE);
 		m_bManualBarcodeDetection = GetDMSClientDoc()->m_bEditMode;
-		//m_bManualBarcodeDetection.SetReadOnly(!GetDMSClientDoc()->m_bEditMode); // e' abilitato solo se sono in edit
+		m_bManualBarcodeDetection.SetReadOnly(!GetDMSClientDoc()->m_bEditMode); // e' abilitato solo se sono in edit
 	}
 	else
 	{
-		pWnd = GetDlgItem(IDC_ATT_DETECT_BARCODE);
-		pWnd->ShowWindow(SW_HIDE);
+		m_bManualBarcodeDetection.SetHide();
 		m_bManualBarcodeDetection = FALSE;
 	}
 }
@@ -1262,6 +1240,11 @@ CAttachmentSOSTileDlg::CAttachmentSOSTileDlg()
 	:
 	CAttachmentBaseTileDlg(_NS_TILEDLG("SOS"), IDD_TD_ATTACHMENT_SOS)
 {
+	// devo inizializzare i valori degli static perche' avendoli addlinkati non viene considerato
+	// il testo specificato nel tbjson
+	m_StaticAbsoluteCode = _TB("Absolute code");
+	m_StaticLotID = _TB("Lot ID");
+	m_StaticRegistrationDate = _TB("Registration date");
 }
 
 //-----------------------------------------------------------------------------
@@ -1270,20 +1253,24 @@ void CAttachmentSOSTileDlg::BuildDataControlLinks()
 	// declare gia' fatta dentro il file CDDMS
 	DMSAttachmentInfo* pCurrAttInfo = GetDMSClientDoc()->m_pCurrAttachmentInfo;
 	
-	// descrizione stato
 	AddLink(IDC_ATT_SOS_DISPATCH_STATUS, _NS_LNK("DispatchStatusDescription"), NULL, &(m_DocStatusDescription), RUNTIME_CLASS(CStrStatic));
-	// bitmap
 	CPictureStatic* pPictureStatic = (CPictureStatic*)AddLink
 		(
 			IDC_ATT_SOS_PICTURE, _NS_LNK("DispatchStatusImage"), NULL, &(m_DocStatusImage), RUNTIME_CLASS(CPictureStatic)
 		);
 	pPictureStatic->OnCtrlStyleBest();
 
-	AddLink(IDC_ATT_SOS_CODE,		_NS_LNK("AbsoluteCode"),		NULL, &(m_AbsoluteCode),		RUNTIME_CLASS(CStrStatic));
-	AddLink(IDC_ATT_SOS_LOTID,		_NS_LNK("LotID"),				NULL, &(m_LotID),				RUNTIME_CLASS(CStrStatic));
-	AddLink(IDC_ATT_SOS_REGDATE,	_NS_LNK("RegistrationDate"),	NULL, &(m_RegistrationDate),	RUNTIME_CLASS(CStrStatic));
-	AddLink(IDC_ATT_SEND_TO_SOS,	_NS_LNK("EnableAttachForSOS"),	NULL, &(m_bEnableAttachForSOS));
-	AddLink(IDC_ATT_SOS_INFO,		_NS_LNK("Info"),				NULL, &(m_Info),				RUNTIME_CLASS(CStrStatic));
+	AddLink(IDC_ATT_SOS_STATIC_CODE, _NS_LNK("StaticAbsoluteCode"), NULL, &(m_StaticAbsoluteCode), RUNTIME_CLASS(CStrStatic));
+	AddLink(IDC_ATT_SOS_CODE, _NS_LNK("AbsoluteCode"), NULL, &(m_AbsoluteCode),	RUNTIME_CLASS(CStrStatic));
+
+	AddLink(IDC_ATT_SOS_STATIC_LOTID, _NS_LNK("StaticLotID"), NULL, &(m_StaticLotID), RUNTIME_CLASS(CStrStatic));
+	AddLink(IDC_ATT_SOS_LOTID, _NS_LNK("LotID"), NULL, &(m_LotID), RUNTIME_CLASS(CStrStatic));
+
+	AddLink(IDC_ATT_SOS_STATIC_REGDATE, _NS_LNK("StaticRegistrationDate"), NULL, &(m_StaticRegistrationDate), RUNTIME_CLASS(CStrStatic));
+	AddLink(IDC_ATT_SOS_REGDATE, _NS_LNK("RegistrationDate"), NULL, &(m_RegistrationDate), RUNTIME_CLASS(CStrStatic));
+
+	AddLink(IDC_ATT_SEND_TO_SOS, _NS_LNK("EnableAttachForSOS"),	NULL, &(m_bEnableAttachForSOS));
+	AddLink(IDC_ATT_SOS_INFO, _NS_LNK("Info"), NULL, &(m_Info),	RUNTIME_CLASS(CStrStatic));
 
 	// se l'allegato non e' presente nascondo tutti i controls
 	if (!pCurrAttInfo || pCurrAttInfo->m_attachmentID <= 0)
@@ -1292,59 +1279,28 @@ void CAttachmentSOSTileDlg::BuildDataControlLinks()
 		return;
 	}
 
-	CWnd* pWnd;
 	if (pCurrAttInfo->attachmentInfo->SOSDocumentStatus == StatoDocumento::EMPTY)
 	{
-		pWnd = GetDlgItem(IDC_ATT_SOS_DISPATCH_STATUS);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_PICTURE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-
-		pWnd = GetDlgItem(IDC_ATT_SEND_TO_SOS);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
+		m_DocStatusDescription.SetHide();
+		m_DocStatusImage.SetHide();
+		m_bEnableAttachForSOS.SetHide(FALSE);
 	}
 	else
 	{
-		pWnd = GetDlgItem(IDC_ATT_SOS_DISPATCH_STATUS);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_PICTURE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SEND_TO_SOS);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_INFO);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
+		m_DocStatusDescription.SetHide(FALSE);
+		m_DocStatusImage.SetHide(FALSE);
+		m_bEnableAttachForSOS.SetHide();
+		m_Info.SetHide();
 	}
 
-	if (pCurrAttInfo->attachmentInfo->SOSDocumentStatus == StatoDocumento::EMPTY || pCurrAttInfo->attachmentInfo->SOSDocumentStatus < StatoDocumento::SENT)
-	{
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	}
-	else
-	{
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-	}
+	BOOL bSetHide = (pCurrAttInfo->attachmentInfo->SOSDocumentStatus == StatoDocumento::EMPTY || pCurrAttInfo->attachmentInfo->SOSDocumentStatus < StatoDocumento::SENT);
+
+	m_StaticAbsoluteCode.SetHide(bSetHide);
+	m_AbsoluteCode.SetHide(bSetHide);
+	m_StaticLotID.SetHide(bSetHide);
+	m_LotID.SetHide(bSetHide);
+	m_StaticRegistrationDate.SetHide(bSetHide);
+	m_RegistrationDate.SetHide(bSetHide);
 }
 
 //-----------------------------------------------------------------------------
@@ -1362,10 +1318,8 @@ void CAttachmentSOSTileDlg::EnableTileDialogControlLinks(BOOL bEnable /*= TRUE*/
 
 	StatoDocumento statoDoc = pCurrAttInfo->attachmentInfo->SOSDocumentStatus;
 
-	CWnd* pWnd = GetDlgItem(IDC_ATT_SOS_DISPATCH_STATUS);
-	if (pWnd) pWnd->ShowWindow((pCurrAttInfo->attachmentInfo->SOSDocumentStatus != StatoDocumento::EMPTY) ? SW_SHOW : SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_PICTURE);
-	if (pWnd) pWnd->ShowWindow((pCurrAttInfo->attachmentInfo->SOSDocumentStatus != StatoDocumento::EMPTY) ? SW_SHOW : SW_HIDE);
+	m_DocStatusDescription.SetHide(statoDoc == StatoDocumento::EMPTY);
+	m_DocStatusImage.SetHide(statoDoc == StatoDocumento::EMPTY);
 
 	if (statoDoc != StatoDocumento::EMPTY)
 	{
@@ -1378,89 +1332,58 @@ void CAttachmentSOSTileDlg::EnableTileDialogControlLinks(BOOL bEnable /*= TRUE*/
 
 	if (statoDoc == StatoDocumento::EMPTY || (int)statoDoc < (int)StatoDocumento::SENT)
 	{	
-		pWnd = GetDlgItem(IDC_ATT_SEND_TO_SOS);
-		pWnd->ShowWindow((statoDoc == StatoDocumento::EMPTY) ? SW_SHOW : SW_HIDE);
+		m_bEnableAttachForSOS.SetHide(statoDoc != StatoDocumento::EMPTY);
 
 		if (canBeSentType != ::CanBeSentToSOSType::BeSent)
 		{
-			pWnd = GetDlgItem(IDC_ATT_SOS_INFO);
-			if (pWnd) pWnd->ShowWindow(SW_SHOW);
+			m_Info.SetHide(FALSE);
 			m_Info = strMsg;
 		}
 		else
 		{
-			pWnd = GetDlgItem(IDC_ATT_SOS_INFO);
-			if (pWnd) pWnd->ShowWindow(SW_HIDE);
+			m_Info.SetHide();
 			m_Info.Clear();
 		}
 
 		pCurrAttInfo->attachmentInfo->CreateSOSBookmark = (canBeSentType != ::CanBeSentToSOSType::NoPDFA);
 		m_bEnableAttachForSOS = (DataBool)pCurrAttInfo->attachmentInfo->CreateSOSBookmark;
 
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		pWnd = GetDlgItem(IDC_ATT_SOS_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
+		m_StaticAbsoluteCode.SetHide();
+		m_AbsoluteCode.SetHide();
+		m_StaticLotID.SetHide();
+		m_LotID.SetHide();
+		m_StaticRegistrationDate.SetHide();
+		m_RegistrationDate.SetHide();
 	}
 	else
 	{
-		pWnd = GetDlgItem(IDC_ATT_SEND_TO_SOS);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
-		// Absolute Code
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_CODE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		m_AbsoluteCode = String::IsNullOrWhiteSpace((String^)(pCurrAttInfo->attachmentInfo->SOSAbsoluteCode)) 
-						? _TB("<not available>") : pCurrAttInfo->attachmentInfo->SOSAbsoluteCode->ToString();
-		// LotID
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_LOTID);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		m_LotID = String::IsNullOrWhiteSpace((String^)(pCurrAttInfo->attachmentInfo->SOSLotID)) 
-				? _TB("<not available>") : pCurrAttInfo->attachmentInfo->SOSLotID->ToString();
-		// RegistrationDate
-		pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		pWnd = GetDlgItem(IDC_ATT_SOS_REGDATE);
-		if (pWnd) pWnd->ShowWindow(SW_SHOW);
-		m_RegistrationDate = (pCurrAttInfo->attachmentInfo->SOSRegistrationDate == (DateTime)System::Data::SqlTypes::SqlDateTime::MinValue)
-							? _TB("<not available>") : ((DateTime)(pCurrAttInfo->attachmentInfo->SOSRegistrationDate)).ToShortDateString();
+		m_bEnableAttachForSOS.SetHide();
+		m_StaticAbsoluteCode.SetHide(FALSE);
+		m_AbsoluteCode.SetHide(FALSE);
+		m_StaticLotID.SetHide(FALSE);
+		m_LotID.SetHide(FALSE);
+		m_StaticRegistrationDate.SetHide(FALSE);
+		m_RegistrationDate.SetHide(FALSE);
+
+		m_AbsoluteCode = String::IsNullOrWhiteSpace((String^)(pCurrAttInfo->attachmentInfo->SOSAbsoluteCode)) ? _TB("<not available>") : pCurrAttInfo->attachmentInfo->SOSAbsoluteCode->ToString();
+		m_LotID = String::IsNullOrWhiteSpace((String^)(pCurrAttInfo->attachmentInfo->SOSLotID)) ? _TB("<not available>") : pCurrAttInfo->attachmentInfo->SOSLotID->ToString();
+		m_RegistrationDate = (pCurrAttInfo->attachmentInfo->SOSRegistrationDate == (DateTime)System::Data::SqlTypes::SqlDateTime::MinValue) ? _TB("<not available>") : ((DateTime)(pCurrAttInfo->attachmentInfo->SOSRegistrationDate)).ToShortDateString();
 	}
 }
 
 //-----------------------------------------------------------------------------
 void CAttachmentSOSTileDlg::HideSOSControls()
 {
-	CWnd* pWnd = GetDlgItem(IDC_ATT_SOS_DISPATCH_STATUS);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_PICTURE);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_CODE);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_CODE);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_LOTID);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_LOTID);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_STATIC_REGDATE);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_REGDATE);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SEND_TO_SOS);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
-	pWnd = GetDlgItem(IDC_ATT_SOS_INFO);
-	if (pWnd) pWnd->ShowWindow(SW_HIDE);
+	m_DocStatusDescription.SetHide();
+	m_DocStatusImage.SetHide();
+	m_StaticAbsoluteCode.SetHide();
+	m_AbsoluteCode.SetHide();
+	m_StaticLotID.SetHide();
+	m_LotID.SetHide();
+	m_StaticRegistrationDate.SetHide();
+	m_RegistrationDate.SetHide();
+	m_bEnableAttachForSOS.SetHide();
+	m_Info.SetHide();
 }
 
 // evento intercettato sul click del pulsante di abilitazione all'invio in SOS 

@@ -1,13 +1,13 @@
 {
   "id": "IDD_TBF_COMPANYUSER_SETTINGS_VIEW",
-  "name": "CompanyUserSettings",
-  "text": "Company/User TBF Settings",
+  "name": "TBFCompanyUserSettings",
+  "text": "Framework Settings",
   "type": "View",
   "child": true,
   "items": [
     {
       "id": "IDC_TG_TFB_COMPANYUSER_SETTINGS",
-      "name": "CompanyUserSettings",
+      "name": "TGTBFCompanyUserSettings",
       "type": 72/*TileGroup*/,
       "layoutType": 4/*VBOX*/,
       "items": [

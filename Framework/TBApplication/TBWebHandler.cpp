@@ -6,6 +6,7 @@
 #include <TbGenlibManaged\HelpManager.h>
 #include <TbWoormEngine\REPORT.H>
 #include <tbges\DocumentSession.h>
+#include <tbges\DBT.H>
 #include "TBWebHandler.h"
 
 
@@ -28,7 +29,13 @@ CTbWebHandler::CTbWebHandler()
 	functionMap.SetAt(_T("getOnlineHelpUrl/"),				&CTbWebHandler::GetOnlineHelpFunction);
 	functionMap.SetAt(_T("getThemes/"),						&CTbWebHandler::GetThemesFunction);
 	functionMap.SetAt(_T("changeThemes/"),					&CTbWebHandler::ChangeThemesFunction);
+
+	functionMap.SetAt(_T("getDBTSlaveBufferedModel/"),		&CTbWebHandler::GetDBTSlaveBufferedModel);
+	functionMap.SetAt(_T("addRowDBTSlaveBuffered/"),		&CTbWebHandler::AddRowDBTSlaveBuffered);
+	functionMap.SetAt(_T("removeRowDBTSlaveBuffered/"),		&CTbWebHandler::RemoveRowDBTSlaveBuffered);
+	functionMap.SetAt(_T("changeRowDBTSlaveBuffered/"),		&CTbWebHandler::ChangeRowDBTSlaveBuffered);
 	
+
 	functionMap.SetAt(_T("getAllAppsAndModules/"),		&CTbWebHandler::GetAllAppsAndModules);
 	functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
 	functionMap.SetAt(_T("createNewContext/"),			&CTbWebHandler::CreateNewContext);
@@ -404,29 +411,6 @@ void CTbWebHandler::DoLogoffFunction(const CString& path, const CNameValueCollec
 }
 
 //--------------------------------------------------------------------------------
-void CTbWebHandler::GetDiagnosticMessages(CLoginContext* pContext, CString& messages)
-{
-	//TODOLUCA
-	if (!pContext || !pContext->m_nThreadID)
-	{
-		//_TB("Invalid LoginContext. Check if company database is up to date."));
-		messages.Append(_TB("Invalid LoginContext. Check if company database is up to date."));
-		return;
-	}
-
-	CStringArray messageArray;
-	CDiagnostic* pDiagnostic = NULL;
-	pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, false);
-	pDiagnostic->ToStringArray(messageArray);
-	for (int i = 0; i < messageArray.GetSize(); i++)
-	{
-		const CString  error = messageArray.GetAt(i);
-		messages.Append(error + _T("\r\n"));
-	}
-	delete pDiagnostic;
-}
-
-//--------------------------------------------------------------------------------
 void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
 	CString authToken = params.GetValueByName(AUTH_TOKEN_PARAM);
@@ -446,7 +430,7 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	//TODOLUCA, comunicazione che vengo da desktop, da rivedere
 	BOOL isRemoteInterface = isDesktop != _T("true");
 
-	//se siamo in desktop, comunico al tbappmanager il token, così se qualcuno fa logout dal tbappmanager sa quale token sloggare
+	//se siamo in desktop, comunico al tbappmanager il token, cosï¿½ se qualcuno fa logout dal tbappmanager sa quale token sloggare
 	if (!isRemoteInterface)
 		SendCurrentToken(AfxGetMenuWindowHandle(), authToken);
 
@@ -454,12 +438,21 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	if (pContext)
 	{
 		//travaso eventuali messaggi (ad es. esercizio non definito)
-		CString message;
-		GetDiagnosticMessages(pContext, message);
-		if (!message.IsEmpty())
-			jsonResponse.SetMessage(message);
+		CDiagnostic* pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, true);
+		CDiagnostic* pAppDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(AfxGetApp()->m_nThreadID, &CloneDiagnostic, true);
+		if (pAppDiagnostic->MessageFound(TRUE))
+			pDiagnostic->Copy(pAppDiagnostic, TRUE, _TB("Application startup messages"));
+		if (pDiagnostic->MessageFound(TRUE))
+			pDiagnostic->ToJson(jsonResponse);
+		delete pDiagnostic;
+		delete pAppDiagnostic;
+		if (!pContext->IsValid())
+		{
+			pContext->Close();
+			pContext = NULL;
+		}
 	}
-	if (pContext == NULL || !pContext->IsValid())
+	if (pContext == NULL)
 	{
 		//_TB("Invalid LoginContext. Check if company database is up to date."));
 		jsonResponse.SetError();
@@ -540,9 +533,12 @@ void CTbWebHandler::GetApplicationDateFunction(const CString& path, const CNameV
 
 }
 
+
 //--------------------------------------------------------------------------------
 void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
+	//temporaneamente metto lo stato in unattended per evitare message box
+	SwitchTemporarilyMode tmp(UNATTENDED);
 	response.SetMimeType(L"application/json");
 	CJSonResponse jsonResponse;
 	if (AfxGetLoginThread()->GetOpenDocuments() > 0)
@@ -571,6 +567,13 @@ void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNa
 	}
 
 	AfxSetApplicationDate(date);
+
+	//travaso eventuali messaggi (ad es. esercizio non definito)
+	CDiagnostic* pDiagnostic = AfxGetDiagnostic();
+	if (pDiagnostic->MessageFound(TRUE))
+		pDiagnostic->ToJson(jsonResponse);
+	pDiagnostic->ClearMessages(TRUE);
+
 	//ChangeOperationsDate();
 	jsonResponse.SetOK();
 	response.SetData(jsonResponse.GetJson());
@@ -633,7 +636,7 @@ void CTbWebHandler::ProcessRequest(const CString& path, const CNameValueCollecti
 	}
 
 	//confronto il puntatore di inizio stringa col puntatore alla prima occorrenza della stringa cercata
-	//perché la stringa deve essere all'inizio
+	//perchï¿½ la stringa deve essere all'inizio
 	/*if ((LPCTSTR)path == wcsstr(path, L"image/"))
 	{
 		SetMimeType(path, response);
@@ -735,6 +738,8 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 			return;
 		}
 		pHkl = pDoc->GetHotLink(hklName);
+		if (!pHkl)
+			return;
 	}
 	CString nsHkl = params.GetValueByName(_T("ns"));
 	CString args = params.GetValueByName(_T("args"));
@@ -746,6 +751,154 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 	aResponse.SetOK();
 	aResponse.WriteString(_T("query"), ds.GetString());
 	response.SetData(aResponse);
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		SqlRecord* pRecord = buffered->AddRecord();
+		pRecord->SetStorable();
+		CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");
+	}
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::ChangeRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+	int nRow = _ttoi(sRowNumber);
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		buffered->SetCurrentRow(nRow);
+		/*CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");*/
+		aResponse.SetOK();
+		response.SetData(aResponse);
+		return;
+	}
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+	int nRowToDelete = _ttoi(sRowNumber);
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		BOOL bOk = buffered->DeleteRecord(nRowToDelete);
+		
+		CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");
+	}
+}
+
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		CJsonSerializer serializer;
+		buffered->GetJsonForSingleDBT(serializer, TRUE);
+
+		response.SetData(serializer.GetJson());
+		response.SetMimeType(L"application/json");
+	}
 }
 
 //--------------------------------------------------------------------------------
@@ -772,7 +925,7 @@ void CTbWebHandler::GetRadarQuery(const CString& path, const CNameValueCollectio
 	CString name = params.GetValueByName(_T("name"));
 
 	CJsonSerializer resp;
-	pDoc->GetJsonRadarInfos(resp);
+	pDoc->GetJsonRadarInfos(resp, name);
 
 	aResponse.SetOK();
 	response.SetData(resp);

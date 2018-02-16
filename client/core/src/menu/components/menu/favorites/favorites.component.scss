@@ -63,7 +63,7 @@ ul.favorites-list {
         color: #646464;
     }
     .favorites-empty {
-        line-height: 28px;
+        line-height: 26px;
         background: #3e3e3e;
     }
 }
@@ -75,10 +75,10 @@ ul.favorites-list {
     .favorites {
         ul.favorites-list {
             .favorite-item {
-                background: #f1f1f1;
-                border: 1px solid #ddd;
-                margin: 3px 7px;
-                height: 28px;
+                transition: all 0.2s ease;
+                background: #fff;
+                margin: 0px 7px 0 5px;
+                height: 26px;
                 m4-icon.type {
                     margin: 0px 7px;
                     line-height: 28px;
@@ -86,11 +86,16 @@ ul.favorites-list {
                     padding-top: 2px;
                 }
                 &>span {
-                    color: #00588c;
+                    color: #000;
                     line-height: 29px;
                 }
-                &:hover span {
-                    color: #333;
+                &:hover {
+                    transition: all 0.4s ease;
+                    background: #f1f1f1;
+                    color: #0277bd;
+                    span {
+                        color: #0277bd;
+                    }
                 }
                 m4-icon.type {
                     margin-right: 7px;

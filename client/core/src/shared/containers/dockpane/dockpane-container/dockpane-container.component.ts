@@ -1,8 +1,7 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding, ChangeDetectorRef, Input } from '@angular/core';
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 
-import { TabberComponent } from './../../tabs/tabber/tabber.component';
 import { DockpaneComponent } from './../dockpane.component';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
@@ -13,8 +12,8 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./dockpane-container.component.scss'],
   animations: [
     trigger('collapsing', [
-      state('expanded', style({ width:'400px', overflow:'hidden' })),
-      state('collapsed', style({ width:'40px', overflow:'hidden' })),
+      state('expanded', style({ width: '580px', overflow: 'hidden' })),
+      state('collapsed', style({ width: '40px', overflow: 'hidden' })),
       transition('expanded <=> collapsed', animate('400ms ease')),
     ])
   ]
@@ -28,31 +27,40 @@ export class DockpaneContainerComponent implements AfterContentInit {
     return this.dockpanes.toArray();
   }
 
-  dockState:string = 'collapsed';
-  idxActive:number = null;
+  dockState: string = 'collapsed';
+  idxActive: number = null;
 
+  @HostBinding('class.pinned') pinned:boolean = false;
+  getPinIcon(){
+    return this.pinned ? 'tb-unpin' : 'tb-classicpin';
+  }
+  
   ngAfterContentInit() {
-    resolvedPromise.then(() => {
-      let dockpanes = this.dockpanes.toArray();
-      let internalTabComponents = [];
-      for (let i = 0; i < dockpanes.length; i++) {
-        internalTabComponents.push(dockpanes[i].tabComponent);
-      }
-      this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-    });
+    if (this.kendoTabStripInstance) {
+      resolvedPromise.then(() => {
+        let dockpanes = this.dockpanes.toArray();
+        let internalTabComponents = [];
+        for (let i = 0; i < dockpanes.length; i++) {
+          internalTabComponents.push(dockpanes[i].tabComponent);
+        }
+        this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+      });
+    }
   }
 
-  changeDockpaneByIndex(i){
+  changeDockpaneByIndex(i) {
 
-    if(this.idxActive === i){
+    if (this.idxActive === i) {
       this.idxActive = null;
       this.dockState = 'collapsed';
-    }else{
+    } else {
       this.dockState = 'expanded';
       this.idxActive = i;
       this.kendoTabStripInstance.selectTab(i);
     }
     
+    this.pinned = false;
+
   }
 
 }

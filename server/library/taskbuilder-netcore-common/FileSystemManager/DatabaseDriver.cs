@@ -20,9 +20,9 @@ namespace Microarea.Common.FileSystemManager
     {
         private string standardConnectionString = string.Empty;
         private string customConnectionString = string.Empty;
-        private const string szInstanceKey = "I-M4";
+        private const string szInstanceKey = "ff";
         private const string szMPInstanceTBFS = "MP_InstanceTBFS";
-        private const string szTBCustomMetadata = "TB_CustomMetadata";
+        private const string szTBCustomMetadata = "TB_CustomTBFS";
         private PathFinder pathFinder = null;
         private bool started = false;
 
@@ -110,7 +110,7 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         bool IsARootPath(string strTBFSFolder)
         {
-            return (strTBFSFolder.CompareTo(pathFinder.CalculateRemoteStandardPath()) == 0 || strTBFSFolder.CompareTo(pathFinder.GetCustomPath()) == 0 || 
+            return (pathFinder.IsStandardPath (strTBFSFolder)|| pathFinder.IsCustomPath (strTBFSFolder)|| 
                 strTBFSFolder.CompareTo(pathFinder.GetCustomCompaniesPath()) == 0 || strTBFSFolder.CompareTo(pathFinder.GetCustomCompanyPath()) == 0);
         }
 
@@ -121,7 +121,7 @@ namespace Microarea.Common.FileSystemManager
             string strRelativePath = strPathFileName;
             strRelativePath =strRelativePath.ToUpper();
 
-            string strStartPath = (bCustom) ? pathFinder.GetCustomCompaniesPath() : pathFinder.CalculateRemoteStandardPath();
+            string strStartPath = (bCustom) ? pathFinder.GetCustomCompaniesPath() : pathFinder.GetStandardPath;
             strStartPath = strStartPath.ToUpper();
             int nPos = strRelativePath.IndexOf(strStartPath);
             int nEscape = (strStartPath.Length + 1);
@@ -139,7 +139,9 @@ namespace Microarea.Common.FileSystemManager
         //---------------------------------------------------------------------
         public bool IsAManagedObject(string sFileName)
         {
-            return sFileName.Contains(pathFinder.CalculateRemoteStandardPath()) ;
+            //string path = pathFinder.CalculateLocalStandardPath();
+            //return sFileName.Contains(path) ;
+            return pathFinder.IsStandardPath(sFileName) || pathFinder.IsCustomPath(sFileName);
         }
 
         //se non esiste il parent lo inserisco, vado in ricorsione
@@ -151,7 +153,7 @@ namespace Microarea.Common.FileSystemManager
 
 	        
 	        SqlTransaction trans = null;
-	        String tableName = (bCustom) ? "TB_CustomMetadata" : "MP_InstanceTBFS";
+	        String tableName = (bCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 	        int parentID = -1;
 	        //verifico se la path esiste
 	        String commandText = string.Format("SELECT FileID from {0} WHERE PathName = '{1}' AND IsDirectory = '1'", tableName, strFolder);
@@ -454,9 +456,10 @@ namespace Microarea.Common.FileSystemManager
 
                 //TODO LARA nn mi ricordo perche' 
 		        pathFinder.GetApplicationModuleNameFromPath(strPathName, out strApplication, out strModule);
-                        connection = new SqlConnection(connectionString);
-                        connection.Open();
-		        fileID = InsertMetadataFolder(connection, strRelativePath, strApplication, strModule, isCustom, accountName, bCreate == true);
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+
+                fileID = InsertMetadataFolder(connection, strRelativePath, strApplication, strModule, isCustom, accountName, bCreate == true);
 
                         connection.Close();
 		        connection.Dispose();
@@ -1482,18 +1485,18 @@ namespace Microarea.Common.FileSystemManager
 		        relativePath = GetRelativePath(strTBFSFolder, isCustom);
 		        tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 
-		        commandText = string.Format("Select X.CompleteFileName, X.PathName, X.IsDirectory FROM {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\''", tableName, relativePath);
+		        commandText = string.Format("Select X.CompleteFileName, X.PathName, X.IsDirectory FROM {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\'", tableName, relativePath);
 
 		        if (bFiles && (!string.IsNullOrEmpty(strFileExt) || string.Compare(strFileExt, "*.*" , true) != 0))
 		        {
 			        string fileType = (!strFileExt.Contains('*')) ? strFileExt.Right(strFileExt.Length - 1) : strFileExt;
 			        commandText += (bFolders)
 				        ? string.Format(" AND (X.IsDirectory = \'0\' OR (X.IsDirectory = \'1\' AND X.FileType = \'{0}\'))", fileType)
-				        : string.Format(" AND (X.IsDirectory = \'1\' AND X.FileType = \'{0}\'))", fileType);
+				        : string.Format(" AND (X.IsDirectory = \'1\' AND X.FileType = \'{0}\')", fileType);
 		        }
 		        else
 			        if (bFolders || bFiles)
-				        commandText += string.Format(" AND X.IsDirectory = \'{0}\'))", (bFolders) ? '0' : '1');
+				        commandText += string.Format(" AND X.IsDirectory = \'{0}\'", (bFolders) ?  '1': '0' );
 		
 		        if (!isCustom)
 			        commandText += string.Format(" AND Y.InstanceKey =\'{0}\'", szInstanceKey);
@@ -1505,9 +1508,9 @@ namespace Microarea.Common.FileSystemManager
 		        while (dr.Read())
 		        {
 			        if ((String)dr["IsDirectory"] == "1")
-				        pSubFolders.Add(GetAbsolutePath((String)dr["PathName"], isCustom));
+				        pSubFolders.Add(new TBDirectoryInfo(GetAbsolutePath((String)dr["PathName"], isCustom), this));
 			        else
-				        pFiles.Add(GetAbsolutePath((String)dr["CompleteFileName"], isCustom));
+				        pFiles.Add(new TBFile(GetAbsolutePath((String)dr["CompleteFileName"], isCustom), this));
 		        }
 		        if (dr != null)
 		        {

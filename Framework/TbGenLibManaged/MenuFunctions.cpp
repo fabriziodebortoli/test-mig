@@ -535,6 +535,12 @@ CString GetLoginInitImage()
 }
 
 //---------------------------------------------------------------------------------------
+CString GetCurrentUTCTime()
+{
+	return  CString(DateTime::UtcNow.ToString("o"));
+}
+
+//---------------------------------------------------------------------------------------
 CString GetLoginBackgroundImage()
 {
 	return  CString(NewMenuLoader::GetLoginBackgroundImage());

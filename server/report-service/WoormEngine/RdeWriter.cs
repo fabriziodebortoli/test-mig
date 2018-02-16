@@ -56,18 +56,10 @@ namespace Microarea.RSWeb.WoormEngine
 		virtual public void Close(string file)
 		{
             string dirPath = Path.GetDirectoryName(file);
-            PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);  //if not existing, directory will be created
+            PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false); 
 
-            if (output != null)
-            {//TODO LARA
-
-                using (FileStream fileStrean = File.Create(file))
-                {
-                    fileStrean.Write(Encoding.ASCII.GetBytes(output.InnerXml), 0, Encoding.ASCII.GetByteCount(output.InnerXml));
-                    fileStrean.Flush();
-                    fileStrean.Dispose();
-                }
-          }
+            if (output != null) 
+                PathFinder.PathFinderInstance.FileSystemManager.SaveTextFileFromXml(file, output);
 
 		   Dispose();
 		}

@@ -539,7 +539,7 @@ namespace Microarea.Common.CoreTypes
         //----
         protected string defaultSecurityRoles;
         private bool isSecurityhidden = false;
-        private bool inEasyBuilder = false;
+        private bool inEasyStudio = false;
         public CoreTypes.Value ReturnValue = null;
 
         public string SourceInfo
@@ -556,7 +556,7 @@ namespace Microarea.Common.CoreTypes
 
         public string DefaultSecurityRoles { get { return defaultSecurityRoles; } }
         public bool IsSecurityhidden { get { return isSecurityhidden; } set { isSecurityhidden = value; } }
-        public bool InEasyBuilder { get { return inEasyBuilder; } set { inEasyBuilder = value; } }
+        public bool InEasyStudio { get { return inEasyStudio; } set { inEasyStudio = value; } }
 
         //-----------------------------------------------------------------------------
         // Costruttore usato per le funzioni interne
@@ -674,13 +674,13 @@ namespace Microarea.Common.CoreTypes
                 }
             }
 
-            string inEasyBuilder = functionElement.GetAttribute(WebMethodsXML.Attribute.InEasyBuilder);
-            bool isInEasyBuilder = false;
-            if (inEasyBuilder != null && inEasyBuilder.Length > 0)
+            string inEasyStudio = functionElement.GetAttribute(WebMethodsXML.Attribute.InEasyStudio);
+            bool isInEasyStudio = false;
+            if (inEasyStudio != null && inEasyStudio.Length > 0)
             {
                 try
                 {
-                    isInEasyBuilder = Convert.ToBoolean(inEasyBuilder);
+                    isInEasyStudio = Convert.ToBoolean(inEasyStudio);
                 }
                 catch (FormatException)
                 {
@@ -702,7 +702,7 @@ namespace Microarea.Common.CoreTypes
 
             functionInfo.defaultSecurityRoles = aDefaultSecurityRoles;
             functionInfo.IsSecurityhidden = isSecurityhidden;
-            functionInfo.InEasyBuilder = isInEasyBuilder;
+            functionInfo.InEasyStudio = isInEasyStudio;
             functionInfo.ReportAllowed = bReport;
 
             functionInfo.ClassType = functionElement.GetAttribute(WebMethodsXML.Attribute.ClassType);

@@ -125,6 +125,15 @@ namespace Microarea {
 				IWindowWrapperContainer^	parent;
 
 			public:
+				static System::String^  prefixEvent = "ES_EVENTS_";
+				static System::String^  userMethods = "UserMethods.json";
+				static System::String^  tbjsonExtension = ".tbjson";
+				static System::String^  backSlash = "\\";
+				static System::String^  contentTag = "content";
+				static System::String^  namespaceTag = "namespace";
+				static System::String^  eventTag = "event";
+
+			public:
 				/// <summary>
 				/// Internal Use
 				/// </summary>
@@ -221,6 +230,12 @@ namespace Microarea {
 				[LocalizedCategory("GraphicsCategory", EBCategories::typeid)]
 				property bool TabStop { virtual bool get(); virtual void set(bool value); }
 
+				/// <summary>
+				/// Gets the namespace of the current control
+				/// </summary>
+				[LocalizedCategory("InformationsCategory", EBCategories::typeid)]
+				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+
 			protected:
 				/// <summary>
 				/// Constructor
@@ -235,6 +250,11 @@ namespace Microarea {
 				bool IsInListContainer(Object^ obj);
 
 			public:
+				///<summary>
+				///Generates json for events
+				///</summary>
+				virtual void GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^>^>^ evSerialization);
+
 				/// <summary>
 				/// Activates the control
 				/// </summary>
@@ -389,8 +409,10 @@ namespace Microarea {
 				static System::String^	staticAreaName = "Static Area";
 				static System::String^	staticArea1Name = "Static Area 1";
 				static System::String^	staticArea2Name = "Static Area 2";
-
+				
 				bool EndCreation = false;
+				CWndObjDescription* jsonDescription = NULL;
+				CDummyDescription* jsonDummyDescription = NULL;
 
 			protected:
 				System::Drawing::Color			borderColor;
@@ -403,6 +425,11 @@ namespace Microarea {
 
 			protected:
 
+				///<summary>
+				///Calculate left side brother. Used for json serialization
+				///</summary>
+				CString GetHorizontalIdAnchor();
+
 				/// <summary>
 				/// Internal Use
 				/// </summary>
@@ -413,9 +440,9 @@ namespace Microarea {
 
 				//----------------------------------------------------------------------------	
 #pragma region BrowsableFalse properties
-/// <summary>
-/// Internal Use
-/// </summary>
+				/// <summary>
+				/// Internal Use
+				/// </summary>
 				[System::ComponentModel::Browsable(false), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden), ExcludeFromIntellisense]
 				property IEasyBuilderComponentExtenders^ Extensions { virtual  IEasyBuilderComponentExtenders^ get() { return extensions; } }
 
@@ -601,14 +628,14 @@ namespace Microarea {
 				/// Gets the namespace of the current control
 				/// </summary>
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime)]
-				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+				property INameSpace^ Namespace { virtual INameSpace^ get() override; }
 
 #pragma endregion
 				//--------------BOTH----------------------------------------------------------	
 
-								/// <summary>
-								/// Gets the type of the control (as System::String)
-								/// </summary>
+				/// <summary>
+				/// Gets the type of the control (as System::String)
+				/// </summary>
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
 				property System::String^ WindowType { System::String^ get() { return GetType()->ToString(); } }
 
@@ -709,6 +736,31 @@ namespace Microarea {
 
 
 			public:
+				///<summary>
+				///Get json serialization from description class
+				///</summary>
+				CString GetSerialization(CWndObjDescription* pWndObjDescription);
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription);
+
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
+
+				///<summary>
+				///Generates serialization for the class
+				///</summary>
+				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization);
+
 				/// <summary>
 				/// Event raised when the user click on the active control
 				/// </summary>
@@ -1390,6 +1442,16 @@ namespace Microarea {
 				MESSAGE_HANDLER_EVENT(ValueChanged, EasyBuilderEventArgs, "Occurs when control value is changed.");
 
 			public:
+
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 
 				/// <summary>
 				/// Override of the equals method, true if the compared tabs are the same

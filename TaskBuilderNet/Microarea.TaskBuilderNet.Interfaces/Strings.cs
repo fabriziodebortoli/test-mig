@@ -869,7 +869,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string AuthenticationToken		= "AuthenticationToken";
 		public const string Release					= "Release";
 		public const string Text					= "Text";
-		public const string Companies				= "Companies";
+		public const string Subscription			= "Subscription";
 		public const string AllCompanies			= "AllCompanies";
 		public const string ServerConnection		= "ServerConnection";
 		public const string ClientConfiguration		= "ClientConfiguration";
@@ -1117,11 +1117,12 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string TBS = "TBS";
 		public const string EasyBuilderApplication	= "EasyBuilderApplication";
 		public const string EasyStudio				= "EasyStudio";
+        public const string EasyStudioHome          = "ESHome";
 
-		#endregion
+        #endregion
 
-		#region Path
-		public const string TbLoader                = "TbLoader";
+        #region Path
+        public const string TbLoader                = "TbLoader";
         public const string OcBin                   = "OcBin";
 		public const string ClientNet				= "ClientNet";
 		public const string MenuManager				= "MenuManager";
@@ -1248,8 +1249,6 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string DataFile					= "DataFile";
 
 
-		public const string EnumsNamespace = "Microarea.EasyBuilder";
-		public const string EasyBuilderDllFileName = "Microarea.EasyBuilder.Enums.dll";
 		public const string RemoteClientsFile = "RemoteClients.xml";
 
 		//funzionalità  menu

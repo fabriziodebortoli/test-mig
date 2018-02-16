@@ -51,7 +51,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public data: any[];
 
   public curPageNum: number;
-  public runReport: boolean = false;
+  public runningReport: boolean = false;
 
   public id: string;
 
@@ -95,12 +95,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsExportService.rsExportPdf.subscribe(() => this.startSavePDF());
     this.rsExportService.rsExportExcel.subscribe(() => this.startSaveExcel());
     this.rsExportService.rsExportDocx.subscribe(() => this.startSaveDocx());
-    this.rsExportService.eventNextPage.subscribe(() => this.NextPage());
-    this.rsExportService.eventFirstPage.subscribe(() => this.FirstPage());
-    this.rsExportService.eventCurrentPage.subscribe(() => this.CurrentPage());
-    this.rsExportService.eventSnapshot.subscribe(() => this.Snapshot());
-    this.rsExportService.runSnapshot.subscribe(() => this.RunSnapshot());
-    this.rsExportService.eventPageNumber.subscribe(() => this.PageNumber());
+    this.rsExportService.eventNextPage.subscribe(() => this.nextPage());
+    this.rsExportService.eventFirstPage.subscribe(() => this.firstPage());
+    this.rsExportService.eventCurrentPage.subscribe(() => this.currentPage());
+    this.rsExportService.eventSnapshot.subscribe(() => this.snapshot());
+    this.rsExportService.runSnapshot.subscribe(() => this.runSnapshot());
+    this.rsExportService.eventPageNumber.subscribe(() => this.pageNumber());
   }
 
   // -----------------------------------------------
@@ -140,7 +140,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   reset() {
-    this.rsService.running = false;
     this.askDialogTemplate = 'empty';
 
     this.reportTemplate = 'empty';
@@ -170,12 +169,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.eventData.model.Title.value = k.page.report_title;
           this.rsExportService.titleReport = k.page.report_title;
           this.reportTemplate = k;
-          this.RunReport();
+          this.runReport();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
           this.reportTemplate = k;
-          this.GetData();
+          this.getData();
           break;
         case CommandType.DATA:
           this.rsService.showAsk = false;
@@ -206,12 +205,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
-          this.runReport = true;
+          this.runningReport = true;
           this.rsExportService.totalPages = parseInt(msg.page);
-          this.FirstPage();
+          this.firstPage();
           break;
         case CommandType.ACTIVESNAPSHOT:
-          this.CreateTableSnapshots(k);
+          this.createTableSnapshots(k);
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
@@ -226,8 +225,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  RunReport() {
-    this.rsService.running = true;
+  runReport() {
     this.rsService.runEnabled = false;
     let message = {
       commandType: CommandType.ASK,
@@ -238,7 +236,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  GetData() {
+  getData() {
     let message = {
       commandType: CommandType.DATA,
       message: this.args.params.xmlArgs,
@@ -248,8 +246,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  StopReport() {
-    this.rsService.running = false;
+  stopReport() {
     let message = {
       commandType: CommandType.STOP,
       message: this.args.nameSpace,
@@ -258,7 +255,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  NextPage() {
+  nextPage() {
     if (this.rsService.pageNum < this.rsExportService.totalPages) {
       this.rsService.pageNum++;
     }
@@ -272,7 +269,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  PrevPage() {
+  prevPage() {
     if (this.rsService.pageNum > 1) {
       this.rsService.pageNum--;
     }
@@ -286,7 +283,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  FirstPage() {
+  firstPage() {
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -298,7 +295,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  LastPage() {
+  lastPage() {
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -310,7 +307,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  ReRunReport() {
+  reRunReport() {
     this.rsService.reset();
     this.reset();
 
@@ -324,7 +321,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
 
   // -----------------------------------------------
-  CurrentPage() {
+  currentPage() {
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -335,8 +332,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  PageNumber() {
-   
+  pageNumber() {
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
@@ -349,7 +345,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  Snapshot() {
+  snapshot() {
     //il flag user-allUser è passato insieme al numeroPagina
     let message = {
       commandType: CommandType.SNAPSHOT,
@@ -361,12 +357,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  CreateTableSnapshots(k: Snapshot[]) {
+  createTableSnapshots(k: Snapshot[]) {
     this.rsExportService.snapshots = k;
   }
 
   // -----------------------------------------------
-  RunSnapshot() {
+  runSnapshot() {
     this.rsExportService.snapshot = false;
     let message = {
       commandType: CommandType.RUNSNAPSHOT,
@@ -376,17 +372,23 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.doSend(JSON.stringify(message));
   }
+  // -----------------------------------------------
+  closeReport(){
+    /*event.stopImmediatePropagation();
+    info.document.close();*/
+  }
+
 
   //--------------------------------------------------
   startSaveSVG() {
     this.rsExportService.svgState = SvgType.SVG;
-    this.CurrentPage();
+    this.currentPage();
   }
 
   //--------------------------------------------------
   startSavePNG() {
     this.rsExportService.pngState = PngType.PNG;
-    this.CurrentPage();
+    this.currentPage();
   }
 
   //--------------------------------------------------
@@ -403,7 +405,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   //--------------------------------------------------
   async startSavePDF() {
     this.rsExportService.pdfState = PdfType.PDF;
-    this.PageNumber();
+    this.pageNumber();
   }
 
   //--------------------------------------------------

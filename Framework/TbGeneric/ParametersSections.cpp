@@ -26,99 +26,97 @@ const TCHAR szRdeProtocol[]			= _T("RdeProtocol");
 const TCHAR szRdeBuffered[]			= _T("RdeBuffered");
 const TCHAR szRdeBufferSize[]		= _T("RdeBufferSize");
 
+
+//TBGENLIB
 //==============================================================================
 const TCHAR szTbGenlibNamespace[]	= _T("Module.Framework.TbGenlib");
 const CTBNamespace snsTbGenlib		= szTbGenlibNamespace;
 //==============================================================================
+//.Environment........................................................
+const TCHAR szEnvironment[] = _T("Environment");
+const TCHAR szManageCompanyDatabaseCulture[]				= _T("ManageCompanyDatabaseCulture");
+const TCHAR szEnableAssertionsInRelease[]					= _T("EnableAssertionsInRelease");
+const TCHAR szDumpAssertionsIfNoCrash[]						= _T("DumpAssertionsIfNoCrash");
+const TCHAR szLogDiagnosticInEventViewerUnattendedMode[]	= _T("LogDiagnosticInEventViewerUnattendedMode");;
+const TCHAR szSingleThreaded[]								= _T("SingleThreaded");
 
 //.Forms.............................................................. 
-const TCHAR szFormsSection[]				= _T("Forms");
-const TCHAR szMaxComboBoxItems[]			= _T("MaxComboBoxItems");
+const TCHAR szFormsSection[] = _T("Forms");
 const TCHAR szImmediateBrowsing[]			= _T("ImmediateBrowsing");
 const TCHAR szDisplayBrowsingLimits[]		= _T("DisplayBrowsingLimits");
 const TCHAR szHotlinkComboDefaultFields[]	= _T("HotlinkComboDefaultFields");
+const TCHAR szRadarEndForward[]				= _T("RadarEndForward");
 const TCHAR szUpdateTBFFiles[]				= _T("UpdateTBFFiles");
-const TCHAR szAllowHotlinkOnQueryAskDialog[]= _T("AllowHotlinkOnQueryAskDialog");
+const TCHAR szTabbedDocuments[]				= _T("TabbedDocuments");
+const TCHAR szChildManagement[]				= _T("szChildManagement");
+const TCHAR szMaxComboBoxItems[]			= _T("MaxComboBoxItems");
+const TCHAR szShowZerosInInput[]			= _T("ShowZerosInInput");
+const TCHAR szAllowBodyeditColumnHeaderSmallFont[] = _T("AllowBodyeditColumnHeaderSmallFont");
+const TCHAR szAddBodyeditColumnHeaderExtraSpace[] = _T("AddBodyeditColumnHeaderExtraSpace");
+const TCHAR szDataTipDelay[]				= _T("DataTipDelay");
+const TCHAR szDataTipLevelOnBodyedit[]		= _T("DataTipLevelOnBodyedit");
+const TCHAR szDataTipMaxWidth[]				= _T("DataTipMaxWidth");
+const TCHAR szDataTipMaxHeight[]			= _T("DataTipMaxHeight");
+const TCHAR szTreatEnterAsTab[]				= _T("TreatEnterAsTab");
 const TCHAR szEnableCenterControls[]		= _T("EnableCenterControls");
 
-//.Environment........................................................
-const TCHAR szEnvironment[]					= _T("Environment");
-const TCHAR szBarCodeType[]					= _T("BarCodeType");
-const TCHAR szLoadLibrariesOnDemand[]		= _T("LoadLibrariesOnDemand");
-const TCHAR szShowPrintSetup[]				= _T("ShowPrintSetup");
-const TCHAR szSingleThread[]				= _T("SingleThreaded");
-const TCHAR szEnableLockTrace[]				= _T("EnableLockTrace");
-const TCHAR szUseGdiPlus[]					= _T("UseGdiPlus");
-const TCHAR szLogExitInstance[]				= _T("LogExitInstance");
-const TCHAR szEnableAssertionsInRelease[]	= _T("EnableAssertionsInRelease");
-const TCHAR szDumpAssertionsIfNoCrash[]		= _T("DumpAssertionsIfNoCrash");
-const TCHAR szExpect100Continue[]			= _T("Expect100Continue");
-
-const TCHAR szLogDiagnosticInEventViewerUnattendedMode[] = _T("LogDiagnosticInEventViewerUnattendedMode");
-
-//.Data Type Epsilon .................................................
-TCHAR szDataTypeEpsilon[]					= _T("Data Type Epsilons");
-TCHAR szDataDblEpsilon[]					= _T("Double Decimals");
-TCHAR szDataMonEpsilon[]					= _T("Monetary Decimals");
-TCHAR szDataPercEpsilon[]					= _T("Percentage Decimals");
-TCHAR szDataQuantityEpsilon[]				= _T("Quantity Decimals");
-
 //.Preference........................................................
-const TCHAR szPreferenceSection[]			= _T("Preference");
-const TCHAR szUseLargeToolBarButtons[]		= _T("UseLargeToolBarButtons");
+const TCHAR szPreferenceSection[] = _T("Preference");
+const TCHAR szShowAdminCustomSaveDialog[]	= _T("ShowAdminCustomSaveDialog");
 const TCHAR szUseWoormRadar[]				= _T("UseWoormRadar");
 const TCHAR szRepeatableNew[]				= _T("RepeatableNew");
-const TCHAR szBackgroudColor[]				= _T("BackgroundColor");
-const TCHAR szUseXPStyle[]					= _T("UseXPStyle");
-const TCHAR szAlternateColor[]				= _T("AlternateColor");
-const TCHAR szCurrentRowColor[]				= _T("CurrentRowColor");
-const TCHAR szSepLineColor[]				= _T("SepLineColor");
+const TCHAR szUseEasyBrowsing[]				= _T("UseEasyBrowsing");
+const TCHAR szEnableFindOnSlaveFields[]		= _T("EnableFindOnSlaveFields");
+const TCHAR szTBLoaderDefaultSOAPPort[]		= _T("TBLoaderDefaultSOAPPort");
 
-const TCHAR szShowZerosInInput[]			= _T("ShowZerosInInput");
-const TCHAR szTreatEnterAsTab[]				= _T("TreatEnterAsTab");
-const TCHAR szShowColoredControlFocused[]	= _T("ShowColoredControlFocused");
-const TCHAR szControlFocusedColor[]			= _T("ControlFocusedColor");
-const TCHAR szUseEasyReading[]				= _T("UseEasyReading"); 
-const TCHAR szUseEasyBrowsing[]				= _T("UseEasyBrowsing"); 
-const TCHAR szUseEasyBrowsingInEasyLookOnly[]= _T("UseEasyBrowsingInEasyLookOnly"); 
-const TCHAR szFindSlave[]					= _T("EnableFindOnSlaveFields"); 
-const TCHAR szUpdateDefaultReport[]			= _T("UpdateDefaultReport"); 
-const TCHAR szShowAdminCustomSaveDialog[]	= _T("ShowAdminCustomSaveDialog");
-const TCHAR szUseDocPerformanceAnalyzer[]	= _T("UseDocPerformanceAnalyzer");
 
-const TCHAR szAllowBodyeditColumnHeaderSmallFont[]  = _T("AllowBodyeditColumnHeaderSmallFont"); 
-const TCHAR szAddBodyeditColumnHeaderExtraSpace[]	= _T("AddBodyeditColumnHeaderExtraSpace"); 
 
-const TCHAR szDataTipDelay[]						= _T("DataTipDelay"); 
-const TCHAR szDataTipLevelOnBodyedit[]				= _T("DataTipLevelOnBodyedit"); 
-const TCHAR szDataTipMaxWidth[]						= _T("DataTipMaxWidth"); 
-const TCHAR szDataTipMaxHeight[]					= _T("DataTipMaxHeight"); 
 
-const TCHAR szMultiSelTextColor[]					= _T("MultiSelTextColor"); 
-const TCHAR szMultiSelBackColor[]					= _T("MultiSelBackColor"); 
+//.Data Type Epsilon .................................................
+const TCHAR szDataTypeEpsilonSection[] = _T("DataTypeEpsilon");
+const TCHAR szDoubleDecimals[]				= _T("DoubleDecimals");
+const TCHAR szMonetaryDecimals[]			= _T("MonetaryDecimals");
+const TCHAR szPercentageDecimals[]			= _T("PercentageDecimals");
+const TCHAR szQuantityDecimals[]			= _T("QuantityDecimals");
+
+//.Report.............................................................. 
+const TCHAR szReportSection[] = _T("Report");
+const TCHAR szShowPrintSetup[]				= _T("ShowPrintSetup");
+const TCHAR szUpdateDefaultReport[]			= _T("UpdateDefaultReport");
+
+//.Development........................................................
+const  TCHAR szDevelopmentSection[] = _T("Development");		
+const TCHAR szAllActive[]					= _T("AllActive");
+const TCHAR szEnableLockTrace[]				= _T("EnableLockTrace");
+const TCHAR szLogExitInstance[]				= _T("LogExitInstance");
+const TCHAR szExpect100Continue[]			= _T("Expect100Continue");
+const TCHAR szChromeDebuggingPort[]			= _T("ChromeDebuggingPort");
+
+
 
 //.Culture........................................................
-const TCHAR szCultureSection[]						= _T("Culture");
+const TCHAR szCultureSection[] = _T("Culture");
 const TCHAR szUpperLimit[]							= _T("UpperLimit");
 const TCHAR szLowerLimit[]							= _T("LowerLimit");
 const TCHAR szUseVCenterBottomAlignInWoormFields[]	= _T("UseVCenterBottomAlignInWoormFields");
 const TCHAR szSizeOfDescriptionFont[]				= _T("SizeOfDescripionFont");
+const TCHAR szExcelDateFormat[]						= _T("ExcelDateFormat");
+const TCHAR szExcelDateTimeFormat[]					= _T("ExcelDateTimeFormat");
+const TCHAR szExcelTimeFormat[]						= _T("ExcelTimeFormat");
 const TCHAR szCharSetSample[]						= _T("CharSetSample");
 
-const TCHAR szFormFontFace[]						= _T("FormFontFace");
-const TCHAR szControlsFont[]						= _T("ControlsFont");
-const TCHAR szTileDialogTitle[]						= _T("TileDialogTitle");
-const TCHAR szWizardStepper[]						= _T("WizardStepper");
-const TCHAR szTileStrip[]							= _T("TileStrip");
-const TCHAR szFilterTileTitle[]						= _T("FilterTileTitle");
-const TCHAR szStaticWithLineFont[]					= _T("StaticWithLineFont");
+//.Scheduler........................................................
+const  TCHAR szSchedulerSection[] = _T("Scheduler");
+const  TCHAR szTaskIsolation[]						= _T("TaskIsolation");
 
-const TCHAR szRadarSearchFont[]						= _T("RadarSearchFont");
 
+//TBGES SETTINGS
 //==============================================================================
 const CTBNamespace snsTbGes = _T("Module.Framework.TbGes");
 //==============================================================================
 
+
+//TBOLEDB SETTINGS
 //==============================================================================
 const CTBNamespace snsTbOleDb				= _T("Module.Framework.TbOleDb");
 //==============================================================================
@@ -146,6 +144,10 @@ const TCHAR szUseLockManager[]			= _T("UseLockManager");
 const TCHAR szMaxReportLockRetry[]		= _T("MaxReportLockRetry");
 const TCHAR szMaxReportLockTime[]		= _T("MaxReportLockTime");
 
+//.PerformanceAnalizer........................................................
+const TCHAR szPerformanceAnalizer[] = _T("PerformanceAnalizer"); 
+const TCHAR szAnalizeDocPerformance[] = _T("AnalizeDocPerformance");
+
 //.Caching............................................................
 const TCHAR szDataCaching[] = _T("Caching");
 const TCHAR szOptimizeHotLinkQuery[] = _T("OptimizeHotLinkQuery");
@@ -163,11 +165,8 @@ const TCHAR szRecoverySystemLevel[] = _T("RecoveryLevel");
 const TCHAR szRecoverySystemRetries[] = _T("RecoveryRetries");
 const TCHAR szRecoverySystemRetriesInterval[] = _T("RecoveryRetriesInterval");
 
-//.PerformanceAnalizer................................................
-const TCHAR szPerformanceAnalizer[]	= _T("Performance Analyzer"); 
-const TCHAR szAnalizeDocPerformance[]  = _T("AnalyzeDocPerformance");
 
-
+//TBWoormViewer SETTINGS
 //==============================================================================
 const CTBNamespace snsTbWoormViewer			= _T("Module.Framework.TbWoormViewer");
 const TCHAR szTbWoormViewerSettingFileName[]= _T("Woorm.config");
@@ -242,11 +241,17 @@ const TCHAR szWoormRunningOptions[] = _T("WoormRunningOptions");
 const TCHAR szUseMultithreading[] = _T("UseMultithreading");
 
 //
+//==============================================================================
+const TCHAR szBarcodeConnectorConfigFile[] = _T("Barcode2D.config");
+const TCHAR szDefaultBarcodeSection[] = _T("DefautlBarcode");
+const TCHAR szBarCodeType[] = _T("BarcodeType");
+
+
 //.Default Barcode 2D parameters...............................................
 const TCHAR szDefaultBarcode2DEncoding[] = _T("DefaultBarcode2DEncoding");
 const TCHAR szDefaultBarcode2DVersion[] = _T("DefaultBarcode2DVersion");
 const TCHAR szDefaultBarcode2DErrCorrLevel[] = _T("DefaultBarcode2DErrCorrLevel");
-const TCHAR* szBracodeTypes[] =
+const TCHAR* szBarcodeTypes[] =
 {
 	_T("UPCA"),
 	_T("UPCE"),
@@ -273,8 +278,13 @@ const TCHAR* szBracodeTypes[] =
 	_T("DataMatrix"),
 	_T("MicroQR"),
 	_T("QR")
-
 };
+
+
+const TCHAR	szDataMatrix[] = _T("DataMatrix");
+const TCHAR	szMicroQR[] = _T("MicroQR");
+const TCHAR	szQR[] = _T("QR");
+const TCHAR	szPDF417[] = _T("PDF417");
 
 //==============================================================================
 const TCHAR szMailConnectorConfigFile[]		= _T("MailConnector.config");
@@ -297,6 +307,16 @@ static const TCHAR szTrackingAddressForSentEmails[]	= _T("TrackingAddressForSent
 static const TCHAR szPrinterTemplate[]				= _T("PrinterTemplate");
 static const TCHAR szFAXFormatTemplate[]			= _T("FaxFormatTemplate");
 static const TCHAR szPdfSplitPages[]				= _T("PdfSplitPages");
+
+//THEMES
+const TCHAR szAlternateColor[] = _T("AlternateColor");
+const TCHAR szFormFontFace[] = _T("FormFontFace");
+const TCHAR szControlsFont[] = _T("ControlsFont");
+const TCHAR szTileDialogTitle[] = _T("TileDialogTitle");
+const TCHAR szWizardStepper[] = _T("WizardStepper");
+const TCHAR szRadarSearchFont[] = _T("RadarSearchFont");
+const TCHAR szTileStrip[] = _T("TileStrip");
+const TCHAR szStaticWithLineFont[] = _T("StaticWithLineFont");
 
 
 //=============================================================================        
@@ -622,6 +642,11 @@ static const TCHAR szUseImplicitSSL[]		= _T("UseImplicitSSL");
 static const TCHAR szTimeout[]				= _T("Timeout");
 static const TCHAR szAuthenticationType[]	= _T("AuthenticationType");
 static const TCHAR szConfiguration[]		= _T("Configuration");
+static const TCHAR szSecurityProtocolType[] = _T("SecurityProtocolType");
+
+//-----------------------------------------------------------------------------
+LPCTSTR SmtpMailConnectorParams::st_SecurityProtocolDescr[] = { L"Default" , L"Ssl3" , L"Tls 1.0", L"Tls 1.1" , L"Tls 1.2", L"All" };
+int SmtpMailConnectorParams::st_SecurityProtocolValue[] = { SP_Default, SP_SSL3 , SP_TLS10 , SP_TLS11 , SP_TLS12, SP_All };
 
 //=============================================================================        
 //						SmtpMailConnectorParams
@@ -917,6 +942,22 @@ CString SmtpMailConnectorParams::GetAuthenticationType ()
 void SmtpMailConnectorParams::SetAuthenticationType (const CString& s) 
 {
 	AfxSetSettingValue(m_Owner, m_sCurrentSection, szAuthenticationType, DataStr(s), szSmtpSettingsFile);
+}
+
+//-----------------------------------------------------------------------------
+int SmtpMailConnectorParams::GetSecurityProtocolType()
+{
+	DataObj* pSetting = AfxGetSettingValue(m_Owner, m_sCurrentSection, szSecurityProtocolType, DataLng(0), szSmtpSettingsFile);
+
+	if (!pSetting || (pSetting->GetDataType() != DataType::Long))
+		return 0;
+
+	return *((DataLng*)pSetting);
+}
+//-----------------------------------------------------------------------------
+void SmtpMailConnectorParams::SetSecurityProtocolType(int n)
+{
+	AfxSetSettingValue(m_Owner, m_sCurrentSection, szSecurityProtocolType, DataLng(n), szSmtpSettingsFile);
 }
 
 //=============================================================================

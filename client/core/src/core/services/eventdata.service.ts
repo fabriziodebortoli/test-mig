@@ -7,7 +7,6 @@ import { BehaviorSubject } from './../../rxjs.imports';
 
 @Injectable()
 export class EventDataService implements OnDestroy {
-
     public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();

@@ -2815,7 +2815,7 @@ BOOL CFormPropertiesDlg::OnInitDialog()
 
 	m_ctrlFormMngPropertiesFindSlave.	SubclassDlgItem(IDC_FORMMNG_PROPERTIES_FIND_SLAVE,	this);
 	m_ctrlFormMngPropertiesFindSlave.	SetCheck(m_FormProperties.m_bFindSlave);
-	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szFindSlave, DataBool(TRUE), szTbDefaultSettingFileName);
+	DataObj* pB = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szEnableFindOnSlaveFields, DataBool(TRUE), szTbDefaultSettingFileName);
 	BOOL bEnableFindSlave = pB ? *((DataBool*) pB) : TRUE;
 	m_ctrlFormMngPropertiesFindSlave.EnableWindow(bEnableFindSlave);
 	//if (!bEnableFindSlave)

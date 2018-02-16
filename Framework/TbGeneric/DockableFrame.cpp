@@ -61,7 +61,7 @@ CDockableFrame::CDockableFrame()
 	IDisposingSourceImpl		(this)
 {
 	AfxGetThreadContext()->AddActiveWnd(this);
-	m_bChildManagement = *((DataBool*)AfxGetSettingValue(snsTbGenlib, szFormsSection, _T("ChildManagement"), DataBool(0)));
+	m_bChildManagement = *((DataBool*)AfxGetSettingValue(snsTbGenlib, szFormsSection, szChildManagement, DataBool(0)));
 }
 
 //-----------------------------------------------------------------------------

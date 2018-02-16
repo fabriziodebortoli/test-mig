@@ -12,6 +12,7 @@ using Microarea.TaskBuilderNet.Core.CoreTypes;
 using Microarea.TaskBuilderNet.Core.EasyBuilder;
 using Microarea.TaskBuilderNet.Core.Generic;
 using Microarea.TaskBuilderNet.Interfaces;
+using Microarea.TaskBuilderNet.Core.NameSolver;
 
 namespace Microarea.EasyBuilder.UI
 {
@@ -672,7 +673,7 @@ namespace Microarea.EasyBuilder.UI
 		//---------------------------------------------------------------------
 		private void RefreshEnumsDll()
 		{
-			string enumsDllPath = EnumsHelper.GetEasyBuilderEnumsDllFilePath();
+            string enumsDllPath = PathFinderWrapper.GetEasyStudioEnumsAssemblyName();
 
 			FileInfo enumsDllFileInfo = new FileInfo(enumsDllPath);
 			if (enumsDllFileInfo.Exists)
@@ -696,7 +697,7 @@ namespace Microarea.EasyBuilder.UI
 
 			}
 
-			EnumsHelper.GenerateEasyBuilderEnumsDllIfNecessary();
+			StaticFunctions.GenerateEasyBuilderEnumsDllIfNecessary();
 
 			editor.Sources.RemoveReferencedAssembly(Path.GetFileNameWithoutExtension(enumsDllPath));
 			editor.Sources.RefreshReferencedAssemblies(false);//false perchè ho già rimosso io la dll incriminata

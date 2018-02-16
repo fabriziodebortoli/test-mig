@@ -87,6 +87,7 @@ CBaseDocument::CBaseDocument()
 	:
 	m_FormMode				(NONE),
 	m_bAborted				(FALSE),
+	m_bClosing				(FALSE),
 	m_bRetryingLock			(FALSE),
 	m_bBatch				(FALSE),
 	m_bBatchRunning			(FALSE),
@@ -222,16 +223,18 @@ CView* CBaseDocument::ViewAlreadyPresent(UINT nFrameId) const
 CLocalizableFrame* CBaseDocument::GetFrame() const
 {
 	ASSERT_VALID(this);
-	CView* pView = GetFirstView();
-	if (!pView)
-		return NULL;
-	ASSERT_VALID(pView);
-	CFrameWnd* pFrame = pView->GetParentFrame();
+	CWnd* pFrame = CWnd::FromHandle(m_hFrameHandle);
+	if (!pFrame)
+	{
+		CView* pView = GetFirstView();
+		if (pView)
+			pFrame = pView->GetParentFrame();
+	}
 	if (!pFrame)
 		return NULL;
 	ASSERT_VALID(pFrame);
 	ASSERT(pFrame->IsKindOf(RUNTIME_CLASS(CLocalizableFrame)));
-	return (CLocalizableFrame*) pFrame;
+	return (CLocalizableFrame*)pFrame;
 }
 
 //-----------------------------------------------------------------------------
@@ -373,6 +376,9 @@ void CBaseDocument::OnCloseDocument()
 	//sono nel ciclo di lock: non posso uscire altrimenti mi schianterei
 	if (m_bRetryingLock)
 		return;
+	
+	m_bClosing = TRUE;//alcune operazioni in fase di chiusura non hanno più senso o sono dannose
+
 	// finché sono pilotato da un external controller non posso uscire
 	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
@@ -825,6 +831,22 @@ BOOL CBaseDocument::CanRunDocumentInStandAloneMode() //restituisce TRUE se non c
 { 
 	return AfxGetLoginManager()->GetCompanyLoggedUsersNumber(AfxGetLoginInfos()->m_nCompanyId) == 1 && AfxGetLoginContext()->GetOpenDocuments() == 1;
 }
+
+//---------------------------------------------------------------------------
+void CBaseDocument::AssignParameters(const DataStr& arguments)
+{
+	BOOL bOk(FALSE);
+	if (arguments[0] == '<')	//multi tag allowed: <Arguments, Parameters, Function, etc
+	{
+		CFunctionDescription fd;
+		bOk = fd.ParseArguments(arguments);
+		if (bOk)
+			GoInBrowserMode(&fd);
+	}
+	if (!bOk)
+		GoInBrowserMode(arguments);
+}
+
 
 //-----------------------------------------------------------------------------
 BOOL CBaseDocument::CheckContextObject(const CString& strName)

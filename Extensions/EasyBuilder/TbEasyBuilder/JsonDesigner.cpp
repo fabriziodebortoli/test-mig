@@ -10,7 +10,6 @@
 #include "TBEasyBuilder.h"
 #include "CDEasyBuilder.hjson"
 #include "JsonConnector.h"
-#include "SourceControl.h"
 
 using namespace System;
 using namespace System::Threading;
@@ -47,7 +46,7 @@ CEasyStudioDesignerDialog::CEasyStudioDesignerDialog(const CString& sJsonFile)
 	m_DummyParent.SetRuntimeState(CWndObjDescription::STATIC);
 	CJsonResource res;
 	res.PopulateFromFile(m_strJsonFile);
-	m_pJsonContext = CJsonFormEngineObj::GetInstance()->CreateContext(res, false);
+	m_pJsonContext = CJsonFormEngineObj::GetInstance()->CreateContext(res, false, true);
 	Init();
 }
 
@@ -128,8 +127,13 @@ void CEasyStudioDesignerDialog::OnShowWindow(BOOL bShow, UINT nStatus)
 void CEasyStudioDesignerDialog::AppendDefine(CString& sBuffer, CWndObjDescription* pDesc)
 {
 	CString sJsonId = pDesc->GetJsonID();
-	if (sJsonId.IsEmpty())
-		ASSERT(false);
+	if (sJsonId.IsEmpty()) {
+		CHRefDescription* pHrefDesc = (CHRefDescription*)pDesc;
+		if (pHrefDesc && pHrefDesc->m_sHRef != "")			
+			return;
+		else	ASSERT(false);
+	}
+		
 	else if (!AfxGetTBResourcesMap()->IsFixedResource(sJsonId) && pDesc->GetParent() != &m_DummyParent)
 	{
 		sBuffer.Append(_T("#define "));
@@ -256,6 +260,8 @@ CString CEasyStudioDesignerDialog::GetCode()
 //--------------------------------------------------------------------------------
 bool CEasyStudioDesignerDialog::SaveFile()
 {
+	if(!m_pJsonContext || !m_pJsonContext->m_pDescription)
+		return FALSE;
 	CWndObjDescription* pDesc = m_pJsonContext->m_pDescription->DeepClone();
 	CWndObjDescriptionContainer container;
 	container.Add(pDesc);
@@ -347,7 +353,6 @@ bool CEasyStudioDesignerDialog::SaveFile()
 		CWndObjDescription* pChild = container[i];
 		RecursiveCreateFolders(GetPath(sJsonFile));
 
-		CSourceControl::CheckOutIfNeeded(gcnew String(sJsonFile));
 		CLineFile file;
 		if (!file.Open(sJsonFile, CFile::modeCreate | CFile::modeWrite | CFile::typeText, NULL, CLineFile::UTF8))
 		{
@@ -364,7 +369,6 @@ bool CEasyStudioDesignerDialog::SaveFile()
 		PathRemoveExtension(sHJsonFile.GetBuffer());
 		sHJsonFile.ReleaseBuffer();
 		sHJsonFile += HjsonExtension;
-		CSourceControl::CheckOutIfNeeded(gcnew String(sHJsonFile));
 		if (!file.Open(sHJsonFile, CFile::modeCreate | CFile::modeWrite | CFile::typeText, NULL, CLineFile::UTF8))
 		{
 			ShowError(cwsprintf(_TB("Cannot save file {0-%s}"), sHJsonFile));
@@ -602,7 +606,7 @@ BOOL CEasyStudioDesignerView::UpdateFromSourceCode(const CString& sCode)
 		return FALSE;
 
 	CString sFile = m_pDialog->m_strJsonFile;
-	CJsonContextObj* pNewContext = CJsonFormEngineObj::GetInstance()->CreateContext();
+	CJsonContextObj* pNewContext = CJsonFormEngineObj::GetInstance()->CreateContext(true);
 	pNewContext->m_JsonResource.PopulateFromFile(sFile);
 	pNewContext->m_strCurrentResourceContext = pNewContext->m_JsonResource.m_strContext;
 	CArray<CWndObjDescription*>ar;

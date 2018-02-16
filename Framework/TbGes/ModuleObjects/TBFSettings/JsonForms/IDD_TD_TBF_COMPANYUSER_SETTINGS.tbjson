@@ -1,170 +1,514 @@
 {
-  "id": "IDD_TD_TBF_COMPANYUSER_SETTINGS",
-  "type": 71, //tile
-  "name": "CompanyUserSettings",
-  "text": "",
-  "size": 2, //TILE_STANDARD
-  "tileStyle": 6, //TDS_PARAMETERS
-  "hasTitle": false,
-  "width": 325,
-  "height": 265,
-  "child": true,
-  "context": "uitbfsettings",
-  "items": [
-    {
-      "id": "IDC_PG_TBF_COMPANYUSER_SETTINGS",
-      "type": 80, //PropertyGrid
-      "anchor": "COL1",
-      "width": 325,
-      "height": 265,
-      "visible": false,
-      "tabStop": false,
-      "blackFrame": true,
-      "name": "CompanyUserSettingsPropertyGrid",
-      "items": [
+    "id": "IDD_TD_TBF_COMPANYUSER_SETTINGS",
+    "type": 71, //tile
+    "name": "TBFCompanyUserSettings",
+    "text": "",
+    "size": 2, //TILE_STANDARD
+    "tileStyle": 6, //TDS_PARAMETERS
+    "hasTitle": false,
+    "width": 325,
+    "height": 265,
+    "child": true,
+    "context": "uitbfsettings",
+    "items": [
         {
-            "type": 81,
-            "name": "DataEntryManagement",
-            "text": "Data Entry Management",
-            "hint": "Data Entry Management",
+            "id": "IDC_PG_TBF_COMPANYUSER_SETTINGS",
+            "type": 80, //PropertyGrid
+            "anchor": "COL1",
+            "width": 325,
+            "height": 265,
+            "visible": false,
+            "tabStop": false,
+            "blackFrame": true,
+            "name": "CompanyUserSettingsPropertyGrid",
             "items": [
                 {
                     "type": 81,
-                    "name": "DisableLockRetry",
-                    "text": "Disabling multiple attempts for documents",
-                    "hint": "Disabling multiple attempts for documents.",
-                    "binding": { "datasource": "DisableLockRetry" },
-                    "id": "IDC_TBF_PARAM_DISABLE_LOCK_RETRY",
-                    "controlClass": "CheckBox"
+                    "name": "LockManager",
+                    "text": "Lock Management",
+                    "hint": "Lock Management",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "DisableLockRetry",
+                            "text": "Disabling multiple attempts for documents",
+                            "hint": "Disabling multiple attempts for documents.",
+                            "binding": { "datasource": "DisableLockRetry" },
+                            "id": "IDC_TBF_LOCK_DISABLE_LOCK_RETRY",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DisableBeep",
+                            "text": "Disabling beep",
+                            "hint": "Disabling beep.",
+                            "binding": { "datasource": "DisableBeep" },
+                            "id": "IDC_TBF_LOCK_DISABLE_BEEP",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxLockRetry",
+                            "text": "Maximum number of attempts before aborting transaction",
+                            "hint": "Maximum number of attempts before aborting transaction.",
+                            "binding": { "datasource": "MaxLockRetry" },
+                            "id": "IDC_TBF_LOCK_MAX_LOCK_RETRY",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxLockTime",
+                            "text": "Time in mms",
+                            "hint": "Time in mms.",
+                            "binding": { "datasource": "MaxLockTime" },
+                            "id": "IDC_TBF_LOCK_MAX_LOCK_TIME",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DisableBatchLockRetry",
+                            "text": "Disabling multiple attempts for batch documents",
+                            "hint": "Disabling multiple attempts for batch documents.",
+                            "binding": { "datasource": "DisableBatchLockRetry" },
+                            "id": "IDC_TBF_LOCK_DISABLE_BATCH_LOCK_RETRY",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DisableBatchBeep",
+                            "text": "Disabling beep for batch documents",
+                            "hint": "Disabling beep for batch documents.",
+                            "binding": { "datasource": "DisableBatchBeep" },
+                            "id": "IDC_TBF_LOCK_DISABLE_BATCH_BEEP",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxBatchLockRetry",
+                            "text": "Maximum number of attempts before aborting transaction for batch documents",
+                            "hint": "Maximum number of attempts before aborting transaction for batch documents.",
+                            "binding": { "datasource": "MaxBatchLockRetry" },
+                            "id": "IDC_TBF_LOCK_MAX_BATCH_LOCK_RETRY",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxBatchLockTime",
+                            "text": "Time in mms for batch documents",
+                            "hint": "Time in mms for batch documents.",
+                            "binding": { "datasource": "MaxBatchLockTime" },
+                            "id": "IDC_TBF_LOCK_MAX_BATCH_LOCK_TIME",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxReportLockRetry",
+                            "text": "Maximum number of attempts before aborting transaction for reports",
+                            "hint": "Maximum number of attempts before aborting transaction for reports.",
+                            "binding": { "datasource": "MaxReportLockRetry" },
+                            "id": "IDC_TBF_LOCK_MAX_REPORT_LOCK_RETRY",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxReportLockTime",
+                            "text": "Time in mms for report",
+                            "hint": "Time in mms for report.",
+                            "binding": { "datasource": "MaxReportLockTime" },
+                            "id": "IDC_TBF_PARAM_MAX_REPORT_LOCK_TIME",
+                            "controlClass": "IntegerEdit"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "DisableBeep",
-                    "text": "Disabling beep",
-                    "hint": "Disabling beep.",
-                    "binding": { "datasource": "DisableBeep" },
-                    "id": "IDC_TBF_PARAM_DISABLE_BEEP",
-                    "controlClass": "CheckBox"
+                    "name": "Connection",
+                    "text": "Trace Sql instructions",
+                    "hint": "Trace Sql instructions",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "DebugSqlTrace",
+                            "text": "Plotting Sql instructions",
+                            "hint": "Plotting Sql instructions.",
+                            "binding": { "datasource": "DebugSqlTrace" },
+                            "id": "IDC_TBF_CONNECTION_DEBUG_SQLTRACE",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DebugSqlTraceActions",
+                            "text": "Filter for action to plot. Write each table name divided by comma",
+                            "hint": "Filter for action to plot. Write each table name divided by comma.",
+                            "binding": { "datasource": "DebugSqlTraceActions" },
+                            "id": "IDC_TBF_PARAM_DEBUG_SQLTRACE_ACTION",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DebugSqlTraceTables",
+                            "text": "Filter for table to plot. Write each table name divided by comma",
+                            "hint": "Filter for table to plot. Write each table name divided by comma.",
+                            "binding": { "datasource": "DebugSqlTraceTables" },
+                            "id": "IDC_TBF_PARAM_DEBUG_SQLTRACE_TABLES",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "EnableEventViewerLog",
+                            "text": "Enable Event Viewer Log for aborted lock and aborted transactions",
+                            "hint": "Enable Event Viewer Log for aborted lock and aborted transactions.",
+                            "binding": { "datasource": "EnableEventViewerLog" },
+                            "id": "IDC_TBF_PARAM_ENABLE_EVENTVIEWER_LOG",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "MaxLockRetry",
-                    "text": "Maximum number of attempts before aborting transaction",
-                    "hint": "Maximum number of attempts before aborting transaction.",
-                    "binding": { "datasource": "MaxLockRetry" },
-                    "id": "IDC_TBF_PARAM_MAX_LOCK_RETRY",
-                    "controlClass": "IntegerEdit"
+                    "name": "Environment",
+                    "text": "Environment",
+                    "hint": "Environment",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "EnableAssertionsInRelease",
+                            "text": "Enable assertions to be evaluated and issued in Release",
+                            "hint": "Enable assertions to be evaluated and issued when running in Release configuration (i.e.: real user installations).",
+                            "binding": { "datasource": "EnableAssertionsInRelease" },
+                            "id": "IDC_TBF_ENV_ASSERTION_REL",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DumpAssertionsIfNoCrash",
+                            "text": "Collects assertions in Release configuration",
+                            "hint": "Collected assertions in Release configuration are dumped even if the program did not crash (the user is prompted at the program's end).",
+                            "binding": { "datasource": "DumpAssertionsIfNoCrash" },
+                            "id": "IDC_TBF_ENV_DUMP_REL",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "LogDiagnosticInEventViewerUnattendedMode",
+                            "text": "Diagnostic tracing in event Viewer Log in unattended mode",
+                            "hint": "Enables all diagnostic tracing in event Viewer Log when application runs in unattended mode.",
+                            "binding": { "datasource": "LogDiagnosticInEventViewerUnattendedMode" },
+                            "id": "IDC_TBF_ENV_EVENT_VIEWER",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "MaxLockTime",
-                    "text": "Time in mms",
-                    "hint": "Time in mms.",
-                    "binding": { "datasource": "MaxLockTime" },
-                    "id": "IDC_TBF_PARAM_MAX_LOCK_TIME",
-                    "controlClass": "IntegerEdit"
+                    "name": "Forms",
+                    "text": "Windows Management",
+                    "hint": "Windows Management",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "ImmediateBrowsing",
+                            "text": "Enables immediate data reading when opening window",
+                            "hint": "Enables immediate data reading when opening window.",
+                            "binding": { "datasource": "ImmediateBrowsing" },
+                            "id": "IDC_TBF_FORM_IMMEDIATE_BROWSING",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "HotlinkComboDefaultFields",
+                            "text": "Record fields in default combo for HotKeyLink",
+                            "hint": "Shows which record fields will be view in default combo for a HotKeyLink.",
+                            "binding": { "datasource": "HotlinkComboDefaultFields" },
+                            "id": "IDC_TBF_ENV_HKL_DEFAULT_FIELDS",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MaxComboBoxItems",
+                            "text": "Maximum number of elements in lists/drop down menus",
+                            "hint": "Maximum number of elements in lists/drop down menus.",
+                            "binding": { "datasource": "MaxComboBoxItems" },
+                            "id": "IDC_TBF_ENV_MAX_COMBOBOX_ITEM",
+                            "controlClass": "LongEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "ShowZerosinInput",
+                            "text": "Shows zeros in input",
+                            "hint": "true = Shows zero in numeric input controls false = Shows zeros as blanks in numeric input controls.",
+                            "binding": { "datasource": "ShowZerosinInput" },
+                            "id": "IDC_TBF_FORM_ZERO_INPUT",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "AllowBodyeditColumnHeaderSmallFont",
+                            "text": "Allows bodyedit columns header small font",
+                            "hint": "Reduces control font height for small font on bodyedit columns header.",
+                            "binding": { "datasource": "AllowBodyeditColumnHeaderSmallFont" },
+                            "id": "IDC_TBF_FORM_BE_HEADER_SMALL_FONT",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "AddBodyeditColumnHeaderExtraSpace",
+                            "text": "Adds extra space to bodyedit column headers",
+                            "hint": "Adds extra space to bodyedit column headers.",
+                            "binding": { "datasource": "AddBodyeditColumnHeaderExtraSpace" },
+                            "id": "IDC_TBF_FORM_BE_HEADER_EXTRA_SPACE",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DataTipDelay",
+                            "text": "Delay time before show DataTip",
+                            "hint": "Delay time before show DataTip.",
+                            "binding": { "datasource": "DataTipDelay" },
+                            "id": "IDC_TBF_FORM_DATATIP_DELAY",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DataTipLevelOnBodyedit",
+                            "text": "Point to show DataTip on body edit",
+                            "hint": "(Bit vector: NONE=0, Custom tip=1, Column header=2, Browse doc.=4, Batch doc.=8, Edit doc.=16, Add column header on cell tip=32, ALL options=63).",
+                            "binding": { "datasource": "DataTipLevelOnBodyedit" },
+                            "id": "IDC_TBF_FORM_DATATIP_BE_LEVEL",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DataTipMaxWidth",
+                            "text": "Max width of a DataTip",
+                            "hint": "Sets the max width of a  DataTip.",
+                            "binding": { "datasource": "DataTipMaxWidth" },
+                            "id": "IDC_TBF_FORM_DATATIP_MAX_WIDTH",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "DataTipMaxHeight",
+                            "text": "Max heigth of a DataTip",
+                            "hint": "Sets the max heigth of a DataTip.",
+                            "binding": { "datasource": "DataTipMaxHeight" },
+                            "id": "IDC_TBF_FORM_DATATIP_MAX_HEIGHT",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "EnableCenterControls",
+                            "text": "Display centered controls",
+                            "hint": "Display centered controls.",
+                            "binding": { "datasource": "EnableCenterControls" },
+                            "id": "IDC_TBF_FORM_CENTERED_CTRL",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "DisableBatchLockRetry",
-                    "text": "Disabling multiple attempts for batch documents",
-                    "hint": "Disabling multiple attempts for batch documents.",
-                    "binding": { "datasource": "DisableBatchLockRetry" },
-                    "id": "IDC_TBF_PARAM_DISABLE_BATCH_LOCK_RETRY",
-                    "controlClass": "CheckBox"
+                    "name": "Preference",
+                    "text": "Preferences",
+                    "hint": "Preferences",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "ShowAdminCustomSaveDialog",
+                            "text": "Shows custom save dialog for grid settings changes",
+                            "hint": "Shows custom save dialog for grid settings changes when user is Administrator.",
+                            "binding": { "datasource": "ShowAdminCustomSaveDialog" },
+                            "id": "IDC_TBF_PREF_SHOW_ADMIN_CUSTOM",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "UseWoormRadar",
+                            "text": "Uses radar Woorm instead of default",
+                            "hint": "Uses radar Woorm instead of default.",
+                            "binding": { "datasource": "UseWoormRadar" },
+                            "id": "IDC_TBF_PREF_USE_RADARWOORM",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "RepeatableNew",
+                            "text": "Enables repetitive new in Data Entry",
+                            "hint": "Enables repetitive new in Data Entry.",
+                            "binding": { "datasource": "RepeatableNew" },
+                            "id": "IDC_TBF_PREF_REPETABLE_NEW",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "UseEasyBrowsing",
+                            "text": "Uses EasyBrowsing mode",
+                            "hint": "With EasyBrowsing, after finding a document with find (F3) or radar (F7), the document stays in browse mode instead of entering in edit mode.",
+                            "binding": { "datasource": "UseEasyBrowsing" },
+                            "id": "IDC_TBF_PREF_EASY_BROWSING",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "EnableFindOnSlaveFields",
+                            "text": "Enables finder on slave fields",
+                            "hint": "Enablse finder on slave fields.",
+                            "binding": { "datasource": "EnableFindOnSlaveFields" },
+                            "id": "IDC_TBF_PREF_FINDER_SLAVE_FIELDS",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
+                },
+                {
+
+                    "type": 81,
+                    "name": "DataTypeEpsilons",
+                    "text": "Precision in Double numbers",
+                    "hint": "Precision in Double numbers",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "DoubleDecimals",
+                            "text": "Data Double epsilon decimal numbers",
+                            "hint": "Data Double epsilon decimal numbers.",
+                            "binding": { "datasource": "DoubleDecimals" },
+                            "id": "IDC_TBF_EPSILON_DATA_DOUBLE",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "MonetaryDecimals",
+                            "text": "Data Monetary epsilon decimal numbers",
+                            "hint": "Data Monetary epsilon decimal numbers.",
+                            "binding": { "datasource": "MonetaryDecimals" },
+                            "id": "IDC_TBF_EPSILON_DATA_MONETARY",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "PercentageDecimals",
+                            "text": "Data Percentage epsilon decimal numbers",
+                            "hint": "Data Percentage epsilon decimal numbers.",
+                            "binding": { "datasource": "PercentageDecimals" },
+                            "id": "IDC_TBF_EPSILON_DATA_PERCENTAGE",
+                            "controlClass": "IntegerEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "QuantityDecimals",
+                            "text": "Data Quantity epsilon decimal numbers",
+                            "hint": "Data Quantity epsilon decimal numbers.",
+                            "binding": { "datasource": "QuantityDecimals" },
+                            "id": "IDC_TBF_EPSILON_DATA_QUANTITY",
+                            "controlClass": "IntegerEdit"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "DisableBatchBeep",
-                    "text": "Disabling beep for batch documents",
-                    "hint": "Disabling beep for batch documents.",
-                    "binding": { "datasource": "DisableBatchBeep" },
-                    "id": "IDC_TBF_PARAM_DISABLE_BATCH_BEEP",
-                    "controlClass": "CheckBox"
+                    "name": "Report",
+                    "text": "Report",
+                    "hint": "Report",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "ShowPrintSetup",
+                            "text": "Shows the print setup menu item",
+                            "hint": "Shows the print setup menu items.",
+                            "binding": { "datasource": "ShowPrintSetup" },
+                            "id": "IDC_TBF_REPORT_SHOW_PRINT_SETUP",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "UpdateDefaultReport",
+                            "text": "Data Percentage epsilon decimal numbers",
+                            "hint": "Sets the report as default, once the user has choosen it from the drop down menu of the toolbar printer button",
+                            "binding": { "datasource": "UpdateDefaultReport" },
+                            "id": "IDC_TBF_REPORT_UPDATE_DEFAULT_REP",
+                            "controlClass": "CheckBox"
+                        },
+                        {
+                            "type": 81,
+                            "name": "UseMultithreading",
+                            "text": "Runs engine on own working thread",
+                            "hint": "Runs engine on own working thread.",
+                            "binding": { "datasource": "UseMultithreading" },
+                            "id": "IDC_TBF_REPORT_USE_MULTITHREADING",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "MaxBatchLockRetry",
-                    "text": "Maximum number of attempts before aborting transaction for batch documents",
-                    "hint": "Maximum number of attempts before aborting transaction for batch documents.",
-                    "binding": { "datasource": "MaxBatchLockRetry" },
-                    "id": "IDC_TBF_PARAM_MAX_BATCH_LOCK_RETRY",
-                    "controlClass": "IntegerEdit"
+                    "name": "Development",
+                    "text": "Development",
+                    "hint": "Development",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "TBLoaderDefaultSOAPPort",
+                            "text": "Default port for TBLoader SOAP server",
+                            "hint": "Default port for TBLoader SOAP server.",
+                            "binding": { "datasource": "TBLoaderDefaultSOAPPort" },
+                            "id": "IDC_TBF_DEV_DEFAULT_TB_SOAP_PORT",
+                            "controlClass": "IntegerEdit"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "MaxBatchLockTime",
-                    "text": "Time in mms for batch documents",
-                    "hint": "Time in mms for batch documents.",
-                    "binding": { "datasource": "MaxBatchLockTime" },
-                    "id": "IDC_TBF_PARAM_MAX_BATCH_LOCK_TIME",
-                    "controlClass": "IntegerEdit"
+                    "name": "Culture",
+                    "text": "Base Culture",
+                    "hint": "Base Culture",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "ExcelDateFormat",
+                            "text": "Excel's format cell for Date type ",
+                            "hint": "Excel's format cell for Date type",
+                            "binding": { "datasource": "ExcelDateFormat" },
+                            "id": "IDC_TBF_CULTURE_EXCEL_DATE_FORMAT",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "ExcelTimeFormat",
+                            "text": "Excel's format cell for Time type ",
+                            "hint": "Excel's format cell for Time type",
+                            "binding": { "datasource": "ExcelTimeFormat" },
+                            "id": "IDC_TBF_CULTURE_EXCEL_TIME_FORMAT",
+                            "controlClass": "StringEdit"
+                        },
+                        {
+                            "type": 81,
+                            "name": "ExcelDateTimeFormat",
+                            "text": "Excel's format cell for DateTime type ",
+                            "hint": "Excel's format cell for DateTime type",
+                            "binding": { "datasource": "ExcelDateTimeFormat" },
+                            "id": "IDC_TBF_CULTURE_EXCEL_DATE_TIME_FORMAT",
+                            "controlClass": "StringEdit"
+                        }
+                    ]
                 },
                 {
                     "type": 81,
-                    "name": "MaxReportLockRetry",
-                    "text": "Maximum number of attempts before aborting transaction for reports",
-                    "hint": "Maximum number of attempts before aborting transaction for reports.",
-                    "binding": { "datasource": "MaxReportLockRetry" },
-                    "id": "IDC_TBF_PARAM_MAX_REPORT_LOCK_RETRY",
-                    "controlClass": "IntegerEdit"
-                },
-                {
-                    "type": 81,
-                    "name": "MaxReportLockTime",
-                    "text": "Time in mms for report",
-                    "hint": "Time in mms for report.",
-                    "binding": { "datasource": "MaxReportLockTime" },
-                    "id": "IDC_TBF_PARAM_MAX_REPORT_LOCK_TIME",
-                    "controlClass": "IntegerEdit"
-                }
-            ]
-        },
-        {
-            "type": 81,
-            "name": "Connection",
-            "text": "Connection",
-            "hint": "Connection",
-            "items": [
-                {
-                    "type": 81,
-                    "name": "DebugSqlTrace",
-                    "text": "Plotting Sql instructions",
-                    "hint": "Plotting Sql instructions.",
-                    "binding": { "datasource": "DebugSqlTrace" },
-                    "id": "IDC_TBF_PARAM_DEBUG_SQLTRACE",
-                    "controlClass": "CheckBox"
-                },
-                {
-                    "type": 81,
-                    "name": "DebugSqlTraceActions",
-                    "text": "Filter for action to plot. Write each table name divided by comma",
-                    "hint": "Filter for action to plot. Write each table name divided by comma.",
-                    "binding": { "datasource": "DebugSqlTraceActions" },
-                    "id": "IDC_TBF_PARAM_DEBUG_SQLTRACE_ACTION",
-                    "controlClass": "StringEdit"
-                },
-                {
-                    "type": 81,
-                    "name": "DebugSqlTraceTables",
-                    "text": "Filter for table to plot. Write each table name divided by comma",
-                    "hint": "Filter for table to plot. Write each table name divided by comma.",
-                    "binding": { "datasource": "DebugSqlTraceTables" },
-                    "id": "IDC_TBF_PARAM_DEBUG_SQLTRACE_TABLES",
-                    "controlClass": "StringEdit"
-                },
-                {
-                    "type": 81,
-                    "name": "EnableEventViewerLog",
-                    "text": "Enable Event Viewer Log for aborted lock and aborted transactions",
-                    "hint": "Enable Event Viewer Log for aborted lock and aborted transactions.",
-                    "binding": { "datasource": "EnableEventViewerLog" },
-                    "id": "IDC_TBF_PARAM_ENABLE_EVENTVIEWER_LOG",
-                    "controlClass": "CheckBox"
+                    "name": "Scheduler",
+                    "text": "TBScheduler",
+                    "hint": "TBScheduler",
+                    "items": [
+                        {
+                            "type": 81,
+                            "name": "TaskIsolation",
+                            "text": "Run each task in its own process ",
+                            "hint": "If activated, run each task in its own process",
+                            "binding": { "datasource": "TaskIsolation" },
+                            "id": "IDC_TBF_SCHEDULER_TASK_ISOLATION",
+                            "controlClass": "CheckBox"
+                        }
+                    ]
                 }
             ]
         }
-      ]
-    }
-  ]
+    ]
 }

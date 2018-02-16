@@ -26,7 +26,7 @@ namespace Microarea.TbLoaderGate
 
         
 
-                if (item.name == name)
+                if (item.Name == name)
                     return item;
             }
             return null;
@@ -38,7 +38,7 @@ namespace Microarea.TbLoaderGate
             try
             {
                 Process process = Process.GetProcessById(processId);
-                if (process == null || process.HasExited)
+                if (process == null)
                     return false;
             }
             catch (Exception)
@@ -49,26 +49,26 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------------------------
-        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, bool create, out bool newInstance)
+        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, out bool newInstance)
         {
             newInstance = false;
             var tbLoader = GetTbLoader(name);
             if (tbLoader != null)
             {
-                if (!IsProcessRunning(tbLoader.processId))
+                if (!IsProcessRunning(tbLoader.ProcessId))
                 {
                     RemoveTbLoader(tbLoader);
                     tbLoader = null;
                 }
             }
-            if (tbLoader == null && create)
+            if (tbLoader == null)
             {
                 using (Locker l = new Locker(rwLock, true))
                 {
                     tbLoader = GetTbLoader(name);//ci riprovo, quqlche altro thread potrebbe averlo creato nel frattempo
                     if (tbLoader == null)
                     {
-                        tbLoader = new TBLoaderInstance(server, port);
+                        tbLoader = new TBLoaderInstance(server, port, name);
                         tbLoader.ExecuteAsync().Wait();
                         tbloaders.Add(tbLoader);
                     }

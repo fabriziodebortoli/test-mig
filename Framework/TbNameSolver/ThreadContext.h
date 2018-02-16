@@ -9,6 +9,9 @@
 #include "beginh.dex"
 
 class CWorkersTableObj;
+
+
+
 //=============================================================================================
 class TB_EXPORT CThreadLocalStorage
 {
@@ -322,7 +325,24 @@ TB_EXPORT CContextBag* AfxGetThreadContextBag();
 
 inline TB_EXPORT bool AfxIsThreadCollateCultureSensitive() { return AfxGetThreadContext()->IsCollateCultureSensitive(); }
 
-
+//classe che imposta un mode nel costruttore e ripristina l'originale nel distruttore
+//=============================================================================================
+class TB_EXPORT SwitchTemporarilyMode
+{
+	UserInteractionMode m_OldMode;
+	CThreadContext* m_pThread;
+public:
+	SwitchTemporarilyMode(UserInteractionMode mode)
+	{
+		m_pThread = AfxGetThreadContext();
+		m_OldMode = m_pThread->GetUserInteractionMode();
+		m_pThread->SetUserInteractionMode(mode);
+	}
+	~SwitchTemporarilyMode()
+	{
+		m_pThread->SetUserInteractionMode(m_OldMode);
+	}
+};
 //==================================================================================
 class CPushMessageLoopDepthMng
 {

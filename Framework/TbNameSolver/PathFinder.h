@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // definisce il collegamento fra l'oggetto C++ passato al processore XSLT
 // ed il corrispondente riferimento a tale oggetto nel file di trasformazione 
-// XMLStringLoader.xsl; è importante che questa #define e la corrispondente
+// XMLStringLoader.xsl; ï¿½ importante che questa #define e la corrispondente
 // stringa di namespace definita nel suddetto file rimangano allineati
 #define PATH_FINDER_URN	_T("urn:TBPathFinder")
 #define _PREDEFINED(s) _T(s)
@@ -190,6 +190,11 @@ class TB_EXPORT CPathFinder : public CObject
 	friend class CDeveloperConfigManager;
 	friend class CClientObjects;
 	friend class TBFileSystemManager;
+public:
+	enum PosType { STANDARD, CUSTOM, ALL_USERS, USERS, ROLES };
+	enum Company { CURRENT, ALL_COMPANIES, EASYSTUDIO};
+	enum ApplicationType { UNDEFINED, TB_APPLICATION, TB, CUSTOMIZATION, STANDARDIZATION };
+
 
 private:
 	CString		m_sTbDllPath;
@@ -200,6 +205,7 @@ private:
 	CString		m_sWebServiceInstallation;
 	CString		m_sMasterSolution;
 	BOOL		m_bIsStandAlone;
+	PosType		m_eESAppPosType;
 
 	CDictionaryPathFinderObj *m_pDictionaryPathFinder;
 	//TBMetadataManagerObj*	  m_pMetadataManager;
@@ -212,11 +218,6 @@ private:
 
 	/// Indica se il programma sta girando all'interno del percorso di installazione (Apps o Standard ad es. per i web services)
 	BOOL				m_bIsRunningInsideInstallation;
-
-public:
-	enum PosType		{ STANDARD, CUSTOM, ALL_USERS, USERS, ROLES };
-	enum Company		{ CURRENT, ALL_COMPANIES };
-	enum ApplicationType{ UNDEFINED, TB_APPLICATION, TB, CUSTOMIZATION, STANDARDIZATION };
 
 public:
 	CPathFinder();
@@ -237,7 +238,6 @@ public:
 
 	void GetCandidateApplications(CStringArray* pAppsArray);
 	void GetCandidateModulesOfApp(const CString& sAppName, CStringArray* pAppsArray);
-
 
 	//void AttachMetadataManager(TBMetadataManagerObj* pMetadataMng) { m_pMetadataManager = pMetadataMng;	}
 	//TBMetadataManagerObj* GetMetadataManager() const { return m_pMetadataManager; }
@@ -298,7 +298,14 @@ public:
 	const CString GetClientFileSystemCacheName() const;
 	const CString GetServerFileSystemCacheName() const;
 
-	const CString GetEBReferencedAssembliesPath	() const;
+	// EasyStudio Customizations
+	void			SetEasyStudioCustomizationsPosType(PosType posType) { m_eESAppPosType = posType; }
+	BOOL			GetEasyStudioCustomizationsPosType() { return m_eESAppPosType; }
+	const CString	GetEasyStudioHomePath(BOOL bCreateDir = FALSE) const;
+	const CString	GetEasyStudioCustomizationsPath(BOOL bCreateDir = FALSE) const;
+	const CString	GetEasyStudioReferencedAssembliesPath	() const;
+	const CString	GetEasyStudioEnumsAssemblyName() const;
+
 	const CString GetConfigurationPath			() const;
 	const CString GetCompaniesPath				(BOOL bCreateDir = FALSE) const;
 	const CString GetAllCompaniesPath			(BOOL bCreateDir = FALSE) const;
@@ -309,7 +316,6 @@ public:
 	const CString GetWebProxyFilesPath			(BOOL bCreateDir = FALSE) const;
 	
 	const CString GetApplicationPath(const CString& sAppName, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
-	const CString GetCustomApplicationsPath() const;
 	const CString GetModulePath(const CString& sAppName, const CString& sModuleName, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetModulePath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 
@@ -318,7 +324,6 @@ public:
 
 	const CString GetTaskBuilderXmlPath() const;
 	const CString GetModuleObjectsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
-	const CString GetCustomAllCompaniesModuleObjectsPath(const CTBNamespace& ownerModule) const;
 	const CString GetJsonFormsPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT, const CString& sUserRole = _T("")) const;
 	const CString GetModuleSettingsPath(const CTBNamespace& aNamespace, PosType pos, const CString sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetModuleDictionaryFilePath(const CTBNamespace& aNamespace, BOOL bFromStandard, const CString& strCulture) const;
@@ -327,7 +332,7 @@ public:
 	const CString GetModuleXmlPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetModuleXmlPathCulture(const CTBNamespace& aNamespace, PosType pos, const CString& sCulture = _T(""), const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetModuleHelpPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
-	const CString GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+	const CString GetDocumentPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT, const CString& sUserRole = _T("")) const;
 	const CString GetDocumentRadarPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentQueryPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 	const CString GetDocumentDescriptionPath(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
@@ -347,7 +352,7 @@ public:
 	const CString GetDocumentFormNSChangesFile(const CTBNamespace& aNamespace) const;	
 	const CString GetDocumentEventsFile(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T(""), BOOL bCreateDir = FALSE) const;
 
-	const CString GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
+	const CString GetTemplatesPath(const CTBNamespace& aNamespace, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = EASYSTUDIO) const;
 
 	const CString GetAppDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
 	const CString GetAppXTechDataIOPath(BOOL bCreateDir = FALSE, Company aCompany = CURRENT) const;
@@ -415,7 +420,7 @@ public:
 	
 	void GetDictionaryPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
 	void GetJsonFormsPathsFormDllInstance(HINSTANCE hDllInstance, CStringArray &paths);
-	const CString GetJsonFormPath(const CTBNamespace& ns);
+	const CString GetJsonFormPath(const CTBNamespace& ns, PosType pos, BOOL bCreateDir = FALSE, CString strSubPath = _T(""));
 
 	const CString GetNumberToLiteralXmlFullName(const CTBNamespace& aNamespace, const CString& sCulture = _T("")) const;
 

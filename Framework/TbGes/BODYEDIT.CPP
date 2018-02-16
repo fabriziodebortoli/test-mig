@@ -678,20 +678,20 @@ CBodyEdit::CBodyEdit(const CString sName)
 
 	m_pProcessingMouse = new CriticalArea;
 
-	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(3), szTbDefaultSettingFileName);
+	DataObj* pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAllowBodyeditColumnHeaderSmallFont, DataInt(0), szTbDefaultSettingFileName);
 	m_bAllowColumnHeaderSmallFont = pS ? *((DataInt*)pS) > 0 : FALSE;
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szAddBodyeditColumnHeaderExtraSpace, DataBool(FALSE), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szAddBodyeditColumnHeaderExtraSpace, DataBool(FALSE), szTbDefaultSettingFileName);
 	m_bAddColumnHeaderExtraSpace = pS ? *((DataBool*)pS) : FALSE;
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipDelay, DataInt(300), szTbDefaultSettingFileName);
 	TFXDataTip::SetDelay(pS ? *((DataInt*)pS) : 300);
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
-	DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxWidth, DataInt(800), szTbDefaultSettingFileName);
+	DataObj* pS2 = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipMaxHeight, DataInt(600), szTbDefaultSettingFileName);
 	TFXDataTip::SetMaxDim(pS ? *((DataInt*)pS) : 800, pS2 ? *((DataInt*)pS2) : 600);
 
-	pS = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDataTipLevelOnBodyedit, DataInt(BE_DTSTYLE_ALL), szTbDefaultSettingFileName);
+	pS = AfxGetSettingValue(snsTbGenlib, szFormsSection, szDataTipLevelOnBodyedit, DataInt(BE_DTSTYLE_ALL), szTbDefaultSettingFileName);
 	m_DataTipStyle = pS ? (short)(*((DataInt*)pS)) : BE_DTSTYLE_ALL;
 
 	//istanzio il datatip solo se necessario
@@ -8682,19 +8682,15 @@ BOOL CBodyEdit::CallDialog()
 		if (m_pRowFormView == NULL)
 			return FALSE;
 
-		if (m_nCurrRecordIdx < 0 && !m_pRowFormView->GetFrame()->IsPopup())
+		if (m_nCurrRecordIdx < 0)
 		{
 			int r = GetDBT()->GetCurrentRowIdx();
 			if (r >= 0)
-			{
 				SetCurrLine(r);
-				ASSERT(m_nCurrRecordIdx > -1);
-			}
-			//else if  (GetDocument()->GetFormMode() == CBaseDocument::NEW || GetDocument()->GetFormMode() == CBaseDocument::EDIT)
-			//{
-			//	SetCurrLine(0);	//aggiunge una riga
-			//	ASSERT (m_nCurrRecordIdx > -1);
-			//}
+			else if (!GetDBT()->IsEmpty())
+				SetCurrLine(0);
+
+			ASSERT(m_nCurrRecordIdx > -1);
 		}
 
 		m_pRowFormView->Attach(this);
@@ -11493,7 +11489,7 @@ void CBodyEdit::RecalculateAllColPos()
 
 		// le colonne arrivano qui già messe nella corretta posizione da EasyStudio. Se il tbf non l'ha cambiata
 		// allora rifletto le modifiche apportate da EasyStudio anche sul TBF dove possibile
-		BodyEditColumn* pBEInfoCol = pBEInfo ? pBEInfo->GetColumnObject(pColInfo->GetNamespace()) : NULL;
+	/*	BodyEditColumn* pBEInfoCol = pBEInfo ? pBEInfo->GetColumnObject(pColInfo->GetNamespace()) : NULL;
 		if (pBEInfoCol)
 		{
 			// arriva dal TBF quindi lo devo lasciare così come è oppure mi arriva una colonna 
@@ -11512,10 +11508,10 @@ void CBodyEdit::RecalculateAllColPos()
 				pBEInfoCol->m_nColPos = i;
 				pColInfo->SetColPos(i);
 			}
-		}
+		}*/
 	}
 
-	m_AllColumnsInfo.Sort();
+	//m_AllColumnsInfo.Sort();
 }
 
 //-----------------------------------------------------------------------------

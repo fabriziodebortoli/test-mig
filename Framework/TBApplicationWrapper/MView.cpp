@@ -47,6 +47,7 @@ MView::MView(IntPtr handleViewPtr)
 	toolBarLevel = 0;
 	Visible = false;
 	suspendLayout = false;
+	pathToSerialize = gcnew String(_T(""));
 }
 
 //----------------------------------------------------------------------------
@@ -66,6 +67,145 @@ MView::!MView()
 {
 	delete frame;
 	m_pView = NULL;
+}
+
+//-------------------------------------------------------------------------------------
+void MView::SetPathToSerialize(System::String^ path)
+{
+	pathToSerialize = path;
+}
+
+//------------------------------------------------------------------------------
+void MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	if (!this->HasCodeBehind) //not hasCodeBehind
+	{
+		__super::UpdateAttributesForJson(NULL);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::View;
+		jsonDescription->m_bChild = true;
+	}
+	else
+	{
+		jsonDescription->m_strIds.Add(this->Id);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	}
+}
+
+//-------------------------------------------------------------------------------------
+void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
+
+	//manage saving
+	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(this->Id),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+	}
+	else if (jsonDescription->m_Children.GetCount() > 0)
+	{
+		serialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				gcnew String(this->Id + _T("_") + _T("CUSTOM")),
+				gcnew String(GetSerialization(jsonDescription))
+				)
+		);
+	}
+
+	ManageSerializations(serialization);
+
+	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
+	{
+		SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
+		jsonDescription->m_Children.RemoveAt(i);
+	}
+
+}
+
+//-------------------------------------------------------------------------------
+void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	if (System::String::IsNullOrEmpty(pathToSerialize))
+		return;
+
+	if (!this->HasCodeBehind)
+		jsonDescription = new CWndObjDescription(NULL);
+	else
+		jsonDescription = new CDummyDescription();
+
+	if (serialization != nullptr)
+		delete serialization;
+		
+	serialization = gcnew List<System::Tuple<System::String^, System::String^>^>();
+	
+	__super::GenerateJson(NULL, serialization);
+	
+	SAFE_DELETE(jsonDescription);
+	delete serialization;
+}
+
+//------------------------------------------------------------------------------------------------------------
+void MView::ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	CJsonSerializer jsonSerEv;
+
+	jsonSerEv.OpenArray(_T("items"));
+	int n = 0;
+	for each (Tuple<System::String^, System::String^>^ element in serialization)
+	{
+		if (element->Item1->IndexOf(prefixEvent) < 0)
+			this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, element->Item1, tbjsonExtension)), CString(element->Item2));
+		else
+			EventsJsonStringDeserialize(CString(element->Item2), jsonSerEv, n);
+	}
+	jsonSerEv.CloseArray();
+
+	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
+}
+
+//----------------------------------------------------------------------------------
+void MView::EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx)
+{
+	CJsonParser parser;
+	parser.ReadJsonFromString(strEvents);
+	if (parser.BeginReadArray(CString(contentTag)))
+		for (int i = 0; i < parser.GetCount(); i++)
+		{
+			if (parser.BeginReadObject(i))
+			{
+				CString sNs = parser.ReadString(CString(namespaceTag));
+				CString sEvent = parser.ReadString(CString(eventTag));
+
+				jsonSer.OpenObject(idx);
+				jsonSer.WriteString(CString(namespaceTag), sNs);
+				jsonSer.WriteString(CString(eventTag), sEvent);
+				jsonSer.CloseObject();
+				idx++;
+			}
+			parser.EndReadObject();
+		}
+	parser.EndReadArray();
+}
+
+//----------------------------------------------------------------------------------------------------
+bool MView::SaveSerialization(const CString& fileName, const CString& sSerialization)
+{
+	CLineFile file;
+	if (!file.Open(CString(fileName), CFile::modeCreate | CFile::modeWrite | CFile::typeText))
+		return false;
+
+	file.WriteString(sSerialization);
+	file.Close();
+
+	return true;
 }
 
 //----------------------------------------------------------------------------
@@ -548,8 +688,9 @@ void MView::ResizeFrame	()
 //----------------------------------------------------------------------------
 System::String^	MView::Id::get()
 {
-	if (m_pView)
-		return gcnew System::String(m_pView->GetJsonContext()->m_JsonResource.m_strName);
+	if (m_pView && m_pView->GetJsonContext() && m_pView->GetJsonContext()->m_pDescription && m_pView->GetJsonContext()->m_pDescription->m_strIds.GetCount() > 0)
+		return gcnew System::String(m_pView->GetJsonContext()->m_pDescription->m_strIds.GetAt(0));
+	
 	return __super::Id;
 }
 

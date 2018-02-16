@@ -440,10 +440,10 @@ namespace Microarea.EasyBuilder.MVC
 				//Carichiamo il controller modificando dalla cartella relativa all'utente corrente.
 				string path = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNameSpace, CUtility.GetUser(), app);
 				//Se non esiste allora entro in modifica della dll pubblicata per tutti gli utenti
-				if (!File.Exists(path))
+				if (!PathFinderWrapper.ExistFile(path))
 					path = BaseCustomizationContext.CustomizationContextInstance.GetEasyBuilderAppAssemblyFullName(customizationNameSpace, null, app);
 
-				if (File.Exists(path))
+				if (PathFinderWrapper.ExistFile(path))
 				{
 					Assembly asm = null;
 					try
@@ -690,14 +690,8 @@ namespace Microarea.EasyBuilder.MVC
 
 				lock (typeof(DocumentController))
 				{
-					string fileName = BasePathFinder.BasePathFinderInstance.GetCustomizationLogFullName();
-					if (!Directory.Exists(Path.GetDirectoryName(fileName)))
-						Directory.CreateDirectory(Path.GetDirectoryName(fileName));
-
-					File.AppendAllText(
-						fileName,
-						errorMessage + "\r\n-------------------------------------\r\n"
-						);
+                    string message = string.Concat(errorMessage, "\r\n-------------------------------------\r\n");
+                    PathFinderWrapper.TraceEasyStudioCustomizationLog(message);
 				}
 			}
 			catch (Exception)

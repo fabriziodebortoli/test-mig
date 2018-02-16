@@ -1,7 +1,8 @@
+@import '../style/tb.scss';
 .mat-sidenav,
 mat-sidenav {
     width: 300px;
-    background: #282828;
+    background: $bck-sidenav;
 }
 
 mat-sidenav::-webkit-scrollbar-track {
@@ -20,7 +21,7 @@ mat-sidenav-container,
     height: 100%;
     display: flex;
     flex-flow: column;
-    background: #f1f1f1;
+    background: $background;
     overflow: hidden;
 }
 
@@ -40,52 +41,60 @@ mat-sidenav-container,
     &>.k-tabstrip {
         &>.k-tabstrip-items {
             background-color: #0277bd;
-            border-bottom: 1px solid #ddd;
+            border: none;
+            border-bottom: 1px solid #00578c;
             height: 30px;
             line-height: 30px;
+            .k-item {
+                line-height: 27px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                border-top-right-radius: 5px;
+                border-top-left-radius: 5px;
+                color: $bkg-light;
+                background: $darkblue;
+                margin-left: 3px;
+                margin-bottom: 0px;
+                border: none;
+                .k-link {
+                    padding: 0 10px;
+                    &>div {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        &>span {
+                            padding: 0 20px;
+                            color: $color-light;
+                        }
+                        m4-icon {
+                            font-size: 16px;
+                            padding-top: 3px;
+                            color: $color-light;
+                        }
+                        m4-icon.close {
+                            font-size: 14px;
+                        }
+                    }
+                }
+                &.k-state-active {
+                    background-color: #fff;
+                    margin-bottom: -1px;
+                    background-color: $bkg-light;
+                    border: none;
+                    color: $darkblue;
+                    .k-link>div m4-icon,
+                    .k-link>div>span {
+                        color: $darkblue;
+                    }
+                }
+            }
         }
         &>.k-content {
             padding: 0;
             border: none;
             border-radius: 0;
             background: #f1f1f1;
-        }
-    }
-    &>.k-tabstrip>.k-tabstrip-items .k-item {
-        line-height: 27px;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        border-top-right-radius: 3px;
-        border-top-left-radius: 3px;
-        color: white;
-        background: #00578c;
-        margin-left: 3px;
-        border-bottom-color: #00578c;
-        margin-bottom: 0px;
-    }
-    &>.k-tabstrip>.k-tabstrip-items .k-item.k-state-active {
-        background-color: #fff;
-        margin-bottom: -1px;
-        border-bottom-color: #fff;
-        color: #0277bd;
-    }
-    &>.k-tabstrip>.k-tabstrip-items .k-item .k-link {
-        padding: 0 10px;
-        &>div {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            &>span {
-                padding: 0 20px;
-            }
-            m4-icon {
-                font-size: 16px;
-                padding-top: 3px;
-            }
-            m4-icon.close {
-                font-size: 14px;
-            }
         }
     }
 }

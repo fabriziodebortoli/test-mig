@@ -328,12 +328,14 @@ int CDocumentSession::MessageBoxDialog(LPCTSTR lpszText, UINT nType)
 	return m_nMessageType;//cambiato dalla risposta del client
 }
 //-----------------------------------------------------------------------------
-BOOL CDocumentSession::DiagnosticDialog(CDiagnostic* pDiagnostic)
+BOOL CDocumentSession::DiagnosticDialog(CDiagnostic* pDiagnostic, BOOL bModal)
 {
 	m_pDiagnostic = pDiagnostic;
-	m_ModalClosed.Reset();
+	if (bModal)
+		m_ModalClosed.Reset();
 	PushDiagnosticToClients();
-	AfxGetTBThread()->LoopUntil(&m_ModalClosed);
+	if (bModal)
+		AfxGetTBThread()->LoopUntil(&m_ModalClosed);
 	m_pDiagnostic = NULL;
 	return m_bDiagnosticResult;//cambiato dalla risposta del client
 }
@@ -429,6 +431,16 @@ void CDocumentSession::PushMessageToClients()
 
 	PushToClients(resp);
 }
+
+//----------------------------------------------------------------------------
+void CDocumentSession::PushRunErrorToClients()
+{
+	BEGIN_JSON_RESPONSE(RunError);
+	AfxGetDiagnostic()->ToJson(resp);
+	AfxGetDiagnostic()->ClearMessages(TRUE);
+	END_JSON_RESPONSE();
+	PushToClients(resp);
+}
 //----------------------------------------------------------------------------
 void CDocumentSession::PushDiagnosticToClients()
 {
@@ -522,7 +534,7 @@ void CDocumentSession::PushActivationDataToClients()
 void CDocumentSession::PushRadarInfoToClient(CAbstractFormDoc* pDoc)
 {
 	BEGIN_JSON_RESPONSE(RadarInfos);
-	pDoc->GetJsonRadarInfos(resp);
+	pDoc->GetJsonRadarInfos(resp, L"");
 	END_JSON_RESPONSE();
 	PushToClients(resp);
 }

@@ -1,9 +1,6 @@
   
 <div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
-    <button class="bottom-button">
-    <span> {{caption}} </span>
-    <m4-icon icon="{{icon}}"></m4-icon>
-    </button>
+    <tb-toolbar-bottom-button icon="tb-sortupfilled" [caption]="caption"></tb-toolbar-bottom-button>
     <kendo-popup *ngIf="show" class='wrapper' [anchor]="anchor" (anchorViewportLeave)="outView(null)" 
     (open)="onOpen()" [collision]="collision" 
     [anchorAlign]="anchorAlign" 

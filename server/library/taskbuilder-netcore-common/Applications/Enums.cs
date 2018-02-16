@@ -74,8 +74,6 @@ namespace Microarea.Common.Applications
 		private NameSolver.ModuleInfo moduleInfo;
 		private EnumTag owner;
 
-		//EasyBuilderPropertiesManager readOnlyPropertiesManager;
-
 		//-----------------------------------------------------------------------------
 		[Browsable(false)]
 		public EnumTag Owner
@@ -144,7 +142,6 @@ namespace Microarea.Common.Applications
 		public EnumItem(EnumTag owner)
 		{
 			this.owner = owner;
-			//readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -153,7 +150,6 @@ namespace Microarea.Common.Applications
 			this.Name	= aName;
 			this.value = aValue;
 			this.owner	= owner;
-            //readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -168,8 +164,6 @@ namespace Microarea.Common.Applications
 
 			if (this.owner.OwnerModule != moduleInfo)
 				this.moduleInfo = moduleInfo;
-
-            //readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -185,8 +179,6 @@ namespace Microarea.Common.Applications
 
 			this.stored = enumItem.stored;
 			this.value = enumItem.value;
-
-            //readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -528,8 +520,6 @@ namespace Microarea.Common.Applications
 
 		private int longerItemIdx = -1;	// give EnumItem idx with most wide string in Enum Names
 
-        //EasyBuilderPropertiesManager readOnlyPropertiesManager;
-
 		//-----------------------------------------------------------------------------
 		public EnumTag
 			(
@@ -543,8 +533,6 @@ namespace Microarea.Common.Applications
 			this.value			= aValue;
 			this.defaultValue	= defaultValue;
 			this.owner			= owner;
-
-            //readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -567,8 +555,6 @@ namespace Microarea.Common.Applications
 			this.site = enumTag.site;
 
 			this.value = enumTag.value;
-
-            //readOnlyPropertiesManager = new EasyBuilderPropertiesManager(this);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -1754,7 +1740,7 @@ namespace Microarea.Common.Applications
 		{
 			this.loaded = true;
 
-			//Le applicazioni EasyBuilder che vivono nella custom appaiono comunque
+			//Le applicazioni EasyStudio che vivono nella custom appaiono comunque
 			//in PathFinder.PathFinderInstance.ApplicationInfos...
 			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
 			{
@@ -1762,7 +1748,7 @@ namespace Microarea.Common.Applications
 				foreach (ModuleInfo mi in ai.Modules)
 				{
 					//...GetEnumsPath() può ritornare il percorso al file degli
-					//enumerativi nella custom (per una customizzazione EasyBuilder)...
+					//enumerativi nella custom (per una customizzazione EasyStudio)...
 					string standardFilename = mi.GetEnumsPath();
 
 					//...comunque per il percorso ritenuto "dalla standard" carico gli enumerativi...
@@ -1782,9 +1768,6 @@ namespace Microarea.Common.Applications
 							this.loaded = false;
 						}
 					}
-
-					//Ho agito così perchè non mi piaceva mettere if (ApplicationType == ApplicationType.EasyBuilderApplication)
-					//mi pare che così sia un comportamento più generale.
 				}
 			}
 		}

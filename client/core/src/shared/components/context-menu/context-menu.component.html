@@ -1,12 +1,9 @@
 <div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()">
-    <!-- <m4-icon (click)="onToggle()" icon="{{fontIcon}}" [ngClass]="{ 'borderOn': show }"></m4-icon> -->
-    <m4-icon (click)="onToggle()" icon="{{fontIcon}}"></m4-icon>
-    <!-- <kendo-popup *ngIf="show" popupClass='{{popupClass}}' [anchor]="anchor" (anchorViewportLeave)="outView(null)" (open)="onOpen()"
-        [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign"> -->
-    <kendo-popup *ngIf="show" popupClass='{{popupClass}}' [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign"
-        [popupAlign]="popupAlign">
-        <button kendoButton *ngFor="let menuItem of contextMenu" class="content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)"
-            (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
+
+    <button kendoButton (click)="onToggle()" icon="more-vertical"></button>
+
+    <kendo-popup *ngIf="show" popupClass='{{popupClass}}' [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
+        <button kendoButton *ngFor="let menuItem of contextMenu" class="content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
             <div #anchor2 class="divW">
                 <m4-icon *ngIf="hasSubItems(menuItem)" icon="tb-chevronleftfilled" class="subsIcon"></m4-icon>
                 <span [ngClass]="{ 'spaceOn': !hasSubItems(menuItem)}"> {{menuItem?.text}} </span>
@@ -22,7 +19,7 @@
                         <span class="spaceOn"> {{subItem?.text}} </span>
                     </div>
                 </button>
-            </kendo-popup>
-        </button>
+    </kendo-popup>
+    </button>
     </kendo-popup>
 </div>

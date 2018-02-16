@@ -379,10 +379,21 @@ public:
 	/// Internal Use
 	/// </summary>	
 public:
-	static System::String^ GetCustomApplicationsPath();
+	// specifiche di EasyStudio
+	static System::String^ GetEasyStudioReferenceAssembliesPath();
+	static System::String^ GetEasyStudioEnumsAssemblyName	();
+	static System::String^ GetEasyStudioAssemblyFullName	(System::String^ customizationNameSpace, System::String^ user);
+	static System::String^ GetEasyStudioCustomizationsPath	();
+	static void			   TraceEasyStudioCustomizationLog	(System::String^ text);
+
+	// path generici
+	static System::String^ GetImageNamespace	(System::String^ appName, System::String^ moduleName, System::String^ nameWithExtension);
+	static System::String^ GetImageFolderPath	(System::String^ appName, System::String^ moduleName);
+	static System::String^ GetTemplatesPath		(bool inCustom, bool createDir);
+
+	// file system functions
 	static bool ExistFile(System::String^ path);
 	static bool ExistFolder(System::String^ path);
-	static System::String^ GetTemplatesPath(bool inCustom);
 	static System::Collections::Generic::List<System::String^>^ GetFiles(System::String^ path, System::String^ searchKey);
 };
 

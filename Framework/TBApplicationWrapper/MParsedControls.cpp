@@ -318,6 +318,58 @@ Object^ EasyBuilderControlSerializer::Serialize(IDesignerSerializationManager^ m
 	return newCollection;
 }
 
+//----------------------------------------------------------------------------------------------------------------
+void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^>^>^ evSerialization)
+{
+	if (evSerialization == nullptr)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	EasyBuilderControl^ ebControl = dynamic_cast<EasyBuilderControl^>(this);
+	if (ebControl == nullptr)
+		return;
+
+	CJsonSerializer jsonSer;
+	BOOL bFoundEvents = FALSE;
+	int i = 0;
+	System::Collections::Generic::IEnumerator<Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^>^ evEnumerator = ebControl->ChangedEvents->GetEnumerator();
+	while (evEnumerator->MoveNext())
+	{
+		if (!bFoundEvents)
+		{
+			jsonSer.OpenArray(CString(contentTag));
+			bFoundEvents = TRUE;
+		}
+		jsonSer.OpenObject(i);
+		Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^ ev = evEnumerator->Current;
+		jsonSer.WriteString(CString(namespaceTag), CString(this->Namespace->ToString()));
+		jsonSer.WriteString(CString(eventTag), CString(ev->EventName));
+		jsonSer.CloseObject();
+		i++;
+	}
+
+	if (bFoundEvents)
+	{
+		jsonSer.CloseArray();
+		evSerialization->Add
+		(
+			gcnew Tuple<System::String^, System::String^>
+			(
+				String::Concat(prefixEvent, this->Namespace),	
+				gcnew String(jsonSer.GetJson())
+			)
+		);
+	}
+}
+
+//----------------------------------------------------------------------------
+INameSpace^ EasyBuilderControl::Namespace::get()
+{
+	return nullptr;
+}
+
 /// <summary>
 /// Internal Use
 /// </summary>
@@ -396,6 +448,7 @@ Point EasyBuilderControlSerializer::GetLocationToSerialize(EasyBuilderControl^ e
 	currentLocation.Offset(scrollOffset);
 	return currentLocation;
 }
+
 //----------------------------------------------------------------------------	
 AstExpression^	EasyBuilderControlSerializer::GetParentWindowReference()
 {
@@ -543,6 +596,7 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 
 	this->name = name;
 	this->HasCodeBehind = hasCodeBehind;
+
 	this->IsStretchable = false;
 
 	extensions = gcnew EasyBuilderComponentExtenders(this);
@@ -673,6 +727,107 @@ void BaseWindowWrapper::Site::set(ISite^ site)
 void BaseWindowWrapper::OnDesignerControlCreated()
 {
 	SizeLU = AdjustMinSizeOnParent(this, Parent);
+}
+
+//-------------------------------------------------------------------------------------
+CString BaseWindowWrapper::GetHorizontalIdAnchor()
+{
+	CString myAnchor = _T("");
+
+	if (this->HasCodeBehind)
+	{
+		//TODO - ancora niente
+	}
+
+	//calculate possible left side brother (not depending on HasCodeBehind)
+	WindowWrapperContainer^ container = dynamic_cast<WindowWrapperContainer^>(this->Parent);
+	bool bFoundBrotherAnchor = false;
+	if (container != nullptr)
+	{
+		CWnd* pMeWnd = this->GetWnd();
+		CRect aMeRect, aBrotherRect;
+		pMeWnd->GetWindowRect(&aMeRect);
+
+		for each (BaseWindowWrapper^ brother in container->Components)
+		{
+			//skip static area
+			if (brother == nullptr || brother == this || brother->Id->CompareTo(gcnew String(staticAreaID)) == 0 || brother->Id->CompareTo(gcnew String(staticArea1ID)) == 0 || brother->Id->CompareTo(gcnew String(staticArea2ID)) == 0)
+				continue;
+
+			CWnd* pBrotherWnd = brother->GetWnd();
+			if (pBrotherWnd == nullptr)
+				continue;
+
+			pBrotherWnd->GetWindowRect(aBrotherRect);
+			if 
+				(
+					aBrotherRect.left + aBrotherRect.Width() <= aMeRect.left &&
+					(
+						aMeRect.top >= aBrotherRect.top && aMeRect.top <= aBrotherRect.top + aBrotherRect.Height() || 
+						aMeRect.bottom >= aBrotherRect.top && aMeRect.bottom <= aBrotherRect.top + aBrotherRect.Height()
+					) && 
+					!bFoundBrotherAnchor
+				)
+			{
+				myAnchor = brother->Id;
+				bFoundBrotherAnchor = true;
+				break;
+			}
+		}
+	}
+
+	if (!bFoundBrotherAnchor)
+		myAnchor = this->PartAnchor.Y == 0 ? _T("COL1") : _T("COL2");
+
+	return myAnchor;
+}
+
+//-------------------------------------------------------------------------------------------------
+CString BaseWindowWrapper::GetSerialization(CWndObjDescription* pWndObjDescription)
+{
+	CJsonSerializer ser;
+	pWndObjDescription->SerializeJson(ser);
+
+	return ser.GetJson();
+}
+
+//----------------------------------------------------------------------------------
+void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	UpdateAttributesForJson(pParentDescription);
+	GenerateJsonForChildren(jsonDescription, serialization);
+	GenerateSerialization(pParentDescription, serialization);
+}
+
+//------------------------------------------------------------------------------
+void BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	//base implementation
+	if (!jsonDescription)
+		return;
+
+	//initialize common default attributes
+	jsonDescription->m_X = NULL_COORD;
+	jsonDescription->m_Y = NULL_COORD;
+	jsonDescription->m_Width = NULL_COORD;
+	jsonDescription->m_Height = NULL_COORD;
+	jsonDescription->m_strName = this->Name;
+	jsonDescription->m_strIds.Add(this->Id);
+	jsonDescription->m_strText = this->Text;
+}
+
+//-----------------------------------------------------------------------------------------
+void BaseWindowWrapper::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//base class implementation empty
+}
+
+//---------------------------------------------------------------------------------------------
+void BaseWindowWrapper::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//base class implementation
+	//serialize anyway and always the events for this class
+	GenerateJsonForEvents(serialization);
 }
 
 //-----------------------------------------------------------------------------
@@ -2373,6 +2528,9 @@ bool BaseWindowWrapper::CanChangeProperty(System::String^ propertyName)
 {
 	bool canChange = true;
 
+	if (propertyName == "PartAnchor")
+		return false;
+
 	if (!IsStretchable)
 		return __super::CanChangeProperty(propertyName);
 
@@ -2568,6 +2726,7 @@ MParsedControl::MParsedControl(IWindowWrapperContainer^ parentWindow, System::St
 
 	Location = location;
 	showHotLinkButton = true;
+
 }
 
 //----------------------------------------------------------------------------
@@ -2629,6 +2788,73 @@ MParsedControl::!MParsedControl()
 
 	if (hotLink != nullptr)
 		hotLink->AttachedControl = nullptr;
+}
+
+//------------------------------------------------------------------------------------
+void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
+
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return;
+
+		__super::UpdateAttributesForJson(pParentDescription);
+
+		jsonDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
+		jsonDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
+		jsonDescription->m_strControlCaption = this->Caption;
+		jsonDescription->m_strIds.RemoveAll();
+		jsonDescription->m_strIds.Add(this->Name);
+
+		//manage anchor
+		jsonDescription->m_sAnchor = GetHorizontalIdAnchor();
+
+		//manage data binding
+		if (jsonDescription->m_pBindings)
+		{
+			//exists => clear
+			BindingInfo* pBindings = jsonDescription->m_pBindings;
+			if (pBindings->m_pHotLink)
+			{
+				delete pBindings->m_pHotLink;
+				pBindings->m_pHotLink = NULL;
+			}
+			delete pBindings;
+			jsonDescription->m_pBindings = NULL;
+		}
+		if (this->DataBinding != nullptr)
+		{
+			//update databinding
+			jsonDescription->m_pBindings = new BindingInfo();
+			NameSpace^ parent = (NameSpace^)this->DataBinding->Parent->Namespace;
+			jsonDescription->m_pBindings->m_strDataSource = CString(parent->Leaf) + _T(".") + CString(this->DataBinding->Name);
+			if (this->HotLink != nullptr)
+			{
+				jsonDescription->m_pBindings->m_pHotLink = new HotLinkInfo();
+				jsonDescription->m_pBindings->m_pHotLink->m_strName = CString(this->HotLink->Name);
+				jsonDescription->m_pBindings->m_pHotLink->m_strNamespace = CString(this->HotLink->Namespace->FullNameSpace);
+				jsonDescription->m_pBindings->m_pHotLink->m_bMustExistData = (Bool3)this->HotLink->DataMustExist;
+				jsonDescription->m_pBindings->m_pHotLink->m_bEnableAddOnFly = (Bool3)this->HotLink->CanAddOnFly;
+			}
+		}
+	}
+	else
+	{
+		//TODO: serializze differences
+	}
+}
+
+//-----------------------------------------------------------------------------------------------------
+void MParsedControl::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	//no children
 }
 
 //----------------------------------------------------------------------------

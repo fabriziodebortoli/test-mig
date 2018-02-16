@@ -114,6 +114,9 @@ public:
 	SqlSession	(MSqlConnection*, SqlConnection*, CBaseContext* = NULL);
 	~SqlSession	();
 
+private:
+	SqlSession* CreateUpdatableSqlSession();
+
 public:
 	MSqlConnection*		GetMSqlConnection() const;
 	virtual ::DBMSType	GetDBMSType() const;
@@ -138,14 +141,14 @@ public:
 
 public:
 	SqlConnection*		GetSqlConnection()	const { return m_pSqlConnection; }
-
-	BOOL				IsTxnInProgress()	const { return m_bTxnInProgress; }
+	MSqlConnection* GetSession() const { return m_pSession; }
+	BOOL				IsTxnInProgress()	const;
 
 public:
 	virtual void		GetErrorString(HRESULT nResult, CString& m_strError);
 
-public:
-	MSqlConnection* GetSession() const { return m_pSession; }
+
+
 
 // diagnostics
 #ifdef _DEBUG

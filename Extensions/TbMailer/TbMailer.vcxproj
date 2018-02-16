@@ -431,6 +431,18 @@
     <None Include="files\Images\UnassignedMessages.png" />
     <None Include="files\Images\WaitingEnvelope.png" />
     <None Include="files\Images\WarningEnvelope.png" />
+    <None Include="JsonForms\Postalite\IDD_POSTALITE_SETTINGS.hjson" />
+    <None Include="JsonForms\Postalite\IDD_POSTALITE_SETTINGS.tbjson" />
+    <None Include="JsonForms\SmtpMail\IDD_CONFIGURATION.hjson" />
+    <None Include="JsonForms\SmtpMail\IDD_CONFIGURATION.tbjson" />
+    <None Include="JsonForms\SmtpMail\IDD_GENERAL_CONFIGURATION.hjson" />
+    <None Include="JsonForms\SmtpMail\IDD_GENERAL_CONFIGURATION.tbjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAILCHILDS.hjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAILCHILDS.tbjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAIL_DLG.hjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_EMAIL_DLG.tbjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_POSTALITE_DLG.hjson" />
+    <None Include="JsonForms\TbMailer\IDD_SEND_POSTALITE_DLG.tbjson" />
     <None Include="ModuleObjects\DatabaseObjects.xml" />
     <None Include="ModuleObjects\DocumentObjects.xml" />
     <None Include="PostaliteAccountManagementDlg.hrc" />
@@ -457,7 +469,9 @@
     <None Include="TbMailer.def" />
     <None Include="ModuleObjects\WebMethods.xml" />
     <None Include="Settings\MailConnector.config" />
-    <None Include="Settings\Smtp.config" />
+    <None Include="Settings\Smtp.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Menu\TbMailer.menu" />
     <None Include="Beginh.dex" />
     <None Include="endh.dex" />

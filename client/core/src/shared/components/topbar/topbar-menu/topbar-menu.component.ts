@@ -10,8 +10,7 @@ import { EasyStudioContextComponent } from './../../../../shared/components/easy
 @Component({
   selector: 'tb-topbar-menu',
   templateUrl: './topbar-menu.component.html',
-  styleUrls: ['./topbar-menu.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./topbar-menu.component.scss']
 })
 export class TopbarMenuComponent implements OnDestroy{
 

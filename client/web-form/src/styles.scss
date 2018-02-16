@@ -1,3 +1,9 @@
-// @import '~@taskbuilder/core/style/grid.scss';
-// @import '~@taskbuilder/core/style/form.scss';
 @import '~@taskbuilder/core/style/tb.scss';
+.rotate180 i {
+    transform: rotate(180deg);
+    margin-top: 3px;
+}
+
+.material-icons {
+    padding-top: 3px !important;
+}

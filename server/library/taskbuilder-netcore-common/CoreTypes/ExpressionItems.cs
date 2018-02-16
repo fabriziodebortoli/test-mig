@@ -229,7 +229,16 @@ namespace Microarea.Common.CoreTypes
         {
             return false;
         }
-	}
+        public virtual bool IsAsk()
+        {
+            return false;
+        }
+        public virtual bool IsInput()
+        {
+            return false;
+        }
+
+    }
 
 	//============================================================================
 	/// <summary>

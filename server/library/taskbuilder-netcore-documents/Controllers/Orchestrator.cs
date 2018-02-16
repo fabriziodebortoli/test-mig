@@ -4,12 +4,13 @@ using TaskBuilderNetCore.Documents.Controllers.Interfaces;
 using TaskBuilderNetCore.Documents.Model;
 using Microarea.Common.NameSolver;
 using System.Collections.ObjectModel;
+using TaskBuilderNetCore.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Controllers
 {
     // TODO Gestione chiamate asincrone, thread di documento e sincronizzazione dei thread
     //====================================================================================    
-    public class Orchestrator : IOrchestrator, IActivatorService
+    public class Orchestrator : IOrchestrator, IDocumentServices
     {
         PathFinder pathFinder;
          // TODO sincronizzazione thread safe degli array
@@ -54,6 +55,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             {
                 controller.PathFinder = pathFinder;
             }
+            Loader.DocumentServices = this;
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -119,6 +121,13 @@ namespace TaskBuilderNetCore.Documents.Controllers
         //-----------------------------------------------------------------------------------------------------
         public ObservableCollection<IComponent> Components { get => components; }
 
+        #region IDocumentServices interface
+        //-----------------------------------------------------------------------------------------------------
+        public bool IsActivated(INameSpace nameSpace) => LicenceConnector.IsActivated(nameSpace);
+
+        //-----------------------------------------------------------------------------------------------------
+        public bool IsActivated(string activation) => LicenceConnector.IsActivated(activation);
+
         //-----------------------------------------------------------------------------------------------------
         public IDocument GetDocument(ICallerContext callerContext)
         {
@@ -131,10 +140,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             IDocument document = null;
             try
             {
-                document = Loader.GetDocument(callerContext, LicenceConnector);
-                if (document != null)
-                    document.ActivatorService = this;
-
+                document = Loader.GetDocument(callerContext);
             }
             catch (ControllerException loaderEx)
             {
@@ -170,9 +176,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             IComponent component = null;
             try
             {
-                component = Loader.GetComponent(callerContext.NameSpace, callerContext, LicenceConnector);
-                if (component != null)
-                    component.ActivatorService = this;
+                component = Loader.GetComponent(callerContext.NameSpace, callerContext);
             }
             catch (ControllerException loaderEx)
             {
@@ -189,6 +193,29 @@ namespace TaskBuilderNetCore.Documents.Controllers
             return component;
         }
 
+        //-----------------------------------------------------------------------------------------------------
+        public bool ExecuteActivity(ICallerContext callerContext)
+        {
+            string message = string.Empty;
+            IDocument document = GetDocument(callerContext);
+
+            if (document == null)
+            {
+                message = string.Format(OrchestratorMessages.DocumentNotFound.CompleteMessage, callerContext.NameSpace.GetNameSpaceWithoutType());
+                callerContext.Diagnostic.SetError(message);
+                return false;                
+            }
+
+            IBatchActivity activity = document as IBatchActivity;
+            if (activity != null)
+                return activity.ExecuteActivity();
+
+            message = string.Format(OrchestratorMessages.IsNotActivityDocument.CompleteMessage, callerContext.NameSpace.GetNameSpaceWithoutType());
+            callerContext.Diagnostic.SetError(message);
+            return false;
+        }
+
+        #endregion
         //-----------------------------------------------------------------------------------------------------
         public void CloseDocument(ICallerContext callerContext)
         {

@@ -129,7 +129,7 @@ namespace ManifestGenerator
                         return InstallationData.GenericBrand.DigitalSignatureBackupUrl;//"http://ping.microarea.eu/DigitalSigner/DigitalSigner.asmx";
                     }
 #else
-                    return "http://spp-hotfix/DigitalSigner/DigitalSigner.asmx";
+                    return "http://vts-backend/DigitalSigner/DigitalSigner.asmx";
 #endif
                 }
             }

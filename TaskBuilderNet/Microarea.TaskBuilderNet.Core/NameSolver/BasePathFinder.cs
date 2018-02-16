@@ -73,6 +73,8 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		private static string magonetApplicationPath = null;
 		private static string microareaConsoleApplicationPath = null;
 
+        private bool easyStudioCustomizationsInCustom = true;
+
 		/// <summary>
 		/// Indica se il programma sta girando all'interno del percorso di installazione (Apps o Standard ad es. per i web services)
 		/// </summary>
@@ -85,8 +87,10 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		protected ArrayList applications;
 
 		protected CoreTypes.FunctionsList webMethods = null;
-		
-		public CoreTypes.FunctionsList WebMethods
+
+        public bool EasyStudioCustomizationsInCustom { get => easyStudioCustomizationsInCustom; set => easyStudioCustomizationsInCustom = value; }
+
+        public CoreTypes.FunctionsList WebMethods
 		{
 			get
 			{
@@ -1077,8 +1081,8 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			}
 
 			string folder = (aApplicationType == ApplicationType.Customization)
-				? GetCustomAllCompaniesPath()
-				: standardPath;
+				? GetEasyStudioCustomizationsPath()
+                : standardPath;
 			return Path.Combine(folder, appContainerName);
 		}
 
@@ -1180,7 +1184,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                 return synchroFilesDictionary;
 
             // carico in una lista di appoggio tutte le applicazione dichiarati nell'installazione
-            // sia nella Standard che nella Custom (ad es. EasyBuilder)
+            // sia nella Standard che nella Custom (ad es. EasyStudio)
             StringCollection supportList = new StringCollection();
             StringCollection applicationsList = new StringCollection();
 
@@ -1189,12 +1193,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
 
-            // poi guardo i verticali realizzati con EasyBuilder
-            GetApplicationsList(ApplicationType.Standardization, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // infine guardo le customizzazioni realizzate con EasyBuilder
+            // infine guardo le customizzazioni realizzate con EasyStudio
             GetApplicationsList(ApplicationType.Customization, out supportList);
             for (int i = 0; i < supportList.Count; i++)
                 applicationsList.Add(supportList[i]);
@@ -2835,7 +2834,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		//-----------------------------------------------------------------------------
 		public string GetCustomCompaniesPath()
 		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.Companies);
+			return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription);
 		}
 
 		/// <summary>
@@ -2847,12 +2846,26 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return Path.Combine(GetCustomCompaniesPath(), NameSolverStrings.AllCompanies);
 		}
 
+        /// <summary>
+        /// Ritorna il path della cartella AllCompanies
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioCustomizationsPath()
+        {
+            string basePath =
+                EasyStudioCustomizationsInCustom ?
+                Path.Combine(GetCustomPath(), NameSolverStrings.Subscription) :
+                GetStandardPath();
+            
+            return Path.Combine(basePath, NameSolverStrings.EasyStudioHome);
+        }
 
-		///<summary>
-		/// Ritorna il path del file BIN per la nuova gestione 3.0
-		///</summary>
-		//-----------------------------------------------------------------------------
-		public string GetDatabaseObjectsBinPath()
+
+        ///<summary>
+        /// Ritorna il path del file BIN per la nuova gestione 3.0
+        ///</summary>
+        //-----------------------------------------------------------------------------
+        public string GetDatabaseObjectsBinPath()
 		{
 			return Path.Combine(GetCustomPath(), NameSolverStrings.DatabaseObjectsBinFile);
 		}
@@ -3177,7 +3190,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return
 				GetCustomPath() +
                 Path.DirectorySeparatorChar +
-                NameSolverStrings.Companies +
+                NameSolverStrings.Subscription +
                 Path.DirectorySeparatorChar +
                 companyName;
 		}
@@ -3195,11 +3208,17 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 				return string.Empty;
 			}
 
-			string customCompanyPath = GetCustomCompanyPath(companyName);
-			if (customCompanyPath == string.Empty)
-				return string.Empty;
+            string customCompanyPath = GetCustomCompanyPath(companyName);
 
-			string applicationContainerName = GetApplicationContainerName(aApplicationType);
+			if (customCompanyPath == string.Empty)
+            {
+                if (aApplicationType == ApplicationType.Customization)
+                    customCompanyPath = GetEasyStudioCustomizationsPath();
+                else
+                    return string.Empty;
+            }
+
+            string applicationContainerName = GetApplicationContainerName(aApplicationType);
 			if (applicationContainerName == string.Empty)
 			{
 				diagnostic.Set(DiagnosticType.Error, string.Format(Messages.ApplicationContainerNonManaged, aApplicationType.ToString()));
@@ -3785,7 +3804,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                     for (int i = 0; i <= tokens.Length; i++)
                     {
 
-                        if (string.Compare(NameSolverStrings.Companies, tokens[i], true) == 0)
+                        if (string.Compare(NameSolverStrings.Subscription, tokens[i], true) == 0)
                         {
                             nPosCompaniesPos = i;
                             break;
@@ -3991,26 +4010,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return Path.Combine(Path.Combine(fileDir, NameSolverStrings.Texts), userName);
 		}
 
-		//---------------------------------------------------------------------------------
-		public string GetEasyBuilderImageNamespace(string appName, string moduleName, string nameWithExtension)
-		{
-			return string.Join(".",
-						NameSolverStrings.Image,
-						appName,
-						moduleName,
-						NameSolverStrings.Images,
-						nameWithExtension);
-		}
-
-		//---------------------------------------------------------------------------------
-		public string GetEasyBuilderImageFolderPath(string appName, string moduleName, bool isStandardization)
-		{
-			return isStandardization 
-				? Path.Combine(GetApplicationModulePath(appName, moduleName), NameSolverStrings.Files, NameSolverStrings.Images)
-				: Path.Combine(GetCustomApplicationsPath(), appName, moduleName, NameSolverStrings.Files, NameSolverStrings.Images);
-		}
-
-
 		#endregion
 
 		#region funzioni pubbliche
@@ -4072,25 +4071,10 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			return s;
 		}
 
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomizationLogFolder()
-		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.CustomizationsLog);
-		}
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomizationLogFullName()
-		{
-			string fullPath = Path.Combine(GetCustomizationLogFolder(), "Log");
-			DateTime now = DateTime.Now;
-			return string.Concat(fullPath, "_", now.Year, "_", now.Month, "_", now.Day, ".txt");
-		}
-
 		//--------------------------------------------------------------------------------
 		public string GetCustomApplicationsPath()
 		{
-			return Path.Combine(GetCustomAllCompaniesPath(), NameSolverStrings.Applications);
+			return Path.Combine(GetEasyStudioCustomizationsPath(), NameSolverStrings.Applications);
 		}
 
 		/// <summary>
@@ -4105,7 +4089,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");
 
-			string path = GetCustomDocumentPath(NameSolverStrings.AllCompanies, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
+			string path = GetCustomDocumentPath(NameSolverStrings.EasyStudioHome, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
 			return string.IsNullOrEmpty(user)
 				? path
 				: Path.Combine(path, user);
@@ -4125,24 +4109,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
         {
             return GetStandardDocumentPath(documentNamespace.Application, documentNamespace.Module, documentNamespace.Document);
         }
-
-        //--------------------------------------------------------------------------------
-        public string GetEasyBuilderAppAssemblyFullName(ApplicationType appType, INameSpace customizationNameSpace, string user, IEasyBuilderApp easybuilderApp)
-		{
-			string pathRoot = null;
-			switch (appType)
-			{
-				case ApplicationType.Customization:
-					pathRoot = BasePathFinder.BasePathFinderInstance.GetCustomizationPath(customizationNameSpace, user, easybuilderApp);
-					break;
-				case ApplicationType.Standardization:
-					pathRoot = BasePathFinder.BasePathFinderInstance.GetApplicationPath(customizationNameSpace);
-					break;
-				default:
-					throw new Exception("Unrecognized EasyBuilder Application type");
-			}
-			return Path.Combine(pathRoot, customizationNameSpace.Leaf + NameSolverStrings.DllExtension);
-		}
 
 		/// <summary>
 		/// Loads all DLLs containing customizations for the document identified by the
@@ -4257,13 +4223,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			}
 			return "";
 		}
-
-		//--------------------------------------------------------------------------------
-		public string GetCustomEBReferencedAssembliesPath() { return Path.Combine(customPath, NameSolverStrings.ReferencedAssemblies); }
-		
-		//--------------------------------------------------------------------------------
-		public string GetDeclarationsPath() { return GetCustomEBReferencedAssembliesPath(); }
-
+	
 		//--------------------------------------------------------------------------------
 		public static string[] GetCSharpFilesIn(string sourcesPath)
 		{
@@ -4331,9 +4291,10 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 				return this.enums;
 			}
 		}
-		#endregion
 
-		
-	}
+        #endregion
+
+
+    }
 }
 

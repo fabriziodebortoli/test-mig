@@ -1186,9 +1186,7 @@ namespace Microarea.Common.MenuLoader
                     if (
                         appInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
                         appInfo.ApplicationType != ApplicationType.TaskBuilder &&
-                        appInfo.ApplicationType != ApplicationType.Customization &&
-                        appInfo.ApplicationType != ApplicationType.Standardization &&
-                        appInfo.ApplicationType != ApplicationType.StandardModuleWrapper
+                        appInfo.ApplicationType != ApplicationType.Customization
                         )
                         continue;
 
@@ -1209,11 +1207,7 @@ namespace Microarea.Common.MenuLoader
 
                             string moduleMenuDirInfopath = fullStandardPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.Menu;
 
-                            if (
-                                appInfo.ApplicationType == ApplicationType.Customization ||
-                                appInfo.ApplicationType == ApplicationType.Standardization ||
-                                appInfo.ApplicationType == ApplicationType.StandardModuleWrapper
-                                )
+                            if (appInfo.ApplicationType == ApplicationType.Customization)
                             {
                                 aModule.StandardMenuPath = moduleMenuDirInfopath;
                                 //Do per scontato che menuPathFinder.User abbia un valore sensato perch� se invece � vuoto allora c'e un problema a monte.
@@ -1521,13 +1515,6 @@ namespace Microarea.Common.MenuLoader
             string nodeTypeName = null;
             foreach (ApplicationInfo bai in PathFinder.PathFinderInstance.ApplicationInfos)
             {
-                //La standardizzazione fatta con EasyBuilder viene qui saltata perch� i suoi documenti sono messi
-                //a men� dai relativi file di men�.
-                //Serve anche per le logiche di attivazione, altirmenti, nel caso in cui un eventuale modulo non fosse attivato,
-                //il relativo documento verrebbe caricato nel gruppo "Custom Documents".
-                if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
-                    continue;
-
                 foreach (ModuleInfo bmi in bai.Modules)
                 {
                     if (bmi.Documents == null || bmi.Documents.Count == 0)
@@ -1627,13 +1614,6 @@ namespace Microarea.Common.MenuLoader
             string nodeTypeName = null;
             foreach (ApplicationInfo bai in pathFinder.ApplicationInfos)
             {
-                //La standardizzazione fatta con EasyBuilder viene qui saltata perch� i suoi documenti sono messi
-                //a men� dai relativi file di men�.
-                //Serve anche per le logiche di attivazione, altirmenti, nel caso in cui un eventuale modulo non fosse attivato,
-                //il relativo documento verrebbe caricato nel gruppo "Custom Documents".
-                if (bai.ApplicationType == ApplicationType.Standardization || bai.ApplicationType == ApplicationType.StandardModuleWrapper)
-                    continue;
-
                 foreach (ModuleInfo bmi in bai.Modules)
                 {
                     if (bmi.Documents == null || bmi.Documents.Count == 0)

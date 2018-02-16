@@ -130,7 +130,6 @@
       <ImportLibrary>$(OutDir)TbDatabaseManaged.lib</ImportLibrary>
     </Link>
     <PreBuildEvent>
-      <Command>$(TBFramework)\TbUtility\recycle.bat MagoWeb</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -171,7 +170,6 @@
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
     <PreBuildEvent>
-      <Command>$(TBFramework)\TbUtility\recycle.bat MagoWeb</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

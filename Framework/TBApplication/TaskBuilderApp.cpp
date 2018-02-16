@@ -420,7 +420,7 @@ BOOL CTaskBuilderApp::InitInstance()
 	
 	CTBLockable::EnableLocking(TRUE);
 	
-	DataBool* aParam = (DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, szSingleThread, DataBool(FALSE));
+	DataBool* aParam = (DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, szSingleThreaded, DataBool(FALSE));
 	BOOL bMultiThread = !aParam || !*aParam;
 	AfxGetApplicationContext()->SetMultiThreadedDocument(bMultiThread);
 	AfxGetApplicationContext()->SetMultiThreadedLogin(bMultiThread);
@@ -434,7 +434,7 @@ BOOL CTaskBuilderApp::InitInstance()
 	if (AfxGetBaseApp()->IsInUnattendedMode())
 		InitTimer();
 	
-	BOOL expect100Continue = *(DataBool*)AfxGetSettingValue (snsTbGenlib, szEnvironment, szExpect100Continue, DataBool(TRUE), szTbDefaultSettingFileName);
+	BOOL expect100Continue = *(DataBool*)AfxGetSettingValue (snsTbGenlib, szDevelopmentSection, szExpect100Continue, DataBool(TRUE), szTbDefaultSettingFileName);
 	SetUseExpect100ContinueInWCFCalls(expect100Continue == TRUE);
 	
 	//inizializza il runtime del CEF browser
@@ -513,11 +513,11 @@ void CTaskBuilderApp::StartWCFServices()
 	CTBNamespace aNs (szTbGenlibNamespace);
 	DataInt* pSetting = NULL;
 	
-	pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  _T("TBLoaderDefaultSOAPPort"));
+	pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  szTBLoaderDefaultSOAPPort);
 	int defaultSoapPort = pSetting ? *pSetting : 0;
 	
-	pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  _T("TBLoaderDefaultTCPPort"));
-	int defaultTcpPort = pSetting ? *pSetting : 0;
+	//pSetting = (DataInt*) AfxGetSettingValue(aNs, szPreferenceSection,  _T("TBLoaderDefaultTCPPort"));
+	int defaultTcpPort = 0;
 	
 	//se mi viene passata una porta valida uso quella (anche zero va bene, significa 'NON ASCOLTARE')
 	//altrimenti pesco dai settings
@@ -708,7 +708,7 @@ void CTaskBuilderApp::InitServerObjects (const CString& strFileServer, const CSt
 void CTaskBuilderApp::AdjustClosingMessageViewer()
 {
 	// exit log can be enabled
-	BOOL bExitLog = *(DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szEnvironment, szLogExitInstance, DataBool(FALSE));
+	BOOL bExitLog = *(DataBool*) AfxGetSettingValue(CTBNamespace(szTbGenlibNamespace), szDevelopmentSection, szLogExitInstance, DataBool(FALSE));
 	CString sLogFile;
 	
 	if (bExitLog)

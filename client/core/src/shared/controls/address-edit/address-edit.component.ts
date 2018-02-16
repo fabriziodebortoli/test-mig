@@ -1,3 +1,4 @@
+import { ControlContainerComponent } from './../control-container/control-container.component';
 import { Component, Input, AfterContentInit, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
@@ -7,8 +8,10 @@ import { InfoService } from './../../../core/services/info.service'
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { ContextMenuItem, FormMode } from './../../../shared/shared.module';
+import { ContextMenuItem, FormMode, createSelector, createSelectorByPaths } from './../../../shared/shared.module';
 import { Collision } from '@progress/kendo-angular-popup';
+import { Selector } from './../../../shared/models/store.models';
+import 'rxjs';
 
 @Component({
     selector: 'tb-addressedit',
@@ -16,21 +19,23 @@ import { Collision } from '@progress/kendo-angular-popup';
     styleUrls: ['./address-edit.component.scss']
 })
 
-export class AddressEditComponent extends ControlComponent implements AfterContentInit {
+export class AddressEditComponent extends ControlComponent {
 
     @Input('readonly') readonly = false;
     @Input() slice: any;
-    @Input() selector: any;
+    @Input() selector: Selector<any, any>;
 
     @ViewChild('anchor') public anchor: ElementRef;
     @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
+
+    @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
     public addresses = [];
     private ctrlEnabled = false;
     private show = false;
     private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
+    private iContextMenu = 0;
 
-    addressContextMenu: ContextMenuItem[] = [];
     menuItemSearch = new ContextMenuItem('Search for address', '', true, false, null, this.searchForAddress.bind(this));
     menuItemMap = new ContextMenuItem('Show map', '', true, false, null, this.showMap.bind(this));
     menuItemSatellite = new ContextMenuItem('Show satellite view', '', true, false, null, this.showSatellite.bind(this));
@@ -59,6 +64,21 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         super(layoutService, tbComponentService, changeDetectorRef);
     }
 
+    ngOnInit() {
+        this.iContextMenu = this.cc.contextMenu.length;
+        this.store.select(
+            createSelector(
+                this.selector.nest('address.value'),
+                s => s.FormMode.value,
+                (_, formMode) => ({ formMode })
+            )
+        ).subscribe(this.onFormModeChanged);
+    }
+
+    ngOnChanges(changes) {
+        this.buildContextMenu();
+    }
+
     getCorrectHeight() {
         return isNaN(this.height) ? this.height.toString() : this.height + 'px';
     }
@@ -67,34 +87,28 @@ export class AddressEditComponent extends ControlComponent implements AfterConte
         return isNaN(this.width) ? this.width.toString() : this.width + 'px';
     }
 
-    ngAfterContentInit() {
-        this.subscribeToSelector();
+    dataChanged() {
+        this.buildContextMenu();
+        if (this.model.uppercase)
+            return this.model.value.toUpperCase();
+        return this.model.value;
     }
 
-    subscribeToSelector() {
-        if (this.store && this.selector) {
-            this.store
-                .select(this.selector)
-                .select('formMode')
-                .subscribe(
-                (v) => this.onFormModeChanged(v)
-                );
-        }
-    }
-
-    onFormModeChanged(formMode: FormMode) {
-        this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
+    onFormModeChanged = slice => {
+        this.ctrlEnabled = slice.formMode === FormMode.FIND || slice.formMode === FormMode.NEW || slice.formMode === FormMode.EDIT;
         this.buildContextMenu();
     }
 
     buildContextMenu() {
-        this.addressContextMenu.splice(0, this.addressContextMenu.length);
-        if (this.ctrlEnabled) {
-            this.addressContextMenu.push(this.menuItemSearch);
+        this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
+        if (this.model.value !== '') {
+            if (this.ctrlEnabled) {
+                this.cc.contextMenu.push(this.menuItemSearch);
+            }
+            this.cc.contextMenu.push(this.menuItemMap);
+            this.cc.contextMenu.push(this.menuItemSatellite);
         }
-
-        this.addressContextMenu.push(this.menuItemMap);
-        this.addressContextMenu.push(this.menuItemSatellite);
+        this.changeDetectorRef.markForCheck();
     }
 
     async showMap() {

@@ -1,0 +1,40 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageLayout "default" 
+	Begin
+		Text (50,51,90,127) "Testo" 
+			Begin
+				Tooltip = "ciao" ;
+			End
+		SqrRect (51,291,172,606) 
+			Begin
+				Tooltip = "Rettangolo" ;
+				BkgColor (255,0,0) ;
+			End
+		Field (243,31,309,290) Alias 1  /* Formula */ 
+			Begin
+				Tooltip = "Formula" ;
+				Label "Formula" 
+			End
+		Text (397,113,437,189) "{eval formula}" 
+			Begin
+				Special
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       Formula [15] Alias 1 ;
+		End
+
+		Rules
+			Formula = "ciao" ;
+		End
+
+End
+

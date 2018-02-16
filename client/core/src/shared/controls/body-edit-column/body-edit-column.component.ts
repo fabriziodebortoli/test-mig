@@ -10,8 +10,7 @@ import { ControlComponent } from './../control.component';
 @Component({
   selector: 'tb-body-edit-column',
   templateUrl: './body-edit-column.component.html',
-  styleUrls: ['./body-edit-column.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./body-edit-column.component.scss']
 })
 export class BodyEditColumnComponent extends ControlComponent {
   @Input() title: string;

@@ -1,8 +1,5 @@
-<kendo-dialog title="{{_TB('Error')}}" *ngIf="diagnosticService.isVisible" (close)="close()">
-    <div class="messagesContainer">
-        <div class="messageLine" *ngFor="let message of diagnosticService.messages">{{message.text ? message.text : message}}</div>
-    </div>
-    <div>
-        <button kendoButton primary="true" (click)="close()" class="closeButton">{{_TB('Close')}}</button>
-    </div>
-</kendo-dialog>
+<tb-diagnostic-dialog [opened]="diagnosticService.isVisible" [data]='diagnosticService.data' (onClose)="diagnosticService.resetDiagnostic()">
+
+</tb-diagnostic-dialog>
+<!-- {{message.text ? message.text : message}}
+        </div> -->

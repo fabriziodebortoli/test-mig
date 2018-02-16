@@ -4,10 +4,7 @@
 #include <TbNameSolver\TBNamespaces.h>
 #include <TbGeneric\SettingsTable.h>
 
-const TCHAR szTbDataSynchroClient[] = _T("Module.Extensions.TbDataSynchroClient");
-const CTBNamespace snsTbDataSynchroClient = szTbDataSynchroClient;
-const TCHAR szDataSynchronizerMonitor[] = _T("DataSynchronizerMonitor");
-const TCHAR szWebMonitorUrl[] = _T("WebMonitorUrl");
+#include "DDSSettings.h"
 
 //----------------------------------------------------------------------------
 ///<summary>

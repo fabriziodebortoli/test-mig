@@ -91,12 +91,7 @@ namespace Microarea.EasyBuilder
 		internal static string GetCurrentEasyBuilderAppPath()
 		{
 			IEasyBuilderApp app = BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp;
-			string path = BasePathFinder.BasePathFinderInstance.GetEasyBuilderImageFolderPath
-				(
-				app.ApplicationName,
-				app.ModuleName,
-				BaseCustomizationContext.CustomizationContextInstance.IsCurrentEasyBuilderAppAStandardization
-				);
+			string path = PathFinderWrapper.GetImageFolderPath(app.ApplicationName,app.ModuleName);
 			return path;
 		}
 

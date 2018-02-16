@@ -230,6 +230,7 @@ export class BOService extends DocumentService {
             componentId ? componentId : this.mainCmpId,
             id,
             patch);
+            console.log("doCommand", patch);
         if (patch.length > 0) {
             // client data has been sent to server, so reset oldModel
             this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
@@ -239,6 +240,7 @@ export class BOService extends DocumentService {
         if (this.isServerSideCommand(id)) {
             const patch = this.getPatchedData();
             if (patch.length > 0) {
+                console.log("dochange", patch, "id", id);
                 this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
                 // client data has been sent to server, so reset oldModel
                 this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));

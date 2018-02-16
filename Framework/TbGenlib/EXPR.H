@@ -54,19 +54,24 @@ protected:
 	CString		m_strExprString;
 	CString		m_strAuditString;
 
-	Stack		m_ExprStack;
-	SymTable*	m_pSymTable;
-	CStopTokens*	m_pStopTokens;
+	Stack			m_ExprStack;
+	SymTable*		m_pSymTable = NULL;
+	CStopTokens*	m_pStopTokens = NULL;
 
 	int			m_nErrorPos;
 	MessageID	m_nErrorID;
 	int			m_nParseStartLine;
 	CString		m_sErrorDetail;
 
-	BOOL		m_bVrbCompiled;
-	BOOL		m_bHasExternalFunctionCall;
-	BOOL		m_bHasRuleFields;
-	BOOL		m_bHasDynamicFragment;	//ContentOf(...), {EVAL <sub-expr> }
+	BOOL		m_bVrbCompiled = FALSE;
+
+	BOOL		m_bHasFields = FALSE;
+	BOOL		m_bHasRuleFields = FALSE;
+	BOOL		m_bHasInputFields = FALSE;
+	BOOL		m_bHasAskFields = FALSE;
+
+	BOOL		m_bHasExternalFunctionCall = FALSE;
+	BOOL		m_bHasDynamicFragment = FALSE;	//ContentOf(...), {EVAL <sub-expr> }
 
 	// Operator compatibility maps.
 	static	DATA_TYPE_OP_MAP	PlusMap;
@@ -126,8 +131,11 @@ public:
 
 	CStopTokens*	GetStopTokens() { return m_pStopTokens; }
 
-	BOOL		HasExternalFunctionCall	() const { return m_bHasExternalFunctionCall; }
+	BOOL		HasFields				() const { return m_bHasFields; }
 	BOOL		HasRuleFields			() const { return m_bHasRuleFields; }
+	BOOL		HasInputFields			() const { return m_bHasInputFields; }
+	BOOL		HasAskFields			() const { return m_bHasAskFields; }
+	BOOL		HasExternalFunctionCall	() const { return m_bHasExternalFunctionCall; }
 	BOOL		HasDynamicFragment		() const { return m_bHasDynamicFragment; }
 
 	const Stack* GetStack() const { return &m_ExprStack; }

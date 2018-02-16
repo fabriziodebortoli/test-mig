@@ -146,19 +146,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 						for (int i = 0; i < supportList.Count; i++)
 							applicationsList.Add(supportList[i]);
 
-						// poi guardo i verticali realizzati con EasyBuilder su moduli c++ esistenti
-						contextInfo.PathFinder.GetApplicationsList(ApplicationType.StandardModuleWrapper, out supportList);
-
-						for (int i = 0; i < supportList.Count; i++)
-							applicationsList.Add(supportList[i]);
-
-						// poi guardo i verticali realizzati con EasyBuilder
-						contextInfo.PathFinder.GetApplicationsList(ApplicationType.Standardization, out supportList);
-
-						for (int i = 0; i < supportList.Count; i++)
-							applicationsList.Add(supportList[i]);
-
-						// infine guardo le customizzazioni realizzate con EasyBuilder
+							// infine guardo le customizzazioni realizzate con EasyStudio
 						contextInfo.PathFinder.GetApplicationsList(ApplicationType.Customization, out supportList);
 
 						for (int i = 0; i < supportList.Count; i++)

@@ -248,6 +248,16 @@ SqlProcParamItem::SqlProcParamItem (DataObj* pDataObj, const CString& strColumnN
 }
 
 //-----------------------------------------------------------------------------
+SqlProcParamItem::~SqlProcParamItem()
+{
+	if (m_pParameterInfo && m_pParameterInfo->m_nType == DBPARAMTYPE_RETURNVALUE)
+	{
+		delete m_pParameterInfo;
+		m_pParameterInfo = NULL;
+	}
+}
+
+//-----------------------------------------------------------------------------
 void SqlProcParamItem::SetParameterInfo(SqlProcedureParamInfo* pParamInfo)
 {
 	ASSERT(pParamInfo);
@@ -823,16 +833,13 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 		if (m_pTableInfo->IsSortedWithRecord())
 		{
 			if (pRecItem->m_bDynamicallyBound)
-				pColumnInfo = m_pTableInfo->GetColumnInfo(pRecItem->m_strColumnName);
-			else
-				pColumnInfo = m_pTableInfo->GetPhisycalSortedColumn(nPos - m_nLocalsCount);
-
-
-			if (!pRecItem->m_bDynamicallyBound)
 			{
+				pColumnInfo = m_pTableInfo->GetColumnInfo(pRecItem->m_strColumnName);
 				ASSERT_VALID(pColumnInfo);
 				ASSERT(pRecItem->m_strColumnName.CompareNoCase(pColumnInfo->GetColumnName()) == 0);
 			}
+			else
+				pColumnInfo = m_pTableInfo->GetPhisycalSortedColumn(nPos - m_nLocalsCount);
 		}
 
 		if (pColumnInfo == NULL)
@@ -2722,7 +2729,7 @@ SqlRecordProcedure::SqlRecordProcedure(const SqlRecordProcedure& aSqlProcedure)
 //-----------------------------------------------------------------------------
 SqlRecordProcedure::~SqlRecordProcedure()
 {
-	if (m_pProcedureParamList)
+	if (m_pProcedureParamList)			
 		delete m_pProcedureParamList;
 }
 
@@ -2747,29 +2754,38 @@ BOOL SqlRecordProcedure::BindParamItem(SqlProcParamItem* pParamItem, int nPos)
 	const SqlTableInfo *pTableInfo = GetTableInfo();
 	if (pTableInfo == NULL) 
 		return FALSE;
-	/*int nParamPos = pTableInfo->GetParamInfoPos(pParamItem->m_strColumnName, nPos);
-	if (nParamPos < 0)	
-		return FALSE;*/
+	SqlProcedureParamInfo* pParamInfo = NULL;
 
-	SqlProcedureParamInfo* pParamInfo = pTableInfo->GetParamInfoByName(pParamItem->m_strColumnName);
-	if (!pParamInfo)	
+	if (pParamItem->m_strColumnName.CompareNoCase(RETURN_VALUE) == 0)
 	{
-		PrepareMessageBanner();
-		m_pSqlConnection->AddMessage(cwsprintf(_TB("The parameter {0-%s} is not defined"), pParamItem->m_strColumnName));	
-		return FALSE;
+		pParamInfo = new SqlProcedureParamInfo();
+		pParamInfo->m_nType = DBPARAMTYPE_RETURNVALUE;
+		pParamInfo->m_strParamName = pParamItem->m_strColumnName;	
+		if (pParamItem->m_pDataObj)
+			pParamInfo->UpdateResultValueType(pParamItem->m_pDataObj);
 	}
-
-	//effettuo il check di compatibilitá tra i tipi
-	if (!(CheckTypeCompatibility(pParamItem->m_pDataObj->GetDataType(), pParamInfo->m_nSqlDataType)))
+	else
 	{
-		PrepareMessageBanner();
-		m_pSqlConnection->AddMessage(cwsprintf
-										(
-											_TB("Type mismatch of the DataObj related to parameter {0-%s}"),
-											pParamItem->m_strColumnName
-										 )
-									);	
-		return FALSE;
+		pParamInfo = pTableInfo->GetParamInfoByName(pParamItem->m_strColumnName);
+		if (!pParamInfo)
+		{
+			PrepareMessageBanner();
+			m_pSqlConnection->AddMessage(cwsprintf(_TB("The parameter {0-%s} is not defined"), pParamItem->m_strColumnName));
+			return FALSE;
+		}
+
+		//effettuo il check di compatibilitá tra i tipi
+		if (!(CheckTypeCompatibility(pParamItem->m_pDataObj->GetDataType(), pParamInfo->m_nSqlDataType)))
+		{
+			PrepareMessageBanner();
+			m_pSqlConnection->AddMessage(cwsprintf
+			(
+				_TB("Type mismatch of the DataObj related to parameter {0-%s}"),
+				pParamItem->m_strColumnName
+			)
+			);
+			return FALSE;
+		}
 	}
 	// se sono in debug controllo che non sia stata già fatto una BIND con lo stesso nome di colonna
 	#ifdef _DEBUG
@@ -2869,8 +2885,18 @@ void SqlRecordProcedure::RebindingParams()
 	int nIdx;
 	// prima devo metterli tutti a NULL se no non funziona il controllo fatto in 
 	// _DEBUG nella BindParamItem
+	SqlProcParamItem* pParamItem = NULL;
 	for (nIdx = 0; nIdx <= m_pProcedureParamList->GetUpperBound(); nIdx++)
-		m_pProcedureParamList->GetAt(nIdx)->m_pParameterInfo = NULL;		
+	{
+		pParamItem = m_pProcedureParamList->GetAt(nIdx);
+		if (pParamItem->m_pParameterInfo)
+		{
+			if (pParamItem->m_pParameterInfo->m_nType == DBPARAMTYPE_RETURNVALUE)
+				delete pParamItem->m_pParameterInfo;
+
+			pParamItem->m_pParameterInfo = NULL;
+		}
+	}
 
 	BOOL bValid = TRUE;
 	for (nIdx = 0; nIdx <= m_pProcedureParamList->GetUpperBound(); nIdx++)
@@ -2953,7 +2979,7 @@ long SqlRecordProcedure::GetColumnLength(const DataObj* pDataObj) const
 	if (pItem)
 	{
 		if (pItem->m_pParameterInfo)
-			return pItem->m_pParameterInfo->m_nMaxLength;
+			return pItem->m_pParameterInfo->m_lLength;
 		ThrowSqlException
 				(
 					cwsprintf

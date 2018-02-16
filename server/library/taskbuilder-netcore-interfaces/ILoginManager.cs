@@ -123,7 +123,7 @@ namespace TaskBuilderNetCore.Interfaces
         bool IsDemo();
         bool IsDeveloperActivation();
         bool IsDistributor();
-        bool IsEasyBuilderDeveloper(string authenticationToken);
+        bool IsEasyStudioDeveloper(string authenticationToken);
         bool IsFloatingUser(string userName, out bool floating);
         bool IsIntegrateSecurityUser(string userName);
         bool IsRegistered(out string message, out ActivationState actState);

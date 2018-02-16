@@ -59,7 +59,7 @@ namespace Microarea {
 				ColumnInfo*		m_pColumnInfo;
 				MParsedControl^	control;
 				MBodyEdit^		bodyEdit;
-
+				
 				static COLORREF DefaultColor = (0xFF << 24);
 
 			public:
@@ -97,6 +97,11 @@ namespace Microarea {
 
 			public:
 
+				///<summary>
+				///Updates nedeed attributes for json serialization
+				///</summary>
+				CWndObjDescription * UpdateAttrForJson(CWndBodyColumnDescription* pColumnDescription);
+
 				[System::ComponentModel::Browsable(false), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
 				property System::String^ SerializedPropertyAccessorName { virtual System::String^ get() override { return SerializedName; } }
 
@@ -106,7 +111,7 @@ namespace Microarea {
 				[LocalizedCategory("InformationsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime),
 					System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden), 
 					System::ComponentModel::ReadOnly(true)]
-				property INameSpace^ Namespace { virtual INameSpace^ get(); }
+				property INameSpace^ Namespace { virtual INameSpace^ get() override; }
 
 				/// <summary>
 				/// Gets or Sets the name for the current column
@@ -606,6 +611,21 @@ namespace Microarea {
 				bool					isSerialized;
 				
 			public:
+				///<summary>
+				///Updates needed attributes for json serialization 
+				///</summary>
+				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+				///<summary>
+				///Generate json for children
+				///</summary>
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+
+				///<summary>
+				///Generates serialization for the class
+				///</summary>
+				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+
 				/// <summary>
 				/// Enables or disables the insertion of new rows
 				/// </summary>

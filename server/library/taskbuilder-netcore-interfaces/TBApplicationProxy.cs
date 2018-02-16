@@ -79,9 +79,6 @@ namespace TaskBuilderNetCore.Interfaces
 		void RunFunctionInNewThread (string command, string arguments);
 
 		void InitLockManager();
-
-		bool IsEasyBuilderDeveloper { get; }
-
 		void SetUnattendedMode(bool unattendedMode);
 
         bool OnBeforeCanCloseTB();

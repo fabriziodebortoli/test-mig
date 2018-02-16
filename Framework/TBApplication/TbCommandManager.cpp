@@ -2020,7 +2020,9 @@ CString CTbCommandManager::GetHotlinkQuery(
 	DataObj* pDataObj = pHKL->GetDataObj();
 	if (!pDataObj)
 	{
-		delete pHKL;
+		if (!pHotlink)
+			delete pHKL;
+
 		return _T("");
 	}
 
@@ -2059,11 +2061,13 @@ CString CTbCommandManager::GetHotlinkQuery(
 	};
 
 	CString sQuery;
-	SqlParamArray* pParams = pHKL->GetQuery(aSelType, sQuery, sFilter);
+	pHKL->GetQuery(aSelType, sQuery, sFilter);
 		
-	pHKL->CloseTable();
-	delete pHKL;
-	
+	if (!pHotlink)
+	{
+		pHKL->CloseTable();
+		delete pHKL;
+	}
 	return sQuery;
 }
 

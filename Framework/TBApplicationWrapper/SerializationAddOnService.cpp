@@ -3,10 +3,12 @@
 #include <TbNameSolver\PathFinder.h>
 #include <TbNameSolver\FileSystemFunctions.h>
 
+#include <TbGes\BODYEDIT.H>
 #include <TbGes\XmlReferenceObjectsParserEx.h>
 #include "SerializationAddOnService.h"
 #include "EasyStudioTemplate.h"
 #include "MDocument.h"
+
 
 using namespace System;
 using namespace System::IO;
@@ -14,44 +16,68 @@ using namespace System::Windows::Forms;
 using namespace Microarea::Framework::TBApplicationWrapper;
 using namespace Microarea::TaskBuilderNet::Core::NameSolver;
 
+static const TCHAR szBak[] = _T("_bak");
+
 //////////////////////////////////////////////////////////////
-SerializationAddOnService::SerializationAddOnService(){}
-//----------------------------------------------------------------------------	
-System::String^ SerializationAddOnService::GenerateJsonFor(IWindowWrapper^ window, bool bInCustom)
+SerializationAddOnService::SerializationAddOnService() {}
+
+//-------------------------------------------------------------------------------
+System::String^ SerializationAddOnService::BuildPath(System::String^ nsDocument, System::String^ lastTokenNS)
 {
-	System::String^ fileName;
-	if (window == nullptr || window->Handle == IntPtr::Zero)
-		return fileName;
+	CTBNamespace aNs((CString)nsDocument);
 
-	IWindowWrapperContainer^ container = dynamic_cast<IWindowWrapperContainer^>(window);
+	CString path = AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, FALSE, lastTokenNS);
+	CString bakPath = path + _T("_bak");
 
-	HWND hWnd = (HWND)(int)window->Handle.ToInt64();
-	CWndObjDescription* pOriginalDescription = CWndObjDescription::GetFrom(hWnd);
-	if (!pOriginalDescription || container == nullptr)
-		return fileName;
+	//delete bakPath if exists
+	if (ExistPath(bakPath))
+	{
+		CStringArray allFiles;
+		GetFiles(bakPath, _T("*.*"), &allFiles);
+		for (int i = allFiles.GetUpperBound(); i >= 0; i--)
+			::RemoveFile(allFiles[i]);
+		
+		::RemoveDirectory(bakPath);
+	}
 
-	CWndObjDescription* pNewDescription = EasyStudioTemplate::CreateWndDescriptionFrom(container);
-	if (!pNewDescription)
-		return fileName;
+	if (ExistPath(path))
+		::RenameFilePath(path, bakPath);
 
-	CTBNamespace aNs(CString(window->Namespace->FullNameSpace));
-	aNs.SetApplicationName(NameSolverStrings::Extensions);
-	aNs.SetModuleName(NameSolverStrings::EasyStudio);
-	
-	CPathFinder::PosType pos = bInCustom ? CPathFinder::ALL_USERS : CPathFinder::STANDARD;
-	CPathFinder::Company company = CPathFinder::CURRENT;
-	CString sFileName = AfxGetPathFinder()->GetJsonFormsFullFileName(aNs, CString(window->Id), pos, TRUE, company, AfxGetLoginInfos()->m_strUserName);
-	fileName = gcnew System::String(sFileName);
-	bool bSaved = EasyStudioTemplate::Save(pNewDescription, fileName);
-	delete pNewDescription;
-	return fileName;
+	return gcnew System::String(AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, TRUE, CString(lastTokenNS)));
+}
+
+//----------------------------------------------------------------------------	
+bool SerializationAddOnService::GenerateJson(MView^ view, System::String^ nameSpace)
+{
+	if (view == nullptr || view->Handle == IntPtr::Zero)
+		return false;
+
+	CTBNamespace aNs(nameSpace);
+	aNs.SetType(CTBNamespace::FORM);
+
+	CTBNamespace aDocumentNs(CTBNamespace::DOCUMENT,
+		aNs.GetApplicationName() +
+		CTBNamespace::GetSeparator() +
+		aNs.GetModuleName() +
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::LIBRARY) +
+		CTBNamespace::GetSeparator() +
+		aNs.GetObjectName(CTBNamespace::DOCUMENT)
+	);
+
+	System::String^ lastTokenNS = gcnew String(aNs.GetObjectName());
+	System::String^ path = BuildPath(gcnew String(aDocumentNs.ToString()), lastTokenNS);
+	view->SetPathToSerialize(path);
+	view->GenerateJson(NULL, nullptr);
+
+	return true;
 }
 
 //----------------------------------------------------------------------------	
 bool SerializationAddOnService::SerializePublishedHotLinks(MDocument^ document, System::String^ currentApplication, String^ currentModule)
 {
 	CTBNamespace aModule(CTBNamespace::MODULE, CString(currentApplication) + CTBNamespace::GetSeparator() + CString(currentModule));
-	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE));
+	String^ path = gcnew String(AfxGetPathFinder()->GetModulePath(aModule, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO));
 
 	// prima rimuove quelli da eliminare
 	RemoveHotLinks(currentApplication, currentModule);
@@ -60,7 +86,7 @@ bool SerializationAddOnService::SerializePublishedHotLinks(MDocument^ document, 
 	for each (IComponent^ var in document->Components)
 	{
 		MHotLink^ hotlink = dynamic_cast<MHotLink^>(var);
-		if (hotlink && hotlink->Published) 
+		if (hotlink && hotlink->Published)
 		{
 			result = GenerateReferenceObject(hotlink, path);
 			if (result)
@@ -75,8 +101,8 @@ bool SerializationAddOnService::SerializePublishedHotLinks(MDocument^ document, 
 bool SerializationAddOnService::GenerateReferenceObject(MHotLink^ hotlink, System::String^ partialPathApplicationModuleActiveNow)
 {
 	const int queryTypesNum = 4;
-	HotKeyLinkObj::SelectionType selections[queryTypesNum] = {HotKeyLinkObj::SelectionType::DIRECT_ACCESS, HotKeyLinkObj::SelectionType::UPPER_BUTTON, HotKeyLinkObj::SelectionType::LOWER_BUTTON, HotKeyLinkObj::SelectionType::COMBO_ACCESS};
-	CString queries[queryTypesNum] = {													CString("Direct"),							  CString("Upper"),							  CString("Lower"),							 CString("Combo")};
+	HotKeyLinkObj::SelectionType selections[queryTypesNum] = { HotKeyLinkObj::SelectionType::DIRECT_ACCESS, HotKeyLinkObj::SelectionType::UPPER_BUTTON, HotKeyLinkObj::SelectionType::LOWER_BUTTON, HotKeyLinkObj::SelectionType::COMBO_ACCESS };
+	CString queries[queryTypesNum] = { CString("Direct"),							  CString("Upper"),							  CString("Lower"),							 CString("Combo") };
 
 	System::String^ hotlinkName = hotlink->Name;
 	System::String^ tableName = hotlink->TableName;
@@ -91,7 +117,7 @@ bool SerializationAddOnService::GenerateReferenceObject(MHotLink^ hotlink, Syste
 	PrepareInitialTags(pRoot, hotlink);
 	CXMLNode* pSelectionModes = pRoot->CreateNewChild(XML_SELECTIONMODES_TAG);
 
-	for (int i = 0; i < queryTypesNum; i++) 
+	for (int i = 0; i < queryTypesNum; i++)
 	{
 		PrepareHotLink(hotlink, selections[i]);
 		PrepareQueries(pSelectionModes, queries[i], hotlink);
@@ -99,23 +125,23 @@ bool SerializationAddOnService::GenerateReferenceObject(MHotLink^ hotlink, Syste
 
 
 	CXMLNode* pSelectionTypes = pRoot->CreateNewChild(XML_SELECTIONTYPES_TAG);
-	for(int i = 0; i < queryTypesNum; i++)
+	for (int i = 0; i < queryTypesNum; i++)
 	{
 		CXMLNode* pSelection = pSelectionTypes->CreateNewChild(XML_SELECTION_TAG);
 		pSelection->SetAttribute(XML_NAME_ATTRIBUTE, queries[i]);
 		pSelection->SetAttribute(XML_TYPE_ATTRIBUTE, queries[i]);
-		if(queries[i] != _T("Lower"))
+		if (queries[i] != _T("Lower"))
 			pSelection->SetAttribute(XML_LOCALIZE_ATTRIBUTE, CString(hotlinkLocalizeByKey));
 		else
 			pSelection->SetAttribute(XML_LOCALIZE_ATTRIBUTE, CString(hotlinkLocalizeByDesc));
 	}
 	System::String^ temp = "";
 	System::String^ path = Path::Combine(partialPathApplicationModuleActiveNow, "ReferenceObjects");
-	if(!Directory::Exists(path))
+	if (!Directory::Exists(path))
 		Directory::CreateDirectory(path);
 	path = Path::Combine(path, hotlinkName + NameSolverStrings::XmlExtension);
 	//if(Directory::Exists(temp))
-		//TODOROBY  message exist already
+	//TODOROBY  message exist already
 	pathStr = path;
 	return aDoc.SaveXMLFile(path, TRUE) == TRUE;
 
@@ -172,29 +198,29 @@ void SerializationAddOnService::PrepareQueries(CXMLNode* pSelectionModes, CStrin
 //----------------------------------------------------------------------------
 void SerializationAddOnService::PrepareInitialTags(CXMLNode* pRoot, MHotLink^ hotlink)
 {
-	System::String^ tableName =				hotlink->TableName;
-	System::String^ hotlinkDescription =	hotlink->Description;
-	System::String^ hotlinkNS =				hotlink->PublicationNamespace;
-	System::String^ hotlinkLinkedDocNS =	hotlink->LinkedDocumentNamespace;
-	System::String^ hotlinkFieldName =		tableName + "." + hotlink->DBFieldName;
-	System::String^ hotlinkFieldDescr =		tableName + "." + hotlink->Searches->ByDescription->FieldName;
-	LPCTSTR hotlinkAddOnFlyEnabled =		hotlink->CanAddOnFly == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
-	LPCTSTR hotlinkMustExistData =			hotlink->DataMustExist == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
-	LPCTSTR hotlinkBrowseEnabled =			hotlink->CanOpenLinkedDocument == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
+	System::String^ tableName = hotlink->TableName;
+	System::String^ hotlinkDescription = hotlink->Description;
+	System::String^ hotlinkNS = hotlink->PublicationNamespace;
+	System::String^ hotlinkLinkedDocNS = hotlink->LinkedDocumentNamespace;
+	System::String^ hotlinkFieldName = tableName + "." + hotlink->DBFieldName;
+	System::String^ hotlinkFieldDescr = tableName + "." + hotlink->Searches->ByDescription->FieldName;
+	LPCTSTR hotlinkAddOnFlyEnabled = hotlink->CanAddOnFly == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
+	LPCTSTR hotlinkMustExistData = hotlink->DataMustExist == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
+	LPCTSTR hotlinkBrowseEnabled = hotlink->CanOpenLinkedDocument == true ? XML_TRUE_VALUE : XML_FALSE_VALUE;
 
 	CXMLNode* pFunction = pRoot->CreateNewChild(XML_FUNCTION_TAG);
-	pFunction->SetAttribute(XML_NAMESPACE_ATTRIBUTE,	(LPCTSTR)CString(hotlinkNS));
-	pFunction->SetAttribute(XML_PUBLISHED_ATTRIBUTE,	XML_TRUE_VALUE);
-	pFunction->SetAttribute(XML_LOCALIZE_ATTRIBUTE,		(LPCTSTR)CString(hotlinkDescription));
-	pFunction->SetAttribute(XML_TYPE_ATTRIBUTE,			CString(hotlink->ReturnType));
+	pFunction->SetAttribute(XML_NAMESPACE_ATTRIBUTE, (LPCTSTR)CString(hotlinkNS));
+	pFunction->SetAttribute(XML_PUBLISHED_ATTRIBUTE, XML_TRUE_VALUE);
+	pFunction->SetAttribute(XML_LOCALIZE_ATTRIBUTE, (LPCTSTR)CString(hotlinkDescription));
+	pFunction->SetAttribute(XML_TYPE_ATTRIBUTE, CString(hotlink->ReturnType));
 
 	for each (MHotLinkParam^ param in hotlink->Parameters)
 	{
 		CXMLNode* pParam = pFunction->CreateNewChild(XML_PARAMETER_TAG);
-		pParam->SetAttribute(XML_NAME_ATTRIBUTE,			(LPCTSTR)CString(param->Name));
-		pParam->SetAttribute(XML_TYPE_ATTRIBUTE,			(LPCTSTR)CString(param->Data->DataType.DataTypeToString()));
-		pParam->SetAttribute(XML_LOCALIZE_ATTRIBUTE,		(LPCTSTR)CString(param->Description));
-		pParam->SetAttribute(XML_CAPTION_VALUE_ATTRIBUTE,	(LPCTSTR)CString(param->Value->ToString()));
+		pParam->SetAttribute(XML_NAME_ATTRIBUTE, (LPCTSTR)CString(param->Name));
+		pParam->SetAttribute(XML_TYPE_ATTRIBUTE, (LPCTSTR)CString(param->Data->DataType.DataTypeToString()));
+		pParam->SetAttribute(XML_LOCALIZE_ATTRIBUTE, (LPCTSTR)CString(param->Description));
+		pParam->SetAttribute(XML_CAPTION_VALUE_ATTRIBUTE, (LPCTSTR)CString(param->Value->ToString()));
 	}
 
 	CXMLNode* pDbTableNode = pRoot->CreateNewChild(XML_DBTABLE_TAG);
@@ -207,10 +233,10 @@ void SerializationAddOnService::PrepareInitialTags(CXMLNode* pRoot, MHotLink^ ho
 	pDbFieldDescr->SetAttribute(XML_NAME_ATTRIBUTE, (LPCTSTR)CString(hotlinkFieldDescr));
 
 	CXMLNode* pCallLink = pRoot->CreateNewChild(XML_CALLLINK_TAG);
-	pCallLink->SetAttribute(XML_NAMESPACE_ATTRIBUTE,		(LPCTSTR)CString(hotlinkLinkedDocNS));
-	pCallLink->SetAttribute(XML_AddOnFlyEnabled_ATTRIBUTE,	hotlinkAddOnFlyEnabled);
-	pCallLink->SetAttribute(XML_MustExistData_ATTRIBUTE,	hotlinkMustExistData);
-	pCallLink->SetAttribute(XML_BrowseEnabled_ATTRIBUTE,	hotlinkBrowseEnabled);
+	pCallLink->SetAttribute(XML_NAMESPACE_ATTRIBUTE, (LPCTSTR)CString(hotlinkLinkedDocNS));
+	pCallLink->SetAttribute(XML_AddOnFlyEnabled_ATTRIBUTE, hotlinkAddOnFlyEnabled);
+	pCallLink->SetAttribute(XML_MustExistData_ATTRIBUTE, hotlinkMustExistData);
+	pCallLink->SetAttribute(XML_BrowseEnabled_ATTRIBUTE, hotlinkBrowseEnabled);
 	return;
 }
 
@@ -231,7 +257,7 @@ void SerializationAddOnService::PrepareHotLink(MHotLink^ hotlink, HotKeyLinkObj:
 }
 
 //----------------------------------------------------------------------------
-bool SerializationAddOnService::RefreshReferenceObject( System::String^ partialPathApplicationModuleActiveNow)
+bool SerializationAddOnService::RefreshReferenceObject(System::String^ partialPathApplicationModuleActiveNow)
 {
 	System::String^ dirApplic = Path::GetFileName(Path::GetDirectoryName(partialPathApplicationModuleActiveNow));
 	System::String^ dirModule = Path::GetFileName(partialPathApplicationModuleActiveNow);
@@ -250,7 +276,7 @@ bool SerializationAddOnService::RefreshReferenceObject( System::String^ partialP
 //----------------------------------------------------------------------------------------------
 void SerializationAddOnService::RemoveHotLink(MHotLink^ hotlink)
 {
-	if (!hotlink->IsDynamic)	
+	if (!hotlink->IsDynamic)
 		return;
 	if (hotLinksDeleted == nullptr)
 		hotLinksDeleted = gcnew List<NameSpace^>();
@@ -274,19 +300,19 @@ void SerializationAddOnService::RemoveHotLinks(System::String^ currentApplicatio
 //----------------------------------------------------------------------------------------------
 bool SerializationAddOnService::RemoveHotLink(NameSpace^ hotlinkNS)
 {
-	CTBNamespace aNamespace (hotlinkNS->FullNameSpace);
+	CTBNamespace aNamespace(hotlinkNS->FullNameSpace);
 	AddOnModule* pAddOnMod = AfxGetAddOnModule(aNamespace);
 	if (!pAddOnMod)
 		return false;
 
-	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE);
+	CString sPath = AfxGetPathFinder()->GetModuleReferenceObjectsPath(aNamespace, CPathFinder::CUSTOM, _T(""), FALSE, CPathFinder::EASYSTUDIO);
 	String^ fileName = gcnew String(sPath + SLASH_CHAR + aNamespace.GetObjectName() + _T(".xml"));
 	try
 	{
 		if (System::IO::File::Exists(fileName))
 			System::IO::File::Delete(fileName);
 	}
-	catch (Exception^)	{ }
+	catch (Exception^) {}
 	finally
 	{
 		CReferenceObjectsDescription* pDescri = (CReferenceObjectsDescription*)& pAddOnMod->m_XmlDescription.GetReferencesInfo();
@@ -305,10 +331,10 @@ bool SerializationAddOnService::UpdateDatabaseObjects(MDocument^ document)
 	if (!master)
 		return false;
 	const CDbObjectDescription* pXmlDescri = AfxGetDbObjectDescription(master->TableName);
-	if (!pXmlDescri || pXmlDescri->IsMasterTable())	//Se risulta già master esci
+	if (!pXmlDescri || pXmlDescri->IsMasterTable())	//Se risulta giï¿½ master esci
 		return true;
-		
-	const CTBNamespace& masterTableNamespace = pXmlDescri->GetNamespace();						
+
+	const CTBNamespace& masterTableNamespace = pXmlDescri->GetNamespace();
 	CString DBOpath = AfxGetPathFinder()->GetDatabaseObjectsFullName(masterTableNamespace, CPathFinder::PosType::STANDARD);
 
 	CXMLDocumentObject XMLDocument;
@@ -319,15 +345,15 @@ bool SerializationAddOnService::UpdateDatabaseObjects(MDocument^ document)
 	(const_cast<CDbObjectDescription*>(pXmlDescri))->SetMasterTable(TRUE);
 
 	XMLDocument.LoadXMLFile(DBOpath);
-	CXMLNodeChildsList* list =  XMLDocument.GetNodeListByTagName(XML_TABLE_TAG);
+	CXMLNodeChildsList* list = XMLDocument.GetNodeListByTagName(XML_TABLE_TAG);
 
 	for (int i = 0; i < list->GetCount(); i++)
 	{
 		CXMLNode* oneNode = list->GetAt(i);
-		if (oneNode) 
+		if (oneNode)
 		{
 			CString ns;
-			System::String^ masterTableNS = gcnew System::String(masterTableNamespace.ToString());	
+			System::String^ masterTableNS = gcnew System::String(masterTableNamespace.ToString());
 			oneNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, ns);
 			if (masterTableNS->Contains(gcnew System::String(ns)))  //(table.erp.pippo) contains (erp.pippo)
 				oneNode->SetAttribute(XML_MASTERTABLE_ATTRIBUTE, XML_TRUE_VALUE);
@@ -340,10 +366,11 @@ bool SerializationAddOnService::UpdateDatabaseObjects(MDocument^ document)
 
 	if (!XMLDocument.SaveXMLFile(DBOpath))
 		ASSERT(FALSE);
-	
+
 	fInfo->IsReadOnly = isreadOnly;		// IsReadOnly torna all'originale valore
 	SAFE_DELETE(list);
 
 	return true;
 }
+
 

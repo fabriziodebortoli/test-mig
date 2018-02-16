@@ -1,15 +1,24 @@
+import { HttpService } from './http.service';
+import { LocalizationService } from './localization.service';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from '../../rxjs.imports';
+import { InfoService } from './info.service';
+import { DiagnosticType } from './../../shared/models/message-dialog.model';
 
 @Injectable()
-export class DiagnosticService {
+export class DiagnosticService extends LocalizationService {
 
-    messages = [];
-    isVisible: boolean = false;
+    public data: any = {};
+    public isVisible: boolean = false;
 
-    observer: Subject<any>;
+    public observer: Subject<any>;
 
-    constructor() { }
+    constructor(
+        infoService: InfoService,
+        httpService: HttpService
+    ) {
+        super(infoService, httpService);
+    }
     showError(message: string) {
         this.showDiagnostic([{ text: message }]);
     }
@@ -18,16 +27,43 @@ export class DiagnosticService {
             return;
         }
         this.observer = new Subject<any>();
-        this.messages = messages;
+        this.data.messages = this.adjustMessages(messages);
+        this.data.buttons = [{ ok: true, enabled: true, text: this._TB("OK") }];
+
         this.isVisible = true;
         return this.observer;
     }
 
     resetDiagnostic() {
-        this.messages = [];
+        this.data = {};
         this.isVisible = false;
 
         this.observer.next(true);
         this.observer.complete();
+    }
+
+    //compatta i messaggi e li mette nella struttura attesa dal diagnostic component
+    adjustMessages(messages) {
+        if (!messages || !messages.length)
+            return undefined;
+            if (messages.length == 1)
+            {
+                //esiste solo un messaggio, che non ha testo ma solo altri messaggi nidificati: 
+                //allora accorpo eliminando un livello
+                let msg = messages[0];
+                if (typeof (msg) !== 'string'! && !msg.text && msg.messages){
+                    return this.adjustMessages(msg.messages);
+                }
+            }
+        for (let i = 0; i < messages.length; i++) {
+            let msg = messages[i];
+            if (typeof (msg) === 'string') {
+                messages[i] = { type: DiagnosticType.Info, text: msg }
+            }
+            else {
+                msg.messages = this.adjustMessages(msg.messages);
+            }
+        }
+        return messages;
     }
 }

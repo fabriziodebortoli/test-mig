@@ -2029,7 +2029,7 @@ namespace Microarea.EasyBuilder
                     view.Invalidate();
                     view.UpdateWindow();
                 }
-                else if (wndContainer != null)
+                else
                 {
                     wndContainer.Invalidate();
                     wndContainer.UpdateWindow();
@@ -3408,15 +3408,24 @@ namespace Microarea.EasyBuilder
 						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, saveForWeb);
 				}
 
-
-				switch (res)
+                switch (res)
 				{
 					case DialogResult.Cancel:
 						return false;
                     case DialogResult.Yes:
                         Cursor.Current = Cursors.WaitCursor;
 
-						NameSpace old = Sources?.Namespace;
+                        //crea/aggiorna il json
+                        if (/*saveForWeb*/true)
+                        {
+                            NameSpace nsForJson = new NameSpace(Sources?.Namespace);
+                            nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
+                            nsForJson.Module = BaseCustomizationContext.CustomizationContextInstance.CurrentModule;
+                            SerializationAddOnService ser = (SerializationAddOnService)view?.Site.GetService(typeof(SerializationAddOnService));
+                            bool bResSerializeToJson = (bool)ser?.GenerateJson(view, nsForJson);
+                        }
+
+                        NameSpace old = Sources?.Namespace;
                         if (Sources != null)
 							Sources.Namespace = ns;
 
@@ -3451,7 +3460,7 @@ namespace Microarea.EasyBuilder
                         else
                             BaseCustomizationContext.CustomizationContextInstance.AddToCurrentCustomizationList(userFilePath, true, isActive, publish ? string.Empty : CUtility.GetUser(), document.Namespace.ToString());
 
-                        string referencedPath = BasePathFinder.BasePathFinderInstance.GetCustomEBReferencedAssembliesPath();
+                        string referencedPath = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
                         foreach (AssemblyName an in Controller.GetType().Assembly.GetReferencedAssemblies())
                         {
 							Assembly asm = AssembliesLoader.Load(an);

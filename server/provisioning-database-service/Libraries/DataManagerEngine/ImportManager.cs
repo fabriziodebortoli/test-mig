@@ -10,7 +10,9 @@ using System.Xml;
 using Microarea.Common.DiagnosticManager;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
+
 using static Microarea.Common.Generic.InstallationInfo;
+using static Microarea.ProvisioningDatabase.Libraries.DataManagerEngine.ImportSelections;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 {
@@ -36,6 +38,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		private bool toPrepareUpdate = false;
 		private bool fromUpdate = false;
 		private bool tbModifiedIsPresent = false; // x sapere se la colonna TBModified è presente nel file xml
+
+		// servono per la propagazione dell'opzione overwrite sui singoli file (in caso di upgrade)
+		private bool importDataForUpgrade = false;
+		private UpdateExistRowType updateExistRowTypeForUpgrade = UpdateExistRowType.SKIP_ROW;
+		//
 
 		private string currentTable = string.Empty;
 		private bool currentTableIsMaster = false; // la tabella e' di tipo master (gestione TBGuid introdotta con la 4.0)
@@ -85,8 +92,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//---------------------------------------------------------------------
 		public Thread Import()
 		{
-			Thread myThread = new Thread(new ThreadStart(InternalImport));
-			myThread.Start();
+			Thread myThread = new Thread(new ParameterizedThreadStart(InternalImport));
+			myThread.Start(false);
 			return myThread;
 		}
 
@@ -94,8 +101,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		/// per l'esecuzione del processo di import
 		/// </summary>
 		//---------------------------------------------------------------------
-		public void InternalImport()
+		public void InternalImport(object importDefaultDataForUpgrade = null)
 		{
+			// per gestire l'opzione di overwrite dei dati sul singolo file in caso di upgrade
+			importDataForUpgrade = (importDefaultDataForUpgrade != null) ? (bool)importDefaultDataForUpgrade : false;
+
 			bool error = false;
 
 			if (importSel.ImportList.Count == 0)
@@ -133,8 +143,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					if (error)
 						break;
 
-					foreach (string file in item.SelectedFiles)
+					foreach (ImportItem ii in item.SelectedFiles)
 					{
+						string file = ii.File;
+						updateExistRowTypeForUpgrade = (importDataForUpgrade)
+							? (ii.Overwrite) ? UpdateExistRowType.UPDATE_ROW : UpdateExistRowType.SKIP_ROW
+							: importSel.UpdateExistRow;
+
 						// skippo i file con un nome che inizia con DeploymentManifest (visto che potrebbe essere
 						// presente per esigenze di installazione di specifiche configurazioni dati di default/esempio 
 						// (esigenza sorta principalmente con i partner polacchi - miglioria 3067)
@@ -447,6 +462,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			string refEdition = string.Empty;
 			string refConfiguration = string.Empty;
+			string refCountry = string.Empty;
 
 			XmlReader xtr = null;
 
@@ -486,17 +502,24 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 									else
 										refEdition = importSel.ContextInfo.PathFinder.Edition;
 
-									// devo ricalcolare il file da tornare in modo da pilotare l'importazione
-									string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, 2);
-									string fileName = Path.GetFileName(importFile.FullName);
+									// se l'attributo refcountry e' vuoto considero l'iso stato corrente
+									if (xtr.MoveToAttribute(DataManagerConsts.RefCountry))
+										refCountry = string.IsNullOrEmpty(xtr.Value) ? this.importSel.ContextInfo.IsoState : xtr.Value;
+									else
+										refCountry = this.importSel.ContextInfo.IsoState;
 
-									string newPath = Path.Combine(absoluteDirName, refEdition);
-									newPath = Path.Combine(newPath, refConfiguration);
-									newPath = Path.Combine(newPath, fileName);
+									// devo ricalcolare il file da tornare in modo da pilotare l'importazione
+									// C:\<nome-istanza>\Standard\Applications\ERP\Accounting\DataManager\Default\
+									string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, 3);
+
+									string newImportFilePath = Path.Combine(absoluteDirName, refCountry);
+									newImportFilePath = Path.Combine(newImportFilePath, refEdition);
+									newImportFilePath = Path.Combine(newImportFilePath, refConfiguration);
+									newImportFilePath = Path.Combine(newImportFilePath, Path.GetFileName(importFile.FullName));
 
 									// solo se il file con il nuovo path ricalcolato esiste viene assegnato
-									if (importSel.ContextInfo.PathFinder.FileSystemManager.ExistFile(newPath))
-										importFile = new FileInfo(newPath);
+									if (File.Exists(newImportFilePath))
+										importFile = new FileInfo(newImportFilePath);
 								}
 								else
 									return true;
@@ -1117,7 +1140,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				{
 					// se l'utente mi ha detto di effettuare l'update di un record giá esistente
 					// allora non visualizzo errore ma effettuo il comando di update
-					switch (importSel.UpdateExistRow)
+					switch ((importDataForUpgrade) ? updateExistRowTypeForUpgrade : importSel.UpdateExistRow)
 					{
 						case ImportSelections.UpdateExistRowType.UPDATE_ROW:
 							{
@@ -1333,7 +1356,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				return false;
 			}
 
-			toPrepareUpdate = (importSel.UpdateExistRow == ImportSelections.UpdateExistRowType.UPDATE_ROW);
+			toPrepareUpdate = (importDataForUpgrade)
+							? (updateExistRowTypeForUpgrade == ImportSelections.UpdateExistRowType.UPDATE_ROW)
+							: (importSel.UpdateExistRow == ImportSelections.UpdateExistRowType.UPDATE_ROW);
 			return true;
 		}
 

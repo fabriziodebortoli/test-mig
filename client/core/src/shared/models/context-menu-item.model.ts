@@ -2,14 +2,14 @@ export class ContextMenuItem {
 
     text: string;
     id: string;
-    enabled: boolean;
-    checked: boolean;
+    enabled: boolean = true;
+    checked: boolean = false;
     dataBinding?: any; // TODO
     subItems: ContextMenuItem[];
     showMySub: boolean;
     fnc: any;
 
-    public constructor(text: string, id: string, enabled: boolean, checked: boolean, subItems: ContextMenuItem[] = null, fnc: any = null) {
+    public constructor(text: string, id: string, enabled: boolean = true, checked: boolean = false, subItems: ContextMenuItem[] = null, fnc: any = null) {
         this.text = text;
         this.id = id;
         this.enabled = enabled;

@@ -7,10 +7,10 @@ namespace TaskBuilderNetCore.Documents.Model.Interfaces
     //====================================================================================    
     public interface IComponent : IDisposable
     {
-        IActivatorService ActivatorService { get; set; }
+        IDocumentServices DocumentServices { get; }
         ICallerContext CallerContext { get; }
         bool CanBeLoaded(ICallerContext callerContext);
-        bool Initialize(ICallerContext callerContext);
+        bool Initialize(ICallerContext callerContext, IDocumentServices documentServices);
         void Clear();
     }
 }

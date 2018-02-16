@@ -102,8 +102,7 @@ BOOL CLoginThread::InitInstanceInternal()
 {
 	CThreadContext* pThread = AfxGetThreadContext();
 	//in fase di partenza non visualizzo message box, perché sono causa di deadlock
-	UserInteractionMode mode = pThread->GetUserInteractionMode();
-	pThread->SetUserInteractionMode(UNATTENDED);
+	SwitchTemporarilyMode tmp(UNATTENDED);
 	//CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	if (!__super::InitInstance())
 		return FALSE;
@@ -143,7 +142,6 @@ BOOL CLoginThread::InitInstanceInternal()
 	if (!m_bProxy)
 		SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
-	pThread->SetUserInteractionMode(mode);
 	return TRUE;
 }
 
@@ -516,7 +514,7 @@ void CLoginThread::LoadTaskBuilderParameters ()
 	DataInt aDefault (EPSILON_DECIMAL);
 	
 	// double
-	DataObj* pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilon, szDataDblEpsilon, aDefault, szTbDefaultSettingFileName);
+	DataObj* pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilonSection, szDoubleDecimals, aDefault, szTbDefaultSettingFileName);
 	AfxGetLoginContext()->SetEpsilonPrecision
 		(
 			DATADBL_EPSILON_PRECISION_POS, 
@@ -524,7 +522,7 @@ void CLoginThread::LoadTaskBuilderParameters ()
 		);
 	
 	// money
-	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilon, szDataMonEpsilon, aDefault, szTbDefaultSettingFileName);
+	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilonSection, szMonetaryDecimals, aDefault, szTbDefaultSettingFileName);
 	AfxGetLoginContext()->SetEpsilonPrecision
 		(
 			DATAMON_EPSILON_PRECISION_POS, 
@@ -532,7 +530,7 @@ void CLoginThread::LoadTaskBuilderParameters ()
 		);
 	
 	// percentage
-	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilon, szDataPercEpsilon, aDefault, szTbDefaultSettingFileName);
+	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilonSection, szPercentageDecimals, aDefault, szTbDefaultSettingFileName);
 	AfxGetLoginContext()->SetEpsilonPrecision
 		(
 			DATAPERC_EPSILON_PRECISION_POS, 
@@ -540,7 +538,7 @@ void CLoginThread::LoadTaskBuilderParameters ()
 		);
 	
 	// quantity
-	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilon, szDataQuantityEpsilon, aDefault, szTbDefaultSettingFileName);
+	pDataObj = AfxGetSettingValue (snsTbGenlib, szDataTypeEpsilonSection, szQuantityDecimals, aDefault, szTbDefaultSettingFileName);
 	AfxGetLoginContext()->SetEpsilonPrecision
 		(
 			DATAQTY_EPSILON_PRECISION_POS,

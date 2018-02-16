@@ -99,6 +99,7 @@ TB_EXPORT int WriteEventViewerMessage(
 //				class CDiagnosticItem implementation
 ///////////////////////////////////////////////////////////////////////////////
 //
+IMPLEMENT_DYNAMIC(CDiagnosticItem, CObject)
 //-----------------------------------------------------------------------------
 CDiagnosticItem::CDiagnosticItem(const CString& strErrCode, const CString& sMessage, const CDiagnostic::MsgType eType)
 	:
@@ -162,6 +163,12 @@ void CDiagnosticItem::ToJson(CJsonSerializer& ser)
 	ser.WriteString(_T("text"), GetMessageText());
 	ser.WriteInt(_T("type"), GetType());
 }
+//---------------------------------------------------------------------------
+void CDiagnosticItem::PurgeEmptyItems()
+{
+	
+}
+
 //-----------------------------------------------------------------------------
 BOOL CDiagnosticItem::HasMessages(CDiagnostic::MsgType aType, const BOOL bAnyType /*FALSE*/, const BOOL bIncludeChildLevels /*FALSE*/) const
 {
@@ -185,6 +192,7 @@ BOOL CDiagnosticItem::HasErrorCode(const CString& strErrCode, const BOOL /* = FA
 //          Class CDiagnosticLevel implemetation
 ///////////////////////////////////////////////////////////////////////////////
 //
+IMPLEMENT_DYNAMIC(CDiagnosticLevel, CDiagnosticItem)
 //---------------------------------------------------------------------------
 CDiagnosticLevel::CDiagnosticLevel(CDiagnosticLevel* pParent, const CString& strOpeningBanner, const BOOL& bTraceInEventViewer)
 	:
@@ -233,12 +241,46 @@ void CDiagnosticLevel::Clear()
 		}
 	}
 }
+//---------------------------------------------------------------------------
+void CDiagnosticLevel::PurgeEmptyItems()
+{
+	if (m_arMessages.IsEmpty())
+		return;
+	CDiagnosticItem* pItem;
+	for (int i = m_arMessages.GetUpperBound(); i >= 0; i--)
+	{
+		pItem = (CDiagnosticItem*)m_arMessages.GetAt(i);
+		pItem->PurgeEmptyItems();
+		if (!pItem->HasMessages(CDiagnostic::Info, TRUE, TRUE))
+		{
+			m_arMessages.RemoveAt(i);
+			delete pItem;
+		}
+	}
+}
 
 //---------------------------------------------------------------------------
 void CDiagnosticLevel::ToJson(CJsonSerializer& ser)
 {
 	if (m_arMessages.IsEmpty())
 		return;
+	
+	if (m_arMessages.GetCount() == 1)
+	{
+		//ho un solo figlio ed è un sottolivello: allora taglio il livello
+		CDiagnosticItem* pItem = (CDiagnosticItem*)m_arMessages.GetAt(0);
+		if (pItem->IsKindOf(RUNTIME_CLASS(CDiagnosticLevel)))
+		{
+			pItem->ToJson(ser);
+			return;
+		}
+
+	}
+	if (!m_strOpeningBanner.IsEmpty())
+	{
+		ser.WriteString(_T("text"), m_strOpeningBanner);
+		ser.WriteInt(_T("type"), CDiagnostic::Banner);
+	}
 	ser.OpenArray(_T("messages"));
 
 	CDiagnosticItem* pItem;
@@ -566,7 +608,19 @@ void CDiagnostic::EndSession(const CString& strClosingBanner /*_T("")*/)
 	}
 
 	m_pCurrLevel->EndSession(strClosingBanner);
+	CDiagnosticLevel* pOld = m_pCurrLevel;
 	m_pCurrLevel = m_pCurrLevel->m_pParent;
+	if (!pOld->HasMessages(CDiagnostic::Info, TRUE, TRUE))
+	{
+		for (int i = m_pCurrLevel->m_arMessages.GetUpperBound(); i>=0; i--)
+		{
+			if (m_pCurrLevel->m_arMessages[i] == pOld)
+			{
+				m_pCurrLevel->m_arMessages.RemoveAt(i);
+				delete pOld;
+			}
+		}
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -739,9 +793,6 @@ void CDiagnostic::Copy
 	if (bNewSession)
 		StartSession(strOpeningBanner);
 
-	CObArray arItems;
-	pDiagnostic->ToArray(arItems, pDiagnostic->m_pStartingLevel);
-
 	for (int i = 0; i <= pDiagnostic->GetUpperBound(); i++)
 	{
 		const CDiagnosticItem* pItem = pDiagnostic->GetItemAt(i);
@@ -832,6 +883,7 @@ void CDiagnostic::ToStringArray(CStringArray& arMessages, BOOL bAddLFToMessage /
 //------------------------------------------------------------------------------
 void CDiagnostic::ToJson(CJsonSerializer& ser)
 {
+	m_pStartingLevel->PurgeEmptyItems();
 	m_pStartingLevel->ToJson(ser);
 
 }

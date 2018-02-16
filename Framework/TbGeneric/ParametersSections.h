@@ -7,7 +7,7 @@
 
 extern const TB_EXPORT TCHAR szTbDefaultSettingFileName[];
 
-//-------------------------------------------.TbGeneric.------------
+//-------------------------------------------.TbGeneric.------------ @@TODO BAUZI (aspetto risposta da RICKY)
 extern const TB_EXPORT TCHAR szTbGenericNamespace[];
 extern const TB_EXPORT CTBNamespace snsTbGeneric;
 
@@ -19,77 +19,74 @@ extern const TB_EXPORT TCHAR szRdeBufferSize[];
 extern const TB_EXPORT TCHAR szTbGenlibNamespace[];
 extern const TB_EXPORT CTBNamespace snsTbGenlib;
 
+extern const TB_EXPORT TCHAR szEnvironment[];				// Environment
+extern const TB_EXPORT TCHAR szManageCompanyDatabaseCulture[];
+extern const TB_EXPORT TCHAR szEnableAssertionsInRelease[];
+extern const TB_EXPORT TCHAR szDumpAssertionsIfNoCrash[];
+extern const TB_EXPORT TCHAR szLogDiagnosticInEventViewerUnattendedMode[];
+extern const TB_EXPORT TCHAR szSingleThreaded[];
+
+
 extern const TB_EXPORT TCHAR szFormsSection[];				// Forms
-extern const TB_EXPORT TCHAR szMaxComboBoxItems[];
 extern const TB_EXPORT TCHAR szImmediateBrowsing[];
 extern const TB_EXPORT TCHAR szDisplayBrowsingLimits[];
 extern const TB_EXPORT TCHAR szHotlinkComboDefaultFields[];
+extern const TB_EXPORT TCHAR szRadarEndForward[] ;
 extern const TB_EXPORT TCHAR szUpdateTBFFiles[];
-extern const TB_EXPORT TCHAR szAllowHotlinkOnQueryAskDialog[];
-extern const TB_EXPORT TCHAR szEnableCenterControls[];
-
-extern const TB_EXPORT TCHAR szEnvironment[];				// Environment
-extern const TB_EXPORT TCHAR szSingleThread[];
-extern const TB_EXPORT TCHAR szEnableLockTrace[];
-extern const TB_EXPORT TCHAR szBarCodeType[];
-extern const TB_EXPORT TCHAR szLoadLibrariesOnDemand[];
-extern const TB_EXPORT TCHAR szShowPrintSetup[];
-extern const TB_EXPORT TCHAR szLogExitInstance[];
-extern const TB_EXPORT TCHAR szEnableAssertionsInRelease[];
-extern const TB_EXPORT TCHAR szDumpAssertionsIfNoCrash[];
-extern const TB_EXPORT TCHAR szExpect100Continue[];
-
-TB_EXPORT TCHAR szDataTypeEpsilon[];						// Data Type Epsilon 
-TB_EXPORT TCHAR szDataDblEpsilon[];
-TB_EXPORT TCHAR szDataMonEpsilon[];
-TB_EXPORT TCHAR szDataPercEpsilon[];
-TB_EXPORT TCHAR szDataQuantityEpsilon[];
-
-extern const TB_EXPORT TCHAR szPreferenceSection[];			// Preference
-extern const TB_EXPORT TCHAR szUseLargeToolBarButtons[];
-extern const TB_EXPORT TCHAR szUseWoormRadar[];
-extern const TB_EXPORT TCHAR szRepeatableNew[];
-extern const TB_EXPORT TCHAR szBackgroudColor[];
-extern const TB_EXPORT TCHAR szArrayBkgndColors[];
-extern const TB_EXPORT TCHAR szUseXPStyle[];
-extern const TB_EXPORT TCHAR szAlternateColor[];
-extern const TB_EXPORT TCHAR szCurrentRowColor[];
-extern const TB_EXPORT TCHAR szSepLineColor[];
+extern const TB_EXPORT TCHAR szTabbedDocuments[];
+extern const TB_EXPORT TCHAR szChildManagement[];
+extern const TB_EXPORT TCHAR szMaxComboBoxItems[];
 extern const TB_EXPORT TCHAR szShowZerosInInput[];
-extern const TB_EXPORT TCHAR szTreatEnterAsTab[];
-extern const TB_EXPORT TCHAR szShowColoredControlFocused[];
-extern const TB_EXPORT TCHAR szControlFocusedColor[];
-extern const TB_EXPORT TCHAR szUseEasyReading[];
-extern const TB_EXPORT TCHAR szUseEasyBrowsing[];
-extern const TB_EXPORT TCHAR szUseEasyBrowsingInEasyLookOnly[];
-extern const TB_EXPORT TCHAR szFindSlave[]; 
-extern const TB_EXPORT TCHAR szAllowBodyeditColumnHeaderSmallFont[]; 
-extern const TB_EXPORT TCHAR szAddBodyeditColumnHeaderExtraSpace[]; 
-extern const TB_EXPORT TCHAR szShowAdminCustomSaveDialog[];
-extern const TB_EXPORT TCHAR szUpdateDefaultReport[];
-extern const TB_EXPORT TCHAR szUseDocPerformanceAnalyzer[];
-
+extern const TB_EXPORT TCHAR szAllowBodyeditColumnHeaderSmallFont[];
+extern const TB_EXPORT TCHAR szAddBodyeditColumnHeaderExtraSpace[];
 extern const TB_EXPORT TCHAR szDataTipDelay[];
 extern const TB_EXPORT TCHAR szDataTipLevelOnBodyedit[];
 extern const TB_EXPORT TCHAR szDataTipMaxHeight[];
 extern const TB_EXPORT TCHAR szDataTipMaxWidth[];
+extern const TB_EXPORT TCHAR szTreatEnterAsTab[];
+extern const TB_EXPORT TCHAR szEnableCenterControls[];
 
-extern const TB_EXPORT TCHAR szMultiSelTextColor[];
-extern const TB_EXPORT TCHAR szMultiSelBackColor[];
+
+extern const TB_EXPORT TCHAR szPreferenceSection[];			// Preference
+extern const TB_EXPORT TCHAR szShowAdminCustomSaveDialog[];
+extern const TB_EXPORT TCHAR szAllActive[];
+extern const TB_EXPORT TCHAR szUseWoormRadar[];
+extern const TB_EXPORT TCHAR szRepeatableNew[];
+extern const TB_EXPORT TCHAR szUseEasyBrowsing[];
+extern const TB_EXPORT TCHAR szEnableFindOnSlaveFields[];
+extern const TB_EXPORT TCHAR szTBLoaderDefaultSOAPPort[];
+
+
+extern const TB_EXPORT TCHAR szDataTypeEpsilonSection[];			// DataTypeEpsilon 
+extern const TB_EXPORT TCHAR szDoubleDecimals[];
+extern const TB_EXPORT TCHAR szMonetaryDecimals[];
+extern const TB_EXPORT TCHAR szPercentageDecimals[];
+extern const TB_EXPORT TCHAR szQuantityDecimals[];
+
+extern const TB_EXPORT TCHAR szReportSection[];		// Report
+extern const TB_EXPORT TCHAR szShowPrintSetup[];
+extern const TB_EXPORT TCHAR szUpdateDefaultReport[];
+
+
+extern const TB_EXPORT TCHAR szDevelopmentSection[];		// Development
+extern const TB_EXPORT TCHAR szEnableLockTrace[];
+extern const TB_EXPORT TCHAR szLogExitInstance[];
+extern const TB_EXPORT TCHAR szExpect100Continue[];
+extern const TB_EXPORT TCHAR szChromeDebuggingPort[];
 
 extern const TB_EXPORT TCHAR szCultureSection[];			// Culture
 extern const TB_EXPORT TCHAR szLowerLimit[];
 extern const TB_EXPORT TCHAR szUpperLimit[];
+extern const TB_EXPORT TCHAR szUseVCenterBottomAlignInWoormFields[];
+extern const TB_EXPORT TCHAR szSizeOfDescriptionFont[];
+extern const TB_EXPORT TCHAR szExcelDateFormat[];
+extern const TB_EXPORT TCHAR szExcelTimeFormat[];
+extern const TB_EXPORT TCHAR szExcelDateTimeFormat[];
+extern const TB_EXPORT TCHAR szCharSetSample[];
 
-extern const TB_EXPORT TCHAR szFormFontFace[];
-extern const TB_EXPORT TCHAR szControlsFont[];
-extern const TB_EXPORT TCHAR szTileDialogTitle[];
-extern const TB_EXPORT TCHAR szWizardStepper[];
-extern const TB_EXPORT TCHAR szHyperlinkFont[];
-extern const TB_EXPORT TCHAR szRadarSearchFont[];
-extern const TB_EXPORT TCHAR szTileStrip[];
-extern const TB_EXPORT TCHAR szFilterTileTitle[];
-extern const TB_EXPORT TCHAR szStaticWithLineFont[];
+
+extern const TB_EXPORT TCHAR szSchedulerSection[];			//Scheduler
+extern const TB_EXPORT TCHAR szTaskIsolation[];
 
 //-------------------------------------------.TbGes.------------
 extern const TB_EXPORT CTBNamespace snsTbGes;
@@ -140,10 +137,9 @@ extern const TB_EXPORT TCHAR szAnalizeDocPerformance[];
 
 
 //-------------------------------------------.TbWoormViewer.------------
-
-extern const TB_EXPORT TCHAR szTbWoormViewerSettingFileName[];
 extern const TB_EXPORT CTBNamespace snsTbWoormViewer;
 
+extern const TB_EXPORT TCHAR szTbWoormViewerSettingFileName[];
 extern const TB_EXPORT TCHAR szWoormGeneralOptions[];			// WoormGeneralOptions
 extern const TB_EXPORT TCHAR szRectHRatio[];
 extern const TB_EXPORT TCHAR szRectVRatio[];
@@ -205,24 +201,45 @@ extern const TB_EXPORT TCHAR szQuality[];
 extern const TB_EXPORT TCHAR szPitchAndFamily[];
 extern const TB_EXPORT TCHAR szFaceName[];
 
+
 extern const TB_EXPORT TCHAR szWoormRunningOptions[];			// WoormRunningOptions
 extern const TB_EXPORT TCHAR szUseMultithreading[];
 
-//Barcode 2D
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DEncoding[];
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DVersion[];
-extern const TCHAR TB_EXPORT	szDefaultBarcode2DErrCorrLevel[];
 
+//-------------------------------------------.Barcode.------------
+extern const TB_EXPORT TCHAR szBarcodeConnectorConfigFile[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcodeSection[];
+extern const TB_EXPORT TCHAR	szBarCodeType[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DEncoding[];
+extern const TB_EXPORT TCHAR*	szBarcodeTypes[];
+
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DVersion[];
+extern const TB_EXPORT TCHAR 	szDefaultBarcode2DErrCorrLevel[];
 extern const TB_EXPORT TCHAR	szBarcode2DFileName[];
-extern const TB_EXPORT TCHAR*	szBracodeTypes[];
+
+extern const TB_EXPORT TCHAR	szDataMatrix[];
+extern const TB_EXPORT TCHAR	szMicroQR[];
+extern const TB_EXPORT TCHAR	szQR[];
+extern const TB_EXPORT TCHAR	szPDF417[];
+
 
 //-------------------------------------------.TbMailer.------------
 
 extern const TB_EXPORT TCHAR szMailConnectorConfigFile[];		
 
-extern const TB_EXPORT TCHAR szUseVCenterBottomAlignInWoormFields[];	// Culture
-extern const TB_EXPORT TCHAR szSizeOfDescriptionFont[];
-extern const TB_EXPORT TCHAR szCharSetSample[];
+
+
+//Theme
+extern const TB_EXPORT TCHAR szAlternateColor[];
+extern const TB_EXPORT TCHAR szFormFontFace[];
+extern const TB_EXPORT TCHAR szControlsFont[];
+extern const TB_EXPORT TCHAR szTileDialogTitle[];
+extern const TB_EXPORT TCHAR szWizardStepper[];
+extern const TB_EXPORT TCHAR szRadarSearchFont[];
+extern const TB_EXPORT TCHAR szTileStrip[];
+extern const TB_EXPORT TCHAR szStaticWithLineFont[];
 
 //=============================================================================        
 //						TbBaseSettings
@@ -301,6 +318,15 @@ class TB_EXPORT SmtpMailConnectorParams : public TbBaseSettings
 protected:
 	CString	m_sCurrentSection;
 public:
+	enum ESecurityProtocolType { //System::Net::SecurityProtocolType
+				SP_Default = 0, 
+				SP_SSL3 = 48, SP_TLS10 = 192, SP_TLS11 = 768, SP_TLS12 = 3072, 
+				SP_All = (SP_SSL3 | SP_TLS10 | SP_TLS11 | SP_TLS12)
+	};
+	static const int st_SecurityProtocolSize = 6;
+	static LPCTSTR st_SecurityProtocolDescr[];
+	static int st_SecurityProtocolValue[];
+
 	SmtpMailConnectorParams (LPCTSTR szCurrentSection = NULL);
 	
 	const CString& GetCurrentSection () const { return m_sCurrentSection; }
@@ -322,16 +348,16 @@ public:
 	int		GetPort ();
 	void	SetPort (int); 
 
-	CString GetBoundIP ();
-	void	SetBoundIP (const CString&); 
+	//CString GetBoundIP ();
+	//void	SetBoundIP (const CString&); 
 
 	CString GetUserName ();
 	void	SetUserName (const CString&); 
 	CString GetPassword ();
 	void	SetPassword (const CString&); 
 
-	BOOL	GetAutoDial ();
-	void	SetAutoDial (BOOL); 
+	//BOOL	GetAutoDial ();
+	//void	SetAutoDial (BOOL); 
 
 	// get functions in BaseSmtpMailConnectorParams class
 	void	SetFromName (const CString&); 
@@ -339,14 +365,14 @@ public:
 	void	SetReplyToName (const CString&); 
 	void	SetReplyToAddress (const CString&); 
 
-	int		GetPriorityType ();
-	void	SetPriorityType (int); 
+	//int		GetPriorityType ();
+	//void	SetPriorityType (int); 
 
-	CString GetEncodingCharset ();
-	void	SetEncodingCharset (const CString&); 
+	//CString GetEncodingCharset ();
+	//void	SetEncodingCharset (const CString&); 
 
-	CString GetEncodingFriendly ();
-	void	SetEncodingFriendly (const CString&); 
+	//CString GetEncodingFriendly ();
+	//void	SetEncodingFriendly (const CString&); 
 
 	BOOL	GetMimeEncoding ();
 	void	SetMimeEncoding (BOOL); 
@@ -359,16 +385,19 @@ public:
 	BOOL	GetUseImplicitSSL ();
 	void	SetUseImplicitSSL (BOOL b);
 
-	BOOL	GetSupportedByExtendedMapi ();
-	void	SetSupportedByExtendedMapi (BOOL b);
+	//BOOL	GetSupportedByExtendedMapi ();
+	//void	SetSupportedByExtendedMapi (BOOL b);
 
 	int		GetTimeout ();
 	void	SetTimeout (int); 
 
-	//int		GetAuthenticationType ();
+	//int	GetAuthenticationType ();
 	//void	SetAuthenticationType (int); 
 	CString GetAuthenticationType ();
 	void	SetAuthenticationType (const CString& s);
+
+	int		GetSecurityProtocolType();
+	void	SetSecurityProtocolType(int);
 
 	short	GetConfiguration ();
 	void	SetConfiguration (short);

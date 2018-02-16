@@ -30,7 +30,7 @@
 #define KEY_CTRL_DOWN	0x0002
 #define KEY_ALT_DOWN	0x0004
 #define CHECK_UNIQUE_NAME(cl,name) 	{\
-										DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, _T("AllActive"), DataBool(FALSE), szTbDefaultSettingFileName);\
+										DataObj* pDataObj = AfxGetSettingValue(snsTbGenlib, szDevelopmentSection, szAllActive, DataBool(FALSE), szTbDefaultSettingFileName);\
 										BOOL bByPass = pDataObj && pDataObj->GetDataType() == DATA_BOOL_TYPE ? *((DataBool*)pDataObj) : FALSE;\
 										if (!bByPass)\
 										{\
@@ -755,7 +755,7 @@ public:
 			NAMESPACE_EDIT_BAD_NAMESPACE,
 			HOTLINK_DATA_PROTECTED, //used for TBRowSecurity (impr 5185 @@BAUZI)
 			// inizio item a disposizione per le eventuali classi derivate
-			AVAILABLE_1,
+			HOTLINK_NO_DATA_FOUND,
 			AVAILABLE_2,
 			AVAILABLE_3,
 			AVAILABLE_4,
@@ -1141,6 +1141,7 @@ public:
 
 	int		GetButtonWidth			(int nExpectedWidth = 0);
 protected:
+	void UpdateCtrlVisibility();
 	// NON user overridables
 	BOOL	CanDoCallLink			() const;
 	BOOL	CheckControl			(UINT nID, CWnd* pParentWnd, LPCTSTR ctrlClassName = NULL);

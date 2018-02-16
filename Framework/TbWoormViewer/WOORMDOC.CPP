@@ -3662,11 +3662,7 @@ void CWoormDocMng::RunReport(BOOL bActivate /*= FALSE*/, BOOL bPost/* = TRUE*/)
 void CWoormDocMng::SetDecorateTitle()
 {
 	ASSERT_VALID(this);
-	CWoormFrame* pFrame = GetWoormFrame();
-	ASSERT_VALID(pFrame);
-	if (!::IsWindow(pFrame->m_hWnd))
-		return;
-
+	
 	UINT idi = IDI_REPORT;
 
 	CString str;
@@ -5722,8 +5718,7 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 	pWoormInfo->m_bIsReportString = bIsReportString;
 
 	// apro il report senza farne la run
-	UserInteractionMode oldUM = ::AfxGetThreadContext()->GetUserInteractionMode();
-	::AfxGetThreadContext()->SetUserInteractionMode(UNATTENDED);
+	SwitchTemporarilyMode tmp(UNATTENDED);
 
 	CWoormDocMng* pDoc = (CWoormDocMng*)AfxGetTbCmdManager()->RunWoormReport(pWoormInfo, this, NULL, FALSE, FALSE);
 	if (pDoc)
@@ -5743,13 +5738,11 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 			
 		if (pWoormInfo->m_arErrors.GetCount() == 0)
 		{
-			::AfxGetThreadContext()->SetUserInteractionMode(oldUM);
 			return TRUE;
 		}
 	}
 	else pWoormInfo->m_arErrors.Add(_TB("Parse report layout failed"));
 
-	::AfxGetThreadContext()->SetUserInteractionMode(oldUM);
 	return pWoormInfo->m_arErrors.GetCount() == 0;
 }
 
@@ -14521,7 +14514,7 @@ TblRuleData* CWoormDocMng::AddDBColumns_GetOrCreateTblRule(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 WoormField* CWoormDocMng::AddDBColumns_CreateField(CNodeTree* pNode, TblRuleData* pTblRule, int idxTable)
 {
-	SqlColumnInfo* pColumn = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+	SqlColumnInfo* pColumn = (SqlColumnInfo*)(pNode->m_pItemData);
 
 	return AddDBColumns_CreateField(pColumn, pTblRule, idxTable);
 }

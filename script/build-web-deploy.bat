@@ -141,7 +141,7 @@ call ng-clean.bat
 
 @ECHO ON
 
-%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ >> %DevPath%\6_tbjson.log
+%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ 
 
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
 
@@ -149,11 +149,14 @@ call npm i --no-save >> %DevPath%\5_npm_install.log
 
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\
 node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" build --env=desktop --no-sourcemaps --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Client" >> %DevPath%\7_ng_build.log
+node --max_old_space_size=9120 "node_modules\@angular\cli\bin\ng" build --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Web" >> %DevPath%\7_ng_build-web.log
 
 @cd %DevPath%\Standard\Taskbuilder\server\web-server
 dotnet restore
 iisreset
 dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %DevPath%\8_dotnet_publish.log
+
+if "%~1"=="-skipcod" (goto end)
 
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
 
@@ -161,3 +164,6 @@ dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilde
 
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe updatedeployment /root %DevPath%\Apps /version debug
 
+robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
+robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
+:end

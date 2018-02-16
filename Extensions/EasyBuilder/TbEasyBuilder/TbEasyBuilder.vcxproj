@@ -361,7 +361,6 @@
     <ClCompile Include="JsonDesigner.cpp" />
     <ClCompile Include="NewDocument.cpp" />
     <ClCompile Include="SoapFunctions.cpp" />
-    <ClCompile Include="SourceControl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Create</PrecompiledHeader>
@@ -386,7 +385,6 @@
     <ClInclude Include="JsonDesigner.h" />
     <ClInclude Include="NewDocument.h" />
     <ClInclude Include="SoapFunctions.h" />
-    <ClInclude Include="SourceControl.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CDEasyBuilder.h" />
     <ClInclude Include="EBVirtualTable.h" />

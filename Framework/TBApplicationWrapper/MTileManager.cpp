@@ -129,7 +129,8 @@ MTileManager::MTileManager(IWindowWrapperContainer^ parentWindow, System::String
 	:
 	MTabber(parentWindow, name, className, location, hasCodeBehind)
 {
-	
+	//if (!this->HasCodeBehind)
+	//	jsonDescription = new CTabberDescription(NULL);
 }
 
 //----------------------------------------------------------------------------
@@ -145,6 +146,78 @@ MTileManager::~MTileManager()
 //----------------------------------------------------------------------------
 MTileManager::!MTileManager()
 {
+}
+
+//------------------------------------------------------------------------------
+void MTileManager::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return;
+		__super::UpdateAttributesForJson(pParentDescription);
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::TileManager;
+	}
+	else
+	{
+		jsonDescription = new CDummyDescription();
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		jsonDescription->m_strIds.Add(this->Id);
+	}
+}
+
+//---------------------------------------------------------------------------------
+void MTileManager::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	__super::GenerateSerialization(pParentDescription, serialization);
+
+	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //save json di jsonDescription.Serialize
+		{
+			jsonDummyDescription = new CDummyDescription();
+			jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(jsonDummyDescription);
+			jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+		}
+		else if (jsonDescription->m_Children.GetCount() > 0)
+		{
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+		}
+
+		//update parent => remove details for this from parent
+		for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
+		{
+			if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+			{
+				SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+				pParentDescription->m_Children.RemoveAt(i);
+			}
+		}
+
+	}
 }
 
 //----------------------------------------------------------------------------

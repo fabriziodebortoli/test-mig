@@ -273,7 +273,6 @@ TB_EXPORT CString	AFXAPI AfxGetXEngineSiteCode	();
 //-----------------------------------------------------------------------------
 TB_EXPORT BOOL			AFXAPI AfxIsCurrentlyInUnattendedMode(); 
 TB_EXPORT BOOL			AFXAPI AfxThreadLockTraceEnabled();
-TB_EXPORT BOOL			AFXAPI AfxAPIHookingEnabled();
 TB_EXPORT BOOL			AFXAPI AfxCenterControlsEnabled();
 TB_EXPORT void			AFXAPI AfxSetCenterControlsEnabled(BOOL bEnabled);
 TB_EXPORT void			ChangeOperationsDate();

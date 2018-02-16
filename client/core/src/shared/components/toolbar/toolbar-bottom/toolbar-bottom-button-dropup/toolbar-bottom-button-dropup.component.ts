@@ -19,11 +19,9 @@ import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interf
 })
 export class ToolbarBottomButtonDropupComponent extends TbComponent implements OnDestroy {
 
-  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'right', vertical: 'top' };
+  anchorAlign: Align = { horizontal: 'right', vertical: 'top' };
+  popupAlign: Align = { horizontal: 'right', vertical: 'bottom' };
   collision: Collision = { horizontal: 'flip', vertical: 'fit' };
-  anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
-  popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   public show = false;
     
   @ViewChild('anchor') divFocus: HTMLElement;
@@ -52,10 +50,6 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
   }); 
 }
  
-  onTranslationsReady() {
-    super.onTranslationsReady();
-    
-  }
   ngOnDestroy() {
     this.eventDataServiceSubscription.unsubscribe();
   }

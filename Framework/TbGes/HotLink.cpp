@@ -415,7 +415,7 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 {
 	if (GetRunningMode() != 0)
 		return TRUE;
-
+	OnPrepareForFind(GetMasterRecord());
 	FindResult res = FindRecord(pData, IsEnabledAddOnFly(), TRUE);
 
 	return res == FOUND || res == EMPTY;
@@ -1960,10 +1960,7 @@ SqlParamArray* HotKeyLink::GetQuery(SelectionType nQuerySelection, CString& sQue
 		m_pTable->Open(FALSE, E_FAST_FORWARD_ONLY);
 		DoDefineQuery(nQuerySelection);
 		DataObj* pData = GetDataObj();
-		if (!sFilter.IsEmpty())
-		{
-			pData->AssignFromXMLString(sFilter);
-		}
+		pData->AssignFromXMLString(sFilter);
 		DoPrepareQuery(pData, nQuerySelection);
 		m_pTable->BuildSelect();
 	}

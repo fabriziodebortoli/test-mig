@@ -208,7 +208,81 @@ MTileGroup::MTileGroup(IWindowWrapperContainer^ parentWindow, System::String^ na
 	}
 	else
 		m_pTileGroup = dynamic_cast<CTileGroup*>(GetWnd());
+}
 
+//-------------------------------------------------------------------------------------------
+void MTileGroup::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
+{
+	ASSERT(pParentDescription);
+	if (!pParentDescription)
+		return;
+
+	if (!this->HasCodeBehind)
+	{
+		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Id);
+
+		ASSERT(jsonDescription);
+		if (!jsonDescription)
+			return;
+
+		__super::UpdateAttributesForJson(pParentDescription);
+
+		CWndLayoutContainerDescription* pTileGroupDescription = dynamic_cast<CWndLayoutContainerDescription*>(jsonDescription);
+
+		if (pTileGroupDescription)
+		{
+			pTileGroupDescription->m_Type = CWndObjDescription::WndObjType::TileGroup;
+			pTileGroupDescription->m_LayoutType = CLayoutContainer::COLUMN;	//its own default
+			if (this->TileGroup && this->TileGroup->GetLayoutContainer())
+				pTileGroupDescription->m_LayoutType = this->TileGroup->GetLayoutContainer()->GetLayoutType();
+			if (this->TileGroup && this->TileGroup->GetLayoutContainer())
+				pTileGroupDescription->m_LayoutAlign = this->TileGroup->GetLayoutContainer()->GetLayoutAlign() == CLayoutContainer::LayoutAlign::NO_ALIGN ?
+				CLayoutContainer::LayoutAlign::STRETCH : //its own default
+				this->TileGroup->GetLayoutContainer()->GetLayoutAlign();
+		}
+	}
+	else
+	{
+		jsonDescription = new CDummyDescription();
+		jsonDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		jsonDescription->m_strIds.Add(this->Id);
+	}
+}
+
+//------------------------------------------------------------------------------------
+void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+{
+	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+	{
+		if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
+		{
+			//add dummy description to my father
+			jsonDummyDescription = new CDummyDescription();
+			jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+			pParentDescription->m_Children.Add(jsonDummyDescription);
+			jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+			//add json di jsonDescription.Serialize
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+
+			//update parent => remove details for this from parent
+			for (int i = pParentDescription->m_Children.GetCount() - 1; i >= 0; i--)
+			{
+				if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
+				{
+					SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
+					pParentDescription->m_Children.RemoveAt(i);
+				}
+			}
+		}
+	}
+	__super::GenerateSerialization(pParentDescription, serialization);
 }
 
 //----------------------------------------------------------------------------

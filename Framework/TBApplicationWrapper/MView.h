@@ -54,6 +54,7 @@ namespace Microarea {
 		bool					designerVisible;
 		bool					bVisible;
 		bool					suspendLayout;
+		System::String^			pathToSerialize;
 		
 	public:
 		/// <summary>
@@ -165,7 +166,28 @@ namespace Microarea {
 		/// </summary>
 		[ExcludeFromIntellisense]
 		virtual void SwitchVisibility(bool visible) override { designerVisible = visible; __super::SwitchVisibility(visible); }
+
+		///<summary>
+		///Updates nedeed attributes for json serialization
+		///</summary>
+		virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+
+		///<summary>
+		///Updates needed attributes for json serialization 
+		///</summary>
+		virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+		///<summary>
+		///Generates serialization for the class
+		///</summary>
+		virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
 		
+		///<summary>
+		///Set the path to serialize to
+		///</summary>
+		void SetPathToSerialize(System::String^ path);
+
+
 		/// <summary>
 		/// Internal Use
 		/// </summary>
@@ -198,8 +220,14 @@ namespace Microarea {
 	private:
 		void GetFrameChildrenFromPos(System::Drawing::Point p, System::IntPtr handleToSkip, System::Collections::Generic::ICollection<IWindowWrapper^>^ foundChildren);
 		void ResizeFrame();
+		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
+		void ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
 		
 	public:
+		///<summary>
+		///Save the json string in the file specified with fileName
+		///</summary>
+		bool SaveSerialization(const CString& fileName, const CString& sSerialization);
 
 		/// <summary>
 		/// Internal Use

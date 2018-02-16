@@ -289,9 +289,7 @@ namespace TaskBuilderNetCore.Interfaces
         TaskBuilderApplication = 2,
         TaskBuilder = 4,
         Customization = 8,
-        Standardization = 16,
-        StandardModuleWrapper = 32,
-        All = TaskBuilder | TaskBuilderApplication | TaskBuilderNet | Customization | Standardization
+        All = TaskBuilder | TaskBuilderApplication | TaskBuilderNet | Customization
     }
 
     //---------------------------------------------------------------------------

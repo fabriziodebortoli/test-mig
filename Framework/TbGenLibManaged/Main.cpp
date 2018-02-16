@@ -9,6 +9,7 @@
 #include "Main.h"
 #include "wcfservicegenerator.h"
 #include "WCFHelper.h"
+#include "StaticFunctions.h"
 
 using namespace System;
 using namespace System::CodeDom;
@@ -55,8 +56,8 @@ Assembly^ OnAssemblyResolve(Object^ sender, ResolveEventArgs^ args)
 			//se non lo trovo, lo cerco prima nella cartella degli assembly esterni custom di easy builder
 			if (!File::Exists(file))
 			{
-				file = Path::Combine(gcnew String(AfxGetPathFinder()->GetEBReferencedAssembliesPath()), asmName);
-				if (File::Exists(file))
+				file = Path::Combine(gcnew String(AfxGetPathFinder()->GetEasyStudioReferencedAssembliesPath()), asmName);
+				if (::ExistFile(CString(file)))
 				{
 					//Se esiste, lo carico da li nella stessa maniera in cui carico le dll delle
 					//customizzazioni per non lock-are i file.
@@ -119,7 +120,7 @@ void GenerateEasyBuilderEnumsDllAsync()
 	try
 	{
 	System::Threading::ThreadStart^ threadStart = gcnew System::Threading::ThreadStart(
-			EnumsHelper::GenerateEasyBuilderEnumsDllIfNecessary
+		StaticFunctions::GenerateEasyBuilderEnumsDllIfNecessary
 			);
 		System::Threading::Thread^ asyncThread = gcnew System::Threading::Thread(
 			threadStart

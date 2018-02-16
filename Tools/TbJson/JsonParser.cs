@@ -70,6 +70,8 @@ namespace Microarea.TbJson
             foreach (JToken jRW in jRoot.SelectTokens("..rowView"))
             {
                 string href = jRW.ToString();
+                if (string.IsNullOrEmpty(href))
+                    continue;
                 string resourceName;
                 string file = GetFile(standardFolder, resourcePath, href, out resourceName);
                 if (!File.Exists(file))
@@ -299,7 +301,7 @@ namespace Microarea.TbJson
                     //poi vado a vedere se esiste qualche fratello con lo stesso id, proveniente da
                     //altri href indiretti; in caso affermativo, fondo i due nodi (quello più recente va a fondersi 
                     //col vecchio)
-                    if (jRoot.Parent as JArray != null)
+                    if (jRoot.Parent is JArray)
                     {
                         foreach (JObject child in jRoot.Parent)
                         {

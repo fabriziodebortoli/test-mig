@@ -132,7 +132,7 @@ CWnd* GetSafeParent(CWnd* pParent)
 	pParent = CWnd::FromHandlePermanent(CWnd::GetSafeOwner_(pParent->GetSafeHwnd(), NULL));
 	if (pParent)
 	{
-		BOOL bChildManagement = *((DataBool*)AfxGetSettingValue(snsTbGenlib, szFormsSection, _T("ChildManagement"), DataBool(0)));
+		BOOL bChildManagement = *((DataBool*)AfxGetSettingValue(snsTbGenlib, szFormsSection, szChildManagement, DataBool(0)));
 		if (pParent->m_hWnd != AfxGetMenuWindowHandle() || !bChildManagement)
 		{
 			//this window cannot be a parent (for example, AdmFrame cannot be a parent form message boxes)
