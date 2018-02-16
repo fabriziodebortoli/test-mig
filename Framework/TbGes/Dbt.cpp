@@ -4287,35 +4287,42 @@ void DBTSlaveBuffered::ResetJsonData()
 }
 
 //-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
+void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound, int pageToSkip, int pageToTake)
 {
 	/* Do your stuff here */
-	CJsonSerializer dataSer;
-	dataSer.OpenObject(GetName());
+	//CJsonSerializer dataSer;
+	jsonSerializer.OpenObject(GetName());
 
 	CString timeStamp = GetCurrentUTCTime();
-	dataSer.WriteString(_T("timeStamp"), timeStamp);
+	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
 
-	dataSer.WriteBool(_T("enabled"), !this->m_bReadOnly);
-	//dataSer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
+	jsonSerializer.WriteBool(_T("enabled"), !this->m_bReadOnly);
+	//jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
 
 	SqlRecord *pPrototypeRecord = this->GetRecord();
-	dataSer.OpenObject(_T("prototype"));
-	pPrototypeRecord->GetJson(dataSer, bOnlyWebBound);
-	dataSer.CloseObject();
+	jsonSerializer.OpenObject(_T("prototype"));
+	pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
+	jsonSerializer.CloseObject();
 
-	dataSer.OpenArray(_T("rows"));
-	for (int i = 0; i < GetRowCount(); i++)
+	jsonSerializer.WriteInt(_T("rowCount"), GetRowCount());
+
+	jsonSerializer.OpenArray(_T("rows"));
+	int rowsToTake = min(pageToTake, GetRowCount() - pageToSkip);
+	//int startingPoint = (pageToSkip) * pageToSkip;
+	int endingPoint = min ((pageToSkip + pageToTake), GetRowCount());
+	int arrayCount = 0;
+	for (int i = pageToSkip; i < endingPoint; i++)
 	{
 		SqlRecord *pRecord = GetRow(i);
-		dataSer.OpenObject(i);
-		pRecord->GetJson(dataSer, bOnlyWebBound);
-		dataSer.CloseObject();
+		jsonSerializer.OpenObject(arrayCount);
+		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
+		jsonSerializer.CloseObject();
+		arrayCount++;
 	}
-	dataSer.CloseArray();
-	dataSer.CloseObject();
+	jsonSerializer.CloseArray();
+	jsonSerializer.CloseObject();
 
-	if (m_JsonData.IsEmpty())
+	/*if (m_JsonData.IsEmpty())
 	{
 		jsonSerializer.WriteJsonFragment(_T("data"), dataSer.GetJson());
 	}
@@ -4324,7 +4331,7 @@ void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL
 		CJsonWrapper delta;
 		delta.Diff(m_JsonData, dataSer);
 		jsonSerializer.WriteJsonFragment(_T("patch"), delta.GetJson());
-	}
+	}*/
 	//m_JsonData = dataSer;
 
 }

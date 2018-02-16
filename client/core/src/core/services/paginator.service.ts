@@ -8,7 +8,7 @@ export type ServerNeededParams = { model?: any, customFilters?: any, customSort?
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
-    private get defaultClientData() { return { key: '', rows: [], total: 0, oldTotal: 0, columns: [], ignore : true }; }
+    private get defaultClientData() { return {serverData: {}, key: '', rows: [], total: 0, oldTotal: 0, columns: [], ignore : true }; }
     private getFreshData: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>;
     private clientStartOffset = 0;
     private clientEndOffset = 0;
@@ -49,6 +49,12 @@ export class PaginatorService implements OnDestroy {
         return this.clientEndOffset >= this.serverData.rows.length &&
         (!this.sizeOfLastServer ||
             (this.sizeOfLastServer >= 0 && this.currentServerPageNumber < this.higherServerPage));
+    }
+
+
+    private _serverData$: Subject<any> = new Subject<any>();
+    public get serverData$(): Observable<any> {
+        return this._serverData$.asObservable();
     }
 
     private _clientData: BehaviorSubject<ClientPage> = new BehaviorSubject(this.defaultClientData);
@@ -123,6 +129,7 @@ export class PaginatorService implements OnDestroy {
         (this.waiting$ as Subject<boolean>).next(true);
         let data = await this.ngZone.runOutsideAngular(() =>
             this.getFreshData(currentServerPage, serverPage, otherParams).toPromise());
+        this._serverData$.next(data);
         return data;
     }
 
@@ -206,6 +213,8 @@ export class PaginatorService implements OnDestroy {
         this._clientData = new BehaviorSubject(this.defaultClientData);
         (this.waiting$ as Subject<boolean>).complete();
         this.waiting$ = new BehaviorSubject(false).distinctUntilChanged();
+        this._serverData$.complete();
+        this._serverData$ = new Subject<any>();
         this.configurationChanged.complete();
         this.configurationChanged = new BehaviorSubject(false);
         this.queryTrigger$ = queryTrigger$;
@@ -230,6 +239,7 @@ export class PaginatorService implements OnDestroy {
         if (this.configurationChanged) { this.configurationChanged.complete(); }
         if (this._clientData) { this._clientData.complete(); }
         if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }
+        this._serverData$.complete();
         (this.waiting$ as Subject<boolean>).complete();
     }
 
@@ -264,7 +274,6 @@ export class PaginatorService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.configurationChanged.complete();
-        this._clientData.complete();
+        this.stop();
     }
 }

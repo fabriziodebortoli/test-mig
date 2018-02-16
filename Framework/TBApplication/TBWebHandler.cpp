@@ -758,6 +758,10 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 {
 	CString sDocumentID = params.GetValueByName(_T("cmpId"));
 	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sSkip = params.GetValueByName(_T("skip"));
+	CString sTake = params.GetValueByName(_T("take"));
+	int pageToSkip = _ttoi(sSkip);
+	int pageToTake = _ttoi(sTake);
 
 	CJSonResponse aResponse;
 	if (!sDocumentID.IsEmpty())
@@ -783,7 +787,7 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 		SqlRecord* pRecord = buffered->AddRecord();
 		pRecord->SetStorable();
 		CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
 		response.SetData(serializer.GetJson());
 		response.SetMimeType(L"application/json");
 	}
@@ -835,6 +839,12 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 	CString sDbtName = params.GetValueByName(_T("dbtName"));
 	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
 	int nRowToDelete = _ttoi(sRowNumber);
+
+	CString sSkip = params.GetValueByName(_T("skip"));
+	CString sTake = params.GetValueByName(_T("take"));
+	int pageToSkip = _ttoi(sSkip);
+	int pageToTake = _ttoi(sTake);
+
 	CJSonResponse aResponse;
 	if (!sDocumentID.IsEmpty())
 	{
@@ -859,7 +869,7 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 		BOOL bOk = buffered->DeleteRecord(nRowToDelete);
 		
 		CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
 		response.SetData(serializer.GetJson());
 		response.SetMimeType(L"application/json");
 	}
@@ -872,6 +882,10 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 	CString sDocumentID = params.GetValueByName(_T("cmpId"));
 	CString sDbtName = params.GetValueByName(_T("dbtName"));
 
+	CString sSkip = params.GetValueByName(_T("skip"));
+	CString sTake = params.GetValueByName(_T("take"));
+	int pageToSkip = _ttoi(sSkip);
+	int pageToTake = _ttoi(sTake);
 	CJSonResponse aResponse;
 	if (!sDocumentID.IsEmpty())
 	{
@@ -894,7 +908,7 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 		}
 
 		CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE);
+		buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
 
 		response.SetData(serializer.GetJson());
 		response.SetMimeType(L"application/json");
