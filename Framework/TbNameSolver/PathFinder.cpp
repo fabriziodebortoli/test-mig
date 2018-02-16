@@ -1163,15 +1163,15 @@ const CString CPathFinder::GetCompaniesPath(BOOL bCreateDir) const
 	// poi sarà il processo di migrazione che si preoccuperà di fare il rename e di portare i file nella tabella TB_CustomData
 	CString sCustomPath = GetCustomPath(bCreateDir);
 	
-	CString sCompanyPath = sCustomPath + SLASH_CHAR + szCompanies;
+	//CString sCompanyPath = sCustomPath + SLASH_CHAR + szCompanies;
 	CString sSubscriptionPath = sCustomPath + SLASH_CHAR + szSubscription;
 	
-	if (::ExistPath(sCompanyPath))
+	/*if (::ExistPath(sCompanyPath))
 		::RenameFile(sCompanyPath, sSubscriptionPath);
-	else
-		if (bCreateDir)
-			CreateDirectory(sSubscriptionPath);
-		return sSubscriptionPath;
+	else*/
+	if (bCreateDir)
+		CreateDirectory(sSubscriptionPath);
+	return sSubscriptionPath;
 }
 
 //-----------------------------------------------------------------------------

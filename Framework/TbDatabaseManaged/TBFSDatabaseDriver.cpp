@@ -95,7 +95,9 @@ CString GetTBFSFileCompleteName(const CString& strPathFileName)
 //----------------------------------------------------------------------------
 BOOL IsARootPath(const CString& strTBFSFolder)
 {
-	return (strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetStandardPath()) == 0 || strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetCustomPath()) == 0 || strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetCompaniesPath()) == 0 || strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetCompanyPath()) == 0);
+	return (strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetStandardPath()) == 0 || 
+			strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetCustomPath()) == 0 ||
+			strTBFSFolder.CompareNoCase(AfxGetPathFinder()->GetCompaniesPath()) == 0);
 }
 
 
