@@ -10,7 +10,8 @@
 .dropDownItemDescription {
     font-style: italic;
     flex: 3;
-    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: left;
 }
 
 .comboBoxPageNavigationButton {

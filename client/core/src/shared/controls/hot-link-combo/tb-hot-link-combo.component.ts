@@ -32,14 +32,11 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
     protected documentService: DocumentService,
-    protected enumService: EnumsService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
     protected paginator: PaginatorService,
     protected filterer: FilterService,
     protected hyperLinkService: HyperLinkService,
-    protected optionsPopupService: PopupService,
-    protected tablePopupService: PopupService,
     protected vcr: ViewContainerRef
   ) {
     super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
