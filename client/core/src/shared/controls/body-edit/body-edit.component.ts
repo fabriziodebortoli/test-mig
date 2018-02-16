@@ -204,9 +204,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
 
     let serverUtc = new Date(timeStamp).getTime();
-    this.currentPage
-    this.pageSize
-
+    
     if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
       this.isLoading = true;
       this.lastTimeStamp = serverUtc;
@@ -234,7 +232,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
-
   private updateModel(dbt: any) {
 
     if (!dbt) {
@@ -244,20 +241,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     addModelBehaviour(dbt);
     this.model.enabled = dbt.enabled;
-
-
-    console.log("model rows", this.model.rows, "dbtrows", dbt.rows);
-
-    //this.skip , this.pageSize
     let tempIndex = 0;
     for (let index = this.skip; index < this.skip + this.pageSize; index++) {
       this.model.rows[index] = dbt.rows[tempIndex];
       tempIndex++;
     }
-    console.log("model", this.model);
-
     //this.model.rows = dbt.rows;
-
     this.model.prototype = dbt.prototype;
     //this.currentRowIdx = dbt.currentRowIdx;
     this.model.lastTimeStamp = new Date().getTime();
@@ -269,7 +258,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       total: this.rowCount
     };
 
-    //data: this.items.slice(this.skip, this.skip + this.pageSize),
     this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
     //this.eventData.change.emit('');
 
