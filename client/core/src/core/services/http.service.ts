@@ -103,7 +103,10 @@ export class HttpService {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
                 let jObj = res.json();
-                this.infoService.resetCulture();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
                 return jObj;
             });
     }

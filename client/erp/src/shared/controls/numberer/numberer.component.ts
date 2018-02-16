@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode, ControlContainerComponent } from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
 import { isNumeric } from './../../../rxjs.imports';
@@ -39,7 +39,7 @@ export class NumbererComponent extends ControlComponent {
     private enableCtrlInEdit = false;
     private paddingEnabled = true;
     private ctxMenuIndex = 0;
-
+    private oldStatePopUpMenu = false;
     private menuItemDisablePadding: ContextMenuItem;
     private menuItemEnablePadding: ContextMenuItem;
     private menuItemDoPadding: ContextMenuItem;
@@ -69,7 +69,6 @@ export class NumbererComponent extends ControlComponent {
         this.ctxMenuIndex = this.cc.contextMenu.length;
 
         this.buildContextMenu();
-
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
@@ -111,13 +110,19 @@ export class NumbererComponent extends ControlComponent {
     }
 
     buildContextMenu() {
-        this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
-        if (this.paddingEnabled) {
-            this.cc.contextMenu.push(this.menuItemDisablePadding);
-            this.cc.contextMenu.push(this.menuItemDoPadding);
-        }
-        else {
-            this.cc.contextMenu.push(this.menuItemEnablePadding);
+        if (this.popUpMenu != this.oldStatePopUpMenu) {
+            this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
+            if (this.popUpMenu) {
+                if (this.paddingEnabled) {
+                    this.cc.contextMenu.push(this.menuItemDisablePadding);
+                    this.cc.contextMenu.push(this.menuItemDoPadding);
+                }
+                else {
+                    this.cc.contextMenu.push(this.menuItemEnablePadding);
+                }
+            }
+
+            this.oldStatePopUpMenu = this.popUpMenu;
         }
     }
 
@@ -298,6 +303,9 @@ export class NumbererComponent extends ControlComponent {
     }
 
     ngOnChanges(changes) {
+        if (changes.popUpMenu)
+            this.buildContextMenu();
+
         if (
             changes.maxLength &&
             this.maxLength > -1 &&
