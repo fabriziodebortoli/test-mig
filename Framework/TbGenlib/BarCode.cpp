@@ -1088,7 +1088,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	// - encoding mode
 	if (nEncodingMode < -1 && bBarcode2D || nEncodingMode < 0)
 	{
-		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DEncoding, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
+		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DEncoding, szBarcodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 		nEncodingMode = pSetting ? *((DataInt*)pSetting) : -1;
 	}
 
@@ -1097,7 +1097,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	{
 		if (barcodeType == BC_DATAMATRIX)
 		{
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 			CString str_Version = pSetting ? pSetting->Str() : _T("");
 			nVersion = 0;
 			CString strTemp;
@@ -1106,13 +1106,13 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 		}
 		else
 		{
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBarcodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 			nVersion = pSetting ? *((DataInt*)pSetting) : 0;
 		}
 	}
 	else if (barcodeType == BC_PDF417 && (nRows < 0 || nColumns < 0))
 	{
-		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 		CString str_Version = pSetting ? pSetting->Str() : _T("");
 		CBarCodeTypes::ReadPDF417Version(str_Version, nRows, nColumns);
 		// ripristino il valore precedente se uno dei due  non era da prendere dal setting
@@ -1127,7 +1127,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 		if (barcodeType != BC_PDF417)
 		{
 			//sono stringhe
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 			CString str_ErrCorrLevel = pSetting ? pSetting->Str() : _T("");
 			nErrCorrLevel = 0;
 			if (str_ErrCorrLevel == _T("M"))
@@ -1140,7 +1140,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 		else
 		{
 			//sono numeri
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBarcodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 			nErrCorrLevel = pSetting ? *((DataInt*)pSetting) : 0;
 		}
 	}
