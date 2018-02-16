@@ -24,13 +24,11 @@ import { ReportLayoutComponent } from './report-objects/layout/layout.component'
 import { ReportingStudioService } from './reporting-studio.service';
 import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
-
 @Component({
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService, RsExportService, EventDataService],
-  encapsulation: ViewEncapsulation.None,
+  providers: [ReportingStudioService, RsExportService, EventDataService]
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -55,14 +53,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   public id: string;
 
-  
-
-
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
     eventData: EventDataService,
-    changeDetectorRef:ChangeDetectorRef,
+    changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
 
     public componentService: ComponentService,
@@ -114,7 +109,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       }
       else p2 = this.args.params.xmlArgs ? decodeURIComponent(this.args.params.xmlArgs) : JSON.stringify(this.args.params);
     }
-    let message : any = {
+    let message: any = {
       commandType: CommandType.NAMESPACE,
       nameSpace: this.args.nameSpace,
       parameters: p2,
@@ -373,7 +368,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
   // -----------------------------------------------
-  closeReport(){
+  closeReport() {
     /*event.stopImmediatePropagation();
     info.document.close();*/
   }
