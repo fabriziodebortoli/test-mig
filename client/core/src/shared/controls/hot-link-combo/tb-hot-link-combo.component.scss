@@ -5,13 +5,15 @@
 .dropDownItemId {
     font-weight: bold;
     flex: 1;
+    margin-right: 10px;
 }
 
 .dropDownItemDescription {
     font-style: italic;
-    flex: 3;
+    flex: 1;
     white-space: nowrap;
-    text-align: left;
+    text-align: right;
+    justify-content: flex-end;
 }
 
 .comboBoxPageNavigationButton {
