@@ -706,7 +706,11 @@ namespace Microarea.TbJson
                     {
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbDockPane, this, false))
                         {
-                            WriteActivationAttribute(jObj);
+                            string activation = jObj.GetFlatString(Constants.activation);
+                            string id = jObj.GetId();
+                            if (!string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
+                                htmlWriter.WriteAttribute("[activated]", "eventData?.activation?." + id);
+
                             htmlWriter.WriteAttribute("[title]", jObj.GetLocalizableString(Constants.text));
 
                             string iconType = jObj.GetFlatString(Constants.iconType);
@@ -718,7 +722,15 @@ namespace Microarea.TbJson
                             htmlWriter.WriteAttribute(Constants.icon, icon);
 
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type);
+
+                            // wrappo tutto il conenuto del tilegroup in un ng-template
+                            using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
+                            {
+                                w2.CloseBeginTag();
+
+                                GenerateHtmlChildren(jObj, type);
+                            }
+                            
                         }
 
                         break;

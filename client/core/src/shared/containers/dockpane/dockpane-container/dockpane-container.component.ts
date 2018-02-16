@@ -4,8 +4,6 @@ import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstr
 
 import { DockpaneComponent } from './../dockpane.component';
 
-const resolvedPromise = Promise.resolve(null); //fancy setTimeout
-
 @Component({
   selector: 'tb-dockpane-container',
   templateUrl: './dockpane-container.component.html',
@@ -24,28 +22,33 @@ export class DockpaneContainerComponent implements AfterContentInit {
 
   @ContentChildren(DockpaneComponent) dockpanes: QueryList<DockpaneComponent>;
   getDockpanes() {
-    return this.dockpanes.toArray();
+    return this.dockpanes.filter(dock => dock.activated);
   }
 
   dockState: string = 'collapsed';
   idxActive: number = null;
 
-  @HostBinding('class.pinned') pinned:boolean = false;
-  getPinIcon(){
+  @HostBinding('class.pinned') pinned: boolean = false;
+  getPinIcon() {
     return this.pinned ? 'tb-unpin' : 'tb-classicpin';
   }
-  
+
   ngAfterContentInit() {
-    if (this.kendoTabStripInstance) {
-      resolvedPromise.then(() => {
-        let dockpanes = this.dockpanes.toArray();
-        let internalTabComponents = [];
-        for (let i = 0; i < dockpanes.length; i++) {
+    
+    /**
+     * TODO - Usare store per pushare il component dockpane solo quando arriva effettivamente l'activation
+     */
+    setTimeout(() => {
+      let dockpanes = this.dockpanes.toArray();
+      let internalTabComponents = [];
+      for (let i = 0; i < dockpanes.length; i++) {
+        // console.log("Dock: ", dockpanes[i].title, " - activated: ", dockpanes[i].activated, " - ", dockpanes[i]);
+        if (dockpanes[i].activated)
           internalTabComponents.push(dockpanes[i].tabComponent);
-        }
-        this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-      });
-    }
+      }
+      this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+    }, 1000);
+
   }
 
   changeDockpaneByIndex(i) {
@@ -58,7 +61,7 @@ export class DockpaneContainerComponent implements AfterContentInit {
       this.idxActive = i;
       this.kendoTabStripInstance.selectTab(i);
     }
-    
+
     this.pinned = false;
 
   }

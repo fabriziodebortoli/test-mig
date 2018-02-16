@@ -17,7 +17,6 @@ export class DockpaneComponent {
   @Input() iconType: string = 'M4';
   @Input() icon: string = 'erp-purchaseorder';
 
-  @HostBinding('class.activated') @Input() activated:boolean = true;
-  // @HostBinding('class.activated') activated:boolean = true;
+  @Input() activated:boolean = true;
 
 }

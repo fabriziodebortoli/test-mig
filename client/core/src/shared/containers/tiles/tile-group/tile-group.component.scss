@@ -1,3 +1,4 @@
+@import '../../../../style/tb.scss';
 :host(tb-tile-group) {
     display: flex;
     flex-direction: column;
@@ -6,4 +7,5 @@
     align-items: stretch;
     align-content: stretch;
     flex: 1;
+    background: $background;
 }
