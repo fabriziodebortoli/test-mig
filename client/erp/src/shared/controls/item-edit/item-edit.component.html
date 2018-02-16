@@ -1,4 +1,7 @@
-<tb-numberer [slice]="slice" [selector]="selector" [model]="model" [popUpMenu]="itemsAutoNumbering" [maxLength]="maxLength"></tb-numberer>
-<ng-template [ngIf]="hotLink">
-    <ng-template [tbHotLink]="hotLink"></ng-template>
-</ng-template>
+<tb-control-container type="erp-item-edit">
+    <tb-numberer (beforeContextMenu)="onBeforeContextMenu($event)" [caption]="caption" [slice]="slice" [selector]="selector"
+        [model]="model" [popUpMenu]="itemsAutoNumbering" [maxLength]="maxLength"></tb-numberer>
+    <ng-template [ngIf]="hotLink">
+        <ng-template [tbHotLink]="hotLink"></ng-template>
+    </ng-template>
+</tb-control-container>
