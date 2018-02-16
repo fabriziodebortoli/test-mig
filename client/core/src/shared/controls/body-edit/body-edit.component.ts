@@ -47,12 +47,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public selectableSettings: SelectableSettings;
 
   isRowSelected = (e: RowArgs) => e.index == this.currentRowIdx;
-
   currentRowIdx: number = -1;
   subscriptions = [];
   lastTimeStamp: number;
   subscription = [];
 
+  public skip = 0;
   public currentRow: any = undefined;
   public enabled: boolean = false;
   public isLoading: boolean = false;
@@ -233,8 +233,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       });
     }
   }
-  public skip = 0;
-  private data: Object[];
+
 
   private updateModel(dbt: any) {
 
@@ -264,7 +263,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
     this.totalPages = Math.ceil(this.rowCount / this.pageSize);
-    let temp = this.model.rows.slice(this.skip, this.skip + this.pageSize),
+    const temp = this.model.rows.slice(this.skip, this.skip + this.pageSize);
     this.gridView = {
       data: temp,
       total: this.rowCount
