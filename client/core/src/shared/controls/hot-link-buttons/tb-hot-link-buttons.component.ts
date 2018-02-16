@@ -150,6 +150,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     }
   }
 
+  public getOptionClass(item: any): any {
+      return {elemSelected: item===this.state.selectionType, selTypeElem:true };
+  }
+
   toggleTable(anchor, template) {
     this.closeOptions();
     if (this.showTableSubj$.value) { this.closeTable(); } 
