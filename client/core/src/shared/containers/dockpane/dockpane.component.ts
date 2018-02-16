@@ -17,6 +17,6 @@ export class DockpaneComponent {
   @Input() iconType: string = 'M4';
   @Input() icon: string = 'erp-purchaseorder';
 
-  @Input() activated:boolean = false;
+  @Input() activated:boolean = true;
 
 }
