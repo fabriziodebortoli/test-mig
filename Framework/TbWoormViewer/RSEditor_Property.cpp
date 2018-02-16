@@ -13907,7 +13907,7 @@ CRSBarCodeTypeComboProp::CRSBarCodeTypeComboProp(CObject* pOwner, CBarCode* pBar
 	// Caricamento della combo dei tipi di codice a barre supportati
 	for (int nBCTypeIdx = 0; nBCTypeIdx < CBarCodeTypes::BARCODE_TYPES_NUM; nBCTypeIdx++)
 	{
-		if (CBarCodeTypes::BarCodeEnum(CBarCodeTypes::s_bcTypes[nBCTypeIdx]) == E_BARCODE_TYPE_CODE_93 
+		if (CBarCodeTypes::BarCodeEnum(CBarCodeTypes::s_bcTypes[nBCTypeIdx]) == E_BARCODE_TYPE_EXTENDED_CODE_93 
 			|| 
 			CBarCodeTypes::BarCodeEnum(CBarCodeTypes::s_bcTypes[nBCTypeIdx]) == E_BARCODE_TYPE_HIBC)
 			continue;

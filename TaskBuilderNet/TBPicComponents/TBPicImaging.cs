@@ -215,8 +215,8 @@ namespace Microarea.TBPicComponents
         public TBPictureStatus Barcode1DWrite(int ImageID, TBPicBarcode1DWriterType BarcodeType, int nNarrowBar, int nHeight, string Data, int DstLeft, int DstTop, int DstWidth, int DstHeight, Color FillColor, TBPicBarcodeAlign Alignment, TBPicBarcodeVerticalAlign VAlignment, bool isPrinting)
         {
             int width = gdPicture.Barcode1DWriteGetMinWidth((Barcode1DWriterType)(int)BarcodeType, Data);
-            if (width <= 0)
-                return TBPictureStatus.BarcodeSizeZero;
+            /*if (width <= 0)
+                return TBPictureStatus.BarcodeSizeZero;*/
             if (width > DstWidth)
                 return TBPictureStatus.BarcodeInvalidDestinationSize;
             if ((width * nNarrowBar) > DstWidth)
@@ -969,6 +969,11 @@ namespace Microarea.TBPicComponents
         //--------------------------------------------------------------------------------
         public TBPicBarcode1DWriterType GetTBPicBarcode1DWriterType(string name)
         {
+            /*
+             * Non supportati da GDPicture
+             * BC_EXT93,
+             * BC_HIBC,
+             */
             switch (name)
             {
                 case "MSIPLESSEY": return TBPicBarcode1DWriterType.Barcode1DWriterModifiedPlessey;
@@ -985,14 +990,14 @@ namespace Microarea.TBPicComponents
                 case "CODE39": return TBPicBarcode1DWriterType.Barcode1DWriterCode39;
                 case "INT25": return TBPicBarcode1DWriterType.Barcode1DWriterInterleaved2of5;
                 case "CODE128":
-                case "EAN128": return TBPicBarcode1DWriterType.Barcode1DWriterCode128;
+                case "EAN128":
+                case "UCC128": return TBPicBarcode1DWriterType.Barcode1DWriterCode128;
                 case "CODE128A": return TBPicBarcode1DWriterType.Barcode1DWriterCode128A;
                 case "CODE128B": return TBPicBarcode1DWriterType.Barcode1DWriterCode128B;
                 case "CODE128C": return TBPicBarcode1DWriterType.Barcode1DWriterCode128C;
                 case "CODABAR": return TBPicBarcode1DWriterType.Barcode1DWriterCodabar;
                 case "CODE93": return TBPicBarcode1DWriterType.Barcode1DWriterCode93;
             }
-
             throw new Exception(String.Format("This barcode type ({0}) can not be displayed", name));
         }
 

@@ -27,7 +27,6 @@
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 //------------------------------------------------------------------------------
-
 int CBarCodeTypes::s_bcTypes[CBarCodeTypes::BARCODE_TYPES_NUM] = 
 					{ 
 						BC_DEFAULT,
@@ -61,32 +60,32 @@ int CBarCodeTypes::s_bcTypes[CBarCodeTypes::BARCODE_TYPES_NUM] =
 //------------------------------------------------------------------------------
 CBarCodeTypes::SBarCodeTypes CBarCodeTypes::s_arBarCodeTypes [CBarCodeTypes::BARCODE_TYPES_NUM] = 
 {
-	{ BC_DEFAULT,	 _T("Default"),		E_BARCODE_TYPE_DEFAULT	}, 
-	{ BC_UPCA,		 _T("UPCA"),		E_BARCODE_TYPE_UPC_A	} ,
-	{ BC_UPCE,		 _T("UPCE"),		E_BARCODE_TYPE_UPC_E	},
-	{ BC_EAN13,		 _T("EAN13"),		E_BARCODE_TYPE_EAN13	},
-	{ BC_EAN8,		 _T("EAN8"),		E_BARCODE_TYPE_EAN8		},
-	{ BC_CODE39,	 _T("CODE39"),		E_BARCODE_TYPE_ALFA39	},
-	{ BC_EXT39,		 _T("EXT39"),		E_BARCODE_TYPE_EXTENDED_CODE_39	},
-	{ BC_INT25,		 _T("INT25"),		E_BARCODE_TYPE_INTERLEAVED_2_OF_5	},
-	{ BC_CODE128,	 _T("CODE128"),		E_BARCODE_TYPE_CODE_128_AUTO	},
-	{ BC_CODABAR,	 _T("CODABAR"),		E_BARCODE_TYPE_CODABAR	},
-	{ BC_ZIP,		 _T("ZIP"),			E_BARCODE_TYPE_ZIP_CODE	},
-	{ BC_MSIPLESSEY, _T("MSIPLESSEY"),	E_BARCODE_TYPE_MSI_PLESSEY	},
-	{ BC_CODE93,	 _T("CODE93"),		E_BARCODE_TYPE_CODE_93	},
-	{ BC_EXT93,		 _T("EXT93"),		E_BARCODE_TYPE_EXTENDED_CODE_93	},
-	{ BC_UCC128,	 _T("UCC128"),		E_BARCODE_TYPE_UCC128	},
-	{ BC_HIBC,		 _T("HIBC"),		E_BARCODE_TYPE_HIBC	},
-	{ BC_PDF417,	 _T("PDF417"),		E_BARCODE_TYPE_PDF417	},
-	{ BC_UPCE0,		 _T("UPCE0"),		E_BARCODE_TYPE_UPCE_E0	},
-	{ BC_UPCE1,		 _T("UPCE1"),		E_BARCODE_TYPE_UPCE_E1	},
-	{ BC_CODE128A,	 _T("CODE128A"),	E_BARCODE_TYPE_CODE_128_A	},
-	{ BC_CODE128B,	 _T("CODE128B"),	E_BARCODE_TYPE_CODE_128_B	} ,
-	{ BC_CODE128C,	 _T("CODE128C"),	E_BARCODE_TYPE_CODE_128_C	},
-	{ BC_EAN128,	 _T("EAN128"),		E_BARCODE_TYPE_EAN128	},
-	{ BC_DATAMATRIX, _T("DataMatrix"),	E_BARCODE_TYPE_DATAMATRIX },
-	{ BC_MicroQR,	 _T("MicroQR"),		E_BARCODE_TYPE_MICROQR },
-	{ BC_QR,		 _T("QR"),			E_BARCODE_TYPE_QR }
+	{ BC_DEFAULT,	 _T("Default"),		E_BARCODE_TYPE_DEFAULT,					-1 }, 
+	{ BC_UPCA,		 _T("UPCA"),		E_BARCODE_TYPE_UPC_A,					11 }, 
+	{ BC_UPCE,		 _T("UPCE"),		E_BARCODE_TYPE_UPC_E,					 7 }, //'1' o '0' + 6 cifre + checkdigit calcolato da upca corrispondente
+	{ BC_EAN13,		 _T("EAN13"),		E_BARCODE_TYPE_EAN13,					12 },
+	{ BC_EAN8,		 _T("EAN8"),		E_BARCODE_TYPE_EAN8,					 7 },
+	{ BC_CODE39,	 _T("CODE39"),		E_BARCODE_TYPE_ALFA39,					-1 }, //lettere maiusc + num, Checkdigit mod 43
+	{ BC_EXT39,		 _T("EXT39"),		E_BARCODE_TYPE_EXTENDED_CODE_39,		-1 }, //tutte le lettere e num
+	{ BC_INT25,		 _T("INT25"),		E_BARCODE_TYPE_INTERLEAVED_2_OF_5,		-1 }, //solo numeri, cifre in numero pari
+	{ BC_CODE128,	 _T("CODE128"),		E_BARCODE_TYPE_CODE_128_AUTO,			-1 },
+	{ BC_CODABAR,	 _T("CODABAR"),		E_BARCODE_TYPE_CODABAR,					-1 },
+	{ BC_ZIP,		 _T("ZIP"),			E_BARCODE_TYPE_ZIP_CODE,				-1 },
+	{ BC_MSIPLESSEY, _T("MSIPLESSEY"),	E_BARCODE_TYPE_MSI_PLESSEY,				-1 },
+	{ BC_CODE93,	 _T("CODE93"),		E_BARCODE_TYPE_CODE_93,					-1 },
+	{ BC_EXT93,		 _T("EXT93"),		E_BARCODE_TYPE_EXTENDED_CODE_93,		-1 }, //non supportato da GDPicture.NET
+	{ BC_UCC128,	 _T("UCC128"),		E_BARCODE_TYPE_UCC128,					-1 }, //AI codificati più una serie di combinazioni diverse
+	{ BC_HIBC,		 _T("HIBC"),		E_BARCODE_TYPE_HIBC,					-1 }, //alfanumerico non supportato da GDPicture.NET
+	{ BC_PDF417,	 _T("PDF417"),		E_BARCODE_TYPE_PDF417,					-1 },
+	{ BC_UPCE0,		 _T("UPCE0"),		E_BARCODE_TYPE_UPCE_E0,					 6 },
+	{ BC_UPCE1,		 _T("UPCE1"),		E_BARCODE_TYPE_UPCE_E1,					 6 },
+	{ BC_CODE128A,	 _T("CODE128A"),	E_BARCODE_TYPE_CODE_128_A,				-1 },
+	{ BC_CODE128B,	 _T("CODE128B"),	E_BARCODE_TYPE_CODE_128_B,				-1 },
+	{ BC_CODE128C,	 _T("CODE128C"),	E_BARCODE_TYPE_CODE_128_C,				-1 },
+	{ BC_EAN128,	 _T("EAN128"),		E_BARCODE_TYPE_EAN128,					-1 },
+	{ BC_DATAMATRIX, _T("DataMatrix"),	E_BARCODE_TYPE_DATAMATRIX,				-1 },
+	{ BC_MicroQR,	 _T("MicroQR"),		E_BARCODE_TYPE_MICROQR,					-1 },
+	{ BC_QR,		 _T("QR"),			E_BARCODE_TYPE_QR,						-1 }
 };
 	
 //------------------------------------------------------------------------------
@@ -133,6 +132,15 @@ CString CBarCodeTypes::BarCodeDescription (int nBarcCodeType)
 			return s_arBarCodeTypes[i].m_sName;
 	ASSERT(FALSE);
 	return _T("");
+}
+
+int	CBarCodeTypes::BarCodeStandardLength(int nBarcCodeType)
+{
+	for (int i = 0; i < BARCODE_TYPES_NUM; i++)
+		if (s_arBarCodeTypes[i].m_nType == nBarcCodeType)
+			return s_arBarCodeTypes[i].m_nStdLength;
+	ASSERT(FALSE);
+	return -1;
 }
 
 //------------------------------------------------------------------------------
@@ -240,6 +248,523 @@ BOOL CBarCodeTypes::ReadPDF417Version(CString& sVersion, int& nRows, int& nColum
 
 }
 
+//------------------------------------------------------------------------------
+BOOL CBarCodeTypes::CheckAndCompleteBCString(CString& barcode, int nBarCodeType, CString& errMsg)
+{
+	if (barcode.GetLength() < 1)
+	{ 
+		errMsg = _T("Invalid format: empty barcode");
+		return FALSE;
+	}
+		
+	//da setting
+	BOOL bCheckUCC128Format = false;
+
+	// barcode con lunghezza fissata (UPCA, UPCE, EAN8, EAN13, ZIP)
+	int nMinLength = BarCodeStandardLength(nBarCodeType);
+	int nMaxLength = nMinLength;
+
+	if (nBarCodeType == BC_INT25)
+	{
+		// numero pari di cifre
+		if (barcode.GetLength() % 2 != 0)
+			barcode = _T("0") + barcode;
+		return TRUE;
+	}
+	else if (nBarCodeType == BC_CODABAR)
+	{
+		// formato (abcd) + numeri + (abcd)
+		if (barcode.GetLength() < 2)
+		{
+			errMsg = _T("Invalid format: too much short content");
+			return FALSE;
+		}
+			
+		TCHAR cFirst = barcode.GetAt(0);
+		TCHAR cLast = barcode.GetAt(barcode.GetLength() - 1);
+
+		if (cFirst < 65
+			|| (cFirst > 69 && cFirst< 97)
+			|| cFirst > 100)
+		{
+			barcode = _T("A") + barcode;
+		}
+
+		if (cLast < 65
+			|| (cLast > 69 && cLast< 97)
+			|| cLast > 100)
+		{
+			barcode = barcode + _T("B");
+		}
+	}
+	else if (bCheckUCC128Format
+		&& (nBarCodeType == BC_UCC128 || nBarCodeType == BC_EAN128))
+	{
+		if (barcode.GetLength() < 3)
+		{			
+			errMsg = _T("Invalid format: too much short content");
+			return FALSE;
+		}
+			
+		CString AI_2 = barcode.Left(2);
+		CString AI_3 = barcode.Left(3);
+
+
+		// primi due/tre caratteri: AI - Codice tipo barcode, comanda la struttura dati successiva
+		if(AI_2 == _T("00"))
+		{
+			// '00' Serial Shipping Container Code (SSCC-18) 18 digits
+			nMinLength = 20;
+			nMaxLength = nMinLength;
+		}
+		else if (AI_2 == _T("01")
+			|| AI_2 == _T("02"))
+		{
+			// '01' Shipping Contained Code (SSCC-14) 14 Digits
+			// '02' Number of containers contained in another unit (used with AI 37) 14 Digits
+			nMinLength = 16;
+			nMaxLength = nMinLength;
+		}
+		else if (AI_2 == _T("10")
+			|| AI_2 == _T("21"))
+		{
+			// '10' Batch Numbers 1-20 Alphanumeric
+			// '21' Serial Number 1-20 Alphanumeric
+			nMinLength = 3;
+			nMaxLength = 20;
+		}
+		else if ( AI_2 == _T("11")
+			|| AI_2 == _T("13")
+			|| AI_2 == _T("15")
+			|| AI_2 == _T("17")
+			)
+		{
+			//	'11' Production Date 6 Digits: YYMMDD
+			//	'13' Packaging Date 6 Digits : YYMMDD
+			//	'15' Sell By Date(Quality Control) 6 Digits : YYMMDD
+			//	'17' Expiration Date(Safety Control) 6 Digits : YYMMDD
+			CString strDate = barcode.Right(barcode.GetLength() - 2);
+			CString dateErrMsg = _T("Invalid format: for AI = 11,13,15,17 content must be a date YYMMDD");
+			if (strDate.GetLength() < 6)
+			{
+				errMsg = dateErrMsg;
+				return FALSE;
+			}
+			else if (strDate.GetLength() > 6)
+				strDate = strDate.Left(6);	
+
+			// check year
+			char* ptr = 0;
+			CString currDigit = strDate.Left(2);
+			ptr = (char*)currDigit.GetBuffer(currDigit.GetLength());
+			int readDigits = atoi(ptr);
+			currDigit.ReleaseBuffer();
+
+			if (readDigits < 0 || readDigits > 99)
+			{
+				errMsg = dateErrMsg;
+				return FALSE;
+			}
+			strDate = strDate.Right(4);
+
+			// month
+			currDigit = strDate.Left(2);
+			ptr = (char*)currDigit.GetBuffer(currDigit.GetLength());
+			int month = atoi(ptr);
+			currDigit.ReleaseBuffer();
+			if (month < 1 || month > 12)
+			{
+				errMsg = dateErrMsg;
+				return FALSE;
+			}
+
+			// day
+			currDigit = strDate.Right(2);
+			ptr = (char*)currDigit.GetBuffer(currDigit.GetLength());
+			readDigits = atoi(ptr);
+			currDigit.ReleaseBuffer();
+			if (readDigits < 1 
+				|| (month == 2 && readDigits > 29 )
+				|| ((month == 11 || month == 4 || month == 6 || month == 9 ) && month > 30 ))
+			{
+				errMsg = dateErrMsg;
+				return FALSE;
+			}
+			nMaxLength = nMinLength = 8;			
+		}
+		else if(AI_2 == _T("20"))
+		{ 
+			// '20' Product Variant 2 Digits
+			nMinLength = 4;
+			nMaxLength = nMaxLength;
+		}
+		else if (AI_2 == _T("22"))
+		{
+			// '22' HIBCC Quantity, Date, Batch and Link 1-29 Alphanumeric
+			nMinLength = 3;
+			nMaxLength = 29;
+		}
+		else if (AI_2 == _T("23"))
+		{
+			// '23x' Lot Number 1-19 Alphanumeric
+			nMinLength = 4;
+			nMaxLength = 20;
+		}
+		else if (AI_3 == _T("240")
+			|| AI_3 == _T("250"))
+		{
+			// '240' Additional Product Identification 1 - 30 Alphanumeric
+			nMinLength = 4;
+			nMaxLength = 30;
+		}
+		else if (AI_3[0] == '3')
+		{
+			// various quantity
+			char* buffer = (char*) AI_3.GetBuffer(AI_3.GetLength());
+			int nAI = atoi(buffer);
+			if ( (nAI >= 310 && nAI <=316 )
+				||( nAI >= 320 && nAI <= 336)
+				|| (nAI >= 340 && nAI <= 356)
+				|| (nAI >= 360 && nAI <= 369))
+			{ 
+				nMinLength = 10;
+				nMaxLength = 10;
+			}
+			AI_3.ReleaseBuffer();
+		}
+		else if (AI_2 == _T("37"))
+		{
+			// '37' Number of Units Contained (Used with AI 02) 1-8 Digits
+			nMinLength = 3;
+			nMaxLength = 10;
+		}
+		else if (AI_3 == _T("400"))
+		{
+			// '400' Customer Purchase Order Number 1-29 Alphanumeric 
+			nMinLength = 3;
+			nMaxLength = 10;
+		}
+		else if (AI_3 == _T("410")
+			|| AI_3 == _T("411")
+			|| AI_3 == _T("412"))
+		{
+			// '400' Customer Purchase Order Number 1-29 Alphanumeric
+			// '410' Ship To / Deliver To Location Code(EAN13 or DUNS code) 13 Digits
+			// '411' Bill To / Invoice Location Code(EAN13 or DUNS code) 13 Digits
+			// '412' Purchase From Location Code(EAN13 or DUNS code) 13 Digits
+			nMinLength = 4;
+			nMaxLength = 16;
+		}
+		else if (AI_3 == _T("420"))
+		{
+			// '420' Ship To/Deliver To Postal Code (Single Postal Authority) 1-9 Alphanumeric
+			nMinLength = 4;
+			nMaxLength = 12;
+		}
+		else if (AI_3 == _T("421"))
+		{
+			// '421' Ship To/Deliver To Postal Code (Multiple Postal Authority) 4-12 Alphanumeric
+			nMinLength = 7;
+			nMaxLength = 15;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8001"))
+		{
+			// '8001' Roll Products - Width/Length/Core Diameter 14 Digits
+			nMinLength = 18;
+			nMaxLength = 18;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8002"))
+		{
+			// '8002' Electronic Serial Number (ESN) for Cellular Phone 1-20 Alphanumeric 
+			nMinLength = 5;
+			nMaxLength = 25;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8003"))
+		{
+			// '8003' UPC/EAN Number and Serial Number of Returnable Asset 14 Digit UPC + 1-16 Alphanumeric Serial Number 
+			nMinLength = 19;
+			nMaxLength = 34;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8004"))
+		{
+			// '8003' UPC/EAN Serial Identification 1-30 Alphanumeric 
+			nMinLength = 5;
+			nMaxLength = 34;
+		}
+		else if (barcode.GetLength() >= 4 && (barcode.Left(4) == _T("8005") || barcode.Left(4) == _T("8100")))
+		{
+			// '8005' Price per Unit of Measure 6 Digits 
+			// '8100' Coupon Extended Code: Number System and Offer 6 Digits 
+			nMinLength = 10;
+			nMaxLength = 10;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8101"))
+		{
+			// '8101' Coupon Extended Code: Number System, Offer, End of Offer 10 Digits
+			nMinLength = 14;
+			nMaxLength = 14;
+		}
+		else if (barcode.GetLength() >= 4 && barcode.Left(4) == _T("8102"))
+		{
+			// '8102' Coupon Extended Code: Number System preceeded by 0 2 Digits
+			nMinLength = 6;
+			nMaxLength = 6;
+		}
+		else if (AI_2[0]  == '9' 
+			&& AI_2[1] - '0' >=0 
+			&& AI_2[1] - '0' <= 9)
+		{
+			// '90' Mutually Agreed Between Trading Partners 1-30 Alphanumeric
+			//  from '91' to '94'  and from '97' to '99' Internal Company Codes 1-30 Alphanumeric 
+			//  '95' and '96' Internal Company Carrieres 1-30 Alphanumeric  
+			nMinLength = 3;
+			nMaxLength = 32;
+		}
+	}
+	else if (nBarCodeType == BC_ZIP)
+	{
+		// 5 digits POSTNET barcode: 5 digit long zip code
+		// ZIP + 4 POSTNET barcodes: 9 digit long zip code
+		// DPBC POSTNET barcode (Delivery Point barcode): 9 digit long zip code + 2 DPBC digits
+		if (barcode.GetLength() <= 4)
+			nMinLength = 4;
+		else if (barcode.GetLength() <= 5)
+			nMinLength = 5;
+		else if ( barcode.GetLength() <= 8)
+			nMinLength = 8;
+		else 
+			nMinLength = 10;
+
+		nMaxLength = nMinLength;
+	}
+
+	if (nMinLength < 0 && nMaxLength < 0)
+	{
+		// non ci sono vincoli di dimensione
+		return TRUE;
+	}
+		
+	// se è troppo lungo lo taglio
+	if (barcode.GetLength() > nMaxLength)
+		barcode = barcode.Left(nMaxLength);
+
+	//se è troppo corto lo allungo
+	while (barcode.GetLength() < nMinLength)
+		barcode.AppendChar('0');
+
+	if (nBarCodeType == BC_UPCE0)
+	{	
+		barcode = _T("0") + barcode;
+		return TRUE;
+	}
+
+	if (nBarCodeType == BC_UPCE1)
+	{
+		barcode = _T("1") + barcode;
+		return TRUE;
+	}
+
+	if (nBarCodeType == BC_UPCE && barcode[0] != '0' && barcode[0] != '1')
+	{
+		// UPCE DEVE iniziare con 0 o con 1... altrimenti aggiungo uno zero per correggere
+		barcode = _T("0") + barcode.Left(6);
+		return TRUE;
+	}
+
+	return TRUE;
+}
+
+//------------------------------------------------------------------------------
+ BOOL CBarCodeTypes::AddCheckDigit(CString& barcode, int nBarCodeType)
+{	
+	 switch (nBarCodeType)
+	 {
+		case BC_EAN13:
+		case BC_EAN8: 
+		case BC_UPCA:
+		 {
+			 barcode.AppendChar(Get_UPC_EAN_CheckDigit(barcode));
+			 break; 
+		 };
+
+		case BC_UPCE: 
+		case BC_UPCE0:
+		case BC_UPCE1:
+		{
+			//converto in UPCA originario
+			CString bcUPCA = UPCE_to_UPCA(barcode);
+			char checkDigit = Get_UPC_EAN_CheckDigit(bcUPCA);
+			if(checkDigit != 0)
+				barcode.AppendChar(checkDigit);
+			break;
+		}
+		case BC_ZIP:
+		{
+			char checkDigit = Get_Mod10_CheckDigit(barcode);
+			if (checkDigit != 0)
+				barcode.AppendChar(checkDigit);
+			break;
+		}
+		/*
+		// facoltativi, attivare con gestione parametro 'encoding mode'
+		case BC_CODABAR:
+		{
+			int pos = barcode.GetLength() - 1 >= 0 ? barcode.GetLength() - 1 : 0;
+			char checkDigit = Get_CODABAR_CheckDigit(barcode);
+			if(checkDigit != 0)
+				barcode.Insert(pos, checkDigit);
+			break;
+		}
+		case BC_CODE39:
+		{
+			char checkDigit = Get_CODE39_CheckDigit(barcode);
+			if (checkDigit != 0)
+				barcode.AppendChar(checkDigit);
+			break;
+		}*/
+	 }
+	 return TRUE;
+}
+
+ //------------------------------------------------------------------------------
+ char CBarCodeTypes::Get_UPC_EAN_CheckDigit(CString barcode)
+ {
+	 //modulo 10
+	 int currNum = 0;
+	 int totSum = 0;
+	 BOOL odd = true;
+	 for (int i = barcode.GetLength() - 1; i >= 0; i--)
+	 {
+		 TCHAR currChar = barcode.GetAt(i);
+		 currNum = (int)(barcode.GetAt(i) - '0');
+		 totSum += currNum * (odd ? 3 : 1);
+		 odd = !odd;
+	 }
+
+	 int nCheckDigit = (totSum / 10 + 1) * 10 - totSum;
+	 return '0' + nCheckDigit;
+ }
+
+ //------------------------------------------------------------------------------
+ char CBarCodeTypes::Get_CODE39_CheckDigit(CString barcode)
+ {
+	 //modulo 43 
+	 int totSum = 0;
+	 CString characterSet = _T("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%");
+	 for (int i = 0; i < barcode.GetLength(); i++)
+	 {
+		 int currNum = -1;
+		 TCHAR currChar = barcode.GetAt(i);
+		 for (int j = 0; j < characterSet.GetLength(); j++)
+		 {
+			 if (currChar == characterSet.GetAt(j))
+			 {
+				 currNum = j;
+				 break;
+			 }
+		 }
+		 if (currNum < 0) return (char)0;
+
+		 totSum += currNum;
+	 }
+
+	 int nCheckDigit = totSum % 43;
+	 char cCheckdigit = (char)characterSet.GetAt(nCheckDigit);
+	 return cCheckdigit;
+ }
+
+ //------------------------------------------------------------------------------
+ char CBarCodeTypes::Get_Mod10_CheckDigit(CString barcode)
+ {
+	 //modulo 10
+	 int currNum = 0;
+	 int totSum = 0;
+	 for (int i = barcode.GetLength() - 1; i >= 0; i--)
+	 {
+		 TCHAR currChar = barcode.GetAt(i);
+		 currNum = (int)(barcode.GetAt(i) - '0');
+		 totSum += currNum;
+	 }
+
+	 int nCheckDigit = 10 - totSum % 10;
+	 return '0' + nCheckDigit;
+ }
+
+ //------------------------------------------------------------------------------
+ char CBarCodeTypes::Get_CODABAR_CheckDigit(CString barcode)
+ {
+	 //modulo 16	 
+	 int totSum = 0;
+	 CString characterSet = _T("0123456789-$:/.+ABCD");
+	 CString characterSet2 = _T("abcd");
+	 for (int i = 0;  i < barcode.GetLength(); i++)
+	 {
+		 int currNum = -1;
+		 TCHAR currChar = barcode.GetAt(i);
+		 for (int j = 0; j < characterSet.GetLength(); j++)
+		 {		 
+			 if (currChar == characterSet.GetAt(j))
+			 { 
+				 currNum = j;
+				 break;
+			 }			 
+		 }
+		 if(currNum < 0)
+		 { 
+			 for (int j = 0; j < characterSet2.GetLength(); j++)
+			 {
+				 if (currChar == characterSet2.GetAt(j))
+				 {
+					 currNum = j + 16;
+					 break;
+				 }
+			 }
+		 }
+		 
+		 if (currNum < 0) return (char)0;
+		 totSum += currNum;
+	 }
+
+	 int nCheckDigit = 16 - (totSum % 16);
+	 char cCheckdigit = (char)characterSet.GetAt(nCheckDigit);
+	 return cCheckdigit;
+ }
+
+ //------------------------------------------------------------------------------
+ CString CBarCodeTypes::UPCE_to_UPCA(CString strUPCE)
+ {
+	 CString strUPCABacode = _T("");
+	 
+	 if (strUPCE.GetLength() != 7)
+		 return strUPCABacode;
+
+	 //X: 0 or 1; Y: last digit
+	 if (strUPCE[6] == '0' || strUPCE[6] == '1' || strUPCE[6] == '2')
+	 {
+		 //XabcdeY	==> XabY0000cde  (0<=Y<=2): Manufacturer code must have 3 leading digits ending with "0"/"1"/"2" with 2 trailing zeros and the item number is limited to 3 digits (000 to 999).
+		 strUPCABacode = strUPCE.Left(3) + strUPCE[6] +_T("0000") + strUPCE.Left(6).Right(3);
+	 } 
+	 else if (strUPCE[6] == '3')
+	 {
+		 //Xabcde3	==> Xabc00000de : Manufacturer code must have 3 leading digits and 2 trailing zeros. The item number is limited to 2 digits (00 to 99).
+		 strUPCABacode = strUPCE.Left(4) + _T("00000") + strUPCE.Left(6).Right(2);
+
+	 }
+	 else if (strUPCE[6] == '4')
+	 {
+		 //Xabcde4	==> Xabcd00000e : Manufacturer code must have 4 leading digits with 1 trailing zero and the item number is limited to 1 digit (0 to 9).
+		 strUPCABacode = strUPCE.Left(5) + _T("00000") + strUPCE.Left(6).Right(1);
+
+	 }
+	 else if (strUPCE[6] >= '5' && strUPCE[6] <= '9')
+	 {
+		 //XabcdeY	==> Xabcde0000Y (Y>=5): Manufacturer code must have 4 leading digits with 1 trailing zero and the item number is limited to 1 digit (0 to 9).
+		 strUPCABacode = strUPCE.Left(6) + _T("0000") + strUPCE.Right(1);
+	 }
+		 
+	 return strUPCABacode;
+ }
+
 //=============================================================================
 
 //==============================================================================
@@ -345,48 +870,190 @@ BOOL CBarCode::DrawBarCode
 	BOOL		bPreview,
 	int			align /*=DT_CENTER*/,
 	int			vAlign /*=DT_CENTER*/
-) const
+)
 {
+	int nBarCodeType;
+	int nEncodingMode = m_nCheckSumType;
+	int nVersion = m_n2DVersion;
+	int nErrCorrLevel = m_nErrCorrLevel;
+	int nNarrowBar = m_nNarrowBar;
+	int nHeight = -1;
+	int nRows = m_nRowsNo;
+	int nColumns = m_nColumnsNo;
+
 	CString	strValue = strOriginalValue;
+
+	PrepareBCParameters(DC, strValue, nBarCodeType, strHumanReadeable, nEncodingMode, nVersion,
+		nErrCorrLevel, nNarrowBar, nHeight, nRows, nColumns, bPreview);
+
+	// da setting
+	BOOL bAutocompleteBC = true;
+	if(bAutocompleteBC)
+	{ 
+		// completamento stringa se richiesto da tipo di barcode
+		if (!CBarCodeTypes::CheckAndCompleteBCString(strValue, nBarCodeType, sErr))
+			return false;
+	}
+	// if(nEncodingMode == ?) attivare con check del parametro
+	CBarCodeTypes::AddCheckDigit(strValue, nBarCodeType);
+
+	USES_CONVERSION;
+
+	LOGFONT	logFont = lfFont;
+
+	if (DC.IsPrinting() || DC.GetDeviceCaps(LOGPIXELSY) != SCALING_FACTOR)
+	{
+		::ScaleLogFont(&logFont, DC);
+	}
+
+	BarCodeCreator*	barCodeCreator = new BarCodeCreator();
+	CString str_barcodeType = CBarCodeTypes::BarCodeDescription(nBarCodeType);
+
+	BarCodeCreator::TBPictureStatus status = BarCodeCreator::TBPictureStatus::OK;
+
+	try {
+
+		status = barCodeCreator->WriteBarcodeToHDC
+		(DC, strValue, strHumanReadeable,
+			str_barcodeType, nNarrowBar, nHeight, inside,
+			clrText, clrBkgnd, m_bShowLabel, bPreview, logFont, m_bVertical, align, vAlign,
+			nEncodingMode, nVersion, nErrCorrLevel, nRows, nColumns);
+	}
+	catch (CException* ex)
+	{
+		TRACE(L"WriteBarcodeToHDC fails\n");
+		ex->Delete();
+	}
+
+	if (status != BarCodeCreator::TBPictureStatus::OK)
+		sErr = barCodeCreator->GetErrorMessage(status) + cwsprintf(_T(" (error: %d)"), status);
+
+	delete barCodeCreator;
+	return status == BarCodeCreator::TBPictureStatus::OK;
+}
+
+//-----------------------------------------------------------------------------
+BOOL CBarCode::PrepareBCParameters(	CDC& DC, 
+									CString &strValue,
+									int &nBarCodeType,
+									CString& strHumanReadeable,
+										int &nEncodingMode,
+										int &nVersion,
+										int &nErrCorrLevel,
+										int &nNarrowBar,
+										int &nHeight,
+										int &nRows,
+										int &nColumns,
+										BOOL bPreview)
+{
+	nBarCodeType = m_nBarCodeType;
+	// --- lettura TypedBarcode
 	// se mi arriva un bar code composto (esiste il tag 0x01) allora gli ultimi byte
 	// sono il numero in ascii del tipo di barcode si vuole stampare
 	TCHAR* pBuff = strValue.GetBuffer(strValue.GetLength());
 	TCHAR* pszType = _tcschr(pBuff, CBarCodeTypes::BC_SEP);
-
-	int nBarCodeType;
 	if (pszType)
 	{
-		nBarCodeType = _tstol(&pszType[1]);
-	}
-	else
-	{
-		nBarCodeType = m_nBarCodeType;
-	}
+		if (m_nBarCodeTypeAlias <= 0)
+		{
+			// parametri da Alias --> vincono sulla typedbarcode
+			nBarCodeType = _tstol(&pszType[1]);
+		}
+			
+		TCHAR* pChkSum = _tcschr(&pszType[2], CBarCodeTypes::BC_SEP);
 
-	if (m_nBarCodeTypeAlias)
-		nBarCodeType = m_nBarCodeType;
+		if (pChkSum)
+		{
+			// parametri da Alias --> vincono sulla typedbarcode
+			if(m_sCheckEncodeFieldName.IsEmpty())
+				nEncodingMode = _tstol(&pChkSum[1]);
+			TCHAR* pHR = _tcschr(&pChkSum[2], CBarCodeTypes::BC_SEP);
+			if (pHR)
+			{
+				CString strHR = CString(&pHR[1]);
+				// parametri da Alias --> vincono sulla typedbarcode
+				if(m_nHumanTextAlias <= 0)
+					strHumanReadeable = strHR.Left(strHR.Find(CBarCodeTypes::BC_SEP));
 
+				TCHAR* pNarrowBar = _tcschr(&pHR[1], CBarCodeTypes::BC_SEP);
+				if (pNarrowBar)
+				{
+					nNarrowBar = _tstol(&pNarrowBar[1]);
+					TCHAR* pBarHeight = _tcschr(&pNarrowBar[2], CBarCodeTypes::BC_SEP);
+
+					if (pBarHeight)
+					{
+						nHeight = _tstol(&pBarHeight[1]);
+
+						TCHAR* pVersion = _tcschr(&pBarHeight[2], CBarCodeTypes::BC_SEP);
+
+						if (pVersion && m_s2DVersionFieldName.IsEmpty())
+						{
+							//version da 'interpretare'
+							if (nBarCodeType == BC_DATAMATRIX || nBarCodeType == BC_PDF417)
+							{
+								CString sVersion = CString(&pVersion[1]);
+								int index = sVersion.Find(CBarCodeTypes::BC_SEP);
+								if (index > 0)
+									sVersion = sVersion.Left(index);
+								if (nBarCodeType == BC_DATAMATRIX)
+									nVersion = CBarCodeTypes::BarCodeDMVersion(sVersion);
+								else
+									CBarCodeTypes::ReadPDF417Version(sVersion, nRows, nColumns);
+
+							}
+							else
+								nVersion = _tstol(&pVersion[1]);
+
+							TCHAR* pErrCorrLevel = _tcschr(&pVersion[2], CBarCodeTypes::BC_SEP);
+							if (pErrCorrLevel && m_sErrCorrLevelFieldName.IsEmpty())
+							{
+								int nextIndex = pErrCorrLevel[1] == CBarCodeTypes::BC_SEP ? 0 : 1;
+								nErrCorrLevel = _tstol(&pErrCorrLevel[1]);
+							}
+								
+							if (nErrCorrLevel == -2 && nBarCodeType != BC_PDF417)
+								nErrCorrLevel = -1;
+						}
+					}
+				}
+			}
+		}
+
+		//pulisco la stringa dalla parte relativa ai parametri
+		strValue = strValue.Left(strValue.Find(CBarCodeTypes::BC_SEP));
+
+		// si "tappa" la stringa e la successiva ReleaseBuffer rimettera` a posto le cose
+		*pszType = NULL_CHAR;
+	}
+	strValue.ReleaseBuffer();
+
+	// a questo punto se è richiesto il type di default lo applico
 	if (nBarCodeType == CBarCodeTypes::BC_DEFAULT)
 		nBarCodeType = m_nBCDefaultType;
 
 	CString barcodeType = CBarCodeTypes::BarCodeDescription(nBarCodeType);
 	BarCodeCreator*	bCreator = new BarCodeCreator();
-	BOOL if2DBarcode = bCreator->If2DBarCode(barcodeType);
+	BOOL bBarcode2D = bCreator->If2DBarCode(barcodeType);
 	SAFE_DELETE(bCreator);
 
-	int nNarrowBar = m_nNarrowBar;
-	if (!if2DBarcode && nNarrowBar < 0) 
-		nNarrowBar = 1; //auto bar size è 1 per barcode 1D
 
-	if (nNarrowBar > -1 && ( DC.IsPrinting() || DC.GetDeviceCaps(LOGPIXELSY) != SCALING_FACTOR))
+	if (!bBarcode2D && nNarrowBar < 0)
+	{ 
+		nNarrowBar = 1; //auto bar size è 1 per barcode 1D
+		if (nBarCodeType == BC_ZIP)
+			nNarrowBar = 3;
+	}
+
+	if (nNarrowBar > -1 && (DC.IsPrinting() || DC.GetDeviceCaps(LOGPIXELSY) != SCALING_FACTOR))
 	{
 		CPoint nb(m_bVertical ? 0 : nNarrowBar, m_bVertical ? nNarrowBar : 0);
 		ScalePoint(nb, DC);
 		nNarrowBar = m_bVertical ? nb.y : nb.x;
 	}
 
-	int nHeight = -1;
-	if (!if2DBarcode)
+	//
+	if (!bBarcode2D)
 	{
 		if (m_nCustomBarHeight > 0)
 		{
@@ -414,155 +1081,38 @@ BOOL CBarCode::DrawBarCode
 		//in questo caso è l'altezza della riga
 		nHeight = m_nCustomBarHeight;
 	}
-	
-	BOOL res = DrawGDPicture(DC, inside, lfFont, nBarCodeType, nNarrowBar, nHeight, strValue, clrText, clrBkgnd, sErr, pDoc, strHumanReadeable, bPreview, align, vAlign);
-	
-	strValue.ReleaseBuffer();
-	return res;
-}
 
-//------------------------------------------------------------------------------
-BOOL CBarCode::DrawGDPicture
-				(
-					CDC& 		DC,
-					CRect 		inside,	
-					LOGFONT	lfFont,
-					int			barcodeType,
-					int			nNarrowBar,
-					int			nHeight,
-					const	CString& 	strOriginalValue,
-					COLORREF 	clrText,
-					COLORREF 	clrBkgnd,
-					CString&	sErr,
-					CBaseDocument*	pDoc,
-					CString 	strHumanReadeable,
-					BOOL		bPreview,
-					int			align /*=DT_CENTER*/,
-					int			vAlign  /*=DT_CENTER*/
-				) const
-{
-	USES_CONVERSION;
+	// Recupero i parametri dal setting se il
+	// valore impostato al parametro equivale a 'prendi dal setting'
 
-	if (DC.IsPrinting() || DC.GetDeviceCaps(LOGPIXELSY) != SCALING_FACTOR)
-	{
-		::ScaleLogFont(&lfFont, DC);
-	}
-
-	//int	nBarCodeType;
-	int nEncodingMode = m_nCheckSumType;
-	int nVersion = m_n2DVersion;
-	int nErrCorrLevel = m_nErrCorrLevel;
-	int nRows = m_nRowsNo;
-	int nColumns = m_nColumnsNo;
-
-	CString	strValue = strOriginalValue;
-
-	// se mi arriva un bar code composto (esiste il tag 0x01) allora gli ultimi byte
-	// sono il numero in ascii del tipo di barcode si vuole stampare
-	TCHAR* pBuff = strValue.GetBuffer(strValue.GetLength());
-	TCHAR* pszType = _tcschr(pBuff, CBarCodeTypes::BC_SEP);
-	
-	if (pszType)
-	{
-		barcodeType = _tstol(&pszType[1]);
-
-		TCHAR* pChkSum = _tcschr(&pszType[2], CBarCodeTypes::BC_SEP);
-
-		if (pChkSum)
-		{
-			nEncodingMode = _tstol(&pChkSum[1]);
-			TCHAR* pHR = _tcschr(&pChkSum[2], CBarCodeTypes::BC_SEP);
-			if (pHR)
-			{
-				CString strHR = CString(&pHR[1]);
-				strHumanReadeable = strHR.Left(strHR.Find(CBarCodeTypes::BC_SEP));
-
-				TCHAR* pNarrowBar = _tcschr(&pHR[2], CBarCodeTypes::BC_SEP);
-				if (pNarrowBar)
-				{
-					nNarrowBar = _tstol(&pNarrowBar[1]);
-					TCHAR* pBarHeight = _tcschr(&pNarrowBar[2], CBarCodeTypes::BC_SEP);
-
-					if (pBarHeight)
-					{
-						nHeight = _tstol(&pBarHeight[1]);
-					
-						TCHAR* pVersion = _tcschr(&pBarHeight[2], CBarCodeTypes::BC_SEP);
-
-						if (pVersion)
-						{
-							//version da 'interpretare'
-							if (barcodeType == BC_DATAMATRIX ||barcodeType == BC_PDF417)
-							{
-								CString sVersion = CString(&pVersion[1]);
-								int index = sVersion.Find(CBarCodeTypes::BC_SEP);
-								if (index > 0)
-									sVersion = sVersion.Left(index);
-								if (barcodeType == BC_DATAMATRIX)
-									nVersion = CBarCodeTypes::BarCodeDMVersion(sVersion);
-								else
-									CBarCodeTypes::ReadPDF417Version(sVersion, nRows, nColumns);
-								
-							}							
-							else
-								nVersion = _tstol(&pVersion[1]);
-
-							TCHAR* pErrCorrLevel = _tcschr(&pVersion[2], CBarCodeTypes::BC_SEP);
-							if(pErrCorrLevel)
-								nErrCorrLevel = _tstol(&pErrCorrLevel[1]);
-							if (nErrCorrLevel == -2 && barcodeType != BC_PDF417)
-								nErrCorrLevel = -1;
-						}
-					}
-				}
-			}
-		}
-	
-		strValue = strValue.Left(strValue.Find(CBarCodeTypes::BC_SEP));
-		// si "tappa" la stringa e la successiva ReleaseBuffer rimettera` a posto le cose
-		*pszType = NULL_CHAR;
-	}
-
-	if (m_nBarCodeTypeAlias)
-		barcodeType = m_nBarCodeType;
-
-	if (barcodeType == CBarCodeTypes::BC_DEFAULT)
-		barcodeType = m_nBCDefaultType;
-
-	CString str_barcodeType = CBarCodeTypes::BarCodeDescription(barcodeType);
-	BarCodeCreator* barCodeCreator = new BarCodeCreator();
-
-	//Recupero i parametri dal setting se devo:
 	// - encoding mode
-	CString sbarcodeType = CBarCodeTypes::BarCodeDescription(barcodeType);
-	BOOL bBarcode2D = barCodeCreator->If2DBarCode(sbarcodeType);
 	if (nEncodingMode < -1 && bBarcode2D || nEncodingMode < 0)
 	{
-		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DEncoding, szBracodeTypes[barcodeType - 1], DataInt(-1), szBarcode2DFileName);
+		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DEncoding, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 		nEncodingMode = pSetting ? *((DataInt*)pSetting) : -1;
 	}
 
 	// - BC version
 	if (bBarcode2D && barcodeType != BC_PDF417 && nVersion < 0)
 	{
-		if(barcodeType == BC_DATAMATRIX)
+		if (barcodeType == BC_DATAMATRIX)
 		{
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[barcodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 			CString str_Version = pSetting ? pSetting->Str() : _T("");
 			nVersion = 0;
 			CString strTemp;
 			if (!str_Version.IsEmpty())
 				nVersion = CBarCodeTypes::BarCodeDMVersion(str_Version);
-		}	
+		}
 		else
 		{
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[barcodeType - 1], DataInt(-1), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 			nVersion = pSetting ? *((DataInt*)pSetting) : 0;
 		}
 	}
 	else if (barcodeType == BC_PDF417 && (nRows < 0 || nColumns < 0))
 	{
-		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[barcodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 		CString str_Version = pSetting ? pSetting->Str() : _T("");
 		CBarCodeTypes::ReadPDF417Version(str_Version, nRows, nColumns);
 		// ripristino il valore precedente se uno dei due  non era da prendere dal setting
@@ -577,7 +1127,7 @@ BOOL CBarCode::DrawGDPicture
 		if (barcodeType != BC_PDF417)
 		{
 			//sono stringhe
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[barcodeType - 1], DataStr(_T("")), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 			CString str_ErrCorrLevel = pSetting ? pSetting->Str() : _T("");
 			nErrCorrLevel = 0;
 			if (str_ErrCorrLevel == _T("M"))
@@ -590,24 +1140,12 @@ BOOL CBarCode::DrawGDPicture
 		else
 		{
 			//sono numeri
-			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[barcodeType - 1], DataInt(-1), szBarcode2DFileName);
+			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBracodeTypes[nBarCodeType - 1], DataInt(-1), szBarcode2DFileName);
 			nErrCorrLevel = pSetting ? *((DataInt*)pSetting) : 0;
 		}
 	}
-
-	BarCodeCreator::TBPictureStatus status = barCodeCreator->WriteBarcodeToHDC
-				(DC, strValue, strHumanReadeable, 
-				str_barcodeType, nNarrowBar, nHeight, inside,
-				clrText, clrBkgnd, m_bShowLabel, bPreview, lfFont, m_bVertical, align, vAlign,
-				nEncodingMode, nVersion, nErrCorrLevel, nRows, nColumns);
-	
-	if (status != BarCodeCreator::TBPictureStatus::OK) 
-		sErr = barCodeCreator->GetErrorMessage(status) + cwsprintf(_T(" (error: %d)"), status);
-
-	delete barCodeCreator;
-	return status == BarCodeCreator::TBPictureStatus::OK;
+	return TRUE;
 }
-
 //-----------------------------------------------------------------------------
 BOOL CBarCode::Parse (Parser& lex)
 {
