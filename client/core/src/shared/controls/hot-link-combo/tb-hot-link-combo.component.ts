@@ -158,6 +158,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     let cb: HTMLElement;
     cb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-searchbar') as HTMLCollection).item(0) as HTMLElement;
     if(!cb) return undefined;
+    cb = (cb.getElementsByClassName('k-input') as HTMLCollection).item(0) as HTMLElement;
+    if(!cb) return undefined;
     let oldColor = cb.style.color;
     let oldDecoration = cb.style.textDecoration;
     let oldCursor = cb.style.cursor;
@@ -182,8 +184,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
             this.comboBoxInfo.element.style.color = 'blue';
             this.comboBoxInfo.element.style.cursor = 'pointer';
             this.comboBoxInfo.element.style.pointerEvents = 'all';
-            this.comboBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
-              .filter(e => this.comboBoxInfo &&  (e as any) && (e as any).target === this.comboBoxInfo.element)
+            this.comboBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
+              .filter(e => this.comboBoxInfo &&  (e as any) && this.comboBoxInfo.element.contains((e as any).target))
               .subscribe(e => this.hyperLinkService.follow({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
           } else {
             this.comboBoxInfo.element.style.textDecoration = this.comboBoxInfo.initInfo.textDecoration;
