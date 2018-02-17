@@ -38,6 +38,11 @@ Dictionary.bin
 *.out
 *.app
 
+# Profiler
+*.psess
+*.vsp
+*.vspx
+
 # User-specific files
 *.suo
 *.user
