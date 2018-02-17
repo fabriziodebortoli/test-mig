@@ -599,12 +599,11 @@ int TableColumn::CalculateFieldWidth (const CString& strText) const
 }
 
 //------------------------------------------------------------------------------
-BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal/* = FALSE*/) const 
+BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal/* = FALSE*/) 
 {
 	fieldWidthFactors.m_bMiniHtml = this->m_bMiniHtml;
 
 	FontIdx fi = bSubTotal ? this->m_SubTotal.m_nFontIdx : m_nFontIdx;
-
 /*	Non funziona: a volte calcolerebbe il risultato ma il dataobj risulta comunque invalido
 	inoltre è dipendente dall'ordine delle EVAL/DISPLAY chiamate sugli eventuali field utilizzati nell'espressione dinamica
 	che non è garantito che vengano effettuati prima di della DISPLAY della colonna da suddividere.
@@ -625,13 +624,27 @@ BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactor
 	{
 	}
 */
-	fieldWidthFactors.m_pFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(fi, &m_pTable->m_pDocument->GetNamespace());
+	if (bSubTotal)
+	{
+		if (!m_pSubTotalFontStyle)
+			m_pSubTotalFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(fi, &m_pTable->m_pDocument->GetNamespace());
+
+		fieldWidthFactors.m_pFontStyle = m_pSubTotalFontStyle;
+	}
+	else
+	{
+		if (!m_pFontStyle)
+			m_pFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(fi, &m_pTable->m_pDocument->GetNamespace());
+
+		fieldWidthFactors.m_pFontStyle = m_pFontStyle;
+	}
 
 	fieldWidthFactors.m_pWnd = m_pTable->m_pDocument->GetWoormView();
 	if (fieldWidthFactors.m_pFontStyle == NULL || fieldWidthFactors.m_pWnd == NULL)
 		return FALSE;
 	fieldWidthFactors.m_pDC = m_pTable->m_pDocument->GetWoormView()->GetDC();
-	fieldWidthFactors.m_pFormatStyle = m_pTable->m_pDocument->m_pFormatStyles->GetFormatter(m_nFormatIdx, &m_pTable->m_pDocument->GetNamespace());
+
+	fieldWidthFactors.m_pFormatStyle = GetFormatter();
 
 	int nWidth = m_ColumnRect.Width();
 	if (m_pDynamicWidthExpr && m_pDynamicWidthExpr->HasFields())
@@ -806,7 +819,8 @@ BOOL TableColumn::ColumnIsShowedAsString () const
 Formatter* TableColumn::GetFormatter()
 {
 	if (!m_pFormatter || m_pTable->m_pDocument->m_bAllowEditing)
-		m_pFormatter = m_pTable->m_pDocument->GetFormatter(m_nFormatIdx);
+		m_pFormatter = m_pTable->m_pDocument->m_pFormatStyles->GetFormatter(m_nFormatIdx, &m_pTable->m_pDocument->GetNamespace());
+
 	ASSERT_VALID(m_pFormatter);
 	return m_pFormatter;
 }
@@ -1521,6 +1535,8 @@ void TableColumn::SetColumnAlign (AlignType nAlign)
 //------------------------------------------------------------------------------
 void TableColumn::SetColumnFontIdx (FontIdx nIdx)
 {
+	m_pFontStyle = NULL;
+
 	for (int nRow = 0; nRow <= m_Cells.GetUpperBound(); nRow++)
 		m_Cells[nRow]->SetCellFontIdx (nIdx);
 
