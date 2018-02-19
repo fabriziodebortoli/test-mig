@@ -142,8 +142,15 @@ namespace Microarea.AccountManager.Controllers
                     {
                         SetCulture(authtoken);
                     }
+                    
                 }
-                var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
+                var result = new
+                {
+                    Success = valid,
+                    Culture = valid 
+                        ? CultureInfo.CurrentUICulture.Name 
+                        : InstallationData.ServerConnectionInfo.PreferredLanguage,
+                    Message = "" };
                 return new JsonResult(result);
             }
             catch (Exception e)

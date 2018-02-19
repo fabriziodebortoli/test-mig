@@ -25,6 +25,7 @@ export class ChangePasswordHostComponent extends TbComponent implements OnDestro
         protected changeDetectorRef: ChangeDetectorRef
     ) {
         super(tbComponentService, changeDetectorRef);
+        this.enableLocalization();
     }
 
     ngOnDestroy() {
