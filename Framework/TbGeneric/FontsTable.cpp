@@ -250,20 +250,16 @@ void FontStyle::SetStandardFont	(FontStyle* pFont)
 //------------------------------------------------------------------------------
 CSize FontStyle::GetStringWidth (CDC* pDC, int nLen) const
 {              
-    CFont*	pFont = new CFont(); pFont->CreateFontIndirect(&m_LogFont);
-    CSize cs = GetTextSize(pDC, nLen, pFont);
-
-	delete pFont;
+    CFont font; font.CreateFontIndirect(&m_LogFont);
+    CSize cs = GetTextSize(pDC, nLen, &font);
 	return cs;
 }
 
 //------------------------------------------------------------------------------
 CSize FontStyle::GetStringWidth (CDC* pDC, const CString& str) const
 {              
-    CFont*	pFont = new CFont(); pFont->CreateFontIndirect(&m_LogFont);
-    CSize cs = GetTextSize(pDC, str, pFont);
-
-	delete pFont;
+    CFont font; font.CreateFontIndirect(&m_LogFont);
+    CSize cs = GetTextSize(pDC, str, &font);
 	return cs;
 }
 

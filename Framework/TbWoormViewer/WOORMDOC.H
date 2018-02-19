@@ -525,6 +525,8 @@ public:
 	CString				m_sCopyText;
 	BOOL				b_TransformColumnOrField;
 
+	BOOL				m_bCallPostOpenWoormDoc = TRUE;
+
 protected:
 	CTBPicture*		m_pHiddenIcon;
 	CTBPicture*		m_pHiddenWhenIcon;
