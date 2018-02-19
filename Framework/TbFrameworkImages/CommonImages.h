@@ -150,6 +150,7 @@ static TCHAR szIconLast			             []	= _T("Last");
 static TCHAR szGlyphLock		             []  = _T("Lock");
 static TCHAR szGlyphLocked		             []  = _T("Locked");
 static TCHAR szIconLegend		             []  = _T("Legend");
+static TCHAR szGlyphLinkInfinity             []	 = _T("LinkInfinity");
 
 //M
 static TCHAR szIconMail			             []	= _T("Mail");
