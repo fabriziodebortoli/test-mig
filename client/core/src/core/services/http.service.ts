@@ -257,9 +257,9 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    getDBTSlaveBufferedModel(cmpId: any, dbtName: any) {
+    getDBTSlaveBufferedModel(cmpId: any, dbtName: any, skip: number, take: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'getDBTSlaveBufferedModel/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

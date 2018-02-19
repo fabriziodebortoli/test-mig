@@ -55,7 +55,7 @@ static const CString g_strEOLExport = _T("\r\n");
 struct StringIndex
 {
 	LPCTSTR lpszName;
-	int		nIndex =1;
+	int		nIndex = 1;
 };
 
 
@@ -78,7 +78,7 @@ CCustomEditCtrl::CCustomEditCtrl()
 	m_bEnableCurrentLineCopy = TRUE;
 	m_bColorHyperlink = TRUE;
 	m_bBlockSelectionMode = TRUE;
-	EnableGradientMarkers (TRUE);
+	EnableGradientMarkers(TRUE);
 	m_bDragTextMode = TRUE;
 	m_bEnableToolTips = TRUE;
 	m_nUndoBufferSize = 200;
@@ -91,60 +91,48 @@ CCustomEditCtrl::CCustomEditCtrl()
 	m_DropTarget.Register(this);
 	m_pIntelliSenseWnd = NULL;
 	m_bEnableBreakpoints = FALSE;
+	m_mIntelliMap = NULL;
 }
 
 //------------------------------------------------------------------
-void CCustomEditCtrl::EmptyIntellisense() 
+void CCustomEditCtrl::EmptyIntellisense()
 {
 	if (!IsIntelliSenseEnabled())
 		return;
 
-	if (!m_mIntelliString.empty())
-	{
-		
-		for (std::multimap<CString, IntellisenseData*>::iterator it = m_mIntelliString.begin(); it != m_mIntelliString.end(); ++it)
-		{
-			SAFE_DELETE(it->second);
-		}
+	/*if (m_mIntelliMap)
+		SAFE_DELETE(m_mIntelliMap);	 */
 
-		m_mIntelliString.clear();
-	}
+	m_mIntelliMap = new IntellisenseMap();
+
 }
 
 //------------------------------------------------------------------
-void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue,CString additionalInfo,CString help)
+void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help)
 {
-	if (key.IsEmpty() || intelliItem.IsEmpty())
+	if (intelliItem.IsEmpty())
 		return;
 	if (!IsIntelliSenseEnabled())
 		return;
-	pair <std::multimap<CString, IntellisenseData*>::const_iterator, std::multimap<CString, IntellisenseData*>::const_iterator> range;
-	range = m_mIntelliString.equal_range(key);
-	typedef multimap<CString, IntellisenseData*>::const_iterator it;
 
-	for (it p = range.first; p != range.second; ++p)
-		if (p->second->m_strItemName.Compare(intelliItem)==0)
-			return;
-	IntellisenseData* data=new IntellisenseData();
+	key.Replace((CString)" ", (CString)"_");
+
+	IntellisenseMap::IntellisenseNode* lastNode = m_mIntelliMap->insert(key.MakeUpper());
+
+	//the word already exist
+	if (lastNode->data)
+		return;
+
+	IntellisenseData* data = new IntellisenseData();
 	data->m_strItemName = intelliItem;
 	data->m_strItemValue = intelliValue;
 	data->m_strAdditionalInfo = additionalInfo;
 	data->m_strItemHelp = help;
-	//m_arGarbage.Add(data);
+	lastNode->data = data;
 
-	m_mIntelliString.insert(pair<CString, IntellisenseData*>(key, data));
+
 }
 
-//------------------------------------------------------------------
-CString CCustomEditCtrl::GetKeyFromWordForIntellisense(CString word)
-{
-	if (word.IsEmpty() || word.GetLength() < 2)
-		return L"";
-
-	word.Left(2).MakeUpper();
-
-	return word.Left(2).MakeUpper();
-}
 
 void CCustomEditCtrl::AddToolTipItem(LPCTSTR word, LPCTSTR toolTip)
 {
@@ -159,9 +147,9 @@ void CCustomEditCtrl::ColorVariables(CWoormDocMng* doc, BOOL viewMode)
 	if (!doc || !doc->m_pEditorManager || !doc->m_pEditorManager->GetPrgData())
 		return;
 	WoormTable*	pSymTable = viewMode ?
-							&doc->m_ViewSymbolTable
-							:
-							doc->m_pEditorManager->GetPrgData()->GetSymTable();
+		&doc->m_ViewSymbolTable
+		:
+		doc->m_pEditorManager->GetPrgData()->GetSymTable();
 	ASSERT(pSymTable);
 
 
@@ -199,7 +187,7 @@ BOOL CCustomEditCtrl::FindText(LPCTSTR lpszFind, BOOL bNext /* = TRUE */, BOOL b
 	POSITION pos = m_lstFind.Find(lpszFind);
 	if (pos != NULL)
 	{
-		m_lstFind.RemoveAt (pos);
+		m_lstFind.RemoveAt(pos);
 	}
 
 	m_lstFind.AddHead(lpszFind);
@@ -207,42 +195,42 @@ BOOL CCustomEditCtrl::FindText(LPCTSTR lpszFind, BOOL bNext /* = TRUE */, BOOL b
 	return CBCGPEditCtrl::FindText(lpszFind, bNext, bCase, bWholeWord);
 }
 
-void CCustomEditCtrl::OnDrawMarker (CDC* pDC, CRect rectMarker, const CBCGPEditMarker* pMarker)
+void CCustomEditCtrl::OnDrawMarker(CDC* pDC, CRect rectMarker, const CBCGPEditMarker* pMarker)
 {
 	if (pMarker->m_dwMarkerType & g_dwBookmarkPointType)
 	{
 
-		rectMarker.left = rectMarker.left+ 3;
-		if (IsEnableBreakpoints()  )
-			pDC->DrawState(rectMarker.TopLeft(), CSize(14, 14), TBLoadPng(TBGlyph(szGlyphBreakpoint)), DST_ICON | DSS_NORMAL,(CBrush*)0);
+		rectMarker.left = rectMarker.left + 3;
+		if (IsEnableBreakpoints())
+			pDC->DrawState(rectMarker.TopLeft(), CSize(14, 14), TBLoadPng(TBGlyph(szGlyphBreakpoint)), DST_ICON | DSS_NORMAL, (CBrush*)0);
 		else
 			pDC->DrawState(rectMarker.TopLeft(), CSize(14, 14), TBLoadPng(TBGlyph(szGlyphBookmark)), DST_ICON | DSS_NORMAL, (CBrush*)0);
 
 	}
-	
+
 	else
 	{
-		CBCGPEditCtrl::OnDrawMarker (pDC, rectMarker, pMarker);
+		CBCGPEditCtrl::OnDrawMarker(pDC, rectMarker, pMarker);
 	}
 }
 
-int CCustomEditCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int CCustomEditCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CBCGPEditCtrl::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
-	if (m_lstFind.IsEmpty ())
+
+	if (m_lstFind.IsEmpty())
 	{
 		CBCGPToolbarComboBoxButton* pSrcCombo = NULL;
 		CObList listButtons;
 
-		if (CBCGPToolBar::GetCommandButtons (ID_EDIT_FIND_COMBO, listButtons) > 0)
+		if (CBCGPToolBar::GetCommandButtons(ID_EDIT_FIND_COMBO, listButtons) > 0)
 		{
-			for (POSITION posCombo = listButtons.GetHeadPosition (); 
+			for (POSITION posCombo = listButtons.GetHeadPosition();
 				pSrcCombo == NULL && posCombo != NULL;)
 			{
-				CBCGPToolbarComboBoxButton* pCombo = 
-					DYNAMIC_DOWNCAST (CBCGPToolbarComboBoxButton, listButtons.GetNext (posCombo));
+				CBCGPToolbarComboBoxButton* pCombo =
+					DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, listButtons.GetNext(posCombo));
 
 				if (pCombo != NULL)
 				{
@@ -253,15 +241,15 @@ int CCustomEditCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 		if (pSrcCombo != NULL)
 		{
-			if (const int nMax = (int) pSrcCombo->GetCount())
+			if (const int nMax = (int)pSrcCombo->GetCount())
 			{
 				CString sText;
 				CComboBox* pCombo = pSrcCombo->GetComboBox();
-				
+
 				for (int i = 0; i < nMax; i++)
 				{
-					pCombo->GetLBText(i,sText);
-					m_lstFind.AddTail (sText);
+					pCombo->GetLBText(i, sText);
+					m_lstFind.AddTail(sText);
 				}
 
 				pCombo->SetCurSel(0);
@@ -274,7 +262,7 @@ int CCustomEditCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CCustomEditCtrl::CheckIntelliMark(const CString& strBuffer, int& nOffset, CString& strWordSuffix) const
 {
-	BOOL bIntelliMark = (strBuffer.GetAt(nOffset) == _T('.')) ;
+	BOOL bIntelliMark = (strBuffer.GetAt(nOffset) == _T('.'));
 
 	if (bIntelliMark)
 	{
@@ -288,20 +276,20 @@ BOOL CCustomEditCtrl::CheckIntelliMark(const CString& strBuffer, int& nOffset, C
 
 	if (bIntelliMark)
 	{
-		nOffset--;  
+		nOffset--;
 	}
 
 	return TRUE;// bIntelliMark;
 }
 
-BOOL CCustomEditCtrl::OnBeforeInvokeIntelliSense (const CString& strBuffer, int& nCurrOffset, CString& strIntelliSence) const
-{		
-	
+BOOL CCustomEditCtrl::OnBeforeInvokeIntelliSense(const CString& strBuffer, int& nCurrOffset, CString& strIntelliSence) const
+{
+
 	if (!IsIntelliSenseEnabled())
 	{
 		return FALSE;
 	}
-	
+
 	strIntelliSence.Empty();
 
 	int nOffset = nCurrOffset;
@@ -314,16 +302,16 @@ BOOL CCustomEditCtrl::OnBeforeInvokeIntelliSense (const CString& strBuffer, int&
 
 	if (nOffset >= 0)
 	{
-		
+
 		for (--nOffset;
-			 nOffset >= 0 &&
-			 m_strIntelliSenseChars.Find(strBuffer.GetAt(nOffset)) == -1 &&
-			 (m_strNonSelectableChars.Find(strBuffer.GetAt(nOffset)) >= 0 ||
-			  m_strWordDelimeters.Find(strBuffer.GetAt(nOffset)) == -1);
-			 nOffset--);
+			nOffset >= 0 &&
+			m_strIntelliSenseChars.Find(strBuffer.GetAt(nOffset)) == -1 &&
+			(m_strNonSelectableChars.Find(strBuffer.GetAt(nOffset)) >= 0 ||
+				m_strWordDelimeters.Find(strBuffer.GetAt(nOffset)) == -1);
+			nOffset--);
 
 		if (nOffset >= 0 &&
-			FillIntelliSenceWord(strBuffer,nOffset,strIntelliSence) &&
+			FillIntelliSenceWord(strBuffer, nOffset, strIntelliSence) &&
 			IsIntelliSenceWord(strIntelliSence))
 		{
 			nCurrOffset = nOffset + 1;
@@ -338,15 +326,15 @@ BOOL CCustomEditCtrl::OnBeforeInvokeIntelliSense (const CString& strBuffer, int&
 	return FALSE;
 }
 
-BOOL CCustomEditCtrl::FillIntelliSenseList (CObList& lstIntelliSenseData,
-											LPCTSTR lpszIntelliSense /* = NULL */) const
+BOOL CCustomEditCtrl::FillIntelliSenseList(CObList& lstIntelliSenseData,
+	LPCTSTR lpszIntelliSense /* = NULL */) const
 {
 	if (lpszIntelliSense == NULL)
 	{
 		BOOL bRet;
 		CString strIntelliSence;
 		int nCurrOffset = m_nCurrOffset;
-		
+
 		if (!OnBeforeInvokeIntelliSense(m_strBuffer, nCurrOffset, strIntelliSence))
 		{
 			return FALSE;
@@ -362,50 +350,42 @@ BOOL CCustomEditCtrl::FillIntelliSenseList (CObList& lstIntelliSenseData,
 		!IsIntelliSenceWord(lpszIntelliSense))
 	{
 		return FALSE;
-	}	
+	}
 
 	// here substitute with trie
 	IntellisenseData* pData;
 	ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
-	
-	pair <std::multimap<CString, IntellisenseData*>::const_iterator, std::multimap<CString, IntellisenseData*>::const_iterator> range;
-	range = m_mIntelliString.equal_range(((CString)lpszIntelliSense).MakeUpper());
 
-
-	for (std::multimap<CString, IntellisenseData*>::const_iterator it = range.first; it != range.second; ++it)
-	{
-		pData = new IntellisenseData;
-		pData->m_strItemName = it->second->m_strItemName;
-		pData->m_strItemValue = it->second->m_strItemValue;
-		pData->m_strItemHelp = it->second->m_strItemHelp;
-		pData->m_strAdditionalInfo = it->second->m_strAdditionalInfo;
-		//const_cast<CCustomEditCtrl*>(this)->m_arGarbage.Add(pData);
-
-		lstIntelliSenseData.AddTail (pData);
-	}
+	m_mIntelliMap->matchPrefix(lstIntelliSenseData, lpszIntelliSense);
 
 	return TRUE;
 }
 
 BOOL CCustomEditCtrl::OnIntelliSenseComplete(int nIdx, CBCGPIntelliSenseData* pData, CString& strText)
-{	
+{
 	SetFocus();
 	HideCaret();
 
 	int offset = GetCurOffset();
+	if (GetCharAt(offset) == '\n' && !isblank(GetCharAt(offset - 2))) {
+	
+		offset--;
+	}
+		
 	int i = 0;
-	for ( i = offset;i >= 0;i--)
-	{				
-		if (m_strIntelliSenseChars.Find(GetCharAt(i),0)==-1)	
+	for (i = offset; i >= 0; i--)
+	{
+		char k = GetCharAt(i);
+		if (m_strIntelliSenseChars.Find(k, 0) == -1)
 			break;
 	}
 
-	if (i!=offset)
-		SetSel(i+1, offset);
+	if (i != offset)
+		SetSel(i + 1, offset+1);
 	ReplaceSel(((IntellisenseData*)pData)->m_strItemValue);
 
 	m_nCurrOffset = m_nSavedOffset = GetCurOffset();
-	
+
 	ShowCaret();
 	return FALSE;
 
@@ -418,8 +398,9 @@ BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 	{
 		return FALSE;
 	}
-	
-	if (m_mIntelliString.count(strWord.MakeUpper()) > 0)
+
+	IntellisenseMap::IntellisenseNode* node = m_mIntelliMap->search(strWord.MakeUpper());
+	if (node && node->isEndOfWord);
 	{
 		return TRUE;
 	}
@@ -427,24 +408,24 @@ BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 	return FALSE;
 }
 
-BOOL CCustomEditCtrl::OnGetTipText (CString& strTipString)
+BOOL CCustomEditCtrl::OnGetTipText(CString& strTipString)
 {
 	CPoint point;
-	::GetCursorPos (&point);
-	ScreenToClient (&point);
+	::GetCursorPos(&point);
+	ScreenToClient(&point);
 
 	CString strText;
-	BOOL bIsHyperlink = m_bEnableHyperlinkSupport && GetHyperlinkToolTip (strText);
-	BOOL bIsHiddenTextFromPoint = !bIsHyperlink && m_bEnableOutlining && GetHiddenTextFromPoint (point, strText);
-	BOOL bIsWordFromPoint = !bIsHyperlink && !bIsHiddenTextFromPoint && GetWordFromPoint (point, strText);
+	BOOL bIsHyperlink = m_bEnableHyperlinkSupport && GetHyperlinkToolTip(strText);
+	BOOL bIsHiddenTextFromPoint = !bIsHyperlink && m_bEnableOutlining && GetHiddenTextFromPoint(point, strText);
+	BOOL bIsWordFromPoint = !bIsHyperlink && !bIsHiddenTextFromPoint && GetWordFromPoint(point, strText);
 
 	if ((bIsHiddenTextFromPoint || bIsHyperlink) && strText == strTipString)
 	{
 		return TRUE;
 	}
-	else if (m_mTipString.Lookup(strTipString,strTipString))
+	else if (m_mTipString.Lookup(strTipString, strTipString))
 	{
-		return TRUE; 
+		return TRUE;
 	}
 	else if (IsIntelliSenseEnabled() && !bIsWordFromPoint)
 	{
@@ -460,11 +441,11 @@ BOOL CCustomEditCtrl::IntelliSenseCharUpdate(const CString& strBuffer, int nCurr
 	{
 		return FALSE;
 	}
-	
-	m_strIntelliSenseChars = L"._abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+	m_strIntelliSenseChars = L"._abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	m_strNonSelectableChars = L"";
 
-	
+
 
 	return FALSE;
 }
@@ -475,16 +456,16 @@ int CCustomEditCtrl::GetNextPos(const CString& strBuffer, const CString& strSkip
 	if (bForward)
 	{
 		for (int nLen = strBuffer.GetLength();
-			 nPos < nLen &&
-			 strSkipChars.Find(strBuffer.GetAt(nPos)) >= 0;
-			 nPos++);
+			nPos < nLen &&
+			strSkipChars.Find(strBuffer.GetAt(nPos)) >= 0;
+			nPos++);
 	}
 	else
 	{
 		for (--nPos;
-			 nPos >= 0 &&
-			 strSkipChars.Find(strBuffer.GetAt(nPos)) >= 0;
-			 nPos--);
+			nPos >= 0 &&
+			strSkipChars.Find(strBuffer.GetAt(nPos)) >= 0;
+			nPos--);
 	}
 
 	return nPos;
@@ -494,15 +475,15 @@ BOOL CCustomEditCtrl::FillIntelliSenceWord(const CString& strBuffer, int nOffset
 {
 	CString strISWord, strWordSuffix;
 
-	if (!CheckIntelliMark(strBuffer,nOffset,strWordSuffix) || nOffset >= 0)
+	if (!CheckIntelliMark(strBuffer, nOffset, strWordSuffix) || nOffset >= 0)
 	{
 		do
 		{
 			int nStartOffset = -1,
 				nEndOffset = -1;
-			
-			FindWordStartFinish (nOffset, strBuffer, nStartOffset, nEndOffset);
-			
+
+			FindWordStartFinish(nOffset, strBuffer, nStartOffset, nEndOffset);
+
 			if ((nStartOffset < nEndOffset) && (nStartOffset >= 0))
 			{
 				const CString& strWord = strBuffer.Mid(nOffset = nStartOffset, nEndOffset - nStartOffset);
@@ -518,10 +499,9 @@ BOOL CCustomEditCtrl::FillIntelliSenceWord(const CString& strBuffer, int nOffset
 			}
 
 			strWordSuffix.Empty();
-		}
-		while (GetNextPos(strBuffer, m_strNonSelectableChars, nOffset, FALSE) >= 0 &&
-			   CheckIntelliMark(strBuffer,nOffset,strWordSuffix) &&
-			   nOffset >= 0);
+		} while (GetNextPos(strBuffer, m_strNonSelectableChars, nOffset, FALSE) >= 0 &&
+			CheckIntelliMark(strBuffer, nOffset, strWordSuffix) &&
+			nOffset >= 0);
 	}
 
 	if ((strISWord = strWordSuffix + strISWord).IsEmpty())
@@ -536,48 +516,48 @@ BOOL CCustomEditCtrl::FillIntelliSenceWord(const CString& strBuffer, int nOffset
 void CCustomEditCtrl::ReleaseIntelliSenseList(CObList& lstIntelliSenseData) const
 {
 	for (POSITION pos = lstIntelliSenseData.GetHeadPosition();
-		 pos != NULL;
-		 delete lstIntelliSenseData.GetNext(pos));
+		pos != NULL;
+		delete lstIntelliSenseData.GetNext(pos));
 
 	lstIntelliSenseData.RemoveAll();
 }
 
-void CCustomEditCtrl::OnGetCharColor (TCHAR ch, int nOffset, COLORREF& clrText, COLORREF& clrBk)
+void CCustomEditCtrl::OnGetCharColor(TCHAR ch, int nOffset, COLORREF& clrText, COLORREF& clrBk)
 {
 	if (m_bCheckColorTags)
 	{
-		
-		TCHAR chOpen = _T ('<');
-		TCHAR chClose = _T ('>');
-		
-		if (ch == chOpen || ch == chClose || ch == _T ('/'))
+
+		TCHAR chOpen = _T('<');
+		TCHAR chClose = _T('>');
+
+		if (ch == chOpen || ch == chClose || ch == _T('/'))
 		{
-			clrText = RGB (0, 0, 255);
+			clrText = RGB(0, 0, 255);
 		}
-		else 
+		else
 		{
-			COLORREF clrDefaultBack = GetDefaultBackColor ();
-			COLORREF clrDefaultTxt = GetDefaultTextColor ();
+			COLORREF clrDefaultBack = GetDefaultBackColor();
+			COLORREF clrDefaultTxt = GetDefaultTextColor();
 			int nBlockStart, nBlockEnd;
-			if (!IsInBlock (nOffset, chOpen, chClose, nBlockStart, nBlockEnd))
+			if (!IsInBlock(nOffset, chOpen, chClose, nBlockStart, nBlockEnd))
 			{
 				clrText = clrDefaultTxt;
 				clrBk = clrDefaultBack;
 			}
-			else if (GetCharAt (nBlockStart + 1) == _T ('%') && 
-					 GetCharAt (nBlockEnd - 1) == _T ('%'))
+			else if (GetCharAt(nBlockStart + 1) == _T('%') &&
+				GetCharAt(nBlockEnd - 1) == _T('%'))
 			{
 
 			}
 			else if (clrText == clrDefaultTxt)
 			{
-				if (ch == _T ('='))
+				if (ch == _T('='))
 				{
-					clrText = RGB (0, 0, 255);
+					clrText = RGB(0, 0, 255);
 				}
 				else
 				{
-					clrText = RGB (255, 0, 0);
+					clrText = RGB(255, 0, 0);
 				}
 			}
 		}
@@ -586,58 +566,58 @@ void CCustomEditCtrl::OnGetCharColor (TCHAR ch, int nOffset, COLORREF& clrText, 
 
 
 
-BOOL CCustomEditCtrl::ToggleCurrentLine (int nCurrRow/* = -1*/)
+BOOL CCustomEditCtrl::ToggleCurrentLine(int nCurrRow/* = -1*/)
 {
 	if (nCurrRow == -1)
 	{
 		nCurrRow = GetCurRow();
 	}
 
-	return ToggleMarker (nCurrRow, g_dwCurrLineType, NULL, FALSE);
+	return ToggleMarker(nCurrRow, g_dwCurrLineType, NULL, FALSE);
 }
 
 
 
-void CCustomEditCtrl::OnOutlineChanges (BCGP_EDIT_OUTLINE_CHANGES& changes, BOOL bRedraw)
+void CCustomEditCtrl::OnOutlineChanges(BCGP_EDIT_OUTLINE_CHANGES& changes, BOOL bRedraw)
 {
 	POSITION posInserted;
 	POSITION posRemoved;
 
 	// Get list of blocks (recursive)
 	CObList lstInsertedBlocks;
-	for (posInserted = changes.m_lstInserted.GetHeadPosition (); posInserted != NULL; )
+	for (posInserted = changes.m_lstInserted.GetHeadPosition(); posInserted != NULL; )
 	{
-		CBCGPOutlineNode* pNodeInserted = (CBCGPOutlineNode*) changes.m_lstInserted.GetNext (posInserted);
-		ASSERT_VALID (pNodeInserted);
+		CBCGPOutlineNode* pNodeInserted = (CBCGPOutlineNode*)changes.m_lstInserted.GetNext(posInserted);
+		ASSERT_VALID(pNodeInserted);
 
-		lstInsertedBlocks.AddTail (pNodeInserted);
-		
-		pNodeInserted->GetAllBlocks (lstInsertedBlocks, TRUE);
+		lstInsertedBlocks.AddTail(pNodeInserted);
+
+		pNodeInserted->GetAllBlocks(lstInsertedBlocks, TRUE);
 	}
-	
+
 	CObList lstRemovedBlocks;
-	for (posRemoved = changes.m_lstRemoved.GetHeadPosition (); posRemoved != NULL; )
+	for (posRemoved = changes.m_lstRemoved.GetHeadPosition(); posRemoved != NULL; )
 	{
-		CBCGPOutlineNode* pNodeRemoved = (CBCGPOutlineNode*) changes.m_lstRemoved.GetNext (posRemoved);
-		ASSERT_VALID (pNodeRemoved);
+		CBCGPOutlineNode* pNodeRemoved = (CBCGPOutlineNode*)changes.m_lstRemoved.GetNext(posRemoved);
+		ASSERT_VALID(pNodeRemoved);
 
-		lstRemovedBlocks.AddTail (pNodeRemoved);
-		
-		pNodeRemoved->GetAllBlocks (lstRemovedBlocks, TRUE);
+		lstRemovedBlocks.AddTail(pNodeRemoved);
+
+		pNodeRemoved->GetAllBlocks(lstRemovedBlocks, TRUE);
 	}
-	
+
 	// Find the same blocks and save them
 	CObList lstSaveCollapsedBlocks;
-	for (posInserted = lstInsertedBlocks.GetHeadPosition (); posInserted != NULL; )
+	for (posInserted = lstInsertedBlocks.GetHeadPosition(); posInserted != NULL; )
 	{
-		CBCGPOutlineNode* pNodeInserted = (CBCGPOutlineNode*) lstInsertedBlocks.GetNext (posInserted);
-		ASSERT_VALID (pNodeInserted);
-		
-		for (posRemoved = lstRemovedBlocks.GetHeadPosition (); posRemoved != NULL; )
+		CBCGPOutlineNode* pNodeInserted = (CBCGPOutlineNode*)lstInsertedBlocks.GetNext(posInserted);
+		ASSERT_VALID(pNodeInserted);
+
+		for (posRemoved = lstRemovedBlocks.GetHeadPosition(); posRemoved != NULL; )
 		{
-			CBCGPOutlineNode* pNodeRemoved = (CBCGPOutlineNode*) lstRemovedBlocks.GetNext (posRemoved);
-			ASSERT_VALID (pNodeRemoved);
-			
+			CBCGPOutlineNode* pNodeRemoved = (CBCGPOutlineNode*)lstRemovedBlocks.GetNext(posRemoved);
+			ASSERT_VALID(pNodeRemoved);
+
 			if (pNodeRemoved->m_nStart == pNodeInserted->m_nStart &&
 				pNodeRemoved->m_nEnd == pNodeInserted->m_nEnd &&
 				pNodeRemoved->m_nBlockType == pNodeInserted->m_nBlockType &&
@@ -646,18 +626,18 @@ void CCustomEditCtrl::OnOutlineChanges (BCGP_EDIT_OUTLINE_CHANGES& changes, BOOL
 				lstSaveCollapsedBlocks.AddTail(pNodeInserted);
 			}
 		}
-		
+
 	}
-	
+
 	// call the base implementation
-	CBCGPEditCtrl::OnOutlineChanges (changes, bRedraw);
-	
+	CBCGPEditCtrl::OnOutlineChanges(changes, bRedraw);
+
 	// Restore the collapsed state
 	for (POSITION posCollapsed = lstSaveCollapsedBlocks.GetHeadPosition(); posCollapsed != NULL; )
 	{
-		CBCGPOutlineNode* pNode = (CBCGPOutlineNode*) lstSaveCollapsedBlocks.GetNext (posCollapsed);
-		ASSERT_VALID (pNode);
-		
+		CBCGPOutlineNode* pNode = (CBCGPOutlineNode*)lstSaveCollapsedBlocks.GetNext(posCollapsed);
+		ASSERT_VALID(pNode);
+
 		pNode->Collapse(TRUE);
 	}
 
@@ -696,9 +676,9 @@ void CCustomEditCtrl::FindAndReplaceEnums()
 	regex wrmEnum("\\{\\s*\\d+\\s*:\\s*\\d+\\s*\\}"); //
 
 	//high exception possibility
-	try{
+	try {
 		while (regex_search(insertedText, match, wrmEnum)) {
-			for (auto x : match){
+			for (auto x : match) {
 
 				//replacing all the white spaces in enum
 				string enumWithoutSpaces = regex_replace((string)x, regex("\\s+"), "");
@@ -708,14 +688,14 @@ void CCustomEditCtrl::FindAndReplaceEnums()
 				CString first(str.c_str());
 				CString second(enumWithoutSpaces.c_str()); //enum without spaces
 
-				if (first!=second)
+				if (first != second)
 					//replace white-spaced enum with clean enum
 					ReplaceText(first, second);
 
 				//extracting two nubers from the enum
 				//error possibility in conversion
 				//if error occurs skip this section and pass to the the next iteration
-				try{
+				try {
 					std::regex number("\\d+");
 					std::smatch digitMatch;
 					std::sregex_iterator next(enumWithoutSpaces.begin(), enumWithoutSpaces.end(), number);
@@ -729,13 +709,13 @@ void CCustomEditCtrl::FindAndReplaceEnums()
 					CString toolTip = FormatEnum(wTag, wItem);
 					AddToolTipItem(second, toolTip);
 				}
-				catch (...){}
+				catch (...) {}
 			}
 
 			insertedText = match.suffix().str();
 		}
 	}
-	catch (...){
+	catch (...) {
 		return;
 	}
 }
@@ -752,8 +732,8 @@ void CCustomEditCtrl::SetWindowText(CString text)
 
 //-----------------------------------------------------------------------------
 // Replaces strings in editor
-void CCustomEditCtrl::ReplaceText(CString stringToReplace, CString newString){
- 	FindText(stringToReplace, TRUE, TRUE, TRUE);
+void CCustomEditCtrl::ReplaceText(CString stringToReplace, CString newString) {
+	FindText(stringToReplace, TRUE, TRUE, TRUE);
 	ReplaceSel(newString, TRUE);
 }
 
@@ -763,7 +743,7 @@ CString CCustomEditCtrl::FormatEnum(WORD wTag, WORD wItem)
 	const EnumTagArray* pTags = AfxGetEnumsTable()->GetEnumTags();
 
 	EnumTag* pTag = pTags->GetTagByValue(wTag);
-	if(!pTag)
+	if (!pTag)
 	{
 		return _TB("Wrong Enum Tag value");
 	}
@@ -784,8 +764,8 @@ CString CCustomEditCtrl::FormatEnum(WORD wTag, WORD wItem)
 
 //-----------------------------------------------------------------------------
 void CCustomEditCtrl::ChangeSelectedText(CString str)
-{	
- 	ReplaceSel(str, TRUE);
+{
+	ReplaceSel(str, TRUE);
 	FindAndReplaceEnums();
 
 	CDC*		hDC;		// handle to device context
@@ -803,7 +783,7 @@ void CCustomEditCtrl::ChangeSelectedText(CString str)
 	ReleaseDC(hDC);
 
 	int currentX = textMetric.tmAveCharWidth* str.GetLength() + textMetric.tmOverhang*str.GetLength();
-	
+
 	POINT point = GetCaretPos();
 	point.x += currentX;
 	SetCaretPos(point);
@@ -812,7 +792,7 @@ void CCustomEditCtrl::ChangeSelectedText(CString str)
 //-----------------------------------------------------------------------------
 BOOL CCustomEditCtrl::PreTranslateMessage(MSG* pMsg)
 {
-	if ( IsIntelliSenseEnabled())
+	if (IsIntelliSenseEnabled())
 	{
 		if (pMsg->message == WM_MOUSEMOVE)
 			SetIntellisenseMode(FALSE);
@@ -876,7 +856,7 @@ BOOL CCustomEditCtrl::PreTranslateMessage(MSG* pMsg)
 			DeleteSelectedText();
 			return TRUE;
 		}
-		
+
 	}
 
 	if (shiftPressed && (pMsg->message == WM_KEYDOWN))
@@ -892,30 +872,30 @@ BOOL CCustomEditCtrl::PreTranslateMessage(MSG* pMsg)
 			MakeSelection(CBCGPEditCtrl::BCGP_EDIT_SEL_TYPE::ST_HOME);
 			return TRUE;
 		}
-																												   
+
 		if (m_bForceIntellisense)
 		{
 			if (::MapVirtualKey(pMsg->wParam, MAPVK_VK_TO_CHAR) != 0)
 			{
-				ForceIntellisense(); 
+				ForceIntellisense();
 				m_bForceIntellisense = FALSE;
-			
+
 				/*PBYTE kbs= new BYTE();
 				LPWORD ch= new WORD();
 
 				::GetKeyboardState(kbs);
 				::ToAscii(pMsg->wParam, ::MapVirtualKey(pMsg->wParam, MAPVK_VK_TO_VSC), kbs, ch, 0);
-			
-				char* k= reinterpret_cast<char*>(ch);	
+
+				char* k= reinterpret_cast<char*>(ch);
 
 				this->InsertChar(*k,TRUE);
 				return TRUE;*/
- 
+
 			}
 			m_bForceIntellisense = FALSE;
-		}					
+		}
 	}
-	
+
 	//Opens intellisense
 	if (ctrlPressed && pMsg->wParam == VK_SPACE && pMsg->message == WM_KEYDOWN)
 	{
@@ -923,10 +903,10 @@ BOOL CCustomEditCtrl::PreTranslateMessage(MSG* pMsg)
 			return TRUE;
 
 		ForceIntellisense();
-		
+
 		return TRUE;
 	}
-	 return __super::PreTranslateMessage(pMsg);
+	return __super::PreTranslateMessage(pMsg);
 }
 
 //-----------------------------------------------------------------------------
@@ -945,19 +925,19 @@ void CCustomEditCtrl::ForceIntellisense()
 	if (
 		(nCurrOffset > 0) &&
 		(nCurrOffset <= m_strBuffer.GetLength()) &&
-			m_strIntelliSenseChars.Find(m_strBuffer.GetAt(nCurrOffset - 1)) != -1
+		m_strIntelliSenseChars.Find(m_strBuffer.GetAt(nCurrOffset - 1)) != -1
 		)
 	{
 		CString strIntelliSence;
 
 		for (--nCurrOffset;
-		nCurrOffset >= 0 &&
+			nCurrOffset >= 0 &&
 			m_strIntelliSenseChars.Find(m_strBuffer.GetAt(nCurrOffset)) == -1 &&
 			(m_strNonSelectableChars.Find(m_strBuffer.GetAt(nCurrOffset)) >= 0);
 			nCurrOffset--);
 
 		if (nCurrOffset < 0 || !FillIntelliSenceWord(m_strBuffer, nCurrOffset, strIntelliSence))
-				return ;
+			return;
 
 		//Find Point
 
@@ -968,8 +948,8 @@ void CCustomEditCtrl::ForceIntellisense()
 
 			strIntelliSence = strIntelliSence.Left(2);
 
-		else  if (strIntelliSence.GetLength()< 2)
-			return ;
+		else  if (strIntelliSence.GetLength() < 2)
+			return;
 
 		if (IsIntelliSenceWord(strIntelliSence))
 			nCurrOffset = nCurrOffset + 1;
@@ -977,7 +957,7 @@ void CCustomEditCtrl::ForceIntellisense()
 		{
 			strIntelliSence = strIntelliSence + L"_";
 			if (!IsIntelliSenceWord(strIntelliSence))
-				return ;
+				return;
 
 			nCurrOffset = nCurrOffset + 1;
 		}
@@ -1019,10 +999,10 @@ BOOL CCustomEditCtrl::InvokeIntelliSense(CObList& lstIntelliSenseData, CPoint pt
 
 	IntellisenseWndExtended* pIntelliSenseWnd = new IntellisenseWndExtended;
 	intelliCreated = pIntelliSenseWnd->Create(lstIntelliSenseData,
-		WS_POPUP | WS_VISIBLE | MFS_SYNCACTIVE | WS_BORDER ,
+		WS_POPUP | WS_VISIBLE | MFS_SYNCACTIVE | WS_BORDER,
 		ptTopLeft, this, m_pIntelliSenseLBFont, m_pIntelliSenseImgList);
-	
-	
+
+
 	SetIntelliSenseWnd(pIntelliSenseWnd);
 	return intelliCreated;
 }
@@ -1041,8 +1021,8 @@ LRESULT CCustomEditCtrl::PostInvokeIntelliSense(WPARAM, LPARAM)
 	{
 		if (OnFillIntelliSenseList(nCurrOffset, lstIntelliSenseData))
 		{
-			SetFocus(); 
-			HideCaret(); 
+			SetFocus();
+			HideCaret();
 			ShowCaret();
 
 			CPoint pt(0, 0);
@@ -1070,8 +1050,8 @@ BOOL CCustomEditCtrl::EnableBreakpoints(BOOL bFl /* = TRUE */)
 //-----------------------------------------------------------------------------
 BOOL CCustomEditCtrl::PointOutBreakpointMarker(int nCurrRow)
 {
-	SetLineColorMarker(nCurrRow,  RGB(0, 255, 0), RGB(180, 80, 80), TRUE, 0, g_dwColorBreakPointType, 2);
-	
+	SetLineColorMarker(nCurrRow, RGB(0, 255, 0), RGB(180, 80, 80), TRUE, 0, g_dwColorBreakPointType, 2);
+
 	return TRUE;
 }
 
@@ -1080,7 +1060,7 @@ BOOL CCustomEditCtrl::SetMarker(int nCurrRow, BOOL bCurrent/* = FALSE*/)
 	CBCGPEditMarker* pMarker = NULL;
 	if (!GetMarker(nCurrRow, &pMarker, g_dwBreakPointType))
 		ToggleMarker(nCurrRow, g_dwBreakPointType, NULL, FALSE, 2);
-	
+
 	//when bCurrent it PointOut the Breakpoint Marker
 	SetLineColorMarker(nCurrRow, (bCurrent ? RGB(255, 255, 255) : RGB(0, 0, 0)), RGB(255, 127, 127), TRUE, 0, g_dwColorBreakPointType, 2);
 
@@ -1095,7 +1075,7 @@ BOOL CCustomEditCtrl::ToggleBreakpoint()
 
 	if (bMarkerSet)
 	{
-		SetLineColorMarker(nCurrRow,RGB(0, 0, 0), RGB(255, 127, 127), TRUE, 0, g_dwColorBreakPointType, 2);
+		SetLineColorMarker(nCurrRow, RGB(0, 0, 0), RGB(255, 127, 127), TRUE, 0, g_dwColorBreakPointType, 2);
 	}
 	else
 	{
@@ -1118,19 +1098,19 @@ void CCustomEditCtrl::RemoveAllBreakpoints()
 	DeleteAllMarkers(g_dwBreakPointType | g_dwColorBreakPointType);
 }
 
- /////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
 //////////////////IntellisenseWndExtended////////////////////
 /////////////////////////////////////////////////////////////
 
 BEGIN_MESSAGE_MAP(IntellisenseWndExtended, CBCGPIntelliSenseWnd)
-	
+
 END_MESSAGE_MAP()
 
 //-----------------------------------------------------------------------------
 
 IntellisenseWndExtended::~IntellisenseWndExtended()
 {
-	
+
 }
 
 
@@ -1151,40 +1131,45 @@ BOOL IntellisenseWndExtended::DestroyWindow()
 
 
 IntellisenseMap::IntellisenseMap() {
-	root = this->getNode();
+	root = this->createNode();
 }
 
-IntellisenseMap::IntellisenseNode* IntellisenseMap::getNode() {
+IntellisenseMap::IntellisenseNode* IntellisenseMap::createNode() {
 
- IntellisenseNode *pNode = new IntellisenseNode;
+	IntellisenseNode *pNode = new IntellisenseNode;
 
 	pNode->isEndOfWord = false;
 
-	for (int i = 0; i < this->alphaberSizeExtended; i++)
+	for (int i = 0; i < this->alphabetSizeExtended; i++)
 		pNode->children[i] = NULL;
 
 	return pNode;
 }
 
-void IntellisenseMap::insert(CString key, IntellisenseData* data) {
-	 IntellisenseNode *pCrawl = root;
+IntellisenseMap::IntellisenseNode* IntellisenseMap::insert(CString key) {
+	IntellisenseNode *pCrawl = root;
 
 	for (int i = 0; i < key.GetLength(); i++)
 	{
 		int index = key[i] - (char)33;
 		if (!pCrawl->children[index])
-			pCrawl->children[index] = getNode();
+			pCrawl->children[index] = createNode();
 
 		pCrawl = pCrawl->children[index];
 	}
 
 	// mark last node as leaf
 	pCrawl->isEndOfWord = true;
-	pCrawl->data = data;
+	return pCrawl;
 }
 
-IntellisenseData* IntellisenseMap::search(CString key) {
-	IntellisenseNode *pCrawl = root;
+IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, IntellisenseNode* fromHere) {
+
+	IntellisenseNode *pCrawl = NULL;
+	if (fromHere)
+		pCrawl = fromHere;
+	else
+		pCrawl = root;
 
 	for (int i = 0; i < key.GetLength(); i++)
 	{
@@ -1195,7 +1180,66 @@ IntellisenseData* IntellisenseMap::search(CString key) {
 		pCrawl = pCrawl->children[index];
 	}
 
-	if (pCrawl != NULL && pCrawl->isEndOfWord && pCrawl->data)
-		return pCrawl->data;
+	if (pCrawl != NULL)
+		return pCrawl;
 	else return NULL;
+}
+
+
+
+
+void IntellisenseMap::empty() {
+	if (root)
+		delete[]root;
+}
+
+void IntellisenseMap::matchPrefix(CObList& lstIntelliSenseData, CString prefix) {
+
+	//serach prefix and then recursivly match the prefix
+	IntellisenseNode* lastNode = search(prefix.MakeUpper());
+	if (!lastNode)
+		return;
+	if (lastNode->isEndOfWord) {
+		lstIntelliSenseData.AddTail(createDataCopy(lastNode->data));
+		if (prefix.CompareNoCase(lastNode->data->m_strItemName) == 0)
+			return;
+	}
+	BOOL containsPoint = false;
+	if (prefix.Find((CString)".", 0) >= 0)
+		containsPoint = true;
+
+	matchAllRec(lstIntelliSenseData, lastNode, containsPoint);
+
+}
+
+void IntellisenseMap::matchAllRec(CObList& lstIntelliSenseData, IntellisenseMap::IntellisenseNode * node, BOOL hasPoint) {
+
+	if (!node)
+		return;
+	if (node->isEndOfWord) {
+		if (node->data)
+			lstIntelliSenseData.AddTail(createDataCopy(node->data));
+	}
+
+	int index = '.' - (char)33;
+
+	for (int i = 0; i < IntellisenseMap::alphabetSizeExtended; i++) {
+		if (i == index && !hasPoint)
+			continue;
+		matchAllRec(lstIntelliSenseData, node->children[i], hasPoint);
+	}
+
+}
+
+IntellisenseData* IntellisenseMap::createDataCopy(IntellisenseData* data) {
+	IntellisenseData* newData = new IntellisenseData();
+
+	newData->m_nImageListIndex = data->m_nImageListIndex;
+	newData->m_dwData = data->m_dwData;
+	newData->m_strAdditionalInfo = data->m_strAdditionalInfo;
+	newData->m_strItemHelp = data->m_strItemHelp;
+	newData->m_strItemName = data->m_strItemName;
+	newData->m_strItemValue = data->m_strItemValue;
+
+	return newData;
 }

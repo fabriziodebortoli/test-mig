@@ -66,25 +66,30 @@ public:
 class TB_EXPORT IntellisenseMap {
 
 private:
-	static const int alphaberSizeExtended = 93;
+	static const int alphabetSizeExtended = 93;
+	
 
 public:
 	class TB_EXPORT IntellisenseNode {
 	public:
 		// alphabet size + special characters  + numbers
-		IntellisenseNode * children[alphaberSizeExtended];
+		IntellisenseNode * children[alphabetSizeExtended];
 		bool isEndOfWord = false;
 		IntellisenseData* data = NULL;
 	};
 
 	
 	IntellisenseMap();
-	IntellisenseNode* getNode();
-	void insert(CString key, IntellisenseData* data);
-	IntellisenseData* search(CString key);
+	IntellisenseNode* createNode();
+	IntellisenseNode* insert(CString key);
+	IntellisenseNode* search(CString key, IntellisenseNode* fromHere = NULL);
+	void matchPrefix(CObList& lstIntelliSenseData, CString prefix);
+	void empty();
 
 protected:
-	IntellisenseNode * root;
+	IntellisenseNode * root=NULL;
+	void matchAllRec(CObList& lstIntelliSenseData, IntellisenseNode * node, BOOL hasPoint);
+	IntellisenseData* createDataCopy(IntellisenseData* data);
 };
 
 
@@ -188,8 +193,7 @@ public:
 	BOOL m_bForceIntellisense = FALSE;
 
    // intellisense
-	std::multimap <CString, IntellisenseData*> m_mIntelliString;
-
+	IntellisenseMap*	m_mIntelliMap;
 
 
 	// Generated message map functions
@@ -222,7 +226,7 @@ private:
 		void ChangeSelectedText(CString str);
 		void AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help);
 		void EmptyIntellisense();
-		CString GetKeyFromWordForIntellisense(CString word);
+	
 
 	private:
 		CString FormatEnum(WORD nTag, WORD nItem);

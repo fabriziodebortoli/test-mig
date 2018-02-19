@@ -1,9 +1,19 @@
 <button (click)="addRow()" *ngIf="enabled">   <m4-icon icon="tb-add"></m4-icon></button>
 <button (click)="removeRow()" *ngIf="enabled"> <m4-icon icon="tb-minus"></m4-icon></button>
 
-<kendo-grid [ngClass]="isLoading? 'k-loading-image': ''" [kendoGridBinding]="model?.rows" [resizable]="true" (selectionChange)="ben_row_changed($event)" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)"
-    [height]="height">
 
+
+
+
+<kendo-grid [ngClass]="isLoading? 'k-loading-image': ''" [data]="gridView" [resizable]="true" (selectionChange)="ben_row_changed($event)" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height"
+    (pageChange)="pageChange($event)" [pageSize]="pageSize" [skip]="paginator.skip" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }">
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-info></kendo-pager-info>
+        Current page: {{currentPage}}
+    </ng-template>
 </kendo-grid>
 
 <!-- 
