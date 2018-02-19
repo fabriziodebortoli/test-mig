@@ -568,16 +568,17 @@ void TableColumn::SetHidden (BOOL bIsHidden)
 // le stringhe
 
 //------------------------------------------------------------------------------
-int TableColumn::CalculateFieldWidth (const CString& strText) const 
+int TableColumn::CalculateFieldWidth (const CString& strText) 
 {
-	const FontStyle* pFont = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(m_nFontIdx, &m_pTable->m_pDocument->GetNamespace());
+	const FontStyle* pFont = GetFontStyle(FALSE);
 
-	CDC* pDC = m_pTable->m_pDocument->GetWoormView()->GetDC();
-	CSize size = pFont ? pFont->GetStringWidth (pDC, strText) : CSize(0,0);
-	m_pTable->m_pDocument->GetWoormView()->ReleaseDC(pDC);
+	CWoormView* pWView = m_pTable->m_pDocument->GetWoormView();
+	ASSERT_VALID(pWView);
+	CDC* pDC = pWView->GetDC();
+	int cx = pFont ? pFont->GetStringWidth2 (pDC, strText) : 0;
+	pWView->ReleaseDC(pDC);
 
-//	int nCharWidth = (int) (0.5 + (double) DefaultSize(m_nFontIdx, STRLEN_TEMPLATE).cx / STRLEN_TEMPLATE);
-	int nCharWidth = (int)((double) size.cx / strText.GetLength() + 0.5);
+	int nCharWidth = (int)((double) cx / strText.GetLength() + 0.5);
 
 	int nWidth = m_ColumnRect.Width();
 
@@ -599,45 +600,30 @@ int TableColumn::CalculateFieldWidth (const CString& strText) const
 }
 
 //------------------------------------------------------------------------------
-BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal/* = FALSE*/) 
+FontStyle* TableColumn::GetFontStyle(BOOL bSubTotal)
 {
-	fieldWidthFactors.m_bMiniHtml = this->m_bMiniHtml;
-
-	FontIdx fi = bSubTotal ? this->m_SubTotal.m_nFontIdx : m_nFontIdx;
-/*	Non funziona: a volte calcolerebbe il risultato ma il dataobj risulta comunque invalido
-	inoltre è dipendente dall'ordine delle EVAL/DISPLAY chiamate sugli eventuali field utilizzati nell'espressione dinamica
-	che non è garantito che vengano effettuati prima di della DISPLAY della colonna da suddividere.
-	try
-	{
-		if (m_pTextFontExpr)
-		{
-			DataStr dsFont;
-			if (m_pTextFontExpr->Eval(dsFont))
-			{
-				int dynamicFi = m_pTable->m_pDocument->m_pFontStyles->GetFontIdx(dsFont, FALSE);
-				if (dynamicFi != FNT_ERROR)
-					fi = dynamicFi;
-			}
-		}
-	}
-	catch(...)
-	{
-	}
-*/
 	if (bSubTotal)
 	{
 		if (!m_pSubTotalFontStyle)
-			m_pSubTotalFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(fi, &m_pTable->m_pDocument->GetNamespace());
+			m_pSubTotalFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(this->m_SubTotal.m_nFontIdx, &m_pTable->m_pDocument->GetNamespace());
 
-		fieldWidthFactors.m_pFontStyle = m_pSubTotalFontStyle;
+		return m_pSubTotalFontStyle;
 	}
 	else
 	{
 		if (!m_pFontStyle)
-			m_pFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(fi, &m_pTable->m_pDocument->GetNamespace());
+			m_pFontStyle = m_pTable->m_pDocument->m_pFontStyles->GetFontStyle(m_nFontIdx, &m_pTable->m_pDocument->GetNamespace());
 
-		fieldWidthFactors.m_pFontStyle = m_pFontStyle;
+		return m_pFontStyle;
 	}
+}
+
+//------------------------------------------------------------------------------
+BOOL TableColumn::CalculateFieldWidthFactors(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal/* = FALSE*/) 
+{
+	fieldWidthFactors.m_bMiniHtml = this->m_bMiniHtml;
+
+	fieldWidthFactors.m_pFontStyle = GetFontStyle(bSubTotal);
 
 	fieldWidthFactors.m_pWnd = m_pTable->m_pDocument->GetWoormView();
 	if (fieldWidthFactors.m_pFontStyle == NULL || fieldWidthFactors.m_pWnd == NULL)

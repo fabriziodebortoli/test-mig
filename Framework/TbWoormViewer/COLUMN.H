@@ -164,6 +164,8 @@ private:
 	FontStyle*	m_pSubTotalFontStyle = NULL;
 
 public:
+	FontStyle* GetFontStyle(BOOL bSubTotal);
+
 	//BOOL	m_bMixedColumnFont = FALSE;		// indica che le celle delle colonne contengono font diversi
 	//BOOL	m_bMixedColumnAlign = FALSE;	// indica che le celle delle colonne contengono allineamenti diversi
 	
@@ -238,7 +240,6 @@ public:
 	void	SetHidden				(BOOL bIsHidden);
 
 	BOOL	HasDynamicAttributeOnRow () const;
-
 
 	//------------------------------------------------------------------------------
 	TableBorders GetBorders() const { return m_pTable->m_Borders; }
@@ -337,7 +338,7 @@ public:
 
 	void	SetFieldWidth			();
 
-	int		CalculateFieldWidth		(const CString& strText) const ;
+	int		CalculateFieldWidth		(const CString& strText);
 	BOOL	CalculateFieldWidthFactors	(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal = FALSE);
 
 	BorderPen	GetColumnPen		() const;

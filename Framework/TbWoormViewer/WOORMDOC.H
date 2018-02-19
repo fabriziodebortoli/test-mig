@@ -1180,6 +1180,8 @@ public:
 	virtual BOOL		ExistsColumnID		(WORD id, CString sLayoutName) const;
 	virtual BOOL		ColumnShowedAsImage (WORD id, CString sLayoutName) const; 
 	virtual	CObject*	GetColumnPtr		(WORD id, CString sLayoutName) const;
+	const TableColumn*	FindColumnByID		(WORD id, CString sLayoutName) const;
+
 
 			void OnBringToFront				(UINT nID);
 			void OnSendToBack				(BaseObj*);

@@ -579,8 +579,8 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 			//try to extend length: head line is all lowercase and it is shorter than actual column width
 			while (nLenHeadLine < sLine.GetLength())
 			{
-				CSize size = fieldWidthFactors.m_pFontStyle->GetStringWidth (fieldWidthFactors.m_pDC, sHeadLine);
-				if (size.cx >= fieldWidthFactors.m_nWidth)
+				int cx = fieldWidthFactors.m_pFontStyle->GetStringWidth2 (fieldWidthFactors.m_pDC, sHeadLine);
+				if (cx >= fieldWidthFactors.m_nWidth)
 					break;
 
 				nLenHeadLine++;
@@ -589,8 +589,8 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 			//reduce length to fit actual column width: head line is all uppercase and it is longer than actual column width
 			while (nLenHeadLine > 1)
 			{
-				CSize size = fieldWidthFactors.m_pFontStyle->GetStringWidth (fieldWidthFactors.m_pDC, sHeadLine);
-				if (size.cx < fieldWidthFactors.m_nWidth)
+				int cx = fieldWidthFactors.m_pFontStyle->GetStringWidth2 (fieldWidthFactors.m_pDC, sHeadLine);
+				if (cx < fieldWidthFactors.m_nWidth)
 					break;
 
 				nLenHeadLine--;

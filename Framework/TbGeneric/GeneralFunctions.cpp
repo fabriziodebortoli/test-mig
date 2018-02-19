@@ -172,6 +172,24 @@ CSize GetTextSize(CDC* pDC, const CString& str, CFont* pFont/*=NULL*/)
 }
 
 //------------------------------------------------------------------------------
+int GetTextWidth(CDC* pDC, const CString& str, CFont* pFont/*=NULL*/)
+{
+	if (!pDC)
+		return 0;
+
+	CFont*	pOldFont = NULL;
+	if (pFont) pOldFont = pDC->SelectObject(pFont);
+
+	CSize cs = pDC->GetTextExtent(str, str.GetLength());
+
+	if (pFont == NULL)
+		ScaleSize(cs, *pDC);
+
+	if (pFont) pDC->SelectObject(pOldFont);
+	return cs.cx;
+}
+
+//------------------------------------------------------------------------------
 CSize GetTextSize(CDC* pDC, int nLen, CFont* pFont)
 {
 	if (nLen <= 0)
