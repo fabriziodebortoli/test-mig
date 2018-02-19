@@ -10,11 +10,14 @@ class TB_EXPORT CTaskBuilderStatusBar : public CBCGPStatusBar
 {
 // Construction
 public:
-
 	CTaskBuilderStatusBar();
 
-// Attributes
+protected:
+	BOOL m_bSuspendUpdateCmdUI = FALSE;
 public:
+	void SetSuspendUpdateCmdUI(BOOL bSuspend = TRUE) { m_bSuspendUpdateCmdUI = bSuspend; }
+	BOOL IsSuspendedUpdateCmdUI() { return m_bSuspendUpdateCmdUI; }
+	virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
 
 	// Operations
 public:
@@ -36,7 +39,6 @@ public:
 public:
 	virtual ~CTaskBuilderStatusBar();
 	virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
-
 
 protected:
 	BOOL m_bPaneWithProges;

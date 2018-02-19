@@ -106,7 +106,6 @@ friend class CApplicationContext;
 	
 DECLARE_DYNCREATE(CTBWinThread)
 
-
 	CStringA m_strName;
 	CLoginContext*		m_pLoginContext;
 	AFX_THREADPROC		m_pTBThreadProc;
@@ -136,9 +135,15 @@ public:
 	static BOOL IsCurrentlyInUnattendedMode();
 	virtual BOOL CanStopThread();
 	virtual bool IsManaged(){ return false; }
+
+protected:
+	BOOL m_bSuspendIdle = FALSE;
 public:
-	virtual BOOL PumpMessage();
+	void SetSuspendIdle(BOOL bSuspend = TRUE) { m_bSuspendIdle = bSuspend; }
+	BOOL IsSuspendedIdle() { return m_bSuspendIdle; }
 	virtual BOOL OnIdle(LONG lCount);
+
+	virtual BOOL PumpMessage();
 
 	virtual LRESULT ProcessWndProcException(CException* e, const MSG* pMsg);
 

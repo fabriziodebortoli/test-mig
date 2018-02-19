@@ -166,7 +166,7 @@ const CString FontStyle::GetTitle () const
 { 
 	CString sTitle = AfxLoadFontString(m_strStyleName, m_OwnerModule);
 	
-	// se il font è di report, la traduzione potrebbe non essere disponibile
+	// se il font ï¿½ di report, la traduzione potrebbe non essere disponibile
 	// quindi provo a cercare nel suo standard per vedere se fossero disponibili
 	if (sTitle.CompareNoCase(m_strStyleName) || m_OwnerModule.GetType() != CTBNamespace::REPORT || !m_pStandardFont)
 		return sTitle;
@@ -251,7 +251,7 @@ void FontStyle::SetStandardFont	(FontStyle* pFont)
 CSize FontStyle::GetStringWidth (CDC* pDC, int nLen) const
 {              
     CFont font; font.CreateFontIndirect(&m_LogFont);
-    CSize cs = GetTextSize(pDC, nLen, &font);
+    CSize cs = ::GetTextSize(pDC, nLen, &font);
 	return cs;
 }
 
@@ -259,8 +259,15 @@ CSize FontStyle::GetStringWidth (CDC* pDC, int nLen) const
 CSize FontStyle::GetStringWidth (CDC* pDC, const CString& str) const
 {              
     CFont font; font.CreateFontIndirect(&m_LogFont);
-    CSize cs = GetTextSize(pDC, str, &font);
+    CSize cs = ::GetTextSize(pDC, str, &font);
 	return cs;
+}
+
+//------------------------------------------------------------------------------
+int FontStyle::GetStringWidth2(CDC* pDC, const CString& str) const
+{
+	CFont font; font.CreateFontIndirect(&m_LogFont);
+	return ::GetTextWidth(pDC, str, &font);
 }
 
 //------------------------------------------------------------------------------
@@ -438,13 +445,13 @@ void FontStylesGroup::DeleteFont(FontStyle* pFontStyleToDel)
 }
 
 // Si occupa di scegliere il font migliore da applicare secondo contesto. La
-// scaletta delle priorità è la seguente:
+// scaletta delle prioritï¿½ ï¿½ la seguente:
 //	1) il font corrispondente ad uno specifico namespace 
 //	2) il font corrispondente alla stessa applicazione e modulo
 //	3) il font corrispondente alla stessa applicazione	(il primo trovato)
 //	4) il font corrispondente di altre applicazioni		(il primo trovato)
 //	5) l'ultimo caricato
-//	- a parità di font, il font custom è più forte di quello standard
+//	- a paritï¿½ di font, il font custom ï¿½ piï¿½ forte di quello standard
 //------------------------------------------------------------------------------
 FontStyle* FontStylesGroup::BestFontForContext (CTBNamespace* pContext) const
 {
@@ -459,7 +466,7 @@ FontStyle* FontStylesGroup::BestFontForContext (CTBNamespace* pContext) const
 							pContext->GetObjectName(CTBNamespace::MODULE)
 						);
 
-	// Cerco il mio corrispondente preciso, e mi predispongo già quello 
+	// Cerco il mio corrispondente preciso, e mi predispongo giï¿½ quello 
 	// con lo stesso nome di applicazione e/o con lo stesso nome di modulo
 	FontStyle* pExactFont	= NULL;
 	FontStyle* pAppFont		= NULL;
@@ -484,7 +491,7 @@ FontStyle* FontStylesGroup::BestFontForContext (CTBNamespace* pContext) const
 
 		// ho il corrispondente identico
 		if (pFont->GetOwner() == *pContext && HasPriority(pExactFont, pFont, pContext))
-			pExactFont = pFont;	//TODO perchè non fa return ?
+			pExactFont = pFont;	//TODO perchï¿½ non fa return ?
 
 		// il primo trovato con la stessa applicazione
 		if (
@@ -816,7 +823,7 @@ int	FontStyleTable::AddFont (FontStyle* pFont)
 	if (!pFont)
 		return -1;
 
-	// cerca se esiste già un formattatore con lo stesso nome rappresentato dal suo gruppo
+	// cerca se esiste giï¿½ un formattatore con lo stesso nome rappresentato dal suo gruppo
 	FontStylesGroup* pFontsGroup = NULL;
 	for (int i = 0; i <= GetUpperBound(); i++)
 		if (pFont->GetStyleName().CompareNoCase(GetAt(i)->GetStyleName()) == 0)
@@ -825,7 +832,7 @@ int	FontStyleTable::AddFont (FontStyle* pFont)
 			break;
 		}
 	
-	// se non c'è ancora il gruppo lo creo
+	// se non c'ï¿½ ancora il gruppo lo creo
 	if (!pFontsGroup)
 	{
 		pFontsGroup = new FontStylesGroup(pFont->GetStyleName());
@@ -947,7 +954,7 @@ void FontStyleTable::RemoveFileLoaded (const CTBNamespace& aOwner, const FontSty
 		}
 	}
 }
-// è ammesso personalizzare sulla singola stazione il facename e il charset del font 
+// ï¿½ ammesso personalizzare sulla singola stazione il facename e il charset del font 
 // usato per i control, in caso di utilizzo di localizzazione non standard inglese o 
 // italiana (es.: croazia, slovenia). Il charset di default(ANSI) non contiene tutti 
 // i caratteri, bisogna usare un altro charset dipendente dalla localizzazione.

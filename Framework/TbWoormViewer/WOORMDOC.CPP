@@ -353,7 +353,7 @@ CLayout::CLayout (const CString& strLayoutName, CWoormDocMng* pWDoc, BOOL bAddAu
 		m_nCountAutoObjects = GetSize();
 	}
 	
-	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere più leggibile il layout
+	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere piï¿½ leggibile il layout
 	SetCompareFunction(BaseObj_CompareZYX);
 }
 
@@ -376,7 +376,7 @@ CLayout::CLayout (const CLayout& source)
 		}
 		Add (pCloneObj);
 	}
-	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere più leggibile il layout
+	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere piï¿½ leggibile il layout
 	SetCompareFunction(BaseObj_CompareZYX);
 }
 
@@ -737,7 +737,7 @@ BOOL CLayout::FindFreeRect (int width, CRect& rectTarget)
 /*
 //-------------------------------------------------------------------------
 //cerca alternado la direzione, le coordinate di un rettangolo libero delle dimensioni indicate
-//cerca priima in alto, poi in basso. si sposta nella striscia identificata dal limite più vicino al bordo 
+//cerca priima in alto, poi in basso. si sposta nella striscia identificata dal limite piï¿½ vicino al bordo 
 //degli oggetti che hanno colliso al passo precedente (ci sono 2 set distini di variabili)
 //si ferma quando la ricerca si incontra al centro della pagina
 //NB: numericamente TOP < BOTTOM, TOPa video in alto nela pagina
@@ -828,11 +828,11 @@ BOOL CLayout::FindFreeRect (int width, CRect& rectTarget, int& nMaxTop, int& nMi
 			}
 			bInt = TRUE;
 
-			//ricerca Top-Down: MinBottom - cerco coordinate bordo inferiore piu' alto nella pagina (numericamente più basso)
+			//ricerca Top-Down: MinBottom - cerco coordinate bordo inferiore piu' alto nella pagina (numericamente piï¿½ basso)
 			if (nMinBottom > ro.bottom)
 				nMinBottom = ro.bottom;
 
-			//ricerca Bottom-Up: MaxTop - cerco coordinate bordo superiore piu' basso nella pagina (numericamente più alto)
+			//ricerca Bottom-Up: MaxTop - cerco coordinate bordo superiore piu' basso nella pagina (numericamente piï¿½ alto)
 			if (nMaxTop < ro.top)
 				nMaxTop = ro.top;
 			
@@ -1824,7 +1824,7 @@ CWoormDocMng::~CWoormDocMng()
 	//if (m_pOldWoormInfo && m_pOldWoormInfo->m_bOwnedByReport)
 	//	SAFE_DELETE(m_pOldWoormInfo);
 
-	//@@TODO Solo se é un proprio contesto
+	//@@TODO Solo se ï¿½ un proprio contesto
 	SAFE_DELETE(m_pTbContext);
 	SAFE_DELETE(m_pMessages);
 	SAFE_DELETE(m_pOldFont);
@@ -2655,7 +2655,7 @@ BaseObj* CWoormDocMng::SetCurrentObj (BaseObj* pO, CPoint& pt)
 			// set active status only if not in multiple selection
 			if (!m_pMultipleSelObj)
 			{
-				//fix anomalia: mancata selezione titolo tabella se prima era già selezionata una colonna
+				//fix anomalia: mancata selezione titolo tabella se prima era giï¿½ selezionata una colonna
 				if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)))
 					((Table*)m_pCurrentObj)->m_nActiveColumn = Table::NO_ACTIVE_COLUMN;
 
@@ -2717,7 +2717,7 @@ void CWoormDocMng::OnObjectCut()
 	BOOL bDeleted = FALSE;
 	
 	// se esiste, svuoto la property grid altrimenti, cancellando l'oggetto,
-	// rimarrebbe la property che punta a qualcosa non più valido dando svariati problemi
+	// rimarrebbe la property che punta a qualcosa non piï¿½ valido dando svariati problemi
 	if (GetWoormFrame()->m_pObjectPropertyView)
 		GetWoormFrame()->m_pObjectPropertyView->ClearPropertyGrid();
 
@@ -3354,7 +3354,7 @@ void CWoormDocMng::ValorizeEABarCode(const CString strAlternativeName, BOOL bGen
 	if (m_Template.m_bIsTemplate)
 		return;
 	//----
-	if (!m_dsEABarCode.m_strBarcodeValue.IsEmpty() && m_dsEABarCode.m_strBarcodeValue != L"EA-12345678901234")	//todo ilaria barcode, chiedi questo codice come viene usato? dubbio perchè introducendo gestione di più tipi barcode non sono tutti alfanumerici
+	if (!m_dsEABarCode.m_strBarcodeValue.IsEmpty() && m_dsEABarCode.m_strBarcodeValue != L"EA-12345678901234")	//todo ilaria barcode, chiedi questo codice come viene usato? dubbio perchï¿½ introducendo gestione di piï¿½ tipi barcode non sono tutti alfanumerici
 		return;
 
 	m_dsEABarCode.m_strBarcodeValue = L"EA-12345678901234";
@@ -4317,7 +4317,7 @@ void CWoormDocMng::MultipleSelect(CRect includeRect, BOOL bAll)
 		m_pMultipleSelObj = NULL;
 	}
 	else if (GetWoormFrame()->m_pObjectPropertyView)
-		//altrimenti se non è fallita la multiselezione carico la property grid per gli oggetti selezionati
+		//altrimenti se non ï¿½ fallita la multiselezione carico la property grid per gli oggetti selezionati
 		GetWoormFrame()->m_pObjectPropertyView->LoadMultipleSelectionProperties(m_pMultipleSelObj);
 	// refresh video status
 	UpdateWindow();
@@ -4703,7 +4703,7 @@ BOOL CWoormDocMng::ReadDataFromId(BOOL& bPrepared)
 
 	if (wId != SpecialReportField::ID.LAYOUT && !bPrepared)
 	{
-		//MANCA il valore del Layout name: assumo che l'RDE è precedente alla 3.5
+		//MANCA il valore del Layout name: assumo che l'RDE ï¿½ precedente alla 3.5
 		PrepareLayout();
 
 		bPrepared = TRUE;
@@ -4722,7 +4722,7 @@ BOOL CWoormDocMng::ReadDataFromId(BOOL& bPrepared)
 
 				if (wId == SpecialReportField::ID.LAYOUT)
 				{
-					//Imposto il nome del Layout per la pagina (è sicuramente il primo campo)
+					//Imposto il nome del Layout per la pagina (ï¿½ sicuramente il primo campo)
 					m_dsCurrentLayoutView.Assign(*(p->GetRDEValue()));
 			
 					if (!bPrepared)
@@ -4730,7 +4730,7 @@ BOOL CWoormDocMng::ReadDataFromId(BOOL& bPrepared)
 						m_dsCurrentLayoutView.Assign(*(p->GetRDEValue()));
 
 						PrepareLayout();
-						//evito che se il campo viene displayato automaticamente più volte mi perdo parte della pagina
+						//evito che se il campo viene displayato automaticamente piï¿½ volte mi perdo parte della pagina
 						bPrepared = TRUE;
 					}
 					else
@@ -4949,15 +4949,33 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 
 	//---- OnRun
 #ifdef _DEBUG
-if (m_pWoormInfo)
-{
-	CString s = m_pWoormInfo->ToString();
-		int i = s.GetLength();
-}
+//if (m_pWoormInfo)
+//{
+//	CString s = m_pWoormInfo->ToString();
+//		int i = s.GetLength();
+//}
 #endif
+
+	if (this->GetWoormFrame(FALSE))
+	{
+		if (this->GetWoormFrame()->GetTabbedToolBar())
+			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI();
+		if (this->GetWoormFrame()->GetStatusBar())
+			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI();
+	}
+	AfxGetTBThread()->SetSuspendIdle();
 
 	BOOL bOk = m_pEngine->Run(m_pRDEmanager, NULL, &m_strDocumentFilter, m_bUsePrevAskInput, m_pWoormInfo, &m_ViewSymbolTable);
 	
+	AfxGetTBThread()->SetSuspendIdle(FALSE);
+	if (this->GetWoormFrame(FALSE))
+	{
+		if (this->GetWoormFrame()->GetTabbedToolBar())
+			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI(FALSE);
+		if (this->GetWoormFrame()->GetStatusBar())
+			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI(FALSE);
+	}
+
 	if (bOk && m_deReportStatus == DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_SCRIPT_QUIT))
 	{
 		m_pWoormInfo->m_bCloseOnEndPrint = TRUE;
@@ -5456,7 +5474,7 @@ BOOL CWoormDocMng::OnNewDocument()
 	m_bAborted = FALSE;
 	m_FileFormat = CLineFile::UTF8;
 
-	////OSL: L'utente può creare nuovi report ?
+	////OSL: L'utente puï¿½ creare nuovi report ?
 	//if 
 	//	(
 	//		AfxGetSecurityInterface()->IsSecurityEnabled() 
@@ -5552,7 +5570,7 @@ BOOL CWoormDocMng::ParseHeadData (ViewParser& lex)
 
 	AddOnModule* pAddOnMod = AfxGetAddOnModule(GetNamespace());
 	
-	// se il namespace non mi arriva di tipo report vuol dire che è nuovo e non
+	// se il namespace non mi arriva di tipo report vuol dire che ï¿½ nuovo e non
 	// ha senso verificare gli OutDates che non ha ancora un modulo assegnato.
 	if (GetNamespace().GetType() == CTBNamespace::REPORT && pAddOnMod && pAddOnMod->m_XmlDescription.IsOutDated(GetNamespace(), m_nModifyRelease))
 	{
@@ -5816,10 +5834,10 @@ void CWoormDocMng::OpenEditViewFullText(const CString& sErr, int line, int pos/*
 			m_pWoormInfo->m_nNextReport = 0;
 			CWoormInfo* pWI = m_pWoormInfo;
 			m_pWoormInfo = NULL;
-			//riapro il report da file system poichè potenzialmente è stato modificato o corretto
+			//riapro il report da file system poichï¿½ potenzialmente ï¿½ stato modificato o corretto
 			/*CWoormDoc* pNewReport = */AfxGetTbCmdManager()->RunWoormReport(pWI, GetCallerDocument(), NULL, FALSE, FALSE);
 		}
-		//chiudo la copia del report in memoria perchè è obsoleta
+		//chiudo la copia del report in memoria perchï¿½ ï¿½ obsoleta
 		SetModifiedFlag(FALSE);
 		GetFrame()->PostMessageW(WM_CLOSE);
 	}
@@ -6920,8 +6938,8 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 
 		// allego il file se:
 		// 1) non devo concatenare i PDF
-		// 2) questo è l'ultimo file in elaborazione 
-		//	  (per cui l'eventuale concatenazione è completa)
+		// 2) questo ï¿½ l'ultimo file in elaborazione 
+		//	  (per cui l'eventuale concatenazione ï¿½ completa)
 		if (
 			!m_pWoormInfo 
 			||
@@ -7067,7 +7085,7 @@ BOOL CWoormDocMng::DoPDFOutput(CString* psFileName/* = NULL*/)
 	BOOL bResult = TRUE;
 
 	// se devo concatenare i PDF in un unico file, utilizzo m_arstrPDFFiles
-	// come elenco dei file generati (se è vuoto, inserisco dei nomi di file temporanei)
+	// come elenco dei file generati (se ï¿½ vuoto, inserisco dei nomi di file temporanei)
 	if (m_pWoormInfo->m_bConcatPDF || m_bDirectConcatPDF)
 	{
 		for (int i = m_pWoormInfo->m_arstrOutputFileNames.GetSize(); i < m_pWoormInfo->m_ReportNames.GetSize(); i++)
@@ -7383,9 +7401,9 @@ BOOL CWoormDocMng::ArchivePdfFormat(BOOL bShowMsg /*=TRUE*/)
 	CString strConcatFile;	
 	CString strAlternativeName;	
 	CString fileName;
-	// m_pWoormInfo->m_bUseOutputFileName == TRUE se è stata utilizzata la funzione di WOORM ReportSaveAsAndAttach
-	// in questo caso il report è già stato salvato in pdf
-	//naturalmente dopo aver allegato non devo cancellare il pdf poichè non si tratta di un temporaneo di EA
+	// m_pWoormInfo->m_bUseOutputFileName == TRUE se ï¿½ stata utilizzata la funzione di WOORM ReportSaveAsAndAttach
+	// in questo caso il report ï¿½ giï¿½ stato salvato in pdf
+	//naturalmente dopo aver allegato non devo cancellare il pdf poichï¿½ non si tratta di un temporaneo di EA
 	if (!m_pWoormInfo || (m_pWoormInfo && !m_pWoormInfo->m_bUseOutputFileName))
 	{
 		if (m_pWoormInfo)
@@ -8325,7 +8343,7 @@ void CWoormDocMng::OnRun()
 	CString strTmp;
 	BOOL bOk = TRUE;
 
-	//nel caso di macrorecorder attivo disabilita il recording per il tempo in cui è su il report 
+	//nel caso di macrorecorder attivo disabilita il recording per il tempo in cui ï¿½ su il report 
 	CApplicationContext::MacroRecorderStatus localStatus = AfxGetApplicationContext()->m_MacroRecorderStatus;
 	AfxGetApplicationContext()->m_MacroRecorderStatus = CApplicationContext::IDLE;
 
@@ -8333,7 +8351,7 @@ void CWoormDocMng::OnRun()
 	if (m_bEngineRunning) 
 		goto l_skiprun;
 
-	// se c'è l'OSL verifico se il report può essere lanciato
+	// se c'ï¿½ l'OSL verifico se il report puï¿½ essere lanciato
 	if (!OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)) 
 	{
 		Message(cwsprintf(OSLErrors::MISSING_GRANT(), GetInfoOSL()->m_Namespace.ToString()));
@@ -8523,7 +8541,7 @@ void CWoormDocMng::OnRun()
 
 	if (m_pWoormInfo)	
 	{
-		//può essere stato cambiato dall'engine
+		//puï¿½ essere stato cambiato dall'engine
 		if (m_pWoormInfo->m_nNextReport > 0 && (m_pWoormInfo->m_nNextReport - 1) < m_pWoormInfo->m_arExportInfo.GetSize())
 			pExp = (CExportInfo*)(m_pWoormInfo->m_arExportInfo.GetAt(m_pWoormInfo->m_nNextReport - 1));
 		bAttachOther = pExp != NULL;
@@ -9039,7 +9057,7 @@ void CWoormDocMng::ExecuteNextReport()
 		{
 			//setto no print dialog per i report successivi
 			m_pWoormInfo->m_bNoPrintDialog = TRUE;
-			//controllo se è stato fatto Cancel 
+			//controllo se ï¿½ stato fatto Cancel 
 			if (m_pWoormInfo->m_bPrintAborted)
 				bAborted = TRUE;
 		}
@@ -9776,7 +9794,7 @@ void CWoormDocMng::OnUpdateSelection (CCmdUI* pCmdUI)
 void CWoormDocMng::OnUpdateOptions(CCmdUI* pCmdUI)
 {	
 	// le opzioni di report possono essere salvate solo quando
-	// il report ha un namespace, perchè dipendono dal namespace
+	// il report ha un namespace, perchï¿½ dipendono dal namespace
 	// del documento
 	BOOL bOk = 	
 		!m_bPlayback && m_Creating == NONE && !m_bEngineRunning &&
@@ -10120,7 +10138,7 @@ void CWoormDocMng::OnAllowEditing()
 				m_pWoormInfo = NULL;
 				AfxGetTbCmdManager()->RunWoormReport(pWI, GetCallerDocument(), NULL, FALSE, FALSE);
 			}
-			OnCloseDocument(); // chiudo il documento corrente che oramai è obsoleto
+			OnCloseDocument(); // chiudo il documento corrente che oramai ï¿½ obsoleto
 			return;
 		}
 		else
@@ -10520,7 +10538,7 @@ BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pFie
 		if (pObj->GetInternalID() == nA && pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 		{
 			if (pObj->m_AnchorRepeaterID)
-				continue;	//sarà gestito dal Repeater
+				continue;	//sarï¿½ gestito dal Repeater
 
 			pField = STATIC_DOWNCAST(FieldRect, pObj);
 			return TRUE;
@@ -10569,7 +10587,7 @@ void CWoormDocMng::UpdateViewSymbolTable (BaseObj* pTableOrRepeater, int nRow, B
 	if (pTableOrRepeater && (nRow == -1))	//verificare, rimangono le colonne valide
 		return;
 
-	//TODO x otimizzazione: quando non si è in editing, si potrebbe rimuovere dalla sym table tutti i field non referenziati
+	//TODO x otimizzazione: quando non si ï¿½ in editing, si potrebbe rimuovere dalla sym table tutti i field non referenziati
 	for (int i = 0; i < m_ViewSymbolTable.GetCount(); i++)
 	{
 		WoormField* pF = m_ViewSymbolTable.GetAt(i);
@@ -11081,7 +11099,7 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 	}
 	else if (pConn->m_LinkType == WoormLink::ConnectionReport)
 	{
-		//pWrmInfo sarà deletato dal report chiamato
+		//pWrmInfo sarï¿½ deletato dal report chiamato
 		pDoc = AfxGetTbCmdManager()->RunWoormReport (pWrmInfo);
 	}
 	else if (pConn->m_LinkType == WoormLink::ConnectionFunction)
@@ -11113,7 +11131,7 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 			ASSERT(pField);
 			if (pField)
 			{
-				// imposto il valore dell'oggetto più interno della gerarchia, la SetReadOnly fa poi sì che
+				// imposto il valore dell'oggetto piï¿½ interno della gerarchia, la SetReadOnly fa poi sï¿½ che
 				// venga ereditato anche dagli oggetti figli
 				DataLng* pData = (DataLng*) pField->GetRuleData();
 				ASSERT(pData);
@@ -11646,7 +11664,7 @@ void CWoormDocMng::OnEasyReadingByLineDynamic()
 //-----------------------------------------------------------------------------
 int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 {	
-	const TableColumn* pCol = m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine);
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidth(strText);
 
@@ -11658,7 +11676,7 @@ int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::GetFieldWidthFactors(int objectId, FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal /*= FALSE*/)
 {
-	TableColumn* pCol = const_cast<TableColumn*>(m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidthFactors(fieldWidthFactors, bSubTotal);
 
@@ -11706,14 +11724,23 @@ BOOL CWoormDocMng::ExistsColumnID (WORD id, CString sLayoutName) const
 
 BOOL CWoormDocMng::ColumnShowedAsImage(WORD id, CString sLayoutName) const
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	const TableColumn* pCol = FindColumnByID(id, sLayoutName);
 	return pCol ? pCol->m_pBitmap != NULL : FALSE;
 }
 
 CObject* CWoormDocMng::GetColumnPtr(WORD id, CString sLayoutName) const
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	const TableColumn* pCol = FindColumnByID(id, sLayoutName);
 	return (CObject*) pCol;
+}
+
+const TableColumn* CWoormDocMng::FindColumnByID(WORD id, CString sLayoutName) const
+{
+	if (m_Layouts.GetCount() == 0)
+		return const_cast<CWoormDocMng*>(this)->GetObjects().FindColumnByID(id);
+
+	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	return pCol;
 }
 
 //-----------------------------------------------------------------------------

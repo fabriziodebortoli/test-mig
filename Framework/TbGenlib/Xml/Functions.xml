@@ -763,13 +763,13 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
    <Function name="TypedBarCode" type="string" localize="Returns a string than can be displayed as barcode." >
      <Prototype>string TypedBarCode(string_Barcode, integer_BarcodeType)</Prototype>
      <Param name="Barcode" type="string" localize="the text to show as barcode" />
-     <Param name="BarcodeType " type="integer" localize="the number id that identifies the type of Barcode" />
-     <Param name="EncodingMode (optional)" type="integer" localize="the number id that identifies Barcode Encoding Type" />
-     <Param name="HumanReadable (optional)" type="string" localize="the source of the text to show as barcode label" /> 
-     <Param name="BarWidth (optional)" type="integer" localize="the width of a single bar in 1D barcode or the size of a single module in 2D barcode" />
-     <Param name="BarHeight (optional)" type="integer" localize="the height of bars in 1D barcode or of a  single row in PDF417 barcode" />
-     <Param name="Version (optional)" type="string" localize="the version of a barcode" />
-     <Param name="ErrorCorrectionLevel (optional)" type="integer" localize="the number id that identifies Barcode Error Correction Level" />
+     <Param name="BarcodeType " type="integer" localize="the number id that identifies the type of barcode" />
+     <Param name="EncodingMode (optional)" type="integer" localize="the number id that identifies barcode Encoding Type" />
+     <Param name="HumanReadable (optional)" type="string" localize="the source of the text to show as barcode label (only for 1D barcodes)" /> 
+     <Param name="BarWidth (optional)" type="integer" localize="the width of a single bar in 1D barcodes or the size of a single module in 2D barcodes" />
+     <Param name="BarHeight (optional)" type="integer" localize="the height of bars in 1D barcodes or of a  single row in PDF417 barcodes" />
+     <Param name="Version (optional)" type="string" localize="the version of a barcode for 2D barcodes" />
+     <Param name="ErrorCorrectionLevel (optional)" type="integer" localize="the number id that identifies Barcode Error Correction Level for QR, Micro QR and PDF417 barcodes" />
      <Remarks>
        <![CDATA[The field must have the attribute "Show as barcode" properly set.
 The parameter BarcodeType can take the following values:
@@ -787,8 +787,6 @@ The parameter BarcodeType can take the following values:
   - Data Matrix version: (Auto, 10x10, 12x12, 14x14, 16x16, 18x18, 20x20, 22x22, 24x24, 26x26, 32x32, 36x36,
    40x40, 44x44, 48x48, 52x52, 64x64, 80x80, 88x88, 96x96, 104x104, 120x120, 132x132, 144x144, 8x18, 8x32,
    12x26, 12x36, 16x36, 16x48). If Auto, the smallest rectangular symbol to fit the data is chosen.
-   - QR version: In the range 0 - 40. Specifies the overall dimensions of the symbol.Use 0 to let the engine decide and return the minimum version required to encode all data
-   - Micro QR version: In the range 0 - 4. Specifies the overall dimensions of the symbol.Use 0 to let the engine decide and return the minimum version required to encode all data
    - PDF417  version with format 'RowsxCols': 
       Rows: Defines the number of rows constituting the barcode. Use 0 for automatic computation(recommended) or a value in the range [3 - 90]. 
       Cols: Defines the number of columns constituting the barcode. Use 0 for automatic computation(recommended) or a value in the range [3 - 30]
@@ -797,7 +795,12 @@ The parameter BarcodeType can take the following values:
   2 = Q (Level Quartile – up to 25% damage can be restored); 3 = H (Level High – up to 30% damage can be restored) (only for QR).
   PDF417 error correction level (Reed Solomon):  -1 = Auto; In the range 0 - 8. The higher the error correction level, the less storage capacity.
 ]]>
-     </Remarks>     
+     </Remarks>   
+     <!-- Gestione Version per QR e Micro QR:
+     al momento non documentata perché Presenta un BUG GDPicture:
+      - QR version: In the range 0 - 40. Specifies the overall dimensions of the symbol.Use 0 to let the engine decide and return the minimum version required to encode all data
+      - Micro QR version: In the range 0 - 4. Specifies the overall dimensions of the symbol.Use 0 to let the engine decide and return the minimum version required to encode all data
+   -->
 <Example localizable="true">TypedBarCode("1234567890", 5) => 1234567890 (showed as "Alfa39" barcode);TypedBarCode("1234567890", GetBarCodeID({86:2}) => 1234567890 (showed as "Alfa39" barcode)'  </Example>
    </Function>
    <Function name="Upper" type="string" localize="Converts all lowercase letters to UPPERCASE." >

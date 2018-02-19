@@ -120,7 +120,7 @@ public:
 						/*	eredita da BasicTextStyle:
 								COLORREF	m_rgbTextColor;	*3
 								COLORREF	m_rgbBkgColor;	*4
-								AlignType	m_nAlign;		ATTENZIONE non è esposto!
+								AlignType	m_nAlign;		ATTENZIONE non ï¿½ esposto!
 								FontIdx		m_nFontIdx;
 						*/
 
@@ -164,6 +164,8 @@ private:
 	FontStyle*	m_pSubTotalFontStyle = NULL;
 
 public:
+	FontStyle* GetFontStyle(BOOL bSubTotal);
+
 	//BOOL	m_bMixedColumnFont = FALSE;		// indica che le celle delle colonne contengono font diversi
 	//BOOL	m_bMixedColumnAlign = FALSE;	// indica che le celle delle colonne contengono allineamenti diversi
 	
@@ -238,7 +240,6 @@ public:
 	void	SetHidden				(BOOL bIsHidden);
 
 	BOOL	HasDynamicAttributeOnRow () const;
-
 
 	//------------------------------------------------------------------------------
 	TableBorders GetBorders() const { return m_pTable->m_Borders; }
@@ -337,7 +338,7 @@ public:
 
 	void	SetFieldWidth			();
 
-	int		CalculateFieldWidth		(const CString& strText) const ;
+	int		CalculateFieldWidth		(const CString& strText);
 	BOOL	CalculateFieldWidthFactors	(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal = FALSE);
 
 	BorderPen	GetColumnPen		() const;
@@ -638,7 +639,7 @@ class TB_EXPORT ActiveColumn : public CObject, public IDisposingSourceImpl
 {
 public:
 	TDisposablePtr<TableColumn>	m_pColumn;
-	ActiveRect*	m_pActive;	//è owner
+	ActiveRect*	m_pActive;	//ï¿½ owner
 
 public:
 	ActiveColumn(TableColumn* pCol, CWoormDocMng* pDocument);

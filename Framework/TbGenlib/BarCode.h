@@ -42,7 +42,7 @@ static const TCHAR sz2DBCPDF417EncodingMode_Numeric[] = _T("Numeric");	//2
 class TB_EXPORT CBarCodeTypes
 {
 public:
-typedef struct struct_BarCodeTypes { int m_nType; LPCTSTR m_sName; DWORD m_eBc; } SBarCodeTypes;
+	typedef struct struct_BarCodeTypes { int m_nType; LPCTSTR m_sName; DWORD m_eBc; int m_nStdLength; } SBarCodeTypes;
 
 public:
 	typedef struct struct_BarCodeDataMatrixVersions { int m_nType; LPCTSTR m_sName; } SBarCodeDataMatrixVersions;
@@ -63,6 +63,8 @@ static SBarCodeDataMatrixVersions	s_arBarCodeDataMatrixVersions[BARCODE_DM_VERSI
 
 	
 static CString	BarCodeDescription	(int nBarcCodeType);
+static int	BarCodeStandardLength(int nBarcCodeType);
+
 static CString	BarCodeDMVersionDescription(int nBarCodeVersion);
 
 static int		BarCodeType			(const CString& sName, BOOL bDefaultERR = TRUE);
@@ -76,7 +78,13 @@ static int		BarCodeDMVersion (const CString& sName, BOOL bDefaultERR = TRUE);
 static CString	TypedBarCode(const CString& strCode, int nBarCodeType, int nChkSum = 0, const CString& sHumanReadable = _T(""), int nNarrowBar = -1, int nBarHeight = -1, const CString& sVersion = _T(""), int nErrCorrLevel = -2);
 static BOOL		Is2DBarcodeType(DWORD nType);
 static BOOL		ReadPDF417Version(CString& sVersion, int& nRows, int&nColumns);
-
+static BOOL		CheckAndCompleteBCString(CString& barcode, int nBarCodeType, CString& errMsg);
+static BOOL		AddCheckDigit(CString& barcode, int nBarCodeType);
+static char		Get_UPC_EAN_CheckDigit(CString barcode);
+static char		Get_CODE39_CheckDigit(CString barcode);
+static char		Get_Mod10_CheckDigit(CString barcode);
+static char		Get_CODABAR_CheckDigit(CString barcode);
+static CString	UPCE_to_UPCA(CString strUPCE);
 
 };
 
@@ -126,12 +134,23 @@ public:
 	CBarCode (const CBarCode&);
 
 public:    
-	//BOOL 	DrawOld			(CDC&, CRect, LOGFONT, const CString& sBarCode, COLORREF clrText, COLORREF clrBkg, CString& sErr, CBaseDocument* = NULL, CString strHumanReadeable = _T(""), BOOL bPreview = FALSE) const;
-	BOOL 	DrawGDPicture	(CDC&, CRect, LOGFONT, int barcodeType, int nNarrowBar, int nHeight,
-							const CString& sBarCode, COLORREF clrText, COLORREF clrBkg, CString& sErr, CBaseDocument* = NULL, CString strHumanReadeable = _T(""), BOOL bPreview = FALSE,
-								int align = DT_CENTER, int vAlign = DT_CENTER) const;
-	BOOL 	DrawBarCode		(CDC&, CRect, const LOGFONT&, const CString& sBarCode, COLORREF clrText, COLORREF clrBkg, CString& sErr, CBaseDocument* = NULL, CString strHumanReadeable = _T(""), BOOL bPreview = FALSE,
-								int align = DT_CENTER, int vAlign = DT_CENTER) const;
+	BOOL 	DrawBarCode		(CDC&, CRect, const LOGFONT&, const CString& sBarCode, COLORREF clrText, COLORREF clrBkg, CString& sErr,
+							CBaseDocument* = NULL, CString strHumanReadeable = _T(""), BOOL bPreview = FALSE,
+							int align = DT_CENTER, int vAlign = DT_CENTER);
+
+	BOOL	PrepareBCParameters(CDC& DC, 
+								CString &strValue,
+								int &nBarCodeType,
+								CString& strHumanReadeable,
+								int &nEncodingMode,
+								int &nVersion,
+								int &nErrCorrLevel,
+								int &nNarrowBar,
+								int &nHeight,
+								int &nRows,
+								int &nColumns,
+								BOOL bPreview);
+
 	BOOL 	Parse			(Parser&);
 	void	Unparse			(Unparser& ofile, BOOL bNewline);
 
