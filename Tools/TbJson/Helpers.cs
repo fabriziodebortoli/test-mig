@@ -76,6 +76,8 @@ namespace Microarea.TbJson
                     return new WebControl(Constants.tbPropertyGrid);
                 case WndObjType.PropertyGridItem:
                     return new WebControl(Constants.tbPropertyGridItem);
+                case WndObjType.List:
+                    return new WebControl(Constants.tbCheckListBox);
                 default:
                     Debug.Fail(type.ToString() + " Unsupported web control type");
                     return null;

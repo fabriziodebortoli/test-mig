@@ -31,10 +31,13 @@ namespace Microarea.TbJson
         private Dictionary<string, JToken> constants = new Dictionary<string, JToken>();
         private Dictionary<string, StringBuilder> contextMenus = new Dictionary<string, StringBuilder>();
 
+        private bool verboseOutput = false;
+
         //-----------------------------------------------------------------------------------------
-        public WebInterfaceGenerator()
+        public WebInterfaceGenerator(bool verbose)
         {
             LoadIconsConversionTable();
+            verboseOutput = verbose;
         }
 
         //-----------------------------------------------------------------------------------------
@@ -61,6 +64,9 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------------------
         internal void Generate(string fileOrFolder, string mergedJsonDir, bool onlyMerged)
         {
+            if (!verboseOutput)
+                Console.Out.WriteLineAsync("Generate Start");
+
             if (fileOrFolder == ".")
                 fileOrFolder = Directory.GetCurrentDirectory();
 
@@ -82,6 +88,9 @@ namespace Microarea.TbJson
             {
                 GenerateFromFile(fileOrFolder, mergedJsonDir, onlyMerged);
             }
+
+            if (!verboseOutput)
+                Console.Out.WriteLineAsync("Generate End");
         }
         //-----------------------------------------------------------------------------
         private void GenerateFromFile(string tbJsonFile, string mergedJsonDir, bool onlyMerged)
@@ -145,6 +154,7 @@ namespace Microarea.TbJson
             if (slave)
             {
                 file = Path.Combine(formsPath, name + ".component.ts");
+
                 GenerateLogInfo(appsPath, file);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
                 {
@@ -165,6 +175,7 @@ namespace Microarea.TbJson
                     name,
                     ".service"
                     );
+
                 GenerateLogInfo(appsPath, file);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
                 {
@@ -218,6 +229,7 @@ namespace Microarea.TbJson
                 }
 
                 file = Path.Combine(formsPath, name + ".component.ts");
+
                 GenerateLogInfo(appsPath, file);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
                 {
@@ -283,6 +295,9 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         private void GenerateLogInfo(string appsPath, string file)
         {
+            if (!verboseOutput)
+                return;
+
             List<string> tokens = GetTokens(appsPath, file);
             logIndent = 0;
             for (int i = 0; i < tokens.Count; i++)
@@ -529,6 +544,8 @@ namespace Microarea.TbJson
         }
         public void ResetRoutes(string standardFolder)
         {
+            if (!verboseOutput)
+                Console.Out.WriteLineAsync("Reset Routes");
             string appsPath = Path.Combine(standardFolder, Constants.tsAppsPath);
             if (Directory.Exists(appsPath))
                 Directory.Delete(appsPath, true);
@@ -1166,6 +1183,18 @@ namespace Microarea.TbJson
                             w.CloseBeginTag();
 
                             GenerateHtmlChildren(jObj, type);
+                        }
+                        break;
+                    }
+
+                case WndObjType.List:
+                    {
+                        var wc = GetWebControl(jObj);
+                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(wc.Name, this, true))
+                        {
+                            WriteActivationAttribute(jObj);
+                            WriteControlAttributes(jObj, wc);
+                            w.CloseBeginTag();
                         }
                         break;
                     }

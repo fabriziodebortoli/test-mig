@@ -6,22 +6,25 @@ namespace Microarea.TbJson
     {
         public static void Main(string[] args)
         {
+            var verboseOutput = false;
             try
             {
                 if (args.Length < 2)
                 {
-                    throw new ApplicationException("Usage: TbJson /ts <file or folder name>");
+                    throw new ApplicationException("Usage: TbJson /ts <file or folder name> -v");
                 }
+                if (args[args.Length - 1] == "-v")
+                    verboseOutput = true;
                 switch (args[0])
                 {
                     case "/resetRoutes":
-                        new WebInterfaceGenerator().ResetRoutes(args[1]);
+                        new WebInterfaceGenerator(verboseOutput).ResetRoutes(args[1]);
                         break;
                     case "/ts":
-                        new WebInterfaceGenerator().Generate(args[1], args.Length >= 3 ? args[2] : "", false);
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", false);
                         break;
                     case "/merge":
-                        new WebInterfaceGenerator().Generate(args[1], args.Length >= 3 ? args[2] : "", true);
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true);
                         break;
                 }
             }
