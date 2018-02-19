@@ -232,6 +232,11 @@ namespace Microarea.Common.Hotlink
         //---------------------------------------------------------------------
         public async Task<bool> PrepareQueryAsync(IQueryCollection requestQuery, string selectionType = "code")
         {
+            //Casi da Testare:
+            // 1. Query di hotlink da Documento -> ha sempre documentId, e la query va chiesta al TbLoader, perche alcuni paramentri potrebbero essere settati dinamicamente via codice (es HKLCustSupp, param CustSuppSel)
+            // 2. Query di Hotlink da Report AskDialog NON definita nei metadati xml -> non ha documentID e leggendo xml NON c'e' corpo della query nei metadati: va chiesta al Tbloader
+            // 3. Query di Hotlink da Report AskDialog definita nei metadati xml -> non ha documentID e leggendo xml c'e' corpo della query nei metadati: viene eseguita interamente lato DataService
+            
             // Tappullo (M.R.)
             // Per poter utilizzare la GetData per caricare un datafile da un datafile invece che da un hotkeylink
             if (Session.Namespace.StartsWith("DataFile."))
@@ -240,21 +245,14 @@ namespace Microarea.Common.Hotlink
                 return LoadDataFile();
             }
 
-            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
-            if (XmlDescription == null)
-            {
-                Debug.Fail("Missing Xml Description of " + Session.Namespace);
-                return false;
-            }
-
             selection_type.Data = selectionType;
 
             string likeValue = requestQuery["filter"];
 
-            if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue== "\"\"") 
+            if (String.IsNullOrEmpty(likeValue) || /*tapullo*/ likeValue == "\"\"")
                 likeValue = string.Empty;
 
-            char[] removeChars = { '\\', '\"'};
+            char[] removeChars = { '\\', '\"' };
             likeValue = likeValue.Trim(removeChars).Trim(removeChars);
             if (!selectionType.CompareNoCase("direct"))
                 filter_value.Data = likeValue + "%";
@@ -275,106 +273,101 @@ namespace Microarea.Common.Hotlink
                 {
                     int.TryParse(requestQuery["per_page"], out rowsPerPage);
                 }
-            }          
- 
-            if (XmlDescription.IsDatafile)
+            }
+            SelectionMode sm = null;
+            FunctionPrototype args = new FunctionPrototype();
+
+            string documentId = requestQuery["documentID"].ToString();
+            if (documentId.IsNullOrEmpty())
             {
-                // TODO RSWEB: paginazione anche nella lettura dati da xml ?
-                return LoadDataFile();
+                //se non c'e' documentId, e' un hotlink di askDialog. Viene letto xml per vedere se la query e' descritta nei metadati oppure bisogna chiedere al tbloader
+                XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+                if (XmlDescription == null)
+                {
+                    Debug.Fail("Missing Xml Description of " + Session.Namespace);
+                    return false;
+                }
+                if (XmlDescription.IsDatafile)
+                {
+                    // TODO RSWEB: paginazione anche nella lettura dati da xml ?
+                    return LoadDataFile();
+                }
+
+                //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
+                foreach (IParameter p in XmlDescription.Parameters)
+                {
+                    SymField paramField = new SymField(p.TbType, p.Name);
+
+                    string sp = requestQuery[p.Name];
+
+                    if (sp == null)
+                    {
+                        if (p.Optional)
+                        {
+                            paramField.Assign(p.ValueString);
+                        }
+                    }
+                    else
+                    {
+                        paramField.Assign(sp);
+                    }
+
+                    SymTable.Add(paramField);
+
+                    Parameter param = new Parameter(p.Name, p.TbType);
+                    param.ValueString = SoapTypes.To(paramField.Data);
+
+                    args.Parameters.Add(param);
+                }
+
+                //viene cercato il corpo della query ------------------
+                sm = XmlDescription.GetMode(selectionType);
             }
 
             string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
             string customSort = PrepareCustomSort(requestQuery["customSort"]);
 
-            //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
-            FunctionPrototype args = new FunctionPrototype();
-            foreach (IParameter p in XmlDescription.Parameters)
-            {
-                SymField paramField = new SymField(p.TbType, p.Name);
-
-                string sp = requestQuery[p.Name];
-
-                if (sp == null)
-                {
-                    if (p.Optional)
-                    {
-                        paramField.Assign(p.ValueString);
-                    }
-                }
-                else
-                {
-                    paramField.Assign(sp);
-                }
-
-                SymTable.Add(paramField);
-
-                Parameter param = new Parameter(p.Name, p.TbType);
-                param.ValueString = SoapTypes.To(paramField.Data);
-
-                args.Parameters.Add(param);
-            }
-
-            //viene cercato il corpo della query ------------------
-            SelectionMode sm = XmlDescription.GetMode(selectionType);
             string query = string.Empty;
             if (sm == null)
             {
-                if (!XmlDescription.ClassType.IsNullOrEmpty())
+                string hklName = requestQuery["hklName"].ToString();
+                if (hklName.IsNullOrEmpty())
                 {
-                    string documentId = requestQuery["documentID"].ToString();
-                    //if (documentId.IsNullOrEmpty())
-                    //{
-                    //    return false;
-                    //}
-
-                    string hklName = requestQuery["hklName"].ToString();
-                    //if (hklName.IsNullOrEmpty())
-                    //{
-                    //    return false;
-                    //}
-
-                    if (hklName.IsNullOrEmpty() || documentId.IsNullOrEmpty())
-                    {
-                        Debug.Fail("Hotlink of Document " + hklName);
-                        return false;
-                    }
-
-                    Hotlink.HklAction hklAction = Hotlink.HklAction.Code;
-                    if (selectionType.CompareNoCase("description"))
-                        hklAction = Hotlink.HklAction.Description;
-                    else if (selectionType.CompareNoCase("combo"))
-                        hklAction = Hotlink.HklAction.Combo;
-                    else if (selectionType.CompareNoCase("direct"))
-                        hklAction = Hotlink.HklAction.DirectAccess;
-
-                    string xmlParameters = args.Parameters.Count > 0 ? args.Parameters.Unparse() : string.Empty;
-                    query = await TbSession.GetHotLinkQuery(Session, xmlParameters, (int)hklAction, likeValue, documentId, hklName);
-                    if (query.IsNullOrEmpty())
-                    {
-                        Debug.Fail("GetHotLinkQuery failed ");
-                        return false;
-                    }
-
-                    JObject jObject = JObject.Parse(query);
-                    if (jObject == null)
-                    {
-                        Debug.Fail("It fails to parse HotLink Query");
-                        return false;
-                    }
-
-                    query = jObject.GetValue("query")?.ToString();
-                    if (query.IsNullOrEmpty())
-                    {
-                        Debug.Fail("HotLink Query is empty");
-                        return false;
-                    }
-
-                    this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
-                }
-                else
-                {
+                    Debug.Fail("Hotlink of Document " + hklName);
                     return false;
                 }
+
+                Hotlink.HklAction hklAction = Hotlink.HklAction.Code;
+                if (selectionType.CompareNoCase("description"))
+                    hklAction = Hotlink.HklAction.Description;
+                else if (selectionType.CompareNoCase("combo"))
+                    hklAction = Hotlink.HklAction.Combo;
+                else if (selectionType.CompareNoCase("direct"))
+                    hklAction = Hotlink.HklAction.DirectAccess;
+
+                string xmlParameters = args.Parameters.Count > 0 ? args.Parameters.Unparse() : string.Empty;
+                query = await TbSession.GetHotLinkQuery(Session, xmlParameters, (int)hklAction, likeValue, documentId, hklName);
+                if (query.IsNullOrEmpty())
+                {
+                    Debug.Fail("GetHotLinkQuery failed ");
+                    return false;
+                }
+
+                JObject jObject = JObject.Parse(query);
+                if (jObject == null)
+                {
+                    Debug.Fail("It fails to parse HotLink Query");
+                    return false;
+                }
+
+                query = jObject.GetValue("query")?.ToString();
+                if (query.IsNullOrEmpty())
+                {
+                    Debug.Fail("HotLink Query is empty");
+                    return false;
+                }
+
+                this.CurrentQuery = new QueryObject("tb", SymTable, Session, null);
             }
             else
             {

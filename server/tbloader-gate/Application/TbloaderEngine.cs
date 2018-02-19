@@ -55,7 +55,7 @@ namespace Microarea.TbLoaderGate
             var tbLoader = GetTbLoader(name);
             if (tbLoader != null)
             {
-                if (!IsProcessRunning(tbLoader.ProcessId))
+                if (!IsProcessRunning(tbLoader.ProcessId) || tbLoader.ProcessId == 0)
                 {
                     RemoveTbLoader(tbLoader);
                     tbLoader = null;
