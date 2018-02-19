@@ -553,3 +553,14 @@ CSize CTaskBuilderStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 	size.cy = max(size.cy, AfxGetThemeManager()->GetStatusBarHeight());
 	return size;
 }
+
+//---------------------------------------------------------------------------
+void CTaskBuilderStatusBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
+{
+	if (this->IsSuspendedUpdateCmdUI())
+		return;
+
+	__super::OnUpdateCmdUI(pTarget, bDisableIfNoHndler);
+}
+
+//---------------------------------------------------------------------------

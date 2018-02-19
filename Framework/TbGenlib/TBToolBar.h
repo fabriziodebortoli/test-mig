@@ -786,7 +786,6 @@ public:
 	BOOL				SetActiveTabByPos(UINT nPos);
 	void				MoveNextTab();
 	
-
 	BOOL				RemoveTab	(LPCTSTR lpszText);
 	BOOL				RenameTab(LPCTSTR lpszToolBarName, CString stNewTabLabel);
 	void				ClosePopupMenu();
@@ -859,6 +858,8 @@ public:
 		// Disable Drag & Drop TabbedToolBar
 		return BCGP_DT_UNDEFINED;
 	}
+
+	void SetSuspendUpdateCmdUI(BOOL bSuspend = TRUE);
 
 public:
 	// Accessibility - Method used to uniquely identify an object by Ranorex Spy
@@ -1186,7 +1187,6 @@ public:
 	void ResumeLayout(BOOL bForced = FALSE);
 	BOOL IsLayoutSuspended() { return AfxIsRemoteInterface() ? TRUE : m_bSuspendLayout; }
 	
-
 	BOOL ShowToolBarDown(CWnd* pParentWnd, BOOL bShowText = FALSE);
 	BOOL ShowInDialog(CWnd* pParentWnd = NULL, DWORD dwAlignment = CBRS_ALIGN_TOP | CBRS_ALIGN_LEFT);
 	
@@ -1212,7 +1212,13 @@ public:
 	void SetSecondaryToolBarColor(UINT nCommandID, BOOL bActive = TRUE);
 	BOOL OnUpdateCmdUIDialog();
 
+protected:
+	BOOL m_bSuspendUpdateCmdUI = FALSE;
+public:
+	void SetSuspendUpdateCmdUI(BOOL bSuspend = TRUE) { m_bSuspendUpdateCmdUI = bSuspend; }
+	BOOL IsSuspendedUpdateCmdUI() { return m_bSuspendUpdateCmdUI; }
 	virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
+
 	virtual BOOL OnSetDefaultButtonText (CBCGPToolbarButton* pButton);
 	CWndObjDescription* GetControlStructure(CWndObjDescriptionContainer* pContainer);
 	void WriteTabName(CWndObjDescription* pDescription);

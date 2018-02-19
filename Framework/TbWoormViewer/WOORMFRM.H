@@ -151,7 +151,7 @@ public:
 	CTBToolBar*			GetObjectToolBar() { ASSERT_VALID(m_pTabbedToolBar); return m_pObjectBar; }
 	CTBToolBar*			GetEditorToolBar()	{ ASSERT_VALID(m_pEditToolBar); return m_pEditToolBar; }
 	BOOL OnDrawMenuImage(CDC* pDC, const CBCGPToolbarMenuButton* pMenuButton, const CRect& rectImage);
-
+	CMyStatusBar*		GetStatusBar() { return &m_StatusBar; }
 protected:
 	//DDL: drop down list
 	BOOL	CreateDDLTemplates(CWoormDocMng* pDoc = NULL);

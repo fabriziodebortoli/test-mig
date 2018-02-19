@@ -4543,6 +4543,9 @@ void CTBToolBar::SetDefaultButton(int iIndex)
 //----------------------------------------------------------------------------
 BOOL CTBToolBar::OnUpdateCmdUIDialog()
 {
+	if (this->IsSuspendedUpdateCmdUI())
+		return FALSE;
+
 	CWnd* pTargetToolBar = GetCommandTarget();
 	if (m_bDialog && pTargetToolBar)
 	{
@@ -4569,6 +4572,9 @@ BOOL CTBToolBar::OnUpdateCmdUIDialog()
 //----------------------------------------------------------------------------
 void CTBToolBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
 {
+	if (this->IsSuspendedUpdateCmdUI())
+		return;
+
 	if (OnUpdateCmdUIDialog())
 		return;
 	
@@ -7365,7 +7371,6 @@ BOOL CTBTabbedToolbar::InsertDropdownMenuItem(UINT nPos, UINT nCommandID, UINT n
 	return TRUE;
 }
 
-
 //-------------------------------------------------------------------------------------
 BOOL CTBTabbedToolbar::RemoveDropdown (UINT nCommandID)
 {
@@ -7944,6 +7949,23 @@ HRESULT CTBTabbedToolbar::get_accName(VARIANT varChild, BSTR *pszName)
 	*pszName = ::SysAllocString(sNamespace);
 
 	return S_OK;
+}
+
+//-----------------------------------------------------------------------------
+void CTBTabbedToolbar::SetSuspendUpdateCmdUI(BOOL bSuspend/* = TRUE*/)
+{
+	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
+	int nTabCount = pTabsWnd->GetTabsNum();
+
+	for (int i = 0; i < nTabCount; i++)
+	{
+		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
+		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
+		if (pToolBar)
+		{
+			pToolBar->SetSuspendUpdateCmdUI(bSuspend);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////

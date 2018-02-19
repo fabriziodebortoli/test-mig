@@ -101,7 +101,8 @@ public:
 	int			GetHeight		() const;
 	CSize		GetStringWidth 	(CDC* pDC, int len = 1)		const;
 	CSize		GetStringWidth 	(CDC* pDC, const CString&)	const;
-	
+	int			GetStringWidth2	(CDC* pDC, const CString&)	const;
+
 	BOOL 		CreateFont		(CFont&) const;
 
 	BOOL		IsItalic		() const { return m_LogFont.lfItalic; }
