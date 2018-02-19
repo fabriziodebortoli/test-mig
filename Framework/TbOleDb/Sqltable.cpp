@@ -178,14 +178,14 @@ int SqlTableArray::GetTableIndex(const CString& strTableName, const CString& str
 	return -1;
 }
 
-// può essere o il nome della tabella o il suo alias
+// puï¿½ essere o il nome della tabella o il suo alias
 //-----------------------------------------------------------------------------
 int SqlTableArray::GetTableIndex(const CString& strTableAliasName) const
 {
 	for (int i = 0; i <= GetUpperBound(); i++)
 	{
-		// è il nome della tabella e non ho nessun alias
-		// attenzione perchè posso avere più volte la stessa tabella con
+		// ï¿½ il nome della tabella e non ho nessun alias
+		// attenzione perchï¿½ posso avere piï¿½ volte la stessa tabella con
 		// una senza alias e le altre con alias.
 		if (
 			(
@@ -194,7 +194,7 @@ int SqlTableArray::GetTableIndex(const CString& strTableAliasName) const
 					GetAt(i)->m_strAliasName.IsEmpty() ||
 					GetAt(i)->m_strAliasName.CompareNoCase(strTableAliasName) == 0
 				)
-			) ||	// è il nome di un alias
+			) ||	// ï¿½ il nome di un alias
 			GetAt(i)->m_strAliasName.CompareNoCase(strTableAliasName) == 0)
 		return i;
 	}
@@ -341,7 +341,7 @@ void SqlRowSet::SetSqlSession(SqlSession* pSqlSession)
 
 // Gestione dei cursori: VEDI DOCUMENTAZIONE TBOLEDB-REFGUIDE.DOC nella documentazione progetto
 // E'possibile modificare il comportamento di default attraverso i due parametri booleani oppure
-// passando in pDBPropSet le proprietá che deve assumere il RowSet
+// passando in pDBPropSet le proprietï¿½ che deve assumere il RowSet
 //-----------------------------------------------------------------------------
 void SqlRowSet::Open(BOOL bUpdatable, CursorType eCursorType)
 {
@@ -1043,7 +1043,7 @@ SqlTable::SqlTable(SqlRecord* pRecord, SqlSession* pSqlSession, /*=NULL*/CBaseDo
 	InitDataMember();
 
 	//cambio la connessione al SqlRecord
-	// questo viene fatta se quella associata al record é differente da
+	// questo viene fatta se quella associata al record ï¿½ differente da
 	// quella passata come parametro
 	// Il sqlrecord nasce con le info della connessione di default
 	if (m_pSqlConnection)
@@ -1066,7 +1066,7 @@ SqlTable::SqlTable(SqlRecordProcedure* pRecordParams, SqlSession* pSqlSession, /
 	InitDataMember();
 
 	//cambio la connessione al SqlRecord
-	// questo viene fatta se quella associata al record é differente da
+	// questo viene fatta se quella associata al record ï¿½ differente da
 	// quella passata come parametro
 	// Il sqlrecord nasce con le info della connessione di default
 	if (m_pSqlConnection)
@@ -1090,7 +1090,7 @@ SqlTable::SqlTable(SqlRecordProcedure* pRecordParams, SqlRecord* pSqlRecord, Sql
 	InitDataMember();
 
 	//cambio la connessione al SqlRecord
-	// questo viene fatta se quella associata al record é differente da
+	// questo viene fatta se quella associata al record ï¿½ differente da
 	// quella passata come parametro
 	// Il sqlrecord nasce con le info della connessione di default
 	if (m_pSqlConnection)
@@ -1218,11 +1218,11 @@ void SqlTable::Open(BOOL bUpdatable, CursorType eCursorType)
 {
 	TRY
 	{
-		// il cursore di update lo devo creare sulla sessione di lavoro che mi é stata passata
+		// il cursore di update lo devo creare sulla sessione di lavoro che mi ï¿½ stata passata
 		// vedi DBT legati alla sessione di Update di un documento
 		// il cursore di update viene sempre aperto come FAST_FORWARD_ONLY
-		// creo lo statement adesso altrimenti dopo la SqlRowSet::Open é possibile che una
-		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui é necessario creare
+		// creo lo statement adesso altrimenti dopo la SqlRowSet::Open ï¿½ possibile che una
+		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui ï¿½ necessario creare
 		// una session x ogni cursore aperto
 		if (bUpdatable)
 			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession->GetUpdatableSqlSession(), (m_pContext) ? m_pContext->GetDocument() : NULL);
@@ -1244,14 +1244,14 @@ void SqlTable::Open(BOOL bUpdatable, CursorType eCursorType)
 //-----------------------------------------------------------------------------
 void SqlTable::Open(BOOL bUpdatable /*=FALSE*/, BOOL bScrollable /*=FALSE*/, BOOL bSensitivity /*= TRUE*/)
 {             
-	// se é una view non devo permettere la visibilitá delle modifiche
+	// se ï¿½ una view non devo permettere la visibilitï¿½ delle modifiche
 	TRY
 	{
-		// il cursore di update lo devo creare sulla sessione di lavoro che mi é stata passata
+		// il cursore di update lo devo creare sulla sessione di lavoro che mi ï¿½ stata passata
 		// vedi DBT legati alla sessione di Update di un documento
 		// il cursore di update viene sempre aperto come FAST_FORWARD_ONLY
-		// creo lo statement adesso altrimenti dopo la SqlRowSet::Open é possibile che una
-		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui é necessario creare
+		// creo lo statement adesso altrimenti dopo la SqlRowSet::Open ï¿½ possibile che una
+		// session differente nel caso di utilizzo di cursori FORWARD_ONLY (x cui ï¿½ necessario creare
 		// una session x ogni cursore aperto
 		if (bUpdatable)
 			m_pUpdateRowSet = new SqlRowSet(m_pSqlSession->GetUpdatableSqlSession());
@@ -1373,7 +1373,7 @@ CString SqlTable::GetQualifiedColumnName (const DataObj* pColumnDataObj)
 	return _T("");
 }
 
-// se è qualificata devo utilizzare la qualifica anche nella group by
+// se ï¿½ qualificata devo utilizzare la qualifica anche nella group by
 //-----------------------------------------------------------------------------
 void SqlTable::AddGroupByColumn(const DataObj& aDataObj)
 {
@@ -1403,7 +1403,7 @@ void SqlTable::AddGroupByColumn(const CString& strColumnName)
 }
 
 // Sintassi : Articolo, Deposito DESC
-// puè essere anche qualificata x.Articolo
+// puï¿½ essere anche qualificata x.Articolo
 //-----------------------------------------------------------------------------
 void SqlTable::AddSortColumn(const DataObj& aDataObj, BOOL bDescending/*= FALSE*/)
 {
@@ -1772,7 +1772,7 @@ void SqlTable::RightOuterJoin(SqlRecord* pRecord, SqlRecord* pJoinRecord, const 
 //-----------------------------------------------------------------------------
 void SqlTable::AddUpdateKey(const CString& strColumnName)
 {
-	// il programmatore mi puó quali colonne utilizzare per la KeyedUpdate e KeyedDelete
+	// il programmatore mi puï¿½ quali colonne utilizzare per la KeyedUpdate e KeyedDelete
 	// altrimenti vengono considerati i segmenti di chiave primaria
 	if (!m_pKeysArray)
 		m_pKeysArray = new CStringArray;
@@ -1787,7 +1787,7 @@ long SqlTable::GetRowSetCount()
 	if (m_strSQL.IsEmpty())
 		return 0;
 
-	//se è un cursore scrollabile oppure in caso di forwardonly ho terminato il ciclo di fetch
+	//se ï¿½ un cursore scrollabile oppure in caso di forwardonly ho terminato il ciclo di fetch
 	if (m_bScrollable || m_bEOF || m_bUpdatable)
 		return m_pRowSet->GetRecordsAffected();
 
@@ -1797,7 +1797,7 @@ long SqlTable::GetRowSetCount()
 }
 
 
-// TypeMove può essere
+// TypeMove puï¿½ essere
 // E_MOVE_FIRST
 // E_MOVE_LAST
 // E_MOVE_NEXT
@@ -1949,7 +1949,7 @@ void SqlTable::Move(MoveType eTypeMove, int lSkip /*= 0*/)
 		}
 
 		STOP_DB_TIME(moveTime);
-		// non ho più record da estrarre, mi disconnetto
+		// non ho piï¿½ record da estrarre, mi disconnetto
 		if ((!m_bScrollable && m_bEOF) || m_bOnlyOneRecordExpected)
 			Disconnect();
 	}
@@ -2126,7 +2126,7 @@ void SqlTable::SelectAllExceptFields(SqlRecord* pRecord, CStringArray* pExcepted
 
 			colName = pRecord->GetColumnName(nIdx); 
 			bExclude = FALSE;
-			//controllo se il campo è tra gli esclusi
+			//controllo se il campo ï¿½ tra gli esclusi
 			for (int nExc = 0; nExc <= pExceptedFieldName->GetUpperBound(); nExc++)
 			{
 				if (pExceptedFieldName->GetAt(nExc).CollateNoCase(colName) == 0)
@@ -2176,7 +2176,7 @@ void SqlTable::SelectAllExceptFields(SqlRecord* pRecord, DataObjArray* pExcepted
 
 			pDataObj = pRecord->GetDataObjAt(nIdx);
 			bExclude = FALSE;
-			//controllo se il campo è tra gli esclusi
+			//controllo se il campo ï¿½ tra gli esclusi
 			for (int nExc = 0; nExc <= pExceptedDataObj->GetUpperBound(); nExc++)
 			{				
 				if (pExceptedDataObj->GetAt(nExc) == pDataObj)
@@ -2614,21 +2614,21 @@ BOOL SqlTable::CheckOrderBy()
 			if (nPos < 0) 
 				continue;
 
-			//é il primo campo
+			//ï¿½ il primo campo
 			if (i == 0)
 			{
-				//c'é solo questo campo
+				//c'ï¿½ solo questo campo
 				if (OrderByColumns.GetSize() == 1)
 					m_strSort.Empty();
 				else 	
-					// il +1 è x la virgola
+					// il +1 ï¿½ x la virgola
 					m_strSort = m_strSort.Right(m_strSort.GetLength() - (strColumnName.GetLength() + 1));
 			}
 			else
 			{
 				//prendo la parte sinistra
                 strTemp1 = m_strSort.Left(nPos);
-				// se non é l'ultimo campo allora devo prendere anche la parte destra 
+				// se non ï¿½ l'ultimo campo allora devo prendere anche la parte destra 
 				if (i < OrderByColumns.GetUpperBound())
 					strTemp2 = m_strSort.Right(m_strSort.GetLength() - (strColumnName.GetLength() + 1));
 				
@@ -2905,11 +2905,11 @@ void SqlTable::BindAllColumns()
 void SqlTable::FixupColumns()
 {
 	SqlRowSet::FixupColumns();
-	//se la tabella è protetta 
+	//se la tabella ï¿½ protetta 
 	if (m_bSelectGrantInformation && m_pRecord)
 	{
 		const SqlCatalogEntry* pConstCatalogEntry = m_pSqlConnection->GetCatalogEntry(GetRecord()->GetTableName());
-		if (pConstCatalogEntry && pConstCatalogEntry->IsProtected()) //@@BAUZI TODO da ottimizzare. Portare il flag m_bIsUnderProtection in SqlRecord così si evita di interrogare il catalog
+		if (pConstCatalogEntry && pConstCatalogEntry->IsProtected()) //@@BAUZI TODO da ottimizzare. Portare il flag m_bIsUnderProtection in SqlRecord cosï¿½ si evita di interrogare il catalog
 			pConstCatalogEntry->HideProtectedFields(m_pRecord);
 	}
 }
@@ -3033,7 +3033,7 @@ void SqlTable::AddContextBagFilters(SqlRecord* pRecord)
 	else if (m_pTableArray)
 	{
 		ASSERT_VALID(m_pTableArray);
-		//parte da 1 perchè il primo dovrebbe essere della stessa classe di m_pRecord
+		//parte da 1 perchï¿½ il primo dovrebbe essere della stessa classe di m_pRecord
 		for (int i = 1; i < m_pTableArray->GetSize(); i++)
 		{
 			SqlRecord* pRec = m_pTableArray->GetRecord(i);
@@ -3066,8 +3066,8 @@ void SqlTable::AddContextBagFiltersInternal(SqlRecord* pRecord)
 	{
 		pItem = (SqlRecordItem*)(pRecord->m_arContextBagElements.GetAt(idx));
 
-		//per prima cosa verifico se l'elemento è presente nel ContextBag
-		//e che non sia già inserito tra i parametri
+		//per prima cosa verifico se l'elemento ï¿½ presente nel ContextBag
+		//e che non sia giï¿½ inserito tra i parametri
 		if (
 				pItem->m_strContextElementName.IsEmpty() ||	
 				!pContextBag->LookupContextObject(pItem->m_strContextElementName) ||
@@ -3150,7 +3150,7 @@ void SqlTable::ValorizeContextBagParametersInternal(SqlRecord* pRecord)
 	{
 		pItem = (SqlRecordItem*)(pRecord->m_arContextBagElements.GetAt(idx));
 
-		//per prima cosa verifico se l'elemento è presente nel ContextBag
+		//per prima cosa verifico se l'elemento ï¿½ presente nel ContextBag
 		if (
 				pItem->m_strContextElementName.IsEmpty() ||	
 				!pContextBag->LookupContextObject(pItem->m_strContextElementName) ||
@@ -3610,7 +3610,7 @@ BOOL SqlTable::KeyedDelete()
 	ASSERT(m_pRecord);
 	ASSERT(m_pRecord->m_pTableInfo);
 
-	// l'OldRecord mi viene passato dal DBTSlaveBuffered. Negli altri casi non é + necessario
+	// l'OldRecord mi viene passato dal DBTSlaveBuffered. Negli altri casi non ï¿½ + necessario
 	if (m_pOldRecord && m_pRecord->GetRuntimeClass() != m_pOldRecord->GetRuntimeClass())
 	{
 		ASSERT(FALSE);
@@ -3671,7 +3671,7 @@ BOOL SqlTable::OpenUpdateRowSet(const CString& strSelect)
 	if (!m_pUpdateRowSet)
 		ThrowSqlException(cwsprintf(_TB("SqlTable::OpenUpdateRowSet: unable to open update cursor on table {0-%s}./n"), (LPCTSTR)m_strTableName));
 
-	// devo riprepararmi lo statement  anche se la stringa di update é differente da quella precedente oppure è variato il valore del flag relativo all'optimisticlock del contesto di appartenenza
+	// devo riprepararmi lo statement  anche se la stringa di update ï¿½ differente da quella precedente oppure ï¿½ variato il valore del flag relativo all'optimisticlock del contesto di appartenenza
 	if (
 		m_pUpdateRowSet->IsOpen() && 
 		m_pUpdateRowSet->m_strSelect.CompareNoCase(strSelect) == 0 &&
@@ -4122,7 +4122,7 @@ int SqlTable::BuildSetClause(CString& strSelect, BOOL bCheckOldValues /*= TRUE*/
 			}
 		}
 
-		//TBModifiedID non lo inserisco nei parametri perchè potrebbe essere l'unico campo risulato cambiato
+		//TBModifiedID non lo inserisco nei parametri perchï¿½ potrebbe essere l'unico campo risulato cambiato
 		//in questo eseguo la query di update solo se ForceTBModified = TRUE
 		if (pDataObj == &(pRec->f_TBModifiedID))
 		{
@@ -4240,7 +4240,7 @@ void SqlTable::BindKeyParameters(BOOL bPrepare, int& nParam)
 		}
 		
 		// verifico il valore del campo chiave 
-		// se é stato modificato devo considerare quello prima della modifica
+		// se ï¿½ stato modificato devo considerare quello prima della modifica
 		// altrimenti quello invariato		
 		pOldDataObj = GetOldDataObj(strKeySegment);
 		m_bKeyChanged = pOldDataObj && !(pOldDataObj->IsEqual(*pBindElem->m_pDataObj));
@@ -4266,7 +4266,7 @@ int SqlTable::KeyedUpdate(BOOL bForceTBModified /*=FALSE*/)
 	ASSERT(m_pRecord);
 	ASSERT(m_pRecord->m_pTableInfo);
 	
-	// l'OldRecord mi viene passato dal DBTSlaveBuffered. Negli altri casi non é + necessario
+	// l'OldRecord mi viene passato dal DBTSlaveBuffered. Negli altri casi non ï¿½ + necessario
 	if (m_pOldRecord && m_pRecord->GetRuntimeClass() != m_pOldRecord->GetRuntimeClass())
 	{
 		ASSERT(FALSE);
@@ -4331,7 +4331,7 @@ int SqlTable::KeyedUpdate(BOOL bForceTBModified /*=FALSE*/)
 					if (bPrepare)
 					{
 						paramName = strBindName + _T("_w");
-						//è il parametro di tipo chiave aggiunto  nella BindKyeParameters
+						//ï¿½ il parametro di tipo chiave aggiunto  nella BindKyeParameters
 						if (m_pParamArray->ExistParam(paramName))
 							continue;
 						if (!m_pUpdateRowSet->m_strFilterOldValues.IsEmpty())
@@ -4456,12 +4456,12 @@ int SqlTable::Update(SqlRecord* pOldRecord /*=NULL*/, BOOL bForceTBModified /*=F
 		}
 		else
 		{
-			// se nel SqlRecord é bindato il campo TBGuid allora assegno allo stesso 
+			// se nel SqlRecord ï¿½ bindato il campo TBGuid allora assegno allo stesso 
 			// un nuovo GUID
 			if (m_pRecord->HasGUID())
 				m_pRecord->f_TBGuid.AssignNewGuid(); 
 
-			// l'exception viene lanciata esterna alla funzione, xché ci sono
+			// l'exception viene lanciata esterna alla funzione, xchï¿½ ci sono
 			// dei casi in cui viene chiamata solo la NativeInsert e non deve 
 			// essere dato il messaggio
 			if (!NativeInsert(FALSE))
@@ -4476,7 +4476,7 @@ int SqlTable::Update(SqlRecord* pOldRecord /*=NULL*/, BOOL bForceTBModified /*=F
 				m_lCurrentRecord++;
 			}
 		}
-		// se il database è Oracle devo togliere l'eventuale spazio inserito al posto
+		// se il database ï¿½ Oracle devo togliere l'eventuale spazio inserito al posto
 		// della stringa vuota
 		//if (m_pSqlConnection->m_pProviderInfo->m_eDbmsType == DBMS_ORACLE)
 		//	StripRecordSpaces();
@@ -5036,7 +5036,7 @@ void SqlTable::GetTableInfo	(SqlTableInfoArray& arTableInfo, BOOL bClear/*=TRUE*
 		for (int i = 0; i < m_pTableArray->GetSize(); i++)
 		{
 			SqlTableItem* pT = m_pTableArray->GetAt(i);
-			//può essere NULL, ad esempio tramite il metodo:
+			//puï¿½ essere NULL, ad esempio tramite il metodo:
 			//void	FromTable (const CString& strTableName, const CString& strAlias, SqlRecord* = NULL);
 			if (pT->m_pRecord)	
 			{
