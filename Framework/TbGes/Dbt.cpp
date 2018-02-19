@@ -4251,7 +4251,7 @@ void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializ
 
 	SqlRecord *pPrototypeRecord = this->GetRecord();
 	jsonSerializer.OpenObject(_T("prototype"));
-	//pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
+	pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
 	jsonSerializer.CloseObject();
 
 	jsonSerializer.OpenArray(_T("rows"));

@@ -22,7 +22,7 @@ export class TextComponent extends ControlComponent implements OnChanges {
   @Input() public hotLink: { namespace: string, name: string };
   @Input('rows') rows: number = 0;
   @Input('textlimit') textlimit: number = 0;
-  @Input('maxLength') maxLength: number = 0;
+  @Input('maxLength') maxLength: number = 524288;
   @Input('multiline') multiline: boolean = false;
 
   //public mask = '';

@@ -156,15 +156,20 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   ben_row_changed(item) {
 
     let selectedRow = item.selectedRows[0];
+    if (!selectedRow || !selectedRow.dataItem)
+      return;
+    this.currentRow =selectedRow.dataItem;
+
+    for (var prop in selectedRow.dataItem) {
+      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
+    }
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, selectedRow.index).subscribe((res) => {
-      addModelBehaviour(selectedRow.dataItem);
-      this.currentRowIdx = selectedRow.index;
-      this.currentRow = selectedRow.dataItem;
-      for (var prop in this.currentRow) {
-        this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
-      }
+      // addModelBehaviour(selectedRow.dataItem);
+      // this.currentRowIdx = selectedRow.index;
+      // this.currentRow = selectedRow.dataItem;
+     
     });
   }
 
@@ -204,7 +209,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
 
     let serverUtc = new Date(timeStamp).getTime();
-    
+
     if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
       this.isLoading = true;
       this.lastTimeStamp = serverUtc;
@@ -242,8 +247,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     addModelBehaviour(dbt);
     this.model.enabled = dbt.enabled;
     let tempIndex = 0;
+    let temp = [];
     for (let index = this.skip; index < this.skip + this.pageSize; index++) {
-      this.model.rows[index] = dbt.rows[tempIndex];
+      if (dbt.rows[tempIndex]) {
+        temp[tempIndex] = this.model.rows[index] = dbt.rows[tempIndex];
+      }
       tempIndex++;
     }
     //this.model.rows = dbt.rows;
@@ -252,7 +260,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
     this.totalPages = Math.ceil(this.rowCount / this.pageSize);
-    const temp = this.model.rows.slice(this.skip, this.skip + this.pageSize);
+
+    // let temp = [];
+    // tempIndex = 0;
+    // for (let index = this.skip; index < this.skip + this.pageSize; index++) {
+    //   temp[tempIndex] = this.model.rows[index];
+    //   tempIndex++;
+    // }
+
     this.gridView = {
       data: temp,
       total: this.rowCount

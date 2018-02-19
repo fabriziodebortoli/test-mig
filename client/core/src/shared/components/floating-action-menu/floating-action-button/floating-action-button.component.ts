@@ -1,3 +1,5 @@
+import { ComponentInfoService } from './../../../../core/services/component-info.service';
+import { EventDataService } from './../../../../core/services/eventdata.service';
 import { Component, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
@@ -19,10 +21,20 @@ export class FloatingActionButtonComponent {
 
     @Output() clicked: EventEmitter<any> = new EventEmitter();
 
+    constructor(
+        public eventData: EventDataService,
+        public ciService: ComponentInfoService
+
+    ) { }
+
     emitClickEvent($event: Event): void {
         if (this.disabled)
             return;
 
         this.clicked.emit($event);
+
+        //if (!this.click())
+        //     return;
+        this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
     }
 }

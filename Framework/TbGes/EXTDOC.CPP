@@ -772,6 +772,9 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 	}
 	m_JsonData.Clear();
 
+	if (!this->GetMaster() || !this->GetMaster()->GetDBTSlaves())
+		return;
+
 	for (int i = 0; i < this->GetMaster()->GetDBTSlaves()->GetSize(); i++)
 	{
 		DBTSlaveBuffered* pBuffered = dynamic_cast<DBTSlaveBuffered*>(this->GetMaster()->GetDBTSlaves()->GetAt(i));

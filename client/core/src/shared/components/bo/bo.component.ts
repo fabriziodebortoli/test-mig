@@ -40,7 +40,8 @@ export class BOComponent extends BOCommonComponent implements OnInit, AfterConte
 
   ngAfterContentInit() {
     let componentFactory = this.componentResolver.resolveComponentFactory(RadarComponent);
-    this.radarObj = this.radarRef.createComponent(componentFactory);
+    if (this.radarRef)
+      this.radarObj = this.radarRef.createComponent(componentFactory);
   }
 
   ngOnDestroy() {
