@@ -202,6 +202,8 @@ public:
 	virtual const int			GetMessagesCount();
 	virtual	CDiagnosticItem*	Clone			();
 	virtual void				ToJson			(CJsonSerializer& ser);
+	virtual void				PurgeEmptyItems();
+	DECLARE_DYNAMIC(CDiagnosticItem);
 };
 
 // it inherit from CDianosticItem only in order to be added in the array of messages
@@ -256,6 +258,8 @@ private:
 	virtual CDiagnosticLevel*	Clone	();
 
 	void ToJson(CJsonSerializer& ser);
+	void PurgeEmptyItems();
+	DECLARE_DYNAMIC(CDiagnosticLevel);
 };
 
 // General Functions

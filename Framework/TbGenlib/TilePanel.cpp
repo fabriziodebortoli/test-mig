@@ -198,21 +198,6 @@ void CTilePanelTab::EnableContent(BOOL bEnable)
 			pTile->EnableTileDialogControlLinks(bEnable);
 		}
 	}
-
-	CAbstractFormDoc* pDoc = NULL;
-
-	CTileGroup* pGroup = dynamic_cast<CTileGroup*>(m_pOwner->GetParent());
-
-	if (!pGroup)
-		return;
-
-	pDoc = dynamic_cast<CAbstractFormDoc*>(pGroup->GetDocument());
-
-	if (!pDoc)
-		return;
-
-	if (bEnable)
-		pDoc->DispatchDisableControlsForBatch();
 }
 
 //-----------------------------------------------------------------------------

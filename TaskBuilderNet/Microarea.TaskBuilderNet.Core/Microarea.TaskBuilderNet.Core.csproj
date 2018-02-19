@@ -662,11 +662,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
-    <Compile Include="Web References\tbHermes\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
     <Compile Include="Web References\tbLoaderLauncher\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -696,7 +691,6 @@
     <Compile Include="WebServicesWrapper\LoginProperties.cs" />
     <Compile Include="WebServicesWrapper\Session.cs" />
     <Compile Include="WebServicesWrapper\SessionFactory.cs" />
-    <Compile Include="WebServicesWrapper\TbHermesWrapper.cs" />
     <Compile Include="WebServicesWrapper\TBLoaderLauncherWrapper.cs" />
     <Compile Include="WebServicesWrapper\TbSenderWrapper.cs" />
     <Compile Include="WebServicesWrapper\WebServicesWrapperStrings.Designer.cs">
@@ -801,17 +795,6 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_sosProxy_SOSProxy</CachedSettingsPropName>
-    </WebReferenceUrl>
-    <WebReferenceUrl Include="http://localhost:81/DevMZP/TbHermes/TbHermes.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\tbHermes\</RelPath>
-      <UpdateFromURL>http://localhost:81/DevMZP/TbHermes/TbHermes.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Microarea_TaskBuilderNet_Core_tbHermes_TbHermes</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://usr-canessamat/Registration/Registration.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
@@ -1405,14 +1388,6 @@
     <None Include="Web References\sosProxy\Ticket.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
-    <None Include="Web References\tbHermes\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\tbHermes\ServiceStatus.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </None>
-    <None Include="Web References\tbHermes\TbHermes.wsdl" />
     <None Include="Web References\tbLoaderLauncher\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -1436,7 +1411,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web References\tbHermes\TbHermes.disco" />
     <None Include="Web References\tbLoaderLauncher\TbLoaderLauncher.disco" />
     <None Include="Web References\sosProxy\SOSProxy.disco" />
     <None Include="Web References\tbSender\plproxy.disco" />

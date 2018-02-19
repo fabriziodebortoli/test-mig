@@ -282,6 +282,7 @@ protected:
 	virtual void OnAdjustFrameSize	(CSize& size);
 	virtual BOOL OnAddClientDocToolbarButtons();
 public:		// Implementation
+	virtual void SwitchBatchRunButtonState() {}
 	afx_msg void	OnClose			();
 
 	afx_msg	LRESULT OnIsUnattendedWindow(WPARAM wParam, LPARAM lParam);

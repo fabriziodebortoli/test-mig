@@ -1966,6 +1966,20 @@ void SqlTable::Move(MoveType eTypeMove, DBROWOFFSET lSkip /*= 0*/)
 		{
 			switch (eNextMove)
 			{
+				case E_MOVE_NEXT :	 
+					if (m_bEOF)
+						{
+							TRACE0("Error: attempted to move past EOF.\n");
+							ThrowSqlException(_TB("SqlTable::Move: attempt to position after end of table."));
+						}
+						TRACE_SQL(_T("MoveNext"), this);
+						START_DB_TIME(DB_MOVE_NEXT)
+						m_hResult = m_pRowSet->MoveNext(lSkip);
+						STOP_DB_TIME(DB_MOVE_NEXT)						
+						if (lSkip > 0)
+							lSkip = 0;								
+					break;
+
 				case E_MOVE_FIRST : 
 						TRACE_SQL(_T("MoveFirst"), this);
 						if (!m_bScrollable)
@@ -2025,20 +2039,6 @@ void SqlTable::Move(MoveType eTypeMove, DBROWOFFSET lSkip /*= 0*/)
 										
 					break;
 
-
-				case E_MOVE_NEXT :	 
-					if (m_bEOF)
-						{
-							TRACE0("Error: attempted to move past EOF.\n");
-							ThrowSqlException(_TB("SqlTable::Move: attempt to position after end of table."));
-						}
-						TRACE_SQL(_T("MoveNext"), this);
-						START_DB_TIME(DB_MOVE_NEXT)
-						m_hResult = m_pRowSet->MoveNext(lSkip);
-						STOP_DB_TIME(DB_MOVE_NEXT)						
-						if (lSkip > 0)
-							lSkip = 0;								
-					break;
 			}
 
 			if (!Check(m_hResult))

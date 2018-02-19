@@ -51,7 +51,7 @@ void CSOSAdjustAttachmentsWizardFormView::OnTimer(UINT nUI)
 //			class CSOSAdjustAttachmentsResultsBodyEdit Implementation
 /////////////////////////////////////////////////////////////////////////////
 //=============================================================================
-IMPLEMENT_DYNCREATE(CSOSAdjustAttachmentsResultsBodyEdit, CBodyEdit)
+IMPLEMENT_DYNCREATE(CSOSAdjustAttachmentsResultsBodyEdit, CJsonBodyEdit)
 
 //-----------------------------------------------------------------------------	
 CSOSAdjustAttachmentsResultsBodyEdit::CSOSAdjustAttachmentsResultsBodyEdit()

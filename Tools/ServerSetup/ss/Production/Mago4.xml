@@ -105,6 +105,7 @@
             </IncludeFolder>
             <IncludeFolder name="Files|DatabaseScript|Migration_NET|Migration_ENT|Migration_XP|Menu|ModuleObjects|ReferenceObjects|Settings|Report|Excel|Word|JsonForms|SynchroProviders" recursive="yes">
               <IncludeFile name="*"/>
+			  <ExcludeFile name="*.hjson"/>
             </IncludeFolder>
             <IncludeFolder name="DataManager">
               <IncludeFolder name="Default">

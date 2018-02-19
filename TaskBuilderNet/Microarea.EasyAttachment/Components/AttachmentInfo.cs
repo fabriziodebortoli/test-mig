@@ -390,8 +390,8 @@ namespace Microarea.EasyAttachment.Components
 
 			IsAPapery = true;
 
-			TBarcode = new TypedBarcode(erpDoc.Barcode, BarCodeType.PAPERY);
-			Name = erpDoc.Barcode;
+			TBarcode = new TypedBarcode(erpDoc.Barcode, BarcodeMapping.GetBarCodeType(erpDoc.BarcodeType));
+            Name = erpDoc.Barcode;
 
 			ExtensionType = FileExtensions.Papery; 
 			Description = erpDoc.Notes;

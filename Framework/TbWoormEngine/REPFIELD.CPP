@@ -515,34 +515,31 @@ BOOL WoormField::SplitString(const CString& strData, CWoormDoc *pWoormDocument)
 //----------------------------------------------------------------------------
 BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 {
-	const CString& strRDEData = ((DataStr*) GetRepData())->GetString(); 
-
 	m_Substrings.RemoveAll();
 
 	if (pWoormDocument == NULL)
-		return SplitString(strRDEData, NULL);
+		return SplitString(((DataStr*)GetRepData())->GetString(), NULL);
 
 	if (!pWoormDocument->UseOptimizedLineBreak())
-		return SplitString(strRDEData, pWoormDocument);
+		return SplitString(((DataStr*)GetRepData())->GetString(), pWoormDocument);
 
 	FieldWidthFactors fieldWidthFactors;
 	if (!pWoormDocument->GetFieldWidthFactors(GetId(), fieldWidthFactors, IsSubTotal()))
 	{
 		ASSERT(FALSE);
-		return SplitString(strRDEData, pWoormDocument);
+		return SplitString(((DataStr*)GetRepData())->GetString(), pWoormDocument);
 	}
 	//---------------------------------
 
-	DataObj* pSetting = AfxGetSettingValue(CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbWoormViewer")), szWoormGeneralOptions, szColumnWidthPercentage, DataPerc(90));
-	DataPerc ColumnWidthPercentage =  (pSetting ? *((DataPerc*) pSetting) : 90) / 100;
-	fieldWidthFactors.m_nWidth = max(1, int(fieldWidthFactors.m_nWidth * ColumnWidthPercentage));
+	fieldWidthFactors.m_nWidth = max(1, int(fieldWidthFactors.m_nWidth * pWoormDocument->GetColumnWidthPercentage()));
 
 	//----
-	CString strData(strRDEData);	//dopo conterrà la formattazione
+	CString strData;	//dopo conterrà la formattazione
 	if (fieldWidthFactors.m_pFormatStyle)
 	{
-		fieldWidthFactors.m_pFormatStyle->FormatDataObj (DataStr(strRDEData), strData);
+		fieldWidthFactors.m_pFormatStyle->FormatDataObj (*GetRepData(), strData);
 	}
+	else strData = ((DataStr*)GetRepData())->GetString();
 
 	if (fieldWidthFactors.m_bMiniHtml)
 	{
@@ -582,8 +579,8 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 			//try to extend length: head line is all lowercase and it is shorter than actual column width
 			while (nLenHeadLine < sLine.GetLength())
 			{
-				CSize size = fieldWidthFactors.m_pFontStyle->GetStringWidth (fieldWidthFactors.m_pDC, sHeadLine);
-				if (size.cx >= fieldWidthFactors.m_nWidth)
+				int cx = fieldWidthFactors.m_pFontStyle->GetStringWidth2 (fieldWidthFactors.m_pDC, sHeadLine);
+				if (cx >= fieldWidthFactors.m_nWidth)
 					break;
 
 				nLenHeadLine++;
@@ -592,8 +589,8 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 			//reduce length to fit actual column width: head line is all uppercase and it is longer than actual column width
 			while (nLenHeadLine > 1)
 			{
-				CSize size = fieldWidthFactors.m_pFontStyle->GetStringWidth (fieldWidthFactors.m_pDC, sHeadLine);
-				if (size.cx < fieldWidthFactors.m_nWidth)
+				int cx = fieldWidthFactors.m_pFontStyle->GetStringWidth2 (fieldWidthFactors.m_pDC, sHeadLine);
+				if (cx < fieldWidthFactors.m_nWidth)
 					break;
 
 				nLenHeadLine--;

@@ -404,29 +404,6 @@ void CTbWebHandler::DoLogoffFunction(const CString& path, const CNameValueCollec
 }
 
 //--------------------------------------------------------------------------------
-void CTbWebHandler::GetDiagnosticMessages(CLoginContext* pContext, CString& messages)
-{
-	//TODOLUCA
-	if (!pContext || !pContext->m_nThreadID)
-	{
-		//_TB("Invalid LoginContext. Check if company database is up to date."));
-		messages.Append(_TB("Invalid LoginContext. Check if company database is up to date."));
-		return;
-	}
-
-	CStringArray messageArray;
-	CDiagnostic* pDiagnostic = NULL;
-	pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, false);
-	pDiagnostic->ToStringArray(messageArray);
-	for (int i = 0; i < messageArray.GetSize(); i++)
-	{
-		const CString  error = messageArray.GetAt(i);
-		messages.Append(error + _T("\r\n"));
-	}
-	delete pDiagnostic;
-}
-
-//--------------------------------------------------------------------------------
 void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
 	CString authToken = params.GetValueByName(AUTH_TOKEN_PARAM);
@@ -446,7 +423,7 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	//TODOLUCA, comunicazione che vengo da desktop, da rivedere
 	BOOL isRemoteInterface = isDesktop != _T("true");
 
-	//se siamo in desktop, comunico al tbappmanager il token, così se qualcuno fa logout dal tbappmanager sa quale token sloggare
+	//se siamo in desktop, comunico al tbappmanager il token, cosï¿½ se qualcuno fa logout dal tbappmanager sa quale token sloggare
 	if (!isRemoteInterface)
 		SendCurrentToken(AfxGetMenuWindowHandle(), authToken);
 
@@ -454,11 +431,21 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	if (pContext)
 	{
 		//travaso eventuali messaggi (ad es. esercizio non definito)
-		CString message;
-		GetDiagnosticMessages(pContext, message);
-		jsonResponse.SetMessage(message);
+		CDiagnostic* pDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(pContext->m_nThreadID, &CloneDiagnostic, true);
+		CDiagnostic* pAppDiagnostic = AfxInvokeThreadGlobalFunction<CDiagnostic*, BOOL>(AfxGetApp()->m_nThreadID, &CloneDiagnostic, true);
+		if (pAppDiagnostic->MessageFound(TRUE))
+			pDiagnostic->Copy(pAppDiagnostic, TRUE, _TB("Application startup messages"));
+		if (pDiagnostic->MessageFound(TRUE))
+			pDiagnostic->ToJson(jsonResponse);
+		delete pDiagnostic;
+		delete pAppDiagnostic;
+		if (!pContext->IsValid())
+		{
+			pContext->Close();
+			pContext = NULL;
+		}
 	}
-	if (pContext == NULL || !pContext->IsValid())
+	if (pContext == NULL)
 	{
 		//_TB("Invalid LoginContext. Check if company database is up to date."));
 		jsonResponse.SetError();
@@ -539,9 +526,12 @@ void CTbWebHandler::GetApplicationDateFunction(const CString& path, const CNameV
 
 }
 
+
 //--------------------------------------------------------------------------------
 void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
+	//temporaneamente metto lo stato in unattended per evitare message box
+	SwitchTemporarilyMode tmp(UNATTENDED);
 	response.SetMimeType(L"application/json");
 	CJSonResponse jsonResponse;
 	if (AfxGetLoginThread()->GetOpenDocuments() > 0)
@@ -570,6 +560,13 @@ void CTbWebHandler::ChangeApplicationDateFunction(const CString& path, const CNa
 	}
 
 	AfxSetApplicationDate(date);
+
+	//travaso eventuali messaggi (ad es. esercizio non definito)
+	CDiagnostic* pDiagnostic = AfxGetDiagnostic();
+	if (pDiagnostic->MessageFound(TRUE))
+		pDiagnostic->ToJson(jsonResponse);
+	pDiagnostic->ClearMessages(TRUE);
+
 	//ChangeOperationsDate();
 	jsonResponse.SetOK();
 	response.SetData(jsonResponse.GetJson());
@@ -632,7 +629,7 @@ void CTbWebHandler::ProcessRequest(const CString& path, const CNameValueCollecti
 	}
 
 	//confronto il puntatore di inizio stringa col puntatore alla prima occorrenza della stringa cercata
-	//perché la stringa deve essere all'inizio
+	//perchï¿½ la stringa deve essere all'inizio
 	/*if ((LPCTSTR)path == wcsstr(path, L"image/"))
 	{
 		SetMimeType(path, response);

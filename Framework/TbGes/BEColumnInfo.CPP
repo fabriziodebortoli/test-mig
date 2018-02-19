@@ -863,7 +863,7 @@ void ColumnInfo::ResizeColumn(CFont* pFont, int& xOffset, int nMaxColWidth, BOOL
 			m_eWidthType = m_nDataScrnWidth > m_nTitleWidth ? WT_DATA : WT_TITLE;
 		}
 
-		if (m_nColScrnWidth + 1 - CTRL_NOT_INSIDE > nMaxColWidth)
+		if (nMaxColWidth > 0 && m_nColScrnWidth + 1 - CTRL_NOT_INSIDE > nMaxColWidth)
 		{
 			// colonna piu` larga del body : non accettata
 			TRACE1("ColumnInfo::ResizeColumn: the column %s is too wide\n", (LPCTSTR) m_strTitle); 

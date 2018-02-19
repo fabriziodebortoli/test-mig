@@ -755,7 +755,7 @@ public:
 			NAMESPACE_EDIT_BAD_NAMESPACE,
 			HOTLINK_DATA_PROTECTED, //used for TBRowSecurity (impr 5185 @@BAUZI)
 			// inizio item a disposizione per le eventuali classi derivate
-			AVAILABLE_1,
+			HOTLINK_NO_DATA_FOUND,
 			AVAILABLE_2,
 			AVAILABLE_3,
 			AVAILABLE_4,
@@ -1141,6 +1141,7 @@ public:
 
 	int		GetButtonWidth			(int nExpectedWidth = 0);
 protected:
+	void UpdateCtrlVisibility();
 	// NON user overridables
 	BOOL	CanDoCallLink			() const;
 	BOOL	CheckControl			(UINT nID, CWnd* pParentWnd, LPCTSTR ctrlClassName = NULL);

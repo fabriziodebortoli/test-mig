@@ -231,21 +231,6 @@ DataBool GetCurrentUser(DataStr&/*[ciString]*/ strUser, DataStr&/*[ciString]*/ s
 	return TRUE;
 }
 
-//---------------------------------------------------------------------------
-void AssignParameters(CBaseDocument* pDocument, const DataStr& arguments)
-{ 
-	BOOL bOk (FALSE); 
-	if (arguments[0] == '<')	//multi tag allowed: <Arguments, Parameters, Function, etc
-	{
-		CFunctionDescription fd;
-		bOk = fd.ParseArguments(arguments);
-		if (bOk)
-			pDocument->GoInBrowserMode (&fd);
-	}
-		if (!bOk)
-			pDocument->GoInBrowserMode (arguments);
-}
-
 //[TBWebMethod(securityhidden=true, woorm_method=false)]
 ///<summary>
 ///Open a document
@@ -256,7 +241,7 @@ DataLng RunDocument(DataStr/*[ciString]*/ documentNamespace, DataStr arguments)
 	CBaseDocument* pDocument = AfxGetTbCmdManager()->RunDocument(documentNamespace.GetString());
 
 	if (pDocument && !arguments.IsEmpty() && pDocument->IsADataEntry())
-		AfxInvokeThreadGlobalProcedure<CBaseDocument*, const DataStr&>(pDocument->GetFrameHandle(), &AssignParameters, pDocument, arguments);
+		AfxInvokeThreadProcedure<CBaseDocument, const DataStr&>(pDocument->GetFrameHandle(), pDocument, &CBaseDocument::AssignParameters, arguments);
 	
 	return (long)pDocument;
 }

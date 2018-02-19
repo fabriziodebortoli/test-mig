@@ -163,7 +163,7 @@ namespace Microarea.WebServices.TbSender
 				IInvalidDocumentNotifier tracker = new Tracker();
 				tracker.Url = "http://www.microarea.it/PostaLiteTrackerWS/Tracker.asmx";
 #if DEBUG
-				tracker.Url = "http://spp-hotfix/PostaLiteTrackerWS/Tracker.asmx";
+				tracker.Url = "http://vts-backend/PostaLiteTrackerWS/Tracker.asmx";
 #endif
 				engine = new SenderEngine(plSvc, credProv, settingsProvider, diagnostic, company);
 				engine.InvalidDocumentNotifier = tracker;
@@ -190,7 +190,7 @@ namespace Microarea.WebServices.TbSender
 						IChargeTracker tracker = new Tracker();
 						tracker.Url = "http://www.microarea.it/PostaLiteTrackerWS/Tracker.asmx";
 #if DEBUG
-						tracker.Url = "http://spp-hotfix/PostaLiteTrackerWS/Tracker.asmx";
+						tracker.Url = "http://vts-backend/PostaLiteTrackerWS/Tracker.asmx";
 #endif
 						subscrEngine = new SubscriptionEngine(plSvc, settingsProvider, diagnostic, dateTimeProvider);
 						subscrEngine.ChargeTracker = tracker;

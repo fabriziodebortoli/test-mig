@@ -10,6 +10,7 @@ import { TaskBuilderService } from './../../../core/services/taskbuilder.service
 import { HttpMenuService } from './../../../menu/services/http-menu.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { TbComponent } from './../../../shared/components/tb.component';
+import { DiagnosticService } from './../../../core/services/diagnostic.service';
 
 @Component({
     selector: 'tb-application-date',
@@ -22,7 +23,6 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
     culture: string = '';
     dateFormat: string = '';
     internalDate: Date = undefined;
-    errorMessage: string = "";
     isDesktop: boolean;
 
     subscriptions: Subscription[] = [];
@@ -33,6 +33,7 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
         public infoService: InfoService,
         public httpMenuService: HttpMenuService,
         public taskbuilderService: TaskBuilderService,
+        public diagnosticService: DiagnosticService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef) {
         super(tbComponentService, changeDetectorRef);
@@ -77,25 +78,19 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
 
 
     public ok() {
-        this.errorMessage = "";
         this.httpMenuService.changeApplicationDate(this.internalDate)
             .subscribe((tbRes: OperationResult) => {
                 if (!tbRes.error) {
                     this.applicationDate = this.internalDate;
                     this.opened = false;
                 }
-                else {
-                    tbRes.messages.forEach((current) => {
-                        this.errorMessage += current.text;
-                    })
-                }
+                this.diagnosticService.showDiagnostic(tbRes.messages);
             });
 
 
     }
 
     public cancel() {
-        this.errorMessage = "";
         this.opened = false;
     }
 

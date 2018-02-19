@@ -1,10 +1,13 @@
 #include "stdafx.h"
+#include <TbNameSolver\FileSystemFunctions.h>
+#include <TbNameSolver\IFileSystemManager.h>
 #include <TbNameSolver\LoginContext.h>
 #include <TbGes\TileManager.h>
 #include <TbGes\TileDialog.h>
 #include "MTileGroup.h"
 #include "MTileManager.h"
 #include "MHeaderStrip.h"
+#include "MView.h"
 #include "EasyStudioTemplate.h"
 
 using namespace System;
@@ -276,8 +279,17 @@ bool EasyStudioTemplate::LoadFrom(String^ fileName)
 }
 
 //----------------------------------------------------------------------------	
-bool EasyStudioTemplate::Save(System::String^ path)
+bool EasyStudioTemplate::Save(bool inCustom)
 {
+	String^ path = gcnew System::String
+	(
+		AfxGetPathFinder()->GetTemplatesPath
+		(
+			CTBNamespace(_T("Module.Extensions.EasyStudio")),
+			inCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD,
+			inCustom
+		)
+	);
 	this->fileName = System::IO::Path::Combine(path, name + NameSolverStrings::JsonExtension);
 	return Save(m_pDescription, CString(fileName));
 }
@@ -302,9 +314,10 @@ bool EasyStudioTemplate::Rename (System::String^ oldName, System::String^ newNam
 	{
 		String^ newFileName = Path::Combine(Path::GetDirectoryName(FileName), newName);
 		newFileName = String::Concat(newFileName, Path::GetExtension(FileName));
-		File::Copy(FileName, newFileName);
-		if (File::Exists(newFileName))
-			File::Delete(FileName);
+		AfxGetFileSystemManager()->CopyFile(CString(FileName), CString(newFileName), TRUE);
+		if (ExistFile(newFileName))
+			RemoveFile((const CString&) FileName);
+		
 		fileName = newFileName;
 		name = newName;
 	}
@@ -447,6 +460,7 @@ System::Type^ EasyStudioTemplate::GetTypeFromWndType(int nWndType)
 	case CWndObjDescription::WndObjType::TileManager:	return MTileManager::typeid;
 	case CWndObjDescription::WndObjType::Tile:			return MTileDialog::typeid;
 	case CWndObjDescription::WndObjType::HeaderStrip:	return MHeaderStrip::typeid;
+	case CWndObjDescription::WndObjType::View:			return MView::typeid;
 	}
 	return nullptr;
 }
@@ -463,7 +477,7 @@ void EasyStudioTemplate::ApplyAttributesTo(IWindowWrapper^ wrapper, CWndObjDescr
 	window->LocationLU = Point(pDescription->m_X, pDescription->m_Y);
 	window->SizeLU = Size(pDescription->m_Width, pDescription->m_Height);
 	window->TabStop = pDescription->m_bTabStop;
-	
+
 	MTileDialog^ tile = dynamic_cast<MTileDialog^>(window);
 	if (tile != nullptr && pDescription->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
@@ -486,4 +500,22 @@ void EasyStudioTemplate::ApplyAttributesTo(IWindowWrapper^ wrapper, CWndObjDescr
 			break; // standard
 		}
 	}
+}
+//--------------------------------------------------------------------------------
+bool EasyStudioTemplate::Delete()
+{
+	bool bDeleted = !IsFromFile;
+	if (!bDeleted)
+	{
+		try
+		{
+			RemoveFile((const CString&) FileName);
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(System::String::Concat("Error", ex->Message, " deleting template ", Name));
+			bDeleted = false;
+		}
+	}
+	return bDeleted;
 }

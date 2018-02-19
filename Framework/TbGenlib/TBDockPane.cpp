@@ -96,7 +96,10 @@ void CTaskBuilderDockPaneTabs::AddTab (CWnd* pWnd, LPCTSTR szName, LPCTSTR szTit
 {
 	__super::AddTab(pWnd, szTitle, nImage, FALSE);
 	AttachTabOSLInfo(m_pParentPane->GetInfoOSL(),  pWnd->GetDlgCtrlID(), szName);
+	if (m_pParentPane)
+		m_pParentPane->OnTabAdded(pWnd->GetDlgCtrlID());
 }
+
 
 //-----------------------------------------------------------------------------
 BOOL CTaskBuilderDockPaneTabs::RemoveTabOf	(CWnd* pWnd)
@@ -1022,6 +1025,12 @@ void CTaskBuilderDockPane::HidePane(BOOL bSendInAutoHide /*TRUE*/)
 		SetAutoHideMode(FALSE, GetCurrentAlignment());
 	ShowWindow(SW_HIDE);
 }
+
+//-----------------------------------------------------------------------------
+void CTaskBuilderDockPane::OnTabAdded(UINT nTabID)
+{
+}
+
 
 /////////////////////////////////////////////////////////////////////////////
 //					CDockingPanes

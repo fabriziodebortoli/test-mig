@@ -9054,9 +9054,14 @@ CRSMultilineColumnProp::CRSMultilineColumnProp(TableColumn* pCol, BOOL bValue, C
 //-----------------------------------------------------------------------------
 BOOL CRSMultilineColumnProp::OnUpdateValue()
 {
-	BOOL prevValue = GetValue();
+	int nPrevValue = GetValue();
 	BOOL baseUpdate = __super::OnUpdateValue();
-	BOOL value = GetValue();
+	int nValue = GetValue();
+
+	
+	BOOL prevValue = nPrevValue == -1;
+	BOOL value = nValue == -1;
+
 	//ottimizzazione
 	if (value == prevValue)
 	return baseUpdate;
@@ -9140,6 +9145,7 @@ BOOL CRSMultilineMultiColumnsProp::OnUpdateValue()
 	CString prevValue = GetValue();
 	BOOL baseUpdate = __super::OnUpdateValue();
 	CString value = GetValue();
+
 	//ottimizzazione
 	if (value == prevValue)
 		return baseUpdate;

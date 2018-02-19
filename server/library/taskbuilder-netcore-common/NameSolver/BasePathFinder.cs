@@ -1919,14 +1919,6 @@ namespace Microarea.Common.NameSolver
 		}
 
         /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardTemplatesPath(string applicationName, string moduleName)
-        {
-            return Path.Combine(GetApplicationModulePath(applicationName, moduleName), NameSolverStrings.Templates);
-        }
-        /// <summary>
         /// Ritorna la UIController del modulo desiderato
         /// </summary>
         //---------------------------------------------------------------------------------
@@ -2086,18 +2078,6 @@ namespace Microarea.Common.NameSolver
 			return Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
 		}
 
-        /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomTemplatesPath(string companyName, string applicationName, string moduleName, bool createDir)
-        {
-            string path = Path.Combine(GetCustomModulePath(companyName, applicationName, moduleName), NameSolverStrings.Templates);
-            if (!Directory.Exists(path) && createDir)
-                Directory.CreateDirectory(path);
-            return path;
-
-        }
 
         /// <summary>
         /// Ritorna la cartella di document del modulo desiderato nella custom

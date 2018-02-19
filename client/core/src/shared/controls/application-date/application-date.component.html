@@ -5,7 +5,6 @@
 <kendo-dialog title="{{_TB('Change application date')}}" *ngIf="opened" (close)="cancel()">
     <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
         <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker><br />
-        <label>{{errorMessage}}</label>
     </div>
     <kendo-dialog-actions>
         <button kendoButton (click)="cancel()" class="k-secondary">{{_TB('Cancel')}}</button>

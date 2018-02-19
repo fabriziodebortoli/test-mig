@@ -1746,29 +1746,23 @@ void CTBToolBar::RemoveAccelerator(HACCEL& hAccelTable, UINT nID)
 void CTBToolBar::AppendAccelerator(HACCEL& hAccelTable, UINT nID, BYTE fVirt, WORD key)
 {
 	int iNumAccelerators = CopyAcceleratorTable(hAccelTable, NULL, 0);
-	int iNewNum = 0;
 
 	ACCEL *pAccels = new ACCEL[iNumAccelerators];
 	ACCEL *pNewAccels = new ACCEL[iNumAccelerators+1];
 
 	// Copy the current table to the buffer
 	VERIFY(CopyAcceleratorTable(hAccelTable, pAccels, iNumAccelerators) == iNumAccelerators);
-
-	for (int k = 0; k < iNumAccelerators; k++) {
-		if (nID != pAccels[k].cmd)
-		{
-			pNewAccels[iNewNum].cmd = pAccels[k].cmd;
-			pNewAccels[iNewNum].fVirt = pAccels[k].fVirt;
-			pNewAccels[iNewNum].key = pAccels[k].key;
-			iNewNum++;
-		}
+	int k = 0;
+	for (; k < iNumAccelerators; k++) {
+			pNewAccels[k].cmd = pAccels[k].cmd;
+			pNewAccels[k].fVirt = pAccels[k].fVirt;
+			pNewAccels[k].key = pAccels[k].key;
 	}
 
 	// Append new acceleretor
-	pNewAccels[iNewNum].cmd = nID;
-	pNewAccels[iNewNum].fVirt = fVirt;
-	pNewAccels[iNewNum].key = key;
-	iNewNum++;
+	pNewAccels[k].cmd = nID;
+	pNewAccels[k].fVirt = fVirt;
+	pNewAccels[k].key = key;
 	
 	if (hAccelTable)
 	{
@@ -1777,7 +1771,7 @@ void CTBToolBar::AppendAccelerator(HACCEL& hAccelTable, UINT nID, BYTE fVirt, WO
 	}
 
 	// ... create a new one, based on our modified table
-	hAccelTable = CreateAcceleratorTable(pNewAccels, iNewNum);
+	hAccelTable = CreateAcceleratorTable(pNewAccels, k + 1);
 	ASSERT(hAccelTable != NULL || AfxIsRemoteInterface());
 	// Cleanup
 	delete[] pAccels;
@@ -4549,6 +4543,9 @@ void CTBToolBar::SetDefaultButton(int iIndex)
 //----------------------------------------------------------------------------
 BOOL CTBToolBar::OnUpdateCmdUIDialog()
 {
+	if (this->IsSuspendedUpdateCmdUI())
+		return FALSE;
+
 	CWnd* pTargetToolBar = GetCommandTarget();
 	if (m_bDialog && pTargetToolBar)
 	{
@@ -4575,6 +4572,9 @@ BOOL CTBToolBar::OnUpdateCmdUIDialog()
 //----------------------------------------------------------------------------
 void CTBToolBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
 {
+	if (this->IsSuspendedUpdateCmdUI())
+		return;
+
 	if (OnUpdateCmdUIDialog())
 		return;
 	
@@ -7371,7 +7371,6 @@ BOOL CTBTabbedToolbar::InsertDropdownMenuItem(UINT nPos, UINT nCommandID, UINT n
 	return TRUE;
 }
 
-
 //-------------------------------------------------------------------------------------
 BOOL CTBTabbedToolbar::RemoveDropdown (UINT nCommandID)
 {
@@ -7950,6 +7949,23 @@ HRESULT CTBTabbedToolbar::get_accName(VARIANT varChild, BSTR *pszName)
 	*pszName = ::SysAllocString(sNamespace);
 
 	return S_OK;
+}
+
+//-----------------------------------------------------------------------------
+void CTBTabbedToolbar::SetSuspendUpdateCmdUI(BOOL bSuspend/* = TRUE*/)
+{
+	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
+	int nTabCount = pTabsWnd->GetTabsNum();
+
+	for (int i = 0; i < nTabCount; i++)
+	{
+		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
+		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
+		if (pToolBar)
+		{
+			pToolBar->SetSuspendUpdateCmdUI(bSuspend);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////

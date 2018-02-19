@@ -1,36 +1,41 @@
-.message-block
-{
-    margin-left:15px;
-}
-.message-block-list
-{
-    margin-left:5px
-}
-.block-title
-{
-    font-weight: bold;
-    display: inline-block;
-}
-.toggler
-{
-    display: inline-block;
-    cursor: pointer;
-    font-size: large;
-}
-
-.icon-error
-{
-    color: red;
-    font-size: large;
-}
-.icon-warning
-{
-    color: orange;
-    font-size: large;
-}
-
-.icon-info
-{
-    color: green;
-    font-size: large;
-}
+        .message-block-list {
+            margin-left: 15px;
+        }
+        
+        .block-title {
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .toggler {
+            display: inline-block;
+            cursor: pointer;
+            font-size: large;
+        }
+        
+        .icon-error {
+            color: red;
+            font-size: large;
+        }
+        
+        .icon-warning {
+            color: orange;
+            font-size: large;
+        }
+        
+        .icon-info {
+            color: green;
+            font-size: large;
+        }
+        
+        .diagnostic-icon {
+            padding-right: 5px;
+        }
+        
+        .message-icon {
+            display: table-cell;
+        }
+        
+        .message-text {
+            display: table-cell;
+        }

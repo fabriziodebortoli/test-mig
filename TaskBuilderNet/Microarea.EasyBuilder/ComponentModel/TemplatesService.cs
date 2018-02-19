@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 using Microarea.Framework.TBApplicationWrapper;
 using Microarea.TaskBuilderNet.Core.NameSolver;
@@ -77,28 +76,12 @@ namespace Microarea.EasyBuilder.ComponentModel
         internal bool DeleteTemplate(string name)
         {
             EasyStudioTemplate template = this[name];
-            return template == null ? false : DeleteTemplate(template);
-        }
-
-        //--------------------------------------------------------------------------------
-        internal bool DeleteTemplate(EasyStudioTemplate template)
-        {
-            bool bDeleted = !template.IsFromFile;
-            if (!bDeleted)
+            if (template != null  && template.Delete())
             {
-                try
-                {
-                    File.Delete(template.FileName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(string.Concat("Error", ex.Message, " deleting template ", template.Name));
-                    bDeleted = false;
-                }
-            }
-            if (bDeleted)
                 RemoveTemplate(template);
-            return bDeleted;
+                return true;
+            }
+            return false;
         }
 
         //--------------------------------------------------------------------------------
@@ -106,10 +89,10 @@ namespace Microarea.EasyBuilder.ComponentModel
         {
             templates.Clear();
             // standard
-            string path = BasePathFinder.BasePathFinderInstance.GetStandardTemplatesPath(NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
+            string path = PathFinderWrapper.GetTemplatesPath(false);
             LoadTemplates(path);
             // custom
-            path = BasePathFinder.BasePathFinderInstance.GetCustomTemplatesPath(NameSolverStrings.AllCompanies, NameSolverStrings.Extensions, NameSolverStrings.EasyStudio, false);
+            path = PathFinderWrapper.GetTemplatesPath(true);
             LoadTemplates(path);
         }
 
@@ -119,8 +102,8 @@ namespace Microarea.EasyBuilder.ComponentModel
             string searchKey = "*" + NameSolverStrings.JsonExtension;
             try
             {
-                if (Directory.Exists(path))
-                    foreach (string file in Directory.GetFiles(path, searchKey))
+                if (PathFinderWrapper.ExistFolder(path))
+                    foreach (string file in PathFinderWrapper.GetFiles(path, searchKey))
                     {
                         EasyStudioTemplate template = new EasyStudioTemplate();
                         if (template.LoadFrom(file))
@@ -137,12 +120,7 @@ namespace Microarea.EasyBuilder.ComponentModel
         //--------------------------------------------------------------------------------
         internal bool SaveTemplate(EasyStudioTemplate template, bool inCustom)
         {
-            string path = inCustom ?
-                BasePathFinder.BasePathFinderInstance.GetCustomTemplatesPath(NameSolverStrings.AllCompanies, NameSolverStrings.Extensions, NameSolverStrings.EasyStudio, true)
-                :
-                BasePathFinder.BasePathFinderInstance.GetStandardTemplatesPath(NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
-
-            return template.Save(path);
+            return template.Save(inCustom);
         }
 
         //--------------------------------------------------------------------------------

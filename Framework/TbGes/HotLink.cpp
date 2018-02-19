@@ -406,7 +406,7 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 {
 	if (GetRunningMode() != 0)
 		return TRUE;
-
+	OnPrepareForFind(GetMasterRecord());
 	FindResult res = FindRecord(pData, IsEnabledAddOnFly(), TRUE);
 
 	return res == FOUND || res == EMPTY;

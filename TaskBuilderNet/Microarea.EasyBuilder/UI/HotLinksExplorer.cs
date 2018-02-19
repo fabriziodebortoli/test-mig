@@ -69,6 +69,8 @@ namespace Microarea.EasyBuilder.UI
 		//--------------------------------------------------------------------------------
 		public void RefreshDocument()
 		{
+            if (documentNode == null)
+                return;
 			treeHotLinks.Nodes.Remove(documentNode);
 			documentNode = null;
 			LoadTreeWithDocumentHotLinks();

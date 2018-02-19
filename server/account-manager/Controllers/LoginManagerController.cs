@@ -10,6 +10,7 @@ using Microarea.Common;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
 using Microarea.Common.Applications;
+using Microarea.Common.Generic;
 
 namespace Microarea.AccountManager.Controllers
 {
@@ -37,9 +38,9 @@ namespace Microarea.AccountManager.Controllers
             try
             {
                 string user = value["user"]?.Value<string>();
-                string password = value["password"]?.Value<string>(); 
-                string company = value["company"]?.Value<string>(); 
-                string askingProcess = value["askingProcess"]?.Value<string>(); 
+                string password = value["password"]?.Value<string>();
+                string company = value["company"]?.Value<string>();
+                string askingProcess = value["askingProcess"]?.Value<string>();
                 string overwriteLoginString = value["overwrite"]?.Value<string>();
                 bool.TryParse(overwriteLoginString, out bool overwriteLogin);
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
@@ -56,7 +57,7 @@ namespace Microarea.AccountManager.Controllers
 
                 return new JsonResult(new { Success = result == 0, Message = errorMessage, ErrorCode = result, Authtoken = authenticationToken, Culture = CultureInfo.CurrentUICulture.Name });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
@@ -68,9 +69,9 @@ namespace Microarea.AccountManager.Controllers
         {
             try
             {
-                string user = value["user"]?.Value<string>(); 
-                string oldPassword = value["oldPassword"]?.Value<string>(); 
-                string newPassword = value["newPassword"]?.Value<string>(); 
+                string user = value["user"]?.Value<string>();
+                string oldPassword = value["oldPassword"]?.Value<string>();
+                string newPassword = value["newPassword"]?.Value<string>();
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
                 string errorMessage = "";
                 if (result != 0)
@@ -96,7 +97,8 @@ namespace Microarea.AccountManager.Controllers
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
                 Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(authtoken);
-                var result = new { Success = true, Message = "" };
+                
+                var result = new { Success = true, Culture = InstallationData.ServerConnectionInfo.PreferredLanguage, Message = "" };
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -140,8 +142,15 @@ namespace Microarea.AccountManager.Controllers
                     {
                         SetCulture(authtoken);
                     }
+                    
                 }
-                var result = new { Success = valid, Culture = CultureInfo.CurrentUICulture.Name, Message = "" };
+                var result = new
+                {
+                    Success = valid,
+                    Culture = valid 
+                        ? CultureInfo.CurrentUICulture.Name 
+                        : InstallationData.ServerConnectionInfo.PreferredLanguage,
+                    Message = "" };
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -208,8 +217,8 @@ namespace Microarea.AccountManager.Controllers
             try
             {
                 //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
-                string application = value["application"]?.Value<string>(); 
-                string functionality = value["functionality"]?.Value<string>(); 
+                string application = value["application"]?.Value<string>();
+                string functionality = value["functionality"]?.Value<string>();
 
                 bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
 

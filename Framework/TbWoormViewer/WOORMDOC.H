@@ -525,6 +525,8 @@ public:
 	CString				m_sCopyText;
 	BOOL				b_TransformColumnOrField;
 
+	BOOL				m_bCallPostOpenWoormDoc = TRUE;
+
 protected:
 	CTBPicture*		m_pHiddenIcon;
 	CTBPicture*		m_pHiddenWhenIcon;
@@ -1178,6 +1180,8 @@ public:
 	virtual BOOL		ExistsColumnID		(WORD id, CString sLayoutName) const;
 	virtual BOOL		ColumnShowedAsImage (WORD id, CString sLayoutName) const; 
 	virtual	CObject*	GetColumnPtr		(WORD id, CString sLayoutName) const;
+	const TableColumn*	FindColumnByID		(WORD id, CString sLayoutName) const;
+
 
 			void OnBringToFront				(UINT nID);
 			void OnSendToBack				(BaseObj*);

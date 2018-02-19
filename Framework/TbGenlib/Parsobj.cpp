@@ -5889,6 +5889,7 @@ CString CParsedCtrl::FormatMessage(MessageID ID)
 	case HOTLINK_IS_RUNNING:	return _TB("Unable to execute the request before the current operation is ended");
 	case MAX_ITEM_REACHED:		return _TB("!!! THE NUMBER OF ELEMENTS IS HIGHER THAN THE EXTRACTABLE LIMIT ({0-%d}) SET!");
 	case NAMESPACE_EDIT_BAD_NAMESPACE: return _TB("Invalid Namespace name.");
+	case HOTLINK_NO_DATA_FOUND:	return _TB("No data Found");
 	case DUMMY:					return _T("");
 	default:
 		ASSERT(FALSE);
@@ -5956,6 +5957,17 @@ void CParsedCtrl::UpdateCtrlView()
 }
 
 //-----------------------------------------------------------------------------
+void CParsedCtrl::UpdateCtrlVisibility()
+{
+	if (m_pData)
+	{
+		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
+		bool bHide = TRUE == m_pData->IsHide();
+		if (bVisible == bHide)
+			ShowCtrl(m_pData->IsHide() ? SW_HIDE : SW_SHOW);
+	}
+}
+//-----------------------------------------------------------------------------
 void CParsedCtrl::UpdateCtrlStatus()
 {
 	if (m_nValueChanging)
@@ -5966,10 +5978,7 @@ void CParsedCtrl::UpdateCtrlStatus()
 	if (m_pData)
 	{
 		EnableCtrl(!m_pData->IsReadOnly());
-		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
-		bool bHide = TRUE == m_pData->IsHide();
-		if (bVisible == bHide)
-			ShowCtrl (m_pData->IsHide() ? SW_HIDE : SW_SHOW);
+		UpdateCtrlVisibility();
 	}
 }
 
@@ -7460,7 +7469,13 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 
 		return;
 	}
-
+	//quando ha perso il fuoco il controllo era ovviamente visibile; in questo metodo succedono cose, e queste cose potrebberlo
+	//nasconderlo (ad es. il bodyedit 'spegne' il controllo)
+	//quindi testo se + ancora visibile, se non lo è è dannoso chiamare la UpdateCtrlStatus
+	//(potrebbe renderlo nuovamente visibile) pertanto esco
+	bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
+	if (!bVisible)
+		return;
 	if (nRelationship != FOREIGN_FOCUSED && !pWnd->IsWindowEnabled())
 	{
 		// nel caso in cui le azioni fatte a fronte della UpdateCtrlData()
@@ -7473,7 +7488,7 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 		GetCtrlParent()->POST_WM_COMMAND(GetCtrlID(), PCN_SET_FOCUS, m_pOwnerWnd->m_hWnd);
 		return;
 	}
-
+	
 	// se nel frattempo qualcuno ha messo ReadOnly il DataObj si cambia lo
 	// stato esplicitamente poiche` il control si autoprotegge da variazioni
 	// di stato e valore mentre sta eseguendo la UpdateCtrlData()
@@ -8833,8 +8848,25 @@ void CParsedCtrl::ReadPropertiesFromJson()
 	CString strCaption;
 	if (m_pCaption)
 		m_pCaption->GetWindowText(strCaption);
-	if (strCaption != m_pOwnerWndDescription->m_strControlCaption)
-		SetCtrlCaption(m_pOwnerWndDescription->m_strControlCaption);
+	CString sNewCaption = AfxLoadJsonString(m_pOwnerWndDescription->m_strControlCaption, m_pOwnerWndDescription);
+	if (strCaption != sNewCaption)
+	{
+		int nCaptionW = m_pOwnerWndDescription->m_CaptionWidth;
+		if (nCaptionW == NULL_COORD)
+			nCaptionW = m_pOwnerWndDescription->GetParent()->m_CaptionWidth;
+		if (nCaptionW != NULL_COORD)
+		{
+			CRect rCaption = CRect(0, 0, nCaptionW, 0);
+			::MapDialogRect(GetCtrlParent()->m_hWnd, rCaption);
+			nCaptionW = rCaption.Width();
+		}
+		SetCtrlCaption(sNewCaption,
+			m_pOwnerWndDescription->m_CaptionHorizontalAlign,
+			m_pOwnerWndDescription->m_CaptionVerticalAlign,
+			CParsedCtrl::Left,
+			nCaptionW,
+			TRUE);
+	}
 }
 
 //=============================================================================
@@ -12832,18 +12864,20 @@ BOOL CBaseFormView::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERIN
 {
 	if (nCode == EN_VALUE_CHANGED || nCode == EN_VALUE_CHANGED_FOR_FIND || nCode == BEN_ROW_CHANGED)
 	{
+		BOOL b = FALSE;
 		//chiamo gli eventi della view solo se sono in interattivo
 		if (!m_bUnattendedMode)
-			CWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+			b = CWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
 		// quindi chiamo gli eventi di documento (anche se già gestiti dalla view, a differenza di MFC)
 		if (m_pDocument != NULL)
 		{
 			// special state for saving view before routing to document
 			CPushRoutingView push(this);
-			return m_pDocument->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+			b = m_pDocument->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo) || b;
+			return b;
 		}
-		return FALSE;
+		return b;
 	}
 	else
 	{

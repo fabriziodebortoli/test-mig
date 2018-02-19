@@ -262,31 +262,30 @@ UINT CTBResourcesMap::GetExistingTbResourceID(LPCTSTR sPartialNamespace, const T
 //-----------------------------------------------------------------------------
 UINT CTBResourcesMap::GetTbResourceID(LPCTSTR sPartialNamespace, const TbResourceType aType, int nCount /*= 1*/, LPCTSTR sContext /*= NULL*/)
 {
-	if (!sPartialNamespace || !sPartialNamespace[0])
+	if (!sPartialNamespace || !*sPartialNamespace)
 		return 0;
 
-	Map& coll = GetCollection(aType);
-
-	DWORD pValue = NULL;
-	CString sKey = sPartialNamespace;
+	//CString sKey = sPartialNamespace;
 	//if (sContext)
 	//	sKey.Append(sContext);
+
+	Map& coll = GetCollection(aType);
+	DWORD pValue = NULL;
 	{ //scope di lock in lettura, non togliere
 		TB_LOCK_FOR_READ();
-		if (coll.Lookup(sKey, pValue) && pValue)
+		if (coll.Lookup(sPartialNamespace, pValue) && pValue)
 			return  pValue;
 	}
 	TB_LOCK_FOR_WRITE();
 
-	DWORD wId = 0;
 	// someone could have writtend the number in the meanwhile as 
 	// we avoided to use read lock before
-	if (coll.Lookup(sKey, pValue) && pValue)
+	if (coll.Lookup(sPartialNamespace, pValue) && pValue)
 	{
 		return pValue;
 	}
 
-	wId = GetNextTbResourceID(aType);
+	DWORD wId = GetNextTbResourceID(aType);
 	if (IsOutOfRange(wId, aType))
 	{
 		ASSERT(FALSE);
@@ -295,7 +294,7 @@ UINT CTBResourcesMap::GetTbResourceID(LPCTSTR sPartialNamespace, const TbResourc
 		AfxGetDiagnostic()->Add(sMsg, CDiagnostic::Warning);
 	}
 
-	coll.SetAt(sKey, wId);
+	coll.SetAt(sPartialNamespace, wId);
 	CJsonResource r;
 	r.m_strName = sPartialNamespace;
 	r.m_strContext = sContext;

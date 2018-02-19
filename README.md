@@ -1,17 +1,7 @@
-# TaskBuilder Web [![Awesome](http://www.microarea.it/common/img2/logo-microarea-160.png)](http://www.microarea.it/)
+# TaskBuilder [![Awesome](http://www.microarea.it/common/img2/logo-microarea-160.png)](http://www.microarea.it/)
 
-TaskBuilder Web projects.
+[Requirements](https://github.com/Microarea/Taskbuilder/blob/master/docs/REQUIREMENTS.md)
 
-## Frontend Web Client
-[client - Angular2 based projects](https://github.com/Microarea/Taskbuilder/tree/master/client)
+[Sincronizzazione e Build ambiente di sviluppo Desktop](https://github.com/Microarea/Taskbuilder/blob/master/docs/DESKTOP.md)
 
-## Server 
-[server - Backend services and API](https://github.com/Microarea/Taskbuilder/tree/master/server)
-
-## Developers
-
-[Sincronizzazione e Build ambiente di sviluppo Desktop](https://github.com/Microarea/Taskbuilder/blob/master/DESKTOP.md)
-
-[Building and Running TaskBuilder Web](https://github.com/Microarea/Taskbuilder/blob/master/DEVELOPER.md)
-
-[How to debug an Angular2 App](https://github.com/Microarea/Taskbuilder/blob/master/DEBUG.md)
+[Sincronizzazione e Build ambiente di sviluppo Web](https://github.com/Microarea/Taskbuilder/blob/master/docs/WEB.md)

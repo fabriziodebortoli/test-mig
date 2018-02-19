@@ -24,8 +24,10 @@
 static TCHAR szNamespace[] = _T("Image.Framework.TbFrameworkImages.Images.%s.%s.png");
 static TCHAR szGlyphF[]    = _T("Glyph");
 
-static TCHAR szOK[] = _T("SynchroOK");
-static TCHAR szWarning[] = _T("SynchroWarning");
+static TCHAR szIconOK[] = _T("SynchroOK");
+static TCHAR szIconWarn[] = _T("SynchroWarning");
+static TCHAR szIconWaiting[] = _T("SynchroWaiting");
+static TCHAR szIconExcluded[] = _T("SynchroExcluded");
 
 static TCHAR szParamProvider	[]	= _T("P1");
 static TCHAR szParamTBGuid		[]	= _T("P2");
@@ -468,10 +470,10 @@ CDNotification::CDNotification()
 
 	m_pSqlSession = AfxGetDefaultSqlConnection()->GetNewSqlSession();
 
-	swprintf_s(m_strImgOk, szNamespace, szGlyphF, szOK);
-	swprintf_s(m_strImgWait, szNamespace, szGlyphF, szIconWarning);
-	swprintf_s(m_strImgError, szNamespace, szGlyphF, szWarning);
-	swprintf_s(m_strImgExcluded, szNamespace, szGlyphF, szGlyphRemove);
+	swprintf_s(m_strImgOk, szNamespace, szGlyphF, szIconOK);
+	swprintf_s(m_strImgWait, szNamespace, szGlyphF, szIconWaiting);
+	swprintf_s(m_strImgError, szNamespace, szGlyphF, szIconWarn);
+	swprintf_s(m_strImgExcluded, szNamespace, szGlyphF, szIconExcluded);
 }
 
 //-----------------------------------------------------------------------------
@@ -1451,7 +1453,9 @@ void CDNotification::ParseXMLLogs(const CString strProviderName, CString XmlLog,
 		CString strErrorMsg = _T("");
 		CString strFlow;
 		CString strDir = _T("");
-		m_SynchStatusHints = _TB("Yeah! Synchronization successfully done :) ");
+		
+
+		std::vector<DataStr> strHintsA;
 
 		CXMLNode* pNode = pRoot->GetChildByName(_T("Flows"));
 
@@ -1521,20 +1525,28 @@ void CDNotification::ParseXMLLogs(const CString strProviderName, CString XmlLog,
 							if SUCCEEDED(hr)
 							{
 								strTmpMessage.Assign(bstrToConvert);
-								if (status == E_SYNCHROSTATUS_TYPE_ERROR && strTmpMessage.IsEmpty())
-								{
-									m_SynchStatusHints += _TB("Oops...something gone wrong during the data synchronization. Please check technical details.") + _T("\r\n\r\n");
-								}
-								else if (status == E_SYNCHROSTATUS_TYPE_ERROR)
-									m_SynchStatusHints +=  strTmpMessage.ToString() + _T("\r\n\r\n");
+								if (std::find(strHintsA.begin(), strHintsA.end(), strTmpMessage) == strHintsA.end())
+										strHintsA.push_back(strTmpMessage);
+										//m_SynchStatusHints += strTmpMessage.ToString() + _T("\r\n\r\n");
 							}
 						}
-						else if (status == E_SYNCHROSTATUS_TYPE_ERROR)
-							m_SynchStatusHints = _TB("Oops...something gone wrong during the data synchronization. Please check technical details.") + _T("\r\n\r\n");
 					}
 				}
 			} 
 		}
+		if (strHintsA.size() == 0)
+			m_SynchStatusHints =  (bResult && (m_SynchStatusHints.IsEmpty() ||  m_SynchStatusHints.CompareNoCase(_TB("Synchronization successfully done!")) == 0)) ? _TB("Synchronization successfully done!") : _TB("Oops...something gone wrong during the data synchronization. Please check technical details.");
+		else
+		{
+			for (std::vector<DataStr>::const_iterator ii = strHintsA.begin(); ii != strHintsA.end(); ++ii)
+				{
+					m_SynchStatusHints += (*ii);
+					if (ii + 1 != strHintsA.end()) {
+						m_SynchStatusHints += _T("\r\n\r\n");
+					}
+				}
+		}
+
 		if (!bResult)
 		{
 			strSynchStatusPicture = m_strImgError;
@@ -1616,6 +1628,7 @@ void CDNotification::SetSynchroData(BOOL bFromTimer /* = FALSE*/)
 				m_SynchWorker.Clear();
 				m_SynchDirection.Clear();
 				m_SynchMsg.Clear();
+				m_SynchStatusHints.Clear();
 
 				CXMLDocumentObject aXMLModDoc;
 				CString XmlLog;
@@ -1671,8 +1684,14 @@ void CDNotification::SetSynchroData(BOOL bFromTimer /* = FALSE*/)
 						ParseXMLLogs(DMSInfinityProvider, XmlLog, strDMSStatusPicture, strDMSStatusMsg);
 
 						m_SynchMsg = (!strCRMSynchStatusMsg.IsEmpty() ? (strCRMSynchStatusMsg + _T("\r\n")) : _T("")) + strDMSStatusMsg;
-						if (strCRMSynchStatusPicture == m_strImgOk && strDMSStatusPicture == m_strImgError)
+
+						if (strCRMSynchStatusPicture == m_strImgError || strDMSStatusPicture == m_strImgError)
+							m_SynchStatusPicture = m_strImgError;
+						else if (strCRMSynchStatusPicture == m_strImgExcluded && !strDMSStatusPicture.IsEmpty())
 							m_SynchStatusPicture = strDMSStatusPicture;
+						else if (strCRMSynchStatusPicture == m_strImgExcluded && strDMSStatusPicture == m_strImgExcluded)
+							m_SynchStatusPicture = m_strImgExcluded;
+
 					}
 					else
 						m_SynchMsg = strCRMSynchStatusMsg;

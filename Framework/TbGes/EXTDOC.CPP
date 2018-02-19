@@ -3089,6 +3089,8 @@ void CAbstractFormDoc::ResumeUpdateDataView()
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
+	if (m_bClosing)
+		return;
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	if (m_nUpdateDataViewLevel > 0 && !bForce)
@@ -3523,14 +3525,8 @@ void CAbstractFormDoc::OnFrameCreated()
 		pSession->IgnoreModelChanges(false);//da adesso in avanti posso registrare i cambiamenti del model
 		pSession->ResumePushToClient();
 	}
-
 }
-//-----------------------------------------------------------------------------
-void CAbstractFormDoc::OnOpenCompleted() 
-{	
-	if (!CanRunDocument())
-		CloseDocument();
-} 
+
 //-----------------------------------------------------------------------------
 SqlConnection* CAbstractFormDoc::GetDefaultSqlConnection()
 {
@@ -3662,7 +3658,7 @@ endopen:
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnNewDocument()
 {
-	return CAbstractFormDoc::OnOpenDocument(NULL);
+	return CanRunDocument() && CAbstractFormDoc::OnOpenDocument(NULL);
 }
 
 //-----------------------------------------------------------------------------
@@ -5625,6 +5621,7 @@ void CAbstractFormDoc::BatchStart()
 			}
 		}
 
+		OnManageAfterBatchExecute();
 		EnableControls();
 		UpdateDataView();
 
@@ -5684,22 +5681,9 @@ void CAbstractFormDoc::BatchStop()
 void CAbstractFormDoc::SwitchBatchRunButtonState()
 {
 	if (GetType() != VMT_BATCH) return;
-
-	POSITION pos = GetFirstViewPosition();
-	while (pos != NULL)
-	{
-		CView* pView = GetNextView(pos);
-		if (!pView)
-			continue;
-		CFrameWnd* pFrame = pView->GetParentFrame();
-		if (pFrame)
-		{
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CBatchFrame)))
-				((CBatchFrame*)pFrame)->SwitchBatchRunButtonState();
-			if (pFrame->IsKindOf(RUNTIME_CLASS(CJsonFrame)))
-				((CJsonFrame*)pFrame)->SwitchBatchRunButtonState();
-		}
-	}
+	CMasterFrame* pFrame = GetMasterFrame();
+	if (pFrame)
+		pFrame->SwitchBatchRunButtonState();
 }
 
 //-----------------------------------------------------------------------------

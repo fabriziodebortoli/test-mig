@@ -216,13 +216,23 @@ CWoormDoc::CWoormDoc()
 	m_ViewSymbolTable(WoormTable::SimpleTable_RDEVIEW, NULL)
 {
 	m_ViewSymbolTable.SetDocument(this);
+
+	DataObj* pSetting = AfxGetSettingValue(CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbWoormViewer")), szWoormGeneralOptions, szColumnWidthPercentage, DataPerc(90));
+	m_nColumnWidthPercentage =  (pSetting ? *((DataPerc*) pSetting) : 90) / 100;
+
+	pSetting = AfxGetSettingValue(CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbWoormViewer")), szWoormGeneralOptions, szOptimizedLineBreak, DataBool(FALSE));
+	m_bUseOptimizedLineBreak = pSetting ? *((DataBool*)pSetting) : FALSE;
 }
 
 //-----------------------------------------------------------------------------
 BOOL CWoormDoc::UseOptimizedLineBreak()
 {
-	DataObj* pSetting = AfxGetSettingValue(CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbWoormViewer")), szWoormGeneralOptions, szOptimizedLineBreak, DataBool(FALSE));
-	return pSetting ? *((DataBool*)pSetting) : FALSE;
+	return m_bUseOptimizedLineBreak;
+}
+
+double CWoormDoc::GetColumnWidthPercentage()
+{
+	return m_nColumnWidthPercentage;
 }
 
 //-----------------------------------------------------------------------------

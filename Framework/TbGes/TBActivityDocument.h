@@ -145,8 +145,9 @@ public:	//virtual methods exposed by CAbstractFormDoc
 	virtual void				CustomizeBodyEdit			(CBodyEdit* pBE);
 	virtual void				OnBEEnableButton			(CBodyEdit*, CBEButton*);
 	virtual void				OnParsedControlCreated		(CParsedCtrl* pCtrl);
-	virtual BOOL				BatchEnableControls();
-	
+	virtual BOOL				BatchEnableControls			();
+	virtual void				OnManageAfterBatchExecute	();
+
 public:	//virtual methods exposed by CTBActivityDocument
 	virtual void				OnRowBEResultsChanged		() {}
 	virtual void				OnSelectDeselect			() {}
@@ -168,7 +169,7 @@ private:
 	CTilePanel*					GetTilePanel				(CString sName);
 	void						SetPanelCollapsed			(CTilePanel* pPanel, BOOL bSet);
 	void						SetPanelEnabled				(CTilePanel* pPanel, BOOL bSet);
-	void						ManagePanelsState			(BOOL bEnabledAfterExtract);
+	void						ManagePanelsState			();
 	void						EnsureExistancePanels		();
 	void						DoExtractData				();
 	void						DoUndoExtraction			();
@@ -245,10 +246,8 @@ public:
 	
 private:	//private members
 	BOOL						m_bExtractingData;
-	BOOL						m_bIsExecutedRun;
 	BOOL						m_bExtractData;
 	BOOL						m_bAddMoreData;
-	BOOL						m_bUndoExtraction;
 	BOOL						m_bManageSelectButton;
 	E_ACTIVITY_PANELACTION		m_eFiltersActionOnExtract;
 	E_ACTIVITY_PANELACTION		m_eActionsActionOnExtract;
@@ -277,6 +276,7 @@ private:	//private members
 	DataStr						m_ActionsPanelText;
 	DataStr						m_FooterPanelText;
 	long						m_nStep;
+	BOOL						m_bGoToStart;
 	
 protected:
 	//{{AFX_MSG(CActivityDocument)

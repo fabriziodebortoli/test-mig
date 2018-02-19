@@ -265,6 +265,9 @@ BOOL CTBWinThread::InitInstance()
 //-----------------------------------------------------------------------------
 BOOL CTBWinThread::OnIdle(LONG lCount)
 {
+	if (IsSuspendedIdle())
+		return FALSE;
+
 	AfxGetThreadContext()->ClearOldObjects();
 
 	BOOL bContinueIdle = AfxGetThreadContext()->OnIdle(lCount);

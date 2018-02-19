@@ -3662,11 +3662,7 @@ void CWoormDocMng::RunReport(BOOL bActivate /*= FALSE*/, BOOL bPost/* = TRUE*/)
 void CWoormDocMng::SetDecorateTitle()
 {
 	ASSERT_VALID(this);
-	CWoormFrame* pFrame = GetWoormFrame();
-	ASSERT_VALID(pFrame);
-	if (!::IsWindow(pFrame->m_hWnd))
-		return;
-
+	
 	UINT idi = IDI_REPORT;
 
 	CString str;
@@ -4953,15 +4949,33 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 
 	//---- OnRun
 #ifdef _DEBUG
-if (m_pWoormInfo)
-{
-	CString s = m_pWoormInfo->ToString();
-		int i = s.GetLength();
-}
+//if (m_pWoormInfo)
+//{
+//	CString s = m_pWoormInfo->ToString();
+//		int i = s.GetLength();
+//}
 #endif
+
+	if (this->GetWoormFrame(FALSE))
+	{
+		if (this->GetWoormFrame()->GetTabbedToolBar())
+			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI();
+		if (this->GetWoormFrame()->GetStatusBar())
+			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI();
+	}
+	AfxGetTBThread()->SetSuspendIdle();
 
 	BOOL bOk = m_pEngine->Run(m_pRDEmanager, NULL, &m_strDocumentFilter, m_bUsePrevAskInput, m_pWoormInfo, &m_ViewSymbolTable);
 	
+	AfxGetTBThread()->SetSuspendIdle(FALSE);
+	if (this->GetWoormFrame(FALSE))
+	{
+		if (this->GetWoormFrame()->GetTabbedToolBar())
+			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI(FALSE);
+		if (this->GetWoormFrame()->GetStatusBar())
+			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI(FALSE);
+	}
+
 	if (bOk && m_deReportStatus == DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_SCRIPT_QUIT))
 	{
 		m_pWoormInfo->m_bCloseOnEndPrint = TRUE;
@@ -6194,8 +6208,11 @@ void CWoormDocMng::SetModifiedFlag(BOOL bModified /*= TRUE*/)
 BOOL CWoormDocMng::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	ASSERT_VALID(this);
-	if (nID == ID_POST_OPEN_WOORM_DOC)
+
+	if (m_bCallPostOpenWoormDoc && nID == ID_POST_OPEN_WOORM_DOC)
 	{
+		m_bCallPostOpenWoormDoc = FALSE;
+
 		OnPostOpenWoormDoc((BOOL)nCode);
 		return TRUE;
 	}
@@ -11650,7 +11667,7 @@ void CWoormDocMng::OnEasyReadingByLineDynamic()
 //-----------------------------------------------------------------------------
 int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 {	
-	const TableColumn* pCol = m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine);
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidth(strText);
 
@@ -11662,7 +11679,7 @@ int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::GetFieldWidthFactors(int objectId, FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal /*= FALSE*/)
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine);
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidthFactors(fieldWidthFactors, bSubTotal);
 
@@ -11710,14 +11727,23 @@ BOOL CWoormDocMng::ExistsColumnID (WORD id, CString sLayoutName) const
 
 BOOL CWoormDocMng::ColumnShowedAsImage(WORD id, CString sLayoutName) const
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	const TableColumn* pCol = FindColumnByID(id, sLayoutName);
 	return pCol ? pCol->m_pBitmap != NULL : FALSE;
 }
 
 CObject* CWoormDocMng::GetColumnPtr(WORD id, CString sLayoutName) const
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	const TableColumn* pCol = FindColumnByID(id, sLayoutName);
 	return (CObject*) pCol;
+}
+
+const TableColumn* CWoormDocMng::FindColumnByID(WORD id, CString sLayoutName) const
+{
+	if (m_Layouts.GetCount() == 0)
+		return const_cast<CWoormDocMng*>(this)->GetObjects().FindColumnByID(id);
+
+	const TableColumn* pCol = m_Layouts.FindColumnByID(id, sLayoutName);
+	return pCol;
 }
 
 //-----------------------------------------------------------------------------

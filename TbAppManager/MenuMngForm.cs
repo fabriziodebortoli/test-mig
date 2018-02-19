@@ -1200,22 +1200,9 @@ namespace Microarea.MenuManager
 			//invio a TB la stringa di connessione al database e i dati utente
 
 			bLoginFailed = !tbAppClientInterface.InitTbLogin();
-			tbDiagnostic = tbAppClientInterface.GetLoginContextDiagnostic(true);
-
-			if (tbDiagnostic.TotalErrors > 0 || bLoginFailed)
-			{
-				maServerDiagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Error,
-						MenuManagerStrings.InitTbLoginFailed + Environment.NewLine +
-						"'bLoginFailed' value: " + bLoginFailed + Environment.NewLine +
-						(tbDiagnostic.TotalErrors > 0 ? "tbDiagnostic errors: " + tbDiagnostic.ToString() : "No errors in tbDiagnostic")
-						);
-				throw (new TbLoaderClientInterfaceException(MenuManagerStrings.InitTbLoginFailed));
-			}
-
-			//faccio l'append dei messaggi dell'application context
-			//tbDiagnostic = tbAppClientInterface.GetApplicationContextDiagnostic(true);
-			tbDiagnostic.Set(tbAppClientInterface.GetApplicationContextDiagnostic(true));
-
+            if (tbDiagnostic == null)
+                tbDiagnostic = new Diagnostic("TbAppManager");
+			
 			if (!tbAppClientInterface.Connected || !tbAppClientInterface.Valid || tbDiagnostic.TotalErrors > 0)
             {
                 if (this.maServerDiagnostic != null)

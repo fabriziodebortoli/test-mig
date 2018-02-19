@@ -608,7 +608,7 @@ namespace Microarea.EasyAttachment.BusinessLogic
 				//improvement #5062 : SOSConnector								
 				newCollField.SosPosition = (int)row[CommonStrings.SosPosition];
 				newCollField.SosMandatory = (row[CommonStrings.SosMandatory] == DBNull.Value) ? false : (bool)row[CommonStrings.SosMandatory];
-				newCollField.HKLName = (row[CommonStrings.HotKeyLink] == DBNull.Value) ? string.Empty : ((MHotLink)row[CommonStrings.HotKeyLink]).Name;
+				newCollField.HKLName =  string.Empty; //(row[CommonStrings.HotKeyLink] == DBNull.Value) ? string.Empty : ((MHotLink)row[CommonStrings.HotKeyLink]).Name;
                 newCollField.SosKeyCode = (row[CommonStrings.SosKeyCode] == DBNull.Value || row[CommonStrings.SosKeyCode].ToString() == string.Empty) ? newCollField.FieldName : row[CommonStrings.SosKeyCode].ToString(); //impr. #5305
   
 				dc.DMS_CollectionsFields.InsertOnSubmit(newCollField);
@@ -2271,13 +2271,11 @@ namespace Microarea.EasyAttachment.BusinessLogic
             {
                 case FieldGroup.Key:
                 case FieldGroup.Binding:
-                case FieldGroup.External:
                     MSqlRecordItem recField = null;
-                    if ((FieldGroup)row[CommonStrings.FieldGroup] == FieldGroup.External)
+                    /*if ((FieldGroup)row[CommonStrings.FieldGroup] == FieldGroup.External)
                         recField = (row[CommonStrings.HotKeyLink] == DBNull.Value) ? null : (MSqlRecordItem)(((MHotLink)row[CommonStrings.HotKeyLink]).Record.GetField(fieldName));
-                    else
-                        recField = (MSqlRecordItem)DMSDocOrchestrator.MasterRecord.GetField(fieldName);
-
+                    else*/
+                    recField = (MSqlRecordItem)DMSDocOrchestrator.MasterRecord.GetField(fieldName);
                     if (recField != null)
                         ((FieldData)row[CommonStrings.FieldData]).DataValue = ((MDataObj)recField.DataObj).Value;
 
@@ -2286,7 +2284,21 @@ namespace Microarea.EasyAttachment.BusinessLogic
 
                     break;
 
-                case FieldGroup.SosSpecial:
+				//Bugfix #26240
+				case FieldGroup.External:			
+					if (string.Compare(fieldName, CommonStrings.CompanyName, true) == 0)
+						((FieldData)row[CommonStrings.FieldData]).StringValue = DMSDocOrchestrator.Document.GetCompanyName();
+					else
+					{
+						if (string.Compare(fieldName, CommonStrings.FiscalCode, true) == 0)
+							((FieldData)row[CommonStrings.FieldData]).StringValue = DMSDocOrchestrator.Document.GetFiscalCode();
+						else
+							if (string.Compare(fieldName, CommonStrings.TaxIdNumber, true) == 0)
+							((FieldData)row[CommonStrings.FieldData]).StringValue = DMSDocOrchestrator.Document.GetTaxIdNumber();
+					}
+					break;
+
+				case FieldGroup.SosSpecial:
                     //se campo =  FiscalYear per il valore devo chiamare la funzione virtuale del documento specifica del campo
                     if (string.Compare(fieldName, CommonStrings.FiscalYear, true) == 0)
                     {

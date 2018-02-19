@@ -41,7 +41,7 @@ export class HttpService {
     getTranslations(dictionaryId: string, culture: string): Observable<Array<any>> {
         const headers = new Headers();
         headers.append('Accept', 'application/json');
-        const url = '/dictionary/' + culture + '/' + dictionaryId + '.json';
+        const url = 'dictionary/' + culture + '/' + dictionaryId + '.json';
         return this.http.get(url, { withCredentials: true, headers: headers })
             .map((res: Response) => {
                 return res.json();
@@ -103,7 +103,10 @@ export class HttpService {
         return this.postData(this.infoService.getAccountManagerBaseUrl() + 'logoff/', params)
             .map((res: Response) => {
                 let jObj = res.json();
-                this.infoService.resetCulture();
+                if (jObj.culture) {
+                    this.infoService.setCulture(jObj.culture);
+                    this.infoService.saveCulture();
+                }
                 return jObj;
             });
     }

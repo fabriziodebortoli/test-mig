@@ -548,7 +548,22 @@ namespace Microarea.TbJson
                 UpdateModuleFile(modulePath, moduleName, container, componentName);
             }
         }
-
+        public void ResetRoutes(string standardFolder)
+        {
+            string appsPath = Path.Combine(standardFolder, Constants.tsAppsPath);
+            if (Directory.Exists(appsPath))
+                Directory.Delete(appsPath, true);
+            Directory.CreateDirectory(appsPath);
+            string file = Path.Combine(appsPath, "app.routing.ts");
+            using (MyCriticalSession session = new MyCriticalSession(file))
+            {
+                string content = Encoding.UTF8.GetString(Properties.Resources.AppRouting_ts);
+                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                {
+                    sw.Write(content);
+                }
+            }
+        }
         //-----------------------------------------------------------------------------
         private void UpdateRoutingFile(string appsPath, string app, string mod)
         {

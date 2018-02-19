@@ -21,9 +21,10 @@ enum TB_EXPORT TextSizeAlgo { TSA_CHECK_INI, TSA_NEW, TSA_OLD };
 //=============================================================================
 TB_EXPORT int GetLogPixels();
 
-TB_EXPORT CSize GetTextSize(CDC* pDC, const CString& str, LOGFONT lfFont);
-TB_EXPORT CSize GetTextSize(CDC* pDC, const CString& str, CFont* pFont = NULL);
-TB_EXPORT CSize GetTextSize(CDC* pDC, int nLen, CFont* pFont);
+TB_EXPORT CSize GetTextSize	(CDC* pDC, const CString& str, LOGFONT lfFont);
+TB_EXPORT CSize GetTextSize	(CDC* pDC, int nLen, CFont* pFont);
+TB_EXPORT CSize GetTextSize	(CDC* pDC, const CString& str, CFont* pFont = NULL);
+TB_EXPORT int	GetTextWidth(CDC* pDC, const CString& str, CFont* pFont = NULL);
 
 TB_EXPORT CSize GetMultilineTextSize(CDC* pDC, CFont* pFont, CString str);
 

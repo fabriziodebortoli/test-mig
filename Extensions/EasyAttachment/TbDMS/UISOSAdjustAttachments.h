@@ -13,7 +13,7 @@ class BDSOSAdjustAttachments;
 //			 body edit con elenco dei SOS document da inviare
 ///////////////////////////////////////////////////////////////////////////////
 //============================================================================
-class CSOSAdjustAttachmentsResultsBodyEdit : public CBodyEdit
+class CSOSAdjustAttachmentsResultsBodyEdit : public CJsonBodyEdit
 {
 	DECLARE_DYNCREATE(CSOSAdjustAttachmentsResultsBodyEdit)
 
