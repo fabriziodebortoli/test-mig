@@ -1029,7 +1029,9 @@ BOOL CTBPropertyGrid::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 	if (m_bIsInspecting)
 		return FALSE;
 
-	return	__super::OnMouseWheel(nFlags, zDelta, pt);
+	ReleaseCapture();
+
+	return __super::OnMouseWheel(nFlags, zDelta, pt);
 }
 
 //-------------------------------------------------------------------------------------
@@ -1046,19 +1048,11 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 
 	if (pMsg->message == WM_MOUSEMOVE && pMsg->wParam == 0)
 	{
+		ReleaseCapture();
+
 		CPoint ptCursor;
 		::GetCursorPos(&ptCursor);
 		ScreenToClient(&ptCursor);
-
-		// Get the scrollBar position for remmove the capture if mouse in scroolbar zone
-		CRect rectScrollBar;
-		m_wndScrollVert.GetWindowRect(rectScrollBar);
-		ScreenToClient(rectScrollBar);
-		if	(
-				ptCursor.x >= rectScrollBar.left && ptCursor.x <= rectScrollBar.right &&
-				ptCursor.y >= rectScrollBar.top  && ptCursor.y <= rectScrollBar.bottom
-			)
-			ReleaseCapture();
 
 		CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(ptCursor));
 		if (pProp)
@@ -1079,11 +1073,7 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 					m_hOldCursor = ::SetCursor(::LoadCursor(AfxFindResourceHandle(MAKEINTRESOURCE(IDC_TB_HAND), RT_GROUP_CURSOR), MAKEINTRESOURCE(IDC_TB_HAND)));
 					SetCapture();
 				}
-				else
-					ReleaseCapture();
 			}
-			else
-				ReleaseCapture();
 	}
 
 	return GetParent()->PreTranslateMessage(pMsg) || __super::PreTranslateMessage(pMsg);
