@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding, ChangeDetectorRef, Input, HostListener } from '@angular/core';
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 
@@ -19,6 +19,8 @@ import { DockpaneComponent } from './../dockpane.component';
 export class DockpaneContainerComponent implements AfterContentInit {
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
+  @ViewChild('kendoTabStripInstance', { read: ElementRef }) k: ElementRef;
+  @ViewChild('selector') public selector: ElementRef;
 
   @ContentChildren(DockpaneComponent) dockpanes: QueryList<DockpaneComponent>;
   getDockpanes() {
@@ -26,7 +28,17 @@ export class DockpaneContainerComponent implements AfterContentInit {
   }
 
   dockState: string = 'collapsed';
+  @HostBinding('class.collapsed') get collapsed () { return this.dockState === 'collapsed' }
+  @HostBinding('class.expanded') get expanded () { return this.dockState === 'expanded' }
   idxActive: number = null;
+
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      if (!this.pinned)
+        this.closeDock();
+    }
+  }
 
   @HostBinding('class.pinned') pinned: boolean = false;
   getPinIcon() {
@@ -34,7 +46,7 @@ export class DockpaneContainerComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    
+
     /**
      * TODO - Usare store per pushare il component dockpane solo quando arriva effettivamente l'activation
      */
@@ -62,8 +74,16 @@ export class DockpaneContainerComponent implements AfterContentInit {
       this.kendoTabStripInstance.selectTab(i);
     }
 
-    this.pinned = false;
+  }
 
+  closeDock() {
+    this.idxActive = null;
+    this.dockState = 'collapsed';
+  }
+
+  private contains(target: any): boolean {
+    return this.selector.nativeElement.contains(target) ||
+      (this.k ? this.k.nativeElement.contains(target) : false);
   }
 
 }

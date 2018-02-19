@@ -2,14 +2,22 @@
     display: flex;
     max-width: 100%;
     min-height: 100%;
-}
-
-:host(tb-dockpane-container.pinned) {
-    position: absolute;
     right: 0;
     top: 0;
     bottom: 40px;
     overflow: hidden;
+}
+
+:host(tb-dockpane-container.collapsed) {
+    position: relative;
+}
+
+:host(tb-dockpane-container.expanded) {
+    position: absolute;
+}
+
+:host(tb-dockpane-container.pinned) {
+    position: relative;
 }
 
 .dockpane-tabber {

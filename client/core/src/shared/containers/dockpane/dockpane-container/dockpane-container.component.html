@@ -1,6 +1,6 @@
 <div class="dockpane-tabber" [ngClass]="{'expanded': dockState === 'expanded'}" [@collapsing]="dockState">
 
-    <div class="dockpane-tabber-selector">
+    <div class="dockpane-tabber-selector" #selector>
 
         <ul class="selector">
             <li *ngFor="let t of getDockpanes();let i = index" (click)="changeDockpaneByIndex(i)" [class.active]="idxActive === i">
