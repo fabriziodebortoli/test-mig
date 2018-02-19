@@ -108,6 +108,9 @@ protected:
 	BOOL			m_bCanClose = TRUE;
 
 	CString			m_sRunnedFilePath;
+
+	BOOL			m_bUseOptimizedLineBreak = TRUE;
+	double			m_nColumnWidthPercentage = 0.9;
 public:
 	CWoormDoc ();
 	virtual ~CWoormDoc	()	{}
@@ -126,6 +129,8 @@ public:
 	virtual int		CalculateFieldWidth		(int objectId, const CString& strText) { ASSERT(FALSE); return 0; }
 	virtual BOOL	GetFieldWidthFactors	(int objectId, FieldWidthFactors& pWidthFactors, BOOL bSubTotal = FALSE) { ASSERT(FALSE); return FALSE; }
 	virtual BOOL	UseOptimizedLineBreak	();
+	virtual double	GetColumnWidthPercentage();
+
 	virtual void	UpdateLayout			() { ASSERT(FALSE); };
 
 	virtual BOOL	IsReportString		() const { ASSERT(FALSE); return FALSE; }

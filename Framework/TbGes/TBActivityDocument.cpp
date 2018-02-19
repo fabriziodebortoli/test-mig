@@ -205,7 +205,8 @@ CTBActivityDocument::CTBActivityDocument()
 	m_ActionsPanelText				(_TB("Actions")),
 	m_FooterPanelText				(_TB("Footer")),
 	m_nStep							(0),
-	m_nProgressStep					(1)
+	m_nProgressStep					(1),
+	m_bGoToStart					(FALSE)
 {
 	m_bBatch = TRUE;
 
@@ -418,17 +419,17 @@ void CTBActivityDocument::SetPanelEnabled(CTilePanel* pPanel, BOOL bSet)
 }
 
 //----------------------------------------------------------------------------------------------------------
-void CTBActivityDocument::ManagePanelsState(BOOL bEnabledAfterExtract)
+void CTBActivityDocument::ManagePanelsState(/*BOOL bEnabledAfterExtract*/)
 {
-	BOOL bEnableFilters = !bEnabledAfterExtract;
-	BOOL bEnableActions = m_bActionsAlwaysEnabled || (m_bActionsAsFilters ? !bEnabledAfterExtract : bEnabledAfterExtract);
-	BOOL bEnableFooter = m_bFooterAlwaysEnabled || bEnabledAfterExtract;
+	BOOL bEnableFilters = !m_bExtractData;
+	BOOL bEnableActions = m_bActionsAlwaysEnabled || (m_bActionsAsFilters ? !m_bExtractData : m_bExtractData);
+	BOOL bEnableFooter = m_bFooterAlwaysEnabled || m_bExtractData;
 
 	EnsureExistancePanels();
 
-	SetPanelEnabled(m_pPanelFilters,	bEnableFilters);
-	SetPanelEnabled(m_pPanelActions,	bEnableActions);
-	SetPanelEnabled(m_pPanelFooter,		bEnableFooter);
+	SetPanelEnabled(m_pPanelFilters, bEnableFilters);
+	SetPanelEnabled(m_pPanelActions, bEnableActions);
+	SetPanelEnabled(m_pPanelFooter, bEnableFooter);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -437,7 +438,7 @@ BOOL CTBActivityDocument::BatchEnableControls()
 	BOOL bOK = __super::BatchEnableControls();
 
 	if (bOK && !m_bBatchRunning)
-		EnableAllControlLinks(!m_bExtractData);
+		ManagePanelsState();
 
 	return bOK;
 }
@@ -471,8 +472,8 @@ void CTBActivityDocument::DoExtractData()
 	if (!OnFilterValidate() || !DispatchOnBeforeLoadDBT() || !DispatchOnLoadDBT() || !DispatchOnAfterLoadDBT())
 	{
 		m_pMessages->Show();
-		ManagePanelsState(FALSE);
 		m_bExtractData = FALSE;	//reset status
+		ManagePanelsState();
 		return;
 	}
 
@@ -488,7 +489,7 @@ void CTBActivityDocument::DoExtractData()
 	//allow other actions from inherited document (added panel/s, tile/s ecc)
 	ManageExtractData();
 
-	ManagePanelsState(TRUE);
+	ManagePanelsState();
 
 	//succede che si fa UpdateDataView lato gestionale prima che finisce il processo 
 	//(prima di aggiornamento dello stato di extract per cui il flag modified del BE viene reset-ato)
@@ -969,7 +970,7 @@ void CTBActivityDocument::DoAddData()
 	//manage your panel/s, tiles/s from outside
 	ManageAddData();
 
-	ManagePanelsState(FALSE);
+	ManagePanelsState();
 
 	UpdateDataView();
 }
@@ -999,10 +1000,21 @@ BOOL CTBActivityDocument::DoUpdateAddData()
 //-------------------------------------------------------------------------------------------------
 void CTBActivityDocument::Restart()
 {
+	m_bGoToStart = TRUE;
+}
+
+//-------------------------------------------------------------
+void CTBActivityDocument::OnManageAfterBatchExecute()
+{
+	if (!m_bGoToStart)
+		return;
+
 	BOOL bOldVal = m_bAskDeleteConfirmation;
 	m_bAskDeleteConfirmation = FALSE;
 	DoUndoExtraction();
 	m_bAskDeleteConfirmation = bOldVal;
+
+	m_bGoToStart = FALSE;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1018,7 +1030,7 @@ void CTBActivityDocument::DoUndoExtraction()
 		SetPanelCollapsed(m_pPanelFilters, m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
 		SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? (m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE) : FALSE);
 		SetPanelCollapsed(m_pPanelFooter, FALSE);
-		ManagePanelsState(TRUE);
+		ManagePanelsState();
 		UpdateDataView();
 		return;
 	}
@@ -1034,10 +1046,9 @@ void CTBActivityDocument::DoUndoExtraction()
 	m_bAddMoreData = FALSE;
 
 	//allow other actions from inherited document (added panel/s, tile/s ecc)
-	//FireAction(_T("ActivityDocumentUndoExtraction"));	//di persano per BSP ??????
 	ManageUndoExtraction();
 
-	ManagePanelsState(FALSE);
+	ManagePanelsState();
 
 	UpdateDataView();
 

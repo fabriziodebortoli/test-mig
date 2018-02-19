@@ -515,34 +515,31 @@ BOOL WoormField::SplitString(const CString& strData, CWoormDoc *pWoormDocument)
 //----------------------------------------------------------------------------
 BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 {
-	const CString& strRDEData = ((DataStr*) GetRepData())->GetString(); 
-
 	m_Substrings.RemoveAll();
 
 	if (pWoormDocument == NULL)
-		return SplitString(strRDEData, NULL);
+		return SplitString(((DataStr*)GetRepData())->GetString(), NULL);
 
 	if (!pWoormDocument->UseOptimizedLineBreak())
-		return SplitString(strRDEData, pWoormDocument);
+		return SplitString(((DataStr*)GetRepData())->GetString(), pWoormDocument);
 
 	FieldWidthFactors fieldWidthFactors;
 	if (!pWoormDocument->GetFieldWidthFactors(GetId(), fieldWidthFactors, IsSubTotal()))
 	{
 		ASSERT(FALSE);
-		return SplitString(strRDEData, pWoormDocument);
+		return SplitString(((DataStr*)GetRepData())->GetString(), pWoormDocument);
 	}
 	//---------------------------------
 
-	DataObj* pSetting = AfxGetSettingValue(CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbWoormViewer")), szWoormGeneralOptions, szColumnWidthPercentage, DataPerc(90));
-	DataPerc ColumnWidthPercentage =  (pSetting ? *((DataPerc*) pSetting) : 90) / 100;
-	fieldWidthFactors.m_nWidth = max(1, int(fieldWidthFactors.m_nWidth * ColumnWidthPercentage));
+	fieldWidthFactors.m_nWidth = max(1, int(fieldWidthFactors.m_nWidth * pWoormDocument->GetColumnWidthPercentage()));
 
 	//----
-	CString strData(strRDEData);	//dopo conterr� la formattazione
+	CString strData;	//dopo conterr� la formattazione
 	if (fieldWidthFactors.m_pFormatStyle)
 	{
-		fieldWidthFactors.m_pFormatStyle->FormatDataObj (DataStr(strRDEData), strData);
+		fieldWidthFactors.m_pFormatStyle->FormatDataObj (*GetRepData(), strData);
 	}
+	else strData = ((DataStr*)GetRepData())->GetString();
 
 	if (fieldWidthFactors.m_bMiniHtml)
 	{

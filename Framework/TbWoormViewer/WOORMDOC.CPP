@@ -6187,8 +6187,11 @@ void CWoormDocMng::SetModifiedFlag(BOOL bModified /*= TRUE*/)
 BOOL CWoormDocMng::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	ASSERT_VALID(this);
-	if (nID == ID_POST_OPEN_WOORM_DOC)
+
+	if (m_bCallPostOpenWoormDoc && nID == ID_POST_OPEN_WOORM_DOC)
 	{
+		m_bCallPostOpenWoormDoc = FALSE;
+
 		OnPostOpenWoormDoc((BOOL)nCode);
 		return TRUE;
 	}
@@ -11655,7 +11658,7 @@ int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::GetFieldWidthFactors(int objectId, FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal /*= FALSE*/)
 {
-	const TableColumn* pCol = m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine);
+	TableColumn* pCol = const_cast<TableColumn*>(m_Layouts.FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidthFactors(fieldWidthFactors, bSubTotal);
 

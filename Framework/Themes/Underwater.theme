@@ -89,7 +89,7 @@
 			<ThemeElement name="ScrollBarThumbDisableColor" type="color" rgbHex="#C0C0C0" description="ScrollBar Thumb disable Color"/>
 
 			<!-- Statusbar-->
-			<ThemeElement name="StatusbarBkgColor"						type="color" rgbLong="7913038"	description="COLOR_3DFACE" />
+			<ThemeElement name="StatusbarBkgColor"						type="color" rgbHex="#F1F1F1"	description="COLOR_3DFACE" />
 			<ThemeElement name="StatusbarForeColor"						type="color" rgbLong="0"			description="COLOR_3DFACE" />
 			<ThemeElement name="StatusbarTextColor"						type="color" rgbLong="0"			description="Statusbar Text Color" />
 

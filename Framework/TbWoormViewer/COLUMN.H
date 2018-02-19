@@ -159,6 +159,10 @@ private:
 	BOOL			m_bTemplate;
 	BOOL			m_bTemplateOverridden;
 	TableColumn*	m_pDefault;
+
+	FontStyle*	m_pFontStyle = NULL;
+	FontStyle*	m_pSubTotalFontStyle = NULL;
+
 public:
 	//BOOL	m_bMixedColumnFont = FALSE;		// indica che le celle delle colonne contengono font diversi
 	//BOOL	m_bMixedColumnAlign = FALSE;	// indica che le celle delle colonne contengono allineamenti diversi
@@ -334,7 +338,7 @@ public:
 	void	SetFieldWidth			();
 
 	int		CalculateFieldWidth		(const CString& strText) const ;
-	BOOL	CalculateFieldWidthFactors	(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal = FALSE) const ;
+	BOOL	CalculateFieldWidthFactors	(FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal = FALSE);
 
 	BorderPen	GetColumnPen		() const;
 	BorderPen	GetTotalPen			() const;
