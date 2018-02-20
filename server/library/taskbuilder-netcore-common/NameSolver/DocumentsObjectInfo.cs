@@ -204,6 +204,19 @@ namespace Microarea.Common.NameSolver
         }
 
         //---------------------------------------------------------------------
+        public bool HasComponent(ComponentType type)
+        {
+            if (Components == null)
+                return false;
+
+            foreach (IDocumentInfoComponent component in Components)
+                if (component.CompType == type)
+                    return true;
+
+            return false;
+        }
+
+        //---------------------------------------------------------------------
         public object Clone()
         {
             DocumentInfo documentInfo = new DocumentInfo(ownerModule, NameSpace, title, Description, Classhierarchy, DefaultSecurityRoles);
@@ -218,6 +231,13 @@ namespace Microarea.Common.NameSolver
             foreach (ViewMode mode in ViewModes)
             {
                 documentInfo.AddViewMode(new ViewMode(mode.Name, mode.Title, mode.Type, mode.IsBatch));
+            }
+            foreach (DocumentInfoComponent component in Components)
+            {
+                DocumentInfoComponent newComponentInfo = new DocumentInfoComponent(component.NameSpace);
+                newComponentInfo.CompType = component.CompType;
+                newComponentInfo.MainObjectNamespace = component.MainObjectNamespace;
+                documentInfo.Components.Add(newComponentInfo);
             }
             return documentInfo;
         }
@@ -501,6 +521,14 @@ namespace Microarea.Common.NameSolver
 
                     DocumentInfoComponent docInfoComponent = new DocumentInfoComponent(new NameSpace(componentNs, NameSpaceObjectType.Component));
                     docInfoComponent.Activation = componentNode.GetAttribute(DocumentsObjectsXML.Attribute.Activation);
+                    string temp = componentNode.GetAttribute(DocumentsObjectsXML.Attribute.Type);
+                    if (temp == ComponentType.DataModel.ToString())
+                    {
+                        docInfoComponent.CompType = ComponentType.DataModel;
+                        temp = componentNode.GetAttribute(DocumentsObjectsXML.Attribute.MainObjectNamespace);
+                        if (!string.IsNullOrEmpty(temp))
+                            docInfoComponent.MainObjectNamespace = new NameSpace(temp);
+                    }
                     components.Add(docInfoComponent);
                 }
             }
@@ -602,9 +630,14 @@ namespace Microarea.Common.NameSolver
     {
         INameSpace nameSpace;
         string activation;
-        public string Activation { get => activation; set => activation = value; }
+        ComponentType compType;
+        INameSpace mainObjectNamespace;
 
+        //---------------------------------------------------------------------
+        public string Activation { get => activation; set => activation = value; }
         public INameSpace NameSpace { get => nameSpace; set => nameSpace = value; }
+        public ComponentType CompType { get => compType; set => compType = value; }
+        public INameSpace MainObjectNamespace { get => mainObjectNamespace; set => mainObjectNamespace = value; }
 
         //---------------------------------------------------------------------
         public DocumentInfoComponent(INameSpace nameSpace)

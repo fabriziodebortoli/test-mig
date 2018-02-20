@@ -510,6 +510,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string RunnableAlone = "runnableAlone";
             public const string AllowISO = "allowISO";
             public const string DenyISO = "denyISO";
+            public const string MainObjectNamespace = "mainObjectNamespace";
         }
     }
 

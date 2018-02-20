@@ -23,12 +23,21 @@ namespace TaskBuilderNetCore.Interfaces
 		bool IsDataEntry { get; set; }
 		bool IsSchedulable { get; set; }
         List<IDocumentInfoComponent> Components { get; }
+        bool HasComponent(ComponentType type);
 	}
 
     //=========================================================================
+    public enum ComponentType
+    {
+        BusinessLogic,
+        DataModel
+    }
+
     public interface IDocumentInfoComponent
     {
         INameSpace NameSpace { get; }
         string Activation { get; set; }
+        ComponentType CompType { get; set; }
+        INameSpace MainObjectNamespace { get; set; }
     }
 }

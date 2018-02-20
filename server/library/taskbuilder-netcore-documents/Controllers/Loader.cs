@@ -139,6 +139,54 @@ namespace TaskBuilderNetCore.Documents.Controllers
         }
 
         //-----------------------------------------------------------------------------------------------------
+        private IList<IDocumentInfo> GetDocumentInfos()
+        {
+            var docInfos = new List<IDocumentInfo>();
+            foreach (ApplicationInfo appInfo in PathFinder.ApplicationInfos)
+            {
+                foreach (ModuleInfo modInfo in appInfo.Modules)
+                {
+                    foreach (DocumentInfo docInfo in modInfo.Documents)
+                        docInfos.Add(docInfo);
+                }
+            }
+
+            return docInfos;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public IList<IDocumentInfo> GetDocumentInfosBy(ComponentType type)
+        {
+            var allDocuments = GetDocumentInfos();
+            var infos = new List<IDocumentInfo>();
+            foreach (IDocumentInfo docInfo in allDocuments)
+            {
+                if (docInfo.HasComponent(type))
+                    infos.Add(docInfo);
+            }
+            return infos;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public IList<Type> GetMainObjectsTypes(IDocumentInfo info)
+        {
+            var types = new List<Type>();
+            foreach (IDocumentInfoComponent componentInfo in info.Components)
+            {
+                if (
+                        componentInfo.MainObjectNamespace == null ||
+                        string.IsNullOrEmpty(componentInfo.MainObjectNamespace.FullNameSpace)
+                    )
+                    continue;
+                Type type = GetTypeFromAssemblies (componentInfo.MainObjectNamespace, typeof(object));
+                if (type == null)
+                    continue;
+                types.Add(type);
+            }
+            return types;
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         private bool ComposeDocument(IDocument document)
         {
             IDocumentInfo info = PathFinder.GetDocumentInfo(document.NameSpace);
