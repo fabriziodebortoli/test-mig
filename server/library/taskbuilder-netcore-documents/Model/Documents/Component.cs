@@ -6,13 +6,17 @@ using TaskBuilderNetCore.Interfaces;
 using System.Reflection;
 using Microarea.Common.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace TaskBuilderNetCore.Documents.Model
 {
+    //====================================================================================    
     public class Component : Interfaces.IComponent
     {
         ICallerContext callerContext;
         IDocumentServices documentServices;
+        Dictionary<object, IDataBag> dataBags;
+
         //-----------------------------------------------------------------------------------------------------
         [JsonIgnore]
         public INameSpace NameSpace
@@ -33,11 +37,21 @@ namespace TaskBuilderNetCore.Documents.Model
         //-----------------------------------------------------------------------------------------------------
         public ICallerContext CallerContext { get => callerContext; set => callerContext = value; }
         public IDocumentServices DocumentServices { get => documentServices; set => documentServices = value; }
+        public Dictionary<object, IDataBag> DataBags
+        {
+            get
+            {
+                if (dataBags == null)
+                    dataBags = new Dictionary<object, IDataBag>();
+                return dataBags;
+            }
+        }
 
         //-----------------------------------------------------------------------------------------------------
         public virtual void Clear()
         {
             callerContext = null;
+            DataBags.Clear();
         }
 
         //-----------------------------------------------------------------------------------------------------
@@ -86,7 +100,5 @@ namespace TaskBuilderNetCore.Documents.Model
         public virtual void Dispose()
         {
         }
-
-     
     }
 }
