@@ -8,7 +8,12 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppComponent } from './app.component';
 
-import { TbCoreModule, ComponentService, InfoService, loadConfig } from '@taskbuilder/core';
+import { TbCoreModule, ComponentService, InfoService } from '@taskbuilder/core';
+
+import { environment } from './../environments/environment';
+export function loadConfig(config) {
+  return () => config.load(environment);
+}
 
 import { BPMModule } from '@taskbuilder/bpm';
 
