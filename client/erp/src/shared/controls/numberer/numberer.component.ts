@@ -1,5 +1,8 @@
 import { Component, Input, ViewChild, OnInit, OnChanges, ChangeDetectorRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService, Store, FormMode, ControlContainerComponent } from '@taskbuilder/core';
+import {
+    ContextMenuItem, ControlComponent, TbComponentService, LayoutService, EventDataService
+    , Store, FormMode, ControlContainerComponent, ParameterService
+} from '@taskbuilder/core';
 import { NumbererStateEnum } from './numberer-state.enum';
 import { isNumeric } from './../../../rxjs.imports';
 
@@ -19,7 +22,6 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
     @Input() public hotLink: { namespace: string, name: string };
-    @Input() popUpMenu: boolean = true;
     @Input() maxLength = -1;
     @Input() slice: any;
     @Input() selector: any;
@@ -39,7 +41,6 @@ export class NumbererComponent extends ControlComponent {
     private enableCtrlInEdit = false;
     private paddingEnabled = true;
     private ctxMenuIndex = 0;
-    private oldStatePopUpMenu = false;
     private menuItemDisablePadding: ContextMenuItem;
     private menuItemEnablePadding: ContextMenuItem;
     private menuItemDoPadding: ContextMenuItem;
@@ -56,7 +57,8 @@ export class NumbererComponent extends ControlComponent {
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
-        private store: Store
+        private store: Store,
+        private parameterService: ParameterService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
         this.enableLocalization();
@@ -68,7 +70,6 @@ export class NumbererComponent extends ControlComponent {
 
         this.ctxMenuIndex = this.cc.contextMenu.length;
 
-        this.buildContextMenu();
         this.eventData.behaviours.subscribe(x => {
             const b = x[this.cmpId];
             if (b) {
@@ -80,10 +81,23 @@ export class NumbererComponent extends ControlComponent {
 
                 this.paddingEnabled = (this.tbMask !== '');
 
-                this.onFormModeChanged(x.value);
+                this.onFormModeChanged();
+
                 this.setComponentMask();
             }
         });
+
+        // selector as map: setting numberer properties, reading by parameters whose key is exposed as literal in the 
+        // selector
+        let selectorMap = this.selector.asMap();
+        if (selectorMap.popUpParam) {
+            this.buildContextMenuAsync(selectorMap.popUpParam);
+        } else {
+            this.buildContextMenu();
+        }
+        if (selectorMap.maxLengthParam) {
+            this.setMaxLengthAsync(selectorMap.maxLengthParam);
+        }
 
         this.store
             .select(this.selector)
@@ -96,6 +110,42 @@ export class NumbererComponent extends ControlComponent {
             .subscribe(this.onFormModeChanged.bind(this));
     }
 
+    async setMaxLengthAsync(paramName: string) {
+        let result = await this.parameterService.getParameter(paramName);
+        if (result) {
+            this.maxLength = +result;
+            this.setMaxLength();
+        }
+    }
+
+    setMaxLength() {
+        if (
+            this.maxLength > -1 &&
+            this.maxLength != this.textbox.input.nativeElement.maxLength
+        ) {
+            this.textbox.input.nativeElement.maxLength = this.maxLength;
+        };
+    }
+
+    async buildContextMenuAsync(paramName: string) {
+        let result = await this.parameterService.getParameter(paramName);
+        if (result) {
+            this.buildContextMenu(result == '1');
+        }
+    }
+
+    buildContextMenu(hasMenu: boolean = true) {
+        this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
+        if (hasMenu) {
+            if (this.paddingEnabled) {
+                this.cc.contextMenu.push(this.menuItemDisablePadding);
+                this.cc.contextMenu.push(this.menuItemDoPadding);
+            }
+            else {
+                this.cc.contextMenu.push(this.menuItemEnablePadding);
+            }
+        }
+    }
     onTranslationsReady() {
         super.onTranslationsReady();
         this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
@@ -103,27 +153,13 @@ export class NumbererComponent extends ControlComponent {
         this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number'), '', true, false, null, this.doPadding.bind(this));
     }
 
-    onFormModeChanged(formMode: FormMode) {
-        this.setComponentMask();
-        this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
-        this.valueWasPadded = false;
-    }
-
-    buildContextMenu() {
-        if (this.popUpMenu != this.oldStatePopUpMenu) {
-            this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
-            if (this.popUpMenu) {
-                if (this.paddingEnabled) {
-                    this.cc.contextMenu.push(this.menuItemDisablePadding);
-                    this.cc.contextMenu.push(this.menuItemDoPadding);
-                }
-                else {
-                    this.cc.contextMenu.push(this.menuItemEnablePadding);
-                }
-            }
-
-            this.oldStatePopUpMenu = this.popUpMenu;
+    onFormModeChanged() {
+        if (this.eventData.model.FormMode) {
+            let formMode = this.eventData.model.FormMode.value;
+            this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
         }
+        this.setComponentMask();
+        this.valueWasPadded = false;
     }
 
     togglePadding() {
@@ -303,16 +339,9 @@ export class NumbererComponent extends ControlComponent {
     }
 
     ngOnChanges(changes) {
-        if (changes.popUpMenu)
-            this.buildContextMenu();
-
-        if (
-            changes.maxLength &&
-            this.maxLength > -1 &&
-            this.maxLength != this.textbox.input.nativeElement.maxLength
-        ) {
-            this.textbox.input.nativeElement.maxLength = this.maxLength
-        };
+        if (changes.maxLength) {
+            this.setMaxLength();
+        }
     }
 
     changeModelValue(value: string) {

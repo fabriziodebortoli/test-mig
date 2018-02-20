@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService, ParameterService } from '@taskbuilder/core';
+import { Store, ContextMenuItem, ControlComponent, TbComponentService, LayoutService} from '@taskbuilder/core';
 import { ItemsHttpService } from '../../../core/services/items/items-http.service';
 import { BehaviorSubject } from "../../../rxjs.imports";
 
@@ -26,8 +26,7 @@ export class ItemEditComponent extends ControlComponent {
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,
         private store: Store,
-        private http: ItemsHttpService,
-        private parameterService: ParameterService
+        private http: ItemsHttpService
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
     }
@@ -38,8 +37,6 @@ export class ItemEditComponent extends ControlComponent {
 
     async readParams() {
         this.maxLength = await this.http.getItemInfo_CodeLength();
-        let result = await this.parameterService.getParameter('MA_ItemParameters.ItemAutoNum');
-        this.itemsAutoNumbering = (result == '1');
     }
 }
 
