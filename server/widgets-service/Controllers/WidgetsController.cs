@@ -83,10 +83,7 @@ namespace widgets_service.Controllers
 
             try
             {
-                using (Stream sr = PathFinder.PathFinderInstance.FileSystemManager.GetStream(widgetFilename, true))
-                {
-                    content = PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(widgetFilename);
-                }
+                content =  PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(widgetFilename);
             }
             catch (Exception e)
             {
@@ -147,12 +144,9 @@ namespace widgets_service.Controllers
 
 			try
 			{
-				using (StreamReader sr = System.IO.File.OpenText(widgetFileFullName))
-				{
-					content = sr.ReadToEnd();
-				}
-			}
-			catch (Exception e)
+                content = PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(widgetFileFullName);
+            }
+            catch (Exception e)
 			{
 
 				return new ContentResult { StatusCode = 500, Content = e.Message, ContentType = "application/text" };

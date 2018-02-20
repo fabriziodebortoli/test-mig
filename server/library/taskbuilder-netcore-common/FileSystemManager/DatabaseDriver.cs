@@ -219,33 +219,17 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public String GetStreamToString(string sFileName)
+        public String GetFileTextFromFileName(string sFileName)//TODO LARA RENAME
         {
             if (String.IsNullOrEmpty(sFileName))
                 return null;
 
             TBFile pTBFile = GetTBFile(sFileName);
             String strTextContent = (pTBFile != null) ? pTBFile.GetContentAsString() : "";
-         //   Debug.Fail(pTBFile.completeFileName);
             if (pTBFile != null)
                 pTBFile = null;
-         //   Debug.Fail("!strTextContent.IsEmpty()");
-            StreamReader sr;
-            String fileContent = string.Empty;
-            try
-            {
-                // file content
-                sr = new StreamReader(strTextContent, true);
-                fileContent = sr.ReadToEnd();
-                sr.Close();
-                sr.Dispose();
-            }
-            catch (Exception exx)
-            {
-                return string.Empty;
-            }
-
-            return fileContent;
+           
+            return strTextContent;
         }
 
         //----------------------------------------------------------------------------
@@ -841,7 +825,8 @@ namespace Microarea.Common.FileSystemManager
 			        else
 			        {
 				        byte[] byteData = ((byte[])dr["FileContent"]);
-				    }
+                        pMetadataFile.fileContent = byteData;
+                    }
 
 			        if (dr["FileTextContent"] != DBNull.Value)
 				        pMetadataFile.fileContentString = dr["FileTextContent"].ToString();

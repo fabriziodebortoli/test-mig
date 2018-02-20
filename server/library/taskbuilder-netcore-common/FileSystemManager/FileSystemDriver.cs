@@ -159,7 +159,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public String GetStreamToString(string sFileName)
+        public String GetFileTextFromFileName(string sFileName)
         {
             string fileContent = string.Empty;
             StreamReader sr = null;

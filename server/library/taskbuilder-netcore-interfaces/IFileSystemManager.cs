@@ -18,12 +18,10 @@ namespace TaskBuilderNetCore.Interfaces
         bool DetectAndAttachAlternativeDriver();
         ArrayList GetAllApplicationInfo(string dir);
         ArrayList GetAllModuleInfo(string strAppName);
-        //string GetFormattedQueryTime();
-        //string GetFormattedFetchTime();
         void Init(string sServer, string sInstallationName, String sMasterSolution);
         string GetServerConnectionConfig();
         Stream GetStream(string sFileName, bool readStream);
-        String GetStreamToString(string sFileName);
+        String GetFileTextFromFileName(string sFileName);
         bool SaveTextFileFromStream(string sFileName, Stream sFileContent);
         byte[] GetBinaryFile(string sFileName, int nLen);
         bool ExistFile(string sFileName);

@@ -309,7 +309,7 @@ namespace Microarea.Common.GenericForms
                     //	StreamReader sr = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
                     //	pwd = sr.ReadToEnd();
                     //	sr.Dispose();
-                    pwd = PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(loginSessionFile);
+                    pwd = PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(loginSessionFile);
 
                 }
 				catch

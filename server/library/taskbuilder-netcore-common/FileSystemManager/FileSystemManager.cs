@@ -158,12 +158,12 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public String GetStreamToString(string sFileName)
+        public String GetFileTextFromFileName(string sFileName)
         {
             if (IsManagedByAlternativeDriver(sFileName))
-                return GetAlternativeDriver().GetStreamToString(sFileName);
+                return GetAlternativeDriver().GetFileTextFromFileName(sFileName);
             else
-                return GetFileSystemDriver().GetStreamToString(sFileName);
+                return GetFileSystemDriver().GetFileTextFromFileName(sFileName);
         }
 
         //-----------------------------------------------------------------------------

@@ -736,7 +736,7 @@ namespace Microarea.RSWeb.Render
             {
                 try
                 {
-                    return PathFinder.PathFinderInstance.FileSystemManager.GetStreamToString(filename);
+                    return PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(filename);
                 }
                 catch (IOException e)
                 {

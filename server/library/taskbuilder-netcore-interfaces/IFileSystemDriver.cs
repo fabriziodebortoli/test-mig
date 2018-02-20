@@ -20,7 +20,7 @@ namespace TaskBuilderNetCore.Interfaces
         bool IsAManagedObject(string sFileName);
         string GetServerConnectionConfig(string filePath);
         Stream GetStream(string sFileName, bool readStream);
-        String GetStreamToString(string sFileName);
+        String GetFileTextFromFileName(string sFileName);
         bool SaveTextFileFromXml(string sFileName, XmlDocument dom);
         bool SaveTextFileFromStream(string sFileName, Stream sFileContent);
         byte[] GetBinaryFile(string sFileName, int nLen);
