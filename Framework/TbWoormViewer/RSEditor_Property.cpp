@@ -21011,9 +21011,9 @@ void CRSAlignBitwiseProp::Rebuild()
 	if (m_bAllowVertical)
 	{
 		m_OrientationProp = new CRSBitProp(this, _TB("Rotate by"), (_variant_t)GetOrientationString());
-			m_OrientationProp->AddOption(_TB("0�"), TRUE, 0);									//deafult 0
-			m_OrientationProp->AddOption(_TB("90�"), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
-			m_OrientationProp->AddOption(_TB("270�"), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(_T("0�"), TRUE, 0);									//deafult 0
+			m_OrientationProp->AddOption(_T("90�"), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(_T("270�"), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
 		AddSubItem(m_OrientationProp);
 	}
 
@@ -21080,11 +21080,11 @@ CString CRSAlignBitwiseProp::GetOrientationString()
 	switch (m_eOrientation)
 	{
 	case BitOrientation::Orientation_0:
-		return _TB("0�");
+		return _T("0�");
 	case BitOrientation::Orientation_90:
-		return _TB("90�");
+		return _T("90�");
 	case BitOrientation::Orientation_270:
-		return _TB("270�");
+		return _T("270�");
 	default:
 		ASSERT(FALSE);
 		return _TB("Error retrieving Orientation");
