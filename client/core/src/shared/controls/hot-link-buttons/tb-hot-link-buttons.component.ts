@@ -274,7 +274,7 @@ export class TbHotlinkButtonsComponent extends ControlComponent implements OnDes
         p.set('hklName', this.hotLinkInfo.name);
         if (otherParams.customFilters && otherParams.customFilters.logic)
           p.set('customFilters', JSON.stringify(otherParams.customFilters));
-        p.set('disabled', '0');
+
         p.set('page', JSON.stringify(pageNumber + 1));
         p.set('per_page', JSON.stringify(serverPageSize));
         this.loading = true;
