@@ -15,7 +15,7 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
 
-import { Component, OnInit, Input, OnDestroy, ContentChildren, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -64,6 +64,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public totalPages: number = 0;
   public gridView: GridDataResult;
 
+  private lastEditedRowIndex: number = -1;
+  private lastEditedColumnIndex: number = -1;
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
@@ -75,6 +77,52 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   ) {
     super(layoutService, tbComponentService, cdr);
     this.selectableSettings = { checkboxOnly: false, mode: "single" };
+  }
+
+
+  @HostListener('window:keydown', ['$event'])
+  public keyup(event: KeyboardEvent): void {
+    if (event.shiftKey && event.keyCode == 9) {
+      this.editPreviousColumn();
+      return;
+    }
+    if (event.keyCode === 9) {
+      this.editNextColumn();
+      return;
+    }
+  }
+
+
+  //-----------------------------------------------------------------------------------------------
+  editNextColumn() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedColumnIndex < this.grid.columns.length) {
+      this.lastEditedColumnIndex++;
+    }
+    else {
+      this.lastEditedColumnIndex = 0
+      this.lastEditedRowIndex++;
+    }
+    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  editPreviousColumn() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedColumnIndex > 0) {
+      this.lastEditedColumnIndex--;
+    }
+    else {
+      this.lastEditedColumnIndex = this.grid.columns.length;
+      this.lastEditedRowIndex--;
+    }
+    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -137,19 +185,27 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   pageChange(event) {
     this.skip = event.skip;
     this.paginator.pageChange(event.skip, event.take);
+
   }
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
       let columns = Object.getOwnPropertyNames(dataItem);
       let colName = columns[columnIndex];
-      if (dataItem[colName].enabled)
+      if (dataItem[colName].enabled) {
+        this.lastEditedRowIndex = rowIndex;
+        this.lastEditedColumnIndex = columnIndex;
         sender.editCell(rowIndex, columnIndex);
+
+      }
     }
   }
 
   //-----------------------------------------------------------------------------------------------
   public cellCloseHandler(args: any) {
+    console.log("cellCloseHandler args", args);
+    // this.lastEditedRowIndex = -1;
+    // this.lastEditedColumnIndex = -1;
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -158,7 +214,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let selectedRow = item.selectedRows[0];
     if (!selectedRow || !selectedRow.dataItem)
       return;
-    this.currentRow =selectedRow.dataItem;
+
+    this.currentRow = selectedRow.dataItem;
+    this.currentRowIdx = selectedRow.index;
 
     for (var prop in selectedRow.dataItem) {
       this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
@@ -169,14 +227,19 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       // addModelBehaviour(selectedRow.dataItem);
       // this.currentRowIdx = selectedRow.index;
       // this.currentRow = selectedRow.dataItem;
-     
     });
   }
 
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName).subscribe((res) => {
-      this.updateModel(res.dbt);
+    let tempSkip = this.skip = this.rowCount - this.pageSize;
+    let tempPageSize = this.pageSize;
+
+    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, tempSkip, tempPageSize).subscribe((res) => {
+      let skip = (Math.ceil(this.rowCount / this.pageSize) * this.pageSize) - this.pageSize;
+      this.pageChange({ skip: skip, take: this.pageSize });
+      this.changeDetectorRef.markForCheck();
+
       sub.unsubscribe();
     });
   }
@@ -187,7 +250,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.currentRowIdx).subscribe((res) => {
-      this.updateModel(res.dbt);
+      let dbt = res[this.bodyEditName];
+      this.updateModel(dbt);
+
       sub.unsubscribe();
     });
   }
@@ -256,7 +321,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
     //this.model.rows = dbt.rows;
     this.model.prototype = dbt.prototype;
-    //this.currentRowIdx = dbt.currentRowIdx;
+    this.currentRowIdx = dbt.currentRowIdx;
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
     this.totalPages = Math.ceil(this.rowCount / this.pageSize);

@@ -3,7 +3,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { Store } from './../../../core/services/store.service';
 import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
-  OnChanges, AfterContentInit, OnInit, Output, EventEmitter, ChangeDetectorRef, SimpleChanges
+  OnChanges, AfterContentInit, OnInit, Output, HostListener, EventEmitter, ChangeDetectorRef, SimpleChanges
 } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';

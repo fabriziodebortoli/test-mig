@@ -267,9 +267,9 @@ export class HttpService {
             });
     }
 
-    addRowDBTSlaveBuffered(cmpId: any, dbtName: any) {
+    addRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
