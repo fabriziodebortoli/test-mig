@@ -1048,15 +1048,11 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 
 	if (pMsg->message == WM_MOUSEMOVE && pMsg->wParam == 0)
 	{
-		ReleaseCapture();
-
-		CPoint ptCursor;
-		::GetCursorPos(&ptCursor);
-		ScreenToClient(&ptCursor);
+		CPoint ptCursor(pMsg->lParam);
 
 		CTBProperty* pProp = DYNAMIC_DOWNCAST(CTBProperty, HitTest(ptCursor));
-		if (pProp)
-			if (
+		if (
+				pProp &&
 				!pProp->m_bEnabled &&
 				pProp->GetControl() &&
 				pProp->GetControl()->GetCtrlData() &&
@@ -1064,16 +1060,18 @@ BOOL CTBPropertyGrid::PreTranslateMessage(MSG* pMsg)
 				(
 					pProp->GetControl()->GetHotLink() ||
 					pProp->GetControl()->GetCtrlCWnd()->IsKindOf(RUNTIME_CLASS(CLinkEdit))
-					)
-				)
+				) &&
+				(ptCursor.x > ((CTBPropertyGrid*)pProp->m_pWndList)->m_rectList.left + ((CTBPropertyGrid*)pProp->m_pWndList)->m_nLeftColumnWidth)
+			)
 			{
-				int xCenter = ((CTBPropertyGrid*)pProp->m_pWndList)->m_rectList.left + ((CTBPropertyGrid*)pProp->m_pWndList)->m_nLeftColumnWidth;
-				if (ptCursor.x > xCenter)
+				if (::GetCapture() != GetSafeHwnd())
 				{
 					m_hOldCursor = ::SetCursor(::LoadCursor(AfxFindResourceHandle(MAKEINTRESOURCE(IDC_TB_HAND), RT_GROUP_CURSOR), MAKEINTRESOURCE(IDC_TB_HAND)));
 					SetCapture();
 				}
 			}
+			else
+				ReleaseCapture();
 	}
 
 	return GetParent()->PreTranslateMessage(pMsg) || __super::PreTranslateMessage(pMsg);
