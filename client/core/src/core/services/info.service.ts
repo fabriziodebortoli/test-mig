@@ -6,10 +6,6 @@ import { Logger } from './logger.service';
 import { TBLoaderInfo } from './../../shared/models/tbloader-info.model';
 import { addModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 
-export function loadConfig(config) {
-    return () => config.load();
-}
-
 @Injectable()
 export class InfoService {
 

@@ -62,7 +62,6 @@ export { EventDataService } from './services/eventdata.service';
 export { ExplorerService } from './services/explorer.service';
 export { HttpService } from './services/http.service';
 export { InfoService } from './services/info.service';
-export { loadConfig } from './services/info.service';
 export { LayoutService } from './services/layout.service';
 export { Logger } from './services/logger.service';
 export { TaskBuilderService } from './services/taskbuilder.service';

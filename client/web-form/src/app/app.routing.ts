@@ -2,6 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { BPMStandaloneComponent } from '@taskbuilder/bpm';
+import { ESPStandaloneComponent } from '@taskbuilder/esp';
 
 import { environment } from './../environments/environment';
 
@@ -25,6 +26,7 @@ const webOnlyRoutes = [
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
   { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
   { path: 'layout', loadChildren: 'app/layout/layout.module#LayoutModule' },
+  { path: 'esp', loadChildren: '@taskbuilder/esp#ESPModule' },
   ...appRoutes
 ];
 const allEnvRoutes = [];
