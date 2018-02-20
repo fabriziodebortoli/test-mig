@@ -16,7 +16,7 @@ namespace Microarea.Menu.Controllers
         //-----------------------------------------------------------------------
         public void InsertDatainDB(string istance)
         {
-            MetaDataManagerTool metadata = new MetaDataManagerTool(istance);
+            MetaDataManagerTool metadata = new MetaDataManagerTool("inst1");
             metadata.InsertAllStandardMetaDataInDB();
 
         }

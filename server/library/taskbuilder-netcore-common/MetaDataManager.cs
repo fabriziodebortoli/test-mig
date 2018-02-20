@@ -23,10 +23,10 @@ namespace Microarea.Common
         {
             this.instanceKey = instanceKey;
 			//pf = new PathFinder("USR-BAUZONEANN", "DEVELOPMENT_NEWDB", "ERP_NEWDB", "sa");
-			pf = new PathFinder("USR-Grillolara1", "DEvelopment", "WebMago", "sa");
+			pf = new PathFinder("USR-BAUZONEANN", "DEvelopment_next", "WebMago", "sa");
            // pf = new PathFinder(":microarea.database.windows.net", "DEV_ERP_NEXT", "WebMago", "sa");
             pf.Edition = "Professional";
-            connectionStringStandard = "Data Source =USR-GRILLOLARA1; Initial Catalog = 'dbsys'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
+            connectionStringStandard = "Data Source =USR-BAUZONEANN; Initial Catalog = 'SystemDB_NewDB'; User ID = 'sa'; Password = '16'; Connect Timeout = 30; Pooling = false; ";
 			// connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
 			//connectionStringStandard = "Data Source = USR-BAUZONEANN; Initial Catalog = 'SystemDB_NewDB'; User ID = 'sa'; Password = '16'; Connect Timeout = 30; ";
 
@@ -601,7 +601,7 @@ namespace Microarea.Common
 					byteContent = null;
 			}
 
-            catch (SqlException)
+            catch (SqlException exx)
             {
             }
             finally

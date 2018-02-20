@@ -79,9 +79,17 @@ namespace Microarea.Common.FileSystemManager
             return m_bAutoDetectDriver;
         }
         //----------------------------------------------------------------------------
+        public void SetDriver(string aDriverType)
+        {
+            int value = Convert.ToInt32(aDriverType);
+            m_Driver = ((DriverType)value);
+        }
+
+        //----------------------------------------------------------------------------
         public void SetDriver(DriverType aDriverType)
         {
-            m_Driver = aDriverType;
+            int value = Convert.ToInt32(aDriverType);
+            m_Driver = ((DriverType)value);
         }
         //----------------------------------------------------------------------------
         public string GetFileName()
@@ -94,24 +102,18 @@ namespace Microarea.Common.FileSystemManager
         {
             if (!File.Exists(GetFileName()))
                 return false;
-            // LARA
-            //https://msdn.microsoft.com/it-it/library/t9bfea29.aspx
-            //// FileSystemManager parsing with Sax
-            //CFileSystemManagerContent aFileContent(this);
-            //CXMLSaxReader aReader;
-
-            //aReader.AttachContent(&aFileContent);
-            //return aReader.ReadFile(GetFileName());
+           
             using (XmlReader reader = XmlReader.Create(GetFileName()))
             {
-
-                // Parse the XML document.  ReadString is used to 
-                // read the text content of the elements.
                 reader.Read();
-                reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);
-                reader.ReadStartElement(FileSystemManagerStrings.szXmlDriverTag);
-                reader.ReadToFollowing(FileSystemManagerStrings.szXmlDBDriverTag);
-                m_strStandardConnectionString = reader.GetAttribute(FileSystemManagerStrings.szXmlStandardConnectionString);
+                reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);//< FileSystemManager >
+                reader.ReadToFollowing(FileSystemManagerStrings.szXmlDriverTag);//<Driver value="0" autodetect="true"/>
+                SetDriver(reader.GetAttribute(FileSystemManagerStrings.szXmlValue));
+                if (GetDriver() == DriverType.Database)
+                {
+                    reader.ReadToFollowing(FileSystemManagerStrings.szXmlDBDriverTag);//  <DatabaseDriver 
+                    m_strStandardConnectionString = reader.GetAttribute(FileSystemManagerStrings.szXmlStandardConnectionString);//standardconnectionstring
+                }
             }
 
             return true;

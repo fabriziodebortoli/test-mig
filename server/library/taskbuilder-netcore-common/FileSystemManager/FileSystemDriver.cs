@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using static Microarea.Common.Generic.InstallationInfo;
 
 namespace Microarea.Common.FileSystemManager
 {
@@ -207,38 +208,20 @@ namespace Microarea.Common.FileSystemManager
             return Directory.Exists(sPathName);
         }
         //-----------------------------------------------------------------------------
-        public ArrayList  GetAllApplicationInfo()
+        public ArrayList  GetAllApplicationInfo(string apps)
         {
-            ArrayList allAppArray = new ArrayList();
+            ArrayList tempApplications = new ArrayList();
+            //prendo tutte le applicazioni di tb tb.net tbapps tools apps.net
+            Functions.ReadSubDirectoryList(apps, out tempApplications);
 
-            //const CString sAppContainerPath = AfxGetPathFinder()->GetContainerPath(CPathFinder::TB);
-            //CString strFolder = szTaskBuilderApp;
-            //CString strPath = sAppContainerPath + SLASH_CHAR + strFolder;
-            //strPath.MakeLower();
-            //pAppsPath->Add(strPath);
-
-            //strFolder = szExtensionsApp;
-            //strPath = sAppContainerPath + SLASH_CHAR + strFolder;
-            //strPath.MakeLower();
-            //pAppsPath->Add(strPath);
-
-            //AddApplicationDirectories(AfxGetPathFinder()->GetContainerPath(CPathFinder::TB_APPLICATION), pAppsPath);
-            //AddApplicationDirectories(AfxGetPathFinder()->GetCustomApplicationsPath(), pAppsPath);
-
-            return allAppArray;
+            return tempApplications;
         }
 
         //-----------------------------------------------------------------------------
         public ArrayList GetAllModuleInfo(string strAppName)
         {
             ArrayList allModulesArray = new ArrayList();
-            //   ASSERT(pModulesPath);
-            //   // load modules namespaces into map form file system
-            //   AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::STANDARD), pModulesPath, false);
-            //if (pModulesPath->GetSize() == 0) //non ho moduli: si tratta di un'applicazione nella custom?
-
-            //   AddApplicationModules(AfxGetPathFinder()->GetApplicationPath(strAppName, CPathFinder::CUSTOM, FALSE, CPathFinder::ALL_COMPANIES), pModulesPath, true);
-
+            Functions.ReadSubDirectoryList(strAppName, out allModulesArray);
             return allModulesArray;
         }
         //-----------------------------------------------------------------------------

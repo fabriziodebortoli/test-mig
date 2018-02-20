@@ -174,9 +174,11 @@ namespace Microarea.Common.NameSolver
             fileSystemManager.FileSystemDriver = new FileSystemDriver(); // lui c e sempre
             FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
             managerInfo.LoadFile();
-            //Lara
-            //DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
-            //fileSystemManager.AlternativeDriver = dataBaseDriver;
+            if (managerInfo.GetDriver() == DriverType.Database)
+            {
+                DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
+                fileSystemManager.AlternativeDriver = dataBaseDriver;
+            }
 
             return true;
         }
@@ -720,7 +722,7 @@ namespace Microarea.Common.NameSolver
         //------------------------------------------------------------------
         protected bool CalculatePathsInsideInstallation()
         {
-            string basePath = "";//AppDomain.CurrentDomain.BaseDirectory;          todo rsweb
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;      //  "";  todo rsweb
             if (CalculatePathsInsideInstallation(basePath))
                 return true;
 
@@ -793,6 +795,7 @@ namespace Microarea.Common.NameSolver
                 return false;
             }
 
+
             if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(apps))
             {
                 //tapullo per far funzionare il migratore report che legge la vecchia struttura
@@ -803,8 +806,9 @@ namespace Microarea.Common.NameSolver
                     return true;
             }
 
-            //prendo tutte le applicazioni di tb tb.net tbapps tools apps.net
-            Functions.ReadSubDirectoryList(apps, out tempApplications);
+
+            tempApplications = PathFinder.PathFinderInstance.FileSystemManager.GetAllApplicationInfo(apps);
+                
 
             // controlla le dichiarazioni di directory ed elimina quelle 
             // che non corrispondono a delle vere applicazioni da caricare.

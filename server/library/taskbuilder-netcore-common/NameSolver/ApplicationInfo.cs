@@ -1857,9 +1857,9 @@ namespace Microarea.Common.NameSolver
                     modules = new ArrayList();
 
                     ArrayList tempModules = null;
-
+                    tempModules = PathFinder.PathFinderInstance.FileSystemManager.GetAllModuleInfo(Path) ;
                     //prendo tutte le sub dir dell'applicazione
-                    Functions.ReadSubDirectoryList(Path, out tempModules);
+                    
                     foreach (string moduleName in tempModules)
                     {
                         //verifico che siano effettivamente cartelle di moduli

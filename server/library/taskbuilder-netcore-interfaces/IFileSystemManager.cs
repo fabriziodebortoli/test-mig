@@ -16,7 +16,7 @@ namespace TaskBuilderNetCore.Interfaces
         bool SaveTextFileFromXml(string sFileName, XmlDocument dom);
         XmlDocument LoadXmlDocument(XmlDocument dom, string filename);
         bool DetectAndAttachAlternativeDriver();
-        ArrayList GetAllApplicationInfo();
+        ArrayList GetAllApplicationInfo(string dir);
         ArrayList GetAllModuleInfo(string strAppName);
         //string GetFormattedQueryTime();
         //string GetFormattedFetchTime();

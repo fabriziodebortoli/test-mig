@@ -139,9 +139,9 @@ namespace Microarea.Common.FileSystemManager
         //---------------------------------------------------------------------
         public bool IsAManagedObject(string sFileName)
         {
-            //string path = pathFinder.CalculateLocalStandardPath();
-            //return sFileName.Contains(path) ;
-            return pathFinder.IsStandardPath(sFileName) || pathFinder.IsCustomPath(sFileName);
+            string path = pathFinder.GetStandardPath;
+            return sFileName.Contains(path) ;
+            //return pathFinder.IsStandardPath(sFileName) || pathFinder.IsCustomPath(sFileName);
         }
 
         //se non esiste il parent lo inserisco, vado in ricorsione
@@ -226,10 +226,10 @@ namespace Microarea.Common.FileSystemManager
 
             TBFile pTBFile = GetTBFile(sFileName);
             String strTextContent = (pTBFile != null) ? pTBFile.GetContentAsString() : "";
-            Debug.Fail(pTBFile.completeFileName);
+         //   Debug.Fail(pTBFile.completeFileName);
             if (pTBFile != null)
                 pTBFile = null;
-            Debug.Fail("!strTextContent.IsEmpty()");
+         //   Debug.Fail("!strTextContent.IsEmpty()");
             StreamReader sr;
             String fileContent = string.Empty;
             try
@@ -240,7 +240,7 @@ namespace Microarea.Common.FileSystemManager
                 sr.Close();
                 sr.Dispose();
             }
-            catch (Exception)
+            catch (Exception exx)
             {
                 return string.Empty;
             }
@@ -257,25 +257,28 @@ namespace Microarea.Common.FileSystemManager
 
             TBFile pTBFile = GetTBFile(strPathFileName);
             string strTextContent = (pTBFile != null) ? pTBFile.GetContentAsString() : "";
-            Debug.Fail(pTBFile.completeFileName);
+ //           Debug.Fail(pTBFile.completeFileName);
             if (pTBFile!= null)
                 pTBFile = null;
-            Debug.Fail("!strTextContent.IsEmpty()");
-            StreamReader sr;
+  //          Debug.Fail("!strTextContent.IsEmpty()");
+  //          StreamReader sr;
+            MemoryStream stream;
             try
             {
+                byte[] byteArray = Encoding.UTF8.GetBytes(strTextContent);
+                stream = new MemoryStream(byteArray);
                 // file content
-                sr = new StreamReader(strTextContent, true);
-                string fileContent = sr.ReadToEnd();
-                sr.Close();
-                sr.Dispose();
+                //sr = new StreamReader(strTextContent, true);
+                //string fileContent = sr.ReadToEnd();
+                //stream.Close();
+                //stream.Dispose();
             }
-            catch (Exception)
+            catch (Exception exx)
             {
                 return null;
             }
 
-            return sr.BaseStream;
+            return stream;
         }
         //----------------------------------------------------------------------------
         public TBFile GetTBFile(string strPathFileName)
@@ -293,13 +296,13 @@ namespace Microarea.Common.FileSystemManager
 		        {
 			        strRelativePath = GetRelativePath(strTBFSFileName, false);
 
-                    aMetadataArray = GetStandardTBFileInfo(string.Format(" InstanceKey = \'%s\' AND CompleteFileName = \'%s\'", szInstanceKey, strRelativePath));
+                    aMetadataArray = GetStandardTBFileInfo(string.Format(" InstanceKey =  '{0}' AND CompleteFileName ='{1}'", szInstanceKey, strRelativePath));
 		        }
 		        else
 		        {
 			        strRelativePath = GetRelativePath(strTBFSFileName, true);
 
-                    aMetadataArray = GetCustomTBFileInfo(string.Format(" CompleteFileName = \'%s\'", strRelativePath));
+                    aMetadataArray = GetCustomTBFileInfo(" CompleteFileName = \'" + strRelativePath + "'");
 		        }		
 	        }
 	        catch (SqlException e)
@@ -312,7 +315,7 @@ namespace Microarea.Common.FileSystemManager
 	        return (aMetadataArray.Count  > 0) ? ((TBFile)aMetadataArray[0]) : null;
         }
         //----------------------------------------------------------------------------
-        public ArrayList GetAllApplicationInfo()
+        public ArrayList GetAllApplicationInfo(string dir)
         {
             ArrayList array = new ArrayList();
 
@@ -323,14 +326,14 @@ namespace Microarea.Common.FileSystemManager
 	        String commandText;
 	        try
 	        {
-		        commandText = string.Format("Select PathName FROM {0} WHERE ObjectType = \'APPLICATION\' AND InstanceKey = \'{1}\' ORDER BY FileID", szMPInstanceTBFS, szInstanceKey);
+		        commandText = string.Format("Select application FROM {0} WHERE ObjectType = \'APPLICATION\' AND InstanceKey = \'{1}\' ORDER BY FileID", szMPInstanceTBFS, szInstanceKey);
 
                 connection = new SqlConnection(standardConnectionString);
                 connection.Open();
                 command = new SqlCommand(commandText, connection);
                 reader = command.ExecuteReader();
 		        while (reader.Read())
-			        array.Add(GetAbsolutePath((String)reader["PathName"], false));
+			        array.Add((String)reader["application"]);
 
 		        if (reader != null)
 		        {
@@ -380,13 +383,14 @@ namespace Microarea.Common.FileSystemManager
 	        String commandText;
 	        try
 	        {
-		        commandText = string.Format("Select PathName FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\' AND InstanceKey = \'{2}\' ORDER BY FileID", szMPInstanceTBFS, strAppName, szInstanceKey);
+                strAppName = strAppName.Substring(strAppName.LastIndexOf('\\') + 1);
+                commandText = string.Format("Select Module FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\' AND InstanceKey = \'{2}\' ORDER BY FileID", szMPInstanceTBFS, strAppName, szInstanceKey);
                 connection = new SqlConnection(standardConnectionString);
                 connection.Open();
 		        sqlCommand = new SqlCommand(commandText, connection);
                 reader = sqlCommand.ExecuteReader();
 		        while (reader.Read())
-			        pModulesPath.Add(GetAbsolutePath((String)reader["PathName"], false));
+			        pModulesPath.Add((String)reader["Module"]);
 
 		        if (reader != null)
 		        {
@@ -890,7 +894,7 @@ namespace Microarea.Common.FileSystemManager
 		        return null;
 	        try
 	        {
-		        string strCommandText = string.Format("Select * from %s where %s", szMPInstanceTBFS, whereClause);
+		        string strCommandText = "Select * from " + szMPInstanceTBFS+ " where  " + whereClause;
                 pArray = GetTBFilesInfo(standardConnectionString, strCommandText, false);
 	        }
 	        catch (SqlException e)
@@ -912,7 +916,7 @@ namespace Microarea.Common.FileSystemManager
 		        return null;
 	        try
 	        {
-		        string strCommandText = String.Format("Select * from %s where %s", szTBCustomMetadata, whereClause);
+		        string strCommandText = String.Format("Select * from {0} where {1}", szTBCustomMetadata, whereClause);
                 pArray = GetTBFilesInfo(strCustConnectionString, strCommandText,  true);
 	        }
 	        catch (SqlException e)
@@ -1549,7 +1553,8 @@ namespace Microarea.Common.FileSystemManager
 
             if (pFiles == null || string.IsNullOrEmpty(strPathName))
 		        return null;
-	        string strTBFSFolder = GetTBFSFileCompleteName(strPathName);
+    
+            string strTBFSFolder = GetTBFSFileCompleteName(strPathName);
 
 	        SqlConnection sqlConnection = null;
 	        SqlCommand   sqlCommand = null;
@@ -1574,9 +1579,9 @@ namespace Microarea.Common.FileSystemManager
 
 		        commandText = string.Format("Select X.CompleteFileName from {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\' AND X.IsDirectory = \'0\'", tableName, relativePath);
 
-		        if (!string.IsNullOrEmpty(strFileExt) || string.Compare(strFileExt,"*.*", true) != 0)
+                if (!string.IsNullOrEmpty(strFileExt)  && string.Compare(strFileExt, "*.*", true) != 0)
 		        {
-			        string fileType = (!strFileExt.Contains('*') ) ? strFileExt.Right(strFileExt.Length - 1) : strFileExt;			
+			        string fileType = (strFileExt.Contains('*') ) ? strFileExt.Substring(1) : strFileExt;			
 			        commandText += string.Format(" AND X.FileType = \'{0}\'", fileType);
 		        }
 

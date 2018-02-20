@@ -13,7 +13,7 @@ namespace TaskBuilderNetCore.Interfaces
     public interface IFileSystemDriver
     {
         TBFile GetTBFile(string strCompleteFileName);
-        ArrayList GetAllApplicationInfo();
+        ArrayList GetAllApplicationInfo(string dir);
         ArrayList GetAllModuleInfo(string strAppName);
 
         string GetDriverDescription() ;

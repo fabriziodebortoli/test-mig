@@ -34,7 +34,7 @@ namespace TaskBuilderNetCore.Interfaces
 
         public IFileSystemDriver    alternativeDriver = null;
         public FileInfo             fileInfo = null;
-        public TBFile               tbFile = null;
+//        public TBFile               tbFile = null;
         public DateTime             creationTime;
         public DateTime             lastWriteTime;
         public bool                 isReadOnly;
@@ -94,8 +94,8 @@ namespace TaskBuilderNetCore.Interfaces
                 FileInfo fileInfo = new FileInfo(strCompleteFileName);
                 this.fileInfo = fileInfo;
             }
-            else
-                tbFile = alternativeDriver.GetTBFile(strCompleteFileName);
+            //else
+            //    tbFile = alternativeDriver.GetTBFile(strCompleteFileName);
 
 
             this.alternativeDriver = alternativeDriver;
@@ -124,8 +124,8 @@ namespace TaskBuilderNetCore.Interfaces
             FileInfo fileInfo = new FileInfo(strPathName);
             if (alternativeDriver == null)
                 this.fileInfo = fileInfo;
-            else
-                tbFile = alternativeDriver.GetTBFile(completeFileName);
+            //else
+            //    tbFile = alternativeDriver.GetTBFile(completeFileName);
 
             FileExtension = fileInfo.Extension;
         }

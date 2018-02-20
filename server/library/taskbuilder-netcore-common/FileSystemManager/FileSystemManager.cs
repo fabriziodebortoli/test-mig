@@ -77,6 +77,12 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
+        public void AddApplicationsByType()
+        {
+
+        }
+
+        //-----------------------------------------------------------------------------
         public bool DetectAndAttachAlternativeDriver()
         {
             bool wSAvailable = false;
@@ -587,12 +593,12 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public ArrayList GetAllApplicationInfo()
+        public ArrayList GetAllApplicationInfo(string dir)
         { 
             if (GetAlternativeDriver() != null)
-                return GetAlternativeDriver().GetAllApplicationInfo();
+                return GetAlternativeDriver().GetAllApplicationInfo(dir);
             else
-                return GetFileSystemDriver().GetAllApplicationInfo();
+                return GetFileSystemDriver().GetAllApplicationInfo(dir);
         }
 
         //-----------------------------------------------------------------------------
