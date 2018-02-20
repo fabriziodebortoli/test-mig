@@ -674,9 +674,8 @@ BOOL CItemsEdit::UpdateCtrlData(BOOL bEmitError, BOOL bSendMessage)
 {
 	DataStr* pData = (DataStr*)m_pData;
 	if(pData->GetString() == L"")
-	{
 		SetModifyFlag(FALSE);
-	}
+
 	BOOL bModified = GetModifyFlag();
 	BOOL bOk = CStrEdit::UpdateCtrlData(bEmitError, bSendMessage);
 
@@ -686,6 +685,7 @@ BOOL CItemsEdit::UpdateCtrlData(BOOL bEmitError, BOOL bSendMessage)
 	return bOk;
 }
 
+//-----------------------------------------------------------------------------
 void CItemsEdit::ModifiedCtrlData	()
 {	
 	__super::ModifiedCtrlData();	
@@ -803,7 +803,8 @@ void CItemsListEdit::OnDeleteItem()
 
 	char aSeparator = m_bShowDescriptions ? '\n' : m_Separator;
 
-	CString strItemsList = ((DataStr*) GetCtrlData())->GetString();
+	CString strItemsList;
+	GetValue(strItemsList);
 
 	// provo ad eliminare i separatori che ci sono prima della selezione
 	if	(
@@ -880,6 +881,25 @@ void CItemsListEdit::OnDeleteItem()
 }
 
 //-----------------------------------------------------------------------------
+BOOL CItemsListEdit::DoOnChar(UINT nChar)
+{
+	switch (nChar)
+	{
+	case VK_UP:
+	case VK_DOWN:
+		return m_pCItemsMS != NULL;
+	case VK_DELETE:
+	case VK_BACK:
+	case VK_OEM_MINUS:
+	case VK_SUBTRACT:
+	case (UINT) '-':
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
 void CItemsListEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if ((nChar == VK_UP || nChar == VK_DOWN))
@@ -898,15 +918,17 @@ void CItemsListEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		return;
 	}
 
-	if (nChar == 0xBD || nChar == VK_SUBTRACT)
+	if (nChar == VK_OEM_MINUS || nChar == VK_SUBTRACT)
 	{
 		int	nStartChar = 0;
 		int	nPosChar = 0;
 		GetSel(nStartChar, nPosChar);
-		CString strItemsList = ((DataStr*)GetCtrlData())->GetString();
+		CString strItemsList;
+		GetValue(strItemsList);
 
 		if (strItemsList.GetLength() == 0)
 			return;
+
 		if (nPosChar > 0)
 		{
 			if (strItemsList[nPosChar - 1] != ' ')
@@ -1251,6 +1273,8 @@ void CItemsListEdit::OnUpdateCtrlStatus(int)
 {
 	if (GetDocument()->GetFormMode() == CBaseDocument::FIND)
 		GetCtrlData()->SetReadOnly(FALSE);
+
+	m_Item.SetReadOnly(GetCtrlData()->IsReadOnly());
 
 	// @@TODO come gestire il readonly della combo senza fare comparire l-hyperlink?
 	if (m_pCItemsMS)

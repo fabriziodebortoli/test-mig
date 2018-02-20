@@ -225,6 +225,7 @@ protected:
 	virtual BOOL	OnShowingPopupMenu	(CMenu&);
 	virtual	void	OnUpdateCtrlStatus	(int = -1);
 	virtual BOOL	PreCreateWindow		(CREATESTRUCT& cs);
+	virtual	BOOL	DoOnChar			(UINT nChar);
 
 	//{{AFX_MSG(CItemsListEdit)
 	afx_msg void	OnDeleteItem	();
