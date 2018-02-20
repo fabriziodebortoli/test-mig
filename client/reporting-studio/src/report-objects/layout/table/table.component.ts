@@ -49,6 +49,7 @@ export class ReportTableComponent {
       'text-decoration': this.table.title.font.underline ? 'underline' : 'none',
       'text-align': this.table.title.text_align,
       'vertical-align': this.table.title.vertical_align,
+      'transform': 'rotate('+this.table.title.rotateBy+'deg)',
       'background-color': backgroundColor,
       'color': textColor
     };
@@ -142,6 +143,7 @@ export class ReportTableComponent {
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
       'text-align': defStyle.text_align,
+      'transform': 'rotate('+defStyle.rotateBy+'deg)',
       'color': specStyle.textcolor === undefined ? 
                specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
                :

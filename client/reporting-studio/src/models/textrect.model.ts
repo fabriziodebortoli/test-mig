@@ -9,6 +9,7 @@ export class textrect extends baserect {
     textcolor: string;
     text_align: string;
     vertical_align: string;
+    rotateBy: string;
     font: font;
     value_is_html: boolean;
     value_is_barcode: boolean;
@@ -18,6 +19,7 @@ export class textrect extends baserect {
         this.obj = ReportObjectType.textrect;
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
+        this.rotateBy = jsonObj.rotateBy;
         this.value = jsonObj.value ? jsonObj.value : '';
         this.bkgcolor = jsonObj.bkgcolor;
         this.textcolor = jsonObj.textcolor;

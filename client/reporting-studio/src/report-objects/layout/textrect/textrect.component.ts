@@ -61,6 +61,7 @@ export class ReportTextrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'text-align': this.rect.text_align,
       'vertical-align': this.rect.vertical_align,
+      'transform': 'rotate('+this.rect.rotateBy+'deg)',
       'padding': '0 4px'
 
     };

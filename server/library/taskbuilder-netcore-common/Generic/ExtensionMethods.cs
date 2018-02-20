@@ -930,7 +930,13 @@ namespace Microarea.Common.Generic
             else if ((a & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                 verticalAlign = "middle";
 
-            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align");
+            string rotateBy = "0";
+            if ((a & AlignType.DT_EX_90) == AlignType.DT_EX_90)
+                rotateBy = "90";
+            if ((a & AlignType.DT_EX_270) == AlignType.DT_EX_270)
+                rotateBy = "270";
+
+            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align") + ',' + rotateBy.ToJson("rotateBy");
 
             if (bracket)
                 s = '{' + s + '}';

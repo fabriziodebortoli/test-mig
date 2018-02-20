@@ -12,6 +12,7 @@ export class cell {
     bkgcolor: string;
     text_align: string;
     vertical_align: string;
+    rotateBy: string;
     font: font;
     tooltip: string = '';
     value: string = '';
@@ -26,6 +27,7 @@ export class cell {
         this.bkgcolor = jsonObj.bkgcolor;
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
+        this.rotateBy = jsonObj.rotateBy;
         this.font = new font(jsonObj.font);
         this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
         this.value = jsonObj.value ? jsonObj.value : '';

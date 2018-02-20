@@ -11,6 +11,7 @@ export class fieldrect extends baserect {
     font: font;
     text_align: string;
     vertical_align: string;
+    rotateBy: string;
     bkgcolor: string;
     textcolor: string;
     value_is_html: boolean;
@@ -25,6 +26,7 @@ export class fieldrect extends baserect {
         this.font = new font(jsonObj.font);
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
+        this.rotateBy = jsonObj.rotateBy,
         this.bkgcolor = jsonObj.bkgcolor;
         this.textcolor = jsonObj.textcolor;
         this.value_is_html = jsonObj.value_is_html;

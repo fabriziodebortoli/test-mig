@@ -73,6 +73,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'color': this.rect.textcolor,
       'text-align': this.rect.text_align,
+      'transform': 'rotate('+this.rect.rotateBy+'deg)',
       'line-height': lineHeight
     };
     return obj;
@@ -87,6 +88,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'overflow': 'hidden',
       'white-space': 'nowrap',
       'text-align': this.rect.label.text_align,
+      'transform': 'rotate('+this.rect.label.rotateBy+'deg)',
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
       'font-style': this.rect.label.font.italic ? 'italic' : 'normal',
