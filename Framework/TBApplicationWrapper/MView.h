@@ -55,7 +55,7 @@ namespace Microarea {
 		bool					bVisible;
 		bool					suspendLayout;
 		System::String^			pathToSerialize;
-		
+				
 	public:
 		/// <summary>
 		/// Internal Use: Initializes a new instance of MDBTObject
@@ -187,6 +187,10 @@ namespace Microarea {
 		///</summary>
 		void SetPathToSerialize(System::String^ path);
 
+		///<summary>
+		///Set the newDocument true or false if document is created by ES or not
+		///</summary>
+		bool IsDynamicDocument();
 
 		/// <summary>
 		/// Internal Use
@@ -222,6 +226,7 @@ namespace Microarea {
 		void ResizeFrame();
 		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
 		void ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
+		void ManageDocumentOutline();
 		
 	public:
 		///<summary>

@@ -274,7 +274,7 @@ BOOL CFileSystemDriver::RenameFile (const CString& sOldFileName, const CString& 
 {
 	BOOL bOk = FALSE;
 
-	if (IsDosName(sOldFileName) && ExistPath(::GetPath(sOldFileName, FALSE)) && !ExistPath(::GetPath(sNewFileName, FALSE)))
+	if (IsDosName(sOldFileName) && ExistPath(::GetPath(sOldFileName, FALSE))/* && !ExistPath(::GetPath(sNewFileName, FALSE))*/)
 	{
 		int nResult = ::_trename(sOldFileName, sNewFileName);
 		if (nResult == 0)

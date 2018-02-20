@@ -75,10 +75,19 @@ void MView::SetPathToSerialize(System::String^ path)
 	pathToSerialize = path;
 }
 
+//----------------------------------------------------------------------------------
+bool MView::IsDynamicDocument()
+{
+	if (!this->m_pView || !this->m_pView->GetDocument())
+		return false;
+
+	return this->m_pView->GetDocument()->IsKindOf(RUNTIME_CLASS(CDynamicFormDoc)) == TRUE;
+}
+
 //------------------------------------------------------------------------------
 void MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 {
-	if (!this->HasCodeBehind) //not hasCodeBehind
+	if (this->IsDynamicDocument()) //created by ES
 	{
 		__super::UpdateAttributesForJson(NULL);
 		jsonDescription->m_Type = CWndObjDescription::WndObjType::View;
@@ -94,6 +103,7 @@ void MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 //-------------------------------------------------------------------------------------
 void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
+	CString jsonViewId = this->Id + _T("_") + _T("VIEW_ES");
 	__super::GenerateSerialization(pParentDescription, serialization);
 
 	//manage saving
@@ -114,13 +124,15 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 		(
 			gcnew Tuple<System::String^, System::String^>
 			(
-				gcnew String(this->Id + _T("_") + _T("CUSTOM")),
+				gcnew String(jsonViewId),
 				gcnew String(GetSerialization(jsonDescription))
 				)
 		);
 	}
 
 	ManageSerializations(serialization);
+
+	ManageDocumentOutline();
 
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
@@ -131,12 +143,53 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 }
 
 //-------------------------------------------------------------------------------
+void MView::ManageDocumentOutline()
+{
+	CString jsonViewId = this->Id;
+
+	if (!this->IsDynamicDocument())
+		return;
+
+	CString jsonBaseFrameId = _T("");
+	if (this->m_pView && this->m_pView->GetDocument())
+	{
+		if (this->m_pView->GetDocument()->IsABatchDocument())
+			jsonBaseFrameId = _T("M.Framework.TbGes.TbGes.IDD_BATCH_FRAME");
+		else
+			jsonBaseFrameId = _T("M.Framework.TbGes.TbGes.IDD_MASTER_FRAME");
+	}
+
+	CDummyDescription* pDocumentOutlineDescription = new CDummyDescription();
+	CString jsonFrameId = _T("IDD_EMPTY_FRAME");	
+	pDocumentOutlineDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	pDocumentOutlineDescription->m_strIds.Add(jsonFrameId);
+	pDocumentOutlineDescription->m_strName = this->Name + _T("Frame");
+	pDocumentOutlineDescription->m_arHrefHierarchy.Add(jsonBaseFrameId);
+	pDocumentOutlineDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	CDummyDescription* pChildView = new CDummyDescription();
+	pDocumentOutlineDescription->m_Children.Add(pChildView);
+	pChildView->m_arHrefHierarchy.Add(jsonViewId);
+	pChildView->m_Type = CWndObjDescription::WndObjType::Undefined;
+
+	CJsonSerializer ser;
+	pDocumentOutlineDescription->SerializeJson(ser);
+	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, gcnew String(jsonFrameId), tbjsonExtension)), ser.GetJson());
+
+	for (int i = pDocumentOutlineDescription->m_Children.GetUpperBound(); i >= 0; i--)
+	{
+		SAFE_DELETE(pDocumentOutlineDescription->m_Children.GetAt(i));
+		pDocumentOutlineDescription->m_Children.RemoveAt(i);
+	}
+	SAFE_DELETE(pDocumentOutlineDescription);
+}
+
+//-------------------------------------------------------------------------------
 void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	if (System::String::IsNullOrEmpty(pathToSerialize))
 		return;
-
-	if (!this->HasCodeBehind)
+	
+	if (this->IsDynamicDocument())	//creato da ES
 		jsonDescription = new CWndObjDescription(NULL);
 	else
 		jsonDescription = new CDummyDescription();
@@ -168,7 +221,8 @@ void MView::ManageSerializations(List<System::Tuple<System::String^, System::Str
 	}
 	jsonSerEv.CloseArray();
 
-	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
+	if (n > 0)
+		this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
 }
 
 //----------------------------------------------------------------------------------
