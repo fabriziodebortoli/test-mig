@@ -6,63 +6,71 @@
     border-radius: 0 0 5px 5px;
 }
 
-::ng-deep .radar-container {
-    .title {
-        flex-grow: 2;
-        display: flex;
+.title {
+    flex-grow: 2;
+    display: flex;
+}
+
+.toolbar-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    height: 30px;
+}
+
+.navigation {
+    display: flex;
+}
+
+.document-title {
+    line-height: 32px;
+    margin: 0 10px;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #0277bd;
+    height: 100px;
+}
+
+.top-button {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    min-width: 38px;
+    border: 0;
+    background: none;
+    &:hover {
+        background: #f1f1f1
     }
-    .toolbar-top {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: stretch;
-        background: #fff;
-        border-bottom: 1px solid #ddd;
-        height: 30px;
+    &:focus {
+        box-shadow: none;
     }
-    .navigation {
-        display: flex;
-    }
-    .document-title {
-        line-height: 32px;
-        margin: 0 10px;
-        font-weight: 500;
-        font-size: 14px;
-        text-transform: uppercase;
-        color: #0277bd;
-        height: 100px;
-    }
-    .top-button {
-        margin: 0;
-        padding: 0;
-        height: 30px;
-        min-width: 38px;
-        border: 0;
-        background: none;
-        &:hover {
-            background: #f1f1f1
-        }
-        &:focus {
-            box-shadow: none;
-        }
-    }
-    .toggle-button ::ng-deep m4-icon {
-        font-size: 16px;
-    }
-    tb-icon {
-        min-width: 30px;
-        font-size: 24px;
-        line-height: 15px;
-    }
-     ::ng-deep .div-icon {
+}
+
+.toggle-button ::ng-deep m4-icon {
+    font-size: 16px;
+}
+
+tb-icon {
+    min-width: 30px;
+    font-size: 24px;
+    line-height: 15px;
+}
+
+:host ::ng-deep {
+    .div-icon {
         width: 0px;
         img {
             height: 20px;
             margin-top: 4px;
         }
     }
-    #close-button ::ng-deep m4-icon {
+
+    #close-button m4-icon {
         font-size: 17px;
     }
 }

@@ -89,7 +89,7 @@ export const TB_SERVICES = [
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
-    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService, ComponentMediator
+    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService
 ];
 
 import { CoreGuard } from './guards/core.guard';

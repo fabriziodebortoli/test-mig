@@ -11,16 +11,15 @@ import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { DataService } from './../../../core/services/data.service';
-import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
+import { PaginatorService, ServerNeededParams, ClientPage, GridData } from './../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
 import { State } from './../customisable-grid/customisable-grid.component';
-
+import { ComponentInfoService } from './../../../core/services/component-info.service';
 import * as _ from 'lodash';
-import { EventDataService } from '../../../core/services/eventdata.service';
 
 export const ViewStates = { opened: 'opened', closed: 'closed' };
 
@@ -38,14 +37,14 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [PaginatorService, FilterService, ComponentMediator]
 })
-export class RadarComponent extends ControlComponent implements OnInit, OnDestroy {
+export class RadarComponent extends ControlComponent implements OnInit {
     @Input() maxColumns = 10;
     @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: GridComponent;
     private set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
     private get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
-    state$: Observable<State> = new BehaviorSubject(new State());
+    state$: Observable<State> = new BehaviorSubject(State.new());
     pinned = false;
     areFiltersVisible = false;
     viewState = ViewStates.closed;
@@ -54,9 +53,10 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     private lastSelectedKeyPage = -1;
 
     constructor(public s: ComponentMediator, private enumsService: EnumsService,
-        private elRef: ElementRef, private store: Store,
+        private elRef: ElementRef, private store: Store, private cmpInfoService: ComponentInfoService,
         private paginator: PaginatorService, private filterer: FilterService) {
         super(s.layout, s.tbComponent, s.changeDetectorRef)
+        s.setStorage({ cmpId: 'radar' });
     }
 
     ngOnInit() {
@@ -79,25 +79,16 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
             this.filterer.resetFocus();
         });
         this.store.select(m => _.get(m, 'FormMode.value'))
-            .subscribe(m => this.state = { ...this.state, canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND });
+            .subscribe(m => this.state = this.state
+                .with({ canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND }));
         this.s.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
     }
 
-    ngOnDestroy() {
-        super.ngOnDestroy();
-        this.s.set('columns', JSON.stringify(Object.keys(this.state.columns).map(i => this.state.columns[i].id)));
-    }
-
-    setData(d: { rows: any[], columns: { caption: string, id: string, type: string }[], total: number }) {
+    setData(d: ClientPage) {
         this.storeViewSelection();
-        const maxCols = Math.min(d.columns.length, this.maxColumns);
-        const rows = d.columns.length < maxCols ? d.rows :
-            d.rows.map(r => [this.selectionColumnId, ...Object.keys(r)]
-                .slice(0, maxCols).reduce((o, k) => { o[k] = r[k]; return o; }, {}));
-
-        let cols = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
-        this.state = { ...this.state, columns: cols, rows: rows, gridData: { data: rows, total: d.total, columns: cols } };
+        const data = d.reshape(GridData.new({ data: d.rows, total: d.total, columns: d.columns }));
+        this.state = this.state.with({ columns: data.columns, rows: data.data, gridData: data });
         this.restoreViewSelection();
     }
 
@@ -111,28 +102,28 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
 
     selectedKeysChange(e) {
         if (e.length && e[0]) {
-            this.state = { ...this.state, selectedIndex: this.state.rows.findIndex(x => x[this.selectionColumnId] === e[0]) };
+            this.state = this.state.with({ selectedIndex: this.state.rows.findIndex(x => x[this.selectionColumnId] === e[0]) });
             this.s.eventData.radarRecordSelected.emit(e[0]);
         }
     }
 
     selectByIndex(idx: number) {
         if (this.isFormMode(FormMode.EDIT)) return;
-        this.state = { ...this.state, selectedIndex: this.coerce(idx, 0, this.state.rows.length) };
+        this.state = this.state.with({ selectedIndex: this.coerce(idx, 0, this.state.rows.length) });
         this.selectByItem(this.state.rows[this.state.selectedIndex]);
     }
 
     selectByItem(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
         const id = item[this.selectionColumnId];
-        this.state = { ...this.state, selectionKeys: [id] };
+        this.state = this.state.with({ selectionKeys: [id] });
         this.s.eventData.radarRecordSelected.emit(id);
     }
 
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
         if (!this.pinned) this.s.eventData.showRadar.next(false);
-        this.state = { ...this.state, canNavigate: false };
+        this.state = this.state.with({ canNavigate: false });
         this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
         this.selectByItem(item);
     }
@@ -175,7 +166,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
     }
 
     private unselect() {
-        this.state = { ...this.state, selectionKeys: [], selectedIndex: -1 };
+        this.state = this.state.with({ selectionKeys: [], selectedIndex: -1 });
     }
 
     get canFirst() {
@@ -200,7 +191,7 @@ export class RadarComponent extends ControlComponent implements OnInit, OnDestro
         this.unselect();
         let idx = this.state.rows.findIndex(x => x[this.selectionColumnId] === this.lastSelectedKey)
         if (idx === -1) return;
-        this.state = { ...this.state, selectionKeys: [this.lastSelectedKey], selectedIndex: idx };
+        this.state = this.state.with({ ...this.state, selectionKeys: [this.lastSelectedKey], selectedIndex: idx });
     }
 
     coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));

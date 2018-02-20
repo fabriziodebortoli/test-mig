@@ -1,10 +1,14 @@
-import { BehaviorSubject, Observable, Subscription, Subject } from '../../rxjs.imports';
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription, Subject } from './../../rxjs.imports';
+import { Record } from './../../shared/commons/mixins/record';
 import * as _ from 'lodash';
 
-export type ClientPage = {key: string, rows: any[], total: number, oldTotal: number,
-    columns: any[], ignore: boolean};
+export type ClientPage = {
+    key: string, rows: any[], total: number, oldTotal: number,
+    columns: any[], ignore: boolean, reshape?: (data: GridData) => GridData
+};
 export type ServerNeededParams = { model?: any, customFilters?: any, customSort?: any };
+export class GridData extends Record(class { data: any[]; total: number; columns: any[] }) { };
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
@@ -19,9 +23,9 @@ export class PaginatorService implements OnDestroy {
     private serverData: any;
     private currentServerPageNumber = -1;
     private clientPage = 10;
-    private sizeOfLastServer: number = -1;
+    private sizeOfLastServer = -1;
     private higherServerPage = 0;
-    private lookAheadServerPageCache: {page: number, data: any} = {page: -1, data: null};
+    private lookAheadServerPageCache: { page: number, data: any } = { page: -1, data: null };
     private prevSkip = -1;
     private _skip = 0;
     private get skip(): number { return this._skip; }
@@ -30,14 +34,14 @@ export class PaginatorService implements OnDestroy {
         this._skip = value;
     }
 
-    private lastServNeededParams: ServerNeededParams = { model: {value: ''}, customFilters: '' };
+    private lastServNeededParams: ServerNeededParams = { model: { value: '' }, customFilters: '' };
     private queryTrigger$: Observable<ServerNeededParams>;
     private needSrvParamTriggerSub: Subscription;
 
     private get noDataClientPage(): ClientPage {
         let p: ClientPage = _.cloneDeep(this.defaultClientData);
         p.columns = this._clientData.value.columns,
-        p.ignore = false;
+            p.ignore = false;
         p.key = this._clientData.value.key;
         p.total = this._clientData.value.total;
         p.oldTotal = this._clientData.value.oldTotal;
@@ -45,10 +49,10 @@ export class PaginatorService implements OnDestroy {
         return p;
     }
 
-    private  get willChangeServerPage() {
+    private get willChangeServerPage() {
         return this.clientEndOffset >= this.serverData.rows.length &&
-        ((this.sizeOfLastServer === -1) ||
-            (this.sizeOfLastServer >= 0 && this.currentServerPageNumber < this.higherServerPage));
+            ((this.sizeOfLastServer === -1) ||
+                (this.sizeOfLastServer >= 0 && this.currentServerPageNumber < this.higherServerPage));
     }
 
 
@@ -66,7 +70,7 @@ export class PaginatorService implements OnDestroy {
         return this.currentServerPageNumber;
     }
 
-    public get isJustInitialized(): boolean{
+    public get isJustInitialized(): boolean {
         return this.clientStartOffset === 0 && this.currentServerPageNumber === -1;
     }
 
@@ -84,18 +88,20 @@ export class PaginatorService implements OnDestroy {
 
     public waiting$ = new Subject<boolean>().distinctUntilChanged();
 
+    public reshape = (d: GridData) => d;
+
     constructor(private ngZone: NgZone) {
         this.configurationChanged.subscribe(c => {
             this.clientEndOffset = 0;
             this.clientStartOffset = 0;
             this._clientData.next(this.defaultClientData);
         });
-     }
+    }
 
     private isNext(prevSkip: number, skip: number): boolean {
         if (prevSkip === -1) { return true }
         return prevSkip < skip;
-      }
+    }
 
     private getNumberOfClientSteps(oldSkip: number, newSkip: number): number {
         if (oldSkip === newSkip) { return 0 };
@@ -113,7 +119,7 @@ export class PaginatorService implements OnDestroy {
                 let nextPageIdx = this.currentServerPageNumber + 1;
                 let data = await this.loadServerPage(nextPageIdx, this.serverPage, this.lastServNeededParams);
                 if (this.lookAheadServerPageCache.page !== nextPageIdx) {
-                    this.lookAheadServerPageCache = {page: nextPageIdx, data: data}
+                    this.lookAheadServerPageCache = { page: nextPageIdx, data: data }
                     if (!data || !data.rows || data.rows.length === 0) {
                         this.sizeOfLastServer = 0;
                         return this._clientData.value.total;
@@ -138,7 +144,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     private getServerPage(skip: number): number {
-        if (skip === 0) { return this.currentServerPageNumber === -1 ? 0 : Math.min(0, this.currentServerPageNumber -1); }
+        if (skip === 0) { return this.currentServerPageNumber === -1 ? 0 : Math.min(0, this.currentServerPageNumber - 1); }
         return Math.trunc(skip / this.serverPage);
     }
 
@@ -151,8 +157,8 @@ export class PaginatorService implements OnDestroy {
         if (newServerPageNeeded) {
             let data = await this.loadServerPage(newServerPage, this.serverPage, this.lastServNeededParams);
             if (!data || !data.rows || data.rows.length === 0) {
-                if (this.currentServerPageNumber < 0) { 
-                    this._clientData.next(this.noDataClientPage); 
+                if (this.currentServerPageNumber < 0) {
+                    this._clientData.next(this.noDataClientPage);
                     this.currentServerPageNumber = newServerPage;
                     this.sizeOfLastServer = 0;
                 }
@@ -172,12 +178,14 @@ export class PaginatorService implements OnDestroy {
 
         let newTotal = await this.getNewTotal();
         this._clientData.next({
-            key: this.serverData.key ?  this.serverData.key : '',
+            key: this.serverData.key ? this.serverData.key : '',
             rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
             total: newTotal,
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
-            ignore: false });
+            ignore: false,
+            reshape: this.reshape
+        });
         (this.waiting$ as Subject<boolean>).next(false);
     }
 
@@ -199,21 +207,23 @@ export class PaginatorService implements OnDestroy {
         }
 
         this._clientData.next({
-            key: this.serverData.key ?  this.serverData.key : '',
+            key: this.serverData.key ? this.serverData.key : '',
             rows: this.serverData.rows.slice(this.clientStartOffset, this.clientEndOffset),
             total: this._clientData.value.total,
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
-            ignore: false });
-            (this.waiting$ as Subject<boolean>).next(false);
+            ignore: false,
+            reshape: this.reshape
+        });
+        (this.waiting$ as Subject<boolean>).next(false);
     }
 
 
     public start(displayedClientPages: number,
-                rowsPerPage: number,
-                queryTrigger$: Observable<ServerNeededParams>,
-                f: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>,
-                intialServerParams?: ServerNeededParams) {
+        rowsPerPage: number,
+        queryTrigger$: Observable<ServerNeededParams>,
+        f: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>,
+        intialServerParams?: ServerNeededParams) {
         this.isCorrectlyConfigured = f && (displayedClientPages >= 1) && (rowsPerPage > 0);
         if (!this.isCorrectlyConfigured) { return; }
         this.queryTrigger$ = queryTrigger$;
@@ -227,7 +237,7 @@ export class PaginatorService implements OnDestroy {
             });
         }
         this.configurationChanged.next(true);
-        if (intialServerParams) { 
+        if (intialServerParams) {
             this.lastServNeededParams = intialServerParams;
             this.firstPage();
         }
@@ -242,7 +252,7 @@ export class PaginatorService implements OnDestroy {
         this.configurationChanged.complete();
         this.configurationChanged = new BehaviorSubject(false);
         if (this.needSrvParamTriggerSub) { this.needSrvParamTriggerSub.unsubscribe(); }
-        
+
     }
 
     public getClientPageIndex(index: number): number {
@@ -266,7 +276,7 @@ export class PaginatorService implements OnDestroy {
     }
 
     public async pageChange(skip: number, take: number) {
-        if (this.skip === skip) { return ; }
+        if (this.skip === skip) { return; }
         this.skip = skip;
         if (this.isNext(this.prevSkip, skip)) {
             await this.nextPage(this.prevSkip, skip, take)

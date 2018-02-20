@@ -13,7 +13,7 @@ import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-dat
 import { PopupHelper } from './popup';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
-import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
+import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HyperLinkService, HyperLinkInfo} from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
@@ -198,7 +198,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
      if(this.hasToAdjustTable) this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     this.paginator.clientData.subscribe((d) => {
-        this.state = {...this.state, selectionColumn: d.key, gridData: { data: d.rows, total: d.total, columns: d.columns} };        
+        this.state = {...this.state, selectionColumn: d.key, gridData: new GridData().with({ data: d.rows, total: d.total, columns: d.columns})};
     });
   }
 

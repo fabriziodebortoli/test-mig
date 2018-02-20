@@ -1,4 +1,4 @@
-::ng-deep .custom-grid {
+:host ::ng-deep {
     margin: 10px;
     font-size: 13px;
     tr.k-state-selected,
@@ -15,12 +15,22 @@
         border-color: #e3e3e3;
         font-size: 12px;
     }
-}
-::ng-deep .editable .k-grid-table {
-    margin-left: 20px;
-}
-::ng-deep .editable .k-grid-header-wrap>table {
-    margin-left: 20px;
+    .editable .k-grid-table {
+        margin-left: 20px;
+    }
+    .editable .k-grid-header-wrap>table {
+        margin-left: 20px;
+    }
+    a.k-link.k-pager-nav.k-pager-last {
+        display: none;
+    }
+    .k-grid th, .k-grid td {
+        padding: 1px 3px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 .top-button {
     margin: 0;
@@ -80,15 +90,4 @@ tb-icon {
 .pager-number {
     font-weight: bold;
     font-size: x-small;
-}
-::ng-deep .k-grid th, ::ng-deep .k-grid td {
-    padding: 1px 3px;
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-:host ::ng-deep a.k-link.k-pager-nav.k-pager-last {
-    display: none;
 }

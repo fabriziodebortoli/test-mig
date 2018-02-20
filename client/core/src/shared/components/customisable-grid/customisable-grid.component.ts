@@ -12,38 +12,39 @@ import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { DataService } from './../../../core/services/data.service';
-import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
+import { PaginatorService, ServerNeededParams, GridData } from './../../../core/services/paginator.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
+import { Record } from './../../../shared/commons/mixins/record';
 import * as _ from 'lodash';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
 
-export class State {
+export class State extends Record(class {
     readonly rows = [];
     readonly columns = [];
     readonly selectedIndex: number = 0;
     readonly gridStyle = GridStyles.default;
     readonly selectionKeys = [];
-    readonly gridData = { data: [], total: 0, columns: [] };
+    readonly gridData = new GridData();
     readonly canNavigate: boolean = true;
-}
+}) { }
 
 @Component({
     selector: 'tb-customisable-grid',
     templateUrl: './customisable-grid.component.html',
     styleUrls: ['./customisable-grid.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ComponentMediator]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomisableGridComponent extends ControlComponent implements OnInit, OnDestroy {
     @Input() pageSize = 10;
     @Input() editable = false;
     @Input() canAutoFit = false;
+    @Input() maxColumns = 10;
     @Input() selectionColumnId;
     @Input() state: State;
     @Output() selectedKeysChange = new EventEmitter<any>();
@@ -71,6 +72,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
         this.paginator.waiting$.subscribe(b =>
             setTimeout(() => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default), 0));
+        this.paginator.reshape = this.reshape;
         super.ngOnInit();
     }
 
@@ -79,24 +81,48 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.stop();
     }
 
-    ngOnChanges(c: SimpleChanges) {
-        if (!c.state) return;
-        let s = c.state.currentValue as State;
-        let cols = this.reorder(s.gridData.columns);
-        this.state = { ...this.state, columns: cols, gridData: { ...this.state.gridData, columns: cols } };
+    reshape = (d: GridData): GridData =>
+        this.limit(d).with(s => ({ columns: this.reorder(s.columns) }));
 
+
+    limit = (d: GridData): GridData => {
+        const maxCols = Math.min(d.columns.length, this.maxColumns);
+        const data = d.columns.length < maxCols ? d.data :
+            d.data.map(r => [this.selectionColumnId, ...Object.keys(r)]
+                .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
+        const columns = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns].slice(0, maxCols);
+        return d.with({ data, columns });
     }
 
-    reorder(cols) {
-        const sort = JSON.parse(this.s.get('reorderMap'));
-        if (sort) cols = cols.sort((a, b) => this.reorderMap[a] - this.reorderMap[b]);
-        return cols;
+    reorder = cols => {
+        const reorderMap = this.getReorderMapFor(cols);
+        const weight = reorderMap.reduce((o, v, i) => ({ ...o, [v]: i }), {});
+        return cols.sort((a, b) => weight[a.id] - weight[b.id]);
+    };
+
+    getReorderMapFor = cols => {
+        let reorderMap = this.s.get<any[]>('reorderMap');
+        if (!reorderMap || Object.keys(reorderMap).length !== cols.length) {
+            reorderMap = cols.map(x => x.id);
+            this.s.set('reorderMap', reorderMap);
+        }
+        return reorderMap;
     }
 
-    reorderMap: {};
     columnReorder(e) {
-        this.reorderMap[e.column.field] = e.newIndex;
-        this.s.set('reorderMap', JSON.stringify(this.reorderMap));
+        let reorderMap = this.getReorderMapFor(this.state.columns);
+        let min = Math.min(e.oldIndex, e.newIndex) + (this.selectionColumnId ? 1 : 0);
+        let max = Math.max(e.oldIndex, e.newIndex) + (this.selectionColumnId ? 1 : 0);
+        reorderMap = reorderMap.map((v, i, a) => { // fa schifo da rifare
+            if (i < min || i > max) return a[i];
+            if (e.oldIndex < e.newIndex) {
+                if (i >= min && i < max) return a[i + 1];
+            } else {
+                if (i > min && i <= max) return a[i - 1];
+            }
+            if (i === e.newIndex + 1) return a[e.oldIndex + 1];
+        });
+        this.s.set('reorderMap', reorderMap);
     }
 
     get areFiltersVisibleIcon() {
