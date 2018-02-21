@@ -198,7 +198,8 @@ public:
 
 	CRect	GetColumnTitleRect() const { return m_ColumnTitleRect; }	// only column m_Title
 
-	int		SetColumnTitle	();
+	BOOL	SetColumnTitle	();
+
 	int		LastRow			() const;
 	BOOL	HasTotal		() const;
 	BOOL	IsMultiRow		() const;

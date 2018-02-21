@@ -45,8 +45,11 @@
 #include "column.h"
 #include "repeater.h"
 #include "ExpExter.h"
-// resources
 
+#include "RSEditorUI.h"
+#include "RSEditView.h"
+
+// resources
 #include "tbwoormviewer.hrc"
 
 #include "listdlg.hjson" //JSON AUTOMATIC UPDATE
@@ -2433,6 +2436,7 @@ void TextRect::SetColors()
 void TextRect::SetStaticText()
 {
 	CString strText = m_StaticText.GetText();
+/*
 	CSpecialTextDlg dialog (strText, m_bSpecialField);
 
 	if (dialog.DoModal() == IDOK)
@@ -2440,6 +2444,22 @@ void TextRect::SetStaticText()
 		m_StaticText.SetText(strText);
 
 		UpdateDocument ();
+	}
+*/
+	CRSEditView* pEditView = m_pDocument->GetWoormFrame()->CreateEditView();
+	if (!pEditView)
+		return;
+	BOOL changed = FALSE;
+	pEditView->EnableStringPreview();
+	pEditView->LoadElement(&strText, &changed);
+	pEditView->DoEvent();
+
+	if (changed)
+	{
+		m_StaticText.SetText(strText);
+		UpdateDocument();
+
+		m_pDocument->RefreshObjectPropertyView();
 	}
 }
 
@@ -5319,14 +5339,28 @@ void FieldRect::SetColors()
 void FieldRect::SetFieldLabel()
 {
 	CString strLabel = m_Label.GetText(); 
-	
+/*	
 	CEditTextExprDlg dialog(strLabel, m_pLabelTextExpr, &(m_pDocument->m_ViewSymbolTable)); 
-	
 	if (dialog.DoModal() == IDOK)
 	{
 		m_Label.SetText(strLabel);
-
 		UpdateDocument ();
+	}
+*/
+	CRSEditView* pEditView = m_pDocument->GetWoormFrame()->CreateEditView();
+	if (!pEditView)
+		return;
+	BOOL changed = FALSE;
+	pEditView->EnableStringPreview();
+	pEditView->LoadElement(&strLabel, &changed);
+	pEditView->DoEvent();
+
+	if (changed)
+	{
+		m_Label.SetText(strLabel);
+		UpdateDocument();
+
+		m_pDocument->RefreshObjectPropertyView();
 	}
 }
 

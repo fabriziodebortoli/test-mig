@@ -26,6 +26,9 @@
 #include "RSEditorUI.h"
 #include "ExpExter.h"
 
+#include "RSEditorUI.h"
+#include "RSEditView.h"
+
 // resources
 #include "listdlg.hjson" //JSON AUTOMATIC UPDATE
 
@@ -567,7 +570,6 @@ void TableColumn::SetHidden (BOOL bIsHidden)
 // editor manager che formatta la stringa spezzandola su piu' righe. Vale solo per
 // le stringhe
 
-//------------------------------------------------------------------------------
 int TableColumn::CalculateFieldWidth (const CString& strText) 
 {
 	const FontStyle* pFont = GetFontStyle(FALSE);
@@ -2557,15 +2559,33 @@ void TableColumn::ToggleOptimizedWidth	()
 }
 
 //------------------------------------------------------------------------------
-int	TableColumn::SetColumnTitle	()
+BOOL TableColumn::SetColumnTitle	()
 {
-	CString strTitleCol = m_Title.GetText();
-	CEditTextExprDlg dialog(strTitleCol, m_pTitleExpr, &(m_pTable->m_pDocument->m_ViewSymbolTable)); 
+	CString strTitle = m_Title.GetText();
+/*
+	CEditTextExprDlg dialog(strTitle, m_pTitleExpr, &(m_pTable->m_pDocument->m_ViewSymbolTable)); 
 	if (dialog.DoModal() == IDOK)
 	{
-		m_Title.SetText(strTitleCol);
+		m_Title.SetText(strTitle);
 		return TRUE;
 	}
+*/
+	CRSEditView* pEditView = m_pTable->m_pDocument->GetWoormFrame()->CreateEditView();
+	if (!pEditView)
+		return FALSE;
+	BOOL changed = FALSE;
+	pEditView->EnableStringPreview();
+	pEditView->LoadElement(&strTitle, &changed);
+	pEditView->DoEvent();
+
+	if (changed)
+	{
+		m_Title.SetText(strTitle);
+
+		m_pTable->m_pDocument->RefreshObjectPropertyView();
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -2643,10 +2663,10 @@ void TableColumn::CopyClipboard ()
 {
 }
 									  
-
 //------------------------------------------------------------------------------
 void TableColumn::VKReturn()
 {
+	SetColumnTitle();
 }
 
 //------------------------------------------------------------------------------

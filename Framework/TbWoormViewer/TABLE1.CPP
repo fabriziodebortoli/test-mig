@@ -24,8 +24,11 @@
 #include "rectobj.h"
 //#include "EditorLinksDlg.h"
 #include "mclrdlg.h"
-#include "listdlg.hjson" //JSON AUTOMATIC UPDATE
 
+#include "RSEditorUI.h"
+#include "RSEditView.h"
+
+#include "listdlg.hjson" //JSON AUTOMATIC UPDATE
 #include "commands.hrc"
 #include "table1.hrc"
 #include "rectobj.hjson" //JSON AUTOMATIC UPDATE
@@ -39,10 +42,9 @@
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
-
+//------------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC (Table, BaseObj)
 
-//------------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(Table, BaseObj)
 
 	ON_COMMAND(ID_HIDE_TABLE_TITLE,		   OnHideTableTitle)
@@ -1433,6 +1435,8 @@ void Table::OnCellBarCodeAttrs ()
 //------------------------------------------------------------------------------
 void Table::OnTableTitle ()
 {
+	CString strTitle = m_Title.GetText();
+/*
 	if (m_Title.SetTextDlg() == IDOK)
 	{
 		m_Title.Format (m_wInternalID, m_pDocument);
@@ -1441,8 +1445,26 @@ void Table::OnTableTitle ()
 		m_pDocument->UpdateWindow();
 		m_pDocument->SetModifiedFlag();
 	}
-}
+*/
+	CRSEditView* pEditView = m_pDocument->GetWoormFrame()->CreateEditView();
+	if (!pEditView)
+		return;
+	BOOL changed = FALSE;
+	pEditView->EnableStringPreview();
+	pEditView->LoadElement(&strTitle, &changed);
+	pEditView->DoEvent();
 
+	if (changed)
+	{
+		m_Title.SetText(strTitle);
+
+		m_pDocument->InvalidateRect(m_TitleRect, m_bTransparent);
+		m_pDocument->UpdateWindow();
+		m_pDocument->SetModifiedFlag();
+
+		m_pDocument->RefreshObjectPropertyView();
+	}
+}
 
 //------------------------------------------------------------------------------
 void Table::OnTableMove ()
@@ -1473,7 +1495,7 @@ void Table::OnColumnTitle ()
 {
 	int nCol = NormalizedColumn();
 
-	if (m_Columns[nCol]->SetColumnTitle() == IDOK)
+	if (m_Columns[nCol]->SetColumnTitle())
 	{
 		m_pDocument->InvalidateRect(ColumnTitleRect(nCol), m_bTransparent);
 		m_pDocument->UpdateWindow();
@@ -3478,8 +3500,6 @@ void Table::VKReturn()
 	// column manage virtual key
 	OnColumnTitle ();
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////

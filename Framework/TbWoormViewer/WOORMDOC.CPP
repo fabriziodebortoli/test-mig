@@ -1288,7 +1288,7 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 
 	//ON_COMMAND(ID_VK_TAB,			OnVKTab)
 	ON_COMMAND(ID_VK_SHIFT_TAB,		OnVKShiftTab)
-	//ON_COMMAND(ID_VK_RETURN,		OnVKReturn)
+	ON_COMMAND(ID_VK_RETURN,		OnVKReturn)
 
 	ON_COMMAND(ID_SNAP_TO_GRID,		OnSnapToGrid)
 
@@ -14409,6 +14409,18 @@ BOOL CWoormDocMng::RSTreeIsSelectedItemData(ERefreshEditor eRe, CObject* itemDat
 	if (pTreeCtrl->GetItemState(ht, TVIS_SELECTED) & TVIS_SELECTED)
 		return TRUE;
 	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+void CWoormDocMng::RefreshObjectPropertyView()
+{
+	if (GetWoormFrame()->m_pObjectPropertyView && GetWoormFrame()->m_pObjectPropertyView->m_pTreeNode)
+	{
+		ASSERT_VALID(GetWoormFrame()->m_pObjectPropertyView->m_pTreeNode);
+		UpdateRSTreeNode(ERefreshEditor::Layouts, GetWoormFrame()->m_pObjectPropertyView->m_pTreeNode, TRUE);
+
+		GetWoormFrame()->m_pObjectPropertyView->LoadPropertyGrid(GetWoormFrame()->m_pObjectPropertyView->m_pTreeNode);
+	}
 }
 
 //-----------------------------------------------------------------------------

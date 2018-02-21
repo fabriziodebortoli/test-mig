@@ -1294,7 +1294,8 @@ public:
 	HTREEITEM		FindRSTreeItemData(ERefreshEditor eRe, CObject* itemDataToSelect);
 	BOOL			RSTreeContainsItemData(ERefreshEditor eRe, CObject* itemDataToSelect);
 	BOOL			RSTreeIsSelectedItemData(ERefreshEditor eRe, CObject* itemDataToSelect);
-	
+	void			RefreshObjectPropertyView();
+
 	TblRuleData*	AddDBColumns_GetOrCreateTblRule		(CNodeTree* pNode);
 	WoormField*		AddDBColumns_CreateField			(SqlColumnInfo*, TblRuleData*, int idxTable);
 	WoormField*		AddDBColumns_CreateField			(CNodeTree* pNode, TblRuleData*, int idxTable);

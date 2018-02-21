@@ -1037,7 +1037,6 @@ CRSEditView* CRS_ObjectPropertyView::CreateEditView()
 
 	CRSEditView* pEdtView = GetDocument()->GetWoormFrame()->CreateEditView();
 	return pEdtView;
-
 }
 
 //-----------------------------------------------------------------------------
