@@ -38,7 +38,7 @@ DataObj* GetDataObjFromName(SqlRecord* pRec, const CString& sFieldName)
 {
 	DataObj* pDataObj = pRec->GetDataObjFromName(sFieldName);
 	if (!pDataObj)
-		pDataObj = pRec->GetDataObjFromName(_T("l_") + sFieldName);//se è un campo local, la bind aggiunge l_
+		pDataObj = pRec->GetDataObjFromName(_T("l_") + sFieldName);//se ï¿½ un campo local, la bind aggiunge l_
 	return pDataObj;
 }
 
@@ -241,10 +241,10 @@ void DBTObject::CreateAndInit(CAbstractFormDoc* pDocument, const CString& sName)
 	m_pTable = new SqlTable(m_pRecord, m_pDocument->GetUpdatableSqlSession());
 	// se la connessione fosse diversa dalla default devo associare le nuove info di catalog
 	// all'OldSqlRecord
-	// m_pRecord invece é giá stato aggiornato poiché agganciato al SqlTable
+	// m_pRecord invece ï¿½ giï¿½ stato aggiornato poichï¿½ agganciato al SqlTable
 	m_pOldRecord->SetConnection(m_pDocument->GetSqlConnection());
 
-	// vuol dire che il DBT è costruito su una view. Non è possibile effettuare il salvataggio
+	// vuol dire che il DBT ï¿½ costruito su una view. Non ï¿½ possibile effettuare il salvataggio
 	m_bDBTOnView = m_pRecord->m_nType != TABLE_TYPE;
 	if (m_pDocument)
 	{
@@ -355,7 +355,7 @@ BOOL DBTObject::Open()
 	TRY
 	{
 		//@@BAUZI TODO da elimniare il cursore scrollabile del DBTSlaveBuffered. Da sostituire con la paginazione per il browser
-		//utilizzando il cursore scollabile il SqlRowSet viene automaticamente sconnesso dopo aver eseguito la query (xchè il risultato viene tenuto in cache)
+		//utilizzando il cursore scollabile il SqlRowSet viene automaticamente sconnesso dopo aver eseguito la query (xchï¿½ il risultato viene tenuto in cache)
 		m_pTable->Open(!m_bDBTOnView, this->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)));
 
 	// verifico prima se il documento vuole sostituire la query del dbt
@@ -573,11 +573,11 @@ BOOL DBTObject::LoadXMLDBTInfo()
 		return FALSE;
 	}
 
-	if (m_pXMLDBTInfo) // le informazioni sono state già caricate....
+	if (m_pXMLDBTInfo) // le informazioni sono state giï¿½ caricate....
 		return TRUE;
 
 	m_pXMLDBTInfo = new CXMLDBTInfo;
-	// il terzo parametro mi fa capire se è stato agganciato da un clientdoc
+	// il terzo parametro mi fa capire se ï¿½ stato agganciato da un clientdoc
 	if (pXMLDocInfo->LoadXMLDBTInfo(GetNamespace(), m_pXMLDBTInfo, GetClientDocOwner() ? GetClientDocOwner()->m_Namespace : CTBNamespace()))
 	{
 		return TRUE;
@@ -788,7 +788,7 @@ BOOL DBTObject::PrepareSymbolTable(SymTable* pTable)
 		SymField* pF = new SymField(sName, pItem->GetDataObj()->GetDataType(), SpecialReportField::NO_INTERNAL_ID, pItem->GetDataObj(), FALSE);
 
 		if (IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
-			pF->SetProvider(dynamic_cast<DBTSlaveBuffered*>(this));	//Il DBT sarà il provider del dato tramite il metodo virtuale GetData
+			pF->SetProvider(dynamic_cast<DBTSlaveBuffered*>(this));	//Il DBT sarï¿½ il provider del dato tramite il metodo virtuale GetData
 
 		if (GetDocument())
 			GetDocument()->PrepareSymbolField(pF);
@@ -1302,7 +1302,6 @@ BOOL DBTMaster::Exist()
 //-----------------------------------------------------------------------------	
 BOOL DBTMaster::FindData(BOOL bPrepareOld)
 {
-	AfxGetApp()->BeginWaitCursor();
 	InitSlaves();
 	BOOL bOk = DBTObject::FindData(bPrepareOld);
 
@@ -1316,9 +1315,6 @@ BOOL DBTMaster::FindData(BOOL bPrepareOld)
 			if (!pSlave->FindData(bPrepareOld) && bOk)
 				bOk = FALSE;
 		}
-	//una volta caricati i dati scollego le SqlTable
-	//Disconnect();
-	AfxGetApp()->EndWaitCursor();
 	return bOk;
 }
 
@@ -1406,7 +1402,7 @@ BOOL DBTMaster::Update()
 	}
 
 	// @@AUDITING e TBModified
-	// se la master non é stata modificata ma é stato modificato almeno un 
+	// se la master non ï¿½ stata modificata ma ï¿½ stato modificato almeno un 
 	// dbtslave allora traccio la modifica alla tabella del master
 	// devo anche modificare i campi TBModified e TBModifiedID
 	if (!m_bUpdated && nUpdatedSlave > 0)
@@ -1473,7 +1469,7 @@ BOOL DBTMaster::Delete()
 		bOk = DBTObject::Delete();
 
 	//@@AUDITING
-	// se é stato cancellato almeno un dbtslave allora traccio la modifica 
+	// se ï¿½ stato cancellato almeno un dbtslave allora traccio la modifica 
 	// alla tabella del master
 	if (m_bNoDelete && nSlaveDeleted > 0)
 		m_pRecord->GetTableInfo()->GetSqlCatalogEntry()->TraceOperation(AUDIT_UPDATE_OP, m_pTable);
@@ -1760,7 +1756,6 @@ BOOL DBTSlave::Reload(BOOL bIgnorePreloadStep /*= FALSE*/)
 	OnDisableControlsAlways();
 
 	return bOk;
-
 }
 
 // bPrepareOld e' vero solo quando siamo in BROWSE mode			
@@ -2232,7 +2227,7 @@ DBTSlaveBuffered::~DBTSlaveBuffered()
 	for (int x = m_DBTSlaveData.GetUpperBound(); x >= 0; x--)
 	{
 		//la distruzione della slavedata implica la distruzione del prototipo slave
-		//la distruzione del prototipo slave implica l'accesso alla slave data del parent (cioè quella che sto ora distruggendo) per vedere se ci sono bodyedit agganciati
+		//la distruzione del prototipo slave implica l'accesso alla slave data del parent (cioï¿½ quella che sto ora distruggendo) per vedere se ci sono bodyedit agganciati
 		//quindi devo prima chiamare la delete (che prima chiama i distruttori e poi cancella l'oggetto)
 		//e poi rimuovere l'oggetto
 		delete m_DBTSlaveData[x];
@@ -2455,7 +2450,7 @@ SqlRecord* DBTSlaveBuffered::AddRecord()
 	GetClientDocs()->OnPrepareRow(this, nRow, pRec);
 	if (!this->IsKindOf(RUNTIME_CLASS(DBTTree)))
 	{
-		//per il DBTTree l'evento è posticipato al completamento dell'azione
+		//per il DBTTree l'evento ï¿½ posticipato al completamento dell'azione
 		//in DBTTree::Insert ed InsertChild
 
 		// Da la possibilita' al programmatore di sapere che e' stato aggiunto un 
@@ -2527,7 +2522,7 @@ SqlRecord* DBTSlaveBuffered::InsertRecord(int nRow)
 	GetClientDocs()->OnPrepareRow(this, nRow, pRec);
 	if (!this->IsKindOf(RUNTIME_CLASS(DBTTree)))
 	{
-		//per il DBTTree l'evento è posticipato al completamento dell'azione
+		//per il DBTTree l'evento ï¿½ posticipato al completamento dell'azione
 		//in DBTTree::Insert ed InsertChild
 
 		// Da la possibilita' al programmatore di sapere che e' stato aggiunto un 
@@ -2713,7 +2708,7 @@ void DBTSlaveBuffered::RemoveAllRecords()
 	{
 		m_pRecords->RemoveAt(i);
 	}
-	//TODO da verificare se si può mettere qui; 
+	//TODO da verificare se si puï¿½ mettere qui; 
 	//m_nCurrentRow = -1;
 }
 
@@ -2791,7 +2786,7 @@ DataObj* DBTSlaveBuffered::CheckRow(int nRow, BOOL bCheckAll/*= TRUE*/, BOOL bFr
 		return NULL;
 
 	// se  provengo dal body edit rieseguo l'assegnazione delle chiavi
-	// altrimenti questa è già stata fatta nel loop nella checkrecords
+	// altrimenti questa ï¿½ giï¿½ stata fatta nel loop nella checkrecords
 	if (bFromBody)
 	{
 		OnPreparePrimaryKey(nRow, pRec);
@@ -3077,7 +3072,7 @@ void DBTSlaveBuffered::PrepareDynamicColumns(BOOL bUpdateDescriptions)
 			SqlRecord* pRec = GetRow(j);
 			PrepareDynamicColumns(pRec, bUpdateDescriptions);
 		}
-		//la riga corrente la faccio pe ultima, così un eventuale hotlink composito (unico per tutte le righe) mi rimane
+		//la riga corrente la faccio pe ultima, cosï¿½ un eventuale hotlink composito (unico per tutte le righe) mi rimane
 		//posizionato correttamente
 		if (m_nCurrentRow != -1)
 		{
@@ -3122,7 +3117,7 @@ void DBTSlaveBuffered::PrepareDynamicColumns(SqlRecord *pRec, BOOL bUpdateDescri
 				}
 				else
 				{
-					//se sono in fase di changing, l'hotlink è stato già findato, ma devo
+					//se sono in fase di changing, l'hotlink ï¿½ stato giï¿½ findato, ma devo
 					//cmq travasare il valore dei campi
 					if (pKey == &AfxGetBaseApp()->GetChangingCtrlData())
 						hotLinkFindCalled[pInfo->m_pHKL] = bUpdateDescriptions == TRUE;
@@ -3225,7 +3220,7 @@ DataObj* DBTSlaveBuffered::GetBindingData(const CString& strParentDataSource, co
 		if (pHotLink)
 		{
 			CString sDescri = sOwnerName + _T("_") + sFieldName;
-			//prima controllo se c'è, magari creato da una precedente istanziazione di body edit
+			//prima controllo se c'ï¿½, magari creato da una precedente istanziazione di body edit
 			pDataObj = GetRecord()->GetDataObjFromColumnName(sDescri);
 			if (!pDataObj)
 			{
@@ -3850,7 +3845,7 @@ void DBTSlaveBuffered::SetCurrentDBTSlave(DBTSlaveMap* pData, DBTSlave* pSlave)
 	if (pCurrentDBTSlave->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
 	{
 		DBTSlaveBuffered* pCurrentBuff = (DBTSlaveBuffered*)pCurrentDBTSlave;
-		//non devo propagare lo stato di readonly ai figli, non è detto che siano legati!
+		//non devo propagare lo stato di readonly ai figli, non ï¿½ detto che siano legati!
 		//non chiamo la SetReadOnly, perche' non devo toccare i dataobj (problema dell'impossibilita' di mettere
 		//a readonly un campo nella OnDisableControlsForEdit
 		((DBTSlaveBuffered*)pSlave)->m_bReadOnly = pCurrentBuff->m_bReadOnly;
@@ -3866,7 +3861,7 @@ void DBTSlaveBuffered::SetCurrentDBTSlave(DBTSlaveMap* pData, DBTSlave* pSlave)
 					if (!IsActive())
 						pNewSlave = pNewSlave ? pNewSlave->GetActiveSibling() : NULL;
 
-					//il prototipo non può essere messo come dbt del bodyedit,
+					//il prototipo non puï¿½ essere messo come dbt del bodyedit,
 					//non posso metterci dentro dei dati!
 					if (pNewSlave == pData->m_pDBTSlavePrototype)
 					{
@@ -4022,7 +4017,7 @@ DBTSlave* DBTSlaveBuffered::CreateDBTSlave(DBTSlave* pPrototype)
 		((DBTSlaveBuffered*)pSlave)->SetReadOnly(bReadOnly);
 
 		//il dbt prototipo deve seguire le sorti di quello corrente
-		//perché sono i suoi dataobj ad essere addlinkati nelle colonne
+		//perchï¿½ sono i suoi dataobj ad essere addlinkati nelle colonne
 		DBTSlaveBuffered* pDBTPrototype = (DBTSlaveBuffered*)((DBTSlaveBuffered*)pSlave)->GetMainPrototype();
 		if (pDBTPrototype)
 			pDBTPrototype->SetReadOnly(bReadOnly);
@@ -4137,7 +4132,7 @@ DBTSlave* DBTSlaveBuffered::GetDBTSlave(SqlRecord* pRecordMaster, DBTSlaveMap* p
 	pSlave->m_pMasterRecord = pRecordMaster;
 	pData->m_Slaves[pRecordMaster] = pSlave;
 	VERIFY(pSlave->Open());
-	if (m_bFindDataCalled) //solo se ho chiamato la FindData sul papà chiamo quella sul figlio
+	if (m_bFindDataCalled) //solo se ho chiamato la FindData sul papï¿½ chiamo quella sul figlio
 		VERIFY(pSlave->FindData());
 
 	//se il dbt non dovra' essere risalvato, chiudo il cursore per non sprecare memoria
@@ -4760,7 +4755,7 @@ DataObj* DBTSlaveBuffered::GetData(const CString& sName, int nRow/*= -1*/)
 
 			if (!pCurrent)
 			{
-				ASSERT_TRACE1(FALSE, "Non è stato trovato il dato relativo al campo %s\n", sName);
+				ASSERT_TRACE1(FALSE, "Non ï¿½ stato trovato il dato relativo al campo %s\n", sName);
 				return NULL;
 			}
 			if (!pCurrent->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
@@ -5745,8 +5740,8 @@ DBTSlave* DBTSlaveBuffered::GetMainPrototype()
 {
 	//ritorno il prototipo del dbt corrente.
 	//esiste un dbt prototipo per ogni istanza del dbt master
-	//bisogna ricordare quindi che se i dbt sono su tre livelli, per il terzo livello esistono più dbt prototipo
-	//quello che conta è il primo, associato al prototipo del parent
+	//bisogna ricordare quindi che se i dbt sono su tre livelli, per il terzo livello esistono piï¿½ dbt prototipo
+	//quello che conta ï¿½ il primo, associato al prototipo del parent
 	//quindi devo risalire la catena ricorsivamente in questo modo
 
 	// 1 - prendo il master buffered
@@ -5754,9 +5749,9 @@ DBTSlave* DBTSlaveBuffered::GetMainPrototype()
 	if (!pMaster || !pMaster->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
 		return NULL;
 	DBTSlaveBuffered* pFather = (DBTSlaveBuffered*)pMaster;
-	// 2 - vedo se ad esso è associato un prototipo
+	// 2 - vedo se ad esso ï¿½ associato un prototipo
 	DBTSlaveBuffered* pUncleOrFather = (DBTSlaveBuffered*)pFather->GetMainPrototype();
-	// 3 - se non c'è, vuol dire che il parent è il nodo radice, uso lui stesso come ancestor
+	// 3 - se non c'ï¿½, vuol dire che il parent ï¿½ il nodo radice, uso lui stesso come ancestor
 	if (!pUncleOrFather)
 		pUncleOrFather = pFather;
 
@@ -5771,7 +5766,7 @@ CBodyEditPointers* DBTSlaveBuffered::GetBodyEdits()
 	//se non sono slave di slave buffered, allora detengo la lista dei bodyedit
 	if (!m_pDBTMaster || !m_pDBTMaster->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
 		return &m_arBodyPtr;
-	//altrimenti, siccome ho una serie di istanze di dbt, la lista è detenuta dal main prototype
+	//altrimenti, siccome ho una serie di istanze di dbt, la lista ï¿½ detenuta dal main prototype
 	DBTSlaveBuffered* pProt = (DBTSlaveBuffered*)GetMainPrototype();
 	return pProt ? &pProt->m_arBodyPtr : &m_arBodyPtr;
 }
