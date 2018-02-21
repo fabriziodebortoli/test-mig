@@ -24,8 +24,6 @@ import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/r
 import { apply, diff } from 'json8-patch';
 import * as _ from 'lodash';
 
-
-
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
 @Component({
@@ -79,7 +77,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.selectableSettings = { checkboxOnly: false, mode: "single" };
   }
 
-
+  //-----------------------------------------------------------------------------------------------
   @HostListener('window:keydown', ['$event'])
   public keyup(event: KeyboardEvent): void {
     if (event.shiftKey && event.keyCode == 9) {
@@ -91,7 +89,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
     }
   }
-
 
   //-----------------------------------------------------------------------------------------------
   editNextColumn() {
@@ -144,6 +141,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
+  //-----------------------------------------------------------------------------------------------
   ngOnDestroy() {
     this.paginator.stop();
   }
@@ -185,8 +183,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   pageChange(event) {
     this.skip = event.skip;
     this.paginator.pageChange(event.skip, event.take);
-
   }
+
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
@@ -196,14 +194,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.lastEditedRowIndex = rowIndex;
         this.lastEditedColumnIndex = columnIndex;
         sender.editCell(rowIndex, columnIndex);
-
       }
     }
   }
 
   //-----------------------------------------------------------------------------------------------
   public cellCloseHandler(args: any) {
-    console.log("cellCloseHandler args", args);
     // this.lastEditedRowIndex = -1;
     // this.lastEditedColumnIndex = -1;
   }
@@ -325,13 +321,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
     this.totalPages = Math.ceil(this.rowCount / this.pageSize);
-
-    // let temp = [];
-    // tempIndex = 0;
-    // for (let index = this.skip; index < this.skip + this.pageSize; index++) {
-    //   temp[tempIndex] = this.model.rows[index];
-    //   tempIndex++;
-    // }
 
     this.gridView = {
       data: temp,
