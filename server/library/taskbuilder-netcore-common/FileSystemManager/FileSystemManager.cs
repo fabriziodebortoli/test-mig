@@ -17,7 +17,7 @@ namespace Microarea.Common.FileSystemManager
         private bool fileSystemDriverOwner;
         private bool alternativeDriverOwner;
         private PathFinder pathFinder;
-        private FileSystemManagerInfo configFile;
+        private FileSystemManagerInfo configFile = null;
 
         //-----------------------------------------------------------------------------
         public IFileSystemDriver FileSystemDriver { get { return fileSystemDriver; }
@@ -442,10 +442,10 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public bool GetPathContent(string sPathName, bool bFolders, out ArrayList pSubFolders, bool bFiles, string strFileExt, out ArrayList pFiles)
+        public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
         {
-            pSubFolders = new ArrayList();
-            pFiles = new ArrayList();
+            pSubFolders = new List<TBDirectoryInfo>();
+            pFiles = new List<TBFile>();
 
             bool result = false; 
             if (IsManagedByAlternativeDriver(sPathName))
@@ -593,7 +593,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public ArrayList GetAllApplicationInfo(string dir)
+        public List<string> GetAllApplicationInfo(string dir)
         { 
             if (GetAlternativeDriver() != null)
                 return GetAlternativeDriver().GetAllApplicationInfo(dir);
@@ -602,7 +602,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public ArrayList GetAllModuleInfo(string strAppName)
+        public List<string> GetAllModuleInfo(string strAppName)
         {
 	        if (GetAlternativeDriver() != null)
                 return GetAlternativeDriver().GetAllModuleInfo(strAppName);

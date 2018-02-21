@@ -305,12 +305,7 @@ namespace Microarea.Common.GenericForms
 			{
 				try
 				{
-                    //	FileStream fs = new FileStream(loginSessionFile, FileMode.Open);
-                    //	StreamReader sr = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
-                    //	pwd = sr.ReadToEnd();
-                    //	sr.Dispose();
                     pwd = PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(loginSessionFile);
-
                 }
 				catch
 				{

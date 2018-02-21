@@ -251,13 +251,8 @@ namespace Microarea.Common.FileSystemManager
             {
                 byte[] byteArray = Encoding.UTF8.GetBytes(strTextContent);
                 stream = new MemoryStream(byteArray);
-                // file content
-                //sr = new StreamReader(strTextContent, true);
-                //string fileContent = sr.ReadToEnd();
-                //stream.Close();
-                //stream.Dispose();
             }
-            catch (Exception exx)
+            catch (Exception)
             {
                 return null;
             }
@@ -271,8 +266,8 @@ namespace Microarea.Common.FileSystemManager
 		        return null;
 
 	        string strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
-            ArrayList aMetadataArray;
-
+            List<TBFile> aMetadataArray;
+             
 	        string strRelativePath;
 	        try
 	        {
@@ -299,9 +294,9 @@ namespace Microarea.Common.FileSystemManager
 	        return (aMetadataArray.Count  > 0) ? ((TBFile)aMetadataArray[0]) : null;
         }
         //----------------------------------------------------------------------------
-        public ArrayList GetAllApplicationInfo(string dir)
+        public List<string> GetAllApplicationInfo(string dir)
         {
-            ArrayList array = new ArrayList();
+            List<string> array = new List<string>();
 
 	        SqlConnection connection = null;
 	        SqlCommand	  command = null;
@@ -351,15 +346,15 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public ArrayList GetAllModuleInfo(string strAppName)
+        public List<string> GetAllModuleInfo(string strAppName)
         {
-            ArrayList pModulesPath = null;
+            List<string> pModulesPath = null;
 
             if (string.IsNullOrEmpty(strAppName))
 		        return null;
 	
 	        if (pModulesPath == null)
-		        pModulesPath = new ArrayList();
+		        pModulesPath = new List<string>();
 
 	        SqlConnection connection = null;
 	        SqlCommand	   sqlCommand = null;
@@ -786,9 +781,9 @@ namespace Microarea.Common.FileSystemManager
         }
 
          //----------------------------------------------------------------------------
-         public ArrayList GetTBFilesInfo( string strConnectionString,  string strCommandText, bool bFromCustom)
+         public List<TBFile> GetTBFilesInfo( string strConnectionString,  string strCommandText, bool bFromCustom)
          {
-            ArrayList pArray = new ArrayList();
+            List<TBFile> pArray = new List<TBFile>();
             SqlConnection sqlConnection = null;
 	        SqlCommand	   sqlCommand = null;
 	        SqlDataReader dr = null;
@@ -871,9 +866,9 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public ArrayList GetStandardTBFileInfo( string whereClause)
+        public List<TBFile> GetStandardTBFileInfo( string whereClause)
         {
-            ArrayList pArray = new ArrayList();
+            List<TBFile> pArray = new List<TBFile>();
 
             if (pArray == null || string.IsNullOrEmpty(whereClause))
 		        return null;
@@ -891,9 +886,9 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public ArrayList GetCustomTBFileInfo( string whereClause)
+        public List<TBFile> GetCustomTBFileInfo( string whereClause)
         {
-            ArrayList pArray = new ArrayList();
+            List<TBFile> pArray = new List<TBFile>();
 
             string strCustConnectionString = GetCustomConnectionString();
 
@@ -1093,7 +1088,7 @@ namespace Microarea.Common.FileSystemManager
 		        try
 	        {
 		        // verifico se il folder è vuoto o meno
-		        sqlCommand = new SqlCommand(string.Format("SELECT FileID FROM {0} WHERE ParentID = {2}", tableName, fileID.ToString()), sqlConnection);
+		        sqlCommand = new SqlCommand(string.Format("SELECT FileID FROM {0} WHERE ParentID = {1}", tableName, fileID.ToString()), sqlConnection);
 		        Object value = sqlCommand.ExecuteScalar();
 		        //ci sono dei file o altri subfolder. Non la posso cancellare
 		        if (value != null && (Int32)value > 0)
@@ -1281,8 +1276,8 @@ namespace Microarea.Common.FileSystemManager
 				        return false;
 		        }
 
-		        //vado in ricorsione sul contenuto 
-		        ArrayList pTBFiles = new ArrayList();
+                //vado in ricorsione sul contenuto 
+                List<TBFile> pTBFiles = new List<TBFile>();
 		        TBFile pTBFile = null;
 		        string strFolderName;
                 pTBFiles = GetTBFolderContent(strSourcePath, true, true, "");
@@ -1389,7 +1384,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public ArrayList GetTBFolderContent( string strPathName, bool bFolders, bool bFiles,  string strFileExt)
+        public List<TBFile> GetTBFolderContent( string strPathName, bool bFolders, bool bFiles,  string strFileExt)
         {
             if (string.IsNullOrEmpty(strPathName))
 		        return null;
@@ -1413,7 +1408,7 @@ namespace Microarea.Common.FileSystemManager
 		        strRelativePath = GetRelativePath(strTBFSFolder, isCustom);
 		        strTableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 
-		        strCommandText = string.Format("Select X.* FROM {%s} X,  {%s} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{%s}\''", strTableName, strRelativePath);
+		        strCommandText = string.Format("Select X.* FROM {0} X,  {1} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{2}\''", strTableName, strTableName, strRelativePath);
 
 		        if (bFiles && (!string.IsNullOrEmpty(strFileExt) || string.Compare(strFileExt, "*.*", true) != 0))
 		        {
@@ -1429,8 +1424,8 @@ namespace Microarea.Common.FileSystemManager
 		        if (!isCustom)
 			        strCommandText += string.Format(" AND Y.InstanceKey = \'%s\'", szInstanceKey);
 
-                //TODO LARA
-                ArrayList pArray = GetTBFilesInfo(standardConnectionString, strCommandText, false);
+
+                List<TBFile> pArray = GetTBFilesInfo(standardConnectionString, strCommandText, false);
 
                 return pArray;
             }
@@ -1444,10 +1439,10 @@ namespace Microarea.Common.FileSystemManager
 
 
         //----------------------------------------------------------------------------
-        public bool GetPathContent( string strPathName, bool bFolders, out ArrayList pSubFolders, bool bFiles,  string strFileExt, out ArrayList pFiles)
+        public bool GetPathContent( string strPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles,  string strFileExt, out List<TBFile> pFiles)
         {
-            pSubFolders = new ArrayList();
-            pFiles = new ArrayList();
+            pSubFolders = new List<TBDirectoryInfo>();
+            pFiles = new List<TBFile>();
 
             if (string.IsNullOrEmpty(strPathName))
 		        return true;

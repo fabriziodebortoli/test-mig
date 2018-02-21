@@ -357,16 +357,16 @@ namespace Microarea.Common.Generic
             /// <param name="aHomeDir">Path di partenza</param>
             /// <param name="aSubDirs">Elenco delle sub dir</param>
             //---------------------------------------------------------------------
-            public static void ReadSubDirectoryList(string aHomeDir, out ArrayList aSubDirs)
+            public static void ReadSubDirectoryList(string aHomeDir, out List<string> aSubDirs)
             {
-                aSubDirs = new ArrayList();
+                aSubDirs = new List<string>();
 
                 // controllo prima che esista la directory
                 if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aHomeDir))
                     return;
 
-                ArrayList folders = new ArrayList();
-                ArrayList files = new ArrayList();
+                List<TBDirectoryInfo> folders = new List<TBDirectoryInfo>();
+                List<TBFile> files = new List<TBFile>();
                 PathFinder.PathFinderInstance.FileSystemManager.GetPathContent(aHomeDir, true, out folders, false, string.Empty, out files);
                 for(int i = 0; i < folders.Count; i ++)// OK
                 {

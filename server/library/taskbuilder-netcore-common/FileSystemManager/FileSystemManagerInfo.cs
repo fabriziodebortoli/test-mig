@@ -14,17 +14,17 @@ namespace Microarea.Common.FileSystemManager
     {
         private DriverType m_Driver;
         private bool m_bAutoDetectDriver;
-        private bool m_bEnableCaching;
+
         private bool m_bEnablePerformanceCheck;
 
         private int m_nWebServiceDriverPort;
-        private string m_sWebServiceDriverService;
-        private string m_sWebServiceDriverNamespace;
+        private string m_sWebServiceDriverService = string.Empty;
+        private string m_sWebServiceDriverNamespace = string.Empty;
 
-        private string m_sFSServerName;
-        private string m_sFSInstanceName;
-        private string m_sFSStandardPath;
-        private string m_sFSCustomPath;
+        private string m_sFSServerName = string.Empty;
+        private string m_sFSInstanceName = string.Empty;
+        private string m_sFSStandardPath = string.Empty;
+        private string m_sFSCustomPath = string.Empty;
 
         private string m_strStandardConnectionString;
 
@@ -48,11 +48,7 @@ namespace Microarea.Common.FileSystemManager
         {
             return m_Driver;
         }
-        //----------------------------------------------------------------------------
-        public bool IsCachingEnabled() 
-        {
-	        return m_bEnableCaching;
-        }
+       
         //----------------------------------------------------------------------------
         public bool IsPerformanceCheckEnabled()
         {

@@ -64,30 +64,30 @@ namespace Microarea.Common.NameSolver
         //-----------------------------------------------------------------------------
         private bool LoadFromFiles()
 		{
-			FileInfo[] filesToLoad = PathFinder.PathFinderInstance.GetBrandFiles();
+            TBFile[] filesToLoad = PathFinder.PathFinderInstance.GetBrandFiles();
 			if (filesToLoad == null || filesToLoad.Length == 0)
 				return false;
 			
-			foreach(FileInfo aFileToLoad in filesToLoad)
+			foreach(TBFile aFileToLoad in filesToLoad)
 				LoadFromFile(aFileToLoad);
 			
 			return true;
 		}
 		
 		//-----------------------------------------------------------------------------
-		private bool LoadFromFile(FileInfo aFileToLoad)
+		private bool LoadFromFile(TBFile aFileToLoad)
 		{
-			if (aFileToLoad == null || !aFileToLoad.Exists)
+			if (aFileToLoad == null )
 				return false;
 
 			// Le informazioni contenute nel file di brand principale "vincono"
 			// sempre su quelle contenute in eventuali file di brand aggiuntivi
-            bool isMainBrand = aFileToLoad.Name.CompareNoCase(InstallationData.ServerConnectionInfo.MasterSolutionName + NameSolverStrings.BrandExtension);
+            bool isMainBrand = aFileToLoad.name.CompareNoCase(InstallationData.ServerConnectionInfo.MasterSolutionName + NameSolverStrings.BrandExtension);
 
 			try
 			{
                 XmlDocument brandXmlDocument = null;
-                brandXmlDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(brandXmlDocument, aFileToLoad.FullName);
+                brandXmlDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(brandXmlDocument, aFileToLoad.completeFileName);
 				if 
 					(
 						brandXmlDocument.DocumentElement == null || 

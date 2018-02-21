@@ -233,7 +233,7 @@ namespace Microarea.Common.NameSolver
             }
         }
         //------------------------------------------------------------------------------
-        public new PathFinder PathFinder
+        public PathFinder PathFinder
 		{
 			get
 			{ 
@@ -1856,7 +1856,7 @@ namespace Microarea.Common.NameSolver
 
                     modules = new ArrayList();
 
-                    ArrayList tempModules = null;
+                    List<string> tempModules = null;
                     tempModules = PathFinder.PathFinderInstance.FileSystemManager.GetAllModuleInfo(Path) ;
                     //prendo tutte le sub dir dell'applicazione
                     
@@ -1951,7 +1951,7 @@ namespace Microarea.Common.NameSolver
 		/// <param name="moduleName"></param>
 		/// <returns>il modulo cercato o null</returns>
 		//-------------------------------------------------------------------------------
-		public new ModuleInfo GetModuleInfoByName(string moduleName)
+		public ModuleInfo GetModuleInfoByName(string moduleName)
 		{
 			foreach(ModuleInfo moduleInfo in Modules)
 				if (string.Compare(moduleInfo.Name, moduleName, StringComparison.OrdinalIgnoreCase) == 0)
@@ -1967,7 +1967,7 @@ namespace Microarea.Common.NameSolver
 		/// <param name="moduleName"></param>
 		/// <returns>il modulo cercato o null</returns>
 		//-------------------------------------------------------------------------------
-		public new ModuleInfo GetModuleInfoByTitle(string moduleTitle)
+		public ModuleInfo GetModuleInfoByTitle(string moduleTitle)
 		{
 			foreach(ModuleInfo moduleInfo in Modules)
 				if (string.Compare(moduleInfo.Title, moduleTitle, StringComparison.OrdinalIgnoreCase) == 0)

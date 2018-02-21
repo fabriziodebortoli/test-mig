@@ -150,7 +150,7 @@ namespace Microarea.RSWeb.Controllers
             try
             {
                 this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
+                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, false);
                 return new FileStreamResult(f, "image/" + ext);
             }
             catch (Exception)

@@ -13,9 +13,9 @@ namespace TaskBuilderNetCore.Interfaces
     public interface IFileSystemDriver
     {
         TBFile GetTBFile(string strCompleteFileName);
-        ArrayList GetAllApplicationInfo(string dir);
-        ArrayList GetAllModuleInfo(string strAppName);
-
+        List<string> GetAllApplicationInfo(string dir);
+        List<string> GetAllModuleInfo(string strAppName);
+         
         string GetDriverDescription() ;
         bool IsAManagedObject(string sFileName);
         string GetServerConnectionConfig(string filePath);
@@ -38,7 +38,7 @@ namespace TaskBuilderNetCore.Interfaces
 	    void RemoveFolder(string sPathName, bool bRecursive, bool bRemoveRoot, bool bAndEmptyParents = false);
         bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive);
         List<TBDirectoryInfo> GetSubFolders(string sPathName);
-        bool GetPathContent(string strPathName, bool bFolders, out ArrayList pSubFolders, bool bFiles, string strFileExt, out ArrayList pFiles);
+        bool GetPathContent(string strPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles);
         List<TBFile> GetFiles(string sPathName, string sFileExt);
 
         bool Start();

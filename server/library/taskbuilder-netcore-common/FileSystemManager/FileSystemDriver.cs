@@ -86,44 +86,12 @@ namespace Microarea.Common.FileSystemManager
                 File.WriteAllBytes(sFileName, sBinaryContent);
                 return true;
             }
-            catch (Exception exx)
+            catch (Exception)
             {
                 return false;
             }
         }
 
-        ////-----------------------------------------------------------------------
-        //private string GetAdjustedPath(string pathName)
-        //{
-        //    string path = pathName.ToLower();
-
-        //    if (!path.StartsWith(FileSystemMonitorEngine.FileSystem.ServerPath))
-        //        return pathName;
-
-        //    string localPath = path.Replace(FileSystem.ServerPath, "");
-
-        //    if (localPath.StartsWith(NameSolverStrings.Running.ToLower()))
-        //    {
-        //        localPath = localPath.Replace(NameSolverStrings.Running.ToLower(), "");
-        //        //Lara
-        //        //localPath = pathFinder.GetRunningPath() + localPath;
-        //        localPath = pathFinder.GetStandardPath + localPath;
-
-        //    }
-        //    else if (localPath.StartsWith(NameSolverStrings.Standard.ToLower()))
-        //    {
-        //        localPath = localPath.Replace(NameSolverStrings.Standard.ToLower(), "");
-        //        localPath = pathFinder.GetStandardPath + localPath;
-        //    }
-        //    else if (localPath.StartsWith(NameSolverStrings.Custom.ToLower()))
-        //    {
-        //        localPath = localPath.Replace(NameSolverStrings.Custom.ToLower(), "");
-        //        localPath = pathFinder.GetCustomPath() + localPath;
-        //    }
-
-        //    return localPath;
-        //}
-        // see use of CLineFile, CXmlSaxReader, CXmlDocObj
         //-----------------------------------------------------------------------------
         public Stream GetStream( string sFileName, bool readStream)
         {
@@ -143,14 +111,13 @@ namespace Microarea.Common.FileSystemManager
             {
                 // file content
                 if (! readStream)
-                 return  File.Open(sFileName, FileMode.Open);
+                 return  File.Open(sFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
                 sr = new StreamReader(File.OpenRead(sFileName), true);
                 fileContent = sr.ReadToEnd();
-                sr.Close();
-                sr.Dispose();
+
             }
-            catch (Exception exx)
+            catch (Exception)
             {
                 return null;
             }
@@ -208,9 +175,9 @@ namespace Microarea.Common.FileSystemManager
             return Directory.Exists(sPathName);
         }
         //-----------------------------------------------------------------------------
-        public ArrayList  GetAllApplicationInfo(string apps)
+        public List<string> GetAllApplicationInfo(string apps)
         {
-            ArrayList tempApplications = new ArrayList();
+            List<string> tempApplications = new List<string>();
             //prendo tutte le applicazioni di tb tb.net tbapps tools apps.net
             Functions.ReadSubDirectoryList(apps, out tempApplications);
 
@@ -218,9 +185,9 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public ArrayList GetAllModuleInfo(string strAppName)
+        public List<string> GetAllModuleInfo(string strAppName)
         {
-            ArrayList allModulesArray = new ArrayList();
+            List<string> allModulesArray = new List<string>();
             Functions.ReadSubDirectoryList(strAppName, out allModulesArray);
             return allModulesArray;
         }
@@ -428,10 +395,10 @@ namespace Microarea.Common.FileSystemManager
             return m_bStarted;
         }
         //-----------------------------------------------------------------------------
-        public bool GetPathContent( string sPathName, bool bFolders, out ArrayList dirs, bool bFiles,  string sFileExt, out ArrayList elements)
+        public bool GetPathContent( string sPathName, bool bFolders, out List<TBDirectoryInfo> dirs, bool bFiles,  string sFileExt, out List<TBFile> elements)
         {
-            elements = new ArrayList();
-            dirs = new ArrayList();
+            elements = new List<TBFile>();
+            dirs = new List<TBDirectoryInfo>();
 
             DirectoryInfo dir = new DirectoryInfo(sPathName);
 

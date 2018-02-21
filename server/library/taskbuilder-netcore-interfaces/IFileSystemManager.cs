@@ -16,8 +16,8 @@ namespace TaskBuilderNetCore.Interfaces
         bool SaveTextFileFromXml(string sFileName, XmlDocument dom);
         XmlDocument LoadXmlDocument(XmlDocument dom, string filename);
         bool DetectAndAttachAlternativeDriver();
-        ArrayList GetAllApplicationInfo(string dir);
-        ArrayList GetAllModuleInfo(string strAppName);
+        List<string> GetAllApplicationInfo(string dir);
+        List<string> GetAllModuleInfo(string strAppName);
         void Init(string sServer, string sInstallationName, String sMasterSolution);
         string GetServerConnectionConfig();
         Stream GetStream(string sFileName, bool readStream);
@@ -36,7 +36,7 @@ namespace TaskBuilderNetCore.Interfaces
         bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive);
         List<TBDirectoryInfo> GetSubFolders(string sPathName);
         List<TBFile> GetFiles(string sPathName, string sFileExt);
-        bool GetPathContent(string strPathName, bool bFolders, out ArrayList pSubFolders, bool bFiles, string strFileExt, out ArrayList pFiles);
+        bool GetPathContent(string strPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles);
         bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen);
         string GetTemporaryBinaryFile(string sFileName);
         bool IsAlternativeDriverEnabled();

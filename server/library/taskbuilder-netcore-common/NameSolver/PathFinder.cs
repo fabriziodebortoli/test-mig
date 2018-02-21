@@ -77,7 +77,7 @@ namespace Microarea.Common.NameSolver
         #region membri protetti
         protected string build = string.Empty;
         protected Diagnostic diagnostic = new Diagnostic("NameSolver");
-        protected ArrayList applications;
+        protected List<ApplicationInfo> applications;
         protected CoreTypes.FunctionsList webMethods = null;
         #endregion
 
@@ -481,10 +481,10 @@ namespace Microarea.Common.NameSolver
                 if (applications != null)
                     return applications;
 
-                applications = new ArrayList();
+                applications = new List<ApplicationInfo>();
 
                 if (!AddApplicationsByType(ApplicationType.All))
-                    return new ArrayList();
+                    return new List<ApplicationInfo>();
                 return applications;
             }
         }
@@ -787,7 +787,7 @@ namespace Microarea.Common.NameSolver
                     AddApplicationsByType(ApplicationType.Customization);
             }
 
-            ArrayList tempApplications = null;
+            List<string> tempApplications = null;
             string apps = GetStandardApplicationContainerPath(applicationType);
             if (apps == string.Empty)
             {
@@ -2350,10 +2350,10 @@ namespace Microarea.Common.NameSolver
             return synchroFilesDictionary;
         }
         //-----------------------------------------------------------------------------
-        public FileInfo[] GetBrandFiles()
+        public TBFile[] GetBrandFiles()
         {
-            Hashtable ht = CollectionsUtil.CreateCaseInsensitiveHashtable(); // Dictionary<string, FileInfo>
-
+          //  Hashtable ht = CollectionsUtil.CreateCaseInsensitiveHashtable(); // Dictionary<string, FileInfo>
+            Dictionary<string, TBFile> ht = new Dictionary<string, TBFile>();
             string stdPath = GetStandardPath;
 
             string appsPaths = Path.Combine(stdPath, NameSolverStrings.TaskBuilderApplications);
@@ -2370,10 +2370,10 @@ namespace Microarea.Common.NameSolver
             else
                 Debug.Fail(NameSolverStrings.TaskBuilderApplications + " folder is missing.");
 
-            ArrayList l = new ArrayList(ht.Keys.Count);
-            foreach (string file in ht.Values)
-                l.Add(new FileInfo(file));
-            return (FileInfo[])l.ToArray(typeof(FileInfo));
+            List<TBFile> l = new List<TBFile>(ht.Keys.Count);
+            foreach (TBFile file in ht.Values)
+                l.Add(file);
+            return l.ToArray();
         }
         //---------------------------------------------------------------------------------
         public string GetGroupImagePathByTheme(INameSpace aNameSpace, string themeName)
@@ -2455,7 +2455,7 @@ namespace Microarea.Common.NameSolver
             }
         }
         //-----------------------------------------------------------------------------
-        public ArrayList GetSolutionFiles()
+        public List<TBFile> GetSolutionFiles()
         {
             return GetSolutionFiles(false);
         }
@@ -2511,10 +2511,10 @@ namespace Microarea.Common.NameSolver
             return allThemes;
         }
         //-----------------------------------------------------------------------------
-        public ArrayList GetSolutionFiles(bool checkApplicationConfig)
+        public List<TBFile> GetSolutionFiles(bool checkApplicationConfig)
         {
             string appsPaths = Path.Combine(GetStandardPath, NameSolverStrings.TaskBuilderApplications);
-            ArrayList list = new ArrayList();
+            List<TBFile> list = new List<TBFile>();
             if (FileSystemManager.ExistPath(appsPaths)) // pre-TB2.0 versions named it differently
                 foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
                 {
@@ -3375,14 +3375,15 @@ namespace Microarea.Common.NameSolver
             return sharedPath;
         }
         //-----------------------------------------------------------------------------
-        private void AddDirectoryBrandFiles(string directory, Hashtable table)
+        private void AddDirectoryBrandFiles(string directory, Dictionary<string, TBFile> table)
         {
             string pattern = "*" + NameSolverStrings.BrandExtension;
 
             List<TBFile> bFiles = FileSystemManager.GetFiles(directory, pattern);
             foreach (TBFile bFile in bFiles)
-                if (!table.Contains(bFile.completeFileName))
-                    table[bFile] = bFile.completeFileName;
+                if (!table.Keys.Contains(bFile.completeFileName))
+                    table.Add(bFile.completeFileName, bFile);
+
         }
         //---------------------------------------------------------------------
         private string FindFileInSolutionFolder(string fileName)
