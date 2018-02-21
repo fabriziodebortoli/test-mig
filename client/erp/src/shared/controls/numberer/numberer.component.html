@@ -4,4 +4,7 @@
         (ngModelChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
         (blur)="onBlur($event)" [maxlength]="maxLength">
     </kendo-maskedtextbox>
+    <ng-template [ngIf]="hotLink">
+        <ng-template [tbHotLink]="hotLink"></ng-template>
+    </ng-template>
 </tb-control-container>

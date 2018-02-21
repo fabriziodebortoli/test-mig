@@ -321,6 +321,7 @@ export class NumbererComponent extends ControlComponent {
 
     doPadding() {
         switch (this.eventData.model.FormMode.value) {
+            case FormMode.FIND:
             case FormMode.NEW:
             case FormMode.EDIT:
                 {
