@@ -19,6 +19,7 @@ export function loadConfig(config) {
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 import { BPMModule } from '@taskbuilder/bpm';
 import { ESPModule } from '@taskbuilder/esp';
+import { SFMModule } from '@taskbuilder/sfm';
 
 @NgModule({
     declarations: [AppComponent],
@@ -30,7 +31,8 @@ import { ESPModule } from '@taskbuilder/esp';
         ReportingStudioModule,
         TbCoreModule.forRoot(),
         BPMModule,
-        ESPModule
+        ESPModule,
+        SFMModule
     ],
     providers: [
         InfoService,

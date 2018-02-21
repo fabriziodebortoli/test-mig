@@ -21,6 +21,7 @@
     "peerDependencies": {
         "@taskbuilder/bpm": "git+https://github.com/Microarea/ng-bpm.git",
         "@taskbuilder/esp": "git+https://github.com/Microarea/ng-esp.git",
+        "@taskbuilder/sfm": "git+https://github.com/Microarea/ng-sfm.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@angular/animations": "^5.2.0",
         "@angular/cdk": "^5.2.0",

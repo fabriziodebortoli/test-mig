@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { BPMStandaloneComponent } from '@taskbuilder/bpm';
 import { ESPStandaloneComponent } from '@taskbuilder/esp';
+import { SFMStandaloneComponent } from '@taskbuilder/sfm';
 
 import { environment } from './../environments/environment';
 
@@ -27,6 +28,7 @@ const webOnlyRoutes = [
   { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
   { path: 'layout', loadChildren: 'app/layout/layout.module#LayoutModule' },
   { path: 'esp', loadChildren: '@taskbuilder/esp#ESPModule' },
+  { path: 'sfm', loadChildren: '@taskbuilder/sfm#SFMModule' },
   ...appRoutes
 ];
 const allEnvRoutes = [];

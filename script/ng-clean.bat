@@ -28,6 +28,11 @@ call rimraf node_modules
 cd src
 call rimraf node_modules
 
+cd ..\..\sfm
+call rimraf node_modules
+cd src
+call rimraf node_modules
+
 cd ..\..\web-form
 call rimraf node_modules
 

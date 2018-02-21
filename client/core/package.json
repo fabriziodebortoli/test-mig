@@ -97,6 +97,7 @@
         "@progress/kendo-theme-default": "^2.47.5",
         "@taskbuilder/bpm": "git+https://github.com/Microarea/ng-bpm.git",
         "@taskbuilder/esp": "git+https://github.com/Microarea/ng-esp.git",
+        "@taskbuilder/sfm": "git+https://github.com/Microarea/ng-sfm.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "angular-tree-component": "^5.2.1",
         "hammerjs": "^2.0.8",
