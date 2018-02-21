@@ -38,7 +38,7 @@
         internal const string tbCombo = "tb-combo";
         internal const string tbRadio = "tb-radio";
         internal const string tbCheckBox = "tb-checkbox";
-        internal const string tbCheckListBox = "tb-check-listbox";
+        internal const string tbCheckListBox = "tb-text";
         internal const string tbButton = "tb-button";
         internal const string tbTreeView = "tb-treeview";
         internal const string tbPropertyGrid = "tb-property-grid";
