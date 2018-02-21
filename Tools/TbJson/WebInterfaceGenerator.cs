@@ -1239,10 +1239,17 @@ namespace Microarea.TbJson
 
         private string getTileGroupType(JObject jObj)
         {
-            if (jObj.GetDialogStyle() == TileDialogStyle.Header)
-                return Constants.tbHeader;
+            switch (jObj.GetDialogStyle())
+            {
+                case TileDialogStyle.Header:
+                    return Constants.tbHeader;
 
-            return Constants.tbTileGroup;
+                case TileDialogStyle.Filter:
+                    return Constants.tbFilterContainer;
+
+                default:
+                    return Constants.tbTileGroup;
+            }
         }
 
         void WriteAttribute(JObject jObj, string jsonPropName, string tsPropName)

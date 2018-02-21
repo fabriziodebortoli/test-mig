@@ -244,6 +244,7 @@ namespace Microarea.TbJson
                     return Constants.tbToolbarTopButton;
                 case CommandCategory.Print:
                 case CommandCategory.File:
+                case CommandCategory.Bottom:
                     return Constants.tbToolbarBottomButton;
                 case CommandCategory.Fab:
                 case CommandCategory.Undefined:

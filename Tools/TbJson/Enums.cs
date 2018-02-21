@@ -59,8 +59,9 @@
 		Radar = 7,
 		Fab = 8,
 		Exit = 9,
-		File = 10
-	}
+		File = 10,
+        Bottom = 11
+    }
 
     public enum ViewCategory
     {
