@@ -1,9 +1,5 @@
 import { Component, Input, ChangeDetectorRef, OnChanges, ViewChild, OnInit } from '@angular/core';
-import { ControlComponent } from '@taskbuilder/core';
-import { EventDataService } from '@taskbuilder/core';
-import { TbComponentService } from '@taskbuilder/core';
-import { LayoutService } from '@taskbuilder/core';
-import { Store } from '@taskbuilder/core';
+import { ControlComponent, EventDataService, TbComponentService, LayoutService, Store, ControlContainerComponent } from '@taskbuilder/core';
 
 @Component({
   selector: 'erp-no-spaces',
@@ -20,8 +16,8 @@ export class NoSpacesEditComponent extends ControlComponent implements OnChanges
   @Input() public hotLink: { namespace: string, name: string };
 
   @ViewChild('textbox') textbox: any;
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
-  errorMessage = '';
   subscribedToSelector = false;
   maxLength = -1;
 
@@ -37,6 +33,7 @@ export class NoSpacesEditComponent extends ControlComponent implements OnChanges
 
   ngOnInit() {
     this.textbox.input.nativeElement.maxLength = this.INITIAL_SEGMENT_LENGTH;
+    this.cc.errorMessage = '';
   }
 
   ngOnChanges(changes) {
@@ -51,12 +48,12 @@ export class NoSpacesEditComponent extends ControlComponent implements OnChanges
         .select(this.selector)
         .select('maxLength')
         .subscribe(
-        (v) => {
-          if (v) {
-            this.maxLength = v;
-            this.textbox.input.nativeElement.maxLength = v;
+          (v) => {
+            if (v) {
+              this.maxLength = v;
+              this.textbox.input.nativeElement.maxLength = v;
+            }
           }
-        }
         );
 
       this.subscribedToSelector = true;
@@ -70,15 +67,16 @@ export class NoSpacesEditComponent extends ControlComponent implements OnChanges
   }
 
   removeSpaces() {
-    if (this.model && this.model.value)
+    if (this.model && this.model.value) {
       this.model.value = this.model.value.replace(/\s+/g, '');
+    }
 
-    if (this.maxLength > 0 && this.model.value.length !== this.maxLength)
-      this.errorMessage = this._TB('Value length must be of ') + this.maxLength + this._TB(' chars');
-    // this.errorMessage = this._TB('Value must be {0} chars', this.maxLength); Versione definitiva, dopo le modifiche di MArco
-    else
-      this.errorMessage = '';
-
+    if (this.maxLength > 0 && this.model.value.length !== this.maxLength) {
+      this.cc.errorMessage = this._TB('Value length must be of ') + this.maxLength + this._TB(' chars');
+    }
+    else {
+      this.cc.errorMessage = '';
+    }
     this.eventData.change.emit(this.cmpId);
     this.blur.emit(this);
   }
