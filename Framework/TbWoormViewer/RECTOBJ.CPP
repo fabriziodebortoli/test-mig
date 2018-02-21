@@ -5019,18 +5019,18 @@ void FieldRect::DrawUrlFile (CDC& DC, CRect& inside)
 void FieldRect::EvalExpressions(Value& _Value, Label& _Label)
 {
 	DataLng color;
-	if (m_pTextColorExpr && m_pTextColorExpr->Eval(color))
+	if (m_pTextColorExpr && !m_pTextColorExpr->IsEmpty() && m_pTextColorExpr->Eval(color))
 		_Value.SetTextColor((COLORREF)(long)color);
-	if (m_pBkgColorExpr && m_pBkgColorExpr->Eval(color))
+	if (m_pBkgColorExpr && !m_pBkgColorExpr->IsEmpty() && m_pBkgColorExpr->Eval(color))
 		_Value.SetBkgColor((COLORREF)(long)color);
 
 	DataStr lab;
-	if (m_pLabelTextExpr && m_pLabelTextExpr->Eval(lab))
+	if (m_pLabelTextExpr && !m_pLabelTextExpr->IsEmpty() && m_pLabelTextExpr->Eval(lab))
 	{
 		_Label.SetText(lab);
 		_Label.SetLocalizable(FALSE);
 	}
-	if (m_pLabelTextColorExpr && m_pLabelTextColorExpr->Eval(color))
+	if (m_pLabelTextColorExpr && !m_pLabelTextColorExpr->IsEmpty() && m_pLabelTextColorExpr->Eval(color))
 		_Label.SetTextColor((COLORREF)(long)color);
 
 	// dynamic format style

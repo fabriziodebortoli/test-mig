@@ -203,7 +203,7 @@ void TableCell::DrawSubTotal
 
 	if (m_pColumn->m_SubTotal.m_pBkgColorExpr || m_pColumn->m_SubTotal.m_pTextColorExpr)
 	{
-		if (m_pColumn->m_SubTotal.m_pBkgColorExpr)
+		if (m_pColumn->m_SubTotal.m_pBkgColorExpr && !m_pColumn->m_SubTotal.m_pBkgColorExpr->IsEmpty())
 		{
 			DataLng color;
 			if (m_pColumn->m_SubTotal.m_pBkgColorExpr->Eval(color))
@@ -219,7 +219,7 @@ void TableCell::DrawSubTotal
 		}
 
 		BOOL bEvalTextColorOk = FALSE;
-		if (m_pColumn->m_SubTotal.m_pTextColorExpr)
+		if (m_pColumn->m_SubTotal.m_pTextColorExpr && !m_pColumn->m_SubTotal.m_pTextColorExpr->IsEmpty())
 		{
 			DataLng color;
 			if (m_pColumn->m_SubTotal.m_pTextColorExpr->Eval(color))
@@ -342,7 +342,7 @@ void TableCell::DrawNormalCell
 
 	// dynamic font style attribute
 	FontIdx nCustomFontIdx = FNT_ERROR;
-	if (m_pColumn->m_pTextFontExpr)
+	if (m_pColumn->m_pTextFontExpr && !m_pColumn->m_pTextFontExpr->IsEmpty())
 	{
 		nCustomFontIdx = m_pColumn->GetCellDynamicFontIdx();
 		if (nCustomFontIdx != FNT_ERROR)
@@ -350,7 +350,7 @@ void TableCell::DrawNormalCell
 	}
 
 	// dynamic formatter style
-	if (m_pColumn->m_pCellFormatterExpr)
+	if (m_pColumn->m_pCellFormatterExpr && !m_pColumn->m_pCellFormatterExpr->IsEmpty())
 	{
 		Formatter* fmt = m_pColumn->GetCellDynamicFormatter();
 		if (fmt)
@@ -382,7 +382,7 @@ void TableCell::DrawNormalCell
 		buffer.SetBkgColor	(GetValueBkgColor(buffer.GetBkgColor()));
 
 	BOOL bEvalTextColorOk = FALSE;
-	if (m_pColumn->m_pTextColorExpr)
+	if (m_pColumn->m_pTextColorExpr && !m_pColumn->m_pTextColorExpr->IsEmpty())
 	{
 		buffer.SetTextColor(GetValueTextColor(&bEvalTextColorOk));
 	}

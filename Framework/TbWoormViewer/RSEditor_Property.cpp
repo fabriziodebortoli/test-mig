@@ -12985,11 +12985,9 @@ BOOL CRSExpressionProp::OnEndEdit()
 				(*m_ppExp)->Empty();
 				VERIFY((*m_ppExp)->Parse(sExpr, m_dataType, TRUE));
 			}
-
 			else
 				*m_ppExp = pTempExpr;
 		}
-
 		else
 		{
 			//errore

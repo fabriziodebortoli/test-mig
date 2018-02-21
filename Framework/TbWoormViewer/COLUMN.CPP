@@ -915,7 +915,7 @@ void TableColumn::DrawColumnTitle
 					m_pTable->m_pDocument->UpdateViewSymbolTable(m_pTable, nRow);
 			}
 
-			if (m_pTitleExpr)
+			if (m_pTitleExpr && !m_pTitleExpr->IsEmpty())
 			{
 				DataStr t;
 				if (m_pTitleExpr->Eval(t))
@@ -927,11 +927,11 @@ void TableColumn::DrawColumnTitle
 			COLORREF crText = m_Title.GetTextColor();
 			COLORREF crBkg = m_Title.GetBkgColor();
 			DataLng color;
-			if (m_pTitleTextColorExpr && m_pTitleTextColorExpr->Eval(color))
+			if (m_pTitleTextColorExpr && !m_pTitleTextColorExpr->IsEmpty() && m_pTitleTextColorExpr->Eval(color))
 			{
 				m_Title.SetTextColor((COLORREF)(long)color);
 			}
-			if (m_pTitleBkgColorExpr && m_pTitleBkgColorExpr->Eval(color))
+			if (m_pTitleBkgColorExpr && !m_pTitleBkgColorExpr->IsEmpty() && m_pTitleBkgColorExpr->Eval(color))
 			{
 				m_Title.SetBkgColor((COLORREF)(long)color);
 			}
@@ -2787,7 +2787,7 @@ Formatter* TableColumn::GetCellDynamicFormatter	() const
 //------------------------------------------------------------------------------
 BOOL TableColumn::GetCellDynamicBorders	(Borders& b) const
 {
-	if (!m_pCellBordersExpr)
+	if (!m_pCellBordersExpr || m_pTitleTextColorExpr->IsEmpty())
 		return FALSE;
 
 	DataStr s;
