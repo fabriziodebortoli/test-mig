@@ -2055,9 +2055,8 @@ CSize CParsedCombo::AdaptNewSize(UINT nCols, UINT nRows, BOOL bButtonsIncluded)
 		
 	// se lo stile e` CBS_DROPDOWN si aggiunge lo spazio di separazione
 	// tra l'edit la freccia
-	//
 	if ((GetStyle() & CBS_STYLES) == CBS_DROPDOWN)
-		cs.cx += 8;
+		cs.cx += 20;
 
 	return cs;
 }
