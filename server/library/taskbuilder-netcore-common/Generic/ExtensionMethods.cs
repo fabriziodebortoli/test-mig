@@ -932,11 +932,14 @@ namespace Microarea.Common.Generic
 
             string rotateBy = "0";
             if ((a & AlignType.DT_EX_90) == AlignType.DT_EX_90)
-                rotateBy = "90";
-            if ((a & AlignType.DT_EX_270) == AlignType.DT_EX_270)
                 rotateBy = "270";
+            if ((a & AlignType.DT_EX_270) == AlignType.DT_EX_270)
+                rotateBy = "90";
 
-            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align") + ',' + rotateBy.ToJson("rotateBy");
+            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align");
+
+            if (rotateBy != "0")
+                s = s + ',' + rotateBy.ToJson("rotateBy");
 
             if (bracket)
                 s = '{' + s + '}';

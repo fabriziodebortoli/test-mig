@@ -10,12 +10,14 @@ FontStyles
 
 PageLayout "default" 
 	Begin
-		Text (106,277,385,770) "Campone" 
+		Text (96,423,196,523) Ratio (100,100) "Campone" 
 			Begin
+				Pen (0,0,0) Size 3;
 				Align 264277 ;
 				FontStyle "Text2" ;
 			End
-		Table (10,1) "Titolo Tabella" Alias 7  /* Titolo Tabella */ Origin (0,192) Heights (25,35,27,14) 
+		Table (10,1) "Titolo Tabella" Alias 7  /* Titolo Tabella */ Origin (29,191) Heights (25,35,27,14) 
+		FiscalEnd
 		Title
 			Begin
 				TextColor (220,20,60) ;

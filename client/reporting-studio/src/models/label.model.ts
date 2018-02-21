@@ -13,6 +13,6 @@ export class label {
         this.font = new font(jsonObj.font);
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
-        this.rotateBy = jsonObj.rotateBy;
+        this.rotateBy = jsonObj.rotateBy ? jsonObj.rotateBy : 0;
     }
 }

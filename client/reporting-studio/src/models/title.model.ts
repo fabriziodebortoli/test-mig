@@ -24,7 +24,7 @@ export class title {
         this.bkgcolor = jsonObj.bkgcolor;
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
-        this.rotateBy = jsonObj.rotateBy;
+        this.rotateBy = jsonObj.rotateBy ? jsonObj.rotateBy : 0;
         this.font = new font(jsonObj.font);
         this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
     }
