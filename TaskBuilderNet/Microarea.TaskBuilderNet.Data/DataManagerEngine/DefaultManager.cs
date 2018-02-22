@@ -236,8 +236,10 @@ namespace Microarea.TaskBuilderNet.Data.DataManagerEngine
 
 			if (defaultSel == null)
 				defaultSel = new DefaultSelections(contextInfo, brandLoader);
+            else
+                defaultSel.ImportSel.ImportList.Clear();
 
-			defaultSel.Mode = DefaultSelections.ModeType.IMPORT;
+            defaultSel.Mode = DefaultSelections.ModeType.IMPORT;
 			defaultSel.ImportSel.ErrorRecovery = ImportSelections.TypeRecovery.CONTINUE_LAST_FILE_ROLLBACK;
 
 			// quando importo i dati contestualmente alla creazione/aggiornamento db aziendale
