@@ -1914,9 +1914,14 @@ void CWoormView::OnFilePrint()
 	// ed e' qui alla prima copia che compare la printdialog con la richiesta
 	// del numero di copie da stampare.
 	if	( GetDocument()->IsRunningFromExternalController() )
+	{
+		AfxGetTBThread()->SetSuspendIdle();
+
 		OnSilentFilePrint(); // Se la stampa del report viene lanciata dal controller esterno (scheduler)
-							 // non si devono visualizzare dialog di stampa o messaggi di
-							 // errore 
+							 // non si devono visualizzare dialog di stampa o messaggi di errore 
+
+		AfxGetTBThread()->SetSuspendIdle(FALSE);
+	}
 	else
 		CBCGPScrollView::OnFilePrint();
 
@@ -2395,8 +2400,12 @@ BOOL CWoormView::OnPDFPrint (UINT nStartPage, UINT nEndPage, UINT nCopies, LPCTS
 				pwd = DEFAULT_CRYPT_PDF_PASSWORD;
 		}
 		
+		AfxGetTBThread()->SetSuspendIdle();
+
 		OnPDFPrint(nStartPage, nEndPage, nCopies, pszFileName, pwd, params->GetPrinterTemplate());
-			
+
+		AfxGetTBThread()->SetSuspendIdle(FALSE);
+
 		return TRUE;
 	}
 	catch (CException* e)

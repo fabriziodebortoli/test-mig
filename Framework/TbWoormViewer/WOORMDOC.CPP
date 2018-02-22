@@ -4963,11 +4963,11 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 		if (this->GetWoormFrame()->GetStatusBar())
 			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI();
 	}
-	AfxGetTBThread()->SetSuspendIdle();
+	//AfxGetTBThread()->SetSuspendIdle(); spostata dopo le askdialog altrimenti non si disegna la toolbar dei radar 
 
 	BOOL bOk = m_pEngine->Run(m_pRDEmanager, NULL, &m_strDocumentFilter, m_bUsePrevAskInput, m_pWoormInfo, &m_ViewSymbolTable);
 	
-	AfxGetTBThread()->SetSuspendIdle(FALSE);
+	//AfxGetTBThread()->SetSuspendIdle(FALSE);
 	if (this->GetWoormFrame(FALSE))
 	{
 		if (this->GetWoormFrame()->GetTabbedToolBar())
@@ -7226,7 +7226,13 @@ BOOL CWoormDocMng::DoExportOutput()
 	else
 		strFilename = MakeName(_T("Att"), pExp->GetExportFileExtension()) ;
 
-	return m_pExportData->RunExport (strFilename, TRUE);
+	AfxGetTBThread()->SetSuspendIdle();
+
+	BOOL ok = m_pExportData->RunExport (strFilename, TRUE);
+
+	AfxGetTBThread()->SetSuspendIdle(FALSE);
+
+	return ok;
 }
 
 //------------------------------------------------------------------------------
