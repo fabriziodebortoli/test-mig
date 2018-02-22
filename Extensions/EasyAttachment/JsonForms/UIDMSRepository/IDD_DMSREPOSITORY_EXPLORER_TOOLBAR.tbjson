@@ -7,15 +7,17 @@
       "id": "ID_DMSREPOSITORY_TOOLBTN_EXTRACT_DOCUMENTS",
       "name": "BatchFrameLoadData",
       "text": "Extract",
-      "type": 15 /*ToolbarButton*/
+      "type": 15 /*ToolbarButton*/,
+      "category": 8 /*Fab*/
     },
     {
-        "hint": "Undo extraction selections",
-        "icon": "Framework.TbFrameworkImages.Images.25x25.Undo.png",
-        "id": "ID_DMSREPOSITORY_TOOLBTN_UNDO_EXTRACTION",
-        "name": "BatchFrameUndoExtraction",
-        "text": "Undo",
-        "type": 15 /*ToolbarButton*/
+      "hint": "Undo extraction selections",
+      "icon": "Framework.TbFrameworkImages.Images.25x25.Undo.png",
+      "id": "ID_DMSREPOSITORY_TOOLBTN_UNDO_EXTRACTION",
+      "name": "BatchFrameUndoExtraction",
+      "text": "Undo",
+      "type": 15 /*ToolbarButton*/,
+      "category": 8 /*Fab*/
     },
     
     { 

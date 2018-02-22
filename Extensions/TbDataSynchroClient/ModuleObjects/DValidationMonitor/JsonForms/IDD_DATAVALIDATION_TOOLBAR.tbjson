@@ -4,15 +4,16 @@
     "bottom": false,
     "type": 14 /*Toolbar*/,
     "items": [
-        {
-            "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Refresh.png",
-            "id": "ID_DS_MONITOR_REFRESH",
-            "alignRight": true,
-            "name": "Refresh",
-            "text": "Refresh",
-            "hint": "Refresh",
-            "type": 15 /*ToolbarButton*/
-        },
+      {
+        "icon": "Image.Framework.TbFrameworkImages.Images.25x25.Refresh.png",
+        "id": "ID_DS_MONITOR_REFRESH",
+        "alignRight": true,
+        "name": "Refresh",
+        "text": "Refresh",
+        "hint": "Refresh",
+        "type": 15 /*ToolbarButton*/,
+        "category": 11 /*Bottom*/
+      },
         {
 
             "id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",

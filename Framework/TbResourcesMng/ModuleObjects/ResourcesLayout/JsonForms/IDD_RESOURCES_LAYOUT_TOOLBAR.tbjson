@@ -2,13 +2,14 @@
       {
          "id" : "ID_EXTDOC_BATCH_TOOLBAR_MAIN",
         "items": [
-            {
-                "icon": "Framework.TbFrameworkImages.Images.25x25.Extract.png",
-                "id": "ID_RESOURCES_LAYOUT_TB_LOAD_DATA",
-                "name": "BatchFrameLoadData",
-                "text": "Extract",
-                "type": 15 /*ToolbarButton*/
-            },
+          {
+            "icon": "Framework.TbFrameworkImages.Images.25x25.Extract.png",
+            "id": "ID_RESOURCES_LAYOUT_TB_LOAD_DATA",
+            "name": "BatchFrameLoadData",
+            "text": "Extract",
+            "type": 15 /*ToolbarButton*/,
+            "category": 6 /*Advanced*/
+          },
             {
                 "id": "ID_SEPARATOR",
                 "isSeparator": true,

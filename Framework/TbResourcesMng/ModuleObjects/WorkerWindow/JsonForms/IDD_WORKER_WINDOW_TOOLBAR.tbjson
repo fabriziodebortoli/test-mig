@@ -4,16 +4,17 @@
     "name": "Main",
     "type": 14 /*Toolbar*/,
     "items": [
-        {
-            "default": true,
-            "icon": "Framework.TbFrameworkImages.Images.25x25.CloseWindows.png",
-            "id": "IDC_WORKER_WINDOW_CLOSE",
-            "alignRight": true,
-            "name": "Close",
-            "text": "Close",
-            "hint": "Close",
-            "type": 15 /*ToolbarButton*/
-        }
+      {
+        "default": true,
+        "icon": "Framework.TbFrameworkImages.Images.25x25.CloseWindows.png",
+        "id": "IDC_WORKER_WINDOW_CLOSE",
+        "alignRight": true,
+        "name": "Close",
+        "text": "Close",
+        "hint": "Close",
+        "type": 15 /*ToolbarButton*/,
+        "category": 9 /*Exit*/
+      }
     ]
 }
   

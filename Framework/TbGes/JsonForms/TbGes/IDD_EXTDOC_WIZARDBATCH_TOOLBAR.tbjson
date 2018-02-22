@@ -11,7 +11,8 @@
           "isDropdown": true,
           "name": "Print",
           "text": "Print",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 4 /*Print*/
         },
         {
           "alignRight": true,
@@ -20,7 +21,8 @@
           "id": "IDC_WIZARD_BACK",
           "name": "Back",
           "text": "Back",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 2 /*Navigation*/
         },
         {
           "alignRight": true,
@@ -29,7 +31,8 @@
           "id": "IDC_WIZARD_NEXT",
           "name": "Next",
           "text": "Next",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 2 /*Navigation*/
         },
         {
           "alignRight": true,
@@ -38,7 +41,8 @@
           "id": "ID_EXTDOC_BATCH_STARTSTOP_TOOLBTN",
           "name": "BatchStop",
           "text": "Stop",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 1 /*Edit*/
         },
         {
           "alignRight": true,
@@ -47,7 +51,8 @@
           "id": "ID_EXTDOC_BATCH_PAUSERESUME_TOOLBTN",
           "name": "BatchResume",
           "text": "Pause",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 1 /*Edit*/
         },
         {
           "alignRight": true,
@@ -56,7 +61,8 @@
           "id": "ID_WIZARD_RESTART",
           "name": "Restart",
           "text": "Restart",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 1 /*Edit*/
         },
         {
           "alignRight": true,
@@ -65,7 +71,8 @@
           "id": "ID_EXTDOC_EXIT",
           "name": "Exit",
           "text": "Exit",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 9 /*Exit*/
         }
       ],
       "name": "Main",
@@ -80,7 +87,8 @@
           "id": "ID_EXTDOC_CUSTOMIZE",
           "name": "Customize",
           "text": "Customize",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 6 /*Advanced*/
         },
         {
           "alignRight": true,
@@ -89,7 +97,8 @@
           "id": "ID_ACTIONS_COPY",
           "name": "ShareDocument",
           "text": "Share",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 6 /*Advanced*/
         },
         {
           "alignRight": true,
@@ -98,7 +107,8 @@
           "id": "ID_EXTDOC_EXIT",
           "name": "Exit",
           "text": "Exit",
-          "type": 15 /*ToolbarButton*/
+          "type": 15 /*ToolbarButton*/,
+          "category": 9 /*Exit*/
         }
       ],
       "name": "Tools",
