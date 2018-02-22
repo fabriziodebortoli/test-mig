@@ -211,7 +211,7 @@ void CTbWebHandler::IsEasyStudioDocumentFunction(const CString & path, const CNa
 	AddOnModule* pAddOnMod = AfxGetAddOnModule(aNs);
 
 	CJSonResponse jsonResponse;
-	jsonResponse.SetMessage(pAddOnMod && pAddOnMod->m_bIsCustom ? _T("true") : _T("false"));
+	jsonResponse.SetMessage(pAddOnMod && pAddOnMod->m_bIsACustomization ? _T("true") : _T("false"));
 	response.SetData(jsonResponse.GetJson());
 	response.SetMimeType(L"application/json");
 }

@@ -44,6 +44,7 @@ static const TCHAR szXmlCustomPath[]		= _T("custompath");
 
 static const TCHAR szXmlDBDriverTag[]		= _T("DatabaseDriver");
 static const TCHAR szXmlStandardConnectionString[] = _T("standardconnectionstring");
+static const TCHAR szXmlCustomConnectionString[] = _T("testCustomConnectionString");
 
 
 
@@ -213,6 +214,11 @@ int CFileSystemManagerContent::ParserDatabaseDriverKey(const CString& sUri, cons
 
 	if (!sTmp.IsEmpty())
 		m_pConfigInfo->m_strStandardConnectionString = sTmp;
+
+	sTmp = arAttributes.GetAttributeByName(szXmlCustomConnectionString);
+
+	if (!sTmp.IsEmpty())
+		m_pConfigInfo->m_strTestCustomConnectionString = sTmp;
 
 	return CXMLSaxContent::OK;
 }

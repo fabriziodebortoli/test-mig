@@ -55,6 +55,7 @@ private:
 
 	//DatabaseDriver
 	CString		m_strStandardConnectionString;
+	CString		m_strTestCustomConnectionString;
 
 public:
 	CFileSystemManagerInfo();
@@ -79,7 +80,8 @@ public:
 	const CString&	GetWebServiceDriverService() const;
 	const CString&	GetWebServiceDriverNamespace() const;
 
-	const CString&	GetStandardConnectionString() const { return m_strStandardConnectionString; }
+	const CString&	GetStandardConnectionString	() const { return m_strStandardConnectionString; }
+	const CString&	GetTestCustomConnectionString() const { return m_strTestCustomConnectionString; }
 	
 	
 

@@ -534,8 +534,6 @@ void CFileSystemDriver::GetAllApplicationInfo(CStringArray* pAppsPath)
 		AddApplicationDirectories(AfxGetPathFinder()->GetEasyStudioCustomizationsPath(), pAppsPath);
 }
 
-
-
 //-------------------------------------------------------------------------------------
 void CFileSystemDriver::AddApplicationModules(const CString& sApplicationPath, CStringArray* pModulesPath, bool isCustom)
 {

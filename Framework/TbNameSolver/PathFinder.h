@@ -262,6 +262,7 @@ public:
 	CTBNamespace			GetNamespaceFromPath(const CString& sObjectFullPath);
 	CString					GetUserNameFromPath(const CString& sObjectFullPath) const;
 	CPathFinder::PosType	GetPosTypeFromPath(const CString& sObjectFullPath) const;
+	CPathFinder::PosType	GetDefaultPosTypeFor(BOOL bCustomization) const;
 	
 	CString			GetFileNameFromNamespace(const CTBNamespace& aNamespace, const CString& sUser, const CString& sCulture = _T("")) const;
 
@@ -301,6 +302,7 @@ public:
 	// EasyStudio Customizations
 	void			SetEasyStudioCustomizationsPosType(PosType posType) { m_eESAppPosType = posType; }
 	BOOL			GetEasyStudioCustomizationsPosType() { return m_eESAppPosType; }
+	BOOL			IsEasyStudioPath(const CString& strFileName);
 	const CString	GetEasyStudioHomePath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioCustomizationsPath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioReferencedAssembliesPath	() const;

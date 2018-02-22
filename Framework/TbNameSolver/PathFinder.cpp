@@ -971,6 +971,12 @@ CPathFinder::PosType CPathFinder::GetPosTypeFromPath(const CString& sObjectFullP
 	return  CPathFinder::CUSTOM;
 }
 
+//-----------------------------------------------------------------------------
+CPathFinder::PosType CPathFinder::GetDefaultPosTypeFor(BOOL bCustomization) const
+{
+	return bCustomization ? m_eESAppPosType : PosType::STANDARD;
+}
+
 // ritorna il nome del file da aprire secondo le politiche di custom 
 //-----------------------------------------------------------------------------
 CString	CPathFinder::GetFileNameFromNamespace(const CTBNamespace& aNamespace, const CString& sUser, const CString& sCulture/* = _T("")*/) const
@@ -1185,7 +1191,7 @@ const CString CPathFinder::GetApplicationPath(const CString& sAppName, PosType p
 
 	// Personalizzazioni di EasyStudio: se sono su file system sono sulla home
 	// mentre se sono nel database sono nella current company
-	if (aCompany == CPathFinder::EASYSTUDIO && !AfxGetFileSystemManager()->IsManagedByAlternativeDriver(sPath))
+	if	(aCompany == CPathFinder::EASYSTUDIO && (!AfxGetFileSystemManager()->IsManagedByAlternativeDriver(sPath)))
 		sPath = GetEasyStudioCustomizationsPath();
 
 	if (bCreateDir)
@@ -1215,6 +1221,16 @@ const CString CPathFinder::GetEasyStudioReferencedAssembliesPath() const
 const CString CPathFinder::GetEasyStudioEnumsAssemblyName() const
 {
 	return GetEasyStudioReferencedAssembliesPath() + SLASH_CHAR + _T("Microarea.EasyBuilder.Enums.dll");
+}
+
+//-----------------------------------------------------------------------------
+BOOL CPathFinder::IsEasyStudioPath(const CString& strFileName)
+{
+	CString sESHome = GetEasyStudioHomePath();
+	CString sPath = strFileName;
+	sESHome = sESHome.MakeLower();
+	sPath.MakeLower();
+	return sPath.FindOneOf(sESHome) > 0;
 }
 
 //-----------------------------------------------------------------------------

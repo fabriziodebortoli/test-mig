@@ -1731,7 +1731,7 @@ BOOL CTBExplorerUserDlg::IsSelectedApplicationACustomization()
 
 	AddOnModule* pAddOnMod = pMods->GetAt(0);
 
-	return pAddOnMod && pAddOnMod->m_bIsCustom;
+	return pAddOnMod && pAddOnMod->m_bIsACustomization;
 }
 
 //--------------------------------------------------------------------------

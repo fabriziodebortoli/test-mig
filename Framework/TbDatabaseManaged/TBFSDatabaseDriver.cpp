@@ -234,10 +234,11 @@ int InsertMetadataFolder(SqlConnection^ sqlConnection, String^ strFolder, String
 //								TBFSDatabaseDriver
 ///////////////////////////////////////////////////////////////////////////////
 //
-TBFSDatabaseDriver::TBFSDatabaseDriver(const CString& strStandardConnectionString)
+TBFSDatabaseDriver::TBFSDatabaseDriver(const CString& strStandardConnectionString, const CString& sTestCustomConnectionString)
 	:
 	IFileSystemDriver(),
 	m_StandardConnectionString(strStandardConnectionString),
+	m_TestCustomConnectionString(sTestCustomConnectionString),
 	m_pCachedTBFile(NULL),
 	m_pMetadataPerformance(NULL)
 {
@@ -258,6 +259,18 @@ TBFSDatabaseDriver::~TBFSDatabaseDriver()
 CString	TBFSDatabaseDriver::GetServerConnectionConfig()
 {
 	return GetTextFile(AfxGetPathFinder()->GetServerConnectionConfigFullName());
+}
+
+//----------------------------------------------------------------------------
+BOOL TBFSDatabaseDriver::IsAManagedObject(const CString& sFileName) const 
+{ 
+	if (AfxGetPathFinder()->IsStandardPath(sFileName))
+		return TRUE;
+
+	if (AfxGetPathFinder()->IsEasyStudioPath(sFileName) && GetCustomConnectionString().IsEmpty())
+		return FALSE;
+
+	return	AfxGetPathFinder()->IsCustomPath(sFileName); 
 }
 
 //----------------------------------------------------------------------------
@@ -308,6 +321,10 @@ void TBFSDatabaseDriver::GetAllApplicationInfo(CStringArray* pArray)
 		}
 		AfxGetDiagnostic()->Add(e->Message);
 	}
+
+	if (AfxGetPathFinder()->GetEasyStudioCustomizationsPosType() == CPathFinder::CUSTOM)
+		::GetSubFolders(AfxGetPathFinder()->GetEasyStudioCustomizationsPath(), pArray);
+
 }
 
 //----------------------------------------------------------------------------
@@ -370,7 +387,11 @@ void TBFSDatabaseDriver::GetAllModuleInfo(const CString& strAppName, CStringArra
 //----------------------------------------------------------------------------
 CString TBFSDatabaseDriver::GetCustomConnectionString() const
 {
-	return (AfxGetLoginInfos()) ? AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString : _T("");
+	return	(
+				AfxGetLoginInfos() ? 
+				AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString :
+				m_TestCustomConnectionString
+			);
 }
 
 

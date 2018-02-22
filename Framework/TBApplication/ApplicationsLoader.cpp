@@ -616,7 +616,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 			pAddOnMod->m_Namespace, 
 			AfxGetPathFinder(), 
 			aParsers.m_pStatusBar, 
-			pAddOnMod->m_bIsCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD
+			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization)
 		);
 	
 	// standard fonts
@@ -626,7 +626,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 			pAddOnMod->m_Namespace, 
 			AfxGetPathFinder(), 
 			aParsers.m_pStatusBar, 
-			pAddOnMod->m_bIsCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD
+			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization)
 		);
 
 
@@ -635,7 +635,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 		DocumentObjectsTablePtr pTablePtr = AfxGetWritableDocumentObjectsTable();
 		aParsers.m_DocObjectParser.LoadDocumentObjects (
 			pAddOnMod->m_Namespace, 
-			pAddOnMod->m_bIsCustom ? CPathFinder::CUSTOM : CPathFinder::STANDARD, 
+			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization),
 			pTablePtr.GetPointer());
 	}
 
@@ -734,7 +734,7 @@ BOOL CApplicationsLoader::LoadModuleInfo (AddOnModule* pAddOnMod, CParsersForMod
 	aParsers.m_SaxReader.AttachContent(&aModContent);
 	if (aParsers.m_SaxReader.ReadFile(sFileName))
 	{
-		if (pAddOnMod->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName))
+		if (pAddOnMod->m_bIsACustomization)
 			AfxGetCommonClientObjects()->AddInActivationInfo(pAddOnMod->GetApplicationName() + _T(".") + pAddOnMod->GetModuleName());
 		return TRUE;
 	}

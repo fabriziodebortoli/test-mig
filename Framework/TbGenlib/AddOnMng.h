@@ -240,13 +240,13 @@ class TB_EXPORT AddOnModule : public CObject
 	DECLARE_DYNAMIC(AddOnModule)
 
 public:
-	CTBNamespace			m_Namespace;		// informazioni di identità del modulo
-	AddOnLibsArray*			m_pAddOnLibs;		// elenco di librerie che compongono il modulo
-	int						m_nDatabaseRel;		// database release del modulo per compatibilitá
-	CModuleDescription		m_XmlDescription;	// descrizione XML del modulo e dei suoi oggetti
-	CString					m_sModulePath;		// il path di file system del modulo
-	BOOL					m_bIsValid;			// indica che il modulo è valido e operativo
-	BOOL					m_bIsCustom;		// indica che il modulo è una customizzazione
+	CTBNamespace			m_Namespace;			// informazioni di identità del modulo
+	AddOnLibsArray*			m_pAddOnLibs;			// elenco di librerie che compongono il modulo
+	int						m_nDatabaseRel;			// database release del modulo per compatibilitá
+	CModuleDescription		m_XmlDescription;		// descrizione XML del modulo e dei suoi oggetti
+	CString					m_sModulePath;			// il path di file system del modulo
+	BOOL					m_bIsValid;				// indica che il modulo è valido e operativo
+	BOOL					m_bIsACustomization;	// indica che il modulo è una customizzazione
 	AddOnApplication*		m_pApplication;
 public:
 	AddOnModule(AddOnApplication*);

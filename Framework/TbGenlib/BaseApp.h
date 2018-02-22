@@ -243,7 +243,7 @@ TB_EXPORT CBaseApp*				AFXAPI AfxGetBaseApp		();
 //-----------------------------------------------------------------------------
 TB_EXPORT const CSingleExtDocTemplate* AFXAPI AfxGetTemplate	(const CRuntimeClass* pViewClass, UINT nViewId, const CRuntimeClass* pDocClass = NULL);
 TB_EXPORT const CSingleExtDocTemplate* AFXAPI AfxGetTemplate	(const CTBNamespace&);
-TB_EXPORT BOOL					AfxIsCustomObject				(const CTBNamespace*);
+TB_EXPORT BOOL					AfxIsACustomizationObject		(const CTBNamespace*);
 
 //-----------------------------------------------------------------------------
 const TB_EXPORT AddOnAppsArray*	AFXAPI AfxGetAddOnAppsTable			();

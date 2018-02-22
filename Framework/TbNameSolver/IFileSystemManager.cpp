@@ -243,7 +243,7 @@ BOOL IFileSystemManager::IsManagedByAlternativeDriver (const CString& sFileName)
 {
 	// no lock is required as it checks object and conditions that are defined 
 	// in InitInstance and never changed
-	return IsAlternativeDriverEnabled() && (AfxGetPathFinder()->IsStandardPath(sFileName) || AfxGetPathFinder()->IsCustomPath(sFileName)); //m_pAlternativeDriver->IsAManagedObject(sName);
+	return IsAlternativeDriverEnabled() && m_pAlternativeDriver->IsAManagedObject(sFileName);
 }
 
 //-----------------------------------------------------------------------------

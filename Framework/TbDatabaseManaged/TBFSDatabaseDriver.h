@@ -61,7 +61,7 @@ public:
 class TB_EXPORT TBFSDatabaseDriver : public IFileSystemDriver
 {
 public:
-	TBFSDatabaseDriver(const CString& strStandardConnectionString);
+	TBFSDatabaseDriver(const CString& strStandardConnectionString, const CString& sTestCustomConnectionString);
 	~TBFSDatabaseDriver();
 
 private:
@@ -69,7 +69,8 @@ private:
 	MetadataPerformanceManager* m_pMetadataPerformance;
 
 public:
-	CString m_StandardConnectionString; //connessione al database contenente i dati della standard
+	CString m_StandardConnectionString;		//connessione al database contenente i dati della standard
+	CString m_TestCustomConnectionString;	//connessione al database per il test in caso di mancata connessione
 
 private:
 	void	MakeTimeOperation(int nIdx, TimeOperation eTime) { if (m_pMetadataPerformance) m_pMetadataPerformance->MakeTimeOperation(nIdx, eTime); }
@@ -90,7 +91,7 @@ public:
 	CString GetFormattedFetchTime() { return (m_pMetadataPerformance) ? m_pMetadataPerformance->GetFormattedFetchTime() : _T(""); }
 
 public:
-	virtual BOOL		IsAManagedObject(const CString& sFileName) const { return AfxGetPathFinder()->IsStandardPath(sFileName) || AfxGetPathFinder()->IsCustomPath(sFileName); }
+	virtual BOOL		IsAManagedObject(const CString& sFileName) const;
 	virtual CString		GetDriverDescription() const { return _T("TBFS Database Driver"); }
 
 	virtual CString		GetServerConnectionConfig();

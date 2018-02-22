@@ -341,7 +341,7 @@ const CSingleExtDocTemplate* CTbCommandManager::GetDocTemplate
 			!bIsBackground &&
 			!AfxIsInUnattendedMode() &&  
 			_tcsicmp(AfxGetLoginManager()->GetEdition(), szEnterpriseEdition) == 0 &&
-			!AfxIsCustomObject(pNamespace) && //gli oggetti di moduli custom non sono soggetti ad attivazione
+			!AfxIsACustomizationObject(pNamespace) && //gli oggetti di moduli custom non sono soggetti ad attivazione
 			!AfxIsCalAvailable(pNamespace->GetApplicationName(), pNamespace->GetObjectName(CTBNamespace::MODULE))
 		)
 	{
@@ -1358,7 +1358,7 @@ CWoormDoc* CTbCommandManager::RunWoormReport
 			!AfxIsInUnattendedMode() &&  
 			_tcsicmp(AfxGetLoginManager()->GetEdition(), szEnterpriseEdition) == 0 &&
 			!pWoormInfo->m_bAutoPrint && !pWoormInfo->m_bHideFrame &&
-			!AfxIsCustomObject(&aNamespace) && //gli oggetti di moduli custom non sono soggetti ad attivazione
+			!AfxIsACustomizationObject(&aNamespace) && //gli oggetti di moduli custom non sono soggetti ad attivazione
 			!AfxIsCalAvailable(aNamespace.GetApplicationName(), aNamespace.GetObjectName(CTBNamespace::MODULE))
 		)
 		{

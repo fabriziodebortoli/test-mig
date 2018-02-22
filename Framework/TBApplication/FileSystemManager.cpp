@@ -109,7 +109,7 @@ BOOL CFileSystemManager::DetectAndAttachAlternativeDriver()
 		if (nPos > 0)
 			strSysDBConnectionString = strSysDBConnectionString.Right(strSysDBConnectionString.GetLength() - nPos);
 			
-		AttachAlternativeDriver(new TBFSDatabaseDriver(strSysDBConnectionString), FALSE, TRUE);
+		AttachAlternativeDriver(new TBFSDatabaseDriver(strSysDBConnectionString, m_ConfigFile.GetTestCustomConnectionString()), FALSE, TRUE);
 	}
 	else
 		if (m_ConfigFile.GetDriver() == CFileSystemManagerInfo::WebService)
@@ -149,6 +149,7 @@ void CFileSystemManager::GetAllModuleInfo(const CString& strAppName, CStringArra
 		GetAlternativeDriver()->GetAllModuleInfo(strAppName, pReturnArray);
 	else
 		GetFileSystemDriver()->GetAllModuleInfo(strAppName, pReturnArray);
+
 }
 
 //-----------------------------------------------------------------------------
