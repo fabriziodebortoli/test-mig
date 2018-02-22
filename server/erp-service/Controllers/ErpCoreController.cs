@@ -73,7 +73,7 @@ namespace ErpService.Controllers
         }
 
         [Route("CheckBinUsesStructure")]
-        public IActionResult CheckBinUsesStructure([FromBody] string jsonValue)
+        public IActionResult CheckBinUsesStructure([FromBody] JObject jsonValue)
         {
             var result = new JsonResult(new { UseBinStructure = false });
             if (jsonValue == null) return result;
@@ -82,9 +82,10 @@ namespace ErpService.Controllers
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "no auth" };
 
-            var json = JObject.Parse(jsonValue);
-            var zone = json.SelectToken("zone")?.Value<string>();
-            var storage = json.SelectToken("storage")?.Value<string>();
+            var zone = jsonValue["zone"]?.Value<string>();
+            var storage = jsonValue["storage"]?.Value<string>();
+
+            if (zone == null || storage == null) return result;
 
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
