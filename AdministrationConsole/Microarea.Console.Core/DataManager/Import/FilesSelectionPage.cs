@@ -345,11 +345,11 @@ namespace Microarea.Console.Core.DataManager.Import
 
                     if (item.SelectedFiles != null)
                     {
-                        foreach (string file in item.SelectedFiles)
+                        foreach (ImportItem file in item.SelectedFiles)
                         {
                             ListViewItem i = new ListViewItem();
                             i.ImageIndex = Images.GetXmlFileBitmapIndex();
-                            i.Text = file;
+                            i.Text = file.File;
                             i.Tag = (selectedNodeType == DataManagerConsts.FileNode) ? selectedNode.Parent : selectedNode;
                             FilesListView.Items.Add(i);
                         }

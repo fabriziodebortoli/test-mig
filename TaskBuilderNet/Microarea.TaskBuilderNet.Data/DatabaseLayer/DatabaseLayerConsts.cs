@@ -427,6 +427,9 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 			public const string Module = "module";
 			public const string Rel = "rel";
 			public const string Oldrel = "oldrel";
+			public const string Table = "table";
+			public const string Configuration = "configuration";
+			public const string Overwrite = "overwrite";
 		}
 	}
 	

@@ -48,9 +48,11 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 		public delegate void MViewsProcessElaborationCompleted();
 		public event MViewsProcessElaborationCompleted OnMViewsProcessElaborationCompleted;
-		# endregion
 
-		# region Variables and Properties
+		public event EventHandler<EventArgs> DefaultStepDataAreAvailable;
+		#endregion
+
+		#region Variables and Properties
 		private ScriptManager scriptMng = null; // x accedere alle funzioni degli script
 		private CheckDBStructureInfo dbStructInfo = null;
 		private ContextInfo contextInfo = null;
@@ -326,6 +328,10 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 					if (isDatabaseUpgraded)
 					{
+						// evento per la gestione dei dati di default in fase di upgrade
+						DefaultStepDataAreAvailable?.Invoke(this, EventArgs.Empty);
+						impExpManager.ImportDefaultDataForUpgrade();
+
 						// gestione standard dei dati di default/esempio
 						bool existDataToImport = false;
 						if (importDefaultData)
@@ -620,11 +626,12 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 						out statusInDBMark
 						);
 
+					dbInfo = new ModuleDBInfo(listModule[i].ToString());
+
 					// se l'entry esiste nella tabella, allora lo inserisco nell'array
 					// moduli da updatare e valorizzo il suo status esistente
 					if (exist)
 					{
-						dbInfo = new ModuleDBInfo(listModule[i].ToString());
 						dbInfo.StatusOk = statusInDBMark;
 						dbInfo.EntryOnlyInDBMark = true;
 						dbInfo.ApplicationSign = application;
@@ -638,7 +645,6 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 					}
 					else // e se non lo trovo? devo cmq tenerne traccia! e impostare status = false!
 					{
-						dbInfo = new ModuleDBInfo(listModule[i].ToString());
 						dbInfo.StatusOk = false;
 						dbInfo.EntryOnlyInDBMark = true;
 						dbInfo.ApplicationSign = application;
@@ -718,9 +724,9 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 			return ok;
 		}
-		# endregion
+		#endregion
 
-		# region RunSQLScript (esecuzione degli script attraverso lo ScriptManager)
+		#region RunSQLScript (esecuzione degli script attraverso lo ScriptManager)
 		/// <summary>
 		/// per ogni modulo vado ad eseguire gli script di creazione delle tabelle,
 		/// componendo il loro path
@@ -846,6 +852,10 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 						moduleDBInfo.NrStep = Convert.ToInt32(step);
 					}
 				}
+
+				// scorro la lista degli eventuali step per i dati di default e me li tengo da parte 
+				foreach (DefaultDataStep defaultStep in singleInfo.DefaultDataStepList)
+					impExpManager.AddDefaultDataStepTable(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName, defaultStep);
 			}
 
 			// se le operazioni sono andate a buon fine imposto i valori del livello e dello step a zero

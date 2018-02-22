@@ -76,15 +76,19 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin.Forms
 		}
 		# endregion
 
-		# region Valorizzazione label
 		//---------------------------------------------------------------------
 		public void PopolateText()
 		{
 			CompanyLabel.Text = string.Format(CompanyLabel.Text, dbMng.ContextInfo.CompanyName);
 		}
-		#endregion
 
-		# region Funzioni legate ad eventi sparati dal PlugIn, che agiscono sui singoli controls della Form
+		//---------------------------------------------------------------------
+		public void SetXmlProgressListViewVisible()
+		{
+			XmlProgressListView.Visible = true;
+		}
+
+		#region Funzioni legate ad eventi sparati dal PlugIn, che agiscono sui singoli controls della Form
 		/// <summary>
 		/// Inserisce una riga nella list view con l'elenco degli script sql elaborati
 		/// </summary>

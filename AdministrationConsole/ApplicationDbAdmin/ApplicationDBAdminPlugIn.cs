@@ -1126,6 +1126,7 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 			consoleTree.Enabled = false;
 
 			// demando al DatabaseManager le operazioni da effettuare sul database
+			dbManager.DefaultStepDataAreAvailable += DbManager_DefaultStepDataAreAvailable;
 			dbManager.DatabaseManagement(false); // passo false e significa che può creare il file di log
 
 			elaborationForm.InsertStringInLabel(Strings.MsgStatusBarEnd);
@@ -1161,9 +1162,19 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 				this.OnChangeStatusBarHandle(sender, statusBar);
 			}
 		}
-		# endregion
 
-		# region Creazione delle tabelle del database aziendale (in interattivo dal SysAdmin o dal context-menu)
+		/// <summary>
+		/// Evento per mostrare la listview con il caricamento dei file xml 
+		/// </summary>
+		//---------------------------------------------------------------------
+		private void DbManager_DefaultStepDataAreAvailable(object sender, EventArgs e)
+		{
+			if (elaborationForm != null)
+				elaborationForm.SetXmlProgressListViewVisible();
+		}
+		#endregion
+
+		#region Creazione delle tabelle del database aziendale (in interattivo dal SysAdmin o dal context-menu)
 		/// <summary>
 		/// Metodo che richiama tutta la sequenza di operazioni per la creazione delle tabelle del 
 		/// database aziendale (richiamata sia da interattivo tramite il SysAdmin che dall'apposito context-menu)

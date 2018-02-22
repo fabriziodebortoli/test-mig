@@ -48,6 +48,8 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 		public delegate bool CanMigrateCompanyDatabase();
 		public event CanMigrateCompanyDatabase OnCanMigrateCompanyDatabase;
 
+		public event EventHandler<EventArgs> DefaultStepDataAreAvailable;
+
 		#region Per la gestione decentrata del ContextInfo... rimpallo il tutto all'ApplicationDBAdmin
 		// eventi e delegati che servono nel ContextInfo x richiamare le varie funzionalità offerte dalla classe PlugIns
 		public delegate bool IsUserAuthenticatedFromConsole(string login, string password, string server);
@@ -465,9 +467,9 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 					}
 			}
 		}
-		# endregion
+		#endregion
 
-		# region Gestione database e aggancio all'ExecuteManager
+		#region Gestione database e aggancio all'ExecuteManager
 		/// <summary>
 		/// Entry-point per la gestione del database
 		/// (sulla base del suo stato lancio le procedure necessarie - creazione, upgrade, ripristino, etc.)
@@ -492,7 +494,8 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 			executeManager.OnUpdateMandatoryCols		+= new ExecuteManager.UpdateMandatoryCols(ExecuteManager_OnUpdateMandatoryCols);
 			executeManager.OnInsertMessageInListView	+= new ExecuteManager.InsertMessageInListView(ExecuteManager_OnInsertMessageInListView);
 			executeManager.OnUpdateMViewCounter			+= new ExecuteManager.UpdateMViewCounter(ExecuteManager_OnUpdateMViewCounter);
-			
+			executeManager.DefaultStepDataAreAvailable += ExecuteManager_DefaultStepDataAreAvailable;
+
 			bool success = executeManager.Execute(DBManagerDiagnostic);
 
 			// se l'azienda ha anche uno slave allora procedo ad aggiornare anche il database documentale
@@ -509,9 +512,18 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 			return success;
 		}
-		# endregion
 
-		# region Metodi richiamati esternamente per la creazione delle strutture delle viste materializzate per Oracle
+		/// <summary>
+		/// Evento intercettato dall'ExecuteManager per la gestione dei dati di default in fase di upgrade
+		/// </summary>
+		//---------------------------------------------------------------------------
+		private void ExecuteManager_DefaultStepDataAreAvailable(object sender, EventArgs e)
+		{
+			DefaultStepDataAreAvailable?.Invoke(sender, e);
+		}
+		#endregion
+
+		#region Metodi richiamati esternamente per la creazione delle strutture delle viste materializzate per Oracle
 
 		// variabile locale per la sola gestione delle viste materializzate di Oracle
 		private ExecuteManager mViewExecuteManager = null;

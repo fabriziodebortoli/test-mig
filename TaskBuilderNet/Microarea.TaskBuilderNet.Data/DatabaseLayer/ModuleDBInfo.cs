@@ -9,6 +9,28 @@ using Microarea.TaskBuilderNet.Interfaces;
 
 namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 {
+	#region Classe DefaultDataStep
+	///<summary>
+	/// Classe per memorizzare le informazioni degli step negli UpgradeInfo.xml 
+	/// relativi agli scatti di release per i file di default
+	///</summary>
+	//================================================================================
+	public class DefaultDataStep
+	{
+		public string Table { get; }
+		public string Configuration { get; }
+		public bool Overwrite { get; }
+
+		//---------------------------------------------------------------------
+		public DefaultDataStep(string table, string configuration, bool overwrite = true)
+		{
+			this.Table = table;
+			this.Configuration = configuration;
+			this.Overwrite = overwrite;
+		}
+	}
+	#endregion
+
 	#region Classe per memorizzare le info delle AdditionalColumns
 	/// <summary>
 	/// struttura x tenere traccia dei dati estratti dal parsing delle AdditionalColumns
@@ -228,7 +250,8 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				if (
 					CurrSingleUpdate.ScriptLevel1List.Count > 0 ||
 					CurrSingleUpdate.ScriptLevel2List.Count > 0 ||
-					CurrSingleUpdate.ScriptLevel3List.Count > 0
+					CurrSingleUpdate.ScriptLevel3List.Count > 0 ||
+					CurrSingleUpdate.DefaultDataStepList.Count > 0
 					)
 					UpdateInfoList.Add(CurrSingleUpdate);
 				else
@@ -287,27 +310,49 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 							? xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Library) 
 							: xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Script);
 
-			// se l'attributo e' vuoto non procedo
-			if (string.IsNullOrEmpty(script))
+			bool isDefaultDataStep = false;
+			DefaultDataStep defaultDataStep = null;
+
+			// se l'attributo e' vuoto vado a controllare se si tratta di uno step per i dati di default
+			if (string.IsNullOrWhiteSpace(script))
 			{
-				this.error = string.Format
-					(
-					DatabaseLayerStrings.MissingAttribute,
-					(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
-					nrstep.ToString(),
-					xmlFile
-					);
-				return;
+				string tableAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Table);
+				string configurationAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Configuration);
+				string overwriteAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Overwrite);
+				bool overwriteValue = (string.IsNullOrEmpty(overwriteAttribute)) ? true : Convert.ToBoolean(overwriteAttribute); // N.B. di default vado in update
+
+				// se gli attributi previsti 
+				if (string.IsNullOrWhiteSpace(tableAttribute) || string.IsNullOrWhiteSpace(configurationAttribute))
+				{
+					this.error = string.Format
+								(
+								DatabaseLayerStrings.MissingAttribute,
+								(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
+								nrstep.ToString(),
+								xmlFile
+								);
+					return;
+				}
+
+				isDefaultDataStep = true;
+				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, overwriteValue);
 			}
 			
 			switch (numLevel)
 			{
 				case 1:
 				{
-					if (CurrSingleUpdate.ScriptLevel1List.Contains(script + ";" + nrstep))
-						return; 
+					if (isDefaultDataStep)
+					{
+						CurrSingleUpdate.DefaultDataStepList.Add(defaultDataStep);
+					}
+					else
+					{
+						if (CurrSingleUpdate.ScriptLevel1List.Contains(script + ";" + nrstep))
+							return;
 
-					CurrSingleUpdate.ScriptLevel1List.Add(script + ";" + nrstep);
+						CurrSingleUpdate.ScriptLevel1List.Add(script + ";" + nrstep);
+					}
 
 					if (ParseForCreate)
 					{
@@ -610,6 +655,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 		public List<string>	ScriptLevel1List = new List<string>();
 		public List<string> ScriptLevel2List = new List<string>();
 		public List<string> ScriptLevel3List = new List<string>();
+		public List<DefaultDataStep> DefaultDataStepList = new List<DefaultDataStep>();
 
 		//---------------------------------------------------------------------------
 		public SingleUpdateInfo()
@@ -898,7 +944,8 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				if (
 					CurrSingleUpdate.ScriptLevel1List.Count > 0 ||
 					CurrSingleUpdate.ScriptLevel2List.Count > 0 ||
-					CurrSingleUpdate.ScriptLevel3List.Count > 0 
+					CurrSingleUpdate.ScriptLevel3List.Count > 0 ||
+					CurrSingleUpdate.DefaultDataStepList.Count > 0
 					)
 					UpdateInfoList.Add(CurrSingleUpdate);
 				else
@@ -953,31 +1000,54 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 							? xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Library) 
 							: xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Script);
 
-			// se l'attributo e' vuoto non procedo
-			if (string.IsNullOrEmpty(script))
+			bool isDefaultDataStep = false;
+			DefaultDataStep defaultDataStep = null;
+
+			// se l'attributo e' vuoto vado a controllare se si tratta di uno step per i dati di default
+			if (string.IsNullOrWhiteSpace(script))
 			{
-				this.error = string.Format
-							(
-							DatabaseLayerStrings.MissingAttribute,
-							(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
-							nrstep.ToString(),
-							xmlFile
-							);
-				return;
+				string tableAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Table);
+				string configurationAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Configuration);
+				string overwriteAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Overwrite);
+				bool overwriteValue = (string.IsNullOrEmpty(overwriteAttribute)) ? true : Convert.ToBoolean(overwriteAttribute); // N.B. di default vado in update
+
+				// se gli attributi previsti 
+				if (string.IsNullOrWhiteSpace(tableAttribute) || string.IsNullOrWhiteSpace(configurationAttribute))
+				{
+					this.error = string.Format
+								(
+								DatabaseLayerStrings.MissingAttribute,
+								(numLevel == 3) ? Create_UpgradeInfoXML.Attribute.Library : Create_UpgradeInfoXML.Attribute.Script,
+								nrstep.ToString(),
+								xmlFile
+								);
+					return;
+				}
+
+				isDefaultDataStep = true;
+				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, overwriteValue);
 			}
 			
 			switch (numLevel)
 			{
 				case 1:
 				{
-					if (CurrSingleUpdate.ScriptLevel1List.Contains(script + ";" + nrstep))
-						return;
-
 					level1Parsed = true;
-					
-					CurrSingleUpdate.ScriptLevel1List.Add(script + ";" + nrstep);
 
-					AppendTextToOutput("ParseStep method: " + script + ";" + nrstep);
+					if (isDefaultDataStep)
+					{
+						CurrSingleUpdate.DefaultDataStepList.Add(defaultDataStep);
+						AppendTextToOutput(string.Format("ParseStep method default step {0}: for table: {1} - configuration: {2})", nrstep , defaultDataStep.Table, defaultDataStep.Configuration));
+					}
+					else
+					{
+						if (CurrSingleUpdate.ScriptLevel1List.Contains(script + ";" + nrstep))
+							return;
+
+						CurrSingleUpdate.ScriptLevel1List.Add(script + ";" + nrstep);
+
+						AppendTextToOutput("ParseStep method: " + script + ";" + nrstep);
+					}
 
 					if (ParseForCreate)
 					{
@@ -986,10 +1056,10 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 							if (!this.isForNewModule)
 							{
 								currIdxLev1 = ModGraphLevel1.AddVertex(ApplicationSign + "." + ModuleSign + "." + "1");
-								
+
 								AppendTextToOutput("AddVertex for step create: " + ApplicationSign + "." + ModuleSign + "." + "1");
 								AppendTextToOutput("Vertex ID = " + currIdxLev1.ToString());
-								
+
 								if (oldIdxLev1 >= 0)
 								{
 									ModGraphLevel1.AddEdge(oldIdxLev1, currIdxLev1);
@@ -1006,14 +1076,14 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 								AppendTextToOutput("AddVertex for step create: " + ApplicationSign + "." + ModuleSign + "." + rel.ToString());
 								AppendTextToOutput("Vertex ID = " + currIdxLev1.ToString());
 							}
-						}	
-					}	
+						}
+					}
 					else
 					{
 						if (currIdxLev1 == -1)
 						{
 							currIdxLev1 = ModGraphLevel1.AddVertex(DbMarkSignature + "." + DbMarkModule + "." + currNumRel);
-							
+
 							AppendTextToOutput("AddVertex for step upgrade: " + DbMarkSignature + "." + DbMarkModule + "." + currNumRel.ToString());
 							AppendTextToOutput("Vertex ID = " + currIdxLev1.ToString());
 
@@ -1022,7 +1092,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 								ModGraphLevel1.AddEdge(oldIdxLev1, currIdxLev1, currNumRel);
 								AppendTextToOutput("AddEdge for step upgrade: " + oldIdxLev1.ToString() + " => " + currIdxLev1.ToString() + " => " + currNumRel.ToString());
 							}
-						}	
+						}
 					}
 					break;
 				}
@@ -1062,7 +1132,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 								AppendTextToOutput("AddVertex for step create:" + ApplicationSign + "." + ModuleSign + "." + rel.ToString());
 							}
 						}
-					}	
+					}
 					else
 					{
 						if (currIdxLev2 == -1)

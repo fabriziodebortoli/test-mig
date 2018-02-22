@@ -172,10 +172,10 @@ namespace Microarea.Console.Core.DataManager.Sample
 						SummaryRichTextBox.AppendText(string.Format("{0}\r\n", Path.GetFileName(item.PathName)));
 						SummaryRichTextBox.SelectionBullet = false;
 
-						foreach (string file in item.SelectedFiles)
+						foreach (ImportItem file in item.SelectedFiles)
 						{
 							SummaryRichTextBox.SelectionFont = fontRegular;
-							SummaryRichTextBox.AppendText(string.Format("\t{0}\r\n", file));
+							SummaryRichTextBox.AppendText(string.Format("\t{0}\r\n", file.File));
 						}
 					}
 
