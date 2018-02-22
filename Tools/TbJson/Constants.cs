@@ -25,7 +25,6 @@
         internal const string tbTileManagerTab = "tb-tile-manager-tab";
         internal const string tbTileGroup = "tb-tile-group";
         internal const string tbHeader = "tb-header";
-        internal const string tbFilterContainer = "tb-filter-container";
         internal const string tbFilter = "tb-filter";
         internal const string tbStatusTilePanel = "tb-status-tile-panel";
         internal const string tbStatusTile = "tb-status-tile";
@@ -92,6 +91,7 @@
         internal const string enableHotLink = "enableHotLink";
         internal const string autoFind = "autoFind";
         internal const string bodyEditName = "bodyEditName";
+        internal const string hasPinnableTiles = "hasPinnableTiles";
 
         internal const string tsAppsPath = "Taskbuilder\\client\\web-form\\src\\app\\applications";
         internal const string name = "name";

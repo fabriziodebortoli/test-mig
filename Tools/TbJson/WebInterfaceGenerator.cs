@@ -933,7 +933,15 @@ namespace Microarea.TbJson
                     {
                         string title = jObj.GetLocalizableString(Constants.text);
 
-                        string tag = (parentType == WndObjType.TilePanel || string.IsNullOrEmpty(title)) ? Constants.tbTile : Constants.tbPanel;
+                        string tag = Constants.tbTile;
+
+                        if (!string.IsNullOrEmpty(title))
+                            tag = Constants.tbPanel;
+
+                        if (jObj.GetDialogStyle() == TileDialogStyle.Filter)
+                            tag = Constants.tbFilter;
+                        
+                            
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
                             htmlWriter.WriteAttribute(Square(Constants.title), title);
@@ -971,6 +979,9 @@ namespace Microarea.TbJson
                             WriteAttribute(jObj, Constants.showAsTile, Constants.showAsTile);
 
                             WriteActivationAttribute(jObj);
+
+                            if (!string.IsNullOrEmpty(jObj.GetParentItem().GetFlatString("hasPinnableTiles")))
+                                htmlWriter.WriteAttribute(Constants.hasPinnableTiles, "true");
 
                             w.CloseBeginTag();
                             GenerateHtmlChildren(jObj, type);
@@ -1239,17 +1250,10 @@ namespace Microarea.TbJson
 
         private string getTileGroupType(JObject jObj)
         {
-            switch (jObj.GetDialogStyle())
-            {
-                case TileDialogStyle.Header:
-                    return Constants.tbHeader;
+            if (jObj.GetDialogStyle() == TileDialogStyle.Header)
+                return Constants.tbHeader;
 
-                case TileDialogStyle.Filter:
-                    return Constants.tbFilterContainer;
-
-                default:
-                    return Constants.tbTileGroup;
-            }
+            return Constants.tbTileGroup;
         }
 
         void WriteAttribute(JObject jObj, string jsonPropName, string tsPropName)

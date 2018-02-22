@@ -17,13 +17,15 @@ export class DocumentLayoutComponent extends BOComponent implements OnInit, OnDe
         resolver: ComponentFactoryResolver,
         private store: Store,
         ciService: ComponentInfoService,
-        changeDetectorRef: ChangeDetectorRef) {
+        changeDetectorRef: ChangeDetectorRef
+    ) {
 		super(document, eventData, ciService, changeDetectorRef, resolver);
         this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
     }
 
     ngOnInit() {
         super.ngOnInit();
+        this.eventData.model = { 'Title': { 'value': "Test Batch" } };
     }
 
     ngOnDestroy() {
