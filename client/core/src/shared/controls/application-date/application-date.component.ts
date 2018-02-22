@@ -15,8 +15,7 @@ import { DiagnosticService } from './../../../core/services/diagnostic.service';
 @Component({
     selector: 'tb-application-date',
     templateUrl: './application-date.component.html',
-    styleUrls: ['./application-date.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./application-date.component.scss']
 })
 export class ApplicationDateComponent extends TbComponent implements OnInit, OnDestroy {
     applicationDate: Date = undefined;
