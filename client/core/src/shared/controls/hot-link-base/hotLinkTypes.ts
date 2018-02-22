@@ -9,4 +9,4 @@ export class HotLinkState extends Record(class extends State {
   readonly selectionColumn: string;
   readonly selectionTypes: any[];
   readonly selectionType: string = 'code';
-});
+}) { }

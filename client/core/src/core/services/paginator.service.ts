@@ -5,10 +5,10 @@ import * as _ from 'lodash';
 
 export type ClientPage = {
     key: string, rows: any[], total: number, oldTotal: number,
-    columns: any[], ignore: boolean, reshape?: (data: GridData) => GridData
+    columns: any[], ignore: boolean
 };
 export type ServerNeededParams = { model?: any, customFilters?: any, customSort?: any };
-export class GridData extends Record(class { data: any[]; total: number; columns: any[] }) { };
+export class GridData extends Record(class { data = []; total = 0; columns = [] }) { };
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
@@ -87,8 +87,6 @@ export class PaginatorService implements OnDestroy {
     }
 
     public waiting$ = new Subject<boolean>().distinctUntilChanged();
-
-    public reshape = (d: GridData) => d;
 
     constructor(private ngZone: NgZone) {
         this.configurationChanged.subscribe(c => {
@@ -183,8 +181,7 @@ export class PaginatorService implements OnDestroy {
             total: newTotal,
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
-            ignore: false,
-            reshape: this.reshape
+            ignore: false
         });
         (this.waiting$ as Subject<boolean>).next(false);
     }
@@ -212,8 +209,7 @@ export class PaginatorService implements OnDestroy {
             total: this._clientData.value.total,
             oldTotal: this._clientData.value.total,
             columns: this.serverData.columns,
-            ignore: false,
-            reshape: this.reshape
+            ignore: false
         });
         (this.waiting$ as Subject<boolean>).next(false);
     }

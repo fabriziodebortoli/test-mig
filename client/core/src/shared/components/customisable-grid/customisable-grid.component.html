@@ -1,11 +1,18 @@
 <kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [class.editable]="editable" [sort]="filterer.sort" (sortChange)="sortChange($event)"
-    class="custom-grid" [height]="300" [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip"
+    class="custom-grid" [height]="300" [data]="data" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip"
     [filterable]="areFiltersVisible" [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)"
     (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }"
-    [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="selectableSettings"
-    [reorderable]="true" (columnReorder)="columnReorder($event)">
-    <kendo-grid-column [hidden]="col.caption === selectionColumnId" *ngFor="let col of state.columns; let idx = index; let last = last; let first = first"
-        field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="200">
+    [resizable]="true" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="{ mode: 'single' }"
+    [reorderable]="true" (columnReorder)="columnReorder($event)" (columnResize)="columnResize($event)"> 
+    <kendo-grid-column *ngFor="let col of data.columns; let idx = index; let last = last; let first = first" field="{{col.id}}"
+        title="{{col.id | uppercase}}" [class.first-column]="first" [minResizableWidth]="10" [hidden]="col.id === selectionColumnId || settings?.hiddenColumns?.indexOf(col.id) > -1"
+        [width]="col.width">
+        <ng-template kendoGridHeaderTemplate let-dataItem>
+            {{dataItem.field}}
+            <m4-icon *ngIf="settings?.hiddenColumns?.length <= data?.columns?.length - 1" [icon]="'tb-uncheckedradiobutton'" class="hideButton"
+                (click)="hideColumn(dataItem.field)" matTooltip="{{_TB('Hide Column')}}" matTooltipShowDelay="500" style="float: right">
+            </m4-icon>
+        </ng-template>
         <ng-template kendoGridCellTemplate let-dataItem>
             <div id="cell-container">
                 <div [ngSwitch]="col.type">
@@ -26,7 +33,12 @@
         <div class="pager-number">{{currentPage}}</div>
         <kendo-pager-next-buttons></kendo-pager-next-buttons>
         <div class="pager-buttons">
-            <button *ngIf="canAutoFit" kendoButton class="top-button toggle-button tb-autofit-columns" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
+            <button *ngIf="settings?.hiddenColumns?.length > 0" kendoButton class="top-button toggle-button tb-autofit-columns" (click)="restoreColumns()"
+                [title]="_TB('Restore Columns')">
+                <tb-icon [iconType]="'M4'" icon="tb-checkedradiobuttonfilled" class="toolbar-icon"></tb-icon>
+            </button>
+            <button *ngIf="canAutoFit" kendoButton class="top-button toggle-button tb-autofit-columns" (click)="grid.autoFitColumns()"
+                [title]="_TB('Fit Columns')">
                 <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
             </button>
             <button kendoButton class="top-button toggle-button tb-toggle-filters" (click)="areFiltersVisible = !areFiltersVisible" [title]="areFiltersVisibleText">

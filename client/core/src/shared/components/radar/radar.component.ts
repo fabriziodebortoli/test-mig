@@ -4,7 +4,7 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 import { EnumsService } from './../../../core/services/enums.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { Store } from './../../../core/services/store.service';
-import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, ComponentRef } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
@@ -14,6 +14,7 @@ import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams, ClientPage, GridData } from './../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
+import { StorageService } from './../../../core/services/storage.service';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
@@ -35,7 +36,7 @@ export const ViewStates = { opened: 'opened', closed: 'closed' };
         ])
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [PaginatorService, FilterService, ComponentMediator]
+    providers: [PaginatorService, FilterService, ComponentMediator, StorageService]
 })
 export class RadarComponent extends ControlComponent implements OnInit {
     @Input() maxColumns = 10;
@@ -56,7 +57,6 @@ export class RadarComponent extends ControlComponent implements OnInit {
         private elRef: ElementRef, private store: Store, private cmpInfoService: ComponentInfoService,
         private paginator: PaginatorService, private filterer: FilterService) {
         super(s.layout, s.tbComponent, s.changeDetectorRef)
-        s.setStorage({ cmpId: 'radar' });
     }
 
     ngOnInit() {
@@ -87,7 +87,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
 
     setData(d: ClientPage) {
         this.storeViewSelection();
-        const data = d.reshape(GridData.new({ data: d.rows, total: d.total, columns: d.columns }));
+        const data = GridData.new({ data: d.rows, total: d.total, columns: d.columns });
         this.state = this.state.with({ columns: data.columns, rows: data.data, gridData: data });
         this.restoreViewSelection();
     }
