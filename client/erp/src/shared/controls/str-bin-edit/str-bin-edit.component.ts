@@ -1,4 +1,7 @@
-import { TbComponentService, LayoutService, ControlComponent, EventDataService, Store } from '@taskbuilder/core';
+import {
+    TbComponentService, LayoutService, ControlComponent, EventDataService,
+    Store, ControlContainerComponent, Selector, createSelector, FormMode
+} from '@taskbuilder/core';
 import { WmsHttpService } from '../../../core/services/wms/wms-http.service';
 import { Component, Input, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRef } from '@angular/core';
 
@@ -9,10 +12,11 @@ import { Component, Input, ViewChild, ViewContainerRef, OnInit, ChangeDetectorRe
 })
 export class StrBinEditComponent extends ControlComponent {
     @Input() slice: any;
-    @Input() selector: any;
+    @Input() selector: Selector<any, any>;
+
+    @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
     mask = '';
-    errorMessage = '';
 
     constructor(
         public eventData: EventDataService,
@@ -25,12 +29,32 @@ export class StrBinEditComponent extends ControlComponent {
         super(layoutService, tbComponentService, changeDetectorRef);
     }
 
-    async ngOnChanges(changes) {
-        if (changes) {
-            let r = await this.http.checkBinUsesStructure(changes.slice.zone, changes.slice.storage).toPromise();
-            if (r.json().UseBinStructure) {
-                this.mask = this.convertMask(changes.slice.formatter, changes.slice.separator, changes.slice.maskChar);
+    ngOnInit() {
+        this.store.select({
+            'zone': 'WMBin.Zone.value',
+            'storage': 'WMBin.Storage.value',
+            'formatter': 'Formatter.value',
+            'separator': 'Separator.value',
+            'maskChar': 'GenericMaskChar.value',
+            'formMode': 'FormMode.value'
+        }).subscribe(
+            s => {
+                if (s.formMode === FormMode.NEW || s.formMode === FormMode.EDIT) {
+                    this.setComponentMask(s);
+                }
             }
+        );
+    }
+
+    async setComponentMask(s: any) {
+        let mask = '';
+        let r = await this.http.checkBinUsesStructure(s.zone, s.storage).toPromise();
+        if (r.json().UseBinStructure) {
+            mask = this.convertMask(s.formatter, s.separator, s.maskChar);
+        }
+
+        if (this.mask != mask) {
+            this.mask = mask;
         }
     }
 
