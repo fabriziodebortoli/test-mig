@@ -50,7 +50,7 @@ namespace Microarea.TbJson
             return ds;
         }
 
-        public static WebControl GetDefaultWebControl(WndObjType type)
+        public static WebControl GetDefaultWebControl(WndObjType type, string controlClass = "")
         {
             switch (type)
             {
@@ -71,7 +71,11 @@ namespace Microarea.TbJson
                 case WndObjType.BodyEdit:
                     return new WebControl(Constants.tbBodyEdit);
                 case WndObjType.ColTitle:
-                    return new WebControl(Constants.tbBodyEditColumn);
+                    if (!string.IsNullOrEmpty(controlClass))
+                        Console.Out.WriteLineAsync(controlClass + " Invalid column type, or control class not specified in webControls.xml file");
+                    
+                    //non devo più tornare colonne, ma gli oggetti contenuti
+                    return new WebControl(Constants.tbText);
                 case WndObjType.PropertyGrid:
                     return new WebControl(Constants.tbPropertyGrid);
                 case WndObjType.PropertyGridItem:
@@ -99,7 +103,7 @@ namespace Microarea.TbJson
             }
             else
             {
-                return GetDefaultWebControl(jObj.GetWndObjType());
+                return GetDefaultWebControl(jObj.GetWndObjType(), ctrlClass);
             }
         }
     }
