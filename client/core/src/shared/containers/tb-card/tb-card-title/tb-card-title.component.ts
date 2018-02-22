@@ -4,7 +4,6 @@ import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
   selector: 'tb-card-title',
   templateUrl: './tb-card-title.component.html',
   styleUrls: ['./tb-card-title.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class TbCardTitleComponent implements OnInit {
   
