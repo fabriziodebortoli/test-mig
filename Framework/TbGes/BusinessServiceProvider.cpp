@@ -501,7 +501,9 @@ CBusinessServiceProviderObj::CBusinessServiceProviderObj
 	m_initCX				(500),
 	m_initCY				(500),
 	m_pBEBtn				(NULL),
-	m_pMTEMap				(NULL)
+	m_pMTEMap				(NULL),
+	m_pBSPChild				(NULL),
+	m_pBSPParent			(NULL)
 {
 	// il documento puo' anche essere inizialmente NULL, poi viene valorizzato dopo
 	// (es.: TestServiceProvider)
@@ -509,6 +511,48 @@ CBusinessServiceProviderObj::CBusinessServiceProviderObj
 		ASSERT(m_pCallerDoc->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)));
 
 	m_pCallerDoc->m_pBSPs->Add(this);
+}
+
+//-----------------------------------------------------------------------------
+CMapStringToPtr*	CBusinessServiceProviderObj::GetChildBSP()
+{
+	if (!m_pBSPChild)
+	{
+		m_pBSPChild = new CMapStringToPtr();
+	}
+	return m_pBSPChild;
+}
+
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderObj::AddChildrenBSP(CBusinessServiceProviderObj* pChildrenBSP, UINT nIDC)
+{
+	CBusinessServiceProviderObj* tmp = NULL;
+
+	CString myStr = IDCToString(nIDC);
+
+	if (!GetChildBSP()->Lookup(IDCToString(nIDC).GetString(), (void*&)tmp))
+		GetChildBSP()->SetAt(myStr.GetString(), pChildrenBSP);
+}
+
+//-----------------------------------------------------------------------------
+CString	CBusinessServiceProviderObj::IDCToString(UINT nIDC) 
+{
+	char aStr[16];
+	_itoa_s(nIDC, aStr, 16, 10);
+	CString myStr(aStr);
+
+	return myStr;
+}
+
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderObj::CheckBSPToAssociate(UINT nIDC)
+{
+	CBusinessServiceProviderObj* tmp = NULL;
+
+	CString myStr = IDCToString(nIDC);
+
+	if (GetChildBSP()->Lookup(IDCToString(nIDC).GetString(), (void*&)tmp))
+		tmp->m_pUIPane = m_pUIPane;
 }
 
 //-----------------------------------------------------------------------------
@@ -558,6 +602,13 @@ void CBusinessServiceProviderObj::SetJsonButton
 void CBusinessServiceProviderObj::SetStatusTile()
 {
 	m_UIStyle		= STATUS_TILE;
+}
+
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderObj::SetJsonTabPane(UINT nTabPaneID /*= 0*/)
+{
+	m_UIStyle = TAB_PANE;
+	m_nPaneId = nTabPaneID;
 }
 
 //-----------------------------------------------------------------------------
@@ -682,6 +733,8 @@ CBusinessServiceProviderObj::~CBusinessServiceProviderObj()
 		for (int i = 0; i < m_arVariables.GetCount(); i++)
 			m_pCallerDoc->RemoveVariable(m_arVariables[i]);
 	}
+
+	SAFE_DELETE(m_pBSPChild);
 }
 
 //-----------------------------------------------------------------------------
@@ -938,7 +991,7 @@ void CBusinessServiceProviderObj::OnShowUI(CParsedCtrl*)
 						m_strNamespace, 
 						szDefaultViewMode,
 						FALSE,
-						m_pCallerDoc,
+						m_pCallerDoc, 
 						(LPAUXINFO)this
 					)
 			)
@@ -972,9 +1025,34 @@ void CBusinessServiceProviderObj::OnUIPaneSlide(CParsedCtrl* pCtrl, BOOL bSlideO
 	m_bUIOpeningRequested = bSlideOut;
 
 	if (m_bUIOpeningRequested)
+	{
 		OnShowUI(pCtrl);
+		CString strKey;
+		CBusinessServiceProviderObj* pBSPChild = NULL;
+		for (POSITION pos = GetChildBSP()->GetStartPosition(); pos != NULL;)
+		{
+			GetChildBSP()->GetNextAssoc(pos, strKey, (void*&)pBSPChild);
+			if (pBSPChild) {
+				pBSPChild->OnShowUI(pCtrl);
+				pBSPChild->m_bUIOpeningRequested = bSlideOut;
+			}
+		}
+	}
 	else
+	{
 		OnUIClosed();
+		CString strKey;
+		CBusinessServiceProviderObj* pBSPChild = NULL;
+		for (POSITION pos = GetChildBSP()->GetStartPosition(); pos != NULL;)
+		{
+			GetChildBSP()->GetNextAssoc(pos, strKey, (void*&)pBSPChild);
+			if (pBSPChild)
+			{
+				pBSPChild->OnUIClosed();
+				pBSPChild->m_bUIOpeningRequested = bSlideOut;
+			}
+		}
+	}
 
 	m_UIOpening.Unlock();
 }
@@ -1088,7 +1166,7 @@ void CBusinessServiceProviderObj::CreateUIPane()
 		if (m_strTabPaneMainCaption == _T(""))
 			m_strTabPaneMainCaption = m_strPaneCaption;
 
-		m_pUIPane = new CBusinessServiceProviderDockPane(m_pPaneUIViewClass, m_strTabPaneMainCaption);
+	m_pUIPane = new CBusinessServiceProviderDockPane(m_pPaneUIViewClass, m_strTabPaneMainCaption);
 		m_pUIPane->AttachBSP(this);
 		
 		if (pFrame->CreateDockingPane(m_pUIPane, m_nPaneId, m_strPaneName, m_strPaneCaption, CBRS_ALIGN_RIGHT, CSize(m_initCX, m_initCY)))

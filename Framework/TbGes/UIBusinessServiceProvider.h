@@ -142,14 +142,15 @@ public:
 	CBusinessServiceProviderObj*	GetBSP()	{ return m_pBSP; }
 
 private:
-	void AttachBSP(CBusinessServiceProviderObj* pBSP) { /*if (pBSP) { ASSERT_VALID(pBSP); }*/ m_pBSP = pBSP;}
-
+	void		AttachBSP(CBusinessServiceProviderObj* pBSP);
 private:
 	TDisposablePtr<CBusinessServiceProviderObj>	m_pBSP;
+	CUIntArray*									m_pIDTabArray;
 
 protected:	
 	virtual void	OnSlide					(BOOL bSlideOut);
 	virtual BOOL	CheckAutoHideCondition	();
+	virtual void	OnTabAdded				(UINT nTabID);
 };
 
 #define BDC(m)	NULL, &(GetBSP()->m)

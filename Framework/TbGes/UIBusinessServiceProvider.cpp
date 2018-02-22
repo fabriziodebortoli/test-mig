@@ -244,7 +244,8 @@ IMPLEMENT_DYNCREATE(CBusinessServiceProviderDockPane, CTaskBuilderDockPane)
 //-----------------------------------------------------------------------------
 CBusinessServiceProviderDockPane::CBusinessServiceProviderDockPane()
 	:
-	m_pBSP(NULL)
+	m_pBSP			(NULL),
+	m_pIDTabArray	(NULL)
 {
 }
 
@@ -256,7 +257,8 @@ CBusinessServiceProviderDockPane::CBusinessServiceProviderDockPane
 	)
 	:
 	CTaskBuilderDockPane	(pWndClass, sTabPaneTitle),
-	m_pBSP					(NULL)
+	m_pBSP					(NULL),
+	m_pIDTabArray			(NULL)
 {
 }
 
@@ -275,6 +277,30 @@ void CBusinessServiceProviderDockPane::OnSlide(BOOL bSlideOut)
 BOOL CBusinessServiceProviderDockPane::CheckAutoHideCondition()
 {
 	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderDockPane::OnTabAdded(UINT nTabID)
+{
+	if (!m_pIDTabArray)
+		m_pIDTabArray = new CUIntArray();
+
+	m_pIDTabArray->Add(nTabID);
+}	
+
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderDockPane::AttachBSP(CBusinessServiceProviderObj* pBSP)
+{ 
+	m_pBSP = pBSP;
+	if (m_pBSP && m_pIDTabArray)
+	{
+		for (int i = 0; i <= m_pIDTabArray->GetUpperBound(); i++)
+		{
+			m_pBSP->CheckBSPToAssociate(m_pIDTabArray->GetAt(i));
+		}
+	}
+
+	SAFE_DELETE(m_pIDTabArray);
 }
 
 //////////////////////////////////////////////////////////////////////////////

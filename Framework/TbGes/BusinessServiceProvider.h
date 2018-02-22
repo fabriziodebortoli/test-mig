@@ -211,8 +211,9 @@ public:
 		);
 
 	// TODO: sarebbe da intercettare il WMCLICK da bsp della status tile 
-	void SetStatusTile();
-	void SetJsonPane  (UINT nPaneID = 0);
+	void SetStatusTile	();
+	void SetJsonTabPane	(UINT nTabPaneID = 0);
+	void SetJsonPane	(UINT nPaneID = 0);
 
 	// Call just after the constructor or in Init() to set the docking pane UI
 	// This implicitly set the UIStyle = PANE (except the TAB_PANE)
@@ -438,7 +439,7 @@ protected:
 	// Il ParsedCtrl e' quello su cui c'e' correntemente il fuoco (puo' essere NULL)
 	// ATTENZIONE: la UI puo' rimanere aperta tanto che l'utente torna sul documento chiamante, quindi il puntatore in questione 
 	// deve essere considerato temporaneo
-	virtual	void OnShowUI	(CParsedCtrl* pCtrl);
+	virtual	void OnShowUI(CParsedCtrl* pCtrl);
     
 	// Reimplementabile per fare azioni sulla chiusura della UI.
 	virtual void OnUIClosed	();
@@ -465,10 +466,19 @@ protected:
 
 public:
 			void								CheckEvents			(IDToEvent& aMap);
-			CAbstractFormDoc*					GetCallerDoc		()					{ return m_pCallerDoc; }
-			CBusinessServiceProviderClientDoc*	GetClientDoc		()					{ return m_pClientDoc; }
-	virtual WebCommandType						GetWebCommandType	(UINT commandID)	{ return WEB_UNDEFINED; }
-			CString								GetstrNamespace		()					{ return m_strNamespace; }
+			CAbstractFormDoc*					GetCallerDoc		()											{ return m_pCallerDoc; }
+			CBusinessServiceProviderClientDoc*	GetClientDoc		()											{ return m_pClientDoc; }
+	virtual WebCommandType						GetWebCommandType	(UINT commandID)							{ return WEB_UNDEFINED; }
+			CString								GetstrNamespace		()											{ return m_strNamespace; }
+			CBusinessServiceProviderObj*		GetParent			()											{ return m_pBSPParent;}
+			void								SetParent			(CBusinessServiceProviderObj* pBSP)			{ m_pBSPParent = pBSP;}
+			void								AddChildrenBSP		(CBusinessServiceProviderObj* pChildrenBSP,
+																	 UINT nIDC
+																	);
+			void								CheckBSPToAssociate	(UINT nIDC);
+private:
+			CMapStringToPtr*					GetChildBSP			();
+			CString								IDCToString			(UINT nIDC);
 
 private:
 	// namespace of the BSP
@@ -505,6 +515,9 @@ private:
 
 	int												m_initCX;
 	int												m_initCY;
+
+	CMapStringToPtr*								m_pBSPChild;
+	CBusinessServiceProviderObj*					m_pBSPParent;
 
 private:
 	void	CreateUIPane	();
