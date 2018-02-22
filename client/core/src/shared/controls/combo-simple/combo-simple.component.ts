@@ -6,8 +6,7 @@ import { ControlComponent } from './../control.component';
   selector: 'tb-combo-simple',
   templateUrl: './combo-simple.component.html',
   styleUrls: ['./combo-simple.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ComboSimpleComponent extends ControlComponent {
 

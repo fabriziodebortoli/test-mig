@@ -2,11 +2,11 @@
     font-size: 2.5em;
 }
 
-h4 {
+::ng-deep h4 {
     font-size: 1em;
 }
 
-tb-combo-simple {
+::ng-deep tb-combo-simple {
     .k-textbox,
     .k-input.k-textbox,
     .k-dateinput-wrap .k-input,
