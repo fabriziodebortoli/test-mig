@@ -790,7 +790,16 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 		CJsonSerializer serializer;
 		int rowAdded = buffered->GetRecords()->FindPtr(pRecord);
 		buffered->SetCurrentRow(rowAdded);
-		//buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
+
+		if (rowAdded <=pageToSkip || rowAdded > pageToSkip + pageToTake)
+		{
+			//ho aggiunto una riga, ma fuori dal range di quelle che stavo visualizzando
+		}
+		else
+		{
+			buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
+		}
+
 		response.SetData(serializer.GetJson());
 		response.SetMimeType(L"application/json");
 	}

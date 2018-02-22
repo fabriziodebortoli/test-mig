@@ -228,13 +228,23 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let tempSkip = this.skip = this.rowCount - this.pageSize;
-    let tempPageSize = this.pageSize;
 
-    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, tempSkip, tempPageSize).subscribe((res) => {
-      let skip = (Math.ceil(this.rowCount / this.pageSize) * this.pageSize) - this.pageSize;
-      this.pageChange({ skip: skip, take: this.pageSize });
-      this.changeDetectorRef.markForCheck();
+    let tempPageSize = this.pageSize;
+    let tempCount = this.rowCount;
+    tempCount++;
+    let skip = (Math.ceil(tempCount / this.pageSize) * this.pageSize) - this.pageSize;
+    
+    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, tempPageSize).subscribe((res) => {
+
+      
+      if (res && res[this.bodyEditName])
+      {
+        this.updateModel(res[this.bodyEditName]);
+      }
+      else
+      {
+        this.pageChange({ skip: skip, take: this.pageSize });
+      }
 
       sub.unsubscribe();
     });
