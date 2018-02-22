@@ -7,6 +7,7 @@ using System.Xml;
 using Microarea.Common.StringLoader;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.Common.NameSolver
 {
@@ -103,7 +104,7 @@ namespace Microarea.Common.NameSolver
 	{
 		protected string	name;
 		protected NameSpace nameSpace = null;
-		protected ArrayList addColTableInfoArray;
+		protected List<AlterTableInfo> addColTableInfoArray;
 		
 		/// <summary>
 		/// namespace dell'AddColumn
@@ -113,7 +114,7 @@ namespace Microarea.Common.NameSolver
 		/// <summary>
 		/// Array delle tabelle contenute nei gruppi (di tipo AlterTableInfo)
 		/// </summary>
-		public	ArrayList AddColTableInfoArray { get { return addColTableInfoArray; } }
+		public List<AlterTableInfo> AddColTableInfoArray { get { return addColTableInfoArray; } }
 
 		/// <summary>
 		/// Table namespace
@@ -142,7 +143,7 @@ namespace Microarea.Common.NameSolver
 				return false;
 
 			if (addColTableInfoArray == null)
-				addColTableInfoArray = new ArrayList();
+				addColTableInfoArray = new List<AlterTableInfo>();
 	
 			foreach (XmlElement xCol in addColTblNodes)
 			{
@@ -293,7 +294,7 @@ namespace Microarea.Common.NameSolver
 
 			//inizializzo l'array delle AddColumns
 			if (addColumnsInfoArray == null)
-				addColumnsInfoArray = new ArrayList();
+				addColumnsInfoArray = new List<AdditionalColumnTblInfo>();
 			else
 				addColumnsInfoArray.Clear();
 

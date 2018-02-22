@@ -20,7 +20,7 @@ namespace Microarea.Common.MenuLoader
 	/// </summary>
 	//============================================================================
 	[Serializable]
-	public class MenuXmlParser : IMenuXmlParser
+	public class MenuXmlParser
 	{
 		private XmlDocument menuXmlDoc = null;
 
@@ -41,7 +41,7 @@ namespace Microarea.Common.MenuLoader
 		private MenuXmlNode currGroupNode = null;
 		private ObjectsImageInfos imgInfos = null;
 
-		private ArrayList loadErrorMessages = null;
+		private List<string> loadErrorMessages = null;
 		private static readonly string[] supportedImageFilesExtensions = new string[] { ".bmp", ".jpg", ".jpeg", ".gif", ".png" };
         private MenuInfo aMenuInfo = null;
 		
@@ -94,7 +94,7 @@ namespace Microarea.Common.MenuLoader
 
 		//---------------------------------------------------------------------------
 		[XmlIgnore]
-		public IMenuXmlNode Root
+		public MenuXmlNode Root
 		{
 			get
 			{
@@ -199,7 +199,7 @@ namespace Microarea.Common.MenuLoader
 		
 		//---------------------------------------------------------------------------
 		[XmlIgnore]
-		public ArrayList MenuActionsItems
+		public List<MenuXmlNode> MenuActionsItems
 		{
 			get
 			{
@@ -212,7 +212,7 @@ namespace Microarea.Common.MenuLoader
 
 		//---------------------------------------------------------------------------
 		[XmlIgnore]
-		public ArrayList ShortcutsItems
+		public List<MenuXmlNode> ShortcutsItems
 		{
 			get
 			{
@@ -273,7 +273,7 @@ namespace Microarea.Common.MenuLoader
 
 		//---------------------------------------------------------------------------
 		[XmlIgnore]
-		public ArrayList LoadErrorMessages
+		public List<string> LoadErrorMessages
 		{
 			get
 			{
@@ -1043,19 +1043,19 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		public ArrayList GetEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
+		public List<MenuXmlNode> GetEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
 		{
 			if (root == null || aCommandNodeToFind == null || !aCommandNodeToFind.IsCommand)
 				return null;
 
-			ArrayList applications = root.ApplicationsItems;
+            List<MenuXmlNode> applications = root.ApplicationsItems;
 			if (applications == null || applications.Count == 0)
 				return null;
 
-			ArrayList equivalentCommands = new ArrayList();
+            List<MenuXmlNode> equivalentCommands = new List<MenuXmlNode>();
 			foreach(MenuXmlNode appNode in applications)
 			{
-				ArrayList equivalentAppCommands = appNode.GetApplicationEquivalentCommandsList(aCommandNodeToFind);
+                List<MenuXmlNode> equivalentAppCommands = appNode.GetApplicationEquivalentCommandsList(aCommandNodeToFind);
 				if (equivalentAppCommands == null || equivalentAppCommands.Count == 0)
 					continue;
 				equivalentCommands.AddRange(equivalentAppCommands);
@@ -1064,7 +1064,7 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		public ArrayList GetEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
+		public List<MenuXmlNode> GetEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
 		{
 			if (root == null || aExternalItemNodeToFind == null || !aExternalItemNodeToFind.IsExternalItem)
 				return null;
@@ -1073,19 +1073,19 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		public ArrayList GetEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
+		public List<MenuXmlNode> GetEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
 		{
 			if (root == null || aExternalItemObject == null || aExternalItemObject.Length == 0 || aExternalItemType == null || aExternalItemType.Length == 0)
 				return null;
 
-			ArrayList applications = root.ApplicationsItems;
+            List<MenuXmlNode> applications = root.ApplicationsItems;
 			if (applications == null || applications.Count == 0)
 				return null;
 
-			ArrayList equivalentExternalItems = new ArrayList();
+            List<MenuXmlNode> equivalentExternalItems = new List<MenuXmlNode>();
 			foreach(MenuXmlNode appNode in applications)
 			{
-				ArrayList equivalentAppExternalItems = appNode.GetApplicationEquivalentExternalItemsList(aExternalItemType, aExternalItemObject);
+                List<MenuXmlNode> equivalentAppExternalItems = appNode.GetApplicationEquivalentExternalItemsList(aExternalItemType, aExternalItemObject);
 				if (equivalentAppExternalItems == null || equivalentAppExternalItems.Count == 0)
 					continue;
 				equivalentExternalItems.AddRange(equivalentAppExternalItems);
@@ -1100,7 +1100,7 @@ namespace Microarea.Common.MenuLoader
             string aModuleName,
             PathFinder aPathFinder,
             string filesPath,
-            ArrayList menuFilesToLoad,
+            List<string> menuFilesToLoad,
             CommandsTypeToLoad commandsTypeToLoad
             )
         {
@@ -1202,8 +1202,8 @@ namespace Microarea.Common.MenuLoader
 				string installationPath = (aMenuInfo != null && aMenuInfo.CurrentPathFinder != null) 
 					? aMenuInfo.CurrentPathFinder.GetInstallationPath
 					: String.Empty;
-				
-				ArrayList applicationItems = tmpRoot.ApplicationsItems;
+
+                List<MenuXmlNode> applicationItems = tmpRoot.ApplicationsItems;
 				if (applicationItems != null)
 				{
 					foreach (MenuXmlNode appNodeToAdd in applicationItems)
@@ -1224,7 +1224,7 @@ namespace Microarea.Common.MenuLoader
 								AddApplicationImageInfo(applicationName, appImageLink);
 							}
 
-							ArrayList groupItems = appNode.GroupItems;
+							List<MenuXmlNode> groupItems = appNode.GroupItems;
 							if (groupItems != null)
 							{
 								foreach (MenuXmlNode aGroupNode in groupItems)
@@ -1308,7 +1308,7 @@ namespace Microarea.Common.MenuLoader
 
 				if (parentNode.IsGroup)
 				{
-					ArrayList nodeMenuHierarchy = aMenuNodeToAdd.GetMenuHierarchyList();
+                    List<MenuXmlNode> nodeMenuHierarchy = aMenuNodeToAdd.GetMenuHierarchyList();
 					if (nodeMenuHierarchy != null  && nodeMenuHierarchy.Count > 0)
 					{
 						foreach (MenuXmlNode ascendant in nodeMenuHierarchy)
@@ -1359,15 +1359,15 @@ namespace Microarea.Common.MenuLoader
 				{
 					if (aMenuNodeToAdd.IsMenu)
 					{
-						ArrayList menuItemsToAdd = aMenuNodeToAdd.MenuItems;
+                        List<MenuXmlNode> menuItemsToAdd = aMenuNodeToAdd.MenuItems;
 						if (menuItemsToAdd != null)
 						{
 							foreach(MenuXmlNode submenu in menuItemsToAdd)
 								AddMenuNodeToExistingNode(menuNode, submenu, true, commandsTypeToLoad);
 						}
 					}
-					
-					ArrayList cmdItemsToAdd = aMenuNodeToAdd.CommandItems;
+
+                    List<MenuXmlNode> cmdItemsToAdd = aMenuNodeToAdd.CommandItems;
 					if (cmdItemsToAdd != null)
 					{
 						foreach(MenuXmlNode command in cmdItemsToAdd)
@@ -1443,7 +1443,7 @@ namespace Microarea.Common.MenuLoader
 					return null;
 
 				MenuXmlNode parentnode = addedMenuNode;
-				ArrayList nodeToTraceCommandHierarchyList = aCommandNode.GetCommandsHierarchyList();
+                List<MenuXmlNode> nodeToTraceCommandHierarchyList = aCommandNode.GetCommandsHierarchyList();
 				if (nodeToTraceCommandHierarchyList != null)
 				{
 					foreach (MenuXmlNode ascendant in nodeToTraceCommandHierarchyList)
@@ -1582,7 +1582,7 @@ namespace Microarea.Common.MenuLoader
 							
 							menuNamesPath = String.Empty;
 							menuTitlesPath = String.Empty;
-							ArrayList nodeToTraceHierarchyList = nodeToTrace.GetMenuHierarchyList();
+                            List<MenuXmlNode> nodeToTraceHierarchyList = nodeToTrace.GetMenuHierarchyList();
 							if (nodeToTraceHierarchyList != null)
 							{
 								foreach (MenuXmlNode ascendant in nodeToTraceHierarchyList)
@@ -1599,7 +1599,7 @@ namespace Microarea.Common.MenuLoader
 
 							if (nodeToTrace.IsCommand)
 							{
-								ArrayList nodeToTraceCommandHierarchyList = nodeToTrace.GetCommandsHierarchyList();
+                                List<MenuXmlNode> nodeToTraceCommandHierarchyList = nodeToTrace.GetCommandsHierarchyList();
 								if (nodeToTraceCommandHierarchyList != null)
 								{
 									foreach (MenuXmlNode ascendant in nodeToTraceCommandHierarchyList)
@@ -1645,15 +1645,15 @@ namespace Microarea.Common.MenuLoader
 
 				if (deep)
 				{   // Se si traccia "in profondità" un'azione su di un elemento che possiede 
-					// a sua volta sottomenu e comandi occorre tracciare ricorsivamente tale
-					// sottostruttura 
-					ArrayList menuItemsToTrace = nodeToTrace.MenuItems;
+                    // a sua volta sottomenu e comandi occorre tracciare ricorsivamente tale
+                    // sottostruttura 
+                    List<MenuXmlNode> menuItemsToTrace = nodeToTrace.MenuItems;
 					if (menuItemsToTrace != null)
 					{
 						foreach ( MenuXmlNode aMenuNodeToTrace in menuItemsToTrace)
 							TraceMenuAction(aMenuNodeToTrace, actionType, deep);
 					}
-					ArrayList commandItemsToTrace = nodeToTrace.CommandItems;
+                    List<MenuXmlNode> commandItemsToTrace = nodeToTrace.CommandItems;
 					if (commandItemsToTrace != null)
 					{
 						foreach ( MenuXmlNode aCommandNodeToTrace in commandItemsToTrace)
@@ -1694,9 +1694,9 @@ namespace Microarea.Common.MenuLoader
 			// per poterla poi riapplicare in fase di caricamento di entrambi i file.
 
 			if (actionsToApply == null || !actionsToApply.IsMenuActions)
-				return false; 
-			
-			ArrayList menuActions = actionsToApply.MenuActionsItems;
+				return false;
+
+            List<MenuXmlNode> menuActions = actionsToApply.MenuActionsItems;
 			if (menuActions == null)
 				return true; // non ci sono modifiche da apportare
 			
@@ -1705,8 +1705,8 @@ namespace Microarea.Common.MenuLoader
 				if (!actionNode.IsAction)
 					continue;
 
-				ArrayList commands = actionNode.GetActionCommandItems();
-				ArrayList shortcuts = actionNode.GetActionCommandShortcutNodes();
+                List<MenuXmlNode> commands = actionNode.GetActionCommandItems();
+                List<MenuXmlNode> shortcuts = actionNode.GetActionCommandShortcutNodes();
 
 				MenuXmlNode pathMatchNode = FindMatchingNodeFromActionPath(actionNode);
 
@@ -1729,7 +1729,7 @@ namespace Microarea.Common.MenuLoader
 								MenuXmlNode parentActionNode =  oldRemoveActionNode.GetActionNode();
 								if (RemoveNode(oldRemoveActionNode) && parentActionNode != null)
 								{
-									ArrayList parentCommands = parentActionNode.GetActionCommandItems();
+                                    List<MenuXmlNode> parentCommands = parentActionNode.GetActionCommandItems();
 									if (parentCommands == null || parentCommands.Count == 0)
 										RemoveNode(parentActionNode);
 								}
@@ -1966,9 +1966,9 @@ namespace Microarea.Common.MenuLoader
 		public bool LoadCommandShortcuts(MenuXmlNode aCommandShortcutsNode, CommandsTypeToLoad commandsTypeToLoad)
 		{
 			if (aCommandShortcutsNode == null || !aCommandShortcutsNode.IsCommandShortcutsNode)
-				return false; 
-			
-			ArrayList shortcuts = aCommandShortcutsNode.ShortcutsItems;
+				return false;
+
+            List<MenuXmlNode> shortcuts = aCommandShortcutsNode.ShortcutsItems;
 			if (shortcuts == null)
 				return true; 
 
@@ -2463,7 +2463,7 @@ namespace Microarea.Common.MenuLoader
 		private void AddLoadErrorMessage(string aErrorMessage)
 		{
 			if (loadErrorMessages == null)
-				loadErrorMessages = new ArrayList();
+				loadErrorMessages = new List<string>();
 
 			loadErrorMessages.Add(aErrorMessage);
 		}
@@ -2760,7 +2760,7 @@ namespace Microarea.Common.MenuLoader
                     }
                 }
 
-				ArrayList groupItemsToAdd = aApplicationNodeToAdd.GroupItems;
+                List<MenuXmlNode> groupItemsToAdd = aApplicationNodeToAdd.GroupItems;
 				if (groupItemsToAdd != null)
 				{
 					foreach (MenuXmlNode aGroupNodeToAdd in groupItemsToAdd)
@@ -2780,7 +2780,7 @@ namespace Microarea.Common.MenuLoader
 						if (applicationNode.ApplyStateToAllDescendants)
 							groupNode.State = aGroupNodeToAdd.State | applicationNode.State;
 
-						ArrayList menuItemsToAdd = aGroupNodeToAdd.MenuItems;
+                        List<MenuXmlNode> menuItemsToAdd = aGroupNodeToAdd.MenuItems;
 						if (menuItemsToAdd != null)
 						{
 							foreach ( MenuXmlNode aMenuNodeToAdd in menuItemsToAdd)
@@ -2887,7 +2887,7 @@ namespace Microarea.Common.MenuLoader
 
 				MenuXmlNode menuParentNode = groupNode;
 
-				ArrayList nodeMenuHierarchy = aNode.GetMenuHierarchyList();
+                List<MenuXmlNode> nodeMenuHierarchy = aNode.GetMenuHierarchyList();
 				if (nodeMenuHierarchy != null && nodeMenuHierarchy.Count > 0)
 				{
 					foreach (MenuXmlNode ascendantMenu in nodeMenuHierarchy)
@@ -2966,7 +2966,7 @@ namespace Microarea.Common.MenuLoader
 					}
 					else
 					{
-						ArrayList nodeCommandHierarchyList = aNode.GetCommandsHierarchyList();
+                        List<MenuXmlNode> nodeCommandHierarchyList = aNode.GetCommandsHierarchyList();
 						if (nodeCommandHierarchyList != null)
 						{
 							foreach (MenuXmlNode ascendant in nodeCommandHierarchyList)
@@ -3095,7 +3095,7 @@ namespace Microarea.Common.MenuLoader
                     //						Debug.Fail("MenuXmlParser.FindMatchingShortcutNode unaspected favorites dom");
                     //						return null;
                     //					}
-                    ArrayList shortcuts = /*aMenuInfo.FavoritesXmlParser.*/CommandShortcutsNode.ShortcutsItems;
+                    List<MenuXmlNode> shortcuts = /*aMenuInfo.FavoritesXmlParser.*/CommandShortcutsNode.ShortcutsItems;
                     if (shortcuts != null && shortcuts.Count > 0)
                     {
                         foreach (MenuXmlNode shortcut in shortcuts)
@@ -3111,7 +3111,7 @@ namespace Microarea.Common.MenuLoader
                 }
                 if (aMenuInfo != null && aMenuInfo.AppsMenuXmlParser != null && aMenuInfo.AppsMenuXmlParser.CommandShortcutsNode != null)
                 {
-                    ArrayList shortcuts = aMenuInfo.AppsMenuXmlParser.CommandShortcutsNode.ShortcutsItems;
+                    List<MenuXmlNode> shortcuts = aMenuInfo.AppsMenuXmlParser.CommandShortcutsNode.ShortcutsItems;
                     if (shortcuts != null && shortcuts.Count > 0)
                     {
                         foreach (MenuXmlNode shortcut in shortcuts)
@@ -3243,8 +3243,8 @@ namespace Microarea.Common.MenuLoader
 		{
 			if (MenuActionsNode == null || commandActionToFind == null || !commandActionToFind.IsCommand)
 				return null;
-			
-			ArrayList menuActions = MenuActionsItems;
+
+            List<MenuXmlNode> menuActions = MenuActionsItems;
 			if (menuActions == null)
 				return null; 
 		
@@ -3269,7 +3269,7 @@ namespace Microarea.Common.MenuLoader
 					)
 					continue;
 
-				ArrayList commands = actionNode.GetActionCommandItems();
+                List<MenuXmlNode> commands = actionNode.GetActionCommandItems();
 				if (commands == null || commands.Count == 0)
 					continue;
 
@@ -3364,7 +3364,7 @@ namespace Microarea.Common.MenuLoader
 				{
 					if(deep && actionNodeToAdd.IsMenu)
 					{
-						ArrayList cmdItemsToAdd = actionNodeToAdd.CommandItems;
+                        List<MenuXmlNode> cmdItemsToAdd = actionNodeToAdd.CommandItems;
 						if (cmdItemsToAdd != null)
 						{
 							XmlElement actionCommandElement = menuXmlDoc.CreateElement(MenuXmlNode.XML_TAG_ACTION_COMMANDS);
@@ -3520,7 +3520,7 @@ namespace Microarea.Common.MenuLoader
 			if (aGroupNode == null || !aGroupNode.IsGroup)
 				return;
 
-			ArrayList menuItems = aGroupNode.MenuItems;
+            List<MenuXmlNode> menuItems = aGroupNode.MenuItems;
 
 			if (menuItems == null || menuItems.Count == 0)
 				return;
@@ -3534,8 +3534,8 @@ namespace Microarea.Common.MenuLoader
 		{
 			if (aMenuNode == null || !aMenuNode.IsMenu || !aMenuNode.HasMenuCommandImagesToSearch)
 				return;
-		
-			ArrayList commandItems = aMenuNode.CommandItems;
+
+            List<MenuXmlNode> commandItems = aMenuNode.CommandItems;
 			if (commandItems != null && commandItems.Count > 0)
 			{
 				foreach(MenuXmlNode commandItem in commandItems)
@@ -3574,8 +3574,8 @@ namespace Microarea.Common.MenuLoader
 						AddCommandImageInfo(commandItem, imageFile);
 				}
 			}
-			
-			ArrayList subMenuItems = aMenuNode.MenuItems;
+
+            List<MenuXmlNode> subMenuItems = aMenuNode.MenuItems;
 			if (subMenuItems == null || subMenuItems.Count == 0)
 				return;
 
@@ -3632,7 +3632,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (deep && aNode.IsApplication)
 			{
-				ArrayList groupItems = aNode.GroupItems;
+                List<MenuXmlNode> groupItems = aNode.GroupItems;
 				if (groupItems != null)
 				{
 					foreach (MenuXmlNode aGroupNode in groupItems)
@@ -3649,7 +3649,7 @@ namespace Microarea.Common.MenuLoader
 
 				if (deep)
 				{
-					ArrayList menuItems = aNode.MenuItems;
+                    List<MenuXmlNode> menuItems = aNode.MenuItems;
 					if (menuItems != null)
 					{
 						foreach (MenuXmlNode aMenuNode in menuItems)
@@ -3661,13 +3661,13 @@ namespace Microarea.Common.MenuLoader
 
 			if (deep && aNode.IsMenu)
 			{
-				ArrayList menuItems = aNode.MenuItems;
+                List<MenuXmlNode> menuItems = aNode.MenuItems;
 				if (menuItems != null)
 				{
 					foreach (MenuXmlNode aMenuNode in menuItems)
 						CopyNodeImageInfos(aMenuNode, originalMenuParser, aPathFinder, true);
 				}
-				ArrayList commandItems = aNode.CommandItems;
+                List<MenuXmlNode> commandItems = aNode.CommandItems;
 				if (commandItems != null)
 				{
 					foreach (MenuXmlNode aCommandNode in commandItems)
@@ -3775,7 +3775,7 @@ namespace Microarea.Common.MenuLoader
 						throw new MenuXmlParserException(MenuManagerLoaderStrings.InvalidMenuXmlMsg);
 				}
 
-				ArrayList applicationsMenuToLoad = tmpRoot.ApplicationsItems;
+                List<MenuXmlNode> applicationsMenuToLoad = tmpRoot.ApplicationsItems;
 				if (applicationsMenuToLoad == null || applicationsMenuToLoad.Count == 0)
 					return false;
 
@@ -3791,8 +3791,8 @@ namespace Microarea.Common.MenuLoader
 					MenuXmlNode actionsNode = (MenuXmlNode) tmpRoot.GetMenuActionsNode();
 					if (actionsNode != null)
 						ApplyMenuChanges(actionsNode, commandsTypeToLoad, false);
-	
-					ArrayList groupItems = appNode.GroupItems;
+
+                    List<MenuXmlNode> groupItems = appNode.GroupItems;
 					if (groupItems != null)
 					{
 						TBDirectoryInfo menuFileDirectory = null;

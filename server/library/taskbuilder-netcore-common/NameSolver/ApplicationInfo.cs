@@ -487,10 +487,10 @@ namespace Microarea.Common.NameSolver
 
 
         //-------------------------------------------------------------------------------
-        public ArrayList GetConfigFileArray()
+        public List<string> GetConfigFileArray()
         {
             string path = this.GetStandardSettingsPath();
-            ArrayList settingFileArray = new ArrayList();
+            List<string> settingFileArray = new List<string>();
             if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
                 return settingFileArray;
 

@@ -95,7 +95,6 @@ namespace Microarea.Common.NameSolver
         private string activation;
         private string allowISO;
         private string denyISO;
-        private bool published;
         private bool runnableAlone;
         private ModuleInfo ownerModule;
         private List<IDocumentInfoComponent> components;

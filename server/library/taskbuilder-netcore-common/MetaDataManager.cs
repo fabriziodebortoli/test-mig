@@ -173,7 +173,6 @@ namespace Microarea.Common
                 if (ai.Modules == null || ai.Modules.Count == 0)
                     continue;
 
-                int id;
                 bool isCustom = ai.Path.Contains("Custom");
                 DirectoryInfo dir = new DirectoryInfo(ai.Path);
                 //inserisco nel db la directory dell app
@@ -505,14 +504,7 @@ namespace Microarea.Common
                 string nameSpace = string.Empty;
 				string fileFullName = aFile.FullName;
 
-                string a = "";
-                if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
-                    a = "";
                 if (PathFinder.PathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
-
-                //if ("C:\\DEV_ERP_NEXT\\Standard\\Applications\\ERP\\Accounting\\ModuleObjects\\AccountingParameters\\JsonForms\\IDD_TD_PARAMETERS_ACCOUNTING_BALANCES_ACCBOOKPRINTOUT.hjson" == aFile.FullName)
-                if (PathFinder.PathFinderInstance.GetNamespaceFromPath(fileFullName) != null)
-
                 {
                     nameSpace = PathFinder.PathFinderInstance.GetNamespaceFromPath(aFile.FullName).ToString();
                     if (nameSpace.Contains(".wrm"))
@@ -601,7 +593,7 @@ namespace Microarea.Common
 					byteContent = null;
 			}
 
-            catch (SqlException exx)
+            catch (SqlException )
             {
             }
             finally

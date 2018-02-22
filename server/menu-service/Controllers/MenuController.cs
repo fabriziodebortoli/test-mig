@@ -288,7 +288,7 @@ namespace Microarea.Menu.Controllers
 
                 return new FileStreamResult(f, "image/" + ext);
             }
-            catch (Exception exx)
+            catch (Exception)
             {
             }
 

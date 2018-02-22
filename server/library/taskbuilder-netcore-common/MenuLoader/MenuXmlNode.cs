@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml;
@@ -16,7 +17,7 @@ namespace Microarea.Common.MenuLoader
 	/// MenuXmlNode represents a single node in a XML document that contains menu items.
 	/// </summary>
 	//============================================================================
-	public class MenuXmlNode : IMenuXmlNode
+	public class MenuXmlNode 
 	{
 		public const string XML_TAG_MENU_ROOT						= "AppMenu";
 		public const string XML_TAG_APPLICATION						= "Application";
@@ -1405,7 +1406,7 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>An ArrayList that contains all the children of the node that represent applications.</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList ApplicationsItems
+		public List<MenuXmlNode> ApplicationsItems
 		{
 			get
 			{
@@ -1421,7 +1422,7 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>An ArrayList that contains all the children of the node that represent groups.</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList GroupItems
+		public List<MenuXmlNode> GroupItems
 		{
 			get
 			{
@@ -1437,7 +1438,7 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>An ArrayList that contains all the children of the node that represent menus.</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList MenuItems
+		public List<MenuXmlNode> MenuItems
 		{
 			get
 			{
@@ -1453,7 +1454,7 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>An ArrayList that contains all the children of the node that represent commands.</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList CommandItems
+		public List<MenuXmlNode> CommandItems
 		{
 			get
 			{
@@ -1465,7 +1466,7 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		public ArrayList MenuActionsItems
+		public List<MenuXmlNode> MenuActionsItems
 		{
 			get
 			{
@@ -1477,7 +1478,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList ShortcutsItems
+		public List<MenuXmlNode> ShortcutsItems
 		{
 			get
 			{
@@ -1489,7 +1490,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList ArgumentsItems
+		public List<MenuXmlNode> ArgumentsItems
 		{
 			get
 			{
@@ -2160,12 +2161,12 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>Menu hierarchy list</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList GetMenuHierarchyList()
+		public List<MenuXmlNode> GetMenuHierarchyList()
 		{
 			if (node == null || node.ParentNode == null || !(IsMenu || IsCommand))
 				return null;
 
-			ArrayList nodesInverseHierarchy = new ArrayList();
+            List<MenuXmlNode> nodesInverseHierarchy = new List<MenuXmlNode>();
 			MenuXmlNode aMenuNode = GetParentMenu();
 			while(aMenuNode != null)
 			{
@@ -2174,8 +2175,8 @@ namespace Microarea.Common.MenuLoader
 			}
 			if (nodesInverseHierarchy.Count < 1)
 				return null;
-			
-			ArrayList nodesHierarchy = new ArrayList();
+
+            List<MenuXmlNode> nodesHierarchy = new List<MenuXmlNode>();
 			// Nell'array nodesInverseHierarchy ci sono i nodi da cui discende il nodo corrente 
 			// in ordine inverso, cio?dal padre diretto fino al menu di primo livello: li
 			// riordino e restituisco l'array "rovesciato"
@@ -2192,7 +2193,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public string GetMenuHierarchyTitlesString()
 		{
-			ArrayList hierarchyList = GetMenuHierarchyList();
+            List<MenuXmlNode> hierarchyList = GetMenuHierarchyList();
 			string hierarchy = String.Empty;
 			if (hierarchyList != null)
 			{
@@ -2211,12 +2212,12 @@ namespace Microarea.Common.MenuLoader
 		/// </summary>
 		/// <returns>Commands hierarchy list</returns>
 		//---------------------------------------------------------------------------
-		public ArrayList GetCommandsHierarchyList()
+		public List<MenuXmlNode> GetCommandsHierarchyList()
 		{
 			if (node == null || node.ParentNode == null || !IsCommand)
 				return null;
 
-			ArrayList nodesInverseHierarchy = new ArrayList();
+            List<MenuXmlNode> nodesInverseHierarchy = new List<MenuXmlNode>();
 			MenuXmlNode aNode = GetParentNode();
 			while(aNode != null && aNode.IsCommand)
 			{
@@ -2225,8 +2226,8 @@ namespace Microarea.Common.MenuLoader
 			}
 			if (nodesInverseHierarchy.Count < 1)
 				return null;
-			
-			ArrayList nodesHierarchy = new ArrayList();
+
+            List<MenuXmlNode> nodesHierarchy = new List<MenuXmlNode>();
 			// Nell'array nodesInverseHierarchy ci sono i nodi da cui discende il nodo corrente 
 			// in ordine inverso, cio?dal padre diretto fino al menu di primo livello: li
 			// riordino e restituisco l'array "rovesciato"
@@ -2243,7 +2244,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public string GetCommandsHierarchyTitlesString()
 		{
-			ArrayList hierarchyList = GetCommandsHierarchyList();
+            List<MenuXmlNode> hierarchyList = GetCommandsHierarchyList();
 
 			string hierarchy = String.Empty;
 			if (hierarchyList != null)
@@ -2290,7 +2291,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetApplicationEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
+		public List<MenuXmlNode> GetApplicationEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
 		{
 			if (node == null || !IsApplication || !HasChildNodes || aCommandNodeToFind == null || !aCommandNodeToFind.IsCommand)
 				return null;
@@ -2302,8 +2303,8 @@ namespace Microarea.Common.MenuLoader
 				commandNodes = SelectNodes("descendant::" + aCommandNodeToFind.Name + "[child::" + XML_TAG_OBJECT +"='" + aCommandNodeToFind.ItemObject + "']" );
 			if (commandNodes == null || commandNodes.Count == 0)
 				return null;
-		
-			ArrayList commandMenuNodes = new ArrayList();
+
+            List<MenuXmlNode> commandMenuNodes = new List<MenuXmlNode>();
 			foreach (XmlNode commandXmlNode in commandNodes)
 			{
 				if (commandXmlNode != null && (commandXmlNode is XmlElement) && commandXmlNode != aCommandNodeToFind.Node)
@@ -2313,7 +2314,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetApplicationEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
+		public List<MenuXmlNode> GetApplicationEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
 		{
 			if (node == null || !IsApplication || !HasChildNodes || aExternalItemNodeToFind == null || !aExternalItemNodeToFind.IsExternalItem)
 				return null;
@@ -2322,7 +2323,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetApplicationEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
+		public List<MenuXmlNode> GetApplicationEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
 		{
 			if 
 				(
@@ -2340,8 +2341,8 @@ namespace Microarea.Common.MenuLoader
 
 			if (externalItems == null || externalItems.Count == 0)
 				return null;
-		
-			ArrayList externalItemsMenuNodes = new ArrayList();
+
+            List<MenuXmlNode> externalItemsMenuNodes = new List<MenuXmlNode>();
 			foreach (XmlNode externalItemNode in externalItems)
 			{
 				externalItemsMenuNodes.Add(new MenuXmlNode(externalItemNode));
@@ -2623,7 +2624,7 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		public ArrayList GetExternalItemDescendantNodesByTypeAttribute(string typeAttribute)
+		public List<MenuXmlNode> GetExternalItemDescendantNodesByTypeAttribute(string typeAttribute)
 		{
 			if 
 				(
@@ -2638,7 +2639,7 @@ namespace Microarea.Common.MenuLoader
 			if (descendantNodes == null || descendantNodes.Count == 0)
 				return null;
 
-			ArrayList descendantNodesList = new ArrayList();
+            List<MenuXmlNode> descendantNodesList = new List<MenuXmlNode>();
 			foreach (XmlNode aNode in descendantNodes)
 				descendantNodesList.Add(new MenuXmlNode(aNode));
 
@@ -2658,7 +2659,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetOfficeItemDescendantNodesByApplicationAttribute(string applicationAttribute)
+		public List<MenuXmlNode> GetOfficeItemDescendantNodesByApplicationAttribute(string applicationAttribute)
 		{
 			if 
 				(
@@ -2673,7 +2674,7 @@ namespace Microarea.Common.MenuLoader
 			if (descendantNodes == null || descendantNodes.Count == 0)
 				return null;
 
-			ArrayList descendantNodesList = new ArrayList();
+            List<MenuXmlNode> descendantNodesList = new List<MenuXmlNode>();
 			foreach (XmlNode aNode in descendantNodes)
 				descendantNodesList.Add(new MenuXmlNode(aNode));
 
@@ -2720,7 +2721,7 @@ namespace Microarea.Common.MenuLoader
 		// Infine, se l’operazione riguarda dei nodi di comando, essi vanno elencati
 		// sotto un nodo etichettato con XML_TAG_ACTION_COMMANDS.
 		//---------------------------------------------------------------------------
-		public IMenuXmlNode GetMenuActionsNode()
+		public MenuXmlNode GetMenuActionsNode()
 		{
 			if (node == null || !IsRoot || !HasChildNodes)
 				return null;
@@ -2977,7 +2978,7 @@ namespace Microarea.Common.MenuLoader
 		}
 			
 		//---------------------------------------------------------------------------
-		public ArrayList GetActionCommandItems()
+		public List<MenuXmlNode> GetActionCommandItems()
 		{
 			MenuXmlNode actionCommandsNode = GetActionCommandsNode();
 
@@ -2988,7 +2989,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetActionCommandShortcutNodes()
+		public List<MenuXmlNode> GetActionCommandShortcutNodes()
 		{
 			if (node == null || !IsAction || !HasChildNodes)
 				return null;
@@ -2996,8 +2997,8 @@ namespace Microarea.Common.MenuLoader
 			XmlNodeList shortcutNodes = SelectNodes("child::" + XML_TAG_MENU_SHORTCUT);
 			if (shortcutNodes == null || shortcutNodes.Count == 0)
 				return null;
-			
-			ArrayList shortcutsItems = new ArrayList();
+
+            List<MenuXmlNode> shortcutsItems = new List<MenuXmlNode>();
 			foreach (XmlNode shortcut in shortcutNodes)
 			{
 				shortcutsItems.Add(new MenuXmlNode(shortcut));
@@ -4129,7 +4130,7 @@ namespace Microarea.Common.MenuLoader
 			if (node == null || !node.HasChildNodes)
 				return null;
 
-			ArrayList otherTitles = new ArrayList();
+			List<string> otherTitles = new List<string>();
 
 			foreach (XmlNode child in node.ChildNodes)
 			{
@@ -4139,7 +4140,7 @@ namespace Microarea.Common.MenuLoader
 				otherTitles.Add(child.InnerText);
 			}
 
-			return (otherTitles.Count > 0) ? (string[])otherTitles.ToArray(typeof(string)) : null;
+            return otherTitles.ToArray();//  (otherTitles.Count > 0) ? (string[])otherTitles(typeof(string)) : null;
 		}
 
 		//---------------------------------------------------------------------------
@@ -4536,12 +4537,12 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildAppsItemsList()
+		private List<MenuXmlNode> BuildAppsItemsList()
 		{
 			if (node == null || !IsRoot )
 				return null;
 
-			ArrayList appsItems = null;
+            List<MenuXmlNode> appsItems = null;
 	
 			foreach (XmlNode child in node.ChildNodes)
 			{
@@ -4549,7 +4550,7 @@ namespace Microarea.Common.MenuLoader
 					continue;
 
 				if (appsItems == null)
-					appsItems = new ArrayList();
+					appsItems = new List<MenuXmlNode>();
 				
 				MenuXmlNode appNode = new MenuXmlNode(child);
 
@@ -4559,12 +4560,12 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildGroupItemsList()
+		private List<MenuXmlNode> BuildGroupItemsList()
 		{
 			if (node == null || !IsApplication)
 				return null;
 
-			ArrayList groupItems = null;
+            List<MenuXmlNode> groupItems = null;
 	
 			foreach (XmlNode child in node.ChildNodes)
 			{
@@ -4572,7 +4573,7 @@ namespace Microarea.Common.MenuLoader
 					continue;
 
 				if (groupItems == null)
-					groupItems = new ArrayList();
+					groupItems = new List<MenuXmlNode>();
 				
 				MenuXmlNode groupNode = new MenuXmlNode(child);
 
@@ -4582,12 +4583,12 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildMenuItemsList()
+		private List<MenuXmlNode> BuildMenuItemsList()
 		{
 			if (node == null || !(IsGroup || IsMenu))
 				return null;
 
-			ArrayList menuItems = null;
+            List<MenuXmlNode> menuItems = null;
 	
 			foreach (XmlNode child in node.ChildNodes)
 			{
@@ -4595,7 +4596,7 @@ namespace Microarea.Common.MenuLoader
 					continue;
 				
 				if (menuItems == null)
-					menuItems = new ArrayList();
+					menuItems = new List<MenuXmlNode>();
 				
 				MenuXmlNode menuNode = new MenuXmlNode(child);
 				menuItems.Add(menuNode);
@@ -4604,12 +4605,12 @@ namespace Microarea.Common.MenuLoader
 		}
 		
 		//---------------------------------------------------------------------------
-		private ArrayList BuildCommandItemsList()
+		private List<MenuXmlNode> BuildCommandItemsList()
 		{
 			if (node == null  || !(IsMenu || IsCommand || IsActionCommandsNode))
 				return null;
 
-			ArrayList commandItems = null;
+            List<MenuXmlNode> commandItems = null;
 	
 			foreach (XmlNode child in node.ChildNodes)
 			{
@@ -4622,7 +4623,7 @@ namespace Microarea.Common.MenuLoader
 					continue;
 
 				if (commandItems == null)
-					commandItems = new ArrayList();
+					commandItems = new List<MenuXmlNode>();
 				
 				commandItems.Add(cmdNode);
 			}
@@ -4630,12 +4631,12 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildMenuActionsItemsList()
+		private List<MenuXmlNode> BuildMenuActionsItemsList()
 		{
 			if (node == null  || !IsMenuActions || !node.HasChildNodes)
 				return null;
 
-			ArrayList menuActionsItems = null;
+            List<MenuXmlNode> menuActionsItems = null;
 	
 			foreach ( XmlNode child in node.ChildNodes)
 			{
@@ -4647,7 +4648,7 @@ namespace Microarea.Common.MenuLoader
 					continue;
 
 				if (menuActionsItems == null)
-					menuActionsItems = new ArrayList();
+					menuActionsItems = new List<MenuXmlNode>();
 				
 				menuActionsItems.Add(menuChangeNode);
 			}
@@ -4656,7 +4657,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildShortcutsItemsList()
+		private List<MenuXmlNode> BuildShortcutsItemsList()
 		{
 			if (node == null  || !IsCommandShortcutsNode || !node.HasChildNodes)
 				return null;
@@ -4665,7 +4666,7 @@ namespace Microarea.Common.MenuLoader
 			if (shortcutNodes == null || shortcutNodes.Count == 0)
 				return null;
 			
-			ArrayList shortcutsItems = new ArrayList();
+			List< MenuXmlNode> shortcutsItems = new List<MenuXmlNode>();
 			foreach (XmlNode shortcut in shortcutNodes)
 			{
 				shortcutsItems.Add(new MenuXmlNode(shortcut));
@@ -4674,7 +4675,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		private ArrayList BuildArgumentsItemsList()
+		private List<MenuXmlNode> BuildArgumentsItemsList()
 		{
 			if (node == null  || !IsArgumentsNode || !node.HasChildNodes)
 				return null;
@@ -4682,8 +4683,8 @@ namespace Microarea.Common.MenuLoader
 			XmlNodeList argNodes = SelectNodes("child::" + XML_TAG_COMMAND_ARGUMENT);
 			if (argNodes == null || argNodes.Count == 0)
 				return null;
-			
-			ArrayList argsItems = new ArrayList();
+
+            List<MenuXmlNode> argsItems = new List<MenuXmlNode>();
 			foreach (XmlNode arg in argNodes)
 			{
 				argsItems.Add(new MenuXmlNode(arg));
@@ -6025,7 +6026,7 @@ namespace Microarea.Common.MenuLoader
 	/// <summary>
 	/// Summary description for MenuXmlNodeCollection.
 	/// </summary>
-	public class MenuXmlNodeCollection : ReadOnlyCollectionBase, IMenuXmlNodeCollection
+	public class MenuXmlNodeCollection : ReadOnlyCollectionBase
 	{
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection()

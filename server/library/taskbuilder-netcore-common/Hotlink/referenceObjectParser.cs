@@ -12,6 +12,7 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.NameSolver;
+using System.Collections.Generic;
 
 namespace Microarea.Common.Hotlink
 {
@@ -92,7 +93,7 @@ namespace Microarea.Common.Hotlink
 		/// <summary>
 		/// Array dei HotKeyLink ricavati da parsing
 		/// </summary>
-		private ArrayList	functions;
+		private List<FunctionPrototype>  functions;
 		/// <summary>
 		/// Diagnostic degli eventuali errori di Parsing
 		/// </summary>
@@ -122,7 +123,7 @@ namespace Microarea.Common.Hotlink
 		/// <summary>
 		/// Array dei HotKeyLinks
 		/// </summary>
-		public ArrayList	HotLinkFunctions { get { return functions; }  }
+		public List<FunctionPrototype> HotLinkFunctions { get { return functions; }  }
 		
 		#endregion
 
@@ -302,7 +303,7 @@ namespace Microarea.Common.Hotlink
 						radarReportName = radarReport.GetAttribute(ReferenceObjectsXML.Attribute.Name);
 					
 					if (functions == null)
-						functions = new ArrayList();
+						functions = new List<FunctionPrototype>();
 
 					functions.Add(function);
 				}

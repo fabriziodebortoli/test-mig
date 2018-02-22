@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using Microarea.Common.Generic;
 using Microarea.Common.SecurityLayer.SecurityObjects;
@@ -52,7 +53,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (currNode.IsApplication) 
 			{
-				ArrayList groupItems = currNode.GroupItems;
+				List<MenuXmlNode> groupItems = currNode.GroupItems;
 				if (groupItems != null && groupItems.Count > 0) 
 				{
 					foreach (MenuXmlNode groupNode in groupItems)
@@ -62,7 +63,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (currNode.IsGroup || currNode.IsMenu)
 			{
-				ArrayList menuItems = currNode.MenuItems;
+                List<MenuXmlNode> menuItems = currNode.MenuItems;
 				if (menuItems != null  && menuItems.Count > 0) 
 				{
 					foreach (MenuXmlNode menuNode in menuItems)
@@ -80,7 +81,7 @@ namespace Microarea.Common.MenuLoader
 			
 			if (currNode.IsMenu || currNode.IsCommand)
 			{
-				ArrayList commandItems = currNode.CommandItems;
+                List<MenuXmlNode> commandItems = currNode.CommandItems;
 				if (commandItems != null && commandItems.Count > 0)
 				{
 					foreach (MenuXmlNode commandNode in commandItems)
@@ -204,8 +205,8 @@ namespace Microarea.Common.MenuLoader
 		{
 			if (currNode == null) 
 				return;
-			
-			ArrayList menuItems = currNode.MenuItems;
+
+            List<MenuXmlNode> menuItems = currNode.MenuItems;
 			if (menuItems != null ) 
 			{
 				foreach ( MenuXmlNode menuNode in menuItems)
@@ -214,7 +215,7 @@ namespace Microarea.Common.MenuLoader
 				}	
 			}
 
-			ArrayList commandItems = currNode.CommandItems;
+            List<MenuXmlNode> commandItems = currNode.CommandItems;
 			if ( commandItems != null )
 			{
 				foreach (MenuXmlNode commandNode in commandItems)

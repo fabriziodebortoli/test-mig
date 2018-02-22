@@ -36,11 +36,11 @@ namespace Microarea.Common.MenuLoader
             private string title;
             private int menuViewOrder = int.MaxValue;
             private string standardMenuPath;
-            private ArrayList standardMenuFiles;
+            private List<string> standardMenuFiles;
             private string customAllUsersMenuPath;
-            private ArrayList customAllUsersMenuFiles;
+            private List<string> customAllUsersMenuFiles;
             private string customCurrentUserMenuPath;
-            private ArrayList customCurrentUserMenuFiles;
+            private List<string> customCurrentUserMenuFiles;
 
             /// <summary>
             /// costruttore vuoto per il serializzatore
@@ -72,39 +72,39 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public int AddStandardMenuFile(string aFileName)
+            public void AddStandardMenuFile(string aFileName)
             {
                 if (aFileName == null || aFileName.Length == 0)
-                    return -1;
+                    return;
 
                 if (standardMenuFiles == null)
-                    standardMenuFiles = new ArrayList();
+                    standardMenuFiles = new List<string>();
 
-                return standardMenuFiles.Add(aFileName);
+                standardMenuFiles.Add(aFileName);
             }
 
             //---------------------------------------------------------------------------
-            public int AddCustomAllUsersMenuFile(string aFileName)
+            public void AddCustomAllUsersMenuFile(string aFileName)
             {
                 if (aFileName == null || aFileName.Length == 0)
-                    return -1;
+                    return;
 
                 if (customAllUsersMenuFiles == null)
-                    customAllUsersMenuFiles = new ArrayList();
+                    customAllUsersMenuFiles = new List<string>();
 
-                return customAllUsersMenuFiles.Add(aFileName);
+                customAllUsersMenuFiles.Add(aFileName);
             }
 
             //---------------------------------------------------------------------------
-            public int AddCustomCurrentUserMenuFile(string aFileName)
+            public void AddCustomCurrentUserMenuFile(string aFileName)
             {
                 if (aFileName == null || aFileName.Length == 0)
-                    return -1;
+                    return;
 
                 if (customCurrentUserMenuFiles == null)
-                    customCurrentUserMenuFiles = new ArrayList();
+                    customCurrentUserMenuFiles = new List<string>();
 
-                return customCurrentUserMenuFiles.Add(aFileName);
+                customCurrentUserMenuFiles.Add(aFileName);
             }
             //---------------------------------------------------------------------------
             public void SetCustomMenuPaths(string aPath, string aUserName)
@@ -133,19 +133,19 @@ namespace Microarea.Common.MenuLoader
                 set { standardMenuPath = (value != null && value.Length > 0 && PathFinder.PathFinderInstance.FileSystemManager.ExistPath(value)) ? value : String.Empty; }
             }
             //---------------------------------------------------------------------------
-            public ArrayList StandardMenuFiles { get { return standardMenuFiles; } set { standardMenuFiles = value; } }
+            public List<string> StandardMenuFiles { get { return standardMenuFiles; } set { standardMenuFiles = value; } }
             //---------------------------------------------------------------------------
             [XmlIgnore]
             public string CustomAllUsersMenuPath { get { return customAllUsersMenuPath; } }
             //---------------------------------------------------------------------------
             [XmlIgnore]
-            public ArrayList CustomAllUsersMenuFiles { get { return customAllUsersMenuFiles; } }
+            public List<string> CustomAllUsersMenuFiles { get { return customAllUsersMenuFiles; } }
             //---------------------------------------------------------------------------
             [XmlIgnore]
             public string CustomCurrentUserMenuPath { get { return customCurrentUserMenuPath; } }
             //---------------------------------------------------------------------------
             [XmlIgnore]
-            public ArrayList CustomCurrentUserMenuFiles { get { return customCurrentUserMenuFiles; } }
+            public List<string> CustomCurrentUserMenuFiles { get { return customCurrentUserMenuFiles; } }
         }
 
 
@@ -526,7 +526,7 @@ namespace Microarea.Common.MenuLoader
             string aApplicationName,
             string aModuleName,
             string filesPath,
-            ArrayList menuFilesToLoad,
+            List<string> menuFilesToLoad,
             ApplicationType aApplicationType,
             CommandsTypeToLoad commandsTypeToLoad
             )
@@ -552,7 +552,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        private bool AddUserCreatedReportsGroup(string aApplicationName, ModuleInfo aModule, ArrayList userCreatedReports)
+        private bool AddUserCreatedReportsGroup(string aApplicationName, ModuleInfo aModule, List<string> userCreatedReports)
         {
             if (userCreatedReports == null || userCreatedReports.Count <= 0)
                 return false;
@@ -619,7 +619,7 @@ namespace Microarea.Common.MenuLoader
         // Quindi, per ciascun file nella Custom vado a vedere se esiste o meno un file
         // con lo stesso nome nella corrispondente sottodirectory della Standard.
         //---------------------------------------------------------------------------
-        private ArrayList SearchUserCreatedReportFiles(ApplicationInfo aApplication, string aModuleName)
+        private List<string> SearchUserCreatedReportFiles(ApplicationInfo aApplication, string aModuleName)
         {
             if (aApplication == null || aModuleName.IsNullOrEmpty())
                 return null;
@@ -644,7 +644,7 @@ namespace Microarea.Common.MenuLoader
 
             bool addAllCustomReports = !CurrentPathFinder.FileSystemManager.ExistPath(standardModuleReportpath);
 
-            ArrayList userCreatedReports = new ArrayList();
+            List<string> userCreatedReports = new List<string>();
 
             // Prima carico i report relativi all'utente corrente. Infatti, se esiste per tale utente
             // un report con un dato nome, poi non devo considerare file di report "omonimi" relativi 
@@ -743,7 +743,7 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        private bool AddUserCreatedOfficeFilesGroup(string aApplicationName, ModuleInfo aModule, ArrayList userCreatedOfficeFiles)
+        private bool AddUserCreatedOfficeFilesGroup(string aApplicationName, ModuleInfo aModule, List<string> userCreatedOfficeFiles)
         {
             if (userCreatedOfficeFiles == null || userCreatedOfficeFiles.Count <= 0)
                 return false;
@@ -797,7 +797,7 @@ namespace Microarea.Common.MenuLoader
         // Quindi, per ciascun file nella Custom vado a vedere se esiste o meno un file
         // con lo stesso nome nella corrispondente sottodirectory della Standard.
         //---------------------------------------------------------------------------
-        private ArrayList SearchUserCreatedOfficeFiles
+        private List<string> SearchUserCreatedOfficeFiles
             (
             ApplicationInfo aApplication,
             string aModuleName,
@@ -824,12 +824,12 @@ namespace Microarea.Common.MenuLoader
 
             bool addAllCustomOfficeFiles = !CurrentPathFinder.FileSystemManager.ExistPath(standardModuleOfficeFilespath);
 
-            ArrayList userCreatedOfficeFiles = new ArrayList();
+            List<string> userCreatedOfficeFiles = new List<string>();
 
             // Prima carico i file relativi all'utente corrente. Infatti, se esiste per tale utente
             // un file di Office con un dato nome, poi non devo considerare file "omonimi" relativi 
             // a tutti gli utenti (AllUsers)
-            ArrayList currentUserCustomOfficeFiles = new ArrayList();
+            List<TBFile> currentUserCustomOfficeFiles = new List<TBFile>();
 
             string userPath = Microarea.Common.NameSolver.PathFinder.GetUserPath(userDirectoryName);
             if
@@ -869,13 +869,13 @@ namespace Microarea.Common.MenuLoader
 
                 if (currentUserCustomOfficeFiles.Count > 0)
                 {
-                    foreach (FileInfo currentUserCustomOfficeFileInfo in currentUserCustomOfficeFiles)
+                    foreach (TBFile currentUserCustomOfficeFileInfo in currentUserCustomOfficeFiles)
                     {
                         string officeNamespace = string.Join(
                             ".",
                             aApplication.Name,
                             aModuleName,
-                            currentUserCustomOfficeFileInfo.Name.Replace(currentUserCustomOfficeFileInfo.Extension, string.Empty)
+                            currentUserCustomOfficeFileInfo.name.Replace(currentUserCustomOfficeFileInfo.FileExtension, string.Empty)
                             );
 
                         // Controllo che non esista un file omonimo sotto la standard perch� in tal caso
@@ -885,21 +885,21 @@ namespace Microarea.Common.MenuLoader
                         // va comunque aggiunto nei file di Office dell'utente (anche se c'� un file omonimo nella
                         // standard)
                         if (
-                            ApplicationInfo.IsValidOfficeFileName(currentUserCustomOfficeFileInfo.Name) &&
-                            !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, currentUserCustomOfficeFileInfo.Name) &&
+                            ApplicationInfo.IsValidOfficeFileName(currentUserCustomOfficeFileInfo.name) &&
+                            !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, currentUserCustomOfficeFileInfo.name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, officeNamespace, MenuXmlNode.XML_TAG_OFFICE_ITEM) &&
                             (
                             addAllCustomOfficeFiles ||
-                            !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + currentUserCustomOfficeFileInfo.Name)
+                            !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + currentUserCustomOfficeFileInfo.name)
                             )
                             )
-                            userCreatedOfficeFiles.Add(currentUserCustomOfficeFileInfo.Name);
+                            userCreatedOfficeFiles.Add(currentUserCustomOfficeFileInfo.name);
                     }
                 }
             }
             // Una volta caricati gli eventuali nuovi file di Office per l'utente corrente posso vedere quali altri
             // file di Office trovo sotto AllUsers
-            ArrayList allUsersCustomOfficeFiles = new ArrayList();
+            List<TBFile> allUsersCustomOfficeFiles = new List<TBFile>();
 
             if
                 (
@@ -932,24 +932,24 @@ namespace Microarea.Common.MenuLoader
 
             if (allUsersCustomOfficeFiles.Count > 0)
             {
-                foreach (FileInfo allUsersCustomOfficeFileInfo in allUsersCustomOfficeFiles)
+                foreach (TBFile allUsersCustomOfficeFileInfo in allUsersCustomOfficeFiles)
                 {
                     string officeNamespace = string.Join(
                             ".",
                             aApplication.Name,
                             aModuleName,
-                            allUsersCustomOfficeFileInfo.Name.Replace(allUsersCustomOfficeFileInfo.Extension, string.Empty)
+                            allUsersCustomOfficeFileInfo.name.Replace(allUsersCustomOfficeFileInfo.FileExtension, string.Empty)
                             );
                     // Prima controllo che non esista un file omonimo sotto la standard o che
                     // il file di Office non venga mai menzionato nel men?di applicazione.
                     if
                         (
-                        ApplicationInfo.IsValidOfficeFileName(allUsersCustomOfficeFileInfo.Name) &&
-                        !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, allUsersCustomOfficeFileInfo.Name) &&
+                        ApplicationInfo.IsValidOfficeFileName(allUsersCustomOfficeFileInfo.name) &&
+                        !ExistsOfficeMenuCommand(aApplication.Name, aModuleName, allUsersCustomOfficeFileInfo.name) &&
                         !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, officeNamespace, MenuXmlNode.XML_TAG_OFFICE_ITEM) &&
                         (
                         addAllCustomOfficeFiles ||
-                        !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + allUsersCustomOfficeFileInfo.Name)
+                        !CurrentPathFinder.FileSystemManager.ExistFile(standardModuleOfficeFilespath + NameSolverStrings.Directoryseparetor + allUsersCustomOfficeFileInfo.name)
                         )
                         )
                     {
@@ -957,9 +957,9 @@ namespace Microarea.Common.MenuLoader
                         // Adesso vedo se ho precedentemente trovato un report con lo stesso nome relativo all'utente corrente
                         if (currentUserCustomOfficeFiles.Count > 0)
                         {
-                            foreach (FileInfo currentUserCustomOfficeFileInfo in currentUserCustomOfficeFiles)
+                            foreach (TBFile currentUserCustomOfficeFileInfo in currentUserCustomOfficeFiles)
                             {
-                                if (String.Compare(currentUserCustomOfficeFileInfo.Name, allUsersCustomOfficeFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0)
+                                if (String.Compare(currentUserCustomOfficeFileInfo.name, allUsersCustomOfficeFileInfo.name, StringComparison.OrdinalIgnoreCase) == 0)
                                 {
                                     ignoreOfficeFile = true;
                                     break;
@@ -967,7 +967,7 @@ namespace Microarea.Common.MenuLoader
                             }
                         }
                         if (!ignoreOfficeFile)
-                            userCreatedOfficeFiles.Add(allUsersCustomOfficeFileInfo.Name);
+                            userCreatedOfficeFiles.Add(allUsersCustomOfficeFileInfo.name);
                     }
                 }
             }
@@ -1113,11 +1113,11 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public List<ApplicationMenuInfo> ApplicationsInfo { get { return cachedInfos.ApplicationsInfo; } }
         //---------------------------------------------------------------------------
-        public ArrayList AppsMenuLoadErrorMessages { get { return AppsMenuXmlParser.LoadErrorMessages; } }
+        public List<string> AppsMenuLoadErrorMessages { get { return AppsMenuXmlParser.LoadErrorMessages; } }
         //---------------------------------------------------------------------------
-        public ArrayList FavoritesMenuLoadErrorMessages { get { return (favoritesXmlParser != null) ? favoritesXmlParser.LoadErrorMessages : null; } }
+        public List<string> FavoritesMenuLoadErrorMessages { get { return (favoritesXmlParser != null) ? favoritesXmlParser.LoadErrorMessages : null; } }
         //---------------------------------------------------------------------------
-        public ArrayList EnvironmentMenuLoadErrorMessages { get { return (EnvironmentXmlParser != null) ? EnvironmentXmlParser.LoadErrorMessages : null; } }
+        public List<string> EnvironmentMenuLoadErrorMessages { get { return (EnvironmentXmlParser != null) ? EnvironmentXmlParser.LoadErrorMessages : null; } }
 
         #endregion
 
@@ -1479,7 +1479,7 @@ namespace Microarea.Common.MenuLoader
         {
             foreach (ModuleInfo aModule in aApplication.Modules)
             {
-                ArrayList userCreatedReports = SearchUserCreatedReportFiles(aApplication, aModule.Name);
+                List<string> userCreatedReports = SearchUserCreatedReportFiles(aApplication, aModule.Name);
                 AddUserCreatedReportsGroup(aApplication.Name, aModule, userCreatedReports);
             }
         }
@@ -1493,7 +1493,7 @@ namespace Microarea.Common.MenuLoader
         {
             foreach (ModuleInfo aModule in aApplication.Modules)
             {
-                ArrayList userCreatedOfficeFiles = SearchUserCreatedOfficeFiles(aApplication, aModule.Name, commandsTypeToLoad);
+                List<string> userCreatedOfficeFiles = SearchUserCreatedOfficeFiles(aApplication, aModule.Name, commandsTypeToLoad);
                 AddUserCreatedOfficeFilesGroup(aApplication.Name, aModule, userCreatedOfficeFiles);
             }
         }
@@ -2854,7 +2854,7 @@ namespace Microarea.Common.MenuLoader
 
             if (AppsMenuXmlParser != null)
             {
-                ArrayList shortcuts1 = AppsMenuXmlParser.ShortcutsItems;
+                List<MenuXmlNode> shortcuts1 = AppsMenuXmlParser.ShortcutsItems;
                 if (shortcuts1 != null)
                 {
                     for (int i = 0; i < shortcuts1.Count; i++)

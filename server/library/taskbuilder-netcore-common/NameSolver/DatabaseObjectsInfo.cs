@@ -8,6 +8,7 @@ using System.Xml;
 using Microarea.Common.StringLoader;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.Common.NameSolver
 {
@@ -166,9 +167,9 @@ namespace Microarea.Common.NameSolver
 
 		private ModuleInfo	parentModuleInfo;
 
-		protected ArrayList tableInfoArray;
-		protected ArrayList viewInfoArray;
-		protected ArrayList procedureInfoArray;
+		protected List<TableInfo> tableInfoArray;
+		protected List<IDbObjectInfo> viewInfoArray;
+		protected List<ProcedureInfo> procedureInfoArray;
 
 		//--------------------------------------------------------------------------------
 		public	string		FilePath		{ get { return filePath; } }
@@ -395,7 +396,7 @@ namespace Microarea.Common.NameSolver
 				return false;
 
 			if (tableInfoArray == null)
-				tableInfoArray = new ArrayList();
+				tableInfoArray = new List<TableInfo>();
 	
 			foreach (XmlElement xTable in tableNodes)
 			{
@@ -433,7 +434,7 @@ namespace Microarea.Common.NameSolver
 				return false;
 
 			if (viewInfoArray == null)
-				viewInfoArray = new ArrayList();
+				viewInfoArray = new List<IDbObjectInfo>();
 	
 			foreach (XmlElement xView in viewNodes)
 			{
@@ -467,7 +468,7 @@ namespace Microarea.Common.NameSolver
 				return false;
 
 			if (procedureInfoArray == null)
-				procedureInfoArray = new ArrayList();
+				procedureInfoArray = new List<ProcedureInfo>();
 	
 			foreach (XmlElement xProc in procedureNodes)
 			{

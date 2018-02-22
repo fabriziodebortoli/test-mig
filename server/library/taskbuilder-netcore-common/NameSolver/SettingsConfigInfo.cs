@@ -8,6 +8,7 @@ using System.Xml;
 using Microarea.Common.StringLoader;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.Common.NameSolver
 {
@@ -42,7 +43,7 @@ namespace Microarea.Common.NameSolver
 
 			}
 
-			ArrayList fileArray = aModuleInfo.GetConfigFileArray();
+            List<string> fileArray = aModuleInfo.GetConfigFileArray();
 			foreach(string fileName in fileArray)
 			{
 				// non ho trovato niente quindi me lo dovrò parsare
@@ -65,14 +66,14 @@ namespace Microarea.Common.NameSolver
 		private	string			parsingError;
 
 		private ModuleInfo	parentModuleInfo;
-		private ArrayList		sections;
+		private List<SectionInfo>		sections;
 
 		public	string			FileName		{ get { return fileName; } }
 		public	bool			Valid			{ get { return valid; } }
 		public	string			ParsingError	{ get { return parsingError; } }
 
 		public ModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
-		public ArrayList		Sections			{ get { return sections; } }
+		public List<SectionInfo> Sections			{ get { return sections; } }
 
 		//---------------------------------------------------------------------
 		public SettingsConfigInfo(string aFilename, ModuleInfo	aParentModuleInfo)
@@ -197,7 +198,7 @@ namespace Microarea.Common.NameSolver
 
 			//inizializzo l'array delle Section
 			if (sections == null)
-				sections = new ArrayList();
+				sections = new List<SectionInfo>();
 		
 			bool tempBool = false;
 
@@ -445,7 +446,7 @@ namespace Microarea.Common.NameSolver
 		private string					baseType;
 		private bool					hidden		= false;
 		private bool					userSetting	= false;
-		private ArrayList				values = new ArrayList();
+		private List<string> values = new List<string>();
 		private SourceOfSettingsConfig	sourceFileType;
 
 		// proprietà
@@ -457,7 +458,7 @@ namespace Microarea.Common.NameSolver
 		public string					BaseType		{ get { return baseType; }			set { baseType = value; } }
 		public bool						Hidden			{ get { return hidden; }			set { hidden = value; } }
 		public bool						UserSetting		{ get { return userSetting; }		set { userSetting = value; } }
-		public ArrayList				Values			{ get { return values; }  }
+		public List<string> Values			{ get { return values; }  }
 		public SourceOfSettingsConfig	SourceFileType	{ get { return sourceFileType; }	set { sourceFileType = value; } }
 
 		/// <summary>
@@ -478,15 +479,15 @@ namespace Microarea.Common.NameSolver
 		/// <param name="valueItem"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		public int AddValue(string valueItem)
+		public void AddValue(string valueItem)
 		{
 			if (valueItem == null)
-				return -1;
+				return;
 
 			if (values == null)
-				values = new ArrayList();
+				values = new List<string>();
 
-			return values.Add(valueItem);
+			values.Add(valueItem);
 		}
 	}
 
@@ -498,7 +499,7 @@ namespace Microarea.Common.NameSolver
 		protected	int						release				= 0;
 		protected	bool					hidden				= false;
 		protected   bool					allowNewSettings	= false;
-		protected	ArrayList				settings;
+		protected List<SettingItem> settings;
 	
 
 		/// <summary>
@@ -526,7 +527,7 @@ namespace Microarea.Common.NameSolver
 		/// <summary>
 		/// Array dei setting della section
 		/// </summary>
-		public ArrayList Settings { get { return settings; } }
+		public List<SettingItem> Settings { get { return settings; } }
 
 		
 		/// <summary>
@@ -540,14 +541,14 @@ namespace Microarea.Common.NameSolver
 			name = aName;
 			localize = aLocalize;
 			if (settings == null)
-				settings = new ArrayList();
+				settings = new List<SettingItem>();
 
 		}
 		//---------------------------------------------------------------------
 		public SectionInfo()
 		{
 			if (settings == null)
-				settings = new ArrayList();
+				settings = new List<SettingItem>();
 
 		}
 
@@ -557,15 +558,15 @@ namespace Microarea.Common.NameSolver
 		/// <param name="settingItem"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		public int AddSetting(SettingItem settingItem)
+		public void AddSetting(SettingItem settingItem)
 		{
 			if (settingItem == null)
-				return -1;
+				return ;
 
 			if (settings == null)
-				settings = new ArrayList();
+				settings = new List<SettingItem>();
 
-			return settings.Add(settingItem);
+			settings.Add(settingItem);
 		}
 
 		//---------------------------------------------------------------------
@@ -598,9 +599,9 @@ namespace Microarea.Common.NameSolver
 			return null;
 		}
 		//---------------------------------------------------------------------
-		public ArrayList GetSettingsItemByName(string aName)
+		public List<SettingItem> GetSettingsItemByName(string aName)
 		{
-			ArrayList settings = new ArrayList();
+            List<SettingItem> settings = new List<SettingItem>();
 
 			foreach (SettingItem aSettingItem in this.Settings)
 			{
@@ -610,9 +611,9 @@ namespace Microarea.Common.NameSolver
 			return settings;
 		}
 		//---------------------------------------------------------------------
-		public ArrayList GetSettingsBySourceType(SourceOfSettingsConfig source)
+		public List<SettingItem> GetSettingsBySourceType(SourceOfSettingsConfig source)
 		{
-			ArrayList arrayList = new ArrayList();
+            List<SettingItem> arrayList = new List<SettingItem>();
 
 			foreach (SettingItem aSettingItem in settings)
 			{
@@ -622,7 +623,7 @@ namespace Microarea.Common.NameSolver
 			return arrayList;
 		}
 		//---------------------------------------------------------------------
-		public static SettingItem GetSettingBySourceType(SourceOfSettingsConfig source, ArrayList settingArray)
+		public static SettingItem GetSettingBySourceType(SourceOfSettingsConfig source, List<SettingItem> settingArray)
 		{
 			foreach (SettingItem aSettingItem in settingArray)
 			{
