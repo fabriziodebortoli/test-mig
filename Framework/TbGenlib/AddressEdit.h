@@ -213,6 +213,7 @@ public:
 
 private:
 	BOOL	m_bIsBrazil;
+	BOOL	m_bIsRomania;
 	BOOL	m_bUseAddressType;
 	DataStr	m_Status;
 	DataStr	m_CompleteAddress;
@@ -274,6 +275,7 @@ public:
 
 public:
 	BOOL	IsBrazil					() { return m_bIsBrazil; }
+	BOOL	IsRomania					() { return m_bIsRomania; }
 	BOOL	UseAddressType				() { return m_bUseAddressType; }
 	void	SetUseAddressType			(BOOL bUseAddressType)	{ m_bUseAddressType = bUseAddressType;}
 	BOOL	IsGeocoderOK				() { return m_Status == GEOCODER_RESULT_OK; }
@@ -285,8 +287,8 @@ public:
 	DataStr	GetGeocoderAddressWithNumber() { return m_bIsBrazil || m_Address.IsEmpty() ? m_Address : m_Address + _T(" ") + m_StreetNumber; }
 	DataStr	GetGeocoderStreetNumber		() { return m_StreetNumber; }
 	DataStr	GetGeocoderCity				() { return m_City; }
-	DataStr	GetGeocoderCounty			() { return m_County; }
-	DataStr	GetGeocoderRegion			() { return m_Region; }
+	DataStr	GetGeocoderCounty			();
+	DataStr	GetGeocoderRegion			();
 	DataStr	GetGeocoderFederalState		() { return m_FederalState; }
 	DataStr	GetGeocoderCountry			() { return m_Country; }
 	DataStr	GetGeocoderISOCode			() { return m_ISOCode; }

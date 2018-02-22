@@ -495,6 +495,7 @@ IMPLEMENT_DYNAMIC(CGeocoder, CObject)
 CGeocoder::CGeocoder()
 {
 	m_bIsBrazil = AfxIsActivated(MAGONET_APP, _NS_ACT("MasterData_BR"));
+	m_bIsRomania = AfxIsActivated(MAGONET_APP, _NS_ACT("MasterData_RO"));
 	m_pAddressDlgClass = NULL;
 	m_pDoc = NULL;
 }
@@ -963,6 +964,37 @@ BOOL CGeocoder::OpenGoogleMaps(CString aLatitude,
 	}
 	else
 		return TRUE;
+}
+
+//----------------------------------------------------------------------------
+DataStr CGeocoder::GetGeocoderCounty () 
+{ 
+	if (!IsRomania())
+		return m_County;
+
+	CString str = m_County.Str();
+	str.Replace(_T("MUN. "),			_T(""));
+	str.Replace(_T("MUNICIPUL "),	_T(""));
+	str.Replace(_T("MUNICIPIUL "),	_T(""));
+	str.Replace(_T("Mun. "), _T(""));
+	str.Replace(_T("Municipul "), _T(""));
+	str.Replace(_T("Municipiul "), _T(""));
+	m_County = DataStr(str);
+	return m_County;
+}
+
+//----------------------------------------------------------------------------
+DataStr CGeocoder::GetGeocoderRegion() 
+{
+	if (!IsRomania())
+		return m_Region;
+	CString str = m_County.Str();
+	str.Replace(_T("JUD. "), _T(""));
+	str.Replace(_T("JUDETUL "), _T(""));
+	str.Replace(_T("Jud. "), _T(""));
+	str.Replace(_T("Judetul "), _T(""));
+	m_Region = DataStr(str);
+	return m_Region; 
 }
 
 //----------------------------------------------------------------------------
