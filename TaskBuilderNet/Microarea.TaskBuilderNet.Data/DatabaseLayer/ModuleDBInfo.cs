@@ -20,13 +20,15 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 		public string Table { get; }
 		public string Configuration { get; }
 		public bool Overwrite { get; }
+		public string Country { get; }
 
 		//---------------------------------------------------------------------
-		public DefaultDataStep(string table, string configuration, bool overwrite = true)
+		public DefaultDataStep(string table, string configuration, string country, bool overwrite = true)
 		{
 			this.Table = table;
 			this.Configuration = configuration;
 			this.Overwrite = overwrite;
+			this.Country = country;
 		}
 	}
 	#endregion
@@ -319,7 +321,10 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				string tableAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Table);
 				string configurationAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Configuration);
 				string overwriteAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Overwrite);
-				bool overwriteValue = (string.IsNullOrEmpty(overwriteAttribute)) ? true : Convert.ToBoolean(overwriteAttribute); // N.B. di default vado in update
+				bool overwriteValue = (string.IsNullOrWhiteSpace(overwriteAttribute)) ? true : Convert.ToBoolean(overwriteAttribute); // N.B. di default vado in update
+
+				string countryAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Country);
+				string countryValue = (string.IsNullOrWhiteSpace(countryAttribute) || countryAttribute == "*") ? string.Empty : countryAttribute;
 
 				// se gli attributi previsti 
 				if (string.IsNullOrWhiteSpace(tableAttribute) || string.IsNullOrWhiteSpace(configurationAttribute))
@@ -335,7 +340,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				}
 
 				isDefaultDataStep = true;
-				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, overwriteValue);
+				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, countryValue, overwriteValue);
 			}
 			
 			switch (numLevel)
@@ -1010,6 +1015,8 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				string configurationAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Configuration);
 				string overwriteAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Overwrite);
 				bool overwriteValue = (string.IsNullOrEmpty(overwriteAttribute)) ? true : Convert.ToBoolean(overwriteAttribute); // N.B. di default vado in update
+				string countryAttribute = xStep.GetAttribute(Create_UpgradeInfoXML.Attribute.Country);
+				string countryValue = (string.IsNullOrWhiteSpace(countryAttribute) || countryAttribute == "*") ? string.Empty : countryAttribute;
 
 				// se gli attributi previsti 
 				if (string.IsNullOrWhiteSpace(tableAttribute) || string.IsNullOrWhiteSpace(configurationAttribute))
@@ -1025,7 +1032,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				}
 
 				isDefaultDataStep = true;
-				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, overwriteValue);
+				defaultDataStep = new DefaultDataStep(tableAttribute, configurationAttribute, countryValue, overwriteValue);
 			}
 			
 			switch (numLevel)

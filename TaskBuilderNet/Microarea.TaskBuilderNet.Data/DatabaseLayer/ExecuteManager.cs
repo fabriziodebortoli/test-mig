@@ -329,7 +329,6 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 					if (isDatabaseUpgraded)
 					{
 						// evento per la gestione dei dati di default in fase di upgrade
-						DefaultStepDataAreAvailable?.Invoke(this, EventArgs.Empty);
 						impExpManager.ImportDefaultDataForUpgrade();
 
 						// gestione standard dei dati di default/esempio
@@ -855,7 +854,16 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 
 				// scorro la lista degli eventuali step per i dati di default e me li tengo da parte 
 				foreach (DefaultDataStep defaultStep in singleInfo.DefaultDataStepList)
-					impExpManager.AddDefaultDataStepTable(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName, defaultStep);
+				{
+					if (
+						string.IsNullOrWhiteSpace(defaultStep.Country) ||
+						string.Compare(defaultStep.Country, this.contextInfo.IsoState, StringComparison.InvariantCultureIgnoreCase) == 0
+						)
+					{
+						DefaultStepDataAreAvailable?.Invoke(this, EventArgs.Empty);
+						impExpManager.AddDefaultDataStepTable(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName, defaultStep);
+					}
+				}
 			}
 
 			// se le operazioni sono andate a buon fine imposto i valori del livello e dello step a zero

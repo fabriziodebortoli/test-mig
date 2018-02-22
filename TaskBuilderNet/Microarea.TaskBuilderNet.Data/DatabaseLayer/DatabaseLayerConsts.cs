@@ -430,6 +430,7 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 			public const string Table = "table";
 			public const string Configuration = "configuration";
 			public const string Overwrite = "overwrite";
+			public const string Country = "country";
 		}
 	}
 	
