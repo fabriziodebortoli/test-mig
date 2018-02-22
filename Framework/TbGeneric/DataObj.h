@@ -386,9 +386,7 @@ public:
 			void SerializeToJson(CJsonSerializer& jsonSerializer);
 
 			bool AlignHKL(HotKeyLink* pHKL);
-protected:
 	void SignalOnChanged();
-	public:
 /*
 DataObjClone e DataObjCreate in debug simulano il comportamento della DEBUG_NEW 
 che � abilitata di default in stdafx.h
