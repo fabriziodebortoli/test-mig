@@ -1997,7 +1997,7 @@ BOOL ExpParse::ParseInternalFunc(Parser& lex, Stack& exprStack)
 			
 			exprStack.Push(new ExpItemVal(pointer, lex.GetCurrentPos()));
 		}
-		else  if (p == 1 && (tokenFun == T_FGETTITLE || tokenFun == T_FPREV_VALUE || tokenFun == T_FNEXT_VALUE))
+		else  if (p == 1 && (tokenFun == T_FPREV_VALUE || tokenFun == T_FNEXT_VALUE))
 		{
 			CString sIdent;
 			if (!lex.ParseID(sIdent))
@@ -2010,6 +2010,26 @@ BOOL ExpParse::ParseInternalFunc(Parser& lex, Stack& exprStack)
 				return FALSE;
 			}
 			
+			exprStack.Push(new ExpItemVrb(sIdent, lex.GetCurrentPos()));
+		}
+		else  if (p == 1 && tokenFun == T_FGETTITLE)
+		{
+			CString sIdent;
+			if (lex.LookAhead(T_STR))
+			{
+				if (!lex.ParseString(sIdent))
+					return FALSE;
+			}
+			else if (!lex.ParseID(sIdent))
+					return FALSE;
+
+			SymField* pField = m_pSymTable->GetField(sIdent);
+			if (!pField)
+			{
+				lex.SetError(Expression::FormatMessage(Expression::UNKNOWN_FIELD));
+				return FALSE;
+			}
+
 			exprStack.Push(new ExpItemVrb(sIdent, lex.GetCurrentPos()));
 		}
 		else if (p == 2 && tokenFun == T_FGETTHREADCONTEXT)
