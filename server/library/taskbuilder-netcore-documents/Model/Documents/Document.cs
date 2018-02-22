@@ -63,6 +63,8 @@ namespace TaskBuilderNetCore.Documents.Model
         //-----------------------------------------------------------------------------------------------------
         public ComponentState DocumentState { get => documentState; set => documentState = value; }
 
+        //-----------------------------------------------------------------------------------------------------
+        public IDataModel DataModel { get => Components[0] as IDataModel; }
 
         //-----------------------------------------------------------------------------------------------------
         public Document()

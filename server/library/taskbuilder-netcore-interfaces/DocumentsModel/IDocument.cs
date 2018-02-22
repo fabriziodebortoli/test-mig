@@ -4,6 +4,7 @@ using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Documents.Controllers.Interfaces;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using TaskBuilderNetCore.Model.Interfaces;
 
 namespace TaskBuilderNetCore.Documents.Model.Interfaces
 {
@@ -32,5 +33,6 @@ namespace TaskBuilderNetCore.Documents.Model.Interfaces
         bool LoadComponents();
         bool AttachDataModel();
         bool DetachDataModel();
-     }
+        IDataModel DataModel { get; }
+    }
 }

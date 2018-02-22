@@ -16,6 +16,8 @@ namespace TaskBuilderNetCore.Documents.Model
 
         #region IDataModel
         //---------------------------------------------------------------------
+        public object CurrentEntity => Record;
+        //---------------------------------------------------------------------
         public bool LoadData() => FindData();
         
         //---------------------------------------------------------------------

@@ -6,6 +6,7 @@ namespace TaskBuilderNetCore.Model.Interfaces
 {
     public interface IDataModel
     {
+        object CurrentEntity { get; }
         bool LoadData();
         bool NewData();
         bool EditData();
