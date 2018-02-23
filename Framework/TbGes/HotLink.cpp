@@ -919,19 +919,11 @@ void HotKeyLink::RecordAvailable()
 	}
 
 	if (AfxIsRemoteInterface() &&  (GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) != 0)
-	{
-		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-		if (!pSession) return;
-		CJsonSerializer resp;
-		resp.WriteString(_T("cmd"), _T("AddOnFly"));
-		resp.OpenObject(_T("args"));
-		resp.WriteString(_T("name"), m_sName);
-		resp.WriteString(_T("value"), GetDataObj()->Str());
-		pSession->PushToClients(resp);
-	}
+		m_pDocument->UpdateDataView();
 
 	if (m_pRadarDoc)
 		m_pRadarDoc->SetCanBeParentWindow(FALSE);//se la ModifiedCtrlData scatenasse una messagebox, non deve prendere il radar come parent
+
 	CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
 	if (pOwnerCtrl)
 	{

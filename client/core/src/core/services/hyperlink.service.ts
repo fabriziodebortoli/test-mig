@@ -103,6 +103,7 @@ export class HyperLinkService implements OnDestroy {
 
     private updateCmpValue(value:any) {
         if (this.onAfterAddOnFly) this.onAfterAddOnFly(value);
+        this.giveBackFocus();
     }
 
     private giveBackFocus() {
