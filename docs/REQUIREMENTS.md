@@ -65,8 +65,13 @@ Others - [link](https://www.microsoft.com/net/download/)
 ## Componenti aggiuntivi di Visual Studio
 Aprire l'Installer del Visual Studio 2017 (dalla funzione di ricerca di Windows, cercare "Visual Studio Installer"). Potrebbe richiedere l'aggiornamento dello stesso Installer o di Visual Studio)
 
-Verificare di avere installato il seguente componente nella sezione "aspnet web development"
+Verificare di avere installato i seguenti componenti nella sezione **ASP.NET and web development**
+
 ![Prerequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
+
+e, nella sezione **Desktop development with C++**:
+
+![v140-MFC](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/v140-MFC.jpg)
 
 ## Microarea Extension
 
