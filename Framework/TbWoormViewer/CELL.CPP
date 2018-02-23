@@ -559,7 +559,7 @@ void TableCell::Draw
 				}
 
 				CTBPicture* pBitmap = (CTBPicture*)pGraphic;
-				if (pBitmap && pBitmap->ReadFile(sFileName, TRUE))
+				if (pBitmap && pBitmap->ReadFile(sFileName, TRUE, TRUE))
 				{
 					if (!sPart.IsEmpty())
 					{

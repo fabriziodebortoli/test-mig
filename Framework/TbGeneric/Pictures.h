@@ -40,7 +40,7 @@ public:
 	CString GetFileName() const { return m_strFileName; }
 
 	void Reload		();
-	BOOL ReadFile	(const CString& strFileName, BOOL bCheckExist /*= FALSE*/);
+	BOOL ReadFile	(const CString& strFileName, BOOL bCheckExist /*= FALSE*/, BOOL bNoCache = FALSE);
 
 	BOOL SaveFile	(const CString& strFileName);
 

@@ -595,7 +595,7 @@ BOOL CWoormView::DrawBitmap(CDC* pDC, CPoint ptOrigin, const CString& strBmpName
 
 	// Leggo il bitmap dal file in formato .bmp,.jpg,.png
 	CTBPicture bitmap;
-	if (!bitmap.ReadFile(strName, TRUE))
+	if (!bitmap.ReadFile(strName, TRUE, TRUE))
 		return FALSE;
 
 	CSize sizeBitmap(bitmap.GetWidth(), bitmap.GetHeight());

@@ -3405,7 +3405,7 @@ CCutBitmapDlg::CCutBitmapDlg ( CWnd* pParentWnd, const CString& strFileName, CRe
 	m_nScrollPosX			(0),
 	m_nScrollPosY			(0)
 {
-	if (!m_Bitmap.ReadFile(strFileName, TRUE))
+	if (!m_Bitmap.ReadFile(strFileName, TRUE, TRUE))
 		return;
 
 	// calcolo del rettangolo di taglio. Si deve normalizzare con 
@@ -3808,7 +3808,7 @@ GraphRect::GraphRect(CPoint ptCurrPos, const CString& sImage, CWoormDocMng* pDoc
 	// if no strName is passed, don't create m_Bitmap structure.
 	if (!m_sImage.IsEmpty())
 	{
-		if (m_Bitmap.ReadFile(m_sImage, TRUE))
+		if (m_Bitmap.ReadFile(m_sImage, TRUE, TRUE))
 		{
 			ConstrainBaseRect();
 		}
@@ -3827,7 +3827,7 @@ GraphRect::GraphRect(const GraphRect& source)
 {
 	if (!m_sImage.IsEmpty())
 	{
-		m_Bitmap.ReadFile(m_sImage, TRUE);
+		m_Bitmap.ReadFile(m_sImage, TRUE, TRUE);
 		m_Bitmap.m_ImageFitMode = source.m_Bitmap.m_ImageFitMode;
 	}
 }
@@ -3980,7 +3980,7 @@ void GraphRect::LoadFromFile()
 			m_sImage = strPath;
 	}
 
-	m_Bitmap.ReadFile(m_sImage, TRUE);
+	m_Bitmap.ReadFile(m_sImage, TRUE, TRUE);
 	Invalidate(); 
 }
 
@@ -4176,7 +4176,7 @@ BOOL GraphRect::Parse (ViewParser& lex)
 
 	if (ok)
 	{
-		if (!m_Bitmap.ReadFile(m_sImage, TRUE))
+		if (!m_Bitmap.ReadFile(m_sImage, TRUE, TRUE))
 			ok = lex.SetError(_TB("File open error"), m_sImage);
 	}
 	return ok;
@@ -4920,7 +4920,7 @@ void FieldRect::DrawBitmap (CDC& DC, CRect& inside)
 	if (!sFileName.IsEmpty())
 	{
 		//se l'immagine non è valida, scrivo la stringa contenuta nel value
-		if (!m_pBitmap->ReadFile(sFileName, TRUE) || !m_pBitmap->IsOk())
+		if (!m_pBitmap->ReadFile(sFileName, TRUE, TRUE) || !m_pBitmap->IsOk())
 			m_Value.Draw(DC, inside, m_pDocument, !m_bTransparent);
 		else
 		{

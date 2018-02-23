@@ -745,6 +745,7 @@ Gdiplus::Bitmap* LoadGdiplusBitmapOrPngFromFile(CString strFileName)
 	return NULL;	
 }
 
+
 //----------------------------------------------------------------------------
 HBITMAP	LoadBitmapOrPng(CString strImageNS, BOOL bUseColoredImage)
 {

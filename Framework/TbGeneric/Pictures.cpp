@@ -196,6 +196,7 @@ CTBPicture::CTBPicture(const CTBPicture& source)
 		int width = source.GetWidth();
 		int height = source.GetHeight();
 		Gdiplus::Rect sourceRect(0, 0, width, height);
+
 		m_pImage = GDIPLUS_IMG(source.m_pImage)->Clone(sourceRect, PixelFormatDontCare);
 	}	
 }
@@ -203,12 +204,9 @@ CTBPicture::CTBPicture(const CTBPicture& source)
 //-----------------------------------------------------------------------------
 CTBPicture::~CTBPicture()
 {
-	if (m_bUseGdiPlus)
+	if (m_bUseGdiPlus && m_pImage)
 	{
-		if (m_pImage)
-		{
-			delete GDIPLUS_IMG(m_pImage); m_pImage = NULL;
-		}
+		delete GDIPLUS_IMG(m_pImage); m_pImage = NULL;
 	}
 }
 
@@ -262,12 +260,9 @@ int CTBPicture::GetHeight() const
 //-----------------------------------------------------------------------------
 void CTBPicture::Clear()
 {
-	if (m_bUseGdiPlus)
+	if (m_bUseGdiPlus && m_pImage)
 	{
-		if (m_pImage)
-		{
-			delete GDIPLUS_IMG(m_pImage); m_pImage = NULL;
-		}
+		delete GDIPLUS_IMG(m_pImage); m_pImage = NULL;
 	}
 	m_strFileName.Empty();
 }
@@ -275,6 +270,8 @@ void CTBPicture::Clear()
 //-----------------------------------------------------------------------------
 BOOL CTBPicture::LoadBitmapFromResource(int IDB, HDC hDC)
 {
+	Clear();
+
 	HINSTANCE hInst = AfxFindResourceHandle(MAKEINTRESOURCE(IDB), RT_BITMAP);
 	HBITMAP hBmp = ::LoadBitmap(hInst, MAKEINTRESOURCE(IDB));
 	if (hBmp == NULL)
@@ -323,7 +320,7 @@ void CTBPicture::Reload()
 }
 
 //-----------------------------------------------------------------------------
-//Il metodo è utilizzato pesantemente da Woorm/ReportStudio:
+//Il metodo ï¿½ utilizzato pesantemente da Woorm/ReportStudio:
 //TbGenlib/ParsEdtOther.cpp		(CPictureStatic)
 //TbWoormEngine/repfield.cpp	(WoormField)
 //TbWoormViewer/rectobj.cpp		(GraphRect, FieldRect)
@@ -333,9 +330,9 @@ void CTBPicture::Reload()
 //----
 // TODO BAUZI
 //----
-BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bCheckExist/* = FALSE*/)
+BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bCheckExist/* = FALSE*/, BOOL bNoCache/* = FALSE*/)
 {
-	//ottimizzazione: se l'immagine tramite path è la stessa non fa nulla
+	//ottimizzazione: se l'immagine tramite path ï¿½ la stessa non fa nulla
 	if (m_strFileName.CompareNoCase(sImage) == 0 && m_pImage != NULL)
 		return TRUE;
 
@@ -344,7 +341,7 @@ BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bChe
 	CString sPath(sImage);
 	if (!sImage.IsEmpty() && !::ExistFile(sImage))
 	{
-		//ottimizzazione: se l'immagine tramite namespace è la stessa non fa nulla
+		//ottimizzazione: se l'immagine tramite namespace ï¿½ la stessa non fa nulla
 		BOOL bAddExt = FALSE;
 		if (GetExtension(sImage).IsEmpty())
 		{
@@ -376,9 +373,14 @@ BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bChe
 	if (m_bUseGdiPlus)
 	{
 		if (!strNS.IsEmpty())
-			m_pImage = LoadGdiplusBitmapOrPng(strNS);//cmq ritorna NULL se non trova niente in cache o file system
-		else
-			m_pImage = LoadGdiplusBitmapOrPngFromFile(m_strFileName);//cmq ritorna NULL 
+		{
+			m_pImage = bNoCache ?
+								LoadGdiplusBitmapOrPngInternal(strNS)	//cmq ritorna NULL se non trova niente in cache o file system
+								:
+								LoadGdiplusBitmapOrPng(strNS);
+		}
+		//else if (::ExistFile(m_strFileName))
+		//	m_pImage = Gdiplus::Bitmap::FromFile(m_strFileName);
 				
 		if (m_pImage == NULL || GDIPLUS_IMG(m_pImage)->GetFlags() == Gdiplus::ImageFlagsNone) 
 		{
