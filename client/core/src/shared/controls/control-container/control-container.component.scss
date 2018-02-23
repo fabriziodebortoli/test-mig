@@ -1,3 +1,7 @@
 .has-error {
     color: red;
 }
+
+ :host button ::ng-deep tb-icon>div {
+    line-height: 0px;
+}

@@ -7,6 +7,11 @@ import { TbComponent } from "../components/tb.component";
 import { addControlModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 import { ContextMenuItem } from './../models/context-menu-item.model';
 
+export class StateButtonState {
+    model: string;
+    cmpId: string;
+}
+
 @Component({
     template: ''
 })
@@ -21,7 +26,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     contextMenu: ContextMenuItem[] = [];
-    
+    @Input()
+    stateButtonState: StateButtonState;
     @Input()
     hideCaption : boolean = false;
 
