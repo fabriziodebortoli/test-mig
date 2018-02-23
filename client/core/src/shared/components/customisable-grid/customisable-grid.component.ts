@@ -111,9 +111,9 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     limit = (d: GridData): GridData => {
         const maxCols = Math.min(d.columns.length, this.maxColumns);
         const data = d.columns.length < maxCols ? d.data :
-            d.data.map(r => [this.selectionColumnId, ...Object.keys(r)]
+            d.data.map(r => [...Object.keys(r)]
                 .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
-        const columns = [d.columns.find(c => c.id === this.selectionColumnId), ...d.columns]
+        const columns = [...d.columns]
             .slice(0, maxCols);
         return d.with({ data, columns });
     }

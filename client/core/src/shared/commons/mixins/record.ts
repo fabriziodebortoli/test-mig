@@ -34,7 +34,7 @@ export function Record<T extends object, U extends Constructor>(Base: Constructo
             super(...args);
         }
 
-        with(a: (Partial<T> | ((s: T) => Partial<T>))): W & T {
+        with(a: (Partial<T> | ((s: T) => Partial<T>))): Record & T {
             if (typeof a === 'function')
                 a = a(this as any);
             return Object.assign(new Record(), this, a) as any;

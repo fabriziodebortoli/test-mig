@@ -83,7 +83,7 @@ export class WebSocketService extends LocalizationService {
                         case 'RunError': $this.runError.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
-                        case 'AddOnFly': $this.addOnFly.emit(obj.args); break;
+                        case 'AddOnFly': $this.addOnFly.emit({name: obj.args['name'], value: obj.args['value']}); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;

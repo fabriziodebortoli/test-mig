@@ -3,8 +3,10 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
+import { StorageService } from './../../../core/services/storage.service';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { HttpService } from './../../../core/services/http.service';
+import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -25,7 +27,7 @@ declare var document: any;
   selector: 'tb-hotlink-combo',
   templateUrl: './tb-hot-link-combo.component.html',
   styleUrls: ['./tb-hot-link-combo.component.scss'],
-  providers: [PaginatorService, FilterService, HyperLinkService]
+  providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
 
@@ -37,7 +39,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     protected paginator: PaginatorService,
     protected filterer: FilterService, 
     protected hyperLinkService: HyperLinkService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected mediator: ComponentMediator
   ) {
     super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
   }
@@ -86,9 +89,10 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
         return this.httpService.getHotlinkData(ns, this.state.selectionType, p);
       });
 
+    this.state = {...this.state};
+
     this.paginator.clientData.subscribe((d) => {
-      this.state = this.state.with({ selectionColumn: d.key });
-      //, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })
+      this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
     });
 
     this.filterer.filterChanged$.filter(x => x.logic !== undefined)
@@ -172,7 +176,9 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   ngOnInit() {
-    this.state = { ...this.state, selectionType: 'combo' };
+    this.mediator.storage.options = 
+      {...this.mediator.storage.options, componentInfo: {...this.mediator.storage.options.componentInfo, cmpId: this.modelComponent.cmpId} };
+    this.state = this.state.with({selectionType: 'combo'});
   }
 
   ngOnDestroy() {

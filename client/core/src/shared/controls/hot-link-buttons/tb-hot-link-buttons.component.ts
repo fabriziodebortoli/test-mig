@@ -3,6 +3,8 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
+import { StorageService } from './../../../core/services/storage.service';
+import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HttpService } from './../../../core/services/http.service';
@@ -26,7 +28,7 @@ declare var document:any;
   selector: 'tb-hotlink-buttons',
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
-  providers: [PaginatorService, FilterService, HyperLinkService]
+  providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
 })
 export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
 
@@ -71,7 +73,8 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
               protected hyperLinkService: HyperLinkService,
               protected optionsPopupService: PopupService,
               protected tablePopupService: PopupService,
-              protected vcr: ViewContainerRef) {
+              protected vcr: ViewContainerRef,
+              protected mediator: ComponentMediator) {
     super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
   }
 
@@ -178,7 +181,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
      if(this.hasToAdjustTable) this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     this.paginator.clientData.subscribe((d) => {
-        this.state = {...this.state, selectionColumn: d.key, gridData: new GridData().with({ data: d.rows, total: d.total, columns: d.columns})};
+        this.state = this.state.with({selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns})});
     });
   }
 
@@ -227,6 +230,8 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   ngOnInit() {
     // fix for themes css conflict in form.scss style 
     if(this.modelComponent){
+      this.mediator.storage.options = 
+      {...this.mediator.storage.options, componentInfo: {...this.mediator.storage.options.componentInfo, cmpId: this.modelComponent.cmpId} };
       let hyperLinkElem = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
       this.hyperLinkService.start(hyperLinkElem, 
         { name: this.hotLinkInfo.name, 

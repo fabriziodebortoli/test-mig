@@ -918,6 +918,18 @@ void HotKeyLink::RecordAvailable()
 		OnAssignSelectedValue(pData, pHotLinkRecordData);
 	}
 
+	if (AfxIsRemoteInterface() &&  (GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) != 0)
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		if (!pSession) return;
+		CJsonSerializer resp;
+		resp.WriteString(_T("cmd"), _T("AddOnFly"));
+		resp.OpenObject(_T("args"));
+		resp.WriteString(_T("name"), m_sName);
+		resp.WriteString(_T("value"), GetDataObj()->Str());
+		pSession->PushToClients(resp);
+	}
+
 	if (m_pRadarDoc)
 		m_pRadarDoc->SetCanBeParentWindow(FALSE);//se la ModifiedCtrlData scatenasse una messagebox, non deve prendere il radar come parent
 	CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
@@ -929,18 +941,6 @@ void HotKeyLink::RecordAvailable()
 		(pOwnerCtrl->IsFindMode() ? EN_AFTER_VALUE_CHANGED_FOR_FIND_BY_HKL : EN_AFTER_VALUE_CHANGED_BY_HKL, pOwnerCtrl->GetCtrlID(), (LPARAM)0);
 		pOwnerCtrl->NotifyToParent
 		(pOwnerCtrl->IsFindMode() ? EN_AFTER_VALUE_CHANGED_FOR_FIND_BY_HKL : EN_AFTER_VALUE_CHANGED_BY_HKL, FALSE);
-	}
-
-	if(GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) 
-	{
-		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-		if (!pSession) return;
-		CJsonSerializer resp;
-		resp.WriteString(_T("cmd"), _T("AddOnFly"));
-		resp.OpenObject(_T("args"));
-		resp.WriteString(_T("name"), m_sName);
-		resp.WriteString(_T("value"), GetDataObj()->Str());
-		pSession->PushToClients(resp);
 	}
 }
 

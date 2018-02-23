@@ -78,7 +78,7 @@ export class HyperLinkService implements OnDestroy {
 
     private addOnFly = (info: HyperLinkInfo) => 
         this.userChoice(info, this.currentValue, this.currentType)
-            .subscribe(ok => ok ? this.afterAddOnFly(info).subscribe(this.updateCmpValue) : this.giveBackFocus());
+            .subscribe(ok => ok ? this.afterAddOnFly(info).subscribe(s => this.updateCmpValue(s)) : this.giveBackFocus());
 
     /**
     * Creates an observable that emits a single boolean (the user choice) after the user press the "yes | no"
@@ -94,7 +94,12 @@ export class HyperLinkService implements OnDestroy {
 
     
     private afterAddOnFly = (info: HyperLinkInfo): Observable<string> => 
-        this.wsService.addOnFly.filter(info => info.name === info.name).take(1).map(msg => msg.value);
+        this.wsService.addOnFly
+            .do(_ => console.log('ADD ON FLY EVENT'))
+            .do(console.log)
+            .filter(info => info.name === info.name).take(1).map(msg => msg.value)
+            .do(_ => console.log('ADD ON FLY EVENT PASSED'))
+            .do(console.log);
 
     private updateCmpValue(value:any) {
         if (this.onAfterAddOnFly) this.onAfterAddOnFly(value);
