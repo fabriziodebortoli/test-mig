@@ -1,0 +1,15 @@
+<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="100" [editable]="true">
+
+    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+        <div *ngIf="dataItem">
+            {{dataItem[columnName]?.value | tbEnums: 'Enum' | async }}
+        </div>
+    </ng-template>
+
+    <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+        <ng-template *ngIf="dataItem" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ columnModel: dataItem[columnName]  }">
+            <ng-content></ng-content>
+        </ng-template>
+    </ng-template>
+
+</kendo-grid-column>

@@ -213,6 +213,8 @@ import { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gaug
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 import { BodyEditComponent } from './controls/body-edit/body-edit.component';
 import { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
+import { BodyEditCheckBoxColumnComponent } from './controls/body-edit-checkbox-column/body-edit-checkbox-column.component';
+import { BodyEditEnumComboColumnComponent } from './controls/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
 import { TreeViewComponent } from './controls/treeview/tree-view.component';
 import { ApplicationDateComponent } from './controls/application-date/application-date.component';
 import { StateButtonComponent } from './controls/state-button/state-button.component';
@@ -296,7 +298,7 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
+    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
     PropertyGridItemComponent, PropertyGridItemGroupComponent, ControlContainerComponent
 ];
 

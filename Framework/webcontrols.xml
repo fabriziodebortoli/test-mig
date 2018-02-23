@@ -110,18 +110,18 @@
   <WebControl controlClass="RadioButton" control="tb-radio"></WebControl>
 
   <!-- tb-checkbox -->
-  <WebControl controlClass="CheckBox" control="tb-checkbox"></WebControl>
-  <WebControl controlClass="CheckBoxStatic" control="tb-checkbox"></WebControl>
+  <WebControl controlClass="CheckBox" control="tb-checkbox" columnControl="tb-body-edit-checkbox-column"></WebControl>
+  <WebControl controlClass="CheckBoxStatic" control="tb-checkbox" columnControl="tb-body-edit-checkbox-column"></WebControl>
 
   <!-- tb-bool-edit -->
   <WebControl controlClass="BoolEdit" control="tb-bool-edit"></WebControl>
   <WebControl controlClass="BoolStatic" control="tb-bool-edit"></WebControl>
 
   <!-- tb-enum-combo -->
-  <WebControl controlClass="EnumCombo" control="tb-enum-combo"></WebControl>
-  <WebControl controlClass="EnumStatic" control="tb-enum-combo"></WebControl>
-  <WebControl controlClass="EnumListBox" control="tb-enum-combo"></WebControl>
-  <WebControl controlClass="EnumButton" control="tb-enum-combo"></WebControl>
+  <WebControl controlClass="EnumCombo" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
+  <WebControl controlClass="EnumStatic" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
+  <WebControl controlClass="EnumListBox" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
+  <WebControl controlClass="EnumButton" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
 
   <!-- tb-date-input -->
   <WebControl controlClass="DateEdit" control="tb-date-input">

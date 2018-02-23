@@ -37,7 +37,7 @@ namespace SharedCode
     class ControlClassMap : Dictionary<string, WebControl>
     {
     }
-
+    
     public class ArgMap : Dictionary<string, string>
     {
     }
@@ -47,10 +47,11 @@ namespace SharedCode
         public string Name { get; set; } = "";
         public ArgMap Args { get; set; } = new ArgMap();
         public (string name, string value) Selector { get; set; } = ("", "");
-
-        public WebControl(string name)
+        public string ColumnName { get; set; } = "";
+        public WebControl(string name, string columnName = "")
         {
             Name = name;
+            ColumnName = columnName;
         }
     }
 }

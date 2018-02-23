@@ -44,6 +44,7 @@ namespace ClientFormsProvider
                     ExtractControlClasses(file);
             }
         }
+
         //-----------------------------------------------------------------------------
         private void ExtractControlClasses(string file)
         {
@@ -56,11 +57,13 @@ namespace ClientFormsProvider
                     string name = node.GetAttribute("control");
                     if (string.IsNullOrEmpty(name))
                         continue;
+
                     string controlClass = node.GetAttribute("controlClass");
                     if (string.IsNullOrEmpty(controlClass))
                         continue;
 
-                    var ctrl = new WebControl(name);
+                    string columnControlName = node.GetAttribute("columnControl");
+                    var ctrl = new WebControl(name, columnControlName);
                     foreach (XmlElement arg in node.GetElementsByTagName("arg"))
                     {
                         name = arg.GetAttribute("name");

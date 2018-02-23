@@ -862,11 +862,13 @@ namespace Microarea.TbJson
                     }
                 case WndObjType.ColTitle:
                     {
-                        using (var w = new OpenCloseTagWriter(Constants.tbBodyEditColumn, this, false))
+                        WebControl wCol = GetWebControl(jObj);
+                        if (jObj == null)
+                            break;
+
+                        string bodyEditColumnType = string.IsNullOrEmpty(wCol.ColumnName) ? Constants.tbBodyEditColumn : wCol.ColumnName;
+                        using (var w = new OpenCloseTagWriter(bodyEditColumnType, this, false))
                         {
-                            WebControl wCol = GetWebControl(jObj);
-                            if (jObj == null)
-                                break;
 
                             WriteColumnAttributes(jObj, wCol, true);
 
@@ -1223,6 +1225,23 @@ namespace Microarea.TbJson
                         break;
                     }
             }
+        }
+
+        private string GetBodyEditColumnType(WebControl wCol)
+        {
+
+            //ColumnControls
+
+            switch (wCol.Name)
+            {
+                case "tb-bool-edit":
+                    return Constants.tbBodyEditColumn;
+                case "tb-enum-combo":
+                    return Constants.tbBodyEditColumn;
+                default:
+                    return Constants.tbBodyEditColumn;
+            }
+
         }
 
         private void GenerateTileGroup(JObject jObj, String tag, WndObjType type)
