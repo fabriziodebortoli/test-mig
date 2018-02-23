@@ -33,6 +33,7 @@ export class WebSocketService extends LocalizationService {
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     public windowStrings = new EventEmitter<any>();
     public behaviours = new EventEmitter<any>();
+    public addOnFly = new EventEmitter<{name: string, value: string}>();
 
     constructor(
         public infoService: InfoService,
@@ -82,6 +83,7 @@ export class WebSocketService extends LocalizationService {
                         case 'RunError': $this.runError.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
+                        case 'AddOnFly': $this.addOnFly.emit(obj.args); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
@@ -165,9 +167,20 @@ export class WebSocketService extends LocalizationService {
         return this.safeSend(data);
     }
 
-    openHyperLink(name: string, cmpId: string) {
+    openHyperLink(name: string, cmpId: string): Promise<void> {
         const data = { cmd: 'openHyperLink', cmpId: cmpId, name: name };
-        this.safeSend(data);
+        return this.safeSend(data);
+    }
+
+    openNewHyperLink(name: string, cmpId: string, currentValue: any, currentType: number): Promise<void> {
+        let value = JSON.stringify(currentValue);
+        const data = { cmd: 'openNewHyperLink', cmpId: cmpId, name: name, value: value, type: currentType };
+        return this.safeSend(data);
+    }
+
+    queryHyperLink(name: string, cmpId: string, currentValue: any, currentType: number): Promise<void> {
+        const data = { cmd: 'queryHyperLink', cmpId: cmpId, name: name, value: currentValue, type: currentType };
+        return this.safeSend(data);
     }
 
     doFillListBox(cmpId: String, obj: any): void {

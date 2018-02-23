@@ -30,7 +30,6 @@ declare var document:any;
 })
 export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
 
-
   private optionsPopupRef: PopupRef;
   private tablePopupRef: PopupRef;
   private optionsSub: Subscription;
@@ -60,28 +59,6 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   public get isDisabled(): boolean { if (!this.model) { return true; } return !this.model.enabled; }
 
   private oldTablePopupZIndex: string;
-  private _tbInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
-  get textBoxInfo (): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}  {
-    if(this._tbInfo) return this._tbInfo;
-
-    let tb: HTMLElement;
-    tb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
-    if(!tb) return undefined;
-    let oldColor = tb.style.color;
-    let oldDecoration = tb.style.textDecoration;
-    let oldCursor = tb.style.cursor;
-    let oldPointerEvents = tb.style.pointerEvents;
-    this._tbInfo = { 
-        element: tb,
-        initInfo: {
-          color: oldColor,
-          textDecoration: oldDecoration,
-          cursor: oldCursor,
-          pointerEvents: oldPointerEvents
-        }
-    };
-    return this._tbInfo;
-  }
 
   constructor(layoutService: LayoutService,
               protected httpService: HttpService,
@@ -136,7 +113,6 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
           this.optionsPopupRef = this.optionsPopupService.open({ 
             anchor: anchor,
             content: template,
-            popupClass: 'tb-hotlink-optionsPopup',
             appendTo: this.vcr });
           this.optionsPopupRef.popupOpen.asObservable()
             .do(_ => this.isOptionsPopupVisible = true)
@@ -251,30 +227,14 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   ngOnInit() {
     // fix for themes css conflict in form.scss style 
     if(this.modelComponent){
-      if(!this.modelComponent.width) {
-        if (this.textBoxInfo) { this.textBoxInfo.element.style.width = 'auto'; }
-      }
-
-      if (this.textBoxInfo){
-        this.slice$.pipe(untilDestroy(this)).subscribe(x => {
-          if(!x.enabled && x.value) { 
-            this.textBoxInfo.element.style.textDecoration = 'underline'; 
-            this.textBoxInfo.element.style.color = 'blue';
-            this.textBoxInfo.element.style.cursor = 'pointer';
-            this.textBoxInfo.element.style.pointerEvents = 'all';
-            this.textBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: false })
-              .filter(e => this.textBoxInfo &&  (e as any) && (e as any).target === this.textBoxInfo.element)
-              .subscribe(e => this.hyperLinkService.follow({ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
-          } else {
-            this.textBoxInfo.element.style.textDecoration = this.textBoxInfo.initInfo.textDecoration;
-            this.textBoxInfo.element.style.color = this.textBoxInfo.initInfo.color;
-            this.textBoxInfo.element.style.cursor = this.textBoxInfo.initInfo.cursor;
-            this.textBoxInfo.element.style.pointerEvents = this.textBoxInfo.initInfo.pointerEvents;
-            if(this.textBoxInfo.clickSubscription)
-              this.textBoxInfo.clickSubscription.unsubscribe();
-          } 
-        });
-      }
+      let hyperLinkElem = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
+      this.hyperLinkService.start(hyperLinkElem, 
+        { name: this.hotLinkInfo.name, 
+          cmpId: this.documentService.mainCmpId, 
+          enableAddOnFly: this.hotLinkInfo.enableAddOnFly, 
+          mustExistData: this.hotLinkInfo.mustExistData,
+          model: this.modelComponent.model}, 
+          this.slice$, this.clearModel, this.afterAddOnFly);
     }
 
     this.adjustTableSub = this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());

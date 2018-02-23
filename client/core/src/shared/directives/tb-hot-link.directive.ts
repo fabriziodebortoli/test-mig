@@ -52,9 +52,11 @@ export class TbHotLinkDirective implements OnInit {
             s => this.getFromEdsModel(ancestor.hotLink.selector),
             s =>  this.compMod ? { value: this.compMod.value, 
                                    enabled: this.compMod.enabled,
+                                   type: this.compMod.type ? this.compMod.type : 0,
                                    selector: this.getFromEdsModel(ancestor.hotLink.selector) }
                    : { value: undefined,
                        enabled: false,
+                       type: 0,
                        selector: this.getFromEdsModel(ancestor.hotLink.selector) }
                 );
     }
@@ -67,7 +69,7 @@ export class TbHotLinkDirective implements OnInit {
             if(this.cmp) {
                 this.cmp.instance.modelComponent = this.ancestor;
                 this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
-            } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null });
+            } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null, type: 0 });
         } else {
             if(this.ancestor) {
                 this.cmp.instance.modelComponent = this.ancestor;

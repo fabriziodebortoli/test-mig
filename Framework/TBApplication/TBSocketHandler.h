@@ -30,6 +30,8 @@ private:
 	void RunDocument(CJsonParser& json);
 	void BrowseRecord(CJsonParser& json);
 	void OpenHyperLink(CJsonParser& json);
+	void QueryHyperLink(CJsonParser& json);
+	void OpenNewHyperLink(CJsonParser& json);
 };
 
 #include "endh.dex"

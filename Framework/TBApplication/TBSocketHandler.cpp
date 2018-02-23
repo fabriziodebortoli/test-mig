@@ -39,6 +39,9 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("runDocument")] = &CTBSocketHandler::RunDocument;
 	functionMap[_T("browseRecord")] = &CTBSocketHandler::BrowseRecord;
 	functionMap[_T("openHyperLink")] = &CTBSocketHandler::OpenHyperLink;
+	functionMap[_T("queryHyperLink")] = &CTBSocketHandler::QueryHyperLink;
+	functionMap[_T("openNewHyperLink")] = &CTBSocketHandler::OpenNewHyperLink;
+
 }
 
 //--------------------------------------------------------------------------------
@@ -61,6 +64,87 @@ void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
 		DataObj* pData = pHkl->GetDataObj();
 		if(pData) pHkl->BrowserLink(pData);
 	}	
+}
+
+CString ConvertJsonValue(CJsonParser& json)
+{
+	int type = json.ReadInt(_T("type"));
+	CString sValue;
+	switch (type) {
+	case 1:
+		sValue = json.ReadString(_T("value"));
+		break;
+	case 2:
+		sValue = DataInt(json.ReadInt(_T("value"))).Str();
+		break;
+	case 3:
+		sValue = DataInt(json.ReadInt(_T("value"))).Str();
+		break;
+	case 4:
+		sValue = DataDbl(json.ReadDouble(_T("value"))).Str();
+		break;
+	case 5:
+		sValue = DataMon(json.ReadDouble(_T("value"))).Str();
+		break;
+	case 6:
+		sValue = DataQty(json.ReadDouble(_T("value"))).Str();
+		break;
+	case 7:
+		sValue = DataPerc(json.ReadDouble(_T("value"))).Str();
+		break;
+	case 8:
+		sValue = DataDate(json.ReadString(_T("value"))).Str();
+		break;
+	case 9:
+		sValue = DataBool(json.ReadBool(_T("value"))).Str();
+		break;
+	case 10:
+		sValue = DataEnum(json.ReadInt(_T("value"))).Str();
+		break;
+	default:
+		sValue = json.ReadString(_T("value"));
+		break;
+	}
+
+	return sValue;
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::QueryHyperLink(CJsonParser& json)
+{
+	CString sName = json.ReadString(_T("name"));
+	HWND cmpId = ReadComponentId(json);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	if (!pDoc) return;
+
+	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
+	if (!pHkl) return;
+	DataObj* pData = pHkl->GetDataObj()->Clone();
+	if (!pData) return;
+
+	CString sValue = ConvertJsonValue(json);
+	pData->AssignFromXMLString(sValue);
+	pHkl->ExistData(pData);
+
+	SAFE_DELETE(pData);
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::OpenNewHyperLink(CJsonParser& json)
+{
+	CString sName = json.ReadString(_T("name"));
+	HWND cmpId = ReadComponentId(json);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+
+	if (!pDoc) return;
+
+	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
+	if (!pHkl) return;
+	DataObj* pData = pHkl->GetDataObj();
+	if (!pData) return;
+	CString sValue = ConvertJsonValue(json);
+	pData->AssignFromXMLString(sValue);
+	pHkl->DoCallLink(); 
 }
 
 //--------------------------------------------------------------------------------

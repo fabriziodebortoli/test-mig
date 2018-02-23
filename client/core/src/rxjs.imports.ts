@@ -28,6 +28,7 @@ export * from 'rxjs/operator/map';
 export * from 'rxjs/operator/pluck';
 export * from 'rxjs/operator/distinctUntilChanged';
 export * from 'rxjs/operator/publishLast';
+export * from 'rxjs/operator/toPromise';
 
 export * from 'rxjs/Subject';
 export * from 'rxjs/Subscription';
@@ -37,6 +38,7 @@ export * from 'rxjs/Observable';
 export * from 'rxjs/observable/ConnectableObservable';
 export * from 'rxjs/observable/ErrorObservable';
 export * from 'rxjs/BehaviorSubject';
+export * from 'rxjs/ReplaySubject';
 export * from 'rxjs/util/TimeoutError';
 export * from 'rxjs/util/isNumeric';
 

@@ -36,6 +36,7 @@
 #include "hotlink.h"
 #include "ComposedHotLink.h"
 #include "extdoc.h"
+#include <TbGes\DocumentSession.h>
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -416,6 +417,7 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 	if (GetRunningMode() != 0)
 		return TRUE;
 	OnPrepareForFind(GetMasterRecord());
+
 	FindResult res = FindRecord(pData, IsEnabledAddOnFly(), TRUE);
 
 	return res == FOUND || res == EMPTY;
@@ -425,7 +427,7 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 //-----------------------------------------------------------------------------
 void HotKeyLink::StopRunning()
 {
-	if (m_pCallLinkDoc && (GetRunningMode() & CALL_LINK_FROM_CTRL) == CALL_LINK_FROM_CTRL)
+	if (m_pCallLinkDoc && (GetRunningMode() & (CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB)) != 0)
 		OnFormDied();
 
 	if (m_pRadarDoc && (GetRunningMode() & RADAR_FROM_CTRL) == RADAR_FROM_CTRL)
@@ -630,7 +632,7 @@ HotKeyLink::FindResult HotKeyLink::OnFindRecord
 			// si pone l'hotlink in running mode
 			SetRunningMode(CALL_LINK_MODE);
 
-			if (GetAttachedData() && bFromControl)
+			if (!AfxIsRemoteInterface() && GetAttachedData() && bFromControl)
 			{
 				// si aggiunge la segnalazione che e` stato lanciato dal control
 				//
@@ -645,6 +647,9 @@ HotKeyLink::FindResult HotKeyLink::OnFindRecord
 			}
 			else
 			{
+				if (AfxIsRemoteInterface())
+					SetRunningMode(GetRunningMode() | CALL_LINK_FROM_CTRL_WEB);
+
 				// non si sta effettuando la richiesta tramite il control, ma direttamente
 				// da programma e quindi si puo` chiamare la CallLink direttamente
 				//
@@ -678,7 +683,9 @@ HotKeyLink::FindResult HotKeyLink::OnFindRecord
 			// quando gestira` il messaggio UM_BAD_VALUE chiamera` il metodo DoCallLink
 			// della presente classe HotKeyLink
 			//
-			SetErrorID(CParsedCtrl::HOTLINK_DATA_PROTECTED);
+			if (!AfxIsRemoteInterface())
+				SetErrorID(CParsedCtrl::HOTLINK_DATA_PROTECTED);
+
 			m_pRecord->Init();
 			return PROTECTED;
 		}
@@ -687,7 +694,7 @@ HotKeyLink::FindResult HotKeyLink::OnFindRecord
 	// controllo di congruenza deciso dal programmatore ad alto livello	
 	if (!IsValid())
 	{
-		if (pOwnerCtrl && bFromControl)
+		if (!AfxIsRemoteInterface() && pOwnerCtrl && bFromControl)
 			pOwnerCtrl->SetError(m_strError);
 
 		return NOT_VALID;
@@ -892,7 +899,7 @@ void HotKeyLink::RecordAvailable()
 	// valorizzato
 	OnRecordAvailable();
 	OnPrepareAuxData();
-	if ((GetRunningMode() & (RADAR_FROM_CTRL | CALL_LINK_FROM_CTRL)) == 0)
+	if ((GetRunningMode() & (RADAR_FROM_CTRL | CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB)) == 0)
 		return;
 
 	// La chiamata e` avvenuta tramite il control attaccato
@@ -923,6 +930,18 @@ void HotKeyLink::RecordAvailable()
 		pOwnerCtrl->NotifyToParent
 		(pOwnerCtrl->IsFindMode() ? EN_AFTER_VALUE_CHANGED_FOR_FIND_BY_HKL : EN_AFTER_VALUE_CHANGED_BY_HKL, FALSE);
 	}
+
+	if(GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) 
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		if (!pSession) return;
+		CJsonSerializer resp;
+		resp.WriteString(_T("cmd"), _T("AddOnFly"));
+		resp.OpenObject(_T("args"));
+		resp.WriteString(_T("name"), m_sName);
+		resp.WriteString(_T("value"), GetDataObj()->Str());
+		pSession->PushToClients(resp);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -945,7 +964,7 @@ void HotKeyLink::GetFieldsForDBTJoinQuery(DataObjArray* pFieldsForJoin)
 //-----------------------------------------------------------------------------
 void HotKeyLink::OnAssignSelectedValue(DataObj* pCtrlData, DataObj* pHKLData)
 {
-	if (GetRunningMode() & CALL_LINK_FROM_CTRL)
+	if (GetRunningMode() & (CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB))
 	{
 		if (!OnValidateRadarSelection(m_pRecord))
 		{
@@ -1233,7 +1252,7 @@ void HotKeyLink::CallLink(DataObj* pData /* = NULL */, BOOL bAskForCallLink /* =
 
 	// la disabilitazione invece DEVE essere fatta DOPO (vedi BodyEdit: il
 	// comando SHOW_HIDE non viene gestito se il control e` disabilitato)
-	if (pOwnerCtrl && (GetRunningMode() & CALL_LINK_FROM_CTRL) == CALL_LINK_FROM_CTRL)
+	if (pOwnerCtrl && (GetRunningMode() & (CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB)))
 	{
 		if (m_pDocument && m_pDocument->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
 			((CAbstractFormDoc*)m_pDocument)->DispatchOnHotLinkRun();
@@ -1349,11 +1368,12 @@ void HotKeyLink::OnFormDied()
 	SetRunningMode(GetRunningMode() & ~CALL_LINK_MODE);
 	m_pCallLinkDoc = NULL;
 	CParsedCtrl* pOwnerCtrl = GetOwnerCtrl();
-	if ((GetRunningMode() & CALL_LINK_FROM_CTRL) == CALL_LINK_FROM_CTRL)
+	if ((GetRunningMode() & (CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB)) != 0)
 	{
-		SetRunningMode(GetRunningMode() & ~CALL_LINK_FROM_CTRL);
+		BOOL bFromWeb = (GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) != 0;
+		SetRunningMode(GetRunningMode() & ~(CALL_LINK_FROM_CTRL | CALL_LINK_FROM_CTRL_WEB));
 
-		if (!m_bRecordAvailable && pOwnerCtrl)
+		if (!bFromWeb && !m_bRecordAvailable && pOwnerCtrl)
 			pOwnerCtrl->RestoreOldCtrlData(TRUE);
 
 		if (m_pDocument && m_pDocument->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))

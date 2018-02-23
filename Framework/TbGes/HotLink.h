@@ -33,6 +33,7 @@ class SqlConnection;
 #define	CALL_LINK_MODE			0x0002
 #define	RADAR_FROM_CTRL			0x0010
 #define	CALL_LINK_FROM_CTRL		0x0020
+#define	CALL_LINK_FROM_CTRL_WEB	0x0040
 
 typedef  void (__stdcall *GOOD_REC_FUNC) ();
 

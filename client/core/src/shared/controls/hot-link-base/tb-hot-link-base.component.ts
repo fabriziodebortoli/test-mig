@@ -42,11 +42,11 @@ export class TbHotLinkBaseComponent extends ControlComponent {
 
     public hotLinkInfo: HotLinkInfo;
 
-    private _slice$: Observable<{ value: any, enabled: boolean, selector: any }>;
-    public set slice$(value: Observable<{ value: any, enabled: boolean, selector: any }>) {
+    private _slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>;
+    public set slice$(value: Observable<{ value: any, enabled: boolean, selector: any, type: number }>) {
         this._slice$ = value;
     }
-    public get slice$(): Observable<{ value: any, enabled: boolean, selector: any }>{
+    public get slice$(): Observable<{ value: any, enabled: boolean, selector: any, type: number }>{
         return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
     }
 
@@ -60,6 +60,19 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         return this._state;
     }
 
+    protected clearModel: () => void = () => {
+        if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
+            this.modelComponent.model.value = undefined;
+            this.emitModelChange();
+        }
+    }
+
+    protected afterAddOnFly: (any) => void = (value) => {
+        if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
+            this.modelComponent.model.value = value;
+            this.emitModelChange();
+        }
+    }
     
     constructor(layoutService: LayoutService,
         protected documentService: DocumentService,

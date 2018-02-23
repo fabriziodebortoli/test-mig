@@ -35,7 +35,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
     protected paginator: PaginatorService,
-    protected filterer: FilterService,
+    protected filterer: FilterService, 
     protected hyperLinkService: HyperLinkService,
     protected vcr: ViewContainerRef
   ) {
@@ -150,52 +150,25 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     }
   }
 
-  private _cbInfo: { element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string } }
-  get comboBoxInfo(): { element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string } } {
-    if (this._cbInfo) return this._cbInfo;
-
-    let cb: HTMLElement;
-    cb = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-searchbar') as HTMLCollection).item(0) as HTMLElement;
-    if (!cb) return undefined;
-    cb = (cb.getElementsByClassName('k-input') as HTMLCollection).item(0) as HTMLElement;
-    if (!cb) return undefined;
-    let oldColor = cb.style.color;
-    let oldDecoration = cb.style.textDecoration;
-    let oldCursor = cb.style.cursor;
-    let oldPointerEvents = cb.style.pointerEvents;
-    this._cbInfo = {
-      element: cb,
-      initInfo: {
-        color: oldColor,
-        textDecoration: oldDecoration,
-        cursor: oldCursor,
-        pointerEvents: oldPointerEvents
-      }
-    };
-    return this._cbInfo;
+  private _hyperLinkElement: HTMLElement;
+  private get hyperLinkElement(): HTMLElement {
+    if(this._hyperLinkElement) return this._hyperLinkElement;
+    let searchBar = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-searchbar') as HTMLCollection).item(0) as HTMLElement;
+    if(searchBar) {
+      this._hyperLinkElement = (searchBar.getElementsByClassName('k-input') as HTMLCollection).item(0) as HTMLElement;
+      return this._hyperLinkElement;
+    }
+    return undefined; 
   }
 
   ngAfterViewInit(): void {
-    if (this.comboBoxInfo) {
-      this.slice$.pipe(untilDestroy(this)).subscribe(x => {
-        if (!x.enabled && x.value) {
-          this.comboBoxInfo.element.style.textDecoration = 'underline';
-          this.comboBoxInfo.element.style.color = 'blue';
-          this.comboBoxInfo.element.style.cursor = 'pointer';
-          this.comboBoxInfo.element.style.pointerEvents = 'all';
-          this.comboBoxInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
-            .filter(e => this.comboBoxInfo && (e as any) && this.comboBoxInfo.element.contains((e as any).target))
-            .subscribe(e => this.hyperLinkService.follow({ ns: this.hotLinkInfo.name, cmpId: this.documentService.mainCmpId }));
-        } else {
-          this.comboBoxInfo.element.style.textDecoration = this.comboBoxInfo.initInfo.textDecoration;
-          this.comboBoxInfo.element.style.color = this.comboBoxInfo.initInfo.color;
-          this.comboBoxInfo.element.style.cursor = this.comboBoxInfo.initInfo.cursor;
-          this.comboBoxInfo.element.style.pointerEvents = this.comboBoxInfo.initInfo.pointerEvents;
-          if (this.comboBoxInfo.clickSubscription)
-            this.comboBoxInfo.clickSubscription.unsubscribe();
-        }
-      });
-    }
+    this.hyperLinkService.start(this.hyperLinkElement, 
+      { name: this.hotLinkInfo.name,
+        cmpId: this.documentService.mainCmpId, 
+        enableAddOnFly: this.hotLinkInfo.enableAddOnFly, 
+        mustExistData: this.hotLinkInfo.mustExistData,
+        model: this.modelComponent.model }, 
+        this.slice$, this.clearModel, this.afterAddOnFly);
   }
 
   ngOnInit() {
