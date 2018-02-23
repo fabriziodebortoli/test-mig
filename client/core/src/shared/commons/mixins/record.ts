@@ -23,21 +23,22 @@ export interface Record<T> {
     with: (w: Partial<T> | ((s: T) => Partial<T>)) => T;
 }
 
-export function Record<T extends object, U extends Constructor>(Base: Constructor<T> & U) {
-    return class Record extends (Base as U) {
-        static new(a?: Partial<T>): Record & T {
-            if (a) return new Record().with(a);
-            return new Record() as any;
+export function Record<T extends object, C extends Constructor>(Base: Constructor<T> & C) {
+    return class Rec extends (Base as C) {
+        static readonly base = Base;
+        static new(a?: Partial<T>): Readonly<Rec & T> {
+            if (a) return new Rec().with(a);
+            return new Rec() as Readonly<Rec & T>;
         }
 
-        constructor(...args) {
+        private constructor(...args) {
             super(...args);
         }
 
-        with(a: (Partial<T> | ((s: T) => Partial<T>))): Record & T {
+        with(a: (Partial<T> | ((s: T) => Partial<T>))): Readonly<Rec & T> {
             if (typeof a === 'function')
                 a = a(this as any);
-            return Object.assign(new Record(), this, a) as any;
+            return Object.assign(new Rec(), this, a) as any;
         }
     }
 }
