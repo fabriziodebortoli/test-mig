@@ -9,7 +9,7 @@ ul.application-list {
     display: flex;
     flex-wrap: wrap;
     background: #3e3e3e;
-    &>li {
+    &> ::ng-deep li {
         flex-grow: 1;
         width: 33%;
         cursor: pointer;
@@ -22,7 +22,7 @@ ul.application-list {
         text-align: center;
         padding: 12px 0;
     }
-    &>li:hover {
+    &> ::ng-deep li:hover {
         color: #fff;
         background: #333;
         transition: opacity 0.1s;

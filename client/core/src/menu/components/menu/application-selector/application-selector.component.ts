@@ -7,8 +7,7 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
     selector: 'tb-application-selector',
     templateUrl: './application-selector.component.html',
-    styleUrls: ['./application-selector.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./application-selector.component.scss']
 })
 export class ApplicationSelectorComponent {
 
