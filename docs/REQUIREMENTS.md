@@ -69,9 +69,13 @@ Verificare di avere installato i seguenti componenti nella sezione **ASP.NET and
 
 ![Prerequisiti](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/Prerequisiti.png)
 
-e, nella sezione **Desktop development with C++**:
+nella sezione **Desktop development with C++**:
 
 ![v140-MFC](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/v140-MFC.jpg)
+
+nella sezione **Office/Sharepoint development**:
+
+![office-development](https://github.com/Microarea/Taskbuilder/blob/master/docs/img/office-development.png)
 
 ## Microarea Extension
 
