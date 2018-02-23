@@ -8,6 +8,7 @@
     }
     .k-grid-header .k-header>.k-link {
         font-weight: bold;
+        padding: 8px 30px 8px 12px;
     }
     .k-grid-pager {
         padding: 0px;
@@ -93,7 +94,13 @@ tb-icon {
 }
 .hideButton {
     right: 6px;
-    top: 2px;
+    top: 3px;
     color: #0277bd;
     position: absolute;
+    &:hover {
+        background: rgba(#0277bd, .2);
+        color: black;
+        box-shadow: none;
+        height: 12px;
+    }
 }

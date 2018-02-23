@@ -5,7 +5,7 @@ import { Record } from './../../commons/mixins/record';
 
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
 
-export class HotLinkState extends Record(class extends State {
+export class HotLinkState extends Record(class extends State.base {
   readonly selectionColumn: string;
   readonly selectionTypes: any[];
   readonly selectionType: string = 'code';

@@ -89,7 +89,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
         return this.httpService.getHotlinkData(ns, this.state.selectionType, p);
       });
 
-    this.state = {...this.state};
+    // this.state = this.state.with();
 
     this.paginator.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});

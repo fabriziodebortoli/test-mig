@@ -20,7 +20,7 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
 export interface Record<T> {
-    with: (w: Partial<T> | ((s: T) => Partial<T>)) => T;
+    with: (w: Partial<T> | ((s: T) => Partial<T>)) => Readonly<T>;
 }
 
 export function Record<T extends object, C extends Constructor>(Base: Constructor<T> & C) {

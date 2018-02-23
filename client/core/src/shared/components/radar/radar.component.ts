@@ -124,8 +124,8 @@ export class RadarComponent extends ControlComponent implements OnInit {
         if (this.isFormMode(FormMode.EDIT)) return;
         if (!this.pinned) this.s.eventData.showRadar.next(false);
         this.state = this.state.with({ canNavigate: false });
-        this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
         this.selectByItem(item);
+        this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
     }
 
     exitFindMode() {

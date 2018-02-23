@@ -50,7 +50,7 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
     }
 
-    private _state = new HotLinkState();
+    private _state = HotLinkState.new();
     public state$ = new BehaviorSubject(this._state);
     public set state(state: HotLinkState) {
         this._state = state;

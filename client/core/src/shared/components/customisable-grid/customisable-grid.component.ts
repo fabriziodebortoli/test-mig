@@ -23,10 +23,12 @@ import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from 
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
 import { Record } from './../../../shared/commons/mixins/record';
-import * as _ from 'lodash';
 import { ColumnResizeArgs } from '@progress/kendo-angular-grid';
+import { tryOrDefault } from './../../commons/u';
+import * as _ from 'lodash';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
+
 
 export class State extends Record(class {
     readonly rows = [];
@@ -34,7 +36,7 @@ export class State extends Record(class {
     readonly selectedIndex: number = 0;
     readonly gridStyle = GridStyles.default;
     readonly selectionKeys = [];
-    readonly gridData = new GridData();
+    readonly gridData = GridData.new();
     readonly canNavigate: boolean = true;
 }) { }
 
@@ -60,6 +62,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     @Input() maxColumns = 10;
     @Input() selectionColumnId;
     @Input() state: State;
+    @Input() resizable = true;
     @Output() selectedKeysChange = new EventEmitter<any>();
     @Output() selectAndEdit = new EventEmitter<any>();
     @Output() selectionChange = new EventEmitter<any>();
@@ -96,7 +99,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     ngOnDestroy() {
         this.saveWidths();
-        super.ngOnDestroy();
         this.stop();
     }
 
@@ -105,21 +107,23 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
             ({ ...s, widths: this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {}) })
         );
 
-
-    reshape = (d: GridData) => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) }));
+    reshape = (d: GridData) => tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
 
     limit = (d: GridData): GridData => {
         const maxCols = Math.min(d.columns.length, this.maxColumns);
         const data = d.columns.length < maxCols ? d.data :
-            d.data.map(r => [...Object.keys(r)]
-                .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
-        const columns = [...d.columns]
-            .slice(0, maxCols);
+            d.data.map(r => this.moveToStart(c => this.selectionColumnId && c === this.selectionColumnId, Object.keys(r))
+                    .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
+        const columns = this.moveToStart(c => this.selectionColumnId && c.id === this.selectionColumnId, d.columns)
+                    .slice(0, maxCols);
         return d.with({ data, columns });
     }
 
+    moveToStart = <T>(predicate: (value: T) => boolean, array: T[]): T[] =>
+        [array.find(predicate), ...array.filter(v => !predicate(v))].filter(x => x);
+
     resize = cols => {
-        if (!cols || cols.length === 0) return cols;
+        if (!this.resizable || !cols || cols.length === 0) return cols;
         const widths = this.getSettingsFor(cols).widths;
         return cols.map(c => ({ ...c, width: widths[c.id] || 180 }));
     }
@@ -148,6 +152,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     columnResize(es: any[]) {
+        if (!this.resizable) return;
         const settings = this.s.storage.getOrDefault<Settings>(storageKeySuffix, new Settings());
         this.s.storage.using(storageKeySuffix, new Settings(), s => {
             es.forEach(e => s.widths[e.column.field] = e.newWidth);
@@ -189,16 +194,22 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     stop = () => this.paginator.stop();
 
-    public get settings() {
-        return this.s.storage.getOrDefault<Settings>(storageKeySuffix, new Settings());
+    get settings() {
+        return this.s.storage.getOrDefault(storageKeySuffix, new Settings());
     }
 
-    public restoreColumns(): void {
+    restoreColumns(): void {
         this.s.storage.using(storageKeySuffix, new Settings(), s => ({ ...s, hiddenColumns: [] }));
     }
 
-    public hideColumn(field: string): void {
+    hideColumn(field: string): void {
+        console.log('hide');
         this.s.storage.using(storageKeySuffix, new Settings(), s =>
             ({ ...s, hiddenColumns: [...s.hiddenColumns, field] }));
+    }
+
+    autofit() {
+        this.grid.autoFitColumns()
+        this.saveWidths();
     }
 }
