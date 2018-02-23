@@ -12024,7 +12024,9 @@ void CRSFileNameProp::UpdateValue()
 //-----------------------------------------------------------------------------
 void CRSFileNameProp::CheckIfIsAccessibleNameSpace()
 {
-	if (!IsFileName(GetValue(), TRUE, TRUE))
+	CString name = GetValue();
+
+	if (::IsFileName(name, TRUE, TRUE))
 		SetDescription(_TB("! Attention !\nSelected file could not be accessed from other clients. In order to be accessed from all clients file must be located on a network folder."));
 	else 
 		SetDescription(_T(""));
