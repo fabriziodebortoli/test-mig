@@ -23,6 +23,7 @@ static const TCHAR szSubscription[] = _T("Subscription");
 static const TCHAR szCompanies[] = _T("Companies");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
 static const TCHAR szEasyStudio[] = _T("ESHome");
+static const TCHAR szEasyStudioWeb[] = _T("ESHome");
 static const TCHAR szDictionary[] = _T("Dictionary");
 static const TCHAR szDictionaryFile[] = _T("Dictionary.bin");
 static const TCHAR szPreferences[] = _T("Preferences");
@@ -1327,7 +1328,8 @@ const CString CPathFinder::GetEasyStudioHomePath(BOOL bCreateDir /*FALSE*/) cons
 		GetCompaniesPath(bCreateDir) :
 		GetStandardPath();
 
-	sPath = sPath + SLASH_CHAR + szEasyStudio;
+	sPath = sPath + SLASH_CHAR + (AfxIsRemoteInterface() ? szEasyStudioWeb : szEasyStudio) ;
+
 	if (bCreateDir)
 		CreateDirectory(sPath);
 	return sPath;

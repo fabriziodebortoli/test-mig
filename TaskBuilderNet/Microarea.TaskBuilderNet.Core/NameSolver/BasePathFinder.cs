@@ -74,6 +74,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		private static string microareaConsoleApplicationPath = null;
 
         private bool easyStudioCustomizationsInCustom = true;
+        private static bool isRunningInWeb = false;
 
 		/// <summary>
 		/// Indica se il programma sta girando all'interno del percorso di installazione (Apps o Standard ad es. per i web services)
@@ -89,6 +90,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		protected CoreTypes.FunctionsList webMethods = null;
 
         public bool EasyStudioCustomizationsInCustom { get => easyStudioCustomizationsInCustom; set => easyStudioCustomizationsInCustom = value; }
+        public static bool IsRunningInWeb { get => isRunningInWeb; set => isRunningInWeb = value; }
 
         public CoreTypes.FunctionsList WebMethods
 		{
@@ -2845,7 +2847,14 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		{
 			return Path.Combine(GetCustomCompaniesPath(), NameSolverStrings.AllCompanies);
 		}
-
+        /// <summary>
+        /// Ritorna il path della cartella AllCompanies
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        public static string GetEasyStudioHomeFolderName()
+        {
+            return isRunningInWeb ? NameSolverStrings.EasyStudioHomeWeb : NameSolverStrings.EasyStudioHome;
+        }
         /// <summary>
         /// Ritorna il path della cartella AllCompanies
         /// </summary>
@@ -2856,8 +2865,9 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                 EasyStudioCustomizationsInCustom ?
                 Path.Combine(GetCustomPath(), NameSolverStrings.Subscription) :
                 GetStandardPath();
-            
-            return Path.Combine(basePath, NameSolverStrings.EasyStudioHome);
+
+           
+            return Path.Combine(basePath, GetEasyStudioHomeFolderName());
         }
 
 
@@ -4089,7 +4099,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");
 
-			string path = GetCustomDocumentPath(NameSolverStrings.EasyStudioHome, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
+			string path = GetCustomDocumentPath(GetEasyStudioHomeFolderName(), easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
 			return string.IsNullOrEmpty(user)
 				? path
 				: Path.Combine(path, user);

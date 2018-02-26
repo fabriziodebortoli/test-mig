@@ -1117,6 +1117,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string TbApplication = "TbApplication";
         public const string EasyStudio = "EasyStudio";
         public const string EasyStudioHome = "ESHome";
+        public const string EasyStudioHomeWeb = "ESHome";
 
         #endregion
 

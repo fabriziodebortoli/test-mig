@@ -122,7 +122,7 @@ namespace Microarea.EasyBuilder.UI
 
 			//aggiungo cartella dove raccogliere i file esportati da EasyStudio
 			string custPath = BasePathFinder.BasePathFinderInstance.GetCustomModulePath(
-				NameSolverStrings.EasyStudioHome, NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
+                BasePathFinder.GetEasyStudioHomeFolderName(), NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
 			custPath = Path.Combine(custPath, NameSolverStrings.JsonForms, NameSolverStrings.AllUsers);
 			if (!Directory.Exists(custPath))
 				Directory.CreateDirectory(custPath);

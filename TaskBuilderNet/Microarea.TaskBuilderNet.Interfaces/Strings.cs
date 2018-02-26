@@ -1118,7 +1118,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string EasyBuilderApplication	= "EasyBuilderApplication";
 		public const string EasyStudio				= "EasyStudio";
         public const string EasyStudioHome          = "ESHome";
-
+        public const string EasyStudioHomeWeb       = "ESHome";
         #endregion
 
         #region Path

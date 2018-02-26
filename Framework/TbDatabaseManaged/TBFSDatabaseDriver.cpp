@@ -17,7 +17,7 @@ using namespace System::Runtime::InteropServices;
 static const TCHAR szMPInstanceTBFS[] = _T("MP_InstanceTBFS");
 static const TCHAR szTBCustomTBFS[] = _T("TB_CustomTBFS");
 
-static const TCHAR szInstanceKey[] = _T("I-M4"); //da mettere come variabile del TBFSDatabaseDriver
+static const TCHAR szInstanceKey[] = _T("inst1"); //da mettere come variabile del TBFSDatabaseDriver
 
 static const TCHAR szQueryDB[] = _T("QueryDB");
 static const TCHAR szFetch[] = _T("Fetch");

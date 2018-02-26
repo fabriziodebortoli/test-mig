@@ -41,7 +41,7 @@ namespace Microarea.EasyBuilder.Packager
 				if (di == null)
 					continue;
 
-				if (di.Name.CompareNoCase(NameSolverStrings.EasyStudioHome))
+				if (di.Name.CompareNoCase(BasePathFinder.GetEasyStudioHomeFolderName()))
 					continue;
 
 				companies.Add(di.Name);
