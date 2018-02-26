@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "rectobj.h"
 
 //includere alla fine degli include del .H
@@ -150,7 +149,6 @@ public:
 		int					m_nIndex = 0;
 		CArray<COLORREF>	m_arRgbColor;		
 		
-
 	public:
 		CSeries(Chart* parent) : m_pParent(parent) {}
 		CSeries() {}
@@ -296,7 +294,6 @@ public:
 	static BOOL AllowMultipleSeries(EnumChartType eType);
 	static BOOL AllowSeriesWithDiffType(EnumChartType eType);
 	static BOOL AllowLineStyle(EnumChartType eType);
-
 };
 
 #include "endh.dex"

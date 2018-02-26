@@ -202,6 +202,8 @@ public:
 	BOOL	IsNotDefaultTrasparent() const;
 	BOOL	IsNotDefaultDropShadow() const;
 
+	virtual BOOL HasDynamicExpr() const;
+
 protected:
 	//{{AFX_MSG(BaseRect)
 	afx_msg	void	SetBorders		();
@@ -323,7 +325,6 @@ public:
 protected:
 	virtual	BOOL OnParseProp (ViewParser& lex, BOOL bBlock = TRUE);
 
-
 	static CString BuildText	(CWoormDocMng* pDocument, CString strLocalizedText);
 	static CString FormatToken	(CWoormDocMng* pDocument, LPCTSTR pszToken);
 
@@ -376,6 +377,8 @@ public:
 	virtual FontIdx		GetValueFontIdx		()					{ return m_StaticText.GetFontIdx(); }
 	virtual void		SetValueFontIdx		(FontIdx fontIdx)	{ m_StaticText.SetFontIdx(fontIdx); }
 	AlignType			GetAlign			()					{ return m_StaticText.GetAlign(); }
+
+	virtual BOOL HasDynamicExpr() const;
 
 protected:
 	//{{AFX_MSG(TextRect)
@@ -786,6 +789,8 @@ public:
 	virtual BOOL	GetSchema	(CXSDGenerator*, WoormTable*);
 
 	virtual void	CopyAttributes	(CObject* pObjSource);
+
+	virtual BOOL	HasDynamicExpr() const;
 
 protected:	
 			void	Invalidate		(BOOL bCurrentSize = FALSE);

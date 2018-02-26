@@ -350,7 +350,7 @@ SqlRecord::SqlRecord(LPCTSTR szTableName, SqlConnection* pConn /*= NULL*/, short
 //		Non deve essere chiamato a causa della necessita' di chiamare la routine
 //		BindRecord che e' virtuale dello specifico SqlRecord derivato. Se serve
 //		bisogna implementare il Costruttore in copia nella classe finale
-//	TODO: in presenza di TableInfoSorted forse si può implementare clonando completamente il master record della TableInfo
+//	TODO: in presenza di TableInfoSorted forse si puï¿½ implementare clonando completamente il master record della TableInfo
 SqlRecord::SqlRecord(const SqlRecord& pRec)
 	:
 	m_nType				(TABLE_TYPE),
@@ -586,7 +586,7 @@ void SqlRecord::Initialize()
 }
 
 // cambio la connessione
-// se é la stessa non faccio niente altrimenti devo 
+// se ï¿½ la stessa non faccio niente altrimenti devo 
 // riassegnare le informazioni della tabella e delle colonne utilzzando
 // la tableinfo della nuova connessione
 //-----------------------------------------------------------------------------
@@ -631,8 +631,8 @@ void SqlRecord::SetConnection(SqlConnection* pConnection)
 
 
 		// m_pSqlNewFieldsTable = NULL la prima volta che viene chiamata la SetConnection (vedi nel costrutture di default)
-		// le volte successive non devo cancellarla neè ricrearla altrimenti in fase di rebinding delle colonne i dataobj dei campi aggiunti riferiscono ad un area di memoria 
-		// non più esistente BugFix#21666
+		// le volte successive non devo cancellarla neï¿½ ricrearla altrimenti in fase di rebinding delle colonne i dataobj dei campi aggiunti riferiscono ad un area di memoria 
+		// non piï¿½ esistente BugFix#21666
 		if (!m_pSqlNewFieldsTable)
 		{
 			const CRTAddOnNewFieldsArray* pCRTAddOnNewFields = m_pTableInfo->GetCRTAddOnNewFields();
@@ -649,7 +649,7 @@ void SqlRecord::SetConnection(SqlConnection* pConnection)
 			}
 		}
 		
-		// il rebing lo faccio solo se ho giá effettuato la bindrecord
+		// il rebing lo faccio solo se ho giï¿½ effettuato la bindrecord
 		// Quando il metodo viene chiamato dal costruttore non ho ancora nessun campo bindato
 		if (GetSize() > 0)
 		{
@@ -661,7 +661,7 @@ void SqlRecord::SetConnection(SqlConnection* pConnection)
 		}
 	}
 	else
-		//la tabella non esiste il SqlRecord é invalido
+		//la tabella non esiste il SqlRecord ï¿½ invalido
 		SetValid(FALSE);
 }
 
@@ -709,7 +709,7 @@ void SqlRecord::BindDynamicDeclarations (int& nStartPos)
 		if (!pFieldDescri || pFieldDescri->GetName().IsEmpty())
 			continue;
 
-		//campo già bindato, lo salto
+		//campo giï¿½ bindato, lo salto
 		SqlRecordItem* pRecItem = GetItemByColumnName(pFieldDescri->GetName());
 		if (pRecItem)
 			continue;
@@ -844,7 +844,7 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 
 		if (pColumnInfo == NULL)
 		{
-			//il SqlRecord registrato utilizza il metodo più efficiente per trovare le colonne (per posizione)
+			//il SqlRecord registrato utilizza il metodo piï¿½ efficiente per trovare le colonne (per posizione)
 			//gli altri vanno per nome (caso alla Germano in cui si hanno diversi SqlRecord sulla stessa tabella fisica)
 			CRuntimeClass* pRegisteredClass = GetTableInfo()->GetSqlCatalogEntry()->GetSqlRecordClass();
 
@@ -864,7 +864,8 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 		return FALSE;
 	}
 		
-	//effettuo il check di compatibilitá tra i tipi
+#ifdef _DEBUG
+	//effettuo il check di compatibilitï¿½ tra i tipi
 	ASSERT_VALID(pRecItem->m_pDataObj);
 	if (!(CheckTypeCompatibility(pRecItem->m_pDataObj->GetDataType(), pColumnInfo->m_nSqlDataType)))
 	{
@@ -877,11 +878,10 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 									);	
 		return FALSE;
 	}
-//
-#ifdef _DEBUG
+
 	if (this->GetConnection()->GetDatabaseName().CompareNoCase(AfxGetDefaultSqlConnection()->GetDatabaseName()) == 0)
 	{
-		// se sono in debug controllo che non sia stata già fatto una BIND con lo stesso nome di colonna
+		// se sono in debug controllo che non sia stata giï¿½ fatto una BIND con lo stesso nome di colonna
 		for (int i = 0; i <= GetUpperBound(); i++)
 		{
 			if (GetAt(i)->m_pColumnInfo == pColumnInfo) 
@@ -897,7 +897,7 @@ BOOL SqlRecord::BindRecordItem(SqlRecordItem* pRecItem, int nPos, BOOL bAutoIncr
 				return FALSE;
 			}   
 		}
-        //verifico che non ci sia già un campo con lo stesso nome
+        //verifico che non ci sia giï¿½ un campo con lo stesso nome
         if (GetIndexFromColumnName(pRecItem->m_strColumnName) > -1)
         {
             ASSERT_TRACE2(FALSE, "Column %s already used by SqlRecord class %s\n", (LPCTSTR)pRecItem->m_strColumnName, (LPCTSTR)CString(GetRuntimeClass()->m_lpszClassName));
@@ -981,7 +981,7 @@ SqlRecordItem* SqlRecord::BindDataObj (int nPos, const CString& strColumnName, D
 }
 
 
-//é un campo di tipo identity
+//ï¿½ un campo di tipo identity
 //-----------------------------------------------------------------------------
 SqlRecordItem* SqlRecord::BindAutoIncrementDataObj(int nPos, const CString& strColumnName, DataObj& aDataObj)
 {
@@ -1061,7 +1061,7 @@ SqlRecordItem* SqlRecord::BindLocalDataObj (int nPos, const CString& strColumnNa
 
 #ifdef _DEBUG
 	   {
-		//verifico che non ci sia già un campo con lo stesso nome
+		//verifico che non ci sia giï¿½ un campo con lo stesso nome
         if (GetIndexFromColumnName(strColumnName) > -1)
         {
             ASSERT_TRACE2(FALSE, "Column %s already used by SqlRecord class %s\n", strColumnName, CString(GetRuntimeClass()->m_lpszClassName));
@@ -1470,7 +1470,7 @@ BOOL SqlRecord::IsSpecial (int nIdx)	const
 //-----------------------------------------------------------------------------
 void SqlRecord::EndBindData(int& nStartPos /*=0*/) 
 {
-	// i campi sono stati già bindati
+	// i campi sono stati giï¿½ bindati
 	// vedi problema in caso di enhancement
 	if (m_bEndBind) return;
 
@@ -1519,7 +1519,7 @@ void SqlRecord::BindMandatoryFields(int& nStartPos)
 		}
 
 		//Impr# 5936
-		//se è una tabella master e non è stata fatta la BIND_GUID espilicita allora effettuo il binding del TBGuid
+		//se ï¿½ una tabella master e non ï¿½ stata fatta la BIND_GUID espilicita allora effettuo il binding del TBGuid
 		if (m_pTableInfo->ExistGuidColumn())
 		{
 			if (!HasGUID())
@@ -2774,7 +2774,7 @@ BOOL SqlRecordProcedure::BindParamItem(SqlProcParamItem* pParamItem, int nPos)
 			return FALSE;
 		}
 
-		//effettuo il check di compatibilitá tra i tipi
+		//effettuo il check di compatibilitï¿½ tra i tipi
 		if (!(CheckTypeCompatibility(pParamItem->m_pDataObj->GetDataType(), pParamInfo->m_nSqlDataType)))
 		{
 			PrepareMessageBanner();
@@ -2787,7 +2787,7 @@ BOOL SqlRecordProcedure::BindParamItem(SqlProcParamItem* pParamItem, int nPos)
 			return FALSE;
 		}
 	}
-	// se sono in debug controllo che non sia stata già fatto una BIND con lo stesso nome di colonna
+	// se sono in debug controllo che non sia stata giï¿½ fatto una BIND con lo stesso nome di colonna
 	#ifdef _DEBUG
 	for (int i = 0; i <= m_pProcedureParamList->GetUpperBound(); i++)
 	{
@@ -3179,7 +3179,7 @@ void UnregisteredSqlRecord::CreateDynamicDeclarations ()
 		ASSERT (pSqlColumnInfo);
 		ASSERT (!pSqlColumnInfo->m_bVirtual);
 		
-		//campo già bindato, lo salto
+		//campo giï¿½ bindato, lo salto
 		SqlRecordItem* pRecItem = GetItemByColumnName(pSqlColumnInfo->GetColumnName());
 		if (pRecItem)
 			continue;
@@ -3739,7 +3739,7 @@ SqlRecordItem* SqlRecordLocals::AddLocalField(::DataObj* pDataObj, const CString
 	pInfo->m_RuntimeClass = pDataObj->GetRuntimeClass();
 	pInfo->UpdateDataObjType(pDataObj);
 
-	m_ColumnInfos.Add(pInfo);	//farà la delete
+	m_ColumnInfos.Add(pInfo);	//farï¿½ la delete
 
 	SqlRecordItem* pItem = new SqlRecordItem(pDataObj, strName, pInfo, TRUE);
 	pItem->m_lLength = pInfo->m_lLength;

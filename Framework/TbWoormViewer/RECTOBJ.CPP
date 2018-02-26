@@ -442,6 +442,12 @@ void BaseRect::ToggleAnchorRight ()
 }	
 
 //------------------------------------------------------------------------------
+BOOL BaseRect::HasDynamicExpr() const
+{
+	return m_pHideExpr || m_pBkgColorExpr || m_pTextColorExpr || m_pTooltipExpr || m_pBordersExpr;
+}
+
+//------------------------------------------------------------------------------
 BOOL BaseRect::PreDraw (CDC* pDC)
 {
 	if (m_AnchorRepeaterID)
@@ -462,12 +468,14 @@ BOOL BaseRect::PreDraw (CDC* pDC)
 		ASSERT(nRow == this->m_nRepeaterRow);
 #endif
 
-		m_pDocument->UpdateViewSymbolTable(pRep, this->m_nRepeaterRow);
+		if (HasDynamicExpr())
+			m_pDocument->UpdateViewSymbolTable(pRep, this->m_nRepeaterRow);
 
 		if (pRep->GetDrawMode(pDC) == BaseRect::HIDDEN)   //repeater group hide all inner objects
 			return FALSE;
 	}
-	else m_pDocument->UpdateViewSymbolTable();
+	else if (HasDynamicExpr())
+			m_pDocument->UpdateViewSymbolTable();
 
 	if (GetDrawMode(pDC) == BaseRect::HIDDEN || GetBaseRect().Width() == 0)   //check on width for anchored hidden field
 		return FALSE;
@@ -2229,6 +2237,13 @@ CString TextRect::BuildText ()
 	m_StaticText.SetText(strLocalizedText);
 
 	return strText;
+}
+
+//------------------------------------------------------------------------------
+BOOL TextRect::HasDynamicExpr() const
+{
+	//TODO ottimizzazione: solo tag {EVAL} che è raro: si potrebbe ottimizzare
+	return m_bSpecialField || __super::HasDynamicExpr();
 }
 
 //------------------------------------------------------------------------------
@@ -5155,6 +5170,12 @@ void FieldRect::DrawNormal (CDC& DC, CRect& inside, CSize& cs)
 	{
 		_Value.Draw(DC, inside, m_pDocument, !m_bTransparent, flags, CSize(0, 0), m_bMiniHtml);
 	}
+}
+
+//------------------------------------------------------------------------------
+BOOL FieldRect::HasDynamicExpr() const
+{
+	return m_pLabelTextColorExpr || m_pLabelTextExpr || m_pFormatExpr || __super::HasDynamicExpr();
 }
 
 //------------------------------------------------------------------------------

@@ -10485,37 +10485,43 @@ BOOL CWoormDocMng::OnAlignmentBar(UINT nID)
 //-----------------------------------------------------------------------------------
 RDEData* CWoormDocMng::GetRDEDataFromAlias (int nA, int nRow/*=-1*/) 
 {
-	for (int nObj = 0; nObj <= GetObjects().GetUpperBound(); nObj++)
+	int ub = GetObjects().GetUpperBound();
+	for (int nObj = 0; nObj <= ub; nObj++)
 	{
 		BaseObj* pObj = GetObjects()[nObj];
+		if (pObj->m_AnchorRepeaterID || pObj->GetInternalID() == 0)
+			continue;
 
-		if (pObj->GetInternalID() == nA && pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
+		if (pObj->GetInternalID() == nA)
 		{
-			if (pObj->m_AnchorRepeaterID)
-				continue;
-
-			FieldRect* pField = STATIC_DOWNCAST(FieldRect, pObj);
-			if (!pField->GetRDEValue() || !pField->GetRDEValue()->IsValid() || !pField->GetRDEValue()->GetData())
+			FieldRect* pField = dynamic_cast<FieldRect*>(pObj);
+			if (pField)
 			{
-				return NULL;
+				if (!pField->GetRDEValue() || !pField->GetRDEValue()->IsValid() || !pField->GetRDEValue()->GetData())
+				{
+					return NULL;
+				}
+				return pField->GetRDEValue();
 			}
-			return pField->GetRDEValue();
 		}
-		else if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
+		
+		Table* pTable = dynamic_cast<Table*>(pObj);
+		if (pTable)
 		{
-			Table* pTable = STATIC_DOWNCAST(Table, pObj);
 			if (!pTable->ExistChildID(nA)) 
 				continue;
 
 			TableCell* pCell = pTable->GetCellFromID(nRow, nA);
+			//ASSERT(pCell);
 			if (pCell == NULL || !pCell->GetRDEValue()->IsValid() || !pCell->GetRDEValue()->GetData())
 				continue;
 
 			return pCell->GetRDEValue();
 		}
-		else if (pObj->IsKindOf(RUNTIME_CLASS(Repeater)))
-		{
-			Repeater* pRep = STATIC_DOWNCAST(Repeater, pObj);
+		
+		Repeater* pRep = dynamic_cast<Repeater*>(pObj);
+		if (pRep)
+		{			
 			if (!pRep->ExistChildID(nA)) 
 				continue;
 
@@ -10536,8 +10542,9 @@ BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pFie
 {
 	pField = NULL;
 	pCell = NULL;
+	int ub = GetObjects().GetUpperBound();
 
-	for (int nObj = 0; nObj <= GetObjects().GetUpperBound(); nObj++)
+	for (int nObj = 0; nObj <= ub; nObj++)
 	{
 		BaseObj* pObj = GetObjects()[nObj];
 

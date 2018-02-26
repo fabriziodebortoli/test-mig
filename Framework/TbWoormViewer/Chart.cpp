@@ -175,6 +175,7 @@ void Chart::OnCreate()
 	m_pDocument->m_pActiveRect->SetActive(GetActiveRect());
 	m_pDocument->UpdateWindow();
 }
+
 //------------------------------------------------------------------------------
 void Chart::Draw (CDC& DC, BOOL bPreview)
 {           

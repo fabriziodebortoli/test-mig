@@ -30,7 +30,8 @@ class TB_EXPORT CAbstractFrame : public CBaseFrame, public CSplittedForm
 
 private:
 	BOOL						m_bDestroying = FALSE;
-	
+	BOOL						m_id_FILE_CLOSE = 0;
+
 protected:
 	// modifiche definitive
 	CTaskBuilderCaptionBar*		m_pCaptionBar = NULL;

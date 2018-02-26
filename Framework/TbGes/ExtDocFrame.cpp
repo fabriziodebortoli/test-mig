@@ -152,6 +152,7 @@ CAbstractFrame::CAbstractFrame()
 {
 	m_bHasStatusBar = AfxGetThemeManager()->HasStatusBar() && !AfxIsInUnattendedMode();
 	m_bHasToolbar = !AfxIsInUnattendedMode();
+	m_id_FILE_CLOSE = ID_FILE_CLOSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -252,13 +253,12 @@ BOOL CAbstractFrame::DestroyWindow()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-
 	BOOL bHandled = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
 	// la toolbar potrebbe morire durante il processo di closing
 	// per sicurezza controllo che non si sia in distruzione
 	// del frame
-	if (nID == ID_FILE_CLOSE || m_bDestroying)
+	if (m_bDestroying || nID == m_id_FILE_CLOSE)
 		return bHandled;
 
 	if (!pHandlerInfo && m_pTabbedToolBar && nID && (nCode == CN_COMMAND || nCode == BN_CLICKED))
@@ -280,7 +280,6 @@ BOOL CAbstractFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERI
 				if (pWnd == this || pWnd == AfxGetThreadContext()->GetMenuWindow())
 					pMenuButton->SetMissingClick(TRUE);
 			}
-
 		}
 	}
 	return bHandled;
@@ -330,10 +329,7 @@ BOOL CAbstractFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}
-
-
 	}
-
 
 	return __super::OnCommand(wParam, lParam);
 }
