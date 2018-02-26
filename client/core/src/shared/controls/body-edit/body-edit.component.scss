@@ -1,3 +1,93 @@
-tb-body-edit {
+// tb-body-edit {
+//     overflow: hidden;
+// }
+::ng-deep .body-edit {
+    font-size: 13px;
+    tr.k-state-selected,
+    td.k-state-selected {
+        color: #fff;
+        background-color: #0277bd;
+    }
+    .k-grid-header .k-header>.k-link {
+        font-weight: bold;
+    }
+    .k-grid-pager {
+        padding: 0px;
+        border-width: 1px 0 0;
+        border-color: #e3e3e3;
+        font-size: 12px;
+    }
+    .k-button {
+        border-radius: 0px;
+    }
+}
+
+.toolbar-buttons {
+    padding: 0px;
+    border-width: 1px 0 0;
+    color: #333333;
+    background-color: #f6f6f6;
+    font-size: 12px;
+}
+
+.top-button {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    min-width: 38px;
+    border: 0;
+    background: none;
+    &:hover {
+        background: #f1f1f1
+    }
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+tb-icon {
+    min-width: 30px;
+    font-size: 24px;
+    line-height: 15px;
+}
+
+.left-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    .toolbar-icon {
+        font-size: 1.2em;
+    }
+}
+
+.right-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    .toolbar-icon {
+        font-size: 1.2em;
+    }
+}
+
+.center-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: unset;
+    .toolbar-icon {
+        font-size: 1.2em;
+    }
+}
+
+.pager-number {
+    font-weight: bold;
+    font-size: smaller;
+}
+
+::ng-deep .k-grid th,
+ ::ng-deep .k-grid td {
+    padding: 1px 3px;
+    font-size: 12px;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }

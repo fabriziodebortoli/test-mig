@@ -273,6 +273,29 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     });
   }
 
+  openRowView(){
+
+  }
+
+  enableMultiselection(){
+
+  }
+
+  enhancedView()
+  {
+
+  }
+
+  increaseRowHeight()
+  {
+
+  }
+
+  decreaseRowHeight()
+  {
+    
+  }
+
   //-----------------------------------------------------------------------------------------------
   getModelForDbt(timeStamp: any) {
     if (!this.model || !timeStamp)
