@@ -33,6 +33,8 @@
         internal const string tbPanel = "tb-panel";
         internal const string tbBodyEdit = "tb-body-edit";
         internal const string tbBodyEditColumn = "tb-body-edit-column";
+        internal const string tbBodyEditToolbar = "tb-body-edit-toolbar";
+        internal const string tbBodyEditToolbarButton = "tb-body-edit-toolbar-button";
         internal const string tbLayoutContainer = "tb-layout-container";
         internal const string tbCaption = "tb-caption";
         internal const string tbText = "tb-text";

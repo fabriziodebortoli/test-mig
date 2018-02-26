@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -220,6 +221,8 @@ import { BodyEditComponent } from './controls/body-edit/body-edit.component';
 import { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
 import { BodyEditCheckBoxColumnComponent } from './controls/body-edit-checkbox-column/body-edit-checkbox-column.component';
 import { BodyEditEnumComboColumnComponent } from './controls/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
+import { BodyEditToolbarComponent } from './controls/body-edit-toolbar/body-edit-toolbar.component';
+import { BodyEditToolbarButtonComponent } from './controls/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 import { TreeViewComponent } from './controls/treeview/tree-view.component';
 import { ApplicationDateComponent } from './controls/application-date/application-date.component';
 import { StateButtonComponent } from './controls/state-button/state-button.component';
@@ -261,6 +264,10 @@ export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gaug
 export { HotlinkComponent } from './controls/hotlink/hotlink.component';
 export { BodyEditComponent } from './controls/body-edit/body-edit.component';
 export { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
+export { BodyEditCheckBoxColumnComponent } from './controls/body-edit-checkbox-column/body-edit-checkbox-column.component';
+export { BodyEditEnumComboColumnComponent } from './controls/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
+export { BodyEditToolbarComponent } from './controls/body-edit-toolbar/body-edit-toolbar.component';
+export { BodyEditToolbarButtonComponent } from './controls/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 export { TreeViewComponent } from './controls/treeview/tree-view.component';
 export { ApplicationDateComponent } from './controls/application-date/application-date.component';
 export { StateButtonComponent } from './controls/state-button/state-button.component';
@@ -303,8 +310,9 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent, BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,
-    PropertyGridItemComponent, PropertyGridItemGroupComponent, ControlContainerComponent
+    LinearGaugeComponent, HotlinkComponent,TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,    PropertyGridItemComponent,
+    BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent,BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
+     PropertyGridItemGroupComponent, ControlContainerComponent
 ];
 
 /**

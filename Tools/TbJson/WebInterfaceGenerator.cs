@@ -781,6 +781,24 @@ namespace Microarea.TbJson
                             }
                         }
 
+
+                        //se il parent è un bodyedit, genero la sua toolbar se presente
+                        JObject jParentObject = jObj.GetParentItem();
+                        if (jParentObject != null)
+                        {
+                            string parentBeType = jParentObject.GetFlatString(Constants.type);
+                            if (string.Compare(parentBeType, "bodyedit", StringComparison.InvariantCultureIgnoreCase) == 0)
+                            {
+                                using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbBodyEditToolbar, this, false))
+                                {
+                                    w.CloseBeginTag();
+
+                                    GenerateHtmlChildren(jObj, type);
+
+                                }
+                            }
+                        }
+
                         break;
                     }
                 case WndObjType.ToolbarButton:
@@ -794,6 +812,8 @@ namespace Microarea.TbJson
 
                             }
                         else*/
+
+
                             using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
                             {
                                 WriteActivationAttribute(jObj);
@@ -942,8 +962,8 @@ namespace Microarea.TbJson
 
                         if (jObj.GetDialogStyle() == TileDialogStyle.Filter)
                             tag = Constants.tbFilter;
-                        
-                            
+
+
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
                             htmlWriter.WriteAttribute(Square(Constants.title), title);
