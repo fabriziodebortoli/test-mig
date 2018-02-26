@@ -422,6 +422,10 @@ void CTBActivityDocument::ManagePanelsState(/*BOOL bEnabledAfterExtract*/)
 	BOOL bEnableActions = m_bActionsAlwaysEnabled || (m_bActionsAsFilters ? !m_bExtractData : m_bExtractData);
 	BOOL bEnableFooter = m_bFooterAlwaysEnabled || m_bExtractData;
 
+	//An. 26330 richiesta da accounting
+	if (!m_bActionsAlwaysEnabled && !m_bActionsAsFilters && m_eResultsType != E_ACTIVITYTYPE::ACTIVITY_GRID)
+		bEnableActions = TRUE;
+
 	EnsureExistancePanels();
 
 	if (bEnableFilters)
