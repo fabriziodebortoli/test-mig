@@ -5695,6 +5695,10 @@ void CAbstractFormDoc::BatchStart()
 
 		m_BatchRunningArea.Unlock();
 	}
+
+	SetDefaultFocus();
+	if (::GetFocus() == NULL && GetFrame())
+		GetFrame()->SetFocus();
 }
 
 // permette al programmatore in caso di errore di interrompere l'elaborazione 
