@@ -28,7 +28,7 @@ export function Record<T extends object, C extends Constructor>(Base: Constructo
         static readonly base = Base;
         static new(a?: Partial<T>): Readonly<Rec & T> {
             if (a) return new Rec().with(a);
-            return new Rec() as Readonly<Rec & T>;
+            return new Rec() as any as Readonly<Rec & T>;
         }
 
         private constructor(...args) {
