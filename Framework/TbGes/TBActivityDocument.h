@@ -182,6 +182,7 @@ private:
 	BOOL						DispatchOnLoadDBT			();
 	BOOL						DispatchOnAfterLoadDBT		();
 	BOOL						DispatchOnBeforeUndoExtraction();
+	void						ManageDefaultFocus			();
 				
 public:
 	void						SetHeaderTitle(DataStr sTitle, BOOL bBold = FALSE)

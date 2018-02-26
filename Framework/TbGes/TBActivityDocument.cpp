@@ -412,10 +412,7 @@ void CTBActivityDocument::SetPanelEnabled(CTilePanel* pPanel, BOOL bSet)
 		return;
 
 	pPanel->SetActiveTabContentEnable(bSet);
-
-	if (bSet)
-		DispatchDisableControlsForBatch();
-
+	
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -427,9 +424,53 @@ void CTBActivityDocument::ManagePanelsState(/*BOOL bEnabledAfterExtract*/)
 
 	EnsureExistancePanels();
 
-	SetPanelEnabled(m_pPanelFilters, bEnableFilters);
-	SetPanelEnabled(m_pPanelActions, bEnableActions);
-	SetPanelEnabled(m_pPanelFooter, bEnableFooter);
+	if (bEnableFilters)
+		SetPanelEnabled(m_pPanelFilters, bEnableFilters);
+	
+	if (bEnableActions)
+		SetPanelEnabled(m_pPanelActions, bEnableActions);
+
+	if (bEnableFooter)
+		SetPanelEnabled(m_pPanelFooter, bEnableFooter);
+
+	DispatchDisableControlsForBatch();
+
+	if (!bEnableFilters)
+		SetPanelEnabled(m_pPanelFilters, bEnableFilters);
+
+	if (!bEnableActions)
+		SetPanelEnabled(m_pPanelActions, bEnableActions);
+
+	if (!bEnableFooter)
+		SetPanelEnabled(m_pPanelFooter, bEnableFooter);
+
+	//manage panels collapsed/expanded
+	if (m_bExtractData)
+	{
+		//status = extract
+		if (m_bAddMoreData)
+		{
+			//ready for add more
+			SetPanelCollapsed(m_pPanelFilters, m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
+			SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? (m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE) : FALSE);
+			SetPanelCollapsed(m_pPanelFooter, FALSE);
+		}
+		else
+		{
+			//after add more
+			SetPanelCollapsed(m_pPanelFilters, FALSE);
+			SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? FALSE : m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
+			SetPanelCollapsed(m_pPanelFooter, m_eFooterActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
+		}
+	}
+	else
+	{
+		//status = undo
+		SetPanelCollapsed(m_pPanelFilters, FALSE);
+		SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? FALSE : ((m_eActionsActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE)));
+		SetPanelCollapsed(m_pPanelFooter, (m_eFooterActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE));
+	}
+	
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -473,23 +514,21 @@ void CTBActivityDocument::DoExtractData()
 	{
 		m_pMessages->Show();
 		m_bExtractData = FALSE;	//reset status
-		ManagePanelsState();
+		m_bAddMoreData = FALSE;
+		ManageDefaultFocus();
 		return;
 	}
 
-	SetPanelCollapsed(m_pPanelFilters, m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
-	SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? (m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE) : FALSE);
-	SetPanelCollapsed(m_pPanelFooter, FALSE);
-
-	UpdateBEButton(IDC_TB_ACTIVITY_DOCUMENT_GRID, ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT, GetCaptionOnSelectButton(), GetCaptionOnSelectButton());
-
+	//set status
 	m_bAddMoreData = TRUE;
 	m_bExtractData = TRUE;
 
-	//allow other actions from inherited document (added panel/s, tile/s ecc)
-	ManageExtractData();
+	UpdateBEButton(IDC_TB_ACTIVITY_DOCUMENT_GRID, ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT, GetCaptionOnSelectButton(), GetCaptionOnSelectButton());
 
 	ManagePanelsState();
+
+	//allow other actions from inherited document (added panel/s, tile/s ecc)
+	ManageExtractData();
 
 	//succede che si fa UpdateDataView lato gestionale prima che finisce il processo 
 	//(prima di aggiornamento dello stato di extract per cui il flag modified del BE viene reset-ato)
@@ -498,6 +537,8 @@ void CTBActivityDocument::DoExtractData()
 		GetDBT()->SetModified();
 
 	UpdateDataView();
+
+	ManageDefaultFocus();
 }
 
 //---------------------------------------------------------------------------------------------------
@@ -580,14 +621,13 @@ void CTBActivityDocument::LoadStart()
 		}
 
 		m_BatchScheduler.Start();
-		m_bExtractData = TRUE;
+		
 		DoExtractData();
 
 		if (m_bExtractData)
 		{
 			m_BatchScheduler.Terminate();
-			//m_bExtractData = FALSE;
-			
+						
 			if (IsRunningFromExternalController())
 			{
 				m_pExternalControllerInfo->SetRunningTaskStatus(CExternalControllerInfo::TASK_SUCCESS);
@@ -959,20 +999,15 @@ void CTBActivityDocument::DoAddData()
 	EnsureExistancePanels();
 
 	m_bExtractData = TRUE;
-	
-	SetPanelCollapsed(m_pPanelFilters, FALSE);
-	SetPanelCollapsed(m_pPanelActions, m_eFooterActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
-	SetPanelCollapsed(m_pPanelFooter, m_bActionsAsFilters ? FALSE : m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
-	
 	m_bAddMoreData = FALSE;
-	m_bExtractData = TRUE;
+	ManagePanelsState();
 
 	//manage your panel/s, tiles/s from outside
 	ManageAddData();
 
-	ManagePanelsState();
-
 	UpdateDataView();
+
+	ManageDefaultFocus();
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -1017,6 +1052,14 @@ void CTBActivityDocument::OnManageAfterBatchExecute()
 	m_bGoToStart = FALSE;
 }
 
+//--------------------------------------------------------------------------------
+void CTBActivityDocument::ManageDefaultFocus()
+{
+	SetDefaultFocus();
+	if (::GetFocus() == NULL && GetFrame())
+		GetFrame()->SetFocus();
+}
+
 //-------------------------------------------------------------------------------------------------
 void CTBActivityDocument::DoUndoExtraction()
 {
@@ -1027,30 +1070,22 @@ void CTBActivityDocument::DoUndoExtraction()
 
 	if (!OnClearDBT())
 	{
-		SetPanelCollapsed(m_pPanelFilters, m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE);
-		SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? (m_eFiltersActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE) : FALSE);
-		SetPanelCollapsed(m_pPanelFooter, FALSE);
-		ManagePanelsState();
-		UpdateDataView();
+		m_bExtractData = TRUE;	//only extract data reset a TRUE; add more remains in owns state
+		ManageDefaultFocus();
 		return;
 	}
 
 	m_bExtractData = FALSE;
+	m_bAddMoreData = FALSE;
 	m_bSelect = TRUE;		//reset Select button
 	UpdateBEButton(IDC_TB_ACTIVITY_DOCUMENT_GRID, ID_TB_ACTIVITY_DOCUMENT_GRID_SELECT_DESELECT, GetCaptionOnSelectButton(), GetCaptionOnSelectButton());
-	
-	SetPanelCollapsed(m_pPanelFilters, FALSE);
-	SetPanelCollapsed(m_pPanelActions, m_bActionsAsFilters ? FALSE : ((m_eActionsActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE)));
-	SetPanelCollapsed(m_pPanelFooter, (m_eFooterActionOnExtract == E_ACTIVITY_PANELACTION::ACTIVITY_COLLAPSE));
-	
-	m_bAddMoreData = FALSE;
-
+	ManagePanelsState();
 	//allow other actions from inherited document (added panel/s, tile/s ecc)
 	ManageUndoExtraction();
 
-	ManagePanelsState();
-
 	UpdateDataView();
+
+	ManageDefaultFocus();
 
 }
 
