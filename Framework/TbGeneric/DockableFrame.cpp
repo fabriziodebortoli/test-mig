@@ -523,6 +523,8 @@ void CDockableFrame::OnFrameCreated()
 				m_pDockableParent->AddChild(m_hWnd);
 			AdjustFrameSize();
 			CenterWindow();  //An: 19893
+			
+			AfxPumpMessage();
 		}
 	}
 
