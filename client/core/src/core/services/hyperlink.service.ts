@@ -30,13 +30,13 @@ export class HyperLinkService implements OnDestroy {
             slice$.pipe(untilDestroy(this)).subscribe(x => {
                 if(!x.enabled && x.value) { 
                   this.enableHyperLink();
+                  if (!this.elementInfo) return;
                   this.elementInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
-                    .filter(e => (e as any) && this.elementInfo.element.contains((e as any).target))
+                    .filter(e => (e as any) && this.elementInfo.element && this.elementInfo.element.contains((e as any).target))
                     .subscribe(e => this.follow(info));
                 } else {
                   this.currentValue = x.value;
                   this.currentType = x.type
-                  
                   this.disableHyperLink();
                   if(this.elementInfo && this.elementInfo.clickSubscription)
                     this.elementInfo.clickSubscription.unsubscribe();
