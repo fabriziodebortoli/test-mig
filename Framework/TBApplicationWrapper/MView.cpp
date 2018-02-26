@@ -120,6 +120,7 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 	}
 	else if (jsonDescription->m_Children.GetCount() > 0)
 	{
+		//ClientForms
 		serialization->Add
 		(
 			gcnew Tuple<System::String^, System::String^>
@@ -134,6 +135,8 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 
 	ManageDocumentOutline();
 
+	ManageClientForms();
+
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
 		SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
@@ -143,12 +146,12 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 }
 
 //-------------------------------------------------------------------------------
-void MView::ManageDocumentOutline()
+bool MView::ManageDocumentOutline()
 {
 	CString jsonViewId = this->Id;
 
 	if (!this->IsDynamicDocument())
-		return;
+		return true;
 
 	CString jsonBaseFrameId = _T("");
 	if (this->m_pView && this->m_pView->GetDocument())
@@ -181,6 +184,36 @@ void MView::ManageDocumentOutline()
 		pDocumentOutlineDescription->m_Children.RemoveAt(i);
 	}
 	SAFE_DELETE(pDocumentOutlineDescription);
+
+	return true;
+}
+
+//----------------------------------------------------------------------------------
+bool MView::ManageClientForms()
+{
+	if (!this->IsDynamicDocument() || !this->m_pView || !this->m_pView->GetDocument())
+		return false;
+
+	CTBNamespace aNs = this->m_pView->GetDocument()->GetNamespace();
+	if (aNs.IsEmpty() || !aNs.IsValid())
+		return false;
+
+	//manage ClientForms
+	CString sFileNameCompletePath = AfxGetPathFinder()->GetClientDocumentObjectsFullName(this->m_pView->GetDocument()->GetNamespace(), CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
+
+	//manage clientforms tag for me
+	
+
+	if (!ExistFile(sFileNameCompletePath))
+	{
+		//TODO - save this
+	}
+	else
+	{
+		//TODO - rewrite ClientForms for me
+	}
+
+	return true;
 }
 
 //-------------------------------------------------------------------------------
@@ -206,7 +239,7 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 }
 
 //------------------------------------------------------------------------------------------------------------
-void MView::ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization)
+bool MView::ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization)
 {
 	CJsonSerializer jsonSerEv;
 
@@ -223,6 +256,8 @@ void MView::ManageSerializations(List<System::Tuple<System::String^, System::Str
 
 	if (n > 0)
 		this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
+
+	return true;
 }
 
 //----------------------------------------------------------------------------------

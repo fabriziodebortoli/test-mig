@@ -1775,9 +1775,11 @@ void MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 				column->UpdateAttrForJson(pColumnDescription);
 			}
 			else //remove from parent
+			{
+				SAFE_DELETE(pBEDescription->m_Children.GetAt(i));
 				pBEDescription->m_Children.RemoveAt(i);
+			}
 
-			//column->GenerateJsonForEvents(serialization);
 		}
 	}
 
@@ -1805,49 +1807,6 @@ void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, Li
 
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription))) //tile HasCodeBehind = true
 	{
-		if (!hasNewColumns)
-		{
-			GenerateJsonForEvents(serialization);
-			return;
-		}
-
-		jsonDummyDescription = new CDummyDescription();
-		jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-		//manage differences
-		if (!this->HasCodeBehind) //insert new BE
-		{
-			//all serialization
-			jsonDummyDescription->m_strIds.Add(pParentDescription->m_strIds.GetAt(0));
-			jsonDummyDescription->m_Children.Add(jsonDescription->DeepClone());
-			serialization->Add
-			(
-				gcnew Tuple<System::String^, System::String^>
-				(
-					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-					gcnew String(GetSerialization(jsonDummyDescription))
-					)
-			);
-		}
-		else
-		{
-			//personalize existing BE => only columns - serialize them 
-			jsonDummyDescription->m_strIds.Add(this->Id);
-			for (int i = 0; i < jsonDummyDescription->m_Children.GetCount(); i++)
-			{
-				CWndBodyColumnDescription* pColumnDescription = dynamic_cast<CWndBodyColumnDescription*>(jsonDummyDescription->m_Children.GetAt(i));
-				if (pColumnDescription)
-					jsonDummyDescription->m_Children.Add(pColumnDescription->DeepClone());
-			}
-			serialization->Add
-			(
-				gcnew Tuple<System::String^, System::String^>
-				(
-					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-					gcnew String(GetSerialization(jsonDummyDescription))
-					)
-			);
-		}
-
 		//clear anyway from parent
 		for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
 		{
@@ -1858,8 +1817,76 @@ void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, Li
 			}
 		}
 
-		SAFE_DELETE(jsonDescription);
-		SAFE_DELETE(jsonDummyDescription);
+		if (!hasNewColumns)
+		{
+			for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
+				SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
+			jsonDescription->m_Children.RemoveAll();
+
+			SAFE_DELETE(jsonDescription);
+			return;
+		}
+
+		jsonDummyDescription = new CDummyDescription();
+		jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		//manage differences
+		if (!this->HasCodeBehind) //insert new BE
+		{
+			//all serialization
+			jsonDummyDescription->m_strIds.Add(pParentDescription->m_strIds.GetAt(0));
+			jsonDummyDescription->m_Children.Add(jsonDescription/*->DeepClone()*/);
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDummyDescription))
+					)
+			);
+
+			for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
+				SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
+			jsonDescription->m_Children.RemoveAll();
+
+			for (int i = jsonDummyDescription->m_Children.GetUpperBound(); i >= 0; i--)
+				SAFE_DELETE(jsonDummyDescription->m_Children.GetAt(i));
+			jsonDummyDescription->m_Children.RemoveAll();
+
+			SAFE_DELETE(jsonDummyDescription);
+
+		}
+		else
+		{
+			//personalize existing BE => only columns - serialize them 
+			jsonDummyDescription->m_strIds.Add(this->Id);
+			for (int i = 0; i < jsonDescription->m_Children.GetCount(); i++)
+			{
+				CWndBodyColumnDescription* pColumnDescription = dynamic_cast<CWndBodyColumnDescription*>(jsonDescription->m_Children.GetAt(i));
+				if (pColumnDescription)
+					jsonDummyDescription->m_Children.Add(pColumnDescription->DeepClone());
+			}
+			
+			//ClientForms
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDummyDescription))
+					)
+			);
+
+			for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
+				SAFE_DELETE(jsonDescription->m_Children.GetAt(i));
+			jsonDescription->m_Children.RemoveAll();
+			SAFE_DELETE(jsonDescription);
+
+			for (int i = jsonDummyDescription->m_Children.GetUpperBound(); i >= 0; i--)
+				SAFE_DELETE(jsonDummyDescription->m_Children.GetAt(i));
+
+			jsonDummyDescription->m_Children.RemoveAll();
+			SAFE_DELETE(jsonDummyDescription);
+		}
 	}
 }
 

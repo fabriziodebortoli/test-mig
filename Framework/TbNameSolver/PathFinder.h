@@ -391,7 +391,7 @@ public:
 	const CString GetAddOnDbObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
 	const CString GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
 	const CString GetBehaviourObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
-	const CString GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace) const;
+	const CString GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos = CPathFinder::STANDARD, Company aCompany = CPathFinder::CURRENT) const;
 	const CString GetResourcesFullFileName(const CTBNamespace& aNamespace) const;
 	const CString GetJsonFormsFullFileName(const CTBNamespace& aNamespace, CString sId, PosType pos, BOOL bCreateDir = FALSE, Company aCompany = CURRENT, const CString& sUserRole = _T("")) const;
 

@@ -2131,9 +2131,9 @@ const CString CPathFinder::GetBehaviourObjectsFullName(const CTBNamespace& aName
 }
 
 //----------------------------------------------------------------------------------------------
-const CString CPathFinder::GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace) const
+const CString CPathFinder::GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos /*= CPathFinder::STANDARD*/, Company aCompany /*= CPathFinder::CURRENT*/) const
 {
-	return GetModuleObjectsPath(aNamespace, CPathFinder::STANDARD) + SLASH_CHAR + szClientDocumentObjects;
+	return GetModuleObjectsPath(aNamespace, pos/*CPathFinder::STANDARD*/, FALSE, aCompany) + SLASH_CHAR + szClientDocumentObjects;
 }
 
 //----------------------------------------------------------------------------------------------

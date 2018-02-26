@@ -225,8 +225,9 @@ namespace Microarea {
 		void GetFrameChildrenFromPos(System::Drawing::Point p, System::IntPtr handleToSkip, System::Collections::Generic::ICollection<IWindowWrapper^>^ foundChildren);
 		void ResizeFrame();
 		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
-		void ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
-		void ManageDocumentOutline();
+		bool ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
+		bool ManageDocumentOutline();
+		bool ManageClientForms();
 		
 	public:
 		///<summary>

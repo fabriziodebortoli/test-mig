@@ -266,6 +266,7 @@ void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, 
 	}
 	else if (jsonDescription->m_Children.GetCount() > 0)    //serializza jsonDescription
 	{
+		//ClientForms
 		serialization->Add
 		(
 			gcnew Tuple<System::String^, System::String^>
