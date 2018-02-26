@@ -5,8 +5,7 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
-import {
-    SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef,
+import { SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef,
     ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, ContentChild, TemplateRef
 } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
@@ -26,18 +25,18 @@ import { Record } from './../../../shared/commons/mixins/record';
 import { ColumnResizeArgs } from '@progress/kendo-angular-grid';
 import { tryOrDefault } from './../../commons/u';
 import * as _ from 'lodash';
+import { md5, getObjHash } from './md5';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
 
-
 export class State extends Record(class {
-    readonly rows = [];
-    readonly columns = [];
-    readonly selectedIndex: number = 0;
-    readonly gridStyle = GridStyles.default;
-    readonly selectionKeys = [];
-    readonly gridData = GridData.new();
-    readonly canNavigate: boolean = true;
+    rows = [];
+    columns = [];
+    selectedIndex = 0;
+    gridStyle = GridStyles.default;
+    selectionKeys = [];
+    gridData = GridData.new();
+    canNavigate = true;
 }) { }
 
 export class Settings {
@@ -75,12 +74,14 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private lastSelectedKeyPage = -1;
     private _filter: CompositeFilterDescriptor;
     private _state: State;
+    private _settings: Settings;
+    private _memoizedData: GridData;
 
-    _currentData: GridData;
     get data(): GridData {
-        if (this.state.gridData === this._currentData) return this._currentData;
-        this._currentData = this.reshape(this.state.gridData);
-        this.state = this.state.with(s => ({ columns: this._currentData.columns, gridData: this._currentData }));
+        if (this.state.gridData === this._memoizedData) return this._memoizedData;
+        this.updatedSettingsFor(this.state.columns);
+        this._memoizedData = this.reshape(this.state.gridData);
+        this.state = this.state.with(s => ({ columns: this._memoizedData.columns, gridData: this._memoizedData }));
         return this.state.gridData;
     }
 
@@ -90,6 +91,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     ngOnInit() {
+        this.loadSettings();
         this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
         this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
         this.paginator.waiting$.subscribe(b =>
@@ -99,13 +101,15 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     ngOnDestroy() {
         this.saveWidths();
+        this.saveSettings();
         this.stop();
     }
 
-    saveWidths = () =>
-        this.s.storage.using(storageKeySuffix, new Settings(), s =>
-            ({ ...s, widths: this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {}) })
-        );
+    loadSettings = () => { this._settings = this.s.storage.getOrDefault(storageKeySuffix, new Settings()); return this._settings; }
+
+    saveSettings = () => this.s.storage.set(storageKeySuffix, this._settings);
+
+    saveWidths = () => this._settings.widths = this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {});
 
     reshape = (d: GridData) => tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
 
@@ -113,9 +117,9 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         const maxCols = Math.min(d.columns.length, this.maxColumns);
         const data = d.columns.length < maxCols ? d.data :
             d.data.map(r => this.moveToStart(c => this.selectionColumnId && c === this.selectionColumnId, Object.keys(r))
-                    .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
+                .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
         const columns = this.moveToStart(c => this.selectionColumnId && c.id === this.selectionColumnId, d.columns)
-                    .slice(0, maxCols);
+            .slice(0, maxCols);
         return d.with({ data, columns });
     }
 
@@ -124,40 +128,39 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     resize = cols => {
         if (!this.resizable || !cols || cols.length === 0) return cols;
-        const widths = this.getSettingsFor(cols).widths;
+        const widths = this._settings.widths;
         return cols.map(c => ({ ...c, width: widths[c.id] || 180 }));
     }
 
     reorder = cols => {
         if (!cols || cols.length === 0) return cols;
-        const reorderMap = this.getSettingsFor(cols).reorderMap;
+        const reorderMap = this._settings.reorderMap;
         const weight = reorderMap.reduce((o, v, i) => ({ ...o, [v]: i }), {});
         return cols.sort((a, b) => weight[a.id] - weight[b.id]);
     };
 
-    private getSettingsFor = cols =>
-        this.s.storage.using(storageKeySuffix, new Settings(), s => {
-            if (!s.reorderMap || cols.length !== 0 && Object.keys(s.reorderMap).length !== cols.length) // todo pd: da rivedere, in caso ti cambiamenti alla query, magari con un hash md5 o sda1
-                return { ...s, reorderMap: cols.map(x => x.id) };
-            return s;
-        });
+    /** columns returned by server could change... */
+    private updatedSettingsFor = cols => {
+        if (!cols || cols.length === 0) return this._settings;
+        if (getObjHash(this._settings.reorderMap, this.maxColumns) !== getObjHash(cols, this.maxColumns)) {
+            this._settings.reorderMap = cols.map(x => x.id);
+            this.saveSettings();
+        }
+        return this._settings;
+    }
 
     columnReorder(e) {
-        const s = this.getSettingsFor(this.state.columns);
         const d = this.selectionColumnId ? 1 : 0;
-        const elem = s.reorderMap[e.oldIndex + d];
-        s.reorderMap.splice(e.oldIndex + d, 1);
-        s.reorderMap.splice(e.newIndex + d, 0, elem);
-        this.s.storage.set<Settings>(storageKeySuffix, s);
+        const elem = this._settings.reorderMap[e.oldIndex + d];
+        this._settings.reorderMap.splice(e.oldIndex + d, 1);
+        this._settings.reorderMap.splice(e.newIndex + d, 0, elem);
+        this.s.storage.set<Settings>(storageKeySuffix, this._settings);
     }
 
     columnResize(es: any[]) {
         if (!this.resizable) return;
-        const settings = this.s.storage.getOrDefault<Settings>(storageKeySuffix, new Settings());
-        this.s.storage.using(storageKeySuffix, new Settings(), s => {
-            es.forEach(e => s.widths[e.column.field] = e.newWidth);
-            return s;
-        });
+        es.forEach(e => this._settings.widths[e.column.field] = e.newWidth);
+        this.s.storage.set<Settings>(storageKeySuffix, this._settings);
     }
 
     get areFiltersVisibleIcon() {
@@ -176,37 +179,21 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.filterer.onFilterChanged(value);
     }
 
-    private get filter(): CompositeFilterDescriptor {
-        return this._filter;
-    }
+    private get filter(): CompositeFilterDescriptor { return this._filter; }
 
-    filterChange(filter: CompositeFilterDescriptor): void {
-        this.filter = filter;
-    }
+    filterChange(filter: CompositeFilterDescriptor): void { this.filter = filter; }
 
-    sortChange(sort: SortDescriptor[]): void {
-        this.filterer.sort = sort;
-    }
+    sortChange(sort: SortDescriptor[]): void { this.filterer.sort = sort; }
 
-    async pageChange(event: PageChangeEvent) {
-        this.paginator.pageChange(event.skip, event.take);
-    }
+    async pageChange(event: PageChangeEvent) { this.paginator.pageChange(event.skip, event.take); }
 
     stop = () => this.paginator.stop();
 
-    get settings() {
-        return this.s.storage.getOrDefault(storageKeySuffix, new Settings());
-    }
+    get settings() { return this._settings; }
 
-    restoreColumns(): void {
-        this.s.storage.using(storageKeySuffix, new Settings(), s => ({ ...s, hiddenColumns: [] }));
-    }
+    restoreColumns(): void { this._settings.hiddenColumns = []; }
 
-    hideColumn(field: string): void {
-        console.log('hide');
-        this.s.storage.using(storageKeySuffix, new Settings(), s =>
-            ({ ...s, hiddenColumns: [...s.hiddenColumns, field] }));
-    }
+    hideColumn(field: string): void { this._settings.hiddenColumns = [...this._settings.hiddenColumns, field]; }
 
     autofit() {
         this.grid.autoFitColumns()
