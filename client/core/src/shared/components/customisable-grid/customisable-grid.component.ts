@@ -5,7 +5,8 @@ import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
-import { SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef,
+import {
+    SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef,
     ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, ContentChild, TemplateRef
 } from '@angular/core';
 import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
@@ -24,7 +25,7 @@ import { FormMode } from './../../../shared/models/form-mode.enum';
 import { Record } from './../../../shared/commons/mixins/record';
 import { ColumnResizeArgs } from '@progress/kendo-angular-grid';
 import { tryOrDefault } from './../../commons/u';
-import * as _ from 'lodash';
+import { get, memoize, cloneDeep } from 'lodash';
 import { md5, getObjHash } from './md5';
 
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
@@ -60,8 +61,13 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     @Input() canAutoFit = false;
     @Input() maxColumns = 10;
     @Input() selectionColumnId;
-    @Input() state: State;
     @Input() resizable = true;
+    @Input()
+    get state(): State { return this._state; }
+    set state(value: State) {
+        let gd = this.reshape(value.gridData, value.columns);
+        this._state = value.with({ columns: gd.columns, rows: gd.data, gridData: gd });
+    }
     @Output() selectedKeysChange = new EventEmitter<any>();
     @Output() selectAndEdit = new EventEmitter<any>();
     @Output() selectionChange = new EventEmitter<any>();
@@ -75,15 +81,11 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private _filter: CompositeFilterDescriptor;
     private _state: State;
     private _settings: Settings;
-    private _memoizedData: GridData;
 
-    get data(): GridData {
-        if (this.state.gridData === this._memoizedData) return this._memoizedData;
-        this.updatedSettingsFor(this.state.columns);
-        this._memoizedData = this.reshape(this.state.gridData);
-        this.state = this.state.with(s => ({ columns: this._memoizedData.columns, gridData: this._memoizedData }));
-        return this.state.gridData;
-    }
+    reshape = memoize((d: GridData, cols) => {
+        this.updatedSettingsFor(cols);
+        return tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
+    });
 
     constructor(public s: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
         private paginator: PaginatorService, public filterer: FilterService, private store: Store) {
@@ -110,8 +112,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     saveSettings = () => this.s.storage.set(storageKeySuffix, this._settings);
 
     saveWidths = () => this._settings.widths = this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {});
-
-    reshape = (d: GridData) => tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
 
     limit = (d: GridData): GridData => {
         const maxCols = Math.min(d.columns.length, this.maxColumns);
@@ -172,8 +172,8 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     private set filter(value: CompositeFilterDescriptor) {
-        this._filter = _.cloneDeep(value);
-        this.filterer.filter = _.cloneDeep(value);
+        this._filter = cloneDeep(value);
+        this.filterer.filter = cloneDeep(value);
         this.filterer.lastChangedFilterIdx = this.state.columns
             .findIndex(c => c.id === this.filterer.changedField) - (this.selectionColumnId ? 1 : 0);
         this.filterer.onFilterChanged(value);
