@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Logger } from './../../core/services/logger.service';
+import { Observable, Subject, Observer } from '../../rxjs.imports';
 
-export type StorageOptions = { scope?: KeyScope, componentInfo?: { cmpId?: string, type: string, app?: string, mod?: string } };
 export enum KeyScope { Component, Document, Global };
+export enum ChangeAction { set, remove };
+export type StorageOptions = { scope?: KeyScope, componentInfo?: { cmpId?: string, type: string, app?: string, mod?: string } };
+export type Change = { action: ChangeAction; key: string };
 
 @Injectable()
 export class StorageService {
-    public options: StorageOptions = { scope: KeyScope.Component };
+    static get change(): Observable<Change> { return StorageService._change; }
+    private static _change = new Subject<Change>();
+
+    options: StorageOptions = { scope: KeyScope.Component };
 
     constructor(private log: Logger) { }
 
@@ -24,19 +30,23 @@ export class StorageService {
     }
 
     remove(key: string): void {
-        localStorage.removeItem(this.uniqueKey(key, this.options.scope));
+        let ukey = this.uniqueKey(key, this.options.scope);
+        localStorage.removeItem(ukey);
+        (StorageService._change as Observer<Change>).next({ action: ChangeAction.remove, key: ukey });
     }
 
     set<T>(key: string, data: T): T;
     set(key: string, data: any): any {
+        let ukey = this.uniqueKey(key, this.options.scope);
         try {
-            localStorage.setItem(this.uniqueKey(key, this.options.scope), JSON.stringify(data));
+            localStorage.setItem(ukey, JSON.stringify(data));
+            (StorageService._change as Observer<Change>).next({ action: ChangeAction.set, key: ukey });
         } catch (e) {
             if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
                 e.name === 'QuotaExceededError' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
-                this.log.error('LocalStorage is full');
+                this.log.error('LocalStorage is full. Error saving: ' + ukey);
             } else {
-                this.log.error('error saving to LocalStorage: ' + e.message);
+                this.log.error(`LocalStorage error saving : ${ukey} - ${e.message}`);
             }
         }
         return data;
