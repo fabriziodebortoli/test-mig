@@ -15,6 +15,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.RSWeb.WoormWebControl;
 using System.Net;
+using System.Collections.Generic;
 
 //using Microarea.RSWeb.Temp;
 
@@ -3241,7 +3242,7 @@ namespace Microarea.RSWeb.Objects
         }
 
         //-----------------------------------------------------------------------------
-        override public Value ApplySpecializedFunction(FunctionItem function, Stack paramStack)
+        override public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
         {
             if (string.Compare(function.Name, "Framework.TbWoormViewer.TbWoormViewer.GetRows", true) == 0)
             {

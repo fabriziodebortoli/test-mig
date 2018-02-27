@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -20,9 +19,6 @@ using TaskBuilderNetCore.Interfaces;
 
 using TaskBuilderNetCore.Interfaces.Model;
 using System.Xml;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Net;
 using static Microarea.Common.Applications.TbSession;
 using System.Threading;
 
@@ -40,7 +36,7 @@ namespace Microarea.Common.ExpressionManager
 
 		protected Parser parser;
 		protected string auditExpr = string.Empty;
-		protected Stack expressionStack = new Stack();
+		protected Stack<Item> expressionStack = new Stack<Item>();
 
 		protected Diagnostic diagnostic = new Diagnostic("Expression");
 		protected StopTokens stopTokens = null;
@@ -1051,7 +1047,7 @@ namespace Microarea.Common.ExpressionManager
 		//-----------------------------------------------------------------------------
 		public void Assign(Expression aExp)
 		{
-			expressionStack = aExp.expressionStack.Clone() as Stack;
+			expressionStack = aExp.expressionStack.Clone();
 			symbolTable = aExp.symbolTable; //.Clone();
 
 			if (aExp.stopTokens == null) stopTokens = null;
@@ -1061,7 +1057,7 @@ namespace Microarea.Common.ExpressionManager
 		// viene usata per determinare se l'espressione contiene un determinata variabile
 		//-----------------------------------------------------------------------------
 		virtual public bool HasMember(string name) { return HasMember(name, expressionStack); }
-		virtual public bool HasMember(string name, Stack stack)
+		virtual public bool HasMember(string name, Stack<Item> stack)
 		{
 			foreach (Item item in stack)
 			{
@@ -1228,10 +1224,10 @@ namespace Microarea.Common.ExpressionManager
 
 		// Determina se l'espressione parsata e` anche valutabile correttamente
 		//-----------------------------------------------------------------------------
-		public string Compile(Stack aExprStack)
+		public string Compile(Stack<Item> aExprStack)
 		{
-			Stack workStack = new Stack();
-			Stack tmpStack = new Stack();
+            Stack<Item> workStack = new Stack<Item>();
+            Stack<Item> tmpStack = new Stack<Item>();
 
 			Utility.MoveStack(aExprStack, workStack);
 
@@ -1249,7 +1245,7 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		private Value AnalyzeAll(Stack workStack, Stack tmpStack)
+		private Value AnalyzeAll(Stack<Item> workStack, Stack<Item> tmpStack)
 		{
 			if (!Analyze(workStack, tmpStack))
 				return null;
@@ -1321,10 +1317,10 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		public Value Eval(Stack aExprStack)
+		public Value Eval(Stack<Item> aExprStack)
 		{
-			// non modifica lo stack originario ma usa uno di lavoro
-			Stack workStack = aExprStack.Clone() as Stack;
+            // non modifica lo stack originario ma usa uno di lavoro
+            Stack<Item> workStack = aExprStack.Clone();
 
 			if (!Execute(workStack))
 			{
@@ -1338,7 +1334,7 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		private Value ExtractValue(Stack workStack)
+		private Value ExtractValue(Stack<Item> workStack)
 		{
 			//prendo il valore in cima allo stack, è il valore di ritorno dell'espressione, 
 			//ma potrebbe essere da utilizzare come this di una successiva chiamata a funzione
@@ -1891,7 +1887,7 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		Value ApplyFunction(FunctionItem function, Stack paramStack)
+		Value ApplyFunction(FunctionItem function, Stack<Item> paramStack)
 		{
 			Token tkFun = Language.GetKeywordsToken(function.Name);
 			switch (tkFun)
@@ -3800,14 +3796,14 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		virtual public Value ApplySpecializedFunction(FunctionItem function, Stack paramStack)
+		virtual public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
 		{
 			//ridefinita in WoormExpression (Microarea.RSWeb.WoormEngine, Actions.cs)
 			return null;
 		}
 
 		//-----------------------------------------------------------------------------
-		Value ApplyRunReport(FunctionItem function, Stack paramStack)
+		Value ApplyRunReport(FunctionItem function, Stack<Item> paramStack)
 		{
 			FunctionPrototype fun = null;
 
@@ -3866,7 +3862,7 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		Value ApplyExternalFunction(FunctionItem function, Stack paramStack)
+		Value ApplyExternalFunction(FunctionItem function, Stack<Item> paramStack)
 		{
 			try
 			{
@@ -3999,7 +3995,7 @@ namespace Microarea.Common.ExpressionManager
 		/// <param name="function"></param>
 		/// <param name="paramStack"></param>
 		/// <returns></returns>
-		private Value ApplyThisCallFunction(ThiscallFunctionItem function, Stack paramStack)
+		private Value ApplyThisCallFunction(ThiscallFunctionItem function, Stack<Item> paramStack)
 		{
 			Variable v = symbolTable.Find(function.ObjectName);
 			if (v == null)
@@ -4093,7 +4089,7 @@ namespace Microarea.Common.ExpressionManager
 		// dobbiamo rimettere nello stack una Variable se il parametro è [Out] o [In Out] per
 		// poter valorizzare i dati del chiamante (passaggio non per valore)
 		//-----------------------------------------------------------------------------
-		bool Execute(Stack workStack, ParameterModeType direction = ParameterModeType.In)
+		bool Execute(Stack<Item> workStack, ParameterModeType direction = ParameterModeType.In)
 		{
 			if (Error)
 			{
@@ -4184,10 +4180,10 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		private bool ExecuteFunction(Stack workStack)
+		private bool ExecuteFunction(Stack<Item> workStack)
 		{
 			FunctionItem function = (FunctionItem)workStack.Pop();
-			Stack paramStack = new Stack();
+            Stack<Item> paramStack = new Stack<Item>();
 
 			//System.Diagnostics.Debug.Assert(function.Parameters != null);
 			if (function.Parameters != null)
@@ -4202,7 +4198,7 @@ namespace Microarea.Common.ExpressionManager
 					if (!Execute(workStack, mode))
 						return false;
 
-					object opar = workStack.Pop();
+					Item opar = workStack.Pop();
 
 					//forse non serve, da debuggare
 					//if (p == 0 && (function.Name.CompareNoCase("IsNull") || function.Name.CompareNoCase("IsEmpty")))
@@ -4236,7 +4232,7 @@ namespace Microarea.Common.ExpressionManager
 		}
 
 		//-----------------------------------------------------------------------------
-		bool Analyze(Stack workStack, Stack outStack, ParameterModeType direction = ParameterModeType.In)
+		bool Analyze(Stack<Item> workStack, Stack<Item> outStack, ParameterModeType direction = ParameterModeType.In)
 		{
 			object o = workStack.Peek();
 			if (Error || o == null)
@@ -4245,7 +4241,7 @@ namespace Microarea.Common.ExpressionManager
 			if (o is Value)
 			{
 				Value res = o as Value;
-				outStack.Push(res.Clone());
+				outStack.Push(res.Clone() as Value);
 				return true;
 			}
 

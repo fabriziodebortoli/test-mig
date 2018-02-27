@@ -25,7 +25,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-        override public Value ApplySpecializedFunction(FunctionItem function, Stack paramStack)
+        override public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
 		{
             if (function.HasLateBinding && function.Prototype == null)
             {
@@ -866,7 +866,7 @@ namespace Microarea.RSWeb.WoormEngine
         }
 
         //---------------------------------------------------------------------
-        internal Value Exec(Stack paramStack)
+        internal Value Exec(Stack<Item> paramStack)
         {
            if (IsEmpty)
            {

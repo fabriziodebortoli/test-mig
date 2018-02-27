@@ -7,6 +7,7 @@ using Microarea.Common.ExpressionManager;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Hotlink;
 using Microarea.Common;
+using Microarea.Common.Generic;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -160,12 +161,12 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool CheckVariables(Parser lex, Stack stack)
+		public bool CheckVariables(Parser lex, Stack<Item> stack)
 		{
 			Field	field;
 			string	name;
 
-			foreach (object o in stack)
+			foreach (Item o in stack)
 			{
 				if (o is OperatorItem)
 				{
@@ -201,10 +202,10 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool CheckRuleGraph(ref ArrayList vectRules, Stack stack)
+		public bool CheckRuleGraph(ref ArrayList vectRules, Stack<Item> stack)
 		{
 			bool needTemp = false;
-			Stack reversed = new Stack();
+			Stack<Item> reversed = new Stack<Item>();
 			
 			// deve leggere dallo stack a partire dal l'elemento più in alto
 			Utility.ReverseStack(stack, reversed);
@@ -214,11 +215,11 @@ namespace Microarea.RSWeb.WoormEngine
 				{
 					OperatorItem ope = (OperatorItem)o;
 					// devo passare un clone dello stack della espressione perchè viene consumato
-					if (CheckRuleGraph(ref vectRules, (Stack)ope.FirstStack.Clone()))
+					if (CheckRuleGraph(ref vectRules, ope.FirstStack.Clone()))
 						needTemp = true;
 
 					// devo passare un clone dello stack della espressione perchè viene consumato
-					if (CheckRuleGraph(ref vectRules, (Stack)ope.SecondStack.Clone()))
+					if (CheckRuleGraph(ref vectRules, ope.SecondStack.Clone()))
 						needTemp = true;
 
 					continue;
@@ -260,7 +261,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			// costruisce un array di Rules referenziate dagli elementi nella GroupBy
 			// devo passare un clone dello stack della espressione perchè viene consumato
-			bool needTemp = CheckRuleGraph(ref vectRules, (Stack)expressionStack.Clone());
+			bool needTemp = CheckRuleGraph(ref vectRules, expressionStack.Clone());
 
 			// una GroupBy di solo costanti non è ammessa
 			return needTemp || vectRules.Count  == 0;

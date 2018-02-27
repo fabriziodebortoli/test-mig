@@ -45,9 +45,9 @@ namespace Microarea.Common.ExpressionManager
             set { resultType = value; }
         }
 
-        public Stack FirstStack = new Stack();
-        public Stack SecondStack = new Stack();
-
+        public Stack<Item> FirstStack = new Stack<Item>();
+        public Stack<Item> SecondStack = new Stack<Item>();
+ 
         //-----------------------------------------------------------------------------
         public OperatorItem(Token op) : base()
         {
@@ -69,8 +69,8 @@ namespace Microarea.Common.ExpressionManager
         {
             OperatorItem op = new OperatorItem(OperatorID, ResultType);
 
-            op.FirstStack = FirstStack.Clone() as Stack;
-            op.SecondStack = SecondStack.Clone() as Stack;
+            op.FirstStack = FirstStack.Clone();
+            op.SecondStack = SecondStack.Clone();
 
             return op;
         }
@@ -264,12 +264,12 @@ namespace Microarea.Common.ExpressionManager
     //============================================================================
     public class FunctionContentOfItem : FunctionItem
     {
-        public Stack CofExpression;
+        public Stack<Item> CofExpression;
         public SymbolTable SymbolTable;
         public TbSession Session;
 
         //-----------------------------------------------------------------------------
-        public FunctionContentOfItem(FunctionPrototype prototype, Stack expression, TbSession session, SymbolTable symbolTable)
+        public FunctionContentOfItem(FunctionPrototype prototype, Stack<Item> expression, TbSession session, SymbolTable symbolTable)
             : base(Token.CONTENTOF, prototype)
         {
             CofExpression = expression;
@@ -301,18 +301,18 @@ namespace Microarea.Common.ExpressionManager
     {
 
         //-----------------------------------------------------------------------------
-        public static void MoveStack(Stack fromStack, Stack toStack) { MoveStack(fromStack, toStack, -1); }
-        public static void MoveStack(Stack fromStack, Stack toStack, int nItems)
+        public static void MoveStack(Stack<Item> fromStack, Stack<Item> toStack) { MoveStack(fromStack, toStack, -1); }
+        public static void MoveStack(Stack<Item> fromStack, Stack<Item> toStack, int nItems)
         {
             int n = nItems < 0 ? fromStack.Count : nItems;
-            Stack tmp = new Stack();
+            Stack<Item> tmp = new Stack<Item>();
 
             for (int i = 0; i < n; i++) tmp.Push(fromStack.Pop());
             for (int i = 0; i < n; i++) toStack.Push(tmp.Pop());
         }
 
         //-----------------------------------------------------------------------------
-        public static void ReverseStack(Stack fromStack, Stack toStack)
+        public static void ReverseStack(Stack<Item> fromStack, Stack<Item> toStack)
         {
             int n = fromStack.Count;
             for (int i = 0; i < n; i++) toStack.Push(fromStack.Pop());
@@ -473,7 +473,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        public bool Parse(Parser lex, Stack stack)
+        public bool Parse(Parser lex, Stack<Item> stack)
         {
             if (!StopParse(lex))
                 Expression(lex, stack);
@@ -487,7 +487,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Expression(Parser lex, Stack stack)
+        void Expression(Parser lex, Stack<Item> stack)
         {
             Disjunctive(lex, stack);
 
@@ -534,7 +534,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Disjunctive(Parser lex, Stack stack)
+        void Disjunctive(Parser lex, Stack<Item> stack)
         {
             Conjunctive(lex, stack);
 
@@ -563,7 +563,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Conjunctive(Parser lex, Stack stack)
+        void Conjunctive(Parser lex, Stack<Item> stack)
         {
             Formula(lex, stack);
 
@@ -672,7 +672,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Formula(Parser lex, Stack stack)
+        void Formula(Parser lex, Stack<Item> stack)
         {
             Term(lex, stack);
 
@@ -694,7 +694,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Term(Parser lex, Stack stack)
+        void Term(Parser lex, Stack<Item> stack)
         {
             Factor(lex, stack);
 
@@ -722,7 +722,7 @@ namespace Microarea.Common.ExpressionManager
                             //cui oggetto di chiamata (this) � il valore di ritorno dell'espressione precedente
                             if (allowThisCallMethods && lex.CurrentLexeme.StartsWith("."))
                             {
-                                Stack tmpStack = (Stack)stack.Clone();
+                                Stack<Item> tmpStack = stack.Clone();
                                 stack.Clear();
                                 Factor(lex, stack);//metto la funzione (o le funzioni) in uno stack pulito
 
@@ -742,7 +742,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void Factor(Parser lex, Stack stack)
+        void Factor(Parser lex, Stack<Item> stack)
         {
             if (lex.Error) return;
 
@@ -1072,7 +1072,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        bool ParseArrayCreate(Parser lex, Stack exprStack)
+        bool ParseArrayCreate(Parser lex, Stack<Item> exprStack)
         {
             if (!lex.ParseTag(Token.SQUAREOPEN))
                 return false;
@@ -1111,7 +1111,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        bool ParseArrayIndexer(string name, Parser lex, Stack exprStack)    //DataArray
+        bool ParseArrayIndexer(string name, Parser lex, Stack<Item> exprStack)    //DataArray
         {
             if (!lex.ParseTag(Token.SQUAREOPEN))
                 return false;
@@ -1145,7 +1145,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        public bool ParseFunctionContentOf(Parser lex, Stack exprParentStack, bool native)
+        public bool ParseFunctionContentOf(Parser lex, Stack<Item> exprParentStack, bool native)
         {
             Token tokenFun = lex.LookAhead();
             lex.SkipToken();
@@ -1154,7 +1154,7 @@ namespace Microarea.Common.ExpressionManager
             if (!lex.ParseTag(Token.ROUNDOPEN))
                 return false;
 
-            Stack exprStack = new Stack();
+            Stack<Item> exprStack = new Stack<Item>();
             Expression(lex, exprStack);
 
             if (lex.Error || !lex.ParseTag(Token.ROUNDCLOSE))
@@ -1187,14 +1187,14 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        bool ParseFunction(Parser lex, Stack stack)
+        bool ParseFunction(Parser lex, Stack<Item> stack)
         {
             Token tokenFun = lex.SkipToken();
             return ParseFunction(Language.GetTokenString(tokenFun), lex, stack, tokenFun);
         }
 
         //-----------------------------------------------------------------------------
-        bool ParseFunction(string name, Parser lex, Stack stack, Token tokenFun = Token.ID)
+        bool ParseFunction(string name, Parser lex, Stack<Item> stack, Token tokenFun = Token.ID)
         {
             if (!lex.ParseTag(Token.ROUNDOPEN))
                 return false;
@@ -1361,7 +1361,7 @@ namespace Microarea.Common.ExpressionManager
         /// <param name="lex"></param>
         /// <param name="stack"></param>
         /// <returns></returns>
-        bool ParseCTypeFunction(Parser lex, Stack stack)
+        bool ParseCTypeFunction(Parser lex, Stack<Item> stack)
         {
             lex.SkipToken();//nome funzione
             if (!lex.ParseTag(Token.ROUNDOPEN)) return false;
@@ -1399,7 +1399,7 @@ namespace Microarea.Common.ExpressionManager
         /// <summary>
         /// Cerca dinamicamente la funzione via reflection nel contesto corrente
         /// </summary>
-        private FunctionPrototype GetThisCallFunction(string name, Stack stack, int nrParams, out string varName)
+        private FunctionPrototype GetThisCallFunction(string name, Stack<Item> stack, int nrParams, out string varName)
         {
             int dotIndex = name.LastIndexOf('.');
             varName = "";
@@ -1411,7 +1411,7 @@ namespace Microarea.Common.ExpressionManager
             string[] types = new string[nrParams];
             if (nrParams > 0)
             {
-                Stack tmpStack = (Stack)stack.Clone();
+                Stack<Item> tmpStack = stack.Clone();
                 for (int i = 0; i < nrParams; i++)
                     types[i] = GetParameterType((DataItem)tmpStack.Pop());
             }
@@ -1543,7 +1543,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        public static void ExpandStack(Stack fromStack, ref Stack toStack)
+        public static void ExpandStack(Stack<Item> fromStack, ref Stack<Item> toStack)
         {
             toStack.Clear();
             object[] array = fromStack.ToArray();
@@ -1552,7 +1552,7 @@ namespace Microarea.Common.ExpressionManager
             {
                 Item item = array[i] as Item;
                 if (item != null)
-                    toStack.Push((object)item.Expand());
+                    toStack.Push(item.Expand());
             }
         }
 
@@ -1569,7 +1569,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        void ManageLocalizeFunction(string name, Parser lex, Stack stack, ref int nrParams)
+        void ManageLocalizeFunction(string name, Parser lex, Stack<Item> stack, ref int nrParams)
         {
             object o = stack.Peek();
             if (o is Value)
@@ -1589,10 +1589,10 @@ namespace Microarea.Common.ExpressionManager
     public class ExpressionUnparser
     {
         //-----------------------------------------------------------------------------
-        public bool Unparse(out string exprStr, Stack stack)
+        public bool Unparse(out string exprStr, Stack<Item> stack)
         {
             StringCollection collection = new StringCollection();
-            Stack tmpStack = (Stack)stack.Clone();
+            Stack<Item> tmpStack = stack.Clone();
 
             exprStr = "";
             if (!Expression(collection, tmpStack))
@@ -1607,7 +1607,7 @@ namespace Microarea.Common.ExpressionManager
         }
 
         //-----------------------------------------------------------------------------
-        bool Expression(StringCollection collection, Stack workStack)
+        bool Expression(StringCollection collection, Stack<Item> workStack)
         {
             string strTmp;
 

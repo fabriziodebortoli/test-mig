@@ -624,9 +624,9 @@ namespace Microarea.RSWeb.WoormEngine
 		// Devo anche spostare il tutto in un'altro stack perchè posso cambiare alcuni item 
 		// da Value a Variable e non posso farlo all'interno del foreach.
 		//-----------------------------------------------------------------------------
-		protected bool ModifyVariableOrConst(ref Stack modifiedStack)
+		protected bool ModifyVariableOrConst(ref Stack<Item> modifiedStack)
 		{
-			Stack tempStack = new Stack();
+			Stack<Item> tempStack = new Stack<Item>();
 			foreach (Item item in modifiedStack)
 			{
 				if (item is OperatorItem)
@@ -721,7 +721,7 @@ namespace Microarea.RSWeb.WoormEngine
 					tempStack.Push(item);
 			}
 
-			Stack reversed = new Stack();
+			Stack<Item> reversed = new Stack<Item>();
 			Utility.ReverseStack(tempStack, reversed);
 			modifiedStack = reversed;
 			return true;
@@ -742,7 +742,7 @@ namespace Microarea.RSWeb.WoormEngine
 				// cui metodo Unparse svuota ricorsivamente lo stack di lavoro
 				//
 				 
-				Stack modifiedStack = new Stack();
+				Stack<Item> modifiedStack = new Stack<Item>();
 				ExpressionParser.ExpandStack(expressionStack, ref modifiedStack);
 				
 				ModifyVariableOrConst(ref modifiedStack);
@@ -778,7 +778,7 @@ namespace Microarea.RSWeb.WoormEngine
 				// si deve porre il problema della convenzione di "quoting" dello specifico DataBase
 				// lasciando all'interfaccia il compito di quotare correttamente
 				//
-				Stack reversed = new Stack();
+				Stack<Item> reversed = new Stack<Item>();
 				Utility.ReverseStack(expressionStack, reversed);
 				foreach (Item item in reversed)
 				{
@@ -873,7 +873,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		override public Value ApplySpecializedFunction(FunctionItem function, Stack paramStack)
+		override public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
 		{
 			switch (function.Name)
 			{
