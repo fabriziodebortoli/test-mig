@@ -100,6 +100,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.stop();
     }
 

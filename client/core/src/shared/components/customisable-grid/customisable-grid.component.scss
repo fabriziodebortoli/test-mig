@@ -47,7 +47,7 @@
         box-shadow: none;
     }
 }
-.cell-button {
+.row-button {
     margin: 0px;
     padding: 0px;
     border: 0px;
@@ -64,21 +64,21 @@
     &:focus {
         box-shadow: none;
     }
+    tb-icon {
+        font-size: 1em;
+        padding-right: 0px;
+        width: none;
+        ::ng-deep m4-icon {
+            font-size: 9px;
+            margin-left: 3px;
+        }
+        ::ng-deep .div-icon {line-height:9px;width:0px;}
+    }
 }
 tb-icon {
     min-width: 30px;
     font-size: 24px;
     line-height: 15px;
-}
-#cell-icon {
-    font-size: 1em;
-    padding-right: 0px;
-    width: none;
-    ::ng-deep m4-icon {
-        font-size: 9px;
-        margin-left: 3px;
-    }
-    ::ng-deep .div-icon {line-height:9px;width:0px;}
 }
 .pager-buttons {
     display: flex;
@@ -92,7 +92,7 @@ tb-icon {
     font-weight: bold;
     font-size: x-small;
 }
-.hideButton {
+.hide-button {
     right: 6px;
     top: 3px;
     color: #0277bd;

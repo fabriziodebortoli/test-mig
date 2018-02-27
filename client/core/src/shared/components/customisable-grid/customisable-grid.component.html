@@ -9,17 +9,17 @@
         [width]="col.width">
         <ng-template kendoGridHeaderTemplate let-dataItem>
             {{dataItem.field}}
-            <m4-icon *ngIf="state.gridData.columns.length - settings?.hiddenColumns?.length > (selectionColumnId ? 2 : 1)" [icon]="'tb-uncheckedradiobutton'" class="hideButton"
+            <m4-icon *ngIf="state.gridData.columns.length - settings?.hiddenColumns?.length > (selectionColumnId ? 2 : 1)" [icon]="'tb-uncheckedradiobutton'" class="hide-button"
                 (click)="hideColumn(dataItem.field)" matTooltip="{{_TB('Hide Column')}}" matTooltipShowDelay="500" style="float: right">
             </m4-icon>
         </ng-template>
-        <ng-template kendoGridCellTemplate let-dataItem>
+        <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex">
             <div id="cell-container">
                 <div [ngSwitch]="col.type">
                     <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
                     <div *ngSwitchDefault class="hotLinkGridCell" style="display: flex">
-                        <button *ngIf="idx === 1 && editable" kendoButton class="cell-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
-                            <tb-icon id="cell-icon" [iconType]="'M4'" [icon]="'tb-edit'" class="toolbar-icon"></tb-icon>
+                        <button *ngIf="editable && columnIndex === 0" kendoButton class="row-button" (click)="selectAndEdit.emit(dataItem)" [title]="_TB('Edit')">
+                            <tb-icon [iconType]="'M4'" [icon]="'tb-edit'" class="toolbar-icon"></tb-icon>
                         </button>
                         <div style="flex: 1">{{dataItem[col.id] | tbEnums: col.type | async}}</div>
                     </div>
