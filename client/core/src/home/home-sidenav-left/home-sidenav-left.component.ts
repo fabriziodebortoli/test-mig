@@ -12,8 +12,7 @@ import { TbComponentService } from './../../core/services/tbcomponent.service';
 @Component({
   selector: 'tb-home-sidenav-left',
   templateUrl: './home-sidenav-left.component.html',
-  styleUrls: ['./home-sidenav-left.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./home-sidenav-left.component.scss']
 })
 export class HomeSidenavLeftComponent extends TbComponent {
 
