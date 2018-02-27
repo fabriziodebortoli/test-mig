@@ -13,6 +13,8 @@ using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
 using Microsoft.AspNetCore.Cors;
 using Microarea.Common;
+using System.Collections.Generic;
+
 
 /*
 localhost:5000/rs/template/erp.company.isocountrycodes/1
@@ -146,32 +148,32 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
 
             string ext = System.IO.Path.GetExtension(filename).TrimStart('.');
-
             try
             {
-                this.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                HttpContext.Response.Headers.Remove("Access-Control-Allow-Origin");
+                HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, false);
                 return new FileStreamResult(f, "image/" + ext);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                return new ContentResult { Content = "Cannot access file " + filename + " Exception: " + ex.ToString(), ContentType = "application/text" };
             }
-            return new ContentResult { Content = "Cannot access file " + filename, ContentType = "application/text" };
         }
 
         //---------------------------------------------------------------------
         [Route("excel/{filename}")]
         public IActionResult GetExcel(string filename)
         {
+         /*UserInfo ui = GetLoginInformation();
+           if (ui == null)
+               return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };*/
+
             string path = Path.GetTempPath();
             string pathComplete = path + filename;
 
             if (pathComplete.IsNullOrEmpty())
                 return new ContentResult { Content = "Empty file name", ContentType = "application/text" };
-
-            /*UserInfo ui = GetLoginInformation();
-            if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };*/
 
             if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };

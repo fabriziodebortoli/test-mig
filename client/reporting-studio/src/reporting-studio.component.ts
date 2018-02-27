@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ViewChild, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService } from '@taskbuilder/core';

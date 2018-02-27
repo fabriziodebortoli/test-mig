@@ -1,7 +1,9 @@
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { graphrect } from './../../../models/graphrect.model';
-import { Component, Input } from '@angular/core';
-import { InfoService } from "@taskbuilder/core";
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { InfoService } from '@taskbuilder/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'rs-image',
@@ -11,10 +13,15 @@ import { InfoService } from "@taskbuilder/core";
 export class ReportImageComponent {
 
   @Input() image: graphrect;
+  @ViewChild('rsInnerImg') rsInnerImg: ElementRef;
 
-  constructor(public infoService: InfoService) {
-
+  constructor(private infoService: InfoService, private httpClient: HttpClient) {
   };
+
+  private loadImage(url: string): Observable<any> {
+    return this.httpClient.get(url, { responseType: 'blob'})  // load the image as a blob
+  }
+
   applyStyle(): any {
     let obj = {
       'position': 'absolute',
@@ -32,11 +39,17 @@ export class ReportImageComponent {
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
 
-    if (this.image.value !== '') {
-      //this.image.src = 'http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
-      this.image.src = this.infoService.getBaseUrl() + '/rs/image/' + this.image.value;
+    const newSrc = this.infoService.getBaseUrl() + '/rs/image/' + this.image.value
+    if (this.image.value !== '' && newSrc !== this.image.src) {
+        this.image.src = newSrc;
+        this.loadImage(this.image.src).subscribe(blob => {
+          let reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+              this.rsInnerImg.nativeElement.src = reader.result;
+            };
+      });
     }
-
     return obj;
   }
 

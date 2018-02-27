@@ -34,8 +34,8 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TbSharedModule, ComponentService, WebSocketService, HttpService, UtilsService, Logger } from '@taskbuilder/core';
 import { RsTestComponent } from './rs-test.component';
-import { RouterModule } from "@angular/router";
-import { TbCoreModule } from "@taskbuilder/core";
+import { RouterModule } from '@angular/router';
+import { TbCoreModule } from '@taskbuilder/core';
 export { ReportingStudioComponent, ReportingStudioFactoryComponent } from './reporting-studio.component';
 export { ReportingStudioService } from './reporting-studio.service';
 export { RsExportService } from './rs-export.service';
@@ -43,6 +43,8 @@ export { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { ExportdialogComponent } from './report-objects/exportdialog/exportdialog.component';
 import { SnapshotdialogComponent } from './report-objects/snapshotdialog/snapshotdialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpSecureInterceptor } from './services/rs-http-secure-interceptor';
 
 
 export * from './rs-test.component';
@@ -66,6 +68,7 @@ export { TemplateItem } from './models/template-item.model';
     CommonModule,
     FormsModule,
     TbSharedModule,
+    HttpClientModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },
@@ -103,7 +106,6 @@ export { TemplateItem } from './models/template-item.model';
     AskRadioComponent,
     AskTextComponent,
     BarcodeComponent
-
   ],
   exports: [
     RsTestComponent,
@@ -111,7 +113,10 @@ export { TemplateItem } from './models/template-item.model';
     AskdialogComponent,
     ExportdialogComponent,
     ReportingStudioFactoryComponent,
-    ReportingStudioComponent,
+    ReportingStudioComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpSecureInterceptor, multi: true }
   ],
   entryComponents:
   [
