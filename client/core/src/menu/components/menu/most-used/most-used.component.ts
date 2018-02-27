@@ -11,8 +11,7 @@ import { TbComponent } from './../../../../shared/components/tb.component';
 @Component({
   selector: 'tb-most-used',
   templateUrl: './most-used.component.html',
-  styleUrls: ['./most-used.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./most-used.component.scss']
 })
 export class MostUsedComponent extends TbComponent {
 

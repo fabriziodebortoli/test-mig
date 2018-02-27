@@ -14,16 +14,10 @@ ul.most-used-list {
     color: #9f9f9f;
     line-height: 30px;
     background: #3e3e3e;
-    &:hover {
-        background: rgba(62, 62, 63, 0.5);
-    }
     &>span {
         flex: 1;
         font-size: 12px;
         font-weight: 500;
-    }
-    &:hover span {
-        color: #fff;
     }
     m4-icon.type {
         margin: 0px 7px;
@@ -52,20 +46,29 @@ ul.most-used-list {
 
 //stile quando usato nella sidenav
 /// inizio sidenav
-.sidenav {
-    m4-icon.close {
-        color: #646464;
+::ng-deep .sidenav {
+    .most-used-item {
+        &:hover {
+        background: rgba(62, 62, 63, 0.5);
+        }
+        &:hover span {
+            color: #fff;
+        }
+
+        m4-icon.close {
+            color: #646464;
     }
+
     .most-used-empty {
         line-height: 28px;
         background: #3e3e3e;
     }
 }
-
+}
 /// fine sidenav
 //stile quando usato nella dashboard
 /// inizio dashboard
-.dashboard {
+::ng-deep .dashboard {
     .most-used-item {
         transition: all 0.2s ease;
         background: #fff;
@@ -82,7 +85,6 @@ ul.most-used-list {
             line-height: 29px;
         }
         &:hover {
-            transition: all 0.2s ease;
             background: #f1f1f1;
             color: #0277bd;
             span {
