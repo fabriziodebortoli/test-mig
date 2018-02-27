@@ -24,6 +24,7 @@ private:
 
 public:
 	virtual WebCommandType OnGetWebCommandType(UINT commandID);
+	virtual void Customize();
 
 protected:
 	//{{AFX_MSG(CDFieldInspector)

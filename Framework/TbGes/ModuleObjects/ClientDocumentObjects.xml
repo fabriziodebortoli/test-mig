@@ -7,5 +7,6 @@
 	</ClientDocuments>
 	<ClientForms>
 		<ClientForm name="M.Framework.TbGes.FieldInspector.FIELDINSPECTOR_TOOLBAR" server="IDD_MASTER_FRAME"/>
+    <ClientForm name="M.Framework.TbGes.FieldInspector.FIELDINSPECTOR_TOOLBAR" server="ID_EXTDOC_TOOLBAR_TOOLS"/>
 	</ClientForms>
 </ClientDocumentObjects>

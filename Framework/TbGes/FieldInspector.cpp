@@ -18,6 +18,9 @@
 #include <TbGenlib\TilePanel.h>
 #include <TbGes\TileManager.h>
 
+#include <TbGes\JsonForms\TbGes\IDD_EXTDOC_TOOLBAR.hjson>
+#include <TbGes\JsonForms\FieldInspector\FIELDINSPECTOR_TOOLBAR.hjson>
+
 #include "FieldInspector.h"
 #include "FieldInspector.hjson" //JSON AUTOMATIC UPDATE
 
@@ -1009,5 +1012,11 @@ WebCommandType CDFieldInspector::OnGetWebCommandType(UINT commandID)
 	if (commandID == ID_INSPECT)
 		return WEB_UNSUPPORTED;
 	return __super::OnGetWebCommandType(commandID);
+}
+
+//------------------------------------------------------------------------------
+void CDFieldInspector::Customize()
+{
+	CreateJsonToolbar(FIELDINSPECTOR_TOOLBAR);
 }
 
