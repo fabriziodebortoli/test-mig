@@ -6,7 +6,7 @@ using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 //using Nustache.Core;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Services
+namespace TaskBuilderNetCore.EasyStudio.Services
 {
     //====================================================================
     [Name("templateCodeSvc"), Description("This service manages template code and serialization.")]

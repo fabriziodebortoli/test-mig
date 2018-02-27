@@ -1,8 +1,8 @@
 ﻿using TaskBuilderNetCore.Documents.Model.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Engine.Services;
+using TaskBuilderNetCore.EasyStudio.Services;
 using Microarea.Common.NameSolver;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Serializers
+namespace TaskBuilderNetCore.EasyStudio.Serializers
 {
    //====================================================================
     public class TBDocumentSerializer : BaseDocumentSerializer

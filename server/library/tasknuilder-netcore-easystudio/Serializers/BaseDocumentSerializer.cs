@@ -4,7 +4,7 @@ using TaskBuilderNetCore.EasyStudio.Interfaces;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.NameSolver;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Serializers
+namespace TaskBuilderNetCore.EasyStudio.Serializers
 {
     //====================================================================
     public abstract class BaseDocumentSerializer : Serializer, IDocumentSerializer

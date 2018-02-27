@@ -1,7 +1,7 @@
 ﻿using TaskBuilderNetCore.EasyStudio.Interfaces;
 using System;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Serializers
+namespace TaskBuilderNetCore.EasyStudio.Serializers
 {
     //====================================================================
     public class SerializerException : Exception

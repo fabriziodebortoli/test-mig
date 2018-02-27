@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Collections.Specialized;
 using System.IO;
 using Newtonsoft.Json;
-using TaskBuilderNetCore.EasyStudio.Engine.Serializers;
+using TaskBuilderNetCore.EasyStudio.Serializers;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 using System.Text;
 using System.Linq;
@@ -12,7 +12,7 @@ using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
 
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Services
+namespace TaskBuilderNetCore.EasyStudio.Services
 {
 	//====================================================================
 	[Name("appSvc"), Description("This service manages application structure info and serialization.")]

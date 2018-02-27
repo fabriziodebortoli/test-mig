@@ -3,10 +3,10 @@ using System.Linq;
 using System.ComponentModel;
 using System.Reflection;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Engine.Serializers;
 using TaskBuilderNetCore.Common.CustomAttributes;
+using TaskBuilderNetCore.EasyStudio.Serializers;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine
+namespace TaskBuilderNetCore.EasyStudio
 {
 	//====================================================================
 	public class Component : EasyStudio.Interfaces.IComponent

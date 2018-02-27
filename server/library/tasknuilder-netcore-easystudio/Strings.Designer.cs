@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TaskBuilderNetCore.EasyStudio.Engine
+namespace TaskBuilderNetCore.EasyStudio
 {
     using System;
     

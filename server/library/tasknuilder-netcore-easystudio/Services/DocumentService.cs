@@ -2,11 +2,11 @@
 using Microarea.Common.NameSolver;
 using System.ComponentModel;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Engine.Serializers;
+using TaskBuilderNetCore.EasyStudio.Serializers;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Services
+namespace TaskBuilderNetCore.EasyStudio.Services
 {
     //====================================================================
     [Name("docSvc"), Description("This service manages document structure info and serialization.")]

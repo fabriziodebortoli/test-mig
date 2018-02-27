@@ -11,8 +11,6 @@ using Newtonsoft.Json;
 using TaskBuilderNetCore.Interfaces;
 using static Microarea.Common.Generic.InstallationInfo;
 using System.Runtime.InteropServices;
-using TaskBuilderNetCore.EasyStudio.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Engine;
 namespace Microarea.Common.MenuLoader
 {
 	//---------------------------------------------------------------------------

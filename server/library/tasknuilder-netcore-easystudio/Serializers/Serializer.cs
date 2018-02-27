@@ -3,7 +3,7 @@ using System;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 using TaskBuilderNetCore.Interfaces;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Serializers
+namespace TaskBuilderNetCore.EasyStudio.Serializers
 {
     //====================================================================
     public class SerializerEventArgs : EventArgs

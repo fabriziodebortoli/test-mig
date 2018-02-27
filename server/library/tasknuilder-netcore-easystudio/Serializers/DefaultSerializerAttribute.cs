@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine.Serializers
+namespace TaskBuilderNetCore.EasyStudio.Serializers
 {
     //====================================================================
     [AttributeUsage(AttributeTargets.Class)]

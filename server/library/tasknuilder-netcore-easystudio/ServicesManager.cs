@@ -1,10 +1,10 @@
 ﻿using Microarea.Common.NameSolver;
 using System;
 using System.Collections.Generic;
-using TaskBuilderNetCore.EasyStudio.Engine.Serializers;
+using TaskBuilderNetCore.EasyStudio.Serializers;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 
-namespace TaskBuilderNetCore.EasyStudio.Engine
+namespace TaskBuilderNetCore.EasyStudio
 {
     //====================================================================
     public class ServicesManager : List<IService>
