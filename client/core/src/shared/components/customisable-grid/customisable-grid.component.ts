@@ -46,6 +46,7 @@ export class Settings {
     reorderMap: number[] = [];
     hiddenColumns: string[] = [];
     widths: { [name: string]: number } = {};
+    hash: string;
 }
 
 @Component({
@@ -81,7 +82,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private _state: State;
     private _settings: Settings;
     private reshape = memoize((d: GridData, cols) => {
-        this.updatedSettingsFor(cols);
         return tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
     });
 
@@ -100,7 +100,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     ngOnDestroy() {
-        this.saveWidths();
         this.stop();
     }
 
@@ -114,12 +113,14 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     limit = (d: GridData): GridData => {
+        if (d.columns.length === 0) return d;
         const maxCols = Math.min(d.columns.length, this.maxColumns);
         const data = d.columns.length < maxCols ? d.data :
             d.data.map(r => this.moveToStart(c => this.selectionColumnId && c === this.selectionColumnId, Object.keys(r))
                 .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
         const columns = this.moveToStart(c => this.selectionColumnId && c.id === this.selectionColumnId, d.columns)
             .slice(0, maxCols);
+        this.resetSettingsIfNew(columns);
         return d.with({ data, columns });
     }
 
@@ -127,22 +128,25 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         [array.find(predicate), ...array.filter(v => !predicate(v))].filter(x => x);
 
     resize = cols => {
-        if (!this.resizable || !cols || cols.length === 0) return cols;
+        if (!this.resizable || cols.length === 0) return cols;
         const widths = this._settings.widths;
         return cols.map(c => ({ ...c, width: widths[c.id] || 180 }));
     }
 
     reorder = cols => {
-        if (!cols || cols.length === 0) return cols;
+        if (cols.length === 0) return cols;
         const reorderMap = this._settings.reorderMap;
         const weight = reorderMap.reduce((o, v, i) => ({ ...o, [v]: i }), {});
         return cols.sort((a, b) => weight[a.id] - weight[b.id]);
     };
 
     /** columns returned by server could change... */
-    private updatedSettingsFor = cols => {
-        if (!cols || cols.length === 0) return this._settings;
-        if (getObjHash(this._settings.reorderMap, this.maxColumns) !== getObjHash(cols, this.maxColumns)) {
+    private resetSettingsIfNew = cols => {
+        if (cols.length === 0) return this._settings;
+        let hash = getObjHash(cols, this.maxColumns);
+        if (hash !== this._settings.hash) {
+            this._settings = new Settings();
+            this._settings.hash = hash;
             this._settings.reorderMap = cols.map(x => x.id);
             this.saveSettings();
         }
@@ -191,12 +195,14 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     get settings() { return this._settings; }
 
-    restoreColumns(): void { this._settings.hiddenColumns = []; }
+    restoreColumns(): void { this._settings.hiddenColumns = []; this.saveSettings(); }
 
-    hideColumn(field: string): void { this._settings.hiddenColumns = [...this._settings.hiddenColumns, field]; }
+    hideColumn(field: string): void { this._settings.hiddenColumns = [...this._settings.hiddenColumns, field]; this.saveSettings(); }
 
     autofit() {
         this.grid.autoFitColumns()
         this.saveWidths();
     }
+
+    // Object.keys(localStorage).filter(k => k.startsWith("storage")).reduce((o, v) => ({...o, [v]:JSON.parse(localStorage[v])}), {})
 }

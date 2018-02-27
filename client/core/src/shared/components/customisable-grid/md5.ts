@@ -164,12 +164,12 @@ function add32(a, b) {
     return (a + b) & 0xFFFFFFFF;
 }
 
-export function md5(s) {
+export function md5(s: string): string {
     return hex(md51(s));
 }
 
-export function getObjHash(obj: object, precision: number) {
-     md5(Object.keys(obj)
-    .slice(0, Math.min(precision, Object.keys(obj).length))
-    .reduce((a, v) => a += v, ''));
+export function getObjHash(obj: object, precision: number): string {
+    return md5(Object.keys(obj)
+        .slice(0, Math.min(precision, Object.keys(obj).length))
+        .reduce((a, v) => a += v, ''));
 }
