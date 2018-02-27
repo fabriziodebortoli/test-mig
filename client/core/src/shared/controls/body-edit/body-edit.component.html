@@ -1,69 +1,42 @@
 <ng-content class="toolbar-buttons"></ng-content>
 
-<kendo-grid #grid [ngClass]="isLoading? 'k-loading-image': ''" class="body-edit" [data]="gridView" [resizable]="true" (selectionChange)="ben_row_changed($event)" [rowSelected]="isRowSelected" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)"
-    (cellClose)="cellCloseHandler($event)" [height]="height" (pageChange)="pageChange($event)" [pageSize]="pageSize" [skip]="paginator.skip" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }">
-    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-
-        <div class="left-buttons">
-            <!--Aggiunta riga  -->
-            <button kendoButton class="top-button toggle-button" (click)="addRow()" [disabled]="!enabled" [title]="_TB('Add Row')">
-                <m4-icon icon="tb-add" class="toolbar-icon"></m4-icon>
-            </button>
-            <!--Rimozione riga  -->
-            <button kendoButton class="top-button toggle-button" (click)="removeRow()" [disabled]="!enabled" [title]="_TB('Remove Row')">
-                <m4-icon icon="tb-delete" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <!--Apertura rowview riga  -->
-            <button kendoButton class="top-button toggle-button" (click)="openRowView()" [title]="_TB('Open Rowview')">
-                <m4-icon icon="tb-datagrid" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <!-- Multiselezione  -->
-            <button kendoButton class="top-button toggle-button" (click)="enableMultiselection()" [disabled]="!enabled" [title]="_TB('Enable Multi selection')">
-                <m4-icon icon="tb-multiselect" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <!-- visione righe alternate  -->
-            <button kendoButton class="top-button toggle-button" (click)="enhancedView()" [title]="_TB('Enhanced View')">
-                <m4-icon icon="tb-datagrid" class="toolbar-icon"></m4-icon>
-            </button>
-        </div>
-
-        <div class="center-buttons">
-            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
-            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
-            <kendo-pager-next-buttons></kendo-pager-next-buttons>
-
-            <div class="pager-number">current page: {{currentPage}}</div>
-            <kendo-pager-info></kendo-pager-info>
-        </div>
-
-
-        <div class="right-buttons">
-            <!-- Find  -->
-            <button kendoButton class="top-button toggle-button" (click)="find()" [title]="_TB('Find')">
-                <m4-icon icon="tb-find" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <!-- Zoom in-->
-            <button kendoButton class="top-button toggle-button" (click)="increaseRowHeight()" [title]="_TB('Increase Row Height')">
-                <m4-icon icon="tb-enlarge" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <!-- Zoom out-->
-            <button kendoButton class="top-button toggle-button" (click)="decreaseRowHeight()" [title]="_TB('Decrease Row Height')">
-                <m4-icon icon="tb-shrink" class="toolbar-icon"></m4-icon>
-            </button>
-
-            <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')">
-                <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
-            </button>
-            <!-- <ng-template [ngTemplateOutlet]="customGridButtonsTemplate"></ng-template> -->
-        </div>
-
-
-
-
-    </ng-template>
+<kendo-grid #grid [ngClass]="isLoading? 'k-loading-image': ''" class="body-edit" [data]="gridView" [resizable]="true" [scrollable]="'virtual'" [rowHeight]="rowHeight" [navigable]="true" (selectionChange)="ben_row_changed($event)" [rowSelected]="isRowSelected"
+    [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height" (pageChange)="pageChange($event)" [pageSize]="pageSize" [skip]="skip" [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }">
 </kendo-grid>
+
+<div class="body-edit-footer">
+    <div class="left-buttons">
+        <button kendoButton class="top-button toggle-button" (click)="addRow()" [disabled]="!enabled" [title]="_TB('Add Row')">  <!--Aggiunta riga  -->
+            <m4-icon icon="tb-add" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="removeRow()" [disabled]="!enabled" [title]="_TB('Remove Row')">  <!--Rimozione riga  -->
+            <m4-icon icon="tb-delete" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="openRowView()" [title]="_TB('Open Rowview')"> <!--Apertura rowview riga  -->
+            <m4-icon icon="tb-datagrid" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="enableMultiselection()" [disabled]="!enabled" [title]="_TB('Enable Multi selection')"> <!-- Multiselezione  -->
+            <m4-icon icon="tb-multiselect" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="enhancedView()" [title]="_TB('Enhanced View')"><!-- visione righe alternate  -->
+            <m4-icon icon="tb-datagrid" class="toolbar-icon"></m4-icon>
+        </button>
+    </div>
+
+    <div class="pager-number">total rows: {{rowCount}}</div>
+
+    <div class="right-buttons">
+        <button kendoButton class="top-button toggle-button" (click)="find()" [title]="_TB('Find')"><!-- Find  -->
+            <m4-icon icon="tb-find" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="increaseRowHeight()" [title]="_TB('Increase Row Height')"><!-- Zoom in-->
+            <m4-icon icon="tb-enlarge" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="decreaseRowHeight()" [title]="_TB('Decrease Row Height')"><!-- Zoom out-->
+            <m4-icon icon="tb-shrink" class="toolbar-icon"></m4-icon>
+        </button>
+        <button kendoButton class="top-button toggle-button" (click)="grid.autoFitColumns()" [title]="_TB('Fit Columns')"><!-- Fit Columns-->
+            <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
+        </button>
+    </div>
+</div>

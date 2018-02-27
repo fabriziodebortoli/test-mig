@@ -13,7 +13,6 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { HttpService } from './../../../core/services/http.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
-import { PaginatorService, ServerNeededParams } from './../../../core/services/paginator.service';
 
 import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
@@ -30,8 +29,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
   selector: 'tb-body-edit',
   templateUrl: './body-edit.component.html',
-  styleUrls: ['./body-edit.component.scss'],
-  providers: [PaginatorService]
+  styleUrls: ['./body-edit.component.scss']
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
@@ -57,11 +55,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public isLoading: boolean = false;
   public pageSizes = false;
   public previousNext = true;
-  public pageSize: number = 4;
+  public pageSize: number = 15;
+  public rowHeight: number = 25;
   public currentPage: number = 0;
   public rowCount: number = 0;
-  public totalPages: number = 0;
-  public gridView: GridDataResult;
+public gridView: GridDataResult;
 
   private lastEditedRowIndex: number = -1;
   private lastEditedColumnIndex: number = -1;
@@ -71,8 +69,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     public tbComponentService: TbComponentService,
     public httpService: HttpService,
     public store: Store,
-    private eventData: EventDataService,
-    private paginator: PaginatorService,
+    private eventData: EventDataService
   ) {
     super(layoutService, tbComponentService, cdr);
     this.selectableSettings = { checkboxOnly: false, mode: "single" };
@@ -144,7 +141,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   ngOnDestroy() {
-    this.paginator.stop();
+    //this.paginator.stop();
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -158,22 +155,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.grid.columns.reset(internalColumnComponents);
     });
 
+    let numberOfVisibleRows = Math.ceil(this.height/ this.rowHeight);
+    this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
     this.subscribeToSelector();
-
-    this.paginator.start(1, this.pageSize,
-      Observable.never<ServerNeededParams>(),
-      (pageNumber, serverPageSize, data?) => {
-        let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-        return this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, (pageNumber) * this.pageSize, this.pageSize)
-      });
-
-    this.paginator.serverData$.subscribe(data => {
-      if (data) {
-        let dbt = data[this.bodyEditName];
-        this.updateModel(dbt);
-      }
-    });
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -183,7 +168,13 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   pageChange(event) {
     this.skip = event.skip;
-    this.paginator.pageChange(event.skip, event.take);
+    console.log("pagechange", event.skip, event.take);
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((data) => {
+      let dbt = data[this.bodyEditName];
+      this.updateModel(dbt);
+    });
+
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -273,27 +264,24 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     });
   }
 
-  openRowView(){
+  openRowView() {
 
   }
 
-  enableMultiselection(){
+  enableMultiselection() {
 
   }
 
-  enhancedView()
-  {
+  enhancedView() {
 
   }
 
-  increaseRowHeight()
-  {
+  increaseRowHeight() {
 
   }
 
-  decreaseRowHeight()
-  {
-    
+  decreaseRowHeight() {
+
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -308,11 +296,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.lastTimeStamp = serverUtc;
       let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
-      if (this.gridView) {
-        this.gridView.data = [];
-        this.gridView.total = 0;
-      }
+      // if (this.gridView) {
+      //   this.gridView.data = [];
+      //   this.gridView.total = 0;
+      // }
 
+      console.log("getModelForDbt", this.skip, this.pageSize, this.bodyEditName);
       let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
 
         // if (res.patch) {
@@ -321,6 +310,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         // }
         if (res) {
 
+          console.log("getModelForDbt updatemodel")
           let dbt = res[this.bodyEditName];
           this.updateModel(dbt);
         }
@@ -341,6 +331,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.model.enabled = dbt.enabled;
     let tempIndex = 0;
     let temp = [];
+    this.model.rows = [];
     for (let index = this.skip; index < this.skip + this.pageSize; index++) {
       if (dbt.rows[tempIndex]) {
         temp[tempIndex] = this.model.rows[index] = dbt.rows[tempIndex];
@@ -348,15 +339,15 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       tempIndex++;
     }
     //this.model.rows = dbt.rows;
+
     this.model.prototype = dbt.prototype;
     this.currentDbtRowIdx = dbt.currentRowIdx;
     this.currentGridIdx = dbt.currentRowIdx - this.skip;
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
-    this.totalPages = Math.ceil(this.rowCount / this.pageSize);
 
     this.gridView = {
-      data: temp,
+      data:  temp,
       total: this.rowCount
     };
 
