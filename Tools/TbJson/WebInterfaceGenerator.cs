@@ -889,7 +889,7 @@ namespace Microarea.TbJson
                         string bodyEditColumnType = string.IsNullOrEmpty(wCol.ColumnName) ? Constants.tbBodyEditColumn : wCol.ColumnName;
                         using (var w = new OpenCloseTagWriter(bodyEditColumnType, this, false))
                         {
-
+                            WriteActivationAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
                             w.CloseBeginTag();
@@ -901,7 +901,7 @@ namespace Microarea.TbJson
 
                                 using (OpenCloseTagWriter w1 = new OpenCloseTagWriter(wCol.Name, this, true))
                                 {
-                                    WriteActivationAttribute(jObj);
+                                    
                                     WriteColumnBindingAttributes(jObj, true);
 
                                     var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
