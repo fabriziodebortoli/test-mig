@@ -211,7 +211,9 @@ $font-size-tooltip: 12px;
                 color: $text-dark;
                 line-height: 29px;
             }
-            &:hover span {
+            &:hover span,
+            &:hover m4-icon.close
+             {
                 color: $bkg-medium;
             }
             .type {
@@ -229,14 +231,27 @@ $font-size-tooltip: 12px;
             }
             m4-icon.close {
                 color: #ddd;
-                &:hover {
-                    color: $bkg-medium;
-                }
             }
-            .most-used-empty,
-            .favorites-empty,
-            .hiddenTiles-empty {
-                color: $text-dark;
+        }
+        .most-used-empty,
+        .favorites-empty,
+        .hiddenTiles-empty {
+            color: $text-dark;
+        }
+        .favorites {
+            ul.favorites-list {
+                .favorite-item {
+                    background: #f1f1f1;
+                    border: 1px solid #ddd;
+                    margin: 3px 7px;
+                    height: 28px;
+                    color: $bkg-medium;
+                    line-height: 29px;
+                    m4-icon.type {
+                        margin-right: 7px;
+                        color: $bkg-medium;
+                    }
+                }
             }
         }
     }

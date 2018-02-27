@@ -50,11 +50,11 @@ ul.most-used-list {
     .most-used-item {
         &:hover {
         background: rgba(62, 62, 63, 0.5);
+            span, 
+            m4-icon.close {
+                color: #fff;
+            }
         }
-        &:hover span {
-            color: #fff;
-        }
-
         m4-icon.close {
             color: #646464;
     }
@@ -84,13 +84,17 @@ ul.most-used-list {
             color: #000;
             line-height: 29px;
         }
+        &>m4-icon.close {
+            color: #ddd;
+        }
         &:hover {
             background: #f1f1f1;
             color: #0277bd;
-            span {
+            span, m4-icon.close  {
                 color: #0277bd;
             }
         }
+
         .type {
             margin-right: 7px;
         }
@@ -104,12 +108,7 @@ ul.most-used-list {
         .type.Batch {
             color: #ffa700;
         }
-        m4-icon.close {
-            color: #ddd;
-            &:hover {
-                color: #0277bd;
-            }
-        }
+       
     }
     .most-used-empty {
         color: #666;

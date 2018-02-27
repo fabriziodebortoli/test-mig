@@ -178,11 +178,8 @@ $font-size-tooltip: 12px;
     //stile quando usato nella sidenav
     /// inizio sidenav
     .sidenav {
-        m4-icon.close {
-            color: $text-light;
-        }
         //recenti, colori 
-        .most-used-item,
+        .most-used-item, 
         .favorite-item,
         .hiddenTiles-item {
             color: $text-light;
@@ -190,14 +187,12 @@ $font-size-tooltip: 12px;
             font-weight: bold;
             &:hover {
                 background: $bkg-dark;
-            }
-            &:hover span {
                 color: $text-light;
             }
-            m4-icon.close {
-                &:hover {
-                    color: $text-light;
-                }
+            &:hover span,
+            &:hover m4-icon.close 
+             {
+                color: $text-light;
             }
         }
         //recenti, favoriti , nascosti, lista vuota
@@ -207,7 +202,7 @@ $font-size-tooltip: 12px;
             color: $text-light;
             background: $bkg-medium;
         }
-    }
+}
     /// fine sidenav
     //stile quando usato nella dashboard
     /// inizio dashboard
