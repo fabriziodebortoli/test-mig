@@ -277,16 +277,18 @@ namespace Microarea.Common.Hotlink
             SelectionMode sm = null;
             FunctionPrototype args = new FunctionPrototype();
 
+            //Viene letto xml per vedere i campi chiave (TODO RSWEB, potrebbero essere chiesti anche questi al tbloader?)
+            XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
+            if (XmlDescription == null)
+            {
+                Debug.Fail("Missing Xml Description of " + Session.Namespace);
+                return false;
+            }
+
             string documentId = requestQuery["documentID"].ToString();
             if (documentId.IsNullOrEmpty())
             {
-                //se non c'e' documentId, e' un hotlink di askDialog. Viene letto xml per vedere se la query e' descritta nei metadati oppure bisogna chiedere al tbloader
-                XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
-                if (XmlDescription == null)
-                {
-                    Debug.Fail("Missing Xml Description of " + Session.Namespace);
-                    return false;
-                }
+                //se non c'e' documentId, e' un hotlink di askDialog. 
                 if (XmlDescription.IsDatafile)
                 {
                     // TODO RSWEB: paginazione anche nella lettura dati da xml ?
