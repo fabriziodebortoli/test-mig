@@ -43,7 +43,7 @@ export class State extends Record(class {
 
 export class Settings {
     version = 1;
-    reorderMap: number[] = [];
+    reorderMap: string[] = [];
     hiddenColumns: string[] = [];
     widths: { [name: string]: number } = {};
     hash: string;
@@ -136,8 +136,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     reorder = cols => {
         if (cols.length === 0) return cols;
         const reorderMap = this._settings.reorderMap;
-        const weight = reorderMap.reduce((o, v, i) => ({ ...o, [v]: i }), {});
-        return cols.sort((a, b) => weight[a.id] - weight[b.id]);
+        return cols.sort((a, b) => reorderMap.indexOf(a.id) - reorderMap.indexOf(b.id));
     };
 
     /** columns returned by server could change... */
@@ -154,17 +153,21 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     columnReorder(e) {
-        const d = this.selectionColumnId ? 1 : 0;
-        const elem = this._settings.reorderMap[e.oldIndex + d];
-        this._settings.reorderMap.splice(e.oldIndex + d, 1);
-        this._settings.reorderMap.splice(e.newIndex + d, 0, elem);
-        this.saveSettings();
+        setTimeout(() => {
+            this._settings.reorderMap = this.grid.columns.toArray().sort((a, b) => a.orderIndex - b.orderIndex).map(c => c['field']);
+            this.saveSettings();
+        }, 0);
     }
 
     columnResize(es: any[]) {
         if (!this.resizable) return;
         es.forEach(e => this._settings.widths[e.column.field] = e.newWidth);
         this.saveSettings();
+    }
+
+    autofit() {
+        this.grid.autoFitColumns()
+        this.saveWidths();
     }
 
     get areFiltersVisibleIcon() {
@@ -198,11 +201,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     restoreColumns(): void { this._settings.hiddenColumns = []; this.saveSettings(); }
 
     hideColumn(field: string): void { this._settings.hiddenColumns = [...this._settings.hiddenColumns, field]; this.saveSettings(); }
-
-    autofit() {
-        this.grid.autoFitColumns()
-        this.saveWidths();
-    }
 
     // Object.keys(localStorage).filter(k => k.startsWith("storage")).reduce((o, v) => ({...o, [v]:JSON.parse(localStorage[v])}), {})
 }
