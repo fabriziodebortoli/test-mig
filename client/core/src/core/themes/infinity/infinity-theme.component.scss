@@ -163,6 +163,9 @@ $font-size-tooltip: 12px;
         .hiddenTiles-item {
             color: $text-dark;
             background: $bkg-medium;
+            m4-icon.close {
+                color: $text-dark;
+            }
         }
         .most-used-item:hover,
         .favorite-item:hover,

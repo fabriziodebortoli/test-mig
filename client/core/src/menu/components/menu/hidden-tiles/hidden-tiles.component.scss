@@ -27,7 +27,8 @@ ul.hiddenTiles-list {
         flex: 1;
         font-size: 12px;
     }
-    &:hover span {
+    &:hover span,
+    &:hover m4-icon.close {
         color: #fff;
     }
     m4-icon.type {
@@ -43,9 +44,6 @@ ul.hiddenTiles-list {
         padding-top: 2px;
         cursor: pointer;
         color: #646464;
-        &:hover {
-            color: #fff;
-        }
     }
 }
 
@@ -58,7 +56,7 @@ ul.hiddenTiles-list {
 
 //stile quando usato nella sidenav
 /// inizio sidenav
-:host-context(.sidenav) {
+.sidenav {
     m4-icon.close {
         color: #646464;
     }
@@ -71,7 +69,7 @@ ul.hiddenTiles-list {
 /// fine sidenav
 //stile quando usato nella dashboard
 /// inizio dashboard
-:host-context(.dashboard) {
+.dashboard {
     .hiddentiles {
         ul.hiddenTiles-list {
             .hiddenTiles-item {

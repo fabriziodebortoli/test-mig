@@ -191,13 +191,12 @@ $font-size-tooltip: 12px;
             &:hover {
                 background: $bkg-dark;
             }
-            &:hover span {
+            &:hover span 
+            &:hover  m4-icon.close {
                 color: $text-light;
             }
             m4-icon.close {
-                &:hover {
-                    color: $text-light;
-                }
+                     color: $text-light;
             }
         }
         //recenti, favoriti , nascosti, lista vuota

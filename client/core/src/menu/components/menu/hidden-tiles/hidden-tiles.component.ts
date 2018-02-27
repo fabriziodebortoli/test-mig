@@ -11,8 +11,7 @@ import { TbComponentService } from './../../../../core/services/tbcomponent.serv
 @Component({
   selector: 'tb-hidden-tiles',
   templateUrl: './hidden-tiles.component.html',
-  styleUrls: ['./hidden-tiles.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./hidden-tiles.component.scss']
 })
 export class HiddenTilesComponent extends TbComponent {
 

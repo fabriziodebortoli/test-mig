@@ -194,6 +194,9 @@ $font-size-tooltip: 12px;
              {
                 color: $text-light;
             }
+            m4-icon.close {
+                color: $text-light;
+            }
         }
         //recenti, favoriti , nascosti, lista vuota
         .most-used-empty,

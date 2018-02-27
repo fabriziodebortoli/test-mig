@@ -171,6 +171,9 @@ $font-size-tooltip: 12px;
             m4-icon.type {
                 color: $text-medium;
             }
+            m4-icon.close {
+                color: $text-light;
+            }
         }
         .most-used-item:hover,
         .favorite-item:hover,
@@ -179,8 +182,7 @@ $font-size-tooltip: 12px;
             span {
                 color: $text-light;
             }
-            m4-icon.close,
-            m4-icon.close :hover {
+            m4-icon.close {
                 color: $text-light;
             }
         }
