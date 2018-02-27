@@ -36,7 +36,15 @@ namespace Microarea.Common.NameSolver
         private const string uiControllers = "UIControllers";
         private const string MicroareaRegKey = "Software\\Microarea\\";
         private const string numberToLiteralXmlFileName = "NumberToLiteral.xml";
-        protected const string defaultThemeFileName = "DefaultTheme.config";
+
+		public string GetListCustomForDoc(string docNS, string user)
+		{
+			//TODOROBY
+			//from namespace, read the fs/db and search for customization
+			return "";
+		}
+
+		protected const string defaultThemeFileName = "DefaultTheme.config";
         public const int StandardAppSegmentPath = 4;
         public const int StandardModuleSegmentPath = 5;
         public const int CustomAppSegmentPath = 6;
@@ -626,7 +634,17 @@ namespace Microarea.Common.NameSolver
 
             return customApplicationPath + NameSolverStrings.Directoryseparetor + moduleName;
         }
-        protected InstallationVersion GetInstallationVer()
+
+		//-----------------------------------------------------------------------------
+		public string GetCustomESHomePath()
+		{
+			return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, NameSolverStrings.EasyStudioHome);
+		}
+
+
+
+
+		protected InstallationVersion GetInstallationVer()
         {
             string path = GetInstallationVersionPath();
 
@@ -2230,8 +2248,8 @@ namespace Microarea.Common.NameSolver
             }
 
             string folder = (aApplicationType == ApplicationType.Customization)
-                ? GetCustomAllCompaniesPath()
-                : standardPath;
+                ? GetCustomAllCompaniesPath() //GetCustomESHomePath TODOROBY
+				: standardPath; 
             return Path.Combine(folder, appContainerName);
         }
         //-----------------------------------------------------------------------------

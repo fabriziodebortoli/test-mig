@@ -10,58 +10,65 @@ using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
-
+using System;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
 	//====================================================================
 	[Name("appSvc"), Description("This service manages application structure info and serialization.")]
-    [DefaultSerializer(typeof(ApplicationSerializer))]
+	[DefaultSerializer(typeof(ApplicationSerializer))]
 	public class ApplicationService : Component, IService
-    {
-       ApplicationSerializer serializer;
- 
-        //---------------------------------------------------------------
-        public ISerializer Serializer
-        {
-            get
-            {
-                return AppSerializer;
-            }
+	{
+		ApplicationSerializer serializer;
+		public string CurrentApplication { get; set; }
+		public string CurrentModule { get; set; }
 
-            set
-            {
-                if (value is ApplicationSerializer)
-                    AppSerializer = (ApplicationSerializer) value;
-                else
-                    throw (new SerializerException(value, string.Format(Strings.WrongSerializerType, typeof(ApplicationSerializer).Name)));
-              }
-        }
-
-        //---------------------------------------------------------------
-        private ApplicationSerializer AppSerializer
-        {
-            get
-            {
-                if (serializer == null)
-                    Serializer = DefaultSerializer;
-
-                return serializer;
-            }
-
-            set
-            {
-                serializer = value;
-            }
-        }
-
-        //---------------------------------------------------------------
-        public ApplicationService()
+		//---------------------------------------------------------------
+		public ISerializer Serializer
 		{
-        }
+			get
+			{
+				return AppSerializer;
+			}
 
-        //---------------------------------------------------------------
-        public bool CreateApplication(string applicationName, ApplicationType type)
+			set
+			{
+				if (value is ApplicationSerializer)
+					AppSerializer = (ApplicationSerializer)value;
+				else
+					throw (new SerializerException(value, string.Format(Strings.WrongSerializerType, typeof(ApplicationSerializer).Name)));
+			}
+		}
+
+		public string GetListCustomizations(string docNS, string user)
+		{
+			return PathFinder.PathFinderInstance.GetListCustomForDoc(docNS, user);
+		}
+
+		//---------------------------------------------------------------
+		private ApplicationSerializer AppSerializer
+		{
+			get
+			{
+				if (serializer == null)
+					Serializer = DefaultSerializer;
+
+				return serializer;
+			}
+
+			set
+			{
+				serializer = value;
+			}
+		}
+
+		//---------------------------------------------------------------
+		public ApplicationService()
+		{
+		}
+
+		//---------------------------------------------------------------
+		public bool CreateApplication(string applicationName, ApplicationType type)
 		{
 			return AppSerializer.CreateApplication(applicationName, type);
 		}
@@ -96,23 +103,23 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			return AppSerializer.ExistsModule(applicationName, moduleName);
 		}
 
-        //---------------------------------------------------------------
-        public bool RenameApplication(string oldName, string newName)
-        {
-            return AppSerializer.RenameApplication(oldName, newName);
-        }
-
-        //---------------------------------------------------------------
-        public bool RenameModule(string applicationName, string oldName, string newName)
-        {
-            return AppSerializer.RenameModule(applicationName, oldName, newName);
-        }
-
-        //---------------------------------------------------------------
-        public IEnumerable<string> GetApplications(ApplicationType applicationType)
+		//---------------------------------------------------------------
+		public bool RenameApplication(string oldName, string newName)
 		{
-            StringCollection applicationNames = null;
-            serializer.PathFinder.GetApplicationsList(applicationType, out applicationNames);
+			return AppSerializer.RenameApplication(oldName, newName);
+		}
+
+		//---------------------------------------------------------------
+		public bool RenameModule(string applicationName, string oldName, string newName)
+		{
+			return AppSerializer.RenameModule(applicationName, oldName, newName);
+		}
+
+		//---------------------------------------------------------------
+		public IEnumerable<string> GetApplications(ApplicationType applicationType)
+		{
+			StringCollection applicationNames = null;
+			serializer.PathFinder.GetApplicationsList(applicationType, out applicationNames);
 
 			return applicationNames.Cast<string>().ToList() as IEnumerable<string>;
 		}
@@ -120,7 +127,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public IEnumerable<string> GetModules(string applicationName)
 		{
-            var modules = serializer.PathFinder.GetModulesList(applicationName);
+			var modules = serializer.PathFinder.GetModulesList(applicationName);
 
 			var moduleNames = new List<string>();
 			foreach (ModuleInfo moduleInfo in modules)
@@ -172,5 +179,18 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			return sw.ToString();
 		}
 	}
+
+
+
+	//====================================================================
+	public class Customizationcontext
+	{
+		string CurrentApplication { get; set; }
+		string CurrentModule { get; set; }
+
+
+	}
+
+
 }
 

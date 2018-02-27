@@ -870,7 +870,8 @@ namespace TaskBuilderNetCore.Interfaces
         public const string AuthenticationToken = "AuthenticationToken";
         public const string Release = "Release";
         public const string Text = "Text";
-        public const string Companies = "Companies";
+		public const string Subscription = "Subscription";
+		public const string Companies = "Companies";
         public const string AllCompanies = "AllCompanies";
         public const string ServerConnection = "ServerConnection";
         public const string ClientConfiguration = "ClientConfiguration";
@@ -1245,7 +1246,8 @@ namespace TaskBuilderNetCore.Interfaces
         public const string MenuHistory = "MenuHistory";
         public const string MenuMostUsed = "MenuMostUsed";
         public const string ShowFullMenuItems = "ShowFullMenuItems";
-    }
+
+	}
 
     //=========================================================================
     public sealed class ReportObjectsXML

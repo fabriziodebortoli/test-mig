@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\library\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
+    <ProjectReference Include="..\library\tasknuilder-netcore-easystudio\taskbuilder-netcore-easystudio.csproj" />
   </ItemGroup>
 
 </Project>
