@@ -647,6 +647,9 @@ BOOL CTileDialog::OnInitDialog()
 	// controllo chi e' il parent prossimo perche' fosse una tab dialog
 	// la chiamata di PrepareAuxdata avverrebbe comunque dopo invocata
 	// comunque dal tabber. Evito di farla eseguire due volte inutilmente
+	if (!this)
+		return FALSE;
+
 	CParsedForm* pParsedForm = GetParentForm(this);
 	CBaseTabDialog* pParentTabDialog = dynamic_cast<CBaseTabDialog*>(pParsedForm->GetFormCWnd());
 	if (!pParentTabDialog)

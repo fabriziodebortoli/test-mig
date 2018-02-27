@@ -1523,8 +1523,10 @@ void COslDlgDoc::FillAllTree()
 		else
 		EnumView(pDocItemInfo, htmLevDoc, pView);
 	}
+
+
 	// scorre tutte le child window della dialog
-	CDockingPanes* arrDock = m_pDoc->GetMasterFrame()->GetDockPane();
+	//CDockingPanes* arrDock = m_pDoc->GetMasterFrame()->GetDockPane();
 
 	//for (int i = 0; i < arrDock->GetSize(); i++)
 	//{

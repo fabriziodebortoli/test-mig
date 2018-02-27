@@ -322,7 +322,7 @@ template <class T> void CJsonFrameT<T>::OnFrameCreated()
 					ASSERT(FALSE);
 				}
 			}
-			m_DockingPanes.CreatePane(this,
+			if (!m_DockingPanes.CreatePane(this,
 				pPane,
 				((CSingleExtDocTemplate*)pFirstForm->GetCreateContext()->m_pNewDocTemplate)->m_nViewID,
 				pChild->m_strName,
@@ -331,7 +331,9 @@ template <class T> void CJsonFrameT<T>::OnFrameCreated()
 				size,
 				pFirstForm->GetCreateContext(),
 				dwDefaultBCGDockingBarStyle,
-				TRUE);
+				TRUE))
+				continue;
+
 			pPane->SetAutoHideMode(TRUE, CBRS_ALIGN_RIGHT | CBRS_HIDE_INPLACE);
 
 			if (pToolbarDesc)

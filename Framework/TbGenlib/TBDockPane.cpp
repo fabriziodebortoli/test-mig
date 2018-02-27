@@ -1183,8 +1183,13 @@ CTaskBuilderDockPane* CDockingPanes::CreatePane(CLocalizableFrame* pParent, CTas
 
 	BOOL bOk = pPane->Create(pParent, nID, sName, sTitle, wAlignment, !m_bInCreateFrame, aSize, pCreateContext ? pCreateContext : GetMainCreateContenxt(), dwBCGStyle, bVisible);
 	Add(pPane);
+	if (!bOk)
+	{
+		DestroyPane(pPane);
+		pPane = NULL;
+	}
 
-	return bOk ? pPane : NULL;
+	return pPane;
 }
 
 //----------------------------------------------------------------------------
