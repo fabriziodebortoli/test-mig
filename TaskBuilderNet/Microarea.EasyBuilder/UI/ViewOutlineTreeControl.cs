@@ -634,9 +634,12 @@ namespace Microarea.EasyBuilder.UI
 				return;
 
 			EasyBuilderControl control = ddo.Component as EasyBuilderControl;
-			int newIndex = ((EasyBuilderControl)targetNode.Tag).TabOrder;
+            EasyBuilderControl targetControl = targetNode.Tag as EasyBuilderControl;
+            bool sameParent = control != null && targetControl != null && control.Parent == targetControl.Parent;
+
+			int newIndex = targetControl.TabOrder;
 			int oldIndex = control.TabOrder;
-			control.TabOrder = newIndex;
+			control.TabOrder = sameParent ? newIndex : control.TabOrder;
 			TBSite site = control.Site as TBSite;
 			if (site == null)
 				return;
