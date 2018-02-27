@@ -231,8 +231,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   ngOnInit() {
     // fix for themes css conflict in form.scss style 
     if (this.modelComponent) {
-      this.mediator.storage.options =
-        { ...this.mediator.storage.options, componentInfo: { ...this.mediator.storage.options.componentInfo, cmpId: this.modelComponent.cmpId } };
+      this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
       let hyperLinkElem = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
       this.hyperLinkService.start(hyperLinkElem,
         {

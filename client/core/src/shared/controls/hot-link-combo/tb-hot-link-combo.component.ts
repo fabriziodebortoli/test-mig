@@ -176,8 +176,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   ngOnInit() {
-    this.mediator.storage.options = 
-      {...this.mediator.storage.options, componentInfo: {...this.mediator.storage.options.componentInfo, cmpId: this.modelComponent.cmpId} };
+    this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
     this.state = this.state.with({selectionType: 'combo'});
   }
 

@@ -27,13 +27,11 @@ export class ComponentMediator {
     ) {
         this.log = tbComponent.logger;
         this.document = tbComponent as DocumentService;
-        this.storage.options = {
-            componentInfo: {
-                ...this.storage.options.componentInfo,
-                type: elRef.nativeElement.localName || elRef.nativeElement.nodeName || elRef.nativeElement.tagName,
-                app: cmpInfoService.componentInfo.app,
-                mod: cmpInfoService.componentInfo.mod
-            }
+        this.storage.options.componentInfo = {
+            ...this.storage.options.componentInfo,
+            type: elRef.nativeElement.localName || elRef.nativeElement.nodeName || elRef.nativeElement.tagName,
+            app: cmpInfoService.componentInfo.app,
+            mod: cmpInfoService.componentInfo.mod
         };
     }
 }

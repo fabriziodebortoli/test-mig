@@ -53,25 +53,25 @@ export class RadarComponent extends ControlComponent implements OnInit {
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
 
-    constructor(public s: ComponentMediator, private enumsService: EnumsService,
+    constructor(public m: ComponentMediator, private enumsService: EnumsService,
         private elRef: ElementRef, private store: Store, private cmpInfoService: ComponentInfoService,
         private paginator: PaginatorService, private filterer: FilterService) {
-        super(s.layout, s.tbComponent, s.changeDetectorRef)
+        super(m.layout, m.tbComponent, m.changeDetectorRef)
     }
 
     ngOnInit() {
         this.filterer.start(400, this.elRef);
         this.paginator.start(1, this.pageSize,
-            Observable.combineLatest(this.s.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
+            Observable.combineLatest(this.m.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
                 (a, b, c) => ({ model: a, customFilters: b, customSort: c })),
             (pageNumber, serverPageSize, data?) => {
                 let p = new URLSearchParams();
-                p.set('documentID', this.s.document.mainCmpId);
+                p.set('documentID', this.m.document.mainCmpId);
                 p.set('page', (pageNumber + 1).toString());
                 p.set('per_page', serverPageSize.toString());
                 if (data.customFilters) p.set('customFilters', JSON.stringify(data.customFilters));
                 if (data.customSort) p.set('customSort', JSON.stringify(data.customSort));
-                return this.s.data.getRadarData(p);
+                return this.m.data.getRadarData(p);
             });
         this.paginator.clientData.subscribe(d => {
             this.exitFindMode();
@@ -81,7 +81,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
         this.store.select(m => _.get(m, 'FormMode.value'))
             .subscribe(m => this.state = this.state
                 .with({ canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND }));
-        this.s.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
+        this.m.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
         super.ngOnInit();
     }
 
@@ -103,7 +103,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
     selectedKeysChange(e) {
         if (e.length && e[0]) {
             this.state = this.state.with({ selectedIndex: this.state.rows.findIndex(x => x[this.selectionColumnId] === e[0]) });
-            this.s.eventData.radarRecordSelected.emit(e[0]);
+            this.m.eventData.radarRecordSelected.emit(e[0]);
         }
     }
 
@@ -117,20 +117,20 @@ export class RadarComponent extends ControlComponent implements OnInit {
         if (this.isFormMode(FormMode.EDIT)) return;
         const id = item[this.selectionColumnId];
         this.state = this.state.with({ selectionKeys: [id] });
-        this.s.eventData.radarRecordSelected.emit(id);
+        this.m.eventData.radarRecordSelected.emit(id);
     }
 
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
-        if (!this.pinned) this.s.eventData.showRadar.next(false);
+        if (!this.pinned) this.m.eventData.showRadar.next(false);
         this.state = this.state.with({ canNavigate: false });
         this.selectByItem(item);
-        this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
+        this.m.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
     }
 
     exitFindMode() {
         if (this.isFormMode(FormMode.FIND))
-            this.s.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
+            this.m.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
     private show(show: boolean) {
@@ -195,6 +195,6 @@ export class RadarComponent extends ControlComponent implements OnInit {
     }
 
     coerce = (value: number, min: number, max: number): number => Math.min(max - 1, Math.max(value, min));
-    isFormMode = (formMode: FormMode): boolean => _.get(this.s.eventData, 'model.FormMode.value') === formMode;
+    isFormMode = (formMode: FormMode): boolean => _.get(this.m.eventData, 'model.FormMode.value') === formMode;
     toggle = () => this.viewState = this.viewState === ViewStates.opened ? ViewStates.closed : ViewStates.opened;
 }

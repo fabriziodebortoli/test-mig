@@ -28,6 +28,7 @@ import { tryOrDefault } from './../../commons/u';
 import { get, memoize, cloneDeep } from 'lodash';
 import { md5, getObjHash } from './md5';
 
+export const storageKeySuffix = 'custom_grid_settings';
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
 
 export class State extends Record(class {
@@ -46,8 +47,6 @@ export class Settings {
     hiddenColumns: string[] = [];
     widths: { [name: string]: number } = {};
 }
-
-export const storageKeySuffix = 'custom_grid_settings';
 
 @Component({
     selector: 'tb-customisable-grid',
@@ -81,15 +80,14 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private _filter: CompositeFilterDescriptor;
     private _state: State;
     private _settings: Settings;
-
-    reshape = memoize((d: GridData, cols) => {
+    private reshape = memoize((d: GridData, cols) => {
         this.updatedSettingsFor(cols);
         return tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
     });
 
-    constructor(public s: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
+    constructor(public m: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
         private paginator: PaginatorService, public filterer: FilterService, private store: Store) {
-        super(s.layout, s.tbComponent, s.changeDetectorRef);
+        super(m.layout, m.tbComponent, m.changeDetectorRef);
     }
 
     ngOnInit() {
@@ -103,15 +101,17 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     ngOnDestroy() {
         this.saveWidths();
-        this.saveSettings();
         this.stop();
     }
 
-    loadSettings = () => { this._settings = this.s.storage.getOrDefault(storageKeySuffix, new Settings()); return this._settings; }
+    loadSettings = () => { this._settings = this.m.storage.getOrDefault(storageKeySuffix, new Settings()); return this._settings; }
 
-    saveSettings = () => this.s.storage.set(storageKeySuffix, this._settings);
+    saveSettings = () => this.m.storage.set(storageKeySuffix, this._settings);
 
-    saveWidths = () => this._settings.widths = this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {});
+    saveWidths = () => {
+        this._settings.widths = this.grid.columns.reduce((o, c) => ({ ...o, [c['field']]: c.width }), {});
+        this.saveSettings();
+    }
 
     limit = (d: GridData): GridData => {
         const maxCols = Math.min(d.columns.length, this.maxColumns);
@@ -154,13 +154,13 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         const elem = this._settings.reorderMap[e.oldIndex + d];
         this._settings.reorderMap.splice(e.oldIndex + d, 1);
         this._settings.reorderMap.splice(e.newIndex + d, 0, elem);
-        this.s.storage.set<Settings>(storageKeySuffix, this._settings);
+        this.saveSettings();
     }
 
     columnResize(es: any[]) {
         if (!this.resizable) return;
         es.forEach(e => this._settings.widths[e.column.field] = e.newWidth);
-        this.s.storage.set<Settings>(storageKeySuffix, this._settings);
+        this.saveSettings();
     }
 
     get areFiltersVisibleIcon() {
