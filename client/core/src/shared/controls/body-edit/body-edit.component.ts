@@ -59,7 +59,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public rowHeight: number = 25;
   public currentPage: number = 0;
   public rowCount: number = 0;
-public gridView: GridDataResult;
+  public gridView: GridDataResult;
 
   private lastEditedRowIndex: number = -1;
   private lastEditedColumnIndex: number = -1;
@@ -155,7 +155,7 @@ public gridView: GridDataResult;
       this.grid.columns.reset(internalColumnComponents);
     });
 
-    let numberOfVisibleRows = Math.ceil(this.height/ this.rowHeight);
+    let numberOfVisibleRows = Math.ceil(this.height / this.rowHeight);
     this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
     this.subscribeToSelector();
@@ -180,9 +180,11 @@ public gridView: GridDataResult;
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
-      let columns = Object.getOwnPropertyNames(dataItem);
-      let colName = columns[columnIndex];
-      if (dataItem[colName].enabled) {
+
+      let colComponent = this.grid.columns.toArray()[columnIndex];
+      let colName = colComponent.field;
+      let isEnabled = this.currentRow[colName].enabled
+      if (isEnabled) {
         this.lastEditedRowIndex = rowIndex;
         this.lastEditedColumnIndex = columnIndex;
         sender.editCell(rowIndex, columnIndex);
@@ -213,6 +215,7 @@ public gridView: GridDataResult;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, selectedRow.index).subscribe((res) => {
+
       // addModelBehaviour(selectedRow.dataItem);
       // this.currentRowIdx = selectedRow.index;
       // this.currentRow = selectedRow.dataItem;
@@ -342,12 +345,13 @@ public gridView: GridDataResult;
 
     this.model.prototype = dbt.prototype;
     this.currentDbtRowIdx = dbt.currentRowIdx;
+    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip )
     this.currentGridIdx = dbt.currentRowIdx - this.skip;
     this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
 
     this.gridView = {
-      data:  temp,
+      data: temp,
       total: this.rowCount
     };
 
