@@ -14,16 +14,10 @@ ul.favorites-list {
     color: #9f9f9f;
     line-height: 30px;
     background: #3e3e3e;
-    &:hover {
-        background: rgba(62, 62, 63, 0.5);
-    }
     &>span {
         flex: 1;
         font-size: 12px;
         font-weight: 500;
-    }
-    &:hover span {
-        color: #fff;
     }
     m4-icon.type {
         margin: 0px 7px;
@@ -37,11 +31,10 @@ ul.favorites-list {
         line-height: 28px;
         padding-top: 2px;
         cursor: pointer;
-        color: #646464;
         &:hover {
             color: #fff;
         }
-    }
+     }
 }
 
 .favorites-empty {
@@ -53,28 +46,30 @@ ul.favorites-list {
 
 //stile quando usato nella sidenav
 /// inizio sidenav
-.sidenav {
-    .favorite-item {
-        &>span {
-            font-weight: 500;
+::ng-deep .sidenav {
+        .favorite-item {
+                    &:hover {
+                    background: rgba(62, 62, 63, 0.5);
+                        span, 
+                        m4-icon.close {
+                            color: #fff;
+                        }
+                    }
+                    m4-icon.close {
+                        color: #646464;
+                }
+                .favorites-empty {
+                    line-height: 26px;
+                    background: #3e3e3e;
+                }
         }
-    }
-    m4-icon.close {
-        color: #646464;
-    }
-    .favorites-empty {
-        line-height: 26px;
-        background: #3e3e3e;
-    }
 }
-
 /// fine sidenav
 //stile quando usato nella dashboard
 /// inizio dashboard
-.dashboard {
+::ng-deep .dashboard {
     .favorites {
-        ul.favorites-list {
-            .favorite-item {
+             .favorite-item {
                 transition: all 0.2s ease;
                 background: #fff;
                 margin: 0px 7px 0 5px;
@@ -93,7 +88,7 @@ ul.favorites-list {
                     transition: all 0.4s ease;
                     background: #f1f1f1;
                     color: #0277bd;
-                    span {
+                    span, m4-icon.close  {
                         color: #0277bd;
                     }
                 }
@@ -112,13 +107,9 @@ ul.favorites-list {
                 }
                 m4-icon.close {
                     color: #ddd;
-                    &:hover {
-                        color: #0277bd;
-                    }
                 }
             }
         }
-    }
     .favorites-empty {
         color: #666;
     }

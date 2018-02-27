@@ -11,8 +11,7 @@ import { TbComponentService } from './../../../../core/services/tbcomponent.serv
 @Component({
   selector: 'tb-favorites',
   templateUrl: './favorites.component.html',
-  styleUrls: ['./favorites.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./favorites.component.scss']
 })
 export class FavoritesComponent extends TbComponent  {
 
