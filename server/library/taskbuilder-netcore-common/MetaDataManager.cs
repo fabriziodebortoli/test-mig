@@ -19,20 +19,23 @@ namespace Microarea.Common
 
 
         //---------------------------------------------------------------------
-        public MetaDataManagerTool(string instanceKey)
+        public MetaDataManagerTool(string instanceKey, string aConnectionStringStandardstring, string serverName, string installation)
         {
             this.instanceKey = instanceKey;
-			//pf = new PathFinder("USR-BAUZONEANN", "DEVELOPMENT_NEWDB", "ERP_NEWDB", "sa");
-			pf = new PathFinder("USR-calandrini", "DEv_next", "WebMago", "sa");
-           // pf = new PathFinder(":microarea.database.windows.net", "DEV_ERP_NEXT", "WebMago", "sa");
+            //pf = new PathFinder("USR-BAUZONEANN", "DEVELOPMENT_NEXT", "ERP_NEWDB", "sa");
+            //pf = new PathFinder("USR-calandrini", "DEv_next", "WebMago", "sa");
+            pf = new PathFinder(serverName, installation, "pippo", "sa");
+           
+            // pf = new PathFinder(":microarea.database.windows.net", "DEV_ERP_NEXT", "WebMago", "sa");
             pf.Edition = "Professional";
-            connectionStringStandard = "Data Source =USR-calandrini; Initial Catalog = 'Sysdb4'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
-			// connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
-			//connectionStringStandard = "Data Source = USR-BAUZONEANN; Initial Catalog = 'SystemDB_NewDB'; User ID = 'sa'; Password = '16'; Connect Timeout = 30; ";
+            connectionStringStandard = aConnectionStringStandardstring;
+            //  connectionStringStandard = "Data Source =USR-calandrini; Initial Catalog = 'Sysdb4'; User ID = 'sa'; Password = 'Microarea.'; Connect Timeout = 30; Pooling = false; ";
+            // connectionStringStandard = "Server=tcp:microarea.database.windows.net;Database='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;";
+            //connectionStringStandard = "Data Source = USR-BAUZONEANN; Initial Catalog = 'SystemDB_NewDB'; User ID = 'sa'; Password = '16'; Connect Timeout = 30; ";
 
-           // connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
-			// connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
-			connectionStringCustom = ""; ;
+            // connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
+            // connectionStringStandard = "Data Source=microarea.database.windows.net;Initial Catalog='ProvisioningDB';User ID='AdminMicroarea';Password='S1cr04$34!';Connect Timeout=30;Pooling=false;";
+            connectionStringCustom = ""; ;
         }
 
         //---------------------------------------------------------------------
@@ -158,7 +161,7 @@ namespace Microarea.Common
                 }
 
             }
-           connect.Close();
+              connect.Close();
         }
 
         //---------------------------------------------------------------------
@@ -593,7 +596,7 @@ namespace Microarea.Common
 					byteContent = null;
 			}
 
-            catch (SqlException )
+            catch (SqlException exx)
             {
             }
             finally

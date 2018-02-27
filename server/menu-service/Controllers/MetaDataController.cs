@@ -12,28 +12,29 @@ namespace Microarea.Menu.Controllers
     public class MetaDataController
     {
 
-        [Route("InsertDatainDB")]
+        [Route("InsertDatainDB/{istance}/{dbconnection}/{serverName}/{installation}")]
         //-----------------------------------------------------------------------
-        public void InsertDatainDB(string istance)
+        public void InsertDatainDB(string istance, string dbconnection, string serverName, string installation)
         {
-            MetaDataManagerTool metadata = new MetaDataManagerTool("inst1");
+            string a = istance;
+            MetaDataManagerTool metadata = new MetaDataManagerTool(istance, dbconnection, serverName, installation);
             metadata.InsertAllStandardMetaDataInDB();
 
         }
 
         [Route("DeleteDatainDB")]
         //-----------------------------------------------------------------------
-        public void DeleteDatainDB(string istance)
+        public void DeleteDatainDB(string istance, string dbconnection, string serverName, string installation)
         {
-            MetaDataManagerTool metadata = new MetaDataManagerTool(istance);
+            MetaDataManagerTool metadata = new MetaDataManagerTool(istance, dbconnection, serverName, installation);
             metadata.DeleteAllStandardMetaDataInFS();
 
         }
         [Route("DeleteDatainDBByIstance")]
         //-----------------------------------------------------------------------
-        public void DeleteDatainDBByIstance(string istance)
+        public void DeleteDatainDBByIstance(string istance, string dbconnection, string serverName, string installation)
         {
-            MetaDataManagerTool metadata = new MetaDataManagerTool(istance);
+            MetaDataManagerTool metadata = new MetaDataManagerTool(istance, dbconnection, serverName, installation);
             metadata.DeleteAllStandardMetaDataInDBByInstance(istance);
 
         }

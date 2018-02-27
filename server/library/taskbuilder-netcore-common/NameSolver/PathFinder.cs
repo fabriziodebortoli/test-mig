@@ -176,7 +176,7 @@ namespace Microarea.Common.NameSolver
             managerInfo.LoadFile();
             if (managerInfo.GetDriver() == DriverType.Database)
             {
-                DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), string.Empty);
+                DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), managerInfo.GetCustomConnectionString());
                 fileSystemManager.AlternativeDriver = dataBaseDriver;
             }
 

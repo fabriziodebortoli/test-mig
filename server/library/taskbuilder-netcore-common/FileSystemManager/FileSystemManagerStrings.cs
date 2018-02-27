@@ -38,6 +38,7 @@ namespace Microarea.Common.FileSystemManager
 
         public const string szXmlDBDriverTag =  "DatabaseDriver";
         public const string szXmlStandardConnectionString =  "standardconnectionstring";
+        public const string testCustomConnectionString = "testCustomConnectionString";
 
 
 

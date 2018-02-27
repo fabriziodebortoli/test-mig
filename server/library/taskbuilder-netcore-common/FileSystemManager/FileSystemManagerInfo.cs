@@ -27,6 +27,7 @@ namespace Microarea.Common.FileSystemManager
         private string m_sFSCustomPath = string.Empty;
 
         private string m_strStandardConnectionString;
+        private string customConnectionString;
 
         public string GetFSServerName() { return m_sFSServerName; }
         public string GetFSInstanceName() { return m_sFSInstanceName; }
@@ -34,6 +35,8 @@ namespace Microarea.Common.FileSystemManager
         public string GetFSCustomPath() { return m_sFSCustomPath; }
 
         public string GetStandardConnectionString() { return m_strStandardConnectionString; }
+        public string GetCustomConnectionString() { return customConnectionString; }
+
         //----------------------------------------------------------------------------
         public FileSystemManagerInfo()
         { 
@@ -109,6 +112,7 @@ namespace Microarea.Common.FileSystemManager
                 {
                     reader.ReadToFollowing(FileSystemManagerStrings.szXmlDBDriverTag);//  <DatabaseDriver 
                     m_strStandardConnectionString = reader.GetAttribute(FileSystemManagerStrings.szXmlStandardConnectionString);//standardconnectionstring
+                    customConnectionString = reader.GetAttribute(FileSystemManagerStrings.testCustomConnectionString);
                 }
             }
 
