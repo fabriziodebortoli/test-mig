@@ -16,6 +16,7 @@ using TaskBuilderNetCore.Interfaces;
 using System.Net;
 using Microarea.Common;
 using Microarea.Common.NameSolver;
+using System.Collections.Generic;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -165,7 +166,7 @@ namespace Microarea.RSWeb.WoormViewer
 
 
     //================================================================================
-    public class ConnectionLink : ArrayList
+    public class ConnectionLink : List<ConnectionLinkItem>
     {
         public const string DEFAULT_TYPE = "String";
 
@@ -1259,7 +1260,7 @@ namespace Microarea.RSWeb.WoormViewer
     /// Gestione della connessione ad altri report o form
     /// </summary>
     /// ================================================================================
-    public class ConnectionLinks : ArrayList
+    public class ConnectionLinks : List<ConnectionLink>
     {
         private WoormDocument document;
 

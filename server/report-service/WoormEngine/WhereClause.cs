@@ -75,15 +75,15 @@ namespace Microarea.RSWeb.WoormEngine
 		protected DataTableRule	dataTableRule = null;
 		protected Token			emptyWhere = Token.NOTOKEN;
 
-		protected string	where = "";
-		protected ArrayList	parameters = new ArrayList();
+		protected string	        where = "";
+		protected List<ParamItem>	parameters = new List<ParamItem>();
 
         public List<string> ForbiddenIdents = new List<string>();
 
 		//-----------------------------------------------------------------------------
 		public bool Native						{ get { return native; } }
 		virtual public string Where				{ get { return where; } }
-		virtual public  ArrayList	Parameters	{ get { return parameters; }}
+		virtual public List<ParamItem>	Parameters	{ get { return parameters; }}
 			
 		// è necessario disabilitare il check perchè si inseriscono nella espressione
 		// delle variabili al posto costanti ma il tipo non lo conosco e quindi
@@ -735,13 +735,11 @@ namespace Microarea.RSWeb.WoormEngine
 			if (FirstBind)
 			{
 				FirstBind = false;
-				parameters = new ArrayList();
 				
 				// Ci si deve appoggiare ad uno stack temporaneo poiche` per ottenere
 				// la espressione in formato infisso si usera` la classe ExpUnparse il
 				// cui metodo Unparse svuota ricorsivamente lo stack di lavoro
 				//
-				 
 				Stack<Item> modifiedStack = new Stack<Item>();
 				ExpressionParser.ExpandStack(expressionStack, ref modifiedStack);
 				
@@ -770,7 +768,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (FirstBind)
 			{
 				FirstBind = false;
-				parameters = new ArrayList();
+				parameters = new List<ParamItem>();
 
 				// Le costanti e le variabili utente devono essere sostituite con
 				// "@Value" o "@NomeVariabile" come vuole la sintassi per il binding dei parametri.
@@ -924,7 +922,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		override public ArrayList Parameters
+		override public List<ParamItem> Parameters
 		{
 			get
 			{
@@ -940,7 +938,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return thenWhereClause.Parameters;
 				else if (elseWhereClause != null)
 					return elseWhereClause.Parameters;
-				return new ArrayList();
+				return new List<ParamItem>();
 			}
 		}
 

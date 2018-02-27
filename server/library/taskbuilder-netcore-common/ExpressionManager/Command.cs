@@ -112,7 +112,7 @@ namespace Microarea.Common.ExpressionManager
 	//============================================================================
 	public class CommandBlock : Command
 	{
-		protected ArrayList commands = new ArrayList();
+		protected List<Command> commands = new List<Command>();
 		protected bool hasBeginEnd = false;
 
 		//--------------------------------------------------------------------------------
@@ -129,8 +129,8 @@ namespace Microarea.Common.ExpressionManager
 		//--------------------------------------------------------------------------------
 		public void Add(Command pCmd)
 		{
-			int nIdx = commands.Add(pCmd);
-			pCmd.Index = nIdx;
+			commands.Add(pCmd);
+			pCmd.Index = commands.Count-1;
 #if DEBUG_SCRIPT
 			scriptContext.AddCommand(pCmd);
 #endif

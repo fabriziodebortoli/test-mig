@@ -500,9 +500,9 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//---------------------------------------------------------------------------
-		public ArrayList GetLocalizableStrings()
+		public List<String> GetLocalizableStrings()
 		{
-			ArrayList localizableStrings = new ArrayList();
+			List<String> localizableStrings = new List<String>();
 			localizableStrings.AddRange(SymTable.Fields.LocalizableStrings);
 			return localizableStrings;
 		}	

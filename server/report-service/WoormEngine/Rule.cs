@@ -62,17 +62,17 @@ namespace Microarea.RSWeb.WoormEngine
 	//============================================================================
 	abstract public class RuleObj
 	{
-		public RuleEngine	engine;
-		public ArrayList	Sons = new ArrayList();		// valido solo dopo una BuildLinks
-		public ArrayList	Parents = new ArrayList();	// valido solo dopo una BuildLinks
-		public int			ParentsNum = 0;				// usato solo per il sort delle rules
-		public int			RuleId = 0;
-		public int			GroupByPos = -1;
-		public bool			Mark = false;
-		public bool			Sorted = false;
+		public RuleEngine	    engine;
+		public List<RuleObj>    Sons = new List<RuleObj>();		// valido solo dopo una BuildLinks
+		public List<RuleObj>	Parents = new List<RuleObj>();	// valido solo dopo una BuildLinks
+		public int		    	ParentsNum = 0;				// usato solo per il sort delle rules
+		public int			    RuleId = 0;
+		public int			    GroupByPos = -1;
+		public bool			    Mark = false;
+		public bool			    Sorted = false;
 
-		protected bool		failed = false;
-		protected bool		nullSolution = false;
+		protected bool		    failed = false;
+		protected bool		    nullSolution = false;
 	
 		//-----------------------------------------------------------------------------
 		public RuleEngine	Engine	{ get { return engine; } set { engine = value; }}
@@ -501,7 +501,7 @@ namespace Microarea.RSWeb.WoormEngine
 	/// FromTablesList
 	/// </summary>
 	//============================================================================
-	public class FromTablesList : ArrayList
+	public class FromTablesList : List<TableNames>
 	{
 		//-----------------------------------------------------------------------------
 		public FromTablesList() : base() {}

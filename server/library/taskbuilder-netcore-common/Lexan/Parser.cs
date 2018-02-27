@@ -10,12 +10,13 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Lexan;
+using System.Collections.Generic;
 //using Microarea.Common.Temp;
 
 namespace Microarea.Common.Lexan
 {
     /// ================================================================================
-    public class Comment : ArrayList
+    public class Comment : List<string>
 	{
 		public enum LineTerminator {CrLf, Cr, Lf, Zero, None};
 		internal int tabSize = 1;
@@ -193,7 +194,7 @@ namespace Microarea.Common.Lexan
 		protected internal Token currentToken = Token.NOTOKEN;
 
 		private static readonly CultureInfo dateFormatProvider = new CultureInfo("it-IT");
-		private  Stack			stateStack	= new Stack();
+		private  Stack<ParserState>		stateStack	= new Stack<ParserState>();
 		internal TkSymbolTable	userKeywords = new TkSymbolTable();			// Symbol table definita dallo user
 		internal TkSymbolTable	defines = new TkSymbolTable();
 		internal ParserState	parserState;
@@ -517,7 +518,7 @@ namespace Microarea.Common.Lexan
 		internal void PopState()	
 		{
 			Close(); // chiude il corrente parser perche' ha finito il suo lavoro
-			parserState = (ParserState) stateStack.Pop();
+			parserState = stateStack.Pop();
 			Debug.Assert(parserState != null);
 		}
 

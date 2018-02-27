@@ -5,6 +5,7 @@ using Microarea.Common.Lexan;
 using Microarea.RSWeb.WoormViewer;
 using Microarea.Common.CoreTypes;
 using Microarea.Common.Applications;
+using System.Collections.Generic;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -16,7 +17,7 @@ namespace Microarea.RSWeb.WoormEngine
 	{
 		public static string	LayoutDefaultName = Layout.DefaultName;  
 		
-		private ArrayList		columns = new ArrayList();
+		private List<Field>		columns = new List<Field>();
 		private int				rowsNumber;
 		private int				currentRow;
 		private bool			tableFull;
@@ -33,7 +34,7 @@ namespace Microarea.RSWeb.WoormEngine
 		public ushort		InternalId				{ get { return internalId; }}
 		public string		PublicName				{ get { return publicName; }}
 		public string		LayoutTable				{ get { return layoutTable; } }
-		public ArrayList	Columns					{ get { return columns; }}
+		public List<Field>	Columns					{ get { return columns; }}
 
 		public bool			TableFull				{ set { tableFull	= value; }}
 		public bool			DataDisplayed			{ set { dataDisplayed	= value; }}

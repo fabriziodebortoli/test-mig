@@ -35,7 +35,7 @@ namespace Microarea.Common.CoreTypes
         private ParameterModeType mode = ParameterModeType.In;
 
         protected string valueString;
-        protected ArrayList values;
+        protected List<object> values;
 
         public string ValueString
         {
@@ -43,13 +43,13 @@ namespace Microarea.Common.CoreTypes
 
             set { valueString = value; }
         }
-        public ArrayList Values
+        public List<object> Values
         {
             get
             {
                 if (values is null)
                 {
-                    values = new ArrayList();
+                    values = new List<object>();
                 }
                 return values;
             }

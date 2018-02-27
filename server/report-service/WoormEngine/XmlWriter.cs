@@ -10,6 +10,7 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
+using System.Collections.Generic;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -28,7 +29,7 @@ namespace Microarea.RSWeb.WoormEngine
 	/// Summary description for TableNodeList.
 	/// </summary>
 	/// ================================================================================
-	public class TableNodeList : ArrayList
+	public class TableNodeList : List<TableNode>
 	{
 		XmlDocument	output;
 		XmlElement	reportDataNode;

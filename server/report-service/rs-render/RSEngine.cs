@@ -16,6 +16,7 @@ using Microarea.RSWeb.Models;
 using System.Net.WebSockets;
 using System.Text;
 using Microarea.Common.NameSolver;
+using System.Collections.Generic;
 
 namespace Microarea.RSWeb.Render
 {
@@ -99,9 +100,6 @@ namespace Microarea.RSWeb.Render
         public HtmlPageType PreviousHtmlPage = HtmlPageType.None;
         public HtmlPageType HtmlPage = HtmlPageType.None;
         public string ReportTitle = string.Empty;
-
-        //public System.Web.UI.StateBag StateBag = new System.Web.UI.StateBag();
-        public System.Collections.Hashtable StateBag = new System.Collections.Hashtable();
 
         public  InternalState   CurrentInternalState;
         public  bool            Working = false;
@@ -236,7 +234,6 @@ namespace Microarea.RSWeb.Render
                 {
                     if (Report != null) Report.Dispose();
                     if (Woorm != null) Woorm.Dispose();
-                    StateBag.Clear();
                 }
 
             }

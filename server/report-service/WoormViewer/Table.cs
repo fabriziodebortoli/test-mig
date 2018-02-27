@@ -2404,7 +2404,7 @@ namespace Microarea.RSWeb.Objects
         public bool EasyviewDynamic = false;
         public bool UseEasyviewColor = false;
         public Color EasyviewColor = Defaults.AlternateColor;   //Defaults.DefaultEasyviewColor;
-        public ArrayList EasyViewDynamicOnPage = new ArrayList(); //memorizza con quale colore di sfondo deve iniziare la riga in caso di easyview dynamic (per mantenere coerenza sul cambio pagina)
+        public List<bool> EasyViewDynamicOnPage = new List<bool>(); //memorizza con quale colore di sfondo deve iniziare la riga in caso di easyview dynamic (per mantenere coerenza sul cambio pagina)
 
         public int CurrentRow = 0; // riga dove viene valorizzata la cella quando leggo da RDE
         public int ViewCurrentRow = -1; // riga corrente in fase di renderizzazione (per attributi dinamici)
@@ -4953,7 +4953,7 @@ namespace Microarea.RSWeb.Objects
                     EasyViewDynamicOnPage.Add(UseEasyviewColor);
                 }
                 else if (pageZeroBased < EasyViewDynamicOnPage.Count)
-                    UseEasyviewColor = (bool)EasyViewDynamicOnPage[pageZeroBased];
+                    UseEasyviewColor = EasyViewDynamicOnPage[pageZeroBased];
             }
         }
 

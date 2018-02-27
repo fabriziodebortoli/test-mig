@@ -1392,9 +1392,9 @@ namespace Microarea.RSWeb.WoormViewer
 		//------------------------------------------------------------------------------
 		public void GetLocalizableStrings
 			(
-				ArrayList graphicLocalizableStrings,
-				ArrayList functionLocalizableStrings, 
-				ArrayList localizableReferences
+				List<String> graphicLocalizableStrings,
+			    List<String> functionLocalizableStrings, 
+				List<String> localizableReferences
 			)
 		{
 			functionLocalizableStrings.AddRange(SymbolTable.LocalizableStrings);

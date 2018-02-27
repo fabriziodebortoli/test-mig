@@ -22,7 +22,7 @@ namespace Microarea.Common.Hotlink
 		public ReferenceObjectsPrototype	Prototype;
 		public string						FieldName = "";
 		public string						QueryString = "";
-		public ArrayList					QueryParams = new ArrayList();
+		public List<object>					QueryParams = new List<object>();
 		public HklAction					CurrentAction = HklAction.Code;
 
         //----------------------------------------------------------------------------

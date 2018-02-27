@@ -190,7 +190,7 @@ namespace Microarea.Common.Hotlink
     ///=============================================================================
     public class ReferenceObjectsList
     {
-        private ArrayList prototypes;
+        private List<ReferenceObjectsPrototype> prototypes;
         private TbSession tbSession;
 
         //-----------------------------------------------------------------------------
@@ -216,7 +216,7 @@ namespace Microarea.Common.Hotlink
             //if (session == null)
             //	throw (new Exception(ApplicationsStrings.ReferenceObjectsSessionError));
 
-            prototypes = new ArrayList();
+            prototypes = new List<ReferenceObjectsPrototype>();
         }
 
         // elimina il nome della tabella se esiste perche il grid vuole solo il nome della colonna.

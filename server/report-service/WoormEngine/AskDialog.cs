@@ -702,7 +702,7 @@ namespace Microarea.RSWeb.WoormEngine
         // e solo per quelli che non sono stati modificati dall'utente. La valutazione avviene
         // nell'ordine in cui gli AskEntry sono utilizzati nella Dialog
         //----------------------------------------------------------------------------
-        public void EvalAllInitExpression(ArrayList initializedFields, bool check)
+        public void EvalAllInitExpression(List<Field> initializedFields, bool check)
         {
             foreach (AskGroup askGroup in Groups)
                 foreach (AskEntry entry in askGroup.Entries)
@@ -734,7 +734,7 @@ namespace Microarea.RSWeb.WoormEngine
         // i campi stringa vengono sempre considerati paddati in fondo di zeta 
         // per poter considerare sempre tutti i dati che inizionano per il valore dato
         //----------------------------------------------------------------------------
-        public void AssignUppeLowerLimit(ArrayList initializedFields, bool check)
+        public void AssignUppeLowerLimit(List<Field> initializedFields, bool check)
         {
             foreach (AskGroup askGroup in Groups)
                 foreach (AskEntry entry in askGroup.Entries)

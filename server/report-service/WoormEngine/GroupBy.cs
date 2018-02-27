@@ -202,7 +202,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool CheckRuleGraph(ref ArrayList vectRules, Stack<Item> stack)
+		public bool CheckRuleGraph(ref List<RuleObj> vectRules, Stack<Item> stack)
 		{
 			bool needTemp = false;
 			Stack<Item> reversed = new Stack<Item>();
@@ -254,7 +254,7 @@ namespace Microarea.RSWeb.WoormEngine
 		// se per fare il GroupBy deve utilizzare un file temporaneo (che adesso non è previsto)
 		// in pratica si accettano GroupBy con variabili che provengono solo da una rule
 		//-----------------------------------------------------------------------------
-		public bool IsTemporaryRequired(ref ArrayList vectRules)
+		public bool IsTemporaryRequired(ref List<RuleObj> vectRules)
 		{
 			if (expressionStack.Count == 0) return false;
 			currentRule = null;

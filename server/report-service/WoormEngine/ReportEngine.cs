@@ -256,7 +256,7 @@ namespace Microarea.RSWeb.WoormEngine
 			// controlla se la GroupBy è valida (vedi commento in GroupBy)
 			if (groupByDefined)
 			{
-				ArrayList joinedRules = new ArrayList();
+				List<RuleObj> joinedRules = new List<RuleObj>();
 				if	(groupByExp.IsTemporaryRequired(ref joinedRules))
 					return SetError(WoormEngineStrings.BadGroupBy);
 
@@ -293,8 +293,8 @@ namespace Microarea.RSWeb.WoormEngine
 				{
 					nr--;
 					RuleObj pRule = (RuleObj) unsortedRules[p];
-					pRule.Sons = new ArrayList();
-					pRule.Parents = new ArrayList();
+					pRule.Sons = new List<RuleObj>();
+					pRule.Parents = new List<RuleObj>();
 					
 					pRule.ParentsNum	= 0;
 					pRule.RuleId		= p;
@@ -366,7 +366,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		bool FindSubTree (ref ArrayList joinedRules)
+		bool FindSubTree (ref List<RuleObj> joinedRules)
 		{
 			totalGroupBySegment = joinedRules.Count;
 
@@ -1091,7 +1091,7 @@ namespace Microarea.RSWeb.WoormEngine
         // eseguo in modalita Modeless tutte le AskDialog che non sono collegata
         // ad eventi di report OnAsk (chiamata di dialog da eventi di report)
         //---------------------------------------------------------------------------
-        ArrayList initializedFields = new ArrayList();
+        List<Field> initializedFields = new List<Field>();
 
 		public bool ExecuteAsk()
 		{

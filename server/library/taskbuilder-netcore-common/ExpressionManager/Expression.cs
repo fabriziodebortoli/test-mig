@@ -130,7 +130,7 @@ namespace Microarea.Common.ExpressionManager
 		public override bool Equals(object aExpr)
 		{
 			Expression expr = aExpr as Expression;
-			return Stack.Equals(expressionStack, expr.expressionStack);
+			return Stack<Item>.Equals(expressionStack, expr.expressionStack);
 		}
 
 		//-----------------------------------------------------------------------------

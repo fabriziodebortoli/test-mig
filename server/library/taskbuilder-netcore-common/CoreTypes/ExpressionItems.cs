@@ -627,7 +627,7 @@ namespace Microarea.Common.CoreTypes
 		protected Dictionary<string, string>   alias   = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         protected Dictionary<string, Variable> symbols = new Dictionary<string, Variable>(StringComparer.OrdinalIgnoreCase);
 
-        private ArrayList localizableStrings = new ArrayList();
+        private List<string> localizableStrings = new List<string>();
         protected SymbolTable parent = null;
 
         public ushort maxID = 1000;
@@ -637,7 +637,7 @@ namespace Microarea.Common.CoreTypes
 		public int Count { get { return symbols.Keys.Count; } }
 
         //-----------------------------------------------------------------------------
-        public ArrayList LocalizableStrings { get { return this.parent != null ? this.parent.LocalizableStrings : localizableStrings; } }
+        public List<string> LocalizableStrings { get { return this.parent != null ? this.parent.LocalizableStrings : localizableStrings; } }
 
         #region IEnumerable Members
 

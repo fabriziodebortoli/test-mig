@@ -17,7 +17,7 @@ namespace Microarea.RSWeb.WoormEngine
     /// ProcedureSymbolTable.
     /// </summary>
     //============================================================================
-    public class ProcedureSymbolTable : ArrayList
+    public class ProcedureSymbolTable : List<Procedure>
 	{
 		//-----------------------------------------------------------------------------
 		public Procedure Find(string name) 
@@ -57,7 +57,7 @@ namespace Microarea.RSWeb.WoormEngine
 	/// QueryObjectSymbolTable.
 	/// </summary>
 	//============================================================================
-	public class QueryObjectSymbolTable : ArrayList
+	public class QueryObjectSymbolTable : List<QueryObject>
 	{
 		//-----------------------------------------------------------------------------
 		public QueryObject Find(string name) 
@@ -157,7 +157,7 @@ namespace Microarea.RSWeb.WoormEngine
 	/// DisplayTableSymbolTable.
 	/// </summary>
 	//============================================================================
-	public class DisplayTableSymbolTable : ArrayList
+	public class DisplayTableSymbolTable : List<DisplayTable>
 	{
 		//-----------------------------------------------------------------------------
 		public DisplayTable Find(string name) 
