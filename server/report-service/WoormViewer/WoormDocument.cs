@@ -659,7 +659,6 @@ namespace Microarea.RSWeb.WoormViewer
 		private bool loadAsTemplate = false;  //vuol dire che il woormDocument e' caricato come template
 		private bool onlyGraphInfo = false;
 		
-		private RDEPersister rdePersister;
 		private string pageFilename = string.Empty;
 		private string pageFilenameWithoutExt = string.Empty;
 		
@@ -719,20 +718,7 @@ namespace Microarea.RSWeb.WoormViewer
 		public bool				ForLocalizer			{ get { return forLocalizer; } set { forLocalizer= value; }}
 		public SymbolTable		SymbolTable				{ get { return RdeReader.RdeSymbolTable; } }
 		public PageInfo			PageInfo				{ get { return pageInfo; } }
-		public bool				CanSaveForUser			{ get { return RDEPersister.CanSaveForUser; } }
-		public bool				CanSaveForAllUsers		{ get { return RDEPersister.CanSaveForAllUsers; } }
  
-		//--------------------------------------------------------------------------
-		private RDEPersister RDEPersister	
-		{
-			get
-			{
-				if (rdePersister == null) 
-					rdePersister = new RDEPersister(this, ReportSession);
-				return rdePersister;
-			}
-		}
-
 		///<summary>
 		///nome del file che viene scritto a inizio esecuzione e che contiene la viewsymboltable
 		///del report (alias, nome variabili, tipo, attributi che dicono se e' colonna, nascosto, ecc..)
@@ -866,12 +852,6 @@ namespace Microarea.RSWeb.WoormViewer
 
 			disposed = true;         
 		}
-
-		//--------------------------------------------------------------------------
-		public bool SaveForUser(string user, string description)
-		{
-			return RDEPersister.SaveForUser(user, description);
-		}			
 
 		//------------------------------------------------------------------------------
 		public void LoadPage(PageType page)
