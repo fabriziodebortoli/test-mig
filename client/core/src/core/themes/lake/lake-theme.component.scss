@@ -99,51 +99,59 @@ $font-size-tooltip: 12px;
     .tb-card {
         background-color: $bkg;
     }
-    //titolo della tbcard
-    .tb-card-title {
-        font-size: 17px;
-    }
-    tb-menu-element .menu-element:hover {
-        background-color: $bkg-light-opacity50;
-    }
-    //mouseover theme changer
     .div-theme-carrier:hover {
         background-color: $bkg-light-opacity50;
     }
-    //dimensione del font delle voci di menu
-    tb-menu-element .menu-element-content .object-type {
-        font-size: 16px;
+    //titolo della tbcard
+    .tb-card-title {
+        color:$text-black;
+        font-size: 17px;
     }
-    //Colore icone di tipo document
-    tb-menu-element .menu-element-content .object-type.Document {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Report
-    tb-menu-element .menu-element-content .object-type.Report {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Batch
-    tb-menu-element .menu-element-content .object-type.Batch {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Function
-    tb-menu-element .menu-element-content .object-type.Function {
-        color: $bkg-medium;
-    }
-    //colore della stellina nel menu dei favoriti
-    tb-menu-element .menu-element-content .star {
-        color: $bkg-medium;
-        font-size: 18px;
-        line-height: 22px;
-        margin-right: 3px;
-        &.favorite {
-            color: $bkg-medium;
+    .menu-element
+    {
+        color:$bkg-dark;
+        &:hover {
+            background-color: $bkg-light-opacity50;
         }
-    }
-    tb-menu-element .menu-element-content .star:hover {
-        color: $bkg-dark;
-        cursor: pointer;
-    }
+        .menu-element-content 
+        {
+		 font-size: 16px;
+        //dimensione del font delle voci di menu
+            .object-type {
+                font-size: 16px;
+            }
+            //Colore icone di tipo document
+            .object-type.Document {
+                color: $bkg-medium;
+            }
+            //Colore icone di tipo Report
+            .object-type.Report {
+                color: $bkg-medium;
+            }
+            //Colore icone di tipo Batch
+            .object-type.Batch {
+                color: $bkg-medium;
+            }
+            //Colore icone di tipo Function
+            .object-type.Function {
+                color: $bkg-medium;
+            }
+            //colore della stellina nel menu dei favoriti
+            .star {
+                color: $bkg-medium;
+                font-size: 18px;
+                line-height: 22px;
+                margin-right: 3px;
+                &.favorite {
+                    color: $bkg-medium;
+                }
+                &:hover {
+                    color: $bkg-dark;
+                    cursor: pointer;
+                }
+            }
+        }
+    }   
     //colore scrollbar
      ::-webkit-scrollbar-thumb {
         background: $bkg-medium;

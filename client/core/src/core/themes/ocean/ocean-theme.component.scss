@@ -76,31 +76,53 @@ $font-size-tooltip: 12px;
     }
     //titolo della tbcard
     .tb-card-title {
+        color:$text-dark;
         font-size: 17px;
     }
-    //Colore icone di tipo document
-    tb-menu-element .menu-element-content .object-type.Document {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Report
-    tb-menu-element .menu-element-content .object-type.Report {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Batch
-    tb-menu-element .menu-element-content .object-type.Batch {
-        color: $bkg-medium;
-    }
-    //Colore icone di tipo Function
-    tb-menu-element .menu-element-content .object-type.Function {
-        color: $bkg-medium;
-    }
-    //dimensione del font delle voci di menu
-    tb-menu-element .menu-element-content .object-type {
-        font-size: 16px;
-    }
-    //colore mouseover delle voci di menu
-    tb-menu-element .menu-element:hover {
-        background-color: $bkg-light-opacity50;
+    .menu-element
+    {
+        color:$bkg-dark;
+        &:hover {
+            background-color: $bkg-light-opacity50;
+        }
+
+        //dimensione del font delle voci di menu
+        .menu-element-content 
+        {
+        .object-type {
+                    font-size: 16px;
+                }
+                //Colore icone di tipo document
+            .object-type.Document {
+                    color: $bkg-medium;
+                }
+                //Colore icone di tipo Report
+            .object-type.Report {
+                    color: $bkg-medium;
+                }
+                //Colore icone di tipo Batch
+            .object-type.Batch {
+                    color: $bkg-medium;
+                }
+                //Colore icone di tipo Function
+            .object-type.Function {
+                    color: $bkg-medium;
+                }
+                //colore della stellina nel menu dei favoriti
+            .star {
+                    color: $bkg-medium;
+                    font-size: 18px;
+                    line-height: 22px;
+                    margin-right: 3px;
+                    &.favorite {
+                        color: $bkg-medium;
+                    }
+                }
+            .star:hover {
+                    color: $bkg-dark;
+                    cursor: pointer;
+                }
+        }
     }
     //colore scrollbar
      ::-webkit-scrollbar-thumb {

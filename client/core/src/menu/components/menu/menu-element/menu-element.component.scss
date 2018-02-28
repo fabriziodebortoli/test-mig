@@ -1,8 +1,5 @@
-tb-menu-element {
-    padding: 0 !important;
-    .menu-element {
+    ::ng-deep .menu-element {
         display: flex;
-        flex-direction: row;
         flex-wrap: nowrap;
         align-content: stretch;
         align-items: flex-start;
@@ -11,14 +8,14 @@ tb-menu-element {
         color: #0277bd;
         font-weight: 400;
         transition: background-color 0.4s ease-in-out;
-    }
-    .menu-element:hover {
+    
+        &:hover {
         background-color: #fffbe0;
         transition: background-color 0.4s ease-in-out;
     }
     .menu-element-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: space-between;
         width: 100%;
         .header {
@@ -27,6 +24,19 @@ tb-menu-element {
             align-items: center;
             flex: 1;
             padding: 1px 0px;
+            &>span {
+                line-height: 24px;
+                cursor: pointer;
+                flex: 1;
+                padding: 0 3px;
+                color: #000;
+                font-weight: 400;
+                font-size: 12px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 0;
+            }
         }
         p.description {
             font-size: 12px;
@@ -62,19 +72,6 @@ tb-menu-element {
             height: 21px;
             margin-top: 2px;
         }
-        span {
-            line-height: 24px;
-            cursor: pointer;
-            flex: 1 1 auto;
-            padding: 0 3px;
-            color: #000;
-            font-weight: 400;
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 0;
-        }
         .isLoading {
             color: #999;
         }
@@ -93,7 +90,6 @@ tb-menu-element {
         }
     }
 }
-
 @media screen and (min-width: 1025px) {
     tb-menu-element {
         .menu-element {

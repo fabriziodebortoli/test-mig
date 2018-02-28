@@ -9,8 +9,7 @@ import { HttpMenuService } from './../../../services/http-menu.service';
 @Component({
   selector: 'tb-menu-element',
   templateUrl: './menu-element.component.html',
-  styleUrls: ['./menu-element.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./menu-element.component.scss']
 })
 export class MenuElementComponent {
 
