@@ -741,11 +741,7 @@ CBusinessServiceProviderObj::~CBusinessServiceProviderObj()
 void CBusinessServiceProviderObj::OnBeforeCloseDocument()
 {
 	if (m_pUIDoc)
-	{
-		if (m_pUIDoc->GetMasterFrame())
-			m_pUIDoc->GetMasterFrame()->SendMessage(WM_CLOSE);
-		m_pUIDoc = NULL;
-	}
+		m_pUIDoc->CloseDocument(FALSE);
 }
 
 //-----------------------------------------------------------------------------
