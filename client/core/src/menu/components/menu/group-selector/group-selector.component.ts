@@ -7,8 +7,7 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
     selector: 'tb-group-selector',
     templateUrl: './group-selector.component.html',
-    styleUrls: ['./group-selector.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./group-selector.component.scss']
 })
 export class GroupSelectorComponent {
 

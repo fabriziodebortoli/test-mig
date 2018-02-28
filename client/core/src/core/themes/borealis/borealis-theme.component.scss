@@ -154,8 +154,8 @@ $font-size-tooltip: 12px;
         background: $bkg-medium;
     }
     //colore di fondo della lista applicazioni
-    ul.application-list,
-    ul.groups-list {
+    .application-selector > ul.application-list,
+    .groups > ul.groups-list {
         background: $bkg-medium;
         &>li {
             color: $text-light;
