@@ -102,12 +102,12 @@ namespace Microarea.Common.Applications
         //private string  appName;
         //private string  moduleName;
 
-        private ArrayList fontStyles = new ArrayList();
+        private List<FontElement> fontStyles = new List<FontElement>();
 
 		// properties
 		public string		StyleName	{ get { return styleName; } }
 
-        public ArrayList FontStyles { get { return fontStyles; } }
+        public List<FontElement> FontStyles { get { return fontStyles; } }
 
 		//------------------------------------------------------------------------------
 		public FontStylesGroup (string name)
@@ -148,8 +148,10 @@ namespace Microarea.Common.Applications
 				}
 			}
 			
-			return fontStyles.Add(font);
-		}		
+			fontStyles.Add(font);
+            return fontStyles.Count - 1;
+
+        }		
 
 		/// <summary>
 		// Si occupa di scegliere il font migliore da applicare secondo contesto. La
@@ -326,7 +328,7 @@ namespace Microarea.Common.Applications
     /// Summary description for FontStyles.
     /// </summary>
     /// ================================================================================
-    public class FontStyles : Hashtable
+    public class FontStyles : Dictionary<string, FontStylesGroup>
     {
         private const int OLD_RELEASE = 2;
         private const int RELEASE = 3;
@@ -350,8 +352,8 @@ namespace Microarea.Common.Applications
 		//------------------------------------------------------------------------------
 		public FontElement GetFontElement(string name, INameSpace context)
 		{
-			FontStylesGroup pGroup = (FontStylesGroup) this[name];
-			if (pGroup == null)
+			FontStylesGroup pGroup = null;
+            if (!TryGetValue(name, out pGroup))
 				return null;
 
 			return pGroup.GetFontStyle(context);
@@ -720,9 +722,9 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		private void UnparseStyles(INameSpace ns, Unparser unparser)
 		{
-			foreach (FontStylesGroup group in this)
+			foreach (KeyValuePair<string,FontStylesGroup> group in this)
 			{
-				foreach (FontElement style in group.FontStyles)
+				foreach (FontElement style in group.Value.FontStyles)
 				{
 					if (style.Source == source && style.Owner == ns /*&&  pStyle->IsChanged()*/)
 						UnparseStyle(unparser, style);

@@ -59,7 +59,7 @@ namespace Microarea.Common.Applications
     //=========================================================================
     public class CNumberToLiteralManager
     {
-        public static Hashtable numberToLiteral = new Hashtable();
+        public static Dictionary<string, CNumberToLiteralLookUpTableManager> numberToLiteral = new Dictionary<string, CNumberToLiteralLookUpTableManager>();
         private static string culture = string.Empty;
 
         //---------------------------------------------------------------------
@@ -76,13 +76,14 @@ namespace Microarea.Common.Applications
         //------------------------------------------------------------------------------
         public static CNumberToLiteralLookUpTableManager GetNumberToLiteralManager(string language)
         {
-            if (numberToLiteral[language] == null)
+            CNumberToLiteralLookUpTableManager ntlLookupTableManager = null;
+            if (!numberToLiteral.TryGetValue(language, out ntlLookupTableManager))
             {
                 // Se non esiste lo creo e lo aggiungo all'elenco
                 return AddNumberToLiteralManager(language);
             }
             else
-                return (CNumberToLiteralLookUpTableManager)numberToLiteral[language];
+                return ntlLookupTableManager;
         }
 
         /// <summary>
@@ -91,13 +92,14 @@ namespace Microarea.Common.Applications
         //------------------------------------------------------------------------------
         public static CNumberToLiteralLookUpTableManager GetNumberToLiteralManager()
         {
-            if (numberToLiteral[culture] == null)
+            CNumberToLiteralLookUpTableManager ntlLookupTableManager = null;
+            if (!numberToLiteral.TryGetValue(culture, out ntlLookupTableManager))
             {
                 // Se non esiste lo creo e lo aggiungo all'elenco
                 return AddNumberToLiteralManager(culture);
             }
             else
-                return (CNumberToLiteralLookUpTableManager)numberToLiteral[culture];
+                return ntlLookupTableManager;
         }
 
         /// <summary>
@@ -108,7 +110,7 @@ namespace Microarea.Common.Applications
         {
             CNumberToLiteralLookUpTableManager NTLManager = null;
             // Controllo se esiste già
-            if (numberToLiteral[language] == null)
+            if (!numberToLiteral.TryGetValue(language, out NTLManager))
             {
                 //Cerco di parsare il file contenente le regole di conversione
                 NTLManager = ParseNumberToLiteralLookUpFile(language);
@@ -122,7 +124,7 @@ namespace Microarea.Common.Applications
                     return null;
             }
             else
-                return (CNumberToLiteralLookUpTableManager)numberToLiteral[language];
+                return NTLManager;
         }
 
         /// <summary>
@@ -461,11 +463,11 @@ namespace Microarea.Common.Applications
     public class FormatStylesGroup
     {
         private string styleName;
-        private ArrayList formatStyles = new ArrayList();
+        private List<Formatter> formatStyles = new List<Formatter>();
 
         // properties
         public string StyleName { get { return styleName; } }
-        public ArrayList FormatStyles { get { return formatStyles; } }
+        public List<Formatter> FormatStyles { get { return formatStyles; } }
 
         //------------------------------------------------------------------------------
         public FormatStylesGroup(string name)
@@ -504,7 +506,8 @@ namespace Microarea.Common.Applications
                     formatStyles.RemoveAt(i);
             }
 
-            return formatStyles.Add(formatter);
+            formatStyles.Add(formatter);
+            return formatStyles.Count - 1;
         }
 
         /// <summary>
@@ -2670,7 +2673,7 @@ public string DecSeparator = ",";
     /// Summary description for FormatStyles.
     /// </summary>
     //================================================================================
-    public class FormatStyles : Hashtable
+    public class FormatStyles : Dictionary<string, FormatStylesGroup>
     {
         private const int RELEASE = 2;
         private ApplicationFormatStyles applicationFormatStyles;
@@ -2679,8 +2682,6 @@ public string DecSeparator = ",";
         private INameSpace currentOwner;
 
         static private CultureInfo applicationLocale = null;
-
-        private Hashtable numberToLiteral = new Hashtable();
 
         //------------------------------------------------------------------------------
         public TbSession Session { get { return applicationFormatStyles.ReportSession; } }
@@ -2722,8 +2723,8 @@ public string DecSeparator = ",";
         //------------------------------------------------------------------------------
         ~FormatStyles()
         {
-            foreach (CNumberToLiteralLookUpTableManager NTLManager in CNumberToLiteralManager.numberToLiteral)
-                NTLManager.Clear();
+            foreach (KeyValuePair<string, CNumberToLiteralLookUpTableManager> NTLManager in CNumberToLiteralManager.numberToLiteral)
+                NTLManager.Value.Clear();
         }
 
         //------------------------------------------------------------------------------
@@ -2735,12 +2736,14 @@ public string DecSeparator = ",";
         //------------------------------------------------------------------------------
         public Formatter GetFormatter(string name, INameSpace context)
         {
-            FormatStylesGroup pGroup = (FormatStylesGroup)this[name];
+            FormatStylesGroup pGroup = null;
+            this.TryGetValue(name, out pGroup);
 
             // se non lo trovo nella tabella locale lo cerco in quella generale
             if (pGroup == null && applicationFormatStyles != null && applicationFormatStyles.Fs != this)
-                pGroup = (FormatStylesGroup)applicationFormatStyles.Fs[name];
-
+            {
+                applicationFormatStyles.Fs.TryGetValue(name, out pGroup);
+            }
             if (pGroup == null)
                 return null;
 
@@ -3931,10 +3934,10 @@ public string DecSeparator = ",";
 
                     jsonWriter.WriteStartObject();
 
-                    foreach (DictionaryEntry de in fs)
+                    foreach (KeyValuePair<string, FormatStylesGroup> de in fs)
                     {
                         
-                        FormatStylesGroup style = (FormatStylesGroup)fs[de.Key.ToString()];
+                        FormatStylesGroup style = fs[de.Key];
 
                         jsonWriter.WritePropertyName(style.StyleName);
 
@@ -3968,21 +3971,20 @@ public string DecSeparator = ",";
     }
 
     /// ================================================================================
-    public class CNumberToLiteralLookUpTableList : Hashtable
+    public class CNumberToLiteralLookUpTableList : Dictionary<long, string>
     {
         //-----------------------------------------------------------------------------
         public string Get(long valore)
         {
-            if (this[valore] != null)
-                return (string)this[valore];
-            else
-                return string.Empty;
+            string retValue = string.Empty;
+            TryGetValue(valore, out retValue);
+            return retValue;
         }
 
         //-----------------------------------------------------------------------------
         public bool Exist(long valore)
         {
-            return this.Contains(valore);
+            return this.ContainsKey(valore);
         }
     }
 
@@ -4028,7 +4030,7 @@ public string DecSeparator = ",";
     public class Declination
     {
         public string m_Description = string.Empty;
-        public ArrayList m_DeclinationExceptionList = new ArrayList();
+        public List<DeclinationException> m_DeclinationExceptionList = new List<DeclinationException>();
 
         public Declination(string description)
         {
@@ -4105,7 +4107,7 @@ public string DecSeparator = ",";
         public string m_Junction = string.Empty;
         public string m_Culture = string.Empty;
         public string m_Separator = string.Empty;
-        public ArrayList m_Exceptions = new ArrayList();
+        public List<int> m_Exceptions = new List<int>();
         public bool bUnitInversion = false;
 
         //-----------------------------------------------------------------------------

@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -1177,4 +1178,18 @@ namespace Microarea.Common.Generic
             return new Stack<T>(new Stack<T>(stack));
         }
     }
+
+    //================================================================================
+    public static class Extensions
+    {
+        /// <summary>
+        /// Clone of List<T>
+        /// </summary>
+        //--------------------------------------------------------------------------------
+        public static List<T> Clone<T>(this List<T> listToClone)
+        {
+            return new List<T>(listToClone);
+        }
+    }
+    
 }

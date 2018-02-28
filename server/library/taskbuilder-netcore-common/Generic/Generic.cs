@@ -553,31 +553,6 @@ namespace Microarea.Common.Generic
 
             //=====================================================================
 
-            public static bool IsUrlReachable(string url)
-            {
-                if (url == string.Empty)
-                    return false;
-
-                try
-                {
-                    HttpWebRequest myRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-                    //myRequest.MaximumAutomaticRedirections = 0;
-                    //myRequest. AllowAutoRedirect = false;
-                    // Return the response. 
-
-                    // WebResponse myResponse =myRequest.GetResponse();                     TODO rsweb
-
-                    // Close the response to free resources.
-                    //myResponse.Close();
-                }
-                catch (Exception exc)
-                {
-                    Debug.WriteLine(exc.Message);
-                    return false;
-                }
-
-                return true;
-            }
 
             //-------------------------------------------------------------------------
             /*TODO RSWEB

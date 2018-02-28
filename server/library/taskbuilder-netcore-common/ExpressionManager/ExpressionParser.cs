@@ -320,7 +320,7 @@ namespace Microarea.Common.ExpressionManager
     }
 
     //============================================================================
-    public class StopTokens : ArrayList
+    public class StopTokens : List<Token>
     {
         public bool skipInnerBlock = false;
         public bool skipInnerRoundBrackets = false;

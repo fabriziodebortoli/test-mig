@@ -16,7 +16,7 @@ using Microarea.Common.Applications;
 using System.Xml;
 using System.Text;
 using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 namespace Microarea.Common.Applications
 {
@@ -403,7 +403,7 @@ namespace Microarea.Common.Applications
 	}
 	                      
 	//=============================================================================        
-	public class EnumItems : ArrayList
+	public class EnumItems : List<EnumItem>
 	{
 		//-----------------------------------------------------------------------------
 		new public EnumItem this[int i] { get { return base[i] as EnumItem; } set { base[i] = value; }}
@@ -516,7 +516,7 @@ namespace Microarea.Common.Applications
 		
 		private ModuleInfo owner;
 
-		private Hashtable localizers = new Hashtable();	//different localizers depending on thread culture (multithreading support)
+		private Dictionary<string, ILocalizer> localizers = new Dictionary<string, ILocalizer>();	//different localizers depending on thread culture (multithreading support)
 
 		private int longerItemIdx = -1;	// give EnumItem idx with most wide string in Enum Names
 
@@ -543,7 +543,7 @@ namespace Microarea.Common.Applications
 
 			this.EnumItems = new EnumItems();
 			foreach (EnumItem enumItem in enumTag.EnumItems)
-				EnumItems.Add(enumItem.Clone());
+				EnumItems.Add(enumItem.Clone() as EnumItem);
 
 			this.hidden = enumTag.hidden;
 			this.localizers = enumTag.localizers;
@@ -636,9 +636,9 @@ namespace Microarea.Common.Applications
 		public ILocalizer Localizer 
 		{ 
 			get 
-			{ 
-				ILocalizer localizer = (ILocalizer) localizers[Helper.Culture];
-				if (localizer == null) 
+			{
+                ILocalizer localizer = null;
+                if (!localizers.TryGetValue(Helper.Culture, out localizer))
 				{
 					localizer = new EnumLocalizer(name, owner.GetDictionaryPath());
 					localizers[Helper.Culture] = localizer;
@@ -674,9 +674,11 @@ namespace Microarea.Common.Applications
 
 			EnumItem item = new EnumItem(this, aName, aValue, moduleInfo);
 			item.Description = aDescription;
-			int nIdx = EnumItems.Add(item);
-			
-			if	(
+			EnumItems.Add(item);
+            int nIdx = EnumItems.Count - 1;
+
+
+            if	(
 				longerItemIdx < 0 ||
 				EnumItems[longerItemIdx].Name.Length < aName.Length
 				)
@@ -960,7 +962,7 @@ namespace Microarea.Common.Applications
 	}       
 
 	//=============================================================================        
-	public class EnumTags : ArrayList
+	public class EnumTags : List<EnumTag>
 	{
         private string country = string.Empty;
         private string applicationName = string.Empty;
