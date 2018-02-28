@@ -171,7 +171,8 @@ xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(TBAppsBin)\$(Configuration)
 xcopy "$(TbOcBin)\bin\$(Configuration)\BCLW32.DLL" "$(OutDir)"  /s /y
 xcopy "$(TbOcBin)\bin\$(Configuration)\BCGControlBarPro\*.*" "$(OutDir)" /s /y
 copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
-xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R</Command>
+xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R
+xcopy "$(TbOcBin)\bin\$(Configuration)\MFC*.*" "$(OutDir)"  /s /y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -242,7 +243,7 @@ xcopy "$(TbOcBin)\bin\release\BCLW32.DLL" "$(OutDir)"  /s /y
 xcopy "$(TbOcBin)\bin\release\BCGControlBarPro\*.*" "$(OutDir)" /s /y
 copy "$(TbOcBin)\bin\release\psexec.exe" "$(TargetDir)"
 xcopy "$(TBOcBin)\Bin\Release\GdPicture.NET*.dll" "$(SolutionDir)\WebFramework\EasyAttachmentSync\bin" /Y /R
-</Command>
+xcopy "$(TbOcBin)\bin\release\MFC*.*" "$(OutDir)"  /s /y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
