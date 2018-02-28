@@ -1405,46 +1405,16 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			error = string.Empty;
 			xmlFile = xmlPath;
 
-			// devo fare la Load dello stesso file solo la prima volta!!!!
-			// quindi se l'xDoc è uguale a null, oppure il path passato come parametro è 
-			// differente da quello caricato nel DOM precedentemente
-			if (xDoc == null || 
-				string.Compare(xmlPath, xDoc.BaseURI.Substring(8).Replace("/", Path.DirectorySeparatorChar.ToString()), StringComparison.OrdinalIgnoreCase) != 0)
-			{
-				xDoc = new XmlDocument();
-				
-				try
-				{
-					xDoc.Load(File.OpenText(xmlPath));
-				}
-				catch(XmlException e)
-				{
-					error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
-					return;
-				}
-			}
-			else
-			{
-				string path = xDoc.BaseURI.Substring(8);
-				// la property BaseURI mi propone il path con il separatore "/"
-				// il pathfinder ritorna stringhe con il separatore "\"
-				// devo fare quindi un replace prima di confrontare le due stringhe.
-				path = path.Replace("/", Path.DirectorySeparatorChar.ToString());
+			xDoc = new XmlDocument();
 
-				// se il path caricato nel DOM è diverso da quello passatogli come parametro,
-				// allora faccio la load del file nuovo.
-				if (string.Compare(xmlPath, path, StringComparison.OrdinalIgnoreCase) != 0) 
-				{
-					try
-					{
-						xDoc.Load(File.OpenText(xmlPath));
-					}
-					catch(XmlException e)
-					{
-						error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
-						return;
-					}
-				}
+			try
+			{
+				xDoc.Load(File.OpenText(xmlPath));
+			}
+			catch (XmlException e)
+			{
+				error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);
+				return;
 			}
 		}
 
