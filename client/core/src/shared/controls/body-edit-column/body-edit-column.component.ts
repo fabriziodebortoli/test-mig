@@ -21,6 +21,10 @@ export class BodyEditColumnComponent extends ControlComponent {
   @Input() formatter: string;
   @Input() readonly = false;
 
+  @Input('rows') rows: number = 0;
+  @Input('chars') chars: number = 0;
+
+
   @ViewChild(ColumnComponent) columnComponent;
   @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
   constructor(
@@ -28,9 +32,18 @@ export class BodyEditColumnComponent extends ControlComponent {
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
-    public bodyEditService:BodyEditService
+    public bodyEditService: BodyEditService
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
+  }
+
+  public getWidth() {
+    let lenght = (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length) 
+    ? this.bodyEditService.prototype[this.columnName].length 
+    : this.title.length;
+    
+    let minChars = this.chars > 0 ? Math.min(lenght, this.chars) : lenght;
+    return minChars * 10;
   }
 }
 

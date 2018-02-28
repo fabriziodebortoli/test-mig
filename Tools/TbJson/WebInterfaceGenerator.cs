@@ -892,6 +892,8 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
+                            WriteAttribute(jObj, Constants.rows, Constants.rows);
+                            WriteAttribute(jObj, Constants.chars, Constants.chars);
                             WriteAttribute(jObj, Constants.width, Constants.width);
 
                             w.CloseBeginTag();
