@@ -17,10 +17,10 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
         //---------------------------------------------------------------
         public override bool Create(IDocument doc)
         {
-            TemplateCodeService templateService = ServicesManager.ServicesManagerInstance.GetService(typeof(TemplateCodeService)) as TemplateCodeService;
+            /*TemplateCodeService templateService = ServicesManager.ServicesManagerInstance.GetService(typeof(TemplateCodeService)) as TemplateCodeService;
             // "Document.cs"
-            string code = templateService.GetTemplateCode(doc, templateFile);
-
+            string code = templateService.GetTemplateCode(doc, templateFile);*/
+            string code = string.Empty;
             ModuleInfo info = this.PathFinder.GetModuleInfoByName(doc.NameSpace.Application, doc.NameSpace.Module);
             string fileName = info.GetDocumentPath(doc.NameSpace.Document) + System.IO.Path.GetExtension(templateFile);
 
