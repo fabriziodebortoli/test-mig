@@ -170,8 +170,25 @@ namespace Microarea.Common.NameSolver
 		{
 			try
 			{
-				// Si assume che il nodo esista sempre.
-				XmlNode node = appConfigDocument.DocumentElement.SelectSingleNode(ApplicationConfigXML.Element.Version);
+
+                XmlDocument xDoc = new XmlDocument();
+
+                XmlDeclaration xmlDeclaration = xDoc.CreateXmlDeclaration(NameSolverStrings.XmlDeclarationVersion, NameSolverStrings.XmlDeclarationEncoding, null);
+                XmlElement rootNode = xDoc.CreateElement(ApplicationConfigXML.Element.ApplicationInfo);
+                xDoc.InsertBefore(xmlDeclaration, xDoc.DocumentElement);
+                xDoc.AppendChild(rootNode);
+
+                XmlElement typeNode = xDoc.CreateElement(ApplicationConfigXML.Element.Type);
+
+                typeNode.InnerText = Type.ToString();
+                rootNode.AppendChild(typeNode);
+
+                XmlElement dbSignatureNode = xDoc.CreateElement(ApplicationConfigXML.Element.DbSignature);
+                dbSignatureNode.InnerText = Name;
+                rootNode.AppendChild(dbSignatureNode);
+                xDoc.Save(appConfigFile);
+                // Si assume che il nodo esista sempre.
+                /*XmlNode node = appConfigDocument.DocumentElement.SelectSingleNode(ApplicationConfigXML.Element.Version);
 				node.InnerText = version;
 
 				// Si assume che il file esista sempre.
@@ -184,7 +201,7 @@ namespace Microarea.Common.NameSolver
 				// Il file è in SourceSafe, ma non ripristino l'attributo ReadOnly per non perdere le
 				// modifiche alla prossima sync in attesa di futura eventuale interazione con VSS.
 				// Nel caso ci si dimentichi di aggiornare il file in SourceSafe, SourceSafe, trovando
-				// in locale un file non protetto, avvisa l'utente.
+				// in locale un file non protetto, avvisa l'utente.*/
 			}
 			catch (Exception exc)
 			{

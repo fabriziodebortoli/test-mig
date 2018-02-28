@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskBuilderNetCore.EasyStudio.Services;
 using System;
-using TaskBuilderNetCore.EasyStudio;
+using System.Text;
 using Microarea.Common.Generic;
 using Newtonsoft.Json.Linq;
 using TaskBuilderNetCore.Interfaces;
@@ -12,7 +12,6 @@ using TaskBuilderNetCore.EasyStudio.Interfaces;
 namespace Microarea.EasyStudio.Controllers
 {
 	//=========================================================================
-
 	//[Produces("application/json")]
 	[Route("easystudio")]
     public class EasyStudioController : Microsoft.AspNetCore.Mvc.Controller
@@ -25,11 +24,79 @@ namespace Microarea.EasyStudio.Controllers
             Manager = serviceManager;
 		
 		}
+
+        //---------------------------------------------------------------------
+        private static IActionResult ToContentResult(int statusCode, DiagnosticType type, string text)
+        {
+            return new ContentResult
+            {
+                StatusCode = statusCode,
+                Content = ControllerDiagnostic.ToJson(type, text),
+                ContentType = "application/json"
+            };
+        }
+
         //-----item-customizations-dropdown--------------------------------------------------------------
         [Route("discovery")]
         public IActionResult Discovery()
         {
             return new ContentResult { StatusCode = 200, Content =  "{ 'Message': 'Buongiorno!  Sono il servizio ES!' }", ContentType = "application/json" };
+        }
+
+        //---------------------------------------------------------------------
+   /*     [Route("createNewContext")]
+        public IActionResult CreateNewContext([FromBody] JObject value)
+        {
+            try
+            {
+                string appName = value["app"]?.Value<string>();
+                string modName = value["mod"]?.Value<string>();
+                var type = value["type"]?.ToObject<ApplicationType>();
+                if (type == null)
+                    type = ApplicationType.Customization;
+
+                {
+                    ApplicationInfo newAppInfo = CreateNeededFiles(appName, modName, type);
+                    //BaseCustomizationContext.CustomizationContextInstance.EasyStudioApplications.Add(context);	//DIVENTA 
+                    Manager.PathFinder.ApplicationInfos.Add(newAppInfo);
+                }
+
+                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+        */
+        //-----item-customizations-dropdown--------------------------------------------------------------
+        [Route("application/create")]
+        public IActionResult Create(string parameters)
+        {
+            JObject jsonParams = JObject.Parse(parameters);
+            string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
+            var applicationType = jsonParams[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+            var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
+
+            if (string.IsNullOrEmpty(applicationName))
+                return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
+
+            bool success = true;
+            if (!ApplicationService.ExistsApplication(applicationName))
+            {
+                if (applicationType == null)
+                    return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationType);
+
+                success = ApplicationService.CreateApplication(applicationName, (ApplicationType) applicationType);
+            }
+                
+            if (success && !string.IsNullOrEmpty(moduleName))
+                success = ApplicationService.CreateModule(applicationName, moduleName);
+
+            if (success)            
+                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.SuccessfullCompleted);
+
+            return ToContentResult(500, DiagnosticType.Error, "aaa");
         }
 
         //-----item-customizations-dropdown--------------------------------------------------------------
@@ -106,33 +173,9 @@ namespace Microarea.EasyStudio.Controllers
 			}
 		}
 
-		//---------------------------------------------------------------------
-		[Route("createNewContext")]
-		public IActionResult CreateNewContext([FromBody] JObject value)
-		{
-			try
-			{
-				string appName = value["app"]?.Value<string>();
-				string modName = value["mod"]?.Value<string>();
-				var type = value["type"]?.ToObject<ApplicationType>();
-				if (type == null)
-					type = ApplicationType.Customization;
+	
 
-				{
-					ApplicationInfo newAppInfo = CreateNeededFiles(appName, modName, type);
-					//BaseCustomizationContext.CustomizationContextInstance.EasyStudioApplications.Add(context);	//DIVENTA 
-					Manager.PathFinder.ApplicationInfos.Add(newAppInfo);
-				}
-
-				return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-			}
-			catch (Exception e)
-			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-			}
-		}
-
-		//---------------------------------------------------------------------
+	/*	//---------------------------------------------------------------------
 		private ApplicationInfo CreateNeededFiles(string appName, string modName, ApplicationType? type)
 		{
 			if (!ApplicationService.ExistsApplication(appName))
@@ -154,9 +197,9 @@ namespace Microarea.EasyStudio.Controllers
 						EasyBuilderAppFileListManager.AddToCustomList(manager.PathFinder.GetModuleConfigFullName(applicationName, moduleName));
 
 						// avvisa l'applicazione di ricaricare
-						CUtility.ReloadApplication(applicationName);*/
+						CUtility.ReloadApplication(applicationName);
 			return ai;
-		}
+		}*/
 
 		//---------------------------------------------------------------------
 		[Route("setAppAndModule")]
@@ -204,7 +247,7 @@ namespace Microarea.EasyStudio.Controllers
 				//app = EsPreferences.ReadProperty(defaultContextApplication);
 				//mod = EsPreferences.ReadProperty(defaultContextModule);
 
-				string directPath = Path.Combine(Manager.PathFinder.GetCustomESHomePath(), app, mod);
+				string directPath = Path.Combine(Manager.PathFinder.GetEasyStudioHomePath(), app, mod);
 				if (!Manager.PathFinder.FileSystemManager.ExistPath(directPath))
 				{
 					app = mod = ""; //TODOROBY togliere la coppia da preferences

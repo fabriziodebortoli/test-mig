@@ -53,6 +53,7 @@ namespace Microarea.Common.NameSolver
         #endregion
 
         bool? singleThreaded;
+        bool easyStudioAppsInCustom = true;
 
         #region membri privati
         private static readonly object staticLockTicket = new object();
@@ -91,6 +92,8 @@ namespace Microarea.Common.NameSolver
 
         #region Proprieta' 
 
+        //-----------------------------------------------------------------------------
+        public bool EasyStudioAppsInCustom { get => easyStudioAppsInCustom; set => easyStudioAppsInCustom = value; }
 
         public string GetStandardPath { get { return standardPath; } }
         //-----------------------------------------------------------------------------
@@ -635,15 +638,6 @@ namespace Microarea.Common.NameSolver
             return customApplicationPath + NameSolverStrings.Directoryseparetor + moduleName;
         }
 
-		//-----------------------------------------------------------------------------
-		public string GetCustomESHomePath()
-		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, NameSolverStrings.EasyStudioHome);
-		}
-
-
-
-
 		protected InstallationVersion GetInstallationVer()
         {
             string path = GetInstallationVersionPath();
@@ -685,7 +679,7 @@ namespace Microarea.Common.NameSolver
 
             //aggiungo l'applicazione all'array
             if (applicationInfo.IsKindOf(applicationType))
-                applications.Add(applicationInfo);
+                ApplicationInfos.Add(applicationInfo);
         }
         //---------------------------------------------------------------------
         protected bool Init()
@@ -2248,7 +2242,7 @@ namespace Microarea.Common.NameSolver
             }
 
             string folder = (aApplicationType == ApplicationType.Customization)
-                ? GetCustomAllCompaniesPath() //GetCustomESHomePath TODOROBY
+                ? GetEasyStudioHomePath()
 				: standardPath; 
             return Path.Combine(folder, appContainerName);
         }
@@ -3496,6 +3490,7 @@ namespace Microarea.Common.NameSolver
             }
         }
 
+   
 
 
         //Spostata
@@ -4243,5 +4238,34 @@ namespace Microarea.Common.NameSolver
 
             }
         }
+        #region EasyStudio functions
+
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioHomePath(bool createDir = false)
+        {
+            string path = string.Empty;
+            if (EasyStudioAppsInCustom)
+                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, NameSolverStrings.EasyStudioHome);
+            else
+                path = Path.Combine(GetStandardPath, NameSolverStrings.EasyStudioHome);
+
+            if (createDir)
+                FileSystemManager.CreateFolder(path, true);
+
+            return path;
+        }
+
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioCustomizationsPath(bool createDir = false)
+        {
+            string path = Path.Combine(GetEasyStudioHomePath(createDir), NameSolverStrings.Applications);
+
+            if (createDir)
+                FileSystemManager.CreateFolder(path, true);
+
+            return path;
+        }
+
+        #endregion
     }
 }
