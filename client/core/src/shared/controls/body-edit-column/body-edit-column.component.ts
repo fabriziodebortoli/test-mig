@@ -2,6 +2,7 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { EnumsService } from './../../../core/services/enums.service';
 import { ColumnComponent } from '@progress/kendo-angular-grid';
 import { LayoutService } from './../../../core/services/layout.service';
+import { BodyEditService } from './../../../core/services/body-edit.service';
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ContentChild, TemplateRef, ChangeDetectorRef, ViewChild, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
@@ -26,7 +27,8 @@ export class BodyEditColumnComponent extends ControlComponent {
     public enumsService: EnumsService,
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public bodyEditService:BodyEditService
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }

@@ -29,6 +29,12 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     @Input() public hotLink: HotLinkInfo;
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") public dropdownlist: any;
+
+    //TODOLUCA, qua non dovrebbero proprio esserci, 
+    @Input('rows') rows: number = 0;
+    @Input('chars') chars: number = 0;
+    
+
     public isCombo = true;
     private isReady: Observable<boolean>;
 

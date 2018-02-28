@@ -1,6 +1,5 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Store } from './../../../core/services/store.service';
 import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
   OnChanges, AfterContentInit, OnInit, Output, HostListener, EventEmitter, ChangeDetectorRef, SimpleChanges
@@ -21,6 +20,7 @@ export class TextComponent extends ControlComponent implements OnChanges {
   @Input('readonly') readonly: boolean = false;
   @Input() public hotLink: { namespace: string, name: string };
   @Input('rows') rows: number = 0;
+  @Input('chars') chars: number = 0;
   @Input('textlimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
   @Input('multiline') multiline: boolean = false;
@@ -30,9 +30,6 @@ export class TextComponent extends ControlComponent implements OnChanges {
 
   constructor(
     public eventData: EventDataService,
-    public vcr: ViewContainerRef,
-    public componentResolver: ComponentFactoryResolver,
-    private store: Store,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
@@ -62,18 +59,5 @@ export class TextComponent extends ControlComponent implements OnChanges {
     if (this.textlimit > 0 && (this.maxLength == 0 || this.textlimit < this.maxLength)) {
       this.maxLength = this.textlimit;
     }
-
-    // Metodo con Store
-    // ngOnInit() {
-    //   this.store
-    //     .select(_ => this.model && this.model.length)
-    //     .subscribe(this.handleLength);
-    // }
-
-    // handleLength = length => {
-    //   this.maxLength = this.model ? this.model.length : 0;
-    //   if (this.textlimit > 0 && (this.maxLength == 0 || this.textlimit < this.maxLength)) {
-    //     this.maxLength = this.textlimit;
-    //   }
   }
 }

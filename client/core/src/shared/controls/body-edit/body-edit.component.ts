@@ -13,6 +13,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { HttpService } from './../../../core/services/http.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
+import { BodyEditService } from './../../../core/services/body-edit.service';
 
 import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
@@ -23,13 +24,15 @@ import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/r
 import { apply, diff } from 'json8-patch';
 import * as _ from 'lodash';
 
+
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
 @Component({
 
   selector: 'tb-body-edit',
   templateUrl: './body-edit.component.html',
-  styleUrls: ['./body-edit.component.scss']
+  styleUrls: ['./body-edit.component.scss'],
+  providers: [BodyEditService]
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
@@ -69,7 +72,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     public tbComponentService: TbComponentService,
     public httpService: HttpService,
     public store: Store,
-    private eventData: EventDataService
+    private eventData: EventDataService,
+    public bodyEditService: BodyEditService
   ) {
     super(layoutService, tbComponentService, cdr);
     this.selectableSettings = { checkboxOnly: false, mode: "single" };
@@ -281,10 +285,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   increaseRowHeight() {
 
+    this.rowHeight+= 10;
   }
 
   decreaseRowHeight() {
 
+    this.rowHeight-= 10;
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -344,6 +350,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     //this.model.rows = dbt.rows;
 
     this.model.prototype = dbt.prototype;
+    this.bodyEditService.prototype = this.model.prototype;
     this.currentDbtRowIdx = dbt.currentRowIdx;
     console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip )
     this.currentGridIdx = dbt.currentRowIdx - this.skip;

@@ -12,8 +12,11 @@ import { ControlComponent } from './../control.component';
 })
 export class LabelStaticComponent extends ControlComponent {
 
-  @Input() public hotLink: { namespace: string, name: string};
-
+  @Input() public hotLink: { namespace: string, name: string };
+  //TODOLUCA, aggiungere derivazione da textedit, e spostare rows e chars come gestione nel componente text
+  @Input('rows') rows: number = 0;
+  @Input('chars') chars: number = 0;
+  
   constructor(
     layoutService: LayoutService,
     tbComponentService: TbComponentService,

@@ -1,10 +1,17 @@
-<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="100" [editable]="true">
+<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="bodyEditService?.prototype ? bodyEditService.prototype[columnName]?.length: 100" [editable]="true">
+
+    <ng-template kendoGridHeaderTemplate>
+        <div class="headerTitle">
+            {{title}}
+        </div>
+    </ng-template>
 
     <ng-template kendoGridCellTemplate let-dataItem="dataItem">
         <div *ngIf="dataItem">
             <input type="checkbox" [checked]="dataItem[columnName]?.value" [disabled]="true" />
         </div>
     </ng-template>
+
     <ng-template kendoGridEditTemplate let-dataItem="dataItem">
         <ng-template *ngIf="dataItem" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ columnModel: dataItem[columnName]  }">
             <ng-content></ng-content>

@@ -18,15 +18,18 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   @Input('readonly') readonly: boolean = false;
   mask = '';
   public constraint: RegExp;
+  //TODOLUCA, aggiungere derivazione da textedit, e spostare rows e chars come gestione nel componente text
+  @Input('rows') rows: number = 0;
+  @Input('chars') chars: number = 0;
 
- @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
-  
+  @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef:ChangeDetectorRef) {
-    super(layoutService, tbComponentService,changeDetectorRef);
+    changeDetectorRef: ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   ngOnInit() {
@@ -71,14 +74,14 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     var arEmail = this.model.value.split(";");
     this.cc.errorMessage = '';
     if (arEmail.length > 0) {
-      for (var i = 0; i < arEmail.length; i++) { 
+      for (var i = 0; i < arEmail.length; i++) {
         if (!this.constraint.test(arEmail[i].trim())) {
           this.cc.errorMessage = 'Input not in correct form';
           break;
-        }  
+        }
       }
     }
-   
+
     this.eventData.change.emit(this.cmpId);
   }
 }

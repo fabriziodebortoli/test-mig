@@ -21,6 +21,11 @@ import 'rxjs';
 
 export class AddressEditComponent extends ControlComponent {
 
+    //TODOLUCA, aggiungere derivazione da textedit, e spostare rows e chars come gestione nel componente text
+    @Input('rows') rows: number = 0;
+    @Input('chars') chars: number = 0;
+    
+
     @Input('readonly') readonly = false;
     @Input() slice: any;
     @Input() selector: Selector<any, any>;

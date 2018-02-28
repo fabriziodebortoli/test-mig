@@ -3,10 +3,12 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { EnumsService } from './../../../core/services/enums.service';
 import { ColumnComponent } from '@progress/kendo-angular-grid';
 import { LayoutService } from './../../../core/services/layout.service';
+import { BodyEditService } from './../../../core/services/body-edit.service';
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ContentChild, TemplateRef, forwardRef, ChangeDetectorRef, ViewChild, AfterContentInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { ControlComponent } from './../control.component';
+
 
 @Component({
   selector: 'tb-body-edit-checkbox-column',
@@ -28,9 +30,10 @@ export class BodyEditCheckBoxColumnComponent extends BodyEditColumnComponent {
     public enumsService: EnumsService,
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public bodyEditService:BodyEditService
   ) {
-    super(enumsService, layoutService, tbComponentService, changeDetectorRef);
+    super(enumsService, layoutService, tbComponentService, changeDetectorRef, bodyEditService);
   }
 }
 

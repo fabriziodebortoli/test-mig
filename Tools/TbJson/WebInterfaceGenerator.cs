@@ -892,6 +892,8 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
+                            WriteAttribute(jObj, Constants.width, Constants.width);
+
                             w.CloseBeginTag();
 
                             using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
@@ -901,7 +903,9 @@ namespace Microarea.TbJson
 
                                 using (OpenCloseTagWriter w1 = new OpenCloseTagWriter(wCol.Name, this, true))
                                 {
-                                    
+                                    WriteAttribute(jObj, Constants.rows, Constants.rows);
+                                    WriteAttribute(jObj, Constants.chars, Constants.chars);
+
                                     WriteColumnBindingAttributes(jObj, true);
 
                                     var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
