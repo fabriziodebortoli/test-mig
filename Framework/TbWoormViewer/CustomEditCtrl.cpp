@@ -353,7 +353,7 @@ BOOL CCustomEditCtrl::FillIntelliSenseList(CObList& lstIntelliSenseData,
 	}
 
 	// here substitute with trie
-	IntellisenseData* pData;
+	//IntellisenseData* pData;
 	ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
 
 	m_mIntelliMap->matchPrefix(lstIntelliSenseData, lpszIntelliSense);
@@ -375,7 +375,7 @@ BOOL CCustomEditCtrl::OnIntelliSenseComplete(int nIdx, CBCGPIntelliSenseData* pD
 	int i = 0;
 	for (i = offset; i >= 0; i--)
 	{
-		char k = GetCharAt(i);
+		TCHAR k = GetCharAt(i);
 		if (m_strIntelliSenseChars.Find(k, 0) == -1)
 			break;
 	}
@@ -400,7 +400,7 @@ BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 	}
 
 	IntellisenseMap::IntellisenseNode* node = m_mIntelliMap->search(strWord.MakeUpper());
-	if (node && node->isEndOfWord);
+	if (node && node->isEndOfWord)
 	{
 		return TRUE;
 	}
