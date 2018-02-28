@@ -20,10 +20,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 	public class ApplicationService : Component, IService
 	{
 		ApplicationSerializer serializer;
-		public string CurrentApplication { get; set; }
-		public string CurrentModule { get; set; }
-
-		//---------------------------------------------------------------
+	
+        //---------------------------------------------------------------
 		public ISerializer Serializer
 		{
 			get
@@ -179,18 +177,5 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			return sw.ToString();
 		}
 	}
-
-
-
-	//====================================================================
-	public class Customizationcontext
-	{
-		string CurrentApplication { get; set; }
-		string CurrentModule { get; set; }
-
-
-	}
-
-
 }
 

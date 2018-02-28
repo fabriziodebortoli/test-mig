@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.NameSolver;
 using System.IO;
+using TaskBuilderNetCore.EasyStudio.Interfaces;
 
 namespace Microarea.EasyStudio.Controllers
 {
@@ -16,28 +17,30 @@ namespace Microarea.EasyStudio.Controllers
 	[Route("easystudio")]
     public class EasyStudioController : Microsoft.AspNetCore.Mvc.Controller
     {
-		private ServicesManager Manager { get; set; }
-		private ApplicationService applicationServiceInstance;
+		private IServiceManager Manager { get; set; }
+		private ApplicationService ApplicationService { get => Manager?.GetService(typeof(ApplicationService)) as ApplicationService; }
         //---------------------------------------------------------------------
-        public EasyStudioController()
+        public EasyStudioController(IServiceManager serviceManager)
         {
-			Manager = ServicesManager.ServicesManagerInstance;
-			applicationServiceInstance = Manager?.GetService(typeof(ApplicationService)) as ApplicationService;
-			if(applicationServiceInstance == null)
-			{
-				//TODOROBY
-			}
+            Manager = serviceManager;
+		
 		}
+        //-----item-customizations-dropdown--------------------------------------------------------------
+        [Route("discovery")]
+        public IActionResult Discovery()
+        {
+            return new ContentResult { StatusCode = 200, Content =  "{ 'Message': 'Buongiorno!  Sono il servizio ES!' }", ContentType = "application/json" };
+        }
 
-		//-----item-customizations-dropdown--------------------------------------------------------------
-		[Route("getCustomizationsForDocument")]
+        //-----item-customizations-dropdown--------------------------------------------------------------
+        [Route("getCustomizationsForDocument")]
 		public IActionResult GetCustomizationsForDocumentFunction([FromBody] JObject value)
 		{
 			try
 			{
 				string docNS = value["ns"]?.Value<string>();
 				string user = value["user"]?.Value<string>();
-				var res = applicationServiceInstance.GetListCustomizations(docNS, user);
+				var res = ApplicationService.GetListCustomizations(docNS, user);
 				if (res == null || !IsDesignable(new NameSpace(docNS)))
 					res = "";
 				return new ContentResult { StatusCode = 200, Content = res, ContentType = "application/json" };
@@ -54,7 +57,7 @@ namespace Microarea.EasyStudio.Controllers
 		{
 			try
 			{
-				var json = applicationServiceInstance.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
+				var json = ApplicationService.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
 				return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 			}
 			catch (Exception e)
@@ -70,7 +73,7 @@ namespace Microarea.EasyStudio.Controllers
 			try
 			{
 				Manager.PathFinder.ApplicationInfos.Clear();
-				var json = applicationServiceInstance.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
+				var json = ApplicationService.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
 				return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
 			}
 			catch (Exception e)
@@ -91,8 +94,8 @@ namespace Microarea.EasyStudio.Controllers
 		{
 			try
 			{
-				string app = applicationServiceInstance.CurrentApplication;
-				string mod = applicationServiceInstance.CurrentModule;
+                string app = string.Empty; // ApplicationService.CurrentApplication;
+                string mod = string.Empty; // ApplicationService.CurrentModule;
 				string res = ((app != null) && (mod != null)) ? app + ";" + mod : "";
 
 				return new ContentResult { StatusCode = 200, Content = res, ContentType = "application/json" };
@@ -132,15 +135,15 @@ namespace Microarea.EasyStudio.Controllers
 		//---------------------------------------------------------------------
 		private ApplicationInfo CreateNeededFiles(string appName, string modName, ApplicationType? type)
 		{
-			if (!applicationServiceInstance.ExistsApplication(appName))
-				applicationServiceInstance.CreateApplication(appName, type ?? ApplicationType.Customization);
+			if (!ApplicationService.ExistsApplication(appName))
+                ApplicationService.CreateApplication(appName, type ?? ApplicationType.Customization);
 			ApplicationInfo ai = Manager.PathFinder.GetApplicationInfoByName(appName);
 			if (ai == null)
 				return null;
-			if (!applicationServiceInstance.ExistsModule(appName, modName))
+			if (!ApplicationService.ExistsModule(appName, modName))
 			{
 				ai.AddDynamicModule(modName);
-				if(!applicationServiceInstance.CreateModule(appName, modName) )
+				if(!ApplicationService.CreateModule(appName, modName) )
 					return null;
 			}
 			//TODOROBY
@@ -167,8 +170,8 @@ namespace Microarea.EasyStudio.Controllers
 				string user = value["user"]?.Value<string>();
 				string company = value["company"]?.Value<string>();
 
-				applicationServiceInstance.CurrentApplication= appName;
-				applicationServiceInstance.CurrentModule = modName;
+            //    ApplicationService.CurrentApplication= appName;
+            //    ApplicationService.CurrentModule = modName;
 
 				/*TODOROBY SCRIVERE ESPREFERENCES.json
 				ritornare l'esito di questa operazione ad angular ????????

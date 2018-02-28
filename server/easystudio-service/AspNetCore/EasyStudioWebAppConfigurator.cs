@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TaskBuilderNetCore.EasyStudio.Interfaces;
+using TaskBuilderNetCore.EasyStudio;
 
 namespace Microarea.EasyStudio.AspNetCore
 {
@@ -22,25 +24,7 @@ namespace Microarea.EasyStudio.AspNetCore
         public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddApiVersioning(o =>
-            //{
-            //    o.ReportApiVersions = true;
-            //    o.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-            //    o.AssumeDefaultVersionWhenUnspecified = true;
-            //});
-            
-            //DI
-            //services.AddTransient<IOrchestratorService, OrchestratorService>();
-           // services.AddSingleton<IOrchestratorService, OrchestratorService>();
-
-            //Authorization
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(
-            //        "LoggedIn", policy => policy.Requirements.Add(new TbfAuthorizationRequirement())
-            //        );
-            //});
-            //services.AddSingleton<IAuthorizationHandler, TbfAuthorizationHandler>();
+            services.AddSingleton<IServiceManager, ServicesManager>();
         }
 
         public void MapRoutes(IRouteBuilder routes)

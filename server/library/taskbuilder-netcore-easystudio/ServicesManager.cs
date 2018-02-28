@@ -7,7 +7,7 @@ using TaskBuilderNetCore.EasyStudio.Interfaces;
 namespace TaskBuilderNetCore.EasyStudio
 {
     //====================================================================
-    public class ServicesManager : List<IService>
+    public class ServicesManager : List<IService>, IServiceManager
     {
 		PathFinder pathFinder;
 
@@ -16,24 +16,7 @@ namespace TaskBuilderNetCore.EasyStudio
         {
 			pathFinder = new PathFinder("", "");
 
-		}
-
-        private static ServicesManager servicesManagerInstance;
-        private static readonly object staticLock = new object();
-
-        public static ServicesManager ServicesManagerInstance
-        {
-            get
-            {
-                lock (staticLock)
-                {
-                    if (servicesManagerInstance == null)
-                        servicesManagerInstance = new ServicesManager();
-
-                    return servicesManagerInstance;
-                }
-            }
-        }
+		} 
 
 		public PathFinder PathFinder
 		{
