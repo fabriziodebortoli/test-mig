@@ -8685,12 +8685,14 @@ BOOL CBodyEdit::CallDialog()
 		if (m_nCurrRecordIdx < 0)
 		{
 			int r = GetDBT()->GetCurrentRowIdx();
-			if (r >= 0)
-				SetCurrLine(r);
-			else if (!GetDBT()->IsEmpty())
-				SetCurrLine(0);
+			if (r < 0 && (!GetDBT()->IsEmpty() /* || (GetDocument()->GetFormMode() == CBaseDocument::NEW || GetDocument()->GetFormMode() == CBaseDocument::EDIT) */))
+				r = 0;
 
-			ASSERT(m_nCurrRecordIdx > -1);
+			if (r >= 0)
+			{
+				SetCurrLine(r);
+				ASSERT(m_nCurrRecordIdx > -1);
+			}
 		}
 
 		m_pRowFormView->Attach(this);
