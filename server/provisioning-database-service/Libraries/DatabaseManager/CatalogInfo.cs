@@ -1733,7 +1733,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		const string TABLES = "tables";
 
 		# region Variables and Properties
-		private ArrayList tblDBList;
+		private List<CatalogTableEntry> tblDBList;
 		private List<CatalogViewEntry> vwDBList;	
 		private List<CatalogRoutineEntry> routineDBList;	
 
@@ -1742,8 +1742,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		private bool valid = true;
 	
 		//---------------------------------------------------------------------------
-		public	ArrayList	TblDBList		{ get { return tblDBList; } }
-		public List<CatalogViewEntry> VwDBList	{ get { return vwDBList; }  }	
+		public List<CatalogTableEntry> TblDBList		{ get { return tblDBList; } }
+		public List<CatalogViewEntry> VwDBList			{ get { return vwDBList; }  }	
 		public List<CatalogRoutineEntry> RoutineDBList	{ get { return routineDBList; }  }
 		public  bool		Valid			{ get { return valid; } }	
 		public	string		SchemaName		{ get { return schemaName; } }
@@ -1753,23 +1753,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public CatalogInfo()
 		{
-			tblDBList		= new ArrayList();
+			tblDBList		= new List<CatalogTableEntry>();
 			vwDBList		= new List<CatalogViewEntry>();
 			routineDBList	= new List<CatalogRoutineEntry>();
 		}
 		# endregion
 
 		# region Serialization 
-		//usata per serializzare il catalog ad uso e consumo del woormEditor web
-		//--------------------------------------------------------------------------
-		public CatalogInfo(SerializationInfo info, StreamingContext context)
-		{
-			tblDBList = new ArrayList();
-			object[] arTbls = (object[])info.GetValue(TABLES, typeof(object[]));
-			if (arTbls != null)
-				tblDBList.Add(arTbls);
-		}
-
 		//--------------------------------------------------------------------------
 		public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
 		{

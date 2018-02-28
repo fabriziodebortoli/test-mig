@@ -1066,10 +1066,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		{
 			// faccio il sort (per numero di step crescente) solo se la lista contiene almeno 2 elementi
 			if (moduleDBInfo.MissingEntryList.Count > 1)
-			{
-				IComparer<EntryDBInfo> entryComparer = new CustomSortMissingEntryList();
-				moduleDBInfo.MissingEntryList.Sort(entryComparer);
-			}
+				moduleDBInfo.MissingEntryList.Sort(new CustomSortMissingEntryList());
 
 			FindScriptForMissingTables(moduleDBInfo);
 		}
@@ -1283,16 +1280,24 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public int Compare(EntryDBInfo x, EntryDBInfo y)
 		{
-			CaseInsensitiveComparer comparer = new CaseInsensitiveComparer(System.Globalization.CultureInfo.InvariantCulture);
-			
 			// ordino per numero di step crescente
-			int i = comparer.Compare(x.Step, y.Step);
+			int i = Compare(x.Step, y.Step);
 
 			// a parità di numero di step, ordino per numero di release (sempre crescente)
 			if (i == 0)
-				i = comparer.Compare(x.Rel, y.Rel);
+				i = Compare(x.Rel, y.Rel);
 
 			return i;
+		}
+
+		//---------------------------------------------------------------------------
+		private int Compare(int step1, int step2)
+		{
+			// CompareTo results
+			// -1     First int is smaller.
+			// 1      First int is larger.
+			// 0      Ints are equal.
+			return step1.CompareTo(step2);
 		}
 	}
 	# endregion

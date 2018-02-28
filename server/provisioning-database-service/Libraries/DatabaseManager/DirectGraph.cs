@@ -38,10 +38,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 	//============================================================================
 	public class Vertex
 	{
-		public string		Label;
-		public bool			Visited;
-		public ArrayList	WeightedList;	// array di oggetti di tipo WeightItem 
-											// per gestire i pesi degli archi
+		public string			Label;
+		public bool				Visited;
+		public List<WeightItem> WeightedList;	// array di oggetti di tipo WeightItem per gestire i pesi degli archi
+
 		/// <summary>
 		/// costruttore classe Vertex
 		/// </summary>
@@ -50,7 +50,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		{
 			Label			= lab;
 			Visited			= false;
-			WeightedList	= new ArrayList();
+			WeightedList	= new List<WeightItem>();
 		}	
 
 		/// <summary>
@@ -94,12 +94,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		private int					vertsCount;		// n° effettivo di vertici presenti nel grafo
 		private int[,]				adjMatrix;		// matrice di interi bidimensionale (o di adiacenza)
 
-		private ArrayList			vertexList;		// array di oggetti di tipo Vertex
-		public  ArrayList			SortedArray;	// array di label
+		private List<Vertex>		vertexList;		// array di oggetti di tipo Vertex
+		public	List<string>		SortedArray;	// array di label
 		public	List<Vertex>		visitingNodes	= new List<Vertex>();
 		public  DependencyInfoList	DependencyList	= null; // per tenere traccia delle dipendenze
-
-		private string				sortedLabel		= string.Empty;
 
 		// mi serve per inserire nell'output la struttura delle dipendenze (a solo scopo debug)
 		//----------------------------------------------------
@@ -114,7 +112,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public DirectGraph()
 		{
-			vertexList	= new ArrayList();
+			vertexList	= new List<Vertex>();
 			vertsCount	= 0;
 
 			// creo ed inizializzo la matrice di adiacenza
@@ -128,7 +126,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public DirectGraph(int numVerts)
 		{
-			vertexList	= new ArrayList();
+			vertexList	= new List<Vertex>();
 			vertsCount	= 0;
 			maxVerts	= numVerts;
 
@@ -196,7 +194,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			if (maxVerts < vertsCount)
 				CreateNewMatrix();
 
-			return vertexList.Add(new Vertex(label));
+			Vertex v = new Vertex(label);
+			vertexList.Add(v);
+			return vertexList.IndexOf(v);
 		}
 
 		/// <summary>
@@ -248,12 +248,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public int GetIdxVertex(string label)
 		{	
-			Vertex v;
-
 			for (int i = 0; i < vertexList.Count; i++)
 			{
-				v = (Vertex)vertexList[i];
-				if (string.Compare(v.Label, label, true) == 0)
+				if (string.Compare(vertexList[i].Label, label, true) == 0)
 					return i; // il vertice ESISTE nell'array
 			}
 			return -1; // il vertice non è stato ancora inserito nell'array
@@ -267,8 +264,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		private string GetVertexLabel(int selIdx)
 		{
-			Vertex v = (Vertex)vertexList[selIdx];
-			return v.Label;
+			return vertexList[selIdx].Label;
 		}
 
 		/// <summary>
@@ -280,8 +276,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public Vertex GetVertex(int selIdx)
 		{
-			Vertex v = (Vertex)vertexList[selIdx];
-			return v;
+			return vertexList[selIdx];
 		}
 
 		/// <summary>
@@ -293,11 +288,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		private Vertex GetVertexData(string label)
 		{
-			Vertex v;
-
-			for (int i = 0; i < vertexList.Count; i++)
+			foreach (Vertex v in vertexList)
 			{
-				v = (Vertex)vertexList[i];
 				if (string.Compare(v.Label, label, StringComparison.CurrentCultureIgnoreCase) == 0)
 					return v; // il vertice ESISTE nell'array
 			}
@@ -315,12 +307,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public int GetIdxSortedArray(string label)
 		{	
-			sortedLabel = string.Empty;
-
 			for (int i = 0; i < SortedArray.Count; i++)
 			{
-				sortedLabel = SortedArray[i].ToString();
-				if (string.Compare(sortedLabel, label, StringComparison.CurrentCultureIgnoreCase) == 0)
+				if (string.Compare(SortedArray[i], label, StringComparison.CurrentCultureIgnoreCase) == 0)
 					return i; // il vertice ESISTE nell'array
 			}
 
@@ -341,7 +330,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			AnalyzeDependencies();
 
 			int orig_Verts = vertsCount;
-			SortedArray = new ArrayList(vertsCount);
+			SortedArray = new List<string>(vertsCount);
 
 			while (vertsCount > 0)
 			{
@@ -467,7 +456,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				// costruisco in memoria la struttura delle dipendenze sulla base del grafo costruito.
 				AnalyzeDependencies();
 
-				SortedArray = new ArrayList(vertsCount);
+				SortedArray = new List<string>(vertsCount);
 				Vertex myVertex = null;
 				for (int row = 0; row < vertsCount; row++)
 				{
@@ -565,10 +554,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				{
 					// se gli elementi sono due o piu' eseguo un sort per numero di peso
 					if (vx.WeightedList.Count > 1)
-					{
-						IComparer comparer = new CustomSortWeightList();
-						vx.WeightedList.Sort(comparer);
-					}
+						vx.WeightedList.Sort(new CustomSortWeightList());
 
 					// x ogni elemento presente nella lista vado ad verificare:
 					// 1. se è già presente nel SortedArray calcolo dinamicamente quale indice gli è stato assegnato nel SortedArray
@@ -598,7 +584,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					}
 					else
 					{
-						precIdx = SortedArray.Add(vx.Label);
+						SortedArray.Add(vx.Label);
+						precIdx = SortedArray.IndexOf(vx.Label);
 						AppendTextToOutput(string.Format("SortedArray.Add label {0}", vx.Label));
 					}
 				}
@@ -618,16 +605,22 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		/// (weightList), ordinandolo per numero di peso crescente.
 		/// </summary>
 		//============================================================================
-		public class CustomSortWeightList : IComparer
+		public class CustomSortWeightList : IComparer<WeightItem>
 		{
 			//---------------------------------------------------------------------------
-			int IComparer.Compare(Object w1, Object w2)
+			public int Compare(WeightItem x, WeightItem y)
 			{
-				return (new CaseInsensitiveComparer(CultureInfo.InvariantCulture)).Compare
-					(
-						((WeightItem)w1).Weight, 
-						((WeightItem)w2).Weight
-					);
+				return Compare(x.Weight, y.Weight);
+			}
+
+			//---------------------------------------------------------------------------
+			private int Compare(int weight1, int weight2)
+			{
+				// CompareTo results
+				// -1     First int is smaller.
+				// 1      First int is larger.
+				// 0      Ints are equal.
+				return weight1.CompareTo(weight2);
 			}
 		}
 		# endregion
@@ -693,8 +686,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 	//============================================================================
 	public class DependencyInfo
 	{
-		public string	 AncestorName	= string.Empty; 
-		public ArrayList ChildList		= null;
+		public string		AncestorName	= string.Empty; 
+		public List<string> ChildList		= null;
 
 		/// <summary>
 		/// costruttore classe DependencyInfo
@@ -702,12 +695,12 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		//---------------------------------------------------------------------------
 		public DependencyInfo()
 		{
-			ChildList = new ArrayList();
+			ChildList = new List<string>();
 		}
 	}
 
 	//============================================================================
-	public class DependencyInfoList : ArrayList
+	public class DependencyInfoList : List<DependencyInfo>
 	{
 		//---------------------------------------------------------------------------
 		public DependencyInfoList()
