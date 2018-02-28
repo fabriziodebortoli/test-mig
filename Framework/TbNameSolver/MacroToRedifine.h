@@ -98,6 +98,11 @@
 #endif
 #define ASSERT(f) ((void)(!AfxGetApplicationContext()->AreReleaseAssertionsEnabled() || ASSERT_ALWAYS(f)))
 
+#ifdef ASSERT_VALID
+#undef ASSERT_VALID
+#endif
+#define ASSERT_VALID(f) (ASSERT(f))
+
 #ifdef ASSERT_TRACE
 #undef ASSERT_TRACE
 #endif
