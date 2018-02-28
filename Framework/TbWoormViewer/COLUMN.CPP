@@ -2760,6 +2760,8 @@ FontIdx TableColumn::GetCellDynamicFontIdx	() const
 {
 	if (!m_pTextFontExpr)
 		return FNT_ERROR;
+	if (m_pTextFontExpr->IsEmpty())
+		return FNT_ERROR;
 
 	DataStr sFontStyle;
 	if (m_pTextFontExpr->Eval(sFontStyle))
@@ -2775,6 +2777,8 @@ FontIdx TableColumn::GetCellDynamicFontIdx	() const
 FormatIdx TableColumn::GetCellDynamicFormatIdx	() const
 {
 	if (!m_pCellFormatterExpr)
+		return FNT_ERROR;
+	if (m_pCellFormatterExpr->IsEmpty())
 		return FNT_ERROR;
 
 	DataStr sFormatStyle;
@@ -2792,6 +2796,8 @@ Formatter* TableColumn::GetCellDynamicFormatter	() const
 {
 	if (!m_pCellFormatterExpr)
 		return NULL;
+	if (m_pCellFormatterExpr->IsEmpty())
+		return NULL;
 
 	DataStr sFormatStyle;
 	if (m_pCellFormatterExpr->Eval(sFormatStyle))
@@ -2807,7 +2813,9 @@ Formatter* TableColumn::GetCellDynamicFormatter	() const
 //------------------------------------------------------------------------------
 BOOL TableColumn::GetCellDynamicBorders	(Borders& b) const
 {
-	if (!m_pCellBordersExpr || m_pTitleTextColorExpr->IsEmpty())
+	if (!m_pCellBordersExpr)
+		return FALSE;
+	if (m_pCellBordersExpr->IsEmpty())
 		return FALSE;
 
 	DataStr s;
@@ -2826,7 +2834,7 @@ BOOL TableColumn::GetCellDynamicBorders	(Borders& b) const
 CString TableColumn::GetTitleTooltip () const
 {
 	DataStr sTip;
-	if (m_pTitleTooltipExpr)
+	if (m_pTitleTooltipExpr && !m_pTitleTooltipExpr->IsEmpty())
 		m_pTitleTooltipExpr->Eval(sTip);
 
 	return sTip;
