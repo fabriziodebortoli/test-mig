@@ -40,9 +40,13 @@ namespace Microarea.EasyStudio.Controllers
         //=========================================================================
         internal class Strings
         {
-            internal static readonly string MissingApplicationName = "Missing parameter applicationName";
-            internal static readonly string MissingApplicationType = "Missing parameter applicationType";
-            internal static readonly string SuccessfullCompleted = "Operation successfull completed";
+            internal static readonly string MissingApplicationName      = "Missing parameter applicationName";
+            internal static readonly string MissingApplicationType      = "Missing parameter applicationType";
+            internal static readonly string MissingModuleName           = "Missing parameter moduleName";
+            internal static readonly string ObjectSuccessfullyCreated   = "Object Successfully Created";
+            internal static readonly string ErrorCreatingObject         = "Error Creating Object";
+            internal static readonly string ObjectSuccessfullyDeleted   = "Object Successfully Deleted";
+            internal static readonly string ErrorDeletingObject         = "Error Deleting Object";
         }
     }
 }

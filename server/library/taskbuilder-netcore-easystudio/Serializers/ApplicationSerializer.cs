@@ -78,7 +78,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             if (this.PathFinder.FileSystemManager.ExistPath(standardApplicationFolder))
             {
-                this.PathFinder.FileSystemManager.RemoveFolder(standardApplicationFolder, true, true, false);
+                this.PathFinder.FileSystemManager.RemoveFolder(standardApplicationFolder, true, false, false);
                 return true;
             }
             return false;
@@ -99,7 +99,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             if (this.PathFinder.FileSystemManager.ExistPath(basePath))
             {
-                this.PathFinder.FileSystemManager.RemoveFolder(basePath, true, true, false);
+                this.PathFinder.FileSystemManager.RemoveFolder(basePath, true, false, false);
                 return true;
             }
 

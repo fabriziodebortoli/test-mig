@@ -69,9 +69,9 @@ namespace Microarea.EasyStudio.Controllers
             }
         }
         */
-        //-----item-customizations-dropdown--------------------------------------------------------------
+        //-----------------------------------------------------------------------
         [Route("application/create")]
-        public IActionResult Create(string parameters)
+        public IActionResult Application_Create(string parameters)
         {
             JObject jsonParams = JObject.Parse(parameters);
             string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
@@ -94,10 +94,34 @@ namespace Microarea.EasyStudio.Controllers
                 success = ApplicationService.CreateModule(applicationName, moduleName);
 
             if (success)            
-                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.SuccessfullCompleted);
+                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyCreated);
 
-            return ToContentResult(500, DiagnosticType.Error, "aaa");
+            return ToContentResult(500, DiagnosticType.Error, ControllerDiagnostic.Strings.ErrorCreatingObject);
         }
+
+        //-----------------------------------------------------------------------
+        [Route("application/delete")]
+        public IActionResult Application_Delete(string parameters)
+        {
+            JObject jsonParams = JObject.Parse(parameters);
+            string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
+            var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
+
+            if (string.IsNullOrEmpty(applicationName))
+                return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
+
+            bool success = true;
+            if (!string.IsNullOrEmpty(moduleName))
+                success = ApplicationService.DeleteModule(applicationName, moduleName);
+            else
+                success = ApplicationService.DeleteApplication(applicationName);
+
+            if (success)
+                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyDeleted);
+
+            return ToContentResult(500, DiagnosticType.Error, ControllerDiagnostic.Strings.ErrorDeletingObject);
+        }
+
 
         //-----item-customizations-dropdown--------------------------------------------------------------
         [Route("getCustomizationsForDocument")]
