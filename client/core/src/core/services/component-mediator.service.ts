@@ -1,4 +1,4 @@
-import { Injectable, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Injectable, ChangeDetectorRef, ElementRef, Optional } from '@angular/core';
 import { LayoutService } from './layout.service';
 import { TbComponentService } from './tbcomponent.service';
 import { EventDataService } from './eventdata.service';
@@ -8,7 +8,7 @@ import { DataService } from './data.service';
 import { StorageService } from './storage.service';
 import { ComponentInfoService } from './component-info.service';
 import { ControlComponent } from './../../shared/controls/control.component';
-
+import { get } from 'lodash';
 
 @Injectable()
 export class ComponentMediator {
@@ -22,16 +22,17 @@ export class ComponentMediator {
         public eventData: EventDataService,
         public data: DataService,
         public storage: StorageService,
-        private cmpInfoService: ComponentInfoService,
-        private elRef: ElementRef,
+        @Optional() private cmpInfoService: ComponentInfoService,
+        @Optional() private elRef: ElementRef
     ) {
         this.log = tbComponent.logger;
         this.document = tbComponent as DocumentService;
         this.storage.options.componentInfo = {
             ...this.storage.options.componentInfo,
-            type: elRef.nativeElement.localName || elRef.nativeElement.nodeName || elRef.nativeElement.tagName,
-            app: cmpInfoService.componentInfo.app,
-            mod: cmpInfoService.componentInfo.mod
+            type: elRef && elRef.nativeElement &&
+                (elRef.nativeElement.localName || elRef.nativeElement.nodeName || elRef.nativeElement.tagName),
+            app: get(cmpInfoService , 'componentInfo.app'),
+            mod: get(cmpInfoService, 'componentInfo.mod')
         };
     }
 }
