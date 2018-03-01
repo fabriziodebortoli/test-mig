@@ -42,6 +42,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @Input() columns: Array<any>;
   public selectableSettings: SelectableSettings;
 
+  
   isRowSelected = (e: RowArgs) => e.index == this.currentGridIdx;
   currentGridIdx: number = -1;
   currentDbtRowIdx: number = -1;
@@ -50,12 +51,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   public skip = -1;
   public pageSize: number = 15;
-  public currentRow: any = undefined;
+  
   public enabled: boolean = false;
   public isLoading: boolean = false;
   public pageSizes = false;
   public previousNext = true;
-  public rowHeight: number = 25;
   public currentPage: number = 0;
   public rowCount: number = 0;
   public gridView: GridDataResult;
@@ -152,7 +152,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.grid.columns.reset(internalColumnComponents);
     });
 
-    let numberOfVisibleRows = Math.ceil(this.height / this.rowHeight);
+    let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
     this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.subscribeToSelector();
 
@@ -169,7 +169,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   pageChange(event) {
     this.skip = event.skip;
-    console.log("pagechange", event.skip, event.take);
     this.changeDBTRange();
 
   }
@@ -188,7 +187,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
       let colComponent = this.grid.columns.toArray()[columnIndex];
       let colName = colComponent.field;
-      let isEnabled = this.currentRow[colName].enabled
+      let isEnabled = this.bodyEditService.currentRow[colName].enabled
       if (isEnabled) {
         this.lastEditedRowIndex = rowIndex;
         this.lastEditedColumnIndex = columnIndex;
@@ -210,23 +209,27 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     if (!selectedRow || !selectedRow.dataItem)
       return;
 
-    this.currentRow = selectedRow.dataItem;
+    console.log("selectedRow this.currentDbtRowIdx", selectedRow, this.currentDbtRowIdx, "this.skip", this.skip)
+
+
+    this.bodyEditService.currentRow = selectedRow.dataItem;
     this.currentGridIdx = selectedRow.index;
     this.currentDbtRowIdx = selectedRow.index + this.skip;
-
+    console.log("after selected row  this.currentDbtRowIdx", this.currentGridIdx, this.currentDbtRowIdx)
     for (var prop in selectedRow.dataItem) {
-      this.currentRow[prop].enabled = this.model.prototype[prop].enabled;
+      this.bodyEditService.currentRow[prop].enabled = this.model.prototype[prop].enabled;
     }
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, selectedRow.index).subscribe((res) => {
-
+      sub.unsubscribe();
       // addModelBehaviour(selectedRow.dataItem);
       // this.currentRowIdx = selectedRow.index;
       // this.currentRow = selectedRow.dataItem;
     });
   }
 
+  //-----------------------------------------------------------------------------------------------
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
@@ -248,6 +251,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     });
   }
 
+  //-----------------------------------------------------------------------------------------------
   removeRow() {
     if (this.currentGridIdx < 0)
       return;
@@ -261,6 +265,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     });
   }
 
+  //-----------------------------------------------------------------------------------------------
   changeRow() {
     if (this.currentGridIdx < 0)
       return;
@@ -272,28 +277,34 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     });
   }
 
+  //-----------------------------------------------------------------------------------------------
   openRowView() {
 
   }
 
+  //-----------------------------------------------------------------------------------------------
   enableMultiselection() {
 
   }
 
+  //-----------------------------------------------------------------------------------------------
   enhancedView() {
 
   }
 
+  //-----------------------------------------------------------------------------------------------
   increaseRowHeight() {
 
-    this.bodyEditService.rowHeight+= 10;
+    this.bodyEditService.increaseRowHeight();
   }
 
+  //-----------------------------------------------------------------------------------------------
   decreaseRowHeight() {
 
-    this.bodyEditService.rowHeight-= 10;
+    this.bodyEditService.decreaseRowHeight();
   }
 
+  //-----------------------------------------------------------------------------------------------
   private updateModel(dbt: any) {
 
     if (!dbt) {
@@ -301,12 +312,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
     }
 
-    this.model.rows = [];
+    console.log("updatemodel this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
 
     this.currentDbtRowIdx = dbt.currentRowIdx;
-    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
     this.currentGridIdx = dbt.currentRowIdx - this.skip;
-    this.rowCount = dbt.rowCount;
+    this.rowCount = dbt.rowCount ? dbt.rowCount : 0;
 
     this.gridView = {
       data: this.model.rows,

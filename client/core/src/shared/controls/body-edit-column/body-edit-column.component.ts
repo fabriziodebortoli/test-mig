@@ -27,6 +27,7 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   @ViewChild(ColumnComponent) columnComponent;
   @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
+  
   constructor(
     public enumsService: EnumsService,
     public layoutService: LayoutService,
