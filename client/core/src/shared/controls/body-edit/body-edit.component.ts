@@ -285,11 +285,13 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   increaseRowHeight() {
-    this.rowHeight += 10;
+
+    this.bodyEditService.rowHeight+= 10;
   }
 
   decreaseRowHeight() {
-    this.rowHeight -= 10;
+
+    this.bodyEditService.rowHeight-= 10;
   }
 
   private updateModel(dbt: any) {

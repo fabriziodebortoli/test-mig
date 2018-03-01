@@ -5,4 +5,5 @@ import { Observable, Subject } from '../../rxjs.imports';
 export class BodyEditService {
 
   public prototype: any;
+  public rowHeight: number = 25;
 }
