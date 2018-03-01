@@ -923,36 +923,45 @@ namespace Microarea.TbJson
                     }
                 case WndObjType.TileGroup:
                     {
-                        if (parentType == WndObjType.TileManager)
+                        OpenCloseTagWriter outer = null;
+                        using (var w = new OpenCloseTagWriter(Constants.tbTileGroup, this, false))
                         {
-                            using (var tmTab = new OpenCloseTagWriter(Constants.tbTileManagerTab, this, false))
+                            if (parentType != WndObjType.TileManager)
+                                htmlWriter.WriteAttribute(Square(Constants.active), "true");
+
+                            string title = jObj.GetLocalizableString(Constants.text);
+                            if (!string.IsNullOrEmpty(title))
                             {
-                                string title = jObj.GetLocalizableString(Constants.text);
-                                if (!string.IsNullOrEmpty(title))
-                                {
-                                    //rimuovo & acceleratore c++ dal text  //TODOLUCA
-                                    htmlWriter.WriteAttribute(Square(Constants.title), title);
-                                }
-
-                                AddIconAttribute(jObj);
-
-                                tmTab.CloseBeginTag();
-
-                                // wrappo tutto il conenuto del tilegroup in un ng-template
-                                using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
-                                {
-                                    w2.CloseBeginTag();
-
-                                    GenerateTileGroup(jObj, Constants.tbTileGroup, type);
-                                }
-
+                                //rimuovo & acceleratore c++ dal text  //TODOLUCA
+                                htmlWriter.WriteAttribute(Square(Constants.title), title);
                             }
 
-                            break;
-                        }
+                            AddIconAttribute(jObj);
 
-                        string tag = getTileGroupType(jObj);
-                        GenerateTileGroup(jObj, tag, type);
+                            htmlWriter.Write(" tbLayoutType");
+                            htmlWriter.Write(jObj.GetLayoutType().ToString());
+                            htmlWriter.Write(" ");
+
+                            if (jObj.GetDialogStyle() != TileDialogStyle.None)
+                            {
+                                htmlWriter.Write("tds");
+                                htmlWriter.Write(jObj.GetDialogStyle().ToString());
+                                htmlWriter.Write(" ");
+                            }
+
+                            WriteActivationAttribute(jObj);
+
+                            w.CloseBeginTag();
+
+                            // wrappo tutto il conenuto del tilegroup in un ng-template
+                            using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
+                            {
+                                w2.CloseBeginTag();
+
+                                GenerateHtmlChildren(jObj, type);
+                            }
+                        }
+                        outer?.Dispose();
 
                         break;
                     }
