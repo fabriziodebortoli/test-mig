@@ -77,7 +77,7 @@ namespace Microarea.Common.NameSolver
         protected string interfaceClass;
         protected string classhierarchy;
 
-        protected ArrayList viewModes;
+        protected List<IViewMode> viewModes;
         protected string title;
         protected string description;
         protected string name;
@@ -182,9 +182,10 @@ namespace Microarea.Common.NameSolver
                 return -1;
 
             if (viewModes == null)
-                viewModes = new ArrayList();
+                viewModes = new List<IViewMode>();
 
-            return viewModes.Add(aViewMode);
+			viewModes.Add(aViewMode);
+			return viewModes.IndexOf(aViewMode);
         }
 
         //---------------------------------------------------------------------

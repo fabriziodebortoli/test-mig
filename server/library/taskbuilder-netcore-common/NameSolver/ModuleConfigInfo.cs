@@ -90,22 +90,22 @@ namespace Microarea.Common.NameSolver
 	public sealed class ModuleConfigInfo 
 	{
 		private string			moduleName			= string.Empty;
-		private ModuleInfo	parentModuleInfo;
+		private ModuleInfo		parentModuleInfo;
 		private string			moduleConfigFile	= string.Empty;
 		private string			title				= string.Empty;
 		private string			localizedTitle		= null;
 		private string			destinationFolder	= string.Empty;
 		private bool			optional;
 		private int				menuViewOrder		= int.MaxValue;
-		private ArrayList		moduleFolders		= new ArrayList();
-		private ArrayList		libraries;
+		private List<ModuleFolderInfo>	moduleFolders	= new List<ModuleFolderInfo>();
+		private List<LibraryInfo>		libraries;
         private string          signature           = string.Empty;
         private int             release             = 0;
 
 		#region Properties
 		public	ModuleInfo	ParentModuleInfo	{ get { return parentModuleInfo; } }
-		public  IList			ModuleFolders		{ get { return moduleFolders; } }
-		public  IList			Libraries			{ get { return libraries; } }
+		public List<ModuleFolderInfo> ModuleFolders		{ get { return moduleFolders; } }
+		public List<LibraryInfo> Libraries			{ get { return libraries; } }
 		public	string			ModuleConfigFile	{ get { return moduleConfigFile; } }
 		public	string			ModuleName			{ get { return moduleName; } set { moduleName = value; } }
 		public	string			Title
@@ -285,7 +285,7 @@ namespace Microarea.Common.NameSolver
 
 					if (libraryDependenciesElements != null && libraryDependenciesElements.Count > 0)
 					{
-						libraries = new ArrayList();
+						libraries = new List<LibraryInfo>();
 
 						foreach (XmlElement library in libraryDependenciesElements)
 						{
@@ -307,7 +307,7 @@ namespace Microarea.Common.NameSolver
 							if (sourceFolder == string.Empty)
 								sourceFolder =	NameSolverStrings.Bin;
 							else
-								sourceFolder +=	NameSolverStrings.Directoryseparetor	+ NameSolverStrings.Bin;
+								sourceFolder +=	NameSolverStrings.Directoryseparetor + NameSolverStrings.Bin;
 
 							moduleFolderInfo = new ModuleFolderInfo(sourceFolder, true);
 							

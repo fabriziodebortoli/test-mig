@@ -6,6 +6,7 @@ using System.IO;
 using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace Microarea.Common.StringLoader
 {
@@ -158,7 +159,7 @@ namespace Microarea.Common.StringLoader
 	{
 		private const int maxSize = 20;
 
-		private static ArrayList dictionaries = new ArrayList();
+		private static List<DictionaryBinaryFile> dictionaries = new List<DictionaryBinaryFile>();
 
 		//-----------------------------------------------------------------------------
 		public static DictionaryBinaryFile GetDictionary(string dictionaryPath)

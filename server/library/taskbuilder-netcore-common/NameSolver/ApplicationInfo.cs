@@ -30,8 +30,7 @@ namespace Microarea.Common.NameSolver
         private IDocumentsObjectInfo documentObjectsInfo;
         private ModuleConfigInfo moduleConfigInfo;
 
-        protected ArrayList webMethods = new ArrayList();
-
+        protected List<FunctionPrototype> webMethods = new List<FunctionPrototype>();
 
         private IClientDocumentsObjectInfo clientDocumentsObjectInfo;
         private int currentDBRelease = 0;
@@ -379,7 +378,7 @@ namespace Microarea.Common.NameSolver
         }
 
         //------------------------------------------------------------------------------
-        public System.Collections.IList WebMethods
+        public List<FunctionPrototype> WebMethods
 		{
 			get
 			{
@@ -1196,14 +1195,14 @@ namespace Microarea.Common.NameSolver
         //---------------------------------------------------------------------
         public IList GetLibraryInfosBySourceFolderName(string sourceFolderName)
         {
-            ArrayList libraryInfoArray = null;
+            List<LibraryInfo> libraryInfoArray = null;
 
             foreach (LibraryInfo libraryInfo in this.Libraries)
             {
                 if (string.Compare(libraryInfo.Path, sourceFolderName) == 0)
                 {
                     if (libraryInfoArray == null)
-                        libraryInfoArray = new ArrayList();
+                        libraryInfoArray = new List<LibraryInfo>();
 
                     libraryInfoArray.Add(libraryInfo);
                 }
@@ -1819,7 +1818,7 @@ namespace Microarea.Common.NameSolver
         private string name;
         protected ApplicationType applicationType = ApplicationType.Undefined;
         protected IApplicationConfigInfo applicationConfigInfo;
-        protected ArrayList modules;
+        protected List<ModuleInfo> modules;
 
         private PathFinder pathFinder;
         private string standardAppContainer;
@@ -1854,7 +1853,7 @@ namespace Microarea.Common.NameSolver
                     if (modules != null)
                         return modules;
 
-                    modules = new ArrayList();
+                    modules = new List<ModuleInfo>();
 
                     List<string> tempModules = null;
                     tempModules = PathFinder.PathFinderInstance.FileSystemManager.GetAllModuleInfo(Path) ;
@@ -2024,9 +2023,10 @@ namespace Microarea.Common.NameSolver
             lock (instanceLockTicket)
             {
                 if (modules == null)
-                    modules = new ArrayList();
+                    modules = new List<ModuleInfo>();
 
-                return modules.Add(aModuleInfo);
+				modules.Add(aModuleInfo);
+				return modules.IndexOf(aModuleInfo);
             }
         }
 
@@ -2255,7 +2255,7 @@ namespace Microarea.Common.NameSolver
     {
         #region Data-members
         private ModuleInfo parentModuleInfo = null;
-        private IList documents = null;
+        private List<IDocumentInfo> documents = null;
         private string name = string.Empty;
         private string aggregateName = string.Empty;
         private string path = string.Empty;
@@ -2277,13 +2277,13 @@ namespace Microarea.Common.NameSolver
         public string ParentModuleName { get { return (parentModuleInfo != null) ? parentModuleInfo.Name : string.Empty; } }
 
         //---------------------------------------------------------------------
-        public IList Documents
+        public List<IDocumentInfo> Documents
         {
             get
             {
                 if (documents == null)
                 {
-                    documents = new ArrayList();
+                    documents = new List<IDocumentInfo>();
 
                     if (parentModuleInfo.Documents == null)
                         return null;
@@ -2328,19 +2328,15 @@ namespace Microarea.Common.NameSolver
     }
 
     //=========================================================================
-    public class ModuleComparer : IComparer
+    public class ModuleComparer : IComparer<ModuleInfo>
     {
-        //--------------------------------------------------------------------------------
-        public int Compare(object x, object y)
-        {
-            ModuleInfo m1 = x as ModuleInfo;
-            ModuleInfo m2 = y as ModuleInfo;
+		//---------------------------------------------------------------------
+		public int Compare(ModuleInfo module1, ModuleInfo module2)
+		{
+			if (module1 == null || module2 == null)
+				throw new NullReferenceException();
 
-            if (m1 == null || m2 == null)
-                throw new NullReferenceException();
-
-            return string.Compare(m1.Name, m2.Name);
-        }
+			return string.Compare(module1.Name, module2.Name);
+		}
     }
-
 }

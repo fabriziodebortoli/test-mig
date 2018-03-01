@@ -42,7 +42,7 @@ namespace Microarea.Common.DiagnosticManager
 
 	#region ExtendedInfo
 	//=========================================================================
-	public class ExtendedInfo : ArrayList, IExtendedInfo
+	public class ExtendedInfo : List<IExtendedInfoItem>, IExtendedInfo
 	{
 		#region Constructors
 		//---------------------------------------------------------------------
@@ -337,7 +337,7 @@ namespace Microarea.Common.DiagnosticManager
 
 	#region DiagnosticItems
 	//=========================================================================
-	public class DiagnosticItems : ArrayList, IDiagnosticItems
+	public class DiagnosticItems : List<IDiagnosticItem>, IDiagnosticItems
 	{
 		private string ownerName;
 
@@ -429,11 +429,11 @@ namespace Microarea.Common.DiagnosticManager
 	//=========================================================================
 	public class DiagnosticElements : IDiagnosticElements
 	{
-		private ArrayList diagnosticItemsList;
+		private List<IDiagnosticItems> diagnosticItemsList;
 		private string ownerName;
 
 		//---------------------------------------------------------------------
-		internal ArrayList DiagnosticItemsList { get { return diagnosticItemsList; } }
+		public List<IDiagnosticItems> DiagnosticItemsList { get { return diagnosticItemsList; } }
 
 		//---------------------------------------------------------------------
 		public int Count
@@ -500,7 +500,7 @@ namespace Microarea.Common.DiagnosticManager
 		public void InitDiagnosticItemsList()
 		{
 			if (diagnosticItemsList == null)
-				diagnosticItemsList = new ArrayList();
+				diagnosticItemsList = new List<IDiagnosticItems>();
 
 			if (diagnosticItemsList.Count == 0)
 				diagnosticItemsList.Add(new DiagnosticItems(ownerName));
@@ -550,7 +550,7 @@ namespace Microarea.Common.DiagnosticManager
 		{
 			InitDiagnosticItemsList();
 
-			ArrayList list = (diagnosticElement as DiagnosticElements).diagnosticItemsList;
+			List<IDiagnosticItems> list = (diagnosticElement as IDiagnosticElements).DiagnosticItemsList;
 			if (list == null)
 				return;
 
@@ -701,7 +701,7 @@ namespace Microarea.Common.DiagnosticManager
 			{
 				List<IDiagnosticItem> allItems = new List<IDiagnosticItem>();
 
-				ArrayList list = (Elements as DiagnosticElements).DiagnosticItemsList;
+				List<IDiagnosticItems> list = (Elements as IDiagnosticElements).DiagnosticItemsList;
 				if (list == null)
 					return allItems.ToArray();
 

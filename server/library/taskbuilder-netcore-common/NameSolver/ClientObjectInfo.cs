@@ -14,8 +14,8 @@ namespace Microarea.Common.NameSolver
     /// Classe che tiene in memoria le informazioni di un client doc
     /// </summary>
     //=========================================================================
-    public class ClientDocumentInfo
-    {
+    public class ClientDocumentInfo : IClientDocumentInfo
+	{
         private NameSpace nameSpace;
         private string title;
         private bool isDynamic;
@@ -24,7 +24,7 @@ namespace Microarea.Common.NameSolver
         /// <summary>
         /// namespace del documento
         /// </summary>
-        public NameSpace NameSpace { get { return nameSpace; } }
+        public INameSpace NameSpace { get { return nameSpace; } }
 
         /// <summary>
         /// Nome del ClientDoc
@@ -76,17 +76,17 @@ namespace Microarea.Common.NameSolver
     /// Classe che mantiene in memoria i dati di un serverdocument
     /// </summary>
     //=========================================================================
-    public class ServerDocumentInfo
-    {
+    public class ServerDocumentInfo : IServerDocumentInfo
+	{
         private NameSpace nameSpace;
         private string type;
         private string documentClass;
-        private ArrayList clientDocsInfos;
+        private List<IClientDocumentInfo> clientDocsInfos;
 
         /// <summary>
         /// namespace del documento
         /// </summary>
-        public NameSpace NameSpace { get { return nameSpace; } }
+        public INameSpace NameSpace { get { return nameSpace; } }
 
         /// <summary>
         /// Tipo del server document es. family
@@ -102,7 +102,7 @@ namespace Microarea.Common.NameSolver
         /// Array dei client doc contenuti
         /// Gli elementi dono di tipo ClientDocumentInfo
         /// </summary>
-        public ArrayList ClientDocsInfos { get { return clientDocsInfos; } }
+        public List<IClientDocumentInfo> ClientDocsInfos { get { return clientDocsInfos; } }
 
         /// <summary>
         /// Costruttore
@@ -116,7 +116,7 @@ namespace Microarea.Common.NameSolver
             nameSpace = aNameSpace;
             type = aType;
             documentClass = aDocumentClass;
-            clientDocsInfos = new ArrayList();
+            clientDocsInfos = new List<IClientDocumentInfo>();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Microarea.Common.NameSolver
         /// <param name="aClientDocumentInfo">Il clientDoc da aggiungere</param>
         /// <returns>la posizione in cui è stato inserito il client doc</returns>
         //---------------------------------------------------------------------
-        public int AddClientDoc(ClientDocumentInfo aClientDocumentInfo)
+        public int AddClientDoc(IClientDocumentInfo aClientDocumentInfo)
         {
             if (aClientDocumentInfo == null)
             {
@@ -134,9 +134,10 @@ namespace Microarea.Common.NameSolver
             }
 
             if (clientDocsInfos == null)
-                clientDocsInfos = new ArrayList();
+                clientDocsInfos = new List<IClientDocumentInfo>();
 
-            return clientDocsInfos.Add(aClientDocumentInfo);
+			clientDocsInfos.Add(aClientDocumentInfo);
+			return clientDocsInfos.IndexOf(aClientDocumentInfo);
         }
 
         //---------------------------------------------------------------------
@@ -151,8 +152,6 @@ namespace Microarea.Common.NameSolver
 
             return NameSpace != null && string.Compare(document.NameSpace.FullNameSpace, NameSpace.FullNameSpace) == 0;
         }
-
-
     }
 
     //=========================================================================
@@ -163,8 +162,8 @@ namespace Microarea.Common.NameSolver
         private string parsingError;
 
         private ModuleInfo parentModuleInfo;
-        private ArrayList serverDocuments;
-        private ArrayList clientForms;
+        private IList<IServerDocumentInfo> serverDocuments;
+        private IList<ClientFormInfo> clientForms;
 
         public string FilePath { get { return filePath; } }
         public bool Valid { get { return valid; } }
@@ -173,15 +172,15 @@ namespace Microarea.Common.NameSolver
         /// <summary>
         /// Array dei documenti gestiti dal modulo
         /// </summary>
-        public IList ServerDocuments { get { return serverDocuments; } }
-        public IList ClientForms { get { return clientForms; } }
+        public IList<IServerDocumentInfo> ServerDocuments { get { return serverDocuments; } }
+        public IList<ClientFormInfo> ClientForms { get { return clientForms; } }
 
-        /// <summary>
-        /// Costruttore
-        /// </summary>
-        /// <param name="aFilePath">path del file documentsObject del modulo</param>
-        //---------------------------------------------------------------------
-        public ClientDocumentsObjectInfo(string aFilePath, ModuleInfo aParentModuleInfo)
+		/// <summary>
+		/// Costruttore
+		/// </summary>
+		/// <param name="aFilePath">path del file documentsObject del modulo</param>
+		//---------------------------------------------------------------------
+		public ClientDocumentsObjectInfo(string aFilePath, ModuleInfo aParentModuleInfo)
         {
             if (aFilePath == null || aFilePath.Length == 0 || aParentModuleInfo == null)
             {
@@ -247,7 +246,7 @@ namespace Microarea.Common.NameSolver
 
             //inizializzo l'array dei client docs
             if (serverDocuments == null)
-                serverDocuments = new ArrayList();
+                serverDocuments = new List<IServerDocumentInfo>();
             else
                 serverDocuments.Clear();
 
@@ -315,7 +314,7 @@ namespace Microarea.Common.NameSolver
 
             //inizializzo l'array dei client docs
             if (clientForms == null)
-                clientForms = new ArrayList();
+                clientForms = new List<ClientFormInfo>();
             else
                 clientForms.Clear();
 

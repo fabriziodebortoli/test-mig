@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
 
 namespace TaskBuilderNetCore.Interfaces
@@ -9,7 +10,7 @@ namespace TaskBuilderNetCore.Interfaces
 		string FilePath { get; }
 		bool Parse();
 		string ParsingError { get; }
-		IList ServerDocuments { get; }
+		IList<IServerDocumentInfo> ServerDocuments { get; }
 		bool Valid { get; }
 
         IList GetClientDocumentsFor(IDocument document);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -22,7 +23,7 @@ namespace Microarea.Common.StringLoader
 	{
 		public const uint Version = 1;
 		private string path;
-		private ArrayList resourceIndexItems = new ArrayList();
+		private List<DictionaryResourceIndexItem> resourceIndexItems = new List<DictionaryResourceIndexItem>();
 
 		public string Path { get { return path; } } 
 		

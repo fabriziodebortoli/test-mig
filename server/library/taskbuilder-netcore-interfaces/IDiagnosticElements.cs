@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TaskBuilderNetCore.Interfaces
 {
@@ -30,6 +31,7 @@ namespace TaskBuilderNetCore.Interfaces
 		IDiagnosticItem Set(DiagnosticType diagnosticType, DateTime dateTime, System.Collections.Specialized.StringCollection explains, int logEventID, short logCategory);
 		IDiagnosticItem Set(DiagnosticType diagnosticType, DateTime dateTime, System.Collections.Specialized.StringCollection explains, IExtendedInfo extendedInfo, int logEventID, short logCategory);
 		IDiagnosticItem Set(DiagnosticType diagnosticType, System.Collections.Specialized.StringCollection explains, IExtendedInfo extendedInfo, int logEventID, short logCategory);
+		List<IDiagnosticItems> DiagnosticItemsList { get; }
 		bool Warning { get; }
 		int WarningsCount { get; }
 	}

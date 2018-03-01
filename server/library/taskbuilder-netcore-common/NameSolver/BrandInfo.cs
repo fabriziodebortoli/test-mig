@@ -40,14 +40,14 @@ namespace Microarea.Common.NameSolver
 		public const string XML_ATTRIBUTE_ISO			= "ISO";
 		#endregion
 
-        ArrayList brands = new ArrayList();
+        List<BrandInfo> brands = new List<BrandInfo>();
 		//private Icon brandedTbAppManagerApplicationIcon = null;
 		//private Icon brandedConsoleApplicationIcon = null;
 
         //-----------------------------------------------------------------------------
         public BrandLoader()
         {
-            brands = new ArrayList();
+            brands = new List<BrandInfo>();
             LoadFromFiles();
         }
 
@@ -221,13 +221,15 @@ namespace Microarea.Common.NameSolver
         public IList GetBrandedKeysInfo()
 		{
 			IBrandInfo mainBrandInfo = GetMainBrandInfo();
+
 			if (mainBrandInfo != null)
 			{
 				IList brandedKeysInfo = mainBrandInfo.GetBrandedKeysInfo();
 				if (brandedKeysInfo != null)
 					return brandedKeysInfo;
 			}
-			return new ArrayList();
+
+			return new List<BrandedKeyInfo>();
 		}
 
         //-----------------------------------------------------------------------------

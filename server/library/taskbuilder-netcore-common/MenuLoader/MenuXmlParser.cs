@@ -3885,7 +3885,7 @@ namespace Microarea.Common.MenuLoader
 		/// Summary description for ObjectsImageInfos.
 		/// </summary>
 		//============================================================================
-		public class ObjectsImageInfos : System.Collections.ArrayList
+		public class ObjectsImageInfos : List<ObjectImageInfo>
 		{
 			public ObjectsImageInfos()
 			{
@@ -3910,14 +3910,16 @@ namespace Microarea.Common.MenuLoader
 			}
 			
 			//---------------------------------------------------------------------------
-			override public int Add(object aObjectImageInfo)
+			new public int Add(ObjectImageInfo aObjectImageInfo)
 			{
 				if (!(aObjectImageInfo is ObjectImageInfo))
 				{
 					Debug.Fail("ObjectsImageInfos.Add Error: invalid element.");
 					return -1;
 				}
-				return base.Add(aObjectImageInfo);
+
+				base.Add(aObjectImageInfo);
+				return base.IndexOf(aObjectImageInfo);
 			}
 
 			//---------------------------------------------------------------------------

@@ -20,15 +20,16 @@ namespace Microarea.Common.NameSolver
 		AllCompaniesSpecificiUser		= 2,
 		SpecificiCompanyAllUsers		= 3,
 		SpecificiCompanySpecificiUser	= 4,
-
 	}
-	//=========================================================================
-	public class SettingsConfigInfoTable : ArrayList
-	{
 
+	//=========================================================================
+	public class SettingsConfigInfoTable : List<SettingsConfigInfo>
+	{
+		//---------------------------------------------------------------------
 		public SettingsConfigInfoTable()
 		{
 		}
+
 		//---------------------------------------------------------------------
 		public SettingItem GetSettingItem(string sectionName, string settingName, ModuleInfo aModuleInfo)
 		{
@@ -40,7 +41,6 @@ namespace Microarea.Common.NameSolver
 				setting = info.GetSettingItemByName (sectionName, settingName);
 				if (setting != null)
 					return setting;
-
 			}
 
             List<string> fileArray = aModuleInfo.GetConfigFileArray();
@@ -56,8 +56,8 @@ namespace Microarea.Common.NameSolver
 
 			return setting;
 		}
-		//---------------------------------------------------------------------
 	}
+
 	//=========================================================================
 	public class SettingsConfigInfo
 	{
@@ -577,7 +577,7 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		public SettingItem GetSettingItemByName(string aName)
 		{
-			ArrayList settings = new ArrayList();
+			List<SettingItem> settings = new List<SettingItem>();
 
 			foreach (SettingItem aSettingItem in this.Settings)
 			{
