@@ -1,5 +1,6 @@
-.hiddentiles {
+.hidden-tiles {
     margin-bottom: 20px;
+    background: #fff;
 }
 
 .separator {
@@ -8,12 +9,12 @@
     background-image: linear-gradient(to right, rgba(99, 99, 99, 0), rgba(99, 99, 99, 0.80), rgba(99, 99, 99, 0));
 }
 
-ul.hiddenTiles-list {
+ul.hidden-tiles-list {
     padding: 0;
     margin: 0;
 }
 
-.hiddenTiles-item {
+.hidden-tiles-item {
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -47,72 +48,9 @@ ul.hiddenTiles-list {
     }
 }
 
-.hiddenTiles-empty {
+.hidden-tiles-empty {
     font-size: 12px;
     margin: 0;
     padding: 0 11px;
     color: #9f9f9f;
-}
-
-//stile quando usato nella sidenav
-/// inizio sidenav
-.sidenav {
-    m4-icon.close {
-        color: #646464;
-    }
-    .hiddenTiles-empty {
-        line-height: 28px;
-        background: #3e3e3e;
-    }
-}
-
-/// fine sidenav
-//stile quando usato nella dashboard
-/// inizio dashboard
-.dashboard {
-    .hiddentiles {
-        ul.hiddenTiles-list {
-            .hiddenTiles-item {
-                background: #f1f1f1;
-                border: 1px solid #ddd;
-                margin: 3px 7px;
-                height: 28px;
-                m4-icon.type {
-                    margin: 0px 7px;
-                    line-height: 28px;
-                    font-size: 15px;
-                    padding-top: 2px;
-                }
-                &>span {
-                    color: #00588c;
-                    line-height: 29px;
-                }
-                &:hover span {
-                    color: #333;
-                }
-                m4-icon.type {
-                    margin-right: 7px;
-                }
-                m4-icon.type.Document {
-                    color: #0277bd;
-                }
-                m4-icon.type.Report,
-                m4-icon.type.Function {
-                    color: #3EAB66;
-                }
-                m4-icon.type.Batch {
-                    color: #ffa700;
-                }
-                m4-icon.close {
-                    color: #ddd;
-                    &:hover {
-                        color: #0277bd;
-                    }
-                }
-            }
-        }
-    }
-    .hiddenTiles-empty {
-        color: #666;
-    }
 }

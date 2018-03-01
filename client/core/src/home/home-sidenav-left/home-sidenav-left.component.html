@@ -1,16 +1,21 @@
 <div class="sidenav-header-left">
-    <m4-icon icon="tb-menufilled" id="close-sidebar" (click)="toggleSidenavLeft()"></m4-icon>
+    <m4-icon icon="tb-menufilled" id="close-sidebar" (click)="sidenavService.openedChange(false)"></m4-icon>
     <div class="sidenav-title">
         <img src="assets/images/logoM4_h40.png" />
     </div>
+    <m4-icon [icon]="sidenavPinned ? 'tb-lock' : 'tb-lockfilled'" id="pin-sidebar" (click)="sidenavService.pinSidenav()"></m4-icon>
 </div>
 
 <div class="sidenav-subtitle">
-    <h4>{{_TB('Applications')}}</h4>
+    <h4>{{this._TB('Favorites')}}
+        <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{_TB('Clear favorite list')}}" matTooltipPosition="after" *ngIf="menuService.favoritesCount > 0"></m4-icon>
+    </h4>
 </div>
-<tb-application-selector></tb-application-selector>
+<tb-favorites class="sidenav"></tb-favorites>
 
 <div class="sidenav-subtitle">
-    <h4>{{_TB('Modules')}}</h4>
+    <h4>{{this._TB('Recently used')}}
+        <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{_TB('Clear most used list') }}" matTooltipPosition="after" *ngIf="menuService.mostUsedCount > 0"></m4-icon>
+    </h4>
 </div>
-<tb-group-selector (itemSelected)="toggleSidenavLeft(true)"></tb-group-selector>
+<tb-most-used class="sidenav"></tb-most-used>

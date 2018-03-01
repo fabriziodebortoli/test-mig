@@ -383,8 +383,6 @@ const _MODULES = [
 ];
 
 import { TreeModule } from 'angular-tree-component';
-
-
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, TbKendoModule, TreeModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],

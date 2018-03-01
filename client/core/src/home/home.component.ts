@@ -42,9 +42,8 @@ import { DiagnosticService } from './../core/services/diagnostic.service';
 })
 export class HomeComponent extends TbComponent implements OnDestroy, AfterContentInit, OnInit {
 
-  @ViewChild('sidenavleft') sidenavleft;
-  @ViewChild('sidenavright') sidenavright;
   subscriptions: Subscription[] = [];
+  @ViewChild('sidenav') sidenav;
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('tabberContainer') tabberContainer: ElementRef;
@@ -54,10 +53,10 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
   @ViewChild('menuTabStrip') menuTabStrip: TabStripTabComponent;
   @ViewChild('settingsTabStrip') settingsTabStrip: TabStripTabComponent;
 
-
   viewHeight: number;
-
   isDesktop: boolean;
+  sidenavPinned: boolean = localStorage.getItem('sidenavPinned') == 'true';
+  sidenavOpened: boolean = localStorage.getItem('sidenavOpened') == 'true';
   settingsPageComponent: ComponentInfo = null;
 
   constructor(
@@ -93,12 +92,9 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.subscriptions.push(this.settingsService.settingsPageOpenedEvent.subscribe((opened) => { this.openSettings(opened); }));
 
-    this.subscriptions.push(this.sidenavService.sidenavOpenedLeft$.subscribe(() => this.sidenavleft.toggle()));
-    this.subscriptions.push(this.sidenavService.sidenavOpenedRight$.subscribe(() => this.sidenavright.toggle()));
-
     this.subscriptions.push(this.componentService.componentInfoCreated.subscribe(arg => {
       if (arg.activate) {
-        this.kendoTabStripInstance.selectTab(arg.index + 2);
+        this.kendoTabStripInstance.selectTab(arg.index + 1);
       }
     }));
 
@@ -153,6 +149,19 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
   }
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
+
+    this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((pinned) => this.sidenavPinned = pinned));
+    this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => {
+      this.sidenavOpened = opened;
+      
+        if (opened){
+          this.sidenav.open();
+        }
+        else{
+          this.sidenav.close();
+        }
+      
+    }));
 
     this.layoutService.detectDPI();
   }

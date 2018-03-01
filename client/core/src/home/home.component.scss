@@ -1,12 +1,14 @@
 @import '../style/tb.scss';
 .mat-sidenav,
 mat-sidenav {
-    width: 300px;
-    background: $bck-sidenav;
+    width: 240px;
+    background: $darkblue;
+    box-shadow: rgba(0, 0, 0, 0.2) -1px 0px 5px 5px;
+    border-right: 1px solid #004f80;
 }
 
 mat-sidenav::-webkit-scrollbar-track {
-    background: #3e3e3f;
+    background: $blue;
 }
 
 mat-sidenav::-webkit-scrollbar-thumb {
@@ -28,6 +30,7 @@ mat-sidenav-container,
 .topbar-title-content>img,
 .sidenav-title>img {
     margin-top: 5px;
+    transition: opacity 400ms ease-in;
 }
 
 .topbar-menu-content {

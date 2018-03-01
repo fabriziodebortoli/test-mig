@@ -1,5 +1,8 @@
+import { Component, ViewEncapsulation, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+
 import { TbComponent } from './../../shared/components/tb.component';
-import { Component, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+
+import { Subscription } from '../../rxjs.imports';
 
 import { TabberService } from './../../core/services/tabber.service';
 import { ImageService } from './../../menu/services/image.service';
@@ -14,7 +17,11 @@ import { TbComponentService } from './../../core/services/tbcomponent.service';
   templateUrl: './home-sidenav-left.component.html',
   styleUrls: ['./home-sidenav-left.component.scss']
 })
-export class HomeSidenavLeftComponent extends TbComponent {
+export class HomeSidenavLeftComponent extends TbComponent implements OnDestroy {
+
+  subscriptions: Subscription[] = [];
+  sidenavPinned: boolean = false;
+  sidenavOpened: boolean = false;
 
   constructor(
     public sidenavService: SidenavService,
@@ -25,17 +32,14 @@ export class HomeSidenavLeftComponent extends TbComponent {
     public tabberService: TabberService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
-   }
+    this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((pinned) => this.sidenavPinned = pinned));
+    this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => this.sidenavOpened = opened));
+  }
 
-  toggleSidenavLeft(menu: boolean = false) {
-    
-    this.sidenavService.toggleSidenavLeft();
-
-    if (menu) {
-      this.tabberService.selectMenuTab();
-    }
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

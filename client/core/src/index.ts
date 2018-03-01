@@ -54,18 +54,16 @@ const TB_MODULES = [
 import { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 import { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 import { HomeSidenavLeftComponent } from './home/home-sidenav-left/home-sidenav-left.component';
-import { HomeSidenavRightComponent } from './home/home-sidenav-right/home-sidenav-right.component';
 
 import { HomeComponent } from './home/home.component';
 
 export { StandaloneDocumentComponent } from './home/standalone.document/standalone.document.component';
 export { StandaloneReportComponent } from './home/standalone.report/standalone.report.component';
 export { HomeSidenavLeftComponent } from './home/home-sidenav-left/home-sidenav-left.component';
-export { HomeSidenavRightComponent } from './home/home-sidenav-right/home-sidenav-right.component';
 export { HomeComponent } from './home/home.component';
 
 const TB_HOME_COMPONENTS = [
-  HomeComponent, HomeSidenavLeftComponent, HomeSidenavRightComponent,
+  HomeComponent, HomeSidenavLeftComponent,
   StandaloneDocumentComponent,
   StandaloneReportComponent
 ];

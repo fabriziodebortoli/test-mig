@@ -1,27 +1,86 @@
+import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef, HostListener, ElementRef } from '@angular/core';
+import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from "rxjs/Rx";
+
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { SettingsService } from './../../../../core/services/settings.service';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, AfterViewInit, AfterContentInit, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { UtilsService } from './../../../../core/services/utils.service';
+import { ImageService } from './../../../services/image.service';
 import { MenuService } from './../../../services/menu.service';
+
+import { TbComponent } from '../../../../shared/components/tb.component';
 
 @Component({
   selector: 'tb-menu-container',
   templateUrl: './menu-container.component.html',
-  styleUrls: ['./menu-container.component.scss']
+  styleUrls: ['./menu-container.component.scss'],
+  animations: [
+    trigger('collapsing', [
+      state('expanded', style({ width: '260px', overflow: 'hidden' })),
+      state('collapsed', style({ width: '40px', overflow: 'hidden' })),
+      transition('expanded <=> collapsed', animate('400ms ease')),
+    ])
+  ]
 })
 
-export class MenuContainerComponent implements AfterContentInit, OnDestroy {
+export class MenuContainerComponent extends TbComponent implements AfterContentInit, OnDestroy {
+
   public subscriptions: Subscription[] = [];
   public selectedGroupChangedSubscription;
   public tiles: any[];
 
+  public selectorCollapsed: string = localStorage.getItem('menuSelectorCollapsed') ? localStorage.getItem('menuSelectorCollapsed') : 'expanded';
+  public appActive: any; 
+  public groupActive: any; 
+  @Output() itemSelected: EventEmitter<any> = new EventEmitter();
+
   @ViewChild('tabber') tabber;
+
+  public showHiddenTilesPopup: boolean = false;
+  @ViewChild('hiddenTilesAnchor') public hiddenTilesAnchor: ElementRef;
+  @ViewChild('hiddenTilesPopup', { read: ElementRef }) public hiddenTilesPopup: ElementRef;
+
+  // ---------------------------------------------------------------------------------------
+  @HostListener('keydown', ['$event'])
+  public keydown(event: any): void {
+    if (event.keyCode === 27) {
+      this.closeHiddenTilesPopup();
+    }
+  }
+  
+  // ---------------------------------------------------------------------------------------
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.closeHiddenTilesPopup();
+    }
+  }
+
+  // ---------------------------------------------------------------------------------------
+  private contains(target: any): boolean {
+    return (this.hiddenTilesAnchor ? this.hiddenTilesAnchor.nativeElement.contains(target) : false) ||
+      (this.hiddenTilesPopup ? this.hiddenTilesPopup.nativeElement.contains(target) : false);
+  }
+
+  // ---------------------------------------------------------------------------------------
+  closeHiddenTilesPopup() {
+    this.showHiddenTilesPopup = false;
+  }
+
+  // ---------------------------------------------------------------------------------------
+  toggleHiddenTilesPopup(){
+    this.showHiddenTilesPopup = !this.showHiddenTilesPopup;
+  }
 
   constructor(
     public menuService: MenuService,
     public utilsService: UtilsService,
-    public settingsService: SettingsService
+    public settingsService: SettingsService,
+    public imageService: ImageService,
+    tbComponentService: TbComponentService,
+    changeDetectorRef: ChangeDetectorRef
   ) {
+    super(tbComponentService, changeDetectorRef);
 
     this.subscriptions.push(this.menuService.menuActivated.subscribe(() => {
       this.tiles = this.getTiles();
@@ -37,6 +96,15 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
     this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
       this.initTab();
     }));
+  }
+
+  getSelectorIcon() {
+    return this.selectorCollapsed ? 'tb-circledrightfilled' : 'tb-gobackfilled';
+  }
+
+  toggleSelector() {
+    this.selectorCollapsed = this.selectorCollapsed === 'expanded' ? 'collapsed' : 'expanded';
+    localStorage.setItem('menuSelectorCollapsed', this.selectorCollapsed);
   }
 
   refreshLayout() {
@@ -143,5 +211,16 @@ export class MenuContainerComponent implements AfterContentInit, OnDestroy {
 
   tileIsVisible(tile) {
     return this.ifTileHasObjects(tile);
+  }
+
+  selectApplication(application) {
+    this.appActive = application;
+    this.menuService.setSelectedApplication(application)
+  }
+
+  selectGroup(group) {
+    this.groupActive = group;
+    this.menuService.setSelectedGroup(group);
+    this.itemSelected.emit();
   }
 }

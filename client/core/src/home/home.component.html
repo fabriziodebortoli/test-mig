@@ -1,15 +1,12 @@
 <div id="dpi">a</div>
 <mat-sidenav-container (contextmenu)="onContextMenu();" [ngClass]="themeService.currentTheme">
     <tb-message-dialog></tb-message-dialog>
-    <mat-sidenav mode="over" #sidenavleft align="start">
+    <mat-sidenav [mode]="sidenavPinned ? 'side' : 'over'" #sidenav align="start" (openedChange)="sidenavService.openedChange($event)" [opened]="sidenavOpened">
         <tb-home-sidenav-left></tb-home-sidenav-left>
-    </mat-sidenav>
-    <mat-sidenav mode="over" #sidenavright align="end">
-        <tb-home-sidenav-right></tb-home-sidenav-right>
     </mat-sidenav>
     <div class="main-content">
         <tb-topbar>
-            <div class="topbar-title-content">
+            <div class="topbar-title-content" *ngIf="!(sidenavOpened && sidenavPinned)">
                 <img src="assets/images/logoM4_h40.png" />
             </div>
 
@@ -25,7 +22,7 @@
         <div class="tabber-container" #tabberContainer>
             <kendo-tabstrip #kendoTabStripInstance="kendoTabStrip" [keepTabContent]="true">
 
-                <!-- DASHBOARD -->
+                <!-- DASHBOARD
                 <kendo-tabstrip-tab [selected]="true" *ngIf="!isDesktop" #dashBoardTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
                         <div>
@@ -37,10 +34,10 @@
                             <tb-dashboard></tb-dashboard>
                         </div>
                     </ng-template>
-                </kendo-tabstrip-tab>
+                </kendo-tabstrip-tab> -->
 
                 <!-- MENU -->
-                <kendo-tabstrip-tab [selected]="isDesktop" #menuTabStrip="kendoTabStripTab">
+                <kendo-tabstrip-tab [selected]="true" #menuTabStrip="kendoTabStripTab">
                     <ng-template kendoTabTitle>
                         <div (click)="menuService.activateMenu()">
                             <m4-icon icon="tb-dashboard"></m4-icon>

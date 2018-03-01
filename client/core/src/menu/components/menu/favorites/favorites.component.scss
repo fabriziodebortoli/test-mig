@@ -1,3 +1,4 @@
+@import '../../../../style/tb.scss';
 .favorites {
     margin-bottom: 20px;
 }
@@ -11,9 +12,12 @@ ul.favorites-list {
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    color: #9f9f9f;
+    color: $bkg-light;
     line-height: 30px;
-    background: #3e3e3e;
+    background: $blue;
+    &:hover {
+        background: $darkblue;
+    }
     &>span {
         flex: 1;
         font-size: 12px;
@@ -31,6 +35,7 @@ ul.favorites-list {
         line-height: 28px;
         padding-top: 2px;
         cursor: pointer;
+        color: $bkg-light;
         &:hover {
             color: #fff;
         }
@@ -41,76 +46,7 @@ ul.favorites-list {
     font-size: 12px;
     margin: 0;
     padding: 0 11px;
-    color: #9f9f9f;
-}
-
-//stile quando usato nella sidenav
-/// inizio sidenav
-::ng-deep .sidenav {
-        .favorite-item {
-                    &:hover {
-                    background: rgba(62, 62, 63, 0.5);
-                        span, 
-                        m4-icon.close {
-                            color: #fff;
-                        }
-                    }
-                    m4-icon.close {
-                        color: #646464;
-                }
-                .favorites-empty {
-                    line-height: 26px;
-                    background: #3e3e3e;
-                }
-        }
-}
-/// fine sidenav
-//stile quando usato nella dashboard
-/// inizio dashboard
-::ng-deep .dashboard {
-    .favorites {
-             .favorite-item {
-                transition: all 0.2s ease;
-                background: #fff;
-                margin: 0px 7px 0 5px;
-                height: 26px;
-                m4-icon.type {
-                    margin: 0px 7px;
-                    line-height: 28px;
-                    font-size: 15px;
-                    padding-top: 2px;
-                }
-                &>span {
-                    color: #000;
-                    line-height: 29px;
-                }
-                &:hover {
-                    transition: all 0.4s ease;
-                    background: #f1f1f1;
-                    color: #0277bd;
-                    span, m4-icon.close  {
-                        color: #0277bd;
-                    }
-                }
-                m4-icon.type {
-                    margin-right: 7px;
-                }
-                m4-icon.type.Document {
-                    color: #0277bd;
-                }
-                m4-icon.type.Report,
-                m4-icon.type.Function {
-                    color: #3EAB66;
-                }
-                m4-icon.type.Batch {
-                    color: #ffa700;
-                }
-                m4-icon.close {
-                    color: #ddd;
-                }
-            }
-        }
-    .favorites-empty {
-        color: #666;
-    }
+    color: $bkg-light;
+    background: $blue;
+    line-height: 40px;
 }

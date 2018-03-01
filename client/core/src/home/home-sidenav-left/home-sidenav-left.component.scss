@@ -1,16 +1,20 @@
+@import '../../style/tb.scss';
 #close-sidebar {
     cursor: pointer;
     margin-left: 10px;
     color: #fff;
-    /*for m4 icon*/
     font-size: 18px;
 }
 
 .sidenav-header-left {
     display: flex;
     align-items: center;
-    height: 52px;
-    min-height: 50px;
+    height: 105px;
+    min-height: 100px;
+}
+
+.sidenav-title>img {
+    margin-top: 5px;
 }
 
 .sidenav-title {
@@ -19,7 +23,7 @@
     h2 {
         margin: 0;
         padding: 0;
-        color: #fff;
+        color: $bkg-light;
     }
     h1 {
         font-size: 18px;
@@ -37,6 +41,7 @@
     padding: 0 7px;
     h4 {
         text-transform: uppercase;
+        color: $bkg-light;
         font-size: 12px;
         font-weight: 500;
         display: flex;
@@ -52,5 +57,17 @@
         m4-icon:hover {
             color: #fff;
         }
+    }
+}
+
+#pin-sidebar {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    color: $bkg-light;
+    font-size: 12px;
+    cursor: pointer;
+    &:hover {
+        color: #fff;
     }
 }

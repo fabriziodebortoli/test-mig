@@ -1,6 +1,48 @@
 <tb-frame>
-    <tb-toolbar-top class="menu-toolbar"></tb-toolbar-top>
+    <tb-toolbar-top class="menu-toolbar">
+        <div class="toolbar-icon">
+            <a (click)="toggleSelector()" class="collapser">
+                <m4-icon icon="tb-menufilled" [title]="selectorCollapsed === 'collapsed' ? _TB('Expand Menu Selector') : _TB('Collapse Menu Selector')"></m4-icon>
+            </a>
+        </div>
+    </tb-toolbar-top>
     <tb-frame-content>
+
+        <div class="menu-selector" [ngClass]="{'collapsed': selectorCollapsed === 'collapsed'}" [@collapsing]="selectorCollapsed">
+
+            <kendo-panelbar [expandMode]="single">
+                <kendo-panelbar-item *ngFor="let application of menuService?.allMenus" (click)="selectApplication(application)" title="" [expanded]="application === menuService.selectedApplication" [class.selected-application]="application === menuService.selectedApplication">
+                    <ng-template kendoPanelBarItemTitle>
+                        <img [src]="imageService.getApplicationIcon(application)" [title]="selectorCollapsed === 'collapsed' ? application?.title : ''" />
+                        <span>{{application.title}}</span>
+                    </ng-template>
+                    <kendo-panelbar-item *ngFor="let group of application.Group" (click)=selectGroup(group) title="" [selected]="group === menuService.selectedGroup" [class.selected-group]="group === menuService.selectedGroup">
+                        <ng-template kendoPanelBarItemTitle>
+                            <m4-icon [icon]="group?.icon ? group?.icon : 'tb-mago4'" *ngIf="group?.icon != undefined || group?.image_file == undefined" [title]="selectorCollapsed === 'collapsed' ? group?.title : ''"></m4-icon>
+                            <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined && group?.image_file != undefined" [title]="selectorCollapsed === 'collapsed' ? group?.title : ''" />
+                            <span>{{group?.title}}</span>
+                        </ng-template>
+                    </kendo-panelbar-item>
+                </kendo-panelbar-item>
+            </kendo-panelbar>
+
+            <!-- <ul class="application-selector" *ngIf="menuService != undefined">
+                <li *ngFor="let application of menuService?.allMenus;let i = index" (click)="selectApplication(application)" [class.active]="application === menuService.selectedApplication" [class.selected]="application === menuService.selectedApplication">
+                    <img [src]="imageService.getApplicationIcon(application)" [title]="selectorCollapsed === 'collapsed' ? application?.title : ''" />
+                    <span>{{application.title}}</span>
+                </li>
+            </ul>
+
+            <ul class="group-selector" *ngIf="menuService != undefined">
+                <li *ngFor="let group of menuService?.selectedApplication?.Group;let i = index" (click)=selectGroup(group) [class.active]="group === menuService.selectedGroup" [ngClass]="group == menuService.selectedGroup ? 'selected' : ''">
+                    <m4-icon [icon]="group?.icon ? group?.icon : 'tb-mago4'" *ngIf="group?.icon != undefined || group?.image_file == undefined"></m4-icon>
+                    <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined && group?.image_file != undefined" />
+                    <span>{{group?.title}}</span>
+                </li>
+            </ul> -->
+
+        </div>
+
         <div class="menu-page">
             <kendo-tabstrip #tabber (tabSelect)="changeTabByIndex($event)" [height]="31">
                 <kendo-tabstrip-tab [title]="menuTab?.title" *ngFor="let menuTab of menuService?.selectedGroup?.Menu">
@@ -8,10 +50,18 @@
                         <div class="wrap">
                             <tb-header-strip [title]="menuService?.selectedMenu?.title">
 
-                                <!-- <div class="header-strip-content">
-                                    <button class="show-description" title="Show Descriptions" kendoButton (click)="menuService?.toggleDecription()" [bare]="!menuService?.showDescription" [primary]="menuService?.showDescription">
-                                        <m4-icon icon="tb-subject"></m4-icon></button>
-                                </div> -->
+                                <div class="header-strip-content">
+                                    <div #hiddenTilesAnchor (click)="toggleHiddenTilesPopup()">
+                                        <m4-icon icon="tb-hide"></m4-icon>
+                                    </div>
+                                    <kendo-popup class="hidden-tiles-popup" [anchor]="hiddenTilesAnchor" (anchorViewportLeave)="showHiddenTilesPopup = false" *ngIf="showHiddenTilesPopup">
+                                        <div class="hidden-tiles-popup-content">
+                                            <h4>{{this._TB('Hidden tiles')}}</h4>
+                                            <tb-hidden-tiles></tb-hidden-tiles>
+                                            <a class="clear" icon="tb-delete" (click)="menuService?.removeAllHiddenTiles()" *ngIf="menuService?.hiddenTilesCount > 0">{{_TB('Clear hidden tiles list') }}</a>
+                                        </div>
+                                    </kendo-popup>
+                                </div>
 
                                 <div class="header-strip-under">
                                     <tb-menu-stepper [Menu]="menuService.allMenus"></tb-menu-stepper>
@@ -21,15 +71,13 @@
 
                             <div class="menu-container row" *ngIf="menuService.selectedMenu != undefined">
 
-                                <tb-menu-content *ngFor="let tile of tiles"  [menu]="menuTab" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4"
-                                    [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
+                                <tb-menu-content *ngFor="let tile of tiles" [menu]="menuTab" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
                                 </tb-menu-content>
                             </div>
 
                             <div class="menu-container row" *ngIf="menuService?.selectedMenu?.Object">
 
-                                <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" class="col-xs-12 col-sm-12 col-md-6 col-lg-4"
-                                    [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
+                                <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
                                 </tb-menu-content>
                             </div>
 

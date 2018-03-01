@@ -1,20 +1,18 @@
-<div class="hiddenTiles">
-    <ul class="hiddenTiles-list">
-        <p *ngIf="menuService.hiddenTilesCount == 0" class="hiddenTiles-empty">{{_TB('Empty list...')}}</p>
+<div class="hidden-tiles">
+    <ul class="hidden-tiles-list">
+        <p *ngIf="menuService.hiddenTilesCount == 0" class="hidden-tiles-empty">{{_TB('Empty list...')}}</p>
 
-        <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
+        <li *ngFor="let tile of menuService?.hiddenTiles" class="hidden-tiles-item" (click)="menuService.removeFromHiddenTiles(tile)" title="{{_TB('Remove')}}">
             <ng-container *ngIf="tile.currentApp == menuService?.selectedApplication?.name && tile.currentGroup == menuService?.selectedGroup?.name &&  tile.currentMenu == menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
                 <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="above" matTooltipShowDelay="500">{{tile.title}}</span>
-                <m4-icon class="close" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
             </ng-container>
         </li>
         <hr class="separator" *ngIf="menuService.hiddenTilesCount != 0">
-        <li *ngFor="let tile of menuService?.hiddenTiles" class="hiddenTiles-item" (click)="menuService.removeFromHiddenTiles(tile)">
+        <li *ngFor="let tile of menuService?.hiddenTiles" class="hidden-tiles-item" (click)="menuService.removeFromHiddenTiles(tile)" title="{{_TB('Remove')}}">
             <ng-container *ngIf="tile.currentApp != menuService?.selectedApplication?.name || tile.currentGroup != menuService?.selectedGroup?.name ||  tile.currentMenu != menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
                 <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="above" matTooltipShowDelay="500">{{tile.title}}</span>
-                <m4-icon class="close" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
             </ng-container>
         </li>
     </ul>

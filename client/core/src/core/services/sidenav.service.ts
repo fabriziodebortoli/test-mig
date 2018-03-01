@@ -4,22 +4,26 @@
  * (es: home-sidenav.component)
  */
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from '../../rxjs.imports';
+import { Observable, BehaviorSubject, Subject } from '../../rxjs.imports';
 
 @Injectable()
 export class SidenavService {
 
-  public sidenavLeftOpenedSource = new Subject<boolean>();
-  sidenavOpenedLeft$: Observable<boolean> = this.sidenavLeftOpenedSource.asObservable();
+  public sidenavOpenedSource = new Subject<boolean>();
+  sidenavOpened$: Observable<boolean> = this.sidenavOpenedSource.asObservable();
 
-  public sidenavRightOpenedSource = new Subject<boolean>();
-  sidenavOpenedRight$: Observable<boolean> = this.sidenavRightOpenedSource.asObservable();
+  private sidenavPinned: boolean = localStorage.getItem('sidenavPinned') == 'true';
+  public sidenavPinnedSource = new BehaviorSubject<boolean>(this.sidenavPinned);
+  sidenavPinned$: Observable<boolean> = this.sidenavPinnedSource.asObservable();
 
-  toggleSidenavLeft() {
-    this.sidenavLeftOpenedSource.next();
+  openedChange(opened) {
+    localStorage.setItem('sidenavOpened', "" + opened)
+    this.sidenavOpenedSource.next(opened);
   }
 
-  toggleSidenavRight() {
-    this.sidenavRightOpenedSource.next();
+  pinSidenav() {
+    this.sidenavPinned = !this.sidenavPinned;
+    localStorage.setItem('sidenavPinned', "" + this.sidenavPinned)
+    this.sidenavPinnedSource.next(this.sidenavPinned);
   }
 }
