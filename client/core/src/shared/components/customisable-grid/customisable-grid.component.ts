@@ -80,7 +80,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private lastSelectedKeyPage = -1;
     private _filter: CompositeFilterDescriptor;
     private _state: State;
-    private _settings: Settings;
+    private _settings = new Settings();
     private reshape = memoize((d: GridData, cols) => {
         return tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
     });

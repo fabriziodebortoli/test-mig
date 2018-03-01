@@ -9,9 +9,6 @@ export type Change = { action: ChangeAction; key: string };
 
 @Injectable()
 export class StorageService {
-    static get change(): Observable<Change> { return StorageService._change; }
-    private static _change = new Subject<Change>();
-
     options: StorageOptions = { scope: KeyScope.Component };
 
     constructor(private log: Logger) { }
@@ -32,7 +29,6 @@ export class StorageService {
     remove(key: string): void {
         let ukey = this.uniqueKey(key, this.options.scope);
         localStorage.removeItem(ukey);
-        (StorageService._change as Observer<Change>).next({ action: ChangeAction.remove, key: ukey });
     }
 
     set<T>(key: string, data: T): T;
@@ -40,7 +36,6 @@ export class StorageService {
         let ukey = this.uniqueKey(key, this.options.scope);
         try {
             localStorage.setItem(ukey, JSON.stringify(data));
-            (StorageService._change as Observer<Change>).next({ action: ChangeAction.set, key: ukey });
         } catch (e) {
             if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
                 e.name === 'QuotaExceededError' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
