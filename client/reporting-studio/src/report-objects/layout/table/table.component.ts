@@ -63,12 +63,12 @@ export class ReportTableComponent {
       'position': 'absolute',
       'top': this.table.rect.top + 'px',
       'left': this.table.rect.left + 'px',
-      'width': this.getColumWidth(this.table.columns) + 2 +'px'
+      'width': this.getTableWidth(this.table.columns) + 'px'
     };
     return obj;
   }
 
-  getColumWidth(columns : column[]){
+  getTableWidth(columns : column[]){
     let widthTotal = 0;
     for(let index = 0; index < columns.length; index++){
       if(!columns[index].hidden)
