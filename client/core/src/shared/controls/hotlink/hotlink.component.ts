@@ -10,8 +10,7 @@ import { ControlComponent } from './../control.component';
 @Component({
   selector: 'tb-hotlink',
   templateUrl: './hotlink.component.html',
-  styleUrls: ['./hotlink.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./hotlink.component.scss']
 })
 
 export class HotlinkComponent extends ControlComponent implements OnInit {
