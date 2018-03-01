@@ -38,11 +38,14 @@ export class BodyEditColumnComponent extends ControlComponent {
   }
 
   public getWidth() {
-    let lenght = (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length) 
-    ? this.bodyEditService.prototype[this.columnName].length 
-    : this.title.length;
-    
-    let minChars = this.chars > 0 ? Math.min(lenght, this.chars) : lenght;
+    let length;
+    if (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length > 0) {
+      length = Math.max(this.title.length, this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length);
+    }
+    else
+      length = this.title.length;
+      
+    let minChars = this.chars > 0 ? Math.min(length, this.chars) : length;
     return minChars * 10;
   }
 }
