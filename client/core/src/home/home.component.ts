@@ -37,7 +37,6 @@ import { DiagnosticService } from './../core/services/diagnostic.service';
   selector: 'tb-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [ComponentInfoService]
 })
 export class HomeComponent extends TbComponent implements OnDestroy, AfterContentInit, OnInit {
