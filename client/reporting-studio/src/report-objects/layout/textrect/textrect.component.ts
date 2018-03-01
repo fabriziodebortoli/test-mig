@@ -53,7 +53,7 @@ export class ReportTextrectComponent implements AfterViewInit {
     let obj = {
       'position': 'relative',
       'display': 'table-cell',
-      'color': this.rect.textcolor,
+      'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -61,7 +61,7 @@ export class ReportTextrectComponent implements AfterViewInit {
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'text-align': this.rect.text_align,
       'vertical-align': this.rect.vertical_align,
-      'transform': 'rotate('+this.rect.rotateBy+'deg)',
+      'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
       'padding': '0 4px'
 
     };

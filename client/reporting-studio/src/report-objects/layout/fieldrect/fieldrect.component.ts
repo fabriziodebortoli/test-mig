@@ -71,9 +71,9 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
       'font-weight': this.rect.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
-      'color': this.rect.textcolor,
+      'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'text-align': this.rect.text_align,
-      'transform': 'rotate('+this.rect.rotateBy+'deg)',
+      'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
       'line-height': lineHeight
     };
     return obj;
