@@ -275,7 +275,8 @@ class TB_EXPORT DataObj : public CContextObject
 	friend class CTaskBuilderApp;
 	friend class HotKeyLink;
 
-protected:                                                                         
+protected:       
+	DataObj * m_pPreviousVal = NULL;
 	DWORD	m_wDataStatus;
 	SWORD	m_nSqlDataType;
 	CArray<HotKeyLink*> m_arAlignedHKLs;//elenco di hotlink per cui la find � stata effettuata e non necessita di essere rifatta
@@ -383,8 +384,10 @@ public:
 	virtual void AssignJsonValue(CJsonParser& parser);
 
 			void AssignFromJson(CJsonParser& parser);
-			void SerializeToJson(CJsonSerializer& jsonSerializer);
-
+			void SerializeToJson(CJsonSerializer& jsonSerializer, bool patch, DataObj* pPreviousVal);
+			void SerializeToJson(CJsonSerializer& jsonSerializer, bool patch);
+			bool HasChangedForJson();
+			bool HasChangedForJson(DataObj* pPreviousVal);
 			bool AlignHKL(HotKeyLink* pHKL);
 	void SignalOnChanged();
 /*

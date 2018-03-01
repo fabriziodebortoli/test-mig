@@ -674,7 +674,8 @@ void CJsonSerializer::WriteDouble(LPCTSTR sName, double dValue, LPCTSTR sComment
 void CJsonSerializer::OpenObject(const CString sName)
 {
 	Json::Value* pVal = m_Stack.top();
-	(*pVal)[sName] = Json::objectValue;
+	if ((*pVal)[sName].isNull())
+		(*pVal)[sName] = Json::objectValue;
 	Json::Value& pNewVal = (*pVal)[sName];
 	m_Stack.push(&pNewVal);
 }

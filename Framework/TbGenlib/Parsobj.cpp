@@ -104,7 +104,7 @@ public:
 class CPushRoutingView
 {
 protected:
-	CView* pOldRoutingView;
+	CView * pOldRoutingView;
 	_AFX_THREAD_STATE* pThreadState;
 	CPushRoutingView* pOldPushRoutingView;
 
@@ -3930,8 +3930,7 @@ void CParsedCtrl::AdjustButtonsVisualizationUpdateControls()
 	AdjustButtonsVisualization();
 	UpdateCtrlStatus();
 	UpdateCtrlView();
-	if (GetCtrlCWnd())
-		GetCtrlCWnd()->UpdateWindow();
+
 }
 
 //-----------------------------------------------------------------------------
@@ -4895,10 +4894,10 @@ void CParsedCtrl::ReattachHotKeyLink(HotKeyLinkObj* pHotKeyLink, BOOL bOwned /* 
 {
 	if (m_pButton)
 	{
-		if (m_pHotKeyLink == NULL &&  pHotKeyLink != NULL && dynamic_cast<CGridControlObj*>(GetCtrlParent()) == NULL)
+		if (m_pHotKeyLink == NULL && pHotKeyLink != NULL && dynamic_cast<CGridControlObj*>(GetCtrlParent()) == NULL)
 			m_pButton->ShowWindow(SW_SHOW);
 
-		if (m_pHotKeyLink != NULL &&  pHotKeyLink == NULL)
+		if (m_pHotKeyLink != NULL && pHotKeyLink == NULL)
 		{
 			m_pButton->ShowWindow(SW_HIDE);
 
@@ -5582,7 +5581,7 @@ BOOL CParsedCtrl::UpdateCtrlData(BOOL bEmitError, BOOL bSendMessage /* = FALSE *
 
 	if (bOk)
 	{
-		
+
 		// In ogni caso si fa il reset degli stati di errore
 		CParsedCtrl::IsValid();
 
@@ -5911,7 +5910,7 @@ void CParsedCtrl::RestoreOldCtrlData(BOOL bShow /*= FALSE */)
 //-----------------------------------------------------------------------------
 void CParsedCtrl::UpdateCtrlView()
 {
-	if (m_nValueChanging || AfxIsRemoteInterface())
+	if (m_nValueChanging)
 		return;
 
 	if (m_pData)
@@ -6138,14 +6137,7 @@ void CParsedCtrl::SetItemSource(IItemSource* pItemSource)
 BOOL CParsedCtrl::EnableCtrl(BOOL bEnable /* = TRUE */)
 {
 	if (AfxIsRemoteInterface())
-	{
-		if (!m_pOwnerWndDescription)
-			return FALSE;
-		BOOL bOld = m_pOwnerWndDescription->m_bEnabled;
-		m_pOwnerWndDescription->m_bEnabled = bEnable == TRUE;
-		m_pOwnerWndDescription->SetUpdated(&m_pOwnerWndDescription->m_bEnabled);
-		return bOld;
-	}
+		return FALSE;
 	ASSERT(m_pOwnerWnd);
 
 	if (m_StateCtrls.GetSize())
@@ -6207,17 +6199,7 @@ BOOL CParsedCtrl::EnableCtrl(BOOL bEnable /* = TRUE */)
 BOOL CParsedCtrl::ShowCtrl(int nCmdShow)
 {
 	if (AfxIsRemoteInterface())
-	{
-		if (!m_pOwnerWndDescription)
-			return FALSE;
-		bool bShow = nCmdShow != SW_HIDE;
-
-		if (m_pOwnerWndDescription->m_bVisible == bShow)
-			return FALSE;
-		m_pOwnerWndDescription->m_bVisible = bShow;
-		m_pOwnerWndDescription->SetUpdated(&m_pOwnerWndDescription->m_bVisible);
-		return TRUE;
-	}
+		return FALSE;
 	ASSERT(m_pOwnerWnd);
 
 	if (m_pButton)
@@ -7488,7 +7470,7 @@ void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 		GetCtrlParent()->POST_WM_COMMAND(GetCtrlID(), PCN_SET_FOCUS, m_pOwnerWnd->m_hWnd);
 		return;
 	}
-	
+
 	// se nel frattempo qualcuno ha messo ReadOnly il DataObj si cambia lo
 	// stato esplicitamente poiche` il control si autoprotegge da variazioni
 	// di stato e valore mentre sta eseguendo la UpdateCtrlData()
@@ -8282,7 +8264,7 @@ BOOL CParsedCtrl::CheckDataObjType(const DataObj* pDataObj /* = NULL */)
 					)
 				||
 				(
-					dataDataType == DATA_TXT_TYPE	&&
+					dataDataType == DATA_TXT_TYPE &&
 					ctrlDataType == DATA_STR_TYPE
 					)
 				||
@@ -8610,7 +8592,7 @@ void CParsedCtrl::OnHotLinkClosed()
 		HotKeyLinkObj* pHKL = GetHotLink();
 		if (pHKL)
 
-		m_pDocument->OnHotLinkClosed(GetCtrlID());
+			m_pDocument->OnHotLinkClosed(GetCtrlID());
 	}
 }
 
@@ -8639,7 +8621,7 @@ CFormatMask* CParsedCtrl::GetFormatMask()
 		// in new e edit dipende se il control ha il bottone di autonumerazione e se lo 
 		// state control è in numerazione manuale o automatica
 	default:
-		CStateCtrlObj* pStateCtrlObj = GetStateCtrl(m_pNumbererRequest->GetNumberingDisabled());
+		CStateCtrlObj * pStateCtrlObj = GetStateCtrl(m_pNumbererRequest->GetNumberingDisabled());
 		return !pStateCtrlObj || (pStateCtrlObj->GetButton() || !pStateCtrlObj->IsInEditableState()) ? pFormatMask : NULL;
 	}
 }
@@ -8794,6 +8776,20 @@ void CParsedCtrl::EnableDrop(BOOL bEnable /*= TRUE*/, CParsedCtrlDropTarget* pDr
 //-----------------------------------------------------------------------------
 void CParsedCtrl::UpdateViewModel(BOOL bParentIsVisible)
 {
+	if (AfxIsRemoteInterface())
+	{
+		if ((
+			IsDataModified() ||
+			ForceUpdateCtrlView()
+			) &&
+			m_pData && 
+			m_pData->IsWebBound() &&
+			m_pDocument )
+		{
+			m_pDocument->AddModifiedData(m_pData);
+		}
+		return;
+	}
 	CWnd* pWnd = GetCtrlCWnd();
 	if (!pWnd || !pWnd->m_hWnd)
 		return;
@@ -8811,12 +8807,7 @@ void CParsedCtrl::UpdateViewModel(BOOL bParentIsVisible)
 		)
 	{
 		UpdateCtrlStatus();
-		if (!AfxIsRemoteInterface())
-		{
-			UpdateCtrlView();
-			if (GetCtrlCWnd())
-				GetCtrlCWnd()->UpdateWindow();
-		}
+		UpdateCtrlView();
 	}
 
 }
@@ -8850,7 +8841,7 @@ void CParsedCtrl::ReadPropertiesFromJson()
 
 	if (m_pOwnerWndDescription->m_nTextLimit > 0)
 		SetCtrlMaxLen(m_pOwnerWndDescription->m_nTextLimit);
-	
+
 	CString strCaption;
 	if (m_pCaption)
 		m_pCaption->GetWindowText(strCaption);
@@ -13250,14 +13241,14 @@ int ResizableCtrl::CalcMinY()
 		int res = pWndChild->GetDlgCtrlID();
 
 		BOOL skip = (res == IDC_STATIC_AREA || res == IDC_STATIC_AREA_2);
-		
+
 		if (!skip && hChild != hHandleToSkip)
 		{
 			CRect aRect;
 			::GetWindowRect(hChild, &aRect);
 			pParentWnd->ScreenToClient(aRect);
 
-			if (aRect.bottom  > minY)
+			if (aRect.bottom > minY)
 			{
 				minY = aRect.bottom;
 				offset = aRect.Height();

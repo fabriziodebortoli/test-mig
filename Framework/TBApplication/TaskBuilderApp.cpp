@@ -327,7 +327,7 @@ int CTaskBuilderApp::Run()
 //-----------------------------------------------------------------------------
 BOOL CTaskBuilderApp::InitInstance()
 {
-
+	s_pfExpFilter = (ExpFilterFunction*)&ExpFilter;
 	class CFreeWait
 	{
 		CString m_strSemaphore;

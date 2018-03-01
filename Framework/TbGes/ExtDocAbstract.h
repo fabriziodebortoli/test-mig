@@ -292,6 +292,7 @@ public:
 	int		m_nAdmQueries;	
 	int		m_nUpdateDataViewLevel;
 	bool	m_bNeedsUpdateDataView;
+	bool	m_bUpdatingDataView;
 	int		m_nDisabled;
 	bool	m_bWarnWhenEmptyQuery;
 	Array	m_arDataSourceAliases;
@@ -368,10 +369,10 @@ public:	//	Data Member
 	END_TB_STRING_MAP()
 
 private:
-	CObArray			m_arRegisteredDBTs;
+	CArray<DBTObject*>	m_arRegisteredDBTs;
 	BOOL				m_bCheckExistXMLDocInfo;
 	BOOL				m_bExistXMLDocInfo;
-	CJsonWrapper		m_JsonData;//per i delta dei dati json
+	BOOL				m_bJsonDataSent;//serve per capire cosa mandare: la prima volta l'intero json, dopo solo i delta
 	CNumbererBinder*	m_pNumbererBinder;
 	CMap<CString, LPCTSTR, CString, LPCTSTR> m_ForwardHotlinks;//elenco degli hotlink dichiarati nel json ma non necessariamente ancora istanziati 
 protected:
@@ -725,7 +726,7 @@ public:
 	void	SuspendUpdateDataView	();
 	void	ResumeUpdateDataView	();
 	void	UpdateDataView			(BOOL bForce = FALSE);
-
+	void	ExecuteUpdateDataView	();
 	virtual void	AbortAllViews	();
 
 	void	InvalidateActiveTabDialog();
@@ -863,10 +864,8 @@ public:
 
 	void OnFormHelp();
 	void OnFavorites();
-
-
-
-
+	void OnCrash();
+	void OnTimer(UINT nTimer);
 	//EasyBuilder
 	virtual void LoadSymbolTable();
 	void ReloadSymbolTable();
@@ -965,6 +964,7 @@ public:
 	virtual BOOL		ValorizeVariable		(const CString& sName, const CString& sValue);
 	void				RemoveVariable			(const CString& sName);
 
+	void				GetJsonPatch			(CJsonSerializer& jsonSerializer);
 	void				GetJson					(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	void				SetJson					(CJsonParser&	  jsonParser);
 	virtual CString		GetComponentId			();
@@ -1126,6 +1126,9 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 	//impr. 5320 
 	BOOL	SetDataFromXMLString(CString strXML,  const CString& strXSLTFileName);
 	CString	GetDataToXMLString(const CString& strProfileName, const CString& strXSLTFileName);
+
+	void GetBindingInfo(const CString& sDataSource, const CString& sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist);
+	void GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName);
 
 protected:
 	BOOL CreateBrowser	(LPCTSTR pObject = NULL);

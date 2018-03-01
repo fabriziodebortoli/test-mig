@@ -879,6 +879,9 @@
     <ClCompile Include="DTBFSettings.cpp">
       <Filter>TbGes\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DBTJsonCache.cpp">
+      <Filter>TbGes\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TbGes.def">
@@ -1985,6 +1988,9 @@
       <Filter>TbGes\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DTBFSettings.h">
+      <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBTJsonCache.h">
       <Filter>TbGes\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

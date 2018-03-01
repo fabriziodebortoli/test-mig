@@ -47,6 +47,7 @@
 #define	ID_STATUS_BAR_SWITCH			GET_ID(ID_STATUS_BAR_SWITCH)
 #define	ID_TOOLBAR_EMPTY			GET_ID(ID_TOOLBAR_EMPTY)
 #define	ID_WIZARD_RESTART			GET_ID(ID_WIZARD_RESTART)
+#define	ID_EXTDOC_CRASH				GET_ID(ID_EXTDOC_CRASH)
 
 //-----------------------------------------------------------------------------------------------------
 //Type:	IDB

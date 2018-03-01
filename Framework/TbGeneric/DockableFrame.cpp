@@ -117,6 +117,34 @@ void CDockableFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 	__super::OnActivate(nState, pWndOther, bMinimized);
 }
 
+
+//-----------------------------------------------------------------------------
+BOOL CDockableFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+{
+	__try
+	{
+		return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+	}
+	__except (s_pfExpFilter(GetExceptionInformation(), GetExceptionCode()))
+	{
+		AfxGetThreadContext()->SetInErrorState(); //to prevent another exception when destroying a document after an exception (search this boolean in code)		
+		return TRUE;
+	}
+}
+
+//-----------------------------------------------------------------------------
+BOOL CDockableFrame::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+	__try
+	{
+		return __super::OnWndMsg(message, wParam, lParam, pResult);
+	}
+	__except (s_pfExpFilter(GetExceptionInformation(), GetExceptionCode()))
+	{
+		AfxGetThreadContext()->SetInErrorState(); //to prevent another exception when destroying a document after an exception (search this boolean in code)		
+		return TRUE;
+	}
+}
 //-----------------------------------------------------------------------------
 BOOL CDockableFrame::OnCreateClient(LPCREATESTRUCT cs, CCreateContext* pContext)
 {

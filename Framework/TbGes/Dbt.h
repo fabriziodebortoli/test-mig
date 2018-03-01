@@ -8,6 +8,7 @@
 #include <TbOledb\sqltable.h>
 
 #include "xmlgesinfo.h"
+#include "DBTJsonCache.h"
 
 //includere alla fine degli include del .H
 #include "beginh.dex"
@@ -203,7 +204,8 @@ public:
 	virtual	BOOL		PrepareSymbolTable	(SymTable*);
 	virtual DBTObject*	GetDBTObject		(SqlRecord*);
 
-	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound) { ASSERT(FALSE); }
+	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound) = 0;
+	virtual bool		SetJson(CJsonParser& jsonParser) = 0;
 
 public:
 	// useful getting routines
@@ -410,7 +412,7 @@ public:
 	virtual DBTObject* GetDBTObject (SqlRecord*);
 
 	virtual void	GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual void	SetJson(BOOL bWithChildren, CJsonParser& jsonParser);
+	virtual bool	SetJson(CJsonParser& jsonParser);
 
 	//virtual BOOL		Parse		(CXMLNode* pNode, BOOL bWithAttributes = TRUE, BOOL bParseLocal = FALSE);
 	virtual BOOL		UnParse		(CXMLNode* pParentNode, BOOL bWithAttributes = TRUE, BOOL bUnParseLocal = FALSE, BOOL bUnParseSlavable = FALSE);
@@ -558,7 +560,7 @@ public:
 	virtual BOOL	UnParse		(CXMLNode* pParentNode, BOOL bWithAttributes = TRUE, BOOL bUnParseLocal = FALSE, BOOL /*bUnParseSlavable*/ = FALSE);
 
 	virtual void	GetJson		(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual void	SetJson		(BOOL bWithChildren, CJsonParser& jsonParser);
+	virtual bool	SetJson		(CJsonParser& jsonParser);
 
 // Diagnostics
 #ifdef _DEBUG
@@ -630,17 +632,18 @@ class TB_EXPORT DBTSlaveBuffered : public DBTSlave, public IDataProvider
 	friend class CRowFormView;
 	friend class CSlaveViewContainer;
 	friend class CDBTTreeEdit;
+	friend class DBTJsonCache;
 
 	DECLARE_DYNCREATE(DBTSlaveBuffered)
 
 	enum CompareStatus { NEW_ROW, MODIFIED, EQUAL };
 
 private:
-	CJsonWrapper		m_JsonData;//per i delta dei dati json
 	DATAOBJ_ROW_FUNC	m_pFnDuplicateKey;
 	CBodyEditPointers	m_arBodyPtr;
 	TArray<HKLDescriptionInfo>m_arHKLDescriptionInfos; //array degli hotlink a cui sono associati campi di decodifica dinamici
-	TArray<HKLKeyInfo>m_arHKLKeyInfos; //array degli hotlink a cui sono associati campi chiave per la decodifica dinamica
+	TArray<HKLKeyInfo>	m_arHKLKeyInfos; //array degli hotlink a cui sono associati campi chiave per la decodifica dinamica
+	DBTJsonCache*		m_pJsonCache;
 protected:	// data
 	RecordArray*	m_pRecords;				// buffered body
 
@@ -748,8 +751,6 @@ public:
 
 	void	SuspendObservables();
 	void	ResumeObservables();
-
-	void	ResetJsonData();
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//deprecated method
 	GET_DBTSLAVE_DEPRECATED DBTSlave* GetCurrentDBTSlave();
@@ -803,11 +804,11 @@ public:
 	DBTObject*	GetDBTObject(const CTBNamespace&	aNs) const;
 	DBTObject*	GetDBTByName(const CString& sDbtName) const;
 	virtual DBTObject*	GetDBTObject (SqlRecord*);
-	
+	void				GetJsonPatch(CJsonSerializer& jsonSerializer);
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual void		SetJson(BOOL bWithChildren, CJsonParser& jsonParser);
+	virtual bool		SetJson(CJsonParser& jsonParser);
 	
-	virtual void		GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound, int pageToSkip, int pageToTake);
+	virtual void		SetJsonLimits(int nRowFrom, int nCount);
 
 	SqlRecord*	GetCurrentMasterRecord(const CString& strDBTName = _T(""));
 

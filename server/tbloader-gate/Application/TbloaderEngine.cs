@@ -33,29 +33,13 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------------------------
-        private static bool IsProcessRunning(int processId)
-        {
-            try
-            {
-                Process process = Process.GetProcessById(processId);
-                if (process == null)
-                    return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        //-----------------------------------------------------------------------------------------
         internal static TBLoaderInstance GetTbLoader(string server, int port, string name, out bool newInstance)
         {
             newInstance = false;
             var tbLoader = GetTbLoader(name);
             if (tbLoader != null)
             {
-                if (!IsProcessRunning(tbLoader.ProcessId) || tbLoader.ProcessId == 0)
+                if (!tbLoader.IsProcessRunning())
                 {
                     RemoveTbLoader(tbLoader);
                     tbLoader = null;

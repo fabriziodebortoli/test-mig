@@ -239,7 +239,7 @@ public:
 	afx_msg LRESULT OnCloneDocument(WPARAM, LPARAM);
 	afx_msg LRESULT OnIsRootDocument(WPARAM, LPARAM);
 	afx_msg LRESULT OnHasInvalidView(WPARAM, LPARAM);
-
+	afx_msg	void	OnTimer(UINT nIDEvent);
 //}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 

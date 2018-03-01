@@ -1359,7 +1359,7 @@ DataObj::~DataObj()
 #ifdef _DEBUG
 	SAFE_DELETE(m_pNewed);
 #endif
-
+	delete m_pPreviousVal;
 }
 
 //-----------------------------------------------------------------------------
@@ -1404,15 +1404,43 @@ bool DataObj::AlignHKL(HotKeyLink* pHKL)
 	m_arAlignedHKLs.Add(pHKL);
 	return true;
 }
-
 //-----------------------------------------------------------------------------
-void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer)
+bool DataObj::HasChangedForJson()
 {
-	jsonSerializer.WriteInt(szType, GetDataType().m_wType);
+	return HasChangedForJson(m_pPreviousVal);
+}
+//-----------------------------------------------------------------------------
+bool DataObj::HasChangedForJson(DataObj* pPreviousVal)
+{
+	return
+		!pPreviousVal ||
+		pPreviousVal->m_wDataStatus != m_wDataStatus ||
+		!pPreviousVal->IsEqual(*this);
+}
+//-----------------------------------------------------------------------------
+void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch)
+{
+	if (!patch)
+	{
+		jsonSerializer.WriteInt(szType, GetDataType().m_wType);
+		jsonSerializer.WriteInt(szLength, GetColumnLen());
+	}
 
-	jsonSerializer.WriteInt(szLength, GetColumnLen());
-	jsonSerializer.WriteInt(szStatus, m_wDataStatus);
-	SerializeJsonValue(jsonSerializer);
+	SerializeToJson(jsonSerializer, patch, m_pPreviousVal);
+	
+	if (!m_pPreviousVal)
+		m_pPreviousVal = Clone();
+	else
+		m_pPreviousVal->Assign(*this);
+	m_pPreviousVal->m_wDataStatus = m_wDataStatus;
+	
+}//-----------------------------------------------------------------------------
+void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch, DataObj* pPreviousVal)
+{
+	if (!patch || !m_pPreviousVal || m_pPreviousVal->m_wDataStatus != m_wDataStatus)
+		jsonSerializer.WriteInt(szStatus, m_wDataStatus);
+	if (!patch || !m_pPreviousVal || !m_pPreviousVal->IsEqual(*this))
+		SerializeJsonValue(jsonSerializer);
 }
 
 //-----------------------------------------------------------------------------

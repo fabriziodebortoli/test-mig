@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 export function createEmptyModel(): any {
     return {
         _status: 0,
@@ -5,36 +6,51 @@ export function createEmptyModel(): any {
         _type: 0
     };
 }
-export function addModelBehaviour(model: any) {
+export function isDataObj(obj: any): boolean {
+    return obj && obj._status !== undefined;
+}
+export function addModelBehaviour(model: any, name: string) {
     if (model instanceof Object) {
-        if (model._status !== undefined) {//solo se è un dataobj
-            addControlModelBehaviour(model);
+        if (isDataObj(model)) {//solo se è un dataobj
+            addControlModelBehaviour(model, name);
         } else {
             for (const prop in model) {
-                addModelBehaviour(model[prop]);
+                addModelBehaviour(model[prop], name + '/' + prop);
             }
         }
+        model.modelChanged = new EventEmitter<any>();
+    } else if (model instanceof Array) {
+        for (let i = 0; i < model.length; i++) {
+            addModelBehaviour(model[i], name + '/' + i.toString());
+        }
+
     }
 }
-export function addControlModelBehaviour(model: any) {
-
+export function addControlModelBehaviour(model: any, name: string) {
+    model.valueChanged = new EventEmitter<any>();
+    model.statusChanged = new EventEmitter<any>();
+    model.name = name;
     Object.defineProperty(model, "value", {
-        get: function enabled(): any {
+        get: function value(): any {
             return this._value;
         },
-        set: function enabled(val: any) {
+        set: function value(val: any) {
+            const changed = this._value !== val;
             this._value = val;
+            if (changed) {
+                this.valueChanged.emit(this);
+            }
         }
     });
 
     Object.defineProperty(model, "type", {
-        get: function enabled(): number {
+        get: function type(): number {
             return this._type;
         }
     });
 
     Object.defineProperty(model, "length", {
-        get: function enabled(): number {
+        get: function length(): number {
             return this._length;
         }
     });
@@ -64,7 +80,12 @@ export function addControlModelBehaviour(model: any) {
         }
     });
     model.setStatus = function (bSet: boolean, aStatusFlag: number) {
+        const old = this._status;
+
         this._status = bSet ? this._status | aStatusFlag : this._status & ~aStatusFlag;
+
+        if (old !== this.status)
+            this.statusChanged.emit(this);
     }
 }
 

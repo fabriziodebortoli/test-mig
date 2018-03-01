@@ -244,6 +244,14 @@ void CBaseDocument::SetNamespace (const CTBNamespace& aNamespace)
 }
 
 //-----------------------------------------------------------------------------
+void CBaseDocument::AddModifiedData(DataObj* pData)
+{
+	for (int i = 0; i < m_ModifiedData.GetCount(); i++)
+		if (m_ModifiedData[i] == pData)
+			return;
+	m_ModifiedData.Add(pData);
+}
+//-----------------------------------------------------------------------------
 const CDocumentDescription*	CBaseDocument::GetXmlDescription ()
 {
 	return m_pDocInvocationParams ? m_pDocInvocationParams->GetDocumentDescription() : NULL; 

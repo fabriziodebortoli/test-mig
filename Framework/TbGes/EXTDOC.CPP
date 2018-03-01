@@ -98,7 +98,8 @@ static const char THIS_FILE[] = __FILE__;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+//-----------------------------------------------------------------------------
+#define IDT_UPDATEDATAVIEW	415	// id del timer attivato dall'UpdateDataView
 //============================================================================
 //	 BROWSE		NEW		EDIT	FIND	
 //	===================================
@@ -155,7 +156,11 @@ DataObj* GetField(SqlRecord* pRecord, const CString& sFieldName, bool& isVirtual
 	return NULL;
 }
 
-
+int GetRefreshDelay()
+{
+	static int nDelay = *((DataInt*)AfxGetSettingValue(snsTbGenlib, szFormsSection, szRefreshDelay, DataInt(100)));
+	return nDelay;
+}
 /////////////////////////////////////////////////////////////////////////////
 // CDMSAttachmentManagerObj
 /////////////////////////////////////////////////////////////////////////////
@@ -376,6 +381,8 @@ BEGIN_MESSAGE_MAP(CAbstractFormDoc, CAbstractDoc)
 	ON_COMMAND(ID_EXTDOC_HELP, OnFormHelp)
 	ON_COMMAND(ID_EXTDOC_FAVORITES, OnFavorites)
 
+	ON_COMMAND(ID_EXTDOC_CRASH, OnCrash)
+
 	ON_UPDATE_COMMAND_UI(ID_EXTDOC_NEW, OnUpdateNewRecord)
 	ON_UPDATE_COMMAND_UI(ID_EXTDOC_EDIT, OnUpdateEditRecord)
 	ON_UPDATE_COMMAND_UI(ID_EXTDOC_FIND, OnUpdateFindRecord)
@@ -476,17 +483,19 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_pWoormInfo(NULL),
 	m_bCheckExistXMLDocInfo(FALSE),
 	m_bExistXMLDocInfo(FALSE),
+	m_bJsonDataSent(FALSE),
 	m_bSingleUserMode(FALSE),
 	m_bLockedDocument(FALSE),
 	m_nUpdateDataViewLevel(0),
 	m_bNeedsUpdateDataView(false),
+	m_bUpdatingDataView(false),
 	m_nDisabled(0),
 	m_bWarnWhenEmptyQuery(true),
 	m_bFavoritesState(FALSE),
 	m_pHeaderTitle(NULL),
 	m_bUpdateDefaultReport(TRUE),
 	m_pNumbererBinder(NULL)
-{ 
+{
 	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
 	// Imposta il documento in modo BROWSE
 	CBaseDocument::SetFormMode(BROWSE);
@@ -742,7 +751,10 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 					CString sVar = parser.ReadString(j);
 					DataObj* pDataObj = GetVariableValue(sVar);
 					if (pDataObj)
+					{
 						pDataObj->SetWebBound();
+						pDataObj->SetObjectName(sVar);
+					}
 				}
 			}
 			else
@@ -765,22 +777,16 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 						CString sVar = parser.ReadString(j);
 						DataObj* pDataObj = pRecord->GetDataObjFromColumnName(sVar);
 						if (pDataObj)
+						{
 							pDataObj->SetWebBound();
+							pDataObj->SetObjectName(sKey + _T("/") + sVar);
+						}
 					}
 			}
 		}
 	}
-	m_JsonData.Clear();
 
-	if (!this->GetMaster() || !this->GetMaster()->GetDBTSlaves())
-		return;
-
-	for (int i = 0; i < this->GetMaster()->GetDBTSlaves()->GetSize(); i++)
-	{
-		DBTSlaveBuffered* pBuffered = dynamic_cast<DBTSlaveBuffered*>(this->GetMaster()->GetDBTSlaves()->GetAt(i));
-		if (pBuffered)
-			pBuffered->ResetJsonData();
-	}
+	m_bJsonDataSent = FALSE;
 }
 //-----------------------------------------------------------------------------	
 void CAbstractFormDoc::AttachXMLExpCriteria(CXMLBaseAppCriteria* pBaseExportCriteria)
@@ -1309,7 +1315,7 @@ BOOL CAbstractFormDoc::TranslateFieldAlias(const CString& sActualDataSource, CSt
 			}
 		}
 	}
-	
+
 	return FALSE;
 }
 //-----------------------------------------------------------------------------
@@ -1887,7 +1893,7 @@ void CAbstractFormDoc::OnGenerateJsonModel()
 {
 	CJsonModelGenerator bsp(this);
 	bsp.Generate();
-	
+
 }
 // MagoXp equivalent behaviour: open report list
 //-----------------------------------------------------------------------------
@@ -2085,7 +2091,7 @@ void CAbstractFormDoc::PrepareFindQuery(SqlTable* pTable, BOOL bFromXTech /*=FAL
 			}
 			if (!pDBT->m_pFKReader->GetSize())
 				continue;
-						
+
 			// Aggiunge nella WHERE i filtri sui campi compilati nelle tabelle slave
 			BOOL bAdd = PrepareFindQuery(nParamIdx, pTable, pSlaveRec, FALSE);
 			if (bAdd)
@@ -3097,12 +3103,21 @@ void CAbstractFormDoc::ResumeUpdateDataView()
 	m_nUpdateDataViewLevel--;
 	ASSERT(m_nUpdateDataViewLevel >= 0);
 	if (m_nUpdateDataViewLevel == 0 && m_bNeedsUpdateDataView)
-		UpdateDataView();
+		UpdateDataView(TRUE);
+}
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::OnTimer(UINT nTimer)
+{
+	if (nTimer == IDT_UPDATEDATAVIEW)
+	{
+		ExecuteUpdateDataView();
+		GetMasterFrame()->KillTimer(IDT_UPDATEDATAVIEW);
+	}
 }
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
-	if (m_bClosing)
+	if (m_bClosing || m_bUpdatingDataView)
 		return;
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
@@ -3111,7 +3126,24 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 		m_bNeedsUpdateDataView = true;
 		return;
 	}
+	m_bUpdatingDataView = true;
+	int delay = GetRefreshDelay();
+	if (bForce || delay <= 0)
+		ExecuteUpdateDataView();
+	else
+	{
+		CLocalizableFrame* pFrame = GetFrame();
+		if (pFrame && pFrame->IsKindOf(RUNTIME_CLASS(CAbstractFormFrame)))
+			((CAbstractFormFrame*)pFrame)->SetTimer(IDT_UPDATEDATAVIEW, GetRefreshDelay(), NULL);
+		else
+			ExecuteUpdateDataView();
+	}
 
+
+}
+//------------------------------------------------------------------------------
+void CAbstractFormDoc::ExecuteUpdateDataView()
+{
 	m_bNeedsUpdateDataView = false;
 	//soppressa ottimizzazione: veniva alterato l'ordine delle chiamate 
 	//(UpdateDataView chiamata dopo della setDefaultFocus invece che prima, questo faceva assegnare il fuoco ad un controllo sbagliato)
@@ -3121,10 +3153,14 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 		m_pXMLDataManager->GetStatus() == CXMLDataManagerObj::XML_MNG_IMPORTING_DATA &&
 		!m_pXMLDataManager->UseOldXTechMode()
 		)
+	{
+		m_bUpdatingDataView = false;
 		return;
+	}
 
 	if (m_viewList.IsEmpty())
 	{
+		m_bUpdatingDataView = false;
 		return;
 	}
 
@@ -3169,6 +3205,8 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 		pSession->PushDataToClients(this);
 		pSession->PushButtonsStateToClients(GetFrame()->m_hWnd);
 	}
+	
+	m_bUpdatingDataView = false;
 }
 
 // Itera nelle view (ed alle tabdialog al loro interno) per frammentare localmente
@@ -3593,7 +3631,7 @@ BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 				m_pTbContext, this, CString(GetRuntimeClass()->m_lpszClassName)),
 				m_pTbContext->GetUpdatableSqlSession());
 
-			
+
 			if (m_pTbContext->GetSqlConnection()->GetUsePerformanceMng())
 			{
 				SqlPerformanceDlg* pPerformanceDlg = new SqlPerformanceDlg(m_pTbContext);
@@ -4318,8 +4356,8 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 				GoInBrowseMode();
 				break;
 		}
-		//mi disconnetto al database
-		//m_pTbContext->Disconnect();
+	//mi disconnetto al database
+	//m_pTbContext->Disconnect();
 
 	}
 		CATCH(SqlException, e)
@@ -4699,7 +4737,7 @@ BOOL CAbstractFormDoc::SaveModified()
 		// force Update and test for all controls view
 		if (GetNotValidView(TRUE))
 			return FALSE;
-		
+
 		ConnectToDatabase(szSaveAction);
 
 		m_pTbContext->StartTime(ONOK_TIME);
@@ -4730,7 +4768,7 @@ BOOL CAbstractFormDoc::SaveModified()
 		m_pTbContext->StopTime(ONOK_TIME);
 
 		bSave = DoSave(NULL);
-	
+
 		DisconnectFromDatabase();
 		break;
 
@@ -4942,10 +4980,10 @@ BOOL CAbstractFormDoc::NewRecord()
 
 	{ //non togliere la graffa: scope della NEEDS_UPDATE_DATA_VIEW()
 		SUSPEND_UPDATE_DATA_VIEW()
-		// Devo fare una query con il browser per vedere quanti record ci sono.
-		// e stabilire se esiste gia` un record. Nel qual caso non abilito l'aggiunta
-		// di nuovi record.
-		ASSERT(m_pBrowser);
+			// Devo fare una query con il browser per vedere quanti record ci sono.
+			// e stabilire se esiste gia` un record. Nel qual caso non abilito l'aggiunta
+			// di nuovi record.
+			ASSERT(m_pBrowser);
 
 		ConnectToDatabase(szNewAction);
 		if (
@@ -5010,7 +5048,7 @@ BOOL CAbstractFormDoc::NewRecord()
 	DisconnectFromDatabase();
 
 	ToolBarButtonsHideGhost(0);
-	SetDefaultFocus();	
+	SetDefaultFocus();
 	return TRUE;
 }
 
@@ -5062,7 +5100,7 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 		SUSPEND_UPDATE_DATA_VIEW();
 		AbortAllViews();
 
-		
+
 
 		m_pClientDocs->OnBeforeBrowseRecord();
 
@@ -5090,7 +5128,7 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 
 		UpdateDataView();
 	}
-	
+
 	m_pClientDocs->OnAfterBrowseRecord();
 	DisconnectFromDatabase();
 
@@ -5136,7 +5174,7 @@ BOOL CAbstractFormDoc::EditRecord()
 		FormMode fmOldFormMode = CBaseDocument::SetFormMode(EDIT);
 		OnAfterSetFormMode(fmOldFormMode);
 		m_pClientDocs->OnAfterSetFormMode(fmOldFormMode);
-	
+
 
 		CString strKeyDescri;
 		if (m_pDBTMaster)
@@ -5154,10 +5192,10 @@ BOOL CAbstractFormDoc::EditRecord()
 			}
 			else
 				SaveCurrentRecord();
-			
-			GoInBrowseMode();	
+
+			GoInBrowseMode();
 			//mi disconnetto al database
-			DisconnectFromDatabase();	
+			DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -5166,7 +5204,7 @@ BOOL CAbstractFormDoc::EditRecord()
 		if (!OnOkEdit() || !m_pClientDocs->OnOkEdit())
 		{
 			// serve a far ricaricare i DBT delayed
-			DispatchPrepareAuxData();			
+			DispatchPrepareAuxData();
 			GoInBrowseMode();
 			//mi disconnetto al database
 			DisconnectFromDatabase();
@@ -5191,7 +5229,7 @@ BOOL CAbstractFormDoc::EditRecord()
 		// Da una possibilita` al programmatore di personalizzare eventuali dati 
 		// accessori che dipendono dalla logica della applicazione
 		if (!DispatchPrepareAuxData())
-		{	
+		{
 			GoInBrowseMode();
 			//mi disconnetto dal database
 			DisconnectFromDatabase();
@@ -5274,7 +5312,7 @@ BOOL CAbstractFormDoc::SaveRecord()
 		DisconnectFromDatabase();
 
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)) && m_pMessages->ErrorFound())
-			m_pMessages->Show(TRUE);		
+			m_pMessages->Show(TRUE);
 		return FALSE;
 	}
 
@@ -5290,7 +5328,7 @@ BOOL CAbstractFormDoc::SaveRecord()
 	m_pTbContext->StopTime(ONOK_TIME);
 
 	BOOL bOk = DoSave(NULL);
-	
+
 	DisconnectFromDatabase();
 
 	//TODOLUCA  eliminata fino a quando non decidiamo il da farsi
@@ -5437,7 +5475,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		return FALSE;
 	}
 
-	
+
 	ConnectToDatabase(szDeleteAction);
 
 	// In Stato di Browse devo rileggere l'intero documento per aggiornare il
@@ -5488,7 +5526,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 	{
 		Message(_TB("Unable to open a new transaction.\r\nDocument not deleted"));
 		GoInBrowseMode();
-		DisconnectFromDatabase(); 
+		DisconnectFromDatabase();
 		return FALSE;
 	}
 
@@ -5567,7 +5605,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		DisconnectFromDatabase();
 		return TRUE;
 	}
-	CATCH(SqlException, e)
+		CATCH(SqlException, e)
 	{
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)))
 		{
@@ -5587,7 +5625,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		m_pTbContext->StopTime(SECONDARY_TIME);
 		m_pTbContext->StopTime(AUXILIARY_TIME);
 		DispatchOnAfterDelete();
-		DisconnectFromDatabase();		
+		DisconnectFromDatabase();
 		return FALSE;
 	}
 	END_CATCH;
@@ -5629,7 +5667,7 @@ void CAbstractFormDoc::BatchStart()
 		UpdateDataView();
 
 		m_BatchScheduler.Start();
-		
+
 		//ConnectToDatabase(szBatchAction);
 
 		m_pTbContext->Connect();
@@ -5663,10 +5701,10 @@ void CAbstractFormDoc::BatchStart()
 			if (!IsInUnattendedMode())
 				GetFirstView()->SendMessage(UM_EXTDOC_BATCH_COMPLETED, NULL, NULL);
 			OnBatchCompleted();
-	}
-		
+		}
+
 		//DisconnectFromDatabase();
-		
+
 		m_pTbContext->Disconnect();
 
 		if (m_bBatchRunning) // nel frattempo la batch potrbbe anche essere stata stoppata....
@@ -6249,9 +6287,9 @@ BOOL CAbstractFormDoc::CanShowInOpenDocuments()
 BOOL CAbstractFormDoc::CanDoFirstRecord()
 {
 	BOOL bCanDo =
-		GetType() != VMT_BATCH	&&
+		GetType() != VMT_BATCH &&
 		m_pDBTMaster			&&
-		GetFormMode() == BROWSE	&&
+		GetFormMode() == BROWSE &&
 		m_pBrowser && m_pBrowser->CanDoFirstRecord();
 
 	if (bCanDo && !OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_BROWSE))
@@ -6264,7 +6302,7 @@ BOOL CAbstractFormDoc::CanDoFirstRecord()
 BOOL CAbstractFormDoc::CanDoPrevRecord()
 {
 	BOOL bCanDo =
-		GetType() != VMT_BATCH	&&
+		GetType() != VMT_BATCH &&
 		m_pDBTMaster			&&
 		GetFormMode() == BROWSE &&
 		m_pBrowser && m_pBrowser->CanDoPrevRecord();
@@ -6296,7 +6334,7 @@ BOOL CAbstractFormDoc::CanDoLastRecord()
 	BOOL bCanDo =
 		GetType() != VMT_BATCH &&
 		m_pDBTMaster && AfxIsValidAddress(m_pDBTMaster, sizeof(DBTMaster)) &&
-		GetFormMode() == BROWSE	&&
+		GetFormMode() == BROWSE &&
 		m_pBrowser && m_pBrowser->CanDoLastRecord();
 
 	if (bCanDo && !OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_BROWSE))
@@ -6501,6 +6539,12 @@ void CAbstractFormDoc::OnFormHelp()
 	FormHelp();
 }
 
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::OnCrash()
+{
+	CAbstractFormDoc* pDoc = NULL;
+	pDoc->Activate();
+}
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnFavorites()
 {
@@ -7718,13 +7762,17 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 	}
 
 	jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
+	if (m_bJsonDataSent)
+	{
+		GetJsonPatch(jsonSerializer);
+		return;
+	}
 
 	CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(this->GetFirstView());
 	if (pView)
 		m_pHeaderTitle->Assign(pView->GetCaption());
 
-	CJsonSerializer dataSer;
-	dataSer.OpenObject(_T("data"));
+	jsonSerializer.OpenObject(_T("data"));
 	CXMLVariable* pVariable;
 	if (m_pVariablesArray)
 	{
@@ -7733,34 +7781,161 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 			pVariable = m_pVariablesArray->GetAt(i);
 			if (!bOnlyWebBound || pVariable->GetDataObj()->IsWebBound())
 			{
-				dataSer.OpenObject(pVariable->GetName());
-				pVariable->GetDataObj()->SerializeToJson(dataSer);
-				dataSer.CloseObject();
+				jsonSerializer.OpenObject(pVariable->GetName());
+				pVariable->GetDataObj()->SerializeToJson(jsonSerializer, false);
+				jsonSerializer.CloseObject();
 			}
 		}
 	}
 
 	if (m_pDBTMaster)
-		m_pDBTMaster->GetJson(TRUE, dataSer, bOnlyWebBound);
+		m_pDBTMaster->GetJson(TRUE, jsonSerializer, bOnlyWebBound);
 
 	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
 	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
 	{
 		HotKeyLink* pHotKeyLink = (HotKeyLink*)m_pHotKeyLinks->GetAt(i);
-		pHotKeyLink->GetJson(dataSer, bOnlyWebBound);
+		pHotKeyLink->GetJson(jsonSerializer, bOnlyWebBound);
 	}
-	dataSer.CloseObject();
-	if (m_JsonData.IsEmpty())
+	jsonSerializer.CloseObject();
+	m_bJsonDataSent = TRUE;
+}
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName)
+{
+	sBindingName = sName;
+
+	if (!pBindingInfo)
 	{
-		jsonSerializer.WriteJsonFragment(_T("data"), dataSer.GetJson());
+		if (sBindingName.IsEmpty())
+			sBindingName = sId;
+		return;
 	}
-	else
+
+	CString sDataSource = pBindingInfo->m_strDataSource;
+
+	GetBindingInfo(sDataSource, sId, pDBT, pRecord, pDataObj, sBindingName, TRUE);
+}
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString &sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist)
+{
+	//se sono in design mode, non posso trovare i dataobj per il binding,
+	//assegno un binding name di ufficio ed esco
+	if (IsInStaticDesignMode())
 	{
-		CJsonWrapper delta;
-		delta.Diff(m_JsonData, dataSer);
-		jsonSerializer.WriteJsonFragment(_T("patch"), delta.GetJson());
+		if (sBindingName.IsEmpty())
+			sBindingName = sDataSource;
+		if (sBindingName.IsEmpty())
+			sBindingName = sId;
+		return;
 	}
-	m_JsonData = dataSer;
+	//posso avere:
+
+	//dbt.campo
+	//hkl.campo
+	//dbt
+	//campo
+
+	//retrieve SqlRecord and DataObj from data source
+	if (!sDataSource.IsEmpty())
+	{
+
+		int startField = sDataSource.Find(_T("."));
+
+		CString sDbtOrHKLOrFieldName, sFieldName;
+		if (startField > -1)
+		{
+			sDbtOrHKLOrFieldName = sDataSource.Mid(0, startField);
+			sDbtOrHKLOrFieldName.Trim();
+			sFieldName = sDataSource.Mid(startField + 1);
+			sFieldName.Trim();
+		}
+		else
+		{
+			sDbtOrHKLOrFieldName = sDataSource;
+			sDbtOrHKLOrFieldName.Trim();
+		}
+		bool isVirtual = false;
+		if (sFieldName.IsEmpty())
+		{
+			//ho solo un token: allora è un nome di campo o di dbt
+			//provo a vedere se è un dbt
+			GetDataSource(sDbtOrHKLOrFieldName, _T(""), pDBT, pRecord, pDataObj, isVirtual);
+			if (pDBT && pRecord)
+			{
+				return;
+			}
+			//se non è un dbt, provo a vedere se è un campo
+			GetDataSource(_T(""), sDbtOrHKLOrFieldName, pDBT, pRecord, pDataObj, isVirtual);
+
+			if (pDataObj && sBindingName.IsEmpty())
+				sBindingName = sDbtOrHKLOrFieldName;
+#ifdef DEBUG
+			if (!pDataObj && bMustExist)
+			{
+				TRACE2("Invalid data source: %s\n, %s\n", (LPCTSTR)sDataSource, (LPCTSTR)sId);
+				ASSERT(FALSE);
+			}
+#endif
+			return;
+		}
+		else
+		{
+			GetDataSource(sDbtOrHKLOrFieldName, sFieldName, pDBT, pRecord, pDataObj, isVirtual);
+		}
+		if (pRecord)
+		{
+			//macro RDC
+			if (sBindingName.IsEmpty())
+			{
+				//potrebbe essere un alias
+				CString sRealFieldName = sFieldName[0] == ALIAS_IDENTIFIER
+					? pRecord->GetColumnInfo(pDataObj)->m_strColumnName
+					: sFieldName;
+				sBindingName = isVirtual ? sRealFieldName : pRecord->GetTableName() + _T("_") + sRealFieldName;
+			}
+		}
+#ifdef DEBUG
+		if (!pDataObj && bMustExist)
+		{
+			TRACE1("Invalid data source: %s\n", (LPCTSTR)sDataSource);
+			ASSERT(FALSE);
+		}
+#endif
+	}
+}
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
+{
+	jsonSerializer.OpenObject(_T("patch"));
+	for (int i = 0; i < m_ModifiedData.GetSize(); i++)
+	{
+		DataObj* pDataObj = m_ModifiedData.GetAt(i);
+		//controllo aggiuntivo: potrebbe essere cambiato più volte fino a riacquistare il valore originario
+		if (!pDataObj->HasChangedForJson())
+			continue;
+		CString sPath = pDataObj->GetObjectName();
+		int curPos = 0, tokens = 0;;
+		CString strToken = sPath.Tokenize(_T("/"), curPos);
+		while (!strToken.IsEmpty())
+		{
+			jsonSerializer.OpenObject(strToken);
+			tokens++;
+			strToken = sPath.Tokenize(_T("/"), curPos);
+		}
+		pDataObj->SerializeToJson(jsonSerializer, true);
+		for (int i = 0; i < tokens; i++)
+			jsonSerializer.CloseObject();
+	}
+	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
+	{
+		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
+		if (pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
+			((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer);
+	}
+	jsonSerializer.CloseObject();
+
+	m_ModifiedData.RemoveAll();
 }
 
 //-----------------------------------------------------------------------------
@@ -7772,38 +7947,30 @@ CString	CAbstractFormDoc::GetComponentId()
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::SetJson(CJsonParser& jsonParser)
 {
-	if (jsonParser.BeginReadArray(_T("model")))
+	if (jsonParser.BeginReadObject(_T("data")))
 	{
-		//mi arriva una patch sotto forma di array;
-		//se l'array è vuoto, non ho cambiamenti
-		if (jsonParser.GetCount())
+		CJsonParser parser;
+		CString sKey;
+		CJsonIterator* pIterator = jsonParser.BeginIteration();
+		while (pIterator->GetNext(sKey, parser))
 		{
-			CJsonParser oldData;
-			oldData.Assign(m_JsonData);
-			if (oldData.BeginReadObject(_T("data")))
+			if (parser.Has(_T("_value")))//è una variabile di documento
 			{
-				oldData.Patch(jsonParser);
-
-				CXMLVariable* pVariable;
-				if (m_pVariablesArray)
+				DataObj* pData = GetVariableValue(sKey);
+				if (pData)
 				{
-					for (int i = 0; i <= m_pVariablesArray->GetUpperBound(); i++)
-					{
-						pVariable = m_pVariablesArray->GetAt(i);
-						if (oldData.BeginReadObject(pVariable->GetName()))
-						{
-							pVariable->GetDataObj()->AssignFromJson(oldData);
-							oldData.EndReadObject();
-						}
-					}
+					pData->AssignFromJson(parser);
+					SetModifiedFlag();
 				}
-				if (m_pDBTMaster)
-					m_pDBTMaster->SetJson(TRUE, oldData);
-				oldData.EndReadObject();
-				SetModifiedFlag();
+			}
+			else
+			{
+				DBTObject* pDBT = GetDBTByName(sKey);
+				if (pDBT && pDBT->SetJson(parser))
+					SetModifiedFlag();
 			}
 		}
-		jsonParser.EndReadArray();
+		
 	}
 }
 
@@ -8151,7 +8318,7 @@ HotKeyLink* CAbstractFormDoc::GetHotLink(const CString& sName, CRuntimeClass* pC
 		ASSERT(FALSE);
 		return NULL;
 	}
-	
+
 	if (!pClass)
 		return NULL;
 

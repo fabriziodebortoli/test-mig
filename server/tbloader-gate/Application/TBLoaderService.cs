@@ -84,6 +84,25 @@ namespace Microarea.TbLoaderGate
             return s;
         }
 
+        //-----------------------------------------------------------------------
+        internal async Task<TBLoaderResponse> IsProcessRunning(int processId)
+        {
+            try
+            {
+                TBLoaderCommand cmd = new TBLoaderCommand();
+                cmd.Type = TBLoaderCommand.CommandType.Ping;
+                cmd.ProcessId = processId;
+                return await SocketSendReceive(serviceComputerName, servicePort, cmd);
+            }
+            catch (Exception ex)
+            {
+                TBLoaderResponse resp = new TBLoaderResponse();
+                resp.Result = false;
+                resp.Message = ex.Message;
+                return resp;
+            }
+        }
+
         // This method requests the home page content for the specified server.
         //-----------------------------------------------------------------------
         private async Task<TBLoaderResponse> SocketSendReceive(string server, int port, TBLoaderCommand request)

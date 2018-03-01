@@ -690,7 +690,8 @@ CWnd* CTabDialog::GetWndCtrl(UINT nIDC)
 
 	if (m_pTileGroup)
 	{
-		m_pTileGroup->GetWndCtrl(nIDC);
+		pWnd = m_pTileGroup->GetWndCtrl(nIDC);
+		if (pWnd) return pWnd;
 	}
 
 	return NULL;

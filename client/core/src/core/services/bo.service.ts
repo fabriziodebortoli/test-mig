@@ -3,8 +3,6 @@ import { HttpService } from './http.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
-import { apply, diff } from 'json8-patch';
-
 import { MessageDlgArgs, DiagnosticData, MessageDlgResult, DiagnosticDlgResult } from './../../shared/models/message-dialog.model';
 import { CommandEventArgs } from './../../shared/models/eventargs.model';
 
@@ -12,7 +10,7 @@ import { Logger } from './logger.service';
 import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
-import { addModelBehaviour } from './../../shared/models/control.model';
+import { addModelBehaviour, isDataObj } from './../../shared/models/control.model';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -20,6 +18,7 @@ export class BOService extends DocumentService {
     modelStructure = {};
     subscriptions = [];
     boClients = new Array<BOClient>();
+    changedData = {};
     public windowStrings: EventEmitter<any> = new EventEmitter();
     public webSocketService: WebSocketService;
     constructor(params: BOServiceParams, eventData: EventDataService) {
@@ -32,19 +31,20 @@ export class BOService extends DocumentService {
             models.forEach(model => {
                 if (model.id === cmpId) {
                     if (model.patch) {
-                        const patched = apply({ 'data': this.eventData.model }, model.patch);
-                        model.data = patched.doc.data;
+                        this.applyPatch(this.eventData.model, model.patch);
+
                     }
-                    if (model.data) {
+                    else if (model.data) {
                         for (const prop in model.data) {
                             if (model.data.hasOwnProperty(prop)) {
                                 const p = model.data[prop];
-                                addModelBehaviour(p);
+                                addModelBehaviour(p, prop);
+                                this.attachEventsToModel(p);
                                 this.eventData.model[prop] = p;
+
                             }
                         }
                     }
-                    this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
                     this.eventData.change.emit('');
                 }
             });
@@ -163,9 +163,89 @@ export class BOService extends DocumentService {
         }));
     }
     getPatchedData(): any {
-        const patch = diff(this.eventData.oldModel, this.eventData.model);
+        const patch = this.changedData;
+        this.changedData = {};
         return patch;
     }
+    applyPatch(model: any, patch: any) {
+        if (model.modelChanged) {
+            model.modelChanged.emit();
+        }
+        if (model instanceof Array) {
+            if (!(patch instanceof Array)) {
+                console.error("Patch data is not an array as expected");
+                return;
+            }
+            let commonElNumber = 0;
+            if (model.length > patch.length) {//il server ha meno elementi
+                commonElNumber = patch.length; //devo applicare il delta ai primi n elementi
+                model.splice(0, model.length - patch.length);
+            } else if (model.length < patch.length) { //il server ha più elementi
+                commonElNumber = model.length; //devo applicare il delta ai primi n elementi
+                //gli altri in più li aggiungo secchi
+                for (let i = model.length; i < patch.length; i++) {
+                    let item = patch[i];
+                    addModelBehaviour(item, i.toString());
+                    this.attachEventsToModel(item);
+                    model.push(item);
+                }
+            } else { //client e server hanno lo stesso numero di elementi
+                commonElNumber = model.length;
+            }
+            //applico il delta agli elementi comuni
+            for (let i = 0; i < commonElNumber; i++) {
+                this.applyPatch(model[i], patch[i]);
+            }
+        }
+        else if (isDataObj(model)) {
+            for (const prop in patch) {
+                model[prop] = patch[prop];
+            }
+        }
+        else {
+            for (const prop in patch) {
+                if (!model.hasOwnProperty(prop)) {
+                    model[prop] = patch[prop];
+                    addModelBehaviour(model[prop], prop);
+                    this.attachEventsToModel(model[prop]);
+                } else {
+                    this.applyPatch(model[prop], patch[prop]);
+                }
+            }
+
+        }
+    }
+
+    private attachEventsToModel(model: any) {
+        if (model instanceof Object) {
+            if (isDataObj(model)) {//solo se è un dataobj
+                this.subscriptions.push(model.valueChanged.subscribe(sender => {
+                    const props = sender.name.split('/');
+                    let lastIdx = props.length - 1;
+                    let obj = this.changedData;
+                    for (let j = 0; j < props.length; j++) {
+                        let subProp = props[j];
+                        if (j == lastIdx) {
+                            obj[subProp] = { _value: sender.value };
+                        } else {
+                            if (obj.hasOwnProperty(subProp)) {
+                                obj = obj[subProp];
+                            } else {
+                                obj[subProp] = {};
+                                obj = obj[subProp];
+                            }
+                        }
+                    }
+                }));
+            }
+            else {
+                for (const prop in model) {
+                    this.attachEventsToModel(model[prop]);
+                }
+            }
+        }
+    }
+
     init(cmpId: string) {
 
         this.boClients.forEach(boClient => {
@@ -230,11 +310,8 @@ export class BOService extends DocumentService {
             componentId ? componentId : this.mainCmpId,
             id,
             patch);
-            console.log("doCommand", patch);
-        if (patch.length > 0) {
-            // client data has been sent to server, so reset oldModel
-            this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
-        }
+        console.log("doCommand", patch);
+
     }
     doChange(id: string) {
         if (this.isServerSideCommand(id)) {
@@ -242,8 +319,6 @@ export class BOService extends DocumentService {
             if (patch.length > 0) {
                 console.log("dochange", patch, "id", id);
                 this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
-                // client data has been sent to server, so reset oldModel
-                this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
             }
         }
     }

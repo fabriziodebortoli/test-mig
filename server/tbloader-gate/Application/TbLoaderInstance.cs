@@ -11,11 +11,13 @@ namespace Microarea.TbLoaderGate
     public class TBLoaderInstance
     {
         public string Name;
-        public int HttpPort = 11000;
         public bool Connected = false;
         public string ConnectionMessage = "";
         public int SocketPort = 4502;
         public int ProcessId = -1;
+
+        public int TbLoaderServicePort = 11000;
+        public int HttpPort = 10000;
         public string Server = "localhost";
 
         public string BaseUrl { get { return string.Concat("http://", Server, ":", HttpPort); } }
@@ -24,7 +26,7 @@ namespace Microarea.TbLoaderGate
         //-----------------------------------------------------------------------------------------
         public TBLoaderInstance(string server, int port, string name)
         {
-            this.HttpPort = port;
+            this.TbLoaderServicePort = port;
             this.Server = server;
             this.Name = string.IsNullOrEmpty(name) ? Guid.NewGuid().ToString() : name;
         }
@@ -32,7 +34,7 @@ namespace Microarea.TbLoaderGate
         //-----------------------------------------------------------------------------------------
         internal async Task ExecuteAsync()
         {
-            TBLoaderService svc = new TBLoaderService(Server, HttpPort);
+            TBLoaderService svc = new TBLoaderService(Server, TbLoaderServicePort);
             TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(Name);
             HttpPort = response.Port;
             ProcessId = response.ProcessId;
@@ -40,7 +42,15 @@ namespace Microarea.TbLoaderGate
             ConnectionMessage = response.Message;
         }
 
-       
+        //-----------------------------------------------------------------------------------------
+        internal bool IsProcessRunning()
+        {
+            TBLoaderService svc = new TBLoaderService(Server, TbLoaderServicePort);
+            TBLoaderResponse response = svc.IsProcessRunning(ProcessId).Result;
+            return response.Result;
+        }
+
+
         //-----------------------------------------------------------------------------------------
         internal async Task<WebSocket> OpenWebSocketAsync(string name)
         {

@@ -21,9 +21,7 @@ import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selecti
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
-import { apply, diff } from 'json8-patch';
 import * as _ from 'lodash';
-
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
@@ -42,23 +40,21 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @Input() bodyEditName: string;
   @Input() height: number;
   @Input() columns: Array<any>;
-  public selector: any;
   public selectableSettings: SelectableSettings;
 
   isRowSelected = (e: RowArgs) => e.index == this.currentGridIdx;
   currentGridIdx: number = -1;
   currentDbtRowIdx: number = -1;
   subscriptions = [];
-  lastTimeStamp: number;
   subscription = [];
 
-  public skip = 0;
+  public skip = -1;
+  public pageSize: number = 15;
   public currentRow: any = undefined;
   public enabled: boolean = false;
   public isLoading: boolean = false;
   public pageSizes = false;
   public previousNext = true;
-  public pageSize: number = 15;
   public rowHeight: number = 25;
   public currentPage: number = 0;
   public rowCount: number = 0;
@@ -126,21 +122,18 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   subscribeToSelector() {
-    if (this.store && this.selector) {
-      this.store
-        .select(this.selector)
-        .pipe(untilDestroy(this))
-        .subscribe((v) => {
-          this.getModelForDbt(v.timeStamp);
-        }
-        );
+    this.model.modelChanged
+      .pipe(untilDestroy(this))
+      .subscribe(() => {
+        this.updateModel(this.model);
+        this.isLoading = false;
+      });
 
-      this.store.select(m => _.get(m, 'FormMode.value'))
-        .subscribe(m => {
-          this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
-          this.changeDetectorRef.markForCheck();
-        });
-    }
+    this.store.select(m => _.get(m, 'FormMode.value'))
+      .subscribe(m => {
+        this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -161,8 +154,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     let numberOfVisibleRows = Math.ceil(this.height / this.rowHeight);
     this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
-    this.selector = createSelectorByMap({ timeStamp: this.bodyEditName + '.timeStamp' });
     this.subscribeToSelector();
+
+    if (this.skip < 0) {
+      this.skip = 0;
+      this.changeDBTRange();
+    }
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -173,14 +170,18 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   pageChange(event) {
     this.skip = event.skip;
     console.log("pagechange", event.skip, event.take);
+    this.changeDBTRange();
+
+  }
+  changeDBTRange() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((data) => {
-      let dbt = data[this.bodyEditName];
-      this.updateModel(dbt);
+    this.isLoading = true;
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
+
+      sub.unsubscribe();
     });
 
   }
-
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
@@ -284,49 +285,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   increaseRowHeight() {
-
-    this.rowHeight+= 10;
+    this.rowHeight += 10;
   }
 
   decreaseRowHeight() {
-
-    this.rowHeight-= 10;
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  getModelForDbt(timeStamp: any) {
-    if (!this.model || !timeStamp)
-      return;
-
-    let serverUtc = new Date(timeStamp).getTime();
-
-    if (!this.lastTimeStamp || this.lastTimeStamp <= serverUtc) {
-      this.isLoading = true;
-      this.lastTimeStamp = serverUtc;
-      let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-
-      // if (this.gridView) {
-      //   this.gridView.data = [];
-      //   this.gridView.total = 0;
-      // }
-
-      console.log("getModelForDbt", this.skip, this.pageSize, this.bodyEditName);
-      let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
-
-        // if (res.patch) {
-        //   const patched = apply({ [this.bodyEditName]: this.model }, res.patch);
-        //   res.data = patched.doc;
-        // }
-        if (res) {
-
-          console.log("getModelForDbt updatemodel")
-          let dbt = res[this.bodyEditName];
-          this.updateModel(dbt);
-        }
-        this.isLoading = false;
-        sub.unsubscribe();
-      });
-    }
+    this.rowHeight -= 10;
   }
 
   private updateModel(dbt: any) {
@@ -336,34 +299,17 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
     }
 
-    addModelBehaviour(dbt);
-    this.model.enabled = dbt.enabled;
-    let tempIndex = 0;
-    let temp = [];
     this.model.rows = [];
-    for (let index = this.skip; index < this.skip + this.pageSize; index++) {
-      if (dbt.rows[tempIndex]) {
-        temp[tempIndex] = this.model.rows[index] = dbt.rows[tempIndex];
-      }
-      tempIndex++;
-    }
-    //this.model.rows = dbt.rows;
 
-    this.model.prototype = dbt.prototype;
-    this.bodyEditService.prototype = this.model.prototype;
     this.currentDbtRowIdx = dbt.currentRowIdx;
-    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip )
+    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
     this.currentGridIdx = dbt.currentRowIdx - this.skip;
-    this.model.lastTimeStamp = new Date().getTime();
     this.rowCount = dbt.rowCount;
 
     this.gridView = {
-      data: temp,
+      data: this.model.rows,
       total: this.rowCount
     };
-
-    this.eventData.oldModel = JSON.parse(JSON.stringify(this.eventData.model));
-    //this.eventData.change.emit('');
 
     this.changeDetectorRef.markForCheck();
   }

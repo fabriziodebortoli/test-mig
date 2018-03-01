@@ -14,9 +14,12 @@ static const TCHAR* szTaskBuilderTitle		= _T("TaskBuilder");
 
 TPCallSetTracedFunction* s_pfCallTraced = NULL; //TBAuditing
 TPCallSetProtectedFunction* s_pfCallProtected = NULL; //TBRowSecurityLayer
+ExpFilterFunction* s_pfExpFilter = NULL; //exception handler
 
 #ifdef DEBUG
 BOOL g_bNO_ASSERT = FALSE;
+
+LONG WINAPI ExpFilter(EXCEPTION_POINTERS* pExp, DWORD dwExpCode);
 
 int MyReportHook(int reportType, char *message, int *returnValue)
 {

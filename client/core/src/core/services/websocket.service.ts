@@ -193,15 +193,15 @@ export class WebSocketService extends LocalizationService {
     }
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
-        const data = { cmd: 'doCommand', cmpId: cmpId, id: id, model: modelData };
+        const data = { cmd: 'doCommand', cmpId: cmpId, id: id, data: modelData };
         this.safeSend(data);
     }
     doClose(cmpId: String, modelData?: any): void {
-        const data = { cmd: 'doClose', cmpId: cmpId, model: modelData };
+        const data = { cmd: 'doClose', cmpId: cmpId, data: modelData };
         this.safeSend(data);
     }
     doValueChanged(cmpId: String, id: String, modelData?: any): void {
-        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, model: modelData };
+        const data = { cmd: 'doValueChanged', cmpId: cmpId, id: id, data: modelData };
         this.safeSend(data);
     }
 

@@ -26,7 +26,7 @@ export class InfoService {
         public logger: Logger,
         public utilsService: UtilsService
     ) {
-        addModelBehaviour(this.culture);
+        addModelBehaviour(this.culture, "culture");
         this.culture.value = localStorage.getItem(this.cultureId);
     }
 

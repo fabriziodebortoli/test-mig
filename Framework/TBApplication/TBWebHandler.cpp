@@ -786,21 +786,9 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 
 		SqlRecord* pRecord = buffered->AddRecord();
 		pRecord->SetStorable();
-
-		CJsonSerializer serializer;
-		int rowAdded = buffered->GetRecords()->FindPtr(pRecord);
-		buffered->SetCurrentRow(rowAdded);
-
-		if (rowAdded <=pageToSkip || rowAdded > pageToSkip + pageToTake)
-		{
-			//ho aggiunto una riga, ma fuori dal range di quelle che stavo visualizzando
-		}
-		else
-		{
-			buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
-		}
-
-		response.SetData(serializer.GetJson());
+		buffered->SetJsonLimits(pageToSkip, pageToTake);
+		response.SetData(_T("{}"));
+	
 		response.SetMimeType(L"application/json");
 	}
 }
@@ -880,9 +868,8 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 
 		BOOL bOk = buffered->DeleteRecord(nRowToDelete);
 		
-		CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
-		response.SetData(serializer.GetJson());
+		buffered->SetJsonLimits(pageToSkip, pageToTake);
+		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
 	}
 }
@@ -919,10 +906,8 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 			return;
 		}
 
-		CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE, pageToSkip, pageToTake);
-
-		response.SetData(serializer.GetJson());
+		buffered->SetJsonLimits(pageToSkip, pageToTake);
+		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
 	}
 }

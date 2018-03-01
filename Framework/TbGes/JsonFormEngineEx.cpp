@@ -370,110 +370,7 @@ CRuntimeClass* CJsonContext::GetControlClass(CString sControlClass, CWndObjDescr
 	}
 	return pClass;
 }
-//-----------------------------------------------------------------------------
-void CJsonContext::GetBindingInfo(const CString& sDataSource, const CString &sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist)
-{
-	//se sono in design mode, non posso trovare i dataobj per il binding,
-	//assegno un binding name di ufficio ed esco
-	if (!m_pDoc || m_pDoc->IsInStaticDesignMode())
-	{
-		if (sBindingName.IsEmpty())
-			sBindingName = sDataSource;
-		if (sBindingName.IsEmpty())
-			sBindingName = sId;
-		return;
-	}
-	//posso avere:
 
-	//dbt.campo
-	//hkl.campo
-	//dbt
-	//campo
-
-	//retrieve SqlRecord and DataObj from data source
-	if (!sDataSource.IsEmpty())
-	{
-
-		int startField = sDataSource.Find(_T("."));
-
-		CString sDbtOrHKLOrFieldName, sFieldName;
-		if (startField > -1)
-		{
-			sDbtOrHKLOrFieldName = sDataSource.Mid(0, startField);
-			sDbtOrHKLOrFieldName.Trim();
-			sFieldName = sDataSource.Mid(startField + 1);
-			sFieldName.Trim();
-		}
-		else
-		{
-			sDbtOrHKLOrFieldName = sDataSource;
-			sDbtOrHKLOrFieldName.Trim();
-		}
-		bool isVirtual = false;
-		if (sFieldName.IsEmpty())
-		{
-			//ho solo un token: allora è un nome di campo o di dbt
-			//provo a vedere se è un dbt
-			m_pDoc->GetDataSource(sDbtOrHKLOrFieldName, _T(""), pDBT, pRecord, pDataObj, isVirtual);
-			if (pDBT && pRecord)
-			{
-				return;
-			}
-			//se non è un dbt, provo a vedere se è un campo
-			m_pDoc->GetDataSource(_T(""), sDbtOrHKLOrFieldName, pDBT, pRecord, pDataObj, isVirtual);
-
-			if (pDataObj && sBindingName.IsEmpty())
-				sBindingName = sDbtOrHKLOrFieldName;
-#ifdef DEBUG
-			if (!pDataObj && bMustExist)
-			{
-				TRACE2("Invalid data source: %s\n, %s\n", (LPCTSTR)sDataSource, (LPCTSTR)sId);
-				ASSERT(FALSE);
-			}
-#endif
-			return;
-		}
-		else
-		{
-			m_pDoc->GetDataSource(sDbtOrHKLOrFieldName, sFieldName, pDBT, pRecord, pDataObj, isVirtual);
-		}
-		if (pRecord)
-		{
-			//macro RDC
-			if (sBindingName.IsEmpty())
-			{
-				//potrebbe essere un alias
-				CString sRealFieldName = sFieldName[0] == ALIAS_IDENTIFIER 
-					? pRecord->GetColumnInfo(pDataObj)->m_strColumnName
-					: sFieldName;
-				sBindingName = isVirtual ? sRealFieldName : pRecord->GetTableName() + _T("_") + sRealFieldName;
-			}
-		}
-#ifdef DEBUG
-		if (!pDataObj && bMustExist)
-		{
-			TRACE1("Invalid data source: %s\n", (LPCTSTR)sDataSource);
-			ASSERT(FALSE);
-		}
-#endif
-	}
-}
-//-----------------------------------------------------------------------------
-void CJsonContext::GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName)
-{
-	sBindingName = sName;
-
-	if (!pBindingInfo)
-	{
-		if (sBindingName.IsEmpty())
-			sBindingName = sId;
-		return;
-	}
-
-	CString sDataSource = pBindingInfo->m_strDataSource;
-
-	GetBindingInfo(sDataSource, sId, pDBT, pRecord, pDataObj, sBindingName, TRUE);
-}
 //-----------------------------------------------------------------------------
 bool CJsonContext::CanCreateControl(CWndObjDescription* pWndDesc, UINT nID)
 {
@@ -597,7 +494,8 @@ public:
 			SqlRecord* pRecord = NULL;
 			DataObj* pDataObj = NULL;
 			CString sBindingName;
-			m_pContext->GetBindingInfo(pszName, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
+			if (m_pContext->m_pDoc)
+				m_pContext->m_pDoc->GetBindingInfo(pszName, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
 			if (pDataObj != NULL)
 			{
 				pField = new SymField(pszName, pDataObj->GetDataType(), 0, pDataObj);
@@ -709,7 +607,8 @@ bool CJsonContext::CheckActivation(CString sActivation)
 	DataObj* pDataObj = NULL;
 	CString sBindingName;
 	//prima controllo se si trata di una variabile
-	GetBindingInfo(sActivation, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
+	if (m_pDoc)
+		m_pDoc->GetBindingInfo(sActivation, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
 	if (pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataBool)))
 		return TRUE == (BOOL)*((DataBool*)pDataObj);
 
@@ -2089,7 +1988,8 @@ template <class T> void TBJsonBodyEditWrapper<T>::OnBeforeCustomize()
 						SqlRecord* pRec = NULL;
 						DBTObject* pDBT = NULL;
 						CString sBindingName;
-						m_pContext->GetBindingInfo(pDesc1->GetID(), pDesc1->m_strName, pDesc1->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+						if (m_pContext->m_pDoc)
+							m_pContext->m_pDoc->GetBindingInfo(pDesc1->GetID(), pDesc1->m_strName, pDesc1->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 						if (!pDataObj && !GetDocument()->IsInStaticDesignMode())
 						{
 							TRACE1("Invalid data source: %s\n", (LPCTSTR)pDesc1->m_pBindings->m_strDataSource);
@@ -2424,7 +2324,8 @@ void CJsonPropertyGrid::Customize(CWndObjDescriptionContainer& children, CTBProp
 		DataObj* pDataObj = NULL;
 		DBTObject* pDBT = NULL;
 		CString sBindingName;
-		m_pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+		if (m_pContext->m_pDoc)
+			m_pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 
 		DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
 		CRuntimeClass* pClass = m_pContext->GetControlClass(pWndDesc->m_strControlClass, pWndDesc->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
@@ -2618,7 +2519,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		DataObj* pDataObj = NULL;
 		DBTObject* pDBT = NULL;
 		CString sBindingName;
-		pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+		if (pContext->m_pDoc)
+			pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 
 		//codice simile alla AddLinkAndCreateBodyEdit, ma con alcune modifiche a metà istruzioni
 		if (pDBT && !pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
@@ -2912,7 +2814,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 				DataObj* pDataObj = NULL;
 				DBTObject* pDBT = NULL;
 				CString sBindingName;
-				pContext->GetBindingInfo(strToken, _T(""), pDBT, pRec, pDataObj, sBindingName, TRUE);
+				if (pContext->m_pDoc)
+					pContext->m_pDoc->GetBindingInfo(strToken, _T(""), pDBT, pRec, pDataObj, sBindingName, TRUE);
 				if (pDataObj)
 					pHeader->Add(pDataObj);
 				strToken = pWndDesc->m_pBindings->m_strDataSource.Tokenize(_T(","), curPos);
@@ -2963,7 +2866,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		//se non sono in rowview, oppure il dbt non ha il dato, seguo il giro normale
 		if (!pDataObj)
 		{
-			pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+			if (pContext->m_pDoc)
+				pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 		}
 		DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
 		CRuntimeClass* pClass = pContext->GetControlClass(pWndDesc->m_strControlClass, pWndDesc->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
@@ -3017,6 +2921,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		}
 
 		pParsedCtrl->m_pOwnerWndDescription = pWndDesc;
+		if (!pWndDesc->m_bVisible && pDataObj)
+			pDataObj->SetHide();
 		bool bFontSet = false;
 		CParsedStatic* pParsedStatic = dynamic_cast<CParsedStatic*>(pParsedCtrl);
 		if (pParsedStatic)
@@ -3143,7 +3049,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 
 		if (pWndDesc->m_pStateData)
 		{
-			pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+			if (pContext->m_pDoc)
+				pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 			if (pDataObj)
 			{
 				pParsedCtrl->AttachStateData(pDataObj, pWndDesc->m_pStateData->m_bInvertDefaultStates == B_TRUE);
@@ -3206,13 +3113,15 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 						BindingInfo* pParentBinding = pChild->GetParent()->m_pBindings;
 						if (pParentBinding)
 							sDataSource = pParentBinding->m_strDataSource + _T('.') + sDataSource;
-						pContext->GetBindingInfo(sDataSource, pChild->GetID(), pDBT, pRec, pDataObj, sBindingName, TRUE);
+						if (pContext->m_pDoc)
+							pContext->m_pDoc->GetBindingInfo(sDataSource, pChild->GetID(), pDBT, pRec, pDataObj, sBindingName, TRUE);
 					}
 				}
 			}
 			else
 			{
-				pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+				if (pContext->m_pDoc)
+					pContext->m_pDoc->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 			}
 			if (pDataObj)
 			{
@@ -3247,6 +3156,8 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 
 				pChild->m_pAssociatedControl = pControl;
 				pControl->m_pOwnerWndDescription = pChild;
+				if (!pWndDesc->m_bVisible)
+					pDataObj->SetHide();
 				//pControl->Attach(nBtnID);
 				pControl->AttachDocument(pDoc);
 				pControl->Attach(pDataObj);

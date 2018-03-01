@@ -35,8 +35,6 @@ public:
 	//-----------------------------------------------------------------------------
 	virtual void Assign(CJsonContextObj* pOther);
 	virtual CRuntimeClass* GetControlClass(CString sControlClass, CWndObjDescription::WndObjType m_Type, DataObj* pDataObj, DWORD& dwNeededStyle, DWORD& dwNeededExStyle);
-	void GetBindingInfo(const CString& sDataSource, const CString& sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist);
-	void GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName);
 	bool CanCreateControl(CWndObjDescription* pWndDesc, UINT nID);
 	template <class T, class TDataObj>
 	bool EvaluateExpression(const CString& sText, CWndObjDescription* pDescri, T& bOut);

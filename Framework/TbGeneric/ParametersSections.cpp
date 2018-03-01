@@ -91,6 +91,7 @@ const TCHAR szEnableLockTrace[]				= _T("EnableLockTrace");
 const TCHAR szLogExitInstance[]				= _T("LogExitInstance");
 const TCHAR szExpect100Continue[]			= _T("Expect100Continue");
 const TCHAR szChromeDebuggingPort[]			= _T("ChromeDebuggingPort");
+const TCHAR szRefreshDelay[]				= _T("RefreshDelay");
 
 
 

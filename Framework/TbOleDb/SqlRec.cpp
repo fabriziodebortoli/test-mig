@@ -2442,26 +2442,48 @@ void SqlRecord::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 		if (pItem->IsMandatory() || !bOnlyWebBound || pItem->GetDataObj()->IsWebBound())
 		{
 			jsonSerializer.OpenObject(pItem->GetBindingName());
-			pItem->GetDataObj()->SerializeToJson(jsonSerializer);
+			pItem->GetDataObj()->SerializeToJson(jsonSerializer, false);
 			jsonSerializer.CloseObject();
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------
-void SqlRecord::SetJson(CJsonParser& jsonParser)
+//-----------------------------------------------------------------------------	
+void SqlRecord::GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld)
 {
+	ASSERT(GetSizeEx() == pOld->GetSizeEx());
+
 	for (int i = 0; i < GetSizeEx(); i++)
 	{
-		SqlRecordItem* pItem = GetAt(i);
-		if (pItem->IsMandatory())
-			continue;
-		if (jsonParser.BeginReadObject(pItem->GetColumnName()))
+		SqlRecordItem *pItem = GetAt(i);
+		DataObj* pData = pItem->GetDataObj();
+		DataObj* pOldData = pOld->GetDataObjAt(i);
+		if (pData->HasChangedForJson(pOldData))
 		{
-			pItem->GetDataObj()->AssignFromJson(jsonParser);
-			jsonParser.EndReadObject();
+			jsonSerializer.OpenObject(pItem->GetBindingName());
+			pData->SerializeToJson(jsonSerializer, false, pOldData);
+			jsonSerializer.CloseObject();
 		}
 	}
+}
+//-----------------------------------------------------------------------------
+bool SqlRecord::SetJson(CJsonParser& jsonParser)
+{
+	bool modified = false;
+	CJsonParser parser;
+	CString sKey;
+	CJsonIterator* pIterator = jsonParser.BeginIteration();
+	while (pIterator->GetNext(sKey, parser))
+	{
+		if (parser.IsEmpty())
+			continue;
+		DataObj* pData = GetDataObjFromColumnName(sKey);
+		if (pData)
+		{
+			pData->AssignFromJson(parser);
+			modified = true;
+		}
+	}
+	return modified;
 }
 
 

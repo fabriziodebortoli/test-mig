@@ -12,7 +12,7 @@
 
 #include <TBXmlCore\XMLSchema.h>
 #include <TBXmlCore\XMLTags.h>
-																																   
+
 #include <TbNameSolver\ThreadContext.h>
 #include <TbNameSolver\LoginContext.h>
 #include <TbNameSolver\Chars.h>
@@ -122,12 +122,12 @@ static const char  THIS_FILE[] = __FILE__;
 
 static const UINT TIMER_TIME_OUT = 500; // half second
 
-TCHAR* DEFAULT_CRYPT_PDF_PASSWORD	=_T("M0i0c5r7o2a2r2e0a1 0S1.p.A.");
+TCHAR* DEFAULT_CRYPT_PDF_PASSWORD = _T("M0i0c5r7o2a2r2e0a1 0S1.p.A.");
 
 #define NUM_CURSORS 10
 //------------------------------------------------------------------------------
 static const HCURSOR* LoadCursors()
-{   
+{
 	// initilization of static cursor array for speed optimization
 	// Note: all track cursors must live in same module
 	HINSTANCE hInst = AfxFindResourceHandle(
@@ -142,8 +142,8 @@ static const HCURSOR* LoadCursors()
 	rghCursors[4] = ::LoadCursor(hInst, MAKEINTRESOURCE(IDC_FIELDRECT));
 	rghCursors[5] = ::LoadCursor(hInst, MAKEINTRESOURCE(IDC_TABLE));
 	rghCursors[6] = ::LoadCursor(hInst, MAKEINTRESOURCE(IDC_GRAPHRECT));
-	rghCursors[7] = ::LoadCursor(NULL,  MAKEINTRESOURCE(IDC_ARROW));
-	rghCursors[8] = ::LoadCursor(NULL,  MAKEINTRESOURCE(IDC_HAND));
+	rghCursors[7] = ::LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW));
+	rghCursors[8] = ::LoadCursor(NULL, MAKEINTRESOURCE(IDC_HAND));
 	rghCursors[9] = ::LoadCursor(hInst, MAKEINTRESOURCE(IDC_TEXTRECT));
 	return rghCursors;
 }
@@ -161,7 +161,7 @@ BOOL LoadTextFile(CString sFileName, CString& sContent)
 	{
 		return FALSE;
 	}
-	if (!::LoadLineTextFile(sFileName, sContent)) 
+	if (!::LoadLineTextFile(sFileName, sContent))
 	{
 		return FALSE;
 	}
@@ -174,13 +174,13 @@ BOOL LoadTextFile(CString sFileName, CString& sContent)
 /////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------                      
-IMPLEMENT_DYNAMIC (InvalidArea, CObject)                   
+IMPLEMENT_DYNAMIC(InvalidArea, CObject)
 
 //-----------------------------------------------------------------------------                      
-InvalidArea::InvalidArea (const CRect& aRect, BOOL bRepaint)
+InvalidArea::InvalidArea(const CRect& aRect, BOOL bRepaint)
 {
 	m_bRepaint = bRepaint;
-	m_invalid  = aRect;
+	m_invalid = aRect;
 }
 
 
@@ -189,7 +189,7 @@ InvalidArea::InvalidArea (const CRect& aRect, BOOL bRepaint)
 /////////////////////////////////////////////////////////////////////////////
 //
 //-----------------------------------------------------------------------------                      
-INT_PTR CObArrayLockable::Add (CObject* po)
+INT_PTR CObArrayLockable::Add(CObject* po)
 {
 	TB_LOCK_FOR_WRITE();
 
@@ -201,19 +201,19 @@ INT_PTR CObArrayLockable::Add (CObject* po)
 	}
 	if (i == GetSize())
 		return __super::Add(po);
-	else 
+	else
 		return -1;
 }
 
 //-----------------------------------------------------------------------------                      
-void CObArrayLockable::RemoveAll ()
+void CObArrayLockable::RemoveAll()
 {
 	TB_LOCK_FOR_WRITE();
 
 	int n = GetSize();
 	CObject* pO;
-	for (int i = 0; i < n; i++) 
-		if (pO = GetAt(i)) 
+	for (int i = 0; i < n; i++)
+		if (pO = GetAt(i))
 		{
 			ASSERT_VALID(pO);
 			delete pO;
@@ -231,30 +231,30 @@ DECLARE_AND_INIT_THREAD_VARIABLE(CWnd*, pCurrPrintDlg, NULL);
 //-----------------------------------------------------------------------------
 class CPrintDialog1 : public CTBPrintDialog
 {
-	
+
 public:
-	CPrintDialog1 (CWnd* parent) 
-		: 
-			CTBPrintDialog (FALSE, PD_ALLPAGES | PD_NOPAGENUMS | PD_NOSELECTION | PD_USEDEVMODECOPIESANDCOLLATE | PD_ENABLEPRINTHOOK, parent)
-		{
-			GET_THREAD_VARIABLE(CWnd*, pCurrPrintDlg);
-			m_pd.lpfnPrintHook = PrintHookProc;
-			
-			pCurrPrintDlg = this;
-		}
+	CPrintDialog1(CWnd* parent)
+		:
+		CTBPrintDialog(FALSE, PD_ALLPAGES | PD_NOPAGENUMS | PD_NOSELECTION | PD_USEDEVMODECOPIESANDCOLLATE | PD_ENABLEPRINTHOOK, parent)
+	{
+		GET_THREAD_VARIABLE(CWnd*, pCurrPrintDlg);
+		m_pd.lpfnPrintHook = PrintHookProc;
+
+		pCurrPrintDlg = this;
+	}
 
 	static	UINT_PTR CALLBACK PrintHookProc
-		(
-			HWND hdlg,
-			UINT uiMsg,
-			WPARAM wParam,
-			LPARAM lParam
-		)
+	(
+		HWND hdlg,
+		UINT uiMsg,
+		WPARAM wParam,
+		LPARAM lParam
+	)
 	{
 		GET_THREAD_VARIABLE(CWnd*, pCurrPrintDlg);
 		if (uiMsg == WM_INITDIALOG)
 		{
-			PRINTDLG* pds = (PRINTDLG*) lParam;
+			PRINTDLG* pds = (PRINTDLG*)lParam;
 
 			CWnd* pCtrl = pCurrPrintDlg->GetDlgItem(0x482);//edit copies
 			if (pCtrl)
@@ -289,7 +289,7 @@ public:
 			//	pCtrl->ShowWindow(SW_HIDE);
 			//}
 			return 1;
-		} 
+		}
 		return 0; //return != 0 eats msg 
 	}
 };
@@ -299,8 +299,8 @@ public:
 // CWoormTemplate
 
 //-------------------------------------------------------------------------
-CWoormTemplate::~CWoormTemplate() 
-{ 
+CWoormTemplate::~CWoormTemplate()
+{
 	Unload();
 }
 
@@ -323,48 +323,48 @@ void CWoormTemplate::Unload()
 // CMultiLayouts
 
 //-------------------------------------------------------------------------
-CLayout::CLayout (const CString& strLayoutName, CWoormDocMng* pWDoc, BOOL bAddAutoSpecialFields/* = TRUE*/)
+CLayout::CLayout(const CString& strLayoutName, CWoormDocMng* pWDoc, BOOL bAddAutoSpecialFields/* = TRUE*/)
 	:
-	m_strLayoutName (strLayoutName),
-	m_pWoorm		(pWDoc),
-	m_nCountAutoObjects (0)
+	m_strLayoutName(strLayoutName),
+	m_pWoorm(pWDoc),
+	m_nCountAutoObjects(0)
 {
 	if (pWDoc && bAddAutoSpecialFields)
 	{
 		FieldRect* f = NULL;
 
-		f = new FieldRect(CPoint(0,0), pWDoc, SpecialReportField::ID.PAGE);
-			//f->RightSizeObject (0);
-			//f->BottomSizeObject (0);
-			f->SetLabelText(SpecialReportField::NAME.PAGE);
-			f->SetHidden(); f->SetBaseRect(CRect(0,0,0,0));
-			f->m_bPersistent = FALSE;
+		f = new FieldRect(CPoint(0, 0), pWDoc, SpecialReportField::ID.PAGE);
+		//f->RightSizeObject (0);
+		//f->BottomSizeObject (0);
+		f->SetLabelText(SpecialReportField::NAME.PAGE);
+		f->SetHidden(); f->SetBaseRect(CRect(0, 0, 0, 0));
+		f->m_bPersistent = FALSE;
 		Add(f);
 
-		f = new FieldRect(CPoint(0,0), pWDoc, SpecialReportField::ID.LAYOUT);
-			//f->RightSizeObject (0);
-			//f->BottomSizeObject (0);
-			f->SetLabelText(SpecialReportField::NAME.LAYOUT);
-			f->SetHidden(); f->SetBaseRect(CRect(0,0,0,0));
-			f->m_bPersistent = FALSE;
+		f = new FieldRect(CPoint(0, 0), pWDoc, SpecialReportField::ID.LAYOUT);
+		//f->RightSizeObject (0);
+		//f->BottomSizeObject (0);
+		f->SetLabelText(SpecialReportField::NAME.LAYOUT);
+		f->SetHidden(); f->SetBaseRect(CRect(0, 0, 0, 0));
+		f->m_bPersistent = FALSE;
 		Add(f);
 
 		//----
 		m_nCountAutoObjects = GetSize();
 	}
-	
+
 	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere pi� leggibile il layout
 	SetCompareFunction(BaseObj_CompareZYX);
 }
 
 //-------------------------------------------------------------------------
-CLayout::CLayout (const CLayout& source)
+CLayout::CLayout(const CLayout& source)
 {
-	m_strLayoutName		= source.m_strLayoutName;
-	m_pWoorm			= source.m_pWoorm;
+	m_strLayoutName = source.m_strLayoutName;
+	m_pWoorm = source.m_pWoorm;
 	m_nCountAutoObjects = source.m_nCountAutoObjects;
 
-	for (int i = 0; i < source.GetSize(); i ++)
+	for (int i = 0; i < source.GetSize(); i++)
 	{
 		BaseObj* pObj = source[i];
 		BaseObj* pCloneObj = pObj->Clone();
@@ -374,7 +374,7 @@ CLayout::CLayout (const CLayout& source)
 			ASSERT(FALSE);
 			continue;
 		}
-		Add (pCloneObj);
+		Add(pCloneObj);
 	}
 	// predispone il sort trasparent/ordinate/ascisse per minimizzare la rasterizzazione e rendere pi� leggibile il layout
 	SetCompareFunction(BaseObj_CompareZYX);
@@ -431,7 +431,7 @@ CObject* CLayout::FindObjectByID(WORD id)
 }
 
 //-------------------------------------------------------------------------
-const TableColumn* CLayout::FindColumnByID (WORD id)
+const TableColumn* CLayout::FindColumnByID(WORD id)
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -441,7 +441,7 @@ const TableColumn* CLayout::FindColumnByID (WORD id)
 			if (pObj->GetInternalID() == id)
 				break;
 
-			Table* pTable = (Table*) pObj;
+			Table* pTable = (Table*)pObj;
 			int idx = pTable->GetIdxColFromAlias(id);
 			if (idx != -1)
 				return pTable->GetColumn(idx);
@@ -451,7 +451,7 @@ const TableColumn* CLayout::FindColumnByID (WORD id)
 }
 
 //-------------------------------------------------------------------------
-const BOOL CLayout::ExistsColumnID (WORD id)
+const BOOL CLayout::ExistsColumnID(WORD id)
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -461,7 +461,7 @@ const BOOL CLayout::ExistsColumnID (WORD id)
 			if (pObj->GetInternalID() == id)
 				break;
 
-			Table* pTable = (Table*) pObj;
+			Table* pTable = (Table*)pObj;
 			int idx = pTable->GetIdxColFromAlias(id);
 			if (idx != -1)
 				return TRUE;
@@ -471,7 +471,7 @@ const BOOL CLayout::ExistsColumnID (WORD id)
 			if (pObj->GetInternalID() == id)
 				break;
 
-			Repeater* pRep = (Repeater*) pObj;
+			Repeater* pRep = (Repeater*)pObj;
 			int idx = pRep->ExistChildID(id);
 			if (idx != -1)
 				return TRUE;
@@ -487,18 +487,18 @@ Table* CLayout::FindTableByID(WORD nID/*=0*/)
 	for (int i = 0; i <= GetUpperBound(); i++)
 	{
 		if (
-			(nID ? (*this)[i]->GetInternalID() == nID : TRUE)	&&
+			(nID ? (*this)[i]->GetInternalID() == nID : TRUE) &&
 			(*this)[i]->IsKindOf(RUNTIME_CLASS(Table))
 			)
 		{
-			pTable = (Table*) (*this)[i];
+			pTable = (Table*)(*this)[i];
 		}
 	}
 	return pTable;
 }
 
 //-------------------------------------------------------------------------
-BOOL CLayout::CanDeleteField (LPCTSTR pszFieldName, CString& sLog) const
+BOOL CLayout::CanDeleteField(LPCTSTR pszFieldName, CString& sLog) const
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -511,7 +511,7 @@ BOOL CLayout::CanDeleteField (LPCTSTR pszFieldName, CString& sLog) const
 }
 
 //-------------------------------------------------------------------------
-void CLayout::ClearDynamicAttributes () 
+void CLayout::ClearDynamicAttributes()
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -520,7 +520,7 @@ void CLayout::ClearDynamicAttributes ()
 }
 
 //-------------------------------------------------------------------------
-void CLayout::DisableData () 
+void CLayout::DisableData()
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -529,7 +529,7 @@ void CLayout::DisableData ()
 }
 
 //-------------------------------------------------------------------------
-void CLayout::ApplyRepeater () 
+void CLayout::ApplyRepeater()
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -540,7 +540,7 @@ void CLayout::ApplyRepeater ()
 }
 
 //-------------------------------------------------------------------------
-void CLayout::MoveBaseRect (int xOffset, int yOffset, BOOL bIgnoreBorder/* = FALSE*/)
+void CLayout::MoveBaseRect(int xOffset, int yOffset, BOOL bIgnoreBorder/* = FALSE*/)
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -548,43 +548,43 @@ void CLayout::MoveBaseRect (int xOffset, int yOffset, BOOL bIgnoreBorder/* = FAL
 
 		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
-			BaseRect* pR = (BaseRect*) pObj;
+			BaseRect* pR = (BaseRect*)pObj;
 
 			pR->MoveBaseRect(xOffset, yOffset, bIgnoreBorder);
 		}
 		else if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
 		{
-			Table* pT = (Table*)  pObj;
+			Table* pT = (Table*)pObj;
 
-			pT->MoveTable (CSize(xOffset, yOffset));
+			pT->MoveTable(CSize(xOffset, yOffset));
 		}
 	}
 }
 
 //-------------------------------------------------------------------------
-void CLayout::Paint (CDC& DC, CPrintInfo* pi)
+void CLayout::Paint(CDC& DC, CPrintInfo* pi)
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
 		BaseObj* pObj = (*this)[i];
 
-		pObj->Paint (DC, pi);
+		pObj->Paint(DC, pi);
 	}
 }
 
 //-------------------------------------------------------------------------
-void CLayout::Draw (CDC& DC, BOOL bPreview)
+void CLayout::Draw(CDC& DC, BOOL bPreview)
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
 		BaseObj* pObj = (*this)[i];
 
-		pObj->Draw (DC, bPreview);
+		pObj->Draw(DC, bPreview);
 	}
 }
 
 //-------------------------------------------------------------------------
-void CLayout::GetObjDescription ()
+void CLayout::GetObjDescription()
 {
 	for (int i = 0; i < GetSize(); i++)
 	{
@@ -595,7 +595,7 @@ void CLayout::GetObjDescription ()
 }
 
 //-------------------------------------------------------------------------
-void CLayout::Unparse (ViewUnparser& ofile, BOOL bIsSavingTemplate, BOOL& bThereIsTemplate)
+void CLayout::Unparse(ViewUnparser& ofile, BOOL bIsSavingTemplate, BOOL& bThereIsTemplate)
 {
 	// write all elements CLayout* pObjects
 	int ub = GetUpperBound();
@@ -616,7 +616,7 @@ void CLayout::Unparse (ViewUnparser& ofile, BOOL bIsSavingTemplate, BOOL& bThere
 					continue;
 				bThereIsTemplate = TRUE;
 
-				Table* pTable = new Table (*(Table*)pObj);
+				Table* pTable = new Table(*(Table*)pObj);
 
 				pTable->MarkTemplateOverridden();
 
@@ -625,7 +625,7 @@ void CLayout::Unparse (ViewUnparser& ofile, BOOL bIsSavingTemplate, BOOL& bThere
 				pTable->PurgeTemplateColumns();
 
 				pObj = pTable;
-			} 
+			}
 			else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 			{
 				if (!((BaseRect*)pObj)->IsTemplate())
@@ -645,76 +645,76 @@ void CLayout::Unparse (ViewUnparser& ofile, BOOL bIsSavingTemplate, BOOL& bThere
 //cerca priima in alto, poi in basso. 
 //Si ferma quando la ricerca si incontra al centro della pagina
 //NB: numericamente TOP < BOTTOM, TOPa video in alto nela pagina
-BOOL CLayout::FindFreeRect (int height, int width, CRect& rectTarget)
+BOOL CLayout::FindFreeRect(int height, int width, CRect& rectTarget)
 {
 	ASSERT(m_pWoorm);
 
 	//pWoormView->GetPageSizeWithoutMargin_LP()
 	CSize sizePage = m_pWoorm->m_PageInfo.GetPageSize_LP();
-		sizePage.cx -= m_pWoorm->m_PageInfo.m_rectMargins.right;
-		sizePage.cy -= m_pWoorm->m_PageInfo.m_rectMargins.bottom;
-		sizePage.cx -= m_pWoorm->m_PageInfo.m_rectMargins.left;
-		sizePage.cy -= m_pWoorm->m_PageInfo.m_rectMargins.top;
+	sizePage.cx -= m_pWoorm->m_PageInfo.m_rectMargins.right;
+	sizePage.cy -= m_pWoorm->m_PageInfo.m_rectMargins.bottom;
+	sizePage.cx -= m_pWoorm->m_PageInfo.m_rectMargins.left;
+	sizePage.cy -= m_pWoorm->m_PageInfo.m_rectMargins.top;
 	//----
 
-	BOOL	bTopDown	= TRUE;
-	int		nTopDownY	= 0;
-	int		nBottomUpY	= sizePage.cy;
+	BOOL	bTopDown = TRUE;
+	int		nTopDownY = 0;
+	int		nBottomUpY = sizePage.cy;
 
 	for (; nTopDownY < nBottomUpY; bTopDown = !bTopDown)
 	{
 		rectTarget.left = sizePage.cx - width;
 		rectTarget.right = sizePage.cx;
 
-		if (bTopDown)	
+		if (bTopDown)
 		{
 			rectTarget.top = nTopDownY;
 			rectTarget.bottom = rectTarget.top + height;
-			if (rectTarget.bottom > sizePage.cy) 
+			if (rectTarget.bottom > sizePage.cy)
 				break;
 
-			if (FindFreeRect (width, rectTarget))
+			if (FindFreeRect(width, rectTarget))
 				return TRUE;
 
 			nTopDownY++;
 		}
 		else
 		{
-			rectTarget.bottom  = nBottomUpY;
+			rectTarget.bottom = nBottomUpY;
 			rectTarget.top = rectTarget.bottom - height;
-			if (rectTarget.top < 0) 
+			if (rectTarget.top < 0)
 				break;
 
-			if (FindFreeRect (width, rectTarget))
+			if (FindFreeRect(width, rectTarget))
 				return TRUE;
-			
+
 			nBottomUpY--;
 		}
 	}
 	return FALSE;
 }
 
-BOOL CLayout::FindFreeRect (int width, CRect& rectTarget)
+BOOL CLayout::FindFreeRect(int width, CRect& rectTarget)
 {
 	//check one row (right to left)
-	CRect rectInt(0,0,0,0);
-	for(;;)
+	CRect rectInt(0, 0, 0, 0);
+	for (;;)
 	{
 		int i = 0;
-		for (; i < GetSize(); i ++)
+		for (; i < GetSize(); i++)
 		{
 			BaseObj* pObj = (*this)[i];
 
 			if (pObj->IsAlwaysHidden())
 				continue;
 
-			Table* pTable = pObj->IsKindOf(RUNTIME_CLASS(Table)) ? (Table*) pObj : NULL;
+			Table* pTable = pObj->IsKindOf(RUNTIME_CLASS(Table)) ? (Table*)pObj : NULL;
 
 			const CRect& ro = pTable ? pTable->NormalizedBaseRect(TRUE) : pObj->GetBaseRect();
 
 			if (!rectInt.IntersectRect(&rectTarget, &ro))
 				continue;
-			if (rectInt.Height() == 0 || rectInt.Height() == 0 )
+			if (rectInt.Height() == 0 || rectInt.Height() == 0)
 			{
 				ASSERT(FALSE);
 				continue;
@@ -722,22 +722,22 @@ BOOL CLayout::FindFreeRect (int width, CRect& rectTarget)
 
 			break;
 		}
-		
-		if (i == GetSize())	
+
+		if (i == GetSize())
 			return TRUE;
 
-		rectTarget.right--;	
+		rectTarget.right--;
 		rectTarget.left--;
 
 		if (rectTarget.left < 0)
-			return FALSE;	
+			return FALSE;
 	}
 	return FALSE;
 }
 /*
 //-------------------------------------------------------------------------
 //cerca alternado la direzione, le coordinate di un rettangolo libero delle dimensioni indicate
-//cerca priima in alto, poi in basso. si sposta nella striscia identificata dal limite pi� vicino al bordo 
+//cerca priima in alto, poi in basso. si sposta nella striscia identificata dal limite pi� vicino al bordo
 //degli oggetti che hanno colliso al passo precedente (ci sono 2 set distini di variabili)
 //si ferma quando la ricerca si incontra al centro della pagina
 //NB: numericamente TOP < BOTTOM, TOPa video in alto nela pagina
@@ -758,23 +758,23 @@ BOOL CLayout::FindFreeRect (int height, int width, CRect& rectTarget)
 
 	int nBottomUpY = sizePage.cy;
 	int nMaxTop = 0;
-	
+
 	int dummy = 0;
 	BOOL bFirst = TRUE;
 
 	for (; nMinBottom > nMaxTop || bFirst; TopDown = !TopDown)
 	{
 		bFirst = FALSE;
-		
+
 		rectTarget.left = sizePage.cx - width;
 		rectTarget.right = sizePage.cx;
 
-		if (1) //if (TopDown)	// 
+		if (1) //if (TopDown)	//
 		{
 
 			rectTarget.top = nTopDownY;
 			rectTarget.bottom = rectTarget.top + height;
-			if (rectTarget.bottom > sizePage.cy) 
+			if (rectTarget.bottom > sizePage.cy)
 				break;
 
 			if (FindFreeRect (width, rectTarget, dummy, nMinBottom))
@@ -787,12 +787,12 @@ BOOL CLayout::FindFreeRect (int height, int width, CRect& rectTarget)
 		{
 			rectTarget.bottom  = nBottomUpY;
 			rectTarget.top = rectTarget.bottom - height;
-			if (rectTarget.top < 0) 
+			if (rectTarget.top < 0)
 				break;
 
 			if (FindFreeRect (width, rectTarget, nMaxTop, dummy))
 				return TRUE;
-			
+
 			nBottomUpY--;// = nMaxTop - 1;	//--
 			nMaxTop = 0;
 		}
@@ -835,7 +835,7 @@ BOOL CLayout::FindFreeRect (int width, CRect& rectTarget, int& nMaxTop, int& nMi
 			//ricerca Bottom-Up: MaxTop - cerco coordinate bordo superiore piu' basso nella pagina (numericamente pi� alto)
 			if (nMaxTop < ro.top)
 				nMaxTop = ro.top;
-			
+
 			//ricerca left-right
 			if (maxLeft < ro.left)
 				maxLeft = ro.left;
@@ -845,13 +845,13 @@ BOOL CLayout::FindFreeRect (int width, CRect& rectTarget, int& nMaxTop, int& nMi
 
 		//evita loop infinito
 		if (rectTarget.right == (maxLeft - 1))
-			return FALSE;	//maxLeft--;	
+			return FALSE;	//maxLeft--;
 
 		rectTarget.right = maxLeft - 1;
 		rectTarget.left = rectTarget.right - width;
 
 		if (rectTarget.left < 0)
-			return FALSE;	
+			return FALSE;
 	}
 	return FALSE;
 }
@@ -953,21 +953,21 @@ int BaseObj_CompareZYX(CObject*arg1, CObject* arg2)
 // CMultiLayouts
 
 //-----------------------------------------------------------------------------
-CMultiLayouts::CMultiLayouts (CWoormDocMng* pDoc)
-	: 	
-	m_pDocument		(pDoc)
+CMultiLayouts::CMultiLayouts(CWoormDocMng* pDoc)
+	:
+	m_pDocument(pDoc)
 {
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::Lookup (CString sLayoutName, CLayout*& pObject) const
+BOOL CMultiLayouts::Lookup(CString sLayoutName, CLayout*& pObject) const
 {
 	sLayoutName.MakeLower();
 	return __super::Lookup(sLayoutName, (CObject*&)pObject);
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::Lookup (CString sLayoutName) const
+BOOL CMultiLayouts::Lookup(CString sLayoutName) const
 {
 	CLayout* pObj;
 	return Lookup(sLayoutName, pObj);
@@ -975,7 +975,7 @@ BOOL CMultiLayouts::Lookup (CString sLayoutName) const
 
 //-----------------------------------------------------------------------------
 //non aggiunge doppioni
-CLayout* CMultiLayouts::Add (CString sLayoutName)
+CLayout* CMultiLayouts::Add(CString sLayoutName)
 {
 	CLayout* pBaseObjAr = new CLayout(sLayoutName, m_pDocument);
 	sLayoutName.MakeLower();
@@ -987,12 +987,12 @@ CLayout* CMultiLayouts::Add (CString sLayoutName)
 		return pObj;
 	}
 
-	SetAt (sLayoutName, pBaseObjAr);
+	SetAt(sLayoutName, pBaseObjAr);
 	return pBaseObjAr;
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::Rename (CString sPrevName, const CString& sNewName)
+BOOL CMultiLayouts::Rename(CString sPrevName, const CString& sNewName)
 {
 	CString sNewKey(sNewName);	sNewKey.MakeLower();
 	sPrevName.MakeLower();
@@ -1010,34 +1010,34 @@ BOOL CMultiLayouts::Rename (CString sPrevName, const CString& sNewName)
 	if (!__super::RemoveKey(sPrevName))
 		return FALSE;
 
-	SetAt (sNewKey, pObj);
+	SetAt(sNewKey, pObj);
 
 	pObj->m_strLayoutName = sNewName;
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
-void CMultiLayouts::RemoveAll ()
+void CMultiLayouts::RemoveAll()
 {
 	CString strName; CObject* pObj = NULL;
 	for (POSITION pos = GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		GetNextAssoc (pos, strName, pObj );
-		CLayout* pObjects = (CLayout*) pObj;
-		SAFE_DELETE (pObjects);
+		GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
+		SAFE_DELETE(pObjects);
 	}
 	__super::RemoveAll();
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::ExistsFieldID	(WORD id, BOOL bSkipCurrent) const
+BOOL CMultiLayouts::ExistsFieldID(WORD id, BOOL bSkipCurrent) const
 {
 	CString strName; CObject* pObj = NULL;
 	for (POSITION pos = GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		GetNextAssoc (pos, strName, pObj );
-		CLayout* pObjects = (CLayout*) pObj;
-		
+		GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
+
 		if (bSkipCurrent && m_pDocument->m_Objects == pObjects)
 			continue;
 
@@ -1050,56 +1050,56 @@ BOOL CMultiLayouts::ExistsFieldID	(WORD id, BOOL bSkipCurrent) const
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::ExistsID	(WORD id, CString sLayoutName) const
+BOOL CMultiLayouts::ExistsID(WORD id, CString sLayoutName) const
 {
 	return FindByID(id, sLayoutName) != NULL;
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::ExistsColumnID	(WORD id, CString sLayoutName) const
+BOOL CMultiLayouts::ExistsColumnID(WORD id, CString sLayoutName) const
 {
 	CLayout* pObjects = NULL;
 	sLayoutName.MakeLower();
-	if (! __super::Lookup(sLayoutName, (CObject*&)pObjects))
+	if (!__super::Lookup(sLayoutName, (CObject*&)pObjects))
 		return FALSE;
 	return pObjects->ExistsColumnID(id);
 }
 
 //-----------------------------------------------------------------------------
-BaseObj* CMultiLayouts::FindByID (WORD id, CString sLayoutName) const
+BaseObj* CMultiLayouts::FindByID(WORD id, CString sLayoutName) const
 {
 	CLayout* pObjects = NULL;
 	sLayoutName.MakeLower();
-	if (! __super::Lookup(sLayoutName, (CObject*&)pObjects))
+	if (!__super::Lookup(sLayoutName, (CObject*&)pObjects))
 		return FALSE;
 	return pObjects->FindByID(id);
 }
 
 //-----------------------------------------------------------------------------
-const TableColumn* CMultiLayouts::FindColumnByID (WORD id, CString sLayoutName) const
+const TableColumn* CMultiLayouts::FindColumnByID(WORD id, CString sLayoutName) const
 {
 	CLayout* pObjects = NULL;
 	sLayoutName.MakeLower();
-	if (! __super::Lookup(sLayoutName, (CObject*&)pObjects))
+	if (!__super::Lookup(sLayoutName, (CObject*&)pObjects))
 		return FALSE;
 	return pObjects->FindColumnByID(id);
 }
 
 //-----------------------------------------------------------------------------
-void CMultiLayouts::EnumObjects (TFEnumObjects pfAction)
+void CMultiLayouts::EnumObjects(TFEnumObjects pfAction)
 {
 	CString strName; CObject* pObj = NULL;
 	for (POSITION pos = GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		GetNextAssoc (pos, strName, pObj );
-		CLayout* pObjects = (CLayout*) pObj;
+		GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
 
 		(m_pDocument->*(pfAction))(pObjects);
 	}
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::SetCurrent (CString sName)
+BOOL CMultiLayouts::SetCurrent(CString sName)
 {
 	if (GetCount() <= 1)
 		return TRUE;
@@ -1114,15 +1114,15 @@ BOOL CMultiLayouts::SetCurrent (CString sName)
 }
 
 //-----------------------------------------------------------------------------
-BOOL CMultiLayouts::CanDeleteField	(LPCTSTR pszFieldName, CString& sLog) const
+BOOL CMultiLayouts::CanDeleteField(LPCTSTR pszFieldName, CString& sLog) const
 {
 	CString strName; CObject* pObj = NULL;
 	for (POSITION pos = GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		GetNextAssoc (pos, strName, pObj );
-		CLayout* pObjects = (CLayout*) pObj;
-		
-		if (!pObjects->CanDeleteField (pszFieldName, sLog))
+		GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
+
+		if (!pObjects->CanDeleteField(pszFieldName, sLog))
 			return FALSE;
 	}
 	return TRUE;
@@ -1137,274 +1137,274 @@ IMPLEMENT_DYNCREATE(CWoormDocMng, CWoormDoc)
 //-----------------------------------------------------------------------------
 BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 
-	ON_COMMAND(ID_APP_NEW_REPORT,  				OnFileNew)
-	ON_COMMAND(ID_APP_OPEN_REPORT,				OnFileOpen)
-	
-	ON_COMMAND(ID_FILE_SAVE,  				OnFileSave)
-	ON_COMMAND(ID_FILE_SAVE_2,				OnFileSave)
+	ON_COMMAND(ID_APP_NEW_REPORT, OnFileNew)
+	ON_COMMAND(ID_APP_OPEN_REPORT, OnFileOpen)
 
-	ON_COMMAND(ID_FILE_SAVE_AS,				OnFileSaveAs)
-	ON_COMMAND(ID_FILE_SAVE_RDE,   			OnFileSaveRDE)
-	ON_COMMAND(ID_FILE_SAVE_PDF,   			OnFileSavePDF)
+	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
+	ON_COMMAND(ID_FILE_SAVE_2, OnFileSave)
 
-	ON_COMMAND(ID_FILE_PAGE_SETUP,			OnPageSetup)
-	ON_COMMAND(ID_FILE_PROPERTIES,			OnFileProperties)
+	ON_COMMAND(ID_FILE_SAVE_AS, OnFileSaveAs)
+	ON_COMMAND(ID_FILE_SAVE_RDE, OnFileSaveRDE)
+	ON_COMMAND(ID_FILE_SAVE_PDF, OnFileSavePDF)
 
-	ON_COMMAND(ID_SAVE_ONLY_GRAPH_INFO,		ToggleSaveOnlyGraphInfo)
+	ON_COMMAND(ID_FILE_PAGE_SETUP, OnPageSetup)
+	ON_COMMAND(ID_FILE_PROPERTIES, OnFileProperties)
 
-	ON_COMMAND(ID_RS_REMOVE_LAYOUT_OBJECT,	OnObjectCut) 
+	ON_COMMAND(ID_SAVE_ONLY_GRAPH_INFO, ToggleSaveOnlyGraphInfo)
 
-	ON_UPDATE_COMMAND_UI(ID_OBJECT_CUT,					OnUpdateCut)
-	ON_UPDATE_COMMAND_UI(ID_RS_REMOVE_LAYOUT_OBJECT,	OnUpdateCut)
+	ON_COMMAND(ID_RS_REMOVE_LAYOUT_OBJECT, OnObjectCut)
 
-	ON_COMMAND(ID_OBJECT_COPY,				OnObjectCopy)
-	ON_COMMAND(ID_OBJECT_PASTE,				OnObjectPaste)
-	ON_COMMAND(ID_OBJECT_UNDO,				OnObjectUndo)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_CUT, OnUpdateCut)
+	ON_UPDATE_COMMAND_UI(ID_RS_REMOVE_LAYOUT_OBJECT, OnUpdateCut)
 
-	ON_COMMAND(ID_CLEAR_ALL,				OnClearAll)
-	ON_COMMAND(ID_SELECT_ALL,      			OnSelectAll)
-	ON_COMMAND(ID_UNSELECT_ALL,    			OnDeselectAll)
+	ON_COMMAND(ID_OBJECT_COPY, OnObjectCopy)
+	ON_COMMAND(ID_OBJECT_PASTE, OnObjectPaste)
+	ON_COMMAND(ID_OBJECT_UNDO, OnObjectUndo)
 
-	ON_COMMAND(ID_ALLOW_EDITING,  			OnAllowEditing)
+	ON_COMMAND(ID_CLEAR_ALL, OnClearAll)
+	ON_COMMAND(ID_SELECT_ALL, OnSelectAll)
+	ON_COMMAND(ID_UNSELECT_ALL, OnDeselectAll)
 
-	ON_COMMAND(ID_SHOW_EDIT_TOOLBARS,		OnShowEditToolbars)
+	ON_COMMAND(ID_ALLOW_EDITING, OnAllowEditing)
 
-	ON_COMMAND(ID_ESCAPE,          OnStop)
-	ON_COMMAND(ID_RUN,             OnRun)
-	ON_COMMAND(ID_COMPILE,         OnCompile)
-	ON_COMMAND(ID_STOP,            OnStop)
-	ON_COMMAND(ID_PAUSE,           OnPause)
-	ON_COMMAND(ID_RESUME,          OnResume)
-	ON_COMMAND(ID_RUN_STOP,        OnRunStop)
-	ON_COMMAND(ID_RUN_STOP_2,	   OnRunStop)
-	ON_COMMAND(ID_PAUSE_RESUME,    OnPauseResume)
+	ON_COMMAND(ID_SHOW_EDIT_TOOLBARS, OnShowEditToolbars)
+
+	ON_COMMAND(ID_ESCAPE, OnStop)
+	ON_COMMAND(ID_RUN, OnRun)
+	ON_COMMAND(ID_COMPILE, OnCompile)
+	ON_COMMAND(ID_STOP, OnStop)
+	ON_COMMAND(ID_PAUSE, OnPause)
+	ON_COMMAND(ID_RESUME, OnResume)
+	ON_COMMAND(ID_RUN_STOP, OnRunStop)
+	ON_COMMAND(ID_RUN_STOP_2, OnRunStop)
+	ON_COMMAND(ID_PAUSE_RESUME, OnPauseResume)
 	ON_COMMAND(ID_RS_RUN_DEBUGGER, OnRunDebugger)
 
-	ON_COMMAND(ID_RUN_WITHOUT_CHILDS,	OnRunWithOutChild)
+	ON_COMMAND(ID_RUN_WITHOUT_CHILDS, OnRunWithOutChild)
 	ON_COMMAND(ID_RUN_AND_ATTACH_PDF_CHILDS, OnRunAndAttachChild)
 
-	ON_COMMAND(ID_PRINT_WITH_CHILDS,	OnPrintWithChild)
-	ON_COMMAND(ID_PRINT_MULTICOPIES,	OnPrintMultiCopies)
-	ON_COMMAND(ID_PRINT_WITH_DIALOG,	OnPrintWithDialog)
+	ON_COMMAND(ID_PRINT_WITH_CHILDS, OnPrintWithChild)
+	ON_COMMAND(ID_PRINT_MULTICOPIES, OnPrintMultiCopies)
+	ON_COMMAND(ID_PRINT_WITH_DIALOG, OnPrintWithDialog)
 	ON_COMMAND(ID_PRINT_ON_LETTERHEAD, OnTogglePrintOnLetterhead)
 
 	ON_COMMAND(ID_ARCHIVE_PDF_FORMAT, OnArchivePdfFormat)
 	ON_COMMAND(ID_ARCHIVE_WITH_CHILDS, OnArchiveWithChilds)
-	ON_COMMAND(ID_GENERATE_PAPERY,		OnGeneratePapery)
+	ON_COMMAND(ID_GENERATE_PAPERY, OnGeneratePapery)
 
-	ON_COMMAND(ID_GOTO_PAGE,       OnGotoPage)
+	ON_COMMAND(ID_GOTO_PAGE, OnGotoPage)
 
 	ON_COMMAND(ID_TOOLBAR_FIND_EDITBOX, OnFindWord)
 	ON_COMMAND(ID_TOOLBAR_FIND_PREV, OnFindPrev)
 	ON_COMMAND(ID_TOOLBAR_FIND_NEXT, OnFindNext)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
-		
+
 	FIND_BAR_DROPDOWN_MENU_ON_UPDATE_COMMAND_UI(OnUpdateFindWord, OnUpdateFindWord, OnUpdateFindWord, OnUpdateFindWord)
 	FIND_BAR_DROPDOWN_MENU_ON_UPDATE_COMMAND()
 
-	ON_COMMAND(ID_ADD_SQR_RECT,    OnAddSqrRect)
-	ON_COMMAND(ID_ADD_TEXT_RECT,   OnAddTextRect)
-	ON_COMMAND(ID_ADD_GRAPH_RECT,  OnAddGraphRect)
-	ON_COMMAND(ID_ADD_FILE_RECT,   OnAddFileRect)
-	ON_COMMAND(ID_ADD_REPEATER,    OnAddRepeater)
-	ON_COMMAND(ID_ADD_CHART,		OnAddChart)
+	ON_COMMAND(ID_ADD_SQR_RECT, OnAddSqrRect)
+	ON_COMMAND(ID_ADD_TEXT_RECT, OnAddTextRect)
+	ON_COMMAND(ID_ADD_GRAPH_RECT, OnAddGraphRect)
+	ON_COMMAND(ID_ADD_FILE_RECT, OnAddFileRect)
+	ON_COMMAND(ID_ADD_REPEATER, OnAddRepeater)
+	ON_COMMAND(ID_ADD_CHART, OnAddChart)
 
-	ON_COMMAND(ID_RS_ADD_TABLE_FROM_DB,				OnAddTableFromDB)
-	ON_COMMAND(ID_RS_ADD_TABLE_NEW_FUNCEXPR,		OnAddTableFromFuncExpr)
-	ON_COMMAND(ID_RS_ADD_TABLE_FROM_HIDDEN_FIELDS,  OnAddTableFromHiddens)
+	ON_COMMAND(ID_RS_ADD_TABLE_FROM_DB, OnAddTableFromDB)
+	ON_COMMAND(ID_RS_ADD_TABLE_NEW_FUNCEXPR, OnAddTableFromFuncExpr)
+	ON_COMMAND(ID_RS_ADD_TABLE_FROM_HIDDEN_FIELDS, OnAddTableFromHiddens)
 
-	ON_COMMAND(ID_RS_ADD_COLUMNS_FROM_DB,			OnCreateDbObj)
-	ON_COMMAND(ID_RS_ADD_COLUMN_NEW_FUNCEXPR,		OnCreateFuncExprObj)
-	ON_COMMAND(ID_RS_ADD_COLUMNS_FROM_HIDDENS,		OnCreateObjFromHiddenField)
+	ON_COMMAND(ID_RS_ADD_COLUMNS_FROM_DB, OnCreateDbObj)
+	ON_COMMAND(ID_RS_ADD_COLUMN_NEW_FUNCEXPR, OnCreateFuncExprObj)
+	ON_COMMAND(ID_RS_ADD_COLUMNS_FROM_HIDDENS, OnCreateObjFromHiddenField)
 
-	ON_COMMAND(ID_RS_ADD_FIELDS_FROM_DB,			OnCreateDbObj)
-	ON_COMMAND(ID_RS_ADD_FIELD_NEW_FUNCEXPR,		OnCreateFuncExprObj)
-	ON_COMMAND(ID_RS_ADD_FIELDS_FROM_HIDDENS,		OnCreateObjFromHiddenField)
+	ON_COMMAND(ID_RS_ADD_FIELDS_FROM_DB, OnCreateDbObj)
+	ON_COMMAND(ID_RS_ADD_FIELD_NEW_FUNCEXPR, OnCreateFuncExprObj)
+	ON_COMMAND(ID_RS_ADD_FIELDS_FROM_HIDDENS, OnCreateObjFromHiddenField)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_ADD_TABLE_FROM_DB,	OnUpdateAddTableOrFields)
-	ON_UPDATE_COMMAND_UI(ID_RS_ADD_FIELDS_FROM_DB,	OnUpdateAddTableOrFields)
+	ON_UPDATE_COMMAND_UI(ID_RS_ADD_TABLE_FROM_DB, OnUpdateAddTableOrFields)
+	ON_UPDATE_COMMAND_UI(ID_RS_ADD_FIELDS_FROM_DB, OnUpdateAddTableOrFields)
 	ON_UPDATE_COMMAND_UI(ID_RS_ADD_COLUMNS_FROM_DB, OnUpdateAddColumns)
 
-	ON_COMMAND(ID_COL_LMOVE,       OnColLeftMove)
-	ON_COMMAND(ID_COL_RMOVE,       OnColRightMove)
+	ON_COMMAND(ID_COL_LMOVE, OnColLeftMove)
+	ON_COMMAND(ID_COL_RMOVE, OnColRightMove)
 
-	ON_COMMAND(ID_MULSEL_ALIGN,    OnMulSelAlign)
-	ON_COMMAND(ID_MULSEL_SIZE,     OnMulSelSize)
+	ON_COMMAND(ID_MULSEL_ALIGN, OnMulSelAlign)
+	ON_COMMAND(ID_MULSEL_SIZE, OnMulSelSize)
 
-	ON_COMMAND(ID_OPTIONS,         OnOptions)
-	ON_COMMAND(ID_WOORM_INI,       OnWoormIni)
+	ON_COMMAND(ID_OPTIONS, OnOptions)
+	ON_COMMAND(ID_WOORM_INI, OnWoormIni)
 
-	ON_COMMAND(ID_OPTION_CREATE_SCHEMA1,			OnToggleCreateSchema1)
-	ON_UPDATE_COMMAND_UI(ID_OPTION_CREATE_SCHEMA1,	OnUpdateCreateSchema1)
-	ON_COMMAND(ID_OPTION_CREATE_SCHEMA2,			OnToggleCreateSchema2)
-	ON_UPDATE_COMMAND_UI(ID_OPTION_CREATE_SCHEMA2,	OnUpdateCreateSchema2)
+	ON_COMMAND(ID_OPTION_CREATE_SCHEMA1, OnToggleCreateSchema1)
+	ON_UPDATE_COMMAND_UI(ID_OPTION_CREATE_SCHEMA1, OnUpdateCreateSchema1)
+	ON_COMMAND(ID_OPTION_CREATE_SCHEMA2, OnToggleCreateSchema2)
+	ON_UPDATE_COMMAND_UI(ID_OPTION_CREATE_SCHEMA2, OnUpdateCreateSchema2)
 
-	ON_COMMAND(ID_FONT_STYLES,     OnFontStyles)
-	ON_COMMAND(ID_FORMAT_STYLES,   OnFormatStyles)
+	ON_COMMAND(ID_FONT_STYLES, OnFontStyles)
+	ON_COMMAND(ID_FORMAT_STYLES, OnFormatStyles)
 
-	ON_COMMAND(ID_ENUMS_VIEWER,	   OnEnumsViewer)
+	ON_COMMAND(ID_ENUMS_VIEWER, OnEnumsViewer)
 	ON_UPDATE_COMMAND_UI(ID_ENUMS_VIEWER, OnUpdateEnumsViewer)
 
 	ON_UPDATE_COMMAND_UI(ID_TOOLS, OnUpdateTools)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_2, OnUpdateTools)
 
-	ON_COMMAND			(ID_GENERAL_SETTINGS,	OnGeneralSettings)
-	ON_UPDATE_COMMAND_UI(ID_GENERAL_SETTINGS,	OnUpdateGeneralSettings)
+	ON_COMMAND(ID_GENERAL_SETTINGS, OnGeneralSettings)
+	ON_UPDATE_COMMAND_UI(ID_GENERAL_SETTINGS, OnUpdateGeneralSettings)
 
-	ON_COMMAND			(ID_PROPERTIES,			OnProperties )
-	ON_UPDATE_COMMAND_UI(ID_PROPERTIES,			OnUpdateProperties)
+	ON_COMMAND(ID_PROPERTIES, OnProperties)
+	ON_UPDATE_COMMAND_UI(ID_PROPERTIES, OnUpdateProperties)
 
-	ON_COMMAND			(ID_PAGE_INFO,			OnPageInfo)
-	ON_UPDATE_COMMAND_UI(ID_PAGE_INFO,			OnUpdatePageInfo)
+	ON_COMMAND(ID_PAGE_INFO, OnPageInfo)
+	ON_UPDATE_COMMAND_UI(ID_PAGE_INFO, OnUpdatePageInfo)
 
-	ON_COMMAND(ID_REPORT_PARAMETER, OnShowReportParameters) 
+	ON_COMMAND(ID_REPORT_PARAMETER, OnShowReportParameters)
 
-	ON_COMMAND(ID_RDE_NEWPAGE,     	OnNewPage)
-	ON_COMMAND(ID_PG_UP,   			OnPrevPage)
-	ON_COMMAND(ID_PG_DN,   			OnNextPage)
-	ON_COMMAND(ID_PG_HOME, 			OnFirstPage)
-	ON_COMMAND(ID_PG_END,  			OnLastPage)
+	ON_COMMAND(ID_RDE_NEWPAGE, OnNewPage)
+	ON_COMMAND(ID_PG_UP, OnPrevPage)
+	ON_COMMAND(ID_PG_DN, OnNextPage)
+	ON_COMMAND(ID_PG_HOME, OnFirstPage)
+	ON_COMMAND(ID_PG_END, OnLastPage)
 
-	ON_COMMAND(ID_REPORT_BEGIN,		OnReportBegin)
-	ON_COMMAND(ID_REPORT_END,		OnReportEnd)
-	ON_COMMAND(ID_BEGIN_SORT,		OnBeginSort)
-	ON_COMMAND(ID_END_SORT,			OnEndSort)
-	ON_COMMAND(ID_BEGIN_GROUP,		OnBeginGroup)
-	ON_COMMAND(ID_END_GROUP,		OnEndGroup)
-	ON_COMMAND(ID_BEGIN_MEM_GROUP,	OnBeginMemGroup)
-	ON_COMMAND(ID_END_MEM_GROUP,	OnEndMemGroup)
-	ON_COMMAND(ID_SEARCH_TIC,		OnSearchTic)
-	ON_COMMAND(ID_RETRIEVE_TIC,		OnRetrieveTic)
+	ON_COMMAND(ID_REPORT_BEGIN, OnReportBegin)
+	ON_COMMAND(ID_REPORT_END, OnReportEnd)
+	ON_COMMAND(ID_BEGIN_SORT, OnBeginSort)
+	ON_COMMAND(ID_END_SORT, OnEndSort)
+	ON_COMMAND(ID_BEGIN_GROUP, OnBeginGroup)
+	ON_COMMAND(ID_END_GROUP, OnEndGroup)
+	ON_COMMAND(ID_BEGIN_MEM_GROUP, OnBeginMemGroup)
+	ON_COMMAND(ID_END_MEM_GROUP, OnEndMemGroup)
+	ON_COMMAND(ID_SEARCH_TIC, OnSearchTic)
+	ON_COMMAND(ID_RETRIEVE_TIC, OnRetrieveTic)
 
-	ON_COMMAND(ID_VK_SHIFT_LEFT,	OnVKShiftLeft)
-	ON_COMMAND(ID_VK_SHIFT_RIGHT,	OnVKShiftRight)
-	ON_COMMAND(ID_VK_SHIFT_UP,		OnVKShiftUp)
-	ON_COMMAND(ID_VK_SHIFT_DOWN,	OnVKShiftDown)
+	ON_COMMAND(ID_VK_SHIFT_LEFT, OnVKShiftLeft)
+	ON_COMMAND(ID_VK_SHIFT_RIGHT, OnVKShiftRight)
+	ON_COMMAND(ID_VK_SHIFT_UP, OnVKShiftUp)
+	ON_COMMAND(ID_VK_SHIFT_DOWN, OnVKShiftDown)
 
-	ON_COMMAND(ID_VK_CTRL_LEFT,		OnVKCtrlLeft)
-	ON_COMMAND(ID_VK_CTRL_RIGHT,	OnVKCtrlRight)
-	ON_COMMAND(ID_VK_CTRL_UP,		OnVKCtrlUp)
-	ON_COMMAND(ID_VK_CTRL_DOWN,		OnVKCtrlDown)
+	ON_COMMAND(ID_VK_CTRL_LEFT, OnVKCtrlLeft)
+	ON_COMMAND(ID_VK_CTRL_RIGHT, OnVKCtrlRight)
+	ON_COMMAND(ID_VK_CTRL_UP, OnVKCtrlUp)
+	ON_COMMAND(ID_VK_CTRL_DOWN, OnVKCtrlDown)
 
 	//ON_COMMAND(ID_VK_TAB,			OnVKTab)
-	ON_COMMAND(ID_VK_SHIFT_TAB,		OnVKShiftTab)
-	ON_COMMAND(ID_VK_RETURN,		OnVKReturn)
+	ON_COMMAND(ID_VK_SHIFT_TAB, OnVKShiftTab)
+	ON_COMMAND(ID_VK_RETURN, OnVKReturn)
 
-	ON_COMMAND(ID_SNAP_TO_GRID,		OnSnapToGrid)
+	ON_COMMAND(ID_SNAP_TO_GRID, OnSnapToGrid)
 
-	ON_COMMAND_EX(ID_TOGGLE_BORDER_ALL,		OnToggleBorder)
-	ON_COMMAND_EX(ID_TOGGLE_BORDER_UP,		OnToggleBorder)
-	ON_COMMAND_EX(ID_TOGGLE_BORDER_DOWN,	OnToggleBorder)
-	ON_COMMAND_EX(ID_TOGGLE_BORDER_LEFT,	OnToggleBorder)
-	ON_COMMAND_EX(ID_TOGGLE_BORDER_RIGHT,	OnToggleBorder)
+	ON_COMMAND_EX(ID_TOGGLE_BORDER_ALL, OnToggleBorder)
+	ON_COMMAND_EX(ID_TOGGLE_BORDER_UP, OnToggleBorder)
+	ON_COMMAND_EX(ID_TOGGLE_BORDER_DOWN, OnToggleBorder)
+	ON_COMMAND_EX(ID_TOGGLE_BORDER_LEFT, OnToggleBorder)
+	ON_COMMAND_EX(ID_TOGGLE_BORDER_RIGHT, OnToggleBorder)
 
-	ON_COMMAND(ID_TOGGLE_TRANSPARENT,		OnToggleTransparent)
+	ON_COMMAND(ID_TOGGLE_TRANSPARENT, OnToggleTransparent)
 
-	ON_COMMAND_EX(ID_ALIGN_HLEFT,			OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_HRIGHT,			OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_HSPACE_EQUAL,	OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_VTOP,			OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_VBOTTOM,			OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_VSPACE_EQUAL,	OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_STACK_LEFT,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_STACK_RIGHT,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_STACK_TOP,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_STACK_BOTTOM,	OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_CUT_H_LEFT,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_CUT_H_RIGHT,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_CUT_V_TOP,		OnAlignmentBar)
-	ON_COMMAND_EX(ID_ALIGN_CUT_V_BOTTOM,	OnAlignmentBar)
-	ON_COMMAND_EX(ID_LAST_LARGE,			OnAlignmentBar)
-	ON_COMMAND_EX(ID_LAST_HIGH,				OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_HLEFT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_HRIGHT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_HSPACE_EQUAL, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_VTOP, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_VBOTTOM, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_VSPACE_EQUAL, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_STACK_LEFT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_STACK_RIGHT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_STACK_TOP, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_STACK_BOTTOM, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_CUT_H_LEFT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_CUT_H_RIGHT, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_CUT_V_TOP, OnAlignmentBar)
+	ON_COMMAND_EX(ID_ALIGN_CUT_V_BOTTOM, OnAlignmentBar)
+	ON_COMMAND_EX(ID_LAST_LARGE, OnAlignmentBar)
+	ON_COMMAND_EX(ID_LAST_HIGH, OnAlignmentBar)
 
 	ON_COMMAND(ID_WOORM_TAB_SWITCH, OnTabSwitch)
 	ON_COMMAND_RANGE(ID_WOORM_TAB_SWITCH_MENU_START, (UINT)(ID_WOORM_TAB_SWITCH_MENU_END), OnTabSwitchRange)
 
 	ON_UPDATE_COMMAND_UI(ID_WOORM_TAB_SWITCH, OnUpdateTabSwitch)
-	
-	ON_UPDATE_COMMAND_UI(ID_ALLOW_EDITING,	OnUpdateAllowEditingButton)
-	ON_UPDATE_COMMAND_UI(ID_SHOW_EDIT_TOOLBARS,	OnUpdateShowEditToolbars)
-	ON_UPDATE_COMMAND_UI(ID_APP_NEW_REPORT,  		OnUpdateFileNew)
-	ON_UPDATE_COMMAND_UI(ID_APP_OPEN_REPORT,		OnUpdateFileOpen)
 
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE,  	 OnUpdateFileSave)
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_2,	 OnUpdateFileSave)
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS,	 OnUpdateFileSave)
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RDE,   OnUpdateFileSaveRDE)
-	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_PDF,	 OnUpdateFileSavePDF)
-	ON_UPDATE_COMMAND_UI(ID_RUN_AND_ATTACH_PDF_CHILDS,	 OnUpdateSendMail)
+	ON_UPDATE_COMMAND_UI(ID_ALLOW_EDITING, OnUpdateAllowEditingButton)
+	ON_UPDATE_COMMAND_UI(ID_SHOW_EDIT_TOOLBARS, OnUpdateShowEditToolbars)
+	ON_UPDATE_COMMAND_UI(ID_APP_NEW_REPORT, OnUpdateFileNew)
+	ON_UPDATE_COMMAND_UI(ID_APP_OPEN_REPORT, OnUpdateFileOpen)
 
-	ON_UPDATE_COMMAND_UI(ID_FILE_PAGE_SETUP,		OnUpdatePageSetup)
-	ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES,		OnUpdateFileProperties)	
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, OnUpdateFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_2, OnUpdateFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS, OnUpdateFileSave)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_RDE, OnUpdateFileSaveRDE)
+	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_PDF, OnUpdateFileSavePDF)
+	ON_UPDATE_COMMAND_UI(ID_RUN_AND_ATTACH_PDF_CHILDS, OnUpdateSendMail)
 
-	ON_UPDATE_COMMAND_UI(ID_SAVE_ONLY_GRAPH_INFO,   OnUpdateSaveOnlyGraphInfo)
+	ON_UPDATE_COMMAND_UI(ID_FILE_PAGE_SETUP, OnUpdatePageSetup)
+	ON_UPDATE_COMMAND_UI(ID_FILE_PROPERTIES, OnUpdateFileProperties)
 
-	ON_UPDATE_COMMAND_UI(ID_OBJECT_COPY,			OnUpdateCopy)
-	ON_UPDATE_COMMAND_UI(ID_OBJECT_PASTE,			OnUpdatePaste)
-	ON_UPDATE_COMMAND_UI(ID_OBJECT_UNDO,			OnUpdateUndo)
-	ON_UPDATE_COMMAND_UI(ID_CLEAR_ALL,				OnUpdateClearAll)
+	ON_UPDATE_COMMAND_UI(ID_SAVE_ONLY_GRAPH_INFO, OnUpdateSaveOnlyGraphInfo)
 
-	ON_UPDATE_COMMAND_UI(ID_RUN,             OnUpdateRun)
-	ON_UPDATE_COMMAND_UI(ID_STOP,            OnUpdateStop)
-	ON_UPDATE_COMMAND_UI(ID_COMPILE,         OnUpdateRun)
-	ON_UPDATE_COMMAND_UI(ID_PAUSE,           OnUpdatePause)
-	ON_UPDATE_COMMAND_UI(ID_RESUME,          OnUpdateResume)
-	ON_UPDATE_COMMAND_UI(ID_RUN_STOP,        OnUpdateRunStop)
-	ON_UPDATE_COMMAND_UI(ID_RUN_STOP_2,		 OnUpdateRunStop)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_COPY, OnUpdateCopy)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_PASTE, OnUpdatePaste)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_UNDO, OnUpdateUndo)
+	ON_UPDATE_COMMAND_UI(ID_CLEAR_ALL, OnUpdateClearAll)
+
+	ON_UPDATE_COMMAND_UI(ID_RUN, OnUpdateRun)
+	ON_UPDATE_COMMAND_UI(ID_STOP, OnUpdateStop)
+	ON_UPDATE_COMMAND_UI(ID_COMPILE, OnUpdateRun)
+	ON_UPDATE_COMMAND_UI(ID_PAUSE, OnUpdatePause)
+	ON_UPDATE_COMMAND_UI(ID_RESUME, OnUpdateResume)
+	ON_UPDATE_COMMAND_UI(ID_RUN_STOP, OnUpdateRunStop)
+	ON_UPDATE_COMMAND_UI(ID_RUN_STOP_2, OnUpdateRunStop)
 	ON_UPDATE_COMMAND_UI(ID_RS_RUN_DEBUGGER, OnUpdateRunStop)
-	ON_UPDATE_COMMAND_UI(ID_PAUSE_RESUME,    OnUpdatePauseResume)
+	ON_UPDATE_COMMAND_UI(ID_PAUSE_RESUME, OnUpdatePauseResume)
 
-	ON_UPDATE_COMMAND_UI(ID_GOTO_PAGE,       OnUpdateGotoPage)
+	ON_UPDATE_COMMAND_UI(ID_GOTO_PAGE, OnUpdateGotoPage)
 
-	ON_UPDATE_COMMAND_UI(ID_PG_UP,   		 OnUpdateMovePage)
-	ON_UPDATE_COMMAND_UI(ID_PG_DN,   		 OnUpdateMovePage)
-	ON_UPDATE_COMMAND_UI(ID_PG_HOME, 		 OnUpdateMovePage)
-	ON_UPDATE_COMMAND_UI(ID_PG_END,  		 OnUpdateMovePage)
+	ON_UPDATE_COMMAND_UI(ID_PG_UP, OnUpdateMovePage)
+	ON_UPDATE_COMMAND_UI(ID_PG_DN, OnUpdateMovePage)
+	ON_UPDATE_COMMAND_UI(ID_PG_HOME, OnUpdateMovePage)
+	ON_UPDATE_COMMAND_UI(ID_PG_END, OnUpdateMovePage)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, OnUpdateFilePreviewPrint)
-	ON_UPDATE_COMMAND_UI(ID_ADD_SQR_RECT,    OnUpdateAddRect)
-	ON_UPDATE_COMMAND_UI(ID_ADD_TEXT_RECT,   OnUpdateAddRect)
-	ON_UPDATE_COMMAND_UI(ID_ADD_GRAPH_RECT,  OnUpdateAddRect)
-	ON_UPDATE_COMMAND_UI(ID_ADD_FILE_RECT,   OnUpdateAddRect)
-	ON_UPDATE_COMMAND_UI(ID_ADD_REPEATER,    OnUpdateAddRect)
+	ON_UPDATE_COMMAND_UI(ID_ADD_SQR_RECT, OnUpdateAddRect)
+	ON_UPDATE_COMMAND_UI(ID_ADD_TEXT_RECT, OnUpdateAddRect)
+	ON_UPDATE_COMMAND_UI(ID_ADD_GRAPH_RECT, OnUpdateAddRect)
+	ON_UPDATE_COMMAND_UI(ID_ADD_FILE_RECT, OnUpdateAddRect)
+	ON_UPDATE_COMMAND_UI(ID_ADD_REPEATER, OnUpdateAddRect)
 
-	ON_UPDATE_COMMAND_UI(ID_RS_ADD_LINK,	 OnUpdateAddLink)
+	ON_UPDATE_COMMAND_UI(ID_RS_ADD_LINK, OnUpdateAddLink)
 
-	ON_UPDATE_COMMAND_UI(ID_COL_LMOVE,       OnUpdateColMove)
-	ON_UPDATE_COMMAND_UI(ID_COL_RMOVE,       OnUpdateColMove)
+	ON_UPDATE_COMMAND_UI(ID_COL_LMOVE, OnUpdateColMove)
+	ON_UPDATE_COMMAND_UI(ID_COL_RMOVE, OnUpdateColMove)
 
-	ON_UPDATE_COMMAND_UI(ID_SELECT_ALL,      OnUpdateSelectAll)
-	ON_UPDATE_COMMAND_UI(ID_UNSELECT_ALL,    OnUpdateSelection)
-	ON_UPDATE_COMMAND_UI(ID_MULSEL_ALIGN,    OnUpdateSelection)
-	ON_UPDATE_COMMAND_UI(ID_MULSEL_SIZE,     OnUpdateSelection)
+	ON_UPDATE_COMMAND_UI(ID_SELECT_ALL, OnUpdateSelectAll)
+	ON_UPDATE_COMMAND_UI(ID_UNSELECT_ALL, OnUpdateSelection)
+	ON_UPDATE_COMMAND_UI(ID_MULSEL_ALIGN, OnUpdateSelection)
+	ON_UPDATE_COMMAND_UI(ID_MULSEL_SIZE, OnUpdateSelection)
 
-	ON_UPDATE_COMMAND_UI(ID_OPTIONS,         OnUpdateOptions)
-	ON_UPDATE_COMMAND_UI(ID_WOORM_INI,       OnUpdateWoormOptions)
+	ON_UPDATE_COMMAND_UI(ID_OPTIONS, OnUpdateOptions)
+	ON_UPDATE_COMMAND_UI(ID_WOORM_INI, OnUpdateWoormOptions)
 
-	ON_UPDATE_COMMAND_UI(ID_FONT_STYLES,     OnUpdateEditMode)
-	ON_UPDATE_COMMAND_UI(ID_FORMAT_STYLES,   OnUpdateEditMode)
+	ON_UPDATE_COMMAND_UI(ID_FONT_STYLES, OnUpdateEditMode)
+	ON_UPDATE_COMMAND_UI(ID_FORMAT_STYLES, OnUpdateEditMode)
 
-	ON_UPDATE_COMMAND_UI(ID_REPORT_PARAMETER,		OnUpdateShowReportParameters)	
-	ON_UPDATE_COMMAND_UI(ID_INDICATOR_TRACK_RECT,	OnUpdateTrackRectIndicator)
+	ON_UPDATE_COMMAND_UI(ID_REPORT_PARAMETER, OnUpdateShowReportParameters)
+	ON_UPDATE_COMMAND_UI(ID_INDICATOR_TRACK_RECT, OnUpdateTrackRectIndicator)
 
-	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_LEFT,	OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_RIGHT,	OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_UP,	OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_DOWN,	OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_LEFT, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_RIGHT, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_UP, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_SHIFT_DOWN, OnUpdateVKSize)
 
-	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_LEFT,	OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_RIGHT,	OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_UP,		OnUpdateVKSize)
-	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_DOWN,	OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_LEFT, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_RIGHT, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_UP, OnUpdateVKSize)
+	ON_UPDATE_COMMAND_UI(ID_VK_CTRL_DOWN, OnUpdateVKSize)
 
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_ALL,		OnUpdateToggleBorder)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_UP,		OnUpdateToggleBorder)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_UP,		OnUpdateToggleBorder)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_DOWN,		OnUpdateToggleBorder)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_LEFT,		OnUpdateToggleBorder)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_RIGHT,	OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_ALL, OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_UP, OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_UP, OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_DOWN, OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_LEFT, OnUpdateToggleBorder)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_BORDER_RIGHT, OnUpdateToggleBorder)
 
-	ON_UPDATE_COMMAND_UI(ID_SNAP_TO_GRID,			OnUpdateSnapToGrid)
-	ON_UPDATE_COMMAND_UI(ID_TOGGLE_TRANSPARENT,		OnUpdateToggleTransparent)
+	ON_UPDATE_COMMAND_UI(ID_SNAP_TO_GRID, OnUpdateSnapToGrid)
+	ON_UPDATE_COMMAND_UI(ID_TOGGLE_TRANSPARENT, OnUpdateToggleTransparent)
 
 	//ON_UPDATE_COMMAND_UI(ID_ALIGN_HLEFT,		OnUpdateAlignmentBar)
 	ON_UPDATE_COMMAND_UI(ID_ALIGN_HRIGHT, OnUpdateAlignmentBar)
@@ -1433,7 +1433,7 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 
 	ON_COMMAND(ID_WMR_RERUN_STARTSTOP, OnReRunStartStop)
 	ON_UPDATE_COMMAND_UI(ID_WMR_RERUN_STARTSTOP, OnUpdateReRunStartStop)
-	
+
 	ON_UPDATE_COMMAND_UI(ID_WMR_COMBO_TIME_RERUN, OnUpdateComboReRun)
 
 	ON_COMMAND(ID_SEND_MAIL, OnSendMail)
@@ -1446,14 +1446,14 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 	ON_COMMAND(ID_WRM_EASY_READING_BYLINE, OnEasyReadingByLine)
 	ON_COMMAND(ID_WRM_EASY_READING_BYLINE_DYNAMIC, OnEasyReadingByLineDynamic)
 
-	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING,					OnUpdateEasyReading)//pulsante
-	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYCOLOR,			OnUpdateEasyReading)//voci di menu della dropdown
-	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYCOLOR_DYNAMIC,	OnUpdateEasyReading)//			""
-	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYLINE,			OnUpdateEasyReading)//			""
-	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYLINE_DYNAMIC,	OnUpdateEasyReading)//			""
+	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING, OnUpdateEasyReading)//pulsante
+	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYCOLOR, OnUpdateEasyReading)//voci di menu della dropdown
+	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYCOLOR_DYNAMIC, OnUpdateEasyReading)//			""
+	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYLINE, OnUpdateEasyReading)//			""
+	ON_UPDATE_COMMAND_UI(ID_WRM_EASY_READING_BYLINE_DYNAMIC, OnUpdateEasyReading)//			""
 
-	ON_COMMAND(ID_REC_VALIDATION,					OnRecordValidation) //used only with MacroRecorder extensions
-	ON_UPDATE_COMMAND_UI(ID_REC_VALIDATION,			OnUpdateRecordValidation)
+	ON_COMMAND(ID_REC_VALIDATION, OnRecordValidation) //used only with MacroRecorder extensions
+	ON_UPDATE_COMMAND_UI(ID_REC_VALIDATION, OnUpdateRecordValidation)
 
 	ON_COMMAND(ID_COPY_TEXT, OnCopyText)
 	ON_COMMAND(ID_TOGGLE_CONCAT_PDF, OnToggleConcatPdf)
@@ -1463,7 +1463,7 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 
 	ON_COMMAND(ID_ADD_EA_BARCODE, OnAddEABarcode)
 	ON_UPDATE_COMMAND_UI(ID_ADD_EA_BARCODE, OnUpdateAddEABarcode)
-	
+
 	//----	TEMPLATE
 	ON_COMMAND(ID_FILE_SAVE_AS_TEMPLATE, OnFileSaveAsTemplate)
 	ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS_TEMPLATE, OnUpdateFileSave)
@@ -1472,7 +1472,7 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 
 	ON_COMMAND(ID_CLEAR_ALL_CUSTOM_STYLE, OnClearCustomStyles)
 	ON_UPDATE_COMMAND_UI(ID_CLEAR_ALL_CUSTOM_STYLE, OnUpdateClearCustomStyles)
-	
+
 	ON_COMMAND(ID_LOAD_TEMPLATE, OnLoadTemplate)
 	ON_COMMAND(ID_UNLOAD_TEMPLATE, OnUnloadTemplate)
 
@@ -1488,8 +1488,8 @@ BEGIN_MESSAGE_MAP(CWoormDocMng, CWoormDoc)
 	ON_COMMAND(ID_LAYOUT_CLONE_OBJECT, OnLayoutCopyObject)
 	ON_COMMAND(ID_LAYOUT_MOVE_OBJECT, OnLayoutMoveObject)
 
-	ON_UPDATE_COMMAND_UI(ID_LAYOUT_MOVE_OBJECT,		OnUpdateLayoutCopyMoveObject)
-	ON_UPDATE_COMMAND_UI(ID_LAYOUT_CLONE_OBJECT,	OnUpdateLayoutCopyMoveObject)
+	ON_UPDATE_COMMAND_UI(ID_LAYOUT_MOVE_OBJECT, OnUpdateLayoutCopyMoveObject)
+	ON_UPDATE_COMMAND_UI(ID_LAYOUT_CLONE_OBJECT, OnUpdateLayoutCopyMoveObject)
 
 	ON_COMMAND(ID_RS_ADD_LINK, OnAddLink)
 
@@ -1514,124 +1514,124 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 CWoormDocMng::CWoormDocMng()
 	:
-	m_nRelease				(WOORM_RELEASE),
-	m_nReportRelease		(WOORM_RELEASE),
-	m_nModifyRelease		(0),
-	m_pDataDefaults			(NULL),
-	m_bReportChanged		(FALSE),
-	m_bViewChanged			(FALSE),
-	m_bPlayback				(FALSE),
-	m_bOnlyGraphInfo		(FALSE),
-	m_bPrintingOnDefault	(FALSE),
-	m_pCurrentObj			(NULL),
-	m_pMultipleSelObj		(NULL),
-	m_pMultiColumns			(NULL),
-	m_pNodesSelection		(NULL),
-	m_pDragRectObj			(NULL),
-	m_Creating				(NONE),
-	m_wCreatingId			(0),
-	m_pOldWoormInfo			(NULL),
-	m_pChildReport			(NULL),
-	m_pExportData			(NULL),
-	m_pCurrentFont			(NULL),
-	m_pOldFont				(NULL),
-	m_pDocProperties		(NULL),
-	m_bAscendingOrderByColumn (TRUE),
-	m_pWaitingSubReport		(NULL),
-	m_bUsePrevAskInput		(TRUE),
-	m_bReRun				(FALSE),
-	m_bRunWithOutChild		(FALSE),
-	m_bMustReRun			(FALSE),
-	m_bMultiCopies			(FALSE),
-	m_bCloseChildOnEndPrint (FALSE),
-	m_bAttachReportChild	(FALSE),
-	m_bDirectAttachRDE		(FALSE),
-	m_bDirectAttachPDF		(FALSE),
-	m_bDirectCompressAttach	(FALSE),
-	m_bDirectSendMail		(FALSE),
-	m_bDirectConcatPDF		(FALSE),
-	m_bReportComputing		(FALSE),
-	m_bIsNew				(FALSE),
-	m_bIsInParse			(FALSE),
-	m_bNoWeb				(FALSE),
-	m_bSaveAsWithCurrentLanguage (FALSE),
-	m_bNeedFinalInvalidate	(FALSE),
+	m_nRelease(WOORM_RELEASE),
+	m_nReportRelease(WOORM_RELEASE),
+	m_nModifyRelease(0),
+	m_pDataDefaults(NULL),
+	m_bReportChanged(FALSE),
+	m_bViewChanged(FALSE),
+	m_bPlayback(FALSE),
+	m_bOnlyGraphInfo(FALSE),
+	m_bPrintingOnDefault(FALSE),
+	m_pCurrentObj(NULL),
+	m_pMultipleSelObj(NULL),
+	m_pMultiColumns(NULL),
+	m_pNodesSelection(NULL),
+	m_pDragRectObj(NULL),
+	m_Creating(NONE),
+	m_wCreatingId(0),
+	m_pOldWoormInfo(NULL),
+	m_pChildReport(NULL),
+	m_pExportData(NULL),
+	m_pCurrentFont(NULL),
+	m_pOldFont(NULL),
+	m_pDocProperties(NULL),
+	m_bAscendingOrderByColumn(TRUE),
+	m_pWaitingSubReport(NULL),
+	m_bUsePrevAskInput(TRUE),
+	m_bReRun(FALSE),
+	m_bRunWithOutChild(FALSE),
+	m_bMustReRun(FALSE),
+	m_bMultiCopies(FALSE),
+	m_bCloseChildOnEndPrint(FALSE),
+	m_bAttachReportChild(FALSE),
+	m_bDirectAttachRDE(FALSE),
+	m_bDirectAttachPDF(FALSE),
+	m_bDirectCompressAttach(FALSE),
+	m_bDirectSendMail(FALSE),
+	m_bDirectConcatPDF(FALSE),
+	m_bReportComputing(FALSE),
+	m_bIsNew(FALSE),
+	m_bIsInParse(FALSE),
+	m_bNoWeb(FALSE),
+	m_bSaveAsWithCurrentLanguage(FALSE),
+	m_bNeedFinalInvalidate(FALSE),
 	m_bReplaceHiddenWhenExpr(FALSE),
-	m_FindDlg				(NULL),
-	m_nTimerID				(0),
-	m_pFullLayoutSplitted	(NULL),
-	m_nCurrentSplittedPage	(-1),
-	m_nSplittedPageMaxWidth	(0),
-	m_pUndoStack			(new Stack ()),
-	m_Objects				(NULL),
-	m_Layouts				(this),
-	m_idcCounter			(29000),
-	m_pHiddenIcon			(NULL),
-	m_pHiddenWhenIcon		(NULL),
-	m_pAnchorIcon			(NULL),
-	m_pAnchorLeftIcon		(NULL),
-	m_pMailIcon				(NULL),
-	m_pLockedIcon			(NULL),
-	m_pRepeaterIcon			(NULL),
-	m_pRepeaterFieldIcon	(NULL),
-	m_pSplitterIcon			(NULL),
-	m_pPinnedIcon			(NULL),
-	m_bCultureVariable		(FALSE),
-	m_iFindCondition		(ECompareType::CMP_CONTAINS),
-	m_bLoadingTemplate		(FALSE),
-	m_nTimerAutoSave		(0),
-	m_nReRunTimer			(0),
-	m_nReRun				(0),
-	m_pFormatStyles			(NULL)
-{   
+	m_FindDlg(NULL),
+	m_nTimerID(0),
+	m_pFullLayoutSplitted(NULL),
+	m_nCurrentSplittedPage(-1),
+	m_nSplittedPageMaxWidth(0),
+	m_pUndoStack(new Stack()),
+	m_Objects(NULL),
+	m_Layouts(this),
+	m_idcCounter(29000),
+	m_pHiddenIcon(NULL),
+	m_pHiddenWhenIcon(NULL),
+	m_pAnchorIcon(NULL),
+	m_pAnchorLeftIcon(NULL),
+	m_pMailIcon(NULL),
+	m_pLockedIcon(NULL),
+	m_pRepeaterIcon(NULL),
+	m_pRepeaterFieldIcon(NULL),
+	m_pSplitterIcon(NULL),
+	m_pPinnedIcon(NULL),
+	m_bCultureVariable(FALSE),
+	m_iFindCondition(ECompareType::CMP_CONTAINS),
+	m_bLoadingTemplate(FALSE),
+	m_nTimerAutoSave(0),
+	m_nReRunTimer(0),
+	m_nReRun(0),
+	m_pFormatStyles(NULL)
+{
 	ASSERT(AfxGetBaseApp()->GetTaskBuilderAddOnApp()->m_pAddOnModules);
 	MailConnectorParams* params = AfxGetIMailConnector()->GetParams();
 
 	m_bDirectCompressAttach = params->GetMailCompress();
 
 	// statusbar indicators toggle and data
-	m_bRunIndicatorActive  = FALSE;
+	m_bRunIndicatorActive = FALSE;
 	pchSortStatusString[0] = BLANK_CHAR;
 	pchSortStatusString[1] = BLANK_CHAR;
 	pchSortStatusString[2] = BLANK_CHAR;
 	pchSortStatusString[3] = NULL_CHAR;
 
-	m_bTrackRectIndicatorActive= FALSE;
-	m_bTrackRowsIndicatorActive= FALSE;
+	m_bTrackRectIndicatorActive = FALSE;
+	m_bTrackRowsIndicatorActive = FALSE;
 	m_TrackRect.SetRectEmpty();
 	m_wTrackRows = 0;
 
 	// reset indicators counter;
 	m_nRetrieveTic = 0;
-	m_nSearchTic   = 0;
-	
+	m_nSearchTic = 0;
+
 	// create dynamic object
-	m_pDataDefaults		= new DataDefaults		();
-	m_pExportData		= new CExportData		(this);
-	m_pOptions			= new Options   		(this);
-	m_pWoormIni			= new WoormIni  		();
-	
+	m_pDataDefaults = new DataDefaults();
+	m_pExportData = new CExportData(this);
+	m_pOptions = new Options(this);
+	m_pWoormIni = new WoormIni();
+
 	//Set Culture
 	m_pFormatStyles = new FormatStyleTable(*AfxGetFormatStyleTable());
 	//SetCulture(_T("it-IT")); // x Riccardo
-	
-	m_pFontStyles		= new FontStyleTable    (*AfxGetFontStyleTable());
-	if(m_pWoormIni->m_bEnableNewObjectSelection)
-		m_pActiveRect = new NewActiveRect(m_pWoormIni,TRUE);
+
+	m_pFontStyles = new FontStyleTable(*AfxGetFontStyleTable());
+	if (m_pWoormIni->m_bEnableNewObjectSelection)
+		m_pActiveRect = new NewActiveRect(m_pWoormIni, TRUE);
 	else
 		m_pActiveRect = new OldActiveRect();
 
-	m_pEngine			= new ReportEngine		(this);
-	m_pEditorManager	= new EditorManager     (m_pEngine, m_pWoormIni->m_bShowReportTree);
-	m_pRDEmanager		= new RDEManager		(m_pEngine);
-	m_pInvalidAreas		= new CInvalidArray		();
-	m_pDocProperties	= new CDocProperties	(this);	
+	m_pEngine = new ReportEngine(this);
+	m_pEditorManager = new EditorManager(m_pEngine, m_pWoormIni->m_bShowReportTree);
+	m_pRDEmanager = new RDEManager(m_pEngine);
+	m_pInvalidAreas = new CInvalidArray();
+	m_pDocProperties = new CDocProperties(this);
 
 	GetInfoOSL()->SetType(OSLType_Report);
 
 	m_sStartUICulture = __super::GetUICulture();
-	SetCultureStrings (m_sStartUICulture);	
-	
+	SetCultureStrings(m_sStartUICulture);
+
 	//---------------
 	m_Objects = m_Layouts.Add(REPORT_DEFAULT_LAYOUT_NAME);
 	//---------------
@@ -1674,36 +1674,36 @@ CString CWoormDocMng::GetReportNamespace() const
 BOOL IsEqualFont(const LOGFONT& pLogFont1, const LOGFONT& pLogFont2)
 {
 	return (
-		pLogFont1.lfHeight			== pLogFont2.lfHeight			&&
-		pLogFont1.lfWidth			== pLogFont2.lfWidth			&&
-		pLogFont1.lfWeight			== pLogFont2.lfWeight			&&
-		pLogFont1.lfItalic			== pLogFont2.lfItalic			&&
-		_tcscmp(pLogFont1.lfFaceName, pLogFont2.lfFaceName) == 0	&&
-		pLogFont1.lfUnderline		== pLogFont2.lfUnderline		&&
-		pLogFont1.lfEscapement		== pLogFont2.lfEscapement		&&
-		pLogFont1.lfOrientation		== pLogFont2.lfOrientation		&&
-		pLogFont1.lfStrikeOut		== pLogFont2.lfStrikeOut		&&
-		pLogFont1.lfCharSet			== pLogFont2.lfCharSet			&&
-		pLogFont1.lfOutPrecision	== pLogFont2.lfOutPrecision		&&
-		pLogFont1.lfClipPrecision	== pLogFont2.lfClipPrecision	&&
-		pLogFont1.lfQuality			== pLogFont2.lfQuality			&&
-		pLogFont1.lfPitchAndFamily	== pLogFont2.lfPitchAndFamily
-			);
+		pLogFont1.lfHeight == pLogFont2.lfHeight			&&
+		pLogFont1.lfWidth == pLogFont2.lfWidth			&&
+		pLogFont1.lfWeight == pLogFont2.lfWeight			&&
+		pLogFont1.lfItalic == pLogFont2.lfItalic			&&
+		_tcscmp(pLogFont1.lfFaceName, pLogFont2.lfFaceName) == 0 &&
+		pLogFont1.lfUnderline == pLogFont2.lfUnderline		&&
+		pLogFont1.lfEscapement == pLogFont2.lfEscapement		&&
+		pLogFont1.lfOrientation == pLogFont2.lfOrientation		&&
+		pLogFont1.lfStrikeOut == pLogFont2.lfStrikeOut		&&
+		pLogFont1.lfCharSet == pLogFont2.lfCharSet			&&
+		pLogFont1.lfOutPrecision == pLogFont2.lfOutPrecision		&&
+		pLogFont1.lfClipPrecision == pLogFont2.lfClipPrecision	&&
+		pLogFont1.lfQuality == pLogFont2.lfQuality			&&
+		pLogFont1.lfPitchAndFamily == pLogFont2.lfPitchAndFamily
+		);
 }
 
 //-----------------------------------------------------------------------------
 CFont* CWoormDocMng::SetCurrentFont(LOGFONT* pLogFont, CDC& DC)
 {
-	ASSERT((m_pOldFont == NULL && m_pCurrentFont == NULL ) || m_pOldFont != m_pCurrentFont);
+	ASSERT((m_pOldFont == NULL && m_pCurrentFont == NULL) || m_pOldFont != m_pCurrentFont);
 
 	LOGFONT lf = *pLogFont;
-	CString sFaceName =  AfxGetFontAliasTable()->LookupFaceName(pLogFont->lfFaceName);
+	CString sFaceName = AfxGetFontAliasTable()->LookupFaceName(pLogFont->lfFaceName);
 	if (!sFaceName.IsEmpty())
 		TB_TCSCPY(lf.lfFaceName, (LPCTSTR)sFaceName);
 
-	if	(
-			m_pCurrentFont &&																																					
-			IsEqualFont(m_LogFont, lf)
+	if (
+		m_pCurrentFont &&
+		IsEqualFont(m_LogFont, lf)
 		)
 		return m_pCurrentFont;
 
@@ -1713,7 +1713,7 @@ CFont* CWoormDocMng::SetCurrentFont(LOGFONT* pLogFont, CDC& DC)
 		CFont* pF = DC.SelectObject(pFont);
 		if (pF)
 		{
-			LOGFONT lfold; 
+			LOGFONT lfold;
 			pF->GetLogFont(&lfold);
 
 			CFont* pOldFont = new CFont();
@@ -1753,10 +1753,10 @@ CFont* CWoormDocMng::SetCurrentFont(LOGFONT* pLogFont, CDC& DC)
 //-----------------------------------------------------------------------------
 void CWoormDocMng::ResetCurrentFont(CDC& DC)
 {
-	ASSERT((m_pOldFont == NULL && m_pCurrentFont == NULL ) || m_pOldFont != m_pCurrentFont);
+	ASSERT((m_pOldFont == NULL && m_pCurrentFont == NULL) || m_pOldFont != m_pCurrentFont);
 	if (m_pOldFont)
 	{
-		ASSERT (m_pOldFont->GetSafeHandle());
+		ASSERT(m_pOldFont->GetSafeHandle());
 		DC.SelectObject(m_pOldFont);
 
 		if (m_pCurrentFont)
@@ -1784,7 +1784,7 @@ CWoormDocMng::~CWoormDocMng()
 
 	SAFE_DELETE(m_pDataDefaults);
 	SAFE_DELETE(m_pExportData);
-	SAFE_DELETE(m_pOptions);	
+	SAFE_DELETE(m_pOptions);
 	SAFE_DELETE(m_pWoormIni);
 	SAFE_DELETE(m_pFontStyles);
 	SAFE_DELETE(m_pFormatStyles);
@@ -1829,20 +1829,20 @@ CWoormDocMng::~CWoormDocMng()
 	SAFE_DELETE(m_pMessages);
 	SAFE_DELETE(m_pOldFont);
 	SAFE_DELETE(m_pCurrentFont);
-	
+
 	//----
 	SAFE_DELETE(m_pHiddenIcon)
-	SAFE_DELETE(m_pHiddenWhenIcon)
-	SAFE_DELETE(m_pAnchorIcon)
-	SAFE_DELETE(m_pAnchorLeftIcon)
-	SAFE_DELETE(m_pMailIcon)
-	SAFE_DELETE(m_pLockedIcon)
-	SAFE_DELETE(m_pRepeaterIcon)
-	SAFE_DELETE(m_pRepeaterFieldIcon)
-	SAFE_DELETE(m_pSplitterIcon)
-	SAFE_DELETE(m_pPinnedIcon)
-	//----
-	ASSERT(_CrtCheckMemory());
+		SAFE_DELETE(m_pHiddenWhenIcon)
+		SAFE_DELETE(m_pAnchorIcon)
+		SAFE_DELETE(m_pAnchorLeftIcon)
+		SAFE_DELETE(m_pMailIcon)
+		SAFE_DELETE(m_pLockedIcon)
+		SAFE_DELETE(m_pRepeaterIcon)
+		SAFE_DELETE(m_pRepeaterFieldIcon)
+		SAFE_DELETE(m_pSplitterIcon)
+		SAFE_DELETE(m_pPinnedIcon)
+		//----
+		ASSERT(_CrtCheckMemory());
 
 	//RestoreCulture();
 }
@@ -1857,10 +1857,10 @@ void CWoormDocMng::PreCloseFrame(CFrameWnd* pFrameArg)
 
 	// standard actions
 	__super::PreCloseFrame(pFrameArg);
-} 
+}
 
 //---------------------------------------------------------------------------
-CTBPicture* CWoormDocMng::LoadBmp	(int idb, CDC& DC)
+CTBPicture* CWoormDocMng::LoadBmp(int idb, CDC& DC)
 {
 	CTBPicture* pIcon = new CTBPicture();
 	HDC hDC = DC.GetSafeHdc();
@@ -1872,70 +1872,70 @@ CTBPicture* CWoormDocMng::LoadBmp	(int idb, CDC& DC)
 CTBPicture*		CWoormDocMng::GetHiddenIcon(CDC& DC)
 {
 	if (!m_pHiddenIcon)
-		m_pHiddenIcon = LoadBmp (IDB_HIDDEN_FIELD, DC);
+		m_pHiddenIcon = LoadBmp(IDB_HIDDEN_FIELD, DC);
 	return m_pHiddenIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetHiddenWhenIcon(CDC& DC)
 {
 	if (!m_pHiddenWhenIcon)
-		m_pHiddenWhenIcon = LoadBmp (IDB_HIDDEN_FIELD_EXPR, DC);
+		m_pHiddenWhenIcon = LoadBmp(IDB_HIDDEN_FIELD_EXPR, DC);
 	return m_pHiddenWhenIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetAnchorIcon(CDC& DC)
 {
 	if (!m_pAnchorIcon)
-		m_pAnchorIcon = LoadBmp (IDB_ANCHOR, DC);
+		m_pAnchorIcon = LoadBmp(IDB_ANCHOR, DC);
 	return m_pAnchorIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetAnchorLeftIcon(CDC& DC)
 {
 	if (!m_pAnchorLeftIcon)
-		m_pAnchorLeftIcon = LoadBmp (IDB_ANCHOR_LEFT, DC);
+		m_pAnchorLeftIcon = LoadBmp(IDB_ANCHOR_LEFT, DC);
 	return m_pAnchorLeftIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetMailIcon(CDC& DC)
 {
 	if (!m_pMailIcon)
-		m_pMailIcon = LoadBmp (IDB_MAIL_FIELD, DC);
+		m_pMailIcon = LoadBmp(IDB_MAIL_FIELD, DC);
 	return m_pMailIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetLockedIcon(CDC& DC)
 {
 	if (!m_pLockedIcon)
-		m_pLockedIcon = LoadBmp (IDB_LOCKED, DC);
+		m_pLockedIcon = LoadBmp(IDB_LOCKED, DC);
 	return m_pLockedIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetRepeaterIcon(CDC& DC)
 {
 	if (!m_pRepeaterIcon)
-		m_pRepeaterIcon = LoadBmp (IDB_REPEATER, DC);
+		m_pRepeaterIcon = LoadBmp(IDB_REPEATER, DC);
 	return m_pRepeaterIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetRepeaterFieldIcon(CDC& DC)
 {
 	if (!m_pRepeaterFieldIcon)
-		m_pRepeaterFieldIcon = LoadBmp (IDB_REPEATER_FIELD, DC);
+		m_pRepeaterFieldIcon = LoadBmp(IDB_REPEATER_FIELD, DC);
 	return m_pRepeaterFieldIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetSplitterIcon(CDC& DC)
 {
 	if (!m_pSplitterIcon)
-		m_pSplitterIcon = LoadBmp (IDB_COLUMN_SPLITTER, DC);
+		m_pSplitterIcon = LoadBmp(IDB_COLUMN_SPLITTER, DC);
 	return m_pSplitterIcon;
 }
 
 CTBPicture*		CWoormDocMng::GetPinnedIcon(CDC& DC)
 {
 	if (!m_pPinnedIcon)
-		m_pPinnedIcon = LoadBmp (IDB_COLUMN_PINNED, DC);
+		m_pPinnedIcon = LoadBmp(IDB_COLUMN_PINNED, DC);
 	return m_pPinnedIcon;
 }
 
@@ -1952,7 +1952,7 @@ void CWoormDocMng::SortLayoutObjectsOnPosition()
 
 void CWoormDocMng::SortObjectsOnPosition()
 {
-	SortObjectsOnPosition(&GetObjects()); 
+	SortObjectsOnPosition(&GetObjects());
 }
 
 void CWoormDocMng::SortObjectsOnPosition(CLayout* pObjects)
@@ -1960,10 +1960,10 @@ void CWoormDocMng::SortObjectsOnPosition(CLayout* pObjects)
 	// evita di sortare se non ci sono almeno due elementi
 	if (pObjects->GetSize() <= pObjects->m_nCountAutoObjects)
 		return;
-	
+
 	//volutamente uso il BubbleSort a causa delle logiche nella funzione di ordinamento
 	//(Z-Order relativo dovuto al Trasparent)
-	VERIFY(pObjects->BubbleSort());	
+	VERIFY(pObjects->BubbleSort());
 	//VERIFY(pObjects->QuickSort());
 }
 
@@ -1971,7 +1971,7 @@ void CWoormDocMng::ApplyRepeater(CLayout* pObjects)
 {
 	if (pObjects->GetSize() <= pObjects->m_nCountAutoObjects)
 		return;
-	
+
 	pObjects->ApplyRepeater();
 }
 
@@ -1980,15 +1980,15 @@ void CWoormDocMng::ApplyRepeater(CLayout* pObjects)
 //	RDE manager (tic send by parser and report)
 //
 BOOL CWoormDocMng::InitDocument()
-{                
+{
 	CLocalizableFrame* pFrame = GetFrame();
 
-	m_pEngine		->AttachFrame		(pFrame);
-	m_pRDEmanager	->AttachFrame		(pFrame);
-	m_pEngine		->AttachCallerDoc	(this);
-	m_pActiveRect	->Attach			(this);
-	m_pEditorManager->Attach			(this);
-	
+	m_pEngine->AttachFrame(pFrame);
+	m_pRDEmanager->AttachFrame(pFrame);
+	m_pEngine->AttachCallerDoc(this);
+	m_pActiveRect->Attach(this);
+	m_pEditorManager->Attach(this);
+
 	return TRUE;
 }
 
@@ -1996,9 +1996,9 @@ BOOL CWoormDocMng::InitDocument()
 //------------------------------------------------------------------------------
 Formatter* CWoormDocMng::GetFormatter(const CString& strStyle)	const
 {
-	const CTBNamespace& ns = (const_cast < CWoormDocMng* > (this))->GetNamespace();
+	const CTBNamespace& ns = (const_cast <CWoormDocMng*> (this))->GetNamespace();
 	Formatter* pFormatter = m_pFormatStyles->GetFormatter(strStyle, &ns);
-	
+
 	// se il formattatore si trova in una libreria, devo sovrascrivere 
 	// quello dichiarato con quello implementato nella libreria
 	if (pFormatter && pFormatter->GetOwner().GetType() == CTBNamespace::LIBRARY)
@@ -2009,7 +2009,7 @@ Formatter* CWoormDocMng::GetFormatter(const CString& strStyle)	const
 
 	if (pFormatter)
 		return pFormatter;
-		
+
 	pFormatter = AfxGetFormatStyleTable()->GetFormatter(strStyle, &ns);
 
 	// se il formattatore si trova in una libreria, devo sovrascrivere 
@@ -2019,68 +2019,68 @@ Formatter* CWoormDocMng::GetFormatter(const CString& strStyle)	const
 		AfxGetTbCmdManager()->LoadNeededLibraries(pFormatter->GetOwner());
 		pFormatter = AfxGetFormatStyleTable()->GetFormatter(strStyle, &ns);
 	}
-	
+
 	return pFormatter;
 }
 
 // usa quella con nome 
 //------------------------------------------------------------------------------
-Formatter* CWoormDocMng::GetFormatter (const FormatIdx& nIdx) const
+Formatter* CWoormDocMng::GetFormatter(const FormatIdx& nIdx) const
 {
-	Formatter* pFormatter = GetFormatter (m_pFormatStyles->GetStyleName(nIdx));
+	Formatter* pFormatter = GetFormatter(m_pFormatStyles->GetStyleName(nIdx));
 
 	if (pFormatter)
 		return pFormatter;
 
-	return GetFormatter (AfxGetFormatStyleTable()->GetStyleName(nIdx));
+	return GetFormatter(AfxGetFormatStyleTable()->GetStyleName(nIdx));
 }
 
 // usa quella con nome 
 //------------------------------------------------------------------------------
 Formatter* CWoormDocMng::GetFormatter(const DataType& aType) const
 {
-	return GetFormatter (FromDataTypeToFormatName(aType));
+	return GetFormatter(FromDataTypeToFormatName(aType));
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::UpdateStatusBar()
-{                
+{
 	SetPageIndicator();
 	SetRunIndicator();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::DeleteContents()
-{                
+{
 	__super::DeleteContents();
 
 	m_arWoormLinks.RemoveAll();
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::InvalidateRect (const CRect& aRect, BOOL bRepaint)
-{                                         
+void CWoormDocMng::InvalidateRect(const CRect& aRect, BOOL bRepaint)
+{
 	// add Invalid rectange to all
 	m_pInvalidAreas->Add(new InvalidArea(ScaleRect(aRect), bRepaint));
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::Invalidate (BOOL bRepaint)
+void CWoormDocMng::Invalidate(BOOL bRepaint)
 {
 	// pHints = NULL means update all client area,  
 	// lHint = TRUE means erase background
-	UpdateAllViews (NULL, bRepaint);
+	UpdateAllViews(NULL, bRepaint);
 	m_pInvalidAreas->RemoveAll();
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::UpdateWindow ()
+void CWoormDocMng::UpdateWindow()
 {
 	// ignore WM_PAINT with no Invalid area
-	if (m_pInvalidAreas->GetSize() == 0) 
+	if (m_pInvalidAreas->GetSize() == 0)
 		return;
 
-	UpdateAllViews (NULL, FALSE, m_pInvalidAreas);
+	UpdateAllViews(NULL, FALSE, m_pInvalidAreas);
 	m_pInvalidAreas->RemoveAll();
 }
 
@@ -2092,167 +2092,167 @@ void CWoormDocMng::CreateListObj(CDC& aDC, CBCGPScrollView* aView, BOOL bSkipTra
 	// posiziona al punto della griglia minore di quello attuale
 	if (m_pWoormIni->m_bSnapToGrid)
 	{
-		int x = m_ptCurrPos.x % m_pWoormIni->m_nGridX; 
+		int x = m_ptCurrPos.x % m_pWoormIni->m_nGridX;
 		int y = m_ptCurrPos.y % m_pWoormIni->m_nGridY;
-		
+
 		m_ptCurrPos.Offset(-x, -y);
 	}
 
 	switch (m_Creating)
 	{
-	case SQRRECT    :
+	case SQRRECT:
 		m_pCurrentObj = new SqrRect(m_ptCurrPos, this);
 		((SqrRect*)m_pCurrentObj)->m_BaseRect.right = ((SqrRect*)m_pCurrentObj)->m_BaseRect.right + 80;
 		((SqrRect*)m_pCurrentObj)->m_BaseRect.bottom = ((SqrRect*)m_pCurrentObj)->m_BaseRect.bottom + 25;
 		break;
 
-	case TEXTRECT   :
-		{
-			m_pCurrentObj = new TextRect (m_ptCurrPos, this);
-			TextRect* pObj = (TextRect*) m_pCurrentObj;
+	case TEXTRECT:
+	{
+		m_pCurrentObj = new TextRect(m_ptCurrPos, this);
+		TextRect* pObj = (TextRect*)m_pCurrentObj;
 
-			/*pObj->m_BaseRect.right = pObj->m_BaseRect.right + 30;
-			pObj->m_BaseRect.bottom = pObj->m_BaseRect.bottom + 5;*/
+		/*pObj->m_BaseRect.right = pObj->m_BaseRect.right + 30;
+		pObj->m_BaseRect.bottom = pObj->m_BaseRect.bottom + 5;*/
 
-			pObj->SetText(m_strTxtName);
+		pObj->SetText(m_strTxtName);
 
-			m_strTextField = ""; // clean global buffer
-		
-			break;
-		}
+		m_strTextField = ""; // clean global buffer
 
-	case GRAPHRECT  :
-		{
-			m_pCurrentObj = new GraphRect  (m_ptCurrPos, m_strBmpName, this);
-			m_strBmpName = "";  // clean global buffer
-			break;
-		}
-
-	case METAFILERECT  :
-		{
-			m_pCurrentObj = new MetafileRect  (m_ptCurrPos, m_strBmpName, this);
-			m_strBmpName = "";  // clean global buffer
-			break;
-		}
-	case URLRECT  :
-		{
-			m_pCurrentObj = new UrlRect  (m_ptCurrPos, m_strTxtName, this);
-			m_strTxtName = "";  // clean global buffer
-			break;
-		}
-
-	case FILERECT   :
-		{
-			m_pCurrentObj = new FileRect   (m_ptCurrPos, m_strTxtName, this);
-			m_strTxtName = "";  // clean global buffer
-			break;
-		}
-
-	case FIELDRECT  : 
-		{
-			FieldRect* pFR = NULL;
-			if (m_wCreatingColumnIds.GetSize() > 0 /*&& m_wCreatingId == m_wCreatingColumnIds[0]*/)
-			{
-				CPoint pt (m_ptCurrPos);
-				for (int i = 0; i < m_wCreatingColumnIds.GetSize(); i++)
-				{
-					pFR = new FieldRect(pt, this, m_wCreatingColumnIds[i]);
-
-					pFR->m_bTransparent = m_pWoormIni->m_bTransparentCreate;
-					if (m_pWoormIni->m_bNoBorderCreate) 
-						pFR->ToggleBorder(ID_TOGGLE_BORDER_ALL);
-
-					ApplyTemplateStyles (pFR);
-					
-					GetObjects().Add (pFR);
-
-					InvalidateRect	(pFR->GetBaseRect());
-
-					//m_pActiveRect->SetActive(pFR->GetActiveRect());
-					m_pCurrentObj = pFR;
-					
-					m_pCurrentObj->AddCreateUndoInfo();
-
-					pt.y += 30;
-				}
-			
-				InvalidateRect(m_pCurrentObj->GetBaseRect());
-				//m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
-
-				UpdateWindow();
-				ExitCreatingMode();
-
-				m_wCreatingColumnIds.RemoveAll();
-
-				// allow tracking only for non table object
-				if (m_pCurrentObj && !m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)) && !bSkipTrackPoint)
-				{
-					// get BottomRight corner for tracking and positionate cursor	
-					CPoint ptTrack = m_pCurrentObj->StartTrackPoint();
-
-					SetCursorTrackPoint(ptTrack);
-					m_pCurrentObj->LeftButtonDown(aDC, ptTrack, aView);
-				}
-				//ASSERT(pFR == m_pCurrentObj); m_pCurrentObj puo' diventare NULL dopo i refresh
-
-				//if (bSkipTrackPoint)
-				{
-					int nAlias = pFR->GetInternalID();
-					WoormField* pF = GetEditorSymTable()->GetFieldByID(nAlias);
-					ASSERT_VALID(pF);
-					SyncronizeViewSymbolTable(pF);
-				}
-
-				RefreshRSTree(ERefreshEditor::Variables);
-				RefreshRSTree(ERefreshEditor::Layouts);
-
-				/*if (m_pCurrentObj)
-					GetWoormFrame()->SelectLayoutObject(m_pCurrentObj, !bSkipTrackPoint);
-				else if (pFR)
-					GetWoormFrame()->SelectLayoutObject(pFR, !bSkipTrackPoint);*/
-
-				return;
-			}
-			else if (m_wCreatingId)
-			{
- 				m_pCurrentObj = new FieldRect(m_ptCurrPos, this, m_wCreatingId);
-			}
-			else ASSERT(FALSE);
-		}
 		break;
+	}
 
-	case TABLE      :
+	case GRAPHRECT:
+	{
+		m_pCurrentObj = new GraphRect(m_ptCurrPos, m_strBmpName, this);
+		m_strBmpName = "";  // clean global buffer
+		break;
+	}
+
+	case METAFILERECT:
+	{
+		m_pCurrentObj = new MetafileRect(m_ptCurrPos, m_strBmpName, this);
+		m_strBmpName = "";  // clean global buffer
+		break;
+	}
+	case URLRECT:
+	{
+		m_pCurrentObj = new UrlRect(m_ptCurrPos, m_strTxtName, this);
+		m_strTxtName = "";  // clean global buffer
+		break;
+	}
+
+	case FILERECT:
+	{
+		m_pCurrentObj = new FileRect(m_ptCurrPos, m_strTxtName, this);
+		m_strTxtName = "";  // clean global buffer
+		break;
+	}
+
+	case FIELDRECT:
+	{
+		FieldRect* pFR = NULL;
+		if (m_wCreatingColumnIds.GetSize() > 0 /*&& m_wCreatingId == m_wCreatingColumnIds[0]*/)
+		{
+			CPoint pt(m_ptCurrPos);
+			for (int i = 0; i < m_wCreatingColumnIds.GetSize(); i++)
+			{
+				pFR = new FieldRect(pt, this, m_wCreatingColumnIds[i]);
+
+				pFR->m_bTransparent = m_pWoormIni->m_bTransparentCreate;
+				if (m_pWoormIni->m_bNoBorderCreate)
+					pFR->ToggleBorder(ID_TOGGLE_BORDER_ALL);
+
+				ApplyTemplateStyles(pFR);
+
+				GetObjects().Add(pFR);
+
+				InvalidateRect(pFR->GetBaseRect());
+
+				//m_pActiveRect->SetActive(pFR->GetActiveRect());
+				m_pCurrentObj = pFR;
+
+				m_pCurrentObj->AddCreateUndoInfo();
+
+				pt.y += 30;
+			}
+
+			InvalidateRect(m_pCurrentObj->GetBaseRect());
+			//m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
+
+			UpdateWindow();
+			ExitCreatingMode();
+
+			m_wCreatingColumnIds.RemoveAll();
+
+			// allow tracking only for non table object
+			if (m_pCurrentObj && !m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)) && !bSkipTrackPoint)
+			{
+				// get BottomRight corner for tracking and positionate cursor	
+				CPoint ptTrack = m_pCurrentObj->StartTrackPoint();
+
+				SetCursorTrackPoint(ptTrack);
+				m_pCurrentObj->LeftButtonDown(aDC, ptTrack, aView);
+			}
+			//ASSERT(pFR == m_pCurrentObj); m_pCurrentObj puo' diventare NULL dopo i refresh
+
+			//if (bSkipTrackPoint)
+			{
+				int nAlias = pFR->GetInternalID();
+				WoormField* pF = GetEditorSymTable()->GetFieldByID(nAlias);
+				ASSERT_VALID(pF);
+				SyncronizeViewSymbolTable(pF);
+			}
+
+			RefreshRSTree(ERefreshEditor::Variables);
+			RefreshRSTree(ERefreshEditor::Layouts);
+
+			/*if (m_pCurrentObj)
+				GetWoormFrame()->SelectLayoutObject(m_pCurrentObj, !bSkipTrackPoint);
+			else if (pFR)
+				GetWoormFrame()->SelectLayoutObject(pFR, !bSkipTrackPoint);*/
+
+			return;
+		}
+		else if (m_wCreatingId)
+		{
+			m_pCurrentObj = new FieldRect(m_ptCurrPos, this, m_wCreatingId);
+		}
+		else ASSERT(FALSE);
+	}
+	break;
+
+	case TABLE:
 	{
 		int nRows = m_pEditorManager->GetTableRows(m_wCreatingId);
 		if (nRows < 1)
 		{
 			nRows = 1;
-			Message (_TB("Number of lines not valid. Use default."));
+			Message(_TB("Number of lines not valid. Use default."));
 		}
 
 		// read from ini default value
 		m_pCurrentObj = new Table
-			(
-				m_ptCurrPos, this,
-				nRows, m_wCreatingColumnIds.GetSize(),
-				m_wCreatingId, m_wCreatingColumnIds
-			);
+		(
+			m_ptCurrPos, this,
+			nRows, m_wCreatingColumnIds.GetSize(),
+			m_wCreatingId, m_wCreatingColumnIds
+		);
 
 		((Table*)m_pCurrentObj)->m_bHideTableTitle = TRUE;
 
 		CPoint point;
-		((Table*)m_pCurrentObj)->SetActiveColumn(m_wCreatingColumnIds.ElementAt(m_wCreatingColumnIds.GetCount()-1), point);
+		((Table*)m_pCurrentObj)->SetActiveColumn(m_wCreatingColumnIds.ElementAt(m_wCreatingColumnIds.GetCount() - 1), point);
 		break;
 	}
 
-	case REPEATER    :							
+	case REPEATER:
 		m_pCurrentObj = new Repeater(m_ptCurrPos, this, m_wCreatingId);
 		m_pCurrentObj->m_BaseRect.right += 80;
 		m_pCurrentObj->m_BaseRect.bottom += 25;
 		break;
 	case CHART:
 		m_pCurrentObj = new Chart(m_ptCurrPos, this, m_wCreatingId);
-		m_pCurrentObj->m_BaseRect.right +=  80;
+		m_pCurrentObj->m_BaseRect.right += 80;
 		m_pCurrentObj->m_BaseRect.bottom += 25;
 		break;
 
@@ -2283,15 +2283,15 @@ void CWoormDocMng::CreateListObj(CDC& aDC, CBCGPScrollView* aView, BOOL bSkipTra
 	if (!m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		m_pCurrentObj->m_bTransparent = m_pWoormIni->m_bTransparentCreate;
 
-	if (m_pWoormIni->m_bNoBorderCreate) 
+	if (m_pWoormIni->m_bNoBorderCreate)
 		m_pCurrentObj->ToggleBorder(ID_TOGGLE_BORDER_ALL);
 
-	ApplyTemplateStyles (m_pCurrentObj);
+	ApplyTemplateStyles(m_pCurrentObj);
 
 	// add object and initialize it in view area
 	if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
-		GetObjects().InsertAt (GetObjects().m_nCountAutoObjects, m_pCurrentObj);
+		GetObjects().InsertAt(GetObjects().m_nCountAutoObjects, m_pCurrentObj);
 		((Repeater*)m_pCurrentObj)->Rebuild(&GetObjects());
 	}
 	else
@@ -2306,18 +2306,18 @@ void CWoormDocMng::CreateListObj(CDC& aDC, CBCGPScrollView* aView, BOOL bSkipTra
 
 	/*InvalidateRect	(m_pCurrentObj->GetBaseRect());
 	m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());*/
-	
+
 	m_pCurrentObj->AddCreateUndoInfo();
 
-	UpdateWindow    ();
+	UpdateWindow();
 	ExitCreatingMode();
-	
+
 	// allow tracking only for non table object
 	if (!m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)))
 	{
 		// get BottomRight corner for tracking and positionate cursor	
-		/*CPoint ptTrack = m_pCurrentObj->StartTrackPoint();         
-				
+		/*CPoint ptTrack = m_pCurrentObj->StartTrackPoint();
+
 		SetCursorTrackPoint(ptTrack);
 		m_pCurrentObj->LeftButtonDown(aDC, ptTrack, aView);
 
@@ -2351,22 +2351,22 @@ void CWoormDocMng::CreateDragRect(CDC& aDC, CBCGPScrollView* aView)
 //------------------------------------------------------------------------------
 void CWoormDocMng::DeleteDragRect()
 {
-	SAFE_DELETE (m_pDragRectObj)
+	SAFE_DELETE(m_pDragRectObj)
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetCursorTrackPoint(CPoint point)
 {
 	CWoormView* pView = GetWoormView();
-	CClientDC dc (pView);
+	CClientDC dc(pView);
 
 	pView->OnPrepareDC(&dc);
 	dc.LPtoDP(&point);
-	
+
 	pView->ClientToScreen(&point);
 	SetCursorPos(point.x, point.y);
 }
-					   
+
 // caused by limited activation area of table object, object below table
 // must Invalidate areas for right repaint.
 //                                       
@@ -2378,7 +2378,7 @@ void CWoormDocMng::InvalidateStackedObjects()
 	// Invalidate all areas below table	
 	CRect rect;
 	int ub = GetObjects().GetUpperBound();
-	for (int i =0; i < ub; i++)
+	for (int i = 0; i < ub; i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
 		rect.IntersectRect(m_pCurrentObj->GetBaseRect(), pObj->GetBaseRect());
@@ -2394,7 +2394,7 @@ void CWoormDocMng::FindWordClear()
 	m_findWordInfo.Clear();
 
 	m_findWordInfo.m_eCmp = m_iFindCondition;
-	UpdateWindow	();
+	UpdateWindow();
 }
 
 //------------------------------------------------------------------------------
@@ -2405,7 +2405,7 @@ void CWoormDocMng::SelectForExportData(CPoint point, BOOL bSelForTitles /*= FALS
 		BaseObj* pObj = GetObjects()[i];
 		if (!pObj->InMe(point))
 			continue;
-	
+
 		// se l'oggetto e' validamente aggiunto rinfresco il video		
 		if (m_pExportData->AddRemoveElement(pObj, point, bSelForTitles, bClickAsShift))
 		{
@@ -2422,7 +2422,7 @@ void CWoormDocMng::SelectForExportData(CPoint point, BOOL bSelForTitles /*= FALS
 	{
 		SAFE_DELETE(m_pExportData->m_pItem);
 
-		Invalidate (FALSE);
+		Invalidate(FALSE);
 
 		FindWordClear();
 	}
@@ -2431,9 +2431,9 @@ void CWoormDocMng::SelectForExportData(CPoint point, BOOL bSelForTitles /*= FALS
 //------------------------------------------------------------------------------
 void CWoormDocMng::AdjustRowsExportSelection(WORD wTableID, int nRowsNumber)
 {
-	if (!m_pExportData->IsTableItem()||!m_pExportData->IncludeTable(wTableID))
+	if (!m_pExportData->IsTableItem() || !m_pExportData->IncludeTable(wTableID))
 		return;
-	
+
 	m_pExportData->AdjustRowsNumber(nRowsNumber);
 }
 
@@ -2463,7 +2463,7 @@ CObject* CWoormDocMng::GetSelectedTableObject(Table* pTable)
 }
 
 //------------------------------------------------------------------------------
-BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
+BaseObj* CWoormDocMng::SetCurrentObj(CPoint point, BOOL Pop)
 {
 	if (!Pop && !m_pMultipleSelObj)
 		GetWoormFrame()->SelectLayoutObject(NULL);
@@ -2480,8 +2480,8 @@ BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
 
 		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
-			BaseObj* pObj = ((Repeater*)m_pCurrentObj)->GetMasterFieldByPosition (point);
-			if (pObj) 
+			BaseObj* pObj = ((Repeater*)m_pCurrentObj)->GetMasterFieldByPosition(point);
+			if (pObj)
 				pCurr = pObj;
 		}
 
@@ -2495,12 +2495,12 @@ BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
 			if (m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect()))
 			{
 				InvalidateStackedObjects();
-				UpdateWindow ();
+				UpdateWindow();
 			}
 
 		return m_pCurrentObj;
 	}
-	
+
 	// save previous active object
 	BaseObj* pPrevObj = m_pCurrentObj;
 
@@ -2522,13 +2522,13 @@ BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
 			/*for (int j = i + 1; j <= ub; j++)
 				GetObjects()[j - 1] = GetObjects()[j];
 			GetObjects()[ub] = pObj;*/
-			
+
 			// set active status only if not in multiple selection
 			if (!m_pMultipleSelObj)
 				if (m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect()))
 				{
 					InvalidateStackedObjects();
-					UpdateWindow ();
+					UpdateWindow();
 				}
 
 			//----
@@ -2536,14 +2536,14 @@ BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
 
 			if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)))
 				pCurr = GetSelectedTableObject(((Table*)m_pCurrentObj));
-			if(!Pop)
+			if (!Pop)
 				GetWoormFrame()->SelectLayoutObject(pCurr); //TODO LAYOUT : aggiungere layout corrente come parametro
-			
+
 			return pPrevObj;
 		}
 	}
 
-	if(!m_pCurrentObj)
+	if (!m_pCurrentObj)
 		GetWoormFrame()->SelectLayoutObject(NULL);
 
 	m_pActiveRect->Clear();
@@ -2551,7 +2551,7 @@ BaseObj* CWoormDocMng::SetCurrentObj (CPoint point, BOOL Pop)
 }
 
 //------------------------------------------------------------------------------
-BaseObj* CWoormDocMng::SetCurrentObj (int nID, CPoint& pt)
+BaseObj* CWoormDocMng::SetCurrentObj(int nID, CPoint& pt)
 {
 	BaseObj* pPrevObj = m_pCurrentObj;
 
@@ -2561,7 +2561,7 @@ BaseObj* CWoormDocMng::SetCurrentObj (int nID, CPoint& pt)
 	{
 		BaseObj* pObj = GetObjects()[i];
 		if (
-			pObj->GetInternalID() == nID 
+			pObj->GetInternalID() == nID
 			||
 			(pObj->IsKindOf(RUNTIME_CLASS(Table)) && ((Table*)pObj)->SetActiveColumn(nID, pt))
 			)
@@ -2577,13 +2577,13 @@ BaseObj* CWoormDocMng::SetCurrentObj (int nID, CPoint& pt)
 			for (int j = i + 1; j <= ub; j++)
 				GetObjects()[j - 1] = GetObjects()[j];
 			GetObjects()[ub] = pObj;
-			
+
 			// set active status only if not in multiple selection
 			if (!m_pMultipleSelObj)
 				if (m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect()))
 				{
 					InvalidateStackedObjects();
-					UpdateWindow ();
+					UpdateWindow();
 				}
 
 			return pPrevObj;
@@ -2630,7 +2630,7 @@ TotalCell* CWoormDocMng::GetTotalCellById(int nID)
 }
 
 //------------------------------------------------------------------------------
-BaseObj* CWoormDocMng::SetCurrentObj (BaseObj* pO, CPoint& pt)
+BaseObj* CWoormDocMng::SetCurrentObj(BaseObj* pO, CPoint& pt)
 {
 	BaseObj* pPrevObj = m_pCurrentObj;
 
@@ -2651,7 +2651,7 @@ BaseObj* CWoormDocMng::SetCurrentObj (BaseObj* pO, CPoint& pt)
 			for (int j = i + 1; j <= ub; j++)
 				GetObjects()[j - 1] = GetObjects()[j];
 			GetObjects()[ub] = pObj;
-			
+
 			// set active status only if not in multiple selection
 			if (!m_pMultipleSelObj)
 			{
@@ -2693,12 +2693,12 @@ void CWoormDocMng::OnObjectCopy()
 	// toggle acctive enhaecement for copy only object when saved as bitmap (default)
 	if (m_pCurrentObj && !m_pMultipleSelObj)
 	{
-		
+
 		// force WM_PAINT to allow copy in clipboard
 		InvalidateRect(m_pCurrentObj->GetBaseRect());
 		UpdateWindow();
 	}
-}      
+}
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnObjectPaste()
@@ -2708,14 +2708,14 @@ void CWoormDocMng::OnObjectPaste()
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnObjectCut()
 {
-	if(!GetWoormView()->IsInTransfertMode())
+	if (!GetWoormView()->IsInTransfertMode())
 		if (AfxMessageBox(_TB("Do you confirm the deletion of the selected objects? "), MB_YESNO) != IDYES)
 			return;
 
 	CRSTreeCtrl* m_pTree = GetRSTree(ERefreshEditor::Layouts);
 
 	BOOL bDeleted = FALSE;
-	
+
 	// se esiste, svuoto la property grid altrimenti, cancellando l'oggetto,
 	// rimarrebbe la property che punta a qualcosa non pi� valido dando svariati problemi
 	if (GetWoormFrame()->m_pObjectPropertyView)
@@ -2727,13 +2727,13 @@ void CWoormDocMng::OnObjectCut()
 		BaseObj* pObj = GetObjects()[i];
 		if (
 			pObj &&
-				(
-					(!m_pMultipleSelObj && m_pCurrentObj && m_pCurrentObj == pObj)
-					||
-					(m_pMultipleSelObj && m_pMultipleSelObj->ObjectInSelection(pObj))
+			(
+			(!m_pMultipleSelObj && m_pCurrentObj && m_pCurrentObj == pObj)
+				||
+				(m_pMultipleSelObj && m_pMultipleSelObj->ObjectInSelection(pObj))
 				)
 			)
-		
+
 		{
 			SAFE_DELETE(m_pMultiColumns);
 			if (pObj->DeleteEditorEntry())
@@ -2817,7 +2817,7 @@ void CWoormDocMng::OnObjectCut()
 				break;
 			if (!GetEditorSymTable()->CanDeleteField(pField->GetName()))
 				continue;
-			
+
 			CString sName = pField->GetName();
 			WORD id = pField->GetId();
 
@@ -2840,7 +2840,7 @@ void CWoormDocMng::OnObjectCut()
 	if (bDeleted)
 	{
 		SetModifiedFlag();
-		UpdateWindow ();
+		UpdateWindow();
 
 		RefreshRSTree(ERefreshEditor::Layouts);
 		RefreshRSTree(ERefreshEditor::Variables, NULL, TRUE);
@@ -2855,7 +2855,7 @@ void CWoormDocMng::ObjectUndo(BaseObj * pObject)
 		return;		//TODO problema per campi TOTALI E SUBTOTALI 
 		//VEDI BOOL Table::DeleteEditorEntry ()
 		Table * pTbl = (Table*)pObject;
-		
+
 		WORD nFirstID;
 
 		WoormTable*	pSymTable = GetEditorSymTable();
@@ -2863,21 +2863,21 @@ void CWoormDocMng::ObjectUndo(BaseObj * pObject)
 		DisplayTables*	pDispTable = GetEditorSymTable()->GetDisplayTables();
 
 		CString sTableName = cwsprintf(L"Table_%d", pTbl->m_wInternalID);
-		
+
 		CString layout = m_dsCurrentLayoutView.GetString();
 
 		pDispTable->AddTable
-			(
-				sTableName,
-				10,
-				pTbl->m_wInternalID,
-				layout
-				);
+		(
+			sTableName,
+			10,
+			pTbl->m_wInternalID,
+			layout
+		);
 		TableColumn * pCol;
 		for (int i = 0; i < pTbl->m_Columns.GetSize(); i++)
 		{
 			pCol = pTbl->m_Columns[i];
-			if (i == 0 )
+			if (i == 0)
 				nFirstID = pCol->m_wInternalID;
 			WoormField* pF = (WoormField*)GetEditorSymTable()->GetFieldByID(pCol->m_wInternalID);
 
@@ -2892,7 +2892,7 @@ void CWoormDocMng::ObjectUndo(BaseObj * pObject)
 
 		CPoint point;
 		pTbl->SetActiveColumn(nFirstID, point);
-		
+
 		m_pCurrentObj = pTbl;
 		GetObjects().Add(m_pCurrentObj);
 		InvalidateRect(m_pCurrentObj->GetBaseRect());
@@ -2932,7 +2932,7 @@ void CWoormDocMng::ObjectUndo(BaseObj * pObject)
 
 	if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 		RefreshRSTree(ERefreshEditor::Variables);
-	
+
 	RefreshRSTree(ERefreshEditor::Layouts);
 
 	InvalidateRect(m_pCurrentObj->GetBaseRect());
@@ -2947,9 +2947,9 @@ void CWoormDocMng::ObjectUndo(BaseObj * pObject)
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnObjectUndo()
-{          
+{
 	// multiple selection as local undo stack
-	if (m_pMultipleSelObj) 
+	if (m_pMultipleSelObj)
 	{
 		m_pMultipleSelObj->Undo();
 
@@ -2966,7 +2966,7 @@ void CWoormDocMng::OnObjectUndo()
 	}
 
 	// Pop info from storic last action stack info
-	UndoInfo* pUndoInfo = (UndoInfo*) m_pUndoStack->Pop();
+	UndoInfo* pUndoInfo = (UndoInfo*)m_pUndoStack->Pop();
 
 	if (pUndoInfo->m_pObj && IsWindow(pUndoInfo->m_pObj->m_hWnd))
 	{
@@ -3008,7 +3008,7 @@ void CWoormDocMng::OnObjectUndo()
 		}
 
 	}
-	else 
+	else
 		m_pCurrentObj = NULL;
 
 	if (m_pCurrentObj && IsWindow(m_pCurrentObj->m_hWnd))
@@ -3028,59 +3028,59 @@ BOOL CWoormDocMng::ExistObject(BaseObj* aObj)
 	{
 		BaseObj* pObj = GetObjects()[i];
 		if (pObj == aObj) return TRUE;
-	}      
+	}
 	return FALSE;
-} 
- 
+}
+
 //------------------------------------------------------------------------------
 void CWoormDocMng::PasteDIBitmap()
 {
 	if (m_Creating != NONE) return;
-	CString strName (m_strBmpName);
+	CString strName(m_strBmpName);
 
 	CTBNamespace aNamespace(CTBNamespace::IMAGE);
 	aNamespace.SetNamespace(L"Image." + GetNamespace().GetApplicationName() + '.' + GetNamespace().GetModuleName());
 
-	CTBExplorer aExplorer (CTBExplorer::SAVE, aNamespace, TRUE);
-	BOOL bOk = aExplorer.Open ();
+	CTBExplorer aExplorer(CTBExplorer::SAVE, aNamespace, TRUE);
+	BOOL bOk = aExplorer.Open();
 	CStringArray arPath;
-	
+
 	aExplorer.GetSelPathElements(&arPath);
-	
+
 	if (arPath.GetSize())
 		m_strBmpName = arPath.GetAt(0);
 
 	// copy DIB from clipboard in CDIBitmap structure
 	HANDLE		hDIBitmap;
 	CWoormView*	pView = GetWoormView();
-		
+
 	if (!pView->OpenClipboard())
 		return;
-	
+
 	hDIBitmap = CopyHandle(GetClipboardData(CF_DIB));
-	CloseClipboard ();
-	
+	CloseClipboard();
+
 	if (!hDIBitmap)
 		return;
-		
+
 	CDIBitmap* pDIBitmap = new CDIBitmap;
-	if(!(pDIBitmap->Attach(hDIBitmap)))
+	if (!(pDIBitmap->Attach(hDIBitmap)))
 	{
 		//delete pDIBitmap;
 		::DeleteObject(pDIBitmap);
 		return;
 	}
-		
+
 	// save bitmap to choosed strFile
 	pDIBitmap->SaveBitmap(m_strBmpName);
 	//delete pDIBitmap;
 	::DeleteObject(pDIBitmap);
-								
+
 	// post creation on text object		                    
 	m_Creating = GRAPHRECT;
 	ClipCursorToActiveView();
 }
- 
+
 //------------------------------------------------------------------------------
 //void CWoormDocMng::PasteText(BOOL bIsOemText)
 //{
@@ -3113,7 +3113,7 @@ void CWoormDocMng::PasteDIBitmap()
 //}
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::CurrentIsTable () const
+BOOL CWoormDocMng::CurrentIsTable() const
 {
 	if (!m_pCurrentObj) return FALSE;
 	if (!m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table))) return FALSE;
@@ -3123,32 +3123,32 @@ BOOL CWoormDocMng::CurrentIsTable () const
 
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::NoActiveColumn () const
+BOOL CWoormDocMng::NoActiveColumn() const
 {
 	return
 		(!CurrentIsTable()) ||
-		(CurrentIsTable() && ((Table*) m_pCurrentObj)->NoActiveColumn());
+		(CurrentIsTable() && ((Table*)m_pCurrentObj)->NoActiveColumn());
 }
 
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::MoreThanOneColumn () const
+BOOL CWoormDocMng::MoreThanOneColumn() const
 {
-	return !NoActiveColumn () && ((Table*) m_pCurrentObj)->MoreThanOneColumn();
+	return !NoActiveColumn() && ((Table*)m_pCurrentObj)->MoreThanOneColumn();
 }
 
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::ActiveColumnHasTotal() const
 {
-	return !NoActiveColumn () && ((Table*) m_pCurrentObj)->ActiveColumnHasTotal();
+	return !NoActiveColumn() && ((Table*)m_pCurrentObj)->ActiveColumnHasTotal();
 }
 
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::ActiveColumnCanHaveTotal() const
 {
-	return !NoActiveColumn () && ((Table*) m_pCurrentObj)->ActiveColumnCanHaveTotal();
+	return !NoActiveColumn() && ((Table*)m_pCurrentObj)->ActiveColumnCanHaveTotal();
 }
 
 //------------------------------------------------------------------------------
@@ -3167,7 +3167,7 @@ void CWoormDocMng::AnchorFieldToColumn(CLayout* pObjects, int nStartIndex)
 		BaseObj* pObj = (*pObjects)[i];
 		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
-			BaseRect* pBaseRect = (BaseRect*) pObj;
+			BaseRect* pBaseRect = (BaseRect*)pObj;
 			if (pBaseRect->m_AnchorLeftColumnID)
 			{
 				pBaseRect->AnchorFieldToColumn(pObjects, pBaseRect->m_AnchorLeftColumnID, pBaseRect->m_AnchorRightColumnID);
@@ -3177,40 +3177,40 @@ void CWoormDocMng::AnchorFieldToColumn(CLayout* pObjects, int nStartIndex)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateAddEABarcode (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateAddEABarcode(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable
-		(
-			m_bAllowEditing  &&
-			!m_bPlayback  && 
-			m_Creating == NONE && 
-			!IsReportRunning() &&
-			AfxGetOleDbMng()->EasyAttachmentEnable()
-		);
+	(
+		m_bAllowEditing &&
+		!m_bPlayback  &&
+		m_Creating == NONE &&
+		!IsReportRunning() &&
+		AfxGetOleDbMng()->EasyAttachmentEnable()
+	);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnAddEABarcode ()
+void CWoormDocMng::OnAddEABarcode()
 {
 	m_dsEABarCode.m_strBarcodeValue = L"EA-12345678901234";
-	m_dsEABarCode.m_strBarcodeType =  _T("CODE39"); //E_BARCODE_TYPE_ALFA39;
+	m_dsEABarCode.m_strBarcodeType = _T("CODE39"); //E_BARCODE_TYPE_ALFA39;
 
 	AddEABarCodeObject(&GetObjects());
-	
+
 	BaseObj* pObj = GetObjects().FindByID(SpecialReportField::ID.EA_BARCODE);
 	if (!pObj)
 	{
 		Message(_TB("There is not an empty area to add the barcode: please try to move some fields"));
 		return;
 	}
-	
+
 	m_pCurrentObj = pObj;
 
 	RefreshRSTree(ERefreshEditor::Layouts, pObj);
 
-	InvalidateRect	(m_pCurrentObj->GetBaseRect());
+	InvalidateRect(m_pCurrentObj->GetBaseRect());
 	m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
-	UpdateWindow  ();
+	UpdateWindow();
 }
 
 
@@ -3224,20 +3224,20 @@ void CWoormDocMng::AddEABarCodeObject(CLayout* pObjects)
 		BeginWaitCursor(); //Wait cursor
 		BOOL bVert = FALSE;
 
-		CRect rect(0,0,0,0) ;
+		CRect rect(0, 0, 0, 0);
 
 		// for different barcode type i need differents rects
 		int height = 60;
 		int width = 250;
 
-		BOOL bOk = pObjects->FindFreeRect (height, width, rect);
+		BOOL bOk = pObjects->FindFreeRect(height, width, rect);
 		if (bOk)
 		{
 			ASSERT_TRACE(rect.Width() == width && rect.Height() == height, _T("AddEABarCodeObject - Bad H. free rect"));
 		}
 		else
 		{
-			bOk = pObjects->FindFreeRect (width, height, rect);
+			bOk = pObjects->FindFreeRect(width, height, rect);
 			if (bOk)
 			{
 				ASSERT_TRACE(rect.Width() == height && rect.Height() == width, _T("AddEABarCodeObject - Bad V. free rect"));
@@ -3266,14 +3266,14 @@ void CWoormDocMng::AddEABarCodeObject(CLayout* pObjects)
 				pField->m_bHidden = b;
 
 			pField->UpdateDocument();
-		}	
+		}
 		EndWaitCursor(); //Wait cursor
 	}
 	else if (pObj->IsKindOf(RUNTIME_CLASS(TextRect)))
 	{
-		TextRect* pT = (TextRect*) pObj;
+		TextRect* pT = (TextRect*)pObj;
 		pT->SetText(m_dsEABarCode.m_strBarcodeValue);
-		pT->SetBarCode(CBarCodeTypes::BarCodeEnum(m_dsEABarCode.m_strBarcodeType), pT->IsVerticalBarCode ());
+		pT->SetBarCode(CBarCodeTypes::BarCodeEnum(m_dsEABarCode.m_strBarcodeType), pT->IsVerticalBarCode());
 		pT->UpdateDocument();
 	}
 }
@@ -3307,11 +3307,11 @@ BaseRect* CWoormDocMng::CreateBarcodeAtPosition(LONG x, LONG y, BOOL bVert)
 	pText->SetBaseRect(rect);
 
 	pText->SetBarCode(CBarCodeTypes::BarCodeEnum(m_dsEABarCode.m_strBarcodeType), bVert);
-	
+
 	pText->SetText(m_dsEABarCode.m_strBarcodeValue);
 
 	pText->SetHideExpression(_T("Not (ReportIsArchiving && ReportCurrentPageNumber == 1)"));
-	
+
 	pText->m_sStyleClass = CWoormTemplate::s_sEA_BarCode_StyleName;
 
 	pText->m_bPersistent = FALSE;
@@ -3358,12 +3358,12 @@ void CWoormDocMng::ValorizeEABarCode(const CString strAlternativeName, BOOL bGen
 		return;
 
 	m_dsEABarCode.m_strBarcodeValue = L"EA-12345678901234";
-	m_dsEABarCode.m_strBarcodeType =  _T("CODE39"); //E_BARCODE_TYPE_ALFA39;
+	m_dsEABarCode.m_strBarcodeType = _T("CODE39"); //E_BARCODE_TYPE_ALFA39;
 
 	if (!AfxGetOleDbMng()->EasyAttachmentEnable())
 		return;
-			
-	m_dsEABarCode = AfxGetIDMSRepositoryManager()->GetBarcodeValue(GetNamespace().ToString(), m_pCallerDocument, strAlternativeName, bGenerateNewBarcode == TRUE);		
+
+	m_dsEABarCode = AfxGetIDMSRepositoryManager()->GetBarcodeValue(GetNamespace().ToString(), m_pCallerDocument, strAlternativeName, bGenerateNewBarcode == TRUE);
 
 	if (CanShowEABarCode())
 	{
@@ -3389,7 +3389,7 @@ BOOL CWoormDocMng::CanShowEABarCode()
 
 //=============================================================================
 
-BOOL CWoormDocMng::ParseLayouts (ViewParser& lex)
+BOOL CWoormDocMng::ParseLayouts(ViewParser& lex)
 {
 	BOOL bInvertOrientation = FALSE;
 	if (!lex.LookAhead(T_PAGE_LAYOUT))
@@ -3408,7 +3408,7 @@ BOOL CWoormDocMng::ParseLayouts (ViewParser& lex)
 			lex.ParseBegin();
 		}
 		else
-			return lex.SetError (_TB("Incorrect PageLayout syntax: missing layout name "));
+			return lex.SetError(_TB("Incorrect PageLayout syntax: missing layout name "));
 
 		m_Objects = m_Layouts.Add(sLayoutName);
 		m_Objects->m_bInvertOrientation = bInvertOrientation;
@@ -3425,58 +3425,58 @@ BOOL CWoormDocMng::ParseLayouts (ViewParser& lex)
 	// ordina gli oggetti prima di stamparli per ottimizzare su dispositivi
 	// non raster (tipo stampanti ad aghi) se richiesto dall'utente (default si)
 	SortLayoutObjectsOnPosition();
-	
+
 	return TRUE;
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::ParseObjects (ViewParser& lex, BOOL bWithPageLayout)
+BOOL CWoormDocMng::ParseObjects(ViewParser& lex, BOOL bWithPageLayout)
 {
 	while (TRUE)
 	{
 		switch (lex.LookAhead())	//riordinate "case entry" in base alla frequenza di utilizzo
 		{
-			case T_FIELD    : m_pCurrentObj = new FieldRect    (m_ptCurrPos, this, 0);     break;
-			case T_TEXT     : m_pCurrentObj = new TextRect     (m_ptCurrPos, this);        break;
-			case T_TABLE    : // parse only dimensions
+		case T_FIELD: m_pCurrentObj = new FieldRect(m_ptCurrPos, this, 0);     break;
+		case T_TEXT: m_pCurrentObj = new TextRect(m_ptCurrPos, this);        break;
+		case T_TABLE: // parse only dimensions
+		{
+			int nRow, nCol = 1;
+			if (lex.ParseTable(nRow, nCol))
 			{
-				int nRow, nCol = 1;
-				if  (lex.ParseTable (nRow, nCol))
-				{
-					m_pCurrentObj = new Table (m_ptCurrPos, this, nRow, nCol);
-					break;
-				}
-				return FALSE;
+				m_pCurrentObj = new Table(m_ptCurrPos, this, nRow, nCol);
+				break;
 			}
-			case T_END		: return bWithPageLayout && lex.ParseEnd(); 
-			case T_RNDRECT  : // mantiene la compatibilita' con il passato
-			case T_SQRRECT  : m_pCurrentObj = new SqrRect      (m_ptCurrPos, this);				break;
-			case T_BITMAP    : m_pCurrentObj = new GraphRect   (m_ptCurrPos, _T(""), this);		break;
-			case T_FILE     : m_pCurrentObj = new FileRect     (m_ptCurrPos, _T(""), this);		break;
-			case T_REPEATER : m_pCurrentObj = new Repeater     (m_ptCurrPos, this, 0);			break;
-			case T_CHART	: m_pCurrentObj = new Chart		   (m_ptCurrPos, this, 0);			break;
-			case T_METAFILE : m_pCurrentObj = new MetafileRect (m_ptCurrPos, _T(""), this);     break;
-			case T_LINKURL	: m_pCurrentObj = new UrlRect	   (m_ptCurrPos, _T(""), this);     break;
-			case T_LINKS    : return TRUE;
-			case T_SELECT   : return TRUE;
-			case T_REPORT   : return TRUE;
-			case T_EOF      : return TRUE;
-			case T_PROPERTIES: return TRUE; //???
-			default         : return lex.SetError (_TB("Object not found."));
+			return FALSE;
+		}
+		case T_END: return bWithPageLayout && lex.ParseEnd();
+		case T_RNDRECT: // mantiene la compatibilita' con il passato
+		case T_SQRRECT: m_pCurrentObj = new SqrRect(m_ptCurrPos, this);				break;
+		case T_BITMAP: m_pCurrentObj = new GraphRect(m_ptCurrPos, _T(""), this);		break;
+		case T_FILE: m_pCurrentObj = new FileRect(m_ptCurrPos, _T(""), this);		break;
+		case T_REPEATER: m_pCurrentObj = new Repeater(m_ptCurrPos, this, 0);			break;
+		case T_CHART: m_pCurrentObj = new Chart(m_ptCurrPos, this, 0);			break;
+		case T_METAFILE: m_pCurrentObj = new MetafileRect(m_ptCurrPos, _T(""), this);     break;
+		case T_LINKURL: m_pCurrentObj = new UrlRect(m_ptCurrPos, _T(""), this);     break;
+		case T_LINKS: return TRUE;
+		case T_SELECT: return TRUE;
+		case T_REPORT: return TRUE;
+		case T_EOF: return TRUE;
+		case T_PROPERTIES: return TRUE; //???
+		default: return lex.SetError(_TB("Object not found."));
 		}
 
 		// found new element and try to parse completly
 		if (!m_pCurrentObj->Parse(lex))
 		{
-			SAFE_DELETE(m_pCurrentObj);			
+			SAFE_DELETE(m_pCurrentObj);
 			return FALSE;
 		}
-		
+
 		if (m_pCurrentObj->GetInternalID())
 		{
 			if (GetObjects().FindByID(m_pCurrentObj->GetInternalID()))
 			{
-				lex.SetError (_TB("Duplicate Object Alias found.") + cwsprintf(_T(" (ID: %d)"), m_pCurrentObj->GetInternalID()), NULL, lex.GetCurrentPos(), lex.GetCurrentLine());
+				lex.SetError(_TB("Duplicate Object Alias found.") + cwsprintf(_T(" (ID: %d)"), m_pCurrentObj->GetInternalID()), NULL, lex.GetCurrentPos(), lex.GetCurrentLine());
 				SAFE_DELETE(m_pCurrentObj);
 				continue;
 			}
@@ -3493,7 +3493,7 @@ BOOL CWoormDocMng::ParseObjects (ViewParser& lex, BOOL bWithPageLayout)
 		}
 
 		// parse bOk, so add to element list
-		GetObjects().Add (m_pCurrentObj);
+		GetObjects().Add(m_pCurrentObj);
 	}
 
 	return FALSE;
@@ -3501,21 +3501,21 @@ BOOL CWoormDocMng::ParseObjects (ViewParser& lex, BOOL bWithPageLayout)
 
 // parsa stili font e oggetti utilizzando la release letta in testa al report
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::ParseWoormLinks (ViewParser& lex)
+BOOL CWoormDocMng::ParseWoormLinks(ViewParser& lex)
 {
 	m_arWoormLinks.m_pViewSymbolTable = &m_ViewSymbolTable;
 	m_arWoormLinks.m_bPlayBack = m_bPlayback;
-	
+
 	return m_arWoormLinks.Parse(lex);
 }
 
 // parsa stili font e oggetti utilizzando la release letta in testa al report
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
+BOOL CWoormDocMng::ParseViewInfo(ViewParser& lex)
 {
 	FontsParser aFontsParser;
 	FormatsParser aFormatsParser;
-	
+
 	CTBNamespace& Ns = IsReportString() && m_pCallerDocument
 		?
 		m_pCallerDocument->GetNamespace()
@@ -3523,10 +3523,10 @@ BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
 		GetNamespace()
 		;
 
-	BOOL bOk =	aFontsParser.Parse(Ns, FontStyle::FROM_WOORM, m_pFontStyles, lex);
+	BOOL bOk = aFontsParser.Parse(Ns, FontStyle::FROM_WOORM, m_pFontStyles, lex);
 
 	// smart pointer is used to temporary lock the table
-	FormatStyleTablePtr pFormatTable (m_pFormatStyles, TRUE);
+	FormatStyleTablePtr pFormatTable(m_pFormatStyles, TRUE);
 	bOk = bOk && aFormatsParser.Parse(Ns, Formatter::FROM_WOORM, pFormatTable.GetPointer(), lex);
 
 	if (AfxGetExportSymbols()->IsActivated())
@@ -3535,9 +3535,9 @@ BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
 		for (; i < m_pFontStyles->GetSize(); i++)
 		{
 			FontStylesGroup* pG = m_pFontStyles->GetAt(i);
-			for (int j=0; j < pG->GetFontStyles().GetSize(); j++)
+			for (int j = 0; j < pG->GetFontStyles().GetSize(); j++)
 			{
-				FontStyle* pF = (FontStyle*) pG->GetFontStyles().GetAt(j);
+				FontStyle* pF = (FontStyle*)pG->GetFontStyles().GetAt(j);
 				if (pF->GetOwner().GetType() == CTBNamespace::REPORT)
 					AfxGetExportSymbols()->AddItemOnLastFile(pF->GetStyleName(), EXP_SYMB_FONT);
 			}
@@ -3548,7 +3548,7 @@ BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
 			int j = 0;
 			for (; j < pG->GetFormatters().GetSize(); j++)
 			{
-				Formatter* pF = (Formatter*) pG->GetFormatters().GetAt(j);
+				Formatter* pF = (Formatter*)pG->GetFormatters().GetAt(j);
 				if (pF->GetOwner().GetType() == CTBNamespace::REPORT)
 					AfxGetExportSymbols()->AddItemOnLastFile(pF->GetName(), EXP_SYMB_FORMATTER);
 			}
@@ -3568,7 +3568,7 @@ BOOL CWoormDocMng::ParseViewInfo (ViewParser& lex)
 	{
 		lex.SetError(cwsprintf(L"%s\r\nline: %d", sError, nLine), L"", nLine);
 	}
-	
+
 	if (bOk && m_pWoormInfo && m_pWoormInfo->GetParameters().GetSize() && m_ViewSymbolTable.GetSize())
 	{
 		//rivalorizzazione a partire dal WoormInfo
@@ -3620,13 +3620,13 @@ CWoormView*	CWoormDocMng::GetWoormView(BOOL bCheck /*=TRUE*/) const
 	if (bCheck)
 	{
 		ASSERT_VALID(pView);
-	}	
+	}
 	return pView;
 }
 
 //------------------------------------------------------------------------------
-WoormTable* CWoormDocMng::GetEngineSymTable() 
-{ 
+WoormTable* CWoormDocMng::GetEngineSymTable()
+{
 	if (m_pEngine)
 		return m_pEngine->GetSymTable();
 	return NULL;
@@ -3634,7 +3634,7 @@ WoormTable* CWoormDocMng::GetEngineSymTable()
 
 //------------------------------------------------------------------------------
 WoormTable* CWoormDocMng::GetEditorSymTable()
-{		
+{
 	if (m_pEditorManager && m_pEditorManager->GetPrgData())
 		return m_pEditorManager->GetPrgData()->GetSymTable();
 	return NULL;
@@ -3662,7 +3662,7 @@ void CWoormDocMng::RunReport(BOOL bActivate /*= FALSE*/, BOOL bPost/* = TRUE*/)
 void CWoormDocMng::SetDecorateTitle()
 {
 	ASSERT_VALID(this);
-	
+
 	UINT idi = IDI_REPORT;
 
 	CString str;
@@ -3670,7 +3670,7 @@ void CWoormDocMng::SetDecorateTitle()
 	if (m_pWoormInfo)
 	{
 		ASSERT_VALID(m_pWoormInfo);
-		if (!m_pWoormInfo->m_arReportTitles.IsEmpty() &&  m_pWoormInfo->m_nNextReport >= 0 && m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arReportTitles.GetSize())
+		if (!m_pWoormInfo->m_arReportTitles.IsEmpty() && m_pWoormInfo->m_nNextReport >= 0 && m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arReportTitles.GetSize())
 		{
 			str = m_pWoormInfo->m_arReportTitles[max(0, m_pWoormInfo->m_nNextReport - 1)];
 		}
@@ -3680,7 +3680,7 @@ void CWoormDocMng::SetDecorateTitle()
 	{
 		ASSERT_VALID(m_pDocProperties);
 		if (!m_pDocProperties->m_strTitle.IsEmpty())
-		str = AfxLoadReportString(m_pDocProperties->m_strTitle, this);
+			str = AfxLoadReportString(m_pDocProperties->m_strTitle, this);
 	}
 
 	if (str.IsEmpty())
@@ -3707,7 +3707,7 @@ void CWoormDocMng::SetDecorateTitle()
 		else
 			str += _T(" - ") + AfxGetPathFinder()->GetUserNameFromPath(m_strPathName);
 	}
-	
+
 	SetTitle(str);
 	//----------------
 
@@ -3735,20 +3735,20 @@ void CWoormDocMng::SetDecorateTitle()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::UnparseWoorm (const CString& strFile, BOOL bOnlyGraphInfo)
-{   
+void CWoormDocMng::UnparseWoorm(const CString& strFile, BOOL bOnlyGraphInfo)
+{
 	ViewUnparser ofile(strFile);
-		ofile.m_bSaveAsWithCurrentLanguage	= m_bSaveAsWithCurrentLanguage;
-		ofile.m_strOriginFileName			= m_strOriginFileName;
-		ofile.m_strOriginDictionaryPath		= m_strOriginDictionaryPath;
+	ofile.m_bSaveAsWithCurrentLanguage = m_bSaveAsWithCurrentLanguage;
+	ofile.m_strOriginFileName = m_strOriginFileName;
+	ofile.m_strOriginDictionaryPath = m_strOriginDictionaryPath;
 
-	UnparseHeadData		(ofile, bOnlyGraphInfo);
+	UnparseHeadData(ofile, bOnlyGraphInfo);
 
 	if (!m_Template.m_bIsSavingTemplate)
-		UnparseProperties	(ofile);
+		UnparseProperties(ofile);
 
-	UnparsePageInfo		(ofile);
-				
+	UnparsePageInfo(ofile);
+
 	if (!m_Template.m_bIsSavingTemplate)
 	{
 		m_pOptions->Unparse(ofile);
@@ -3758,13 +3758,13 @@ void CWoormDocMng::UnparseWoorm (const CString& strFile, BOOL bOnlyGraphInfo)
 	FontsParser aFontsParser;
 	if (m_pFontStyles->CheckFontTable(CTBNamespaceArray(), GetNamespace()))
 		aFontsParser.Unparse(GetNamespace(), FontStyle::FROM_WOORM, FontStyleTablePtr(m_pFontStyles, FALSE), ofile);
-	
+
 	if (!m_Template.m_bIsSavingTemplate)
 	{
 		// scrive gli stili dei formattatori se sono stati modificati (ignorando la release)
 		FormatsParser aFormatsParser;
 		if (m_pFormatStyles->CheckFormatTable(CTBNamespaceArray(), GetNamespace()))
-			aFormatsParser.Unparse (GetNamespace(), Formatter::FROM_WOORM, FormatStyleTablePtr(m_pFormatStyles, TRUE), ofile);
+			aFormatsParser.Unparse(GetNamespace(), Formatter::FROM_WOORM, FormatStyleTablePtr(m_pFormatStyles, TRUE), ofile);
 	}
 
 	// write all elements
@@ -3772,7 +3772,7 @@ void CWoormDocMng::UnparseWoorm (const CString& strFile, BOOL bOnlyGraphInfo)
 
 	if (!m_Template.m_bIsSavingTemplate)
 		m_arWoormLinks.Unparse(ofile);
-	
+
 	// unparse only graphic information if needed
 	if (!bOnlyGraphInfo)
 	{
@@ -3780,11 +3780,11 @@ void CWoormDocMng::UnparseWoorm (const CString& strFile, BOOL bOnlyGraphInfo)
 	}
 	else if (!m_Template.m_bIsSavingTemplate)
 	{
-		ofile.UnparseTag (T_REPORT);
+		ofile.UnparseTag(T_REPORT);
 		ofile.UnparseBegin(FALSE);
 		CString strRepName = _T("NoName");
-		ofile.UnparseID		(strRepName,	TRUE);
-	
+		ofile.UnparseID(strRepName, TRUE);
+
 		m_ViewSymbolTable.UnparseVariables(ofile);
 
 		ofile.UnparseEnd();
@@ -3794,74 +3794,74 @@ void CWoormDocMng::UnparseWoorm (const CString& strFile, BOOL bOnlyGraphInfo)
 ///////////////////////////////////////////////////////////////////////////////
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnToggleCreateSchema1 ()
+void CWoormDocMng::OnToggleCreateSchema1()
 {
 
 	if (
-			m_pOptions &&
-			m_bAllowEditing  &&
-			!m_bPlayback  &&
-			m_Creating == NONE && 
-			!IsReportRunning()  &&
-			AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
+		m_pOptions &&
+		m_bAllowEditing &&
+		!m_bPlayback  &&
+		m_Creating == NONE &&
+		!IsReportRunning() &&
+		AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
 		)
 	{
-		m_pOptions->m_bCreateXsd1 = ! m_pOptions->m_bCreateXsd1;
+		m_pOptions->m_bCreateXsd1 = !m_pOptions->m_bCreateXsd1;
 		if (m_pOptions->m_bCreateXsd1)
 			m_pOptions->m_bCreateXsd2 = FALSE;
-		SetModifiedFlag	();
+		SetModifiedFlag();
 	}
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnToggleCreateSchema2 ()
+void CWoormDocMng::OnToggleCreateSchema2()
 {
 
 	if (
-			m_pOptions &&
-			m_bAllowEditing  &&
-			!m_bPlayback  &&
-			m_Creating == NONE && 
-			!IsReportRunning()  &&
-			AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
+		m_pOptions &&
+		m_bAllowEditing &&
+		!m_bPlayback  &&
+		m_Creating == NONE &&
+		!IsReportRunning() &&
+		AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
 		)
 	{
-		m_pOptions->m_bCreateXsd2 = ! m_pOptions->m_bCreateXsd2;
+		m_pOptions->m_bCreateXsd2 = !m_pOptions->m_bCreateXsd2;
 		if (m_pOptions->m_bCreateXsd2)
 			m_pOptions->m_bCreateXsd1 = FALSE;
-		SetModifiedFlag	();
+		SetModifiedFlag();
 	}
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateCreateSchema1 (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 
+void CWoormDocMng::OnUpdateCreateSchema1(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		(
 			m_pOptions &&
-			m_bAllowEditing  &&
+			m_bAllowEditing &&
 			!m_bPlayback  &&
-			m_Creating == NONE && 
+			m_Creating == NONE &&
 			!IsReportRunning() &&
 			AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
-		);
+			);
 
 	pCmdUI->SetCheck(m_pOptions && m_pOptions->m_bCreateXsd1);
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateCreateSchema2 (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 
+void CWoormDocMng::OnUpdateCreateSchema2(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		(
 			m_pOptions &&
-			m_bAllowEditing  &&
+			m_bAllowEditing &&
 			!m_bPlayback  &&
-			m_Creating == NONE && 
+			m_Creating == NONE &&
 			!IsReportRunning() &&
 			AfxIsActivated(CLIENTNET_APP, MAGICPANE_MOD)
-		);
+			);
 
 	pCmdUI->SetCheck(m_pOptions && m_pOptions->m_bCreateXsd2);
 	pCmdUI->Enable(bOk);
@@ -3870,82 +3870,82 @@ void CWoormDocMng::OnUpdateCreateSchema2 (CCmdUI* pCmdUI)
 void CWoormDocMng::GetSchema(CPathFinder::PosType	ePosType, const CString& strUser, const CTBNamespace& ns, CXSDGenerator*& XMLSchema)
 {
 	XMLSchema = NULL;
-	if (!PrepareRunEngine (this->m_strPathName))
+	if (!PrepareRunEngine(this->m_strPathName))
 	{
 		ASSERT_TRACE(FALSE, _T("Failure to parse the report\n"));
 		return;
 	}
 
-	CString strName = ns.GetObjectName(); 
-	strName = strName.Left(strName.ReverseFind('.')) ;
+	CString strName = ns.GetObjectName();
+	strName = strName.Left(strName.ReverseFind('.'));
 	CString strTargetNamespace;
-	switch(ePosType)
+	switch (ePosType)
 	{
-		case CPathFinder::USERS:
-		{
-			strTargetNamespace.Format
-			(
-				_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/Users/%s/%s.xsd"), 
-				ns.GetApplicationName(), ns.GetModuleName(), 
-				strUser,
-				strName
-			);
-			break;
-		}
-		case CPathFinder::ALL_USERS:
-		{
-			strTargetNamespace.Format
-			(
-				_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/AllUsers/%s.xsd"), 
-				ns.GetApplicationName(), ns.GetModuleName(), 
-				strName
-			);
-			break;
-		}
-		case CPathFinder::STANDARD:
-		{
-			strTargetNamespace.Format
-			(
-				_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/%s.xsd"), 
-				ns.GetApplicationName(), ns.GetModuleName(), 
-				strName
-			);
-			break;
-		}
-		default:
-			ASSERT_TRACE(FALSE, cwsprintf(_T("Wrong namespace: %s\n"), ns.ToString()));
-			return;
+	case CPathFinder::USERS:
+	{
+		strTargetNamespace.Format
+		(
+			_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/Users/%s/%s.xsd"),
+			ns.GetApplicationName(), ns.GetModuleName(),
+			strUser,
+			strName
+		);
+		break;
+	}
+	case CPathFinder::ALL_USERS:
+	{
+		strTargetNamespace.Format
+		(
+			_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/AllUsers/%s.xsd"),
+			ns.GetApplicationName(), ns.GetModuleName(),
+			strName
+		);
+		break;
+	}
+	case CPathFinder::STANDARD:
+	{
+		strTargetNamespace.Format
+		(
+			_T("http://www.microarea.it/Schema/2004/Smart/%s/%s/%s.xsd"),
+			ns.GetApplicationName(), ns.GetModuleName(),
+			strName
+		);
+		break;
+	}
+	default:
+		ASSERT_TRACE(FALSE, cwsprintf(_T("Wrong namespace: %s\n"), ns.ToString()));
+		return;
 	}
 
-	XMLSchema = new CXSDGenerator (strTargetNamespace, TRUE, strName);
+	XMLSchema = new CXSDGenerator(strTargetNamespace, TRUE, strName);
 
 	CString strNs = ns.ToString();
 	strNs = strNs.Left(strNs.ReverseFind('.'));
 
 	XMLSchema->BeginComplexElement(strName);	//Report Name
-		XMLSchema->InsertAttribute(_T("tbNamespace"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T(""), (LPCTSTR)strNs); 
+	XMLSchema->InsertAttribute(_T("tbNamespace"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T(""), (LPCTSTR)strNs);
 
-		GetSchemaObjects(XMLSchema, m_pEditorManager->GetSymTable());
+	GetSchemaObjects(XMLSchema, m_pEditorManager->GetSymTable());
 
-		m_pEditorManager->GetSchema(XMLSchema); 
+	m_pEditorManager->GetSchema(XMLSchema);
 
-		XMLSchema->BeginComplexElement(_T("CDiagnostic"), _T("0"), _T("1"));
-			XMLSchema->BeginComplexElement(_T("Errors"), _T("0"), _T("1"));
-				XMLSchema->BeginComplexElement(_T("Error"), _T("0"), SCHEMA_XSD_UNBOUNDED_VALUE);
-					XMLSchema->InsertElement(_T("Code"), 		SCHEMA_XSD_DATATYPE_INT_VALUE,		_T("0"), _T("1")); 
-					XMLSchema->InsertElement(_T("Source"),		SCHEMA_XSD_DATATYPE_STRING_VALUE,	_T("0"), _T("1")); 
-					XMLSchema->InsertElement(_T("Message"),		SCHEMA_XSD_DATATYPE_STRING_VALUE,	_T("0"), _T("1")); 
-				XMLSchema->EndComplexElement();  
-			XMLSchema->EndComplexElement();  
+	XMLSchema->BeginComplexElement(_T("CDiagnostic"), _T("0"), _T("1"));
+	XMLSchema->BeginComplexElement(_T("Errors"), _T("0"), _T("1"));
+	XMLSchema->BeginComplexElement(_T("Error"), _T("0"), SCHEMA_XSD_UNBOUNDED_VALUE);
+	XMLSchema->InsertElement(_T("Code"), SCHEMA_XSD_DATATYPE_INT_VALUE, _T("0"), _T("1"));
+	XMLSchema->InsertElement(_T("Source"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T("0"), _T("1"));
+	XMLSchema->InsertElement(_T("Message"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T("0"), _T("1"));
+	XMLSchema->EndComplexElement();
+	XMLSchema->EndComplexElement();
 
-			XMLSchema->BeginComplexElement(_T("Warnings"), _T("0"), _T("1"));
-				XMLSchema->BeginComplexElement(_T("Warning"), _T("0"), SCHEMA_XSD_UNBOUNDED_VALUE);
-					XMLSchema->InsertElement(_T("Code"), 		SCHEMA_XSD_DATATYPE_INT_VALUE,		_T("0"), _T("1")); 
-					XMLSchema->InsertElement(_T("Source"),		SCHEMA_XSD_DATATYPE_STRING_VALUE,	_T("0"), _T("1")); 
-					XMLSchema->InsertElement(_T("Message"),		SCHEMA_XSD_DATATYPE_STRING_VALUE,	_T("0"), _T("1")); 
-				XMLSchema->EndComplexElement();  
-			XMLSchema->EndComplexElement();  
-		XMLSchema->EndComplexElement();  
+	XMLSchema->BeginComplexElement(_T("Warnings"), _T("0"), _T("1"));
+	XMLSchema->BeginComplexElement(_T("Warning"), _T("0"), SCHEMA_XSD_UNBOUNDED_VALUE);
+	XMLSchema->InsertElement(_T("Code"), SCHEMA_XSD_DATATYPE_INT_VALUE, _T("0"), _T("1"));
+	XMLSchema->InsertElement(_T("Source"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T("0"), _T("1"));
+	XMLSchema->InsertElement(_T("Message"), SCHEMA_XSD_DATATYPE_STRING_VALUE, _T("0"), _T("1"));
+	XMLSchema->EndComplexElement();
+	XMLSchema->EndComplexElement();
+	XMLSchema->EndComplexElement();
 
 	XMLSchema->EndComplexElement();	//Report Name
 }
@@ -3970,9 +3970,9 @@ void CWoormDocMng::GetSchema(CString strFile)
 		ASSERT(FALSE);
 		return;
 	}
-	
+
 	CPathFinder::PosType ePosType = AfxGetPathFinder()->GetPosTypeFromPath(strFile);
-	CString strUser; 
+	CString strUser;
 	if (ePosType == CPathFinder::USERS)
 		strUser = AfxGetPathFinder()->GetUserNameFromPath(strFile);
 
@@ -3989,7 +3989,7 @@ void CWoormDocMng::GetSchema(CString strFile)
 CString CWoormDocMng::GetSchemaString(LPCTSTR pszTargetUser/*=NULL*/)
 {
 	CTBNamespace ns = GetNamespace();
-	CString strUser (pszTargetUser ? pszTargetUser : AfxGetThreadContext()->GetSessionLoginName());
+	CString strUser(pszTargetUser ? pszTargetUser : AfxGetThreadContext()->GetSessionLoginName());
 
 	CPathFinder::PosType ePosType;
 	if (strUser.CompareNoCase(szAllUserDirName) == 0)
@@ -4019,13 +4019,13 @@ void CWoormDocMng::GetSchemaObjects(CXSDGenerator* pSchema, WoormTable* pRst)
 {
 	pSchema->BeginComplexElement(_T("ReportData"), _T("0"), _T("1"));	//Report
 
-		int ub = GetObjects().GetUpperBound();
-		for (int i =0; i <= ub; i++)
-		{
-			BaseObj* pObj = GetObjects()[i];
-			if (pObj)
-				pObj->GetSchema(pSchema, pRst);
-		}
+	int ub = GetObjects().GetUpperBound();
+	for (int i = 0; i <= ub; i++)
+	{
+		BaseObj* pObj = GetObjects()[i];
+		if (pObj)
+			pObj->GetSchema(pSchema, pRst);
+	}
 
 	pSchema->EndComplexElement();	//ReportData
 }
@@ -4064,39 +4064,39 @@ BOOL CWoormDocMng::GetAskDialogsParameters(CArray<CExportDataNetAskDialog*>& m_a
 void CWoormDocMng::UnparseHeadData(ViewUnparser& ofile, BOOL bOnlyGraphInfo)
 {
 	// calculate  frame dimension for saving them
-	CWoormFrame* pParentFrame = GetWoormFrame ();
+	CWoormFrame* pParentFrame = GetWoormFrame();
 	CRect rect;
 	pParentFrame->GetWindowRect(rect);
 
 	// write header and m_nRelease number
-	ofile.UnparseHeader ();
-	if (m_bNoWeb) 
-		ofile.UnparseTag    (T_NO_WEB, FALSE);
-	ofile.UnparseTag    (T_RELEASE,	FALSE);
-	ofile.UnparseInt    (m_nRelease, FALSE);
-	if (m_nModifyRelease > 0) 
+	ofile.UnparseHeader();
+	if (m_bNoWeb)
+		ofile.UnparseTag(T_NO_WEB, FALSE);
+	ofile.UnparseTag(T_RELEASE, FALSE);
+	ofile.UnparseInt(m_nRelease, FALSE);
+	if (m_nModifyRelease > 0)
 	{
-		ofile.UnparseTag    (T_COMMA,	FALSE);
-		ofile.UnparseInt    (m_nModifyRelease, FALSE);
+		ofile.UnparseTag(T_COMMA, FALSE);
+		ofile.UnparseInt(m_nModifyRelease, FALSE);
 	}
-	ofile.UnparseBlank  ();
-									
+	ofile.UnparseBlank();
+
 	// write window dimension
-	if (pParentFrame->IsIconic())		ofile.UnparseTag    (T_MINIMIZED, FALSE);
-	else if (pParentFrame->IsZoomed())	ofile.UnparseTag    (T_MAXIMIZED, FALSE);
-	else								ofile.UnparseRect   (T_RECT, rect, FALSE);
+	if (pParentFrame->IsIconic())		ofile.UnparseTag(T_MINIMIZED, FALSE);
+	else if (pParentFrame->IsZoomed())	ofile.UnparseTag(T_MAXIMIZED, FALSE);
+	else								ofile.UnparseRect(T_RECT, rect, FALSE);
 
 	// signal that only graph info will be saved
 	if (bOnlyGraphInfo)
-		ofile.UnparseTag (T_ONLY_GRAPH, FALSE);
+		ofile.UnparseTag(T_ONLY_GRAPH, FALSE);
 
 	if (!m_Template.m_bIsSavingTemplate && !m_Template.m_sNsTemplate.IsEmpty())
 	{
-		ofile.UnparseTag	(T_TEMPLATE, FALSE);
-		ofile.UnparseString (m_Template.m_sNsTemplate, FALSE);
+		ofile.UnparseTag(T_TEMPLATE, FALSE);
+		ofile.UnparseString(m_Template.m_sNsTemplate, FALSE);
 	}
 	else if (m_Template.m_bIsTemplate)
-		ofile.UnparseTag	(T_TEMPLATE, FALSE);
+		ofile.UnparseTag(T_TEMPLATE, FALSE);
 
 	ofile.UnparseCrLf();
 }
@@ -4109,21 +4109,21 @@ void CWoormDocMng::UnparseProperties(ViewUnparser& ofile)
 		m_pDocProperties->Unparse(ofile);
 		ofile.UnparseCrLf();
 	}
-}	
+}
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::UnparseLayouts (ViewUnparser& ofile)
+void CWoormDocMng::UnparseLayouts(ViewUnparser& ofile)
 {
 	m_Layouts.EnumObjects(&CWoormDocMng::RemoveInheritObjects);
-	
+
 	SortLayoutObjectsOnPosition();
 
 	BOOL bThereIsTemplate = FALSE;
 	CString strName; CObject* pObj = NULL;
 	for (POSITION pos = m_Layouts.GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		m_Layouts.GetNextAssoc (pos, strName, pObj);
-		CLayout* pObjects = (CLayout*) pObj;
+		m_Layouts.GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
 
 		if (
 			pObjects->GetCount() <= pObjects->m_nCountAutoObjects &&
@@ -4132,12 +4132,12 @@ void CWoormDocMng::UnparseLayouts (ViewUnparser& ofile)
 			continue;
 		//----
 
-		ofile.UnparseTag	(T_PAGE_LAYOUT, FALSE);
-		ofile.UnparseString	(pObjects->m_strLayoutName, !pObjects->m_bInvertOrientation);
+		ofile.UnparseTag(T_PAGE_LAYOUT, FALSE);
+		ofile.UnparseString(pObjects->m_strLayoutName, !pObjects->m_bInvertOrientation);
 		if (pObjects->m_bInvertOrientation)
 			ofile.UnparseTag(T_INVERT_ORIENTATION);
 
-		ofile.UnparseBegin	();
+		ofile.UnparseBegin();
 
 		if (!m_Template.m_bIsSavingTemplate)
 			RemoveTemplateStyles();
@@ -4157,7 +4157,7 @@ void CWoormDocMng::UnparseLayouts (ViewUnparser& ofile)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::UnparseInheritTemplateObjects (ViewUnparser& ofile)
+void CWoormDocMng::UnparseInheritTemplateObjects(ViewUnparser& ofile)
 {
 	ASSERT(m_Template.m_bIsSavingTemplate && m_Template.m_pWoormTpl && m_pEditorManager);
 
@@ -4167,13 +4167,13 @@ void CWoormDocMng::UnparseInheritTemplateObjects (ViewUnparser& ofile)
 
 	for (POSITION pos = m_Template.m_pWoormTpl->m_Layouts.GetStartPosition(); pos != NULL; pObj = NULL, strName.Empty())
 	{
-		m_Template.m_pWoormTpl->m_Layouts.GetNextAssoc (pos, strName, pObj );
-		CLayout* pObjects = (CLayout*) pObj;
+		m_Template.m_pWoormTpl->m_Layouts.GetNextAssoc(pos, strName, pObj);
+		CLayout* pObjects = (CLayout*)pObj;
 		//----
 
-		ofile.UnparseTag	(T_PAGE_LAYOUT, FALSE);
-		ofile.UnparseString	(_T("_TPL_") + strName);
-		ofile.UnparseBegin	();
+		ofile.UnparseTag(T_PAGE_LAYOUT, FALSE);
+		ofile.UnparseString(_T("_TPL_") + strName);
+		ofile.UnparseBegin();
 
 		// write all elements
 		int ub = pObjects->GetUpperBound();
@@ -4186,13 +4186,13 @@ void CWoormDocMng::UnparseInheritTemplateObjects (ViewUnparser& ofile)
 				if (((Table*)pObj)->IsTemplateOverridden())
 					continue;
 
-				Table* pTable = new Table (*(Table*)pObj);
+				Table* pTable = new Table(*(Table*)pObj);
 				pTable->PurgeTemplateColumns();
 
 				pTable->RenameAlias(offset);
 
 				pObj = pTable;
-			} 
+			}
 			else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 			{
 				if (!((BaseRect*)pObj)->IsTemplate())
@@ -4211,12 +4211,12 @@ void CWoormDocMng::UnparseInheritTemplateObjects (ViewUnparser& ofile)
 
 // write document dimension
 //------------------------------------------------------------------------------
-void CWoormDocMng::UnparsePageInfo (ViewUnparser& ofile)
+void CWoormDocMng::UnparsePageInfo(ViewUnparser& ofile)
 {
 	if (!m_PageInfo.IsDefault())
 	{
-		m_PageInfo.	Unparse(ofile);
-		ofile.		UnparseCrLf();
+		m_PageInfo.Unparse(ofile);
+		ofile.UnparseCrLf();
 	}
 }
 
@@ -4229,7 +4229,7 @@ void CWoormDocMng::ShowValue()
 		m_pWoormIni->m_Show = WoormIni::VALUE;
 		m_pWoormIni->WriteWoormSettings();
 
-		FormatAll ();
+		FormatAll();
 	}
 }
 
@@ -4237,22 +4237,22 @@ void CWoormDocMng::ShowValue()
 void CWoormDocMng::FormatAll()
 {
 	int ub = GetObjects().GetUpperBound();
-	for (int i =0; i <= ub; i++)
+	for (int i = 0; i <= ub; i++)
 		(GetObjects()[i])->Format();
-		
-	Invalidate		();
-	UpdateWindow	();
+
+	Invalidate();
+	UpdateWindow();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnClearAll()
-{                                                                       
+{
 	// ask for Clear confirm (do non check for unattended status: this can be only in interactive mode!)
 	if (AfxMessageBox(_TB("Confirm delete ALL objects"), MB_YESNO) != IDYES) return;
 
 	// already empty; do nothing
 	if (!GetObjects().GetSize()) return;
-					 
+
 	// deselect all eventual multiple selected GetObjects()                            
 	if (m_pMultipleSelObj) OnDeselectAll();
 
@@ -4266,9 +4266,9 @@ void CWoormDocMng::OnClearAll()
 	}
 
 	m_pCurrentObj = NULL;
-	Invalidate ();
+	Invalidate();
 	m_pActiveRect->Clear();
-	UpdateWindow ();
+	UpdateWindow();
 }
 
 //------------------------------------------------------------------------------
@@ -4281,24 +4281,24 @@ void CWoormDocMng::MultipleSelect(CRect includeRect, BOOL bAll)
 
 	// create m_pMultipleSelObj if they don't already exist and show 
 	// align PaletteBar
-	if (!m_pMultipleSelObj) 
-		m_pMultipleSelObj = new SelectionRect (this);
-	
+	if (!m_pMultipleSelObj)
+		m_pMultipleSelObj = new SelectionRect(this);
+
 	// disable current object active enhancement during multiple selection status
 	m_pActiveRect->Clear();
-	
+
 	// Clear for recalculate included GetObjects()
 	m_pMultipleSelObj->ClearMultipleSelObjects();
 
 	// add all object included in multiple selection
-	CRect rect (includeRect);
+	CRect rect(includeRect);
 	for (int i = 0; i <= GetObjects().GetUpperBound(); i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
 		if (pObj->m_nLayer != m_nCurrentLayer)
 			continue;
 
-		CRect rectObj (pObj->GetBaseRect());
+		CRect rectObj(pObj->GetBaseRect());
 
 		// l'oggetto deve essere interamente incluso nel rettangolo di drag
 		rect.IntersectRect(&includeRect, rectObj);
@@ -4326,7 +4326,7 @@ void CWoormDocMng::MultipleSelect(CRect includeRect, BOOL bAll)
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnSelectAll()
 {
-	MultipleSelect(CRect(0,0,0,0), TRUE);
+	MultipleSelect(CRect(0, 0, 0, 0), TRUE);
 }
 
 //------------------------------------------------------------------------------
@@ -4344,7 +4344,7 @@ void CWoormDocMng::OnDeselectAll()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::ReadPrevPage (BOOL goto_first_page)
+void CWoormDocMng::ReadPrevPage(BOOL goto_first_page)
 {
 	// cannot process page moving if RDE is closed.
 	if (m_pRDEmanager->IsClosed() || m_pRDEmanager->IsFirstPage()) return;
@@ -4364,7 +4364,7 @@ void CWoormDocMng::ReadPrevPage (BOOL goto_first_page)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::ReadNextPage (BOOL bGotoLastPage)
+void CWoormDocMng::ReadNextPage(BOOL bGotoLastPage)
 {
 	// cannot process page moving if RDE is closed.
 	if (m_pRDEmanager->IsClosed() || m_pRDEmanager->IsLastPage()) return;
@@ -4384,7 +4384,7 @@ void CWoormDocMng::ReadNextPage (BOOL bGotoLastPage)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::ReadSelectedPage (int page, BOOL bUpdateWnd /* = TRUE*/)
+void CWoormDocMng::ReadSelectedPage(int page, BOOL bUpdateWnd /* = TRUE*/)
 {
 	// cannot process page moving if RDE is closed.
 	if (m_pRDEmanager->IsClosed()) return;
@@ -4410,35 +4410,35 @@ void CWoormDocMng::ReadPage(BOOL bUpdateWnd /* = TRUE*/)
 	{
 		switch (m_pRDEmanager->LookAhead())
 		{
-			case RDEManager::INTERNAL_ID:
-			{
-				bLoop = ReadDataFromId(bPrepared);
-				break;
-			}
+		case RDEManager::INTERNAL_ID:
+		{
+			bLoop = ReadDataFromId(bPrepared);
+			break;
+		}
 
-			case RDEManager::ID_COMMAND:
-			{
-				// manage also eof condition
-				bLoop = ReadCommandFromId();
-				break;
-			}
+		case RDEManager::ID_COMMAND:
+		{
+			// manage also eof condition
+			bLoop = ReadCommandFromId();
+			break;
+		}
 
-			case RDEManager::GEN_COMMAND:
-			{
-				bLoop = ReadGeneralCommand(bUpdateWnd); // FALSE if end page
-				break;
-			}
+		case RDEManager::GEN_COMMAND:
+		{
+			bLoop = ReadGeneralCommand(bUpdateWnd); // FALSE if end page
+			break;
+		}
 
-			default :
-			{
-				// probably there was same strange error (note : sharing error
-				// already notified by rde manager
-				if (m_pRDEmanager->GetRDEStatus() != RDEManager::SHARING_VIOLATION)
-					Message(_TB("Error during the ID reading or wrong command from engine."));
+		default:
+		{
+			// probably there was same strange error (note : sharing error
+			// already notified by rde manager
+			if (m_pRDEmanager->GetRDEStatus() != RDEManager::SHARING_VIOLATION)
+				Message(_TB("Error during the ID reading or wrong command from engine."));
 
-				bLoop = FALSE;
-				break;
-			}
+			bLoop = FALSE;
+			break;
+		}
 
 		}   // end switch LookAhead
 	}   // end while !eof
@@ -4458,7 +4458,7 @@ void CWoormDocMng::ReadPage(BOOL bUpdateWnd /* = TRUE*/)
 	//	}
 	//}
 
-				   
+
 	// repaint all areas invalidated from RDE readolumn
 	if (bUpdateWnd)
 	{
@@ -4473,11 +4473,11 @@ void CWoormDocMng::ReadPage(BOOL bUpdateWnd /* = TRUE*/)
 }
 
 //------------------------------------------------------------------------------
-int	CWoormDocMng::GetCurrentPage ()
+int	CWoormDocMng::GetCurrentPage()
 {
 	if (m_pRDEmanager->IsClosed())
 		return 0;
-	
+
 	return m_pRDEmanager->CurrPageRead();
 }
 
@@ -4547,133 +4547,133 @@ void CWoormDocMng::CheckEmailParameter(FieldRect* p)
 		{
 			switch (p->GetEmailParameter())
 			{
-				case FieldRect::EP_From:
-					m_Email.SetFrom(str);
-					break;
-				case FieldRect::EP_To:
-					m_Email.SetTo(str, p->GetAppendMailPart());
-					break;
-				case FieldRect::EP_To_by_Certified:
-					m_Email.SetTo(str, p->GetAppendMailPart(), CMapiMessage::TAG_CERTIFIED);
-					break;
-				case FieldRect::EP_Cc:
-					m_Email.SetCc(str, p->GetAppendMailPart());
-					break;
-				case FieldRect::EP_Bcc:
-					m_Email.SetBcc(str, p->GetAppendMailPart());
-					break;
-				case FieldRect::EP_Subject:
-					m_Email.SetSubject(str, p->GetAppendMailPart(), TRUE);
-					break;
-				case FieldRect::EP_Body:
-					m_Email.SetBody(str, p->GetAppendMailPart(), TRUE);
-					break;
-				case FieldRect::EP_Attachment:
-					AddEmailAttachments(str, _T(""), p->GetAppendMailPart());
-					break;
-				case FieldRect::EP_RecipientIdentity:
-					m_Email.SetIdentity(str);
-					break;
-				case FieldRect::EP_AttachmentReportName:
-					m_Email.SetAttachmentReportName(str);
-					break;
-				case FieldRect::EP_TemplateFileName:
-					m_Email.SetTemplateFileName(str);
-					break;
+			case FieldRect::EP_From:
+				m_Email.SetFrom(str);
+				break;
+			case FieldRect::EP_To:
+				m_Email.SetTo(str, p->GetAppendMailPart());
+				break;
+			case FieldRect::EP_To_by_Certified:
+				m_Email.SetTo(str, p->GetAppendMailPart(), CMapiMessage::TAG_CERTIFIED);
+				break;
+			case FieldRect::EP_Cc:
+				m_Email.SetCc(str, p->GetAppendMailPart());
+				break;
+			case FieldRect::EP_Bcc:
+				m_Email.SetBcc(str, p->GetAppendMailPart());
+				break;
+			case FieldRect::EP_Subject:
+				m_Email.SetSubject(str, p->GetAppendMailPart(), TRUE);
+				break;
+			case FieldRect::EP_Body:
+				m_Email.SetBody(str, p->GetAppendMailPart(), TRUE);
+				break;
+			case FieldRect::EP_Attachment:
+				AddEmailAttachments(str, _T(""), p->GetAppendMailPart());
+				break;
+			case FieldRect::EP_RecipientIdentity:
+				m_Email.SetIdentity(str);
+				break;
+			case FieldRect::EP_AttachmentReportName:
+				m_Email.SetAttachmentReportName(str);
+				break;
+			case FieldRect::EP_TemplateFileName:
+				m_Email.SetTemplateFileName(str);
+				break;
 
-				case FieldRect::EP_Fax:
+			case FieldRect::EP_Fax:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(str, L"");
+				else
 				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(str, L"");
-					else
-					{
-						CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-						pAddr->m_sFax = str;
-					}
-					break;
-				}
-				case FieldRect::EP_Addressee:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
-
 					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sAddressee = str;
-					break;
+					pAddr->m_sFax = str;
 				}
-				case FieldRect::EP_Address:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				break;
+			}
+			case FieldRect::EP_Addressee:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sAddress = str;
-					break;
-				}
-				case FieldRect::EP_City:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sAddressee = str;
+				break;
+			}
+			case FieldRect::EP_Address:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sCity = str;
-					break;
-				}
-				case FieldRect::EP_County:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sAddress = str;
+				break;
+			}
+			case FieldRect::EP_City:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sCounty = str;
-					break;
-				}
-				case FieldRect::EP_Country:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sCity = str;
+				break;
+			}
+			case FieldRect::EP_County:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sCountry = str;
-					break;
-				}
-				case FieldRect::EP_ZipCode:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sCounty = str;
+				break;
+			}
+			case FieldRect::EP_Country:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sZipCode = str;
-					break;
-				}
-				case FieldRect::EP_ISOCode:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sCountry = str;
+				break;
+			}
+			case FieldRect::EP_ZipCode:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_sISOCode = str;
-					break;
-				}
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sZipCode = str;
+				break;
+			}
+			case FieldRect::EP_ISOCode:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-				case FieldRect::EP_DeliveryType:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_sISOCode = str;
+				break;
+			}
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_deDeliveryType = _wtoi(str);
-					break;
-				}
-				case FieldRect::EP_PrintType:
-				{
-					if (m_Email.m_PostaLiteMsg.GetCount() == 0)
-						m_Email.m_PostaLiteMsg.Add(L"", L"");
+			case FieldRect::EP_DeliveryType:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
 
-					CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
-					pAddr->m_dePrintType = _wtoi(str);
-					break;
-				}
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_deDeliveryType = _wtoi(str);
+				break;
+			}
+			case FieldRect::EP_PrintType:
+			{
+				if (m_Email.m_PostaLiteMsg.GetCount() == 0)
+					m_Email.m_PostaLiteMsg.Add(L"", L"");
+
+				CPostaLiteAddress* pAddr = (CPostaLiteAddress*)m_Email.m_PostaLiteMsg.GetAt(m_Email.m_PostaLiteMsg.GetUpperBound());
+				pAddr->m_dePrintType = _wtoi(str);
+				break;
+			}
 			}
 		}
 	}
@@ -4683,7 +4683,7 @@ void CWoormDocMng::CheckEmailParameter(FieldRect* p)
 BOOL CWoormDocMng::ReadArrayFields(WORD wId)
 {
 	SymField* pAr = m_ViewSymbolTable.GetFieldByID(wId);
-	if (!pAr) 
+	if (!pAr)
 		return FALSE;
 	RDEData tmpRDEData;
 
@@ -4713,18 +4713,18 @@ BOOL CWoormDocMng::ReadDataFromId(BOOL& bPrepared)
 	for (int i = 0; i <= ub; i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
-		
+
 		if (pObj->AssignData(wId, m_pRDEmanager))
 		{
 			if (pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 			{
-				FieldRect* p = (FieldRect*) pObj;
+				FieldRect* p = (FieldRect*)pObj;
 
 				if (wId == SpecialReportField::ID.LAYOUT)
 				{
 					//Imposto il nome del Layout per la pagina (� sicuramente il primo campo)
 					m_dsCurrentLayoutView.Assign(*(p->GetRDEValue()));
-			
+
 					if (!bPrepared)
 					{
 						m_dsCurrentLayoutView.Assign(*(p->GetRDEValue()));
@@ -4792,29 +4792,29 @@ BOOL CWoormDocMng::ReadGeneralCommand(BOOL bUpdateWnd /*= FALSE*/)
 {
 	switch (m_pRDEmanager->GetCommand())
 	{
-		case RDEManager::END_OF_REPORT:
-			return FALSE;
+	case RDEManager::END_OF_REPORT:
+		return FALSE;
 
-		case RDEManager::NEW_PAGE:
-		{
-			m_pRDEmanager->SkipData();
-			return FALSE;
+	case RDEManager::NEW_PAGE:
+	{
+		m_pRDEmanager->SkipData();
+		return FALSE;
 
-//TODO LAYOUT - SPECIAL FIELDS
-		//case RDEManager::NEW_PAGE_CHANGE_LAYOUT:
+		//TODO LAYOUT - SPECIAL FIELDS
+				//case RDEManager::NEW_PAGE_CHANGE_LAYOUT:
 
-			//RDEData rdeData;
-			//if (m_pRDEmanager->GetDataValue(rdeData))
-			//{
-			//	m_dsCurrentLayout.Assign(rdeData);
-			//	
-			//	PrepareLayout();
-			//}
-			//return FALSE;
-		}
+					//RDEData rdeData;
+					//if (m_pRDEmanager->GetDataValue(rdeData))
+					//{
+					//	m_dsCurrentLayout.Assign(rdeData);
+					//	
+					//	PrepareLayout();
+					//}
+					//return FALSE;
+	}
 
-		case RDEManager::MESSAGE_BOX:
-		{                     
+	case RDEManager::MESSAGE_BOX:
+	{
 		if (bUpdateWnd)
 		{
 			UpdateViewSymbolTable();
@@ -4827,10 +4827,10 @@ BOOL CWoormDocMng::ReadGeneralCommand(BOOL bUpdateWnd /*= FALSE*/)
 				Invalidate();
 			UpdateWindow();
 		}
-			RDEData RDEdata;
-			m_pRDEmanager->GetDataValue(RDEdata);
+		RDEData RDEdata;
+		m_pRDEmanager->GetDataValue(RDEdata);
 
-		int nIcon = -1; 
+		int nIcon = -1;
 		CString message = (LPCTSTR)RDEdata.GetData();
 		if (message)
 		{
@@ -4854,14 +4854,14 @@ BOOL CWoormDocMng::ReadGeneralCommand(BOOL bUpdateWnd /*= FALSE*/)
 
 			Message(message, nIcon);
 		}
-			return TRUE;
-		}
+		return TRUE;
+	}
 	}
 	return TRUE;
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::PrepareRunEngine (const CString& strFile)
+BOOL CWoormDocMng::PrepareRunEngine(const CString& strFile)
 {
 	// Clear selection from active object
 	OnDeselectAll();
@@ -4890,9 +4890,9 @@ BOOL CWoormDocMng::PrepareRunEngine (const CString& strFile)
 		bOk = m_pEngine->Compile(error, line, FALSE);
 
 	//EndWaitCursor();
-	   
+
 	// Do not run report when compilation fails
-	if (!bOk) 
+	if (!bOk)
 	{
 		if (IsInUnattendedMode())
 		{
@@ -4909,7 +4909,7 @@ BOOL CWoormDocMng::PrepareRunEngine (const CString& strFile)
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::RunEngine (const CString& strFile)
+BOOL CWoormDocMng::RunEngine(const CString& strFile)
 {
 	if (!PrepareRunEngine(strFile))
 		return FALSE;
@@ -4929,10 +4929,10 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 	GetObjects().ClearDynamicAttributes();
 
 	CString strOrderBy;
-	if (m_pExportData && m_pExportData->IsTableItem() )
+	if (m_pExportData && m_pExportData->IsTableItem())
 	{
-		CExportTableItem* pTItem = m_pExportData->GetExportTableItem(); 
-		if (pTItem && pTItem->GetSizeSelectedColumns() >0)
+		CExportTableItem* pTItem = m_pExportData->GetExportTableItem();
+		if (pTItem && pTItem->GetSizeSelectedColumns() > 0)
 		{
 			Array* parOrderOnThisColumns = new Array();
 			for (int i = 0; i < pTItem->GetSizeSelectedColumns(); i++)
@@ -4966,7 +4966,7 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 	//AfxGetTBThread()->SetSuspendIdle(); spostata dopo le askdialog altrimenti non si disegna la toolbar dei radar 
 
 	BOOL bOk = m_pEngine->Run(m_pRDEmanager, NULL, &m_strDocumentFilter, m_bUsePrevAskInput, m_pWoormInfo, &m_ViewSymbolTable);
-	
+
 	//AfxGetTBThread()->SetSuspendIdle(FALSE);
 	if (this->GetWoormFrame(FALSE))
 	{
@@ -4984,16 +4984,16 @@ BOOL CWoormDocMng::RunEngine (const CString& strFile)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::CompileEngine (const CString& strFile)
+void CWoormDocMng::CompileEngine(const CString& strFile)
 {
 	CString error; long line;
 	BeginWaitCursor();
-	BOOL bOk = m_pEngine->Load(strFile) && m_pEngine->Compile(error,line);
+	BOOL bOk = m_pEngine->Load(strFile) && m_pEngine->Compile(error, line);
 	EndWaitCursor();
-	
-	if (bOk) 
-		Message(_TB("Compiling Ok."), 0,0,0, CMessages::MessageType::MSG_HINT);
-	else 
+
+	if (bOk)
+		Message(_TB("Compiling Ok."), 0, 0, 0, CMessages::MessageType::MSG_HINT);
+	else
 		Message(_TB("Compiling Errors at line:") + cwsprintf(L" %d", line), 0, 0, error, CMessages::MessageType::MSG_ERROR);
 }
 
@@ -5001,7 +5001,7 @@ void CWoormDocMng::CompileEngine (const CString& strFile)
 void CWoormDocMng::OnNewPage()
 {
 	// only first page must throw by m_pEngine (the other must be throw by user action)
-	if  (m_pRDEmanager->CurrPageRead() == -1)
+	if (m_pRDEmanager->CurrPageRead() == -1)
 		if (!m_ReadingPage.IsLocked())
 		{
 			// seek at first page for initializate current page
@@ -5010,10 +5010,10 @@ void CWoormDocMng::OnNewPage()
 
 			m_ReadingPage.Unlock();
 		}
-			
+
 	// show pages on statusbar indicator without use CmdUI interface
 	// for optimizing refresh velocity on background processing
-	SetPageIndicator ();
+	SetPageIndicator();
 
 	// aggiorna eventuali campi statici (special field)
 	UpdateSpecialField();
@@ -5032,22 +5032,22 @@ void CWoormDocMng::ExitCreatingMode()
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::ClipCursorToActiveView()
-{                                                 
+{
 	// free current active object to manage right cursor in m_Creating mode
 	m_pCurrentObj = NULL;
 	m_pActiveRect->Clear();
 
 	// constrain mouse movement to drawArea rectangle
 	CView* pView = GetFirstView();
-									
+
 	ASSERT_KINDOF(CWoormView, pView);
 	CRect rect;
 	pView->GetClientRect(rect);
 	pView->ClientToScreen(rect);
-	::ClipCursor (rect);
+	::ClipCursor(rect);
 
 	// set cursor in active view Top left corner 
-	SetCursorPos (rect.left, rect.top);
+	SetCursorPos(rect.left, rect.top);
 }
 
 //------------------------------------------------------------------------------
@@ -5066,7 +5066,7 @@ void CWoormDocMng::OnAddRepeater()
 	if (m_Creating == NONE)
 	{
 		m_Creating = REPEATER;
-		if (m_pEditorManager->AddRepeater (m_wCreatingId))
+		if (m_pEditorManager->AddRepeater(m_wCreatingId))
 			ClipCursorToActiveView();
 	}
 }
@@ -5087,11 +5087,11 @@ void CWoormDocMng::OnAddTextRect()
 {
 	if (m_Creating == NONE)
 	{
-//----------------------------
+		//----------------------------
 		{
 			CRSEditView* pEditView = dynamic_cast<CRSEditView*>(CreateSlaveView(RUNTIME_CLASS(CRSEditView)));
 			ASSERT_VALID(pEditView);
-			
+
 			BOOL bSaved = FALSE;
 			pEditView->LoadElement(&m_strTextField, &bSaved);
 			pEditView->DoEvent();
@@ -5102,7 +5102,7 @@ void CWoormDocMng::OnAddTextRect()
 			}
 		}
 	}
-//-----------------------------
+	//-----------------------------
 }
 
 //-------------------------------------------------------------------  -----------
@@ -5110,24 +5110,24 @@ void CWoormDocMng::OnAddGraphRect()
 {
 	if (m_Creating != NONE) return;
 
-	CTBNamespace aNamespace (GetNamespace());
+	CTBNamespace aNamespace(GetNamespace());
 	aNamespace.SetObjectName(_T(""));
 	aNamespace.SetType(CTBNamespace::IMAGE);
 
-	CTBExplorer aExplorer (CTBExplorer::OPEN, aNamespace);
+	CTBExplorer aExplorer(CTBExplorer::OPEN, aNamespace);
 	aExplorer.SetCanLink();
-	if (!aExplorer.Open ())
+	if (!aExplorer.Open())
 		return;
-	
-	CString strPath;	
+
+	CString strPath;
 	aExplorer.GetSelPathElement(strPath);
-	
+
 	if (!strPath.IsEmpty())
 		m_strBmpName = strPath;
-	
+
 	if (!m_strBmpName.IsEmpty())
 	{
-		if ( _tcsicmp( m_strBmpName.Right(3), _T("EMF") ) == 0 )
+		if (_tcsicmp(m_strBmpName.Right(3), _T("EMF")) == 0)
 			m_Creating = METAFILERECT;
 		else
 			m_Creating = GRAPHRECT;
@@ -5140,18 +5140,18 @@ void CWoormDocMng::OnAddFileRect()
 {
 	if (m_Creating != NONE) return;
 
-	CTBNamespace aNamespace (GetNamespace());
+	CTBNamespace aNamespace(GetNamespace());
 	aNamespace.SetObjectName(_T(""));
 	aNamespace.SetType(CTBNamespace::TEXT);
 
-	CTBExplorer aExplorer (CTBExplorer::OPEN, aNamespace);
+	CTBExplorer aExplorer(CTBExplorer::OPEN, aNamespace);
 	aExplorer.SetCanLink();
-	if (!aExplorer.Open ())
+	if (!aExplorer.Open())
 		return;
 
-	CString strPath;	
+	CString strPath;
 	aExplorer.GetSelPathElement(strPath);
-	
+
 	if (!strPath.IsEmpty())
 		m_strTxtName = strPath;
 
@@ -5164,14 +5164,14 @@ void CWoormDocMng::OnAddFileRect()
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::EditorManagerCreateField(int anID, TblRuleData* pTblRule /*= NULL*/)
 {
-	if (anID == ID_ADD_DATA_FIELD )
-		return m_pEditorManager->AddDataField   (m_wCreatingId, m_wCreatingColumnIds, pTblRule);
+	if (anID == ID_ADD_DATA_FIELD)
+		return m_pEditorManager->AddDataField(m_wCreatingId, m_wCreatingColumnIds, pTblRule);
 	if (anID == ID_ADD_EXP_FIELD)
-		return m_pEditorManager->AddExpField    (m_wCreatingId);
+		return m_pEditorManager->AddExpField(m_wCreatingId);
 	if (anID == ID_ADD_HIDDEN_FIELD)
-		return m_pEditorManager->AddHiddenField (m_wCreatingId);
+		return m_pEditorManager->AddHiddenField(m_wCreatingId);
 	if (anID == ID_ADD_VAR_FIELD)
-		return m_pEditorManager->AddVarField    (m_wCreatingId);
+		return m_pEditorManager->AddVarField(m_wCreatingId);
 	return FALSE;
 }
 
@@ -5183,12 +5183,12 @@ void CWoormDocMng::CreateField(int anID, TblRuleData* pTblRule /*= NULL*/)
 	// add object in table column
 	if (CurrentIsTable())
 	{
-		((Table*) m_pCurrentObj)->AddColumn(anID, pTblRule);
+		((Table*)m_pCurrentObj)->AddColumn(anID, pTblRule);
 		return;
 	}
 
 	// add free (not in table) object
-	if  (EditorManagerCreateField(anID, pTblRule))
+	if (EditorManagerCreateField(anID, pTblRule))
 	{
 		m_Creating = CWoormDocMng::ObjectType::FIELDRECT;
 		ClipCursorToActiveView();
@@ -5198,7 +5198,7 @@ void CWoormDocMng::CreateField(int anID, TblRuleData* pTblRule /*= NULL*/)
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnAddTable()
 {
-	if (/*!GetWoormFrame()->m_pObjectPropertyView->ClearPropertyGrid() ||*/ m_wCreatingColumnIds.GetCount()==0)
+	if (/*!GetWoormFrame()->m_pObjectPropertyView->ClearPropertyGrid() ||*/ m_wCreatingColumnIds.GetCount() == 0)
 		return;
 
 	if (m_Creating == NONE)
@@ -5210,7 +5210,7 @@ void CWoormDocMng::OnAddTable()
 		{
 			m_Creating = TABLE;
 			ClipCursorToActiveView();
-		
+
 		}
 	}
 }
@@ -5224,7 +5224,7 @@ void CWoormDocMng::OnAddTableFromDB()
 void CWoormDocMng::OnAddTableFromFuncExpr()
 {
 	ASSERT_VALID(GetWoormFrame()->m_pObjectPropertyView);
-	GetWoormFrame()->m_pObjectPropertyView->NewElement(TRUE,FALSE);
+	GetWoormFrame()->m_pObjectPropertyView->NewElement(TRUE, FALSE);
 }
 
 void CWoormDocMng::OnAddTableFromHiddens()
@@ -5282,12 +5282,12 @@ void CWoormDocMng::OnCreateObjFromHiddenField()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnMulSelAlign ()
+void CWoormDocMng::OnMulSelAlign()
 {
 	int     hID = IDC_H_NO_CHANGE;
 	int     vID = IDC_V_NO_CHANGE;
 
-	CMulAlignDlg dialog (hID, vID);
+	CMulAlignDlg dialog(hID, vID);
 	if (dialog.DoModal() != IDOK) return;
 
 	// move multiple selected GetObjects() if any
@@ -5300,13 +5300,13 @@ void CWoormDocMng::OnMulSelAlign ()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnMulSelSize ()
+void CWoormDocMng::OnMulSelSize()
 {
 	CSize   size(m_pMultipleSelObj->GetBaseRect().Size());
 	int     hID = IDC_H_NO_CHANGE;
 	int     vID = IDC_V_NO_CHANGE;
 
-	CMulSizeDlg dialog (hID, vID, size);
+	CMulSizeDlg dialog(hID, vID, size);
 	if (dialog.DoModal() != IDOK) return;
 
 	// move multiple selected GetObjects() in any
@@ -5338,8 +5338,8 @@ void CWoormDocMng::OnFontStyles()
 
 	if (dialog.DoModal() == IDOK)
 	{
-		Invalidate		();
-		UpdateWindow	();
+		Invalidate();
+		UpdateWindow();
 	}
 
 	if (!IsModified())
@@ -5362,7 +5362,7 @@ void CWoormDocMng::OnFormatStyles()
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnEnumsViewer()
 {
-	AfxRunEnumsViewer ();
+	AfxRunEnumsViewer();
 }
 
 //------------------------------------------------------------------------------
@@ -5389,7 +5389,7 @@ void CWoormDocMng::OnGeneralSettings()
 	//carico la property grid per i general settings passandogli un cnode fittizio
 	CNodeTree* pNode = new CNodeTree(NULL, CRSTreeCtrlImgIdx::NoGLyph, CNodeTree::ENodeType::NT_SETTINGS, m_pWoormIni, NULL);
 
-	if(GetWoormFrame() && GetWoormFrame()->m_pObjectPropertyView)
+	if (GetWoormFrame() && GetWoormFrame()->m_pObjectPropertyView)
 		GetWoormFrame()->m_pObjectPropertyView->LoadPropertyGrid(pNode);
 }
 
@@ -5432,17 +5432,17 @@ void CWoormDocMng::OnPageInfo()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::MoveColumn (BOOL left)
+void CWoormDocMng::MoveColumn(BOOL left)
 {
 	if (CurrentIsTable())
-		((Table*) m_pCurrentObj)->MoveColumn(left);
+		((Table*)m_pCurrentObj)->MoveColumn(left);
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnColAddTotal()
 {
 	if (CurrentIsTable())
-		((Table*) m_pCurrentObj)->AddColumnTotal();
+		((Table*)m_pCurrentObj)->AddColumnTotal();
 }
 
 //------------------------------------------------------------------------------
@@ -5458,13 +5458,13 @@ void CWoormDocMng::SetAppropriateCursor()
 	ASSERT(m_Creating <= ObjectType::NONE);
 	SetCursor(m_Creating);
 }
-  
+
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetCursor(int nCursor)
 {
 	ASSERT(nCursor < NUM_CURSORS);
 	// various GDI objects we need to draw
-	static const HCURSOR* NEAR rghCursors = LoadCursors();	
+	static const HCURSOR* NEAR rghCursors = LoadCursors();
 	::SetCursor(rghCursors[nCursor]);
 }
 //-----------------------------------------------------------------------------
@@ -5494,12 +5494,12 @@ BOOL CWoormDocMng::OnNewDocument()
 
 	m_pMessages = new CMessages();
 
-	if 
+	if
 		(
 			m_pCallerDocument &&
 			AfxGetDefaultSqlConnection()->GetDBMSType() == DBMS_ORACLE &&
 			m_pCallerDocument->m_pTbContext->GetUpdatableSqlSession()->IsTxnInProgress()
-		)
+			)
 	{
 		m_pTbContext = new CTBContext(*(m_pCallerDocument->m_pTbContext));
 	}
@@ -5508,10 +5508,10 @@ BOOL CWoormDocMng::OnNewDocument()
 
 	// create a new document if valid catalog was loaded
 	if (
-			!m_pTbContext ||
-			!m_pTbContext->IsValid() ||         
-			!ResourceAvailable() ||
-			!__super::OnNewDocument()
+		!m_pTbContext ||
+		!m_pTbContext->IsValid() ||
+		!ResourceAvailable() ||
+		!__super::OnNewDocument()
 		)
 	{
 		m_bAborted = TRUE;
@@ -5519,7 +5519,7 @@ BOOL CWoormDocMng::OnNewDocument()
 	}
 
 	m_pSqlConnection = m_pTbContext->GetSqlConnection();
-	
+
 	m_bAllowEditing = TRUE;
 	m_bIsNew = TRUE;
 
@@ -5528,25 +5528,25 @@ BOOL CWoormDocMng::OnNewDocument()
 	InitDocument();
 
 	GetWoormFrame()->CreateTools(this);
-	
+
 	return !m_bAborted;
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::ParseHeadData (ViewParser& lex)
+BOOL CWoormDocMng::ParseHeadData(ViewParser& lex)
 {
-	m_bNoWeb = lex.Matched (T_NO_WEB);
+	m_bNoWeb = lex.Matched(T_NO_WEB);
 
-	BOOL bInvalid = lex.Matched (T_INVALID);
+	BOOL bInvalid = lex.Matched(T_INVALID);
 	if (bInvalid)
 	{
 		lex.SetError(_TB("The report is invalid because its migration was completed with errors. We suggest to open report with editore and find comments which explain the problems met during the migration."));
 		return FALSE;
 	}
 
-	if	(
-			!lex.ParseTag (T_RELEASE) ||
-			!lex.ParseInt (m_nReportRelease)
+	if (
+		!lex.ParseTag(T_RELEASE) ||
+		!lex.ParseInt(m_nReportRelease)
 		)
 	{
 		lex.SetError(_TB("Report release missing!"));
@@ -5569,7 +5569,7 @@ BOOL CWoormDocMng::ParseHeadData (ViewParser& lex)
 		}
 
 	AddOnModule* pAddOnMod = AfxGetAddOnModule(GetNamespace());
-	
+
 	// se il namespace non mi arriva di tipo report vuol dire che � nuovo e non
 	// ha senso verificare gli OutDates che non ha ancora un modulo assegnato.
 	if (GetNamespace().GetType() == CTBNamespace::REPORT && pAddOnMod && pAddOnMod->m_XmlDescription.IsOutDated(GetNamespace(), m_nModifyRelease))
@@ -5581,86 +5581,86 @@ BOOL CWoormDocMng::ParseHeadData (ViewParser& lex)
 	m_bOnlyGraphInfo = FALSE;
 
 	int		nStyle = 0L;
-	CRect	rect(0,0,0,0);
+	CRect	rect(0, 0, 0, 0);
 	CWoormFrame* pFrame = dynamic_cast<CWoormFrame*>(GetFrame());
 	if (pFrame)
 		rect = pFrame->rectDefault;
-	
+
 	// exit from loop for any keyword different from
 	// RECT, MAXIMIZED, MINIMIZED, READ_ONLY, OnlyGraphInfo
 	for (;;)
 	{
 		switch (lex.LookAhead())
 		{
-			case T_RECT:
-			{
-				if (!lex.ParseRect(T_RECT, rect))
-					return FALSE;
+		case T_RECT:
+		{
+			if (!lex.ParseRect(T_RECT, rect))
+				return FALSE;
 
-				if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame)
-				{
-					pFrame->SetWindowPos
-						(NULL, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER);
-				}
-				break;
+			if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame)
+			{
+				pFrame->SetWindowPos
+				(NULL, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER);
 			}
-	
-			case T_MAXIMIZED:
-			{   
-				if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame && pFrame->IsWindowVisible())
-					pFrame->ShowWindow(SW_SHOWMAXIMIZED);
-				lex.SkipToken();
-				break;
-			}
+			break;
+		}
 
-			case T_MINIMIZED:
-			{
-				//@@ TODO non funziona il ripristino dello stato minimizzato
-				if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame && pFrame->IsWindowVisible())
-					pFrame->ShowWindow(SW_SHOWMINIMIZED);
-				lex.SkipToken();
-				break;
-			}
+		case T_MAXIMIZED:
+		{
+			if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame && pFrame->IsWindowVisible())
+				pFrame->ShowWindow(SW_SHOWMAXIMIZED);
+			lex.SkipToken();
+			break;
+		}
 
-			case T_ONLY_GRAPH:
-			{
-				m_bOnlyGraphInfo = TRUE;
-				lex.SkipToken();
-				break;
-			}
-			
-			case T_TEMPLATE:
-			{
-				lex.SkipToken();
-				if (lex.LookAhead(T_STR))
-				{
-					lex.ParseString(m_Template.m_sNsTemplate);
-				}
-				else
-					m_Template.m_bIsTemplate = TRUE;
-				break;
-			}
+		case T_MINIMIZED:
+		{
+			//@@ TODO non funziona il ripristino dello stato minimizzato
+			if ((m_pWoormInfo == NULL || !m_pWoormInfo->m_bHideFrame) && pFrame && pFrame->IsWindowVisible())
+				pFrame->ShowWindow(SW_SHOWMINIMIZED);
+			lex.SkipToken();
+			break;
+		}
 
-			default:
+		case T_ONLY_GRAPH:
+		{
+			m_bOnlyGraphInfo = TRUE;
+			lex.SkipToken();
+			break;
+		}
+
+		case T_TEMPLATE:
+		{
+			lex.SkipToken();
+			if (lex.LookAhead(T_STR))
 			{
-				return TRUE;
+				lex.ParseString(m_Template.m_sNsTemplate);
 			}
+			else
+				m_Template.m_bIsTemplate = TRUE;
+			break;
+		}
+
+		default:
+		{
+			return TRUE;
+		}
 		}
 	}
-}           
+}
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::ParseProperties (ViewParser& lex)
+BOOL CWoormDocMng::ParseProperties(ViewParser& lex)
 {
 	return m_pDocProperties->Parse(lex);
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::ParsePageInfo (ViewParser& lex)
+BOOL CWoormDocMng::ParsePageInfo(ViewParser& lex)
 {
 	BOOL bOk = m_PageInfo.Parse(lex);
 
-	if (bOk && m_pWoormInfo && !m_pWoormInfo->AreCopiesLocked() )
+	if (bOk && m_pWoormInfo && !m_pWoormInfo->AreCopiesLocked())
 		m_pWoormInfo->m_nCopies = m_PageInfo.GetCopies();
 
 	return bOk;
@@ -5675,13 +5675,13 @@ BOOL CWoormDocMng::ParsePageInfo (ViewParser& lex)
 // come se fosse CString ??? (sic.)
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetPathName(LPCTSTR lpszPathName, BOOL/* = TRUE*/)
-{ 
+{
 	if (lpszPathName == NULL)
 		return;
 	if (IsReportString())
 		return;
 
-	DocInvocationInfo* pInfo = (DocInvocationInfo*) lpszPathName;
+	DocInvocationInfo* pInfo = (DocInvocationInfo*)lpszPathName;
 
 	__super::SetPathName(pInfo->m_lpszFileName);
 }
@@ -5689,7 +5689,7 @@ void CWoormDocMng::SetPathName(LPCTSTR lpszPathName, BOOL/* = TRUE*/)
 //equivalente alla versione originale MFC di SetPathName
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetReportPathName(LPCTSTR lpszPathName, BOOL/* = TRUE*/)
-{ 
+{
 	if (lpszPathName == NULL)
 		return;
 	if (IsReportString())
@@ -5714,7 +5714,7 @@ CString CWoormDocMng::GetReportString() const
 
 //-----------------------------------------------------------------------------
 void CWoormDocMng::AttachCallerDocument(CBaseDocument* pCallerDoc)
-{ 
+{
 	if (!pCallerDoc)
 		return;
 
@@ -5743,7 +5743,7 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 	{
 		// costringe il parsing della parte relativa al motore dati che di default
 		// non viene fatta in apertura del documento
-		if (pWoormInfo->m_arErrors.GetCount() == 0) 
+		if (pWoormInfo->m_arErrors.GetCount() == 0)
 		{
 			if (!pDoc->ForceEngineParse())
 				pWoormInfo->m_arErrors.Add(_TB("Parse report engine failed"));
@@ -5753,7 +5753,7 @@ BOOL CWoormDocMng::ParseReport(CWoormInfo* pWoormInfo, CString strReport, BOOL b
 		//----
 		if (pWoormInfo->m_arErrors.GetCount() == 1 && pWoormInfo->m_arErrors.GetAt(0).IsEmpty())
 			pWoormInfo->m_arErrors.RemoveAll();
-			
+
 		if (pWoormInfo->m_arErrors.GetCount() == 0)
 		{
 			return TRUE;
@@ -5772,7 +5772,7 @@ void CWoormDocMng::OpenEditViewFullText(const CString& sErr, int line, int pos/*
 
 	if (!CanDoEditReport())
 	{
-		AfxMessageBox(sErr, MB_OK|MB_ICONERROR);
+		AfxMessageBox(sErr, MB_OK | MB_ICONERROR);
 
 		if (m_pWoormInfo && m_pWoormInfo->m_bHideFrame)
 			m_pWoormInfo->m_arErrors.Add(sErr);
@@ -5783,7 +5783,7 @@ void CWoormDocMng::OpenEditViewFullText(const CString& sErr, int line, int pos/*
 	}
 
 	int idmsg;
-	if (!sErr.IsEmpty() && (idmsg = AfxMessageBox(sErr, MB_ICONERROR| MB_CANCELTRYCONTINUE) != IDTRYAGAIN))
+	if (!sErr.IsEmpty() && (idmsg = AfxMessageBox(sErr, MB_ICONERROR | MB_CANCELTRYCONTINUE) != IDTRYAGAIN))
 	{
 		if (idmsg == IDCANCEL)
 		{
@@ -5811,7 +5811,7 @@ void CWoormDocMng::OpenEditViewFullText(const CString& sErr, int line, int pos/*
 		return;
 	}
 
-	CTBNamespace ns (CTBNamespace::REPORT);
+	CTBNamespace ns(CTBNamespace::REPORT);
 	ns = AfxGetPathFinder()->GetNamespaceFromPath(m_strPathName);
 	if (!ns.IsValid())
 	{
@@ -5848,7 +5848,7 @@ void CWoormDocMng::OpenEditViewFullText(const CString& sErr, int line, int pos/*
 // only graphic information for link report with saved info
 //
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)	
+BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 {
 	// Suppone che tutto vada a buon fine.
 	m_bAborted = FALSE;
@@ -5857,20 +5857,20 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 
 	// potrei non partire con NULL e ricevere le informazioni dal mondo
 	// esterno. per compatibilita con MFC devo passare attraverso un LPCTSTR
-	m_pDocInvocationInfo = (DocInvocationInfo*) pObject;
+	m_pDocInvocationInfo = (DocInvocationInfo*)pObject;
 
 	m_pExternalControllerInfo = m_pDocInvocationInfo ? m_pDocInvocationInfo->m_pControllerInfo : NULL;
-	
+
 	AttachWoormInfoFromDocInvocationInfo();
 
 	//Da scheduler il report in fase di impostazioni parametri viene impostato con il booleano hideFrame  = true, ma non deve essere
 	//messo in unattended mode (perche l'ask dialog deve essere mostrata all'operatore umano che sta impostando i parametri)
 	if (m_pWoormInfo && m_pWoormInfo->m_bHideFrame && !IsEditingParamsFromExternalController())
 		SetInUnattendedMode(TRUE);
-	
+
 	// associa il documento chiamante per l'eventuale risoluzione di funzioni di documento
 	AttachCallerDocument(m_pDocInvocationInfo->m_pAncestorDoc);
-		
+
 	// inizializza il namespace del documento
 	CTBNamespace aNs(CTBNamespace::REPORT);
 
@@ -5880,35 +5880,35 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 
 	if (aNs.IsValid())
 		GetNamespace() = aNs;
-		
+
 	// creo il contesto di lavoro
 	m_pMessages = new CMessages();
 
-	if 
-	(
-		m_pCallerDocument &&
-		AfxGetDefaultSqlConnection()->GetDBMSType() == DBMS_ORACLE &&
-		m_pCallerDocument->m_pTbContext->GetUpdatableSqlSession()->IsTxnInProgress()
-	)
+	if
+		(
+			m_pCallerDocument &&
+			AfxGetDefaultSqlConnection()->GetDBMSType() == DBMS_ORACLE &&
+			m_pCallerDocument->m_pTbContext->GetUpdatableSqlSession()->IsTxnInProgress()
+			)
 	{
 		m_pTbContext = new CTBContext(*(m_pCallerDocument->m_pTbContext));
 	}
 	else
 		m_pTbContext = new CTBContext(AfxGetDefaultSqlConnection(), this);	// da mettere come connection di documento
-	
+
 	if (m_pTbContext->GetSqlConnection()->GetUsePerformanceMng())
 	{
 		SqlPerformanceDlg* pPerformanceDlg = new SqlPerformanceDlg(m_pTbContext);
 	}
 
 	CString strDefDir;
-	CString strPath; 	
+	CString strPath;
 	int i = 0;
 
 	// establish if must use m_bPlayback name or normal wrm strFile document
 	CString strDocName;
 	CString strExt = _T(".") + FileExtension::RDE_EXT();
-	ViewParser lex(IsReportString() ? GetReportString() : _T(""), TRUE);		
+	ViewParser lex(IsReportString() ? GetReportString() : _T(""), TRUE);
 
 	// time consuming funtion. Use waiting cursor
 	BeginWaitCursor();
@@ -5918,9 +5918,9 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 	// create a new document only if datasource is valid and tables exists
 	// e ci sono abbastanza risorse GDI,Heap,System disponibili
 	if (
-			!m_pTbContext ||
-			!m_pTbContext->IsValid() ||         
-			!ResourceAvailable()
+		!m_pTbContext ||
+		!m_pTbContext->IsValid() ||
+		!ResourceAvailable()
 		)
 	{
 		m_bAborted = TRUE;
@@ -5931,7 +5931,7 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 	// implementation dependent initialization
 	InitDocument();
 
-	if (!IsReportString() && strExt.CompareNoCase(::GetExtension(strPathName)) == 0)    
+	if (!IsReportString() && strExt.CompareNoCase(::GetExtension(strPathName)) == 0)
 	{
 		if (!m_pRDEmanager->Open(strPathName, strDocName))
 		{
@@ -5947,8 +5947,8 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 		if (!IsReportString())
 		{
 			CString sT = ::GetExtension(strPathName);
-			strDocName = MakeName(strPathName, 
-				sT.CompareNoCase('.' + FileExtension::WRMT_EXT()) == 0  ? FileExtension::WRMT_EXT() : FileExtension::WRM_EXT());
+			strDocName = MakeName(strPathName,
+				sT.CompareNoCase('.' + FileExtension::WRMT_EXT()) == 0 ? FileExtension::WRMT_EXT() : FileExtension::WRM_EXT());
 			SetReportPathName(strDocName);
 		}
 	}
@@ -5957,21 +5957,21 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 		AfxGetExportSymbols()->AddFile(GetNamespace().ToUnparsedString(), EXP_SYMB_REPORT);
 
 	if (!IsReportString())
-		AfxGetSecurityInterface()->GetObjectGrant (GetInfoOSL());
+		AfxGetSecurityInterface()->GetObjectGrant(GetInfoOSL());
 
 	// Open diagnostic already maded by lexan
-	if	(
-			!IsReportString() &&
-			!lex.Open (strDocName, TRUE)
+	if (
+		!IsReportString() &&
+		!lex.Open(strDocName, TRUE)
 		)
 	{
 		m_bAborted = TRUE;
 		goto endopen;
 	}
-	if	(
-			!ParseHeadData	(lex)			||
-			!ParseProperties(lex)			||
-			!ParsePageInfo	(lex)			
+	if (
+		!ParseHeadData(lex) ||
+		!ParseProperties(lex) ||
+		!ParsePageInfo(lex)
 		)
 	{
 		m_bAborted = TRUE;
@@ -5983,10 +5983,10 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 	// NON ELIMINARE: inserito per compatibilita` con le versioni precedenti
 	// alla 3.5 di TaskBuilder: se non l'ha parsato prima (vedi ParseHeadData)
 	// ci prova ora. (Germano)
-	if (!m_bOnlyGraphInfo) 
+	if (!m_bOnlyGraphInfo)
 		m_bOnlyGraphInfo = lex.Matched(T_ONLY_GRAPH);
 
-	if (!m_pOptions->Parse (lex))
+	if (!m_pOptions->Parse(lex))
 	{
 		m_bAborted = TRUE;
 		goto endopen;
@@ -5997,17 +5997,17 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 		m_pOptions->LoadDefault(GetNamespace());
 
 	if (!m_pOptions->m_strDefaultPrinter.IsEmpty())
-		m_PageInfo.SetPreferredPrinter	(m_pOptions->m_strDefaultPrinter);
-	
-	m_bAborted = !ParseViewInfo (lex);
+		m_PageInfo.SetPreferredPrinter(m_pOptions->m_strDefaultPrinter);
+
+	m_bAborted = !ParseViewInfo(lex);
 
 	if (!m_bOnlyGraphInfo && m_bAllowEditing && !m_bAborted)
 	{
-		m_bAborted = !m_pEditorManager->Parse (lex);
+		m_bAborted = !m_pEditorManager->Parse(lex);
 		if (!m_bAborted)
 		{
 			CString sErr;
-			m_bAborted = !CheckTypeConsistence (sErr);
+			m_bAborted = !CheckTypeConsistence(sErr);
 			if (m_bAborted)
 				lex.SetError(sErr);
 		}
@@ -6033,7 +6033,7 @@ BOOL CWoormDocMng::OnOpenDocument(LPCTSTR pObject)
 	SetModifiedFlag(FALSE);     // start off with unmodified
 	m_pEditorManager->SetModifiedFlag(FALSE);
 
-endopen:	
+endopen:
 
 	EndWaitCursor();
 
@@ -6063,7 +6063,7 @@ endopen:
 			int nPos = lex.GetCurrentPos();
 			lex.ClearError();
 			lex.Abort();	//chiude il file
-			
+
 			OpenEditViewFullText(sErr, nLine, nPos);
 
 			return FALSE;
@@ -6074,7 +6074,7 @@ endopen:
 
 	if (!m_bAborted)
 		SetDecorateTitle();
-	
+
 	//m_bEngineRunning = TRUE;
 
 	return !m_bAborted;
@@ -6088,7 +6088,7 @@ BOOL CWoormDocMng::OpenReportTemplate(const CString& sNsTemplate)
 	GetNamespace() = CTBNamespace(CTBNamespace::REPORT, sNsTemplate);
 
 	CString strPathName = AfxGetPathFinder()->GetReportFullName(GetNamespace(), AfxGetLoginInfos()->m_strUserName);
-	if (! ::ExistFile(strPathName))
+	if (!::ExistFile(strPathName))
 	{
 		m_bAborted = TRUE;
 		return FALSE;
@@ -6104,7 +6104,7 @@ BOOL CWoormDocMng::LoadReportTemplate(const CString& strPathName)
 	// creo il contesto di lavoro
 	m_pMessages = new CMessages();
 
-	ViewParser lex(_T(""), TRUE);		
+	ViewParser lex(_T(""), TRUE);
 
 	// time consuming funtion. Use waiting cursor
 	BeginWaitCursor();
@@ -6113,16 +6113,16 @@ BOOL CWoormDocMng::LoadReportTemplate(const CString& strPathName)
 	InitDocument();
 
 	// Open diagnostic already maded by lexan
-	if	(!lex.Open (strPathName, TRUE))
+	if (!lex.Open(strPathName, TRUE))
 	{
 		m_bAborted = TRUE;
 		goto endopen;
 	}
 
-	if	(
-			!ParseHeadData	(lex)			||
-			!ParseProperties(lex)			||
-			!ParsePageInfo	(lex)			
+	if (
+		!ParseHeadData(lex) ||
+		!ParseProperties(lex) ||
+		!ParsePageInfo(lex)
 		)
 	{
 		m_bAborted = TRUE;
@@ -6131,10 +6131,10 @@ BOOL CWoormDocMng::LoadReportTemplate(const CString& strPathName)
 
 	m_FileFormat = lex.GetFileFormat();
 
-	if (!m_bOnlyGraphInfo) 
+	if (!m_bOnlyGraphInfo)
 		m_bOnlyGraphInfo = lex.Matched(T_ONLY_GRAPH);
 
-	if (!m_pOptions->Parse (lex))
+	if (!m_pOptions->Parse(lex))
 	{
 		m_bAborted = TRUE;
 		goto endopen;
@@ -6144,9 +6144,9 @@ BOOL CWoormDocMng::LoadReportTemplate(const CString& strPathName)
 	m_pOptions->LoadDefault(GetNamespace());
 
 	if (!m_pOptions->m_strDefaultPrinter.IsEmpty())
-		m_PageInfo.SetPreferredPrinter	(m_pOptions->m_strDefaultPrinter);
-	
-	m_bAborted = !ParseViewInfo (lex);
+		m_PageInfo.SetPreferredPrinter(m_pOptions->m_strDefaultPrinter);
+
+	m_bAborted = !ParseViewInfo(lex);
 
 	// si mette in condizione di oggetto corrente non selezionato
 	m_pCurrentObj = NULL;
@@ -6154,9 +6154,9 @@ BOOL CWoormDocMng::LoadReportTemplate(const CString& strPathName)
 
 	SetModifiedFlag(FALSE);     // start off with unmodified
 
-endopen:	
+endopen:
 	EndWaitCursor();
-	
+
 	if (m_bAborted)
 	{
 		if (IsInUnattendedMode())
@@ -6166,13 +6166,13 @@ endopen:
 		}
 
 		m_pExternalControllerInfo = NULL;
-	}	
-	
+	}
+
 	return !m_bAborted;
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnFrameCreated ()
+void CWoormDocMng::OnFrameCreated()
 {
 	if (m_pWoormInfo)
 	{
@@ -6197,26 +6197,35 @@ void CWoormDocMng::SetModifiedFlag(BOOL bModified /*= TRUE*/)
 }
 
 //-----------------------------------------------------------------------------
-::SqlSession*		CWoormDocMng::GetReadOnlySqlSession		() const { return m_pTbContext->GetReadOnlySqlSession(); }
-::SqlSession*		CWoormDocMng::GetUpdatableSqlSession	() const { return m_pTbContext->GetUpdatableSqlSession(); }
-::SqlConnection*	CWoormDocMng::GetSqlConnection			() const { return m_pSqlConnection; }
+::SqlSession*		CWoormDocMng::GetReadOnlySqlSession() const { return m_pTbContext->GetReadOnlySqlSession(); }
+::SqlSession*		CWoormDocMng::GetUpdatableSqlSession() const { return m_pTbContext->GetUpdatableSqlSession(); }
+::SqlConnection*	CWoormDocMng::GetSqlConnection() const { return m_pSqlConnection; }
 
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-	ASSERT_VALID(this);
-
-	if (m_bCallPostOpenWoormDoc && nID == ID_POST_OPEN_WOORM_DOC)
+	__try
 	{
-		m_bCallPostOpenWoormDoc = FALSE;
+		ASSERT_VALID(this);
 
-		OnPostOpenWoormDoc((BOOL)nCode);
+		if (m_bCallPostOpenWoormDoc && nID == ID_POST_OPEN_WOORM_DOC)
+		{
+			m_bCallPostOpenWoormDoc = FALSE;
+
+			OnPostOpenWoormDoc((BOOL)nCode);
+			return TRUE;
+		}
+
+		return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+	}
+	__except (s_pfExpFilter(GetExceptionInformation(), GetExceptionCode()))
+	{
+		AfxGetThreadContext()->SetInErrorState(); //to prevent another exception when destroying a document after an exception (search this boolean in code)		
 		return TRUE;
 	}
 
-	return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
-	
+
 //-----------------------------------------------------------------------------
 void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 {
@@ -6226,9 +6235,9 @@ void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 	ASSERT(pFrame->m_hWnd);
 	pFrame->CreateTools(this);
 
-	if (m_pWoormInfo->m_bHideFrame )
+	if (m_pWoormInfo->m_bHideFrame)
 		pFrame->ShowWindow(SW_HIDE);
-	else if (m_pWoormInfo->m_bIconized )
+	else if (m_pWoormInfo->m_bIconized)
 		pFrame->ShowWindow(SW_SHOWMINIMIZED);
 
 	// SendMessage e non Post per permettere di cancellare il pWormInfo
@@ -6239,7 +6248,7 @@ void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 		RunReport(FALSE, FALSE);
 	}
 	else if (m_bPlayback && m_pRDEmanager)
-	{                    
+	{
 		// force reading first page without checking current page that it is undefined
 		if (!m_pRDEmanager->IsClosed() || !m_ReadingPage.IsLocked())
 		{
@@ -6247,11 +6256,11 @@ void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 
 			// read real data
 			ReadPage();
-	
+
 			m_ReadingPage.Unlock();
 		}
 	}
-	
+
 	SetDecorateTitle();
 }
 
@@ -6273,15 +6282,15 @@ void CWoormDocMng::OnCloseDocument()
 		return;
 
 	CFunctionDescription fd;
-	if (	
-			AfxGetApplicationContext()->m_MacroRecorderStatus == CApplicationContext::RECORDING &&
-			AfxGetTbCmdManager()->GetFunctionDescription(_NS_WEB("TestManager.TBMacroRecorder.TBMacroRecorder.RecordCloseReport"), fd)
+	if (
+		AfxGetApplicationContext()->m_MacroRecorderStatus == CApplicationContext::RECORDING &&
+		AfxGetTbCmdManager()->GetFunctionDescription(_NS_WEB("TestManager.TBMacroRecorder.TBMacroRecorder.RecordCloseReport"), fd)
 		)
 	{
 		fd.SetParamValue(_T("woormDocHandle"), DataLng((long)this));
-		AfxGetTbCmdManager()->RunFunction(&fd, 0);		
+		AfxGetTbCmdManager()->RunFunction(&fd, 0);
 	}
-	
+
 	if (/*m_bAllowEditing &&*/ GetWoormFrame(FALSE))
 	{
 		ASSERT_VALID(GetWoormFrame());
@@ -6307,23 +6316,23 @@ BOOL CWoormDocMng::EngineStopped()
 	if (m_pEngine->IsRunning())
 	{
 		CString strTemp = GetPathName();
-		if (strTemp.IsEmpty()) 
+		if (strTemp.IsEmpty())
 			strTemp.LoadString(AFX_IDS_UNTITLED);
-			
-		if 	(
-				IsInUnattendedMode() ||
-				IsEditingParamsFromExternalController() ||
-				AfxMessageBox
-				(
-					cwsprintf(_TB("The report {0-%s} is still running. \r\nDo you want to abort it in order to exit?\r\n"), (LPCTSTR) strTemp), 
-					MB_YESNO | MB_ICONHAND
-				) == IDYES
+
+		if (
+			IsInUnattendedMode() ||
+			IsEditingParamsFromExternalController() ||
+			AfxMessageBox
+			(
+				cwsprintf(_TB("The report {0-%s} is still running. \r\nDo you want to abort it in order to exit?\r\n"), (LPCTSTR)strTemp),
+				MB_YESNO | MB_ICONHAND
+			) == IDYES
 			)
 			m_pEngine->Kill();
-		
+
 		// must return wihtout save to give time for m_pEngine real stop
 		return FALSE;
-	}      
+	}
 
 	// prova a chiudere eventuali report in cascata
 	return !m_bCloseChildReport || AfxGetTbCmdManager()->CloseWoormReport(m_pChildReport);
@@ -6385,7 +6394,7 @@ BOOL CWoormDocMng::PrepareFileNameForSave(CString& filepath)
 			return FALSE;
 		}
 		///*bOk = */SetFileAttributes(filepath, wAttributes & ~FILE_ATTRIBUTE_READONLY);
-		
+
 		bOk = BackupFile(filepath);
 	}
 
@@ -6409,10 +6418,10 @@ BOOL CWoormDocMng::PrepareFileNameForSave(CString& filepath)
 }
 
 BOOL CWoormDocMng::OnSaveDocument(LPCTSTR pszPathName)
-{                 
+{
 	// cannot save info if current strFile is a m_bPlayback of already saved info
 	if (m_bPlayback) return TRUE;
-	
+
 	CString strWrmFile = pszPathName;
 
 	if (!PrepareFileNameForSave(strWrmFile))
@@ -6420,12 +6429,12 @@ BOOL CWoormDocMng::OnSaveDocument(LPCTSTR pszPathName)
 
 	// make correct title and  start wait cursor
 	BeginWaitCursor();
- 
+
 	// save strFile name for unparse GraphRect and FileRect            
 	SetReportPathName(strWrmFile);
 
 	// save on wrm strFile without bakacup
-	UnparseWoorm (strWrmFile, m_bOnlyGraphInfo);	//OnSaveDocument
+	UnparseWoorm(strWrmFile, m_bOnlyGraphInfo);	//OnSaveDocument
 
 	if (!m_bOnlyGraphInfo && m_pOptions->MustCreateXsd())
 		GetSchema(strWrmFile);
@@ -6437,7 +6446,7 @@ BOOL CWoormDocMng::OnSaveDocument(LPCTSTR pszPathName)
 	//PrepareLayout();
 
 	Invalidate(TRUE);
-	UpdateWindow ();
+	UpdateWindow();
 
 	EndWaitCursor();
 
@@ -6461,7 +6470,7 @@ void CWoormDocMng::OnStop()
 		if (m_pEngine->IsPaused()) GetWoormFrame()->ShowPauseButton();
 
 		if (m_pEngine->IsRunning())
-			m_pEngine->ForceDetach ();
+			m_pEngine->ForceDetach();
 
 		// stop background process
 		m_pEngine->Terminate();
@@ -6482,7 +6491,7 @@ void CWoormDocMng::OnStop()
 //	(graphics info not needed)
 //------------------------------------------------------------------------------
 void CWoormDocMng::UnparseReport(const CString& strTmp)
-{            
+{
 	ViewUnparser ofile(strTmp);
 
 	m_pEditorManager->Unparse(ofile);
@@ -6496,18 +6505,18 @@ BOOL CWoormDocMng::ReplaceEmailParameters()
 	CString sMailBody = m_Email.m_sBody;
 
 	if (
-			m_Email.m_sTemplateFileName.IsEmpty() &&
-			m_pWoormInfo &&
-			!m_pWoormInfo->m_Email.m_sTemplateFileName.IsEmpty()
+		m_Email.m_sTemplateFileName.IsEmpty() &&
+		m_pWoormInfo &&
+		!m_pWoormInfo->m_Email.m_sTemplateFileName.IsEmpty()
 		)
-			m_Email.m_sTemplateFileName = m_pWoormInfo->m_Email.m_sTemplateFileName;
+		m_Email.m_sTemplateFileName = m_pWoormInfo->m_Email.m_sTemplateFileName;
 
 	if (!m_Email.m_sTemplateFileName.IsEmpty())
 	{
 		CString sTplBody;
-		if (::LoadTextFile(m_Email.m_sTemplateFileName, sTplBody)) 
+		if (::LoadTextFile(m_Email.m_sTemplateFileName, sTplBody))
 		{
-			m_Email.m_sBody = sTplBody;	
+			m_Email.m_sBody = sTplBody;
 			m_Email.m_sHtml.Empty();
 		}
 	}
@@ -6528,7 +6537,7 @@ BOOL CWoormDocMng::ReplaceEmailParameters()
 		if (nStartPos < 0) break;
 		int nEndPos = m_Email.m_sBody.Find(sNewTag, nStartPos + sNewTag.GetLength());
 		if (nEndPos < 0) break;
-		
+
 		CString sParamName = m_Email.m_sBody.Mid(nStartPos + sNewTag.GetLength(), nEndPos - nStartPos - sNewTag.GetLength());
 		int nParamNameLenght = sParamName.GetLength();
 		sParamName.Trim();
@@ -6566,7 +6575,7 @@ BOOL CWoormDocMng::ReplaceEmailParameters()
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::OnSendMailForIMago()
 {
-	if (!CanDoSendMail()) 
+	if (!CanDoSendMail())
 		return FALSE;
 	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
@@ -6623,16 +6632,16 @@ BOOL CWoormDocMng::OnSendMailForIMago()
 			return FALSE;
 		}
 
-		BOOL bOk =  AfxGetIMailConnector()->ShowEmailDlg
-												(
-													m_pCallerDocument,
-													m_Email,
-													&bAttachRDE, &bAttachPDF,
-													&bCompressAttach,
-													NULL, NULL,
-													&m_bDirectConcatPDF,
-													&bRequestDeliveryNotification, &bRequestReadNotification
-												);
+		BOOL bOk = AfxGetIMailConnector()->ShowEmailDlg
+		(
+			m_pCallerDocument,
+			m_Email,
+			&bAttachRDE, &bAttachPDF,
+			&bCompressAttach,
+			NULL, NULL,
+			&m_bDirectConcatPDF,
+			&bRequestDeliveryNotification, &bRequestReadNotification
+		);
 		if (!bOk && m_pWoormInfo)
 		{
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
@@ -6650,7 +6659,7 @@ void CWoormDocMng::OnSendMail()
 {
 	if (!CanDoSendMail())
 		return;
-	if (!AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
 		return;
@@ -6660,7 +6669,7 @@ void CWoormDocMng::OnSendMail()
 	{
 		if (AfxGetIMailConnector()->ShowSendPostaLiteDlg(m_pCallerDocument, m_Email))
 		{
-			DoSendMail (FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE);
+			DoSendMail(FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE);
 		}
 		return;
 	}
@@ -6682,100 +6691,100 @@ void CWoormDocMng::OnSendMail()
 
 	BOOL bAttachRDE = FALSE;
 	BOOL bAttachPDF = TRUE;
-	BOOL bCompressAttach= params->GetMailCompress();
+	BOOL bCompressAttach = params->GetMailCompress();
 	BOOL bRequestDeliveryNotification = params->GetRequestDeliveryNotifications();
 	BOOL bRequestReadNotification = params->GetRequestReadNotifications();
 
-	CString strLocal = ::_tsetlocale (LC_ALL, NULL);
+	CString strLocal = ::_tsetlocale(LC_ALL, NULL);
 
 	ReplaceEmailParameters();
 
-	if 
+	if
 		(
 			AfxGetIMailConnector()->ShowEmailDlg
-				(
-					m_pCallerDocument,	
-					m_Email, 
-					&bAttachRDE, &bAttachPDF, 
-					&bCompressAttach, 
-					NULL, NULL,
-					&m_bDirectConcatPDF,
-					&bRequestDeliveryNotification, &bRequestReadNotification
-				)
-		)
+			(
+				m_pCallerDocument,
+				m_Email,
+				&bAttachRDE, &bAttachPDF,
+				&bCompressAttach,
+				NULL, NULL,
+				&m_bDirectConcatPDF,
+				&bRequestDeliveryNotification, &bRequestReadNotification
+			)
+			)
 	{
-		DoSendMail (FALSE, bAttachRDE, bAttachPDF, bCompressAttach, bRequestDeliveryNotification, bRequestReadNotification, FALSE, FALSE);
+		DoSendMail(FALSE, bAttachRDE, bAttachPDF, bCompressAttach, bRequestDeliveryNotification, bRequestReadNotification, FALSE, FALSE);
 	}
 
-	CString strLocal2 = ::_tsetlocale (LC_ALL, NULL);
+	CString strLocal2 = ::_tsetlocale(LC_ALL, NULL);
 	if (strLocal != strLocal2)
 	{
-		::_tsetlocale (LC_ALL, strLocal);
+		::_tsetlocale(LC_ALL, strLocal);
 	}
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnSendPostaLite()
 {
-	if (!CanDoSendMail()) return ;
-	if (!AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (!CanDoSendMail()) return;
+	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
 		return;
 	}
-	if (!AfxGetIMailConnector()->IsPostaLiteEnabled()) return ;
+	if (!AfxGetIMailConnector()->IsPostaLiteEnabled()) return;
 
 	m_Email.SetUsePostaLite(TRUE);
 
-	if 
+	if
 		(
 			AfxGetIMailConnector()->ShowSendPostaLiteDlg
-				(
-					m_pCallerDocument,	
-					m_Email
-				)
-		)
+			(
+				m_pCallerDocument,
+				m_Email
+			)
+			)
 	{
-		DoSendMail (FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE);
+		DoSendMail(FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE);
 	}
 	m_Email.SetUsePostaLite(FALSE);
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::DoSendMail (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOOL bCompressAttach, BOOL bRequestDeliveryNotification, BOOL bRequestReadNotification, BOOL bAttachOther, BOOL bExpandMailTemplate/* = TRUE*/)
+BOOL CWoormDocMng::DoSendMail(BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOOL bCompressAttach, BOOL bRequestDeliveryNotification, BOOL bRequestReadNotification, BOOL bAttachOther, BOOL bExpandMailTemplate/* = TRUE*/)
 {
 	if (!CanDoSendMail()) return FALSE;
-	if (!AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
 
-		if (m_pWoormInfo) 
+		if (m_pWoormInfo)
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-		if (m_pOldWoormInfo) 
+		if (m_pOldWoormInfo)
 			m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 		return FALSE;
 	}
 
-	if (m_pWoormInfo) 
+	if (m_pWoormInfo)
 	{
 		m_pWoormInfo->m_bErrorOnSendEmail = FALSE;
-		if (m_pOldWoormInfo) 
+		if (m_pOldWoormInfo)
 			m_pOldWoormInfo->m_bErrorOnSendEmail = FALSE;
 	}
 	if (m_Email.m_To.GetSize() == 0 && m_Email.m_CC.GetSize() == 0 && m_Email.m_BCC.GetSize() == 0 && m_Email.m_PostaLiteMsg.GetCount() == 0)
 	{
-		if (m_pWoormInfo) 
+		if (m_pWoormInfo)
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-		if (m_pOldWoormInfo) 
+		if (m_pOldWoormInfo)
 			m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 		return FALSE;
 	}
 
-	if (!this->DoAttachReport (bAuto, bAttachRDE, bAttachPDF, bCompressAttach, bAttachOther))
+	if (!this->DoAttachReport(bAuto, bAttachRDE, bAttachPDF, bCompressAttach, bAttachOther))
 	{
-		if (m_pWoormInfo) 
+		if (m_pWoormInfo)
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-		if (m_pOldWoormInfo) 
+		if (m_pOldWoormInfo)
 			m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 		return FALSE;
 	}
@@ -6788,9 +6797,9 @@ BOOL CWoormDocMng::DoSendMail (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOO
 	{
 		if (bExpandMailTemplate && !ReplaceEmailParameters())
 		{
-			if (m_pWoormInfo) 
+			if (m_pWoormInfo)
 				m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-			if (m_pOldWoormInfo) 
+			if (m_pOldWoormInfo)
 				m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 			return FALSE;
 		}
@@ -6802,7 +6811,7 @@ BOOL CWoormDocMng::DoSendMail (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOO
 				if (m_pWoormInfo)
 				{
 					m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-					if (m_pOldWoormInfo) 
+					if (m_pOldWoormInfo)
 						m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 				}
 				if (m_pMessages)
@@ -6810,14 +6819,14 @@ BOOL CWoormDocMng::DoSendMail (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOO
 				return FALSE;
 			}
 		}
-		else 
+		else
 		{
-			if (!AfxGetIMailConnector()->SendMail (m_Email, &bRequestDeliveryNotification, &bRequestReadNotification, m_pMessages))
+			if (!AfxGetIMailConnector()->SendMail(m_Email, &bRequestDeliveryNotification, &bRequestReadNotification, m_pMessages))
 			{
 				if (m_pWoormInfo)
 				{
 					m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-					if (m_pOldWoormInfo) 
+					if (m_pOldWoormInfo)
 						m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 				}
 				if (m_pMessages)
@@ -6832,15 +6841,15 @@ BOOL CWoormDocMng::DoSendMail (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOO
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOOL bCompressAttach, BOOL bAttachOther/*= FALSE*/)
+BOOL CWoormDocMng::DoAttachReport(BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF, BOOL bCompressAttach, BOOL bAttachOther/*= FALSE*/)
 {
-	if (bAttachPDF && !AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (bAttachPDF && !AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
-		if (m_pWoormInfo) 
+		if (m_pWoormInfo)
 		{
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-			if (m_pOldWoormInfo) 
+			if (m_pOldWoormInfo)
 				m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 		}
 		return FALSE;
@@ -6848,11 +6857,11 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 
 	CWoormView* pView = GetWoormView();
 	ASSERT_VALID(pView);
-	if (!pView) 
+	if (!pView)
 	{
-		if (m_pWoormInfo) 
+		if (m_pWoormInfo)
 			m_pWoormInfo->m_bErrorOnSendEmail = TRUE;
-		if (m_pOldWoormInfo) 
+		if (m_pOldWoormInfo)
 			m_pOldWoormInfo->m_bErrorOnSendEmail = TRUE;
 		return FALSE;
 	}
@@ -6863,27 +6872,27 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 
 	if (bAttachPDF)
 	{
-		CString strTitle; 
+		CString strTitle;
 		if
 			(
-				m_pWoormInfo && 
+				m_pWoormInfo &&
 				m_pWoormInfo->m_arstrOutputFileNames.GetSize() >= m_pWoormInfo->m_nNextReport &&
 				m_pWoormInfo->m_nNextReport > 0
-			)
+				)
 		{
-			strFilePDF = m_pWoormInfo->m_arstrOutputFileNames[m_pWoormInfo->m_nNextReport-1];
-			strTitle = 	GetNameWithExtension(strFilePDF);
+			strFilePDF = m_pWoormInfo->m_arstrOutputFileNames[m_pWoormInfo->m_nNextReport - 1];
+			strTitle = GetNameWithExtension(strFilePDF);
 		}
 		else
 		{
 			strFilePDF = strFile;
-			strFilePDF.Replace( _T(".tmp"), _T(".") + FileExtension::PDF_EXT());
-			strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
-					?
-						::MakeName(::GetName(GetPathName()), FileExtension::PDF_EXT())	//an. 8130
-					:
-						::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	//m. 3519
-					; 
+			strFilePDF.Replace(_T(".tmp"), _T(".") + FileExtension::PDF_EXT());
+			strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
+				?
+				::MakeName(::GetName(GetPathName()), FileExtension::PDF_EXT())	//an. 8130
+				:
+				::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	//m. 3519
+				;
 		}
 
 		CMapiMessage mmSave;
@@ -6891,10 +6900,10 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 		{
 			mmSave = m_Email;
 		}
-		
-		if (!pView->OnPDFPrint(strFilePDF)) 
+
+		if (!pView->OnPDFPrint(strFilePDF))
 			return FALSE;
-		
+
 		if (!bAuto)
 		{
 			m_Email = mmSave;
@@ -6914,26 +6923,26 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 
 				strFilePDF = strUniqueFile;
 
-				strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
+				strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
 					?
-						GetNameWithExtension(strUniqueFile)
+					GetNameWithExtension(strUniqueFile)
 					:
-						::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	
-					; 
+					::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())
+					;
 			}
 			else
 			{
 				strUniqueFile = strFilePDF;
 
-				strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
+				strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
 					?
-						::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
+					::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
 					:
-						::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	
-					; 
+					::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())
+					;
 			}
 
-			ConcatPDFAttachments (strUniqueFile);
+			ConcatPDFAttachments(strUniqueFile);
 		}
 
 		// allego il file se:
@@ -6941,27 +6950,27 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 		// 2) questo � l'ultimo file in elaborazione 
 		//	  (per cui l'eventuale concatenazione � completa)
 		if (
-			!m_pWoormInfo 
+			!m_pWoormInfo
 			||
 			!(m_pWoormInfo->m_bConcatPDF || m_bDirectConcatPDF)
 			||
 			m_pWoormInfo->IsLastReport()
 			)
 		{
-			
-			strTitle = 
-				m_Email.m_sAttachmentReportName.IsEmpty() 
+
+			strTitle =
+				m_Email.m_sAttachmentReportName.IsEmpty()
 				?
 				(
 					m_pWoormInfo->m_arstrOutputFileNames.GetCount() == 0
 					?
-						::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
+					::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
 					:
-						::MakeName(m_pWoormInfo->m_arstrOutputFileNames[0], FileExtension::PDF_EXT())				
-				)
+					::MakeName(m_pWoormInfo->m_arstrOutputFileNames[0], FileExtension::PDF_EXT())
+					)
 				:
-				::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	
-			; 
+				::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())
+				;
 
 			if (bCompressAttach)
 			{
@@ -6973,7 +6982,7 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 			//if (m_pWoormInfo->m_ReportNames.GetSize() == 1)
 			//	m_Email.InsertTopAttachment(strFilePDF, strTitle); //si inserisce prima di eventuali allegati/subreport
 			//else
-				m_Email.SetAttachment(strFilePDF, strTitle, TRUE);
+			m_Email.SetAttachment(strFilePDF, strTitle, TRUE);
 		}
 	}
 	else if ((m_pWoormInfo && m_pWoormInfo->m_bConcatPDF) || m_bDirectConcatPDF)
@@ -6984,24 +6993,24 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 		{
 			strUniqueFile = m_pWoormInfo->m_arstrOutputFileNames[0];
 
-			strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
+			strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
 				?
-					GetNameWithExtension(strUniqueFile)
+				GetNameWithExtension(strUniqueFile)
 				:
-					::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	
-				; 
+				::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())
+				;
 		}
 		else
 		{
 			strUniqueFile = GetTempName(FileExtension::PDF_EXT()) + _T(".pdf");
 			strUniqueFile.Replace(_T(".tmp."), _T("."));
 
-			strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
+			strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
 				?
-					::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
+				::MakeName(GetNamespace().GetObjectName(), FileExtension::PDF_EXT())
 				:
-					::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())	
-				; 
+				::MakeName(m_Email.m_sAttachmentReportName, FileExtension::PDF_EXT())
+				;
 		}
 
 		BOOL bOkConcat = ConcatPDFAttachments(strUniqueFile);
@@ -7011,21 +7020,21 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 			m_Email.SetAttachment(strUniqueFile, strTitle, TRUE);
 		}
 	}
-	
+
 	if (bAttachOther)
 	{
 		CString strFileOther = strFile;
 
-		CExportInfo* pExp = (CExportInfo*) (m_pWoormInfo->m_arExportInfo.GetAt(m_pWoormInfo->m_nNextReport - 1));
+		CExportInfo* pExp = (CExportInfo*)(m_pWoormInfo->m_arExportInfo.GetAt(m_pWoormInfo->m_nNextReport - 1));
 
-		strFileOther.Replace(_T(".tmp"), _T(".") + pExp->GetExportFileExtension());	
+		strFileOther.Replace(_T(".tmp"), _T(".") + pExp->GetExportFileExtension());
 
-		CString strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
-				?
-					MakeName(GetNamespace().GetObjectName(), pExp->GetExportFileExtension())
-				:
-					::MakeName(m_Email.m_sAttachmentReportName, pExp->GetExportFileExtension())	
-				; 
+		CString strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
+			?
+			MakeName(GetNamespace().GetObjectName(), pExp->GetExportFileExtension())
+			:
+			::MakeName(m_Email.m_sAttachmentReportName, pExp->GetExportFileExtension())
+			;
 
 		int idx = m_pWoormInfo->m_nNextReport - 1;
 		if (idx > m_pWoormInfo->m_arstrOutputFileNames.GetUpperBound())
@@ -7049,17 +7058,17 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 	if (bAttachRDE)
 	{
 		CString strFileRDE = strFile;
-		strFileRDE.Replace(_T(".tmp"), _T(".") + FileExtension::RDE_EXT());	
+		strFileRDE.Replace(_T(".tmp"), _T(".") + FileExtension::RDE_EXT());
 
-		UnparseWoorm (strFileRDE, TRUE);	//Attachment RDE
-		m_pRDEmanager->SaveRDEFile (strFileRDE);
+		UnparseWoorm(strFileRDE, TRUE);	//Attachment RDE
+		m_pRDEmanager->SaveRDEFile(strFileRDE);
 
-		CString strTitle = m_Email.m_sAttachmentReportName.IsEmpty() 
-				?
-					MakeName(GetNamespace().GetObjectName(), FileExtension::RDE_EXT()) 
-				:
-					::MakeName(m_Email.m_sAttachmentReportName, FileExtension::RDE_EXT())	
-				; 
+		CString strTitle = m_Email.m_sAttachmentReportName.IsEmpty()
+			?
+			MakeName(GetNamespace().GetObjectName(), FileExtension::RDE_EXT())
+			:
+			::MakeName(m_Email.m_sAttachmentReportName, FileExtension::RDE_EXT())
+			;
 
 		if (bCompressAttach)
 		{
@@ -7070,14 +7079,14 @@ BOOL CWoormDocMng::DoAttachReport (BOOL bAuto, BOOL bAttachRDE, BOOL bAttachPDF,
 
 		m_Email.SetAttachment(strFileRDE, strTitle, TRUE);
 	}
-		
+
 	return TRUE;
 }
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::DoPDFOutput(CString* psFileName/* = NULL*/)
 {
-	if (!AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
 		return FALSE;
@@ -7091,14 +7100,14 @@ BOOL CWoormDocMng::DoPDFOutput(CString* psFileName/* = NULL*/)
 		for (int i = m_pWoormInfo->m_arstrOutputFileNames.GetSize(); i < m_pWoormInfo->m_ReportNames.GetSize(); i++)
 		{
 			CString strFile(GetTempName(cwsprintf(FileExtension::PDF_EXT())));
-			m_pWoormInfo->m_arstrOutputFileNames.Add (strFile);
+			m_pWoormInfo->m_arstrOutputFileNames.Add(strFile);
 		}
 	}
 
 	//----
-	CWoormView* pView = GetWoormView();	
+	CWoormView* pView = GetWoormView();
 	ASSERT_VALID(pView);
-	if (!pView) 
+	if (!pView)
 	{
 		return FALSE;
 	}
@@ -7106,7 +7115,7 @@ BOOL CWoormDocMng::DoPDFOutput(CString* psFileName/* = NULL*/)
 
 	CString strFileName;
 
-	if (m_pWoormInfo->m_ReportNames.GetSize() != m_pWoormInfo->m_arstrOutputFileNames.GetSize()) 
+	if (m_pWoormInfo->m_ReportNames.GetSize() != m_pWoormInfo->m_arstrOutputFileNames.GetSize())
 	{
 		if (psFileName)
 		{
@@ -7129,16 +7138,16 @@ BOOL CWoormDocMng::DoPDFOutput(CString* psFileName/* = NULL*/)
 	}
 
 	strFileName = AppendExtensionIfNeeded(strFileName, _T("pdf"));
-		
-	bResult = pView->OnPDFPrint (strFileName);
-		
-	if (bResult) 
+
+	bResult = pView->OnPDFPrint(strFileName);
+
+	if (bResult)
 	{
 		if (psFileName) *psFileName = strFileName;
 
-		ConcatPDFAndShowWhenRequired(psFileName);	
+		ConcatPDFAndShowWhenRequired(psFileName);
 	}
-	
+
 	return bResult;
 }
 
@@ -7147,7 +7156,7 @@ BOOL CWoormDocMng::PostaLiteCheckFile(CMapiMessage* pEmail)
 {
 	if (pEmail->m_Attachments.GetSize() == 0)
 		return FALSE;
-	CString sFile ( pEmail->m_Attachments[pEmail->m_Attachments.GetUpperBound()] );
+	CString sFile(pEmail->m_Attachments[pEmail->m_Attachments.GetUpperBound()]);
 	if (sFile.Right(4).CompareNoCase(_T(".pdf")))
 		return FALSE;
 	//----
@@ -7186,19 +7195,19 @@ BOOL CWoormDocMng::DoPostaLiteOutput(CMapiMessage* pEmail)
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::DoRDEOutput()
 {
-	CString strFileRDE = AppendExtensionIfNeeded (m_pWoormInfo->m_arstrOutputFileNames.GetAt(m_pWoormInfo->m_nNextReport - 1), _T("rde"));
-	
+	CString strFileRDE = AppendExtensionIfNeeded(m_pWoormInfo->m_arstrOutputFileNames.GetAt(m_pWoormInfo->m_nNextReport - 1), _T("rde"));
+
 	// save with only graphics info but leave current wrm as is
-	UnparseWoorm (strFileRDE, TRUE);	//RDE
+	UnparseWoorm(strFileRDE, TRUE);	//RDE
 	// add data info to parsed woorm report (error recovered by RDEManager)
 	return m_pRDEmanager->SaveRDEFile(strFileRDE);
 }
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::DoExportOutput()
-{	
-	CExportInfo* pExp = (CExportInfo*) ( m_pWoormInfo->m_arExportInfo.GetAt (m_pWoormInfo->m_nNextReport - 1) );
-	if (!pExp) 
+{
+	CExportInfo* pExp = (CExportInfo*)(m_pWoormInfo->m_arExportInfo.GetAt(m_pWoormInfo->m_nNextReport - 1));
+	if (!pExp)
 		return FALSE;
 
 	CArray<CExportTableItem*> m_parTables;
@@ -7210,25 +7219,25 @@ BOOL CWoormDocMng::DoExportOutput()
 
 	m_pExportData->m_ExportInfo = *pExp; //copio l'oggetto
 	//sempre tutte le pagine
-	m_pExportData->m_ExportInfo.SetPagesNum ((USHORT)(m_pRDEmanager->LastPage() + 1));
-	m_pExportData->m_ExportInfo.SetCurrentPage (1);
-	m_pExportData->m_ExportInfo.SetPageRange (1, m_pRDEmanager->LastPage() + 1 );
-	
+	m_pExportData->m_ExportInfo.SetPagesNum((USHORT)(m_pRDEmanager->LastPage() + 1));
+	m_pExportData->m_ExportInfo.SetCurrentPage(1);
+	m_pExportData->m_ExportInfo.SetPageRange(1, m_pRDEmanager->LastPage() + 1);
+
 	CString strFilename;
 	if (m_pWoormInfo->m_arstrOutputFileNames.GetUpperBound() >= m_pWoormInfo->m_nNextReport - 1)
 	{
 		CString str = m_pWoormInfo->m_arstrOutputFileNames.GetAt(m_pWoormInfo->m_nNextReport - 1);
 		if (str.Find('.') < 0)
 			strFilename = AppendExtensionIfNeeded(str, pExp->GetExportFileExtension());
-		else 
+		else
 			strFilename = str;
 	}
 	else
-		strFilename = MakeName(_T("Att"), pExp->GetExportFileExtension()) ;
+		strFilename = MakeName(_T("Att"), pExp->GetExportFileExtension());
 
 	AfxGetTBThread()->SetSuspendIdle();
 
-	BOOL ok = m_pExportData->RunExport (strFilename, TRUE);
+	BOOL ok = m_pExportData->RunExport(strFilename, TRUE);
 
 	AfxGetTBThread()->SetSuspendIdle(FALSE);
 
@@ -7245,35 +7254,35 @@ void CWoormDocMng::ConcatPDFAndShowWhenRequired(CString* psFileName/* = NULL*/)
 	{
 		CString strUniqueFile = m_pWoormInfo->m_arstrOutputFileNames[0];
 
-		ConcatPDFAttachments (strUniqueFile);
+		ConcatPDFAttachments(strUniqueFile);
 
 		// se devo concatenare i PDF in un unico file, ogni file PDF generato viene "fuso"
 		// con quello in testa alla lista m_arstrPDFFiles
 		CString strCurrentFile = m_pWoormInfo->m_arstrOutputFileNames[m_pWoormInfo->m_nNextReport - 1];
 		if (strCurrentFile.CompareNoCase(strUniqueFile))
 		{
-			ConcatPDF (strCurrentFile, strUniqueFile);
+			ConcatPDF(strCurrentFile, strUniqueFile);
 		}
 
-		if (m_pWoormInfo->IsLastReport()) 
+		if (m_pWoormInfo->IsLastReport())
 			strPreviewFile = strUniqueFile;
 	}
-	else 
+	else
 	{
 		strPreviewFile = psFileName ? *psFileName : m_pWoormInfo->m_arstrOutputFileNames[m_pWoormInfo->m_nNextReport - 1];
 	}
 
 	if (
-			m_pWoormInfo->m_bPDFOutputPreview && 
-			!strPreviewFile.IsEmpty() &&
-			ExistFile(strPreviewFile)
+		m_pWoormInfo->m_bPDFOutputPreview &&
+		!strPreviewFile.IsEmpty() &&
+		ExistFile(strPreviewFile)
 		)
 	{
 		HINSTANCE hInst = ::TBShellExecute(strPreviewFile);
 		if (hInst <= (HINSTANCE)32)
-			Message (ShellExecuteErrMsg((int)hInst));
+			Message(ShellExecuteErrMsg((int)hInst));
 	}
-	
+
 	if (psFileName)	*psFileName = strPreviewFile;
 }
 
@@ -7291,7 +7300,7 @@ BOOL CWoormDocMng::ConcatPDF(const CString strOrigin, const CString strDestinati
 
 	if (!ExistFile(strDestination))
 	{
-		RenameFilePath (strOrigin, strDestination);
+		RenameFilePath(strOrigin, strDestination);
 		return TRUE;
 	}
 
@@ -7311,7 +7320,7 @@ BOOL CWoormDocMng::ConcatPDF(const CString strOrigin, const CString strDestinati
 		if (params->GetCryptFile())
 		{
 			pwd = params->GetPassword();
-			if (pwd.IsEmpty()) 
+			if (pwd.IsEmpty())
 				pwd = DEFAULT_CRYPT_PDF_PASSWORD;
 		}
 		::ConcatPdf(ar, strDestination, pwd);
@@ -7321,9 +7330,9 @@ BOOL CWoormDocMng::ConcatPDF(const CString strOrigin, const CString strDestinati
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::ConcatPDFAttachments (const CString strDestination)
+BOOL CWoormDocMng::ConcatPDFAttachments(const CString strDestination)
 {
-	for (int i=0; i < m_Email.m_Attachments.GetSize(); i++)
+	for (int i = 0; i < m_Email.m_Attachments.GetSize(); i++)
 	{
 		CString sAtt = m_Email.m_Attachments.GetAt(i);
 
@@ -7333,7 +7342,7 @@ BOOL CWoormDocMng::ConcatPDFAttachments (const CString strDestination)
 				continue;
 
 			if (ConcatPDF(sAtt, strDestination))
-			{ 
+			{
 				m_Email.m_Attachments.RemoveAt(i);
 				if (i < m_Email.m_AttachmentTitles.GetSize())
 					m_Email.m_AttachmentTitles.RemoveAt(i);
@@ -7348,21 +7357,21 @@ BOOL CWoormDocMng::ConcatPDFAttachments (const CString strDestination)
 void CWoormDocMng::OnFileSavePDF()
 {
 	if (!CanDoFileSavePDF()) return;
-	if (!AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT))
+	if (!AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT))
 	{
 		AfxMessageBox(LICENZE_TERMINATE);
 		return;
 	}
 
-	CString strExt		= FileExtension::PDF_EXT();
-	CString	strAny		= FileExtension::ANY_PDF();
-	CString	strFilter	= FileExtension::PDF_FILTER();
+	CString strExt = FileExtension::PDF_EXT();
+	CString	strAny = FileExtension::ANY_PDF();
+	CString	strFilter = FileExtension::PDF_FILTER();
 
 	CWoormFileDialogPDF dialog(FALSE, strExt, strAny, WRITEFLAGS, strFilter);
 	if ((dialog.DoModal() == IDOK))
 	{
 		CWoormView* pView = GetWoormView();
-		if (!pView) 
+		if (!pView)
 			return;
 
 		// force PDF extention for security
@@ -7376,14 +7385,14 @@ void CWoormDocMng::OnFileSavePDF()
 
 		if (m_bDirectConcatPDF)
 		{
-			ConcatPDFAttachments (strFile);
+			ConcatPDFAttachments(strFile);
 		}
 
 		if (dialog.m_bPreview)
 		{
 			HINSTANCE hInst = ::TBShellExecute(strFile);
 			if (hInst <= (HINSTANCE)32)
-				Message (ShellExecuteErrMsg((int)hInst));
+				Message(ShellExecuteErrMsg((int)hInst));
 		}
 		if (dialog.m_bCompress)
 		{
@@ -7391,21 +7400,21 @@ void CWoormDocMng::OnFileSavePDF()
 		}
 	}
 }
-	
+
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::ArchivePdfFormat(BOOL bShowMsg /*=TRUE*/)
 {
 	if (!AfxGetOleDbMng()->EasyAttachmentEnable())
 		return FALSE;
-	
+
 	CWoormView* pView = GetWoormView();
-	if (!pView) 
+	if (!pView)
 		return TRUE;
 
 	pView->BeginWaitCursor();
-	
-	CString strConcatFile;	
-	CString strAlternativeName;	
+
+	CString strConcatFile;
+	CString strAlternativeName;
 	CString fileName;
 	// m_pWoormInfo->m_bUseOutputFileName == TRUE se � stata utilizzata la funzione di WOORM ReportSaveAsAndAttach
 	// in questo caso il report � gi� stato salvato in pdf
@@ -7484,17 +7493,17 @@ void CWoormDocMng::OnArchivePdfFormat()
 {
 	if (!AfxGetOleDbMng()->EasyAttachmentEnable())
 		return;
-	
+
 	CWoormView* pView = GetWoormView();
-	if (!pView) 
+	if (!pView)
 		return;
 
 	BOOL oldDirectConcatPDF = m_bDirectConcatPDF;
-	BOOL oldConcatPDF =  (m_pWoormInfo) ? m_pWoormInfo->m_bConcatPDF : FALSE;
+	BOOL oldConcatPDF = (m_pWoormInfo) ? m_pWoormInfo->m_bConcatPDF : FALSE;
 	if (m_pWoormInfo)
-		m_pWoormInfo->m_bConcatPDF = TRUE;	
-	m_bDirectConcatPDF = TRUE;		
-	
+		m_pWoormInfo->m_bConcatPDF = TRUE;
+	m_bDirectConcatPDF = TRUE;
+
 	BOOL oldArchivePdfFormat = m_pWoormInfo ? m_pWoormInfo->m_bArchivePdfFormat : FALSE;
 	if (m_pWoormInfo && !m_pWoormInfo->m_bArchivePdfFormat)
 	{
@@ -7507,7 +7516,7 @@ void CWoormDocMng::OnArchivePdfFormat()
 		OnRun();
 	else
 		ArchivePdfFormat();
-	
+
 	if (m_pWoormInfo)
 	{
 		m_pWoormInfo->m_bArchivePdfFormat = oldArchivePdfFormat;
@@ -7519,7 +7528,7 @@ void CWoormDocMng::OnArchivePdfFormat()
 }
 
 //---------------------------------------------------------
-void CWoormDocMng::OnArchiveWithChilds ()
+void CWoormDocMng::OnArchiveWithChilds()
 {
 	m_bMustReRun = TRUE;
 
@@ -7565,14 +7574,14 @@ BOOL CWoormDocMng::GeneratePapery(BOOL bShowMsg /*=TRUE*/)
 	::ArchiveResult archRes = AfxGetIDMSRepositoryManager()->GeneratePapery(fileName, m_dsEABarCode.m_strBarcodeValue, m_pCallerDocument, strResult);
 	pView->EndWaitCursor();
 	if (!strResult.IsEmpty() && bShowMsg && !m_pCallerDocument->IsInUnattendedMode())
-		Message(strResult, MB_OK || (archRes == ::ArchiveResult::TerminatedWithError) ? MB_ICONERROR : MB_ICONINFORMATION, 0U, (LPCTSTR)0, (archRes == ::ArchiveResult::TerminatedWithError) ? CMessages::MSG_ERROR  : CMessages::MSG_HINT);
+		Message(strResult, MB_OK || (archRes == ::ArchiveResult::TerminatedWithError) ? MB_ICONERROR : MB_ICONINFORMATION, 0U, (LPCTSTR)0, (archRes == ::ArchiveResult::TerminatedWithError) ? CMessages::MSG_ERROR : CMessages::MSG_HINT);
 
-	return archRes!= ::ArchiveResult::TerminatedWithError;
+	return archRes != ::ArchiveResult::TerminatedWithError;
 };
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnExportData (UINT nID)
-{               
+void CWoormDocMng::OnExportData(UINT nID)
+{
 	if (nID == ID_EXPORT_OPENOFFICE_ODS)
 		m_pExportData->m_ExportInfo.SetExportType(TypeOfExport::EXPORT_OPENOFFICE_ODS_TYPE);
 	else if (nID == ID_EXPORT_EXCELNET)
@@ -7633,11 +7642,11 @@ void CWoormDocMng::OnExportData (UINT nID)
 		return;
 	}
 
-	CExportInfoDlg aDlg ( m_pExportData->m_ExportInfo, ! (m_pExportData->IsTableItem()),NULL);
+	CExportInfoDlg aDlg(m_pExportData->m_ExportInfo, !(m_pExportData->IsTableItem()), NULL);
 
-	if (aDlg.DoModal () == IDOK)
+	if (aDlg.DoModal() == IDOK)
 	{
-		m_pExportData->RunExport ();
+		m_pExportData->RunExport();
 	}
 }
 
@@ -7679,16 +7688,16 @@ void CWoormDocMng::OnFindWord()
 	CTBToolBar* pToolBar = pTabbedBar->FindToolBar(ID_TOOLBAR_FIND_EDITBOX);
 	if (!pToolBar) return;
 	CString strFindWord = pToolBar->GetTextContent(ID_TOOLBAR_FIND_EDITBOX);
-	if (strFindWord.IsEmpty())	
+	if (strFindWord.IsEmpty())
 	{
 		FindWordClear();
 		return;
 	}
-	FindWord (strFindWord, m_findWordInfo.m_bIsDown);
+	FindWord(strFindWord, m_findWordInfo.m_bIsDown);
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::IsFindWordOnSingleColumn ()
+BOOL CWoormDocMng::IsFindWordOnSingleColumn()
 {
 	CExportTableItem* pItem = m_pExportData->GetExportTableItem();
 	if (!pItem)
@@ -7698,9 +7707,9 @@ BOOL CWoormDocMng::IsFindWordOnSingleColumn ()
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
+BOOL CWoormDocMng::FindWord(CString strFindWord, BOOL bIsDown)
 {
-	ASSERT (m_pRDEmanager);
+	ASSERT(m_pRDEmanager);
 	if (!m_pRDEmanager)
 		return FALSE;
 	if (m_pRDEmanager->IsClosed())
@@ -7709,16 +7718,16 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 		return FALSE;
 	}
 
-	ASSERT_VALID (m_pExportData);
+	ASSERT_VALID(m_pExportData);
 	if (!m_pExportData)
 		return FALSE;
-	
+
 	Table* pTable = NULL;
 
 	CExportTableItem* pItem = m_pExportData->GetExportTableItem();
 	if (pItem)
 	{
-		ASSERT_VALID (pItem);
+		ASSERT_VALID(pItem);
 		if (pItem->m_SelectedCol.GetUpperBound() < 0)
 		{
 			ASSERT(FALSE);
@@ -7728,14 +7737,14 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 		pTable = GetObjects().FindTableByID(pItem->GetTableID());
 		ASSERT_VALID(pTable);
 	}
-	else 
+	else
 	{
-		for (int i = 0; i <= GetObjects().GetUpperBound (); i++)
+		for (int i = 0; i <= GetObjects().GetUpperBound(); i++)
 		{
 			BaseObj* pObj = GetObjects()[i];
-			if ( pObj->IsKindOf (RUNTIME_CLASS(Table)) ) 
+			if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
 			{
-				pTable = (Table*) pObj;
+				pTable = (Table*)pObj;
 				break;
 			}
 		}
@@ -7745,7 +7754,7 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 		FindWordClear();
 		return FALSE;
 	}
-	
+
 	if (strFindWord.IsEmpty())
 	{
 		FindWordClear();
@@ -7754,31 +7763,31 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 
 	int nValidRows = 0;
 	int nPageIdx = 0;
-	int nColIdx  = 0;
-	int nRowIdx  = 0;
-	int	nPagesToExport = 0;    
+	int nColIdx = 0;
+	int nRowIdx = 0;
+	int	nPagesToExport = 0;
 	CString strLabel;
 	CString strValue;
 	bool bOutputTitle = false;
-	int nRowMax  = -1;
-	int nColMax  = -1;
-	
+	int nRowMax = -1;
+	int nColMax = -1;
+
 	strFindWord.MakeLower();
 
 	m_findWordInfo.m_eCmp = m_iFindCondition;
 
 	if (m_findWordInfo.m_strFindWord.Compare(strFindWord) == 0)
 	{
-		nPageIdx	= m_findWordInfo.m_nCurrPage;
-		nColIdx		= bIsDown ? (m_findWordInfo.m_nCurrCol + 1) : (m_findWordInfo.m_nCurrCol - 1);
-		nRowIdx		= m_findWordInfo.m_nCurrRow;
+		nPageIdx = m_findWordInfo.m_nCurrPage;
+		nColIdx = bIsDown ? (m_findWordInfo.m_nCurrCol + 1) : (m_findWordInfo.m_nCurrCol - 1);
+		nRowIdx = m_findWordInfo.m_nCurrRow;
 	}
 	else
 	{
 		FindWordClear();
 
 		m_findWordInfo.m_strFindWord = strFindWord;
-		if (IsFindWordOnSingleColumn ())
+		if (IsFindWordOnSingleColumn())
 		{
 			int nCol = m_pExportData->GetExportTableItem()->m_SelectedCol[nColIdx].m_ColIdx;
 			const TableColumn* pCol = pTable->GetColumn(nCol);
@@ -7803,19 +7812,19 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 		}
 	}
 
-	try 
-	{	
+	try
+	{
 		Table* pFirstTable = pTable;
 		int nAliasTable = pTable->GetInternalID();
 		BOOL bMultiLayout = (m_Layouts.GetCount() > 1);
 
 		if (bIsDown)
 		{
-			nRowMax			= pTable->LastRow();
-			nColMax			= pTable->GetColumns().GetCount();
-			nPagesToExport  = (USHORT)(m_pRDEmanager->LastPage());
+			nRowMax = pTable->LastRow();
+			nColMax = pTable->GetColumns().GetCount();
+			nPagesToExport = (USHORT)(m_pRDEmanager->LastPage());
 		}
-		
+
 		if (bIsDown)
 			nPagesToExport += 1;
 		else
@@ -7828,18 +7837,18 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 			//rileggo la pagina RDE necessaria
 			if (m_pRDEmanager->CurrPageRead() != nPageIdx)
 			{
-				ReadSelectedPage (nPageIdx, TRUE);
+				ReadSelectedPage(nPageIdx, TRUE);
 			}
-			
+
 			if (bMultiLayout)
 			{
 				//la tabella potrebbe non esserci od avere una struttura differente (numero righe e/o colonne)
-				pTable = (Table*) (GetObjects().FindByID(nAliasTable));
+				pTable = (Table*)(GetObjects().FindByID(nAliasTable));
 				if (pTable == NULL || !pTable->IsKindOf(RUNTIME_CLASS(Table)))
 					continue;
 			}
 
-			for (;nRowIdx != nRowMax; bIsDown ? nRowIdx++ : nRowIdx--)
+			for (; nRowIdx != nRowMax; bIsDown ? nRowIdx++ : nRowIdx--)
 			{
 				if (nRowIdx <= -1) break;
 
@@ -7848,11 +7857,11 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 				UpdateViewSymbolTable(pTable, nRow);
 				//----
 
-				for (; nColIdx != nColMax;  bIsDown ? nColIdx++ : nColIdx-- )
+				for (; nColIdx != nColMax; bIsDown ? nColIdx++ : nColIdx--)
 				{
 					if (pItem)
 					{
-						if (nColIdx < 0) 
+						if (nColIdx < 0)
 						{
 							//ASSERT(FALSE);
 							break;
@@ -7882,7 +7891,7 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 					BOOL bIsTailMultiLine = FALSE;
 					void* pDataValue = NULL;
 
-					if (m_pExportData->ConvertCellDataToString( this, strValue,	pTable, nRow, nCol,	oDataType, pDataValue, bIsTailMultiLine))
+					if (m_pExportData->ConvertCellDataToString(this, strValue, pTable, nRow, nCol, oDataType, pDataValue, bIsTailMultiLine))
 					{
 						BOOL bMatched = FALSE;
 
@@ -7893,11 +7902,11 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 						if (pObjWord) pObjWord->Assign(strFindWord);
 
 						if (
-								m_findWordInfo.m_Type != DataType::Enum &&
-								pObjCell && pObjWord && 
-								pObjCell->IsValid() && pObjWord->IsValid()
+							m_findWordInfo.m_Type != DataType::Enum &&
+							pObjCell && pObjWord &&
+							pObjCell->IsValid() && pObjWord->IsValid()
 							)
-								bMatched = pObjCell->CompareBy(m_findWordInfo.m_eCmp, pObjWord);
+							bMatched = pObjCell->CompareBy(m_findWordInfo.m_eCmp, pObjWord);
 						else
 						{
 							//strValue.MakeLower();
@@ -7911,7 +7920,7 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 						SAFE_DELETE(pObjCell);
 						SAFE_DELETE(pObjWord);
 
-						if (bMatched) 
+						if (bMatched)
 						{
 							if (m_findWordInfo.m_nCurrPage == nPageIdx && m_findWordInfo.m_nCurrRow >= 0)
 							{
@@ -7932,9 +7941,9 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 									InvalidateRect(pPrevCell->GetCellRect(), FALSE);
 							}
 
-							m_findWordInfo.m_nCurrPage	= nPageIdx;
-							m_findWordInfo.m_nCurrRow	= nRowIdx;
-							m_findWordInfo.m_nCurrCol	= nColIdx;
+							m_findWordInfo.m_nCurrPage = nPageIdx;
+							m_findWordInfo.m_nCurrRow = nRowIdx;
+							m_findWordInfo.m_nCurrCol = nColIdx;
 
 							TableCell*	pCell = pTable->GetTableCell(nRow, nCol);
 							if (pCell)
@@ -7942,24 +7951,24 @@ BOOL CWoormDocMng::FindWord (CString strFindWord, BOOL bIsDown)
 								pCell->m_arSelectedOnPage.Add(nPageIdx);
 
 								InvalidateRect(pCell->GetCellRect(), TRUE);
-								UpdateWindow ();
+								UpdateWindow();
 							}
 
 							return TRUE;
 						}
-					}					
+					}
 				} //end for colonne
-				
+
 				nColIdx = bIsDown ? 0 : (pItem ? pItem->GetSizeSelectedColumns() : pTable->GetColumns().GetCount()) - 1;
 
 			} //end for righe di una pagina
 
-			nRowIdx = bIsDown ? 0 : min (pTable->LastRow(), (pItem ? pItem->GetRows().GetUpperBound() : pTable->LastRow()));
+			nRowIdx = bIsDown ? 0 : min(pTable->LastRow(), (pItem ? pItem->GetRows().GetUpperBound() : pTable->LastRow()));
 		}//end for pagine	
-	
+
 		return TRUE;
-	} 
-	catch (...) 
+	}
+	catch (...)
 	{
 		;
 	}
@@ -7973,7 +7982,7 @@ void CWoormDocMng::ClearFindCellArray(CLayout* ar)
 	{
 		if ((*ar)[i]->IsKindOf(RUNTIME_CLASS(Table)))
 		{
-			Table* pTable = (Table*) (*ar)[i];
+			Table* pTable = (Table*)(*ar)[i];
 			pTable->ClearCellDynamicAttributes(FALSE, TRUE, FALSE);
 		}
 	}
@@ -7986,14 +7995,14 @@ void CWoormDocMng::ClearDynamicAttributes(CLayout* ar)
 	{
 		if ((*ar)[i]->IsKindOf(RUNTIME_CLASS(Table)))
 		{
-			Table* pTable = (Table*) (*ar)[i];
+			Table* pTable = (Table*)(*ar)[i];
 			pTable->ClearCellDynamicAttributes(TRUE, TRUE, TRUE);
 		}
 	}
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUsePrevAskInput ()
+void CWoormDocMng::OnUsePrevAskInput()
 {
 	m_bUsePrevAskInput = !m_bUsePrevAskInput;
 
@@ -8006,7 +8015,7 @@ void CWoormDocMng::OnUsePrevAskInput ()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateUsePrevAskInput (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateUsePrevAskInput(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_bUsePrevAskInput);
 }
@@ -8021,10 +8030,10 @@ void CWoormDocMng::OnReRunStartStop()
 	m_bReRun = !m_bReRun && b;
 	m_bHideAllAskDialogs = m_bReRun;
 
- 	CWoormFrame* pFrame =  GetWoormFrame();
+	CWoormFrame* pFrame = GetWoormFrame();
 	if (pFrame)
 	{
-		if (m_bReRun) 
+		if (m_bReRun)
 			pFrame->ShowReStopButton();
 		else pFrame->ShowReRunButton();
 	}
@@ -8092,7 +8101,7 @@ DataBool CWoormDocMng::Print(DataBool bClose)
 	}
 	if (!ptrWDoc)
 		return DataBool(FALSE);
-	
+
 	CWoormView* pView = ptrWDoc->GetWoormView();
 	if (!pView)
 		return DataBool(FALSE);
@@ -8112,11 +8121,11 @@ DataBool CWoormDocMng::Print(DataBool bClose)
 	if (!ptrWDoc)
 		return DataBool(FALSE);
 
-	BOOL bRet = DataBool(!ptrWDoc->IsAborted() && ptrWDoc->m_deReportStatus == DataEnum (TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS));
-	
+	BOOL bRet = DataBool(!ptrWDoc->IsAborted() && ptrWDoc->m_deReportStatus == DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS));
+
 	if (bClose)
 		ptrWDoc->Close();
-	
+
 	return bRet;
 }
 
@@ -8124,7 +8133,7 @@ DataBool CWoormDocMng::Print(DataBool bClose)
 void CWoormDocMng::OnPrintWithDialog()
 {
 	CWoormView* pView = GetWoormView();
-	if (!pView) 
+	if (!pView)
 		return;
 
 	BOOL bSaveNoPrintDialog = TRUE;
@@ -8159,12 +8168,12 @@ void CWoormDocMng::OnRunWithOutChild()
 }
 
 //---------------------------------------------------------
-void CWoormDocMng::OnPrintWithChild ()
+void CWoormDocMng::OnPrintWithChild()
 {
 	m_bMustReRun = TRUE;
 
 	CWoormView* pView = GetWoormView();
-	if (pView) 
+	if (pView)
 	{
 		pView->SendMessage(WM_COMMAND, ID_FILE_PRINT);
 	}
@@ -8173,7 +8182,7 @@ void CWoormDocMng::OnPrintWithChild ()
 }
 
 //---------------------------------------------------------
-void CWoormDocMng::OnPrintMultiCopies ()
+void CWoormDocMng::OnPrintMultiCopies()
 {
 	m_bMultiCopies = TRUE;
 
@@ -8187,7 +8196,7 @@ void CWoormDocMng::OnPrintMultiCopies ()
 
 		bLockedCopies = m_pWoormInfo->m_bLockedCopies;
 		m_pWoormInfo->m_bLockedCopies = TRUE;
-		
+
 		nCopies = m_pWoormInfo->m_nCopies;
 		m_pWoormInfo->m_nCopies = 1;
 
@@ -8195,7 +8204,7 @@ void CWoormDocMng::OnPrintMultiCopies ()
 		m_pWoormInfo->m_bMultiCopies = TRUE;
 	}
 
-	OnPrintWithChild ();
+	OnPrintWithChild();
 
 	m_bMultiCopies = FALSE;
 
@@ -8210,7 +8219,7 @@ void CWoormDocMng::OnPrintMultiCopies ()
 //---------------------------------------------------------
 void CWoormDocMng::OnRunAndAttachChild()
 {
-	if (!CanDoSendMail()) return ;
+	if (!CanDoSendMail()) return;
 
 	BOOL bAlloc = FALSE;
 
@@ -8220,7 +8229,7 @@ void CWoormDocMng::OnRunAndAttachChild()
 	BOOL bAttachRDE = FALSE;
 	BOOL bAttachOther = FALSE;
 	BOOL bAttachPDF = TRUE;
-	BOOL bCompressAttach= params->GetMailCompress();
+	BOOL bCompressAttach = params->GetMailCompress();
 
 	BOOL bOldAttachRDE = FALSE;
 	BOOL bOldAttachOther = FALSE;
@@ -8246,7 +8255,7 @@ void CWoormDocMng::OnRunAndAttachChild()
 		bOldCompressAttach = m_pWoormInfo->m_bCompressAttach;
 	}
 
-	m_pWoormInfo->m_bAttachRDE = bAttachRDE;  
+	m_pWoormInfo->m_bAttachRDE = bAttachRDE;
 	m_pWoormInfo->m_bAttachPDF = bAttachPDF;
 	m_pWoormInfo->m_bAttachOther = bAttachOther;
 	m_pWoormInfo->m_bCompressAttach = bCompressAttach;
@@ -8271,27 +8280,27 @@ void CWoormDocMng::OnRunAndAttachChild()
 	}
 	else
 	{
-		m_pWoormInfo->m_bAttachRDE = bOldAttachRDE;  
-		m_pWoormInfo->m_bAttachOther = bOldAttachOther;  
+		m_pWoormInfo->m_bAttachRDE = bOldAttachRDE;
+		m_pWoormInfo->m_bAttachOther = bOldAttachOther;
 		m_pWoormInfo->m_bAttachPDF = bOldAttachPDF;
 		m_pWoormInfo->m_bCompressAttach = bOldCompressAttach;
 	}
 
-	CString strLocal = ::_tsetlocale (LC_ALL, NULL);
-	if (AfxGetIMailConnector()->ShowEmailDlg(m_pCallerDocument, m_Email, NULL,NULL,NULL,NULL,NULL,&m_bDirectConcatPDF))
+	CString strLocal = ::_tsetlocale(LC_ALL, NULL);
+	if (AfxGetIMailConnector()->ShowEmailDlg(m_pCallerDocument, m_Email, NULL, NULL, NULL, NULL, NULL, &m_bDirectConcatPDF))
 	{
-		BOOL bRet = DoSendMail (FALSE, FALSE, FALSE, FALSE, params->GetRequestDeliveryNotifications() , params->GetRequestReadNotifications(), FALSE);
+		BOOL bRet = DoSendMail(FALSE, FALSE, FALSE, FALSE, params->GetRequestDeliveryNotifications(), params->GetRequestReadNotifications(), FALSE);
 	}
-	CString strLocal2 = ::_tsetlocale (LC_ALL, NULL);
+	CString strLocal2 = ::_tsetlocale(LC_ALL, NULL);
 	if (strLocal != strLocal2)
 	{
-		::_tsetlocale (LC_ALL, strLocal);
+		::_tsetlocale(LC_ALL, strLocal);
 	}
 }
 
 //------------------------------------------------------------------------------
 void  CWoormDocMng::SetReRunTimer(UINT nTime)
-{ 
+{
 	m_nReRunTimer = nTime;
 }
 
@@ -8333,13 +8342,13 @@ void CWoormDocMng::ReRun()
 	}
 
 	m_bHideAllAskDialogs = m_bReRun;
-	
+
 	OnRun();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnRun()
-{        
+{
 	if (m_bAborted)
 		return;
 
@@ -8354,11 +8363,11 @@ void CWoormDocMng::OnRun()
 	AfxGetApplicationContext()->m_MacroRecorderStatus = CApplicationContext::IDLE;
 
 	// skip if already running (can be called also from DDE) or in localizing mode 
-	if (m_bEngineRunning) 
+	if (m_bEngineRunning)
 		goto l_skiprun;
 
 	// se c'� l'OSL verifico se il report pu� essere lanciato
-	if (!OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)) 
+	if (!OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE))
 	{
 		Message(cwsprintf(OSLErrors::MISSING_GRANT(), GetInfoOSL()->m_Namespace.ToString()));
 		goto l_skiprun;
@@ -8366,7 +8375,7 @@ void CWoormDocMng::OnRun()
 
 	// in m_bPlayback cannot execute report but only m_bPlayback it
 	if (m_bPlayback)
-	{                    
+	{
 		// force reading first page without checking current page that it is undefined
 		if (!m_pRDEmanager->IsClosed() || !m_ReadingPage.IsLocked())
 		{
@@ -8374,31 +8383,31 @@ void CWoormDocMng::OnRun()
 
 			// read real data
 			ReadPage();
-	
+
 			m_ReadingPage.Unlock();
 		}
 		goto l_skiprun;
 	}
-	
+
 	// run report only if there are database information
-	if (m_bOnlyGraphInfo)	
+	if (m_bOnlyGraphInfo)
 		goto l_skiprun;
 
 	m_Layouts.EnumObjects(&CWoormDocMng::ClearDynamicAttributes);
 
-	if 
+	if
 		(
-			m_pWoormInfo && 
+			m_pWoormInfo &&
 			m_pWoormInfo->m_nNextReport == 1 &&
 			m_pWoormInfo->m_bOwnedByReport &&
 			!m_pWoormInfo->m_bMultiCopies
-		)
-		m_pWoormInfo->LockCopies (FALSE);
+			)
+		m_pWoormInfo->LockCopies(FALSE);
 
 	if (m_pWoormInfo && m_pWoormInfo->m_bAutoPrint && m_pWoormInfo->m_bShowPrintDialogBeforeRunning && !IsRunningFromExternalController())
 	{
 		CPrintDialog1 dlg(GetFirstView());
-		
+
 		if (m_pOptions && !m_pOptions->m_strDefaultPrinter.IsEmpty())
 		{
 			//inserire qui la chiamata alla print 
@@ -8409,7 +8418,7 @@ void CWoormDocMng::OnRun()
 			{
 				dlg.m_pd.hDevNames = hDevNames;
 				dlg.m_pd.hDevMode = hDevMode;
-			}	
+			}
 			else
 			{
 				ASSERT(FALSE);
@@ -8444,7 +8453,7 @@ void CWoormDocMng::OnRun()
 		if (!m_pWoormInfo->AreCopiesLocked())
 		{
 			m_pWoormInfo->m_nCopies = 1;
-			m_pWoormInfo->LockCopies (TRUE);
+			m_pWoormInfo->LockCopies(TRUE);
 		}
 		m_pWoormInfo->m_strPrinterName = dlg.GetDeviceName();
 		m_pWoormInfo->m_bShowPrintDialogBeforeRunning = FALSE;
@@ -8458,8 +8467,8 @@ void CWoormDocMng::OnRun()
 	// set flags before starting real backgroud work
 	GetWoormFrame()->ShowStopButton();
 
-	m_bEngineRunning = TRUE; 
-	
+	m_bEngineRunning = TRUE;
+
 	SetCustomUICulture();
 
 	// ordina gli oggetti prima di stamparli per ottimizzare su dispositivi
@@ -8468,7 +8477,7 @@ void CWoormDocMng::OnRun()
 		SortLayoutObjectsOnPosition();
 
 	if (m_bAllowEditing &&  m_pEditorManager && m_pEditorManager->GetModifiedFlag())
-	{	
+	{
 		strTmp = GetTempName(FileExtension::WRM_EXT());
 		UnparseReport(strTmp);	// unparse on a temporary file
 	}
@@ -8488,7 +8497,7 @@ void CWoormDocMng::OnRun()
 
 	if (m_pWoormInfo)
 	{
-		if (m_pWoormInfo->m_nNextReport > 0 && (m_pWoormInfo->m_nNextReport - 1) <  m_pWoormInfo->m_arExportInfo.GetSize())
+		if (m_pWoormInfo->m_nNextReport > 0 && (m_pWoormInfo->m_nNextReport - 1) < m_pWoormInfo->m_arExportInfo.GetSize())
 			pExp = (CExportInfo*)(m_pWoormInfo->m_arExportInfo.GetAt(m_pWoormInfo->m_nNextReport - 1));
 		bAttachOther = pExp != NULL;
 
@@ -8519,10 +8528,10 @@ void CWoormDocMng::OnRun()
 	m_sRunnedFilePath.Empty();
 
 	if (
-			!bOk ||
-			(
-				this->m_deReportStatus != DataEnum (TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS) &&
-				this->m_deReportStatus != DataEnum (TAG_REPORT_STATUS, TAG_REPORT_STATUS_NO_DATA_FOUND)
+		!bOk ||
+		(
+			this->m_deReportStatus != DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS) &&
+			this->m_deReportStatus != DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_NO_DATA_FOUND)
 			)
 		)
 		goto l_endrun;
@@ -8540,12 +8549,12 @@ void CWoormDocMng::OnRun()
 			AddToHistory(AfxGetLoginContext(), ns, GetNamespace().GetTypeString(), GetReportParametersKey(), this->GetTitle(), this->GetDefaultMenuDescription());
 		}
 	}*/
-	
+
 	///////////////////////////////////////////////////////////////////////////
 	if (!IsReportString())
 		ValorizeEABarCode(); //valorizzazione barcode per EA //BugFix 22991
 
-	if (m_pWoormInfo)	
+	if (m_pWoormInfo)
 	{
 		//pu� essere stato cambiato dall'engine
 		if (m_pWoormInfo->m_nNextReport > 0 && (m_pWoormInfo->m_nNextReport - 1) < m_pWoormInfo->m_arExportInfo.GetSize())
@@ -8561,88 +8570,88 @@ void CWoormDocMng::OnRun()
 
 	//In stato di New manca il WoormInfo!!!! ASSERT(m_pWoormInfo);
 	if (m_pWoormInfo)
-	{		
+	{
 		if (m_pWoormInfo->m_bShowUI2SendMail)
 		{
-			OnSendMail();	
+			OnSendMail();
 		}
 		else if (m_pWoormInfo->m_bPDFOutput)
 		{
-			bOk = DoPDFOutput();	
+			bOk = DoPDFOutput();
 		}
 		else if (m_pWoormInfo->m_bSendEmail)
 		{
 			BOOL bRet = DoSendMail
-							(
-								TRUE, 
-								m_pWoormInfo->m_bAttachRDE, 
-								m_pWoormInfo->m_bAttachPDF, 
-								m_pWoormInfo->m_bCompressAttach,
-								params->GetRequestDeliveryNotifications() , params->GetRequestReadNotifications(),
-								bAttachOther
-							);
+			(
+				TRUE,
+				m_pWoormInfo->m_bAttachRDE,
+				m_pWoormInfo->m_bAttachPDF,
+				m_pWoormInfo->m_bCompressAttach,
+				params->GetRequestDeliveryNotifications(), params->GetRequestReadNotifications(),
+				bAttachOther
+			);
 
 			m_pWoormInfo->m_Email = m_Email;
 		}
 		else if (m_pWoormInfo->m_bAttachPDF || m_pWoormInfo->m_bAttachRDE || bAttachOther)
 		{
 			BOOL bRet = DoAttachReport
-							(
-								TRUE, 
-								m_pWoormInfo->m_bAttachRDE, 
-								m_pWoormInfo->m_bAttachPDF, 
-								m_pWoormInfo->m_bCompressAttach,
-								bAttachOther
-							);
+			(
+				TRUE,
+				m_pWoormInfo->m_bAttachRDE,
+				m_pWoormInfo->m_bAttachPDF,
+				m_pWoormInfo->m_bCompressAttach,
+				bAttachOther
+			);
 			ASSERT(m_Email.m_Attachments.GetSize());
 
 			//m_pWoormInfo->m_Email = m_Email; //vedi duale in LABEL 1001 - NO!
 			m_pWoormInfo->m_Email.m_Attachments.Append(m_Email.m_Attachments);
 			m_pWoormInfo->m_Email.m_AttachmentTitles.Append(m_Email.m_AttachmentTitles);
-		}	
+		}
 		else if (m_bDirectSendMail)
 		{
-				BOOL bRet = DoSendMail
-								(
-									TRUE, 
-									m_bDirectAttachRDE, 
-									m_bDirectAttachPDF, 
-									m_bDirectCompressAttach,
-									params->GetRequestDeliveryNotifications() , params->GetRequestReadNotifications(),
-									bAttachOther
-								);
-				m_bDirectSendMail = FALSE; m_Email.Clear();
+			BOOL bRet = DoSendMail
+			(
+				TRUE,
+				m_bDirectAttachRDE,
+				m_bDirectAttachPDF,
+				m_bDirectCompressAttach,
+				params->GetRequestDeliveryNotifications(), params->GetRequestReadNotifications(),
+				bAttachOther
+			);
+			m_bDirectSendMail = FALSE; m_Email.Clear();
 		}
-		else if 
-				(
-					m_pWoormInfo->m_bRDEOutput &&
-					m_pWoormInfo->m_arstrOutputFileNames.GetSize() &&
-					m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arstrOutputFileNames.GetSize()
+		else if
+			(
+				m_pWoormInfo->m_bRDEOutput &&
+				m_pWoormInfo->m_arstrOutputFileNames.GetSize() &&
+				m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arstrOutputFileNames.GetSize()
 				)
 		{
 			bOk = DoRDEOutput() && bOk;
 		}
-		else if 
-				( 
-					m_pWoormInfo->m_arExportInfo.GetSize () > 0 &&
-					m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arExportInfo.GetSize()
-				) 
+		else if
+			(
+				m_pWoormInfo->m_arExportInfo.GetSize() > 0 &&
+				m_pWoormInfo->m_nNextReport <= m_pWoormInfo->m_arExportInfo.GetSize()
+				)
 		{
 			bOk = DoExportOutput() && bOk;
 		}
 	}
 	else if (m_bDirectSendMail)
 	{
-			BOOL bRet = DoSendMail
-							(
-								TRUE, 
-								m_bDirectAttachRDE, 
-								m_bDirectAttachPDF, 
-								m_bDirectCompressAttach,
-								params->GetRequestDeliveryNotifications() , params->GetRequestReadNotifications(),
-								bAttachOther
-							);
-			m_bDirectSendMail = FALSE; m_Email.Clear();
+		BOOL bRet = DoSendMail
+		(
+			TRUE,
+			m_bDirectAttachRDE,
+			m_bDirectAttachPDF,
+			m_bDirectCompressAttach,
+			params->GetRequestDeliveryNotifications(), params->GetRequestReadNotifications(),
+			bAttachOther
+		);
+		m_bDirectSendMail = FALSE; m_Email.Clear();
 	}
 
 	//-------------------------------------------------------
@@ -8658,33 +8667,33 @@ l_endrun:
 
 	if (m_pEditorManager->GetModifiedFlag())
 		DeleteFile(strTmp);		// delete temporary file
-				 
-	m_bIsExporting = FALSE; 
-	m_bEngineRunning = FALSE; 
+
+	m_bIsExporting = FALSE;
+	m_bEngineRunning = FALSE;
 
 	ResetCustomUICulture();
 
-   GetWoormFrame()->ShowRunButton();
+	GetWoormFrame()->ShowRunButton();
 
-   if (m_bNeedFinalInvalidate) 
-	   GetWoormFrame()->Invalidate();
-	
+	if (m_bNeedFinalInvalidate)
+		GetWoormFrame()->Invalidate();
+
 	// ---- esegue eventuali report in cascata
-	if (bOk) 
+	if (bOk)
 	{
 		if (
-				m_pWoormInfo && 
-				(
-					m_pWoormInfo->m_ReportNames.GetSize() > 1 ||
-					!m_pWoormInfo->m_bOwnedByReport
+			m_pWoormInfo &&
+			(
+				m_pWoormInfo->m_ReportNames.GetSize() > 1 ||
+				!m_pWoormInfo->m_bOwnedByReport
 				)
 			)
-			m_pWoormInfo->LockCopies (TRUE);
+			m_pWoormInfo->LockCopies(TRUE);
 
 		ExecuteNextReport();
 	}
 	else // anche in caso di errore se richiesto devo chiudere il report	
-		if  (m_pWoormInfo && (m_pWoormInfo->m_bCloseOnEndPrint || m_pWoormInfo->m_bHideFrame))
+		if (m_pWoormInfo && (m_pWoormInfo->m_bCloseOnEndPrint || m_pWoormInfo->m_bHideFrame))
 		{
 			m_pChildReport = NULL;
 			CloseDocument();
@@ -8693,7 +8702,7 @@ l_endrun:
 	///////////////////////////////////////////////////////////////////////////////
 l_skiprun:
 
-	if	(IsEditingParamsFromExternalController() || IsRunningFromExternalController())
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
 		if (IsRunningFromExternalController())
 		{
@@ -8706,7 +8715,7 @@ l_skiprun:
 			{
 				m_bIsUserReportsDeveloper = FALSE;
 				m_bAllowReRun = FALSE;
-				AfxGetApplicationContext()->SetInUnattendedMode(FALSE);	
+				AfxGetApplicationContext()->SetInUnattendedMode(FALSE);
 
 				ASSERT_VALID(m_pWoormInfo);
 				if (!m_pWoormInfo->m_bOwnedByReport)
@@ -8742,16 +8751,16 @@ CString CWoormDocMng::GetReportParametersKey()
 	{
 		WoormField* pF = m_ViewSymbolTable.GetAt(i);
 		ASSERT_VALID(pF);
-		if (!pF->GetData()) 
+		if (!pF->GetData())
 			continue;
 
 		if (m_pCallerDocument)
 		{
-			if (!pF->IsInput()) 
+			if (!pF->IsInput())
 				continue;
 		}
 		else if (!pF->IsAsk())
-			continue; 
+			continue;
 
 		if (!pF->GetData())
 			continue;
@@ -8760,7 +8769,7 @@ CString CWoormDocMng::GetReportParametersKey()
 		if (t == DataType::Array || t == DataType::Void)	//TODO per altri tipi complessi (es Record)
 			continue;
 
-		CString v = pF->GetData()->Str(0,0);
+		CString v = pF->GetData()->Str(0, 0);
 
 		if (v.Find(';') > -1)
 		{
@@ -8776,14 +8785,14 @@ CString CWoormDocMng::GetReportParametersKey()
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnRunStop()
-{              
-	if (m_bEngineRunning) 
+{
+	if (m_bEngineRunning)
 	{
 		m_bDebugging = FALSE;
 
-		OnStop(); 
+		OnStop();
 	}
-	else 
+	else
 		OnRun();
 }
 
@@ -8791,19 +8800,19 @@ void CWoormDocMng::OnRunStop()
 void CWoormDocMng::OnPauseResume()
 {
 	if (!m_bEngineRunning) return;
-	
-	if (m_pEngine->IsPaused()) 
-		OnResume(); 
-	else 
+
+	if (m_pEngine->IsPaused())
+		OnResume();
+	else
 		OnPause();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnRunDebugger()
 {
-	if (m_bEngineRunning) 
+	if (m_bEngineRunning)
 	{
-		OnStop(); 
+		OnStop();
 	}
 
 	m_bDebugging = TRUE;
@@ -8814,24 +8823,24 @@ void CWoormDocMng::OnRunDebugger()
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnReInitHiddenInput()
 {
-	if (m_bEngineRunning || m_pEngine == NULL) 
+	if (m_bEngineRunning || m_pEngine == NULL)
 		return;
-	
+
 	m_pEngine->ClearStaticField();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnFileSaveRDE()
 {
-	CTBNamespace aNs (GetNamespace().GetType(), GetNamespace().GetApplicationName() + CTBNamespace::GetSeparator () +  GetNamespace().GetModuleName());
+	CTBNamespace aNs(GetNamespace().GetType(), GetNamespace().GetApplicationName() + CTBNamespace::GetSeparator() + GetNamespace().GetModuleName());
 	CString s = GetNamespace().GetObjectName();
 	s.Replace(FileExtension::WRM_EXT(), FileExtension::RDE_EXT());
 	aNs.SetObjectName(s);
 
-	CTBExplorer aExplorer (CTBExplorer::SAVE, aNs, TRUE);
-	if (!aExplorer.Open ())
+	CTBExplorer aExplorer(CTBExplorer::SAVE, aNs, TRUE);
+	if (!aExplorer.Open())
 		return;
-	
+
 	CStringArray arPath;
 	aExplorer.GetSelPathElements(&arPath);
 
@@ -8848,23 +8857,23 @@ void CWoormDocMng::OnFileSaveRDE()
 	if (aExplorer.GetIsSavedInCurrentLanguage())
 	{
 		m_bSaveAsWithCurrentLanguage = TRUE;
-		m_strOriginFileName = ::GetName (GetPathName());
+		m_strOriginFileName = ::GetName(GetPathName());
 		m_strOriginDictionaryPath = GetDictionaryPath(TRUE);
 	}
 
 	// save with only localized graphics info but leave current wrm as is
-	UnparseWoorm (strFileNameRDE, TRUE);	//RDE
+	UnparseWoorm(strFileNameRDE, TRUE);	//RDE
 
 	m_bSaveAsWithCurrentLanguage = FALSE;
 	m_bReplaceHiddenWhenExpr = FALSE;
 	//----
 
 	// add data info to parsed woorm report (error recovered by RDEManager)
-	m_pRDEmanager->SaveRDEFile (strFileNameRDE);
+	m_pRDEmanager->SaveRDEFile(strFileNameRDE);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnCompile ()
+void CWoormDocMng::OnCompile()
 {
 	// skip if there are only graphic information to save on strFile
 	if (m_bOnlyGraphInfo) return;
@@ -8875,15 +8884,15 @@ void CWoormDocMng::OnCompile ()
 
 	// toggle running status
 	m_bEngineRunning = TRUE; SetCustomUICulture();
-	UnparseReport	(strTmp);
-	CompileEngine	(strTmp);
-	DeleteFile		(strTmp);
+	UnparseReport(strTmp);
+	CompileEngine(strTmp);
+	DeleteFile(strTmp);
 	m_bEngineRunning = FALSE; ResetCustomUICulture();
 }
 
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnWoormIni ()
+void CWoormDocMng::OnWoormIni()
 {
 	// read automatically from ini strFile
 	WoormIni    old;
@@ -8893,74 +8902,74 @@ void CWoormDocMng::OnWoormIni ()
 	if (dialog.DoModal() == IDOK)
 	{
 		// read changed data
-		m_pWoormIni->ReadWoormSettings ();
-															 
+		m_pWoormIni->ReadWoormSettings();
+
 		// modify and format all object with value
 		if (old.m_Show != m_pWoormIni->m_Show)
-			FormatAll();              
-			
+			FormatAll();
+
 		// set new stack undo level for current report and for other new report
 		m_pUndoStack->SetSize(30);
 
 		// refresh di eventuali modifiche a video (tipo griglie etc..)
-		Invalidate ();
+		Invalidate();
 		UpdateWindow();
 	}
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnOptions ()
+void CWoormDocMng::OnOptions()
 {
 	Options     buffer = *m_pOptions;
-	COptionsDlg dialog (buffer, this);
+	COptionsDlg dialog(buffer, this);
 
 	if (dialog.DoModal() == IDOK)
 	{
 		// set modified flag for force saving strFile
-		if (!(buffer == *m_pOptions)) 
+		if (!(buffer == *m_pOptions))
 		{
 			*m_pOptions = buffer;
 
-			Invalidate ();
+			Invalidate();
 			UpdateWindow();
 
-			SetModifiedFlag	();
+			SetModifiedFlag();
 		}
 	}
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnPageSetup()
-{	
+{
 	PageInfo aPageInfo(m_PageInfo);
 
-	if (m_pWoormInfo && m_pWoormInfo->AreCopiesLocked() )
+	if (m_pWoormInfo && m_pWoormInfo->AreCopiesLocked())
 		aPageInfo.SetCopies(m_pWoormInfo->m_nCopies);
 
 	CPageSetupDlg dialog(aPageInfo);
 
-	WORD  nFlags =	DM_ORIENTATION |
-					DM_PAPERSIZE |
-					DM_PAPERLENGTH |
-					DM_PAPERWIDTH |
-					DM_SCALE |
-					DM_COPIES |
-					DM_COLLATE;
+	WORD  nFlags = DM_ORIENTATION |
+		DM_PAPERSIZE |
+		DM_PAPERLENGTH |
+		DM_PAPERWIDTH |
+		DM_SCALE |
+		DM_COPIES |
+		DM_COLLATE;
 
 	if (dialog.DoModal() == IDOK && aPageInfo != m_PageInfo)
 	{
 		m_PageInfo = aPageInfo;
-		
+
 		if (m_pWoormInfo)
 			m_pWoormInfo->m_nCopies = m_PageInfo.GetCopies();
 
 		CView* pView = GetFirstView();
-		if (pView->IsKindOf(RUNTIME_CLASS(CWoormView))) 
+		if (pView->IsKindOf(RUNTIME_CLASS(CWoormView)))
 		{
 			((CWoormView*)pView)->m_pWatermark->Clear();
 		}
 
-		Invalidate ();
+		Invalidate();
 		UpdateWindow();
 		SetModifiedFlag();
 	}
@@ -8987,10 +8996,10 @@ void CWoormDocMng::OnRecordValidation()
 	}
 
 
-	CFunctionDescription fd;		
+	CFunctionDescription fd;
 	if (
-			AfxGetApplicationContext()->m_MacroRecorderStatus == CApplicationContext::RECORDING &&
-			AfxGetTbCmdManager()->GetFunctionDescription(_NS_WEB("TestManager.TBMacroRecorder.TBMacroRecorder.RecordReportValidation"), fd)
+		AfxGetApplicationContext()->m_MacroRecorderStatus == CApplicationContext::RECORDING &&
+		AfxGetTbCmdManager()->GetFunctionDescription(_NS_WEB("TestManager.TBMacroRecorder.TBMacroRecorder.RecordReportValidation"), fd)
 		)
 	{
 		//fd.SetParamValue(_T("woormDocHandle"),	DataLng((long)this));
@@ -9014,7 +9023,7 @@ void CWoormDocMng::OnReportBegin()
 
 	// reset counter; and update status bar
 	m_nRetrieveTic = 0;
-	m_nSearchTic   = 0;
+	m_nSearchTic = 0;
 	UpdateStatusBar();
 
 	// timer for update status bar (speed purpose)
@@ -9024,35 +9033,35 @@ void CWoormDocMng::OnReportBegin()
 
 // update status bar at any tic if there are no timer available
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnSearchTic	()	
-{   
-	m_nSearchTic++;					
+void CWoormDocMng::OnSearchTic()
+{
+	m_nSearchTic++;
 	if (!m_nTimerID)
-		SetRunIndicator ();
+		SetRunIndicator();
 }
 
 // update status bar at any tic if there are no timer available
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnRetrieveTic ()
+void CWoormDocMng::OnRetrieveTic()
 {
 	m_nRetrieveTic++;
 	if (!m_nTimerID)
-		SetRunIndicator ();
+		SetRunIndicator();
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::ExecuteNextReport()	
+void CWoormDocMng::ExecuteNextReport()
 {
 	// Gestione degli automatismi su fine report
 	if (m_pWoormInfo)
 	{
 		// Lancia in automatico la stampa e aspetta che la stessa termini.
 		if (
-				m_pWoormInfo->m_bAutoPrint &&
-				(
-					this->m_deReportStatus == DataEnum (TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS) 
-					||
-					this->m_deReportStatus == DataEnum (TAG_REPORT_STATUS, TAG_REPORT_STATUS_NO_DATA_FOUND) 
+			m_pWoormInfo->m_bAutoPrint &&
+			(
+				this->m_deReportStatus == DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_SUCCESS)
+				||
+				this->m_deReportStatus == DataEnum(TAG_REPORT_STATUS, TAG_REPORT_STATUS_NO_DATA_FOUND)
 				)
 			)
 			GetWoormFrame()->SendMessage(WM_COMMAND, ID_FILE_PRINT);
@@ -9120,7 +9129,7 @@ void CWoormDocMng::ExecuteNextReport()
 		}
 
 		// chiude il report corrente come ultima operazione da fare		
-		if  (bClose)
+		if (bClose)
 		{
 			m_pChildReport = NULL;
 			CloseDocument();
@@ -9129,10 +9138,10 @@ void CWoormDocMng::ExecuteNextReport()
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::IsReportRunning() 
+BOOL CWoormDocMng::IsReportRunning()
 {
 	BOOL b = __super::IsReportRunning();
-	if (!b) 
+	if (!b)
 	{
 		if (m_pChildReport)
 		{
@@ -9144,10 +9153,10 @@ BOOL CWoormDocMng::IsReportRunning()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnReportEnd	()	
-{ 
-	SetRunIndicator ();
-	m_bRunIndicatorActive = FALSE;	
+void CWoormDocMng::OnReportEnd()
+{
+	SetRunIndicator();
+	m_bRunIndicatorActive = FALSE;
 
 	if (m_nTimerID)
 	{
@@ -9157,19 +9166,19 @@ void CWoormDocMng::OnReportEnd	()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnBeginSort		()	{ pchSortStatusString[0] = _T('S');	}
-void CWoormDocMng::OnEndSort		()	{ pchSortStatusString[0] = BLANK_CHAR;	}
-void CWoormDocMng::OnBeginGroup	()	{ pchSortStatusString[1] = _T('G');	}
-void CWoormDocMng::OnEndGroup		()	{ pchSortStatusString[1] = BLANK_CHAR;	}
-void CWoormDocMng::OnBeginMemGroup	()	{ pchSortStatusString[2] = _T('M');	}
-void CWoormDocMng::OnEndMemGroup	()	{ pchSortStatusString[2] = BLANK_CHAR;	}
+void CWoormDocMng::OnBeginSort() { pchSortStatusString[0] = _T('S'); }
+void CWoormDocMng::OnEndSort() { pchSortStatusString[0] = BLANK_CHAR; }
+void CWoormDocMng::OnBeginGroup() { pchSortStatusString[1] = _T('G'); }
+void CWoormDocMng::OnEndGroup() { pchSortStatusString[1] = BLANK_CHAR; }
+void CWoormDocMng::OnBeginMemGroup() { pchSortStatusString[2] = _T('M'); }
+void CWoormDocMng::OnEndMemGroup() { pchSortStatusString[2] = BLANK_CHAR; }
 
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::VKMoveObject(CSize offset)	
-{              
+void CWoormDocMng::VKMoveObject(CSize offset)
+{
 	// skip VK command 
-	if	(!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
+	if (!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
 		return;
 
 	SetModifiedFlag();
@@ -9179,8 +9188,8 @@ void CWoormDocMng::VKMoveObject(CSize offset)
 		UpdateWindow();
 		return;
 	}
-	
-	if (m_pCurrentObj) 
+
+	if (m_pCurrentObj)
 	{
 		m_pCurrentObj->MoveObject(offset);
 		m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
@@ -9196,24 +9205,24 @@ void CWoormDocMng::VKMoveObject(CSize offset)
 #define DIRECTION_DOWN	4
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::VKSizeObject(int increment, int direction)	
-{              
+void CWoormDocMng::VKSizeObject(int increment, int direction)
+{
 	// skip VK command 
-	if	(!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
+	if (!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
 		return;
 
 	SetModifiedFlag();
-	if (m_pCurrentObj) 
+	if (m_pCurrentObj)
 	{
 		int h = m_pCurrentObj->GetActiveRect().Height() + increment;
 		int w = m_pCurrentObj->GetActiveRect().Width() + increment;
 
 		switch (direction)
 		{
-			case DIRECTION_LEFT:	m_pCurrentObj->LeftSizeObject(w);	break;
-			case DIRECTION_RIGHT:	m_pCurrentObj->RightSizeObject(w);	break;
-			case DIRECTION_UP:		m_pCurrentObj->TopSizeObject(h);	break;
-			case DIRECTION_DOWN:	m_pCurrentObj->BottomSizeObject(h);	break;
+		case DIRECTION_LEFT:	m_pCurrentObj->LeftSizeObject(w);	break;
+		case DIRECTION_RIGHT:	m_pCurrentObj->RightSizeObject(w);	break;
+		case DIRECTION_UP:		m_pCurrentObj->TopSizeObject(h);	break;
+		case DIRECTION_DOWN:	m_pCurrentObj->BottomSizeObject(h);	break;
 		}
 
 		m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
@@ -9227,22 +9236,22 @@ void CWoormDocMng::VKSizeObject(int increment, int direction)
 #define STEP_Y (m_pWoormIni->m_bSnapToGrid ? m_pWoormIni->m_nGridY : 1)
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnVKLeft			()	{ VKMoveObject(CSize(-STEP_X, 0));			RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKRight		()	{ VKMoveObject(CSize(+STEP_X, 0));			RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKUp			()	{ VKMoveObject(CSize(0, -STEP_Y));			RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKDown			()	{ VKMoveObject(CSize(0, +STEP_Y));			RemoveFocusFromBtn();}
+void CWoormDocMng::OnVKLeft() { VKMoveObject(CSize(-STEP_X, 0));			RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKRight() { VKMoveObject(CSize(+STEP_X, 0));			RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKUp() { VKMoveObject(CSize(0, -STEP_Y));			RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKDown() { VKMoveObject(CSize(0, +STEP_Y));			RemoveFocusFromBtn(); }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnVKShiftLeft	()	{ VKSizeObject(-STEP_X, DIRECTION_RIGHT);	RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKShiftRight	()	{ VKSizeObject(+STEP_X, DIRECTION_RIGHT);	RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKShiftUp		()	{ VKSizeObject(+STEP_Y, DIRECTION_UP);		RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKShiftDown	()	{ VKSizeObject(-STEP_Y, DIRECTION_UP);		RemoveFocusFromBtn();}
+void CWoormDocMng::OnVKShiftLeft() { VKSizeObject(-STEP_X, DIRECTION_RIGHT);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKShiftRight() { VKSizeObject(+STEP_X, DIRECTION_RIGHT);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKShiftUp() { VKSizeObject(+STEP_Y, DIRECTION_UP);		RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKShiftDown() { VKSizeObject(-STEP_Y, DIRECTION_UP);		RemoveFocusFromBtn(); }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnVKCtrlLeft		()	{ VKSizeObject(+STEP_X, DIRECTION_LEFT);	RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKCtrlRight	()	{ VKSizeObject(-STEP_X, DIRECTION_LEFT);	RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKCtrlUp		()	{ VKSizeObject(-STEP_Y, DIRECTION_DOWN);	RemoveFocusFromBtn();}
-void CWoormDocMng::OnVKCtrlDown		()	{ VKSizeObject(+STEP_Y, DIRECTION_DOWN);	RemoveFocusFromBtn();}
+void CWoormDocMng::OnVKCtrlLeft() { VKSizeObject(+STEP_X, DIRECTION_LEFT);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKCtrlRight() { VKSizeObject(-STEP_X, DIRECTION_LEFT);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKCtrlUp() { VKSizeObject(-STEP_Y, DIRECTION_DOWN);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnVKCtrlDown() { VKSizeObject(+STEP_Y, DIRECTION_DOWN);	RemoveFocusFromBtn(); }
 
 //------------------------------------------------------------------------------
 //metodo da chiamare per rimuovere il focus dai pulsanti della toolbox delle actions
@@ -9261,35 +9270,35 @@ void CWoormDocMng::RemoveFocusFromBtn()
 		ASSERT(FALSE);
 		return;
 	}
-	if(cWnd->IsKindOf(RUNTIME_CLASS(CBCGPButton)))
+	if (cWnd->IsKindOf(RUNTIME_CLASS(CBCGPButton)))
 		SetFocus(GetWoormFrame()->m_pToolBarView->m_hWnd);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnToggleTransparent()	
-{ 
-	if	(!CanDoToggleTransparent())
+void CWoormDocMng::OnToggleTransparent()
+{
+	if (!CanDoToggleTransparent())
 		return;
 
-	if (m_pMultipleSelObj)	
+	if (m_pMultipleSelObj)
 		m_pMultipleSelObj->ToggleTransparent();
 
-	else if (m_pCurrentObj) 
+	else if (m_pCurrentObj)
 		m_pCurrentObj->ToggleTransparent();
 
 	UpdateWindow();
 	RemoveFocusFromBtn();
 }
 //------------------------------------------------------------------------------
-void CWoormDocMng::DoSnapToGrid ()	
-{ 
-	if	(!CanDoSnapObjects())
+void CWoormDocMng::DoSnapToGrid()
+{
+	if (!CanDoSnapObjects())
 		return;
 
-	if (m_pMultipleSelObj)	
+	if (m_pMultipleSelObj)
 		m_pMultipleSelObj->SnapToGrid();
-	
-	else if (m_pCurrentObj) 
+
+	else if (m_pCurrentObj)
 	{
 		m_pCurrentObj->SnapToGrid();
 		m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
@@ -9300,12 +9309,12 @@ void CWoormDocMng::DoSnapToGrid ()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnSnapToGrid ()	{ DoSnapToGrid(); }
+void CWoormDocMng::OnSnapToGrid() { DoSnapToGrid(); }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnVKReturn ()	
-{ 
-	if (!m_pMultipleSelObj && m_pCurrentObj) 
+void CWoormDocMng::OnVKReturn()
+{
+	if (!m_pMultipleSelObj && m_pCurrentObj)
 		m_pCurrentObj->VKReturn();
 }
 
@@ -9314,18 +9323,18 @@ void CWoormDocMng::OnVKTab()
 {
 	// don't tab object if multiple selection is active or there are no GetObjects()
 	if (m_pMultipleSelObj || !m_pCurrentObj || GetObjects().GetSize() <= 1) return;
-	
+
 	int ub = GetObjects().GetUpperBound();
 	BaseObj* pObj = GetObjects()[0];
-	
+
 	for (int j = 1; j <= ub; j++)
 		GetObjects()[j - 1] = GetObjects()[j];
-		
+
 	GetObjects()[ub] = pObj;
-	
+
 	// m_pCurrentObj is always last object
 	m_pCurrentObj = GetObjects()[ub];
-	m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect()); 
+	m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
 	UpdateWindow();
 }
 
@@ -9334,13 +9343,13 @@ void CWoormDocMng::OnVKShiftTab()
 {
 	// don't tab object if multiple selection is active or there are no GetObjects()
 	if (m_pMultipleSelObj || !m_pCurrentObj || GetObjects().GetSize() <= 1) return;
-	
+
 	int ub = GetObjects().GetUpperBound();
 	BaseObj* pObj = GetObjects()[ub];
-	
+
 	for (int j = ub - 1; j >= 0; j--)
 		GetObjects()[j + 1] = GetObjects()[j];
-		
+
 	GetObjects()[0] = pObj;
 	m_pCurrentObj = GetObjects()[ub];
 	m_pActiveRect->SetActive(m_pCurrentObj->GetActiveRect());
@@ -9350,7 +9359,7 @@ void CWoormDocMng::OnVKShiftTab()
 /////////////////////////////////////////////////////////////////////////////
 // CWoormDocMng commands
 //------------------------------------------------------------------------------
-void CWoormDocMng::ToggleSaveOnlyGraphInfo ()
+void CWoormDocMng::ToggleSaveOnlyGraphInfo()
 {
 	// gestione della versione demo che impedisce il salvataggio
 	m_bOnlyGraphInfo = !m_bOnlyGraphInfo;
@@ -9361,15 +9370,15 @@ void CWoormDocMng::ToggleSaveOnlyGraphInfo ()
 //void CWoormDocMng::OnAddHiddenField		()	{ CreateField	(ID_ADD_HIDDEN_FIELD);	}
 //void CWoormDocMng::OnAddVarField		()	{ CreateField	(ID_ADD_VAR_FIELD);		}
 
-void CWoormDocMng::OnPause			()	{ m_pEngine->Pause(); GetWoormFrame()->ShowResumeButton();}
-void CWoormDocMng::OnResume		()	{ m_pEngine->Resume(); GetWoormFrame()->ShowPauseButton();}
+void CWoormDocMng::OnPause() { m_pEngine->Pause(); GetWoormFrame()->ShowResumeButton(); }
+void CWoormDocMng::OnResume() { m_pEngine->Resume(); GetWoormFrame()->ShowPauseButton(); }
 
-void CWoormDocMng::OnColLeftMove	() { MoveColumn(TRUE);		RemoveFocusFromBtn(); }
-void CWoormDocMng::OnColRightMove	() { MoveColumn (FALSE);	RemoveFocusFromBtn(); }
+void CWoormDocMng::OnColLeftMove() { MoveColumn(TRUE);		RemoveFocusFromBtn(); }
+void CWoormDocMng::OnColRightMove() { MoveColumn(FALSE);	RemoveFocusFromBtn(); }
 
 
 
-void CWoormDocMng::OnShowReportParameters ()
+void CWoormDocMng::OnShowReportParameters()
 {/*
 	WoormInfoViewer WoormInfoDlg(m_pWoormInfo, (this->m_pEngine && m_pEngine->m_pSymTable) ? m_pEngine->m_pSymTable : NULL);
 	WoormInfoDlg.DoModal();*/
@@ -9385,7 +9394,7 @@ void CWoormDocMng::OnShowReportParameters ()
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanDoToggleTransparent()
-{ 
+{
 	return CanDoMoveObjects();
 }
 
@@ -9397,29 +9406,29 @@ BOOL CWoormDocMng::CanDoCutObjects()
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanDoMoveObjects()
-{ 
+{
 	return
-		m_bAllowEditing  &&
-		!m_bPlayback  && m_Creating == NONE && 
+		m_bAllowEditing &&
+		!m_bPlayback  && m_Creating == NONE &&
 		GetObjects().GetSize() && !m_bEngineRunning &&
-		(m_pCurrentObj || (m_pMultiColumns && m_pMultiColumns->GetSize()>0) || (m_pMultipleSelObj && !m_pMultipleSelObj->IsEmpty()));
+		(m_pCurrentObj || (m_pMultiColumns && m_pMultiColumns->GetSize() > 0) || (m_pMultipleSelObj && !m_pMultipleSelObj->IsEmpty()));
 }
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanDoSizeObjects()
-{ 
+{
 	return
-		m_bAllowEditing  &&
-		!m_bPlayback  && m_Creating == NONE && 
+		m_bAllowEditing &&
+		!m_bPlayback  && m_Creating == NONE &&
 		GetObjects().GetSize() && !m_bEngineRunning &&
 		!m_pMultipleSelObj&&
-		m_pCurrentObj && 
+		m_pCurrentObj &&
 		m_pCurrentObj->IsKindOf(RUNTIME_CLASS(SingleItemObj));
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnUpdatePageSetup(CCmdUI* pCmdUI)
-{	
+{
 	pCmdUI->Enable(m_Creating == NONE && !m_bEngineRunning);
 }
 
@@ -9436,143 +9445,143 @@ void CWoormDocMng::OnUpdateRecordValidation(CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateVKSize(CCmdUI* pCmdUI)			{ pCmdUI->Enable(CanDoSizeObjects()); }
-void CWoormDocMng::OnUpdateVKMove(CCmdUI* pCmdUI)			{ pCmdUI->Enable(CanDoMoveObjects()); }
-void CWoormDocMng::OnUpdateToggleBorder(CCmdUI* pCmdUI)	{ pCmdUI->Enable(CanDoMoveObjects()); }
-void CWoormDocMng::OnUpdateCut (CCmdUI* pCmdUI)			{ pCmdUI->Enable(CanDoCutObjects()); }
-void CWoormDocMng::OnUpdateSnapToGrid (CCmdUI* pCmdUI)		{ pCmdUI->Enable(CanDoSnapObjects()); }
-void CWoormDocMng::OnUpdateToggleTransparent (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateVKSize(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoSizeObjects()); }
+void CWoormDocMng::OnUpdateVKMove(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoMoveObjects()); }
+void CWoormDocMng::OnUpdateToggleBorder(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoMoveObjects()); }
+void CWoormDocMng::OnUpdateCut(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoCutObjects()); }
+void CWoormDocMng::OnUpdateSnapToGrid(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoSnapObjects()); }
+void CWoormDocMng::OnUpdateToggleTransparent(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(CanDoToggleTransparent());
 }
-void CWoormDocMng::OnUpdateSendMail (CCmdUI* pCmdUI)		{ pCmdUI->Enable(CanDoSendMail()); }
-void CWoormDocMng::OnUpdateFileSavePDF (CCmdUI* pCmdUI)	{ pCmdUI->Enable(CanDoFileSavePDF()); }
+void CWoormDocMng::OnUpdateSendMail(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoSendMail()); }
+void CWoormDocMng::OnUpdateFileSavePDF(CCmdUI* pCmdUI) { pCmdUI->Enable(CanDoFileSavePDF()); }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::CanDoSnapObjects ()		
-{ 
+BOOL CWoormDocMng::CanDoSnapObjects()
+{
 	return /*m_pWoormIni->m_bSnapToGrid &&*/ CanDoMoveObjects();
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateClearAll (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 
+void CWoormDocMng::OnUpdateClearAll(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
-		!m_bPlayback && m_Creating == NONE && 
+		!m_bPlayback && m_Creating == NONE &&
 		GetObjects().GetSize() && !m_bEngineRunning;
-		
+
 	pCmdUI->Enable(bOk);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateCopy (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 
-			m_bAllowEditing &&
-			!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
-			m_pCurrentObj && !m_pMultipleSelObj;
-			
+void CWoormDocMng::OnUpdateCopy(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
+		m_bAllowEditing &&
+		!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
+		m_pCurrentObj && !m_pMultipleSelObj;
+
 	pCmdUI->Enable(bOk);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdatePaste (CCmdUI* pCmdUI)
-{	                       
-	BOOL bOk =              
-			m_bAllowEditing &&
-			!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
-			(
-				IsClipboardFormatAvailable(CF_DIB) || 
-				IsClipboardFormatAvailable(CF_UNICODETEXT) ||
-				IsClipboardFormatAvailable(CF_TEXT) ||
-				IsClipboardFormatAvailable(CF_OEMTEXT)
+void CWoormDocMng::OnUpdatePaste(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
+		m_bAllowEditing &&
+		!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
+		(
+			IsClipboardFormatAvailable(CF_DIB) ||
+			IsClipboardFormatAvailable(CF_UNICODETEXT) ||
+			IsClipboardFormatAvailable(CF_TEXT) ||
+			IsClipboardFormatAvailable(CF_OEMTEXT)
 			);
-			
+
 	pCmdUI->Enable(bOk);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateUndo (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 
-			m_bAllowEditing &&
-			!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
-			(m_pUndoStack->GetSize() > 0);
-			
+void CWoormDocMng::OnUpdateUndo(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
+		m_bAllowEditing &&
+		!m_bPlayback  && m_Creating == NONE && !m_bEngineRunning &&
+		(m_pUndoStack->GetSize() > 0);
+
 	pCmdUI->Enable(bOk);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateRun (CCmdUI* pCmdUI)
-{	      
+void CWoormDocMng::OnUpdateRun(CCmdUI* pCmdUI)
+{
 	pCmdUI->Enable(
-					m_Creating == NONE && 
-					!m_bEngineRunning  &&
-					(m_pWoormInfo ? ! m_pWoormInfo->m_bBlockReRun : TRUE) &&
-					OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)					
-				   );
+		m_Creating == NONE &&
+		!m_bEngineRunning &&
+		(m_pWoormInfo ? !m_pWoormInfo->m_bBlockReRun : TRUE) &&
+		OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)
+	);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateStop (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateStop(CCmdUI* pCmdUI)
+{
 	pCmdUI->Enable(!m_bPlayback && m_Creating == NONE && m_bEngineRunning);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateRunStop (CCmdUI* pCmdUI)
-{	      
-	pCmdUI->Enable	(
-						!m_bPlayback &&
-						m_Creating == NONE  && 
-						(m_pWoormInfo ? !m_pWoormInfo->m_bBlockReRun : TRUE) &&
-						OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)
-					);
+void CWoormDocMng::OnUpdateRunStop(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(
+		!m_bPlayback &&
+		m_Creating == NONE &&
+		(m_pWoormInfo ? !m_pWoormInfo->m_bBlockReRun : TRUE) &&
+		OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXECUTE)
+	);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdatePause (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 	!m_bPlayback && 
-				m_Creating == NONE && 
-				m_bEngineRunning && !m_pEngine->IsPaused();
+void CWoormDocMng::OnUpdatePause(CCmdUI* pCmdUI)
+{
+	BOOL bOk = !m_bPlayback &&
+		m_Creating == NONE &&
+		m_bEngineRunning && !m_pEngine->IsPaused();
 
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateResume (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 	m_Creating == NONE && !m_bPlayback && 
-				m_bEngineRunning && m_pEngine->IsPaused();
+void CWoormDocMng::OnUpdateResume(CCmdUI* pCmdUI)
+{
+	BOOL bOk = m_Creating == NONE && !m_bPlayback &&
+		m_bEngineRunning && m_pEngine->IsPaused();
 
 	pCmdUI->Enable(bOk);
 }
-	
+
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdatePauseResume (CCmdUI* pCmdUI)
-{	      
+void CWoormDocMng::OnUpdatePauseResume(CCmdUI* pCmdUI)
+{
 	pCmdUI->Enable(!m_bPlayback && m_Creating == NONE && m_bEngineRunning);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateGotoPage (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateGotoPage(CCmdUI* pCmdUI)
+{
 	BOOL bOk = IsFilledWithData()
-				// in this case all work fine because this function is always
-				// called by menu manager (see below for buttons)
-				 && m_pRDEmanager->LastPage() > 0;
+		// in this case all work fine because this function is always
+		// called by menu manager (see below for buttons)
+		&& m_pRDEmanager->LastPage() > 0;
 
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateMovePage (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateMovePage(CCmdUI* pCmdUI)
+{
 	BOOL bOk = IsFilledWithData();
-				// can't use because OnIdle is called only once by scheduler
-				// && m_pRDEmanager->lastPage() > 0;
+	// can't use because OnIdle is called only once by scheduler
+	// && m_pRDEmanager->lastPage() > 0;
 
 	pCmdUI->Enable(bOk);
 }
@@ -9585,9 +9594,9 @@ void CWoormDocMng::OnUpdateFilePreviewPrint(CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateFindWord (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateFindWord(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(CanDoExportData (pCmdUI->m_nID));
+	pCmdUI->Enable(CanDoExportData(pCmdUI->m_nID));
 }
 
 //------------------------------------------------------------------------------
@@ -9597,8 +9606,8 @@ BOOL CWoormDocMng::IsDataLoaded()
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::IsFilledWithData() 
-{ 
+BOOL CWoormDocMng::IsFilledWithData()
+{
 	return m_Creating == NONE && GetObjects().GetSize() && IsDataLoaded();
 }
 
@@ -9608,9 +9617,9 @@ BOOL CWoormDocMng::IsFilledWithData()
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanSaveReport()
 {
-	return 
+	return
 		m_bAllowEditing &&
-		!m_bPlayback  && 
+		!m_bPlayback  &&
 		m_Creating == NONE &&
 		!m_bEngineRunning;
 }
@@ -9618,35 +9627,35 @@ BOOL CWoormDocMng::CanSaveReport()
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanSaveReportData()
 {
-	BOOL bOk = !m_bPlayback && 
+	BOOL bOk = !m_bPlayback &&
 		(!m_bEngineRunning || (m_bEngineRunning && m_bIsExporting))
-		&& 
+		&&
 		IsFilledWithData();
 
-	if ( bOk && OSL_IS_PROTECTED(GetInfoOSL()) )
+	if (bOk && OSL_IS_PROTECTED(GetInfoOSL()))
 	{
-		bOk = OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXPORT); 
+		bOk = OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXPORT);
 	}
 	return bOk;
 }
-		
+
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::CanDoSendMail ()
-{	
-	BOOL bOk = AfxIsActivated(TBEXT_APP,  MAILCONNECTOR_ACT);
+BOOL CWoormDocMng::CanDoSendMail()
+{
+	BOOL bOk = AfxIsActivated(TBEXT_APP, MAILCONNECTOR_ACT);
 
 	return  bOk && CanSaveReportData();
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::CanDoFileSavePDF ()
-{	
+BOOL CWoormDocMng::CanDoFileSavePDF()
+{
 	return CanDoSendMail();
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnUpdateFileNew(CCmdUI* pCmdUI)
-{ 
+{
 	pCmdUI->Enable(m_pSqlConnection->IsValid() && m_bIsUserReportsDeveloper);
 }
 
@@ -9655,37 +9664,37 @@ void CWoormDocMng::OnUpdateFileOpen(CCmdUI* pCmdUI)
 {
 	CTBNamespace ns1(CTBNamespace::FUNCTION, _NS_WEB("Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport"));
 	CInfoOSL infoOSL1(ns1, OSLType_Function);
-	AfxGetSecurityInterface()->GetObjectGrant (&infoOSL1);
+	AfxGetSecurityInterface()->GetObjectGrant(&infoOSL1);
 	BOOL bEnable = OSL_CAN_DO(&infoOSL1, OSL_GRANT_EXECUTE);
 
 	pCmdUI->Enable(m_pSqlConnection->IsValid() && bEnable);
 }
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::CanDoExportData (UINT)
+BOOL CWoormDocMng::CanDoExportData(UINT)
 {
-	BOOL bOk =	
-		IsDataLoaded()		&&
-		! m_bEngineRunning;
-			
-	if ( bOk && OSL_IS_PROTECTED(GetInfoOSL()) )
+	BOOL bOk =
+		IsDataLoaded() &&
+		!m_bEngineRunning;
+
+	if (bOk && OSL_IS_PROTECTED(GetInfoOSL()))
 	{
-		bOk = OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXPORT); 
+		bOk = OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EXPORT);
 	}
 
 	return bOk;
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateExportData (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateExportData(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (CanDoExportData (pCmdUI->m_nID));
+	pCmdUI->Enable(CanDoExportData(pCmdUI->m_nID));
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateExportDropDown (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateExportDropDown(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (TRUE);
+	pCmdUI->Enable(TRUE);
 }
 
 //------------------------------------------------------------------------------
@@ -9695,31 +9704,31 @@ void CWoormDocMng::OnUpdateFileSave(CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateFileSaveRDE (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateFileSaveRDE(CCmdUI* pCmdUI)
+{
 	pCmdUI->Enable(CanSaveReportData());
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateAddRect (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 	
+void CWoormDocMng::OnUpdateAddRect(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
-		!m_bPlayback && 
-		m_Creating == NONE && 
+		!m_bPlayback &&
+		m_Creating == NONE &&
 		!CurrentIsTable() &&
 		!m_bEngineRunning;
-				
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateAddTableOrFields (CCmdUI* pCmdUI)
-{	
-	BOOL bOk =	
+void CWoormDocMng::OnUpdateAddTableOrFields(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
-		!m_bPlayback && 
-		m_Creating == NONE && 
+		!m_bPlayback &&
+		m_Creating == NONE &&
 		!CurrentIsTable() &&
 		!m_bEngineRunning &&
 		!m_pMultipleSelObj;
@@ -9749,25 +9758,25 @@ void CWoormDocMng::OnUpdateAddLink(CCmdUI* pCmdUI)
 		!m_bPlayback &&
 		m_Creating == NONE &&
 		(
-			(CurrentIsTable() && !NoActiveColumn())
+		(CurrentIsTable() && !NoActiveColumn())
 			||
 			(m_pCurrentObj && dynamic_cast<FieldRect*>(m_pCurrentObj))
-		) &&
+			) &&
 		!m_bEngineRunning;
 
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateColMove (CCmdUI* pCmdUI)
-{	
-	BOOL bOk =	
+void CWoormDocMng::OnUpdateColMove(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
 		!m_bPlayback &&
 		m_Creating == NONE &&
-		GetObjects().GetSize() && 
+		GetObjects().GetSize() &&
 		!m_bEngineRunning &&
-		CurrentIsTable() && 
+		CurrentIsTable() &&
 		!NoActiveColumn() &&
 		MoreThanOneColumn();
 
@@ -9775,34 +9784,34 @@ void CWoormDocMng::OnUpdateColMove (CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateSelectAll (CCmdUI* pCmdUI)
-{	
-	BOOL bOk =	
+void CWoormDocMng::OnUpdateSelectAll(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
-		!m_bPlayback && m_Creating == NONE && GetObjects().GetSize() && 
+		!m_bPlayback && m_Creating == NONE && GetObjects().GetSize() &&
 		!m_bEngineRunning && !m_pMultipleSelObj;
 
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateSelection (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 	
+void CWoormDocMng::OnUpdateSelection(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
-		!m_bPlayback && m_Creating == NONE && GetObjects().GetSize() && 
+		!m_bPlayback && m_Creating == NONE && GetObjects().GetSize() &&
 		!m_bEngineRunning && m_pMultipleSelObj;
-	
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnUpdateOptions(CCmdUI* pCmdUI)
-{	
+{
 	// le opzioni di report possono essere salvate solo quando
 	// il report ha un namespace, perch� dipendono dal namespace
 	// del documento
-	BOOL bOk = 	
+	BOOL bOk =
 		!m_bPlayback && m_Creating == NONE && !m_bEngineRunning &&
 		GetNamespace().GetType() == CTBNamespace::REPORT;
 
@@ -9810,63 +9819,63 @@ void CWoormDocMng::OnUpdateOptions(CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateWoormOptions (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateWoormOptions(CCmdUI* pCmdUI)
+{
 	// disabilito le opzioni anche in nuovo documento in caso di non Admin
-	BOOL bOk = 	m_bAllowEditing &&
-				!m_bPlayback && m_Creating == NONE && !m_bEngineRunning && 
-				m_bIsUserReportsDeveloper;
+	BOOL bOk = m_bAllowEditing &&
+		!m_bPlayback && m_Creating == NONE && !m_bEngineRunning &&
+		m_bIsUserReportsDeveloper;
 
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateEditMode (CCmdUI* pCmdUI)
-{	
-	BOOL bOk = 	
+void CWoormDocMng::OnUpdateEditMode(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
 		!m_bPlayback && m_Creating == NONE && !m_bEngineRunning;
-	
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateShowReportParameters (CCmdUI* pCmdUI)
-{	
-	BOOL bOk =	
+void CWoormDocMng::OnUpdateShowReportParameters(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_pWoormInfo != NULL &&
 		m_pWoormInfo->GetParameters().GetSize() != 0;
-			
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateShowReportObjects (CCmdUI* pCmdUI)
-{	
+void CWoormDocMng::OnUpdateShowReportObjects(CCmdUI* pCmdUI)
+{
 	BOOL bOk = GetObjects().GetCount() > 2;
-			
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateMakerMode (CCmdUI* pCmdUI)
-{	
-	BOOL bOk =	
+void CWoormDocMng::OnUpdateMakerMode(CCmdUI* pCmdUI)
+{
+	BOOL bOk =
 		m_bAllowEditing &&
 		!m_bPlayback && m_Creating == NONE && !m_bEngineRunning;
-				
+
 	pCmdUI->Enable(bOk);
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateSaveOnlyGraphInfo (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateSaveOnlyGraphInfo(CCmdUI* pCmdUI)
 {
 	BOOL bOk = FALSE;
-	
-	bOk = 
+
+	bOk =
 		m_bAllowEditing &&
 		!m_bPlayback && m_Creating == NONE;
-											
+
 	pCmdUI->Enable(bOk);
 	pCmdUI->SetCheck(m_bOnlyGraphInfo);
 }
@@ -9874,15 +9883,15 @@ void CWoormDocMng::OnUpdateSaveOnlyGraphInfo (CCmdUI* pCmdUI)
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::CanDoEditReport()
 {
-	BOOL bAllow = this ? m_bIsUserReportsDeveloper: IsUserReportsDeveloper();
+	BOOL bAllow = this ? m_bIsUserReportsDeveloper : IsUserReportsDeveloper();
 
 	if (!bAllow && AfxGetSecurityInterface()->IsSecurityEnabled())
 	{
 		//current report has specific grants ?
 		if (OSL_IS_PROTECTED(GetInfoOSL()))
-			bAllow =  OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EDIT);
+			bAllow = OSL_CAN_DO(GetInfoOSL(), OSL_GRANT_EDIT);
 
-		if (bAllow && ! AfxIsCalAvailable(TBNET_APP, REPORTEDITOR_ACT))
+		if (bAllow && !AfxIsCalAvailable(TBNET_APP, REPORTEDITOR_ACT))
 			return FALSE;
 	}
 
@@ -9892,17 +9901,17 @@ BOOL CWoormDocMng::CanDoEditReport()
 BOOL CWoormDocMng::CanDoAllowEditingButton(BOOL bPrepare/* = FALSE*/)
 {
 	BOOL bAllow = bPrepare ?
-					TRUE :
-					(
-						!m_bPlayback && 
-						m_Creating == NONE && 
+		TRUE :
+		(
+			!m_bPlayback &&
+			m_Creating == NONE &&
 			!m_bEngineRunning &&
-			! IsExternalControlled()
-					);
+			!IsExternalControlled()
+			);
 
 	if (!bAllow)
 		return FALSE;
-	
+
 	return CanDoEditReport();
 }
 
@@ -9924,7 +9933,7 @@ void CWoormDocMng::OnTabSwitch()
 	if (pTabbed)
 	{
 		pTabbed->MoveNextTab();
-	}	
+	}
 }
 
 //------------------------------------------------------------------------------
@@ -9934,7 +9943,7 @@ void CWoormDocMng::OnUpdateTabSwitch(CCmdUI* pCmdUI)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateAllowEditingButton (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateAllowEditingButton(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!m_bIsNew && CanDoAllowEditingButton());
 	pCmdUI->SetCheck(m_bAllowEditing);
@@ -9948,14 +9957,14 @@ void CWoormDocMng::OnUpdateShowEditToolbars(CCmdUI* pCmdUI)
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::UpdateSpecialField()
-{                         
+{
 	for (int i = 0; i <= GetObjects().GetUpperBound(); i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
 		if (!pObj->IsKindOf(RUNTIME_CLASS(TextRect)))
 			continue;
 
-		TextRect* pTextRect = (TextRect*) pObj;
+		TextRect* pTextRect = (TextRect*)pObj;
 		if (!pTextRect->GetSpecialField())
 			continue;
 
@@ -9964,18 +9973,18 @@ void CWoormDocMng::UpdateSpecialField()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::SetPageIndicator ()
-{                         
+void CWoormDocMng::SetPageIndicator()
+{
 	if (m_pRDEmanager->IsClosed()) return;
-	
+
 	int		curr_page = m_pRDEmanager->CurrPageRead() + 1;
 	int 	last_page = m_pRDEmanager->LastPage() + 1;
-	
+
 	CWoormFrame* pFrame = GetWoormFrame();
 	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
 		return;
 	CClientDC	dc(&(pFrame->m_StatusBar));
-	
+
 	const rsize_t nBuff = 40;
 	static TCHAR indicator[40];
 
@@ -9987,23 +9996,23 @@ void CWoormDocMng::SetPageIndicator ()
 
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::SetRunIndicator ()
+void CWoormDocMng::SetRunIndicator()
 {
 	// don't display record count on playback (no record extracted from database)                      
-	if (m_bPlayback || m_pRDEmanager->IsClosed()) return; 
+	if (m_bPlayback || m_pRDEmanager->IsClosed()) return;
 
 	CWoormFrame* pFrame = GetWoormFrame();
 	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
 		return;
 	CClientDC	dc(&(pFrame->m_StatusBar));
-	
+
 	// format run status
 	const rsize_t nBuff = 40;
 	static TCHAR indicator[40];
 	_sntprintf_s(indicator, nBuff, sizeof indicator, _T("%-3s %06ld : %06ld"), pchSortStatusString, m_nSearchTic, m_nRetrieveTic);
-						
+
 	pFrame->m_StatusBar.SetPaneText(1, indicator);
-	
+
 }
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetMessageInStatusBar(CString message, MSGSBType eMsgType)
@@ -10033,12 +10042,12 @@ void CWoormDocMng::SetMessageInStatusBar(CString message, MSGSBType eMsgType)
 	}
 
 	pFrame->m_StatusBar.SetPaneText(3, message);
-	
+
 	CFont* pFont = pFrame->m_StatusBar.GetFont();
-	
+
 	CDC* pDC = pFrame->m_StatusBar.GetDC();
 	CSize sz = ::GetTextSize(pDC, message, pFont);
-	
+
 	pFrame->m_StatusBar.ReleaseDC(pDC);
 
 	pFrame->m_StatusBar.SetPaneWidth(3, sz.cx);
@@ -10056,19 +10065,19 @@ void CWoormDocMng::ClearMessageInStatusBar()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateTrackRectIndicator (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateTrackRectIndicator(CCmdUI* pCmdUI)
 {
 	BOOL bEnable = m_pCurrentObj || m_bTrackRectIndicatorActive;
 	pCmdUI->Enable(bEnable);
 	if (!bEnable) return;
 
-	CRect rect(0,0,0,0);
+	CRect rect(0, 0, 0, 0);
 	if (m_bTrackRectIndicatorActive)
 	{
-		static CRect prev_rect(0,0,0,0);
+		static CRect prev_rect(0, 0, 0, 0);
 		if (prev_rect == m_TrackRect && prev_rect.IsRectEmpty())
 			return;
-				   
+
 		prev_rect = m_TrackRect;
 		rect = m_TrackRect;
 	}
@@ -10079,10 +10088,10 @@ void CWoormDocMng::OnUpdateTrackRectIndicator (CCmdUI* pCmdUI)
 	CString msg;
 	if (m_pWoormIni->m_bSizeInGridUnits)
 	{
-		rect.top	= MulDiv(rect.top,1,m_pWoormIni->m_nGridY) + 1;
-		rect.left	= MulDiv(rect.left,1,m_pWoormIni->m_nGridX) + 1;
-		rect.right	= MulDiv(rect.right,1,m_pWoormIni->m_nGridX) + 1;
-		rect.bottom	= MulDiv(rect.bottom,1,m_pWoormIni->m_nGridY) + 1;
+		rect.top = MulDiv(rect.top, 1, m_pWoormIni->m_nGridY) + 1;
+		rect.left = MulDiv(rect.left, 1, m_pWoormIni->m_nGridX) + 1;
+		rect.right = MulDiv(rect.right, 1, m_pWoormIni->m_nGridX) + 1;
+		rect.bottom = MulDiv(rect.bottom, 1, m_pWoormIni->m_nGridY) + 1;
 
 		msg = cwsprintf
 		(
@@ -10096,8 +10105,8 @@ void CWoormDocMng::OnUpdateTrackRectIndicator (CCmdUI* pCmdUI)
 		(
 			//_TB("Y:{0-%2.2f} X:{1-%2.2f} Alt.:{2-%2.2f} Width:{3-%2.2f} (mm)"),
 			_T("Y:%2.2f X:%2.2f Height:%2.2f Width:%2.2f (mm)"),
-			LPtoMU(rect.top),      
-			LPtoMU(rect.left),     
+			LPtoMU(rect.top),
+			LPtoMU(rect.left),
 			LPtoMU(rect.Height()),
 			LPtoMU(rect.Width())
 		);
@@ -10119,18 +10128,18 @@ void CWoormDocMng::SetAutoSaveTimer()
 	if (m_pWoormIni->m_iTimeAutoSave > 0)
 	{
 		// m_iTimeAutoSave is Minuto to elapse
-		UINT nWoormElapseAutoSave = m_pWoormIni->m_iTimeAutoSave * (1000*60);
-		
+		UINT nWoormElapseAutoSave = m_pWoormIni->m_iTimeAutoSave * (1000 * 60);
+
 		m_nTimerAutoSave = GetFirstView()->SetTimer(IDT_WOORM_AUTOSAVE, nWoormElapseAutoSave, NULL);
 	}
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnAllowEditing()	
+void CWoormDocMng::OnAllowEditing()
 {
 	if (!CanDoAllowEditingButton())
 		return;
-	
+
 	BOOL bOk = TRUE;
 	if (m_bAllowEditing)
 	{
@@ -10173,7 +10182,7 @@ void CWoormDocMng::OnAllowEditing()
 				return;
 			}
 			m_bIsInParse = FALSE;
-					
+
 			m_dsCurrentLayoutView = sCurrLayout;
 		}
 	}
@@ -10192,8 +10201,8 @@ void CWoormDocMng::OnAllowEditing()
 	}
 
 	GetWoormFrame()->SetAllowEditButtonInfo(m_bAllowEditing);
-	
-	BOOL res=GetWoormFrame()->GetEditorToolBar()->HideButton(IDC_DROPDOWN_TEMPLATES, FALSE);
+
+	BOOL res = GetWoormFrame()->GetEditorToolBar()->HideButton(IDC_DROPDOWN_TEMPLATES, FALSE);
 
 	// se devo mostrare La griglia allora devo rinfrescare al cambio di stato per
 	// farla comparire in editing e scomparire quando torno indietro in run mode
@@ -10205,7 +10214,7 @@ void CWoormDocMng::OnAllowEditing()
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnShowEditToolbars()	
+void CWoormDocMng::OnShowEditToolbars()
 {
 }
 
@@ -10217,10 +10226,10 @@ BOOL CWoormDocMng::ForceEngineParse()
 	m_bReportComputing = TRUE;
 
 	BOOL bOk = TRUE;
-	if	(!m_bOnlyGraphInfo && !m_pEditorManager->ExistProgram())
+	if (!m_bOnlyGraphInfo && !m_pEditorManager->ExistProgram())
 	{
 		CStringArray arErrors; int nLine = -1; int nCol = -1;
-		bOk = m_pEditorManager->Parse (m_strPathName, arErrors, nLine, nCol);
+		bOk = m_pEditorManager->Parse(m_strPathName, arErrors, nLine, nCol);
 
 		if (bOk)
 		{
@@ -10248,12 +10257,12 @@ BOOL CWoormDocMng::ForceEngineParse()
 /////////////////////////////////////////////////////////////////////////////
 // CWoormDocMng inlinable function
 
-void CWoormDocMng::OnFirstPage		()	{ ReadPrevPage(TRUE); }
-void CWoormDocMng::OnLastPage		()	{ ReadNextPage(TRUE); }
-void CWoormDocMng::OnNextPage		()	{ ReadNextPage(); }
-void CWoormDocMng::OnPrevPage		()	{ ReadPrevPage(); }
-void CWoormDocMng::ReadLastPage	()	{ ReadNextPage (TRUE); }
-void CWoormDocMng::ReadFirstPage	()	{ ReadPrevPage (TRUE); }
+void CWoormDocMng::OnFirstPage() { ReadPrevPage(TRUE); }
+void CWoormDocMng::OnLastPage() { ReadNextPage(TRUE); }
+void CWoormDocMng::OnNextPage() { ReadNextPage(); }
+void CWoormDocMng::OnPrevPage() { ReadPrevPage(); }
+void CWoormDocMng::ReadLastPage() { ReadNextPage(TRUE); }
+void CWoormDocMng::ReadFirstPage() { ReadPrevPage(TRUE); }
 
 /////////////////////////////////////////////////////////////////////////////
 // CWoormDocMng diagnostics
@@ -10272,11 +10281,11 @@ void CWoormDocMng::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnActionsCopy ()	
+void CWoormDocMng::OnActionsCopy()
 {
 	DataBool db(TRUE);
 	CString strKey;
-	strKey.Format(L"%s=%s;", SpecialReportField::NAME.HIDE_ALL_ASK_DIALOGS, db.Str(0,0));
+	strKey.Format(L"%s=%s;", SpecialReportField::NAME.HIDE_ALL_ASK_DIALOGS, db.Str(0, 0));
 
 	WoormTable* pSymTable = this->GetEngineSymTable() ? this->GetEngineSymTable() : &m_ViewSymbolTable;
 
@@ -10284,16 +10293,16 @@ void CWoormDocMng::OnActionsCopy ()
 	{
 		WoormField* pF = pSymTable->GetAt(i);
 		ASSERT_VALID(pF);
-		if (!pF->GetData()) 
+		if (!pF->GetData())
 			continue;
 
 		if (m_pCallerDocument)
 		{
-			if (!pF->IsInput()) 
+			if (!pF->IsInput())
 				continue;
 		}
 		else if (!pF->IsAsk())
-			continue; 
+			continue;
 
 		if (!pF->GetData())
 			continue;
@@ -10302,7 +10311,7 @@ void CWoormDocMng::OnActionsCopy ()
 		if (t == DataType::Array || t == DataType::Void || t == DataType::Variant)	//TODO per altri tipi complessi (es Record)
 			continue;
 
-		CString v = pF->GetData()->Str(0,0);
+		CString v = pF->GetData()->Str(0, 0);
 
 		if (v.Find(';') > -1)
 		{
@@ -10313,20 +10322,20 @@ void CWoormDocMng::OnActionsCopy ()
 		strKey += pF->GetName() + '=' + v + ';';
 	}
 	strKey.TrimRight(';');
- 	
-    //TODO verificare 
+
+	//TODO verificare 
 //CString strKey = GetReportParametersKey();
 
 	CString strLink = GetTBNavigateUrl(GetNamespace().ToString(), strKey);
 
 	if (CopyTBLinkToClipboard(strLink))
-		AfxSetStatusBarText (_TB("The report link has been succesfully copied to clipboard."));
+		AfxSetStatusBarText(_TB("The report link has been succesfully copied to clipboard."));
 	else
-		AfxSetStatusBarText (_TB("There was an error copying the report link to clipboard."));
+		AfxSetStatusBarText(_TB("There was an error copying the report link to clipboard."));
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnXmlActionsCopy ()	
+void CWoormDocMng::OnXmlActionsCopy()
 {
 	DataBool db(TRUE);
 	CFunctionDescription fd;
@@ -10338,22 +10347,22 @@ void CWoormDocMng::OnXmlActionsCopy ()
 	{
 		WoormField* pF = pSymTable->GetAt(i);
 		ASSERT_VALID(pF);
-		if (!pF->GetData()) 
+		if (!pF->GetData())
 			continue;
 
 		if (m_pCallerDocument)
 		{
-			if (!pF->IsInput()) 
+			if (!pF->IsInput())
 				continue;
 		}
 		else if (!pF->IsAsk())
-			continue; 
+			continue;
 
 		if (!pF->GetData())
 			continue;
 
 		DataType t = pF->GetData()->GetDataType();
-		if (t == DataType::Array|| t == DataType::Variant || t == DataType::Void || t == DataType::Null)	//TODO per altri tipi complessi (es Record)
+		if (t == DataType::Array || t == DataType::Variant || t == DataType::Void || t == DataType::Null)	//TODO per altri tipi complessi (es Record)
 			continue;
 
 		fd.InternalAddParam(pF->GetName(), pF->GetData(), FALSE);
@@ -10362,14 +10371,14 @@ void CWoormDocMng::OnXmlActionsCopy ()
 	DataStr dsArguments;
 	if (!fd.UnparseArguments(dsArguments, XML_ARGUMENTS_TAG))
 	{
-		AfxSetStatusBarText (_TB("There was an error copying the report link to clipboard."));
+		AfxSetStatusBarText(_TB("There was an error copying the report link to clipboard."));
 		return;
 	}
 
 	if (CopyTBLinkToClipboard(dsArguments))
-		AfxSetStatusBarText (_TB("The report link has been succesfully copied to clipboard."));
+		AfxSetStatusBarText(_TB("The report link has been succesfully copied to clipboard."));
 	else
-		AfxSetStatusBarText (_TB("There was an error copying the report link to clipboard."));
+		AfxSetStatusBarText(_TB("There was an error copying the report link to clipboard."));
 }
 
 //-----------------------------------------------------------------------------
@@ -10413,7 +10422,7 @@ BOOL CWoormDocMng::PrepareParamsForReRun()
 
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateActionsCopy (CCmdUI* pCmdUI)	
+void CWoormDocMng::OnUpdateActionsCopy(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!m_bAllowEditing && !m_bEngineRunning);
 }
@@ -10424,7 +10433,7 @@ BOOL CWoormDocMng::OnToggleBorder(UINT nID)
 	// Sleep for draw of button toolbar in click color.! 
 	Sleep(150);
 
-	if	(!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
+	if (!m_bAllowEditing || m_Creating != NONE || m_bEngineRunning)
 		return TRUE;
 
 	if (m_pMultipleSelObj)
@@ -10483,7 +10492,7 @@ BOOL CWoormDocMng::OnAlignmentBar(UINT nID)
 }
 
 //-----------------------------------------------------------------------------------
-RDEData* CWoormDocMng::GetRDEDataFromAlias (int nA, int nRow/*=-1*/) 
+RDEData* CWoormDocMng::GetRDEDataFromAlias(int nA, int nRow/*=-1*/)
 {
 	int ub = GetObjects().GetUpperBound();
 	for (int nObj = 0; nObj <= ub; nObj++)
@@ -10504,11 +10513,11 @@ RDEData* CWoormDocMng::GetRDEDataFromAlias (int nA, int nRow/*=-1*/)
 				return pField->GetRDEValue();
 			}
 		}
-		
+
 		Table* pTable = dynamic_cast<Table*>(pObj);
 		if (pTable)
 		{
-			if (!pTable->ExistChildID(nA)) 
+			if (!pTable->ExistChildID(nA))
 				continue;
 
 			TableCell* pCell = pTable->GetCellFromID(nRow, nA);
@@ -10518,11 +10527,11 @@ RDEData* CWoormDocMng::GetRDEDataFromAlias (int nA, int nRow/*=-1*/)
 
 			return pCell->GetRDEValue();
 		}
-		
+
 		Repeater* pRep = dynamic_cast<Repeater*>(pObj);
 		if (pRep)
-		{			
-			if (!pRep->ExistChildID(nA)) 
+		{
+			if (!pRep->ExistChildID(nA))
 				continue;
 
 			FieldRect* pField = pRep->GetCellFromID(nRow, nA);
@@ -10538,7 +10547,7 @@ RDEData* CWoormDocMng::GetRDEDataFromAlias (int nA, int nRow/*=-1*/)
 }
 
 //-----------------------------------------------------------------------------------
-BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pField, TableCell*& pCell) 
+BOOL CWoormDocMng::GetObjectFromAlias(int nA, int nRow/*=-1*/, FieldRect*& pField, TableCell*& pCell)
 {
 	pField = NULL;
 	pCell = NULL;
@@ -10559,7 +10568,7 @@ BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pFie
 		else if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
 		{
 			Table* pTable = STATIC_DOWNCAST(Table, pObj);
-			if (!pTable->ExistChildID(nA)) 
+			if (!pTable->ExistChildID(nA))
 				continue;
 
 			pCell = pTable->GetCellFromID(nRow, nA);
@@ -10569,7 +10578,7 @@ BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pFie
 		else if (pObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
 			Repeater* pRep = STATIC_DOWNCAST(Repeater, pObj);
-			if (!pRep->ExistChildID(nA)) 
+			if (!pRep->ExistChildID(nA))
 				continue;
 
 			pField = pRep->GetCellFromID(nRow, nA);
@@ -10581,13 +10590,13 @@ BOOL CWoormDocMng::GetObjectFromAlias (int nA, int nRow/*=-1*/, FieldRect*& pFie
 }
 
 //-----------------------------------------------------------------------------------
-void CWoormDocMng::UpdateViewSymbolTable () 
+void CWoormDocMng::UpdateViewSymbolTable()
 {
 	UpdateViewSymbolTable(NULL, -1);
 }
 
 //-----------------------------------------------------------------------------------
-void CWoormDocMng::UpdateViewSymbolTable (BaseObj* pTableOrRepeater, int nRow, BOOL updateOnlyTailCell/* = FALSE*/) 
+void CWoormDocMng::UpdateViewSymbolTable(BaseObj* pTableOrRepeater, int nRow, BOOL updateOnlyTailCell/* = FALSE*/)
 {
 	if (pTableOrRepeater)
 	{
@@ -10643,14 +10652,14 @@ void CWoormDocMng::UpdateViewSymbolTable (BaseObj* pTableOrRepeater, int nRow, B
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::GetAliasObjectFromPoint (int& nAlias, int& nRow, BaseObj*& pTable, BaseRect*& pField, CPoint* pt /*= NULL*/)
+BOOL CWoormDocMng::GetAliasObjectFromPoint(int& nAlias, int& nRow, BaseObj*& pTable, BaseRect*& pField, CPoint* pt /*= NULL*/)
 {
-	pField = NULL; 
+	pField = NULL;
 	pTable = NULL;
-	if (pt == NULL) 
+	if (pt == NULL)
 		pt = &m_ptCurrPos;
 
-	for (int nObj = GetObjects().GetUpperBound() ; nObj >= 0 ; nObj--)
+	for (int nObj = GetObjects().GetUpperBound(); nObj >= 0; nObj--)
 	{
 		BaseObj* pObj = GetObjects()[nObj];
 
@@ -10671,7 +10680,7 @@ BOOL CWoormDocMng::GetAliasObjectFromPoint (int& nAlias, int& nRow, BaseObj*& pT
 				{
 					pTable = pRep;
 					nAlias = pO->GetInternalID();
-					pField = (BaseRect*) pO;
+					pField = (BaseRect*)pO;
 
 					return TRUE;
 				}
@@ -10680,7 +10689,7 @@ BOOL CWoormDocMng::GetAliasObjectFromPoint (int& nAlias, int& nRow, BaseObj*& pT
 					continue;
 
 				nAlias = pObj->GetInternalID();
-				pField = (BaseRect*) pObj;
+				pField = (BaseRect*)pObj;
 
 				return TRUE;
 			}
@@ -10708,7 +10717,7 @@ BOOL CWoormDocMng::GetAliasObjectFromPoint (int& nAlias, int& nRow, BaseObj*& pT
 		else if (pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 		{
 			nAlias = pObj->GetInternalID();
-			pField = (BaseRect*) pObj;
+			pField = (BaseRect*)pObj;
 
 			return TRUE;
 		}
@@ -10722,7 +10731,7 @@ BOOL CWoormDocMng::GetAliasObjectFromPoint (int& nAlias, int& nRow, BaseObj*& pT
 		else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
 			nAlias = 0;
-			pField = (BaseRect*) pObj;
+			pField = (BaseRect*)pObj;
 
 			return TRUE;
 		}
@@ -10735,9 +10744,9 @@ WoormLink* CWoormDocMng::GetEnableLink(BaseObj* pTableOrRepeater, int nAlias, in
 {
 	BOOL bFoundLinkOnObj = FALSE;
 	WoormLink* pConn = NULL;
-	for (int nCl = 0; nCl < m_arWoormLinks.GetSize(); nCl++) 
+	for (int nCl = 0; nCl < m_arWoormLinks.GetSize(); nCl++)
 	{
-		pConn = (WoormLink*) m_arWoormLinks.GetAt(nCl);
+		pConn = (WoormLink*)m_arWoormLinks.GetAt(nCl);
 		if (pConn->m_LinkType == WoormLink::ConnectionRadar)
 			continue;
 
@@ -10746,20 +10755,20 @@ WoormLink* CWoormDocMng::GetEnableLink(BaseObj* pTableOrRepeater, int nAlias, in
 			RDEData* pRDE = GetRDEDataFromAlias(pConn->m_nAlias, nRow);
 			if (pRDE == NULL)
 				break;
-			if(!pRDE->IsValid() || pRDE->GetData() == NULL || pRDE->IsTailMultiLineString())
+			if (!pRDE->IsValid() || pRDE->GetData() == NULL || pRDE->IsTailMultiLineString())
 				break;
 
 			if (bUpdateSymTable && !pRDE->IsTailMultiLineString())
 				UpdateViewSymbolTable(pTableOrRepeater, nRow);
-	
+
 			DataBool b(FALSE);
-		
+
 			if (pConn->m_pEnableLinkWhenExpr)   //when clause present
 			{
 				if (!pConn->m_pEnableLinkWhenExpr->Eval(b))
 					continue;	//break;
 
-				bFoundLinkOnObj = b; 
+				bFoundLinkOnObj = b;
 			}
 			else   //when clause not present
 			{
@@ -10774,13 +10783,13 @@ WoormLink* CWoormDocMng::GetEnableLink(BaseObj* pTableOrRepeater, int nAlias, in
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::EvalLinkParameters (CFunctionDescription* pFD, WoormLink* pConn, WoormTable* pSymTable, int nRow)
+BOOL CWoormDocMng::EvalLinkParameters(CFunctionDescription* pFD, WoormLink* pConn, WoormTable* pSymTable, int nRow)
 {
 	if (!pSymTable)
 		return FALSE;
 	ASSERT_VALID(pSymTable);
 
-    for (int i = 0; i <= pSymTable->GetUpperBound(); i++)
+	for (int i = 0; i <= pSymTable->GetUpperBound(); i++)
 	{
 		WoormField* pItem = pSymTable->GetAt(i);
 		ASSERT_VALID(pItem);
@@ -10809,7 +10818,7 @@ BOOL CWoormDocMng::EvalLinkParameters (CFunctionDescription* pFD, WoormLink* pCo
 			{
 				ASSERT_VALID(pDO);
 				ASSERT_TRACE(pObj->GetDataType() == pDO->GetDataType(), _T("Link: Before Events evaluate parameters ") + pItem->GetName());
-				
+
 				if (pDO->GetPassedMode() == CDataObjDescription::_IN)
 					pDO->SetValue(*pObj);
 				else
@@ -10841,7 +10850,7 @@ BOOL CWoormDocMng::IsMouseHoverLink(CString* psTip /*= NULL*/)
 	int nAlias = 0;
 	BaseObj* pTableOrRepeater = NULL;
 	BaseRect* pField = NULL;
-	
+
 	if (!GetAliasObjectFromPoint(nAlias, nRow, pTableOrRepeater, pField))
 	{
 		if (psTip && pTableOrRepeater && pTableOrRepeater->IsKindOf(RUNTIME_CLASS(Table)))
@@ -10857,12 +10866,12 @@ BOOL CWoormDocMng::IsMouseHoverLink(CString* psTip /*= NULL*/)
 	}
 
 	if (nAlias)
-		pConn = GetEnableLink (pTableOrRepeater, nAlias, nRow); 
+		pConn = GetEnableLink(pTableOrRepeater, nAlias, nRow);
 
 	if (psTip)
 	{
 		//if (!nAlias)
-			UpdateViewSymbolTable(pTableOrRepeater, nRow);
+		UpdateViewSymbolTable(pTableOrRepeater, nRow);
 
 		if (pField)
 		{
@@ -10902,7 +10911,7 @@ BOOL CWoormDocMng::OnLinkSelectedFromWeb(int nAlias, int nRow)
 {
 	if (m_arWoormLinks.GetSize() == 0)
 		return FALSE;
-	
+
 	Table* pTable = NULL;
 	FieldRect* pField = NULL;
 	TableCell* pCell = NULL;
@@ -10912,15 +10921,15 @@ BOOL CWoormDocMng::OnLinkSelectedFromWeb(int nAlias, int nRow)
 
 	if (pCell)
 		pTable = pCell->m_pColumn->m_pTable;
-	
+
 	return DoBrowseLink(pTable, pField, nAlias, nRow);
 }
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::OnLinkSelected ()
+BOOL CWoormDocMng::OnLinkSelected()
 {
 	if (m_arWoormLinks.GetSize() == 0)
 		return FALSE;
-	
+
 	int nRow = -1;
 	int nAlias = 0;
 	BaseObj* pTableOrRepeater = NULL;
@@ -10939,8 +10948,8 @@ BOOL CWoormDocMng::OnLinkSelected ()
 BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, int nAlias, int nRow)
 {
 	CString strLinkShellEx = _T("");
-	WoormLink* pConn = GetEnableLink (pTableOrRepeater, nAlias, nRow);
-	if(pConn == NULL)
+	WoormLink* pConn = GetEnableLink(pTableOrRepeater, nAlias, nRow);
+	if (pConn == NULL)
 		return FALSE;
 
 	if (m_pRDEmanager && !m_pRDEmanager->IsClosed())
@@ -10973,75 +10982,75 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 		ASSERT_VALID(pF->GetData());
 	}
 
-	switch(pConn->m_LinkType)
+	switch (pConn->m_LinkType)
 	{
-		case WoormLink::ConnectionForm:
+	case WoormLink::ConnectionForm:
+	{
+		pWrmInfo = new CWoormInfo();
+
+		if (pConn->m_bLinkTargetByField)
 		{
-			pWrmInfo = new CWoormInfo();
-
-			if (pConn->m_bLinkTargetByField)
-			{
-				nsDocument = *(DataStr*) pF->GetData(); 
-			}
-			else
-				nsDocument = pConn->m_strTarget;
-
-			break;
+			nsDocument = *(DataStr*)pF->GetData();
 		}
-		case WoormLink::ConnectionReport:
+		else
+			nsDocument = pConn->m_strTarget;
+
+		break;
+	}
+	case WoormLink::ConnectionReport:
+	{
+		pWrmInfo = new CWoormInfo();
+
+		if (pConn->m_bLinkTargetByField)
 		{
-			pWrmInfo = new CWoormInfo();
+			DataStr* nsReport = (DataStr*)pF->GetData();
 
-			if (pConn->m_bLinkTargetByField)
-			{
-				DataStr* nsReport = (DataStr*) pF->GetData();
-
-				pWrmInfo->m_ReportNames.Add(nsReport->GetString());
-			}
-			else
-				pWrmInfo->m_ReportNames.Add(pConn->m_strTarget);
-			break;
+			pWrmInfo->m_ReportNames.Add(nsReport->GetString());
 		}
-		case WoormLink::ConnectionFunction:
+		else
+			pWrmInfo->m_ReportNames.Add(pConn->m_strTarget);
+		break;
+	}
+	case WoormLink::ConnectionFunction:
+	{
+		pWrmInfo = new CWoormInfo();
+
+		if (pConn->m_bLinkTargetByField)
 		{
-			pWrmInfo = new CWoormInfo();
+			DataStr* nsFunction = (DataStr*)pF->GetData();
 
-			if (pConn->m_bLinkTargetByField)
-			{
-				DataStr* nsFunction = (DataStr*) pF->GetData();
-
-				if (!AfxGetTbCmdManager()->GetFunctionDescription((LPCTSTR)(nsFunction), *pWrmInfo))
-					return FALSE;
-			}
-			else
-				if (!AfxGetTbCmdManager()->GetFunctionDescription((LPCTSTR)(pConn->m_strTarget), *pWrmInfo))
-					return FALSE;
-
-			break;
+			if (!AfxGetTbCmdManager()->GetFunctionDescription((LPCTSTR)(nsFunction), *pWrmInfo))
+				return FALSE;
 		}
-		case WoormLink::ConnectionURL:
+		else
+			if (!AfxGetTbCmdManager()->GetFunctionDescription((LPCTSTR)(pConn->m_strTarget), *pWrmInfo))
+				return FALSE;
+
+		break;
+	}
+	case WoormLink::ConnectionURL:
+	{
+		if (pConn->m_bLinkTargetByField)
 		{
-			if (pConn->m_bLinkTargetByField)
-			{
-				strLinkShellEx = ((DataStr*)pF->GetData())->GetString();
-				CTBNamespace nsLinkedFile(strLinkShellEx);
+			strLinkShellEx = ((DataStr*)pF->GetData())->GetString();
+			CTBNamespace nsLinkedFile(strLinkShellEx);
 
-				if (nsLinkedFile.IsValid())
-					strLinkShellEx = AfxGetPathFinder()->GetFileNameFromNamespace(nsLinkedFile, AfxGetLoginInfos()->m_strUserName);
-			}
-			else
-			{
-				CTBNamespace nsLinkedFile(pConn->m_strTarget);
-
-				if (nsLinkedFile.IsValid())
-					strLinkShellEx = AfxGetPathFinder()->GetFileNameFromNamespace(nsLinkedFile, AfxGetLoginInfos()->m_strUserName);
-				else
-					strLinkShellEx = pConn->m_strTarget;
-			}
-			break;
+			if (nsLinkedFile.IsValid())
+				strLinkShellEx = AfxGetPathFinder()->GetFileNameFromNamespace(nsLinkedFile, AfxGetLoginInfos()->m_strUserName);
 		}
-		default :
-			return FALSE;
+		else
+		{
+			CTBNamespace nsLinkedFile(pConn->m_strTarget);
+
+			if (nsLinkedFile.IsValid())
+				strLinkShellEx = AfxGetPathFinder()->GetFileNameFromNamespace(nsLinkedFile, AfxGetLoginInfos()->m_strUserName);
+			else
+				strLinkShellEx = pConn->m_strTarget;
+		}
+		break;
+	}
+	default:
+		return FALSE;
 	}
 
 	UpdateViewSymbolTable(pTableOrRepeater, nRow);
@@ -11050,7 +11059,7 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 
 	if (pConn->m_LinkType != WoormLink::ConnectionURL)
 	{
-		if (!EvalLinkParameters (pWrmInfo, pConn, pConn->m_pLocalSymbolTable, nRow))
+		if (!EvalLinkParameters(pWrmInfo, pConn, pConn->m_pLocalSymbolTable, nRow))
 		{
 			//TODO show error
 			SAFE_DELETE(pWrmInfo);
@@ -11059,7 +11068,7 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 
 		if (pConn->m_LinkType == WoormLink::ConnectionForm)
 		{
-			if (!EvalLinkParameters (&fdContext, pConn, pConn->m_pDocumentContextSymbolTable, nRow))
+			if (!EvalLinkParameters(&fdContext, pConn, pConn->m_pDocumentContextSymbolTable, nRow))
 			{
 				//TODO show error
 				SAFE_DELETE(pWrmInfo);
@@ -11087,19 +11096,19 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 			pContextBag = new CContextBag;
 			for (int i = 0; i < fdContext.GetParameters().GetCount(); i++)
 			{
-				CDataObjDescription* pDObj = (CDataObjDescription*) fdContext.GetParameters().GetAt(i);
-				ASSERT_VALID(pDObj); 
+				CDataObjDescription* pDObj = (CDataObjDescription*)fdContext.GetParameters().GetAt(i);
+				ASSERT_VALID(pDObj);
 				ASSERT_KINDOF(CDataObjDescription, pDObj);
 
-				DataObj* pO = (DataObj*) pContextBag->AddContextObject(pDObj->GetName(), pDObj->GetValue()->GetRuntimeClass());
-				ASSERT_VALID(pO); 
+				DataObj* pO = (DataObj*)pContextBag->AddContextObject(pDObj->GetName(), pDObj->GetValue()->GetRuntimeClass());
+				ASSERT_VALID(pO);
 				ASSERT(pO->IsKindOf(pDObj->GetValue()->GetRuntimeClass()));
 
 				pO->Assign(*pDObj->GetValue());
 			}
 		}
 
-		pDoc = AfxGetTbCmdManager()->RunDocument(nsDocument.GetString(),szDefaultViewMode, FALSE, NULL, NULL, NULL, NULL, NULL, FALSE, NULL, NULL, pContextBag);
+		pDoc = AfxGetTbCmdManager()->RunDocument(nsDocument.GetString(), szDefaultViewMode, FALSE, NULL, NULL, NULL, NULL, NULL, FALSE, NULL, NULL, pContextBag);
 		if (!pDoc)
 		{
 			delete pWrmInfo;
@@ -11113,24 +11122,24 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 	else if (pConn->m_LinkType == WoormLink::ConnectionReport)
 	{
 		//pWrmInfo sar� deletato dal report chiamato
-		pDoc = AfxGetTbCmdManager()->RunWoormReport (pWrmInfo);
+		pDoc = AfxGetTbCmdManager()->RunWoormReport(pWrmInfo);
 	}
 	else if (pConn->m_LinkType == WoormLink::ConnectionFunction)
 	{
-		AfxGetTbCmdManager()->RunFunction (pWrmInfo);
+		AfxGetTbCmdManager()->RunFunction(pWrmInfo);
 
 		//no lo uso dopo SAFE_DELETE(pWrmInfo);
 	}
 	else if (pConn->m_LinkType == WoormLink::ConnectionURL)
 	{
 		strLinkShellEx = pConn->EncodeURLString(strLinkShellEx);
-		
+
 		//TODO posso controllare se indirizzo web o percorso di rete file esiste
 		if (!strLinkShellEx.IsEmpty())
 		{
 			HINSTANCE hInst = ::TBShellExecute(strLinkShellEx);
 			if (hInst <= (HINSTANCE)32)
-				Message (ShellExecuteErrMsg((int)hInst));
+				Message(ShellExecuteErrMsg((int)hInst));
 		}
 	}
 
@@ -11146,13 +11155,13 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 			{
 				// imposto il valore dell'oggetto pi� interno della gerarchia, la SetReadOnly fa poi s� che
 				// venga ereditato anche dagli oggetti figli
-				DataLng* pData = (DataLng*) pField->GetRuleData();
+				DataLng* pData = (DataLng*)pField->GetRuleData();
 				ASSERT(pData);
 				ASSERT_KINDOF(DataLng, pData);
 				pData->Assign((long)pDoc);
 				pData->SetAsHandle();
 
-				pField->ClearMethods ();
+				pField->ClearMethods();
 				pField->AddMethodList(RUNTIME_CLASS(CBaseDocument));
 			}
 		}
@@ -11163,7 +11172,7 @@ BOOL CWoormDocMng::DoBrowseLink(BaseObj* pTableOrRepeater, FieldRect* pField, in
 			{
 				ASSERT_VALID(pField);
 				ASSERT_VALID(pWrmInfo->GetReturnValue());
-				
+
 				DataObj* pData = pField->GetRuleData();
 				ASSERT_VALID(pData);
 				if (pData)
@@ -11193,10 +11202,10 @@ BOOL  CWoormDocMng::PrepareLayout()
 	// prepare GetObjects() for cleaning all data.
 	// also control reset of line counter and subtotal interline
 	InitializeDisplayStatus();
-			
+
 	// show pages on statusbar indicator without use CmdUI interface
 	// for optimizing refresh velocity on background processing
-	SetPageIndicator ();
+	SetPageIndicator();
 
 	// aggiorna eventuali campi statici (special field)
 	UpdateSpecialField();
@@ -11208,7 +11217,7 @@ BOOL  CWoormDocMng::PrepareLayout()
 void CWoormDocMng::OnFileNew()
 {
 	if (CanDoAllowEditingButton())
-		AfxOpenDocumentOnCurrentThread(AfxGetTemplate(RUNTIME_CLASS(CWoormView), 0), NULL);	
+		AfxOpenDocumentOnCurrentThread(AfxGetTemplate(RUNTIME_CLASS(CWoormView), 0), NULL);
 	else
 		AfxMessageBox(_TB("Current User cannot develop reports"));
 }
@@ -11216,13 +11225,13 @@ void CWoormDocMng::OnFileNew()
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnFileOpen()
 {
-	FailedInvokeCode aFailedCode; 
+	FailedInvokeCode aFailedCode;
 	AfxGetTbCmdManager()->RunFunction(szOpenReport, &aFailedCode);
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnFileSave()
-{		
+{
 	//TODO evita il rischio di salvataggio in lingua corrente 
 	if (!DoSave(m_strPathName))
 	{
@@ -11237,18 +11246,18 @@ void CWoormDocMng::OnFileSave()
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnFileSaveAs()
-{		
+{
 	if (!DoSave(NULL))
 		TRACE0("Warning: File save-as failed\n");
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnFileSaveAsTemplate()
-{		
+{
 	m_bCanClose = FALSE;//evito schiantamenti se la DoSave tentasse di chiudermi il documento sollo il sedere
 	if (IsModified())
 	{
-		if (AfxMessageBox(_TB("Current report it is modified! Do you want save it before save the template ?"), MB_YESNO|MB_ICONHAND| MB_DEFBUTTON1) == IDYES)
+		if (AfxMessageBox(_TB("Current report it is modified! Do you want save it before save the template ?"), MB_YESNO | MB_ICONHAND | MB_DEFBUTTON1) == IDYES)
 		{
 			if (!DoSave(m_strPathName))
 			{
@@ -11257,7 +11266,7 @@ void CWoormDocMng::OnFileSaveAsTemplate()
 			}
 		}
 	}
-	
+
 	BOOL bFlag = m_bOnlyGraphInfo;
 	m_bOnlyGraphInfo = TRUE;
 	m_Template.m_bIsSavingTemplate = TRUE;
@@ -11315,7 +11324,7 @@ void CWoormDocMng::FileAutoSave()
 // if 'bReplace' is FALSE will not change path name (SaveCopyAs)
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
-{		
+{
 	// avoid save to strFile if non object are present (@@ Itri enanchement)
 	if (!CanSaveReport()) return TRUE;
 
@@ -11327,12 +11336,12 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 		aNs.SetObjectName(CTBNamespace::MODULE, GetNamespace().GetObjectName(CTBNamespace::MODULE));
 		if (m_pDataDefaults && m_pDataDefaults->m_bUseAsRadar && m_pCallerDocument)
 		{
-			if 
+			if
 				(
 					aNs == CTBNamespace(CTBNamespace::MODULE, _NS_MOD("Framework.TbRadar"))
 					||
 					::ExistPath(aNs.ToUnparsedString())
-				)
+					)
 			{
 				aNs.SetApplicationName(m_pCallerDocument->GetNamespace().GetApplicationName());
 				aNs.SetObjectName(CTBNamespace::MODULE, m_pCallerDocument->GetNamespace().GetObjectName(CTBNamespace::MODULE));
@@ -11368,7 +11377,7 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 			// append the default suffix if there is one
 			CString strExt;
 			if (pTemplate->GetDocString(strExt, CDocTemplate::filterExt) &&
-			  !strExt.IsEmpty())
+				!strExt.IsEmpty())
 			{
 				ASSERT(strExt[0] == DOT_CHAR);
 				newName += strExt;
@@ -11382,10 +11391,10 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 		AddOnApplication* pAddOnApp = AfxGetBaseApp()->GetMasterAddOnApp();
 		if (
-				pAddOnApp && 
-				pAddOnApp->m_pAddOnModules && 
-				pAddOnApp->m_pAddOnModules->GetSize() > 1 &&
-				!aNs.IsValid()
+			pAddOnApp &&
+			pAddOnApp->m_pAddOnModules &&
+			pAddOnApp->m_pAddOnModules->GetSize() > 1 &&
+			!aNs.IsValid()
 			)
 		{
 			aNs.SetNamespace(pAddOnApp->m_pAddOnModules->GetAt(0)->m_Namespace);
@@ -11449,7 +11458,7 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 		int n = 0;
 		BOOL bSendMessageToMenu = FALSE;
-		for (n = 0 ; n < aNewName.GetSize() ; n++)
+		for (n = 0; n < aNewName.GetSize(); n++)
 		{
 			newName = aNewName.GetAt(n);
 			if (newName.IsEmpty())
@@ -11457,12 +11466,12 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 			if (n == 0 && m_bSaveAsWithCurrentLanguage)
 			{
-				m_strOriginFileName = ::GetNameWithExtension (GetPathName());
+				m_strOriginFileName = ::GetNameWithExtension(GetPathName());
 				m_strOriginDictionaryPath = GetDictionaryPath(TRUE);
 			}
-			
+
 			GetNamespace().SetNamespace(AfxGetPathFinder()->GetNamespaceFromPath(newName));
-		
+
 			if (!DoSave2(pszPathName, bReplace, newName, FALSE))
 				return FALSE;
 
@@ -11470,19 +11479,19 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 			//Aggiunge il file alla customizzazione corrente
 			AfxAddFileToCustomizationContext(newName);
-			
+
 			if (AfxGetPathFinder()->IsCustomPath(newName))
 				bSendMessageToMenu = TRUE;
 		}
-	
+
 		//comunico al menu di rinfrescare la vista sui report custom
 		if (bSendMessageToMenu)
 			::PostMessage(AfxGetMenuWindowHandle(), UM_REFRESH_USER_OBJECTS, REFRESH_USER_REPORT, NULL);
-			
+
 		if (m_bSaveAsWithCurrentLanguage && n > 0)
 		{
 			m_bSaveAsWithCurrentLanguage = FALSE;
-			
+
 			//AfxTBMessageBox(_TB("Now Woorm will reload the localized report"), MB_ICONINFORMATION | MB_OK);  //@@BAUZI: CHIEDERE A RICHI
 			if (!m_pDataDefaults->m_bUseAsRadar)
 			{
@@ -11497,7 +11506,7 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 				}
 				else
 					AfxGetTbCmdManager()->RunWoormReport(newName, m_pCallerDocument, FALSE, FALSE);
-				
+
 				GetFirstView()->PostMessage(WM_COMMAND, ID_FILE_CLOSE);
 			}
 		}
@@ -11510,16 +11519,16 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 	if (AfxGetPathFinder()->GetPosTypeFromPath(strCustomName) == CPathFinder::ALL_USERS)
 		strCustomName = AfxGetPathFinder()->GetModuleReportPath(GetNamespace(), CPathFinder::ALL_USERS, _T(""), TRUE);
-	
+
 	strCustomName += SLASH_CHAR;
 	newName = strCustomName + GetNameWithExtension(m_strPathName);
-	
+
 	BOOL bRet = DoSave2(pszPathName, bReplace, newName, FALSE);
 	//comunico al menu di rinfrescare la vista sui report custom
 	if (bRet && AfxGetPathFinder()->IsCustomPath(newName))
 	{
 		::PostMessage(AfxGetMenuWindowHandle(), UM_REFRESH_USER_OBJECTS, REFRESH_USER_REPORT, NULL);
-		
+
 		//Aggiunge il file alla customizzazione corrente
 		AfxAddFileToCustomizationContext(newName);
 	}
@@ -11528,7 +11537,7 @@ BOOL CWoormDocMng::DoSave(LPCTSTR pszPathName, BOOL bReplace /*=TRUE*/)
 
 //------------------------------------------------------------------------------
 BOOL CWoormDocMng::DoSave2(LPCTSTR pszPathName, BOOL bReplace, const CString& newName, BOOL /*bSetNs*/)
-{		
+{
 	if (newName.IsEmpty())
 		return FALSE;
 
@@ -11564,13 +11573,13 @@ BOOL CWoormDocMng::SaveModified()
 	// if running cannot exit (must stop it before)
 	if (!EngineStopped())
 		return FALSE;
-				
+
 	// check if bOk to continue
 	if (!IsModified())
 		return TRUE;
 
 	// avoid save to strFile if no object are present (@@ Itri enanchement)
-	if (!CanSaveReport()) 
+	if (!CanSaveReport())
 		return TRUE;
 
 	CString name = m_strPathName;
@@ -11676,8 +11685,8 @@ void CWoormDocMng::OnEasyReadingByLineDynamic()
 
 //-----------------------------------------------------------------------------
 int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
-{	
-	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
+{
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID(objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidth(strText);
 
@@ -11689,7 +11698,7 @@ int CWoormDocMng::CalculateFieldWidth(int objectId, const CString& strText)
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::GetFieldWidthFactors(int objectId, FieldWidthFactors& fieldWidthFactors, BOOL bSubTotal /*= FALSE*/)
 {
-	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID (objectId, this->m_dsCurrentLayoutEngine));
+	TableColumn* pCol = const_cast<TableColumn*>(FindColumnByID(objectId, this->m_dsCurrentLayoutEngine));
 	if (pCol)
 		return pCol->CalculateFieldWidthFactors(fieldWidthFactors, bSubTotal);
 
@@ -11719,20 +11728,20 @@ BOOL CWoormDocMng::ExistsFieldID(WORD id, BOOL bSkipCurrentLayout) const
 	return m_Layouts.ExistsFieldID(id, bSkipCurrentLayout);
 }
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::ExistsID (WORD id, CString sLayoutName) const
-{ 
-	return m_Layouts.ExistsID	(id, sLayoutName);
+BOOL CWoormDocMng::ExistsID(WORD id, CString sLayoutName) const
+{
+	return m_Layouts.ExistsID(id, sLayoutName);
 }
 //-----------------------------------------------------------------------------
-IBaseObj* CWoormDocMng::FindByID (WORD id, CString sLayoutName) const
-{ 
-	return m_Layouts.FindByID	(id, sLayoutName);
+IBaseObj* CWoormDocMng::FindByID(WORD id, CString sLayoutName) const
+{
+	return m_Layouts.FindByID(id, sLayoutName);
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::ExistsColumnID (WORD id, CString sLayoutName) const
-{ 
-	return m_Layouts.ExistsColumnID	(id, sLayoutName);
+BOOL CWoormDocMng::ExistsColumnID(WORD id, CString sLayoutName) const
+{
+	return m_Layouts.ExistsColumnID(id, sLayoutName);
 }
 
 BOOL CWoormDocMng::ColumnShowedAsImage(WORD id, CString sLayoutName) const
@@ -11744,7 +11753,7 @@ BOOL CWoormDocMng::ColumnShowedAsImage(WORD id, CString sLayoutName) const
 CObject* CWoormDocMng::GetColumnPtr(WORD id, CString sLayoutName) const
 {
 	const TableColumn* pCol = FindColumnByID(id, sLayoutName);
-	return (CObject*) pCol;
+	return (CObject*)pCol;
 }
 
 const TableColumn* CWoormDocMng::FindColumnByID(WORD id, CString sLayoutName) const
@@ -11757,7 +11766,7 @@ const TableColumn* CWoormDocMng::FindColumnByID(WORD id, CString sLayoutName) co
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::OnGetToolTipText (CPoint* pt, CString& strMessage)
+BOOL CWoormDocMng::OnGetToolTipText(CPoint* pt, CString& strMessage)
 {
 	if (!m_pRDEmanager || IsAborted() || !IsFilledWithData())
 		return FALSE;
@@ -11767,7 +11776,7 @@ BOOL CWoormDocMng::OnGetToolTipText (CPoint* pt, CString& strMessage)
 	BaseObj* pTable = NULL;
 	BaseRect* pField = NULL;
 
-	if (GetAliasObjectFromPoint (nAlias, nRow, pTable, pField, pt))
+	if (GetAliasObjectFromPoint(nAlias, nRow, pTable, pField, pt))
 	{
 		if (pTable && pTable->IsKindOf(RUNTIME_CLASS(Table)))
 		{
@@ -11836,7 +11845,7 @@ void CWoormDocMng::RecalcLayoutSplittedPage(int nSplittedPage)
 		ASSERT(FALSE);
 		return;
 	}
-	CLayout* pSplitter = (CLayout*) m_arSplittedObjects[nSplittedPage];
+	CLayout* pSplitter = (CLayout*)m_arSplittedObjects[nSplittedPage];
 
 	int bTableFound = FALSE;
 	for (int i = 0; i < pSplitter->GetSize(); i++)
@@ -11864,13 +11873,13 @@ void CWoormDocMng::RecalcLayoutSplittedPage(int nSplittedPage)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::RecalcLayoutSplittedPage (int nSplittedPage, Table* pTable)
+void CWoormDocMng::RecalcLayoutSplittedPage(int nSplittedPage, Table* pTable)
 {
 	int nPrevSplittedPage = 0;
 	for (int nCol = 0; nCol < pTable->m_Columns.GetSize(); nCol++)
 	{
 		TableColumn* pCol = pTable->m_Columns[nCol];
-		
+
 		if (!pCol->IsPinned() && nPrevSplittedPage != nSplittedPage)
 		{
 			SAFE_DELETE(pCol->m_pHideExpr);
@@ -11881,23 +11890,23 @@ void CWoormDocMng::RecalcLayoutSplittedPage (int nSplittedPage, Table* pTable)
 		{
 			nPrevSplittedPage++;
 		}
-	}	
+	}
 }
 
 //-----------------------------------------------------------------------------
 LONG CWoormDocMng::GetPosXofAnchoredRect(BaseRect* pBaseRect, BOOL bLeft)
-{	
+{
 	//restituisce la x del BaseRect sulla pagina fisica (non quella splitted) tenendo conto dell'offset
 	//orizzontale tra left del baseRect e suo splitter piu vicino, a sx o dx a seconda del valore di bLeft
-	CRect baseRect (pBaseRect->GetBaseRect());
+	CRect baseRect(pBaseRect->GetBaseRect());
 	LONG xPos = baseRect.left;
 
 	if (bLeft)  //offset rispetto a splitter a sx
 	{
 		xPos = baseRect.left;  //se e' nella prima pagina, lo posiziona alla x in cui e' adesso.
-		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++ )
+		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++)
 		{
-			if ( baseRect.left > m_PageInfo.m_arHPageSplitter.GetAt(i) )
+			if (baseRect.left > m_PageInfo.m_arHPageSplitter.GetAt(i))
 			{
 				xPos = baseRect.left - m_PageInfo.m_arHPageSplitter.GetAt(i);
 				break;
@@ -11907,15 +11916,15 @@ LONG CWoormDocMng::GetPosXofAnchoredRect(BaseRect* pBaseRect, BOOL bLeft)
 	else		//offset rispetto a splitter a dx
 	{
 		int xOffset = m_PageInfo.GetPageSize_LP().cx - baseRect.left;     //lo inizializzo come fosse nell'ultima pagina
-		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++ )
+		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++)
 		{
-			if ( m_PageInfo.m_arHPageSplitter.GetAt(i) > baseRect.left)
+			if (m_PageInfo.m_arHPageSplitter.GetAt(i) > baseRect.left)
 			{
 				xOffset = m_PageInfo.m_arHPageSplitter.GetAt(i) - baseRect.left;
 				break;
 			}
 		}
-		
+
 		CSize prtPageSize(m_PageInfo.GetPrinterPageSize_LP());
 		if (xOffset + baseRect.Width() < prtPageSize.cx)
 			xPos = prtPageSize.cx - xOffset;
@@ -11927,61 +11936,61 @@ LONG CWoormDocMng::GetPosXofAnchoredRect(BaseRect* pBaseRect, BOOL bLeft)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::RecalcLayoutSplittedPage (int nSplittedPage, BaseRect* pBaseRect)
+void CWoormDocMng::RecalcLayoutSplittedPage(int nSplittedPage, BaseRect* pBaseRect)
 {
 	if (pBaseRect->IsAnchored())	//per i campi ancorati alla colonna non devo fare nulla
 		return;
-	
+
 	//algoritmo di riposizionamento campi ancorati a sx, a dx, oppure non ancorati ma fuori dalla pagina fisica 
 	//(in questo caso vanno riposizionati solo per la pagina in cui sarebbero visibili normalmente)
-	CRect baseRect (pBaseRect->GetBaseRect());
+	CRect baseRect(pBaseRect->GetBaseRect());
 	LONG xPos = 0;
-	
+
 	if (pBaseRect->m_bAnchorPageRight)
 	{
 		xPos = GetPosXofAnchoredRect(pBaseRect, FALSE);
 		pBaseRect->MoveBaseRect(
-								 xPos,
-								 baseRect.top,
-								 xPos + baseRect.Width(),
-								 baseRect.bottom
-							   );
+			xPos,
+			baseRect.top,
+			xPos + baseRect.Width(),
+			baseRect.bottom
+		);
 	}
 
 	if (pBaseRect->m_bAnchorPageLeft)
 	{
 		xPos = GetPosXofAnchoredRect(pBaseRect, TRUE);
 		pBaseRect->MoveBaseRect(
-								xPos,
-								baseRect.top,
-								xPos + baseRect.Width(),
-								baseRect.bottom
-							);
+			xPos,
+			baseRect.top,
+			xPos + baseRect.Width(),
+			baseRect.bottom
+		);
 	}
 	//Quelli che non sono ancorati...li stampo solo nella pagina splittata in cui si trovano
 	if (!pBaseRect->m_bAnchorPageRight && !pBaseRect->m_bAnchorPageLeft)
 	{
 		int nPage = 0;
-		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++ )
+		for (int i = 0; i < m_PageInfo.m_arHPageSplitter.GetSize(); i++)
 		{
-			if ( baseRect.left > m_PageInfo.m_arHPageSplitter.GetAt(i))	
-			{ 
-				nPage = i+1;	
+			if (baseRect.left > m_PageInfo.m_arHPageSplitter.GetAt(i))
+			{
+				nPage = i + 1;
 			}
 		}
 
 		if (nPage == nSplittedPage)
 		{
 			if (nPage > 0)
-			{	
-				xPos = 	GetPosXofAnchoredRect(pBaseRect, TRUE);
-					
+			{
+				xPos = GetPosXofAnchoredRect(pBaseRect, TRUE);
+
 				pBaseRect->MoveBaseRect(
-								xPos,
-								baseRect.top,
-								xPos + baseRect.Width(),
-								baseRect.bottom
-							);
+					xPos,
+					baseRect.top,
+					xPos + baseRect.Width(),
+					baseRect.bottom
+				);
 			}
 		}
 		else
@@ -11998,7 +12007,7 @@ void CWoormDocMng::CalcSplittedPageMaxWidth()
 {
 	for (int s = 0; s < m_arSplittedObjects.GetSize(); s++)
 	{
-		CLayout* pSplitter = (CLayout*) m_arSplittedObjects[s];
+		CLayout* pSplitter = (CLayout*)m_arSplittedObjects[s];
 
 		int bTableFound = FALSE;
 		for (int i = 0; i < pSplitter->GetSize(); i++)
@@ -12007,17 +12016,17 @@ void CWoormDocMng::CalcSplittedPageMaxWidth()
 
 			if (pObj->IsKindOf(RUNTIME_CLASS(Table)) && !bTableFound)
 			{
-				Table* pTable = (Table*) pObj;
+				Table* pTable = (Table*)pObj;
 				pTable->CheckColumnsHiddenStatus(); //ATTENZIONE: check con i dati delle prima pagina
 
 				int w = pTable->GetBaseRect().right;
 				if (m_nSplittedPageMaxWidth < w)
 					m_nSplittedPageMaxWidth = w;
 				bTableFound = TRUE;
-			}		
+			}
 			else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 			{
-				BaseRect* pRect = (BaseRect*) pObj;
+				BaseRect* pRect = (BaseRect*)pObj;
 				if (pRect->m_bHidden)
 					continue;
 				//sono gia stati traslati in fase di splitting
@@ -12037,7 +12046,7 @@ BOOL CWoormDocMng::SetFirstSplitterPage()
 		return FALSE;
 
 	m_nCurrentSplittedPage = 0;
-	m_Objects = (CLayout*) m_arSplittedObjects[m_nCurrentSplittedPage];
+	m_Objects = (CLayout*)m_arSplittedObjects[m_nCurrentSplittedPage];
 	return TRUE;
 }
 
@@ -12049,7 +12058,7 @@ BOOL CWoormDocMng::SetLastSplitterPage()
 		return FALSE;
 
 	m_nCurrentSplittedPage = m_arSplittedObjects.GetUpperBound();
-	m_Objects = (CLayout*) m_arSplittedObjects[m_nCurrentSplittedPage];
+	m_Objects = (CLayout*)m_arSplittedObjects[m_nCurrentSplittedPage];
 	return TRUE;
 }
 
@@ -12059,7 +12068,7 @@ BOOL CWoormDocMng::SetNextSplitterPage()
 	if (!AllowNextSplitterPage())
 		return FALSE;
 
-	m_Objects = (CLayout*) m_arSplittedObjects[++m_nCurrentSplittedPage];
+	m_Objects = (CLayout*)m_arSplittedObjects[++m_nCurrentSplittedPage];
 	return TRUE;
 }
 
@@ -12069,7 +12078,7 @@ BOOL CWoormDocMng::SetPrevSplitterPage()
 	if (!AllowPrevSplitterPage())
 		return FALSE;
 
-	m_Objects = (CLayout*) m_arSplittedObjects[--m_nCurrentSplittedPage];
+	m_Objects = (CLayout*)m_arSplittedObjects[--m_nCurrentSplittedPage];
 	return TRUE;
 }
 
@@ -12091,10 +12100,10 @@ int CWoormDocMng::GetTableCount()
 {
 	BaseObj* pObj;
 	int i, nTables = 0;
-	for (i = 0; i <= GetObjects().GetUpperBound (); i++)
+	for (i = 0; i <= GetObjects().GetUpperBound(); i++)
 	{
 		pObj = GetObjects()[i];
-		if ( pObj -> IsKindOf (RUNTIME_CLASS(Table)) ) 
+		if (pObj->IsKindOf(RUNTIME_CLASS(Table)))
 			nTables++;
 	}
 	return nTables;
@@ -12102,7 +12111,7 @@ int CWoormDocMng::GetTableCount()
 //-----------------------------------------------------------------------------
 CList<Table*>* CWoormDocMng::GetTables()
 {
-	CList<Table*>* tables =  new CList<Table*>();
+	CList<Table*>* tables = new CList<Table*>();
 	BaseObj* pObj;
 	for (int i = 0; i <= GetObjects().GetUpperBound(); i++)
 	{
@@ -12123,7 +12132,7 @@ Table* CWoormDocMng::GetTableFromColumnId(WORD columnId)
 	{
 		Table* pTable = pTables->GetNext(pos);
 		ASSERT_VALID(pTable);
-		
+
 		for (int nCol = 0; nCol < pTable->GetColumns().GetSize(); nCol++)
 		{
 			const TableColumn* pCol = pTable->GetColumn(nCol);
@@ -12140,9 +12149,9 @@ Table* CWoormDocMng::GetTableFromColumnId(WORD columnId)
 //=============================================================================
 //Test Manager
 
-BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMsgs) 
-{ 
-	if ( !(pTesterWDoc && pTesterWDoc->m_pRDEmanager && !pTesterWDoc->IsAborted() && pTesterWDoc->IsFilledWithData()))
+BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMsgs)
+{
+	if (!(pTesterWDoc && pTesterWDoc->m_pRDEmanager && !pTesterWDoc->IsAborted() && pTesterWDoc->IsFilledWithData()))
 	{
 		ASSERT(FALSE);
 		arMsgs.Add(_TB("The tester report is in wrong state"));
@@ -12150,24 +12159,24 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 		return FALSE;
 	}
 
-	if 
+	if
 		(
 			this->m_pRDEmanager == NULL ||
 			this->IsAborted() ||
 			!this->IsFilledWithData()
-		)
+			)
 	{
 		arMsgs.Add(_TB("The tested report failed to run"));
-		
+
 		return FALSE;
 	};
 
 	if (pTesterWDoc->m_pRDEmanager->LastPage() != this->m_pRDEmanager->LastPage())
 	{
 		arMsgs.Add(
-			cwsprintf(_TB("Report have a different number of pages: tester report has %d pages, tested report has %d pages"), 
-			pTesterWDoc->m_pRDEmanager->LastPage(), this->m_pRDEmanager->LastPage())
-			);
+			cwsprintf(_TB("Report have a different number of pages: tester report has %d pages, tested report has %d pages"),
+				pTesterWDoc->m_pRDEmanager->LastPage(), this->m_pRDEmanager->LastPage())
+		);
 	};
 
 	int nMsg = arMsgs.GetSize();
@@ -12179,8 +12188,8 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 	for (int nPage = 0; nPage <= pTesterWDoc->m_pRDEmanager->LastPage() && nPage <= this->m_pRDEmanager->LastPage(); nPage++)
 	{
 		//leggo i dati della pagina 
-		pTesterWDoc->ReadSelectedPage (nPage, FALSE);
-		this->ReadSelectedPage (nPage, FALSE);
+		pTesterWDoc->ReadSelectedPage(nPage, FALSE);
+		this->ReadSelectedPage(nPage, FALSE);
 
 		for (int nObj = 0; nObj <= pTesterWDoc->GetObjects().GetUpperBound(); nObj++)
 		{
@@ -12193,7 +12202,7 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 
 				for (int nCol = 0; nCol <= pTesterTable->m_Columns.GetUpperBound(); nCol++)
 				{
-					TableColumn* pTesterCol =  pTesterTable->m_Columns[nCol];
+					TableColumn* pTesterCol = pTesterTable->m_Columns[nCol];
 					int nACol = pTesterCol->GetInternalID();
 					for (int nRow = 0; nRow <= pTesterCol->m_Cells.GetUpperBound(); nRow++)
 					{
@@ -12205,7 +12214,7 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 					if (pTesterCol->m_pTotalCell)
 					{
 						TotalCell* pTesterCell = pTesterCol->m_pTotalCell;
-						
+
 						CheckReportCompareData(pTesterWDoc, arMsgs, pTesterCell, NULL, nPage, nACol);
 					}
 				}
@@ -12217,14 +12226,14 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 				for (int nRow = 0; nRow <= pTesterRep->RowsNumber(); nRow++)
 				{
 					//TODO REPEATER
-					CLayout* pRows = pTesterRep->GetRowObjects (nRow);
+					CLayout* pRows = pTesterRep->GetRowObjects(nRow);
 					ASSERT_VALID(pRows);
 					for (int nCol = 0; nCol <= pRows->GetUpperBound(); nCol++)
 					{
-						BaseObj* pObj = (BaseObj*) pRows->GetAt(nCol);
+						BaseObj* pObj = (BaseObj*)pRows->GetAt(nCol);
 						if (pObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 						{
-							FieldRect* pTesterField = STATIC_DOWNCAST(FieldRect, pObj);				
+							FieldRect* pTesterField = STATIC_DOWNCAST(FieldRect, pObj);
 							CheckReportCompareData(pTesterWDoc, arMsgs, NULL, pTesterField, nPage, pTesterField->GetInternalID(), nRow);
 						}
 					}
@@ -12235,26 +12244,26 @@ BOOL CWoormDocMng::CheckReportData(CWoormDocMng* pTesterWDoc, CStringArray& arMs
 				FieldRect* pTesterField = STATIC_DOWNCAST(FieldRect, pObj);
 				if (pTesterField->GetInternalID() >= SpecialReportField::REPORT_LOWER_SPECIAL_ID || pTesterField->m_AnchorRepeaterID)
 					continue;
-				
+
 				CheckReportCompareData(pTesterWDoc, arMsgs, NULL, pTesterField, nPage, nA);
 			}
 		}
 	}
-	return nMsg == arMsgs.GetSize(); 
+	return nMsg == arMsgs.GetSize();
 }
 
 //-----------------------------------------------------------------------------
 BOOL CWoormDocMng::CheckReportCompareData
-	(
-		CWoormDocMng* pTesterWDoc, 
-		CStringArray& arMsgs, 
-		TableCell* pTesterCell, 
-		FieldRect* pTesterField, 
-		int nPage, 
-		int nA, 
-		int nRow/* = -1*/
-	) 
-{ 
+(
+	CWoormDocMng* pTesterWDoc,
+	CStringArray& arMsgs,
+	TableCell* pTesterCell,
+	FieldRect* pTesterField,
+	int nPage,
+	int nA,
+	int nRow/* = -1*/
+)
+{
 	RDEData* pTesterRde = NULL;
 	ASSERT((pTesterCell == NULL && pTesterField != NULL) || (pTesterCell != NULL && pTesterField == NULL));
 	if (pTesterCell)
@@ -12263,7 +12272,7 @@ BOOL CWoormDocMng::CheckReportCompareData
 		{
 			pTesterRde = NULL;
 		}
-		else 
+		else
 		{
 			pTesterRde = pTesterCell->GetRDEValue();
 		}
@@ -12280,16 +12289,16 @@ BOOL CWoormDocMng::CheckReportCompareData
 		}
 	}
 
-	WoormField* sfTester =  pTesterWDoc->m_ViewSymbolTable.GetFieldByID(nA);
+	WoormField* sfTester = pTesterWDoc->m_ViewSymbolTable.GetFieldByID(nA);
 	if (!sfTester)
 	{
-		ASSERT (FALSE);
+		ASSERT(FALSE);
 		arMsgs.Add(cwsprintf(_TB("Tested report has internal error, unresolve column/field with ID=%d. tested Report has not value"), nA));
 		return FALSE;
 	}
 	CString sTesterName = sfTester->GetName();
 
-	WoormField* sf =  this->m_ViewSymbolTable.GetFieldByID(nA);
+	WoormField* sf = this->m_ViewSymbolTable.GetFieldByID(nA);
 	if (!sf)
 	{
 		arMsgs.Add(cwsprintf(_TB("Tested report has not column/field with Name=%s, ID=%d. tested Report has not value"), sTesterName, nA));
@@ -12350,10 +12359,10 @@ BOOL CWoormDocMng::CheckReportCompareData
 	}
 	else
 	{
-		bCompatibleType = 
-			DataType::IsCompatible(sfTester->GetDataType(), sf->GetDataType()) 
+		bCompatibleType =
+			DataType::IsCompatible(sfTester->GetDataType(), sf->GetDataType())
 			||
-			DataType::IsCompatible(sf->GetDataType(),		sfTester->GetDataType());
+			DataType::IsCompatible(sf->GetDataType(), sfTester->GetDataType());
 		if (bCompatibleType)
 		{
 			DataObj* pTesterData = DataObj::DataObjCreate(sfTester->GetDataType());
@@ -12368,7 +12377,7 @@ BOOL CWoormDocMng::CheckReportCompareData
 				//DataStr::Trim() ritorna il valore Trimmato ma non modifica il dato interno
 				bEqual = (((DataStr*)pData)->Trim() == ((DataStr*)pTesterData)->Trim());
 			}
-			else 
+			else
 				bEqual = (*pTesterData == *pData);
 
 			delete pTesterData;
@@ -12384,13 +12393,13 @@ BOOL CWoormDocMng::CheckReportCompareData
 		FieldRect* pField = NULL;
 		TableCell* pCell = NULL;
 
-		BOOL bOk = this->GetObjectFromAlias (nA, nRow, pField, pCell);
+		BOOL bOk = this->GetObjectFromAlias(nA, nRow, pField, pCell);
 		ASSERT(bOk);
 		ASSERT(
 			(pTesterCell == NULL && pCell == NULL && pTesterField != NULL && pField != NULL)
 			||
 			(pTesterCell != NULL && pCell != NULL && pTesterField == NULL && pField == NULL)
-			);
+		);
 
 		if (pTesterCell)
 		{
@@ -12428,7 +12437,7 @@ WebCommandType CWoormDocMng::OnGetWebCommandType(UINT commandID)
 		commandID == ID_EXPORT_HTML ||
 		commandID == ID_EXPORT_JSON ||
 		commandID == ID_EXPORT_OPENXML_EXCEL ||
-		commandID == ID_ARCHIVE_PDF_FORMAT||
+		commandID == ID_ARCHIVE_PDF_FORMAT ||
 		commandID == ID_EXPORT_XML_FULL)				//archiviazione del report via EasyAttachments
 		return WEB_UNSUPPORTED;
 
@@ -12445,7 +12454,7 @@ WebCommandType CWoormDocMng::OnGetWebCommandType(UINT commandID)
 //////////////////////////////////////////////////////////////////////////////
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnToggleConcatPdf ()
+void CWoormDocMng::OnToggleConcatPdf()
 {
 	m_bDirectConcatPDF = !m_bDirectConcatPDF;
 }
@@ -12463,7 +12472,7 @@ CString CWoormDocMng::SetUICulture(const CString& sCulture)
 {
 	if (m_pWoormInfo)
 	{
-		CString s = m_pWoormInfo->m_sUICulture; 
+		CString s = m_pWoormInfo->m_sUICulture;
 		m_pWoormInfo->m_sUICulture = sCulture.IsEmpty() ? _T("en") : sCulture;
 		return s;
 	}
@@ -12495,7 +12504,7 @@ void CWoormDocMng::ResetCustomUICulture()
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::SetCultureStrings(const CString& sCulture) 
+void CWoormDocMng::SetCultureStrings(const CString& sCulture)
 {
 	CString sPrevCulture = AfxGetThreadContext()->SetUICulture(sCulture);
 
@@ -12508,7 +12517,7 @@ void CWoormDocMng::SetCultureStrings(const CString& sCulture)
 //////////////////////////////////////////////////////////////////////////////
 
 //------------------------------------------------------------------------------
-BOOL CWoormDocMng::BringToFrontPopup (BaseObj* pCurrent, CMenu& mainMenu)
+BOOL CWoormDocMng::BringToFrontPopup(BaseObj* pCurrent, CMenu& mainMenu)
 {
 	m_arBringToFrontObjects.RemoveAll();
 
@@ -12539,13 +12548,13 @@ BOOL CWoormDocMng::BringToFrontPopup (BaseObj* pCurrent, CMenu& mainMenu)
 	//----
 
 	BOOL bExists2 = FALSE;
-	CRect rectCurrent (pCurrent->GetBaseRect());
+	CRect rectCurrent(pCurrent->GetBaseRect());
 	CRect rcInt;
-	for (int i = 0; i <= ub ; i++)
+	for (int i = 0; i <= ub; i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
 
-		CRect rect (pObj->GetBaseRect());
+		CRect rect(pObj->GetBaseRect());
 		if (rcInt.IntersectRect(rectCurrent, rect))
 		{
 			bExists2 = TRUE;
@@ -12557,9 +12566,9 @@ BOOL CWoormDocMng::BringToFrontPopup (BaseObj* pCurrent, CMenu& mainMenu)
 	if (bExists || bExists2)
 	{
 		if (bExists)
-			mainMenu.AppendMenu(MF_STRING | MF_POPUP, (UINT) menu.m_hMenu, _TB("Bring to front"));
+			mainMenu.AppendMenu(MF_STRING | MF_POPUP, (UINT)menu.m_hMenu, _TB("Bring to front"));
 		if (bExists2)
-			mainMenu.AppendMenu(MF_STRING , ID_SEND_TO_BACK, _TB("Send to back"));
+			mainMenu.AppendMenu(MF_STRING, ID_SEND_TO_BACK, _TB("Send to back"));
 
 		return TRUE;
 	}
@@ -12568,27 +12577,27 @@ BOOL CWoormDocMng::BringToFrontPopup (BaseObj* pCurrent, CMenu& mainMenu)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnBringToFront (UINT nID)
+void CWoormDocMng::OnBringToFront(UINT nID)
 {
 	int idx = nID - ID_BRING_TO_FRONT_0;
-	BaseObj* pObj = (BaseObj*) m_arBringToFrontObjects[idx];
+	BaseObj* pObj = (BaseObj*)m_arBringToFrontObjects[idx];
 
 	SetCurrentObj(pObj, m_ptCurrPos);
 
 	CWoormView* pView = GetWoormView();
 	CClientDC dc(pView);
 	pView->OnPrepareDC(&dc);
-	CPoint ptMouse (m_ptCurrPos);
+	CPoint ptMouse(m_ptCurrPos);
 	dc.LPtoDP(&ptMouse);
 
 	if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
-		CRect rectObj (pObj->GetBaseRect());
+		CRect rectObj(pObj->GetBaseRect());
 		ptMouse.x += rectObj.Width() / 2;
 		ptMouse.y += rectObj.Height() / 2;
 	}
 
-	pView->PostMessageW(WM_RBUTTONDOWN, 0,  MAKELONG(ptMouse.x, ptMouse.y));
+	pView->PostMessageW(WM_RBUTTONDOWN, 0, MAKELONG(ptMouse.x, ptMouse.y));
 
 	pView->ClientToScreen(&ptMouse);
 
@@ -12596,10 +12605,10 @@ void CWoormDocMng::OnBringToFront (UINT nID)
 }
 
 //------------------------------------------------------------------------------
-void CWoormDocMng::OnSendToBack (BaseObj* pCurrent)
+void CWoormDocMng::OnSendToBack(BaseObj* pCurrent)
 {
 	int ub = GetObjects().GetUpperBound();
-	for (int i = 0; i <= ub ; i++)
+	for (int i = 0; i <= ub; i++)
 	{
 		BaseObj* pObj = GetObjects()[i];
 
@@ -12643,11 +12652,11 @@ void CWoormDocMng::OnOpenAsText()
 		{
 			HKEY hKey = 0;
 			long lRetCode = ::RegOpenKeyEx
-				(
+			(
 				HKEY_CURRENT_USER,
 				_T("Software\\Classes\\.wrm"),
 				0, KEY_READ, &hKey
-				);
+			);
 			if (hKey) RegCloseKey(hKey);
 			if (lRetCode == ERROR_SUCCESS)
 			{
@@ -12668,7 +12677,7 @@ void CWoormDocMng::OnOpenAsText()
 	}
 }
 
-void CWoormDocMng::OnUpdateOpenAsText (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateOpenAsText(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(CanSaveReport());
 }
@@ -12679,10 +12688,10 @@ void CWoormDocMng::OnUpdateOpenAsText (CCmdUI* pCmdUI)
 void CWoormDocMng::OnUpdateLoadTemplate(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(
-		!m_bPlayback  && 
+		!m_bPlayback  &&
 		m_Creating == NONE &&
 		!m_bEngineRunning
-		);
+	);
 }
 
 void CWoormDocMng::OnUpdateUnloadTemplate(CCmdUI* pCmdUI)
@@ -12691,24 +12700,24 @@ void CWoormDocMng::OnUpdateUnloadTemplate(CCmdUI* pCmdUI)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnUnloadTemplate ()
+void CWoormDocMng::OnUnloadTemplate()
 {
-	UnloadTemplate ();
+	UnloadTemplate();
 
 	Invalidate();
 	UpdateWindow();
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::UnloadTemplate ()
+void CWoormDocMng::UnloadTemplate()
 {
-	if (!m_Template.m_pWoormTpl) 
+	if (!m_Template.m_pWoormTpl)
 		return;
 
 	if (m_pOptions->m_strBkgnBitmap == m_Template.m_pWoormTpl->m_pOptions->m_strBkgnBitmap)
 	{
 		m_pOptions->m_strBkgnBitmap.Empty();
-		m_pOptions->m_BitmapOrigin.SetPoint(0,0);
+		m_pOptions->m_BitmapOrigin.SetPoint(0, 0);
 	}
 
 	m_Layouts.EnumObjects(&CWoormDocMng::RemoveInheritObjects);
@@ -12724,10 +12733,10 @@ void CWoormDocMng::UnloadTemplate ()
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::RemoveTemplateStyles (CLayout* pObjects)
+void CWoormDocMng::RemoveTemplateStyles(CLayout* pObjects)
 {
 	Table* pTable = NULL;
-	for (int i = pObjects->GetUpperBound(); i >= 0 ; i--)
+	for (int i = pObjects->GetUpperBound(); i >= 0; i--)
 	{
 		BaseObj* pObj = (*pObjects)[i];
 
@@ -12739,7 +12748,7 @@ void CWoormDocMng::RemoveTemplateStyles (CLayout* pObjects)
 		}
 		else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
-			BaseRect* pF = (FieldRect*) pObj;
+			BaseRect* pF = (FieldRect*)pObj;
 
 			if (pF->m_sStyleClass.CompareNoCase(m_Template.s_sCopyStaticObject_StyleName) == 0)
 			{
@@ -12754,10 +12763,10 @@ void CWoormDocMng::RemoveTemplateStyles (CLayout* pObjects)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::ClearCustomStyles (CLayout* pObjects)
+void CWoormDocMng::ClearCustomStyles(CLayout* pObjects)
 {
 	Table* pTable = NULL;
-	for (int i = pObjects->GetUpperBound(); i >= 0 ; i--)
+	for (int i = pObjects->GetUpperBound(); i >= 0; i--)
 	{
 		BaseObj* pObj = (*pObjects)[i];
 
@@ -12769,7 +12778,7 @@ void CWoormDocMng::ClearCustomStyles (CLayout* pObjects)
 		}
 		else if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
-			BaseRect* pF = (FieldRect*) pObj;
+			BaseRect* pF = (FieldRect*)pObj;
 
 			pF->ClearStyle();
 		}
@@ -12777,15 +12786,15 @@ void CWoormDocMng::ClearCustomStyles (CLayout* pObjects)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::RemoveTemplateStyles ()
+void CWoormDocMng::RemoveTemplateStyles()
 {
-	if (! m_Template.m_pWoormTpl) return;
+	if (!m_Template.m_pWoormTpl) return;
 
 	m_Layouts.EnumObjects(&CWoormDocMng::RemoveTemplateStyles);
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnClearCustomStyles ()
+void CWoormDocMng::OnClearCustomStyles()
 {
 	if (AfxMessageBox(_TB("Are you sure to remove all graphical custom attributes from all report's objects ?"), MB_OKCANCEL | MB_DEFBUTTON2 | MB_ICONWARNING) == IDCANCEL)
 		return;
@@ -12804,13 +12813,13 @@ void CWoormDocMng::OnUpdateClearCustomStyles(CCmdUI* pCmdUI)
 
 //=============================================================================
 
-CString	CWoormTemplate::s_sCustom_StyleName					(_T("<Custom>"));
-CString	CWoormTemplate::s_sCopyStaticObject_StyleName		(_T("_CopyObject_"));
-CString	CWoormTemplate::s_sCopiedStaticObject_StyleName		(_T("_CopiedObject_"));
-CString	CWoormTemplate::s_sInheritStaticObject_StyleName	(_T("_InheritObject_"));
-CString	CWoormTemplate::s_sEA_BarCode_StyleName				(_T("EA_BarCode"));
+CString	CWoormTemplate::s_sCustom_StyleName(_T("<Custom>"));
+CString	CWoormTemplate::s_sCopyStaticObject_StyleName(_T("_CopyObject_"));
+CString	CWoormTemplate::s_sCopiedStaticObject_StyleName(_T("_CopiedObject_"));
+CString	CWoormTemplate::s_sInheritStaticObject_StyleName(_T("_InheritObject_"));
+CString	CWoormTemplate::s_sEA_BarCode_StyleName(_T("EA_BarCode"));
 
-void CWoormDocMng::OnLoadTemplate ()
+void CWoormDocMng::OnLoadTemplate()
 {
 	CString nsm;
 	if (AfxIsActivated(MAGONET_APP, _NS_ACT("Core")))
@@ -12821,20 +12830,20 @@ void CWoormDocMng::OnLoadTemplate ()
 	CTBNamespace nsCore(nsm);
 	nsCore.SetType(CTBNamespace::REPORT);
 	ITBExplorer* pExplorer = AfxCreateTBExplorer(ITBExplorer::OPEN, nsCore);
-	
+
 	if (!pExplorer->Open())
 	{
 		delete pExplorer;
 		return;
 	}
 
-	UnloadTemplate ();
-		
+	UnloadTemplate();
+
 	CStringArray aSelectedPaths;
 	pExplorer->GetSelPathElements(&aSelectedPaths);
-	
+
 	CString sPathTemplate = aSelectedPaths.GetAt(0);
-	if (! ::ExistFile(sPathTemplate))
+	if (!::ExistFile(sPathTemplate))
 	{
 		//TODO TEMPLATE errors
 		return;
@@ -12846,16 +12855,16 @@ void CWoormDocMng::OnLoadTemplate ()
 	if (pExplorer)
 		delete pExplorer;
 
-	LoadTemplate (TRUE);
+	LoadTemplate(TRUE);
 }
 
-void CWoormDocMng::LoadTemplate() 
+void CWoormDocMng::LoadTemplate()
 {
-	LoadTemplate(FALSE); 	
+	LoadTemplate(FALSE);
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportStaticObjects, BOOL bUpdateDoc /*= TRUE*/)
+BOOL CWoormDocMng::LoadTemplate(BOOL bEditing, BOOL bShowDialog, BOOL bImportStaticObjects, BOOL bUpdateDoc /*= TRUE*/)
 {
 	/*if (running)
 		return TRUE;*/
@@ -12872,8 +12881,8 @@ BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportSt
 		return FALSE;
 	}
 	m_Template.m_bLoaded = TRUE;
-	
-	ApplyTemplateStyles (bEditing);
+
+	ApplyTemplateStyles(bEditing);
 
 	if (bShowDialog)
 	{
@@ -12887,9 +12896,9 @@ BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportSt
 	}
 	else
 	{
-		if (bImportStaticObjects) 
+		if (bImportStaticObjects)
 			m_Layouts.EnumObjects(&CWoormDocMng::AddAllStaticObjects);
-		else 
+		else
 			m_Layouts.EnumObjects(&CWoormDocMng::AddInheritObjects);
 	}
 	m_Layouts.EnumObjects(&CWoormDocMng::ApplyRepeater);
@@ -12907,21 +12916,21 @@ BOOL CWoormDocMng::LoadTemplate (BOOL bEditing, BOOL bShowDialog, BOOL bImportSt
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::AddAllStaticObjects (CLayout* pObjects)
+void CWoormDocMng::AddAllStaticObjects(CLayout* pObjects)
 {
-	AddStaticObjects (pObjects, FALSE);
+	AddStaticObjects(pObjects, FALSE);
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::AddInheritObjects (CLayout* pObjects)
+void CWoormDocMng::AddInheritObjects(CLayout* pObjects)
 {
-	AddStaticObjects (pObjects, TRUE);
+	AddStaticObjects(pObjects, TRUE);
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::AddStaticObjects (CLayout* pObjects, BOOL bOnlyInherit)
+void CWoormDocMng::AddStaticObjects(CLayout* pObjects, BOOL bOnlyInherit)
 {
-	if (!m_Template.m_pWoormTpl) 
+	if (!m_Template.m_pWoormTpl)
 		return;
 
 	CMultiLayouts* pTplLayouts = &(m_Template.m_pWoormTpl->m_Layouts);
@@ -12929,7 +12938,7 @@ void CWoormDocMng::AddStaticObjects (CLayout* pObjects, BOOL bOnlyInherit)
 	CString strName; CLayout* pTplObjects = NULL;
 	for (POSITION pos = pTplLayouts->GetStartPosition(); pos != NULL; pTplObjects = NULL, strName.Empty())
 	{
-		pTplLayouts->GetNextAssoc (pos, strName, (CObject*&)pTplObjects);
+		pTplLayouts->GetNextAssoc(pos, strName, (CObject*&)pTplObjects);
 		int idx = 0;
 		for (int i = 0; i <= pTplObjects->GetUpperBound(); i++)
 		{
@@ -12937,31 +12946,31 @@ void CWoormDocMng::AddStaticObjects (CLayout* pObjects, BOOL bOnlyInherit)
 
 			if (pTblObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 			{
-				BaseRect* pTblF = (BaseRect*) pTblObj;
+				BaseRect* pTblF = (BaseRect*)pTblObj;
 				if (!pTblF->m_bTemplate)
 					continue;
 
-				if 
+				if
 					(
-						(
-							pTblF->m_sStyleClass.CompareNoCase(m_Template.s_sCopyStaticObject_StyleName) == 0
-							&&
-							!bOnlyInherit
-						) 
+					(
+						pTblF->m_sStyleClass.CompareNoCase(m_Template.s_sCopyStaticObject_StyleName) == 0
+						&&
+						!bOnlyInherit
+						)
 						||
 						pTblF->m_sStyleClass.CompareNoCase(m_Template.s_sInheritStaticObject_StyleName) == 0
-					)
+						)
 				{
 					BaseRect* pNewObj = NULL;
 
 					if (pTblF->IsKindOf(RUNTIME_CLASS(FileRect)))
-						pNewObj = new FileRect (*(FileRect*)pTblF);
+						pNewObj = new FileRect(*(FileRect*)pTblF);
 					else if (pTblF->IsKindOf(RUNTIME_CLASS(TextRect)))
-						pNewObj = new TextRect (*(TextRect*)pTblF);
+						pNewObj = new TextRect(*(TextRect*)pTblF);
 					else if (pTblF->IsKindOf(RUNTIME_CLASS(GraphRect)))
-						pNewObj = new GraphRect (*(GraphRect*)pTblF);
+						pNewObj = new GraphRect(*(GraphRect*)pTblF);
 					else if (pTblF->IsKindOf(RUNTIME_CLASS(SqrRect)))
-						pNewObj = new SqrRect (*(SqrRect*)pTblF);
+						pNewObj = new SqrRect(*(SqrRect*)pTblF);
 
 					if (pNewObj)
 					{
@@ -12981,19 +12990,19 @@ void CWoormDocMng::AddStaticObjects (CLayout* pObjects, BOOL bOnlyInherit)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::RemoveInheritObjects (CLayout* pObjects)
+void CWoormDocMng::RemoveInheritObjects(CLayout* pObjects)
 {
 	if (m_pMultipleSelObj) OnDeselectAll();
 	m_pActiveRect->Clear();
 	m_pCurrentObj = NULL;
 
-	for (int i = pObjects->GetUpperBound(); i  >= 0; i--)
+	for (int i = pObjects->GetUpperBound(); i >= 0; i--)
 	{
 		BaseObj* pObj = (*pObjects)[i];
 
 		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 		{
-			BaseRect* pBr = (BaseRect*) pObj;
+			BaseRect* pBr = (BaseRect*)pObj;
 			if (!pBr->m_bInheritByTemplate)
 				continue;
 
@@ -13005,7 +13014,7 @@ void CWoormDocMng::RemoveInheritObjects (CLayout* pObjects)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::ApplyTemplateStyles (BOOL /*bEditing = FALSE*/)
+void CWoormDocMng::ApplyTemplateStyles(BOOL /*bEditing = FALSE*/)
 {
 	if (!m_Template.m_pWoormTpl) return;
 
@@ -13022,7 +13031,7 @@ void CWoormDocMng::ApplyTemplateStyles (BOOL /*bEditing = FALSE*/)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::ApplyTemplateStyles (CLayout* pObjects)
+void CWoormDocMng::ApplyTemplateStyles(CLayout* pObjects)
 {
 	for (int i = 0; i <= pObjects->GetUpperBound(); i++)
 	{
@@ -13033,13 +13042,13 @@ void CWoormDocMng::ApplyTemplateStyles (CLayout* pObjects)
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::ApplyTemplateStyles (BaseObj* pO)
+void CWoormDocMng::ApplyTemplateStyles(BaseObj* pO)
 {
 	SetTemplateStyle(pO);
 
 	if (pO->IsKindOf(RUNTIME_CLASS(Table)))
 	{
-		Table *pTable = (Table*) pO;
+		Table *pTable = (Table*)pO;
 
 		for (int c = 0; c <= pTable->m_Columns.GetUpperBound(); c++)
 		{
@@ -13072,7 +13081,7 @@ BOOL CWoormDocMng::SetTemplateStyle(CObject* pCurrObj)
 	CString strName; CLayout* pTplObjects = NULL;
 	for (POSITION pos = pTplLayouts->GetStartPosition(); pos != NULL; pTplObjects = NULL, strName.Empty())
 	{
-		 pTplLayouts->GetNextAssoc (pos, strName, (CObject*&)pTplObjects);
+		pTplLayouts->GetNextAssoc(pos, strName, (CObject*&)pTplObjects);
 
 		for (int i = 0; i <= pTplObjects->GetUpperBound(); i++)
 		{
@@ -13080,7 +13089,7 @@ BOOL CWoormDocMng::SetTemplateStyle(CObject* pCurrObj)
 
 			if (pCurrObj->IsKindOf(RUNTIME_CLASS(BaseRect)) && pTblObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 			{
-				BaseRect* pTblF = (BaseRect*) pTblObj;
+				BaseRect* pTblF = (BaseRect*)pTblObj;
 
 				if (!pTblF->m_bTemplate)
 					continue;
@@ -13090,14 +13099,14 @@ BOOL CWoormDocMng::SetTemplateStyle(CObject* pCurrObj)
 
 				if (pRect->m_sStyleClass.CompareNoCase(pTblF->m_sStyleClass))
 					continue;
-			
+
 				pRect->SetStyle(pTblF);
 
 				return TRUE;
 			}
 			else if (pCurrObj->IsKindOf(RUNTIME_CLASS(Table)) && pTblObj->IsKindOf(RUNTIME_CLASS(Table)))
 			{
-				Table* pTplTable = (Table*) pTblObj;
+				Table* pTplTable = (Table*)pTblObj;
 
 				if (!pTplTable->m_bTemplate)
 					continue;
@@ -13111,7 +13120,7 @@ BOOL CWoormDocMng::SetTemplateStyle(CObject* pCurrObj)
 			}
 			else if (pCurrObj->IsKindOf(RUNTIME_CLASS(TableColumn)) && pTblObj->IsKindOf(RUNTIME_CLASS(Table)))
 			{
-				Table* pTable = (Table*) pTblObj;
+				Table* pTable = (Table*)pTblObj;
 
 				for (int c = 0; c <= pTable->m_Columns.GetUpperBound(); c++)
 				{
@@ -13129,44 +13138,44 @@ BOOL CWoormDocMng::SetTemplateStyle(CObject* pCurrObj)
 			}
 		}
 	}
-/*	TODO RICCARDO TEMPLATE mancano dei wrmt di ERP alcuni oggetti template
-	//non ho trovato lo stile nel template, ripiego sullo stile <default> 
-	if (pRect && !pRect->m_sStyleClass.IsEmpty())
-	{
-		CString sSaveStyle = pRect->m_sStyleClass;
-		pRect->m_sStyleClass.Empty();
-		BOOL bOk = SetTemplateStyle(pCurrObj);
-		pRect->m_sStyleClass = sSaveStyle;
-		return bOk;
-	}
-	if (pTable && !pTable->m_sStyleClass.IsEmpty())
-	{
-		CString sSaveStyle = pTable->m_sStyleClass;
-		pTable->m_sStyleClass.Empty();
-		BOOL bOk = SetTemplateStyle(pCurrObj);
-		pTable->m_sStyleClass = sSaveStyle;
-		return bOk;
-	}
-	if (pCol && !pCol->m_sStyleClass.IsEmpty())
-	{
-		CString sSaveStyle = pCol->m_sStyleClass;
-		pCol->m_sStyleClass.Empty();
-		BOOL bOk = SetTemplateStyle(pCurrObj);
-		pCol->m_sStyleClass = sSaveStyle;
-		return bOk;
-	}
-*/
+	/*	TODO RICCARDO TEMPLATE mancano dei wrmt di ERP alcuni oggetti template
+		//non ho trovato lo stile nel template, ripiego sullo stile <default>
+		if (pRect && !pRect->m_sStyleClass.IsEmpty())
+		{
+			CString sSaveStyle = pRect->m_sStyleClass;
+			pRect->m_sStyleClass.Empty();
+			BOOL bOk = SetTemplateStyle(pCurrObj);
+			pRect->m_sStyleClass = sSaveStyle;
+			return bOk;
+		}
+		if (pTable && !pTable->m_sStyleClass.IsEmpty())
+		{
+			CString sSaveStyle = pTable->m_sStyleClass;
+			pTable->m_sStyleClass.Empty();
+			BOOL bOk = SetTemplateStyle(pCurrObj);
+			pTable->m_sStyleClass = sSaveStyle;
+			return bOk;
+		}
+		if (pCol && !pCol->m_sStyleClass.IsEmpty())
+		{
+			CString sSaveStyle = pCol->m_sStyleClass;
+			pCol->m_sStyleClass.Empty();
+			BOOL bOk = SetTemplateStyle(pCurrObj);
+			pCol->m_sStyleClass = sSaveStyle;
+			return bOk;
+		}
+	*/
 	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::LoadTemplateFontStyles		()
+void CWoormDocMng::LoadTemplateFontStyles()
 {
 	if (!m_Template.m_pWoormTpl) return;
-//----
+	//----
 	FontStyleTablePtr FT_src(m_Template.m_pWoormTpl->m_pFontStyles, FALSE);
 	FontStyleTablePtr FT_current(m_pFontStyles, FALSE);
-	for (int j=0; j <= FT_src->GetUpperBound(); j++)
+	for (int j = 0; j <= FT_src->GetUpperBound(); j++)
 	{
 		FontStylesGroup* pGroup = FT_src->GetAt(j);
 		if (!pGroup)
@@ -13174,8 +13183,8 @@ void CWoormDocMng::LoadTemplateFontStyles		()
 
 		for (int i = pGroup->GetFontStyles().GetUpperBound(); i >= 0; i--)
 		{
-			FontStyle* pStyle = (FontStyle*) pGroup->GetFontStyles().GetAt(i);
-			if (pStyle->GetSource() == FontStyle::FROM_WOORM) 
+			FontStyle* pStyle = (FontStyle*)pGroup->GetFontStyles().GetAt(i);
+			if (pStyle->GetSource() == FontStyle::FROM_WOORM)
 			{
 				FontStyle* pTplStyle = new FontStyle(*pStyle);
 				pTplStyle->SetSource(FontStyle::FROM_WOORM_TEMPLATE);
@@ -13187,12 +13196,12 @@ void CWoormDocMng::LoadTemplateFontStyles		()
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::UnloadTemplateFontStyles	()
+void CWoormDocMng::UnloadTemplateFontStyles()
 {
 	if (!m_Template.m_pWoormTpl) return;
 	//----
 	FontStyleTablePtr FT(m_pFontStyles, FALSE);
-	for (int j=0; j <= FT->GetUpperBound(); j++)
+	for (int j = 0; j <= FT->GetUpperBound(); j++)
 	{
 		FontStylesGroup* pGroup = FT->GetAt(j);
 		if (!pGroup)
@@ -13200,8 +13209,8 @@ void CWoormDocMng::UnloadTemplateFontStyles	()
 
 		for (int i = pGroup->GetFontStyles().GetUpperBound(); i >= 0; i--)
 		{
-			FontStyle* pStyle = (FontStyle*) pGroup->GetFontStyles().GetAt(i);
-			if (pStyle->GetSource() == FontStyle::FROM_WOORM_TEMPLATE) 
+			FontStyle* pStyle = (FontStyle*)pGroup->GetFontStyles().GetAt(i);
+			if (pStyle->GetSource() == FontStyle::FROM_WOORM_TEMPLATE)
 			{
 				const_cast<Array&>(pGroup->GetFontStyles()).RemoveAt(i);
 			}
@@ -13210,7 +13219,7 @@ void CWoormDocMng::UnloadTemplateFontStyles	()
 }
 
 //=============================================================================
-void CWoormDocMng::FillComboTemplates (UINT nID, LPCTSTR sNs)
+void CWoormDocMng::FillComboTemplates(UINT nID, LPCTSTR sNs)
 {
 	CTBNamespace aNameSpace(sNs);	//TODO leggere dai setting
 	aNameSpace.SetType(CTBNamespace::REPORT);
@@ -13218,9 +13227,9 @@ void CWoormDocMng::FillComboTemplates (UINT nID, LPCTSTR sNs)
 	CStringArray aUserSel; aUserSel.Add(AfxGetLoginInfos()->m_strUserName);
 	CStringArray aAllModulesPath;
 	CStringArray aAllObjPaths;
-	AfxGetPathFinder()->GetAllModulePath(aAllModulesPath, aNameSpace, aUserSel, TRUE, TRUE, TRUE, TRUE, aNameSpace.GetObjectName(CTBNamespace::MODULE));	
+	AfxGetPathFinder()->GetAllModulePath(aAllModulesPath, aNameSpace, aUserSel, TRUE, TRUE, TRUE, TRUE, aNameSpace.GetObjectName(CTBNamespace::MODULE));
 	AfxGetPathFinder()->GetAllObjInFolder(aAllObjPaths, aNameSpace, aAllModulesPath, _T("*"), _T("*.wrmt"));
-	
+
 	CTBToolBar* pToolBar = GetWoormFrame()->GetToolBar(NAME_MAIN_EDIT_TOOLBAR);
 	ASSERT(pToolBar);
 
@@ -13228,14 +13237,14 @@ void CWoormDocMng::FillComboTemplates (UINT nID, LPCTSTR sNs)
 	{
 		CString strFullName = aAllObjPaths.GetAt(s);
 		CString sSubObjName = ::GetName(strFullName);
-		
+
 		if (!::IsValidObjName(sSubObjName))
 			continue;// invalid character into object name filter
 		if (!::PathFileExists(strFullName))
 			continue;
 
-		pToolBar->AddComboItem(nID, sSubObjName, GetWoormFrame()->m_cbxTemplatesStr.AddEntry(strFullName) );
-	}	
+		pToolBar->AddComboItem(nID, sSubObjName, GetWoormFrame()->m_cbxTemplatesStr.AddEntry(strFullName));
+	}
 }
 
 BOOL CWoormDocMng::FillComboTemplates()
@@ -13246,8 +13255,8 @@ BOOL CWoormDocMng::FillComboTemplates()
 	if (!pToolBar) return FALSE;
 	int nIdCb = IDC_DROPDOWN_TEMPLATES;
 	pToolBar->RemoveAllComboItems(nIdCb);
-	pToolBar->AddComboItem(nIdCb, cwsprintf(_T(" <%s>"),	_TB("Select a Template")),		0);
-	
+	pToolBar->AddComboItem(nIdCb, cwsprintf(_T(" <%s>"), _TB("Select a Template")), 0);
+
 	CString sCurrent, sPath;
 	if (m_Template.m_pWoormTpl)
 	{
@@ -13256,30 +13265,30 @@ BOOL CWoormDocMng::FillComboTemplates()
 	}
 
 	if (
-			!sPath.IsEmpty() 
+		!sPath.IsEmpty()
+		&&
+		(
+		(
+			AfxIsActivated(MAGONET_APP, _NS_ACT("Core"))
 			&&
 			(
-				(
-					AfxIsActivated(MAGONET_APP, _NS_ACT("Core")) 
-					&&
-					(
-						m_Template.m_pWoormTpl->GetNamespace().GetApplicationName().CompareNoCase(MAGONET_APP) ||
-						m_Template.m_pWoormTpl->GetNamespace().GetModuleName().CompareNoCase(_NS_MOD("Core"))
-					)
+				m_Template.m_pWoormTpl->GetNamespace().GetApplicationName().CompareNoCase(MAGONET_APP) ||
+				m_Template.m_pWoormTpl->GetNamespace().GetModuleName().CompareNoCase(_NS_MOD("Core"))
 				)
-				||
+			)
+			||
+			(
+				AfxIsActivated(OFM_APP, _NS_ACT("Core"))
+				&&
 				(
-					AfxIsActivated(OFM_APP, _NS_ACT("Core")) 
-					&&
-					(
-						m_Template.m_pWoormTpl->GetNamespace().GetApplicationName().CompareNoCase(OFM_APP) ||
-						m_Template.m_pWoormTpl->GetNamespace().GetModuleName().CompareNoCase(_NS_MOD("Core"))
+					m_Template.m_pWoormTpl->GetNamespace().GetApplicationName().CompareNoCase(OFM_APP) ||
+					m_Template.m_pWoormTpl->GetNamespace().GetModuleName().CompareNoCase(_NS_MOD("Core"))
 					)
 				)
 			)
-		)	
+		)
 	{
-		pToolBar->AddComboItem(nIdCb, sCurrent, GetWoormFrame()->m_cbxTemplatesStr.AddEntry(sPath) );
+		pToolBar->AddComboItem(nIdCb, sCurrent, GetWoormFrame()->m_cbxTemplatesStr.AddEntry(sPath));
 	}
 	else
 	{
@@ -13293,25 +13302,25 @@ BOOL CWoormDocMng::FillComboTemplates()
 	pToolBar->AddComboItem(nIdCb, cwsprintf(_T("[%s...]"), _TB("Browse for Templates")), -2);
 
 	int curr = pToolBar->FindComboStringExact(nIdCb, sCurrent);
-	pToolBar->SetComboItemSel(nIdCb,curr);
+	pToolBar->SetComboItemSel(nIdCb, curr);
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
 void CWoormDocMng::OnComboTemplatesSelChanged()
 {
-	if 
+	if
 		(
 			m_bPlayback ||
 			m_bEngineRunning
-		)
+			)
 	{
 		return;
 	}
-	
+
 	CTBToolBar* pToolBar = GetWoormFrame()->GetToolBar(NAME_MAIN_EDIT_TOOLBAR);
 	ASSERT(pToolBar);
-	int	nCurSel  = pToolBar->GetComboItemSel(IDC_DROPDOWN_TEMPLATES);
+	int	nCurSel = pToolBar->GetComboItemSel(IDC_DROPDOWN_TEMPLATES);
 	if (nCurSel < 0) return;
 	DWORD dw = pToolBar->GetComboItemData(IDC_DROPDOWN_TEMPLATES, nCurSel);
 
@@ -13332,22 +13341,22 @@ void CWoormDocMng::OnComboTemplatesSelChanged()
 
 	CString strPathName = GetWoormFrame()->m_cbxTemplatesStr.m_arStringItemData.GetAt(nCurSel);
 
-	UnloadTemplate ();
+	UnloadTemplate();
 
 	m_Template.m_sNsTemplate = AfxGetPathFinder()->GetNamespaceFromPath(strPathName).ToString();
 
 
 	GetWoormFrame()->PostMessage(WM_COMMAND, ID_OPEN_TEMPLATE);
-	
+
 }
 
 //=============================================================================
 
 void CWoormDocMng::ChangeLayout(const CString& sName)
-	{
+{
 	// remove selections
 	if (m_pMultipleSelObj)
-		OnDeselectAll();              
+		OnDeselectAll();
 	CPoint pt;
 	SetCurrentObj(0, pt);
 	m_pCurrentObj = NULL;
@@ -13355,13 +13364,13 @@ void CWoormDocMng::ChangeLayout(const CString& sName)
 	//----
 
 	m_Layouts.SetCurrent(sName);
-	
+
 	Invalidate(TRUE);
 	UpdateWindow();
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::UpdateLayout	()
+void CWoormDocMng::UpdateLayout()
 {
 	PrepareLayout();
 
@@ -13373,7 +13382,7 @@ void CWoormDocMng::UpdateLayout	()
 /*
 void CWoormDocMng::OnRenameLayout ()
 {
-	if 
+	if
 		(
 			m_bPlayback ||
 			m_bEngineRunning ||
@@ -13412,13 +13421,13 @@ void CWoormDocMng::OnUpdateRenameLayout (CCmdUI* pCmdUI)
 }
 */
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateLayoutCopyMoveObject (CCmdUI* pCmdUI)
+void CWoormDocMng::OnUpdateLayoutCopyMoveObject(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable (m_Layouts.GetCount() > 1);
+	pCmdUI->Enable(m_Layouts.GetCount() > 1);
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::GetLayoutSourceObject (CLayout*& pSourceObjects, BaseObj*& pSourceObj)
+BOOL CWoormDocMng::GetLayoutSourceObject(CLayout*& pSourceObjects, BaseObj*& pSourceObj)
 {
 	CChooseObjectDlg   dialog(this, GetFirstView(), TRUE);
 	if (dialog.DoModal() == IDOK)
@@ -13447,7 +13456,7 @@ BOOL CWoormDocMng::GetLayoutSourceObject (CLayout*& pSourceObjects, BaseObj*& pS
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetObjects, BaseObj* pSourceObj)
+void CWoormDocMng::LayoutCopyObject(CLayout* pSourceObjects, CLayout* pTargetObjects, BaseObj* pSourceObj)
 {
 	ASSERT_VALID(pSourceObjects);
 	ASSERT_VALID(pTargetObjects);
@@ -13465,14 +13474,14 @@ void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetOb
 
 	if (pSourceObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
-		BaseRect* pB = (BaseRect*) pClone;
+		BaseRect* pB = (BaseRect*)pClone;
 
 		pB->m_AnchorLeftColumnID = pB->m_AnchorRightColumnID = 0;
 		pB->m_AnchorRepeaterID = 0;  pB->m_nRepeaterRow = -1;
 
 		if (pSourceObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
-			Repeater* pRep = (Repeater*) pClone;
+			Repeater* pRep = (Repeater*)pClone;
 			CLayout* arChilds = pRep->GetChildObjects();
 
 			for (int i = 0; i < arChilds->GetSize(); i++)
@@ -13490,7 +13499,7 @@ void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetOb
 			//----
 			if (this->m_pEditorManager)
 			{
-				DisplayTables* pDT = m_pEditorManager->GetDispTable ();
+				DisplayTables* pDT = m_pEditorManager->GetDispTable();
 				ASSERT(pDT);
 				pDT->LayoutClone(pRep->GetInternalID(), pSourceObjects->m_strLayoutName, pTargetObjects->m_strLayoutName);
 			}
@@ -13501,11 +13510,11 @@ void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetOb
 	}
 	else if (pSourceObj->IsKindOf(RUNTIME_CLASS(Table)))
 	{
-		Table* pT = (Table*) pClone;
+		Table* pT = (Table*)pClone;
 
 		if (this->m_pEditorManager)
 		{
-			DisplayTables* pDT = m_pEditorManager->GetDispTable ();
+			DisplayTables* pDT = m_pEditorManager->GetDispTable();
 			ASSERT(pDT);
 			pDT->LayoutClone(pT->GetInternalID(), pSourceObjects->m_strLayoutName, pTargetObjects->m_strLayoutName);
 		}
@@ -13518,7 +13527,7 @@ void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetOb
 		if (arAnchoredFields.GetCount())
 		{
 			//copy anchored fields too
-			for (int i= 0; i < arAnchoredFields.GetSize(); i++)
+			for (int i = 0; i < arAnchoredFields.GetSize(); i++)
 			{
 				BaseObj* pF = arAnchoredFields[i];
 
@@ -13544,11 +13553,11 @@ void CWoormDocMng::LayoutCopyObject (CLayout* pSourceObjects, CLayout* pTargetOb
 
 	SetModifiedFlag();
 	Invalidate(TRUE);
-	UpdateWindow ();
+	UpdateWindow();
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetObjects, BaseObj* pSourceObj)
+void CWoormDocMng::LayoutMoveObject(CLayout* pSourceObjects, CLayout* pTargetObjects, BaseObj* pSourceObj)
 {
 	ASSERT_VALID(pSourceObjects);
 	ASSERT_VALID(pTargetObjects);
@@ -13563,15 +13572,15 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 
 	if (pSourceObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
-		BaseRect* pB = (BaseRect*) pSourceObj;
+		BaseRect* pB = (BaseRect*)pSourceObj;
 		if (pB->IsAnchored())
 			pB->FreeFieldFromColumn(pSourceObjects);
-		
+
 		pB->m_AnchorRepeaterID = 0;  pB->m_nRepeaterRow = -1;
 
 		if (pSourceObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
-			Repeater* pRep = (Repeater*) pSourceObj;
+			Repeater* pRep = (Repeater*)pSourceObj;
 			CLayout* arChilds = pRep->GetChildObjects();
 
 			for (int i = 0; i < arChilds->GetSize(); i++)
@@ -13594,7 +13603,7 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 			ASSERT_VALID(m_pEditorManager);
 			if (this->m_pEditorManager)
 			{
-				DisplayTables* pDT = m_pEditorManager->GetDispTable ();
+				DisplayTables* pDT = m_pEditorManager->GetDispTable();
 				ASSERT(pDT);
 				VERIFY(pDT->LayoutMove(pRep->GetInternalID(), pSourceObjects->m_strLayoutName, pTargetObjects->m_strLayoutName));
 			}
@@ -13606,14 +13615,14 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 	if (pSourceObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
 		((Repeater*)pSourceObj)->Rebuild(pTargetObjects);
-	}	
+	}
 	else if (pSourceObj->IsKindOf(RUNTIME_CLASS(Table)))
 	{
-		Table* pT = (Table*) pSourceObj;
-			
+		Table* pT = (Table*)pSourceObj;
+
 		if (this->m_pEditorManager)
 		{
-			DisplayTables* pDT = m_pEditorManager->GetDispTable ();
+			DisplayTables* pDT = m_pEditorManager->GetDispTable();
 			ASSERT(pDT);
 			VERIFY(pDT->LayoutMove(pT->GetInternalID(), pSourceObjects->m_strLayoutName, pTargetObjects->m_strLayoutName));
 		}
@@ -13626,7 +13635,7 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 		if (arAnchoredFields.GetCount())
 		{
 			//move anchored fields too
-			for (int i= 0; i < arAnchoredFields.GetSize(); i++)
+			for (int i = 0; i < arAnchoredFields.GetSize(); i++)
 			{
 				BaseObj* pF = arAnchoredFields[i];
 
@@ -13634,13 +13643,13 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 				if (id && pTargetObjects->FindByID(id))
 				{
 					//non posso portarlo, quindi lo sgancio dalla tabella
-					BaseRect* pB = (BaseRect*) pF;
+					BaseRect* pB = (BaseRect*)pF;
 					pB->m_AnchorLeftColumnID = pB->m_AnchorRightColumnID = 0;
 					continue;
 				}
 
 				pTargetObjects->Add(pF);
-					
+
 				int idx = pSourceObjects->FindPtr(pF);
 				ASSERT(idx >= 0);
 				if (idx >= 0)
@@ -13663,11 +13672,11 @@ void CWoormDocMng::LayoutMoveObject (CLayout* pSourceObjects, CLayout* pTargetOb
 
 	SetModifiedFlag();
 	Invalidate(TRUE);
-	UpdateWindow ();
+	UpdateWindow();
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnLayoutCopyObject ()
+void CWoormDocMng::OnLayoutCopyObject()
 {
 	CLayout* pSourceObjects = NULL;
 	BaseObj* pSourceObj = NULL;
@@ -13680,7 +13689,7 @@ void CWoormDocMng::OnLayoutCopyObject ()
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnLayoutMoveObject ()
+void CWoormDocMng::OnLayoutMoveObject()
 {
 	CLayout* pSourceObjects = NULL;
 	BaseObj* pSourceObj = NULL;
@@ -13694,9 +13703,9 @@ void CWoormDocMng::OnLayoutMoveObject ()
 
 //=============================================================================
 
-BOOL CWoormDocMng::CanDeleteField (LPCTSTR pszFieldName, CString& sLog, BOOL* onlyUI) const
+BOOL CWoormDocMng::CanDeleteField(LPCTSTR pszFieldName, CString& sLog, BOOL* onlyUI) const
 {
-	BOOL bCan =  
+	BOOL bCan =
 		m_Layouts.CanDeleteField(pszFieldName, sLog) &&
 		m_arWoormLinks.CanDeleteField(pszFieldName, sLog);
 
@@ -13719,7 +13728,7 @@ BOOL CWoormDocMng::CanDeleteField (LPCTSTR pszFieldName, CString& sLog, BOOL* on
 }
 
 //-----------------------------------------------------------------------------
-void CWoormDocMng::OnCopyText	() 
+void CWoormDocMng::OnCopyText()
 {
 	if (m_sCopyText.IsEmpty())
 		return;
@@ -13782,7 +13791,7 @@ CView* CWoormDocMng::CreateSlaveView(CRuntimeClass* pViewClass)
 //-----------------------------------------------------------------------------
 CFontStylesDlg* CWoormDocMng::CreateFontStyleDlg(int& nFontIdx)
 {
-	return new CFontStylesDlg (*(m_pFontStyles), nFontIdx, FALSE, NULL, GetNamespace(), FALSE, m_Template.m_bIsTemplate);
+	return new CFontStylesDlg(*(m_pFontStyles), nFontIdx, FALSE, NULL, GetNamespace(), FALSE, m_Template.m_bIsTemplate);
 }
 
 //-----------------------------------------------------------------------------
@@ -13809,25 +13818,25 @@ CRSTreeCtrl* CWoormDocMng::GetRSTree(ERefreshEditor e)
 {
 	switch (e)
 	{
-		case ERefreshEditor::Layouts:
-		case ERefreshEditor::Links:
-		{
-			if (GetWoormFrame()->GetLayoutTreeView())
-				return &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
-			break;
-		}
-		case ERefreshEditor::Variables:
-		case ERefreshEditor::Rules:
-		case ERefreshEditor::RuleGroup:
-		case ERefreshEditor::Events:
-		case ERefreshEditor::Procedures:
-		case ERefreshEditor::Queries:
-		case ERefreshEditor::Dialogs:
-		{
-			if (GetWoormFrame()->GetEngineTreeView())
-				return &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
-			break;
-		}
+	case ERefreshEditor::Layouts:
+	case ERefreshEditor::Links:
+	{
+		if (GetWoormFrame()->GetLayoutTreeView())
+			return &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
+		break;
+	}
+	case ERefreshEditor::Variables:
+	case ERefreshEditor::Rules:
+	case ERefreshEditor::RuleGroup:
+	case ERefreshEditor::Events:
+	case ERefreshEditor::Procedures:
+	case ERefreshEditor::Queries:
+	case ERefreshEditor::Dialogs:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
+			return &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+		break;
+	}
 	}
 	ASSERT(FALSE);
 	return NULL;
@@ -13877,7 +13886,7 @@ void CWoormDocMng::UpdateRSTreeNode(ERefreshEditor e, BaseObj* pObj, BOOL bSelec
 	CRSTreeCtrl* pTreeCtrl = GetRSTree(e);
 	if (!pTreeCtrl) return;
 
-	
+
 	HTREEITEM ht = pTreeCtrl->FindItemData((DWORD)pObj, pTreeCtrl->m_htLayouts);
 	if (!ht)
 		return;
@@ -13898,7 +13907,7 @@ void CWoormDocMng::UpdateRSTreeNode(ERefreshEditor e, MultiColumnSelection* pCol
 	{
 		pCol = pColumns->GetAt(i);
 		HTREEITEM ht = pTreeCtrl->FindItemData((DWORD)pCol, pTreeCtrl->m_htLayouts);
-	if (!ht)
+		if (!ht)
 			continue;
 		CNodeTree* pNode = (CNodeTree*)pTreeCtrl->GetItemData(ht);
 		pTreeCtrl->UpdateRSTreeNode(pNode);
@@ -13930,13 +13939,13 @@ HTREEITEM CWoormDocMng::RefreshRSTree(ERefreshEditor e, CObject* itemDataToSelec
 	CRSTreeCtrl* pTreeCtrl = NULL;
 	HTREEITEM htRoot = NULL;
 
-	switch(e)
+	switch (e)
 	{
 	case ERefreshEditor::ToolBox:
-	{	 		
-		 GetWoormFrame()->m_pToolBoxTreeView->m_TreeCtrl.FillToolBox(TRUE);
-		 break;
-		
+	{
+		GetWoormFrame()->m_pToolBoxTreeView->m_TreeCtrl.FillToolBox(TRUE);
+		break;
+
 	}
 	case ERefreshEditor::Layouts:
 	{
@@ -13944,113 +13953,113 @@ HTREEITEM CWoormDocMng::RefreshRSTree(ERefreshEditor e, CObject* itemDataToSelec
 		{
 			pTreeCtrl = &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillLayouts();
+			pTreeCtrl->FillLayouts();
 
-				htRoot = pTreeCtrl->m_htLayouts;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htLayouts;
 		}
-		case ERefreshEditor::Links:
+		break;
+	}
+	case ERefreshEditor::Links:
+	{
+		if (GetWoormFrame()->GetLayoutTreeView())
 		{
-			if (GetWoormFrame()->GetLayoutTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillLinks();
+			pTreeCtrl->FillLinks();
 
-				htRoot = pTreeCtrl->m_htLinks;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htLinks;
 		}
-		case ERefreshEditor::Variables:
+		break;
+	}
+	case ERefreshEditor::Variables:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillVariables(TRUE, FALSE);
+			pTreeCtrl->FillVariables(TRUE, FALSE);
 
-				htRoot = pTreeCtrl->m_htVariables;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htVariables;
 		}
-		case ERefreshEditor::Rules:
+		break;
+	}
+	case ERefreshEditor::Rules:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillRules();
+			pTreeCtrl->FillRules();
 
-				htRoot = pTreeCtrl->m_htRules;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htRules;
 		}
-		case ERefreshEditor::RuleGroup:
+		break;
+	}
+	case ERefreshEditor::RuleGroup:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillTupleRules();
+			pTreeCtrl->FillTupleRules();
 
-				htRoot = pTreeCtrl->m_htTupleRules;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htTupleRules;
 		}
-		case ERefreshEditor::Events:
+		break;
+	}
+	case ERefreshEditor::Events:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillEvents();
+			pTreeCtrl->FillEvents();
 
-				htRoot = pTreeCtrl->m_htEvents;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htEvents;
 		}
-		case ERefreshEditor::Procedures:
+		break;
+	}
+	case ERefreshEditor::Procedures:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillProcedures();
+			pTreeCtrl->FillProcedures();
 
-				htRoot = pTreeCtrl->m_htProcedures;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htProcedures;
 		}
-		case ERefreshEditor::Queries:
+		break;
+	}
+	case ERefreshEditor::Queries:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillQueries();
+			pTreeCtrl->FillQueries();
 
-				htRoot = pTreeCtrl->m_htQueries;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htQueries;
 		}
+		break;
+	}
 
-		case ERefreshEditor::Dialogs:
+	case ERefreshEditor::Dialogs:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
 		{
-			if (GetWoormFrame()->GetEngineTreeView())
-			{
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 
-				pTreeCtrl->FillDialogs();
+			pTreeCtrl->FillDialogs();
 
-				htRoot = pTreeCtrl->m_htAskDialogs;
-			}
-			break;
+			htRoot = pTreeCtrl->m_htAskDialogs;
 		}
+		break;
+	}
 	}
 
 	if (pTreeCtrl && htRoot)
-	{ 
+	{
 		if (itemDataToSelect)
 		{
 			ASSERT_VALID(itemDataToSelect);
@@ -14058,7 +14067,7 @@ HTREEITEM CWoormDocMng::RefreshRSTree(ERefreshEditor e, CObject* itemDataToSelec
 			ASSERT(!selectRoot);
 			return ht;
 		}
-		else if (selectRoot) 
+		else if (selectRoot)
 		{
 			pTreeCtrl->SelectItem(htRoot);
 			pTreeCtrl->EnsureVisible(htRoot);
@@ -14376,7 +14385,7 @@ HTREEITEM CWoormDocMng::FindRSTreeItemData(ERefreshEditor eRe, CObject* itemData
 BOOL CWoormDocMng::RSTreeContainsItemData(ERefreshEditor eRe, CObject* itemDataToSelect)
 {
 	HTREEITEM ht = FindRSTreeItemData(eRe, itemDataToSelect);
-	
+
 	return ht ? TRUE : FALSE;
 }
 
@@ -14392,25 +14401,25 @@ BOOL CWoormDocMng::RSTreeIsSelectedItemData(ERefreshEditor eRe, CObject* itemDat
 
 	switch (eRe)
 	{
-		case ERefreshEditor::Layouts:
-		case ERefreshEditor::Links:
-		{
-			if (GetWoormFrame()->GetLayoutTreeView())
-				pTreeCtrl = &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
-			break;
-		}
-		case ERefreshEditor::Variables:
-		case ERefreshEditor::Rules:
-		case ERefreshEditor::RuleGroup:
-		case ERefreshEditor::Events:
-		case ERefreshEditor::Procedures:
-		case ERefreshEditor::Queries:
-		case ERefreshEditor::Dialogs:
-		{
-			if (GetWoormFrame()->GetEngineTreeView())
-				pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;	
-			break;
-		}
+	case ERefreshEditor::Layouts:
+	case ERefreshEditor::Links:
+	{
+		if (GetWoormFrame()->GetLayoutTreeView())
+			pTreeCtrl = &GetWoormFrame()->GetLayoutTreeView()->m_TreeCtrl;
+		break;
+	}
+	case ERefreshEditor::Variables:
+	case ERefreshEditor::Rules:
+	case ERefreshEditor::RuleGroup:
+	case ERefreshEditor::Events:
+	case ERefreshEditor::Procedures:
+	case ERefreshEditor::Queries:
+	case ERefreshEditor::Dialogs:
+	{
+		if (GetWoormFrame()->GetEngineTreeView())
+			pTreeCtrl = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
+		break;
+	}
 	}
 
 	if (!pTreeCtrl)
@@ -14459,14 +14468,14 @@ void  CWoormDocMng::ClearSelectionFromAllTrees(CRSTreeCtrl* pTree)
 	{
 		CRSEditorToolView* pToolTreeView = pEditView->GetEditorFrame(TRUE)->m_pToolTreeView;
 		if (pToolTreeView)
-		{ 
+		{
 			CRSTreeCtrl* pEditTree = &pToolTreeView->m_TreeCtrl;
 			if (pEditTree == pTree)
 				return;
 		}
 	}
 
-	if(pTree)
+	if (pTree)
 		ClearMultiSelection(pTree->m_bMultiSelectCustom);
 
 	//database
@@ -14490,10 +14499,10 @@ void  CWoormDocMng::ClearSelectionFromAllTrees(CRSTreeCtrl* pTree)
 
 	//engine
 	if (GetWoormFrame()->GetEngineTreeView())
-	{ 
+	{
 		CRSTreeCtrl* pEngineTree = &GetWoormFrame()->GetEngineTreeView()->m_TreeCtrl;
 		ASSERT_VALID(pEngineTree);
-		if (pEngineTree && (!pTree || pEngineTree!=pTree))
+		if (pEngineTree && (!pTree || pEngineTree != pTree))
 			pEngineTree->ClearSelection();
 	}
 
@@ -14505,25 +14514,25 @@ void  CWoormDocMng::ClearSelectionFromAllTrees(CRSTreeCtrl* pTree)
 		if (pLayoutTree && (!pTree || pLayoutTree != pTree))
 			pLayoutTree->ClearSelection();
 	}
-	
+
 }
 
 //-----------------------------------------------------------------------------
 
-void CWoormDocMng::OnUpdateSwitchTo(CCmdUI* pCmdUI) 
-{ 
+void CWoormDocMng::OnUpdateSwitchTo(CCmdUI* pCmdUI)
+{
 	//pCmdUI->Enable(!m_bAllowEditing && !m_bEngineRunning);
 	pCmdUI->Enable(TRUE);
 }
 //-----------------------------------------------------------------------------
- void CWoormDocMng::OnAddLink() 
+void CWoormDocMng::OnAddLink()
 {
-	 GetWoormFrame()->m_pObjectPropertyView->NewHyperLink();
+	GetWoormFrame()->m_pObjectPropertyView->NewHyperLink();
 }
 
- //-----------------------------------------------------------------------------
-void CWoormDocMng::OnUpdateBackToMenu(CCmdUI* pCmdUI) 
-{ 
+//-----------------------------------------------------------------------------
+void CWoormDocMng::OnUpdateBackToMenu(CCmdUI* pCmdUI)
+{
 	//pCmdUI->Enable(!m_bAllowEditing && !m_bEngineRunning);
 	pCmdUI->Enable(TRUE);
 }
@@ -14609,11 +14618,11 @@ WoormField* CWoormDocMng::AddDBColumns_CreateField(SqlColumnInfo* pColumn, TblRu
 	WoormTable*	pSymTable = pTblRule->GetSymTable();
 
 	WoormField* pRepField = new WoormField(varName, WoormField::RepFieldType::FIELD_NORMAL, dType);
-		pRepField->SetHidden(TRUE);
-		pRepField->SetPrecision(AfxGetFormatStyleTable()->GetInputCharLen(dType, &GetNamespace()), pColumn->GetColumnDecimal());
-		pRepField->SetTableRuleField(TRUE);
-		pRepField->SetSpecialField(pColumn->m_bSpecial);
-		pRepField->SetPhysicalName(phName);
+	pRepField->SetHidden(TRUE);
+	pRepField->SetPrecision(AfxGetFormatStyleTable()->GetInputCharLen(dType, &GetNamespace()), pColumn->GetColumnDecimal());
+	pRepField->SetTableRuleField(TRUE);
+	pRepField->SetSpecialField(pColumn->m_bSpecial);
+	pRepField->SetPhysicalName(phName);
 	pSymTable->Add(pRepField);
 
 	return pRepField;
@@ -14640,9 +14649,9 @@ WoormField* CWoormDocMng::AddDBColumns_FromToolBar(CNodeTree* pNode, BOOL bSelec
 WoormField* CWoormDocMng::AddDBColumns_FromToolBar(CNodeTreeArray* ar, BOOL bSelectLast, TblRuleData* pCurrTblRule, int idxTable, CStringArray* varNames)
 {
 	WoormField* pLastNewField = NULL;
-	
+
 	int n = ar->GetCount();
-	for (int i = 0; i < n; i ++)
+	for (int i = 0; i < n; i++)
 	{
 		ASSERT_VALID(ar);
 		CNodeTree* pNode = (*ar)[i];
@@ -14705,7 +14714,7 @@ BOOL CWoormDocMng::OpenDebugger(ActionObj* pCurrCmd)
 	if (this->IsAWoormRunningMultithread())
 	{
 		HWND hwndThread = GetFrameHandle();
-		if ( GetWindowThreadProcessId(hwndThread, NULL) != ::GetCurrentThreadId() ) 
+		if (GetWindowThreadProcessId(hwndThread, NULL) != ::GetCurrentThreadId())
 			return AfxInvokeThreadFunction<DataBool, CWoormDocMng, DataLng>(hwndThread, this, &CWoormDocMng::DoOpenDebuggerWrp, DataLng((long)pCurrCmd));
 	}
 	return DoOpenDebugger(pCurrCmd);
@@ -14716,20 +14725,20 @@ DataBool CWoormDocMng::DoOpenDebuggerWrp(DataLng dl)
 	ActionObj* pCurrCmd = dynamic_cast<ActionObj*>((ActionObj*)(long)dl);
 	if (!pCurrCmd)
 		return FALSE;
-	
+
 	return DoOpenDebugger(pCurrCmd);
 }
 
-BOOL CWoormDocMng::DoOpenDebugger (ActionObj* pCurrCmd)
+BOOL CWoormDocMng::DoOpenDebugger(ActionObj* pCurrCmd)
 {
 	CRSEditViewDebug* pDebug = GetWoormFrame()->CreateEditViewDebug();
-	
+
 	if (!pDebug)
 		return FALSE;
 	ASSERT_VALID(pDebug);
 
 	pDebug->OpenDebugger(pCurrCmd);
-	
+
 	return TRUE;
 }
 
@@ -14745,7 +14754,7 @@ DataArray* CWoormDocMng::GetDataArrayFromId(WORD nID, DataArray* ownerBag)
 
 	if (pF->IsArray())
 	{
-		return dynamic_cast<DataArray*>(pF->GetData());	
+		return dynamic_cast<DataArray*>(pF->GetData());
 	}
 	else
 	{
@@ -14837,12 +14846,12 @@ BOOL CWoormDocMng::FillSeries(CBCGPChartSeries* pSeries, WORD nID_x, WORD nID_y)
 	{
 		const TableColumn* pCol = GetObjects().FindColumnByID(nID_x);
 		if (pCol)
-			pAr_x =pCol->GetDataArrayFromId(nID_x);
+			pAr_x = pCol->GetDataArrayFromId(nID_x);
 	}
 	if (!pAr_x)
 	{
 		ASSERT(FALSE); return FALSE;
-	}	
+	}
 
 	DataArray* pAr_y;
 	if (pF_y->IsArray())
@@ -14855,7 +14864,7 @@ BOOL CWoormDocMng::FillSeries(CBCGPChartSeries* pSeries, WORD nID_x, WORD nID_y)
 		if (pCol)
 			pAr_y = pCol->GetDataArrayFromId(nID_y);
 	}
-	if (!pAr_y || pAr_x->GetSize()!= pAr_y->GetSize())
+	if (!pAr_y || pAr_x->GetSize() != pAr_y->GetSize())
 	{
 		ASSERT(FALSE); return FALSE;
 	}
@@ -14884,14 +14893,14 @@ BOOL CWoormDocMng::FillSeries(CBCGPChartSeries* pSeries, WORD nID_x, WORD nID_y)
 		else
 			val_y = 0;
 
-	pSeries->AddDataPoint(val_y,val_x);
+		pSeries->AddDataPoint(val_y, val_x);
 	}
 
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
-BOOL CWoormDocMng::FillSeries(CStringArray& pCategories, WORD nID) 
+BOOL CWoormDocMng::FillSeries(CStringArray& pCategories, WORD nID)
 {
 	pCategories.RemoveAll();
 

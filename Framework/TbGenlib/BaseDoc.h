@@ -156,7 +156,8 @@ public :
 
 	//DataSyncro
 	CDataSynchroNotifierObj*	m_pDataSynchroNotifier;
-
+private:
+	CArray<DataObj*>			m_ModifiedData;//per mandare la json patch dei soli dati modificati
 public:
 	virtual CView*	GetNotValidView	(BOOL bSignalError = FALSE) { return NULL; }
 
@@ -178,7 +179,7 @@ public:
 
 	CTBNamespace&		GetNamespace			() { return GetInfoOSL()->m_Namespace; }
 	void				SetNamespace			(const CTBNamespace& aNamespace);
-	
+	void				AddModifiedData			(DataObj* pData);
 	DWORD				GetThreadId				() const { return m_ThreadId; }
 	CDiagnostic*		GetDiagnostic			() { return (CDiagnostic*) m_pMessages; }
 	const CTBNamespace&	GetNsCurrentViewParent	() { return m_nsCurrentViewParent; }

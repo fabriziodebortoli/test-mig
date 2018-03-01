@@ -1248,25 +1248,15 @@ void DBTMaster::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOO
 }
 
 //-----------------------------------------------------------------------------	
-void DBTMaster::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
+bool DBTMaster::SetJson(CJsonParser& jsonParser)
 {
-	if (jsonParser.BeginReadObject(GetName()))
-	{
-		SqlRecord *pRecord = GetRecord();
-		if (pRecord)
-			pRecord->SetJson(jsonParser);
-		jsonParser.EndReadObject();
-	}
-	if (bWithChildren)
-	{
-		DBTArray* pSlaves = GetDBTSlaves();
-		if (pSlaves->GetCount())
-		{
-			for (int i = 0; i < pSlaves->GetCount(); i++)
-				pSlaves->GetAt(i)->SetJson(bWithChildren, jsonParser);
-		}
-	}
+	bool modified = false;
 
+	SqlRecord *pRecord = GetRecord();
+	if (pRecord)
+		modified = pRecord->SetJson(jsonParser) || modified;
+
+	return modified;
 }
 
 
@@ -2016,15 +2006,17 @@ void DBTSlave::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL
 }
 
 //-----------------------------------------------------------------------------	
-void DBTSlave::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
+bool DBTSlave::SetJson(CJsonParser& jsonParser)
 {
+	bool modified = false;
 	if (jsonParser.BeginReadObject(GetName()))
 	{
 		SqlRecord *pRecord = GetRecord();
 		if (pRecord)
-			pRecord->SetJson(jsonParser);
+			modified = pRecord->SetJson(jsonParser);
 		jsonParser.EndReadObject();
 	}
+	return modified;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2073,10 +2065,10 @@ DBTSlaveBuffered::DBTSlaveBuffered()
 	m_bFindDataCalled(false),
 	m_dwLatestModifyTime(0),
 	m_pFnDuplicateKey(NULL)
-
 {
-	m_pRecords = new RecordArray();
+	m_pRecords = new RecordArray(); 
 	m_pOldRecords = new RecordArray();
+	m_pJsonCache = new DBTJsonCache(this);
 }
 //-----------------------------------------------------------------------------	
 DBTSlaveBuffered::DBTSlaveBuffered
@@ -2107,8 +2099,9 @@ DBTSlaveBuffered::DBTSlaveBuffered
 	m_dwLatestModifyTime(0),
 	m_pFnDuplicateKey(NULL)
 {
-	m_pRecords = new RecordArray();
+	m_pRecords = new RecordArray(); 
 	m_pOldRecords = new RecordArray();
+	m_pJsonCache = new DBTJsonCache(this);
 }
 
 //-----------------------------------------------------------------------------	
@@ -2142,6 +2135,7 @@ DBTSlaveBuffered::DBTSlaveBuffered
 {
 	m_pRecords = new RecordArray();
 	m_pOldRecords = new RecordArray();
+	m_pJsonCache = new DBTJsonCache(this);
 }
 
 //-----------------------------------------------------------------------------	
@@ -2171,10 +2165,12 @@ DBTSlaveBuffered::DBTSlaveBuffered
 	m_pDefaultDuplicateKeyDataObj(NULL),
 	m_bFindDataCalled(false),
 	m_dwLatestModifyTime(0),
-	m_pFnDuplicateKey(NULL)
+	m_pFnDuplicateKey(NULL),
+	m_pRecords(new RecordArray())
 {
-	m_pRecords = new RecordArray();
+	m_pRecords = new RecordArray(); 
 	m_pOldRecords = new RecordArray();
+	m_pJsonCache = new DBTJsonCache(this);
 }
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::AlignBodyEdits(BOOL bRefreshBody)
@@ -2212,6 +2208,7 @@ void DBTSlaveBuffered::AlignBodyEdits(BOOL bRefreshBody)
 //-----------------------------------------------------------------------------	
 DBTSlaveBuffered::~DBTSlaveBuffered()
 {
+	delete m_pJsonCache;
 	ClearSlaveDBTs();
 
 	CBodyEditPointers* parBodies = GetBodyEdits();
@@ -4232,138 +4229,35 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 	}
 	return NULL;
 }
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer)
+{
+	if (m_pJsonCache->IsModified())
+	{
+		jsonSerializer.OpenObject(GetName());
+		m_pJsonCache->GetJsonPatch(jsonSerializer);
+		jsonSerializer.CloseObject();
+	}
+}
 
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	jsonSerializer.OpenObject(GetName());
-
-	CString timeStamp = GetCurrentUTCTime();
-	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
-
-	jsonSerializer.WriteBool(_T("enabled"), !this->m_bReadOnly);
-	jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
-
-	SqlRecord *pPrototypeRecord = this->GetRecord();
-	jsonSerializer.OpenObject(_T("prototype"));
-	pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
-	jsonSerializer.CloseObject();
-
-	jsonSerializer.OpenArray(_T("rows"));
-	/*for (int i = 0; i < GetRowCount(); i++)
-	{
-		SqlRecord *pRecord = GetRow(i);
-		jsonSerializer.OpenObject(i);
-		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
-		jsonSerializer.CloseObject();
-	}*/
-	jsonSerializer.CloseArray();
-	jsonSerializer.CloseObject();
-
-	/*CJsonSerializer tempSerializer = jsonSerializer;
-	if (m_JsonData.IsEmpty())
-	{
-		 tempSerializer.WriteJsonFragment(_T("data"), jsonSerializer.GetJson());
-	}
-	else
-	{
-		CJsonWrapper delta;
-		delta.Diff(m_JsonData, tempSerializer);
-		tempSerializer.WriteJsonFragment(_T("patch"), delta.GetJson());
-	}
-	CString b = tempSerializer.GetJson();
-	m_JsonData = tempSerializer;*/
+	GetJsonPatch(jsonSerializer);
 }
 
 //-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::ResetJsonData()
+void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount)
 {
-	m_JsonData.Clear();
+	m_pJsonCache->SetJsonLimits(nRowFrom, nCount);
+	GetDocument()->UpdateDataView();
 }
 
 //-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::GetJsonForSingleDBT(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound, int pageToSkip, int pageToTake)
+bool DBTSlaveBuffered::SetJson(CJsonParser& jsonParser)
 {
-	/* Do your stuff here */
-	//CJsonSerializer dataSer;
-	jsonSerializer.OpenObject(GetName());
+	bool modified = false;
 
-	CString timeStamp = GetCurrentUTCTime();
-	jsonSerializer.WriteString(_T("timeStamp"), timeStamp);
-
-	jsonSerializer.WriteBool(_T("enabled"), !this->m_bReadOnly);
-	jsonSerializer.WriteInt(_T("currentRowIdx"), this->GetCurrentRowIdx());
-
-	SqlRecord *pPrototypeRecord = this->GetRecord();
-	jsonSerializer.OpenObject(_T("prototype"));
-	pPrototypeRecord->GetJson(jsonSerializer, bOnlyWebBound);
-	jsonSerializer.CloseObject();
-
-	jsonSerializer.WriteInt(_T("rowCount"), GetRowCount());
-
-	jsonSerializer.OpenArray(_T("rows"));
-	int rowsToTake = min(pageToTake, GetRowCount() - pageToSkip);
-	//int startingPoint = (pageToSkip) * pageToSkip;
-	int endingPoint = min ((pageToSkip + pageToTake), GetRowCount());
-	int arrayCount = 0;
-	for (int i = pageToSkip; i < endingPoint; i++)
-	{
-		SqlRecord *pRecord = GetRow(i);
-		jsonSerializer.OpenObject(arrayCount);
-		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
-		jsonSerializer.CloseObject();
-		arrayCount++;
-	}
-	jsonSerializer.CloseArray();
-	jsonSerializer.CloseObject();
-
-	/*if (m_JsonData.IsEmpty())
-	{
-		jsonSerializer.WriteJsonFragment(_T("data"), dataSer.GetJson());
-	}
-	else
-	{
-		CJsonWrapper delta;
-		delta.Diff(m_JsonData, dataSer);
-		jsonSerializer.WriteJsonFragment(_T("patch"), delta.GetJson());
-	}*/
-	//m_JsonData = dataSer;
-
-}
-
-//-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
-{
-/*
-	if (jsonParser.BeginReadObject(GetName()))
-	{
-		if (m_JsonData.IsEmpty())
-			return;
-
-		CJsonParser oldData;
-		oldData.Assign(m_JsonData);
-
-		if (oldData.BeginReadObject(GetName()))
-		{
-			oldData.Patch(jsonParser);
-			if (oldData.BeginReadArray(_T("rows")))
-			{
-				for (int i = 0; i < GetRowCount(); i++)
-				{
-					SqlRecord *pRecord = GetRow(i);
-					if (oldData.BeginReadObject(i))
-					{
-						pRecord->SetJson(oldData);
-						oldData.EndReadObject();
-					}
-				}
-				oldData.EndReadArray();
-			}
-			oldData.EndReadObject();
-		}
-		jsonParser.EndReadObject();
-	}
-	*/
 	if (jsonParser.BeginReadObject(GetName()))
 	{
 		if (jsonParser.BeginReadArray(_T("rows")))
@@ -4373,7 +4267,7 @@ void DBTSlaveBuffered::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
 				SqlRecord *pRecord = GetRow(i);
 				if (jsonParser.BeginReadObject(i))
 				{
-					pRecord->SetJson(jsonParser);
+					modified = pRecord->SetJson(jsonParser) || modified;
 					jsonParser.EndReadObject();
 				}
 			}
@@ -4381,6 +4275,7 @@ void DBTSlaveBuffered::SetJson(BOOL bWithChildren, CJsonParser& jsonParser)
 		}
 		jsonParser.EndReadObject();
 	}
+	return modified;
 }
 
 //-----------------------------------------------------------------------------	

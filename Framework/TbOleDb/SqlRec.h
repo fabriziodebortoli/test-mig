@@ -715,8 +715,9 @@ public:
 	const SqlRecord*	LookupExtensionFromColumnIndex (int& nIndex) const ; //it is NOT a RecordArray's index, it modify its index param
 	int					GetExtensionIndex	(int nIndex) const;
 	
-	void GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	void SetJson(CJsonParser& jsonParser);
+	void GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound); 
+	void GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld);
+	bool SetJson(CJsonParser& jsonParser);
 	void SetWebBound(CJsonParser& jsonParser);
 	/*TBWebMethod*/DataStr	GetFieldValue(DataStr FieldName);
 	/*TBWebMethod*/void		SetFieldValue(DataStr FieldName, DataStr Value);

@@ -195,6 +195,9 @@ public:
 		int threads = GetProcessThreadCount();
 		m_LogFile.WriteString(cwsprintf(_T("Threads: %d\r\n"), threads));
 
+		
+		m_LogFile.WriteString(cwsprintf(_T("User: %s\r\n"), AfxGetLoginManager()->GetUserInfoName())); 
+
 		_PROCESS_MEMORY_COUNTERS  psmemCounters;
 		ZeroMemory(&psmemCounters, sizeof(_PROCESS_MEMORY_COUNTERS));
 		if (GetProcessMemoryInfo(GetCurrentProcess(), &psmemCounters, sizeof(_PROCESS_MEMORY_COUNTERS)))

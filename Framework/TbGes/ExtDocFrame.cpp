@@ -182,7 +182,7 @@ void CAbstractFrame::OnSize(UINT nType, int cx, int cy)
 
 	if (m_pTabbedToolBar)
 		m_pTabbedToolBar->SetWindowPos(NULL, 0, 0, cx, m_pTabbedToolBar->CalcMaxButtonHeight(), SWP_NOMOVE | SWP_NOZORDER);
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -195,9 +195,9 @@ HACCEL CAbstractFrame::GetDocumentAccelerator()
 }
 
 //-----------------------------------------------------------------------------
-CString CAbstractFrame::GetDocAccelText(WORD id) 
-{ 
-	return m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T(""); 
+CString CAbstractFrame::GetDocAccelText(WORD id)
+{
+	return m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T("");
 }
 
 // Reimplementa la versione base implementata in winmdi. 
@@ -253,36 +253,44 @@ BOOL CAbstractFrame::DestroyWindow()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-	BOOL bHandled = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
-
-	// la toolbar potrebbe morire durante il processo di closing
-	// per sicurezza controllo che non si sia in distruzione
-	// del frame
-	if (m_bDestroying || nID == m_id_FILE_CLOSE)
-		return bHandled;
-
-	if (!pHandlerInfo && m_pTabbedToolBar && nID && (nCode == CN_COMMAND || nCode == BN_CLICKED))
+	__try
 	{
-		CTBToolBar* pToolBar = m_pTabbedToolBar->FindToolBar(nID);
+		BOOL bHandled = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
-		if (pToolBar)
+		// la toolbar potrebbe morire durante il processo di closing
+		// per sicurezza controllo che non si sia in distruzione
+		// del frame
+		if (nID == ID_FILE_CLOSE || m_bDestroying)
+			return bHandled;
+
+		if (!pHandlerInfo && m_pTabbedToolBar && nID && (nCode == CN_COMMAND || nCode == BN_CLICKED))
 		{
-			int nIndex = pToolBar->FindButton(nID);
+			CTBToolBar* pToolBar = m_pTabbedToolBar->FindToolBar(nID);
 
-			if (nIndex < 0 || nIndex >= pToolBar->GetCount())
-				return bHandled;
-
-			CTBToolbarMenuButton* pMenuButton = dynamic_cast<CTBToolbarMenuButton*> (pToolBar->GetButton(nIndex));
-
-			if (pMenuButton && pMenuButton->IsVisible() && !pMenuButton->IsHidden() && pMenuButton->GetAlwaysDropDown() == MIXED_ALWAYS_DROPDOWN)
+			if (pToolBar)
 			{
-				CWnd* pWnd = GetActiveWindow();
-				if (pWnd == this || pWnd == AfxGetThreadContext()->GetMenuWindow())
-					pMenuButton->SetMissingClick(TRUE);
+				int nIndex = pToolBar->FindButton(nID);
+
+				if (nIndex < 0 || nIndex >= pToolBar->GetCount())
+					return bHandled;
+
+				CTBToolbarMenuButton* pMenuButton = dynamic_cast<CTBToolbarMenuButton*> (pToolBar->GetButton(nIndex));
+
+				if (pMenuButton && pMenuButton->IsVisible() && !pMenuButton->IsHidden() && pMenuButton->GetAlwaysDropDown() == MIXED_ALWAYS_DROPDOWN)
+				{
+					CWnd* pWnd = GetActiveWindow();
+					if (pWnd == this || pWnd == AfxGetThreadContext()->GetMenuWindow())
+						pMenuButton->SetMissingClick(TRUE);
+				}
 			}
 		}
+		return bHandled;
 	}
-	return bHandled;
+	__except (s_pfExpFilter(GetExceptionInformation(), GetExceptionCode()))
+	{
+		AfxGetThreadContext()->SetInErrorState(); //to prevent another exception when destroying a document after an exception (search this boolean in code)		
+		return TRUE;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -518,7 +526,7 @@ BOOL CAbstractFrame::OnToolTipText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 #endif
 			// ho gestito dinamicamente il tooltip
 			return TRUE;
-		}
+	}
 		else
 		{
 			if (pNMHDR->code == TTN_NEEDTEXTA)
@@ -528,7 +536,7 @@ BOOL CAbstractFrame::OnToolTipText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 			// ho gestito dinamicamente il tooltip
 			return TRUE;
 		}
-	}
+}
 
 	// nessuna gestione dinamica, rimanda alla gestione standard di MFC
 	return CLocalizableFrame::OnToolTipText(id, pNMHDR, pResult);
@@ -768,6 +776,7 @@ BEGIN_MESSAGE_MAP(CAbstractFormFrame, CAbstractFrame)
 	ON_MESSAGE(UM_IS_ROOT_DOCUMENT, OnIsRootDocument)
 	ON_MESSAGE(UM_HAS_INVALID_VIEW, OnHasInvalidView)
 	ON_MESSAGE(WM_ENABLE, OnEnable)
+	ON_WM_TIMER()
 
 	ON_NOTIFY(TBN_DROPDOWN, AFX_IDW_TOOLBAR, OnToolbarDropDown)
 	//}}AFX_MSG_MAP
@@ -791,7 +800,12 @@ CAbstractFormFrame::~CAbstractFormFrame()
 	delete m_pToolbarContext;
 	delete m_pProgressBar;
 }
-
+//-----------------------------------------------------------------------------
+void CAbstractFormFrame::OnTimer(UINT nTimer)
+{
+	((CAbstractFormDoc*)GetDocument())->OnTimer(nTimer);
+	__super::OnTimer(nTimer);
+}
 //-----------------------------------------------------------------------------
 LRESULT CAbstractFormFrame::OnEnable(WPARAM wParam, LPARAM lParam)
 {
@@ -1061,7 +1075,7 @@ BOOL CAbstractFormFrame::CreateJsonToolbar(CWndObjDescription* pDescription)
 				ASSERT(FALSE);
 				continue;
 			}
-      			CreateToolbarFromDesc(pToolBar, pToolBarDesc);
+			CreateToolbarFromDesc(pToolBar, pToolBarDesc);
 		}
 		return TRUE;
 	}
@@ -1089,7 +1103,7 @@ BOOL CAbstractFormFrame::CreateJsonToolbar(CWndObjDescription* pDescription)
 //-----------------------------------------------------------------------------
 void CAbstractFormFrame::CreateToolbarFromDesc(CTBToolBar *pToolBar, CToolbarDescription* pToolBarDesc)
 {
-	
+
 	bool separatorPending = false;
 
 	//manage color for bottom toolbar

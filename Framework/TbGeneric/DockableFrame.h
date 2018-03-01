@@ -74,7 +74,9 @@ protected:
 
 
 	virtual BOOL GetToolbarButtonToolTipText(CBCGPToolbarButton* /*pButton*/, CString& /*strTTText*/);
-	
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	virtual BOOL OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+
 	afx_msg void	OnSize(UINT nType, int cx, int cy);
 	afx_msg LRESULT OnChangeFrameStatus(WPARAM, LPARAM);
 	afx_msg LRESULT OnUpdateExternalMenu(WPARAM, LPARAM);

@@ -46,7 +46,8 @@ extern TB_EXPORT TPCallSetTracedFunction* s_pfCallTraced;
 typedef  bool (TPCallSetProtectedFunction) (CString, CRowSecurityMngObj**);
 extern TB_EXPORT TPCallSetProtectedFunction* s_pfCallProtected;
 
-
+typedef LONG (WINAPI ExpFilterFunction)(EXCEPTION_POINTERS* pExp, DWORD dwExpCode);
+extern TB_EXPORT ExpFilterFunction* s_pfExpFilter;
 
 //====================================================================
 class TB_EXPORT IHostApplication

@@ -494,6 +494,7 @@
     <ClCompile Include="ControlBehaviour.cpp" />
     <ClCompile Include="CustomSaveDialog.cpp" />
     <ClCompile Include="DataAdapter.cpp" />
+    <ClCompile Include="DBTJsonCache.cpp" />
     <ClCompile Include="DocumentSession.cpp" />
     <ClCompile Include="DParametersDoc.cpp" />
     <ClCompile Include="DTBFSettings.cpp" />
@@ -849,6 +850,7 @@
     <ClInclude Include="CAddressDlg.h" />
     <ClInclude Include="CustomSaveDialog.h" />
     <ClInclude Include="DataPickerRecordSet.h" />
+    <ClInclude Include="DBTJsonCache.h" />
     <ClInclude Include="DocumentSession.h" />
     <ClInclude Include="DParametersDoc.h" />
     <ClInclude Include="HotFilter.h" />
