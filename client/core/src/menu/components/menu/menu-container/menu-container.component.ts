@@ -7,8 +7,7 @@ import { MenuService } from './../../../services/menu.service';
 @Component({
   selector: 'tb-menu-container',
   templateUrl: './menu-container.component.html',
-  styleUrls: ['./menu-container.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./menu-container.component.scss']
 })
 
 export class MenuContainerComponent implements AfterContentInit, OnDestroy {

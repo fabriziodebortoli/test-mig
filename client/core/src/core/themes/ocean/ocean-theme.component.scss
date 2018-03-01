@@ -49,6 +49,7 @@ $font-size-tooltip: 12px;
     .toolbar-top {
         background-color: $bkg-light;
         color: $text-dark;
+        border-bottom: none !important;
     }
     .toolbar-top>div {
         color: $text-black;

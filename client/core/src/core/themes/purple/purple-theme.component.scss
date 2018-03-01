@@ -66,6 +66,7 @@ $font-size-tooltip: 12px;
     .toolbar-top {
         background-color: $bkg-light;
         color: $text-dark;
+        border-bottom: none !important;
     }
     //colore del tabber del selettore menu
     .menu-page .k-tabstrip-top>.k-tabstrip-items {
