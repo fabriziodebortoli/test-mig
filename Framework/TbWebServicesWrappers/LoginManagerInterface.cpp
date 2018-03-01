@@ -1380,13 +1380,24 @@ void CLoginManagerInterface::FillUserInfoName()
 
 	pUserInfoNameNode->GetText(m_strUserInfoName);
 	delete pUserInfoNameNode;
+
+	CXMLNode* pNode = doc.SelectSingleNode(_T("/UserInfo/UserIdInfos/UserId"));
+	if (!pNode)
+		return;
+
+	pNode->GetAttribute(_T("internalcode"), m_strUserInfoId);
+	delete pNode;
 }
 //-----------------------------------------------------------------------------
 CString CLoginManagerInterface::GetUserInfoName()
 {
 	return m_strUserInfoName;
 }
-
+//-----------------------------------------------------------------------------
+CString CLoginManagerInterface::GetUserInfoId()
+{
+	return m_strUserInfoId;
+}
 //-----------------------------------------------------------------------------
 BOOL CLoginManagerInterface::FillDatabaseType(CLoginInfos* pLoginInfos)
 { 

@@ -197,7 +197,9 @@ public:
 
 		
 		m_LogFile.WriteString(cwsprintf(_T("User: %s\r\n"), AfxGetLoginManager()->GetUserInfoName())); 
+		m_LogFile.WriteString(cwsprintf(_T("User ID: %s\r\n"), AfxGetLoginManager()->GetUserInfoId())); 
 
+		m_LogFile.WriteString(cwsprintf(_T("Intallation Version: %s\r\n"), AfxGetLoginManager()->GetInstallationVersion())); 
 		_PROCESS_MEMORY_COUNTERS  psmemCounters;
 		ZeroMemory(&psmemCounters, sizeof(_PROCESS_MEMORY_COUNTERS));
 		if (GetProcessMemoryInfo(GetCurrentProcess(), &psmemCounters, sizeof(_PROCESS_MEMORY_COUNTERS)))
