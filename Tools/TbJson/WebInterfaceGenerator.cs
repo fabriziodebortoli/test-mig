@@ -989,9 +989,11 @@ namespace Microarea.TbJson
                         if (!string.IsNullOrEmpty(title))
                             tag = Constants.tbPanel;
 
+                        if (jObj.GetParentItem().GetDialogStyle() == TileDialogStyle.Header || jObj.GetParentItem().GetWndObjType() == WndObjType.TilePanel)
+                            tag = Constants.tbTile;
+
                         if (jObj.GetDialogStyle() == TileDialogStyle.Filter)
                             tag = Constants.tbFilter;
-
 
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
