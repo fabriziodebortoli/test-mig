@@ -8,11 +8,11 @@ export type ClientPage = {
     columns: any[], ignore: boolean
 };
 export type ServerNeededParams = { model?: any, customFilters?: any, customSort?: any };
-export class GridData extends Record(class { data = []; total = 0; columns = [] }) { };
+export class GridData extends Record(class { readonly data = []; readonly total: number = 0; readonly columns = [] }) { };
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
-    private get defaultClientData() { return {serverData: {}, key: '', rows: [], total: 0, oldTotal: 0, columns: [], ignore : true }; }
+    private get defaultClientData() { return { serverData: {}, key: '', rows: [], total: 0, oldTotal: 0, columns: [], ignore: true }; }
     private getFreshData: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any>;
     private clientStartOffset = 0;
     private clientEndOffset = 0;

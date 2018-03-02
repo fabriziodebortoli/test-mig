@@ -12,7 +12,8 @@ export class EventDataService implements OnDestroy {
     public openDropdown: EventEmitter<any> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
-    public showRadar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public openRadar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public get showRadar() { return this.openRadar; }
 
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
     public openDiagnosticDialog: EventEmitter<DiagnosticData> = new EventEmitter();
@@ -37,7 +38,7 @@ export class EventDataService implements OnDestroy {
 
     ngOnDestroy() {
         this.change.complete();
-        this.showRadar.complete();
+        this.openRadar.complete();
         this.radarRecordSelected.complete();
     }
 }

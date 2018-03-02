@@ -4,8 +4,8 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 import { EnumsService } from './../../../core/services/enums.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { Store } from './../../../core/services/store.service';
-import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, ComponentRef } from '@angular/core';
-import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, SelectableSettings } from '@progress/kendo-angular-grid';
+import { ApplicationRef, ViewContainerRef, Component, Renderer, ViewEncapsulation, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy, ComponentRef } from '@angular/core';
+import { SelectableSettings } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -18,8 +18,9 @@ import { StorageService } from './../../../core/services/storage.service';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
-import { State } from './../customisable-grid/customisable-grid.component';
+import { State, CustomisableGridComponent } from './../customisable-grid/customisable-grid.component';
 import { ComponentInfoService } from './../../../core/services/component-info.service';
+import RadarEventHandler from './radar.event-handler';
 import * as _ from 'lodash';
 
 export const ViewStates = { opened: 'opened', closed: 'closed' };
@@ -42,7 +43,8 @@ export class RadarComponent extends ControlComponent implements OnInit {
     @Input() maxColumns = 10;
     @Input() pageSize = 10;
     @Input() selectionColumnId = 'TBGuid';
-    @ViewChild('grid') grid: GridComponent;
+    @ViewChild('grid') grid: CustomisableGridComponent;
+    @ViewChild('anchor', { read: ElementRef }) public anchorElRef: ElementRef;
     private set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
     private get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
     state$: Observable<State> = new BehaviorSubject(State.new());
@@ -52,17 +54,20 @@ export class RadarComponent extends ControlComponent implements OnInit {
     public selectableSettings: SelectableSettings;
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
+    selection$ = new Subject<string>();
 
     constructor(public m: ComponentMediator, private enumsService: EnumsService,
         private elRef: ElementRef, private store: Store, private cmpInfoService: ComponentInfoService,
-        private paginator: PaginatorService, private filterer: FilterService) {
-        super(m.layout, m.tbComponent, m.changeDetectorRef)
+        public paginator: PaginatorService, private filterer: FilterService, private renderer: Renderer, private app: ApplicationRef,
+        private _view: ViewContainerRef) {
+        super(m.layout, m.tbComponent, m.changeDetectorRef);
+        RadarEventHandler.Attach(this);
     }
 
     ngOnInit() {
         this.filterer.start(400, this.elRef);
         this.paginator.start(1, this.pageSize,
-            Observable.combineLatest(this.m.eventData.showRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
+            Observable.combineLatest(this.m.eventData.openRadar.filter(b => b), this.filterer.filterChanged$, this.filterer.sortChanged$,
                 (a, b, c) => ({ model: a, customFilters: b, customSort: c })),
             (pageNumber, serverPageSize, data?) => {
                 let p = new URLSearchParams();
@@ -78,10 +83,11 @@ export class RadarComponent extends ControlComponent implements OnInit {
             this.setData(d);
             this.filterer.resetFocus();
         });
-        this.store.select(m => _.get(m, 'FormMode.value'))
+        this.store.select('FormMode.value')
             .subscribe(m => this.state = this.state
                 .with({ canNavigate: m !== FormMode.EDIT && m !== FormMode.NEW && m !== FormMode.FIND }));
-        this.m.eventData.showRadar.pipe(untilDestroy(this)).subscribe(show => this.show(show));
+        this.m.eventData.openRadar.pipe(untilDestroy(this)).subscribe(this.show);
+        this.paginator.waiting$.subscribe(b => this.state = this.state.with({ canNavigate: !b }));
         super.ngOnInit();
     }
 
@@ -117,12 +123,13 @@ export class RadarComponent extends ControlComponent implements OnInit {
         if (this.isFormMode(FormMode.EDIT)) return;
         const id = item[this.selectionColumnId];
         this.state = this.state.with({ selectionKeys: [id] });
+        this.selection$.next(id);
         this.m.eventData.radarRecordSelected.emit(id);
     }
 
     selectAndEdit(item) {
         if (this.isFormMode(FormMode.EDIT)) return;
-        if (!this.pinned) this.m.eventData.showRadar.next(false);
+        if (!this.pinned) this.m.eventData.openRadar.next(false);
         this.state = this.state.with({ canNavigate: false });
         this.selectByItem(item);
         this.m.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_EDIT');
@@ -133,9 +140,10 @@ export class RadarComponent extends ControlComponent implements OnInit {
             this.m.eventData.raiseCommand(this.cmpId, 'ID_EXTDOC_ESCAPE');
     }
 
-    private show(show: boolean) {
+    private show = (show: boolean) => {
         this.viewState = show ? ViewStates.opened : ViewStates.closed;
         this.changeDetectorRef.detectChanges();
+        show && this.elRef.nativeElement.querySelector('.k-grid-content.k-virtual-content').focus();
     }
 
     async selectFirst() {
@@ -145,11 +153,21 @@ export class RadarComponent extends ControlComponent implements OnInit {
         this.selectByIndex(0);
     }
 
+    async previousPage() {
+        this.unselect();
+        await this.paginator.pageChange((this.paginator.currentPage - 1) * this.pageSize, this.pageSize);
+        this.selectByIndex(this.state.rows.length - 1);
+    }
+
+    async nextPage() {
+        this.unselect();
+        await this.paginator.pageChange((this.paginator.currentPage + 1) * this.pageSize, this.pageSize);
+        this.selectByIndex(0);
+    }
+
     async selectPrevious() {
         if (this.state.selectedIndex === 0 && this.paginator.currentPage > 0) {
-            this.unselect();
-            await this.paginator.pageChange((this.paginator.currentPage - 1) * this.pageSize, this.pageSize);
-            this.selectByIndex(this.state.rows.length - 1);
+            await this.previousPage();
             return;
         }
         this.selectByIndex(this.state.selectedIndex - 1);
@@ -157,9 +175,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
 
     async selectNext() {
         if (this.state.selectedIndex === this.state.rows.length - 1) {
-            this.unselect();
-            await this.paginator.pageChange((this.paginator.currentPage + 1) * this.pageSize, this.pageSize);
-            this.selectByIndex(0);
+            await this.nextPage();
             return;
         }
         this.selectByIndex(this.state.selectedIndex + 1);
@@ -182,9 +198,8 @@ export class RadarComponent extends ControlComponent implements OnInit {
     }
 
     private storeViewSelection() {
-        if (this.state.selectionKeys.length) {
+        if (this.state.selectionKeys.length)
             this.lastSelectedKey = this.state.selectionKeys[0];
-        }
     }
 
     private restoreViewSelection() {

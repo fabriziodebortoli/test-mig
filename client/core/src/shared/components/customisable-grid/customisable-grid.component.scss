@@ -1,39 +1,52 @@
+@import '../../../style/tb.scss';
 :host ::ng-deep {
-    margin: 10px;
     font-size: 13px;
     tr.k-state-selected,
     td.k-state-selected {
-        color: #fff;
-        background-color: #0277bd;
+        color: $selected-text;
+        background-color: $selected-bg;
     }
     .k-grid-header .k-header>.k-link {
+        text-align: center;
         font-weight: bold;
         padding: 8px 30px 8px 12px;
     }
     .k-grid-pager {
         padding: 0px;
         border-width: 1px 0 0;
-        border-color: #e3e3e3;
         font-size: 12px;
-    }
-    .editable .k-grid-table {
-        margin-left: 20px;
-    }
-    .editable .k-grid-header-wrap>table {
-        margin-left: 20px;
+        background: white;
     }
     a.k-link.k-pager-nav.k-pager-last {
         display: none;
     }
-    .k-grid th, .k-grid td {
+    .k-grid th,
+    .k-grid td {
         padding: 1px 3px;
         font-size: 12px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .k-grid .k-grid-container {
+        outline: none;
+    }
+    .k-grid-content {
+        outline: none;
+    }
 }
-.top-button {
+
+.pager-buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    background: white;
+    .toolbar-icon {
+        font-size: 1em;
+    }
+}
+
+.pager-button {
     margin: 0;
     padding: 0;
     height: 30px;
@@ -41,66 +54,75 @@
     border: 0;
     background: none;
     &:hover {
-        background: #f1f1f1
+        background: $background;
     }
     &:focus {
         box-shadow: none;
     }
 }
-.row-button {
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    display: block;
+
+.pager-number {
+    font-weight: bold;
+    font-size: x-small;
+}
+
+.hide-button {
+    right: 6px;
+    top: 3px;
+    color: $blue;
     position: absolute;
-    left: -18px;
-    width: 1em;
-    height: 1em;
-    background: transparent;
     &:hover {
-        background: rgba(#0277bd, .2);
+        background: $background;
+        color: black;
         box-shadow: none;
-    }
-    &:focus {
-        box-shadow: none;
-    }
-    tb-icon {
-        font-size: 1em;
-        padding-right: 0px;
-        width: none;
-        ::ng-deep m4-icon {
-            font-size: 9px;
-            margin-left: 3px;
-        }
-        ::ng-deep .div-icon {line-height:9px;width:0px;}
+        height: 12px;
     }
 }
+
 tb-icon {
     min-width: 30px;
     font-size: 24px;
     line-height: 15px;
 }
-.pager-buttons {
+
+.popup {
+    padding: 5px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .1);
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.popup-content {
+    height: 20px;
     display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    .toolbar-icon {
-        font-size: 1em;
+    flex-direction: row;
+    flex: 1 0;
+    p {
+        flex: 1;
+        margin-top: auto;
+        margin-bottom: auto;
     }
-}
-.pager-number {
-    font-weight: bold;
-    font-size: x-small;
-}
-.hide-button {
-    right: 6px;
-    top: 3px;
-    color: #0277bd;
-    position: absolute;
-    &:hover {
-        background: rgba(#0277bd, .2);
-        color: black;
+     ::ng-deep .k-widget {
+        font-size: 5px;
+    }
+     ::ng-deep .k-switch-label-on,
+     ::ng-deep .k-switch-label-off {
+        font-size: 8px;
+        margin-left: 10px;
+        margin-top: -2px;
+    }
+     ::ng-deep .k-switch-label-off {
+        margin-left: -8px;
+    }
+     ::ng-deep .k-switch-container,
+     ::ng-deep .k-switch-wrapper {
+        border-width: 0px;
+        background: $bkg-light
+    }
+     ::ng-deep .k-switch:focus,
+     ::ng-deep .k-switch.k-state-focused {
+        outline: none;
         box-shadow: none;
-        height: 12px;
     }
 }

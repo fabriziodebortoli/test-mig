@@ -1,30 +1,37 @@
 <div class="radar-container" [@shrinkOut]="viewState">
-    <div class="toolbar-top">
-        <div class="toolbar-top-item title">
-            <span class="document-title truncate">{{_TB("Radar")}}</span>
+    <tb-toolbar-top>
+        <div class="toolbar-menu">
+            <div class="menu-category navigation">
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canFirst || !state.canNavigate'
+                    (click)="selectFirst()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-doubleleft" [caption]="_TB('Previous Page')" [disabled]='paginator.currentPage <= 0 || !state.canNavigate'
+                    (click)="previousPage()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canPrev || !state.canNavigate'
+                    (click)="selectPrevious()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canNext || !state.canNavigate'
+                    (click)="selectNext()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-doubleright" [caption]="_TB('Next Page')" [disabled]='paginator.noMorePages || !state.canNavigate'
+                    (click)="nextPage()"></tb-toolbar-top-button>
+            </div>
         </div>
-        <div class="toolbar-top-item functions"></div>
-        <div class="toolbar-top-item navigation">
-            <button kendoButton class="top-button" (click)="selectFirst()" [title]="_TB('First')" [disabled]='!canFirst || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-first'"></tb-icon>
-            </button>
-            <button kendoButton class="top-button" (click)="selectPrevious()" [title]="_TB('Previous')" [disabled]='!canPrev || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-prev'"></tb-icon>
-            </button>
-            <button kendoButton class="top-button" (click)="selectNext()" [title]="_TB('Next')" [disabled]='!canNext || !state.canNavigate'>
-                <tb-icon [iconType]="'M4'" [icon]="'tb-next'"></tb-icon>
-            </button>
-            <button kendoButton class="top-button" (click)="m.eventData.showRadar.next(false)" [title]="_TB('Close')">
-                <tb-icon id="close-button" [iconType]="'M4'" [icon]="'tb-collapsearrowfilled'"></tb-icon>
-            </button>
+        <div class="toolbar-right">
+            <div *ngIf="!(paginator.currentPage === 0 && paginator.noMorePages) && paginator.currentPage >= 0">
+                <span class="truncate header">{{'page ' + (paginator.currentPage + 1)}}</span>
+            </div>
+            <div class="menu-category undefined">
+                <tb-toolbar-top-button #anchor icon="tb-checkedradiobuttonfilled" (click)="grid.showColumnHandler = !grid.showColumnHandler"
+                    [caption]="_TB('Select Columns')"></tb-toolbar-top-button>
+                <tb-toolbar-top-button [icon]="grid.areFiltersVisibleIcon" [caption]="grid.areFiltersVisibleText" (click)="grid.areFiltersVisible = !grid.areFiltersVisible"></tb-toolbar-top-button>
+                <tb-toolbar-top-button [icon]="pinnedIcon" [caption]="pinnedText" (click)="pinned = !pinned"></tb-toolbar-top-button>
+            </div>
+            <div class="menu-category exit">
+                <tb-toolbar-top-button icon="tb-collapsearrowfilled" [caption]="_TB('Close')" cmpId="ID_EXTDOC_LAST" (click)="m.eventData.openRadar.next(false)"></tb-toolbar-top-button>
+            </div>
         </div>
-    </div>
-    <tb-customisable-grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
-        [editable]="true" [selectionColumnId]="'TBGuid'" [canAutoFit]="true" [pageSize]="pageSize" [maxColumns]="maxColumns">
-        <ng-template #customisableGridButtonsTemplate>
-            <button kendoButton class="top-button toggle-button" (click)="pinned = !pinned" [title]="pinnedText">
-                <tb-icon [iconType]="'M4'" [icon]="pinnedIcon"></tb-icon>
-            </button>
-        </ng-template>
+    </tb-toolbar-top>
+    <tb-customisable-grid #grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
+        [editable]="true" [selectionColumnId]="'TBGuid'" [pageSize]="pageSize" [maxColumns]="maxColumns" [popupAnchor]="anchorElRef"
+        [anchorAlign]="{ horizontal: 'center', vertical: 'bottom' }" [popupAlign]="{ horizontal: 'center', vertical: 'top' }"
+        [pageable]="false">
     </tb-customisable-grid>
 </div>

@@ -6,10 +6,10 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentService } from './../../../core/services/document.service';
 import { Store } from './../../../core/services/store.service';
 import {
-    SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef,
+    SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, HostListener,
     ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, ContentChild, TemplateRef
 } from '@angular/core';
-import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent, PagerSettings } from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -27,24 +27,26 @@ import { ColumnResizeArgs } from '@progress/kendo-angular-grid';
 import { tryOrDefault } from './../../commons/u';
 import { get, memoize, cloneDeep } from 'lodash';
 import { md5, getObjHash } from './md5';
+import { Align } from '@progress/kendo-angular-popup';
+import { Collision } from '@progress/kendo-angular-popup';
 
 export const storageKeySuffix = 'custom_grid_settings';
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
 
 export class State extends Record(class {
-    rows = [];
-    columns = [];
-    selectedIndex = 0;
-    gridStyle = GridStyles.default;
-    selectionKeys = [];
-    gridData = GridData.new();
-    canNavigate = true;
+    readonly rows = [];
+    readonly columns = [];
+    readonly selectedIndex: number = 0;
+    readonly gridStyle = GridStyles.default;
+    readonly selectionKeys = [];
+    readonly gridData = GridData.new();
+    readonly canNavigate: boolean = true;
 }) { }
 
 export class Settings {
-    version = 1;
+    version = 2;
     reorderMap: string[] = [];
-    hiddenColumns: string[] = [];
+    shownColumns: { [name: string]: boolean } = {};
     widths: { [name: string]: number } = {};
     hash: string;
 }
@@ -62,6 +64,10 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     @Input() maxColumns = 10;
     @Input() selectionColumnId;
     @Input() resizable = true;
+    @Input() popupAnchor: ElementRef;
+    @Input() anchorAlign: Align = { horizontal: 'right', vertical: 'top' };
+    @Input() popupAlign: Align = { horizontal: 'right', vertical: 'bottom' };
+    @Input() pageable = true;
     @Input()
     get state(): State { return this._state; }
     set state(value: State) {
@@ -73,17 +79,20 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     @Output() selectionChange = new EventEmitter<any>();
     @ContentChild('customisableGridButtonsTemplate', { read: TemplateRef }) customisableGridButtonsTemplate;
     @ViewChild('grid') grid: GridComponent;
+    @ViewChild('anchor') public anchor: ElementRef;
+    @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
     gridStyle$ = new BehaviorSubject<any>(GridStyles.default);
     pinned = false;
     areFiltersVisible = false;
+    showColumnHandler = false;
+    collision: Collision = { horizontal: 'flip', vertical: 'fit' };
     private lastSelectedKey: string;
     private lastSelectedKeyPage = -1;
     private _filter: CompositeFilterDescriptor;
     private _state: State;
     private _settings = new Settings();
-    private reshape = memoize((d: GridData, cols) => {
-        return tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d);
-    });
+    private reshape = memoize((d: GridData, cols) =>
+        tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d));
 
     constructor(public m: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
         private paginator: PaginatorService, public filterer: FilterService, private store: Store) {
@@ -104,7 +113,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         this.stop();
     }
 
-    loadSettings = () => { this._settings = this.m.storage.getOrDefault(storageKeySuffix, new Settings()); return this._settings; }
+    loadSettings = () => this._settings = this.m.storage.getOrDefault(storageKeySuffix, new Settings());
 
     saveSettings = () => this.m.storage.set(storageKeySuffix, this._settings);
 
@@ -140,14 +149,16 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         return cols.sort((a, b) => reorderMap.indexOf(a.id) - reorderMap.indexOf(b.id));
     };
 
-    /** columns returned by server could change... */
+    /** columns returned by server could change over time... */
     private resetSettingsIfNew = cols => {
+        if (!this._settings) this.loadSettings();
         if (cols.length === 0) return this._settings;
         let hash = getObjHash(cols, this.maxColumns);
-        if (hash !== this._settings.hash) {
+        if (new Settings().version !== this._settings.version || hash !== this._settings.hash) {
             this._settings = new Settings();
             this._settings.hash = hash;
             this._settings.reorderMap = cols.map(x => x.id);
+            this._settings.shownColumns = cols.reduce((o, c) => ({ ...o, [c.id]: true }), {});
             this.saveSettings();
         }
         return this._settings;
@@ -199,9 +210,16 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
 
     get settings() { return this._settings; }
 
-    restoreColumns(): void { this._settings.hiddenColumns = []; this.saveSettings(); }
+    @HostListener('document:click', ['$event'])
+    public documentClick(event: any): void {
+        if (this.showColumnHandler && !this.contains(event.target))
+            this.showColumnHandler = false;
+    }
 
-    hideColumn(field: string): void { this._settings.hiddenColumns = [...this._settings.hiddenColumns, field]; this.saveSettings(); }
+    private contains(target: any): boolean {
+        return (this.popupAnchor || this.anchor).nativeElement.contains(target) ||
+            (this.popup ? this.popup.nativeElement.contains(target) : false);
+    }
 
     // Object.keys(localStorage).filter(k => k.startsWith("storage")).reduce((o, v) => ({...o, [v]:JSON.parse(localStorage[v])}), {})
 }

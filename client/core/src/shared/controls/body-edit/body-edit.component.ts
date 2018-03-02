@@ -129,7 +129,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.isLoading = false;
       });
 
-    this.store.select(m => _.get(m, 'FormMode.value'))
+    this.store.select('FormMode.value')
       .subscribe(m => {
         this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
         this.changeDetectorRef.markForCheck();
@@ -317,6 +317,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     console.log("updatemodel this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
 
     this.currentDbtRowIdx = dbt.currentRowIdx;
+    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
     this.currentGridIdx = dbt.currentRowIdx - this.skip;
     this.rowCount = dbt.rowCount ? dbt.rowCount : 0;
 
