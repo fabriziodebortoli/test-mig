@@ -12,8 +12,7 @@ import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
 @Component({
   selector: 'tb-item-customizations-dropdown',
   templateUrl: './item-customizations-dropdown.component.html',
-  styleUrls: ['./item-customizations-dropdown.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./item-customizations-dropdown.component.scss']
 })
 
 export class ItemCustomizationsDropdownComponent extends TbComponent implements OnDestroy {
