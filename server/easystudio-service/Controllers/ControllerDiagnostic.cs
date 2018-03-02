@@ -6,21 +6,21 @@ using Newtonsoft.Json;
 
 namespace Microarea.EasyStudio.Controllers
 {
-    public enum DiagnosticType { Error, Success, Info };
+    public enum MessageType { Error, Success, Info };
 
     //=========================================================================
     public class ControllerDiagnosticMessage
     {
         //-------------------------------------------------------------------
-        DiagnosticType type;
+        MessageType type;
         string message;
 
         //-------------------------------------------------------------------
-        public DiagnosticType Type { get => type; }
+        public MessageType Type { get => type; }
         public string Message { get => message; }
 
         //-------------------------------------------------------------------
-        public ControllerDiagnosticMessage(DiagnosticType type, string message)
+        public ControllerDiagnosticMessage(MessageType type, string message)
         {
             this.type = type;
             this.message = message;
@@ -31,7 +31,7 @@ namespace Microarea.EasyStudio.Controllers
     public class ControllerDiagnostic
     {
         //-------------------------------------------------------------------
-        public static string ToJson(DiagnosticType type, string text)
+        public static string ToJson(MessageType type, string text)
         {
             ControllerDiagnosticMessage message = new ControllerDiagnosticMessage(type, text);
             return  JsonConvert.SerializeObject(message);

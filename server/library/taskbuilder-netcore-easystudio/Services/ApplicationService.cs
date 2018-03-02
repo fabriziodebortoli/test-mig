@@ -38,13 +38,24 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			}
 		}
 
-		public string GetListCustomizations(string docNS, string user)
+        //---------------------------------------------------------------
+        public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			return PathFinder.PathFinderInstance.GetListCustomForDoc(docNS, user);
+			return PathFinder.PathFinderInstance.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
 		}
 
-		//---------------------------------------------------------------
-		private ApplicationSerializer AppSerializer
+        //---------------------------------------------------------------
+        public string RefreshAll(ApplicationType type)
+        {
+            PathFinder.PathFinderInstance.ApplicationInfos.Clear();
+            return GetAppsModsAsJson(type);
+        }
+
+        //---------------------------------------------------------------
+        public bool IsDeveloperEdition { get => Microarea.Common.GenericForms.LoginFacilities.loginManager.IsActivated(NameSolverStrings.TBS, NameSolverStrings.DevelopmentEdition); }
+
+        //---------------------------------------------------------------
+        private ApplicationSerializer AppSerializer
 		{
 			get
 			{
@@ -137,7 +148,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
-		public string GetAppsModsAsJson(ApplicationType applicationType, bool isDeveloperEdition)
+		public string GetAppsModsAsJson(ApplicationType applicationType)
 		{
 			var apps = GetApplications(applicationType);
 
@@ -168,7 +179,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			jsonWriter.WriteEndArray();
 
 			jsonWriter.WritePropertyName("DeveloperEd");
-			jsonWriter.WriteValue(isDeveloperEdition);
+			jsonWriter.WriteValue(IsDeveloperEdition);
 
 			jsonWriter.WriteEndObject();
 			jsonWriter.Close();

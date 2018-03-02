@@ -37,13 +37,6 @@ namespace Microarea.Common.NameSolver
         private const string MicroareaRegKey = "Software\\Microarea\\";
         private const string numberToLiteralXmlFileName = "NumberToLiteral.xml";
 
-		public string GetListCustomForDoc(string docNS, string user)
-		{
-			//TODOROBY
-			//from namespace, read the fs/db and search for customization
-			return "";
-		}
-
 		protected const string defaultThemeFileName = "DefaultTheme.config";
         public const int StandardAppSegmentPath = 4;
         public const int StandardModuleSegmentPath = 5;
@@ -4190,6 +4183,20 @@ namespace Microarea.Common.NameSolver
 
             return path;
         }
+
+
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioCustomizationsListFor(string documentNamespace, string user, bool onlyDesignable = true)
+        {
+            IDocumentInfo info = GetDocumentInfo(new NameSpace(documentNamespace));
+            if (onlyDesignable && !info.IsDesignable)
+                return "";
+
+            //TODOROBY
+            //from namespace, read the fs/db and search for customization
+            return "";
+        }
+
 
         #endregion
     }

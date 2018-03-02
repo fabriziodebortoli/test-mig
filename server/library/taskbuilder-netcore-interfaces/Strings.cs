@@ -904,6 +904,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string StdEdition = "Std";
         public const string ProEdition = "Pro";
         public const string EntEdition = "Ent";
+        public const string DevelopmentEdition = "DevelopmentEd";
         #endregion
 
         #region IsoStateLanguage
@@ -1112,12 +1113,14 @@ namespace TaskBuilderNetCore.Interfaces
 		#endregion
 
 		#region Contenitori di applicazioni
+
 		public const string TaskBuilder = "TaskBuilder";
         public const string TaskBuilderApplications = "Applications";
         public const string TbApplication = "TbApplication";
         public const string EasyStudio = "EasyStudio";
         public const string EasyStudioHome = "ESHome";
         public const string EasyStudioHomeWeb = "ESHome";
+        public const string TBS = "TBS";
 
         #endregion
 

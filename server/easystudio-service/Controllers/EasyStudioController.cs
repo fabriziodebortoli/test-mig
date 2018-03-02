@@ -26,7 +26,7 @@ namespace Microarea.EasyStudio.Controllers
 		}
 
         //---------------------------------------------------------------------
-        private static IActionResult ToContentResult(int statusCode, DiagnosticType type, string text)
+        private static IActionResult ToContentResult(int statusCode, MessageType type, string text)
         {
             return new ContentResult
             {
@@ -42,33 +42,7 @@ namespace Microarea.EasyStudio.Controllers
         {
             return new ContentResult { StatusCode = 200, Content =  "{ 'Message': 'Buongiorno!  Sono il servizio ES!' }", ContentType = "application/json" };
         }
-
-        //---------------------------------------------------------------------
-   /*     [Route("createNewContext")]
-        public IActionResult CreateNewContext([FromBody] JObject value)
-        {
-            try
-            {
-                string appName = value["app"]?.Value<string>();
-                string modName = value["mod"]?.Value<string>();
-                var type = value["type"]?.ToObject<ApplicationType>();
-                if (type == null)
-                    type = ApplicationType.Customization;
-
-                {
-                    ApplicationInfo newAppInfo = CreateNeededFiles(appName, modName, type);
-                    //BaseCustomizationContext.CustomizationContextInstance.EasyStudioApplications.Add(context);	//DIVENTA 
-                    Manager.PathFinder.ApplicationInfos.Add(newAppInfo);
-                }
-
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-            }
-            catch (Exception e)
-            {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-            }
-        }
-        */
+  
         //-----------------------------------------------------------------------
         [Route("application/create")]
         public IActionResult Application_Create(string parameters)
@@ -79,13 +53,13 @@ namespace Microarea.EasyStudio.Controllers
             var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
 
             if (string.IsNullOrEmpty(applicationName))
-                return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
+                return ToContentResult(203, MessageType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
 
             bool success = true;
             if (!ApplicationService.ExistsApplication(applicationName))
             {
                 if (applicationType == null)
-                    return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationType);
+                    return ToContentResult(203, MessageType.Error, ControllerDiagnostic.Strings.MissingApplicationType);
 
                 success = ApplicationService.CreateApplication(applicationName, (ApplicationType) applicationType);
             }
@@ -94,9 +68,9 @@ namespace Microarea.EasyStudio.Controllers
                 success = ApplicationService.CreateModule(applicationName, moduleName);
 
             if (success)            
-                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyCreated);
+                return ToContentResult(200, MessageType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyCreated);
 
-            return ToContentResult(500, DiagnosticType.Error, ControllerDiagnostic.Strings.ErrorCreatingObject);
+            return ToContentResult(500, MessageType.Error, ControllerDiagnostic.Strings.ErrorCreatingObject);
         }
 
         //-----------------------------------------------------------------------
@@ -108,7 +82,7 @@ namespace Microarea.EasyStudio.Controllers
             var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
 
             if (string.IsNullOrEmpty(applicationName))
-                return ToContentResult(203, DiagnosticType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
+                return ToContentResult(203, MessageType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
 
             bool success = true;
             if (!string.IsNullOrEmpty(moduleName))
@@ -117,116 +91,94 @@ namespace Microarea.EasyStudio.Controllers
                 success = ApplicationService.DeleteApplication(applicationName);
 
             if (success)
-                return ToContentResult(200, DiagnosticType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyDeleted);
+                return ToContentResult(200, MessageType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyDeleted);
 
-            return ToContentResult(500, DiagnosticType.Error, ControllerDiagnostic.Strings.ErrorDeletingObject);
+            return ToContentResult(500, MessageType.Error, ControllerDiagnostic.Strings.ErrorDeletingObject);
         }
 
+        //---------------------------------------------------------------------
+        [Route("application/getAllAppsAndModules")]
+        public IActionResult Application_GetAllAppsAndModules([FromBody] JObject value)
+        {
+            try
+            {
+                var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+
+                ApplicationType appType = ApplicationType.All;
+                if (applicationType != null)
+                    appType = (ApplicationType)applicationType;
+
+                var json = ApplicationService.GetAppsModsAsJson(appType);
+                return ToContentResult(200, MessageType.Success, json);
+            }
+            catch (Exception e)
+            {
+                return ToContentResult(502, MessageType.Error, e.Message);
+            }
+        }
 
         //-----item-customizations-dropdown--------------------------------------------------------------
-        [Route("getCustomizationsForDocument")]
-		public IActionResult GetCustomizationsForDocumentFunction([FromBody] JObject value)
+        [Route("application/getEasyStudioCustomizationsListFor")]
+		public IActionResult Application_GetEasyStudioCustomizationsListFor([FromBody] JObject value)
 		{
 			try
 			{
 				string docNS = value["ns"]?.Value<string>();
 				string user = value["user"]?.Value<string>();
-				var res = ApplicationService.GetListCustomizations(docNS, user);
-				if (res == null || !IsDesignable(new NameSpace(docNS)))
-					res = "";
-				return new ContentResult { StatusCode = 200, Content = res, ContentType = "application/json" };
+				var res = ApplicationService.GetEasyStudioCustomizationsListFor(docNS, user);
+
+                return ToContentResult(200, MessageType.Error, res);
 			}
 			catch (Exception e)
 			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return ToContentResult(502, MessageType.Error, e.Message);
 			}
 		}
 
-		//---------------------------------------------------------------------
-		[Route("getAllAppsAndModules")]
-		public IActionResult GetAllAppsAndModules()
+        //---------------------------------------------------------------------
+        [Route("application/RefreshAll")]
+        public IActionResult Application_RefreshAll([FromBody] JObject value)
+        {
+            try
+            {
+                var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+
+                ApplicationType appType = ApplicationType.All;
+                if (applicationType != null)
+                    appType = (ApplicationType) applicationType;
+
+                var json = ApplicationService.RefreshAll(appType);
+
+                return ToContentResult(200, MessageType.Success, json);
+            }
+            catch (Exception e)
+            {
+                return ToContentResult(502, MessageType.Error, e.Message);
+            }
+        }
+
+        //---------------------------------------------------------------------
+        [Route("getCurrentContextFor")]
+		public IActionResult GetCurrentContext(string user)
 		{
 			try
 			{
-				var json = ApplicationService.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
-				return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
-			}
+                // TODOROBY
+                // queste informazioni le leggiamo da file system su un file e ritorniamo l'oggettino che lo 
+                // rappresenta in json
+                // il file sarà per utente e conterrà per adesso currentApplication e CurrentModule
+                string res = string.Empty;
+
+                return ToContentResult(200, MessageType.Success, res);
+            }
 			catch (Exception e)
 			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-			}
+                return ToContentResult(502, MessageType.Error, e.Message);
+            }
 		}
 
 		//---------------------------------------------------------------------
-		[Route("refreshEasyBuilderApps")]
-		public IActionResult RefreshEasyBuilderApps()
-		{
-			try
-			{
-				Manager.PathFinder.ApplicationInfos.Clear();
-				var json = ApplicationService.GetAppsModsAsJson(TaskBuilderNetCore.Interfaces.ApplicationType.Customization, IsDeveloperEdition());
-				return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
-			}
-			catch (Exception e)
-			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-			}
-		}
-
-		private bool IsDeveloperEdition()
-		{
-			return true;
-		//TODOROBY	return LoginFacilities.loginManager.IsActivated(NameSolverStrings.TBS, "DevelopmentEd");
-		}
-
-		//---------------------------------------------------------------------
-		[Route("getCurrentContext")]
-		public IActionResult GetCurrentContext()
-		{
-			try
-			{
-                string app = string.Empty; // ApplicationService.CurrentApplication;
-                string mod = string.Empty; // ApplicationService.CurrentModule;
-				string res = ((app != null) && (mod != null)) ? app + ";" + mod : "";
-
-				return new ContentResult { StatusCode = 200, Content = res, ContentType = "application/json" };
-			}
-			catch (Exception e)
-			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-			}
-		}
-
-	
-
-	/*	//---------------------------------------------------------------------
-		private ApplicationInfo CreateNeededFiles(string appName, string modName, ApplicationType? type)
-		{
-			if (!ApplicationService.ExistsApplication(appName))
-                ApplicationService.CreateApplication(appName, type ?? ApplicationType.Customization);
-			ApplicationInfo ai = Manager.PathFinder.GetApplicationInfoByName(appName);
-			if (ai == null)
-				return null;
-			if (!ApplicationService.ExistsModule(appName, modName))
-			{
-				ai.AddDynamicModule(modName);
-				if(!ApplicationService.CreateModule(appName, modName) )
-					return null;
-			}
-			//TODOROBY
-			/*
-						//1 load customlist
-						//2 aggiungo l'application config alla custom list, 3 salvo
-						EasyStudioAppFileListManager.AddToCustomList(manager.PathFinder.GetApplicationConfigFullName(applicationName), false);
-						EasyBuilderAppFileListManager.AddToCustomList(manager.PathFinder.GetModuleConfigFullName(applicationName, moduleName));
-
-						// avvisa l'applicazione di ricaricare
-						CUtility.ReloadApplication(applicationName);
-			return ai;
-		}*/
-
-		//---------------------------------------------------------------------
-		[Route("setAppAndModule")]
+		[Route("setCurrentContextFor")]
 		public IActionResult SetAppAndModule([FromBody] JObject value)
 		{
 			try
@@ -256,43 +208,14 @@ namespace Microarea.EasyStudio.Controllers
 				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
 			}
 		}
-
-		//---------------------------------------------------------------------
-		[Route("getDefaultContext")]
-		public IActionResult GetDefaultContextXml([FromBody] JObject value)
-		{
-			try
-			{
-				string user = value["user"]?.Value<string>();
-				string company = value["company"]?.Value<string>();
-				string app = "";
-				string mod = "";
-				//TODOROBY leggere dalle EsPreferences
-				//app = EsPreferences.ReadProperty(defaultContextApplication);
-				//mod = EsPreferences.ReadProperty(defaultContextModule);
-
-				string directPath = Path.Combine(Manager.PathFinder.GetEasyStudioHomePath(), app, mod);
-				if (!Manager.PathFinder.FileSystemManager.ExistPath(directPath))
-				{
-					app = mod = ""; //TODOROBY togliere la coppia da preferences
-				}
-
-				string res = ((app != null) && (mod != null)) ? app + ";" + mod : null;
-
-				return new ContentResult { StatusCode = 200, Content = res, ContentType = "application/json" };
-			}
-			catch (Exception e)
-			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-			}
-		}
-
+        /*
 		//---------------------------------------------------------------------
 		[Route("isEasyStudioDocument")]
 		public IActionResult IsEasyStudioDocumentFunction([FromBody] JObject value)
 		{
 			try
 			{
+
 				string docNs = value["ns"]?.Value<string>();
 				bool res = true; //TODORY IsEasyStudioDocument(docNs);
 				return new ContentResult { StatusCode = 200, Content = res.ToString(), ContentType = "application/json" };
@@ -301,13 +224,6 @@ namespace Microarea.EasyStudio.Controllers
 			{
 				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
 			}
-		}
-
-		//---------------------------------------------------------------------
-		private bool IsDesignable(NameSpace nameSpace)
-		{
-			IDocumentInfo info = Manager.PathFinder.GetDocumentInfo(nameSpace);
-			return true; // info.IsDesignable; 
-		}
+		}*/
 	}
 }

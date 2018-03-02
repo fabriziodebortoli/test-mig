@@ -91,7 +91,7 @@ namespace Microarea.Common.NameSolver
         private bool isDataEntry = false;
         private bool isSchedulable = true;
         private bool isTransferDisabled = false;
-        private bool isDisegnable = true;
+        private bool isDesignable = true;
         private string activation;
         private string allowISO;
         private string denyISO;
@@ -106,8 +106,7 @@ namespace Microarea.Common.NameSolver
         public bool IsSchedulable { get => isSchedulable; set => isSchedulable = value; } 
         public bool IsTransferDisabled { get => isTransferDisabled; set => isTransferDisabled = value; } 
         public bool IsDynamic { get => isDynamic; set => isDynamic = value; } 
-        public bool IsDisegnable { get => isDisegnable; set => isDisegnable = value; }
-
+        public bool IsDesignable { get => isDesignable; set => isDesignable = value; }
         public bool RunnableAlone { get => runnableAlone; set => runnableAlone = value; } 
         public String Activation { get => activation; set => activation = value; } 
         public String AllowISO { get => allowISO; set => allowISO = value; } 
@@ -423,7 +422,7 @@ namespace Microarea.Common.NameSolver
                 bool isDynamic = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Dynamic);
                 ;
 
-                bool disegnable = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Designable);
+                bool isDesignable = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Designable);
 
                 string activation = documentElement.GetAttribute(DocumentsObjectsXML.Attribute.Activation);
                 bool published = GetBooleanAttribute(documentElement, DocumentsObjectsXML.Attribute.Published);
@@ -437,7 +436,7 @@ namespace Microarea.Common.NameSolver
                 aDocumentInfo.IsSecurityhidden = isSecurityhidden;
                 aDocumentInfo.IsTransferDisabled = isTransferDisabled;
                 aDocumentInfo.IsDynamic = isDynamic;
-                aDocumentInfo.IsDisegnable = disegnable;
+                aDocumentInfo.IsDesignable = isDesignable;
 
                 aDocumentInfo.DenyISO = denyISO;
                 aDocumentInfo.AllowISO = allowISO;
@@ -592,7 +591,7 @@ namespace Microarea.Common.NameSolver
                 else
                     documentElement.SetAttribute(DocumentsObjectsXML.Attribute.RunnableAlone, "false");
 
-                if (docInfo.IsDisegnable)
+                if (docInfo.IsDesignable)
                     documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Designable, "true");
                 else
                     documentElement.SetAttribute(DocumentsObjectsXML.Attribute.Designable, "false");

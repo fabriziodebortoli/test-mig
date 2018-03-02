@@ -22,9 +22,10 @@ namespace TaskBuilderNetCore.Interfaces
 		bool IsFinder { get; set; }
 		bool IsDataEntry { get; set; }
 		bool IsSchedulable { get; set; }
+        bool IsDesignable { get; set;  }
         List<IDocumentInfoComponent> Components { get; }
         bool HasComponent(ComponentType type);
-	}
+    }
 
     //=========================================================================
     public enum ComponentType
