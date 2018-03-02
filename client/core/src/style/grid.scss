@@ -1132,7 +1132,13 @@
     flex: 4;
 }
 
-.tile-wide,
+.tile-wide {
+    flex: 8;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
 .tile-autofill {
     flex: 8;
     display: inline-block;
