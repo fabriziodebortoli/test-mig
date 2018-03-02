@@ -14,6 +14,7 @@
 
 :host(tb-dockpane-container.expanded) {
     position: absolute;
+    box-shadow: rgba(0, 0, 0, 0.4) 2px 0px 7px 5px;
 }
 
 :host(tb-dockpane-container.pinned) {
@@ -25,41 +26,46 @@
     min-height: 100%;
     overflow: hidden;
     .dockpane-tabber-selector {
-        background: #333;
-        width: 40px;
+        background: #00578c;
+        width: 24px;
         position: relative;
         ul.selector {
-            padding: 6px 0 0;
+            padding: 3px 0 0;
             margin: 0;
             li {
                 display: flex;
                 flex-direction: row;
-                line-height: 30px;
+                line-height: 20px;
                 padding: 2px 0 0;
                 white-space: nowrap;
-                border-left: 1px solid #333;
-                border-right: 1px solid #333;
+                border-left: 1px solid #00578c;
+                border-right: 1px solid #00578c;
                 transition: background-color 0.5s ease;
-                background-color: #333;
+                background-color: #00578c;
                 &:hover {
                     cursor: pointer;
                     transition: background-color 0.5s ease;
-                    background-color: #ccc;
+                    background-color: #53a252;
                     tb-icon {
                         transition: color 0.5s ease;
-                        color: #000;
+                        color: #fff;
                     }
                 }
                 &>tb-icon {
-                    font-size: 22px;
+                    font-size: 12px;
                     padding-top: 3px;
-                    margin: 0 8px;
+                    margin: 0 5px;
                     transition: color 0.5s ease;
                     color: #ccc;
+                     ::ng-deep .div-icon {
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                    }
                 }
             }
             li.active {
-                background: #0277bd;
+                background: #53a252;
                 tb-icon {
                     color: #fff;
                 }
@@ -68,7 +74,7 @@
         m4-icon.pin {
             position: absolute;
             bottom: 5px;
-            left: 14px;
+            left: 6px;
             color: #fff;
             cursor: pointer;
         }
@@ -81,7 +87,7 @@
         overflow: hidden;
     }
     .dockpane-content {
-        background: #333;
+        background: #00578c;
         display: flex;
     }
 }
@@ -91,8 +97,8 @@
         display: none;
     }
     .k-tabstrip>.k-content {
-        padding: 6px 6px 6px 0px;
-        background: #333;
+        padding: 3px 3px 3px 3px;
+        background: #00578c;
         border-radius: 0;
         border: none;
         display: flex;

@@ -11,8 +11,8 @@ import { DockpaneComponent } from './../dockpane.component';
   animations: [
     trigger('collapsing', [
       state('expanded', style({ width: '580px', overflow: 'hidden' })),
-      state('collapsed', style({ width: '40px', overflow: 'hidden' })),
-      transition('expanded <=> collapsed', animate('400ms ease')),
+      state('collapsed', style({ width: '24px', overflow: 'hidden' })),
+      transition('expanded <=> collapsed', animate('200ms ease')),
     ])
   ]
 })
