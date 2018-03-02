@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
@@ -50,6 +51,7 @@ namespace Microarea.TbJson
             return ds;
         }
 
+        private static List<string> duplicateErrors = new List<string>();
         public static WebControl GetDefaultWebControl(WndObjType type, string controlClass = "")
         {
             switch (type)
@@ -72,7 +74,14 @@ namespace Microarea.TbJson
                     return new WebControl(Constants.tbBodyEdit);
                 case WndObjType.ColTitle:
                     if (!string.IsNullOrEmpty(controlClass))
-                        Console.Out.WriteLineAsync(controlClass + " Invalid column type, or control class not specified in webControls.xml file");
+                    {
+                        string errorMessage = controlClass + " Invalid column type, or control class not specified in webControls.xml file";
+                        if (!duplicateErrors.Contains(errorMessage))
+                        {
+                            duplicateErrors.Add(errorMessage);
+                            Console.Out.WriteLineAsync(errorMessage);
+                        }
+                    }
                     
                     //non devo più tornare colonne, ma gli oggetti contenuti
                     return new WebControl(Constants.tbText);

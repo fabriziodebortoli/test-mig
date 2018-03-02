@@ -160,6 +160,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.skip = 0;
       this.changeDBTRange();
     }
+
+    this.bodyEditService.bodyEditName = this.bodyEditName;
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -279,7 +281,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   openRowView() {
-
+    this.bodyEditService.setRowViewVisibility(true);
   }
 
   //-----------------------------------------------------------------------------------------------

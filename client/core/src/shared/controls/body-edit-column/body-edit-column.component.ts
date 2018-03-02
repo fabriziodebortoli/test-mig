@@ -44,7 +44,7 @@ export class BodyEditColumnComponent extends ControlComponent {
       length = Math.max(this.title.length, this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length);
     }
     else
-      length = this.title.length;
+      length = this.title? this.title.length : 10;
       
     let minChars = this.chars > 0 ? Math.min(length, this.chars) : length;
     return minChars * 10;

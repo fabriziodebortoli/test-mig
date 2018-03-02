@@ -258,6 +258,8 @@ import { PropertyGridComponent } from './controls/property-grid/property-grid.co
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 import { ControlContainerComponent } from './controls/control-container/control-container.component';
+import { RowViewFormComponent }from './controls/row-view-form/row-view-form.component';
+
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -303,6 +305,7 @@ export { PropertyGridComponent } from './controls/property-grid/property-grid.co
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 export { ControlContainerComponent } from './controls/control-container/control-container.component';
+export { RowViewFormComponent }from './controls/row-view-form/row-view-form.component';
 
 const TB_CONTROLS = [
     ControlComponent, ColoredStaticComponent, AddressEditComponent,
@@ -312,7 +315,7 @@ const TB_CONTROLS = [
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
     LinearGaugeComponent, HotlinkComponent,TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,    PropertyGridItemComponent,
     BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent,BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
-     PropertyGridItemGroupComponent, ControlContainerComponent
+     PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent
 ];
 
 /**

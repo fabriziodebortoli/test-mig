@@ -232,10 +232,11 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         internal static string GetToolbarButtonTag(this JObject jObj)
         {
-            string parentType = jObj?.GetParentItem()?.GetParentItem()?.GetFlatString(Constants.type);
-            if (string.Compare(parentType, "bodyedit", StringComparison.InvariantCultureIgnoreCase) == 0)
+            JObject obj = jObj?.GetParentItem()?.GetParentItem();
+            if (obj != null)
             {
-                return Constants.tbBodyEditToolbarButton;
+               if (obj.GetWndObjType() == WndObjType.BodyEdit)
+                    return Constants.tbBodyEditToolbarButton;
             }
 
             switch (jObj.GetCommandCategory())

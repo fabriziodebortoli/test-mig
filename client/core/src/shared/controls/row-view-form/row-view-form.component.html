@@ -1,0 +1,16 @@
+<kendo-dialog *ngIf="bodyEditService.rowViewVisible" kendoRippleContainer (close)="closeRowView()">
+
+    <kendo-dialog-titlebar>
+        <div class="title">
+            RowView
+        </div>
+    </kendo-dialog-titlebar>
+
+    <ng-template *ngIf="bodyEditService?.currentRow " [ngTemplateOutlet]="rowViewTemplate" [ngTemplateOutletContext]="{ currentRow: bodyEditService.currentRow  }">
+        <ng-content></ng-content>
+    </ng-template>
+
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeRowView()" [primary]="true">{{_TB('Close')}}</button>
+    </kendo-dialog-actions>
+</kendo-dialog>

@@ -93,10 +93,12 @@ export class AddressEditComponent extends ControlComponent {
     }
 
     dataChanged() {
+        if (!this.model)
+            return undefined
         this.buildContextMenu();
         if (this.model.uppercase)
             return this.model.value.toUpperCase();
-        return this.model.value;
+        return  this.model.value;
     }
 
     onFormModeChanged = slice => {
@@ -106,7 +108,7 @@ export class AddressEditComponent extends ControlComponent {
 
     buildContextMenu() {
         this.cc.contextMenu.splice(0, this.cc.contextMenu.length);
-        if (this.model.value !== '') {
+        if (this.model && this.model.value !== '') {
             if (this.ctrlEnabled) {
                 this.cc.contextMenu.push(this.menuItemSearch);
             }
