@@ -14,9 +14,10 @@ ul.favorites-list {
     flex-direction: row;
     color: $bkg-light;
     line-height: 30px;
-    background: $blue;
+    background-color: $blue;
+    transition: background-color 200ms ease-in;
     &:hover {
-        background: $darkblue;
+        background-color: rgba(2, 119, 189, 0.5);
     }
     &>span {
         flex: 1;
@@ -35,11 +36,12 @@ ul.favorites-list {
         line-height: 28px;
         padding-top: 2px;
         cursor: pointer;
-        color: $bkg-light;
+        color: #006aa9;
+        transition: color 200ms ease-in;
         &:hover {
             color: #fff;
         }
-     }
+    }
 }
 
 .favorites-empty {

@@ -5,7 +5,7 @@
             <div [ngClass]="object.isLoading ? 'loader' : ''"></div>
             <m4-icon class="type" [ngClass]="object?.objectType" icon="{{imageService.getObjectIcon(object)}}" *ngIf="!object.isLoading"></m4-icon>
             <span class="truncate">{{object.title}}</span>
-            <m4-icon class="close" (click)="menuService.removeFromMostUsed(object)" matTooltip="{{_TB('Remove')}}" matTooltipPosition="below" icon="tb-closewindows"></m4-icon>
+            <m4-icon class="close" (click)="menuService.removeFromMostUsed(object)" title="{{_TB('Remove')}}" icon="tb-delete"></m4-icon>
         </li>
     </ul>
 </div>

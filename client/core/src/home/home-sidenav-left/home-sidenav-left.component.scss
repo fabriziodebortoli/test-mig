@@ -1,9 +1,11 @@
 @import '../../style/tb.scss';
 #close-sidebar {
     cursor: pointer;
-    margin-left: 10px;
     color: #fff;
     font-size: 18px;
+    position: absolute;
+    top: 5px;
+    left: 7px;
 }
 
 .sidenav-header-left {
@@ -13,12 +15,10 @@
     min-height: 100px;
 }
 
-.sidenav-title>img {
-    margin-top: 5px;
-}
-
 .sidenav-title {
-    padding-left: 15px;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
     h1,
     h2 {
         margin: 0;
@@ -53,6 +53,8 @@
             height: 24px;
             cursor: pointer;
             margin-left: 7px;
+            color: $blue;
+            transition: color 200ms ease-in;
         }
         m4-icon:hover {
             color: #fff;
