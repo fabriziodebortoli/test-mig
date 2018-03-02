@@ -11,11 +11,11 @@
         <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{_TB('Clear favorite list')}}" matTooltipPosition="after" *ngIf="menuService.favoritesCount > 0"></m4-icon>
     </h4>
 </div>
-<tb-favorites class="sidenav"></tb-favorites>
+<tb-favorites class="sidenav" (itemSelected)="itemSelected()"></tb-favorites>
 
 <div class="sidenav-subtitle">
     <h4>{{this._TB('Recently used')}}
         <m4-icon class="clear" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{_TB('Clear most used list') }}" matTooltipPosition="after" *ngIf="menuService.mostUsedCount > 0"></m4-icon>
     </h4>
 </div>
-<tb-most-used class="sidenav"></tb-most-used>
+<tb-most-used class="sidenav" (itemSelected)="itemSelected()"></tb-most-used>

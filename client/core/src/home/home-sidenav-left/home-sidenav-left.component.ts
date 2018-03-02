@@ -39,6 +39,12 @@ export class HomeSidenavLeftComponent extends TbComponent implements OnDestroy {
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => this.sidenavOpened = opened));
   }
 
+  itemSelected(){
+    if(this.sidenavPinned) return;
+
+    this.sidenavService.openedChange(false);
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }

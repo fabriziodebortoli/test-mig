@@ -234,6 +234,7 @@ export class MenuService {
                 this.webSocketService.runDocument(object.target, object.args)
                     .catch((e) => {
                         object.isLoading = this.isLoading = false;
+                        this.loadingService.setLoading(false);
                         this.diagnosticService.showError(e);
                     });
             }
@@ -241,6 +242,7 @@ export class MenuService {
         this.addToMostUsed(object);
 
         object.isLoading = this.isLoading = true;
+        this.loadingService.setLoading(true, 'Loading...');
 
 
         //sono mutuamente esclusive, se si verifica un evento non si verificano gli altri
@@ -249,17 +251,20 @@ export class MenuService {
 
         let sub = this.componentService.componentInfoCreated.subscribe(arg => {
             object.isLoading = this.isLoading = false;
+            this.loadingService.setLoading(false);
             subs.forEach(sub => sub.unsubscribe());
         });
         subs.push(sub);
         sub = this.componentService.componentCreationError.subscribe(reason => {
             object.isLoading = this.isLoading = false;
+            this.loadingService.setLoading(false);
             subs.forEach(sub => sub.unsubscribe());
         });
         subs.push(sub);
         sub = this.webSocketService.runError.subscribe((args) => {
             this.diagnosticService.showDiagnostic(args.messages);
             object.isLoading = this.isLoading = false;
+            this.loadingService.setLoading(false);
             subs.forEach(sub => sub.unsubscribe());
         });
         subs.push(sub);
@@ -300,6 +305,7 @@ export class MenuService {
         }
         let sub = this.httpService.postData(this.infoService.getMenuBaseUrl() + urlToRun, obj).subscribe((res) => {
             object.isLoading = this.isLoading = false;
+            this.loadingService.setLoading(false);
             sub.unsubscribe();
         })
         // return typeof (window.event) !== 'undefined' && window.event.ctrlKey ? urlToRun + "&notHooked=true" : urlToRun;
