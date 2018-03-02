@@ -276,6 +276,7 @@ TB_EXPORT TCHAR *_tcszdup(const TCHAR * str);
 TB_EXPORT CString GetTimeZoneDifference	();	// Ritorna "+01:00"
 
 TB_EXPORT CString GetAcceleratorText(const ACCEL& accel);
+TB_EXPORT CString GetAcceleratorText(HACCEL hAccel, WORD id);
 
 /////////////////////////////////////////////////////////////////////////////
 class TB_EXPORT CTBToolbarMenuExtFunctions

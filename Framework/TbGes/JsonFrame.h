@@ -35,7 +35,6 @@ public:
 	virtual BOOL OnPopulatedDropDown(UINT nIdCommand);
 	virtual void OnFrameCreated();
 
-	virtual CString GetDocAccelText(WORD id);
 	afx_msg LRESULT OnGetComponent(WPARAM, LPARAM);
 	afx_msg LRESULT OnGetComponentStrings(WPARAM, LPARAM);
 	afx_msg LRESULT OnGetActivationData(WPARAM, LPARAM);
