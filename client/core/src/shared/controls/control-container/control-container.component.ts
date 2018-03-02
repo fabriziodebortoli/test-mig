@@ -1,18 +1,18 @@
 import { WebSocketService } from './../../../core/services/websocket.service';
-import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ContentChild,
-         OnChanges, AfterContentInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, 
-         ContentChildren, QueryList } from '@angular/core';
-
+import {
+    Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ContentChild,
+    OnChanges, AfterContentInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
+    ContentChildren, QueryList, Optional, Injector
+} from '@angular/core';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { Store } from './../../../core/services/store.service';
-
 import { ControlComponent } from '../control.component';
-
 import { ContextMenuItem } from './../../models/context-menu-item.model';
 import { createSelector } from './../../../shared/commons/selector';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { BehaviorSubject, Observable } from './../../../rxjs.imports';
+import { Logger } from './../../../core/services/logger.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -25,22 +25,41 @@ export class ControlContainerComponent extends ControlComponent {
     @Input() type = '';
     @Input() errorMessage = '';
     private stateButtonEnabled$: Observable<boolean>;
-    private currentComponentId: '';
     constructor(public layoutService: LayoutService,
-                tbComponentService: TbComponentService,
-                changeDetectorRef: ChangeDetectorRef,
-                private eventDataService: EventDataService,
-                private store: Store) {
+        tbComponentService: TbComponentService,
+        changeDetectorRef: ChangeDetectorRef,
+        private eventDataService: EventDataService,
+        private store: Store,
+        private injector: Injector,
+        private logger: Logger) {
         super(layoutService, tbComponentService, changeDetectorRef);
-        this.stateButtonEnabled$ = this.store.select(this.stateButtonState && this.stateButtonState.model || '');
+        this.stateButtonEnabled$ = this.store.select(this.stateData && this.stateData.model || '');
     }
 
     stateButtonClick(e: any) {
         _.set(this.eventDataService.model,
-              this.stateButtonState.model,
-              !_.get(this.eventDataService.model, this.stateButtonState.model));
-        this.eventDataService.change.emit(this.stateButtonState.cmpId);
+            this.stateData.model,
+            !_.get(this.eventDataService.model, this.stateData.model));
+        this.eventDataService.change.emit(this.stateData.cmpId);
     }
+
+    ngOnInit() {
+        if (this.stateData && !this.stateData.cmpId) {
+            this.retrieveParentComponentId();
+        }
+    }
+
+    private retrieveParentComponentId() {
+        try {
+            let _injector = this.injector as any;
+            this.stateData.cmpId = _injector.view.component.cmpId;
+            this.logger.debug('L\' Id della componente padre è ' + _injector.view.component.cmpId);
+        } catch (e) {
+            this.logger.error('Errore durante la ricerca dell\' Id della componente:' + e);
+        }
+    }
+
+
 }
 
 
