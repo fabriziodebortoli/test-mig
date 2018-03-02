@@ -5,7 +5,7 @@ import 'rxjs/add/observable/merge';
 /**
  * Immediatly emits a value from an Observable and a second one only after a
  * particular time span has passed without another source emission.
- * @param {number} dueTime The timeout duration in milliseconds (or the time
+ * @param dueTime The timeout duration in milliseconds (or the time
  * unit determined internally by the optional `scheduler`) for the window of
  * time required to wait for emission silence before emitting the most recent
  * source value.

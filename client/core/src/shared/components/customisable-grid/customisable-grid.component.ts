@@ -9,7 +9,10 @@ import {
     SimpleChanges, Component, ChangeDetectorRef, OnInit, OnDestroy, ElementRef, HostListener,
     ViewChild, Input, ChangeDetectionStrategy, Output, EventEmitter, ContentChild, TemplateRef
 } from '@angular/core';
-import { GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent, PagerSettings } from '@progress/kendo-angular-grid';
+import {
+    GridDataResult, PageChangeEvent, SelectionEvent, GridComponent, ColumnReorderEvent,
+    PagerSettings
+} from '@progress/kendo-angular-grid';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Logger } from './../../../core/services/logger.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -22,7 +25,6 @@ import { ControlComponent } from './../../../shared/controls/control.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
-import { Record } from './../../../shared/commons/mixins/record';
 import { ColumnResizeArgs } from '@progress/kendo-angular-grid';
 import { tryOrDefault } from './../../commons/u';
 import { get, memoize, cloneDeep } from 'lodash';
@@ -32,8 +34,7 @@ import { Collision } from '@progress/kendo-angular-popup';
 
 export const storageKeySuffix = 'custom_grid_settings';
 export const GridStyles = { default: { 'cursor': 'pointer' }, waiting: { 'color': 'darkgrey' } };
-
-export class State extends Record(class {
+export class State {
     readonly rows = [];
     readonly columns = [];
     readonly selectedIndex: number = 0;
@@ -41,7 +42,18 @@ export class State extends Record(class {
     readonly selectionKeys = [];
     readonly gridData = GridData.new();
     readonly canNavigate: boolean = true;
-}) { }
+
+    static new(a?: Partial<State>): Readonly<State> {
+        if (a) return new State().with(a);
+        return new State();
+    }
+    with(a: (Partial<State> | ((s: State) => Partial<State>))): Readonly<State> {
+        if (typeof a === 'function')
+            a = a(this as any);
+        return Object.assign(new State(), this, a) as any;
+    }
+}
+// export class State extends Record(_State) { }
 
 export class Settings {
     version = 2;

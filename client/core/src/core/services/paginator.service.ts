@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy, NgZone } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, Subject } from './../../rxjs.imports';
-import { Record } from './../../shared/commons/mixins/record';
 import * as _ from 'lodash';
 
 export type ClientPage = {
@@ -8,7 +7,22 @@ export type ClientPage = {
     columns: any[], ignore: boolean
 };
 export type ServerNeededParams = { model?: any, customFilters?: any, customSort?: any };
-export class GridData extends Record(class { readonly data = []; readonly total: number = 0; readonly columns = [] }) { };
+export class GridData {
+    readonly data = [];
+    readonly total: number = 0;
+    readonly columns = [];
+    static new(a?: Partial<GridData>): Readonly<GridData> {
+        if (a) return new GridData().with(a);
+        return new GridData();
+    }
+    with(a: (Partial<GridData> | ((s: GridData) => Partial<GridData>))): Readonly<GridData> {
+        if (typeof a === 'function')
+        a = a(this as any);
+        return Object.assign(new GridData(), this, a) as any;
+    }
+}
+
+
 
 @Injectable()
 export class PaginatorService implements OnDestroy {
