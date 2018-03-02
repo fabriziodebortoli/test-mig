@@ -134,8 +134,12 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         internal static string GetLocalizableString(this JToken jObj, string name)
         {
+            if (string.IsNullOrEmpty(jObj.GetFlatString(name)))
+                return null;
+
             if (!(jObj is JObject))
                 return null;
+
             var result = jObj[name];
 
             if (result == null || !(result is JValue))

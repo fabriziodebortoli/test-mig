@@ -995,7 +995,8 @@ namespace Microarea.TbJson
 
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
-                            htmlWriter.WriteAttribute(Square(Constants.title), title);
+                            if (!string.IsNullOrEmpty(title) && tag != Constants.tbTile)
+                                htmlWriter.WriteAttribute(Square(Constants.title), title);
 
                             htmlWriter.Write(" tbTile");
                             htmlWriter.Write(jObj.GetTileDialogSize().ToString());
