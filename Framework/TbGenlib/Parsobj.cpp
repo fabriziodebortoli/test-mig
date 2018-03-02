@@ -10863,10 +10863,11 @@ bool CParsedForm::SetDefaultFocus()
 {
 	ASSERT_VALID(m_pOwnerWnd);
 
-	if (!m_pControlLinks || m_pControlLinks->GetSize() == 0 || !m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
+	if (!m_pControlLinks || !m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
 		return false;
 
-	m_pControlLinks->SetDefaultFocus(m_pOwnerWnd, m_phLastCtrlFocused);
+	if (m_pControlLinks)
+		m_pControlLinks->SetDefaultFocus(m_pOwnerWnd, m_phLastCtrlFocused);
 
 	return true;
 }
