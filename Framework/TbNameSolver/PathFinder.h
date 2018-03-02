@@ -398,7 +398,7 @@ public:
 	const CString GetApplicationConfigFullName(const CString& sAppName) const;
 	
 	const CString GetMasterApplicationPath() const;
-
+	const CString GetMasterBrandFile(const CString& sAppName) const;
 	const CString GetThemeElementFullName(CString strThemeName) const;
 	const CString GetThemeCssFullName(CString strThemeName) const;
 	const CString GetThemeCssFullNameFromThemeName(CString strThemeName);

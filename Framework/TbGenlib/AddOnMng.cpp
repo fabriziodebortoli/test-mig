@@ -911,8 +911,41 @@ TBDataBaseVersion& TBDataBaseVersion::operator = (const TBDataBaseVersion& aVers
 
 // la master è la prima applicazione non sistemistica caricata
 //-----------------------------------------------------------------------------
+int AddOnAppsArray::Add(AddOnApplication* pAddOnApp)
+{
+	int nIdx = -1;
+	
+	if (
+		_tcsicmp((LPCTSTR)pAddOnApp->m_strAddOnAppName, szExtensionsApp) == 0 ||
+		_tcsicmp((LPCTSTR)pAddOnApp->m_strAddOnAppName, szTaskBuilderApp) == 0
+		)
+		return Array::Add(pAddOnApp);
+
+	
+	//non ho ancora trovata la MasterApp
+	if (!m_pMasterAddOnApp)
+	{
+		CString strMasterBrandFile = AfxGetPathFinder()->GetMasterBrandFile(pAddOnApp->m_strAddOnAppName);
+		if (ExistFile(strMasterBrandFile))
+		{
+			m_pMasterAddOnApp = pAddOnApp;
+			//se è una masterApp allora la metto in terza posizione dopo Framework ed Extensions
+			if (GetSize() >= 3)
+			{
+				Array::InsertAt(2, pAddOnApp);
+				return 2;
+			}			
+		}
+	}
+	return Array::Add(pAddOnApp);
+}
+
+//-----------------------------------------------------------------------------
 AddOnApplication* AddOnAppsArray::GetMasterAddOnApp () const
 {
+	if (m_pMasterAddOnApp)
+		return m_pMasterAddOnApp;
+
 	AddOnApplication* pAddOnApp;
 	for (int i=0; i <= GetUpperBound (); i++)
 	{

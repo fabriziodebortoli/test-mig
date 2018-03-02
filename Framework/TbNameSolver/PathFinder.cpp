@@ -2525,6 +2525,14 @@ const CString CPathFinder::GetApplicationThemeCssFullName(CString strThemeName, 
 	return strFullName;
 }
 
+
+//----------------------------------------------------------------------------------------------
+const CString CPathFinder::GetMasterBrandFile(const CString& sAppName) const
+{
+	CString strAppFolder = GetApplicationPath(sAppName, CPathFinder::STANDARD);
+	return strAppFolder + SLASH_CHAR + szSolutions + SLASH_CHAR + m_sMasterSolution + szBrandExtension;
+}
+
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetMasterApplicationPath() const
 {

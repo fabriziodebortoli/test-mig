@@ -327,6 +327,7 @@ public:
 	void				AddAlias			(const CString& sDllName, const CString& sAlias);
 	const CString&		GetSignature		()	const { return m_XmlDescription.m_Info.GetDbSignature(); }
 	const CString&		GetAppVersion		()	const { return m_XmlDescription.m_Info.GetVersion(); }
+
 	AddOnDll*GetAddOnDll (HINSTANCE hDllInstance);
 	AddOnDll*GetAddOnDll (const CTBNamespace& aDllNamespace);
 	const CString		GetTitle			()	const;
@@ -361,8 +362,14 @@ class TB_EXPORT AddOnAppsArray : public Array
 {
 protected:
 	CMapFunctionDescription	m_mapWebClass2Namespace;
+	AddOnApplication* m_pMasterAddOnApp;
 
 public:
+	AddOnAppsArray() : m_pMasterAddOnApp(NULL) {}
+
+public:
+	int Add(AddOnApplication* pAddOnApp);
+
 	CMapFunctionDescription&		GetMapWebClass()		{ return m_mapWebClass2Namespace; }
 	const CMapFunctionDescription*	GetMapWebClass() const	{ return &m_mapWebClass2Namespace; }
 
