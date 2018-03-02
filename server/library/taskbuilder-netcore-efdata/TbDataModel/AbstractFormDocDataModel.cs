@@ -44,16 +44,30 @@ namespace TaskBuilderNetCore.Data.EntityFramework
         }
 
         //-----------------------------------------------------------------------------------------------------
+        protected override void Dispose(bool disposing)
+        {
+            if (!Disposed && disposing && _dbContext != null)
+            {
+                _dbContext.Dispose();
+                _dbContext = null;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        //-----------------------------------------------------------------------------------------------------
         public bool NewData()
         {
             // decisione della chiave 
             try
             {
-                using (var db = DbContext)
-                {
-                    currentEntity = Activator.CreateInstance(entityType);
-                    db.Add(currentEntity);
-                }
+                //using (var db = DbContext)
+                //{
+                //    currentEntity = Activator.CreateInstance(entityType);
+                //    db.Add(currentEntity);
+                //}
+                currentEntity = Activator.CreateInstance(entityType);
+                DbContext.Add(currentEntity);
             }
             catch (Exception ex)
             {
@@ -104,10 +118,11 @@ namespace TaskBuilderNetCore.Data.EntityFramework
         {
             try
             {
-                using (var db = DbContext)
-                {
-                    db.SaveChanges();
-                }
+                //using (var db = DbContext)
+                //{
+                //    db.SaveChanges();
+                //}
+                DbContext.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -120,7 +135,14 @@ namespace TaskBuilderNetCore.Data.EntityFramework
         //-----------------------------------------------------------------------------------------------------
         public bool LoadData()
         {
+            currentEntity = DbContext.Find(entityType, GetPrimaryKeys());
+
             return true;    
+        }
+
+        protected virtual object[] GetPrimaryKeys()
+        {
+            return new object[0];
         }
     }
 }

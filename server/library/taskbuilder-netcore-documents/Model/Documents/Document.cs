@@ -58,7 +58,7 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public string Title { get => title;  set => title = value; }
+        public string Title { get => title; set => title = value; }
 
         //-----------------------------------------------------------------------------------------------------
         public ComponentState DocumentState { get => documentState; set => documentState = value; }
@@ -87,7 +87,7 @@ namespace TaskBuilderNetCore.Documents.Model
         //-----------------------------------------------------------------------------------------------------
         protected override bool OnInitialize()
         {
-             return true;
+            return true;
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace TaskBuilderNetCore.Documents.Model
 
             if (!OnLoadingCoponents())
                 return false;
-            
+
             // ora inizializzo i compomenti
             foreach (DocumentComponent component in Components)
             {
@@ -132,7 +132,7 @@ namespace TaskBuilderNetCore.Documents.Model
         /// </summary>
         /// <returns>If data model has been attached</returns>
         //-----------------------------------------------------------------------------------------------------
-        public bool AttachDataModel ()
+        public bool AttachDataModel()
         {
             if (AttachingDataModel != null)
             {
@@ -147,7 +147,7 @@ namespace TaskBuilderNetCore.Documents.Model
                 return false;
 
             DataModelAttached?.Invoke(this, EventArgs.Empty);
-            
+
             ClearData();
 
             return true;
@@ -209,7 +209,7 @@ namespace TaskBuilderNetCore.Documents.Model
             if (Components != null)
                 foreach (IDocumentComponent component in Components)
                 {
-                    IDataModel dataModel = component as IDataModel;
+                    var dataModel = component as IDataModel;
                     if (dataModel != null)
                         dataModel.LoadData();
                 }
@@ -243,7 +243,7 @@ namespace TaskBuilderNetCore.Documents.Model
             if (Components != null)
                 foreach (IDocumentComponent component in Components)
                 {
-                    IDataModel dataModel = component as IDataModel;
+                    var dataModel = component as IDataModel;
                     if (dataModel != null)
                         dataModel.ClearData();
                 }
@@ -274,7 +274,7 @@ namespace TaskBuilderNetCore.Documents.Model
             if (Components != null)
                 foreach (IDocumentComponent component in Components)
                 {
-                    IValidator validator = component as IValidator;
+                    var validator = component as IValidator;
                     if (validator != null)
                         validated = validated && validator.Validate(this);
                 }
@@ -291,7 +291,7 @@ namespace TaskBuilderNetCore.Documents.Model
 
         //-----------------------------------------------------------------------------------------------------
         public bool SaveData()
-        {      
+        {
             if (!ValidateData())
                 return false;
 
@@ -307,7 +307,7 @@ namespace TaskBuilderNetCore.Documents.Model
             if (Components != null)
                 foreach (IDocumentComponent component in Components)
                 {
-                    IDataModel dataModel = component as IDataModel;
+                    var dataModel = component as IDataModel;
                     if (dataModel != null)
                         dataModel.SaveData();
                 }
@@ -338,7 +338,7 @@ namespace TaskBuilderNetCore.Documents.Model
             if (Components != null)
                 foreach (IDocumentComponent component in Components)
                 {
-                    IDataModel dataModel = component as IDataModel;
+                    var dataModel = component as IDataModel;
                     if (dataModel != null)
                         dataModel.DeleteData();
                 }
@@ -354,15 +354,14 @@ namespace TaskBuilderNetCore.Documents.Model
         //-----------------------------------------------------------------------------------------------------
         protected virtual bool OnDeleteData() { return true; }
 
-        //-----------------------------------------------------------------------------------------------------
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
             if (disposing)
             {
                 Clear();
                 DetachDataModel();
             }
         }
-
     }
 }

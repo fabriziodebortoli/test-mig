@@ -179,15 +179,17 @@ namespace TaskBuilderNetCore.Documents.Controllers
                 stateSerializer.SaveState(doc);
         }
 
-        //-----------------------------------------------------------------------------------------------------
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Document doc = Document as Document;
+            if (!Disposed && disposing)
+            {
+                var doc = Document as Document;
 
-            doc.DocumentState.StateChanging -= DocumentState_StateChanging;
-            doc.DocumentState.DirtyChanged -= DocumentState_DirtyChanged;
+                doc.DocumentState.StateChanging -= DocumentState_StateChanging;
+                doc.DocumentState.DirtyChanged -= DocumentState_DirtyChanged;
+            }
 
-            base.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

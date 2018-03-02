@@ -37,10 +37,13 @@ namespace TaskBuilderNetCore.Documents.Model.TbModel
             return true;
         }
 
-        //-----------------------------------------------------------------------------------------------------
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Document.DataModelAttached -= Document_DataModelAttached;
+            if (!Disposed && disposing)
+            {
+                Document.DataModelAttached -= Document_DataModelAttached;
+            }
+            base.Dispose(disposing);
         }
     }
 }

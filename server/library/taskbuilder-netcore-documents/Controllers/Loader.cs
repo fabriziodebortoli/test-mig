@@ -262,7 +262,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
         //-----------------------------------------------------------------------------------------------------
         private Assembly LoadAssemblyFromNamespace(INameSpace nameSpace)
         {
-            string assemblyName = System.IO.Path.Combine(assemblyLoader.AssebliesPath, nameSpace.Application + "-" + nameSpace.Module + "-" + nameSpace.Library + NameSolverStrings.DllExtension);
+            string assemblyName = System.IO.Path.Combine(assemblyLoader.AssebliesPath, nameSpace.Application + "-" + nameSpace.Module + "-" + nameSpace.Library + NameSolverStrings.DllExtension).ToLowerInvariant();
             Assembly assembly = null;
             try
             {

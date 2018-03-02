@@ -16,6 +16,11 @@ namespace TaskBuilderNetCore.Documents.Model
         ICallerContext callerContext;
         IDocumentServices documentServices;
         Dictionary<object, IDataBag> dataBags;
+        bool disposed;
+
+        //-----------------------------------------------------------------------------------------------------
+        [JsonIgnore]
+        protected bool Disposed { get => disposed; }
 
         //-----------------------------------------------------------------------------------------------------
         [JsonIgnore]
@@ -97,8 +102,19 @@ namespace TaskBuilderNetCore.Documents.Model
         }
 
         //-----------------------------------------------------------------------------------------------------
-        public virtual void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
+            if (!disposed)
+            {
+                disposed = true;
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------------------
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
