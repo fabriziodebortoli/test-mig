@@ -199,22 +199,6 @@ namespace Microarea.Common.FileSystemManager
 
             DirectoryInfo dir = Directory.CreateDirectory(sPathName);
             return dir != null;
-            //}
-            //bool bOk = false;
-            ////string strParentPath;
-
-            //if (sPathName.Substring(sPathName.Length - 1) == "\\")
-            //    strParentPath = GetPath(sPathName.Left(sPathName.GetLength() - 1));
-            //else
-            //    strParentPath = GetPath(sPathName);
-
-            //if (!Directory.Exists(strParentPath))
-            //{ !CreateFolder(strParentPath, bRecursive))
-            //    bOk = false;
-            //else
-            //    bOk =  ::CreateDirectory(sPathName, null);
-
-            //    return bOk;
         }
 
         //-----------------------------------------------------------------------------
@@ -223,10 +207,7 @@ namespace Microarea.Common.FileSystemManager
             if (bRecursive)
                 Directory.Delete(sPathName, bRecursive);
 
-            if (bRemoveRoot)
-                Directory.Delete(sPathName);
-
-            if (bAndEmptyParents)
+            if (bAndEmptyParents && bRemoveRoot)
                 Directory.GetParent(sPathName).Delete();
 
         }

@@ -103,46 +103,16 @@ namespace Microarea.Common.NameSolver
 				return false;
 			ParseSingleFile(filePath, SourceOfSettingsConfig.Standard);
 
-			//Parso il file nella CUSTOM/ALLCOMPANIES/ALLUSERS
-            filePath = parentModuleInfo.GetCustomAllCompaniesAllUsersSettingsFullFilename(fileName);
-			if (filePath == null || filePath == string.Empty)
-				return false;
-			ParseSingleFile(filePath, SourceOfSettingsConfig.AllCompaniesAllUsers);
-
             ModuleInfo mi = parentModuleInfo as ModuleInfo;
             if (mi == null)
                 return true;
 
-			if (string.Compare(mi.PathFinder.User, NameSolverStrings.AllUsers) != 0)
-			{
-				//Parso il file nella CUSTOM/ALLCOMPANIES/USER
-				filePath = mi.GetCustomAllCompaniesUserSettingsFullFilename(fileName);
-				if (filePath == null || filePath == string.Empty)
-					return false;
-				ParseSingleFile(filePath, SourceOfSettingsConfig.AllCompaniesSpecificiUser);
-			
-			}
-
-			if (string.Compare(mi.PathFinder.Company, NameSolverStrings.AllCompanies)!=0)
-			{
-				//Parso il file nella CUSTOM/COMPANIE/ALLUSER
-				filePath = mi.GetCustomCompanyAllUserSettingsPathFullFilename(fileName);
-				if (filePath == null || filePath == string.Empty)
-					return false;
-				ParseSingleFile(filePath, SourceOfSettingsConfig.SpecificiCompanyAllUsers);
-			}
-
-			if (string.Compare(mi.PathFinder.User, NameSolverStrings.AllUsers) != 0 &&
-				string.Compare(mi.PathFinder.Company, NameSolverStrings.AllCompanies) != 0)
-			{
-				//Parso il file nella CUSTOM/COMPANIE/USER
-				filePath = mi.GetCustomCompanyUserSettingsPathFullFilename(fileName);
-				if (filePath == null || filePath == string.Empty)
-					return false;
-				ParseSingleFile(filePath, SourceOfSettingsConfig.SpecificiCompanySpecificiUser);
-			}
-
-			
+			//Parso il file nella CUSTOM/COMPANIE/ALLUSER
+			filePath = mi.GetCustomCompanyAllUserSettingsPathFullFilename(fileName);
+			if (filePath == null || filePath == string.Empty)
+				return false;
+			ParseSingleFile(filePath, SourceOfSettingsConfig.SpecificiCompanyAllUsers);
+            			
 			return true;
 		}
 		//---------------------------------------------------------------------
@@ -696,7 +666,7 @@ namespace Microarea.Common.NameSolver
 		{	
 			ModuleInfo m = (ModuleInfo)pathFinder.GetModuleInfo(new NameSpace("Module.Framework.TbGenlib"));
 
-			string path = m.GetCustomAllCompaniesAllUsersSettingsFullFilename("Settings.config");
+			string path = m.GetCustomCompanyAllUserSettingsPathFullFilename("Settings.config");
 
 			string upperLimit = GetUpperLimit(culture, m, path, false);
 
@@ -728,7 +698,7 @@ namespace Microarea.Common.NameSolver
 		{
 			ModuleInfo m = (ModuleInfo)pathFinder.GetModuleInfo(new NameSpace("Module.Framework.TbGenlib"));
 
-			string path = m.GetCustomAllCompaniesAllUsersSettingsFullFilename("Settings.config");
+			string path = m.GetCustomCompanyAllUserSettingsPathFullFilename("Settings.config");
 
 			double dec = GetDataDblDecimal(m, path, false);
 
@@ -737,7 +707,7 @@ namespace Microarea.Common.NameSolver
 
 			path = m.GetStandardSettingsFullFilename("Settings.config");
 
-			dec = GetDataDblDecimal(m, path, true);
+            dec = GetDataDblDecimal(m, path, true);
 
 			return dec >= 0 ? Math.Pow(10, -dec) : 7;
 		}
@@ -764,24 +734,8 @@ namespace Microarea.Common.NameSolver
             if (m == null)
 				 return defaultSettingValue;
 
-			string path = m.GetCustomCompanyUserSettingsPathFullFilename(nsSetting.Setting); //param: file name with ext
-
-			object s = GetEntry(path, sSection, sEntry, m, false);
-			if (s != null) 
-				return s;
-
-			path = m.GetCustomCompanyAllUserSettingsPathFullFilename(nsSetting.Setting);
-			s = GetEntry (path, sSection, sEntry, m, false);
-			if (s != null) 
-				return s;
-
-			path = m.GetCustomAllCompaniesUserSettingsFullFilename(nsSetting.Setting);
-			s = GetEntry (path, sSection, sEntry, m, false);
-			if (s != null) 
-				return s;
-
-			path = m.GetCustomAllCompaniesAllUsersSettingsFullFilename(nsSetting.Setting);
-			s = GetEntry (path, sSection, sEntry, m, false);
+			string path = m.GetCustomCompanyAllUserSettingsPathFullFilename(nsSetting.Setting);
+            object s = GetEntry (path, sSection, sEntry, m, false);
 			if (s != null) 
 				return s;
 

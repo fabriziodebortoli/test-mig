@@ -3871,8 +3871,9 @@ public string DecSeparator = ",";
                     if (!fs.Load(mi.GetFormatsFullFilename(), nsOwner, Formatter.FormatSource.STANDARD))
                         loaded = false;
 
-                    if (!fs.Load(mi.GetCustomFormatsFullFilename(), nsOwner, Formatter.FormatSource.CUSTOM))
-                        loaded = false;
+                    //TODO LARA E BRUNA EASYBILDER
+                    //if (!fs.Load(mi.GetCustomFormatsFullFilename(PathFinder.PathFinderInstance.Company), nsOwner, Formatter.FormatSource.CUSTOM))
+                    //    loaded = false;
                 }
         }
 

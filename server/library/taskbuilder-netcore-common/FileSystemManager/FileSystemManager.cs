@@ -91,7 +91,7 @@ namespace Microarea.Common.FileSystemManager
 
 
             bool dBAvailable = string.IsNullOrEmpty(strSysDBConnectionString);
-            bool existFileSystem = Directory.Exists(pathFinder.CalculateRemoteStandardPath()) && Directory.Exists(pathFinder.GetCustomCompaniesPath());
+            bool existFileSystem = Directory.Exists(pathFinder.CalculateRemoteStandardPath()) && Directory.Exists(pathFinder.GetCustomSubscriptionPath());
 
             // I cannot work without file system and web service
             if (!existFileSystem && !wSAvailable && !dBAvailable)

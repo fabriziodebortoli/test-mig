@@ -27,7 +27,7 @@ namespace Microarea.Common.FileSystemManager
         private bool started = false;
 
 		//---------------------------------------------------------------------
-		public DatabaseDriver(PathFinder pathFinder, string standardConnectionString, string customConnectionString) //TODO LARA
+		public DatabaseDriver(PathFinder pathFinder, string standardConnectionString, string customConnectionString) 
 		{
 			this.pathFinder = pathFinder;
 			this.customConnectionString = customConnectionString;
@@ -111,7 +111,7 @@ namespace Microarea.Common.FileSystemManager
         bool IsARootPath(string strTBFSFolder)
         {
             return (pathFinder.IsStandardPath (strTBFSFolder)|| pathFinder.IsCustomPath (strTBFSFolder)|| 
-                strTBFSFolder.CompareTo(pathFinder.GetCustomCompaniesPath()) == 0 || strTBFSFolder.CompareTo(pathFinder.GetCustomCompanyPath()) == 0);
+                strTBFSFolder.CompareTo(pathFinder.GetCustomSubscriptionPath()) == 0 || strTBFSFolder.CompareTo(pathFinder.GetCustomCompanyPath()) == 0);
         }
 
         //toglie la parte assoluto della path c:\InstallationName\Standard o c:\InstallationName\Custom\Companies\Companyname
@@ -121,7 +121,7 @@ namespace Microarea.Common.FileSystemManager
             string strRelativePath = strPathFileName;
             strRelativePath =strRelativePath.ToUpper();
 
-            string strStartPath = (bCustom) ? pathFinder.GetCustomCompaniesPath() : pathFinder.GetStandardPath;
+            string strStartPath = (bCustom) ? pathFinder.GetCustomSubscriptionPath() : pathFinder.GetStandardPath;
             strStartPath = strStartPath.ToUpper();
             int nPos = strRelativePath.IndexOf(strStartPath);
             int nEscape = (strStartPath.Length + 1);
@@ -132,7 +132,7 @@ namespace Microarea.Common.FileSystemManager
         //--------------------------------------------------------------------------
         string GetAbsolutePath(string strPathFileName, bool bCustom)
         {
-            string initialPath = (bCustom) ? pathFinder.GetCustomCompaniesPath() : pathFinder.CalculateRemoteStandardPath();
+            string initialPath = (bCustom) ? pathFinder.GetCustomSubscriptionPath() : pathFinder.CalculateRemoteStandardPath();
             return initialPath + @"\\" + strPathFileName;
         }
 

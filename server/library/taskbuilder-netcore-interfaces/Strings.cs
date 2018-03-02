@@ -871,8 +871,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Release = "Release";
         public const string Text = "Text";
 		public const string Subscription = "Subscription";
-		public const string Companies = "Companies";
-        public const string AllCompanies = "AllCompanies";
+//        public const string AllCompanies = "AllCompanies";
         public const string ServerConnection = "ServerConnection";
         public const string ClientConfiguration = "ClientConfiguration";
         public const string LockLogFile = "LockLog.xml";

@@ -1759,17 +1759,19 @@ namespace Microarea.Common.Applications
 						this.loaded = false;
 					}
 					
-					//...poi vado a valutare il percorso ritenuto "dalla custom":
-					//se non coincide con quello "della standard", allora lo carico
-					//altrimenti no perchè lo ho già caricato.
-					string customFilename = mi.GetCustomEnumsPath();
-					if (String.Compare(standardFilename, customFilename, StringComparison.OrdinalIgnoreCase) != 0)
-					{
-						if (!LoadXml(customFilename, mi, checkActivation, ai.Name))
-						{
-							this.loaded = false;
-						}
-					}
+
+                    //TODO LARA BRUNA EASYBUILDER
+					////...poi vado a valutare il percorso ritenuto "dalla custom":
+					////se non coincide con quello "della standard", allora lo carico
+					////altrimenti no perchè lo ho già caricato.
+					//string customFilename = mi.GetCustomEnumsPath(subscription);
+					//if (String.Compare(standardFilename, customFilename, StringComparison.OrdinalIgnoreCase) != 0)
+					//{
+					//	if (!LoadXml(customFilename, mi, checkActivation, ai.Name))
+					//	{
+					//		this.loaded = false;
+					//	}
+					//}
 				}
 			}
 		}

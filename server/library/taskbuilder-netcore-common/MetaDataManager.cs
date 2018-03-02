@@ -596,7 +596,7 @@ namespace Microarea.Common
 					byteContent = null;
 			}
 
-            catch (SqlException exx)
+            catch (SqlException)
             {
             }
             finally

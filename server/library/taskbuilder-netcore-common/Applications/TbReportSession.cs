@@ -115,7 +115,7 @@ namespace Microarea.Common.Applications
             this.Namespace = ns;
             this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
 
-            if (!LoadSessionInfo(null, false))
+            if (!LoadSessionInfo(null, false, this.PathFinder))
                 throw new InvalidSessionException();
             ;
         }
@@ -165,15 +165,15 @@ namespace Microarea.Common.Applications
         }
 
         //-----------------------------------------------------------------------------
-        public bool LoadSessionInfo()
+        public bool LoadSessionInfo(PathFinder pathFinder)
         {
-            return LoadSessionInfo(TBWebContext.Current);
+            return LoadSessionInfo(TBWebContext.Current, pathFinder);
         }
 
         //-----------------------------------------------------------------------------
-        public bool LoadSessionInfo(IApplicationBag applicationBag)
+        public bool LoadSessionInfo(IApplicationBag applicationBag, PathFinder pathFinder)
         {
-            return LoadSessionInfo(applicationBag, true);
+            return LoadSessionInfo(applicationBag, true, pathFinder);
         }
 
         //-----------------------------------------------------------------------------
@@ -182,10 +182,10 @@ namespace Microarea.Common.Applications
         // gli Hotlinks sono solo caricati on demand e quindi non pesano.
         public bool LoadSessionInfo(bool checkActivation)
         {
-            return LoadSessionInfo(null, checkActivation);
+            return LoadSessionInfo(null, checkActivation, PathFinder);
         }
         //-----------------------------------------------------------------------------
-        public bool LoadSessionInfo(IApplicationBag applicationBag, bool checkActivation)
+        public bool LoadSessionInfo(IApplicationBag applicationBag, bool checkActivation, PathFinder pathFinder)
         {
             // se non sono autenticato non posso caricare nulla e segnalo errore
             if (UserInfo == null)

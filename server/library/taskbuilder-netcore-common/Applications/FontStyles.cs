@@ -312,8 +312,9 @@ namespace Microarea.Common.Applications
 					if (!fs.Load(mi.GetFontsFullFilename(), nsOwner, FontElement.FontSource.STANDARD, ai.Name, mi.Name)) 
 						loaded = false;
 					
-					if (!fs.Load(mi.GetCustomFontsFullFilename(), nsOwner, FontElement.FontSource.CUSTOM, ai.Name, mi.Name)) 
-						loaded = false;
+                    //TODO LARA E BRUNA X EASYBUILDER
+					//if (!fs.Load(mi.GetCustomFontsFullFilename(pathFinder.Company), nsOwner, FontElement.FontSource.CUSTOM, ai.Name, mi.Name)) 
+					//	loaded = false;
 				}
 		}
 

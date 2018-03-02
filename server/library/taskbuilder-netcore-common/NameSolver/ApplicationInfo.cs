@@ -414,9 +414,9 @@ namespace Microarea.Common.NameSolver
 
         #region Funzioni pubbliche
         //---------------------------------------------------------------------
-        public string GetCustomFontsFullFilename()
+        public string GetCustomFontsFullFilename(string subscriptionName)
         {
-            string moduleObjPath = GetCustomModuleObjectPath();
+            string moduleObjPath = GetCustomModuleObjectPath(subscriptionName);
 
             if (moduleObjPath == string.Empty)
                 return string.Empty;
@@ -437,15 +437,7 @@ namespace Microarea.Common.NameSolver
         }
 
         #region funzioni per la custom dipendenti da company o user
-        //-------------------------------------------------------------------------------
-        public string GetDataMigrationLogPath()
-        {
-            string modCusP = GetCustomPath(NameSolverStrings.AllCompanies);
-            if (string.IsNullOrEmpty(modCusP))
-                return string.Empty;
-
-            return System.IO.Path.Combine(modCusP, NameSolverStrings.MigrationLog);
-        }
+ 
 
         //-------------------------------------------------------------------------------
         public string GetCustomPath(string companyName)
@@ -552,12 +544,12 @@ namespace Microarea.Common.NameSolver
         /// </summary>
         /// <returns></returns>
         //-------------------------------------------------------------------------------
-        public virtual string GetCustomModuleObjectPath()
+        public virtual string GetCustomModuleObjectPath(string subscriptionName)
         {
             if (string.IsNullOrEmpty(Path))
                 return string.Empty;
 
-            return GetCustomPath(NameSolverStrings.AllCompanies) + NameSolverStrings.Directoryseparetor + NameSolverStrings.ModuleObjects;
+            return GetCustomPath(subscriptionName) + NameSolverStrings.Directoryseparetor + NameSolverStrings.ModuleObjects;
         }
         //-------------------------------------------------------------------------------
         public string GetStandardReportPath()
@@ -625,23 +617,10 @@ namespace Microarea.Common.NameSolver
             return moduleObjPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.EnumsIniFile;
         }
 
-        protected string AllCompaniesCustomPath
-        {
-            get
-            {
-                if (allCompaniesCustomPath == null)
-                {
-                    allCompaniesCustomPath = CurrentPathFinder.GetCustomApplicationPath(NameSolverStrings.AllCompanies, parentApplicationInfo.Name);
-                    allCompaniesCustomPath = System.IO.Path.Combine(allCompaniesCustomPath, Name);
-                }
-                return allCompaniesCustomPath;
-            }
-        }
-
         //---------------------------------------------------------------------
-        public string GetCustomFormatsFullFilename()
+        public string GetCustomFormatsFullFilename(string subscriptionName)
         {
-            string moduleObjPath = GetCustomModuleObjectPath();
+            string moduleObjPath = GetCustomModuleObjectPath(subscriptionName);
 
             if (moduleObjPath == string.Empty)
                 return string.Empty;
@@ -649,26 +628,10 @@ namespace Microarea.Common.NameSolver
             return moduleObjPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.FormatsIniFile;
         }
 
-        //-------------------------------------------------------------------------------
-        public string GetCustomAllCompaniesAllUsersSettingsFullFilename(string settings)
-        {
-            string path = GetCustomAllCompaniesAllUsersSettingsPath();
-            if (path == null || path == string.Empty)
-                return "";
-            return System.IO.Path.Combine(path, settings);
-        }
-
-        //-------------------------------------------------------------------------------
-        public string GetCustomAllCompaniesAllUsersSettingsPath()
-        {
-            string pathCustom = System.IO.Path.Combine(AllCompaniesCustomPath, NameSolverStrings.Settings);
-            return System.IO.Path.Combine(pathCustom, NameSolverStrings.AllUsers);
-        }
-
         //---------------------------------------------------------------------
-        public string GetCustomEnumsPath()
+        public string GetCustomEnumsPath(string subscriptionName)
         {
-            string moduleObjPath = GetCustomModuleObjectPath();
+            string moduleObjPath = GetCustomModuleObjectPath(subscriptionName);
 
             return GetEnumsPath(moduleObjPath);
         }
@@ -1367,12 +1330,12 @@ namespace Microarea.Common.NameSolver
         }
       
 		//-------------------------------------------------------------------------------
-		public string GetCustomDocumentPath(string documentName)
+		public string GetCustomDocumentPath(string documentName, string subscriptionName)
 		{
 			if (documentName == null || documentName == String.Empty)
 				return String.Empty;
 
-			string moduleObjectsPath = GetCustomModuleObjectPath();
+			string moduleObjectsPath = GetCustomModuleObjectPath(subscriptionName);
 			if (moduleObjectsPath == null || moduleObjectsPath == String.Empty)
 				return String.Empty;
 
@@ -1619,12 +1582,12 @@ namespace Microarea.Common.NameSolver
 		#region funzioni per gli schemi di documento
 
 		//-------------------------------------------------------------------------------
-		public string GetCustomDocumentSchemaFilesPath(string documentName)
+		public string GetCustomDocumentSchemaFilesPath(string documentName, string subscription)
 		{
 			if (documentName == null || documentName == String.Empty)
 				return String.Empty;
 
-			string documentPath = GetCustomDocumentPath(documentName);
+			string documentPath = GetCustomDocumentPath(documentName, subscription);
 			if (documentPath == null || documentPath == String.Empty)
 				return String.Empty;
 
@@ -1632,12 +1595,12 @@ namespace Microarea.Common.NameSolver
 		}
 
 		//-------------------------------------------------------------------------------
-		public string GetCustomDocumentSchemaFilesPath(string documentName, string userName)
+		public string GetCustomDocumentSchemaFilesPath(string documentName, string userName, string subscription)
 		{		
 			if (documentName == null || documentName == String.Empty || userName == null || userName == String.Empty)
 				return String.Empty;
 			//return GetCustomDocumentSchemaFilesPath(documentName);
-			return System.IO.Path.Combine(GetCustomDocumentSchemaFilesPath(documentName), PathFinder.GetUserPath(userName));
+			return System.IO.Path.Combine(GetCustomDocumentSchemaFilesPath(documentName, subscription), PathFinder.GetUserPath(userName));
 		}
 
 		//-------------------------------------------------------------------------------
@@ -1697,59 +1660,7 @@ namespace Microarea.Common.NameSolver
 
         #endregion
 
-
-      
-
-        //-------------------------------------------------------------------------------
-        public string GetCustomAllCompaniesUserSettingsPath()
-		{
-			if (PathFinder.User == null || 
-				PathFinder.User == string.Empty
-				)
-				return "";
-
-			string pathCustom = System.IO.Path.Combine(AllCompaniesCustomPath, NameSolverStrings.Settings);
-			pathCustom = System.IO.Path.Combine(pathCustom, NameSolverStrings.Users);
-			return System.IO.Path.Combine(pathCustom, PathFinder.User);
-		}
-
-		//-------------------------------------------------------------------------------
-		public string GetCustomAllCompaniesUserSettingsFullFilename(string settings)
-		{
-			string path = GetCustomAllCompaniesUserSettingsPath();
-			if (path == null || path == string.Empty)
-				return "";
-
-			return System.IO.Path.Combine(path, settings);
-		}
-
-		//-------------------------------------------------------------------------------
-		public string GetCustomCompanyUserSettingsPath()
-		{
-			if (CustomPath == null || 
-				CustomPath == string.Empty || 
-				PathFinder.User == null || 
-				PathFinder.User == string.Empty ||
-				PathFinder.Company == null || 
-				PathFinder.Company == string.Empty
-				)
-				return "";
-
-			string pathCustom = System.IO.Path.Combine(CustomPath, NameSolverStrings.Settings);
-			pathCustom = System.IO.Path.Combine(pathCustom, NameSolverStrings.Users);
-			return System.IO.Path.Combine(pathCustom, PathFinder.User);
-		}
-
-		//-------------------------------------------------------------------------------
-		public string GetCustomCompanyUserSettingsPathFullFilename(string settings)
-		{
-			string path = GetCustomCompanyUserSettingsPath();
-			if (path == null || path == string.Empty)
-				return "";
-			return System.IO.Path.Combine(path, settings);
-		}
-
-		//-------------------------------------------------------------------------------
+     	//-------------------------------------------------------------------------------
 		public string GetCustomCompanyAllUserSettingsPath()
 		{
 			if (CustomPath == null || 
@@ -2080,7 +1991,7 @@ namespace Microarea.Common.NameSolver
             return
                 customPath +
                 NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Companies +
+                NameSolverStrings.Subscription +
                 NameSolverStrings.Directoryseparetor +
                 companyName +
                 NameSolverStrings.Directoryseparetor +

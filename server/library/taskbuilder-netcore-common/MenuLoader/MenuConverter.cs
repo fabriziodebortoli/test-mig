@@ -145,7 +145,7 @@ namespace Microarea.Common.MenuLoader
 				string imageFile = string.Empty;
 				if (!theme.Name.IsNullOrEmpty())
 				{
-					imageFile = PathFinder.PathFinderInstance.GetGroupImagePathByTheme(new NameSpace(attrib.Value), theme.Name);
+					imageFile = PathFinder.PathFinderInstance.GetGroupImagePathByTheme(new NameSpace(attrib.Value), theme.Name, PathFinder.PathFinderInstance.Company);
 
 					if (imageFile.IsNullOrEmpty())
 						imageFile = PathFinder.PathFinderInstance.GetGroupImagePath(new NameSpace(attrib.Value));
