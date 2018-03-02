@@ -57,11 +57,11 @@ public:
 
 public:
 	void SharpenEdges
-		(
-			CDC*		pDC,
-			CBitmap*	pBitmap, 
-			COLORREF*	pMask
-		);
+	(
+		CDC*		pDC,
+		CBitmap*	pBitmap,
+		COLORREF*	pMask
+	);
 
 private:
 	BOOL Similar(COLORREF aPixel, COLORREF aColor);
@@ -82,8 +82,8 @@ ImageEnhancer::ImageEnhancer()
 BOOL ImageEnhancer::Similar(COLORREF aPixel, COLORREF aColor)
 {
 	return	abs(GetRValue(aPixel) - GetRValue(aColor)) < COLOR_FLATTEN_DISTANCE &&
-			abs(GetGValue(aPixel) - GetGValue(aColor)) < COLOR_FLATTEN_DISTANCE &&
-			abs(GetBValue(aPixel) - GetBValue(aColor)) < COLOR_FLATTEN_DISTANCE;
+		abs(GetGValue(aPixel) - GetGValue(aColor)) < COLOR_FLATTEN_DISTANCE &&
+		abs(GetBValue(aPixel) - GetBValue(aColor)) < COLOR_FLATTEN_DISTANCE;
 }
 
 //-------------------------------------------------------------------------------------
@@ -91,21 +91,21 @@ void ImageEnhancer::Explore(int x, int y, COLORREF aPixel)
 {
 	// se il pixel c'è (non sono fuori dall'immagine), non è già stato trasformato in ChromaKey
 	// sarebbe da trasformare, lo aggiunge a quelli da trasformare
-	if	(
-			aPixel != -1 &&
-			aPixel != CLR_MAGENTA &&
-			Similar(aPixel,m_Mask)
+	if (
+		aPixel != -1 &&
+		aPixel != CLR_MAGENTA &&
+		Similar(aPixel, m_Mask)
 		)
 		m_Points.AddHead(new CPoint(x, y));
 }
 
 //-------------------------------------------------------------------------------------
 void ImageEnhancer::SharpenEdges
-	(
-		CDC*		pDC,
-		CBitmap*	pBitmap, 
-		COLORREF*	pMask
-	)
+(
+	CDC*		pDC,
+	CBitmap*	pBitmap,
+	COLORREF*	pMask
+)
 {
 	BITMAP		bmImg;
 	CBitmap*	pOldBmp;
@@ -122,13 +122,13 @@ void ImageEnhancer::SharpenEdges
 	// inizia mettendo da esplorare tutti i pixel del bordo che andrebbero trasformati
 	for (int x = 0; x < bmImg.bmWidth; x++)
 	{
-		Explore(x, 0,					memDC.GetPixel(x, 0));
-		Explore(x, bmImg.bmHeight - 1,	memDC.GetPixel(x, bmImg.bmHeight - 1));
+		Explore(x, 0, memDC.GetPixel(x, 0));
+		Explore(x, bmImg.bmHeight - 1, memDC.GetPixel(x, bmImg.bmHeight - 1));
 	}
 	for (int y = 1; y < bmImg.bmHeight - 1; y++)
 	{
-		Explore(0,					y,memDC.GetPixel(0,					y));
-		Explore(bmImg.bmWidth - 1,	y,memDC.GetPixel(bmImg.bmWidth - 1,	y));
+		Explore(0, y, memDC.GetPixel(0, y));
+		Explore(bmImg.bmWidth - 1, y, memDC.GetPixel(bmImg.bmWidth - 1, y));
 	}
 
 	// Trasforma in ChromaKey via via i pixel assegnati all'elenco di trasformazione.
@@ -145,15 +145,15 @@ void ImageEnhancer::SharpenEdges
 
 		// se il pixel è sulla lista, vuol dire che è da trasformare. Lo trasforma
 		// impostando il colore di ChromaKey
-		memDC.SetPixel(*pPoint,CLR_MAGENTA);
+		memDC.SetPixel(*pPoint, CLR_MAGENTA);
 
 		// Esplora i pixel adiacenti solo in senso verticale e orizzontale. Non controlla quelli
 		// diagonali per evitare di "saltare" dentro ad un bordo stretto. Tanto tali pixel risulteranno
 		// adiacenti a quelli qui inseriti
-		Explore(pPoint->x - 1,	pPoint->y,		memDC.GetPixel(pPoint->x - 1,	pPoint->y));
-		Explore(pPoint->x + 1,	pPoint->y,		memDC.GetPixel(pPoint->x + 1,	pPoint->y));
-		Explore(pPoint->x,		pPoint->y + 1,	memDC.GetPixel(pPoint->x,		pPoint->y + 1));
-		Explore(pPoint->x,		pPoint->y - 1,	memDC.GetPixel(pPoint->x,		pPoint->y - 1));
+		Explore(pPoint->x - 1, pPoint->y, memDC.GetPixel(pPoint->x - 1, pPoint->y));
+		Explore(pPoint->x + 1, pPoint->y, memDC.GetPixel(pPoint->x + 1, pPoint->y));
+		Explore(pPoint->x, pPoint->y + 1, memDC.GetPixel(pPoint->x, pPoint->y + 1));
+		Explore(pPoint->x, pPoint->y - 1, memDC.GetPixel(pPoint->x, pPoint->y - 1));
 
 		delete pPoint;
 	}
@@ -168,18 +168,18 @@ void ImageEnhancer::SharpenEdges
 //					CImageAssociation
 /////////////////////////////////////////////////////////////////////////////
 //-------------------------------------------------------------------------------------
-CImageAssociation::CImageAssociation(UINT nCommandID, UINT nImageID , UINT nIndex) 
-	: 
-	m_nCommandID		(nCommandID),
-	m_nImageID			(nImageID),
-	m_nIndex			(nIndex),
-	m_nIndexAlternative (0),
-	m_bCustomImage		(FALSE),
-	m_bCustomText		(FALSE),
-	m_nOldImageID		(0),
-	m_nOldImageNS		(_T("")),
-	m_sImageNameSpace	(_T("")),
-	m_strText			(_T("")),
+CImageAssociation::CImageAssociation(UINT nCommandID, UINT nImageID, UINT nIndex)
+	:
+	m_nCommandID(nCommandID),
+	m_nImageID(nImageID),
+	m_nIndex(nIndex),
+	m_nIndexAlternative(0),
+	m_bCustomImage(FALSE),
+	m_bCustomText(FALSE),
+	m_nOldImageID(0),
+	m_nOldImageNS(_T("")),
+	m_sImageNameSpace(_T("")),
+	m_strText(_T("")),
 	m_strTextAlternative(_T(""))
 {
 
@@ -188,16 +188,16 @@ CImageAssociation::CImageAssociation(UINT nCommandID, UINT nImageID , UINT nInde
 //-------------------------------------------------------------------------------------
 CImageAssociation::CImageAssociation(UINT nCommandID, CString sImageNameSpace, UINT nIndex)
 	:
-	m_nCommandID		(nCommandID),
-	m_nImageID			(0),
-	m_nIndex			(nIndex),
-	m_nIndexAlternative (0),
-	m_bCustomImage		(FALSE),
-	m_bCustomText		(FALSE),
-	m_nOldImageID		(0),
-	m_nOldImageNS		(_T("")),
-	m_sImageNameSpace	(sImageNameSpace),
-	m_strText			(_T("")),
+	m_nCommandID(nCommandID),
+	m_nImageID(0),
+	m_nIndex(nIndex),
+	m_nIndexAlternative(0),
+	m_bCustomImage(FALSE),
+	m_bCustomText(FALSE),
+	m_nOldImageID(0),
+	m_nOldImageNS(_T("")),
+	m_sImageNameSpace(sImageNameSpace),
+	m_strText(_T("")),
 	m_strTextAlternative(_T(""))
 {
 }
@@ -251,7 +251,7 @@ CTBToolbarEditBoxButton::CTBToolbarEditBoxButton(const CString& sPrompt)
 CTBToolbarEditBoxButton::~CTBToolbarEditBoxButton()
 {
 	DestroyIcon(m_hIcon);
-} 
+}
 
 //-------------------------------------------------------------------------------------
 CString CTBToolbarEditBoxButton::GetLabel()
@@ -267,9 +267,9 @@ void CTBToolbarEditBoxButton::SetLabel(const CString& text)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarEditBoxButton::OnMove ()
+void CTBToolbarEditBoxButton::OnMove()
 {
-	if (m_pWndEdit->GetSafeHwnd () == NULL || (m_pWndEdit->GetStyle () & WS_VISIBLE) == 0)
+	if (m_pWndEdit->GetSafeHwnd() == NULL || (m_pWndEdit->GetStyle() & WS_VISIBLE) == 0)
 	{
 		return;
 	}
@@ -311,9 +311,9 @@ void CTBToolbarEditBoxButton::OnMove ()
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarEditBoxButton::SetHeight(int iHeight) 
-{ 
-	m_iHeight = iHeight; 
+void CTBToolbarEditBoxButton::SetHeight(int iHeight)
+{
+	m_iHeight = iHeight;
 }
 
 //-------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ int  CTBToolbarEditBoxButton::GetHeight()
 	{
 		return m_iHeight;
 	}
-		
+
 	CRect rectBorder;
 	GetEditBorder(rectBorder);
 
@@ -361,17 +361,17 @@ HBRUSH CTBToolbarEditBoxButton::OnCtlColor(CDC* pDC, UINT nCtlColor)
 		pDC->SetBkColor(AfxGetThemeManager()->GetEnabledControlBkgColor());
 		return (HBRUSH)AfxGetThemeManager()->GetEnabledControlBkgColorBrush()->GetSafeHandle();
 	}
-	
+
 	pDC->SetTextColor(AfxGetThemeManager()->GetDisabledControlForeColor());
 	pDC->SetBkColor(AfxGetThemeManager()->GetBackgroundColor());
 	return (HBRUSH)AfxGetThemeManager()->GetBackgroundColorBrush()->GetSafeHandle();
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarEditBoxButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
-						BOOL bHorz, BOOL bCustomizeMode,
-						BOOL bHighlight, BOOL bDrawBorder, 
-						BOOL bGrayDisabledButtons)
+void CTBToolbarEditBoxButton::OnDraw(CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
+	BOOL bHorz, BOOL bCustomizeMode,
+	BOOL bHighlight, BOOL bDrawBorder,
+	BOOL bGrayDisabledButtons)
 {
 	CTBToolBar* m_pToolBar = dynamic_cast<CTBToolBar*> (m_pWndParent);
 	// Toolbar in style Infinity
@@ -389,14 +389,14 @@ void CTBToolbarEditBoxButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarI
 	if (!m_stLabel.IsEmpty())
 	{
 		CRect rectBorder;
-		GetEditBorder (rectBorder);
-		COLORREF clrText = CBCGPVisualManager::GetInstance ()->GetToolbarButtonTextColor (this, CBCGPVisualManager::ButtonsIsRegular);
-		COLORREF cltTextOld = pDC->SetTextColor (clrText);
+		GetEditBorder(rectBorder);
+		COLORREF clrText = CBCGPVisualManager::GetInstance()->GetToolbarButtonTextColor(this, CBCGPVisualManager::ButtonsIsRegular);
+		COLORREF cltTextOld = pDC->SetTextColor(clrText);
 		CRect rectText = rectBorder;
-		rectText.top	= rectBorder.top    - 15;
+		rectText.top = rectBorder.top - 15;
 		rectText.bottom = rectBorder.bottom - 15;
-		pDC->DrawText (m_stLabel, &rectText, DT_LEFT | DT_WORDBREAK);
-		pDC->SetTextColor (cltTextOld);
+		pDC->DrawText(m_stLabel, &rectText, DT_LEFT | DT_WORDBREAK);
+		pDC->SetTextColor(cltTextOld);
 	}
 
 	m_bTextBelow = FALSE;
@@ -404,14 +404,14 @@ void CTBToolbarEditBoxButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarI
 
 	// Draw icon if is present
 	if (m_hIcon)
-	{	
+	{
 		CRect rectBorder;
 		CRect rectIco;
 		GetEditBorder(rectBorder);
 		rectIco.SetRect(rectBorder.right, rectBorder.top, rect.right, rectBorder.bottom);
 		CBCGPVisualManager::GetInstance()->OnDrawEditBorder(pDC, rectIco, TRUE, !m_bFlat || m_bIsHotEdit, this);
-		::DrawIconEx(pDC->GetSafeHdc(), 
-			rectBorder.right + ICON_SPACE, rectIco.top + ICON_SPACE, 
+		::DrawIconEx(pDC->GetSafeHdc(),
+			rectBorder.right + ICON_SPACE, rectIco.top + ICON_SPACE,
 			m_hIcon, m_iHeight, m_iHeight, 0, NULL, DI_NORMAL);
 	}
 }
@@ -419,7 +419,7 @@ void CTBToolbarEditBoxButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarI
 //-------------------------------------------------------------------------------------
 void CTBToolbarEditBoxButton::CopyFrom(const CBCGPToolbarButton& src)
 {
-	__super::CopyFrom (src);
+	__super::CopyFrom(src);
 
 	if (src.IsKindOf(RUNTIME_CLASS(CTBToolbarEditBoxButton)))
 	{
@@ -497,7 +497,7 @@ void CTBToolbarComboBoxButton::OnDraw(CDC* pDC, const CRect& rect, CBCGPToolBarI
 		COLORREF clrText = CBCGPVisualManager::GetInstance()->GetToolbarButtonTextColor(this, CBCGPVisualManager::ButtonsIsRegular);
 		COLORREF cltTextOld = pDC->SetTextColor(clrText);
 		CRect rectText = m_rectCombo;
-		int yOffset = - (ScalePix(15));
+		int yOffset = -(ScalePix(15));
 		rectText.top = rectText.top + yOffset;
 		rectText.bottom = rectText.bottom + yOffset;
 		pDC->DrawText(m_stLabel, &rectText, DT_LEFT | DT_WORDBREAK);
@@ -530,7 +530,7 @@ void CTBToolbarComboBoxButton::OnMove()
 
 	if (!m_pWndCombo)
 		return;
-	
+
 	if (m_bCenterVert && (!m_bTextBelow || m_strText.IsEmpty()))
 	{
 		CBCGPToolBar* pParentBar = NULL;
@@ -559,13 +559,13 @@ void CTBToolbarComboBoxButton::OnMove()
 			m_rect.bottom = nBottom;
 		}
 	}
-	
-	m_pWndCombo->SetWindowPos(NULL,	
+
+	m_pWndCombo->SetWindowPos(NULL,
 		m_rect.left + iHorzMargin, m_rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
-	if(m_pWndEdit)
-		m_pWndEdit->SetWindowPos(NULL, 
-			m_rect.left + iHorzMargin + 3, m_rect.top + 3, 0, 0,	SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+	if (m_pWndEdit)
+		m_pWndEdit->SetWindowPos(NULL,
+			m_rect.left + iHorzMargin + 3, m_rect.top + 3, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 }
 
@@ -574,13 +574,13 @@ void CTBToolbarComboBoxButton::OnMove()
 //////////////////////////////////////////////////////////////////////
 IMPLEMENT_SERIAL(CTBToolbarButton, CBCGPToolbarButton, 1)
 
-CTBToolbarButton::CTBToolbarButton () :
-	m_bGhost				(FALSE),
-	m_bAutoHide				(FALSE),
-	m_bClone				(FALSE),
-	m_bWantText				(TRUE),
-	m_bSecondaryFillColor	(FALSE),
-	m_bDefaultButton		(FALSE)
+CTBToolbarButton::CTBToolbarButton() :
+	m_bGhost(FALSE),
+	m_bAutoHide(FALSE),
+	m_bClone(FALSE),
+	m_bWantText(TRUE),
+	m_bSecondaryFillColor(FALSE),
+	m_bDefaultButton(FALSE)
 {
 	if (AfxGetThemeManager()->IsToolbarInfinity()) m_bText = TRUE;
 }
@@ -589,7 +589,7 @@ CTBToolbarButton::CTBToolbarButton () :
 CTBToolbarButton::~CTBToolbarButton()
 {
 
-} 
+}
 
 //-------------------------------------------------------------------------------------
 SIZE CTBToolbarButton::OnCalculateSize(CDC* pDC, const CSize& sizeDefault, BOOL bHorz)
@@ -600,21 +600,21 @@ SIZE CTBToolbarButton::OnCalculateSize(CDC* pDC, const CSize& sizeDefault, BOOL 
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
-								BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight,
-								BOOL bDrawBorder, BOOL bGrayDisabledButtons)
+void CTBToolbarButton::OnDraw(CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
+	BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight,
+	BOOL bDrawBorder, BOOL bGrayDisabledButtons)
 {
-	if (m_bGhost) {	return; }
+	if (m_bGhost) { return; }
 
 	m_rectButton = rect;
-	
+
 	CTBToolBar* m_pToolBar = dynamic_cast<CTBToolBar*> (m_pWndParent);
 	if (m_bSecondaryFillColor && AfxGetThemeManager()->EnableToolBarDualColor())
 	{
 		if (m_bDisableFill) { m_bDisableFill = FALSE; }
 		CRect rectDraw = rect;
 
-		
+
 		if (m_pToolBar && m_pToolBar->FindButton(m_nID) > 0)
 		{
 			// Skip the first buttons
@@ -635,7 +635,7 @@ void CTBToolbarButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* 
 		pDC->FillSolidRect(rect, AfxGetThemeManager()->GetToolbarInfinitySepColor());
 	}
 
-	__super::OnDraw (pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
+	__super::OnDraw(pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
 
 	if (m_bDefaultButton)
 	{
@@ -647,19 +647,19 @@ void CTBToolbarButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* 
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarButton::CopyFrom (const CBCGPToolbarButton& src)
+void CTBToolbarButton::CopyFrom(const CBCGPToolbarButton& src)
 {
 	__super::CopyFrom(src);
 
 	if (src.IsKindOf(RUNTIME_CLASS(CTBToolbarButton)))
 	{
-		CTBToolbarButton* pSrc = (CTBToolbarButton*) &src;
+		CTBToolbarButton* pSrc = (CTBToolbarButton*)&src;
 		m_bGhost = pSrc->m_bGhost;
 		m_bClone = pSrc->m_bClone;
 		m_bWantText = pSrc->m_bWantText;
 		m_bSecondaryFillColor = pSrc->m_bSecondaryFillColor;
 		m_bDefaultButton = pSrc->m_bDefaultButton;
-	} 
+	}
 	else
 	{
 		ASSERT(FALSE);
@@ -689,21 +689,21 @@ void CTBToolbarButton::SetWantText(BOOL bWantText)
 //////////////////////////////////////////////////////////////////////
 IMPLEMENT_SERIAL(CTBToolbarLabel, CBCGPToolbarButton, 1)
 
-CTBToolbarLabel::CTBToolbarLabel (UINT uiID, LPCTSTR lpszText)
+CTBToolbarLabel::CTBToolbarLabel(UINT uiID, LPCTSTR lpszText)
 {
-	if (lpszText != NULL)	
-	{		
+	if (lpszText != NULL)
+	{
 		m_strText = lpszText;
-	}	
-	m_bCustomWidth	= FALSE;
+	}
+	m_bCustomWidth = FALSE;
 	m_bIsRightSpace = FALSE;
-	m_iWidth		= 0;
-	m_bText			= TRUE;	
-	m_nID			= uiID;
-	m_nAlign		= TA_BOTTOM;
-	SetStyle		(TBBS_DISABLED);
-	m_textColor		= RGB(0,0,0);
-	m_bTitle		= FALSE;
+	m_iWidth = 0;
+	m_bText = TRUE;
+	m_nID = uiID;
+	m_nAlign = TA_BOTTOM;
+	SetStyle(TBBS_DISABLED);
+	m_textColor = RGB(0, 0, 0);
+	m_bTitle = FALSE;
 }
 
 //-------------------------------------------------------------------------------------
@@ -731,15 +731,15 @@ void CTBToolbarLabel::CopyFrom(const CBCGPToolbarButton& src)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarLabel::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages, 
-							  BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight,	BOOL bDrawBorder, BOOL bGrayDisabledButtons)
+void CTBToolbarLabel::OnDraw(CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
+	BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight, BOOL bDrawBorder, BOOL bGrayDisabledButtons)
 {
-	UINT nStyle = m_nStyle;	
+	UINT nStyle = m_nStyle;
 	static const CString strDummyAmpSeq = _T("\001\001");
 	CSize sizeImage = (pImages == NULL) ? CSize(0, 0) : pImages->GetImageSize(TRUE);
 
-	m_nStyle &= ~TBBS_DISABLED;   	
-	
+	m_nStyle &= ~TBBS_DISABLED;
+
 	CString strWithoutAmp = GetDisplayText();
 	strWithoutAmp.Replace(_T("&&"), strDummyAmpSeq);
 	strWithoutAmp.Remove(_T('&'));
@@ -760,7 +760,7 @@ void CTBToolbarLabel::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* p
 		}
 		else
 		{
-			rectText.top =  nTextMargin;
+			rectText.top = nTextMargin;
 		}
 	}
 	else
@@ -792,7 +792,7 @@ void CTBToolbarLabel::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* p
 		rectText.left += 10;
 		rectText.right = rectText.left + rectTextTmp.Width();
 		// Center horizontal
-		rectText.top = (rectText.bottom - (rect.Height() / 2)) - (rectTextTmp.Height() /2);
+		rectText.top = (rectText.bottom - (rect.Height() / 2)) - (rectTextTmp.Height() / 2);
 		CRect rcFill(rectText);
 		rcFill.top = rect.top;
 		rcFill.bottom = rect.bottom;
@@ -810,13 +810,13 @@ void CTBToolbarLabel::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* p
 	}
 
 	// set text color label
-	pDC->SetTextColor(m_textColor);	
+	pDC->SetTextColor(m_textColor);
 	// draw text
 	if (m_bTitle)
 		pDC->DrawText(strWithoutAmp, &rectText, DT_LEFT | DT_CENTER | DT_WORDBREAK | DT_SINGLELINE);
 	else
 		pDC->DrawText(strWithoutAmp, &rectText, DT_LEFT | DT_CENTER | DT_WORDBREAK);
-	
+
 	// restore old font
 	if (m_bTitle)
 		pDC->SelectObject(pOldFont);
@@ -826,7 +826,7 @@ void CTBToolbarLabel::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* p
 
 //-------------------------------------------------------------------------------------
 void CTBToolbarLabel::SetTitle()
-{ 
+{
 	m_bTitle = TRUE;
 }
 
@@ -853,7 +853,7 @@ void CTBToolbarLabel::SetWidth(int width)
 }
 
 //-------------------------------------------------------------------------------------
-SIZE CTBToolbarLabel::OnCalculateSize (CDC* pDC, const CSize& sizeDefault, BOOL bHorz)
+SIZE CTBToolbarLabel::OnCalculateSize(CDC* pDC, const CSize& sizeDefault, BOOL bHorz)
 {
 	m_iImage = -1;
 	if (m_bCustomWidth)
@@ -866,7 +866,7 @@ SIZE CTBToolbarLabel::OnCalculateSize (CDC* pDC, const CSize& sizeDefault, BOOL 
 		return CSize(m_iWidth, sizeDefault.cy);
 	}
 
-	return __super::OnCalculateSize (pDC, sizeDefault, bHorz);
+	return __super::OnCalculateSize(pDC, sizeDefault, bHorz);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -879,7 +879,7 @@ CTBToolBarMenu::CTBToolBarMenu() :
 
 CTBToolBarMenu::~CTBToolBarMenu()
 {
-	IconsListClean();	
+	IconsListClean();
 }
 
 //-------------------------------------------------------------------------------------
@@ -910,17 +910,17 @@ void CTBToolBarMenu::IconsListClean()
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBarMenu::SetDC(CDC* pDC) 
-{ 
-	m_pDC = pDC; 
+void CTBToolBarMenu::SetDC(CDC* pDC)
+{
+	m_pDC = pDC;
 }
 
 //-------------------------------------------------------------------------------------
 HICON CTBToolBarMenu::GetIconUnChecked(UINT nID)
 {
-	for( POSITION pos = m_iconsListUnChecked.GetHeadPosition(); pos != NULL; )
+	for (POSITION pos = m_iconsListUnChecked.GetHeadPosition(); pos != NULL; )
 	{
-		CIconList pIconList = m_iconsListUnChecked.GetNext( pos );
+		CIconList pIconList = m_iconsListUnChecked.GetNext(pos);
 		if (pIconList.GetId() == nID)
 			return pIconList.GetIcon();
 	}
@@ -930,9 +930,9 @@ HICON CTBToolBarMenu::GetIconUnChecked(UINT nID)
 //-------------------------------------------------------------------------------------
 HICON CTBToolBarMenu::GetIconChecked(UINT nID)
 {
-	for( POSITION pos = m_iconsListChecked.GetHeadPosition(); pos != NULL; )
+	for (POSITION pos = m_iconsListChecked.GetHeadPosition(); pos != NULL; )
 	{
-		CIconList pIconList = m_iconsListChecked.GetNext( pos );
+		CIconList pIconList = m_iconsListChecked.GetNext(pos);
 		if (pIconList.GetId() == nID)
 			return pIconList.GetIcon();
 	}
@@ -942,8 +942,8 @@ HICON CTBToolBarMenu::GetIconChecked(UINT nID)
 //-------------------------------------------------------------------------------------
 void CTBToolBarMenu::SetMenuItemBitmaps(UINT nID, const CString& aLibNamespace, UINT nIDImgUnchecked, UINT nIDImgChecked, BOOL bPng)
 {
-	HICON hUnchecked = TBLoadImage (m_pDC, ImageNameSpaceWalking(aLibNamespace), nIDImgUnchecked, TOOLBARMENU_ICON_SIZE, bPng);
-	m_iconsListUnChecked.AddTail(CIconList(hUnchecked, nID));	
+	HICON hUnchecked = TBLoadImage(m_pDC, ImageNameSpaceWalking(aLibNamespace), nIDImgUnchecked, TOOLBARMENU_ICON_SIZE, bPng);
+	m_iconsListUnChecked.AddTail(CIconList(hUnchecked, nID));
 
 	if (nIDImgChecked > 0)
 	{
@@ -967,9 +967,9 @@ void CTBToolBarMenu::SetMenuItemBitmaps(UINT nID, CBitmap* pBmpUnchecked, CBitma
 		hChecked = hUnChecked;
 	else
 		hChecked = CBitmapToHICON(pBmpChecked, m_pDC, TOOLBARMENU_ICON_SIZE);
-	
+
 	if (pBmpUnchecked->m_hObject && hUnChecked)
-		m_iconsListUnChecked.AddTail(CIconList(hUnChecked, nID));	
+		m_iconsListUnChecked.AddTail(CIconList(hUnChecked, nID));
 
 	if (pBmpChecked->m_hObject && hChecked)
 		m_iconsListChecked.AddTail(CIconList(hChecked, nID));
@@ -981,7 +981,7 @@ void CTBToolBarMenu::SetMenuItemHICON(UINT nID, HICON hIconUnchecked, HICON hIco
 	if (hIconUnchecked)
 		m_iconsListUnChecked.AddTail(CIconList(hIconUnchecked, nID));
 
-	if(hIconChecked)
+	if (hIconChecked)
 		m_iconsListChecked.AddTail(CIconList(hIconChecked, nID));
 }
 
@@ -1021,7 +1021,7 @@ BOOL CTBToolBarMenu::AppendMenu(UINT nFlags, UINT_PTR nIDNewItem, LPCTSTR lpszNe
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBarMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem, LPCTSTR lpszNewItem, CBitmap* pBmpUnchecked , CBitmap* pBmpChecked /*= NULL*/)
+BOOL CTBToolBarMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem, LPCTSTR lpszNewItem, CBitmap* pBmpUnchecked, CBitmap* pBmpChecked /*= NULL*/)
 {
 	if (pBmpUnchecked != NULL)
 	{
@@ -1030,7 +1030,7 @@ BOOL CTBToolBarMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem
 	}
 
 	if (pBmpChecked != NULL)
-	{	
+	{
 		HICON hChecked = CBitmapToHICON(pBmpChecked);
 		m_iconsListChecked.AddTail(CIconList(hChecked, (UINT)nIDNewItem));
 	}
@@ -1041,7 +1041,7 @@ BOOL CTBToolBarMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem
 //-------------------------------------------------------------------------------------
 BOOL CTBToolBarMenu::AppendMenu(UINT nFlags, UINT_PTR nIDNewItem, LPCTSTR lpszNewItem, const CString& sImageNSUnchecked, const CString& sImageNSChecked /*= NULL*/)
 {
-	HICON hUnChecked =	TBLoadPng(sImageNSUnchecked);
+	HICON hUnChecked = TBLoadPng(sImageNSUnchecked);
 	HICON hChecked = NULL;
 
 	if (!sImageNSChecked.IsEmpty())
@@ -1073,7 +1073,7 @@ BOOL CTBToolBarMenu::InsertMenu(UINT nPosition, UINT nFlags, UINT_PTR nIDNewItem
 	if (hChecked)
 		m_iconsListChecked.AddTail(CIconList(hChecked, nIDNewItem));
 
-	return __super::InsertMenu(nPosition, nFlags, nIDNewItem, lpszNewItem); 
+	return __super::InsertMenu(nPosition, nFlags, nIDNewItem, lpszNewItem);
 }
 
 
@@ -1106,17 +1106,17 @@ void CTBToolBarMenu::AppendFromMenu(CMenu* pSorg)
 {
 	CTBToolBarMenu* pMenu = dynamic_cast<CTBToolBarMenu*> (pSorg);
 	if (!pMenu) return;
-	
+
 	INT iMenuCount = pMenu->GetMenuItemCount();
 	for (int i = 0; i < iMenuCount; i++)
 	{
-		#ifdef _DEBUG // Diagnostic
+#ifdef _DEBUG // Diagnostic
 		MENUITEMINFO  info;
 		info.cbSize = sizeof(MENUITEMINFO); // must fill up this field
 		info.fMask = MIIM_SUBMENU;             // get the state of the menu item
 		pMenu->GetMenuItemInfo(i, &info, TRUE);
 		ASSERT(!info.hSubMenu);
-		#endif
+#endif
 
 		UINT nID = pMenu->GetMenuItemID(i);
 		CString menuStr;
@@ -1142,7 +1142,7 @@ void CTBToolBarMenu::AppendFromMenu(CMenu* pSorg)
 				bFond = TRUE;
 			}
 		}
-		
+
 		if (bFond) continue;
 
 		AppendMenu(MF_STRING, nID, menuStr);
@@ -1157,10 +1157,10 @@ void CTBToolBarMenu::AppendFromMenu(CMenu* pSorg)
 IMPLEMENT_SERIAL(CTBToolbarMenuButton, CBCGPToolbarMenuButton, 1)
 
 //-------------------------------------------------------------------------------------
-CTBToolbarMenuButton::CTBToolbarMenuButton() : 
-	m_bTBelow			(FALSE),
-	m_bAutoHide			(FALSE),
-	m_MissingClick		(FALSE)
+CTBToolbarMenuButton::CTBToolbarMenuButton() :
+	m_bTBelow(FALSE),
+	m_bAutoHide(FALSE),
+	m_MissingClick(FALSE)
 {
 	AfxGetMenuWindow();
 	SetAlwaysDropDown(AfxGetThemeManager()->AlwaysDropDown());
@@ -1189,8 +1189,8 @@ SIZE CTBToolbarMenuButton::OnCalculateSize(CDC* pDC, const CSize& sizeDefault, B
 }
 
 //-------------------------------------------------------------------------------------
-CBCGPPopupMenu* CTBToolbarMenuButton::CreatePopupMenu ()
-{   
+CBCGPPopupMenu* CTBToolbarMenuButton::CreatePopupMenu()
+{
 	CBCGPPopupMenu* pPopupMenu = __super::CreatePopupMenu();
 
 	// ** For CParsedDialog dropDown buttons 
@@ -1225,7 +1225,7 @@ CBCGPPopupMenu* CTBToolbarMenuButton::CreatePopupMenu ()
 	CBCGPPopupMenuBar* pBar = pPopupMenu->GetMenuBar();
 
 	if (pBar)
-	{	
+	{
 		INT m_iToolbarMenu_Width = TOOLBARMENU_ICON_SIZE;
 		// resize delle icos nella toolbar
 		pBar->SetLockedSizes(CSize(m_iToolbarMenu_Width + 6, m_iToolbarMenu_Width + 6), CSize(m_iToolbarMenu_Width, m_iToolbarMenu_Width), TRUE);
@@ -1237,15 +1237,15 @@ CBCGPPopupMenu* CTBToolbarMenuButton::CreatePopupMenu ()
 
 //-------------------------------------------------------------------------------------
 void CTBToolbarMenuButton::TextBelow(BOOL bBelow)
-{ 
-	m_bTBelow = bBelow; 
+{
+	m_bTBelow = bBelow;
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarMenuButton::CopyFrom (const CBCGPToolbarButton& src)
+void CTBToolbarMenuButton::CopyFrom(const CBCGPToolbarButton& src)
 {
 	__super::CopyFrom(src);
-	m_bTBelow = ((CTBToolbarMenuButton&) src).m_bTBelow;
+	m_bTBelow = ((CTBToolbarMenuButton&)src).m_bTBelow;
 }
 
 //-------------------------------------------------------------------------------------
@@ -1255,13 +1255,13 @@ HMENU CTBToolbarMenuButton::GetMenu()
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarMenuButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
-						BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight, BOOL bDrawBorder,	BOOL bGrayDisabledButtons)
+void CTBToolbarMenuButton::OnDraw(CDC* pDC, const CRect& rect, CBCGPToolBarImages* pImages,
+	BOOL bHorz, BOOL bCustomizeMode, BOOL bHighlight, BOOL bDrawBorder, BOOL bGrayDisabledButtons)
 {
 	// Text below the icon
 	if (!AfxGetThemeManager()->IsToolbarInfinity())
 		m_bTextBelow = m_bTBelow;
-	
+
 	CTBToolBar* m_pToolBar = dynamic_cast<CTBToolBar*> (m_pWndParent);
 	// Toolbar in style Infinity
 	if (AfxGetThemeManager()->IsToolbarInfinity())
@@ -1275,7 +1275,7 @@ void CTBToolbarMenuButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImag
 		pDC->FillSolidRect(rect, AfxGetThemeManager()->GetToolbarInfinitySepColor());
 	}
 
-	__super::OnDraw (pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
+	__super::OnDraw(pDC, rect, pImages, bHorz, bCustomizeMode, bHighlight, bDrawBorder, bGrayDisabledButtons);
 
 	if (!AfxGetThemeManager()->AlwaysDropDown() && m_bDrawDownArrow)
 	{
@@ -1289,7 +1289,7 @@ void CTBToolbarMenuButton::OnDraw (CDC* pDC, const CRect& rect, CBCGPToolBarImag
 		LONG nX1 = m_rectArrow.left + 1;
 		LONG nX2 = m_rectArrow.right - 2;
 		LONG nY1 = m_rectArrow.top + (m_rectArrow.Height() / 2);
-		while ( nX2 >= nX1)
+		while (nX2 >= nX1)
 		{
 			dm.DrawLine(nX1, nY1, nX2, nY1, AfxGetThemeManager()->GetToolbarButtonArrowColor());
 			nX1 += 1; nX2 -= 1; nY1 += 1;
@@ -1309,7 +1309,7 @@ void CTBToolbarMenuButton::OnPopulatedMenuButton()
 	{
 		return;
 	}
-	
+
 	CTaskBuilderDockPane* pPane = dynamic_cast<CTaskBuilderDockPane*>(pCWnd);
 	if (pPane)
 	{
@@ -1332,7 +1332,7 @@ void CTBToolbarMenuButton::OnPopulatedMenuButton()
 //DECLARE_THREAD_VARIABLE(HMENU, t_hTrackingMenu)
 //DECLARE_THREAD_VARIABLE(HWND, t_hTrackingWindow)
 //-------------------------------------------------------------------------------------
-BOOL CTBToolbarMenuButton::OpenPopupMenu (CWnd* pWnd /*= NULL*/)
+BOOL CTBToolbarMenuButton::OpenPopupMenu(CWnd* pWnd /*= NULL*/)
 {
 	if (AfxIsRemoteInterface() && pWnd == NULL)
 	{
@@ -1357,17 +1357,17 @@ BOOL CTBToolbarMenuButton::OpenPopupMenu (CWnd* pWnd /*= NULL*/)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarMenuButton::EnableAlwaysDropDown (BOOL bAlwaysDropDown /*TRUE*/)
-{ 
+void CTBToolbarMenuButton::EnableAlwaysDropDown(BOOL bAlwaysDropDown /*TRUE*/)
+{
 	SetAlwaysDropDown(bAlwaysDropDown ? PURE_ALWAYS_DROPDOWN : 0);
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolbarMenuButton:: SetAlwaysDropDown(int nAlwaysDropDown) 
-{ 
+void CTBToolbarMenuButton::SetAlwaysDropDown(int nAlwaysDropDown)
+{
 	m_nAlwaysDropDown = nAlwaysDropDown;
 	if (m_nAlwaysDropDown == PURE_ALWAYS_DROPDOWN)
-		SetMenuOnly(TRUE); 
+		SetMenuOnly(TRUE);
 }
 
 //-------------------------------------------------------------------------------------
@@ -1410,7 +1410,9 @@ void CTBToolbarMenuButton::CreateMenu(CMenu* pMenu)
 					// The accelerator is present in string ?
 					if (menuStr.Find(accText) < 0)
 					{
+						menuStr.Append(_T(" ("));
 						menuStr.Append(accText);
+						menuStr.Append(_T(")"));
 						pMenu->ModifyMenu(i, MF_BYPOSITION, nID, menuStr);
 					}
 				}
@@ -1467,35 +1469,35 @@ BEGIN_MESSAGE_MAP(CTBToolBar, CBCGPToolBar)
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_LBUTTONUP()
 	ON_WM_SIZE()
-	ON_MESSAGE				(UM_GET_CONTROL_DESCRIPTION,			OnGetControlDescription)
-	ON_MESSAGE				(UM_LAYOUT_SUSPENDED_CHANGED,			OnSuspendLayoutChanged)
+	ON_MESSAGE(UM_GET_CONTROL_DESCRIPTION, OnGetControlDescription)
+	ON_MESSAGE(UM_LAYOUT_SUSPENDED_CHANGED, OnSuspendLayoutChanged)
 
-	ON_REGISTERED_MESSAGE	(BCGM_EDIT_ON_FILL_AUTOCOMPLETE_LIST,	OnFillAutoComple)
-	ON_MESSAGE				(UM_TOOLBAR_UPDATE, OnToolBarUpdate)
+	ON_REGISTERED_MESSAGE(BCGM_EDIT_ON_FILL_AUTOCOMPLETE_LIST, OnFillAutoComple)
+	ON_MESSAGE(UM_TOOLBAR_UPDATE, OnToolBarUpdate)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 //-------------------------------------------------------------------------------------
 CTBToolBar::CTBToolBar()
 	:
-	m_pParentOSL				(NULL),
-	m_pObjectRight				(NULL),
-	m_pObjectLeft				(NULL),
-	m_pMenuButtonCollapsed		(NULL),
-	m_bDefaultActionEnable		(FALSE),
-	m_pParentTabbedToolbar		(NULL),
-	m_bSuspendLayout			(FALSE),
-	m_bButtonsOverlap			(FALSE),
-	m_bPostToolBarUpdate		(FALSE),
-	m_pDefaultActionButton		(NULL),
-	m_bButtonStyleLoopComplite  (FALSE),
-	m_bRecalcGray				(FALSE)
+	m_pParentOSL(NULL),
+	m_pObjectRight(NULL),
+	m_pObjectLeft(NULL),
+	m_pMenuButtonCollapsed(NULL),
+	m_bDefaultActionEnable(FALSE),
+	m_pParentTabbedToolbar(NULL),
+	m_bSuspendLayout(FALSE),
+	m_bButtonsOverlap(FALSE),
+	m_bPostToolBarUpdate(FALSE),
+	m_pDefaultActionButton(NULL),
+	m_bButtonStyleLoopComplite(FALSE),
+	m_bRecalcGray(FALSE)
 {
 	m_bDialog = FALSE;
 	m_nDialogUpdateToolBar = 0;
-	m_bToRight	= FALSE;
-	m_bTBelow   = TRUE;
-	m_iWidthObjectLeft = m_iWidthObjectRight =  0;
+	m_bToRight = FALSE;
+	m_bTBelow = TRUE;
+	m_iWidthObjectLeft = m_iWidthObjectRight = 0;
 	m_bCenterButtons = FALSE;
 	m_nIDOverlapButton = -1;
 	m_nIDLastDropDown = 0;
@@ -1506,7 +1508,7 @@ CTBToolBar::CTBToolBar()
 	m_iToolbarButton_Width = TOOLBARMENU_ICON_SIZE; /*AfxGetThemeManager()->GetToolbarHeight();*/
 	if (m_bToolbarInfinity) m_iToolbarButton_Width = 16;
 	m_iToolbarButton_Width = MulDiv(m_iToolbarButton_Width, GetLogPixels(), SCALING_FACTOR);
-	
+
 	m_clrBkgColor = AfxGetThemeManager()->GetToolbarBkgColor();
 	m_clrForeColor = AfxGetThemeManager()->GetToolbarTextColor();
 	m_cTextColor = AfxGetThemeManager()->GetToolbarTextColor();
@@ -1521,7 +1523,7 @@ CTBToolBar::CTBToolBar()
 	m_stIconCollapsed = TBIcon(szIconCollapsed, TOOLBAR);
 	m_bAutoHideToolBarButton = AfxGetThemeManager()->AutoHideToolBarButton();
 	m_bShowToolBarTab = AfxGetThemeManager()->ShowToolBarTab();
-	
+
 	if (AfxGetApplicationContext()->IsActiveAccessibilityEnabled())
 		EnableActiveAccessibility();
 }
@@ -1598,9 +1600,9 @@ void CTBToolBar::AddCollapsedImage(UINT nID, HICON hIcon)
 
 	// Remove old icon
 	HICON hIcoFound = GetCollapsedImage(nID);
-	if (hIcoFound) 
+	if (hIcoFound)
 		DestroyIcon(hIcoFound);
-	
+
 	m_mapCollapsedImage.SetAt(nID, hIconCopy);
 }
 
@@ -1611,7 +1613,7 @@ HICON CTBToolBar::GetCollapsedImage(UINT nID)
 	if (m_mapCollapsedImage.Lookup(nID, hIco))
 	{
 		return hIco;
-	}	
+	}
 	return NULL;
 }
 
@@ -1622,7 +1624,7 @@ void CTBToolBar::OnSize(UINT nType, int cx, int cy)
 		return;
 
 	__super::OnSize(nType, cx, cy);
-	
+
 	if (RepositionRightButtons() && m_bDialog)
 	{
 		AdjustLayout();
@@ -1634,7 +1636,7 @@ HICON CTBToolBar::LoadImageByNameSpace(CString strImageNS, UINT nID)
 {
 	HICON hIcon = NULL;
 	CDC* pDC = GetDC();
-	
+
 	hIcon = TBLoadImage(strImageNS, pDC, m_iToolbarButton_Width);
 
 	AddCollapsedImage(nID, hIcon);
@@ -1748,22 +1750,22 @@ void CTBToolBar::AppendAccelerator(HACCEL& hAccelTable, UINT nID, BYTE fVirt, WO
 	int iNumAccelerators = CopyAcceleratorTable(hAccelTable, NULL, 0);
 
 	ACCEL *pAccels = new ACCEL[iNumAccelerators];
-	ACCEL *pNewAccels = new ACCEL[iNumAccelerators+1];
+	ACCEL *pNewAccels = new ACCEL[iNumAccelerators + 1];
 
 	// Copy the current table to the buffer
 	VERIFY(CopyAcceleratorTable(hAccelTable, pAccels, iNumAccelerators) == iNumAccelerators);
 	int k = 0;
 	for (; k < iNumAccelerators; k++) {
-			pNewAccels[k].cmd = pAccels[k].cmd;
-			pNewAccels[k].fVirt = pAccels[k].fVirt;
-			pNewAccels[k].key = pAccels[k].key;
+		pNewAccels[k].cmd = pAccels[k].cmd;
+		pNewAccels[k].fVirt = pAccels[k].fVirt;
+		pNewAccels[k].key = pAccels[k].key;
 	}
 
 	// Append new acceleretor
 	pNewAccels[k].cmd = nID;
 	pNewAccels[k].fVirt = fVirt;
 	pNewAccels[k].key = key;
-	
+
 	if (hAccelTable)
 	{
 		// Destroy the current table resource...
@@ -1803,7 +1805,7 @@ BOOL CTBToolBar::SetDefaultAction(UINT nCommandID)
 		m_pDefaultActionButton->SetDefaultButton(FALSE);
 		RemoveAccelerator(*phAccelTable, m_pDefaultActionButton->m_nID);
 	}
-		
+
 	AppendAccelerator(*phAccelTable, nCommandID, FVIRTKEY, VK_RETURN);
 
 	// Underline the button of set default 
@@ -1833,7 +1835,7 @@ INT CTBToolBar::GetDefaultAction()
 //-------------------------------------------------------------------------------------
 BOOL CTBToolBar::IsToolbarMenuButton(int iButton)
 {
-	if (iButton  > -1 && AfxGetThemeManager()->AlwaysDropDown())
+	if (iButton > -1 && AfxGetThemeManager()->AlwaysDropDown())
 	{
 		CBCGPToolbarButton* pButton = GetButton(iButton);
 		if (pButton == NULL)
@@ -1857,10 +1859,10 @@ void CTBToolBar::OnLButtonDblClk(UINT nFlags, CPoint point)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::OnDestroy() 
+void CTBToolBar::OnDestroy()
 {
 	__super::OnDestroy();
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -1890,7 +1892,7 @@ BOOL CTBToolBar::IsDummyButton(CBCGPToolbarButton* pBtn)
 	{
 		return  ((CTBToolbarButton*)pBtn)->IsGhost();
 	}
-	
+
 	return FALSE;
 }
 
@@ -1992,7 +1994,7 @@ LRESULT	CTBToolBar::OnSuspendLayoutChanged(WPARAM wParam, LPARAM lParam)
 			RepositionRightButtons();
 			AdjustSizeImmediate();
 			AdjustLayout();
-			
+
 		}
 	}
 
@@ -2002,14 +2004,14 @@ LRESULT	CTBToolBar::OnSuspendLayoutChanged(WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 {
-	CWndObjDescriptionContainer* pContainer = (CWndObjDescriptionContainer*) wParam;
+	CWndObjDescriptionContainer* pContainer = (CWndObjDescriptionContainer*)wParam;
 	CString sButtonId;
 	CFrameWnd* pParentFrame = GetParentFrame();
 	/*Il metodo GetWindowDescription crea da zero una descrizione(del tipo della runtimeclass passata) se non esisteva gia,
 	o ripesca quella gia creata nei round trip precedenti se esisteva.
 	Nella creazione assegna un id alla descrizione (m_strId), che servira' da chiave per recuperarle.
 	Questo id viene creato in modo standard sulla base dell'handle di finestra.
-	In alcuni casi pero finestre "differenti" hanno lo stesso id (es. parsedbitmap del bodyedit). 
+	In alcuni casi pero finestre "differenti" hanno lo stesso id (es. parsedbitmap del bodyedit).
 	In questi casi si puo' creare un ID disambiguo e passarlo al metodo GetWindowDescription.
 	*/
 	CString strId = (LPCTSTR)lParam;
@@ -2018,18 +2020,18 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 	if (!pToolbarDesc) return NULL;
 	pToolbarDesc->UpdateAttributes(this);
 	this->WriteTabName(pToolbarDesc);
-	
+
 	if (m_arAccelerators.GetCount())
 		pToolbarDesc->m_pAccelerator = new CAcceleratorDescription(m_arAccelerators);
-	
+
 	AdjustLayout();
-	
+
 	int iBtnCount = GetCount();
 	for (int i = 0; i < iBtnCount; i++)  //TODOBCG era ctrl.GetButtonCount()
 	{
 		UINT nID, nStyle;
 		int iImage;
-		GetButtonInfo(i, nID, nStyle, iImage);		
+		GetButtonInfo(i, nID, nStyle, iImage);
 		CBCGPToolbarButton* pBtn = GetButton(i);
 		if (IsDummyButton(pBtn))
 			continue;
@@ -2065,7 +2067,7 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 				pContextMenu->UpdateAttributes(pMenu, m_hWnd);
 			}
 		}
-		
+
 		CRect rectToolbarBtn;
 		GetItemRect(i, rectToolbarBtn);
 
@@ -2074,14 +2076,14 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 			pButtonDesc->m_strText = pBtn->m_strText;
 			pButtonDesc->SetUpdated(&pBtn->m_strText);
 		}
-		pButtonDesc->m_bVisible = TRUE == pBtn->IsVisible ();
+		pButtonDesc->m_bVisible = TRUE == pBtn->IsVisible();
 		CTBToolbarButton* pTBBtn = dynamic_cast<CTBToolbarButton*>(pBtn);
-		
-		if ( (nStyle & TBBS_SEPARATOR) != TBBS_SEPARATOR && 
-			 (nStyle & TBBS_GROUP) != TBBS_GROUP && 
-			 (nStyle & TBBS_CHECKGROUP) != TBBS_CHECKGROUP
+
+		if ((nStyle & TBBS_SEPARATOR) != TBBS_SEPARATOR &&
+			(nStyle & TBBS_GROUP) != TBBS_GROUP &&
+			(nStyle & TBBS_CHECKGROUP) != TBBS_CHECKGROUP
 			)
-		{		
+		{
 			bool bIsDropdown = (nStyle & TBBS_DROPDOWN) == TBBS_DROPDOWN;
 			if (pButtonDesc->m_bIsDropdown != bIsDropdown)
 			{
@@ -2092,7 +2094,7 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 			if (pImageAssociation)
 			{
 				CString sIcon;
-				
+
 				//image are only identified by namaspace. Image embedded as resource are no longer used
 				ASSERT(!(pImageAssociation->GetImageNameSpace().IsEmpty()));
 				sIcon.Format(pImageAssociation->GetImageNameSpace());
@@ -2102,22 +2104,22 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 					pButtonDesc->m_sIcon = sIcon;
 					pButtonDesc->SetUpdated(&pButtonDesc->m_sIcon);
 
-					#ifndef TBWEB
+#ifndef TBWEB
 					GetImageBytes(sIcon, pButtonDesc->m_ImageBuffer);
-					#endif			
+#endif			
 				}
 			}
-			
+
 			pButtonDesc->m_strCmd.Format(_T("%d"), nID);
 		}
-		else if ( (nStyle & TBBS_SEPARATOR) == TBBS_SEPARATOR)
+		else if ((nStyle & TBBS_SEPARATOR) == TBBS_SEPARATOR)
 		{
 			// current button is a toolbar separator.
 			pButtonDesc->m_bIsSeparator = TRUE;
 		}
 
 
-		ClientToScreen(rectToolbarBtn);	
+		ClientToScreen(rectToolbarBtn);
 
 		if (!(pButtonDesc->GetRect().EqualRect(rectToolbarBtn)))
 		{
@@ -2136,7 +2138,7 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 
 		CTBCmdUI ui(nID);
 		bool bEnabled = (pParentFrame && ui.DoUpdate(pParentFrame, TRUE))
-			? TRUE == ui.GetEnabled() 
+			? TRUE == ui.GetEnabled()
 			: true;
 		if (pButtonDesc->m_bEnabled != bEnabled)
 		{
@@ -2144,9 +2146,9 @@ LRESULT CTBToolBar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 			pButtonDesc->SetUpdated(&pButtonDesc->m_bEnabled);
 		}
 	}
-	
+
 	pToolbarDesc->AddChildWindows(this);
-	return (LRESULT) pToolbarDesc;
+	return (LRESULT)pToolbarDesc;
 }
 
 //-------------------------------------------------------------------------------------
@@ -2155,7 +2157,7 @@ BOOL CTBToolBar::ShowToolBarDown(CWnd* pParentWnd, BOOL bShowText /*= FALSE*/)
 	m_clrForeColor = AfxGetThemeManager()->GetDialogToolbarForeColor();
 	m_clrBkgColor = AfxGetThemeManager()->GetDialogToolbarBkgColor();
 
-	SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC) );
+	SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC));
 	EnableDocking(pParentWnd, CBRS_ALIGN_BOTTOM);
 	SetBCGStyle(0);
 	EnableTextLabels(bShowText);
@@ -2170,17 +2172,17 @@ BOOL CTBToolBar::ShowInDialog(CWnd* pParentWnd, DWORD dwAlignment /*CBRS_ALIGN_T
 	m_clrForeColor = AfxGetThemeManager()->GetDialogToolbarForeColor();
 	m_clrBkgColor = AfxGetThemeManager()->GetDialogToolbarBkgColor();
 
-	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC) );	
+	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC));
 	if (pParentWnd)
 		this->SetParent(pParentWnd);
 
 	__super::EnableDocking(dwAlignment);
 	SetBCGStyle(0);
-	SetRouteCommandsViaFrame (FALSE);
+	SetRouteCommandsViaFrame(FALSE);
 	m_bDialog = TRUE;
 	AdjustLayout();
 
-	
+
 	return TRUE;
 }
 
@@ -2199,9 +2201,9 @@ BOOL CTBToolBar::IsToolbarInfinity()
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::SetParentTabbedToolbar(CTBTabbedToolbar* pParent) 
-{ 
-	m_pParentTabbedToolbar = pParent; 
+void CTBToolBar::SetParentTabbedToolbar(CTBTabbedToolbar* pParent)
+{
+	m_pParentTabbedToolbar = pParent;
 }
 
 //-------------------------------------------------------------------------------------
@@ -2217,10 +2219,10 @@ void CTBToolBar::AddDocuemntTitle(CString strTitle)
 		}
 		return;
 	}
-	
+
 	CTBToolbarLabel tbLabel(ID_EXDOC_TAB_TITLE, strTitle.MakeUpper());
 	tbLabel.SetTextAlign(TA_CENTER);
-	tbLabel.SetColorText(RGB(255,255,255));
+	tbLabel.SetColorText(RGB(255, 255, 255));
 	tbLabel.SetTitle();
 
 	__super::InsertButton(tbLabel, 0);
@@ -2240,7 +2242,7 @@ BOOL CTBToolBar::Create(CWnd* pParentWnd, UINT nToolbarID, CStringArray* pNamesp
 	}
 
 	SetTBImages();
-	
+
 	if (!CreateEx(pParentWnd, dwCtrlStyle, dwStyle, CRect(1, 1, 1, 1), nToolbarID))
 	{
 		TRACE0("Failed to create toolbar\n");
@@ -2248,7 +2250,7 @@ BOOL CTBToolBar::Create(CWnd* pParentWnd, UINT nToolbarID, CStringArray* pNamesp
 	}
 
 	m_bLocked = TRUE;
-	
+
 	if (pParentWnd->IsKindOf(RUNTIME_CLASS(CLocalizableFrame)))
 	{
 		CDocument* pDoc = ((CLocalizableFrame*)pParentWnd)->GetActiveDocument();
@@ -2258,7 +2260,7 @@ BOOL CTBToolBar::Create(CWnd* pParentWnd, UINT nToolbarID, CStringArray* pNamesp
 
 	SetBorders(1, 1, 1, 1);
 
-	for (int i=0; i < GetCount(); i++)
+	for (int i = 0; i < GetCount(); i++)
 	{
 		CBCGPToolbarButton* pButton = GetButton(i);
 		if (!pButton)
@@ -2270,7 +2272,7 @@ BOOL CTBToolBar::Create(CWnd* pParentWnd, UINT nToolbarID, CStringArray* pNamesp
 			AddOslInfo(pButton->m_nID, pNamespaceArray->GetAt(i), aNs.GetObjectName());
 		}
 	}
-	
+
 	if (IsToolbarInfinity()) AddDocuemntTitle(_T(" "));
 
 	return TRUE;
@@ -2280,13 +2282,13 @@ BOOL CTBToolBar::Create(CWnd* pParentWnd, UINT nToolbarID, CStringArray* pNamesp
 BOOL CTBToolBar::CreateEmpty(CWnd* pParentWnd, CString sName, DWORD dwStyle, BOOL bCTBTabbedToolbar)
 {
 	BOOL ret = FALSE;
-	
+
 	UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(sName, TbResourceType::TbCommands);
 	if (!bCTBTabbedToolbar)
 		ret = Create(pParentWnd, nID, NULL, dwStyle);
 	else
 		ret = Create(pParentWnd, nID, NULL, dwStyle, TBSTYLE_FLAT);
-	
+
 	//if (ret)
 	//	this->RemoveAllButtons();
 
@@ -2308,7 +2310,7 @@ BOOL CTBToolBar::CreateEmpty(CWnd* pParentWnd, CString sName, DWORD dwStyle, BOO
 BOOL CTBToolBar::CreateEmptyTabbedToolbar(CWnd* pParentWnd, const CString& sName, const CString& sText)
 {
 	BOOL ret = CreateEmpty(pParentWnd, sName, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_SIZE_DYNAMIC, TRUE);
-	
+
 	if (!sName.IsEmpty())
 	{
 		m_sName = sName;
@@ -2323,15 +2325,15 @@ BOOL CTBToolBar::CreateEmptyTabbedToolbar(CWnd* pParentWnd, const CString& sName
 		this->SetWindowText(sName);
 		m_sTitle = sName;
 	}
-	
+
 	return ret;
 }
 
 // Serve per posizzionare delle toolBar 
 // sopratutto qundo non deve apparire in alto
 //-------------------------------------------------------------------------------------
-void CTBToolBar::EnableDocking (CWnd* pParentWnd, DWORD dwAlignment)
-{	
+void CTBToolBar::EnableDocking(CWnd* pParentWnd, DWORD dwAlignment)
+{
 	CDockableFrame* pDockableFrame = dynamic_cast<CDockableFrame*> (pParentWnd);
 	if (pDockableFrame)
 	{
@@ -2354,10 +2356,10 @@ void CTBToolBar::GetObjectGrant(CInfoOSL* pParentOSL)
 
 		if (pInfo->m_Namespace.IsEmpty() || m_pParentOSL)
 			pInfo->m_Namespace.SetChildNamespace(CTBNamespace::TOOLBARBUTTON, pInfo->m_strName, m_pParentOSL->m_Namespace);
-		
+
 		pInfo->m_pParent = m_pParentOSL;
 
-		AfxGetSecurityInterface()->GetObjectGrant (pInfo);
+		AfxGetSecurityInterface()->GetObjectGrant(pInfo);
 	}
 }
 
@@ -2402,18 +2404,18 @@ void CTBToolBar::AddOslInfo(UINT nCommandID, const CString& sName)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::AttachOSLInfo (CInfoOSL* pParent)
+void CTBToolBar::AttachOSLInfo(CInfoOSL* pParent)
 {
 	CTBNamespace aNs;
 	CString strTitle = _T("");
 	GetWindowTextW(strTitle);
 
 	aNs.SetChildNamespace(CTBNamespace::TOOLBAR, strTitle, pParent->m_Namespace);
-	
+
 	GetInfoOSL()->m_pParent = pParent;
 	GetInfoOSL()->SetType(OSLType_Toolbar);
 	GetInfoOSL()->m_Namespace = aNs;
-	
+
 	// refresh the buttons for the new parent 
 	for (int i = 0; i <= m_arInfoOSL.GetUpperBound(); i++)
 		SAFE_DELETE(m_arInfoOSL.GetAt(i));
@@ -2423,7 +2425,7 @@ void CTBToolBar::AttachOSLInfo (CInfoOSL* pParent)
 		AfxGetSecurityInterface()->GetObjectGrant(GetInfoOSL());
 
 	int iButton = 0;
-	for (POSITION pos = m_Buttons.GetHeadPosition (); pos != NULL; iButton ++)
+	for (POSITION pos = m_Buttons.GetHeadPosition(); pos != NULL; iButton++)
 	{
 		CTBToolbarButton* pButton = dynamic_cast<CTBToolbarButton*>  (m_Buttons.GetNext(pos));
 		if (pButton == NULL) continue;
@@ -2471,7 +2473,7 @@ BOOL CTBToolBar::ExButton(UINT nCommandID)
 //-------------------------------------------------------------------------------------
 INT CTBToolBar::FindButton(UINT nCommandID)
 {
-	for (int i=0; i < GetCount(); i++)
+	for (int i = 0; i < GetCount(); i++)
 	{
 		CBCGPToolbarButton* pButton = GetButton(i);
 		if (!pButton || pButton->m_nID != nCommandID)
@@ -2746,7 +2748,7 @@ BOOL CTBToolBar::AddEditToRight(UINT nID, const CString& aLibNamespace, const CS
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddEditToRight	(UINT nID, const CString& aLibNamespace, const CString& sName, 
+BOOL CTBToolBar::AddEditToRight(UINT nID, const CString& aLibNamespace, const CString& sName,
 	int nWidth/* = 150*/, DWORD dwStyle /*= ES_AUTOHSCROLL*/, const CString& stLabel /*= _T("")*/, const CString& sPrompt  /*= _T("")*/, int nPos /*-1*/)
 {
 	AddRightSpaceObj();
@@ -2835,7 +2837,7 @@ BOOL CTBToolBar::SetTextContent(UINT nID, const CString& text)
 {
 	int nIndex = FindButton(nID);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
-	
+
 	CBCGPToolbarEditBoxButton* editBox = dynamic_cast<CBCGPToolbarEditBoxButton*> (this->GetButton(nIndex));
 	if (!editBox) return FALSE;
 	editBox->SetContents(text);
@@ -2877,7 +2879,7 @@ BOOL CTBToolBar::AddLabelToRight(UINT nID, const CString& szText, int nPos /*-1*
 // nAlign : TA_CENTER - TA_TOP - TA_BOTTOM
 //-----------------------------------------------------------------------------
 BOOL CTBToolBar::AddLabel(UINT nID, const CString& szText, int nPos /*-1*/, UINT nAlign /*= TA_BOTTOM*/)
-{	
+{
 	if (!szText.IsEmpty())
 	{
 		CTBToolbarLabel tbLabel(nID, szText);
@@ -2892,7 +2894,7 @@ BOOL CTBToolBar::AddLabel(UINT nID, const CString& szText, int nPos /*-1*/, UINT
 //-------------------------------------------------------------------------------------
 CImageAssociation* CTBToolBar::GetImageAssociation(UINT nIDC)
 {
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*>(m_Images.GetAt(i));
 		ASSERT(pImage);
@@ -2905,7 +2907,7 @@ CImageAssociation* CTBToolBar::GetImageAssociation(UINT nIDC)
 //-------------------------------------------------------------------------------------
 int CTBToolBar::GetImageFromImagesListIDImage(CString nImageNS)
 {
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*> (m_Images.GetAt(i));
 		ASSERT(pImage);
@@ -2918,7 +2920,7 @@ int CTBToolBar::GetImageFromImagesListIDImage(CString nImageNS)
 //-------------------------------------------------------------------------------------
 int CTBToolBar::GetImageFromImagesListIDImage(UINT nIDImage)
 {
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*> (m_Images.GetAt(i));
 		ASSERT(pImage);
@@ -2931,7 +2933,7 @@ int CTBToolBar::GetImageFromImagesListIDImage(UINT nIDImage)
 //-------------------------------------------------------------------------------------
 int CTBToolBar::GetImageFromImagesListIDC(UINT nIDC)
 {
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*> (m_Images.GetAt(i));
 		ASSERT(pImage);
@@ -2945,7 +2947,7 @@ int CTBToolBar::GetImageFromImagesListIDC(UINT nIDC)
 BOOL CTBToolBar::RemoveImageFromImagesList(UINT nIDC)
 {
 	BOOL bFound = FALSE;
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*> (m_Images.GetAt(i));
 		ASSERT(pImage);
@@ -2954,9 +2956,9 @@ BOOL CTBToolBar::RemoveImageFromImagesList(UINT nIDC)
 			SAFE_DELETE(m_Images.GetAt(i));
 			m_Images.RemoveAt(i);
 			bFound = TRUE;
-		}		
+		}
 	}
-	
+
 	return bFound;
 }
 
@@ -2987,7 +2989,7 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 			DestroyIcon(hIco);
 		}
 	}
-		
+
 	CImageAssociation* pImageList = GetImageAssociation(nID);
 	int OldIDImage = 0;
 	CString OldNsImage = _T("");
@@ -2995,9 +2997,9 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 
 	if (pImageList) {
 		OldIDImage = pImageList->GetOldIdImage() == 0 ? pImageList->GetImageID() : pImageList->GetOldIdImage();
-		OldNsImage = pImageList->GetOldNsImage().IsEmpty() ?  pImageList->GetImageNameSpace() : pImageList->GetOldNsImage();
+		OldNsImage = pImageList->GetOldNsImage().IsEmpty() ? pImageList->GetImageNameSpace() : pImageList->GetOldNsImage();
 		OldNsButton = pImageList->GetButtonNameSpace();
-	} 
+	}
 
 
 	// Load New Image
@@ -3006,14 +3008,14 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 	int nIndexImage = GetLockedImages()->AddIcon(hIcon);
 	GetLockedDisabledImages()->AddIcon(hIcon);
 	m_bRecalcGray = TRUE;
-	::DestroyIcon (hIcon);
+	::DestroyIcon(hIcon);
 	// Find Button
 	int nIndex = FindButton(nID);
 	if (nIndex < 0 || nIndex >= GetCount()) return;
-	
+
 	CImageAssociation* pImage = new CImageAssociation(nID, nIDImage, nIndexImage);
 	pImage->SetCustom();
-	
+
 	pImage->SetOldIdImage(OldIDImage);
 	pImage->SetOldNsImage(OldNsImage);
 	pImage->SetButtonNameSpace(OldNsButton);
@@ -3024,7 +3026,7 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 		int nAlterIndexImage = GetLockedImages()->AddIcon(hAlterIcon);
 		GetLockedDisabledImages()->AddIcon(hAlterIcon);
 		m_bRecalcGray = TRUE;
-		::DestroyIcon (hAlterIcon);
+		::DestroyIcon(hAlterIcon);
 		pImage->SetAlternativeIndexImage(nAlterIndexImage);
 	}
 	else
@@ -3032,7 +3034,7 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 		pImage->SetAlternativeIndexImage(-1);
 	}
 
-	m_Images.Add (pImage);
+	m_Images.Add(pImage);
 	ReleaseDC(pDC);
 	// replace image in buttons
 	CBCGPToolbarButton* pButton = dynamic_cast<CBCGPToolbarButton*> (this->GetButton(nIndex));
@@ -3045,7 +3047,7 @@ void CTBToolBar::ChangeImage(UINT nID, UINT nIDImage, UINT nIDImageAlternative, 
 void CTBToolBar::ChangeImage(UINT nID, const CString& sImageNameSpace, const CString& sImageAlternativeNameSpace, const CString& sCollapsedImageNameSpace /*= _T("")*/)
 {
 	if (sImageNameSpace.IsEmpty() || nID == 0) return;
-	
+
 	// Alternative image for collapsed button
 	if (!sCollapsedImageNameSpace.IsEmpty())
 	{
@@ -3063,28 +3065,28 @@ void CTBToolBar::ChangeImage(UINT nID, const CString& sImageNameSpace, const CSt
 			DestroyIcon(hIco);
 		}
 	}
-	
+
 	CImageAssociation* pImageList = GetImageAssociation(nID);
 	int OldIDImage = 0;
 	CString OldNsImage = _T("");
 	if (pImageList) {
 		OldIDImage = pImageList->GetOldIdImage() == 0 ? pImageList->GetImageID() : pImageList->GetOldIdImage();
-		OldNsImage = pImageList->GetOldNsImage().IsEmpty() ?  pImageList->GetImageNameSpace() : pImageList->GetOldNsImage();
-	} 
-	
+		OldNsImage = pImageList->GetOldNsImage().IsEmpty() ? pImageList->GetImageNameSpace() : pImageList->GetOldNsImage();
+	}
+
 	// Load New Image
 	RemoveImageFromImagesList(nID);
-	
+
 	HICON hIcon = LoadImageByNameSpace(sImageNameSpace);
 	int nIndexImage = GetLockedImages()->AddIcon(hIcon);
 	GetLockedDisabledImages()->AddIcon(hIcon);
 	m_bRecalcGray = TRUE;
-	::DestroyIcon (hIcon);
+	::DestroyIcon(hIcon);
 
 	// Find Button
 	int nIndex = FindButton(nID);
 	if (nIndex < 0 || nIndex >= GetCount()) return;
-	
+
 	CImageAssociation* pImage = new CImageAssociation(nID, sImageNameSpace, nIndexImage);
 	pImage->SetCustom();
 	pImage->SetOldIdImage(OldIDImage);
@@ -3096,7 +3098,7 @@ void CTBToolBar::ChangeImage(UINT nID, const CString& sImageNameSpace, const CSt
 		int nAlterIndexImage = GetLockedImages()->AddIcon(hIcon);
 		GetLockedDisabledImages()->AddIcon(hIcon);
 		m_bRecalcGray = TRUE;
-		::DestroyIcon (hIcon);
+		::DestroyIcon(hIcon);
 		pImage->SetAlternativeIndexImage(nAlterIndexImage);
 	}
 	else
@@ -3104,8 +3106,8 @@ void CTBToolBar::ChangeImage(UINT nID, const CString& sImageNameSpace, const CSt
 		pImage->SetAlternativeIndexImage(-1);
 	}
 
-	m_Images.Add (pImage);
-	
+	m_Images.Add(pImage);
+
 	// replace image in buttons
 	CBCGPToolbarButton* pButton = dynamic_cast<CBCGPToolbarButton*> (this->GetButton(nIndex));
 	if (!pButton) return;
@@ -3128,18 +3130,18 @@ void CTBToolBar::SetText(UINT nCommandID, LPCTSTR lpszText, LPCTSTR lpszTextAlte
 	{
 		stText = stText.MakeUpper();
 	}
-	
+
 	CImageAssociation* pImageList = GetImageAssociation(nCommandID);
 	if (pImageList != NULL)
 	{
 		pImageList->SetCustomText();
-		if (pImageList->GetOldIdImage() == 0) 
-		{ 
-			pImageList->SetOldIdImage(pImageList->GetImageID()); 
+		if (pImageList->GetOldIdImage() == 0)
+		{
+			pImageList->SetOldIdImage(pImageList->GetImageID());
 		}
 		pImageList->SetText(stText, lpszTextAlternative);
 	}
-	
+
 
 	if (IsToolbarInfinity())
 	{
@@ -3152,10 +3154,10 @@ void CTBToolBar::SetText(UINT nCommandID, LPCTSTR lpszText, LPCTSTR lpszTextAlte
 
 //-------------------------------------------------------------------------------------
 int	CTBToolBar::SetButtonInfoChangeImage(UINT nIDC, const CString& sImageNameSpaceOLD)
-{	
+{
 	CImageAssociation* pImageList = GetImageAssociation(nIDC);
 	if (pImageList == NULL || !pImageList->IsCustom()) return -1;
-	
+
 	int nImageAlter = pImageList->GetAlternativeIndexImage();
 	if (pImageList->GetOldNsImage().Compare(sImageNameSpaceOLD))
 		return pImageList->GetIndex();
@@ -3171,7 +3173,7 @@ int CTBToolBar::SetButtonInfoChangeImage(UINT nIDC, UINT nIDImageOLD)
 {
 	CImageAssociation* pImageList = GetImageAssociation(nIDC);
 	if (pImageList == NULL || !pImageList->IsCustom()) return -1;
-	
+
 	int nImageAlter = pImageList->GetAlternativeIndexImage();
 	if (pImageList->GetOldIdImage() == nIDImageOLD)
 		return pImageList->GetIndex();
@@ -3183,10 +3185,10 @@ int CTBToolBar::SetButtonInfoChangeImage(UINT nIDC, UINT nIDImageOLD)
 }
 
 //-------------------------------------------------------------------------------------
-CString CTBToolBar::SetButtonInfoChangeText(UINT nIDC,  UINT nIDImageOLD)
+CString CTBToolBar::SetButtonInfoChangeText(UINT nIDC, UINT nIDImageOLD)
 {
 	CImageAssociation* pImageList = GetImageAssociation(nIDC);
-	if (pImageList == NULL || !pImageList->IsCustomText()) return NULL;	
+	if (pImageList == NULL || !pImageList->IsCustomText()) return NULL;
 	LPCTSTR pTextAlter = pImageList->GetTextAlternative();
 	if (pImageList->GetOldIdImage() == nIDImageOLD)
 		return pImageList->GetText();
@@ -3198,7 +3200,7 @@ CString CTBToolBar::SetButtonInfoChangeText(UINT nIDC,  UINT nIDImageOLD)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameSpace/* = _T("")*/,	LPCTSTR lpszText /*= NULL*/, CString strTooltip /*= NULL*/)
+void CTBToolBar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameSpace/* = _T("")*/, LPCTSTR lpszText /*= NULL*/, CString strTooltip /*= NULL*/)
 {
 	int nIndexImage = -1;
 
@@ -3206,15 +3208,15 @@ void CTBToolBar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameS
 		return;
 	int nIndex = FindButton(nID);
 	if (nIndex < 0 || nIndex >= GetCount()) return;
-		
+
 	nIndexImage = SetButtonInfoChangeImage(nID, sImageNameSpace);
-	if (nIndexImage < 0) 
+	if (nIndexImage < 0)
 	{ // ricerca per ID
 		CImageAssociation* pImageList = GetImageAssociation(nID);
 		ASSERT(pImageList);
 		int nFind = pImageList->GetOldIdImage() == 0 ? pImageList->GetImageID() : pImageList->GetOldIdImage();
-		nIndexImage = SetButtonInfoChangeImage(nID,  nFind);
-	} 
+		nIndexImage = SetButtonInfoChangeImage(nID, nFind);
+	}
 
 	if (nIndexImage < 0) nIndexImage = GetImageFromImagesListIDImage(sImageNameSpace);
 
@@ -3224,8 +3226,8 @@ void CTBToolBar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameS
 		nIndexImage = GetLockedImages()->AddIcon(hIcon);
 		GetLockedDisabledImages()->AddIcon(hIcon);
 		m_bRecalcGray = TRUE;
-		::DestroyIcon (hIcon);
-		m_Images.Add (new CImageAssociation(nID, sImageNameSpace, nIndexImage));
+		::DestroyIcon(hIcon);
+		m_Images.Add(new CImageAssociation(nID, sImageNameSpace, nIndexImage));
 	}
 
 	if (lpszText)
@@ -3264,7 +3266,7 @@ void CTBToolBar::SetButtonInfo(UINT nID, UINT nStyle, UINT nIDImage, LPCTSTR lps
 {
 	if (nIDImage <= 0)
 		return;
-	
+
 	int nIndex = FindButton(nID);
 	if (nIndex < 0 || nIndex >= GetCount()) return;
 
@@ -3278,11 +3280,11 @@ void CTBToolBar::SetButtonInfo(int nIndex, UINT nID, UINT nStyle, UINT nIDImage,
 	int nIndexImage = -1;
 	if (nIDImage <= 0 || nIndex >= m_Buttons.GetCount() || nIndex <= -1)
 		return;
-	
+
 	nIndexImage = SetButtonInfoChangeImage(nID, nIDImage);
 	if (nIndexImage < 0)
 		nIndexImage = GetImageFromImagesListIDImage(nIDImage);
-	
+
 	if (nIndexImage < 0)
 	{
 		CDC* pDC = GetDC();
@@ -3291,10 +3293,10 @@ void CTBToolBar::SetButtonInfo(int nIndex, UINT nID, UINT nStyle, UINT nIDImage,
 		GetLockedDisabledImages()->AddIcon(hIcon);
 		m_bRecalcGray = TRUE;
 		ReleaseDC(pDC);
-		::DestroyIcon (hIcon);
-		m_Images.Add (new CImageAssociation(nID, nIDImage, nIndexImage));
+		::DestroyIcon(hIcon);
+		m_Images.Add(new CImageAssociation(nID, nIDImage, nIndexImage));
 	}
-	
+
 	CString pStr = SetButtonInfoChangeText(nID, nIDImage);
 
 	if (IsToolbarInfinity() && !pStr.IsEmpty())
@@ -3330,7 +3332,7 @@ void CTBToolBar::AddRightSpaceObj()
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::CenterButtons(BOOL bCenter/* = TRUE*/) 
+void CTBToolBar::CenterButtons(BOOL bCenter/* = TRUE*/)
 {
 	m_bCenterButtons = bCenter;
 	AddLeftSpaceObj();
@@ -3466,7 +3468,7 @@ BOOL  CTBToolBar::AddButtonToRight(UINT nCommandID, const CString& sButtonNameSp
 			return TRUE;
 		}
 	}
-	return ret; 
+	return ret;
 }
 
 //-------------------------------------------------------------------------------------
@@ -3526,11 +3528,11 @@ BOOL CTBToolBar::AddButtonToRight(UINT nCommandID, const CString& sButtonNameSpa
 int CTBToolBar::GetRightSpacePos()
 {
 	AddRightSpaceObj();
-	for (int i=0; i < GetCount(); i++)
+	for (int i = 0; i < GetCount(); i++)
 	{
 		CBCGPToolbarButton* pButton = GetButton(i);
-		if (  pButton->IsKindOf(RUNTIME_CLASS(CTBToolbarLabel)) &&
-				((CTBToolbarLabel*)pButton)->IsRightSpace()
+		if (pButton->IsKindOf(RUNTIME_CLASS(CTBToolbarLabel)) &&
+			((CTBToolbarLabel*)pButton)->IsRightSpace()
 			)
 			return i;
 	}
@@ -3566,8 +3568,8 @@ int CTBToolBar::InsertButtonInternal(const CBCGPToolbarButton& button, INT_PTR i
 			}
 			else if (m_nLastRight >= 0)
 			{
-					nInsert = m_nLastRight - 1;
-					if (nInsert < 1) nInsert = 1;
+				nInsert = m_nLastRight - 1;
+				if (nInsert < 1) nInsert = 1;
 			}
 
 			// the switch button is last to left
@@ -3578,7 +3580,7 @@ int CTBToolBar::InsertButtonInternal(const CBCGPToolbarButton& button, INT_PTR i
 
 			m_bToRight = FALSE;
 
-			if(nSwitch >= 0 && nInsert >= nSwitch)
+			if (nSwitch >= 0 && nInsert >= nSwitch)
 				nInsert = nSwitch;
 
 			nInsert = __super::InsertButton(button, nInsert);
@@ -3588,7 +3590,7 @@ int CTBToolBar::InsertButtonInternal(const CBCGPToolbarButton& button, INT_PTR i
 		else
 		{
 			int nCount = GetCount();
-			if ( iInsertAt == 0)
+			if (iInsertAt == 0)
 			{
 				iInsertAt = nCount;
 			}
@@ -3597,8 +3599,8 @@ int CTBToolBar::InsertButtonInternal(const CBCGPToolbarButton& button, INT_PTR i
 				iInsertAt = nSwitch;
 		}
 	}
-	
-	if(iInsertAt == -1)
+
+	if (iInsertAt == -1)
 	{
 		int iPlaceRight = -1;
 		if (m_pObjectRight && !m_bToRight)
@@ -3616,7 +3618,7 @@ int CTBToolBar::InsertButtonInternal(const CBCGPToolbarButton& button, INT_PTR i
 //-------------------------------------------------------------------------------------
 void CTBToolBar::AdjustLayout()
 {
-	
+
 	if (IsLayoutSuspended() || (m_pParentTabbedToolbar && m_pParentTabbedToolbar->IsLayoutSuspended()))
 		return;
 	// se la finestra non e' visibile e non e' in una dialog
@@ -3634,7 +3636,7 @@ void CTBToolBar::AdjustLayout()
 }
 
 //-------------------------------------------------------------------------------------
-CImageAssociation* CTBToolBar::AddButton (UINT nCommandID, const CString& sButtonNameSpace, 
+CImageAssociation* CTBToolBar::AddButton(UINT nCommandID, const CString& sButtonNameSpace,
 	HICON hIcon, const CString& szText, int nPos, UINT nIDB /* 0*/, BOOL bClone/* = FALSE*/)
 {
 	// Is perent a castom immage in theme config ?
@@ -3644,17 +3646,17 @@ CImageAssociation* CTBToolBar::AddButton (UINT nCommandID, const CString& sButto
 	if (!sCustomImage.IsEmpty())
 	{
 		HICON iconCustom = LoadImageByNameSpace(sCustomImage, nCommandID);
-		
+
 		if (iconCustom)
 		{
 			nIdx = GetLockedImages()->AddIcon(iconCustom);
-			GetLockedDisabledImages()->AddIcon(iconCustom);	
+			GetLockedDisabledImages()->AddIcon(iconCustom);
 			bLoadStandardImage = FALSE;
 			m_bRecalcGray = TRUE;
 		}
-		::DestroyIcon (iconCustom);
+		::DestroyIcon(iconCustom);
 	}
-	
+
 	if (!AfxIsRemoteInterface())
 	{
 		if (bLoadStandardImage)
@@ -3674,7 +3676,7 @@ CImageAssociation* CTBToolBar::AddButton (UINT nCommandID, const CString& sButto
 
 	CImageAssociation* pAssociation = new CImageAssociation(nCommandID, nIDB, nIdx);
 	pAssociation->SetButtonNameSpace(sButtonNameSpace);
-	m_Images.Add (pAssociation);
+	m_Images.Add(pAssociation);
 
 	if (!szText.IsEmpty())
 	{
@@ -3704,18 +3706,18 @@ CImageAssociation* CTBToolBar::AddButton (UINT nCommandID, const CString& sButto
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddButton(UINT nCommandID, 
-						   const CString& sButtonNameSpace, 
-						   UINT nIDB /*0*/, 
-						   const CString& szText /*NULL*/, 
-						   BOOL bPNG /*FALSE*/,int nPos /*= -1*/)
+BOOL CTBToolBar::AddButton(UINT nCommandID,
+	const CString& sButtonNameSpace,
+	UINT nIDB /*0*/,
+	const CString& szText /*NULL*/,
+	BOOL bPNG /*FALSE*/, int nPos /*= -1*/)
 {
 	// Load Image
 	CDC* pDC = GetDC();
 	HICON hIcon = TBLoadImage(pDC, ImageNameSpaceWalking(sButtonNameSpace), nIDB, m_iToolbarButton_Width, bPNG);
 	ReleaseDC(pDC);
 	CImageAssociation* p = AddButton(nCommandID, sButtonNameSpace, hIcon, szText, nPos, nIDB);
-	::DestroyIcon (hIcon);
+	::DestroyIcon(hIcon);
 	// END Load Image
 	return p != NULL;
 }
@@ -3752,13 +3754,13 @@ BOOL CTBToolBar::AddButton(UINT nCommandID, const CString& sButtonNameSpace, con
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddButton (UINT nCommandID, 
-							const CString& sButtonNameSpace, 
-							const CString& sImageNameSpace, 
-							const CString& szText, 
-							int nPos)
+BOOL CTBToolBar::AddButton(UINT nCommandID,
+	const CString& sButtonNameSpace,
+	const CString& sImageNameSpace,
+	const CString& szText,
+	int nPos)
 {
-	CImageAssociation* pImage = AddButton(nCommandID, sButtonNameSpace,	LoadImageByNameSpace(sImageNameSpace, nCommandID), szText, nPos);
+	CImageAssociation* pImage = AddButton(nCommandID, sButtonNameSpace, LoadImageByNameSpace(sImageNameSpace, nCommandID), szText, nPos);
 	ASSERT(pImage);
 	pImage->SetImageNameSpace(sImageNameSpace);
 
@@ -3766,17 +3768,17 @@ BOOL CTBToolBar::AddButton (UINT nCommandID,
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddButton (UINT nCommandID, const CString& sButtonNameSpace, const CString& sName, UINT nIDB, const CString& szText, BOOL bPNG)
+BOOL CTBToolBar::AddButton(UINT nCommandID, const CString& sButtonNameSpace, const CString& sName, UINT nIDB, const CString& szText, BOOL bPNG)
 {
 	// TB compatibility old vertical software
-	return AddButton (nCommandID, sButtonNameSpace + _T(".") +  sName, nIDB, szText, bPNG);
+	return AddButton(nCommandID, sButtonNameSpace + _T(".") + sName, nIDB, szText, bPNG);
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddButton (UINT nCommandID, const CString& sButtonNameSpace, const CString& sName, HICON hIcon,   const CString& szText)
+BOOL CTBToolBar::AddButton(UINT nCommandID, const CString& sButtonNameSpace, const CString& sName, HICON hIcon, const CString& szText)
 {
 	// TB compatibility old vertical software
-	return NULL != AddButton (nCommandID, sButtonNameSpace + _T(".") + sName, hIcon, szText);
+	return NULL != AddButton(nCommandID, sButtonNameSpace + _T(".") + sName, hIcon, szText);
 }
 
 //-------------------------------------------------------------------------------------
@@ -3785,7 +3787,7 @@ BOOL CTBToolBar::MoveButton(UINT nCommandID, UINT nPos)
 	int nButtonPos = FindButton(nCommandID);
 	if (nButtonPos < 0 || nPos < 0) return FALSE;
 	if (nButtonPos == nPos) return FALSE;
-	
+
 	CBCGPToolbarButton* pBCGButton = GetButton(nButtonPos);
 	ASSERT(pBCGButton);
 	if (!pBCGButton) return FALSE;
@@ -3810,7 +3812,7 @@ BOOL CTBToolBar::MoveButton(UINT nCommandID, UINT nPos)
 			if (sText.IsEmpty()) button.SetWantText(FALSE);
 
 			__super::RemoveButton(nButtonPos);	// remove old buton
-			if (nPos > (UINT) nButtonPos) nPos--;
+			if (nPos > (UINT)nButtonPos) nPos--;
 
 			InsertButtonInternal(button, nPos); // add button
 			return TRUE;
@@ -3856,7 +3858,7 @@ BOOL CTBToolBar::MoveButton(UINT nCommandID, UINT nPos)
 	{
 		ASSERT(FALSE);
 	}
-		
+
 	return FALSE;
 }
 
@@ -3879,7 +3881,7 @@ BOOL CTBToolBar::MoveButtonAfter(UINT nCommandID, UINT nIDInsertPos /*= 0*/)
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::InsertButtonAfter  (UINT nCommandID, const CString& sButtonNameSpace, UINT nIDB, const CString& szText, BOOL bPNG, UINT nIDInsertPos)
+BOOL CTBToolBar::InsertButtonAfter(UINT nCommandID, const CString& sButtonNameSpace, UINT nIDB, const CString& szText, BOOL bPNG, UINT nIDInsertPos)
 {
 	int nIndex = FindButton(nIDInsertPos);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
@@ -3888,7 +3890,7 @@ BOOL CTBToolBar::InsertButtonAfter  (UINT nCommandID, const CString& sButtonName
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::InsertButtonBefore (UINT nCommandID, const CString& sButtonNameSpace, UINT nIDB, const CString& szText, BOOL bPNG, UINT nIDInsertPos)
+BOOL CTBToolBar::InsertButtonBefore(UINT nCommandID, const CString& sButtonNameSpace, UINT nIDB, const CString& szText, BOOL bPNG, UINT nIDInsertPos)
 {
 	int nIndex = FindButton(nIDInsertPos);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
@@ -3897,7 +3899,7 @@ BOOL CTBToolBar::InsertButtonBefore (UINT nCommandID, const CString& sButtonName
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::InsertButtonAfter  (UINT nCommandID, const CString& sButtonNameSpace, const CString& sImageNameSpace, const CString& szText, int nIDInsertPos)
+BOOL CTBToolBar::InsertButtonAfter(UINT nCommandID, const CString& sButtonNameSpace, const CString& sImageNameSpace, const CString& szText, int nIDInsertPos)
 {
 	int nIndex = FindButton(nIDInsertPos);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
@@ -3906,7 +3908,7 @@ BOOL CTBToolBar::InsertButtonAfter  (UINT nCommandID, const CString& sButtonName
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::InsertButtonBefore (UINT nCommandID, const CString& sButtonNameSpace, const CString& sImageNameSpace, const CString& szText, int nIDInsertPos)
+BOOL CTBToolBar::InsertButtonBefore(UINT nCommandID, const CString& sButtonNameSpace, const CString& sImageNameSpace, const CString& szText, int nIDInsertPos)
 {
 	int nIndex = FindButton(nIDInsertPos);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
@@ -3915,19 +3917,19 @@ BOOL CTBToolBar::InsertButtonBefore (UINT nCommandID, const CString& sButtonName
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddSeparatorAfter	(UINT nIDInsertPos )
+BOOL CTBToolBar::AddSeparatorAfter(UINT nIDInsertPos)
 {
 	// Toolbar in style Infinity not present
 	if (IsToolbarInfinity()) return FALSE;
 
 	int nIndex = FindButton(nIDInsertPos);
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
-	AddSeparator(nIndex+1);
+	AddSeparator(nIndex + 1);
 	return TRUE;
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::AddSeparatorBefore (UINT nIDInsertPos)
+BOOL CTBToolBar::AddSeparatorBefore(UINT nIDInsertPos)
 {
 	// Toolbar in style Infinity not present
 	if (IsToolbarInfinity()) return FALSE;
@@ -3939,14 +3941,14 @@ BOOL CTBToolBar::AddSeparatorBefore (UINT nIDInsertPos)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::OnTextBelowButton ()
+void CTBToolBar::OnTextBelowButton()
 {
 	this->EnableTextLabels();
 	m_bTBelow = TRUE;
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::OnTextBelowButton (UINT nCommandID, const LPCTSTR pStrText)
+void CTBToolBar::OnTextBelowButton(UINT nCommandID, const LPCTSTR pStrText)
 {
 	int nIndex = FindButton(nCommandID);
 	if (nIndex < 0 || nIndex >= GetCount()) return;
@@ -3962,16 +3964,16 @@ void CTBToolBar::OnTextBelowButton (UINT nCommandID, const LPCTSTR pStrText)
 }
 
 //----------------------------------------------------
-void CTBToolBar::OnChangeVisualManager ()
+void CTBToolBar::OnChangeVisualManager()
 {
-	for (int i=0; i <= m_Images.GetUpperBound(); i++)
+	for (int i = 0; i <= m_Images.GetUpperBound(); i++)
 	{
 		CImageAssociation* pImage = dynamic_cast<CImageAssociation*>(m_Images.GetAt(i));
 		ASSERT(pImage);
 		if (!pImage)
-			continue;		
-		int nIdx = GetLockedImages()->AddImage((HBITMAP) pImage );
-		GetLockedDisabledImages()->AddImage((HBITMAP) pImage);
+			continue;
+		int nIdx = GetLockedImages()->AddImage((HBITMAP)pImage);
+		GetLockedDisabledImages()->AddImage((HBITMAP)pImage);
 		m_bRecalcGray = TRUE;
 		int n = CommandToIndex(pImage->GetCommandID());
 		CBCGPToolbarButton* pButton = GetButton(n);
@@ -3981,14 +3983,14 @@ void CTBToolBar::OnChangeVisualManager ()
 
 //-------------------------------------------------------------------------------------
 BOOL CTBToolBar::AddDropdown(
-	UINT nCommandID, 
-	const CString& sButtonNameSpace, 
-	const CString& sImageNameSpace /*= _T("")*/, 
-	const CString& szText /*= _T("")*/, 
+	UINT nCommandID,
+	const CString& sButtonNameSpace,
+	const CString& sImageNameSpace /*= _T("")*/,
+	const CString& szText /*= _T("")*/,
 	CMenu* mMenu /*= NULL*/, int nPos /*= -1*/)
 {
 	CTBToolbarMenuButton menuButton;
-	
+
 	if (!mMenu)
 	{
 		CTBToolBarMenu tmpMenu;
@@ -4011,12 +4013,12 @@ BOOL CTBToolBar::AddDropdown(
 		::DestroyIcon(hIcon);
 		menuButton.SetImage(iImag);
 	}
-	
+
 	// Titolo sotto le ribbonBar.! si deve forzare nell onDraw!
 	menuButton.m_bTextBelow = TRUE;
 	if (m_bTBelow)	menuButton.TextBelow();
-	if (szText) {	
-		
+	if (szText) {
+
 		CString stText = szText;
 		if (IsToolbarInfinity())
 		{
@@ -4025,7 +4027,7 @@ BOOL CTBToolBar::AddDropdown(
 
 		menuButton.m_strText = stText;
 	}
-	
+
 	InsertButtonInternal(menuButton, nPos);
 	AddOslInfo(nCommandID, sButtonNameSpace);
 
@@ -4047,23 +4049,23 @@ BOOL CTBToolBar::SetDropdown(UINT nCommandID, CMenu* mMenu, LPCTSTR lpszText)
 
 	BOOL bIsVisible = GetButton(nIdx)->IsVisible();
 
-	int iImag = this->GetButton(nIdx)->GetImage();	
+	int iImag = this->GetButton(nIdx)->GetImage();
 
 	CTBToolbarButton* pButton = dynamic_cast<CTBToolbarButton*> (this->GetButton(nIdx));
-	
+
 	CString sCustomToolTip = _T("");
 	if (pButton)
 	{
 		sCustomToolTip = pButton->m_strTextCustom;
 	}
-	
+
 	CTBToolbarMenuButton menuButton;
-		
+
 	if (!mMenu)
 	{
 		CTBToolBarMenu tmpMenu;
 		tmpMenu.CreateMenu();
-		AppendMenu(tmpMenu, MF_BYCOMMAND | MF_ENABLED , -1, _T(""));
+		AppendMenu(tmpMenu, MF_BYCOMMAND | MF_ENABLED, -1, _T(""));
 		menuButton.CreateMenu(&tmpMenu);
 	}
 	else
@@ -4079,7 +4081,7 @@ BOOL CTBToolBar::SetDropdown(UINT nCommandID, CMenu* mMenu, LPCTSTR lpszText)
 	menuButton.SetImage(iImag);
 	// Titolo sotto le ribbonBar.! si deve forzare nell onDraw!
 	menuButton.m_bTextBelow = TRUE;
-	
+
 	if (m_bTBelow)
 		menuButton.TextBelow();
 
@@ -4093,7 +4095,7 @@ BOOL CTBToolBar::SetDropdown(UINT nCommandID, CMenu* mMenu, LPCTSTR lpszText)
 			menuButton.m_strText = this->GetButton(nIdx)->m_strText;
 	}
 
-	this->ReplaceButton (nCommandID, menuButton);
+	this->ReplaceButton(nCommandID, menuButton);
 	HideButton(nCommandID, !bIsVisible);
 	AdjustLayout();
 	return TRUE;
@@ -4109,14 +4111,14 @@ BOOL CTBToolBar::UpdateDropdownMenu(UINT nCommandID, CMenu* pMenu)
 	CTBToolbarMenuButton* menuButton = dynamic_cast<CTBToolbarMenuButton*> (this->GetButton(nIndex));
 	if (!menuButton) return FALSE;
 	CTBToolBarMenu* pToolBarMenu = dynamic_cast<CTBToolBarMenu*> (pMenu);
-	if(pToolBarMenu)
+	if (pToolBarMenu)
 	{
 		CDC* pDC = GetDC();
 		pToolBarMenu->SetDC(pDC);
-		int iCount = (int) pToolBarMenu->GetMenuItemCount ();
-		for (int i = 0; i < iCount; i ++)
+		int iCount = (int)pToolBarMenu->GetMenuItemCount();
+		for (int i = 0; i < iCount; i++)
 		{
-			UINT nID = pMenu->GetMenuItemID (i);
+			UINT nID = pMenu->GetMenuItemID(i);
 
 			HICON hIcoUnChecked = CopyIcon(pToolBarMenu->GetIconUnChecked(nID));
 			HICON hIcoChecked = CopyIcon(pToolBarMenu->GetIconUnChecked(nID));
@@ -4157,7 +4159,7 @@ BOOL CTBToolBar::AddDropdownMenuItemSeparator(UINT nCommandID)
 	if (!hMenu) {
 		return FALSE;
 	}
-	
+
 	tmpMenu.Attach(hMenu);
 	tmpMenu.AppendMenu(MF_MENUBARBREAK);
 
@@ -4174,7 +4176,7 @@ BOOL CTBToolBar::AddDropdownMenuItem(UINT nCommandID, UINT nFlags, UINT_PTR nIDN
 	if (nIndex < 0 || nIndex >= GetCount()) return FALSE;
 	CTBToolbarMenuButton* menuButton = dynamic_cast<CTBToolbarMenuButton*> (this->GetButton(nIndex));
 	if (!menuButton) return FALSE;
-	
+
 	// Append voice in menu
 	CTBToolBarMenu tmpMenu;
 	HMENU hMenu = menuButton->GetMenu();
@@ -4183,7 +4185,7 @@ BOOL CTBToolBar::AddDropdownMenuItem(UINT nCommandID, UINT nFlags, UINT_PTR nIDN
 
 		// Rimozione voce fitizzia se presente
 		if (tmpMenu.GetMenuItemCount() > 0)
-		{	
+		{
 			CString menuStr;
 			tmpMenu.GetMenuString(0, menuStr, MF_BYPOSITION);
 			if (menuStr.IsEmpty())
@@ -4203,7 +4205,7 @@ BOOL CTBToolBar::AddDropdownMenuItem(UINT nCommandID, UINT nFlags, UINT_PTR nIDN
 	}
 
 	tmpMenu.AppendMenu(nFlags, nIDNewItem, lpszNewItem, nIDImgUnchecked, nIDImgChecked, bPng);
-	
+
 	UpdateDropdownMenu(nCommandID, &tmpMenu);
 	tmpMenu.Detach();
 	return TRUE;
@@ -4247,14 +4249,14 @@ BOOL CTBToolBar::RemoveDropdown(UINT nCommandID)
 		return FALSE;
 	}
 	CBCGPToolbarButton* pButton = GetButton(nIdx);
-	int iImag = pButton->GetImage();	
-	
+	int iImag = pButton->GetImage();
+
 	CTBToolbarButton  button;
 	button.m_nID = nCommandID;
 	button.SetImage(iImag);
 
 	// last operation to execute!
-	this->ReplaceButton (nCommandID, button);
+	this->ReplaceButton(nCommandID, button);
 	return TRUE;
 }
 
@@ -4303,10 +4305,10 @@ void CTBToolBar::SetAlwaysDropDown(UINT nCommandID, int nAlwaysDropDown)
 {
 	int nIndex = FindButton(nCommandID);
 
-	if (nIndex < 0 || nIndex >= GetCount()) 
+	if (nIndex < 0 || nIndex >= GetCount())
 		return;
 	CTBToolbarMenuButton* pMenuButton = dynamic_cast<CTBToolbarMenuButton*> (this->GetButton(nIndex));
-	if (pMenuButton) 
+	if (pMenuButton)
 		pMenuButton->SetAlwaysDropDown(nAlwaysDropDown);
 }
 
@@ -4376,10 +4378,10 @@ BOOL CTBToolBar::IsGhostButton(UINT nID)
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBToolBar::HideButton (UINT nID, BOOL bHide /*= TRUE*/, BOOL bDisableAutoHide /*= FALSE*/)
+BOOL CTBToolBar::HideButton(UINT nID, BOOL bHide /*= TRUE*/, BOOL bDisableAutoHide /*= FALSE*/)
 {
 	int nIndex = FindButton(nID);
-	if (nIndex < 0 || nIndex >= GetCount()) 
+	if (nIndex < 0 || nIndex >= GetCount())
 		return FALSE;
 
 	CBCGPToolbarButton* pBtn = this->GetButton(nIndex);
@@ -4412,12 +4414,12 @@ BOOL CTBToolBar::HideButton (UINT nID, BOOL bHide /*= TRUE*/, BOOL bDisableAutoH
 	}
 
 	pBtn->SetVisible(!bHide);
-	
+
 	if (m_bDialog && m_pObjectRight && !m_bAutoHideToolBarButton)
 	{
 		AdjustLayout();
 	}
-	
+
 	// Logiche sui AddSeparator
 	// il separatore successivo ha la stessa sorte del bottone alla sua sinistra
 	if ((nIndex + 1) < this->GetCount())
@@ -4455,14 +4457,14 @@ BOOL CTBToolBar::HideButton (UINT nID, BOOL bHide /*= TRUE*/, BOOL bDisableAutoH
 }
 
 //----------------------------------------------------------------------------
-HICON CTBToolBar::GetIconDropdownMenu	(const CBCGPToolbarMenuButton* pMenuButton)
+HICON CTBToolBar::GetIconDropdownMenu(const CBCGPToolbarMenuButton* pMenuButton)
 {
 	HICON hIcon = GetOverlapIconDropdownMenu(pMenuButton);
 	if (hIcon)
 		return hIcon;
 
 	if (
-		((pMenuButton->m_nStyle & TBBS_CHECKED) == TBBS_CHECKED) && 
+		((pMenuButton->m_nStyle & TBBS_CHECKED) == TBBS_CHECKED) &&
 		((pMenuButton->m_nStyle & TBBS_CHECKBOX) == TBBS_CHECKBOX)
 		)
 	{
@@ -4491,7 +4493,7 @@ BOOL CTBToolBar::GhostButton(UINT nID, BOOL bGhost)
 		ASSERT(pSrc);
 		if (!pSrc) return FALSE;
 		pSrc->SetGhost(bGhost);
-	} 
+	}
 	else
 	{
 		return FALSE;
@@ -4500,14 +4502,14 @@ BOOL CTBToolBar::GhostButton(UINT nID, BOOL bGhost)
 }
 
 //-------------------------------------------------------------------------------------
-const CTBNamespace& CTBToolBar::GetNamespace () const
-{ 
+const CTBNamespace& CTBToolBar::GetNamespace() const
+{
 	return m_Namespace;
 }
 
 //-------------------------------------------------------------------------------------
-void CTBToolBar::SetNamespace (const CTBNamespace& aNs)
-{ 
+void CTBToolBar::SetNamespace(const CTBNamespace& aNs)
+{
 	m_Namespace = aNs;
 }
 
@@ -4577,14 +4579,14 @@ void CTBToolBar::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
 
 	if (OnUpdateCmdUIDialog())
 		return;
-	
+
 	__super::OnUpdateCmdUI(pTarget, bDisableIfNoHndler);
 }
 
 //----------------------------------------------------------------------------
-BOOL CTBToolBar::OnSetDefaultButtonText (CBCGPToolbarButton* pButton)
+BOOL CTBToolBar::OnSetDefaultButtonText(CBCGPToolbarButton* pButton)
 {
-	ASSERT_VALID (pButton);
+	ASSERT_VALID(pButton);
 	if (!pButton->IsKindOf(RUNTIME_CLASS(CTBToolbarButton)))
 		return __super::OnSetDefaultButtonText(pButton);
 
@@ -4608,38 +4610,45 @@ void CTBToolBar::AddToolBarAccelText(CString& strText, CBCGPToolbarButton* pButt
 	if (!pButton) return;
 
 	UINT nID = pButton->m_nID;
-	if (m_pParentTabbedToolbar) {
-		CDocument*  pDoc = m_pParentTabbedToolbar->GetParentDocument();
-		if (pDoc) {
-			CAbstractDoc* pBaseDoc = dynamic_cast<CAbstractDoc*> (pDoc);
-			if (pBaseDoc)
-			{
-				strAccel = pBaseDoc->GetDocAccelText(nID);
-				// ID_EXTDOC_EXIT postMessage a ID_FILE_CLOSE
-				if (strAccel.IsEmpty() && nID == ID_EXTDOC_EXIT)
+	CWnd* pParent = GetParent();
+	CLocalizableFrame* pParentFrame = NULL;
+	if (pParent)
+	{
+		pParentFrame = dynamic_cast<CLocalizableFrame*>(pParent->GetParentFrame());
+		if (pParentFrame)
+		{
+			strAccel = GetAcceleratorText(pParentFrame->m_hAccelTable, nID);
+		}
+	}
+	if (strAccel.IsEmpty())
+	{
+		if (m_pParentTabbedToolbar) {
+			CDocument*  pDoc = m_pParentTabbedToolbar->GetParentDocument();
+			if (pDoc) {
+				CAbstractDoc* pBaseDoc = dynamic_cast<CAbstractDoc*> (pDoc);
+				if (pBaseDoc)
 				{
-					strAccel = pBaseDoc->GetDocAccelText(ID_FILE_CLOSE);
+					strAccel = pBaseDoc->GetDocAccelText(nID);
+					// ID_EXTDOC_EXIT postMessage a ID_FILE_CLOSE
+					if (strAccel.IsEmpty() && nID == ID_EXTDOC_EXIT)
+					{
+						strAccel = pBaseDoc->GetDocAccelText(ID_FILE_CLOSE);
+					}
 				}
 			}
 		}
-	}
-	else
-	{
-		if (GetParent())
+		else if (pParentFrame)
 		{
-			CLocalizableFrame* pParentFrame = dynamic_cast<CLocalizableFrame*>(GetParent()->GetParentFrame());
-			if (pParentFrame)
-			{
-				CAbstractDoc* pDoc = dynamic_cast<CAbstractDoc*>(pParentFrame->GetActiveDocument());
-				if (pDoc)
-					strAccel = pDoc->GetDocAccelText(nID);
-			}
+			CAbstractDoc* pDoc = dynamic_cast<CAbstractDoc*>(pParentFrame->GetActiveDocument());
+			if (pDoc)
+				strAccel = pDoc->GetDocAccelText(nID);
 		}
 	}
-
 	if (!strAccel.IsEmpty())
 	{
+		strText.Append(_T(" ("));
 		strText.Append(strAccel);
+		strText.Append(_T(")"));
 	}
 }
 
@@ -4684,7 +4693,7 @@ void CTBToolBar::GetMessageString(UINT nID, CString& strMessageString) const
 
 // ToolTip Title
 //----------------------------------------------------------------------------
-BOOL CTBToolBar::OnUserToolTip (CBCGPToolbarButton* pButton, CString& strTipText) const
+BOOL CTBToolBar::OnUserToolTip(CBCGPToolbarButton* pButton, CString& strTipText) const
 {
 	ASSERT(pButton);
 
@@ -4698,7 +4707,7 @@ BOOL CTBToolBar::OnUserToolTip (CBCGPToolbarButton* pButton, CString& strTipText
 			return TRUE;
 	}
 
-	CTBToolbarButton* pTButton = DYNAMIC_DOWNCAST (CTBToolbarButton, pButton);
+	CTBToolbarButton* pTButton = DYNAMIC_DOWNCAST(CTBToolbarButton, pButton);
 	if (pTButton && pTButton->IsGhost())
 	{
 		// not show ToolTip in Ghost button
@@ -4712,9 +4721,9 @@ BOOL CTBToolBar::OnUserToolTip (CBCGPToolbarButton* pButton, CString& strTipText
 	if (!pButton->m_strTextCustom.IsEmpty())
 	{
 		int nPos = pButton->m_strTextCustom.Find(L"\n");
-	
+
 		if (nPos > 0) {
-			strTipText = pButton->m_strTextCustom.Mid(0, nPos-1);
+			strTipText = pButton->m_strTextCustom.Mid(0, nPos - 1);
 		}
 		else
 		{
@@ -4741,13 +4750,13 @@ BOOL CTBToolBar::OnUserToolTip (CBCGPToolbarButton* pButton, CString& strTipText
 }
 
 //----------------------------------------------------------------------------
-CSize CTBToolBar::CalcSize (BOOL bVertDock)
+CSize CTBToolBar::CalcSize(BOOL bVertDock)
 {
-	return __super::CalcSize (bVertDock);
+	return __super::CalcSize(bVertDock);
 }
 
 //----------------------------------------------------------------------------
-CSize CTBToolBar::CalcLayout (DWORD dwMode, int nLength)
+CSize CTBToolBar::CalcLayout(DWORD dwMode, int nLength)
 {
 	CSize sToolBar = __super::CalcLayout(dwMode, nLength);
 	if (m_bDialog)
@@ -4782,7 +4791,7 @@ int CTBToolBar::CalcMaxButtonHeight()
 	UINT uiTextFormat = DT_CENTER | DT_CALCRECT | DT_WORDBREAK;
 	dc.DrawText(_T("XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX"), rectText, uiTextFormat);
 
-	int iHeightMax = sizeButon.cy +  rectText.Height() + ScalePix(CY_BORDER);
+	int iHeightMax = sizeButon.cy + rectText.Height() + ScalePix(CY_BORDER);
 
 	int iButtonHeight = __super::CalcMaxButtonHeight();
 
@@ -4798,21 +4807,21 @@ int CTBToolBar::CalcMaxButtonHeight()
 }
 
 //----------------------------------------------------------------------------
-void CTBToolBar::DrawSeparator (CDC* pDC, const CRect& rect, BOOL bHorz)
+void CTBToolBar::DrawSeparator(CDC* pDC, const CRect& rect, BOOL bHorz)
 {
 	if (!bHorz || m_bDialog)
 	{
-		__super::DrawSeparator (pDC, rect, bHorz);
+		__super::DrawSeparator(pDC, rect, bHorz);
 		return;
 	}
 
 	int x1, x2;
 	int y1, y2;
-	
+
 	x1 = x2 = (rect.left + rect.right) / 2;
 	y1 = rect.top;
 	y2 = rect.bottom - 1;
-	
+
 	CBCGPDrawManager dm(*pDC);
 	dm.DrawLine(x1, y1, x2, y2, AfxGetThemeManager()->GetToolbarSeparatorColor());
 }
@@ -4826,18 +4835,18 @@ int CTBToolBar::CalcMinimumWidth(BOOL bHidden /*= FALSE*/)
 	if (m_bButtonsOverlap)
 		return 100; // Min ToolBar in px
 
-	for (POSITION pos = m_Buttons.GetHeadPosition (); pos != NULL; iButton ++)
+	for (POSITION pos = m_Buttons.GetHeadPosition(); pos != NULL; iButton++)
 	{
-		CObject* pObj = m_Buttons.GetNext (pos);
+		CObject* pObj = m_Buttons.GetNext(pos);
 
 		CBCGPToolbarButton* pButton = dynamic_cast<CBCGPToolbarButton*> (pObj);
 		if (pButton == NULL) break;
-		
+
 		if (!bHidden && !pButton->IsVisible()) continue;
 
 		if (pObj->IsKindOf(RUNTIME_CLASS(CTBToolbarLabel)))
 		{
-			CTBToolbarLabel* pLabel = (CTBToolbarLabel*) pObj;
+			CTBToolbarLabel* pLabel = (CTBToolbarLabel*)pObj;
 			if (pLabel && pLabel->IsRightSpace())
 			{
 				iWidth += 20;
@@ -4905,7 +4914,7 @@ BOOL CTBToolBar::AutoHideButton(CBCGPToolbarButton* pButton)
 			return FALSE;
 		}
 	}
-		
+
 	// Auto Hide is disable ?
 	if (!m_bAutoHideToolBarButton || AfxIsRemoteInterface())
 		return FALSE;
@@ -4915,7 +4924,7 @@ BOOL CTBToolBar::AutoHideButton(CBCGPToolbarButton* pButton)
 
 	if (pButton->m_nStyle & TBBS_DISABLED)
 	{
-		BOOL bret = FALSE; 
+		BOOL bret = FALSE;
 		if (!IsHideButton(pButton->m_nID))
 		{
 			HideButton(pButton->m_nID);
@@ -5056,7 +5065,7 @@ BOOL CTBToolBar::AutoHideMenuButton(int nIndex)
 	}
 
 	BOOL bAllDisable = ISMenuButtonVoicesEnabled(pMenuButton);
-	
+
 	if (bAllDisable != IsHideButton(pMenuButton->m_nID))
 	{
 		if (bAllDisable)
@@ -5102,7 +5111,7 @@ LRESULT CTBToolBar::OnToolBarUpdate(WPARAM, LPARAM)
 	{
 		AdjustSizeImmediate();
 	}
-		
+
 	AdjustLayout();
 	m_bPostToolBarUpdate = FALSE;
 	return 0;
@@ -5118,7 +5127,7 @@ BOOL CTBToolBar::SuspendLayout()
 	if (m_bSuspendLayout)
 		return FALSE;
 	m_bButtonStyleLoopComplite = FALSE;
-	
+
 	m_bSuspendLayout = TRUE;
 	if (pFrame)
 		pFrame->m_bDelayedLayoutSuspended = m_bSuspendLayout;
@@ -5158,7 +5167,7 @@ void CTBToolBar::SetButtonStyle(int nIndex, UINT nStyle)
 	{
 		pButton->SetStyle(TBBS_BUTTON);
 	}
-	
+
 	// Resume layout of tabber if toolbar is not suspend
 	if (m_pParentTabbedToolbar && !m_bSuspendLayout && m_bButtonStyleLoopComplite)
 	{
@@ -5179,7 +5188,7 @@ void CTBToolBar::SetButtonStyle(int nIndex, UINT nStyle)
 	}
 
 	m_iAdjustLayoutHideButton = nIndex;
-	if ( menuButton && !(pButton->m_nStyle & TBBS_DISABLED) )
+	if (menuButton && !(pButton->m_nStyle & TBBS_DISABLED))
 	{
 		if (AutoHideMenuButton(nIndex))
 		{
@@ -5231,7 +5240,7 @@ void CTBToolBar::SetButtonStyle(int nIndex, UINT nStyle)
 		{
 			GetLockedDisabledImages()->ConvertToGrayScale();
 			m_bRecalcGray = FALSE;
-		} 
+		}
 	}
 }
 
@@ -5250,7 +5259,7 @@ BOOL CTBToolBar::AddButtonOverlap(CTBToolBarMenu* pMenu)
 		if (m_pParentTabbedToolbar)
 		{
 			iPlaceRight = FindButton(m_pParentTabbedToolbar->GetIDSwitch());
-			if (iPlaceRight >= 0) 
+			if (iPlaceRight >= 0)
 				iPlaceRight -= 1;
 		}
 	}
@@ -5314,32 +5323,32 @@ HICON CTBToolBar::GetOverlapIconDropdownMenu(const CBCGPToolbarMenuButton* pMenu
 	// Collapsed dropDown icons
 	/*if (m_pMenuButtonCollapsed && m_nIDLastDropDown == m_nIDOverlapButton)
 	{*/
-		hIconFound = GetCollapsedImage(pMenuButton->m_nID);
-		if (hIconFound)
+	hIconFound = GetCollapsedImage(pMenuButton->m_nID);
+	if (hIconFound)
+	{
+		return hIconFound;
+	}
+	else
+	{
+		for (POSITION pos = m_ListCollapsedItems.GetHeadPosition(); pos != NULL; )
 		{
-			return hIconFound;
-		}
-		else
-		{
-			for (POSITION pos = m_ListCollapsedItems.GetHeadPosition(); pos != NULL; )
-			{
-				CTBCollapsedItem* pItem = m_ListCollapsedItems.GetNext(pos);
-				ASSERT(pItem);
-				if (pItem->GetType() == CTBCollapsedItem::ECollapsedItemType::ITEM_SEPARATOR)
-					continue;
+			CTBCollapsedItem* pItem = m_ListCollapsedItems.GetNext(pos);
+			ASSERT(pItem);
+			if (pItem->GetType() == CTBCollapsedItem::ECollapsedItemType::ITEM_SEPARATOR)
+				continue;
 
-				if (pItem->GetType() == CTBCollapsedItem::ECollapsedItemType::ITEM_DROPDOWN &&
-					pMenuButton->m_strText.Compare(pItem->GetText()) == 0)
+			if (pItem->GetType() == CTBCollapsedItem::ECollapsedItemType::ITEM_DROPDOWN &&
+				pMenuButton->m_strText.Compare(pItem->GetText()) == 0)
+			{
+				hIconFound = GetCollapsedImage(pItem->GetID());
+				if (hIconFound)
 				{
-					hIconFound = GetCollapsedImage(pItem->GetID());
-					if (hIconFound)
-					{
-						return hIconFound;
-					}
-					return NULL;
+					return hIconFound;
 				}
+				return NULL;
 			}
 		}
+	}
 	//}
 
 	return NULL;
@@ -5406,7 +5415,7 @@ void CTBToolBar::ButtonsOverlapMenuSub(UINT nID, CMenu* pMenu, CArray<CTBToolBar
 		if (info.hSubMenu)
 		{
 			ptMenuArray->Add(new CTBToolBarMenu());
-			UINT nMenuArray = ptMenuArray->GetSize() -1;
+			UINT nMenuArray = ptMenuArray->GetSize() - 1;
 			ptMenuArray->ElementAt(nMenuArray)->CreatePopupMenu();
 
 			CMenu SubAttachMenu;
@@ -5497,7 +5506,7 @@ void CTBToolBar::ButtonsOverlapMenuUpdate()
 			else
 				if (!pItem->GetText().Trim().IsEmpty())
 					pMenuOverlap->AppendMenu(MF_STRING, nID, pItem->GetText());
-		
+
 			// Add Icons in menu voice
 			HICON hIcon = GetCollapsedImage(pItem->GetID());;
 			if (hIcon == NULL)
@@ -5510,7 +5519,7 @@ void CTBToolBar::ButtonsOverlapMenuUpdate()
 				// Set the Icon
 				AddCollapsedImage(nID, hIcon);
 			}
-			
+
 		}
 
 	}
@@ -5523,7 +5532,7 @@ void CTBToolBar::ButtonsOverlapMenuUpdate()
 	{
 		SAFE_DELETE(ptMenuArray[i]);
 	}
-	
+
 }
 
 //----------------------------------------------------------------------------
@@ -5535,7 +5544,7 @@ BOOL  CTBToolBar::ButtonsOverlapRemove(int iWidth)
 
 	int nWidthCollapsed = GetButtonWidth(m_pMenuButtonCollapsed);
 	iWidth -= nWidthCollapsed;
-	
+
 	for (INT k = 0; k < m_ListCollapsedItems.GetCount(); k++)
 	{
 		POSITION pos = m_ListCollapsedItems.FindIndex(k);
@@ -5546,7 +5555,7 @@ BOOL  CTBToolBar::ButtonsOverlapRemove(int iWidth)
 		if (nPos < 0) continue;
 		CBCGPToolbarButton* pButton = GetButton(nPos);
 		ASSERT(pButton);
-		
+
 		iWidth -= pItem->GetWidth();
 		if (iWidth > 0 || (m_ListCollapsedItems.GetCount() - listRemoveItem.GetCount() <= 1))
 		{
@@ -5574,7 +5583,7 @@ BOOL  CTBToolBar::ButtonsOverlapRemove(int iWidth)
 
 	for (INT k = listRemoveItem.GetCount(); k > 0; k--)
 	{
-		POSITION pos = m_ListCollapsedItems.FindIndex(k-1);
+		POSITION pos = m_ListCollapsedItems.FindIndex(k - 1);
 		ASSERT(pos);
 		if (!pos) continue;
 		CTBCollapsedItem* pItem = m_ListCollapsedItems.GetAt(pos);
@@ -5623,7 +5632,7 @@ BOOL  CTBToolBar::ButtonsOverlapAdd(CBCGPToolbarButton* pButton)
 	if (!m_bButtonStyleLoopComplite)
 		return FALSE;
 
-	if ((pButton == NULL || m_hWnd == NULL) || 
+	if ((pButton == NULL || m_hWnd == NULL) ||
 		(m_pMenuButtonCollapsed && pButton->m_nID == m_pMenuButtonCollapsed->m_nID) ||
 		!pButton->IsVisible())
 		return FALSE;
@@ -5631,7 +5640,7 @@ BOOL  CTBToolBar::ButtonsOverlapAdd(CBCGPToolbarButton* pButton)
 	// is the Switch button of toolBar ?
 	if (m_pParentTabbedToolbar && !m_bShowToolBarTab && m_pParentTabbedToolbar->GetIDSwitch() == pButton->m_nID)
 		return FALSE;
-	
+
 	int nID = pButton->m_nID;
 	if (nID <= 0) return FALSE;
 
@@ -5652,13 +5661,13 @@ BOOL  CTBToolBar::ButtonsOverlapAdd(CBCGPToolbarButton* pButton)
 	// Button Type
 	CTBCollapsedItem::ECollapsedItemType itemType = CTBCollapsedItem::ECollapsedItemType::ITEM_BUTTON;
 	CTBToolbarMenuButton* menuButton = dynamic_cast<CTBToolbarMenuButton*> (pButton);
-	if ((pButton->m_nStyle & TBBS_SEPARATOR)) 
-	{ 
-		itemType = CTBCollapsedItem::ECollapsedItemType::ITEM_SEPARATOR; 
+	if ((pButton->m_nStyle & TBBS_SEPARATOR))
+	{
+		itemType = CTBCollapsedItem::ECollapsedItemType::ITEM_SEPARATOR;
 	}
-	else if (menuButton) 
-	{ 
-		itemType = CTBCollapsedItem::ECollapsedItemType::ITEM_DROPDOWN; 
+	else if (menuButton)
+	{
+		itemType = CTBCollapsedItem::ECollapsedItemType::ITEM_DROPDOWN;
 	}
 
 	CTBCollapsedItem* pCollapsedItem = new CTBCollapsedItem(nID, itemType, stButton, pButton->Rect().Width());
@@ -5671,7 +5680,7 @@ BOOL  CTBToolBar::ButtonsOverlapAdd(CBCGPToolbarButton* pButton)
 	// The previev button is separator ?
 	if (nPos > 0)
 	{
-		CBCGPToolbarButton* pButtonR = GetButton(nPos-1);
+		CBCGPToolbarButton* pButtonR = GetButton(nPos - 1);
 		if (pButtonR && pButtonR->m_nStyle & TBBS_SEPARATOR)
 		{
 			pButtonR->SetVisible(FALSE);
@@ -5680,7 +5689,7 @@ BOOL  CTBToolBar::ButtonsOverlapAdd(CBCGPToolbarButton* pButton)
 
 	// Abb Button to List in order
 	if (m_ListCollapsedItems.GetCount() > 0 && nPos >= 0)
-	{	
+	{
 		for (INT k = 0; k < m_ListCollapsedItems.GetCount(); k++)
 		{
 			POSITION pos = m_ListCollapsedItems.FindIndex(k);
@@ -5747,7 +5756,7 @@ INT	CTBToolBar::GetButtonWidth(CBCGPToolbarButton* pButton)
 //----------------------------------------------------------------------------
 void CTBToolBar::RepositionRightButtonsCalcButtonsSpace(CRect rectDockBar, INT& iWidthLeft, INT& iWidthRight)
 {
-	
+
 	BOOL bSun = TRUE;
 	BOOL bFirst = FALSE;
 	INT iButton = 0;
@@ -5836,7 +5845,7 @@ BOOL CTBToolBar::RepositionRightButtons()
 		int dockBarwidthParent = m_pParentTabbedToolbar->GetMaxWidth();
 		dockBarWidth = max(dockBarWidth, dockBarwidthParent);
 		// Only in toolbar active
-		if (this != m_pParentTabbedToolbar->GetToolBarActive()) 
+		if (this != m_pParentTabbedToolbar->GetToolBarActive())
 			return FALSE;
 	}
 
@@ -5887,9 +5896,9 @@ BOOL CTBToolBar::RepositionRightButtons()
 
 				// Not permise the loop over 200 attempts
 				prtLoop++;
-				if (prtLoop > 50) 
+				if (prtLoop > 50)
 					break;
-			}	
+			}
 		}
 		else
 		{
@@ -5901,17 +5910,17 @@ BOOL CTBToolBar::RepositionRightButtons()
 			}
 		}
 
-		
+
 		RepositionRightButtonsCalcButtonsSpace(rectDockBar, widthLeft, widthRight);
 		iRightButton = dockBarWidth - widthLeft - widthRight - SPACE_TOOLBAR_RIGHT;
 		bRet = TRUE;
 	}
-	
+
 	if (m_pObjectRight)
 	{
 		if (iRightButton < 0)
 			iRightButton = 0;
-		
+
 		if (!(this->GetBarStyle() & CBRS_GRIPPER))
 		{
 			// Fill the space in single ToolBar not gripper
@@ -6076,7 +6085,7 @@ BOOL CTBToolBar::DrawButton(CDC* pDC, CBCGPToolbarButton* pButton, CBCGPToolBarI
 	// Get button size
 	CSize sizeButon = GetButtonSize();
 	INT space = ((buttonRect.Height() - sizeButon.cy) / 2);
-	
+
 	if (space > 0)
 	{
 		buttonRect.top += (space / 2);
@@ -6094,11 +6103,11 @@ BOOL CTBToolBar::DrawButton(CDC* pDC, CBCGPToolbarButton* pButton, CBCGPToolBarI
 }
 
 //----------------------------------------------------------------------------
-void CTBToolBar::OnFillBackground (CDC* pDC)
+void CTBToolBar::OnFillBackground(CDC* pDC)
 {
 	CRect rcClient;
-	GetClientRect( &rcClient);
-		
+	GetClientRect(&rcClient);
+
 	pDC->FillRect(rcClient, &CBrush(m_clrBkgColor));
 
 	if (IsToolbarInfinity())
@@ -6142,7 +6151,7 @@ CWndObjDescription* CTBToolBar::GetControlStructure(CWndObjDescriptionContainer*
 }
 
 void CTBToolBar::WriteTabName(CWndObjDescription* pDescription)
-{	
+{
 	CString sName = this->GetName();
 	if (pDescription->m_strText != sName)
 	{
@@ -6156,7 +6165,7 @@ BOOL CTBToolBar::PreTranslateMessage(MSG* pMsg)
 {
 	CWnd* pFocus = GetFocus();
 	if (pFocus && pFocus->IsKindOf(RUNTIME_CLASS(CBCGPToolbarEditCtrl)) && pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_DELETE)
-	{	
+	{
 		((CBCGPToolbarEditCtrl*)pFocus)->Clear();
 		return TRUE;
 	}
@@ -6207,17 +6216,17 @@ HRESULT CTBToolBar::get_accName(VARIANT varChild, BSTR *pszName)
 	// varChild.intval > 0, it is the 1-based index of the visible child clicked
 	else
 	{
-		int btn = 1; 
+		int btn = 1;
 		CBCGPToolbarButton* pBtn = NULL;
 		int btnCount = GetCount();
 		// find the button among those visible, not ghost and not separator
 		for (int idx = 0; idx < GetCount(); idx++)
 		{
 			pBtn = GetButton(idx);
-			if	(
-					(dynamic_cast<CTBToolbarButton*>(pBtn) && dynamic_cast<CTBToolbarButton*>(pBtn)->IsGhost()) || //@@TODO chiarire bene il discorso del ghost
-					(pBtn->m_nStyle & TBBS_SEPARATOR) == TBBS_SEPARATOR || 
-					!pBtn->IsVisible()
+			if (
+				(dynamic_cast<CTBToolbarButton*>(pBtn) && dynamic_cast<CTBToolbarButton*>(pBtn)->IsGhost()) || //@@TODO chiarire bene il discorso del ghost
+				(pBtn->m_nStyle & TBBS_SEPARATOR) == TBBS_SEPARATOR ||
+				!pBtn->IsVisible()
 				)
 				continue;
 
@@ -6226,7 +6235,7 @@ HRESULT CTBToolBar::get_accName(VARIANT varChild, BSTR *pszName)
 		}
 
 		if (pBtn->m_nID == ID_EXDOC_TAB_SWITCH)
-		{ 
+		{
 			sNamespace = _T("SwitchToolbarButton"); //"switch" button do not have a namespace assigned
 		}
 		else if (dynamic_cast<CTBToolbarLabel*>(pBtn) && dynamic_cast<CTBToolbarLabel*>(pBtn)->IsRightSpace())
@@ -6256,7 +6265,7 @@ HRESULT CTBToolBar::get_accName(VARIANT varChild, BSTR *pszName)
 void CTBToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	__super::OnLButtonUp(nFlags, point);
-	
+
 	// durante la morte non e piu' in grado di lavorare
 	if (!IsWindow(m_hWnd))
 		return;
@@ -6267,7 +6276,7 @@ void CTBToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 
 	// now hit test against CBCGPToolBar buttons
 	INT_PTR nHit = this->HitTest(point);
-	
+
 	if (nHit == -1)
 		return;
 
@@ -6286,10 +6295,10 @@ void CTBToolBar::OnLButtonUp(UINT nFlags, CPoint point)
 		}
 
 		pMenuButton->OpenPopupMenu();
-		
+
 		if (!IsWindow(m_hWnd) || !pFrame || pFrame->IsDestroying())
 			return;
-		
+
 		pMenuButton->SetMissingClick(FALSE);
 	}
 }
@@ -6326,7 +6335,7 @@ CTBTabWndToolbar::~CTBTabWndToolbar()
 	//LUCA: questi sono font bcg che non vengono rilasciati...
 	if (m_fntTabs.m_hObject)
 		m_fntTabs.DeleteObject();
-	
+
 	if (m_fntTabsBold.m_hObject)
 		m_fntTabsBold.DeleteObject();
 
@@ -6353,28 +6362,28 @@ void CTBTabWndToolbar::OnPaint()
 //-------------------------------------------------------------------------------------
 int CTBTabWndToolbar::GetTabsHeight() const
 {
- 	if (!m_bShowToolBarTab) { return 0; }
+	if (!m_bShowToolBarTab) { return 0; }
 	return __super::GetTabsHeight();
 }
 
 //-------------------------------------------------------------------------------------
 void CTBTabWndToolbar::OnLButtonDown(UINT nFlags, CPoint point)
 {
- 	if (!m_bShowToolBarTab) { return; }
-	__super::OnLButtonDown(nFlags,  point);
+	if (!m_bShowToolBarTab) { return; }
+	__super::OnLButtonDown(nFlags, point);
 }
 
 //-------------------------------------------------------------------------------------
 void CTBTabWndToolbar::OnLButtonUp(UINT nFlags, CPoint point)
 {
- 	if (!m_bShowToolBarTab) { return; }
+	if (!m_bShowToolBarTab) { return; }
 	__super::OnLButtonUp(nFlags, point);
 }
 
 //-------------------------------------------------------------------------------------
 void CTBTabWndToolbar::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
- 	if (!m_bShowToolBarTab) { return; }
+	if (!m_bShowToolBarTab) { return; }
 	__super::OnLButtonDblClk(nFlags, point);
 }
 
@@ -6402,7 +6411,7 @@ BEGIN_MESSAGE_MAP(CTBTabbedToolbar, CBCGPTabbedToolbar)
 	ON_REGISTERED_MESSAGE(BCGM_CHANGE_ACTIVE_TAB, OnChangeActiveTab)
 	ON_MESSAGE(UM_GET_CONTROL_DESCRIPTION, OnGetControlDescription)
 	ON_MESSAGE(UM_ACTIVATE_TAB_PAGE, OnSetActiveTab)
-	
+
 	ON_WM_LBUTTONDBLCLK()
 	ON_WM_CREATE()
 	ON_WM_SIZE()
@@ -6412,7 +6421,7 @@ END_MESSAGE_MAP()
 CTBTabbedToolbar::CTBTabbedToolbar()
 {
 	m_bUseLargeButtons = TRUE;
-	m_bSuspendLayout   = FALSE;
+	m_bSuspendLayout = FALSE;
 	m_nIDOverlapButtonStart = GET_ID_RANGE(ID_COLLAPSED_BUTTON_RANGE_START, NUMBER_OF_BUTTONS);
 	m_nWidth = 0;
 	m_iIdSwitch = ID_EXDOC_TAB_SWITCH;
@@ -6436,11 +6445,11 @@ CTBTabbedToolbar::~CTBTabbedToolbar()
 		pParentFrame->SetDestroying();
 
 
-	for (int i= m_Toolbars.GetCount() - 1; i >=0; i--)
+	for (int i = m_Toolbars.GetCount() - 1; i >= 0; i--)
 		SAFE_DELETE(m_Toolbars.GetAt(i));
 
-	if (m_pTabWnd) { 
-		SAFE_DELETE(m_pTabWnd); 
+	if (m_pTabWnd) {
+		SAFE_DELETE(m_pTabWnd);
 	}
 
 	if (m_pProxy != NULL)
@@ -6467,11 +6476,11 @@ BOOL CTBTabbedToolbar::Create(CWnd* pParentWnd, CStringArray* pNamespaceArray)
 		if (pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CBaseDocument)))
 		{
 			m_pParentDoc = pDoc;
-		} 
+		}
 
 	}
 
-	if (!CreateEx(pParentWnd , dwDefaultToolbarStyle /* | TBSTYLE_FLAT |  TBSTYLE_TRANSPARENT */ ))
+	if (!CreateEx(pParentWnd, dwDefaultToolbarStyle /* | TBSTYLE_FLAT |  TBSTYLE_TRANSPARENT */))
 	{
 		TRACE0("Failed to create tabbed toolbar\n");
 		return -1;      // fail to create
@@ -6481,7 +6490,7 @@ BOOL CTBTabbedToolbar::Create(CWnd* pParentWnd, CStringArray* pNamespaceArray)
 
 	if (AfxGetThemeManager()->UseFlatStyle())
 	{
-		this->GetUnderlinedWindow ()->ModifyTabStyle(CBCGPTabWnd::STYLE_FLAT);
+		this->GetUnderlinedWindow()->ModifyTabStyle(CBCGPTabWnd::STYLE_FLAT);
 	}
 
 	m_pTabWnd->ModifyTabStyle(CBCGPTabWnd::STYLE_FLAT_SHARED_HORZ_SCROLL);
@@ -6503,9 +6512,9 @@ int CTBTabbedToolbar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//questa istruzione è invocata dalla classe madre, siccome io invece chiamo la OnCreate della nonna, devo invocarla io
 	if (!AfxIsRemoteInterface())
 		((CObList&)CBCGPToolBar::GetAllToolbars()).AddTail(this);
-	
+
 	ASSERT(m_pTabWnd == NULL);
-	
+
 	m_pTabWnd = new CTBTabWndToolbar();
 
 	CRect rectClient(0, 0, lpCreateStruct->cx, lpCreateStruct->cy);
@@ -6529,14 +6538,14 @@ int CTBTabbedToolbar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBTabbedToolbar::SetShowToolBarTab(BOOL bAutoHide /*= TRUE*/) 
-{ 
+void CTBTabbedToolbar::SetShowToolBarTab(BOOL bAutoHide /*= TRUE*/)
+{
 	ASSERT(m_pTabWnd);
 	if (!m_pTabWnd) return;
 	CTBTabWndToolbar* pTbTabWnd = dynamic_cast<CTBTabWndToolbar*> (m_pTabWnd);
 	ASSERT(pTbTabWnd);
 	if (!pTbTabWnd) return;
-	m_bShowToolBarTab = bAutoHide; 
+	m_bShowToolBarTab = bAutoHide;
 	pTbTabWnd->SetShowToolBarTab(m_bShowToolBarTab);
 
 	// Update ToolBar
@@ -6556,14 +6565,14 @@ void CTBTabbedToolbar::SetShowToolBarTab(BOOL bAutoHide /*= TRUE*/)
 }
 
 //-------------------------------------------------------------------------------------
-void CTBTabbedToolbar::EnableDocking (CWnd* pParentWnd, DWORD dwAlignment)
+void CTBTabbedToolbar::EnableDocking(CWnd* pParentWnd, DWORD dwAlignment)
 {
-	if (!pParentWnd) 
+	if (!pParentWnd)
 		return;
 
-	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC) );
+	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC));
 	__super::EnableDocking(dwAlignment);
-	
+
 	CDockableFrame* pDockableFrame = dynamic_cast<CDockableFrame*> (pParentWnd);
 	if (pDockableFrame)
 	{
@@ -6585,7 +6594,7 @@ BOOL CTBTabbedToolbar::SuspendLayout()
 	m_bSuspendLayout = TRUE;
 	if (pFrame)
 		pFrame->m_bDelayedLayoutSuspended = m_bSuspendLayout;
-	
+
 	if (pFrame)
 		TRACE(_T("CTBTabbedToolbar::SuspendLayout - m_bSuspendLayout = %s\n"), (LPCTSTR)(DataBool(pFrame->m_bDelayedLayoutSuspended)).FormatData());
 
@@ -6613,13 +6622,13 @@ BOOL CTBTabbedToolbar::SuspendLayout()
 
 //-------------------------------------------------------------------------------------
 void CTBTabbedToolbar::ResumeLayout(BOOL bForced /*= FALSE*/)
-{ 
+{
 	CDockableFrame* pFrame = dynamic_cast<CDockableFrame*>(this->GetParentFrame());
 	if (pFrame)
 		pFrame->m_bDelayedLayoutSuspended = m_bSuspendLayout;
 
 	if (!m_bSuspendLayout) return;
-	
+
 	m_bSuspendLayout = FALSE;
 	if (pFrame)
 		pFrame->m_bDelayedLayoutSuspended = m_bSuspendLayout;
@@ -6684,13 +6693,13 @@ void CTBTabbedToolbar::DoUpdateSize()
 
 		rectTab.right = rectTab.left + m_nWidth;
 		rectTab.bottom = rectTab.top + nHeight;
-		
+
 		// Tabbed
 		//SetWindowPos(NULL, rectTabbed.left, rectTabbed.top, rectTabbed.right, rectTabbed.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
 
 		// Tab
 		m_pTabWnd->SetWindowPos(NULL, rectTab.left, rectTab.top, rectTab.right, rectTab.bottom, SWP_NOZORDER | SWP_NOACTIVATE);
-		
+
 		if (!IsLayoutSuspended())
 		{
 			int nTabActive = m_pTabWnd->GetActiveTab();
@@ -6709,7 +6718,7 @@ int CTBTabbedToolbar::CalcMaxButtonHeight()
 {
 	CBCGPTabWnd*	pTabsWnd = (this->GetUnderlinedWindow());
 	CWnd* pTab = pTabsWnd->GetTabWnd(pTabsWnd->GetActiveTab());
-	if (pTab) 
+	if (pTab)
 	{
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
 		if (pToolBar)
@@ -6737,7 +6746,7 @@ void CTBTabbedToolbar::DoPaint(CDC* pDCPaint)
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::HideGhostButtons ( const	UINT* HideIDs, const UINT* GhostIDs, const UINT* ShowIDs)
+BOOL CTBTabbedToolbar::HideGhostButtons(const	UINT* HideIDs, const UINT* GhostIDs, const UINT* ShowIDs)
 {
 	if (m_bAutoHideToolBarButton)
 		return TRUE;
@@ -6747,10 +6756,10 @@ BOOL CTBTabbedToolbar::HideGhostButtons ( const	UINT* HideIDs, const UINT* Ghost
 	i = 0;
 	if (ShowIDs)
 	{
-		while(ShowIDs[i] != 0)
+		while (ShowIDs[i] != 0)
 		{
-			BOOL res = HideButton (ShowIDs[i], FALSE);
-			res = GhostButton (ShowIDs[i], FALSE);
+			BOOL res = HideButton(ShowIDs[i], FALSE);
+			res = GhostButton(ShowIDs[i], FALSE);
 			i++;
 		}
 	}
@@ -6759,21 +6768,21 @@ BOOL CTBTabbedToolbar::HideGhostButtons ( const	UINT* HideIDs, const UINT* Ghost
 	i = 0;
 	if (HideIDs)
 	{
-		while(HideIDs[i] != 0)
+		while (HideIDs[i] != 0)
 		{
-			BOOL res = HideButton (HideIDs[i]);
+			BOOL res = HideButton(HideIDs[i]);
 			i++;
 		}
 	}
 
 	// -------------------------
-	i= 0;
+	i = 0;
 	if (GhostIDs)
 	{
 		while (GhostIDs[i] != 0)
 		{
-			BOOL res = HideButton (GhostIDs[i], FALSE);
-			res = GhostButton (GhostIDs[i]); 
+			BOOL res = HideButton(GhostIDs[i], FALSE);
+			res = GhostButton(GhostIDs[i]);
 			i++;
 		}
 	}
@@ -6827,14 +6836,14 @@ INT	CTBTabbedToolbar::FindButton(UINT nID)
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::HideButton (UINT nID, BOOL bHide)
+BOOL CTBTabbedToolbar::HideButton(UINT nID, BOOL bHide)
 {
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
+	int nTabCount = pTabsWnd->GetTabsNum();
 	BOOL bRet = FALSE;
-	for (int i = 0; i < nTabCount; i ++)
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -6879,7 +6888,7 @@ BOOL CTBTabbedToolbar::DeleteButton(UINT nID)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
-		
+
 		int ni = pToolBar->FindButton(nID);
 		if (ni >= 0 && pToolBar->RemoveButton(ni))
 		{
@@ -6957,9 +6966,9 @@ BOOL CTBTabbedToolbar::GhostButton(UINT nID, BOOL bGhost)
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
+	int nTabCount = pTabsWnd->GetTabsNum();
 	BOOL bRet = FALSE;
-	for (int i = 0; i < nTabCount; i ++)
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -6977,8 +6986,8 @@ CTBToolBar* CTBTabbedToolbar::FindToolBar(UINT nCommandID)
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7048,8 +7057,8 @@ BOOL CTBTabbedToolbar::SetActiveTab(LPCTSTR lpszText)
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* m_pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (m_pTab);
@@ -7071,8 +7080,8 @@ BOOL CTBTabbedToolbar::RemoveTab(LPCTSTR lpszText)
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7105,15 +7114,15 @@ BOOL CTBTabbedToolbar::SetActiveTab(UINT nTabId)
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd)
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
 		if (pToolBar)
 		{
-			CString sTabID = CWndObjDescriptionContainer::GetCtrlID( pToolBar->m_hWnd);
-			if (_ttoi(sTabID)  == nTabId)
+			CString sTabID = CWndObjDescriptionContainer::GetCtrlID(pToolBar->m_hWnd);
+			if (_ttoi(sTabID) == nTabId)
 			{
 				pTabsWnd->SetActiveTab(i);
 				return TRUE;
@@ -7170,11 +7179,11 @@ void CTBTabbedToolbar::UpdateTabWnd()
 CTBToolBar*	CTBTabbedToolbar::GetToolBarActive()
 {
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
-	if (!pTabsWnd) 
+	if (!pTabsWnd)
 		return NULL;
 	int nTab = pTabsWnd->GetActiveTab();
 	CWnd* pTab = m_pTabWnd->GetTabWnd(nTab);
-	if (!pTab) 
+	if (!pTab)
 		return NULL;
 	CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
 	ASSERT(pToolBar);
@@ -7189,7 +7198,7 @@ void CTBTabbedToolbar::MoveNextTab()
 	int nTabCount = pTabsWnd->GetTabsNum();
 	int nTabActive = pTabsWnd->GetActiveTab();
 	int nTabSel = nTabActive + 1;
-	
+
 	while (nTabActive != nTabSel)
 	{
 		if (nTabSel >= nTabCount) { nTabSel = 0; }
@@ -7201,7 +7210,7 @@ void CTBTabbedToolbar::MoveNextTab()
 		nTabSel++;
 	}
 
-	
+
 	pTabsWnd->SetActiveTab(nTabSel);
 
 	// Update toolBar switch button
@@ -7213,7 +7222,7 @@ BOOL CTBTabbedToolbar::SetActiveTabByPos(UINT nPos)
 {
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
 	if (!pTabsWnd) return FALSE;
-	UINT nTabCount = (UINT) pTabsWnd->GetTabsNum();
+	UINT nTabCount = (UINT)pTabsWnd->GetTabsNum();
 	if (nPos >= nTabCount) { return FALSE; }
 	pTabsWnd->SetActiveTab(nPos);
 	// Update toolBar switch button
@@ -7225,15 +7234,15 @@ BOOL CTBTabbedToolbar::SetActiveTabByPos(UINT nPos)
 int CTBTabbedToolbar::GetActiveTab()
 {
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
-	return pTabsWnd->GetActiveTab();	
+	return pTabsWnd->GetActiveTab();
 }
 
 //-------------------------------------------------------------------------------------
 INT CTBTabbedToolbar::FindToolBarPos(LPCTSTR lpszText)
 {
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = pTabsWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7250,8 +7259,8 @@ INT CTBTabbedToolbar::FindToolBarPos(LPCTSTR lpszText)
 CTBToolBar*	CTBTabbedToolbar::FindToolBar(LPCTSTR lpszText)
 {
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7311,7 +7320,7 @@ CTBToolBar*	CTBTabbedToolbar::FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszTex
 	pToolBar = new CTBToolBar();
 	if (!pToolBar->CreateEmptyTabbedToolbar(pParentWnd, lpszText))
 	{
-		TRACE("Failed to create the toolBar.\n");	
+		TRACE("Failed to create the toolBar.\n");
 		return NULL;
 	}
 	AddTab(pToolBar, TRUE, FALSE, TRUE);
@@ -7319,11 +7328,11 @@ CTBToolBar*	CTBTabbedToolbar::FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszTex
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::SetDropdown (UINT nCommandID, CMenu* mMenu, LPCTSTR lpszText)
+BOOL CTBTabbedToolbar::SetDropdown(UINT nCommandID, CMenu* mMenu, LPCTSTR lpszText)
 {
 	CTBToolBar* pToolBar = FindToolBar(nCommandID);
 	if (!pToolBar) return FALSE;
-	pToolBar->SetDropdown (nCommandID, mMenu, lpszText);
+	pToolBar->SetDropdown(nCommandID, mMenu, lpszText);
 	return TRUE;
 }
 
@@ -7337,11 +7346,11 @@ BOOL CTBTabbedToolbar::SetDropdown (UINT nCommandID, CMenu* mMenu, LPCTSTR lpszT
 //}
 
 //-------------------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::UpdateDropdownMenu (UINT nCommandID, CMenu* mMenu)
+BOOL CTBTabbedToolbar::UpdateDropdownMenu(UINT nCommandID, CMenu* mMenu)
 {
 	CTBToolBar* pToolBar = FindToolBar(nCommandID);
 	if (!pToolBar) return FALSE;
-	pToolBar->UpdateDropdownMenu (nCommandID, mMenu);
+	pToolBar->UpdateDropdownMenu(nCommandID, mMenu);
 	return TRUE;
 }
 
@@ -7358,7 +7367,7 @@ BOOL CTBTabbedToolbar::AddDropdownMenuItem(UINT nCommandID, UINT nFlags, UINT_PT
 {
 	CTBToolBar* pToolBar = FindToolBar(nCommandID);
 	if (!pToolBar) return FALSE;
-	pToolBar->AddDropdownMenuItem(nCommandID, nFlags, nIDNewItem ,lpszNewItem, nIDImgUnchecked, nIDImgChecked, bPng);
+	pToolBar->AddDropdownMenuItem(nCommandID, nFlags, nIDNewItem, lpszNewItem, nIDImgUnchecked, nIDImgChecked, bPng);
 	return TRUE;
 }
 
@@ -7372,11 +7381,11 @@ BOOL CTBTabbedToolbar::InsertDropdownMenuItem(UINT nPos, UINT nCommandID, UINT n
 }
 
 //-------------------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::RemoveDropdown (UINT nCommandID)
+BOOL CTBTabbedToolbar::RemoveDropdown(UINT nCommandID)
 {
 	CTBToolBar* pToolBar = FindToolBar(nCommandID);
 	if (!pToolBar) return FALSE;
-	pToolBar->RemoveDropdown (nCommandID);
+	pToolBar->RemoveDropdown(nCommandID);
 	return TRUE;
 }
 
@@ -7394,9 +7403,9 @@ BOOL CTBTabbedToolbar::SetButtonInfo(UINT nID, UINT nStyle, UINT nIDImage, LPCTS
 BOOL CTBTabbedToolbar::SetButtonInfo(int nIndexToolBar, int nIndexButon, UINT nID, UINT nStyle, UINT nIDImage, LPCTSTR lpszText, BOOL bPng)
 {
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
-	if (nIndexToolBar > pTabsWnd->GetTabsNum ())
+	if (nIndexToolBar > pTabsWnd->GetTabsNum())
 		return FALSE;
-	int nTabCount = pTabsWnd->GetTabsNum ();
+	int nTabCount = pTabsWnd->GetTabsNum();
 	CWnd* pTab = m_pTabWnd->GetTabWnd(nIndexToolBar);
 	if (!pTab) return FALSE;
 
@@ -7410,7 +7419,7 @@ BOOL CTBTabbedToolbar::SetButtonInfo(int nIndexToolBar, int nIndexButon, UINT nI
 	return FALSE;
 }
 
-BOOL CTBTabbedToolbar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameSpace/* = _T("")*/,	LPCTSTR lpszText /*= NULL*/)
+BOOL CTBTabbedToolbar::SetButtonInfo(UINT nID, UINT nStyle, const CString& sImageNameSpace/* = _T("")*/, LPCTSTR lpszText /*= NULL*/)
 {
 	CTBToolBar* pToolBar = FindToolBar(nID);
 	if (!pToolBar) return FALSE;
@@ -7425,14 +7434,14 @@ BOOL CTBTabbedToolbar::ShowInDialog(CWnd* pParentWnd)
 	if (pParentWnd)
 		this->SetParent(pParentWnd);
 
-	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC) );
+	this->SetBarStyle(this->GetBarStyle() & ~(CBRS_GRIPPER | CBRS_SIZE_DYNAMIC));
 
 	__super::EnableDocking(CBRS_ALIGN_ANY);
-	
+
 	// show toolbar in tabber
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7452,17 +7461,17 @@ BOOL CTBTabbedToolbar::ShowInDialog(CWnd* pParentWnd)
 	// Toolbar tabbed resize
 	CWnd* parent = this->GetParent();
 	if (parent)
-	{	
+	{
 		CRect windowRect;
-		parent->GetWindowRect (windowRect);
+		parent->GetWindowRect(windowRect);
 
 		CRect rectTab;
-		m_pTabWnd->GetWindowRect (rectTab);
+		m_pTabWnd->GetWindowRect(rectTab);
 
-		CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow ();
+		CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
 		pTabsWnd->SetDrawFrame(FALSE);
 		pTabsWnd->SetTabBorderSize(0);
-		pTabsWnd->SetWindowPos (NULL, 0 /*rectTab.left*/, 0 /*rectTab.top*/, windowRect.Width(), rectTab.Height (), SWP_NOACTIVATE|SWP_NOMOVE|SWP_NOZORDER);
+		pTabsWnd->SetWindowPos(NULL, 0 /*rectTab.left*/, 0 /*rectTab.top*/, windowRect.Width(), rectTab.Height(), SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
 		this->AdjustSizeImmediate();
 		this->RedrawWindow();
 	}
@@ -7473,20 +7482,20 @@ BOOL CTBTabbedToolbar::ShowInDialog(CWnd* pParentWnd)
 void CTBTabbedToolbar::OnFillBackground(CDC* pDC)
 {
 	CRect rcClient;
-	GetClientRect( &rcClient );
-	pDC->FillRect(rcClient,&CBrush(AfxGetThemeManager()->GetBackgroundColor()));
+	GetClientRect(&rcClient);
+	pDC->FillRect(rcClient, &CBrush(AfxGetThemeManager()->GetBackgroundColor()));
 	this->m_pTabWnd->SetTabBkColor(this->m_pTabWnd->GetActiveTab(), AfxGetThemeManager()->GetBackgroundColor());
 }
 
 //-------------------------------------------------------------------------------------
-void CTBTabbedToolbar::AttachOSLInfo (CInfoOSL* pParent)
+void CTBTabbedToolbar::AttachOSLInfo(CInfoOSL* pParent)
 {
 	CString strTitle = _T("");
 	GetWindowTextW(strTitle);
 
 	CTBNamespace aNs;
 	aNs.SetChildNamespace(CTBNamespace::TOOLBAR, strTitle, pParent->m_Namespace);
-	
+
 	GetInfoOSL()->m_pParent = pParent;
 	GetInfoOSL()->SetType(OSLType_Toolbar);
 	GetInfoOSL()->m_Namespace = aNs;
@@ -7546,24 +7555,24 @@ void CTBTabbedToolbar::AddTabSwitch(CTBToolBar* pBar)
 }
 
 //----------------------------------------------------------------------------
-void  CTBTabbedToolbar::SetIDSwitch(UINT iIdSwitch, UINT iIdSwitchMenuStart) 
-{ 
-	m_iIdSwitch = iIdSwitch; 
-	m_iIdSwitchMenuStart = iIdSwitchMenuStart; 
+void  CTBTabbedToolbar::SetIDSwitch(UINT iIdSwitch, UINT iIdSwitchMenuStart)
+{
+	m_iIdSwitch = iIdSwitch;
+	m_iIdSwitchMenuStart = iIdSwitchMenuStart;
 }
 
 //----------------------------------------------------------------------------
 void CTBTabbedToolbar::SetSwitchEnableAlwaysDropDown(BOOL b)
-{ 
-	if (m_bShowToolBarTab) 
+{
+	if (m_bShowToolBarTab)
 		return;
-	if (m_bSwitchEnableAlwaysDropDown == b)	
+	if (m_bSwitchEnableAlwaysDropDown == b)
 		return;
 
 	m_bSwitchEnableAlwaysDropDown = b;
 
 	CBCGPTabWnd* pTabsWnd = this->GetUnderlinedWindow();
-	if(!pTabsWnd)
+	if (!pTabsWnd)
 		return;
 
 	int nTabCount = pTabsWnd->GetTabsNum();
@@ -7617,13 +7626,13 @@ BOOL CTBTabbedToolbar::OnPopulatedDropDown(UINT nIdCommand)
 }
 
 //----------------------------------------------------------------------------
-BOOL CTBTabbedToolbar::AddTab (CTBToolBar* pBar, BOOL bVisible /*TRUE*/, BOOL bSetActive /*TRUE*/, BOOL bDetachable /*TRUE*/)
+BOOL CTBTabbedToolbar::AddTab(CTBToolBar* pBar, BOOL bVisible /*TRUE*/, BOOL bSetActive /*TRUE*/, BOOL bDetachable /*TRUE*/)
 {
 	pBar->SetParentTabbedToolbar(this);
 
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
 	int nTabCount = pTabsWnd->GetTabsNum();
-	
+
 	if (nTabCount == 1)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(0);
@@ -7638,10 +7647,10 @@ BOOL CTBTabbedToolbar::AddTab (CTBToolBar* pBar, BOOL bVisible /*TRUE*/, BOOL bS
 		AddTabSwitch(pBar);
 	}
 
-	if (!__super::AddTab(pBar, bVisible, bSetActive,bDetachable))
+	if (!__super::AddTab(pBar, bVisible, bSetActive, bDetachable))
 		return FALSE;
 
-	pBar->AttachOSLInfo(GetInfoOSL());	
+	pBar->AttachOSLInfo(GetInfoOSL());
 	pBar->SetAutoHideToolBarButton(m_bAutoHideToolBarButton);
 	pBar->SetShowToolBarTab(m_bShowToolBarTab);
 	pBar->EnableHighlightedColorClick(m_bHighlightedColorClickEnable);
@@ -7650,7 +7659,7 @@ BOOL CTBTabbedToolbar::AddTab (CTBToolBar* pBar, BOOL bVisible /*TRUE*/, BOOL bS
 
 	// *** Assign ID DropDownButton ***
 	pBar->m_nIDOverlapButton = GetMaxIDCollapsed();
-	
+
 	// Move ToolBar Tools to last
 	MoveToolbarToolsToLast();
 
@@ -7748,38 +7757,38 @@ void CTBTabbedToolbar::CloneButtons(CTBToolBar* pBar)
 //----------------------------------------------------------------------------
 BOOL CTBTabbedToolbar::AddTabBefore(CTBToolBar* pBar, LPCTSTR lpszBeforeLabelToolBar, BOOL bVisible /*= TRUE*/, BOOL bSetActive /*= FALSE*/, BOOL bDetachable /*= TRUE*/)
 {
-	INT nPos =  FindToolBarPos(lpszBeforeLabelToolBar);
+	INT nPos = FindToolBarPos(lpszBeforeLabelToolBar);
 	if (nPos < 0) return FALSE;
-	AddTab (pBar, bVisible, bSetActive , bDetachable);
-	CBCGPTabWnd* pTabWnd = GetUnderlinedWindow ();
+	AddTab(pBar, bVisible, bSetActive, bDetachable);
+	CBCGPTabWnd* pTabWnd = GetUnderlinedWindow();
 	ASSERT(pTabWnd);
-	pTabWnd->MoveTab(pTabWnd->GetTabsNum() - 1 , nPos);
+	pTabWnd->MoveTab(pTabWnd->GetTabsNum() - 1, nPos);
 	MoveToolbarToolsToLast();
 	return TRUE;
 }
 
 //----------------------------------------------------------------------------
-HICON CTBTabbedToolbar::GetIconDropdownMenu	(const CBCGPToolbarMenuButton* pMenuButton)
+HICON CTBTabbedToolbar::GetIconDropdownMenu(const CBCGPToolbarMenuButton* pMenuButton)
 {
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
 	ASSERT(pTabsWnd);
 	if (!pTabsWnd)
 		return NULL;
 
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
 		HICON hIcon = pToolBar->GetIconDropdownMenu(pMenuButton);
-		if (hIcon) 
+		if (hIcon)
 			return hIcon;
 	}
 	return NULL;
 }
 
 //----------------------------------------------------------------------------
-LRESULT CTBTabbedToolbar::OnChangeActiveTab (WPARAM wParam, LPARAM lParam)
+LRESULT CTBTabbedToolbar::OnChangeActiveTab(WPARAM wParam, LPARAM lParam)
 {
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
 	CWnd* pTab = m_pTabWnd->GetTabWnd(pTabsWnd->GetActiveTab());
@@ -7792,47 +7801,47 @@ LRESULT CTBTabbedToolbar::OnChangeActiveTab (WPARAM wParam, LPARAM lParam)
 //----------------------------------------------------------------------------
 LRESULT CTBTabbedToolbar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 {
-	CWndObjDescriptionContainer* pContainer = (CWndObjDescriptionContainer*) wParam;
+	CWndObjDescriptionContainer* pContainer = (CWndObjDescriptionContainer*)wParam;
 
 	CString strId = (LPCTSTR)lParam;
 	CTabbedToolbarDescription* pDesc = (CTabbedToolbarDescription*)pContainer->GetWindowDescription(this, RUNTIME_CLASS(CTabbedToolbarDescription), strId);
-	pDesc->UpdateAttributes(this); 
-	
+	pDesc->UpdateAttributes(this);
+
 	// get selected/currently active tab index
 	int iActiveTab = GetActiveTab();
 	pDesc->SetActiveTabIndex(iActiveTab);
-	
-	
+
+
 	// get toolbars description
-	int nCount = m_Toolbars.GetCount();	
+	int nCount = m_Toolbars.GetCount();
 	//pDesc->AddChildWindows(this);
 	// iterate on toolbars.
 	for (int i = 0; i < nCount; i++)
-	{		
-		CTBToolBar* pCurrToolbar = GetToolBar(i);		
+	{
+		CTBToolBar* pCurrToolbar = GetToolBar(i);
 		//// CWndObjDescription* pCurrToolbarDescription = CTBTabbedToolbar::GetControlStructure(&pDesc->m_Children, pCurrToolbar, this);		
 		//// GetControlStructure(CWndObjDescriptionContainer* pContainer, CTBToolBar* pItem,/* CBaseTabDialog* pDialog,*/ CTBTabbedToolbar* pParentTabManager)
 		//CString strId = cwsprintf(_T("%d_%d"), this->m_hWnd, pCurrToolbar->m_hWnd);
 		//pCurrToolbar->SendMessage(UM_GET_CONTROL_DESCRIPTION,(WPARAM)&(pDesc->m_Children), (LPARAM) (LPCTSTR) strId);
 		// CWndObjDescription* pCurrToolbarDescription = CTBTabbedToolbar::GetControlStructure(&pDesc->m_Children, pCurrToolbar, this);
-		if(iActiveTab == i)
+		if (iActiveTab == i)
 		{
 			// current tab is the active one.
 			// ask for its children description.
 			// 			pCurrToolbarDescription->AddChildWindows(this);
-			
+
 			// CWndObjDescription* pCurrToolbarDescription = CTBTabbedToolbar::GetControlStructure(&pDesc->m_Children, pCurrToolbar, this);		
 			// GetControlStructure(CWndObjDescriptionContainer* pContainer, CTBToolBar* pItem,/* CBaseTabDialog* pDialog,*/ CTBTabbedToolbar* pParentTabManager)
 			CString strId = cwsprintf(_T("%d_%d"), this->m_hWnd, pCurrToolbar->m_hWnd);
-			pCurrToolbar->SendMessage(UM_GET_CONTROL_DESCRIPTION,(WPARAM)&(pDesc->m_Children), (LPARAM) (LPCTSTR) strId);
+			pCurrToolbar->SendMessage(UM_GET_CONTROL_DESCRIPTION, (WPARAM)&(pDesc->m_Children), (LPARAM)(LPCTSTR)strId);
 
 		}
 		else
 		{
-			 CWndObjDescription* pCurrToolbarDescription = CTBTabbedToolbar::GetControlStructure(&pDesc->m_Children, pCurrToolbar, this);
-		}		
+			CWndObjDescription* pCurrToolbarDescription = CTBTabbedToolbar::GetControlStructure(&pDesc->m_Children, pCurrToolbar, this);
+		}
 	}
-	
+
 	/*
 	if (nCount == 0 && m_pActiveDlg)
 	{
@@ -7845,8 +7854,8 @@ LRESULT CTBTabbedToolbar::OnGetControlDescription(WPARAM wParam, LPARAM lParam)
 }
 
 //----------------------------------------------------------------------------
-LRESULT CTBTabbedToolbar::OnSetActiveTab(WPARAM wParam, LPARAM lParam){
-	SetActiveTab((UINT) wParam);
+LRESULT CTBTabbedToolbar::OnSetActiveTab(WPARAM wParam, LPARAM lParam) {
+	SetActiveTab((UINT)wParam);
 	return 0;
 }
 
@@ -7855,9 +7864,9 @@ CWndObjDescription* CTBTabbedToolbar::GetControlStructure(CWndObjDescriptionCont
 {
 	CString strId = cwsprintf(_T("%d_%d"), pParentTabManager->m_hWnd, pItem->m_hWnd);
 	CToolbarDescription *pToolbarDesc = (CToolbarDescription*)pContainer->GetWindowDescription(pItem, RUNTIME_CLASS(CToolbarDescription), strId);
-	
-	CString strTitle =  pItem->GetName();
-	if (pToolbarDesc->m_strText != strTitle)	
+
+	CString strTitle = pItem->GetName();
+	if (pToolbarDesc->m_strText != strTitle)
 	{
 		pToolbarDesc->m_strText = strTitle;
 		pToolbarDesc->SetUpdated(&pToolbarDesc->m_strText);
@@ -7872,8 +7881,8 @@ int CTBTabbedToolbar::CalcMinimumWidth(BOOL bHidden /*= FALSE*/)
 	int iWidthMax = 0;
 	int iWidth = 0;
 	CBCGPTabWnd*	pTabsWnd = this->GetUnderlinedWindow();
-	int nTabCount = pTabsWnd->GetTabsNum ();
-	for (int i = 0; i < nTabCount; i ++)
+	int nTabCount = pTabsWnd->GetTabsNum();
+	for (int i = 0; i < nTabCount; i++)
 	{
 		CWnd* pTab = m_pTabWnd->GetTabWnd(i);
 		CTBToolBar* pToolBar = dynamic_cast<CTBToolBar*> (pTab);
@@ -7936,7 +7945,7 @@ INT CTBTabbedToolbar::CalcMinToolBar()
 		{
 			INT nMin = pToolBar->CalcMinToolBar();
 			minToolBar = max(minToolBar, nMin);
-		}		
+		}
 	}
 	return minToolBar;
 }
@@ -7982,7 +7991,7 @@ CIconList::CIconList()
 CIconList::CIconList(HICON hico, UINT nID, CString mText)
 {
 	this->iID = nID;
-	this->hIco = hico; 
+	this->hIco = hico;
 	this->mText = mText;
 }
 

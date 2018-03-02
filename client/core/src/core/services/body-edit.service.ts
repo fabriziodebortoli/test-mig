@@ -8,7 +8,9 @@ export class BodyEditService {
   public rowHeight: number = 25;
   minimumRowHeight: number = 25;
   rowHeightStep: number = 10;
+  public bodyEditName: string;
 
+  public rowViewVisible: boolean = false;
   public currentRow: any;
   increaseRowHeight() {
 
@@ -19,5 +21,10 @@ export class BodyEditService {
 
     if (this.rowHeight > this.minimumRowHeight + 10)
     this.rowHeight -= 10;
+  }
+
+  setRowViewVisibility(visible: boolean)
+  {
+    this.rowViewVisible = visible;
   }
 }

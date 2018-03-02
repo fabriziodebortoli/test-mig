@@ -197,7 +197,7 @@ HACCEL CAbstractFrame::GetDocumentAccelerator()
 //-----------------------------------------------------------------------------
 CString CAbstractFrame::GetDocAccelText(WORD id)
 {
-	return m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T("");
+	return GetAcceleratorText(m_hAccelTable, id);
 }
 
 // Reimplementa la versione base implementata in winmdi. 

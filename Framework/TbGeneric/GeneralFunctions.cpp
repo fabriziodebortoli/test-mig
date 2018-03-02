@@ -2920,6 +2920,26 @@ bool GetKeyName(UINT nVK, CString& str) {
 	return bResult != FALSE;
 }
 //------------------------------------------------------------------------------
+CString GetAcceleratorText(HACCEL hAccel, WORD id)
+{
+	int iNumAccelerators = CopyAcceleratorTable(hAccel, NULL, 0);
+	ACCEL *pAccels = new ACCEL[iNumAccelerators];
+
+	// Copy the current table to the buffer
+	VERIFY(CopyAcceleratorTable(hAccel, pAccels, iNumAccelerators) == iNumAccelerators);
+
+	CString sDesc;
+	for (int k = 0; k < iNumAccelerators; k++) {
+		if (id == pAccels[k].cmd)
+		{
+			sDesc = GetAcceleratorText(pAccels[k]);
+			break;
+		}
+	}
+	delete pAccels;
+	return sDesc;
+}
+//------------------------------------------------------------------------------
 CString GetAcceleratorText(const ACCEL& accel)
 {
 	CString strAccel;

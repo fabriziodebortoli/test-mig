@@ -168,9 +168,7 @@ export class BOService extends DocumentService {
         return patch;
     }
     applyPatch(model: any, patch: any) {
-        if (model.modelChanged) {
-            model.modelChanged.emit();
-        }
+
         if (model instanceof Array) {
             if (!(patch instanceof Array)) {
                 console.error("Patch data is not an array as expected");
@@ -204,15 +202,24 @@ export class BOService extends DocumentService {
         }
         else {
             for (const prop in patch) {
+                let patchVal = patch[prop];
                 if (!model.hasOwnProperty(prop)) {
-                    model[prop] = patch[prop];
-                    addModelBehaviour(model[prop], prop);
-                    this.attachEventsToModel(model[prop]);
+                    model[prop] = patchVal;
+                    addModelBehaviour(patchVal, prop);
+                    this.attachEventsToModel(patchVal);
                 } else {
-                    this.applyPatch(model[prop], patch[prop]);
+                    if (patchVal instanceof Object) {
+                        this.applyPatch(model[prop], patchVal);
+                    }
+                    else {
+                        model[prop] = patchVal;
+                    }
+
                 }
             }
-
+        }
+        if (model.modelChanged) {
+            model.modelChanged.emit();
         }
     }
 
@@ -316,10 +323,7 @@ export class BOService extends DocumentService {
     doChange(id: string) {
         if (this.isServerSideCommand(id)) {
             const patch = this.getPatchedData();
-            if (patch.length > 0) {
-                console.log("dochange", patch, "id", id);
-                this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
-            }
+            this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
         }
     }
 

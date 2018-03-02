@@ -185,7 +185,8 @@ CAbstractDoc::~CAbstractDoc()
 //------------------------------------------------------------------------------
 CString CAbstractDoc::GetDocAccelText(WORD id)
 {
-	CString sDesc = m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T("");
+	CString sDesc = GetAcceleratorText(m_hDocAccel, id);
+	//CString sDesc = m_pAccelDesc ? m_pAccelDesc->GetDescription(id) : _T("");
 	if (sDesc.IsEmpty())
 	{
 		CView*	pView = GetFirstView();
@@ -196,14 +197,7 @@ CString CAbstractDoc::GetDocAccelText(WORD id)
 		}
 	}
 
-	if (sDesc.IsEmpty())
-		return sDesc;
-
-	CString sAcc;
-	sAcc.Append(_T(" ("));
-	sAcc.Append(sDesc);
-	sAcc.Append(_T(")"));
-	return sAcc;
+	return sDesc;
 }
 //------------------------------------------------------------------------------
 void CAbstractDoc::LoadDocAccel()

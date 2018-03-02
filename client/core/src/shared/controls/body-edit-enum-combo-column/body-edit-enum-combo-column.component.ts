@@ -39,7 +39,7 @@ export class BodyEditEnumComboColumnComponent extends BodyEditColumnComponent {
   {
     let lenght = (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length) 
     ? this.bodyEditService.prototype[this.columnName].length
-    : this.title.length;
+    : this.title? this.title.length : 10;
    return lenght *10;
   }
 }

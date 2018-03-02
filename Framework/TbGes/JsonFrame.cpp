@@ -459,14 +459,6 @@ template <class T> void CJsonFrameT<T>::OnUpdateFrameTitle(BOOL bAddToTitle)
 }
 
 //-----------------------------------------------------------------------------
-template <class T> CString CJsonFrameT<T>::GetDocAccelText(WORD id) 
-{
-	return m_pJsonContext->m_pDescription && m_pJsonContext->m_pDescription->m_pAccelerator 
-		? m_pJsonContext->m_pDescription->m_pAccelerator->GetDescription(id) 
-		: _T("");
-}
-
-//-----------------------------------------------------------------------------
 template <class T> BOOL CJsonFrameT<T>::LoadFrame(UINT nIDResource,
 	DWORD dwDefaultStyle /*= WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE*/,
 	CWnd* pParentWnd /*= NULL*/,

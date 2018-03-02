@@ -31,6 +31,7 @@
         internal const string tbTile = "tb-tile";
         internal const string tbTilePanel = "tb-tile-panel";
         internal const string tbPanel = "tb-panel";
+        internal const string tbRowViewForm = "tb-row-view-form";
         internal const string tbBodyEdit = "tb-body-edit";
         internal const string tbBodyEditColumn = "tb-body-edit-column";
         internal const string tbBodyEditToolbar = "tb-body-edit-toolbar";

@@ -178,7 +178,7 @@ void CWndBodyElementDescription::SerializeJson(CJsonSerializer& strJson)
 void CWndBodyElementDescription::ParseJson(CJsonFormParser& parser)
 {
 	__super::ParseJson(parser);
-	
+
 	if (parser.Has(szJsonTextAlign))
 		m_nTextAlign = parser.ReadBool(szJsonTextAlign);
 
@@ -1385,12 +1385,12 @@ ColumnInfo* CBodyEdit::AddColumn
 					pData->GetDataType() == dt
 					||
 					(
-						pData->GetDataType() == DATA_DATE_TYPE	&&
+						pData->GetDataType() == DATA_DATE_TYPE &&
 						dt == DATA_DATE_TYPE
 						)
 					||
 					(
-						pData->GetDataType() == DATA_TXT_TYPE	&&
+						pData->GetDataType() == DATA_TXT_TYPE &&
 						dt == DATA_STR_TYPE
 						)
 					),
@@ -2260,7 +2260,7 @@ BOOL CBodyEdit::RecalcRowsLayout()
 	// (minus one to overlap line separators)
 	CDC* pDC = GetDC();
 	m_nRowsHeight = GetEditSize(pDC, GetFont(), 1, m_nLinesPerRow > 0 ? m_nLinesPerRow : 1).cy - ScalePix(1);
-	
+
 	// extra inner space 4k
 	if (IsScale())
 		m_nRowsHeight += ScalePix(10);
@@ -3947,7 +3947,7 @@ void CBodyEdit::DrawTitles(CDC* pDC, LPDRAWITEMSTRUCT lpDIS, COLORREF crBackgnd)
 						yTitle += tm.tmHeight + ScalePix(5);
 					else
 						yTitle += tm.tmHeight;
-					
+
 					pRow = _tcstok_s(NULL, _T("\n"), &nextToken);
 				};
 				strT.ReleaseBuffer();
@@ -4309,7 +4309,7 @@ void CBodyEdit::DrawRow(CDC* pDC, LPDRAWITEMSTRUCT lpDIS, int nRow, int nYStart,
 
 						rectDraw.left = rectDraw.left + nLeft;
 						rectDraw.bottom = rectDraw.top + h;
-						rectDraw.right  = rectDraw.left + w;
+						rectDraw.right = rectDraw.left + w;
 					}
 
 					pParsedBmp->DrawBitmap(*pDC, rectDraw);
@@ -6294,7 +6294,7 @@ void CBodyEdit::OnLButtonUp(UINT, CPoint point)
 			SqlRecord* pRec = NULL;
 			if (
 				m_bTwoClicks &&												// ho fatto click sulla riga corrente
-				m_nCurrRecordIdx == nNewCurrRec	&&							// non ho cambiato riga tra il down e l'up
+				m_nCurrRecordIdx == nNewCurrRec &&							// non ho cambiato riga tra il down e l'up
 				pCol->IsReadOnly(GetCurrRecord()) &&						// il dataobj è read-only
 				pCol->HasHyperLink() &&										// c'è un hyperlink
 				m_pDBT &&													//C'è IL DBT
@@ -8010,7 +8010,7 @@ void CBodyEdit::SaveStartColumn()
 void CBodyEdit::UnsaveStartRecord()
 {
 	if (
-		m_nCurrRecordIdx >= m_nStartRecordIdx	&&
+		m_nCurrRecordIdx >= m_nStartRecordIdx &&
 		m_nCurrRecordIdx <= GetEndRecordIdx()
 		)
 		m_nOldStartRecordIdx = -1;
@@ -8418,7 +8418,7 @@ BOOL CBodyEdit::CanInsertRowByBodyTree()
 //-----------------------------------------------------------------------------
 BOOL CBodyEdit::CanInsertRowByTreeEdit(BOOL bEmitError /*= TRUE*/)
 {
-	return 	m_bAddRowEnabled						&&
+	return 	m_bAddRowEnabled &&
 		m_bInsertRowEnabled &&
 		!m_bInternalReadOnly					&&
 		m_pDBT									&&
@@ -11494,7 +11494,7 @@ void CBodyEdit::RecalculateAllColPos()
 	/*	BodyEditColumn* pBEInfoCol = pBEInfo ? pBEInfo->GetColumnObject(pColInfo->GetNamespace()) : NULL;
 		if (pBEInfoCol)
 		{
-			// arriva dal TBF quindi lo devo lasciare così come è oppure mi arriva una colonna 
+			// arriva dal TBF quindi lo devo lasciare così come è oppure mi arriva una colonna
 			// che non e' modificata da nessuno la lascio nella sua posizione
 			if (pBEInfoCol->m_bModified && pBEInfoCol->m_nColPos == pBEInfoCol->m_nDefaultColPos)
 				continue;
@@ -13047,7 +13047,9 @@ void CBEButton::SetTooltip(const CString& sTooltip)
 		CString sAcc = m_pToolBar->m_pBody->GetDocument()->GetDocAccelText(m_nID);
 		if (!sAcc.IsEmpty() && m_strTooltip.Find(sAcc) < 0)
 		{
+			m_strTooltip += _T(" (");
 			m_strTooltip += sAcc;
+			m_strTooltip += _T(")");
 		}
 	}
 
@@ -13283,7 +13285,9 @@ void CBEButton::AddMenuItem(CString aName, CString sDescription, UINT nMenuID, B
 		CString sAcc = m_pToolBar->m_pBody->GetDocument()->GetDocAccelText(nMenuID);
 		if (!sAcc.IsEmpty() && m_strTooltip.Find(sAcc) < 0)
 		{
+			sDescription += _T(" (");
 			sDescription += sAcc;
+			sDescription += _T(")");
 		}
 	}
 

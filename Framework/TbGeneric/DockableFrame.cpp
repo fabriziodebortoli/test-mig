@@ -479,10 +479,16 @@ void CDockableFrame::ActivateFrame(int nCmdShow)
 			pThread->m_pActiveWnd = this;
 	}
 
-	//Usato perche a volte la BringToTop chiamata da CFrameWnd::ActivateFrame fallisce.
-	//es. nel caso di radar chiamato da hotlink, l'attivazione del frame di documento non va a buon fine
-	//e di conseguenza il radar non venendo disattivato non muore
-	SendMessage(WM_ACTIVATE, WA_ACTIVE, (LPARAM)m_hWnd);
+	//PERASSO: lo commento, il problema originario sembra essere rientrato, e questa SendMessage mi causa 
+	//l'invio di una KillFocus prematura nel parsed control in fase di apertura del documento, che
+	//causa un travaso di un dato vuoto dalla finestra al dataobj inizializzato nella OnAttachData
+	//annullando l'inizializzazione
+	/********************************************************************************
+		//Usato perche a volte la BringToTop chiamata da CFrameWnd::ActivateFrame fallisce.
+		//es. nel caso di radar chiamato da hotlink, l'attivazione del frame di documento non va a buon fine
+		//e di conseguenza il radar non venendo disattivato non muore
+		//SendMessage(WM_ACTIVATE, WA_ACTIVE, (LPARAM)m_hWnd);
+	********************************************************************************/
 }
 
 //-----------------------------------------------------------------------------
