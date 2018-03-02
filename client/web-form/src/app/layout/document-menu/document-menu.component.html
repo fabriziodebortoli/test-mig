@@ -112,7 +112,7 @@
                                         </tb-body-edit-column>
                                         <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_BE_LINETYPE" [model]="eventData?.model?.Detail?.LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo">
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DOC_DETAIL_DRAWING" [model]="eventData?.model?.Detail?.Drawing" [hotLink]="{'name':'HKLDrawingsDetail','namespace':'ERP.BillOfMaterials.Dbl.Drawings'}" [title]="_TB('Drawing')" columnType="erp-item-edit" *ngIf="eventData?.activation?.IDC_QUOTATIONS_DOC_DETAIL_DRAWING">
+                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DOC_DETAIL_DRAWING" [model]="eventData?.model?.Detail?.Drawing" [title]="_TB('Drawing')" columnType="erp-item-edit" *ngIf="eventData?.activation?.IDC_QUOTATIONS_DOC_DETAIL_DRAWING">
                                         </tb-body-edit-column>
                                     </tb-body-edit>
                                 </tb-panel>
@@ -338,7 +338,7 @@
                                         </tb-body-edit-column>
                                         <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT" columnName="DocumentType" [title]="_TB('Document')" columnType="tb-enum-combo" *ngIf="eventData?.activation?.IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT">
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_NUMBER" columnName="DocumentNo" [hotLink]="{'name':'HKLSaleDocument','mustExistData':false}" [title]="_TB('Document\nNumber')" columnType="tb-label-static">
+                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_NUMBER" columnName="DocumentNo" [title]="_TB('Document\nNumber')" columnType="tb-label-static">
                                         </tb-body-edit-column>
                                         <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_DATE" formatter="Date" [readonly]="true" columnName="DocumentDate" [title]="_TB('Document\nDate')" columnType="tb-date-input">
                                         </tb-body-edit-column>
