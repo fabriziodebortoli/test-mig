@@ -4958,7 +4958,7 @@ BOOL CWoormDocMng::RunEngine(const CString& strFile)
 
 	if (this->GetWoormFrame(FALSE))
 	{
-		if (this->GetWoormFrame()->GetTabbedToolBar())
+		if (this->GetWoormFrame()->GetTabbedToolBar(FALSE))
 			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI();
 		if (this->GetWoormFrame()->GetStatusBar())
 			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI();
@@ -4970,7 +4970,7 @@ BOOL CWoormDocMng::RunEngine(const CString& strFile)
 	//AfxGetTBThread()->SetSuspendIdle(FALSE);
 	if (this->GetWoormFrame(FALSE))
 	{
-		if (this->GetWoormFrame()->GetTabbedToolBar())
+		if (this->GetWoormFrame()->GetTabbedToolBar(FALSE))
 			this->GetWoormFrame()->GetTabbedToolBar()->SetSuspendUpdateCmdUI(FALSE);
 		if (this->GetWoormFrame()->GetStatusBar())
 			this->GetWoormFrame()->GetStatusBar()->SetSuspendUpdateCmdUI(FALSE);
@@ -6233,12 +6233,13 @@ void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 	CWoormFrame* pFrame = GetWoormFrame();
 	ASSERT_VALID(pFrame);
 	ASSERT(pFrame->m_hWnd);
-	pFrame->CreateTools(this);
 
 	if (m_pWoormInfo->m_bHideFrame)
 		pFrame->ShowWindow(SW_HIDE);
 	else if (m_pWoormInfo->m_bIconized)
 		pFrame->ShowWindow(SW_SHOWMINIMIZED);
+	else
+		pFrame->CreateTools(this);
 
 	// SendMessage e non Post per permettere di cancellare il pWormInfo
 	// da chi sta chiamando e non dal report stesso nel caso sia di proprieta
@@ -7235,11 +7236,11 @@ BOOL CWoormDocMng::DoExportOutput()
 	else
 		strFilename = MakeName(_T("Att"), pExp->GetExportFileExtension());
 
-	AfxGetTBThread()->SetSuspendIdle();
+	AfxGetTBThread()->IncSuspendIdle();
 
 	BOOL ok = m_pExportData->RunExport(strFilename, TRUE);
 
-	AfxGetTBThread()->SetSuspendIdle(FALSE);
+	AfxGetTBThread()->DecSuspendIdle();
 
 	return ok;
 }
@@ -9973,95 +9974,97 @@ void CWoormDocMng::UpdateSpecialField()
 }
 
 //------------------------------------------------------------------------------
+CMyStatusBar* CWoormDocMng::GetStatusBar()
+{
+	CWoormFrame* pFrame = GetWoormFrame();
+	if (!pFrame)
+		return NULL;
+	if (!pFrame->m_RSStatusBar.m_hWnd)
+		return NULL;
+	if (!::IsWindow(pFrame->m_RSStatusBar.m_hWnd))
+		return NULL;
+	return &pFrame->m_RSStatusBar;
+}
+
+//------------------------------------------------------------------------------
 void CWoormDocMng::SetPageIndicator()
 {
+	CMyStatusBar* pStatusBar = GetStatusBar();
+	if (!pStatusBar) return;
+
 	if (m_pRDEmanager->IsClosed()) return;
 
 	int		curr_page = m_pRDEmanager->CurrPageRead() + 1;
 	int 	last_page = m_pRDEmanager->LastPage() + 1;
 
-	CWoormFrame* pFrame = GetWoormFrame();
-	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
-		return;
-	CClientDC	dc(&(pFrame->m_StatusBar));
-
-	const rsize_t nBuff = 40;
-	static TCHAR indicator[40];
-
 	// format page status
+	const rsize_t nBuff = 80;
+	static TCHAR indicator[80];
+
 	_sntprintf_s(indicator, nBuff, sizeof indicator, _T("%04d:%04d"), curr_page, last_page);
 
-	pFrame->m_StatusBar.SetPaneText(0, indicator);
+	pStatusBar->SetPaneText(0, indicator);
 }
-
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetRunIndicator()
 {
+	CMyStatusBar* pStatusBar = GetStatusBar();
+	if (!pStatusBar) return;
+
 	// don't display record count on playback (no record extracted from database)                      
 	if (m_bPlayback || m_pRDEmanager->IsClosed()) return;
 
-	CWoormFrame* pFrame = GetWoormFrame();
-	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
-		return;
-	CClientDC	dc(&(pFrame->m_StatusBar));
-
 	// format run status
-	const rsize_t nBuff = 40;
-	static TCHAR indicator[40];
+	const rsize_t nBuff = 80;
+	static TCHAR indicator[80];
 	_sntprintf_s(indicator, nBuff, sizeof indicator, _T("%-3s %06ld : %06ld"), pchSortStatusString, m_nSearchTic, m_nRetrieveTic);
 
-	pFrame->m_StatusBar.SetPaneText(1, indicator);
-
+	pStatusBar->SetPaneText(1, indicator);
 }
 //------------------------------------------------------------------------------
 void CWoormDocMng::SetMessageInStatusBar(CString message, MSGSBType eMsgType)
 {
-	CWoormFrame* pFrame = GetWoormFrame();
-	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
-		return;
-	CClientDC	dc(&(pFrame->m_StatusBar));
+	CMyStatusBar* pStatusBar = GetStatusBar();
+	if (!pStatusBar) return;
 
 	switch (eMsgType)
 	{
 	case MSG_SB_NORMAL:
-		pFrame->m_StatusBar.SetPaneTextColor(3, AfxGetThemeManager()->GetStatusbarTextColor());
+		pStatusBar->SetPaneTextColor(3, AfxGetThemeManager()->GetStatusbarTextColor());
 		break;
 	case MSG_SB_SUCCESS:
-		pFrame->m_StatusBar.SetPaneTextColor(3, RGB(0, 255, 0));
+		pStatusBar->SetPaneTextColor(3, RGB(0, 255, 0));
 		break;
 	case MSG_SB_INFO:
-		pFrame->m_StatusBar.SetPaneTextColor(3, RGB(0, 148, 255));
+		pStatusBar->SetPaneTextColor(3, RGB(0, 148, 255));
 		break;
 	case MSG_SB_WARNING:
-		pFrame->m_StatusBar.SetPaneTextColor(3, RGB(255, 216, 0));
+		pStatusBar->SetPaneTextColor(3, RGB(255, 216, 0));
 		break;
 	case MSG_SB_ERROR:
-		pFrame->m_StatusBar.SetPaneTextColor(3, RGB(255, 0, 0));
+		pStatusBar->SetPaneTextColor(3, RGB(255, 0, 0));
 		break;
 	}
 
-	pFrame->m_StatusBar.SetPaneText(3, message);
+	pStatusBar->SetPaneText(3, message);
 
-	CFont* pFont = pFrame->m_StatusBar.GetFont();
+	CFont* pFont = pStatusBar->GetFont();
 
-	CDC* pDC = pFrame->m_StatusBar.GetDC();
+	CDC* pDC = pStatusBar->GetDC();
 	CSize sz = ::GetTextSize(pDC, message, pFont);
+	pStatusBar->ReleaseDC(pDC);
 
-	pFrame->m_StatusBar.ReleaseDC(pDC);
-
-	pFrame->m_StatusBar.SetPaneWidth(3, sz.cx);
+	pStatusBar->SetPaneWidth(3, sz.cx);
 }
 
 //------------------------------------------------------------------------------
 void CWoormDocMng::ClearMessageInStatusBar()
 {
-	CWoormFrame* pFrame = GetWoormFrame();
-	if (pFrame == NULL || !::IsWindow(pFrame->m_StatusBar.m_hWnd))
-		return;
-	CClientDC	dc(&(pFrame->m_StatusBar));
+	CMyStatusBar* pStatusBar = GetStatusBar();
+	if (!pStatusBar) return;
 
-	pFrame->m_StatusBar.SetPaneText(3, _T(""));
+	pStatusBar->SetPaneText(3, _T(""));
 }
 
 //------------------------------------------------------------------------------

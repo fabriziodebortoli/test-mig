@@ -85,35 +85,37 @@ class TB_EXPORT CWoormFrame : public CAbstractWoormFrame
 {
 	DECLARE_DYNCREATE(CWoormFrame)
 protected:
-	CWoormDocMng*	m_pDoc;
+	CWoormDocMng*	m_pDoc = NULL;
 	CPoint			m_ptAnchor;
 private:
-	BOOL	m_bCanUseReportEditor;
+	BOOL	m_bCanUseReportEditor = FALSE;
 
 protected:
 	CWoormFrame();          // protected constructor used by dynamic creation
+
 	void SetPaneInfo (UINT nId, UINT nStyle, int cwWidth);
 	BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL IsRadarFrame() const { return FALSE; }
 
-	CTBTabbedToolbar* m_pTabbedToolBar;
-	CTBToolBar*	m_pToolBar;
-	CTBToolBar*	m_pEditToolBar;
-	CTBToolBar*	m_pSizeBar;
-	CTBToolBar*	m_pBorderBar;
-	CTBToolBar*	m_pAlignMoveBar;
-	CTBToolBar*	m_pObjectBar;
+private:
+	CTBTabbedToolbar* m_pWTabbedToolBar = NULL;
+		CTBToolBar*	m_pWToolBar = NULL;
+		CTBToolBar*	m_pWEditToolBar = NULL;
+		CTBToolBar*	m_pWSizeToolBar = NULL;
+		CTBToolBar*	m_pWBorderToolBar = NULL;
+		CTBToolBar*	m_pWAlignMoveToolBar = NULL;
+		CTBToolBar*	m_pWObjectToolBar = NULL;
 
 public:  // control bar embedded members
 	CToolCbxStr		m_cbxTemplatesStr;
 
-	CMyStatusBar			m_StatusBar;
-	CFont*					m_pStatusBarFont;
+	CMyStatusBar			m_RSStatusBar;
+	CFont					m_StatusBarFont;
 
 	CStringArray			m_arUICultures;
 	CStringArray			m_arUICultureDescriptions;
 
-	BOOL					m_bAlignToolbarFloating;
+	BOOL					m_bAlignToolbarFloating = FALSE;
 
 // Operations
 public:
@@ -146,12 +148,15 @@ public:
 
 	void	ShowDDLTemplates	(CWoormDocMng* pDoc = NULL);
 
-	CTBTabbedToolbar*	GetTabbedToolBar() { return m_pTabbedToolBar;}
-	CTBToolBar*			GetToolBar(LPCTSTR lpszText) { ASSERT(m_pTabbedToolBar); return m_pTabbedToolBar->FindToolBar(lpszText); }
-	CTBToolBar*			GetObjectToolBar() { ASSERT_VALID(m_pTabbedToolBar); return m_pObjectBar; }
-	CTBToolBar*			GetEditorToolBar()	{ ASSERT_VALID(m_pEditToolBar); return m_pEditToolBar; }
+	CTBTabbedToolbar*	GetTabbedToolBar	(BOOL bCheck = TRUE) { if (bCheck) ASSERT_VALID(m_pWTabbedToolBar); return m_pWTabbedToolBar;}
+		CTBToolBar*			GetToolBar			(LPCTSTR lpszText) { ASSERT_VALID(m_pWTabbedToolBar); return m_pWTabbedToolBar->FindToolBar(lpszText); }
+		CTBToolBar*			GetMainToolBar		() { ASSERT_VALID(m_pWToolBar); return m_pWToolBar; }
+		CTBToolBar*			GetObjectToolBar	() { ASSERT_VALID(m_pWObjectToolBar); return m_pWObjectToolBar; }
+		CTBToolBar*			GetEditorToolBar	() { ASSERT_VALID(m_pWEditToolBar); return m_pWEditToolBar; }
+
 	BOOL OnDrawMenuImage(CDC* pDC, const CBCGPToolbarMenuButton* pMenuButton, const CRect& rectImage);
-	CMyStatusBar*		GetStatusBar() { return &m_StatusBar; }
+
+	CMyStatusBar*		GetStatusBar() { return &m_RSStatusBar; }
 protected:
 	//DDL: drop down list
 	BOOL	CreateDDLTemplates(CWoormDocMng* pDoc = NULL);
@@ -199,6 +204,8 @@ public:
 	afx_msg LRESULT	OnGetSplittedString	(WPARAM, LPARAM);
 	
 	afx_msg void	OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+	afx_msg void	OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized);
+
 	LRESULT OnActivateTab(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()

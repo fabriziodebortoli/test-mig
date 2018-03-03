@@ -1915,12 +1915,12 @@ void CWoormView::OnFilePrint()
 	// del numero di copie da stampare.
 	if	( GetDocument()->IsRunningFromExternalController() )
 	{
-		AfxGetTBThread()->SetSuspendIdle();
+		AfxGetTBThread()->IncSuspendIdle();
 
 		OnSilentFilePrint(); // Se la stampa del report viene lanciata dal controller esterno (scheduler)
 							 // non si devono visualizzare dialog di stampa o messaggi di errore 
 
-		AfxGetTBThread()->SetSuspendIdle(FALSE);
+		AfxGetTBThread()->DecSuspendIdle();
 	}
 	else
 		CBCGPScrollView::OnFilePrint();
@@ -2400,11 +2400,11 @@ BOOL CWoormView::OnPDFPrint (UINT nStartPage, UINT nEndPage, UINT nCopies, LPCTS
 				pwd = DEFAULT_CRYPT_PDF_PASSWORD;
 		}
 		
-		AfxGetTBThread()->SetSuspendIdle();
+		AfxGetTBThread()->IncSuspendIdle();
 
 		OnPDFPrint(nStartPage, nEndPage, nCopies, pszFileName, pwd, params->GetPrinterTemplate());
 
-		AfxGetTBThread()->SetSuspendIdle(FALSE);
+		AfxGetTBThread()->DecSuspendIdle();
 
 		return TRUE;
 	}
@@ -3008,7 +3008,7 @@ BOOL CWoormView::DoPreparePrinting(CPrintInfo* pInfo, BOOL bPrintDialog/* = TRUE
 			GetDocument()->m_pWoormInfo->m_bPrintAborted = !bOk;
 			if (GetDocument()->m_pOldWoormInfo)
 				GetDocument()->m_pOldWoormInfo->m_bPrintAborted = !bOk;
-			if(GetDocument()->m_pWoormInfo->GetMassiveOperation())
+			if (GetDocument()->m_pWoormInfo->GetMassiveOperation())
 				GetDocument()->m_pWoormInfo->m_bPrintOnLetterHead = GetDocument()->m_bPrintOnLetterhead;
 		}
 		else

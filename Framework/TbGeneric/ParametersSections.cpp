@@ -68,6 +68,7 @@ const TCHAR szRepeatableNew[]				= _T("RepeatableNew");
 const TCHAR szUseEasyBrowsing[]				= _T("UseEasyBrowsing");
 const TCHAR szEnableFindOnSlaveFields[]		= _T("EnableFindOnSlaveFields");
 const TCHAR szTBLoaderDefaultSOAPPort[]		= _T("TBLoaderDefaultSOAPPort");
+const TCHAR szEnableSuspendOnIdle[]			= _T("EnableSuspendOnIdle");
 
 
 

@@ -137,10 +137,14 @@ public:
 	virtual bool IsManaged(){ return false; }
 
 protected:
-	BOOL m_bSuspendIdle = FALSE;
+	int m_nSuspendIdle = 0;
+	BOOL m_bSuspendIdleEnabled = TRUE;
 public:
-	void SetSuspendIdle(BOOL bSuspend = TRUE) { m_bSuspendIdle = bSuspend; }
-	BOOL IsSuspendedIdle() { return m_bSuspendIdle; }
+	void IncSuspendIdle() { m_nSuspendIdle++; }
+	void DecSuspendIdle() { if (m_nSuspendIdle) m_nSuspendIdle--; }
+	void ResetSuspendIdle() { m_nSuspendIdle = 0; }
+	void SetEnableSuspendIdle(BOOL bEnable) { m_bSuspendIdleEnabled = bEnable; }
+	BOOL IsSuspendedIdle() { return m_bSuspendIdleEnabled && m_nSuspendIdle > 0; }
 	virtual BOOL OnIdle(LONG lCount);
 
 	virtual BOOL PumpMessage();
@@ -150,7 +154,6 @@ public:
 protected:
 	virtual CThreadInfo* AddThreadInfos(CThreadInfoArray& arInfos);
 	virtual BOOL DoEvents(BOOL& bIdle, LONG& lIdleCount, BOOL bIncreaseInnerLoopDepth /*= TRUE*/);
-	
 };
 
 //-----------------------------------------------------------------------------

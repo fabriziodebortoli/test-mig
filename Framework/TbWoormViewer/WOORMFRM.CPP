@@ -50,7 +50,7 @@ static const char BASED_CODE THIS_FILE[] = __FILE__;
 	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame) return TRUE;
 
 #define CHECK_HIDDEN_STATUS_VOID \
-	if ((m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame) || !m_pToolBar->m_hWnd ) return;
+	if ((m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame) || !m_pWToolBar || !m_pWToolBar->m_hWnd ) return;
 
 /////////////////////////////////////////////////////////////////////////////
 // CMyStatusBar
@@ -109,6 +109,7 @@ IMPLEMENT_DYNCREATE(CWoormFrame, CAbstractWoormFrame)
 BEGIN_MESSAGE_MAP(CWoormFrame, CAbstractWoormFrame)
 
 	ON_WM_SIZE()
+	ON_WM_ACTIVATE()
 
 	ON_COMMAND_EX(ID_VIEW_OBJECT_TOOLBAR,	OnBarCheck)
 	ON_COMMAND_EX(ID_VIEW_SIZE_TOOLBAR,		OnBarCheck)
@@ -165,21 +166,11 @@ static const UINT BASED_CODE indicators[] =
 
 //-----------------------------------------------------------------------------
 CWoormFrame::CWoormFrame()
-	:
-	m_pDoc(NULL),
-	m_bAlignToolbarFloating(FALSE)
+	: 
+	m_ptAnchor (CPoint(0,0))
 {
-	// toolbar dynamic to allow change of button in run-time or readonly status
-	m_pTabbedToolBar = NULL;
-	m_pToolBar = NULL;
-	m_pObjectBar = NULL;
-	m_pSizeBar = NULL;
-	m_pAlignMoveBar = NULL;
-	m_pEditToolBar = NULL;
-	m_pBorderBar = NULL;
 	// Use special font for speed enhancement in statusbar standard behaviour
-	m_pStatusBarFont = new CFont();
-	m_pStatusBarFont->CreateFont
+	m_StatusBarFont.CreateFont
 		(
 		13, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
@@ -206,8 +197,7 @@ CWoormFrame::~CWoormFrame()
 {
 	ASSERT_VALID(this);
 
-	SAFE_DELETE(m_pStatusBarFont);
-	SAFE_DELETE(m_pTabbedToolBar);
+	SAFE_DELETE(m_pWTabbedToolBar);
 }
 
 //-----------------------------------------------------------------------------
@@ -308,7 +298,6 @@ void CWoormFrame::CreateMenu()
 	//editMenu.AppendMenu(MF_STRING, ID_TOOLBAR_FIND_EDITBOX, _TB("F&ind"));
 	menu.AppendMenu(MF_POPUP | MF_STRING, (UINT_PTR)editMenu.Detach(), _TB("&Edit"));
 	
-
 	/*
 	 POPUP "Obje&cts"
     BEGIN
@@ -550,7 +539,7 @@ void CWoormFrame::CreateMenu()
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
-	VERIFY(CreateStatusBar());
+	//VERIFY(CreateStatusBar());
 
 	if (!__super::OnCreateClient(lpcs, pContext))
 		return FALSE;
@@ -670,8 +659,8 @@ void CWoormFrame::OnSize(UINT nType, int cx, int cy)
 
 	__super::OnSize(nType, cx, cy);
 
-	if (m_pTabbedToolBar)
-		m_pTabbedToolBar->SetWindowPos(NULL, 0, 0, cx, m_pTabbedToolBar->CalcMaxButtonHeight(), SWP_NOMOVE | SWP_NOZORDER);
+	if (m_pWTabbedToolBar)
+		m_pWTabbedToolBar->SetWindowPos(NULL, 0, 0, cx, m_pWTabbedToolBar->CalcMaxButtonHeight(), SWP_NOMOVE | SWP_NOZORDER);
 
 	if (m_pLayoutPane)
 		m_pLayoutPane->ShowControlBar(TRUE, FALSE, TRUE);
@@ -681,10 +670,9 @@ void CWoormFrame::OnSize(UINT nType, int cx, int cy)
 void CWoormFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
 	// TabbedToolBar Width Size Modal - overlap of ico
-	if (m_pTabbedToolBar)
-		lpMMI->ptMinTrackSize.x = m_pTabbedToolBar->CalcMinimumWidth();
+	if (m_pWTabbedToolBar)
+		lpMMI->ptMinTrackSize.x = m_pWTabbedToolBar->CalcMinimumWidth();
 }
-
 
 //-----------------------------------------------------------------------------
 void CWoormFrame::OnGoToSitePrivateArea()
@@ -695,40 +683,49 @@ void CWoormFrame::OnGoToSitePrivateArea()
 //-----------------------------------------------------------------------------
 void CWoormFrame::ShowRunButton()   
 { 
-	CHECK_HIDDEN_STATUS_VOID;
-	m_pToolBar->SetButtonInfo (ID_RUN_STOP, TBBS_BUTTON | TBSTYLE_DROPDOWN, AfxGetRSIcon(ID_RUN_STOP));
-	m_pToolBar->Invalidate();
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
+	if (!m_pWToolBar || !m_pWToolBar->m_hWnd)
+		return;
+	m_pWToolBar->SetButtonInfo (ID_RUN_STOP, TBBS_BUTTON | TBSTYLE_DROPDOWN, AfxGetRSIcon(ID_RUN_STOP));
+	m_pWToolBar->Invalidate();
 	RecalcLayout();
 }
 
 void CWoormFrame::ShowStopButton()	
 { 
-	CHECK_HIDDEN_STATUS_VOID;
-	m_pToolBar->SetButtonInfo(ID_RUN_STOP, TBBS_BUTTON, AfxGetRSIcon(ID_RUN_STOP_STOP));
-
-	m_pToolBar->Invalidate();
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
+	if (!m_pWToolBar || !m_pWToolBar->m_hWnd)
+		return;
+	m_pWToolBar->SetButtonInfo(ID_RUN_STOP, TBBS_BUTTON, AfxGetRSIcon(ID_RUN_STOP_STOP));
+	m_pWToolBar->Invalidate();
 	RecalcLayout();
 }
 
 //-----------------------------------------------------------------------------
 void CWoormFrame::ShowReRunButton()
 {
-	if (!m_pEditToolBar) return;
-	m_pEditToolBar->SetButtonInfo(ID_WMR_RERUN_STARTSTOP, TBBS_BUTTON | TBSTYLE_DROPDOWN, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP_START));
-	m_pEditToolBar->Invalidate();
+	if (!m_pWEditToolBar) return;
+
+	m_pWEditToolBar->SetButtonInfo(ID_WMR_RERUN_STARTSTOP, TBBS_BUTTON | TBSTYLE_DROPDOWN, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP_START));
+	m_pWEditToolBar->Invalidate();
 	RecalcLayout();
 }
 
 void CWoormFrame::ShowReStopButton()
 {
-	if (!m_pEditToolBar) return;
-	m_pEditToolBar->SetButtonInfo(ID_WMR_RERUN_STARTSTOP, TBBS_BUTTON, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP_STOP));
-	m_pEditToolBar->Invalidate();
+	if (!m_pWEditToolBar) return;
+	if (!m_pDoc)
+		return;
+
+	m_pWEditToolBar->SetButtonInfo(ID_WMR_RERUN_STARTSTOP, TBBS_BUTTON, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP_STOP));
+	m_pWEditToolBar->Invalidate();
 	RecalcLayout();
-	LPCTSTR pStrTime = m_pEditToolBar->GetComboItemSelText(ID_WMR_COMBO_TIME_RERUN);
+	LPCTSTR pStrTime = m_pWEditToolBar->GetComboItemSelText(ID_WMR_COMBO_TIME_RERUN);
+	if (!pStrTime) 
+		return;
 	int iTime = 0;
-	CWoormDocMng* pDocument = (CWoormDocMng*)GetActiveDocument();
-	if (!pDocument || !pStrTime) return;
 	try
 	{
 		iTime = _ttoi(pStrTime);
@@ -737,29 +734,36 @@ void CWoormFrame::ShowReStopButton()
 	{
 		iTime = 0;
 	}
-	pDocument->SetReRunTimer(iTime);
+	m_pDoc->SetReRunTimer(iTime);
 }
-
-
 
 void CWoormFrame::ShowPauseButton()	
 { 
-	CHECK_HIDDEN_STATUS_VOID;
-	m_pToolBar->SetButtonInfo(ID_PAUSE_RESUME, TBBS_BUTTON, AfxGetRSIcon(ID_PAUSE_RESUME));
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
+	if (!m_pWToolBar || !m_pWToolBar->m_hWnd)
+		return;
+	m_pWToolBar->SetButtonInfo(ID_PAUSE_RESUME, TBBS_BUTTON, AfxGetRSIcon(ID_PAUSE_RESUME));
 	RecalcLayout(); 
 }
 
 void CWoormFrame::ShowResumeButton()
 { 
-	CHECK_HIDDEN_STATUS_VOID;
-	m_pToolBar->SetButtonInfo(ID_PAUSE_RESUME, TBBS_BUTTON, AfxGetRSIcon(ID_PAUSE_RESUME_RESUME));
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
+	if (!m_pWToolBar || !m_pWToolBar->m_hWnd)
+		return;
+	m_pWToolBar->SetButtonInfo(ID_PAUSE_RESUME, TBBS_BUTTON, AfxGetRSIcon(ID_PAUSE_RESUME_RESUME));
 	RecalcLayout();
 }
 
 //-----------------------------------------------------------------------------
 void CWoormFrame::ToggleAlignToolbarFloating()
 { 
-	CHECK_HIDDEN_STATUS_VOID;
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
+	if (!m_pWAlignMoveToolBar || !m_pWAlignMoveToolBar->m_hWnd)
+		return;
 
 	m_bAlignToolbarFloating = ! m_bAlignToolbarFloating;
 	
@@ -779,29 +783,29 @@ void CWoormFrame::OnUpdateControlBarMenu(CCmdUI* pCmdUI)
 {
 	if (pCmdUI->m_nID == ID_VIEW_WOORM_TOOLBAR)
 	{
-		SET_CHECKP(m_pToolBar);
-		SET_CHECKP(m_pEditToolBar);
+		SET_CHECKP(m_pWToolBar);
+		SET_CHECKP(m_pWEditToolBar);
 		return;
 	}
 	if (pCmdUI->m_nID == ID_VIEW_OBJECT_TOOLBAR)
 	{
-		SET_CHECKP(m_pObjectBar);
+		SET_CHECKP(m_pWObjectToolBar);
 		return;
 	}
 	if (pCmdUI->m_nID == ID_VIEW_SIZE_TOOLBAR)
 	{
-		SET_CHECKP(m_pSizeBar);
-		SET_CHECKP(m_pBorderBar);
+		SET_CHECKP(m_pWSizeToolBar);
+		SET_CHECKP(m_pWBorderToolBar);
 		return;
 	}
 	if (pCmdUI->m_nID == ID_VIEW_ALIGN_TOOLBAR)
 	{
-		SET_CHECKP(m_pAlignMoveBar);
+		SET_CHECKP(m_pWAlignMoveToolBar);
 		return;
 	}
 	if (pCmdUI->m_nID == AFX_IDW_STATUS_BAR)
 	{
-		SET_CHECKR(m_StatusBar);
+		SET_CHECKR(m_RSStatusBar);
 		return;
 	}
 }
@@ -809,47 +813,47 @@ void CWoormFrame::OnUpdateControlBarMenu(CCmdUI* pCmdUI)
 //-----------------------------------------------------------------------------
 void CWoormFrame::ShowAlignToolbar(BOOL bShow /*= TRUE*/)
 {
-	if (m_bAlignToolbarFloating && m_pAlignMoveBar)
-		ShowControlBar(m_pAlignMoveBar, bShow, FALSE, TRUE);		
+	if (m_bAlignToolbarFloating && m_pWAlignMoveToolBar)
+		ShowControlBar(m_pWAlignMoveToolBar, bShow, FALSE, TRUE);
 }
 
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::OnBarCheck(UINT nID)
 {
-	CWoormDocMng* pDocument = (CWoormDocMng*)GetActiveDocument();
+	//CWoormDocMng* pDocument = (CWoormDocMng*)GetActiveDocument();
 	if (m_bAlignToolbarFloating)
 		if (nID == ID_VIEW_WOORM_TOOLBAR)
 		{
-			SHOWP(m_pToolBar);
+			SHOWP(m_pWToolBar);
 			return TRUE;
 		}
 	if (nID == ID_VIEW_OBJECT_TOOLBAR)
 	{
-		SHOWP(m_pObjectBar);
+		SHOWP(m_pWObjectToolBar);
 		return TRUE;
 	}
 	if (nID == ID_VIEW_SIZE_TOOLBAR)
 	{
-		SHOWP(m_pSizeBar);
-		SHOWP(m_pBorderBar);
+		SHOWP(m_pWSizeToolBar);
+		SHOWP(m_pWBorderToolBar);
 		return TRUE;
 	}
 
-	if (nID == ID_VIEW_ALIGN_TOOLBAR)
+	if (nID == ID_VIEW_ALIGN_TOOLBAR && m_pDoc)
 	{
 		if (m_bAlignToolbarFloating)
 		{
-			if (pDocument->m_pMultipleSelObj && pDocument->m_pMultipleSelObj->GetSize())
-				SHOWPFLOAT(m_pAlignMoveBar);
+			if (m_pDoc->m_pMultipleSelObj && m_pDoc->m_pMultipleSelObj->GetSize())
+				SHOWPFLOAT(m_pWAlignMoveToolBar);
 		}
 		else
-			SHOWP(m_pAlignMoveBar);
+			SHOWP(m_pWAlignMoveToolBar);
 
 		return TRUE;
 	}
 	if (nID == AFX_IDW_STATUS_BAR)
 	{
-		SHOWR(m_StatusBar);
+		SHOWR(m_RSStatusBar);
 		return TRUE;
 	}
 	return FALSE;
@@ -858,64 +862,82 @@ BOOL CWoormFrame::OnBarCheck(UINT nID)
 //-----------------------------------------------------------------------------
 void CWoormFrame::SetAllowEditButtonInfo(BOOL bAllowEditing)
 {
-	CHECK_HIDDEN_STATUS_VOID;
+	if (!m_pWTabbedToolBar || !m_pWTabbedToolBar->m_hWnd) 
+		return;
+	if (m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bHideFrame)
+		return;
 
 	ShowDockingPanels(bAllowEditing);
 
 	// visualizza la toolbar ausiliarie per lo stato di edit
-	BOOL b = GetDocument() && GetDocument()->m_pWoormIni &&  GetDocument()->m_pWoormIni->m_bShowAllToolbars;
+	BOOL b = m_pDoc && m_pDoc->m_pWoormIni &&  m_pDoc->m_pWoormIni->m_bShowAllToolbars;
 
-	m_pTabbedToolBar->SetSwitchEnableAlwaysDropDown(bAllowEditing && b);
+	m_pWTabbedToolBar->SetSwitchEnableAlwaysDropDown(bAllowEditing && b);
 
 	if (b)
 	{
-		if (!m_pObjectBar)
+		if (!m_pWObjectToolBar)
 			CreateObjectToolBar(m_pDoc);
 
-		if (!m_pSizeBar)
+		if (!m_pWSizeToolBar)
 			CreateSizeToolBar();
 
-		if (!m_pAlignMoveBar)
+		if (!m_pWAlignMoveToolBar)
 			CreateAlignMoveToolBar(m_ptAnchor);
 	}
-	if (bAllowEditing)
-		m_pEditToolBar->SetText(ID_ALLOW_EDITING, _TB("Disable changes"), _TB("Disable changes to report"));
-	else
-		m_pEditToolBar->SetText(ID_ALLOW_EDITING, _TB("Enable changes"), _TB("Enable changes to report"));
 
-	if (m_pObjectBar)		ShowControlBar(m_pObjectBar, bAllowEditing, FALSE, TRUE);
-	if (m_pSizeBar)			ShowControlBar(m_pSizeBar, bAllowEditing, FALSE, TRUE);
-	if (m_pBorderBar)		ShowControlBar(m_pBorderBar, bAllowEditing, FALSE, TRUE);
-	if (m_pAlignMoveBar)	ShowControlBar(m_pAlignMoveBar, m_bAlignToolbarFloating ? FALSE : bAllowEditing, FALSE, TRUE);
+	if (m_pWEditToolBar)
+	{
+		if (bAllowEditing)
+			m_pWEditToolBar->SetText(ID_ALLOW_EDITING, _TB("Disable changes"), _TB("Disable changes to report"));
+		else
+			m_pWEditToolBar->SetText(ID_ALLOW_EDITING, _TB("Enable changes"), _TB("Enable changes to report"));
+	}
+	if (m_pWObjectToolBar)		ShowControlBar(m_pWObjectToolBar, bAllowEditing, FALSE, TRUE);
+	if (m_pWSizeToolBar)		ShowControlBar(m_pWSizeToolBar, bAllowEditing, FALSE, TRUE);
+	if (m_pWBorderToolBar)		ShowControlBar(m_pWBorderToolBar, bAllowEditing, FALSE, TRUE);
+	if (m_pWAlignMoveToolBar)	ShowControlBar(m_pWAlignMoveToolBar, m_bAlignToolbarFloating ? FALSE : bAllowEditing, FALSE, TRUE);
 
 	RecalcLayout(); 
 }
 
 //-----------------------------------------------------------------------------
+void CWoormFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
+{
+	__super::OnActivate(nState, pWndOther, bMinimized);
+
+	if (!m_pWTabbedToolBar && m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bIconized && !m_pDoc->m_pWoormInfo->m_bHideFrame)
+	{
+		if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE)
+			CreateTools(m_pDoc);
+	}
+}
+
+//-----------------------------------------------------------------------------
 BOOL CWoormFrame::CreateTools(CWoormDocMng* pDoc/* = NULL*/)
 {
+	ASSERT_VALID(m_pDoc);
+	ASSERT(m_pDoc == pDoc);
+
+	VERIFY(CreateStatusBar());
+
 	CRect rectClient; 
 	GetClientRect(&rectClient);
 
 	m_ptAnchor = CPoint(rectClient.left + rectClient.Width() / 2, rectClient.top + rectClient.Height() / 2);
 
-	if (pDoc)
-		m_bCanUseReportEditor = pDoc->CanDoAllowEditingButton(TRUE); //AfxGetBaseApp()->CanUseReportEditor();
+	if (m_pDoc)
+		m_bCanUseReportEditor = m_pDoc->CanDoAllowEditingButton(TRUE); //AfxGetBaseApp()->CanUseReportEditor();
 
-	CreateToolBar(pDoc);
+	CreateToolBar(m_pDoc);
 	
-	//spostata nella OnCreateClient() come prima istruzione per essere conforme ai documenti (statusbar sotto a tutto)
-	//VERIFY(CreateStatusBar());
+	SetAllowEditButtonInfo(m_pDoc ? m_pDoc->m_bAllowEditing : FALSE);
 
-	if (m_pDoc && m_pDoc->m_bAllowEditing)
-		SetAllowEditButtonInfo(m_pDoc ? m_pDoc->m_bAllowEditing : FALSE);
+	if (m_pDoc && m_pDoc->m_bIsNew && m_pWObjectToolBar)
+		m_pWTabbedToolBar->SetActiveTab(m_pWObjectToolBar->GetName());
 
-	if (m_pDoc->m_bIsNew && m_pObjectBar)
-		m_pTabbedToolBar->SetActiveTab(m_pObjectBar->GetName());
-
-	m_pTabbedToolBar->ResumeLayout();
-	m_pTabbedToolBar->AdjustLayout();
-
+	m_pWTabbedToolBar->ResumeLayout();
+	m_pWTabbedToolBar->AdjustLayout();
 
 	return TRUE;
 }
@@ -943,26 +965,29 @@ void CWoormFrame::OnBtnFilePrint()
 //------------------------------------------------------------------------------
 BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 {
-	if (m_pTabbedToolBar && m_pTabbedToolBar->OnPopulatedDropDown(nIdCommand))
+	if (!m_pWTabbedToolBar)
+		return FALSE;
+
+	if (m_pWTabbedToolBar->OnPopulatedDropDown(nIdCommand))
 	{
 		return TRUE;
 	}
 
+	if (!m_pDoc)
+		return FALSE;
+
 	CTBToolBarMenu menu;
 	menu.CreateMenu();
-
-	CWoormDocMng* pDocument = GetDocument();
-	if (pDocument == NULL)
-		return FALSE;
 
 	// Switch on button command id's.
 	//case ID_TOOLBAR_FIND_NEXT ---------------------------
 	if (nIdCommand == ID_TOOLBAR_FIND_NEXT)
 	{
-		if (!m_pDoc) return FALSE;
+		if (!m_pWToolBar) return FALSE;
+
 		DataObj* pDataObj = DataObj::DataObjCreate(m_pDoc->m_findWordInfo.m_Type);
 		m_pDoc->SetFindCondition(m_pDoc->m_findWordInfo.m_eCmp);
-		DROPDOWN_MENU_POPOLATE(m_pToolBar, pDataObj, m_pDoc->GetFindCondition())
+		DROPDOWN_MENU_POPOLATE(m_pWToolBar, pDataObj, m_pDoc->GetFindCondition())
 	}
 	//case ID_RUN_STOP ------------------------------------
 	else if (nIdCommand == ID_RUN_STOP || nIdCommand == ID_RUN_STOP_2)
@@ -992,20 +1017,24 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 			{
 				CString str = m_arUICultures.GetAt(i);
 				if (str.IsEmpty()) str = _T("en");
-				BOOL bIsCurrent = str.CompareNoCase(pDocument->GetUICulture()) == 0;
+				BOOL bIsCurrent = str.CompareNoCase(m_pDoc->GetUICulture()) == 0;
 				str = m_arUICultureDescriptions.GetAt(i);
 				menu.AppendMenu(MF_STRING | (bIsCurrent ? MF_CHECKED : 0), ID_EXTDOC_DDTB_ENUMREPORT0 + i, (LPTSTR)(LPCTSTR)str);
 			}
 		}
-		if(nIdCommand == ID_RUN_STOP)
-			m_pToolBar->UpdateDropdownMenu(nIdCommand, &menu);
-		else if(nIdCommand == ID_RUN_STOP_2)
-			m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (nIdCommand == ID_RUN_STOP)
+		{
+			if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
+		else if (nIdCommand == ID_RUN_STOP_2)
+		{
+			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
 	}
 	//case ID_BTN_FILE_PRINT ------------------------------------
 	else if (nIdCommand == ID_BTN_FILE_PRINT)
 	{
-		BOOL bMultiCopies = pDocument->m_pWoormInfo  && pDocument->m_pWoormInfo->m_bMultiCopies;
+		BOOL bMultiCopies = m_pDoc->m_pWoormInfo  && m_pDoc->m_pWoormInfo->m_bMultiCopies;
 
 		menu.AppendMenu(MF_STRING | (!bMultiCopies ? MF_CHECKED : 0), ID_FILE_PRINT, (LPTSTR)(LPCTSTR)_TB("&Print on report preferred printer"));
 		menu.AppendMenu(MF_STRING, ID_PRINT_WITH_DIALOG, (LPTSTR)(LPCTSTR)_TB("P&rint on..."));
@@ -1014,22 +1043,22 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 			BOOL bShowLetterhead = pF && (pF->GetRefCount() > 0);
 			if (bShowLetterhead)
 			{
-				menu.AppendMenu(MF_STRING | (pDocument->m_bPrintOnLetterhead ? MF_CHECKED : 0), ID_PRINT_ON_LETTERHEAD, (LPTSTR)(LPCTSTR)_TB("Print on &letterhead"));
+				menu.AppendMenu(MF_STRING | (m_pDoc->m_bPrintOnLetterhead ? MF_CHECKED : 0), ID_PRINT_ON_LETTERHEAD, (LPTSTR)(LPCTSTR)_TB("Print on &letterhead"));
 			}
 		}
 		menu.AppendMenu(MF_SEPARATOR);
 		menu.AppendMenu(MF_STRING, ID_PRINT_WITH_CHILDS, (LPTSTR)(LPCTSTR)_TB("Run and print also &children reports"));
 		menu.AppendMenu(MF_STRING | (bMultiCopies ? MF_CHECKED : 0), ID_PRINT_MULTICOPIES, (LPTSTR)(LPCTSTR)_TB("Run and print also &multicopies of report"));
 
-		m_pToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	//case ID_WRM_EASY_READING ------------------------------------
 	else if (nIdCommand == ID_WRM_EASY_READING)
 	{
 		Table* pT = NULL;
-		for (int i = 0; i <= pDocument->GetObjects().GetUpperBound(); i++)
+		for (int i = 0; i <= m_pDoc->GetObjects().GetUpperBound(); i++)
 		{
-			BaseObj* pObj = pDocument->GetObjects()[i];
+			BaseObj* pObj = m_pDoc->GetObjects()[i];
 			if (!pObj->IsKindOf(RUNTIME_CLASS(Table)))
 				continue;
 
@@ -1054,7 +1083,7 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 				ID_WRM_EASY_READING_BYLINE_DYNAMIC,
 				(LPTSTR)(LPCTSTR)_TB("Show dynamic rows separator"));
 
-			m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 		}
 	}
 	//case ID_ARCHIVE_PDF_FORMAT ------------------------------------
@@ -1062,10 +1091,10 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 	{
 		menu.AppendMenu(MF_STRING, ID_ARCHIVE_PDF_FORMAT, (LPTSTR)(LPCTSTR)_TB("&Archive"));
 		menu.AppendMenu(MF_STRING, ID_ARCHIVE_WITH_CHILDS, (LPTSTR)(LPCTSTR)_TB("Archive with &childs"));
-		if (pDocument && pDocument->GetCallerDocument() && AfxGetIDMSRepositoryManager()->BarcodeEnabled())
+		if (m_pDoc->GetCallerDocument() && AfxGetIDMSRepositoryManager()->BarcodeEnabled())
 			menu.AppendMenu(MF_STRING, ID_GENERATE_PAPERY, (LPTSTR)(LPCTSTR)_TB("&Generate only papery"));
 
-		m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	//case ID_EXPORT_DATA ------------------------------------
 	else if (nIdCommand == ID_EXPORT_DATA)
@@ -1100,38 +1129,36 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 		menu.AppendMenu(MF_STRING, ID_FILE_SAVE_PDF, (LPTSTR)(LPCTSTR)_TB("Save report to PDF format file"), IDB_WOORM_EXPORT_PDF, 0, TRUE);
 		menu.AppendMenu(MF_STRING | (GetDocument()->m_bDirectConcatPDF ? MF_CHECKED : 0), ID_TOGGLE_CONCAT_PDF, (LPTSTR)(LPCTSTR)_TB("&Concat Pdf children reports"), (GetDocument()->m_bDirectConcatPDF ? IDB_TOGGLE_CONCAT_PDF : 0/*IDB_TOGGLE_CONCAT_PDF_OFF */), 0, TRUE);
 		
-		//menu.SetDC(NULL);
-		//ReleaseDC(m_pDC);
-
-		m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	//case ID_ACTIONS_REP_COPY ------------------------------------
 	else if (nIdCommand == ID_ACTIONS_REP_COPY)
 	{
 		menu.AppendMenu(MF_STRING, ID_ACTIONS_REP_COPY, (LPTSTR)(LPCTSTR)_TB("&Copy report link"));
 		menu.AppendMenu(MF_STRING, ID_ACTIONS_REP_XML_COPY, (LPTSTR)(LPCTSTR)_TB("Copy report &XML link"));
-		m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+
+		if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_RS_ADD_TABLE_FROM_DB)
 	{
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_TABLE_FROM_DB,				(LPTSTR)(LPCTSTR)_TB("Add a table from DB"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_TABLE_NEW_FUNCEXPR,		(LPTSTR)(LPCTSTR)_TB("Add a table from a new expression/function variable"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_TABLE_FROM_HIDDEN_FIELDS,	(LPTSTR)(LPCTSTR)_TB("Add a table from hiddens variables"));
-		m_pObjectBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWObjectToolBar) m_pWObjectToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_RS_ADD_COLUMNS_FROM_DB)
 	{
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_COLUMNS_FROM_DB,			(LPTSTR)(LPCTSTR)_TB("Add columns from DB"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_COLUMN_NEW_FUNCEXPR,		(LPTSTR)(LPCTSTR)_TB("Add column from a new expression/function variable"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_COLUMNS_FROM_HIDDENS,		(LPTSTR)(LPCTSTR)_TB("Add columns from hiddens variables"));
-		m_pObjectBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWObjectToolBar) m_pWObjectToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_RS_ADD_FIELDS_FROM_DB)
 	{
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_FIELDS_FROM_DB,			(LPTSTR)(LPCTSTR)_TB("Add fields from DB"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_FIELD_NEW_FUNCEXPR,		(LPTSTR)(LPCTSTR)_TB("Add field from a new expression/function variable"));
 		menu.AppendMenu(MF_STRING, ID_RS_ADD_FIELDS_FROM_HIDDENS,		(LPTSTR)(LPCTSTR)_TB("Add fields from hiddens variables"));
-		m_pObjectBar->UpdateDropdownMenu(nIdCommand, &menu);
+		if (m_pWObjectToolBar) m_pWObjectToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_FILE_SAVE || nIdCommand == ID_FILE_SAVE_2)
 	{
@@ -1144,18 +1171,14 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 		menu.AppendMenu(MF_STRING, ID_OPTION_CREATE_SCHEMA2,			(LPTSTR)(LPCTSTR)_TB("Generate XSD Schema (Advanced)"));
 		menu.AppendMenu(MF_STRING, ID_SAVE_ONLY_GRAPH_INFO,				(LPTSTR)(LPCTSTR)_TB("Save only &graphical data"));
 
-		if(nIdCommand == ID_FILE_SAVE)
-			m_pEditToolBar-> UpdateDropdownMenu(nIdCommand, &menu);
-		else if(nIdCommand == ID_FILE_SAVE_2)
-			m_pToolBar-> UpdateDropdownMenu(nIdCommand, &menu);
-		/*m_pObjectBar->		UpdateDropdownMenu(nIdCommand, &menu);
-		m_pEditToolBar->		UpdateDropdownMenu(nIdCommand, &menu);
-		m_pSizeBar->			UpdateDropdownMenu(nIdCommand, &menu);
-		m_pAlignMoveBar->		UpdateDropdownMenu(nIdCommand, &menu);*/
+		if (nIdCommand == ID_FILE_SAVE)
+			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		else if (nIdCommand == ID_FILE_SAVE_2)
+			if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_TOOLS || nIdCommand == ID_TOOLS_2)
 	{
-		if (AfxIsActivated(OFM_APP, _NS_ACT("Core")) && !pDocument->m_bAllowEditing)
+		if (AfxIsActivated(OFM_APP, _NS_ACT("Core")) && !m_pDoc->m_bAllowEditing)
 		{
 			menu.AppendMenu(MF_STRING, ID_PROPERTIES, (LPTSTR)(LPCTSTR)_TB("&Properties"));
 			menu.AppendMenu(MF_STRING, ID_PAGE_INFO, (LPTSTR)(LPCTSTR)_TB("Page &info"));
@@ -1173,10 +1196,6 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 			menu.AppendMenu(MF_STRING, ID_FORMAT_STYLES, (LPTSTR)(LPCTSTR)_TB("&Format style..."));
 			menu.AppendMenu(MF_STRING, ID_ENUMS_VIEWER, (LPTSTR)(LPCTSTR)_TB("&Enums Viewer..."));
 			menu.AppendMenu(MF_SEPARATOR);
-			/*menu.AppendMenu(MF_STRING, ID_FILE_PROPERTIES,			(LPTSTR)(LPCTSTR)_TB("P&roperties"));
-			menu.AppendMenu(MF_STRING, ID_OPTIONS,					(LPTSTR)(LPCTSTR)_TB("&Report Options..."));
-			menu.AppendMenu(MF_STRING, ID_WOORM_INI,				(LPTSTR)(LPCTSTR)_TB("&Woorm options..."));
-			menu.AppendMenu(MF_SEPARATOR);*/
 			menu.AppendMenu(MF_STRING, ID_LOAD_TEMPLATE, (LPTSTR)(LPCTSTR)_TB("Load st&yle template"));
 			menu.AppendMenu(MF_STRING, ID_UNLOAD_TEMPLATE, (LPTSTR)(LPCTSTR)_TB("Unload style &template"));
 			menu.AppendMenu(MF_STRING, ID_CLEAR_ALL_CUSTOM_STYLE, (LPTSTR)(LPCTSTR)_TB("&Clear all custom styles"));
@@ -1189,9 +1208,9 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 		}
 
 		if (nIdCommand == ID_TOOLS)
-			m_pEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 		else if (nIdCommand == ID_TOOLS_2)
-			m_pToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+			if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 
 	return TRUE;
@@ -1206,9 +1225,9 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 
 	CString sUICulture = m_arUICultures[nIdx];
 
-	GetDocument()->m_bCultureVariable = TRUE;
-	GetDocument()->SetUICulture(sUICulture);
-	GetDocument()->SetCultureStrings(sUICulture);
+	m_pDoc->m_bCultureVariable = TRUE;
+	m_pDoc->SetUICulture(sUICulture);
+	m_pDoc->SetCultureStrings(sUICulture);
 
 	SendMessage(WM_COMMAND, ID_RUN_STOP);
  }
@@ -1219,9 +1238,9 @@ BOOL CWoormFrame::OnDrawMenuImage (	CDC* pDC, const CBCGPToolbarMenuButton* pMen
 	// Draw the Checked
 	BOOL bIcon = FALSE;
 
-	if (m_pTabbedToolBar && pMenuButton)
+	if (m_pWTabbedToolBar && pMenuButton)
 	{
-		HICON hIcon = m_pTabbedToolBar->GetIconDropdownMenu(pMenuButton);
+		HICON hIcon = m_pWTabbedToolBar->GetIconDropdownMenu(pMenuButton);
 
 		if (hIcon)
 		{
@@ -1258,45 +1277,45 @@ BOOL CWoormFrame::OnDrawMenuImage (	CDC* pDC, const CBCGPToolbarMenuButton* pMen
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::CreateToolBar(CWoormDocMng* /*pDoc = NULL*/)
 {
-	m_pTabbedToolBar = new CTBTabbedToolbar();
+	m_pWTabbedToolBar = new CTBTabbedToolbar();
 	//ALTERNATIVA m_pTabbedToolBar->SetAutoHideToolBarButton(FALSE);
-	m_pTabbedToolBar->EnableHighlightedColorClick(TRUE);
+	m_pWTabbedToolBar->EnableHighlightedColorClick(TRUE);
 	//m_pTabbedToolBar->SetSwitchEnableAlwaysDropDown(TRUE);
 
-	if (!m_pTabbedToolBar->Create(this))
+	if (!m_pWTabbedToolBar->Create(this))
 		return FALSE;
 
-	m_pTabbedToolBar->SuspendLayout();
-	m_pTabbedToolBar->SetWindowText (_T("Tabbed"));
-	m_pTabbedToolBar->SetIDSwitch(ID_WOORM_TAB_SWITCH, ID_WOORM_TAB_SWITCH_MENU_START);
+	m_pWTabbedToolBar->SuspendLayout();
+	m_pWTabbedToolBar->SetWindowText (_T("Tabbed"));
+	m_pWTabbedToolBar->SetIDSwitch(ID_WOORM_TAB_SWITCH, ID_WOORM_TAB_SWITCH_MENU_START);
 
 	//ALTERNATIVA m_pTabbedToolBar->SetShowToolBarTab();
 
-	m_pToolBar	= new CTBToolBar();	
-	if(!m_pToolBar->CreateEmptyTabbedToolbar(this, NAME_MAIN_TOOLBAR, _TB("Main")))
+	m_pWToolBar	= new CTBToolBar();	
+	if(!m_pWToolBar->CreateEmptyTabbedToolbar(this, NAME_MAIN_TOOLBAR, _TB("Main")))
 	{ 
 		TRACE(L"Failed to create toolbar\n");
 		return FALSE; 
 	}
-	m_pTabbedToolBar->AddTab(m_pToolBar, TRUE, TRUE);
+	m_pWTabbedToolBar->AddTab(m_pWToolBar, TRUE, TRUE);
 
-	m_pEditToolBar  = new CTBToolBar();
-	if (!m_pEditToolBar->CreateEmptyTabbedToolbar(this, NAME_MAIN_EDIT_TOOLBAR, _TB("Tools"))) 
+	m_pWEditToolBar  = new CTBToolBar();
+	if (!m_pWEditToolBar->CreateEmptyTabbedToolbar(this, NAME_MAIN_EDIT_TOOLBAR, _TB("Tools"))) 
 	{ 
 		TRACE(L"Failed to create toolbar\n"); 
 		return FALSE; 
 	}
-	m_pTabbedToolBar->AddTab(m_pEditToolBar);
+	m_pWTabbedToolBar->AddTab(m_pWEditToolBar);
 
-	m_pTabbedToolBar->ChangeImage(ID_WOORM_TAB_SWITCH, AfxGetRSIcon(ID_WOORM_TAB_SWITCH));
-	m_pTabbedToolBar->SetCollapsedImage(AfxGetRSIcon(ID_WOORM_TOOLBAR_COLLAPSED));
+	m_pWTabbedToolBar->ChangeImage(ID_WOORM_TAB_SWITCH, AfxGetRSIcon(ID_WOORM_TAB_SWITCH));
+	m_pWTabbedToolBar->SetCollapsedImage(AfxGetRSIcon(ID_WOORM_TOOLBAR_COLLAPSED));
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	if (IsRadarFrame())
 	{	
 		if(AfxIsRSIconVisible(ID_WRMRADAR_FIXED))
-			m_pToolBar->AddButton(ID_WRMRADAR_FIXED, RS_NS, AfxGetRSIcon(ID_WRMRADAR_FIXED), _TB("Pin Radar"), _TB("Leave the radar open"));
-		m_pToolBar->AddSeparator();
+			m_pWToolBar->AddButton(ID_WRMRADAR_FIXED, RS_NS, AfxGetRSIcon(ID_WRMRADAR_FIXED), _TB("Pin Radar"), _TB("Leave the radar open"));
+		m_pWToolBar->AddSeparator();
 	}
 	/*if (m_bCanUseReportEditor)
 	{
@@ -1305,198 +1324,189 @@ BOOL CWoormFrame::CreateToolBar(CWoormDocMng* /*pDoc = NULL*/)
 	}*/
 
 	if (AfxIsRSIconVisible(ID_PG_HOME))
-		m_pToolBar->AddButton(ID_PG_HOME, RS_NS, AfxGetRSIcon(ID_PG_HOME), _TB("First"), _TB("Go to first page"));
+		m_pWToolBar->AddButton(ID_PG_HOME, RS_NS, AfxGetRSIcon(ID_PG_HOME), _TB("First"), _TB("Go to first page"));
 	if (AfxIsRSIconVisible(ID_PG_UP))
-		m_pToolBar->AddButton(ID_PG_UP, RS_NS, AfxGetRSIcon(ID_PG_UP), _TB("Previous"), _TB("Go to previous page"));
+		m_pWToolBar->AddButton(ID_PG_UP, RS_NS, AfxGetRSIcon(ID_PG_UP), _TB("Previous"), _TB("Go to previous page"));
 	if (AfxIsRSIconVisible(ID_PG_DN))
-		m_pToolBar->AddButton(ID_PG_DN, RS_NS, AfxGetRSIcon(ID_PG_DN), _TB("Next"), _TB("Go to next page"));
+		m_pWToolBar->AddButton(ID_PG_DN, RS_NS, AfxGetRSIcon(ID_PG_DN), _TB("Next"), _TB("Go to next page"));
 	if (AfxIsRSIconVisible(ID_PG_END))
-		m_pToolBar->AddButton(ID_PG_END, RS_NS, AfxGetRSIcon(ID_PG_END), _TB("Last"), _TB("Go to last page"));
-	m_pToolBar->AddSeparator();
+		m_pWToolBar->AddButton(ID_PG_END, RS_NS, AfxGetRSIcon(ID_PG_END), _TB("Last"), _TB("Go to last page"));
+	m_pWToolBar->AddSeparator();
 
 	if (AfxIsRSIconVisible(ID_BTN_FILE_PRINT))
 	{ 
-		m_pToolBar->AddButton(ID_BTN_FILE_PRINT, RS_NS, AfxGetRSIcon(ID_BTN_FILE_PRINT), _TB("Print"), _TB("Print on preferred printer"));
-		m_pToolBar->SetDropdown(ID_BTN_FILE_PRINT);
-		m_pToolBar->EnableAlwaysDropDown(ID_BTN_FILE_PRINT, FALSE);
+		m_pWToolBar->AddButton(ID_BTN_FILE_PRINT, RS_NS, AfxGetRSIcon(ID_BTN_FILE_PRINT), _TB("Print"), _TB("Print on preferred printer"));
+		m_pWToolBar->SetDropdown(ID_BTN_FILE_PRINT);
+		m_pWToolBar->EnableAlwaysDropDown(ID_BTN_FILE_PRINT, FALSE);
 	}
 
 	if (AfxIsRSIconVisible(ID_FILE_PRINT_PREVIEW))
-		m_pToolBar->AddButton(ID_FILE_PRINT_PREVIEW, RS_NS, AfxGetRSIcon(ID_FILE_PRINT_PREVIEW), _TB("Print Preview"), _TB("Display full pages"));
+		m_pWToolBar->AddButton(ID_FILE_PRINT_PREVIEW, RS_NS, AfxGetRSIcon(ID_FILE_PRINT_PREVIEW), _TB("Print Preview"), _TB("Display full pages"));
 
 	if (!IsRadarFrame())
 	{
-		m_pToolBar->AddSeparator();
+		m_pWToolBar->AddSeparator();
 		if (m_bCanUseReportEditor && (AfxIsRSIconVisible(ID_FILE_SAVE_2)))
 		{
-			m_pToolBar->AddButton(ID_FILE_SAVE_2, RS_NS, AfxGetRSIcon(ID_FILE_SAVE_2), _TB("Save report"), _TB("Save active document"));
-			m_pToolBar->SetDropdown(ID_FILE_SAVE_2);
-			m_pToolBar->EnableAlwaysDropDown(ID_FILE_SAVE_2, FALSE);
+			m_pWToolBar->AddButton(ID_FILE_SAVE_2, RS_NS, AfxGetRSIcon(ID_FILE_SAVE_2), _TB("Save report"), _TB("Save active document"));
+			m_pWToolBar->SetDropdown(ID_FILE_SAVE_2);
+			m_pWToolBar->EnableAlwaysDropDown(ID_FILE_SAVE_2, FALSE);
 		}
 
 		if (AfxIsRSIconVisible(ID_RUN_STOP))
 		{
-			m_pToolBar->AddButton(ID_RUN_STOP, RS_NS, AfxGetRSIcon(ID_RUN_STOP), _TB("Run/Stop"), _TB("Run or Stop the report"));
-			m_pToolBar->SetDropdown(ID_RUN_STOP);
-			m_pToolBar->EnableAlwaysDropDown(ID_RUN_STOP, FALSE);
+			m_pWToolBar->AddButton(ID_RUN_STOP, RS_NS, AfxGetRSIcon(ID_RUN_STOP), _TB("Run/Stop"), _TB("Run or Stop the report"));
+			m_pWToolBar->SetDropdown(ID_RUN_STOP);
+			m_pWToolBar->EnableAlwaysDropDown(ID_RUN_STOP, FALSE);
 		}
 		if (AfxIsRSIconVisible(ID_PAUSE_RESUME))
 		{ 
-			m_pToolBar->AddButton(ID_PAUSE_RESUME, RS_NS, AfxGetRSIcon(ID_PAUSE_RESUME), _TB("Suspend/Resume"), _TB("Suspend or Resume the report"));		
-			m_pToolBar->AddSeparatorAfter(ID_PAUSE_RESUME);
+			m_pWToolBar->AddButton(ID_PAUSE_RESUME, RS_NS, AfxGetRSIcon(ID_PAUSE_RESUME), _TB("Suspend/Resume"), _TB("Suspend or Resume the report"));		
+			m_pWToolBar->AddSeparatorAfter(ID_PAUSE_RESUME);
 		}
 
-		m_pToolBar->AddSeparator();
+		m_pWToolBar->AddSeparator();
 		if (AfxIsRSIconVisible(ID_USE_PREV_ASK_INPUT))
 		{
-			m_pToolBar->AddButton(ID_USE_PREV_ASK_INPUT, RS_NS, AfxGetRSIcon(ID_USE_PREV_ASK_INPUT), _TB("Keep values"), _TB("Keep the field values of the request rules"));
-			m_pToolBar->PressButton(ID_USE_PREV_ASK_INPUT, TRUE);	// ID_USE_PREV_ASK_INPUT, stile TBBS_CHECKBOX.
+			m_pWToolBar->AddButton(ID_USE_PREV_ASK_INPUT, RS_NS, AfxGetRSIcon(ID_USE_PREV_ASK_INPUT), _TB("Keep values"), _TB("Keep the field values of the request rules"));
+			m_pWToolBar->PressButton(ID_USE_PREV_ASK_INPUT, TRUE);	// ID_USE_PREV_ASK_INPUT, stile TBBS_CHECKBOX.
 		}
 	}
 
-	m_pToolBar->AddEditToRight(ID_TOOLBAR_FIND_EDITBOX, RS_NS, _T("FindEdit"), 150, ES_AUTOHSCROLL, _T(""), _TB("Search:")); 
+	m_pWToolBar->AddEditToRight(ID_TOOLBAR_FIND_EDITBOX, RS_NS, _T("FindEdit"), 150, ES_AUTOHSCROLL, _T(""), _TB("Search:")); 
 	if (AfxIsRSIconVisible(ID_TOOLBAR_FIND_PREV))
-		m_pToolBar->AddButtonToRight(ID_TOOLBAR_FIND_PREV, RS_NS, AfxGetRSIcon(ID_TOOLBAR_FIND_PREV), _TB("Previous"), _TB("Search previous record"));
+		m_pWToolBar->AddButtonToRight(ID_TOOLBAR_FIND_PREV, RS_NS, AfxGetRSIcon(ID_TOOLBAR_FIND_PREV), _TB("Previous"), _TB("Search previous record"));
 	if (AfxIsRSIconVisible(ID_TOOLBAR_FIND_NEXT))
 	{ 
-		m_pToolBar->AddButtonToRight(ID_TOOLBAR_FIND_NEXT, RS_NS, AfxGetRSIcon(ID_TOOLBAR_FIND_NEXT), _TB("Next"), _TB("Search next record"));
-		m_pToolBar->SetDropdown(ID_TOOLBAR_FIND_NEXT);
-		m_pToolBar->EnableAlwaysDropDown(ID_TOOLBAR_FIND_NEXT, FALSE);
+		m_pWToolBar->AddButtonToRight(ID_TOOLBAR_FIND_NEXT, RS_NS, AfxGetRSIcon(ID_TOOLBAR_FIND_NEXT), _TB("Next"), _TB("Search next record"));
+		m_pWToolBar->SetDropdown(ID_TOOLBAR_FIND_NEXT);
+		m_pWToolBar->EnableAlwaysDropDown(ID_TOOLBAR_FIND_NEXT, FALSE);
 	}
 
 	if (AfxGetApplicationContext()->m_MacroRecorderStatus == CApplicationContext::RECORDING 
 		|| AfxIsActivated(_T("RanorexTestSupport"), _T("RanorexTestSupport")))
-		{ m_pToolBar->AddButton(ID_REC_VALIDATION, RS_NS, _T("RecValidation"), IDB_REC_VALIDATION_LARGE, _TB("Rec Val"), FALSE); }
+		{ m_pWToolBar->AddButton(ID_REC_VALIDATION, RS_NS, _T("RecValidation"), IDB_REC_VALIDATION_LARGE, _TB("Rec Val"), FALSE); }
 
 	//Show Full Report Script
 	if (AfxIsRSIconVisible(ID_OPEN_AS_TEXT))
-		m_pToolBar->AddButtonToRight(ID_OPEN_AS_TEXT, RS_NS, AfxGetRSIcon(ID_OPEN_AS_TEXT), _TB("Editor"), _TB("&Show full report scripts within a editor view"));
+		m_pWToolBar->AddButtonToRight(ID_OPEN_AS_TEXT, RS_NS, AfxGetRSIcon(ID_OPEN_AS_TEXT), _TB("Editor"), _TB("&Show full report scripts within a editor view"));
 	//Tools
 	if (AfxIsRSIconVisible(ID_TOOLS_2))
 	{
-		m_pToolBar->AddButtonToRight(ID_TOOLS_2, RS_NS, AfxGetRSIcon(ID_TOOLS_2), _TB("Tools"), _TB("&Tools"));
-		m_pToolBar->SetDropdown(ID_TOOLS_2);
-		m_pToolBar->EnableAlwaysDropDown(ID_TOOLS_2, TRUE);
+		m_pWToolBar->AddButtonToRight(ID_TOOLS_2, RS_NS, AfxGetRSIcon(ID_TOOLS_2), _TB("Tools"), _TB("&Tools"));
+		m_pWToolBar->SetDropdown(ID_TOOLS_2);
+		m_pWToolBar->EnableAlwaysDropDown(ID_TOOLS_2, TRUE);
 		//separator
-		m_pToolBar->AddSeparatorAfter(ID_TOOLS_2);
+		m_pWToolBar->AddSeparatorAfter(ID_TOOLS_2);
 	}
 	
 	if (AfxIsRSIconVisible(ID_FILE_CLOSE))
-		m_pToolBar->AddButtonToRight/*AllTab*/(ID_FILE_CLOSE, RS_NS, AfxGetRSIcon(ID_FILE_CLOSE), _TB("Exit"), _TB("&Exit"));
+		m_pWToolBar->AddButtonToRight/*AllTab*/(ID_FILE_CLOSE, RS_NS, AfxGetRSIcon(ID_FILE_CLOSE), _TB("Exit"), _TB("&Exit"));
 
 	// by default help button is disable, it will be enabled when 
 	// OnCommandUI message will start to be notified
-	m_pToolBar->EnableButton(ID_HELP_WOORM, FALSE);
+	m_pWToolBar->EnableButton(ID_HELP_WOORM, FALSE);
 
 	// ---------------------------------------------------------------------------------------------
 	// NEW TOOLBAR FOR EDITING
 	if (m_bCanUseReportEditor)
 	{
 		if (AfxIsRSIconVisible(ID_ALLOW_EDITING))
-			m_pEditToolBar->AddButton(ID_ALLOW_EDITING, RS_NS, AfxGetRSIcon(ID_ALLOW_EDITING), _TB("Enable changes"), _TB("Enable changes to report"));
+			m_pWEditToolBar->AddButton(ID_ALLOW_EDITING, RS_NS, AfxGetRSIcon(ID_ALLOW_EDITING), _TB("Enable changes"), _TB("Enable changes to report"));
 		if (AfxIsRSIconVisible(ID_FILE_SAVE))
 		{
-			m_pEditToolBar->AddButton(ID_FILE_SAVE, RS_NS, AfxGetRSIcon(ID_FILE_SAVE), _TB("Save report"), _TB("Save active document"));
-			m_pEditToolBar->SetDropdown(ID_FILE_SAVE);
-			m_pEditToolBar->EnableAlwaysDropDown(ID_FILE_SAVE, FALSE);
+			m_pWEditToolBar->AddButton(ID_FILE_SAVE, RS_NS, AfxGetRSIcon(ID_FILE_SAVE), _TB("Save report"), _TB("Save active document"));
+			m_pWEditToolBar->SetDropdown(ID_FILE_SAVE);
+			m_pWEditToolBar->EnableAlwaysDropDown(ID_FILE_SAVE, FALSE);
 		}
 		if (AfxIsRSIconVisible(ID_RUN_STOP_2))
 		{
-			m_pEditToolBar->AddButton(ID_RUN_STOP_2, RS_NS, AfxGetRSIcon(ID_RUN_STOP_2), _TB("Run/Stop"), _TB("Run or Stop the report"));
-			m_pEditToolBar->SetDropdown(ID_RUN_STOP_2);
-			m_pEditToolBar->EnableAlwaysDropDown(ID_RUN_STOP_2, FALSE);
+			m_pWEditToolBar->AddButton(ID_RUN_STOP_2, RS_NS, AfxGetRSIcon(ID_RUN_STOP_2), _TB("Run/Stop"), _TB("Run or Stop the report"));
+			m_pWEditToolBar->SetDropdown(ID_RUN_STOP_2);
+			m_pWEditToolBar->EnableAlwaysDropDown(ID_RUN_STOP_2, FALSE);
 		}
 		if (AfxIsRSIconVisible(ID_PAUSE_RESUME))
-			m_pEditToolBar->AddButton(ID_PAUSE_RESUME, RS_NS, AfxGetRSIcon(ID_PAUSE_RESUME), _TB("Suspend/Resume"), _TB("Suspend or Resume the report"));
+			m_pWEditToolBar->AddButton(ID_PAUSE_RESUME, RS_NS, AfxGetRSIcon(ID_PAUSE_RESUME), _TB("Suspend/Resume"), _TB("Suspend or Resume the report"));
 
-		m_pEditToolBar->AddSeparator();
+		m_pWEditToolBar->AddSeparator();
 	}
 
 	//szIconExport oggi è uguale a szIconExit, usiamo temporaneamente szIconExtract
 	if (AfxIsRSIconVisible(ID_EXPORT_DATA))
 	{
-		m_pEditToolBar->AddButton(ID_EXPORT_DATA, RS_NS, AfxGetRSIcon(ID_EXPORT_DATA), _TB("Export data..."), _TB("Export data..."));
-		m_pEditToolBar->SetDropdown(ID_EXPORT_DATA); 
+		m_pWEditToolBar->AddButton(ID_EXPORT_DATA, RS_NS, AfxGetRSIcon(ID_EXPORT_DATA), _TB("Export data..."), _TB("Export data..."));
+		m_pWEditToolBar->SetDropdown(ID_EXPORT_DATA); 
 	}
 	//Easy Attachment	
 	if (AfxGetOleDbMng()->EasyAttachmentFullEnable() && AfxIsRSIconVisible(ID_ARCHIVE_PDF_FORMAT))
 	{
-		m_pEditToolBar->AddButton(ID_ARCHIVE_PDF_FORMAT, RS_NS, AfxGetRSIcon(ID_ARCHIVE_PDF_FORMAT), _TB("Archive report"), _TB("Archive report in DMS repository using PDF format"));
-		m_pEditToolBar->SetDropdown(ID_ARCHIVE_PDF_FORMAT);
+		m_pWEditToolBar->AddButton(ID_ARCHIVE_PDF_FORMAT, RS_NS, AfxGetRSIcon(ID_ARCHIVE_PDF_FORMAT), _TB("Archive report"), _TB("Archive report in DMS repository using PDF format"));
+		m_pWEditToolBar->SetDropdown(ID_ARCHIVE_PDF_FORMAT);
 	}
 
-	m_pEditToolBar->AddSeparator();
+	m_pWEditToolBar->AddSeparator();
 	if (AfxIsRSIconVisible(ID_WRM_EASY_READING))
 	{
-		m_pEditToolBar->AddButton(ID_WRM_EASY_READING, RS_NS, AfxGetRSIcon(ID_WRM_EASY_READING), _TB("Easy reading"), _TB("Enable/Disable easy reading"));
-		m_pEditToolBar->SetDropdown(ID_WRM_EASY_READING);
+		m_pWEditToolBar->AddButton(ID_WRM_EASY_READING, RS_NS, AfxGetRSIcon(ID_WRM_EASY_READING), _TB("Easy reading"), _TB("Enable/Disable easy reading"));
+		m_pWEditToolBar->SetDropdown(ID_WRM_EASY_READING);
 	}
 	if (IsRadarFrame())
 	{
 		if (AfxIsRSIconVisible(ID_WRM_MINUS_LINES))
-			m_pEditToolBar->AddButton(ID_WRM_MINUS_LINES, RS_NS, AfxGetRSIcon(ID_WRM_MINUS_LINES), _TB("Decrease"), _TB("Reduce row height"));
+			m_pWEditToolBar->AddButton(ID_WRM_MINUS_LINES, RS_NS, AfxGetRSIcon(ID_WRM_MINUS_LINES), _TB("Decrease"), _TB("Reduce row height"));
 		if (AfxIsRSIconVisible(ID_WRM_PLUS_LINES))
-			m_pEditToolBar->AddButton(ID_WRM_PLUS_LINES, RS_NS, AfxGetRSIcon(ID_WRM_PLUS_LINES), _TB("Increase row height"));
+			m_pWEditToolBar->AddButton(ID_WRM_PLUS_LINES, RS_NS, AfxGetRSIcon(ID_WRM_PLUS_LINES), _TB("Increase row height"));
 	}
 
 	if (!IsRadarFrame())
 	{
 		if (AfxIsRSIconVisible(ID_WMR_RERUN_STARTSTOP))
 		{
-			m_pEditToolBar->AddButtonToRight(ID_WMR_RERUN_STARTSTOP, RS_NS, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP), _TB("ReRun report"), _TB("Run or Stop the ReRun report"));
-			m_pEditToolBar->PressButton(ID_WMR_RERUN_STARTSTOP, FALSE);		
-			m_pEditToolBar->AddComboBoxEditToRight(ID_WMR_COMBO_TIME_RERUN, RS_NS, 100, _TB("Time in Minutes"), -1, _T("5"), FALSE);
+			m_pWEditToolBar->AddButtonToRight(ID_WMR_RERUN_STARTSTOP, RS_NS, AfxGetRSIcon(ID_WMR_RERUN_STARTSTOP), _TB("ReRun report"), _TB("Run or Stop the ReRun report"));
+			m_pWEditToolBar->PressButton(ID_WMR_RERUN_STARTSTOP, FALSE);		
+			m_pWEditToolBar->AddComboBoxEditToRight(ID_WMR_COMBO_TIME_RERUN, RS_NS, 100, _TB("Time in Minutes"), -1, _T("5"), FALSE);
 			for (int k = 1; k <= 15; k++)
 			{
 				CString str;
 				str.Format(_T("%d"), k);
-				m_pEditToolBar->AddComboItem(ID_WMR_COMBO_TIME_RERUN, str);
+				m_pWEditToolBar->AddComboItem(ID_WMR_COMBO_TIME_RERUN, str);
 			}
-			m_pEditToolBar->AddSeparatorAfter(ID_WMR_COMBO_TIME_RERUN);
+			m_pWEditToolBar->AddSeparatorAfter(ID_WMR_COMBO_TIME_RERUN);
 		}
 		if (AfxIsRSIconVisible(ID_ACTIONS_REP_COPY))
 		{
-			m_pEditToolBar->AddButtonToRight(ID_ACTIONS_REP_COPY, RS_NS, AfxGetRSIcon(ID_ACTIONS_REP_COPY), _TB("Share"), _TB("Share report link"));
-			m_pEditToolBar->SetDropdown(ID_ACTIONS_REP_COPY);
+			m_pWEditToolBar->AddButtonToRight(ID_ACTIONS_REP_COPY, RS_NS, AfxGetRSIcon(ID_ACTIONS_REP_COPY), _TB("Share"), _TB("Share report link"));
+			m_pWEditToolBar->SetDropdown(ID_ACTIONS_REP_COPY);
 		}
 	}
 
 	//Show Full Report Script
 	if (AfxIsRSIconVisible(ID_OPEN_AS_TEXT))
-		m_pEditToolBar->AddButtonToRight(ID_OPEN_AS_TEXT, RS_NS, AfxGetRSIcon(ID_OPEN_AS_TEXT), _TB("Editor"), _TB("&Show full report scripts within a editor view"));
+		m_pWEditToolBar->AddButtonToRight(ID_OPEN_AS_TEXT, RS_NS, AfxGetRSIcon(ID_OPEN_AS_TEXT), _TB("Editor"), _TB("&Show full report scripts within a editor view"));
 	//Tools
 	if (AfxIsRSIconVisible(ID_TOOLS))
 	{
-		m_pEditToolBar->AddButtonToRight(ID_TOOLS, RS_NS, AfxGetRSIcon(ID_TOOLS), _TB("Tools"), _TB("&Tools"));
-		m_pEditToolBar->SetDropdown(ID_TOOLS);
-		m_pEditToolBar->EnableAlwaysDropDown(ID_TOOLS, TRUE);
+		m_pWEditToolBar->AddButtonToRight(ID_TOOLS, RS_NS, AfxGetRSIcon(ID_TOOLS), _TB("Tools"), _TB("&Tools"));
+		m_pWEditToolBar->SetDropdown(ID_TOOLS);
+		m_pWEditToolBar->EnableAlwaysDropDown(ID_TOOLS, TRUE);
 		//separator
-		m_pEditToolBar->AddSeparatorAfter(ID_TOOLS);
+		m_pWEditToolBar->AddSeparatorAfter(ID_TOOLS);
 	}
 
 	if (AfxIsRSIconVisible(ID_FILE_CLOSE))
-		m_pEditToolBar->AddButtonToRight/*AllTab*/(ID_FILE_CLOSE, RS_NS, AfxGetRSIcon(ID_FILE_CLOSE), _TB("Exit"), _TB("&Exit"));
+		m_pWEditToolBar->AddButtonToRight/*AllTab*/(ID_FILE_CLOSE, RS_NS, AfxGetRSIcon(ID_FILE_CLOSE), _TB("Exit"), _TB("&Exit"));
 
-	CWoormDocMng* pDocument = GetDocument();
-	if (pDocument/* && pDocument->m_Template.m_pWoormTpl*/)
-	{
-		m_pEditToolBar->AddSeparator();
-		m_pEditToolBar->AddComboBox(IDC_DROPDOWN_TEMPLATES, RS_NS, _T("WoormComboTemplates"), 150, (WS_CHILD | WS_VISIBLE | CBS_NOINTEGRALHEIGHT | CBS_DROPDOWNLIST | WS_VSCROLL /*| CBS_SORT*/), _TB("Template"));
-		CWnd* item = m_pEditToolBar->GetDlgItem(IDC_DROPDOWN_TEMPLATES);
-		BOOL res;
-		if (!pDocument->m_Template.m_pWoormTpl)
-			res = m_pEditToolBar->HideButton(IDC_DROPDOWN_TEMPLATES, TRUE);
+	m_pWEditToolBar->AddSeparator();
+	m_pWEditToolBar->AddComboBox(IDC_DROPDOWN_TEMPLATES, RS_NS, _T("WoormComboTemplates"), 150, (WS_CHILD | WS_VISIBLE | CBS_NOINTEGRALHEIGHT | CBS_DROPDOWNLIST | WS_VSCROLL /*| CBS_SORT*/), _TB("Template"));
+	if (!m_pDoc->m_Template.m_pWoormTpl)
+		m_pWEditToolBar->HideButton(IDC_DROPDOWN_TEMPLATES, TRUE);
 
-	}
 	//ID_WRM_COLLAPSED_START
-	m_pTabbedToolBar->SetStartIDCollapsed(ID_WRM_COLLAPSED_START);
-	// Set Id Switch
+	m_pWTabbedToolBar->SetStartIDCollapsed(ID_WRM_COLLAPSED_START);
 
-	// Add toolbar to tabbed tool bar class
-	
 	// resize Woorm frame
 	CRect cRect;GetWindowRect(cRect);
-	cRect.right = cRect.left + max(m_pTabbedToolBar->CalcMinimumWidth(), cRect.Width());
+	cRect.right = cRect.left + max(m_pWTabbedToolBar->CalcMinimumWidth(), cRect.Width());
 	SetWindowPos ( NULL,0,0,cRect.Width(), cRect.Height(), SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER );
 	
 	CreateDDLTemplates();
@@ -1507,39 +1517,39 @@ BOOL CWoormFrame::CreateToolBar(CWoormDocMng* /*pDoc = NULL*/)
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::CreateObjectToolBar(CWoormDocMng* pDoc /*= NULL*/)
 {
-	ASSERT(m_pObjectBar == NULL);
-	if (m_pObjectBar)
+	ASSERT(m_pWObjectToolBar == NULL);
+	if (m_pWObjectToolBar)
 		return TRUE;
 
-	m_pObjectBar = new CTBToolBar();	
+	m_pWObjectToolBar = new CTBToolBar();
 
-	if (!m_pObjectBar->CreateEmptyTabbedToolbar(this, NAME_OBJECT_TOOLBAR, _TB("Object")))
+	if (!m_pWObjectToolBar->CreateEmptyTabbedToolbar(this, NAME_OBJECT_TOOLBAR, _TB("Object")))
 	{
 		TRACE(L"Failed to create object toolbar\n");
 		return FALSE;
 	}
 
-	m_pTabbedToolBar->AddTab(m_pObjectBar, FALSE);
+	m_pWTabbedToolBar->AddTab(m_pWObjectToolBar, FALSE);
 
-	m_pObjectBar->AddButton(ID_ADD_SQR_RECT, RS_NS,				TBIcon(szIconRectangle, TOOLBAR), _TB("Rectangle"));
-	m_pObjectBar->AddButton(ID_ADD_GRAPH_RECT, RS_NS,			TBIcon(szIconPicture, TOOLBAR), _TB("Image"));
-	m_pObjectBar->AddButton(ID_ADD_TEXT_RECT, RS_NS,			TBIcon(szIconGenericText, TOOLBAR), _TB("Text"));
-	m_pObjectBar->AddButton(ID_ADD_FILE_RECT, RS_NS,			TBIcon(szIconImportTxt, TOOLBAR), _TB("Text File"));
-	m_pObjectBar->AddButton(ID_ADD_REPEATER, RS_NS,				TBIcon(szIconRepeater, TOOLBAR), _TB("Repeater"));
+	m_pWObjectToolBar->AddButton(ID_ADD_SQR_RECT, RS_NS,				TBIcon(szIconRectangle, TOOLBAR), _TB("Rectangle"));
+	m_pWObjectToolBar->AddButton(ID_ADD_GRAPH_RECT, RS_NS,			TBIcon(szIconPicture, TOOLBAR), _TB("Image"));
+	m_pWObjectToolBar->AddButton(ID_ADD_TEXT_RECT, RS_NS,			TBIcon(szIconGenericText, TOOLBAR), _TB("Text"));
+	m_pWObjectToolBar->AddButton(ID_ADD_FILE_RECT, RS_NS,			TBIcon(szIconImportTxt, TOOLBAR), _TB("Text File"));
+	m_pWObjectToolBar->AddButton(ID_ADD_REPEATER, RS_NS,				TBIcon(szIconRepeater, TOOLBAR), _TB("Repeater"));
 	
-	m_pObjectBar->AddButton(ID_RS_ADD_TABLE_FROM_DB, RS_NS,		TBIcon(szIconTable, TOOLBAR),		_TB("Table"), _TB("\nAdd a new Table"));
-	m_pObjectBar->SetDropdown(ID_RS_ADD_TABLE_FROM_DB);
+	m_pWObjectToolBar->AddButton(ID_RS_ADD_TABLE_FROM_DB, RS_NS,		TBIcon(szIconTable, TOOLBAR),		_TB("Table"), _TB("\nAdd a new Table"));
+	m_pWObjectToolBar->SetDropdown(ID_RS_ADD_TABLE_FROM_DB);
 
-	m_pObjectBar->AddButton(ID_RS_ADD_COLUMNS_FROM_DB, RS_NS,	TBIcon(szIconRSColumn, TOOLBAR),	_TB("Columns"), _TB("\nAdd columns"));
-	m_pObjectBar->SetDropdown(ID_RS_ADD_COLUMNS_FROM_DB);
+	m_pWObjectToolBar->AddButton(ID_RS_ADD_COLUMNS_FROM_DB, RS_NS,	TBIcon(szIconRSColumn, TOOLBAR),	_TB("Columns"), _TB("\nAdd columns"));
+	m_pWObjectToolBar->SetDropdown(ID_RS_ADD_COLUMNS_FROM_DB);
 
-	m_pObjectBar->AddButton(ID_RS_ADD_FIELDS_FROM_DB, RS_NS,	TBIcon(szIconRSField, TOOLBAR),	_TB("Fields"), _TB("\nAdd fields"));
-	m_pObjectBar->SetDropdown(ID_RS_ADD_FIELDS_FROM_DB);
+	m_pWObjectToolBar->AddButton(ID_RS_ADD_FIELDS_FROM_DB, RS_NS,	TBIcon(szIconRSField, TOOLBAR),	_TB("Fields"), _TB("\nAdd fields"));
+	m_pWObjectToolBar->SetDropdown(ID_RS_ADD_FIELDS_FROM_DB);
 
-	m_pObjectBar->AddButton(ID_RS_REMOVE_LAYOUT_OBJECT, RS_NS,	TBIcon(szIconRemoveField, TOOLBAR),		_TB("Remove object"), _TB("\nRemove layout object. The variable will become hidden."));
-	m_pObjectBar->AddButton(ID_RS_ADD_LINK, RS_NS,				TBIcon(szIconLinkTo, TOOLBAR),			_TB("Add Link"), _TB("\nAdd new hyperlink"));
+	m_pWObjectToolBar->AddButton(ID_RS_REMOVE_LAYOUT_OBJECT, RS_NS,	TBIcon(szIconRemoveField, TOOLBAR),		_TB("Remove object"), _TB("\nRemove layout object. The variable will become hidden."));
+	m_pWObjectToolBar->AddButton(ID_RS_ADD_LINK, RS_NS,				TBIcon(szIconLinkTo, TOOLBAR),			_TB("Add Link"), _TB("\nAdd new hyperlink"));
 
-	m_pObjectBar->SetAutoHideToolBarButton(FALSE);
+	m_pWObjectToolBar->SetAutoHideToolBarButton(FALSE);
 	return TRUE;
 }
 
@@ -1547,16 +1557,17 @@ BOOL CWoormFrame::CreateObjectToolBar(CWoormDocMng* pDoc /*= NULL*/)
 //e quello per rimuovere l'oggetto grafico di una variabile che verrà messa nell'elenco di quelle nascoste
 void CWoormFrame::ChangeFieldsButtons(BOOL isActiveColumn)
 {
-	if (!GetToolBar(NAME_OBJECT_TOOLBAR))
+	CTBToolBar* pT = GetToolBar(NAME_OBJECT_TOOLBAR);
+	if (!pT)
 		return;
 
 	if (isActiveColumn)
 	{
-		GetToolBar(NAME_OBJECT_TOOLBAR)->ChangeImage(ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveColumn, TOOLBAR));
+		pT->ChangeImage(ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveColumn, TOOLBAR));
 	}
 	else
 	{
-		GetToolBar(NAME_OBJECT_TOOLBAR)->ChangeImage(ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveField, TOOLBAR));
+		pT->ChangeImage(ID_RS_REMOVE_LAYOUT_OBJECT, TBIcon(szIconRemoveField, TOOLBAR));
 	}
 }
 
@@ -1564,7 +1575,7 @@ void CWoormFrame::ChangeFieldsButtons(BOOL isActiveColumn)
 CPoint CWoormFrame::GetPositionSwitchTo()
 {
 	CPoint point(0, 0);
-	if (!m_StatusBar || m_pStatusbarButtonSwitch == NULL)
+	if (!m_RSStatusBar || m_pStatusbarButtonSwitch == NULL)
 	{
 		//se il pulsante e' nella toolbar
 		CRect r;
@@ -1600,10 +1611,9 @@ CPoint CWoormFrame::GetPositionSwitchTo()
 //-----------------------------------------------------------------------------
 void CWoormFrame::ShowDDLTemplates(CWoormDocMng* /*pDoc = NULL*/)
 {
-	CWoormDocMng* pDocument = GetDocument();
-	if (!pDocument) return;
+	if (!m_pDoc) return;
 
-	pDocument->FillComboTemplates();
+	m_pDoc->FillComboTemplates();
 }
 
 //-----------------------------------------------------------------------------
@@ -1617,98 +1627,98 @@ BOOL CWoormFrame::CreateDDLTemplates(CWoormDocMng* pDoc/* = NULL*/)
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::CreateSizeToolBar()
 {
-	ASSERT(m_pSizeBar == NULL);
-	if (m_pSizeBar)
+	ASSERT(m_pWSizeToolBar == NULL);
+	if (m_pWSizeToolBar)
 		return TRUE;
 
-	m_pSizeBar 	= new CTBToolBar();
-	if (!m_pSizeBar->CreateEmptyTabbedToolbar(this, NAME_SIZE_TOOLBAR, _TB("Size")))
+	m_pWSizeToolBar = new CTBToolBar();
+	if (!m_pWSizeToolBar->CreateEmptyTabbedToolbar(this, NAME_SIZE_TOOLBAR, _TB("Size")))
 	{
 		TRACE(L"Failed to create Size toolbar\n");
 		return FALSE;
 	}
-	m_pTabbedToolBar->AddTab(m_pSizeBar, FALSE);
+	m_pWTabbedToolBar->AddTab(m_pWSizeToolBar, FALSE);
 
-	m_pSizeBar->AddButton(ID_COL_LMOVE, RS_NS,		TBIcon(szIconMoveColLeft, TOOLBAR), _TB("Move column"));
-	m_pSizeBar->AddButton(ID_COL_RMOVE, RS_NS,		TBIcon(szIconMoveColRight, TOOLBAR), _TB("Move column"));
-	m_pSizeBar->AddSeparator();
-	m_pSizeBar->AddButton(ID_VK_SHIFT_UP, RS_NS,	TBIcon(szIconEnlargeTop, TOOLBAR), _TB("Enlarge object toward top"));
-	m_pSizeBar->AddButton(ID_VK_SHIFT_DOWN, RS_NS,	TBIcon(szIconNarrowTop, TOOLBAR), _TB("Narrow object from top"));
-	m_pSizeBar->AddButton(ID_VK_SHIFT_LEFT, RS_NS,	TBIcon(szIconNarrowRight, TOOLBAR), _TB("Narrow object from right"));
-	m_pSizeBar->AddButton(ID_VK_SHIFT_RIGHT, RS_NS, TBIcon(szIconEnlargeRight, TOOLBAR), _TB("Enlarge object toward right"));
-	m_pSizeBar->AddSeparator();
-	m_pSizeBar->AddButton(ID_VK_CTRL_UP, RS_NS,		TBIcon(szIconNarrowBottom, TOOLBAR), _TB("Narrow object from bottom"));
-	m_pSizeBar->AddButton(ID_VK_CTRL_DOWN, RS_NS,	TBIcon(szIconEnlargeBottom, TOOLBAR), _TB("Enlarge object toward bottom"));
-	m_pSizeBar->AddButton(ID_VK_CTRL_LEFT, RS_NS,	TBIcon(szIconEnlargeLeft, TOOLBAR), _TB("Enlarge object toward left"));
-	m_pSizeBar->AddButton(ID_VK_CTRL_RIGHT, RS_NS,	TBIcon(szIconNarrowLeft, TOOLBAR), _TB("Narrow object from left"));
-	m_pSizeBar->AddSeparator();
-	m_pSizeBar->AddButton(ID_VK_UP, RS_NS,			TBIcon(szIconArrowUp, TOOLBAR), _TB("Move up"));
-	m_pSizeBar->AddButton(ID_VK_DOWN, RS_NS,		TBIcon(szIconArrowDown, TOOLBAR), _TB("Move down"));
-	m_pSizeBar->AddButton(ID_VK_LEFT, RS_NS,		TBIcon(szIconArrowLeft, TOOLBAR), _TB("Move left"));
-	m_pSizeBar->AddButton(ID_VK_RIGHT, RS_NS,		TBIcon(szIconArrowRight, TOOLBAR), _TB("Move right"));
-	m_pSizeBar->SetAutoHideToolBarButton(FALSE);
+	m_pWSizeToolBar->AddButton(ID_COL_LMOVE, RS_NS,		TBIcon(szIconMoveColLeft, TOOLBAR), _TB("Move column"));
+	m_pWSizeToolBar->AddButton(ID_COL_RMOVE, RS_NS,		TBIcon(szIconMoveColRight, TOOLBAR), _TB("Move column"));
+	m_pWSizeToolBar->AddSeparator();
+	m_pWSizeToolBar->AddButton(ID_VK_SHIFT_UP, RS_NS,	TBIcon(szIconEnlargeTop, TOOLBAR), _TB("Enlarge object toward top"));
+	m_pWSizeToolBar->AddButton(ID_VK_SHIFT_DOWN, RS_NS,	TBIcon(szIconNarrowTop, TOOLBAR), _TB("Narrow object from top"));
+	m_pWSizeToolBar->AddButton(ID_VK_SHIFT_LEFT, RS_NS,	TBIcon(szIconNarrowRight, TOOLBAR), _TB("Narrow object from right"));
+	m_pWSizeToolBar->AddButton(ID_VK_SHIFT_RIGHT, RS_NS, TBIcon(szIconEnlargeRight, TOOLBAR), _TB("Enlarge object toward right"));
+	m_pWSizeToolBar->AddSeparator();
+	m_pWSizeToolBar->AddButton(ID_VK_CTRL_UP, RS_NS,	TBIcon(szIconNarrowBottom, TOOLBAR), _TB("Narrow object from bottom"));
+	m_pWSizeToolBar->AddButton(ID_VK_CTRL_DOWN, RS_NS,	TBIcon(szIconEnlargeBottom, TOOLBAR), _TB("Enlarge object toward bottom"));
+	m_pWSizeToolBar->AddButton(ID_VK_CTRL_LEFT, RS_NS,	TBIcon(szIconEnlargeLeft, TOOLBAR), _TB("Enlarge object toward left"));
+	m_pWSizeToolBar->AddButton(ID_VK_CTRL_RIGHT, RS_NS,	TBIcon(szIconNarrowLeft, TOOLBAR), _TB("Narrow object from left"));
+	m_pWSizeToolBar->AddSeparator();
+	m_pWSizeToolBar->AddButton(ID_VK_UP, RS_NS,			TBIcon(szIconArrowUp, TOOLBAR), _TB("Move up"));
+	m_pWSizeToolBar->AddButton(ID_VK_DOWN, RS_NS,		TBIcon(szIconArrowDown, TOOLBAR), _TB("Move down"));
+	m_pWSizeToolBar->AddButton(ID_VK_LEFT, RS_NS,		TBIcon(szIconArrowLeft, TOOLBAR), _TB("Move left"));
+	m_pWSizeToolBar->AddButton(ID_VK_RIGHT, RS_NS,		TBIcon(szIconArrowRight, TOOLBAR), _TB("Move right"));
+	m_pWSizeToolBar->SetAutoHideToolBarButton(FALSE);
 
 	//-------------------------------
-	m_pBorderBar = new CTBToolBar();	
-	if (!m_pBorderBar->CreateEmptyTabbedToolbar(this, NAME_BORDER_TOOLBAR, _TB("Border")))
+	m_pWBorderToolBar = new CTBToolBar();
+	if (!m_pWBorderToolBar->CreateEmptyTabbedToolbar(this, NAME_BORDER_TOOLBAR, _TB("Border")))
 	{
 		TRACE(L"Failed to create Size toolbar\n");
 		return FALSE;
 	}
-	m_pTabbedToolBar->AddTab(m_pBorderBar, FALSE);
+	m_pWTabbedToolBar->AddTab(m_pWBorderToolBar, FALSE);
 
-	m_pBorderBar->AddButton(ID_TOGGLE_BORDER_UP, RS_NS,		TBIcon(szIconBorderTop, TOOLBAR), _TB("Top border"));
-	m_pBorderBar->AddButton(ID_TOGGLE_BORDER_DOWN, RS_NS,	TBIcon(szIconBorderBottom, TOOLBAR), _TB("Bottom border"));
-	m_pBorderBar->AddButton(ID_TOGGLE_BORDER_LEFT, RS_NS,	TBIcon(szIconBorderLeft, TOOLBAR), _TB("Left border"));
-	m_pBorderBar->AddButton(ID_TOGGLE_BORDER_RIGHT, RS_NS,	TBIcon(szIconBorderRight, TOOLBAR), _TB("Right border"));
-	m_pBorderBar->AddButton(ID_TOGGLE_BORDER_ALL, RS_NS,	TBIcon(szIconBorderAll, TOOLBAR), _TB("All borders"));
-	m_pBorderBar->AddSeparator();
-	m_pBorderBar->AddButton(ID_SNAP_TO_GRID, RS_NS,			TBIcon(szIconMoveOnGrid, TOOLBAR), _TB("Move on grid"));
-	m_pBorderBar->AddButton(ID_TOGGLE_TRANSPARENT, RS_NS,	TBIcon(szIconTransparent, TOOLBAR), _TB("Transparent"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_BORDER_UP, RS_NS,	TBIcon(szIconBorderTop, TOOLBAR), _TB("Top border"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_BORDER_DOWN, RS_NS,	TBIcon(szIconBorderBottom, TOOLBAR), _TB("Bottom border"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_BORDER_LEFT, RS_NS,	TBIcon(szIconBorderLeft, TOOLBAR), _TB("Left border"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_BORDER_RIGHT, RS_NS,	TBIcon(szIconBorderRight, TOOLBAR), _TB("Right border"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_BORDER_ALL, RS_NS,	TBIcon(szIconBorderAll, TOOLBAR), _TB("All borders"));
+	m_pWBorderToolBar->AddSeparator();
+	m_pWBorderToolBar->AddButton(ID_SNAP_TO_GRID, RS_NS,		TBIcon(szIconMoveOnGrid, TOOLBAR), _TB("Move on grid"));
+	m_pWBorderToolBar->AddButton(ID_TOGGLE_TRANSPARENT, RS_NS,	TBIcon(szIconTransparent, TOOLBAR), _TB("Transparent"));
 
 	//---------------------------
-	m_pBorderBar->SetAutoHideToolBarButton(FALSE);
+	m_pWBorderToolBar->SetAutoHideToolBarButton(FALSE);
 	return TRUE;
 }
 
 //-----------------------------------------------------------------------------
 BOOL CWoormFrame::CreateAlignMoveToolBar(const CPoint& pt)
 {
-	ASSERT(m_pAlignMoveBar == NULL);
-	if (m_pAlignMoveBar)
+	ASSERT(m_pWAlignMoveToolBar == NULL);
+	if (m_pWAlignMoveToolBar)
 		return TRUE;
 
-	m_pAlignMoveBar 	= new CTBToolBar();
-	if (!m_pAlignMoveBar->CreateEmptyTabbedToolbar(this, NAME_ALIGNMOVE_TOOLBAR, _TB("Align move")))
+	m_pWAlignMoveToolBar = new CTBToolBar();
+	if (!m_pWAlignMoveToolBar->CreateEmptyTabbedToolbar(this, NAME_ALIGNMOVE_TOOLBAR, _TB("Align move")))
 	{
 		TRACE(L"Failed to create Align move toolbar\n");
 		return FALSE;
 	}
-	m_pTabbedToolBar->AddTab(m_pAlignMoveBar, FALSE);
+	m_pWTabbedToolBar->AddTab(m_pWAlignMoveToolBar, FALSE);
 
-	m_pAlignMoveBar->AddButton(ID_ALIGN_HLEFT, RS_NS,			TBIcon(szIconAlignLeft, TOOLBAR),				_TB("Align left"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_HRIGHT, RS_NS,			TBIcon(szIconAlignRight, TOOLBAR),				_TB("Align right"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_VTOP, RS_NS,			TBIcon(szIconAlignTop, TOOLBAR),				_TB("Align top"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_VBOTTOM, RS_NS,			TBIcon(szIconAlignBottom, TOOLBAR),				_TB("Align bottom"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_HLEFT, RS_NS,			TBIcon(szIconAlignLeft, TOOLBAR),				_TB("Align left"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_HRIGHT, RS_NS,			TBIcon(szIconAlignRight, TOOLBAR),				_TB("Align right"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_VTOP, RS_NS,			TBIcon(szIconAlignTop, TOOLBAR),				_TB("Align top"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_VBOTTOM, RS_NS,		TBIcon(szIconAlignBottom, TOOLBAR),				_TB("Align bottom"));
 
-	m_pAlignMoveBar->AddButton(ID_ALIGN_HSPACE_EQUAL, RS_NS,	TBIcon(szIconEqualHorizontalSpacing, TOOLBAR),	_TB("Equal horizontal spacing"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_VSPACE_EQUAL, RS_NS,	TBIcon(szIconEqualVerticalSpacing, TOOLBAR),	_TB("Equal vertical spacing"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_HSPACE_EQUAL, RS_NS,	TBIcon(szIconEqualHorizontalSpacing, TOOLBAR),	_TB("Equal horizontal spacing"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_VSPACE_EQUAL, RS_NS,	TBIcon(szIconEqualVerticalSpacing, TOOLBAR),	_TB("Equal vertical spacing"));
 
-	m_pAlignMoveBar->AddButton(ID_LAST_LARGE, RS_NS,			TBIcon(szIconSameWidth, TOOLBAR),				_TB("Same width"));
-	m_pAlignMoveBar->AddButton(ID_LAST_HIGH, RS_NS,				TBIcon(szIconSameHeight, TOOLBAR),				_TB("Same height"));
+	m_pWAlignMoveToolBar->AddButton(ID_LAST_LARGE, RS_NS,			TBIcon(szIconSameWidth, TOOLBAR),				_TB("Same width"));
+	m_pWAlignMoveToolBar->AddButton(ID_LAST_HIGH, RS_NS,			TBIcon(szIconSameHeight, TOOLBAR),				_TB("Same height"));
 
-	m_pAlignMoveBar->AddButton(ID_ALIGN_STACK_LEFT, RS_NS,		TBIcon(szIconTileLeft, TOOLBAR),				_TB("Tile on the left"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_STACK_RIGHT, RS_NS,		TBIcon(szIconTileRight, TOOLBAR),				_TB("Tile on the right"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_STACK_TOP, RS_NS,		TBIcon(szIconTileTop, TOOLBAR),					_TB("Tile on top"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_STACK_BOTTOM, RS_NS,	TBIcon(szIconTileBottom, TOOLBAR),				_TB("Tile on bottom"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_STACK_LEFT, RS_NS,		TBIcon(szIconTileLeft, TOOLBAR),				_TB("Tile on the left"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_STACK_RIGHT, RS_NS,	TBIcon(szIconTileRight, TOOLBAR),				_TB("Tile on the right"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_STACK_TOP, RS_NS,		TBIcon(szIconTileTop, TOOLBAR),					_TB("Tile on top"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_STACK_BOTTOM, RS_NS,	TBIcon(szIconTileBottom, TOOLBAR),				_TB("Tile on bottom"));
 
-	m_pAlignMoveBar->AddButton(ID_ALIGN_CUT_H_LEFT, RS_NS,		TBIcon(szIconJustifyLeft, TOOLBAR),				_TB("Justify left"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_CUT_H_RIGHT, RS_NS,		TBIcon(szIconJustifyRight, TOOLBAR),			_TB("Justify right"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_CUT_V_TOP, RS_NS,		TBIcon(szIconJustifyTop, TOOLBAR),				_TB("Justify top"));
-	m_pAlignMoveBar->AddButton(ID_ALIGN_CUT_V_BOTTOM, RS_NS,	TBIcon(szIconJustifyBottom, TOOLBAR),			_TB("Justify bottom"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_CUT_H_LEFT, RS_NS,		TBIcon(szIconJustifyLeft, TOOLBAR),				_TB("Justify left"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_CUT_H_RIGHT, RS_NS,	TBIcon(szIconJustifyRight, TOOLBAR),			_TB("Justify right"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_CUT_V_TOP, RS_NS,		TBIcon(szIconJustifyTop, TOOLBAR),				_TB("Justify top"));
+	m_pWAlignMoveToolBar->AddButton(ID_ALIGN_CUT_V_BOTTOM, RS_NS,	TBIcon(szIconJustifyBottom, TOOLBAR),			_TB("Justify bottom"));
 
 	//-------------
-	m_pAlignMoveBar->SetAutoHideToolBarButton(FALSE);
+	m_pWAlignMoveToolBar->SetAutoHideToolBarButton(FALSE);
 	return TRUE;
 }
 
@@ -1718,8 +1728,8 @@ BOOL CWoormFrame::CreateStatusBar()
 	if (!m_bHasStatusBar)
 		return TRUE;
 
-	if (!m_StatusBar.Create(this) ||
-		!m_StatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT)))
+	if (!m_RSStatusBar.Create(this) ||
+		!m_RSStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT)))
 	{
 		TRACE(L"Failed to create status bar\n");
 		return FALSE;      // fail to create
@@ -1734,9 +1744,9 @@ BOOL CWoormFrame::CreateStatusBar()
 	if (!IsRadarFrame())
 	{	
 		if(AfxIsRSIconVisible(ID_EXTDOC_BACKTOMENU))
-			m_pStatusbarButtonHome = AddButtonToPane(&m_StatusBar, ID_STATUS_BAR_HOME, ID_EXTDOC_BACKTOMENU, _T("Home"), AfxGetRSIcon(ID_EXTDOC_BACKTOMENU), _TB("Return to Home"));
+			m_pStatusbarButtonHome = AddButtonToPane(&m_RSStatusBar, ID_STATUS_BAR_HOME, ID_EXTDOC_BACKTOMENU, _T("Home"), AfxGetRSIcon(ID_EXTDOC_BACKTOMENU), _TB("Return to Home"));
 		if (AfxIsRSIconVisible(ID_EXTDOC_SWITCHTO))
-			m_pStatusbarButtonSwitch = AddButtonToPane(&m_StatusBar, ID_STATUS_BAR_SWITCH, ID_EXTDOC_SWITCHTO, _T("Switch"), AfxGetRSIcon(ID_EXTDOC_SWITCHTO), _TB("Switch Document"));
+			m_pStatusbarButtonSwitch = AddButtonToPane(&m_RSStatusBar, ID_STATUS_BAR_SWITCH, ID_EXTDOC_SWITCHTO, _T("Switch"), AfxGetRSIcon(ID_EXTDOC_SWITCHTO), _TB("Switch Document"));
 	}
 	return TRUE;
 }
@@ -1744,8 +1754,10 @@ BOOL CWoormFrame::CreateStatusBar()
 //-----------------------------------------------------------------------------
 void CWoormFrame::SetPaneInfo (UINT nId, UINT nStyle, int cwWidth)
 {
-	int idx =  m_StatusBar.CommandToIndex(nId);
-	m_StatusBar.SetPaneInfo(idx, nId, nStyle, cwWidth);
+	int idx =  m_RSStatusBar.CommandToIndex(nId);
+	ASSERT(idx >= 0);
+	if (idx < 0) return;
+	m_RSStatusBar.SetPaneInfo(idx, nId, nStyle, cwWidth);
 }
 
 //-----------------------------------------------------------------------------
@@ -1792,8 +1804,8 @@ void CWoormFrame::OnUpdateFrameTitle(BOOL bAddToTitle)
 		{
 			SetWindowText(strText);
 			// gestisce il titolo delle toolbar di tipo dockable
-			if (m_pToolBar && ::IsWindow(m_pToolBar->m_hWnd))
-				m_pToolBar->SetWindowText(strText);
+			if (m_pWToolBar && ::IsWindow(m_pWToolBar->m_hWnd))
+				m_pWToolBar->SetWindowText(strText);
 		}
 		
 		//comunico al menu che il titolo e' cambiato cosi` aggiorna il testo della tab
@@ -1806,13 +1818,14 @@ void CWoormFrame::SaveSettingsAndCleanUp(BOOL bRecalcLayout/* = TRUE*/)
 {
 	ASSERT_VALID(this);
 
-	if (m_pObjectBar && m_pObjectBar->m_hWnd)		ShowControlBar(m_pObjectBar,	FALSE, FALSE, TRUE);
-	if (m_pSizeBar && m_pSizeBar->m_hWnd)			
-	{
-		ShowControlBar(m_pSizeBar,		FALSE, FALSE, TRUE);
-		ShowControlBar(m_pBorderBar,		FALSE, FALSE, TRUE);
-	}
-	if (m_pAlignMoveBar && m_pAlignMoveBar->m_hWnd)	ShowControlBar(m_pAlignMoveBar, FALSE, FALSE, TRUE);
+	if (m_pWObjectToolBar && m_pWObjectToolBar->m_hWnd)
+		ShowControlBar(m_pWObjectToolBar,	FALSE, FALSE, TRUE);
+	if (m_pWSizeToolBar && m_pWSizeToolBar->m_hWnd)
+		ShowControlBar(m_pWSizeToolBar,		FALSE, FALSE, TRUE);
+	if (m_pWBorderToolBar && m_pWBorderToolBar->m_hWnd)
+		ShowControlBar(m_pWBorderToolBar, FALSE, FALSE, TRUE);
+	if (m_pWAlignMoveToolBar && m_pWAlignMoveToolBar->m_hWnd)
+		ShowControlBar(m_pWAlignMoveToolBar, FALSE, FALSE, TRUE);
 
 	if (bRecalcLayout) RecalcLayout();
 }

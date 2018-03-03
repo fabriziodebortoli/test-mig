@@ -146,7 +146,7 @@ DataObj* GetField(SqlRecord* pRecord, const CString& sFieldName, bool& isVirtual
 {
 	SqlRecordItem* pCol = pRecord->GetItemByColumnName(sFieldName);
 	if (!pCol)
-		pCol = pRecord->GetItemByColumnName(_T("l_") + sFieldName);//se è un campo local, la bind aggiunge l_
+		pCol = pRecord->GetItemByColumnName(_T("l_") + sFieldName);//se ï¿½ un campo local, la bind aggiunge l_
 	if (pCol)
 	{
 		isVirtual = TRUE == pCol->GetColumnInfo()->m_bVirtual;
@@ -569,7 +569,7 @@ CAbstractFormDoc::~CAbstractFormDoc()
 		m_pClientDocs->RemoveAt(m_pClientDocs->GetUpperBound());
 	SAFE_DELETE(m_pClientDocs);
 	while (m_pBSPs->GetSize())
-		delete m_pBSPs->GetAt(0);//il distruttore si rimuoverà dall'array
+		delete m_pBSPs->GetAt(0);//il distruttore si rimuoverï¿½ dall'array
 
 	SAFE_DELETE(m_pBSPs);
 	SAFE_DELETE(m_pHotFilterManager);
@@ -598,7 +598,7 @@ CAbstractFormDoc::~CAbstractFormDoc()
 		SAFE_DELETE(m_pMessages);
 	}
 
-	delete m_pContextBag; //cancello sempre il contextbag visto che è sempre di proprietà del documento (o proprio oppure ereditato ma inizializzato con costruttore in copia)
+	delete m_pContextBag; //cancello sempre il contextbag visto che ï¿½ sempre di proprietï¿½ del documento (o proprio oppure ereditato ma inizializzato con costruttore in copia)
 
 	AfxGetThreadContext()->RemoveObject(this);
 	m_pSqlConnection = NULL;
@@ -1319,7 +1319,7 @@ void CAbstractFormDoc::GetDataSource(CString sDataManagerName, CString sFieldNam
 	pDbt = NULL;
 	if (sDataManagerName.IsEmpty())
 	{
-		//traduco l'eventuale alias nel nome effettivo; il primo argomento è nullo, si tratta di un alias di campo di documento
+		//traduco l'eventuale alias nel nome effettivo; il primo argomento ï¿½ nullo, si tratta di un alias di campo di documento
 		TranslateFieldAlias(sDataManagerName, sFieldName);
 		pField = GetVariableValue(sFieldName);
 		return;
@@ -1851,7 +1851,7 @@ void CAbstractFormDoc::OnFileWrmRadar(UINT nID)
 		}
 		else
 		{
-			m_pBrowser->Query();	//PERCHé ? //@@TODO BAUZI da creare un metodo di clonazione della filter senza necessità di eseguire la query
+			m_pBrowser->Query();	//PERCHï¿½ ? //@@TODO BAUZI da creare un metodo di clonazione della filter senza necessitï¿½ di eseguire la query
 
 			if (!m_pBrowser->GetTable()->GetNativeFilter().IsEmpty())
 				strAuxFilter = m_pRadarDoc->UpdateWhereClause(m_pBrowser->GetTable());
@@ -1982,7 +1982,7 @@ BOOL CAbstractFormDoc::PrepareFindQuery(int& nParamIdx, SqlTable* pTable, SqlRec
 
 		//IsValueLocked() serve nel caso in cui il metodo sia chiamato per smart Import\Export
 
-		//A. 18528: in conseguenza dell'affermazuione precedente, perchè testare "!IsEmpty()" ? 
+		//A. 18528: in conseguenza dell'affermazuione precedente, perchï¿½ testare "!IsEmpty()" ? 
 		//(implica che vengono gestiti ad esempio i campi logici che nascono a true e tutto cio che viene inizializzato 
 		//nei metodi Init delle classi derivate da di DBT e SqlRecord)
 		BOOL b2 = pDataObj->IsValueChanged(); //impostato dal menu di contesto, FALSE come default (non confondere con il "Modified")
@@ -2144,7 +2144,7 @@ void CAbstractFormDoc::PrepareFindQuery(SqlTable* pTable, BOOL bFromXTech /*=FAL
 		break;
 	}
 
-	// è stato chiamato il radar in FIND ma senza toccare i campi di ricerca
+	// ï¿½ stato chiamato il radar in FIND ma senza toccare i campi di ricerca
 	case FormProperties::BROWSER_QUERY:
 	{
 		// se non devo aggiungere il DESCENDING non tocco nulla ma uso il sort del browser
@@ -2238,7 +2238,7 @@ CString CAbstractFormDoc::GetDefaultTitleForm()
 }
 
 //-----------------------------------------------------------------------------
-//metodo chiamato dal nuovo menù per avere la stringa descrittiva che rappresenta le informazioni utili per identificare il record corrente
+//metodo chiamato dal nuovo menï¿½ per avere la stringa descrittiva che rappresenta le informazioni utili per identificare il record corrente
 CString CAbstractFormDoc::GetDefaultMenuDescription()
 {
 	if (!this->GetMaster() || !this->GetMaster()->GetRecord())
@@ -3014,7 +3014,7 @@ CView* CAbstractFormDoc::CreateSlaveView
 
 		//Prj. 6709 - tentativo di risolvere il flickering
 		//gestione le view "normali" ma fatte "modale"
-		//memorizzo lo stato "modal" per farle fare la strada di defailt, cioè senza HIDE/SHOW
+		//memorizzo lo stato "modal" per farle fare la strada di defailt, cioï¿½ senza HIDE/SHOW
 		if (pAV)
 			pAV->SetModal(bModal);
 
@@ -3026,11 +3026,11 @@ CView* CAbstractFormDoc::CreateSlaveView
 
 			//if (pParent)
 			//	pView->ModifyStyle(0, WS_CLIPCHILDREN);
-			//è stato aggiunto per problemi di disegno degli static con view embedded sovrapposte,
-			//l'ho tolto perché causava sovrapposizioni nel disegno, sostituito con una UpdateWindow
+			//ï¿½ stato aggiunto per problemi di disegno degli static con view embedded sovrapposte,
+			//l'ho tolto perchï¿½ causava sovrapposizioni nel disegno, sostituito con una UpdateWindow
 			//nel momento di visualizzazione della view embedded
 		}
-		//se sono modale, ciclo finché la finestra non viene chiusa
+		//se sono modale, ciclo finchï¿½ la finestra non viene chiusa
 		if (bModal)
 		{
 			((CAbstractFormFrame*)pNewFrame)->DoModal();
@@ -3113,7 +3113,7 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
 	if (m_bClosing || m_bUpdatingDataView)
 		return;
-	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
+	//ottimizzazione: se sono in un contesto che effettua piï¿½ refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	if (m_nUpdateDataViewLevel > 0 && !bForce)
 	{
@@ -3322,13 +3322,13 @@ BOOL CAbstractFormDoc::InitDocument()
 	), TRUE);
 
 	DeclareVariable(_T("FormMode"), &m_FormMode);
-	//sospendo la comunicazione al client finché il documento non è pronto, per evitare messaggi inutili
-	//darò poi il via libera nella CAbstractFormDoc::OnFrameCreated()
+	//sospendo la comunicazione al client finchï¿½ il documento non ï¿½ pronto, per evitare messaggi inutili
+	//darï¿½ poi il via libera nella CAbstractFormDoc::OnFrameCreated()
 	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
 	if (pSession && AfxIsRemoteInterface())
 	{
 		pSession->SuspendPushToClient();
-		pSession->IgnoreModelChanges(true);//finché non ho completato l'apertura del documento è inutile registrare i cambiamenti del model
+		pSession->IgnoreModelChanges(true);//finchï¿½ non ho completato l'apertura del documento ï¿½ inutile registrare i cambiamenti del model
 		pSession->AddJsonModelProvider(this);
 	}
 	//permetto al programmatore di poter istanziare gli oggetti che hanno bisogno del contesto
@@ -3346,7 +3346,7 @@ BOOL CAbstractFormDoc::InitDocument()
 	if ((::AfxIsInUnattendedMode()) && CanLoadXMLDescription())
 		LoadXMLDescription();
 
-	// se il documento è un ADM devo controllare se alla sua parte sinistra di derivazione
+	// se il documento ï¿½ un ADM devo controllare se alla sua parte sinistra di derivazione
 	// (il documento e non l'ADMObj) sia agganciato qualche documento	
 	AfxGetBaseApp()->AttachClientDocs(this, m_pClientDocs);
 
@@ -3393,8 +3393,8 @@ BOOL CAbstractFormDoc::InitDocument()
 
 	// Due clientdoc della TBExtensions devonoo essere in ultima posizione
 	// EasyBuilder e CDNotification del TbDataSynchroClient
-	// Se sono presenti entrambi allora EasyBuilder sarà in penultima posizione e CDNotification in ultima
-	// questo perchè CDNotification prima di notificare al DataSynchronizer(notifica che avviene nella OnExtraTransaction) 
+	// Se sono presenti entrambi allora EasyBuilder sarï¿½ in penultima posizione e CDNotification in ultima
+	// questo perchï¿½ CDNotification prima di notificare al DataSynchronizer(notifica che avviene nella OnExtraTransaction) 
 	// deve aspettare le eventauali modifiche effettuate nei dati del documento dalle personalizzazioni di EasyBuilder che possono avvenire nell'OnExtraTransaction
 	CClientDoc* pEBClientDoc = NULL;
 	CClientDoc* pDMSClientDoc = NULL;
@@ -3509,7 +3509,7 @@ BOOL CAbstractFormDoc::InitDocument()
 	if (m_pFormManager->m_Ns.IsEmpty())
 		m_pFormManager->m_Ns.SetNamespace(m_pFormManager->m_pDocument->GetNamespace());
 
-	// se è un ADM(non interattivo) leggo il meno possibile
+	// se ï¿½ un ADM(non interattivo) leggo il meno possibile
 	if (GetMasterFrame() && !GetMasterFrame()->IsKindOf(RUNTIME_CLASS(ADMFrame)))
 	{
 		m_pFormManager->Parse();
@@ -3845,7 +3845,7 @@ void CAbstractFormDoc::OnCloseDocument()
 	if (pSession && AfxIsRemoteInterface())
 		pSession->RemoveJsonModelProvider(this);
 
-	//PERASSO: spostato qui dal distruttore, perché il composed hotlink possiede il puntatore alla variabile selettore che, quando siamo nel distruttore del documento, potrebbe essere stata distrutta 
+	//PERASSO: spostato qui dal distruttore, perchï¿½ il composed hotlink possiede il puntatore alla variabile selettore che, quando siamo nel distruttore del documento, potrebbe essere stata distrutta 
 	//invece a me serve per poter effettuare il detach degli eventi di changed
 	ASSERT(m_pHotKeyLinks);
 	SAFE_DELETE(m_pHotKeyLinks);
@@ -3877,7 +3877,7 @@ void CAbstractFormDoc::SaveCurrentRecord()
 		*m_pCurrentRec = *(m_pDBTMaster->m_pRecord);
 	}
 
-	if (!bEqual) //avviso i clientdoc solo se è effettivamente cambiato il current record
+	if (!bEqual) //avviso i clientdoc solo se ï¿½ effettivamente cambiato il current record
 		m_pClientDocs->OnSaveCurrentRecord();
 }
 
@@ -3901,7 +3901,7 @@ void CAbstractFormDoc::RefreshCurrentRecord()
 		BOOL bEqual = m_pCurrentRec->IsEqual(*m_pDBTMaster->m_pRecord);
 		*(m_pDBTMaster->m_pRecord) = *m_pCurrentRec;
 
-		if (!bEqual) //avviso i clientdoc solo se è effettivamente cambiato il current record
+		if (!bEqual) //avviso i clientdoc solo se ï¿½ effettivamente cambiato il current record
 			m_pClientDocs->OnSaveCurrentRecord();
 	}
 }
@@ -3963,7 +3963,7 @@ void CAbstractFormDoc::CustomizeClientDoc()
 	// mi memorizzo il contesto del documento prima delle chiamate ai clientdoc
 	for (int i = 0; i <= m_pClientDocs->GetUpperBound(); i++)
 	{
-		// è possibile che nella customize ci siano delle modifiche al contesto
+		// ï¿½ possibile che nella customize ci siano delle modifiche al contesto
 		m_pClientDocs->GetAt(i)->Customize();
 	}
 	OnAfterCustomizeClientDocs();
@@ -4178,7 +4178,7 @@ BOOL CAbstractFormDoc::LockDocument(BOOL bDelete)
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::UnlockAll()
 {
-	// rilascia il lock di contesto solo se é un proprio contesto e non derivato
+	// rilascia il lock di contesto solo se ï¿½ un proprio contesto e non derivato
 	if (m_pTbContext)
 		m_pTbContext->UnlockAll();
 }
@@ -4881,11 +4881,11 @@ BOOL CAbstractFormDoc::Attach(DBTMaster* pDBTMaster)
 
 	// da un chance ai documenti accessori di attacare propri DBT, HotLink
 	// e altri oggetti alla catena del DBTMaster e del documento
-	m_bOnAttachClient = TRUE; //è stata chiamata l'OnAttachData dei clientdoc
+	m_bOnAttachClient = TRUE; //ï¿½ stata chiamata l'OnAttachData dei clientdoc
 	if (!m_pClientDocs->OnAttachData())
 		return FALSE;
 
-	//faccio il controllo sulla validità dei dbt agganciati
+	//faccio il controllo sulla validitï¿½ dei dbt agganciati
 	BOOL bOk = m_pDBTMaster->IsValidRecordsSchema(m_pMessages) && m_pDBTMaster->Open();
 
 	if (bOk && m_pXMLDocInfo)
@@ -5441,7 +5441,6 @@ void CAbstractFormDoc::RetrieveControlData(ControlLinks *pLinks)
 	}
 }
 
-
 // per la cancellazione del documento importato
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::DeleteImportDocument()
@@ -5491,8 +5490,8 @@ BOOL CAbstractFormDoc::DeleteRecord()
 			if (!bFind)
 			{
 				Message(cwsprintf(_TB("Document {0-%s} not found!"), (LPCTSTR)strKeyDescri));
-				// se il database connesso è di tipo ORACLE devo invalidare la query del browser
-			//(poichè oracle non supporta il KEYSET_CURSOR)
+				// se il database connesso ï¿½ di tipo ORACLE devo invalidare la query del browser
+			//(poichï¿½ oracle non supporta il KEYSET_CURSOR)
 				if (m_pBrowser && m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
 					m_pBrowser->SetInvalidQuery();
 			}
@@ -5523,7 +5522,6 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		DisconnectFromDatabase();
 		return FALSE;
 	}
-
 
 	// ignora eventuali dati fasulli presenti nei controls
 	AbortAllViews();
@@ -5561,6 +5559,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 			}
 			msg.Dispose();//permetto la corretta assegnazione del fuoco alla finestra (che viene riabilitata)
 			GoInBrowseMode();
+
 			m_pMessages->Show(TRUE);
 			DispatchOnAfterDelete();
 			DisconnectFromDatabase();
@@ -5571,22 +5570,27 @@ BOOL CAbstractFormDoc::DeleteRecord()
 
 		//auxiliary transaction
 		m_pTbContext->StartTime(AUXILIARY_TIME);
+
 		OnExtraDeleteTransaction();
 		m_pClientDocs->OnExtraDeleteTransaction();
+
 		m_pTbContext->StopTime(AUXILIARY_TIME);
 
 		m_pMessages->Show(TRUE);
+
 		InitData();
 		ClearCurrentRecord();
+
 		msg.Show(_TB("Document deleted"));
 		msg.Dispose();//permetto la corretta assegnazione del fuoco alla finestra (che viene riabilitata)
+
 		GoInBrowseMode();
 
-		// se il database connesso è di tipo ORACLE devo invalidare la query del browser (poichè oracle non supporta il KEYSET_CURSOR)
+		// se il database connesso ï¿½ di tipo ORACLE devo invalidare la query del browser (poichï¿½ oracle non supporta il KEYSET_CURSOR)
 		if (m_pBrowser && m_pSqlConnection->GetDBMSType() == DBMS_ORACLE)
 			m_pBrowser->SetInvalidQuery();
 
-		// anziché lasciare il record indefinito effettuo un MoveNext
+		// anzichï¿½ lasciare il record indefinito effettuo un MoveNext
 		if (CanDoNextRecord())
 		{
 			m_pTbContext->StartTime(TOTAL_TIME, szMoveNext);
@@ -5599,7 +5603,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		DisconnectFromDatabase();
 		return TRUE;
 	}
-		CATCH(SqlException, e)
+	CATCH(SqlException, e)
 	{
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)))
 		{
@@ -5614,7 +5618,9 @@ BOOL CAbstractFormDoc::DeleteRecord()
 			BrowseRecord(FALSE);
 		}
 		msg.Dispose();//permetto la corretta assegnazione del fuoco alla finestra (che viene riabilitata)
+
 		GoInBrowseMode();
+
 		m_pTbContext->StopTime(PRIMARY_TIME);
 		m_pTbContext->StopTime(SECONDARY_TIME);
 		m_pTbContext->StopTime(AUXILIARY_TIME);
@@ -5647,6 +5653,11 @@ void CAbstractFormDoc::BatchStart()
 
 	USES_DIAGNOSTIC();
 
+	DWORD dwBeginTick = 0;
+	DWORD dwStartTick = 0;
+	DWORD dwStopTick = 0;
+	DWORD dwEndTick = 0;
+
 	// Utilizza una critical area per evitare problemi multitasking
 	if (!m_BatchRunningArea.IsLocked())
 	{
@@ -5657,12 +5668,14 @@ void CAbstractFormDoc::BatchStart()
 		}
 
 		m_bBatchRunning = TRUE;
+
 		EnableControls();
 		UpdateDataView();
 
 		m_BatchScheduler.Start();
 
 		//ConnectToDatabase(szBatchAction);
+		dwBeginTick = ::GetTickCount();
 
 		m_pTbContext->Connect();
 
@@ -5675,26 +5688,41 @@ void CAbstractFormDoc::BatchStart()
 			AfxGetThreadContext()->RaiseCallBreakEvent();
 			try
 			{
+				AfxGetTBThread()->IncSuspendIdle();
+
+				dwStartTick = ::GetTickCount();
+
 				OnBatchExecute();
+
+				dwStopTick = ::GetTickCount();
+
+				AfxGetTBThread()->DecSuspendIdle();
 			}
 			catch (CThreadAbortedException* pException)
 			{
 				//DisconnectFromDatabase();
 				m_pTbContext->Disconnect();
+				AfxGetTBThread()->DecSuspendIdle();
 				throw pException;
 			}
 #ifndef DEBUG
 			catch (CException* pException)
 			{
+				AfxGetTBThread()->DecSuspendIdle();
+
 				AfxGetDiagnostic()->Add(pException); //null pointer accepted
 				if (pException)
 					pException->Delete();
 			}
 #endif
 			DispatchOnAfterBatchExecute();
+
 			if (!IsInUnattendedMode())
 				GetFirstView()->SendMessage(UM_EXTDOC_BATCH_COMPLETED, NULL, NULL);
+
 			OnBatchCompleted();
+
+			dwEndTick = ::GetTickCount();
 		}
 
 		//DisconnectFromDatabase();
@@ -5703,7 +5731,6 @@ void CAbstractFormDoc::BatchStart()
 
 		if (m_bBatchRunning) // nel frattempo la batch potrbbe anche essere stata stoppata....
 		{
-
 			m_BatchScheduler.Terminate();
 			m_bBatchRunning = FALSE;
 			if (IsRunningFromExternalController())
@@ -5722,6 +5749,17 @@ void CAbstractFormDoc::BatchStart()
 		}
 
 		OnManageAfterBatchExecute();
+
+		DWORD spanFull = dwEndTick ? (dwEndTick - dwBeginTick) / 1000 : 0;
+		if (spanFull > 0)
+		{
+			DWORD span = (dwStopTick - dwStartTick) / 1000;
+			CString msg = ::cwsprintf(_TB("Elapsed time: {0-%d}:{1-%d} seconds"), span, spanFull);
+			((CMasterFrame*)GetFrame())->SetStatusBarText(msg);
+			TRACE(msg + '\n');
+			//AfxMessageBox(msg);
+		}
+
 		EnableControls();
 		UpdateDataView();
 
@@ -6061,7 +6099,7 @@ void CAbstractFormDoc::RefreshRowset()
 //--------------------------------------------------------------------------------
 void CAbstractFormDoc::Customize()
 {
-	//nel caso di macrorecorder attivo disabilita il recording per il tempo in cui è su il report 
+	//nel caso di macrorecorder attivo disabilita il recording per il tempo in cui ï¿½ su il report 
 	CApplicationContext::MacroRecorderStatus localStatus = AfxGetApplicationContext()->m_MacroRecorderStatus;
 	AfxGetApplicationContext()->m_MacroRecorderStatus = CApplicationContext::IDLE;
 
@@ -7852,14 +7890,14 @@ void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString 
 		bool isVirtual = false;
 		if (sFieldName.IsEmpty())
 		{
-			//ho solo un token: allora è un nome di campo o di dbt
-			//provo a vedere se è un dbt
+			//ho solo un token: allora ï¿½ un nome di campo o di dbt
+			//provo a vedere se ï¿½ un dbt
 			GetDataSource(sDbtOrHKLOrFieldName, _T(""), pDBT, pRecord, pDataObj, isVirtual);
 			if (pDBT && pRecord)
 			{
 				return;
 			}
-			//se non è un dbt, provo a vedere se è un campo
+			//se non ï¿½ un dbt, provo a vedere se ï¿½ un campo
 			GetDataSource(_T(""), sDbtOrHKLOrFieldName, pDBT, pRecord, pDataObj, isVirtual);
 
 			if (pDataObj && sBindingName.IsEmpty())
@@ -7905,7 +7943,7 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
 	for (int i = 0; i < m_ModifiedData.GetSize(); i++)
 	{
 		DataObj* pDataObj = m_ModifiedData.GetAt(i);
-		//controllo aggiuntivo: potrebbe essere cambiato più volte fino a riacquistare il valore originario
+		//controllo aggiuntivo: potrebbe essere cambiato piï¿½ volte fino a riacquistare il valore originario
 		if (!pDataObj->HasChangedForJson())
 			continue;
 		CString sPath = pDataObj->GetObjectName();
@@ -7948,7 +7986,7 @@ void CAbstractFormDoc::SetJson(CJsonParser& jsonParser)
 		CJsonIterator* pIterator = jsonParser.BeginIteration();
 		while (pIterator->GetNext(sKey, parser))
 		{
-			if (parser.Has(_T("_value")))//è una variabile di documento
+			if (parser.Has(_T("_value")))//ï¿½ una variabile di documento
 			{
 				DataObj* pData = GetVariableValue(sKey);
 				if (pData)
@@ -8153,7 +8191,7 @@ void CAbstractFormDoc::LoadSymbolTable()
 	if (!m_pDBTMaster)
 		return;
 
-	//queste le lascio per compatibilità pregressa, ma sono da considerarsi deprecate, occorre valorizzarle
+	//queste le lascio per compatibilitï¿½ pregressa, ma sono da considerarsi deprecate, occorre valorizzarle
 	//nell'MDocument con i nomi dei componenti!
 	AddToSymbolTable(m_pDBTMaster->GetRecord(), m_pDBTMaster->GetRecord()->GetTableName(), TRUE);
 
@@ -8170,7 +8208,7 @@ void CAbstractFormDoc::LoadSymbolTable()
 		if (pDBTObject->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
 		{
 			//se ho la riga corrente, prendo quella, altrimenti la riga del prototipo
-			//così ho sempre i campi del dbt in symbol table anche per scopi di editing della query
+			//cosï¿½ ho sempre i campi del dbt in symbol table anche per scopi di editing della query
 			DBTSlaveBuffered* pBuff = (DBTSlaveBuffered*)pDBTObject;
 			pRecord = pBuff->GetCurrentRow();
 			if (!pRecord)
@@ -8921,7 +8959,7 @@ void CWizardFormDoc::WaitDocument()
 	if (m_pWaitingDoc)
 		m_pWaitingDoc->DisableAllView();
 
-	//adesso la frame del master doc è owner della mia frame, vengo disabilitato in automatico
+	//adesso la frame del master doc ï¿½ owner della mia frame, vengo disabilitato in automatico
 	//quindi devo riabilitarmi!!!
 	CWnd* pWnd = GetMasterFrame();
 	if (pWnd)

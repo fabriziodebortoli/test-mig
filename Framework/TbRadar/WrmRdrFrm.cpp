@@ -58,7 +58,7 @@ BOOL CWrmRadarFrame::CreateTools(CWoormDocMng* pDoc/* = NULL*/)
 //-----------------------------------------------------------------------------
 void CWrmRadarFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
-	CWoormFrame::OnActivate(nState, pWndOther, bMinimized);
+	__super::OnActivate(nState, pWndOther, bMinimized);
 
 	OnActivateHandler(pWndOther && nState != WA_INACTIVE, pWndOther);
 }
@@ -139,18 +139,19 @@ void CWrmRadarFrame::OnUpdateFixed(CCmdUI* pCmdUI)
 //-----------------------------------------------------------------------------
 void CWrmRadarFrame::UpdateButtonFixedCheck(BOOL bFixedCheck)
 {
-	m_pToolBar->SetButtonInfo (ID_WRMRADAR_FIXED, TBBS_BUTTON, 
-		bFixedCheck ? 
-		TBIcon(szIconPinned, TOOLBAR) :
-		TBIcon(szIconPin, TOOLBAR)
-		);
-}
+	if (GetMainToolBar()) 
+		GetMainToolBar()->SetButtonInfo (ID_WRMRADAR_FIXED, TBBS_BUTTON,
+			bFixedCheck ? 
+			TBIcon(szIconPinned, TOOLBAR) :
+			TBIcon(szIconPin, TOOLBAR)
+			);
+	}
 
 //-----------------------------------------------------------------------------
 CWrmRadarDoc* CWrmRadarFrame::GetWrmRadarDocument()
 {
 	CWrmRadarDoc* pDoc = (CWrmRadarDoc*) GetActiveDocument();
-	ASSERT(pDoc);
+	ASSERT_VALID(pDoc);
 	return pDoc;
 }
 

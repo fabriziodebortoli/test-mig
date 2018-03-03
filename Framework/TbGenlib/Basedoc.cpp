@@ -4,11 +4,13 @@
 #include <TbNameSolver\ApplicationContext.h>
 #include <TbNameSolver\PathFinder.h>
 #include <TbNameSolver\Templates.h>
-#include <TbNameSolver/ThreadContext.h>
+#include <TbNameSolver\ThreadContext.h>
+
 #include <TbGeneric\ParametersSections.h>
 #include <TbGeneric\WebServiceStateObjects.h>
 #include <TbGeneric\ContextFunctions.h>
 #include <TbGeneric\TBThemeManager.h>
+#include <TbGeneric\SettingsTable.h>
 
 #include <TbParser\SymTable.h>
 
@@ -121,6 +123,9 @@ CBaseDocument::CBaseDocument()
 	struct _timeb timebuffer;
 	if (_ftime_s(&timebuffer) == 0) //returns Zero if successful
 		m_nCreationTime = timebuffer.time;
+
+	DataObj* pS = ::AfxGetSettingValue(snsTbGenlib, szEnvironment, szEnableSuspendOnIdle, DataBool(TRUE));
+	AfxGetTBThread()->SetEnableSuspendIdle(pS ? *((DataBool*)pS) : FALSE); 
 }
 
 //------------------------------------------------------------------------------

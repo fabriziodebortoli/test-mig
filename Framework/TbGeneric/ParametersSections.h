@@ -46,6 +46,7 @@ extern const TB_EXPORT TCHAR szDataTipMaxWidth[];
 extern const TB_EXPORT TCHAR szTreatEnterAsTab[];
 extern const TB_EXPORT TCHAR szEnableCenterControls[];
 
+extern const TB_EXPORT TCHAR szEnableSuspendOnIdle[];
 
 extern const TB_EXPORT TCHAR szPreferenceSection[];			// Preference
 extern const TB_EXPORT TCHAR szShowAdminCustomSaveDialog[];
@@ -257,7 +258,7 @@ public:
 	CString			GetFileName		() { return m_sFileName; }	
 };
 
-// questo insieme di parametri viene sempre letto in blocco, quindi è
+// questo insieme di parametri viene sempre letto in blocco, quindi ï¿½
 // comodo avere la sezione di lettura vecchio stile.
 //=============================================================================        
 class TB_EXPORT MailConnectorParams : public TbBaseSettings
@@ -311,7 +312,7 @@ public:
 	void	SetPdfSplitPages		(int n);
 };
 
-// questo insieme di parametri viene sempre letto in blocco, quindi è
+// questo insieme di parametri viene sempre letto in blocco, quindi ï¿½
 // comodo avere la sezione di lettura vecchio stile.
 //=============================================================================        
 class TB_EXPORT SmtpMailConnectorParams : public TbBaseSettings

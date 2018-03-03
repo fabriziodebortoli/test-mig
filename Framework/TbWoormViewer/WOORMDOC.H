@@ -84,6 +84,7 @@ class CRSTreeCtrl;
 class CNodeTree;
 class SqlColumnInfo;
 class TotalCell;
+class CMyStatusBar;
 
 //===========================================================================
 class TB_EXPORT CLayout : public Array
@@ -1279,6 +1280,9 @@ public:
 	virtual void PreDeleteField(LPCTSTR pszFieldName);
 	void RemoveObjectFromItemData(CObject* pItemData);
 
+	CMyStatusBar* GetStatusBar();
+
+	//----------------------------------------------------------
 	//ERefreshEditor GetRefreshType(CNodeTree::ENodeType nt);
 	virtual HTREEITEM	RefreshRSTree(ERefreshEditor, CObject* itemDataToSelect = NULL, BOOL selectRoot = FALSE);
 	CRSTreeCtrl*	GetRSTree(ERefreshEditor);

@@ -776,14 +776,14 @@ BOOL RepEngine::RunEngine()
 	{
 		GetCallerDoc()->m_bRunningInAThread = TRUE;
 
-		AfxGetTBThread()->SetSuspendIdle();
+		AfxGetTBThread()->IncSuspendIdle();
 
 		if (!AfxBeginTBThread(AsyncRun, this, AfxGetLoginContext(), THREAD_PRIORITY_NORMAL, 0,0, NULL, "report_engine"))
 			return FALSE;
 
 		m_Scheduler.LoopUntil(m_AsyncEngineRunningStatus, TRUE);
 
-		AfxGetTBThread()->SetSuspendIdle(FALSE);
+		AfxGetTBThread()->DecSuspendIdle();
 	}
 	else
 	{
