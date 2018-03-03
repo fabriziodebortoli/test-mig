@@ -11,7 +11,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
     //====================================================================
     [Name("templateCodeSvc"), Description("This service manages template code and serialization.")]
     //====================================================================
-    internal class TemplateCodeService : Component, IService
+    internal class TemplateCodeService : Service
     {
         //---------------------------------------------------------------
         internal string TemplatePath
@@ -46,21 +46,6 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 }
             }*/
             return code;
-        }
-
-
-
-        //----------------------------------------------------------------------------
-        public ISerializer Serializer
-        {
-            get
-            {
-                return null;
-            }
-
-            set
-            {
-            }
         }
     }
 }

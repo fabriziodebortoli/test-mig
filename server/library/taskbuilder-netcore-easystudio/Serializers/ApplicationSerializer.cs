@@ -20,19 +20,24 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             string containerFolder = PathFinder.PathFinderInstance.GetStandardApplicationContainerPath(type);
             string appFolder = System.IO.Path.Combine(containerFolder, applicationName);
-
-            //Creare la cartella di applicazione Standard\Applications\<newAppName>
-            if (!this.PathFinder.FileSystemManager.ExistPath(appFolder))
-                this.PathFinder.FileSystemManager.CreateFolder(appFolder, true);
-
-            //Verifico se è presente il file Application.config, nel caso non lo sia, lo creo
-            string appConfigFile = System.IO.Path.Combine(appFolder, NameSolverStrings.Application + NameSolverStrings.ConfigExtension);
-            if (!this.PathFinder.FileSystemManager.ExistFile(appConfigFile))
+            try
             {
-                CreateApplicationConfig(appConfigFile, applicationName, type);
-                this.PathFinder.CreateApplicationInfo(applicationName, type, containerFolder);
-            }
+                // Creare la cartella di applicazione Standard\Applications\<newAppName>
+                if (!this.PathFinder.FileSystemManager.ExistPath(appFolder))
+                    this.PathFinder.FileSystemManager.CreateFolder(appFolder, true);
 
+                // Verifico se è presente il file Application.config, nel caso non lo sia, lo creo
+                string appConfigFile = System.IO.Path.Combine(appFolder, NameSolverStrings.Application + NameSolverStrings.ConfigExtension);
+                if (!this.PathFinder.FileSystemManager.ExistFile(appConfigFile))
+                {
+                    CreateApplicationConfig(appConfigFile, applicationName, type);
+                    this.PathFinder.CreateApplicationInfo(applicationName, type, containerFolder);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
+            }
             return true;
         }
 
@@ -46,21 +51,28 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
                 return false;
 
             string modulePath = System.IO.Path.Combine(applicationInfo.Path, moduleName);
-            //Verifico se è presente la cartella del modulo
+            // Verifico se è presente la cartella del modulo
             ModuleInfo moduleInfo = this.PathFinder.GetModuleInfoByName(applicationName, moduleName) as ModuleInfo;
-            if (!this.PathFinder.FileSystemManager.ExistPath(modulePath))
+            try
             {
-                if (moduleInfo == null)
-                    moduleInfo = new ModuleInfo(moduleName, applicationInfo);
-                this.PathFinder.FileSystemManager.CreateFolder(modulePath, true);
+                if (!this.PathFinder.FileSystemManager.ExistPath(modulePath))
+                {
+                    if (moduleInfo == null)
+                        moduleInfo = new ModuleInfo(moduleName, applicationInfo);
+                    this.PathFinder.FileSystemManager.CreateFolder(modulePath, true);
+                }
+
+                // Verifico se è presente il file Module.config, nel caso non lo sia, lo creo
+                string moduleConfigFile = System.IO.Path.Combine(modulePath, NameSolverStrings.Module + NameSolverStrings.ConfigExtension);
+                if (!this.PathFinder.FileSystemManager.ExistFile(moduleConfigFile))
+                     CreateModuleConfig(moduleConfigFile, moduleName, moduleInfo);
+
+            }
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
             }
 
-            //Verifico se è presente il file Module.config, nel caso non lo sia, lo creo
-            string moduleConfigFile = System.IO.Path.Combine(modulePath, NameSolverStrings.Module + NameSolverStrings.ConfigExtension);
-            if (!this.PathFinder.FileSystemManager.ExistFile(moduleConfigFile))
-            {
-                CreateModuleConfig(moduleConfigFile, moduleName, moduleInfo);
-            }
             return true;
         }
 
@@ -75,11 +87,17 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             string appFolder = PathFinder.GetStandardApplicationContainerPath(application.ApplicationType);
             string standardApplicationFolder = System.IO.Path.Combine(appFolder, applicationName);
-
-            if (this.PathFinder.FileSystemManager.ExistPath(standardApplicationFolder))
+            try
             {
-                this.PathFinder.FileSystemManager.RemoveFolder(standardApplicationFolder, true, false, false);
-                return true;
+                if (this.PathFinder.FileSystemManager.ExistPath(standardApplicationFolder))
+                {
+                    this.PathFinder.FileSystemManager.RemoveFolder(standardApplicationFolder, true, false, false);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
             }
             return false;
         }
@@ -96,52 +114,50 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             string appFolder = PathFinder.GetStandardApplicationContainerPath(application.ApplicationType);
             string standardApplicationFolder = System.IO.Path.Combine(appFolder, applicationName);
             string basePath = System.IO.Path.Combine(standardApplicationFolder, moduleName);
-
-            if (this.PathFinder.FileSystemManager.ExistPath(basePath))
+            try
             {
-                this.PathFinder.FileSystemManager.RemoveFolder(basePath, true, false, false);
-                return true;
+                if (this.PathFinder.FileSystemManager.ExistPath(basePath))
+                {
+                    this.PathFinder.FileSystemManager.RemoveFolder(basePath, true, false, false);
+                    return true;
+                }
             }
-
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
+            }
             return false;
         }
 
         //---------------------------------------------------------------
         private void CreateApplicationConfig(string filePath, string applicationName, ApplicationType type)
         {
-            #region application config sample
-            /*<?xml version="1.0" encoding="utf-8"?>
-				<ApplicationInfo>
-				  <Type>TbApplication</Type>
-				  <DbSignature>ERP</DbSignature>
-				  <Version>3.5.0</Version>
-				  <HelpModule>Core</HelpModule>
-				</ApplicationInfo> 
-			 */
-            #endregion
-
-            ApplicationConfigInfo applicationInfo = new ApplicationConfigInfo(applicationName, filePath);
-            applicationInfo.Type = type.ToString();
-            applicationInfo.DbSignature = applicationName;
-            applicationInfo.Save();
+            try
+            {
+                ApplicationConfigInfo applicationInfo = new ApplicationConfigInfo(applicationName, filePath);
+                applicationInfo.Type = type.ToString();
+                applicationInfo.DbSignature = applicationName;
+                applicationInfo.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
+            }
         }
 
         //-----------------------------------------------------------------------------
         private void CreateModuleConfig(string filePath, string moduleName, ModuleInfo moduleInfo)
         {
-            #region module config sample
-            /*
-			<?xml version="1.0" encoding="utf-8"?>
-			<ModuleInfo localize="Sales" optional="false" destinationfolder="TbApps" menuvieworder="70">
-			  <Components>
-				<Library name="SalesDbl" deploymentpolicy="base" sourcefolder="Dbl" aggregatename = "SalesDbl" />
-			  </Components>
-			</ModuleInfo>
-			 */
-            #endregion
-            ModuleConfigInfo moduleConfigInfo = new ModuleConfigInfo(moduleName, moduleInfo, filePath);
-            moduleConfigInfo.Signature = moduleName;
-            moduleConfigInfo.Save();
+            try
+            {
+                ModuleConfigInfo moduleConfigInfo = new ModuleConfigInfo(moduleName, moduleInfo, filePath);
+                moduleConfigInfo.Signature = moduleName;
+                moduleConfigInfo.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new SerializerException(this, ex);
+            }
         }
 
         //---------------------------------------------------------------
@@ -152,10 +168,12 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             ApplicationInfo application = this.PathFinder.GetApplicationInfoByName(applicationName);
             return (application != null);
         }
+
         //---------------------------------------------------------------
         public bool ExistsModule(string applicationName, string moduleName)
         {
             EnsurePathFinder();
+
             ModuleInfo module = this.PathFinder.GetModuleInfoByName(applicationName, moduleName);
             return (module != null);
         }
@@ -181,7 +199,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             }
             catch (Exception ex)
             {
-                throw (new SerializerException(this, ex.Message));
+                throw (new SerializerException(this, ex));
             }
 
             return true;
@@ -211,7 +229,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             }
             catch (Exception ex)
             {
-                throw (new SerializerException(this, ex.Message));
+                throw (new SerializerException(this, ex));
             }
 
             return true;

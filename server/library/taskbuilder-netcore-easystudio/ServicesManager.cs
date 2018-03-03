@@ -43,7 +43,7 @@ namespace TaskBuilderNetCore.EasyStudio
                 Serializer serializer = instance.Serializer as Serializer;
                 if (serializer != null)
                     serializer.PathFinder = pathFinder;
-
+                instance.Services = this;
                 Add(instance);
                 return instance;
             }

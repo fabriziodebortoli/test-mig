@@ -1052,7 +1052,6 @@ namespace TaskBuilderNetCore.Interfaces
         public const string CustomAppStateFile = "CustomAppState.bin";
         public const string DllSearchCriteria = "*.dll";
         public const string AllFilesSearchCriteria = "*.*";
-        public const string EasyStudioDesigner = "EasyStudioDesigner";
         public const string EbsExtension = ".ebs";
         public const string CrsExtension = ".crs"; // CryptedRowSecurity
         public const string ThemeExtension = ".theme"; // theme
@@ -1117,9 +1116,6 @@ namespace TaskBuilderNetCore.Interfaces
 		public const string TaskBuilder = "TaskBuilder";
         public const string TaskBuilderApplications = "Applications";
         public const string TbApplication = "TbApplication";
-        public const string EasyStudio = "EasyStudio";
-        public const string EasyStudioHome = "ESHome";
-        public const string EasyStudioHomeWeb = "ESHome";
         public const string TBS = "TBS";
 
         #endregion
@@ -1249,7 +1245,19 @@ namespace TaskBuilderNetCore.Interfaces
         public const string MenuMostUsed = "MenuMostUsed";
         public const string ShowFullMenuItems = "ShowFullMenuItems";
 
-	}
+        #region EasyStudio
+
+        public const string EasyStudio = "EasyStudio";
+        public const string EasyStudioHome = "ESHome";
+        public const string EasyStudioHomeWeb = "ESHome";
+
+        public const string EasyStudioDesigner = "EasyStudioDesigner";
+        public const string EasyStudioSave = "EasyStudioSave";
+        public const string EasyStudioGenerateCsProj = "GenerateCsproj";
+        public const string EasyStudioPack = "EasyStudioPack";
+        #endregion
+
+    }
 
     //=========================================================================
     public sealed class ReportObjectsXML

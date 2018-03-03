@@ -24,5 +24,13 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
         {
             this.serializer = ser;
         }
+
+        //---------------------------------------------------------------
+        public SerializerException(ISerializer ser, Exception inner)
+            :
+            base(inner.Message, inner)
+        {
+            this.serializer = ser;
+        }
     }
 }

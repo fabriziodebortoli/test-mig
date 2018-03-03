@@ -11,43 +11,10 @@ namespace TaskBuilderNetCore.EasyStudio.Services
     //====================================================================
     [Name("docSvc"), Description("This service manages document structure info and serialization.")]
     [DefaultSerializer(typeof(DocumentSerializer))]
-    public class DocumentService : Component, IService
+    public class DocumentService : Service
     {
-        BaseDocumentSerializer serializer;
-       
         //---------------------------------------------------------------
-        private BaseDocumentSerializer DocSerializer
-        {
-            get
-            {
-                if (serializer == null)
-                    Serializer = DefaultSerializer;
-
-                return serializer;
-            }
-
-            set
-            {
-                serializer = value ;
-            }
-        }
-
-        //---------------------------------------------------------------
-        public ISerializer Serializer
-        {
-            get
-            {
-                return DocSerializer;
-            }
-
-            set
-            {
-                if (value is BaseDocumentSerializer)
-                    DocSerializer = value as BaseDocumentSerializer;
-                else
-                    throw (new SerializerException(value, string.Format(Strings.WrongSerializerType, typeof(IDocumentSerializer).Name)));
-            }
-        }
+        private BaseDocumentSerializer DocSerializer { get => Serializer as BaseDocumentSerializer; }
 
         //---------------------------------------------------------------
         public DocumentService()
@@ -106,6 +73,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
             documentInfo.IsBatch = batch;
             documentInfo.IsDataEntry = !documentInfo.IsBatch;
+            documentInfo.IsDesignable = !documentInfo.IsDesignable;
             return documentInfo;
         }
 

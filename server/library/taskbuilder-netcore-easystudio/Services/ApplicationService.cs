@@ -4,40 +4,20 @@ using System.Collections.Specialized;
 using System.IO;
 using Newtonsoft.Json;
 using TaskBuilderNetCore.EasyStudio.Serializers;
-using TaskBuilderNetCore.EasyStudio.Interfaces;
 using System.Text;
 using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
-using System;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
 	//====================================================================
 	[Name("appSvc"), Description("This service manages application structure info and serialization.")]
 	[DefaultSerializer(typeof(ApplicationSerializer))]
-	public class ApplicationService : Component, IService
-	{
-		ApplicationSerializer serializer;
-	
-        //---------------------------------------------------------------
-		public ISerializer Serializer
-		{
-			get
-			{
-				return AppSerializer;
-			}
-
-			set
-			{
-				if (value is ApplicationSerializer)
-					AppSerializer = (ApplicationSerializer)value;
-				else
-					throw (new SerializerException(value, string.Format(Strings.WrongSerializerType, typeof(ApplicationSerializer).Name)));
-			}
-		}
-
+	public class ApplicationService : Service
+	{	
+        ApplicationSerializer AppSerializer { get => Serializer as ApplicationSerializer; }
         //---------------------------------------------------------------
         public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
@@ -50,26 +30,6 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             PathFinder.PathFinderInstance.ApplicationInfos.Clear();
             return GetAppsModsAsJson(type);
         }
-
-        //---------------------------------------------------------------
-        public bool IsDeveloperEdition { get => Microarea.Common.GenericForms.LoginFacilities.loginManager.IsActivated(NameSolverStrings.TBS, NameSolverStrings.DevelopmentEdition); }
-
-        //---------------------------------------------------------------
-        private ApplicationSerializer AppSerializer
-		{
-			get
-			{
-				if (serializer == null)
-					Serializer = DefaultSerializer;
-
-				return serializer;
-			}
-
-			set
-			{
-				serializer = value;
-			}
-		}
 
 		//---------------------------------------------------------------
 		public ApplicationService()
@@ -128,7 +88,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		public IEnumerable<string> GetApplications(ApplicationType applicationType)
 		{
 			StringCollection applicationNames = null;
-			serializer.PathFinder.GetApplicationsList(applicationType, out applicationNames);
+			AppSerializer.PathFinder.GetApplicationsList(applicationType, out applicationNames);
 
 			return applicationNames.Cast<string>().ToList() as IEnumerable<string>;
 		}
@@ -136,7 +96,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public IEnumerable<string> GetModules(string applicationName)
 		{
-			var modules = serializer.PathFinder.GetModulesList(applicationName);
+			var modules = AppSerializer.PathFinder.GetModulesList(applicationName);
 
 			var moduleNames = new List<string>();
 			foreach (ModuleInfo moduleInfo in modules)
@@ -178,10 +138,14 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
 			jsonWriter.WriteEndArray();
 
-			jsonWriter.WritePropertyName("DeveloperEd");
-			jsonWriter.WriteValue(IsDeveloperEdition);
+            LicenceService licenceService = Services.GetService(typeof(LicenceService)) as LicenceService;
+            if (licenceService != null)
+            {
+                jsonWriter.WritePropertyName("DeveloperEd");
+			    jsonWriter.WriteValue(licenceService.IsDeveloperEdition);
+            }
 
-			jsonWriter.WriteEndObject();
+            jsonWriter.WriteEndObject();
 			jsonWriter.Close();
 			sw.Close();
 
