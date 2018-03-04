@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -60,73 +61,72 @@ namespace Microarea.Common.Generic
 
 
         //---------------------------------------------------------------------
-        public static string GetIPAddress()
-		{
-			//string[] mac = null;
+  //      public static string GetIPAddress()
+		//{
+		//	//string[] mac = null;
 
-			try
-			{
+		//	try
+		//	{
        
-                //ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");                            TODO RSWeb
-                //ManagementObjectCollection moc = mc.GetInstances();
+  //              //ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");                            TODO RSWeb
+  //              //ManagementObjectCollection moc = mc.GetInstances();
 
-                //foreach (ManagementObject mo in moc)
-                //{
-                //	if ((bool)mo["IPEnabled"] == true && mac == null)
-                //		mac = mo["IPAddress"] as string[];
-                //	mo.Dispose();
-                //}
-                //if (mac != null && mac.Length > 0)
-                //	return mac[0];
-                return null;
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				throw ex;
-			}
-		}
-
-
-		//---------------------------------------------------------------------
-		public static Drive[] GetCdDrives()
-		{
-			ArrayList list = new ArrayList();
-
-			foreach (Drive aDrive in GetDrives())
-				if (aDrive.Type == DriveType.CompactDisc)
-					list.Add(aDrive);
-
-			return (Drive[])list.ToArray(typeof(Drive));
-		}
+  //              //foreach (ManagementObject mo in moc)
+  //              //{
+  //              //	if ((bool)mo["IPEnabled"] == true && mac == null)
+  //              //		mac = mo["IPAddress"] as string[];
+  //              //	mo.Dispose();
+  //              //}
+  //              //if (mac != null && mac.Length > 0)
+  //              //	return mac[0];
+  //              return null;
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.Fail(ex.Message);
+		//		throw ex;
+		//	}
+		//}
 
 		//---------------------------------------------------------------------
-		public static Drive[] GetDrives()
-		{
-			ArrayList list = new ArrayList();
-			//Drive aDrive;     TODO rsweb
+		//public static Drive[] GetCdDrives()
+		//{
+		//	List<Drive> list = new List<Drive>();
 
-			try
-			{
-                //ManagementClass disks = new ManagementClass("Win32_LogicalDisk");
-                //ManagementObjectCollection moc = disks.GetInstances();                                     TODO RSWeb
+		//	foreach (Drive aDrive in GetDrives())
+		//		if (aDrive.Type == DriveType.CompactDisc)
+		//			list.Add(aDrive);
 
-                //foreach (ManagementObject mo in moc)
-                //{
-                //	aDrive = Drive.GetDriveObject(mo);
-                //	mo.Dispose();
-                //	list.Add(aDrive);
-                //}
+		//	return list.ToArray();
+		//}
 
-                //disks.Dispose();
-                return (Drive[])list.ToArray(typeof(Drive));
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				throw ex;
-			}
-		}
+		//---------------------------------------------------------------------
+		//public static Drive[] GetDrives()
+		//{
+		//	//ArrayList list = new ArrayList();
+		//	//Drive aDrive;     TODO rsweb
+
+		//	try
+		//	{
+  //              //ManagementClass disks = new ManagementClass("Win32_LogicalDisk");
+  //              //ManagementObjectCollection moc = disks.GetInstances();                                     TODO RSWeb
+
+  //              //foreach (ManagementObject mo in moc)
+  //              //{
+  //              //	aDrive = Drive.GetDriveObject(mo);
+  //              //	mo.Dispose();
+  //              //	list.Add(aDrive);
+  //              //}
+
+  //              //disks.Dispose();
+  //              //return (Drive[])list.ToArray(typeof(Drive));
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.Fail(ex.Message);
+		//		throw ex;
+		//	}
+		//}
 
 		//---------------------------------------------------------------------
 		public static Int64 GetFreeSpaceInBytes(string logicalDrive)
@@ -331,8 +331,9 @@ namespace Microarea.Common.Generic
 		RamDisk = 6
 	}
 
-	//=========================================================================
-	public class Drive
+    //=========================================================================
+    //TODO RSWeb class Drive
+    public class Drive
 	{
 		private DriveType type = DriveType.Unknown;
 		private string name = string.Empty;
@@ -367,39 +368,4 @@ namespace Microarea.Common.Generic
     }
 
     //=========================================================================
-    public class RemoteMachine	// TEMP - codice ridondato temporaneo in attesa di derivare LocalMachine da RemoteMachine
-	{
-		//---------------------------------------------------------------------
-		public static Drive[] GetDrives(string serverName)
-		{
-			ArrayList list = new ArrayList();
-			// Drive aDrive;    TODO rsweb
-
-			try
-			{
-                //ManagementPath path = new ManagementPath();
-                //path.Server = serverName;
-                //path.NamespacePath = @"root\CIMV2";
-                //path.RelativePath = @"Win32_LogicalDisk";
-
-                //ManagementClass disks = new ManagementClass(path, new ObjectGetOptions(null, new TimeSpan(0,0,0,2), true));
-                //ManagementObjectCollection moc = disks.GetInstances();
-
-                //foreach (ManagementObject mo in moc)
-                //{
-                //	aDrive = Drive.GetDriveObject(mo);                    TODO RSWeb
-                //	mo.Dispose();
-                //	list.Add(aDrive);
-                //}
-
-                //disks.Dispose();
-                return (Drive[])list.ToArray(typeof(Drive));
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				throw ex;
-			}
-		}
-	}
 }

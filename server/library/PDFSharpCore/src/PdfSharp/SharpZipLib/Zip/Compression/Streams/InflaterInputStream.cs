@@ -666,10 +666,7 @@ namespace PdfSharp.SharpZipLib.Zip.Compression.Streams
             throw new NotSupportedException("InflaterInputStream WriteByte not supported");
         }
 
-
-
-
-        public  void Close()
+        override public  void Close()
         {
             if (!isClosed)
             {

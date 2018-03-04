@@ -196,7 +196,7 @@ namespace Microarea.Common.Lexan
 		private static readonly CultureInfo dateFormatProvider = new CultureInfo("it-IT");
 		private  Stack<ParserState>		stateStack	= new Stack<ParserState>();
 		internal TkSymbolTable	userKeywords = new TkSymbolTable();			// Symbol table definita dallo user
-		internal TkSymbolTable	defines = new TkSymbolTable();
+		internal Dictionary<string, double> defines = new Dictionary<string, double>();
 		internal ParserState	parserState;
 		internal Comment		comment = new Comment();
 		internal bool			preprocessInclude = true;
@@ -293,8 +293,8 @@ namespace Microarea.Common.Lexan
 		//------------------------------------------------------------------------------
 		public string GetTokenDescription(Token t)
 		{
-			foreach (DictionaryEntry entry in UserKeywords)
-			{ if ((Token)entry.Value == t) return entry.Key.ToString(); }
+			foreach (KeyValuePair<string, Token> entry in UserKeywords)
+			{ if (entry.Value == t) return entry.Key.ToString(); }
 
 			string s = Language.GetTokenString(t);
 			if (s != Language.UnknownToken)
@@ -544,7 +544,7 @@ namespace Microarea.Common.Lexan
 		internal void AddDefine (string key, double aValue)
 		{
 			// bisogna controllare che non collida
-			if (defines.Contains(key))
+			if (defines.ContainsKey(key))
 				defines.Remove(key);
 
 			defines.Add(key, aValue);

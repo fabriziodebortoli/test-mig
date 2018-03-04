@@ -120,7 +120,7 @@ namespace Microarea.Common.Lexan
 			Parser	parser = new Parser(Parser.SourceType.FromString); 
 			
 			// passo le user keywords dell'owner parser al  nested parser
-			foreach (object aKey in ownedParser.UserKeywords.Keys)
+			foreach (string aKey in ownedParser.UserKeywords.Keys)
 				parser.UserKeywords.Add (aKey, ownedParser.UserKeywords[aKey]);
 			
 			parser.Open(strBuffer);

@@ -109,9 +109,9 @@ namespace Microarea.Common.StringLoader
 	}
 	//=========================================================================
 	[Serializable]
-	public class DictionaryTable : Hashtable
+	public class DictionaryTable : Hashtable //Dictionary<string, DictionaryStringBlock> alcuni overloading non possibili
 	{
-		public event EventHandler ContentChanged;
+        public event EventHandler ContentChanged;
 
 		//-----------------------------------------------------------------------------
 		public DictionaryTable()
@@ -133,9 +133,10 @@ namespace Microarea.Common.StringLoader
 		}
 
 		//-----------------------------------------------------------------------------
-		public override object this[object key]
-		{
-			get
+		//public override DictionaryStringBlock this[string key]
+        public override object this[object key]
+        {
+            get
 			{
 				return base[key];
 			}

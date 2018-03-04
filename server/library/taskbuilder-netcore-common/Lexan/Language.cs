@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Microarea.Common.Lexan
 {
 	/// ================================================================================
-	public class TkSymbolTable : Hashtable
+	public class TkSymbolTable : Dictionary<string, Token>
 	{
 		public TkSymbolTable()
             :
@@ -13,18 +14,27 @@ namespace Microarea.Common.Lexan
 		}
 	}
 
+    public class TkSymbolTableRev : Dictionary<Token, string>
+    {
+        public TkSymbolTableRev()
+            :
+            base()
+        {
+        }
+    }
+
     public class TkSymbolTable2 : TkSymbolTable
     {
-        private TkSymbolTable reverseMap;
+        private TkSymbolTableRev reverseMap;
 
-        public TkSymbolTable2(TkSymbolTable revMap)
+        public TkSymbolTable2(TkSymbolTableRev revMap)
             :
             base()
         {
             reverseMap = revMap;
         }
 
-        public new virtual void Add(Object key, Object value)
+        public new virtual void Add(string key, Token value)
         {
             base.       Add(key,    value);
             reverseMap. Add(value,  key);
@@ -39,7 +49,7 @@ namespace Microarea.Common.Lexan
 	{
 		public const string UnknownToken = "UnknowToken";
 
-        static internal TkSymbolTable reverseMaps;
+        static internal TkSymbolTableRev reverseMaps;
 
         static internal TkSymbolTable2 brackets;
 		static internal TkSymbolTable2 operators;
@@ -48,7 +58,7 @@ namespace Microarea.Common.Lexan
 		//------------------------------------------------------------------------------
 		static Language()
 		{
-            reverseMaps = new TkSymbolTable();
+            reverseMaps = new TkSymbolTableRev();
 
 			LoadBrackets();
 			LoadOperators();

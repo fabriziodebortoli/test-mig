@@ -1,6 +1,7 @@
 ﻿using Microarea.Common.NameSolver;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +16,7 @@ namespace Microarea.Common.Generic
     {
 
         private static HelpManager theHelpManager = null;
-        private StringDictionary namespaceAliases = new StringDictionary();
+        private Dictionary<string, string> namespaceAliases = new Dictionary<string, string>();
 
         private HelpManager()
         {
@@ -156,10 +157,10 @@ namespace Microarea.Common.Generic
         //----------------------------------------------------------------------------
         private static string ReplaceAlias(string nspace)
         {
-            foreach (DictionaryEntry de in helpManager.namespaceAliases)
+            foreach (KeyValuePair<string, string> de in helpManager.namespaceAliases)
                 if (nspace.StartsWith(de.Key.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
-                    nspace = nspace.ToLower().Replace(de.Key.ToString(), de.Value.ToString());
+                    nspace = nspace.ToLower().Replace(de.Key, de.Value);
                     break;
                 }
             return nspace;
@@ -176,13 +177,14 @@ namespace Microarea.Common.Generic
 
             try
             {
-
                 string firstUrl = string.Format("{0}?init={1}", url, token);
 
                 //invia alla pagina di onlineHelp per prima cosa un token di "controllo", poi invia
                 //la chiamata vera e propria che "consuma" il token e apre l'help vero e proprio
                 using (WebClient cli = new WebClient())
-                using (Stream stream = cli.OpenRead(firstUrl)) { }
+                {
+                    using (Stream stream = cli.OpenRead(firstUrl)) { }
+                }
             }
             catch
             {

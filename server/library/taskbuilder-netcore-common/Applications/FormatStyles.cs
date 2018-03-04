@@ -4061,7 +4061,11 @@ public string DecSeparator = ",";
     public class CNumberGroup
     {
         public string m_Value = string.Empty;
+
         public Hashtable m_DeclinationList = new Hashtable();
+        //TODO eliminazione classi deprecate: POSSIBILE ANOMALIA
+        //public Dictionary<int, string> m_DeclinationList = new Dictionary<int, string>();
+       // public Dictionary<int, Declination> m_DeclinationList = new Dictionary<int, Declination>();
 
         public CNumberGroup(string aValue)
         {

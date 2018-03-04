@@ -21,11 +21,9 @@ namespace Microarea.Common.NameSolver
 	//=========================================================================
 	public class ModuleInfo 
 	{
-
         private string name;
         private string moduleConfigFile;
-        private string allCompaniesCustomPath;
-
+ 
         protected ApplicationInfo parentApplicationInfo;
         private IDocumentsObjectInfo documentObjectsInfo;
         private ModuleConfigInfo moduleConfigInfo;

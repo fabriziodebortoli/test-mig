@@ -19,8 +19,8 @@ namespace Microarea.Common.StringLoader
 	}
 
 	//================================================================================
-	public class DictionaryBinaryFile : Hashtable
-	{
+	public class DictionaryBinaryFile : Dictionary<DictionaryBinaryIndexItem, DictionaryStringBlock>
+    {
 		public const uint Version = 1;
 		private string path;
 		private List<DictionaryResourceIndexItem> resourceIndexItems = new List<DictionaryResourceIndexItem>();
@@ -49,15 +49,14 @@ namespace Microarea.Common.StringLoader
 		public void AddDictionaryStringBlock(string type, string id, string name, DictionaryStringBlock block)
 		{
 			DictionaryBinaryIndexItem item = new DictionaryBinaryIndexItem(type, id, name);
-			object existing = this[item];
-			if (existing == null)
+            DictionaryStringBlock existingBlock = this[item];
+			if (existingBlock == null)
 			{
 				this[item] = block;
 				return;
 			}
 			
-			DictionaryStringBlock existingBlock = existing as DictionaryStringBlock;
-			foreach (DictionaryEntry de in block)
+			foreach (KeyValuePair<string, DictionaryStringItem> de in block)
 				existingBlock[de.Key] = de.Value; //TODO PERASSO gestione conflitti per traduzioni diverse???
 		}
 
@@ -71,12 +70,10 @@ namespace Microarea.Common.StringLoader
 				item.Unparse(parser);
 			
 			parser.UnparseUInt(Convert.ToUInt32(this.Count));
-			foreach (DictionaryEntry de in this)
+			foreach (KeyValuePair<DictionaryBinaryIndexItem, DictionaryStringBlock> de in this)
 			{
-				DictionaryBinaryIndexItem item = de.Key as DictionaryBinaryIndexItem;
-				item.Unparse(parser);
-				DictionaryStringBlock block = de.Value as DictionaryStringBlock;
-				block.Unparse(parser);
+				de.Key.Unparse(parser);
+				de.Value.Unparse(parser);
 			}
 		}
 
@@ -154,7 +151,7 @@ namespace Microarea.Common.StringLoader
 
 	//================================================================================
 	[Serializable]
-	public class DictionaryStringItem : Hashtable, ISerializable
+	public class DictionaryStringItem : Dictionary<string, string>, ISerializable
 	{
 		private const string TargetTag = "target";
 		public string Target  = string.Empty;
@@ -200,23 +197,19 @@ namespace Microarea.Common.StringLoader
 		{
 			parser.UnparseString(Target);
 			parser.UnparseByte(Convert.ToByte(this.Count));
-			string attrName, attrValue; 
-			foreach (DictionaryEntry de in this)
+
+			foreach (KeyValuePair<string, string> de in this)
 			{
-				attrName = de.Key as string;
-				attrValue = de.Value as string;
-				parser.UnparseString(attrName);
-				parser.UnparseString(attrValue);
+				parser.UnparseString(de.Key);
+				parser.UnparseString(de.Value);
 			}
 		}
-
-		
 	}
 
 	//================================================================================
 	[Serializable]
-	public class DictionaryStringBlock : Hashtable
-	{
+	public class DictionaryStringBlock : Dictionary<string, DictionaryStringItem>
+    {
 		//--------------------------------------------------------------------------------
 		public DictionaryStringBlock()
 		{
@@ -252,14 +245,11 @@ namespace Microarea.Common.StringLoader
 		public void Unparse(DictionaryBinaryParser parser)
 		{
 			parser.UnparseUInt(Convert.ToUInt32(this.Count));
-			foreach (DictionaryEntry de in this)
+			foreach (KeyValuePair<string, DictionaryStringItem> de in this)
 			{
-				string baseString = de.Key as string;
-				DictionaryStringItem item = de.Value as DictionaryStringItem;
-				parser.UnparseString(baseString);
-				item.Unparse(parser);
-			}
-					
+				parser.UnparseString(de.Key);
+                de.Value.Unparse(parser);
+			}					
 		}
 	}
 
