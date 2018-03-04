@@ -1550,7 +1550,7 @@ BOOL CBaseTabManager::SetCtrlFocus(int nActiveTab)
 	}
 
 	if ((m_pActiveDlg->m_hWnd && ::IsWindow(m_pActiveDlg->m_hWnd)) || m_pActiveDlg->m_pCtrlSite != NULL)
-		m_pActiveDlg->SetDefaultFocus();
+		return m_pActiveDlg->SetDefaultFocus();
 
 	return FALSE;
 }
