@@ -10866,8 +10866,7 @@ bool CParsedForm::SetDefaultFocus()
 	if (!m_pControlLinks || !m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
 		return false;
 
-	if (m_pControlLinks)
-		m_pControlLinks->SetDefaultFocus(m_pOwnerWnd, m_phLastCtrlFocused);
+	m_pControlLinks->SetDefaultFocus(m_pOwnerWnd, m_phLastCtrlFocused);
 
 	return true;
 }
