@@ -333,7 +333,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
                     assembly = Assembly.LoadFrom(alternativePath);
 
              }
-            catch (System.IO.FileNotFoundException e)
+            catch (System.IO.FileNotFoundException)
             {
                 assembly = Assembly.LoadFrom(alternativePath);
             }

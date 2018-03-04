@@ -109,10 +109,8 @@ namespace Microarea.Common.StringLoader
 	}
 	//=========================================================================
 	[Serializable]
-	public class DictionaryTable : Hashtable //Dictionary<string, DictionaryStringBlock> alcuni overloading non possibili
+	public class DictionaryTable : Dictionary<string, DictionaryStringBlock> 
 	{
-        public event EventHandler ContentChanged;
-
 		//-----------------------------------------------------------------------------
 		public DictionaryTable()
             : base(StringComparer.OrdinalIgnoreCase) 
@@ -125,34 +123,6 @@ namespace Microarea.Common.StringLoader
 		{
 		}
 
-		//-----------------------------------------------------------------------------
-		private void RaiseContentChanged()
-		{
-			if (ContentChanged != null)
-				ContentChanged(this, EventArgs.Empty);
-		}
-
-		//-----------------------------------------------------------------------------
-		//public override DictionaryStringBlock this[string key]
-        public override object this[object key]
-        {
-            get
-			{
-				return base[key];
-			}
-			set
-			{
-				base[key] = value;
-				RaiseContentChanged();
-			}
-		}
-
-		//-----------------------------------------------------------------------------
-		public override void Clear()
-		{
-			base.Clear ();
-			RaiseContentChanged();
-		}
 	}
 
 	//=========================================================================
@@ -201,7 +171,7 @@ namespace Microarea.Common.StringLoader
 		public	const int CACHE_VERSION = 3;
 
 		public	DictionaryTable dictionaries = null;
-		public	DictionaryTable failedDictionaries = null;
+		public Dictionary<string, bool> failedDictionaries = null;
 		string	cachePath = null;
 
 		//-----------------------------------------------------------------------------
@@ -265,7 +235,7 @@ namespace Microarea.Common.StringLoader
 			if (!StringLoader.cachingEnabled)
 			{
 				dictionaries = new DictionaryTable();
-				failedDictionaries = new DictionaryTable();
+				failedDictionaries = new Dictionary<string, bool>();
 				return;
 			}
 
@@ -305,7 +275,7 @@ namespace Microarea.Common.StringLoader
 				if (dictionaries == null)
 					dictionaries = new DictionaryTable();
 				if (failedDictionaries == null)
-					failedDictionaries = new DictionaryTable();
+					failedDictionaries = new Dictionary<string, bool>();
 			}
 		}
 	}
