@@ -6026,10 +6026,10 @@ namespace Microarea.Common.MenuLoader
 	/// <summary>
 	/// Summary description for MenuXmlNodeCollection.
 	/// </summary>
-	public class MenuXmlNodeCollection : ReadOnlyCollectionBase
+	public class MenuXmlNodeCollection : List<MenuXmlNode>
 	{
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection()
+        //---------------------------------------------------------------------------
+        public MenuXmlNodeCollection()
 		{
 		}
 
@@ -6044,18 +6044,12 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public MenuXmlNode this[int index]
-		{
-			get {  return (MenuXmlNode)InnerList[index];  }
-		}
-
-		//---------------------------------------------------------------------------
-		public int Add(MenuXmlNode aNodeToAdd)
+		new public void Add(MenuXmlNode aNodeToAdd)
 		{
 			if (Contains(aNodeToAdd))
-				return IndexOf(aNodeToAdd);
+				return;
 
-			return InnerList.Add(aNodeToAdd);
+			base.Add(aNodeToAdd);
 		}
 
 		//---------------------------------------------------------------------------
@@ -6069,15 +6063,15 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public void Insert(int index, MenuXmlNode aNodeToInsert)
+		new public void Insert(int index, MenuXmlNode aNodeToInsert)
 		{
-			if (index < 0 || index > InnerList.Count - 1)
+			if (index < 0 || index > Count - 1)
 				return;
 
 			if (Contains(aNodeToInsert))
 				return;
 
-			InnerList.Insert(index, aNodeToInsert);
+			base.Insert(index, aNodeToInsert);
 		}
 
 		//---------------------------------------------------------------------------
@@ -6096,48 +6090,18 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public void Remove(MenuXmlNode aNodeToRemove)
+		new public void RemoveAt(int index)
 		{
-			if (!Contains(aNodeToRemove))
+			if (index < 0 || index > Count - 1)
 				return;
 
-			InnerList.Remove(aNodeToRemove);
-		}
-
-		//---------------------------------------------------------------------------
-		public void RemoveAt(int index)
-		{
-			if (index < 0 || index > InnerList.Count - 1)
-				return;
-
-			InnerList.RemoveAt(index);
-		}
-
-		//---------------------------------------------------------------------------
-		public void Clear()
-		{
-			InnerList.Clear();
-		}
-
-		//---------------------------------------------------------------------------
-		public bool Contains(MenuXmlNode aNodeToSearch)
-		{
-			return InnerList.Contains(aNodeToSearch);
-		}
-
-		//---------------------------------------------------------------------------
-		public int IndexOf(MenuXmlNode aNodeToSearch)
-		{
-			if (!Contains(aNodeToSearch))
-				return -1;
-			else
-				return InnerList.IndexOf(aNodeToSearch);
+			base.RemoveAt(index);
 		}
 
 		//---------------------------------------------------------------------------
 		public bool ContainsSameNode(MenuXmlNode aNodeToSearch)
 		{
-			if (InnerList.Count == 0 || aNodeToSearch == null)
+			if (Count == 0 || aNodeToSearch == null)
 				return false;
 
 			foreach (MenuXmlNode aNode in this)
@@ -6156,7 +6120,7 @@ namespace Microarea.Common.MenuLoader
 		{
 			MenuXmlNodeCollection unionCollection = new MenuXmlNodeCollection();
 			
-			if (InnerList.Count > 0)
+			if (Count > 0)
 			{
 				unionCollection.AddRange(this);
 
@@ -6184,7 +6148,7 @@ namespace Microarea.Common.MenuLoader
 		{
 			MenuXmlNodeCollection intersectionCollection = new MenuXmlNodeCollection();
 
-			if (InnerList.Count > 0 && otherNodes != null && otherNodes.Count > 0)
+			if (Count > 0 && otherNodes != null && otherNodes.Count > 0)
 			{
 				foreach (MenuXmlNode aNode in otherNodes)
 				{
@@ -6204,7 +6168,7 @@ namespace Microarea.Common.MenuLoader
 		{
 			MenuXmlNodeCollection subtractionCollection = new MenuXmlNodeCollection();
 
-			if (InnerList.Count > 0)
+			if (Count > 0)
 			{
 				if (otherNodes != null && otherNodes.Count > 0)
 				{
@@ -6226,19 +6190,19 @@ namespace Microarea.Common.MenuLoader
 		//--------------------------------------------------------------------------------------------------------------------------------
 		public void SortByTitles()
 		{
-			if (InnerList.Count <= 1)
+			if (Count <= 1)
 				return;
 
 			// BubbleSort
-			for (int j = (InnerList.Count -1); j > 0; j--) 
+			for (int j = (Count -1); j > 0; j--) 
 			{
 				for (int i=0; i < j; i++) 
 				{
 					if (String.Compare(this[i].Title, this[i+1].Title) > 0)
 					{
 						MenuXmlNode tmpNode = this[i];
-						InnerList[i] = this[i+1];
-						InnerList[i+1] = tmpNode;
+						this[i] = this[i+1];
+						this[i+1] = tmpNode;
 					}
 				}
 			}
@@ -6247,7 +6211,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetDocumentNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6264,7 +6228,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetReportNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6281,7 +6245,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetBatchNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6298,7 +6262,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetFunctionNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6315,7 +6279,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetTextNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6332,7 +6296,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetExeNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6349,7 +6313,7 @@ namespace Microarea.Common.MenuLoader
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetOfficeItemNodes()
 		{
-			if (InnerList.Count == 0)
+			if (Count == 0)
 				return null;
 
 			MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
@@ -6366,7 +6330,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public MenuXmlNodeCollection GetExternalItemNodes()
         {
-            if (InnerList.Count == 0)
+            if (Count == 0)
                 return null;
 
             MenuXmlNodeCollection subset = new MenuXmlNodeCollection();
