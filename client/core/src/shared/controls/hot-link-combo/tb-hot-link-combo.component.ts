@@ -7,7 +7,7 @@ import { StorageService } from './../../../core/services/storage.service';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { HttpService } from './../../../core/services/http.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
-import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -30,6 +30,7 @@ declare var document: any;
   providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
+  @ViewChild('combobox') public combobox: any;
 
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
@@ -46,7 +47,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   private dropDownOpened = false;
-  openDropDown() {
+  openDropDown(ev) {
+    ev.preventDefault();
     this.start();
     this.dropDownOpened = true;
   }
@@ -93,6 +95,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
     this.paginator.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
+      if (!this.combobox.isOpen)
+        this.combobox.toggle(true);
     });
 
     this.filterer.filterChanged$.filter(x => x.logic !== undefined)
