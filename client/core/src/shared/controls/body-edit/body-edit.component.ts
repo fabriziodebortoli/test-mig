@@ -42,16 +42,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @Input() columns: Array<any>;
   public selectableSettings: SelectableSettings;
 
-  
-  isRowSelected = (e: RowArgs) => e.index == this.currentGridIdx;
-  currentGridIdx: number = -1;
-  currentDbtRowIdx: number = -1;
+
+  isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentGridIdx;
   subscriptions = [];
   subscription = [];
 
-  public skip = -1;
-  public pageSize: number = 15;
   
+  public pageSize: number = 15;
+
   public enabled: boolean = false;
   public isLoading: boolean = false;
   public pageSizes = false;
@@ -156,8 +154,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.subscribeToSelector();
 
-    if (this.skip < 0) {
-      this.skip = 0;
+    if (this.bodyEditService.skip < 0) {
+      this.bodyEditService.skip = 0;
       this.changeDBTRange();
     }
 
@@ -170,14 +168,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   pageChange(event) {
-    this.skip = event.skip;
+    this.bodyEditService.skip = event.skip;
     this.changeDBTRange();
 
   }
   changeDBTRange() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     this.isLoading = true;
-    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.pageSize).subscribe((res) => {
 
       sub.unsubscribe();
     });
@@ -211,24 +209,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     if (!selectedRow || !selectedRow.dataItem)
       return;
 
-    console.log("selectedRow this.currentDbtRowIdx", selectedRow, this.currentDbtRowIdx, "this.skip", this.skip)
-
-
-    this.bodyEditService.currentRow = selectedRow.dataItem;
-    this.currentGridIdx = selectedRow.index;
-    this.currentDbtRowIdx = selectedRow.index + this.skip;
-    console.log("after selected row  this.currentDbtRowIdx", this.currentGridIdx, this.currentDbtRowIdx)
-    for (var prop in selectedRow.dataItem) {
-      this.bodyEditService.currentRow[prop].enabled = this.model.prototype[prop].enabled;
-    }
-
-    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, selectedRow.index).subscribe((res) => {
-      sub.unsubscribe();
-      // addModelBehaviour(selectedRow.dataItem);
-      // this.currentRowIdx = selectedRow.index;
-      // this.currentRow = selectedRow.dataItem;
-    });
+    this.bodyEditService.changeRow(selectedRow.index);
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -255,26 +236,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   removeRow() {
-    if (this.currentGridIdx < 0)
+    if (this.bodyEditService.currentGridIdx < 0)
       return;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.currentDbtRowIdx).subscribe((res) => {
+    let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.currentDbtRowIdx).subscribe((res) => {
       let dbt = res[this.bodyEditName];
       this.updateModel(dbt);
 
-      sub.unsubscribe();
-    });
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  changeRow() {
-    if (this.currentGridIdx < 0)
-      return;
-
-    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.currentDbtRowIdx).subscribe((res) => {
-      this.updateModel(res.dbt);
       sub.unsubscribe();
     });
   }
@@ -314,13 +283,14 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
     }
 
-    console.log("updatemodel this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
-
-    this.currentDbtRowIdx = dbt.currentRowIdx;
-    console.log("this.currentDbtRowIdx", this.currentDbtRowIdx, "this.skip", this.skip)
-    this.currentGridIdx = dbt.currentRowIdx - this.skip;
+    this.bodyEditService.currentDbtRowIdx = dbt.currentRowIdx;
+    this.bodyEditService.currentGridIdx = dbt.currentRowIdx - this.bodyEditService.skip;
     this.rowCount = dbt.rowCount ? dbt.rowCount : 0;
 
+    console.log("this.currentDbtRowIdx", this.bodyEditService.currentDbtRowIdx, "this.skip", this.bodyEditService.skip)
+
+    this.bodyEditService.bodyEditModel = this.model;
+    this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
     this.gridView = {
       data: this.model.rows,
       total: this.rowCount

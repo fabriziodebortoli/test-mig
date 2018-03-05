@@ -1,0 +1,16 @@
+.row-view-toolbar {
+    padding: 0px;
+    border-width: 1px 0 0;
+    color: #333333;
+    background-color: #f6f6f6;
+    font-size: 12px;
+}
+
+.buttons {
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    .toolbar-icon {
+        font-size: 1.2em;
+    }
+}

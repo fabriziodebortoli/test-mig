@@ -32,22 +32,43 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./row-view-form.component.scss']
 })
 export class RowViewFormComponent extends ControlComponent {
-  
+
   @ContentChild(TemplateRef) rowViewTemplate: TemplateRef<any>;
 
+  public enabled: boolean = true;
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     public httpService: HttpService,
     private eventData: EventDataService,
+    public changeDetectorRef: ChangeDetectorRef,
     public bodyEditService: BodyEditService
   ) {
     super(layoutService, tbComponentService, cdr);
   }
 
-  closeRowView()
-  {
+  closeRowView() {
     this.bodyEditService.setRowViewVisibility(false);
+  }
+
+  firstRow() {
+    this.bodyEditService.firstRow();
+    this.changeDetectorRef.markForCheck();
+  }
+
+  prevRow() {
+    this.bodyEditService.prevRow();
+    this.changeDetectorRef.markForCheck();
+  }
+
+  nextRow() {
+    this.bodyEditService.nextRow();
+    this.changeDetectorRef.markForCheck();
+  }
+
+  lastRow() {
+    this.bodyEditService.lastRow();
+    this.changeDetectorRef.markForCheck();
   }
 }

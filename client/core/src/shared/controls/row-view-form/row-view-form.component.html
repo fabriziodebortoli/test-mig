@@ -1,4 +1,4 @@
-<kendo-dialog *ngIf="bodyEditService.rowViewVisible" kendoRippleContainer (close)="closeRowView()">
+<kendo-dialog *ngIf="bodyEditService.rowViewVisible &&  bodyEditService.currentRow" kendoRippleContainer (close)="closeRowView()">
 
     <kendo-dialog-titlebar>
         <div class="title">
@@ -6,7 +6,24 @@
         </div>
     </kendo-dialog-titlebar>
 
-    <ng-template *ngIf="bodyEditService?.currentRow " [ngTemplateOutlet]="rowViewTemplate" [ngTemplateOutletContext]="{ currentRow: bodyEditService.currentRow  }">
+    <div class="row-view-toolbar">
+        <div class="buttons">
+            <button kendoButton class="top-button toggle-button" (click)="firstRow()" [disabled]="!enabled" [title]="_TB('First Row')">
+                <m4-icon icon="tb-top" class="toolbar-icon"></m4-icon>
+            </button>
+            <button kendoButton class="top-button toggle-button" (click)="prevRow()" [disabled]="!enabled" [title]="_TB('Prev Row')">
+                <m4-icon icon="tb-up" class="toolbar-icon"></m4-icon>
+            </button>
+            <button kendoButton class="top-button toggle-button" (click)="nextRow()" [disabled]="!enabled" [title]="_TB('Next Row')">
+                <m4-icon icon="tb-down" class="toolbar-icon"></m4-icon>
+            </button>
+            <button kendoButton class="top-button toggle-button" (click)="lastRow()" [disabled]="!enabled" [title]="_TB('Last Row')">
+                <m4-icon icon="tb-bottom" class="toolbar-icon"></m4-icon>
+            </button>
+        </div>
+    </div>
+
+    <ng-template *ngIf="bodyEditService?.currentRow" [ngTemplateOutlet]="rowViewTemplate" [ngTemplateOutletContext]="{ currentRow: bodyEditService.currentRow  }">
         <ng-content></ng-content>
     </ng-template>
 
