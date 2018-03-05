@@ -97,6 +97,7 @@ private:
 	CString	m_strUserInfoLicensee; 
 	CString	m_strUserInfoName; 
 	CString	m_strUserInfoId; 
+	CString	m_strUserInfoCode; 
 
 	CString	m_strBrandedProducerName; //Microarea S.p.A. from installation.ver
 	
@@ -171,6 +172,7 @@ public:
 	CString GetUserInfo						();
 	CString GetUserInfoName					();
 	CString GetUserInfoId					();
+	CString GetUserInfoCode					();
 	CString	GetProductLanguage				();
 	CString	GetEdition						();
 	CString	GetEditionType();

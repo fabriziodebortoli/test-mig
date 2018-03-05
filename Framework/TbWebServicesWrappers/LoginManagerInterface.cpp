@@ -1385,8 +1385,10 @@ void CLoginManagerInterface::FillUserInfoName()
 	if (!pNode)
 		return;
 
-	pNode->GetAttribute(_T("internalcode"), m_strUserInfoId);
+	pNode->GetAttribute(_T("internalcode"), m_strUserInfoCode);
+	pNode->GetAttribute(_T("value"), m_strUserInfoId);
 	delete pNode;
+
 }
 //-----------------------------------------------------------------------------
 CString CLoginManagerInterface::GetUserInfoName()
@@ -1397,6 +1399,11 @@ CString CLoginManagerInterface::GetUserInfoName()
 CString CLoginManagerInterface::GetUserInfoId()
 {
 	return m_strUserInfoId;
+}
+//-----------------------------------------------------------------------------
+CString CLoginManagerInterface::GetUserInfoCode()
+{
+	return m_strUserInfoCode;
 }
 //-----------------------------------------------------------------------------
 BOOL CLoginManagerInterface::FillDatabaseType(CLoginInfos* pLoginInfos)

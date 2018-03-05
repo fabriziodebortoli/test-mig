@@ -197,6 +197,7 @@ public:
 
 		
 		m_LogFile.WriteString(cwsprintf(_T("User: %s\r\n"), AfxGetLoginManager()->GetUserInfoName())); 
+		m_LogFile.WriteString(cwsprintf(_T("User internal code: %s\r\n"), AfxGetLoginManager()->GetUserInfoCode())); 
 		m_LogFile.WriteString(cwsprintf(_T("User ID: %s\r\n"), AfxGetLoginManager()->GetUserInfoId())); 
 
 		m_LogFile.WriteString(cwsprintf(_T("Intallation Version: %s\r\n"), AfxGetLoginManager()->GetInstallationVersion())); 
