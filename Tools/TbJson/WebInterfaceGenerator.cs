@@ -697,11 +697,11 @@ namespace Microarea.TbJson
 
                 case WndObjType.DockPaneContainer:
                     {
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbDockPaneContainer, this, false))
-                        {
-                            w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
-                        }
+                        //using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbDockPaneContainer, this, false))
+                        //{
+                        //    w.CloseBeginTag();
+                        //    GenerateHtmlChildren(jObj, type, insideRowView);
+                        //}
                         break;
                     }
 
@@ -721,34 +721,34 @@ namespace Microarea.TbJson
 
                 case WndObjType.DockingPane:
                     {
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbDockPane, this, false))
-                        {
-                            string activation = jObj.GetFlatString(Constants.activation);
-                            string id = jObj.GetId();
-                            if (!string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
-                                htmlWriter.WriteAttribute("[activated]", "eventData?.activation?." + id);
+                        //using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbDockPane, this, false))
+                        //{
+                        //    string activation = jObj.GetFlatString(Constants.activation);
+                        //    string id = jObj.GetId();
+                        //    if (!string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
+                        //        htmlWriter.WriteAttribute("[activated]", "eventData?.activation?." + id);
 
-                            htmlWriter.WriteAttribute("[title]", jObj.GetLocalizableString(Constants.text));
+                        //    htmlWriter.WriteAttribute("[title]", jObj.GetLocalizableString(Constants.text));
 
-                            string iconType = jObj.GetFlatString(Constants.iconType);
-                            iconType = string.IsNullOrEmpty(iconType) ? "M4" : iconType;
-                            htmlWriter.WriteAttribute(Constants.iconType, iconType);
+                        //    string iconType = jObj.GetFlatString(Constants.iconType);
+                        //    iconType = string.IsNullOrEmpty(iconType) ? "M4" : iconType;
+                        //    htmlWriter.WriteAttribute(Constants.iconType, iconType);
 
-                            string icon = jObj.GetFlatString(Constants.icon);
-                            icon = string.IsNullOrEmpty(icon) ? "tb-openpane" : icon;
-                            htmlWriter.WriteAttribute(Constants.icon, icon);
+                        //    string icon = jObj.GetFlatString(Constants.icon);
+                        //    icon = string.IsNullOrEmpty(icon) ? "tb-openpane" : icon;
+                        //    htmlWriter.WriteAttribute(Constants.icon, icon);
 
-                            w.CloseBeginTag();
+                        //    w.CloseBeginTag();
 
-                            // wrappo tutto il conenuto del tilegroup in un ng-template
-                            using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
-                            {
-                                w2.CloseBeginTag();
+                        //    // wrappo tutto il conenuto del tilegroup in un ng-template
+                        //    using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
+                        //    {
+                        //        w2.CloseBeginTag();
 
-                                GenerateHtmlChildren(jObj, type, insideRowView);
-                            }
+                        //        GenerateHtmlChildren(jObj, type, insideRowView);
+                        //    }
 
-                        }
+                        //}
 
                         break;
                     }
