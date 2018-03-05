@@ -75,7 +75,7 @@ namespace Microarea.TbJson
                 case WndObjType.ColTitle:
                     if (!string.IsNullOrEmpty(controlClass))
                     {
-                        string errorMessage = controlClass + " Invalid column type, or control class not specified in webControls.xml file";
+                        string errorMessage = "Warning: " + controlClass + " is a control class not specified in webControls.xml file";
                         if (!duplicateErrors.Contains(errorMessage))
                         {
                             duplicateErrors.Add(errorMessage);
