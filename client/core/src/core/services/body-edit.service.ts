@@ -11,11 +11,13 @@ export class BodyEditService {
 
   public bodyEditName: string;
   public prototype: any;
-  public currentRow: any;
+  public _currentRow: any;
   public currentRowIdx: any;
   public currentGridIdx: number = -1;
   public currentDbtRowIdx: number = -1;
-  public bodyEditModel: any;
+  public model: any;
+
+  public currentPage: number = 0;
 
   public rowViewVisible: boolean = false;
 
@@ -32,6 +34,19 @@ export class BodyEditService {
 
   }
 
+  get currentRow(): boolean {
+    return this._currentRow;
+  }
+
+  set currentRow(val: boolean) {
+    this._currentRow = val;
+
+    for (var prop in this._currentRow) {
+      this._currentRow[prop].enabled = this.model.prototype[prop].enabled;
+    }
+  }
+
+
   increaseRowHeight() {
     this.rowHeight += 10;
   }
@@ -45,16 +60,12 @@ export class BodyEditService {
     this.rowViewVisible = visible;
   }
 
-  firstRow() {
-  }
-
   prevRow() {
     this.currentDbtRowIdx--;
     this.currentGridIdx--;
     this.changeRow(this.currentGridIdx);
 
   }
-
   nextRow() {
     this.currentDbtRowIdx++;
     this.currentGridIdx++;
@@ -63,15 +74,11 @@ export class BodyEditService {
 
   changeRow(index: number) {
 
-    let dataItem = this.bodyEditModel.rows[index]
+    let dataItem = this.model.rows[index]
 
     this.currentRow = dataItem;
     this.currentDbtRowIdx = index + this.skip;
     this.currentGridIdx = index
-
-    for (var prop in dataItem) {
-      this.currentRow[prop].enabled = this.bodyEditModel.prototype[prop].enabled;
-    }
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).subscribe((res) => {
@@ -80,6 +87,17 @@ export class BodyEditService {
 
   }
 
+  firstRow() {
+    //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
+    this.currentDbtRowIdx = 0
+    this.currentGridIdx = 0
+    this.changeRow(this.currentGridIdx);
+  }
+
   lastRow() {
+    //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
+    this.currentDbtRowIdx = this.model.rowCount;
+    this.currentGridIdx = this.model.rowCount;
+    this.changeRow(this.currentGridIdx);
   }
 }

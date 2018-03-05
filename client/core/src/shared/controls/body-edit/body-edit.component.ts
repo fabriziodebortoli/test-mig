@@ -54,8 +54,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public isLoading: boolean = false;
   public pageSizes = false;
   public previousNext = true;
-  public currentPage: number = 0;
-  public rowCount: number = 0;
+
   public gridView: GridDataResult;
 
   private lastEditedRowIndex: number = -1;
@@ -217,7 +216,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
     let tempPageSize = this.pageSize;
-    let tempCount = this.rowCount;
+    let tempCount = this.bodyEditService.model.rowCount;
     tempCount++;
     let skip = (Math.ceil(tempCount / this.pageSize) * this.pageSize) - this.pageSize;
 
@@ -276,24 +275,20 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   //-----------------------------------------------------------------------------------------------
-  private updateModel(dbt: any) {
+  private updateModel(model: any) {
 
-    if (!dbt) {
-      console.log("not a dbt", dbt);
+    if (!model) {
       return;
     }
 
-    this.bodyEditService.currentDbtRowIdx = dbt.currentRowIdx;
-    this.bodyEditService.currentGridIdx = dbt.currentRowIdx - this.bodyEditService.skip;
-    this.rowCount = dbt.rowCount ? dbt.rowCount : 0;
-
-    console.log("this.currentDbtRowIdx", this.bodyEditService.currentDbtRowIdx, "this.skip", this.bodyEditService.skip)
-
-    this.bodyEditService.bodyEditModel = this.model;
+    this.bodyEditService.currentDbtRowIdx = model.currentRowIdx;
+    this.bodyEditService.currentGridIdx =model.currentRowIdx - this.bodyEditService.skip;
+    this.bodyEditService.model = model;
     this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
+
     this.gridView = {
       data: this.model.rows,
-      total: this.rowCount
+      total: this.bodyEditService.model.rowCount
     };
 
     this.changeDetectorRef.markForCheck();
