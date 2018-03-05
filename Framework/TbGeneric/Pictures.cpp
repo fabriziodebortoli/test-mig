@@ -375,12 +375,12 @@ BOOL CTBPicture::ReadFile (const CString& sImage/*path or namespace*/, BOOL bChe
 		if (!strNS.IsEmpty())
 		{
 			m_pImage = bNoCache ?
-								LoadGdiplusBitmapOrPngInternal(strNS)	//cmq ritorna NULL se non trova niente in cache o file system
-								:
-								LoadGdiplusBitmapOrPng(strNS);
+				LoadGdiplusBitmapOrPngInternal(strNS)	//cmq ritorna NULL se non trova niente in cache o file system
+				:
+				LoadGdiplusBitmapOrPng(strNS);
 		}
-		//else if (::ExistFile(m_strFileName))
-		//	m_pImage = Gdiplus::Bitmap::FromFile(m_strFileName);
+		else if (::ExistFile(m_strFileName))
+			m_pImage = LoadGdiplusBitmapOrPngFromFile(m_strFileName);
 				
 		if (m_pImage == NULL || GDIPLUS_IMG(m_pImage)->GetFlags() == Gdiplus::ImageFlagsNone) 
 		{

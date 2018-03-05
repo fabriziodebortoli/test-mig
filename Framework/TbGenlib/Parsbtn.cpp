@@ -21,7 +21,6 @@
 #include "hlinkobj.h"
 #include "parsobj.h"
 #include "basedoc.h"
-#include "MicroareaVisualManager.h"
 
 #include "parsbtn.h"
 #include "BaseTileDialog.h"
@@ -58,7 +57,7 @@ CExtButton::CExtButton()
 	CColoredControl		(this),
 	CCustomFont			(this),
 	IDisposingSourceImpl(this),
-
+	m_pBitmapCurrImage	(NULL),
 
  	m_pBitmapUp			(NULL),
 	m_pBitmapDown		(NULL),
@@ -76,6 +75,10 @@ CExtButton::CExtButton()
 	m_sPngNSStdImage	= _T("");
 	m_sPngNSAltImage	= _T("");
 	m_sPngCurrImage		= _T("");
+
+	m_pThemeManager = AfxGetThemeManager();
+	m_bIsXpThemed = m_pThemeManager->IsXpThemed();
+	m_pMicroareaVisualManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
 }
 
 //-----------------------------------------------------------------------------
@@ -92,6 +95,9 @@ CExtButton::~CExtButton()
 	
 	if (m_pExtInfo)
 		delete m_pExtInfo;
+
+	if (m_pBitmapCurrImage)
+		delete m_pBitmapCurrImage;
 }
 
 //=============================================================================
@@ -142,7 +148,7 @@ void CExtButton::CalculateCheckboxAndRadioRect
 	rectCheck.bottom = rectCheck.top + nWidth;
 
 	// set style: radio or check
-	if (AfxGetThemeManager()->IsXpThemed())
+	if (m_bIsXpThemed)
 		dwCheckStyle = (bIsRadio ? BP_RADIOBUTTON : BP_CHECKBOX);
 	else
 		dwCheckStyle = (bIsRadio ? DFCS_BUTTONRADIO : DFCS_BUTTONCHECK) | DFCS_INACTIVE;
@@ -151,7 +157,7 @@ void CExtButton::CalculateCheckboxAndRadioRect
 	rectText.top = aResourceRect.top;
 	rectText.bottom = aResourceRect.bottom;
 
-	int rSpace = (AfxGetThemeManager()->IsXpThemed() ? 17 : 19);
+	int rSpace = (m_bIsXpThemed ? 17 : 19);
 	rSpace = ScalePix(rSpace);
 
 	if ((GetStyle() & BS_LEFTTEXT) == BS_LEFTTEXT)
@@ -170,7 +176,7 @@ void CExtButton::CalculateCheckboxAndRadioRect
 	}
 
 	//oops! radio in Win2000 are a pixel right and up (why? ask Bill!)
-	if (bIsRadio && !AfxGetThemeManager()->IsXpThemed())
+	if (bIsRadio && !m_bIsXpThemed)
 	{
 		rectCheck.top -= 1;
 		rectCheck.bottom -= 1;
@@ -551,12 +557,39 @@ BOOL CExtButton::ForceUpdateCtrlView()
 	return m_bColored || m_bCustomDraw; 
 }
 
+//------------------------------------------------------------------------------------------
+void CExtButton::LoadCurrentImage()
+{
+	if (!m_sPngCurrImage.IsEmpty())
+	{
+		CTBNamespace nsImage(CTBNamespace::IMAGE, m_sPngCurrImage);
+		if (m_pThemeManager->IsToAddMoreColor() && this->IsWindowEnabled())
+		{
+			CString sName = nsImage.GetObjectName();
+			CString sNewNamespace = nsImage.ToString();
+			sNewNamespace = sNewNamespace.Left(sNewNamespace.GetLength() - sName.GetLength());
+			CTBNamespace ns(sNewNamespace + GetName(sName) + _T("_c") + GetExtension(sName));
+
+			if (ExistFile(AfxGetPathFinder()->GetFileNameFromNamespace(ns, AfxGetLoginInfos()->m_strUserName)))
+				nsImage = ns;
+		}
+
+		m_pBitmapCurrImage = LoadGdiplusBitmapOrPng(nsImage.ToString());
+	}
+	else
+	{
+		m_pBitmapCurrImage = LoadPNG(m_nPngCurrImage);
+	}
+}
+
 //-----------------------------------------------------------------------------
 void CExtButton::SetPngImages (UINT nIDStdImage, UINT nIDAltImage /*0*/)
 { 
 	m_nPngIDStdImage = nIDStdImage; 
 	m_nPngIDAltImage = nIDAltImage; 
 	m_nPngCurrImage = nIDStdImage;
+
+	LoadCurrentImage();
 }
 
 //-----------------------------------------------------------------------------
@@ -565,6 +598,8 @@ void CExtButton::SetPngImages(CString sNSStdImage, CString sNSAltImage /*= _T(""
 	m_sPngNSStdImage = sNSStdImage;
 	m_sPngNSAltImage = sNSAltImage;
 	m_sPngCurrImage = sNSStdImage;
+
+	LoadCurrentImage();
 }
 
 //-----------------------------------------------------------------------------
@@ -591,6 +626,8 @@ void CExtButton::ShowAltImage(BOOL bIsAlt /*= TRUE*/)
 		else
 			m_nPngCurrImage = m_nPngIDStdImage;
 	}
+
+	LoadCurrentImage();
 	Invalidate();
 } 
 
@@ -605,13 +642,12 @@ void CExtButton::DrawPNGItem(LPDRAWITEMSTRUCT lpDIS)
 	if (m_bDrawFrame)
 	{
 		// if themed (XP or Vista), draws a themed button face
-		if (AfxGetThemeManager()->IsXpThemed())
+		if (m_bIsXpThemed)
 		{
-			CMicroareaVisualManager* pManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
-			if (pManager)
-				pManager->DrawThemedButton(m_hWnd, lpDIS->hDC, BP_PUSHBUTTON, (bIsPressed ? PBS_PRESSED : PBS_NORMAL), &aBtnRect, FALSE);
+			if (m_pMicroareaVisualManager)
+				m_pMicroareaVisualManager->DrawThemedButton(m_hWnd, lpDIS->hDC, BP_PUSHBUTTON, (bIsPressed ? PBS_PRESSED : PBS_NORMAL), &aBtnRect, FALSE);
 			else
-				AfxGetThemeManager()->DrawOldXPButton(m_hWnd, lpDIS->hDC, BP_PUSHBUTTON, (bIsPressed ? PBS_PRESSED : PBS_NORMAL), &aBtnRect);
+				m_pThemeManager->DrawOldXPButton(m_hWnd, lpDIS->hDC, BP_PUSHBUTTON, (bIsPressed ? PBS_PRESSED : PBS_NORMAL), &aBtnRect);
 		}
 		else
 		{
@@ -625,28 +661,7 @@ void CExtButton::DrawPNGItem(LPDRAWITEMSTRUCT lpDIS)
 		}
 	}
 
-	Gdiplus::Bitmap* pBitmap = NULL;
-	if (!m_sPngCurrImage.IsEmpty())
-	{
-		CTBNamespace nsImage(CTBNamespace::IMAGE, m_sPngCurrImage);
-		if (AfxGetThemeManager()->IsToAddMoreColor() && this->IsWindowEnabled())
-		{
-			CString sName = nsImage.GetObjectName();
-			CString sNewNamespace = nsImage.ToString();
-			sNewNamespace = sNewNamespace.Left(sNewNamespace.GetLength() - sName.GetLength());
-			CTBNamespace ns(sNewNamespace + GetName(sName) + _T("_c") + GetExtension(sName));
-
-			if (ExistFile(AfxGetPathFinder()->GetFileNameFromNamespace(ns, AfxGetLoginInfos()->m_strUserName)))
-				nsImage = ns;
-		}
-		
-		pBitmap = LoadGdiplusBitmapOrPng(nsImage.ToString());
-	}
-	else
-	{
-		pBitmap = LoadPNG(m_nPngCurrImage);
-	}
-	if (!pBitmap) return;
+	
 
 	if (!m_bUseImageSize)
 	{
@@ -670,28 +685,33 @@ void CExtButton::DrawPNGItem(LPDRAWITEMSTRUCT lpDIS)
 		// PNG is supposed square
 		// resize it on the minimum size of the button area
 		int imgWidth = min(aBtnRect.Height(), aBtnRect.Width()) - 4; // 2 pixels border	
-		if (pBitmap)
+		if (m_pBitmapCurrImage)
 		{
 			Gdiplus::Graphics graphics(lpDIS->hDC);
 			int deltaX = (aBtnRect.Width() - imgWidth) / 2;
 			int deltaY = (aBtnRect.Height() - imgWidth) / 2;
 			// shifts 1 pixel right if pressed
-			graphics.DrawImage(pBitmap, deltaX + (bIsPressed ? 1 : 0), deltaY + (bIsPressed ? 1 : 0), imgWidth, imgWidth);
+			graphics.DrawImage(m_pBitmapCurrImage, deltaX + (bIsPressed ? 1 : 0), deltaY + (bIsPressed ? 1 : 0), imgWidth, imgWidth);
 			graphics.Flush();
-			delete pBitmap;
 		}
 	}
 	else
 	{
-		if (pBitmap)
+		if (m_pBitmapCurrImage)
 		{
 			Gdiplus::Graphics graphics(lpDIS->hDC);
-			int deltaX = (aBtnRect.Width() - pBitmap->GetWidth()) / 2;
-			int deltaY = (aBtnRect.Height() - pBitmap->GetHeight()) / 2;
+			int deltaX = (aBtnRect.Width() - m_pBitmapCurrImage->GetWidth()) / 2;
+			int deltaY = (aBtnRect.Height() - m_pBitmapCurrImage->GetHeight()) / 2;
 			// shifts 1 pixel right if pressed
-			graphics.DrawImage(pBitmap, deltaX + (bIsPressed ? 1 : 0), deltaY + (bIsPressed ? 1 : 0), pBitmap->GetWidth(), pBitmap->GetHeight());
+			graphics.DrawImage
+				(
+					m_pBitmapCurrImage, 
+					deltaX + (bIsPressed ? 1 : 0), 
+					deltaY + (bIsPressed ? 1 : 0), 
+					m_pBitmapCurrImage->GetWidth(), 
+					m_pBitmapCurrImage->GetHeight()
+				);
 			graphics.Flush();
-			delete pBitmap;
 		}
 	}
 	ReleaseDC(pDC);
@@ -741,37 +761,32 @@ BEGIN_MESSAGE_MAP(CPaneButton, CExtButton)
 END_MESSAGE_MAP()
 
 //-----------------------------------------------------------------------------
-CPaneButton::CPaneButton() :
-	m_pBitmap (NULL)
+CPaneButton::CPaneButton() 
 {
 }
 
 //-----------------------------------------------------------------------------
 CPaneButton::~CPaneButton()
-{
-	if (m_pBitmap)
-	{
-		delete m_pBitmap;
-	}
+{	
 }
 
-//-----------------------------------------------------------------------------
-void CPaneButton::LoadButtonImage()
+//--------------------------------------------------------------------------------
+void CPaneButton::LoadCurrentImage()
 {
-	if (m_pBitmap == NULL)
+	if (m_pBitmapCurrImage == NULL)
 	{
 		Gdiplus::Bitmap* pBmp;
 
-		if (!m_sPngCurrImage.IsEmpty())	
+		if (!m_sPngCurrImage.IsEmpty())
 			pBmp = LoadGdiplusBitmapOrPng(m_sPngCurrImage);
-			
-		else 
+
+		else
 			pBmp = LoadPNG(m_nPngCurrImage);
 
 		UINT w = ScalePix(pBmp->GetWidth());
 		UINT h = ScalePix(pBmp->GetHeight());
 
-		m_pBitmap = (Gdiplus::Bitmap*) pBmp->GetThumbnailImage(w, h);
+		m_pBitmapCurrImage = (Gdiplus::Bitmap*) pBmp->GetThumbnailImage(w, h);
 
 
 		delete pBmp;
@@ -786,16 +801,11 @@ void CPaneButton::DrawPNGItem(LPDRAWITEMSTRUCT lpDIS)
 	RECT aBtnRect;
 	GetClientRect(&aBtnRect);
 	
-	LoadButtonImage();
-	if (!m_pBitmap) return;
+	if (!m_pBitmapCurrImage) return;
 
 	Gdiplus::Graphics graphics(lpDIS->hDC);
 
-	
-	/*graphics.FillRectangle(AfxGetThemeManager()->GetToolbarBkgBrush(), 
-		aBtnRect.left, aBtnRect.top, aBtnRect.right - aBtnRect.left, aBtnRect.top - aBtnRect.bottom);*/
-
-	graphics.DrawImage(m_pBitmap, 2, 2, m_pBitmap->GetWidth(), m_pBitmap->GetHeight());
+	graphics.DrawImage(m_pBitmapCurrImage, 2, 2, m_pBitmapCurrImage->GetWidth(), m_pBitmapCurrImage->GetHeight());
 	graphics.Flush();
 }
 
@@ -1173,7 +1183,7 @@ void CBoolButton::DrawFocusRectForChildWindows()
 	rectText.top		= rectText.top; 
 	rectText.bottom		= rectText.bottom; 
 	if ((GetStyle() & BS_LEFTTEXT) != BS_LEFTTEXT)
-		rectText.left = rectText.left + (AfxGetThemeManager()->IsXpThemed() ? 15 : 17); // different displacement under Win2000 - just for fun
+		rectText.left = rectText.left + (m_bIsXpThemed ? 15 : 17); // different displacement under Win2000 - just for fun
 	rectText.right		= rectText.right;
 
 	CDC* pDC = this->GetDC();
@@ -1224,9 +1234,9 @@ void CBoolButton::OnPaint( )
 		bAllowCheckBoxInStaticArea = pTileDialog->GetAllowCheckBoxInStaticArea();
 	}
 	
-	TBThemeManager* pThemeManager = AfxGetThemeManager();
+	//TBThemeManager* pThemeManager = AfxGetThemeManager();
 	//---- custom background color
-	COLORREF crBkgnd = pThemeManager->GetBackgroundColor();
+	COLORREF crBkgnd = m_pThemeManager->GetBackgroundColor();
 	if (pParsedForm)	
 	{ 
 		pBrush = const_cast<CBrush*>(pParsedForm->GetBackgroundBrush());	
@@ -1234,11 +1244,11 @@ void CBoolButton::OnPaint( )
 
 	if (!pBrush)
 	{ 
-		pBrush = const_cast<CBrush*>(pThemeManager->GetBackgroundColorBrush()); 
+		pBrush = const_cast<CBrush*>(m_pThemeManager->GetBackgroundColorBrush());
 	}
 
 	if (bAllowCheckBoxInStaticArea && bIsInStaticArea)
-		pBrush = pThemeManager->GetTileDialogStaticAreaBkgColorBrush();
+		pBrush = m_pThemeManager->GetTileDialogStaticAreaBkgColorBrush();
 
 	ASSERT(pBrush);
 	BOOL bIsTransparent = pParsedForm && pParsedForm->IsTransparent();
@@ -1251,10 +1261,10 @@ void CBoolButton::OnPaint( )
 	CDC* pDC = &dc;
 	if (pDC)
 	{
-		CMicroareaVisualManager* pManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
+		//CMicroareaVisualManager* pManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
 
 		pDC->SetBkMode(TRANSPARENT);
-		BOOL bIsEnable = pManager && pManager->IsToUseEnabledBorderColor(this, IsWindowEnabled());
+		BOOL bIsEnable = m_pMicroareaVisualManager && m_pMicroareaVisualManager->IsToUseEnabledBorderColor(this, IsWindowEnabled());
 		BOOL bHasFocus = HasFocus();
 
 		CRect r;
@@ -1267,8 +1277,8 @@ void CBoolButton::OnPaint( )
 		(bIsEnable ?
 			this->m_crText :
 			(bIsInStaticArea ?
-				AfxGetThemeManager()->GetDisabledInStaticAreaControlForeColor() :
-				AfxGetThemeManager()->GetDisabledControlForeColor()
+				m_pThemeManager->GetDisabledInStaticAreaControlForeColor() :
+				m_pThemeManager->GetDisabledControlForeColor()
 				)
 		);
 		HGDIOBJ old = pDC->SelectObject(GetPreferredFont());
@@ -1278,8 +1288,8 @@ void CBoolButton::OnPaint( )
 			CalculateCheckboxAndRadioRect(r, strText, m_rectCheck, m_dwCheckStyle, m_rectText, m_dwTextStyle, GetPreferredFont());
 			if (bIsInStaticArea && !bAllowCheckBoxInStaticArea)
 			{
-				m_rectCheck.MoveToX(pTileDialog->GetStaticAreaRect(nIdx).Width() + (AfxGetThemeManager()->GetTileInnerLeftPadding() + 1));
-				m_rectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width() - (AfxGetThemeManager()->GetTileInnerLeftPadding() + 2), m_rectText.bottom);
+				m_rectCheck.MoveToX(pTileDialog->GetStaticAreaRect(nIdx).Width() + (m_pThemeManager->GetTileInnerLeftPadding() + 1));
+				m_rectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width() - (m_pThemeManager->GetTileInnerLeftPadding() + 2), m_rectText.bottom);
 			}
 
 			//In alcuni casi al primo paint le label arrivano vuote (BCG ?)
@@ -1289,15 +1299,15 @@ void CBoolButton::OnPaint( )
 			pDC->FillRect(&r, pBrush);
 		}
 
-		if (pThemeManager->IsXpThemed())
+		if (m_bIsXpThemed)
 		{
 			// putroppo ci sono casi (come l'abilitazione disabilitazione) che lasciano il disagno fatto da MFC : forzo un filrect dell'area (dicesi tapullo)
 			CRect cRect(m_rectCheck);
 			cRect.InflateRect(2,2);
 			pDC->FillRect(&cRect, pBrush);
 
-			if (pManager)
-				pManager->DrawThemedButton
+			if (m_pMicroareaVisualManager)
+				m_pMicroareaVisualManager->DrawThemedButton
 				(
 					m_hWnd,
 					pDC->m_hDC,
@@ -1313,7 +1323,7 @@ void CBoolButton::OnPaint( )
 					m_bIsHovering
 				);
 			else
-				pThemeManager->DrawOldXPButton
+				m_pThemeManager->DrawOldXPButton
 				(
 					m_hWnd,
 					pDC->m_hDC,
@@ -1348,7 +1358,7 @@ void CBoolButton::OnPaint( )
 			if (bIsInStaticArea)
 			{ 
 				pBrush = pTileDialog->GetStaticAreaBrush();
-				oldBkgColor = pDC->SetBkColor(pThemeManager->GetTileDialogStaticAreaBkgColor());
+				oldBkgColor = pDC->SetBkColor(m_pThemeManager->GetTileDialogStaticAreaBkgColor());
 				if (!bAllowCheckBoxInStaticArea)
 					rectEntireRectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width(), m_rectText.bottom);
 			}
@@ -1579,7 +1589,7 @@ BOOL CChildButton::NeedCustomPaint()
 {
 	return		m_bColored 
 			|| 
-				(GetOwnerGroupBtn()->m_bColored && GetOwnerGroupBtn()->m_crBkgnd != AfxGetThemeManager()->GetBackgroundColor())
+				(GetOwnerGroupBtn()->m_bColored && GetOwnerGroupBtn()->m_crBkgnd != m_pThemeManager->GetBackgroundColor())
 			||
 			(
 				!IsWindowEnabled() &&
@@ -1605,9 +1615,9 @@ void CChildButton::OnPaint( )
 		bIsInStaticArea = pTileDialog->IsInStaticArea(this, &nIdx);
 	}
 
-	TBThemeManager* pThemeManager = AfxGetThemeManager();
+	//TBThemeManager* pThemeManager = AfxGetThemeManager();
 	//---- custom background color
-	COLORREF crBkgnd = pThemeManager->GetBackgroundColor();
+	COLORREF crBkgnd = m_pThemeManager->GetBackgroundColor();
 	if (pParsedForm)
 	{
 		pBrush = const_cast<CBrush*>(pParsedForm->GetBackgroundBrush());
@@ -1615,7 +1625,7 @@ void CChildButton::OnPaint( )
 
 	if (!pBrush)
 	{
-		pBrush = const_cast<CBrush*>(pThemeManager->GetBackgroundColorBrush());
+		pBrush = const_cast<CBrush*>(m_pThemeManager->GetBackgroundColorBrush());
 	}
 
 	ASSERT(pBrush);
@@ -1629,9 +1639,9 @@ void CChildButton::OnPaint( )
 	CDC* pDC = &dc;
 	if (pDC)
 	{
-		CMicroareaVisualManager* pManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
+		//CMicroareaVisualManager* pManager = dynamic_cast<CMicroareaVisualManager*>(CBCGPVisualManager::GetInstance());
 		pDC->SetBkMode(TRANSPARENT);
-		BOOL bIsEnable = pManager && pManager->IsToUseEnabledBorderColor(this, IsWindowEnabled());
+		BOOL bIsEnable = m_pMicroareaVisualManager && m_pMicroareaVisualManager->IsToUseEnabledBorderColor(this, IsWindowEnabled());
 		BOOL bHasFocus = this == CWnd::GetFocus();
 
 		CRect r;
@@ -1645,8 +1655,8 @@ void CChildButton::OnPaint( )
 			this->m_crText :
 			(
 				bIsInStaticArea ?
-				AfxGetThemeManager()->GetDisabledInStaticAreaControlForeColor() :
-				AfxGetThemeManager()->GetDisabledControlForeColor()
+				m_pThemeManager->GetDisabledInStaticAreaControlForeColor() :
+				m_pThemeManager->GetDisabledControlForeColor()
 				)
 		);
 		HGDIOBJ old = pDC->SelectObject(GetWndPreferredFont());
@@ -1656,8 +1666,8 @@ void CChildButton::OnPaint( )
 			CalculateCheckboxAndRadioRect(r, strText, m_rectCheck, m_dwCheckStyle, m_rectText, m_dwTextStyle, GetWndPreferredFont());
 			if (bIsInStaticArea)
 			{
-				m_rectCheck.MoveToX(pTileDialog->GetStaticAreaRect(nIdx).Width() + (AfxGetThemeManager()->GetTileInnerLeftPadding() + 1));
-				m_rectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width() - (AfxGetThemeManager()->GetTileInnerLeftPadding() + 2), m_rectText.bottom);
+				m_rectCheck.MoveToX(pTileDialog->GetStaticAreaRect(nIdx).Width() + (m_pThemeManager->GetTileInnerLeftPadding() + 1));
+				m_rectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width() - (m_pThemeManager->GetTileInnerLeftPadding() + 2), m_rectText.bottom);
 			}
 
 			//In alcuni casi al primo paint le label arrivano vuote (BCG ?)
@@ -1667,10 +1677,10 @@ void CChildButton::OnPaint( )
 			pDC->FillRect(&r, pBrush);
 		}
 
-		if (pThemeManager->IsXpThemed())
+		if (m_bIsXpThemed)
 		{
-			if (pManager)
-				pManager->DrawThemedButton
+			if (m_pMicroareaVisualManager)
+				m_pMicroareaVisualManager->DrawThemedButton
 				(
 					m_hWnd,
 					pDC->m_hDC,
@@ -1686,7 +1696,7 @@ void CChildButton::OnPaint( )
 					FALSE
 				);
 			else
-				AfxGetThemeManager()->DrawOldXPButton
+				m_pThemeManager->DrawOldXPButton
 				(
 					m_hWnd,
 					pDC->m_hDC,
@@ -1722,7 +1732,7 @@ void CChildButton::OnPaint( )
 			if (bIsInStaticArea)
 			{
 				pBrush = pTileDialog->GetStaticAreaBrush();
-				oldBkgColor = pDC->SetBkColor(pThemeManager->GetTileDialogStaticAreaBkgColor());
+				oldBkgColor = pDC->SetBkColor(m_pThemeManager->GetTileDialogStaticAreaBkgColor());
 				rectEntireRectText = CRect(m_rectText.left, m_rectText.top, pTileDialog->GetStaticAreaRect(nIdx).Width(), m_rectText.bottom);
 			}
 
@@ -1746,7 +1756,7 @@ void CChildButton::OnPaint( )
 void CChildButton::OnEnable(BOOL bEnable)
 {
 	if (
-		(m_pOwnerGroupBtn ? m_pOwnerGroupBtn->UseEasyReading() : AfxGetThemeManager()->UseEasyReading()) &&
+		(m_pOwnerGroupBtn ? m_pOwnerGroupBtn->UseEasyReading() : m_pThemeManager->UseEasyReading()) &&
 		!bEnable
 		)
 		Invalidate();
@@ -1973,7 +1983,7 @@ void CGroupBoxBtn::PaintGroupBox()
 	DrawHLine(dc, nTopLineY, clientRect.left, textRect.left - offsetSize, m_crLine, m_nSizeLinePen == 1);
 	DrawHLine(dc, nTopLineY, textRect.right + offsetSize, clientRect.right, m_crLine, m_nSizeLinePen == 1);
 
-	if (GetBkgColor() == AfxGetThemeManager()->GetBackgroundColor())
+	if (GetBkgColor() == m_pThemeManager->GetBackgroundColor())
 	{
 		clientRect.top = nTopLineY;
 	}

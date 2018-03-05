@@ -226,12 +226,12 @@ Gdiplus::Bitmap* CImagesCache::GetImage(const CString& nsImage)		//, const CStri
 }
 
 //--------------------------------------------------------------------------------------------------------
-void CImagesCache::AddImage(Gdiplus::Bitmap* dgibitmap, const CString& nsImage)
+BOOL CImagesCache::AddImage(Gdiplus::Bitmap* dgibitmap, const CString& nsImage)
 {
 	long nTotalSize = 0;
 
 	if (!m_bCacheImages || !dgibitmap || (int)dgibitmap->GetWidth() > m_nMaxSizeImageToCache || (int)dgibitmap->GetHeight() > m_nMaxSizeImageToCache || m_nMaxCacheSize == 0)
-		return;
+		return FALSE;
 
 	m_nMinReferences = 1;
 	CImageItem* pImageItem = new CImageItem(dgibitmap);
@@ -243,7 +243,11 @@ void CImagesCache::AddImage(Gdiplus::Bitmap* dgibitmap, const CString& nsImage)
 
 		if (nTotalSize > m_nMaxCacheSize)
 			m_bDirty = TRUE;
+
+		return TRUE;
 	}
+
+	return TRUE;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -695,16 +699,21 @@ Gdiplus::Bitmap* LoadGdiplusBitmapOrPng(CString strImageNS, BOOL bUseColoredImag
 	if (!gdibitmap)
 		return NULL;
 
-	m_GlobalCacheImages.AddImage(gdibitmap, strImageNS);
+	BOOL bAdded = m_GlobalCacheImages.AddImage(gdibitmap, strImageNS);
 
 	if (!m_GlobalCacheImages.GetCacheImages())
 		return gdibitmap;
 	else
 	{
-		Gdiplus::Rect aRect(0, 0, gdibitmap->GetWidth(), gdibitmap->GetHeight());
-		gdibitmap_clone = gdibitmap->Clone(aRect, gdibitmap->GetPixelFormat());
+		if (bAdded)
+		{
+			Gdiplus::Rect aRect(0, 0, gdibitmap->GetWidth(), gdibitmap->GetHeight());
+			gdibitmap_clone = gdibitmap->Clone(aRect, gdibitmap->GetPixelFormat());
 
-		return gdibitmap_clone;
+			return gdibitmap_clone;
+		}
+		else
+			return gdibitmap;
 	}
 
 	return NULL;
@@ -1085,6 +1094,7 @@ HICON TBLoadImage(CString strImageNS, CDC* pDC /* =NULL */, UINT nWidth /*= 32*/
 	icon = CBitmapToHICON(&bmpButton, pDC, nWidth, FALSE, bkgColor, FALSE);
 
 	DeleteObject(hImg);
+	bmpButton.DeleteObject();
 
 	if (!m_GlobalCacheImages.GetCacheImages() && bitmapIcon)
 		delete bitmapIcon;

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "MicroareaVisualManager.h"
+
 //includere alla fine degli include del .H
 #include "beginh.dex"
 
@@ -46,6 +48,13 @@ class TB_EXPORT CExtButton : public CButton, public CColoredControl, public CCus
 	CString m_sPngNSAltImage;
 	CString m_sPngCurrImage;
 
+	BOOL m_bIsXpThemed;
+	CMicroareaVisualManager* m_pMicroareaVisualManager;
+	TBThemeManager* m_pThemeManager;
+
+protected:
+	Gdiplus::Bitmap* m_pBitmapCurrImage;
+
 public:
 	BOOL	m_bUseImageSize;
 	BOOL	m_bDrawFrame;
@@ -79,6 +88,7 @@ public:
 	virtual BOOL ForceUpdateCtrlView();
 
 protected:
+	virtual void LoadCurrentImage();
 	virtual	void DrawPNGItem	(LPDRAWITEMSTRUCT lpDIS);
 	virtual void DrawItem		(LPDRAWITEMSTRUCT lpDIS);
 
@@ -125,15 +135,16 @@ public:
 	void SetToolTip(CString strText);
 
 private:
-	Gdiplus::Bitmap* m_pBitmap;
+	//Gdiplus::Bitmap* m_pBitmap;
 	CFrameToolTip	 m_ToolTip;
 
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 
 protected:
+	virtual void LoadCurrentImage();
 	virtual	void DrawPNGItem(LPDRAWITEMSTRUCT lpDIS);
-	void LoadButtonImage();
+	//void LoadButtonImage();
 
 protected:
 	//{{AFX_MSG(CParsedButton)

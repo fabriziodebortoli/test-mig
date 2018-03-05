@@ -52,8 +52,8 @@ private:
 	void  SetOptimalValRefToClear();
 
 public:
-	Gdiplus::Bitmap* GetImage(const CString& nsImage/*, const CString& nsContainer = _T("")*/);
-	void			 AddImage(Gdiplus::Bitmap* dgibitmap, const CString& nsImage/*, const CString& nsContainer = _T("")*/);
+	Gdiplus::Bitmap* GetImage(const CString& nsImage);
+	BOOL			 AddImage(Gdiplus::Bitmap* dgibitmap, const CString& nsImage);
 	void			 SetCacheImages(BOOL bSet);
 	void			 SetMaxSizeCacheImages();
 	BOOL			 GetCacheImages() { return m_bCacheImages; }
