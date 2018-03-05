@@ -184,7 +184,6 @@ namespace Microarea.TaskBuilderNet.TbLoaderService
 
         private static TBLoaderResponse DoCommand(TBLoaderCommand cmd)
         {
-            engine.Message("Executing command: " + cmd.Type.ToString(), DiagnosticType.Information);
             switch (cmd.Type)
             {
                 case TBLoaderCommand.CommandType.Ping:
@@ -195,8 +194,10 @@ namespace Microarea.TaskBuilderNet.TbLoaderService
                         return new TBLoaderResponse() { Result = result };
                     }
                 case TBLoaderCommand.CommandType.Start:
+                    engine.Message("Executing command: " + cmd.Type.ToString(), DiagnosticType.Information);
                     return engine.Start(cmd, false);
                 case TBLoaderCommand.CommandType.Stop:
+                    engine.Message("Executing command: " + cmd.Type.ToString(), DiagnosticType.Information);
                     return engine.Stop(cmd);
             }
             return null;
