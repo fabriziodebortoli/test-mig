@@ -26,8 +26,8 @@ namespace Microarea.Common.Applications
 		public static AlignType DefaultLabeleAlign = AlignType.DT_LEFT | AlignType.DT_TOP | AlignType.DT_NOPREFIX | AlignType.DT_SINGLELINE | AlignType.DT_EXPANDTABS;
 		public static AlignType DefaultFieldAlign = DefaultAlign | AlignType.DT_EX_VCENTER_LABEL;
 
-		public static Color DefaultCellForeground = Color.FromArgb(255, 255, 255, 255);
-        public static Color DefaultCellBackground = Color.FromArgb(255, 0, 0, 0);
+        public static Color DefaultCellForeground = Color.FromArgb(255, 0, 0, 0);
+        public static Color DefaultCellBackground = Color.FromArgb(255, 255, 255, 255);
 
         public static AlignType DefaultCellStringAlign = AlignType.DT_LEFT | AlignType.DT_VCENTER | AlignType.DT_NOPREFIX | AlignType.DT_SINGLELINE | AlignType.DT_EXPANDTABS;
 		public static AlignType DefaultCellNumAlign = AlignType.DT_RIGHT | AlignType.DT_VCENTER | AlignType.DT_NOPREFIX | AlignType.DT_SINGLELINE | AlignType.DT_EXPANDTABS;
@@ -38,11 +38,11 @@ namespace Microarea.Common.Applications
 		public static Color DefaultColumnTitleForeground = Color.FromArgb(255, 0, 0, 0);
 		public static Color DefaultColumnTitleBackground = Color.FromArgb(255,192, 192, 192);
 
-		public static Color DefaultColumnBorderColor = Color.FromArgb(255, 255, 255, 255);
-        public static Color DefaultColumnTitleBorderColor = Color.FromArgb(255, 255, 255, 255);
+        public static Color DefaultColumnBorderColor = Color.FromArgb(255, 0, 0, 0); 
+        public static Color DefaultColumnTitleBorderColor = Color.FromArgb(255, 0, 0, 0);
 
-        public static Color DefaultTableTitleForeground = Color.FromArgb(255, 255, 255, 255);
-        public static Color DefaultTableTitleBackground = Color.FromArgb(255, 0, 0, 0);
+        public static Color DefaultTableTitleForeground = Color.FromArgb(255, 0, 0, 0);
+        public static Color DefaultTableTitleBackground = Color.FromArgb(255, 255, 255, 255);
 
         public static AlignType DefaultColumnTitleAlign = DefaultAlign;
 

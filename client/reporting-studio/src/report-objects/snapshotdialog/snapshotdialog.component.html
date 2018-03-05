@@ -1,7 +1,7 @@
 <kendo-dialog title="Snapshot Report" (close)="close()">
     <div>
         <br>
-        <table id="myTable">
+        <table id="myTable" *ngIf="rsExportService.snapshots?.length > 0">
             <tr>
                 <th (click)="sortTable(0)">Name</th>
                 <th (click)="sortTable(1)">Date</th>
@@ -13,17 +13,26 @@
                 <td>{{snap.allUsers}}</td>
             </tr>
         </table>
+        <div *ngIf="!rsExportService.snapshots?.length > 0">
+            <h3>There are not snapshots for this report</h3>
+        </div>
+        
     </div>
     <br><br>
-    <label>Saver for: </label>
-    <br>
-    <mat-radio-button checked="checked" (click)="setSingleUser()">This user </mat-radio-button>
-    <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
-    <br>
-    <div>
-        <kendo-textbox-container floatingLabel="Insert a name">
-            <input kendoTextBox [(ngModel)]="nameSnapshot" />
-        </kendo-textbox-container>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <label>Save for: </label>
+            <br>
+            <mat-radio-button checked="checked" (click)="setSingleUser()">This user </mat-radio-button>
+            <br><br>
+            <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
+        </div>
+        <div class="col-sm-6">
+            <kendo-textbox-container floatingLabel="Insert a name">
+                <input kendoTextBox [(ngModel)]="nameSnapshot" />
+            </kendo-textbox-container>
+        </div>
     </div>
     <kendo-dialog-actions>
         <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Create new Snapshot</button>

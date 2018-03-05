@@ -29,7 +29,7 @@ namespace Microarea.Common.Applications
 		private string		faceName;
 		private int			size;
 		private FontStyle	fontStyle;     
-		private Color		color = Color.FromArgb(255,255,255,255);
+		private Color		color = Color.FromArgb(255,0,0,0);
 		private INameSpace	owner;
 		private FontSource	source;
 		private List<string> limitedContextArea = new List<string>();
@@ -387,7 +387,7 @@ namespace Microarea.Common.Applications
 		{
 			string styleName = "";
 			string faceName = "";
-			Color color = Color.FromArgb(255,255,255,255);
+			Color color = Defaults.DefaultTextColor;
 			int	size = 0;
 
 			if (lex.LookAhead(Token.ID))
@@ -478,7 +478,7 @@ namespace Microarea.Common.Applications
 		{
 			string styleName = "";
 			string faceName = "";
-			Color color = Color.FromArgb(255,255,255,255);
+			Color color = Defaults.DefaultTextColor;
 			int	size = 0;
 
 			ExternalAPI.LOGFONT logFont = new ExternalAPI.LOGFONT();

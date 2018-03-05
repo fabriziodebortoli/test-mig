@@ -18,7 +18,7 @@
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="stopReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
             </div>
 
-            <div> <label class="snapshotToolbarTop" *ngIf="runningReport">Snapshot - </label> </div>
+            <div> <label class="snapshotToolbarTop" *ngIf="runningReport">Snapshot: {{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label> </div>
         </div>
 
         <div class="toolbar-right">
@@ -55,10 +55,9 @@
         </tb-dockpane-container>
     </tb-frame-content>
     
-    <tb-toolbar-bottom>
-        <label id="snapshot" *ngIf="runningReport">Snapshot: {{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label>
-
-        <tb-toolbar-bottom-button id="firstButton" *ngIf="!runningReport" [caption]="_TB('Snapshot Report')" (click)="startSnapshot()"></tb-toolbar-bottom-button>
+    <tb-toolbar-bottom >        
+        <!--tb-toolbar-bottom-button id="firstButton" *ngIf="!runningReport" [caption]="_TB('Snapshot Report')" (click)="startSnapshot()"></tb-toolbar-bottom-button-->
+        <tb-toolbar-bottom-button id="firstButton" [caption]="_TB('Snapshot Report')" (click)="startSnapshot()"></tb-toolbar-bottom-button>
 
         <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')"  class="toolbar-bottom">
             <tb-toolbar-bottom-button icon="tb-exportpdf"  [caption]="_TB('Download as PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
@@ -73,7 +72,6 @@
 
         <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
         <rs-snapshotdialog *ngIf="rsExportService.snapshot"></rs-snapshotdialog>
-
     </tb-toolbar-bottom>
 </tb-frame>
 

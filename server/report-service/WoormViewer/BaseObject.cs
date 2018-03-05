@@ -806,7 +806,7 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public bool ParseDynamicColor(WoormParser lex, Token token, out Color aColor, ref WoormViewerExpression expr)
         {
-            aColor = Color.FromArgb(255, 255, 255, 255);  //inizializzo con un valore che non sara utilizzato perche e' param out
+            aColor = token == Token.TEXTCOLOR ? Defaults.DefaultTextColor : Defaults.DefaultBackColor;  
             if (!lex.ParseTag(token))
                 return false;
 

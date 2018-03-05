@@ -3121,7 +3121,7 @@ void CTBToolBar::SetText(UINT nCommandID, LPCTSTR lpszText, LPCTSTR lpszTextAlte
 	int nIdx = CommandToIndex(nCommandID);
 	if (nIdx == -1)
 	{
-		ASSERT(FALSE);
+		//ASSERT(FALSE);
 		return;
 	}
 
