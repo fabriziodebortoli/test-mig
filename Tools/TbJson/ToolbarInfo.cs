@@ -77,6 +77,11 @@ namespace Microarea.TbJson
         {
             switch (cat)
             {
+                
+                case CommandCategory.Print:
+				case CommandCategory.File:
+                    return Constants.tbToolbarBottom;
+                case CommandCategory.Undefined:
                 case CommandCategory.Search:
                 case CommandCategory.Radar:
                 case CommandCategory.Navigation:
@@ -84,14 +89,11 @@ namespace Microarea.TbJson
                 case CommandCategory.Tools:
                 case CommandCategory.Edit:
                 case CommandCategory.Exit:
-                    return Constants.tbToolbarTop;
-                case CommandCategory.Print:
-				case CommandCategory.File:
-                    return Constants.tbToolbarBottom;
-                case CommandCategory.Undefined:
                 case CommandCategory.Fab:
                 default:
-                    return Constants.tbFloatingActionMenu;
+                    return Constants.tbToolbarTop;
+                
+                //return Constants.tbFloatingActionMenu;
             }
         }
 
