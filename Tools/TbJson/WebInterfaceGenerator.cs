@@ -1562,6 +1562,28 @@ namespace Microarea.TbJson
                 JObject jHKL = jBinding.GetObject(Constants.hotLink);
                 if (jHKL != null)
                 {
+                    JToken tile = jObj.Parent.Parent.Parent;
+                    if (tile?.GetWndObjType() == WndObjType.HotFilter)
+                    {
+                        //se sono un hotfilter, devo integrare le informazioni di namespace scritte una sola volta 
+                        //nel parent (l'hot filter possiede il namespace per tutti i campi di filtro figli)
+                        JObject jHFBinding = tile[Constants.binding] as JObject;
+                        if (jHFBinding != null)
+                        {
+                            JObject jHFHKL = jHFBinding.GetObject(Constants.hotLink);
+                            if (jHFHKL == null)
+                            {
+                                jHKL[Constants.tbNamespace] = jHFBinding[Constants.hotLinkNS];
+                            }
+                            else
+                            {
+                                jHKL = (JObject)jHKL.DeepClone();
+                                jHKL[Constants.tbNamespace] = jHFHKL[Constants.tbNamespace];
+
+                            }
+                            
+                        }
+                    }
                     string hkl = jHKL.ToString();
                     hkl = hkl.Replace("\r\n", "").Replace("\"", "'").Replace(" ", "");
 
