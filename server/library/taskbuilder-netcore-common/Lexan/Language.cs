@@ -68,15 +68,20 @@ namespace Microarea.Common.Lexan
 		//------------------------------------------------------------------------------
 		internal static Token GetTokenFromMap (TkSymbolTable map, string lexeme)
 		{
-			Object o = map[lexeme];
-			return o == null ? Token.NOTOKEN : (Token)o;
+            Token token;
+            if (map.TryGetValue(lexeme, out token))
+                return token;
+
+            return Token.NOTOKEN;
 		}
 
 		//------------------------------------------------------------------------------
 		public static string GetTokenString (Token token)
 		{
-            Object o = reverseMaps[token];
-            return o == null ? UnknownToken : o.ToString();
+            string tkString;
+            if (reverseMaps.TryGetValue(token, out tkString))
+                return tkString;
+            return UnknownToken;
  		}
 
 		//------------------------------------------------------------------------------

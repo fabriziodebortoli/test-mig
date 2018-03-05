@@ -59,13 +59,14 @@ namespace Microarea.Common.StringLoader
 			string key = string.Format("{0}-{1}-{2}-{3}", dictionaryPath, type, id, name);
 			lock (Container)
 			{
-				DictionaryStringBlock dictionary = Container.dictionaries[key] as DictionaryStringBlock;
-				if (dictionary == null)
+                DictionaryStringBlock dictionary = null;
+				if (!Container.dictionaries.TryGetValue(key, out dictionary))
 				{
 					try
 					{
-						object found = Container.failedDictionaries[key];
-						if (found != null)
+                        bool found;
+
+                        if (Container.failedDictionaries.TryGetValue(key, out found))
 							return null;
 
 						DictionaryBinaryFile d = DictionaryBinaryFileLRU.GetDictionary(dictionaryPath);

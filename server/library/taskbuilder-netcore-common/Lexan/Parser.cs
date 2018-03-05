@@ -559,11 +559,7 @@ namespace Microarea.Common.Lexan
 		//------------------------------------------------------------------------------
 		public bool GetDefine (string strKey, out double aValue)
 		{
-			aValue = 0;
-			Object o = defines[strKey];
-			if (o != null) aValue = (double)o;
-
-			return o != null;
+            return defines.TryGetValue(strKey, out aValue);
 		}
 
 		//------------------------------------------------------------------------------
