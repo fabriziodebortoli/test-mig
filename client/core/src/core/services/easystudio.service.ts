@@ -144,8 +144,8 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public initEasyStudioContext() {
-        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules().subscribe((result) => {
+    public initEasyStudioContext(type) {
+        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules(type).subscribe((result) => {
             this.extractNamesAllApps(result);
             return result;
         }));
@@ -162,12 +162,13 @@ export class EasystudioService {
         this.applications = [];
         this.modules = [];
 
-        let resultJson = result.json();        //let resultText = result.text();
-        let body = result["_body"];
-        if (body === undefined || body === "")
-            return;
-        this.memoryESContext = JSON.parse(result["_body"]);
-        let allApplications = resultJson["allApplications"];
+       // let resultJson = result.json();
+       
+        let body = JSON.parse((result["_body"]));
+        if(!body || !body["allApplications"]) return false;
+        this.memoryESContext = body; //JSON.parse(body.Message);
+        let allApplications = this.memoryESContext["allApplications"];
+
         if (!allApplications) return;
         for (var index = 0; index < allApplications.length; index++) {
             var applicElem = allApplications[index].application;
@@ -202,9 +203,9 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public refreshEasyBuilderApps() {
+    public refreshEasyBuilderApps(type) {
         this.httpMenuService.updateCachedDateAndSave().subscribe();
-        this.initEasyStudioContext();
+        this.initEasyStudioContext(type);
     }
 
     //--------------------------------------------------------------------------------

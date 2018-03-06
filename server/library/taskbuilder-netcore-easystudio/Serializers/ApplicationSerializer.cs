@@ -57,8 +57,11 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             {
                 if (!this.PathFinder.ExistPath(modulePath))
                 {
-                    if (moduleInfo == null)
-                        moduleInfo = new ModuleInfo(moduleName, applicationInfo);
+					if (moduleInfo == null)
+					{
+						moduleInfo = new ModuleInfo(moduleName, applicationInfo);
+						applicationInfo.AddModule(moduleInfo);
+					}
                     this.PathFinder.CreateFolder(modulePath, true);
                 }
 

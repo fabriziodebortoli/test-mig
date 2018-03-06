@@ -180,6 +180,10 @@ export class InfoService {
         return this.getBaseUrl() + '/menu-service/';
     }
 
+    getEasyStudioServiceUrl() {
+        return this.getBaseUrl() + '/easystudio/';
+    }
+    
     getLocalizationServiceUrl() {
         return this.getBaseUrl() + '/localization-service/';
     }

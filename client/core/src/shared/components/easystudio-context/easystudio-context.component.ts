@@ -62,7 +62,7 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
         this.openCustomizationContext = this._TB('Open Customization Context');
         this.closeCustomizationContext = this._TB('Close customization context');
 
-        this.easystudioService.initEasyStudioContext();
+        this.easystudioService.initEasyStudioContext(this.type);
     }
 
     //--------------------------------------------------------------------------------
@@ -120,7 +120,7 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
 
     //--------------------------------------------------------------------------------
     public refresh() {
-        this.easystudioService.refreshEasyBuilderApps();
+        this.easystudioService.refreshEasyBuilderApps(this.type);
         this.applicSelected = undefined;
         this.moduleSelected = undefined;
     }

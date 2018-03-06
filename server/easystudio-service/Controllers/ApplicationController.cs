@@ -47,12 +47,11 @@ namespace Microarea.EasyStudio.Controllers
 
         //-----------------------------------------------------------------------
         [Route("create")]
-        public IActionResult Create(string parameters)
+        public IActionResult Create([FromBody] JObject value)
         {
-            JObject jsonParams = JObject.Parse(parameters);
-            string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
-            var applicationType = jsonParams[Strings.applicationType]?.ToObject<ApplicationType>();
-            var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
+            string applicationName = value[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
+            var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+            var moduleName = value[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
             var verbose = jsonParams[Strings.verbose];
 
             if (!ApplicationService.ExistsApplication(applicationName))
@@ -119,7 +118,7 @@ namespace Microarea.EasyStudio.Controllers
 			}
 		}
 
-        //---------------------------------------------------------------------
+    /*    //---------------------------------------------------------------------
         [Route("refreshAll")]
         public IActionResult RefreshAll([FromBody] JObject value)
         {
@@ -140,41 +139,6 @@ namespace Microarea.EasyStudio.Controllers
                 ApplicationService.Diagnostic.Add(DiagnosticType.Error, e.Message);
                 return Ok(ApplicationService.Diagnostic);
             }
-        }
-
-        #region Private Internal Methods
-
-        //-----------------------------------------------------------------------
-        private IActionResult Create(string applicationName, ApplicationType applicationType, string moduleName = "", bool verbose = false)
-        {
-            bool success = true;
-            if (!ApplicationService.ExistsApplication(applicationName))
-                success = ApplicationService.CreateApplication(applicationName, (ApplicationType)applicationType);
-
-            if (success && !string.IsNullOrEmpty(moduleName))
-                success = ApplicationService.CreateModule(applicationName, moduleName);
-
-            if (success && verbose)
-                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyCreated));
-
-            return Ok(ApplicationService.Diagnostic);
-        }
-
-        //-----------------------------------------------------------------------
-        private IActionResult Delete(string applicationName, string moduleName, bool verbose = false)
-        {
-            bool success = true;
-            if (!string.IsNullOrEmpty(moduleName))
-                success = ApplicationService.DeleteModule(applicationName, moduleName);
-            else
-                success = ApplicationService.DeleteApplication(applicationName);
-
-            if (success && verbose)
-                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyDeleted));
-
-            return Ok(ApplicationService.Diagnostic);
-        }
-
-        #endregion
-    }
+        }*/
+	}
 }
