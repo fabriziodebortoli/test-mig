@@ -3,7 +3,6 @@ using System;
 using Newtonsoft.Json.Linq;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
-using Microarea.EasyStudio.Common;
 using Microarea.EasyStudio.AspNetCore;
 
 namespace Microarea.EasyStudio.Controllers
@@ -30,11 +29,11 @@ namespace Microarea.EasyStudio.Controllers
                 // il file sarà per utente e conterrà per adesso currentApplication e CurrentModule
                 string res = string.Empty;
 
-                return this.ToContentResult(200, res);
+                return ToContentResult(res);
             }
 			catch (Exception e)
 			{
-                return this.ToContentResult(502, e.Message);
+                return ToContentResult(e.Message, 502);
             }
 		}
 
@@ -61,11 +60,11 @@ namespace Microarea.EasyStudio.Controllers
 					e1 = EsPreferences.Write(defaultContextApplication, appName, user, company);
 					e2 = EsPreferences.Write(defaultContextModule, modName, user, company);
 				}*/
-                return this.ToContentResult(502, "");
+                return ToContentResult("");
 			}
 			catch (Exception e)
 			{
-                return this.ToContentResult(502, e.Message);
+                return ToContentResult(e.Message, 502);
 			}
 		}
 	}

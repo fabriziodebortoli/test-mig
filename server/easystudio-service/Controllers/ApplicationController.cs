@@ -3,7 +3,6 @@ using TaskBuilderNetCore.EasyStudio.Services;
 using System;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
-using Microarea.EasyStudio.Common;
 using Newtonsoft.Json.Linq;
 
 namespace Microarea.EasyStudio.Controllers
@@ -110,7 +109,7 @@ namespace Microarea.EasyStudio.Controllers
                     appType = (ApplicationType)applicationType;
 
                 var json = ApplicationService.GetAppsModsAsJson(appType);
-                return this.ToContentResult(200, json);
+                return ToContentResult(json);
             }
             catch (Exception e)
             {
@@ -129,7 +128,7 @@ namespace Microarea.EasyStudio.Controllers
 				string user = value["user"]?.Value<string>();
 				var res = ApplicationService.GetEasyStudioCustomizationsListFor(docNS, user);
 
-                return this.ToContentResult(200,  res);
+                return ToContentResult(res);
 			}
 			catch (Exception e)
 			{
@@ -152,7 +151,7 @@ namespace Microarea.EasyStudio.Controllers
 
                 var json = ApplicationService.RefreshAll(appType);
 
-                return this.ToContentResult(200,  json);
+                return ToContentResult(json);
             }
             catch (Exception e)
             {
