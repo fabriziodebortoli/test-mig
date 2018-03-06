@@ -55,7 +55,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public pageSizes = false;
   public previousNext = true;
 
-  public gridView: GridDataResult = { data:[], total:0};
+  public gridView: GridDataResult = { data: [], total: 0 };
 
   private lastEditedRowIndex: number = -1;
   private lastEditedColumnIndex: number = -1;
@@ -87,17 +87,27 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   subscribeToSelector() {
-    this.model.modelChanged
-      .pipe(untilDestroy(this))
-      .subscribe(() => {
-        this.updateModel(this.model);
-        this.isLoading = false;
-      });
-
     this.store.select('FormMode.value')
       .subscribe(m => {
         this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
         this.changeDetectorRef.markForCheck();
+      });
+
+    let name = this.bodyEditName;
+    this.store.select(name)
+      .subscribe(m => {
+        if (!m)
+          return;
+
+        //todoluca, devo solo verificare di non fare subscribe multiple
+        if (m.modelChanged) {
+          m.modelChanged
+            .pipe(untilDestroy(this))
+            .subscribe(() => {
+              this.updateModel(this.model);
+              this.isLoading = false;
+            });
+        }
       });
   }
 
@@ -110,6 +120,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   ngAfterContentInit() {
     let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
     this.createFakeRows(numberOfVisibleRows);
+    this.bodyEditService.bodyEditName = this.bodyEditName;
 
     resolvedPromise.then(() => {
       let cols = this.be_columns.toArray();
@@ -128,7 +139,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.changeDBTRange();
     }
 
-    this.bodyEditService.bodyEditName = this.bodyEditName;
+
   }
 
   //-----------------------------------------------------------------------------------------------
