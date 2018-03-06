@@ -646,16 +646,24 @@ void CloseCustomizationContext()
 //---------------------------------------------------------------------------------------
 bool DbCheck(CString& authToken, CString& messages)
 {
-	IDatabaseCkecker^ checker = gcnew	DatabaseChecker();
-	bool ok = checker->Check(gcnew String(authToken));
-	if (!ok)
+	try
 	{
-		for each (IDiagnosticItem^ item in checker->Diagnostic->AllItems)
+		IDatabaseCkecker^ checker = gcnew	DatabaseChecker();
+		bool ok = checker->Check(gcnew String(authToken));
+		if (!ok)
 		{
-			messages += CString(item->FullExplain);
+			for each (IDiagnosticItem^ item in checker->Diagnostic->AllItems)
+			{
+				messages += CString(item->FullExplain);
+			}
 		}
+		return ok;
 	}
-	return ok;
+	catch (Exception^ ex)
+	{
+		messages += CString(ex->Message);
+		return false;
+	}
 }
 
 //---------------------------------------------------------------------------------------
