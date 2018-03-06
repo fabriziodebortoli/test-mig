@@ -4203,124 +4203,124 @@ namespace Microarea.Common.NameSolver
         //-----------------------------------------------------------------------------
         public string GetServerConnectionConfig()
         {
-            return GetServerConnectionConfig();
+            return fileSystemManager.GetServerConnectionConfig();
         }
 
 
         //-----------------------------------------------------------------------------
         public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
         {
-            return LoadXmlDocument(dom, filename);
+            return fileSystemManager.LoadXmlDocument(dom, filename);
         }
 
         //-----------------------------------------------------------------------------
         public String GetFileTextFromFileName(string sFileName)
         {
-            return GetFileTextFromFileName(sFileName);
+            return fileSystemManager.GetFileTextFromFileName(sFileName);
         }
 
         //-----------------------------------------------------------------------------
         public Stream GetStream(string sFileName, bool readStream)
         {
-            return GetStream(sFileName, readStream);
+            return fileSystemManager.GetStream(sFileName, readStream);
         }
 
         //-----------------------------------------------------------------------------
         public bool SaveTextFileFromStream(string sFileName, Stream sFileContent)
         {
-            return SaveTextFileFromStream(sFileName, sFileContent);
+            return fileSystemManager.SaveTextFileFromStream(sFileName, sFileContent);
         }
 
         //-----------------------------------------------------------------------------
         public bool SaveTextFileFromXml(string sFileName, XmlDocument dom)
         {
-            return SaveTextFileFromXml(sFileName, dom);
+            return fileSystemManager.SaveTextFileFromXml(sFileName, dom);
         }
 
         //-----------------------------------------------------------------------------
         public byte[] GetBinaryFile(string sFileName, int nLen)
         {
-            return GetBinaryFile(sFileName, nLen);
+            return fileSystemManager.GetBinaryFile(sFileName, nLen);
         }
 
         //-----------------------------------------------------------------------------
         public bool ExistFile(string sFileName)
         {
-            return ExistFile(sFileName);
+            return fileSystemManager.ExistFile(sFileName);
         }
 
         //-----------------------------------------------------------------------------
         public bool ExistPath(string sPathName)
         {
-            return ExistPath(sPathName);
+            return fileSystemManager.ExistPath(sPathName);
         }
 
         //-----------------------------------------------------------------------------
         public bool CreateFolder(string sPathName, bool bRecursive)
         {
-            return CreateFolder(sPathName, bRecursive);
+            return fileSystemManager.CreateFolder(sPathName, bRecursive);
         }
 
         //-----------------------------------------------------------------------------
         public void RemoveFolder(string sPathName, bool bRecursive, bool bRemoveRoot, bool bAndEmptyParents)
         {
-            RemoveFolder(sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
+            fileSystemManager.RemoveFolder(sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
         }
 
         //-----------------------------------------------------------------------------
         public bool RemoveFile(string sFileName)
         {
-            return RemoveFile(sFileName);
+            return fileSystemManager.RemoveFile(sFileName);
         }
 
         //-----------------------------------------------------------------------------
         public bool RenameFile(string sOldFileName, string sNewFileName)
         {
-            return RenameFile(sOldFileName,  sNewFileName);
+            return fileSystemManager.RenameFile(sOldFileName,  sNewFileName);
         }
 
         //-----------------------------------------------------------------------------
         public bool RenameFolder(string sOldName, string sNewName)
         {
-            return RenameFolder(sOldName, sNewName);
+            return fileSystemManager.RenameFolder(sOldName, sNewName);
         }
 
         //-----------------------------------------------------------------------------
         public bool CopyFile(string sOldFileName, string sNewFileName, bool bOverWrite)
         {
-            return CopyFile(sOldFileName, sNewFileName, bOverWrite);
+            return fileSystemManager.CopyFile(sOldFileName, sNewFileName, bOverWrite);
         }
 
 
         //-----------------------------------------------------------------------------
         public FileInfo GetFileStatus(string sFileName, FileInfo fs)
         {
-            return GetFileStatus(sFileName, fs);
+            return fileSystemManager.GetFileStatus(sFileName, fs);
         }
 
         //-----------------------------------------------------------------------------
         public int[] GetFileAttributes(string sFileName)
         {
-            return GetFileAttributes(sFileName);
+            return fileSystemManager.GetFileAttributes(sFileName);
         }
 
         //-----------------------------------------------------------------------------
         public bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive)
         {
-            return CopyFolder(sOldPathName,  sNewPathName,  bOverwrite,  bRecursive);
+            return fileSystemManager.CopyFolder(sOldPathName,  sNewPathName,  bOverwrite,  bRecursive);
         }
 
 
         //-----------------------------------------------------------------------------
         public List<TBDirectoryInfo> GetSubFolders(string sPathName)
         {
-            return GetSubFolders(sPathName);
+            return fileSystemManager.GetSubFolders(sPathName);
         }
 
         //-----------------------------------------------------------------------------
         public List<TBFile> GetFiles(string sPathName, string sFileExt)
         {
-            return GetFiles(sPathName,  sFileExt);
+            return fileSystemManager.GetFiles(sPathName,  sFileExt);
         }
 
         //-----------------------------------------------------------------------------
@@ -4329,70 +4329,70 @@ namespace Microarea.Common.NameSolver
             pSubFolders = new List<TBDirectoryInfo>();
             pFiles = new List<TBFile>();
 
-            return GetPathContent(sPathName, bFolders, out  pSubFolders, bFiles, strFileExt,  out pFiles);
+            return fileSystemManager.GetPathContent(sPathName, bFolders, out  pSubFolders, bFiles, strFileExt,  out pFiles);
         }
 
 
         //-----------------------------------------------------------------------------
         public bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen)
         {
-            return SaveBinaryFile(sFileName, pBinaryContent, nLen);
+            return fileSystemManager.SaveBinaryFile(sFileName, pBinaryContent, nLen);
         }
 
         // gets a binary file and it stores it into the temp directory
         //-----------------------------------------------------------------------------
         public string GetTemporaryBinaryFile(string sFileName)
         {
-            return GetTemporaryBinaryFile(sFileName);
+            return fileSystemManager.GetTemporaryBinaryFile(sFileName);
         }
 
         //-----------------------------------------------------------------------------
         public bool IsManagedByAlternativeDriver(string sName)
         {
-            return IsManagedByAlternativeDriver(sName);
+            return fileSystemManager.IsManagedByAlternativeDriver(sName);
         }
 
 
         //-----------------------------------------------------------------------------
         public IFileSystemDriver GetFileSystemDriver()
         {
-            return GetFileSystemDriver();
+            return fileSystemManager.GetFileSystemDriver();
         }
 
         //-----------------------------------------------------------------------------
         public IFileSystemDriver GetAlternativeDriver()
         {
-            return GetAlternativeDriver();
+            return fileSystemManager.GetAlternativeDriver();
         }
 
         //-----------------------------------------------------------------------------
         public IFileSystemDriver GetAlternativeDriverIfManagedFile(string sName)
         {
-            return GetAlternativeDriverIfManagedFile(sName);
+            return fileSystemManager.GetAlternativeDriverIfManagedFile(sName);
         }
 
         //-----------------------------------------------------------------------------
         public bool Start(bool bLoadCaches  /*true*/)
         {
-            return Start(bLoadCaches);
+            return fileSystemManager.Start(bLoadCaches);
         }
 
         //-----------------------------------------------------------------------------
         public bool Stop(bool bLoadCaches  /*true*/)
         {
-            return Stop(bLoadCaches);
+            return fileSystemManager.Stop(bLoadCaches);
         }
 
         //-----------------------------------------------------------------------------
         public List<string> GetAllApplicationInfo(string dir)
         {
-            return GetAllApplicationInfo(dir);
+            return fileSystemManager.GetAllApplicationInfo(dir);
         }
 
         //-----------------------------------------------------------------------------
         public List<string> GetAllModuleInfo(string strAppName)
         {
-            return GetAllModuleInfo(strAppName);
+            return fileSystemManager.GetAllModuleInfo(strAppName);
         }
 
         #endregion
