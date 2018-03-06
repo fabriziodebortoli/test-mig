@@ -1,6 +1,7 @@
 <div class="hidden-tiles">
+    <h4>{{this._TB('Hidden tiles')}}</h4>
     <ul class="hidden-tiles-list">
-        <p *ngIf="menuService.hiddenTilesCount == 0" class="hidden-tiles-empty">{{_TB('Empty list...')}}</p>
+        <li *ngIf="menuService.hiddenTilesCount == 0" class="hidden-tiles-empty">{{_TB('Empty list...')}}</li>
 
         <li *ngFor="let tile of menuService?.hiddenTiles" class="hidden-tiles-item" (click)="menuService.removeFromHiddenTiles(tile)" title="{{_TB('Remove')}}">
             <ng-container *ngIf="tile.currentApp == menuService?.selectedApplication?.name && tile.currentGroup == menuService?.selectedGroup?.name &&  tile.currentMenu == menuService?.selectedMenu?.name">
@@ -8,7 +9,9 @@
                 <span class="truncate" matTooltip="{{tile?.tooltip}}" matTooltipPosition="above" matTooltipShowDelay="500">{{tile.title}}</span>
             </ng-container>
         </li>
+
         <hr class="separator" *ngIf="menuService.hiddenTilesCount != 0">
+
         <li *ngFor="let tile of menuService?.hiddenTiles" class="hidden-tiles-item" (click)="menuService.removeFromHiddenTiles(tile)" title="{{_TB('Remove')}}">
             <ng-container *ngIf="tile.currentApp != menuService?.selectedApplication?.name || tile.currentGroup != menuService?.selectedGroup?.name ||  tile.currentMenu != menuService?.selectedMenu?.name">
                 <m4-icon class="type" icon="tb-uncheckedradiobutton"></m4-icon>
@@ -16,4 +19,5 @@
             </ng-container>
         </li>
     </ul>
+    <a class="clear" icon="tb-delete" (click)="menuService?.removeAllHiddenTiles()" *ngIf="menuService?.hiddenTilesCount > 0">{{_TB('Clear hidden tiles list') }}</a>
 </div>

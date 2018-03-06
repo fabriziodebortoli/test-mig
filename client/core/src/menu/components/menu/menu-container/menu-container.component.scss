@@ -7,7 +7,7 @@ tb-frame-content {
 
 .collapser {
     cursor: pointer;
-    color: #0277bd;
+    color: $blue;
     width: 40px;
     height: 40px;
     text-align: center;
@@ -97,44 +97,40 @@ tb-frame-content {
     }
 }
 
-// ::ng-deep .hidden-tiles-popup {
-//     min-width: 300px;
-//     .hidden-tiles-popup-content {
-//         margin: 5px 10px 5px;
-//         background: #fff;
-//         padding: 7px;
-//         box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-//     }
-//     h4 {
-//         font-size: 14px;
-//         font-weight: 500;
-//         text-transform: uppercase;
-//         text-align: center;
-//         margin: 0;
-//         color: #666;
-//         margin-bottom: 20px;
-//     }
-//     .clear {
-//         cursor: pointer;
-//         border-top: 1px solid #ccc;
-//     }
-// }
-// // // ::ng-deep .hidden-tiles-popup .k-popup {
-// // //     margin-top: 8px;
-// // //     border: 0px solid transparent;
-// // //     display: block;
-// // // }
-// // .hidden-tiles-popup:before {
-// //     content: "";
-// //     width: 0;
-// //     height: 0;
-// //     border-right: 8px solid transparent;
-// //     border-left: 8px solid transparent;
-// //     border-bottom: 8px solid white;
-// //     position: absolute;
-// //     right: 12px;
-// //     z-index: 9999;
-// // }
+
+/* HIDDEN TILES CONTEXT MENU */
+
+::ng-deep .hidden-tiles-popup {
+    min-width: 300px;
+    .hidden-tiles-popup-content {
+        margin: 5px 10px 5px;
+        background: #fff;
+        padding: 7px;
+        box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    }
+}
+
+::ng-deep .hidden-tiles-popup .k-popup {
+    margin-top: 8px;
+    border: 0px solid transparent;
+    display: block;
+}
+
+.hidden-tiles-popup:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid white;
+    position: absolute;
+    right: 12px;
+    z-index: 9999;
+}
+
+
+/* FINE HIDDEN TILES CONTEXT MENU */
+
 // @media screen and (min-width: 1025px) {
 //     .menu-page {
 //         .k-tabstrip-top>.k-tabstrip-items {
