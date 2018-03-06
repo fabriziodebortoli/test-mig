@@ -1,16 +1,10 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Collections.Generic;
-
-
-
 using Microarea.Common.Generic;
-using Microarea.Common.WebServicesWrapper;
 using TaskBuilderNetCore.Interfaces;
 
 
