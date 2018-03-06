@@ -8,14 +8,26 @@
         color: #fff;
         background-color: #0277bd;
     }
-    .k-grid-header .k-header>.k-link {
-        font-weight: bold;
+    .k-grid-header .k-header {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        height: 25px;
+        line-height: 25px;
+        &>.k-link {
+            font-size: 12px;
+            font-weight: 500;
+        }
     }
     .k-grid-pager {
         padding: 0px;
         border-width: 1px 0 0;
         border-color: #e3e3e3;
         font-size: 12px;
+    }
+    .k-grid th,
+    .k-grid td {
+        padding: 0;
     }
     .k-button {
         border-radius: 0px;

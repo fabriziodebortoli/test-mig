@@ -359,17 +359,163 @@
                             </tb-tile>
                             <tb-panel [title]="_TB('Documents')" tbTileAutoFill>
                                 <div class="col col1">
-                                    <tb-body-edit cmpId="IDC_CREDIT_LIMIT_VIEWERBODYEDIT_DOCUMENTS" [width]="325" [model]="eventData?.model?.Documents" [height]="126" bodyEditName="Documents">
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_CREDIT_TYPE" columnName="CreditType" [title]="_TB('Credit\nType')" columnType="tb-enum-combo">
+                                    <tb-body-edit cmpId="IDC_CS_PEOPLE_BODY" [width]="325" [model]="eventData?.model?.People" [height]="216" bodyEditName="People">
+                                        <tb-body-edit-toolbar>
+                                            <tb-body-edit-toolbar-button icon="tb-add" [caption]="_TB('Add Reference')" cmpId="ID_BOM_AUX_REFERENCE"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="tb-document" [caption]="_TB('Open Semifinished BOM')" cmpId="ID_BOM_AUX_BOM_SEMIFINISHED"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="tb-tree" [caption]="_TB('Navigation')" cmpId="ID_BOM_AUX_BOM_NAVIGATION"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="tb-treesearch" [caption]="_TB('Explosion')" cmpId="ID_BOM_AUX_BOM_EXPLOSION"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="erp-money" [caption]="_TB('Costing')" cmpId="ID_BOM_AUX_BOM_COSTING"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="tb-treesearch" [caption]="_TB('Implosion')" cmpId="ID_BOM_AUX_BOM_IMPLOSION"></tb-body-edit-toolbar-button>
+                                            <tb-body-edit-toolbar-button icon="erp-inventory" [caption]="_TB('Item Balances Navigation')" cmpId="ID_BOM_AUX_ITEM_BALAN_NAV"></tb-body-edit-toolbar-button>
+                                        </tb-body-edit-toolbar>
+
+                                        <tb-body-edit-column columnName="TitleCode" [title]="_TB('Title')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_TITLE" [model]="columnModel" [hotLink]="{'name':'HKLTitlesPeopleBE','namespace':'ERP.Company.Dbl.Titles'}"></tb-combo>
+                                            </ng-template>
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT" columnName="DocumentType" [title]="_TB('Document')" columnType="tb-enum-combo" *ngIf="eventData?.activation?.IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT">
+                                        <tb-body-edit-column columnName="ExternalCode" [title]="_TB('Code')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_CODE" [model]="columnModel"></tb-text>
+                                            </ng-template>
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_NUMBER" columnName="DocumentNo" [title]="_TB('Document\nNumber')" columnType="tb-label-static">
+                                        <tb-body-edit-column columnName="LastName" [title]="_TB('Last Name')" [rows]="2" [chars]="32">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text [rows]="2" [chars]="32" cmpId="IDC_DETAIL_CS_PEOPLE_LASTNAME" [model]="columnModel"></tb-text>
+                                            </ng-template>
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_DOCUMENT_DATE" formatter="Date" [readonly]="true" columnName="DocumentDate" [title]="_TB('Document\nDate')" columnType="tb-date-input">
+                                        <tb-body-edit-column columnName="Name" [title]="_TB('Name')" [rows]="2" [chars]="32">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text [rows]="2" [chars]="32" cmpId="IDC_DETAIL_CS_PEOPLE_NAME" [model]="columnModel"></tb-text>
+                                            </ng-template>
                                         </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_CREDIT_LIMIT_VIEWERBE_AMOUNT" formatter="Money" disabled="true" columnName="Amount" [title]="_TB('Amount')" columnType="tb-numeric-text-box">
+                                        <tb-body-edit-column mask columnName="Telephone1" [title]="_TB('Phone 1')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL1" [model]="columnModel"></tb-phone>
+                                            </ng-template>
                                         </tb-body-edit-column>
+                                        <tb-body-edit-column mask columnName="Telephone2" [title]="_TB('Phone 2')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL2" [model]="columnModel"></tb-phone>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column columnName="Telex" [title]="_TB('Telex')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_TELEX" [model]="columnModel"></tb-text>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column columnName="Fax" [title]="_TB('Fax')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_FAX" [model]="columnModel"></tb-text>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column columnName="Branch" [title]="_TB('Branch')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_BRANCH" [model]="columnModel" [hotLink]="{'name':'HKLPeopleBranch','namespace':'ERP.CustomersSuppliers.Dbl.Branches','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column columnName="WorkingPosition" [title]="_TB('Working Position')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_WORKPOS" [model]="columnModel"></tb-text>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column columnName="Notes" [title]="_TB('Notes')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NOTES" [model]="columnModel"></tb-text>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-checkbox-column columnName="LegalRepresentative" [title]="_TB('Legal\nRepresentative')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-checkbox cmpId="IDC_DETAIL_CS_PEOPLE_LEGALREPRES" [model]="columnModel"></tb-checkbox>
+                                            </ng-template>
+                                        </tb-body-edit-checkbox-column>
+                                        <tb-body-edit-column columnName="EMail" [title]="_TB('Email')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-email cmpId="IDC_DETAIL_CS_PEOPLE_EMAIL" [model]="columnModel"></tb-email>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-column mask columnName="SkypeID" [title]="_TB('Skype')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_SKYPEID" [model]="columnModel"></tb-phone>
+                                            </ng-template>
+                                        </tb-body-edit-column>
+                                        <tb-body-edit-enum-combo-column columnName="AllDocuments" [title]="_TB('All\nDocuments')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_ALL_DOCUMENTS" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" columnName="SupplierQuotation" [title]="_TB('Supplier\nQuotation')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" columnName="PurchaseOrder" [title]="_TB('Purchase\nOrder')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" columnName="ReturnToSupplier" [title]="_TB('Return\nTo Supplier')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" columnName="SubcontrDeliveryNote" [title]="_TB('Subcontracting\nDelivery Note')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" columnName="NotaFiscal" [title]="_TB('Nota\nFiscal')">
+                                            <ng-template let-columnModel="columnModel">
+                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" [model]="columnModel"></tb-enum-combo>
+                                            </ng-template>
+                                        </tb-body-edit-enum-combo-column>
+                                        <tb-row-view-form>
+                                            <ng-template let-currentRow="currentRow">
+                                                <tb-tile-group tbLayoutTypeVbox>
+                                                    <tb-layout-container tbLayoutTypeColumn>
+                                                        <tb-panel [title]="_TB('Main Data')" tbTileStandard>
+                                                            <div class="col col1">
+                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_CODE" [caption]="_TB('Code')" [width]="62" [model]="currentRow?.ExternalCode"></tb-text>
+                                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_TITLE" [caption]="_TB('Title')" [width]="62" [model]="currentRow?.TitleCode"></tb-combo>
+                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_LASTNAME" [caption]="_TB('Last Name')" [width]="132" [rows]="2" [multiline]="true" [model]="currentRow?.LastName"></tb-text>
+                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NAME" [caption]="_TB('Name')" [width]="132" [rows]="2" [multiline]="true" [model]="currentRow?.Name"></tb-text>
+                                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_BRANCH" [caption]="_TB('Branch')" [width]="62" [model]="currentRow?.Branch"></tb-combo>
+                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_WORKPOS" [caption]="_TB('Working Position')" [width]="154" [model]="currentRow?.WorkingPosition"></tb-text>
+                                                                <tb-checkbox cmpId="IDC_DETAIL_CS_PEOPLE_LEGALREPRES" [width]="109" [model]="currentRow?.LegalRepresentative" [caption]="_TB('Legal Representative  ')"></tb-checkbox>
+                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NOTES" [caption]="_TB('Notes')" [width]="154" [multiline]="true" [model]="currentRow?.Notes"></tb-text>
+                                                            </div>
+                                                        </tb-panel>
+                                                        <tb-panel [title]="_TB('Contacts')" tbTileStandard>
+                                                            <div class="col col1">
+                                                                <div class="anchored">
+                                                                    <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL1" mask [caption]="_TB('Phone')" [width]="86" [model]="currentRow?.Telephone1"></tb-phone>
+                                                                    <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL2" mask [width]="86" [model]="currentRow?.Telephone2"></tb-phone>
+                                                                </div>
+                                                                <div class="anchored">
+                                                                    <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_TELEX" [caption]="_TB('Telex/Fax')" [width]="86" [model]="currentRow?.Telex"></tb-text>
+                                                                    <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_FAX" [width]="86" [model]="currentRow?.Fax"></tb-text>
+                                                                </div>
+                                                                <tb-email cmpId="IDC_DETAIL_CS_PEOPLE_EMAIL" [caption]="_TB('Email')" [width]="140" [model]="currentRow?.EMail"></tb-email>
+                                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_SKYPEID" mask [caption]="_TB('Skype')" [width]="140" [model]="currentRow?.SkypeID"></tb-phone>
+                                                            </div>
+                                                        </tb-panel>
+                                                    </tb-layout-container>
+                                                    <tb-panel [title]="_TB('Send Options by documents')" tbTileWide>
+                                                        <div class="col col1">
+                                                            <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_ALL_DOCUMENTS" [caption]="_TB('All Documents')" [width]="62" [model]="currentRow?.AllDocuments"></tb-enum-combo>
+                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" [caption]="_TB('Quotations from Supplier')" [width]="62" [model]="currentRow?.SupplierQuotation"></tb-enum-combo>
+                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" [caption]="_TB('Purchase Orders')" [width]="62" [model]="currentRow?.PurchaseOrder"></tb-enum-combo>
+                                                        </div>
+                                                        <div class="col col2">
+                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" [caption]="_TB('Nota Fiscal')" [width]="62" [model]="currentRow?.NotaFiscal"></tb-enum-combo>
+                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" [caption]="_TB('Return To Supplier')" [width]="62" [model]="currentRow?.ReturnToSupplier"></tb-enum-combo>
+                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" [caption]="_TB('Subcontractor Delivery Note')" [width]="62" [model]="currentRow?.SubcontrDeliveryNote"></tb-enum-combo>
+                                                        </div>
+                                                    </tb-panel>
+                                                </tb-tile-group>
+                                            </ng-template>
+                                        </tb-row-view-form>
                                     </tb-body-edit>
                                 </div>
                             </tb-panel>

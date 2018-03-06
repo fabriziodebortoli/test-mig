@@ -11,13 +11,11 @@ import { ControlComponent } from './../../control.component';
   templateUrl: './body-edit-toolbar.component.html',
   styleUrls: ['./body-edit-toolbar.component.scss']
 })
+export class BodyEditToolbarComponent {
+  constructor(public eventData: EventDataService) { }
 
-  export class BodyEditToolbarComponent {
-    constructor(public eventData: EventDataService) { }
-    
-    @Input() caption: string = '...';
-    @Input() history: boolean = false;
-  
-    public viewModeTypeModel = ViewModeType;
-  }
-  
+  @Input() caption: string = '...';
+  @Input() history: boolean = false;
+
+  public viewModeTypeModel = ViewModeType;
+}
