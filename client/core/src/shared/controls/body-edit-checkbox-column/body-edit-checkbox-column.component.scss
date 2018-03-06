@@ -1,11 +1,16 @@
-::ng-deep .k-grid th, .k-grid td {
+::ng-deep .k-grid th,
+.k-grid td {
     padding: 0px 0px;
 }
- .column .tb-control{ 
+
+.column .tb-control {
     margin: 0.0rem;
 }
 
 .headerTitle {
     justify-content: center;
     display: flex;
+    font-size: 1.1em;
+    font-weight: 500;
+    height: 25px;
 }

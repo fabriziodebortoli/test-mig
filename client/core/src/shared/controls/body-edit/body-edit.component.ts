@@ -42,12 +42,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @Input() columns: Array<any>;
   public selectableSettings: SelectableSettings;
 
-
   isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentGridIdx;
   subscriptions = [];
   subscription = [];
 
-  
+  fakeRows = [];
+
   public pageSize: number = 15;
 
   public enabled: boolean = false;
@@ -55,7 +55,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public pageSizes = false;
   public previousNext = true;
 
-  public gridView: GridDataResult;
+  public gridView: GridDataResult = { data:[], total:0};
 
   private lastEditedRowIndex: number = -1;
   private lastEditedColumnIndex: number = -1;
@@ -86,38 +86,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   //-----------------------------------------------------------------------------------------------
-  editNextColumn() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
-      return;
-    }
-
-    if (this.lastEditedColumnIndex < this.grid.columns.length) {
-      this.lastEditedColumnIndex++;
-    }
-    else {
-      this.lastEditedColumnIndex = 0
-      this.lastEditedRowIndex++;
-    }
-    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-  }
-
-  //-----------------------------------------------------------------------------------------------
-  editPreviousColumn() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
-      return;
-    }
-
-    if (this.lastEditedColumnIndex > 0) {
-      this.lastEditedColumnIndex--;
-    }
-    else {
-      this.lastEditedColumnIndex = this.grid.columns.length;
-      this.lastEditedRowIndex--;
-    }
-    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-  }
-
-  //-----------------------------------------------------------------------------------------------
   subscribeToSelector() {
     this.model.modelChanged
       .pipe(untilDestroy(this))
@@ -140,6 +108,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   ngAfterContentInit() {
+    let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
+    this.createFakeRows(numberOfVisibleRows);
+
     resolvedPromise.then(() => {
       let cols = this.be_columns.toArray();
       let internalColumnComponents = [];
@@ -149,7 +120,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.grid.columns.reset(internalColumnComponents);
     });
 
-    let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
     this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.subscribeToSelector();
 
@@ -192,6 +162,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.lastEditedColumnIndex = columnIndex;
         sender.editCell(rowIndex, columnIndex);
       }
+    }
+  }
+
+  createFakeRows(numberOfVisibleRows: number) {
+    for (let index = 0; index < numberOfVisibleRows; index++) {
+      this.fakeRows.push({})
     }
   }
 
@@ -275,6 +251,38 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   //-----------------------------------------------------------------------------------------------
+  editNextColumn() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedColumnIndex < this.grid.columns.length) {
+      this.lastEditedColumnIndex++;
+    }
+    else {
+      this.lastEditedColumnIndex = 0
+      this.lastEditedRowIndex++;
+    }
+    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  editPreviousColumn() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedColumnIndex > 0) {
+      this.lastEditedColumnIndex--;
+    }
+    else {
+      this.lastEditedColumnIndex = this.grid.columns.length;
+      this.lastEditedRowIndex--;
+    }
+    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+  }
+
+  //-----------------------------------------------------------------------------------------------
   private updateModel(model: any) {
 
     if (!model) {
@@ -282,12 +290,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
 
     this.bodyEditService.currentDbtRowIdx = model.currentRowIdx;
-    this.bodyEditService.currentGridIdx =model.currentRowIdx - this.bodyEditService.skip;
+    this.bodyEditService.currentGridIdx = model.currentRowIdx - this.bodyEditService.skip;
     this.bodyEditService.model = model;
     this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
 
     this.gridView = {
-      data: this.model.rows,
+      data: this.bodyEditService.model.rows,
       total: this.bodyEditService.model.rowCount
     };
 

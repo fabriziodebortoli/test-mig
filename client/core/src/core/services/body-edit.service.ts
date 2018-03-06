@@ -31,7 +31,6 @@ export class BodyEditService {
     public httpService: HttpService,
     public tbComponentService: TbComponentService
   ) {
-
   }
 
   get currentRow(): boolean {
