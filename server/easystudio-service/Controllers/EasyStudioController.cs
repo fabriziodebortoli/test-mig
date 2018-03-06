@@ -9,14 +9,12 @@ namespace Microarea.EasyStudio.Controllers
 {
 	//=========================================================================
 	[Route("easystudio")]
-    public class EasyStudioController : Microsoft.AspNetCore.Mvc.Controller
+    public class EasyStudioController : BaseController
     {
-		private IServiceManager Manager { get; set; }
         //---------------------------------------------------------------------
         public EasyStudioController(IServiceManager serviceManager)
+            : base(serviceManager)
         {
-            Manager = serviceManager;
-		
 		} 
   
         //---------------------------------------------------------------------
@@ -51,10 +49,10 @@ namespace Microarea.EasyStudio.Controllers
 				string user = value["user"]?.Value<string>();
 				string company = value["company"]?.Value<string>();
 
-            //    ApplicationService.CurrentApplication= appName;
-            //    ApplicationService.CurrentModule = modName;
+                //    ApplicationService.CurrentApplication= appName;
+                //    ApplicationService.CurrentModule = modName;
 
-				/*TODOROBY SCRIVERE ESPREFERENCES.json
+                /*TODOROBY SCRIVERE ESPREFERENCES.json
 				ritornare l'esito di questa operazione ad angular ????????
 				bool e1 = false, e2 = false;
 				if (Convert.ToBoolean(isPairDefault))
@@ -62,12 +60,11 @@ namespace Microarea.EasyStudio.Controllers
 					e1 = EsPreferences.Write(defaultContextApplication, appName, user, company);
 					e2 = EsPreferences.Write(defaultContextModule, modName, user, company);
 				}*/
-
-				return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                return this.ToContentResult(502, "");
 			}
 			catch (Exception e)
 			{
-				return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return this.ToContentResult(502, e.Message);
 			}
 		}
 	}

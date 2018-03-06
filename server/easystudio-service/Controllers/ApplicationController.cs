@@ -10,18 +10,21 @@ namespace Microarea.EasyStudio.Controllers
 {
 	//=========================================================================
 	[Route("easystudio/application")]
-    public class ApplicationController : Microsoft.AspNetCore.Mvc.Controller
+    public class ApplicationController : BaseController
     {
         //=========================================================================
         internal class Strings
         {
+            internal static readonly string applicationName = "applicationName";
+            internal static readonly string applicationType = "applicationType";
+            internal static readonly string moduleName = "moduleName";
+
             internal static readonly string MissingApplicationType = "Missing parameter applicationType";
             internal static readonly string ObjectSuccessfullyCreated = "Object Successfully Created";
             internal static readonly string ObjectSuccessfullyDeleted = "Object Successfully Deleted";
         }
 
         private ApplicationService service;
-        private IServiceManager Manager { get; set; }
 		private ApplicationService ApplicationService
         {
             get
@@ -34,9 +37,9 @@ namespace Microarea.EasyStudio.Controllers
         }
         //---------------------------------------------------------------------
         public ApplicationController(IServiceManager serviceManager)
+            :
+            base(serviceManager)
         {
-            Manager = serviceManager;
-		
 		}
 
         //-----------------------------------------------------------------------
@@ -44,9 +47,9 @@ namespace Microarea.EasyStudio.Controllers
         public IActionResult Create(string parameters)
         {
             JObject jsonParams = JObject.Parse(parameters);
-            string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
-            var applicationType = jsonParams[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
-            var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
+            string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
+            var applicationType = jsonParams[Strings.applicationType]?.ToObject<ApplicationType>();
+            var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
 
             bool success = true;
             if (!ApplicationService.ExistsApplication(applicationName))
@@ -70,8 +73,8 @@ namespace Microarea.EasyStudio.Controllers
         public IActionResult Delete(string parameters)
         {
             JObject jsonParams = JObject.Parse(parameters);
-            string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
-            var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
+            string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
+            var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
 
               bool success = true;
             if (!string.IsNullOrEmpty(moduleName))
@@ -90,7 +93,7 @@ namespace Microarea.EasyStudio.Controllers
         {
             try
             {
-                var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+                var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
 
                 ApplicationType appType = ApplicationType.All;
                 if (applicationType != null)
@@ -129,7 +132,7 @@ namespace Microarea.EasyStudio.Controllers
         {
             try
             {
-                var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
+                var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
 
                 ApplicationType appType = ApplicationType.All;
                 if (applicationType != null)
