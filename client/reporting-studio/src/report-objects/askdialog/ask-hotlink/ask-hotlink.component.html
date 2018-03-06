@@ -2,7 +2,10 @@
 
 </tb-hotlink> -->
 
-
-<div>{{hotlink.caption}}</div>
+<div class="askhotlink">
+<div class="caption">{{hotlink.caption}}</div>
+<div>
 <kendo-maskedtextbox [(ngModel)]="hotlink.value" [disabled]="!hotlink.enabled"></kendo-maskedtextbox>
 <ng-template [tbHotLink]="GetHotlinkObject()"></ng-template>
+</div>
+</div>

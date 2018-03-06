@@ -1,0 +1,9 @@
+:host-context(.rsCheckBox)
+{
+    ::ng-deep tb-caption label
+    {
+        text-align: right !important;
+        min-width: 90px;
+        margin-left: 7px;
+    }
+}
