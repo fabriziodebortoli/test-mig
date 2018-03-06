@@ -560,6 +560,8 @@ BOOL CExtButton::ForceUpdateCtrlView()
 //------------------------------------------------------------------------------------------
 void CExtButton::LoadCurrentImage()
 {
+	if (AfxIsRemoteInterface())
+		return;
 	if (!m_sPngCurrImage.IsEmpty())
 	{
 		CTBNamespace nsImage(CTBNamespace::IMAGE, m_sPngCurrImage);
@@ -775,6 +777,8 @@ CPaneButton::~CPaneButton()
 //--------------------------------------------------------------------------------
 void CPaneButton::LoadCurrentImage()
 {
+	if (AfxIsRemoteInterface())
+		return;
 	if (m_pBitmapCurrImage == NULL)
 	{
 		Gdiplus::Bitmap* pBmp;

@@ -205,7 +205,16 @@ void HotKeyLink::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 
 	m_pRecord->GetJson(jsonSerializer, bOnlyWebBound);
 
-	jsonSerializer.CloseObject();
+	jsonSerializer.CloseObject(TRUE);
+}
+//-----------------------------------------------------------------------------	
+void HotKeyLink::GetJsonPatch(CJsonSerializer& jsonSerializer)
+{
+	if (!m_pRecord)
+		return;
+	jsonSerializer.OpenObject(GetName());
+	m_pRecord->GetJsonPatch(jsonSerializer, NULL);
+	jsonSerializer.CloseObject(TRUE);
 }
 //-----------------------------------------------------------------------------
 void HotKeyLink::CloseTable()

@@ -293,6 +293,7 @@ public:
 	int		m_nUpdateDataViewLevel;
 	bool	m_bNeedsUpdateDataView;
 	bool	m_bUpdatingDataView;
+	bool	m_bWaitingForUpdateDataView;
 	int		m_nDisabled;
 	bool	m_bWarnWhenEmptyQuery;
 	Array	m_arDataSourceAliases;

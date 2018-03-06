@@ -73,7 +73,7 @@ TB_EXPORT bool ProcessOfficeFile(CString&  application, CString&  ns, CString&  
 TB_EXPORT void CloseCustomizationContext();
 TB_EXPORT void InitTBPostLogin(HWND menuHandle, CString& token, CString& username, bool clearCacheData, CString& culture, CString& uiCulture, CString& messages);
 TB_EXPORT void SendCurrentToken(HWND menuHandle, CString& token);
-TB_EXPORT bool DbCheck(CString& authToken, CString& messages);
+TB_EXPORT bool DbCheck(const CString& authToken, CString& messages);
 TB_EXPORT BOOL CloneAsEasyStudioDocument(CString strOriginalNs, CString strNewNs, CString strNewTitle);
 TB_EXPORT CString CheckMenuReload(CLoginContext* pLoginContext, CString strConnection, CString strLogFileName);
 TB_EXPORT BOOL ParseMenuInfinity(CLoginContext* pLoginContext, CString strConnection, CString strXmlDoc, CString strLogFileName);

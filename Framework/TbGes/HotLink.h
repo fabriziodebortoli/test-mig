@@ -164,6 +164,7 @@ public:
 	void			OnFormRecordAvailable	();
 	void			OnFormDied				();
 	void			GetJson					(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
+	void			GetJsonPatch			(CJsonSerializer& jsonSerializer);
 public:
 	// non overloadabili dal programmatore
 	virtual	void	AttachDocument	(CBaseDocument* pDocument);

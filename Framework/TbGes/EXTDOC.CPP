@@ -483,6 +483,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_nUpdateDataViewLevel(0),
 	m_bNeedsUpdateDataView(false),
 	m_bUpdatingDataView(false),
+	m_bWaitingForUpdateDataView(false),
 	m_nDisabled(0),
 	m_bWarnWhenEmptyQuery(true),
 	m_bFavoritesState(FALSE),
@@ -747,8 +748,6 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 					if (pDataObj)
 					{
 						pDataObj->SetWebBound();
-						pDataObj->SetObjectName(sVar);
-						pDataObj->AttachEvents(this);
 					}
 				}
 			}
@@ -774,8 +773,6 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 						if (pDataObj)
 						{
 							pDataObj->SetWebBound();
-							pDataObj->SetObjectName(sKey + _T("/") + sVar);
-							pDataObj->AttachEvents(this);
 						}
 					}
 			}
@@ -3106,7 +3103,9 @@ void CAbstractFormDoc::OnTimer(UINT nTimer)
 {
 	if (nTimer == IDT_UPDATEDATAVIEW)
 	{
-		ExecuteUpdateDataView();
+		//qualcuno potrebbe averla forzata nel frattempo
+		if (m_bWaitingForUpdateDataView)
+			ExecuteUpdateDataView();
 		GetMasterFrame()->KillTimer(IDT_UPDATEDATAVIEW);
 	}
 }
@@ -3115,19 +3114,23 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 {
 	if (m_bClosing || m_bUpdatingDataView)
 		return;
-	//ottimizzazione: se sono in un contesto che effettua pi� refresh nidificati, 
+	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	if (m_nUpdateDataViewLevel > 0 && !bForce)
 	{
 		m_bNeedsUpdateDataView = true;
 		return;
 	}
-	m_bUpdatingDataView = true;
+	//se sto aspettando il timer per effettuare l'update e non devo forzare il refresh, esco
+	if (m_bWaitingForUpdateDataView && !bForce)
+		return;
+
 	int delay = GetRefreshDelay();
 	if (bForce || delay <= 0)
 		ExecuteUpdateDataView();
 	else
 	{
+		m_bWaitingForUpdateDataView = true;
 		CLocalizableFrame* pFrame = GetFrame();
 		if (pFrame && pFrame->IsKindOf(RUNTIME_CLASS(CAbstractFormFrame)))
 			((CAbstractFormFrame*)pFrame)->SetTimer(IDT_UPDATEDATAVIEW, GetRefreshDelay(), NULL);
@@ -3140,7 +3143,9 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::ExecuteUpdateDataView()
 {
+	CLocalChange<bool> _loc (m_bUpdatingDataView, true);
 	m_bNeedsUpdateDataView = false;
+	m_bWaitingForUpdateDataView = false;
 	//soppressa ottimizzazione: veniva alterato l'ordine delle chiamate 
 	//(UpdateDataView chiamata dopo della setDefaultFocus invece che prima, questo faceva assegnare il fuoco ad un controllo sbagliato)
 
@@ -3150,13 +3155,11 @@ void CAbstractFormDoc::ExecuteUpdateDataView()
 		!m_pXMLDataManager->UseOldXTechMode()
 		)
 	{
-		m_bUpdatingDataView = false;
 		return;
 	}
 
 	if (m_viewList.IsEmpty())
 	{
-		m_bUpdatingDataView = false;
 		return;
 	}
 
@@ -3201,8 +3204,6 @@ void CAbstractFormDoc::ExecuteUpdateDataView()
 		pSession->PushDataToClients(this);
 		pSession->PushButtonsStateToClients(GetFrame()->m_hWnd);
 	}
-	
-	m_bUpdatingDataView = false;
 }
 
 // Itera nelle view (ed alle tabdialog al loro interno) per frammentare localmente
@@ -7786,54 +7787,7 @@ void CAbstractFormDoc::DispatchOnActivate(CAbstractFormFrame* pFrame, UINT nStat
 		m_pClientDocs->OnActivate(pFrame, nState, pWndOther, bMinimized);
 }
 
-//-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound = TRUE)
-{
-	CString id = GetComponentId();
-	if (id == _T("0"))
-	{
-		return;
-	}
 
-	jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
-	if (m_bJsonDataSent)
-	{
-		GetJsonPatch(jsonSerializer);
-		return;
-	}
-
-	CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(this->GetFirstView());
-	if (pView)
-		m_pHeaderTitle->Assign(pView->GetCaption());
-
-	jsonSerializer.OpenObject(_T("data"));
-	CXMLVariable* pVariable;
-	if (m_pVariablesArray)
-	{
-		for (int i = 0; i < m_pVariablesArray->GetSize(); i++)
-		{
-			pVariable = m_pVariablesArray->GetAt(i);
-			if (!bOnlyWebBound || pVariable->GetDataObj()->IsWebBound())
-			{
-				jsonSerializer.OpenObject(pVariable->GetName());
-				pVariable->GetDataObj()->SerializeToJson(jsonSerializer, false);
-				jsonSerializer.CloseObject();
-			}
-		}
-	}
-
-	if (m_pDBTMaster)
-		m_pDBTMaster->GetJson(TRUE, jsonSerializer, bOnlyWebBound);
-
-	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
-	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
-	{
-		HotKeyLink* pHotKeyLink = (HotKeyLink*)m_pHotKeyLinks->GetAt(i);
-		pHotKeyLink->GetJson(jsonSerializer, bOnlyWebBound);
-	}
-	jsonSerializer.CloseObject();
-	m_bJsonDataSent = TRUE;
-}
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName)
 {
@@ -7938,36 +7892,91 @@ void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString 
 #endif
 	}
 }
+
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound = TRUE)
+{
+	CString id = GetComponentId();
+	if (id == _T("0"))
+	{
+		return;
+	}
+	CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(this->GetFirstView());
+	if (pView)
+		m_pHeaderTitle->Assign(pView->GetCaption());
+
+	if (m_bJsonDataSent)
+	{
+		GetJsonPatch(jsonSerializer);
+		if (!jsonSerializer.IsCurrentEmpty())
+			jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
+		return;
+	}
+
+	jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
+
+	jsonSerializer.OpenObject(_T("data"));
+	CXMLVariable* pVariable;
+	if (m_pVariablesArray)
+	{
+		for (int i = 0; i < m_pVariablesArray->GetSize(); i++)
+		{
+			pVariable = m_pVariablesArray->GetAt(i);
+			if (!bOnlyWebBound || pVariable->GetDataObj()->IsWebBound())
+			{
+				jsonSerializer.OpenObject(pVariable->GetName());
+				pVariable->GetDataObj()->SerializeToJson(jsonSerializer, false);
+				jsonSerializer.CloseObject();
+			}
+		}
+	}
+
+	if (m_pDBTMaster)
+		m_pDBTMaster->GetJson(TRUE, jsonSerializer, bOnlyWebBound);
+
+	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
+	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
+	{
+		HotKeyLink* pHotKeyLink = (HotKeyLink*)m_pHotKeyLinks->GetAt(i);
+		pHotKeyLink->GetJson(jsonSerializer, bOnlyWebBound);
+	}
+	jsonSerializer.CloseObject();
+	m_bJsonDataSent = TRUE;
+}
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
 {
 	jsonSerializer.OpenObject(_T("patch"));
-	for (int i = 0; i < m_ModifiedData.GetSize(); i++)
+	CXMLVariable* pVariable;
+	if (m_pVariablesArray)
 	{
-		DataObj* pDataObj = m_ModifiedData.GetAt(i);
-		//controllo aggiuntivo: potrebbe essere cambiato pi� volte fino a riacquistare il valore originario
-		if (!pDataObj->HasChangedForJson())
-			continue;
-		CString sPath = pDataObj->GetObjectName();
-		int curPos = 0, tokens = 0;;
-		CString strToken = sPath.Tokenize(_T("/"), curPos);
-		while (!strToken.IsEmpty())
+		for (int i = 0; i < m_pVariablesArray->GetSize(); i++)
 		{
-			jsonSerializer.OpenObject(strToken);
-			tokens++;
-			strToken = sPath.Tokenize(_T("/"), curPos);
+			pVariable = m_pVariablesArray->GetAt(i);
+			if (pVariable->GetDataObj()->IsWebBound() && pVariable->GetDataObj()->HasChangedForJson())
+			{
+				jsonSerializer.OpenObject(pVariable->GetName());
+				pVariable->GetDataObj()->SerializeToJson(jsonSerializer, true);
+				jsonSerializer.CloseObject();
+			}
 		}
-		pDataObj->SerializeToJson(jsonSerializer, true);
-		for (int i = 0; i < tokens; i++)
-			jsonSerializer.CloseObject();
+	}
+
+	if (m_pDBTMaster)
+		m_pDBTMaster->GetJsonPatch (jsonSerializer);
+
+	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
+	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
+	{
+		HotKeyLink* pHotKeyLink = (HotKeyLink*)m_pHotKeyLinks->GetAt(i);
+		pHotKeyLink->GetJsonPatch(jsonSerializer);
 	}
 	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
 	{
 		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
-		if (pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
-			((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer);
+		((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer);
 	}
-	jsonSerializer.CloseObject();
+	jsonSerializer.CloseObject(TRUE);
 
 	m_ModifiedData.RemoveAll();
 }

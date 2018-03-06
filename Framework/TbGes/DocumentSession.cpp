@@ -635,6 +635,7 @@ void CDocumentSession::PushDataToClients()
 		return;
 	if (m_nSuspendPushToClient == 0 && m_arJsonModelsToNotify.GetSize())
 	{
+		bool bEmpty = true;
 		BEGIN_JSON_RESPONSE(ModelData);
 		resp.OpenArray(_T("models"));
 		for (int i = 0; i < m_arJsonModelsToNotify.GetSize(); i++)
@@ -642,11 +643,13 @@ void CDocumentSession::PushDataToClients()
 			IJsonModelProvider* pProvider = m_arJsonModelsToNotify[i];
 			resp.OpenObject(i);
 			pProvider->GetJson(resp, m_bPushOnlyWebBoundData);
-			resp.CloseObject();
+			resp.CloseObject(TRUE);
 		}
-		resp.CloseArray();
+		resp.CloseArray(TRUE);
+		bEmpty = resp.IsCurrentEmpty();
 		END_JSON_RESPONSE();
-		PushToClients(resp);
+		if (!bEmpty)
+			PushToClients(resp);
 		m_arJsonModelsToNotify.RemoveAll();
 	}
 }

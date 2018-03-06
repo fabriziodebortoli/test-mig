@@ -697,9 +697,34 @@ void CJsonSerializer::OpenObject()
 	m_Stack.push(&pNewVal);
 }
 //-----------------------------------------------------------------------------
-void CJsonSerializer::CloseObject()
+void CJsonSerializer::CloseObject(BOOL bRemoveIfEmpty /*= FALSE*/)
 {
+	Json::Value* pValToRemove = NULL;
+	if (bRemoveIfEmpty)
+	{
+		pValToRemove = m_Stack.top();
+		if (!pValToRemove->empty())
+		{
+			pValToRemove = NULL;
+		}
+	}
 	m_Stack.pop();
+	if (pValToRemove)
+	{
+		Json::Value* pParent = m_Stack.top();
+		Json::ValueIterator itEnd = pParent->end();
+		for (Json::ValueIterator it = pParent->begin(); it != itEnd; it++)
+			if (&*it == pValToRemove)
+			{
+				const Json::Char* szName = it.memberName();
+				if (szName && szName[0])
+					pParent->removeMember(szName);
+				else
+					pParent->resize(it.index());
+				break;
+			}
+		
+	}
 }
 
 
@@ -713,11 +738,16 @@ void CJsonSerializer::OpenArray(const CString sName /*_T("")*/)
 }
 
 //-----------------------------------------------------------------------------
-void CJsonSerializer::CloseArray()
+void CJsonSerializer::CloseArray(BOOL bRemoveIfEmpty /*= FALSE*/)
 {
-	m_Stack.pop();
+	CloseObject(bRemoveIfEmpty);
 }
 
+//-----------------------------------------------------------------------------
+bool CJsonSerializer::IsCurrentEmpty()
+{
+	return (*m_Stack.top()).empty();
+}
 //-----------------------------------------------------------------------------
 void CJsonSerializer::WriteJsonFragment(LPCTSTR sName, LPCTSTR sFragment)
 {

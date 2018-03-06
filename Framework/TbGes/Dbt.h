@@ -204,6 +204,7 @@ public:
 	virtual	BOOL		PrepareSymbolTable	(SymTable*);
 	virtual DBTObject*	GetDBTObject		(SqlRecord*);
 
+	virtual void		GetJsonPatch(CJsonSerializer& jsonSerializer); 
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound) = 0;
 	virtual bool		SetJson(CJsonParser& jsonParser) = 0;
 
@@ -804,7 +805,7 @@ public:
 	DBTObject*	GetDBTObject(const CTBNamespace&	aNs) const;
 	DBTObject*	GetDBTByName(const CString& sDbtName) const;
 	virtual DBTObject*	GetDBTObject (SqlRecord*);
-	void				GetJsonPatch(CJsonSerializer& jsonSerializer);
+	virtual void		GetJsonPatch(CJsonSerializer& jsonSerializer);
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	virtual bool		SetJson(CJsonParser& jsonParser);
 	

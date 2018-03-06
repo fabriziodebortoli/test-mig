@@ -2,8 +2,8 @@
 #include <TbNameSolver\Templates.h>
 #include <TbNameSolver\LoginContext.h>
 #include <TbGenlibManaged\GlobalFunctions.h>
-#include <TbGenlibManaged\MenuFunctions.h>
 #include <TbGenlibManaged\HelpManager.h>
+#include <TbGenlibManaged\MenuFunctions.h>
 #include <TbWoormEngine\REPORT.H>
 #include <tbges\DocumentSession.h>
 #include <tbges\DBT.H>
@@ -417,16 +417,6 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	CString isDesktop = params.GetValueByName(_T("isDesktop"));
 	CJSonResponse jsonResponse;
 
-	CString messages;
-	bool ok = DbCheck(authToken, messages);
-	if (!ok)
-	{
-		jsonResponse.SetError();
-		jsonResponse.SetMessage(messages);
-		response.SetData(jsonResponse);
-		return;
-	}
-
 	//TODOLUCA, comunicazione che vengo da desktop, da rivedere
 	BOOL isRemoteInterface = isDesktop != _T("true");
 
@@ -454,7 +444,9 @@ void CTbWebHandler::InitTBLoginFunction(const CString& path, const CNameValueCol
 	}
 	if (pContext == NULL)
 	{
-		//_TB("Invalid LoginContext. Check if company database is up to date."));
+		CDiagnostic* pDiagnostic = AfxGetDiagnostic();
+		if (pDiagnostic->MessageFound(TRUE))
+			pDiagnostic->ToJson(jsonResponse);
 		jsonResponse.SetError();
 		
 		response.SetData(jsonResponse);

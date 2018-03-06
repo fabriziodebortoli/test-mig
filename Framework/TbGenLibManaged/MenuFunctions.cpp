@@ -644,7 +644,7 @@ void CloseCustomizationContext()
 }
 
 //---------------------------------------------------------------------------------------
-bool DbCheck(CString& authToken, CString& messages)
+bool DbCheck(const CString& authToken, CString& messages)
 {
 	try
 	{

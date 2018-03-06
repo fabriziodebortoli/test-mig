@@ -759,7 +759,18 @@ CNumbererRequest* DBTObject::BindAutonumber(DataObj* pDataBinding, const CString
 	GetNumbererBinder()->BindAutonumber(pRequest, pParams);
 	return pRequest;
 }
+//-----------------------------------------------------------------------------	
+void DBTObject::GetJsonPatch(CJsonSerializer& jsonSerializer)
+{
+	jsonSerializer.OpenObject(GetName());
 
+	SqlRecord *pRecord = GetRecord();
+	if (pRecord)
+	{
+		pRecord->GetJsonPatch(jsonSerializer, NULL);
+	}
+	jsonSerializer.CloseObject(TRUE);
+}
 //--------------------------------------------------------------------------
 BOOL DBTObject::PrepareSymbolTable(SymTable* pTable)
 {
@@ -4236,7 +4247,7 @@ void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer)
 	{
 		jsonSerializer.OpenObject(GetName());
 		m_pJsonCache->GetJsonPatch(jsonSerializer);
-		jsonSerializer.CloseObject();
+		jsonSerializer.CloseObject(TRUE); 
 	}
 }
 

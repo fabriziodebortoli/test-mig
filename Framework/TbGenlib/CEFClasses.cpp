@@ -8,6 +8,8 @@
 #include <TbGeneric\SettingsTable.h>
 #include <TbGeneric\ParametersSections.h>
 
+#include <TbGenlibManaged\MenuFunctions.h>
+
 #include "TBCommandInterface.h"
 
 #include "CEFClasses.h"
@@ -451,6 +453,13 @@ CLoginContext* CTBRequestHandlerObj::GetLoginContext(const CString& authToken, B
 		pContext = AfxGetLoginContext(authToken);
 		if (!pContext)
 		{
+			CString messages;
+			bool ok = DbCheck(authToken, messages);
+			if (!ok)
+			{
+				AfxGetDiagnostic()->Add(messages);
+				return NULL;
+			}
 			pContext = AfxInvokeThreadFunction<CLoginContext*, CTBRequestHandlerObj, CString>(AfxGetApplicationContext()->GetAppMainWnd(), this, &CTBRequestHandlerObj::Login, authToken);
 		}
 	}

@@ -130,9 +130,9 @@ public:
 	void OpenObject		(const CString sName);
 	void OpenObject		(int index);
 	void OpenObject		();
-	void CloseObject	();
+	void CloseObject	(BOOL bRemoveIfEmpty=FALSE);
 	void OpenArray		(const CString sName);// = _T(""));
-	void CloseArray		();
+	void CloseArray		(BOOL bRemoveIfEmpty=FALSE);
 	void WriteValue(int index, Json::Value value, LPCTSTR sComment = NULL);
 	void WriteValue(LPCTSTR sName, Json::Value value, LPCTSTR sComment = NULL);
 	void WriteBool(int index, bool bValue, LPCTSTR sComment = NULL);
@@ -143,7 +143,7 @@ public:
 	void WriteDouble(LPCTSTR sName, double dValue, LPCTSTR sComment=NULL);
 	void WriteJsonFragment(LPCTSTR sName, LPCTSTR sFragment);
 	void Reset();
-
+	bool IsCurrentEmpty();
 	virtual void Clear();
 
 private:	

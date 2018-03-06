@@ -2450,18 +2450,30 @@ void SqlRecord::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 //-----------------------------------------------------------------------------	
 void SqlRecord::GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld)
 {
-	ASSERT(GetSizeEx() == pOld->GetSizeEx());
+	ASSERT(!pOld || (GetSizeEx() == pOld->GetSizeEx()));
 
 	for (int i = 0; i < GetSizeEx(); i++)
 	{
 		SqlRecordItem *pItem = GetAt(i);
 		DataObj* pData = pItem->GetDataObj();
-		DataObj* pOldData = pOld->GetDataObjAt(i);
-		if (pData->HasChangedForJson(pOldData))
+		if (pOld)
 		{
-			jsonSerializer.OpenObject(pItem->GetBindingName());
-			pData->SerializeToJson(jsonSerializer, false, pOldData);
-			jsonSerializer.CloseObject();
+			DataObj* pOldData = pOld->GetDataObjAt(i);
+			if (pData->HasChangedForJson(pOldData))
+			{
+				jsonSerializer.OpenObject(pItem->GetBindingName());
+				pData->SerializeToJson(jsonSerializer, true);
+				jsonSerializer.CloseObject();
+			}
+		}
+		else
+		{
+			if (pData->HasChangedForJson())
+			{
+				jsonSerializer.OpenObject(pItem->GetBindingName());
+				pData->SerializeToJson(jsonSerializer, true);
+				jsonSerializer.CloseObject();
+			}
 		}
 	}
 }
