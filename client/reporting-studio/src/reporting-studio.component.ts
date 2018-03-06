@@ -369,8 +369,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
   // -----------------------------------------------
   closeReport() {
-    /*event.stopImmediatePropagation();
-    info.document.close();*/
+    this.rsService.close();
   }
 
 
