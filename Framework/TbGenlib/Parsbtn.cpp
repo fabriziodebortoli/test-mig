@@ -589,7 +589,8 @@ void CExtButton::SetPngImages (UINT nIDStdImage, UINT nIDAltImage /*0*/)
 	m_nPngIDAltImage = nIDAltImage; 
 	m_nPngCurrImage = nIDStdImage;
 
-	LoadCurrentImage();
+	if (!AfxIsRemoteInterface())
+		LoadCurrentImage();
 }
 
 //-----------------------------------------------------------------------------
@@ -599,7 +600,8 @@ void CExtButton::SetPngImages(CString sNSStdImage, CString sNSAltImage /*= _T(""
 	m_sPngNSAltImage = sNSAltImage;
 	m_sPngCurrImage = sNSStdImage;
 
-	LoadCurrentImage();
+	if (!AfxIsRemoteInterface())
+		LoadCurrentImage();
 }
 
 //-----------------------------------------------------------------------------
