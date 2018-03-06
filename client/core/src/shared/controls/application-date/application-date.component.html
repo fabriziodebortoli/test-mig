@@ -2,9 +2,13 @@
     <m4-icon icon="erp-calendarflash" matTooltip="{{_TB('Operation Date')}}: {{applicationDate | date: dateFormat  }}" matTooltipShowDelay="500"></m4-icon>
 </div>
 
+
 <kendo-dialog title="{{_TB('Change application date')}}" *ngIf="opened" (close)="cancel()">
+
+    {{applicationDate | date: dateFormat }}
     <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
-        <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker><br />
+
+        <kendo-calendar [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-calendar>
     </div>
     <kendo-dialog-actions>
         <button kendoButton (click)="cancel()" class="k-secondary">{{_TB('Cancel')}}</button>

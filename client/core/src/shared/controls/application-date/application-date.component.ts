@@ -75,7 +75,6 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
         this.opened = true;
     }
 
-
     public ok() {
         this.httpMenuService.changeApplicationDate(this.internalDate)
             .subscribe((tbRes: OperationResult) => {
