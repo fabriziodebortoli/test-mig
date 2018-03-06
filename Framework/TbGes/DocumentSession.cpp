@@ -631,6 +631,8 @@ void CDocumentSession::PushMessageMapToClients(CAbstractFormDoc* pDoc)
 //----------------------------------------------------------------------------
 void CDocumentSession::PushDataToClients()
 {
+	if (InterlockedDecrement16(&m_nPushDataNeedLevel) > 0)
+		return;
 	if (m_nSuspendPushToClient == 0 && m_arJsonModelsToNotify.GetSize())
 	{
 		BEGIN_JSON_RESPONSE(ModelData);
@@ -670,6 +672,11 @@ void CDocumentSession::SuspendPushToClient()
 {
 	m_nSuspendPushToClient++;
 
+}
+//----------------------------------------------------------------------------
+void CDocumentSession::PushDataNeeded()
+{
+	InterlockedIncrement16(&m_nPushDataNeedLevel);
 }
 
 //----------------------------------------------------------------------------

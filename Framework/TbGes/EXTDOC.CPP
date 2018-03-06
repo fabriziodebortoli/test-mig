@@ -748,6 +748,7 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 					{
 						pDataObj->SetWebBound();
 						pDataObj->SetObjectName(sVar);
+						pDataObj->AttachEvents(this);
 					}
 				}
 			}
@@ -774,6 +775,7 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 						{
 							pDataObj->SetWebBound();
 							pDataObj->SetObjectName(sKey + _T("/") + sVar);
+							pDataObj->AttachEvents(this);
 						}
 					}
 			}

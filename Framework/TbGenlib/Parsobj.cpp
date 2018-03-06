@@ -8777,19 +8777,8 @@ void CParsedCtrl::EnableDrop(BOOL bEnable /*= TRUE*/, CParsedCtrlDropTarget* pDr
 void CParsedCtrl::UpdateViewModel(BOOL bParentIsVisible)
 {
 	if (AfxIsRemoteInterface())
-	{
-		if ((
-			IsDataModified() ||
-			ForceUpdateCtrlView()
-			) &&
-			m_pData && 
-			m_pData->IsWebBound() &&
-			m_pDocument )
-		{
-			m_pDocument->AddModifiedData(m_pData);
-		}
 		return;
-	}
+	
 	CWnd* pWnd = GetCtrlCWnd();
 	if (!pWnd || !pWnd->m_hWnd)
 		return;

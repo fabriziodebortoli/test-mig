@@ -498,7 +498,6 @@ public:
 	void 	SetBrowseOnCreate	(BOOL bSet = FALSE)	{ m_bBrowseOnCreate	= bSet;			}
 	void	SetBrowseOnFirstRecord(BOOL bSet = FALSE) { m_bBrowseOnFirstRecord = bSet; }
 	void	DisableFamilyClientDoc	(BOOL bSet = FALSE)	{ m_bNoFamilyClientDoc = bSet;  }
-
 	virtual CString GetDefaultReport			();
 	virtual CString GetDefaultForm				();
 	virtual CString GetDefaultTitleForm			();

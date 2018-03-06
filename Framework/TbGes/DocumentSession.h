@@ -30,6 +30,7 @@ class TB_EXPORT CDocumentSession : public CDocumentSessionObj
 {
 private:
 	int							m_nSuspendPushToClient = 0;
+	short						m_nPushDataNeedLevel = 0;
 	bool						m_bUpdateUINeeded = false;
 	bool						m_bIgnoreModelChanges = false;
 	
@@ -77,6 +78,7 @@ public:
 	void PushButtonsStateToClients(HWND hwnd);
 	void SuspendPushToClient();
 	void ResumePushToClient();
+	void PushDataNeeded();
 	void PushBehavioursToClient(IBehaviourContext* pProvider);
 
 private:

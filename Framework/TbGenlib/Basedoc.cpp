@@ -247,15 +247,19 @@ void CBaseDocument::SetNamespace (const CTBNamespace& aNamespace)
 { 
 	GetInfoOSL()->m_Namespace = aNamespace; 
 }
-
-//-----------------------------------------------------------------------------
-void CBaseDocument::AddModifiedData(DataObj* pData)
+//-----------------------------------------------------------------------------	
+void CBaseDocument::Signal(CObservable* pSender, EventType eType)
 {
-	for (int i = 0; i < m_ModifiedData.GetCount(); i++)
-		if (m_ModifiedData[i] == pData)
-			return;
-	m_ModifiedData.Add(pData);
+	if (eType == ON_CHANGED)
+	{
+		for (int i = 0; i < m_ModifiedData.GetCount(); i++)
+			if (m_ModifiedData[i] == pSender)
+				return;
+
+		m_ModifiedData.Add((DataObj*)pSender);
+	}
 }
+
 //-----------------------------------------------------------------------------
 const CDocumentDescription*	CBaseDocument::GetXmlDescription ()
 {
