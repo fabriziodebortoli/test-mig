@@ -4,23 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Microarea.EasyStudio.Controllers
+namespace Microarea.EasyStudio.Common
 {
-    public enum MessageType { Error, Success, Info };
+    public enum MsgType { Error, Success, Info };
 
     //=========================================================================
     public class ControllerDiagnosticMessage
     {
         //-------------------------------------------------------------------
-        MessageType type;
+        MsgType type;
         string message;
 
         //-------------------------------------------------------------------
-        public MessageType Type { get => type; }
+        public MsgType Type { get => type; }
         public string Message { get => message; }
 
         //-------------------------------------------------------------------
-        public ControllerDiagnosticMessage(MessageType type, string message)
+        public ControllerDiagnosticMessage(MsgType type, string message)
         {
             this.type = type;
             this.message = message;
@@ -31,7 +31,7 @@ namespace Microarea.EasyStudio.Controllers
     public class ControllerDiagnostic
     {
         //-------------------------------------------------------------------
-        public static string ToJson(MessageType type, string text)
+        public static string ToJson(MsgType type, string text)
         {
             ControllerDiagnosticMessage message = new ControllerDiagnosticMessage(type, text);
             return  JsonConvert.SerializeObject(message);
