@@ -35,7 +35,8 @@
         line-height: 35px;
         height: 35px;
         margin: 0;
-        padding: 0 8px 0 0;
+        //padding: 0 8px 0 0;
+        text-align: left;
         /** da riparlarne */
         display: none;
     }
@@ -95,21 +96,37 @@
     margin-top: 4px;
 }
 
+/* COLORS */
+$white: #ffffff;
+$bkg-medium: #0277bd;
+$shadow: rgba(205,210,214,.8);
 :host-context(.dropDownButton) {
-    .k-button {
-        background: #ffffff;
+    ::ng-deep.k-button {
         border: 0px;
         width: 100%;
-        color: black;
+        color: $white;
         cursor: pointer;
         line-height: 30px;
         font-size: 14px;
         font-weight: 400;
         border-radius: 0px;
-        &:hover,
-        &:focus,
-        &:active {
-            background: #f7f7f7;
+        padding: 0px 18px 0px 18px;
+        ::ng-deep &:hover,
+        ::ng-deep  &:focus{
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            background: $darkblue;
+            border-color: $darkblue;
+            color: $white;
+            tb-icon,
+            i {
+                color: $white;
+            }
+        }
+
+        ::ng-deep &:active {
+            background-color: $bkg-medium;
+            box-shadow: none;
+            color:$white;
             border: 0px;
         }
     }
@@ -118,23 +135,44 @@
         text-align: left;
         display: flex;
     }
-    tb-icon {
+    tb-icon,
+    &:first-child tb-icon, 
+    &:last-child tb-icon,
+    &:only-child tb-icon
+    {
         width: 35px;
         font-size: 20px;
-        margin: 0;
+        margin: 0px;
         padding-top: 0px;
         box-shadow: none;
         background-color: transparent;
         transition: none;
         border: 0px;
-        border-left: none;
-        color: black;
+        color: $white;
         line-height: 30px;
         font-weight: 400;
         border-radius: 0px;
         text-align: left;
-        padding-left: 5px;
+        //padding-left: 5px;
+
+        &:hover {
+            background-color: transparent;
+            color:$white;
+            tb-icon,
+            i {
+                color: $white;
+            }
+        }
+        &:active {
+            color: $white;
+        }
     }
+    .top-button {
+        padding: 0px 18px 0px 18px;
+        height: 35px;
+    }
+    
+    
     m4-icon {
         font-size: 30px;
         width: 35px;

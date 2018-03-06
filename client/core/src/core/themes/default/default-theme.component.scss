@@ -12,3 +12,32 @@
         color:  #9f9f9f;
     }
 }
+/* COLORS */
+$white: #ffffff;
+$bkg-medium: #0277bd;
+$shadow: rgba(205,210,214,.8);
+$darkblue:#00578c;
+.default {
+.dropDownButton{
+    .k-button {
+        &:hover,
+        &:focus{
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            background: $darkblue;
+            border-color: $darkblue;
+            color: $white;
+            tb-icon,
+            i {
+                color: $white;
+            }
+        }
+
+        &:active {
+            background-color: $bkg-medium;
+            box-shadow: none;
+            color:$white;
+            border: 0px;
+        }
+     }
+}
+}

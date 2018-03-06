@@ -1,14 +1,11 @@
   
-<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
-    <tb-toolbar-top-button icon="tb-menu2" cmpId="_BUTTONGROUPADVANCED"></tb-toolbar-top-button>
-    <kendo-popup *ngIf="show" class='wrapper' [anchor]="anchor" (anchorViewportLeave)="outView(null)" 
-    (open)="onOpen()" [collision]="collision" 
-    [anchorAlign]="anchorAlign" 
-    [popupAlign]="popupAlign" 
-    (blur)="closePopupIf()"
-    >
-    <div class="popup">
-        <ng-content></ng-content>
+<div id="content" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
+<div class="content">
+    <div class="row">
+      <a href="#" class="tooltip bottom">
+        <tb-toolbar-top-button icon="tb-menu2" cmpId="_BUTTONGROUPADVANCED"></tb-toolbar-top-button>
+        <span class="tooltip-content"> <ng-content></ng-content></span>
+      </a>
     </div>
-    </kendo-popup>
+</div>
 </div>

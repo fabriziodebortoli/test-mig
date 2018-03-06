@@ -1,41 +1,77 @@
+/* COLORS */
+$white: #ffffff;
+$bkg-medium: #0277bd;
+$shadow: rgba(205,210,214,.8);
+
 .k-button{
-    background:   #ffffff;
+    background: $white;
     border: 0px;
-    width: 100%;
     &:hover, &:focus, &:active{
         background: #f7f7f7;
         border: 0px;
     }
 }
-
-.popup
-{
-   border: 1px solid #b9b7b7;
-   width: inherit;
-   flex-direction: column;
-   flex-wrap: wrap;
-   width: 150px;
-   background: white;
-}
-/*triangolino*/
-
-kendo-popup[style] {
-    background: transparent !important;
-    top: 130px  !important;
-    border: 0px !important;
-    box-shadow: none !important;
- }
- 
- .wrapper:before {
-    content: "";
-    width: 0;
-    height: 0;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
-    border-bottom: 8px solid #b9b7b7;
-    position: relative;
-    left: 136px;
-    top:  -5.5px;
-    z-index: 9999;
+.row {
+  display: flex;
+  margin: auto;
 }
 
+a {
+  text-decoration: none;
+}
+
+.btn {
+  margin: 0 .5em;
+}
+
+
+
+/* TOOLTIP 
+https://codepen.io/elhombretecla/pen/KWXJRv
+*/
+::ng-deep .tooltip {
+  position: relative;
+  overflow: hidden;
+  &:hover {
+    overflow: visible;
+    .tooltip-content {
+      opacity: 1;
+    }
+  }
+  
+  .tooltip-content {
+    background: $bkg-medium;
+    box-shadow: 0 5px 25px 5px $shadow;
+    box-sizing: border-box;
+    color: $white;
+    font-size: 12px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    max-width: 200px;
+    min-width: 145px;
+    padding: 1em;
+    position: absolute;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 99999999999;
+    &::after {
+      background: $bkg-medium;
+      content: "";
+      height: 10px;
+      position: absolute;
+      transform: rotate(45deg);
+      width: 10px;
+    }
+  }
+  &.bottom {
+    .tooltip-content {
+      bottom: calc(-500% - 1.8em);
+      left: calc(-100% - 3em);
+      transform: translateX(-50%);
+      &::after {
+        top: -5px;
+        left: 188px;
+      }
+    }
+  }
+}
