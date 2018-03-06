@@ -215,103 +215,103 @@ namespace Microarea.Common.StringLoader
 			return true;
 		}
 */
-		//--------------------------------------------------------------------------------
-		public static FormInfo GetWindowInfosFromPoint(Process proc, IntPtr windowHandle, Point screenPoint)
-		{
-			IntPtr controlHandle = windowHandle;
-			//prima cerco una finestra che mi risponda
-			while (IntPtr.Zero != windowHandle && - 1 != SendMessage(windowHandle, ExternalAPI.UM_GET_LOCALIZER_INFO, IntPtr.Zero, IntPtr.Zero).ToInt32())
-				windowHandle = ExternalAPI.GetParent(windowHandle);
-			if (windowHandle == IntPtr.Zero)
-				return null;//non ho trovato finestre che gestiscono il mesaggio
-			IntPtr pRemoteBuffer = IntPtr.Zero;
-			try
-			{
-				FormInfo info = new FormInfo();
-				pRemoteBuffer = VirtualAllocEx(proc.SafeHandle.DangerousGetHandle(), IntPtr.Zero, remoteBufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-				PointInfo pi = new PointInfo();
-				pi.Pt = screenPoint;
-				byte[] bytes = pi.Unparse();
-				int tot = 0;
-				IntPtr localHGlobal = Marshal.AllocHGlobal(bytes.Length);
-				try
-				{
-					for (int i = 0; i < bytes.Length; i++)
-						 Marshal.WriteByte(localHGlobal, i, bytes[i]);
-					if (!WriteProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, bytes.Length, ref tot))
-						return null;
-				}
-				finally
-				{
-					Marshal.FreeHGlobal(localHGlobal);
-				}
-				int numBytes = SendMessage(windowHandle, ExternalAPI.UM_GET_LOCALIZER_INFO, pRemoteBuffer, controlHandle).ToInt32();
-				if (numBytes > 0)
-				{
-					localHGlobal = Marshal.AllocHGlobal(numBytes);
-					bool b = ReadProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, numBytes, ref tot);
+		////--------------------------------------------------------------------------------
+		//public static FormInfo GetWindowInfosFromPoint(Process proc, IntPtr windowHandle, Point screenPoint)
+		//{
+		//	IntPtr controlHandle = windowHandle;
+		//	//prima cerco una finestra che mi risponda
+		//	while (IntPtr.Zero != windowHandle && - 1 != SendMessage(windowHandle, ExternalAPI.UM_GET_LOCALIZER_INFO, IntPtr.Zero, IntPtr.Zero).ToInt32())
+		//		windowHandle = ExternalAPI.GetParent(windowHandle);
+		//	if (windowHandle == IntPtr.Zero)
+		//		return null;//non ho trovato finestre che gestiscono il mesaggio
+		//	IntPtr pRemoteBuffer = IntPtr.Zero;
+		//	try
+		//	{
+		//		FormInfo info = new FormInfo();
+		//		pRemoteBuffer = VirtualAllocEx(proc.SafeHandle.DangerousGetHandle(), IntPtr.Zero, remoteBufferSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+		//		PointInfo pi = new PointInfo();
+		//		pi.Pt = screenPoint;
+		//		byte[] bytes = pi.Unparse();
+		//		int tot = 0;
+		//		IntPtr localHGlobal = Marshal.AllocHGlobal(bytes.Length);
+		//		try
+		//		{
+		//			for (int i = 0; i < bytes.Length; i++)
+		//				 Marshal.WriteByte(localHGlobal, i, bytes[i]);
+		//			if (!WriteProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, bytes.Length, ref tot))
+		//				return null;
+		//		}
+		//		finally
+		//		{
+		//			Marshal.FreeHGlobal(localHGlobal);
+		//		}
+		//		int numBytes = SendMessage(windowHandle, ExternalAPI.UM_GET_LOCALIZER_INFO, pRemoteBuffer, controlHandle).ToInt32();
+		//		if (numBytes > 0)
+		//		{
+		//			localHGlobal = Marshal.AllocHGlobal(numBytes);
+		//			bool b = ReadProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, numBytes, ref tot);
 
-					bytes = new byte[numBytes];
-					for (int i = 0; i < numBytes; i++)
-						bytes[i] = Marshal.ReadByte(localHGlobal, i);
+		//			bytes = new byte[numBytes];
+		//			for (int i = 0; i < numBytes; i++)
+		//				bytes[i] = Marshal.ReadByte(localHGlobal, i);
 
-					Marshal.FreeHGlobal(localHGlobal);
-					info.Parse(bytes);
-					return info;
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-			}
-			finally
-			{
-				if (pRemoteBuffer != IntPtr.Zero)
-				{
-					bool res = VirtualFreeEx(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, 0, MEM_RELEASE);
-				}
-			}
-			return null;
-		}
+		//			Marshal.FreeHGlobal(localHGlobal);
+		//			info.Parse(bytes);
+		//			return info;
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Debug.Fail(ex.Message);
+		//	}
+		//	finally
+		//	{
+		//		if (pRemoteBuffer != IntPtr.Zero)
+		//		{
+		//			bool res = VirtualFreeEx(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, 0, MEM_RELEASE);
+		//		}
+		//	}
+		//	return null;
+		//}
 		
-		//--------------------------------------------------------------------------------
-		public static bool GetFormInfo(Process proc, IntPtr windowHandle, out FormInfo info)
-		{
-			IntPtr pRemoteBuffer = IntPtr.Zero;
-			info = new FormInfo();
-			try
-			{
-				pRemoteBuffer = VirtualAllocEx(proc.SafeHandle.DangerousGetHandle(), IntPtr.Zero, remoteBufferSize, MEM_COMMIT|MEM_RESERVE, PAGE_READWRITE);
-                int numBytes = 0;//TODO rs web  SendMessage(proc.MainWindowHandle, GetNamespaceMessage, pRemoteBuffer, windowHandle).ToInt32();
-				if (numBytes > 0)
-				{
-					IntPtr localHGlobal = Marshal.AllocHGlobal(numBytes);
-					int tot = 0;
-					bool b = ReadProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, numBytes, ref tot); 
+		////--------------------------------------------------------------------------------
+		//public static bool GetFormInfo(Process proc, IntPtr windowHandle, out FormInfo info)
+		//{
+		//	IntPtr pRemoteBuffer = IntPtr.Zero;
+		//	info = new FormInfo();
+		//	try
+		//	{
+		//		pRemoteBuffer = VirtualAllocEx(proc.SafeHandle.DangerousGetHandle(), IntPtr.Zero, remoteBufferSize, MEM_COMMIT|MEM_RESERVE, PAGE_READWRITE);
+  //              int numBytes = 0;//TODO rs web  SendMessage(proc.MainWindowHandle, GetNamespaceMessage, pRemoteBuffer, windowHandle).ToInt32();
+		//		if (numBytes > 0)
+		//		{
+		//			IntPtr localHGlobal = Marshal.AllocHGlobal(numBytes);
+		//			int tot = 0;
+		//			bool b = ReadProcessMemory(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, localHGlobal, numBytes, ref tot); 
 			
-					byte[] bytes = new byte[numBytes];
-					for (int i = 0; i < numBytes; i++)
-						bytes[i] = Marshal.ReadByte(localHGlobal, i);
+		//			byte[] bytes = new byte[numBytes];
+		//			for (int i = 0; i < numBytes; i++)
+		//				bytes[i] = Marshal.ReadByte(localHGlobal, i);
 					
-					Marshal.FreeHGlobal(localHGlobal);
-					info.Parse(bytes);
-					return true;
-				}
-			}
-			catch(Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				return false;
-			}
-			finally
-			{
-				if (pRemoteBuffer != IntPtr.Zero)
-				{
-					bool res = VirtualFreeEx(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, remoteBufferSize, MEM_RELEASE);
-				}
-			}
+		//			Marshal.FreeHGlobal(localHGlobal);
+		//			info.Parse(bytes);
+		//			return true;
+		//		}
+		//	}
+		//	catch(Exception ex)
+		//	{
+		//		Debug.Fail(ex.Message);
+		//		return false;
+		//	}
+		//	finally
+		//	{
+		//		if (pRemoteBuffer != IntPtr.Zero)
+		//		{
+		//			bool res = VirtualFreeEx(proc.SafeHandle.DangerousGetHandle(), pRemoteBuffer, remoteBufferSize, MEM_RELEASE);
+		//		}
+		//	}
 
-			return false;
-		}
+		//	return false;
+		//}
 	}
 }

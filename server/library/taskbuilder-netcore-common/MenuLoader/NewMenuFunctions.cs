@@ -53,11 +53,11 @@ namespace Microarea.Common.MenuLoader
 	//=======================================================================================================
 	public class NewMenuFunctions
 	{
-		//--------------------------------------------------------------------------------
-		public static void OpenRecentLink(IntPtr hwnd, string val)
-		{
-			SendMessageMarshal(val, hwnd, MenuFunctionsDllImports.UM_MAGO_LINKER);
-		}
+		////--------------------------------------------------------------------------------
+		//public static void OpenRecentLink(IntPtr hwnd, string val)
+		//{
+		//	SendMessageMarshal(val, hwnd, MenuFunctionsDllImports.UM_MAGO_LINKER);
+		//}
 
 		//---------------------------------------------------------------------------------
 		internal static string GetCustomUserPreferencesFile(PathFinder pathFinder)
@@ -201,41 +201,41 @@ namespace Microarea.Common.MenuLoader
 
 
 
-		//---------------------------------------------------------------------------
-		private static void SendMessageMarshal(string val, IntPtr hwnd, uint message)
-		{
-			IntPtr localHGlobal = IntPtr.Zero;
-			Process p = Process.GetCurrentProcess();
+		////---------------------------------------------------------------------------
+		//private static void SendMessageMarshal(string val, IntPtr hwnd, uint message)
+		//{
+		//	IntPtr localHGlobal = IntPtr.Zero;
+		//	Process p = Process.GetCurrentProcess();
 
-			byte[] bytes = Encoding.UTF8.GetBytes(val);
-			localHGlobal = Marshal.AllocHGlobal(bytes.Length);
-			for (int i = 0; i < bytes.Length; i++)
-				Marshal.WriteByte(localHGlobal, i, bytes[i]);
-			IntPtr pRemoteBuffer = IntPtr.Zero;
-			try
-			{
-				IntPtr pointer = p.SafeHandle.DangerousGetHandle();
-				pRemoteBuffer = MenuFunctionsDllImports.VirtualAllocEx(pointer, IntPtr.Zero, bytes.Length, MenuFunctionsDllImports.MEM_COMMIT | MenuFunctionsDllImports.MEM_RESERVE, MenuFunctionsDllImports.PAGE_READWRITE);
-				int tot = 0;
-				if (!MenuFunctionsDllImports.WriteProcessMemory(pointer, pRemoteBuffer, localHGlobal, bytes.Length, ref tot))
-				{
-					Marshal.FreeHGlobal(localHGlobal);
-					return;
-				}
-			}
-			catch
-			{
-				Marshal.FreeHGlobal(localHGlobal);
-				return;
-			}
-			//devo creare un oggetto all'interno del quale faccio un Pin per evitare che il garbage collector me lo pulisca
-			//la callback farà poi unpin nel metodo dispose, e rilascerà anche le risorse allocate in hglobal
-			GarbageBag bag = new GarbageBag(localHGlobal);
+		//	byte[] bytes = Encoding.UTF8.GetBytes(val);
+		//	localHGlobal = Marshal.AllocHGlobal(bytes.Length);
+		//	for (int i = 0; i < bytes.Length; i++)
+		//		Marshal.WriteByte(localHGlobal, i, bytes[i]);
+		//	IntPtr pRemoteBuffer = IntPtr.Zero;
+		//	try
+		//	{
+		//		IntPtr pointer = p.SafeHandle.DangerousGetHandle();
+		//		pRemoteBuffer = MenuFunctionsDllImports.VirtualAllocEx(pointer, IntPtr.Zero, bytes.Length, MenuFunctionsDllImports.MEM_COMMIT | MenuFunctionsDllImports.MEM_RESERVE, MenuFunctionsDllImports.PAGE_READWRITE);
+		//		int tot = 0;
+		//		if (!MenuFunctionsDllImports.WriteProcessMemory(pointer, pRemoteBuffer, localHGlobal, bytes.Length, ref tot))
+		//		{
+		//			Marshal.FreeHGlobal(localHGlobal);
+		//			return;
+		//		}
+		//	}
+		//	catch
+		//	{
+		//		Marshal.FreeHGlobal(localHGlobal);
+		//		return;
+		//	}
+		//	//devo creare un oggetto all'interno del quale faccio un Pin per evitare che il garbage collector me lo pulisca
+		//	//la callback farà poi unpin nel metodo dispose, e rilascerà anche le risorse allocate in hglobal
+		//	GarbageBag bag = new GarbageBag(localHGlobal);
 
-			if (!MenuFunctionsDllImports.SendMessageCallback(hwnd, message, (IntPtr)bytes.Length, pRemoteBuffer, bag.GarbageFunction, bag.GetHandle()))
-				bag.Dispose();//se fallisce la chiamata, faccio subito unpin e rilascio le risorse allocate
+		//	if (!MenuFunctionsDllImports.SendMessageCallback(hwnd, message, (IntPtr)bytes.Length, pRemoteBuffer, bag.GarbageFunction, bag.GetHandle()))
+		//		bag.Dispose();//se fallisce la chiamata, faccio subito unpin e rilascio le risorse allocate
 
-		}
+		//}
 
 		//TODOLUCA
 		////---------------------------------------------------------------------------
@@ -301,63 +301,63 @@ namespace Microarea.Common.MenuLoader
         }
 
 
+  //      //---------------------------------------------------------------------------
+  //      public static string DoLogin
+  //          (string username, string password, string company, bool rememberMe, bool winNT, 
+  //          bool overwriteLogin, bool ccd, bool relogin, IntPtr menuHandle, IDatabaseCkecker dbChecker, 
+  //          out string jsonMessage, out bool alreadyLogged, out bool changePassword, out bool changeAutologinInfo, string saveAutologinInfo, out string culture, out string uiCulture)
+		//{
+		//	//tolti i thread: la SendMessageMarshal adesso usa la SendMessageCallback, che è asincrona
+		//	SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGGING);
+
+		//	culture = uiCulture = string.Empty;
+		//	GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
+		//	if (ccd)
+		//		Functions.ClearCachedData(username);
+		//	alreadyLogged = false;
+		//	string token = lf.Login
+  //              (username, password, company, rememberMe, winNT, overwriteLogin, relogin, menuHandle, out alreadyLogged, out changePassword, out changeAutologinInfo, saveAutologinInfo, out culture, out uiCulture);
+
+		//	if (string.IsNullOrEmpty(token))
+		//	{
+		//		SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
+		//	}
+		//	else
+		//	{
+		//		if (dbChecker.Check(token))
+		//			SendMessageMarshal(token, menuHandle, (relogin) ? (uint)ExternalAPI.UM_RELOGIN_COMPLETED : (uint)ExternalAPI.UM_LOGIN_COMPLETED);
+		//		else
+		//		{
+		//			SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
+		//			lf.Diagnostic.Set(dbChecker.Diagnostic);
+		//			lf.Logoff(token);
+		//			token = "";
+		//		}
+		//	}
+		//	jsonMessage = lf.Diagnostic.ToJson(false);
+		//	return token;
+		//}
+
         //---------------------------------------------------------------------------
-        public static string DoLogin
-            (string username, string password, string company, bool rememberMe, bool winNT, 
-            bool overwriteLogin, bool ccd, bool relogin, IntPtr menuHandle, IDatabaseCkecker dbChecker, 
-            out string jsonMessage, out bool alreadyLogged, out bool changePassword, out bool changeAutologinInfo, string saveAutologinInfo, out string culture, out string uiCulture)
-		{
-			//tolti i thread: la SendMessageMarshal adesso usa la SendMessageCallback, che è asincrona
-			SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGGING);
+  //      public static string DoLoginWeb
+  //          (string username, string password, string company, bool winNT, bool overwriteLogin, 
+  //          bool relogin, IDatabaseCkecker dbChecker, out string jsonMessage, out bool alreadyLogged, 
+  //          out bool changePassword, out bool changeAutologinInfo, string saveAutologinInfo, out string culture, out string uiCulture)
+		//{
+		//	GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
+		//	culture = uiCulture = string.Empty;
+		//	string token = lf.Login
+  //              (username, password, company, false, winNT, overwriteLogin, relogin, IntPtr.Zero, out alreadyLogged, out changePassword, out  changeAutologinInfo, saveAutologinInfo, out culture, out uiCulture);
+		//	if (!token.IsNullOrEmpty() && !dbChecker.Check(token))
+		//	{
+		//		lf.Diagnostic.Set(dbChecker.Diagnostic);
+		//		lf.Logoff(token);
+		//		token = "";
+		//	}
+		//	jsonMessage = lf.Diagnostic.ToJson(false);
 
-			culture = uiCulture = string.Empty;
-			GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-			if (ccd)
-				Functions.ClearCachedData(username);
-			alreadyLogged = false;
-			string token = lf.Login
-                (username, password, company, rememberMe, winNT, overwriteLogin, relogin, menuHandle, out alreadyLogged, out changePassword, out changeAutologinInfo, saveAutologinInfo, out culture, out uiCulture);
-
-			if (string.IsNullOrEmpty(token))
-			{
-				SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
-			}
-			else
-			{
-				if (dbChecker.Check(token))
-					SendMessageMarshal(token, menuHandle, (relogin) ? (uint)ExternalAPI.UM_RELOGIN_COMPLETED : (uint)ExternalAPI.UM_LOGIN_COMPLETED);
-				else
-				{
-					SendMessageMarshal("logging", menuHandle, (uint)ExternalAPI.UM_LOGIN_INCOMPLETED);
-					lf.Diagnostic.Set(dbChecker.Diagnostic);
-					lf.Logoff(token);
-					token = "";
-				}
-			}
-			jsonMessage = lf.Diagnostic.ToJson(false);
-			return token;
-		}
-
-        //---------------------------------------------------------------------------
-        public static string DoLoginWeb
-            (string username, string password, string company, bool winNT, bool overwriteLogin, 
-            bool relogin, IDatabaseCkecker dbChecker, out string jsonMessage, out bool alreadyLogged, 
-            out bool changePassword, out bool changeAutologinInfo, string saveAutologinInfo, out string culture, out string uiCulture)
-		{
-			GenericForms.LoginFacilities lf = new GenericForms.LoginFacilities();
-			culture = uiCulture = string.Empty;
-			string token = lf.Login
-                (username, password, company, false, winNT, overwriteLogin, relogin, IntPtr.Zero, out alreadyLogged, out changePassword, out  changeAutologinInfo, saveAutologinInfo, out culture, out uiCulture);
-			if (!token.IsNullOrEmpty() && !dbChecker.Check(token))
-			{
-				lf.Diagnostic.Set(dbChecker.Diagnostic);
-				lf.Logoff(token);
-				token = "";
-			}
-			jsonMessage = lf.Diagnostic.ToJson(false);
-
-			return token;
-		}      
+		//	return token;
+		//}      
     }
 
     #region DllImport

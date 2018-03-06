@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
@@ -181,9 +182,18 @@ namespace Microarea.Common.Generic
 
                 //invia alla pagina di onlineHelp per prima cosa un token di "controllo", poi invia
                 //la chiamata vera e propria che "consuma" il token e apre l'help vero e proprio
-                using (WebClient cli = new WebClient())
+                //using (WebClient cli = new WebClient())
+                //{
+                //    using (Stream stream = cli.OpenRead(firstUrl)) { }
+                //}
+                var content = new FormUrlEncodedContent(new[]
                 {
-                    using (Stream stream = cli.OpenRead(firstUrl)) { }
+                    new KeyValuePair<string, string>("init",token)
+                });
+
+                using (HttpClient cli = new HttpClient())
+                {
+                    HttpResponseMessage response = cli.PostAsync(firstUrl, content).Result;
                 }
             }
             catch
