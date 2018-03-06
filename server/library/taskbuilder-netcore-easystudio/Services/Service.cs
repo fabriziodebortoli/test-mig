@@ -33,7 +33,6 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         //---------------------------------------------------------------
         public Service()
         {
-            diagnostic = new DiagnosticProvider(string.Concat(NameSolverStrings.EasyStudio, ": ", Name));
         }
             
     }
