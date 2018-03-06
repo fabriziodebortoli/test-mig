@@ -1,10 +1,10 @@
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { LayoutService } from './../../../../core/services/layout.service';
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
-import { ViewModeType } from './../../../shared/models/view-mode-type.model';
-import { EventDataService } from './../../../core/services/eventdata.service';
+import { ViewModeType } from './../../../../shared/models/view-mode-type.model';
+import { EventDataService } from './../../../../core/services/eventdata.service';
 
-import { ControlComponent } from './../control.component';
+import { ControlComponent } from './../../control.component';
 
 @Component({
   selector: 'tb-body-edit-toolbar',

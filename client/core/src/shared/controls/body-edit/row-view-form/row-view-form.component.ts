@@ -1,22 +1,22 @@
-import { FormMode } from './../../models/form-mode.enum';
-import { addModelBehaviour } from './../../../shared/models/control.model';
-import { untilDestroy } from './../../commons/untilDestroy';
+import { FormMode } from './../../../models/form-mode.enum';
+import { addModelBehaviour } from './../../../../shared/models/control.model';
+import { untilDestroy } from './../../../commons/untilDestroy';
 
 import { Observable } from 'rxjs/Rx';
-import { ControlComponent } from './../control.component';
+import { ControlComponent } from './../../control.component';
 
-import { Store } from './../../../core/services/store.service';
-import { createSelectorByMap } from './../../commons/selector';
+import { Store } from './../../../../core/services/store.service';
+import { createSelectorByMap } from './../../../commons/selector';
 import { BodyEditColumnComponent } from './../body-edit-column/body-edit-column.component';
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
-import { HttpService } from './../../../core/services/http.service';
-import { DocumentService } from './../../../core/services/document.service';
-import { EventDataService } from './../../../core/services/eventdata.service';
-import { BodyEditService } from './../../../core/services/body-edit.service';
+import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { LayoutService } from './../../../../core/services/layout.service';
+import { HttpService } from './../../../../core/services/http.service';
+import { DocumentService } from './../../../../core/services/document.service';
+import { EventDataService } from './../../../../core/services/eventdata.service';
+import { BodyEditService } from './../../../../core/services/body-edit.service';
 
 import { Component, OnInit, Input, OnDestroy, ContentChildren, ContentChild, TemplateRef, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
-import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
+import { Subscription, BehaviorSubject } from '../../../../rxjs.imports';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridComponent } from '@progress/kendo-angular-grid';

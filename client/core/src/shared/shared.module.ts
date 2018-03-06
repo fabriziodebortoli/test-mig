@@ -218,11 +218,11 @@ import { LinkComponent } from './controls/link/link.component';
 import { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
 import { HotlinkComponent } from './controls/hotlink/hotlink.component';
 import { BodyEditComponent } from './controls/body-edit/body-edit.component';
-import { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
-import { BodyEditCheckBoxColumnComponent } from './controls/body-edit-checkbox-column/body-edit-checkbox-column.component';
-import { BodyEditEnumComboColumnComponent } from './controls/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
-import { BodyEditToolbarComponent } from './controls/body-edit-toolbar/body-edit-toolbar.component';
-import { BodyEditToolbarButtonComponent } from './controls/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
+import { BodyEditColumnComponent } from './controls/body-edit/body-edit-column/body-edit-column.component';
+import { BodyEditCheckBoxColumnComponent } from './controls/body-edit/body-edit-checkbox-column/body-edit-checkbox-column.component';
+import { BodyEditEnumComboColumnComponent } from './controls/body-edit/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
+import { BodyEditToolbarComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar.component';
+import { BodyEditToolbarButtonComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 import { TreeViewComponent } from './controls/treeview/tree-view.component';
 import { ApplicationDateComponent } from './controls/application-date/application-date.component';
 import { StateButtonComponent } from './controls/state-button/state-button.component';
@@ -258,18 +258,18 @@ import { PropertyGridComponent } from './controls/property-grid/property-grid.co
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 import { ControlContainerComponent } from './controls/control-container/control-container.component';
-import { RowViewFormComponent }from './controls/row-view-form/row-view-form.component';
+import { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
 
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
 export { HotlinkComponent } from './controls/hotlink/hotlink.component';
 export { BodyEditComponent } from './controls/body-edit/body-edit.component';
-export { BodyEditColumnComponent } from './controls/body-edit-column/body-edit-column.component';
-export { BodyEditCheckBoxColumnComponent } from './controls/body-edit-checkbox-column/body-edit-checkbox-column.component';
-export { BodyEditEnumComboColumnComponent } from './controls/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
-export { BodyEditToolbarComponent } from './controls/body-edit-toolbar/body-edit-toolbar.component';
-export { BodyEditToolbarButtonComponent } from './controls/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
+export { BodyEditColumnComponent } from './controls/body-edit/body-edit-column/body-edit-column.component';
+export { BodyEditCheckBoxColumnComponent } from './controls/body-edit/body-edit-checkbox-column/body-edit-checkbox-column.component';
+export { BodyEditEnumComboColumnComponent } from './controls/body-edit/body-edit-enum-combo-column/body-edit-enum-combo-column.component';
+export { BodyEditToolbarComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar.component';
+export { BodyEditToolbarButtonComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 export { TreeViewComponent } from './controls/treeview/tree-view.component';
 export { ApplicationDateComponent } from './controls/application-date/application-date.component';
 export { StateButtonComponent } from './controls/state-button/state-button.component';
@@ -305,7 +305,7 @@ export { PropertyGridComponent } from './controls/property-grid/property-grid.co
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 export { ControlContainerComponent } from './controls/control-container/control-container.component';
-export { RowViewFormComponent }from './controls/row-view-form/row-view-form.component';
+export { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
 
 const TB_CONTROLS = [
     ControlComponent, ColoredStaticComponent, AddressEditComponent,

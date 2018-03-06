@@ -1,10 +1,10 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
-import { ComponentInfoService } from './../../../../core/services/component-info.service';
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { InfoService } from './../../../../core/services/info.service';
-import { EventDataService } from './../../../../core/services/eventdata.service';
-import { TbComponent } from './../../../components/tb.component';
+import { ComponentInfoService } from './../../../../../core/services/component-info.service';
+import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
+import { InfoService } from './../../../../../core/services/info.service';
+import { EventDataService } from './../../../../../core/services/eventdata.service';
+import { TbComponent } from './../../../../components/tb.component';
 
 
 
