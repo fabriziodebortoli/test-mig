@@ -750,18 +750,15 @@ ControlLinks::ControlLinks()
 			return true;
 		}
 
-		CWnd* pNextWnd = pOwnerWnd->GetNextDlgTabItem(pWnd);
-		if (pNextWnd == pWnd || pNextWnd == pOwnerWnd/*PERASSO: per qualche inspiegabile motivo, capita che la funzione ritorni il parent (caso di unico controllo managed presente nella dialog)*/)
-		{
-			return false;
-		}
-		pWnd = pNextWnd;
+		pWnd = pOwnerWnd->GetNextDlgTabItem(pWnd);
 		if (pWnd == pWndFirst)
 		{
-			//non ho trovato un campo valido per l'assegnazione
-			return false;
+			// non ho trovato un campo valido per l'assegnazione
+			// lo si da alla view (serve per gestire correttamente gli acceleratori)
+			return true;
 		}
 	}
+
 	return false;
 }
 
@@ -10852,7 +10849,10 @@ bool CParsedForm::SetDefaultFocus()
 {
 	ASSERT_VALID(m_pOwnerWnd);
 
-	if (!m_pControlLinks || !m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
+	if (!m_pControlLinks)
+		return false;
+
+	if (!m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
 		return false;
 
 	m_pControlLinks->SetDefaultFocus(m_pOwnerWnd, m_phLastCtrlFocused);
