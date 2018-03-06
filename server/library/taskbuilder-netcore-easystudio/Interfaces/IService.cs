@@ -1,4 +1,6 @@
 ﻿
+using TaskBuilderNetCore.Interfaces;
+
 namespace TaskBuilderNetCore.EasyStudio.Interfaces
 {
     //====================================================================
@@ -6,5 +8,6 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
     {
         ISerializer Serializer { get; set; }
         IServiceManager Services { get; set; }
+        IDiagnosticProvider Diagnostic { get; set; }
     }
 }

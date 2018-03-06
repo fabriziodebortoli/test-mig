@@ -9,6 +9,7 @@ using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
+using System;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -39,31 +40,63 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool CreateApplication(string applicationName, ApplicationType type)
 		{
-			return AppSerializer.CreateApplication(applicationName, type);
+            try
+            {
+                return AppSerializer.CreateApplication(applicationName, type);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }
 		}
 
 		//---------------------------------------------------------------
 		public bool CreateModule(string applicationName, string moduleName)
 		{
-			return AppSerializer.CreateModule(applicationName, moduleName);
+            try
+            {
+                return AppSerializer.CreateModule(applicationName, moduleName);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }
 		}
 
 		//---------------------------------------------------------------
 		public bool DeleteApplication(string applicationName)
 		{
-			return AppSerializer.DeleteApplication(applicationName);
+            try
+            {
+                return AppSerializer.DeleteApplication(applicationName);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }   
 		}
 
-		//---------------------------------------------------------------
-		public bool ExistsApplication(string applicationName)
+        //---------------------------------------------------------------
+        public bool DeleteModule(string applicationName, string moduleName)
+        {
+            try
+            {
+                return AppSerializer.DeleteModule(applicationName, moduleName);
+            }
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }
+        }
+
+        //---------------------------------------------------------------
+        public bool ExistsApplication(string applicationName)
 		{
 			return AppSerializer.ExistsApplication(applicationName);
-		}
-
-		//---------------------------------------------------------------
-		public bool DeleteModule(string applicationName, string moduleName)
-		{
-			return AppSerializer.DeleteModule(applicationName, moduleName);
 		}
 
 		//---------------------------------------------------------------
@@ -75,13 +108,31 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool RenameApplication(string oldName, string newName)
 		{
-			return AppSerializer.RenameApplication(oldName, newName);
+            try
+            {
+                return AppSerializer.RenameApplication(oldName, newName);
+            }
+
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }
 		}
 
 		//---------------------------------------------------------------
 		public bool RenameModule(string applicationName, string oldName, string newName)
 		{
-			return AppSerializer.RenameModule(applicationName, oldName, newName);
+            try
+            {
+                return AppSerializer.RenameModule(applicationName, oldName, newName);
+            }
+
+            catch (Exception ex)
+            {
+                Diagnostic.NotifyMessage(ex);
+                return false;
+            }
 		}
 
 		//---------------------------------------------------------------

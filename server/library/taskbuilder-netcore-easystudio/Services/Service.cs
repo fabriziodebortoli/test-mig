@@ -1,4 +1,7 @@
-﻿using TaskBuilderNetCore.EasyStudio.Interfaces;
+﻿using System;
+using System.Diagnostics;
+using TaskBuilderNetCore.EasyStudio.Interfaces;
+using TaskBuilderNetCore.Interfaces;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -8,6 +11,9 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         //---------------------------------------------------------------
         IServiceManager services;
         ISerializer serializer;
+        IDiagnosticProvider diagnostic;
+
+        public IDiagnosticProvider Diagnostic { get => diagnostic; set => diagnostic = value; }
 
         //---------------------------------------------------------------
         public IServiceManager Services { get => services; set => services = value; }
@@ -23,5 +29,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             }
             set => serializer = value;
         }
+
+        //---------------------------------------------------------------
+        public Service()
+        {
+            diagnostic = new DiagnosticProvider(string.Concat(NameSolverStrings.EasyStudio, ": ", Name));
+        }
+            
     }
 }
