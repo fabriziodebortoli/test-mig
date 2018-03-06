@@ -252,13 +252,15 @@ namespace Microarea.TbJson
                 case CommandCategory.Edit:
                 case CommandCategory.Exit:
                 case CommandCategory.Advanced:
+                case CommandCategory.Fab:
+                case CommandCategory.Undefined:
                     return Constants.tbToolbarTopButton;
+
                 case CommandCategory.Print:
                 case CommandCategory.File:
                 case CommandCategory.Bottom:
                     return Constants.tbToolbarBottomButton;
-                case CommandCategory.Fab:
-                case CommandCategory.Undefined:
+                
                 default:
                     return Constants.tbFloatingActionButton;
             }
