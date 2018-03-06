@@ -12,10 +12,21 @@ namespace TaskBuilderNetCore.EasyStudio
         Diagnostic diagnostic;
 
         //---------------------------------------------------------------
+        public string AsJson
+        {
+            get
+            {
+                IDiagnosticItems items = diagnostic.AllMessages();
+                return JsonConvert.SerializeObject(items);
+            }
+        }
+
+        //---------------------------------------------------------------
         public DiagnosticProvider(string name)
         {
             diagnostic = new Diagnostic(name);
         }
+
         //---------------------------------------------------------------
         public void Add(DiagnosticType type, string message)
         {
@@ -33,13 +44,6 @@ namespace TaskBuilderNetCore.EasyStudio
         {
             Debug.Fail(ex.Message);
             Add(DiagnosticType.FatalError, ex.Message);
-        }
-
-        //---------------------------------------------------------------
-        public string ToJson()
-        {
-            IDiagnosticItems items = diagnostic.AllMessages();
-            return JsonConvert.SerializeObject(items);
         }
     }
 }

@@ -12,8 +12,26 @@ namespace Microarea.EasyStudio.Controllers
 	[Route("easystudio/application")]
     public class ApplicationController : Microsoft.AspNetCore.Mvc.Controller
     {
-		private IServiceManager Manager { get; set; }
-		private ApplicationService ApplicationService { get => Manager?.GetService(typeof(ApplicationService)) as ApplicationService; }
+        //=========================================================================
+        internal class Strings
+        {
+            internal static readonly string MissingApplicationType = "Missing parameter applicationType";
+            internal static readonly string ObjectSuccessfullyCreated = "Object Successfully Created";
+            internal static readonly string ObjectSuccessfullyDeleted = "Object Successfully Deleted";
+        }
+
+        private ApplicationService service;
+        private IServiceManager Manager { get; set; }
+		private ApplicationService ApplicationService
+        {
+            get
+            {
+                if (service == null)
+                    service = Manager?.GetService(typeof(ApplicationService)) as ApplicationService;
+
+                return service;
+            }
+        }
         //---------------------------------------------------------------------
         public ApplicationController(IServiceManager serviceManager)
         {
@@ -30,14 +48,11 @@ namespace Microarea.EasyStudio.Controllers
             var applicationType = jsonParams[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
             var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
 
-            if (string.IsNullOrEmpty(applicationName))
-                return this.ToContentResult(203, MsgType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
-
             bool success = true;
             if (!ApplicationService.ExistsApplication(applicationName))
             {
                 if (applicationType == null)
-                    return this.ToContentResult(203, MsgType.Error, ControllerDiagnostic.Strings.MissingApplicationType);
+                    return this.ToContentResult(203, Strings.MissingApplicationType);
 
                 success = ApplicationService.CreateApplication(applicationName, (ApplicationType) applicationType);
             }
@@ -45,10 +60,9 @@ namespace Microarea.EasyStudio.Controllers
             if (success && !string.IsNullOrEmpty(moduleName))
                 success = ApplicationService.CreateModule(applicationName, moduleName);
 
-            if (success)            
-                return this.ToContentResult(200, MsgType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyCreated);
-
-            return this.ToContentResult(500, MsgType.Error, ControllerDiagnostic.Strings.ErrorCreatingObject);
+            return success ?
+                this.ToContentResult(200, Strings.ObjectSuccessfullyCreated) :
+                this.ToContentResult(500, ApplicationService.Diagnostic);
         }
 
         //-----------------------------------------------------------------------
@@ -59,19 +73,15 @@ namespace Microarea.EasyStudio.Controllers
             string applicationName = jsonParams[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
             var moduleName = jsonParams[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
 
-            if (string.IsNullOrEmpty(applicationName))
-                return this.ToContentResult(203, MsgType.Error, ControllerDiagnostic.Strings.MissingApplicationName);
-
-            bool success = true;
+              bool success = true;
             if (!string.IsNullOrEmpty(moduleName))
                 success = ApplicationService.DeleteModule(applicationName, moduleName);
             else
                 success = ApplicationService.DeleteApplication(applicationName);
 
-            if (success)
-                return this.ToContentResult(200, MsgType.Success, ControllerDiagnostic.Strings.ObjectSuccessfullyDeleted);
-
-            return this.ToContentResult(500, MsgType.Error, ControllerDiagnostic.Strings.ErrorDeletingObject);
+           return success ?
+                    this.ToContentResult(200, Strings.ObjectSuccessfullyDeleted) :
+                    this.ToContentResult(500, ApplicationService.Diagnostic);
         }
 
         //---------------------------------------------------------------------
@@ -87,11 +97,11 @@ namespace Microarea.EasyStudio.Controllers
                     appType = (ApplicationType)applicationType;
 
                 var json = ApplicationService.GetAppsModsAsJson(appType);
-                return this.ToContentResult(200, MsgType.Success, json);
+                return this.ToContentResult(200, json);
             }
             catch (Exception e)
             {
-                return this.ToContentResult(502, MsgType.Error, e.Message);
+                return this.ToContentResult(502,  e.Message);
             }
         }
 
@@ -105,11 +115,11 @@ namespace Microarea.EasyStudio.Controllers
 				string user = value["user"]?.Value<string>();
 				var res = ApplicationService.GetEasyStudioCustomizationsListFor(docNS, user);
 
-                return this.ToContentResult(200, MsgType.Error, res);
+                return this.ToContentResult(200,  res);
 			}
 			catch (Exception e)
 			{
-                return this.ToContentResult(502, MsgType.Error, e.Message);
+                return this.ToContentResult(502,  e.Message);
 			}
 		}
 
@@ -127,13 +137,12 @@ namespace Microarea.EasyStudio.Controllers
 
                 var json = ApplicationService.RefreshAll(appType);
 
-                return this.ToContentResult(200, MsgType.Success, json);
+                return this.ToContentResult(200,  json);
             }
             catch (Exception e)
             {
-                return this.ToContentResult(502, MsgType.Error, e.Message);
+                return this.ToContentResult(502,  e.Message);
             }
         }
-
 	}
 }

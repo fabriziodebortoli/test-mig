@@ -10,5 +10,7 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
         void NotifyMessage(Exception exc);
         void Add (DiagnosticType type, string message);
         void Add(Exception ex);
+
+        string AsJson { get; }
     }
 }

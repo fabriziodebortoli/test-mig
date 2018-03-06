@@ -31,11 +31,11 @@ namespace Microarea.EasyStudio.Controllers
                 // il file sarà per utente e conterrà per adesso currentApplication e CurrentModule
                 string res = string.Empty;
 
-                return this.ToContentResult(200, MsgType.Success, res);
+                return this.ToContentResult(200, res);
             }
 			catch (Exception e)
 			{
-                return this.ToContentResult(502, MsgType.Error, e.Message);
+                return this.ToContentResult(502, e.Message);
             }
 		}
 

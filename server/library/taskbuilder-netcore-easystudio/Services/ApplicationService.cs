@@ -40,6 +40,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool CreateApplication(string applicationName, ApplicationType type)
 		{
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+                
             try
             {
                 return AppSerializer.CreateApplication(applicationName, type);
@@ -54,6 +60,18 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool CreateModule(string applicationName, string moduleName)
 		{
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(moduleName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                return false;
+            }
+
             try
             {
                 return AppSerializer.CreateModule(applicationName, moduleName);
@@ -68,6 +86,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool DeleteApplication(string applicationName)
 		{
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+
             try
             {
                 return AppSerializer.DeleteApplication(applicationName);
@@ -82,6 +106,18 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         //---------------------------------------------------------------
         public bool DeleteModule(string applicationName, string moduleName)
         {
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(moduleName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                return false;
+            }
+
             try
             {
                 return AppSerializer.DeleteModule(applicationName, moduleName);
@@ -108,6 +144,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool RenameApplication(string oldName, string newName)
 		{
+            if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+
             try
             {
                 return AppSerializer.RenameApplication(oldName, newName);
@@ -123,6 +165,17 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public bool RenameModule(string applicationName, string oldName, string newName)
 		{
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                return false;
+            }
             try
             {
                 return AppSerializer.RenameModule(applicationName, oldName, newName);
@@ -147,7 +200,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public IEnumerable<string> GetModules(string applicationName)
 		{
-			var modules = AppSerializer.PathFinder.GetModulesList(applicationName);
+            if (string.IsNullOrEmpty(applicationName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                return null;
+            }
+
+            var modules = AppSerializer.PathFinder.GetModulesList(applicationName);
 
 			var moduleNames = new List<string>();
 			foreach (ModuleInfo moduleInfo in modules)
@@ -203,5 +262,15 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			return sw.ToString();
 		}
 	}
+
+    //=========================================================================
+    internal class Strings
+    {
+        internal static readonly string MissingApplicationName = "Missing parameter applicationName";
+        internal static readonly string MissingModuleName = "Missing parameter moduleName";
+
+        internal static readonly string ErrorCreatingObject = "Error Creating Object";
+        internal static readonly string ErrorDeletingObject = "Error Deleting Object";
+    }
 }
 

@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using TaskBuilderNetCore.EasyStudio.Interfaces;
 
 namespace Microarea.EasyStudio.Common
 {
@@ -7,12 +8,23 @@ namespace Microarea.EasyStudio.Common
     public static class ControllerExtensions
     {
         //---------------------------------------------------------------------
-        public static IActionResult ToContentResult(this Controller controller, int statusCode, MsgType type, string text)
+        public static IActionResult ToContentResult(this Controller controller, int statusCode, IDiagnosticProvider diagnostic)
         {
             return new ContentResult
             {
                 StatusCode = statusCode,
-                Content = ControllerDiagnostic.ToJson(type, text),
+                Content = diagnostic.AsJson,
+                ContentType = "application/json"
+            };
+        }
+
+        //---------------------------------------------------------------------
+        public static IActionResult ToContentResult(this Controller controller, int statusCode, string text)
+        {
+            return new ContentResult
+            {
+                StatusCode = statusCode,
+                Content = text,
                 ContentType = "application/json"
             };
         }
