@@ -169,7 +169,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				{
 					ModuleDBInfo modDBInfo = null;
 
-					if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetDatabaseObjectsPath()))
+					if (!pathFinder.ExistFile(modInfo.GetDatabaseObjectsPath()))
 						continue;
 
 					LoadDatabaseInfoModChanged?.Invoke(this, nModCount++);
@@ -234,7 +234,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			ModuleInfo modInfo = pathFinder.GetModuleInfoByName(appName, modDBInfo.ModuleName);
 
 			// se il file non esiste skippo il modulo (significa che non apporta oggetti di database all'applicazione)
-			if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetDatabaseObjectsPath()))
+			if (!pathFinder.ExistFile(modInfo.GetDatabaseObjectsPath()))
 				return;
 
 			DatabaseObjectsInfo databaseObjInfo = modInfo.DatabaseObjectsInfo;
@@ -391,7 +391,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 				foreach (ModuleInfo modInfo in appInfo.Modules)
 				{
-					if (!pathFinder.FileSystemManager.ExistFile(modInfo.GetRowSecurityObjectsPath()))
+					if (!pathFinder.ExistFile(modInfo.GetRowSecurityObjectsPath()))
 						continue;
 
 					foreach (RSEntity entity in modInfo.RowSecurityObjectsInfo.RSEntities)

@@ -277,14 +277,14 @@ namespace Microarea.Menu.Controllers
         {
             string fullImagePath = Path.Combine(PathFinder.PathFinderInstance.GetStandardPath, imageFile);
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fullImagePath))
+            if (!PathFinder.PathFinderInstance.ExistFile(fullImagePath))
                 return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "text/plain" };
 
             string ext = System.IO.Path.GetExtension(fullImagePath);
 
             try
             {
-                Stream f = PathFinder.PathFinderInstance.FileSystemManager.GetStream(fullImagePath, false);
+                Stream f = PathFinder.PathFinderInstance.GetStream(fullImagePath, false);
 
                 return new FileStreamResult(f, "image/" + ext);
             }

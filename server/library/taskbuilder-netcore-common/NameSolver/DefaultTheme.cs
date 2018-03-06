@@ -80,14 +80,14 @@ namespace Microarea.Common.NameSolver
 				}
 			}
 
-			if (themeFileName.IsNullOrEmpty() || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(themeFileName))
+			if (themeFileName.IsNullOrEmpty() || !PathFinder.PathFinderInstance.ExistFile(themeFileName))
 				return;
 
             //xmlThemeDocument = new XmlDocument();
             //using (FileStream fs = File.Open(themeFileName, FileMode.Open, FileAccess.Read))
             //	xmlThemeDocument.Load(fs);
             xmlThemeDocument = new XmlDocument();
-            xmlThemeDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xmlThemeDocument, themeFileName);
+            xmlThemeDocument = PathFinder.PathFinderInstance.LoadXmlDocument(xmlThemeDocument, themeFileName);
 
         }
 

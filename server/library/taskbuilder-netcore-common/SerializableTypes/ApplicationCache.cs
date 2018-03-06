@@ -95,7 +95,7 @@ namespace Microarea.Common.SerializableTypes
 			lock (typeof(ApplicationCache))
 			{
 				FileInfo fi = new FileInfo(file);
-				foreach (TBDirectoryInfo d in PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(fi.Directory.Parent.FullName))
+				foreach (TBDirectoryInfo d in PathFinder.PathFinderInstance.GetSubFolders(fi.Directory.Parent.FullName))
 				{
 					if (d.name.StartsWith("tbappmanager", StringComparison.OrdinalIgnoreCase))
 					{

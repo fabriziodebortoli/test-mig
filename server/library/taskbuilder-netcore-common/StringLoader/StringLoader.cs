@@ -136,7 +136,7 @@ namespace Microarea.Common.StringLoader
 		//-----------------------------------------------------------------------------
 		public static DictionaryBinaryFile GetDictionary(string dictionaryPath)
 		{
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(dictionaryPath))
+			if (!PathFinder.PathFinderInstance.ExistFile(dictionaryPath))
 				return null;
 
 			lock (dictionaries)
@@ -244,7 +244,7 @@ namespace Microarea.Common.StringLoader
 			try
 			{
  
-				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) return;
+				if (!PathFinder.PathFinderInstance.ExistFile(path)) return;
 		
 				using (Stream s = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
@@ -263,7 +263,7 @@ namespace Microarea.Common.StringLoader
                     catch (Exception)
 					{
                         //Trace.WriteLine("Error loading dictionary cache! - " + ex.Message);
-                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(path);
+                        PathFinder.PathFinderInstance.RemoveFile(path);
 					}
 				}
 			}

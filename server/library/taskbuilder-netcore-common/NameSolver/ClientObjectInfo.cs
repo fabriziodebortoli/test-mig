@@ -197,7 +197,7 @@ namespace Microarea.Common.NameSolver
         //---------------------------------------------------------------------
         public bool Parse()
         {
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+            if (!PathFinder.PathFinderInstance.ExistFile(filePath))
                 return false;
 
             LocalizableXmlDocument clientObjectsDocument = new LocalizableXmlDocument

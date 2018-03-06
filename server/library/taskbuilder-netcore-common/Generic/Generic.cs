@@ -106,8 +106,8 @@ namespace Microarea.Common.Generic
             {
                 try
                 {
-                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
-                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(path);
+                    if (PathFinder.PathFinderInstance.ExistFile(FilePath))
+                        PathFinder.PathFinderInstance.RemoveFile(path);
                 }
                 catch { }
 
@@ -138,7 +138,7 @@ namespace Microarea.Common.Generic
         {
             try
             {
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
+                if (!PathFinder.PathFinderInstance.ExistFile(FilePath))
                     return new InstallationInfo("", "", "");
 
                 XmlSerializer x = new XmlSerializer(typeof(InstallationInfo));
@@ -149,8 +149,8 @@ namespace Microarea.Common.Generic
             {
                 try
                 {
-                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
-                        PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(FilePath);
+                    if (PathFinder.PathFinderInstance.ExistFile(FilePath))
+                        PathFinder.PathFinderInstance.RemoveFile(FilePath);
                 }
                 catch { }
 
@@ -161,8 +161,8 @@ namespace Microarea.Common.Generic
         //---------------------------------------------------------------------------
         public void Delete()
         {
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(FilePath))
-                PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(FilePath);
+            if (PathFinder.PathFinderInstance.ExistFile(FilePath))
+                PathFinder.PathFinderInstance.RemoveFile(FilePath);
         }
 
         //--------------------------------------------------------------------------
@@ -183,7 +183,7 @@ namespace Microarea.Common.Generic
         public static bool SameVersion(out string localVer, out string serverVer)
         {
             string path = PathFinder.PathFinderInstance.GetApplicationModulePath(NameSolverStrings.WebFramework, NameSolverStrings.LoginManager);
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+            if (!PathFinder.PathFinderInstance.ExistPath(path))
                 throw new Exception(string.Format(GenericStrings.InvalidInstallation, PathFinder.PathFinderInstance.Installation, path));
 
             //confronto le versioni della dll corrente con quella del server 
@@ -362,12 +362,12 @@ namespace Microarea.Common.Generic
                 aSubDirs = new List<string>();
 
                 // controllo prima che esista la directory
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(aHomeDir))
+                if (!PathFinder.PathFinderInstance.ExistPath(aHomeDir))
                     return;
 
                 List<TBDirectoryInfo> folders = new List<TBDirectoryInfo>();
                 List<TBFile> files = new List<TBFile>();
-                PathFinder.PathFinderInstance.FileSystemManager.GetPathContent(aHomeDir, true, out folders, false, string.Empty, out files);
+                PathFinder.PathFinderInstance.GetPathContent(aHomeDir, true, out folders, false, string.Empty, out files);
                 for(int i = 0; i < folders.Count; i ++)// OK
                 {
                     TBDirectoryInfo dir = ((TBDirectoryInfo)folders[i]);
@@ -409,7 +409,7 @@ namespace Microarea.Common.Generic
                     return false;
                 }
 
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFile))
+                if (!PathFinder.PathFinderInstance.ExistFile(sourceFile))
                 {
                     error = sourceFile; 
                     return false;
@@ -420,15 +420,15 @@ namespace Microarea.Common.Generic
 
                 try 
                 {
-                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(destinationFileInfo.Directory.FullName))
-                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(destinationFileInfo.Directory.FullName, false);
+                    if (!PathFinder.PathFinderInstance.ExistPath(destinationFileInfo.Directory.FullName))
+                        PathFinder.PathFinderInstance.CreateFolder(destinationFileInfo.Directory.FullName, false);
 
                     if (destinationFileInfo.LastWriteTimeUtc.ToString("s") != sourceFileInfo.LastWriteTimeUtc.ToString("s"))
                     {
-                        if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(destinationFile)&& (destinationFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                        if (PathFinder.PathFinderInstance.ExistFile(destinationFile)&& (destinationFileInfo.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                             destinationFileInfo.Attributes -= FileAttributes.ReadOnly;
 
-                        PathFinder.PathFinderInstance.FileSystemManager.CopyFile(sourceFileInfo.FullName, destinationFile, true);
+                        PathFinder.PathFinderInstance.CopyFile(sourceFileInfo.FullName, destinationFile, true);
 
                         modifiedFiles++;
                     }
@@ -485,10 +485,10 @@ namespace Microarea.Common.Generic
                 try
                 {
                     string dir = Path.GetDirectoryName(fileFullName);
-                    if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dir))
-                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dir, false);
+                    if (!PathFinder.PathFinderInstance.ExistPath(dir))
+                        PathFinder.PathFinderInstance.CreateFolder(dir, false);
 
-                    if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileFullName))
+                    if (PathFinder.PathFinderInstance.ExistFile(fileFullName))
                         System.IO.File.SetAttributes(fileFullName, FileAttributes.Normal);
 
                     FileStream streamWriter;
@@ -895,14 +895,14 @@ namespace Microarea.Common.Generic
                 string path = PathFinder.PathFinderInstance.GetStandardDataManagerPath(NameSolverStrings.Extensions, NameSolverStrings.TbMailer);
                 path = Path.Combine(path, NameSolverStrings.DataFile, defaultIso, "State.xml");
 
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
+                if (!PathFinder.PathFinderInstance.ExistFile(path)) 
                     return defaultCountry;
 
                 try
                 {
 
                     XmlDocument xDoc = null;
-                    xDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(xDoc, path);
+                    xDoc = PathFinder.PathFinderInstance.LoadXmlDocument(xDoc, path);
 
                     //cerco nel file xml "state.xml" nel modulo tbmailer: cerco un nodo che abbio Code uguale
                     //a quello desiderato

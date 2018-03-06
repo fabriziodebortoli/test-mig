@@ -19,6 +19,7 @@ using TaskBuilderNetCore.Documents.Model.Interfaces;
 using Microarea.Common.WebServicesWrapper;
 using System.Text;
 using Newtonsoft.Json;
+using System.Xml;
 
 namespace Microarea.Common.NameSolver
 {
@@ -165,9 +166,7 @@ namespace Microarea.Common.NameSolver
                 }
             }
         }
-        public Microarea.Common.FileSystemManager.FileSystemManager FileSystemManager { get { return fileSystemManager; } }
-
-
+      
         //----------------------------------------------------------------------------
         /// <summary>
         /// Indica se il path finder sta girando sullo stesso server dell'installazione
@@ -747,7 +746,7 @@ namespace Microarea.Common.NameSolver
             appsPath = Path.Combine(installationPath, NameSolverStrings.Apps);
             publishPath = Path.Combine(appsPath, NameSolverStrings.Publish);
 
-            return PathFinder.PathFinderInstance.FileSystemManager.ExistPath(standardPath);
+            return PathFinder.PathFinderInstance.ExistPath(standardPath);
         }
         //---------------------------------------------------------------------
         protected void CalculatePathsOutsideInstallation()
@@ -766,7 +765,7 @@ namespace Microarea.Common.NameSolver
                 customPath = TryConvertToPhysicalPath(customPath);
             }
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(standardPath))
+            if (!PathFinder.PathFinderInstance.ExistPath(standardPath))
                 throw new Exception(string.Format(Messages.InvalidInstallation, installation, standardPath));
         }
         /// <summary>
@@ -796,18 +795,18 @@ namespace Microarea.Common.NameSolver
             }
 
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(apps))
+            if (!PathFinder.PathFinderInstance.ExistPath(apps))
             {
                 //tapullo per far funzionare il migratore report che legge la vecchia struttura
                 if (ApplicationInfo.MatchType(applicationType, ApplicationType.TaskBuilderApplication))
                     apps = apps.Replace(NameSolverStrings.TaskBuilderApplications, "TaskBuilderApplications");
 
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(apps))
+                if (!PathFinder.PathFinderInstance.ExistPath(apps))
                     return true;
             }
 
 
-            tempApplications = PathFinder.PathFinderInstance.FileSystemManager.GetAllApplicationInfo(apps);
+            tempApplications = PathFinder.PathFinderInstance.GetAllApplicationInfo(apps);
                 
 
             // controlla le dichiarazioni di directory ed elimina quelle 
@@ -941,8 +940,8 @@ namespace Microarea.Common.NameSolver
                 RemoteFileServer,
                 Installation,
                 Process.GetCurrentProcess().ProcessName));
-            if (create && !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(s))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(s, false);
+            if (create && !PathFinder.PathFinderInstance.ExistPath(s))
+                PathFinder.PathFinderInstance.CreateFolder(s, false);
             return s;
         }
 
@@ -1087,7 +1086,7 @@ namespace Microarea.Common.NameSolver
                     NameSolverStrings.Directoryseparetor +
                     script;
 
-            if (fileSystemManager.ExistFile(path))//fileSystemManager.ExistFile(path))
+            if (ExistFile(path))//ExistFile(path))
                 return path;
 
             return
@@ -1473,7 +1472,7 @@ namespace Microarea.Common.NameSolver
                 return string.Empty;
 
             reportFile = Path.Combine(reportPath, repName);
-            if (!recursive || fileSystemManager.ExistFile(reportFile))//fileSystemManager.ExistFile(reportFile))
+            if (!recursive || ExistFile(reportFile))//ExistFile(reportFile))
                 return reportFile;
 
             reportPath = GetCustomUserReportPath(companyName, NameSolverStrings.AllUsers, ns.Application, ns.Module);
@@ -1481,7 +1480,7 @@ namespace Microarea.Common.NameSolver
                 return string.Empty;
 
             reportFile = Path.Combine(reportPath, repName);
-            if (!recursive || fileSystemManager.ExistFile(reportFile))//fileSystemManager.ExistFile(reportFile))
+            if (!recursive || ExistFile(reportFile))//ExistFile(reportFile))
                 return reportFile;
 
             reportPath = GetStandardReportPath(ns);
@@ -1865,7 +1864,7 @@ namespace Microarea.Common.NameSolver
                     break;
             }
 
-            if (fullFileName != null && fullFileName != String.Empty && fileSystemManager.ExistFile(fullFileName))//fileSystemManager.ExistFile(fullFileName))
+            if (fullFileName != null && fullFileName != String.Empty && ExistFile(fullFileName))//ExistFile(fullFileName))
                 return fullFileName;
 
             return String.Empty;
@@ -1902,7 +1901,7 @@ namespace Microarea.Common.NameSolver
 
             // prima prova sullo user corrente
             string fullFileName = GetCurrentUserCustomFilename(aModuleInfo, aNamespace);
-            if (fullFileName != null && fullFileName != String.Empty && fileSystemManager.ExistFile(fullFileName))//fileSystemManager.ExistFile(fullFileName))
+            if (fullFileName != null && fullFileName != String.Empty && ExistFile(fullFileName))//ExistFile(fullFileName))
             {
                 aCommandOrigin = CommandOrigin.CustomCurrentUser;
 
@@ -1911,7 +1910,7 @@ namespace Microarea.Common.NameSolver
 
             // poi su AllUsers
             fullFileName = GetAllUsersCustomFilename(aModuleInfo, aNamespace);
-            if (fullFileName != null && fullFileName != String.Empty && fileSystemManager.ExistFile(fullFileName))//fileSystemManager.ExistFile(fullFileName))
+            if (fullFileName != null && fullFileName != String.Empty && ExistFile(fullFileName))//ExistFile(fullFileName))
             {
                 aCommandOrigin = CommandOrigin.CustomAllUsers;
 
@@ -2038,7 +2037,7 @@ namespace Microarea.Common.NameSolver
         public bool IsApplicationDirectory(string appPath)
         {
             return (appPath.Length != 0) &&
-               fileSystemManager.ExistFile(
+               ExistFile(
                 appPath +
                 NameSolverStrings.Directoryseparetor +
                 NameSolverStrings.Application +
@@ -2049,7 +2048,7 @@ namespace Microarea.Common.NameSolver
         public bool IsModuleDirectory(string modulePath)
         {
             return (modulePath.Length != 0) &&
-                fileSystemManager.ExistFile
+                ExistFile
                 (
                 modulePath +
                 NameSolverStrings.Directoryseparetor +
@@ -2187,7 +2186,7 @@ namespace Microarea.Common.NameSolver
         {
             if (String.IsNullOrWhiteSpace(fileName)) return string.Empty;
             string filePath = Path.Combine(GetStandardPath, fileName);
-            if (fileSystemManager.ExistFile(filePath))
+            if (ExistFile(filePath))
                 return filePath;
 
             return FindFileInSolutionFolder(fileName);
@@ -2202,7 +2201,7 @@ namespace Microarea.Common.NameSolver
             foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
             {
                 string synchroFilesFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroProfilesXmlFile);
-                if (fileSystemManager.ExistFile(synchroFilesFolder))
+                if (ExistFile(synchroFilesFolder))
                     synchroProfilesDict.Add(kvp.Key, synchroFilesFolder);
             }
 
@@ -2218,7 +2217,7 @@ namespace Microarea.Common.NameSolver
             foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
             {
                 string synchroFilesFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroMassiveProfilesXmlFile);
-                if (fileSystemManager.ExistFile(synchroFilesFolder))
+                if (ExistFile(synchroFilesFolder))
                     synchroProfilesDict.Add(kvp.Key, synchroFilesFolder);
             }
 
@@ -2234,7 +2233,7 @@ namespace Microarea.Common.NameSolver
             foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
             {
                 string synchroActionFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroProfilesActionsXmlFolder);
-                if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(synchroActionFolder))
+                if (PathFinder.PathFinderInstance.ExistPath(synchroActionFolder))
                     synchroFilesActionDict.Add(kvp.Key, synchroActionFolder);
             }
 
@@ -2286,7 +2285,7 @@ namespace Microarea.Common.NameSolver
                 // esempio di path: ERP\SynchroConnector\SynchroProviders\<nome provider>
                 string fullFolderPath = Path.Combine(appPath, NameSolverStrings.SynchroConnectorModule, NameSolverStrings.SynchroProvidersXmlFolder, providername);
 
-                if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(fullFolderPath))
+                if (PathFinder.PathFinderInstance.ExistPath(fullFolderPath))
                 {
                     DirectoryInfo di = new DirectoryInfo(appPath);
                     string path;
@@ -2305,13 +2304,13 @@ namespace Microarea.Common.NameSolver
             string stdPath = GetStandardPath;
 
             string appsPaths = Path.Combine(stdPath, NameSolverStrings.TaskBuilderApplications);
-            if (FileSystemManager.ExistPath(appsPaths))
-                foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
+            if (ExistPath(appsPaths))
+                foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
                 {
                     if (!IsApplicationDirectory(dir.CompleteDirectoryPath))
                         continue;
                     string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                    if (!FileSystemManager.ExistPath(solPath))
+                    if (!ExistPath(solPath))
                         continue;
                     AddDirectoryBrandFiles(solPath, ht);
                 }
@@ -2391,13 +2390,13 @@ namespace Microarea.Common.NameSolver
 
             string filePath = Path.Combine(fileDir, aNameSpace.Image);
 
-            if (fileSystemManager.ExistFile(filePath))
+            if (ExistFile(filePath))
             {
                 return filePath;
             }
 
             filePath = GetImagePathByTheme(aNameSpace, themeName);
-            if (fileSystemManager.ExistFile(filePath))
+            if (ExistFile(filePath))
             {
                 return filePath;
             }
@@ -2425,7 +2424,7 @@ namespace Microarea.Common.NameSolver
 
             string filePath = Path.Combine(fileDir, aNameSpace.Image);
 
-            if (fileSystemManager.ExistFile(filePath))
+            if (ExistFile(filePath))
             {
                 return filePath;
             }
@@ -2477,7 +2476,7 @@ namespace Microarea.Common.NameSolver
                 strMainBrandFolder = Path.Combine(GetStandardApplicationPath(applicationName), NameSolverStrings.Solutions);
                 strThemeFolder = Path.Combine(GetStandardApplicationPath(applicationName), NameSolverStrings.Themes);
                 strMainBrandFile = Path.Combine(strMainBrandFolder, NameSolverStrings.MainBrandFile);
-                if (fileSystemManager.ExistFile(strMainBrandFile) && PathFinder.PathFinderInstance.FileSystemManager.ExistPath(strThemeFolder))
+                if (ExistFile(strMainBrandFile) && PathFinder.PathFinderInstance.ExistPath(strThemeFolder))
                 {
                     return strThemeFolder;
                 }
@@ -2489,11 +2488,11 @@ namespace Microarea.Common.NameSolver
         {
             List<string> allThemes = new List<string>();
             string strThemesPath = GetMasterApplicationSolutionsThemeFolder();
-            if (!string.IsNullOrEmpty(strThemesPath) && fileSystemManager.ExistPath(strThemesPath))
+            if (!string.IsNullOrEmpty(strThemesPath) && ExistPath(strThemesPath))
             {
                 //  DirectoryInfo di = new DirectoryInfo(strThemesPath);
 
-                List<TBFile> masterThemesInfo = fileSystemManager.GetFiles(strThemesPath, "*" + NameSolverStrings.ThemeExtension);
+                List<TBFile> masterThemesInfo = GetFiles(strThemesPath, "*" + NameSolverStrings.ThemeExtension);
                 foreach (TBFile item in masterThemesInfo)
                 {
                     allThemes.Add(item.completeFileName);
@@ -2502,10 +2501,10 @@ namespace Microarea.Common.NameSolver
 
             ApplicationInfo appInfo = GetApplicationInfoByName(NameSolverStrings.Framework);
             string defaultTheme = Path.Combine(appInfo.Path, NameSolverStrings.Themes);
-            if (!string.IsNullOrEmpty(defaultTheme) && fileSystemManager.ExistPath(defaultTheme))
+            if (!string.IsNullOrEmpty(defaultTheme) && ExistPath(defaultTheme))
             {
                 DirectoryInfo di = new DirectoryInfo(defaultTheme);
-                List<TBFile> masterThemesInfo = fileSystemManager.GetFiles(defaultTheme, "*.*");
+                List<TBFile> masterThemesInfo = GetFiles(defaultTheme, "*.*");
 
                 foreach (TBFile item in masterThemesInfo)
                 {
@@ -2519,8 +2518,8 @@ namespace Microarea.Common.NameSolver
         {
             string appsPaths = Path.Combine(GetStandardPath, NameSolverStrings.TaskBuilderApplications);
             List<TBFile> list = new List<TBFile>();
-            if (FileSystemManager.ExistPath(appsPaths)) // pre-TB2.0 versions named it differently
-                foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
+            if (ExistPath(appsPaths)) // pre-TB2.0 versions named it differently
+                foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
                 {
                     //Anomalia 14450: gli sviluppatori usano manipolare gli application.config 
                     //per testare le proprie applicazioni con o senza altre. 
@@ -2534,12 +2533,12 @@ namespace Microarea.Common.NameSolver
                     }
 
                     string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                    if (!FileSystemManager.ExistPath(solPath))
+                    if (!ExistPath(solPath))
                         continue;
 
                     string pattern = "*" + NameSolverStrings.SolutionExtension;
 
-                    list.AddRange(FileSystemManager.GetFiles(solPath, pattern));
+                    list.AddRange(GetFiles(solPath, pattern));
                 }
             return list;
 
@@ -2785,8 +2784,8 @@ namespace Microarea.Common.NameSolver
         public string GetCustomTemplatesPath(string companyName, string applicationName, string moduleName, bool createDir)
         {
             string path = Path.Combine(GetCustomModulePath(applicationName, moduleName), NameSolverStrings.Templates);
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path) && createDir)
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+            if (!PathFinder.PathFinderInstance.ExistPath(path) && createDir)
+                PathFinder.PathFinderInstance.CreateFolder(path, false);
             return path;
 
         }
@@ -3137,18 +3136,18 @@ namespace Microarea.Common.NameSolver
             //prima considero i file nella directory di custom del modulo
             //(sia tablename.xml che appendtablename.xml)
             List<TBFile> tempList = new List<TBFile>();
-            if (FileSystemManager.ExistPath(customDir))
+            if (ExistPath(customDir))
             {
-                foreach (TBFile file in FileSystemManager.GetFiles(customDir, "*.*"))
+                foreach (TBFile file in GetFiles(customDir, "*.*"))
                 {
                     if (string.Compare(file.FileExtension, NameSolverStrings.XmlExtension, StringComparison.OrdinalIgnoreCase) == 0)
                         tempList.Add(file);
                 }
             }
 
-            if (FileSystemManager.ExistPath(standardDir))
+            if (ExistPath(standardDir))
             {
-                foreach (TBFile file in FileSystemManager.GetFiles(standardDir, "*.*"))
+                foreach (TBFile file in GetFiles(standardDir, "*.*"))
                 {
                     bool insert = true;
                     if (string.Compare(file.FileExtension, NameSolverStrings.XmlExtension, StringComparison.OrdinalIgnoreCase) != 0)
@@ -3189,15 +3188,15 @@ namespace Microarea.Common.NameSolver
         public string GetAppInfoVersionFromSolutionName(string name)
         {
             string appsPaths = Path.Combine(standardPath, NameSolverStrings.TaskBuilderApplications);
-            if (!FileSystemManager.ExistPath(appsPaths))
+            if (!ExistPath(appsPaths))
                 return string.Empty;
-            foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
+            foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
             {
                 string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                if (!FileSystemManager.ExistPath(solPath))
+                if (!ExistPath(solPath))
                     continue;
                 string filename = String.Format("{0}{1}", name, NameSolverStrings.SolutionExtension);
-                if (!fileSystemManager.ExistFile(Path.Combine(solPath, filename)))
+                if (!ExistFile(Path.Combine(solPath, filename)))
                     continue;
                 ApplicationInfo app = GetApplicationInfoByName(Path.GetFileName(Path.GetDirectoryName(solPath)));
                 if (app != null && app.ApplicationConfigInfo != null)
@@ -3226,15 +3225,15 @@ namespace Microarea.Common.NameSolver
         public string SearchImageInAppFolder(string imageFile)
         {
             string appsPaths = Path.Combine(GetStandardPath, NameSolverStrings.TaskBuilderApplications);
-            if (FileSystemManager.ExistPath(appsPaths))
+            if (ExistPath(appsPaths))
             {
-                foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
+                foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
                 {
                     if (!IsApplicationDirectory(dir.CompleteDirectoryPath))
                         continue;
 
                     string fullImageFilePath = Path.Combine(dir.CompleteDirectoryPath, imageFile);
-                    if (fileSystemManager.ExistFile(fullImageFilePath))
+                    if (ExistFile(fullImageFilePath))
                         return fullImageFilePath;
                 }
             }
@@ -3314,7 +3313,7 @@ namespace Microarea.Common.NameSolver
             //di default, ipotizzo si trovi nella cartella di esecuzione del programma
             targetPath = ""; //AppDomain.CurrentDomain.BaseDirectory.TrimEnd(NameSolverStrings.Directoryseparetor); TODO rsweb
 
-            if (fileSystemManager.ExistFile(Path.Combine(targetPath, exe)))
+            if (ExistFile(Path.Combine(targetPath, exe)))
                 return targetPath;
 
             if (isRunningInsideInstallation)
@@ -3323,12 +3322,12 @@ namespace Microarea.Common.NameSolver
                 //(solo in sviluppo)
                 targetPath = Path.Combine(Path.Combine(GetAppsPath, folder), Build);
                 //se esiste la cartella  \<Installazione>\Apps\<cartella>\<debug|release>, quello e' il path cercato
-                if (fileSystemManager.ExistFile(Path.Combine(targetPath, exe)))
+                if (ExistFile(Path.Combine(targetPath, exe)))
                     return targetPath;
 
                 //provo a vedere se mi trovo nella cartella di pubblicazione
                 targetPath = Path.Combine(GetAppsPath, "publish");
-                if (fileSystemManager.ExistFile(Path.Combine(targetPath, exe)))
+                if (ExistFile(Path.Combine(targetPath, exe)))
                     return targetPath;
 
             }
@@ -3383,7 +3382,7 @@ namespace Microarea.Common.NameSolver
         {
             string pattern = "*" + NameSolverStrings.BrandExtension;
 
-            List<TBFile> bFiles = FileSystemManager.GetFiles(directory, pattern);
+            List<TBFile> bFiles = GetFiles(directory, pattern);
             foreach (TBFile bFile in bFiles)
                 if (!table.Keys.Contains(bFile.completeFileName))
                     table.Add(bFile.completeFileName, bFile);
@@ -3398,9 +3397,9 @@ namespace Microarea.Common.NameSolver
         private string FindFileInSolutionFolder(string fileName, bool checkApplication)
         {
             string appsPaths = Path.Combine(standardPath, NameSolverStrings.TaskBuilderApplications);
-            if (!FileSystemManager.ExistPath(appsPaths))
+            if (!ExistPath(appsPaths))
                 return string.Empty;
-            foreach (TBDirectoryInfo dir in FileSystemManager.GetSubFolders(appsPaths))
+            foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
             {
                 if (checkApplication && !IsApplicationDirectory(dir.CompleteDirectoryPath))
                 {//non tradurre
@@ -3408,11 +3407,11 @@ namespace Microarea.Common.NameSolver
                     continue;
                 }
                 string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                if (!FileSystemManager.ExistPath(solPath))
+                if (!ExistPath(solPath))
                     continue;
 
                 string fullFilePath = Path.Combine(solPath, fileName);
-                if (fileSystemManager.ExistFile(fullFilePath))
+                if (ExistFile(fullFilePath))
                     return fullFilePath;
             }
             return string.Empty;
@@ -3615,13 +3614,13 @@ namespace Microarea.Common.NameSolver
                 return null;
 
 
-            if (!FileSystemManager.ExistPath(appDataPath))
+            if (!ExistPath(appDataPath))
                 return null;
 
             try
             {
                 List<string> files = new List<string>();
-                foreach (TBFile file in FileSystemManager.GetFiles(appDataPath, NameSolverStrings.MaskFileLicensed))
+                foreach (TBFile file in GetFiles(appDataPath, NameSolverStrings.MaskFileLicensed))
                     files.Add(file.completeFileName);
 
                 return files;
@@ -3897,13 +3896,13 @@ namespace Microarea.Common.NameSolver
 
             modulePath += NameSolverStrings.Directoryseparetor;
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(modulePath) && createDir)
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(modulePath, false);
+            if (!PathFinder.PathFinderInstance.ExistPath(modulePath) && createDir)
+                PathFinder.PathFinderInstance.CreateFolder(modulePath, false);
 
             string dictionaryPath = modulePath + NameSolverStrings.Dictionary;
 
-            if (createDir && !PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dictionaryPath))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dictionaryPath, false);
+            if (createDir && !PathFinder.PathFinderInstance.ExistPath(dictionaryPath))
+                PathFinder.PathFinderInstance.CreateFolder(dictionaryPath, false);
 
             return dictionaryPath;
         }
@@ -4168,7 +4167,7 @@ namespace Microarea.Common.NameSolver
                 path = Path.Combine(GetStandardPath, NameSolverStrings.EasyStudioHome);
 
             if (createDir)
-                FileSystemManager.CreateFolder(path, true);
+                CreateFolder(path, true);
 
             return path;
         }
@@ -4179,7 +4178,7 @@ namespace Microarea.Common.NameSolver
             string path = Path.Combine(GetEasyStudioHomePath(createDir), NameSolverStrings.Applications);
 
             if (createDir)
-                FileSystemManager.CreateFolder(path, true);
+                CreateFolder(path, true);
 
             return path;
         }
@@ -4197,6 +4196,204 @@ namespace Microarea.Common.NameSolver
             return "";
         }
 
+
+        #endregion
+
+        #region da Filessystemmanager
+        //-----------------------------------------------------------------------------
+        public string GetServerConnectionConfig()
+        {
+            return GetServerConnectionConfig();
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
+        {
+            return LoadXmlDocument(dom, filename);
+        }
+
+        //-----------------------------------------------------------------------------
+        public String GetFileTextFromFileName(string sFileName)
+        {
+            return GetFileTextFromFileName(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public Stream GetStream(string sFileName, bool readStream)
+        {
+            return GetStream(sFileName, readStream);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool SaveTextFileFromStream(string sFileName, Stream sFileContent)
+        {
+            return SaveTextFileFromStream(sFileName, sFileContent);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool SaveTextFileFromXml(string sFileName, XmlDocument dom)
+        {
+            return SaveTextFileFromXml(sFileName, dom);
+        }
+
+        //-----------------------------------------------------------------------------
+        public byte[] GetBinaryFile(string sFileName, int nLen)
+        {
+            return GetBinaryFile(sFileName, nLen);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool ExistFile(string sFileName)
+        {
+            return ExistFile(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool ExistPath(string sPathName)
+        {
+            return ExistPath(sPathName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool CreateFolder(string sPathName, bool bRecursive)
+        {
+            return CreateFolder(sPathName, bRecursive);
+        }
+
+        //-----------------------------------------------------------------------------
+        public void RemoveFolder(string sPathName, bool bRecursive, bool bRemoveRoot, bool bAndEmptyParents)
+        {
+            RemoveFolder(sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool RemoveFile(string sFileName)
+        {
+            return RemoveFile(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool RenameFile(string sOldFileName, string sNewFileName)
+        {
+            return RenameFile(sOldFileName,  sNewFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool RenameFolder(string sOldName, string sNewName)
+        {
+            return RenameFolder(sOldName, sNewName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool CopyFile(string sOldFileName, string sNewFileName, bool bOverWrite)
+        {
+            return CopyFile(sOldFileName, sNewFileName, bOverWrite);
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public FileInfo GetFileStatus(string sFileName, FileInfo fs)
+        {
+            return GetFileStatus(sFileName, fs);
+        }
+
+        //-----------------------------------------------------------------------------
+        public int[] GetFileAttributes(string sFileName)
+        {
+            return GetFileAttributes(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive)
+        {
+            return CopyFolder(sOldPathName,  sNewPathName,  bOverwrite,  bRecursive);
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public List<TBDirectoryInfo> GetSubFolders(string sPathName)
+        {
+            return GetSubFolders(sPathName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public List<TBFile> GetFiles(string sPathName, string sFileExt)
+        {
+            return GetFiles(sPathName,  sFileExt);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
+        {
+            pSubFolders = new List<TBDirectoryInfo>();
+            pFiles = new List<TBFile>();
+
+            return GetPathContent(sPathName, bFolders, out  pSubFolders, bFiles, strFileExt,  out pFiles);
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen)
+        {
+            return SaveBinaryFile(sFileName, pBinaryContent, nLen);
+        }
+
+        // gets a binary file and it stores it into the temp directory
+        //-----------------------------------------------------------------------------
+        public string GetTemporaryBinaryFile(string sFileName)
+        {
+            return GetTemporaryBinaryFile(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool IsManagedByAlternativeDriver(string sName)
+        {
+            return IsManagedByAlternativeDriver(sName);
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetFileSystemDriver()
+        {
+            return GetFileSystemDriver();
+        }
+
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetAlternativeDriver()
+        {
+            return GetAlternativeDriver();
+        }
+
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetAlternativeDriverIfManagedFile(string sName)
+        {
+            return GetAlternativeDriverIfManagedFile(sName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool Start(bool bLoadCaches  /*true*/)
+        {
+            return Start(bLoadCaches);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool Stop(bool bLoadCaches  /*true*/)
+        {
+            return Stop(bLoadCaches);
+        }
+
+        //-----------------------------------------------------------------------------
+        public List<string> GetAllApplicationInfo(string dir)
+        {
+            return GetAllApplicationInfo(dir);
+        }
+
+        //-----------------------------------------------------------------------------
+        public List<string> GetAllModuleInfo(string strAppName)
+        {
+            return GetAllModuleInfo(strAppName);
+        }
 
         #endregion
     }

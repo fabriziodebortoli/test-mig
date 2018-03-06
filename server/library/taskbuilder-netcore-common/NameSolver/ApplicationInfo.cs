@@ -126,7 +126,7 @@ namespace Microarea.Common.NameSolver
                     addOnDatabaseObjectsInfo = new AddOnDatabaseObjectsInfo(addOnDatabaseObjFile, this);
 
                     //se il file non esiste esco
-                    if (!PathFinder.FileSystemManager.ExistFile(addOnDatabaseObjFile))
+                    if (!PathFinder.ExistFile(addOnDatabaseObjFile))
                         return addOnDatabaseObjectsInfo;
 
                     addOnDatabaseObjectsInfo.Parse();
@@ -153,7 +153,7 @@ namespace Microarea.Common.NameSolver
                 //path del file documentObjects.xml
                 string documentsObjFile = GetDocumentObjectsPath();
 
-                if (PathFinder.FileSystemManager.ExistFile(documentsObjFile))
+                if (PathFinder.ExistFile(documentsObjFile))
                     documentObjectsInfo.Parse(documentsObjFile);
 
                 return documentObjectsInfo;
@@ -192,7 +192,7 @@ namespace Microarea.Common.NameSolver
                     rowSecurityObjectsInfo = new RowSecurityObjectsInfo(rowSecurityObjectFile, this);
 
                     //se il file non esiste esco
-                    if (!PathFinder.FileSystemManager.ExistFile(rowSecurityObjectFile))
+                    if (!PathFinder.ExistFile(rowSecurityObjectFile))
                         return rowSecurityObjectsInfo;
 
                     rowSecurityObjectsInfo.Parse();
@@ -220,7 +220,7 @@ namespace Microarea.Common.NameSolver
                     behaviourObjectsInfo = new BehaviourObjectsInfo(behaviourObjectFile, this);
 
                     //se il file non esiste esco
-                    if (!PathFinder.FileSystemManager.ExistFile(behaviourObjectFile))
+                    if (!PathFinder.ExistFile(behaviourObjectFile))
                         return behaviourObjectsInfo;
 
                     behaviourObjectsInfo.Parse();
@@ -252,7 +252,7 @@ namespace Microarea.Common.NameSolver
                 string clientDocumentsObjFile = GetClientDocumentObjectsPath();
 
                 //se il file non esiste esco
-                if (!PathFinder.FileSystemManager.ExistFile(clientDocumentsObjFile))
+                if (!PathFinder.ExistFile(clientDocumentsObjFile))
                     return clientDocumentsObjectInfo;
 
                 //Oggetto che sa parsare documentObjects.xml
@@ -321,7 +321,7 @@ namespace Microarea.Common.NameSolver
                     databaseObjectsInfo = new DatabaseObjectsInfo(databaseObjFile, this);
 
                     //se il file non esiste esco
-                    if (!PathFinder.FileSystemManager.ExistFile(databaseObjFile))
+                    if (!PathFinder.ExistFile(databaseObjFile))
                         return databaseObjectsInfo;
 
                     databaseObjectsInfo.Parse();
@@ -344,7 +344,7 @@ namespace Microarea.Common.NameSolver
                     //path del folder che contiene i file xml che descrivono gli oggetti di database
                     string pathDbObjectsFolder = GetDbxmlCreatePath();
 
-                    if (string.IsNullOrEmpty(pathDbObjectsFolder) || !PathFinder.FileSystemManager.ExistPath(pathDbObjectsFolder))
+                    if (string.IsNullOrEmpty(pathDbObjectsFolder) || !PathFinder.ExistPath(pathDbObjectsFolder))
                         return dbObjects;
 
                     dbObjects = new DBObjects(this);
@@ -352,7 +352,7 @@ namespace Microarea.Common.NameSolver
                     // istanzio l'oggetto che fa il parse dei file .dbxml
                     DBObjectInfo dbInfo = new DBObjectInfo(this);
 
-                    foreach (TBFile fileName in PathFinder.FileSystemManager.GetFiles(pathDbObjectsFolder, "*.dbxml"))
+                    foreach (TBFile fileName in PathFinder.GetFiles(pathDbObjectsFolder, "*.dbxml"))
                     {
                         // per ogni file trovato nella directory richiamo il parse
                         dbInfo.ParseObjectsFromFile(fileName.completeFileName);
@@ -427,10 +427,10 @@ namespace Microarea.Common.NameSolver
             get
             {
                 string moduleObjectsPath = GetModuleObjectPath();
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(moduleObjectsPath))
+                if (!PathFinder.PathFinderInstance.ExistPath(moduleObjectsPath))
                     return null;
 
-                return PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(moduleObjectsPath);
+                return PathFinder.PathFinderInstance.GetSubFolders(moduleObjectsPath);
             }
         }
 
@@ -480,7 +480,7 @@ namespace Microarea.Common.NameSolver
         {
             string path = this.GetStandardSettingsPath();
             List<string> settingFileArray = new List<string>();
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+            if (!PathFinder.PathFinderInstance.ExistPath(path))
                 return settingFileArray;
 
 
@@ -763,7 +763,7 @@ namespace Microarea.Common.NameSolver
             int i = 0;
             try
             {
-                foreach (TBFile file in PathFinder.FileSystemManager.GetFiles(path, NameSolverStrings.MaskFileConfig))
+                foreach (TBFile file in PathFinder.GetFiles(path, NameSolverStrings.MaskFileConfig))
                 {
                     files.SetValue(file.completeFileName, i);
                     i++;
@@ -851,7 +851,7 @@ namespace Microarea.Common.NameSolver
             if (string.IsNullOrEmpty(extension))
                 languageFile += NameSolverStrings.ExcelDocumentExtension;
 
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))
+            if (PathFinder.PathFinderInstance.ExistFile(languageFile))//PathFinder.PathFinderInstance.ExistFile(languageFile))
                 return languageFile;
 
             string stdFile = System.IO.Path.Combine(GetStandardExcelFilesPath(), document);
@@ -871,7 +871,7 @@ namespace Microarea.Common.NameSolver
             if (string.IsNullOrEmpty(extension))
                 languageFile += NameSolverStrings.ExcelTemplateExtension;
 
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))
+            if (PathFinder.PathFinderInstance.ExistFile(languageFile))//PathFinder.PathFinderInstance.ExistFile(languageFile))
                 return languageFile;
 
             string stdFile = System.IO.Path.Combine(GetStandardExcelFilesPath(), template);
@@ -907,7 +907,7 @@ namespace Microarea.Common.NameSolver
             if (string.IsNullOrEmpty(extension))
                 languageFile += NameSolverStrings.WordDocumentExtension;
 
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))
+            if (PathFinder.PathFinderInstance.ExistFile(languageFile))//PathFinder.PathFinderInstance.ExistFile(languageFile))
                 return languageFile;
 
             string stdFile = System.IO.Path.Combine(GetStandardWordFilesPath(), document);
@@ -927,7 +927,7 @@ namespace Microarea.Common.NameSolver
             if (string.IsNullOrEmpty(extension))
                 languageFile += NameSolverStrings.WordTemplateExtension;
 
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(languageFile))
+            if (PathFinder.PathFinderInstance.ExistFile(languageFile))//PathFinder.PathFinderInstance.ExistFile(languageFile))
                 return languageFile;
 
             string stdFile = System.IO.Path.Combine(GetStandardWordFilesPath(), template);
@@ -1765,7 +1765,7 @@ namespace Microarea.Common.NameSolver
                     modules = new List<ModuleInfo>();
 
                     List<string> tempModules = null;
-                    tempModules = PathFinder.PathFinderInstance.FileSystemManager.GetAllModuleInfo(Path) ;
+                    tempModules = PathFinder.PathFinderInstance.GetAllModuleInfo(Path) ;
                     //prendo tutte le sub dir dell'applicazione
                     
                     foreach (string moduleName in tempModules)
@@ -1829,7 +1829,7 @@ namespace Microarea.Common.NameSolver
         //-------------------------------------------------------------------------------
         protected void CreateApplicationConfigInfo(string aName, string applicationConfigFile)
         {
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(applicationConfigFile))
+            if (PathFinder.PathFinderInstance.ExistFile(applicationConfigFile))
             {
                 applicationConfigInfo = new ApplicationConfigInfo(aName, applicationConfigFile);
                 applicationConfigInfo.Parse();

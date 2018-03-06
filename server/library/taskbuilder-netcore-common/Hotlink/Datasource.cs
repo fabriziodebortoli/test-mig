@@ -476,7 +476,7 @@ namespace Microarea.Common.Hotlink
             string path = this.Session.PathFinder.GetStandardDataFilePath(ns.Application, ns.Module, this.Session.UserInfo.UserUICulture.ToString()) +
                  NameSolverStrings.Directoryseparetor +
                  ns.ObjectName + ".xml";
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
+            if (!PathFinder.PathFinderInstance.ExistFile(path)) 
                 return false;
 
             // restituisce il dom già tradotto per i Tag o gli Attribute che sono localizzati

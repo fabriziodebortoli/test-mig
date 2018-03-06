@@ -2218,7 +2218,7 @@ namespace Microarea.Common.ExpressionManager
 						StreamReader inputFile = null;
 						try
 						{
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
 								NameSpace ns = new NameSpace(filename);
 								if (ns.IsValid())
@@ -2226,9 +2226,9 @@ namespace Microarea.Common.ExpressionManager
 							}
 
               
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
-								Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
+								Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
 								inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
 								result = inputFile.ReadToEnd();
 							}
@@ -2283,7 +2283,7 @@ namespace Microarea.Common.ExpressionManager
 						try
 						{
                             
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
 								NameSpace ns = new NameSpace(filename);
 								if (ns.IsValid())
@@ -2291,9 +2291,9 @@ namespace Microarea.Common.ExpressionManager
 							}
 
                            
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+                            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
-								Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true);
+								Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
 								oFile = new StreamWriter(fs, enc);
 								oFile.Write(text);
 							}
@@ -3502,7 +3502,7 @@ namespace Microarea.Common.ExpressionManager
 					{
 						Value v1 = (Value)paramStack.Pop();
 						string sPath = CastString(v1);
-						return new Value(PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sPath));
+						return new Value(PathFinder.PathFinderInstance.ExistFile(sPath));
 					}
 				case Token.SETCULTURE:  /*M. 4211*/
 					{

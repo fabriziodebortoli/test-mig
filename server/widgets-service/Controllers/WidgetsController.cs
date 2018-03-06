@@ -78,12 +78,12 @@ namespace widgets_service.Controllers
             NameSpace ns = new NameSpace(nameSpace, NameSpaceObjectType.File);
             string widgetFilename = pathFinder.GetFilename(ns, string.Empty) + ".widget.json";
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFilename))
+            if (!PathFinder.PathFinderInstance.ExistFile(widgetFilename))
                 return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "text/plan" };
 
             try
             {
-                content =  PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(widgetFilename);
+                content =  PathFinder.PathFinderInstance.GetFileTextFromFileName(widgetFilename);
             }
             catch (Exception e)
             {
@@ -121,11 +121,11 @@ namespace widgets_service.Controllers
 				DirectoryInfo di = new DirectoryInfo(code);
                 PathFinder pathFinder = new PathFinder(userInfo.Company, userInfo.ImpersonatedUser);
                 widgetFileFullName = Path.Combine(pathFinder.GetCustomUserApplicationDataPath(), "widgets.json");
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFileFullName))
+                if (!PathFinder.PathFinderInstance.ExistFile(widgetFileFullName))
                 {
                     // user configured widgets are missing, create a default one
                     string defaultWidgetFileFullName = di.FullName.ToLower().Replace("web-server.dll", "widgets.json");
-                    PathFinder.PathFinderInstance.FileSystemManager.CopyFile(defaultWidgetFileFullName, widgetFileFullName, false);
+                    PathFinder.PathFinderInstance.CopyFile(defaultWidgetFileFullName, widgetFileFullName, false);
                     statusCode = 203; // success with info
                 }
                 else
@@ -138,13 +138,13 @@ namespace widgets_service.Controllers
 			}
 
 			// no configured widgets, is not an error
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(widgetFileFullName))
+			if (!PathFinder.PathFinderInstance.ExistFile(widgetFileFullName))
 				return new ContentResult { StatusCode = 500, Content = "file non trovato", ContentType = "application/text" };
 
 
 			try
 			{
-                content = PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(widgetFileFullName);
+                content = PathFinder.PathFinderInstance.GetFileTextFromFileName(widgetFileFullName);
             }
             catch (Exception e)
 			{

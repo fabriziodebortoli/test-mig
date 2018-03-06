@@ -90,7 +90,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if (
-				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath)||
+				!PathFinder.PathFinderInstance.ExistFile(filePath)||
 				parentModuleInfo == null ||
 				parentModuleInfo.ParentApplicationInfo == null
 				)

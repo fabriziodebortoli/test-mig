@@ -17,12 +17,12 @@ namespace Microarea.Common.DiagnosticManager
 		{
 			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
+                PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+            if (!PathFinder.PathFinderInstance.ExistFile(filePath))
             {
 				// Create a file to write to.
 				using (StreamWriter sw = File.CreateText(filePath))
@@ -48,13 +48,13 @@ namespace Microarea.Common.DiagnosticManager
 		{
 			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
+                PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 
             // se il file non esiste non procedo
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+            if (!PathFinder.PathFinderInstance.ExistFile(filePath))
                 return;
 
 			using (StreamWriter writer = File.AppendText(filePath))

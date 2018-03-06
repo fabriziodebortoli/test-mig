@@ -760,7 +760,7 @@ namespace Microarea.RSWeb.Render
             string s = "[";
             //bool first = true;
 
-            foreach (TBFile file in ReportSession.PathFinder.FileSystemManager.GetFiles(destinationPath, "*.json"))
+            foreach (TBFile file in ReportSession.PathFinder.GetFiles(destinationPath, "*.json"))
             {
                 string[] split = file.name.Split('_');
                 string date = split[0];
@@ -779,7 +779,7 @@ namespace Microarea.RSWeb.Render
             destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
 
             //first = true;
-            foreach (TBFile file in ReportSession.PathFinder.FileSystemManager.GetFiles(destinationPath, "*.json"))
+            foreach (TBFile file in ReportSession.PathFinder.GetFiles(destinationPath, "*.json"))
             {
                 string[] split = file.name.Split('_');
                 string date = split[0];

@@ -147,7 +147,7 @@ namespace Microarea.Common.Applications
 
                 CNumberToLiteralLookUpTableManager NTLManager = new CNumberToLiteralLookUpTableManager();
 
-                initXmlFile = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(initXmlFile, nomeFile);
+                initXmlFile = PathFinder.PathFinderInstance.LoadXmlDocument(initXmlFile, nomeFile);
                 foreach (XmlNode n in initXmlFile.SelectSingleNode("LookUp/NameEntryes"))
                 {
                     long v = 0;
@@ -2916,7 +2916,7 @@ public string DecSeparator = ",";
 		//-----------------------------------------------------------------------------
 		public bool Load(string filename, INameSpace owner, Formatter.FormatSource source)
 		{
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                 return true;
 		
 			Parser lex = new Parser(Parser.SourceType.FromFile);

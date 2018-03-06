@@ -1115,7 +1115,7 @@ namespace Microarea.Common.MenuLoader
                 aModuleName.Length == 0 ||
                 filesPath == null ||
                 filesPath.Length == 0 ||
-                !aPathFinder.FileSystemManager.ExistPath(filesPath) ||
+                !aPathFinder.ExistPath(filesPath) ||
                 commandsTypeToLoad == CommandsTypeToLoad.Undefined
                 )
                 return;
@@ -1183,7 +1183,7 @@ namespace Microarea.Common.MenuLoader
 					menuXmlDoc = new XmlDocument();
 
                 XmlDocument tmpMenuXmlDoc = null;
-                tmpMenuXmlDoc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(tmpMenuXmlDoc, fileToLoad);
+                tmpMenuXmlDoc = PathFinder.PathFinderInstance.LoadXmlDocument(tmpMenuXmlDoc, fileToLoad);
 
                 MenuXmlNode tmpRoot = new MenuXmlNode(tmpMenuXmlDoc.DocumentElement);
 				
@@ -2417,7 +2417,7 @@ namespace Microarea.Common.MenuLoader
 				aModuleName.Length == 0 ||
 				fileToLoad == null || 
 				fileToLoad.Length == 0 || 
-				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileToLoad)||
+				!PathFinder.PathFinderInstance.ExistFile(fileToLoad)||
 				commandsTypeToLoad == CommandsTypeToLoad.Undefined
 				)
 				return false;
@@ -3558,7 +3558,7 @@ namespace Microarea.Common.MenuLoader
 								imageFile = Path.Combine(installationPath, imageFile);
 						}
 					}
-					else if (aPathFinder.FileSystemManager.ExistPath(dirPath))
+					else if (aPathFinder.ExistPath(dirPath))
 					{
 						// Se nella directory trovo un file immagine che si chiama 
 						// <command_object>.<ext>, dove <ext> può essere ".bmp"o ".jpg" ecc., 
@@ -3710,7 +3710,7 @@ namespace Microarea.Common.MenuLoader
 			// o ".jpg" ecc., esso va usato per rappresentare graficamente l'applicazione
 			bool isFileNameComplete = IsValidImageFileExtension(imgFileName);
 
-			List<TBFile> fileInfos = PathFinder.PathFinderInstance.FileSystemManager.GetFiles(dirPath, isFileNameComplete ? imgFileName : (imgFileName + ".*"));
+			List<TBFile> fileInfos = PathFinder.PathFinderInstance.GetFiles(dirPath, isFileNameComplete ? imgFileName : (imgFileName + ".*"));
 			
 			if (fileInfos.Count > 0)
 			{
@@ -3798,8 +3798,8 @@ namespace Microarea.Common.MenuLoader
 						TBDirectoryInfo menuFileDirectory = null;
 						if (menuFileName != null && menuFileName.Length > 0)
 						{
-							TBFile loadedFileInfo = new TBFile(menuFileName, aPathFinder.FileSystemManager.GetAlternativeDriverIfManagedFile(menuFileName));
-							menuFileDirectory = new TBDirectoryInfo(loadedFileInfo.PathName, aPathFinder.FileSystemManager.GetAlternativeDriverIfManagedFile(menuFileName));
+							TBFile loadedFileInfo = new TBFile(menuFileName, aPathFinder.GetAlternativeDriverIfManagedFile(menuFileName));
+							menuFileDirectory = new TBDirectoryInfo(loadedFileInfo.PathName, aPathFinder.GetAlternativeDriverIfManagedFile(menuFileName));
                         }
 
 						foreach (MenuXmlNode aGroupNode in groupItems)

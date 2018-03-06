@@ -198,7 +198,7 @@ namespace Microarea.Common.GenericForms
 				return false;
 			}
 
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile))
+			if (!PathFinder.PathFinderInstance.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile))
 			{
 				diagnostic.Set(DiagnosticType.Information, WebServicesWrapperStrings.RunConsoleFirst);
 				diagnostic.Set(DiagnosticType.Error, string.Format(WebServicesWrapperStrings.ErrFileNotExists, PathFinder.PathFinderInstance.ServerConnectionFile));
@@ -301,11 +301,11 @@ namespace Microarea.Common.GenericForms
 		{
 			string pwd = string.Empty;
 			string loginSessionFile = PathFinder.PathFinderInstance.GetLoginMngSessionFile();
-			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(loginSessionFile))
+			if (PathFinder.PathFinderInstance.ExistFile(loginSessionFile))
 			{
 				try
 				{
-                    pwd = PathFinder.PathFinderInstance.FileSystemManager.GetFileTextFromFileName(loginSessionFile);
+                    pwd = PathFinder.PathFinderInstance.GetFileTextFromFileName(loginSessionFile);
                 }
 				catch
 				{

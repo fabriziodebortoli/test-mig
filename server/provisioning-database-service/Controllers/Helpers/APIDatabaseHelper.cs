@@ -846,12 +846,12 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
             StringCollection tempList = new StringCollection();
 
-			if (pf.FileSystemManager.ExistPath(customDir))
-				foreach (TBDirectoryInfo dir in pf.FileSystemManager.GetSubFolders(customDir))
+			if (pf.ExistPath(customDir))
+				foreach (TBDirectoryInfo dir in pf.GetSubFolders(customDir))
 					tempList.Add(dir.direcotryInfo.Name);
 
-			if (pf.FileSystemManager.ExistPath(standardDir))
-				foreach (TBDirectoryInfo dir in pf.FileSystemManager.GetSubFolders(standardDir))
+			if (pf.ExistPath(standardDir))
+				foreach (TBDirectoryInfo dir in pf.GetSubFolders(standardDir))
 					if (!tempList.Contains(dir.direcotryInfo.Name))
 						tempList.Add(dir.direcotryInfo.Name);
 

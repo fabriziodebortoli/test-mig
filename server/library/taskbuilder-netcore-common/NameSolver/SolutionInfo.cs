@@ -40,7 +40,7 @@ namespace Microarea.Common.NameSolver
 			if	( 
 					solutionFile == null			|| 
 					solutionFile == string.Empty	|| 
-					!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(solutionFile)
+					!PathFinder.PathFinderInstance.ExistFile(solutionFile)
 				)
 			{
 				Debug.Assert(false);
@@ -50,7 +50,7 @@ namespace Microarea.Common.NameSolver
 			XmlDocument doc =  new XmlDocument();
             try
             {
-                doc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(doc, solutionFile);
+                doc = PathFinder.PathFinderInstance.LoadXmlDocument(doc, solutionFile);
             }
             catch (XmlException exc)
             {

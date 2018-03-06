@@ -33,7 +33,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             string templateFullName = System.IO.Path.Combine(TemplatePath, fileName);
             string code = string.Empty;
             /*
-            if (!this.PathFinder.FileSystemManager.ExistPath(templateFullName))
+            if (!this.PathFinder.ExistPath(templateFullName))
                 return code;
 
             using (StreamReader templateReader = new StreamReader(templateFullName))

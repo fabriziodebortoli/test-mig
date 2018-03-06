@@ -194,7 +194,7 @@ namespace Microarea.Common.NameSolver
 		public bool Parse()
 		{
 			if (
-				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath) ||
+				!PathFinder.PathFinderInstance.ExistFile(filePath) ||
 				parentModuleInfo == null ||
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -477,7 +477,7 @@ namespace Microarea.Common.NameSolver
 					UnparseTableNode(t, tablesElement, rowSecurityObjectsXmlDoc);
 
 				// salvataggio del file (sovrascrivendo il contenuto del file se gia' esistente)
-				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(this.filePath) && (File.GetAttributes(this.filePath) & FileAttributes.ReadOnly)== FileAttributes.ReadOnly)
+				if (PathFinder.PathFinderInstance.ExistFile(this.filePath) && (File.GetAttributes(this.filePath) & FileAttributes.ReadOnly)== FileAttributes.ReadOnly)
 					File.SetAttributes(this.filePath, FileAttributes.Normal);
 
 				rowSecurityObjectsXmlDoc.Save(File.Open(filePath, FileMode.Open));

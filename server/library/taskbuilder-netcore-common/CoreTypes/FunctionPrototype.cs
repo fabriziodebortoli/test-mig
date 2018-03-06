@@ -864,11 +864,11 @@ namespace Microarea.Common.CoreTypes
                 ? string.Empty
                 : mi.GetWebMethodsPath();
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
+            if (!PathFinder.PathFinderInstance.ExistFile(path))
                 return false;
 
             XmlDocument dom = null;
-            dom = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(dom, path);
+            dom = PathFinder.PathFinderInstance.LoadXmlDocument(dom, path);
 
             // cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
             XmlNode root = dom.DocumentElement;

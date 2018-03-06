@@ -803,7 +803,7 @@ namespace PdfSharp.Drawing
         /// <returns>False, if file could not be read or is not a JPEG file.</returns>
         internal static bool ReadJpegFile(string filename, int maxRead, ref byte[] imageBits)
         {
-            if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (PathFinder.PathFinderInstance.ExistFile(filename))
             {
                 FileStream fs = null;
                 try

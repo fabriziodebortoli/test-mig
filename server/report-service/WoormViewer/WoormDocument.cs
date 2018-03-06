@@ -492,11 +492,11 @@ namespace Microarea.RSWeb.WoormViewer
 			if (mi == null)	return true;
 
 			string path = mi.GetOutDateObjectsPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
+			if (!PathFinder.PathFinderInstance.ExistFile(path))
 				return true;
 
 			XmlDocument dom = new XmlDocument();
-            dom = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(dom, path);
+            dom = PathFinder.PathFinderInstance.LoadXmlDocument(dom, path);
 
 			// cerca con XPath solo le funzioni con un dato nome per poi selezionare quella con i parametri giusti
 			XmlNode root = dom.DocumentElement;
@@ -1562,9 +1562,9 @@ namespace Microarea.RSWeb.WoormViewer
 			string file = "";
 			NameSpace ns = new NameSpace(Template.NsTemplate);
 			file = PathFinder.PathFinderInstance.GetCustomReportFullNameFromNamespace(ns, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
-			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.ExistFile(file))
 				file = PathFinder.PathFinderInstance.GetStandardReportFullNameFromNamespace(ns);
-			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+			if (string.IsNullOrEmpty(file) || !PathFinder.PathFinderInstance.ExistFile(file))
 			{
 				Diagnostic.SetError(string.Format("{0} {1}", WoormViewerStrings.ErrorReadingTemplate, file));
 				return false;

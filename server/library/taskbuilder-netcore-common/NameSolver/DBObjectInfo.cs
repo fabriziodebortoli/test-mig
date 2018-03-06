@@ -92,12 +92,12 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		public bool ParseObjectsFromFile(string filePath)
 		{
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+			if (!PathFinder.PathFinderInstance.ExistFile(filePath))
 				return false;
 
 			try
 			{
-                myDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(myDocument, filePath);
+                myDocument = PathFinder.PathFinderInstance.LoadXmlDocument(myDocument, filePath);
 
 				// check nome root
 				if (string.Compare(myDocument.DocumentElement.Name, DBObjectXML.Element.RootElement, StringComparison.OrdinalIgnoreCase) != 0)

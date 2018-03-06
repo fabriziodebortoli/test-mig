@@ -63,8 +63,8 @@ namespace Microarea.Common.MenuLoader
 		internal static string GetCustomUserPreferencesFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(path))
+                PathFinder.PathFinderInstance.CreateFolder(path, false);
 
 			return Path.Combine(path, "preferences.bin");
 		}
@@ -73,8 +73,8 @@ namespace Microarea.Common.MenuLoader
 		internal static string GetCustomUserMostUsedFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(path))
+				PathFinder.PathFinderInstance.CreateFolder(path, false);
 
 			return Path.Combine(path, "mostUsed.bin");
 		}
@@ -131,8 +131,8 @@ namespace Microarea.Common.MenuLoader
         internal static string GetCustomUserHiddenTilesFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(path))
+				PathFinder.PathFinderInstance.CreateFolder(path, false);
 
 			return Path.Combine(path, "hiddenTiles.bin");
 		}
@@ -141,8 +141,8 @@ namespace Microarea.Common.MenuLoader
 		internal static string GetCustomUserHistoryFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(path))
+				PathFinder.PathFinderInstance.CreateFolder(path, false);
 
 			return Path.Combine(path, "history.bin");
 		}
@@ -174,11 +174,11 @@ namespace Microarea.Common.MenuLoader
 		internal static XmlDocument GetCustomUserAppDataXmlDocument(string file)
 		{
 			XmlDocument doc = new XmlDocument();
-			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))//PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+			if (PathFinder.PathFinderInstance.ExistFile(file))//PathFinder.PathFinderInstance.ExistFile(file))
 			{
 				try
 				{
-                    doc = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(doc, file);
+                    doc = PathFinder.PathFinderInstance.LoadXmlDocument(doc, file);
                     return doc;
 				}
 				catch { }
@@ -193,8 +193,8 @@ namespace Microarea.Common.MenuLoader
 		internal static string GetCustomUserFavoriteFile(PathFinder pathFinder)
 		{
 			string path = pathFinder.GetCustomUserApplicationDataPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-				PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+			if (!PathFinder.PathFinderInstance.ExistPath(path))
+				PathFinder.PathFinderInstance.CreateFolder(path, false);
 
 			return Path.Combine(path, "favorites.bin");
 		}

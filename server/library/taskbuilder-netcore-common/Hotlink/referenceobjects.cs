@@ -263,7 +263,7 @@ namespace Microarea.Common.Hotlink
 
             // se il file delle funzioni esterne non esiste allora la funzione � indefinita
             string path = mi.GetReferenceObjectFileName(ns);
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path)) 
+            if (!PathFinder.PathFinderInstance.ExistFile(path)) 
                 return null;
 
             // restituisce il dom gi� tradotto per i Tag o gli Attribute che sono localizzati

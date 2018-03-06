@@ -691,7 +691,7 @@ namespace Microarea.Common.WebServicesWrapper
                     if (expression[0] == '?')
                     {
                         string instPath = PathFinder.PathFinderInstance.GetInstallationPath;
-                        return PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
+                        return PathFinder.PathFinderInstance.ExistFile(Path.Combine(instPath, expression.Substring(1).Replace('|', '\\')));
                     }
 
                     bool negateToken = (expression[0] == '!');

@@ -156,7 +156,7 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		public bool Parse()
 		{
-			if (parentModuleInfo == null || parentModuleInfo.ParentApplicationInfo == null || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(moduleConfigFile))
+			if (parentModuleInfo == null || parentModuleInfo.ParentApplicationInfo == null || !PathFinder.PathFinderInstance.ExistFile(moduleConfigFile))
 				return false;
 
 			XmlDocument moduleConfigDocument = null;
@@ -165,7 +165,7 @@ namespace Microarea.Common.NameSolver
 			{
 				moduleConfigDocument = new XmlDocument();
 			
-                moduleConfigDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(moduleConfigDocument, moduleConfigFile);
+                moduleConfigDocument = PathFinder.PathFinderInstance.LoadXmlDocument(moduleConfigDocument, moduleConfigFile);
 
 
                 XmlElement root = moduleConfigDocument.DocumentElement;
@@ -231,12 +231,12 @@ namespace Microarea.Common.NameSolver
 				moduleFolders.Add(moduleFolderInfo);
 
 				//cartella di help
-				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin"))
+				if (PathFinder.PathFinderInstance.ExistPath(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin"))
 				{
-					List<TBDirectoryInfo> helpLangs = PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin");
+					List<TBDirectoryInfo> helpLangs = PathFinder.PathFinderInstance.GetSubFolders(this.ParentModuleInfo.Path + "\\" + NameSolverStrings.Help + "\\Bin");
 					foreach (TBDirectoryInfo helpLang in helpLangs)
 					{
-                        List<TBDirectoryInfo> helpEditions = PathFinder.PathFinderInstance.FileSystemManager.GetSubFolders(helpLang.CompleteDirectoryPath);
+                        List<TBDirectoryInfo> helpEditions = PathFinder.PathFinderInstance.GetSubFolders(helpLang.CompleteDirectoryPath);
                         foreach (TBDirectoryInfo helpEdition in helpEditions)
 						{
 							ModuleFolderInfo helpFolderInfo = new ModuleFolderInfo(NameSolverStrings.Help + "\\Bin\\" + helpLang.name + "\\" + helpEdition.name, false);

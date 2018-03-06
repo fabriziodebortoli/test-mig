@@ -140,15 +140,15 @@ namespace Microarea.RSWeb.WoormWebControl
 		{
 			StreamReader inputFile = null;
 			string text = "";
-            string filename = PathFinder.PathFinderInstance.FileSystemManager.ExistFile(textFilename) ? 
+            string filename = PathFinder.PathFinderInstance.ExistFile(textFilename) ? 
                 textFilename : 
                 woorm.GetFilename(textFilename, NameSpaceObjectType.Text);
 
-			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+			if (PathFinder.PathFinderInstance.ExistFile(filename))
 			{
 				try
 				{
-                    using (Stream fs = PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true))//TODO LARA
+                    using (Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true))//TODO LARA
                     {
                         inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
                         string buffer;

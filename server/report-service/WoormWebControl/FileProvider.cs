@@ -43,7 +43,7 @@ namespace Microarea.RSWeb.WoormWebControl
 
 							genericTmpFile = ImagesHelper.GetImagePath(fileName);
 						} 
-						while (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(genericTmpFile));
+						while (PathFinder.PathFinderInstance.ExistFile(genericTmpFile));
 
 						woorm.Disposed += new EventHandler(Woorm_Disposed);
 					}
@@ -58,8 +58,8 @@ namespace Microarea.RSWeb.WoormWebControl
 		{
 			try
 			{
-				if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(genericTmpFile))
-                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(genericTmpFile);
+				if (PathFinder.PathFinderInstance.ExistFile(genericTmpFile))
+                    PathFinder.PathFinderInstance.RemoveFile(genericTmpFile);
 			}
 			catch
 			{

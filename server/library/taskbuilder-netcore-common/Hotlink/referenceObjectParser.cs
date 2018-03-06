@@ -165,11 +165,11 @@ namespace Microarea.Common.Hotlink
 			valid				= true;
 	
 			filePath = parentModuleInfo.GetReferenceObjectsPath();
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(filePath))
+			if (!PathFinder.PathFinderInstance.ExistPath(filePath))
 				return;
 
 		
-			foreach (TBFile file in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(filePath, NameSolverStrings.MaskFileXml))
+			foreach (TBFile file in PathFinder.PathFinderInstance.GetFiles(filePath, NameSolverStrings.MaskFileXml))
 			{
 				filePath = file.completeFileName;
 				Parse();
@@ -193,7 +193,7 @@ namespace Microarea.Common.Hotlink
 			valid				= true;
 	
 			filePath = aFilePath;
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+			if (!PathFinder.PathFinderInstance.ExistFile(filePath))
 				return;
 
 			filePath = aFilePath;
@@ -213,7 +213,7 @@ namespace Microarea.Common.Hotlink
 		{
 
 			if	(
-				!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath) ||
+				!PathFinder.PathFinderInstance.ExistFile(filePath) ||
 				parentModuleInfo == null	|| 
 				parentModuleInfo.ParentApplicationInfo == null
 				)
@@ -230,7 +230,7 @@ namespace Microarea.Common.Hotlink
 			try
 			{
 				//leggo il file
-				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+				if (!PathFinder.PathFinderInstance.ExistFile(filePath))
 				{
 					Debug.Fail("File not found");
 					return false;
@@ -382,9 +382,9 @@ namespace Microarea.Common.Hotlink
                     .PathFinderInstance
                     .GetStandardReferenceObjectsPath(applicationName, moduleName);
 
-                if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(referenceObjectsFolderPath))
+                if (PathFinder.PathFinderInstance.ExistPath(referenceObjectsFolderPath))
 				{
-                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(referenceObjectsFolderPath, false);
+                    PathFinder.PathFinderInstance.CreateFolder(referenceObjectsFolderPath, false);
 				}
 
 				string referenceOnbjectsFileName = Path.Combine(
@@ -393,12 +393,12 @@ namespace Microarea.Common.Hotlink
 					);
 
 
-				TBFile referenceObjectsFileInfo = new TBFile(referenceOnbjectsFileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(referenceOnbjectsFileName));
+				TBFile referenceObjectsFileInfo = new TBFile(referenceOnbjectsFileName, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(referenceOnbjectsFileName));
 
 				if (referenceObjectsFileInfo != null && referenceObjectsFileInfo.Readonly)
 					referenceObjectsFileInfo.Readonly = false;
 
-                PathFinder.PathFinderInstance.FileSystemManager.SaveTextFileFromXml(referenceOnbjectsFileName, referenceObjectXmlDocument);
+                PathFinder.PathFinderInstance.SaveTextFileFromXml(referenceOnbjectsFileName, referenceObjectXmlDocument);
                 
 
 

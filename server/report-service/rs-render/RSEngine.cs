@@ -317,7 +317,7 @@ namespace Microarea.RSWeb.Render
                     case State.Start:
                         {
                             // controlla che il file sia presente
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(Filename))
+                            if (!PathFinder.PathFinderInstance.ExistFile(Filename))
                             {
                                 CurrentState = State.FileNotFound;
                                 break;

@@ -617,7 +617,7 @@ namespace Microarea.Common.Applications
 		public bool Load(string filename, NameSpace owner, FontElement.FontSource source, string appName, String moduleName)
 		{
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                 return true;
 		
 			// mi evito di passarli di metodo in metodo

@@ -150,7 +150,7 @@ namespace Microarea.Common.FileSystemManager
             if (dom == null)
                 dom = new XmlDocument();
             if (IsManagedByAlternativeDriver(filename))
-                dom.Load(PathFinder.PathFinderInstance.FileSystemManager.GetStream(filename, true));
+                dom.Load(GetStream(filename, true));
             else
                 dom.Load(filename);
 
@@ -604,29 +604,11 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public List<string> GetAllModuleInfo(string strAppName)
         {
-	        if (GetAlternativeDriver() != null)
+            if (GetAlternativeDriver() != null)
                 return GetAlternativeDriver().GetAllModuleInfo(strAppName);
-	        else
+            else
                 return GetFileSystemDriver().GetAllModuleInfo(strAppName);
         }
-
-        ////-----------------------------------------------------------------------------
-        //public string GetFormattedQueryTime()
-        //{
-        //    if (IsAlternativeDriverEnabled() && GetAlternativeDriver() is DatabaseDriver)
-        //        return ((DatabaseDriver)m_pAlternativeDriver).GetFormattedQueryTime();
-
-        //    return string.Empty;
-        //}
-        ////-----------------------------------------------------------------------------
-        //public string GetFormattedFetchTime()
-        //{
-        //    if (IsAlternativeDriverEnabled() && GetAlternativeDriver() is DatabaseDriver)
-        //        return ((DatabaseDriver)m_pAlternativeDriver).GetFormattedFetchTime();
-
-        //    return string.Empty;
-        //}
-
     }
 }
 

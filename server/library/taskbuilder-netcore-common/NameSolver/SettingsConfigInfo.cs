@@ -118,7 +118,7 @@ namespace Microarea.Common.NameSolver
 		//---------------------------------------------------------------------
 		private bool ParseSingleFile(string aFilePath, SourceOfSettingsConfig source)
 		{
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(aFilePath))
+			if (!PathFinder.PathFinderInstance.ExistFile(aFilePath))
 				return false;
 
 			LocalizableXmlDocument settingsDocument = 
@@ -755,7 +755,7 @@ namespace Microarea.Common.NameSolver
 			if (String.Compare(extension, ".config",StringComparison.OrdinalIgnoreCase) != 0)
 			  path = String.Concat(path, ".config");
 					
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(path))
+			if (!PathFinder.PathFinderInstance.ExistFile(path))
 			{
 				if (mandatory) Debug.Fail("missing " + path);
 				return null;

@@ -29,7 +29,7 @@ namespace Microarea.Common.CoreTypes
             LocalizableXmlDocument eventHandlerDocument = null;
             if (parentModuleInfo != null)
             {
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+                if (!PathFinder.PathFinderInstance.ExistFile(filePath))
                     return false;
 
                 eventHandlerDocument = new LocalizableXmlDocument

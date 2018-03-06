@@ -91,8 +91,8 @@ namespace Microarea.Common.XmlPersister
 			{
 				string fileName = Path.GetFileName(filePath);
 				string dirPath = filePath.Substring(0, filePath.Length - fileName.Length);
-				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
-                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
+				if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
+                    PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
 				
 				XmlSerializer serializer = new XmlSerializer(this.GetType());
 				writer = new StreamWriter(File.OpenWrite(filePath));
@@ -139,7 +139,7 @@ namespace Microarea.Common.XmlPersister
 			try
 			{
 				// A FileStream is needed to read the XML document.
-				if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(fileName))
+				if (!PathFinder.PathFinderInstance.ExistFile(fileName))
 				{
 					message = string.Concat(message, ("GetFromXml-File does not exist: " + fileName), Environment.NewLine);
 					return null;

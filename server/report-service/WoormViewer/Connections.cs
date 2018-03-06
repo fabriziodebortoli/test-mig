@@ -948,9 +948,9 @@ namespace Microarea.RSWeb.WoormViewer
                                 FileProvider fp = new FileProvider(this.connections.Document, ext);
                                 string destPath = fp.GenericTmpFile;
 
-                                if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(sourceFilePath))
+                                if (PathFinder.PathFinderInstance.ExistFile(sourceFilePath))
                                 {
-                                    PathFinder.PathFinderInstance.FileSystemManager.CopyFile(sourceFilePath, destPath, true);
+                                    PathFinder.PathFinderInstance.CopyFile(sourceFilePath, destPath, true);
                                     return string.Format("~\\{0}", fp.GenericTmpFileRelPath);
                                 }
                             }

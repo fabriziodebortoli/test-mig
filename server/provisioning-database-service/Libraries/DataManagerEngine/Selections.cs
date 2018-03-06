@@ -135,18 +135,18 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			StringCollection tempList = new StringCollection();
 
-			if (contextInfo.PathFinder.FileSystemManager.ExistPath(customDir))
+			if (contextInfo.PathFinder.ExistPath(customDir))
 			{
                 
-				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.FileSystemManager.GetSubFolders(customDir))
+				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.GetSubFolders(customDir))
 					tempList.Add(dir.name);
 			}
 
 			string tempName = string.Empty;
 
-			if (contextInfo.PathFinder.FileSystemManager.ExistPath(standardDir))
+			if (contextInfo.PathFinder.ExistPath(standardDir))
 			{
-				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.FileSystemManager.GetSubFolders(standardDir))
+				foreach (TBDirectoryInfo dir in contextInfo.PathFinder.GetSubFolders(standardDir))
 				{
 					if (!tempList.Contains(dir.name))
 						tempList.Add(dir.name);
@@ -179,8 +179,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			{
 				try
 				{
-					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, true);
+					if (!PathFinder.PathFinderInstance.ExistPath(path))
+                        PathFinder.PathFinderInstance.CreateFolder(path, true);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}

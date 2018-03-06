@@ -1341,7 +1341,7 @@ namespace Microarea.Common.Applications
 		//-----------------------------------------------------------------------------
 		public bool LoadXml(string filename, string appName, ModuleInfo owner = null, bool checkActivation = false)
 		{
-            if (String.IsNullOrEmpty(filename) || !PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (String.IsNullOrEmpty(filename) || !PathFinder.PathFinderInstance.ExistFile(filename))
                 return true;
 
 			ushort		itemValue = 0;
@@ -1352,7 +1352,7 @@ namespace Microarea.Common.Applications
             this.ModuleName = owner.Name;
 
             XmlDocument dom = null;
-            dom = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(dom, filename);
+            dom = PathFinder.PathFinderInstance.LoadXmlDocument(dom, filename);
 
 			if (!dom.DocumentElement.HasChildNodes)
 				return true;
@@ -1869,7 +1869,7 @@ namespace Microarea.Common.Applications
 			Parser lex = new Parser(Parser.SourceType.FromFile);
 
 
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                 return true;
 				
 			if (lex.Open(filename))
@@ -1924,7 +1924,7 @@ namespace Microarea.Common.Applications
 		public bool FromIniToXml(string filename, ModuleInfo owner)
 		{
       
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filename))
+            if (!PathFinder.PathFinderInstance.ExistFile(filename))
                 return true;
 
 			// pulisce tutto quello che era stato caricato

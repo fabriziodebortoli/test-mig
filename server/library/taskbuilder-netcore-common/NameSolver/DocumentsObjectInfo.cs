@@ -288,7 +288,7 @@ namespace Microarea.Common.NameSolver
             LocalizableXmlDocument documentObjectsDocument = null;
             if (parentModuleInfo != null)
             {
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(filePath))
+                if (!PathFinder.PathFinderInstance.ExistFile(filePath))
                     return false;
 
                 documentObjectsDocument = new LocalizableXmlDocument
@@ -374,8 +374,8 @@ namespace Microarea.Common.NameSolver
                 if (!UnparseDocuments(documentElements))
                     return false;
                 string path = Path.GetDirectoryName(filePath);
-                if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
-                    PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(path, false);
+                if (!PathFinder.PathFinderInstance.ExistPath(path))
+                    PathFinder.PathFinderInstance.CreateFolder(path, false);
                 documentObjectsDocument.Save(File.OpenWrite(filePath));
                 return true;
 

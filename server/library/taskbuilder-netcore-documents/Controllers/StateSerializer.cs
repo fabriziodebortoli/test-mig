@@ -48,8 +48,8 @@ namespace TaskBuilderNetCore.Documents.Controllers
 
             basePath = Path.Combine(basePath, stateDirectory);
 
-            if (!this.PathFinder.FileSystemManager.ExistPath(basePath) && createPath)
-                this.PathFinder.FileSystemManager.CreateFolder(basePath, createPath);
+            if (!this.PathFinder.ExistPath(basePath) && createPath)
+                this.PathFinder.CreateFolder(basePath, createPath);
 
             return Path.Combine(basePath, fileName);
         }
@@ -73,7 +73,7 @@ namespace TaskBuilderNetCore.Documents.Controllers
             {
                 string fileName = GetFileName(component.CallerContext);
                 
-                if (this.PathFinder.FileSystemManager.ExistFile(fileName))
+                if (this.PathFinder.ExistFile(fileName))
                 {
                     using (StreamReader r = new StreamReader(fileName))
                     {
@@ -131,8 +131,8 @@ namespace TaskBuilderNetCore.Documents.Controllers
         {
             string fileName = GetFileName(component.CallerContext);
 
-            if (PathFinder.FileSystemManager.ExistFile(fileName))
-                PathFinder.FileSystemManager.RemoveFile(fileName);
+            if (PathFinder.ExistFile(fileName))
+                PathFinder.RemoveFile(fileName);
         }
     }
 

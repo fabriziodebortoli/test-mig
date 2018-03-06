@@ -52,7 +52,7 @@ namespace Microarea.Common.StringLoader
 		public static bool ValidateDictionaryPath(ref string dictionaryPath)
 		{
 			// se il percorso esiste, tutto ok
-			if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dictionaryPath))
+			if (PathFinder.PathFinderInstance.ExistPath(dictionaryPath))
 				return true;
 			// se la culture non è specifica (es en-us) allora non ho alternative
 			if (Culture.Length <= 2)
@@ -61,7 +61,7 @@ namespace Microarea.Common.StringLoader
 			// provo con la culture generica
 			dictionaryPath = Path.Combine(Path.GetDirectoryName(dictionaryPath), Culture.Substring(0, 2));
 
-			if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dictionaryPath))
+			if (!PathFinder.PathFinderInstance.ExistPath(dictionaryPath))
 			{
 				dictionaryPath = string.Empty;
 				return false;

@@ -215,7 +215,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		{
 			strings = new StringCollection();
 
-			foreach (TBFile file in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(pathName, "*" + NameSolverStrings.XmlExtension))
+			foreach (TBFile file in PathFinder.PathFinderInstance.GetFiles(pathName, "*" + NameSolverStrings.XmlExtension))
 			    strings.Add(file.name);
 		}
 

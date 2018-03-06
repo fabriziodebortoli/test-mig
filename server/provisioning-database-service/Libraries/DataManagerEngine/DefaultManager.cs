@@ -318,9 +318,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			foreach (FileForMissingTable file in importAppendFileForMissingTableList)
 			{
-				if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.StandardPath))
+				if (PathFinder.PathFinderInstance.ExistPath(file.StandardPath))
                 {
-					foreach (TBFile  fi in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(file.StandardPath, "*Append.xml"))
+					foreach (TBFile  fi in PathFinder.PathFinderInstance.GetFiles(file.StandardPath, "*Append.xml"))
 					{
 						idx = fi.name.IndexOf("Append");
 						table = fi.name.Substring(0, idx);
@@ -329,9 +329,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					}
 				}
 
-                if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(file.CustomPath))
+                if (PathFinder.PathFinderInstance.ExistPath(file.CustomPath))
 				{
-					foreach (TBFile fi in PathFinder.PathFinderInstance.FileSystemManager.GetFiles(file.CustomPath, "*Append.xml"))
+					foreach (TBFile fi in PathFinder.PathFinderInstance.GetFiles(file.CustomPath, "*Append.xml"))
 					{
 						idx = fi.name.IndexOf("Append");
 						table = fi.name.Substring(0, idx);
@@ -420,19 +420,19 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				// controllo se alla tabella sono associati dei dati di default
 				// prima nella custom del modulo (sia tablename.xml che appendtablename.xml)
 				// poi nella standard del modulo per il solo file tablename.xml
-				if (contextInfo.PathFinder.FileSystemManager.ExistFile(fileName))
-					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName)));
+				if (contextInfo.PathFinder.ExistFile(fileName))
+					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(fileName)));
                 else
 				{
 					fileName = stdPath + file.Table + NameSolverStrings.XmlExtension;
-					if (contextInfo.PathFinder.FileSystemManager.ExistFile(fileName))
-						importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName)));
+					if (contextInfo.PathFinder.ExistFile(fileName))
+						importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(fileName)));
                 }
 
 				// controllo se esiste nella custom il file tablenameappend.xml che permette di caricare altri dati di default
 				fileName = custPath + file.Table + DataManagerConsts.Append + NameSolverStrings.XmlExtension;
-				if (contextInfo.PathFinder.FileSystemManager.ExistFile(fileName))
-					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.FileSystemManager.GetAlternativeDriverIfManagedFile(fileName)));
+				if (contextInfo.PathFinder.ExistFile(fileName))
+					importFileList.Add(new TBFile(fileName, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(fileName)));
             }
 		}
 

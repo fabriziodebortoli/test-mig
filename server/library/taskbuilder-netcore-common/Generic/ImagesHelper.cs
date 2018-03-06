@@ -161,7 +161,7 @@ namespace Microarea.Common.Generic
                         {
                             string file = GetImagePath(imageFile);
                             //poi su file system
-                            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+                            if (!PathFinder.PathFinderInstance.ExistFile(file))
                             {
                                 string folder = Path.GetDirectoryName(file);
                                 if (!Directory.Exists(folder))
@@ -212,8 +212,8 @@ namespace Microarea.Common.Generic
 		/// </summary>
 		public static string GetImagePath(string imageFile)
 		{
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(TempImagesPath))
-                PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(TempImagesPath, false);
+            if (!PathFinder.PathFinderInstance.ExistPath(TempImagesPath))
+                PathFinder.PathFinderInstance.CreateFolder(TempImagesPath, false);
 
             return Path.Combine(TempImagesPath, imageFile);
 		}
@@ -229,15 +229,15 @@ namespace Microarea.Common.Generic
 				string imageName = Path.GetFileName(appImageFile);
 				if (!ImagesHelper.HasImageInCache(imageName))
 				{
-					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(appImageFile))
+					if (PathFinder.PathFinderInstance.ExistFile(appImageFile))
 					{
 						string file = ImagesHelper.GetImagePath(imageName);
 
-                        if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(file))
+                        if (!PathFinder.PathFinderInstance.ExistFile(file))
 						{
 							try
 							{
-                                PathFinder.PathFinderInstance.FileSystemManager.CopyFile(appImageFile, file, false);
+                                PathFinder.PathFinderInstance.CopyFile(appImageFile, file, false);
 							}
 							catch (Exception)
 							{

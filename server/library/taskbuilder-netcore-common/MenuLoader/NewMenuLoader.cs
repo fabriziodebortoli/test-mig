@@ -113,12 +113,12 @@ namespace Microarea.Common.MenuLoader
         	string originalStandardFile = MenuInfo.GetFullMenuCachingFullFileName(user); 
             FileInfo originalStandardFileInfo = new FileInfo(originalStandardFile);
 
-			if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(originalStandardFile))
+			if (PathFinder.PathFinderInstance.ExistFile(originalStandardFile))
 			{
 				string result = File.ReadAllText(originalStandardFileInfo.FullName);
 				try
 				{
-                    PathFinder.PathFinderInstance.FileSystemManager.RemoveFile(originalStandardFileInfo.FullName);
+                    PathFinder.PathFinderInstance.RemoveFile(originalStandardFileInfo.FullName);
 				}
 				catch (Exception)
 				{
@@ -957,8 +957,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					string dirPath = Path.GetDirectoryName(_logfile);
-					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
-                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
+					if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
+                        PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
 					sw = File.AppendText(_logfile);
 				}
 				catch (Exception ex)
@@ -1061,8 +1061,8 @@ namespace Microarea.Common.MenuLoader
 				try
 				{
 					string dirPath = Path.GetDirectoryName(_logfile);
-					if (!PathFinder.PathFinderInstance.FileSystemManager.ExistPath(dirPath))
-                        PathFinder.PathFinderInstance.FileSystemManager.CreateFolder(dirPath, false);
+					if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
+                        PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
 					sw = File.AppendText(_logfile);
 				}
 				catch (Exception ex)

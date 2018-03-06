@@ -87,7 +87,7 @@ namespace Microarea.Common.NameSolver
 			try
 			{
                 XmlDocument brandXmlDocument = null;
-                brandXmlDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(brandXmlDocument, aFileToLoad.completeFileName);
+                brandXmlDocument = PathFinder.PathFinderInstance.LoadXmlDocument(brandXmlDocument, aFileToLoad.completeFileName);
 				if 
 					(
 						brandXmlDocument.DocumentElement == null || 

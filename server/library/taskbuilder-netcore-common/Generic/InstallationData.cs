@@ -93,7 +93,7 @@ namespace Microarea.Common.Generic
 
 					serverConnectionInfo = new ServerConnectionInfo();
 
-					if (PathFinder.PathFinderInstance.FileSystemManager.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile) &&
+					if (PathFinder.PathFinderInstance.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile) &&
 						!serverConnectionInfo.Parse(PathFinder.PathFinderInstance.ServerConnectionFile))
 						throw new Exception(string.Format(Messages.ErrorReadingFile, PathFinder.PathFinderInstance.ServerConnectionFile));
 
@@ -233,7 +233,7 @@ namespace Microarea.Common.Generic
 				cultures.Add(new CultureInfo(string.Empty));    //lingua nativa
  				try
                 {
-					if (PathFinder.PathFinderInstance.FileSystemManager.ExistPath(path))
+					if (PathFinder.PathFinderInstance.ExistPath(path))
 					{
 						foreach (string folder in Directory.GetDirectories(path))
 						{

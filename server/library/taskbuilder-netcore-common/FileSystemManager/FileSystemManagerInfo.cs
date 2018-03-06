@@ -93,7 +93,7 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         public string GetFileName()
         {
-            return @"C:\TBexplorer anna\FileSystemManager.config";// TODO LARA AfxGetPathFinder()->GetTBDllPath() + "\\" + FileSystemManagerStrings.szXmlFileName;
+            return @"C:\TBexplorer anna\config";// TODO LARA AfxGetPathFinder()->GetTBDllPath() + "\\" + FileSystemManagerStrings.szXmlFileName;
         }
 
         //----------------------------------------------------------------------------
@@ -174,7 +174,7 @@ namespace Microarea.Common.FileSystemManager
             //if (!pRoot)
             //{
             //    ASSERT(FALSE);
-            //    TRACE("Cannot create root tag of the FileSystemManager.config file");
+            //    TRACE("Cannot create root tag of the config file");
             //    return FALSE;
             //}
 

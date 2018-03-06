@@ -23,12 +23,12 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             try
             {
                 // Creare la cartella di applicazione Standard\Applications\<newAppName>
-                if (!this.PathFinder.FileSystemManager.ExistPath(appFolder))
-                    this.PathFinder.FileSystemManager.CreateFolder(appFolder, true);
+                if (!this.PathFinder.ExistPath(appFolder))
+                    this.PathFinder.CreateFolder(appFolder, true);
 
                 // Verifico se è presente il file Application.config, nel caso non lo sia, lo creo
                 string appConfigFile = System.IO.Path.Combine(appFolder, NameSolverStrings.Application + NameSolverStrings.ConfigExtension);
-                if (!this.PathFinder.FileSystemManager.ExistFile(appConfigFile))
+                if (!this.PathFinder.ExistFile(appConfigFile))
                 {
                     CreateApplicationConfig(appConfigFile, applicationName, type);
                     this.PathFinder.CreateApplicationInfo(applicationName, type, containerFolder);
@@ -55,16 +55,16 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             ModuleInfo moduleInfo = this.PathFinder.GetModuleInfoByName(applicationName, moduleName) as ModuleInfo;
             try
             {
-                if (!this.PathFinder.FileSystemManager.ExistPath(modulePath))
+                if (!this.PathFinder.ExistPath(modulePath))
                 {
                     if (moduleInfo == null)
                         moduleInfo = new ModuleInfo(moduleName, applicationInfo);
-                    this.PathFinder.FileSystemManager.CreateFolder(modulePath, true);
+                    this.PathFinder.CreateFolder(modulePath, true);
                 }
 
                 // Verifico se è presente il file Module.config, nel caso non lo sia, lo creo
                 string moduleConfigFile = System.IO.Path.Combine(modulePath, NameSolverStrings.Module + NameSolverStrings.ConfigExtension);
-                if (!this.PathFinder.FileSystemManager.ExistFile(moduleConfigFile))
+                if (!this.PathFinder.ExistFile(moduleConfigFile))
                      CreateModuleConfig(moduleConfigFile, moduleName, moduleInfo);
 
             }
@@ -89,9 +89,9 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             string standardApplicationFolder = System.IO.Path.Combine(appFolder, applicationName);
             try
             {
-                if (this.PathFinder.FileSystemManager.ExistPath(standardApplicationFolder))
+                if (this.PathFinder.ExistPath(standardApplicationFolder))
                 {
-                    this.PathFinder.FileSystemManager.RemoveFolder(standardApplicationFolder, true, false, false);
+                    this.PathFinder.RemoveFolder(standardApplicationFolder, true, false, false);
                     return true;
                 }
             }
@@ -116,9 +116,9 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             string basePath = System.IO.Path.Combine(standardApplicationFolder, moduleName);
             try
             {
-                if (this.PathFinder.FileSystemManager.ExistPath(basePath))
+                if (this.PathFinder.ExistPath(basePath))
                 {
-                    this.PathFinder.FileSystemManager.RemoveFolder(basePath, true, false, false);
+                    this.PathFinder.RemoveFolder(basePath, true, false, false);
                     return true;
                 }
             }
@@ -192,7 +192,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             try
             {
-                this.PathFinder.FileSystemManager.RenameFolder(oldPath, newPath);
+                this.PathFinder.RenameFolder(oldPath, newPath);
                 // aggiorno l'applicationConfig
                 string configPath = System.IO.Path.Combine(newPath, NameSolverStrings.Application + NameSolverStrings.ConfigExtension);
                 CreateApplicationConfig(configPath, newName, info.ApplicationType);
@@ -219,7 +219,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
 
             try
             {
-                this.PathFinder.FileSystemManager.RenameFolder(oldPath, newPath);
+                this.PathFinder.RenameFolder(oldPath, newPath);
 
                 // aggiorno il module.Config
                 ModuleConfigInfo mcInfo = info.ModuleConfigInfo as ModuleConfigInfo;

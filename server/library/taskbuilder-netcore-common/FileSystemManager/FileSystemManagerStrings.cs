@@ -8,7 +8,7 @@ namespace Microarea.Common.FileSystemManager
     {
         private FileSystemManagerStrings()
         {}
-        public const string szXmlFileName = "FileSystemManager.config";
+        public const string szXmlFileName = "config";
 
         public const string szXmlRoot =  "FileSystemManager";
         public const string szXmlDriverKey =  "/FileSystemManager/Driver";
@@ -48,7 +48,7 @@ namespace Microarea.Common.FileSystemManager
         public const string szXmlIntOneValue =  "1";
         public const string szXmlIntTwoValue =  "2";
 
-        public const string szWebServiceDriverService =  "/FileSystemManager/FileSystemManager.asmx";
+        public const string szWebServiceDriverService =  "/FileSystemManager/asmx";
         public const string szWebServiceDriverNamespace =  "http://microarea.it/FileSystemManager/";
     }
 }

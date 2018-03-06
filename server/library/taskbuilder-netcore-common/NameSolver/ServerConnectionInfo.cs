@@ -116,7 +116,7 @@ namespace Microarea.Common.NameSolver
         public bool Parse(string aServerConnectionFile)
         {
             ServerConnectionFile = aServerConnectionFile;
-            if (!PathFinder.PathFinderInstance.FileSystemManager.ExistFile(aServerConnectionFile))
+            if (!PathFinder.PathFinderInstance.ExistFile(aServerConnectionFile))
             {
                 Debug.WriteLine(string.Format("File {0} does not exist!", aServerConnectionFile));
                 return false;
@@ -126,7 +126,7 @@ namespace Microarea.Common.NameSolver
 
             try
             {
-                ServerConnectionDocument = PathFinder.PathFinderInstance.FileSystemManager.LoadXmlDocument(ServerConnectionDocument, ServerConnectionFile);
+                ServerConnectionDocument = PathFinder.PathFinderInstance.LoadXmlDocument(ServerConnectionDocument, ServerConnectionFile);
 
                 XmlElement root = ServerConnectionDocument.DocumentElement;
                 if (root == null)
