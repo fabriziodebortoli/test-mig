@@ -31,7 +31,7 @@ namespace Microarea.EasyStudio
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            
             app.UseMvc();
         }
     }

@@ -21,6 +21,9 @@ namespace TaskBuilderNetCore.EasyStudio
             }
         }
 
+        public bool HasErrors { get => diagnostic.Error; }
+        public bool HasWarnings { get => diagnostic.Warning; }
+        
         //---------------------------------------------------------------
         public DiagnosticProvider(string name)
         {

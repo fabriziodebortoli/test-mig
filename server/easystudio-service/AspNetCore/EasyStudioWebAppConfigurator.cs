@@ -14,6 +14,7 @@ using TaskBuilderNetCore.EasyStudio;
 
 namespace Microarea.EasyStudio.AspNetCore
 {
+    //=========================================================================
     public class EasyStudioWebAppConfigurator : IWebAppConfigurator
     {
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
