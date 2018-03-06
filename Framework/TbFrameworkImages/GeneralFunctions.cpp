@@ -668,6 +668,9 @@ Gdiplus::Bitmap* LoadGdiplusBitmapOrPngInternal(CString strImageNS, BOOL bUseCol
 //-------------------------------------------------------------------------------------------
 Gdiplus::Bitmap* LoadGdiplusBitmapOrPng(CString strImageNS, BOOL bUseColoredImage /*= FALSE*/, BOOL bForceLoad /*= FALSE*/)
 {
+	if (AfxIsRemoteInterface() && !bForceLoad)
+		return NULL;
+
 	Gdiplus::Bitmap* gdibitmap = NULL;
 	//qui deve gestire la clone (chiamate dalle altri classi e che poi ammazzano il gdiplus::bitmap per cui se messo nella mappa => crash in ClearMap o tentativo di riutilizzo)
 	Gdiplus::Bitmap* gdibitmap_clone = NULL;
