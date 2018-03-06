@@ -9,6 +9,10 @@ $text-weight:500;
     display: flex;
 }
 
+::ng-deep .anchored tb-label-static tb-caption {
+    display: none;
+}
+
 .col {
     overflow: hidden;
     display: flex;

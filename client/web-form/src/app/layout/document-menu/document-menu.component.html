@@ -86,6 +86,32 @@
                                     </div>
                                 </tb-panel>
                                 <tb-layout-container tbLayoutTypeColumn>
+                                    <tb-panel [title]="_TB('Company Bank')" tbTileStandard [isCollapsible]="true">
+                                        <div class="col col1">
+                                            <tb-combo cmpId="IDC_CS_BANK_RAPP" [caption]="_TB('Bank')" [width]="72" [model]="eventData?.model?.CustomersSuppliers?.CompanyBank" [hotLink]="{'name':'HKLCompanyBank','namespace':'ERP.Banks.Dbl.CompanyBanks'}" [contextMenu]="cm_IDC_CS_BANK_RAPP"></tb-combo>
+                                            <tb-label-static cmpId="IDC_CS_DESCRI_BARELATION" [width]="222" [model]="eventData?.model?.HKLCompanyBank?.Description"></tb-label-static>
+                                            <div class="anchored">
+                                                <tb-text cmpId="IDC_CS_CA_AZ" [caption]="_TB('Bill CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CompanyCA" [hotLink]="{'name':'HKLBillsCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
+                                                <tb-enum-combo *ngIf="eventData?.activation?.IDC_CS_PRESENTATION" cmpId="IDC_CS_PRESENTATION" [width]="130" [model]="eventData?.model?.CustomersSuppliers?.Presentation"></tb-enum-combo>
+                                            </div>
+                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_FACTORING" cmpId="IDC_CS_CA_FACTORING" [caption]="_TB('Factoring CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.FactoringCA" [hotLink]="{'name':'HKLFactoringCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
+                                        </div>
+                                    </tb-panel>
+                                    <tb-panel [title]="_TB('Company Bank')" tbTileStandard [isCollapsible]="true">
+                                        <div class="col col1">
+                                            <tb-combo cmpId="IDC_CS_BANK_RAPP" [caption]="_TB('Bank')" [width]="72" [model]="eventData?.model?.CustomersSuppliers?.CompanyBank" [hotLink]="{'name':'HKLCompanyBank','namespace':'ERP.Banks.Dbl.CompanyBanks'}" [contextMenu]="cm_IDC_CS_BANK_RAPP"></tb-combo>
+                                            <tb-label-static cmpId="IDC_CS_DESCRI_BARELATION" [width]="223" [model]="eventData?.model?.HKLCompanyBank?.Description"></tb-label-static>
+                                            <div class="anchored">
+                                                <tb-text cmpId="IDC_CS_CA_AZ" [caption]="_TB('Bill CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CompanyCA" [hotLink]="{'name':'HKLBillsCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
+                                                <tb-enum-combo *ngIf="eventData?.activation?.IDC_CS_PRESENTATION" cmpId="IDC_CS_PRESENTATION" [width]="131" [model]="eventData?.model?.CustomersSuppliers?.Presentation"></tb-enum-combo>
+                                            </div>
+                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_FACTORING" cmpId="IDC_CS_CA_FACTORING" [caption]="_TB('Factoring CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.FactoringCA" [hotLink]="{'name':'HKLFactoringCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
+                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_AZ_CUSTOMERS" cmpId="IDC_CS_CA_AZ_CUSTOMERS" [caption]="_TB('Payments CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CustomerCompanyCA" [hotLink]="{'name':'HKLBanksCAsCustomers','namespace':'ERP.Banks.Dbl.BanksAccounts'}"></tb-text>
+                                            <tb-label-static *ngIf="eventData?.activation?.IDC_CS_STATIC_IBAN" cmpId="IDC_CS_STATIC_IBAN" [caption]="_TB('IBAN')" [width]="223" [model]="eventData?.model?.HKLBanksCAsCustomers?.IBAN"></tb-label-static>
+                                        </div>
+                                    </tb-panel>
+                                </tb-layout-container>
+                                <tb-layout-container tbLayoutTypeColumn>
                                     <tb-panel [title]="_TB('Currency')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
                                         <div class="col col1">
                                             <div class="anchored">
@@ -354,9 +380,9 @@
         </tb-dockpane-container>
     </tb-frame-content>
     <tb-floating-action-menu>
-        <tb-floating-action-button icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-floating-action-button>
+        <!-- <tb-floating-action-button icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-floating-action-button>
         <tb-floating-action-button icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-floating-action-button>
-        <tb-floating-action-button icon="erp-variants-c" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-floating-action-button>
+        <tb-floating-action-button icon="erp-variants-c" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-floating-action-button> -->
     </tb-floating-action-menu>
     <tb-toolbar-bottom>
         <!-- <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
