@@ -61,7 +61,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       lineHeight = this.rect.label ? (this.rect.rect.bottom - this.rect.rect.top) / 2 + 'px' :
         (this.rect.rect.bottom - this.rect.rect.top) + 'px';
     }
-
+    const regex: RegExp = new RegExp(/(\r\n|\n|\r)/);
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'position': 'relative',
@@ -74,7 +74,8 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'text-align': this.rect.text_align,
       'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
-      'line-height': lineHeight
+      //'line-height': lineHeight,
+      'white-space': this.rect.value.match(regex) ? 'pre-line' : 'unset'
     };
     return obj;
   }

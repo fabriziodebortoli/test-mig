@@ -2,9 +2,9 @@
     {{askGroup.caption}}
 </h3>
 <hr>
-<div *ngIf="askGroup.isRadioGroup">
+<div *ngIf="askGroup.isRadioGroup" class="radioGroupCenter">
     <mat-radio-group>
-        <div *ngFor="let item of askGroup.entries">
+        <div *ngFor="let item of askGroup.entries" >
             <div [ngSwitch]="item.obj" *ngIf="!item.hidden">
                 <rs-ask-text [text]="item" *ngSwitchCase="0"> </rs-ask-text>
                 <rs-ask-radio [radio]="item" [otherRadios]="askGroup.radioBtns" *ngSwitchCase="1"> </rs-ask-radio>

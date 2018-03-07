@@ -103,11 +103,13 @@ export class ReportTableComponent {
   getColumnHeaderFont(column: column): any {
     if (column.hidden)
         return {};
+        const regex: RegExp = new RegExp(/(\r\n|\n|\r)/);
     let obj = {
       'font-family': column.title.font.face,
       'font-size': column.title.font.size + 'px',
       'font-style': column.title.font.italic ? 'italic' : 'normal',
       'font-weight': column.title.font.bold ? 'bold' : 'normal',
+      'white-space': column.title.caption.match(regex) ? 'pre-line' : 'unset'
     };
     return obj;
   }
