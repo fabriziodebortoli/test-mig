@@ -205,8 +205,6 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     private set filter(value: CompositeFilterDescriptor) {
         this._filter = cloneDeep(value);
         this.filterer.filter = cloneDeep(value);
-        this.filterer.lastChangedFilterIdx = this.state.columns
-            .findIndex(c => c.id === this.filterer.changedField) - (this.selectionColumnId ? 1 : 0);
         this.filterer.onFilterChanged(value);
     }
 

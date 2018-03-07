@@ -81,7 +81,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
         this.paginator.clientData.subscribe(d => {
             this.exitFindMode();
             this.setData(d);
-            this.filterer.resetFocus();
+            this.filterer.restoreFocus();
         });
         this.store.select('FormMode.value')
             .subscribe(m => this.state = this.state

@@ -160,16 +160,13 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
       } else {
         this.logger.debug('Login Error', this.authService.errorMessage);
         this.loadingService.setLoading(false);
-        if (result.errorCode == 9) //UserAlreadyLoggedError
-        {
+        if (result.errorCode === 9) { // UserAlreadyLoggedError
           this.userAlreadyConnectedOpened = true;
-        }
-        else if (result.errorCode == 19) //UserMustChangePasswordError
-        {
+        } else if (result.errorCode === 19) { // UserMustChangePasswordError
           this.changePassword.changePasswordOpened = true;
           const sub = this.changePassword.passwordChanged.subscribe((newPassword) => {
             sub.unsubscribe();
-            if (newPassword != "") {
+            if (newPassword !== '') {
               this.connectionData.password = newPassword;
               this.login();
             }

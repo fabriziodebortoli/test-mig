@@ -44,6 +44,7 @@ export class FilterService implements OnDestroy {
         } else {
             this._changedField = '';
         }
+        this.storeFocus();
     }
     public get filter(): CompositeFilter {
         return this._filter;
@@ -104,10 +105,16 @@ export class FilterService implements OnDestroy {
         return (this.sortChanged$ as BehaviorSubject<SortDescriptor[]>).getValue();
     }
 
-    public resetFocus() {
+    public storeFocus() {
+        this.lastChangedFilterIdx =
+            Array.from(this.filtersContainerRef.nativeElement.querySelectorAll('[kendofilterinput]'))
+                .findIndex(e => e === document.activeElement);
+    }
+
+    public restoreFocus() {
         this.setFocus('[kendofilterinput]', this.lastChangedFilterIdx);
     }
-    
+
     private setFocus(selector: string, index: number) {
         setTimeout(() => {
             const filters = this.filtersContainerRef.nativeElement.querySelectorAll(selector);

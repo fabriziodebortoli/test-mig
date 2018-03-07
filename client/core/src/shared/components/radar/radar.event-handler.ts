@@ -14,7 +14,7 @@ export default class RadarEventHandler {
 
         Observable.fromEvent(r.elRef.nativeElement, 'keydown', { capture: true })
             .pipe(untilDestroy(r))
-            // .debounceTime(50)
+            .filter((e: Event) => target().contains(e.target))
             .subscribe((e: KeyboardEvent) => {
                 switch (e.key) {
                     case 'w': r.selectPrevious(); break
@@ -42,7 +42,6 @@ export default class RadarEventHandler {
             .buffer(click$.debounceTime(250))
             .filter(arr => arr.length >= 2)
             .subscribe((e: Event[]) => {
-                console.log(e[0]['target']);
                 r.state.selectedIndex !== -1 && r.selectAndEdit(r.state.rows[r.state.selectedIndex]);
             });
     }

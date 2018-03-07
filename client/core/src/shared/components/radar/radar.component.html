@@ -19,8 +19,8 @@
                 <span class="truncate header">{{'page ' + (paginator.currentPage + 1)}}</span>
             </div>
             <div class="menu-category undefined">
-                <tb-toolbar-top-button #anchor icon="tb-checkedradiobuttonfilled" (click)="grid.showColumnHandler = !grid.showColumnHandler"
-                    [caption]="_TB('Select Columns')"></tb-toolbar-top-button>
+                <tb-toolbar-top-button #anchor icon="tb-checkedradiobuttonfilled" (click)="state?.columns?.length && grid.showColumnHandler = !grid.showColumnHandler"
+                    [caption]="_TB('Select Columns')" [disabled]="!state?.columns?.length"></tb-toolbar-top-button>
                 <tb-toolbar-top-button [icon]="grid.areFiltersVisibleIcon" [caption]="grid.areFiltersVisibleText" (click)="grid.areFiltersVisible = !grid.areFiltersVisible"></tb-toolbar-top-button>
                 <tb-toolbar-top-button [icon]="pinnedIcon" [caption]="pinnedText" (click)="pinned = !pinned"></tb-toolbar-top-button>
             </div>
