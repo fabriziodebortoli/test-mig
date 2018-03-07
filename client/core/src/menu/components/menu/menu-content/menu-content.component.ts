@@ -47,8 +47,7 @@ export class MenuContentComponent extends TbComponent {
 
   set tile(tile: any) {
     this._tile = tile;
-    this.objects = this._tile.Object;
-    // this.width2 = this.objects.length > 10;
+    this.objects = this._tile.Object.filter(x =>  x.noweb != undefined ? !x.noweb : true);
   }
 
   getPinnedClass(tile) {

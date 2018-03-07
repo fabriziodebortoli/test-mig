@@ -185,8 +185,11 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
       let newArray = [];
       if (array) {
         for (let i = 0; i < array.length; i++) {
-          if (this.tileIsVisible(array[i]) && !array[i].hiddenTile)
-            newArray.push(array[i]);
+
+          let element =array[i];
+          let noweb = element.noweb != undefined ? element.noweb : false;
+          if (this.tileIsVisible(element) && !element.hiddenTile && !noweb)
+            newArray.push(element);
         }
       }
 

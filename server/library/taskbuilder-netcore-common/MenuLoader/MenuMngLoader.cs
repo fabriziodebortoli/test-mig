@@ -451,7 +451,6 @@ namespace Microarea.Common.MenuLoader
             this.authenticationToken = authenticationToken;
             if
                 (
-                applySecurityFilter &&
                 menuPathFinder != null &&
                 InstallationData.ServerConnectionInfo != null &&
                 !string.IsNullOrEmpty(InstallationData.ServerConnectionInfo.SysDBConnectionString)
