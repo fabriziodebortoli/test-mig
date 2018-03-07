@@ -1595,6 +1595,34 @@ namespace Microarea.TbJson
                     }
                     htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
                 }
+
+                JObject jSD = jObj.GetObject(Constants.stateData);
+                if (jSD != null)
+                {
+                    JObject jDSBinding = jSD.GetObject(Constants.binding);
+                    if (jDSBinding != null)
+                    {
+                        string dsBinding = jDSBinding.GetValue("datasource").ToString().Replace(" ", "");
+                        string[] dsBindingParts = dsBinding.Split('.');
+
+                        string stateData = "{" + string.Concat(
+                        "'model': 'eventData?.model?.",
+                        dsBindingParts[0],
+                        dsBindingParts.Count() > 1 ? "?." + dsBindingParts[1] : "",
+                        "'");
+
+                        if (jSD.GetValue("invertState") != null)
+                        {
+                            string invertStateVal = jSD.GetValue("invertState").ToString().Replace(" ", "");
+                            invertStateVal = invertStateVal.IndexOf("{") > 0 ? invertStateVal : invertStateVal.ToLower();
+                            stateData += ", 'invertState': " + invertStateVal;
+                        }
+
+                        stateData += "}";
+
+                        htmlWriter.WriteAttribute("[stateData]", stateData.ResolveInterplation());
+                    }
+                }
             }
         }
 
