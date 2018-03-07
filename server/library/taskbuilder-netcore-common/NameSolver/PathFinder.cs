@@ -177,7 +177,7 @@ namespace Microarea.Common.NameSolver
             fileSystemManager.FileSystemDriver = new FileSystemDriver(); // lui c e sempre
             FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
             managerInfo.LoadFile();
-            if (managerInfo.GetDriver() == DriverType.Database)
+            if (managerInfo.GetDriver() == DriverType.Database) 
             {
                 DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), managerInfo.GetCustomConnectionString());
                 fileSystemManager.AlternativeDriver = dataBaseDriver;
@@ -4193,12 +4193,17 @@ namespace Microarea.Common.NameSolver
             return "";
         }
 
-
-        #endregion
-
-        #region da Filessystemmanager
         //-----------------------------------------------------------------------------
-        public string GetServerConnectionConfig()
+        public bool IsEasyStudioPath(string fileName)
+        {
+        	return fileName.StartsWith(GetEasyStudioHomePath());
+        }
+
+    #endregion
+
+    #region da Filessystemmanager
+    //-----------------------------------------------------------------------------
+    public string GetServerConnectionConfig()
         {
             return fileSystemManager.GetServerConnectionConfig();
         }

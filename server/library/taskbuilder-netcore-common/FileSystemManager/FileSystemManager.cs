@@ -67,7 +67,7 @@ namespace Microarea.Common.FileSystemManager
             AttachFileSystemDriver(pFileSystem, false);
 
             fileSystemDriverOwner = true;
-            if (pAlternative != null)
+            if (pAlternative == null)
             {
                 AttachAlternativeDriver(pAlternative, false);
                 alternativeDriverOwner = true;

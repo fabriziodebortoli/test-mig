@@ -137,11 +137,17 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //---------------------------------------------------------------------
-        public bool IsAManagedObject(string sFileName)
+        public bool IsAManagedObject(string fileName)
         {
             string path = pathFinder.GetStandardPath;
-            return sFileName.Contains(path) ;
-            //return pathFinder.IsStandardPath(sFileName) || pathFinder.IsCustomPath(sFileName);
+            if (fileName.Contains(path))
+                return true;
+
+            if (pathFinder.IsEasyStudioPath(fileName) )
+                return !string.IsNullOrEmpty(GetCustomConnectionString());
+
+            return false;
+
         }
 
         //se non esiste il parent lo inserisco, vado in ricorsione
