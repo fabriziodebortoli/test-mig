@@ -83,10 +83,9 @@ namespace Microarea.Common.StringLoader
 				return baseString;
 
 			string searchString = baseString;
-			DictionaryStringItem targetItem = dictionary[searchString] as DictionaryStringItem;
-			
-			if (targetItem == null || targetItem.Target.Length == 0 )
-			{
+            DictionaryStringItem targetItem = null; 
+            if (!dictionary.TryGetValue(searchString, out targetItem) || targetItem.Target.Length == 0)
+            { 
 				searchString = searchString.Trim().Replace("\r\n", "\n");
 				targetItem = dictionary[searchString] as DictionaryStringItem;
 			}

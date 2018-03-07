@@ -49,9 +49,9 @@ namespace Microarea.Common.StringLoader
 		public void AddDictionaryStringBlock(string type, string id, string name, DictionaryStringBlock block)
 		{
 			DictionaryBinaryIndexItem item = new DictionaryBinaryIndexItem(type, id, name);
-            DictionaryStringBlock existingBlock = this[item];
-			if (existingBlock == null)
-			{
+            DictionaryStringBlock existingBlock = null;
+            if (!TryGetValue(item, out existingBlock))
+            { 
 				this[item] = block;
 				return;
 			}
@@ -112,7 +112,9 @@ namespace Microarea.Common.StringLoader
 		//--------------------------------------------------------------------------------
 		public DictionaryStringBlock GetBlock(DictionaryBinaryIndexItem targetItem)
 		{
-			return this[targetItem] as DictionaryStringBlock;
+            DictionaryStringBlock dictStringBlock = null;
+            TryGetValue(targetItem, out dictStringBlock);
+            return dictStringBlock;
 		}
 	}
 
