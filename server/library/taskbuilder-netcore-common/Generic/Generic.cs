@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
+
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -467,61 +467,6 @@ namespace Microarea.Common.Generic
        
 
             /// <summary>
-            /// Salva il contenuto di uno Stream in un file.
-            /// Il file viene creato, se esiste viene cancellato e ricreato.
-            /// </summary>
-            /// <param name="aStream">Lo Stream da salvare su file.</param>
-            /// <param name="fileFullName">Il nome completo del file da salvare.</param>
-            /// <returns>true se riesce a salvare lo stream in un file, false altrimenti.</returns>
-            /// <remarks>
-            /// Il file viene creato ex novo, se dovesse servire un metodo simile
-            /// per l'inserimento in coda fare un overload.
-            /// </remarks>
-            //---------------------------------------------------------------------
-            public static bool CopyToFile(Stream aStream, string fileFullName, out string error)
-            {
-                error = string.Empty;
-
-                try
-                {
-                    string dir = Path.GetDirectoryName(fileFullName);
-                    if (!PathFinder.PathFinderInstance.ExistPath(dir))
-                        PathFinder.PathFinderInstance.CreateFolder(dir, false);
-
-                    if (PathFinder.PathFinderInstance.ExistFile(fileFullName))
-                        System.IO.File.SetAttributes(fileFullName, FileAttributes.Normal);
-
-                    FileStream streamWriter;
-                    streamWriter = System.IO.File.Create(fileFullName);
-
-                    int size = 2048;
-                    byte[] buffer = new byte[2048];
-
-                    while (true)
-                    {
-                        size = aStream.Read(buffer, 0, buffer.Length);
-
-                        if (size > 0)
-                            streamWriter.Write(buffer, 0, size);
-                        else
-                            break;
-                    }
-
-                    streamWriter.Dispose();
-
-                    return true;
-                }
-                catch (Exception exc)
-                {
-                    error = exc.Message;
-                    return false;
-                }
-            }
-
-   
-
-
-            /// <summary>
             /// funzione che controlla che la stringa passata come parametro non contenga
             /// caratteri invalidi (intesa come nome di file o folder, non intero path)
             /// </summary>
@@ -895,7 +840,7 @@ namespace Microarea.Common.Generic
                 string path = PathFinder.PathFinderInstance.GetStandardDataManagerPath(NameSolverStrings.Extensions, NameSolverStrings.TbMailer);
                 path = Path.Combine(path, NameSolverStrings.DataFile, defaultIso, "State.xml");
 
-                if (!PathFinder.PathFinderInstance.ExistFile(path)) 
+                if (!PathFinder.PathFinderInstance.ExistFile(path))
                     return defaultCountry;
 
                 try
@@ -921,34 +866,6 @@ namespace Microarea.Common.Generic
                 catch { }
 
                 return defaultCountry;
-            }
-
-            ///<summary>
-            /// Dato il path di un file .crs passato come parametro, ne decripta il contenuto e ritorna la stringa in chiaro
-            ///</summary>
-            ///<remarks>Ad uso del RowSecurityLayer in fase di caricamento dell'estensione in C++</remarks>
-            //--------------------------------------------------------------------------------------------------------------------------------
-            public static string OpenCrsFile(string filePath)
-            {
-                string decryptedContent = string.Empty;
-
-                if (string.IsNullOrWhiteSpace(filePath))
-                    return decryptedContent;
-
-                if (Path.GetExtension(filePath).ToUpperInvariant() != NameSolverStrings.CrsExtension.ToUpperInvariant())
-                    return decryptedContent;
-
-                try
-                {
-                    byte[] content = File.ReadAllBytes(filePath);
-                    decryptedContent = Crypto.Decrypt(content);
-                }
-                catch
-                {
-                    decryptedContent = string.Empty;
-                }
-
-                return decryptedContent;
             }
         }
 

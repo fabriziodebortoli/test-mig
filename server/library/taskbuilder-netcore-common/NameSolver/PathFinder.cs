@@ -149,7 +149,6 @@ namespace Microarea.Common.NameSolver
                     if (pathFinderInstance == null)
                     {
                         pathFinderInstance = new PathFinder();
-                   //     pathFinderInstance.InitFileSystemManager(pathFinderInstance);
                         pathFinderInstance.Init();
                         pathFinderInstance.LoadPrototypes();
 

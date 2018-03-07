@@ -2215,7 +2215,6 @@ namespace Microarea.Common.ExpressionManager
 						//TODO potrebbe essere un namespace
 						string result = "";
 
-						StreamReader inputFile = null;
 						try
 						{
                             if (!PathFinder.PathFinderInstance.ExistFile(filename))
@@ -2228,9 +2227,10 @@ namespace Microarea.Common.ExpressionManager
               
                             if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
-								Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
-								inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
-								result = inputFile.ReadToEnd();
+                                result = PathFinder.PathFinderInstance.GetFileTextFromFileName(filename); //TODO LARA SILVANO
+        //                        Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
+								//inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
+								//result = inputFile.ReadToEnd();
 							}
 							else
 								result = ExpressionManagerStrings.FileNotFound + CastString(p1);
@@ -2241,9 +2241,8 @@ namespace Microarea.Common.ExpressionManager
 						}
 						finally
 						{
-							if (inputFile != null)
-								inputFile.Dispose();
-						}
+
+                        }
 						return new Value(result);
 					}
 				case Token.SAVETEXT:
@@ -2293,9 +2292,11 @@ namespace Microarea.Common.ExpressionManager
                            
                             if (!PathFinder.PathFinderInstance.ExistFile(filename))
                             {
-								Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
-								oFile = new StreamWriter(fs, enc);
-								oFile.Write(text);
+                                
+                                Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true);
+                                PathFinder.PathFinderInstance.SaveTextFileFromStream(filename, fs); //TODO LARA SILVANO
+        //                        oFile = new StreamWriter(fs, enc);
+								//oFile.Write(text);
 							}
 							else
 								return new Value(false);

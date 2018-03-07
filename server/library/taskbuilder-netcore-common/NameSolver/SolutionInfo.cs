@@ -1,6 +1,5 @@
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.IO;
 using System.Xml;
 
 namespace Microarea.Common.NameSolver

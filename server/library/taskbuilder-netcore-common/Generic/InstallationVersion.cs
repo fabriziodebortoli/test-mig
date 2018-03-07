@@ -90,7 +90,7 @@ namespace Microarea.Common.Generic
 
 			try
 			{
-                if (!PathFinder.PathFinderInstance.ExistFile(file))//PathFinder.PathFinderInstance.ExistFile(file))
+                if (!PathFinder.PathFinderInstance.ExistFile(file))
                 {
                     InstallationVersion iv = new InstallationVersion();
                     iv.Save(file);

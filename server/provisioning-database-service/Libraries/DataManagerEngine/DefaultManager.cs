@@ -149,8 +149,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 							(defaultSel.ExportSel.ContextInfo.PathFinder.GetCustomDataManagerDefaultPath(entry.Application, entry.Module, defaultSel.SelectedIsoState),
 							defaultSel.SelectedConfiguration);
 
-						if (!Directory.Exists(expMng.DataMngPath))
-							Directory.CreateDirectory(expMng.DataMngPath);
+						if (!PathFinder.PathFinderInstance.ExistPath(expMng.DataMngPath))
+                            PathFinder.PathFinderInstance.CreateFolder(expMng.DataMngPath, false);
 
 						//@@TODOMICHI
 						//expMng.ExportTable(entry, ref dataSet);
@@ -367,7 +367,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			defaultSel.ImportSel.IsSilent = true; // imposto che si tratta di elaborazione silente
 
 			foreach (FileForUpgradeDefault file in this.importFilesForUpgradeList)
-				defaultSel.ImportSel.AddItemInImportList(file.FileForUpgrade.FullName, file.Overwrite);
+				defaultSel.ImportSel.AddItemInImportList(file.FileForUpgrade.completeFileName, file.Overwrite);
 
 			// se l'array dei file da importare è vuoto non procedo nell'elaborazione
 			if (defaultSel.ImportSel.ImportList.Count == 0)
@@ -488,9 +488,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			foreach (TBFile tbFile in fileList)
 			{
-				if (string.Compare(Path.GetFileNameWithoutExtension(tbFile.fileInfo.Name), defaultStep.Table, StringComparison.InvariantCultureIgnoreCase) == 0)
+				if (string.Compare(Path.GetFileNameWithoutExtension(tbFile.name), defaultStep.Table, StringComparison.InvariantCultureIgnoreCase) == 0)
 				{
-					FileForUpgradeDefault f = new FileForUpgradeDefault(tbFile.fileInfo, defaultStep.Overwrite);
+					FileForUpgradeDefault f = new FileForUpgradeDefault(tbFile, defaultStep.Overwrite);
 					importFilesForUpgradeList.Add(f);
 					break;
 				}
@@ -528,11 +528,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 	//=========================================================================
 	public class FileForUpgradeDefault
 	{
-		public FileInfo FileForUpgrade;
+		public TBFile FileForUpgrade;
 		public bool Overwrite = false;
 
 		//---------------------------------------------------------------------------
-		public FileForUpgradeDefault(FileInfo file, bool overwrite)
+		public FileForUpgradeDefault(TBFile file, bool overwrite)
 		{
 			this.FileForUpgrade = file;
 			this.Overwrite = overwrite;

@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
 
@@ -55,8 +56,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			try
 			{
 				//DataSet dataSet = null;
-				if (!Directory.Exists(DataMngPath))
-					Directory.CreateDirectory(DataMngPath);
+				if (!PathFinder.PathFinderInstance.ExistPath (DataMngPath))
+                    PathFinder.PathFinderInstance.CreateFolder(DataMngPath, false);
 						
 				if (!expSelections.OneFileForTable)
 				{
@@ -422,26 +423,26 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//	return true;
 		//}
 
-		/// <summary>
-		/// permette di rendere opzionale un file di dati di default ovvero aggiunge
-		/// al tag DataTables l'attributo optional = 'true'
-		/// </summary>
-		//---------------------------------------------------------------------
-		public void SetFileXmlOptional(string fileName)
-		{
-			XmlDocument xDoc = new XmlDocument();
-			xDoc.Load(File.OpenText(fileName));
+		///// <summary>
+		///// permette di rendere opzionale un file di dati di default ovvero aggiunge
+		///// al tag DataTables l'attributo optional = 'true'
+		///// </summary>
+		////---------------------------------------------------------------------
+		//public void SetFileXmlOptional(string fileName)
+		//{
+		//	XmlDocument xDoc = new XmlDocument();
+		//	xDoc.Load(File.OpenText(fileName));
 						
-			//root del documento (DataTables)
-			XmlElement root = xDoc.DocumentElement;
-			if (root != null)
-				root.SetAttribute(DataManagerConsts.Optional, bool.TrueString);
+		//	//root del documento (DataTables)
+		//	XmlElement root = xDoc.DocumentElement;
+		//	if (root != null)
+		//		root.SetAttribute(DataManagerConsts.Optional, bool.TrueString);
 
-			// creo l'xmlwriter per dallo streamwriter e relativi settings
-			XmlWriter writer = XmlWriter.Create(File.Open(fileName, FileMode.OpenOrCreate), new XmlWriterSettings { Indent = true });
-			xDoc.WriteContentTo(writer);
-			writer.Flush();
-		}		
+		//	// creo l'xmlwriter per dallo streamwriter e relativi settings
+		//	XmlWriter writer = XmlWriter.Create(File.Open(fileName, FileMode.OpenOrCreate), new XmlWriterSettings { Indent = true });
+		//	xDoc.WriteContentTo(writer);
+		//	writer.Flush();
+		//}		
 		# endregion
 
 		///<summary>

@@ -62,14 +62,6 @@ namespace Microarea.Common.SerializableTypes
         }
 
 		//---------------------------------------------------------------------------
-		public void SaveForMago()
-		{
-			ApplicationCache cache = ApplicationCache.Load();
-			cache.PutObject<LoggedUser>(this);
-			cache.SaveLoggedUserForMagoFromProvisioningConfidurator();
-		}
-
-		//---------------------------------------------------------------------------
 		public void Save()
 		{
 			ApplicationCache cache = ApplicationCache.Load();

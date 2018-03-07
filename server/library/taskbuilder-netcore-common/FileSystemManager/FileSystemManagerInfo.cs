@@ -93,7 +93,7 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         public string GetFileName()
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileSystemManager.config");// @"C:\TBexplorer anna\config";// TODO LARA AfxGetPathFinder()->GetTBDllPath() + "\\" + FileSystemManagerStrings.szXmlFileName;
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileSystemManager.config");
         }
 
         //----------------------------------------------------------------------------

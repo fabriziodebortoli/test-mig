@@ -219,17 +219,7 @@ namespace Microarea.RSWeb.WoormEngine
             return tableNodes.GetTableRowNode(tableId);
 		}
 		
-		// Salva in string un DOM preservando intestazione XML, whitespace etc...
-		//------------------------------------------------------------------------------
-		public static string XmlDocumentToString(XmlDocument dom)
-		{
-            //TODO LARA
-			StringWriter s = new StringWriter();
-			dom.Save(s);
-			
-			return s.ToString();
-		}
-
+	
 		//  non scrive il file di informazioni
 		//------------------------------------------------------------------------------
 		override public void SaveInfo()

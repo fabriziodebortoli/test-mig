@@ -10,6 +10,7 @@ using TaskBuilderNetCore.Interfaces;
 using Microarea.ProvisioningDatabase.Libraries.DataManagerEngine;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 {
@@ -893,7 +894,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							continue;
 
 						FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-						if (!fi.Exists)
+						if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
 						{
 							OnElaborationProgressMessage?.Invoke(moduleDBInfo, false, moduleDBInfo.XmlPath, string.Empty, DatabaseManagerStrings.MsgFileNotExist, moduleDBInfo.XmlPath, null);
 							moduleDBInfo.ErrorInFileXML = true;

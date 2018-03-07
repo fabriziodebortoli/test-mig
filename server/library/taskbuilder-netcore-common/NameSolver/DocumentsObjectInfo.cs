@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 using System.IO;
 using System.Xml;
 
@@ -285,33 +284,27 @@ namespace Microarea.Common.NameSolver
         //---------------------------------------------------------------------
         public bool Parse(string filePath)
         {
-            LocalizableXmlDocument documentObjectsDocument = null;
-            if (parentModuleInfo != null)
-            {
-                if (!PathFinder.PathFinderInstance.ExistFile(filePath))
-                    return false;
+            //TODO LARA
+            //LocalizableXmlDocument documentObjectsDocument = null;
+            //if (parentModuleInfo != null)
+            //{
+            //    if (!PathFinder.PathFinderInstance.ExistFile(filePath))
+            //        return false;
 
-                documentObjectsDocument = new LocalizableXmlDocument
-                                            (
-                                                parentModuleInfo.ParentApplicationInfo.Name,
-                                                parentModuleInfo.Name,
-                                                parentModuleInfo.CurrentPathFinder
-                                            );
+            //    documentObjectsDocument = new LocalizableXmlDocument
+            //                                (
+            //                                    parentModuleInfo.ParentApplicationInfo.Name,
+            //                                    parentModuleInfo.Name,
+            //                                    parentModuleInfo.CurrentPathFinder
+            //                                );
 
-                //leggo il file
-                documentObjectsDocument.Load(filePath);
-            }
+            XmlDocument documentObjectsDocument = null;
+            //leggo il file
+            documentObjectsDocument = parentModuleInfo.CurrentPathFinder.LoadXmlDocument(documentObjectsDocument,  filePath);
+
             return Parse(documentObjectsDocument);
         }
-        //---------------------------------------------------------------------
-        public bool Parse(Stream fileStream)
-        {
-            //Lara
-            XmlDocument document = new XmlDocument();
-            //leggo il file
-            document.Load(fileStream);
-            return Parse(document);
-        }
+        
         //---------------------------------------------------------------------
         public bool Parse(XmlDocument documentObjectsDocument)
         {
@@ -374,9 +367,9 @@ namespace Microarea.Common.NameSolver
                 if (!UnparseDocuments(documentElements))
                     return false;
                 string path = Path.GetDirectoryName(filePath);
-                if (!PathFinder.PathFinderInstance.ExistPath(path))
-                    PathFinder.PathFinderInstance.CreateFolder(path, false);
-                documentObjectsDocument.Save(File.OpenWrite(filePath));
+                if (!parentModuleInfo.CurrentPathFinder.ExistPath(path))
+                    parentModuleInfo.CurrentPathFinder.CreateFolder(path, false);
+                parentModuleInfo.CurrentPathFinder.LoadXmlDocument(documentObjectsDocument, filePath);
                 return true;
 
             }

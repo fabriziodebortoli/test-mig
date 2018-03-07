@@ -358,11 +358,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 						appStructInfo = new ApplicationDBStructureInfo(contextInfo.PathFinder, brandLoader);
 						appStructInfo.ReadDatabaseObjectsFiles(applicationsList, true); // N.B.: il 2° param è x caricare anche le AddColumns
 						addOnApplicationList = appStructInfo.ApplicationDBInfoList;
-
-						// se l'azienda usa il RowSecurity ed e' attivato carico anche le mastertable
-						if (contextInfo.IsRowSecurityActivated && contextInfo.UseRowSecurity)
-							appStructInfo.ReadRowSecurityObjects(applicationsList);
-
 						// richiamo la classe che si occupa di stabilire lo stato del database
 						checkDbStructInfo = new CheckDBStructureInfo(KindOfDb, contextInfo, appStructInfo, ref DBManagerDiagnostic);
 						checkDbStructInfo.OnAddDefaultDataMissingTable += new CheckDBStructureInfo.AddDefaultDataMissingTable(OnAddDefaultDataMissingTable);
@@ -524,14 +519,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			{
 				try
 				{
-					if (!Directory.Exists(path))
-						Directory.CreateDirectory(path);
+					if (!ContextInfo.PathFinder.ExistPath(path))
+                        ContextInfo.PathFinder.CreateFolder(path, false);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
-				}
-				catch (IOException)
-				{
-					path = this.ContextInfo.PathFinder.GetCustomPath();
 				}
 				catch (UnauthorizedAccessException)
 				{

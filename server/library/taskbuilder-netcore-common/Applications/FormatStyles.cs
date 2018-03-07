@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Xml;
 
 using Microarea.Common.NameSolver;
@@ -16,7 +15,6 @@ using Microarea.Common.Generic;
 using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace Microarea.Common.Applications

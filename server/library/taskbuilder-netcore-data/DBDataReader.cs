@@ -8,8 +8,7 @@ using System.Data.SqlClient;
 using System.Data.Common;
 using System.Collections;
 using System.Threading;
-using System.Data;
-using System.IO;
+
 
 namespace TaskBuilderNetCore.Data
 {
@@ -194,16 +193,6 @@ namespace TaskBuilderNetCore.Data
         public override string GetString(int ordinal)
         {
             return dt.GetString(ordinal);
-        }
-
-        public override Stream GetStream(int ordinal)
-        {
-            return dt.GetStream(ordinal);
-        }
-
-        public override TextReader GetTextReader(int ordinal)
-        {
-            return dt.GetTextReader(ordinal);
         }
 
         public override object GetValue(int ordinal)

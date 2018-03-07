@@ -184,10 +184,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}
-				catch (IOException)
-				{
-					path = contextInfo.PathFinder.GetCustomPath();
-				}
 				catch (UnauthorizedAccessException)
 				{
 					path = contextInfo.PathFinder.GetCustomPath();

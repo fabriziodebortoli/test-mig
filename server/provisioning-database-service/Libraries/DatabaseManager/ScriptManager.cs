@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Microarea.Common.DiagnosticManager;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
@@ -44,7 +43,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 		private string stringConnection = string.Empty;
 		private TBConnection connection = null;
-		private FileInfo fi = null;
+		private TBFile fi = null;
 
 		private Diagnostic diagnostic = null;
 		#endregion
@@ -263,10 +262,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			error = string.Empty;
 			string scriptText = string.Empty;
 
-			fi = new FileInfo(pathFileSql);
+			fi = new TBFile(pathFileSql, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(pathFileSql));
 
-			if (!fi.Exists)
-			{
+			if (!PathFinder.PathFinderInstance.ExistFile(pathFileSql))
+
+            {
 				error = DatabaseManagerStrings.FileNotFound;
 				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.FileNotFound);
 				return false;
@@ -274,11 +274,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 			try
 			{
-				using (Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-				using (StreamReader reader = new StreamReader(fs))
-					scriptText = reader.ReadToEnd();
-			}
-			catch (IOException e)
+                //using (Stream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                //using (StreamReader reader = new StreamReader(fs))
+                //	scriptText = reader.ReadToEnd();
+                scriptText = PathFinder.PathFinderInstance.GetFileTextFromFileName(pathFileSql);
+
+            }
+			catch (Exception e)
 			{
 				Debug.Fail(e.Message);
 				ExtendedInfo extendedInfo = new ExtendedInfo();
@@ -335,7 +337,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			Split(strConvert, out List<string> strList);
 
 			if (fi != null)
-				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, fi.FullName));
+				this.diagnostic.Set(DiagnosticType.LogOnFile, string.Format(DatabaseManagerStrings.ProcessingFile, fi.completeFileName));
 
 			TBCommand command = new TBCommand(connection);
 			command.CommandTimeout = timeOut;
@@ -407,7 +409,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					Diagnostic.Set(DiagnosticType.LogOnFile, error);
 
 					Debug.WriteLine(e.Message);
-					Debug.WriteLine(fi != null ? "Path file: " + fi.FullName : string.Empty);
+					Debug.WriteLine(fi != null ? "Path file: " + fi.completeFileName : string.Empty);
 					Debug.WriteLine("Script text: " + statement);
 
 					if (altOnError)

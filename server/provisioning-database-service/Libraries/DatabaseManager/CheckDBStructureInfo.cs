@@ -6,6 +6,7 @@ using System.IO;
 
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Generic;
+using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
@@ -684,7 +685,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 					// estrapolo il path della directory a cui agganciare successivamente il path degli script sql
 					FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-					if (!fi.Exists)
+					if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
 					{
 						diagnostic.Set
 							(
@@ -734,8 +735,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 					FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
 
-					if (!fi.Exists)
-					{
+                    if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                    {
 						diagnostic.Set 
 							(
 							DiagnosticType.Error | DiagnosticType.LogOnFile, 
@@ -851,8 +852,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							continue;
 
 						FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-						if (!fi.Exists)
-						{
+                        if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                        {
 							diagnostic.Set
 								(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
 								string.Format(DatabaseManagerStrings.ErrCreateInfoFileNotExist, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
@@ -1111,8 +1112,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					moduleDBInfo.UpdateInfo.CurrSingleUpdate = new SingleUpdateInfo();
 
 				FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-				if (!fi.Exists)
-				{
+                if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                {
 					diagnostic.Set
 						(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
 						string.Format(DatabaseManagerStrings.ErrCreateInfoFileForObjNotExist, entry.Name, moduleDBInfo.Title, moduleDBInfo.ApplicationBrand));
@@ -1203,8 +1204,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					}
 
 					FileInfo fifo = new FileInfo(moduleDBInfo.XmlPath);
-					if (!fifo.Exists)
-						continue;
+                    if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                        continue;
 					moduleDBInfo.DirectoryScript = fifo.Directory.FullName;
 				
 					moduleDBInfo.UpdateInfo.LoadSingleXML(this, moduleDBInfo.XmlPath, out error);

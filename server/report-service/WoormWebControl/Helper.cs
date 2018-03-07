@@ -8,7 +8,7 @@ using Microarea.Common.Temp;
 using TaskBuilderNetCore.Interfaces;
 using System.Net;
 using Microarea.Common.NameSolver;
-using System.IO;
+//using System.IO;
 
 namespace Microarea.RSWeb.WoormWebControl
 {
@@ -135,47 +135,6 @@ namespace Microarea.RSWeb.WoormWebControl
 			return inflated;
 		}
 
-		//------------------------------------------------------------------------------
-		internal static string ReadTextFile(this WoormDocument woorm, string textFilename)
-		{
-			StreamReader inputFile = null;
-			string text = "";
-            string filename = PathFinder.PathFinderInstance.ExistFile(textFilename) ? 
-                textFilename : 
-                woorm.GetFilename(textFilename, NameSpaceObjectType.Text);
-
-			if (PathFinder.PathFinderInstance.ExistFile(filename))
-			{
-				try
-				{
-                    using (Stream fs = PathFinder.PathFinderInstance.GetStream(filename, true))//TODO LARA
-                    {
-                        inputFile = new StreamReader(fs, System.Text.Encoding.GetEncoding(0));
-                        string buffer;
-
-                        do
-                        {
-                            buffer = inputFile.ReadLine();
-                            if (buffer != null) text += buffer + "<br/>";
-                        }
-                        while (buffer != null);
-                    }
-				}
-				catch (IOException e)
-				{
-					return e.ToString();
-				}
-				finally
-				{
-					if (inputFile != null)
-						inputFile.Dispose();
-				}
-				return text;
-			}
-
-			//analogia con woorm c++.Se non c'e' il file ritorna stringa vuota cosi da non "sporcare" il report
-			return string.Empty;
-		}
 		//------------------------------------------------------------------------------
 		internal static string GetFilename(this WoormDocument woorm, string filenameOrNamespace, NameSpaceObjectType type)
 		{

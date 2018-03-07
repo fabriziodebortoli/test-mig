@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+//using System.IO;
 using System.Xml;
 using Microarea.Common.NameSolver;
 
@@ -103,7 +103,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 			try
 			{
-				xDoc.Load(File.OpenText(fileXML));
+                xDoc = PathFinder.PathFinderInstance.LoadXmlDocument(xDoc, xmlFile);
 			}
 			catch(XmlException e)
 			{
@@ -780,9 +780,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			
 			try
 			{
-				// leggo il file
-				xDoc.Load(File.OpenText(fileXML));
-			}
+                // leggo il file
+                xDoc = PathFinder.PathFinderInstance.LoadXmlDocument(xDoc, xmlFile);
+            }
 			catch(XmlException e)
 			{
 				// errore nella Load del file
@@ -1409,8 +1409,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 			try
 			{
-				xDoc.Load(File.OpenText(xmlPath));
-			}
+                xDoc = PathFinder.PathFinderInstance.LoadXmlDocument(xDoc, xmlFile);
+            }
 			catch (XmlException e)
 			{
 				error = string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, xmlPath, e.LineNumber, e.LinePosition);

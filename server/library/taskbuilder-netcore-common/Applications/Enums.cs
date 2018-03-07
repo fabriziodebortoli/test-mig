@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 
 //TODO RSWEB using Microarea.TaskBuilderNet.Core.WebServicesWrapper; // -> Country, ActivationExpression
@@ -12,7 +10,6 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Lexan;
 using TaskBuilderNetCore.Interfaces;
-using Microarea.Common.Applications;
 using System.Xml;
 using System.Text;
 using Newtonsoft.Json;
@@ -1558,15 +1555,11 @@ namespace Microarea.Common.Applications
 		public bool SaveXml(string filename, bool localizedVersion)
 		{	
 			filename = Path.ChangeExtension(filename, NameSolverStrings.XmlExtension);
-			
-			using(FileStream fs = new FileStream(filename, FileMode.Create))
-			{
-				return SaveXml(fs, localizedVersion, false);
-			}
+			return SaveXml(filename, localizedVersion, false);
 		}
 		
 		//-----------------------------------------------------------------------------
-		public bool SaveXml(Stream outStream, bool localizedVersion, bool useLocalizeAttribute)
+		public bool SaveXml(string fileName, bool localizedVersion, bool useLocalizeAttribute)
 		{	
 			XmlDocument dom = new XmlDocument();
 			// root node
@@ -1618,8 +1611,7 @@ namespace Microarea.Common.Applications
 				enums.AppendChild(tagElement);
 			}
 
-			dom.Save(outStream);
-			return true;
+            return PathFinder.PathFinderInstance.SaveTextFileFromXml(fileName, dom);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -1895,30 +1887,7 @@ namespace Microarea.Common.Applications
 			}
 		}
 
-		//-----------------------------------------------------------------------------
-		public bool LoadXml(Stream xmlStream)
-		{
-			try
-			{
-				string tempPath = Path.GetTempFileName();
-                using (StreamWriter sw = new StreamWriter(File.OpenWrite(tempPath)))
-                using (StreamReader sr = new StreamReader(xmlStream))
-                    sw.Write(sr.ReadToEnd());
-
-				return enumTags.LoadXml(tempPath, string.Empty, null, false);
-			}
-			catch (Exception ex)
-			{
-				Debug.Fail(ex.Message);
-				return false;
-			}
-		}
-
-        //-----------------------------------------------------------------------------
-        //public bool LoadXml(string filename, ModuleInfo owner)
-        //{
-        //    return LoadXml(filename, owner, true);
-        //}
+		
 		// converte il singolo file da formato .ini in formato .xml
 		//-----------------------------------------------------------------------------
 		public bool FromIniToXml(string filename, ModuleInfo owner)

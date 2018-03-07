@@ -12,10 +12,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Generic;
-using System.IO;
-using TaskBuilderNetCore.Interfaces;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microarea.Common

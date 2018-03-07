@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Xml;
 using TaskBuilderNetCore.Interfaces;
 
@@ -58,111 +57,92 @@ namespace Microarea.Common.NameSolver
 		//------------------------------------------------------------------------------
 		public bool Parse()
 		{
-			using (Stream stream = File.OpenRead(appConfigFile))
-				return FromStream(stream);
-		}
+            appConfigDocument = PathFinder.PathFinderInstance.LoadXmlDocument(appConfigDocument, appConfigFile);
 
-		//------------------------------------------------------------------------------
-		public bool FromStream(Stream stream)
-		{
-			try
+   //  		appConfigDocument = new XmlDocument();
+			//appConfigDocument.Load(stream);
+
+			XmlElement root = appConfigDocument.DocumentElement;
+			if (root == null)
 			{
-                //Lara
-				appConfigDocument = new XmlDocument();
-				appConfigDocument.Load(stream);
-
-				XmlElement root = appConfigDocument.DocumentElement;
-				if (root == null)
-				{
-					Debug.Fail("Sintassi del file " + appConfigFile);
-					return false;
-				}
-
-				XmlElement elementNode = null;
-
-				// tipo
-				XmlNodeList elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Type);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					appType = elementNode.InnerText;
-				}
-
-				// icona
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Icon);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					icon = elementNode.InnerText;
-				}
-
-				// welcome bitmap
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.WelcomeBmp);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					welcomeBmp = elementNode.InnerText;
-				}
-
-				// Signature di database
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.DbSignature);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					dbSignature = elementNode.InnerText;
-				}
-
-				if (dbSignature == null || dbSignature.Length == 0)
-					dbSignature = name;
-
-				// Versione di applicazione
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Version);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					version = elementNode.InnerText;
-				}
-
-				if (version == null || version.Length == 0)
-					version = "1.0.0";
-
-				// GUID
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Uuid);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					uuid = elementNode.InnerText;
-				}
-
-				//Visible
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Visible);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					string strVisible = elementNode.InnerText;
-					if (strVisible == "0")
-						visible = false;
-				}
-
-				elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.HelpModule);
-				if (elementNodeList != null && elementNodeList.Count > 0)
-				{
-					elementNode = (XmlElement)elementNodeList[0];
-					helpModule = elementNode.InnerText;
-				}
-			}
-			catch (XmlException e)
-			{
-				Debug.Fail(e.Message);
-				return false;
-			}
-			catch (Exception err)
-			{
-				Debug.Fail(err.Message);
+	    		Debug.Fail("Sintassi del file " + appConfigFile);
 				return false;
 			}
 
-			return true;
+            XmlElement elementNode = null;
+
+			// tipo
+			XmlNodeList elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Type);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				appType = elementNode.InnerText;
+			}
+
+			// icona
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Icon);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				icon = elementNode.InnerText;
+			}
+
+			// welcome bitmap
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.WelcomeBmp);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				welcomeBmp = elementNode.InnerText;
+			}
+
+			// Signature di database
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.DbSignature);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				dbSignature = elementNode.InnerText;
+			}
+
+			if (dbSignature == null || dbSignature.Length == 0)
+				dbSignature = name;
+
+			// Versione di applicazione
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Version);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				version = elementNode.InnerText;
+			}
+
+			if (version == null || version.Length == 0)
+				version = "1.0.0";
+
+			// GUID
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Uuid);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				uuid = elementNode.InnerText;
+			}
+
+			//Visible
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.Visible);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				string strVisible = elementNode.InnerText;
+				if (strVisible == "0")
+					visible = false;
+			}
+
+			elementNodeList = root.GetElementsByTagName(ApplicationConfigXML.Element.HelpModule);
+			if (elementNodeList != null && elementNodeList.Count > 0)
+			{
+				elementNode = (XmlElement)elementNodeList[0];
+				helpModule = elementNode.InnerText;
+			}
+
+        	return true;
 		}
 
 		//------------------------------------------------------------------------------
@@ -186,7 +166,8 @@ namespace Microarea.Common.NameSolver
                 XmlElement dbSignatureNode = xDoc.CreateElement(ApplicationConfigXML.Element.DbSignature);
                 dbSignatureNode.InnerText = Name;
                 rootNode.AppendChild(dbSignatureNode);
-                xDoc.Save(appConfigFile);
+                PathFinder.PathFinderInstance.SaveTextFileFromXml(appConfigFile, xDoc);
+                //xDoc.Save(appConfigFile);
                 // Si assume che il nodo esista sempre.
                 /*XmlNode node = appConfigDocument.DocumentElement.SelectSingleNode(ApplicationConfigXML.Element.Version);
 				node.InnerText = version;

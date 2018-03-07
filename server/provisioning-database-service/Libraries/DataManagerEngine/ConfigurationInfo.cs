@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+//using System.IO;
 using System.Xml;
 using Microarea.Common.DiagnosticManager;
+using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
 using TaskBuilderNetCore.Interfaces;
 
@@ -172,7 +173,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			try
 			{
-				document.Load(File.OpenText(FilePath));
+				document = PathFinder.PathFinderInstance.LoadXmlDocument(document, FilePath);
 				
 				XmlElement root = document.DocumentElement;
 				if (root == null)
@@ -530,15 +531,16 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			try
 			{
-				FileInfo fi = new FileInfo(FilePath);
+                //FileInfo fi = new FileInfo(FilePath);
 
-				if (fi.Exists && ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly))
-					fi.Attributes -= FileAttributes.ReadOnly;
+                //if (fi.Exists && ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly))
+                //	fi.Attributes -= FileAttributes.ReadOnly;
 
-				fi.Directory.Create();
+                //fi.Directory.Create();
 
-				var fileWriter = new StreamWriter(File.Create(FilePath));
-				document.Save(fileWriter);
+                //var fileWriter = new StreamWriter(File.Create(FilePath));
+                //document.Save(fileWriter);
+                PathFinder.PathFinderInstance.SaveTextFileFromXml(FilePath, document);
 			}
 			catch(Exception e)
 			{

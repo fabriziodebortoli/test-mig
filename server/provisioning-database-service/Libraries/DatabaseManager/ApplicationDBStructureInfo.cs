@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
-
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 
@@ -369,37 +367,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							entry.Application = appDBInfo.ApplicationName;
 							entry.Module = modInfo.ModuleName;
 						}
-					}
-				}
-			}
-		}
-		# endregion
-
-		# region LoadRowSecurityObjects
-		///<summary>
-		/// Leggo i file di configurazione del RowSecurityLayer e riempio una lista
-		/// con i nomi delle mastertable dichiarate in essi
-		///</summary>
-		//--------------------------------------------------------------------------------
-		public void ReadRowSecurityObjects(StringCollection appList)
-		{
-			foreach (string appName in appList)
-			{
-				ApplicationInfo appInfo = pathFinder.GetApplicationInfoByName(appName);
-				if (appInfo.Modules == null)
-					continue;
-
-				foreach (ModuleInfo modInfo in appInfo.Modules)
-				{
-					if (!pathFinder.ExistFile(modInfo.GetRowSecurityObjectsPath()))
-						continue;
-
-					foreach (RSEntity entity in modInfo.RowSecurityObjectsInfo.RSEntities)
-					{
-						if (string.IsNullOrWhiteSpace(entity.MasterTableName) || rsMasterTables.Contains(entity.MasterTableName))
-							continue;
-
-						rsMasterTables.Add(entity.MasterTableName);
 					}
 				}
 			}
