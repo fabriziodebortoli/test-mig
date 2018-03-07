@@ -8,6 +8,7 @@
 
     <ng-template kendoGridCellTemplate let-dataItem="dataItem">
         <div *ngIf="dataItem">
+            <!-- <div *ngIf="dataItem" [ngClass]="bodyEditService.prototype[columnName]?.enabled == true ? 'editable' : ''"> -->
             {{dataItem[columnName]?.value}}
         </div>
     </ng-template>

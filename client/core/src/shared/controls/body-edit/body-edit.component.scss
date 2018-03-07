@@ -2,18 +2,22 @@
 //     overflow: hidden;
 // }
 ::ng-deep .body-edit {
-    font-size: 13px;
+    font-size: 12px;
     tr.k-state-selected,
     td.k-state-selected {
+        transition: all 200ms ease;
         color: #fff;
         background-color: #0277bd;
+    }
+    td.k-state-focused {
+        box-shadow: none;
     }
     .k-grid-header .k-header {
         text-align: center;
         font-size: 12px;
         font-weight: 500;
-        height: 25px;
-        line-height: 25px;
+        height: 22px;
+        line-height: 22px;
         &>.k-link {
             font-size: 12px;
             font-weight: 500;
@@ -29,14 +33,22 @@
     .k-grid td {
         padding: 0;
     }
-    .k-button {
-        border-radius: 0px;
+    .k-grid td div.editable {
+        cursor: text;
     }
-    .empty-row {
-        border-color: #f2f2f2;
-        border-width: 1px;
-        border-style: solid;
-        height: 20px;
+    .k-grid-norecords {
+        background: red;
+        td {
+            padding: 0;
+            background: #fff;
+            .empty-row {
+                border-bottom: 1px solid #f2f2f2;
+                height: 20px;
+                &:nth-child(odd) {
+                    background: #f5f5f5;
+                }
+            }
+        }
     }
 }
 

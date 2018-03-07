@@ -21,8 +21,8 @@ export class BodyEditService {
 
   public rowViewVisible: boolean = false;
 
-  public rowHeight: number = 25;
-  private minimumRowHeight: number = 25;
+  public rowHeight: number = 22;
+  private minimumRowHeight: number = 22;
   private rowHeightStep: number = 10;
 
   public skip = -1;
@@ -45,14 +45,13 @@ export class BodyEditService {
     }
   }
 
-
   increaseRowHeight() {
-    this.rowHeight += 10;
+    this.rowHeight += this.rowHeightStep;
   }
 
   decreaseRowHeight() {
-    if (this.rowHeight > this.minimumRowHeight + 10)
-      this.rowHeight -= 10;
+    if (this.rowHeight > this.minimumRowHeight + this.rowHeightStep)
+      this.rowHeight -= this.rowHeightStep;
   }
 
   setRowViewVisibility(visible: boolean) {
