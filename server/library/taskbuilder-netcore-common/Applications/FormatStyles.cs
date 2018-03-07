@@ -185,7 +185,7 @@ namespace Microarea.Common.Applications
                     NTLManager.AddDeclination(decType, digit, descri);
                     foreach (XmlNode nException in nDeclination.SelectNodes("Exception"))
                     {
-                        int val = int.Parse(nException.Attributes["digit"].Value);
+                        int val = int.Parse(nException.Attributes["value"].Value);
                         string kind = nException.Attributes["kind"].Value;
                         NTLManager.AddDeclinationException(decType, digit, kind, val);
                     }
@@ -217,7 +217,7 @@ namespace Microarea.Common.Applications
                     NTLManager.AddDeclination(decType, digit, descri);
                     foreach (XmlNode nException in nDeclination.SelectNodes("Exception"))
                     {
-                        int val = int.Parse(nException.Attributes["digit"].Value);
+                        int val = int.Parse(nException.Attributes["value"].Value);
                         string kind = nException.Attributes["kind"].Value;
                         NTLManager.AddDeclinationException(decType, digit, kind, val);
                     }
@@ -245,7 +245,7 @@ namespace Microarea.Common.Applications
                 }
                 return NTLManager;
             }
-            catch
+            catch (Exception)
             {
                 return null;
             }
@@ -4062,10 +4062,7 @@ public string DecSeparator = ",";
     {
         public string m_Value = string.Empty;
 
-        public Hashtable m_DeclinationList = new Hashtable();
-        //TODO eliminazione classi deprecate: POSSIBILE ANOMALIA
-        //public Dictionary<int, string> m_DeclinationList = new Dictionary<int, string>();
-       // public Dictionary<int, Declination> m_DeclinationList = new Dictionary<int, Declination>();
+        public Dictionary<int, Declination> m_DeclinationList = new Dictionary<int, Declination>();
 
         public CNumberGroup(string aValue)
         {
@@ -4074,26 +4071,21 @@ public string DecSeparator = ",";
 
         public void AddDeclination(int aValue, string aDescription)
         {
-            m_DeclinationList.Add(aValue, aDescription);
+            m_DeclinationList.Add(aValue, new Declination(aDescription));
         }
 
         public string GetDescription(int val, int lastDigit)
         {
-            if (m_DeclinationList.ContainsKey(lastDigit))
-            {
-                Declination d = (Declination)m_DeclinationList[lastDigit];
-                if (!d.IsException(val))
-                    return d.m_Description;
-            }
-
-            return m_Value;
+            if (m_DeclinationList.TryGetValue(lastDigit, out Declination d) && !d.IsException(val))
+                return d.m_Description;
+            else
+                return m_Value;
         }
 
         public void AddDeclinationException(int decValue, string kind, int val)
         {
-            if (m_DeclinationList.ContainsKey(decValue))
+            if (m_DeclinationList.TryGetValue(decValue, out Declination d))
             {
-                Declination d = (Declination)m_DeclinationList[decValue];
                 d.AddDeclinationException(kind, val);
             }
         }
@@ -4120,7 +4112,7 @@ public string DecSeparator = ",";
         {
             string result = string.Empty;
 
-            if (m_LookUpList.Get(num) != string.Empty)
+            if (m_LookUpList.Get(num) != null)
                 return m_LookUpList.Get(num);
 
             char[] t = num.ToString().ToCharArray();
@@ -4149,7 +4141,7 @@ public string DecSeparator = ",";
                 string tmpres = string.Empty;
 
                 tmpres = m_LookUpList.Get(tripla);
-                if (tmpres != string.Empty)
+                if (tmpres != null && tmpres != string.Empty)
                 {
                     result += tmpres;
                     result += ConcatenaGruppo(n, (int)tripla, (int)NiC[n + 2]);
@@ -4159,7 +4151,7 @@ public string DecSeparator = ",";
                 if (NiC[n] > 0)
                 {
                     tmpres = m_LookUpList.Get(NiC[n] * 100);
-                    if (tmpres == string.Empty)
+                    if (tmpres == null && tmpres != string.Empty)
                     {
                         result += m_LookUpList.Get(NiC[n]);
                         result += m_Hundreds.GetDescription((int)tripla, (int)NiC[n + 2]);
@@ -4175,7 +4167,7 @@ public string DecSeparator = ",";
                 }
 
                 tmpres = m_LookUpList.Get(doppia);
-                if (tmpres != string.Empty)
+                if (tmpres != null && tmpres != string.Empty)
                 {
                     result += tmpres;
                     result += ConcatenaGruppo(n, (int)tripla, (int)NiC[n + 2]);

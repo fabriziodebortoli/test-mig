@@ -320,6 +320,7 @@ namespace Microarea.RSWeb.Render
                             if (!PathFinder.PathFinderInstance.ExistFile(Filename))
                             {
                                 CurrentState = State.FileNotFound;
+                                //TODO RSWEB DIAGNOSTIC -> MESSAGE TO CLIENT
                                 break;
                             }
 

@@ -1,0 +1,43 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (224,121,1070,1596) 
+PageLayout "default" 
+	Begin
+		Field (136,193,322,471) Alias 4  /* MA_Items_CoverPrice */ FormatStyle "EuroLiteral" 
+			Begin
+				Label "MA_Items_CoverPrice" 
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       MA_Areas_Area [15] Alias 1  Hidden ;
+			Quantity     MA_ItemsStorages_MinimumStock [13] Alias 2  Hidden ;
+			String       MA_Bills_FiscalNo [15] Alias 3  Hidden ;
+			Money        MA_Items_CoverPrice [23] Alias 4 ;
+		End
+
+		Rules
+			From MA_Areas 
+			Select 
+				Area                 Into MA_Areas_Area ;
+
+			From MA_ItemsStorages 
+			Select 
+				MinimumStock         Into MA_ItemsStorages_MinimumStock ;
+
+			From MA_Bills 
+			Select 
+				FiscalNo             Into MA_Bills_FiscalNo ;
+
+			From MA_Items 
+			Select 
+				CoverPrice           Into MA_Items_CoverPrice ;
+		End
+
+End
+
