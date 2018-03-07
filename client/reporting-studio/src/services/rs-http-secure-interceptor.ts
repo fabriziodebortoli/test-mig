@@ -25,6 +25,11 @@ export class HttpSecureInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
 
+    // if request isn't against our server, no need to add Auth info
+    if ( request.url.indexOf(this.infoService.getBaseUrl()) < 0 ) {
+      return next.handle(request);
+    }
+
     // add a custom header
     const customReq = request.clone({
         headers: this.httpHeaders
