@@ -25,7 +25,8 @@ namespace Microarea.EasyStudio.Controllers
         }
 
         private ApplicationService service;
-		private ApplicationService ApplicationService
+        //---------------------------------------------------------------------
+        private ApplicationService ApplicationService
         {
             get
             {
@@ -54,7 +55,6 @@ namespace Microarea.EasyStudio.Controllers
             var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
             var verbose = jsonParams[Strings.verbose];
 
-            bool success = true;
             if (!ApplicationService.ExistsApplication(applicationName))
             {
                 if (applicationType == null)
@@ -62,17 +62,8 @@ namespace Microarea.EasyStudio.Controllers
                     ApplicationService.Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
                     return BadRequest(ApplicationService.Diagnostic);
                 }
-
-                success = ApplicationService.CreateApplication(applicationName, (ApplicationType) applicationType);
             }
-                
-            if (success && !string.IsNullOrEmpty(moduleName))
-                success = ApplicationService.CreateModule(applicationName, moduleName);
-
-            if (success && verbose != null)
-                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyCreated));
-                
-            return Ok(ApplicationService.Diagnostic);
+            return Create(applicationName, (ApplicationType) applicationType, moduleName, verbose != null);
         }
 
         //-----------------------------------------------------------------------
@@ -84,16 +75,7 @@ namespace Microarea.EasyStudio.Controllers
             var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
             var verbose = jsonParams[Strings.verbose];
 
-            bool success = true;
-            if (!string.IsNullOrEmpty(moduleName))
-                success = ApplicationService.DeleteModule(applicationName, moduleName);
-            else
-                success = ApplicationService.DeleteApplication(applicationName);
-
-            if (success && verbose != null)
-                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyDeleted));
-
-            return Ok(ApplicationService.Diagnostic);
+            return Delete(applicationName, moduleName, verbose != null);
         }
 
         //---------------------------------------------------------------------
@@ -159,5 +141,40 @@ namespace Microarea.EasyStudio.Controllers
                 return Ok(ApplicationService.Diagnostic);
             }
         }
-	}
+
+        #region Private Internal Methods
+
+        //-----------------------------------------------------------------------
+        private IActionResult Create(string applicationName, ApplicationType applicationType, string moduleName = "", bool verbose = false)
+        {
+            bool success = true;
+            if (!ApplicationService.ExistsApplication(applicationName))
+                success = ApplicationService.CreateApplication(applicationName, (ApplicationType)applicationType);
+
+            if (success && !string.IsNullOrEmpty(moduleName))
+                success = ApplicationService.CreateModule(applicationName, moduleName);
+
+            if (success && verbose)
+                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyCreated));
+
+            return Ok(ApplicationService.Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        private IActionResult Delete(string applicationName, string moduleName, bool verbose = false)
+        {
+            bool success = true;
+            if (!string.IsNullOrEmpty(moduleName))
+                success = ApplicationService.DeleteModule(applicationName, moduleName);
+            else
+                success = ApplicationService.DeleteApplication(applicationName);
+
+            if (success && verbose)
+                ApplicationService.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyDeleted));
+
+            return Ok(ApplicationService.Diagnostic);
+        }
+
+        #endregion
+    }
 }
