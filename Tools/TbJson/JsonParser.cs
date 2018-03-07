@@ -26,7 +26,7 @@ namespace Microarea.TbJson
                     using (JsonReader reader = new JsonTextReader(sr))
                     {
                         jRoot = JToken.ReadFrom(reader);
-
+                        TrimNoWebSections(jRoot);
                     }
                 }
                 string resourcePath = Path.GetDirectoryName(tbJsonFile);
@@ -62,6 +62,21 @@ namespace Microarea.TbJson
             }
             jsonList[tbJsonFile] = jRoot;
             return jRoot.DeepClone();
+        }
+
+        //-----------------------------------------------------------------------------
+        private void TrimNoWebSections(JToken jRoot)
+        {
+            List<JToken> toRemove = new List<JToken>();
+            foreach (JToken t in jRoot.SelectTokens("..noweb"))
+            {
+                if (t.Value<bool>())
+                    toRemove.Add(t.Parent.Parent);
+            }
+            foreach (JToken t in toRemove)
+            {
+                t.Remove();
+            }
         }
 
         //-----------------------------------------------------------------------------
