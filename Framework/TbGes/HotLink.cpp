@@ -1121,7 +1121,7 @@ void HotKeyLink::CallLink(DataObj* pData /* = NULL */, BOOL bAskForCallLink /* =
 		}
 	}
 
-	WORD wRunningMask = CALL_LINK_MODE | CALL_LINK_FROM_CTRL;
+	WORD wRunningMask = CALL_LINK_MODE | (AfxIsRemoteInterface() ? CALL_LINK_FROM_CTRL_WEB : CALL_LINK_FROM_CTRL);
 
 	// NB: dal radar potrebbe esser stata attivata la CallLink, in tal caso
 	// l'HotLink e` anche in stato di running da radar e quindi non deve essere

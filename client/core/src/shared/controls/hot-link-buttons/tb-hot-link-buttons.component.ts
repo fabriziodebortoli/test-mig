@@ -8,13 +8,13 @@ import { ComponentMediator } from './../../../core/services/component-mediator.s
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupHelper } from './popup';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
-import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
+import { BehaviorSubject, Subscription, Observable, Subject } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
@@ -62,12 +62,11 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   private oldTablePopupZIndex: string;
 
-  constructor(layoutService: LayoutService,
-    protected httpService: HttpService,
+  @ViewChild('anchorOptions') optionsButton: ElementRef;
+
+  constructor(protected httpService: HttpService,
     protected documentService: DocumentService,
     protected enumService: EnumsService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected eventDataService: EventDataService,
     protected paginator: PaginatorService,
     protected filterer: FilterService,
     protected hyperLinkService: HyperLinkService,
@@ -75,7 +74,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     protected tablePopupService: PopupService,
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator) {
-    super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
+    super(mediator.layout, documentService, mediator.changeDetectorRef, paginator, filterer, hyperLinkService, mediator.eventData);
   }
 
   private subscribeOpenTable(anchor, template) {
@@ -228,6 +227,8 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.state.with({ selectionTypes: json.selections });
   }
 
+  shouldAddOnFly = (focusedElem: HTMLElement) => !this.optionsButton.nativeElement.contains(focusedElem);
+ 
   ngOnInit() {
     // fix for themes css conflict in form.scss style 
     if (this.modelComponent) {
@@ -241,7 +242,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
           mustExistData: this.hotLinkInfo.mustExistData,
           model: this.modelComponent.model
         },
-        this.slice$, this.clearModel, this.afterAddOnFly);
+        this.slice$,
+        this.clearModel,
+        this.afterAddOnFly,
+        this.shouldAddOnFly);
     }
 
     this.adjustTableSub = this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());

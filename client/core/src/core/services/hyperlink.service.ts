@@ -8,6 +8,19 @@ import { untilDestroy } from './../../shared/commons/untilDestroy';
 export type HyperLinkInfo = {name: string, cmpId: string, enableAddOnFly: boolean, mustExistData: boolean, model: any};
 export type HyperLinkStyles = {color: string, textDecoration: string, cursor: string, pointerEvents: string};
 
+interface ChangeFocusEvent { source: HTMLElement; target: HTMLElement }
+
+//TODO: this is a orrible workaround... Structural review of "AddOnFly" behavior is needed!
+function isInAddOnFlyExclusionList(e: HTMLElement): boolean {
+    if(!e) return true;
+    let parentOfCurrElem = e.parentElement;
+    if(!parentOfCurrElem) return false;
+    if(e.classList.contains('k-tabstrip-items')) return true;
+    let cmpIdAttr = parentOfCurrElem.attributes ? parentOfCurrElem.attributes.getNamedItem('cmpid') : null;
+    if(!cmpIdAttr) return false;
+    return cmpIdAttr.value === 'ID_EXTDOC_ESCAPE' || cmpIdAttr.value ==='ID_EXTDOC_EXIT';
+}
+
 @Injectable()
 export class HyperLinkService implements OnDestroy {
 
@@ -20,11 +33,19 @@ export class HyperLinkService implements OnDestroy {
     private currentType: number;
     onBackToFocus: () => void;
     onAfterAddOnFly: (any) => void;
+    private shouldAddOnFly = (focusEvent: ChangeFocusEvent) => true;
+
+    private get focusChanged$(): Observable<ChangeFocusEvent> {
+        return Observable.fromEvent<FocusEvent>(this.elementInfo.element, 'blur', {capture: false}).pipe(untilDestroy(this))
+        .map(fe => ({source: fe.target as HTMLElement, target: fe.relatedTarget as HTMLElement}));
+    } 
+
     start (e: HTMLElement, 
            info: HyperLinkInfo, 
            slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
            onBackToFocus: () => void,
-           onAfterAddOnFly: (any) => void): void {
+           onAfterAddOnFly: (any) => void,
+           customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): void {
         if (!e || !info) return;
         if (slice$) {
             slice$.pipe(untilDestroy(this)).subscribe(x => {
@@ -44,9 +65,6 @@ export class HyperLinkService implements OnDestroy {
               });
         }
 
-
-        Observable.fromEvent(e, 'blur', { capture: false }).pipe(untilDestroy(this)).subscribe(e => this.addOnFly(info));            
-
         let oldColor = e.style.color;
         let oldDecoration = e.style.textDecoration;
         let oldCursor = e.style.cursor;
@@ -63,6 +81,12 @@ export class HyperLinkService implements OnDestroy {
 
         this.onBackToFocus = onBackToFocus;
         this.onAfterAddOnFly = onAfterAddOnFly;
+        this.shouldAddOnFly = (focusEvent: ChangeFocusEvent) => 
+            this.elementInfo.element.contains(focusEvent.source) 
+            && !isInAddOnFlyExclusionList(focusEvent.target)
+            && (!customShouldAddOnFlyPredicate || customShouldAddOnFlyPredicate(focusEvent.target));
+        
+        this.focusChanged$.filter(x => this.shouldAddOnFly(x)).subscribe(_ => this.addOnFly(info));            
     }
 
     private get styles(): HyperLinkStyles {
@@ -94,12 +118,7 @@ export class HyperLinkService implements OnDestroy {
 
     
     private afterAddOnFly = (info: HyperLinkInfo): Observable<string> => 
-        this.wsService.addOnFly
-            .do(_ => console.log('ADD ON FLY EVENT'))
-            .do(console.log)
-            .filter(info => info.name === info.name).take(1).map(msg => msg.value)
-            .do(_ => console.log('ADD ON FLY EVENT PASSED'))
-            .do(console.log);
+        this.wsService.addOnFly.filter(info => info.name === info.name).take(1).map(msg => msg.value);
 
     private updateCmpValue(value:any) {
         if (this.onAfterAddOnFly) this.onAfterAddOnFly(value);
