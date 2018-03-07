@@ -281,7 +281,22 @@ void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, L
 				}
 			}
 		}
+		else if (jsonDescription->m_Children.GetCount() > 0)
+		{
+			//ClientForms
+			serialization->Add
+			(
+				gcnew Tuple<System::String^, System::String^>
+				(
+					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
+					gcnew String(GetSerialization(jsonDescription))
+					)
+			);
+
+			SAFE_DELETE(jsonDescription);
+		}
 	}
+	
 	__super::GenerateSerialization(pParentDescription, serialization);
 }
 

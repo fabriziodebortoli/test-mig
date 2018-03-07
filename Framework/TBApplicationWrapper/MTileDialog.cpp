@@ -245,14 +245,14 @@ void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, 
 {
 	__super::GenerateSerialization(pParentDescription, serialization);
 
-	//update parent description id with this (always)
-	jsonDummyDescription = new CDummyDescription();
-	jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-	pParentDescription->m_Children.Add(jsonDummyDescription);
-	jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
-
 	if (!jsonDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
+		//update parent description id with this 
+		jsonDummyDescription = new CDummyDescription();
+		jsonDummyDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+		pParentDescription->m_Children.Add(jsonDummyDescription);
+		jsonDummyDescription->m_arHrefHierarchy.Add(this->Id);
+
 		//serialize this => HasCodeBehind = false
 		serialization->Add
 		(

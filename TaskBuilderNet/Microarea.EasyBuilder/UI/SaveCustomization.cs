@@ -51,7 +51,8 @@ namespace Microarea.EasyBuilder.UI
             )
 		{
 			InitializeComponent();
-            chkSaveForWeb.Visible = false;
+            chkSaveForWeb.Visible = true;
+            chkSaveForWeb.Checked = true;
             this.editor = editor;
 			this.buttons = buttons;
 			this.Text = windowTitle;

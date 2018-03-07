@@ -3382,7 +3382,7 @@ namespace Microarea.EasyBuilder
 				bool isActive = newDocument; //se sto inserendo un nuovo documento, la prima è la sua customizzazione di default
 											 //Se il path della customizzazione esiste, allora è già stata salvata e non chiedo niente, 
 											 //altrimenti chiedo il nome della customizzazione
-                bool saveForWeb = false;    // TODOWEB mettere a true quando serve a noi
+                bool saveForWeb = true;    // TODOWEB mettere a true quando serve a noi
 
 				if (existing)
 				{
@@ -3416,7 +3416,7 @@ namespace Microarea.EasyBuilder
                         Cursor.Current = Cursors.WaitCursor;
 
                         //crea/aggiorna il json
-                        if (/*saveForWeb*/true)
+                        if (saveForWeb)
                         {
                             NameSpace nsForJson = new NameSpace(Sources?.Namespace);
                             nsForJson.Application = BaseCustomizationContext.CustomizationContextInstance.CurrentApplication;
