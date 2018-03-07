@@ -2121,9 +2121,9 @@ const CString CPathFinder::GetAddOnDbObjectsFullName(const CTBNamespace& aNamesp
 }
 
 //----------------------------------------------------------------------------------------------
-const CString CPathFinder::GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const
+const CString CPathFinder::GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos, Company aCompany /*CURRENT*/) const
 {
-	return GetModuleObjectsPath(aNamespace, pos, FALSE) + SLASH_CHAR + szDocumentObjects;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE, aCompany) + SLASH_CHAR + szDocumentObjects;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2135,7 +2135,7 @@ const CString CPathFinder::GetBehaviourObjectsFullName(const CTBNamespace& aName
 //----------------------------------------------------------------------------------------------
 const CString CPathFinder::GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos /*= CPathFinder::STANDARD*/, Company aCompany /*= CPathFinder::CURRENT*/) const
 {
-	return GetModuleObjectsPath(aNamespace, pos/*CPathFinder::STANDARD*/, FALSE, aCompany) + SLASH_CHAR + szClientDocumentObjects;
+	return GetModuleObjectsPath(aNamespace, pos, FALSE, aCompany) + SLASH_CHAR + szClientDocumentObjects;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -2758,9 +2758,6 @@ CPathFinder::ApplicationType CPathFinder::StringToApplicationType(const CString&
 {
 	if (_tcsicmp(sType, szAppTypeApplications) == 0)
 		return CPathFinder::TB_APPLICATION;
-
-	if (_tcsicmp(sType, szAppTypeStandardization) == 0)
-		return CPathFinder::STANDARDIZATION;
 
 	if (_tcsicmp(sType, szAppTypeTb) == 0)
 		return CPathFinder::TB;

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <TbXmlCore\XmlSaxReader.h>
+#include <TbNameSolver\PathFinder.h>
 
 #include "beginh.dex"
 
@@ -34,10 +35,10 @@ class TB_EXPORT CApplicationConfigInfo: public CObject
 	friend class CApplicationConfigContent;
 
 private:
-	CString				m_sDbSignature;
-	CString				m_sName;
-	CString				m_sVersion;
-	BOOL				m_bTbApplication;
+	CString							m_sDbSignature;
+	CString							m_sName;
+	CString							m_sVersion;
+	CPathFinder::ApplicationType	m_ApplicationType;
 
 public:
 	CApplicationConfigInfo	();
@@ -49,7 +50,8 @@ public:
 	const CString&		GetName			() const { return m_sName; }
 	const CString&		GetDbSignature	() const { return m_sDbSignature; }		
 	const CString&		GetVersion		() const { return m_sVersion; }		
-	const BOOL&			IsTbApplication () const { return m_bTbApplication; }
+	const BOOL			IsTbApplication () const { return m_ApplicationType != CPathFinder::UNDEFINED; }
+	const BOOL			IsACustomization() const { return m_ApplicationType == CPathFinder::CUSTOMIZATION; }
 };
 
 class CLocalizableApplicationConfigInfo;

@@ -246,7 +246,6 @@ public:
 	CModuleDescription		m_XmlDescription;		// descrizione XML del modulo e dei suoi oggetti
 	CString					m_sModulePath;			// il path di file system del modulo
 	BOOL					m_bIsValid;				// indica che il modulo è valido e operativo
-	BOOL					m_bIsACustomization;	// indica che il modulo è una customizzazione
 	AddOnApplication*		m_pApplication;
 public:
 	AddOnModule(AddOnApplication*);
@@ -312,7 +311,6 @@ public:
 	AddOnModsArray*			m_pAddOnModules;
 	CString					m_strAddOnAppName;
 	CApplicationDescription	m_XmlDescription;
-	BOOL					m_bIsCustom;		// indica che il modulo è una customizzazione
 
 private:	
 	DECLARE_LOCKABLE		(AddOnDllArray,				m_AddOnDlls);
@@ -327,6 +325,7 @@ public:
 	void				AddAlias			(const CString& sDllName, const CString& sAlias);
 	const CString&		GetSignature		()	const { return m_XmlDescription.m_Info.GetDbSignature(); }
 	const CString&		GetAppVersion		()	const { return m_XmlDescription.m_Info.GetVersion(); }
+	const BOOL			IsACustomization	() const  { return m_XmlDescription.m_Info.IsACustomization(); }
 
 	AddOnDll*GetAddOnDll (HINSTANCE hDllInstance);
 	AddOnDll*GetAddOnDll (const CTBNamespace& aDllNamespace);

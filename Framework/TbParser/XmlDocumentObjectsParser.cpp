@@ -43,11 +43,9 @@ CXMLDocumentObjectsParser::CXMLDocumentObjectsParser()
 }
 
 //-----------------------------------------------------------------------------
-BOOL CXMLDocumentObjectsParser::LoadDocumentObjects (const CTBNamespace& aNamespace, CPathFinder::PosType, DocumentObjectsTable* pTable)
+BOOL CXMLDocumentObjectsParser::LoadDocumentObjects (const CTBNamespace& aNamespace, CPathFinder::PosType aPosType, DocumentObjectsTable* pTable)
 {
-	CString sFileName = AfxGetPathFinder()->GetDocumentObjectsFullName(aNamespace, CPathFinder::STANDARD);
-	if (!ExistFile(sFileName))
-		sFileName = AfxGetPathFinder()->GetDocumentObjectsFullName(aNamespace, CPathFinder::CUSTOM);
+	CString sFileName = AfxGetPathFinder()->GetDocumentObjectsFullName(aNamespace, aPosType, aPosType == CPathFinder::CUSTOM ? CPathFinder::EASYSTUDIO : CPathFinder::CURRENT);
 	if (!ExistFile(sFileName))
 		return TRUE;
 	

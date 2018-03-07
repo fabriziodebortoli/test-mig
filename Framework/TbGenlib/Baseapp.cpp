@@ -409,10 +409,10 @@ void AFXAPI AfxSetCenterControlsEnabled(BOOL bEnabled)
 }
 
 //-----------------------------------------------------------------------------
-BOOL AfxIsACustomizationObject(const CTBNamespace* pNs)
+BOOL AfxIsACustomization(const CTBNamespace& aNs)
 {
-	AddOnModule* pMod = AfxGetAddOnModule(*pNs);
-	return pMod ? pMod->m_bIsACustomization : FALSE;
+	AddOnApplication* pAddOnApp = AfxGetAddOnApp(aNs.GetApplicationName());
+	return pAddOnApp ? pAddOnApp->IsACustomization() : FALSE;
 }
 
 //------------------------------------------------------------------------------

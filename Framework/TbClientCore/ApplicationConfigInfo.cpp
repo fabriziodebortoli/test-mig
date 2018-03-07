@@ -68,7 +68,7 @@ int CApplicationConfigContent::ParseType (const CString& sUri, const CString& sT
 
 	CPathFinder::ApplicationType aType = AfxGetPathFinder()->StringToApplicationType (sTagValue);
 
-	m_pConfigInfo->m_bTbApplication = (aType != CPathFinder::UNDEFINED);
+	m_pConfigInfo->m_ApplicationType = aType;
 	
 	return CXMLSaxContent::OK;
 }
@@ -122,7 +122,7 @@ CApplicationConfigInfo::~CApplicationConfigInfo ()
 //------------------------------------------------------------------------------
 void CApplicationConfigInfo::Init ()
 {	
-	m_bTbApplication = FALSE;
+	m_ApplicationType = CPathFinder::UNDEFINED;
 
 	m_sDbSignature = _T("DEFAULT");
 }

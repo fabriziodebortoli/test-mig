@@ -589,6 +589,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 	if (!pAddOnMod)
 		return FALSE;
 
+	CPathFinder::PosType aPosType = AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_pApplication->IsACustomization());
 	LoadEnums	
 	(
 		pAddOnMod, 
@@ -616,7 +617,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 			pAddOnMod->m_Namespace, 
 			AfxGetPathFinder(), 
 			aParsers.m_pStatusBar, 
-			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization)
+			aPosType
 		);
 	
 	// standard fonts
@@ -626,7 +627,7 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 			pAddOnMod->m_Namespace, 
 			AfxGetPathFinder(), 
 			aParsers.m_pStatusBar, 
-			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization)
+			aPosType
 		);
 
 
@@ -635,12 +636,12 @@ BOOL CApplicationsLoader::LoadStandardComponents (AddOnModule* pAddOnMod, CParse
 		DocumentObjectsTablePtr pTablePtr = AfxGetWritableDocumentObjectsTable();
 		aParsers.m_DocObjectParser.LoadDocumentObjects (
 			pAddOnMod->m_Namespace, 
-			AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_bIsACustomization),
+			aPosType,
 			pTablePtr.GetPointer());
 	}
 
 	// behaviours
-	CString sFile = AfxGetPathFinder()->GetBehaviourObjectsFullName(pAddOnMod->m_Namespace,CPathFinder::STANDARD);
+	CString sFile = AfxGetPathFinder()->GetBehaviourObjectsFullName(pAddOnMod->m_Namespace, aPosType);
 	if (ExistFile(sFile))
 	{
 		CBehavioursContent aContent;
@@ -681,12 +682,8 @@ BOOL CApplicationsLoader::LoadApplicationInfo (AddOnApplication* pAddOnApp, CPar
 	CApplicationConfigContent aAppContent (&pAddOnApp->m_XmlDescription.m_Info);
 	aParsers.m_SaxReader.AttachContent(&aAppContent);
 	CString sFileName = aParsers.m_pPathFinder->GetApplicationConfigFullName(pAddOnApp->m_strAddOnAppName);
-	if (aParsers.m_SaxReader.ReadFile(sFileName))
-	{
-		pAddOnApp->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
-		return TRUE;
-	}
-	return FALSE;
+
+	return aParsers.m_SaxReader.ReadFile(sFileName);
 }
 
 //-----------------------------------------------------------------------------
@@ -711,12 +708,7 @@ BOOL CApplicationsLoader::LoadLocalizableApplicationInfo
 	CLocalizableApplicationConfigContent aLocAppContent (&pAddOnApp->m_XmlDescription.m_LocalizableInfo);
 	aParsers.m_SaxReader.AttachContent(&aLocAppContent);
 
-	if (aParsers.m_SaxReader.ReadFile(sFileName))
-	{
-		pAddOnApp->m_bIsCustom = aParsers.m_pPathFinder->IsCustomPath(sFileName);
-		return TRUE;
-	}
-	return FALSE;
+	return aParsers.m_SaxReader.ReadFile(sFileName);
 }
 
 //-----------------------------------------------------------------------------
@@ -734,7 +726,7 @@ BOOL CApplicationsLoader::LoadModuleInfo (AddOnModule* pAddOnMod, CParsersForMod
 	aParsers.m_SaxReader.AttachContent(&aModContent);
 	if (aParsers.m_SaxReader.ReadFile(sFileName))
 	{
-		if (pAddOnMod->m_bIsACustomization)
+		if (pAddOnMod->m_pApplication->IsACustomization())
 			AfxGetCommonClientObjects()->AddInActivationInfo(pAddOnMod->GetApplicationName() + _T(".") + pAddOnMod->GetModuleName());
 		return TRUE;
 	}
@@ -746,8 +738,10 @@ BOOL CApplicationsLoader::LoadAddOnComponents (AddOnModule*	pAddOnMod, CParsersF
 {
 	aParsers.m_pStatusBar->Show(cwsprintf(_TB("Loading Addon-Definitions for the Module {0-%s}..."), pAddOnMod->GetModuleName()));
 
+	CPathFinder::PosType aPosType = AfxGetPathFinder()->GetDefaultPosTypeFor(pAddOnMod->m_pApplication->IsACustomization());
+
 	// client document objects
-	CString sFileName = aParsers.m_pPathFinder->GetClientDocumentObjectsFullName (pAddOnMod->m_Namespace);
+	CString sFileName = aParsers.m_pPathFinder->GetClientDocumentObjectsFullName (pAddOnMod->m_Namespace, aPosType, aPosType == CPathFinder::CUSTOM ? CPathFinder::EASYSTUDIO : CPathFinder::CURRENT);
 	if (ExistFile(sFileName))
 	{
 		aParsers.m_ClientDocParser.SetCurrentModule(pAddOnMod->m_Namespace);

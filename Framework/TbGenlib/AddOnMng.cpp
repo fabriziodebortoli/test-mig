@@ -385,7 +385,6 @@ AddOnModule::AddOnModule(AddOnApplication* pApp)
 	m_nDatabaseRel = -1;
 	m_pAddOnLibs = new AddOnLibsArray();
 	m_bIsValid = TRUE;
-	m_bIsACustomization = FALSE;
 	m_pApplication = pApp;
 }
 
@@ -545,7 +544,6 @@ AddOnApplication::AddOnApplication(AddOnModsArray* pAddOnMod)
 {
 	if (!pAddOnMod)
 		m_pAddOnModules = new AddOnModsArray;
-	m_bIsCustom = FALSE;
 }
 
 //-----------------------------------------------------------------------------

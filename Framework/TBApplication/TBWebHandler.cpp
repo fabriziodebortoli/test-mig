@@ -208,10 +208,10 @@ void CTbWebHandler::IsEasyStudioDocumentFunction(const CString & path, const CNa
 {
 	CString ns = params.GetValueByName(_T("ns"));
 	CTBNamespace aNs(CTBNamespace::DOCUMENT, ns);
-	AddOnModule* pAddOnMod = AfxGetAddOnModule(aNs);
+	AddOnApplication* pAddOnApp = AfxGetAddOnApp(aNs.GetApplicationName());
 
 	CJSonResponse jsonResponse;
-	jsonResponse.SetMessage(pAddOnMod && pAddOnMod->m_bIsACustomization ? _T("true") : _T("false"));
+	jsonResponse.SetMessage(pAddOnApp && pAddOnApp->IsACustomization() ? _T("true") : _T("false"));
 	response.SetData(jsonResponse.GetJson());
 	response.SetMimeType(L"application/json");
 }

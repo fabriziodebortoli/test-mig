@@ -193,7 +193,7 @@ class TB_EXPORT CPathFinder : public CObject
 public:
 	enum PosType { STANDARD, CUSTOM, ALL_USERS, USERS, ROLES };
 	enum Company { CURRENT, ALL_COMPANIES, EASYSTUDIO};
-	enum ApplicationType { UNDEFINED, TB_APPLICATION, TB, CUSTOMIZATION, STANDARDIZATION };
+	enum ApplicationType { UNDEFINED, TB_APPLICATION, TB, CUSTOMIZATION };
 
 
 private:
@@ -389,7 +389,7 @@ public:
 	const CString GetReportFullNameIn(const CTBNamespace& aNamespace, PosType pos, const CString& sUserRole = _T("")) const;
 	const CString GetDatabaseObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
 	const CString GetAddOnDbObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
-	const CString GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
+	const CString GetDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos, Company aCompany = CURRENT) const;
 	const CString GetBehaviourObjectsFullName(const CTBNamespace& aNamespace, PosType pos) const;
 	const CString GetClientDocumentObjectsFullName(const CTBNamespace& aNamespace, PosType pos = CPathFinder::STANDARD, Company aCompany = CPathFinder::CURRENT) const;
 	const CString GetResourcesFullFileName(const CTBNamespace& aNamespace) const;

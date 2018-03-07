@@ -1722,16 +1722,7 @@ BOOL CTBExplorerUserDlg::IsSelectedApplicationACustomization()
 	//Infatti un'applicazione o vive nella standard oppure vive nella custom,
 	//non è ammesso abbia un pò di moduli nella standard e un pò nella custom.
 	AddOnApplication* pAddOnApp = AfxGetAddOnApp(m_NameSpace.GetApplicationName());
-	if (!pAddOnApp)
-		return FALSE;
-
-	AddOnModsArray* pMods = pAddOnApp->m_pAddOnModules;
-	if (!pMods || pMods->GetSize() == 0)
-		return FALSE;
-
-	AddOnModule* pAddOnMod = pMods->GetAt(0);
-
-	return pAddOnMod && pAddOnMod->m_bIsACustomization;
+	return pAddOnApp && pAddOnApp->IsACustomization();
 }
 
 //--------------------------------------------------------------------------
