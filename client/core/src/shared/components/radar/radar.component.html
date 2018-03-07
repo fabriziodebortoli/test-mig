@@ -2,13 +2,13 @@
     <tb-toolbar-top>
         <div class="toolbar-menu">
             <div class="menu-category navigation">
-                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canFirst || !state.canNavigate'
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" [disabled]='!canFirst || !state.canNavigate'
                     (click)="selectFirst()"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-doubleleft" [caption]="_TB('Previous Page')" [disabled]='paginator.currentPage <= 0 || !state.canNavigate'
                     (click)="previousPage()"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canPrev || !state.canNavigate'
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" [disabled]='!canPrev || !state.canNavigate'
                     (click)="selectPrevious()"></tb-toolbar-top-button>
-                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_FIRST" [disabled]='!canNext || !state.canNavigate'
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" [disabled]='!canNext || !state.canNavigate'
                     (click)="selectNext()"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-doubleright" [caption]="_TB('Next Page')" [disabled]='paginator.noMorePages || !state.canNavigate'
                     (click)="nextPage()"></tb-toolbar-top-button>

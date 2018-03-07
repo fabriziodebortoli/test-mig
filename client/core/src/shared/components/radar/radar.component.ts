@@ -166,6 +166,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
     }
 
     async selectPrevious() {
+        if (!this.canPrev) return;
         if (this.state.selectedIndex === 0 && this.paginator.currentPage > 0) {
             await this.previousPage();
             return;
@@ -174,6 +175,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
     }
 
     async selectNext() {
+        if (!this.canNext) return;
         if (this.state.selectedIndex === this.state.rows.length - 1) {
             await this.nextPage();
             return;
