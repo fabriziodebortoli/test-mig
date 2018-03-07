@@ -40,7 +40,7 @@ export class ControlContainerComponent extends ControlComponent {
         _.set(this.eventDataService.model,
             this.stateData.model,
             !_.get(this.eventDataService.model, this.stateData.model));
-        this.eventDataService.change.emit(this.stateData.cmpId);
+        this.eventDataService.raiseControlCommand(this.stateData.cmpId);
     }
 
     ngOnInit() {

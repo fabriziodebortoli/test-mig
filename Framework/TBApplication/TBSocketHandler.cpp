@@ -41,6 +41,7 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("openHyperLink")] = &CTBSocketHandler::OpenHyperLink;
 	functionMap[_T("queryHyperLink")] = &CTBSocketHandler::QueryHyperLink;
 	functionMap[_T("openNewHyperLink")] = &CTBSocketHandler::OpenNewHyperLink;
+	functionMap[_T("doControlCommand")] = &CTBSocketHandler::DoControlCommand;
 
 }
 
@@ -278,6 +279,32 @@ void CTBSocketHandler::DoCommand(CJsonParser& json)
 	//pSession->ResumePushToClient();
 }
 
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::DoControlCommand(CJsonParser& json)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//e non potrei chiudere con la ResumePushToClient
+	//pSession->SuspendPushToClient();
+	CString sId = json.ReadString(_T("id"));
+	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
+	HWND cmpId = ReadComponentId(json);
+	//aggiornamento del model
+	pSession->SetJsonModel(json, cmpId);
+	//esecuzione comando
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	ASSERT(pDoc);
+	CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(id);
+	if (pCtrl)
+		pCtrl->DoPushButtonCtrl(NULL, NULL);
+	//pSession->ResumePushToClient();
+}
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoClose(CJsonParser& json)
 {

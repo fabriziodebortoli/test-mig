@@ -33,7 +33,7 @@ export class WebSocketService extends LocalizationService {
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     public windowStrings = new EventEmitter<any>();
     public behaviours = new EventEmitter<any>();
-    public addOnFly = new EventEmitter<{name: string, value: string}>();
+    public addOnFly = new EventEmitter<{ name: string, value: string }>();
 
     constructor(
         public infoService: InfoService,
@@ -83,7 +83,7 @@ export class WebSocketService extends LocalizationService {
                         case 'RunError': $this.runError.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
-                        case 'AddOnFly': $this.addOnFly.emit({name: obj.args['name'], value: obj.args['value']}); break;
+                        case 'AddOnFly': $this.addOnFly.emit({ name: obj.args['name'], value: obj.args['value'] }); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
@@ -194,6 +194,10 @@ export class WebSocketService extends LocalizationService {
 
     doCommand(cmpId: String, id: String, modelData?: any): void {
         const data = { cmd: 'doCommand', cmpId: cmpId, id: id, data: modelData };
+        this.safeSend(data);
+    }
+    doControlCommand(cmpId: String, id: String, modelData?: any): void {
+        const data = { cmd: 'doControlCommand', cmpId: cmpId, id: id, data: modelData };
         this.safeSend(data);
     }
     doClose(cmpId: String, modelData?: any): void {

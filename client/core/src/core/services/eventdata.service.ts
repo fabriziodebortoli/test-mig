@@ -13,6 +13,8 @@ export class EventDataService implements OnDestroy {
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
     public openRadar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public controlCommand: EventEmitter<string> = new EventEmitter();
+
     public get showRadar() { return this.openRadar; }
 
     public openMessageDialog: EventEmitter<MessageDlgArgs> = new EventEmitter();
@@ -35,7 +37,9 @@ export class EventDataService implements OnDestroy {
         evt.componentId = componentId;
         this.command.emit(evt);
     }
-
+    public raiseControlCommand(controlId: string) {
+        this.controlCommand.emit(controlId);
+    }
     ngOnDestroy() {
         this.change.complete();
         this.openRadar.complete();

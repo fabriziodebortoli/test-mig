@@ -161,6 +161,11 @@ export class BOService extends DocumentService {
         this.subscriptions.push(this.webSocketService.windowStrings.subscribe((args: any) => {
             this.windowStrings.emit(args);
         }));
+
+        this.subscriptions.push(this.eventData.controlCommand.subscribe((controlId: string) => {
+            const patch = this.getPatchedData();
+            this.webSocketService.doControlCommand(this.mainCmpId, controlId, patch);
+        }));
     }
     getPatchedData(): any {
         const patch = this.changedData;
