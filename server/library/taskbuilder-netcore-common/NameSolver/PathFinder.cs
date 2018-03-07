@@ -620,12 +620,9 @@ namespace Microarea.Common.NameSolver
 
             return fullFileName;
         }
-		//-----------------------------------------------------------------------------
-		public string GetCustomESHomePath()
-		{
-			return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, NameSolverStrings.EasyStudioHome);
-		}
-		protected InstallationVersion GetInstallationVer()
+
+        //---------------------------------------------------------------------------------
+        protected InstallationVersion GetInstallationVer()
         {
             string path = GetInstallationVersionPath();
 
@@ -841,7 +838,7 @@ namespace Microarea.Common.NameSolver
             }
 
             string folder = (aApplicationType == ApplicationType.Customization)
-                ? GetCustomPath()
+                ? GetEasyStudioHomePath()
                 : standardPath;
             return Path.Combine(folder, appContainerName);
         }
