@@ -1092,6 +1092,7 @@ namespace Microarea.Common.CoreTypes
             Add(Token.TIME, "DateTime", new string[] { "Int32", "Int32", "Int32" });
             Add(Token.TRIM, "String", new string[] { "String" });
             Add(Token.TRIM, "String", new string[] { "String", "String" });
+            Add(Token.TRIM, "String", new string[] { "String", "String", "Boolean" });
             Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32" });
             Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32" });
             Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32", "String" });

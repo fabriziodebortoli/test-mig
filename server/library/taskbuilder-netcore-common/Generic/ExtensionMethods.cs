@@ -19,7 +19,7 @@ namespace Microarea.Common.Generic
         /// rimuove tutte le occorrenze di un carattere
         /// </summary>
         //--------------------------------------------------------------------------------
-        public static string Remove(this string str1, char[] anyOf, int start, int searchLength = 0)
+        public static string Remove(this string str1, char[] anyOf, int start = 0, int searchLength = 0)
         {
             int idx = -1;
             do
@@ -36,7 +36,7 @@ namespace Microarea.Common.Generic
         /// <summary>
         /// rimuove tutte le occorrenze di un carattere
         /// </summary>
-        public static string Remove(this string str1, char c, int start, int searchLength = 0)
+        public static string Remove(this string str1, char c, int start = 0, int searchLength = 0)
         {
             return str1.Remove(new char[] { c }, start, searchLength);
         }

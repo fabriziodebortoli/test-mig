@@ -2679,12 +2679,25 @@ namespace Microarea.Common.ExpressionManager
 						Value p1 = (Value)paramStack.Pop();
 						string s = CastString(p1);
 
-						if (function.Parameters.Count == 2)
+						if (function.Parameters.Count > 1)
 						{
 							Value p2 = (Value)paramStack.Pop();
 							char[] a = CastString(p2).ToCharArray();
 
-							return new Value(s.Trim(a));
+                            s = s.Trim(a);
+
+                            if (function.Parameters.Count > 2)
+                            {
+                                Value p3 = (Value)paramStack.Pop();
+
+                                bool removeInner = CastBool(p3);
+                                if (removeInner)
+                                {
+                                    s = s.Remove(a); 
+                                }
+                            }
+                            
+                            return new Value(s);
 						}
 						return new Value(s.Trim());
 					}
