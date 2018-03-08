@@ -1,7 +1,7 @@
 <div *ngFor="let theme of themeService.themes" draggable="false" class="theme-container">
     <div (click)="changeTheme(theme)" class="div-theme-carrier">
         <div class="icon">
-            <m4-icon icon="tb-ok" *ngIf="theme.isFavoriteTheme"></m4-icon>
+            <m4-icon icon="tb-checkfilled" *ngIf="theme.isFavoriteTheme"></m4-icon>
         </div>
         <div><label class="theme-name">{{theme.name}}</label></div>
     </div>
