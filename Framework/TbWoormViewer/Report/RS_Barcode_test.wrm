@@ -1,0 +1,230 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageLayout "default" 
+	Begin
+		Text (5,305,45,464) "Barcode test" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+				FontStyle "ListTitle" ;
+			End
+		Text (5,517,398,665) 
+			Begin
+				"BARCODE TYPE" 
+				"(TypedBarCode e Integer)" 
+				"0 Default" 
+				"1 UPC A" 
+				"2 UPC E" 
+				"3 Ean13" 
+				"4 Ean8" 
+				"5 Code39" 
+				"6 Extended Code 39" 
+				"7 Interleaved 2 of 5," 
+				"8 Code 128 auto" 
+				"9 Codabar" 
+				"10 ZIP Code" 
+				"11 MSI Plessey" 
+				"12 Code 93, " 
+				"13 Extended code 93" 
+				"14 UCC128" 
+				"15 HIBC" 
+				"16 PDF417" 
+				"17 UPCE-E0" 
+				"18 UPCE-E1" 
+				"19 Code 128 A" 
+				"20 Code 128 B" 
+				"21 Code 128 C" 
+				"22 Ean 128" 
+				"23 DataMatrix" 
+				"24 MicroQR" 
+				"25 QR" 
+			End
+
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+		Text (5,673,398,787) 
+			Begin
+				"BARCODE ENUM" 
+				"" 
+				"0 Ean8" 
+				"1 Ean13" 
+				"2 Code39	" 
+				"3 UPC A" 
+				"4 UPC E" 
+				"5 Extended Code 39" 
+				"6 Interleaved 2 of 5" 
+				"7 Code 128 auto" 
+				"8 Codabar" 
+				"9 ZIP Code" 
+				"10 MSI Plessey" 
+				"11 Code 93" 
+				"12 Extended code 93" 
+				"13 UCC128" 
+				"14 HIBC" 
+				"15 PDF417" 
+				"16 UPCE-E0" 
+				"17 UPCE-E1" 
+				"18 Code 128 A" 
+				"19 Code 128 B" 
+				"20 Code 128 C" 
+				"21 Default" 
+				"22 Ean 128" 
+				"23 DataMatrix" 
+				"24 MicroQR" 
+				"25 QR" 
+			End
+
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+		Text (50,48,67,295) "Barcode con parametri da setting" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+		Field (78,48,184,295) Alias 1  /* w_bc1D */ 
+			Begin
+				BarCodeStrip ("UPCA" ,-1,False ,True ,-2,10) 
+				Label "w_bc1D" 
+			End
+		Field (156,323,189,476) Alias 3  /* w_bcTypeEnum */ FormatStyle "Enum" 
+			Begin
+				Pen (169,169,169) ;
+				Label = "BC Type Enum" ;
+			End
+		Field (190,323,223,476) Alias 4  /* w_bcTypeInt */ FormatStyle "Integer" 
+			Begin
+				Pen (169,169,169) ;
+				Label = "BC Type Integer" ;
+			End
+		Text (198,48,215,295) "Barcode con parametri da altri field" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+		Field (219,48,325,295) Alias 2  /* w_bc2_fields */ 
+			Begin
+				BarCodeStrip (4,-1,False ,True ,w_EncodingInt ,-1,0,w_bcVersionStr ,-1) 
+				Label "w_bc2_fields" 
+			End
+		Field (224,323,257,476) Alias 5  /* w_bcTypeStr */ 
+			Begin
+				Pen (169,169,169) ;
+				Label "BC Type String" 
+			End
+		Field (259,323,292,476) Alias 12  /* w_testo */ 
+			Begin
+				Pen (169,169,169) ;
+				Label "Human text" 
+			End
+		Field (294,323,327,476) Alias 6  /* w_EncodingInt */ FormatStyle "Integer" 
+			Begin
+				Pen (169,169,169) ;
+				Label = "Encoding type (int)" ;
+			End
+		Field (328,323,361,476) Alias 7  /* w_bcVersionStr */ 
+			Begin
+				Pen (169,169,169) ;
+				Label "BC Version String" 
+			End
+		Field (362,323,395,476) Alias 8  /* w_bcErrCodInt */ FormatStyle "Integer" 
+			Begin
+				Pen (169,169,169) ;
+				Label "BC Err Corr Int" 
+			End
+		Text (379,48,395,295) "Barcode con parametri da  function TypedBarcode" 
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+		Field (401,48,417,357) Alias 11  /* w_TypeBCContent */ 
+			Begin
+				Pen (169,169,169) ;
+				Label "Content TypeBC" 
+			End
+		Field (423,48,665,752) Alias 9  /* w_bcTypedBC */ 
+			Begin
+				BarCodeStrip ("EAN128" ,-1,False ,True ,-1) 
+				Label "w_bcTypedBC" 
+			End
+		Text (670,48,1086,751) 
+			Begin
+				"INFO UTILI:" 
+				"" 
+				"BC  type: Default da setting: se il setting è vuoto il default è EAN13" 
+				"" 
+				"Documentazione TypedBarCode si può trovare selezionando la funzione nella finestra di Edit sotto: Base Function-->Text" 
+				"" 
+				"I parametri della TypedBarCode e il setting dei parametri dal pannello proprietà quando il barcode type viene da Alias o dalla Typed Bracode hanno senso in dipendenza al tipo barcode:" 
+				"" 
+				"BARCODE 1D:" 
+				"CheckSum Digit(EAN128)" 
+				"HumanText" 
+				"Bar Thickness" 
+				"" 
+				"" 
+				"BARCODE 2D:" 
+				"Encoding Mode" 
+				"Barcode Version (non per QR e Micro-QR per un bug delle GDPicture)" 
+				"Module size" 
+				"Error Correction Level (solo per QR, Micro-QR e PDF417)" 
+				"" 
+				"Se un barcode è riempito tramite la TypedBracode e poi nei setting i parametri vengono però valorizzati ''dinamicamente'' valorizzandoli a partire da un altro campo all''interno del report, " 
+				"quest''ultima impostazione vince sul parametro passato tramite TypedBarCode" 
+			End
+
+			Begin
+				Transparent
+				Borders (0,0,0,0) ;
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       w_bc1D [15] Alias 1 ;
+			String       w_bc2_fields [15] Alias 2 ;
+			Enum[86]      /* Barcode Type */ w_bcTypeEnum [15] Alias 3 ;
+			Integer      w_bcTypeInt [6] Alias 4 ;
+			String       w_bcTypeStr [15] Alias 5 ;
+			Integer      w_EncodingInt [6] Alias 6 ;
+			String       w_bcVersionStr [15] Alias 7 ;
+			Integer      w_bcErrCodInt [6] Alias 8 ;
+			String       w_bcTypedBC [15] Alias 9 ;
+			String       w_TypeBCContent [15] Alias 11 ;
+			String       w_testo [15] Alias 12 ;
+		End
+
+		Rules
+			w_bc1D = "123456" ;
+
+			w_bc2_fields = "12345" ;
+
+			w_bcTypeEnum = { 86 : 23 } ;
+
+			w_bcTypeInt = 5 ;
+
+			w_bcTypeStr = "Codabar" ;
+
+			w_EncodingInt = 1 ;
+
+			w_bcVersionStr = "32x32" ;
+
+			w_bcErrCodInt = 1 ;
+
+			w_bcTypedBC = w_TypeBCContent ;
+
+			w_TypeBCContent = TypedBarCode ( "ABCDEF" , 23 , 2 , "" , 2 , - 1 , "48x48" , - 1 ) ;
+
+			w_testo = "testo da stampare" ;
+		End
+
+End
+
