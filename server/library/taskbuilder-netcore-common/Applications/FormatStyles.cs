@@ -2721,8 +2721,6 @@ public string DecSeparator = ",";
         //------------------------------------------------------------------------------
         ~FormatStyles()
         {
-            foreach (KeyValuePair<string, CNumberToLiteralLookUpTableManager> NTLManager in CNumberToLiteralManager.numberToLiteral)
-                NTLManager.Value.Clear();
         }
 
         //------------------------------------------------------------------------------
