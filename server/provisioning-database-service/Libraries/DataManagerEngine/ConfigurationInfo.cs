@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-//using System.IO;
 using System.Xml;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.NameSolver;

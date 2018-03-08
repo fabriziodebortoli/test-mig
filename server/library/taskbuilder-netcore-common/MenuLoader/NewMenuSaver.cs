@@ -490,14 +490,7 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------
         public static void SaveXml(XmlDocument doc, string file)
         {
-            using (FileStream fileStream = new FileStream(file, FileMode.Create))
-            {
-                XmlWriterSettings settings = new XmlWriterSettings() { Indent = true };
-                using (XmlWriter writer = XmlWriter.Create(fileStream, settings))
-                {
-                    doc.Save(writer);
-                }
-            }
+            bool result = PathFinder.PathFinderInstance.SaveTextFileFromXml(file, doc);
         }
     }
 }

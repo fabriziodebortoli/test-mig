@@ -1,7 +1,4 @@
 using System;
-
-
-
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 using System.Collections;

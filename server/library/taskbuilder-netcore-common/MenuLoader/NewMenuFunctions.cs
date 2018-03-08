@@ -174,7 +174,7 @@ namespace Microarea.Common.MenuLoader
 		internal static XmlDocument GetCustomUserAppDataXmlDocument(string file)
 		{
 			XmlDocument doc = new XmlDocument();
-			if (PathFinder.PathFinderInstance.ExistFile(file))//PathFinder.PathFinderInstance.ExistFile(file))
+			if (PathFinder.PathFinderInstance.ExistFile(file))
 			{
 				try
 				{

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Xml;
-
-
-
 using Microarea.Common.NameSolver;
 using Microarea.Common.StringLoader;
 using Microarea.Common.Generic;
