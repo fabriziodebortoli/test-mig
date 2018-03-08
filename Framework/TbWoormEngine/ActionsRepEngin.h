@@ -184,9 +184,12 @@ protected:
 
 	BOOL		m_bHasBeginEnd = TRUE;
 	BOOL		m_bRaiseEvents = FALSE;
+	
 public:
 	Array		m_Actions;			// Array of Actions
 	CString		m_strOwnerName;
+	//An.EVAL FUNCTION - MessageBox di errore e apertura EditView 
+	//BOOL		m_bOnEditing = FALSE;
 public:
 	Block (ActionObj* pParent, SymTable*, RepEngine*, BOOL bRaiseEvents = TRUE, CFunctionDescription* pFun = NULL);
 	virtual ~Block ();

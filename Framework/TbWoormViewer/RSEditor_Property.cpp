@@ -3911,7 +3911,11 @@ void CRS_ObjectPropertyView::LoadVariableGeneralSettings(WoormField* wrmField)
 
 	//Evaluation Expression must open text editor
 	else if (!wrmField->IsExprRuleField() && (wrmField->GetDataType() != DataType::Array) && !wrmField->IsInput() && !wrmField->m_bIsTableField)
-		m_pGeneralSettings->AddSubItem(new CRSExpressionProp(_TB("Evaluation expression"), (Expression**)&wrmField->GetEventFunction(), wrmField->GetDataType(), wrmField->GetSymTable(), this));
+	{ 
+		if (wrmField->GetEventFunction() == NULL)
+			wrmField->SetEmptyEventFunction(wrmField->GetSymTable(), wrmField->GetName());
+		m_pGeneralSettings->AddSubItem(new CRSEventFunctionProp(_TB("Evaluation expression"), wrmField,  _T("")));
+	}
 
 	//expression calculated column
 	else if (m_pTreeNode->m_NodeType == CNodeTree::ENodeType::NT_VARIABLE && wrmField->IsTableRuleField() && wrmField->IsNativeColumnExpr())
@@ -13042,6 +13046,57 @@ void CRSExpressionExtendedProp::UpdateDocument()
 	GenericDrawObj* pGenObj = dynamic_cast<GenericDrawObj*>(m_pOwner);
 	if (pGenObj)
 		pGenObj->Redraw();
+}
+
+//================================CRSEventFunctionProp==================================
+//-----------------------------------------------------------------------------
+CRSEventFunctionProp::CRSEventFunctionProp(const CString& strName, WoormField* woormField, const CString& description)
+	:
+	CrsProp(strName, (LPCTSTR)woormField->GetEventFunction()->ToString(), description)
+{
+	m_ppEvenFunc = &woormField->GetEventFunction();
+	m_pWoormField = woormField;
+	m_dataType = woormField->GetDataType();
+	AllowEdit(FALSE);
+}
+
+//-----------------------------------------------------------------------------
+void CRSEventFunctionProp::OnClickButton(CPoint point)
+{
+	CWoormDocMng* wrmDocMng = this->GetPropertyView()->GetDocument();
+
+	ASSERT_VALID(wrmDocMng);
+	if (!wrmDocMng)
+		return;
+
+	CRSEditView* pEditView = dynamic_cast<CRSEditView*>(wrmDocMng->CreateSlaveView(RUNTIME_CLASS(CRSEditView)));
+	ASSERT_VALID(pEditView);
+	if (!pEditView)
+		return;
+
+	if (m_dataType == DataType::String || m_dataType == DataType::Text)
+		pEditView->EnableStringPreview();
+
+	pEditView->LoadElement(
+		m_pWoormField,
+		TRUE,
+		NULL,
+		TRUE,
+		this->GetDesciption()
+	);
+
+	//modal view
+	pEditView->DoEvent();
+	ASSERT_VALID(this);
+	//aggiorniamo il valore della property
+	CString sVal;
+	if (m_ppEvenFunc)
+	{
+		ASSERT(*m_ppEvenFunc);
+		sVal = (*m_ppEvenFunc)->ToString();
+	}
+
+	SetValue((LPCTSTR)sVal);
 }
 
 //================================CRSSqlExpressionProp==================================

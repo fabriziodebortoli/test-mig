@@ -127,6 +127,52 @@ void CRSEditView::LoadElement(SymTable* pSymTable, Expression** ppExpr, DataType
 	SetText(sExpr);
 }
 
+
+//-----------------------------------------------------------------------------
+void CRSEditView::LoadElement(WoormField* woormField, BOOL bViewMode, BOOL* pbSaved/* = NULL*/, BOOL bAllowEmpty, CString descr)
+{
+	if (GetEditorFrame(FALSE))
+	{
+		SetLanguage(L"WRM", bViewMode);
+
+		GetEditorFrame(TRUE)->m_pToolTreeView->FillTree(bViewMode, this);
+
+		ShowDiagnostic(L"");
+	}
+	//----------------------------
+	SymTable* pSymTable = woormField->GetSymTable();
+	EventFunction** ppEventFunc = &woormField->GetEventFunction();
+	DataType dtReturnType = woormField->GetDataType();
+
+	m_pbSaved = pbSaved; if (m_pbSaved) *m_pbSaved = FALSE;
+	ASSERT(ppEventFunc);
+	ASSERT_VALID(pSymTable);
+
+	CString sExpr;
+	BOOL bOwn = FALSE;
+	if (*ppEventFunc)
+	{
+		ASSERT_VALID(*ppEventFunc);
+		ASSERT_KINDOF(EventFunction, *ppEventFunc);
+		ASSERT((*ppEventFunc)->GetSymTable()->GetRoot() == pSymTable->GetRoot());
+		sExpr = (*ppEventFunc)->ToString();
+	}
+	else
+	{
+		bOwn = TRUE;
+		*ppEventFunc = new EventFunction(pSymTable, *woormField);
+	}
+
+	m_Context.SetExpr(woormField, bViewMode);
+	m_Context.m_bOwnObject = bOwn;
+	m_Context.m_bAllowEmpty = bAllowEmpty;
+	if (m_pEditTextRect) m_pEditTextRect->SetText(sExpr);
+
+	if (GetEditorFrame(FALSE))
+		GetEditorFrame(TRUE)->m_pDiagnosticView->m_edtErrors.SetWindowTextW(descr);
+
+	SetText(sExpr);
+}
 //-----------------------------------------------------------------------------
 void CRSEditView::LoadElementGroupingRule(SymTable* pSymTable, Expression** ppExpr, DataType dtReturnType, BOOL bViewMode, BOOL* pbSaved/* = NULL*/, BOOL bAllowEmpty, CString descr)
 {
@@ -782,6 +828,13 @@ BOOL CRSEditView::DoClose()
 			break;
 		}
 
+		case CRSEditViewParameters::EditorMode::EM_FUNC_EXPR:
+		{
+			if (m_Context.m_bAllowEmpty && m_Context.m_bOwnObject && (*m_Context.m_ppEventFunc) && (*m_Context.m_ppEventFunc)->IsEmpty())
+				SAFE_DELETE((*m_Context.m_ppEventFunc));
+			break;
+		}
+
 		case CRSEditViewParameters::EditorMode::EM_BLOCK:
 		{
 			if (m_Context.m_bAllowEmpty && m_Context.m_bOwnObject && (*m_Context.m_ppBlock) && (*m_Context.m_ppBlock)->IsEmpty())
@@ -967,6 +1020,12 @@ BOOL CRSEditView::DoSave()
 			break;
 		}
 
+		case CRSEditViewParameters::EditorMode::EM_FUNC_EXPR:
+		{
+			if (!SaveFunction())
+				return FALSE;
+			break;
+		}
 		case CRSEditViewParameters::EditorMode::EM_BLOCK:
 		{
 			if (!SaveBlock())
@@ -1041,6 +1100,8 @@ BOOL CRSEditView::SaveExpression()
 		{
 			(*m_Context.m_ppExpr)->Empty();
 			VERIFY((*m_Context.m_ppExpr)->Parse(sExpr, m_Context.m_eReturnType, TRUE));
+
+			SAFE_DELETE(pTempExpr);
 		}
 		else
 		{
@@ -1089,6 +1150,8 @@ BOOL CRSEditView::SaveBlock()
 
 	Block* pTempBlock = new Block(NULL, m_Context.m_pSymTable, NULL, m_Context.m_bRaiseEvents);
 	pTempBlock->SetForceBeginEnd((*m_Context.m_ppBlock)->GetForceBeginEnd());
+	//An.EVAL FUNCTION - MessageBox di errore e apertura EditView 
+	//pTempBlock->m_bOnEditing = TRUE;
 
 	sBlock = L"Begin\n" + sBlock + L"\nEnd";
 	Parser lex(sBlock);
@@ -1112,6 +1175,70 @@ BOOL CRSEditView::SaveBlock()
 		ShowDiagnostic(lex);
 
 		SAFE_DELETE(pTempBlock);
+	}
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------
+BOOL CRSEditView::SaveFunction()
+{
+	ASSERT(m_Context.m_ppEventFunc);
+
+	CString sFunc = GetEditCtrl()->GetText();
+	sFunc.Trim();
+	if (sFunc.IsEmpty())
+	{
+		if (m_Context.m_bAllowEmpty)
+		{
+			if (m_Context.m_bOwnObject)
+			{
+				SAFE_DELETE((*m_Context.m_ppEventFunc));
+			}
+			else
+			{
+				(*m_Context.m_ppEventFunc)->Empty();
+			}
+			ShowDiagnostic(_TB("Ok, empty expression allowed"));
+			return TRUE;
+		}
+		else
+		{
+			ShowDiagnostic(_TB("Error, empty expression is not allowed"));
+			return FALSE;
+		}
+	}
+
+	EventFunction* pTempFunc = NULL;
+	pTempFunc = new EventFunction(m_Context.m_pSymTable, *m_Context.m_pWoormField);
+	pTempFunc->SetPublicName(m_Context.m_pWoormField->GetName());
+	Parser lex(sFunc);
+	if (pTempFunc->Parse(lex))
+	{
+
+		(*m_Context.m_ppEventFunc)->Empty();
+		(*m_Context.m_ppEventFunc)->SetPublicName(pTempFunc->GetPublicName());
+		Parser lex2(sFunc);
+		VERIFY((*m_Context.m_ppEventFunc)->Parse(lex2));
+
+		SAFE_DELETE(pTempFunc);
+		ShowDiagnostic(_TB("Function expression was saved"));
+
+		if (
+			m_Context.m_eType == CRSEditViewParameters::EditorMode::EM_NODE_TREE &&
+			GetDocument() && GetDocument()->GetWoormFrame() &&
+			::IsWindow(GetDocument()->GetWoormFrame()->m_hWnd) &&
+			GetDocument()->GetWoormFrame()->m_pEditorDockedView
+			)
+		{
+			GetDocument()->GetWoormFrame()->m_pEditorDockedView->LoadElementFromTree(m_Context.m_pNode);
+		}
+		return TRUE;
+	}
+	else
+	{
+		ShowDiagnostic(lex);
+
+		SAFE_DELETE(pTempFunc);
 	}
 	return FALSE;
 }

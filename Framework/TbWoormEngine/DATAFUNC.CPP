@@ -453,10 +453,10 @@ BOOL EventFunction::IsEmpty()
 }
 
 //----------------------------------------------------------------------------
-void EventFunction::Reset()
+void EventFunction::Reset(BOOL bResetAll /*= TRUE*/)
 {
  	m_FunctionType = T_NOTOKEN;
- 	__super::Reset();
+ 	__super::Reset(bResetAll);
 }
 
 //----------------------------------------------------------------------------
@@ -479,7 +479,7 @@ void EventFunction::UnparseFunction(Unparser& oFile)
 //----------------------------------------------------------------------------
 void EventFunction::UnparseExpression(Unparser& oFile)
 {
-	oFile.UnparseExpr(ToString(), FALSE);
+	oFile.UnparseExpr(__super::ToString(), FALSE);
 }
 
 //----------------------------------------------------------------------------
@@ -489,6 +489,17 @@ void EventFunction::Unparse(Unparser& oFile)
 		UnparseExpression(oFile);
 	else
 		UnparseFunction(oFile);
+}
+
+//-----------------------------------------------------------------------------
+CString EventFunction::ToString(BOOL /*bUseAudit*/)
+{
+	Unparser unparse(TRUE);
+	Unparse(unparse);
+	unparse.Close();
+
+	CString str = unparse.GetBufferString();
+	return str;
 }
 
 //===========================================================================

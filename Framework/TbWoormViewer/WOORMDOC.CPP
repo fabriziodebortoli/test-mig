@@ -10178,6 +10178,7 @@ void CWoormDocMng::OnAllowEditing()
 			DataStr sCurrLayout = m_dsCurrentLayoutView;
 
 			m_bIsInParse = TRUE;
+			//An.EVAL FUNCTION - MessageBox di errore e apertura EditView 
 			if (!ForceEngineParse())
 			{
 				m_bIsInParse = TRUE;

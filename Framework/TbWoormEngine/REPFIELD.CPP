@@ -1257,6 +1257,20 @@ void WoormField::SetEventFunction
 }
 
 //----------------------------------------------------------------------------
+void WoormField::SetEmptyEventFunction
+(
+	SymTable*	aSymTable,
+	LPCTSTR			pszFieldName
+)
+{
+	SAFE_DELETE(m_pEventFunction);
+
+	m_pEventFunction = new EventFunction(aSymTable, *this);
+
+	m_pEventFunction->SetPublicName(pszFieldName);
+}
+
+//----------------------------------------------------------------------------
 BOOL WoormField::CanDeleteField(LPCTSTR pszFieldName)
 {
 	if (m_pEventFunction)

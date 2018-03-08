@@ -303,6 +303,7 @@ public:
 	BOOL			HasAFunction		() const { return (m_pEventFunction != NULL);	}
 	void			SetEventFunction	(SymTable*, LPCTSTR pszColumnName, Token = T_NOTOKEN);
 	void			SetEventFunction	(SymTable*, LPCTSTR pszColumnName, LPCTSTR pszExpr, const DataType&);
+	void			SetEmptyEventFunction(SymTable*, LPCTSTR pszFieldName);
 
 	BOOL			CanDeleteField		(LPCTSTR);
 

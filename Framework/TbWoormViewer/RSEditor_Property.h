@@ -1380,6 +1380,23 @@ protected:
 };
 
 //=============================================================================
+//Class for function espression
+class TB_EXPORT CRSEventFunctionProp : public CrsProp
+{
+public:
+	CRSEventFunctionProp(const CString& strName, WoormField* woormField, const CString& description = L"");
+
+protected:
+	virtual BOOL HasButton() const { return TRUE; }
+	void OnClickButton(CPoint point);
+
+protected:
+	EventFunction**	m_ppEvenFunc = NULL;
+	WoormField* m_pWoormField = NULL;
+	DataType	m_dataType;
+};
+
+//=============================================================================
 //Class for column width (int type with spin control) and expression
 class CRSColumnWidthWithExprProp : public CRSExpressionExtendedProp
 {

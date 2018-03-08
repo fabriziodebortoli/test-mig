@@ -816,6 +816,9 @@ EvalResetAction::EvalResetAction (ActionObj* pParent, WoormTable* pTable, RepEng
 //---------------------------------------------------------------------------
 BOOL EvalResetAction::Exec()
 {
+	if (m_pField == NULL)
+		return FALSE;
+
 	m_ActionState = STATE_NORMAL;
 
 	switch (m_ActionType)
@@ -823,7 +826,7 @@ BOOL EvalResetAction::Exec()
 		case ACT_EVAL :
 		{
 			EventFunction* aFun = m_pField->GetEventFunction();
-			if (!aFun->Eval())
+			if (aFun != NULL && !aFun->Eval())
 				return
 					SetRTError
 							(
@@ -831,6 +834,13 @@ BOOL EvalResetAction::Exec()
 								aFun->GetErrDescription(),
 								m_pField->GetName()
 						   );
+			if(aFun == NULL)
+				SetRTError
+				(
+					EngineScheduler::REPORT_EVAL_EVENT_FUNC,
+					_TB("The function is empty"),
+					m_pField->GetName()
+				);
 			break;
 		}
 		case ACT_RESET :
@@ -872,12 +882,26 @@ BOOL EvalResetAction::SetFieldName(LPCTSTR strFieldName, Parser* parser)
 { 
 	ASSERT(!m_pField);
 
+	/*BOOL bEditing = TRUE;
+	Block* parentBlock = GetBlockParent();
+	if (parentBlock != NULL)
+		bEditing = parentBlock->m_bOnEditing;*/
+
 	m_pField = (WoormField*) GetSymTable()->GetField(strFieldName);
 	if (m_pField == NULL)
 		return parser ? parser->SetError(Expression::FormatMessage(Expression::UNKNOWN_FIELD), strFieldName) : FALSE;
 
-	if ((m_pField->GetEventFunction() == NULL) && (m_ActionType == ACT_EVAL))
+	if ((m_pField->GetEventFunction() == NULL || m_pField->GetEventFunction()->ToString().IsEmpty()) && (m_ActionType == ACT_EVAL))
+	{
+		//m_ActionType = ACT_NONE;
+		//m_pField = NULL;
+		//if(bEditing)
+		//An.EVAL FUNCTION - MessageBox di errore e apertura EditView  
 		return parser ? parser->SetError(_TB("Function not defined for the field"), strFieldName) : FALSE;
+		
+		
+	}
+		
 	return TRUE;
 }
 

@@ -521,7 +521,7 @@ public:
 class TB_EXPORT CRSEditViewParameters 
 {
 public:
-	enum EditorMode { EM_WRONG, EM_NODE_TREE, EM_BLOCK, EM_EXPR, EM_TEXT, EM_RULE_EXPR, EM_CALC_COLUMN, EM_FULL_REPORT, EM_DEBUG_ACTIONS };
+	enum EditorMode { EM_WRONG, EM_NODE_TREE, EM_BLOCK, EM_EXPR, EM_TEXT, EM_RULE_EXPR, EM_CALC_COLUMN, EM_FULL_REPORT, EM_DEBUG_ACTIONS, EM_FUNC_EXPR };
 
 	EditorMode	m_eType = EM_WRONG;
 	BOOL m_bAllowEmpty = TRUE;
@@ -536,6 +536,8 @@ public:
 	BOOL m_bRaiseEvents = TRUE;
 
 	Expression** m_ppExpr = NULL;
+	EventFunction** m_ppEventFunc = NULL;
+	WoormField* m_pWoormField = NULL;
 	DataType m_eReturnType = DataType::Null;
 	BOOL m_bViewMode = FALSE;;
 	
@@ -554,6 +556,7 @@ public:
 	{
 		m_pNode = NULL;
 		m_ppExpr = NULL;
+		m_ppEventFunc = NULL;
 		m_ppBlock = NULL;
 		m_eType = EM_WRONG;
 		m_eReturnType = DataType::Null;
@@ -603,6 +606,19 @@ public:
 		m_pSymTable = pSymTable;
 		m_ppExpr = ppExpr;
 		m_eReturnType = eReturnType;
+		m_bViewMode = bViewMode;
+	}
+
+	void SetExpr(WoormField* woormField, BOOL bViewMode)
+	{
+		Clear();
+
+		m_eType = EM_FUNC_EXPR;
+
+		m_pWoormField = woormField;
+		m_pSymTable = woormField->GetSymTable();
+		m_ppEventFunc = &woormField->GetEventFunction();
+		m_eReturnType = woormField->GetDataType();
 		m_bViewMode = bViewMode;
 	}
 
@@ -780,6 +796,7 @@ public:
 	BOOL LoadElementFromTree(CNodeTree* pNode, BOOL* pbSaved = NULL);
 	void LoadElement(CString* pText, BOOL* pbSaved = NULL);
 	void LoadElement(SymTable* pSymTable, Expression** ppExpr, DataType dtReturnType, BOOL bViewMode, BOOL* pbSaved = NULL, BOOL bAllowEmpty = TRUE, CString descr=L"");
+	void LoadElement(WoormField* woormField, BOOL bViewMode, BOOL* pbSaved = NULL, BOOL bAllowEmpty = TRUE, CString descr = L"");
 	void LoadElementGroupingRule(SymTable* pSymTable, Expression** ppExpr, DataType dtReturnType, BOOL bViewMode, BOOL* pbSaved = NULL, BOOL bAllowEmpty = TRUE, CString descr = L"");
 	void LoadElement(SymTable* pSymTable, Block** ppBlock, BOOL bRaiseEvent, BOOL* pbSaved = NULL);
 	void LoadElement(ExpRuleData* pRule, BOOL* pbSaved = NULL);
@@ -826,6 +843,7 @@ public:
 	BOOL SaveGroupingRule();
 	BOOL SaveGroupActionsList();
 
+	BOOL SaveFunction();
 	BOOL SaveRuleExpression();
 	BOOL SaveFullTableRule();
 

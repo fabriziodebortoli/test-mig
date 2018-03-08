@@ -100,6 +100,8 @@ public:
 	virtual BOOL			IsUpdated	(WoormField&)	const;
 	virtual void			SetAccData	(DataObj&);
 
+	virtual CString		ToString	(BOOL bUseAudit = TRUE);
+	virtual	void		Reset		(BOOL bResetAll = TRUE);
 			BOOL			Parse		(Parser&);
 
 	CString		GetPublicName	() const			{ ASSERT(!m_strPublicName.IsEmpty()); return m_strPublicName;	}
@@ -108,7 +110,7 @@ public:
 	BOOL		CanDeleteField	(LPCTSTR);
 	void		DeleteField		(LPCTSTR);
 	BOOL		IsEmpty			();
-	void		Reset			();
+
 	void		Unparse			(Unparser&);
 private:
 	void	UnparseFunction		(Unparser&);
