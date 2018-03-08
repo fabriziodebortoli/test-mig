@@ -68,9 +68,9 @@ namespace Microarea.TbJson
         private void TrimNoWebSections(JToken jRoot)
         {
             List<JToken> toRemove = new List<JToken>();
-            foreach (JToken t in jRoot.SelectTokens("..noweb"))
+            foreach (JToken t in jRoot.SelectTokens("..environment"))
             {
-                if (t.Value<bool>())
+                if (t.ToString() == "desktop")
                     toRemove.Add(t.Parent.Parent);
             }
             foreach (JToken t in toRemove)
