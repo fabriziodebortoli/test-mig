@@ -9,6 +9,7 @@ import { Observable, Subject } from '../../rxjs.imports';
 @Injectable()
 export class BodyEditService {
 
+  public isLoading: boolean = false;
   public bodyEditName: string;
   public prototype: any;
   public _currentRow: any;
@@ -21,6 +22,7 @@ export class BodyEditService {
 
   public rowViewVisible: boolean = false;
 
+  public pageSize: number = 15;
   public rowHeight: number = 22;
   private minimumRowHeight: number = 22;
   private rowHeightStep: number = 10;

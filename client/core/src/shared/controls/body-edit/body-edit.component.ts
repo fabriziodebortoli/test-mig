@@ -1,10 +1,16 @@
+import { Observable } from 'rxjs/Rx';
+import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
+import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
+import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridComponent } from '@progress/kendo-angular-grid';
+import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
+import * as _ from 'lodash';
+
 import { FormMode } from './../../models/form-mode.enum';
 import { addModelBehaviour } from './../../../shared/models/control.model';
 import { untilDestroy } from './../../commons/untilDestroy';
-
-import { Observable } from 'rxjs/Rx';
 import { ControlComponent } from './../control.component';
-
 import { Store } from './../../../core/services/store.service';
 import { createSelectorByMap } from './../../commons/selector';
 import { BodyEditColumnComponent } from './body-edit-column/body-edit-column.component';
@@ -15,18 +21,9 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { BodyEditService } from './../../../core/services/body-edit.service';
 
-import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
-import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
-import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { GridComponent } from '@progress/kendo-angular-grid';
-import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
-import * as _ from 'lodash';
-
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
 @Component({
-
   selector: 'tb-body-edit',
   templateUrl: './body-edit.component.html',
   styleUrls: ['./body-edit.component.scss'],
@@ -43,15 +40,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   public selectableSettings: SelectableSettings;
 
   isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentGridIdx;
-  subscriptions = [];
-  subscription = [];
-
   fakeRows = [];
 
-  public pageSize: number = 15;
 
   public enabled: boolean = false;
-  public isLoading: boolean = false;
+
   public pageSizes = false;
   public previousNext = true;
 
@@ -105,7 +98,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
             .pipe(untilDestroy(this))
             .subscribe(() => {
               this.updateModel(this.model);
-              this.isLoading = false;
+              this.bodyEditService.isLoading = false;
             });
         }
       });
@@ -113,13 +106,19 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   ngOnDestroy() {
-    //this.paginator.stop();
   }
 
   //-----------------------------------------------------------------------------------------------
   ngAfterContentInit() {
     let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
     this.createFakeRows(numberOfVisibleRows);
+    this.bodyEditService.pageSize = Math.max(this.bodyEditService.pageSize, numberOfVisibleRows);
+
+    if (this.bodyEditService.skip < 0) {
+      this.bodyEditService.skip = 0;
+      this.changeDBTRange();
+      this.bodyEditService.isLoading = false;
+    }
     this.bodyEditService.bodyEditName = this.bodyEditName;
 
     resolvedPromise.then(() => {
@@ -130,16 +129,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       }
       this.grid.columns.reset(internalColumnComponents);
     });
-
-    this.pageSize = Math.max(this.pageSize, numberOfVisibleRows);
     this.subscribeToSelector();
-
-    if (this.bodyEditService.skip < 0) {
-      this.bodyEditService.skip = 0;
-      this.changeDBTRange();
-    }
-
-
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -154,13 +144,13 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
   changeDBTRange() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    this.isLoading = true;
-    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.pageSize).subscribe((res) => {
-
+    this.bodyEditService.isLoading = true;
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize).subscribe((res) => {
       sub.unsubscribe();
     });
 
   }
+
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
@@ -176,6 +166,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
+   //-----------------------------------------------------------------------------------------------
   createFakeRows(numberOfVisibleRows: number) {
     for (let index = 0; index < numberOfVisibleRows; index++) {
       this.fakeRows.push({})
@@ -202,10 +193,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
-    let tempPageSize = this.pageSize;
+    let tempPageSize = this.bodyEditService.pageSize;
     let tempCount = this.bodyEditService.model.rowCount;
     tempCount++;
-    let skip = (Math.ceil(tempCount / this.pageSize) * this.pageSize) - this.pageSize;
+    let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
 
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, tempPageSize).subscribe((res) => {
 
@@ -213,7 +204,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.updateModel(res[this.bodyEditName]);
       }
       else {
-        this.pageChange({ skip: skip, take: this.pageSize });
+        this.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
       }
 
       sub.unsubscribe();
@@ -303,7 +294,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.bodyEditService.currentDbtRowIdx = model.currentRowIdx;
     this.bodyEditService.currentGridIdx = model.currentRowIdx - this.bodyEditService.skip;
     this.bodyEditService.model = model;
-    this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
+    if (this.bodyEditService.currentGridIdx >= 0 && this.model.rows.length > 0)
+      this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
 
     this.gridView = {
       data: this.bodyEditService.model.rows,
