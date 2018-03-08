@@ -642,7 +642,7 @@ BOOL CBarCodeTypes::CheckAndCompleteBCString(CString& barcode, int nBarCodeType,
 	 }
 
 	 int nCheckDigit = (totSum / 10 + 1) * 10 - totSum;
-	 return '0' + nCheckDigit;
+	 return '0' + nCheckDigit < 10 ? nCheckDigit : 0;
  }
 
  //------------------------------------------------------------------------------
