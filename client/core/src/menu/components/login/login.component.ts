@@ -132,6 +132,9 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
   loadState() {
     this.connectionData.user = localStorage.getItem('_user');
     this.connectionData.company = localStorage.getItem('_company');
+
+    if (!this.connectionData.user)
+      this.connectionData.company = "";
   }
 
   //-------------------------------------------------------------------------------------

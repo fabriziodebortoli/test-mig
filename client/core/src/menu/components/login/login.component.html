@@ -17,8 +17,7 @@
                         <div class="form-control">
                             <p class="floatingLabel">{{_TB('User')}}</p>
                             <kendo-textbox-container>
-                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)"
-                                    name="user">
+                                <input kendoTextBox autofocus [(ngModel)]="connectionData.user" (blur)=getCompaniesForUser(connectionData.user) (keyup)="keyUpFunction($event)" name="user">
                             </kendo-textbox-container>
                         </div>
 
@@ -29,7 +28,7 @@
                             </kendo-textbox-container>
                         </div>
 
-                        <div class="form-control">
+                        <div class="form-control" [ngClass]="companies?.length <= 1 ? 'hidden' :''">
                             <p class="floatingLabel">{{_TB('Company')}}</p>
                             <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
                         </div>
@@ -42,7 +41,7 @@
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
-                        <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="companies.length == 0">Login</button>
+                        <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="companies.length==0">Login</button>
                     </div>
                 </tb-card-content>
             </tb-card>
@@ -58,7 +57,7 @@
 <tb-loading></tb-loading>
 
 <!-- USER ALREADY LOGGED -->
-<kendo-dialog title="{{_TB('User already connected')}}" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
+<kendo-dialog title="{{_TB( 'User already connected')}}" *ngIf="userAlreadyConnectedOpened" (close)="userConnectedCancel()">
     <div>
         {{_TB('The user is already connected to the system. Do you want to close previous working session and open new one?')}}
     </div>
@@ -69,26 +68,4 @@
 </kendo-dialog>
 
 <!-- CHANGE PASSWORD -->
-<kendo-dialog title="{{_TB('Change password')}}" *ngIf="changePasswordOpened" (close)="userConnectedCancel()">
-    <div class="form-group">
-        {{_TB('You need to change password')}}
-        <div class="form-control">
-            <p class="floatingLabel">{{_TB('Password')}}</p>
-            <kendo-textbox-container class="form-control-k">
-                <input kendoTextBox [(ngModel)]="newPassword" (keyup)="keyUpFunction($event)" name="password" type="password">
-            </kendo-textbox-container>
-        </div>
-
-        <div class="form-control">
-            <p class="floatingLabel">{{_TB('Confirm password')}}</p>
-            <kendo-textbox-container class="form-control-k">
-                <input kendoTextBox [(ngModel)]="confirmPassword" (keyup)="keyUpFunction($event)" name="confirmPassword" type="password">
-            </kendo-textbox-container>
-        </div>
-
-        <div class="error" *ngIf="(newPassword && confirmPassword) &&  confirmPassword != newPassword">{{_TB('The passwords are not matching')}}</div>
-    </div>
-    <kendo-dialog-actions>
-        <button kendoButton (click)="changePasswordOk()" [primary]="true">{{_TB('Ok')}}</button>
-    </kendo-dialog-actions>
-</kendo-dialog>
+<tb-change-password #changePassword></tb-change-password>
