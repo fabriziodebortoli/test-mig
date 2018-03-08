@@ -292,6 +292,22 @@ Json::Value& CJsonWrapper::GetCurrent()
 }
 
 //-----------------------------------------------------------------------------
+void CJsonWrapper::Remove(const CString& sName)
+{
+	Json::Value* pParent = m_Stack.top();
+	pParent->removeMember(sName);
+
+}
+//-----------------------------------------------------------------------------
+void CJsonWrapper::Remove(int index)
+{
+	Json::Value* pParent = m_Stack.top();
+	CString s;
+	s.Format(_T("%d"), index);
+	pParent->removeMember(s);
+
+}
+//-----------------------------------------------------------------------------
 CString CJsonWrapper::GetJson() const
 {
 	//Json::StyledWriter writer;
@@ -549,6 +565,29 @@ BOOL CJsonIterator::GetNext(CString &sKey, CJsonParser& aVal)
 	return TRUE;
 }
 
+//-----------------------------------------------------------------------------
+BOOL CJsonIterator::GetNext(CString &sKey, int& index, CJsonParser& aVal)
+{
+	if (m_it == m_pVal->end())
+		return FALSE;
+	Json::Value key = m_it.key();
+	Json::Value value = (*m_it);
+	if (key.isString())
+	{
+		sKey = key.asCString();
+		index = -1;
+	}
+	else
+	{
+		sKey = _T("");
+		index = key.asInt();
+	}
+	
+	aVal.Assign(value);
+	m_it++;
+	return TRUE;
+}
+
 //=================================================================================================
 //									CJSonSerializer
 //=================================================================================================
@@ -723,7 +762,6 @@ void CJsonSerializer::CloseObject(BOOL bRemoveIfEmpty /*= FALSE*/)
 					pParent->resize(it.index());
 				break;
 			}
-		
 	}
 }
 

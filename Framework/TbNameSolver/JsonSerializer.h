@@ -59,6 +59,7 @@ private:
 public:
 	BOOL GetNext(CString &sKey, CString& sVal);
 	BOOL GetNext(CString &sKey, CJsonParser& aVal);
+	BOOL GetNext(CString &sKey, int& index, CJsonParser& aVal);
 };
 
 //=================================================================================================
@@ -66,6 +67,7 @@ class TB_EXPORT CJsonWrapper
 {
 protected:
 	Json::Value m_Root;
+	std::stack<Json::Value*> m_Stack;
 public:
 	void Diff(CJsonWrapper& source, CJsonWrapper& target);
 	void Patch(CJsonWrapper& patch);
@@ -75,13 +77,14 @@ public:
 	virtual void Clear();
 	virtual void Assign (const CJsonWrapper& other);
 	virtual Json::Value& GetCurrent();
+	void Remove(const CString& sName);
+	void Remove(int index);
 };
 
 //=================================================================================================
 class TB_EXPORT CJsonParser : public CJsonWrapper
 {
 private: 
-	std::stack<Json::Value*> m_Stack;
 	Json::Reader m_Reader;
 	CJsonIterator m_Iterator;
 public:
@@ -120,8 +123,6 @@ public:
 //=================================================================================================
 class TB_EXPORT CJsonSerializer : public CJsonWrapper
 {
-private: 
-	std::stack<Json::Value*> m_Stack;
 public:
 	CJsonSerializer() { m_Stack.push(&m_Root); }
 	

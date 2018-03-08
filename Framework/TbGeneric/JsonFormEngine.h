@@ -113,6 +113,7 @@ protected:
 	void UpdateAnchorInfo(const CString& sAnchor, CWndObjDescription* pWndDesc, CJsonContextObj* pContext);
 public:
 	static void ParseDescriptionFromText(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType);
+	static void TrimWebSections(CJsonParser& parser);
 };
 
 class TB_EXPORT CJsonFormParser : public CJsonParser
