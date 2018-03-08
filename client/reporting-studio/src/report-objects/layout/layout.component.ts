@@ -101,10 +101,28 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       this.rsExportService.appendPDF().then(() => {
         this.rsExportService.eventNextPage.emit();
       });
-    }
-
-    else
+    } else {
       this.rsExportService.renderPDF();
+    }
+  }
+
+  // -----------------------------------------------
+  CreateFakeRowsEmptyTable(t: table) {
+    let columns = t.columns;
+    let dummyRowsJson: any[] = [];
+
+    for (let j = 0; j < t.row_number; j++) {
+      let dummyRow = [];
+      for (let i = 0; i < columns.length; i++) {
+          const col: column = columns[i];
+          let idCell: string = col.id;
+          let dummyCell = {};
+          dummyCell[idCell] = { value : undefined };
+          dummyRow.push(dummyCell);
+        }
+        dummyRowsJson.push(dummyRow);
+    }
+    t.value = dummyRowsJson;
   }
 
   // -----------------------------------------------
@@ -139,6 +157,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
       else if (element.table !== undefined) {
         obj = new table(element.table);
+        this.CreateFakeRowsEmptyTable(obj);
       }
       else if (element.graphrect !== undefined) {
         obj = new graphrect(element.graphrect);
