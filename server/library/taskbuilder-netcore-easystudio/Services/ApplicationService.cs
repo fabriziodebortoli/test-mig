@@ -265,7 +265,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
 			jsonWriter.WriteEndArray();
 
-            LicenceService licenceService = Services.GetService(typeof(LicenceService)) as LicenceService;
+            LicenceService licenceService = Services.GetService<LicenceService>();
             if (licenceService != null)
             {
                 jsonWriter.WritePropertyName("DeveloperEd");

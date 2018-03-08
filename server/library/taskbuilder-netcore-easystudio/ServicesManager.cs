@@ -13,12 +13,6 @@ namespace TaskBuilderNetCore.EasyStudio
         PathFinder pathFinder;
 
         //---------------------------------------------------------------
-        public ServicesManager()
-        {
-            pathFinder = new PathFinder("", "");
-
-        }
-
         public PathFinder PathFinder
         {
             get
@@ -27,18 +21,30 @@ namespace TaskBuilderNetCore.EasyStudio
             }
 
         }
+        
+        //---------------------------------------------------------------
+        public ServicesManager()
+        {
+            pathFinder = PathFinder.PathFinderInstance;
 
+        }
 
         //---------------------------------------------------------------
-        public IService GetService(Type serviceType)
+        private IService GetService(Type serviceType)
         {
             foreach (IService service in this)
             {
                 if (service.GetType() == serviceType)
-                    return service;
+                   return service;
             }
 
             return CreateService(serviceType);
+        }
+
+        //---------------------------------------------------------------
+        public T GetService<T>()
+        {
+            return (T) GetService(typeof(T));
         }
 
         //---------------------------------------------------------------
@@ -48,9 +54,6 @@ namespace TaskBuilderNetCore.EasyStudio
             if (service == null)
                 return null;
 
-            Serializer serializer = service.Serializer as Serializer;
-            if (serializer != null)
-                serializer.PathFinder = pathFinder;
             service.Services = this;
             service.Diagnostic = new DiagnosticProvider(string.Concat(NameSolverStrings.EasyStudio, ": ", service.Name));
 

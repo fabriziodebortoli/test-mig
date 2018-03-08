@@ -7,6 +7,6 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
     public interface IServiceManager
     {
         PathFinder PathFinder { get; }
-        IService GetService(Type serviceType);
+        T GetService<T>();
     }
 }

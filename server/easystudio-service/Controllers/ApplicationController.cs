@@ -19,11 +19,18 @@ namespace Microarea.EasyStudio.Controllers
 			internal static readonly string moduleName = "moduleName";
 			internal static readonly string verbose = "verbose";
 
-			internal static readonly string MissingApplicationType = "Missing parameter applicationType";
-			internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
-			internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
-		}
-
+            internal static readonly string MissingApplicationType = "Missing parameter applicationType";
+            internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
+            internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
+        }
+        ApplicationService service;
+        //---------------------------------------------------------------------
+        private ApplicationService ApplicationService
+        {
+            get
+            {
+                if (service == null)
+                    service = Services?.GetService<ApplicationService>();
 
 
 		public override IDiagnosticProvider Diagnostic => ApplicationServiceProp.Diagnostic;

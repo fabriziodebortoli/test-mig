@@ -12,7 +12,6 @@ namespace Microarea.EasyStudio.Controllers
     public class BaseController : Microsoft.AspNetCore.Mvc.Controller
     {
         protected IServiceManager Services { get; set; }
-
         public virtual IDiagnosticProvider Diagnostic { get; }
 		private ApplicationService _service;
 		//---------------------------------------------------------------------
