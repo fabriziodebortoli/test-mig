@@ -175,7 +175,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			try
 			{
 				DateTime start = DateTime.Now; 
-				Debug.WriteLine(string.Format("Start database {0} structure creation: ", contextInfo.Connection.Database) + start.ToString("hh:mm:ss.fff"));
+				Debug.WriteLine(string.Format("MP-LOG - Start database {0} structure creation: ", contextInfo.Connection.Database) + start.ToString("hh:mm:ss.fff"));
 
 				// GESTIONE DATABASE EMPTY----------------------------------------------------------------------------
 				if (dbStructInfo.DBStatus == DatabaseStatus.EMPTY)
@@ -239,31 +239,31 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				}
 
 				DateTime end = DateTime.Now;
-				Debug.WriteLine("End database structure creation: " + end.ToString("hh:mm:ss.fff"));
+				Debug.WriteLine("MP-LOG - End database structure creation: " + end.ToString("hh:mm:ss.fff"));
 				TimeSpan ts1 = end - start;
-				Debug.WriteLine("Database structure creation - total seconds: " + ts1.TotalSeconds.ToString());
+				Debug.WriteLine("MP-LOG - Database structure creation - total seconds: " + ts1.TotalSeconds.ToString());
 
 				if (dbStructInfo.KindOfDb == KindOfDatabase.Company)
 				{
 					start = DateTime.Now;
-					Debug.WriteLine("Start mandatory columns creation: " + start.ToString("hh:mm:ss.fff"));
+					Debug.WriteLine("MP-LOG - Start mandatory columns creation: " + start.ToString("hh:mm:ss.fff"));
 					// check delle colonne TBCreated e TBModified
 					// @@TODO: TOGLIERE IL COMMENTO!!!
 					CheckMandatoryColumns();
 					end = DateTime.Now;
-					Debug.WriteLine("End mandatory columns creation: " + end.ToString("hh:mm:ss.fff"));
+					Debug.WriteLine("MP-LOG - End mandatory columns creation: " + end.ToString("hh:mm:ss.fff"));
 					TimeSpan ts = end - start;
-					Debug.WriteLine("Mandatory columns creation - total seconds: " + ts.TotalSeconds.ToString());
+					Debug.WriteLine("MP-LOG - Mandatory columns creation - total seconds: " + ts.TotalSeconds.ToString());
 
 					start = DateTime.Now;
-					Debug.WriteLine("Start TBGuid column creation: " + start.ToString("hh:mm:ss.fff"));
+					Debug.WriteLine("MP-LOG - Start TBGuid column creation: " + start.ToString("hh:mm:ss.fff"));
 					// check colonna TBGuid per le master tables
 					// @@TODO: TOGLIERE IL COMMENTO!!!
 					CheckTBGuidColumn();
 					end = DateTime.Now;
-					Debug.WriteLine("End TBGuid column creation: " + end.ToString("hh:mm:ss.fff"));
+					Debug.WriteLine("MP-LOG - End TBGuid column creation: " + end.ToString("hh:mm:ss.fff"));
 					ts = end - start;
-					Debug.WriteLine("TBGuid column creation - total seconds: " + ts.TotalSeconds.ToString());
+					Debug.WriteLine("MP-LOG - TBGuid column creation - total seconds: " + ts.TotalSeconds.ToString());
 
 					// check delle colonne obbligatorie per le master tables del RowLevelSecurity
 					CheckRSMasterTablesColumns();
@@ -298,15 +298,15 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 						if (importDefaultData)
 						{
 							start = DateTime.Now;
-							Debug.WriteLine("Start import default data: " + start.ToString("hh:mm:ss.fff"));
+							Debug.WriteLine("MP-LOG - Start import default data: " + start.ToString("hh:mm:ss.fff"));
 
 							if (!impExpManager.ImportDefaultDataSilentMode() && OnInsertMessageInListView != null)
 								OnInsertMessageInListView();
 
 							end = DateTime.Now;
-							Debug.WriteLine("End import default data: " + end.ToString("hh:mm:ss.fff"));
+							Debug.WriteLine("MP-LOG - End import default data: " + end.ToString("hh:mm:ss.fff"));
 							ts = end - start;
-							Debug.WriteLine("Import default data - total seconds: " + ts.TotalSeconds.ToString());
+							Debug.WriteLine("MP-LOG - Import default data - total seconds: " + ts.TotalSeconds.ToString());
 						}
 						// importazione dati di esempio
 						if (importSampleData)
@@ -1236,7 +1236,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			if (tablesWithNoMandatoryColumns.Count == 0)
 				return;
 
-			Debug.WriteLine("Nr. tables without mandatory columns: " + tablesWithNoMandatoryColumns.Count.ToString());
+			Debug.WriteLine("MP-LOG - Nr. tables without mandatory columns: " + tablesWithNoMandatoryColumns.Count.ToString());
 
 			bool result = true;
 			ModuleDBInfoList moduleToSetBadStatus = new ModuleDBInfoList();
@@ -1345,7 +1345,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			if (dbStructInfo.TablesWithMissingTBGuidCol.Count == 0)
 				return;
 
-			Debug.WriteLine("Nr. tables without TBGuid column: " + dbStructInfo.TablesWithMissingTBGuidCol.Count.ToString());
+			Debug.WriteLine("MP-LOG - Nr. tables without TBGuid column: " + dbStructInfo.TablesWithMissingTBGuidCol.Count.ToString());
 
 			bool result = false;
 			string error;

@@ -311,12 +311,12 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							);
 
 						DateTime start = DateTime.Now;
-						Debug.WriteLine(string.Format("Start SQL Server database {0} creation: ", createParameters.DatabaseName) + start.ToString("hh:mm:ss.fff"));
+						Debug.WriteLine(string.Format("MPLOG - Start SQL Server database {0} creation: ", createParameters.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
 						DateTime end = DateTime.Now;
-						Debug.WriteLine("End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
+						Debug.WriteLine("MPLOG - End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
 						TimeSpan ts = end - start;
-						Debug.WriteLine("SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
+						Debug.WriteLine("MPLOG - SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Truncate file log at checkpoints" devo impostare il RecoveryModel = SIMPLE
@@ -424,12 +424,12 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							);
 
 						DateTime start = DateTime.Now;
-						Debug.WriteLine(string.Format("Start Azure database {0} creation: ", azureParams.DatabaseName) + start.ToString("hh:mm:ss.fff"));
+						Debug.WriteLine(string.Format("MPLOG - Start Azure database {0} creation: ", azureParams.DatabaseName) + start.ToString("hh:mm:ss.fff"));
 						createDbCommand.ExecuteNonQuery();
 						DateTime end = DateTime.Now;
-						Debug.WriteLine("End Azure database creation: " + end.ToString("hh:mm:ss.fff"));
+						Debug.WriteLine("MPLOG - End Azure database creation: " + end.ToString("hh:mm:ss.fff"));
 						TimeSpan ts = end - start;
-						Debug.WriteLine("Azure database creation - total seconds: " + ts.TotalSeconds.ToString());
+						Debug.WriteLine("MPLOG - Azure database creation - total seconds: " + ts.TotalSeconds.ToString());
 					}
 
 					// se si è scelta l'opzione "Auto shrink" devo impostare il parametro AUTO_SHRINK a ON
