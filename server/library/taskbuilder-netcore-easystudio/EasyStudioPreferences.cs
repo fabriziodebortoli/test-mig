@@ -67,7 +67,7 @@ namespace TaskBuilderNetCore.EasyStudio
 		}
 
 		//---------------------------------------------------------------
-		internal string GetCurrentContext(string user)
+		internal string GetCurrentContext(string user, bool getDefault)
 		{
 			if (!ExistPreferencesFile())
 			{
@@ -80,11 +80,17 @@ namespace TaskBuilderNetCore.EasyStudio
 				doc.Load(PreferencesFullFileName);
 				XmlElement root = doc.DocumentElement;
 				if (root == null) return "";
-				var res = root.GetAttribute(EasyStudioPreferencesXML.Element.CurrentApplication) +	";" +
+				string result = string.Empty;
+				if (getDefault)
+				{
+					result = root.GetAttribute(EasyStudioPreferencesXML.Element.DefaultContextApplication) + ";" +
+					root.GetAttribute(EasyStudioPreferencesXML.Element.DefaultContextModule);
+				}
+				else result = root.GetAttribute(EasyStudioPreferencesXML.Element.CurrentApplication) +	";" +
 					root.GetAttribute(EasyStudioPreferencesXML.Element.CurrentModule);
-				if (res == ";")
+				if (result == ";")
 					return null;
-				return res;
+				return result;
 			}
 			catch (Exception)
 			{
@@ -99,6 +105,10 @@ namespace TaskBuilderNetCore.EasyStudio
 		{
 			XmlDocument doc = new XmlDocument();
 			XmlElement root = doc.CreateElement(EasyStudioPreferencesXML.Element.ESPreferences);
+			var n1 = doc.CreateElement(EasyStudioPreferencesXML.Element.CurrentApplication);
+			n1.SetAttribute(EasyStudioPreferencesXML.Element.CurrentApplication, string.Empty);
+			root.AppendChild(n1);
+
 			doc.AppendChild(root);
 			return PathFinder.PathFinderInstance.SaveTextFileFromXml(PreferencesFullFileName, doc);
 		}

@@ -45,35 +45,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    getEsAppsAndModules(type: string): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationType: type };
-        let url = this.callInfoService + 'application/getAllAppsAndModules/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-    setAppAndModule(app: string, mod: string, isThisPairDefault: boolean): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, def: isThisPairDefault };
-        let url = this.callInfoService + 'setCurrentContextFor/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-    createNewContext(app: string, mod: string, type: string): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, applicationType: type };
-        let url = this.callInfoService + 'application/create/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
 
     updateCachedDateAndSave(): Observable<any> {
         let obj = { user: sessionStorage.getItem('authtoken') };
@@ -106,26 +77,20 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
-
-    isEasyStudioDocument(object): Observable<any> {
-        if (object.isEasyStudioDocument != undefined)
-            return object.isEasyStudioDocument;
-
-        let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(object.target) };
-        let url = this.callInfoService + 'isEasyStudioDocument/';
+/************************************************************************************************ */
+    getEsAppsAndModules(type: string): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), applicationType: type };
+        let url = this.callInfoService + 'application/getAllAppsAndModules/';
         return this.httpService.postData(url, obj)
-            .map((data: any) => {
-                if (data && data.message && data.message.text) {
-                    object.isEasyStudioDocument = data.message.text == "true";
-                    return object.isEasyStudioDocument;
-                }
+            .map((res: any) => {
+                return res;
             })
             .catch(this.handleError);
     }
 
-    getDefaultContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user') };
-        let url = this.callInfoService + 'getCurrentContextFor/';
+    createNewContext(app: string, mod: string, type: string): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, applicationType: type };
+        let url = this.callInfoService + 'application/create/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;
@@ -136,16 +101,6 @@ export class HttpMenuService {
     refreshEasyBuilderApps(type: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), applicationType:type };
         let url =this.callInfoService + 'application/refreshAll/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-    getCurrentContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user') };
-        let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;
@@ -164,6 +119,53 @@ export class HttpMenuService {
             }).catch(this.handleError);
     }
 
+
+    setAppAndModule(app: string, mod: string, isThisPairDefault: boolean): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, def: isThisPairDefault };
+        let url = this.callInfoService + 'setCurrentContextFor/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    isEasyStudioDocument(object): Observable<any> {
+        if (object.isEasyStudioDocument != undefined)
+            return object.isEasyStudioDocument;
+
+        let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(object.target) };
+        let url = this.callInfoService + 'isEasyStudioDocument/';
+        return this.httpService.postData(url, obj)
+            .map((data: any) => {
+                if (data && data.message && data.message.text) {
+                    object.isEasyStudioDocument = data.message.text == "true";
+                    return object.isEasyStudioDocument;
+                }
+            })
+            .catch(this.handleError);
+    }
+
+    getDefaultContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), getDefault : true };
+        let url = this.callInfoService + 'getDefaultContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+    getCurrentContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), getDefault : false };
+        let url = this.callInfoService + 'getCurrentContextFor/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+
     cloneAsEasyStudioDocument(object: any, docName: string, docTitle: string, esServices: EasystudioService): Observable<any> {
         var ns = object.target;
         let obj = { user: localStorage.getItem('_user') };
@@ -177,7 +179,7 @@ export class HttpMenuService {
                 return res;
             }).catch(this.handleError);
     }
-
+/************************************************************************************************************* */
     getConnectionInfo(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };

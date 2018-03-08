@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 using Microarea.EasyStudio.AspNetCore;
+using Microarea.Common;
 
 namespace Microarea.EasyStudio.Controllers
 {
@@ -19,16 +20,15 @@ namespace Microarea.EasyStudio.Controllers
   
         //---------------------------------------------------------------------
         [Route("getCurrentContextFor")]
-		public IActionResult GetCurrentContext(string user)
+		public IActionResult GetCurrentContext([FromBody] JObject value)
 		{
 			try
 			{
-                // TODOROBY
-                // queste informazioni le leggiamo da file system su un file e ritorniamo l'oggettino che lo 
-                // rappresenta in json
-                // il file sarà per utente e conterrà per adesso currentApplication e CurrentModule
-                string res = string.Empty;
-				res = ApplicationServiceProp.GetCurrentContext(user);
+				var getDefault = value["getDefault"]?.Value<bool>();
+				string user = value["user"]?.Value<string>();
+
+				string res = string.Empty;
+				res = ApplicationServiceProp.GetCurrentContext(user, getDefault ?? false);
                 return ToContentResult(res);
             }
 			catch (Exception e)
@@ -48,18 +48,6 @@ namespace Microarea.EasyStudio.Controllers
 				bool? isPairDefault = value["def"]?.Value<bool>();
 				string user = value["user"]?.Value<string>();
 				string company = value["company"]?.Value<string>();
-
-				//    ApplicationService.CurrentApplication= appName;
-				//    ApplicationService.CurrentModule = modName;
-
-				/*TODOROBY SCRIVERE ESPREFERENCES.json
-				ritornare l'esito di questa operazione ad angular ????????
-				bool e1 = false, e2 = false;
-				if (Convert.ToBoolean(isPairDefault))
-				{
-					e1 = EsPreferences.Write(defaultContextApplication, appName, user, company);
-					e2 = EsPreferences.Write(defaultContextModule, modName, user, company);
-				}*/
 
 				bool outcome= ApplicationServiceProp.SetCurrentContext(appName, modName, isPairDefault ?? false);
 				return ToContentResult(outcome.ToString());

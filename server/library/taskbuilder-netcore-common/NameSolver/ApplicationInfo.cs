@@ -34,7 +34,6 @@ namespace Microarea.Common.NameSolver
 		private IDBObjects dbObjects; // classe con la struttura degli oggetti di database apportati dal modulo
 		private DatabaseObjectsInfo databaseObjectsInfo;
 		private AddOnDatabaseObjectsInfo addOnDatabaseObjectsInfo;
-		private RowSecurityObjectsInfo rowSecurityObjectsInfo;
 		private BehaviourObjectsInfo behaviourObjectsInfo;
 
 		#region Costruttori
@@ -170,34 +169,6 @@ namespace Microarea.Common.NameSolver
 
 				return DocumentObjectsInfo.Documents;
 			}
-		}
-
-		/// <summary>
-		/// Parse dei file RowSecurityObjects.xml
-		/// </summary>
-		//------------------------------------------------------------------------------
-		public RowSecurityObjectsInfo RowSecurityObjectsInfo
-		{
-			get
-			{
-				if (rowSecurityObjectsInfo == null)
-				{
-					// path del file
-					string rowSecurityObjectFile = GetRowSecurityObjectsPath();
-
-					// Oggetto che sa parsare RowSecurityObjects.xml
-					rowSecurityObjectsInfo = new RowSecurityObjectsInfo(rowSecurityObjectFile, this);
-
-					//se il file non esiste esco
-					if (!PathFinder.ExistFile(rowSecurityObjectFile))
-						return rowSecurityObjectsInfo;
-
-					rowSecurityObjectsInfo.Parse();
-				}
-
-				return rowSecurityObjectsInfo;
-			}
-			set { rowSecurityObjectsInfo = value; }
 		}
 
 		/// <summary>

@@ -35,9 +35,9 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
-		public string GetCurrentContext(string user)
+		public string GetCurrentContext(string user, bool getDefault)
 		{
-			return preferences.GetCurrentContext(user);
+			return preferences.GetCurrentContext(user, getDefault);
 		}
 
 		//---------------------------------------------------------------
