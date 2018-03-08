@@ -1060,7 +1060,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 			nHeight = (int)MUtoLP(m_nCustomBarHeight, CM, 10., 3);
 		}
 
-		if (DC.IsPrinting() && !bPreview && m_nCustomBarHeight > 0)
+		if (DC.IsPrinting() && m_nCustomBarHeight > 0)
 		{
 			if (m_bVertical)
 			{
