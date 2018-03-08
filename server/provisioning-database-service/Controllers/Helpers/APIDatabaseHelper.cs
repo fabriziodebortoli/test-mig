@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 
@@ -278,69 +279,73 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 					msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 					opRes.Code = -1;
 				}
-
-				if (existDMSLogin)
+				else
 				{
-					// check validita' login e password per il db del DMS (solo se esiste)
-					// provo a connettermi con la login specificata per il db del DMS al master
-					dTask.CurrentStringConnection =
-						string.Format
-						(
-						isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
-						extSubDatabase.Database.DMSDBServer,
-						DatabaseLayerConsts.MasterDatabase,
-						extSubDatabase.Database.DMSDBOwner,
-						extSubDatabase.Database.DMSDBPassword
-						);
-
-					dTask.TryToConnect(out int errorNr);
-
-					if (dTask.Diagnostic.Error)
-					{
-						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
-						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
-						if (errorNr == 916)
-							opRes.Result = true;
-						else
-						{
-							if (errorNr == 18456)
-								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
-
-							opRes.Result = false;
-							opRes.Code = -1;
-						}
-					}
+					if (!existDMSLogin)
+						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginNotExists, extSubDatabase.Database.DMSDBOwner, extSubDatabase.Database.DBServer) });
 					else
-						msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+					{
+						// check validita' login e password per il db del DMS (solo se esiste)
+						// provo a connettermi con la login specificata per il db del DMS al master
+						dTask.CurrentStringConnection =
+							string.Format
+							(
+							isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection,
+							extSubDatabase.Database.DMSDBServer,
+							DatabaseLayerConsts.MasterDatabase,
+							extSubDatabase.Database.DMSDBOwner,
+							extSubDatabase.Database.DMSDBPassword
+							);
+
+						dTask.TryToConnect(out int errorNr);
+
+						if (dTask.Diagnostic.Error)
+						{
+							// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
+							// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
+							if (errorNr == 916)
+								opRes.Result = true;
+							else
+							{
+								if (errorNr == 18456)
+									msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorIncorrectPassword, extSubDatabase.Database.DMSDBOwner) });
+
+								opRes.Result = false;
+								opRes.Code = -1;
+							}
+						}
+						else
+							msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+					}
 				}
 			}
 			//
 
 			// check preventivo struttura dei database, se esistono
-			/*			if (existERPDb && existDMSDb)
-						{
-							DatabaseManager dbManager = CreateDatabaseManager();
-							opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+			/*if (existERPDb && existDMSDb)
+			{
+				DatabaseManager dbManager = CreateDatabaseManager();
+				opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
 
-							IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
-							if (items != null)
-							{
-								foreach (IDiagnosticItem item in items)
-									if (!string.IsNullOrWhiteSpace(item.FullExplain))
-										msgList.Add(new OperationResult() { Message = item.FullExplain });
-							}
+				IDiagnosticItems items = dbManager.DBManagerDiagnostic.AllMessages();
+				if (items != null)
+				{
+					foreach (IDiagnosticItem item in items)
+						if (!string.IsNullOrWhiteSpace(item.FullExplain))
+							msgList.Add(new OperationResult() { Message = item.FullExplain });
+				}
 
-							if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-								!dbManager.ContextInfo.HasSlaves)
-								||
-								(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
-								(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
-								dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
-							{
-								opRes.Code = -1;
-							}
-						}
-						//
+				if (((dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					!dbManager.ContextInfo.HasSlaves)
+					||
+					(dbManager.StatusDB == DatabaseStatus.UNRECOVERABLE || dbManager.StatusDB == DatabaseStatus.NOT_EMPTY) &&
+					(dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.UNRECOVERABLE ||
+					dbManager.DmsStructureInfo.DmsCheckDbStructInfo.DBStatus == DatabaseStatus.NOT_EMPTY))
+				{
+					opRes.Code = -1;
+				}
+			}
+			//
 			*/
 
 			opRes.Content = msgList;
@@ -874,6 +879,125 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 					messagesList.Add(new OperationResult() { Message = item.FullExplain });
 
 			return messagesList;
+		}
+
+		/// <summary>
+		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare il database
+		/// </summary>
+		/// <param name="extSubDatabase"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public static OperationResult QuickCreateSubscriptionDatabase(ExtendedSubscriptionDatabase extSubDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// imposto i nomi dei database
+			string dbName = extSubDatabase.Database.InstanceKey + "_" + extSubDatabase.Database.SubscriptionKey + "_Master_DB";
+			string dmsDbName = dbName + "_DMS";
+
+			// impostazione parametri creazione contenitore db su Azure
+			// queste impostazioni dovranno essere definite a livello di subscription
+			AzureCreateDBParameters param = new AzureCreateDBParameters();
+			param.DatabaseName = dbName;
+			param.MaxSize = AzureMaxSize.GB1;
+
+			// impostazione parametri creazione contenitore db su SqlServer
+			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+			sqlParam.DatabaseName = dbName;
+
+			// to create database I need to connect to master
+
+			DatabaseTask dTask = new DatabaseTask(true);
+			dTask.CurrentStringConnection =
+				string.Format
+				(
+				NameSolverDatabaseStrings.SQLConnection,
+				extSubDatabase.AdminCredentials.Server,
+				DatabaseLayerConsts.MasterDatabase,
+				extSubDatabase.AdminCredentials.Login,
+				extSubDatabase.AdminCredentials.Password
+				);
+
+			// I create ERP database
+			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+				dTask.CreateAzureDatabase(param);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// I create DMS database
+
+			param.DatabaseName = dmsDbName;
+			sqlParam.DatabaseName = dmsDbName;
+
+			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
+				dTask.CreateAzureDatabase(param);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// creo la login dbowner
+
+			string loginName = extSubDatabase.Database.InstanceKey + "_" + extSubDatabase.Database.SubscriptionKey + "_Admin";
+			string password = "Microarea...";//SecurityManager.GetRandomPassword();
+
+			opRes.Result = dTask.CreateLogin(loginName, password);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// associo la login appena creata al database di ERP con il ruolo di db_owner
+
+			opRes.Result = dTask.CreateUser(loginName, dbName);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// associo la login appena creata al database DMS con il ruolo di db_owner
+			opRes.Result = dTask.CreateUser(loginName, dmsDbName);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// il Provider deve essere definito a livello di subscription
+			extSubDatabase.Database.Provider = NameSolverStrings.SQLAzure;
+
+			extSubDatabase.Database.DBName = dbName;
+			extSubDatabase.Database.DBServer = extSubDatabase.AdminCredentials.Server;
+			extSubDatabase.Database.DBOwner = loginName;
+			extSubDatabase.Database.DBPassword = password;
+
+			extSubDatabase.Database.UseDMS = true;
+			extSubDatabase.Database.DMSDBName = dmsDbName;
+			extSubDatabase.Database.DMSDBServer = extSubDatabase.AdminCredentials.Server;
+			extSubDatabase.Database.DMSDBOwner = loginName;
+			extSubDatabase.Database.DMSDBPassword = password;
+
+			Debug.WriteLine("MP-LOG - ERP DB Name: " + dbName);
+			Debug.WriteLine("MP-LOG - DMS DB Name: " + dmsDbName);
+			Debug.WriteLine("MP-LOG - Login (dbo) Name: " + loginName);
+			Debug.WriteLine("MP-LOG - Password (dbo): " + password);
+
+			// creo la struttura leggendo i metadati da filesystem
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+				return opRes;
+
+			dbManager.ImportDefaultData = true;
+			dbManager.ImportSampleData = false;
+			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+
+			opRes.Content = extSubDatabase;
+			return opRes;
 		}
 	}
 }

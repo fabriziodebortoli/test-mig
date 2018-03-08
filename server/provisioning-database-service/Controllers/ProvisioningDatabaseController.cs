@@ -1,10 +1,8 @@
-﻿using Microarea.Common.Generic;
-using Microarea.Common.NameSolver;
+﻿using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Controllers.Helpers;
 using Microarea.ProvisioningDatabase.Infrastructure;
 using Microarea.ProvisioningDatabase.Infrastructure.Model;
 using Microarea.ProvisioningDatabase.Libraries.DatabaseManager;
-using Microarea.ProvisioningDatabase.Libraries.DataManagerEngine;
 using Microarea.ProvisioningDatabase.Properties;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -49,209 +47,32 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 
-		// @@TODO: procedura di creazione automatica su Cloud da rivedere!!!
-		// mi deve essere passata la stringa di connessione dal provisioning
-
 		/// <summary>
 		/// Creazione automatica:
 		/// - contenitore db
 		/// - login SQL + associazione login al database
 		/// - struttura tabelle ERP
-		/// - insert riga in MP_SubscriptionDatabases
 		/// </summary>
-		/// <param name="instanceKey"></param>
-		/// <param name="subscriptionKey"></param>
 		/// <returns></returns>
 		//---------------------------------------------------------------------
-		/*		[HttpPost("/api/database/quickcreate/{instanceKey}/{subscriptionKey}")]
-				public IActionResult ApiQuickCreate(string instanceKey, string subscriptionKey)
-				{
-					OperationResult opRes = new OperationResult();
+		[HttpPost("api/database/quickcreate")]
+		public IActionResult ApiQuickCreate([FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		{
+			OperationResult opRes = new OperationResult();
 
-					//************************************************************************************
-					// aggiungere controlli di esistenza database - login - connessioni al server, etc.
-					//************************************************************************************
+			if (extSubDatabase.AdminCredentials == null || !extSubDatabase.AdminCredentials.Validate() || extSubDatabase.Database == null)
+			{
+				opRes.Result = false;
+				opRes.Message = Strings.NoValidInput;
+				opRes.Code = (int)AppReturnCodes.InvalidData;
+				return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+			}
 
-					// creo il record nella tabella con il flag UnderMaintenance a true
+			opRes = APIDatabaseHelper.QuickCreateSubscriptionDatabase(extSubDatabase);
 
-					SubscriptionDatabase subDatabase = new SubscriptionDatabase();
-					subDatabase.InstanceKey = instanceKey;
-					subDatabase.SubscriptionKey = subscriptionKey;
-					subDatabase.Name = instanceKey + "_" + subscriptionKey + "_Master";
-					subDatabase.UnderMaintenance = true;
-
-					try
-					{
-						opRes = subDatabase.Save(burgerData);
-						opRes.Message = Strings.OperationOK;
-					}
-					catch (Exception exc)
-					{
-						opRes.Result = false;
-						opRes.Message = "010 DatabaseController.QuickCreate" + exc.Message;
-						return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					if (!opRes.Result)
-					{
-						opRes.Message = Strings.OperationKO;
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// imposto i nomi dei database
-					string dbName = instanceKey + "_" + subscriptionKey + "_Master_DB";
-					string dmsDbName = dbName + "_DMS";
-
-					// impostazione parametri creazione contenitore db su Azure
-					// queste impostazioni dovranno essere definite a livello di subscription
-					AzureCreateDBParameters param = new AzureCreateDBParameters();
-					param.DatabaseName = dbName;
-					param.MaxSize = AzureMaxSize.GB1;
-
-					// impostazione parametri creazione contenitore db su SqlServer
-					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-					sqlParam.DatabaseName = dbName;
-
-					// to create database I need to connect to master
-
-					DatabaseTask dTask = new DatabaseTask(true);
-					dTask.CurrentStringConnection =
-						string.Format
-						(
-						NameSolverDatabaseStrings.SQLConnection,
-						settings.DatabaseInfo.DBServer,
-						DatabaseLayerConsts.MasterDatabase,
-						settings.DatabaseInfo.DBUser,
-						settings.DatabaseInfo.DBPassword
-						);
-
-					// I create ERP database
-					opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-						dTask.CreateAzureDatabase(param);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// I create DMS database
-
-					param.DatabaseName = dmsDbName;
-					sqlParam.DatabaseName = dmsDbName;
-
-					opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-					 dTask.CreateAzureDatabase(param);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// creo la login dbowner
-
-					string loginName = instanceKey + "_" + subscriptionKey + "_Admin";
-					string password = SecurityManager.GetRandomPassword();
-
-					opRes.Result = dTask.CreateLogin(loginName, password);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// associo la login appena creata al database di ERP con il ruolo di db_owner
-
-					opRes.Result = dTask.CreateUser(loginName, dbName);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// associo la login appena creata al database DMS con il ruolo di db_owner
-					opRes.Result = dTask.CreateUser(loginName, dmsDbName);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					// il Provider deve essere definito a livello di subscription
-					subDatabase.Provider = NameSolverStrings.SQLAzure;
-
-					subDatabase.DBName = dbName;
-					subDatabase.DBServer = settings.DatabaseInfo.DBServer;
-					subDatabase.DBOwner = loginName;
-					subDatabase.DBPassword = password;
-
-					subDatabase.UseDMS = true;
-					subDatabase.DMSDBName = dmsDbName;
-					subDatabase.DMSDBServer = settings.DatabaseInfo.DBServer;
-					subDatabase.DMSDBOwner = loginName;
-					subDatabase.DMSDBPassword = password;
-
-					Debug.WriteLine("-------- DB Name: " + dbName);
-					Debug.WriteLine("-------- DMS DB Name: " + dmsDbName);
-					Debug.WriteLine("-------- Login Name: " + loginName);
-					Debug.WriteLine("-------- Password: " + password);
-
-					// creo la struttura leggendo i metadati da filesystem
-
-					DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-					opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
-					opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					dbManager.ImportDefaultData = true;
-					dbManager.ImportSampleData = false;
-					opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
-					opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-
-					if (!opRes.Result)
-					{
-						jsonHelper.AddPlainObject<OperationResult>(opRes);
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					try
-					{
-						// ho terminato l'elaborazione, aggiorno il record nella tabella 
-						// con i dati del database e rimetto il flag UnderMaintenance a false
-						subDatabase.UnderMaintenance = false;
-						opRes = subDatabase.Save(burgerData);
-						opRes.Message = Strings.OperationOK;
-					}
-					catch (Exception exc)
-					{
-						opRes.Result = false;
-						opRes.Message = "020 DatabaseController.QuickCreate" + exc.Message;
-						return new ContentResult { StatusCode = 500, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					if (!opRes.Result)
-					{
-						opRes.Message = Strings.OperationKO;
-						return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-					}
-
-					jsonHelper.AddPlainObject<OperationResult>(opRes);
-					return new ContentResult { StatusCode = 201, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-				}
-				*/
+			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
 
 		/// <summary>
 		/// Try to open connection with credentials in the body
@@ -330,7 +151,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/update")]
-		public IActionResult ApiUpdate(string checkCode, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		public IActionResult ApiUpdate([FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -360,7 +181,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			if (opRes.Result)
 				opRes = APIDatabaseHelper.CheckLogin(extSubDatabase, true);
 
-            if (!opRes.Result)//@TODO se fallisce la checklogin interrompo perchè potrebbe non aver creato  nulla, per esempio se password non rispettano le policy
+            if (!opRes.Result)//@TODO se fallisce la checklogin interrompo perchè potrebbe non aver creato nulla, per esempio se password non rispettano le policy
             {
 				opRes.Message = Strings.OperationKO;
 				jsonHelper.AddPlainObject<OperationResult>(opRes);
