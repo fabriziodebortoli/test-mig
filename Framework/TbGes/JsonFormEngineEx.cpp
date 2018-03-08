@@ -684,16 +684,30 @@ void CJsonContext::GetActivationExpressions(CStringArray& arIds, CArray<bool>& a
 		stack.RemoveAt(idx);
 		if (!pCurrent->m_strActivation.IsEmpty())
 		{
-			arIds.Add(pCurrent->GetID());
+			arIds.Add(GetSafeActivationString(pCurrent->m_strActivation));
 			arActivated.Add(CheckActivationExpression(pCurrent->m_strActivation));
-
 		}
 		for (int i = 0; i < pCurrent->m_Children.GetCount(); i++)
 		{
 			stack.Add(pCurrent->m_Children.GetAt(i));
 		}
 	}
+}
 
+//---------------------------------------------------------------------------
+CString CJsonContext::GetSafeActivationString(CString strActivation)
+{
+	strActivation.Replace(_T("&&"), _T("And"));
+	strActivation.Replace(_T(">"), _T("_"));
+	strActivation.Replace(_T("'"), _T("_"));
+	strActivation.Replace(_T("("), _T("_"));
+	strActivation.Replace(_T(")"), _T("_"));
+	strActivation.Replace(_T("\""), _T("_"));
+	strActivation.Replace(_T("!"), _T("Not"));
+	strActivation.Replace(_T("||"), _T("Or"));
+	strActivation.Replace(_T(" "), _T(""));
+	strActivation.Replace(_T("."), _T("_"));
+	return _T("_") + strActivation;
 }
 
 //---------------------------------------------------------------------------

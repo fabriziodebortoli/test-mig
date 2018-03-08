@@ -950,6 +950,7 @@ namespace Microarea.TbJson
                         {
                             using (var tmTab = new OpenCloseTagWriter(Constants.tbTileManagerTab, this, false))
                             {
+                                   WriteActivationAttribute(jObj);
                                 string title = jObj.GetLocalizableString(Constants.text);
                                 if (!string.IsNullOrEmpty(title))
                                 {
@@ -1384,9 +1385,25 @@ namespace Microarea.TbJson
         private void WriteActivationAttribute(JObject jObj)
         {
             string activation = jObj.GetFlatString(Constants.activation);
-            string id = jObj.GetId();
-            if (!string.IsNullOrEmpty(activation) && !string.IsNullOrEmpty(id))
-                htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + id);
+            if (!string.IsNullOrEmpty(activation))
+                htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + GetSafeActivationString(activation));
+        }
+
+        //-----------------------------------------------------------------------------------------
+        private string GetSafeActivationString(string activation)
+        {
+            activation = activation.Replace("&&", "And")
+                .Replace("<", "_")
+                .Replace(">", "_")
+                .Replace("'", "_")
+                .Replace("(", "_")
+                .Replace(")", "_")
+                .Replace(" ", "")
+                .Replace("!", "Not")
+                .Replace("||", "Or")
+                .Replace(".", "_")
+                .Replace("\"", "_");
+            return "_" + activation;
         }
 
         //-----------------------------------------------------------------------------------------
@@ -1581,7 +1598,7 @@ namespace Microarea.TbJson
                                 jHKL[Constants.tbNamespace] = jHFHKL[Constants.tbNamespace];
 
                             }
-                            
+
                         }
                     }
                     string hkl = jHKL.ToString();
@@ -1893,7 +1910,7 @@ namespace Microarea.TbJson
             }
             else
             {
-                GenerateHtml(obj, parentType,insideRowView);
+                GenerateHtml(obj, parentType, insideRowView);
             }
         }
 

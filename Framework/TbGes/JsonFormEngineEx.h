@@ -49,6 +49,7 @@ public:
 	bool CheckActivation(CString singleActivation);
 	bool CheckActivationExpression(const CString& activationExpression);
 	void GetActivationExpressions(CStringArray& arIds, CArray<bool>& arActivated);
+	
 	CString AdjustExpression(const CString& sRawExpression);
 	void AttachItemSource(CItemSourceDescription* pItemSource, CParsedCtrl* pParsedCtrl);
 	void AttachDataAdapter(CDataAdapterDescription* pDataAdapterDescription, CParsedCtrl* pParsedCtrl);
@@ -58,6 +59,9 @@ public:
 
 	BOOL CreateSplitter(CSplitterDescription* pSplitterDesc, CSplittedForm* pSplitterForm, CBaseDocument* pDoc);
 	CAbstractFormView* GetOwnerView();
+
+private:
+	CString GetSafeActivationString(CString strActivation);
 };
 class CHotFilterJsonContext : public CJsonContext {
 private:
