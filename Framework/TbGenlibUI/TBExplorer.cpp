@@ -2705,7 +2705,7 @@ BOOL CTBExplorerUserDlg::CanOverWrite(const CString& strPathFile)
 		if (!strFileUsr.IsEmpty() && ExistPath(strFileUsr))
 		{
 			bAlreadyRequest = TRUE;
-			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' exists for  '{1-%s}', do you want to overwrite the existing ?"), m_strEditTreeObj, strOwner), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
+			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' already exists for  '{1-%s}', do you want to overwrite the existing ?"), m_strEditTreeObj, strOwner), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
 				return FALSE;		
 		}
 
@@ -2713,7 +2713,7 @@ BOOL CTBExplorerUserDlg::CanOverWrite(const CString& strPathFile)
 		if ((m_bAllUsrs || m_bSaveForAllUsrs) && !bAlreadyRequest && ExistPath(strFileAllUsrs))
 		{
 			bAlreadyRequest = TRUE;
-			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' exists for 'All Users', do you want to overwrite the existing ?"), m_strEditTreeObj), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
+			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' already exists for 'All Users', do you want to overwrite the existing ?"), m_strEditTreeObj), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
 				return FALSE;		
 		}
 
@@ -2727,7 +2727,7 @@ BOOL CTBExplorerUserDlg::CanOverWrite(const CString& strPathFile)
 		if (ExistFile(strFileUsr))
 		{
 			bAlreadyRequest = TRUE;
-			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' exists for  '{1-%s}', do you want to overwrite the existing ?"), m_strEditTreeObj, strOwner), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
+			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' already exists for  '{1-%s}', do you want to overwrite the existing ?"), m_strEditTreeObj, strOwner), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
 				return FALSE;		
 		}
 
@@ -2735,7 +2735,7 @@ BOOL CTBExplorerUserDlg::CanOverWrite(const CString& strPathFile)
 		if ((m_bAllUsrs || m_bSaveForAllUsrs) && !bAlreadyRequest && ExistFile(strFileAllUsrs))
 		{
 			bAlreadyRequest = TRUE;
-			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' exists for 'All Users', do you want to overwrite the existing ?"), m_strEditTreeObj), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
+			if (AfxMessageBox(cwsprintf(_TB("Warning, '{0-%s}' already exists for 'All Users', do you want to overwrite the existing ?"), m_strEditTreeObj), MB_OKCANCEL | MB_ICONEXCLAMATION | MB_DEFBUTTON2) != IDOK)
 				return FALSE;		
 		}
 	}
