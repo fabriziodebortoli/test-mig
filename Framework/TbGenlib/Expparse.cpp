@@ -244,7 +244,7 @@ static const int BASED_CODE optFuncParam_Table[][MAX_optFuncParametersTable]=
 	{T_FSAVETEXT,				1,  DATA_INT_TYPE	},
 	{T_FDATEADD,				3,	DATA_INT_TYPE,	DATA_INT_TYPE,	DATA_INT_TYPE },
 
-	{T_FTRIM,					1,  DATA_STR_TYPE },
+	{T_FTRIM,					2,  DATA_STR_TYPE,  DATA_BOOL_TYPE },
 	{T_FLTRIM,					1,  DATA_STR_TYPE },
 	{T_FRTRIM,					1,  DATA_STR_TYPE },
 

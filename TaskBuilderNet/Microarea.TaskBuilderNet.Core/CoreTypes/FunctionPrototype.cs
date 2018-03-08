@@ -982,7 +982,8 @@ namespace Microarea.TaskBuilderNet.Core.CoreTypes
 			Add(Token.LOWER, "String", new string[] { "String" });
 			Add(Token.LOWER, "String", new string[] { "String", "Boolean" });
 			Add(Token.LTRIM, "String", new string[] { "String" });
-			Add(Token.MAX, "Object", new string[] { "Object", });   //array
+            Add(Token.LTRIM, "String", new string[] { "String", "String" });
+            Add(Token.MAX, "Object", new string[] { "Object", });   //array
 			Add(Token.MAX, "Object", new string[] { "Object", "Object" });
 			Add(Token.MAKELOWERLIMIT, "String", new string[] { "String" });
 			Add(Token.MAKEUPPERLIMIT, "String", new string[] { "String" });
@@ -1003,7 +1004,8 @@ namespace Microarea.TaskBuilderNet.Core.CoreTypes
 			Add(Token.ROUND, "Double", new string[] { "Double" });
 			Add(Token.ROUND, "Double", new string[] { "Double", "Int32" });
 			Add(Token.RTRIM, "String", new string[] { "String" });
-			Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String" });
+            Add(Token.RTRIM, "String", new string[] { "String", "String" });
+            Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String" });
 			Add(Token.SAVETEXT, "Boolean", new string[] { "String", "String", "Int32" });
 			Add(Token.SETCULTURE, "String", new string[] { "String" });
 			Add(Token.SETSETTING, "Object", new string[] { "String", "String", "String", "Object" });
@@ -1018,9 +1020,12 @@ namespace Microarea.TaskBuilderNet.Core.CoreTypes
 			Add(Token.TABLEEXISTS, "Boolean", new string[] { "String", "String" });
 			Add(Token.TIME, "DateTime", new string[0]);
 			Add(Token.TIME, "DateTime", new string[] { "Int32", "Int32", "Int32" });
-			Add(Token.TRIM, "String", new string[] { "String" });
 
-			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32" });
+			Add(Token.TRIM, "String", new string[] { "String" });
+            Add(Token.TRIM, "String", new string[] { "String", "String" });
+            Add(Token.TRIM, "String", new string[] { "String", "String", "Boolean" });
+
+            Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32" });
 			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32" });
 			Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32", "String" });
             Add(Token.TYPED_BARCODE, "String", new string[] { "String", "Int32", "Int32", "String", "Int32" });
@@ -1049,7 +1054,12 @@ namespace Microarea.TaskBuilderNet.Core.CoreTypes
             
             Add(Token.WILDCARD_MATCH, "Boolean", new string[] { "String", "String" });
 
-			Add(Token.SendBalloon, "Boolean", new string[] { "String", "String", "Int32", "DateTime", "Boolean", "Boolean", "Int64" });
+            Add(Token.REPLICATE, "String", new string[] { "String", "Int32" });
+            Add(Token.PADLEFT, "String", new string[] { "String", "Int32", "String" });
+            Add(Token.PADRIGHT, "String", new string[] { "String", "Int32", "String" });
+            Add(Token.COMPARE_NO_CASE, "Int32", new string[] { "String", "String" });
+
+            Add(Token.SendBalloon, "Boolean", new string[] { "String", "String", "Int32", "DateTime", "Boolean", "Boolean", "Int64" });
 			Add(Token.FormatTbLink, "String", new string[] { "String", "String", "Object" });
 
 			Add(Token.CONVERT, "Object", new string[] { "Object", "String" });

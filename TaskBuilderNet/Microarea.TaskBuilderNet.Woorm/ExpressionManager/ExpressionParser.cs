@@ -971,12 +971,12 @@ namespace Microarea.TaskBuilderNet.Woorm.ExpressionManager
                 case Token.IsLeapYear:
                 
                 case Token.WILDCARD_MATCH:
-/*  TODO RSWEB
+
                 case Token.REPLICATE:
                 case Token.PADLEFT:
                 case Token.PADRIGHT:
-comparenocase
-*/
+                case Token.COMPARE_NO_CASE:
+
                 case Token.SendBalloon:
                 case Token.FormatTbLink:
                 {

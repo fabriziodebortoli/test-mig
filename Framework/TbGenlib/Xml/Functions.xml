@@ -590,10 +590,10 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
       <Remarks localizable="true">The index always starts from zero(0). Find is case sensitive. </Remarks>
       <Result localizable="true">Returns -1 in case of unsuccessful search. </Result>
       <Prototype>integer Find(string_TextToFind, string_TextWithin, [integer_StartPosition])</Prototype>
-      <Param name="TextToFind" type="bool" localize="is the text you want to find" />
-      <Param name="TextWithin" type="string" localize="is the text containing the text you want to find" />
-      <Param name="StartPosition (optional)" type="integer" localize="the index  at which to start the search (default is 0)" />
-      <Param name="Occurrence (optional)" type="integer" localize="the occurrence of text to find (default is 1, the first)" />
+      <Param name="TextToFind" type="string" localize="is the text you want to find" />
+      <Param name="Text" type="string" localize="is the text containing the text you want to find" />
+      <Param name="StartPosition (optional)" type="integer" localize="the index  at which to start the search (default is 0)" optional="true" />
+      <Param name="Occurrence (optional)" type="integer" localize="the occurrence of text to find (default is 1, the first)" optional="true" />
       <Example localizable="true">Find ("a", "Microarea") => 5;Find ("world", "hello world") = 6;Find ("WORLD", "hello world") = -1 </Example>
     </Function>
     <Function name="Format" type="string" localize="Returns a string formatted according to the compatible formatter type." >
@@ -649,7 +649,7 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
    <Function name="LTrim" type="string" localize="Removes all spaces from the left side of a text." >
      <Prototype>string LTrim(string_TextToTrim)</Prototype>
      <Param name="TextToTrim" type="string" localize="is the text to be trimmed" />
-     <Param name="trim (optional)" type="string" localize="is the text to be removed" optional="true"/>
+     <Param name="trim" type="string" localize="It contains the charaters to remove (default are blank, tab, new line)" optional="true"/>
      <Example localizable="true">LTrim("&#9250;&#9250;Mago.Net&#9250;&#9250;") => Mago.Net&#9250;&#9250; (&#9250; blank space) </Example>
    </Function>
    <Function name="MakeLowerLimit" type="string" localize="Returns the localized word: First." >
@@ -693,7 +693,7 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
    <Function name="RTrim" type="string" localize="Removes all spaces from the right side of a text." >
      <Prototype>string RTrim(string_TextToTrim)</Prototype>
      <Param name="TextToTrim" type="string" localize="is the text to be trimmed" />
-     <Param name="trim (optional)" type="string" localize="is the text to be removed" optional="true"/>
+     <Param name="trim" type="string" localize="It contains the charaters to remove (default are blank, tab, new line)" optional="true"/>
      <Example localizable="true">RTrim("&#9250;&#9250;Mago.Net&#9250;&#9250;") => &#9250;&#9250;Mago.Net
  (&#9250; is a blank space) </Example>
    </Function>
@@ -757,7 +757,7 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
    <Function name="Trim" type="string" localize="Removes all spaces from texts." >
      <Prototype>string Trim(string_TextToTrim)</Prototype>
      <Param name="TextToTrim" type="string" localize="is the text to be trimmed" />
-     <Param name="trim (optional)" type="string" localize="is the text to be removed" optional="true"/>
+     <Param name="trim" type="string" localize="It contains the charaters to remove (default are blank, tab, new line)" optional="true"/>
      <Example localizable="true">Trim("&#9250;&#9250;Microarea Mago.net&#9250;&#9250;") => MicroareaMago.Net </Example>
    </Function>
    <Function name="TypedBarCode" type="string" localize="Returns a string than can be displayed as barcode." >

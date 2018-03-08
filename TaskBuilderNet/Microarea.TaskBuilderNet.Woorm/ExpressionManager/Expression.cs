@@ -3663,7 +3663,21 @@ comparenocase
 
 					return new Value(0);
 				}
-				case Token.EXECUTESCRIPT:
+
+                case Token.REPLICATE:
+                case Token.PADLEFT:
+                case Token.PADRIGHT:
+                case Token.COMPARE_NO_CASE:
+                {
+                    
+
+                    //TODO
+
+                    return new Value(0);
+                }
+
+
+                case Token.EXECUTESCRIPT:
 				{
 					Value v1 = (Value)paramStack.Pop();
                     String script = CastString(v1);

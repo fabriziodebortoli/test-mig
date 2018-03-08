@@ -2546,18 +2546,37 @@ ExpItemVal* Expression::ApplyFunction(ExpItemFun* itemFun, Stack& paramStack)
 			break;
 
 		case T_FTRIM:
+		{
 			p1 = (ExpItemVal*)paramStack.Pop();
-			pData = new DataStr();
 
-			if (itemFun->m_nNumParam > parameters_of(itemFun->m_nFun))
+			CString s;
+			if (itemFun->m_nNumParam > 1)
 			{
 				p2 = (ExpItemVal*)paramStack.Pop();
-				((DataStr*)pData)->Assign(CastStr(*p1).Trim(CastStr(*p2)));
+				CString mask = CastStr(*p2);
+
+				s = CastStr(*p1).Trim(mask);
+
+				if (itemFun->m_nNumParam > 2)
+				{
+					p3 = (ExpItemVal*)paramStack.Pop();
+					BOOL removeInner = CastBool(*p3);
+					if (removeInner)
+					{
+						for (int i = 0; i < mask.GetLength(); i++)
+						{
+							s.Remove(mask[i]);
+						}
+					}
+				}
 			}
 			else
-				((DataStr*)pData)->Assign(CastStr(*p1).Trim());
-			break;
+				s = CastStr(*p1).Trim();
 
+			pData = new DataStr();
+			((DataStr*)pData)->Assign(s);
+			break;
+		}
 		case T_FLTRIM:
 			p1 = (ExpItemVal*)paramStack.Pop();
 			pData = new DataStr();

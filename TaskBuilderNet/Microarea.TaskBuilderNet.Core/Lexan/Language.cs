@@ -1188,7 +1188,12 @@ namespace Microarea.TaskBuilderNet.Core.Lexan
         FormatTbLink,
         CHOOSE,
         IIF,
-        
+
+        REPLICATE,
+        PADLEFT,
+        PADRIGHT,
+        COMPARE_NO_CASE,
+
         // -------------------------------------------------  keywords end
         //new tokens post 3.0
         CONVERT,
