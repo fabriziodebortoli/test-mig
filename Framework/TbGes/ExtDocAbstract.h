@@ -964,7 +964,7 @@ public:
 	virtual BOOL		ValorizeVariable		(const CString& sName, const CString& sValue);
 	void				RemoveVariable			(const CString& sName);
 
-	void				GetJsonPatch			(CJsonSerializer& jsonSerializer);
+	void				GetJsonPatch			(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	void				GetJson					(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	void				SetJson					(CJsonParser&	  jsonParser);
 	virtual CString		GetComponentId			();

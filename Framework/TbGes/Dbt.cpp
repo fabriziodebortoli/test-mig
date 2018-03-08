@@ -760,14 +760,14 @@ CNumbererRequest* DBTObject::BindAutonumber(DataObj* pDataBinding, const CString
 	return pRequest;
 }
 //-----------------------------------------------------------------------------	
-void DBTObject::GetJsonPatch(CJsonSerializer& jsonSerializer)
+void DBTObject::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	jsonSerializer.OpenObject(GetName());
 
 	SqlRecord *pRecord = GetRecord();
 	if (pRecord)
 	{
-		pRecord->GetJsonPatch(jsonSerializer, NULL);
+		pRecord->GetJsonPatch(jsonSerializer, NULL, bOnlyWebBound);
 	}
 	jsonSerializer.CloseObject(TRUE);
 }
@@ -4241,12 +4241,12 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 	return NULL;
 }
 //-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer)
+void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	if (m_pJsonCache->IsModified())
 	{
 		jsonSerializer.OpenObject(GetName());
-		m_pJsonCache->GetJsonPatch(jsonSerializer);
+		m_pJsonCache->GetJsonPatch(jsonSerializer, bOnlyWebBound);
 		jsonSerializer.CloseObject(TRUE); 
 	}
 }
@@ -4254,7 +4254,7 @@ void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer)
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	GetJsonPatch(jsonSerializer);
+	GetJsonPatch(jsonSerializer, bOnlyWebBound);
 }
 
 //-----------------------------------------------------------------------------	

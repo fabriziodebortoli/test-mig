@@ -3103,6 +3103,11 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 		UINT nIDC = CJsonFormEngineObj::GetID(pChild);
 		if (!pContext->CanCreateControl(pChild, nIDC))
 			continue;
+
+		if (pChild->m_Type == CWndObjDescription::HotFilter)
+		{
+			pContext->CreateHotFilter(nIDC, pChild);
+		}
 		//solo i parsed controls
 		if (!pChild->m_strControlClass.IsEmpty())
 		{

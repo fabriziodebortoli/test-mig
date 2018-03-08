@@ -33,7 +33,7 @@ void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount)
 	m_nCount = nCount;
 }
 //----------------------------------------------------------------------------
-void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
+void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	if ((m_pDBT->m_bReadOnly && m_bReadonly != B_TRUE) || (!m_pDBT->m_bReadOnly && m_bReadonly != B_FALSE))
 	{
@@ -53,7 +53,7 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
 	}
 
 	jsonSerializer.OpenObject(_T("prototype"));	
-	m_pDBT->GetRecord()->GetJsonPatch(jsonSerializer, NULL);
+	m_pDBT->GetRecord()->GetJsonPatch(jsonSerializer, NULL, bOnlyWebBound);
 	jsonSerializer.CloseObject(TRUE);
 	jsonSerializer.OpenArray(_T("rows"));
 	int i;
@@ -77,7 +77,7 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
 		{
 			pOld = m_pClientRecords->GetAt(i);
 		}
-		pCurrent->GetJsonPatch(jsonSerializer, pOld);
+		pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
 		
 		jsonSerializer.CloseObject();
 	}

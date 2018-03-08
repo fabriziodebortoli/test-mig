@@ -2448,13 +2448,15 @@ void SqlRecord::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 	}
 }
 //-----------------------------------------------------------------------------	
-void SqlRecord::GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld)
+void SqlRecord::GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld, BOOL bOnlyWebBound)
 {
 	ASSERT(!pOld || (GetSizeEx() == pOld->GetSizeEx()));
 
 	for (int i = 0; i < GetSizeEx(); i++)
 	{
 		SqlRecordItem *pItem = GetAt(i);
+		if (!pItem->IsMandatory() && bOnlyWebBound && !pItem->GetDataObj()->IsWebBound())
+			continue;
 		DataObj* pData = pItem->GetDataObj();
 		if (pOld)
 		{

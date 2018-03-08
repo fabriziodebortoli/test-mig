@@ -7894,7 +7894,7 @@ void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString 
 }
 
 //-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound = TRUE)
+void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	CString id = GetComponentId();
 	if (id == _T("0"))
@@ -7907,7 +7907,7 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 
 	if (m_bJsonDataSent)
 	{
-		GetJsonPatch(jsonSerializer);
+		GetJsonPatch(jsonSerializer, bOnlyWebBound);
 		if (!jsonSerializer.IsCurrentEmpty())
 			jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
 		return;
@@ -7944,7 +7944,7 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 	m_bJsonDataSent = TRUE;
 }
 //-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
+void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	jsonSerializer.OpenObject(_T("data"));
 	CXMLVariable* pVariable;
@@ -7953,7 +7953,7 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
 		for (int i = 0; i < m_pVariablesArray->GetSize(); i++)
 		{
 			pVariable = m_pVariablesArray->GetAt(i);
-			if (pVariable->GetDataObj()->IsWebBound() && pVariable->GetDataObj()->HasChangedForJson())
+			if ((!bOnlyWebBound || pVariable->GetDataObj()->IsWebBound()) && pVariable->GetDataObj()->HasChangedForJson())
 			{
 				jsonSerializer.OpenObject(pVariable->GetName());
 				pVariable->GetDataObj()->SerializeToJson(jsonSerializer, true);
@@ -7963,18 +7963,18 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
 	}
 
 	if (m_pDBTMaster)
-		m_pDBTMaster->GetJsonPatch (jsonSerializer);
+		m_pDBTMaster->GetJsonPatch (jsonSerializer, bOnlyWebBound);
 
 	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
 	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
 	{
 		HotKeyLink* pHotKeyLink = (HotKeyLink*)m_pHotKeyLinks->GetAt(i);
-		pHotKeyLink->GetJsonPatch(jsonSerializer);
+		pHotKeyLink->GetJsonPatch(jsonSerializer, bOnlyWebBound);
 	}
 	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
 	{
 		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
-		((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer);
+		((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer, bOnlyWebBound);
 	}
 	jsonSerializer.CloseObject(TRUE);
 

@@ -208,12 +208,12 @@ void HotKeyLink::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 	jsonSerializer.CloseObject(TRUE);
 }
 //-----------------------------------------------------------------------------	
-void HotKeyLink::GetJsonPatch(CJsonSerializer& jsonSerializer)
+void HotKeyLink::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
 	if (!m_pRecord)
 		return;
 	jsonSerializer.OpenObject(GetName());
-	m_pRecord->GetJsonPatch(jsonSerializer, NULL);
+	m_pRecord->GetJsonPatch(jsonSerializer, NULL, bOnlyWebBound);
 	jsonSerializer.CloseObject(TRUE);
 }
 //-----------------------------------------------------------------------------

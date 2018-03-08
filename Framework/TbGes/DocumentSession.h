@@ -48,7 +48,7 @@ private:
 	CArray<IJsonModelProvider*>	m_arJsonModelsToUpdate;//modelli dati che necessitano di essere aggiornati con i dati arrivati dal client
 
 protected:
-	bool						m_bPushOnlyWebBoundData = true;//ottimizzazione: per mandare i soli dati usati dal client
+	bool						m_bPushOnlyWebBoundData = false;//ottimizzazione: per mandare i soli dati usati dal client
 
 public:
 	CDocumentSession (DWORD nLoginThreadID);
