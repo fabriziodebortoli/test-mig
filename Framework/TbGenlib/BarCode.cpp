@@ -1032,9 +1032,9 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	if (nBarCodeType == CBarCodeTypes::BC_DEFAULT)
 		nBarCodeType = m_nBCDefaultType;
 
-	CString barcodeType = CBarCodeTypes::BarCodeDescription(nBarCodeType);
+	CString sBarcodeType = CBarCodeTypes::BarCodeDescription(nBarCodeType);
 	BarCodeCreator*	bCreator = new BarCodeCreator();
-	BOOL bBarcode2D = bCreator->If2DBarCode(barcodeType);
+	BOOL bBarcode2D = bCreator->If2DBarCode(sBarcodeType);
 	SAFE_DELETE(bCreator);
 
 
@@ -1053,9 +1053,14 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	}
 
 	//
-	if (!bBarcode2D)
+	if (!bBarcode2D || nBarCodeType == BC_PDF417)
 	{
-		if (m_nCustomBarHeight > 0)
+		if (nBarCodeType == BC_PDF417)
+		{
+			//in questo caso � l'altezza della riga
+			nHeight = m_nCustomBarHeight;
+		}
+		else if (m_nCustomBarHeight > 0)
 		{
 			nHeight = (int)MUtoLP(m_nCustomBarHeight, CM, 10., 3);
 		}
@@ -1076,12 +1081,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 			}
 		}
 	}
-	else if (nBarCodeType == BC_PDF417)
-	{
-		//in questo caso � l'altezza della riga
-		nHeight = m_nCustomBarHeight;
-	}
-
+	
 	// Recupero i parametri dal setting se il
 	// valore impostato al parametro equivale a 'prendi dal setting'
 
@@ -1093,9 +1093,9 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	}
 
 	// - BC version
-	if (bBarcode2D && barcodeType != BC_PDF417 && nVersion < 0)
+	if (bBarcode2D && nBarCodeType != BC_PDF417 && nVersion < 0)
 	{
-		if (barcodeType == BC_DATAMATRIX)
+		if (nBarCodeType == BC_DATAMATRIX)
 		{
 			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 			CString str_Version = pSetting ? pSetting->Str() : _T("");
@@ -1110,7 +1110,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 			nVersion = pSetting ? *((DataInt*)pSetting) : 0;
 		}
 	}
-	else if (barcodeType == BC_PDF417 && (nRows < 0 || nColumns < 0))
+	else if (nBarCodeType == BC_PDF417 && (nRows < 0 || nColumns < 0))
 	{
 		DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DVersion, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
 		CString str_Version = pSetting ? pSetting->Str() : _T("");
@@ -1121,10 +1121,10 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 	}
 
 	// - BC Error Correction Level
-	if (bBarcode2D && barcodeType != BC_DATAMATRIX && (barcodeType == BC_PDF417 ? nErrCorrLevel < -1 : nErrCorrLevel < 0))
+	if (bBarcode2D && nBarCodeType != BC_DATAMATRIX && (nBarCodeType == BC_PDF417 ? nErrCorrLevel < -1 : nErrCorrLevel < 0))
 	{
 		//recupero il valore dal setting
-		if (barcodeType != BC_PDF417)
+		if (nBarCodeType != BC_PDF417)
 		{
 			//sono stringhe
 			DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szDefaultBarcode2DErrCorrLevel, szBarcodeTypes[nBarCodeType - 1], DataStr(_T("")), szBarcode2DFileName);
@@ -1134,7 +1134,7 @@ BOOL CBarCode::PrepareBCParameters(	CDC& DC,
 				nErrCorrLevel = 1;
 			else if (str_ErrCorrLevel == _T("Q"))
 				nErrCorrLevel = 2;
-			else if (barcodeType == BC_QR && str_ErrCorrLevel == _T("H"))
+			else if (nBarCodeType == BC_QR && str_ErrCorrLevel == _T("H"))
 				nErrCorrLevel = 3;
 		}
 		else
