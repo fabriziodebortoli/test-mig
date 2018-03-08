@@ -4,12 +4,9 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 
-import { Subscription } from '../../../../rxjs.imports';
-
 import { TileManagerTabComponent } from './tile-manager-tab/tile-manager-tab.component';
 import { TbComponent } from '../../../components/tb.component';
 
-import { LayoutService } from './../../../../core/services/layout.service';
 import { Logger } from './../../../../core/services/logger.service';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
@@ -35,7 +32,6 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ContentChildren(TileManagerTabComponent) tilegroups: QueryList<TileManagerTabComponent>;
   constructor(
-    public layoutService: LayoutService,
     public logger: Logger,
     public tbComponentService: TbComponentService,
     protected changeDetectorRef: ChangeDetectorRef
