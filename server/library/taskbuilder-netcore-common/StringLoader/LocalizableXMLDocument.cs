@@ -71,7 +71,10 @@ namespace Microarea.Common.StringLoader
 		//---------------------------------------------------------------------
 		public override void Load(string file)
 		{
-            FileStream stream = File.OpenRead(file);
+            Stream stream = null;
+
+            if (pathFinder != null)
+                stream = pathFinder.GetStream(file, false);
 
             base.Load(stream); 
             fileName = file;
@@ -143,18 +146,20 @@ namespace Microarea.Common.StringLoader
 			if (pathFinder != null && Helper.Culture != string.Empty)
 			{
 				XmlDocument tmpDoc =  new XmlDocument(NameTable);
-				if (SaveTransform(tmpDoc))
-					tmpDoc.Save(File.OpenWrite(file));
+                if (SaveTransform(tmpDoc))
+                    pathFinder.SaveTextFileFromXml(file, tmpDoc);
+                //    tmpDoc.Save(File.OpenWrite(file));
 			}
-			else
-				base.Save(File.OpenWrite(file));
+			//else
+   //             pathFinder.SaveTextFileFromXml(file, tmpDoc);
+   //         base.Save(File.OpenWrite(file));
 		}
 
-		//--------------------------------------------------------------------------------
-		public void SaveTranslatedContents(string file)
-		{
-			base.Save(File.OpenWrite(file));
-		}
+		////--------------------------------------------------------------------------------
+		//public void SaveTranslatedContents(string file)
+		//{
+		//	base.Save(File.OpenWrite(file));
+		//}
 
 		//---------------------------------------------------------------------
 		private bool SaveTransform(XmlDocument output)

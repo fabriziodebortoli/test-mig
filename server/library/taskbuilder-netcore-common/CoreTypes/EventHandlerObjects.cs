@@ -44,14 +44,7 @@ namespace Microarea.Common.CoreTypes
             }
             return Parse(eventHandlerDocument);
         }
-        ////---------------------------------------------------------------------
-        //public bool Parse(Stream fileStream)
-        //{
-        //    XmlDocument document = new XmlDocument();
-        //    //leggo il file
-        //    document.Load(fileStream);
-        //    return Parse(document);
-        //}
+        
         //---------------------------------------------------------------------
         public bool Parse(XmlDocument documentObjectsDocument)
         {

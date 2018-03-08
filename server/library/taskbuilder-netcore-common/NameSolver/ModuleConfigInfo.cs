@@ -377,7 +377,8 @@ namespace Microarea.Common.NameSolver
             XmlElement typeNode = xDoc.CreateElement(ModuleConfigXML.Element.Components);
             rootNode.AppendChild(typeNode);
 
-            xDoc.Save(moduleConfigFile);
+            PathFinder.PathFinderInstance.SaveTextFileFromXml(moduleConfigFile, xDoc);
+            //xDoc.Save(moduleConfigFile);
             return true;
         }
     }

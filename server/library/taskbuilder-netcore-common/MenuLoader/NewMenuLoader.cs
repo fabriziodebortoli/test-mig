@@ -505,9 +505,9 @@ namespace Microarea.Common.MenuLoader
 			userInfoCompany = null;
 			version = null;
 
-            //Lara
+
 			XmlDocument xDoc = new XmlDocument();
-			xDoc.LoadXml(LoginManager.LoginManagerInstance.GetUserInfo());
+            xDoc.LoadXml(LoginManager.LoginManagerInstance.GetUserInfo());
 			XmlNode node = xDoc.SelectSingleNode("//Name");
 			if (node != null)
 				userInfoName = node.InnerText;

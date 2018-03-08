@@ -662,7 +662,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			try
 			{
-				xDoc.Load(File.OpenText(fileName));
+                PathFinder.PathFinderInstance.LoadXmlDocument(xDoc, fileName);
+			//	xDoc.Load(File.OpenText(fileName));
 
 				//root del documento (DataTables)
 				XmlElement root = xDoc.DocumentElement;
