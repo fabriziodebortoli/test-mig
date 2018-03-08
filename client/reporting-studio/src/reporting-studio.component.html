@@ -18,7 +18,7 @@
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="stopReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
             </div>
 
-            <div> <label class="snapshotToolbarTop" *ngIf="runningReport">Snapshot: {{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</label> </div>
+            <div> <h4 class="snapshotToolbarTop" *ngIf="runningReport">Snapshot: {{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</h4> </div>
         </div>
 
         <div class="toolbar-right">

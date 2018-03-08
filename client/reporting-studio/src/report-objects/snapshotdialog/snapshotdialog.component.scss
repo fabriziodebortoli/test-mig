@@ -25,5 +25,34 @@ tr:nth-child(even) {
 th {
     background-color:  #0277bd;
     color: #dddddd;
+}
 
+.k-textbox-container {
+    padding-top: 0px;
+}
+
+mat-radio-button{
+    margin: 2px;
+}
+
+.mat-radio-inner-circle{
+    background-color: #0277bd !important;
+}
+
+h3{
+    font-weight: 500;
+    color: #0277bd;
+    font-size: 14px;
+    margin: auto;
+}
+
+.inputName{
+    display: inherit;
+    align-items: center;
+    label{
+        margin-right: 5%;
+    }
+    input{
+        width: auto;
+    }
 }
