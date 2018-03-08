@@ -187,8 +187,9 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
         for (let i = 0; i < array.length; i++) {
 
           let element =array[i];
-          let noweb = element.noweb != undefined ? element.noweb : false;
-          if (this.tileIsVisible(element) && !element.hiddenTile && !noweb)
+          let env = element.environment ? element.environment.toLowerCase() : '';
+          let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
+          if (this.tileIsVisible(element) && !element.hiddenTile && show )
             newArray.push(element);
         }
       }

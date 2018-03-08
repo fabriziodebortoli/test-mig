@@ -47,7 +47,12 @@ export class MenuContentComponent extends TbComponent {
 
   set tile(tile: any) {
     this._tile = tile;
-    this.objects = this._tile.Object.filter(x =>  x.noweb != undefined ? !x.noweb : true);
+    this.objects = this._tile.Object.filter(element => 
+      {
+        let env = element.environment ? element.environment.toLowerCase() : '';
+        let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
+        return show;
+      });
   }
 
   getPinnedClass(tile) {
