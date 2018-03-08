@@ -30,20 +30,8 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
-                    if (model.patch) {
-                        this.applyPatch(this.eventData.model, model.patch);
-
-                    }
-                    else if (model.data) {
-                        for (const prop in model.data) {
-                            if (model.data.hasOwnProperty(prop)) {
-                                const p = model.data[prop];
-                                addModelBehaviour(p, prop);
-                                this.attachEventsToModel(p);
-                                this.eventData.model[prop] = p;
-
-                            }
-                        }
+                    if (model.data) {
+                        this.applyPatch(this.eventData.model, model.data);
                     }
                     this.eventData.change.emit('');
                 }

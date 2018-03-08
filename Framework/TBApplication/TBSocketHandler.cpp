@@ -338,7 +338,9 @@ void CTBSocketHandler::DoValueChanged(CJsonParser& json)
 	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
 	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
-	ASSERT(pDoc);
+	if (!pDoc)
+		return;
+
 	CUpdateDataViewLevel _upd(pDoc);
 	pDoc->OnCmdMsg(id, EN_VALUE_CHANGED, NULL, NULL);
 	//pSession->ResumePushToClient();

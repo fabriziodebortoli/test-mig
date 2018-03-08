@@ -45,7 +45,7 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
 		m_nCurrentRow = m_pDBT->GetCurrentRowIdx();
 		jsonSerializer.WriteInt(_T("currentRowIdx"), m_nCurrentRow);
 	}
-
+	BOOL rowChanged = FALSE;
 	if (m_pDBT->GetRowCount() != m_nRowCount)
 	{
 		m_nRowCount = m_pDBT->GetRowCount();
@@ -55,9 +55,9 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
 	jsonSerializer.OpenObject(_T("prototype"));	
 	m_pDBT->GetRecord()->GetJsonPatch(jsonSerializer, NULL);
 	jsonSerializer.CloseObject(TRUE);
-
 	jsonSerializer.OpenArray(_T("rows"));
-	for (int i = 0; i < m_nCount; i++)
+	int i;
+	for (i = 0; i < m_nCount; i++)
 	{
 		int idx = m_nStart + i;
 		if (idx >= m_pDBT->m_pRecords->GetCount())
@@ -81,7 +81,8 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer)
 		
 		jsonSerializer.CloseObject();
 	}
-	jsonSerializer.CloseArray(TRUE);
+	jsonSerializer.CloseArray(m_nRowsSent == i);
+	m_nRowsSent = i;
 }
 
 //-----------------------------------------------------------------------------	

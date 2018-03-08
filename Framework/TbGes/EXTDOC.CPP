@@ -7946,7 +7946,7 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer)
 {
-	jsonSerializer.OpenObject(_T("patch"));
+	jsonSerializer.OpenObject(_T("data"));
 	CXMLVariable* pVariable;
 	if (m_pVariablesArray)
 	{
