@@ -22,6 +22,8 @@ import { PaginatorService, ServerNeededParams, GridData } from './../../../core/
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
 import { ControlComponent } from './../../../shared/controls/control.component';
+import { EnumFilterComponent } from './enum-filter/enum-filter.component';
+import { getEnumValueSiblings } from './enum-filter/U';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';

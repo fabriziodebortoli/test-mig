@@ -85,6 +85,7 @@ import { TbHotLinkBaseComponent } from './controls/hot-link-base/tb-hot-link-bas
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 import { CustomisableGridComponent } from './components/customisable-grid/customisable-grid.component';
+import { EnumFilterComponent } from './components/customisable-grid/enum-filter/enum-filter.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -143,7 +144,7 @@ const TB_COMPONENTS = [
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
-    TbHotlinkComboComponent, TbHotLinkBaseComponent
+    TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent
 ];
 
 /**

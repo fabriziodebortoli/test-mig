@@ -22,6 +22,7 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
 import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
+import { findAnchestorByClass } from '../../commons/u';
 declare var document: any;
 
 @Component({
@@ -153,7 +154,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
   protected start() {
     this.defaultPageCounter = 0;
-    this.filterer.start(200);
+    this.filterer.start(200, this.tablePopupRef.popup.location);
     this.paginator.start(1, this.pageSize,
       Observable
         .combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
@@ -256,8 +257,11 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
       .subscribe(e => this.closePopups());
 
     Observable.fromEvent(document, 'click', { capture: true }).pipe(untilDestroy(this))
-      .filter(e => ((this.tablePopupRef && !this.tablePopupRef.popupElement.contains((e as any).toElement))
-        || (this.optionsPopupRef && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
+      .filter(e => ((this.tablePopupRef 
+          && !this.tablePopupRef.popupElement.contains((e as any).toElement) 
+          && !findAnchestorByClass(e['target'], 'customisable-grid-filter') )
+        || (this.optionsPopupRef 
+          && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
         && (this.isTablePopupVisible || this.isOptionsPopupVisible))
       .subscribe(_ => setTimeout(() => this.closePopups()));
   }

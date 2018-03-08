@@ -41,7 +41,7 @@ export class EnumsService {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             const currentTag = this.enumsTable.tags[index];
-            if (currentTag !== undefined && currentTag.value === tag) {
+            if (currentTag !== undefined && currentTag.value == tag) {
 
                 for (let j = 0; j < currentTag.items.length; j++) {
                     if (currentTag.items[j].stored == storedValue) {
@@ -57,7 +57,7 @@ export class EnumsService {
         if (this.enumsTable === undefined) { return; }
         for (let index = 0; index < this.enumsTable.tags.length; index++) {
             const currentTag = this.enumsTable.tags[index];
-            if (currentTag !== undefined && currentTag.value === tag) {
+            if (currentTag !== undefined && currentTag.value == tag) {
                 return currentTag.items;
             }
         }

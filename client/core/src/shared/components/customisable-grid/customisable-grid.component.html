@@ -20,6 +20,12 @@
                 </div>
             </div>
         </ng-template>
+        <ng-template [ngIf]="col.type && col.type.includes('Enum')">
+            <ng-template kendoGridFilterCellTemplate let-filter>
+                <tb-enum-filter [filter]="filter" [state]="state" [column]="col"></tb-enum-filter>
+            </ng-template>
+        </ng-template>
+        
     </kendo-grid-column>
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
         <kendo-pager-prev-buttons></kendo-pager-prev-buttons>

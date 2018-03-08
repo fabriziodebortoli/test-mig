@@ -23,6 +23,9 @@ export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>):
 
 @Injectable()
 export class FilterService implements OnDestroy {
+
+    public filterBag: Map<string, any> = new Map<string, any>();
+
     public debounceTime = 200;
     public filtersContainerRef: ElementRef;
     public lastChangedFilterIdx: number = 0;
@@ -83,6 +86,7 @@ export class FilterService implements OnDestroy {
         this._filter = null;
         this._previousFilter = null;
         this._changedField = '';
+        this.filterBag.clear();
     }
 
     public onFilterChanged(value: CompositeFilter) {
