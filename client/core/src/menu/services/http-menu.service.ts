@@ -133,7 +133,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-/*    refreshEasyBuilderApps(type: string): Observable<any> {
+    refreshEasyBuilderApps(type: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), applicationType:type };
         let url =this.callInfoService + 'application/refreshAll/';
         return this.httpService.postData(url, obj)
@@ -141,7 +141,7 @@ export class HttpMenuService {
                 return res;
             })
             .catch(this.handleError);
-    }*/
+    }
 
     getCurrentContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user') };

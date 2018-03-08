@@ -10,6 +10,7 @@ using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -19,22 +20,37 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 	public class ApplicationService : Service
 	{	
         ApplicationSerializer AppSerializer { get => Serializer as ApplicationSerializer; }
-        //---------------------------------------------------------------
-        public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
+		EasyStudioPreferences preferences;
+   
+		//---------------------------------------------------------------
+		public ApplicationService()
+		{
+			preferences = new EasyStudioPreferences();
+		}
+
+		//---------------------------------------------------------------
+		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
 			return PathFinder.PathFinderInstance.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
 		}
 
-        //---------------------------------------------------------------
-        public string RefreshAll(ApplicationType type)
-        {
-            PathFinder.PathFinderInstance.ApplicationInfos.Clear();
-            return GetAppsModsAsJson(type);
-        }
+		//---------------------------------------------------------------
+		public string GetCurrentContext(string user)
+		{
+			return preferences.GetCurrentContext(user);
+		}
 
 		//---------------------------------------------------------------
-		public ApplicationService()
+		public bool SetCurrentContext(string appName, string modName, bool isPairDefault)
 		{
+			return preferences.SetPreferences(appName, modName, isPairDefault);
+		}
+
+		//---------------------------------------------------------------
+		public string RefreshAll(ApplicationType type)
+		{
+			PathFinder.PathFinderInstance.ApplicationInfos.Clear();
+			return GetAppsModsAsJson(type);
 		}
 
 		//---------------------------------------------------------------
@@ -82,6 +98,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 return false;
             }
 		}
+
 
 		//---------------------------------------------------------------
 		public bool DeleteApplication(string applicationName)
@@ -271,6 +288,9 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
         internal static readonly string ErrorCreatingObject = "Error Creating Object";
         internal static readonly string ErrorDeletingObject = "Error Deleting Object";
-    }
+
+		internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
+		internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
+	}
 }
 

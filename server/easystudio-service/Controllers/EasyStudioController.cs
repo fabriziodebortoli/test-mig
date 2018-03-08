@@ -28,7 +28,7 @@ namespace Microarea.EasyStudio.Controllers
                 // rappresenta in json
                 // il file sarà per utente e conterrà per adesso currentApplication e CurrentModule
                 string res = string.Empty;
-
+				res = ApplicationServiceProp.GetCurrentContext(user);
                 return ToContentResult(res);
             }
 			catch (Exception e)
@@ -45,14 +45,14 @@ namespace Microarea.EasyStudio.Controllers
 			{
 				string appName = value["app"]?.Value<string>();
 				string modName = value["mod"]?.Value<string>();
-				string isPairDefault = value["def"]?.Value<string>();
+				bool? isPairDefault = value["def"]?.Value<bool>();
 				string user = value["user"]?.Value<string>();
 				string company = value["company"]?.Value<string>();
 
-                //    ApplicationService.CurrentApplication= appName;
-                //    ApplicationService.CurrentModule = modName;
+				//    ApplicationService.CurrentApplication= appName;
+				//    ApplicationService.CurrentModule = modName;
 
-                /*TODOROBY SCRIVERE ESPREFERENCES.json
+				/*TODOROBY SCRIVERE ESPREFERENCES.json
 				ritornare l'esito di questa operazione ad angular ????????
 				bool e1 = false, e2 = false;
 				if (Convert.ToBoolean(isPairDefault))
@@ -60,7 +60,9 @@ namespace Microarea.EasyStudio.Controllers
 					e1 = EsPreferences.Write(defaultContextApplication, appName, user, company);
 					e2 = EsPreferences.Write(defaultContextModule, modName, user, company);
 				}*/
-                return ToContentResult("");
+
+				bool outcome= ApplicationServiceProp.SetCurrentContext(appName, modName, isPairDefault ?? false);
+				return ToContentResult(outcome.ToString());
 			}
 			catch (Exception e)
 			{

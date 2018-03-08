@@ -1,144 +1,173 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TaskBuilderNetCore.EasyStudio.Services;
-using System;
-using TaskBuilderNetCore.Interfaces;
-using TaskBuilderNetCore.EasyStudio.Interfaces;
+﻿using System;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
+using TaskBuilderNetCore.Interfaces;
+using TaskBuilderNetCore.EasyStudio.Services;
+using TaskBuilderNetCore.EasyStudio.Interfaces;
 
 namespace Microarea.EasyStudio.Controllers
 {
 	//=========================================================================
 	[Route("easystudio/application")]
-    public class ApplicationController : BaseController
-    {
-        //=========================================================================
-        internal class Strings
-        {
-            internal static readonly string applicationName = "applicationName";
-            internal static readonly string applicationType = "applicationType";
-            internal static readonly string moduleName = "moduleName";
-            internal static readonly string verbose = "verbose";
+	public class ApplicationController : BaseController
+	{
+		//=========================================================================
+		internal class Strings
+		{
+			internal static readonly string applicationName = "applicationName";
+			internal static readonly string applicationType = "applicationType";
+			internal static readonly string moduleName = "moduleName";
+			internal static readonly string verbose = "verbose";
 
-            internal static readonly string MissingApplicationType = "Missing parameter applicationType";
-            internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
-            internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
-        }
-
-        private ApplicationService service;
-        //---------------------------------------------------------------------
-        private ApplicationService ApplicationService
-        {
-            get
-            {
-                if (service == null)
-                    service = Services?.GetService(typeof(ApplicationService)) as ApplicationService;
-
-                return service;
-            }
-        }
-
-        public override IDiagnosticProvider Diagnostic { get => ApplicationService.Diagnostic; }
-        //---------------------------------------------------------------------
-        public ApplicationController(IServiceManager serviceManager)
-            :
-            base(serviceManager)
-        {
+			internal static readonly string MissingApplicationType = "Missing parameter applicationType";
+			internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
+			internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
 		}
 
-        //-----------------------------------------------------------------------
-        [Route("create")]
-        public IActionResult Create([FromBody] JObject value)
-        {
-            string applicationName = value[EasyStudioControllerParameters.Strings.applicationName]?.Value<string>();
-            var applicationType = value[EasyStudioControllerParameters.Strings.applicationType]?.ToObject<ApplicationType>();
-            var moduleName = value[EasyStudioControllerParameters.Strings.moduleName]?.Value<string>();
-            var verbose = jsonParams[Strings.verbose];
 
-            if (!ApplicationService.ExistsApplication(applicationName))
-            {
-                if (applicationType == null)
-                {
-                    ApplicationService.Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
-                    return BadRequest(ApplicationService.Diagnostic);
-                }
-            }
-            return Create(applicationName, (ApplicationType) applicationType, moduleName, verbose != null);
-        }
 
-        //-----------------------------------------------------------------------
-        [Route("delete")]
-        public IActionResult Delete(string parameters)
-        {
-            JObject jsonParams = JObject.Parse(parameters);
-            string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
-            var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
-            var verbose = jsonParams[Strings.verbose];
+		public override IDiagnosticProvider Diagnostic => ApplicationServiceProp.Diagnostic;
+		//---------------------------------------------------------------------
+		public ApplicationController(IServiceManager serviceManager)
+			:
+			base(serviceManager)
+		{
+		}
 
-            return Delete(applicationName, moduleName, verbose != null);
-        }
+		//-----------------------------------------------------------------------
+		[Route("create")]
+		public IActionResult Create([FromBody] JObject value)
+		{
+			string applicationName = value[Strings.applicationName]?.Value<string>();
+			var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+			var moduleName = value[Strings.moduleName]?.Value<string>();
+			var verbose = value[Strings.verbose]?.Value<bool>();
 
-        //---------------------------------------------------------------------
-        [Route("getAllAppsAndModules")]
-        public IActionResult GetAllAppsAndModules([FromBody] JObject value)
-        {
-            try
-            {
-                var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+			if (!ApplicationServiceProp.ExistsApplication(applicationName))
+			{
+				if (applicationType == null)
+				{
+					ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
+					return BadRequest(ApplicationServiceProp.Diagnostic);
+				}
+			}
 
-                ApplicationType appType = ApplicationType.All;
-                if (applicationType != null)
-                    appType = (ApplicationType)applicationType;
+			//ApplicationServiceProp.Create(applicationName, applicationType, moduleName, verbose);
 
-                var json = ApplicationService.GetAppsModsAsJson(appType);
-                return ToContentResult(json);
-            }
-            catch (Exception e)
-            {
-                ApplicationService.Diagnostic.Add(DiagnosticType.Error, e.Message);
-                return Ok(ApplicationService.Diagnostic);
-            }
-        }
+			return Create(applicationName, (ApplicationType)applicationType, moduleName, verbose != null);
+		}
 
-        //-----item-customizations-dropdown--------------------------------------------------------------
-        [Route("getEasyStudioCustomizationsListFor")]
+		//-----------------------------------------------------------------------
+		private IActionResult Create(string applicationName, ApplicationType applicationType, string moduleName = "", bool verbose = false)
+		{
+			bool success = true;
+			if (!ApplicationServiceProp.ExistsApplication(applicationName))
+				success = ApplicationServiceProp.CreateApplication(applicationName, applicationType);
+
+			if (success && !string.IsNullOrEmpty(moduleName))
+				success = ApplicationServiceProp.CreateModule(applicationName, moduleName);
+
+			if (success && verbose)
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyCreated));
+
+			if (success)
+			{
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Information, Strings.ObjectSuccessfullyCreated);
+				return ToContentResult(200, ApplicationServiceProp.Diagnostic);
+			}
+			return 	ToContentResult(500, ApplicationServiceProp.Diagnostic);
+			//return Ok(ApplicationServiceProp.Diagnostic.AsJson);
+		}
+
+		//-----------------------------------------------------------------------
+		[Route("delete")]
+		public IActionResult Delete(string parameters)
+		{
+			JObject jsonParams = JObject.Parse(parameters);
+			string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
+			var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
+			var verbose = jsonParams[Strings.verbose];
+
+			return Delete(applicationName, moduleName, verbose != null);
+		}
+
+		//-----------------------------------------------------------------------
+		private IActionResult Delete(string applicationName, string moduleName, bool verbose = false)
+		{
+			bool success = true;
+			if (!string.IsNullOrEmpty(moduleName))
+				success = ApplicationServiceProp.DeleteModule(applicationName, moduleName);
+			else
+				success = ApplicationServiceProp.DeleteApplication(applicationName);
+
+			if (success && verbose)
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyDeleted));
+
+			return Ok(ApplicationServiceProp.Diagnostic);
+		}
+
+		//---------------------------------------------------------------------
+		[Route("getAllAppsAndModules")]
+		public IActionResult GetAllAppsAndModules([FromBody] JObject value)
+		{
+			try
+			{
+				var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+
+				ApplicationType appType = ApplicationType.All;
+				if (applicationType != null)
+					appType = (ApplicationType)applicationType;
+
+				string json = ApplicationServiceProp.GetAppsModsAsJson(appType);
+				return ToContentResult(json);
+			}
+			catch (Exception e)
+			{
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Error, e.Message);
+				return Ok(ApplicationServiceProp.Diagnostic);
+			}
+		}
+
+		//-----item-customizations-dropdown--------------------------------------------------------------
+		[Route("getEasyStudioCustomizationsListFor")]
 		public IActionResult GetEasyStudioCustomizationsListFor([FromBody] JObject value)
 		{
 			try
 			{
 				string docNS = value["ns"]?.Value<string>();
 				string user = value["user"]?.Value<string>();
-				var res = ApplicationService.GetEasyStudioCustomizationsListFor(docNS, user);
+				var res = ApplicationServiceProp.GetEasyStudioCustomizationsListFor(docNS, user);
 
-                return ToContentResult(res);
+				return ToContentResult(res);
 			}
 			catch (Exception e)
 			{
-                ApplicationService.Diagnostic.Add(DiagnosticType.Error, e.Message);
-                return Ok(ApplicationService.Diagnostic);
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Error, e.Message);
+				return Ok(ApplicationServiceProp.Diagnostic);
 			}
 		}
 
-    /*    //---------------------------------------------------------------------
-        [Route("refreshAll")]
-        public IActionResult RefreshAll([FromBody] JObject value)
-        {
-            try
-            {
-                var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+		//---------------------------------------------------------------------
+		[Route("refreshAll")]
+		public IActionResult RefreshAll([FromBody] JObject value)
+		{
+			try
+			{
+				var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
 
-                ApplicationType appType = ApplicationType.All;
-                if (applicationType != null)
-                    appType = (ApplicationType) applicationType;
+				ApplicationType appType = ApplicationType.All;
+				if (applicationType != null)
+					appType = (ApplicationType)applicationType;
 
-                var json = ApplicationService.RefreshAll(appType);
+				var json = ApplicationServiceProp.RefreshAll(appType);
 
-                return ToContentResult(json);
-            }
-            catch (Exception e)
-            {
-                ApplicationService.Diagnostic.Add(DiagnosticType.Error, e.Message);
-                return Ok(ApplicationService.Diagnostic);
-            }
-        }*/
+				return ToContentResult(json);
+			}
+			catch (Exception e)
+			{
+				ApplicationServiceProp.Diagnostic.Add(DiagnosticType.Error, e.Message);
+				return Ok(ApplicationServiceProp.Diagnostic.AsJson);
+			}
+		}
 	}
 }

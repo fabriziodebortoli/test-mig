@@ -16,20 +16,25 @@ namespace Microarea.EasyStudio.AspNetCore
                 base.OnActionExecuted(context);
                 return;
             }
+			
 
-            if (controller.Diagnostic != null)
+			if (controller.Diagnostic != null)
             {
-                if (controller.Diagnostic.HasErrors)
-                    context.HttpContext.Response.StatusCode = 500;
-                else if (controller.Diagnostic.HasWarnings)
-                    context.HttpContext.Response.StatusCode = 500;
-                else
-                    context.HttpContext.Response.StatusCode = 200;
+				string content = controller.Diagnostic.AsJson;
+				if (controller.Diagnostic.HasErrors)
+					context.HttpContext.Response.StatusCode = 500;
+				else if (controller.Diagnostic.HasWarnings)
+					context.HttpContext.Response.StatusCode = 500;
+				else
+				{
+					context.HttpContext.Response.StatusCode = 200;
+					content = ((ContentResult)context.Result).Content;
+				}
 
                 context.Result = new ContentResult
                 {
                     StatusCode = context.HttpContext.Response.StatusCode,
-                    Content = controller.Diagnostic.AsJson,
+                    Content = content,
                     ContentType = "application/json"
                 };
             }

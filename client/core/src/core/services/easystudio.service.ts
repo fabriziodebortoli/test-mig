@@ -165,7 +165,7 @@ export class EasystudioService {
        // let resultJson = result.json();
        
         let body = JSON.parse((result["_body"]));
-        if(!body || !body["allApplications"]) return false;
+        if(!body) return false;
         this.memoryESContext = body; //JSON.parse(body.Message);
         let allApplications = this.memoryESContext["allApplications"];
 
@@ -205,6 +205,7 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public refreshEasyBuilderApps(type) {
         this.httpMenuService.updateCachedDateAndSave().subscribe();
+        this.httpMenuService.refreshEasyBuilderApps(type);
         this.initEasyStudioContext(type);
     }
 
