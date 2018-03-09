@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, Input, OnDestroy, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, QueryList, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -31,7 +31,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 })
 export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
 
-  @ContentChildren(BodyEditColumnComponent) be_columns;
+  @ContentChildren(BodyEditColumnComponent) be_columns: QueryList<BodyEditColumnComponent>;
   @ViewChild(GridComponent) grid;
 
   @Input() bodyEditName: string;
@@ -41,7 +41,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentGridIdx;
   fakeRows = [];
-
+  subscriptions = [];
+  
+  private numberOfColumns: number = 0;
 
   public enabled: boolean = false;
 
@@ -114,6 +116,13 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.createFakeRows(numberOfVisibleRows);
     this.bodyEditService.pageSize = Math.max(this.bodyEditService.pageSize, numberOfVisibleRows);
 
+    this.subscriptions.push(this.be_columns.changes.subscribe((changes) => {
+      if (this.numberOfColumns != changes.length) {
+        this.numberOfColumns = changes.length;
+        this.resetBodyEditColumns();
+      }
+    }));
+
     if (this.bodyEditService.skip < 0) {
       this.bodyEditService.skip = 0;
       this.changeDBTRange();
@@ -121,6 +130,15 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
     this.bodyEditService.bodyEditName = this.bodyEditName;
 
+
+    resolvedPromise.then(() => {
+      this.resetBodyEditColumns();
+    });
+
+    this.subscribeToSelector();
+  }
+
+  resetBodyEditColumns() {
     resolvedPromise.then(() => {
       let cols = this.be_columns.toArray();
       let internalColumnComponents = [];
@@ -129,8 +147,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       }
       this.grid.columns.reset(internalColumnComponents);
     });
-    this.subscribeToSelector();
   }
+
 
   //-----------------------------------------------------------------------------------------------
   ngAfterViewInit() {
@@ -166,7 +184,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
   }
 
-   //-----------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------------------
   createFakeRows(numberOfVisibleRows: number) {
     for (let index = 0; index < numberOfVisibleRows; index++) {
       this.fakeRows.push({})

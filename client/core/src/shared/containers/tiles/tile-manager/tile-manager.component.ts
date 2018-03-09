@@ -1,5 +1,5 @@
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
@@ -26,34 +26,57 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
     ])
   ]
 })
-export class TileManagerComponent extends TbComponent implements AfterContentInit {
+export class TileManagerComponent extends TbComponent implements AfterContentInit, OnDestroy {
 
+  subscriptions = [];
   selectorCollapsed: string = localStorage.getItem('selectorCollapsed') ? localStorage.getItem('selectorCollapsed') : 'expanded';
   idxActive: number = 0;
-
+  numberOfTabs: number = 0;
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
-
   @ContentChildren(TileManagerTabComponent) tilegroups: QueryList<TileManagerTabComponent>;
+  constructor(
+    public layoutService: LayoutService,
+    public logger: Logger,
+    public tbComponentService: TbComponentService,
+    protected changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(tbComponentService, changeDetectorRef);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((s) => { s.unsubscribe(); });
+  }
+
   getTilegroups() {
     return this.tilegroups.toArray();
   }
 
   ngAfterContentInit() {
     resolvedPromise.then(() => {
-      let tilegroups = this.tilegroups.toArray();
-      let internalTabComponents = [];
-      for (let i = 0; i < tilegroups.length; i++) {
-        internalTabComponents.push(tilegroups[i].tabComponent);
-      }
-      this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-      this.changeTilegroupByIndex(0);
+      this.resetTileManagerTabs();
     });
+
+    this.subscriptions.push(this.tilegroups.changes.subscribe((changes) => {
+      if (this.numberOfTabs != changes.length) {
+        this.numberOfTabs = changes.length;
+        this.resetTileManagerTabs();
+      }
+    }));
+  }
+
+  resetTileManagerTabs() {
+    let tilegroups = this.tilegroups.toArray();
+    let internalTabComponents = [];
+    for (let i = 0; i < tilegroups.length; i++) {
+      internalTabComponents.push(tilegroups[i].tabComponent);
+    }
+    this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+    this.changeTilegroupByIndex(0);
   }
 
   changeTilegroupByIndex(i) {
     this.idxActive = i;
     this.kendoTabStripInstance.selectTab(i)
-    // this.logger.debug("this.idxActive", this.idxActive)
   }
 
   getSelectorIcon() {
@@ -64,35 +87,4 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
     this.selectorCollapsed = this.selectorCollapsed === 'expanded' ? 'collapsed' : 'expanded';
     localStorage.setItem('selectorCollapsed', this.selectorCollapsed);
   }
-
-  // public viewHeightSubscription: Subscription;
-  // viewHeight: number;
-
-  constructor(
-    public layoutService: LayoutService,
-    public logger: Logger,
-    public tbComponentService: TbComponentService,
-    protected changeDetectorRef: ChangeDetectorRef
-  ) {
-    super(tbComponentService, changeDetectorRef);
-  }
-
-  ngOnInit() {
-    // this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);//TODO riattivare nel caso
-  }
-
-  ngOnDestroy() {
-    // this.viewHeightSubscription.unsubscribe(); //TODO riattivare nel caso
-  }
-
-  // ngAfterContentInit() {
-  //   // get all active tiles
-  //   let activeTiles = this.tiles.filter((tile) => tile.active);
-
-  //   //if there is no active tab set, activate the first
-  //   if (activeTiles.length === 0 && this.tiles.toArray().length > 0) {
-  //     this.selectTile(this.tiles.first);
-  //   }
-  // }
-
 }

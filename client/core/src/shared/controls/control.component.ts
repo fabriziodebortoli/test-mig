@@ -21,16 +21,23 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     private _model: any;
     private _width: number;
     private _height: number;
-    
+    private _caption: string;
+
     @Input()
-    public caption: string;
+    set caption(caption: any) {
+        this._caption = caption instanceof Object ? caption.value : caption;
+    }
+
+    get caption() {
+        return this._caption;
+    }
 
     @Input()
     contextMenu: ContextMenuItem[] = [];
     @Input()
     stateData: StateData;
     @Input()
-    hideCaption : boolean = false;
+    hideCaption: boolean = false;
     @Input()
     public args: any;
     @Input()
@@ -39,7 +46,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     public formatter: string;
 
     public widthFactor: number = 1;
-    public heightFactor: number = 1; 
+    public heightFactor: number = 1;
 
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
@@ -55,15 +62,11 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }
 
-    // ngOnChanges() {
-    //     //  this.eventData.change.emit(this.cmpId);
-    // }
-
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
     componentClass() {
-       return (!this.model || this.model.visible) ? '' : 'hiddenControl';
+        return (!this.model || this.model.visible) ? '' : 'hiddenControl';
     }
     get width(): number {
         return this._width;
@@ -101,14 +104,13 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set value(val: any) {
-        if (!this._model)
-        {
+        if (!this._model) {
             this.model = createEmptyModel();
         }
         this._model.value = val;
     }
 
-    protected onTranslationsReady() { 
+    protected onTranslationsReady() {
         super.onTranslationsReady();
     }
 
