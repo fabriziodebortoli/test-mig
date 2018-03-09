@@ -995,10 +995,10 @@ int CClientDocArray:: OnModifyHKLSearchComboQueryData
 //-----------------------------------------------------------------------------
 BOOL CClientDocArray::OnGetCustomColor (const CBodyEdit* pBody, CBodyEditRowSelected* pRow)
 {
-	for (int i = 0; i <= GetUpperBound(); i++)
-		if (GetAt(i)->OnGetCustomColor (pBody, pRow))
-			return TRUE;
-	return FALSE;
+    BOOL bOk = FALSE;
+    for (int i = 0; i <= GetUpperBound(); i++)
+		bOk = GetAt(i)->OnGetCustomColor (pBody, pRow) || bOk;
+    return bOk;
 }
 
 //----------------------------------------------------------------------------------
