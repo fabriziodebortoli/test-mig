@@ -12,6 +12,8 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
         void Add(Exception ex);
         bool HasErrors { get; }
         bool HasWarnings { get; }
+        bool IsEmpty { get; }
         string AsJson { get; }
+        void Clear();
     }
 }

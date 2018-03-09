@@ -10,7 +10,6 @@ using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
 using System;
-using Microsoft.AspNetCore.Mvc;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -20,36 +19,22 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 	public class ApplicationService : Service
 	{	
         ApplicationSerializer AppSerializer { get => Serializer as ApplicationSerializer; }
-		EasyStudioPreferences preferences;
    
 		//---------------------------------------------------------------
 		public ApplicationService()
 		{
-			preferences = new EasyStudioPreferences();
 		}
 
 		//---------------------------------------------------------------
 		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			return PathFinder.PathFinderInstance.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
-		}
-
-		//---------------------------------------------------------------
-		public string GetCurrentContext(string user, bool getDefault)
-		{
-			return preferences.GetCurrentContext(user, getDefault);
-		}
-
-		//---------------------------------------------------------------
-		public bool SetCurrentContext(string appName, string modName, bool isPairDefault)
-		{
-			return preferences.SetPreferences(appName, modName, isPairDefault);
+			return PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
 		}
 
 		//---------------------------------------------------------------
 		public string RefreshAll(ApplicationType type)
 		{
-			PathFinder.PathFinderInstance.ApplicationInfos.Clear();
+			PathFinder.ApplicationInfos.Clear();
 			return GetAppsModsAsJson(type);
 		}
 
@@ -64,6 +49,11 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 
             try
             {
+                if (ExistsApplication(applicationName))
+                {
+                    Diagnostic.Add(DiagnosticType.Error, string.Concat(applicationName, " ", Strings.ApplicationAlreadyExists));
+                    return false;
+                }
                 return AppSerializer.CreateApplication(applicationName, type);
             }
             catch (Exception ex)
@@ -99,9 +89,21 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             }
 		}
 
+        //-----------------------------------------------------------------------
+        public bool Create(string applicationName, ApplicationType applicationType, string moduleName = "")
+        {
+            bool success = true;
+            if (!ExistsApplication(applicationName))
+                success = CreateApplication(applicationName, applicationType);
 
-		//---------------------------------------------------------------
-		public bool DeleteApplication(string applicationName)
+            if (success && !string.IsNullOrEmpty(moduleName))
+                success = CreateModule(applicationName, moduleName);
+
+            return success;
+        }
+
+        //---------------------------------------------------------------
+        public bool DeleteApplication(string applicationName)
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
@@ -144,6 +146,15 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 Diagnostic.NotifyMessage(ex);
                 return false;
             }
+        }
+
+        //-----------------------------------------------------------------------
+        public bool Delete(string applicationName, string moduleName = "")
+        {
+            if (!string.IsNullOrEmpty(moduleName))
+                return DeleteModule(applicationName, moduleName);
+
+            return DeleteApplication(applicationName);
         }
 
         //---------------------------------------------------------------
@@ -291,6 +302,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
 		internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
 		internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
-	}
+        internal static readonly string ApplicationAlreadyExists = "Application already exists!";
+
+    }
 }
 

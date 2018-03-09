@@ -18,7 +18,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         {
             get
             {
-                ModuleInfo moduleInfo = PathFinder.PathFinderInstance.GetModuleInfoByName(NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
+                ModuleInfo moduleInfo = PathFinder.GetModuleInfoByName(NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
                 if (moduleInfo == null)
                     return string.Empty;
 

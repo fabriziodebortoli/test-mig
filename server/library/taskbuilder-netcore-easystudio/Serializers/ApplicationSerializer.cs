@@ -18,7 +18,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
         {
             EnsurePathFinder();
 
-            string containerFolder = PathFinder.PathFinderInstance.GetStandardApplicationContainerPath(type);
+            string containerFolder = PathFinder.GetStandardApplicationContainerPath(type);
             string appFolder = System.IO.Path.Combine(containerFolder, applicationName);
             try
             {

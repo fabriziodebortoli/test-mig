@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace TaskBuilderNetCore.EasyStudio
 {
+    //=========================================================================
     public class DiagnosticProvider : IDiagnosticProvider
     {
         Diagnostic diagnostic;
@@ -23,7 +24,8 @@ namespace TaskBuilderNetCore.EasyStudio
 
         public bool HasErrors { get => diagnostic.Error; }
         public bool HasWarnings { get => diagnostic.Warning; }
-        
+        public bool IsEmpty { get => diagnostic.AllItems.Length == 0; }
+
         //---------------------------------------------------------------
         public DiagnosticProvider(string name)
         {
@@ -47,6 +49,12 @@ namespace TaskBuilderNetCore.EasyStudio
         {
             Debug.Fail(ex.Message);
             Add(DiagnosticType.FatalError, ex.Message);
+        }
+
+        //---------------------------------------------------------------
+        public void Clear()
+        {
+            diagnostic.Clear();
         }
     }
 }

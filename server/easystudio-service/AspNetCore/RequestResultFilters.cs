@@ -8,6 +8,16 @@ namespace Microarea.EasyStudio.AspNetCore
     public class RequestResultFilters : ActionFilterAttribute
     {
         //---------------------------------------------------------------------
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            BaseController controller = context.Controller as BaseController;
+            if (controller != null && controller.Diagnostic != null)
+                controller.Diagnostic.Clear();
+
+            base.OnActionExecuting(context);
+        }
+
+        //---------------------------------------------------------------------
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             BaseController controller = context.Controller as BaseController;
