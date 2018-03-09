@@ -307,7 +307,7 @@ public:
 								);
 	BOOL RegisterAddOnLibrayTables	(AddOnLibrary*, AddOnApplication* = NULL);	
 
-	// retituisce le infomazioni sul Provider
+	BOOL CheckAddOnModuleRelease(AddOnModule*, CDiagnostic*) { return TRUE; }	//lasciato per compatibiità di codice 
 	BOOL					TablesPresent	()	const { return m_bTablesPresent; }
 	
 	virtual LPCSTR		GetObjectName() const	 { return "SqlConnection"; }
