@@ -28,9 +28,9 @@
                             </kendo-textbox-container>
                         </div>
 
-                        <div class="form-control" [ngClass]="companies?.length <= 1 ? 'hidden' :''">
+                        <div class="form-control">
                             <p class="floatingLabel">{{_TB('Company')}}</p>
-                            <kendo-dropdownlist [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
+                            <kendo-dropdownlist [disabled]="companies?.length <= 1" [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
                         </div>
 
                         <div class="form-control chkClearCache">
