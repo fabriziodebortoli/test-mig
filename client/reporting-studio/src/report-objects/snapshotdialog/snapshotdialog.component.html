@@ -6,32 +6,34 @@
             <tr>
                 <th (click)="sortTable(0)">Name</th>
                 <th (click)="sortTable(1)">Date</th>
-                <th (click)="sortTable(2)">AllUsers</th>
+                <!--th (click)="sortTable(2)">AllUsers</th-->
             </tr>
             <tr *ngFor="let snap of this.rsExportService.snapshots; let i=index">
                 <td><button id="link" (click)="runSnapshot(snap.name, snap.date, snap.allUsers)">{{snap.name}}</button></td>
                 <td>{{snap.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
-                <td>{{snap.allUsers}}</td>
+                <!--td>{{snap.allUsers}}</td-->
             </tr>
         </table>   
         <br>     
     </div>
        <br>
-        <h3>Save for</h3>
-        <hr> 
+       <h3>Create new snapshot</h3>
+       <hr>
+       <kendo-textbox-container>
+        <div class="inputName">
+            <label>Name </label>
+            <input kendoTextBox maxlength="40" [(ngModel)]="nameSnapshot" required="required"/>
+        </div>
+    </kendo-textbox-container>
+    <br>
+    <br>
+    <h3>Save for</h3>
+
         <mat-radio-button checked="checked" (click)="setSingleUser()">This user</mat-radio-button>
         <br>
         <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
-   <br>
-   <br>
-        <h3>Create new snapshot</h3>
-        <hr> 
-        <kendo-textbox-container>
-            <div class="inputName">
-                <label>Name </label>
-                <input kendoTextBox maxlength="40" [(ngModel)]="nameSnapshot" required="required"/>
-            </div>
-        </kendo-textbox-container>
+  
+        
     <kendo-dialog-actions>
         <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Save</button>
     </kendo-dialog-actions>

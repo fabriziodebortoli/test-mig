@@ -1,3 +1,4 @@
+import { HttpServiceRs } from './services/rs-httpservice';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -28,7 +29,7 @@ import { Snapshot } from './report-objects/snapshotdialog/snapshot';
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService, RsExportService, EventDataService]
+  providers: [ReportingStudioService, RsExportService, EventDataService, HttpServiceRs]
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -56,6 +57,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
+    public httpServiceRs : HttpServiceRs,
     eventData: EventDataService,
     changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
@@ -424,16 +426,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
-  //--------------------------------------------------
+  //-------------------------------------------------- 
   startSnapshot() {
     this.rsExportService.snapshot = true;
-    let message = {
-      commandType: CommandType.ACTIVESNAPSHOT,
-      message: this.args.nameSpace,
-      page: 1
-    };
-
-    this.rsService.doSend(JSON.stringify(message));
+     this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe( resp => this.createTableSnapshots(resp)   )
+     //this.rsExportService.snapshots =this.httpServiceRs.snapArray;
   }
 
   //--------------------------------------------------

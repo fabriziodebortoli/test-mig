@@ -14,6 +14,7 @@ using Microarea.Common.Generic;
 using Microsoft.AspNetCore.Cors;
 using Microarea.Common;
 using System.Collections.Generic;
+using Microarea.Common.CoreTypes;
 
 
 /*
@@ -267,23 +268,74 @@ namespace Microarea.RSWeb.Controllers
         }
 
         //---------------------------------------------------------------------
-        //for DEBUG
-        [Route("dialogs/{namespace}")]
-        public IActionResult GetJsonDialog(string nameSpace, string name)
+        [Route("snapshot/list/{namespace}")]
+        public IActionResult GetSnapshotList(string nameSpace)
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
 
-            JsonReportEngine report = new JsonReportEngine(session);
-            report.Execute();
+            string s = "[";
 
-            string dlg = report.GetJsonAskDialogs();
+            foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
+            {
+                string[] split = file.name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
 
-            return new ContentResult { Content = dlg, ContentType = "application/json" };
+                DateTime dt;
+                bool b = DateTime.TryParse(file.name, out dt);
+
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
+            }
+
+            customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, NameSolverStrings.AllUsers);
+            destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
+
+            //first = true;
+            foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
+            {
+                string[] split = file.name.Split('_');
+                string date = split[0];
+                string nameS = split[1];
+                //if (first) first = false;
+                //else s += ',';
+
+                DateTime dt;
+                bool b = DateTime.TryParse(file.name, out dt);
+
+                string name = nameS.RemoveExtension(".json");
+                s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
+            }
+            if(s[s.Length - 1] == ',')
+                s = s.Remove(s.Length - 1);
+
+            s += "]";
+           
+            return new ContentResult { Content = s, ContentType = "application/json" };
         }
+        //---------------------------------------------------------------------
+        //[Route("snapshot/delete/{namespace}/{name}")]
+        /*public IActionResult DeleteSnapshot(string nameSpace, string name)
+        {
+            //UserInfo ui = GetLoginInformation();
+            //if (ui == null)
+            //    return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+
+            //TbReportSession session = new TbReportSession(ui, nameSpace);
+
+            //JsonReportEngine report = new JsonReportEngine(session);
+            //report.Execute();
+
+            //string dlg = string.Empty;
+
+            //return new ContentResult { Content = dlg, ContentType = "application/json" };
+        }*/
         //---------------------------------------------------------------------
     }
 }

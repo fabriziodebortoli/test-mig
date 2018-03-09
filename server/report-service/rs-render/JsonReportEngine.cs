@@ -334,7 +334,7 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.ACTIVESNAPSHOT:
                     {
-                        msg.message = ActiveSnapshot();
+                        msg.message = GetListSnapshots();
                         break;
                     }
                 case MessageBuilder.CommandType.RUNSNAPSHOT:
@@ -749,10 +749,10 @@ namespace Microarea.RSWeb.Render
             File.WriteAllText(path, pages);
         }
 
-        public string ActiveSnapshot()
+        public string GetListSnapshots()
         {
             WoormDocument woorm = StateMachine.Woorm;
-            List<string> nameFile = new List<string>();
+            //List<string> nameFile = new List<string>();
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
