@@ -11,13 +11,7 @@ namespace TaskBuilderNetCore.EasyStudio
 	//=========================================================================
 	public class EasyStudioPreferences
 	{
-		public string PreferencesPath
-		{
-			get
-			{
-				return PathFinder.PathFinderInstance.GetEasyStudioHomePath();
-			}
-		}
+		//---------------------------------------------------------------
 		public string PreferencesFullFileName
 		{
 			get
@@ -52,7 +46,9 @@ namespace TaskBuilderNetCore.EasyStudio
 				CreatePreferences();
 			}
 			XmlDocument doc = new XmlDocument();
-			doc.Load(GetPreferencesFile());
+			Stream stream = GetPreferencesFile();
+			stream.Position = 0;
+			doc.Load(stream);
 			XmlElement root = doc.DocumentElement;
 			if (root == null) return false;
 			var preferAttrib = root.GetAttributeNode(EasyStudioPreferencesXML.Element.ESPreferences);

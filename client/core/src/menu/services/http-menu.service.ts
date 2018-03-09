@@ -21,8 +21,8 @@ export class HttpMenuService {
         public httpService: HttpService,
         public infoService: InfoService
     ) { 
-      //  this.callInfoService = this.infoService.getDocumentBaseUrl(); 
-        this.callInfoService = this.infoService.getEasyStudioServiceUrl();
+        this.callInfoService = this.infoService.getDocumentBaseUrl(); 
+        //this.callInfoService = this.infoService.getEasyStudioServiceUrl();//per usare es-service .net core
     }
 
     getMenuElements(clearCachedData: boolean): Observable<any> {
