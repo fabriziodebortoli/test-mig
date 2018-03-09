@@ -3106,7 +3106,10 @@ void CAbstractFormDoc::OnTimer(UINT nTimer)
 		//qualcuno potrebbe averla forzata nel frattempo
 		if (m_bWaitingForUpdateDataView)
 			ExecuteUpdateDataView();
-		GetMasterFrame()->KillTimer(IDT_UPDATEDATAVIEW);
+		CLocalizableFrame* pFrame = GetFrame();
+		if (pFrame && pFrame->IsKindOf(RUNTIME_CLASS(CAbstractFormFrame)))
+			((CAbstractFormFrame*)pFrame)->KillTimer(IDT_UPDATEDATAVIEW);
+
 	}
 }
 //------------------------------------------------------------------------------
