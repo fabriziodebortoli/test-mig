@@ -7,8 +7,11 @@
 #include <TbWoormEngine\REPORT.H>
 #include <tbges\DocumentSession.h>
 #include <tbges\DBT.H>
+#include <tbges\HotFilterManager.H>
+
 #include "TBWebHandler.h"
 
+//-----------------------------------------------------------------------------
 
 CTbWebHandler::CTbWebHandler()
 	:
@@ -730,15 +733,20 @@ void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollect
 			return;
 		}
 		pHkl = pDoc->GetHotLink(hklName);
+		//if (!pHkl && pDoc->GetHotFilterManager())
+		//{
+		//	HotFilterObj* pHF = pDoc->GetHotFilterManager()->GetExistHotFilter(hklName);
+		//}
 		if (!pHkl)
+		{
 			return;
+		}
 	}
 	CString nsHkl = params.GetValueByName(_T("ns"));
 	CString args = params.GetValueByName(_T("args"));
 	DataInt nAction; nAction.Assign(params.GetValueByName(_T("action")));
 	CString sFilter = params.GetValueByName(_T("filter"));
 	DataStr ds = AfxGetTbCmdManager()->GetHotlinkQuery(nsHkl, args, nAction, sFilter, pHkl);
-
 
 	aResponse.SetOK();
 	aResponse.WriteString(_T("query"), ds.GetString());

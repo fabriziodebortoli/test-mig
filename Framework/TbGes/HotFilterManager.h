@@ -34,9 +34,10 @@ public:
 
 	template<class T> T* GetHotFilter(const CString& strName, const DataBool& bForce = FALSE) { return (T*)GetHotFilter(strName, RUNTIME_CLASS(T), bForce); }
 
+	HotFilterObj*		GetExistHotFilter	(const CString& strName);
+
 private:
 	HotFilterObj*		GetHotFilter		(const CString& strName, CRuntimeClass* pClass, const DataBool& bForce = FALSE);
-	HotFilterObj*		GetExistHotFilter	(const CString& strName);
 
 private:
 	CAbstractFormDoc* m_pCallerDoc;

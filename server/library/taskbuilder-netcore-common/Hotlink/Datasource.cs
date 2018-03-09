@@ -713,11 +713,15 @@ namespace Microarea.Common.Hotlink
                         title = f.Name;
                 }
 
+                string t = f.WoormType.ToJson("type", false, false);
+                if (f.EnumTag != 0)
+                    t += ',' + f.EnumTag.ToJson("enumTag");
+
                 records += '{' +
                            fname +
                            ',' +
-                           title.ToJson("caption", false, true) +   ","+
-                           f.WoormType.ToJson("type", false, false) +
+                           title.ToJson("caption", false, true) +  
+                           ',' + t +
                            '}';
             }
             records += "],\n\"rows\":[";

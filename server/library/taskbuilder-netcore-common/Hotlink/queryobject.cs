@@ -374,7 +374,7 @@ namespace Microarea.Common.Hotlink
                        ushort tag = 0;
                        string woormType = "";
                        if (parser.Matched(Token.TYPE))
-                        {
+                       {
                             string baseType = "";
 
                             if (!DataTypeParser.Parse(parser, this.session.Enums, out aType, out woormType, out tag, out baseType))
@@ -384,8 +384,8 @@ namespace Microarea.Common.Hotlink
 
                         if (tag > 0 && woormType == "Enum")
                         {
-                        //    woormType += '[' + tag.ToString() + ']';
-                            field.WoormType = woormType;
+                            field.WoormType = woormType;    // + '[' + tag.ToString() + ']';
+                            field.EnumTag = tag;
                         }
 
                         symbolTable.Add(field);

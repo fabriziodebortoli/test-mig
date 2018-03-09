@@ -19,7 +19,6 @@ namespace Microarea.Common.Hotlink
     public class SymField : Variable, IDisposable
     {
         protected  bool ruleDataFetched = false;
-
         protected int len = 0;              // they need for eventual store on
         public string Title = string.Empty;
 
@@ -27,8 +26,11 @@ namespace Microarea.Common.Hotlink
         {
         }
 
-        public SymField(string dataType, string name) : base(name)
-		{
+        public SymField(string dataType, string name, ushort enumTag = 0) 
+            : 
+            base(name) 
+        {
+            EnumTag = enumTag;
             this.data = ObjectHelper.CreateObject(dataType);
         }
 
