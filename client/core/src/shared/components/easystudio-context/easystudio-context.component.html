@@ -12,13 +12,13 @@
         </div>
     </div>
     <div class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-inscription" (click)="changeCustomizationContext()" matTooltip="{{openCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
+        <m4-icon icon="tb-master" (click)="changeCustomizationContext()" matTooltip="{{openCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
     </div>
     <div *ngIf="!contextIsValid()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-emptystar" (click)="openDefaultContextMethod()" matTooltip="{{_TB('Open Default Context')}}" matTooltipShowDelay="500"></m4-icon>
+        <m4-icon icon="tb-favorites" (click)="openDefaultContextMethod()" matTooltip="{{_TB('Open Default Context')}}" matTooltipShowDelay="500"></m4-icon>
     </div>
     <div *ngIf="contextIsValid()" class="ebButtons topBarMenuComponentLike">
-        <m4-icon icon="tb-shutdown" (click)="close()" matTooltip="{{closeCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
+        <m4-icon icon="tb-closewindows-2" (click)="close()" matTooltip="{{closeCustomizationContext}}" matTooltipShowDelay="500"></m4-icon>
     </div>
 
     <kendo-dialog *ngIf="opened" kendoRippleContainer (close)="cancel()">
@@ -59,8 +59,8 @@
                 <label [for]="moduleChosen1">{{_TB('Selected module')}}</label>
                 <input kendoTextBox #moduleChosen1 [(ngModel)]="moduleSelected" />
             </kendo-textbox-container>
-            <m4-icon class="pushB" icon="tb-plusmathfilled" (click)="showNewPair(true)" matTooltip="{{_TB('Insert new application name')}}" matTooltipShowDelay="500"></m4-icon>
-            <m4-icon class="pushB" icon="{{wantSetPairAsDefault || isDefault ? 'tb-filledstar' : 'tb-emptystar'}}" (click)="setDefaultContext()"></m4-icon>
+            <m4-icon class="pushB" icon="tb-add2" (click)="showNewPair(true)" matTooltip="{{_TB('Insert new application name')}}" matTooltipShowDelay="500"></m4-icon>
+            <m4-icon class="pushB" icon="{{wantSetPairAsDefault || isDefault ? 'tb-favoritespin' : 'tb-favorites'}}" (click)="setDefaultContext()"></m4-icon>
         </div>
         <div *ngIf="newPairVisible" class="pushbutton selected">
             <kendo-textbox-container class="textBoxCentral">
