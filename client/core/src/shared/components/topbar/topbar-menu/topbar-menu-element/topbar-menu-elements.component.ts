@@ -22,7 +22,7 @@ export class TopbarMenuElementsComponent {
     isMouseDown = false;
     currentItem: ContextMenuItem;
 
-    @Input() fontIcon = 'tb-menu2filled';
+    @Input() fontIcon = 'tb-menu2';
     @Input() menuElements: ContextMenuItem[];
     @ViewChild('anchor') divFocus: HTMLElement;
 
