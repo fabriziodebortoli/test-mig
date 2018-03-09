@@ -41,7 +41,7 @@ export class WidgetChartComponent implements AfterContentInit {
         visible: true,
         align: 'column',
         content: this.seriesLabelContent,
-        font: '11px Open Sans,sans-serif'
+        font: '11px Roboto,sans-serif'
       };
     }
 
