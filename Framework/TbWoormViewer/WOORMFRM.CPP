@@ -1172,9 +1172,13 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 		menu.AppendMenu(MF_STRING, ID_SAVE_ONLY_GRAPH_INFO,				(LPTSTR)(LPCTSTR)_TB("Save only &graphical data"));
 
 		if (nIdCommand == ID_FILE_SAVE)
+		{
 			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
 		else if (nIdCommand == ID_FILE_SAVE_2)
+		{
 			if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
 	}
 	else if (nIdCommand == ID_TOOLS || nIdCommand == ID_TOOLS_2)
 	{
@@ -1208,9 +1212,13 @@ BOOL CWoormFrame::OnPopulatedDropDown(UINT nIdCommand)
 		}
 
 		if (nIdCommand == ID_TOOLS)
+		{
 			if (m_pWEditToolBar) m_pWEditToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
 		else if (nIdCommand == ID_TOOLS_2)
+		{
 			if (m_pWToolBar) m_pWToolBar->UpdateDropdownMenu(nIdCommand, &menu);
+		}
 	}
 
 	return TRUE;
@@ -1247,7 +1255,7 @@ BOOL CWoormFrame::OnDrawMenuImage (	CDC* pDC, const CBCGPToolbarMenuButton* pMen
 			// Calculate for center the icon
 			CSize sz = rectImage.Size(); 
 			int xSpace = (int) ((sz.cx / 2) - (TOOLBARMENU_ICON_SIZE / 2));
-			int ySpace = (int) ((sz.cy / 2) - (TOOLBARMENU_ICON_SIZE/ 2));
+			int ySpace = (int) ((sz.cy / 2) - (TOOLBARMENU_ICON_SIZE / 2));
 			int xPos = rectImage.left + xSpace;
 			int yPos = rectImage.top + ySpace;
 
