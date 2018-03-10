@@ -2934,67 +2934,6 @@ CString SqlTable::GetBuildSelect() const
 	return strSelect;
 }
 
-
-//-----------------------------------------------------------------------------
-CString SqlTable::GetQuery()
-{
-	if (m_pRecord && m_pRecord->IsVirtual())
-		return _T("");
-
-	if (!m_pRowSet)
-		ThrowSqlException(cwsprintf(_TB("SqlTable::Query: before carry out query\n  table {0-%s} isn't open."), m_strTableName));
-
-	if (m_bErrorFound)
-		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
-
-	m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
-	m_bDeleted = FALSE;
-	TRY
-	{
-		// database query
-		if (m_bFirstQuery)
-		{
-			BuildSelect();
-			TRACE_SQL(cwsprintf(_T("Query %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
-			Prepare();
-			VERIFY(BindColumns());
-			BindParameters();
-
-			m_bFirstQuery = FALSE;
-		}
-		else
-		{
-			// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
-			if (m_strOldSQL != m_strSQL)
-				ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));
-
-			m_pRowSet->Dispose();
-
-			ValorizeContextBagParameters();
-			ValorizeRowSecurityParameters();
-			FixupParameters();
-		}
-	}
-	CATCH(MSqlException, e)
-	{
-		m_pSqlSession->ShowMessage(
-			cwsprintf
-			(
-				_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
-				(LPCTSTR)m_strTableName,
-				(LPCTSTR)e->m_strError
-			)
-		);
-
-		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
-		m_pRowSet->Dispose();
-		return _T("");
-	}
-	END_CATCH
-
-	return ToString(FALSE, FALSE, TRUE);
-}
-
 //-----------------------------------------------------------------------------
 void SqlTable::AddContextBagFilters()
 {
@@ -5077,7 +5016,7 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 				if (pElem)
 				{
 					DataType dt = pElem->GetDataType();
-					CString name = pElem->GetBindName();
+					CString name = pElem->GetBindName(TRUE);
 
 					CString title;
 					int pos = name.Find('.');
@@ -5216,6 +5155,66 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 		}
 	}
 	return query;
+}
+
+//-----------------------------------------------------------------------------
+CString SqlTable::GetQuery()
+{
+	if (m_pRecord && m_pRecord->IsVirtual())
+		return _T("");
+
+	if (!m_pRowSet)
+		ThrowSqlException(cwsprintf(_TB("SqlTable::Query: before carry out query\n  table {0-%s} isn't open."), m_strTableName));
+
+	if (m_bErrorFound)
+		ThrowSqlException(cwsprintf(_TB("SqltTable::Query: errors occurred in the command construction phase on table {0-%s}"), m_strTableName));
+
+	m_bEOFSeen = m_bBOF = m_bEOF = TRUE;
+	m_bDeleted = FALSE;
+	TRY
+	{
+		// database query
+		if (m_bFirstQuery)
+		{
+			BuildSelect();
+			TRACE_SQL(cwsprintf(_T("Query %s %s (%s)"), (LPCTSTR)GetTableName(), (LPCTSTR)m_strFilter, (LPCTSTR)GetParamStr(this)), this);
+			Prepare();
+			VERIFY(BindColumns());
+			BindParameters();
+
+			m_bFirstQuery = FALSE;
+		}
+		else
+		{
+			// Qualcuno ha cambiato la query senza chiudere e riaprire la table?
+			if (m_strOldSQL != m_strSQL)
+				ThrowSqlException(_TB("SqlTable::Query(): query changed without closing or reopening the table."));
+
+			m_pRowSet->Dispose();
+
+			ValorizeContextBagParameters();
+			ValorizeRowSecurityParameters();
+			FixupParameters();
+		}
+	}
+		CATCH(MSqlException, e)
+	{
+		m_pSqlSession->ShowMessage(
+			cwsprintf
+			(
+				_TB("Errors on select from table {0-%s}.\r\n{1-%s}"),
+				(LPCTSTR)m_strTableName,
+				(LPCTSTR)e->m_strError
+			)
+		);
+
+		TRACE(L"%s\n", (LPCTSTR)e->m_strError);
+		m_pRowSet->Dispose();
+		return _T("");
+	}
+	END_CATCH
+
+	return ToString(FALSE, FALSE, TRUE);
 }
 
 //-----------------------------------------------------------------------------

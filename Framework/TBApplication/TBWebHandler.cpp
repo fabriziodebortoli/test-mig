@@ -711,49 +711,6 @@ void CTbWebHandler::RunFunction(const CString& path, const CNameValueCollection&
 }
 
 //--------------------------------------------------------------------------------
-void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString sDocumentID = params.GetValueByName(_T("cmpId"));
-	CJSonResponse aResponse;
-	HotKeyLink* pHkl = NULL;
-	if (!sDocumentID.IsEmpty())
-	{
-		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-		ENSURE_SESSION();
-		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
-		if (!pDoc)
-		{
-			aResponse.SetMessage(_TB("Invalid document ID.")); 
-			return;
-		}
-		CString hklName = params.GetValueByName(_T("hklName"));
-		if (hklName.IsEmpty())
-		{
-			aResponse.SetMessage(_TB("Hotlink istance name seems missing...."));
-			return;
-		}
-		pHkl = pDoc->GetHotLink(hklName);
-		//if (!pHkl && pDoc->GetHotFilterManager())
-		//{
-		//	HotFilterObj* pHF = pDoc->GetHotFilterManager()->GetExistHotFilter(hklName);
-		//}
-		if (!pHkl)
-		{
-			return;
-		}
-	}
-	CString nsHkl = params.GetValueByName(_T("ns"));
-	CString args = params.GetValueByName(_T("args"));
-	DataInt nAction; nAction.Assign(params.GetValueByName(_T("action")));
-	CString sFilter = params.GetValueByName(_T("filter"));
-	DataStr ds = AfxGetTbCmdManager()->GetHotlinkQuery(nsHkl, args, nAction, sFilter, pHkl);
-
-	aResponse.SetOK();
-	aResponse.WriteString(_T("query"), ds.GetString());
-	response.SetData(aResponse);
-}
-
-//--------------------------------------------------------------------------------
 void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
 	CString sDocumentID = params.GetValueByName(_T("cmpId"));
@@ -874,7 +831,6 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 	}
 }
 
-
 //--------------------------------------------------------------------------------
 void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
@@ -910,6 +866,49 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
 	}
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetHotlinkQuery(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CJSonResponse aResponse;
+	HotKeyLink* pHkl = NULL;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			return;
+		}
+		CString hklName = params.GetValueByName(_T("hklName"));
+		if (hklName.IsEmpty())
+		{
+			aResponse.SetMessage(_TB("Hotlink istance name seems missing...."));
+			return;
+		}
+		pHkl = pDoc->GetHotLink(hklName);
+		//if (!pHkl && pDoc->GetHotFilterManager())
+		//{
+		//	HotFilterObj* pHF = pDoc->GetHotFilterManager()->GetExistHotFilter(hklName);
+		//}
+		if (!pHkl)
+		{
+			return;
+		}
+	}
+	CString nsHkl = params.GetValueByName(_T("ns"));
+	CString args = params.GetValueByName(_T("args"));
+	DataInt nAction; nAction.Assign(params.GetValueByName(_T("action")));
+	CString sFilter = params.GetValueByName(_T("filter"));
+	DataStr ds = AfxGetTbCmdManager()->GetHotlinkQuery(nsHkl, args, nAction, sFilter, pHkl);
+
+	aResponse.SetOK();
+	aResponse.WriteString(_T("query"), ds.GetString());
+	response.SetData(aResponse);
 }
 
 //--------------------------------------------------------------------------------
