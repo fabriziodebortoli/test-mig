@@ -64,8 +64,9 @@ export class ReportFieldrectComponent implements AfterViewInit {
     const regex: RegExp = new RegExp(/(\r\n|\n|\r)/);
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',  
       'position': 'relative',
-      'display': 'block',
+      //'display': 'block',
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -75,13 +76,13 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'text-align': this.rect.text_align,
       'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
       //'line-height': lineHeight,
-      'white-space': this.rect.value.match(regex) ? 'pre-line' : 'unset'
+      'white-space': this.rect.value.match(regex) ? 'pre-line' : 'unset',
+      'vertical-align':this.rect.vertical_align
     };
     return obj;
   }
 
   applyLabelStyle(): any {
-
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'position': 'relative',

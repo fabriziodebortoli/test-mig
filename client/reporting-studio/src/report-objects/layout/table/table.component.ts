@@ -109,7 +109,8 @@ export class ReportTableComponent {
       'font-size': column.title.font.size + 'px',
       'font-style': column.title.font.italic ? 'italic' : 'normal',
       'font-weight': column.title.font.bold ? 'bold' : 'normal',
-      'white-space': column.title.caption.match(regex) ? 'pre-line' : 'unset'
+      'white-space': column.title.caption.match(regex) ? 'pre-line' : 'unset',
+      'text-align': column.title.text_align,
     };
     return obj;
   }
