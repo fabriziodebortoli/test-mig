@@ -1,0 +1,148 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageInfo (1,9,2100,2970,100,1,1,True ) 
+Properties
+	Begin
+		Title "Borders example" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "" 
+	End
+FontStyles 
+	Begin
+		"ColumnTitle"  Facename "Arimo"  Size 10 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"Text"  Facename "DejaVu Sans"  Size 10 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+PageLayout "default" 
+	Begin
+		SqrRect (12,10,45,287) 
+			Begin
+				Pen (255,160,122) Size 3;
+			End
+		Text (12,334,45,611) "Rectangle" 
+			Begin
+				Align 2133 ;
+			End
+		Bitmap (49,10,265,240) "Image.framework.tbwoormviewer.images.ReportExamples.Butterfly.png" 
+			Begin
+				Pen (255,127,80) Size 3;
+			End
+		Table (25,4) "Table_7" Alias 7  /* Table_7 */ Origin (321,64) Heights (26,41,14,22) 
+		Title Pen (160,82,45) Size 3;
+			Begin
+				"Cliente" Alias 4  /* MA_SaleDoc_CustSupp */ Width 59 ;
+				"Nr. Doc." Alias 5  /* MA_SaleDoc_DocNo */ Width 66 ;
+				"Data" Alias 6  /* MA_SaleDoc_DocumentDate */ Width 90 FormatStyle "Date" ;
+				"Totale" Alias 9  /* TotMA_SaleDocTaxSummary_TotalAmount */ Width 177 FormatStyle "Money" Total ;
+				ColumnPen Column (0,3)  Pen (205,133,63) Size 2 ;
+				Title Column (0,3)  BkgColor (169,169,169) Pen (210,105,30) Size 3 ;
+				ColTotal Column (3)  Pen (244,164,96) Size 2 ;
+			End
+
+
+		Text (268,10,301,287) "Text field with borders" 
+			Begin
+				Pen (255,99,71) Size 3;
+				Align 2133 ;
+			End
+		File (304,10,520,240) "Text.framework.tbwoormviewer.texts.ReportExamples.TextFile.txt" 
+			Begin
+				Pen (255,69,0) Size 3;
+				Align 2133 ;
+			End
+		Repeater (1,1) Alias 1 InterLine (30,60) Rect (522,10,555,287) 
+			Begin
+				Transparent
+				Pen (255,0,0) Size 3;
+			End
+		Text (522,334,555,611) "Repeater" 
+			Begin
+				Align 2133 ;
+			End
+		Field (557,10,590,287) Alias 2  /* e_expr */ 
+			Begin
+				Pen (220,20,60) Size 3;
+				Label "e_expr" 
+			End
+		Field (593,10,626,287) Alias 3  /* f_func */ 
+			Begin
+				Pen (178,34,34) Size 3;
+				Label "f_func" 
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Repeater_1 [1] Alias 1 ;
+			Table_7 [25] Alias 7 ;
+		End
+
+		Variables
+			String       e_expr [15] Alias 2 ;
+			String       f_func [15] Alias 3 ;
+			String       MA_SaleDoc_CustSupp [11] Alias 4  Column  of Table_7 ;
+			String       MA_SaleDoc_DocNo [12] Alias 5  Column  of Table_7 ;
+			Date         MA_SaleDoc_DocumentDate [10] Alias 6  Column  of Table_7 ;
+			Long         MA_SaleDoc_SaleDocId [12] Alias 8  Hidden ;
+			Money        MA_SaleDocTaxSummary_TotalAmount [23] Alias 9  Column  of Table_7 ;
+			Money        TotMA_SaleDocTaxSummary_TotalAmount = Csum (MA_SaleDocTaxSummary_TotalAmount ) Alias 10  ColTotal ;
+		End
+
+		Rules
+			e_expr = "" ;
+
+			f_func = "" ;
+
+			From MA_SaleDoc 
+			Select 
+				CustSupp             Into MA_SaleDoc_CustSupp ,
+				DocNo                Into MA_SaleDoc_DocNo ,
+				DocumentDate         Into MA_SaleDoc_DocumentDate ,
+				SaleDocId            Into MA_SaleDoc_SaleDocId 
+			Where MA_SaleDoc.DocumentType = { 52 : 2 } /* Tipo documento : Fattura */ 
+			Order By MA_SaleDoc.CustSupp ;
+
+			From MA_SaleDocTaxSummary 
+			Select 
+				TotalAmount          Into MA_SaleDocTaxSummary_TotalAmount 
+			Where MA_SaleDocTaxSummary.SaleDocId = MA_SaleDoc_SaleDocId ;
+		End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						Display TotMA_SaleDocTaxSummary_TotalAmount ;
+						Reset TotMA_SaleDocTaxSummary_TotalAmount ;
+					End
+				After 
+					Begin
+					End
+
+			Report : Do
+				Always 
+					Begin
+						Eval TotMA_SaleDocTaxSummary_TotalAmount ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+						Display TotMA_SaleDocTaxSummary_TotalAmount ;
+					End
+				Finalize 
+					Begin
+					End
+		End
+End
+
