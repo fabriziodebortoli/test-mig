@@ -14,12 +14,12 @@ namespace Microarea.EasyStudio.AspNetCore
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             string authToken = AutorizationHeaderManager.GetAuthorizationElement(context.HttpContext.Request, UserInfo.AuthenticationTokenKey);
+/*            TODOBRUNA
             if (string.IsNullOrEmpty(authToken))
             {
                 context.HttpContext.Response.StatusCode = 401;
-                context.Result = new ForbidResult(/*MissingAuthentication*/);
-            }
-
+                context.Result = new ForbidResult();
+            }*/
             base.OnActionExecuting(context);
         }
     }

@@ -1321,8 +1321,11 @@ namespace Microarea.Common.Applications
 				}
 			}
 
-			// Add default value if any (otherwise add first item value)
-			tag.DefaultValue = isDefault ? defaultItemValue	: tag.EnumItems[0].Value;
+            // Add default value if any (otherwise add first item value)
+            if (isDefault)
+                tag.DefaultValue = defaultItemValue;
+            else if (tag.EnumItems.Count > 0)
+                tag.DefaultValue = tag.EnumItems[0].Value;
 
 			return !lex.Error;
 		}
@@ -1551,15 +1554,15 @@ namespace Microarea.Common.Applications
 			return true;
 		}
 
-		//-----------------------------------------------------------------------------
-		public bool SaveXml(string filename, bool localizedVersion)
+        //-----------------------------------------------------------------------------
+        public bool SaveXml(string filename, bool localizedVersion)
 		{	
 			filename = Path.ChangeExtension(filename, NameSolverStrings.XmlExtension);
 			return SaveXml(filename, localizedVersion, false);
 		}
 		
 		//-----------------------------------------------------------------------------
-		public bool SaveXml(string fileName, bool localizedVersion, bool useLocalizeAttribute)
+		public bool SaveXml(string fileName, bool localizedVersion, bool useLocalizeAttribute, ModuleInfo info = null)
 		{	
 			XmlDocument dom = new XmlDocument();
 			// root node
@@ -1573,6 +1576,9 @@ namespace Microarea.Common.Applications
 			// aggiunge tutti i tag che trova
 			foreach (EnumTag enumTag in this)
 			{
+                if (info != null && enumTag.OwnerModule != info)
+                    continue;
+
 				XmlElement tagElement = dom.CreateElement(EnumsXml.Element.Tag);
 
                 AddAttribute(dom, tagElement, EnumsXml.Attribute.Name, localizedVersion && !useLocalizeAttribute ? enumTag.LocalizedName : enumTag.Name);
@@ -1581,7 +1587,7 @@ namespace Microarea.Common.Applications
                     AddAttribute(dom, tagElement, EnumsXml.Attribute.Localized, enumTag.LocalizedName);
 
 				//gli aggiungo l'Attributo Default se è diverso dal primo
-				if (enumTag.DefaultValue != enumTag.EnumItems[0].Value)
+				if (enumTag.EnumItems.Count > 0 && enumTag.DefaultValue != enumTag.EnumItems[0].Value)
 				{
 					AddAttribute(dom, tagElement, EnumsXml.Attribute.DefaultValue, enumTag.DefaultValue.ToString());
 				}
@@ -1593,7 +1599,10 @@ namespace Microarea.Common.Applications
 				// aggiunge tutti gli elementi
 				foreach (EnumItem enumItem in enumTag.EnumItems)
 				{
-					DataEnum de = new DataEnum(enumTag.Value, enumItem.Value);
+                    if (info != null && enumItem.OwnerModule != info)
+                        continue;
+
+                    DataEnum de = new DataEnum(enumTag.Value, enumItem.Value);
 					XmlElement itemElement = dom.CreateElement(EnumsXml.Element.Item);
 
 					AddAttribute(dom, itemElement, EnumsXml.Attribute.Name, localizedVersion && !useLocalizeAttribute ? enumItem.LocalizedName : enumItem.Name);

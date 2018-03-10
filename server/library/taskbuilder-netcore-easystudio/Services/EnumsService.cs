@@ -47,7 +47,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
-		public bool Create(INameSpace moduleNameSpace, ushort value, string name, string description = "", bool hidden = false)
+		public bool CreateTag(INameSpace moduleNameSpace, ushort value, string name, string description = "", bool hidden = false)
 		{
             if (value == 0 || string.IsNullOrEmpty(name))
             {
@@ -99,8 +99,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             if (info == null)
                 return false;
 
-            EnumsTable.Tags.DeleteTag(name);
-
+            // cancellazione del tag
+            if (string.IsNullOrEmpty(itemName))
+                EnumsTable.Tags.DeleteTag(name);
+            else // cancellazione dell'item
+                tag.DeleteItem(itemName);
+            
             return EnumsSerializer.SaveDeclaration(info, EnumsTable);
         }
 
@@ -124,15 +128,34 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         public bool GenerateSourceCode(INameSpace moduleNameSpace)
 		{
             ModuleInfo info = GetModuleInfo(moduleNameSpace);
-            if (info == null)
-                return false;
-            return EnumsSerializer.GenerateSourceCode(info);
+            return info != null ? EnumsSerializer.GenerateSourceCode(info) : false;
         }
 
         //---------------------------------------------------------------
-        public bool CreateItem(INameSpace moduleNameSpace, string tagName, int value, string name, string description)
+        public bool CreateItem(INameSpace moduleNameSpace, string tagName, ushort value, string name, string description, bool hidden = false)
         {
-            return true;
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(tagName))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingOrEmptyParameters);
+                return false;
+            }
+
+            ModuleInfo info = GetModuleInfo(moduleNameSpace);
+            if (info == null)
+                return false;
+
+            EnumTag tag = EnumsTable.Tags.GetTag(name);
+            if (tag == null)
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.TagNotDeclared));
+                return false;
+            }
+
+            EnumItem item = tag.AddItem(name, value, description, info);
+            if (item != null)
+                item.Hidden = hidden;
+
+            return item != null;
         }
 
         //---------------------------------------------------------------

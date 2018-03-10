@@ -14,9 +14,11 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
         //---------------------------------------------------------------
         public bool SaveDeclaration(ModuleInfo moduleInfo, Enums table)
         {
-            string fileName = string.Empty;
-            table.Tags.SaveXml(fileName, false);
-            return true;
+            string fileName = moduleInfo.GetEnumsPath();
+            string path = System.IO.Path.GetDirectoryName(fileName);
+            if (!PathFinder.ExistPath(path))
+                PathFinder.CreateFolder(path, true);
+            return table.Tags.SaveXml(fileName, false, false, moduleInfo);
         }
 
         //---------------------------------------------------------------

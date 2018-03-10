@@ -14,17 +14,19 @@ namespace Microarea.EasyStudio.Controllers
         //=========================================================================
         internal class Strings
         {
+            // prameters
             internal static readonly string moduleNamespace = "moduleNamespace";
             internal static readonly string value = "value";
             internal static readonly string name = "name";
+            internal static readonly string description = "description";
             internal static readonly string itemName = "itemName";
-            internal static readonly string verbose = "verbose";
-
-            internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
-            internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
+            internal static readonly string hidden = "hidden";
         }
 
+        //---------------------------------------------------------------------
         Service<EnumsService> Service { get; set; }
+        EnumsService EnumsService { get => Service.Obj; }
+        public override IDiagnosticProvider Diagnostic => EnumsService.Diagnostic;
 
         //---------------------------------------------------------------------
         public EnumsController(IServiceManager serviceManager)
@@ -35,42 +37,82 @@ namespace Microarea.EasyStudio.Controllers
         }
 
         //-----------------------------------------------------------------------
-        [Route("create")]
-        public IActionResult Create(string parameters)
+        [Route("createTag"), HttpGet]
+        public IActionResult CreateTag(string moduleNamespace, ushort uValue, string name, string description = "", bool hidden = false)
         {
-            JObject jsonParams = JObject.Parse(parameters);
-            string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
-            var value = jsonParams[Strings.value]?.Value<ushort>();
-            string name = jsonParams[Strings.name]?.Value<string>();
-            var verbose = jsonParams[Strings.verbose];
+            // le get le teniamo verbose
+            if (EnumsService.CreateTag(new NameSpace(moduleNamespace), uValue, name))
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", BaseStrings.ObjectSuccessfullyCreated));
 
-            ushort uValue = (ushort) (value == null ? 0 : value);
-            bool success = Service.Obj.Create(new NameSpace(moduleNamespace), uValue, name);
-
-            if (success && verbose != null)
-                Service.Obj.Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", Strings.ObjectSuccessfullyCreated));
-
-            return Ok(Service.Obj.Diagnostic);
+            return ToResult(Diagnostic);
         }
 
         //-----------------------------------------------------------------------
-        [Route("delete")]
-        public IActionResult Delete(string parameters)
+        [Route("createTag"), HttpPost]
+        public IActionResult CreateTag([FromBody] JObject jsonParams)
         {
-            JObject jsonParams = JObject.Parse(parameters);
             string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
             var value = jsonParams[Strings.value]?.Value<ushort>();
             string name = jsonParams[Strings.name]?.Value<string>();
+            ushort uValue = (ushort) (value == null ? 0 : value);
+            string description = jsonParams[Strings.description]?.Value<string>();
+            bool? hidden = jsonParams[Strings.hidden]?.Value<bool>();
+
+            EnumsService.CreateTag(new NameSpace(moduleNamespace), uValue, name, description, hidden ?? false);
+
+            return ToResult(Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        [Route("createItem"), HttpGet]
+        public IActionResult CreateItem(string moduleNamespace, string tagName, ushort uValue, string name, string description = "", bool hidden = false)
+        {
+            // le get le teniamo verbose
+            if (EnumsService.CreateItem(new NameSpace(moduleNamespace), tagName, uValue, name, description, hidden))
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", BaseStrings.ObjectSuccessfullyCreated));
+
+            return ToResult(Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        [Route("createItem"), HttpPost]
+        public IActionResult CreateItem([FromBody] JObject jsonParams)
+        {
+            string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
+            string tagName = jsonParams[Strings.name]?.Value<string>();
             string itemName = jsonParams[Strings.itemName]?.Value<string>();
-            var verbose = jsonParams[Strings.verbose];
-
+            var value = jsonParams[Strings.value]?.Value<ushort>();
             ushort uValue = (ushort)(value == null ? 0 : value);
-            bool success = Service.Obj.Delete(new NameSpace(moduleNamespace), name, itemName);
+            string description = jsonParams[Strings.description]?.Value<string>();
+            bool? hidden = jsonParams[Strings.hidden]?.Value<bool>();
 
-            if (success && verbose != null)
-                Service.Obj.Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", itemName, ": ", Strings.ObjectSuccessfullyDeleted));
+            EnumsService.CreateItem(new NameSpace(moduleNamespace), tagName, uValue, itemName, description, hidden ?? false);
 
-            return Ok(Service.Obj.Diagnostic);
+            return ToResult(Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        [Route("delete"), HttpGet]
+        public IActionResult Delete(string moduleNamespace, string name, string itemName)
+        {
+            // le get le teniamo verbose
+            if (EnumsService.Delete(new NameSpace(moduleNamespace), name, itemName))
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", itemName, ": ", BaseStrings.ObjectSuccessfullyDeleted));
+
+            return ToResult(Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        [Route("delete"), HttpDelete]
+        public IActionResult Delete([FromBody] JObject jsonParams)
+        {
+            string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
+            string name = jsonParams[Strings.name]?.Value<string>();
+            string itemName = jsonParams[Strings.itemName]?.Value<string>();
+
+            EnumsService.Delete(new NameSpace(moduleNamespace), name, itemName);
+
+            return ToResult(Diagnostic);
         }
     }
 }

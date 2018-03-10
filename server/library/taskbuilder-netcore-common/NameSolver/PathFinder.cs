@@ -3678,7 +3678,7 @@ namespace Microarea.Common.NameSolver
                 diagnostic.Set(DiagnosticType.Error, string.Format(Messages.ApplicationContainerNonManaged, aApplicationType.ToString()));
                 return string.Empty;
             }
-
+            
             string customCompanyPath = GetCustomCompanyPath(companyName);
             if (customCompanyPath == string.Empty)
                 return string.Empty;

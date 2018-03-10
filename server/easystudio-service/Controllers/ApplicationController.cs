@@ -18,13 +18,10 @@ namespace Microarea.EasyStudio.Controllers
 			internal static readonly string applicationName = "applicationName";
 			internal static readonly string applicationType = "applicationType";
 			internal static readonly string moduleName = "moduleName";
-			internal static readonly string verbose = "verbose";
 
             // messages
             internal static readonly string MissingApplicationType = "Missing parameter applicationType";
-            internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
-            internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
-        }
+         }
 
         //---------------------------------------------------------------------
         Service<ApplicationService> Service { get; set; }
@@ -45,7 +42,7 @@ namespace Microarea.EasyStudio.Controllers
         {
             // la get la lasciamo verbose
             if (AppService.Create(applicationName, (ApplicationType)applicationType, moduleName))
-                Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyCreated));
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, BaseStrings.ObjectSuccessfullyCreated));
 
             return ToResult(Diagnostic);
         }
@@ -72,7 +69,7 @@ namespace Microarea.EasyStudio.Controllers
         {
             // la get la lasciamo verbose
             if (AppService.Delete(applicationName, moduleName))
-                Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, Strings.ObjectSuccessfullyDeleted));
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, BaseStrings.ObjectSuccessfullyDeleted));
 
             return ToResult(Diagnostic);
         }
