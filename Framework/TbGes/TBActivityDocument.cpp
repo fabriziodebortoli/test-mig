@@ -540,7 +540,7 @@ void CTBActivityDocument::DoExtractData()
 	if (GetDBT())
 		GetDBT()->SetModified();
 
-	UpdateDataView();
+	UpdateDataView(TRUE);
 
 	ManageDefaultFocus();
 }
