@@ -1128,8 +1128,7 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 	CString	GetDataToXMLString(const CString& strProfileName, const CString& strXSLTFileName);
 
 	void GetBindingInfo(const CString& sDataSource, const CString& sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist);
-	void GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName);
-
+	
 protected:
 	BOOL CreateBrowser	(LPCTSTR pObject = NULL);
 	void ReInitBrowser	();

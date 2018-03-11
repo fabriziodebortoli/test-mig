@@ -7790,23 +7790,6 @@ void CAbstractFormDoc::DispatchOnActivate(CAbstractFormFrame* pFrame, UINT nStat
 		m_pClientDocs->OnActivate(pFrame, nState, pWndOther, bMinimized);
 }
 
-
-//-----------------------------------------------------------------------------
-void CAbstractFormDoc::GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName)
-{
-	sBindingName = sName;
-
-	if (!pBindingInfo)
-	{
-		if (sBindingName.IsEmpty())
-			sBindingName = sId;
-		return;
-	}
-
-	CString sDataSource = pBindingInfo->m_strDataSource;
-
-	GetBindingInfo(sDataSource, sId, pDBT, pRecord, pDataObj, sBindingName, TRUE);
-}
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString &sId, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName, BOOL bMustExist)
 {

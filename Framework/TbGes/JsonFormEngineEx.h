@@ -59,6 +59,7 @@ public:
 
 	BOOL CreateSplitter(CSplitterDescription* pSplitterDesc, CSplittedForm* pSplitterForm, CBaseDocument* pDoc);
 	CAbstractFormView* GetOwnerView();
+	void GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName);
 
 private:
 	CString GetSafeActivationString(CString strActivation);
@@ -278,6 +279,7 @@ private:
 
 	void ClearDescriptions();
 	void InitCachePath();
+
 protected:
 	virtual void ClearCache();
 	virtual BOOL ProcessWndDescription(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJsonContextObj* pContext);

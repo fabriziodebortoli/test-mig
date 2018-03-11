@@ -144,7 +144,24 @@ public:
 };
 
 
+//-----------------------------------------------------------------------------
+void CJsonContext::GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName)
+{
+	sBindingName = sName;
 
+	if (!pBindingInfo)
+	{
+		if (sBindingName.IsEmpty())
+			sBindingName = sId;
+		return;
+	}
+
+	if (m_pDoc)
+	{
+		CString sDataSource = pBindingInfo->m_strDataSource;
+		m_pDoc->GetBindingInfo(sDataSource, sId, pDBT, pRecord, pDataObj, sBindingName, TRUE);
+	}
+}
 //-----------------------------------------------------------------------------
 void CJsonContext::Associate(CWnd* pWnd)
 {
@@ -2002,8 +2019,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::OnBeforeCustomize()
 						SqlRecord* pRec = NULL;
 						DBTObject* pDBT = NULL;
 						CString sBindingName;
-						if (m_pContext->m_pDoc)
-							m_pContext->m_pDoc->GetBindingInfo(pDesc1->GetID(), pDesc1->m_strName, pDesc1->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+						m_pContext->GetBindingInfo(pDesc1->GetID(), pDesc1->m_strName, pDesc1->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 						if (!pDataObj && !GetDocument()->IsInStaticDesignMode())
 						{
 							TRACE1("Invalid data source: %s\n", (LPCTSTR)pDesc1->m_pBindings->m_strDataSource);
@@ -2338,8 +2354,7 @@ void CJsonPropertyGrid::Customize(CWndObjDescriptionContainer& children, CTBProp
 		DataObj* pDataObj = NULL;
 		DBTObject* pDBT = NULL;
 		CString sBindingName;
-		if (m_pContext->m_pDoc)
-			m_pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+		m_pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 
 		DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
 		CRuntimeClass* pClass = m_pContext->GetControlClass(pWndDesc->m_strControlClass, pWndDesc->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
@@ -2483,7 +2498,6 @@ BOOL CJsonFormEngine::ProcessWndDescription(CWndObjDescription* pWndDesc, CWnd* 
 	}
 }
 
-
 //-----------------------------------------------------------------------------
 BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJsonContextObj* pContextObj, CAbstractFormView* pParentView, DBTObject*&pDBT)
 {
@@ -2533,8 +2547,7 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		DataObj* pDataObj = NULL;
 		DBTObject* pDBT = NULL;
 		CString sBindingName;
-		if (pContext->m_pDoc)
-			pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+		pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 
 		//codice simile alla AddLinkAndCreateBodyEdit, ma con alcune modifiche a metà istruzioni
 		if (pDBT && !pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
@@ -2880,8 +2893,7 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		//se non sono in rowview, oppure il dbt non ha il dato, seguo il giro normale
 		if (!pDataObj)
 		{
-			if (pContext->m_pDoc)
-				pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+			pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 		}
 		DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
 		CRuntimeClass* pClass = pContext->GetControlClass(pWndDesc->m_strControlClass, pWndDesc->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
@@ -3063,8 +3075,7 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 
 		if (pWndDesc->m_pStateData)
 		{
-			if (pContext->m_pDoc)
-				pContext->m_pDoc->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+			pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 			if (pDataObj)
 			{
 				pParsedCtrl->AttachStateData(pDataObj, pWndDesc->m_pStateData->m_bInvertDefaultStates == B_TRUE);
@@ -3139,8 +3150,7 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 			}
 			else
 			{
-				if (pContext->m_pDoc)
-					pContext->m_pDoc->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+				pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 			}
 			if (pDataObj)
 			{
