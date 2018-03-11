@@ -1,4 +1,4 @@
-<tb-control-container type="tb-button">
+<tb-control-container type="tb-button" [model]="model">
     <button (click)='onCommand()' kendoButton id="{{cmpId}}" [disabled]="!(model?.enabled)">
         <m4-icon icon="{{icon}}"></m4-icon>
     </button>

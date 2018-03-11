@@ -1,4 +1,4 @@
-<tb-control-container type="tb-phone">
+<tb-control-container type="tb-phone" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input kendoTextBox maxlength="{{model?.length}}" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [style.width.px]="width" />
 </tb-control-container>

@@ -1,7 +1,6 @@
-<tb-control-container type="tb-combo-simple">
+<tb-control-container type="tb-combo-simple" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-dropdownlist #ddl [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem"
-        (selectionChange)="selectionChange($event)" [popupSettings]="{ width: 'auto' }" [value]="selectedItem" (focus)="focus()"
+    <kendo-dropdownlist #ddl [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [defaultItem]="defaultItem" (selectionChange)="selectionChange($event)" [popupSettings]="{ width: 'auto' }" [value]="selectedItem" (focus)="focus()"
         (valueChange)="valueChange($event)">
         <ng-template kendoDropDownListNoDataTemplate>
             <h4>

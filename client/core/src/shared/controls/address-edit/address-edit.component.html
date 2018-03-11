@@ -1,4 +1,4 @@
-<tb-control-container type="tb-addressedit">
+<tb-control-container type="tb-addressedit" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <textarea #anchor name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="dataChanged()" (ngModelChange)="this.model.value=$event" [disabled]="!model?.enabled" [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
     <kendo-popup #popup *ngIf="show" [anchor]="anchor" [collision]="collision" [popupClass]="'content popup'">

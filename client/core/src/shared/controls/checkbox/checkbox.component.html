@@ -1,4 +1,4 @@
-<tb-control-container type="tb-checkbox">
+<tb-control-container type="tb-checkbox" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input type="checkbox" id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="modelChanged($event)" class="k-checkbox">
     <label class="k-checkbox-label" for="{{cmpId}}">&nbsp;</label>

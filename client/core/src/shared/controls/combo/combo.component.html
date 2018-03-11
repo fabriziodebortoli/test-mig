@@ -4,15 +4,14 @@
             <h4><span class="k-icon k-i-warning"></span><br /><br /> No data here</h4>
         </ng-template>
 </kendo-dropdownlist>-->
-<tb-control-container type="tb-combo">
+<tb-control-container type="tb-combo" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>
     </ng-template>
     <ng-template [ngIf]="!hotLink">
-        <kendo-dropdownlist #ddl [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem"
-            (valueChange)="valueChange($event)" (selectionChange)="selectionChange($event)" (open)="fillListBox($event)" (close)="onClose($event)"
-            [popupSettings]="{ width: 'auto' }" [style.width.px]="width" (focus)="focus()">
+        <kendo-dropdownlist #ddl [data]="items" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (valueChange)="valueChange($event)" (selectionChange)="selectionChange($event)" (open)="fillListBox($event)"
+            (close)="onClose($event)" [popupSettings]="{ width: 'auto' }" [style.width.px]="width" (focus)="focus()">
             <ng-template kendoDropDownListNoDataTemplate>
                 <h4>
                     <span class="k-icon k-i-warning"></span>

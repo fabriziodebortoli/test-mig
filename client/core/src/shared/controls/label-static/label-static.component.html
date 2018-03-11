@@ -1,4 +1,4 @@
-<tb-control-container type="tb-label-static">
+<tb-control-container type="tb-label-static" [model]="model">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input kendoTextBox [ngModel]="model?.value | toUpper: model?.uppercase" [disabled]="true" [style.width.px]="width" />
 </tb-control-container>

@@ -1,6 +1,5 @@
-<tb-control-container type="erp-item-edit">
-    <tb-numberer (beforeContextMenu)="onBeforeContextMenu($event)" [caption]="caption" [slice]="slice" [selector]="selector"
-        [model]="model" [maxLength]="maxLength"></tb-numberer>
+<tb-control-container type="erp-item-edit" [model]="model">
+    <tb-numberer (beforeContextMenu)="onBeforeContextMenu($event)" [caption]="caption" [slice]="slice" [selector]="selector" [model]="model" [maxLength]="maxLength"></tb-numberer>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>
     </ng-template>

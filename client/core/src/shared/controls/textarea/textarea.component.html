@@ -1,4 +1,4 @@
-<tb-control-container type="tb-textarea">
+<tb-control-container type="tb-textarea" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <textarea name="{{cmpId}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled" [ngStyle]="{'height': getCorrectHeight(), 'width':  getCorrectWidth()}"></textarea>
     <ng-container #contextMenu></ng-container>
