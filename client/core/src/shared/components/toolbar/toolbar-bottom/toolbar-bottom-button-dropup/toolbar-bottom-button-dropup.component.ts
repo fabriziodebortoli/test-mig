@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, HostListener, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
 import { ComponentService } from './../../../../../core/services/component.service';
@@ -6,8 +6,6 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 import { TbComponent } from './../../../../../shared/components/tb.component';
 import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
 import { InfoService } from './../../../../../core/services/info.service';
-import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
-import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 
 
 
@@ -19,12 +17,11 @@ import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interf
 })
 export class ToolbarBottomButtonDropupComponent extends TbComponent implements OnDestroy {
 
-  anchorAlign: Align = { horizontal: 'right', vertical: 'top' };
-  popupAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  collision: Collision = { horizontal: 'flip', vertical: 'fit' };
   public show = false;
     
-  @ViewChild('anchor') divFocus: HTMLElement;
+  @ViewChild('anchor') public anchor: ElementRef;
+  @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
+
   @Input() icon:string;
   @Input() caption:string;
 
@@ -49,25 +46,29 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
       }
   }); 
 }
- 
+@HostListener('document:click', ['$event'])
+public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.toggle(false);
+    }
+}
+
+@HostListener('keydown', ['$event'])
+public keydown(event: any): void {
+    if (event.keyCode === 27) {
+        this.toggle(false);
+    }
+}
+
+private contains(target: any): boolean {
+  return this.anchor.nativeElement.contains(target) ||
+      (this.popup ? this.popup.nativeElement.contains(target) : false);
+}
   ngOnDestroy() {
     this.eventDataServiceSubscription.unsubscribe();
   }
 
-  onOpen() {
-  }
-
-  public onToggle(): void {
-    this.show = !this.show;
-  }
-  public closePopupIf(): void {
-       this.outView(null);
-  }
-  outView(item: ContextMenuItem) {
-    if (item !== null && item !== undefined) {
-        item.showMySub = false;
-    }
-
-    this.show = false;
-  }
+  public toggle(show?: boolean): void {
+    this.show = show !== undefined ? show : !this.show;
+}
 }
