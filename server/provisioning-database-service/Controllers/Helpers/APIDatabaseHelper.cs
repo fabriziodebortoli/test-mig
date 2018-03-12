@@ -775,7 +775,8 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------
 		public static DatabaseManager CreateDatabaseManager()
 		{
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "Development", "WebMago", "sa") { Edition = "Professional" };
+			//@@TODO: qui dovrei avere la possibilita' di istanziare un pathfinder con i dati corretti, oppure averne uno a disposizione in memoria?
+			PathFinder pf = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
 			return new DatabaseManager(pf, new Diagnostic("ProvisioningDatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
 		}
 
@@ -784,32 +785,34 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		/// dato un tipo di configurazione (Default/Sample) restituisce un dictionary con 
 		/// la lista delle possibili configurazioni suddivise per iso stato
 		/// </summary>
-		/// <param name="configList">lista dei nomi delle configurazioni</param>
 		/// <param name="configType">tipo di configurazione (Default oppure Sample)</param>
 		/// <param name="iso">iso stato</param>
 		//---------------------------------------------------------------------------
-		public static Dictionary<string, List<string>> GetConfigurationList(PathFinder pf, string configType, string iso)
+		public static Dictionary<string, List<string>> GetConfigurationList(string configType, string iso)
 		{
+			//@@TODO: qui dovrei avere la possibilita' di istanziare un pathfinder con i dati corretti, oppure averne uno a disposizione in memoria?
+			PathFinder pathFinder = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
+
 			List<string> isoConfigList = new List<string>();
 			List<string> intlConfigList = new List<string>();
 
-			foreach (string appName in GetApplications(pf))
+			foreach (string appName in GetApplications(pathFinder))
 			{
-				foreach (ModuleInfo modInfo in pf.GetModulesList(appName))
+				foreach (ModuleInfo modInfo in pathFinder.GetModulesList(appName))
 				{
 					// skippo il modulo TbOleDb per non considerare la TB_DBMark
 					if (string.Compare(modInfo.Name, DatabaseLayerConsts.TbOleDbModuleName, StringComparison.OrdinalIgnoreCase) != 0)
 					{
-						AddConfiguration(pf, appName, modInfo.Name, ref isoConfigList, configType, iso);
+						AddConfiguration(pathFinder, appName, modInfo.Name, ref isoConfigList, configType, iso);
 						// mentre carico le configurazioni dell'isostato scelto, carico anche i dati internazionali
-						AddConfiguration(pf, appName, modInfo.Name, ref intlConfigList, configType, "INTL");
+						AddConfiguration(pathFinder, appName, modInfo.Name, ref intlConfigList, configType, "INTL");
 					}
 				}
 			}
 
 			Dictionary<string, List<string>> dictConfiguration = new Dictionary<string, List<string>>();
 			dictConfiguration.Add(iso, isoConfigList);
-			dictConfiguration.Add("INTL", intlConfigList);
+			dictConfiguration.Add("INTL", intlConfigList); // aggiungo d'ufficio i dati INTL
 
 			return dictConfiguration;
 		}

@@ -265,7 +265,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			fi = new TBFile(pathFileSql, PathFinder.PathFinderInstance.GetAlternativeDriverIfManagedFile(pathFileSql));
 
 			if (!PathFinder.PathFinderInstance.ExistFile(pathFileSql))
-
             {
 				error = DatabaseManagerStrings.FileNotFound;
 				Diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.FileNotFound);

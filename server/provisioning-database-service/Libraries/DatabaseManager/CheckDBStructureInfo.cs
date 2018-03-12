@@ -685,7 +685,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 					// estrapolo il path della directory a cui agganciare successivamente il path degli script sql
 					FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-					if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+					if (!context.PathFinder.ExistFile(moduleDBInfo.XmlPath))
 					{
 						diagnostic.Set
 							(
@@ -735,7 +735,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 					FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
 
-                    if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                    if (!context.PathFinder.ExistFile(moduleDBInfo.XmlPath))
                     {
 						diagnostic.Set 
 							(
@@ -852,7 +852,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							continue;
 
 						FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-                        if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                        if (!context.PathFinder.ExistFile(moduleDBInfo.XmlPath))
                         {
 							diagnostic.Set
 								(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
@@ -1112,7 +1112,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					moduleDBInfo.UpdateInfo.CurrSingleUpdate = new SingleUpdateInfo();
 
 				FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-                if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                if (!context.PathFinder.ExistFile(moduleDBInfo.XmlPath))
                 {
 					diagnostic.Set
 						(DiagnosticType.Warning | DiagnosticType.LogOnFile, 
@@ -1204,7 +1204,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					}
 
 					FileInfo fifo = new FileInfo(moduleDBInfo.XmlPath);
-                    if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+                    if (!context.PathFinder.ExistFile(moduleDBInfo.XmlPath))
                         continue;
 					moduleDBInfo.DirectoryScript = fifo.Directory.FullName;
 				

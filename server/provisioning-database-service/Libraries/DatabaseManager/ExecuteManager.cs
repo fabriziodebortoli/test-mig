@@ -887,14 +887,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					}
 					else
 					{
-						moduleDBInfo.XmlPath =
-							contextInfo.PathFinder.GetStandardUpgradeInfoXML(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName);
+						moduleDBInfo.XmlPath = contextInfo.PathFinder.GetStandardUpgradeInfoXML(moduleDBInfo.ApplicationMember, moduleDBInfo.ModuleName);
 
 						if (string.IsNullOrWhiteSpace(moduleDBInfo.XmlPath))
 							continue;
 
 						FileInfo fi = new FileInfo(moduleDBInfo.XmlPath);
-						if (!PathFinder.PathFinderInstance.ExistPath(moduleDBInfo.XmlPath))
+						if (!contextInfo.PathFinder.ExistFile(moduleDBInfo.XmlPath))
 						{
 							OnElaborationProgressMessage?.Invoke(moduleDBInfo, false, moduleDBInfo.XmlPath, string.Empty, DatabaseManagerStrings.MsgFileNotExist, moduleDBInfo.XmlPath, null);
 							moduleDBInfo.ErrorInFileXML = true;
