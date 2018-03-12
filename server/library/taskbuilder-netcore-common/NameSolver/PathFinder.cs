@@ -3936,7 +3936,7 @@ namespace Microarea.Common.NameSolver
                         jsonWriter.WriteValue(moduleInfo.Path);
 
                         jsonWriter.WritePropertyName("NameSpace");
-                        jsonWriter.WriteValue(moduleInfo.NameSpace);
+                        jsonWriter.WriteValue(moduleInfo.NameSpace.GetNameSpaceWithoutType());
 
                         jsonWriter.WriteEndObject();
 
