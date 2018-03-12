@@ -125,7 +125,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     if (this.bodyEditService.skip < 0) {
       this.bodyEditService.skip = 0;
-      this.changeDBTRange();
+      this.bodyEditService.changeDBTRange();
       this.bodyEditService.isLoading = false;
     }
     this.bodyEditService.bodyEditName = this.bodyEditName;
@@ -155,20 +155,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.changeDetectorRef.markForCheck();
   }
 
-  pageChange(event) {
-    this.bodyEditService.skip = event.skip;
-    this.changeDBTRange();
-
-  }
-  changeDBTRange() {
-    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    this.bodyEditService.isLoading = true;
-    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize).subscribe((res) => {
-      sub.unsubscribe();
-    });
-
-  }
-
+  
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
@@ -212,8 +199,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
     let tempPageSize = this.bodyEditService.pageSize;
-    let tempCount = this.bodyEditService.model.rowCount;
-    tempCount++;
+    let tempCount = this.bodyEditService.model.rowCount + 1;
     let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
 
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, tempPageSize).subscribe((res) => {
@@ -222,7 +208,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.updateModel(res[this.bodyEditName]);
       }
       else {
-        this.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
+        this.bodyEditService.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
       }
 
       sub.unsubscribe();

@@ -1,7 +1,7 @@
 <ng-content class="toolbar-buttons"></ng-content>
 
 <kendo-grid #grid [ngClass]="bodyEditService.isLoading? 'k-loading-image': ''" class="body-edit" [data]="gridView" [resizable]="true" [scrollable]="'virtual'" [rowHeight]="bodyEditService.rowHeight" [navigable]="true" (selectionChange)="ben_row_changed($event)"
-    [rowSelected]="isRowSelected" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height" (pageChange)="pageChange($event)" [pageSize]="bodyEditService.pageSize" [skip]="bodyEditService.skip"
+    [rowSelected]="isRowSelected" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height" (pageChange)="bodyEditService?.pageChange($event)" [pageSize]="bodyEditService.pageSize" [skip]="bodyEditService.skip"
     [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }">
 
     <ng-template kendoGridNoRecordsTemplate>
@@ -30,7 +30,7 @@
         </button>
     </div>
 
-    <div class="pager-number">total rows: {{rowCount}}</div>
+    <div class="pager-number">total rows: {{bodyEditService?.model?.rowCount}}</div>
 
     <div class="right-buttons">
         <button kendoButton class="top-button toggle-button" (click)="find()" [title]="_TB('Find')"><!-- Find  -->

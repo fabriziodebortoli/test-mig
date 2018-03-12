@@ -8,16 +8,16 @@
 
     <div class="row-view-toolbar">
         <div class="buttons">
-            <button kendoButton class="top-button toggle-button" (click)="firstRow()" [disabled]="!enabled" [title]="_TB('First Row')">
+            <button kendoButton class="top-button toggle-button" (click)="firstRow()" [disabled]="this.bodyEditService.currentDbtRowIdx <= 0" [title]="_TB('First Row')">
                 <m4-icon icon="tb-top" class="toolbar-icon"></m4-icon>
             </button>
-            <button kendoButton class="top-button toggle-button" (click)="prevRow()" [disabled]="!enabled" [title]="_TB('Prev Row')">
+            <button kendoButton class="top-button toggle-button" (click)="prevRow()" [disabled]="this.bodyEditService.currentDbtRowIdx <= 0" [title]="_TB('Prev Row')">
                 <m4-icon icon="tb-up" class="toolbar-icon"></m4-icon>
             </button>
-            <button kendoButton class="top-button toggle-button" (click)="nextRow()" [disabled]="!enabled" [title]="_TB('Next Row')">
+            <button kendoButton class="top-button toggle-button" (click)="nextRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.model?.rowCount - 1" [title]="_TB('Next Row')">
                 <m4-icon icon="tb-down" class="toolbar-icon"></m4-icon>
             </button>
-            <button kendoButton class="top-button toggle-button" (click)="lastRow()" [disabled]="!enabled" [title]="_TB('Last Row')">
+            <button kendoButton class="top-button toggle-button" (click)="lastRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.model?.rowCount - 1" [title]="_TB('Last Row')">
                 <m4-icon icon="tb-bottom" class="toolbar-icon"></m4-icon>
             </button>
         </div>

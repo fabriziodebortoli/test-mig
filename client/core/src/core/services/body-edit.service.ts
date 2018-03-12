@@ -35,16 +35,29 @@ export class BodyEditService {
   ) {
   }
 
-  get currentRow(): boolean {
+  get currentRow(): any {
     return this._currentRow;
   }
 
-  set currentRow(val: boolean) {
-    this._currentRow = val;
+  set currentRow(currentRow: any) {
+    this._currentRow = currentRow;
 
     for (var prop in this._currentRow) {
       this._currentRow[prop].enabled = this.model.prototype[prop].enabled;
     }
+  }
+
+  pageChange(event) {
+    this.skip = event.skip;
+    this.changeDBTRange();
+  }
+
+  changeDBTRange() {
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    this.isLoading = true;
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
+      sub.unsubscribe();
+    });
   }
 
   increaseRowHeight() {
@@ -52,7 +65,7 @@ export class BodyEditService {
   }
 
   decreaseRowHeight() {
-    if (this.rowHeight > this.minimumRowHeight + this.rowHeightStep)
+    if (this.rowHeight >= this.minimumRowHeight + this.rowHeightStep)
       this.rowHeight -= this.rowHeightStep;
   }
 
@@ -67,24 +80,26 @@ export class BodyEditService {
 
   }
   nextRow() {
+    //this.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
     this.currentDbtRowIdx++;
     this.currentGridIdx++;
     this.changeRow(this.currentGridIdx);
   }
 
   changeRow(index: number) {
-
-    let dataItem = this.model.rows[index]
+    let dataItem = this.model.rows[index];
+    if (!dataItem){
+      return;
+    }
 
     this.currentRow = dataItem;
     this.currentDbtRowIdx = index + this.skip;
-    this.currentGridIdx = index
+    this.currentGridIdx = index;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).subscribe((res) => {
       sub.unsubscribe();
     });
-
   }
 
   firstRow() {

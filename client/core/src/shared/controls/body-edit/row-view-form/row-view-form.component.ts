@@ -35,7 +35,7 @@ export class RowViewFormComponent extends ControlComponent {
 
   @ContentChild(TemplateRef) rowViewTemplate: TemplateRef<any>;
 
-  public enabled: boolean = true;
+
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
@@ -54,21 +54,32 @@ export class RowViewFormComponent extends ControlComponent {
 
   firstRow() {
     this.bodyEditService.firstRow();
-    this.changeDetectorRef.markForCheck();
   }
 
   prevRow() {
     this.bodyEditService.prevRow();
-    this.changeDetectorRef.markForCheck();
   }
 
   nextRow() {
     this.bodyEditService.nextRow();
-    this.changeDetectorRef.markForCheck();
   }
 
   lastRow() {
     this.bodyEditService.lastRow();
-    this.changeDetectorRef.markForCheck();
+  }
+
+  canFirstRow() {
+    return this.bodyEditService.currentDbtRowIdx != 0;
+  }
+
+  canPrevRow() {
+    return this.bodyEditService.currentDbtRowIdx > 0;
+  }
+  canNextRow() {
+    return this.bodyEditService.currentDbtRowIdx < this.bodyEditService.model.rowCount;
+  }
+
+  canLastRow() {
+    return this.bodyEditService.currentDbtRowIdx != this.bodyEditService.model.rowCount;
   }
 }
