@@ -14,4 +14,8 @@ export class HttpServiceRs {
     getSnapshotData(namespace: string): Observable<any> {
         return this.httpClient.get(this.infoService.getReportServiceUrl() + 'snapshot/list/' + namespace);
     }
+
+    deleteSnapshotData(namespace: string, name: string): Observable<any> {
+        return this.httpClient.get(this.infoService.getReportServiceUrl() + 'snapshot/delete/' + namespace +'/' + name);
+    }
 }

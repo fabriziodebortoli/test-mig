@@ -45,7 +45,11 @@ export class SnapshotdialogComponent {
     }
 
     runSnapshot(name: string, date: string, allusers: boolean) {
-        this.rsExportService.startRunSnapshot(name, date, allusers);
+        this.rsExportService.startSnapshot(name, date, allusers, true, false);
+    }
+
+    deleteSnapshot(name: string, date: string, allusers: boolean) {
+        this.rsExportService.startSnapshot(name, date, allusers, false, true);
     }
 
     sortTable(column: number) {

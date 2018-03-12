@@ -274,7 +274,51 @@ namespace Microarea.RSWeb.Controllers
             UserInfo ui = GetLoginInformation();
             if (ui == null)
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+            
+            string s = ExtractSnapshot(ui, nameSpace);
+            
+            return new ContentResult { Content = s, ContentType = "application/json" };
+        }
+        //---------------------------------------------------------------------
+        [Route("snapshot/delete/{namespace}/{name}")]
+        public IActionResult DeleteSnapshot(string nameSpace, string name)
+        {
+            UserInfo ui = GetLoginInformation();
+            if (ui == null)
+                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
+            TbReportSession session = new TbReportSession(ui, nameSpace);
+            string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
+            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
+
+            foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
+            {               
+                string nameSnap = file.name.RemoveExtension(".json");
+                if (name == nameSnap)
+                    System.IO.File.Delete(destinationPath+file.name);
+            }
+
+            customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, NameSolverStrings.AllUsers);
+            destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
+
+            //first = true;
+            foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
+            {   string nameSnap = file.name.RemoveExtension(".json");
+                if (name == nameSnap)
+                    System.IO.File.Delete(destinationPath + file.name);
+            }
+            
+            string s = ExtractSnapshot(ui, nameSpace);
+
+            return new ContentResult { Content = s, ContentType = "application/json" };
+
+
+
+        }
+        //---------------------------------------------------------------------
+
+        public string ExtractSnapshot(UserInfo ui, string nameSpace)
+        {
             TbReportSession session = new TbReportSession(ui, nameSpace);
             string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
@@ -312,30 +356,12 @@ namespace Microarea.RSWeb.Controllers
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
             }
-            if(s[s.Length - 1] == ',')
+            if (s[s.Length - 1] == ',')
                 s = s.Remove(s.Length - 1);
 
             s += "]";
-           
-            return new ContentResult { Content = s, ContentType = "application/json" };
+
+            return s;
         }
-        //---------------------------------------------------------------------
-        //[Route("snapshot/delete/{namespace}/{name}")]
-        /*public IActionResult DeleteSnapshot(string nameSpace, string name)
-        {
-            //UserInfo ui = GetLoginInformation();
-            //if (ui == null)
-            //    return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
-
-            //TbReportSession session = new TbReportSession(ui, nameSpace);
-
-            //JsonReportEngine report = new JsonReportEngine(session);
-            //report.Execute();
-
-            //string dlg = string.Empty;
-
-            //return new ContentResult { Content = dlg, ContentType = "application/json" };
-        }*/
-        //---------------------------------------------------------------------
     }
 }

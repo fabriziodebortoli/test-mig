@@ -97,6 +97,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsExportService.eventCurrentPage.subscribe(() => this.currentPage());
     this.rsExportService.eventSnapshot.subscribe(() => this.snapshot());
     this.rsExportService.runSnapshot.subscribe(() => this.runSnapshot());
+    this.rsExportService.deleteSnapshot.subscribe(() => this.deleteSnapshot());
     this.rsExportService.eventPageNumber.subscribe(() => this.pageNumber());
   }
 
@@ -206,9 +207,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsExportService.totalPages = parseInt(msg.page);
           this.firstPage();
           break;
-        case CommandType.ACTIVESNAPSHOT:
-          this.createTableSnapshots(k);
-          break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
       //if (this.args.params.runAtTbLoader) {
@@ -316,7 +314,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
-
   // -----------------------------------------------
   currentPage() {
     let message = {
@@ -342,6 +339,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
+  closeReport() {
+    this.rsService.close();
+  }
+
+  // -----------------------------------------------
   snapshot() {
     //il flag user-allUser è passato insieme al numeroPagina
     let message = {
@@ -349,13 +351,12 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: 1 + "," + this.rsExportService.nameSnap + "," + this.rsExportService.user
     };
-
     this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------
-  createTableSnapshots(k: Snapshot[]) {
-    this.rsExportService.snapshots = k;
+  createTableSnapshots(k: Snapshot[]) { 
+    this.rsExportService.snapshots = k; 
   }
 
   // -----------------------------------------------
@@ -366,12 +367,21 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: 1 + "," + this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap + "," + this.rsExportService.user
     };
-
     this.rsService.doSend(JSON.stringify(message));
   }
-  // -----------------------------------------------
-  closeReport() {
-    this.rsService.close();
+
+  
+  //-------------------------------------------------- 
+  startAskSnapshot() {
+    this.rsExportService.snapshot = true;
+    this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe( resp => this.createTableSnapshots(resp));
+  }
+
+  //-------------------------------------------------- 
+  deleteSnapshot() {
+    this.rsExportService.snapshot = true;
+    this.httpServiceRs.deleteSnapshotData(this.args.nameSpace, this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap)
+      .subscribe( resp => this.createTableSnapshots(resp));
   }
 
 
@@ -411,7 +421,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: this.rsExportService.firstPageExport + "," + this.rsExportService.lastPageExport
     };
-
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -422,15 +431,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.nameSpace,
       page: this.curPageNum
     };
-
     this.rsService.doSend(JSON.stringify(message));
-  }
-
-  //-------------------------------------------------- 
-  startSnapshot() {
-    this.rsExportService.snapshot = true;
-     this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe( resp => this.createTableSnapshots(resp)   )
-     //this.rsExportService.snapshots =this.httpServiceRs.snapArray;
   }
 
   //--------------------------------------------------
@@ -446,11 +447,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
-
-  getLayoutId() {
-
-  }
-
 }
 
 

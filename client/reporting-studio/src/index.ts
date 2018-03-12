@@ -33,6 +33,7 @@ import { AskdialogService } from './report-objects/askdialog/askdialog.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TbSharedModule, ComponentService, WebSocketService, HttpService, UtilsService, Logger } from '@taskbuilder/core';
+import { TbIconsModule } from '@taskbuilder/icons';
 import { RsTestComponent } from './rs-test.component';
 import { RouterModule } from '@angular/router';
 import { TbCoreModule } from '@taskbuilder/core';
@@ -69,6 +70,7 @@ export { TemplateItem } from './models/template-item.model';
     FormsModule,
     TbSharedModule,
     HttpClientModule,
+    TbIconsModule,
     RouterModule.forChild([
       { path: 'reportingstudio/:ns/:params', component: ReportingStudioFactoryComponent },
       { path: 'reportingstudio/', component: ReportingStudioFactoryComponent },

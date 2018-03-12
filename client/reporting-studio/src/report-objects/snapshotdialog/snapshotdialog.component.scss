@@ -1,9 +1,13 @@
-#link {
+.link {
     background:none!important;
     border:none; 
     padding:0!important;
-    text-decoration:underline;
     cursor:pointer;
+    
+}
+
+.align{
+    text-align: center !important;
 }
 
 table {
@@ -19,7 +23,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color:#f6f6f6;
 }
 
 th {

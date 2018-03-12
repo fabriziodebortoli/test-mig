@@ -1,39 +1,53 @@
 <kendo-dialog title="Report Snapshots" (close)="close()">
     <div *ngIf="rsExportService.snapshots?.length > 0">
         <h3>Existing snapshots</h3>
-        <hr> 
+        <hr>
         <table id="myTable">
             <tr>
+                <th></th>
                 <th (click)="sortTable(0)">Name</th>
                 <th (click)="sortTable(1)">Date</th>
-                <!--th >Modify</th-->
+                <th></th>
             </tr>
             <tr *ngFor="let snap of this.rsExportService.snapshots; let i=index">
-                <td><button id="link" (click)="runSnapshot(snap.name, snap.date, snap.allUsers)">{{snap.name}}</button></td>
+                <td class="align">
+                    <button class="link" (click)="runSnapshot(snap.name, snap.date, snap.allUsers)">
+                        <m4-icon icon="tb-report"></m4-icon>
+                    </button>
+                </td>
+                <td>{{snap.name}}</td>
                 <td>{{snap.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
-                <!--td icon="tb-delete"></td-->
+                <td class="align">
+                    <button class="link" (click)="deleteSnapshot(snap.name, snap.date, snap.allUsers)">
+                        <m4-icon icon="tb-delete" class="link"></m4-icon>
+                    </button>
+                </td>
             </tr>
-        </table>   
-        <br>     
+        </table>
+        <br>
     </div>
-       <br>
-       <h3>Create new snapshot</h3>
-       <hr>
-       <kendo-textbox-container>
-        <div class="inputName">
-            <label>Name </label>
-            <input kendoTextBox maxlength="40" [(ngModel)]="nameSnapshot" required="required"/>
-        </div>
-    </kendo-textbox-container>
     <br>
-    <br>
-    <h3>Save for</h3>
+    <h3>Create new snapshot
+            <m4-icon icon="tb-down"> <button type="button" data-toggle="collapse" data-target="#collapseNewSnap"></button></m4-icon>
+        
+    </h3>
+    <hr>
+    <div class="collapse" id="collapseNewSnap">
+        <kendo-textbox-container>
+            <div class="inputName">
+                <label>Name </label>
+                <input kendoTextBox maxlength="40" [(ngModel)]="nameSnapshot" required="required" />
+            </div>
+        </kendo-textbox-container>
+        <br>
+        <br>
+        <h3>Save for</h3>
 
         <mat-radio-button checked="checked" (click)="setSingleUser()">This user</mat-radio-button>
         <br>
         <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
-  
-        
+
+    </div>
     <kendo-dialog-actions>
         <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Save</button>
     </kendo-dialog-actions>

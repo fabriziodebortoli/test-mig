@@ -36,6 +36,7 @@ export class RsExportService {
     @Output() eventCurrentPage = new EventEmitter<void>();
     @Output() eventSnapshot = new EventEmitter<void>();
     @Output() runSnapshot = new EventEmitter<void>();
+    @Output() deleteSnapshot = new EventEmitter<void>();
 
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
@@ -62,11 +63,14 @@ export class RsExportService {
         this.eventSnapshot.emit();
     }
 
-    startRunSnapshot(name, date, allusers) {
+    startSnapshot(name, date, allusers, run, del) {
         this.nameSnap = name;
         this.dateSnap = date;
         this.user = allusers;
-        this.runSnapshot.emit();
+        if(run)
+            this.runSnapshot.emit();
+        else if(del)
+            this.deleteSnapshot.emit();
     }
 
     //------EXPORT PDF-----------------------------------

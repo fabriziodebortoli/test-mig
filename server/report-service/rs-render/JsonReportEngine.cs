@@ -332,11 +332,6 @@ namespace Microarea.RSWeb.Render
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
-                case MessageBuilder.CommandType.ACTIVESNAPSHOT:
-                    {
-                        msg.message = GetListSnapshots();
-                        break;
-                    }
                 case MessageBuilder.CommandType.RUNSNAPSHOT:
                     {
                         //il flag user-allUser è passato insieme al numeroPagina
@@ -747,56 +742,6 @@ namespace Microarea.RSWeb.Render
             string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + "_" + name + ".json";
 
             File.WriteAllText(path, pages);
-        }
-
-        public string GetListSnapshots()
-        {
-            WoormDocument woorm = StateMachine.Woorm;
-            //List<string> nameFile = new List<string>();
-
-            string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, ReportSession.UserInfo.User);
-            string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-
-            string s = "[";
-            //bool first = true;
-
-            foreach (TBFile file in ReportSession.PathFinder.GetFiles(destinationPath, "*.json"))
-            {
-                string[] split = file.name.Split('_');
-                string date = split[0];
-                string nameS = split[1];
-                //if (first) first = false;
-                //else s += ',';
-
-                DateTime dt;
-                bool b = DateTime.TryParse(file.name, out dt);
-
-                string name = nameS.RemoveExtension(".json");
-                s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
-            }
-
-            customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, NameSolverStrings.AllUsers);
-            destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-
-            //first = true;
-            foreach (TBFile file in ReportSession.PathFinder.GetFiles(destinationPath, "*.json"))
-            {
-                string[] split = file.name.Split('_');
-                string date = split[0];
-                string nameS = split[1];
-                //if (first) first = false;
-                //else s += ',';
-
-                DateTime dt;
-                bool b = DateTime.TryParse(file.name, out dt);
-
-                string name = nameS.RemoveExtension(".json");
-                s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
-            }
-            s = s.Remove(s.Length - 1);
-
-            s += "]";
-            return s;
         }
 
         public string RunJsonSnapshot(string name, bool forAllUsers)
