@@ -1,545 +1,393 @@
 ﻿<tb-frame tbDataEntry>
-    <tb-toolbar-top caption="Titolo della pagina" history=true>
+    <ng-container #radar></ng-container>
+    <tb-toolbar-top>
         <div class="toolbar-menu">
-            <div class="menu-category search">
-                <tb-toolbar-top-button iconType="MD" icon="search" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="wifi" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-top-button>
+            <div class="menu-category search" *ngIf="!hideSearchToolbar">
+                <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId="ID_EXTDOC_FIND"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-radar" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR" [click]="openRadar"></tb-toolbar-top-button>
             </div>
-            <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
-            <div class="menu-category navigation">
-                <tb-toolbar-top-button iconType="MD" icon="skip_previous" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="play_arrow" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV" style="" class="rotate180"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="play_arrow" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" icon="skip_next" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
+            <div class="menu-category navigation" *ngIf="!hideNavigationToolbar">
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" cmpId="ID_EXTDOC_FIRST"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous')" cmpId="ID_EXTDOC_PREV"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next')" cmpId="ID_EXTDOC_NEXT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" cmpId="ID_EXTDOC_LAST"></tb-toolbar-top-button>
             </div>
-            <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
-            <div class="menu-category edit">
-                <tb-toolbar-top-button iconType="MD" icon="add_box" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" [disabled]="true" icon="mode_edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
-                <tb-toolbar-top-button iconType="MD" [disabled]="true" icon="delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
+            <div class="menu-category edit" *ngIf="!hideEditToolbar">
+                <tb-toolbar-top-button icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-top-button>
             </div>
-            <!-- <tb-toolbar-separator></tb-toolbar-separator> -->
         </div>
-
-        <div class="toolbar-right">
-            <div class="menu-category undefined">
-                <tb-toolbar-top-button iconType="MD" icon="refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET" [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REFRESH_ROWSET?.enabled"></tb-toolbar-top-button>
+        <div class="toolbar-undefined">
+            <div class="menu-category undefined" *ngIf="!hideUndefinedToolbar">
+                <tb-toolbar-top-button icon="tb-query" [caption]="_TB('Query')" cmpId="ID_EXTDOC_EXEC_QUERY"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-refresh" [caption]="_TB('Refresh data')" cmpId="ID_EXTDOC_REFRESH_ROWSET"></tb-toolbar-top-button>
             </div>
-            <div class="menu-category exit">
-                <tb-toolbar-top-button iconType="MD" icon="exit_to_app" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+            <div class="menu-category advanced" *ngIf="!hideAdvancedToolbar">
+                <tb-toolbar-top-button icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-toolbar-top-button>
+                <tb-toolbar-top-button *ngIf="eventData?.activation?._Defined__FieldInspector__" icon="tb-inspect" [caption]="_TB('Inspect field')" cmpId="ID_INSPECT"></tb-toolbar-top-button>
+            </div>
+        </div>
+        <div class="toolbar-right">
+            <div class="menu-category exit" *ngIf="!hideExitToolbar">
+                <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" cmpId="ID_EXTDOC_EXIT"></tb-toolbar-top-button>
+            </div>
+            <div class="menu-category advanced" *ngIf="!hideAdvancedToolbar">
+                <tb-toolbar-top-button-dropdown>
+                    <tb-toolbar-top-button icon="tb-customize" class="dropDownButton" [caption]="_TB('Customize')" cmpId="ID_EXTDOC_CUSTOMIZE"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button *ngIf="eventData?.activation?.__DEBUG" icon="tb-generatejsonmode" class="dropDownButton" [caption]="_TB('Generate json model')" cmpId="ID_EXTDOC_GEN_JSON_MODEL"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button icon="tb-socialshare" class="dropDownButton" [caption]="_TB('Share')" cmpId="ID_ACTIONS_COPY"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button icon="tbs-easybuilder" class="dropDownButton" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-top-button>
+                </tb-toolbar-top-button-dropdown>
             </div>
         </div>
     </tb-toolbar-top>
-    <ng-container #radar></ng-container>
     <tb-frame-content>
         <tb-view-container>
             <tb-view>
-                <!--    HEADER  -->
-                <tb-header tbLayoutTypeHbox tdsHeader>
-                    <tb-tile tbTileMini>
-                        <div class=col1>
-                            <tb-text [contextMenu]="cm_IDC_QUOTATIONS_TST_QUOTATIONNO" caption="Number" cmpId="IDC_QUOTATIONS_TST_QUOTATIONNO" width="90" [model]="eventData?.model?.CustomerQuotation?.QuotationNo"></tb-text>
-                            <tb-date-input formatter="Date" [readonly]="false" [caption]="_TB('Of')" cmpId="IDC_QUOTATIONS_TST_QUOTATIONDATE" width="57" [model]="eventData?.model?.CustomerQuotation?.QuotationDate"></tb-date-input>
-                        </div>
-                    </tb-tile>
-                    <tb-tile tbTileStandard>
-                        <div class=col1>
-                            <div class="anchored">
-                                <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
-                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
-                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
-                            </div>
-                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
-                        </div>
-                    </tb-tile>
-                    <!-- <tb-tile tbTileStandard>
-                        <div class=col1>
-                            <div class="anchored">
-                                <tb-enum-combo cmpId="IDC_QUOTATIONS_TST_TAKE_CUST_FROM_MASTER" width="115" [model]="eventData?.model?.CustomerQuotation?.UseCustomerOrContact"></tb-enum-combo>
-                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER" width="80" [model]="eventData?.model?.CustomerQuotation?.Customer" [hotLink]="{'name':'HKLMasterCustomer','namespace':'ERP.CustomersSuppliers.Dbl.CustSupp','mustExistData':true}"></tb-text>
-                                <tb-text cmpId="IDC_QUOTATIONS_TST_CUSTOMER_QUOTATION" width="80" [model]="eventData?.model?.CustomerQuotation?.Contact" [hotLink]="{'name':'HKLQuotationCustomer','namespace':'ERP.Contacts.Dbl.Contacts','mustExistData':true}"></tb-text>
-                            </div>
-                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_CUSTDESCRIPTION" width="279" [model]="eventData?.model?.CustDescription"></tb-label-static>
-                        </div>
-                    </tb-tile> -->
-                </tb-header>
-                <!-- END HEADER -->
-
-                <!-- tilemanager -->
                 <tb-tile-manager>
-                    <tb-tile-manager-tab [title]="_TB('Main &Data')" icon="erp-sales">
+                    <tb-tile-manager-tab [title]="_TB('Main &Data')" icon="erp-preferences">
                         <ng-template>
-                            <tb-tile-group tbLayoutTypeVbox>
-                                <tb-panel [title]="_TB('Main Data')" tbTileWide [isCollapsible]="True">
+                            <tb-tile-group tbLayoutTypeNone>
+                                <tb-tile tbTileStandard>
                                     <div class="col col1">
-                                        <div class="anchored">
-                                            <tb-combo cmpId="IDC_QUOTATIONS_TST_PYMTTERM" [caption]="_TB('Payment')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Payment" [hotLink]="{'name':'HKLPaymentTerms','namespace':'ERP.PaymentTerms.Dbl.PaymentTerms'}"></tb-combo>
-                                            <tb-label-static cmpId="IDC_QUOTATIONS_TST_PYMTTERMDESCRI" [width]="154" [model]="eventData?.model?.HKLPaymentTerms?.Description"></tb-label-static>
-                                        </div>
+                                        <tb-property-grid cmpId="IDC_PG_PARAMETERS_MAINDATA" [width]="320">
+                                            <tb-property-grid-item-group [text]="_TB('General')" [hint]="_TB('General')">
+                                                <tb-property-grid-item-group [text]="_TB('Fixed Assets Entry Rebuilding')" [hint]="_TB('Fixed Assets Entry Rebuilding')">
+                                                    <tb-property-grid-item [text]="_TB('Recalculate Initial Values')" [hint]="_TB('It allows to recalculate fixed assets initial values in the automatic rebuilding procedure.')">
+                                                        <tb-checkbox cmpId="IDC_PARAMETERS_RECALCULATEINITAL" [model]="eventData?.model?.Parameters?.RecalculateInital"></tb-checkbox>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Grouping by Purchase Fiscal year, for Non-Solar Periods')" [hint]="_TB('It allows to rebuild the right purchase period of fixed assets if year is cross to more calendar years.')">
+                                                        <tb-checkbox cmpId="IDC_PARAMETERS_PURCHASEFISCALYEAR" [model]="eventData?.model?.Parameters?.PurchaseFiscalYear"></tb-checkbox>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Autonumbering')" [hint]="_TB('Autonumbering')">
+                                                <tb-property-grid-item [text]="_TB('Fixed Assets Autonumbering')" [hint]="_TB('It activates the automatic numbering of fixed assets codes.')">
+                                                    <tb-checkbox cmpId="IDC_PARAMETERS_AUTONUM" [model]="eventData?.model?.Parameters?.FixedAssetsAutoNum"></tb-checkbox>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Max No. of Fixed Asset Code Characters')" [hint]="_TB('It is the length of automatic code assigned to a fixed asset.')">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_LASTFIXEDASSETMAXCHAR" formatter="Integer" [maxValue]="eventData?.model?.MaxCodeChars" [minValue]="1" [model]="eventData?.model?.Parameters?.LastFixedAssetMaxChar"></tb-numeric-text-box>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Last Fixed Asset Number')" [hint]="_TB('It is the last automatic code assigned to a fixed asset.')">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_LASTNUM" formatter="Long" [model]="eventData?.model?.Parameters?.LastFixedAsset"></tb-numeric-text-box>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Fixed Assets Entries Autonumbering')" [hint]="_TB('It activates the automatic numbering of fixed assets entries.')">
+                                                    <tb-checkbox cmpId="IDC_PARAMETERS_ENTRYAUTONUMBERING" [model]="eventData?.model?.Parameters?.EntryAutonumbering"></tb-checkbox>
+                                                </tb-property-grid-item>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Accounting')" [hint]="_TB('Accounting')">
+                                                <tb-property-grid-item [text]="_TB('Values for the posting to Accounting')" [hint]="_TB('It allows to suggest fiscal or balance values in General Accounting postings generated by automatic procedures.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_JEFISCALDATA" [model]="eventData?.model?.JournalEntryValueCombo"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Values for the posting to Cost Accounting')" [hint]="_TB('It allows to suggest fiscal or balance values in Cost Accounting postings generated by automatic procedures.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_COSTACCFISCALDATA" [model]="eventData?.model?.CostAccValueCombo"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item-group [text]="_TB('Link From General Ledger')" [hint]="_TB('Link From General Ledger')">
+                                                    <tb-property-grid-item [text]="_TB('Fixed Assets Entry Reason')" [hint]="_TB('It is the reason suggested to post fixed assets entry from accounting entries.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_PURCHASEFARSN" [model]="eventData?.model?.Parameters?.PurchaseFARsn" [hotLink]="{'name':'HKLPurchaseFARsn','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Account Balances Roots to Enable Link from General Ledger')" [hint]="_TB('It is the account root that enables the link between journal entries and fixed asset entries.')">
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT1" [model]="eventData?.model?.Parameters?.CoAAccount1" [hotLink]="{'name':'HKLCoAAccountRadAccount1','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT2" [model]="eventData?.model?.Parameters?.CoAAccount2" [hotLink]="{'name':'HKLCoAAccountRadAccount2','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT3" [model]="eventData?.model?.Parameters?.CoAAccount3" [hotLink]="{'name':'HKLCoAAccountRadAccount3','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT4" [model]="eventData?.model?.Parameters?.CoAAccount4" [hotLink]="{'name':'HKLCoAAccountRadAccount4','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT5" [model]="eventData?.model?.Parameters?.CoAAccount5" [hotLink]="{'name':'HKLCoAAccountRadAccount5','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT6" [model]="eventData?.model?.Parameters?.CoAAccount6" [hotLink]="{'name':'HKLCoAAccountRadAccount6','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT7" [model]="eventData?.model?.Parameters?.CoAAccount7" [hotLink]="{'name':'HKLCoAAccountRadAccount7','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT8" [model]="eventData?.model?.Parameters?.CoAAccount8" [hotLink]="{'name':'HKLCoAAccountRadAccount8','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT9" [model]="eventData?.model?.Parameters?.CoAAccount9" [hotLink]="{'name':'HKLCoAAccountRadAccount9','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item>
+                                                        <tb-text cmpId="IDC_PARAMETERS_RADCNT10" [model]="eventData?.model?.Parameters?.CoAAccount10" [hotLink]="{'name':'HKLCoAAccountRadAccount10','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByAccountType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                        </tb-property-grid>
                                     </div>
-                                    <div class="col col2">
-                                        <div class="anchored">
-                                            <tb-combo cmpId="IDC_QUOTATIONS_ADT_PRICELIST" [caption]="_TB('Price List')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.PriceList" [hotLink]="{'name':'HKLPriceLists','namespace':'ERP.PricePolicies.Dbl.PriceLists','mustExistData':true}"></tb-combo>
-                                            <tb-label-static cmpId="IDC_QUOTATIONS_ADT_DESCRI_PRICELIST" [width]="154" [model]="eventData?.model?.HKLPriceLists?.Description"></tb-label-static>
-                                        </div>
-                                        <tb-checkbox cmpId="IDC_QUOTATIONS_ADT_AMOUNTS_DETAIL_AL_NET_TAX" [width]="109" [model]="eventData?.model?.CustomerQuotation?.NetOfTax" [caption]="_TB('Prices do not include Tax  ')"></tb-checkbox>
-                                    </div>
-                                </tb-panel>
-                                <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel [title]="_TB('Company Bank')" tbTileStandard [isCollapsible]="true">
-                                        <div class="col col1">
-                                            <tb-combo cmpId="IDC_CS_BANK_RAPP" [caption]="_TB('Bank')" [width]="72" [model]="eventData?.model?.CustomersSuppliers?.CompanyBank" [hotLink]="{'name':'HKLCompanyBank','namespace':'ERP.Banks.Dbl.CompanyBanks'}" [contextMenu]="cm_IDC_CS_BANK_RAPP"></tb-combo>
-                                            <tb-label-static cmpId="IDC_CS_DESCRI_BARELATION" [width]="222" [model]="eventData?.model?.HKLCompanyBank?.Description"></tb-label-static>
-                                            <div class="anchored">
-                                                <tb-text cmpId="IDC_CS_CA_AZ" [caption]="_TB('Bill CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CompanyCA" [hotLink]="{'name':'HKLBillsCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
-                                                <tb-enum-combo *ngIf="eventData?.activation?.IDC_CS_PRESENTATION" cmpId="IDC_CS_PRESENTATION" [width]="130" [model]="eventData?.model?.CustomersSuppliers?.Presentation"></tb-enum-combo>
-                                            </div>
-                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_FACTORING" cmpId="IDC_CS_CA_FACTORING" [caption]="_TB('Factoring CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.FactoringCA" [hotLink]="{'name':'HKLFactoringCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
-                                        </div>
-                                    </tb-panel>
-                                    <tb-panel [title]="_TB('Company Bank')" tbTileStandard [isCollapsible]="true">
-                                        <div class="col col1">
-                                            <tb-combo cmpId="IDC_CS_BANK_RAPP" [caption]="_TB('Bank')" [width]="72" [model]="eventData?.model?.CustomersSuppliers?.CompanyBank" [hotLink]="{'name':'HKLCompanyBank','namespace':'ERP.Banks.Dbl.CompanyBanks'}" [contextMenu]="cm_IDC_CS_BANK_RAPP"></tb-combo>
-                                            <tb-label-static cmpId="IDC_CS_DESCRI_BARELATION" [width]="223" [model]="eventData?.model?.HKLCompanyBank?.Description"></tb-label-static>
-                                            <div class="anchored">
-                                                <tb-text cmpId="IDC_CS_CA_AZ" [caption]="_TB('Bill CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CompanyCA" [hotLink]="{'name':'HKLBillsCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
-                                                <tb-enum-combo *ngIf="eventData?.activation?.IDC_CS_PRESENTATION" cmpId="IDC_CS_PRESENTATION" [width]="131" [model]="eventData?.model?.CustomersSuppliers?.Presentation"></tb-enum-combo>
-                                            </div>
-                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_FACTORING" cmpId="IDC_CS_CA_FACTORING" [caption]="_TB('Factoring CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.FactoringCA" [hotLink]="{'name':'HKLFactoringCAs','namespace':'ERP.Banks.Dbl.BanksBillAccounts'}"></tb-text>
-                                            <tb-text *ngIf="eventData?.activation?.IDC_CS_CA_AZ_CUSTOMERS" cmpId="IDC_CS_CA_AZ_CUSTOMERS" [caption]="_TB('Payments CA')" [width]="90" [model]="eventData?.model?.CustomersSuppliers?.CustomerCompanyCA" [hotLink]="{'name':'HKLBanksCAsCustomers','namespace':'ERP.Banks.Dbl.BanksAccounts'}"></tb-text>
-                                            <tb-label-static *ngIf="eventData?.activation?.IDC_CS_STATIC_IBAN" cmpId="IDC_CS_STATIC_IBAN" [caption]="_TB('IBAN')" [width]="223" [model]="eventData?.model?.HKLBanksCAsCustomers?.IBAN"></tb-label-static>
-                                        </div>
-                                    </tb-panel>
-                                </tb-layout-container>
-                                <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel [title]="_TB('Currency')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
-                                        <div class="col col1">
-                                            <div class="anchored">
-                                                <tb-combo cmpId="IDC_QUOTATIONS_TST_CURRENCY" [caption]="_TB('Currency')" [width]="62" [model]="eventData?.model?.CustomerQuotation?.Currency" [hotLink]="{'name':'HKLCurrenciesCurrObj','namespace':'ERP.Currencies.Dbl.Currencies','mustExistData':true}"></tb-combo>
-                                                <tb-label-static cmpId="IDC_QUOTATIONS_TST_DESCRI_CURRENCY" [width]="154" [model]="eventData?.model?.HKLCurrenciesCurrObj?.Description"></tb-label-static>
-                                            </div>
-                                            <div class="anchored">
-                                                <tb-date-input cmpId="IDC_QUOTATIONS_TST_DATE_FIXING" formatter="Date" [readonly]="false" [caption]="_TB('Fixing Date')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.FixingDate"></tb-date-input>
-                                                <tb-text cmpId="IDC_QUOTATIONS_DOC_FIXING" [caption]="_TB('Fixing Value')" [width]="68" [model]="eventData?.model?.CustomerQuotation?.Fixing" [hotLink]="{'name':'HKLFixing','namespace':'ERP.Currencies.Components.FixingForCurrencyDoc'}"></tb-text>
-                                            </div>
-                                        </div>
-                                    </tb-panel>
-                                    <tb-panel [title]="_TB('Delivery')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
-                                        <div class="col col1">
-                                            <tb-date-input cmpId="IDC_QUOTATIONS_TST_EXPECTEDDELIVERYDATE" formatter="Date" [readonly]="false" [caption]="_TB('Deliver on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ExpectedDeliveryDate"></tb-date-input>
-                                            <tb-date-input cmpId="IDC_QUOTATIONS_EXPIRINGDATE" formatter="Date" [readonly]="false" [caption]="_TB('Expire on')" [width]="57" [model]="eventData?.model?.CustomerQuotation?.ValidityEndingDate"></tb-date-input>
-                                        </div>
-
-                                    </tb-panel>
-                                </tb-layout-container>
-                                <tb-panel [title]="_TB('Detail')" tbTileAutoFill>
-                                    <tb-body-edit cmpId="IDC_CUSTQUOTA_DOC_BODY_DETAIL" [width]="325" [model]="eventData?.model?.Detail" [height]="126">
-                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_POSITION" formatter="Integer" [model]="eventData?.model?.Detail?.Position" [title]="_TB('Position')" columnType="tb-numeric-text-box">
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DETAIL_BE_LINETYPE" [model]="eventData?.model?.Detail?.LineType" [title]="_TB('Line Type')" columnType="tb-enum-combo">
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_QUOTATIONS_DOC_DETAIL_DRAWING" [model]="eventData?.model?.Detail?.Drawing" [title]="_TB('Drawing')" columnType="erp-item-edit" *ngIf="eventData?.activation?.IDC_QUOTATIONS_DOC_DETAIL_DRAWING">
-                                        </tb-body-edit-column>
-                                    </tb-body-edit>
-                                </tb-panel>
-                                <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel [title]="_TB('Shipping Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
-                                        <div class="col">
-                                            <div class="anchored">
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_NO_PACKS" formatter="Integer" [caption]="_TB('No. of Packs')" [width]="57" [model]="eventData?.model?.Shipping?.NoOfPacks"></tb-numeric-text-box>
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_NET" formatter="Double" [caption]="_TB('Net Weight')" [width]="57" [model]="eventData?.model?.Shipping?.NetWeight"></tb-numeric-text-box>
-                                            </div>
-                                            <div class="anchored">
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_GROSSVOLUME" formatter="Double" [caption]="_TB('Gross Volume')" [width]="57" [model]="eventData?.model?.Shipping?.GrossVolume"></tb-numeric-text-box>
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CSP_TOT_WEIGHT_GROSS" formatter="Double" [caption]="_TB('Gross Weight')" [width]="57" [model]="eventData?.model?.Shipping?.GrossWeight"></tb-numeric-text-box>
-                                            </div>
-                                        </div>
-                                    </tb-panel>
-                                    <tb-panel [title]="_TB('Totals')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
-                                        <div class="col">
-                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('Total Free Samples')" [decimals]="eventData?.model?.CurrencyDecimal"
-                                                [width]="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamplesDocCurr"></tb-numeric-text-box>
-                                            <div class="anchored">
-                                                <tb-text cmpId="IDC_QUOTATIONS_CCO_SUMMARY_DISCOUNT" [caption]="_TB('Additional Discount')" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountFormula"></tb-text>
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_AMOUNT_DISCOUNT" formatter="Money" [caption]="_TB('Discount Amount')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.Discounts"></tb-numeric-text-box>
-                                            </div>
-                                            <div class="anchored">
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_DOC" formatter="Money" disabled="true" [caption]="_TB('Total')" [decimals]="eventData?.model?.MoneyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmount"></tb-numeric-text-box>
-                                                <tb-numeric-text-box cmpId="IDC_QUOTATIONS_CCO_TOT_FROM_PAY" formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" [decimals]="eventData?.model?.CurrencyDecimal" [width]="68" [model]="eventData?.model?.CustQuotasSummary?.PayableAmount"></tb-numeric-text-box>
-                                            </div>
-                                        </div>
-                                    </tb-panel>
-                                </tb-layout-container>
+                                </tb-tile>
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
-                    <tb-tile-manager-tab [title]="_TB('Summa&ry')" icon="erp-money">
+                    <tb-tile-manager-tab [title]="_TB('Depreci&ation')" icon="erp-depreciation">
                         <ng-template>
                             <tb-tile-group tbLayoutTypeVbox>
-                                <tb-layout-container tbLayoutTypeColumn>
-                                    <tb-panel [title]="_TB('Charges')" tbTileStandard isCollapsible="False" hasTitle="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_CHARGES_BR">
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Shipment')" cmpId="IDC_QUOTATIONS_EXPENSES_SHIPPING" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.ShippingCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Insurance')" cmpId="IDC_QUOTATIONS_EXPENSES_INSURANCE" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.InsuranceCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Additional')" cmpId="IDC_QUOTATIONS_EXPENSES_ADDITIONAL" minValue="0" width="80" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.AdditionalCharges"></tb-numeric-text-box>
-                                    </tb-panel>
-                                    <tb-panel [title]="_TB('Charges')" tbTileStandard isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_CHARGES">
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Shipment')" cmpId="IDC_QUOTATIONS_EXPENSES_SHIPPING" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.ShippingCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Packing')" cmpId="IDC_QUOTATIONS_EXPENSES_PACKAGE" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.PackagingCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Collection')" cmpId="IDC_QUOTATIONS_EXPENSES_COLLECTION" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.CollectionCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Additional')" cmpId="IDC_QUOTATIONS_EXPENSES_ADDITIONAL" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.AdditionalCharges"></tb-numeric-text-box>
-                                        <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_EXPENSES_STAMPS" formatter="Money" [caption]="_TB('Stamps')" cmpId="IDC_QUOTATIONS_EXPENSES_STAMPS" minValue="0" width="68" minValue="0" [model]="eventData?.model?.CustQuotasSummary?.StampsCharges"></tb-numeric-text-box>
-                                    </tb-panel>
-                                    <tb-panel [title]="_TB('Tax Summary')" tbTileStandard isCollapsible="True" *ngIf="eventData?.activation?.IDD_TD_CUSTQUOTA_TAX_SUMMARY">
-                                        <tb-body-edit cmpId="IDC_QUOTATIONS_CCO_BODY_TAXSUMMARY" width="325" [model]="eventData?.model?.TaxSummary">
-                                            <tb-body-edit-column cmpId="IDC_QUOTATIONS_RIV_COD_TAX" [model]="eventData?.model?.TaxSummary?.TaxCode" [title]="_TB('Tax Code')" columnType="tb-label-static">
+                                <tb-tile tbTileStandard>
+                                    <div class="col col1">
+                                        <tb-property-grid cmpId="IDC_PG_PARAMETERS_DEPRECIATION" [width]="320">
+                                            <tb-property-grid-item-group [text]="_TB('General')" [hint]="_TB('General')">
+                                                <tb-property-grid-item [text]="_TB('Max No. of Depreciation Entry Lines')" [hint]="_TB('It is the maximum number of rows that can be contained in a fixed assets entry generated by automatic depreciation procedure.')">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_MAXLINESDEPR" formatter="Integer" [minValue]="1" [model]="eventData?.model?.Parameters?.MaxLines"></tb-numeric-text-box>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item-group [text]="_TB('Fiscal Depreciation')" [hint]="_TB('Fiscal Depreciation')">
+                                                    <tb-property-grid-item [text]="_TB('Disable Accelerated')" [hint]="_TB('It disables accelerated depreciation.')">
+                                                        <tb-checkbox cmpId="IDC_PARAMETERS_DISABLEACCELERATED" [model]="eventData?.model?.Parameters?.DisableAccelerated"></tb-checkbox>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('No Fiscal over Balance')" [hint]="_TB('It checks that fiscal depreciation does not exceeded to balance depreciation.')">
+                                                        <tb-checkbox cmpId="IDC_PARAMETERS_NOFISCOVERBAL" [model]="eventData?.model?.Parameters?.NoFiscalOverBalance"></tb-checkbox>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Method applied for first fiscal year calculation')" [hint]="_TB('It is the method to calculate the depreciation of the first fiscal year.')">
+                                                        <tb-enum-combo cmpId="IDC_PARAMETERS_CODETYPEREDFIRSTFISCALYEARPERC" [model]="eventData?.model?.Parameters?.FirstFiscalYearReduction" [itemSource]="IDC_PARAMETERS_CODETYPEREDFIRSTFISCALYEARPERC_itemSource"></tb-enum-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                                <tb-property-grid-item-group [text]="_TB('Balance Depreciation')" [hint]="_TB('Balance Depreciation')">
+                                                    <tb-property-grid-item [text]="_TB('Balance Depreciation basing on')" [hint]="_TB('It allows to set up the calculation of balance depreciation by percentage or basing on use (in months or in days).')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_BALANCEDEPRTAB" [model]="eventData?.model?.BalanceDepreciationValueCombo"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Depreciation on Usage for 100% also')" [hint]="_TB('It allows to apply balance depreciation basing on use also to fixed assets that have 100% as depreciation rate.')">
+                                                        <tb-checkbox cmpId="IDC_PARAMETERS_BALDEPRUSAGE100" [model]="eventData?.model?.Parameters?.BalanceDeprUsage100"></tb-checkbox>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Method applied for first fiscal year calculation')" [hint]="_TB('It is the method to calculate the depreciation of the first fiscal year.')">
+                                                        <tb-enum-combo cmpId="IDC_PARAMETERS_CODETYPEREDFIRSTBALANCEYEARPERC" [model]="eventData?.model?.Parameters?.FirstBalanceYearReduction" [itemSource]="IDC_PARAMETERS_CODETYPEREDFIRSTBALANCEYEARPERC_itemSource"></tb-enum-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Reasons')" [hint]="_TB('Reasons')">
+                                                <tb-property-grid-item [text]="_TB('Fiscal Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of fiscal depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSNFISCALDEPRFARSNC" [model]="eventData?.model?.Parameters?.FiscalDeprFARsn" [hotLink]="{'name':'HKLEntryRsnFiscDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Balance Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of balance depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCEDEPRFARSN" [model]="eventData?.model?.Parameters?.BalanceDeprFARsn" [hotLink]="{'name':'HKLEntryRsnBalDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Financial Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of financial depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSNFINANCIALDEPRFARSN" [model]="eventData?.model?.Parameters?.FinancialDeprFARsn" [hotLink]="{'name':'HKLEntryRsnFinDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Renewal Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of renewal depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSN_ENTRY_REN_DEPR" [model]="eventData?.model?.Parameters?.RenewalDeprFARsn" [hotLink]="{'name':'HKLEntryRsnDeprRinn','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Lost Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of lost depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSN_ENTRY_QUO_LOST" [model]="eventData?.model?.Parameters?.LostDeprFARsn" [hotLink]="{'name':'HKLEntryRsnLostAccumDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Accelerated Depreciation')" [hint]="_TB('It is the reason used by automatic depreciation procedure to generate fixed assets entries of accelerated depreciation.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_RSNACCELDEPRFARSN" [model]="eventData?.model?.Parameters?.AcceleratedDeprFARsn" [hotLink]="{'name':'HKLEntryRsnDeprAnt','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Accelerated Accumulated Depreciation Transfer')" [hint]="_TB('It is the reason used by automatic procedure to generate fixed assets entries of accelerated accumulated depreciation transfer.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_ACCACCDEPRALIGNACCRSN" [model]="eventData?.model?.Parameters?.AlignAccAccumDeprFARsn" [hotLink]="{'name':'HKLEntryRsnAccAccDeprAlign','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Accelerated Depreciation Alignment')" [hint]="_TB('It is the reason used by automatic procedure to generate fixed assets entries of accelerated depreciation alignment.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_ACCDEPRALIGNACCRSN" [model]="eventData?.model?.Parameters?.AlignAccumDeprFARsn" [hotLink]="{'name':'HKLEntryRsnAccDeprAlign','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons'}"></tb-combo>
+                                                </tb-property-grid-item>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Accounting')" [hint]="_TB('Accounting')">
+                                                <tb-property-grid-item [text]="_TB('In Automatic Depreciation Accounting Entry')" [hint]="_TB('It allows to group (by Offset or by Category) or to post one line for each asset in Accounting Entries generated by Automatic Depreciation procedure.')">
+                                                    <tb-combo cmpId="IDC_PARAMETERS_JENTRYACC" [model]="eventData?.model?.AutoDeprJEEntryValueCombo"></tb-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item [text]="_TB('Period of posting depreciation')" [hint]="_TB('It allows to post depreciation monthly or quarterly or yearly.')">
+                                                    <tb-enum-combo cmpId="IDC_PARAMETERS_PERIODPOSTING" [model]="eventData?.model?.Parameters?.PeriodPosting"></tb-enum-combo>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item-group [text]="_TB('Accounting Templates')" [hint]="_TB('Accounting Templates')">
+                                                    <tb-property-grid-item [text]="_TB('Depreciation')" [hint]="_TB('It is the accounting template used by automatic procedures to post depreciation in accounting entries.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_DEPRECIATIONACCTPL" [model]="eventData?.model?.Parameters?.DepreciationAccTpl" [hotLink]="{'name':'HKLDepreciationAccTpl','namespace':'ERP.Accounting.Dbl.AccountingTemplatesByOperationType'}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                                <tb-property-grid-item-group [text]="_TB('Accounting Reasons')" [hint]="_TB('Accounting Reasons')">
+                                                    <tb-property-grid-item [text]="_TB('Depreciation')" [hint]="_TB('It is the accounting reason used to post depreciation.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_DEPRECIATIONACCRSN" [model]="eventData?.model?.Parameters?.DepreciationAccRsn" [hotLink]="{'name':'HKLDepreciationAccRsn','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accelerated Depreciation')" [hint]="_TB('It is the accounting reason used to post accelerated depreciation.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ACCELDEPRACCRSN" [model]="eventData?.model?.Parameters?.AcceleratedDeprAccRsn" [hotLink]="{'name':'HKLAccelDeprAccRsn','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Declining Balance')" [hint]="_TB('Declining Balance')">
+                                                <tb-property-grid-item [text]="_TB('Step for Balance Depreciation')" [hint]="_TB('It is the number of periods for Balance Depreciation.')">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_CHARGESNOY" formatter="Integer" [model]="eventData?.model?.Parameters?.ChargesNoOfyears"></tb-numeric-text-box>
+                                                </tb-property-grid-item>
+                                            </tb-property-grid-item-group>
+                                        </tb-property-grid>
+                                    </div>
+                                </tb-tile>
+                                <tb-panel [title]="_TB('Declining Balance Coefficient')" tbTileAutoFill *ngIf="eventData?.activation?._ERP_MasterData_BGOrERP_MasterData_RO">
+                                    <div class="col col1">
+                                        <tb-body-edit cmpId="IDC_PARAMETERS_COEFF_BODY" [width]="432" [model]="eventData?.model?.ParametersCoeff" [height]="190" bodyEditName="ParametersCoeff">
+                                            <tb-body-edit-column formatter="Integer" columnName="FromPeriod" [title]="_TB('From Period')">
+                                                <ng-template let-columnModel="columnModel">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_FROM" [model]="columnModel"></tb-numeric-text-box>
+                                                </ng-template>
                                             </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TaxableAmount" [title]="_TB('Taxable Amount')" columnType="tb-numeric-text-box">
+                                            <tb-body-edit-column formatter="Integer" columnName="ToPeriod" [title]="_TB('To Period')">
+                                                <ng-template let-columnModel="columnModel">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_TO" [model]="columnModel"></tb-numeric-text-box>
+                                                </ng-template>
                                             </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TaxAmount" [title]="_TB('Tax')" columnType="tb-numeric-text-box">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.AdditionalTaxAmount" [title]="_TB('Additional Tax')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_TAX">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TOTALAMOUNT_TAX" [model]="eventData?.model?.TaxSummary?.TotalAmount" [title]="_TB('Total')" columnType="tb-numeric-text-box">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TaxableAmountDocCurr" [title]="_TB('Taxable Amount (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TAXABLEAMOUNT_CURRENCY">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TAXAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TaxAmountDocCurr" [title]="_TB('Tax (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TAXAMOUNT_CURRENCY">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.AdditionalTaxAmountDocCurr" [title]="_TB('Additional Tax (Foreign Currency)')" columnType="tb-numeric-text-box"
-                                                *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_ADDITIONALTAXAMOUNT_CURRENCY">
-                                            </tb-body-edit-column>
-                                            <tb-body-edit-column formatter="Money" disabled="true" cmpId="IDC_QUOTATIONS_RIV_TOTALAMOUNT_CURRENCY" [model]="eventData?.model?.TaxSummary?.TotalAmountDocCurr" [title]="_TB('Total (Foreign Currency)')" columnType="tb-numeric-text-box" *ngIf="eventData?.activation?.IDC_QUOTATIONS_RIV_TOTALAMOUNT_CURRENCY">
+                                            <tb-body-edit-column formatter="Percent" columnName="RegrCoeff" [title]="_TB('Regressive Coefficient')">
+                                                <ng-template let-columnModel="columnModel">
+                                                    <tb-numeric-text-box cmpId="IDC_PARAMETERS_REGRCOEFF" [model]="columnModel"></tb-numeric-text-box>
+                                                </ng-template>
                                             </tb-body-edit-column>
                                         </tb-body-edit>
-                                    </tb-panel>
-                                </tb-layout-container>
-                                <tb-panel [title]="_TB('Totals')" tbTileWide>
-                                    <div class="col col1">
-                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Goods')" cmpId="IDC_QUOTATIONS_CCO_TOT_GOODS" width="68" [model]="eventData?.model?.CustQuotasSummary?.GoodsAmount"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Services')" cmpId="IDC_QUOTATIONS_CCO_TOT_SERVICEAMOUNTS" width="68" [model]="eventData?.model?.CustQuotasSummary?.ServiceAmounts"></tb-numeric-text-box>
-                                        <div class="anchored">
-                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('Free Samples')" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES_CURRENCY" width="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamplesDocCurr"></tb-numeric-text-box>
-                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_FREESAMPLES" formatter="Money" disabled="true" [caption]="_TB('in Base Currency')" cmpId="IDC_QUOTATIONS_CCO_TOT_FREESAMPLES" width="68" [model]="eventData?.model?.CustQuotasSummary?.FreeSamples"></tb-numeric-text-box>
-                                        </div>
-                                        <tb-section-title cmpId="IDC_STATIC_DISCOUNT" width="325" [caption]="_TB('Discounts')"></tb-section-title>
-                                        <div class="anchored">
-                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Goods')" cmpId="IDC_QUOTATIONS_CCO_TOT_DISCOUNTS_GOODS_DETAIL" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountOnGoods"></tb-numeric-text-box>
-                                            <tb-numeric-text-box formatter="Money" [caption]="_TB('Discount Amount')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_DISCOUNT" width="68" [model]="eventData?.model?.CustQuotasSummary?.Discounts"></tb-numeric-text-box>
-                                        </div>
-                                        <div class="anchored">
-                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Services')" cmpId="IDC_QUOTATIONS_CCO_TOT_DISCOUNTS_SERVICEAMOUNTS_DETAIL" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountOnServices"></tb-numeric-text-box>
-                                            <tb-text [caption]="_TB('Additional Discount')" cmpId="IDC_QUOTATIONS_CCO_SUMMARY_DISCOUNT" width="68" [model]="eventData?.model?.CustQuotasSummary?.DiscountFormula"></tb-text>
-                                        </div>
-                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total')" cmpId="IDC_QUOTATIONS_CCO_TOT_GEN_DISCOUNTS" width="68" [model]="eventData?.model?.CustQuotasSummary?.GeneralDiscountTot"></tb-numeric-text-box>
                                     </div>
-                                    <div class="col col2">
-                                        <div class="anchored">
-                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Document Total')" cmpId="IDC_QUOTATIONS_CCO_TOT_DOC" width="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmount"></tb-numeric-text-box>
-                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_TOT_DOC_IN_CURRENCY" formatter="Money" disabled="true" [caption]="_TB('in Foreign Currency')" cmpId="IDC_QUOTATIONS_CCO_TOT_DOC_IN_CURRENCY" width="68" [model]="eventData?.model?.CustQuotasSummary?.TotalAmountDocCurr"></tb-numeric-text-box>
-                                        </div>
-                                        <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Advances')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_ADVANCES" width="68" [model]="eventData?.model?.CustQuotasSummary?.Advance"></tb-numeric-text-box>
-                                        <tb-numeric-text-box formatter="Money" [caption]="_TB('Allowances')" cmpId="IDC_QUOTATIONS_CCO_AMOUNT_ALLOWANCES" width="68" [model]="eventData?.model?.CustQuotasSummary?.Allowances"></tb-numeric-text-box>
-                                        <div class="anchored">
-                                            <tb-numeric-text-box formatter="Money" disabled="true" [caption]="_TB('Total to Be Paid')" cmpId="IDC_QUOTATIONS_CCO_TOT_FROM_PAY" width="68" [model]="eventData?.model?.CustQuotasSummary?.PayableAmount"></tb-numeric-text-box>
-                                            <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_QUOTATIONS_CCO_PAYABLEAMOUNTINBASECURR_CURRENCY_BASE" formatter="Money" disabled="true" [caption]="_TB('in Base Currency')" cmpId="IDC_QUOTATIONS_CCO_PAYABLEAMOUNTINBASECURR_CURRENCY_BASE" width="68"
-                                                [model]="eventData?.model?.CustQuotasSummary?.PayableAmountInBaseCurr"></tb-numeric-text-box>
-                                        </div>
+                                </tb-panel>
+                            </tb-tile-group>
+                        </ng-template>
+                    </tb-tile-manager-tab>
+                    <tb-tile-manager-tab [title]="_TB('D&isposal')" icon="erp-sales">
+                        <ng-template>
+                            <tb-tile-group tbLayoutTypeNone>
+                                <tb-tile tbTileStandard>
+                                    <div class="col col1">
+                                        <tb-property-grid cmpId="IDC_PG_PARAMETERS_DISPOSAL" [width]="320">
+                                            <tb-property-grid-item-group [text]="_TB('General')" [hint]="_TB('General')">
+                                                <tb-property-grid-item [text]="_TB('Calculate Fiscal Depreciation')" [hint]="_TB('It allows to calculate fiscal depreciation until disposal date of fixed asset.')">
+                                                    <tb-checkbox cmpId="IDC_PARAMETERS_DISPOSALDEPR" [model]="eventData?.model?.Parameters?.DisposalDepr"></tb-checkbox>
+                                                </tb-property-grid-item>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Reasons')" [hint]="_TB('Reasons')">
+                                                <tb-property-grid-item-group [text]="_TB('Fiscal Disposal')" [hint]="_TB('Fiscal Disposal')">
+                                                    <tb-property-grid-item [text]="_TB('Sale')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Sale.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNSALEFARSN" [model]="eventData?.model?.Parameters?.SaleFARsn" [hotLink]="{'name':'HKLEntryRsnSale','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Partial Sale')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Partial Sale.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNPARTIALSALEFARSN" [model]="eventData?.model?.Parameters?.PartialSaleFARsn" [hotLink]="{'name':'HKLEntryRsnSaleP','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Scrap')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Scrap.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNSCRAPFARSN" [model]="eventData?.model?.Parameters?.ScrapFARsn" [hotLink]="{'name':'HKLEntryRsnScrap','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Partial Scrap')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Partial Scrap.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNPARTIALSCRAPFARSN" [model]="eventData?.model?.Parameters?.PartialScrapFARsn" [hotLink]="{'name':'HKLEntryRsnPScrap','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Gain')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Capital Gain.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNCAPITALGAINFARSN" [model]="eventData?.model?.Parameters?.CapitalGainFARsn" [hotLink]="{'name':'HKLEntryRsnCapitalGain','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Loss')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Capital Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNCAPITALLOSSFARSN" [model]="eventData?.model?.Parameters?.CapitalLossFARsn" [hotLink]="{'name':'HKLEntryRsnCapitalLoss','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Windfall Loss')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Windfall Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ENTRYRSNWINDF" [model]="eventData?.model?.Parameters?.WindfallLossFARsn" [hotLink]="{'name':'HKLEntryRsnWindf','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accumulated Depreciation Reversal')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Accumulated Depreciation Reversal.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSN_ENTRY_STF" [model]="eventData?.model?.Parameters?.AccumDeprReversalFARsn" [hotLink]="{'name':'HKLEntryRsnStAccumDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accelerated Accumulated Depreciation Reversal')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Accelerated Accumulated Depreciation Reversal.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSN_ENTRY_STFA" [model]="eventData?.model?.Parameters?.AccAccumDeprReversalFARsn" [hotLink]="{'name':'HKLEntryRsnStAccAccumDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accumulated Lost Depreciation Reversal')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Accumulated Lost Depreciation Reversal.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ENTRYRSNSTLOSTDEPR" [model]="eventData?.model?.Parameters?.LostAccumDeprReversalFARsn" [hotLink]="{'name':'HKLEntryRsnStLostAccumDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                                <tb-property-grid-item-group [text]="_TB('Balance Disposal')" [hint]="_TB('Balance Disposal')">
+                                                    <tb-property-grid-item [text]="_TB('Sale')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Sale.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCESALEFARSN" [model]="eventData?.model?.Parameters?.BalanceSaleFARsn" [hotLink]="{'name':'HKLEntryRsnSaleBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Partial Sale')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Partial Sale.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCEPARTIALSALEFARSN" [model]="eventData?.model?.Parameters?.BalancePartialSaleFARsn" [hotLink]="{'name':'HKLEntryRsnSalePBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Scrap')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Scrap.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCESCRAPFARSN" [model]="eventData?.model?.Parameters?.BalanceScrapFARsn" [hotLink]="{'name':'HKLEntryRsnScrapBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Partial Scrap')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Partial Scrap.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCEPARTIALSCRAPFARSN" [model]="eventData?.model?.Parameters?.BalancePartialScrapFARsn" [hotLink]="{'name':'HKLEntryRsnPScrapBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Gain')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Capital Gain.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCECAPITALGAINFARSN" [model]="eventData?.model?.Parameters?.BalanceCapitalGainFARsn" [hotLink]="{'name':'HKLEntryRsnCapitalGainBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Loss')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Capital Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSNBALANCECAPITALLOSSFARSN" [model]="eventData?.model?.Parameters?.BalanceCapitalLossFARsn" [hotLink]="{'name':'HKLEntryRsnCapitalLossBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Windfall Loss')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Windfall Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ENTRYRSNWINDFBALANCE" [model]="eventData?.model?.Parameters?.BalanceWindfallLossFARsn" [hotLink]="{'name':'HKLEntryRsnWindfBalance','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accumulated Depreciation Reversal')" [hint]="_TB('It is the reason used by disposal procedure to generate fixed assets entries of Accumulated Depreciation Reversal.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_RSN_ENTRY_STFBALANCE" [model]="eventData?.model?.Parameters?.BalAccumDeprReversalFARsn" [hotLink]="{'name':'HKLEntryRsnStBalAccumDepr','namespace':'ERP.FixedAssets.Dbl.FixedAssetsReasons','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                            <tb-property-grid-item-group [text]="_TB('Accounting')" [hint]="_TB('Accounting')">
+                                                <tb-property-grid-item [text]="_TB('Post to Accounting')" [hint]="_TB('It allows in disposal procedure to suggest posting in accounting.')">
+                                                    <tb-checkbox cmpId="IDC_PARAMETERS_DISPOSALPOSTJE" [model]="eventData?.model?.Parameters?.DisposalPostJE"></tb-checkbox>
+                                                </tb-property-grid-item>
+                                                <tb-property-grid-item-group [text]="_TB('Accounting Templates')" [hint]="_TB('Accounting Templates')">
+                                                    <tb-property-grid-item [text]="_TB('Sale')" [hint]="_TB('It is the accounting template used by automatic procedures to post fixed asset sale in accounting entries.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_SALEACCTPL" [model]="eventData?.model?.Parameters?.SaleAccTpl" [hotLink]="{'name':'HKLSaleAccTpl','namespace':'ERP.Accounting.Dbl.AccountingTemplatesByOperationType','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Scrap')" [hint]="_TB('It is the accounting template used by automatic procedures to post fixed asset scrap in accounting entries.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_SCRAPACCTPL" [model]="eventData?.model?.Parameters?.ScrapAccTpl" [hotLink]="{'name':'HKLScrapAccTpl','namespace':'ERP.Accounting.Dbl.AccountingTemplatesByOperationType','mustExistData':true}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                                <tb-property-grid-item-group [text]="_TB('Accounting Reasons')" [hint]="_TB('Accounting Reasons')">
+                                                    <tb-property-grid-item [text]="_TB('Capital Gain')" [hint]="_TB('It is the accounting reason used by disposal procedure to post Capital Gain.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ACCRSN_PLUSV" [model]="eventData?.model?.Parameters?.CapitalGainAccRsn" [hotLink]="{'name':'HKLRsnWithCapitalGain','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Loss')" [hint]="_TB('It is the accounting reason used by disposal procedure to post Capital Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ACCRSN_MINUSV" [model]="eventData?.model?.Parameters?.CapitalLossAccRsn" [hotLink]="{'name':'HKLRsnWithCapitalLoss','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Windfall Loss')" [hint]="_TB('It is the accounting reason used by disposal procedure to post Windfall Loss.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ACCRSNWINDFLOSS" [model]="eventData?.model?.Parameters?.WindfallLossAccRsn" [hotLink]="{'name':'HKLRsnWithWindfLoss','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Accumulated Depreciation Reversal')" [hint]="_TB('It is the accounting reason used by disposal procedure to reserve Accumulated Depreciation.')">
+                                                        <tb-combo cmpId="IDC_PARAMETERS_ACCUMDEPRREVERSALACCRSN" [model]="eventData?.model?.Parameters?.AccumDeprReversalAccRsn" [hotLink]="{'name':'HKLAccumDeprReversalAccRsn','namespace':'ERP.Accounting.Dbl.AccountingReasonsByTemplate','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                                <tb-property-grid-item-group [text]="_TB('Accounts')" [hint]="_TB('Accounts')">
+                                                    <tb-property-grid-item [text]="_TB('Capital Gain')" [hint]="_TB('It is the account of Chart of Accounts used by disposal procedure to post Capital Gain.')">
+                                                        <tb-text cmpId="IDC_PARAMETERS_CAPITALGAINACC" [model]="eventData?.model?.Parameters?.CapitalGain" [hotLink]="{'name':'HKLCoAAccountAccountCapitalGain','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByLedgerType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Capital Loss')" [hint]="_TB('It is the account of Chart of Accounts used by disposal procedure to post Capital Loss.')">
+                                                        <tb-text cmpId="IDC_PARAMETERS_CAPITALLOSSACC" [model]="eventData?.model?.Parameters?.CapitalLoss" [hotLink]="{'name':'HKLCoAAccountAccountCapitalLoss','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByLedgerType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                    <tb-property-grid-item [text]="_TB('Windfall Loss')" [hint]="_TB('It is the account of Chart of Accounts used by disposal procedure to post Windfall Loss.')">
+                                                        <tb-text cmpId="IDC_PARAMETERS_OFFSETWINDFALL_LOSS" [model]="eventData?.model?.Parameters?.WindfallLoss" [hotLink]="{'name':'HKLCoAAccountAccountWindfLoss','namespace':'ERP.ChartOfAccounts.Dbl.ChartOfAccountsByLedgerType'}"></tb-text>
+                                                    </tb-property-grid-item>
+                                                </tb-property-grid-item-group>
+                                            </tb-property-grid-item-group>
+                                        </tb-property-grid>
+                                    </div>
+                                </tb-tile>
+                            </tb-tile-group>
+                        </ng-template>
+                    </tb-tile-manager-tab>
+                    <tb-tile-manager-tab [title]="_TB('Print&outs')" icon="tb-print">
+                        <ng-template>
+                            <tb-tile-group tbLayoutTypeNone>
+                                <tb-panel [title]="_TB('Customized Reports')" tbTileAutoFill>
+                                    <div class="col col1">
+                                        <tb-body-edit cmpId="IDC_PARAMETERS_PRINTS_BODYEDIT" [width]="412" [model]="eventData?.model?.CustomizedPrint" [height]="234" bodyEditName="CustomizedPrint">
+                                            <tb-body-edit-enum-combo-column columnName="CodeType" [title]="_TB('Type')">
+                                                <ng-template let-columnModel="columnModel">
+                                                    <tb-enum-combo cmpId="IDC_PARAMETERS_PRINTS_TYPE" [model]="columnModel" [itemSource]="IDC_PARAMETERS_PRINTS_TYPE_itemSource"></tb-enum-combo>
+                                                </ng-template>
+                                            </tb-body-edit-enum-combo-column>
+                                            <tb-body-edit-column columnName="DescriptiveText" [title]="_TB('Report')" [rows]="2" [chars]="64">
+                                                <ng-template let-columnModel="columnModel">
+                                                    <tb-text [rows]="2" [chars]="64" cmpId="IDC_PARAMETERS_PRINTS_FILEPATH" [model]="columnModel"></tb-text>
+                                                </ng-template>
+                                            </tb-body-edit-column>
+                                        </tb-body-edit>
                                     </div>
                                 </tb-panel>
                             </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
                 </tb-tile-manager>
-                <!-- END tilemanager -->
-
             </tb-view>
         </tb-view-container>
-        <tb-dockpane-container>
-            <tb-dockpane [activated]="false" [title]="_TB('Data Synchronizer')" iconType="M4" icon="tb-refresh">
-                <ng-template>
-                    <tb-view>
-                        <tb-tile-group tbLayoutTypeVbox>
-                            <tb-panel [title]="_TB('Data Validation Status')" tbTileStandard [isCollapsible]="true">
-                                <div class="col col1">
-                                    <tb-image cmpId="IDC_DS_VALIDATIONSTATUS_PICTURE" [height]="26" [width]="48" [width]="48" [model]="eventData?.model?.ValidationStatusPicture"></tb-image>
-                                    <tb-text cmpId="IDC_DS_LASTVALIDATION_STATUS" [width]="277" [multiline]="true" [model]="eventData?.model?.ValidationStatus"></tb-text>
-                                </div>
-                            </tb-panel>
-                            <tb-panel [title]="_TB('Data Synchronization Status')" tbTileStandard [isCollapsible]="true" [isCollapsed]="false">
-                                <div class="col col1">
-                                    <tb-image cmpId="IDC_DS_SYNCHSTATUS_PICTURE" [height]="29" [width]="48" [width]="48" [model]="eventData?.model?.SynchStatusPicture"></tb-image>
-                                    <tb-caption cmpId="IDC_STATIC_1" [width]="127" [caption]="_TB('Last Synch Datetime')"></tb-caption>
-                                    <tb-date-input cmpId="IDC_DS_LASTSYNCH_TIMESTAMP" formatter="DateTime" [readonly]="false" [width]="80" [model]="eventData?.model?.SynchDate"></tb-date-input>
-                                    <tb-text cmpId="IDC_DS_LASTSYNCH_DIRECTION" [width]="150" [model]="eventData?.model?.SynchDirection"></tb-text>
-                                    <tb-text cmpId="IDC_DS_LASTSYNCH_STATUS_HINTSS" [width]="277" [multiline]="true" [model]="eventData?.model?.SynchStatusHints"></tb-text>
-                                    <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG_HINTS" [width]="41" [caption]="_TB('Copy Text')"></tb-button>
-                                    <tb-caption cmpId="IDC_STATIC" [width]="90" [caption]="_TB('Direction')"></tb-caption>
-                                </div>
-                            </tb-panel>
-                            <tb-panel [title]="_TB('Data Synchronization Technical Details')" tbTileStandard [isCollapsible]="true" [isCollapsed]="true">
-                                <div class="col col1">
-                                    <tb-text cmpId="IDC_DS_LASTSYNCH_MSG_IMS" [width]="277" [multiline]="true" [model]="eventData?.model?.SynchMsg"></tb-text>
-                                    <tb-button cmpId="IDC_IDC_DS_LASTSYNCH_COPYMSG" [width]="41" [caption]="_TB('Copy Text')"></tb-button>
-                                </div>
-                            </tb-panel>
-                        </tb-tile-group>
-                    </tb-view>
-                </ng-template>
-            </tb-dockpane>
-            <tb-dockpane [activated]="true" [title]="_TB('Links')" iconType="M4" icon="erp-links">
-                <ng-template>
-                    <tb-view>
-                        <tb-tile-group tbLayoutTypeVbox>
-                            <tb-tile [title] tbTileStandard>
-                                <div class="col col1">
-                                    <tb-body-edit cmpId="IDC_PNL_BE" [width]="325" [model]="eventData?.model?.DBTLinksTable" [height]="126" bodyEditName="DBTLinksTable">
-                                        <tb-body-edit-column cmpId="IDC_PNL_BE_IMAGE" columnName="Image" [title]="_TB('Image')" columnType="tb-image">
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column cmpId="IDC_PNL_BE_DESCR" columnName="Description" [title]="_TB('Description')" columnType="tb-label-static">
-                                        </tb-body-edit-column>
-                                    </tb-body-edit>
-                                </div>
-                            </tb-tile>
-                        </tb-tile-group>
-                    </tb-view>
-                </ng-template>
-            </tb-dockpane>
-            <tb-dockpane [activated]="true" [title]="_TB('Credit Limit')" iconType="M4" icon="erp-collectionvoucher">
-                <ng-template>
-                    <tb-view>
-                        <tb-tile-group tbLayoutTypeVbox>
-                            <tb-tile [title] tbTileStandard>
-                                <div class="col col1">
-                                    <div class="anchored">
-                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT" [width]="65" [caption]="_TB('Credit Limit')"></tb-label-static>
-                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_EXPOSURE" [width]="65" [caption]="_TB('Exposure')"></tb-label-static>
-                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_MARGIN" [width]="65" [caption]="_TB('Margin')"></tb-label-static>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Single Order')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderLimit"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderExposure"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERSINGLE_ORDER_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerSingleOrderMargin"></tb-numeric-text-box>
-                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_SINGLE_ORDER" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusSingleOrder"></tb-image>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Ordered')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedLimit"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedExposure"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERORDERED_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerOrderedMargin"></tb-numeric-text-box>
-                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_ORDERED" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusOrdered"></tb-image>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Turnover')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverLimit"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverExposure"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverMargin"></tb-numeric-text-box>
-                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_TURNOVER" [height]="12" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusTurnover"></tb-image>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-label-static cmpId="IDC_STATIC_CREDIT_LIMIT_VIEWERTURNOVER_BILLS_EXPOSURE" [width]="98" [caption]="eventData?.model?.CLViewerBillsText"></tb-label-static>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_BILLS_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverBills"></tb-numeric-text-box>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-label-static cmpId="IDC_STATIC_8" [width]="98" [caption]="_TB('Other Payment Terms')"></tb-label-static>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_OTHER_PAYMENT_TERMS_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverOtherPaymentTerms"></tb-numeric-text-box>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-label-static cmpId="IDC_STATIC_9" [width]="98" [caption]="_TB('Invoice without Receivables')"></tb-label-static>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTURNOVER_INV_WITHOUT_REC_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTurnoverInvWithoutRec"></tb-numeric-text-box>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-label-static *ngIf="eventData?.activation?.IDC_STATIC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" cmpId="IDC_STATIC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" [width]="98" [caption]="_TB('Documents delivered not invoiced')"></tb-label-static>
-                                        <tb-numeric-text-box *ngIf="eventData?.activation?.IDC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" cmpId="IDC_CREDIT_LIMIT_VIEWERDELIV_DOC_NOT_INVOICED" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerDeliveredDocNotInvoiced"></tb-numeric-text-box>
-                                    </div>
-                                    <div class="anchored">
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_LIMIT" formatter="Money" disabled="true" [caption]="_TB('Total Exposure (net of Ordered)')" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureLimit"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_EXPOSURE" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureExposure"></tb-numeric-text-box>
-                                        <tb-numeric-text-box cmpId="IDC_CREDIT_LIMIT_VIEWERTOTAL_EXPOSURE_MARGIN" formatter="Money" disabled="true" [decimals]="eventData?.model?.MoneyDecimal" [width]="65" [model]="eventData?.model?.CLViewerTotalExposureMargin"></tb-numeric-text-box>
-                                        <tb-image cmpId="IDC_CREDIT_LIMIT_BMP_STATUS_TOTAL_EXPOSURE" [height]="18" [width]="18" [width]="18" [model]="eventData?.model?.CLViewerImageStatusTotalExposure"></tb-image>
-                                    </div>
-                                </div>
-                            </tb-tile>
-                            <tb-panel [title]="_TB('Documents')" tbTileAutoFill>
-                                <div class="col col1">
-                                    <tb-body-edit cmpId="IDC_CS_PEOPLE_BODY" [width]="325" [model]="eventData?.model?.People" [height]="216" bodyEditName="People">
-                                        <tb-body-edit-toolbar>
-                                            <tb-body-edit-toolbar-button icon="tb-add" [caption]="_TB('Add Reference')" cmpId="ID_BOM_AUX_REFERENCE"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="tb-document" [caption]="_TB('Open Semifinished BOM')" cmpId="ID_BOM_AUX_BOM_SEMIFINISHED"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="tb-tree" [caption]="_TB('Navigation')" cmpId="ID_BOM_AUX_BOM_NAVIGATION"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="tb-treesearch" [caption]="_TB('Explosion')" cmpId="ID_BOM_AUX_BOM_EXPLOSION"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="erp-money" [caption]="_TB('Costing')" cmpId="ID_BOM_AUX_BOM_COSTING"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="tb-treesearch" [caption]="_TB('Implosion')" cmpId="ID_BOM_AUX_BOM_IMPLOSION"></tb-body-edit-toolbar-button>
-                                            <tb-body-edit-toolbar-button icon="erp-inventory" [caption]="_TB('Item Balances Navigation')" cmpId="ID_BOM_AUX_ITEM_BALAN_NAV"></tb-body-edit-toolbar-button>
-                                        </tb-body-edit-toolbar>
-
-                                        <tb-body-edit-column columnName="TitleCode" [title]="_TB('Title')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_TITLE" [model]="columnModel" [hotLink]="{'name':'HKLTitlesPeopleBE','namespace':'ERP.Company.Dbl.Titles'}"></tb-combo>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="ExternalCode" [title]="_TB('Code')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_CODE" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="LastName" [title]="_TB('Last Name')" [rows]="2" [chars]="32">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text [rows]="2" [chars]="32" cmpId="IDC_DETAIL_CS_PEOPLE_LASTNAME" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="Name" [title]="_TB('Name')" [rows]="2" [chars]="32">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text [rows]="2" [chars]="32" cmpId="IDC_DETAIL_CS_PEOPLE_NAME" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column mask columnName="Telephone1" [title]="_TB('Phone 1')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL1" [model]="columnModel"></tb-phone>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column mask columnName="Telephone2" [title]="_TB('Phone 2')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL2" [model]="columnModel"></tb-phone>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="Telex" [title]="_TB('Telex')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_TELEX" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="Fax" [title]="_TB('Fax')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_FAX" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="Branch" [title]="_TB('Branch')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_BRANCH" [model]="columnModel" [hotLink]="{'name':'HKLPeopleBranch','namespace':'ERP.CustomersSuppliers.Dbl.Branches','mustExistData':true,'enableAddOnFly':false}"></tb-combo>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="WorkingPosition" [title]="_TB('Working Position')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_WORKPOS" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column columnName="Notes" [title]="_TB('Notes')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NOTES" [model]="columnModel"></tb-text>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-checkbox-column columnName="LegalRepresentative" [title]="_TB('Legal\nRepresentative')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-checkbox cmpId="IDC_DETAIL_CS_PEOPLE_LEGALREPRES" [model]="columnModel"></tb-checkbox>
-                                            </ng-template>
-                                        </tb-body-edit-checkbox-column>
-                                        <tb-body-edit-column columnName="EMail" [title]="_TB('Email')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-email cmpId="IDC_DETAIL_CS_PEOPLE_EMAIL" [model]="columnModel"></tb-email>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-column mask columnName="SkypeID" [title]="_TB('Skype')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_SKYPEID" [model]="columnModel"></tb-phone>
-                                            </ng-template>
-                                        </tb-body-edit-column>
-                                        <tb-body-edit-enum-combo-column columnName="AllDocuments" [title]="_TB('All\nDocuments')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_ALL_DOCUMENTS" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" columnName="SupplierQuotation" [title]="_TB('Supplier\nQuotation')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" columnName="PurchaseOrder" [title]="_TB('Purchase\nOrder')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" columnName="ReturnToSupplier" [title]="_TB('Return\nTo Supplier')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" columnName="SubcontrDeliveryNote" [title]="_TB('Subcontracting\nDelivery Note')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-body-edit-enum-combo-column *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" columnName="NotaFiscal" [title]="_TB('Nota\nFiscal')">
-                                            <ng-template let-columnModel="columnModel">
-                                                <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" [model]="columnModel"></tb-enum-combo>
-                                            </ng-template>
-                                        </tb-body-edit-enum-combo-column>
-                                        <tb-row-view-form>
-                                            <ng-template let-currentRow="currentRow">
-                                                <tb-tile-group tbLayoutTypeVbox>
-                                                    <tb-layout-container tbLayoutTypeColumn>
-                                                        <tb-panel [title]="_TB('Main Data')" tbTileStandard>
-                                                            <div class="col col1">
-                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_CODE" [caption]="_TB('Code')" [width]="62" [model]="currentRow?.ExternalCode"></tb-text>
-                                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_TITLE" [caption]="_TB('Title')" [width]="62" [model]="currentRow?.TitleCode"></tb-combo>
-                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_LASTNAME" [caption]="_TB('Last Name')" [width]="132" [rows]="2" [multiline]="true" [model]="currentRow?.LastName"></tb-text>
-                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NAME" [caption]="_TB('Name')" [width]="132" [rows]="2" [multiline]="true" [model]="currentRow?.Name"></tb-text>
-                                                                <tb-combo cmpId="IDC_DETAIL_CS_PEOPLE_BRANCH" [caption]="_TB('Branch')" [width]="62" [model]="currentRow?.Branch"></tb-combo>
-                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_WORKPOS" [caption]="_TB('Working Position')" [width]="154" [model]="currentRow?.WorkingPosition"></tb-text>
-                                                                <tb-checkbox cmpId="IDC_DETAIL_CS_PEOPLE_LEGALREPRES" [width]="109" [model]="currentRow?.LegalRepresentative" [caption]="_TB('Legal Representative  ')"></tb-checkbox>
-                                                                <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_NOTES" [caption]="_TB('Notes')" [width]="154" [multiline]="true" [model]="currentRow?.Notes"></tb-text>
-                                                            </div>
-                                                        </tb-panel>
-                                                        <tb-panel [title]="_TB('Contacts')" tbTileStandard>
-                                                            <div class="col col1">
-                                                                <div class="anchored">
-                                                                    <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL1" mask [caption]="_TB('Phone')" [width]="86" [model]="currentRow?.Telephone1"></tb-phone>
-                                                                    <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_TEL2" mask [width]="86" [model]="currentRow?.Telephone2"></tb-phone>
-                                                                </div>
-                                                                <div class="anchored">
-                                                                    <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_TELEX" [caption]="_TB('Telex/Fax')" [width]="86" [model]="currentRow?.Telex"></tb-text>
-                                                                    <tb-text cmpId="IDC_DETAIL_CS_PEOPLE_FAX" [width]="86" [model]="currentRow?.Fax"></tb-text>
-                                                                </div>
-                                                                <tb-email cmpId="IDC_DETAIL_CS_PEOPLE_EMAIL" [caption]="_TB('Email')" [width]="140" [model]="currentRow?.EMail"></tb-email>
-                                                                <tb-phone cmpId="IDC_DETAIL_CS_PEOPLE_SKYPEID" mask [caption]="_TB('Skype')" [width]="140" [model]="currentRow?.SkypeID"></tb-phone>
-                                                            </div>
-                                                        </tb-panel>
-                                                    </tb-layout-container>
-                                                    <tb-panel [title]="_TB('Send Options by documents')" tbTileWide>
-                                                        <div class="col col1">
-                                                            <tb-enum-combo cmpId="IDC_DETAIL_CS_PEOPLE_ALL_DOCUMENTS" [caption]="_TB('All Documents')" [width]="62" [model]="currentRow?.AllDocuments"></tb-enum-combo>
-                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUPPQUOTA" [caption]="_TB('Quotations from Supplier')" [width]="62" [model]="currentRow?.SupplierQuotation"></tb-enum-combo>
-                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_PURCHASEORDER" [caption]="_TB('Purchase Orders')" [width]="62" [model]="currentRow?.PurchaseOrder"></tb-enum-combo>
-                                                        </div>
-                                                        <div class="col col2">
-                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_NOTAFISCAL" [caption]="_TB('Nota Fiscal')" [width]="62" [model]="currentRow?.NotaFiscal"></tb-enum-combo>
-                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_RETSUPPL" [caption]="_TB('Return To Supplier')" [width]="62" [model]="currentRow?.ReturnToSupplier"></tb-enum-combo>
-                                                            <tb-enum-combo *ngIf="eventData?.activation?.IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" cmpId="IDC_DETAIL_CS_PEOPLE_SUPP_SUBC_DN" [caption]="_TB('Subcontractor Delivery Note')" [width]="62" [model]="currentRow?.SubcontrDeliveryNote"></tb-enum-combo>
-                                                        </div>
-                                                    </tb-panel>
-                                                </tb-tile-group>
-                                            </ng-template>
-                                        </tb-row-view-form>
-                                    </tb-body-edit>
-                                </div>
-                            </tb-panel>
-                        </tb-tile-group>
-                    </tb-view>
-                </ng-template>
-            </tb-dockpane>
-        </tb-dockpane-container>
     </tb-frame-content>
-    <tb-floating-action-menu>
-        <!-- <tb-floating-action-button icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-floating-action-button>
-        <tb-floating-action-button icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-floating-action-button>
-        <tb-floating-action-button icon="erp-variants-c" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-floating-action-button> -->
-    </tb-floating-action-menu>
     <tb-toolbar-bottom>
-        <!-- <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_RADAR?.enabled" icon="framework.tbframeworkimages.images.25x25.radar.png" [caption]="_TB('Radar')" cmpId="ID_EXTDOC_RADAR"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_SAVE?.enabled" icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_ESCAPE?.enabled" icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_NEW?.enabled" icon="tb-new" [caption]="_TB('New')" cmpId="ID_EXTDOC_NEW"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EDIT?.enabled" icon="tb-edit" [caption]="_TB('Edit')" cmpId="ID_EXTDOC_EDIT"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_DELETE?.enabled" icon="tb-delete" [caption]="_TB('Delete')" cmpId="ID_EXTDOC_DELETE"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_FORM_EDITOR_EDIT?.enabled" icon="framework.tbframeworkimages.images.25x25.easystudio.png" [caption]="_TB('EasyStudio')" cmpId="ID_FORM_EDITOR_EDIT"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_IMPORT_XML_DATA?.enabled" icon="tb-importxml" [caption]="_TB('Import')" cmpId="ID_EXTDOC_IMPORT_XML_DATA"></tb-toolbar-bottom-button>
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_EXPORT_XML_DATA?.enabled" icon="tb-exportxml" [caption]="_TB('Export')" cmpId="ID_EXTDOC_EXPORT_XML_DATA"></tb-toolbar-bottom-button> -->
-        <tb-toolbar-bottom-button [disabled]="!eventData?.buttonsState?.ID_EXTDOC_REPORT?.enabled" icon="tb-print" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+        <div class="toolbar-undefined">
+            <div class="menu-category undefined" *ngIf="!hideUndefinedToolbar">
+                <tb-toolbar-bottom-button icon="tb-save" [caption]="_TB('Save')" cmpId="ID_EXTDOC_SAVE"></tb-toolbar-bottom-button>
+                <tb-toolbar-bottom-button icon="tb-escape" [caption]="_TB('Undo Changes')" cmpId="ID_EXTDOC_ESCAPE"></tb-toolbar-bottom-button>
+                <tb-toolbar-bottom-button-dropup>
+                    <tb-toolbar-bottom-button icon="tb-print" class="dropUpButton" [caption]="_TB('Print')" cmpId="ID_EXTDOC_REPORT"></tb-toolbar-bottom-button>
+                </tb-toolbar-bottom-button-dropup>
+            </div>
+        </div>
     </tb-toolbar-bottom>
 </tb-frame>
