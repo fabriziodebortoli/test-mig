@@ -104,20 +104,11 @@ import { HttpModule } from '@angular/http';
 /**
  * Themes
  */
-import { ArcticTheme } from './themes/arctic/arctic-theme.component';
 import { BorealisTheme } from './themes/borealis/borealis-theme.component';
 import { DefaultTheme } from './themes/default/default-theme.component';
 import { InfinityTheme } from './themes/infinity/infinity-theme.component';
-import { LakeTheme } from './themes/lake/lake-theme.component';
-import { MonochromeTheme } from './themes/monochrome/monochrome-theme.component';
-import { OceanTheme } from './themes/ocean/ocean-theme.component';
-import { PurpleTheme } from './themes/purple/purple-theme.component';
-import { SnowFlakeTheme } from './themes/snowflake/snowflake-theme.component';
-import { UnderwaterTheme } from './themes/underwater/underwater-theme.component';
 
-const THEME_COMPONENTS = [
-    ArcticTheme, BorealisTheme, DefaultTheme, MonochromeTheme, InfinityTheme, LakeTheme, OceanTheme, PurpleTheme, SnowFlakeTheme, UnderwaterTheme
-];
+const THEME_COMPONENTS = [    BorealisTheme, DefaultTheme, InfinityTheme];
 
 /**
  * Pagine informative (404, ServerDown, Landing, ecc)
@@ -203,16 +194,9 @@ export function findLocaleData(locale: string): any {
 
         RouterModule.forChild([
             // In futuro è possibile fare un refactor creando un modulo per ogni tema caricabile in lazy loading
-            { path: 'arctic', component: ArcticTheme, outlet: 'theme' },
             { path: 'borealis', component: BorealisTheme, outlet: 'theme' },
             { path: 'default', component: DefaultTheme, outlet: 'theme' },
-            { path: 'monochrome', component: MonochromeTheme, outlet: 'theme' },
             { path: 'infinity', component: InfinityTheme, outlet: 'theme' },
-            { path: 'lake', component: LakeTheme, outlet: 'theme' },
-            { path: 'ocean', component: OceanTheme, outlet: 'theme' },
-            { path: 'purple', component: PurpleTheme, outlet: 'theme' },
-            { path: 'snowflake', component: SnowFlakeTheme, outlet: 'theme' },
-            { path: 'underwater', component: UnderwaterTheme, outlet: 'theme' },
 
             { path: 'server-down', component: ServerDownPage }
         ]),
