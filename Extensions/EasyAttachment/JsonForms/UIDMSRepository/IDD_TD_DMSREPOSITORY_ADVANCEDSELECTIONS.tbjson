@@ -99,7 +99,12 @@
                     "id": "IDC_DMSREPOSITORY_SEARCH_CONDITION_DESCRI",
                     "binding": {
                         "datasource": "VFieldDescription",
-                        "hotLink": "DMSFields"
+                        "hotLink": {
+                            "name": "DMSFields",
+                            "namespace": "Extensions.EasyAttachment.TbDMS.DMSFields",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
                     },
                     "controlClass": "StringEdit",
                     "name": "FieldDescription",
@@ -110,16 +115,15 @@
                 },
                 {
                     "id": "IDC_DMSREPOSITORY_SEARCH_CONDITION_VALUE",
-                  "binding": {
-                    "datasource": "VFormattedValue",
-                    "hotLink": {
-                      "name": "SearchFieldIndexes",
-                      "namespace": "Extensions.EasyAttachment.TbDMS.DMSSearchFieldIndexes",
-                      "mustExistData": true,
-                      "enableAddOnFly": false
-                    }
-                    
-                  },
+                    "binding": {
+                        "datasource": "VFormattedValue",
+                        "hotLink": {
+                            "name": "SearchFieldIndexes",
+                            "namespace": "Extensions.EasyAttachment.TbDMS.DMSSearchFieldIndexes",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
+                    },
                     "controlClass": "StringEdit",
                     "name": "FormattedValue",
                     "text": "Value",

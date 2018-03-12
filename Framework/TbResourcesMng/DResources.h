@@ -70,7 +70,7 @@ protected:
 	virtual	BOOL	OnNewTransaction		(); 
 	virtual	BOOL	OnDeleteTransaction		(); 
 	virtual BOOL	OnInitAuxData			();
-	virtual BOOL	OnPrepareAuxData		();
+	virtual void	OnPrepareAuxData		(HotKeyLinkObj* pHKL);
 	virtual void	DeleteContents			();
 	virtual void	DisableControlsForEdit	();
 	virtual	void	OnParsedControlCreated	(CParsedCtrl* pCtrl);

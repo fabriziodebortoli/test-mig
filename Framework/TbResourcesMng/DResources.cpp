@@ -546,13 +546,20 @@ BOOL DResources::CanDoDeleteRecord()
 }
 
 //-----------------------------------------------------------------------------
-BOOL DResources::OnPrepareAuxData()    
+void DResources::OnPrepareAuxData(HotKeyLinkObj* pHKL)
 {
-	GetResources()->l_ManagerDes = GetDocument()->GetHotLink<HKLWorkers>(L"Workers")->GetNameComplete();
-	SetDefaultImage();
+	if (!pHKL || !pHKL->GetOwnerCtrl())
+		return;
 
-	return	TRUE;
+	UINT id = pHKL->GetOwnerCtrl()->GetCtrlID();
+
+	if (id == IDC_RSS_GEN_MANAGER)
+	{
+		GetResources()->l_ManagerDes = GetDocument()->GetHotLink<HKLWorkers>(L"WorkersManager")->GetNameComplete();
+		SetDefaultImage();
+	}
 }
+
 //-----------------------------------------------------------------------------
 void DResources::DisableControlsForEdit()    
 {

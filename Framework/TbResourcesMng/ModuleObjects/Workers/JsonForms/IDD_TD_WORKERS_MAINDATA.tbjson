@@ -121,8 +121,11 @@
             "controlClass": "StringComboDropDown",
             "binding": {
                 "datasource": "Workers.CompanyLogin",
-                "hotLink": "HKLCompanyLogin",
-                "buttonId": 0
+                "buttonId": 0,
+                "hotLink": {
+                    "name": "HKLCompanyLogin",
+                    "namespace": "Framework.TbGes.TbGes.Users"
+                }
             },
             "controlCaption": "Company login",
             "type": 12,
