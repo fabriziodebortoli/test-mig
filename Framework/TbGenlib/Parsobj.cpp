@@ -750,12 +750,16 @@ ControlLinks::ControlLinks()
 			return true;
 		}
 
-		pWnd = pOwnerWnd->GetNextDlgTabItem(pWnd);
+		CWnd* pNextWnd = pOwnerWnd->GetNextDlgTabItem(pWnd);
+		if (pNextWnd == pWnd || pNextWnd == pOwnerWnd/*PERASSO: per qualche inspiegabile motivo, capita che la funzione ritorni il parent (caso di unico controllo managed presente nella dialog)*/)
+		{
+			return false;
+		}
+		pWnd = pNextWnd;
 		if (pWnd == pWndFirst)
 		{
-			// non ho trovato un campo valido per l'assegnazione
-			// lo si da alla view (serve per gestire correttamente gli acceleratori)
-			return true;
+			//non ho trovato un campo valido per l'assegnazione
+			return false;
 		}
 	}
 
