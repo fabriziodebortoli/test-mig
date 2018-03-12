@@ -1393,6 +1393,7 @@ namespace Microarea.TbJson
         private string GetSafeActivationString(string activation)
         {
             activation = activation.Replace("&&", "And")
+                .Replace("&", "And")
                 .Replace("<", "_")
                 .Replace(">", "_")
                 .Replace("'", "_")
@@ -1401,6 +1402,7 @@ namespace Microarea.TbJson
                 .Replace(" ", "")
                 .Replace("!", "Not")
                 .Replace("||", "Or")
+                .Replace("|", "Or")
                 .Replace(".", "_")
                 .Replace("\"", "_");
             return "_" + activation;
