@@ -22,7 +22,7 @@
         "name": "Cancel",
         "text": "Cancel",
         "hint": "Cancel",
-        "type": 15, /*ToolbarButton*/,
+        "type": 15, /*ToolbarButton*/
         "category": 11 /*Bottom*/
       }
     ]
