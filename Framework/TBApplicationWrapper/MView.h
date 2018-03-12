@@ -228,6 +228,7 @@ namespace Microarea {
 		bool ManageSerializations(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
 		bool ManageDocumentOutline();
 		bool ManageClientForms(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
+		bool CreateClientFormChild(CXMLNode* pClientForms, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization, const CString& sServerId);
 		
 	public:
 		///<summary>

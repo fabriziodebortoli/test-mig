@@ -13,7 +13,7 @@
 #include "MTileManager.h"
 #include "TbGes\TileManager.h"
 
-
+using namespace Microarea::TaskBuilderNet::Core::EasyBuilder;
 using namespace Microarea::Framework::TBApplicationWrapper;
 using namespace System::Collections::Generic;
 
@@ -192,6 +192,28 @@ bool MView::ManageDocumentOutline()
 	return true;
 }
 
+//---------------------------------------------------------------------------------------
+bool MView::CreateClientFormChild
+		(
+			CXMLNode* pClientForms, 
+			List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization, 
+			const CString& sServerId
+		)
+{
+	CXMLNode* pClientForm = NULL;
+	for each (Tuple<System::String^, System::String^, System::Boolean>^ element in serialization)
+	{
+		if (element->Item3 == false)
+			continue;
+
+		pClientForm = pClientForms->CreateNewChild(XML_CLIENTFORM_TAG);
+		pClientForm->SetAttribute(XML_NAME_ATTRIBUTE, CString(element->Item1));
+		pClientForm->SetAttribute(XML_SERVER_ATTRIBUTE, sServerId);
+	}
+
+	return true;
+}
+
 //----------------------------------------------------------------------------------
 bool MView::ManageClientForms(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
@@ -214,44 +236,63 @@ bool MView::ManageClientForms(List<System::Tuple<System::String^, System::String
 	CString sServerId = pFrameDesc->GetID();
 
 	//manage ClientForms
-	CString sFileNameCompletePath = _T("C:\\DevWeb_Next\\Custom\\Subscription\\ESHome\\Applications\\App1\\Mod1\\ModuleObjects\\ClientDocumentObjects.xml");
-	//= AfxGetPathFinder()->GetClientDocumentObjectsFullName(this->m_pView->GetDocument()->GetNamespace(), CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
-
-	//manage clientforms tag for me
+	//es. CString sFileNameCompletePath = _T("C:\\DevWeb_Next\\Custom\\Subscription\\ESHome\\Applications\\App1\\Mod1\\ModuleObjects\\ClientDocumentObjects.xml");
 	
+	CString currentApp = BaseCustomizationContext::CustomizationContextInstance->CurrentEasyBuilderApp->ApplicationName;
+	CString currentMod = BaseCustomizationContext::CustomizationContextInstance->CurrentEasyBuilderApp->ModuleName;
+	CTBNamespace nsModule(CTBNamespace::MODULE, CString(currentApp) + CTBNamespace::GetSeparator() + CString(currentMod));
+
+	CString sFileNameCompletePath = AfxGetPathFinder()->GetClientDocumentObjectsFullName(nsModule, CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
+
 	CXMLDocumentObject aDoc;
-	CXMLNode* pClientForms;
-	CXMLNode* pClientForm;
-
-	aDoc.CreateRoot(XML_CDDOCUMENTOBJECTS_TAG);
-	pClientForms = aDoc.CreateRootChild(XML_CLIENTFORMS_TAG);
-
-	for each (Tuple<System::String^, System::String^, System::Boolean>^ element in serialization)
+	CXMLNode* pClientForms = NULL;
+	//manage clientforms tag for me
+	if (!ExistFile(sFileNameCompletePath))
 	{
-		if (element->Item3 == false)
-			continue;
-		
-		pClientForm = pClientForms->CreateNewChild(XML_CLIENTFORM_TAG);
-		pClientForm->SetAttribute(XML_NAME_ATTRIBUTE, CString(element->Item1));
-		pClientForm->SetAttribute(XML_SERVER_ATTRIBUTE, sServerId);
+		aDoc.CreateRoot(XML_CDDOCUMENTOBJECTS_TAG);
+		pClientForms = aDoc.CreateRootChild(XML_CLIENTFORMS_TAG);
+		CreateClientFormChild(pClientForms, serialization, sServerId);
+
+		CString aXML = _T("");
+		aDoc.GetXML(aXML);
+		this->SaveSerialization(sFileNameCompletePath, aXML);
+	}
+	else
+	{
+		if (!aDoc.LoadXMLFile(sFileNameCompletePath))
+			return false;
+
+		pClientForms = aDoc.GetRootChildByName(XML_CLIENTFORMS_TAG);
+		if (!pClientForms)
+		{
+			pClientForms = aDoc.CreateRootChild(XML_CLIENTFORMS_TAG);
+			CreateClientFormChild(pClientForms, serialization, sServerId);
+		}
+		else
+		{
+			//delete where server = sServerId
+			CXMLNodeChildsList* pChildren = pClientForms->GetChilds();
+			if (pChildren)
+			{
+				//clear all old ClientForm for sServerid
+				for (int i = pChildren->GetCount() - 1; i >= 0; i--)
+				{
+					CXMLNode* pChild = pChildren->GetAt(i);
+					CString serverValue = _T("");
+					pChild->GetAttribute(XML_SERVER_ATTRIBUTE, serverValue);
+					if (!sServerId.Compare(serverValue))
+						pClientForms->RemoveChild(pChild);
+				}
+			}
+
+			CreateClientFormChild(pClientForms, serialization, sServerId);
+		}
 	}
 
 	CString aXML = _T("");
 	aDoc.GetXML(aXML);
 	this->SaveSerialization(sFileNameCompletePath, aXML);
 	
-
-	//TODO SAFE_DELETE
-
-	//if (!ExistFile(sFileNameCompletePath))
-	//{
-	//	//TODO - save this
-	//}
-	//else
-	//{
-	//	//TODO - rewrite ClientForms for me
-	//}
-
 	return true;
 }
 
