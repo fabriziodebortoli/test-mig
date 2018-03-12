@@ -11,18 +11,7 @@ namespace Microarea.EasyStudio.Controllers
 	[Route("easystudio/application")]
 	public class ApplicationController : BaseController
 	{
-		//=========================================================================
-		internal class Strings
-		{
-            // parameters
-			internal static readonly string applicationName = "applicationName";
-			internal static readonly string applicationType = "applicationType";
-			internal static readonly string moduleName = "moduleName";
-
-            // messages
-            internal static readonly string MissingApplicationType = "Missing parameter applicationType";
-         }
-
+		
         //---------------------------------------------------------------------
         Service<ApplicationService> Service { get; set; }
         ApplicationService AppService { get => Service.Obj; }
@@ -51,9 +40,9 @@ namespace Microarea.EasyStudio.Controllers
         [Route("create"), HttpPost]
         public IActionResult Create([FromBody] JObject value)
         {
-            string applicationName = value[Strings.applicationName]?.Value<string>();
-            var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
-            var moduleName = value[Strings.moduleName]?.Value<string>();
+            string applicationName = value[Strings.ApplicationName]?.Value<string>();
+            var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
+            var moduleName = value[Strings.ModuleName]?.Value<string>();
  
             if (applicationType == null)
                 Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
@@ -78,8 +67,8 @@ namespace Microarea.EasyStudio.Controllers
         [Route("delete"), HttpDelete]
 		public IActionResult Delete(JObject jsonParams)
         {
-			string applicationName = jsonParams[Strings.applicationName]?.Value<string>();
-			var moduleName = jsonParams[Strings.moduleName]?.Value<string>();
+			string applicationName = jsonParams[Strings.ApplicationName]?.Value<string>();
+			var moduleName = jsonParams[Strings.ModuleName]?.Value<string>();
 
             AppService.Delete(applicationName, moduleName);
 
@@ -92,7 +81,7 @@ namespace Microarea.EasyStudio.Controllers
 		{
 			try
 			{
-				var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
 
 				ApplicationType appType = ApplicationType.All;
 				if (applicationType != null)
@@ -113,8 +102,8 @@ namespace Microarea.EasyStudio.Controllers
 		{
 			try
 			{
-				string docNS = value["ns"]?.Value<string>();
-				string user = value["user"]?.Value<string>();
+				string docNS = value[Strings.Namespace]?.Value<string>();
+				string user = value[Strings.User]?.Value<string>();
 				var res = AppService.GetEasyStudioCustomizationsListFor(docNS, user);
 				return ToResult(res);
 			}
@@ -131,7 +120,7 @@ namespace Microarea.EasyStudio.Controllers
 		{
 			try
 			{
-				var applicationType = value[Strings.applicationType]?.ToObject<ApplicationType>();
+				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
 
 				ApplicationType appType = ApplicationType.All;
 				if (applicationType != null)

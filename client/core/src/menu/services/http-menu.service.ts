@@ -21,8 +21,8 @@ export class HttpMenuService {
         public httpService: HttpService,
         public infoService: InfoService
     ) { 
-        this.callInfoService = this.infoService.getDocumentBaseUrl(); 
-        //this.callInfoService = this.infoService.getEasyStudioServiceUrl();//per usare es-service .net core
+       // this.callInfoService = this.infoService.getDocumentBaseUrl(); 
+        this.callInfoService = this.infoService.getEasyStudioServiceUrl();//per usare es-service .net core
     }
 
     getMenuElements(clearCachedData: boolean): Observable<any> {
@@ -121,7 +121,7 @@ export class HttpMenuService {
 
 
     setAppAndModule(app: string, mod: string, isThisPairDefault: boolean): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, def: isThisPairDefault };
+        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod, defaultPair: isThisPairDefault };
         let url = this.callInfoService + 'setCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -148,7 +148,7 @@ export class HttpMenuService {
 
     getDefaultContext(): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), getDefault : true };
-        let url = this.callInfoService + 'getDefaultContext/';
+        let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;

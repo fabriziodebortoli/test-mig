@@ -17,7 +17,7 @@ namespace TaskBuilderNetCore.EasyStudio
 			get
 			{
 				var nameAttribute = GetType().GetTypeInfo().GetCustomAttributes(typeof(NameAttribute), true).FirstOrDefault() as DisplayNameAttribute;
-				return nameAttribute == null ? null : nameAttribute.DisplayName;
+				return nameAttribute?.DisplayName;
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace TaskBuilderNetCore.EasyStudio
             get
             {
                 var serAttribute = GetType().GetTypeInfo().GetCustomAttributes(typeof(DefaultSerializerAttribute), true).FirstOrDefault() as DefaultSerializerAttribute;
-                return serAttribute == null ? null : serAttribute.SerializerType;
+                return serAttribute?.SerializerType;
             }
         }
 

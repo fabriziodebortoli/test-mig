@@ -1330,30 +1330,6 @@ namespace TaskBuilderNetCore.Interfaces
         }
     }
 
-	//========================================================================
-	public sealed class EasyStudioPreferencesXML
-	{
-		private EasyStudioPreferencesXML()
-		{ }
-		public sealed class Element
-		{
-			private Element()
-			{ }
-			public const string Root = "Root";
-			public const string ESPreferences = "EasyStudioPreferences"; 
-			public const string DefaultContextApplication = "DefaultContextApplication"; 
-			public const string DefaultContextModule = "DefaultContextModule";
-			public const string CurrentApplication = "CurrentApplication"; 
-			public const string CurrentModule = "CurrentModule"; 
-		}
-		public sealed class Attribute
-		{
-			private Attribute()
-			{ }
-			//public const string UtcDate = "utcDate";
-		}
-	}
-
 	//=========================================================================
 	public sealed class ConstString
     {
