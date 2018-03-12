@@ -135,17 +135,47 @@ REM ===========================================================================
 REM Perform the steps to build the web part of the desktop version
 REM ===========================================================================
 
+
+setlocal EnableDelayedExpansion
+set /p serverVersion=<server-version.txt
+
 cd %DevPath%\Standard\Taskbuilder\script
-ECHO.ng-clean.bat
-call ng-clean.bat 
+
+IF NOT EXIST "local-version.txt" (
+	ECHO clean
+
+	call ng-clean.bat 
+	
+   	ECHO clean executed
+	
+	@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
+
+	call npm i --no-save >> %DevPath%\5_npm_install.log
+	
+	cd %DevPath%\Standard\Taskbuilder\script
+	ECHO >local-version.txt !serverVersion!
+) ELSE (
+
+	set /p serverVersion=<server-version.txt
+	set /p localVersion=<local-version.txt
+
+	IF !serverVersion! GTR  !localVersion! (
+		ECHO clean
+		
+		call ng-clean.bat 
+		ECHO clean executed
+		
+		@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
+
+		call npm i --no-save >> %DevPath%\5_npm_install.log
+		cd %DevPath%\Standard\Taskbuilder\script
+		ECHO >local-version.txt !serverVersion!
+	) 
+)
 
 @ECHO ON
 
 %DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ 
-
-@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
-
-call npm i --no-save >> %DevPath%\5_npm_install.log
 
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\
 node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" build --env=desktop --no-sourcemaps --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Client" >> %DevPath%\7_ng_build.log
