@@ -1,5 +1,5 @@
 <tb-control-container type="tb-text" [contextMenu]="contextMenu" [stateData]="stateData">
-    <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div class="group">
         <ng-template [ngIf]="rows<2 && !multiline">
             <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />

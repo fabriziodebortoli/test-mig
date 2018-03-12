@@ -9,7 +9,11 @@ $text-weight:500;
     display: flex;
 }
 
-::ng-deep .anchored tb-label-static tb-caption {
+::ng-deep .anchored tb-label-static:not(:first-child) tb-caption {
+    display: none;
+}
+
+::ng-deep .anchored tb-text:not(:first-child) tb-caption {
     display: none;
 }
 
