@@ -1,11 +1,6 @@
-  
-<div id="content" #anchor tabindex="0" (blur)="closePopupIf()" (click)="onToggle()">
-<div class="content">
-    <div class="row">
-      <a href="#" class="tooltip bottom">
-        <tb-toolbar-top-button icon="tb-menu2" cmpId="_BUTTONGROUPADVANCED"></tb-toolbar-top-button>
-        <span class="tooltip-content"> <ng-content></ng-content></span>
-      </a>
-    </div>
-</div>
+<div #anchor>
+<tb-toolbar-top-button icon="tb-menu2" cmpId="_BUTTONGROUPADVANCED" (click)="toggle()"></tb-toolbar-top-button>  
+<tb-popup *ngIf="show" class="tooltip bottom">
+    <ng-content></ng-content>
+</tb-popup>
 </div>

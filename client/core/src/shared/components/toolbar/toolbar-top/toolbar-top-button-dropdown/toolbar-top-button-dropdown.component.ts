@@ -1,5 +1,5 @@
 import { Logger } from './../../../../../core/services/logger.service';
-import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ViewChild, ViewEncapsulation, HostListener, ElementRef } from '@angular/core';
 import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
 import { ComponentService } from './../../../../../core/services/component.service';
@@ -19,14 +19,10 @@ import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interf
 
 })
 export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnDestroy {
-
-  anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-  popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-  collision: Collision = { horizontal: 'flip', vertical: 'fit' };
-  anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
-  popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
   public show = false;
-  @ViewChild('anchor') divFocus: HTMLElement;
+    
+  @ViewChild('anchor') public anchor: ElementRef;
+  @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
   public viewProductInfo: string;
   private eventDataServiceSubscription;
@@ -55,12 +51,27 @@ ngOnDestroy() {
   this.eventDataServiceSubscription.unsubscribe();
 }
 
-onOpen() {
+public toggle(show?: boolean): void {
+  this.show = show !== undefined ? show : !this.show;
+  
+}
+@HostListener('document:click', ['$event'])
+public documentClick(event: any): void {
+    if (!this.contains(event.target)) {
+      this.toggle(false);
+    }
 }
 
-public onToggle(): void {
-  this.show = !this.show;
+@HostListener('keydown', ['$event'])
+public keydown(event: any): void {
+    if (event.keyCode === 27) {
+        this.toggle(false);
+    }
 }
-public closePopupIf(): void {
-  } 
+
+private contains(target: any): boolean {
+  return this.anchor.nativeElement.contains(target) ||
+      (this.popup ? this.popup.nativeElement.contains(target) : false);
+}
+
 }
