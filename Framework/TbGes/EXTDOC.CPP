@@ -3146,7 +3146,7 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::ExecuteUpdateDataView()
 {
-	CLocalChange<bool> _loc (m_bUpdatingDataView, true);
+	CLocalChange<bool> _loc(m_bUpdatingDataView, true);
 	m_bNeedsUpdateDataView = false;
 	m_bWaitingForUpdateDataView = false;
 	//soppressa ottimizzazione: veniva alterato l'ordine delle chiamate 
@@ -5609,7 +5609,7 @@ BOOL CAbstractFormDoc::DeleteRecord()
 		DisconnectFromDatabase();
 		return TRUE;
 	}
-	CATCH(SqlException, e)
+		CATCH(SqlException, e)
 	{
 		if (m_pMessages && AfxIsValidAddress(m_pMessages, sizeof(CMessages)))
 		{
@@ -7949,7 +7949,7 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyW
 	}
 
 	if (m_pDBTMaster)
-		m_pDBTMaster->GetJsonPatch (jsonSerializer, bOnlyWebBound);
+		m_pDBTMaster->GetJsonPatch(jsonSerializer, bOnlyWebBound);
 
 	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
 	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
@@ -7999,7 +7999,7 @@ void CAbstractFormDoc::SetJson(CJsonParser& jsonParser)
 					SetModifiedFlag();
 			}
 		}
-		
+
 	}
 }
 
@@ -8365,8 +8365,19 @@ void CAbstractFormDoc::RegisterForwardHotLink(const CString& sName, const CStrin
 	{
 		ASSERT(sVal == aNameSpace);
 	}
+
 #endif // DEBUG
 
+	if (sName.IsEmpty())
+	{
+		ASSERT_TRACE(FALSE, "Empty HotLink name");
+		return;
+	}
+	if (aNameSpace.IsEmpty())
+	{
+		ASSERT_TRACE(FALSE, "Empty HotLink namespace");
+		return;
+	}
 	m_ForwardHotlinks.SetAt(sName, aNameSpace);
 }
 
