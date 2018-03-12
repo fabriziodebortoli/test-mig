@@ -619,12 +619,12 @@ namespace Microarea {
 				///<summary>
 				///Generate json for children
 				///</summary>
-				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 
 				///<summary>
 				///Generates serialization for the class
 				///</summary>
-				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 
 				/// <summary>
 				/// Enables or disables the insertion of new rows

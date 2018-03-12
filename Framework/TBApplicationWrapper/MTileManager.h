@@ -132,7 +132,7 @@ namespace Microarea {
 				///<summary>
 				///Generates serialization for the class
 				///</summary>
-				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+				virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 
 				/// <summary>
 				/// Internal Use

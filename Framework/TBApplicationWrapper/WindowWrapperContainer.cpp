@@ -540,7 +540,7 @@ void WindowWrapperContainer::OnDataLoaded()
 }
 
 //-------------------------------------------------------------------------------
-void WindowWrapperContainer::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void WindowWrapperContainer::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	for each (IWindowWrapper^ wrapper in this->Components)
 	{

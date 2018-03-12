@@ -153,7 +153,7 @@ namespace Microarea {
 				///<summary>
 				///Generate json for children
 				///</summary>
-				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+				virtual void GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 
 				/// <summary>
 				/// Method called when the data loading occurs (event linked to client doc "OnPrepareAuxData")

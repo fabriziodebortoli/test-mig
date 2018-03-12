@@ -1786,13 +1786,13 @@ void MBodyEdit::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 }
 
 //-------------------------------------------------------------------------------------------------------------
-void MBodyEdit::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MBodyEdit::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	//no children container
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	__super::GenerateSerialization(pParentDescription, serialization);
 
@@ -1837,10 +1837,11 @@ void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, Li
 			jsonDummyDescription->m_Children.Add(jsonDescription/*->DeepClone()*/);
 			serialization->Add
 			(
-				gcnew Tuple<System::String^, System::String^>
+				gcnew Tuple<System::String^, System::String^, System::Boolean>
 				(
 					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-					gcnew String(GetSerialization(jsonDummyDescription))
+					gcnew String(GetSerialization(jsonDummyDescription)),
+					false
 					)
 			);
 
@@ -1869,10 +1870,11 @@ void MBodyEdit::GenerateSerialization(CWndObjDescription* pParentDescription, Li
 			//ClientForms
 			serialization->Add
 			(
-				gcnew Tuple<System::String^, System::String^>
+				gcnew Tuple<System::String^, System::String^, System::Boolean>
 				(
 					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-					gcnew String(GetSerialization(jsonDummyDescription))
+					gcnew String(GetSerialization(jsonDummyDescription)),
+					true
 					)
 			);
 

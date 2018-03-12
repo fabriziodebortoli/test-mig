@@ -319,7 +319,7 @@ Object^ EasyBuilderControlSerializer::Serialize(IDesignerSerializationManager^ m
 }
 
 //----------------------------------------------------------------------------------------------------------------
-void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^>^>^ evSerialization)
+void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ evSerialization)
 {
 	if (evSerialization == nullptr)
 	{
@@ -355,10 +355,11 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		jsonSer.CloseArray();
 		evSerialization->Add
 		(
-			gcnew Tuple<System::String^, System::String^>
+			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
 				String::Concat(prefixEvent, this->Namespace),	
-				gcnew String(jsonSer.GetJson())
+				gcnew String(jsonSer.GetJson()),
+				false
 			)
 		);
 	}
@@ -792,7 +793,7 @@ CString BaseWindowWrapper::GetSerialization(CWndObjDescription* pWndObjDescripti
 }
 
 //----------------------------------------------------------------------------------
-void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void BaseWindowWrapper::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	UpdateAttributesForJson(pParentDescription);
 	GenerateJsonForChildren(jsonDescription, serialization);
@@ -817,13 +818,13 @@ void BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescr
 }
 
 //-----------------------------------------------------------------------------------------
-void BaseWindowWrapper::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void BaseWindowWrapper::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	//base class implementation empty
 }
 
 //---------------------------------------------------------------------------------------------
-void BaseWindowWrapper::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void BaseWindowWrapper::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	//base class implementation
 	//serialize anyway and always the events for this class
@@ -2852,7 +2853,7 @@ void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescript
 }
 
 //-----------------------------------------------------------------------------------------------------
-void MParsedControl::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MParsedControl::GenerateJsonForChildren(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	//no children
 }

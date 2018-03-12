@@ -170,7 +170,7 @@ namespace Microarea {
 		///<summary>
 		///Updates nedeed attributes for json serialization
 		///</summary>
-		virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+		virtual void GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 
 		///<summary>
 		///Updates needed attributes for json serialization 
@@ -180,7 +180,7 @@ namespace Microarea {
 		///<summary>
 		///Generates serialization for the class
 		///</summary>
-		virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization) override;
+		virtual void GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization) override;
 		
 		///<summary>
 		///Set the path to serialize to
@@ -225,9 +225,9 @@ namespace Microarea {
 		void GetFrameChildrenFromPos(System::Drawing::Point p, System::IntPtr handleToSkip, System::Collections::Generic::ICollection<IWindowWrapper^>^ foundChildren);
 		void ResizeFrame();
 		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
-		bool ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization);
+		bool ManageSerializations(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
 		bool ManageDocumentOutline();
-		bool ManageClientForms();
+		bool ManageClientForms(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
 		
 	public:
 		///<summary>

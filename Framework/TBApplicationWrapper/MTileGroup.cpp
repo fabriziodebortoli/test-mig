@@ -250,7 +250,7 @@ void MTileGroup::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 }
 
 //------------------------------------------------------------------------------------
-void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	if (pParentDescription->IsKindOf(RUNTIME_CLASS(CDummyDescription)))
 	{
@@ -264,11 +264,12 @@ void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, L
 			//add json di jsonDescription.Serialize
 			serialization->Add
 			(
-				gcnew Tuple<System::String^, System::String^>
+				gcnew Tuple<System::String^, System::String^, System::Boolean>
 				(
 					gcnew String(this->Id),
-					gcnew String(GetSerialization(jsonDescription))
-					)
+					gcnew String(GetSerialization(jsonDescription)),
+					false
+				)
 			);
 
 			//update parent => remove details for this from parent
@@ -286,11 +287,12 @@ void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, L
 			//ClientForms
 			serialization->Add
 			(
-				gcnew Tuple<System::String^, System::String^>
+				gcnew Tuple<System::String^, System::String^, System::Boolean>
 				(
 					gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-					gcnew String(GetSerialization(jsonDescription))
-					)
+					gcnew String(GetSerialization(jsonDescription)),
+					true
+				)
 			);
 
 			SAFE_DELETE(jsonDescription);

@@ -241,7 +241,7 @@ void MTileDialog::UpdateAttributesForJson(CWndObjDescription* pParentDescription
 }
 
 //-------------------------------------------------------------------------------------------------------------
-void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	__super::GenerateSerialization(pParentDescription, serialization);
 
@@ -256,11 +256,12 @@ void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, 
 		//serialize this => HasCodeBehind = false
 		serialization->Add
 		(
-			gcnew Tuple<System::String^, System::String^>
+			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
 				gcnew String(this->Id),
-				gcnew String(GetSerialization(jsonDescription))
-				)
+				gcnew String(GetSerialization(jsonDescription)),
+				false
+			)
 		);
 
 	}
@@ -269,11 +270,12 @@ void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, 
 		//ClientForms
 		serialization->Add
 		(
-			gcnew Tuple<System::String^, System::String^>
+			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
 				gcnew String(pParentDescription->m_strIds.GetAt(0) + _T("_") + this->Id),
-				gcnew String(GetSerialization(jsonDescription))
-				)
+				gcnew String(GetSerialization(jsonDescription)),
+				true
+			)
 		);
 
 		//non sono sul papà

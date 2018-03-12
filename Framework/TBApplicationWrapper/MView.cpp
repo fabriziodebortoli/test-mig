@@ -3,6 +3,8 @@
 #include <TbGenlib\PARSOBJ.H>
 #include <TbGes\ExtDocView.h>
 #include <TbGes\Tabber.h>
+#include <TbGeneric\DocumentObjectsInfo.h>
+#include <TbGes\JsonFrame.h>
 
 #include "MDocument.h"
 #include "MView.h"
@@ -101,7 +103,7 @@ void MView::UpdateAttributesForJson(CWndObjDescription* pParentDescription)
 }
 
 //-------------------------------------------------------------------------------------
-void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	CString jsonViewId = this->Id + _T("_") + _T("VIEW_ES");
 	__super::GenerateSerialization(pParentDescription, serialization);
@@ -111,11 +113,12 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 	{
 		serialization->Add
 		(
-			gcnew Tuple<System::String^, System::String^>
+			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
 				gcnew String(this->Id),
-				gcnew String(GetSerialization(jsonDescription))
-				)
+				gcnew String(GetSerialization(jsonDescription)),
+				false
+			)
 		);
 	}
 	else if (jsonDescription->m_Children.GetCount() > 0)
@@ -123,11 +126,12 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 		//ClientForms
 		serialization->Add
 		(
-			gcnew Tuple<System::String^, System::String^>
+			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
 				gcnew String(jsonViewId),
-				gcnew String(GetSerialization(jsonDescription))
-				)
+				gcnew String(GetSerialization(jsonDescription)),
+				true
+			)
 		);
 	}
 
@@ -135,7 +139,7 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 
 	ManageDocumentOutline();
 
-	ManageClientForms();
+	ManageClientForms(serialization);
 
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
@@ -189,35 +193,70 @@ bool MView::ManageDocumentOutline()
 }
 
 //----------------------------------------------------------------------------------
-bool MView::ManageClientForms()
+bool MView::ManageClientForms(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
-	if (!this->IsDynamicDocument() || !this->m_pView || !this->m_pView->GetDocument())
-		return false;
+	if (this->IsDynamicDocument() || !this->m_pView || !this->m_pView->GetDocument())
+		return true;
 
 	CTBNamespace aNs = this->m_pView->GetDocument()->GetNamespace();
 	if (aNs.IsEmpty() || !aNs.IsValid())
 		return false;
 
+	//calculate l'IDD del server frame
+	CJsonFrame* pFrame = dynamic_cast<CJsonFrame*>(this->m_pView->GetFrame());
+	if (!pFrame)
+		return false;
+
+	CWndFrameDescription* pFrameDesc = pFrame->GetFrameDescription();
+	if (!pFrameDesc)
+		return false;
+
+	CString sServerId = pFrameDesc->GetID();
+
 	//manage ClientForms
-	CString sFileNameCompletePath = AfxGetPathFinder()->GetClientDocumentObjectsFullName(this->m_pView->GetDocument()->GetNamespace(), CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
+	CString sFileNameCompletePath = _T("C:\\DevWeb_Next\\Custom\\Subscription\\ESHome\\Applications\\App1\\Mod1\\ModuleObjects\\ClientDocumentObjects.xml");
+	//= AfxGetPathFinder()->GetClientDocumentObjectsFullName(this->m_pView->GetDocument()->GetNamespace(), CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
 
 	//manage clientforms tag for me
 	
+	CXMLDocumentObject aDoc;
+	CXMLNode* pClientForms;
+	CXMLNode* pClientForm;
 
-	if (!ExistFile(sFileNameCompletePath))
+	aDoc.CreateRoot(XML_CDDOCUMENTOBJECTS_TAG);
+	pClientForms = aDoc.CreateRootChild(XML_CLIENTFORMS_TAG);
+
+	for each (Tuple<System::String^, System::String^, System::Boolean>^ element in serialization)
 	{
-		//TODO - save this
+		if (element->Item3 == false)
+			continue;
+		
+		pClientForm = pClientForms->CreateNewChild(XML_CLIENTFORM_TAG);
+		pClientForm->SetAttribute(XML_NAME_ATTRIBUTE, CString(element->Item1));
+		pClientForm->SetAttribute(XML_SERVER_ATTRIBUTE, sServerId);
 	}
-	else
-	{
-		//TODO - rewrite ClientForms for me
-	}
+
+	CString aXML = _T("");
+	aDoc.GetXML(aXML);
+	this->SaveSerialization(sFileNameCompletePath, aXML);
+	
+
+	//TODO SAFE_DELETE
+
+	//if (!ExistFile(sFileNameCompletePath))
+	//{
+	//	//TODO - save this
+	//}
+	//else
+	//{
+	//	//TODO - rewrite ClientForms for me
+	//}
 
 	return true;
 }
 
 //-------------------------------------------------------------------------------
-void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^>^>^ serialization)
+void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	if (System::String::IsNullOrEmpty(pathToSerialize))
 		return;
@@ -229,8 +268,8 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 
 	if (serialization != nullptr)
 		delete serialization;
-		
-	serialization = gcnew List<System::Tuple<System::String^, System::String^>^>();
+
+	serialization = gcnew List<System::Tuple<System::String^, System::String^, System::Boolean>^>();
 	
 	__super::GenerateJson(NULL, serialization);
 	
@@ -239,13 +278,13 @@ void MView::GenerateJson(CWndObjDescription* pParentDescription, List<System::Tu
 }
 
 //------------------------------------------------------------------------------------------------------------
-bool MView::ManageSerializations(List<System::Tuple<System::String^, System::String^>^>^ serialization)
+bool MView::ManageSerializations(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization)
 {
 	CJsonSerializer jsonSerEv;
 
 	jsonSerEv.OpenArray(_T("items"));
 	int n = 0;
-	for each (Tuple<System::String^, System::String^>^ element in serialization)
+	for each (Tuple<System::String^, System::String^, System::Boolean>^ element in serialization)
 	{
 		if (element->Item1->IndexOf(prefixEvent) < 0)
 			this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, element->Item1, tbjsonExtension)), CString(element->Item2));
