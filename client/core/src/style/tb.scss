@@ -294,3 +294,31 @@ md-card-title.mat-card-title m4-icon {
         flex-direction: column;
     }
 }
+
+
+/* Alert */
+
+.alert {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    background: #fff;
+    border-radius: 3px;
+    p {
+        line-height: 20px;
+    }
+    m4-icon {
+        font-size: 18px;
+        margin-right: 10px;
+        padding-top: 4px;
+    }
+}
+
+.alert.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffca27;
+}

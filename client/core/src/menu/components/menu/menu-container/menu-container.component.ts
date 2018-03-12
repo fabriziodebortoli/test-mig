@@ -28,7 +28,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
 
   public subscriptions: Subscription[] = [];
   public selectedGroupChangedSubscription;
-  public tiles: any[];
+  public tiles: any[] = [];
 
   public tileClass: string = "tile-1";
 
@@ -60,26 +60,33 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
     }
   }
 
+  // ---------------------------------------------------------------------------------------
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.calcTileClass();
   }
-  calcTileClass() {
+  /** 
+   * Modifica la css class delle tile del menu in base alla larghezza del contenitore del menu.
+   * Viene richiamata sul resize della finestra, ogni volta che viene collassato/espanso il selettore di app e gruppi,
+   * ogni volta che viene espansa/collassata oppure pinnata/unpinnata la sidenav.
+   * Il timeout di 250ms è necessario perché la dimensione del contenitore può essere calcolata solo alla fine dell'animazione di collapsing.
+  */
+  calcTileClass(time: number = 250) {
     setTimeout(() => {
-      let tabberWidth = this.menuContent ? this.menuContent.nativeElement.offsetWidth : 1024;
-    console.log("tabberWidth", tabberWidth)
+      let menuContentWidth = this.menuContent ? this.menuContent.nativeElement.offsetWidth : 1024;
+      //console.log("menuContentWidth", menuContentWidth)
 
-    if (tabberWidth > 768 && tabberWidth <= 1200)
-      this.tileClass = "tile-2";
-    else if (tabberWidth > 1200 && tabberWidth <= 1440)
-      this.tileClass = "tile-3";
-    else if (tabberWidth >= 1440)
-      this.tileClass = "tile-4";
-    else
-      this.tileClass = "tile-1";
-    }, 250)
-      
-
+      if (menuContentWidth > 768 && menuContentWidth <= 1200)
+        this.tileClass = "tile-2";
+      else if (menuContentWidth > 1200 && menuContentWidth <= 1440)
+        this.tileClass = "tile-3";
+      else if (menuContentWidth >= 1440 && this.tiles.length > 3)
+        this.tileClass = "tile-4";
+      else if (menuContentWidth >= 1440 && this.tiles.length < 4)
+        this.tileClass = "tile-3";
+      else
+        this.tileClass = "tile-1";
+    }, time);
   }
 
   // ---------------------------------------------------------------------------------------
@@ -125,12 +132,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
     }));
 
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((o) => this.calcTileClass()));
-
-    this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((o) => {
-      console.log("pinned")
-      this.calcTileClass()
-    }
-    ));
+    this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((o) => this.calcTileClass()));
   }
 
   getSelectorIcon() {
@@ -214,6 +216,8 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
         this.menuService.setSelectedMenu(tab);
       }
     }
+
+    this.calcTileClass(0);
   }
 
   getTiles() {
@@ -222,12 +226,8 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
       let newArray = [];
       if (array) {
         for (let i = 0; i < array.length; i++) {
-
-          let element =array[i];
-          let env = element.environment ? element.environment.toLowerCase() : '';
-          let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
-          if (this.tileIsVisible(element) && !element.hiddenTile && show )
-            newArray.push(element);
+          if (this.tileIsVisible(array[i]) && !array[i].hiddenTile)
+            newArray.push(array[i]);
         }
       }
 

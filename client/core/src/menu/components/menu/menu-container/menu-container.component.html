@@ -54,16 +54,14 @@
                             </tb-header-strip>
 
                             <div class="menu-container row" *ngIf="menuService.selectedMenu != undefined">
-                                <!-- <tb-menu-content *ngFor="let tile of tiles" [menu]="menuTab" [tile]="tile" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}"></tb-menu-content> -->
                                 <tb-menu-content *ngFor="let tile of tiles" [menu]="menuTab" [tile]="tile" [ngClass]="tileClass"></tb-menu-content>
                             </div>
 
                             <div class="menu-container row" *ngIf="menuService?.selectedMenu?.Object">
-                                bbb
-                                <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" class="col-xs-12 col-sm-12 col-md-6 col-lg-4" [ngClass]="{'col-xl-3': tiles.length > 3, 'col-xl-4': tiles.length < 4}">
-                                </tb-menu-content>
+                                <p class="alert alert-warning">
+                                    <m4-icon icon="tb-warning"></m4-icon>Menu non conforme</p>
+                                <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" [ngClass]="tileClass"> </tb-menu-content>
                             </div>
-
 
                         </div>
                     </ng-template>
