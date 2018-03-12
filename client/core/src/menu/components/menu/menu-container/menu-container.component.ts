@@ -4,6 +4,7 @@ import { Subscription } from "rxjs/Rx";
 
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { SettingsService } from './../../../../core/services/settings.service';
+import { SidenavService } from './../../../../core/services/sidenav.service';
 import { UtilsService } from './../../../../core/services/utils.service';
 import { ImageService } from './../../../services/image.service';
 import { MenuService } from './../../../services/menu.service';
@@ -18,7 +19,7 @@ import { TbComponent } from '../../../../shared/components/tb.component';
     trigger('collapsing', [
       state('expanded', style({ width: '260px', overflow: 'hidden' })),
       state('collapsed', style({ width: '40px', overflow: 'hidden' })),
-      transition('expanded <=> collapsed', animate('400ms ease')),
+      transition('expanded <=> collapsed', animate('200ms ease')),
     ])
   ]
 })
@@ -29,12 +30,15 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
   public selectedGroupChangedSubscription;
   public tiles: any[];
 
+  public tileClass: string = "tile-1";
+
   public selectorCollapsed: string = localStorage.getItem('menuSelectorCollapsed') ? localStorage.getItem('menuSelectorCollapsed') : 'expanded';
-  public appActive: any; 
-  public groupActive: any; 
+  public appActive: any;
+  public groupActive: any;
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('tabber') tabber;
+  @ViewChild('menuContent') menuContent;
 
   public showHiddenTilesPopup: boolean = false;
   @ViewChild('hiddenTilesAnchor') public hiddenTilesAnchor: ElementRef;
@@ -47,13 +51,35 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
       this.closeHiddenTilesPopup();
     }
   }
-  
+
   // ---------------------------------------------------------------------------------------
   @HostListener('document:click', ['$event'])
   public documentClick(event: any): void {
     if (!this.contains(event.target)) {
       this.closeHiddenTilesPopup();
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.calcTileClass();
+  }
+  calcTileClass() {
+    setTimeout(() => {
+      let tabberWidth = this.menuContent ? this.menuContent.nativeElement.offsetWidth : 1024;
+    console.log("tabberWidth", tabberWidth)
+
+    if (tabberWidth > 768 && tabberWidth <= 1200)
+      this.tileClass = "tile-2";
+    else if (tabberWidth > 1200 && tabberWidth <= 1440)
+      this.tileClass = "tile-3";
+    else if (tabberWidth >= 1440)
+      this.tileClass = "tile-4";
+    else
+      this.tileClass = "tile-1";
+    }, 250)
+      
+
   }
 
   // ---------------------------------------------------------------------------------------
@@ -68,7 +94,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
   }
 
   // ---------------------------------------------------------------------------------------
-  toggleHiddenTilesPopup(){
+  toggleHiddenTilesPopup() {
     this.showHiddenTilesPopup = !this.showHiddenTilesPopup;
   }
 
@@ -77,6 +103,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
     public utilsService: UtilsService,
     public settingsService: SettingsService,
     public imageService: ImageService,
+    public sidenavService: SidenavService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
@@ -96,6 +123,14 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
     this.subscriptions.push(this.menuService.selectedGroupChanged.subscribe(() => {
       this.initTab();
     }));
+
+    this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((o) => this.calcTileClass()));
+
+    this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((o) => {
+      console.log("pinned")
+      this.calcTileClass()
+    }
+    ));
   }
 
   getSelectorIcon() {
@@ -105,12 +140,14 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
   toggleSelector() {
     this.selectorCollapsed = this.selectorCollapsed === 'expanded' ? 'collapsed' : 'expanded';
     localStorage.setItem('menuSelectorCollapsed', this.selectorCollapsed);
+    this.calcTileClass();
   }
 
   refreshLayout() {
   }
 
   ngAfterContentInit() {
+    this.calcTileClass()
   }
 
   initTab() {

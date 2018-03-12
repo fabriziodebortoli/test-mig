@@ -131,17 +131,6 @@ tb-frame-content {
 
 /* FINE HIDDEN TILES CONTEXT MENU */
 
-// @media screen and (min-width: 1025px) {
-//     .menu-page {
-//         .k-tabstrip-top>.k-tabstrip-items {
-//             min-height: 30px;
-//         }
-//         .k-tabstrip>.k-tabstrip-items .k-item .k-link {
-//             font-size: 13px;
-//             padding: 6px 12px;
-//         }
-//     }
-// }
 
 /* ACCORDION */
 
@@ -278,5 +267,41 @@ tb-frame-content {
         .k-panelbar>.k-item>.k-link .k-icon {
             display: none;
         }
+    }
+}
+
+// @media screen and (min-width: 1025px) {
+//     .menu-page {
+//         .k-tabstrip-top>.k-tabstrip-items {
+//             min-height: 30px;
+//         }
+//         .k-tabstrip>.k-tabstrip-items .k-item .k-link {
+//             font-size: 13px;
+//             padding: 6px 12px;
+//         }
+//     }
+// }
+// RESPONSIVITA
+tb-menu-content {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 auto;
+    padding-right: 4px;
+    padding-left: 4px;
+    &.tile-1 {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+    &.tile-2 {
+        flex-basis: 50%;
+        max-width: 50%;
+    }
+    &.tile-3 {
+        flex-basis: 33.3%;
+        max-width: 33.3%;
+    }
+    &.tile-4 {
+        flex-basis: 25%;
+        max-width: 25%;
     }
 }

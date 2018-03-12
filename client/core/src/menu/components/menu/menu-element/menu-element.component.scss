@@ -1,109 +1,102 @@
-      ::ng-deep .menu-element {
-         display: flex;
-         flex-wrap: nowrap;
-         align-content: stretch;
-         align-items: flex-start;
-         padding: 0;
-         margin: 0;
-         color: #0277bd;
-         font-weight: 400;
-         transition: background-color 0.4s ease-in-out;
-         &:hover {
-             background-color: #ecf8ff;
-             transition: background-color 0.4s ease-in-out;
-         }
-         .menu-element-content {
-             display: flex;
-             flex-direction: row;
-             justify-content: space-between;
-             width: 100%;
-             .header {
-                 display: flex;
-                 flex-direction: row;
-                 align-items: center;
-                 flex: 1;
-                 padding: 1px 0px;
-                 &>span {
-                     line-height: 20px;
-                     cursor: pointer;
-                     flex: 1;
-                     padding: 0 3px;
-                     color: #000;
-                     font-weight: 400;
-                     font-size: 12px;
-                     white-space: nowrap;
-                     overflow: hidden;
-                     text-overflow: ellipsis;
-                     width: 0;
-                 }
-             }
-             p.description {
-                 font-size: 12px;
-                 font-weight: 500;
-                 color: #000;
-                 margin: 0 0 10px;
-                 border-bottom: 1px solid #ddd;
-                 cursor: pointer;
-                 display: flex;
-                 align-items: flex-end;
-             }
-             .object-type {
-                 color: #bbb;
-                 font-size: 14px;
-                 margin-right: 4px;
-                 margin-top: 4px;
-                 line-height: 18px;
-             }
-             .object-type.Document {
-                 color: #0277bd;
-             }
-             .object-type.Report {
-                 color: #3EAB66;
-             }
-             .object-type.Batch {
-                 color: #ffa700;
-             }
-             .object-type.Function {
-                 color: darkcyan;
-             }
-             mat-spinner {
-                 width: 30px;
-                 height: 21px;
-                 margin-top: 2px;
-             }
-             .isLoading {
-                 color: #999;
-             }
-             .star {
-                 color: #bbb;
-                 font-size: 18px;
-                 line-height: 18px;
-                 margin-right: 3px;
-             }
-             .star:hover {
-                 color: #0277bd;
-                 cursor: pointer;
-             }
-             .star.favorite {
-                 color: #0277bd;
-             }
-         }
-     }
-     
-     @media screen and (min-width: 1025px) {
-         tb-menu-element {
-             .menu-element {
-                 padding: 0 0.2rem;
-                 margin: 0 0.3rem;
-                 span {
-                     font-size: 13px;
-                 }
-                 .menu-element-content p.description {
-                     min-height: 25px;
-                 }
-                 .menu-element-content .object-type {
-                     margin-right: 9px;
-                 }
-             }
-         }
-     }
+:host(tb-menu-element) {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+.menu-element {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    color: #0277bd;
+    font-weight: 400;
+    transition: background-color 0.4s ease-in-out;
+    &:hover {
+        background-color: #ecf8ff;
+        transition: background-color 0.4s ease-in-out;
+    }
+    .menu-element-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        .header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex: 1;
+            padding: 1px 0px;
+            &>span {
+                line-height: 20px;
+                cursor: pointer;
+                flex: 1;
+                padding: 0 3px;
+                color: #000;
+                font-weight: 500;
+                font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 0;
+            }
+        }
+        p.description {
+            font-size: 12px;
+            font-weight: 500;
+            color: #000;
+            margin: 0 0 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+        }
+        .object-type {
+            color: #bbb;
+            font-size: 14px;
+            margin-right: 4px;
+            margin-top: 4px;
+            line-height: 18px;
+        }
+        .object-type.Document {
+            color: #0277bd;
+        }
+        .object-type.Report {
+            color: #3EAB66;
+        }
+        .object-type.Batch {
+            color: #ffa700;
+        }
+        .object-type.Function {
+            color: darkcyan;
+        }
+        mat-spinner {
+            width: 30px;
+            height: 21px;
+            margin-top: 2px;
+        }
+        .isLoading {
+            color: #999;
+        }
+        .star {
+            color: #bbb;
+            font-size: 18px;
+            line-height: 18px;
+            margin-right: 3px;
+        }
+        .star:hover {
+            color: #0277bd;
+            cursor: pointer;
+        }
+        .star.favorite {
+            color: #0277bd;
+        }
+    }
+}
+
+:host-context(.mat-option-text) {
+    .menu-element {
+        padding: 0 4px;
+    }
+}
