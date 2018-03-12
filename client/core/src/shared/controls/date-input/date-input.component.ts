@@ -9,6 +9,7 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { FormattersService } from './../../../core/services/formatters.service';
 
 import { ControlComponent } from './../control.component';
+import { getDateFormatByFormatter, NullDate } from './u';
 
 // failed test to refresh locale settings immediately after logout-login
 
@@ -26,8 +27,6 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   formatterProps: any;
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
-
-  nullDate = new Date("1799-12-31 00:00:00");
 
   constructor(
     public eventData: EventDataService,
@@ -53,40 +52,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
   }
 
   dateFormatByFormatter() {
-    let ret = '', day = '', month = '', year = '';
-    let dateSep1 = this.formatterProps.refFirstSeparator ? this.formatterProps.refFirstSeparator : " ";
-    let dateSep2 = this.formatterProps.refSecondSeparator ? this.formatterProps.refSecondSeparator : " ";
-    let timeSep = this.formatterProps.refTimeSeparator ? this.formatterProps.refTimeSeparator : ":";
-
-    day = String('d').repeat((<string>this.formatterProps.DayFormat).length - 3);    // 'DAY99'
-    month = String('M').repeat((<string>this.formatterProps.MonthFormat).length - 5);  // 'MONTH99'
-    year = String('y').repeat((<string>this.formatterProps.YearFormat).length - 4);   // 'YEAR99'
-
-
-    switch (this.formatterProps.FormatType) {
-      case "DATE_DMY": {
-        ret = day + dateSep1 + month + dateSep2 + year;
-        break;
-      }
-      case "DATE_YMD": {
-        ret = year + dateSep1 + month + dateSep2 + day;
-        break;
-      }
-      default: {
-        ret = month + dateSep1 + day + dateSep2 + year;   // "DATE_MDY"
-        break;
-      }
-    }
-
-    if (this.formatter === "DateTime") {
-      ret = ret + " HH" + timeSep + "mm";
-    }
-
-    if (this.formatter === "DateTimeExtended") {
-      ret = ret + " HH" + timeSep + "mm" + timeSep + "ss";
-    }
-
-    return ret;
+    return getDateFormatByFormatter(this.formatterProps, this.formatter);
   }
 
   onChange(changes) {
@@ -103,7 +69,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
       this.model = { enable: 'true', value: '' };
     }
 
-    if (!newDate || newDate.getTime() === this.nullDate.getTime()) {
+    if (!newDate || newDate.getTime() === NullDate.getTime()) {
       this.selectedDate = null;
     }
     else {
@@ -112,7 +78,7 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
 
     //if (this.model.constructor.name === 'text') {
     if (updateModel)
-      this.model.value = formatDate(this.selectedDate ? this.selectedDate : this.nullDate, 'y-MM-ddTHH:mm:ss');
+      this.model.value = formatDate(this.selectedDate ? this.selectedDate : NullDate, 'y-MM-ddTHH:mm:ss');
     //}
   }
 

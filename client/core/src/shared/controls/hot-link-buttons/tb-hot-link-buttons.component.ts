@@ -259,7 +259,9 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     Observable.fromEvent(document, 'click', { capture: true }).pipe(untilDestroy(this))
       .filter(e => ((this.tablePopupRef 
           && !this.tablePopupRef.popupElement.contains((e as any).toElement) 
-          && !findAnchestorByClass(e['target'], 'customisable-grid-filter') )
+          && !findAnchestorByClass(e['target'], 'customisable-grid-filter')
+          && !findAnchestorByClass(e['target'], 'k-calendar-view')
+          && !findAnchestorByClass(e['target'], 'k-popup'))
         || (this.optionsPopupRef 
           && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
         && (this.isTablePopupVisible || this.isOptionsPopupVisible))

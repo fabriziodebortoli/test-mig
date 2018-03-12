@@ -15,14 +15,19 @@
                 <div [ngSwitch]="col.type">
                     <input *ngSwitchCase="'Boolean'" type="checkbox" [checked]="dataItem[col.id]" disabled/>
                     <div *ngSwitchDefault class="hotLinkGridCell" style="display: flex">
-                        {{dataItem[col.id] | tbEnums: col.type | async}}
+                        {{dataItem[col.id] | tbDate: col.type | tbEnums: col.type | async}}
                     </div>
                 </div>
             </div>
         </ng-template>
-        <ng-template [ngIf]="col.type && col.type.includes('Enum')">
+        <ng-template [ngIf]="col.type?.includes('Enum')">
             <ng-template kendoGridFilterCellTemplate let-filter>
                 <tb-enum-filter [filter]="filter" [state]="state" [column]="col"></tb-enum-filter>
+            </ng-template>
+        </ng-template>
+        <ng-template [ngIf]="col.type?.includes('DateTime')">
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                <tb-date-filter [filter]="filter" [kendoColumn]="column" [column]="col"></tb-date-filter>
             </ng-template>
         </ng-template>
         

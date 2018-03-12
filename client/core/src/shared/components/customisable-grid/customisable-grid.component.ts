@@ -24,6 +24,7 @@ import { FilterService, combineFilters, combineFiltersMap } from './../../../cor
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { EnumFilterComponent } from './enum-filter/enum-filter.component';
 import { getEnumValueSiblings } from './enum-filter/U';
+import { DateFilterComponent } from './date-filter/date-filter.component';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged } from './../../../rxjs.imports';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { FormMode } from './../../../shared/models/form-mode.enum';
@@ -240,7 +241,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
             'DateTime': 'date',
             'String': 'text',
             'Enum': 'text',
-            'Int64': 'number'
+            'Int64': 'text'
         };
         return map[type] || 'text';
     }

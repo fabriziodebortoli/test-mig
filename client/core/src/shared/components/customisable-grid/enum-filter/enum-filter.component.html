@@ -8,3 +8,9 @@
     [valueField]="valueField"
     [popupSettings]="{popupClass: 'customisable-grid-filter'}">
 </kendo-dropdownlist>
+<button [style.visibility]="isFilterActive ? 'visible' : 'hidden'" [style.marginLeft.px]='3' (click)="onChange(null)" class="k-button k-button-icon k-clear-button-visible" kendogridfocusable="" title="Clear">
+    <span class="k-icon k-i-filter-clear"></span>
+</button>
+<button [style.visibility]="'hidden'" enabled='false' class="k-button k-button-icon">
+    <span class="k-i-filter k-icon"></span>
+</button>

@@ -1,7 +1,7 @@
 import { Observable, BehaviorSubject } from '../../rxjs.imports';
 import { Injectable, OnDestroy, NgZone, ElementRef } from '@angular/core';
-import { debounceFirst } from './../../shared/commons/debounceFirst';
 import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { debounceFirst } from './../../shared/commons/debounceFirst';
 import * as _ from 'lodash';
 
 export type SimpleFilter = { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
@@ -23,6 +23,18 @@ export function combineFilters<L, R>(left: Observable<L>, right: Observable<R>):
 
 @Injectable()
 export class FilterService implements OnDestroy {
+
+    private _filterOperatorsMap = {
+        'eq': 'IsEqualTo',
+        'neq': 'IsNotEqualTo',
+        'gte': 'GreaterOrEqualTo',
+        'gt': 'GreaterTo',
+        'lte': 'LowerOrEqualTo',
+        'lt': 'LowerTo',
+        'isnull': 'IsEmpty'
+    }
+
+    private convertOperator: (string) => string = (op) => !(op as String) || !this._filterOperatorsMap[op] ? op :  this._filterOperatorsMap[op];
 
     public filterBag: Map<string, any> = new Map<string, any>();
 
@@ -90,7 +102,22 @@ export class FilterService implements OnDestroy {
     }
 
     public onFilterChanged(value: CompositeFilter) {
-        if (this.filterSubject$) this.filterSubject$.next(value);
+        let formattedValue = this.format(value);
+        if (this.filterSubject$) this.filterSubject$.next(formattedValue);
+    }
+
+    private format(value: CompositeFilter): CompositeFilter {
+        return !value || !value.filters || value.filters.length === 0 ? value : { ...value, filters: value.filters.map(f => (f as SimpleFilter) ? this.formatSimple(f as SimpleFilter) : this.format(f as CompositeFilter)) };
+    }
+
+    private formatSimple(value: SimpleFilter) : SimpleFilter {
+        const isFilterEmpty = !value || ((value.value === undefined || value.value === undefined) && !value.operator);
+        const emptyFilter = (value ? {...value, value: '' } : value);
+        return  isFilterEmpty ? emptyFilter
+            : (value.value instanceof Date) ? { ...value, value: value.value.toISOString(), operator: this.convertOperator(value.operator) } 
+            // Currently server crashes if Boolean values are not managed this way...
+            : ((typeof(value.value) === "boolean") ? {...value, value: value.value === true ? '1' : '0', operator: this.convertOperator(value.operator)}
+            : {...value, operator: this.convertOperator(value.operator)} );
     }
 
     constructor(private ngZone: NgZone) { }

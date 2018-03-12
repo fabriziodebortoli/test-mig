@@ -86,6 +86,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
 import { CustomisableGridComponent } from './components/customisable-grid/customisable-grid.component';
 import { EnumFilterComponent } from './components/customisable-grid/enum-filter/enum-filter.component';
+import { DateFilterComponent } from './components/customisable-grid/date-filter/date-filter.component';
 
 // import { TbComponent } from './components/tb.component';
 export { TbComponent } from './components/tb.component';
@@ -144,7 +145,7 @@ const TB_COMPONENTS = [
     UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
-    TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent
+    TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent
 ];
 
 /**
@@ -351,12 +352,15 @@ import { TbToUpper } from './pipes/toupper.pipe';
 export { TbToUpper } from './pipes/toupper.pipe';
 import { TbEnumsPipe } from './pipes/enums.pipe';
 export { TbEnumsPipe } from './pipes/enums.pipe';
+import { TbDatePipe } from './pipes/date.pipe';
+export { TbDatePipe } from './pipes/date.pipe';
+
 import { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 import { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 export { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe,TbColorPipe, TbToUpper];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe,TbColorPipe, TbToUpper, TbDatePipe];
 
 export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';

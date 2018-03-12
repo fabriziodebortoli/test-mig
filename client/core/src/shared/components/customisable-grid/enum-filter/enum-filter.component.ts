@@ -11,26 +11,39 @@ import { FilterService as CustomFilterService } from '../../../../core/services/
     templateUrl: './enum-filter.component.html',
     styleUrls: ['./enum-filter.component.scss']})
 export class EnumFilterComponent extends BaseFilterCellComponent {
-    @Input() filter: CompositeFilterDescriptor;
-    @Input() state: State; 
-    @Input() column : any;
-    
-    get selectedValue(): any {
-        return this.customFilterService.filterBag.get(JSON.stringify(this.column.id))
-    }
     textField: string = 'displayString';
     valueField: string = 'code';
+    @Input() filter: CompositeFilterDescriptor;
+    @Input() column : any;
+    @Input() state: State; 
+    private get filterId(): string { return JSON.stringify(this.column.id); }
+    
+    get isFilterActive(): boolean {
+        return this.customFilterService.filterBag.get(this.filterId + '_isFilterActive') === true;
+    }
+
+    set isFilterActive(value: boolean) {
+        this.customFilterService.filterBag.set(this.filterId + '_isFilterActive', value);
+    }
+    
+    get selectedValue(): any {
+        return this.customFilterService.filterBag.get(this.filterId);
+    }
+
+    public get clearFilterStyle(): any {
+        return { visibility: this.isFilterActive ? 'visible' : 'hidden', };
+    }
     
     public get data(): any {
-        let lastData = this.customFilterService.filterBag.get(JSON.stringify(this.column.id)+ '_data');
+        let lastData = this.customFilterService.filterBag.get(this.filterId + '_data');
         if(lastData) return lastData;
         lastData = getEnumValueSiblings(this.column, this.state, this.enumsService);
-        this.customFilterService.filterBag.set(JSON.stringify(this.column.id)+ '_data', lastData);
+        this.customFilterService.filterBag.set(this.filterId + '_data', lastData);
     }
 
     public get defaultItem(): any {
         return {
-            [this.textField]: "*",
+            [this.textField]: "(All)",
             [this.valueField]: null
         };
     }
@@ -39,12 +52,24 @@ export class EnumFilterComponent extends BaseFilterCellComponent {
         private enumsService: EnumsService,
         private customFilterService: CustomFilterService) {
         super(filterService);
+        if(!this.filterService['_id_']) {
+            this.filterService['_id_'] = Math.floor(Math.random() * 1000);
+            console.log('New FilterService has been created: [_id_ = ' + this.filterService['_id_'] + ']');
+        }
+    }
+
+    clearFilter(columnId: any) {
+        this.applyFilter(this.removeFilter(this.filterId));
+        this.isFilterActive = false;
+    }
+
+    doFilter(columnId: any, value: any) {
+        this.applyFilter(this.updateFilter({ field: columnId, operator: "contains", value: value}));
+        this.isFilterActive = true;
     }
 
     public onChange(value: any): void {
-        this.customFilterService.filterBag.set(JSON.stringify(this.column.id), value);
-        this.applyFilter(value === null ? 
-                    this.removeFilter(this.column.id) : 
-                    this.updateFilter({ field: this.column.id, operator: "contains", value: value}));
+        this.customFilterService.filterBag.set(this.filterId, value);
+        value === null ? this.clearFilter(this.filterId) : this.doFilter(this.filterId, value);
     }
 }
