@@ -14,8 +14,13 @@
             "controlClass": "LongComboDropDownList",
             "binding": {
                 "datasource": "Resources.Manager",
-                "hotLink": "WorkersManager",
-                "buttonId": 0
+                "buttonId": 0,
+                "hotLink": {
+                    "name": "WorkersManager",
+                    "namespace": "Framework.TbResourcesMng.TbResourcesMng.Workers",
+                    "mustExistData": true,
+                    "enableAddOnFly": false
+                }
             },
             "type": 12,
             "x": 101,

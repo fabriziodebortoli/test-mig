@@ -26,28 +26,33 @@
             "showDataTip": true,
             "showStatusBar": true,
             "items": [
-              {
-                "binding": {
-                  "datasource": "Reason",
-                  "mustExistData": true,
-                  "hotLink": {
-                    "name": "AbsenceReasons",
-                    "namespace": "Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons",
-                    "mustExistData": true,
-                    "enableAddOnFly": false
-                  }
+                {
+                    "binding": {
+                        "datasource": "Reason",
+                        "mustExistData": true,
+                        "hotLink": {
+                            "name": "AbsenceReasons",
+                            "namespace": "Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
+                    },
+                    "controlClass": "StringEdit",
+                    "id": "IDC_WRK_ABSENCES_BE_REASON",
+                    "name": "Reason",
+                    "text": "Reason",
+                    "type": 22 /*ColTitle*/
                 },
-                "controlClass": "StringEdit",
-                "id": "IDC_WRK_ABSENCES_BE_REASON",
-                "name": "Reason",
-                "text": "Reason",
-                "type": 22 /*ColTitle*/
-              },
                 {
                     "binding": {
                         "datasource": "Manager",
-                        "hotLink": "Workers",
-                        "buttonId": 0
+                        "buttonId": 0,
+                        "hotLink": {
+                            "name": "Workers",
+                            "namespace": "Framework.TbResourcesMng.TbResourcesMng.Workers",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
                     },
                     "controlClass": "LongComboDropDownList",
                     "id": "IDC_WRK_ABSENCES_BE_MANAGER",

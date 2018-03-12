@@ -1,116 +1,108 @@
 {
-	"id": "IDD_TD_RESOURCES_DETAILS",
-	"text": "Child Resources",
-	"type": 71,
-	"x": 0,
-	"y": 0,
-	"width": 397,
-	"height": 97,
-	"child": true,
-	"name": "ResourcesDetails",
-	"items": [
-		{
-			"id": "IDC_RESOURCES_DETAILS_BODYEDIT",
-			"text": "Child Resources",
-			"type": 18,
-			"x": 0,
-			"y": 0,
-			"width": 393,
-			"height": 95,
-			"clipChildren": true,
-			"ownerDraw": true,
-			"name": "ResourcesDetails",
-			"binding": {
-				"datasource": "ResourcesDetails"
-			},
-			"items": [
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_IS_WORKER",
-					"text": "Is Worker",
-					"controlClass": "CheckBox",
-					"name": "IsWorker",
-					"binding": {
-						"datasource": "IsWorker"
-					}
-				},
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_TYPE",
-					"text": "Type",
-					"controlClass": "StringComboDropDownList",
-
-          "binding": {
-            "datasource": "ChildResourceType",
-
-            "buttonId": 0,
-            "hotLink": {
-              "name": "ResourceTypes",
-              "namespace": "Framework.TbResourcesMng.TbResourcesMng.ResourceTypes",
-              "mustExistData": true,
-              "enableAddOnFly": false
-            }
-
-          }
-				},
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_CODE",
-					"text": "Code",
-					"controlClass": "StringEdit",
-					"binding": {
-						"datasource": "ChildResourceCode",
-            "hotLink": {
-              "name": "ResourcesCode",
-              "namespace": "Framework.TbResourcesMng.TbResourcesMng.Resources",
-              "mustExistData": true,
-              "enableAddOnFly": false
-            }
-					}
-				},
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_WORKER",
-					"text": "Worker",
-					"controlClass": "LongComboDropDownList",
-					"name": "WorkerID",
-          "binding": {
-            "datasource": "ChildWorkerID",
-
-            "buttonId": 0,
-            "hotLink": {
-              "name": "Workers",
-              "namespace": "Framework.TbResourcesMng.TbResourcesMng.Workers",
-              "mustExistData": true,
-              "enableAddOnFly": false
-            }
-
-          }
-				},
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_WORKER_DESC",
-					"text": "Description",
-					"controlClass": "StringStatic",
-					"name": "WorkerDesc",
-          "binding": {
-            "datasource": "WorkerDesc"
-
-          }
-				},
-				{
-					"type": 22,
-					"id": "IDC_RSS_RESOUR_BE_MANAGER",
-					"text": "Manager",
-					"controlClass": "StringStatic",
-					"name": "ManagerDesc",
-					"binding": {
-						"datasource": "ManagerDesc"
-
-					}
-				}
-
-			]
-		}
-	]
+    "id": "IDD_TD_RESOURCES_DETAILS",
+    "text": "Child Resources",
+    "type": 71,
+    "x": 0,
+    "y": 0,
+    "width": 397,
+    "height": 97,
+    "child": true,
+    "name": "ResourcesDetails",
+    "items": [
+        {
+            "id": "IDC_RESOURCES_DETAILS_BODYEDIT",
+            "text": "Child Resources",
+            "type": 18,
+            "x": 0,
+            "y": 0,
+            "width": 393,
+            "height": 95,
+            "clipChildren": true,
+            "ownerDraw": true,
+            "name": "ResourcesDetails",
+            "binding": {
+                "datasource": "ResourcesDetails"
+            },
+            "items": [
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_IS_WORKER",
+                    "text": "Is Worker",
+                    "controlClass": "CheckBox",
+                    "name": "IsWorker",
+                    "binding": {
+                        "datasource": "IsWorker"
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_TYPE",
+                    "text": "Type",
+                    "controlClass": "StringComboDropDownList",
+                    "binding": {
+                        "datasource": "ChildResourceType",
+                        "buttonId": 0,
+                        "hotLink": {
+                            "name": "ResourceTypes",
+                            "namespace": "Framework.TbResourcesMng.TbResourcesMng.ResourceTypes",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_CODE",
+                    "text": "Code",
+                    "controlClass": "StringEdit",
+                    "binding": {
+                        "datasource": "ChildResourceCode",
+                        "hotLink": {
+                            "name": "ResourcesCode",
+                            "namespace": "Framework.TbResourcesMng.TbResourcesMng.Resources",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_WORKER",
+                    "text": "Worker",
+                    "controlClass": "LongComboDropDownList",
+                    "name": "WorkerID",
+                    "binding": {
+                        "datasource": "ChildWorkerID",
+                        "buttonId": 0,
+                        "hotLink": {
+                            "name": "Workers",
+                            "namespace": "Framework.TbResourcesMng.TbResourcesMng.Workers",
+                            "mustExistData": true,
+                            "enableAddOnFly": false
+                        }
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_WORKER_DESC",
+                    "text": "Description",
+                    "controlClass": "StringStatic",
+                    "name": "WorkerDesc",
+                    "binding": {
+                        "datasource": "WorkerDesc"
+                    }
+                },
+                {
+                    "type": 22,
+                    "id": "IDC_RSS_RESOUR_BE_MANAGER",
+                    "text": "Manager",
+                    "controlClass": "StringStatic",
+                    "name": "ManagerDesc",
+                    "binding": {
+                        "datasource": "ManagerDesc"
+                    }
+                }
+            ]
+        }
+    ]
 }

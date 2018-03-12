@@ -9,8 +9,11 @@
          "binding" : {
             "buttonId" : 0,
             "datasource" : "Resources.ResourceType",
-            "hotLink" : {
-               "name" : "ResourceTypes"
+            "hotLink": {
+                "name": "ResourceTypes",
+                "namespace": "Framework.TbResourcesMng.TbResourcesMng.ResourceTypes",
+                "mustExistData": true,
+                "enableAddOnFly": true
             }
          },
          "controlCaption" : "Type",
