@@ -31,6 +31,7 @@ tb-frame-content {
     padding: 0;
     margin: 0;
     position: relative;
+    overflow-y: auto !important;
     &.collapsed {
         span {
             opacity: 0;
