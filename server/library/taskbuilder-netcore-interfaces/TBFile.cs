@@ -8,7 +8,7 @@ namespace TaskBuilderNetCore.Interfaces
 {
     enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE }; //UTF16_BE: Big Endian (swap sui byte); UTF16_LE: Little Endian 
     //=========================================================================
-    public class TBFile
+    public class TBFile : IDisposable
     {
         
         public long     fileID;
@@ -34,11 +34,27 @@ namespace TaskBuilderNetCore.Interfaces
 
         public IFileSystemDriver    alternativeDriver = null;
         public FileInfo             fileInfo = null;
-//        public TBFile               tbFile = null;
+
         public DateTime             creationTime;
         public DateTime             lastWriteTime;
         public bool                 isReadOnly;
         public string               FileExtension;
+
+
+        //----------------------------------------------------------------------------
+        ~TBFile()
+        {
+            Dispose();
+            if (fileContent != null)
+                fileContent = null;
+        }
+
+        //--------------------------------------------------------------------------------
+        public void Dispose()
+        {
+            if (fileContent != null)
+                fileContent = null;
+        }
 
 
         //----------------------------------------------------------------------------
@@ -94,9 +110,6 @@ namespace TaskBuilderNetCore.Interfaces
                 FileInfo fileInfo = new FileInfo(strCompleteFileName);
                 this.fileInfo = fileInfo;
             }
-            //else
-            //    tbFile = alternativeDriver.GetTBFile(strCompleteFileName);
-
 
             this.alternativeDriver = alternativeDriver;
             completeFileName = strCompleteFileName;
@@ -128,13 +141,6 @@ namespace TaskBuilderNetCore.Interfaces
             //    tbFile = alternativeDriver.GetTBFile(completeFileName);
 
             FileExtension = fileInfo.Extension;
-        }
-
-        //----------------------------------------------------------------------------
-        ~TBFile()
-        {
-            if (fileContent != null)
-                fileContent = null;
         }
 
         //-------------------------------------------------------------

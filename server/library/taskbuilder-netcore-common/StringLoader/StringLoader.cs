@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Diagnostics;
 using System.IO;
 
@@ -134,7 +133,7 @@ namespace Microarea.Common.StringLoader
 		private static List<DictionaryBinaryFile> dictionaries = new List<DictionaryBinaryFile>();
 
 		//-----------------------------------------------------------------------------
-		public static DictionaryBinaryFile GetDictionary(string dictionaryPath)
+		public static DictionaryBinaryFile GetDictionary(string dictionaryPath) //TODO LARA usa pathfinder solo qui non x le save
 		{
 			if (!PathFinder.PathFinderInstance.ExistFile(dictionaryPath))
 				return null;
@@ -152,7 +151,9 @@ namespace Microarea.Common.StringLoader
 				}
 
 				DictionaryBinaryFile newDict = new DictionaryBinaryFile(dictionaryPath);
-				using (DictionaryBinaryParser p = new DictionaryBinaryParser(new FileStream(dictionaryPath, FileMode.Open, FileAccess.Read, FileShare.Read, 65536)))
+                Stream fs = PathFinder.PathFinderInstance.GetStream(dictionaryPath, false);
+
+                using (DictionaryBinaryParser p = new DictionaryBinaryParser(fs)) // new FileStream(dictionaryPath, FileMode.Open, FileAccess.Read, FileShare.Read, 65536)))
 				{
 					newDict.Parse(p);
 				}

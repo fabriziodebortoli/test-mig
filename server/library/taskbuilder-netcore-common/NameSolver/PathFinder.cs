@@ -45,8 +45,7 @@ namespace Microarea.Common.NameSolver
         public const int CustomModuleSegmentPath = 7;
         public const char DomainUserSeparator = '.'; // deve essere simmetrico al carattere usato in C++
         #endregion
-
-        bool? singleThreaded;
+        
         bool easyStudioAppsInCustom = true;
 
         #region membri privati
@@ -72,7 +71,6 @@ namespace Microarea.Common.NameSolver
         private string company = string.Empty;
         private string user = string.Empty;
         private string edition = string.Empty;
-        private Enums enums;
         private Microarea.Common.FileSystemManager.FileSystemManager fileSystemManager = null;
 
         #endregion
@@ -92,24 +90,10 @@ namespace Microarea.Common.NameSolver
         public string GetStandardPath { get { return standardPath; } }
         //-----------------------------------------------------------------------------
         public string GetAppsPath { get { return appsPath; } }
-        //-----------------------------------------------------------------------------
-        public string GetPublishPath { get { return publishPath; } }
+
         //-----------------------------------------------------------------------------
         public string GetInstallationPath { get { return Path.GetDirectoryName(standardPath); } }
-        //-----------------------------------------------------------------------------
-        public Enums Enums
-        {
-            get
-            {
-                if (this.enums == null)
-                {
-                    this.enums = new Enums();
-                    this.enums.LoadXml();
-                }
-
-                return this.enums;
-            }
-        }
+     
         public CoreTypes.FunctionsList WebMethods
         {
             get
@@ -184,37 +168,12 @@ namespace Microarea.Common.NameSolver
 
             return true;
         }
-        //----------------------------------------------------------------------------
-        /// <summary>
-        /// Indica se il path finder sta girando sullo stesso server dell'installazione
-        /// </summary>
-        public static bool IsInitialized
-        {
-            get
-            {
-                return PathFinderInstance != null;
-            }
-        }
-        //----------------------------------------------------------------------------
-        /// <summary>
-        /// Indica se il path finder sta girando sullo stesso server dell'installazione
-        /// </summary>
-        public bool RunAtServer { get { return runAtServer; } }
+
         //----------------------------------------------------------------------------
         /// <summary>
         /// Indica se il path finder sta girando ALL'INTERNO del percorso di installebazione (es. TBServices, LoginManager)
         /// </summary>
         public bool IsRunningInsideInstallation { get { return isRunningInsideInstallation; } }
-        //-----------------------------------------------------------------------------
-        public IFunctions WebFunctions
-        {
-            get
-            {
-                return WebMethods;
-            }
-        }
-        //-----------------------------------------------------------------------------
-        public string BaseAddressUrl { get => baseAddressUrl; set => baseAddressUrl = value; }
         //----------------------------------------------------------------------------
         public string Installation { get { return installation; } }
         //----------------------------------------------------------------------------
@@ -224,8 +183,7 @@ namespace Microarea.Common.NameSolver
         /// Nome del server che espone le cartelle condivise di file system
         /// </summary>
         public string RemoteFileServer { get { return remoteFileServer; } }
-        //----------------------------------------------------------------------------
-        public Diagnostic Diagnostic { get { return diagnostic; } }
+
         //----------------------------------------------------------------------------
         public string EasyLookServiceBaseUrl
         {
@@ -234,61 +192,7 @@ namespace Microarea.Common.NameSolver
                 return string.Format("{0}/{1}/", WebFrameworkRootUrl, NameSolverStrings.EasyLook);
             }
         }
-        /// <summary>
-        /// Ritorna il path di EasyLookService nel formato http://localhost:80/Installation/EasyLookService
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string EasyLookServiceUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.EasyLook, NameSolverStrings.EasyLookService);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del EasyAttachmentSync nel formato http://localhost:80/Installation/EasyAttachmentSync
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string EasyAttachmentSyncUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.EasyAttachmentSync, NameSolverStrings.EasyAttachmentSync);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del DataSynchronizer nel formato http://localhost:80/Installation/DataSynchronizer
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string DataSynchronizerUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.DataSynchronizer, NameSolverStrings.DataSynchronizer);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del SOSProxy nel formato http://localhost:80/Installation/TBSender/SOSProxy.asmx
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string SOSProxyUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.TbSender, NameSolverStrings.SOSProxy);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del NotificationService nel formato http://localhost/Installation/NotificationService/NotificationService.svc
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string NotificationServiceUrl
-        {
-            get
-            {
-                return WcfWebFrameworkMethodsUrl(NameSolverStrings.NotificationService, NameSolverStrings.NotificationService);
-            }
-        }
+ 
         /// <summary>
         /// Ritorna il path del LoginManager
         /// </summary>
@@ -331,73 +235,7 @@ namespace Microarea.Common.NameSolver
                 return WebFrameworkMethodsUrl(NameSolverStrings.LoginManager, NameSolverStrings.LoginManager);
             }
         }
-        /// <summary>
-        /// Ritorna il path del RestGate
-        /// 
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string RESTGateUrl
-        {
-            get
-            {
-                return string.Concat(WebFrameworkRootUrl, '/', NameSolverStrings.RESTGate, '/');
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del LockManager nel formato http://localhost:80/Installation/LockManager
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string LockManagerUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.LockManager, NameSolverStrings.LockManager);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del TbSender nel formato http://localhost:80/Installation/TbSender
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string TbSenderUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.TbSender, NameSolverStrings.PLProxy);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del TbHermes nel formato http://localhost:80/Installation/TbHermes
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string TbHermesUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.TbHermes, NameSolverStrings.TbHermes);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del TbServices nel formato http://localhost:80/Installation/TbServices
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string TbServicesUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.TbServices, NameSolverStrings.TbServices);
-            }
-        }
-        /// <summary>
-        /// Ritorna il path del TbLoaderLauncher nel formato http://localhost:80/Installation/TbLoaderLauncher
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string TbLoaderLauncherUrl
-        {
-            get
-            {
-                return WebFrameworkMethodsUrl(NameSolverStrings.TbLoaderLauncher, NameSolverStrings.TbLoaderLauncher);
-            }
-        }
+  
         //tipo di build debug o release, se non settata restituisce quella in run
         //----------------------------------------------------------------------------
         public string Build
@@ -443,38 +281,11 @@ namespace Microarea.Common.NameSolver
             }
         }
         //----------------------------------------------------------------------------
-        public int TbLoaderSOAPPort { get { return GetSettingValue("TBLoaderDefaultSOAPPort"); } }
-        //----------------------------------------------------------------------------
-        public int TbLoaderTCPPort { get { return GetSettingValue("TBLoaderDefaultTCPPort"); } }
-        //----------------------------------------------------------------------------
         public string Company { get { return company; } }
         //----------------------------------------------------------------------------
         public string User { get { return user; } }
         public string Edition { get { return edition; } set { edition = value; } }
-        //nome utente con la virgola al posto dello \
-        //----------------------------------------------------------------------------
-        public string UserForFileSystem
-        {
-            get
-            {
-                return User.Replace(NameSolverStrings.Directoryseparetor, DomainUserSeparator);
-            }
-        }
-
-
-        //---------------------------------------------------------------------
-        public bool SingleThreaded
-        {
-            get
-            {
-                if (singleThreaded == null)
-                {
-                    SettingItem si = GetSettingItem("Framework", "TBGenlib", "Environment", "SingleThreaded");
-                    singleThreaded = si != null && si.Values[0].Equals("1");
-                }
-                return singleThreaded.Value;
-            }
-        }
+ 
         //----------------------------------------------------------------------------
         public IList ApplicationInfos
         {
@@ -841,11 +652,7 @@ namespace Microarea.Common.NameSolver
                 : standardPath;
             return Path.Combine(folder, appContainerName);
         }
-        //---------------------------------------------------------------------
-        public static void ClearPathFinderInstance()
-        {
-            PathFinderInstance = null;
-        }
+ 
         //---------------------------------------------------------------------
         public static string GetSolutionFileName(string productName)
         {
@@ -3111,11 +2918,7 @@ namespace Microarea.Common.NameSolver
         {
             return Path.Combine(standardPath, NameSolverStrings.InstallationVersion);
         }
-        //---------------------------------------------------------------------------
-        public string GetInstallationVersionFromInstallationVer()
-        {
-            return GetInstallationVersionFromInstallationVer(null);
-        }
+    
         /// <summary>
         /// utilizzato data una path standard e una path custom effettua il  caricamento dei file xml
         /// trovati considerando prima quelli nella custom che sovvrascivono quelli della standar)

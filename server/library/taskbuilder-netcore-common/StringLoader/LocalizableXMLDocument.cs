@@ -1,10 +1,8 @@
 using Microarea.Common.NameSolver;
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Xml;
-using TaskBuilderNetCore.Interfaces;
 
 namespace Microarea.Common.StringLoader
 {

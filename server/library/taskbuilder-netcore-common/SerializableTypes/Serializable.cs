@@ -5,6 +5,10 @@ using System.Xml.Serialization;
 
 namespace Microarea.Common.SerializableTypes
 {
+
+    //TODO LARA
+    //la lascio sul FS xche ora come ora e' usata solo da applicationcache
+    //pero forse un domani dovrebbe essere parametrizzata x salvare sempre su fs o appoggiarsi al pathfinder
 	public class Serializable
 	{
 		//---------------------------------------------------------------------------
