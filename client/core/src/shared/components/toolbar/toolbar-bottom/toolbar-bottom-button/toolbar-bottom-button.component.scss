@@ -32,6 +32,7 @@ m4-icon {
     height: 25px;
 }
 
+$darkblue:#00578c;
 :host-context(.dropUpButton) {
     .content {
         padding-left: 0px;
@@ -39,10 +40,10 @@ m4-icon {
         display: flex;
     }
     .k-button {
-        background: #ffffff;
+        background:  #0277bd;
         border: 0px;
         width: 100%;
-        color: black;
+        color: #fff;
         cursor: pointer;
         line-height: 30px;
         font-size: 14px;
@@ -51,7 +52,7 @@ m4-icon {
         &:hover,
         &:focus,
         &:active {
-            background: #f7f7f7;
+            background: $darkblue;
             border: 0px;
         }
     }
