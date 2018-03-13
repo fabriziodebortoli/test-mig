@@ -49,7 +49,7 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     constructor(public httpMenuService: HttpMenuService,
         public settingService: SettingsService) {
-        this.getCurrentContext();
+        this.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------

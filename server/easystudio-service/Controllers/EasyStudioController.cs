@@ -29,10 +29,10 @@ namespace Microarea.EasyStudio.Controllers
         {
             try
             {
-                var getDefault = value["getDefault"]?.Value<bool>();
+                var getDefault = value[Strings.DefaultReq]?.Value<bool>();
                 string user = value[Strings.User]?.Value<string>();
 
-                string res = PrefService.GetCurrentContext(user, getDefault ?? false);
+                string res = PrefService.GetContextPreferences(user, getDefault ?? false);
                 return ToResult(res);
             }
             catch (Exception e)
@@ -52,7 +52,7 @@ namespace Microarea.EasyStudio.Controllers
                 bool? isPairDefault = value[Strings.DefaultPair]?.Value<bool>();
                 string user = value[Strings.User]?.Value<string>();
 
-                bool outcome = PrefService.SetPreferences(appName, modName, isPairDefault ?? false);
+                bool outcome = PrefService.SetContextPreferences(appName, modName, isPairDefault ?? false, user);
 				return ToResult(outcome.ToString());
             }
             catch (Exception e)

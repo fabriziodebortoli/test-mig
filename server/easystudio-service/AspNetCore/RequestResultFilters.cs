@@ -38,7 +38,7 @@ namespace Microarea.EasyStudio.AspNetCore
 				else
 				{
 					context.HttpContext.Response.StatusCode = 200;
-					content = ((ContentResult)context.Result).Content;
+					content = ((ContentResult)context?.Result)?.Content ?? content;
 				}
 
                 context.Result = new ContentResult

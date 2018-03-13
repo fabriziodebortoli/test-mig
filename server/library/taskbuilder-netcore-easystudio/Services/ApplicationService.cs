@@ -17,8 +17,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 	[Name("appSvc"), Description("This service manages application structure info and serialization.")]
 	[DefaultSerializer(typeof(ApplicationSerializer))]
 	public class ApplicationService : Service
-	{	
-        ApplicationSerializer AppSerializer { get => Serializer as ApplicationSerializer; }
+	{
+		ApplicationSerializer AppSerializer { get => Serializer as ApplicationSerializer; }
    
 		//---------------------------------------------------------------
 		public ApplicationService()
@@ -90,7 +90,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
         //-----------------------------------------------------------------------
-        public bool Create(string applicationName, ApplicationType applicationType, string moduleName = "")
+        public bool Create(string user, string applicationName, ApplicationType applicationType, string moduleName = "")
         {
             bool success = true;
             if (!ExistsApplication(applicationName))
@@ -99,7 +99,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             if (success && !string.IsNullOrEmpty(moduleName))
                 success = CreateModule(applicationName, moduleName);
 
-            return success;
+			return success;
         }
 
         //---------------------------------------------------------------
@@ -304,6 +304,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
         internal static readonly string ApplicationAlreadyExists = "Application already exists!";
 
-    }
+		internal static readonly string Separator = ";";
+	}
 }
 

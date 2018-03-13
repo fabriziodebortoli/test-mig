@@ -15,7 +15,9 @@ namespace Microarea.EasyStudio.Controllers
         //---------------------------------------------------------------------
         Service<ApplicationService> Service { get; set; }
         ApplicationService AppService { get => Service.Obj; }
-        public override IDiagnosticProvider Diagnostic => AppService.Diagnostic;
+		Service<PreferencesService> ServiceForPreferences { get; set; }
+		PreferencesService PrefService { get => ServiceForPreferences.Obj; }
+		public override IDiagnosticProvider Diagnostic => AppService.Diagnostic;
 
 		//---------------------------------------------------------------------
 		public ApplicationController(IServiceManager serviceManager)
@@ -23,14 +25,15 @@ namespace Microarea.EasyStudio.Controllers
 			base(serviceManager)
 		{
             Service = Services?.GetService<ApplicationService>();
-        }    
+			ServiceForPreferences = Services?.GetService<PreferencesService>();
+		}    
         
         //-----------------------------------------------------------------------
         [Route("create"), HttpGet]
-        public IActionResult Create([FromQuery] string applicationName, ApplicationType applicationType, string moduleName = "")
+        public IActionResult Create([FromQuery] string user, string applicationName, ApplicationType applicationType, string moduleName = "")
         {
             // la get la lasciamo verbose
-            if (AppService.Create(applicationName, (ApplicationType)applicationType, moduleName))
+            if (AppService.Create(user, applicationName, (ApplicationType)applicationType, moduleName))
                 Diagnostic.Add(DiagnosticType.Information, string.Concat(applicationName, " ", moduleName, BaseStrings.ObjectSuccessfullyCreated));
 
             return ToResult(Diagnostic);
@@ -43,11 +46,15 @@ namespace Microarea.EasyStudio.Controllers
             string applicationName = value[Strings.ApplicationName]?.Value<string>();
             var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
             var moduleName = value[Strings.ModuleName]?.Value<string>();
- 
-            if (applicationType == null)
+			string user = value[Strings.User]?.Value<string>();
+
+			if (applicationType == null)
                 Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
-            else
-                AppService.Create(applicationName, (ApplicationType)applicationType, moduleName);
+			else
+			{
+                AppService.Create(user, applicationName, (ApplicationType)applicationType, moduleName);
+				PrefService.SetContextPreferences(applicationName, moduleName, false, user);
+			}
 
             return ToResult(Diagnostic);
         }

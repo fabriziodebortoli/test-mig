@@ -147,7 +147,7 @@ export class HttpMenuService {
     }
 
     getDefaultContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), getDefault : true };
+        let obj = { user: localStorage.getItem('_user'), defaultReq : true };
         let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -156,7 +156,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
     getCurrentContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), getDefault : false };
+        let obj = { user: localStorage.getItem('_user'), defaultReq : false };
         let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {

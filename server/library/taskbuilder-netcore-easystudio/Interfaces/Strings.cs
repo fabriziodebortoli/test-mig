@@ -10,11 +10,12 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
 		// parameters
 		public static readonly string ApplicationName = "applicationName";
 		public static readonly string ApplicationType = "applicationType";
-		public static readonly string ModuleName = "moduleName";
 		public static readonly string DefaultPair = "defaultPair";
-		public static readonly string User = "user";
+		public static readonly string DefaultReq = "defaultReq";
+		public static readonly string ModuleName = "moduleName";
 		public static readonly string Namespace = "ns";		
-		
+		public static readonly string User = "user";
+	
 		// messages
 		public static readonly string MissingApplicationType = "Missing parameter applicationType";
 
@@ -39,8 +40,8 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
 		{
 			private Attribute()
 			{ }
-			public const string DefaultContextApplication = "DefaultContextApplication";
-			public const string DefaultContextModule = "DefaultContextModule";
+			public const string DefaultApplication = "DefaultContextApplication";
+			public const string DefaultModule = "DefaultContextModule";
 			public const string CurrentApplication = "CurrentApplication";
 			public const string CurrentModule = "CurrentModule";
 			//public const string UtcDate = "utcDate";
