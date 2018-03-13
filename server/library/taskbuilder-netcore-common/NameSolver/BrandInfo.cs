@@ -45,15 +45,7 @@ namespace Microarea.Common.NameSolver
             LoadFromFiles();
         }
 
-        //-----------------------------------------------------------------------------
-        public static void PreLoadMasterSolutionName()
-        {
-            //LoginManager loginManager = new LoginManager();
-
-            //InstallationData.ServerConnectionInfo.MasterSolutionName = loginManager.GetMasterSolution();
-            InstallationData.ServerConnectionInfo.UnParse(PathFinder.PathFinderInstance.ServerConnectionFile);
-        }
-
+      
         #region Load From files
         //-----------------------------------------------------------------------------
         private bool LoadFromFiles()

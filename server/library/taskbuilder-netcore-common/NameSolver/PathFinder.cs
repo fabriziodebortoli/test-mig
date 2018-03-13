@@ -1,4 +1,3 @@
-using Microarea.Common.Applications;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.FileSystemManager;
 using Microarea.Common.Generic;
@@ -14,36 +13,28 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using TaskBuilderNetCore.Interfaces;
-using static Microarea.Common.Generic.InstallationInfo;
 using TaskBuilderNetCore.Documents.Model.Interfaces;
 using Microarea.Common.WebServicesWrapper;
 using System.Text;
 using Newtonsoft.Json;
 using System.Xml;
+using Microarea.Common.Lexan;
+using Microarea.Common.StringLoader;
 
 namespace Microarea.Common.NameSolver
 {
+    public enum ObjectType { Document, Report, File }
     public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
     //=========================================================================
     public class PathFinder
     {
         #region costanti 
-        private const string logManagerFile = "XMLLogManager.xsl";
         private const string xmlExt = "Xml";
-        private const string description = "Description";
-        private const string views = "Views";
-        private const string shared = "Shared";
-        private const string schema = "Schema";
-        private const string uiControllers = "UIControllers";
-        private const string MicroareaRegKey = "Software\\Microarea\\";
         private const string numberToLiteralXmlFileName = "NumberToLiteral.xml";
-
-        protected const string defaultThemeFileName = "DefaultTheme.config";
         public const int StandardAppSegmentPath = 4;
         public const int StandardModuleSegmentPath = 5;
         public const int CustomAppSegmentPath = 6;
         public const int CustomModuleSegmentPath = 7;
-        public const char DomainUserSeparator = '.'; // deve essere simmetrico al carattere usato in C++
         #endregion
 
         bool easyStudioAppsInCustom = true;
@@ -51,21 +42,14 @@ namespace Microarea.Common.NameSolver
         #region membri privati
         private static readonly object staticLockTicket = new object();
         private static readonly object staticLockTicketFunctions = new object();
-        private readonly object instanceLockTicket = new object();
         private string installation = string.Empty;
-        private string microareaServicesPath = string.Empty;
         private string standardPath = string.Empty;
         private string customPath = string.Empty;
         private string appsPath = string.Empty;
         private string publishPath = string.Empty;
-        private string baseAddressUrl = string.Empty;
-        private SettingsConfigInfoTable settingsTable = new SettingsConfigInfoTable();
         private string remoteWebServer = string.Empty;
         private string remoteFileServer = string.Empty;
         private bool runAtServer = false;
-        private static string tbApplicationPath = null;
-        private static string magonetApplicationPath = null;
-        private static string microareaConsoleApplicationPath = null;
         private bool isRunningInsideInstallation = false;
         private static PathFinder pathFinderInstance = null;
         private string company = string.Empty;
@@ -76,7 +60,6 @@ namespace Microarea.Common.NameSolver
         #endregion
 
         #region membri protetti
-        protected string build = string.Empty;
         protected Diagnostic diagnostic = new Diagnostic("NameSolver");
         protected List<ApplicationInfo> applications;
         protected CoreTypes.FunctionsList webMethods = null;
@@ -88,9 +71,6 @@ namespace Microarea.Common.NameSolver
         public bool EasyStudioAppsInCustom { get => easyStudioAppsInCustom; set => easyStudioAppsInCustom = value; }
 
         public string GetStandardPath { get { return standardPath; } }
-        //-----------------------------------------------------------------------------
-        public string GetAppsPath { get { return appsPath; } }
-
         //-----------------------------------------------------------------------------
         public string GetInstallationPath { get { return Path.GetDirectoryName(standardPath); } }
 
@@ -115,10 +95,6 @@ namespace Microarea.Common.NameSolver
             }
         }
 
-
-
-
-        //TODO butta il base nel costruttore
         //----------------------------------------------------------------------------
         /// <summary>
         /// Oggetto statico globale PathFinder utilizzato ovunque in Mago.Net siano necessarie
@@ -192,22 +168,6 @@ namespace Microarea.Common.NameSolver
                 return string.Format("{0}/{1}/", WebFrameworkRootUrl, NameSolverStrings.EasyLook);
             }
         }
-
-        /// <summary>
-        /// Ritorna il path del LoginManager
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string LoginManagerPath
-        {
-            get
-            {
-                ModuleInfo mi = GetModuleInfoByName(NameSolverStrings.WebFramework, NameSolverStrings.LoginManager);
-                if (mi == null || mi.Path == null || mi.Path == string.Empty)
-                    return string.Empty;
-
-                return mi.Path;
-            }
-        }
         //----------------------------------------------------------------------------
         public string PingViaSMSPage
         {
@@ -235,33 +195,8 @@ namespace Microarea.Common.NameSolver
                 return WebFrameworkMethodsUrl(NameSolverStrings.LoginManager, NameSolverStrings.LoginManager);
             }
         }
-
-        //tipo di build debug o release, se non settata restituisce quella in run
-        //----------------------------------------------------------------------------
-        public string Build
-        {
-            get
-            {
-                //se non mi viene passata la build uso quella dell'assembly corrente.
-                if (build == string.Empty)
-                {
-                    DirectoryInfo di = new DirectoryInfo(/*AppDomain.CurrentDomain.BaseDirectory todo rsweb*/ "");
-                    if (string.Compare(di.Name, NameSolverStrings.Debug, StringComparison.OrdinalIgnoreCase) == 0)
-                        build = NameSolverStrings.Debug;
-                    else
-                        if (string.Compare(di.Name, NameSolverStrings.Release, StringComparison.OrdinalIgnoreCase) == 0)
-                        build = NameSolverStrings.Release;
-                    else
-                        build = Functions.DebugOrRelease();
-                }
-                return build;
-            }
-            set
-            {
-                build = value;
-            }
-        }
-
+  
+  
         /// <summary>
         /// Ritorna il path nel formato http://localhost:80/Installation
         /// </summary>
@@ -652,13 +587,7 @@ namespace Microarea.Common.NameSolver
                 : standardPath;
             return Path.Combine(folder, appContainerName);
         }
-
-        //---------------------------------------------------------------------
-        public static string GetSolutionFileName(string productName)
-        {
-            return productName + NameSolverStrings.SolutionExtension;
-        }
-
+ 
         //---------------------------------------------------------------------------------
         public static string GetUserPath(string userName)
         {
@@ -687,47 +616,12 @@ namespace Microarea.Common.NameSolver
             return NameSolverStrings.Users + "/" + userName + "/";
         }
 
-        //RIVEDERE POI CON BRUNA LARA
-        //--------------------------------------------------------------------------------
-        public static string[] GetCSharpFilesIn(string sourcesPath)
-        {
-            if (!Directory.Exists(sourcesPath))
-                return null;
-
-            string searchPattern = string.Format("*{0}", NameSolverStrings.CSharpExtension);
-
-            return Directory.GetFiles(sourcesPath, searchPattern);
-        }
-
-        //--------------------------------------------------------------------------------
-        public static string GetDesignerSourcesPathFromDll(string dllPath)
-        {
-            // from:	...\ProspectiveSuppliers\sa\ProspectiveSuppliers.dll
-            // to :		...\ProspectiveSuppliers\sa\ProspectiveSuppliers_src\designer
-            var dllFileNameWOExtension = Path.GetFileNameWithoutExtension(dllPath);
-            var srcFolderName = String.Format(System.Globalization.CultureInfo.InvariantCulture, NameSolverStrings.SourcesFolderNameMask, dllFileNameWOExtension);
-            return Path.Combine(Path.GetDirectoryName(dllPath), srcFolderName, NameSolverStrings.DesignerFolderName);
-        }
+    
 
         #endregion static function
 
 
         #region public function
-
-        /// <summary>
-        /// Ritorna il path della cartella Solutions\modules dato il nome del prodotto
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetSolutionsModulesPath(string product)
-        {
-            string solutionsPath;
-            string solFile = GetSolutionFile(product);
-            if (solFile == null || solFile.Length == 0)
-                return string.Empty;
-            solutionsPath = Path.GetDirectoryName(solFile);
-            return Path.Combine(solutionsPath, NameSolverStrings.Modules);
-        }
-
         //---------------------------------------------------------------------------------
         public string GetAppDataPath(bool create)
         {
@@ -747,27 +641,6 @@ namespace Microarea.Common.NameSolver
                 PathFinder.PathFinderInstance.CreateFolder(s, false);
             return s;
         }
-
-        //--------------------------------------------------------------------------------
-        /// <summary>
-        /// Dato il namespace di un oggetto json, ritorna il percorso dove verrà salvato il file json
-        /// </summary>
-        /// <param name="nameSpace"></param>
-        /// <returns></returns>
-        public string GetJsonFormPath(INameSpace ns)
-        {
-            if (ns == null || !ns.IsValid())
-                return "";
-            if (ns.NameSpaceType.Type == NameSpaceObjectType.Document)
-                return Path.Combine(GetDocumentPath(ns), NameSolverStrings.JsonForms);
-            if (ns.NameSpaceType.Type == NameSpaceObjectType.Module)
-            {
-                ModuleInfo bmi = GetModuleInfo(ns);
-                return bmi == null ? "" : Path.Combine(bmi.Path, NameSolverStrings.JsonForms);
-            }
-            return "";
-        }
-
         /// <summary>
         /// Restituisce l'elenco dei nomi delle applicazioni in base al tipo di applicazione specificata
         /// </summary>
@@ -786,36 +659,6 @@ namespace Microarea.Common.NameSolver
 
             return true;
         }
-        //---------------------------------------------------------------------
-        public void DeleteApplicationByName(string applicationName)
-        {
-
-            for (int i = ApplicationInfos.Count - 1; i >= 0; i--)
-            {
-                ApplicationInfo aApplicationInfo = ApplicationInfos[i] as ApplicationInfo;
-                if (string.Compare(aApplicationInfo.Name, applicationName, StringComparison.OrdinalIgnoreCase) != 0)
-                    continue;
-
-                ApplicationInfos.RemoveAt(i);
-                return;
-            }
-        }
-
-        /// <summary>
-        /// Ritorna l'oggetto SettingItem relativo ad applicazione e modulo desiderato
-        /// filtrato per sectionName e settingName
-        /// </summary>
-        /// <param name="applicationName">Applicazione in cui cercare il setting</param>
-        /// <param name="moduleName">Modulo in cui cercare il setting</param>
-        /// <param name="sectionName">Sezione desiderata</param>
-        /// <param name="settingName">Setting desiderato</param>
-        //---------------------------------------------------------------------
-        public SettingItem GetSettingItem(string applicationName, string moduleName, string sectionName, string settingName)
-        {
-            ModuleInfo mi = GetModuleInfoByName(applicationName, moduleName) as ModuleInfo;
-            if (mi == null) return null;
-            return settingsTable.GetSettingItem(sectionName, settingName, mi);
-        }
         //----------------------------------------------------------------------------
         public void RefreshEasyStudioApps(ApplicationType type)
         {
@@ -826,22 +669,6 @@ namespace Microarea.Common.NameSolver
 
             AddApplicationsByType(type);
         }
-
-        /// <summary>
-        /// Dato il nome di un prodotto, restituisce il percorso completo del
-        /// file di Solution, ad esempio
-        /// \Standard\Solutions\MagoNet-Pro.Solution.xml.
-        /// </summary>
-        /// <param name="productName">Il nome del prodotto.</param>
-        /// <returns>Il percorso completo del file di Solution.</returns>
-        //-----------------------------------------------------------------------------
-        public string GetSolutionFile(string productName)
-        {
-            string solutionFileName = GetSolutionFileName(productName);
-            return FindFileInSolutionFolder(solutionFileName);
-        }
-
-
 
         //---------------------------------------------------------------------
         public string GetStandardUpgradeInfoXML(string application, string module)
@@ -895,18 +722,7 @@ namespace Microarea.Common.NameSolver
             return
                 (allPath += NameSolverStrings.Directoryseparetor + NameSolverStrings.All + NameSolverStrings.Directoryseparetor + script);
         }
-        //---------------------------------------------------------------------------------
-        public string GetDocumentPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
 
-            ModuleInfo aModuleInfo = GetModuleInfo(aNameSpace);
-            if (aModuleInfo == null)
-                return null;
-
-            return aModuleInfo.GetDocumentPath(aNameSpace.Document);
-        }
 
 
         #region Possibili formati di NsUri
@@ -922,15 +738,7 @@ namespace Microarea.Common.NameSolver
         .APP/mod/Doc/		users/		sa/			aaa.xsd
         */
         #endregion
-        /// <summary>
-        /// TODO_MARCO da rifare 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetAllUserCustomReports(string applicationPath, INameSpace aNameSpace)
-        {
-            return GetUserCustomReports(applicationPath, aNameSpace, NameSolverStrings.AllUsers);
-        }
-
+  
         /// <summary>
         /// Ritorna il namespace dato il fullfile path di un oggetto
         /// </summary>
@@ -1020,139 +828,6 @@ namespace Microarea.Common.NameSolver
         }
 
         /// <summary>
-        /// Ritorna un namespace (composto da applicazione + modulo) dato il path di un file
-        /// </summary>
-        /// <param name="sObjectFullPath">path del file</param>
-        /// <returns>Namespace</returns>
-        //-------------------------------------------------------------------------------------
-        public INameSpace GetAppModNSFromFilePath(string sObjectFullPath)
-        {
-            // potrebbe arrivare un filename con sintassi Unix cioè anche con "/"
-            sObjectFullPath = sObjectFullPath.Replace('/', NameSolverStrings.Directoryseparetor);
-
-            // TODOBRUNA 
-            if (sObjectFullPath == null || sObjectFullPath.Length == 0)
-                return null;
-
-            FileInfo sObjectFullPathInfo = new FileInfo(sObjectFullPath);
-
-            // prima controllo le cose di base
-            if (sObjectFullPathInfo.Name.Length == 0)
-                return null;
-
-            // poi la consistenza dei token di path
-            string[] tokens = sObjectFullPath.Split(NameSolverStrings.Directoryseparetor);
-
-            int nPathToken = tokens.Length;
-            // il minimo che posso rappresentare è applicazione e modulo, quindi
-            // con il tipo devo avere almeno tre segmenti di path per poterlo fare 
-            if (nPathToken <= 3)
-                return null;
-
-            string application = IsStandardPath(sObjectFullPath) ? tokens[StandardAppSegmentPath] : tokens[CustomAppSegmentPath];
-            string module = IsStandardPath(sObjectFullPath) ? tokens[StandardModuleSegmentPath] : tokens[CustomModuleSegmentPath];
-
-            return new NameSpace(NameSolverStrings.Module + "." + application + "." + module);
-        }
-
-        /// <summary>
-        /// Ritorna il fullpath della cartella Excel nella custom
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomExcelPath(string companyName, string applicationName, string moduleName)
-        {
-            if (
-                companyName == null ||
-                companyName == String.Empty ||
-                applicationName == null ||
-                applicationName == String.Empty ||
-                moduleName == null ||
-                moduleName == String.Empty
-                )
-                return String.Empty;
-
-            string customModulePath = GetCustomModulePath(companyName, applicationName, moduleName);
-            if (customModulePath == null || customModulePath == String.Empty)
-                return String.Empty;
-
-            return Path.Combine(customModulePath, NameSolverStrings.Excel);
-        }
-
-        /// <summary>
-        /// Ritorna il path della cartella Excel nella custom dato un namespace
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomExcelPathFromNamespace(INameSpace ns, string companyName, string userName)
-        {
-            if
-                (
-                ns.NameSpaceType.Type != NameSpaceObjectType.ExcelDocument &&
-                ns.NameSpaceType.Type != NameSpaceObjectType.ExcelTemplate
-                )
-                return String.Empty;
-
-            string customExcelPath = GetCustomExcelPath(companyName, ns.Application, ns.Module);
-            if (customExcelPath == null || customExcelPath == String.Empty)
-                return String.Empty;
-
-            return Path.Combine(customExcelPath, GetUserPath(userName));
-        }
-
-        /// <summary>
-        /// Ritorna il path della cartella Word 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomWordPath(string companyName, string applicationName, string moduleName)
-        {
-            if (
-                companyName == null ||
-                companyName == String.Empty ||
-                applicationName == null ||
-                applicationName == String.Empty ||
-                moduleName == null ||
-                moduleName == String.Empty
-                )
-                return String.Empty;
-
-            string customModulePath = GetCustomModulePath(companyName, applicationName, moduleName);
-            if (customModulePath == null || customModulePath == String.Empty)
-                return String.Empty;
-
-            return Path.Combine(customModulePath, NameSolverStrings.Word);
-        }
-
-        /// <summary>
-        /// Ritorna il path della cartella Word nella custom dato un namespace
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomWordPathFromNamespace(INameSpace ns, string companyName, string userName)
-        {
-            if
-                (
-                ns.NameSpaceType.Type != NameSpaceObjectType.WordDocument &&
-                ns.NameSpaceType.Type != NameSpaceObjectType.WordTemplate
-                )
-                return String.Empty;
-
-            string customWordPath = GetCustomWordPath(companyName, ns.Application, ns.Module);
-            if (customWordPath == null || customWordPath == String.Empty)
-                return String.Empty;
-
-            return Path.Combine(customWordPath, GetUserPath(userName));
-        }
-
-        /// <summary>
-        /// Ritorna il path della cartella Text nella custom
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomModuleTextPath(string companyName, string userName, string appName, string modName)
-        {
-            string fileDir = Path.Combine(GetCustomModulePath(companyName, appName, modName), NameSolverStrings.Files);
-
-            return Path.Combine(Path.Combine(fileDir, NameSolverStrings.Texts), userName);
-        }
-
-        /// <summary>
         /// Ritorna il path nella custom della cartella Report dato un woormFilePath
         /// </summary>
         //---------------------------------------------------------------------------------
@@ -1182,20 +857,7 @@ namespace Microarea.Common.NameSolver
 
             return Path.Combine(GetCustomReportPath(companyName, appName, moduleName), GetUserPath(userName));
         }
-        /// <summary>
-        /// Ritorna il path nella custom della cartella Report dato il namespace
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomReportPathFromNamespace(INameSpace ns, string companyName, string userName)
-        {
-            if (ns.NameSpaceType.Type != NameSpaceObjectType.Report)
-                return String.Empty;
-
-            string p = GetCustomReportPath(companyName, ns.Application, ns.Module);
-
-            return Path.Combine(p, GetUserPath(userName));
-        }
-
+ 
         /// <summary>
         /// Ritorna il fullname del Report nella custom dato il namespace
         /// </summary>
@@ -1293,49 +955,7 @@ namespace Microarea.Common.NameSolver
             reportFile = Path.Combine(reportPath, repName);
             return reportFile;
         }
-        /// <summary>
-        /// TODO_MARCO da rifare 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetUserCustomReports(string applicationPath, INameSpace aNameSpace, string userName)
-        {
-            if (applicationPath == null || applicationPath == string.Empty || userName == null || userName == string.Empty)
-                return string.Empty;
-
-            string path = Path.Combine(GetDescriptionFolder(applicationPath, aNameSpace), GetUserPath(userName));
-            return Path.Combine(path, NameSolverStrings.ReportXml);
-        }
-
-        //---------------------------------------------------------------------------------
-        public string GetStandardUIControllerFilePath(string applicationName, string module, string migrationFileName)
-        {
-            return Path.Combine(GetStandardUIControllerPath(applicationName, module), migrationFileName);
-        }
-        /// <summary>
-        /// Ritorna il file di migration desiderato dentro la cartella UIController del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardUIControllerFilePath(INameSpace aNameSpace, string migrationFileName)
-        {
-            return Path.Combine(GetStandardUIControllerPath(aNameSpace), migrationFileName);
-        }
-        /// <summary>
-        /// Ritorna la cartella UIController del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardUIControllerPath(string applicationName, string module)
-        {
-            return Path.Combine(GetApplicationModulePath(applicationName, module), uiControllers);
-        }
-        /// <summary>
-        /// Ritorna la cartella UIController del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardUIControllerPath(INameSpace aNameSpace)
-        {
-            return Path.Combine(GetStandardModulePath(aNameSpace), uiControllers);
-        }
-
+ 
         //---------------------------------------------------------------------
         public string GetStandardCreateInfoXML(string application, string module)
         {
@@ -1345,84 +965,7 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.Directoryseparetor +
                 NameSolverStrings.CreateInfoXml;
         }
-        //---------------------------------------------------------------------------------
-        public string GetStandardModuleTextPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            string fileDir = Path.Combine(GetStandardModulePath(aNameSpace), NameSolverStrings.Files);
-
-            return Path.Combine(fileDir, NameSolverStrings.Texts);
-        }
-        //---------------------------------------------------------------------
-        public string GetApplicationConfigFullName(string appName)
-        {
-            return GetStandardApplicationPath(appName) +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Application +
-                NameSolverStrings.ConfigExtension;
-        }
-        //---------------------------------------------------------------------
-        public string GetModuleConfigFullName(string appName, string moduleName)
-        {
-            return GetApplicationModulePath(appName, moduleName) +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Module +
-                NameSolverStrings.ConfigExtension;
-        }
-        /// <summary>
-        ///Ritorna la cartella Document del modulo desiderato 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardDocumentPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            return Path.Combine(GetStandardModuleObjectsPath(aNameSpace), aNameSpace.Document);
-        }
-        /// <summary>
-        ///Ritorna la cartella Document del modulo desiderato 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetApplicationDocumentPath(string applicationName, string moduleName, string documentName)
-        {
-            return Path.Combine(GetApplicationModuleObjectsPath(applicationName, moduleName), documentName);
-        }
-        /// <summary>
-        ///Ritorna la cartella Document del modulo desiderato 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardDocumentPath(string applicationName, string moduleName, string documentName)
-        {
-            var standardModuleObjectsPath = GetStandardModuleObjectsPath(applicationName, moduleName);
-            return string.IsNullOrEmpty(standardModuleObjectsPath)
-                ? string.Empty
-                : Path.Combine(standardModuleObjectsPath, documentName);
-        }
-        /// <summary>
-        ///Ritorna la cartella Document\Description del modulo desiderato 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardDocumentDescriptionPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            return Path.Combine(GetStandardDocumentPath(aNameSpace), description);
-        }
-        /// <summary>
-        /// Ritorna la cartella di export profiles del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardDocumentExportprofilesPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            return Path.Combine(GetStandardDocumentPath(aNameSpace), NameSolverStrings.ExportProfiles);
-        }
+ 
         //---------------------------------------------------------------------------------
         public string GetImagePath(INameSpace aNameSpace, ImageSize size = ImageSize.None)
         {
@@ -1440,36 +983,7 @@ namespace Microarea.Common.NameSolver
 
             return Path.Combine(fileDir, aNameSpace.Image);
         }
-        /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardModuleObjectsPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
 
-            return GetApplicationModuleObjectsPath(aNameSpace.Application, aNameSpace.Module);
-        }
-        /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetApplicationModuleObjectsPath(string applicationName, string moduleName)
-        {
-            return Path.Combine(GetApplicationModulePath(applicationName, moduleName), NameSolverStrings.ModuleObjects);
-        }
-        /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardModuleObjectsPath(string applicationName, string moduleName)
-        {
-            var standardModulePath = GetStandardModulePath(applicationName, moduleName);
-            return string.IsNullOrEmpty(standardModulePath)
-                ? string.Empty
-                : Path.Combine(standardModulePath, NameSolverStrings.ModuleObjects);
-        }
         /// <summary>
         /// Ritorna la referenceobjects del modulo desiderato
         /// </summary>
@@ -1737,36 +1251,7 @@ namespace Microarea.Common.NameSolver
             CommandOrigin commandOrigin = CommandOrigin.Unknown;
             return GetFilename(aNamespace, ref commandOrigin, language);
         }
-        //---------------------------------------------------------------------------------
-        public string GetCustomReportPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomReportPathFromNamespace(ns, company, user);
-        }
-        //---------------------------------------------------------------------------------
-        public string GetAllUsersCustomReportPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomReportPathFromNamespace(ns, company, NameSolverStrings.AllUsers);
-        }
-        //---------------------------------------------------------------------------------
-        public string GetCustomExcelPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomExcelPathFromNamespace(ns, company, user);
-        }
-        //---------------------------------------------------------------------------------
-        public string GetAllUsersCustomExcelPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomExcelPathFromNamespace(ns, company, NameSolverStrings.AllUsers);
-        }
-        //---------------------------------------------------------------------------------
-        public string GetCustomWordPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomWordPathFromNamespace(ns, company, user);
-        }
-        //---------------------------------------------------------------------------------
-        public string GetAllUsersCustomWordPathFromNamespace(INameSpace ns)
-        {
-            return GetCustomWordPathFromNamespace(ns, company, NameSolverStrings.AllUsers);
-        }
+  
         //---------------------------------------------------------------------------------
         public string GetCustomUserApplicationDataPath()
         {
@@ -1778,43 +1263,13 @@ namespace Microarea.Common.NameSolver
                 User
                 );
         }
-        //---------------------------------------------------------------------------------
-        public string GetCustomUserApplicationStateFile()
-        {
-            return Path.Combine(GetCustomUserApplicationDataPath(), NameSolverStrings.CustomAppStateFile);
-        }
 
-        //---------------------------------------------------------------------------------
-        public string GetCompanyAllUsersDefaultThemeFilePath()
-        {
-            return Path.Combine(
-                GetCustomModulePath(NameSolverStrings.Framework, "TbGeneric"),
-                NameSolverStrings.Settings,
-                NameSolverStrings.AllUsers,
-                defaultThemeFileName
-                );
-        }
-        //---------------------------------------------------------------------------------
-        public string GetCompanyUserDefaultThemeFilePath()
-        {
-            return Path.Combine(
-                GetCustomModulePath(NameSolverStrings.Framework, "TbGeneric"),
-                NameSolverStrings.Settings,
-                User,
-                defaultThemeFileName
-                );
-        }
         //---------------------------------------------------------------------
         public string CalculateRemoteStandardPath()
         {
             return string.Format(@"\\{0}\{1}_{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
         }
-        //---------------------------------------------------------------------
-        public string CalculateLocalStandardPath()
-        {
-            return string.Format(@"\\{0}\{1}\{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
-        }
-
+   
         //---------------------------------------------------------------------
         public string CalculateRemoteCustomPath()
         {
@@ -1901,27 +1356,7 @@ namespace Microarea.Common.NameSolver
 
             return aApplicationInfo.GetModuleInfoByName(moduleName);
         }
-        //---------------------------------------------------------------------
-        public void RemoveModuleInfoByName(string applicationName, string moduleName)
-        {
-            if (applicationName == null || moduleName == null ||
-                applicationName == string.Empty || moduleName == string.Empty)
-                return;
-
-            ApplicationInfo aApplicationInfo = null;
-            try
-            {
-                aApplicationInfo = (ApplicationInfo)GetApplicationInfoByName(applicationName);
-            }
-            catch (Exception err)
-            {
-                Debug.Fail(err.Message);
-            }
-            if (aApplicationInfo == null)
-                return;
-
-            aApplicationInfo.RemoveModuleInfo(moduleName);
-        }
+ 
         //---------------------------------------------------------------------
         public string GetApplicationModulePath(string applicationName, string moduleName)
         {
@@ -1943,27 +1378,7 @@ namespace Microarea.Common.NameSolver
 
             return Path.Combine(aApplicationInfo.Path, aModuleInfo.Name);
         }
-        //---------------------------------------------------------------------
-        public string GetStandardModulePath(string applicationName, string moduleName)
-        {
-            if (
-                applicationName == null ||
-                moduleName == null ||
-                applicationName == string.Empty ||
-                moduleName == string.Empty
-                )
-                return null;
-
-            ApplicationInfo aApplicationInfo = GetApplicationInfoByName(applicationName);
-            if (aApplicationInfo == null)
-                return string.Empty;
-
-            ModuleInfo aModuleInfo = aApplicationInfo.GetModuleInfoByName(moduleName);
-            if (aModuleInfo == null)
-                return string.Empty;
-
-            return Path.Combine(aApplicationInfo.Path, aModuleInfo.Name);
-        }
+ 
         //---------------------------------------------------------------------
         public ICollection GetModulesList(string applicationName)
         {
@@ -1983,126 +1398,10 @@ namespace Microarea.Common.NameSolver
 
             return aPath.StartsWith(path);
         }
-
-        //-----------------------------------------------------------------------------
-        public string FindSplashFile(string fileName)
-        {
-            if (String.IsNullOrWhiteSpace(fileName)) return string.Empty;
-            string filePath = Path.Combine(GetStandardPath, fileName);
-            if (ExistFile(filePath))
-                return filePath;
-
-            return FindFileInSolutionFolder(fileName);
-        }
-        //-----------------------------------------------------------------------------
-        public Dictionary<string, string> GetSynchroProfilesFilePath(string providername)
-        {
-            Dictionary<string, string> synchroFilesDict = GetSynchroFilesFolderPath(providername);
-
-            Dictionary<string, string> synchroProfilesDict = new Dictionary<string, string>();
-
-            foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
-            {
-                string synchroFilesFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroProfilesXmlFile);
-                if (ExistFile(synchroFilesFolder))
-                    synchroProfilesDict.Add(kvp.Key, synchroFilesFolder);
-            }
-
-            return synchroProfilesDict;
-        }
-        //-----------------------------------------------------------------------------
-        public Dictionary<string, string> GetSynchroMassiveProfilesFilePath(string providername)
-        {
-            Dictionary<string, string> synchroFilesDict = GetSynchroFilesFolderPath(providername);
-
-            Dictionary<string, string> synchroProfilesDict = new Dictionary<string, string>();
-
-            foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
-            {
-                string synchroFilesFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroMassiveProfilesXmlFile);
-                if (ExistFile(synchroFilesFolder))
-                    synchroProfilesDict.Add(kvp.Key, synchroFilesFolder);
-            }
-
-            return synchroProfilesDict;
-        }
-        //-----------------------------------------------------------------------------
-        public Dictionary<string, string> GetSynchroFilesActionFolderPath(string providername)
-        {
-            Dictionary<string, string> synchroFilesDict = GetSynchroFilesFolderPath(providername);
-
-            Dictionary<string, string> synchroFilesActionDict = new Dictionary<string, string>();
-
-            foreach (KeyValuePair<string, string> kvp in synchroFilesDict)
-            {
-                string synchroActionFolder = Path.Combine(kvp.Value, NameSolverStrings.SynchroProfilesActionsXmlFolder);
-                if (PathFinder.PathFinderInstance.ExistPath(synchroActionFolder))
-                    synchroFilesActionDict.Add(kvp.Key, synchroActionFolder);
-            }
-
-            return synchroFilesActionDict;
-        }
-        //-----------------------------------------------------------------------------
-        public Dictionary<string, string> GetSynchroFilesFolderPath(string providername)
-        {
-            Dictionary<string, string> synchroFilesDictionary = new Dictionary<string, string>();
-
-            if (String.IsNullOrWhiteSpace(providername))
-                return synchroFilesDictionary;
-
-            // carico in una lista di appoggio tutte le applicazione dichiarati nell'installazione
-            // sia nella Standard che nella Custom (ad es. EasyStudio)
-            StringCollection supportList = new StringCollection();
-            StringCollection applicationsList = new StringCollection();
-
-            // carico le applications dentro la Standard
-            GetApplicationsList(ApplicationType.TaskBuilderApplication, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // infine guardo le customizzazioni realizzate con EasyStudio
-            GetApplicationsList(ApplicationType.Customization, out supportList);
-            for (int i = 0; i < supportList.Count; i++)
-                applicationsList.Add(supportList[i]);
-
-            // calcolo il path completo di tutte le applicazione
-            List<string> applicationsPathList = new List<string>();
-
-            // PRIMA DI TUTTO aggiungo ERP
-            if (applicationsList.ContainsNoCase("ERP"))
-                applicationsPathList.Add(GetStandardApplicationPath("ERP"));
-
-            foreach (string applicationName in applicationsList)
-            {
-                if (string.Compare(applicationName, "ERP", StringComparison.OrdinalIgnoreCase) != 0)
-                    applicationsPathList.Add(GetStandardApplicationPath(applicationName));
-            }
-
-            // per tutte le applicazioni memorizzo solo quelle che hanno il modulo SynchroConnector
-            // e il provider passato come parametro
-            foreach (string appPath in applicationsPathList)
-            {
-                if (!IsApplicationDirectory(appPath))
-                    continue;
-
-                // esempio di path: ERP\SynchroConnector\SynchroProviders\<nome provider>
-                string fullFolderPath = Path.Combine(appPath, NameSolverStrings.SynchroConnectorModule, NameSolverStrings.SynchroProvidersXmlFolder, providername);
-
-                if (PathFinder.PathFinderInstance.ExistPath(fullFolderPath))
-                {
-                    DirectoryInfo di = new DirectoryInfo(appPath);
-                    string path;
-                    if (!synchroFilesDictionary.TryGetValue(di.Name, out path))
-                        synchroFilesDictionary.Add(di.Name, fullFolderPath);
-                }
-            }
-
-            return synchroFilesDictionary;
-        }
+ 
         //-----------------------------------------------------------------------------
         public TBFile[] GetBrandFiles()
         {
-            //  Hashtable ht = CollectionsUtil.CreateCaseInsensitiveHashtable(); // Dictionary<string, FileInfo>
             Dictionary<string, TBFile> ht = new Dictionary<string, TBFile>();
             string stdPath = GetStandardPath;
 
@@ -2126,61 +1425,6 @@ namespace Microarea.Common.NameSolver
             return l.ToArray();
         }
 
-
-        //---------------------------------------------------------------------
-        private string GetCustomSubscriptionApplicationContainerPath(ApplicationType aApplicationType, string subscription)
-        {
-            if (aApplicationType == ApplicationType.All ||
-                aApplicationType == ApplicationType.Undefined)
-            {
-                diagnostic.Set(DiagnosticType.Error, string.Format(Messages.ApplicationContainerNonManaged, aApplicationType.ToString()));
-                return string.Empty;
-            }
-
-            string customSubscriptionPath = GetCustomSubscriptionPath();
-            customSubscriptionPath = GetCustomSubscriptionPath(subscription);
-            if (customSubscriptionPath == string.Empty)
-                return string.Empty;
-
-            string applicationContainerName = GetApplicationContainerName(aApplicationType);
-            if (applicationContainerName == string.Empty)
-            {
-                diagnostic.Set(DiagnosticType.Error, string.Format(Messages.ApplicationContainerNonManaged, aApplicationType.ToString()));
-                return string.Empty;
-            }
-
-            return
-                customSubscriptionPath +
-                Path.DirectorySeparatorChar +
-                applicationContainerName;
-        }
-
-        //---------------------------------------------------------------------
-        private string GetCustomSubscriptionApplicationPath(string applicationName, string subscription)
-        {
-            ApplicationInfo aApplicationInfo = GetApplicationInfoByName(applicationName);
-            if (aApplicationInfo == null)
-                return string.Empty;
-
-            string customApplicationContainer = GetCustomSubscriptionApplicationContainerPath(aApplicationInfo.ApplicationType, subscription);
-
-            if (customApplicationContainer == string.Empty)
-                return string.Empty;
-
-            return
-                customApplicationContainer +
-                Path.DirectorySeparatorChar +
-                aApplicationInfo.Name;
-        }
-        //---------------------------------------------------------------------
-        protected string GetCustomSubscriptionModulePath(string applicationName, string moduleName, string subscription)
-        {
-            string customApplicationPath = GetCustomSubscriptionApplicationPath(applicationName, subscription);
-            if (customApplicationPath == string.Empty)
-                return string.Empty;
-
-            return customApplicationPath + Path.DirectorySeparatorChar + moduleName;
-        }
         //---------------------------------------------------------------------------------
         public string GetGroupImagePathByTheme(INameSpace aNameSpace, string themeName, string subscription)
         {
@@ -2260,11 +1504,6 @@ namespace Microarea.Common.NameSolver
                 webMethods = new CoreTypes.FunctionsList();
             }
         }
-        //-----------------------------------------------------------------------------
-        public List<TBFile> GetSolutionFiles()
-        {
-            return GetSolutionFiles(false);
-        }
         //----------------------------------------------------------------------------------------------
         public String GetMasterApplicationSolutionsThemeFolder()
         {
@@ -2316,36 +1555,7 @@ namespace Microarea.Common.NameSolver
             }
             return allThemes;
         }
-        //-----------------------------------------------------------------------------
-        public List<TBFile> GetSolutionFiles(bool checkApplicationConfig)
-        {
-            string appsPaths = Path.Combine(GetStandardPath, NameSolverStrings.TaskBuilderApplications);
-            List<TBFile> list = new List<TBFile>();
-            if (ExistPath(appsPaths)) // pre-TB2.0 versions named it differently
-                foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
-                {
-                    //Anomalia 14450: gli sviluppatori usano manipolare gli application.config 
-                    //per testare le proprie applicazioni con o senza altre. 
-                    //se noi carichiamo solo le solution che appartengono ad una applicazione valida 
-                    //li obblighiamo ogni volta a riattivare 
-                    //oltretutto questo è un effetto non voluto che prima dell a 2.7 non c'era.
-                    if (checkApplicationConfig && !IsApplicationDirectory(dir.CompleteDirectoryPath))
-                    {//non tradurre
-                        diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning, "Missing application.config in: " + dir.CompleteDirectoryPath);
-                        continue;
-                    }
 
-                    string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                    if (!ExistPath(solPath))
-                        continue;
-
-                    string pattern = "*" + NameSolverStrings.SolutionExtension;
-
-                    list.AddRange(GetFiles(solPath, pattern));
-                }
-            return list;
-
-        }
         /// <summary>
         /// Ritorna il path nel formato http://localhost:80/Installation/WebService/Webservice.asmx
         /// </summary>
@@ -2356,17 +1566,6 @@ namespace Microarea.Common.NameSolver
                 return string.Empty;
 
             return string.Format("{0}/{1}/{2}.asmx", WebFrameworkRootUrl, name, webMethods);
-        }
-        /// <summary>
-        /// Ritorna il path nel formato http://localhost:80/Installation/WebService/Webservice.svc
-        /// </summary>
-        //----------------------------------------------------------------------------
-        public string WcfWebFrameworkMethodsUrl(string name, string webMethods)
-        {
-            if (installation == string.Empty)
-                return string.Empty;
-
-            return string.Format("{0}/{1}/{2}.svc", WebFrameworkRootUrl, name, webMethods);
         }
 
         //---------------------------------------------------------------------
@@ -2500,16 +1699,7 @@ namespace Microarea.Common.NameSolver
         {
             return GetCustomApplicationContainerPath(Company, aApplicationType);
         }
-        /// <summary>
-        /// Restituisce il path dell'applicazione nell'istanza custom
-        /// </summary>
-        /// <param name="applicationName">nome dell'applicazione</param>
-        /// <returns>path dell'applicazione</returns>
-        //---------------------------------------------------------------------
-        public string GetCustomApplicationPath(string applicationName)
-        {
-            return GetCustomApplicationPath(Company, applicationName);
-        }
+  
         /// <summary>
         /// Restituisce la path custom di un modulo
         /// </summary>
@@ -2521,24 +1711,7 @@ namespace Microarea.Common.NameSolver
         {
             return GetCustomModulePath(Company, applicationName, moduleName);
         }
-        /// <summary>
-        /// Restituisce Custom\Contenitore\Applicazione\Modulo\Dictionary
-        /// </summary>
-        /// <param name="appName">nome dell'applicazione</param>
-        /// <param name="moduleName">nome del modulo</param>
-        /// <param name="createDir">indica se creare la cartella se non presente</param>
-        /// <returns>la pth richiesta</returns>
-        //---------------------------------------------------------------------
-        public string GetCustomModuleDictionaryPath(string appName, string moduleName, bool createDir)
-        {
-            return GetCustomModuleDictionaryPath(Company, appName, moduleName, createDir);
-        }
-        // Custom\AllCompanies\TaskBuilderApplication\Application\Module\DataManager
-        //---------------------------------------------------------------------
-        public string GetCustomDataManagerPath(string application, string module)
-        {
-            return GetCustomDataManagerPath(Company, application, module);
-        }
+
         // Custom\AllCompanies\TaskBuilderApplication\Application\Module\DataManager\Default\<language>\<edition>		
         //---------------------------------------------------------------------
         public string GetCustomDataManagerDefaultPath(string application, string module, string language)
@@ -2562,47 +1735,6 @@ namespace Microarea.Common.NameSolver
         public string GetStandardDataManagerSamplePath(string application, string module, string language)
         {
             return GetStandardDataManagerSamplePath(application, module, language, edition);
-        }
-        //---------------------------------------------------------------------
-        public string GetCustomAppContainerPath(INameSpace aNameSpace)
-        {
-            return GetCustomAppContainerPath(Company, aNameSpace);
-        }
-        /// <summary>
-        /// Ritorna la cartella di export profiles del modulo desiderato nella custom
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomModuleObjectsPath(string companyName, string application, string module)
-        {
-            string customModulePath = GetCustomModulePath(application, module);
-            if (customModulePath == string.Empty)
-                return string.Empty;
-
-            return Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
-        }
-        /// <summary>
-        /// Ritorna la moduleobjects del modulo desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomTemplatesPath(string companyName, string applicationName, string moduleName, bool createDir)
-        {
-            string path = Path.Combine(GetCustomModulePath(applicationName, moduleName), NameSolverStrings.Templates);
-            if (!PathFinder.PathFinderInstance.ExistPath(path) && createDir)
-                PathFinder.PathFinderInstance.CreateFolder(path, false);
-            return path;
-
-        }
-        /// <summary>
-        /// Ritorna la cartella di document del modulo desiderato nella custom
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetCustomDocumentPath(string companyName, string application, string module, string document)
-        {
-            string customModuleObjectsPath = GetCustomModuleObjectsPath(companyName, application, module);
-            if (customModuleObjectsPath == string.Empty)
-                return string.Empty;
-
-            return Path.Combine(customModuleObjectsPath, document);
         }
         /// <summary>
         /// Restituisce il documentInfo relativo al namespace passato
@@ -2695,45 +1827,6 @@ namespace Microarea.Common.NameSolver
         }
 
         /// <summary>
-        /// Ritorna il fullpath della cartella Dbts dato il namespace desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetDbtsPath(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            string descriptionPath = GetStandardModuleObjectsPath(aNameSpace);
-            descriptionPath = Path.Combine(descriptionPath, aNameSpace.Document);
-            descriptionPath = Path.Combine(descriptionPath, description);
-            return Path.Combine(descriptionPath, NameSolverStrings.DbtsXml);
-        }
-
-        /// <summary>
-        /// Ritorna il fullpath della cartella Description dato il namespace desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetDescriptionFolder(string applicationPath, INameSpace aNameSpace)
-        {
-            if (applicationPath == null || applicationPath == string.Empty)
-                return string.Empty;
-
-            string path = Path.Combine(applicationPath, aNameSpace.Module);
-            path = Path.Combine(path, aNameSpace.Document);
-            path = Path.Combine(path, NameSolverStrings.ModuleObjects);
-            return Path.Combine(path, description);
-        }
-
-        /// <summary>
-        /// True se il namespace fornito è nella forma http://www.microarea.it/Schema/2004/Smart/... 
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public bool IsMicroareaSchema(string namespaceURI)
-        {
-            return namespaceURI.StartsWith("http://www.microarea.it/Schema/2004/Smart/");
-        }
-
-        /// <summary>
         /// Standard\TaskBuilderApplication\Application\Module\DataManager
         /// </summary>
         //---------------------------------------------------------------------------------
@@ -2785,21 +1878,6 @@ namespace Microarea.Common.NameSolver
                 edition;
         }
         /// <summary>
-        /// Ritorna il fullpath del file Reports.xml dato il namespace desiderato
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetStandardReportFile(INameSpace aNameSpace)
-        {
-            if (aNameSpace == null)
-                return null;
-
-            string descriptionPath = GetStandardModuleObjectsPath(aNameSpace);
-            descriptionPath = Path.Combine(descriptionPath, aNameSpace.Document);
-            descriptionPath = Path.Combine(descriptionPath, description);
-            return Path.Combine(descriptionPath, NameSolverStrings.ReportXml);
-
-        }
-        /// <summary>
         /// Ritorna il fullpath della cartella Reports dato il namespace desiderato
         /// </summary>
         //---------------------------------------------------------------------------------
@@ -2811,104 +1889,7 @@ namespace Microarea.Common.NameSolver
             string descriptionPath = GetStandardModulePath(aNameSpace);
             return Path.Combine(descriptionPath, NameSolverStrings.Report);
         }
-        /// <summary>
-        /// Ritorna il namespace dato un Uri e ritorna inoltre lo user dello schema
-        /// </summary>
-        /// <param name="namespaceURI">Uri nel formato utilizzato da Magic Document</param>
-        /// <param name="schemaUser">variabile di out contenente lo user</param>
-        //---------------------------------------------------------------------------------
-        public INameSpace GetNSAndUserFromNSURI(string namespaceURI, out string schemaUser)
-        {
-            schemaUser = NameSolverStrings.AllUsers;
-            string schemaName = string.Empty;
-            string nsString = string.Empty;
-
-            string s = namespaceURI.Replace("http://www.microarea.it/Schema/2004/Smart/", "");
-            s = s.Replace(NameSolverStrings.Directoryseparetor, '/');
-            string[] tokens = s.Split('/');
-
-            switch (tokens.Length)
-            {
-                case 3:
-                    //report std
-                    schemaName = tokens[2].Replace(".xsd", "");
-                    nsString = string.Format("ReportSchema.{0}.{1}.{2}", tokens[0], tokens[1], schemaName);
-                    schemaUser = NameSolverStrings.Standard;
-                    break;
-                case 4:
-                    if (string.Compare(tokens[2], NameSolverStrings.AllUsers, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        //report allusers
-                        schemaName = tokens[3].Replace(".xsd", "");
-                        nsString = string.Format("ReportSchema.{0}.{1}.{2}", tokens[0], tokens[1], schemaName);
-                        schemaUser = NameSolverStrings.AllUsers;
-                    }
-                    else
-                    {
-                        //document std
-                        schemaName = tokens[3].Replace(".xsd", "");
-                        nsString = string.Format("DocumentSchema.{0}.{1}.{2}.{3}", tokens[0], tokens[1], tokens[2], schemaName);
-                        schemaUser = NameSolverStrings.Standard;
-                    }
-                    break;
-                case 5:
-                    if (string.Compare(tokens[3], NameSolverStrings.AllUsers, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        //document allusers
-                        schemaName = tokens[4].Replace(".xsd", "");
-                        nsString = string.Format("DocumentSchema.{0}.{1}.{2}.{3}", tokens[0], tokens[1], tokens[2], schemaName);
-                        schemaUser = NameSolverStrings.AllUsers;
-                    }
-                    else
-                    {
-                        //report user
-                        schemaName = tokens[4].Replace(".xsd", "");
-                        nsString = string.Format("ReportSchema.{0}.{1}.{2}", tokens[0], tokens[1], schemaName);
-                        schemaUser = tokens[3];
-                    }
-                    break;
-                case 6:
-                    //document user
-                    schemaName = tokens[5].Replace(".xsd", "");
-                    nsString = string.Format("DocumentSchema.{0}.{1}.{2}.{3}", tokens[0], tokens[1], tokens[2], schemaName);
-                    schemaUser = tokens[4];
-                    break;
-                default:
-                    Debug.Assert(false);
-                    return null;
-            }
-
-            NameSpace ns = new NameSpace(nsString);
-            if (!ns.IsValid())
-                return null;
-
-            return ns;
-        }
-        //--------------------------------------------------------------------------------------------------------------------------------
-        public string GetTBLoaderPath()
-        {
-            return GetExecutablePath(ref tbApplicationPath, "TBLoader.exe", NameSolverStrings.TbApps);
-        }
-        /// <summary>
-        /// Restituisce il percorso completo dell'eseguibili "TbAppManager.exe"
-        /// (path finder potrebbe non avere informazioni sufficienti, in tal caso viene restituito null)
-        /// </summary>
-        //--------------------------------------------------------------------------------------------------------------------------------
-        public string GetMagoNetApplicationPath() //NON RINOMINARE IN GetTbAppManagerApplicationPath altrimenti non funziona più il test manager
-        {
-            return Path.Combine(GetExecutablePath(ref magonetApplicationPath, "TbAppManager.exe", "TbAppManager"), "TbAppManager.exe");
-        }
-
-        /// <summary>
-        /// Restituisce il percorso completo dell'eseguibile "MicroareaConsole.exe"
-        /// (path finder potrebbe non avere informazioni sufficienti, in tal caso viene restituito null)
-        /// </summary>
-        //--------------------------------------------------------------------------------------------------------------------------------
-        public string GetMicroareaConsoleApplicationPath()
-        {
-            return Path.Combine(GetExecutablePath(ref microareaConsoleApplicationPath, "AdministrationConsole.exe", "AdministrationConsole"), "AdministrationConsole.exe");
-        }
-
+ 
         //--------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Ritorna il percorso del file di versione dell'installazione
@@ -2972,37 +1953,6 @@ namespace Microarea.Common.NameSolver
                 fileList.Add(file);
         }
 
-        //---------------------------------------------------------------------------
-        public string GetInstallationVersionFromInstallationVer(string product)
-        {
-            if (!String.IsNullOrWhiteSpace(product) && !product.ToLower().StartsWith("magonet-"))
-                //lo so fa schifo, ma altrimenti non so come riconoscere i casi in cui mi stanno chiedendo la versione di un verticale o embedded, 
-                //che non hanno il file in questione.
-                return GetAppInfoVersionFromSolutionName(product);
-
-            InstallationVersion info = GetInstallationVer();
-            return info.Version;
-        }
-        //---------------------------------------------------------------------
-        public string GetAppInfoVersionFromSolutionName(string name)
-        {
-            string appsPaths = Path.Combine(standardPath, NameSolverStrings.TaskBuilderApplications);
-            if (!ExistPath(appsPaths))
-                return string.Empty;
-            foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
-            {
-                string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                if (!ExistPath(solPath))
-                    continue;
-                string filename = String.Format("{0}{1}", name, NameSolverStrings.SolutionExtension);
-                if (!ExistFile(Path.Combine(solPath, filename)))
-                    continue;
-                ApplicationInfo app = GetApplicationInfoByName(Path.GetFileName(Path.GetDirectoryName(solPath)));
-                if (app != null && app.ApplicationConfigInfo != null)
-                    return app.ApplicationConfigInfo.Version;
-            }
-            return string.Empty;
-        }
         /// <summary>
         /// True se il path è di tipo custom
         /// </summary>
@@ -3015,143 +1965,19 @@ namespace Microarea.Common.NameSolver
 
             return aPath.StartsWith(path);
         }
-        /// <summary>
-        /// Cerca la prima immagine nella directory di applicazione col nome dato
-        /// </summary>
-        /// <param name="imageFile">Nome del file da trovare</param>
-        /// <returns>Percorso completo del file trovato, oppure null se il file non esiste</returns>
-        //-----------------------------------------------------------------------------
-        public string SearchImageInAppFolder(string imageFile)
-        {
-            string appsPaths = Path.Combine(GetStandardPath, NameSolverStrings.TaskBuilderApplications);
-            if (ExistPath(appsPaths))
-            {
-                foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
-                {
-                    if (!IsApplicationDirectory(dir.CompleteDirectoryPath))
-                        continue;
+   
 
-                    string fullImageFilePath = Path.Combine(dir.CompleteDirectoryPath, imageFile);
-                    if (ExistFile(fullImageFilePath))
-                        return fullImageFilePath;
-                }
-            }
-
-            return null;
-        }
-        ///<summary>
-        /// Ritorna il fullpath del file di license dato il productName
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetLicensedFile(string productName)
-        {
-            string appDataPath = GetLogManAppDataPath();
-            if (appDataPath == string.Empty)
-                return string.Empty;
-
-            return appDataPath +
-                NameSolverStrings.Directoryseparetor +
-                productName +
-                NameSolverStrings.LicensedExtension;
-        }
-        #region Possibili formati di NsUri
-        /*
-		report
-		.APP/mod/aaa.xsd
-		.APP/mod/AllUsers/	aaa.xsd
-		.APP/mod/users/		sa/			aaa.xsd
-		
-		document
-		.APP/mod/Doc/		aaa.xsd
-		.APP/mod/Doc/		AllUsers/	aaa.xsd
-		.APP/mod/Doc/		users/		sa/			aaa.xsd
-		*/
-        #endregion
         #endregion public fanction
 
 
-        //-----------------------------------------------------------------------------
-        public string GetServicePath()
-        {
-            return microareaServicesPath;
-        }
-        //-----------------------------------------------------------------------------
-        public string GetSemaphoreFilePath()
-        {
-            return GetStandardPath +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.TaskBuilder +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Framework +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Application +
-                NameSolverStrings.ConfigExtension;
-        }
-
-        //-----------------------------------------------------------------------------
-        public string GetLicensesPath()
-        {
-            return
-                GetStandardPath + NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Licenses;
-        }
-        //---------------------------------------------------------------------
-        public string GetStandardTaskBuilderXmlPath()
-        {
-            return Path.Combine(GetStandardApplicationPath(NameSolverStrings.Framework), xmlExt);
-        }
 
 
         #region private function
-        //--------------------------------------------------------------------------------------------------------------------------------
-        private string GetExecutablePath(ref string targetPath, string exe, string folder)
-        {
-            if (targetPath != null)
-                return targetPath;
-
-            //di default, ipotizzo si trovi nella cartella di esecuzione del programma
-            targetPath = ""; //AppDomain.CurrentDomain.BaseDirectory.TrimEnd(NameSolverStrings.Directoryseparetor); TODO rsweb
-
-            if (ExistFile(Path.Combine(targetPath, exe)))
-                return targetPath;
-
-            if (isRunningInsideInstallation)
-            {
-                //provo a vedere se mi trovo in \<Installazione>\Apps\<app>\<debug|release>
-                //(solo in sviluppo)
-                targetPath = Path.Combine(Path.Combine(GetAppsPath, folder), Build);
-                //se esiste la cartella  \<Installazione>\Apps\<cartella>\<debug|release>, quello e' il path cercato
-                if (ExistFile(Path.Combine(targetPath, exe)))
-                    return targetPath;
-
-                //provo a vedere se mi trovo nella cartella di pubblicazione
-                targetPath = Path.Combine(GetAppsPath, "publish");
-                if (ExistFile(Path.Combine(targetPath, exe)))
-                    return targetPath;
-
-            }
-
-            targetPath = "";
-            return targetPath;
-        }
+   
 
         //---------------------------------------------------------------------------
         private InstallationVersion installationVer;
 
-        /// <summary>
-        /// Ritorna il valore del Setting specficato dal name (Cerca in Framework, TbGenLib, preference)
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        //----------------------------------------------------------------------------
-        private int GetSettingValue(string name)
-        {
-            SettingItem i = GetSettingItem("Framework", "TBGenlib", "Preference", name);
-            if (i == null) return 0;
-            int x = 0;
-            int.TryParse((string)i.Values[0], out x);
-            return x;
-        }
         /// <summary>
         /// Converte uno share di rete in un path fisico 
         /// </summary>
@@ -3187,35 +2013,7 @@ namespace Microarea.Common.NameSolver
                     table.Add(bFile.completeFileName, bFile);
 
         }
-        //---------------------------------------------------------------------
-        private string FindFileInSolutionFolder(string fileName)
-        {
-            return FindFileInSolutionFolder(fileName, true);
-        }
-        //---------------------------------------------------------------------
-        private string FindFileInSolutionFolder(string fileName, bool checkApplication)
-        {
-            string appsPaths = Path.Combine(standardPath, NameSolverStrings.TaskBuilderApplications);
-            if (!ExistPath(appsPaths))
-                return string.Empty;
-            foreach (TBDirectoryInfo dir in GetSubFolders(appsPaths))
-            {
-                if (checkApplication && !IsApplicationDirectory(dir.CompleteDirectoryPath))
-                {//non tradurre
-                    diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Warning, "Missing application.config in: " + dir.CompleteDirectoryPath);
-                    continue;
-                }
-                string solPath = Path.Combine(dir.CompleteDirectoryPath, NameSolverStrings.Solutions);
-                if (!ExistPath(solPath))
-                    continue;
-
-                string fullFilePath = Path.Combine(solPath, fileName);
-                if (ExistFile(fullFilePath))
-                    return fullFilePath;
-            }
-            return string.Empty;
-        }
-
+        
         #endregion private function
 
         #region funzioni Custom senza user o company
@@ -3237,11 +2035,7 @@ namespace Microarea.Common.NameSolver
                     NameSolverStrings.ConfigExtension;
             }
         }
-
-
-
-
-        //Spostata
+       //Spostata
         /// <summary>
         /// Ritorna il path della custom
         /// </summary>
@@ -3259,181 +2053,6 @@ namespace Microarea.Common.NameSolver
         {
             return Path.Combine(GetCustomPath(), NameSolverStrings.Subscription);
         }
-
-        public string GetCustomSubscriptionPath(string subscription)
-        {
-            return Path.Combine(GetCustomSubscriptionPath(), subscription);
-        }
-
-
-
-        ///<summary>
-        /// Ritorna il path del file BIN per la nuova gestione 3.0
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetDatabaseObjectsBinPath()
-        {
-            return Path.Combine(GetCustomPath(), NameSolverStrings.DatabaseObjectsBinFile);
-        }
-
-        ///<summary>
-        /// Ritorna il path della cartella Temp nella custom
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetTempPath()
-        {
-            return Path.Combine(GetCustomPath(), "Temp");
-        }
-
-        ///<summary>
-        /// Ritorna il path della cartella Temp\WebProxyImages nella custom
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetWebProxyImagesPath()
-        {
-            return Path.Combine(GetTempPath(), "WebProxyImages");
-        }
-
-        ///<summary>
-        /// Ritorna il path della cartella Temp\WebProxyFiles nella custom
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetWebProxyFilesPath()
-        {
-            return Path.Combine(GetTempPath(), "WebProxyFiles");
-        }
-
-        ///<summary>
-        /// Ritorna il fullpath della cartella Custom\Configuration
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetCustomConfigurationPath()
-        {
-            string customPath = GetCustomPath();
-            if (customPath == string.Empty)
-                return string.Empty;
-
-            return customPath +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Configuration;
-        }
-
-        ///<summary>
-        /// Ritorna il fullpath del file App_Data\MessagesQueue.bin"
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetMessagesQueuePath()
-        {
-            string path = GetLogManAppDataPath();
-            if (path == string.Empty)
-                return string.Empty;
-
-            return path +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.MessagesQueueFile;
-        }
-
-
-        ///<summary>
-        /// Ritorna il fullpath del file Custom\MessagesQueue.bin"
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetShsFilePath()
-        {
-            string path = GetCustomConfigurationPath();
-            return path +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.ShsFile;
-        }
-
-        ///<summary>
-        /// Ritorna il fullpath del file App_Data
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetLogManAppDataPath()
-        {
-            return Path.Combine(LoginManagerPath, NameSolverStrings.AppData);
-        }
-
-        ///<summary>
-        /// Ritorna il fullpath del LockFile
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetLockLogFile()
-        {
-            string customPath = GetCustomPath();
-
-            if (customPath == string.Empty)
-                return string.Empty;
-
-            return customPath + NameSolverStrings.Directoryseparetor + NameSolverStrings.LockLogFile;
-        }
-
-
-
-        /////<summary>
-        ///// Ritorna il fullpath del file di Setting dei regression Test
-        /////</summary>
-        ////-----------------------------------------------------------------------------
-        //public string GetRegressionTestSettingsPath()
-        //{
-        //    string modCusP = GetCustomApplicationPath(NameSolverStrings.AllCompanies, "MicroareaConsole");
-        //    if (modCusP == string.Empty)
-        //        return string.Empty;
-
-        //    return System.IO.Path.Combine(modCusP, NameSolverStrings.RegressionTestSettings);
-        //}
-
-        ///<summary>
-        /// Ritorna il fullpath del file di User.info
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public string GetUserInfoFile()
-        {
-            string appDataPath = GetLogManAppDataPath();
-            if (appDataPath == string.Empty)
-                return string.Empty;
-
-            return
-                appDataPath +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.FileUserInfo;
-        }
-
-
-
-        ///<summary>
-        /// Ritorna un array di fileInfo per ogni file di license trovato
-        ///</summary>
-        //-----------------------------------------------------------------------------
-        public List<string> GetLicensedFiles()
-        {
-            string appDataPath = GetLogManAppDataPath();
-            if (appDataPath == string.Empty)
-                return null;
-
-
-            if (!ExistPath(appDataPath))
-                return null;
-
-            try
-            {
-                List<string> files = new List<string>();
-                foreach (TBFile file in GetFiles(appDataPath, NameSolverStrings.MaskFileLicensed))
-                    files.Add(file.completeFileName);
-
-                return files;
-            }
-            catch (System.Security.SecurityException exc)
-            {
-                Debug.WriteLine("PathFinder.GetLicensedFiles - Error: " + exc.Message);
-                string error = String.Concat(Messages.ErrorAccessingLicensedFile, Environment.NewLine, exc.Message);
-                diagnostic.Set(DiagnosticType.Error, error);
-                return null;
-            }
-        }
-
-
         /// <summary>
         /// Ritorna il path del file Custom\LoginMngSessionFile
         /// </summary>
@@ -3525,14 +2144,7 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.Log;
         }
 
-        ///<summary>
-        /// Ritorna il path \Custom\DebugSymbols
-        ///</summary>
-        //---------------------------------------------------------------------
-        public string GetCustomDebugSymbolsPath()
-        {
-            return Path.Combine(GetCustomPath(), NameSolverStrings.DebugSymbols);
-        }
+     
         ///<summary>
         /// Ritorna il path \Custom\Companies\"companyName"\Log\"userName"
         /// il parametro "companyName" può ricevere un nome azienda oppure AllCompanies
@@ -3558,19 +2170,6 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.Directoryseparetor +
                 userName;
         }
-
-        /// <summary>
-        /// data una company restituisce il path custom\companies\company\DataTransfer\Backup dell'image attuale 
-        /// </summary>
-        //---------------------------------------------------------------------
-        public string GetCustomCompanyDataTransferBackupPath(string companyName)
-        {
-            return
-                GetCustomCompanyDataTransferPath(companyName) +
-                NameSolverStrings.Directoryseparetor +
-                NameSolverStrings.Backup;
-        }
-
         /// <summary>
         /// data una company restituisce il patch custom\companies\company\DataTransfer\DataManager dell'image attuale
         /// </summary>
@@ -3607,26 +2206,6 @@ namespace Microarea.Common.NameSolver
                 customApplicationContainer +
                 NameSolverStrings.Directoryseparetor +
                 aApplicationInfo.Name;
-        }
-
-        /// <summary>
-        /// Restituisce il path dell'applicazione nell'istanza custom nonostante non esista una corrispondente in Standard 
-        /// </summary>
-        //---------------------------------------------------------------------
-        public string GetAnyCustomApplicationPath(string companyName, string applicationName)
-        {
-            if (companyName == null || companyName == string.Empty || applicationName == null || applicationName == string.Empty)
-                return string.Empty;
-
-            string customApplicationContainer = GetCustomApplicationContainerPath(companyName, ApplicationType.TaskBuilderApplication);
-
-            if (customApplicationContainer == string.Empty)
-                return string.Empty;
-
-            return
-                customApplicationContainer +
-                NameSolverStrings.Directoryseparetor +
-                applicationName;
         }
 
         /// <summary>
@@ -3670,40 +2249,6 @@ namespace Microarea.Common.NameSolver
                 return string.Empty;
 
             return Path.Combine(customModulePath, NameSolverStrings.Report);
-        }
-
-        /// <summary>
-        /// Restituisce Custom\Contenitore\Applicazione\Modulo\Dictionary
-        /// </summary>
-        /// <param name="appName">nome dell'applicazione</param>
-        /// <param name="moduleName">nome del modulo</param>
-        /// <param name="createDir">indica se creare la cartella se non presente</param>
-        /// <returns>la pth richiesta</returns>
-        //---------------------------------------------------------------------
-        public string GetCustomModuleDictionaryPath(string companyName, string applicationName, string moduleName, bool createDir)
-        {
-            if (
-                companyName == null || companyName == string.Empty ||
-                applicationName == null || applicationName == string.Empty ||
-                moduleName == null || moduleName == string.Empty
-                )
-                return string.Empty;
-
-            string modulePath = GetCustomModulePath(companyName, applicationName, moduleName);
-            if (modulePath == string.Empty)
-                return string.Empty;
-
-            modulePath += NameSolverStrings.Directoryseparetor;
-
-            if (!PathFinder.PathFinderInstance.ExistPath(modulePath) && createDir)
-                PathFinder.PathFinderInstance.CreateFolder(modulePath, false);
-
-            string dictionaryPath = modulePath + NameSolverStrings.Dictionary;
-
-            if (createDir && !PathFinder.PathFinderInstance.ExistPath(dictionaryPath))
-                PathFinder.PathFinderInstance.CreateFolder(dictionaryPath, false);
-
-            return dictionaryPath;
         }
 
         /// <summary>
@@ -3789,48 +2334,33 @@ namespace Microarea.Common.NameSolver
 
         #endregion
 
-        #region funzioni custom dipendenti da company e user
-
-
-        /// <summary>
-        /// Ritorna il path completo del file DefaultTheme.config che gestisce le
-        /// impostazioni di tema per l'applicazione dalla cartella Standard
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetDefaultThemeFilePath()
-        {
-            //C:\Development_MZP\Standard\TaskBuilder\Framework\TbGeneric\Settings\DefaultTheme.config
-            return Path.Combine(
-                GetApplicationModulePath(NameSolverStrings.Framework, "TbGeneric"),
-                NameSolverStrings.Settings,
-                defaultThemeFileName
-                );
-        }
-
-        #endregion
-
-        #region funzioni pubbliche
-
-
-        /// <summary>
-        /// Ritorna il path del file App_Data\Proxies.xml
-        /// </summary>
-        //---------------------------------------------------------------------------------
-        public string GetProxiesFilePath()
-        {
-            return Path.Combine(GetLogManAppDataPath(), NameSolverStrings.ProxiesXml);
-        }
-
-        #endregion
 
         //---------------------------------------------------------------------------
-        public string GetGenericBrandFilePath()
+        public string GetReportDescriptionFromNameSpace(string fileNameWithCompletedPath)
         {
-            return Path.Combine(
-                GetStandardPath,
-                NameSolverStrings.GenericBrandFile
-                );
+            if (fileNameWithCompletedPath.IsJsonEmpty() || !ExistFile(fileNameWithCompletedPath))
+                return String.Empty;
+
+            Parser reportParser = new Parser(Parser.SourceType.FromFile);
+
+            if (!reportParser.Open(fileNameWithCompletedPath))
+                return String.Empty;
+
+            string reportDescription = String.Empty;
+
+            if (reportParser.SkipToToken(Token.SUBJECT, true, false))
+                reportParser.ParseCEdit(out reportDescription);
+
+            reportParser.Close();
+
+            if (reportDescription.IsNullOrEmpty())
+                return String.Empty;
+
+            WoormLocalizer reportLocalizer = new WoormLocalizer(fileNameWithCompletedPath, this);
+
+            return reportLocalizer.Translate(reportDescription);
         }
+
 
         //-----------------------------------------------------------------------------
         public List<ClientDocumentInfo> GetClientDocumentsFor(IDocument document)
@@ -3852,6 +2382,92 @@ namespace Microarea.Common.NameSolver
             return clientDocs;
         }
 
+        #region DellePiane
+
+        //---------------------------------------------------------------------
+        //public string GetJsonAllObjectsByType(string authtoken, string menuNameSpace, Enum objType)
+        //{
+        //    NameSpace
+        //}
+        //---------------------------------------------------------------------
+        public string GetJsonAllObjectsByType(string authtoken, string appName, string modulesName, Enum objType)
+        {
+            //LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+            //if (session == null)
+            //    return string.Empty;
+
+
+            ApplicationInfo app = GetApplicationInfoByName(appName);
+            if (app == null)
+                return string.Empty;
+
+            ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
+            if (moduleInfo == null)
+                return string.Empty;
+
+            Dictionary<string, string> objects = new Dictionary<string, string>();
+            IList result = null;
+            if ((ObjectType)objType == ObjectType.Document)
+            {
+                result = moduleInfo.Documents;
+                foreach (DocumentInfo documentInfo in result)
+                {
+                    objects.Add(documentInfo.NameSpace.GetNameSpaceWithoutType(), documentInfo.Title);
+                }
+            }
+
+
+            if ((ObjectType)objType == ObjectType.Report)
+            {
+                string path = moduleInfo.GetStandardReportPath();
+                string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
+                string description = string.Empty;
+                string nameSpace = string.Empty;
+
+                foreach (string fileName in reportFiles)
+                {
+                    description = GetReportDescriptionFromNameSpace(fileName);
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    objects.Add(nameSpace, description);
+                }
+            }
+                
+
+            StringBuilder sb = new StringBuilder();
+            using (StringWriter sw = new StringWriter(sb))
+            {
+                JsonWriter jsonWriter = new JsonTextWriter(sw);
+
+                try
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("objects");
+
+                    jsonWriter.WriteStartArray();
+
+                    foreach (string  obj in objects.Keys)
+                    {
+                        
+                        jsonWriter.WriteStartObject();
+
+                        jsonWriter.WritePropertyName("namespace");
+                        jsonWriter.WriteValue(obj);
+
+                        jsonWriter.WritePropertyName("title");
+                        jsonWriter.WriteValue(objects[obj]);
+                        jsonWriter.WriteEndObject();
+
+                    }
+                    jsonWriter.WriteEndArray();
+                    jsonWriter.WriteEndObject();
+                }
+                catch (Exception)
+                {
+                }
+
+                return sb.ToString();
+            }
+        }
         //---------------------------------------------------------------------
         public string GetJsonAllApplications(string authenticationToken)
         {
@@ -3954,6 +2570,8 @@ namespace Microarea.Common.NameSolver
 
             }
         }
+        #endregion DellePiane
+
         #region EasyStudio functions
 
         string easyStudioHome = "ESHome";
@@ -4006,7 +2624,7 @@ namespace Microarea.Common.NameSolver
 
     #endregion
 
-    #region da Filessystemmanager
+        #region da Filessystemmanager
     //-----------------------------------------------------------------------------
     public string GetServerConnectionConfig()
         {

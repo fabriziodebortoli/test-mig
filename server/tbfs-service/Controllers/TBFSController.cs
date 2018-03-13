@@ -59,9 +59,12 @@ namespace tbfs_service.Controllers
         {
             try
             {
+                appName = "ERP";
+                modulesName = "ACCOUNTING";
+                objType = ObjectType.Report;
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
-                string json = string.Empty; // PathFinder.PathFinderInstance.GetJsonAllObjectsByType(authtoken, appName);x branch cosi rilascio a fabri
+                string json = PathFinder.PathFinderInstance.GetJsonAllObjectsByType(authtoken, appName, modulesName, objType);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)

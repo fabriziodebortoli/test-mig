@@ -534,47 +534,58 @@ namespace Microarea.Common.FileSystemManager
 	        String connectionString;
 	        String tableName;
 	        bool isCustom = false;
-	        try
-	        {
-		        //effettuo un select nella tabella MSD_StandardMetadati oppure TB_CustomMetadati 
-		        if (pathFinder.IsCustomPath(strTBFSFileName))
-		        {
-			        if (string.IsNullOrEmpty(GetCustomConnectionString()))
-				        return -1;
-			        isCustom = true;
-		        }
-		        connectionString = (isCustom) ? GetCustomConnectionString() : standardConnectionString;
-		        strRelativePath = GetRelativePath(strTBFSFileName, isCustom);
-		        tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
+            try
+            {
+                //effettuo un select nella tabella MSD_StandardMetadati oppure TB_CustomMetadati 
+                if (pathFinder.IsCustomPath(strTBFSFileName))
+                {
+                    if (string.IsNullOrEmpty(GetCustomConnectionString()))
+                        return -1;
+                    isCustom = true;
+                }
+                connectionString = (isCustom) ? GetCustomConnectionString() : standardConnectionString;
+                strRelativePath = GetRelativePath(strTBFSFileName, isCustom);
+                tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
                 connection = new SqlConnection(connectionString);
                 connection.Open();
-		        commandText = string.Format("Select FileID from {0} where CompleteFileName = '{1}'", tableName, strRelativePath);
-		        command = new SqlCommand(commandText, connection);
-		        System.Object value = command.ExecuteScalar();
+                commandText = string.Format("Select FileID from {0} where CompleteFileName = '{1}'", tableName, strRelativePath);
+                command = new SqlCommand(commandText, connection);
+                System.Object value = command.ExecuteScalar();
 
-		        command.Dispose();
-		        connection.Close();
-		        connection.Dispose();
+                command.Dispose();
+                connection.Close();
+                connection.Dispose();
 
-		        int nResult;
-		        nResult = (value != null) ? (Int32)value : -1;
+                int nResult;
+                nResult = (value != null) ? (Int32)value : -1;
 
-		        return nResult;
-	        }
-	        catch (SqlException)
-	        {
+                return nResult;
+            }
+            catch (SqlException)
+            {
 
-		        if (command != null)
-			        command.Dispose();
+                if (command != null)
+                    command.Dispose();
 
-		        if (connection != null)
-                { 
+                if (connection != null)
+                {
                     connection.Close();
                     connection.Dispose();
-		        }
-		        Debug.Assert(false);
-		        return -1;
-	        }
+                }
+                Debug.Assert(false);
+                return -1;
+            }
+            finally
+            {
+                if (command != null)
+                    command.Dispose();
+
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
+            }
         }
 
 
