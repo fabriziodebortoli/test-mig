@@ -31,7 +31,7 @@ export class MenuElementComponent {
 
   //---------------------------------------------------------------------------------------------
   getFavoriteClass(object) {
-    return object.isFavorite ? 'tb-filledstar' : 'tb-emptystar';
+    return object.isFavorite ? 'tb-favoritespin' : 'tb-favorites';
   }
 
   //---------------------------------------------------------------------------------------------
