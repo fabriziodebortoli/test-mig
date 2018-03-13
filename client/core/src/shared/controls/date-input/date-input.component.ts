@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnChanges, OnInit, AfterViewInit, SimpleChanges, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, OnInit, SimpleChanges, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { formatDate } from '@telerik/kendo-intl';
@@ -7,43 +7,39 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { LayoutService } from './../../../core/services/layout.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { FormattersService } from './../../../core/services/formatters.service';
-
+import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../control.component';
 import { getDateFormatByFormatter, NullDate } from './u';
 
-// failed test to refresh locale settings immediately after logout-login
-
-// import { LOCALE_ID } from '@angular/core';
+import { Subscription } from '../../../rxjs.imports';
 
 @Component({
   selector: 'tb-date-input',
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss']
 })
-export class DateInputComponent extends ControlComponent implements OnInit, OnChanges, AfterViewInit {
+export class DateInputComponent extends ControlComponent implements OnInit {
   @Input() forCmpID: string;
   @Input() readonly = false;
 
   formatterProps: any;
   selectedDate: Date;
   dateFormat = 'dd MMM yyyy';
+  modelChangedSubscription: Subscription;
 
   constructor(
     public eventData: EventDataService,
     private formattersService: FormattersService,
+    private store: Store,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef) {
     super(layoutService, tbComponentService, changeDetectorRef);
-
-
-    // failed test to refresh locale settings immediately after logout-login
-
-    // @Inject(LOCALE_ID) private _locale: string
-    // this._locale = localStorage.getItem('ui_culture');
   }
 
   ngOnInit() {
+
+    super.ngOnInit();
 
     if (!this.formatter)
       this.formatter = "Date";
@@ -53,6 +49,12 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
 
   dateFormatByFormatter() {
     return getDateFormatByFormatter(this.formatterProps, this.formatter);
+  }
+
+  ngOnDestroy() {
+    if (this.modelChangedSubscription) {
+      this.modelChangedSubscription.unsubscribe();
+    }
   }
 
   onChange(changes) {
@@ -76,21 +78,18 @@ export class DateInputComponent extends ControlComponent implements OnInit, OnCh
       this.selectedDate = newDate;
     }
 
-    //if (this.model.constructor.name === 'text') {
-    if (updateModel)
       this.model.value = formatDate(this.selectedDate ? this.selectedDate : NullDate, 'y-MM-ddTHH:mm:ss');
-    //}
-  }
-
-  ngAfterViewInit(): void {
-    if (this.modelValid()) {
-      this.onUpdateNgModel(new Date(this.model.value), false);
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.modelValid()) {
-      this.onUpdateNgModel(new Date(this.model.value), false);
+      if (!this.modelChangedSubscription) {
+        this.modelChangedSubscription = this.model.modelChanged.subscribe(
+          () => {
+            this.onUpdateNgModel(new Date(this.model.value), false);
+          }
+        )
+      }
     }
   }
 
