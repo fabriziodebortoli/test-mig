@@ -18,6 +18,10 @@ namespace Microarea.Common.FileSystemManager
         public const string szXmlFileSystemDriverKey =  "/FileSystemManager/FileSystemDriver";
         public const string szXmlDatabaseDriverKey =  "/FileSystemManager/DatabaseDriver";
 
+        public const string szXmlEasyStudioTag = "EasyStudio";
+        public const string easyStudioAppsInStandard = "appsInStandard";
+        public const string easyStudioHomeName = "homeName";
+
         public const string szXmlDriverTag =  "Driver";
         public const string szXmlCachingTag =  "Caching";
         public const string szXmlPerformanceCheckTag =  "PerformanceCheck";
@@ -39,7 +43,6 @@ namespace Microarea.Common.FileSystemManager
         public const string szXmlDBDriverTag =  "DatabaseDriver";
         public const string szXmlStandardConnectionString =  "standardconnectionstring";
         public const string testCustomConnectionString = "testCustomConnectionString";
-
 
 
         public const string szXmlTrueValue =  "True";

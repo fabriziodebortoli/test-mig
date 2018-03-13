@@ -1248,9 +1248,7 @@ namespace TaskBuilderNetCore.Interfaces
         #region EasyStudio
 
         public const string EasyStudio = "EasyStudio";
-        public const string EasyStudioHome = "ESHome";
-        public const string EasyStudioHomeWeb = "ESHome";
-
+   
         public const string EasyStudioDesigner = "EasyStudioDesigner";
         public const string EasyStudioSave = "EasyStudioSave";
         public const string EasyStudioGenerateCsProj = "GenerateCsproj";

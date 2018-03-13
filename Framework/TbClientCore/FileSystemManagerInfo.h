@@ -23,6 +23,7 @@ protected:
 private:
 	int ParseDriver					(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int ParseCaching				(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
+	int ParseEasyStudioKey			(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int ParsePerformanceCheck		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int ParseWebServiceDriver		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);
 	int	ParseFileSystemDriver		(const CString& sUri, const CXMLSaxContentAttributes& arAttributes);

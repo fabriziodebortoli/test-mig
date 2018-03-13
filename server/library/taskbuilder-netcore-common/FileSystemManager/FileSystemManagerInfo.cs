@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microarea.Common.NameSolver;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,12 +109,23 @@ namespace Microarea.Common.FileSystemManager
                 reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);//< FileSystemManager >
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmlDriverTag);//<Driver value="0" autodetect="true"/>
                 SetDriver(reader.GetAttribute(FileSystemManagerStrings.szXmlValue));
+
                 if (GetDriver() == DriverType.Database)
                 {
                     reader.ReadToFollowing(FileSystemManagerStrings.szXmlDBDriverTag);//  <DatabaseDriver 
                     m_strStandardConnectionString = reader.GetAttribute(FileSystemManagerStrings.szXmlStandardConnectionString);//standardconnectionstring
                     customConnectionString = reader.GetAttribute(FileSystemManagerStrings.testCustomConnectionString);
                 }
+
+                reader.ReadToFollowing(FileSystemManagerStrings.szXmlEasyStudioTag);
+
+                string temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioAppsInStandard);
+                if (!string.IsNullOrEmpty(temp) && temp.CompareTo(FileSystemManagerStrings.szXmlTrueValue) == 0)
+                    PathFinder.PathFinderInstance.EasyStudioAppsInCustom = false;
+                temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioHomeName);
+                if (!string.IsNullOrEmpty(temp))
+                    PathFinder.PathFinderInstance.EasyStudioHome = temp;
+
             }
 
             return true;

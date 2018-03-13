@@ -205,7 +205,6 @@ private:
 	CString		m_sWebServiceInstallation;
 	CString		m_sMasterSolution;
 	BOOL		m_bIsStandAlone;
-	PosType		m_eESAppPosType;
 
 	CDictionaryPathFinderObj *m_pDictionaryPathFinder;
 	//TBMetadataManagerObj*	  m_pMetadataManager;
@@ -300,7 +299,9 @@ public:
 	const CString GetServerFileSystemCacheName() const;
 
 	// EasyStudio Customizations
-	void			SetEasyStudioCustomizationsPosType(PosType posType) { m_eESAppPosType = posType; }
+	CString			m_sESHome;
+	PosType			m_eESAppPosType;
+	void			SetEasyStudioParams(PosType posType, CString strHomeName);
 	BOOL			GetEasyStudioCustomizationsPosType() { return m_eESAppPosType; }
 	BOOL			IsEasyStudioPath(const CString& strFileName);
 	const CString	GetEasyStudioHomePath(BOOL bCreateDir = FALSE) const;

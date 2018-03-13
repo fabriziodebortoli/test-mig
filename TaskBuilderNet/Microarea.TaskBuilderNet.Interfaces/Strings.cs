@@ -1117,8 +1117,6 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string TBS = "TBS";
 		public const string EasyBuilderApplication	= "EasyBuilderApplication";
 		public const string EasyStudio				= "EasyStudio";
-        public const string EasyStudioHome          = "ESHome";
-        public const string EasyStudioHomeWeb       = "ESHome";
         #endregion
 
         #region Path
@@ -1240,7 +1238,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public const string EasyAttachmentSync			= "EasyAttachmentSync";
 		public const string DataSynchronizer			= "DataSynchronizer";
 		public const string BackupExtension				= ".backup";
-		public const string ReferencedAssemblies		= "ReferencedAssemblies";
+	//	public const string ReferencedAssemblies		= "ReferencedAssemblies";
 		public const string EBSources					= "EBSources";
 
         public const string ActivationObject = "ActivationObject";

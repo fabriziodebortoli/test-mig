@@ -550,7 +550,7 @@ namespace Microarea.EasyBuilder.Packager
 			if (group == null)
 				return string.Empty;
 
-			if (group.Value.CompareNoCase(PathFinder.GetEasyStudioHomeFolderName()))
+			if (group.Value.CompareNoCase(PathFinder.BasePathFinderInstance.EasyStudioHome))
 				return string.Empty;
 
 			return group.Value;

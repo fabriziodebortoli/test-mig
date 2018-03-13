@@ -281,7 +281,8 @@ namespace Microarea.EasyBuilder.Packager
 
             FileInfo fi = new FileInfo(file);
 
-            if (fi.FullName.IndexOfNoCase(string.Format("\\{0}\\", NameSolverStrings.ReferencedAssemblies)) > 0)
+            string referencedAssembliesPath = PathFinderWrapper.GetEasyStudioReferenceAssembliesPath();
+            if (fi.FullName.IndexOfNoCase(string.Format("\\{0}\\", referencedAssembliesPath)) > 0)
             {
                 TreeViewProjectFilesNode referenceAssemblies = GetNodeByType(cust.ModuleName, TreeViewProjectFileItemType.ReferenceAssemblies);
                 if (referenceAssemblies == null)

@@ -22,8 +22,6 @@ static const TCHAR szReferencedAssemblies[] = _T("ReferencedAssemblies");
 static const TCHAR szSubscription[] = _T("Subscription");
 static const TCHAR szCompanies[] = _T("Companies");
 static const TCHAR szAllCompanies[] = _T("AllCompanies");
-static const TCHAR szEasyStudio[] = _T("ESHome");
-static const TCHAR szEasyStudioWeb[] = _T("ESHome");
 static const TCHAR szDictionary[] = _T("Dictionary");
 static const TCHAR szDictionaryFile[] = _T("Dictionary.bin");
 static const TCHAR szPreferences[] = _T("Preferences");
@@ -165,6 +163,7 @@ const TCHAR szAppData[] = _T("App_Data");
 const TCHAR szSettingsConfigFile[] = _T("Settings.config");
 const TCHAR szCandidateModulesSep[] = _T(";");
 
+static const TCHAR szEasyStudioHome[] = _T("ESHome");
 //DataSynchronizer
 static const TCHAR szSynchroProviders[] = _T("SynchroProviders");
 enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE };	//UTF16_BE: Big Endian (swap sui byte); UTF16_LE: Little Endian 
@@ -331,6 +330,7 @@ CPathFinder::CPathFinder()
 	::GetModuleFileName(hInstance, fname, _MAX_FNAME + 1);
 
 	m_sTbDllPath = GetPath(fname);
+	m_sESHome = szEasyStudioHome;
 }
 
 //-----------------------------------------------------------------------------
@@ -1215,7 +1215,10 @@ const CString CPathFinder::GetConfigurationPath() const
 //-----------------------------------------------------------------------------
 const CString CPathFinder::GetEasyStudioReferencedAssembliesPath() const
 {
-	return GetEasyStudioHomePath() + SLASH_CHAR + szReferencedAssemblies;
+	if (m_eESAppPosType == CPathFinder::CUSTOM)
+		return GetEasyStudioHomePath() + SLASH_CHAR + szReferencedAssemblies;
+	
+	return GetStandardPath() + SLASH_CHAR + szReferencedAssemblies;
 }
 
 //-----------------------------------------------------------------------------
@@ -1322,13 +1325,20 @@ const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 }
 
 //-----------------------------------------------------------------------------
+void CPathFinder::SetEasyStudioParams(PosType posType, CString strHomeName) 
+{ 
+	m_eESAppPosType = posType; 
+	// lascio il default se serve
+	if (!m_sESHome.IsEmpty())
+		m_sESHome = strHomeName;
+}
+
+//-----------------------------------------------------------------------------
 const CString CPathFinder::GetEasyStudioHomePath(BOOL bCreateDir /*FALSE*/) const
 {
 	CString sPath = m_eESAppPosType == CPathFinder::CUSTOM ?
-		GetCompaniesPath(bCreateDir) :
+		GetCompaniesPath(bCreateDir) + SLASH_CHAR + m_sESHome :
 		GetStandardPath();
-
-	sPath = sPath + SLASH_CHAR + (AfxIsRemoteInterface() ? szEasyStudioWeb : szEasyStudio) ;
 
 	if (bCreateDir)
 		CreateDirectory(sPath);
