@@ -1625,9 +1625,8 @@ namespace Microarea.TbJson
                         string[] dsBindingParts = dsBinding.Split('.');
 
                         string stateData = "{" + string.Concat(
-                        "'model': 'eventData?.model?.",
-                        dsBindingParts[0],
-                        dsBindingParts.Count() > 1 ? "?." + dsBindingParts[1] : "",
+                        "'model': '",
+                        dsBinding,
                         "'");
 
                         if (jSD.GetValue("invertState") != null)
