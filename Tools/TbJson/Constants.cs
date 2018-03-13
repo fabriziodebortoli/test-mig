@@ -13,7 +13,9 @@
         internal const string tbToolbarTop = "tb-toolbar-top";
         internal const string tbToolbarBottom = "tb-toolbar-bottom";
         internal const string tbToolbarTopButton = "tb-toolbar-top-button";
+        internal const string tbToolbarTopButtonDropdown = "tb-toolbar-top-button-dropdown";
         internal const string tbToolbarBottomButton = "tb-toolbar-bottom-button";
+        internal const string tbToolbarBottomButtonDropdown = "tb-toolbar-bottom-button-dropdown";
         internal const string tbToolbarSeparator = "tb-toolbar-separator";
         internal const string tbFloatingActionMenu = "tb-floating-action-menu";
         internal const string tbFloatingActionButton = "tb-floating-action-button";
@@ -155,5 +157,6 @@
         internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";
         internal const string dropDownButton = "dropDownButton";
         internal const string dropUpButton = "dropUpButton";
+        internal const string isDropdown ="isDropdown";
     }
 }

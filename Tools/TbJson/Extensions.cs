@@ -25,10 +25,11 @@ namespace Microarea.TbJson
         internal static JArray GetItems(this JToken jObj, bool createIfNone = false)
         {
             JArray ar = jObj[Constants.items] as JArray;
-            if (ar == null && createIfNone)
+            if (ar == null)
             {
                 ar = new JArray();
-                jObj[Constants.items] = ar;
+                if (createIfNone)
+                    jObj[Constants.items] = ar;
             }
             return ar;
         }

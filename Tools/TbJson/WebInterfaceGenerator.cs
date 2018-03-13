@@ -835,6 +835,7 @@ namespace Microarea.TbJson
                                 if (!string.IsNullOrEmpty(cmd))
                                     htmlWriter.WriteAttribute(Square(Constants.buttonClick), cmd);
                                 w.CloseBeginTag();
+                                GenerateHtmlChildren(jObj, type, false);
                             }
                         }
 

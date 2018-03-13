@@ -320,11 +320,17 @@ namespace Microarea.TbJson
                     {
                         foreach (JObject child in jRoot.Parent)
                         {
-                            if (child != jRoot && child.GetId() == id)
+                            if (child != jRoot)
                             {
-                                jRoot.Remove();
-                                Merge(child, jRoot, activation);
-                                break;
+                                List<JObject> list = new List<JObject>();
+                                child.FindAll(id, list);
+                                if (list.Count > 0)
+                                {
+                                    jRoot.Remove();
+                                    foreach (JObject jObj in list)
+                                        Merge(jObj, (JObject)jRoot.DeepClone(), activation);
+                                    break;
+                                }
                             }
                         }
                     }
