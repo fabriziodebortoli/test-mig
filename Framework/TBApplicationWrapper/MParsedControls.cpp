@@ -551,9 +551,19 @@ int EasyBuilderControl::TabOrder::get()
 	return -1;
 }
 
-////////////////////////////////////////////////////////////sca/////////////////
+//////////////////////////////////////////////////////////////////////////////
 // 				class BaseWindowWrapper Implementation
 /////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------
+static BaseWindowWrapper::BaseWindowWrapper()
+{
+	System::IO::Stream^ controlClassImageStream = BaseWindowWrapper::typeid->Assembly->GetManifestResourceStream("HiddenField.png");
+	eyeImgByteArray = gcnew array<System::Byte>(System::Convert::ToInt32(controlClassImageStream->Length));
+
+	controlClassImageStream->Read(eyeImgByteArray, 0, eyeImgByteArray->Length);
+
+	delete controlClassImageStream;
+}
 
 //----------------------------------------------------------------------------
 BaseWindowWrapper::BaseWindowWrapper(System::IntPtr handleWndPtr)
@@ -2669,16 +2679,19 @@ void BaseWindowWrapper::AfterWndProc(Message% m)
 			{
 				if (g == nullptr)
 					g = Graphics::FromHwnd(Handle);
-				int size = 16;
-				System::IO::Stream^ controlClassImage = BaseWindowWrapper::typeid->Assembly->GetManifestResourceStream("HiddenField.png");
 
 				HatchBrush^ aHatchBrush = gcnew HatchBrush(HatchStyle::DottedDiamond, Color::Gray, Color::Transparent);
 				g->FillRectangle(aHatchBrush, Drawing::Rectangle(1, 1, Size.Width - 1, Size.Height - 1));
 				delete aHatchBrush;
 
-				Bitmap^ bmp = ((Bitmap^)Bitmap::FromStream(controlClassImage));
+				int size = 16;
+				System::IO::MemoryStream^ inputStream = gcnew System::IO::MemoryStream(eyeImgByteArray);
+				
+				Bitmap^ bmp = ((Bitmap^)Bitmap::FromStream(inputStream));
 				g->DrawImage(bmp, 5, 0, size, size);
 				delete bmp;
+
+				delete inputStream;
 			}
 		}
 		finally

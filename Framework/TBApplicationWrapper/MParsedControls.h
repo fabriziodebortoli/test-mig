@@ -398,6 +398,9 @@ namespace Microarea {
 			{
 				System::Windows::Forms::NativeWindow^ nativeWindow;
 				EasyBuilderComponentExtenders^	extensions;
+
+			private:
+				static array<System::Byte>^ eyeImgByteArray;
 				
 			private:
 				int autoSizeCtrl = -1;
@@ -791,6 +794,9 @@ namespace Microarea {
 				/// Event raised when the SetFocus message is raised by the application
 				/// </summary>
 				MESSAGE_HANDLER_EVENT(SetFocus, EasyBuilderEventArgs, "Occurs when window takes focus.");
+
+			public:
+				static BaseWindowWrapper();
 
 			public:
 				/// <summary>
