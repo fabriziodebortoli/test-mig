@@ -1164,8 +1164,8 @@ IntellisenseMap::IntellisenseNode* IntellisenseMap::insert(CString key) {
 }
 
 IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, IntellisenseNode* fromHere) {
-
-	IntellisenseNode *pCrawl = NULL;
+	//TODO crash su intellisense
+	/*IntellisenseNode *pCrawl = NULL;
 	if (fromHere)
 		pCrawl = fromHere;
 	else
@@ -1182,7 +1182,7 @@ IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, Intellis
 
 	if (pCrawl != NULL)
 		return pCrawl;
-	else return NULL;
+	else*/ return NULL;
 }
 
 

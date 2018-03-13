@@ -1028,5 +1028,11 @@ namespace Microarea.RSWeb.Objects
 
             return s;
         }
+
+        //------------------------------------------------------------------------------
+        public override bool MayHaveDataToSerialize()
+        {
+            return true;
+        }
     }
 }

@@ -446,5 +446,24 @@ namespace Microarea.RSWeb.Objects
 
              return s;
         }
+
+        //------------------------------------------------------------------------------
+        public override bool MayHaveDataToSerialize()
+        {
+            bool bResult = false;
+
+            foreach (BaseObjList list in this.Rows)
+            {
+                foreach(BaseObj item in list)
+                {
+                    bResult = bResult || item.MayHaveDataToSerialize();
+                    if (bResult)
+                        return bResult;
+                }          
+                
+            }
+            return bResult;
+        }
+
     }
 }

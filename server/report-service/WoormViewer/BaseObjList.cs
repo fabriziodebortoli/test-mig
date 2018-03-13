@@ -158,17 +158,7 @@ namespace Microarea.RSWeb.WoormViewer
                     continue;
                 }
 
-                if (!
-                        (
-                            template ||
-                            item is FieldRect ||
-                            item is Table ||
-                            item is Repeater ||
-                            item is Chart ||
-                            item is Gauge ||
-                            item.IsDynamic()
-                        )
-                    )
+                if (!(template || item.MayHaveDataToSerialize()))
                 {
                     continue;
                 }

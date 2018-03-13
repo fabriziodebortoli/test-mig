@@ -1,0 +1,206 @@
+//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,1922,1038,3838) 
+
+Properties
+	Begin
+		Title "Labels 2x8" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "Inventory,cWarehouseman" 
+	End
+
+Options  NoPrinterBorders
+
+FontStyles 
+	Begin
+		"Text"  Facename "Arial"  Size 8 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+PageLayout "default" 
+	Begin
+		Repeater (8,2) Alias 78 InterLine (33,10) Rect (38,11,134,395) 
+			Begin
+				Transparent
+				Pen (0,0,0) Size 0;
+			End
+		Field (47,21,125,386) Alias 19  /* w_Label */ 
+			Begin
+				Align 67652 ;
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Repeater_78 [16] Alias 78 ;
+		End
+
+		Variables
+			String       w_CompanyName [50] Alias 2  Hidden ;
+			String       w_Address [64] Alias 3  Hidden ;
+			String       w_Zipcode [8] Alias 4  Hidden ;
+			String       w_City [32] Alias 5  Hidden ;
+			String       w_Status [16] Alias 6  Hidden ;
+			String       w_TitleCode [8] Alias 7  Hidden ;
+			String       w_TitleDescri [32] Alias 8  Hidden ;
+			String       w_FromCustomer [12] Alias 9  Hidden  Input Init = "" ;
+			String       w_ToCustomer [12] Alias 10  Hidden  Input Init = "" ;
+			Integer      w_NrRepetitions [4] Alias 11  Hidden  Input Init = 1 ;
+			Integer      w_QtyCounter [6] Alias 12  Hidden ;
+			String       w_InitialZIPCODE [8] Alias 36  Hidden  Input Init = "" ;
+			String       w_FinalZIPCODE [8] Alias 37  Hidden  Input Init = "" ;
+			String       w_InitialTown [15] Alias 38  Hidden  Input Init = "" ;
+			String       w_FinalTown [15] Alias 39  Hidden  Input Init = "" ;
+			String       w_InitialDistrict [3] Alias 40  Hidden  Input Init = "" ;
+			String       w_FinalDistrict [3] Alias 41  Hidden  Input Init = "" ;
+			String       w_Item [15] Alias 46  Hidden ;
+			String       w_CustomerItm [12] Alias 47  Hidden ;
+			String       w_InitialArticle [21] Alias 48  Hidden  Input Init = "" ;
+			String       w_FinalArticle [21] Alias 49  Hidden  Input Init = "" ;
+			Integer      w_LabelsCounter [6] Alias 13  Hidden ;
+			Integer      w_LabelPos [6] Alias 14  Hidden ;
+			String       w_LabelExp [120] Alias 15  Hidden Init = "" ;
+			String       w_Label [200] Alias 19  Column Init = "" ;
+			String       w_LabelTitleCode [32] Alias 50  Hidden Init = "" ;
+			String       w_Address2 [64] Alias 55  Hidden ;
+			String       w_StreetNo [10] Alias 56  Hidden ;
+			String       w_District [64] Alias 57  Hidden ;
+			String       w_FederalState [2] Alias 58  Hidden ;
+			Bool         w_IsActivatedMasterBr [1] Alias 59  Hidden  Input Init = IsActivated ( "ERP" , "MasterData_BR" ) ;
+			String       w_County [32] Alias 60  Hidden Init = "" ;
+			Bool         w_Query [1] Alias 61  Hidden ;
+			Bool         w_UseCityComplete [1] Alias 62  Hidden ;
+		End
+
+		Rules
+			From MA_ItemCustomers 
+			Select  Not NULL 
+				Item                 Into w_Item ,
+				Customer             Into w_CustomerItm 
+			Where MA_ItemCustomers.Item >= w_InitialArticle AND 
+				MA_ItemCustomers.Item <= w_FinalArticle AND 
+				MA_ItemCustomers.Customer >= w_FromCustomer AND 
+				MA_ItemCustomers.Customer <= w_ToCustomer 
+			Order By MA_ItemCustomers.Item, MA_ItemCustomers.Customer ;
+
+			From MA_CustSupp 
+			Select  Not NULL 
+				CompanyName          Into w_CompanyName ,
+				Address              Into w_Address ,
+				ZIPCode              Into w_Zipcode ,
+				City                 Into w_City ,
+				County               Into w_County ,
+				Country              Into w_Status ,
+				TitleCode            Into w_TitleCode ,
+				Address2             Into w_Address2 ,
+				StreetNo             Into w_StreetNo ,
+				District             Into w_District ,
+				FederalState         Into w_FederalState 
+			Where MA_CustSupp.CustSuppType == {49:0} AND 
+				MA_CustSupp.CustSupp == w_CustomerItm AND 
+				MA_CustSupp.ZIPCode >= w_InitialZIPCODE AND 
+				MA_CustSupp.ZIPCode <= w_FinalZIPCODE AND 
+				MA_CustSupp.City >= w_InitialTown AND 
+				MA_CustSupp.City <= w_FinalTown AND 
+				MA_CustSupp.County >= w_InitialDistrict AND 
+				MA_CustSupp.County <= w_FinalDistrict 
+			Order By MA_CustSupp.CustSupp ;
+
+			From MA_Titles 
+			Select 
+				Description          Into w_TitleDescri 
+			Where MA_Titles.TitleCode == w_TitleCode ;
+
+			If w_TitleDescri IS NOT NULL
+				Then w_LabelTitleCode = w_TitleDescri + " " 
+				Else w_LabelTitleCode = "" ;
+
+			If ( w_IsActivatedMasterBr )
+				Then w_Label = w_LabelTitleCode + w_CompanyName + CHR ( 10 ) + CHR ( 13 ) + w_Address + " " + w_StreetNo + CHR ( 10 ) + CHR ( 13 ) + ( w_Address2 <> "" ? w_Address2 + CHR ( 10 ) + CHR ( 13 ) : "" ) + ( w_District <> "" ? w_District + CHR ( 10 ) + CHR ( 13 ) : "" ) + w_City + " - " + w_FederalState + " " + w_Zipcode + " " + w_Status 
+				Else w_Label = w_LabelTitleCode + w_CompanyName + CHR ( 10 ) + CHR ( 13 ) + w_Address + CHR ( 10 ) + CHR ( 13 ) + w_Zipcode + "  " + w_City + "  " + w_County ;
+
+			w_QtyCounter = w_NrRepetitions ;
+		End
+
+
+		Events
+			Report : Do
+				Always 
+					Begin
+						While w_QtyCounter > 0
+							Do 
+								Begin
+									w_QtyCounter = w_QtyCounter - 1 ;
+									Display w_Label ;
+									NextLine ;
+								End ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+	Queries
+		Begin
+			Query  UseCityComplete
+			Begin
+				{
+					Select 
+					UseCityComplete { COL w_UseCityComplete } 
+					From 
+					MA_CustSuppParameters
+				}
+			End
+
+		End
+	Dialogs
+		Begin
+			Dialog TheSelections  "Selections" 
+				Begin
+					Before 
+						Begin
+							w_Query = Framework.TbWoormViewer.TbWoormViewer.QueryRead ( "UseCityComplete" ) ;
+						End
+					Controls
+						Begin
+							Begin  "Items"  
+								w_InitialArticle Prompt = "From Item" LowerLimit HotLink ERP.Items.Dbl.Items ( 0 ) ;
+								w_FinalArticle Prompt = "To Item" UpperLimit HotLink ERP.Items.Dbl.Items ( 0 ) ;
+							End
+							Begin  "Customers"  
+								w_FromCustomer Prompt = "From Customer" LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ( 0 , 0 ) ;
+								w_ToCustomer Prompt = "To Customer" UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ( 0 , 0 ) ;
+							End
+							Begin  "ZIP Code"  
+								w_InitialZIPCODE Prompt = "From ZIP Code" LowerLimit ;
+								w_FinalZIPCODE Prompt = "To ZIP Code" UpperLimit ;
+							End
+							Begin  "City"  
+								w_InitialTown Prompt = "From City" LowerLimit When NOT w_UseCityComplete HotLink ERP.Company.Dbl.Cities ( 0 ) ;
+								w_FinalTown Prompt = "To City" UpperLimit When NOT w_UseCityComplete HotLink ERP.Company.Dbl.Cities ( 0 ) ;
+								w_InitialTown Prompt = "From City" LowerLimit When w_UseCityComplete HotLink ERP.Company.Dbl.Counties ( 0 ) ;
+								w_FinalTown Prompt = "To City" UpperLimit When w_UseCityComplete HotLink ERP.Company.Dbl.Counties ( 0 ) ;
+							End
+							Begin  "County"  
+								w_InitialDistrict Prompt = "From County" LowerLimit HotLink ERP.Company.Dbl.Counties ( 0 ) ;
+								w_FinalDistrict Prompt = "To County" UpperLimit HotLink ERP.Company.Dbl.Counties ( 0 ) ;
+							End
+							Begin  "Repetitions"  Hidden 
+								w_NrRepetitions Prompt = "No. of Labels per Customer" ;
+							End
+						End
+				End
+		End
+End

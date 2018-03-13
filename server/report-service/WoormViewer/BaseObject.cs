@@ -79,6 +79,8 @@ namespace Microarea.RSWeb.Objects
             return HideExpr != null || TooltipExpr != null;
         }
 
+        public abstract bool MayHaveDataToSerialize();
+
         //------------------------------------------------------------------------------				
         //public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         //{
@@ -621,6 +623,12 @@ namespace Microarea.RSWeb.Objects
                 s = '{' + s + '}';
 
             return s;
+        }
+
+        //------------------------------------------------------------------------------
+        public override bool MayHaveDataToSerialize()
+        {
+            return IsDynamic();
         }
 
         //------------------------------------------------------------------------------
@@ -1215,7 +1223,6 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
-
         //------------------------------------------------------------------------------
         public override BaseObj Clone()
         {
@@ -1587,23 +1594,28 @@ namespace Microarea.RSWeb.Objects
 
                 base.ToJsonTemplate(false) + ',' +
 
-                this.LocalizedText.ToJson("value", false, true) + ',' +
+                GetText().ToJson("value", false, true) + ',' +
 
                 this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
                 this.DynamicTextColor.ToJson("textcolor") + ',' +
 
-                this.Label.Align.ToHtml_align() + ',' +
+                Label.Align.ToHtml_align() + ',' +
                 this.Label.FontData.ToJson() + ',' +
 
                 this.IsHtml.ToJson("value_is_html") + ',' +
                 this.IsBarCode.ToJson("value_is_barcode") +
-                (this.IsBarCode?',' + this.BarCode.ToJson() : "") +
+                (this.IsBarCode ? ',' + this.BarCode.ToJson() : "") +
              '}';
 
             if (bracket)
                 s = '{' + s + '}';
 
             return s;
+        }
+
+        virtual protected  string GetText()
+        {
+            return this.LocalizedText;
         }
 
         override public string ToJsonHiddenData(bool bracket)
@@ -2176,7 +2188,6 @@ namespace Microarea.RSWeb.Objects
     /// Summary description for FileRect.
     /// </summary>
     //================================================================================
-    //[Serializable]
     public class FileRect : TextRect
     {
         protected string fileName = string.Empty;
@@ -2190,12 +2201,6 @@ namespace Microarea.RSWeb.Objects
             : base(document)
         {
         }
-
-        //------------------------------------------------------------------------------
-        //public FileRect(SerializationInfo info, StreamingContext context)
-        //	: base(info, context)
-        //{
-        //}
 
         //------------------------------------------------------------------------------
         public FileRect(FileRect s)
@@ -2248,6 +2253,22 @@ namespace Microarea.RSWeb.Objects
             //----
             Default = tempDefault;
             return true;
+        }
+        //------------------------------------------------------------------------------
+        protected override string GetText()
+        {
+            string filename = Label.Text;
+
+            if (!PathFinder.PathFinderInstance.ExistFile(filename))
+            {
+                NameSpace ns = new NameSpace(filename);
+                if (ns.IsValid())
+                    filename = PathFinder.PathFinderInstance.GetFilename(ns, string.Empty);
+            }
+
+            String text = PathFinder.PathFinderInstance.GetFileTextFromFileName(filename);
+            SpecialField sf = new SpecialField(Document);
+            return sf.Expand(text);
         }
     }
 
@@ -2534,6 +2555,12 @@ namespace Microarea.RSWeb.Objects
                 s = '{' + s + '}';
 
             return s;
+        }
+
+        //------------------------------------------------------------------------------
+        public override bool MayHaveDataToSerialize()
+        {
+            return true;
         }
 
         //      public FieldRect(SerializationInfo info, StreamingContext context)

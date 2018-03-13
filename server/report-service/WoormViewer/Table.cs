@@ -2621,6 +2621,12 @@ namespace Microarea.RSWeb.Objects
             return s;
         }
 
+        //------------------------------------------------------------------------------
+        public override bool MayHaveDataToSerialize()
+        {
+            return true;
+        }
+
         //---------------------------------------------------------------------
         public string ToJsonColumns(bool template)
         {

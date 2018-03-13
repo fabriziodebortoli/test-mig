@@ -785,7 +785,12 @@ namespace Microarea.Common.NameSolver
 		//-------------------------------------------------------------------------------
 		public string GetStandardTextFullFilename(string text)
 		{
-			return System.IO.Path.Combine(GetStandardTextPath(), text);
+            int pos = text.LastIndexOfOccurrence(".", 2, text.Length - 1);
+            if (pos >= 0)
+            {
+                text = text.Substring(0, pos + 1).Replace('.', '\\') + text.Substring(pos + 1);
+            }
+            return System.IO.Path.Combine(GetStandardTextPath(), text);
 		}
 
 		//-------------------------------------------------------------------------------

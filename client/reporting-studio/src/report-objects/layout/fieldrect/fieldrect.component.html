@@ -1,7 +1,7 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
   <div *ngIf="!rect.value_is_barcode">
     <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()" matTooltip="{{rect.tooltip}}" matTooltipPosition="after">{{rect.label.caption}}</div>
-    <div *ngIf="!rect.link"><table [ngStyle]="applyValueStyle()"><tr><td [ngStyle]="applyValueStyle()">{{rect.value}}</td></tr></table></div>
+    <div *ngIf="!rect.link"><table><tr><td [ngStyle]="applyValueStyle()">{{rect.value}}</td></tr></table></div>
     <rs-link *ngIf="rect.link" [link]="rect.link" ><table ><tr><td [ngStyle]="applyValueStyle()">{{rect.value}}</td></tr></table></rs-link>
   </div>
   <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.value"></rs-barcode>

@@ -1,4 +1,4 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-  <div *ngIf="!rect.value_is_barcode" [ngStyle]="applyValueStyle()" matTooltip="{{rect.tooltip}}" matTooltipPosition="after">{{rect.value}}</div>
+  <div *ngIf="!rect.value_is_barcode" matTooltip="{{rect.tooltip}}"  matTooltipPosition="after"><table><tr><td [ngStyle]="applyValueStyle()">{{rect.value}}</td></tr></table></div>
   <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.value"></rs-barcode>
 </div>

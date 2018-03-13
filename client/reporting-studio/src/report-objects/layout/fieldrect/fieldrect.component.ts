@@ -46,22 +46,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
   }
 
   applyValueStyle(): any {
-    let lineHeight = 1 + 'px';
-    if (this.rect.vertical_align === 'bottom') {
-      // tslint:disable-next-line:max-line-length
-      lineHeight = this.rect.label ? ((this.rect.rect.bottom - this.rect.rect.top) + (this.rect.rect.bottom - this.rect.rect.top) / 2) / 2 - 4 + 'px' :
-        (this.rect.rect.bottom - this.rect.rect.top - 2) + (this.rect.rect.bottom - this.rect.rect.top - 2) / 2 - 4 + 'px';
-    }
-    if (this.rect.vertical_align === 'top') {
-      // tslint:disable-next-line:max-line-length
-      lineHeight = this.rect.label ? ((this.rect.rect.bottom - this.rect.rect.top - 2) - (this.rect.rect.bottom - this.rect.rect.top - 2) / 2) / 2 - 4 + 'px' :
-        (this.rect.rect.bottom - this.rect.rect.top - 2) - (this.rect.rect.bottom - this.rect.rect.top - 2) / 2 - 4 + 'px';
-    }
-    else if (this.rect.vertical_align === 'middle') {
-      lineHeight = this.rect.label ? (this.rect.rect.bottom - this.rect.rect.top) / 2 + 'px' :
-        (this.rect.rect.bottom - this.rect.rect.top) + 'px';
-    }
-    const regex: RegExp = new RegExp(/(\r\n|\n|\r)/);
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',  
@@ -75,8 +59,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'text-align': this.rect.text_align,
       'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
-      //'line-height': lineHeight,
-      'white-space': this.rect.value.match(regex) ? 'pre-line' : 'unset',
+      'white-space': 'pre-line',
       'vertical-align':this.rect.vertical_align
     };
     return obj;
