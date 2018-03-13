@@ -10,7 +10,6 @@ Per la versione WEB è stato effettuato un cambio piuttosto sostanziale sia nel 
 Di seguito vedremo come questo cambio di rotta ha cambiato le logiche di gestione dei dati pur non modificando le le interfaccie programmative (SqlConnection, SqlSession, SqlTable...).
 
 
-
 # Gestione connessione
 La gestione della connessione si basa su due classi:
 
@@ -65,10 +64,10 @@ Questo vuol dire che se il SqlTable viene aperto in modalità Forward-Only (il d
   - usare un cursore scrollabile solo se strettamente necessario e solo se si devono estrarre un numero limitato di record : l'utilizzo di un DataTable vuol dire occupazione di memoria lato client, ovvero i dati sono tutti idisponibili nella memoria dove gira l'applicativo e non sul server del db come nel caso di cursore lato server. 
   
   
-#Modifiche alla classe SqlTable
+# Modifiche alla classe SqlTable
 
 - numeri record estratti: con un cursore di tipo forward-only il numero di record estratti si ha solo alla fine delle operazione di fetch mentre per un cursore lato client (senza paginazione) il numero di record si ha subito dopo la query.
-Per conoscere il numero di record estratti è necessario ora utilizzare la funzione di GetExtractedRows, che ne caso di cursore forward-only effettua una query di count utilizzando le tabelle e la where del SqlTable originale. Il risultato viene memorizzato nel data member m_lRowCount utilizzato per le eventuali richieste succesive.  Il metodo risulta molto oneroso. Utilizzarlo se si ha l'effettiva necessità.
+Per conoscere il numero di record estratti è necessario ora utilizzare la funzione di GetRowSetCount, che ne caso di cursore forward-only può effettuare una query "SELECT COUNT(*) FROM ( strSQl ) AS CT, dove strSQL è la query originale eliminata della parte di Order By. Il risultato viene memorizzato nel data member m_lRecordCounts della classe base MSqlCommand utilizzato per le eventuali richieste succesive.  Il metodo risulta molto oneroso. Utilizzarlo se si ha l'effettiva necessità.
 
 - parametri: i parametri sono scritti nella query non più con il ? ma con il nome del parametro :@paramName. Per mantenere la compatibilità e non modificare ovunque la sintassi delle query, la classe SqlRowSet espone ed utilizza il metodo SubstituteQuestionMarks. 
 
