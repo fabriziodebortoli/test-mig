@@ -21,6 +21,12 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             internal static readonly string CannotAddTagInTable = "Cannot Add Tag into enums table";
             internal static readonly string MissingOrEmptyParameters = "Missing parameters: value and name are mandatory";
             internal static readonly string TagNotDeclared = "Tag Not Declared";
+            internal static readonly string TagNotDeclaredInModule = "Tag Not Declared in Module";
+            internal static readonly string ItemNotDeclared = "Item Not Declared";
+            internal static readonly string ItemNotDeclaredInModule = "Item not declared in Module";
+            internal static readonly string ItemVerifyDefaultValue = "Verify item value and tag default value";
+            internal static readonly string CannotChangeDefaultValueTag = "Cannot Change Default Value Tag";
+            internal static readonly string Or = "Or";
         }
 
         //---------------------------------------------------------------
@@ -91,7 +97,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             EnumTag tag = EnumsTable.Tags.GetTag(name);
             if (tag == null)
             {
-                Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.TagNotDeclared));
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(name, ": ", Strings.TagNotDeclared));
                 return false;
             }
 
@@ -101,10 +107,62 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
             // cancellazione del tag
             if (string.IsNullOrEmpty(itemName))
-                EnumsTable.Tags.DeleteTag(name);
+            {
+                if (!EnumsTable.Tags.DeleteTag(moduleNameSpace.ToString(), name))
+                {
+                    Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.TagNotDeclaredInModule, ": ", moduleNameSpace.ToString()));
+                    return false;
+                }
+            }
             else // cancellazione dell'item
-                tag.DeleteItem(itemName);
+                if (!tag.DeleteItem(moduleNameSpace.ToString(), itemName))
+                {
+                    Diagnostic.Add
+                        (
+                            DiagnosticType.Error, 
+                            string.Concat
+                                (
+                                    itemName, ": ", 
+                                    Strings.ItemNotDeclared, " ", 
+                                    Strings.Or, " ", 
+                                    Strings.ItemNotDeclaredInModule, ": ", 
+                                    moduleNameSpace.ToString(), " ",
+                                    Strings.Or, " ",
+                                    Strings.ItemVerifyDefaultValue
+                                )
+                        );
+                    return false;
+                }
             
+            return EnumsSerializer.SaveDeclaration(info, EnumsTable);
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public bool ChangeTagDefaultValue(INameSpace moduleNamespace, string name, ushort defaultValue)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                Diagnostic.Add(DiagnosticType.Error, Strings.MissingOrEmptyParameters);
+                return false;
+            }
+
+            EnumTag tag = EnumsTable.Tags.GetTag(name);
+            if (tag == null)
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.TagNotDeclared));
+                return false;
+            }
+
+            ModuleInfo info = GetModuleInfo(moduleNamespace);
+            if (info == null)
+                return false;
+
+            if (!tag.ChangeTagDefaultValue(moduleNamespace.ToString(), defaultValue))
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.CannotChangeDefaultValueTag));
+                return false;
+            }
+
             return EnumsSerializer.SaveDeclaration(info, EnumsTable);
         }
 

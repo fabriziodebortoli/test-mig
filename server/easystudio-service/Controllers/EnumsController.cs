@@ -21,6 +21,7 @@ namespace Microarea.EasyStudio.Controllers
             internal static readonly string description = "description";
             internal static readonly string itemName = "itemName";
             internal static readonly string hidden = "hidden";
+            internal static readonly string defaultValue = "defaultValue";
         }
 
         //---------------------------------------------------------------------
@@ -111,6 +112,29 @@ namespace Microarea.EasyStudio.Controllers
             string itemName = jsonParams[Strings.itemName]?.Value<string>();
 
             EnumsService.Delete(new NameSpace(moduleNamespace), name, itemName);
+
+            return ToResult(Diagnostic);
+        }
+
+        //----------------------------------------------------------------------------------
+        [Route("changeTagDefaultValue"), HttpGet]
+        public IActionResult ChangeTagDefaultValue(string moduleNamespace, string name, ushort defaultValue)
+        {
+            if (EnumsService.ChangeTagDefaultValue(new NameSpace(moduleNamespace), name, defaultValue))
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(name, " ", BaseStrings.TagDefaultValueSuccessfullyChanged));
+
+            return ToResult(Diagnostic);
+        }
+
+        //-----------------------------------------------------------------------
+        [Route("changeTagDefaultValue"), HttpPost]
+        public IActionResult ChangeTagDefaultValue([FromBody] JObject jsonParams)
+        {
+            string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
+            string name = jsonParams[Strings.name]?.Value<string>();
+            var val = jsonParams[Strings.defaultValue]?.Value<ushort>();
+            ushort defaultValue = (ushort)(val == null ? 0 : val);
+            EnumsService.ChangeTagDefaultValue(new NameSpace(moduleNamespace), name, defaultValue);
 
             return ToResult(Diagnostic);
         }

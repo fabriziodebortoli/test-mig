@@ -684,15 +684,38 @@ namespace Microarea.Common.Applications
 			return item;
 		}
 
-		//-----------------------------------------------------------------------------
-		public void DeleteItem(string aName)
+        //--------------------------------------------------------------------------------
+        public bool ChangeTagDefaultValue(string moduleNamespace, ushort defaultValue)
+        {
+            if (string.Compare(OwnerModule.NameSpace.ToString(), moduleNamespace, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                this.defaultValue = defaultValue;
+                return true;
+            }
+            
+            return false;
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool DeleteItem(string moduleNamespace, string aName)
 		{
 			foreach (EnumItem ei in EnumItems)
-				if (string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
+				if 
+                    (
+                        string.Compare(ei.Name, aName, StringComparison.OrdinalIgnoreCase) == 0 &&
+                        string.Compare(ei.OwnerModule.NameSpace.ToString(), moduleNamespace, StringComparison.OrdinalIgnoreCase) == 0
+                    )
 				{
-					EnumItems.Remove(ei);
-					return;
+                    if (DefaultValue != ei.Value)
+                    {
+                        EnumItems.Remove(ei);
+                        return true;
+                    }
+                    else
+                        return false;
 				}
+
+            return false;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -1125,15 +1148,21 @@ namespace Microarea.Common.Applications
 			return enumTag;
 		}
 
-		//-----------------------------------------------------------------------------
-		public void DeleteTag(string aName)
+        //-----------------------------------------------------------------------------
+        public bool DeleteTag(string moduleNamespace, string aName)
 		{
 			foreach (EnumTag tag in this)
-				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)
+				if 
+                    (
+                        string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0 &&
+                        string.Compare(tag.OwnerModule.NameSpace.ToString(), moduleNamespace, StringComparison.OrdinalIgnoreCase) == 0 
+                    )
 				{
 					Remove(tag);
-					return;
+					return true;
 				}
+
+            return false;
 		}
 
 		//-----------------------------------------------------------------------------
