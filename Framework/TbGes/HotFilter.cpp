@@ -452,7 +452,7 @@ void HotFilterRange::CreateHotlinks()
 	{
 		return;
 	}
-	CString sName = this->m_strName + _T("_From");
+	CString sName = this->m_strName + _T("_HKLFrom");
 	HotKeyLink* pHL = m_pDocument->GetHotLink(sName, nsHkl);
 	if (!pHL)
 	{
@@ -465,7 +465,7 @@ void HotFilterRange::CreateHotlinks()
 	m_pHKLRangeFrom->EnableAddOnFly(m_bEnableAddOnFly);
 
 
-	sName = this->m_strName + _T("_To");
+	sName = this->m_strName + _T("_HKLTo");
 	pHL = m_pDocument->GetHotLink(sName, nsHkl);
 	if (!pHL)
 	{
@@ -987,7 +987,7 @@ void HotFilterList::CreateHotlinks()
 		return;
 	}
 
-	CString sName = this->m_strName + _T("_List");
+	CString sName = this->m_strName + L"_HKLList";
 	HotKeyLink* pHL = m_pDocument->GetHotLink(sName, nsHkl);
 	if (!pHL)
 	{

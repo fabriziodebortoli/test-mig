@@ -44,7 +44,7 @@
       "binding": {
         "datasource": "{{GetParentName() + '_From'}}",
         "hotLink": {
-          "name": "{{GetParentName() + '_From'}}"
+          "name": "{{GetParentName() + '_HKLFrom'}}"
         }
       }
     },
@@ -64,7 +64,7 @@
       "binding": {
         "datasource": "{{GetParentName() + '_To'}}",
         "hotLink": {
-          "name": "{{GetParentName() + '_To'}}"
+          "name": "{{GetParentName() + '_HKLTo'}}"
         }
       }
     }

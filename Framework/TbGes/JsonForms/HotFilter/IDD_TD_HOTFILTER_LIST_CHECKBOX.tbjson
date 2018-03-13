@@ -16,7 +16,7 @@
       "binding": {
         "datasource": "{{ GetParentName() + '_List'}}",
         "hotLink": {
-          "name": "{{GetParentName() + '_List'}}"
+          "name": "{{GetParentName() + '_HKLList'}}"
         }
       }
     }
