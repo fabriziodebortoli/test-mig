@@ -8373,11 +8373,6 @@ void CAbstractFormDoc::RegisterForwardHotLink(const CString& sName, const CStrin
 		ASSERT_TRACE(FALSE, "Empty HotLink name");
 		return;
 	}
-	if (aNameSpace.IsEmpty())
-	{
-		ASSERT_TRACE(FALSE, "Empty HotLink namespace");
-		return;
-	}
 	m_ForwardHotlinks.SetAt(sName, aNameSpace);
 }
 
