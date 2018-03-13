@@ -1620,16 +1620,14 @@ bool DBTDataBinding::IsDataReadOnly::get ()
 //----------------------------------------------------------------------------
 bool DBTDataBinding::DataVisible::get()
 {
-	return mDbt == nullptr ? true : false;// mDbt->Visible;TODO MATTEO
+	return true;
+	//Il dbt non supporta la logica di visible/hidden, ne consegue che le griglie non possono essere nascoste con EasyStudio.
 }
 
 //----------------------------------------------------------------------------
 void DBTDataBinding::DataVisible::set(bool value)
 {
-	if (mDbt != nullptr)
-	{
-		//TODO MATTEO
-	}
+	//Il dbt non supporta la logica di visible/hidden, ne consegue che le griglie non possono essere nascoste con EasyStudio.
 }
 
 //----------------------------------------------------------------------------
