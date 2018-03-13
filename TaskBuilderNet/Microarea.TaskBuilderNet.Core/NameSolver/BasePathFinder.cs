@@ -74,7 +74,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		private static string magonetApplicationPath = null;
 		private static string microareaConsoleApplicationPath = null;
 
-        private bool easyStudioCustomizationsInCustom = false;
+        private bool easyStudioCustomizationsInCustom = true;
         private string easyStudioHome = "ESHome";
 
 		/// <summary>
