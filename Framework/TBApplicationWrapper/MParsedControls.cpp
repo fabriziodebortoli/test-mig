@@ -10,6 +10,7 @@
 #include <TbGes\dbt.h>
 #include <TbGes\Tabber.h>
 #include <TbGeneric\GeneralFunctions.h>
+#include <TbGeneric\DataObj.h>
 
 #include "MBodyedit.h"
 #include "MView.h"
@@ -2213,16 +2214,13 @@ bool BaseWindowWrapper::Visible::get()
 void BaseWindowWrapper::Visible::set(bool value)
 {
 	__super::Visible = value;
+
 	CWnd* pWnd = GetWnd();
-	if (!pWnd)
-		return;
-	CWndObjDescription* pDesc = GetWndObjDescription();
-	if (pDesc)
-		pDesc->m_bVisible = value;
-	//se devo visualizzare i campi nascosti, non devo cambiare lo style che deve essere sempre visible
-	if (!DesignerVisible)
+	if (pWnd)
 	{
-		pWnd->ShowWindow(value ? SW_SHOW : SW_HIDE);
+		CWndObjDescription* pDesc = GetWndObjDescription();
+		if (pDesc)
+			pDesc->m_bVisible = value;
 	}
 }
 
@@ -2679,7 +2677,7 @@ void BaseWindowWrapper::AfterWndProc(Message% m)
 				delete aHatchBrush;
 
 				Bitmap^ bmp = ((Bitmap^)Bitmap::FromStream(controlClassImage));
-				g->DrawImage(bmp, Size.Width - size - 5, 0, size, size);
+				g->DrawImage(bmp, 5, 0, size, size);
 				delete bmp;
 			}
 		}
@@ -2927,35 +2925,9 @@ void MParsedControl::Visible::set(bool value)
 {
 	__super::Visible = value;
 
-	if (!m_pControl)
-		return;
-
-	//Controllo se c'è uno StateButton  o LinkButton attaccato al parsedControl
-	CWnd* pButton = m_pControl->GetButton();
-	if (pButton)
-		pButton->ShowWindow(value ? SW_SHOW : SW_HIDE);
-
-	//Controllo se c'è uno CHyperLink attacato al parsedControl
-	CHyperLink* pHyperLink = m_pControl->GetHyperLink();
-	if (pHyperLink)
-		pHyperLink->ShowCtrl(value ? SW_SHOW : SW_HIDE);
-
-	CControlLabel* pLabel = m_pControl->GetControlLabel();
-	if (pLabel)
-		pLabel->ShowWindow(value ? SW_SHOW : SW_HIDE);
-
-	//Infine cerco nell'array degli state control per vedere se ci sono altri bottoni addizionali da gestire
-	for (int i = 0; i <= m_pControl->GetStateCtrlsArray().GetUpperBound(); i++)
+	if (!this->DesignMode)
 	{
-		CStateCtrlObj* pState = (CStateCtrlObj*)m_pControl->GetStateCtrlsArray().GetAt(i);
-		if (!pState)
-			continue;
-
-		CWnd* pStateWnd = pState->GetButton();
-		if (!pStateWnd)
-			continue;
-
-		pStateWnd->ShowWindow(value ? SW_SHOW : SW_HIDE);
+		this->DataBinding->DataVisible = value;
 	}
 }
 

@@ -1526,6 +1526,21 @@ bool FieldDataBinding::IsDataReadOnly::get ()
 }
 
 //----------------------------------------------------------------------------
+bool FieldDataBinding::DataVisible::get()
+{
+	return mDataObj == nullptr ? true : mDataObj->Visible;
+}
+
+//----------------------------------------------------------------------------
+void FieldDataBinding::DataVisible::set(bool value)
+{
+	if (mDataObj != nullptr)
+	{
+		mDataObj->Visible = value;
+	}
+}
+
+//----------------------------------------------------------------------------
 bool FieldDataBinding::Modified::get()
 {
 	return mDataObj->Modified;
@@ -1600,6 +1615,21 @@ Object^ DBTDataBinding::Clone()
 bool DBTDataBinding::IsDataReadOnly::get () 
 { 
 	return mDbt == nullptr ? true : !mDbt->IsUpdatable; 
+}
+
+//----------------------------------------------------------------------------
+bool DBTDataBinding::DataVisible::get()
+{
+	return mDbt == nullptr ? true : false;// mDbt->Visible;TODO MATTEO
+}
+
+//----------------------------------------------------------------------------
+void DBTDataBinding::DataVisible::set(bool value)
+{
+	if (mDbt != nullptr)
+	{
+		//TODO MATTEO
+	}
 }
 
 //----------------------------------------------------------------------------

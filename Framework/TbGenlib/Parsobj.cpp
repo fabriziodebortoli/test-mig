@@ -5935,21 +5935,10 @@ void CParsedCtrl::UpdateCtrlView()
 
 		if (m_pHyperLink)
 			m_pHyperLink->UpdateCtrlView();
+		UpdateCtrlVisibility();
+		
 	}
-
-	int nCmdShow = SW_SHOW;
-	// nascondo gli accessori del control solo se il control non 
-	// è visibile, ma il suo parent si. Se non controllo il parent
-	// mi si nasconde sempre a causa della OnInitialUpdate in cui
-	// il control non è ancora completamente visibile.
-	if (
-		GetCtrlCWnd() && !IsTBWindowVisible(GetCtrlCWnd()) &&
-		GetCtrlCWnd()->GetParent() && IsTBWindowVisible(GetCtrlCWnd()->GetParent())
-		)
-		nCmdShow = SW_HIDE;
-
-	// bottoni
-	UpdateStateButtons(nCmdShow);
+	
 }
 
 //-----------------------------------------------------------------------------
@@ -5974,7 +5963,6 @@ void CParsedCtrl::UpdateCtrlStatus()
 	if (m_pData)
 	{
 		EnableCtrl(!m_pData->IsReadOnly());
-		UpdateCtrlVisibility();
 	}
 }
 
