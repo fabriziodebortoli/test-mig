@@ -25,6 +25,7 @@ export class ReportRectComponent {
       'border-top': this.rect.borders.top ? this.rect.pen.width + 'px' : '0px',
       'border-style': 'solid',
       'border-color': this.rect.pen.color,
+      'box-sizing': 'border-box',
       'position': 'absolute',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
