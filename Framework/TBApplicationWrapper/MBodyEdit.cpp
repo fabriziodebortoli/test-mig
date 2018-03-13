@@ -2917,6 +2917,19 @@ EBool MBodyEdit::ShowBorders::get()
 	CWndObjDescription* pDesc = GetWndObjDescription();
 	return pDesc && pDesc->IsKindOf(RUNTIME_CLASS(CWndBodyDescription)) ? (EBool)((CWndBodyDescription*)pDesc)->m_bShowBorders : EBool::Undefined;
 }
+
+//----------------------------------------------------------------------------
+bool MBodyEdit::Visible::get()
+{
+	return __super::Visible;
+}
+
+//----------------------------------------------------------------------------
+void MBodyEdit::Visible::set(bool visible)
+{
+	__super::Visible = visible;
+}
+
 //-----------------------------------------------------------------------------                                                                                                                                                             
 EBool MBodyEdit::AllowDrag::get()
 {

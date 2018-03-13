@@ -731,6 +731,11 @@ namespace Microarea { namespace Framework	{ namespace TBApplicationWrapper
 		property bool IsDataReadOnly { virtual bool get (); }
 
 		/// <summary>
+		/// Returns true if data bound to this control should be visible
+		/// </summary>
+		property bool DataVisible { virtual bool get(); virtual void set(bool value); }
+
+		/// <summary>
 		/// Overrides the ToString method for the databiding class
 		/// </summary>
 		virtual System::String^ ToString() override;
@@ -802,6 +807,11 @@ namespace Microarea { namespace Framework	{ namespace TBApplicationWrapper
 		/// Returns true if the data contained in data binding is readonly
 		/// </summary>
 		property bool IsDataReadOnly { virtual bool get (); }
+
+		/// <summary>
+		/// Returns true if data bound to this control should be visible
+		/// </summary>
+		property bool DataVisible { virtual bool get(); virtual void set(bool value); }
 
 		/// <summary>
 		/// Gets the full name of the dbt databinding (as a full namespace)
