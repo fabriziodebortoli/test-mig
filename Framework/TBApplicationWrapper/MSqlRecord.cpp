@@ -1526,6 +1526,21 @@ bool FieldDataBinding::IsDataReadOnly::get ()
 }
 
 //----------------------------------------------------------------------------
+bool FieldDataBinding::DataVisible::get()
+{
+	return mDataObj == nullptr ? true : mDataObj->Visible;
+}
+
+//----------------------------------------------------------------------------
+void FieldDataBinding::DataVisible::set(bool value)
+{
+	if (mDataObj != nullptr)
+	{
+		mDataObj->Visible = value;
+	}
+}
+
+//----------------------------------------------------------------------------
 bool FieldDataBinding::Modified::get()
 {
 	return mDataObj->Modified;
@@ -1600,6 +1615,19 @@ Object^ DBTDataBinding::Clone()
 bool DBTDataBinding::IsDataReadOnly::get () 
 { 
 	return mDbt == nullptr ? true : !mDbt->IsUpdatable; 
+}
+
+//----------------------------------------------------------------------------
+bool DBTDataBinding::DataVisible::get()
+{
+	return true;
+	//Il dbt non supporta la logica di visible/hidden, ne consegue che le griglie non possono essere nascoste con EasyStudio.
+}
+
+//----------------------------------------------------------------------------
+void DBTDataBinding::DataVisible::set(bool value)
+{
+	//Il dbt non supporta la logica di visible/hidden, ne consegue che le griglie non possono essere nascoste con EasyStudio.
 }
 
 //----------------------------------------------------------------------------

@@ -11,6 +11,7 @@ namespace Microarea.TaskBuilderNet.Interfaces.Model
 		object Data { get; }
 		IDataType DataType { get; }
 		bool IsDataReadOnly { get; }
+        bool DataVisible { get; set; }
         IDataManager Parent { get; }
         bool Modified { get; set; }
 	}

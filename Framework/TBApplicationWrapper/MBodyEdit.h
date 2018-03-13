@@ -966,6 +966,12 @@ namespace Microarea {
 				property EBool 	ShowBorders					{ EBool get(); void set(EBool value); }
 
 				/// <summary>
+				/// Gets or Sets the Visible attribute for the current column
+				/// </summary>
+				[LocalizedCategory("GraphicsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::ComponentState | TBPropertyFilters::DesignerStatic), ExcludeFromIntellisense]
+				property bool Visible { virtual bool get() override; virtual void set(bool visible) override; }
+
+				/// <summary>
 				/// Number of rows in the column title
 				/// </summary>
 				[LocalizedCategory("GeneralCategory", EBCategories::typeid)]

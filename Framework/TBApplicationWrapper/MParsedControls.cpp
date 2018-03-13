@@ -10,6 +10,7 @@
 #include <TbGes\dbt.h>
 #include <TbGes\Tabber.h>
 #include <TbGeneric\GeneralFunctions.h>
+#include <TbGeneric\DataObj.h>
 
 #include "MBodyedit.h"
 #include "MView.h"
@@ -551,9 +552,19 @@ int EasyBuilderControl::TabOrder::get()
 	return -1;
 }
 
-////////////////////////////////////////////////////////////sca/////////////////
+//////////////////////////////////////////////////////////////////////////////
 // 				class BaseWindowWrapper Implementation
 /////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------
+static BaseWindowWrapper::BaseWindowWrapper()
+{
+	System::IO::Stream^ controlClassImageStream = BaseWindowWrapper::typeid->Assembly->GetManifestResourceStream("HiddenField.png");
+	eyeImgByteArray = gcnew array<System::Byte>(System::Convert::ToInt32(controlClassImageStream->Length));
+
+	controlClassImageStream->Read(eyeImgByteArray, 0, eyeImgByteArray->Length);
+
+	delete controlClassImageStream;
+}
 
 //----------------------------------------------------------------------------
 BaseWindowWrapper::BaseWindowWrapper(System::IntPtr handleWndPtr)
@@ -2214,16 +2225,13 @@ bool BaseWindowWrapper::Visible::get()
 void BaseWindowWrapper::Visible::set(bool value)
 {
 	__super::Visible = value;
+
 	CWnd* pWnd = GetWnd();
-	if (!pWnd)
-		return;
-	CWndObjDescription* pDesc = GetWndObjDescription();
-	if (pDesc)
-		pDesc->m_bVisible = value;
-	//se devo visualizzare i campi nascosti, non devo cambiare lo style che deve essere sempre visible
-	if (!DesignerVisible)
+	if (pWnd)
 	{
-		pWnd->ShowWindow(value ? SW_SHOW : SW_HIDE);
+		CWndObjDescription* pDesc = GetWndObjDescription();
+		if (pDesc)
+			pDesc->m_bVisible = value;
 	}
 }
 
@@ -2672,16 +2680,19 @@ void BaseWindowWrapper::AfterWndProc(Message% m)
 			{
 				if (g == nullptr)
 					g = Graphics::FromHwnd(Handle);
-				int size = 16;
-				System::IO::Stream^ controlClassImage = BaseWindowWrapper::typeid->Assembly->GetManifestResourceStream("HiddenField.png");
 
 				HatchBrush^ aHatchBrush = gcnew HatchBrush(HatchStyle::DottedDiamond, Color::Gray, Color::Transparent);
 				g->FillRectangle(aHatchBrush, Drawing::Rectangle(1, 1, Size.Width - 1, Size.Height - 1));
 				delete aHatchBrush;
 
-				Bitmap^ bmp = ((Bitmap^)Bitmap::FromStream(controlClassImage));
-				g->DrawImage(bmp, Size.Width - size - 5, 0, size, size);
+				int size = 16;
+				System::IO::MemoryStream^ inputStream = gcnew System::IO::MemoryStream(eyeImgByteArray);
+				
+				Bitmap^ bmp = ((Bitmap^)Bitmap::FromStream(inputStream));
+				g->DrawImage(bmp, 5, 0, size, size);
 				delete bmp;
+
+				delete inputStream;
 			}
 		}
 		finally
@@ -2928,35 +2939,9 @@ void MParsedControl::Visible::set(bool value)
 {
 	__super::Visible = value;
 
-	if (!m_pControl)
-		return;
-
-	//Controllo se c'è uno StateButton  o LinkButton attaccato al parsedControl
-	CWnd* pButton = m_pControl->GetButton();
-	if (pButton)
-		pButton->ShowWindow(value ? SW_SHOW : SW_HIDE);
-
-	//Controllo se c'è uno CHyperLink attacato al parsedControl
-	CHyperLink* pHyperLink = m_pControl->GetHyperLink();
-	if (pHyperLink)
-		pHyperLink->ShowCtrl(value ? SW_SHOW : SW_HIDE);
-
-	CControlLabel* pLabel = m_pControl->GetControlLabel();
-	if (pLabel)
-		pLabel->ShowWindow(value ? SW_SHOW : SW_HIDE);
-
-	//Infine cerco nell'array degli state control per vedere se ci sono altri bottoni addizionali da gestire
-	for (int i = 0; i <= m_pControl->GetStateCtrlsArray().GetUpperBound(); i++)
+	if (!this->DesignMode)
 	{
-		CStateCtrlObj* pState = (CStateCtrlObj*)m_pControl->GetStateCtrlsArray().GetAt(i);
-		if (!pState)
-			continue;
-
-		CWnd* pStateWnd = pState->GetButton();
-		if (!pStateWnd)
-			continue;
-
-		pStateWnd->ShowWindow(value ? SW_SHOW : SW_HIDE);
+		this->DataBinding->DataVisible = value;
 	}
 }
 
