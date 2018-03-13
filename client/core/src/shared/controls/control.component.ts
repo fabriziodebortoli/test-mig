@@ -10,7 +10,9 @@ import { ContextMenuItem } from './../models/context-menu-item.model';
 export class StateData {
     model: string;
     invertState: false;
-    cmpId: string;
+    cmpId?: string;
+    iconEdit?: string;
+    iconExecute?: string;
 }
 
 @Component({
