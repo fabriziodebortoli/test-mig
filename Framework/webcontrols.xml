@@ -170,4 +170,7 @@
   <!-- tb-linear-gauge-->
   <WebControl controlClass="LinearGauge" control="tb-linear-gauge"></WebControl>
 
+  <WebControl controlClass="ParsedCheckListBox" control="tb-check-listbox"></WebControl>
+  
+
 </WebControls>

@@ -265,6 +265,7 @@ import { PropertyGridItemComponent } from './controls/property-grid/property-gri
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 import { ControlContainerComponent } from './controls/control-container/control-container.component';
 import { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
+import { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 
 
 export { LinkComponent } from './controls/link/link.component';
@@ -311,10 +312,11 @@ export { PropertyGridComponent } from './controls/property-grid/property-grid.co
 export { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 export { ControlContainerComponent } from './controls/control-container/control-container.component';
+export { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 export { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
 
 const TB_CONTROLS = [
-    ControlComponent, ColoredStaticComponent, AddressEditComponent,
+    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,

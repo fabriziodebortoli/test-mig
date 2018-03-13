@@ -1,0 +1,12 @@
+<tb-control-container type="tb-check-listbox">
+    <kendo-grid 
+    [data]="gridData" 
+    [height]="370" 
+    [selectable]="{enabled: true, mode: 'multiple' }"
+    [kendoGridSelectBy]="mySelectionKey"
+    [selectedKeys]="mySelection"
+    (selectedKeysChange)="onSelectedKeysChange($event)">
+        <kendo-grid-checkbox-column [width]="20" showSelectAll="true"></kendo-grid-checkbox-column>
+        <kendo-grid-column field="Description" title="Description" [width]="250"></kendo-grid-column>
+    </kendo-grid>
+</tb-control-container>
