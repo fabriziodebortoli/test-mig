@@ -19,7 +19,7 @@
                 <td>{{snap.date | date:"dd/MM/yyyy HH:mm:ss"}}</td>
                 <td class="align">
                     <button class="link" (click)="deleteSnapshot(snap.name, snap.date, snap.allUsers)">
-                        <m4-icon icon="tb-delete" class="link"></m4-icon>
+                        <m4-icon icon="tb-delete"></m4-icon>
                     </button>
                 </td>
             </tr>
@@ -27,12 +27,15 @@
         <br>
     </div>
     <br>
-    <h3>Create new snapshot
-            <m4-icon icon="tb-down"> <button type="button" data-toggle="collapse" data-target="#collapseNewSnap"></button></m4-icon>
-        
-    </h3>
+    <div class="collapse">
+        <h3>Create new snapshot</h3>
+        <button class="link" (click)="openCollapse()">
+            <m4-icon *ngIf="!this.opened" icon="tb-down"></m4-icon>
+            <m4-icon *ngIf="this.opened" icon="tb-up"></m4-icon>
+        </button>
+    </div>
     <hr>
-    <div class="collapse" id="collapseNewSnap">
+    <div [ngClass]="{hide: !opened}">
         <kendo-textbox-container>
             <div class="inputName">
                 <label>Name </label>
@@ -46,7 +49,6 @@
         <mat-radio-button checked="checked" (click)="setSingleUser()">This user</mat-radio-button>
         <br>
         <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
-
     </div>
     <kendo-dialog-actions>
         <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Save</button>

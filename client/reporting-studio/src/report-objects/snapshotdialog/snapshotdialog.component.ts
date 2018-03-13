@@ -13,9 +13,10 @@ import { SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
 export class SnapshotdialogComponent {
     subscriptions: Subscription[] = [];
-    public allUsers: boolean = false;
-    public nameSnapshot: string;
-    public openSnapshot: string;
+    allUsers: boolean = false;
+    nameSnapshot: string;
+    openSnapshot: string;
+    opened: boolean = false;
 
     constructor(public rsExportService: RsExportService) {
         this.nameSnapshot = "";
@@ -74,5 +75,9 @@ export class SnapshotdialogComponent {
                 switching = true;
             }
         }
+    }
+    
+    openCollapse() {
+      this.opened = !this.opened;
     }
 }

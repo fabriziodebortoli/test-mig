@@ -60,3 +60,21 @@ h3{
         width: auto;
     }
 }
+
+.hide{
+    display: none;
+}
+
+.collapse { 
+    vertical-align: top; 
+    height:auto !important;
+    display: inline-flex;
+    font-weight: 500;
+    color: #0277bd;
+    font-size: 14px;
+    margin: auto;
+    button{
+        color: #0277bd;
+        margin-left: 5px;
+    }
+}
