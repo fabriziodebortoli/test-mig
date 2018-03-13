@@ -605,7 +605,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
                 //reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);//< FileSystemManager >
                 reader.ReadToFollowing(NameSolverStrings.EasyStudio);
 
-                string temp = reader.GetAttribute("appsInStandard");
+                string temp = reader.GetAttribute("customizationsInStandard");
                 if (!string.IsNullOrEmpty(temp) && temp.CompareTo("true") == 0)
                     this.easyStudioCustomizationsInCustom = false;
                 temp = reader.GetAttribute("homeName");

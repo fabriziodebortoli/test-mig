@@ -119,7 +119,7 @@ namespace Microarea.Common.FileSystemManager
 
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmlEasyStudioTag);
 
-                string temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioAppsInStandard);
+                string temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioCustomizationsInStandard);
                 if (!string.IsNullOrEmpty(temp) && temp.CompareTo(FileSystemManagerStrings.szXmlTrueValue) == 0)
                     PathFinder.PathFinderInstance.EasyStudioAppsInCustom = false;
                 temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioHomeName);

@@ -1701,7 +1701,7 @@ const CString CPathFinder::GetDocumentPath(const CTBNamespace& aNamespace, PosTy
 	if (bCreateDir)
 		CreateDirectory(sPath);
 
-	if (!sUserRole.IsEmpty() && IsCustomPath(sPath))
+	if (!sUserRole.IsEmpty() && (IsCustomPath(sPath) || aCompany == CPathFinder::EASYSTUDIO))
 	{
 		sPath = sPath + SLASH_CHAR + sUserRole;
 		if (bCreateDir)

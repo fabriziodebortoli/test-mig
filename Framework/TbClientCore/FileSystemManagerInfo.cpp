@@ -48,7 +48,7 @@ static const TCHAR szXmlStandardConnectionString[] = _T("standardconnectionstrin
 static const TCHAR szXmlCustomConnectionString[] = _T("testCustomConnectionString");
 
 
-static const TCHAR szXmlEasyStudioAppsInStandard[]	= _T("appsInStandard");
+static const TCHAR szXmlEasyStudioAppsInStandard[]	= _T("customizationsInStandard");
 static const TCHAR szXmlEasyStudioHomeName[]		= _T("homeName");
 
 
