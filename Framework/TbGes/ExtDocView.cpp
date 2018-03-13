@@ -2868,7 +2868,11 @@ void CAbstractFormView::OnInitialUpdate()
 	if (GetDocument()) EnableViewControls();
 
 	OnModifyDataObjs(m_pControlLinks, TRUE);//in fase di visualizzazione iniziale, tutti i controlli sono da considerare modificati
-	if (GetDocument()) GetDocument()->UpdateDataView();
+	
+	OnFindHotLinks();
+	OnUpdateControls(TRUE);
+	OnResetDataObjs();
+
 	SetDefaultFocus();
 
 	//se il documento e' predisposto per le autoexpression inizializzo i controlli
