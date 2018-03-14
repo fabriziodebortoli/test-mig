@@ -805,7 +805,9 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			pColumnInfo = NULL;
 			CString strColumnName;
 			command->CommandText = commandText;
+			command->CommandTimeout = 0;
 			reader = command->ExecuteReader();
+
 			dStopTick = GetTickCount();
 			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
 			TRACE1("Query PrimaryKey Elapsed Time: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
