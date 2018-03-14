@@ -344,7 +344,7 @@ public:
 
 private:
 	//------------------------------------------------------------------------------
-	StaticAreasColumnInfo* GetColumnInfo(int nColumn)
+	StaticAreasColumnInfo * GetColumnInfo(int nColumn)
 	{
 		// provo ad andare secca sul'elemento e controllo che sia lui
 		StaticAreasColumnInfo* pInfo = dynamic_cast<StaticAreasColumnInfo*>(GetAt(nColumn - 1));
@@ -1160,7 +1160,7 @@ void CBaseTileGroup::AttachTile(CBaseTileDialog* pTileDialog, CObject* pOwner)
 		//security
 		AfxGetSecurityInterface()->GetObjectGrant(pInfoOSL);
 	}
-
+#ifdef DEBUG
 	for (int i = 0; i < m_TileDialogArray.GetCount(); i++)
 	{
 		CBaseTileDialog* pTileDlg = m_TileDialogArray.GetAt(i);
@@ -1168,10 +1168,10 @@ void CBaseTileGroup::AttachTile(CBaseTileDialog* pTileDialog, CObject* pOwner)
 			continue;
 		CString sTileDlgNS = pTileDlg->GetNamespace().GetObjectName();
 		int res = sTileDlgNS.CompareNoCase(pTileDialog->m_sName);
-		ASSERT(res != 0);
-		TRACE(_T("A tile dialog with the same name ") + pTileDialog->m_sName + _T(" already exists! Please verify the uniqueness for all tile dialogs names for the group with name ") + this->GetNamespace().GetObjectName());
+		ASSERT_TRACE1(res != 0, "A tile dialog with the same name %s already exists! Please verify the uniqueness for all tile dialogs names\n", (LPCTSTR)pTileDialog->m_sName);
 
 	}
+#endif // DEBUG
 
 	m_TileDialogArray.Add(pTileDialog);
 }

@@ -3104,11 +3104,13 @@ void CAbstractFormDoc::OnTimer(UINT nTimer)
 	if (nTimer == IDT_UPDATEDATAVIEW)
 	{
 		//qualcuno potrebbe averla forzata nel frattempo
-		if (m_bWaitingForUpdateDataView)
+		if (m_bNeedsUpdateDataView)
 			ExecuteUpdateDataView();
+
+		m_bWaitingForUpdateDataView = false;
 		CLocalizableFrame* pFrame = GetFrame();
-		if (pFrame && pFrame->IsKindOf(RUNTIME_CLASS(CAbstractFormFrame)))
-			((CAbstractFormFrame*)pFrame)->KillTimer(IDT_UPDATEDATAVIEW);
+		if (pFrame)
+			pFrame->KillTimer(IDT_UPDATEDATAVIEW);
 
 	}
 }
@@ -3119,24 +3121,25 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 		return;
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
-	if (m_nUpdateDataViewLevel > 0 && !bForce)
+	//se sto aspettando il timer per effettuare l'update e non devo forzare il refresh, esco
+	if (!bForce && (m_nUpdateDataViewLevel > 0 || m_bWaitingForUpdateDataView))
 	{
 		m_bNeedsUpdateDataView = true;
 		return;
 	}
-	//se sto aspettando il timer per effettuare l'update e non devo forzare il refresh, esco
-	if (m_bWaitingForUpdateDataView && !bForce)
-		return;
-
+	
 	int delay = GetRefreshDelay();
 	if (bForce || delay <= 0)
 		ExecuteUpdateDataView();
 	else
 	{
+		//faccio la prima dell'intervallo, poi faccio partire il timer, 
+		//se nel frattempo ne verrano richieste altre, allo scadere del timer verrà effettuata
+		ExecuteUpdateDataView();
 		m_bWaitingForUpdateDataView = true;
 		CLocalizableFrame* pFrame = GetFrame();
-		if (pFrame && pFrame->IsKindOf(RUNTIME_CLASS(CAbstractFormFrame)))
-			((CAbstractFormFrame*)pFrame)->SetTimer(IDT_UPDATEDATAVIEW, GetRefreshDelay(), NULL);
+		if (pFrame)
+			pFrame->SetTimer(IDT_UPDATEDATAVIEW, GetRefreshDelay(), NULL);
 		else
 			ExecuteUpdateDataView();
 	}
@@ -3148,7 +3151,6 @@ void CAbstractFormDoc::ExecuteUpdateDataView()
 {
 	CLocalChange<bool> _loc(m_bUpdatingDataView, true);
 	m_bNeedsUpdateDataView = false;
-	m_bWaitingForUpdateDataView = false;
 	//soppressa ottimizzazione: veniva alterato l'ordine delle chiamate 
 	//(UpdateDataView chiamata dopo della setDefaultFocus invece che prima, questo faceva assegnare il fuoco ad un controllo sbagliato)
 
