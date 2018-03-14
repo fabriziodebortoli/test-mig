@@ -4258,9 +4258,9 @@ void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializ
 }
 
 //-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount)
+void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
 {
-	m_pJsonCache->SetJsonLimits(nRowFrom, nCount);
+	m_pJsonCache->SetJsonLimits(nRowFrom, nCount, nCurrentRow);
 	GetDocument()->UpdateDataView();
 }
 

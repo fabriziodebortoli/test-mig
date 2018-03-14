@@ -809,7 +809,7 @@ public:
 	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	virtual bool		SetJson(CJsonParser& jsonParser);
 	
-	virtual void		SetJsonLimits(int nRowFrom, int nCount);
+	virtual void		SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow);
 
 	SqlRecord*	GetCurrentMasterRecord(const CString& strDBTName = _T(""));
 

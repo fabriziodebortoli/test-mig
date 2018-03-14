@@ -39,10 +39,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   @Input() columns: Array<any>;
   public selectableSettings: SelectableSettings;
 
-  isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentGridIdx;
+  isRowSelected = (e: RowArgs) => e.index == this.bodyEditService.currentDbtRowIdx;
   fakeRows = [];
   subscriptions = [];
-  
+
   private numberOfColumns: number = 0;
 
   public enabled: boolean = false;
@@ -112,6 +112,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   ngAfterContentInit() {
+    this.bodyEditService.bodyEditName = this.bodyEditName;
     let numberOfVisibleRows = Math.ceil(this.height / this.bodyEditService.rowHeight);
     this.createFakeRows(numberOfVisibleRows);
     this.bodyEditService.pageSize = Math.max(this.bodyEditService.pageSize, numberOfVisibleRows);
@@ -128,8 +129,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.bodyEditService.changeDBTRange();
       this.bodyEditService.isLoading = false;
     }
-    this.bodyEditService.bodyEditName = this.bodyEditName;
-
 
     resolvedPromise.then(() => {
       this.resetBodyEditColumns();
@@ -155,7 +154,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.changeDetectorRef.markForCheck();
   }
 
-  
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
@@ -198,11 +196,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
-    let tempPageSize = this.bodyEditService.pageSize;
-    let tempCount = this.bodyEditService.model.rowCount + 1;
+    let tempCount = this.bodyEditService.rowCount + 1;
     let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
 
-    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, tempPageSize).subscribe((res) => {
+    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, this.bodyEditService.pageSize, tempCount).subscribe((res) => {
 
       if (res && res[this.bodyEditName]) {
         this.updateModel(res[this.bodyEditName]);
@@ -295,15 +292,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
     }
 
-    this.bodyEditService.currentDbtRowIdx = model.currentRowIdx;
-    this.bodyEditService.currentGridIdx = model.currentRowIdx - this.bodyEditService.skip;
-    this.bodyEditService.model = model;
-    if (this.bodyEditService.currentGridIdx >= 0 && this.model.rows.length > 0)
-      this.bodyEditService.currentRow = this.model.rows[this.bodyEditService.currentGridIdx]
+    this.bodyEditService.setModel(model);
 
     this.gridView = {
-      data: this.bodyEditService.model.rows,
-      total: this.bodyEditService.model.rowCount
+      data: this.bodyEditService.rows,
+      total: this.bodyEditService.rowCount
     };
 
     this.changeDetectorRef.markForCheck();

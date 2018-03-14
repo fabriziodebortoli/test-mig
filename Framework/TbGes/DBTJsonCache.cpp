@@ -27,11 +27,13 @@ bool DBTJsonCache::IsModified()
 	return true;
 }
 //----------------------------------------------------------------------------
-void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount)
+void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount, int currentRow)
 {
 	m_nStart = nRowFrom;
 	m_nCount = nCount;
+	m_nCurrentRow = currentRow;
 }
+
 //----------------------------------------------------------------------------
 void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
@@ -56,30 +58,30 @@ void DBTJsonCache::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBo
 	m_pDBT->GetRecord()->GetJsonPatch(jsonSerializer, NULL, bOnlyWebBound);
 	jsonSerializer.CloseObject(TRUE);
 	jsonSerializer.OpenArray(_T("rows"));
-	int i;
-	for (i = 0; i < m_nCount; i++)
+	int i = 0;
+	for (int j = m_nStart; j < m_nStart + m_nCount; j++)
 	{
-		int idx = m_nStart + i;
-		if (idx >= m_pDBT->m_pRecords->GetCount())
+		if (j >= m_pDBT->m_pRecords->GetCount())
 		{
 			break;
 		}
 		jsonSerializer.OpenObject(i);
-		SqlRecord* pCurrent = m_pDBT->m_pRecords->GetAt(i);
+		SqlRecord* pCurrent = m_pDBT->m_pRecords->GetAt(j);
 		SqlRecord* pOld = NULL;
 		//se non c'è, lo aggiungo
-		if (i >= m_pClientRecords->GetSize())
+		if (j >= m_pClientRecords->GetSize())
 		{
 			pOld = pCurrent->Create();
 			m_pClientRecords->Add(pOld);
 		}
 		else
 		{
-			pOld = m_pClientRecords->GetAt(i);
+			pOld = m_pClientRecords->GetAt(j);
 		}
 		pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
 		
 		jsonSerializer.CloseObject();
+		i++;
 	}
 	jsonSerializer.CloseArray(m_nRowsSent == i);
 	m_nRowsSent = i;

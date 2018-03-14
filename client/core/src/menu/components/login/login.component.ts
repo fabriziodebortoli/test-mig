@@ -38,8 +38,6 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
   connectionData: LoginSession = new LoginSession();
   errorMessages: string[] = [];
   userAlreadyConnectedOpened: boolean = false;
-  clearCachedData: boolean = false;
-
 
   @ViewChild('changePassword') changePassword: ChangePasswordComponent
 
@@ -165,7 +163,7 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
     this.connectionData.overwrite = overwrite;
     let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
-        this.menuService.clearCachedData = this.clearCachedData;
+        this.menuService.clearCachedData = false;
         this.connectionData.overwrite = false;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);
