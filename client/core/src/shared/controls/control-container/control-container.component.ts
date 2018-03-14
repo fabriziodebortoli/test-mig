@@ -40,11 +40,16 @@ export class ControlContainerComponent extends ControlComponent {
         private logger: Logger) {
         super(layoutService, tbComponentService, changeDetectorRef);
         this.stateButtonEnabled$ = this.store
-            .select(this.stateData && this.stateData.model || '')
+            .select(s => _.get(s, this.stateData && this.stateData.model + '.value' || ''))
             .map(s => this.stateData.invertState ? !s : s);
     }
 
+    valuePath = () => this.stateData && this.stateData.model + '.value';
+
     stateButtonClick(e: any) {
+        _.set(this.eventData.model, this.valuePath(),
+         !_.get(this.eventData.model, this.valuePath()));
+        this.eventData.change.emit('');
         this.eventData.raiseControlCommand(this.stateData.cmpId);
     }
 
