@@ -27,7 +27,7 @@ export class HyperLinkService implements OnDestroy {
     private _elementInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
     public get elementInfo(): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }} {
         if(!this._elementInfo) {
-            let e = this.getElement();
+            let e = this.getElementLogic();
             let oldColor = e.style.color;
             let oldDecoration = e.style.textDecoration;
             let oldCursor = e.style.cursor;
@@ -47,50 +47,58 @@ export class HyperLinkService implements OnDestroy {
 
     private currentValue: any;
     private currentType: number;
-    onBackToFocus: () => void;
-    onAfterAddOnFly: (any) => void;
+    onBackToFocus: (oldValue: any) => void = oldValue => { };
+    onAfterAddOnFly: (any) => void = value => { };
     private shouldAddOnFly = (focusEvent: ChangeFocusEvent) => true;
-    private getElement: () => HTMLElement = () => null;
+    private getElementLogic: () => HTMLElement = () => null;
+    private oldElementVaue: any;
 
     private get focusChanged$(): Observable<ChangeFocusEvent> {
         return Observable.fromEvent<FocusEvent>(this.elementInfo.element, 'blur', {capture: false}).pipe(untilDestroy(this))
         .map(fe => ({source: fe.target as HTMLElement, target: fe.relatedTarget as HTMLElement}));
-    } 
+    }
 
-    start (getElement: () => HTMLElement, 
+    start (getElementLogic: () => HTMLElement, 
            info: HyperLinkInfo, 
            slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
-           onBackToFocus: () => void,
+           onBackToFocus: (oldValue: any) => void,
            onAfterAddOnFly: (any) => void,
            customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): void {
-        if (!getElement || !info) return;
-        this.getElement = getElement;
-        if (slice$) {
-            slice$.pipe(untilDestroy(this)).subscribe(x => {
-                if(!x.enabled && x.value) { 
-                  this.enableHyperLink();
-                  if (!this.elementInfo) return;
-                  this.elementInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
-                    .filter(e => (e as any) && this.elementInfo.element && this.elementInfo.element.contains((e as any).target))
-                    .subscribe(e => this.follow(info));
-                } else {
-                  this.currentValue = x.value;
-                  this.currentType = x.type
-                  this.disableHyperLink();
-                  if(this.elementInfo && this.elementInfo.clickSubscription)
-                    this.elementInfo.clickSubscription.unsubscribe();
-                }
-              });
-        }
+        if (!getElementLogic || !info) throw Error('You should provide a value form "getElement" and "info"');       
+        this.withGetElementLogic(getElementLogic)
+            .withHyperLinkLogic(info, slice$)
+            .withAddOnFlyLogic(info, slice$, onBackToFocus, onAfterAddOnFly, customShouldAddOnFlyPredicate);
+    }
 
+    private withHyperLinkLogic(info: HyperLinkInfo, slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>) : HyperLinkService {
+        if(slice$)
+            slice$.pipe(untilDestroy(this)).subscribe(x => this.shouldEnableHyperLink(x) ? this.enableHyperLink(info) : this.disableHyperLink(x));
+        return this;
+    }
+
+    private withGetElementLogic(getElementLogic: () => HTMLElement): HyperLinkService {
+        this.getElementLogic = getElementLogic;
+        return this;
+    }
+
+    private withAddOnFlyLogic(info: HyperLinkInfo, 
+        slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
+        onBackToFocus: (oldValue: any) => void,
+        onAfterAddOnFly: (any) => void,
+        customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): HyperLinkService {
+        if (slice$) slice$.filter(x => !x.enabled).pipe(untilDestroy(this)).subscribe(x => this.oldElementVaue = x.value);
         this.onBackToFocus = onBackToFocus;
         this.onAfterAddOnFly = onAfterAddOnFly;
         this.shouldAddOnFly = (focusEvent: ChangeFocusEvent) => 
             this.elementInfo.element.contains(focusEvent.source) 
             && !isInAddOnFlyExclusionList(focusEvent.target)
             && (!customShouldAddOnFlyPredicate || customShouldAddOnFlyPredicate(focusEvent.target));
-        
-        this.focusChanged$.filter(x => this.shouldAddOnFly(x)).subscribe(_ => this.addOnFly(info));            
+        this.focusChanged$.filter(x => this.shouldAddOnFly(x)).subscribe(_ => this.addOnFly(info)); 
+        return this;
+    }
+
+    private shouldEnableHyperLink(info: {value: any, enabled: boolean}): boolean {
+        return !info.enabled && info.value;   
     }
 
     private get styles(): HyperLinkStyles {
@@ -131,24 +139,31 @@ export class HyperLinkService implements OnDestroy {
 
     private giveBackFocus() {
         this.elementInfo.element.focus();
-        if (this.onBackToFocus) this.onBackToFocus();
+        if (this.onBackToFocus) this.onBackToFocus(this.oldElementVaue);
     }
 
-    private enableHyperLink(): void {
+    private enableHyperLink(info: HyperLinkInfo): void {
         if(this.elementInfo) {
             this.elementInfo.element.style.textDecoration = this.styles.textDecoration; 
             this.elementInfo.element.style.color = this.styles.color;
             this.elementInfo.element.style.cursor = this.styles.cursor;
-            this.elementInfo.element.style.pointerEvents = this.styles.pointerEvents;    
+            this.elementInfo.element.style.pointerEvents = this.styles.pointerEvents;
+            this.elementInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
+              .filter(e => (e as any) && this.elementInfo.element && this.elementInfo.element.contains((e as any).target))
+              .subscribe(e => this.follow(info));
         }
     }
 
-    private disableHyperLink() : void {
+    private disableHyperLink(info: {value: any, type: number}) : void {
+        this.currentValue = info.value;
+        this.currentType = info.type
         if(this.elementInfo) {
             this.elementInfo.element.style.textDecoration = this.elementInfo.initInfo.textDecoration; 
             this.elementInfo.element.style.color = this.elementInfo.initInfo.color;
             this.elementInfo.element.style.cursor = this.elementInfo.initInfo.cursor;
             this.elementInfo.element.style.pointerEvents = this.elementInfo.initInfo.pointerEvents;
+            if(this.elementInfo.clickSubscription)
+                this.elementInfo.clickSubscription.unsubscribe()
         }
     }
 

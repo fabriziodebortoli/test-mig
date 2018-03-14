@@ -37,7 +37,9 @@ export class TbHotLinkBaseComponent extends ControlComponent {
 
     public set modelComponent(value: HlComponent) {
         this._modelComponent = value;
-        if (value && value.model) { this.model = value.model; }
+        if (value && value.model) { 
+            this.model = value.model; 
+        }
     }
 
     public hotLinkInfo: HotLinkInfo;
@@ -60,14 +62,14 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         return this._state;
     }
 
-    protected clearModel: () => void = () => {
+    protected afterNoAddOnFly: (oldValue: any) => void = (oldValue) => {
         if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
-            this.modelComponent.model.value = undefined;
+            this.modelComponent.model.value = oldValue;
             this.emitModelChange();
         }
     }
 
-    protected afterAddOnFly: (any) => void = (value) => {
+    protected afterAddOnFly: (value: any) => void = (value) => {
         if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
             this.modelComponent.model.value = value;
             this.emitModelChange();

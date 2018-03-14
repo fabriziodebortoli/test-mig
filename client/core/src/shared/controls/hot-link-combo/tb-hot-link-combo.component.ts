@@ -95,22 +95,18 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
     this.paginator.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
-      if (!this.combobox.isOpen)
-        this.combobox.toggle(true);
+      if (!this.combobox.isOpen) this.combobox.toggle(true);
     });
 
-    this.filterer.filterChanged$.filter(x => x.logic !== undefined)
+    this.filterer.filterChanged$
+      .filter(x => x.logic !== undefined && this.modelComponent && this.modelComponent.model)
       .subscribe(x => {
-        if (this.modelComponent && this.modelComponent.model) {
           this.modelComponent.model.value = _.get(x, 'filters[0].value');
           this.emitModelChange();
-        }
       });
 
     this.paginator.waiting$.pipe(untilDestroy(this))
-      .subscribe(waiting => {
-        this.disablePager = (this.paginator.isFirstPage && this.paginator.noMorePages) || (waiting && this.paginator.isJustInitialized);
-      });
+      .subscribe(waiting => this.disablePager = (this.paginator.isFirstPage && this.paginator.noMorePages) || (waiting && this.paginator.isJustInitialized));
   }
 
   private _filter: CompositeFilterDescriptor;
@@ -177,7 +173,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
         enableAddOnFly: this.hotLinkInfo.enableAddOnFly, 
         mustExistData: this.hotLinkInfo.mustExistData,
         model: this.modelComponent.model }, 
-        this.slice$, this.clearModel, this.afterAddOnFly);
+        this.slice$, this.afterNoAddOnFly, this.afterAddOnFly);
   }
 
   ngOnInit() {

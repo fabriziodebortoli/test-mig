@@ -264,7 +264,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
           model: this.modelComponent.model
         },
         this.slice$,
-        this.clearModel,
+        this.afterNoAddOnFly,
         this.afterAddOnFly,
         this.shouldAddOnFly);
     }
