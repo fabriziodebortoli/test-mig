@@ -1,35 +1,30 @@
-:host {
+:host(tb-layout-container) {
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     flex-wrap: wrap;
-    flex-direction: column;
-}
-
-:host(.layoutType-column) {
-    flex-flow: row;
-    flex-direction: row;
-    flex: 0 0 100%;
-}
-
-:host(.layoutType-hbox) {
-    display: flex;
-    flex-flow: row;
     flex-direction: row;
 }
 
-:host(.layoutType-vbox) {
-    display: flex;
-    flex-flow: row;
-    flex-direction: column;
-}
-
-@media screen and (min-width: 48em) {}
-
-@media screen and (min-width: 64em) {}
-
-@media screen and (min-width: 75em) {
-    .layout-container {
-        flex-flow: row;
-        flex-direction: row;
-    }
-}
+// :host(.layoutType-column) {
+//     flex-flow: row;
+//     flex-direction: row;
+//     flex: 0 0 100%;
+// }
+// :host(.layoutType-hbox) {
+//     display: flex;
+//     flex-flow: row;
+//     flex-direction: row;
+// }
+// :host(.layoutType-vbox) {
+//     display: flex;
+//     flex-flow: row;
+//     flex-direction: column;
+// }
+// @media screen and (min-width: 48em) {}
+// @media screen and (min-width: 64em) {}
+// @media screen and (max-width: 75em) {
+//     .layout-container {
+//         flex-flow: row;
+//         flex-direction: row;
+//     }
+// }

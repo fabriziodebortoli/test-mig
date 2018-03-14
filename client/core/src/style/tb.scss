@@ -273,7 +273,7 @@ md-card-title.mat-card-title m4-icon {
 .layoutType-column {
     flex-flow: row;
     flex-direction: row;
-    flex: 0 0 100%;
+    flex: 0 1 auto;
 }
 
 .layoutType-hbox {
@@ -286,13 +286,6 @@ md-card-title.mat-card-title m4-icon {
     display: flex;
     flex-flow: row;
     flex-direction: column;
-}
-
-@media screen and (min-width: 75em) {
-    .layoutType-column {
-        flex-flow: column;
-        flex-direction: column;
-    }
 }
 
 
