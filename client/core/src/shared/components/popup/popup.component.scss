@@ -101,7 +101,7 @@ $shadow: rgba(205,210,214,.8);
     &.bottom {
       .tooltip-content {
         bottom: calc(-500% - 14.5em);
-        left: calc(-100%  - 7em);
+        left: calc(100%  - 9em);
         transform: translateX(-50%);
         &::after {
           top: -5px;
