@@ -135,11 +135,12 @@ REM ===========================================================================
 REM Perform the steps to build the web part of the desktop version
 REM ===========================================================================
 
-
+@ECHO ON
 setlocal EnableDelayedExpansion
 set /p serverVersion=<server-version.txt
 
 cd %DevPath%\Standard\Taskbuilder\script
+
 
 IF NOT EXIST "local-version.txt" (
 	ECHO clean
@@ -173,7 +174,7 @@ IF NOT EXIST "local-version.txt" (
 	) 
 )
 
-@ECHO ON
+
 
 %DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ 
 
