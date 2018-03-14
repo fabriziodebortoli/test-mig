@@ -21,6 +21,6 @@ public:
 	bool IsModified();
 	void GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	bool SetJson(CJsonParser& jsonParser);
-	void SetJsonLimits(int nRowFrom, int nCount);
+	void SetJsonLimits(int nRowFrom, int nCount, int currentRow);
 };
 

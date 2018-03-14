@@ -75,11 +75,12 @@ export class RowViewFormComponent extends ControlComponent {
   canPrevRow() {
     return this.bodyEditService.currentDbtRowIdx > 0;
   }
+  
   canNextRow() {
-    return this.bodyEditService.currentDbtRowIdx < this.bodyEditService.model.rowCount;
+    return this.bodyEditService.currentDbtRowIdx < this.bodyEditService.rowCount;
   }
 
   canLastRow() {
-    return this.bodyEditService.currentDbtRowIdx != this.bodyEditService.model.rowCount;
+    return this.bodyEditService.currentDbtRowIdx != this.bodyEditService.rowCount;
   }
 }

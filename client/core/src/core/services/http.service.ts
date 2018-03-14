@@ -257,9 +257,9 @@ export class HttpService {
             .catch(this.handleError);
     }
 
-    getDBTSlaveBufferedModel(cmpId: any, dbtName: any, skip: number, take: number) {
+    getDBTSlaveBufferedModel(cmpId: any, dbtName: any, skip: number, take: number, currentRow: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take, currentRow: currentRow };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'getDBTSlaveBufferedModel/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -267,9 +267,9 @@ export class HttpService {
             });
     }
 
-    addRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number) {
+    addRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number, rowNumber: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take , rowNumber: rowNumber};
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

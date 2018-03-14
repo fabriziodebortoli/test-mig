@@ -711,46 +711,6 @@ void CTbWebHandler::RunFunction(const CString& path, const CNameValueCollection&
 }
 
 //--------------------------------------------------------------------------------
-void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString sDocumentID = params.GetValueByName(_T("cmpId"));
-	CString sDbtName = params.GetValueByName(_T("dbtName"));
-	CString sSkip = params.GetValueByName(_T("skip"));
-	CString sTake = params.GetValueByName(_T("take"));
-	int pageToSkip = _ttoi(sSkip);
-	int pageToTake = _ttoi(sTake);
-
-	CJSonResponse aResponse;
-	if (!sDocumentID.IsEmpty())
-	{
-		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-		ENSURE_SESSION();
-		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
-		if (!pDoc)
-		{
-			aResponse.SetMessage(_TB("Invalid document ID."));
-			response.SetData(aResponse);
-			return;
-		}
-		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
-		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
-		if (!dbt)
-		{
-			aResponse.SetMessage(_TB("DBT not found."));
-			response.SetData(aResponse);
-			return;
-		}
-
-		SqlRecord* pRecord = buffered->AddRecord();
-		pRecord->SetStorable();
-		buffered->SetJsonLimits(pageToSkip, pageToTake);
-		response.SetData(_T("{}"));
-	
-		response.SetMimeType(L"application/json");
-	}
-}
-
-//--------------------------------------------------------------------------------
 void CTbWebHandler::ChangeRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
 	CString sDocumentID = params.GetValueByName(_T("cmpId"));
@@ -786,6 +746,50 @@ void CTbWebHandler::ChangeRowDBTSlaveBuffered(const CString& path, const CNameVa
 		aResponse.SetOK();
 		response.SetData(aResponse);
 		return;
+	}
+}
+
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString sDocumentID = params.GetValueByName(_T("cmpId"));
+	CString sDbtName = params.GetValueByName(_T("dbtName"));
+	CString sSkip = params.GetValueByName(_T("skip"));
+	CString sTake = params.GetValueByName(_T("take"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+
+	int pageToSkip = _ttoi(sSkip);
+	int pageToTake = _ttoi(sTake);
+	int currentRow = _ttoi(sRowNumber);
+
+	CJSonResponse aResponse;
+	if (!sDocumentID.IsEmpty())
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		ENSURE_SESSION();
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd((HWND)_ttoi(sDocumentID));
+		if (!pDoc)
+		{
+			aResponse.SetMessage(_TB("Invalid document ID."));
+			response.SetData(aResponse);
+			return;
+		}
+		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
+		if (!dbt)
+		{
+			aResponse.SetMessage(_TB("DBT not found."));
+			response.SetData(aResponse);
+			return;
+		}
+
+		SqlRecord* pRecord = buffered->AddRecord();
+		pRecord->SetStorable();
+		buffered->SetJsonLimits(pageToSkip, pageToTake, currentRow);
+		response.SetData(_T("{}"));
+
+		response.SetMimeType(L"application/json");
 	}
 }
 
@@ -825,7 +829,7 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 
 		BOOL bOk = buffered->DeleteRecord(nRowToDelete);
 		
-		buffered->SetJsonLimits(pageToSkip, pageToTake);
+		buffered->SetJsonLimits(pageToSkip, pageToTake, nRowToDelete);
 		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
 	}
@@ -839,8 +843,10 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 
 	CString sSkip = params.GetValueByName(_T("skip"));
 	CString sTake = params.GetValueByName(_T("take"));
+	CString sCurrentRow = params.GetValueByName(_T("currentRow"));
 	int pageToSkip = _ttoi(sSkip);
 	int pageToTake = _ttoi(sTake);
+	int currentRow = _ttoi(sCurrentRow);
 	CJSonResponse aResponse;
 	if (!sDocumentID.IsEmpty())
 	{
@@ -862,7 +868,7 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 			return;
 		}
 
-		buffered->SetJsonLimits(pageToSkip, pageToTake);
+		buffered->SetJsonLimits(pageToSkip, pageToTake, currentRow);
 		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
 	}

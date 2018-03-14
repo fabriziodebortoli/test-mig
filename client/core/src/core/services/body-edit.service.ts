@@ -1,10 +1,10 @@
+import { Response } from '@angular/http';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { HttpService } from './../../core/services//http.service';
 import { DocumentService } from './../../core/services/document.service';
 
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from '../../rxjs.imports';
-
 
 @Injectable()
 export class BodyEditService {
@@ -13,10 +13,12 @@ export class BodyEditService {
   public bodyEditName: string;
   public prototype: any;
   public _currentRow: any;
+  public rowCount: number;
+  public rows = [];
+
   public currentRowIdx: any;
   public currentGridIdx: number = -1;
   public currentDbtRowIdx: number = -1;
-  public model: any;
 
   public currentPage: number = 0;
 
@@ -40,24 +42,24 @@ export class BodyEditService {
   }
 
   set currentRow(currentRow: any) {
-    this._currentRow = currentRow;
+    if (!currentRow || !this.prototype)
+      return;
 
+    this._currentRow = currentRow;
     for (var prop in this._currentRow) {
-      this._currentRow[prop].enabled = this.model.prototype[prop].enabled;
+      this._currentRow[prop].enabled = this.prototype[prop].enabled;
     }
   }
 
-  pageChange(event) {
-    this.skip = event.skip;
-    this.changeDBTRange();
-  }
+  setModel(model: any) {
+    this.rows = model.rows;
+    this.prototype = model.prototype;
+    this.rowCount = model.rowCount;
 
-  changeDBTRange() {
-    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    this.isLoading = true;
-    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize).subscribe((res) => {
-      sub.unsubscribe();
-    });
+    this.currentDbtRowIdx = model.currentRowIdx;
+    this.currentGridIdx = model.currentRowIdx - this.skip;
+    if (model.rows && this.currentGridIdx >= 0 && this.currentGridIdx <= model.rows.length)
+      this.currentRow = model.rows[this.currentGridIdx];
   }
 
   increaseRowHeight() {
@@ -69,50 +71,83 @@ export class BodyEditService {
       this.rowHeight -= this.rowHeightStep;
   }
 
+  pageChange(event) {
+    this.skip = event.skip;
+
+    let sub = this.changeRow(this.skip).subscribe((res) => {
+      this.changeDBTRange();
+      sub.unsubscribe();
+    });
+  }
+
   setRowViewVisibility(visible: boolean) {
     this.rowViewVisible = visible;
+  }
+
+  firstRow() {
+    this.currentDbtRowIdx = 0
+    this.currentGridIdx = 0
+    this.changeRow(this.currentDbtRowIdx).subscribe(() => { });
   }
 
   prevRow() {
     this.currentDbtRowIdx--;
     this.currentGridIdx--;
+    if (this.currentDbtRowIdx < this.skip || this.currentDbtRowIdx >= this.skip + this.pageSize) {
+      let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
+      this.skip = skip;
+      this.pageChange({ skip: this.skip, take: this.pageSize });
+      return;
+    }
     this.changeRow(this.currentGridIdx);
-
   }
+
   nextRow() {
-    //this.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
     this.currentDbtRowIdx++;
     this.currentGridIdx++;
-    this.changeRow(this.currentGridIdx);
+
+    if (this.currentDbtRowIdx < this.skip || this.currentDbtRowIdx >= this.skip + this.pageSize) {
+      let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
+      this.skip = skip;
+      this.pageChange({ skip: this.skip, take: this.pageSize });
+      return;
+    }
+    this.changeRow(this.currentGridIdx).subscribe(() => { });
   }
 
-  changeRow(index: number) {
-    let dataItem = this.model.rows[index];
-    if (!dataItem){
+
+  lastRow() {
+    //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
+    this.currentDbtRowIdx = this.rowCount - 1;
+    this.currentGridIdx = this.rowCount - 1;
+    this.changeRow(this.currentGridIdx).subscribe(() => { });
+  }
+
+  changeRow(index: number): Observable<Response> {
+
+    let idx = index - this.skip;
+    this.currentDbtRowIdx = index;
+    this.currentGridIdx = idx;
+
+    let dataItem = this.rows[idx];
+    if (!dataItem) {
       return;
     }
 
     this.currentRow = dataItem;
-    this.currentDbtRowIdx = index + this.skip;
-    this.currentGridIdx = index;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).subscribe((res) => {
+    return this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).map((res: Response) => {
+      return res;
+    });
+  }
+
+  changeDBTRange() {
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    this.isLoading = true;
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize, this.currentDbtRowIdx).subscribe((res) => {
       sub.unsubscribe();
     });
   }
 
-  firstRow() {
-    //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
-    this.currentDbtRowIdx = 0
-    this.currentGridIdx = 0
-    this.changeRow(this.currentGridIdx);
-  }
-
-  lastRow() {
-    //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
-    this.currentDbtRowIdx = this.model.rowCount;
-    this.currentGridIdx = this.model.rowCount;
-    this.changeRow(this.currentGridIdx);
-  }
 }
