@@ -13,9 +13,9 @@ Di seguito vedremo come questo cambio di rotta ha cambiato le logiche di gestion
 # Gestione connessione
 La gestione della connessione si basa su due classi:
 
-**SqlConnection**: contiene le informazioni necessarie per eseguire la connessione quali ad esempio la stringa di connessione. Esistono una o più SqlConnection in base al numero di connessioni necessarie all’applicazione (es: connessione principale al database aziendale, connessioni secondarie al database aziendali per gestione security o auditing, connessione a database secondari (es. DMS) o database esterni). Esseno la stringa di connessione di tipo ADO.NET essa non devo contenere il provider OLEDB.
+**SqlConnection**: contiene le informazioni necessarie per eseguire la connessione quali ad esempio la stringa di connessione. Esistono una o più SqlConnection in base al numero di connessioni necessarie all’applicazione (es: connessione principale al database aziendale, connessioni secondarie al database aziendali per gestione security o auditing, connessione a database secondari (es. DMS) o database esterni). Essendo la stringa di connessione di tipo ADO.NET essa non deve contenere il provider OLEDB.
 
-**SqlSessione**: è l’oggetto che effettua la vera e propria connessione basandosi sulle informazioni presenti sulla SqlConnection di cui fa parte.  Ogni SqlConnection può gestire una o più SqlSession. 
+**SqlSession**: è l’oggetto che effettua la vera e propria connessione basandosi sulle informazioni presenti sulla SqlConnection di cui fa parte.  Ogni SqlConnection può gestire una o più SqlSession. 
 La singola SqlSession può essere aperta e chiusa quando si ha necessità di connettersi al database.
 Una sessione nasce chiusa e solo quando è necessario viene aperta.
 
@@ -27,7 +27,7 @@ questo vuol dire che se la AfxGetDefaultSqlConnection() è di thread di document
 
 La connessione viene aperta
 In **modo esplicito** durante:
-* 	la fase di starup dell’applicativo
+* 	la fase di startup dell’applicativo
 *	le varie fasi del documento: browsing, editing, saving, deleting
 *	la OnBatchExecute di una procedura batch
 *	il processo di estrazione dati di WOORM
@@ -61,7 +61,7 @@ Questo vuol dire che se il SqlTable viene aperto in modalità Forward-Only (il d
  
  Per utilizzare al meglio la nuova piattaforma si consiglia di:
   - se il SqlTable è forward-only consumare tutti i dati estratti mediante il MoveNext 
-  - usare un cursore scrollabile solo se strettamente necessario e solo se si devono estrarre un numero limitato di record : l'utilizzo di un DataTable vuol dire occupazione di memoria lato client, ovvero i dati sono tutti idisponibili nella memoria dove gira l'applicativo e non sul server del db come nel caso di cursore lato server. 
+  - usare un cursore scrollabile solo se strettamente necessario e solo se si devono estrarre un numero limitato di record : l'utilizzo di un DataTable vuol dire occupazione di memoria lato client, ovvero i dati sono tutti disponibili nella memoria dove gira l'applicativo e non sul server del db come nel caso di cursore lato server. 
   
   
 # Modifiche alla classe SqlTable
