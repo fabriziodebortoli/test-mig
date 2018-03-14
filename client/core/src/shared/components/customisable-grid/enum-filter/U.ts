@@ -14,3 +14,8 @@ export function getEnumValueSiblings(column: any, state: State, enumsService: En
     let valueSiblings = enumsService.getItemsFromTag(getEnumTagFromValue(getFirstRowEnumColumnValue(column, state)));
     return !valueSiblings ? null : valueSiblings.map(i => ({displayString: i.name, code: JSON.stringify(i.stored)}));
 }
+
+export function getEnumValuesFromTag(tag: string, enumsService: EnumsService): { displayString: string, code: string }[] {
+    let valueSiblings = enumsService.getItemsFromTag(tag);
+    return !valueSiblings ? null : valueSiblings.map(i => ({displayString: i.name, code: JSON.stringify(i.stored)}));
+}

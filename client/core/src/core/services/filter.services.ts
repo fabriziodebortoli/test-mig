@@ -49,10 +49,10 @@ export class FilterService implements OnDestroy {
     public set filter(value: CompositeFilter) {
         if (this._filter) { this._previousFilter = this._filter; }
         this._filter = value;
-        let diff = this._filter.filters[0];
+        let diff = _.get(this._filter, 'filters[0]');
         if (this._previousFilter) {
-            diff = _.differenceWith(this._previousFilter.filters, this._filter.filters, _.isEqual)[0];
-            if (diff === [] || !diff) { diff = _.differenceWith(this._filter.filters, this._previousFilter.filters, _.isEqual)[0]; }
+            diff = _.differenceWith(this._previousFilter.filters, _.get(this._filter, 'filters'), _.isEqual)[0];
+            if (diff === [] || !diff) { diff = _.differenceWith(_.get(this._filter, 'filters'), this._previousFilter.filters, _.isEqual)[0]; }
         }
         if (diff && diff as SimpleFilter && (diff as SimpleFilter).field) {
             this._changedField = (diff as SimpleFilter).field;

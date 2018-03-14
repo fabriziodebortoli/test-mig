@@ -2,7 +2,7 @@ import { BaseFilterCellComponent, FilterService } from '@progress/kendo-angular-
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Component, Input } from '@angular/core';
 import { State } from '../customisable-grid.component';
-import { getEnumValueSiblings } from './U';
+import { getEnumValuesFromTag } from './U';
 import { EnumsService } from '../../../../core/services/enums.service';
 import { FilterService as CustomFilterService } from '../../../../core/services/filter.services'
 
@@ -37,7 +37,7 @@ export class EnumFilterComponent extends BaseFilterCellComponent {
     public get data(): any {
         let lastData = this.customFilterService.filterBag.get(this.filterId + '_data');
         if(lastData) return lastData;
-        lastData = getEnumValueSiblings(this.column, this.state, this.enumsService);
+        lastData = getEnumValuesFromTag(this.column.enumTag, this.enumsService);
         this.customFilterService.filterBag.set(this.filterId + '_data', lastData);
     }
 
@@ -52,10 +52,6 @@ export class EnumFilterComponent extends BaseFilterCellComponent {
         private enumsService: EnumsService,
         private customFilterService: CustomFilterService) {
         super(filterService);
-        if(!this.filterService['_id_']) {
-            this.filterService['_id_'] = Math.floor(Math.random() * 1000);
-            console.log('New FilterService has been created: [_id_ = ' + this.filterService['_id_'] + ']');
-        }
     }
 
     clearFilter(columnId: any) {
