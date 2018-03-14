@@ -1,4 +1,4 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService, ControlContainerComponent } from '@taskbuilder/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService, ControlContainerComponent, Selector } from '@taskbuilder/core';
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers } from '@angular/http';
@@ -10,10 +10,10 @@ import JsCheckTaxId from '../taxid-edit/jscheckTaxIDNumber';
   templateUrl: './fiscalcode-edit.component.html',
   styleUrls: ['./fiscalcode-edit.component.scss']
 })
-export class FiscalCodeEditComponent extends ControlComponent implements OnInit, OnChanges {
+export class FiscalCodeEditComponent extends ControlComponent implements OnInit {
   @Input('readonly') readonly = false;
   @Input() slice;
-  @Input() selector;
+  @Input() selector: Selector<any, any>;
 
   @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
@@ -41,25 +41,32 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   ngOnInit() {
     this.store
-      .select('FormMode.value')
+      .select(s => s && s.FormMode.value)
       .subscribe(v =>
-        this.onFormModeChanged(v.value));
+        this.onFormModeChanged(v));
+
+    this.store
+      .select(this.selector.nest('isoCode.value'))
+      .subscribe(this.onIsoCodeChanged);
 
     this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
     this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
     this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
   }
 
-  ngOnChanges(changes) {
-    if (changes.slice && changes.slice.isoCode) {
-      this.isoCode = changes.slice.isoCode.value;
-    }
-    this.isFiscalCodeValid(this.model.value);
-  }
-
   onFormModeChanged(formMode: FormMode) {
     this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
     this.buildContextMenu();
+    
+    if (!this.ctrlEnabled) {
+      this.cc.errorMessage = '';
+      this.changeDetectorRef.detectChanges();
+    }
+  }
+
+  onIsoCodeChanged = (isoCode: string) => {
+    this.isoCode = isoCode;
+    this.validate();
   }
 
   buildContextMenu() {
@@ -83,7 +90,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   async onBlur() {
     this.buildContextMenu();
-    this.isFiscalCodeValid(this.model.value);
+    this.validate();
     if (!this.isValid) return;
     this.blur.emit(this);
     this.eventData.change.emit(this.cmpId);
@@ -91,7 +98,6 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
 
   changeModelValue(value) {
     this.model.value = value;
-    this.isFiscalCodeValid(this.model.value);
   }
 
   async checkIT() {
@@ -132,6 +138,8 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
   }
 
   async validate() {
+    if (this.ctrlEnabled)
+      this.isFiscalCodeValid(this.model.value);
   }
 
   isTaxIdNumber(fiscalcode: string): boolean {
@@ -163,6 +171,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit,
         this.FiscalCodeCheckES(fiscalcode);
         break;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   isSupported(country: string): boolean {

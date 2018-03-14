@@ -1,6 +1,6 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, ControlContainerComponent } from '@taskbuilder/core';
-import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDlgArgs } from '@taskbuilder/core';
-import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, ControlContainerComponent, createSelector } from '@taskbuilder/core';
+import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDlgArgs, Selector } from '@taskbuilder/core';
+import { Component, Input, ChangeDetectorRef, OnInit, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import * as moment from 'moment';
@@ -11,11 +11,11 @@ import JsCheckTaxId from './jscheckTaxIDNumber';
   templateUrl: './taxid-edit.component.html',
   styleUrls: ['./taxid-edit.component.scss']
 })
-export class TaxIdEditComponent extends ControlComponent implements OnInit, OnChanges {
+export class TaxIdEditComponent extends ControlComponent implements OnInit {
   @Input('readonly') readonly = false;
   @Input() slice;
-  @Input() selector;
-  
+  @Input() selector: Selector<any, any>;
+
   @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
   private ctrlEnabled = false;
@@ -44,24 +44,16 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
-  ngOnChanges(changes) {
-    if (changes.slice) {
-      if (changes.slice.isoCode) {
-        this.isoCode = changes.slice.isoCode.value;
-        this.buildContextMenu();
-      }
-      if (changes.slice.naturalPerson) {
-        this.naturalPerson = changes.slice.naturalPerson.value;
-        this.buildContextMenu();
-      }
-    }
-    this.validate();
-  }
-
   ngOnInit() {
-    this.store
-      .select('FormMode.value')
-      .subscribe(this.onFormModeChanged);
+    this.store.select(
+      createSelector(
+        this.selector.nest('naturalPerson.value'),
+        this.selector.nest('isoCode.value'),
+        s => s.FormMode && s.FormMode.value,
+        (naturalperson, isocode, formMode) => ({ naturalperson, isocode, formMode })
+      )
+    ).subscribe(this.onSelectorChanged);
+
 
     this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => this.isMasterBR = res.result);
     this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => this.isMasterIT = res.result);
@@ -72,13 +64,25 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
   public openMessageDialog(message: string): Promise<any> {
     let args = new MessageDlgArgs();
     this.eventData.openMessageDialog.emit({ ...args, yes: true, no: true, text: message });
-    // this.eventData.closeMessageDialog.take(1).subscribe(s => console.log(s));
     return this.eventData.closeMessageDialog.take(1).toPromise();
   }
 
-  onFormModeChanged = (formMode: FormMode) => {
-    this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
+  onSelectorChanged = obj => {
+    this.ctrlEnabled = obj.formMode === FormMode.FIND || obj.formMode === FormMode.NEW || obj.formMode === FormMode.EDIT;
+    this.naturalPerson = obj.naturalperson;
+
+    let isoChanged = this.isoCode != obj.isocode;
+    this.isoCode = obj.isocode;
+
     this.buildContextMenu();
+
+    if (!this.ctrlEnabled) {
+      this.cc.errorMessage = '';
+      this.changeDetectorRef.detectChanges();
+    }
+
+    if (isoChanged)
+      this.validate();
   }
 
   buildContextMenu() {
@@ -87,16 +91,16 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     if (!this.ctrlEnabled) return;
 
     if (this.isTaxIdField(this.model.value, false))
-    this.cc.contextMenu.push(this.menuItemITCheck);
+      this.cc.contextMenu.push(this.menuItemITCheck);
 
     if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, false))
-    this.cc.contextMenu.push(this.menuItemROCheck);
+      this.cc.contextMenu.push(this.menuItemROCheck);
 
     if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, false))
-    this.cc.contextMenu.push(this.menuItemEUCheck);
+      this.cc.contextMenu.push(this.menuItemEUCheck);
 
     if (this.isMasterBR && this.isoCode === 'BR')
-    this.cc.contextMenu.push(this.menuItemBRCheck);
+      this.cc.contextMenu.push(this.menuItemBRCheck);
   }
 
   isTaxIdField(code: string, all: boolean) {
@@ -114,9 +118,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
 
   changeModelValue(value) {
     this.model.value = value;
-    this.validate();
   }
-
   async checkIT() {
     let stato = await this.getStato();
 
@@ -137,6 +139,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
 
     if (vatCode.length > 9 || vatCode.length === 0) {
       this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+      this.changeDetectorRef.detectChanges();
       return;
     }
 
@@ -152,6 +155,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
     } catch (exc) {
       this.cc.errorMessage = exc;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   async checkEU() {
@@ -233,9 +237,12 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit, OnCh
 
   validate() {
     this.cc.errorMessage = '';
-    if (!this.model) return;
+    if (!this.model || !this.ctrlEnabled) return;
+
     if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode))
       this.cc.errorMessage = this._TB('Incorrect Tax Number');
+
+    this.changeDetectorRef.detectChanges();
   }
 
   isTaxIdNumber(fiscalcode: string): boolean {
