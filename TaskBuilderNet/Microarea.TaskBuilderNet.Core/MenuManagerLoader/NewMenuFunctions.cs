@@ -13,7 +13,6 @@ using Microarea.TaskBuilderNet.Core.NameSolver;
 using Microarea.TaskBuilderNet.Core.StringLoader;
 using Microarea.TaskBuilderNet.Interfaces;
 using Newtonsoft.Json;
-using Microarea.TaskBuilderNet.Core.EasyStudioServer;
 using System.Threading;
 using System.Globalization;
 
@@ -473,6 +472,10 @@ namespace Microarea.TaskBuilderNet.Core.MenuManagerLoader
 			BaseCustomizationContext.CustomizationContextInstance.ChangeEasyBuilderApp(app, mod);
 			BaseCustomizationContext.CustomizationContextInstance.CurrentApplication = app;
 			BaseCustomizationContext.CustomizationContextInstance.CurrentModule = mod;
+			IEasyBuilderApp context = BaseCustomizationContext.CustomizationContextInstance.CreateNew(app, mod, ApplicationType.Customization);
+			if (!BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications.Contains(context))
+				BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications.Add(context);
+
 		}
 
 		//--------------------------------------------------------------------------------

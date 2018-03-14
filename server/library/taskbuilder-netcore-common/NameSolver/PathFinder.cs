@@ -2708,12 +2708,18 @@ namespace Microarea.Common.NameSolver
         public string GetEasyStudioCustomizationsListFor(string documentNamespace, string user, bool onlyDesignable = true)
         {
             IDocumentInfo info = GetDocumentInfo(new NameSpace(documentNamespace));
-            if (onlyDesignable && !info.IsDesignable)
-                return "";
+           /* if (onlyDesignable && !info.IsDesignable)
+                return "";*/ //TODOROBY
 
-            //TODOROBY
-            //from namespace, read the fs/db and search for customization
-            return "";
+			var pathApps = Path.Combine(GetEasyStudioHomePath(), NameSolverStrings.Applications);
+			var subfolders = GetSubFolders(pathApps);
+			List<string> listDll = new List<string>();
+			foreach (var item in subfolders)
+			{
+				var dlls = GetFiles(item.direcotryInfo.FullName, NameSolverStrings.DllExtension);
+				listDll.AddRange(dlls.Select(x => x.PathName));
+			}
+			return ""; // listDll.ToJson();//TODOROBY
         }
 
         //-----------------------------------------------------------------------------

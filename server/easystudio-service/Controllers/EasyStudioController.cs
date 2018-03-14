@@ -60,5 +60,13 @@ namespace Microarea.EasyStudio.Controllers
                 return ToResult(e.Message, 502);
             }
         }
-    }
+
+		/*//---------------------------------------------------------------------
+		[Route("setCurrentContextFor"), HttpPost]
+		public IActionResult IsEasyStudioDocument([FromBody] JObject value)
+		{
+			return ToResult(true.ToString());
+		}*/
+            
+	}
 }

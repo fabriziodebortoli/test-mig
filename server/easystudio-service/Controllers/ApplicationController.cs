@@ -15,8 +15,6 @@ namespace Microarea.EasyStudio.Controllers
         //---------------------------------------------------------------------
         Service<ApplicationService> Service { get; set; }
         ApplicationService AppService { get => Service.Obj; }
-		Service<PreferencesService> ServiceForPreferences { get; set; }
-		PreferencesService PrefService { get => ServiceForPreferences.Obj; }
 		public override IDiagnosticProvider Diagnostic => AppService.Diagnostic;
 
 		//---------------------------------------------------------------------
@@ -25,7 +23,6 @@ namespace Microarea.EasyStudio.Controllers
 			base(serviceManager)
 		{
             Service = Services?.GetService<ApplicationService>();
-			ServiceForPreferences = Services?.GetService<PreferencesService>();
 		}    
         
         //-----------------------------------------------------------------------
@@ -51,10 +48,7 @@ namespace Microarea.EasyStudio.Controllers
 			if (applicationType == null)
                 Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
 			else
-			{
                 AppService.Create(user, applicationName, (ApplicationType)applicationType, moduleName);
-				PrefService.SetContextPreferences(applicationName, moduleName, false, user);
-			}
 
             return ToResult(Diagnostic);
         }

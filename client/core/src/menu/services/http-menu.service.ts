@@ -21,7 +21,6 @@ export class HttpMenuService {
         public httpService: HttpService,
         public infoService: InfoService
     ) { 
-       // this.callInfoService = this.infoService.getDocumentBaseUrl(); 
         this.callInfoService = this.infoService.getEasyStudioServiceUrl();//per usare es-service .net core
     }
 
@@ -35,49 +34,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    canModifyContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user') };
-        let url = this.infoService.getDocumentBaseUrl() + 'canModifyContext/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-
-    updateCachedDateAndSave(): Observable<any> {
-        let obj = { user: sessionStorage.getItem('authtoken') };
-        let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-    runEasyStudio(ns: string, customizationName: string): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns), customization: encodeURIComponent(customizationName) };
-        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
-        if (customizationName != undefined)
-            url += "&customization=" + encodeURIComponent(customizationName);
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
-    closeCustomizationContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user') };
-        let url = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-/************************************************************************************************ */
+ //#region easystudio su webserver.sln
     getEsAppsAndModules(type: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), applicationType: type };
         let url = this.callInfoService + 'application/getAllAppsAndModules/';
@@ -164,7 +121,9 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
+//#endregion 
 
+ //#region easystudio su c++
 
     cloneAsEasyStudioDocument(object: any, docName: string, docTitle: string, esServices: EasystudioService): Observable<any> {
         var ns = object.target;
@@ -179,7 +138,61 @@ export class HttpMenuService {
                 return res;
             }).catch(this.handleError);
     }
-/************************************************************************************************************* */
+
+    canModifyContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user') };
+        let url = this.infoService.getDocumentBaseUrl() + 'canModifyContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    updateCachedDateAndSave(): Observable<any> {
+        let obj = { user: sessionStorage.getItem('authtoken') };
+        let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    updateBaseCustomizationContext(app: string, mod: string): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod};    
+        let url = this.infoService.getDocumentBaseUrl() + 'updateBaseCustomizationContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    runEasyStudio(ns: string, customizationName: string): Observable<any> {
+        let obj = { user: localStorage.getItem('_user'), ns: encodeURIComponent(ns), customization: encodeURIComponent(customizationName) };
+        let url = this.infoService.getDocumentBaseUrl() + 'runEasyStudio/?ns=' + encodeURIComponent(ns);
+        if (customizationName != undefined)
+            url += "&customization=" + encodeURIComponent(customizationName);
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    closeCustomizationContext(): Observable<any> {
+        let obj = { user: localStorage.getItem('_user') };
+        let url = this.infoService.getDocumentBaseUrl() + 'closeCustomizationContext/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    //#endregion 
+
     getConnectionInfo(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };

@@ -342,11 +342,10 @@ namespace Microarea.EasyBuilder.Packager
 
 				Settings.Default.LastApplication = currentApplication = currentEasyBuilderApp != null ? currentEasyBuilderApp.ApplicationName : string.Empty;
 				Settings.Default.LastModule = currentModule = currentEasyBuilderApp != null ?  currentEasyBuilderApp.ModuleName : string.Empty;
-				BaseCustomizationContext.CustomizationContextInstance.SaveSettings();
+				CustomizationContextInstance.SaveSettings();
 
-				if (CurrentEasyBuilderAppChanged != null)
-                    CurrentEasyBuilderAppChanged(null, EventArgs.Empty);
-            }
+				CurrentEasyBuilderAppChanged?.Invoke(null, EventArgs.Empty);
+			}
         }
 
 		/// <summary>

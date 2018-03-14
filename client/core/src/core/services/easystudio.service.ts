@@ -102,15 +102,16 @@ export class EasystudioService {
                     })
                 }
             }
-            this.isDesignable = canHaveCustoms;
+            this.isDesignable = true; //canHaveCustoms; //TODOROBY
         }));
     }
 
     //--------------------------------------------------------------------------------
     public isEasyStudioDocument(object: any) {
-        this.subscriptions.push(this.httpMenuService.isEasyStudioDocument(object).subscribe((result) => {
+        return true;//TODOROBY
+     /*   this.subscriptions.push(this.httpMenuService.isEasyStudioDocument(object).subscribe((result) => {
             return result;
-        }));
+        }));*/
     }
 
     //--------------------------------------------------------------------------------
@@ -218,6 +219,7 @@ export class EasystudioService {
                 this.defaultApplication = applicSelected;
                 this.defaultModule =  moduleSelected;
             }
+            this.httpMenuService.updateBaseCustomizationContext(this.currentApplication, this.currentModule).subscribe();
         }));
     }
 

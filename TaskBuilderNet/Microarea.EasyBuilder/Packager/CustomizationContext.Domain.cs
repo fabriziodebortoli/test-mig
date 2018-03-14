@@ -97,12 +97,12 @@ namespace Microarea.EasyBuilder.Packager
 			{
 				case ApplicationType.Customization:
 					app = new Customization(application, module);
-                    ((Customization)app).CreateNeededFiles();
+                  //  ((Customization)app).CreateNeededFiles();
 
                     break;
 				case ApplicationType.Standardization:
 					app = new Standardization(application, module);
-                    ((Standardization)app).CreateNeededFiles();
+                 //   ((Standardization)app).CreateNeededFiles();
                     Standardization.ActivateAndReinitTBActivationInfo();
 					break;
 				default:

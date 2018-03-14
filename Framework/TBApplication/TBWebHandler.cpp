@@ -38,20 +38,24 @@ CTbWebHandler::CTbWebHandler()
 	functionMap.SetAt(_T("removeRowDBTSlaveBuffered/"),		&CTbWebHandler::RemoveRowDBTSlaveBuffered);
 	functionMap.SetAt(_T("changeRowDBTSlaveBuffered/"),		&CTbWebHandler::ChangeRowDBTSlaveBuffered);
 	
+	functionMap.SetAt(_T("assignWoormParameters/"),			&CTbWebHandler::AssignWoormParameters);
 
-	functionMap.SetAt(_T("getAllAppsAndModules/"),		&CTbWebHandler::GetAllAppsAndModules);
-	functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
-	functionMap.SetAt(_T("createNewContext/"),			&CTbWebHandler::CreateNewContext);
-	functionMap.SetAt(_T("getDefaultContext/"),			&CTbWebHandler::GetDefaultContextXml);
+	//functionMap.SetAt(_T("getAllAppsAndModules/"),		&CTbWebHandler::GetAllAppsAndModules);
+	//functionMap.SetAt(_T("getDefaultContext/"),			&CTbWebHandler::GetDefaultContextXml);
+	//functionMap.SetAt(_T("getCurrentContext/"),			&CTbWebHandler::GetCurrentContext);
+	//functionMap.SetAt(_T("isEasyStudioDocument/"),		&CTbWebHandler::IsEasyStudioDocumentFunction);
+	//functionMap.SetAt(_T("getCustomizationsForDocument/"), &CTbWebHandler::GetCustomizationsForDocumentFunction);
+	//functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
+	//functionMap.SetAt(_T("createNewContext/"),			&CTbWebHandler::CreateNewContext);
+
+	//update old basecustomizationcontext
+	functionMap.SetAt(_T("updateBaseCustomizationContext/"), &CTbWebHandler::SetAppAndModule);
+	//da mantenere in c++
 	functionMap.SetAt(_T("runEasyStudio/"),				&CTbWebHandler::RunEasyStudioFunction);
 	functionMap.SetAt(_T("refreshEasyBuilderApps/"),	&CTbWebHandler::RefreshEasyBuilderApps);
-	functionMap.SetAt(_T("getCurrentContext/"),			&CTbWebHandler::GetCurrentContext);
-	functionMap.SetAt(_T("isEasyStudioDocument/"),		&CTbWebHandler::IsEasyStudioDocumentFunction);
-	functionMap.SetAt(_T("getCustomizationsForDocument/"), &CTbWebHandler::GetCustomizationsForDocumentFunction);
-	functionMap.SetAt(_T("assignWoormParameters/"),			&CTbWebHandler::AssignWoormParameters);
 	functionMap.SetAt(_T("cloneEasyStudioDocument/"),	&CTbWebHandler::CloneEasyStudioDocumentFunction);
 	functionMap.SetAt(_T("closeCustomizationContext/"), &CTbWebHandler::CloseCustomizationContextFunction);
-	functionMap.SetAt(_T("canModifyContext/"), &CTbWebHandler::CanModifyContextFunction);
+	functionMap.SetAt(_T("canModifyContext/"),			&CTbWebHandler::CanModifyContextFunction);
 	
 }
 
@@ -102,55 +106,12 @@ BOOL CTbWebHandler::ExecuteOnLoginThread(FUNCPTR func, const CString& path, cons
 	return FALSE;
 }
 
-
-
-//--------------------------------------------------------------------------------
-void CTbWebHandler::SetAppAndModule(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString appName = params.GetValueByName(_T("app"));
-	CString modName = params.GetValueByName(_T("mod"));
-	CString isThisPairDefault = params.GetValueByName(_T("def"));
-	SetApplicAndModule(appName, modName);
-	if (isThisPairDefault == "true")
-		SetDefaultContextMF(appName, modName);
-}
-//--------------------------------------------------------------------------------
-void CTbWebHandler::CreateNewContext(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString appName = params.GetValueByName(_T("app"));
-	CString modName = params.GetValueByName(_T("mod"));
-	CString type = params.GetValueByName(_T("type"));
-	CreateNewContextNF(appName, modName, type);
-}
-
 //--------------------------------------------------------------------------------
 void CTbWebHandler::CanModifyContextFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response) {
 	bool r = !ThereAreOpenedDocumentsWithES();
 	CString res(r ? "true" : "false");
 	response.SetData(res);
 	response.SetMimeType(L"text/plain");
-}
-
-//--------------------------------------------------------------------------------
-void CTbWebHandler::GetAllAppsAndModules(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	response.SetData(GetEasyBuilderApps());
-	response.SetMimeType(L"application/json");
-}
-//--------------------------------------------------------------------------------
-void CTbWebHandler::GetDefaultContextXml(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString appName, modName;
-	CString resp;
-
-	GetDefaultContextMF(appName, modName);
-
-	CString res(appName + _T(";") + modName);
-	if (appName == "" || modName == "")
-		res = "";
-
-	response.SetData(res);
-	response.SetMimeType(L"application/json");
 }
 //--------------------------------------------------------------------------------
 void CTbWebHandler::CloseCustomizationContextFunction(const CString & path, const CNameValueCollection & params, CTBResponse & response)
@@ -194,43 +155,6 @@ void CTbWebHandler::RefreshEasyBuilderApps(const CString& path, const CNameValue
 	response.SetData(GetEasyBuilderApps());
 	response.SetMimeType(L"application/json");
 }
-//--------------------------------------------------------------------------------
-void CTbWebHandler::GetCurrentContext(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString appName, modName;
-	GetEasyBuilderAppAndModule(appName, modName);
-	if (appName.IsEmpty() || modName.IsEmpty())
-		return;
-
-	CString res(appName + _T(";") + modName);
-	response.SetData(res);
-	response.SetMimeType(L"application/json");
-}
-//--------------------------------------------------------------------------------
-void CTbWebHandler::IsEasyStudioDocumentFunction(const CString & path, const CNameValueCollection & params, CTBResponse & response)
-{
-	CString ns = params.GetValueByName(_T("ns"));
-	CTBNamespace aNs(CTBNamespace::DOCUMENT, ns);
-	AddOnApplication* pAddOnApp = AfxGetAddOnApp(aNs.GetApplicationName());
-
-	CJSonResponse jsonResponse;
-	jsonResponse.SetMessage(pAddOnApp && pAddOnApp->IsACustomization() ? _T("true") : _T("false"));
-	response.SetData(jsonResponse.GetJson());
-	response.SetMimeType(L"application/json");
-}
-
-//--------------------------------------------------------------------------------
-void CTbWebHandler::GetCustomizationsForDocumentFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
-{
-	CString docNs = params.GetValueByName(_T("ns"));
-	CLoginContext* pContext = AfxGetLoginContext();
-	if (pContext)
-	{
-		response.SetData(GetEasyBuilderAppAssembliesPathsAsJson(docNs, pContext));
-		response.SetMimeType(L"application/json");
-	}
-}
-
 //--------------------------------------------------------------------------------
 void CTbWebHandler::CloneEasyStudioDocumentFunction(const CString & path, const CNameValueCollection & params, CTBResponse & response)
 {
@@ -290,6 +214,96 @@ bool CTbWebHandler::CloneEasyStudioDocument(CString strOriginalNs, CString strNe
 		return false;
 	return ::CloneAsEasyStudioDocument(strOriginalNs, strNewNs, strNewTitle) == TRUE;
 }
+
+
+
+/*//--------------------------------------------------------------------------------
+void CTbWebHandler::UpdateBaseCustomizationContext(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString appName = params.GetValueByName(_T("app"));
+	CString modName = params.GetValueByName(_T("mod"));
+	//CString isThisPairDefault = params.GetValueByName(_T("def"));
+	SetApplicAndModule(appName, modName);
+}*/
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::SetAppAndModule(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString appName = params.GetValueByName(_T("app"));
+	CString modName = params.GetValueByName(_T("mod"));
+	SetApplicAndModule(appName, modName);
+}
+
+/*//--------------------------------------------------------------------------------
+void CTbWebHandler::CreateNewContext(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString appName = params.GetValueByName(_T("app"));
+	CString modName = params.GetValueByName(_T("mod"));
+	CString type = params.GetValueByName(_T("type"));
+	CreateNewContextNF(appName, modName, type);
+}
+
+
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetAllAppsAndModules(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	response.SetData(GetEasyBuilderApps());
+	response.SetMimeType(L"application/json");
+}
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetDefaultContextXml(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString appName, modName;
+	CString resp;
+
+	GetDefaultContextMF(appName, modName);
+
+	CString res(appName + _T(";") + modName);
+	if (appName == "" || modName == "")
+		res = "";
+
+	response.SetData(res);
+	response.SetMimeType(L"application/json");
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetCurrentContext(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString appName, modName;
+	GetEasyBuilderAppAndModule(appName, modName);
+	if (appName.IsEmpty() || modName.IsEmpty())
+		return;
+
+	CString res(appName + _T(";") + modName);
+	response.SetData(res);
+	response.SetMimeType(L"application/json");
+}
+//--------------------------------------------------------------------------------
+void CTbWebHandler::IsEasyStudioDocumentFunction(const CString & path, const CNameValueCollection & params, CTBResponse & response)
+{
+	CString ns = params.GetValueByName(_T("ns"));
+	CTBNamespace aNs(CTBNamespace::DOCUMENT, ns);
+	AddOnApplication* pAddOnApp = AfxGetAddOnApp(aNs.GetApplicationName());
+
+	CJSonResponse jsonResponse;
+	jsonResponse.SetMessage(pAddOnApp && pAddOnApp->IsACustomization() ? _T("true") : _T("false"));
+	response.SetData(jsonResponse.GetJson());
+	response.SetMimeType(L"application/json");
+}
+
+//--------------------------------------------------------------------------------
+void CTbWebHandler::GetCustomizationsForDocumentFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
+{
+	CString docNs = params.GetValueByName(_T("ns"));
+	CLoginContext* pContext = AfxGetLoginContext();
+	if (pContext)
+	{
+		response.SetData(GetEasyBuilderAppAssembliesPathsAsJson(docNs, pContext));
+		response.SetMimeType(L"application/json");
+	}
+}*/
+
 
 //--------------------------------------------------------------------------------
 void CTbWebHandler::GetProductInfoFunction(const CString& path, const CNameValueCollection& params, CTBResponse& response)
