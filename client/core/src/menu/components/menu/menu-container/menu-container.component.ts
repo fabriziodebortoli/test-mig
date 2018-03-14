@@ -3,6 +3,7 @@ import { animate, transition, trigger, state, style, keyframes, group } from "@a
 import { Subscription } from "rxjs/Rx";
 
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { ComponentService } from './../../../../core/services/component.service';
 import { SettingsService } from './../../../../core/services/settings.service';
 import { SidenavService } from './../../../../core/services/sidenav.service';
 import { UtilsService } from './../../../../core/services/utils.service';
@@ -111,6 +112,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
     public settingsService: SettingsService,
     public imageService: ImageService,
     public sidenavService: SidenavService,
+    public componentService: ComponentService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
@@ -133,6 +135,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
 
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((o) => this.calcTileClass()));
     this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((o) => this.calcTileClass()));
+    this.subscriptions.push(this.componentService.componentInfoRemoved.subscribe((o) => this.calcTileClass()));
   }
 
   getSelectorIcon() {
