@@ -23,7 +23,7 @@ using Microarea.Common.StringLoader;
 
 namespace Microarea.Common.NameSolver
 {
-    public enum ObjectType { Document, Report, File, Image }
+    public enum ObjectType { Document, Report, File, Image, Profile}
     public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
     //=========================================================================
     public class PathFinder
@@ -195,8 +195,8 @@ namespace Microarea.Common.NameSolver
                 return WebFrameworkMethodsUrl(NameSolverStrings.LoginManager, NameSolverStrings.LoginManager);
             }
         }
-  
-  
+
+
         /// <summary>
         /// Ritorna il path nel formato http://localhost:80/Installation
         /// </summary>
@@ -587,7 +587,7 @@ namespace Microarea.Common.NameSolver
                 : standardPath;
             return Path.Combine(folder, appContainerName);
         }
- 
+
         //---------------------------------------------------------------------------------
         public static string GetUserPath(string userName)
         {
@@ -616,7 +616,7 @@ namespace Microarea.Common.NameSolver
             return NameSolverStrings.Users + "/" + userName + "/";
         }
 
-    
+
 
         #endregion static function
 
@@ -738,7 +738,7 @@ namespace Microarea.Common.NameSolver
         .APP/mod/Doc/		users/		sa/			aaa.xsd
         */
         #endregion
-  
+
         /// <summary>
         /// Ritorna il namespace dato il fullfile path di un oggetto
         /// </summary>
@@ -857,7 +857,7 @@ namespace Microarea.Common.NameSolver
 
             return Path.Combine(GetCustomReportPath(companyName, appName, moduleName), GetUserPath(userName));
         }
- 
+
         /// <summary>
         /// Ritorna il fullname del Report nella custom dato il namespace
         /// </summary>
@@ -955,7 +955,7 @@ namespace Microarea.Common.NameSolver
             reportFile = Path.Combine(reportPath, repName);
             return reportFile;
         }
- 
+
         //---------------------------------------------------------------------
         public string GetStandardCreateInfoXML(string application, string module)
         {
@@ -965,7 +965,7 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.Directoryseparetor +
                 NameSolverStrings.CreateInfoXml;
         }
- 
+
         //---------------------------------------------------------------------------------
         public string GetImagePath(INameSpace aNameSpace, ImageSize size = ImageSize.None)
         {
@@ -1251,7 +1251,7 @@ namespace Microarea.Common.NameSolver
             CommandOrigin commandOrigin = CommandOrigin.Unknown;
             return GetFilename(aNamespace, ref commandOrigin, language);
         }
-  
+
         //---------------------------------------------------------------------------------
         public string GetCustomUserApplicationDataPath()
         {
@@ -1269,7 +1269,7 @@ namespace Microarea.Common.NameSolver
         {
             return string.Format(@"\\{0}\{1}_{2}", RemoteFileServer, installation, NameSolverStrings.Standard);
         }
-   
+
         //---------------------------------------------------------------------
         public string CalculateRemoteCustomPath()
         {
@@ -1356,7 +1356,7 @@ namespace Microarea.Common.NameSolver
 
             return aApplicationInfo.GetModuleInfoByName(moduleName);
         }
- 
+
         //---------------------------------------------------------------------
         public string GetApplicationModulePath(string applicationName, string moduleName)
         {
@@ -1378,7 +1378,7 @@ namespace Microarea.Common.NameSolver
 
             return Path.Combine(aApplicationInfo.Path, aModuleInfo.Name);
         }
- 
+
         //---------------------------------------------------------------------
         public ICollection GetModulesList(string applicationName)
         {
@@ -1398,7 +1398,7 @@ namespace Microarea.Common.NameSolver
 
             return aPath.StartsWith(path);
         }
- 
+
         //-----------------------------------------------------------------------------
         public TBFile[] GetBrandFiles()
         {
@@ -1699,7 +1699,7 @@ namespace Microarea.Common.NameSolver
         {
             return GetCustomApplicationContainerPath(Company, aApplicationType);
         }
-  
+
         /// <summary>
         /// Restituisce la path custom di un modulo
         /// </summary>
@@ -1889,7 +1889,7 @@ namespace Microarea.Common.NameSolver
             string descriptionPath = GetStandardModulePath(aNameSpace);
             return Path.Combine(descriptionPath, NameSolverStrings.Report);
         }
- 
+
         //--------------------------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Ritorna il percorso del file di versione dell'installazione
@@ -1965,7 +1965,7 @@ namespace Microarea.Common.NameSolver
 
             return aPath.StartsWith(path);
         }
-   
+
 
         #endregion public fanction
 
@@ -1973,7 +1973,7 @@ namespace Microarea.Common.NameSolver
 
 
         #region private function
-   
+
 
         //---------------------------------------------------------------------------
         private InstallationVersion installationVer;
@@ -2013,7 +2013,7 @@ namespace Microarea.Common.NameSolver
                     table.Add(bFile.completeFileName, bFile);
 
         }
-        
+
         #endregion private function
 
         #region funzioni Custom senza user o company
@@ -2035,7 +2035,7 @@ namespace Microarea.Common.NameSolver
                     NameSolverStrings.ConfigExtension;
             }
         }
-       //Spostata
+        //Spostata
         /// <summary>
         /// Ritorna il path della custom
         /// </summary>
@@ -2144,7 +2144,7 @@ namespace Microarea.Common.NameSolver
                 NameSolverStrings.Log;
         }
 
-     
+
         ///<summary>
         /// Ritorna il path \Custom\Companies\"companyName"\Log\"userName"
         /// il parametro "companyName" può ricevere un nome azienda oppure AllCompanies
@@ -2385,26 +2385,76 @@ namespace Microarea.Common.NameSolver
         #region DellePiane
 
         //---------------------------------------------------------------------
-        //public string GetJsonAllObjectsByType(string authtoken, string menuNameSpace, Enum objType)
-        //{
-        //    NameSpace
-        //}
-        //---------------------------------------------------------------------
-        public string GetJsonAllObjectsByType(string authtoken, string appName, string modulesName, Enum objType)
+        public string GetJsonAllObjectsByType(string authtoken, string nameSpace, Enum objType)
         {
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
 
             if (session == null)
                 return string.Empty;
-            
-            ApplicationInfo app = GetApplicationInfoByName(appName);
-            if (app == null)
+
+            ModuleInfo module = GetModuleInfo(new NameSpace(nameSpace));
+            return GetJsonAllObjectsByType(module, objType);
+        }
+
+        //---------------------------------------------------------------------
+        public string GetObjsByCustomizationLevel(string authtoken, string namesp, Enum objType, String userName)
+        {
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+
+            if (session == null)
                 return string.Empty;
 
-            ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
-            if (moduleInfo == null)
-                return string.Empty;
+            ModuleInfo moduleInfo = GetModuleInfo(new NameSpace(namesp));
+            Dictionary<string, string> objects = new Dictionary<string, string>();
+            IList result = null;
+            string description = string.Empty;
+            string nameSpace = string.Empty;
 
+            if ((ObjectType)objType == ObjectType.Report)
+            {
+                string path = moduleInfo.GetCustomReportPath(userName);
+                string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
+
+                foreach (string fileName in reportFiles)
+                {
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = GetReportDescriptionFromFileName(fileName);
+                    objects.Add(nameSpace, description);
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.Image)
+            {
+                string path = moduleInfo.GetCustomImagePath(userName);
+                string[] imageFiles = Directory.GetFiles(path, "*.*");
+
+                foreach (string fileName in imageFiles)
+                {
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = fileName;
+                    objects.Add(nameSpace, description);
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.File)
+            {
+                string path = moduleInfo.GetCustomFilePath(userName);
+                string[] files = Directory.GetFiles(path, "*.*");
+
+                foreach (string fileName in files)
+                {
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = fileName;
+                    objects.Add(nameSpace, description);
+                }
+            }
+
+            return GetJsonAllObjectsByType(moduleInfo, objType);
+        }
+
+        //---------------------------------------------------------------------
+        private string GetJsonAllObjectsByType(ModuleInfo moduleInfo, Enum objType)
+        {
             Dictionary<string, string> objects = new Dictionary<string, string>();
             IList result = null;
             string description = string.Empty;
@@ -2418,7 +2468,7 @@ namespace Microarea.Common.NameSolver
                     objects.Add(documentInfo.NameSpace.GetNameSpaceWithoutType(), documentInfo.Title);
                 }
             }
-            
+
             if ((ObjectType)objType == ObjectType.Report)
             {
                 string path = moduleInfo.GetStandardReportPath();
@@ -2458,7 +2508,12 @@ namespace Microarea.Common.NameSolver
                 }
             }
 
+            return WriteResult(objects);
+        }
 
+        //---------------------------------------------------------------------
+        private string WriteResult(Dictionary<string, string> objects)
+        {
             StringBuilder sb = new StringBuilder();
             using (StringWriter sw = new StringWriter(sb))
             {
@@ -2471,9 +2526,9 @@ namespace Microarea.Common.NameSolver
 
                     jsonWriter.WriteStartArray();
 
-                    foreach (string  obj in objects.Keys)
+                    foreach (string obj in objects.Keys)
                     {
-                        
+
                         jsonWriter.WriteStartObject();
 
                         jsonWriter.WritePropertyName("namespace");
@@ -2493,6 +2548,25 @@ namespace Microarea.Common.NameSolver
 
                 return sb.ToString();
             }
+        }
+
+        //---------------------------------------------------------------------
+        public string GetJsonAllObjectsByType(string authtoken, string appName, string modulesName, Enum objType)
+        {
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+
+            if (session == null)
+                return string.Empty;
+            
+            ApplicationInfo app = GetApplicationInfoByName(appName);
+            if (app == null)
+                return string.Empty;
+
+            ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
+            if (moduleInfo == null)
+                return string.Empty;
+
+            return GetJsonAllObjectsByType(moduleInfo, objType);
         }
         //---------------------------------------------------------------------
         public string GetJsonAllApplications(string authenticationToken)
