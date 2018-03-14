@@ -59,9 +59,6 @@ namespace tbfs_service.Controllers
         {
             try
             {
-                appName = "ERP";
-                modulesName = "ACCOUNTING";
-                objType = ObjectType.Report;
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 string json = PathFinder.PathFinderInstance.GetJsonAllObjectsByType(authtoken, appName, modulesName, objType);

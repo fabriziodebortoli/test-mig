@@ -23,7 +23,7 @@ using Microarea.Common.StringLoader;
 
 namespace Microarea.Common.NameSolver
 {
-    public enum ObjectType { Document, Report, File }
+    public enum ObjectType { Document, Report, File, Image }
     public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
     //=========================================================================
     public class PathFinder
@@ -2392,11 +2392,11 @@ namespace Microarea.Common.NameSolver
         //---------------------------------------------------------------------
         public string GetJsonAllObjectsByType(string authtoken, string appName, string modulesName, Enum objType)
         {
-            //LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
-            //if (session == null)
-            //    return string.Empty;
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
 
-
+            if (session == null)
+                return string.Empty;
+            
             ApplicationInfo app = GetApplicationInfoByName(appName);
             if (app == null)
                 return string.Empty;
@@ -2407,6 +2407,9 @@ namespace Microarea.Common.NameSolver
 
             Dictionary<string, string> objects = new Dictionary<string, string>();
             IList result = null;
+            string description = string.Empty;
+            string nameSpace = string.Empty;
+
             if ((ObjectType)objType == ObjectType.Document)
             {
                 result = moduleInfo.Documents;
@@ -2415,14 +2418,11 @@ namespace Microarea.Common.NameSolver
                     objects.Add(documentInfo.NameSpace.GetNameSpaceWithoutType(), documentInfo.Title);
                 }
             }
-
-
+            
             if ((ObjectType)objType == ObjectType.Report)
             {
                 string path = moduleInfo.GetStandardReportPath();
                 string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
-                string description = string.Empty;
-                string nameSpace = string.Empty;
 
                 foreach (string fileName in reportFiles)
                 {
@@ -2431,6 +2431,34 @@ namespace Microarea.Common.NameSolver
                     objects.Add(nameSpace, description);
                 }
             }
+
+            if ((ObjectType)objType == ObjectType.Image)
+            {
+                string path = moduleInfo.GetStandardImagePath();
+                string[] imageFiles = Directory.GetFiles(path, "*.*");
+
+                foreach (string fileName in imageFiles)
+                {
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = fileName;
+                    objects.Add(nameSpace, description);
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.File)
+            {
+                string path = moduleInfo.GetStandardFilePath();
+                string[] files = Directory.GetFiles(path, "*.*");
+
+                foreach (string fileName in files)
+                {
+                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = fileName;
+                    objects.Add(nameSpace, description);
+                }
+            }
+
+
             StringBuilder sb = new StringBuilder();
             using (StringWriter sw = new StringWriter(sb))
             {
