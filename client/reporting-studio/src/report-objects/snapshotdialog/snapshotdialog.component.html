@@ -51,6 +51,7 @@
         <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot" (click)="createFileJson()">Save</button>
+        <button kendoButton *ngIf="rsExportService.snapshot && !this.opened" (click)="close()">Close</button>
+        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsExportService.snapshot && this.opened" (click)="createFileJson()">Save</button>
     </kendo-dialog-actions>
 </kendo-dialog>
