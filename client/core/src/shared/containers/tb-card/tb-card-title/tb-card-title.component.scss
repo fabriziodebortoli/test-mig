@@ -1,8 +1,9 @@
-::ng-deep tb-card-title {
+:host(tb-card-title) {
     position: relative;
     font-weight: 500;
     color: #0277bd;
     font-size: 14px;
+    margin-bottom: 8px;
     div {
         display: flex;
         flex-wrap: nowrap;

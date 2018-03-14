@@ -988,7 +988,7 @@ namespace Microarea.TbJson
 
                         string tag = Constants.tbTile;
 
-                        if (!string.IsNullOrEmpty(title))
+                        if (!string.IsNullOrEmpty(title) || jObj.GetParentItem().GetWndObjType() == WndObjType.TileGroup)
                             tag = Constants.tbPanel;
 
                         if (jObj.GetParentItem().GetDialogStyle() == TileDialogStyle.Header || jObj.GetParentItem().GetWndObjType() == WndObjType.TilePanel)
