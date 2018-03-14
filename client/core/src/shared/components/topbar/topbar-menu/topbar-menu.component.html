@@ -6,6 +6,9 @@
     <tb-connection-status *ngIf="!isDesktop" class="topbar-menu-layout"></tb-connection-status>
     <tb-topbar-menu-test class="topbar-menu-layout"></tb-topbar-menu-test>
     <tb-topbar-menu-user class="topbar-menu-layout"></tb-topbar-menu-user>
-    <tb-topbar-menu-app class="topbar-menu-layout"></tb-topbar-menu-app>
+    <!-- <tb-topbar-menu-app class="topbar-menu-layout"></tb-topbar-menu-app> -->
 
+    <div class="topBarMenuComponentLike">
+            <m4-icon icon="tb-refresh" matTooltip="{{_TB('Synch')}}" (click)="clearCachedData()"></m4-icon>
+        </div>
 </div>
