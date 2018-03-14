@@ -3961,7 +3961,19 @@ void CStateCtrlObj::SetButtonPos(CRect& rectBtn, UINT nFlags)
 		(nFlags & ~SWP_NOMOVE) | SWP_NOSIZE | SWP_NOACTIVATE
 	);
 }
+//-----------------------------------------------------------------------------
+//chiamata da WEB
+void CStateCtrlObj::ChangeState()
+{
+// l'azione del bottone non avviene se il flag 
+	// è stato messo read-only dal programmatore.
+	if (!m_pDataObj || (m_pDataObj && m_pDataObj->IsReadOnly()))
+		return;
 
+	ChangeCtrlStatus(TRUE);
+
+	// gestione del readonly sul dataobj
+}
 // Non posso settare il fuoco sul ctrl quando l'utente preme il bottone a causa
 // del rischio di repaint ricorsivo se faccio SetFocus().
 //-----------------------------------------------------------------------------

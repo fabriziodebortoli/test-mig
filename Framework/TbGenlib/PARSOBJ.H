@@ -1368,7 +1368,7 @@ public:
 
 	void SetCommandBtn				(BOOL bSet = TRUE);
 	void SetColorInEditableState	(COLORREF crBkg, COLORREF crText = AfxGetThemeManager()->GetEnabledControlBkgColor());
-
+	void ChangeState				();
 	// informazioni di stato
 	const int		GetCurrentCtrlState	() const;
 	DataObj*		GetDataObj			() const;

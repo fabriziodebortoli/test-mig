@@ -298,12 +298,13 @@ void CTBSocketHandler::DoControlCommand(CJsonParser& json)
 	//aggiornamento del model
 	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
-	ASSERT(pDoc);
-	CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(id);
-	if (pCtrl)
-		pCtrl->DoPushButtonCtrl(NULL, NULL);
-	//pSession->ResumePushToClient();
+	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
+	CUpdateDataViewLevel _upd(pDoc);
+	if (pDoc)
+	{
+		pDoc->OnCmdMsg(id, EN_CTRL_STATE_CHANGED, NULL, NULL);
+		pDoc->UpdateDataView();
+	}
 }
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoClose(CJsonParser& json)

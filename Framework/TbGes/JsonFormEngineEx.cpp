@@ -62,14 +62,14 @@ void AssignProps(CParsedCtrl* pParsedCtrl, DataObj* pDataObj, CWndObjDescription
 	{
 		if ((pDesc->m_ControlStyle & CS_RESET_DEFAULTS) == CS_RESET_DEFAULTS)
 		{
-			DWORD s = pDesc->m_ControlStyle &~ CS_RESET_DEFAULTS;
+			DWORD s = pDesc->m_ControlStyle &~CS_RESET_DEFAULTS;
 			pParsedCtrl->SetCtrlStyle(s);
 		}
 		else
 		{
 			pParsedCtrl->SetCtrlStyle(pParsedCtrl->GetCtrlStyle() | pDesc->m_ControlStyle);
 		}
-		
+
 	}
 
 }
@@ -328,7 +328,7 @@ void CJsonContext::AttachControlBehaviour(CControlBehaviourDescription* pControl
 			}
 
 		}
-			
+
 		if (pControlBehaviourDescription->m_bDataAdapter)
 		{
 			IDataAdapter* pDA = dynamic_cast<IDataAdapter*>(pControlBehaviour);
@@ -898,7 +898,7 @@ CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResour
 		{
 			CArray<CWndObjDescription*>ar;
 			ParseDescription(ar, pContext, path, NULL, NULL, CWndObjDescription::Undefined);
-			
+
 			if (ar.GetSize())
 			{
 				pDescription = ar[0];
@@ -1867,7 +1867,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::FillMissingColumnProps(CWndObj
 		pColDesc->m_sMinValue = pOther->m_sMinValue;
 	if (pColDesc->m_sMaxValue.IsEmpty())
 		pColDesc->m_sMaxValue = pOther->m_sMaxValue;
-	
+
 	if (pColDesc->m_nNumberDecimal == -1 && pOther->m_nNumberDecimal != -1)
 		pColDesc->m_nNumberDecimal = pOther->m_nNumberDecimal;
 
@@ -1877,7 +1877,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::FillMissingColumnProps(CWndObj
 	}
 	if (pOther->m_pMenu && !pColDesc->m_pMenu)
 	{
-		pColDesc->m_pMenu = (CMenuDescription*) pOther->m_pMenu->DeepClone();
+		pColDesc->m_pMenu = (CMenuDescription*)pOther->m_pMenu->DeepClone();
 		pColDesc->m_pMenu->SetParent(pColDesc);
 	}
 	pColDesc->m_Expressions.Assign(&pOther->m_Expressions, pOther, pColDesc);
@@ -2117,7 +2117,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 				continue;
 
 			CString sTitle = AfxLoadJsonString(pColDesc->m_strText, pColDesc);
-			
+
 			if (bCountRows)//se non specificato nel json, lo calcolo caso mai non ci stesse
 			{
 				int numLines = CountLines(sTitle);
@@ -2129,7 +2129,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 			DWORD nButtonId = BTN_DEFAULT;
 			CString sFieldName, sBindingName;
 			bool fieldFromHKL = false;
-				
+
 			if (pColDesc->m_pBindings)// && m_pWndDesc->m_pBindings)
 			{
 				if (m_pDBT) {
@@ -2953,7 +2953,7 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		CParsedStatic* pParsedStatic = dynamic_cast<CParsedStatic*>(pParsedCtrl);
 		if (pParsedStatic)
 			pParsedStatic->m_bRightAnchor = pWndDesc->m_bRightAnchor;
-		
+
 		if (pWndDesc->m_pNumbererDescription)
 		{
 			CString sService = pWndDesc->m_pNumbererDescription->m_sServiceNs;
@@ -3011,7 +3011,7 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 			pContext->AttachItemSource(((CComboDescription*)pWndDesc)->m_pItemSourceDescri, pParsedCtrl);
 		else if (pWndDesc->IsKindOf(RUNTIME_CLASS(CListDescription)) && ((CListDescription*)pWndDesc)->m_pItemSourceDescri)
 			pContext->AttachItemSource(((CListDescription*)pWndDesc)->m_pItemSourceDescri, pParsedCtrl);
-		
+
 		pParsedCtrl->ReadPropertiesFromJson();
 
 		if (pWndDesc->m_pControlBehaviourDescription)
@@ -3215,7 +3215,7 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 					}
 					END_CATCH
 
-					pControl->SetCtrlMaxLen(nLength, FALSE);
+						pControl->SetCtrlMaxLen(nLength, FALSE);
 					pControl->AttachRecord(pRec);
 				}
 
@@ -3231,11 +3231,32 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 						sService += szNsInstanceSeparator + pChild->m_pNumbererDescription->m_sServiceName;
 					pControl->AttachNumberer(sService, FALSE, pChild->m_pNumbererDescription->m_bUseFormatMask);
 				}
-				
+
+				if (pWndDesc->m_pStateData)
+				{
+					if (pContext->m_pDoc)
+						pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+					if (pDataObj)
+					{
+						pControl->AttachStateData(pDataObj, pChild->m_pStateData->m_bInvertDefaultStates == B_TRUE);
+						//pControl->UpdateStateButtons();
+						if (pChild->m_pNumbererDescription)
+						{
+							CStateCtrlObj* pStateButton = pControl->GetStateCtrl(pDataObj);
+							if (pStateButton)
+							{
+								pStateButton->EnableStateInEditMode(pChild->m_pStateData->m_bEnableStateInEdit);
+								pStateButton->EnableCtrlInEditMode(pChild->m_pStateData->m_bEnableStateCtrlInEdit);
+							}
+						}
+					}
+
+				}
+
 				pParsedForm->m_pControlLinks->Add(pObject);
 			}
 		}
-	
+
 
 		BuildWebControlLinks(pParsedForm, pContext, pChild);
 	}
