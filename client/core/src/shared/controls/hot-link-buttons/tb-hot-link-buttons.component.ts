@@ -8,7 +8,7 @@ import { ComponentMediator } from './../../../core/services/component-mediator.s
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -31,7 +31,7 @@ declare var document: any;
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
   providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
 })
-export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
+export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
 
   private optionsPopupRef: PopupRef;
   private tablePopupRef: PopupRef;
@@ -231,24 +231,6 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   shouldAddOnFly = (focusedElem: HTMLElement) => !this.optionsButton.nativeElement.contains(focusedElem);
  
   ngOnInit() {
-    // fix for themes css conflict in form.scss style 
-    if (this.modelComponent) {
-      this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
-      let hyperLinkElem = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
-      this.hyperLinkService.start(hyperLinkElem,
-        {
-          name: this.hotLinkInfo.name,
-          cmpId: this.documentService.mainCmpId,
-          enableAddOnFly: this.hotLinkInfo.enableAddOnFly,
-          mustExistData: this.hotLinkInfo.mustExistData,
-          model: this.modelComponent.model
-        },
-        this.slice$,
-        this.clearModel,
-        this.afterAddOnFly,
-        this.shouldAddOnFly);
-    }
-
     this.adjustTableSub = this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     Observable.fromEvent(document, 'keyup', { capture: true })
@@ -266,6 +248,26 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
           && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
         && (this.isTablePopupVisible || this.isOptionsPopupVisible))
       .subscribe(_ => setTimeout(() => this.closePopups()));
+  }
+
+  ngAfterViewInit() {
+    // fix for themes css conflict in form.scss style 
+    if (this.modelComponent) {
+      this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
+      this.hyperLinkService.start(
+        () => (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement,
+        {
+          name: this.hotLinkInfo.name,
+          cmpId: this.documentService.mainCmpId,
+          enableAddOnFly: this.hotLinkInfo.enableAddOnFly,
+          mustExistData: this.hotLinkInfo.mustExistData,
+          model: this.modelComponent.model
+        },
+        this.slice$,
+        this.clearModel,
+        this.afterAddOnFly,
+        this.shouldAddOnFly);
+    }
   }
 
   ngOnDestroy() {

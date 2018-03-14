@@ -26,6 +26,22 @@ export class HyperLinkService implements OnDestroy {
 
     private _elementInfo: {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }}
     public get elementInfo(): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }} {
+        if(!this._elementInfo) {
+            let e = this.getElement();
+            let oldColor = e.style.color;
+            let oldDecoration = e.style.textDecoration;
+            let oldCursor = e.style.cursor;
+            let oldPointerEvents = e.style.pointerEvents;
+            this._elementInfo = { 
+                element: e,
+                initInfo: {
+                color: oldColor,
+                textDecoration: oldDecoration,
+                cursor: oldCursor,
+                pointerEvents: oldPointerEvents
+                }
+            };
+        }
         return this._elementInfo;
     }
 
@@ -34,19 +50,21 @@ export class HyperLinkService implements OnDestroy {
     onBackToFocus: () => void;
     onAfterAddOnFly: (any) => void;
     private shouldAddOnFly = (focusEvent: ChangeFocusEvent) => true;
+    private getElement: () => HTMLElement = () => null;
 
     private get focusChanged$(): Observable<ChangeFocusEvent> {
         return Observable.fromEvent<FocusEvent>(this.elementInfo.element, 'blur', {capture: false}).pipe(untilDestroy(this))
         .map(fe => ({source: fe.target as HTMLElement, target: fe.relatedTarget as HTMLElement}));
     } 
 
-    start (e: HTMLElement, 
+    start (getElement: () => HTMLElement, 
            info: HyperLinkInfo, 
            slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
            onBackToFocus: () => void,
            onAfterAddOnFly: (any) => void,
            customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): void {
-        if (!e || !info) return;
+        if (!getElement || !info) return;
+        this.getElement = getElement;
         if (slice$) {
             slice$.pipe(untilDestroy(this)).subscribe(x => {
                 if(!x.enabled && x.value) { 
@@ -64,20 +82,6 @@ export class HyperLinkService implements OnDestroy {
                 }
               });
         }
-
-        let oldColor = e.style.color;
-        let oldDecoration = e.style.textDecoration;
-        let oldCursor = e.style.cursor;
-        let oldPointerEvents = e.style.pointerEvents;
-        this._elementInfo = { 
-            element: e,
-            initInfo: {
-            color: oldColor,
-            textDecoration: oldDecoration,
-            cursor: oldCursor,
-            pointerEvents: oldPointerEvents
-            }
-        };
 
         this.onBackToFocus = onBackToFocus;
         this.onAfterAddOnFly = onAfterAddOnFly;

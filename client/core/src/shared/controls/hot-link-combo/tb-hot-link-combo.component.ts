@@ -170,7 +170,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   ngAfterViewInit(): void {
-    this.hyperLinkService.start(this.hyperLinkElement, 
+    this.hyperLinkService.start(
+      () => this.hyperLinkElement, 
       { name: this.hotLinkInfo.name,
         cmpId: this.documentService.mainCmpId, 
         enableAddOnFly: this.hotLinkInfo.enableAddOnFly, 
