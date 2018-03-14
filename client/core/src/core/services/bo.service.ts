@@ -15,7 +15,6 @@ import { addModelBehaviour, isDataObj } from './../../shared/models/control.mode
 @Injectable()
 export class BOService extends DocumentService {
     serverSideCommandMap = [];
-    modelStructure = {};
     subscriptions = [];
     boClients = new Array<BOClient>();
     changedData = {};
@@ -251,11 +250,9 @@ export class BOService extends DocumentService {
         this.boClients.forEach(boClient => {
             boClient.init();
         });
-        this.registerModelField('', 'Title');
-        this.registerModelField('', 'FormMode');
-        this.registerModelField('', 'HeaderStripTitle');
         super.init(cmpId);
-        this.webSocketService.checkMessageDialog(this.mainCmpId);
+        this.webSocketService.checkMessageDialog(cmpId);
+        this.webSocketService.getDocumentData(cmpId);
     }
     dispose() {
         super.dispose();
@@ -270,40 +267,11 @@ export class BOService extends DocumentService {
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.indexOf(idCommand) > 0;
     }
-    public appendToModelStructure(modelStructure: any) {
-        //aggiorna i campi usati dal modello client
-        for (let owner in modelStructure) {
-            if (!owner) {
-                owner = 'global';
-            }
-            let container = this.modelStructure[owner];
-            if (!container) {
-                container = modelStructure[owner];
-                this.modelStructure[owner] = container;
-            }
-            else {
-                container.push(...modelStructure[owner]);
-            }
-        }
-        //quindi richiede il modello al server, inviandogli nel contempo
-        //i campi utilizzati; il server ne terrà traccia ed invierà solo quelli
-        this.webSocketService.getDocumentData(this.mainCmpId, this.modelStructure);
-
-    }
+    
     getWindowStrings(cmpId: string, culture: string) {
         this.webSocketService.getWindowStrings(cmpId, culture);
     }
-    registerModelField(owner: string, name: string) {
-        if (!owner) {
-            owner = 'global';
-        }
-        let container = this.modelStructure[owner];
-        if (!container) {
-            container = [];
-            this.modelStructure[owner] = container;
-        }
-        container.push(name);
-    }
+    
     doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(

@@ -224,8 +224,8 @@ export class WebSocketService extends LocalizationService {
          // azione solo lato client.
      }*/
 
-    getDocumentData(cmpId: String, modelStructure: any) {
-        const data = { cmd: 'getDocumentData', cmpId: cmpId, modelStructure: modelStructure };
+    getDocumentData(cmpId: String) {
+        const data = { cmd: 'getDocumentData', cmpId: cmpId };
         this.safeSend(data);
 
     }

@@ -22,7 +22,7 @@ namespace Microarea.TbJson
         private readonly StringBuilder toAppendToDefinition = new StringBuilder();
         private readonly StringBuilder toAppendToDeclaration = new StringBuilder();
         private List<string> loggedTokens = new List<string>();
-        private readonly Dictionary<string, List<string>> modelStructure = new Dictionary<string, List<string>>();
+        //private readonly Dictionary<string, List<string>> modelStructure = new Dictionary<string, List<string>>();
         private int indent = 0;
         private int logIndent = 0;
         private HtmlTextWriter htmlWriter = null;
@@ -95,7 +95,7 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         private void GenerateFromFile(string tbJsonFile, string mergedJsonDir, bool onlyMerged)
         {
-            modelStructure.Clear();
+            //modelStructure.Clear();
             toAppendToDefinition.Clear();
             toAppendToDeclaration.Clear();
             contextMenus.Clear();
@@ -263,7 +263,7 @@ namespace Microarea.TbJson
         private string GetModelInitCode()
         {
             StringBuilder constructorCode = new StringBuilder();
-            constructorCode.Append("\t\tthis.bo.appendToModelStructure({");
+           /* constructorCode.Append("\t\tthis.bo.appendToModelStructure({");
             var needComma = false;
             foreach (var item in modelStructure)
             {
@@ -288,7 +288,7 @@ namespace Microarea.TbJson
 
                 constructorCode.Append("]");
             }
-            constructorCode.Append("});\r\n");
+            constructorCode.Append("});\r\n");*/
             return constructorCode.ToString();
         }
 
@@ -1461,7 +1461,7 @@ namespace Microarea.TbJson
                 }
             }
 
-            RegisterModelField(owner, field);
+            //RegisterModelField(owner, field);
 
             foreach (var arg in wc.Args)
             {
@@ -1563,7 +1563,7 @@ namespace Microarea.TbJson
                 field = ds.Substring(idx + 1);
             }
 
-            RegisterModelField(owner, field);
+            //RegisterModelField(owner, field);
 
             //lo scrivo nell'html in tutti i casi, ma non quando sto generando il binding dello slavebuffered
             if (writeHtml)
@@ -1821,7 +1821,7 @@ namespace Microarea.TbJson
 
         }
         //-----------------------------------------------------------------------------
-        private void RegisterModelField(string owner, string field)
+        /*private void RegisterModelField(string owner, string field)
         {
             if (string.IsNullOrEmpty(owner))
                 owner = "global";
@@ -1831,7 +1831,7 @@ namespace Microarea.TbJson
                 modelStructure[owner] = fields;
             }
             fields.Add(field);
-        }
+        }*/
 
         //-----------------------------------------------------------------------------
         private void GenerateTileChildren(JToken jObj, WndObjType parentType, bool insideRowView)
