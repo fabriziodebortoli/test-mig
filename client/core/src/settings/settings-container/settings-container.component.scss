@@ -1,0 +1,19 @@
+.actionContainer
+{
+    display: flex;
+    flex-direction: column;
+}
+.actionItems
+{
+    flex: 1;
+    padding: 15px 5px 15px 5px;
+}
+
+.customLink{
+    cursor: pointer;
+    margin-left: 15px;
+   > m4-icon
+    {
+    padding-right: 15px
+    }
+}

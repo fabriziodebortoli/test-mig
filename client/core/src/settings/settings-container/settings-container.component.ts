@@ -9,6 +9,8 @@ import { EventDataService } from './../../core/services/eventdata.service';
 import { SettingsPageService } from '../settings-page.service';
 import { InfoService } from './../../core/services/info.service';
 
+import { HttpMenuService } from '../../menu/services/http-menu.service';
+
 @Component({
   selector: 'tb-settings-container',
   templateUrl: './settings-container.component.html',
@@ -25,16 +27,35 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
     public dataService: DataService,
     settingsPageService: SettingsPageService,
     public infoService: InfoService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public httpMenuService: HttpMenuService
   ) {
     super(settingsPageService, eventData, null, changeDetectorRef);
     this.enableLocalization();
     this.isDesktop = infoService.isDesktop;
   }
+
   ngOnInit() {
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': this._TB('Settings Page') } };
   }
+
+  goToSite() {
+    let subs = this.httpMenuService.goToSite().subscribe((result) => {
+        subs.unsubscribe();
+        window.open(result.url, "_blank");
+
+    });
+}
+
+activateViaSMS() {
+  let subs = this.httpMenuService.activateViaSMS().subscribe((result) => {
+      subs.unsubscribe();
+      window.open(result.url, "_blank");
+  });
+
+}
+
 
 
 

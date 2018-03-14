@@ -31,6 +31,24 @@
                                     </tb-panel>
                                 </tb-layout-container>
                             </tb-tile-group>
+                            <tb-tile-group tbLayoutTypeColumn>
+                            <tb-panel title="{{_TB('Action')}}" tbTileStandard>
+                                <div class="actionContainer">
+                                    <div class="actionItems">
+                                    <a (click)="goToSite()" class="customLink">
+                                        <m4-icon icon="erp-internet" matTooltip="{{_TB('Go to producer site')}}"></m4-icon>
+                                        {{_TB('Producer Site')}}
+                                    </a> 
+                                    </div>
+                                    <div class="actionItems">
+                                        <a (click)="activateViaSMS()" class="customLink">
+                                                <m4-icon icon="erp-internet" matTooltip="{{_TB('Activate via SMS')}}"></m4-icon>
+                                                {{_TB('Activate via SMS')}}
+                                        </a>
+                                    </div>                                        
+                                </div> 
+                            </tb-panel>
+                            </tb-tile-group>
                         </ng-template>
                     </tb-tile-manager-tab>
 
