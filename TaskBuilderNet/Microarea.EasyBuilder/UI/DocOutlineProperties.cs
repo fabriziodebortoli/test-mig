@@ -550,9 +550,9 @@ namespace Microarea.EasyBuilder.UI
 		}
 
 		/// <remarks/>
-		public bool Wizard { get; set; }
+		public bool Wizard { get { return GetBool("wizard"); } set { SetBool("wizard", value); } }
 		/// <remarks/>
-		public bool Stepper { get; set; }
+		public bool Stepper { get { return GetBool("stepper"); } set { SetBool("stepper", value); } }
 		/// <remarks/>
 		public Object[] Accelerators { get; set; }
 	}
