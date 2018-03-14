@@ -775,9 +775,13 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------
 		public static DatabaseManager CreateDatabaseManager()
 		{
-			//@@TODO: qui dovrei avere la possibilita' di istanziare un pathfinder con i dati corretti, oppure averne uno a disposizione in memoria?
-			PathFinder pf = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
-			return new DatabaseManager(pf, new Diagnostic("ProvisioningDatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
+			//PathFinder pf = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
+
+			//@@TODO: per ora l'edition e' impostata come Professional (informazione che dovra' pervenire dal nuovo LM)
+			// non e' chiaro se e quali altri tipi di edizione saranno previsti
+			PathFinder.PathFinderInstance.Edition = "Professional";
+
+			return new DatabaseManager(PathFinder.PathFinderInstance, new Diagnostic("ProvisioningDatabaseController"), (BrandLoader)InstallationData.BrandLoader, DBNetworkType.Large, "IT");
 		}
 
 		#region Metodi per caricamento configurazioni dati di default/esempio
@@ -790,22 +794,25 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------------
 		public static Dictionary<string, List<string>> GetConfigurationList(string configType, string iso)
 		{
-			//@@TODO: qui dovrei avere la possibilita' di istanziare un pathfinder con i dati corretti, oppure averne uno a disposizione in memoria?
-			PathFinder pathFinder = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
+			//PathFinder pathFinder = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
+
+			//@@TODO: per ora l'edition e' impostata come Professional (informazione che dovra' pervenire dal nuovo LM)
+			// non e' chiaro se e quali altri tipi di edizione saranno previsti
+			PathFinder.PathFinderInstance.Edition = "Professional";
 
 			List<string> isoConfigList = new List<string>();
 			List<string> intlConfigList = new List<string>();
 
-			foreach (string appName in GetApplications(pathFinder))
+			foreach (string appName in GetApplications(PathFinder.PathFinderInstance))
 			{
-				foreach (ModuleInfo modInfo in pathFinder.GetModulesList(appName))
+				foreach (ModuleInfo modInfo in PathFinder.PathFinderInstance.GetModulesList(appName))
 				{
 					// skippo il modulo TbOleDb per non considerare la TB_DBMark
 					if (string.Compare(modInfo.Name, DatabaseLayerConsts.TbOleDbModuleName, StringComparison.OrdinalIgnoreCase) != 0)
 					{
-						AddConfiguration(pathFinder, appName, modInfo.Name, ref isoConfigList, configType, iso);
+						AddConfiguration(PathFinder.PathFinderInstance, appName, modInfo.Name, ref isoConfigList, configType, iso);
 						// mentre carico le configurazioni dell'isostato scelto, carico anche i dati internazionali
-						AddConfiguration(pathFinder, appName, modInfo.Name, ref intlConfigList, configType, "INTL");
+						AddConfiguration(PathFinder.PathFinderInstance, appName, modInfo.Name, ref intlConfigList, configType, "INTL");
 					}
 				}
 			}
@@ -846,16 +853,16 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
 				: pf.GetStandardDataManagerSamplePath(appName, modName, iso);
 
-            // da decidere se la Custom andra' sempre caricata
-            string customDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
+            // per ora ignoro la Custom (da capire eventualmente da dove verra' caricata)
+           /* string customDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
 				? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetCustomDataManagerSamplePath(appName, modName, iso);
+				: pf.GetCustomDataManagerSamplePath(appName, modName, iso);*/
 
             StringCollection tempList = new StringCollection();
 
-			if (pf.ExistPath(customDir))
+			/*if (pf.ExistPath(customDir))
 				foreach (TBDirectoryInfo dir in pf.GetSubFolders(customDir))
-					tempList.Add(dir.direcotryInfo.Name);
+					tempList.Add(dir.direcotryInfo.Name);*/
 
 			if (pf.ExistPath(standardDir))
 				foreach (TBDirectoryInfo dir in pf.GetSubFolders(standardDir))

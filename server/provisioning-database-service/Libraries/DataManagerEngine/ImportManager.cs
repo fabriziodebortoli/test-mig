@@ -284,10 +284,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			isAppendFile = Path.GetFileNameWithoutExtension(importFile.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase);
 
 			SynchronizeDBServerDateTime();
-
+			
 			try
 			{
-				using (StreamReader sr = File.OpenText(importFile.FullName))
+				//using (StreamReader sr = File.OpenText(importFile.FullName))
+				using (Stream sr = this.contextInfo.PathFinder.GetStream(importFile.FullName, false))
 				{
 					reader = XmlReader.Create(sr, new XmlReaderSettings() { IgnoreWhitespace = true, CloseInput = true });
 
@@ -468,9 +469,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			try
 			{
-				using (StreamReader rs = File.OpenText(importFile.FullName))
+				//using (StreamReader sr = File.OpenText(importFile.FullName))
+				using (Stream sr = this.contextInfo.PathFinder.GetStream(importFile.FullName, false))
 				{
-					xtr = XmlReader.Create(rs, new XmlReaderSettings() { IgnoreWhitespace = true });
+					xtr = XmlReader.Create(sr, new XmlReaderSettings() { IgnoreWhitespace = true });
 
 					while (xtr.Read())
 					{
@@ -1132,7 +1134,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			}
 			catch (TBException e)
 			{
-				Debug.WriteLine(string.Format("Exception handled in ImportManager::InsertRow ({0})", e.Message));
+				//Debug.WriteLine(string.Format("Exception handled in ImportManager::InsertRow ({0})", e.Message));
 				StringBuilder errorBuilder = new StringBuilder();
 				errorBuilder.AppendFormat(DataManagerEngineStrings.MsgImportInsertRow, "reader.LineNumber.ToString()", currentFullName); //@@TODOMICHI non ho piu' il nr linea
 
