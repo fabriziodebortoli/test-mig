@@ -951,7 +951,7 @@ namespace Microarea.TbJson
                         {
                             using (var tmTab = new OpenCloseTagWriter(Constants.tbTileManagerTab, this, false))
                             {
-                                   WriteActivationAttribute(jObj);
+                                WriteActivationAttribute(jObj);
                                 string title = jObj.GetLocalizableString(Constants.text);
                                 if (!string.IsNullOrEmpty(title))
                                 {
@@ -1237,7 +1237,7 @@ namespace Microarea.TbJson
                         var text = jObj.GetLocalizableString(Constants.text);
                         var hint = jObj.GetLocalizableString(Constants.hint);
                         JArray jItems = jObj.GetItems();
-                        if (jItems != null)
+                        if (jItems != null && jItems.Count > 0)
                         {
                             using (var w = new OpenCloseTagWriter(Constants.tbPropertyGridItemGroup, this, false))
                             {
