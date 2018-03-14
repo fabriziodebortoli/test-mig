@@ -7919,8 +7919,11 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 		}
 	}
 
-	if (m_pDBTMaster)
-		m_pDBTMaster->GetJson(TRUE, jsonSerializer, bOnlyWebBound);
+	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
+	{
+		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
+		pDBT->GetJson(jsonSerializer, bOnlyWebBound);
+	}
 
 	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
 	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
@@ -7950,9 +7953,6 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyW
 		}
 	}
 
-	if (m_pDBTMaster)
-		m_pDBTMaster->GetJsonPatch(jsonSerializer, bOnlyWebBound);
-
 	//cerco l'hotlink by name; se non lo trovo e mi viene passato un namespace valido, lo creo al volo
 	for (int i = 0; i < m_pHotKeyLinks->GetSize(); i++)
 	{
@@ -7962,7 +7962,7 @@ void CAbstractFormDoc::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyW
 	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
 	{
 		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
-		((DBTSlaveBuffered*)pDBT)->GetJsonPatch(jsonSerializer, bOnlyWebBound);
+		pDBT->GetJsonPatch(jsonSerializer, bOnlyWebBound);
 	}
 	jsonSerializer.CloseObject(TRUE);
 

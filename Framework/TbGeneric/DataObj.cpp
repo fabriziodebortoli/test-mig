@@ -44,7 +44,9 @@ static const char BASED_CODE THIS_FILE[] = __FILE__;
 //=============================================================================
 
 DataTypeRecordDescr::~DataTypeRecordDescr()
-{ SAFE_DELETE (m_pRecordFields); }
+{
+	SAFE_DELETE(m_pRecordFields);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -1418,6 +1420,16 @@ bool DataObj::HasChangedForJson(DataObj* pPreviousVal)
 		!pPreviousVal->IsEqual(*this);
 }
 //-----------------------------------------------------------------------------
+void DataObj::AlignPreviousVal()
+{
+	if (!m_pPreviousVal)
+		m_pPreviousVal = Clone();
+	else
+		m_pPreviousVal->Assign(*this);
+	m_pPreviousVal->m_wDataStatus = m_wDataStatus;
+}
+
+//-----------------------------------------------------------------------------
 void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch)
 {
 	if (!patch)
@@ -1427,14 +1439,9 @@ void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch)
 	}
 
 	SerializeToJson(jsonSerializer, patch, m_pPreviousVal);
-	
-	if (!m_pPreviousVal)
-		m_pPreviousVal = Clone();
-	else
-		m_pPreviousVal->Assign(*this);
-	m_pPreviousVal->m_wDataStatus = m_wDataStatus;
-	
-}//-----------------------------------------------------------------------------
+	AlignPreviousVal();
+}
+//-----------------------------------------------------------------------------
 void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch, DataObj* pPreviousVal)
 {
 	if (!patch || !m_pPreviousVal || m_pPreviousVal->m_wDataStatus != m_wDataStatus)
@@ -1468,6 +1475,8 @@ void DataObj::AssignFromJson(CJsonParser& jsonParser)
 	int status;
 	if (jsonParser.TryReadInt(szStatus, status))
 		m_wDataStatus = status;
+
+	void AlignPreviousVal();
 }
 
 //@@ rivedere
@@ -1794,7 +1803,7 @@ DataStr::DataStr(const DataStr& aDataStr)
 	//// copy contructor assign status always
 	//if (aDataStr.IsCollateCultureSensitive())
 	//	SetCollateCultureSensitive(TRUE);
-	
+
 	m_nSqlDataType = aDataStr.m_nSqlDataType;
 }
 
@@ -2563,7 +2572,7 @@ IMPLEMENT_DYNCREATE(DataBool, DataObj)
 //-----------------------------------------------------------------------------
 DataBool::DataBool(const BOOL bValue)
 	:
-	m_bValue(bValue)	
+	m_bValue(bValue)
 {
 	m_nSqlDataType = DBTYPE_STR;
 	SetModified();
@@ -7825,12 +7834,12 @@ SpecialReportField::SRFid	SpecialReportField::ID;
 IMPLEMENT_DYNAMIC(BaseField, CObject)
 
 BaseField::BaseField
-				(
-					const CString& strName,
-					DataType dt /*= DataType::Null*/,
-					DataObj* pValue /*= NULL*/,
-					BOOL bOwnData /*= TRUE*/
-				)
+(
+	const CString& strName,
+	DataType dt /*= DataType::Null*/,
+	DataObj* pValue /*= NULL*/,
+	BOOL bOwnData /*= TRUE*/
+)
 	:
 	IDisposingSourceImpl(this),
 

@@ -771,6 +771,32 @@ void DBTObject::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound
 	}
 	jsonSerializer.CloseObject(TRUE);
 }
+
+//-----------------------------------------------------------------------------	
+void DBTObject::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
+{
+	jsonSerializer.OpenObject(GetName());
+	SqlRecord *pRecord = GetRecord();
+	if (pRecord)
+	{
+		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
+	}
+	jsonSerializer.CloseObject();
+}
+//-----------------------------------------------------------------------------	
+bool DBTObject::SetJson(CJsonParser& jsonParser)
+{
+	bool modified = false;
+	if (jsonParser.BeginReadObject(GetName()))
+	{
+		SqlRecord *pRecord = GetRecord();
+		if (pRecord)
+			modified = pRecord->SetJson(jsonParser);
+		jsonParser.EndReadObject();
+	}
+	return modified;
+}
+
 //--------------------------------------------------------------------------
 BOOL DBTObject::PrepareSymbolTable(SymTable* pTable)
 {
@@ -1234,41 +1260,7 @@ DBTObject* DBTMaster::GetDBTObject(SqlRecord* pRec)
 	return NULL;
 }
 
-//-----------------------------------------------------------------------------	
-void DBTMaster::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
-{
-	jsonSerializer.OpenObject(GetName());
 
-	SqlRecord *pRecord = GetRecord();
-	if (pRecord)
-	{
-		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
-	}
-	jsonSerializer.CloseObject();
-
-	if (bWithChildren)
-	{
-		DBTArray* pSlaves = GetDBTSlaves();
-		for (int i = 0; i < pSlaves->GetCount(); i++)
-		{
-			DBTSlave* pSlave = pSlaves->GetAt(i);
-			pSlave->GetJson(bWithChildren, jsonSerializer, bOnlyWebBound);
-		}
-	}
-
-}
-
-//-----------------------------------------------------------------------------	
-bool DBTMaster::SetJson(CJsonParser& jsonParser)
-{
-	bool modified = false;
-
-	SqlRecord *pRecord = GetRecord();
-	if (pRecord)
-		modified = pRecord->SetJson(jsonParser) || modified;
-
-	return modified;
-}
 
 
 //-----------------------------------------------------------------------------	
@@ -2004,31 +1996,6 @@ BOOL DBTSlave::UnParse(CXMLNode* pRootNode, BOOL bWithAttributes/* = TRUE*/, BOO
 }
 
 
-//-----------------------------------------------------------------------------	
-void DBTSlave::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
-{
-	jsonSerializer.OpenObject(GetName());
-	SqlRecord *pRecord = GetRecord();
-	if (pRecord)
-	{
-		pRecord->GetJson(jsonSerializer, bOnlyWebBound);
-	}
-	jsonSerializer.CloseObject();
-}
-
-//-----------------------------------------------------------------------------	
-bool DBTSlave::SetJson(CJsonParser& jsonParser)
-{
-	bool modified = false;
-	if (jsonParser.BeginReadObject(GetName()))
-	{
-		SqlRecord *pRecord = GetRecord();
-		if (pRecord)
-			modified = pRecord->SetJson(jsonParser);
-		jsonParser.EndReadObject();
-	}
-	return modified;
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // Diagnostics
@@ -4240,22 +4207,6 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 	}
 	return NULL;
 }
-//-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
-{
-	if (m_pJsonCache->IsModified())
-	{
-		jsonSerializer.OpenObject(GetName());
-		m_pJsonCache->GetJsonPatch(jsonSerializer, bOnlyWebBound);
-		jsonSerializer.CloseObject(TRUE); 
-	}
-}
-
-//-----------------------------------------------------------------------------	
-void DBTSlaveBuffered::GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
-{
-	GetJsonPatch(jsonSerializer, bOnlyWebBound);
-}
 
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
@@ -4268,25 +4219,30 @@ void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
 bool DBTSlaveBuffered::SetJson(CJsonParser& jsonParser)
 {
 	bool modified = false;
-
 	if (jsonParser.BeginReadObject(GetName()))
 	{
-		if (jsonParser.BeginReadArray(_T("rows")))
-		{
-			for (int i = 0; i < GetRowCount(); i++)
-			{
-				SqlRecord *pRecord = GetRow(i);
-				if (jsonParser.BeginReadObject(i))
-				{
-					modified = pRecord->SetJson(jsonParser) || modified;
-					jsonParser.EndReadObject();
-				}
-			}
-			jsonParser.EndReadArray();
-		}
+		SqlRecord *pRecord = GetRecord();
+		if (pRecord)
+			modified = pRecord->SetJson(jsonParser);
 		jsonParser.EndReadObject();
 	}
 	return modified;
+}
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
+{
+	if (m_pJsonCache->IsModified())
+	{
+		jsonSerializer.OpenObject(GetName());
+		m_pJsonCache->GetJsonPatch(jsonSerializer, bOnlyWebBound);
+		jsonSerializer.CloseObject(TRUE);
+	}
+}
+
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
+{
+	GetJsonPatch(jsonSerializer, bOnlyWebBound);
 }
 
 //-----------------------------------------------------------------------------	

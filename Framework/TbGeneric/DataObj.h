@@ -386,6 +386,7 @@ public:
 			void AssignFromJson(CJsonParser& parser);
 			void SerializeToJson(CJsonSerializer& jsonSerializer, bool patch, DataObj* pPreviousVal);
 			void SerializeToJson(CJsonSerializer& jsonSerializer, bool patch);
+			void AlignPreviousVal();
 			bool HasChangedForJson();
 			bool HasChangedForJson(DataObj* pPreviousVal);
 			bool AlignHKL(HotKeyLink* pHKL);

@@ -205,8 +205,8 @@ public:
 	virtual DBTObject*	GetDBTObject		(SqlRecord*);
 
 	virtual void		GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound); 
-	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound) = 0;
-	virtual bool		SetJson(CJsonParser& jsonParser) = 0;
+	virtual void		GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
+	virtual bool		SetJson(CJsonParser& jsonParser);
 
 public:
 	// useful getting routines
@@ -411,10 +411,7 @@ public:
 	virtual BOOL 	OnOkXMLImport		();
 
 	virtual DBTObject* GetDBTObject (SqlRecord*);
-
-	virtual void	GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual bool	SetJson(CJsonParser& jsonParser);
-
+	
 	//virtual BOOL		Parse		(CXMLNode* pNode, BOOL bWithAttributes = TRUE, BOOL bParseLocal = FALSE);
 	virtual BOOL		UnParse		(CXMLNode* pParentNode, BOOL bWithAttributes = TRUE, BOOL bUnParseLocal = FALSE, BOOL bUnParseSlavable = FALSE);
 
@@ -560,8 +557,6 @@ public:
 	//virtual BOOL	Parse		(CXMLNode* pNode, BOOL bWithAttributes = TRUE, BOOL bParseLocal = FALSE);
 	virtual BOOL	UnParse		(CXMLNode* pParentNode, BOOL bWithAttributes = TRUE, BOOL bUnParseLocal = FALSE, BOOL /*bUnParseSlavable*/ = FALSE);
 
-	virtual void	GetJson		(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual bool	SetJson		(CJsonParser& jsonParser);
 
 // Diagnostics
 #ifdef _DEBUG
@@ -806,7 +801,7 @@ public:
 	DBTObject*	GetDBTByName(const CString& sDbtName) const;
 	virtual DBTObject*	GetDBTObject (SqlRecord*);
 	virtual void		GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
-	virtual void		GetJson(BOOL bWithChildren, CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
+	virtual void		GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	virtual bool		SetJson(CJsonParser& jsonParser);
 	
 	virtual void		SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow);
