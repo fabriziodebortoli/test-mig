@@ -1,7 +1,7 @@
 import { DiagnosticService } from './../../core/services/diagnostic.service';
 import { SettingsService } from './../../core/services/settings.service';
 import { LoadingService } from './../../core/services/loading.service';
-import { Injectable, EventEmitter, ComponentFactoryResolver, Input, ChangeDetectorRef } from '@angular/core';
+import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { Observable, BehaviorSubject, Subscription } from '../../rxjs.imports';
