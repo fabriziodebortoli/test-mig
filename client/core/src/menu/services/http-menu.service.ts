@@ -13,19 +13,51 @@ import { UtilsService } from './../../core/services/utils.service';
 @Injectable()
 export class HttpMenuService {
     callInfoService: string;
-    
+
     constructor(
         public http: Http,
         public utilsService: UtilsService,
         public logger: Logger,
         public httpService: HttpService,
         public infoService: InfoService
-    ) { 
+    ) {
         this.callInfoService = this.infoService.getEasyStudioServiceUrl();//per usare es-service .net core
     }
 
+    isCachedMenuTooOld(): Observable<any> {
+
+        let storageMenuDate = !localStorage.getItem('_lastAllMenuTimeStamp') || !localStorage.getItem('_lastAllMenu')
+            ? new Date().getTime()
+            : localStorage.getItem('_lastAllMenuTimeStamp');
+
+        let obj = {
+            user: localStorage.getItem('_user'),
+            company: localStorage.getItem('_company'),
+            authtoken: sessionStorage.getItem('authtoken'),
+            storageMenuDate: storageMenuDate,
+        }
+
+        let url = this.infoService.getMenuServiceUrl() + 'isCachedMenuTooOld/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
     getMenuElements(clearCachedData: boolean): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), company: localStorage.getItem('_company'), authtoken: sessionStorage.getItem('authtoken'), clearCachedData: clearCachedData }
+        let storageMenuDate = (clearCachedData || !localStorage.getItem('_lastAllMenuTimeStamp'))
+            ? new Date().getTime()
+            : localStorage.getItem('_lastAllMenuTimeStamp');
+
+        let obj = {
+            user: localStorage.getItem('_user'),
+            company: localStorage.getItem('_company'),
+            storageMenuDate: storageMenuDate,
+            authtoken: sessionStorage.getItem('authtoken'),
+            clearCachedData: clearCachedData
+        }
+
         let url = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -34,7 +66,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
- //#region easystudio su webserver.sln
+    //#region easystudio su webserver.sln
     getEsAppsAndModules(type: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), applicationType: type };
         let url = this.callInfoService + 'application/getAllAppsAndModules/';
@@ -56,8 +88,8 @@ export class HttpMenuService {
     }
 
     refreshEasyBuilderApps(type: string): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationType:type };
-        let url =this.callInfoService + 'application/refreshAll/';
+        let obj = { user: localStorage.getItem('_user'), applicationType: type };
+        let url = this.callInfoService + 'application/refreshAll/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;
@@ -104,7 +136,7 @@ export class HttpMenuService {
     }
 
     getDefaultContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), defaultReq : true };
+        let obj = { user: localStorage.getItem('_user'), defaultReq: true };
         let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -113,7 +145,7 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
     getCurrentContext(): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), defaultReq : false };
+        let obj = { user: localStorage.getItem('_user'), defaultReq: false };
         let url = this.callInfoService + 'getCurrentContextFor/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -121,9 +153,9 @@ export class HttpMenuService {
             })
             .catch(this.handleError);
     }
-//#endregion 
+    //#endregion 
 
- //#region easystudio su c++
+    //#region easystudio su c++
 
     cloneAsEasyStudioDocument(object: any, docName: string, docTitle: string, esServices: EasystudioService): Observable<any> {
         var ns = object.target;
@@ -160,7 +192,7 @@ export class HttpMenuService {
     }
 
     updateBaseCustomizationContext(app: string, mod: string): Observable<any> {
-        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod};    
+        let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod };
         let url = this.infoService.getDocumentBaseUrl() + 'updateBaseCustomizationContext/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {

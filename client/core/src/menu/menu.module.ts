@@ -1,9 +1,9 @@
-import { TbIconsModule } from '@taskbuilder/icons';
-import { TbSharedModule } from './../shared/shared.module';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+import { TbIconsModule } from '@taskbuilder/icons';
+import { TbSharedModule } from './../shared/shared.module';
 import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
@@ -21,7 +21,6 @@ import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.c
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
-
 
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';

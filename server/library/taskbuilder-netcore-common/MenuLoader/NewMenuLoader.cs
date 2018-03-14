@@ -84,22 +84,7 @@ namespace Microarea.Common.MenuLoader
 
 			ProcessHiddenNodes(doc, user, company);
 
-			//assegna un guid ad ogni nodo, per la velocizzazione nell'utilizzo di angular
-			EnumerateNodes(doc);
-
 			return doc;
-		}
-
-		//---------------------------------------------------------------------
-		private static void EnumerateNodes(XmlDocument doc)
-		{
-			XmlNodeList list = doc.SelectNodes("//*");
-			foreach (XmlNode item in list)
-			{
-				XmlAttribute s = doc.CreateAttribute("node_id");
-				s.Value = Guid.NewGuid().ToString();
-				item.Attributes.Append(s);
-			}
 		}
 
 		//---------------------------------------------------------------------

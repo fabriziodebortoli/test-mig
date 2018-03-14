@@ -1,7 +1,7 @@
 import { DiagnosticService } from './../../core/services/diagnostic.service';
 import { SettingsService } from './../../core/services/settings.service';
 import { LoadingService } from './../../core/services/loading.service';
-import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
+import { Injectable, EventEmitter, ComponentFactoryResolver, Input, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { Observable, BehaviorSubject, Subscription } from '../../rxjs.imports';
@@ -100,7 +100,6 @@ export class MenuService {
 
     //---------------------------------------------------------------------------------------------
     initApplicationAndGroup() {
-
         let applications = this.allMenus;
 
         var queryStringLastApplicationName = this.utilsService.getApplicationFromQueryString();
@@ -146,7 +145,6 @@ export class MenuService {
         if (this.selectedGroup == undefined) {
             return;
         }
-
 
         let found = false;
         if (this.selectedGroup.Menu) {
@@ -490,23 +488,48 @@ export class MenuService {
     }
 
     getMenuElements() {
+
         this.resetMenuServices();
-        let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
-            this.clearCachedData = false;
-            this.onAfterGetMenuElements(result.Root);
-            sub.unsubscribe();
+
+        //chiedo al server se la cache del menu è troppo old
+        let sub1 = this.httpMenuService.isCachedMenuTooOld().subscribe((tooOld) => {
+            if (tooOld) {
+                //se è troppo vecchia , faccio la richiesta al server, aggiorno quello in storage e visualizzo
+                let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
+                    this.clearCachedData = false;
+                    if (result && result.Root) {
+                        this.onAfterGetMenuElements(result.Root);
+                    }
+                    sub.unsubscribe();
+                });
+            }
+            else {
+                //se invece il menu cacheato è ancora attuale, allora lo visualizzo subito
+                let localStorageMenu = localStorage.getItem('_lastAllMenu');
+                if (localStorageMenu) {
+                    this.allMenus = JSON.parse(localStorageMenu);
+                    this.initOtherElements();
+                }
+            }
+
+            sub1.unsubscribe();
         });
     }
 
     invalidateCache() {
         //TODOLUCA , clone del metodo getmenuelements qua sopra, per motivi di async
         this.loadingService.setLoading(true, "reloading menu");
-        this.resetMenuServices();
+
         this.clearCachedData = true;
+
         let sub = this.httpMenuService.getMenuElements(this.clearCachedData).subscribe((result) => {
             this.clearCachedData = false;
             this.loadingService.setLoading(false);
-            this.onAfterGetMenuElements(result.Root);
+            if (result && result.Root) {
+                this.resetMenuServices();
+                this.onAfterGetMenuElements(result.Root);
+            }
+
             sub.unsubscribe();
         });
     }
@@ -531,6 +554,7 @@ export class MenuService {
         let tempMenus = [];
         let orderedMenus = [];
         //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
+        //metto erp, tbf e tbs per primi
         let temp = root.ApplicationMenu.AppMenu.Application;
         for (var a = 0; a < temp.length; a++) {
             if (temp[a].name.toLowerCase() == "erp")
@@ -554,6 +578,11 @@ export class MenuService {
         }
 
         this.sanitizeAllMenus(orderedMenus);
+        this.initOtherElements();
+    }
+
+    //---------------------------------------------------------------------------------------------
+    initOtherElements() {
         this.initApplicationAndGroup();
         this.loadFavoritesAndMostUsed();
         this.loadSearchObjects();
@@ -595,6 +624,11 @@ export class MenuService {
         }
 
         this.allMenus = allApps;
+
+
+        let timeStamp = new Date().getTime().toString();
+        localStorage.setItem('_lastAllMenu', JSON.stringify(this.allMenus));
+        localStorage.setItem('_lastAllMenuTimeStamp', timeStamp);
     }
 
     //---------------------------------------------------------------------------------------------
