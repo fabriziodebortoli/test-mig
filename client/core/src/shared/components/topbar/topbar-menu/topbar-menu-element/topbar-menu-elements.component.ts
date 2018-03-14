@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, HostListener} from '@angular/core';
 
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
@@ -13,18 +13,13 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
     styleUrls: ['./topbar-menu-elements.component.scss']
 })
 export class TopbarMenuElementsComponent {
-    anchorAlign: Align = { horizontal: 'right', vertical: 'bottom' };
-    popupAlign: Align = { horizontal: 'right', vertical: 'top' };
-    collision: Collision = { horizontal: 'flip', vertical: 'fit' };
-    anchorAlign2: Align = { horizontal: 'left', vertical: 'top' };
-    popupAlign2: Align = { horizontal: 'right', vertical: 'top' };
-    show = false;
-    isMouseDown = false;
-    currentItem: ContextMenuItem;
+     show = false;
+    
+    @ViewChild('anchor') public anchor: ElementRef;
+    @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
     @Input() fontIcon = 'tb-menu2';
     @Input() menuElements: ContextMenuItem[];
-    @ViewChild('anchor') divFocus: HTMLElement;
 
     constructor(public webSocketService: WebSocketService, public eventDataService: EventDataService) {
     }
@@ -36,56 +31,31 @@ export class TopbarMenuElementsComponent {
         if (!menuItem) {
             return;
         }
-        if (this.hasSubItems(menuItem)) {
-            return;
-        }
+
         this.eventDataService.raiseCommand('', menuItem.id);
-        this.onToggle();
+        this.toggle();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    public onToggle(): void {
-        this.show = !this.show;
-        if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
-            this.currentItem.showMySub = false;
+    @HostListener('document:click', ['$event'])
+    public documentClick(event: any): void {
+        if (!this.contains(event.target)) {
+          this.toggle(false);
         }
     }
-
-    public closePopupIf(): void {
-        if (this.isMouseDown) {
-            this.isMouseDown = false;
-            document.getElementById('anchor').focus();
-            return;
+    
+    @HostListener('keydown', ['$event'])
+    public keydown(event: any): void {
+        if (event.keyCode === 27) {
+            this.toggle(false);
         }
-        this.outView(this.currentItem);
+    }
+    
+    private contains(target: any): boolean {
+      return this.anchor.nativeElement.contains(target) ||
+          (this.popup ? this.popup.nativeElement.contains(target) : false);
     }
 
-    setMouseDown() {
-        this.isMouseDown = true;
+    public toggle(show?: boolean): void {
+        this.show = show !== undefined ? show : !this.show;
     }
-
-    hasSubItems(item: ContextMenuItem) {
-        const y = item.subItems;
-        return y !== null && y.length > 0;
-    }
-
-    openSubItems(open: boolean, item: ContextMenuItem) {
-        if (!this.hasSubItems(item) || item === null || item === undefined) {
-            return;
-        }
-        item.showMySub = open;
-        this.currentItem = item;
-    }
-
-    outView(item: ContextMenuItem) {
-        if (item !== null && item !== undefined) {
-            item.showMySub = false;
-        }
-
-        this.show = false;
-        this.currentItem = null;
-        this.isMouseDown = false;
-    }
-
 }

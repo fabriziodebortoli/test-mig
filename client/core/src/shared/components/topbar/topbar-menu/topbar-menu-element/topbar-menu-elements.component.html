@@ -1,21 +1,12 @@
-<div id="anchor" #anchor tabindex="0" (blur)="closePopupIf()">
-    <m4-icon icon="{{fontIcon}}" (click)="onToggle()"></m4-icon>
-    <kendo-popup *ngIf="show" class='wrapper' [anchor]="anchor" (anchorViewportLeave)="outView(null)" (open)="onOpen()" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
-        <button kendoButton *ngFor="let menuItem of menuElements" class="content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
-            <div #anchor2 class="divW">
-                <m4-icon *ngIf="hasSubItems(menuItem)" icon="tb-chevronleftfilled" class="subsIcon"></m4-icon>
-
-                <span [ngClass]="{ 'spaceOn': !hasSubItems(menuItem)}"> {{menuItem?.text}} </span>
-                <m4-icon *ngIf="menuItem?.checked" icon="tb-ok" class="checkIcon"></m4-icon>  
-            </div>
-            <kendo-popup *ngIf="menuItem?.showMySub" [anchor]="anchor2" (anchorViewportLeave)="outView(menuItem)" [collision]="collision" [anchorAlign]="anchorAlign2" [popupAlign]="popupAlign2" [popupClass]="'content popup'">
-                <button kendoButton *ngFor="let subItem of menuItem.subItems" class="content" (click)="doCommand(subItem)" [disabled]="!subItem?.enabled">
-                    <div class="divW">
-                            <m4-icon class="checkIcon" *ngIf="subItem?.checked" icon="tb-ok">check</m4-icon>
-                        <span class="spaceOn"> {{subItem?.text}} </span>
-                    </div>
-                </button>
-    </kendo-popup>
+<div #anchor>
+    <div  class="topBarMenuComponentLike">
+     <m4-icon icon="{{fontIcon}}" (click)="toggle()"></m4-icon>
+    
+    <tb-popup *ngIf="show" #popup class="tooltip bottom">
+        <button kendoButton *ngFor="let menuItem of menuElements" class="content" [disabled]="!menuItem?.enabled" 
+         (click)="doCommand(menuItem)">
+            <span> {{menuItem?.text}} </span>
     </button>
-    </kendo-popup>
+    </tb-popup>
+    </div>
 </div>
