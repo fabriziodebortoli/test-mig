@@ -128,7 +128,7 @@
         internal const string width = "width";
         internal const string height = "height";
         internal const string rows = "rows";
-        internal const string textlimit = "textlimit";
+        internal const string textlimit = "textLimit";
         internal const string multiline = "multiline";
 
         internal const string maxValue = "maxValue";
