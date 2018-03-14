@@ -33,12 +33,6 @@
                             <kendo-dropdownlist [disabled]="companies?.length <= 1" [data]="companies" [(ngModel)]="connectionData.company"></kendo-dropdownlist>
                         </div>
 
-                        <div class="form-control chkClearCache">
-                            <!-- <mat-checkbox [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event">{{_TB('Clear cached data')}}</mat-checkbox> -->
-                            <input type="checkbox" id="chkClearCache" class="k-checkbox" [ngModel]="clearCachedData" (ngModelChange)="clearCachedData=$event" />
-                            <label class="k-checkbox-label" for="chkClearCache">{{_TB('Clear cached data')}}</label>
-                        </div>
-
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
                         <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="companies.length==0">Login</button>
@@ -49,8 +43,8 @@
     </div>
 
     <footer>
-        <span>Copyright © 1984-2017 Microarea SpA - Tutti i diritti riservati |
-            <a href="http://www.microarea.it">Microarea.it</a>
+        <span>Copyright © 1984-2018 Microarea SpA - Tutti i diritti riservati |
+            <a>Microarea.it</a>
         </span>
     </footer>
 </div>
