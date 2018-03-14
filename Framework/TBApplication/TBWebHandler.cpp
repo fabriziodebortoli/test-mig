@@ -229,8 +229,8 @@ void CTbWebHandler::UpdateBaseCustomizationContext(const CString& path, const CN
 //--------------------------------------------------------------------------------
 void CTbWebHandler::SetAppAndModule(const CString& path, const CNameValueCollection& params, CTBResponse& response)
 {
-	CString appName = params.GetValueByName(_T("app"));
-	CString modName = params.GetValueByName(_T("mod"));
+	CString appName = params.GetValueByName(_T("applicationName"));
+	CString modName = params.GetValueByName(_T("moduleName"));
 	SetApplicAndModule(appName, modName);
 }
 

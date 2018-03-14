@@ -469,13 +469,12 @@ namespace Microarea.TaskBuilderNet.Core.MenuManagerLoader
 		//--------------------------------------------------------------------------------
 		public static void SetAppAndModule(string app, string mod)
 		{
-			BaseCustomizationContext.CustomizationContextInstance.ChangeEasyBuilderApp(app, mod);
-			BaseCustomizationContext.CustomizationContextInstance.CurrentApplication = app;
-			BaseCustomizationContext.CustomizationContextInstance.CurrentModule = mod;
 			IEasyBuilderApp context = BaseCustomizationContext.CustomizationContextInstance.CreateNew(app, mod, ApplicationType.Customization);
 			if (!BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications.Contains(context))
 				BaseCustomizationContext.CustomizationContextInstance.EasyBuilderApplications.Add(context);
-
+			BaseCustomizationContext.CustomizationContextInstance.CurrentApplication = app;
+			BaseCustomizationContext.CustomizationContextInstance.CurrentModule = mod;
+			BaseCustomizationContext.CustomizationContextInstance.ChangeEasyBuilderApp(app, mod);
 		}
 
 		//--------------------------------------------------------------------------------
