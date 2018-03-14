@@ -268,6 +268,11 @@ namespace Microarea.EasyBuilder
             )
         {
             string projectFolderPath = Path.GetDirectoryName(projectFileFullPath);
+            var projectFolderDirInfo = new DirectoryInfo(projectFolderPath);
+            if (!projectFolderDirInfo.Exists)
+            {
+                projectFolderDirInfo.Create();
+            }
 
             //cs
             var projectSourceFiles = new List<CsProjSourceFile>();
