@@ -138,16 +138,15 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     }
 
     limit = (d: GridData): GridData => {
-        // if (d.columns.length === 0) return d;
-        // const maxCols = Math.min(d.columns.length, this.maxColumns);
-        // const data = d.columns.length < maxCols ? d.data :
-        //     d.data.map(r => this.moveToStart(c => this.selectionColumnId && c === this.selectionColumnId, Object.keys(r))
-        //         .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
-        // const columns = this.moveToStart(c => this.selectionColumnId && c.id === this.selectionColumnId, d.columns)
-        //     .slice(0, maxCols);
-        // this.resetSettingsIfNew(columns);
-        // return d.with({ data, columns });
-        return d;
+        if (d.columns.length === 0) return d;
+        const maxCols = Math.min(d.columns.length, this.maxColumns);
+        const data = d.columns.length < maxCols ? d.data :
+            d.data.map(r => this.moveToStart(c => this.selectionColumnId && c === this.selectionColumnId, Object.keys(r))
+                .slice(0, maxCols).reduce((o, k) => ({ ...o, [k]: r[k] }), {}));
+        const columns = this.moveToStart(c => this.selectionColumnId && c.id === this.selectionColumnId, d.columns)
+            .slice(0, maxCols);
+        this.resetSettingsIfNew(columns);
+        return d.with({ data, columns });
     }
 
     moveToStart = <T>(predicate: (value: T) => boolean, array: T[]): T[] =>
@@ -170,7 +169,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         if (!this._settings) this.loadSettings();
         if (cols.length === 0) return this._settings;
         let hash = getObjHash(cols, this.maxColumns);
-        if (new Settings().version !== this._settings.version || hash !== this._settings.hash) {
+        if (new Settings().version !== this._settings.version || hash !== this._settings.hash || !this._settings.shownColumns.length) {
             this._settings = new Settings();
             this._settings.hash = hash;
             this._settings.reorderMap = cols.map(x => x.id);
