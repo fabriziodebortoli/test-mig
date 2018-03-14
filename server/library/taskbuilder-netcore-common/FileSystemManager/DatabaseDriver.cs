@@ -247,11 +247,10 @@ namespace Microarea.Common.FileSystemManager
 
             TBFile pTBFile = GetTBFile(strPathFileName);
             string strTextContent = (pTBFile != null) ? pTBFile.GetContentAsString() : "";
- //           Debug.Fail(pTBFile.completeFileName);
+
             if (pTBFile!= null)
                 pTBFile = null;
-  //          Debug.Fail("!strTextContent.IsEmpty()");
-  //          StreamReader sr;
+
             MemoryStream stream;
             try
             {
@@ -450,7 +449,7 @@ namespace Microarea.Common.FileSystemManager
 
                 fileID = InsertMetadataFolder(connection, strRelativePath, strApplication, strModule, isCustom, accountName, bCreate == true);
 
-                        connection.Close();
+                connection.Close();
 		        connection.Dispose();
 	        }
 	        catch (SqlException e)
@@ -575,17 +574,7 @@ namespace Microarea.Common.FileSystemManager
                 Debug.Assert(false);
                 return -1;
             }
-            finally
-            {
-                if (command != null)
-                    command.Dispose();
-
-                if (connection != null)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
+            
         }
 
 
@@ -739,9 +728,9 @@ namespace Microarea.Common.FileSystemManager
 		        sqlCommand = new SqlCommand(commandText, sqlConnection);
 		        int nResult = sqlCommand.ExecuteNonQuery();
 
-		         sqlCommand.Dispose(); 
+		        sqlCommand.Dispose(); 
 		        sqlConnection.Close();
-		         sqlConnection.Dispose();
+		        sqlConnection.Dispose();
 		        return nResult == 1;
 	        }
 	        catch (SqlException)
@@ -1026,10 +1015,15 @@ namespace Microarea.Common.FileSystemManager
 			        sqlCommand.Parameters.AddWithValue("@FileID", (Int32)fileID);
 
 		        sqlCommand.ExecuteNonQuery();
-		         sqlCommand.Dispose();
-	        }
+		        sqlCommand.Dispose();
 
-	        catch (SqlException e)
+                if (sqlConnection != null)
+                {
+                    sqlConnection.Close();
+                    sqlConnection.Dispose();
+                }
+            }
+            catch (SqlException e)
 	        {
                 if (sqlCommand != null)
                     sqlCommand.Dispose();
@@ -1119,7 +1113,7 @@ namespace Microarea.Common.FileSystemManager
 		        //se non ho parent vuol dire che sono arrivata alla root
 		        sqlCommand.CommandText = string.Format("DELETE FROM {0} WHERE FileID = {1}", tableName, fileID.ToString());
 		        sqlCommand.ExecuteNonQuery();
-		         sqlCommand.Dispose();
+		        sqlCommand.Dispose();
 		        if (value != null && (Int32)value > 0)
 			        return RemoveParentFolders(sqlConnection, tableName, (Int32)value);
 
@@ -1319,7 +1313,7 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-                        Debug.Fail(e.Message);
+                Debug.Fail(e.Message);
 		        return false;
 	        }
 	        return true;

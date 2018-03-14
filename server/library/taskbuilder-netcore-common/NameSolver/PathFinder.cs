@@ -2336,9 +2336,9 @@ namespace Microarea.Common.NameSolver
 
 
         //---------------------------------------------------------------------------
-        public string GetReportDescriptionFromNameSpace(string fileNameWithCompletedPath)
+        public string GetReportDescriptionFromFileName(string fileNameWithCompletedPath)
         {
-            if (fileNameWithCompletedPath.IsJsonEmpty() || !ExistFile(fileNameWithCompletedPath))
+            if (fileNameWithCompletedPath.IsNullOrEmpty() || !ExistFile(fileNameWithCompletedPath))
                 return String.Empty;
 
             Parser reportParser = new Parser(Parser.SourceType.FromFile);
@@ -2348,7 +2348,7 @@ namespace Microarea.Common.NameSolver
 
             string reportDescription = String.Empty;
 
-            if (reportParser.SkipToToken(Token.SUBJECT, true, false))
+            if (reportParser.SkipToToken(Token.TITLE, true, false))
                 reportParser.ParseCEdit(out reportDescription);
 
             reportParser.Close();
@@ -2426,13 +2426,11 @@ namespace Microarea.Common.NameSolver
 
                 foreach (string fileName in reportFiles)
                 {
-                    description = GetReportDescriptionFromNameSpace(fileName);
                     nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                    description = GetReportDescriptionFromFileName(fileName);
                     objects.Add(nameSpace, description);
                 }
             }
-                
-
             StringBuilder sb = new StringBuilder();
             using (StringWriter sw = new StringWriter(sb))
             {
