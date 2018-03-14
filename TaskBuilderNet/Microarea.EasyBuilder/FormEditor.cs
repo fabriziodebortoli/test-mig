@@ -1360,7 +1360,7 @@ namespace Microarea.EasyBuilder
 			}
 
             IContainer container = ebComponent as IContainer;
-            if (container != null && container.Components.Count > 0)
+            if (container != null && container.Components.Count > 0 && container is BaseWindowWrapper)
             {
                 whyNot = string.Format(Resources.ObjectNotEmpty, ebComponent.SerializedName);
                 return false;
