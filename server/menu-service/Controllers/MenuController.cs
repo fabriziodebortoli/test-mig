@@ -30,7 +30,10 @@ namespace Microarea.Menu.Controllers
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();  
-                string clearCachedData = value["clearCachedData"]?.Value<string>(); 
+                string clearCachedData = value["clearCachedData"]?.Value<string>();
+                string storageMenuDate = value["storageMenuDate"]?.Value<string>();
+                int nStorageMenudate = 0;
+                int.TryParse(storageMenuDate, out nStorageMenudate);
 
                 bool clearCache = bool.Parse(clearCachedData);
 
