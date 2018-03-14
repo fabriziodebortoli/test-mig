@@ -47,7 +47,7 @@ export class HyperLinkService implements OnDestroy {
 
     private currentValue: any;
     private currentType: number;
-    onBackToFocus: (oldValue: any) => void = oldValue => { };
+    onBackToFocus: (oldValue: any, value: any) => void = (oldValue, value) => { };
     onAfterAddOnFly: (any) => void = value => { };
     private shouldAddOnFly = (focusEvent: ChangeFocusEvent) => true;
     private getElementLogic: () => HTMLElement = () => null;
@@ -61,7 +61,7 @@ export class HyperLinkService implements OnDestroy {
     start (getElementLogic: () => HTMLElement, 
            info: HyperLinkInfo, 
            slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
-           onBackToFocus: (oldValue: any) => void,
+           onBackToFocus: (oldValue: any, value: any) => void,
            onAfterAddOnFly: (any) => void,
            customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): void {
         if (!getElementLogic || !info) throw Error('You should provide a value form "getElement" and "info"');       
@@ -83,7 +83,7 @@ export class HyperLinkService implements OnDestroy {
 
     private withAddOnFlyLogic(info: HyperLinkInfo, 
         slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
-        onBackToFocus: (oldValue: any) => void,
+        onBackToFocus: (oldValue: any, value: any) => void,
         onAfterAddOnFly: (any) => void,
         customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): HyperLinkService {
         if (slice$) slice$.filter(x => !x.enabled).pipe(untilDestroy(this)).subscribe(x => this.oldElementVaue = x.value);
@@ -114,7 +114,7 @@ export class HyperLinkService implements OnDestroy {
 
     private addOnFly = (info: HyperLinkInfo) => 
         this.userChoice(info, this.currentValue, this.currentType)
-            .subscribe(ok => ok ? this.afterAddOnFly(info).subscribe(s => this.updateCmpValue(s)) : this.giveBackFocus());
+            .subscribe(ok => ok ? this.afterAddOnFly(info).subscribe(s => this.updateCmpValue(s)) : this.giveBackFocus(this.currentValue));
 
     /**
     * Creates an observable that emits a single boolean (the user choice) after the user press the "yes | no"
@@ -134,12 +134,12 @@ export class HyperLinkService implements OnDestroy {
 
     private updateCmpValue(value:any) {
         if (this.onAfterAddOnFly) this.onAfterAddOnFly(value);
-        this.giveBackFocus();
+        this.giveBackFocus(value);
     }
 
-    private giveBackFocus() {
+    private giveBackFocus(value: any) {
         this.elementInfo.element.focus();
-        if (this.onBackToFocus) this.onBackToFocus(this.oldElementVaue);
+        if (this.onBackToFocus) this.onBackToFocus(this.oldElementVaue, value);
     }
 
     private enableHyperLink(info: HyperLinkInfo): void {

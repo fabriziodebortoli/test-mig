@@ -62,11 +62,11 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         return this._state;
     }
 
-    protected afterNoAddOnFly: (oldValue: any) => void = (oldValue) => {
-        if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
-            this.modelComponent.model.value = oldValue;
-            this.emitModelChange();
-        }
+    protected afterNoAddOnFly: (oldValue: any, value: any) => void = (oldValue, value) => {
+        // if (this.modelComponent && this.modelComponent.model && this.hotLinkInfo.mustExistData) {
+        //     this.modelComponent.model.value = oldValue;
+        //     this.emitModelChange();
+        // }
     }
 
     protected afterAddOnFly: (value: any) => void = (value) => {
