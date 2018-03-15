@@ -40,7 +40,7 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   public getWidth() {
     let length;
-    if (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length > 0) {
+    if (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName] && this.bodyEditService.prototype[this.columnName].length > 0) {
       length = Math.max(this.title.length, this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length);
     }
     else
