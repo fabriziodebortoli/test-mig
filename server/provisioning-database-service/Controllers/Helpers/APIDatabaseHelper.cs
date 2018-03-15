@@ -901,23 +901,29 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		{
 			OperationResult opRes = new OperationResult();
 
-			// imposto i nomi dei database
-			string dbName = extSubDatabase.Database.InstanceKey + "_" + extSubDatabase.Database.SubscriptionKey + "_Master_DB";
-			string dmsDbName = dbName + "_DMS";
+			//************************************************************************************
+			// aggiungere controlli di esistenza database - login - connessioni al server, etc.
+			//************************************************************************************
 
-			// impostazione parametri creazione contenitore db su Azure
-			// queste impostazioni dovranno essere definite a livello di subscription
-			AzureCreateDBParameters param = new AzureCreateDBParameters();
-			param.DatabaseName = dbName;
-			param.MaxSize = AzureMaxSize.GB1;
+			OperationResult existDbRes = ExistDatabase(extSubDatabase.Database.DBName, extSubDatabase.AdminCredentials);
 
-			// impostazione parametri creazione contenitore db su SqlServer
-			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-			sqlParam.DatabaseName = dbName;
+			OperationResult existDmsDbRes = ExistDatabase(extSubDatabase.Database.DMSDBName, extSubDatabase.AdminCredentials);
 
-			// to create database I need to connect to master
+			if (existDbRes.Result || existDmsDbRes.Result)
+			{
+				opRes.Result = false;
+				string message = string.Empty;
+				if (existDbRes.Result)
+					message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer);
+				if (existDmsDbRes.Result)
+					message += "\r\n" + string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DBServer);
+				opRes.Message = message;
+				return opRes;
+			}
 
-			DatabaseTask dTask = new DatabaseTask(true);
+			// istanzio la classe che incorpora i vari metodi
+			DatabaseTask dTask = new DatabaseTask(extSubDatabase.AdminCredentials.Provider == NameSolverStrings.SQLAzure);
+			// I need to connect to master
 			dTask.CurrentStringConnection =
 				string.Format
 				(
@@ -928,72 +934,58 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				extSubDatabase.AdminCredentials.Password
 				);
 
+			// creo la login dbowner
+			opRes.Result = dTask.CreateLogin(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBPassword);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+
+			if (!opRes.Result)
+				return opRes;
+
+			// impostazione parametri creazione contenitore db su Azure
+			// queste impostazioni dovranno essere definite a livello di subscription
+			AzureCreateDBParameters param = new AzureCreateDBParameters();
+			param.DatabaseName = extSubDatabase.Database.DBName;
+			param.MaxSize = AzureMaxSize.MB100;
+
+			// impostazione parametri creazione contenitore db su SqlServer
+			SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
+			sqlParam.DatabaseName = extSubDatabase.Database.DBName;
+
 			// I create ERP database
-			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-				dTask.CreateAzureDatabase(param);
+			opRes.Result = dTask.CreateAzureDatabase(param); //dTask.CreateSQLDatabase(sqlParam); 
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
 
 			// I create DMS database
+			param.DatabaseName = extSubDatabase.Database.DMSDBName;
+			sqlParam.DatabaseName = extSubDatabase.Database.DMSDBName;
 
-			param.DatabaseName = dmsDbName;
-			sqlParam.DatabaseName = dmsDbName;
-
-			opRes.Result = //dTask.CreateSQLDatabase(sqlParam); 
-				dTask.CreateAzureDatabase(param);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
-
-			if (!opRes.Result)
-				return opRes;
-
-			// creo la login dbowner
-
-			string loginName = extSubDatabase.Database.InstanceKey + "_" + extSubDatabase.Database.SubscriptionKey + "_Admin";
-			string password = "Microarea...";//SecurityManager.GetRandomPassword();
-
-			opRes.Result = dTask.CreateLogin(loginName, password);
+			opRes.Result = dTask.CreateAzureDatabase(param); //dTask.CreateSQLDatabase(sqlParam); 
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
 
 			// associo la login appena creata al database di ERP con il ruolo di db_owner
-
-			opRes.Result = dTask.CreateUser(loginName, dbName);
+			opRes.Result = dTask.CreateUser(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBName);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
 
 			// associo la login appena creata al database DMS con il ruolo di db_owner
-			opRes.Result = dTask.CreateUser(loginName, dmsDbName);
+			opRes.Result = dTask.CreateUser(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DMSDBName);
 			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
 
 			if (!opRes.Result)
 				return opRes;
 
-			// il Provider deve essere definito a livello di subscription
-			extSubDatabase.Database.Provider = NameSolverStrings.SQLAzure;
-
-			extSubDatabase.Database.DBName = dbName;
-			extSubDatabase.Database.DBServer = extSubDatabase.AdminCredentials.Server;
-			extSubDatabase.Database.DBOwner = loginName;
-			extSubDatabase.Database.DBPassword = password;
-
-			extSubDatabase.Database.UseDMS = true;
-			extSubDatabase.Database.DMSDBName = dmsDbName;
-			extSubDatabase.Database.DMSDBServer = extSubDatabase.AdminCredentials.Server;
-			extSubDatabase.Database.DMSDBOwner = loginName;
-			extSubDatabase.Database.DMSDBPassword = password;
-
-			Debug.WriteLine("MP-LOG - ERP DB Name: " + dbName);
-			Debug.WriteLine("MP-LOG - DMS DB Name: " + dmsDbName);
-			Debug.WriteLine("MP-LOG - Login (dbo) Name: " + loginName);
-			Debug.WriteLine("MP-LOG - Password (dbo): " + password);
-
-			// creo la struttura leggendo i metadati da filesystem
+			Debug.WriteLine("MP-LOG - ERP DB Name: " + extSubDatabase.Database.DBName);
+			Debug.WriteLine("MP-LOG - DMS DB Name: " + extSubDatabase.Database.DMSDBName);
+			Debug.WriteLine("MP-LOG - Login (dbo) Name: " + extSubDatabase.Database.DBOwner);
+			Debug.WriteLine("MP-LOG - Password (dbo): " + extSubDatabase.Database.DBPassword);
 
 			DatabaseManager dbManager = CreateDatabaseManager();
 			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
