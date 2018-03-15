@@ -1,11 +1,8 @@
-<kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [class.editable]="editable" [sort]="filterer.sort" (sortChange)="sortChange($event)"
-    class="custom-grid" [height]="252" [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate" [skip]="paginator.skip"
-    [filterable]="areFiltersVisible" [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)"
-    (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)" [resizable]="resizable"
-    [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" [scrollable]="none" [selectable]="{ mode: 'single' }"
-    [reorderable]="true" (columnReorder)="columnReorder($event)" (columnResize)="columnResize($event)" [pageable]="pageable">
-    <kendo-grid-column *ngFor="let col of state.gridData.columns; let idx = index; let last = last; let first = first" field="{{col.id}}"
-        title="{{col.id | uppercase}}" [class.first-column]="first" [hidden]="col.id === selectionColumnId || !settings.shownColumns[col.id]"
+<kendo-grid #grid [sortable]="{allowUnsort: false, mode: 'single'}" [class.editable]="editable" [sort]="filterer.sort" (sortChange)="sortChange($event)" class="custom-grid" [height]="252" [data]="state.gridData" [pageSize]="pageSize" [selectable]="state.canNavigate"
+    [skip]="paginator.skip" [filterable]="areFiltersVisible" [filter]="filter" (filterChange)="filterChange($event)" (selectedKeysChange)="selectedKeysChange.emit($event)" (selectionChange)="selectionChange.emit($event)" [ngStyle]="gridStyle$ | async" (pageChange)="pageChange($event)"
+    [resizable]="resizable" [selectedKeys]="state.selectionKeys" [kendoGridSelectBy]="selectionColumnId" scrollable="none" [selectable]="{ mode: 'single' }" [reorderable]="true" (columnReorder)="columnReorder($event)" (columnResize)="columnResize($event)"
+    [pageable]="pageable">
+    <kendo-grid-column *ngFor="let col of state.gridData.columns; let idx = index; let last = last; let first = first" field="{{col.id}}" title="{{col.id | uppercase}}" [class.first-column]="first" [hidden]="col.id === selectionColumnId || !settings.shownColumns[col.id]"
         [width]="col.width" [filter]="tbTypeToFilter(col.type)">
         <ng-template kendoGridHeaderTemplate let-dataItem>
             {{dataItem.field}}
@@ -30,7 +27,7 @@
                 <tb-date-filter [filter]="filter" [kendoColumn]="column" [column]="col"></tb-date-filter>
             </ng-template>
         </ng-template>
-        
+
     </kendo-grid-column>
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
         <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
@@ -44,16 +41,14 @@
             <button *ngIf="canAutoFit" kendoButton class="pager-button toggle-button tb-autofit-columns" (click)="autofit()" [title]="_TB('Fit Columns')">
                 <tb-icon [iconType]="'M4'" icon="tb-colresize" class="toolbar-icon"></tb-icon>
             </button>
-            <button kendoButton class="pager-button toggle-button tb-toggle-filters" (click)="areFiltersVisible = !areFiltersVisible"
-                [title]="areFiltersVisibleText">
+            <button kendoButton class="pager-button toggle-button tb-toggle-filters" (click)="areFiltersVisible = !areFiltersVisible" [title]="areFiltersVisibleText">
                 <tb-icon [iconType]="'M4'" [icon]="areFiltersVisibleIcon" class="toolbar-icon"></tb-icon>
             </button>
             <ng-template [ngTemplateOutlet]="customisableGridButtonsTemplate"></ng-template>
         </div>
     </ng-template>
 </kendo-grid>
-<kendo-popup #popup *ngIf="showColumnHandler" [anchor]="popupAnchor || anchor" [collision]="collision" [anchorAlign]="anchorAlign"
-    [popupAlign]="popupAlign" class="popup" (anchorViewportLeave)="showColumnHandler = false">
+<kendo-popup #popup *ngIf="showColumnHandler" [anchor]="popupAnchor || anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign" class="popup" (anchorViewportLeave)="showColumnHandler = false">
     <div *ngFor="let col of state.gridData.columns">
         <div *ngIf="col.id !== selectionColumnId" class="popup-content">
             <p>{{col.id}}</p>

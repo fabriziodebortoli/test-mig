@@ -142,7 +142,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   }
 
 
-  onBlur(): any {
+  onBlur(e): any {
     switch (this.formatter) {
       case 'Integer':
       case 'Long':

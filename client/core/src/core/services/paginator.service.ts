@@ -42,8 +42,8 @@ export class PaginatorService implements OnDestroy {
     private lookAheadServerPageCache: { page: number, data: any } = { page: -1, data: null };
     private prevSkip = -1;
     private _skip = 0;
-    private get skip(): number { return this._skip; }
-    private set skip(value: number) {
+    public get skip(): number { return this._skip; }
+    public set skip(value: number) {
         this.prevSkip = this._skip;
         this._skip = value;
     }

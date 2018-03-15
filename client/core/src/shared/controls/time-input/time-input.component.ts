@@ -49,7 +49,7 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
     }
   }
 
-  onBlur() {
+  onBlur(e) {
     this.eventData.change.emit(this.cmpId);
   }
 

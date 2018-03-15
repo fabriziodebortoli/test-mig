@@ -55,7 +55,7 @@ export class BoolEditComponent extends ControlComponent {
       this.yesText.toUpperCase() : this.noText.toUpperCase();
   }
 
-  onBlur() {
+  onBlur(e) {
     this.eventData.change.emit(this.cmpId);
   }
 }

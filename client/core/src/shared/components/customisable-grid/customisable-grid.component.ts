@@ -110,7 +110,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         tryOrDefault(() => this.limit(d).with(s => ({ columns: this.reorder(this.resize(s.columns)) })), d));
 
     constructor(public m: ComponentMediator, private enumsService: EnumsService, private elRef: ElementRef,
-        private paginator: PaginatorService, public filterer: FilterService, private store: Store) {
+        public paginator: PaginatorService, public filterer: FilterService, private store: Store) {
         super(m.layout, m.tbComponent, m.changeDetectorRef);
     }
 
@@ -205,13 +205,13 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         return this.areFiltersVisible ? this._TB('Hide Filters') : this._TB('Show Filters');
     }
 
-    private set filter(value: CompositeFilterDescriptor) {
+    public set filter(value: CompositeFilterDescriptor) {
         this._filter = cloneDeep(value);
         this.filterer.filter = cloneDeep(value);
         this.filterer.onFilterChanged(value);
     }
 
-    private get filter(): CompositeFilterDescriptor { return this._filter; }
+    public get filter(): CompositeFilterDescriptor { return this._filter; }
 
     filterChange(filter: CompositeFilterDescriptor): void { this.filter = filter; }
 

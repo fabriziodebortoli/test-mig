@@ -37,7 +37,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     protected documentService: DocumentService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
-    protected paginator: PaginatorService,
+    public paginator: PaginatorService,
     protected filterer: FilterService, 
     protected hyperLinkService: HyperLinkService,
     protected vcr: ViewContainerRef,

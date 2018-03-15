@@ -10,7 +10,7 @@
 
         <div class="menu-selector" [ngClass]="{'collapsed': selectorCollapsed === 'collapsed'}" [@collapsing]="selectorCollapsed">
 
-            <kendo-panelbar [expandMode]="single">
+            <kendo-panelbar expandMode="single">
                 <kendo-panelbar-item *ngFor="let application of menuService?.allMenus" (click)="selectApplication(application)" title="" [expanded]="application === menuService.selectedApplication" [class.selected-application]="application === menuService.selectedApplication">
                     <ng-template kendoPanelBarItemTitle>
                         <img [src]="imageService.getApplicationIcon(application)" [title]="selectorCollapsed === 'collapsed' ? application?.title : ''" />

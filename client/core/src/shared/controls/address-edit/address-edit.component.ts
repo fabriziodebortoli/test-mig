@@ -37,7 +37,7 @@ export class AddressEditComponent extends ControlComponent {
 
     public addresses = [];
     private ctrlEnabled = false;
-    private show = false;
+    public show = false;
     private collision: Collision = { horizontal: 'flip', vertical: 'fit' };
     private iContextMenu = 0;
 

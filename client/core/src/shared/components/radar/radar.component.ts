@@ -45,15 +45,15 @@ export class RadarComponent extends ControlComponent implements OnInit {
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: CustomisableGridComponent;
     @ViewChild('anchor', { read: ElementRef }) public anchorElRef: ElementRef;
-    private set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
-    private get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
+    public set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
+    public get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
     state$: Observable<State> = new BehaviorSubject(State.new());
     pinned = false;
     areFiltersVisible = false;
     viewState = ViewStates.closed;
     public selectableSettings: SelectableSettings;
-    private lastSelectedKey: string;
-    private lastSelectedKeyPage = -1;
+    public lastSelectedKey: string;
+    public lastSelectedKeyPage = -1;
     selection$ = new Subject<string>();
 
     constructor(public m: ComponentMediator, private enumsService: EnumsService,
