@@ -52,6 +52,7 @@ export interface Selector<T, V> {
   */
   nest?(...paths: string[]): Selector<T, any>;
   nest?(selectorMapOrPaths: SelectorMap | string, ...paths: string[]): Selector<any, any>;
+  nest?(selectorMapOrPaths: any): Selector<any, any>;
   asPath?(propertyName?: string): string;
   asMap?(): SelectorMap;
 }
