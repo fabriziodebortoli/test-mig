@@ -4897,9 +4897,11 @@ void CParsedCtrl::ReAttachButton(UINT nBmpID)
 	if (nBmpID != NO_BUTTON)
 	{
 		Attach(nBmpID);
-		CreateAssociatedButton(GetCtrlCWnd()->GetParent());
+		CreateAssociatedButton(m_pOwnerWnd->GetParent());
 	}
-	UpdateCtrlView();
+	//se la finestra è visibile ne aggiorno lo stato dei bottoni
+	if ((m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE)
+		UpdateCtrlView();
 }
 
 //-----------------------------------------------------------------------------

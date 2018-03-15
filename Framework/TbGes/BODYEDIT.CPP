@@ -11115,8 +11115,8 @@ void CBodyEdit::SetDBT(DBTSlaveBuffered* pDBT, BOOL bInitCurrRecord /*= TRUE*/)
 		m_pDBT->AddBodyEdit(this);
 	
 	// I dataobj del prototipo sono hidden
-	for (int i = 0; i < m_pDBT->GetRecord()->GetSizeEx(); i++)
-		m_pDBT->GetRecord()->GetDataObjAt(i)->SetHide();
+	//for (int i = 0; i < m_pDBT->GetRecord()->GetSizeEx(); i++)
+	//	m_pDBT->GetRecord()->GetDataObjAt(i)->SetHide();
 	if (bInitCurrRecord)//FALSE in EasyBuilder in fase di impostazione del databinding
 	{
 		SetCurrRecord(m_pDBT ? m_pDBT->GetCurrentRowIdx() : -1);
