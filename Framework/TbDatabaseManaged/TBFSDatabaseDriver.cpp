@@ -267,7 +267,14 @@ BOOL TBFSDatabaseDriver::IsAManagedObject(const CString& sFileName) const
 	if (AfxGetPathFinder()->IsStandardPath(sFileName))
 		return TRUE;
 
-	if (AfxGetPathFinder()->IsEasyStudioPath(sFileName) && GetCustomConnectionString().IsEmpty())
+	CString sPath = sFileName;
+	sPath = sPath.MakeLower();
+	CString sESHome = AfxGetPathFinder()->GetEasyStudioHomePath();
+	sESHome = sESHome.MakeLower();
+
+	BOOL bEasyStudioPath = sPath.FindOneOf(sESHome) > 0;
+	
+	if (bEasyStudioPath && GetCustomConnectionString().IsEmpty())
 		return FALSE;
 
 	return	AfxGetPathFinder()->IsCustomPath(sFileName); 

@@ -125,7 +125,7 @@ int CFileSystemManagerContent::ParseEasyStudioKey(const CString& sUri, const CXM
 
 	CString sESHome = arAttributes.GetAttributeByName(szXmlEasyStudioHomeName);
 
-	AfxGetPathFinder()->SetEasyStudioParams(CPathFinder::STANDARD, sESHome);
+	AfxGetPathFinder()->SetEasyStudioParams(bAppsInStandard ? CPathFinder::STANDARD : CPathFinder::CUSTOM, sESHome);
 
 	return CXMLSaxContent::OK;
 }

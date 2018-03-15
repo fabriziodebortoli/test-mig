@@ -1228,16 +1228,6 @@ const CString CPathFinder::GetEasyStudioEnumsAssemblyName() const
 }
 
 //-----------------------------------------------------------------------------
-BOOL CPathFinder::IsEasyStudioPath(const CString& strFileName)
-{
-	CString sESHome = GetEasyStudioHomePath();
-	CString sPath = strFileName;
-	sESHome = sESHome.MakeLower();
-	sPath.MakeLower();
-	return sPath.FindOneOf(sESHome) > 0;
-}
-
-//-----------------------------------------------------------------------------
 const CString CPathFinder::GetCompanyPath(BOOL bCreateDir) const
 {
 	CString sPath, sCompanyName = GetCompanyName();

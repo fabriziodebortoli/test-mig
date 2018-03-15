@@ -303,7 +303,6 @@ public:
 	PosType			m_eESAppPosType;
 	void			SetEasyStudioParams(PosType posType, CString strHomeName);
 	BOOL			GetEasyStudioCustomizationsPosType() { return m_eESAppPosType; }
-	BOOL			IsEasyStudioPath(const CString& strFileName);
 	const CString	GetEasyStudioHomePath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioCustomizationsPath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioReferencedAssembliesPath	() const;
