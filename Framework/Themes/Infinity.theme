@@ -171,14 +171,14 @@
 			<ThemeElement name="LinearGaugeLeftBorderColor" type="color" rgbHex="#ABABAB" description="Linear Gauge Left Border Color" />
 		</Category>
 		<Category name="Fonts" description="Fonts management">
-      <ThemeElement name="FormFontFace" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="300"/>
-      <ThemeElement name="ControlsFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="300"/>
-      <ThemeElement name="TileDialogTitle" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="11" fontSmallSize="4" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
-      <ThemeElement name="WizardStepper" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="700" isItalic="1" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
+      <ThemeElement name="FormFontFace" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="300"/>
+      <ThemeElement name="ControlsFont" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="300"/>
+      <ThemeElement name="TileDialogTitle" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="11" fontSmallSize="4" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
+      <ThemeElement name="WizardStepper" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" fontWeight="700" isItalic="1" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
       <ThemeElement name="TabberTabFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="10" fontSmallSize="4" isStriked="0" />
       <ThemeElement name="TabSelectorButtonFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="8" fontSmallSize="4" isStriked="0" />
-      <ThemeElement name="StaticWithLineFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="10" fontSmallSize="8" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
-      <ThemeElement name="TileStrip" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="14" fontSmallSize="8" fontWeight="200" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
+      <ThemeElement name="StaticWithLineFont" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="10" fontSmallSize="8" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
+      <ThemeElement name="TileStrip" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="14" fontSmallSize="8" fontWeight="200" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
       <ThemeElement name="AlternativeFontFaceName" type="string" value="Segoe UI" />
       <ThemeElement name="ToolBarTitleFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="12" fontSmallSize="12" fontWeight="700"/>
 		</Category>
@@ -340,7 +340,7 @@
 			<ThemeElement name="Pinnable" type="bool" value="1" description=""/>
 			<ThemeElement name="TileTitleTopSeparatorWidth" type="integer"  value="0" description=""/>
 			<ThemeElement name="TileMinHeight" type="integer"  value="-2" description="AUTO = -1, ORIGINAL = -2, FREE = -3"/>
-			<ThemeElement name="TitleFont" type="font" fontName="Open Sans" fontCharset="DEFAULT" fontSize="8" fontSmallSize="4" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
+			<ThemeElement name="TitleFont" type="font" fontName="Roboto" fontCharset="DEFAULT" fontSize="8" fontSmallSize="4" fontWeight="600" isItalic="0" description="FW_THIN 100,FW_EXTRALIGHT 200,FW_LIGHT 300,FW_NORMAL 400 (Default),FW_MEDIUM 500,FW_SEMIBOLD 600, FW_BOLD 700, FW_EXTRABOLD 800, FW_HEAVY 900"/>
 		</Category>
 		<Category name="DesignMode" type='TileStyle'>
 			<ThemeElement name="BackgroundColor" type="color" rgbHex="#F3F3F3" description="Background"/>
