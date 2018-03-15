@@ -95,7 +95,7 @@ export const TB_SERVICES = [
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
-    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService, BodyEditService, RsSnapshotService,
+    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, BodyEditService, RsSnapshotService,
     ActivationService
 ];
 

@@ -1,41 +1,65 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Logger } from './../../core/services/logger.service';
 import { Observable, Subject, Observer } from '../../rxjs.imports';
-
-export enum KeyScope { Component, Document, Global };
-export enum ChangeAction { set, remove };
-export type StorageOptions = { scope?: KeyScope, componentInfo?: { cmpId?: string, type: string, app?: string, mod?: string } };
-export type Change = { action: ChangeAction; key: string };
+import { StorageOptions, KeyScope, UserScope, DefaultStorageOptions, DefaultStorageKeyGenerator, StorageKeyGenerator } from './storage-key-generator';
 
 @Injectable()
 export class StorageService {
-    options: StorageOptions = { scope: KeyScope.Component };
+    options: StorageOptions = new StorageOptions(DefaultStorageOptions);
+    keyGenerator: StorageKeyGenerator = new DefaultStorageKeyGenerator(this.options);
 
-    constructor(private log: Logger) { }
-
-    get<T>(key: string): T;
-    get(key: string): any {
-        return JSON.parse(localStorage.getItem(this.uniqueKey(key, this.options.scope)));
+    constructor(private log: Logger, private injector: Injector) { 
+        this.options.tryGetCmpInfoFrom(injector);
     }
 
+    /**
+     * gets value by key from storage. raises exception if not found
+     * @param key storage key
+     */
+    get<T>(key: string): T;
+    get(key: string): any {
+        return JSON.parse(localStorage.getItem(this.keyGenerator.uniqueKey(key, this.options.scope)));
+    }
+
+    /**
+     * removes value by key from storage
+     * @param key storage key
+     * @returns the value, def if key not found
+     */
     getOrDefault<T>(key: string, def: T): T {
         return { ...def as any, ...(this.get(key) || this.set(key, def)) };
     }
 
+    /**
+     * gets value by key, apply map function, save and returns the resulting value
+     * @param key storage key
+     * @param def default value to return if key not found
+     * @param map function to apply to value
+     * @returns the resulting value
+     */
     using<T>(key: string, def: T, map: (s: T) => T): T {
         return this.set(key, map(this.getOrDefault<T>(key, def)));
     }
 
+    /**
+     * removes value by key from localstorage
+     * @param key storage key
+     */
     remove(key: string): void {
-        let ukey = this.uniqueKey(key, this.options.scope);
+        let ukey = this.keyGenerator.uniqueKey(key, this.options.scope);
         localStorage.removeItem(ukey);
     }
 
-    set<T>(key: string, data: T): T;
-    set(key: string, data: any): any {
-        let ukey = this.uniqueKey(key, this.options.scope);
+    /**
+     * modify or add value by key in localstorage. logs an error in case of size limit reached
+     * @param key storage key
+     * @returns the saved value. null if an error occurred
+     */
+    set<T>(key: string, value: T): T;
+    set(key: string, value: any): any {
+        let ukey = this.keyGenerator.uniqueKey(key, this.options.scope);
         try {
-            localStorage.setItem(ukey, JSON.stringify(data));
+            localStorage.setItem(ukey, JSON.stringify(value));
         } catch (e) {
             if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
                 e.name === 'QuotaExceededError' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
@@ -43,24 +67,9 @@ export class StorageService {
             } else {
                 this.log.error(`LocalStorage error saving : ${ukey} - ${e.message}`);
             }
+            return null;
         }
-        return data;
+        return value;
     }
-
-    private uniqueKey = (key, per) => this.uniqueKeyPer[per](key);
-
-    // tslint:disable-next-line:member-ordering
-    private uniqueKeyPer = {
-        [KeyScope.Component]: key => [
-            'storage',
-            localStorage.getItem('_user'),
-            localStorage.getItem('_company'),
-            this.options.componentInfo.app,
-            this.options.componentInfo.mod,
-            this.options.componentInfo.type,
-            this.options.componentInfo.cmpId,
-            key].filter(x => x).join('_'),
-        [KeyScope.Document]: key => '',
-        [KeyScope.Global]: key => ''
-    };
 }
+
