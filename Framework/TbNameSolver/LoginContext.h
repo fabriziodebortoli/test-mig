@@ -331,6 +331,7 @@ protected:
 	void AttachWebServiceStateObjects(CObject* pObj)			{ delete m_pWebServiceStateObjects; m_pWebServiceStateObjects = pObj;}
 	void AttachSecurityInterface(CObject* pObj)					{ delete m_pSecurityInterface; m_pSecurityInterface = pObj;}
 	void AttachOleDbMng(CObject* pObj)							{ delete m_pOleDbMng; m_pOleDbMng = pObj;}
+	//per il vecchio LockManager @@BAUZI da togliere
 	void AttachLockManager(CObject* pObj)						{ delete m_pLockManager; m_pLockManager = pObj;}
 	void AttachFormatsTable(CObject* pObj)						{ delete m_pFormatsTable; m_pFormatsTable = pObj; }
 	void AttachFontsTable(CObject* pObj)						{ delete m_pFontsTable; m_pFontsTable = pObj; }

@@ -8,6 +8,8 @@
 #include <TbGeneric\GeneralObjects.h>
 
 #include "SqlBindingObjects.h"
+#include "beginh.dex"
+
 
 class SqlExceptionClient;
 class SqlConnectionClient;
@@ -15,11 +17,7 @@ class SqlTransactionClient;
 class SqlCommandClient;
 class SqlDataReaderClient;
 class SqlDataTableClient;
-class SqlProcedureParameters; 
-
-
-#include "beginh.dex"
-
+class SqlProcedureParameters;
 
 //enum TB_EXPORT SqlMoveType { MoveFirst, MovePrev, MoveNext, MoveLast };
 enum TB_EXPORT MoveType { E_MOVE_REFRESH, E_MOVE_FIRST, E_MOVE_PREV, E_MOVE_NEXT, E_MOVE_LAST };
@@ -66,6 +64,7 @@ class TB_EXPORT MSqlConnection
 
 
 public:
+
 	SqlConnectionClient* m_pSqlConnectionClient;
 	SqlTransactionClient* m_pSqlTransactionClient;
 
@@ -101,6 +100,7 @@ public:
 
 	int	 GetConnectionState() const;
 	void SetConnectionString(const CString& strConnectionString);
+	CString GetConnectionString();
 
 	void BeginTransaction();
 	void Commit();

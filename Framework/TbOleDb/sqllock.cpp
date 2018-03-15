@@ -197,7 +197,6 @@ SqlLockMng::SqlLockMng(const CString &strDBName)
 	m_pLockManagerInterface		= AfxGetLockManager();
 	m_pLoginManagerInterface	= AfxGetLoginManager();
 }
-
 //-----------------------------------------------------------------------------
 SqlLockMng::~SqlLockMng()
 {

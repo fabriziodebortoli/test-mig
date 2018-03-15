@@ -248,8 +248,8 @@ TBFSDatabaseDriver::TBFSDatabaseDriver(const CString& strStandardConnectionStrin
 //----------------------------------------------------------------------------
 TBFSDatabaseDriver::~TBFSDatabaseDriver()
 {
-	if (m_pCachedTBFile)
-		delete m_pCachedTBFile;
+	/*if (m_pCachedTBFile)
+		delete m_pCachedTBFile;*/
 
 	if (m_pMetadataPerformance)
 		delete m_pMetadataPerformance;
@@ -610,15 +610,15 @@ BOOL TBFSDatabaseDriver::SaveTextFile(const CString& strPathFileName, const CStr
 //----------------------------------------------------------------------------
 BOOL TBFSDatabaseDriver::ExistFile(const CString& strPathFileName)
 {
-	//return GetFile(strPathFileName) > 0;
-	if (m_pCachedTBFile)
+	//non posso usare il cache perchè l'istanza viene chiamata da più login contex
+	/*if (m_pCachedTBFile)
 	{
 		delete m_pCachedTBFile;
 		m_pCachedTBFile = NULL;
 	}
 	m_pCachedTBFile = GetTBFile(strPathFileName);
-
-	return m_pCachedTBFile ? m_pCachedTBFile->m_FileID > 0 : FALSE; //GetFile(strPathFileName) > 0;
+	return (m_pCachedTBFile) ? m_pCachedTBFile->m_FileID > 0 : FALSE;*/
+	return GetFile(strPathFileName) > 0;
 }
 
 //----------------------------------------------------------------------------
@@ -1103,12 +1103,12 @@ TBFile* TBFSDatabaseDriver::GetTBFile(const CString& strPathFileName)
 		return NULL;
 	
 	CString strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
-	if (m_pCachedTBFile && m_pCachedTBFile->m_strCompleteFileName.CompareNoCase(strPathFileName) == 0)
+	/*if (m_pCachedTBFile && m_pCachedTBFile->m_strCompleteFileName.CompareNoCase(strPathFileName) == 0)
 	{
 		TBFile* pTBFile = m_pCachedTBFile;
 		m_pCachedTBFile = NULL;
 		return pTBFile;
-	}
+	}*/
 
 	TBMetadataArray aMetadataArray;
 	aMetadataArray.SetOwns(FALSE);

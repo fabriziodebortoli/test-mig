@@ -51,7 +51,7 @@ private:
 	//CRecordKeySet* m_pRecordKeySet;
 
 private:
-	void Initialize			(BOOL bCopyBuffer = TRUE);
+	void Initialize			(MoveType moveType, BOOL bCopyBuffer = TRUE);
 	void SetNoRecord		();
 	void CheckFirstRecord	();
 	void CheckLastRecord	();

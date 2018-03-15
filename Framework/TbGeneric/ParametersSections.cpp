@@ -147,6 +147,8 @@ const TCHAR szMaxLockTime[]				= _T("MaxLockTime");
 const TCHAR szUseLockManager[]			= _T("UseLockManager");
 const TCHAR szMaxReportLockRetry[]		= _T("MaxReportLockRetry");
 const TCHAR szMaxReportLockTime[]		= _T("MaxReportLockTime");
+const TCHAR szUseNewSqlLockManager[]	= _T("UseNewSqlLockManager");
+const TCHAR szUseNewSqlLockCache[]		= _T("UseNewSqlLockCache");
 
 //.PerformanceAnalizer........................................................
 const TCHAR szPerformanceAnalizer[] = _T("PerformanceAnalizer"); 

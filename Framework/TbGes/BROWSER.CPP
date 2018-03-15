@@ -81,22 +81,22 @@ SqlBrowser::~SqlBrowser()
 
 // controlla di non essere sul primo record
 //-----------------------------------------------------------------------------
-void SqlBrowser::Initialize(BOOL bCopyBuffer /* = TRUE*/)
+void SqlBrowser::Initialize(MoveType moveType, BOOL bCopyBuffer /* = TRUE*/)
 {
 	TRY
 	{
 		if (!m_bValid)
 			return;
 
-		m_pTable->MoveLast();
+		//m_pTable->MoveLast();
 		
-		m_bFirstRecord	= FALSE;
-		m_bLastRecord	= !m_pTable->IsEOF();
-		m_bNoRecord		= !m_bLastRecord;
+		m_bFirstRecord	= (moveType == E_MOVE_NEXT) ? FALSE : !m_pTable->IsBOF();
+		m_bLastRecord	= (moveType == E_MOVE_NEXT) ? !m_pTable->IsEOF() : FALSE;
+		m_bNoRecord		= (moveType == E_MOVE_NEXT) ? !m_bLastRecord : !m_bFirstRecord;
 
 		// cerca di capire se c'e un solo record		
 		if (!m_bNoRecord)
-			CheckFirstRecord();
+			(moveType == E_MOVE_NEXT) ? CheckFirstRecord() : CheckLastRecord();
 	
 		// se la tabella e` vuota non assegna il record permettendo
 		// un nuovo inserimento.
@@ -130,7 +130,7 @@ void SqlBrowser::ReInit (BOOL bCopyBuffer/*=TRUE*/)
 
 	m_pDBTMaster->PrepareBrowser(m_pTable);
 
-	Initialize(bCopyBuffer);
+	Initialize(E_MOVE_LAST, bCopyBuffer);
 }
 
 // controlla di non essere sul primo record
@@ -278,7 +278,7 @@ BOOL SqlBrowser::FirstRecord ()
 //-----------------------------------------------------------------------------	
 BOOL SqlBrowser::PrevRecord	() 
 {
-	if (m_bInvalidQuery && !Query())
+	if (m_bInvalidQuery && !Query(E_MOVE_LAST))
 		return FALSE;
 
 	TRY
@@ -320,12 +320,17 @@ BOOL SqlBrowser::PrevRecord	()
 //-----------------------------------------------------------------------------	
 BOOL SqlBrowser::NextRecord ()
 {
-	if (m_bInvalidQuery && !Query())
-		return FALSE;
-
 	TRY
 	{
-		m_pTable->MoveNext();
+
+		if (m_bInvalidQuery)
+		{
+			if (!Query(E_MOVE_LAST))
+				return FALSE;
+		}
+		else
+			m_pTable->MoveNext();
+
 		if (m_pTable->IsEmpty())
 		{
 			SetNoRecord();
@@ -435,7 +440,7 @@ BOOL SqlBrowser::Query(MoveType moveType /*= SqlTable::E_MOVE_NEXT*/)
 		m_pSqlSession->Open();
 
 		m_pTable->Query(moveType);
-		Initialize();
+		Initialize(moveType);
 		m_bInvalidQuery = FALSE;
 
 		//dopo la query mi disconnetto

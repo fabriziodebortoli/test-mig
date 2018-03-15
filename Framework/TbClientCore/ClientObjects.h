@@ -21,10 +21,7 @@ class CLockManagerInterface;
 //=============================================================================
 TB_EXPORT void						AFXAPI AfxReinitActivationInfos();
 TB_EXPORT CClientObjects*			AFXAPI AfxGetCommonClientObjects();
-
 TB_EXPORT TbServicesWrapper*		AFXAPI AfxGetTbServices			();
-TB_EXPORT CLockManagerInterface*	AFXAPI AfxGetLockManager		();
-TB_EXPORT CLockManagerInterface*	AFXAPI AfxCreateLockManager		();
 TB_EXPORT CLoginManagerInterface*	AFXAPI AfxGetLoginManager		();
 
 //-----------------------------------------------------------------------------

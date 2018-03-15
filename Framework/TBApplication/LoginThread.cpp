@@ -375,7 +375,17 @@ void CLoginThread::InitLoginContext()
 
 	AttachSettingsTable(new SettingsTable(*((SettingsTable*) AfxGetApplicationContext()->GetGlobalSettingsTable())));
 	
-	AttachLockManager (AfxCreateLockManager());	
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szLockManager,
+		szUseNewSqlLockManager,
+		DataBool(FALSE),
+		szTbDefaultSettingFileName
+	);
+	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
+		AttachLockManager (AfxCreateLockManager());	
+
 	AttachOleDbMng(new COleDbManager());	
 	AttachCultureInfo(new CCultureInfo());
 	AttachWebServiceStateObjects(new CWebServiceStateObjects());

@@ -1705,6 +1705,7 @@ public:
 	virtual void        Assign      (const COleDateTime& dt);
 	virtual void        Assign      (LPCTSTR, int nFormatIdx);
 	virtual void        Assign      (const SYSTEMTIME& st) { Assign(COleDateTime(st)); }
+	virtual void		Assign		(const UWORD wDay, const UWORD wMonth, const SWORD wYear, const UWORD wHour = MIN_HOUR, const UWORD wMinute = MIN_MINUTE, const UWORD wSecond = MIN_SECOND);
 	
 	// in base al tipo di datatime visto come Token mi effettua un assegnazione della stringa
 	// indipendente dai formattatori (vedi ParseDateTimeString di Parser e il parse di nodi XML)

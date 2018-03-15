@@ -77,7 +77,7 @@ DECLARE_THREAD_VARIABLE
 COleDbManager::COleDbManager()
 :
 	m_bValid						(false),
-	m_bUseOptimisticLock			(TRUE),
+	m_bUseOptimisticLock			(FALSE),
 	m_bUseLockManager				(TRUE),
 	m_DMSStatus						(DbInvalid)
 {
@@ -126,12 +126,8 @@ void COleDbManager::OnDSNChanged()
 		pPrimaryConnection->Close();
 	}
 
-	//@@Easy Attachment
-	//se è stato attivato la Gestione documentale e l'azienda ha il database documentale collegato allora 
-	//chiedo al LoginManager la stringa di connessione
 	if (MakePrimaryConnection())
 	{
-
 	}		
 }
 
@@ -272,7 +268,9 @@ SqlConnection* COleDbManager::GetNewConnection
 	TRACE1("COleDbManager::GetNewConnection: %s\r\n", szConnectionString);
 	TB_LOCK_FOR_WRITE();
 	SqlConnection* pSqlConnection = new SqlConnection(szConnectionString, bCheckRegisterTable, pContext);
-	if (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginInfos()->m_strProviderCompanyConnectionString))) == 0)
+	
+	bool bCompanyDB = (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginInfos()->m_strProviderCompanyConnectionString))) == 0);
+	if (bCompanyDB)
 		pSqlConnection->SetUseUnicode(GetPrimaryConnection() != NULL && GetPrimaryConnection()->UseUnicode());
 
 	if (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginManager()->GetSystemDBConnectionString()))) == 0)
@@ -283,7 +281,8 @@ SqlConnection* COleDbManager::GetNewConnection
 		if (pSqlConnection->MakeConnection())
 		{
 			m_aConnectionPool.Add(pSqlConnection);
-			CheckLockManager(pSqlConnection);
+			/*if (bCompanyDB)
+				CheckLockManager(pSqlConnection);*/
 			return pSqlConnection;
 		}
 		else
@@ -370,7 +369,7 @@ BOOL COleDbManager::MakePrimaryConnection()
 		else
 		{
 			m_bValid = (pSqlConnection->m_bValid == TRUE);
-			CheckLockManager(pSqlConnection);
+			//CheckLockManager(pSqlConnection);
 		}
 	}
 		
@@ -689,7 +688,7 @@ void COleDbManager::CheckLockManager(SqlConnection* pSqlConnection)
 	}
 
 	// if it is the first connection on database name, I init lockmanager
-	AfxGetLockManager()->Init(pSqlConnection->m_strDBName);
+	AfxGetLockManager()->Init(pSqlConnection->GetDefaultSqlSession()->GetMSqlConnection());
 }
 
 //-----------------------------------------------------------------------------
@@ -756,9 +755,9 @@ void  COleDbManager::CacheParameters ()
 	DataObj* pDataObj = AfxGetSettingValue
 	(
 		snsTbOleDb,
-		szConnectionSection,
+		szLockManager,
 		szUseOptimisticLock,
-		DataBool(TRUE),
+		DataBool(FALSE),
 		szTbDefaultSettingFileName
 	);
 	m_bUseOptimisticLock = pDataObj && *((DataBool*)pDataObj);
@@ -772,6 +771,18 @@ void  COleDbManager::CacheParameters ()
 					szTbDefaultSettingFileName
 				);
 	m_bUseLockManager = pDataObj && *((DataBool*) pDataObj);
+
+
+	pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szLockManager,
+		szUseNewSqlLockManager,
+		DataBool(TRUE),
+		szTbDefaultSettingFileName
+	);
+
+	m_bUseNewSqlLockManager = pDataObj && *((DataBool*)pDataObj);
 }
 
 //------------------------------------------------------------------------------
@@ -844,3 +855,34 @@ SqlRecord* AfxCreateRecord(DataStr tableName)
 	ASSERT_VALID(pRec);
 	return pRec;
 }   
+
+
+
+//----------------------------------------------------------------------------
+CLockManagerInterface* AFXAPI AfxGetLockManager()
+{
+	return (CLockManagerInterface*)AfxGetDefaultSqlConnection()->GetLockManagerInterface();
+}
+
+//----------------------------------------------------------------------------
+CLockManagerInterface* AFXAPI AfxCreateLockManager()
+{
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szLockManager,
+		szUseNewSqlLockManager,
+		DataBool(FALSE),
+		szTbDefaultSettingFileName
+	);
+	if (!pDataObj && *((DataBool*)pDataObj))
+		return AfxGetLockManager();
+	
+	return  new CLockManagerInterface
+	(
+		AfxGetPathFinder()->GetLockServiceName(),
+		_T("http://microarea.it/LockManager/"),
+		AfxGetLoginManager()->GetServer(),
+		AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
+	);
+}

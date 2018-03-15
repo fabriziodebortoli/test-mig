@@ -274,23 +274,6 @@ TbServicesWrapper* AFXAPI AfxGetTbServices()
 	return AfxGetCommonClientObjects()->GetTbServices();
 }
 
-//----------------------------------------------------------------------------
-CLockManagerInterface* AFXAPI AfxGetLockManager()
-{
-	return (CLockManagerInterface*) AfxGetLoginContext()->GetLockManager();
-}
-
-//----------------------------------------------------------------------------
-CLockManagerInterface* AFXAPI AfxCreateLockManager()
-{
-	return new CLockManagerInterface
-							(
-								AfxGetPathFinder()->GetLockServiceName(),
-								_T("http://microarea.it/LockManager/"),
-								AfxGetLoginManager()->GetServer(),
-								AfxGetCommonClientObjects()->GetServerConnectionInfo ()->m_nWebServicesPort
-							);
-}
 
 //----------------------------------------------------------------------------
 CLoginManagerInterface*	AFXAPI AfxGetLoginManager ()

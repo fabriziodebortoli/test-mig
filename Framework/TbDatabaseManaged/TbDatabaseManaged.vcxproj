@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SqlBindingObjects.h" />
+    <ClInclude Include="SqlLockManager.h" />
     <ClInclude Include="SqlSchemaInfo.h" />
     <ClInclude Include="MSqlConnection.h" />
     <ClInclude Include="Stdafx.h" />
@@ -198,6 +199,7 @@
   <ItemGroup>
     <ClCompile Include="MSqlConnection.cpp" />
     <ClCompile Include="SqlBindingObjects.cpp" />
+    <ClCompile Include="SqlLockManager.cpp" />
     <ClCompile Include="SqlSchemaInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -214,6 +216,9 @@
     <None Include="Module.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TaskBuilderNet\Microarea.LockManager\Microarea.LockManager.csproj">
+      <Project>{b8920ea9-7ef3-43d4-bc3f-2e7254ec8dec}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\TbGeneric\TbGeneric.vcxproj">
       <Project>{2ec6864f-a6d1-4cb1-9a5a-4bffc02e696e}</Project>
     </ProjectReference>

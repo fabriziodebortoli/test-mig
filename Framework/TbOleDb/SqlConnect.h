@@ -17,19 +17,17 @@
 class SqlConnection;
 class CRTAddOnNewFieldsArray;
 class SqlRowSet;
-class SqlConnection;
-class SqlCatalog;
-class SqlCatalogEntry;
-class SqlTableInfo;
 class SqlDBMark;
 class SqlTable;
 class AddOnLibrary;
-class AddOnModule;
 class AddOnApplication;
-class SqlColumnInfo;
+class CLockManagerInterface;
 
 // classi di TBDatabaseManaged
 class 	MSqlConnection;
+
+
+
 
 
 
@@ -61,6 +59,7 @@ public:
 	void AddCommand				(SqlRowSet* pSqlCommand);
 	void RemoveCommand			(SqlRowSet* pSqlCommand);
 
+	bool ExistConnectedCommands (); //se esistono dei SqlCommand con SqlDataReader ancora connessi 
 	void CloseAllCommands		();
 	void ReleaseAllCommands		();
 
@@ -106,6 +105,7 @@ protected:
 
 public:
 	SqlConnection*		m_pSqlConnection;	// connessione che ha generato la sessione
+
 
 public:
 	//posso lavorare in un contesto differente rispetto a quello della connessione
@@ -223,6 +223,8 @@ private:
 	bool				m_bAlwaysConnected;
 	int					m_nAlwaysConnectedRef; //serve per capire quante volte è stato chiamato la AlwaysConnect poichè la connessione di documentThread è condivisa tra tutti i documenti istanziati nel thread.
 												// Viene incrementato e decrementato nella SetAlwaysConnected a seconda del valore del booleano
+
+	CLockManagerInterface* m_pLockManagerInterface;
 public:
 	enum  ExecuteResult { EXECUTE_ERROR, EXECUTE_SUCCESS, LOCKED };
 
@@ -279,6 +281,9 @@ public:
 	SqlConnection* Clone();
 
 	SqlCatalogConstPtr 		GetCatalog	();
+
+	//adesso il lock manager interface è di proprietà della connessione essendo basato su tabella di sistema
+	CLockManagerInterface* GetLockManagerInterface();
 
 	void LoadTables(::CMapStringToOb* pTables);
 	void LoadProcedures(::CMapStringToOb* pTables);

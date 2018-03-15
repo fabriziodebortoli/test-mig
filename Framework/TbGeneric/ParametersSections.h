@@ -124,6 +124,8 @@ extern const TB_EXPORT TCHAR szRecoverySystemRetries[];
 extern const TB_EXPORT TCHAR szRecoverySystemRetriesInterval[];
 
 extern const TB_EXPORT TCHAR szLockManager[];					// LockManager
+extern const TB_EXPORT TCHAR szUseSqlLockManager[];
+extern const TB_EXPORT TCHAR szUseSqlLockCache[];
 extern const TB_EXPORT TCHAR szUseOptimisticLock[];
 extern const TB_EXPORT TCHAR szDisableLockRetry[];
 extern const TB_EXPORT TCHAR szDisableBeep[];
@@ -136,6 +138,9 @@ extern const TB_EXPORT TCHAR szMaxLockTime[];
 extern const TB_EXPORT TCHAR szUseLockManager[];
 extern const TB_EXPORT TCHAR szMaxReportLockRetry[];
 extern const TB_EXPORT TCHAR szMaxReportLockTime[];
+//new sqllockmanager
+extern const TB_EXPORT TCHAR szUseNewSqlLockManager[];
+extern const TB_EXPORT TCHAR szUseNewSqlLockCache[];
 
 extern const TB_EXPORT TCHAR szPerformanceAnalizer[];			// PerformanceAnalizer
 extern const TB_EXPORT TCHAR szAnalizeDocPerformance[];

@@ -357,28 +357,31 @@ BOOL DBTObject::Open()
 		//@@BAUZI TODO da elimniare il cursore scrollabile del DBTSlaveBuffered. Da sostituire con la paginazione per il browser
 		//utilizzando il cursore scollabile il SqlRowSet viene automaticamente sconnesso dopo aver eseguito la query (xch� il risultato viene tenuto in cache)
 		m_pTable->Open(!m_bDBTOnView, this->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)));
+	
+		if (this->IsKindOf(RUNTIME_CLASS(DBTMaster)) || this->IsKindOf(RUNTIME_CLASS(DBTSlave)))
+			m_pTable->SetOnlyOneRecordExpected();
 
-	// verifico prima se il documento vuole sostituire la query del dbt
-	if (!m_pDocument->OnChangeDBTDefineQuery(this, m_pTable))
-		OnDefineQuery();
+		// verifico prima se il documento vuole sostituire la query del dbt
+		if (!m_pDocument->OnChangeDBTDefineQuery(this, m_pTable))
+			OnDefineQuery();
 
-	// chiedo al documento (e ai suoi clientdoc) l'eventuale aggiunta di parametri alla query
-	// del dbt
-	m_pDocument->DispatchOnModifyDBTDefineQuery(this, m_pTable);
+		// chiedo al documento (e ai suoi clientdoc) l'eventuale aggiunta di parametri alla query
+		// del dbt
+		m_pDocument->DispatchOnModifyDBTDefineQuery(this, m_pTable);
 
-	if (!m_pDocument->OnChangeDBTPrepareQuery(this, m_pTable))
-		OnPrepareQuery();
-	m_pDocument->DispatchOnModifyDBTPrepareQuery(this, m_pTable);
+		if (!m_pDocument->OnChangeDBTPrepareQuery(this, m_pTable))
+			OnPrepareQuery();
+		m_pDocument->DispatchOnModifyDBTPrepareQuery(this, m_pTable);
 	}
 
-		CATCH(SqlException, e)
+	CATCH(SqlException, e)
 	{
 		ConditionalDisplayMessage(e->m_strError);
 		return FALSE;
 	}
 	END_CATCH
 
-		return TRUE;
+	return TRUE;
 }
 
 //-----------------------------------------------------------------------------	

@@ -40,9 +40,10 @@ private:
 	SqlProviderInfoPool				m_aProviderInfoPool;
 	volatile bool					m_bValid;	
 
-	// parameters 
+	// Lock manager settings 
 	BOOL							m_bUseOptimisticLock; //use optimistic lock in primary transaction
 	BOOL							m_bUseLockManager;
+	BOOL							m_bUseNewSqlLockManager;
 
 	CString							m_strDMSConnectionString; //connection string to Easy Attachment database  @@Easy Attachment
 	DMSStatusEnum					m_DMSStatus;
@@ -146,6 +147,7 @@ public:
 	void  CacheParameters					();
 	const BOOL&	UseOptimisticLock			() const { return m_bUseOptimisticLock; }
 	const BOOL&	UseLockManager				() const { return m_bUseLockManager; }
+	const BOOL&	UseNewSqlLockManager		() const { return m_bUseNewSqlLockManager; }
 };
 
 //============================================================================
@@ -164,6 +166,10 @@ TB_EXPORT SqlConnection* AfxGetSecondarySqlConnection(const CString& strAlias);
 /*TBWebMethod*/TB_EXPORT SqlSession*	AfxOpenSqlSession (DataStr connectionString);
 
 /*TBWebMethod*/TB_EXPORT SqlRecord*		AfxCreateRecord (DataStr tableName);
+
+//nuova gestione dei lock su db
+TB_EXPORT CLockManagerInterface*	AFXAPI AfxGetLockManager();
+TB_EXPORT CLockManagerInterface*	AFXAPI AfxCreateLockManager();
 
 //============================================================================
 #include "endh.dex"

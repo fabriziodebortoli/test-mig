@@ -304,20 +304,20 @@ BOOL CBaseContext::UnlockAll(LPCTSTR szTableName)
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::IsCurrentLocked (SqlTable* pTable)							  
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->IsCurrentLocked(pTable) : TRUE; 
 }
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::LockCurrent (SqlTable* pTable, BOOL bUseMessageBox /*= TRUE*/, LockRetriesMng* pRetriesMng /*NULL*/) 
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->LockCurrent(pTable, bUseMessageBox, pRetriesMng) : TRUE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::UnlockCurrent(SqlTable* pTable) 
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->UnlockCurrent(pTable) : TRUE; 
 }
 
@@ -325,28 +325,28 @@ BOOL CBaseContext::UnlockCurrent(SqlTable* pTable)
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::LockDocument() 
 { 
-	SqlLockMng* pLockMng = GetLockMng(m_pDocument->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(m_pDocument->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->LockDocument(this) : TRUE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::UnlockDocument () 
 { 
-	SqlLockMng* pLockMng = GetLockMng(m_pDocument->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(m_pDocument->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->UnlockDocument(this) : TRUE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::LockTable(SqlTable* pTable, const CString& tableName, BOOL bUseMessageBox/*= TRUE*/, LockRetriesMng* pRetriesMng /*NULL*/)
 {
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->LockTable(pTable, tableName, bUseMessageBox, pRetriesMng) : TRUE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::UnlockTable(SqlTable* pTable, const CString& tableName)
 {
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->UnlockTable(pTable, tableName) : TRUE; 
 }
 
@@ -354,14 +354,14 @@ BOOL CBaseContext::UnlockTable(SqlTable* pTable, const CString& tableName)
 //-----------------------------------------------------------------------------
 CString	CBaseContext::GetLockMessage (SqlTable* pTable) 
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->GetLockMessage(pTable) : _T(""); 
 }
 
 //-----------------------------------------------------------------------------
 void CBaseContext::EnableLocksCache (SqlTable* pTable, const BOOL bValue /*TRUE*/)
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	if (pLockMng) 
 		pLockMng->EnableLocksCache (bValue) ; 
 }
@@ -369,7 +369,7 @@ void CBaseContext::EnableLocksCache (SqlTable* pTable, const BOOL bValue /*TRUE*
 //-----------------------------------------------------------------------------
 void CBaseContext::ClearLocksCache (SqlTable* pTable, const CString sLockContextKey /* _T("")*/)
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	if (pLockMng) 
 		pLockMng->ClearLocksCache (sLockContextKey) ; 
 }
@@ -377,41 +377,42 @@ void CBaseContext::ClearLocksCache (SqlTable* pTable, const CString sLockContext
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::UnlockTableKey (SqlTable* pTable, SqlRecord* pRec, const CString& sContextKey /*_T("")*/)
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->UnlockTableKey (sContextKey, pTable, pRec) : FALSE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::LockTableKey (SqlTable* pTable, SqlRecord* pRec, const CString& sContextKey /*_T("")*/, LockRetriesMng* pRetriesMng /*NULL*/)
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->LockTableKey (sContextKey, pTable, pRec, pRetriesMng) : FALSE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::IsTableKeyLocked	 (SqlTable* pTable, SqlRecord* pRec, const CString& sContextKey /*_T("")*/)
 { 
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->IsTableKeyLocked (sContextKey, pTable, pRec) : FALSE; 
 }
 
 //-----------------------------------------------------------------------------
 BOOL CBaseContext::UnlockAllLockContextKeys(const CString& sLockContextKey, SqlTable* pTable)
 {
-	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection->m_strDBName);
+	SqlLockMng* pLockMng = GetLockMng(pTable->m_pSqlConnection);
 	return (pLockMng) ? pLockMng->UnlockAllLockContextKeys (sLockContextKey) : FALSE; 
 }
 
 //-----------------------------------------------------------------------------
-SqlLockMng* CBaseContext::GetLockMng(const CString& strDBName)
+SqlLockMng* CBaseContext::GetLockMng(SqlConnection* pSqlConnection)
 {
 	if (m_pLockMng)
 		return m_pLockMng;
 	
 	if (!AfxGetOleDbMng()->UseLockManager())
 		return NULL;
+	
+	m_pLockMng = new SqlLockMng(pSqlConnection->GetDatabaseName());
 
-	m_pLockMng = new SqlLockMng(strDBName);
 	m_bCanDeleteLockMng = TRUE;
 	return m_pLockMng;
 }
@@ -424,12 +425,11 @@ SqlLockMng* CBaseContext::GetLockMng(const CString& strDBName)
 //-----------------------------------------------------------------------------
 CTransactionContext::CTransactionContext(SqlConnection* pSqlConnection, CTBContext* pTBContext, CBaseDocument* pDocument)
 	:
-	CSharedContext(pDocument),
-	m_pSqlConnection(NULL),
-	m_pSqlSession(NULL),
-	//m_pUpdateSqlSession		(NULL),
-	m_pTBContext(pTBContext),
-	m_bTxError(FALSE)
+	CSharedContext		(pDocument),
+	m_pSqlConnection	(NULL),
+	m_pSqlSession		(NULL),
+	m_pTBContext		(pTBContext),
+	m_bTxError			(FALSE)
 {
 	if (pSqlConnection && pSqlConnection->IsValid())
 		m_pSqlConnection = pSqlConnection;
@@ -441,15 +441,13 @@ CTransactionContext::CTransactionContext(const CTransactionContext& aTransaction
 :
 	CSharedContext			(aTransactionContext),
 	m_pSqlConnection		(NULL),
-	m_pSqlSession(NULL),
-	//m_pUpdateSqlSession		(NULL),
+	m_pSqlSession			(NULL),
 	m_pTBContext			(NULL),
 	m_bTxError				(FALSE)
 
 {
 	m_pSqlConnection		= aTransactionContext.m_pSqlConnection;
 	m_pSqlSession			= aTransactionContext.m_pSqlSession;
-	//m_pUpdateSqlSession	= aTransactionContext.m_pUpdateSqlSession;
 	m_pTBContext			= aTransactionContext.m_pTBContext;
 	m_bTxError				= aTransactionContext.m_bTxError;
 }
@@ -461,10 +459,7 @@ CTransactionContext::~CTransactionContext()
 		return;
 
 	if (m_pSqlSession)
-	{
-	/*	if (m_pReadOnlySqlSession == m_pUpdateSqlSession)
-			m_pReadOnlySqlSession = NULL;*/
-		
+	{		
 		m_pSqlSession->ForceClose();
 		delete m_pSqlSession;
 	}				

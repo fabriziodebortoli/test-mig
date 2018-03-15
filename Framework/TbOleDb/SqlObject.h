@@ -158,7 +158,7 @@ public:
 
 
 	CString	GetLockMessage	(SqlTable* pTable);
-	SqlLockMng*	GetLockMng	(const CString& strDBName);
+	SqlLockMng*	GetLockMng	(SqlConnection* pSqlConnection);
 
 	// locks cache management
 	void	EnableLocksCache		(SqlTable* pTable, const BOOL bValue = TRUE);

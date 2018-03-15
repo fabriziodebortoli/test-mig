@@ -12,6 +12,7 @@
 #include <TbWebServicesWrappers\LockManagerInterface.h>
 #include <TBApplication\ThreadMainWindow.h>
 #include <TbGes\ExtDocAbstract.h>
+#include <TbOleDB\OleDBMng.h>
 
 #include "TBProxy.h"
 

@@ -104,6 +104,20 @@ void SqlCommandPool::CloseAllCommands()
 	RemoveAll();
 }
 
+
+//-----------------------------------------------------------------------------
+bool SqlCommandPool::ExistConnectedCommands()
+{
+	SqlRowSet* pRowSet;
+	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
+	{
+		pRowSet = GetAt(nIdx);
+		if (pRowSet && pRowSet->m_pRowSet && pRowSet->m_pRowSet->IsConnected())
+			return true;
+	}
+	return false;
+}
+
 //-----------------------------------------------------------------------------
 void SqlCommandPool::ReleaseAllCommands ()
 {
@@ -251,7 +265,7 @@ void SqlSession::Open()
 		{
 			//se non è la DefaultSqlSession allora guardo lo stato di open della DefaultSqlSession
 			START_PROC_TIME(PROC_OPEN_CONNECTION)
-			m_pSession->Open();
+			m_pSession->Open(m_pSqlConnection->AlwaysConnected());
 			STOP_PROC_TIME(PROC_OPEN_CONNECTION)
 			TRACE_SQL(_T("Open session"), this);
 			if (m_pUpdatableSqlSession)
@@ -297,9 +311,9 @@ void SqlSession::Close()
 //-----------------------------------------------------------------------------	
 void SqlSession::ForceClose()
 {
-	if (!m_pContext->IsOwnContext())
+	if (!m_pContext->IsOwnContext()) // || m_arCommandPool.ExistConnectedCommands())
 		return; 
-
+	
 	if (IsTxnInProgress())
 		Commit();
 
@@ -371,7 +385,7 @@ void SqlSession::Commit()
 {
 	// lock manager restart error
 	SqlLockMng* pLockMng =	m_pContext ? 
-							m_pContext->GetLockMng(m_pSqlConnection->GetDatabaseName()) 
+							m_pContext->GetLockMng(m_pSqlConnection) 
 							: NULL;
 	
 	if (pLockMng && pLockMng->HasRestarted())
@@ -529,7 +543,8 @@ SqlConnection::SqlConnection
 	SqlObject				(pContext),
 	m_bCheckRegisterTable	(bCheckRegisterTable),
 	m_nAlwaysConnectedRef	(0),
-	m_strAlias				(strAlias)
+	m_strAlias				(strAlias),
+	m_pLockManagerInterface (NULL)
 {
 	SetConnectionString(strConnectionString);
 	Initialize();
@@ -538,12 +553,15 @@ SqlConnection::SqlConnection
 //-----------------------------------------------------------------------------
 SqlConnection::~SqlConnection()
 {	
+	if (m_pLockManagerInterface)
+		delete m_pLockManagerInterface;
+
 	if (m_arSessionPool.GetSize() > 0)
 	{
 		ASSERT(FALSE);
 		TRACE1("SqlConnection::~SqlConnection(): sessions of the database %s aren't closed", (LPCTSTR)m_strDBName);
 		Close();
-	}
+	}	
 }
 //-----------------------------------------------------------------------------
 void SqlConnection::SetConnectionString(const CString& strConnectionString)
@@ -589,11 +607,38 @@ SqlConnection* SqlConnection::Clone()
 	pConnection->m_bOpen = this->m_bOpen;
 	pConnection->m_pCatalog = this->m_pCatalog;
 	pConnection->m_bValid = this->m_bValid;
-	pConnection->m_bTablesPresent = this->m_bTablesPresent;
-
+	pConnection->m_bTablesPresent = this->m_bTablesPresent;	
 	return pConnection;
 }
 
+//-----------------------------------------------------------------------------
+CLockManagerInterface* SqlConnection::GetLockManagerInterface()
+{
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szLockManager,
+		szUseNewSqlLockManager,
+		DataBool(FALSE),
+		szTbDefaultSettingFileName
+	);
+	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
+		return  (CLockManagerInterface*)AfxGetLoginContext()->GetLockManager();
+
+	if (!m_pLockManagerInterface)
+	{
+		m_pLockManagerInterface = new CLockManagerInterface
+		(
+			AfxGetPathFinder()->GetLockServiceName(),
+			_T("http://microarea.it/LockManager/"),
+			AfxGetLoginManager()->GetServer(),
+			AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
+		);
+
+		m_pLockManagerInterface->Init(this->GetDefaultSqlSession()->GetMSqlConnection());
+	}
+	return m_pLockManagerInterface;
+ }
 
 //-----------------------------------------------------------------------------
 ::DBMSType SqlConnection::GetDBMSType() const
@@ -695,7 +740,6 @@ void SqlConnection::Close()
 	//default sqlsession
 	//GET_THREAD_VARIABLE(CDefaultSqlSessions, m_DefaultSqlSessions);
 	//m_DefaultSqlSessions[this] = NULL;
-
 	SqlSession* pSession;	
 	for (int nIdx = m_arSessionPool.GetUpperBound(); nIdx >= 0; nIdx--) 	
 	{

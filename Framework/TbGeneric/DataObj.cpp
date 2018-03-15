@@ -4831,6 +4831,25 @@ void DataDate::Assign(const COleDateTime& dt)
 
 	Assign(aDateTime);
 }
+//-----------------------------------------------------------------------------
+void DataDate::Assign(const UWORD wDay, const UWORD wMonth, const SWORD wYear, const UWORD wHour /*= MIN_HOUR*/, const UWORD wMinute /*= MIN_MINUTE*/, const UWORD wSecond /*= MIN_SECOND*/)
+{
+	if (IsValueLocked())
+		return;
+
+	DBTIMESTAMP aDateTime;
+
+	aDateTime.day = wDay;
+	aDateTime.month = wMonth;
+	aDateTime.year = wYear;
+
+	aDateTime.hour = wHour;
+	aDateTime.minute = wMinute;
+	aDateTime.second = wSecond;
+	aDateTime.fraction = 0;
+
+	Assign(aDateTime);
+}
 
 //-----------------------------------------------------------------------------
 void DataDate::AssignFromOwnToken(LPCTSTR pszDateStr)
