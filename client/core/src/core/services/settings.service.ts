@@ -10,8 +10,8 @@ import { Logger } from './../../core/services/logger.service';
 export class SettingsService {
     public _isEasyStudioActivated: boolean = undefined;
 
-    public nrMaxFavorites: number = 10;
-    public nrMaxMostUsed: number = 10;
+    public nrMaxFavorites: number = 20;
+    public nrMaxMostUsed: number = 15;
     public showSearchBox: boolean = true;
     public canEditDate: boolean = true;
 
