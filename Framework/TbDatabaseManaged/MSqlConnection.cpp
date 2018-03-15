@@ -641,14 +641,14 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			reader->Close();
 			delete reader;
 		}
+
+		if (command != nullptr)
+			delete command;
 	}
 
 
 	if (pSqlTables->GetCount() == 0)
 	{
-		if (command != nullptr)
-		delete command;
-
 		if (oldConnState == ConnectionState::Closed)
 		Close();
 		return;
