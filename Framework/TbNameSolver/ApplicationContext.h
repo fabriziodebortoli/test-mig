@@ -289,10 +289,14 @@ private:
 	BOOL m_bDumpAssertionsIfNoCrash;
 	BOOL m_bEnableActiveAccessibility; // useful for Ranorex Spy
 	BOOL _AssertAlwaysFailedLine(LPCSTR lpszFailedTest, DWORD threadId, LPCSTR lpszFunction, LPCSTR lpszFileName, int nLine, const TCHAR * szAdditionalMessage);
+	int  m_nDockPaneSlidingSteps;
+	BOOL m_bDockPaneDisableAnimation;
 
 protected:
 	BOOL SetEnableAssertionsInRelease(BOOL bEnable) { BOOL bOld = m_bEnableAssertionsInRelease; m_bEnableAssertionsInRelease = bEnable; return bOld;}
 	BOOL SetDumpAssertionsIfNoCrash(BOOL bEnable) { BOOL bOld = m_bDumpAssertionsIfNoCrash; m_bDumpAssertionsIfNoCrash = bEnable; return bOld;}
+	void SetDockPaneSlidingSteps(int nSteps) { m_nDockPaneSlidingSteps = nSteps; }
+	void SetDockPaneDisableAnimation(BOOL bSet) { m_bDockPaneDisableAnimation = bSet; }
 
 public:
 	BOOL AssertAlwaysFailedLine(LPCSTR lpszFailedTest, DWORD threadId, LPCSTR lpszFunction, LPCSTR lpszFileName, int nLine);
@@ -300,6 +304,8 @@ public:
 	BOOL AssertAlwaysFailedLine(LPCSTR lpszFailedTest, DWORD threadId, LPCSTR lpszFunction, LPCSTR lpszFileName, int nLine, const CHAR * szAdditionalMessage, ...);
 	BOOL AreReleaseAssertionsEnabled() { return m_bEnableAssertionsInRelease; }
 	BOOL DumpAssertionsIfNoCrash() { return m_bDumpAssertionsIfNoCrash; }
+	int  DockPaneSlidingSteps() { return m_nDockPaneSlidingSteps; }
+	BOOL DockPaneDisableAnimation() { return m_bDockPaneDisableAnimation; }
 
 	int GetFailedAssertionsCount() { return m_FailedAssertions.GetCount(); }
 	CString GetFailedAssertion(int i);

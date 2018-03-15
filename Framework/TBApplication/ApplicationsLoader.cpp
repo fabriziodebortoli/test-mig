@@ -779,6 +779,12 @@ void CApplicationsLoader::InitializeTaskBuilderAddOn (CStatusBarMsg &statusBar)
 	pDataObj = AfxGetSettingValue (snsTbGenlib, szEnvironment, szDumpAssertionsIfNoCrash, DataBool(FALSE), szTbDefaultSettingFileName);
 	AfxGetApplicationContext()->SetDumpAssertionsIfNoCrash(pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataBool)) ? *((DataBool*) pDataObj) : FALSE);
 
+	//dock panes settings
+	pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDockPaneSlidingSteps, DataInt(0), szTbDefaultSettingFileName);
+	AfxGetApplicationContext()->SetDockPaneSlidingSteps(pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataInt)) ? *((DataInt*)pDataObj) : 0);
+
+	pDataObj = AfxGetSettingValue(snsTbGenlib, szPreferenceSection, szDockPaneDisableAnimation, DataBool(FALSE), szTbDefaultSettingFileName);
+	AfxGetApplicationContext()->SetDockPaneDisableAnimation(pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataBool)) ? *((DataBool*)pDataObj) : FALSE);
 
 	//done here because needs setting
 	AfxGetTbCmdManager()->InitOnDemandEnabled();

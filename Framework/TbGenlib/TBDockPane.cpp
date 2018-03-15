@@ -392,8 +392,15 @@ CTaskBuilderDockPane::CTaskBuilderDockPane()
 	m_pToolBar(NULL),
 	m_bEnabled(TRUE),
 	m_nMinWidth(minWidth),
-	m_bUseTimer(TRUE)
+	m_bUseTimer(FALSE)
 {
+	//notes: 12 is BCG default number of steps on dock pane's sliding
+	int nSteps = AfxGetApplicationContext()->DockPaneSlidingSteps();
+	if (nSteps > 0)
+		m_nSlideSteps = nSteps;
+	//notes: FALSE is BCG default value for disable animation on dock pane's sliding
+	m_bDisableAnimation = AfxGetApplicationContext()->DockPaneDisableAnimation();
+
 }
 
 //-----------------------------------------------------------------------------
@@ -407,8 +414,15 @@ CTaskBuilderDockPane::CTaskBuilderDockPane(CRuntimeClass* pWndClass, CString sTa
 	m_pToolBar(NULL),
 	m_bEnabled(TRUE),
 	m_nMinWidth(minWidth),
-	m_bUseTimer(TRUE)
+	m_bUseTimer(FALSE)
 {
+	//notes: 12 is BCG default number of steps on dock pane's sliding
+	int nSteps = AfxGetApplicationContext()->DockPaneSlidingSteps();
+	if (nSteps > 0)
+		m_nSlideSteps = nSteps;
+	//notes: FALSE is BCG default value for disable animation on dock pane's sliding
+	m_bDisableAnimation = AfxGetApplicationContext()->DockPaneDisableAnimation();
+
 	AddForm(pWndClass, sTabPaneTitle);
 }
 

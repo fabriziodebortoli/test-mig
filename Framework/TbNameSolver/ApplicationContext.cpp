@@ -93,6 +93,8 @@ CApplicationContext::CApplicationContext()
 	m_pDatabaseObjectsTable	(NULL),
 	m_bEnableAssertionsInRelease(FALSE), // start FALSE to avoid issuing assertions before loading settings and discover if they are to be issued or not
 	m_bDumpAssertionsIfNoCrash(FALSE),
+	m_nDockPaneSlidingSteps(0),
+	m_bDockPaneDisableAnimation(FALSE),
 	m_bMultiThreadedDocument(TRUE), 
 	m_bMultiThreadedLogin(TRUE),
 	m_bIISModule(FALSE),

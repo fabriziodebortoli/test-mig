@@ -75,6 +75,9 @@ extern const TB_EXPORT TCHAR szLogExitInstance[];
 extern const TB_EXPORT TCHAR szExpect100Continue[];
 extern const TB_EXPORT TCHAR szChromeDebuggingPort[];
 extern const TB_EXPORT TCHAR szRefreshDelay[];
+extern const TB_EXPORT TCHAR szDockPaneSlidingSteps[];
+extern const TB_EXPORT TCHAR szDockPaneDisableAnimation[];
+
 
 extern const TB_EXPORT TCHAR szCultureSection[];			// Culture
 extern const TB_EXPORT TCHAR szLowerLimit[];
