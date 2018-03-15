@@ -622,9 +622,15 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 	aFullNs.SetChildNamespace((CTBNamespace::NSObjectType) GetNamespaceType(), CString(name), aFullNs);
 
 	EasyBuilderComponent^ parentComponent = (EasyBuilderComponent^)parentWindow;
+	BOOL bHasBeenDeleted = FALSE;
 
 	if (parentComponent->DesignModeType != EDesignMode::Static)
 	{
+		// da questa richiesta passa sia quando è non ancora istanziato,sia quando viene wrappato in edit dalla perosnalizzazione in memoria
+		DeleteChangeRequest^ delRequest = gcnew DeleteChangeRequest(Refactor::ChangeSubject::Class, gcnew NameSpace(gcnew String(aFullNs.ToString())), parentComponent->Document->Namespace, this->Version);
+		bHasBeenDeleted = BaseCustomizationContext::ApplicationChanges->IsDeletedObject(delRequest);
+		delete delRequest;
+
 		RenameChangeRequest^ request = gcnew RenameChangeRequest(Refactor::ChangeSubject::Class, parentWindow->Namespace, parentComponent->Document->Namespace, String::Empty, gcnew String(aFullNs.ToString()), this->Version);
 		String^ newName = BaseCustomizationContext::ApplicationChanges->GetNewNameOf(request);
 		delete request;
@@ -650,14 +656,16 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 	{
 		if (parentWindow->GetType() == MTabber::typeid || parentWindow->GetType()->IsSubclassOf(MTabber::typeid))
 			return;
-
-		ASSERT(handle);
-		Handle = (System::IntPtr)(int)handle;
-		this->Location = location;
+		if (!bHasBeenDeleted)
+		{
+			ASSERT(handle);
+			Handle = (System::IntPtr)(int)handle;
+			this->Location = location;
+		}
 	}
 
 	// la tab dialog iniziale potrebbe non avere ancora l'handle 
-	if (Handle == IntPtr::Zero && parentComponent != nullptr && parentWindow != nullptr && Version != nullptr && Version->Major < 2)
+	if (!bHasBeenDeleted && Handle == IntPtr::Zero && parentComponent != nullptr && parentWindow != nullptr && Version != nullptr && Version->Major < 2)
 	{ 
 		System::String^ message = gcnew System::String(
 			"This customization is not compatibile with new document view model due to:" + System::Environment::NewLine +
@@ -682,12 +690,12 @@ BaseWindowWrapper::!BaseWindowWrapper()
 {
 	if (nativeWindow != nullptr)
 		nativeWindow->ReleaseHandle();
+	
 	if (extensions)
 	{
 		delete extensions;
 		extensions = nullptr;
 	}
-
 }
 
 

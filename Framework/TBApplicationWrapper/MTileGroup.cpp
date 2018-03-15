@@ -905,16 +905,19 @@ int MTileGroup::TabOrder::get()
 	}
 	else
 	{
-		CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(m_pTileGroup->GetParent());
-
-		if (!pView)
-			return -1;
-
-		for (int i = 0; i < pView->m_pTileGroups->GetCount(); i++)
+		if (m_pTileGroup)
 		{
-			CBaseTileGroup* pGroup = pView->m_pTileGroups->GetAt(i);
-			if (pGroup->GetNamespace().GetObjectName().CompareNoCase(CString(Name)) == 0)
-				return i;
+			CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(m_pTileGroup->GetParent());
+
+			if (!pView)
+				return -1;
+
+			for (int i = 0; i < pView->m_pTileGroups->GetCount(); i++)
+			{
+				CBaseTileGroup* pGroup = pView->m_pTileGroups->GetAt(i);
+				if (pGroup->GetNamespace().GetObjectName().CompareNoCase(CString(Name)) == 0)
+					return i;
+			}
 		}
 	}
 
