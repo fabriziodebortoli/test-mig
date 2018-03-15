@@ -174,9 +174,7 @@ IF NOT EXIST "local-version.txt" (
 	) 
 )
 
-
-
-%DevPath%\Standard\TaskBuilder\Framework\TbUtility\TbJson\tbjson.exe /ts %DevPath%\Standard\ 
+TbJson.bat
 
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\
 node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" build --env=desktop --no-sourcemaps --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Client" >> %DevPath%\7_ng_build.log
