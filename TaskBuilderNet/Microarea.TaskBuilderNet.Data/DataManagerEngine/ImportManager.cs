@@ -476,50 +476,54 @@ namespace Microarea.TaskBuilderNet.Data.DataManagerEngine
 						// cerco il nodo DataTables
 						if (xtr.Name.CompareTo(DataManagerConsts.DataTables) == 0)
 						{
-							if (xtr.MoveToAttribute(DataManagerConsts.HasReference))
+							if (!xtr.MoveToAttribute(DataManagerConsts.HasReference))
+								return true;
+
+							// se l'attributo hasreference e' impostato a false ritorno subito
+							if (xtr.Value == bool.FalseString)
+								return true;
+
+							// se l'attributo refconfiguration e' vuoto segnalo errore
+							if (xtr.MoveToAttribute(DataManagerConsts.RefConfiguration))
 							{
-								// se l'attributo hasreference e' impostato a false ritorno subito
-								if (xtr.Value == bool.FalseString)
-									return true;
-
-								// se l'attributo refconfiguration e' vuoto segnalo errore
-								if (xtr.MoveToAttribute(DataManagerConsts.RefConfiguration))
-								{
-									if (string.IsNullOrEmpty(xtr.Value))
-										return false;
-									else
-										refConfiguration = xtr.Value;
-								}
-								else
+								if (string.IsNullOrEmpty(xtr.Value))
 									return false;
-
-								// se l'attributo refedition e' vuoto considero l'edizione attuale
-								if (xtr.MoveToAttribute(DataManagerConsts.RefEdition))
-									refEdition = string.IsNullOrEmpty(xtr.Value) ? this.importSel.ContextInfo.PathFinder.Edition : xtr.Value;
 								else
-									refEdition = this.importSel.ContextInfo.PathFinder.Edition;
-
-								// se l'attributo refcountry e' vuoto considero l'iso stato corrente
-								if (xtr.MoveToAttribute(DataManagerConsts.RefCountry))
-									refCountry = string.IsNullOrEmpty(xtr.Value) ? this.importSel.ContextInfo.IsoState : xtr.Value;
-								else
-									refCountry = this.importSel.ContextInfo.IsoState;
-
-								// devo ricalcolare il file da tornare in modo da pilotare l'importazione
-								// C:\<nome-istanza>\Standard\Applications\ERP\Accounting\DataManager\Default\
-								string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, 3);
-
-								string newImportFilePath = Path.Combine(absoluteDirName, refCountry);
-								newImportFilePath = Path.Combine(newImportFilePath, refEdition);
-								newImportFilePath = Path.Combine(newImportFilePath, refConfiguration);
-								newImportFilePath = Path.Combine(newImportFilePath, Path.GetFileName(importFile.FullName));
-
-								// solo se il file con il nuovo path ricalcolato esiste viene assegnato
-								if (File.Exists(newImportFilePath))
-									importFile = new FileInfo(newImportFilePath);
+									refConfiguration = xtr.Value;
 							}
 							else
-								return true;
+								return false;
+
+							// se l'attributo refedition e' vuoto considero l'edizione attuale
+							if (xtr.MoveToAttribute(DataManagerConsts.RefEdition))
+								refEdition = string.IsNullOrEmpty(xtr.Value) ? this.importSel.ContextInfo.PathFinder.Edition : xtr.Value;
+							else
+								refEdition = this.importSel.ContextInfo.PathFinder.Edition;
+
+							// se l'attributo refcountry e' vuoto o non esiste lascio stare cosi (altrimenti saltano i dati INTL)
+							if (xtr.MoveToAttribute(DataManagerConsts.RefCountry))
+								refCountry = string.IsNullOrEmpty(xtr.Value) ? string.Empty : xtr.Value;
+
+							// devo ricalcolare il file da tornare in modo da pilotare l'importazione
+							// C:\<nome-istanza>\Standard\Applications\ERP\Accounting\DataManager\Default\ ed eventualmente la country (se presente)
+							string absoluteDirName = Functions.GetDirectoryAncestor(importFile.DirectoryName, string.IsNullOrWhiteSpace(refCountry) ? 2 : 3);
+
+							string newImportFilePath = string.Empty;
+
+							if (!string.IsNullOrWhiteSpace(refCountry))
+								newImportFilePath = refCountry;
+
+							newImportFilePath = Path.Combine(newImportFilePath, refEdition);
+							newImportFilePath = Path.Combine(newImportFilePath, refConfiguration);
+							newImportFilePath = Path.Combine(newImportFilePath, Path.GetFileName(importFile.FullName));
+
+							// alla fine compongo tutto il path
+							newImportFilePath = Path.Combine(absoluteDirName, newImportFilePath);
+
+							// se il file con il nuovo path ricalcolato esiste ri-assegno il valore....
+							// okkio che non va in ricorsione, pertanto se nel nuovo file e' specificato un altro reference il file verra' poi scartato!
+							if (File.Exists(newImportFilePath))
+								importFile = new FileInfo(newImportFilePath);
 						}
 					}
 				}
