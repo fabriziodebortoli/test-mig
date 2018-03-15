@@ -459,10 +459,10 @@ void CDocumentSession::PushDiagnosticToClients()
 	PushToClients(resp);
 }
 //----------------------------------------------------------------------------
-void CDocumentSession::PushItemSourceToClients(const CStringArray& arDescriptions, const CStringArray& arData)
+void CDocumentSession::PushItemSourceToClients(const CString& cmpId, const CStringArray& arDescriptions, const CStringArray& arData)
 {
 	BEGIN_JSON_RESPONSE(ItemSource);
-
+	resp.WriteString(_T("cmpId"), cmpId);
 	resp.OpenArray(_T("itemSource"));
 	for (int i = 0; i < arData.GetSize(); i++)
 	{

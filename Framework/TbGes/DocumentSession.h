@@ -60,7 +60,7 @@ public:
 	virtual void PushDataToClients(IJsonModelProvider* pProvider);
 	virtual void PushMessageMapToClients(CAbstractFormDoc* pDoc);
 	virtual void IgnoreModelChanges(bool bIgnore) { m_bIgnoreModelChanges = bIgnore; }
-	virtual void PushItemSourceToClients(const CStringArray& arDescriptions, const CStringArray& arData);
+	virtual void PushItemSourceToClients(const CString& cmpId, const CStringArray& arDescriptions, const CStringArray& arData);
 	virtual void AddJsonModelProvider(IJsonModelProvider* pProvider);
 	virtual void RemoveJsonModelProvider(IJsonModelProvider* pProvider);
 	virtual int MessageBoxDialog(LPCTSTR lpszText, UINT nType);

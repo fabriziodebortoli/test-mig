@@ -1,7 +1,7 @@
 ﻿import { Logger } from './../../../core/services/logger.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, DoCheck, OnDestroy, ChangeDetectorRef, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, OnDestroy, ChangeDetectorRef, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { EnumsService } from './../../../core/services/enums.service';
@@ -10,24 +10,48 @@ import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { ControlComponent } from './../control.component';
 
+import { Subject } from 'rxjs/Subject';
+import { untilDestroy } from '../../commons/untilDestroy';
+
+type ComboData = { code: any, description: any };
+const convertToComboData: (arr: Array<any>) => Array<ComboData> = (arr) => arr.map(x => ({ code: x['value'], description: x['name'] }));
+const areEqualsComboData: (left: any, right: any) => boolean = (left, right) => JSON.stringify(left) === JSON.stringify(right);
+
 @Component({
     selector: 'tb-enum-combo',
     templateUrl: 'enum-combo.component.html',
     styleUrls: ['./enum-combo.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-
-export class EnumComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
+export class EnumComboComponent extends ControlComponent implements OnChanges, OnDestroy, OnInit {
 
     public tag: string;
 
-    items: Array<any> = [];
+    private itemSource$ = this.webSocketService.itemSource.pipe(untilDestroy(this)).filter(x => x.cmpId === this.cmpId).map(result => result.itemSource as Array<ComboData>);
+
+    items$ = new Subject<Array<ComboData>>();
+    _items: Array<ComboData>;
+    get items(): Array<ComboData> {
+        return this._items;
+    }
+    set items(value: Array<ComboData>) {
+
+        this._items = this.translateItemsCodes(value);
+        this.items$.next(this._items);
+    }
+
     selectedItem: any;
     private oldValue: any;
-    public itemSourceSub: Subscription;
     @Input() public itemSource: any;
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") dropdownlist: any;
+
+    translateItemsCodes(itemsArray: Array<ComboData>): Array<ComboData> {
+        itemsArray.forEach(element => {
+            element.code = (+element.code + (65536 * +this.tag)).toString();
+        });
+        return itemsArray;
+    }
 
     constructor(
         public webSocketService: WebSocketService,
@@ -39,27 +63,22 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         public logger: Logger
     ) {
         super(layoutService, tbComponentService, changeDetectorRef);
-
-        this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            this.items = result.itemSource;
-        });
     }
 
-    fillListBox() {
-        this.items.splice(0, this.items.length);
+    private withItemSourceLogic(): EnumComboComponent {
+        this.itemSource$
+            .distinctUntilChanged((left, right) => areEqualsComboData(left, right))
+            .subscribe(itemSource => this.items = itemSource);
+        return this;
+    }
 
-        if (this.itemSource != undefined) {
-            this.eventDataService.openDropdown.emit(this);
-        }
-        else {
-            let allItems = this.enumsService.getItemsFromTag(this.tag);
-            if (allItems != undefined) {
-                for (let index = 0; index < allItems.length; index++) {
-                    this.items.push({ code: allItems[index].value, description: allItems[index].name });
-                }
-            }
+    ngOnInit() {
+        if (this.itemSource) { this.withItemSourceLogic(); }
+    }
 
-        }
+    onOpen() {
+        if (this.itemSource) { this.eventDataService.openDropdown.emit(this); }
+        else { this.items = convertToComboData(this.enumsService.getItemsFromTag(this.tag) as Array<any>); }
     }
 
     @HostListener('keydown', ['$event'])
@@ -91,32 +110,8 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         if (this.propagateSelectionChange) this.valueChange(value);
     }
 
-    ngDoCheck() {
-
-        //TODOLUCA, è inefficiente, perchè viene chiamato un sacco di volte, ma il model con il jsonpatch non mi viene più cambiato
-        if (this.selectedItem == undefined || this.model == undefined)
-            return;
-
-
-        this.tag = this.model.tag;
-        let temp = this.model.value;
-
-        let enumItem = this.enumsService.getEnumsItem(temp);
-        if (enumItem != undefined)
-            temp = enumItem.name;
-
-        if (temp == this.selectedItem.code)
-            return;
-
-        this.items.splice(0, this.items.length);
-
-        let obj = { code: temp, description: temp };
-        this.items.push(obj);
-        this.selectedItem = obj;
-    }
-
     ngOnChanges(changes: {}) {
-        if (changes['model'] == undefined || changes['model'].currentValue == undefined)
+        if (!this.model)
             return;
 
         if (this.model.type != 10) {
@@ -124,20 +119,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, D
         }
 
         this.tag = this.model.tag;
-        let temp = changes['model'].currentValue.value;
-
-        let enumItem = this.enumsService.getEnumsItem(temp);
-        if (enumItem != undefined)
-            temp = enumItem.name;
-
-        this.items.splice(0, this.items.length);
-
-        let obj = { code: temp, description: temp };
-        this.items.push(obj);
-        this.selectedItem = obj;
     }
 
-    ngOnDestroy() {
-        this.itemSourceSub.unsubscribe();
-    }
+    ngOnDestroy() { this.items$.complete(); }
 }

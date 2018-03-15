@@ -184,7 +184,7 @@ export class WebSocketService extends LocalizationService {
     }
 
     doFillListBox(cmpId: String, obj: any): void {
-        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink };
+        const data = { cmd: 'doFillListBox', cmpId: cmpId, itemSource: obj.itemSource, hotLink: obj.hotLink, controlId: obj.cmpId };
 
         this.safeSend(data);
     }

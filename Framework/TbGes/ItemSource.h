@@ -34,38 +34,42 @@ public:
 
 class TB_EXPORT CItemSource : public CObject, public IItemSource
 {
-	DECLARE_DYNCREATE(CItemSource)
+       DECLARE_DYNCREATE(CItemSource)
 protected:
-	CParsedCtrl* m_pControl = NULL;
-	CString m_strName;
-	CString m_strNamespace;
-	bool m_bShowDescription = false;
+       CParsedCtrl * m_pControl = NULL;
+       CString m_strName;
+       CString m_strNamespace;
+       bool m_bShowDescription = false;
+       bool m_bNoData = false;
 
 public:
-	CItemSource();                                                           
-	virtual ~CItemSource();
+       CItemSource();
+       virtual ~CItemSource();
 
-	void SetControl(CParsedCtrl* pControl);
-	CAbstractFormDoc* GetDocument();
-	
-	//CParsedCtrl* GetControl() { return m_pControl; }
+       void SetControl(CParsedCtrl* pControl);
+       CAbstractFormDoc* GetDocument();
+       bool GetNoData() { return m_bNoData; }
 
-	virtual void SetName(const CString& strName) { m_strName = strName; }
-	virtual void SetNamespace(const CString& strNamespace) { m_strNamespace = strNamespace; }
+       //CParsedCtrl* GetControl() { return m_pControl; }
+       DataObj* GetDataObj() { return m_pControl->GetCtrlData(); }
 
-	CString GetName() { return m_strName; }
-	CString GetNamespace() { return m_strNamespace; }
-	
-	bool GetShowDescription() { return m_bShowDescription; }
-	void SetShowDescription(bool bShowDescription) { m_bShowDescription = bShowDescription; }
+       virtual void SetName(const CString& strName) { m_strName = strName; }
+       virtual void SetNamespace(const CString& strNamespace) { m_strNamespace = strNamespace; }
 
-	virtual void GetData(DataArray& values, CStringArray& descriptions, CString strCurrentValue) {}
-	virtual CString GetDescription(const DataObj* pValue);
-	virtual	BOOL IsValidItem(const DataObj&) { return TRUE; }
-	virtual	void OnControlAttached() { }
+       CString GetName() { return m_strName; }
+       CString GetNamespace() { return m_strNamespace; }
 
-	
+       bool GetShowDescription() { return m_bShowDescription; }
+       void SetShowDescription(bool bShowDescription) { m_bShowDescription = bShowDescription; }
+
+       virtual void GetData(DataArray& values, CStringArray& descriptions, CString strCurrentValue) { m_bNoData = true; }
+       virtual CString GetDescription(const DataObj* pValue);
+       virtual       BOOL IsValidItem(const DataObj&) { return TRUE; }
+       virtual       void OnControlAttached() { }
+
+
 };
+
 
 class TB_EXPORT CItemSourceXml : public CItemSource
 {
