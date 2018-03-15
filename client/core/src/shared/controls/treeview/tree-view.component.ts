@@ -2,9 +2,6 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { LayoutService } from './../../../core/services/layout.service';
 import { ControlComponent } from './../control.component';
 import { Component, Input, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ITreeNode, ITreeOptions } from "angular-tree-component/dist/defs/api";
-import { TreeComponent, TreeModel, TreeNode } from "angular-tree-component";
-
 
 @Component({
   selector: 'tb-treeview',
@@ -13,7 +10,7 @@ import { TreeComponent, TreeModel, TreeNode } from "angular-tree-component";
 })
 export class TreeViewComponent extends ControlComponent implements OnInit {
 
-  @ViewChild('tree') treeComponent: TreeComponent;
+  // @ViewChild('tree') treeComponent: TreeComponent;
 
   @Input('readonly') readonly = false;
   @Input('border') border = false;
@@ -24,7 +21,7 @@ export class TreeViewComponent extends ControlComponent implements OnInit {
   @Input('linesAtRoot') linesAtRoot = false;
   @Input('alwaysShowSelection') alwaysShowSelection = false;
 
-  options: ITreeOptions;
+  options;//: ITreeOptions;
 
 
 
@@ -47,7 +44,7 @@ export class TreeViewComponent extends ControlComponent implements OnInit {
 
 
   onExpand(item: any) {
-    let node: TreeNode = item['node'];
+    let node/*: TreeNode */= item['node'];
     if (!node.isExpanded) {
       return;
       //node.collapse();

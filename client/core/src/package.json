@@ -53,7 +53,6 @@
         "@progress/kendo-file-saver": "^1.0.4",
         "@progress/kendo-popup-common": "^1.2.3",
         "@progress/kendo-theme-default": "^2.47.5",
-        "angular-tree-component": "^5.2.1",
         "lodash": "4.17.4"
     }
 }

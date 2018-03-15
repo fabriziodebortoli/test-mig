@@ -99,7 +99,6 @@
         "@taskbuilder/esp": "git+https://github.com/Microarea/ng-esp.git",
         "@taskbuilder/sfm": "git+https://github.com/Microarea/ng-sfm.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
-        "angular-tree-component": "^5.2.1",
         "hammerjs": "^2.0.8",
         "json8-patch": "^0.4.0",
         "lodash": "4.17.4"
