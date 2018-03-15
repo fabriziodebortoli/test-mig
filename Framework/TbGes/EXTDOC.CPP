@@ -2678,7 +2678,8 @@ void CAbstractFormDoc::SetDefaultFocus()
 /*	POSITION pos = GetFirstViewPosition();
 	while (pos != NULL)
 		SetViewFocus(GetNextView(pos), FALSE);*/
-
+	if (m_bNeedsUpdateDataView)
+		ExecuteUpdateDataView();
 		// set focus for master view activating also frame and view
 	POSITION first = GetFirstViewPosition();
 	if (first != NULL)
@@ -3096,7 +3097,7 @@ void CAbstractFormDoc::ResumeUpdateDataView()
 	m_nUpdateDataViewLevel--;
 	ASSERT(m_nUpdateDataViewLevel >= 0);
 	if (m_nUpdateDataViewLevel == 0 && m_bNeedsUpdateDataView)
-		UpdateDataView(TRUE);
+		UpdateDataView();
 }
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnTimer(UINT nTimer)
