@@ -213,7 +213,8 @@
           "text": "Generate json model",
           "type": 15 /*ToolbarButton*/,
           "category": 6 /*Advanced*/,
-          "activation": "_DEBUG"
+          "activation": "_DEBUG",
+          "environment": "desktop"
         },
         {
           "alignRight": true,
