@@ -811,7 +811,7 @@ namespace Microarea.Common.MenuLoader
                                     menuFiles = CurrentPathFinder.GetFiles(workingMenuPath, "*" + NameSolverStrings.MenuExtension);
                                     aModule.StandardMenuPath = workingMenuPath;
                                 }
-                                if (CurrentPathFinder.ExistPath(moduleMenuDirInfopath))
+                                if ((menuFiles == null || menuFiles.Count == 0) && CurrentPathFinder.ExistPath(moduleMenuDirInfopath))
                                 {
                                     menuFiles = CurrentPathFinder.GetFiles(moduleMenuDirInfopath, "*" + NameSolverStrings.MenuExtension);
                                     aModule.StandardMenuPath = moduleMenuDirInfopath;
