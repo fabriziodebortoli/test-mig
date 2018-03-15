@@ -37,7 +37,6 @@
     <None Include="Res\BE_PasteGrants_down.bmp" />
     <None Include="res\OpenGrantsForm.bmp" />
     <None Include="Res\OpenGrantsForm.png" />
-    <None Include="Res\OpenGrantsForm.png" />
     <None Include="Res\OpenGrantsForm_Protected.png" />
     <None Include="TBRowSecurity.def" />
     <None Include="UIRSMaintenance.hjson" />
