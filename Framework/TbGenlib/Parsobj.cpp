@@ -5951,22 +5951,10 @@ void CParsedCtrl::UpdateCtrlView()
 
 		if (m_pHyperLink)
 			m_pHyperLink->UpdateCtrlView();
-		UpdateCtrlVisibility();
+		ShowCtrl(m_pData->IsHide() ? SW_HIDE : SW_SHOW);
 		
 	}
 	
-}
-
-//-----------------------------------------------------------------------------
-void CParsedCtrl::UpdateCtrlVisibility()
-{
-	if (m_pData)
-	{
-		bool bVisible = (m_pOwnerWnd->GetStyle() & WS_VISIBLE) == WS_VISIBLE;
-		bool bHide = TRUE == m_pData->IsHide();
-		if (bVisible == bHide)
-			ShowCtrl(m_pData->IsHide() ? SW_HIDE : SW_SHOW);
-	}
 }
 //-----------------------------------------------------------------------------
 void CParsedCtrl::UpdateCtrlStatus()
