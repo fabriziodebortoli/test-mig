@@ -704,6 +704,7 @@ public:
 	virtual ~DBTSlaveBuffered();
 
 protected:
+	void CommonConstruct();
 	BOOL CheckSlaveTransaction ();
 	// NON DEVE essere reimplementate nelle classi istanziabili
 	virtual	BOOL CheckTransaction ();

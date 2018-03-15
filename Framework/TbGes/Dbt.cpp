@@ -2044,9 +2044,7 @@ DBTSlaveBuffered::DBTSlaveBuffered()
 	m_dwLatestModifyTime(0),
 	m_pFnDuplicateKey(NULL)
 {
-	m_pRecords = new RecordArray(); 
-	m_pOldRecords = new RecordArray();
-	m_pJsonCache = new DBTJsonCache(this);
+	CommonConstruct();
 }
 //-----------------------------------------------------------------------------	
 DBTSlaveBuffered::DBTSlaveBuffered
@@ -2077,9 +2075,7 @@ DBTSlaveBuffered::DBTSlaveBuffered
 	m_dwLatestModifyTime(0),
 	m_pFnDuplicateKey(NULL)
 {
-	m_pRecords = new RecordArray(); 
-	m_pOldRecords = new RecordArray();
-	m_pJsonCache = new DBTJsonCache(this);
+	CommonConstruct();
 }
 
 //-----------------------------------------------------------------------------	
@@ -2111,9 +2107,7 @@ DBTSlaveBuffered::DBTSlaveBuffered
 	m_dwLatestModifyTime(0),
 	m_pFnDuplicateKey(NULL)
 {
-	m_pRecords = new RecordArray();
-	m_pOldRecords = new RecordArray();
-	m_pJsonCache = new DBTJsonCache(this);
+	CommonConstruct();
 }
 
 //-----------------------------------------------------------------------------	
@@ -2146,9 +2140,54 @@ DBTSlaveBuffered::DBTSlaveBuffered
 	m_pFnDuplicateKey(NULL),
 	m_pRecords(new RecordArray())
 {
+	CommonConstruct();
+}
+
+
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::CommonConstruct()
+{
 	m_pRecords = new RecordArray(); 
 	m_pOldRecords = new RecordArray();
 	m_pJsonCache = new DBTJsonCache(this);
+}
+
+//-----------------------------------------------------------------------------	
+DBTSlaveBuffered::~DBTSlaveBuffered()
+{
+	delete m_pJsonCache;
+	ClearSlaveDBTs();
+
+	CBodyEditPointers* parBodies = GetBodyEdits();
+	if (parBodies)
+	{
+		for (int i = 0; i < parBodies->GetCount(); i++)
+		{
+			CBodyEdit* pEdit = parBodies->GetPointerAt(i);
+			if (pEdit && pEdit->GetDBT() == this)
+				pEdit->OnSwitchDBT(NULL);
+		}
+	}
+	for (int x = m_DBTSlaveData.GetUpperBound(); x >= 0; x--)
+	{
+		//la distruzione della slavedata implica la distruzione del prototipo slave
+		//la distruzione del prototipo slave implica l'accesso alla slave data del parent (cio� quella che sto ora distruggendo) per vedere se ci sono bodyedit agganciati
+		//quindi devo prima chiamare la delete (che prima chiama i distruttori e poi cancella l'oggetto)
+		//e poi rimuovere l'oggetto
+		delete m_DBTSlaveData[x];
+		m_DBTSlaveData.RemoveAt(x);
+	}
+
+	SAFE_DELETE(m_pRecords);
+	SAFE_DELETE(m_pOldRecords);
+
+	SAFE_DELETE(m_pwNewRows);
+	SAFE_DELETE(m_pwModifiedRows);
+	SAFE_DELETE(m_pwDeletedRows);
+
+	SAFE_DELETE(m_pAllRecords);
+
+	SAFE_DELETE(m_pFreeList);
 }
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::AlignBodyEdits(BOOL bRefreshBody)
@@ -2182,45 +2221,6 @@ void DBTSlaveBuffered::AlignBodyEdits(BOOL bRefreshBody)
 		}
 	}
 }
-
-//-----------------------------------------------------------------------------	
-DBTSlaveBuffered::~DBTSlaveBuffered()
-{
-	delete m_pJsonCache;
-	ClearSlaveDBTs();
-
-	CBodyEditPointers* parBodies = GetBodyEdits();
-	if (parBodies)
-	{
-		for (int i = 0; i < parBodies->GetCount(); i++)
-		{
-			CBodyEdit* pEdit = parBodies->GetPointerAt(i);
-			if (pEdit && pEdit->GetDBT() == this)
-				pEdit->OnSwitchDBT(NULL);
-		}
-	}
-	for (int x = m_DBTSlaveData.GetUpperBound(); x >= 0; x--)
-	{
-		//la distruzione della slavedata implica la distruzione del prototipo slave
-		//la distruzione del prototipo slave implica l'accesso alla slave data del parent (cio� quella che sto ora distruggendo) per vedere se ci sono bodyedit agganciati
-		//quindi devo prima chiamare la delete (che prima chiama i distruttori e poi cancella l'oggetto)
-		//e poi rimuovere l'oggetto
-		delete m_DBTSlaveData[x];
-		m_DBTSlaveData.RemoveAt(x);
-	}
-
-	SAFE_DELETE(m_pRecords);
-	SAFE_DELETE(m_pOldRecords);
-
-	SAFE_DELETE(m_pwNewRows)
-		SAFE_DELETE(m_pwModifiedRows)
-		SAFE_DELETE(m_pwDeletedRows)
-
-		SAFE_DELETE(m_pAllRecords);
-
-	SAFE_DELETE(m_pFreeList);
-}
-
 //-----------------------------------------------------------------------------	
 BOOL DBTSlaveBuffered::IsActive()
 {
