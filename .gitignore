@@ -2,6 +2,7 @@
 M4Web/
 M4Client/
 M4Server/
+M4Rs/
 
 # Prerequisites
 *.d

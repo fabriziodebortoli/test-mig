@@ -1,5 +1,5 @@
 {
-    "baseUrl": "http://localhost:5000",
-    "wsBaseUrl": "ws://localhost:5000",
-    "isDesktop": false
+"baseUrl": "http://usr-debortolif1/development/M4Server",
+"wsBaseUrl": "ws://usr-debortolif1/development/M4Server",
+"isDesktop": false
 }
