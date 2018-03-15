@@ -1954,19 +1954,15 @@ void CParsedCheckListBox::OnFillListBox()
 	// chiedo all'hotlink di eseguire la query e di restituirmi i dati per la combo
 	CStringArray aDescriptions;
 	int nResult = m_pHotKeyLink->DoSearchComboQueryData(GetMaxItemsNo(), m_DataAssociations.GetData(), aDescriptions);
-	
+
 	if	(!nResult || !m_DataAssociations.GetSize() || m_DataAssociations.GetSize() != aDescriptions.GetSize())
 	{
 		ASSERT(m_DataAssociations.GetSize() == aDescriptions.GetSize());
 
+		// Let the parent container to do something if the items list is empty
+		// this permits, as an example, to hide/reveal some other controls in the form (i.e. a background label "no data found")
 		if (m_DataAssociations.GetSize() == 0)
-		{
-			DataBool* pDummy = new DataBool();
-			m_pData->SetAlwaysReadOnly();
-
-			m_DataAssociations.GetData().InsertAt(0, pDummy, 1);
-			InsertAssociation(0, cwsprintf(FormatMessage(HOTLINK_NO_DATA_FOUND)), pDummy);
-		}
+			NotifyToParent(UM_CHKLBOX_EMPTYLISTBOX);
 		return;
 	}		
 
@@ -1984,6 +1980,9 @@ void CParsedCheckListBox::OnFillListBox()
 
 		InsertAssociation(0, cwsprintf(FormatMessage(MAX_ITEM_REACHED), GetMaxItemsNo()), m_DataAssociations[0]);
 	}
+	// Let the parent container to do something if the items list is non-empty
+	// this permits, as an example, to hide/reveal some other controls in the form (i.e. a background label "no data found")
+	NotifyToParent(UM_CHKLBOX_FILLEDLISTBOX);
 }
 
 //-----------------------------------------------------------------------------

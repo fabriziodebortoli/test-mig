@@ -2,6 +2,23 @@
   "href": "IDD_TD_HOTFILTER",
   "items": [
     {
+      "x": 5,
+      "y": 3,
+      "controlClass": "LabelStatic",
+      "group": true,
+      "height": 8,
+      "id": "IDC_NO_DATA",
+      "font": {
+        "italic": true
+      },
+      "text": "no options available",
+      "type": 2, /*Label*/
+      "width": 98,
+      "binding": {
+        "datasource": "{{ GetParentName() + '_Caption'}}"
+      }
+    },
+    {
       "anchor": "COL1",
       "hasStrings": true,
       "id": "IDC_HOTFILTER_ITEMS_LBX",

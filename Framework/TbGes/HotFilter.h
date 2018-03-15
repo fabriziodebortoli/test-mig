@@ -385,6 +385,7 @@ class TB_EXPORT HotFilterList : public HotFilterObj
 	friend class CHotFilterCheckListboxTile;
 
 	DECLARE_DYNCREATE(HotFilterList)
+	DECLARE_MESSAGE_MAP()
 public:
 	enum SelectionStyle { POPUP, LISTBOX, CHECKBOX };
 
@@ -423,6 +424,9 @@ public:
 
 	void				SetItemListReadOnly(BOOL bReadOnly) { m_arItemsList.SetReadOnly(bReadOnly); }
 
+	void				OnFilledListbox();
+	void				OnEmptyListbox();
+
 protected:
 	virtual CRuntimeClass*	GetDataObjClass() const;
 	virtual void			PreparePickedItemsList();
@@ -435,6 +439,7 @@ private:
 	int						m_nHKLLinkedColumnIdx = -1;
 public:
 	DataArray				m_arItemsList;
+	DataStr					m_Caption;
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////

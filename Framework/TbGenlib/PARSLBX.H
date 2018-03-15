@@ -8,6 +8,9 @@
 class CItemSource;
 typedef void (__stdcall *FILLLISTBOX_FUNC) ();
 
+#define UM_CHKLBOX_FILLEDLISTBOX		(WM_USER + 1011)
+#define UM_CHKLBOX_EMPTYLISTBOX			(WM_USER + 1012)
+
 //=============================================================================
 //			Class CTBListBox
 //=============================================================================

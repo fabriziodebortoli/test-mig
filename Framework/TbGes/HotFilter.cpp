@@ -926,6 +926,13 @@ BOOL HotFilterRange::OnBeforeBatchExecute()
 IMPLEMENT_DYNCREATE(HotFilterList, HotFilterObj)
 
 //-----------------------------------------------------------------------------
+BEGIN_MESSAGE_MAP(HotFilterList, HotFilterObj)
+	ON_CONTROL(UM_CHKLBOX_FILLEDLISTBOX, IDC_HOTFILTER_ITEMS_LBX, OnFilledListbox)
+	ON_CONTROL(UM_CHKLBOX_EMPTYLISTBOX, IDC_HOTFILTER_ITEMS_LBX, OnEmptyListbox)
+END_MESSAGE_MAP()
+
+
+//-----------------------------------------------------------------------------
 HotFilterList::HotFilterList
 (
 	EHotFilterType type, CAbstractFormDoc*	pDocument, HotFilterManager* pHotFilterManager,
@@ -961,7 +968,22 @@ void HotFilterList::Customize()
 	__super::Customize();
 
 	AddVar(L"List", m_arItemsList);
+	AddVar(L"Caption", m_Caption);
+	m_Caption = _TB("no options available");
+}
 
+//----------------------------------------------------------------------------
+void HotFilterList::OnFilledListbox()
+{
+	m_arItemsList.SetHide(FALSE);
+	m_Caption.SetHide(TRUE);
+}
+
+//----------------------------------------------------------------------------
+void HotFilterList::OnEmptyListbox()
+{
+	m_arItemsList.SetHide(TRUE);
+	m_Caption.SetHide(FALSE);
 }
 
 //-----------------------------------------------------------------------------

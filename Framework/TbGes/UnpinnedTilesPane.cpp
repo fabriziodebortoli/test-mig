@@ -194,6 +194,7 @@ void CUnpinnedTile::AttachOriginalTile(CBaseTileDialog* pTile)
 //-----------------------------------------------------------------------------
 void CUnpinnedTile::OnUpdateControls(BOOL bParentIsVisible /*TRUE*/)
 {
+	__super::OnUpdateControls(bParentIsVisible);
 	for (CWnd* pChild = GetWindow(GW_CHILD); pChild != NULL; pChild = pChild->GetWindow(GW_HWNDNEXT))
 	{
 		if (pChild->IsKindOf(RUNTIME_CLASS(CCollapseButton)) || pChild->IsKindOf(RUNTIME_CLASS(CPinButton)))
