@@ -4,6 +4,7 @@ import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
   OnChanges, AfterContentInit, OnInit, Output, HostListener, EventEmitter, ChangeDetectorRef, SimpleChanges
 } from '@angular/core';
+import { Store } from './../../../core/services/store.service';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -15,7 +16,7 @@ import { Subscription } from '../../../rxjs.imports';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss']
 })
-export class TextComponent extends ControlComponent implements OnChanges {
+export class TextComponent extends ControlComponent implements OnChanges, OnInit {
 
   @Input('readonly') readonly: boolean = false;
   @Input() public hotLink: { namespace: string, name: string };
@@ -32,23 +33,33 @@ export class TextComponent extends ControlComponent implements OnChanges {
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    public store: Store
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
-  
+  ngOnInit() {
+    this.store.select(_ => this.model && this.model.length).
+      subscribe(l => this.onlenghtChanged(l));
+  }
+
+  onlenghtChanged(len: any) {
+    if (len !== undefined)
+      this.setlength(len);
+  }
+
   onBlur($event) {
     if ($event == undefined)
       return;
-      
+
     this.eventData.change.emit(this.cmpId);
     this.blur.emit(this);
   }
 
   // Metodo con OnChanges
   ngOnChanges(changes: SimpleChanges) {
-    if (!changes.model ||   !this.model || !this.model.length)
+    if (!changes.model || !this.model || !this.model.length)
       return;
 
     this.setlength(this.model.length)

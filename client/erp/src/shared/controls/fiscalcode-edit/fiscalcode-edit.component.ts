@@ -1,4 +1,5 @@
 import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService, ControlContainerComponent, Selector } from '@taskbuilder/core';
+import { untilDestroy } from '@taskbuilder/core/shared/commons/untilDestroy';
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers } from '@angular/http';
@@ -42,12 +43,20 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
   ngOnInit() {
     this.store
       .select(s => s && s.FormMode.value)
+      .pipe(untilDestroy(this))
       .subscribe(v =>
         this.onFormModeChanged(v));
 
-    this.store
-      .select(this.selector.nest('isoCode.value'))
-      .subscribe(this.onIsoCodeChanged);
+    if (this.selector) {
+      this.store
+        .select(this.selector.nest('isoCode.value'))
+        .pipe(untilDestroy(this))
+        .subscribe(this.onIsoCodeChanged);
+    }
+    else {
+      console.log("Missing selector in " + this.cmpId );
+      //this.cc.errorMessage = 'Missing selector';
+    }
 
     this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
     this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
@@ -57,7 +66,7 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
   onFormModeChanged(formMode: FormMode) {
     this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
     this.buildContextMenu();
-    
+
     if (!this.ctrlEnabled) {
       this.cc.errorMessage = '';
       this.changeDetectorRef.detectChanges();

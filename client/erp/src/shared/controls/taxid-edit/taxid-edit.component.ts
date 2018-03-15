@@ -5,6 +5,7 @@ import { CoreHttpService } from '../../../core/services/core/core-http.service';
 import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
 import * as moment from 'moment';
 import JsCheckTaxId from './jscheckTaxIDNumber';
+import { untilDestroy } from '@taskbuilder/core/shared/commons/untilDestroy';
 
 @Component({
   selector: 'erp-taxid-edit',
@@ -45,14 +46,23 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.select(
-      createSelector(
-        this.selector.nest('naturalPerson.value'),
-        this.selector.nest('isoCode.value'),
-        s => s.FormMode && s.FormMode.value,
-        (naturalperson, isocode, formMode) => ({ naturalperson, isocode, formMode })
+    if (this.selector) {
+      this.store.select(
+        createSelector(
+          this.selector.nest('naturalPerson.value'),
+          this.selector.nest('isoCode.value'),
+          s => s.FormMode && s.FormMode.value,
+          (naturalperson, isocode, formMode) => ({ naturalperson, isocode, formMode })
+        )
       )
-    ).subscribe(this.onSelectorChanged);
+        .pipe(untilDestroy(this))
+        .subscribe(this.onSelectorChanged);
+    }
+    else
+    {
+      console.log("Missing selector in " + this.cmpId );
+      //this.cc.errorMessage = 'Missing selector';
+    }
 
 
     this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => this.isMasterBR = res.result);
