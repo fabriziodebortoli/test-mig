@@ -26,15 +26,18 @@ MPropertyGrid::MPropertyGrid(System::IntPtr handleWndPtr)
 {
 	ASSERT(GetWnd() && GetWnd()->IsKindOf(RUNTIME_CLASS(CTBPropertyGrid)));
 	m_pGrid = (CTBPropertyGrid*)GetWnd();
-	for (int i = 0; i < m_pGrid->GetPropertyCount(); i++)
+	if (m_pGrid)
 	{
-		CTBProperty* pProp = (CTBProperty*)m_pGrid->GetProperty(i);
-		MPropertyItem^ item = gcnew MPropertyItem(pProp, m_pGrid);
-		item->ParentComponent = this;
-		items->Add(item);
+		for (int i = 0; i < m_pGrid->GetPropertyCount(); i++)
+		{
+			CTBProperty* pProp = (CTBProperty*)m_pGrid->GetProperty(i);
+			MPropertyItem^ item = gcnew MPropertyItem(pProp, m_pGrid);
+			item->ParentComponent = this;
+			items->Add(item);
+		}
+		m_pGrid->ExpandAll(true);
+		items->CollectionChanged += gcnew NotifyCollectionChangedEventHandler(this, &MPropertyGrid::OnCollectionChanged);
 	}
-	m_pGrid->ExpandAll(true);
-	items->CollectionChanged += gcnew NotifyCollectionChangedEventHandler(this, &MPropertyGrid::OnCollectionChanged);
 
 }
 
@@ -43,7 +46,8 @@ MPropertyGrid::MPropertyGrid(IWindowWrapperContainer^ parentWindow, System::Stri
 	:
 	BaseWindowWrapper(parentWindow, name, controlClass, location, hasCodeBehind)
 {
-	items->CollectionChanged += gcnew NotifyCollectionChangedEventHandler(this, &MPropertyGrid::OnCollectionChanged);
+	if (m_pGrid)
+		items->CollectionChanged += gcnew NotifyCollectionChangedEventHandler(this, &MPropertyGrid::OnCollectionChanged);
 }
 
 //----------------------------------------------------------------------------
@@ -85,6 +89,9 @@ MPropertyGrid::!MPropertyGrid()
 //----------------------------------------------------------------------------
 void MPropertyGrid::OnCollectionChanged(Object^ sender, NotifyCollectionChangedEventArgs^ args)
 {
+	if (!m_pGrid)
+		return;
+
 	if (args->Action == NotifyCollectionChangedAction::Reset)
 	{
 		((CMyTBPropertyGrid*) m_pGrid)->ClearProperties();
@@ -349,11 +356,11 @@ void MPropertyItem::CreateItem(EasyBuilderComponent^ parent)
 //----------------------------------------------------------------------------
 void MPropertyItem::OnCollectionChanged(Object^ sender, NotifyCollectionChangedEventArgs^ args)
 {
-	if (args->Action == NotifyCollectionChangedAction::Reset)
+	if (args->Action == NotifyCollectionChangedAction::Reset && m_pProperty)
 	{
 		((CMyTBProperty*) m_pProperty)->ClearItems();
 	}
-	else if (args->Action == NotifyCollectionChangedAction::Add)
+	else if (args->Action == NotifyCollectionChangedAction::Add && m_pProperty)
 	{
 		for each (MPropertyItem^ item in args->NewItems)
 		{

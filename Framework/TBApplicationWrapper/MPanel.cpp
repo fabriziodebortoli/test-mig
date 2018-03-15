@@ -687,6 +687,10 @@ cli::array<MAccelerator^>^ MEasyStudioPanel::Accelerators::get()
 void MEasyStudioPanel::Accelerators::set(cli::array<MAccelerator^>^ value)
 {
 	CWndObjDescription* pDesc = GetWndObjDescription();
+
+	if (!pDesc)
+		return;
+
 	if (pDesc->m_pAccelerator)
 		pDesc->m_pAccelerator->Clear();
 	else

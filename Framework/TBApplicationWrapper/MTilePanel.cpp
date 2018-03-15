@@ -428,7 +428,7 @@ HWND MTilePanelTab::GetControlHandle(const CTBNamespace& aNamespace)
 //----------------------------------------------------------------------------
 CLayoutContainer* MTilePanelTab::GetLayoutContainer()
 {
-	return m_pTilePanelTab->GetLayoutContainer();
+	return m_pTilePanelTab ? m_pTilePanelTab->GetLayoutContainer() : NULL;
 }
 
 //-------------------------------------------------------------------------------

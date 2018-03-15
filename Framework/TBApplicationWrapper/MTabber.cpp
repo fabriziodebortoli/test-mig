@@ -566,7 +566,7 @@ bool MTab::Create (IWindowWrapperContainer^ parentWindow, Point location, System
 //----------------------------------------------------------------------------
 void MTab::Visible::set (bool value) 
 { 
-	if (!m_pInfo)
+	if (!m_pInfo || !m_pTabManager)
 		return;
 	
 	bool bCurrVisible = m_pInfo->IsVisible() == TRUE;

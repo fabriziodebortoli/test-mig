@@ -302,7 +302,7 @@ bool MTileManager::Create(IWindowWrapperContainer^ parentWindow, System::Drawing
 		return false;
 
 	CWnd* pParentWnd = ((BaseWindowWrapper^)parentWindow)->GetWnd();
-	if (!pParentWnd->IsKindOf(RUNTIME_CLASS(CAbstractFormView)))
+	if (pParentWnd && !pParentWnd->IsKindOf(RUNTIME_CLASS(CAbstractFormView)))
 		return false;
 	CPoint aPt(location.X, location.Y);
 
@@ -385,6 +385,9 @@ bool MTileManager::Equals(Object^ obj)
 //----------------------------------------------------------------------------
 MTileGroup^ MTileManager::GetTabByPoint(Point^ p)
 {
+	if (!GetTileManager())
+		return nullptr;
+
 	TCHITTESTINFO hitTest;
 
 	CPoint pt(p->X, p->Y);
@@ -576,7 +579,7 @@ void MTileManager::IntegrateLayout(ILayoutComponent^ layoutComponent)
 	}
 	else
 	{
-		CTileGroup* pGroup = GetTileManager()->GetActiveTileGroup();
+		CTileGroup* pGroup = GetTileManager() ? GetTileManager()->GetActiveTileGroup() : NULL;
 		if (pGroup)
 			layoutObject->AddContainer(pGroup->GetLayoutContainer(), CurrentTileGroup);
 	}

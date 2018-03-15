@@ -355,10 +355,11 @@ bool MTileDialog::Create(IWindowWrapperContainer^ parentWindow, System::Drawing:
 		m_pTileDialog->ChangeSizeTo(currentSize, 1);
 
 		Handle = (IntPtr)m_pTileDialog->m_hWnd;
+
+		if (this->DesignModeType == EDesignMode::Runtime && !m_pTileDialog->IsLayoutIntialized())
+			m_pTileDialog->InitializeLayout();
 	}
 
-	if (this->DesignModeType == EDesignMode::Runtime && !m_pTileDialog->IsLayoutIntialized())
-		m_pTileDialog->InitializeLayout();
 	return m_pTileDialog != NULL;
 }
 
@@ -1018,7 +1019,7 @@ void MTileDialog::Add(IComponent^ component, System::String^ name)
 	if (groupBox && !groupBox->HasCodeBehind && groupBox->GetWnd())
 	{
 		CWnd* pWnd = groupBox->GetWnd();
-		if (IsStaticArea(pWnd->GetDlgCtrlID()))
+		if (m_pTileDialog && IsStaticArea(pWnd->GetDlgCtrlID()))
 		{
 			pWnd->SetWindowText(DesignModeType == EDesignMode::Runtime ? _T("Static Area") : _T(""));
 			m_pTileDialog->RecalcParts();

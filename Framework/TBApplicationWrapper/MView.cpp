@@ -380,7 +380,7 @@ bool MView::SaveSerialization(const CString& fileName, const CString& sSerializa
 //----------------------------------------------------------------------------
 INameSpace^ MView::Namespace::get ()
 {
-	return gcnew NameSpace(gcnew System::String(m_pView->GetNamespace().ToString()));
+	return m_pView ? gcnew NameSpace(gcnew System::String(m_pView->GetNamespace().ToString())) : nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -633,7 +633,7 @@ HWND MView::GetControlHandle(const CTBNamespace& aNamespace)
 //----------------------------------------------------------------------------
 IWindowWrapper^	MView::GetParsedCtrlLink(INameSpace^ nameSpace)
 {
-	CWnd* pCtrl = m_pView->GetWndLinkedCtrl(CTBNamespace(CString(nameSpace->ToString())));
+	CWnd* pCtrl = m_pView ? m_pView->GetWndLinkedCtrl(CTBNamespace(CString(nameSpace->ToString()))) : NULL;
 	if (pCtrl != nullptr)
 		return BaseWindowWrapper::Create((IntPtr)pCtrl->m_hWnd);
 	return nullptr;

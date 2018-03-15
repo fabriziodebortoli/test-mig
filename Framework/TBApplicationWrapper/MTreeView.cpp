@@ -155,7 +155,7 @@ System::String^	MTreeView::Name::get ()
 //-----------------------------------------------------------------------------
 void MTreeView::Name::set (System::String^ value)
 {
-	if (HasCodeBehind)
+	if (HasCodeBehind || !m_pTreeView)
 		return;
 
 	m_pTreeView->GetNamespace().SetObjectName(value);
@@ -227,10 +227,10 @@ bool MTreeView::Create (IWindowWrapperContainer^ parentWindow, Point location, S
 											RUNTIME_CLASS(CTreeViewAdvCtrl)
 										);
 	
-	m_pTreeView->GetInfoOSL()->m_Namespace.SetChildNamespace(CTBNamespace::CONTROL, CString(name), pParsedForm->GetNamespace());
-	
+
 	if (m_pTreeView)
 	{
+		m_pTreeView->GetInfoOSL()->m_Namespace.SetChildNamespace(CTBNamespace::CONTROL, CString(name), pParsedForm->GetNamespace());
 		Handle = (IntPtr) m_pTreeView->m_hWnd;
 		HasCodeBehind = false;
 		m_pTreeView->ShowWindow(SW_SHOW);
