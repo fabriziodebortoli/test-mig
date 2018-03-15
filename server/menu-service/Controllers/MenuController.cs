@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microarea.Common.MenuLoader;
-using Microarea.TaskBuilderNet.Core.Generic;
-using System.IO;
-using Microarea.Common.NameSolver;
-using System;
-using Microarea.Common.Generic;
 using Newtonsoft.Json.Linq;
+using System;
+using System.IO;
+
 using Microarea.Common;
 using Microarea.Common.Applications;
-using System.Text;
-using Newtonsoft.Json;
+using Microarea.Common.Generic;
+using Microarea.Common.MenuLoader;
+using Microarea.Common.NameSolver;
+using Microarea.TaskBuilderNet.Core.Generic;
 
 namespace Microarea.Menu.Controllers
 {
@@ -32,8 +31,7 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 string storageMenuDate = value["storageMenuDate"]?.Value<string>();
-                long nStorageMenudate = 0;
-                long.TryParse(storageMenuDate, out nStorageMenudate);
+                long.TryParse(storageMenuDate, out long nStorageMenudate);
                 DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(nStorageMenudate);
                 DateTime dateTime = dateTimeOffset.UtcDateTime;
                 bool isTooOld = true;
@@ -57,12 +55,6 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 string clearCachedData = value["clearCachedData"]?.Value<string>();
-                string storageMenuDate = value["storageMenuDate"]?.Value<string>();
-                long nStorageMenudate = 0;
-                long.TryParse(storageMenuDate, out nStorageMenudate);
-
-                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(nStorageMenudate);
-                DateTime dateTime = dateTimeOffset.UtcDateTime;
                 bool clearCache = bool.Parse(clearCachedData);
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, clearCache);
