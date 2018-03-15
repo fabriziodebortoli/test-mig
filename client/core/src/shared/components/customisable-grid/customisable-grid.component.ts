@@ -83,6 +83,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
     @Input() anchorAlign: Align = { horizontal: 'right', vertical: 'top' };
     @Input() popupAlign: Align = { horizontal: 'right', vertical: 'bottom' };
     @Input() pageable = true;
+    @Input() disabled = false;
     @Input()
     get state(): State { return this._state; }
     set state(value: State) {
@@ -114,12 +115,15 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         super(m.layout, m.tbComponent, m.changeDetectorRef);
     }
 
+    isWaiting = false;
     ngOnInit() {
         this.loadSettings();
         this.filterer.filterChanged$.subscribe(_ => this.gridStyle$.next(GridStyles.default));
         this.filterer.filterChanging$.subscribe(_ => this.gridStyle$.next(GridStyles.waiting));
-        this.paginator.waiting$.subscribe(b =>
-            setTimeout(() => this.gridStyle$.next(b ? GridStyles.waiting : GridStyles.default), 0));
+        this.paginator.waiting$.subscribe(b => {
+            this.isWaiting = b;
+            setTimeout(() => this.gridStyle$.next(this.isWaiting ? GridStyles.waiting : GridStyles.default), 0);
+        });
         super.ngOnInit();
     }
 

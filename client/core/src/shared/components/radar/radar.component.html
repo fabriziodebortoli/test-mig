@@ -32,6 +32,6 @@
     <tb-customisable-grid #grid [state]="state$ | async" (selectedKeysChange)="selectedKeysChange($event)" (selectAndEdit)="selectAndEdit($event)"
         [editable]="true" [selectionColumnId]="'TBGuid'" [pageSize]="pageSize" [maxColumns]="maxColumns" [popupAnchor]="anchorElRef"
         [anchorAlign]="{ horizontal: 'center', vertical: 'bottom' }" [popupAlign]="{ horizontal: 'center', vertical: 'top' }"
-        [pageable]="false">
+        [pageable]="false" [disabled]="!state.canNavigate">
     </tb-customisable-grid>
 </div>
