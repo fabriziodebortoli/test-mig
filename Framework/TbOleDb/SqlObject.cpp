@@ -405,13 +405,19 @@ BOOL CBaseContext::UnlockAllLockContextKeys(const CString& sLockContextKey, SqlT
 //-----------------------------------------------------------------------------
 SqlLockMng* CBaseContext::GetLockMng(SqlConnection* pSqlConnection)
 {
+	return GetLockMng(pSqlConnection->GetDatabaseName());
+}
+
+//-----------------------------------------------------------------------------
+SqlLockMng* CBaseContext::GetLockMng(const CString& strDatabaseName)
+{
 	if (m_pLockMng)
 		return m_pLockMng;
 	
 	if (!AfxGetOleDbMng()->UseLockManager())
 		return NULL;
 	
-	m_pLockMng = new SqlLockMng(pSqlConnection->GetDatabaseName());
+	m_pLockMng = new SqlLockMng(strDatabaseName);
 
 	m_bCanDeleteLockMng = TRUE;
 	return m_pLockMng;
