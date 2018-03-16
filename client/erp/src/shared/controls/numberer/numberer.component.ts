@@ -177,14 +177,8 @@ export class NumbererComponent extends ControlComponent {
         if (this.eventData.model.FormMode != undefined) {
             switch (this.eventData.model.FormMode.value) {
                 case FormMode.FIND:
-                    this.mask = '';
-                    break;
-
                 case FormMode.BROWSE: {
                     this.mask = '';
-                    if (this.model && this.model.value !== this.textbox.input.nativeElement.value) {
-                        this.textbox.input.nativeElement.value = this.model.value;
-                    }
                     break;
                 }
                 default: {
@@ -312,11 +306,6 @@ export class NumbererComponent extends ControlComponent {
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();
         }
-    }
-
-    onKeyUp($event) {
-        // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
-        this.changeModelValue(null);
     }
 
     transformTypedChar(charStr) {

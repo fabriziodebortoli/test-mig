@@ -1,8 +1,8 @@
 <tb-control-container type="tb-numberer" [model]="model">
     <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
-        (change)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
-        (keyup)="onKeyUp($event)" (blur)="onBlur($event)">
+        (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
+        (blur)="onBlur($event)">
     </kendo-maskedtextbox>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>

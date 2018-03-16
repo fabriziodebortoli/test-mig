@@ -1,7 +1,7 @@
 ﻿import { Logger } from './../../../core/services/logger.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, OnDestroy, ChangeDetectorRef, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, ChangeDetectorRef, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../rxjs.imports';
 
 import { EnumsService } from './../../../core/services/enums.service';
@@ -11,6 +11,7 @@ import { WebSocketService } from './../../../core/services/websocket.service';
 import { ControlComponent } from './../control.component';
 
 import { Subject } from 'rxjs/Subject';
+
 import { untilDestroy } from '../../commons/untilDestroy';
 
 type ComboData = { code: any, description: any };
@@ -28,6 +29,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     public tag: string;
 
     private itemSource$ = this.webSocketService.itemSource.pipe(untilDestroy(this)).filter(x => x.cmpId === this.cmpId).map(result => result.itemSource as Array<ComboData>);
+    private modelChangedSubscription: Subscription;
 
     items$ = new Subject<Array<ComboData>>();
     _items: Array<ComboData>;
@@ -119,6 +121,19 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
         }
 
         this.tag = this.model.tag;
+
+        if (!this.modelChangedSubscription) {
+            this.modelChangedSubscription = this.model.modelChanged.subscribe(
+                () => {
+                    let enumItem = this.enumsService.getEnumsItem(this.model.value);
+                    let desc = (enumItem == undefined) ? '' : enumItem.name;
+
+                    let obj: Array<ComboData> = [{ code: this.model.value, description: desc }];
+                    this.items = obj;
+                    this.selectedItem = obj[0];
+                }
+            )
+        }
     }
 
     ngOnDestroy() { this.items$.complete(); }
