@@ -575,7 +575,7 @@ public:
 	virtual void		CompleteQuery(const CString strName, SqlTable* pTable, SqlRecord* pRec, const DataObj& aColumn);
 	virtual void		CompleteQuery(const CString strName, SqlTable* pTable, const DataObj& aColumn);
 	virtual void		OnAfterHotLinkCreated(HotFilterObj* pHF) {}
-
+	virtual void		OnAfterPrepareAuxData(CAbstractFormView* pView) {}
 
 	CGenericAlias*		RegisterGenericAlias(CString sAlias, const CString& sActual);
 	CDataSourceAlias*	RegisterDataSourceAlias(CString sAlias, const CString& sActual);

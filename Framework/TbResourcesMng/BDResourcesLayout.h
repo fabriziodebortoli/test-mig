@@ -243,7 +243,7 @@ private:
 private:
 	virtual BOOL OnAttachData			();
 	virtual	void DisableControlsForBatch();
-	virtual void OnPrepareAuxData		(CAbstractFormView* pView);
+	virtual void OnAfterPrepareAuxData	(CAbstractFormView* pView);
 	virtual void OnParsedControlCreated	(CParsedCtrl* pCtrl);
 
 protected:

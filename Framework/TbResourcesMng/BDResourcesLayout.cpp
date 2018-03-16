@@ -219,7 +219,7 @@ BDResourcesLayout::~BDResourcesLayout()
 }
 
 //---------------------------------------------------------------------------------
-void BDResourcesLayout::OnPrepareAuxData(CAbstractFormView* pView)
+void BDResourcesLayout::OnAfterPrepareAuxData(CAbstractFormView* pView)
 {
 	if (!pView->IsKindOf(RUNTIME_CLASS(CResourcesLayoutTreeVView)))
 		return;
