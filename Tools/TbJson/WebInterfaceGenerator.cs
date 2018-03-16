@@ -1366,11 +1366,11 @@ namespace Microarea.TbJson
             string icon = jObj.GetFlatString(Constants.icon);
             if (!string.IsNullOrEmpty(icon))
             {
-                icon = icon.ToLower();
-                if (icon.StartsWith("image."))
-                    icon = icon.Substring("image.".Length, icon.Length - "image.".Length);
+                string tempIcon = icon.ToLower();
+                if (tempIcon.StartsWith("image."))
+                    tempIcon = tempIcon.Substring("image.".Length, icon.Length - "image.".Length);
 
-                if (iconsConversionDictionary.TryGetValue(icon, out string convertedValue))
+                if (iconsConversionDictionary.TryGetValue(tempIcon, out string convertedValue))
                     htmlWriter.WriteAttribute(Constants.icon, convertedValue);
                 else 
                 { 
