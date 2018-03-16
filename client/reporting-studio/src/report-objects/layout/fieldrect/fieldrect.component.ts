@@ -37,6 +37,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'border-color': this.rect.pen.color,
       'border-radius': this.rect.ratio + 'px',
       'border-style': 'solid',
+      'box-sizing': 'border-box',
 
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px '
       + this.rect.shadow_height + 'px ' + this.rect.shadow_color

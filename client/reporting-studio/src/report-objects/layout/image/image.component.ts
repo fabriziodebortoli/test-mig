@@ -36,6 +36,7 @@ export class ReportImageComponent {
       'border-style': 'solid',
       'border-color': this.image.pen.color,
       'border-radius': this.image.ratio + 'px',
+      'box-sizing': 'border-box',
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
 

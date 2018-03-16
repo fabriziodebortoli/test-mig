@@ -41,6 +41,7 @@ export class ReportTextrectComponent implements AfterViewInit {
       'border-color': this.rect.pen.color,
       'border-style': 'solid',
       'border-radius': this.rect.ratio + 'px',
+      'box-sizing': 'border-box',
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color,
 
     };
