@@ -11,8 +11,17 @@ export class TbCardTitleComponent implements OnInit {
   public _isCollapsed: boolean = false;
   
   @Input() title: string;
-  @Input() icon: string;
   @Input() iconClass: string;
+  @Input() _icon: string = '';
+
+    @Input()
+    set icon(icon: any) {
+        this._icon = icon instanceof Object ? icon.value : icon;
+    }
+
+    get icon() {
+        return this._icon;
+    }
 
   @Input()
   set isCollapsible(value: boolean) {

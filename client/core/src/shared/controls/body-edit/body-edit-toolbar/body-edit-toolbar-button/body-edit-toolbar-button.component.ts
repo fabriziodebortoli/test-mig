@@ -18,7 +18,16 @@ export class BodyEditToolbarButtonComponent extends TbComponent {
   private _disabled = false;
   @Input() caption: string = '';
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
-  @Input() icon: string = '';
+  @Input() _icon: string = '';
+
+  @Input()
+  set icon(icon: any) {
+      this._icon = icon instanceof Object ? icon.value : icon;
+  }
+
+  get icon() {
+      return this._icon;
+  }
 
   /**
    * Optional command called on button click.

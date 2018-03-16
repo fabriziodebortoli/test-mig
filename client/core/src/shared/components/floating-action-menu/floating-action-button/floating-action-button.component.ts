@@ -17,7 +17,17 @@ export class FloatingActionButtonComponent {
     @Input() cmpId: string = '';
     @Input() disabled: boolean = false;
     @Input() iconType: string = 'M4';
-    @Input() icon: string = 'erp-routing-c';
+    @Input() _icon: string = 'erp-routing-c';
+
+    @Input()
+    set icon(icon: any) {
+        this._icon = icon instanceof Object ? icon.value : icon;
+    }
+
+    get icon() {
+        return this._icon;
+    }
+
 
     @Output() clicked: EventEmitter<any> = new EventEmitter();
 

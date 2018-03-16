@@ -14,7 +14,16 @@ import { ControlComponent } from './../control.component';
 })
 export class ButtonComponent extends ControlComponent {
 
-    @Input() icon: string = 'tb-execute';
+    @Input() _icon: string = 'tb-execute';
+
+    @Input()
+    set icon(icon: any) {
+        this._icon = icon instanceof Object ? icon.value : icon;
+    }
+  
+    get icon() {
+        return this._icon;
+    }
 
     constructor(
         public eventData: EventDataService,

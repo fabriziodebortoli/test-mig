@@ -15,7 +15,17 @@ export class DockpaneComponent {
   @Input() title: string = '???';
   
   @Input() iconType: string = 'M4';
-  @Input() icon: string = 'erp-purchaseorder';
+  
+  @Input() _icon: string = 'erp-purchaseorder';
+
+    @Input()
+    set icon(icon: any) {
+        this._icon = icon instanceof Object ? icon.value : icon;
+    }
+
+    get icon() {
+        return this._icon;
+    }
 
   @Input() activated:boolean = true;
 

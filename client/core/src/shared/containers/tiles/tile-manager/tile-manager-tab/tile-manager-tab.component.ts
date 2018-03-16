@@ -12,7 +12,18 @@ export class TileManagerTabComponent {
   @ViewChild(TabStripTabComponent) tabComponent;
     
   @Input() iconType: string = 'M4';
-  @Input() icon: string = 'erp-purchaseorder';
+  @Input() _icon: string = 'erp-purchaseorder';
+
+  @Input()
+  set icon(icon: any) {
+      this._icon = icon instanceof Object ? icon.value : icon;
+  }
+
+  get icon() {
+      return this._icon;
+  }
+
+
   private _title: string;
 
   public get title(): string {
