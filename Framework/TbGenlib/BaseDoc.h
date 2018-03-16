@@ -109,13 +109,13 @@ private:
 	CMap <UINT, UINT, CRuntimeClass*, CRuntimeClass*> m_RegisteredControls;
 protected:
 	BOOL						m_bAborted;			// indica se il documento ha completato la fase di costruzione
-	BOOL						m_bClosing;			// indica se il documento è in fase di chiusura
+	BOOL						m_bClosing;			// indica se il documento ï¿½ in fase di chiusura
 	BOOL						m_bRetryingLock;	// indica se il documento ha dei tentativi di lock in corso
 
 	CXMLDataManagerObj*			m_pXMLDataManager;
-	BOOL						m_bUnattendedMode;	// se il documento è istanziato senza interfaccia visibile (vedi importo\export o scheduler)
+	BOOL						m_bUnattendedMode;	// se il documento ï¿½ istanziato senza interfaccia visibile (vedi importo\export o scheduler)
 	
-	DataObj*					m_pAssignedCounter;	// tiene traccia del fatto che al documento è stato assegnato un identificatore per evitare di assegnarlo più volte
+	DataObj*					m_pAssignedCounter;	// tiene traccia del fatto che al documento ï¿½ stato assegnato un identificatore per evitare di assegnarlo piï¿½ volte
 	BOOL						m_bCacheCounter;	// pilota la gestione o meno dell'assigned counter
 	CBaseDocument*				m_pCallerDocument;
 	DocInvocationParams*		m_pDocInvocationParams; // Allocato da fuori ma distrutto qui
@@ -136,7 +136,7 @@ public :
 	BOOL					m_bBatchCloseAfterExecution;
 	BOOL					m_bCloseChildReport;
 	
-	CSingleExtDocTemplate*	m_pTemplate; //Template da cui è stato istanziato
+	CSingleExtDocTemplate*	m_pTemplate; //Template da cui ï¿½ stato istanziato
 
 	CAutoExpressionMng*		m_pAutoExpressionMng;
 
@@ -148,7 +148,7 @@ public :
 	CMessages*		m_pMessages;		// per la gestione della messaggistica DOC_DIAGNOSTIC
 	CContextBag*	m_pContextBag;		// per la gestione della condivisione di informazioni tra documenti
 
-	CExternalControllerInfo*	m_pExternalControllerInfo;	// informazioni relative al controllore esterno del documento (§es. scheduler)
+	CExternalControllerInfo*	m_pExternalControllerInfo;	// informazioni relative al controllore esterno del documento (ï¿½es. scheduler)
 
 	// per gestire l'inoltro del wm_syskeydown da parte delle PreTranslateMessage per evitare il loop
 	BOOL	m_bForwardingSysKeydownToParent;
@@ -156,6 +156,9 @@ public :
 
 	//DataSyncro
 	CDataSynchroNotifierObj*	m_pDataSynchroNotifier;
+
+	bool	m_bNeedsUpdateDataView;
+
 private:
 	CArray<DataObj*>			m_ModifiedData;//per mandare la json patch dei soli dati modificati
 public:
@@ -214,7 +217,7 @@ public:
 	void AddDisposingHandler (CObject* pListener, ON_DISPOSING_METHOD pHandler) { m_Handler.AddDisposingHandler(pListener, pHandler); }
 	void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }
 
-	BOOL CanRunDocumentInStandAloneMode(); //restituisce TRUE se non c'è un unico documento aperto e se non ci sono altri utenti connessi all'azienda, FALSE altrimenti
+	BOOL CanRunDocumentInStandAloneMode(); //restituisce TRUE se non c'ï¿½ un unico documento aperto e se non ci sono altri utenti connessi all'azienda, FALSE altrimenti
 										   //---------------------------------------------------------------------------
 	void AssignParameters(const DataStr& arguments);
 
@@ -299,6 +302,8 @@ public:
 
 	virtual void		SuspendUpdateDataView() {}
 	virtual void		ResumeUpdateDataView()	{}
+	virtual	void		ExecuteUpdateDataView() {}
+
 public:
 	CXMLDataManagerObj* GetXMLDataManager	() const						{ return m_pXMLDataManager; }
 	void				SetXMLDataManager	(CXMLDataManagerObj *pDataMng)	{ m_pXMLDataManager = pDataMng; }
@@ -340,7 +345,7 @@ public:
 	virtual BOOL 	OnOkXMLImport					() { return TRUE; }
 	virtual BOOL 	OnOkXMLDeleteImport				() { return TRUE; }
 
-	// determina se devo o meno aggiornare un record già esistente
+	// determina se devo o meno aggiornare un record giï¿½ esistente
 	// in fase di importazione da XML (di default importa aggiornando)
 	// se restituisce FALSE, fallisce l'importazione
 	virtual BOOL 	OnOkXMLUpdateImport				() { return TRUE; }
@@ -352,15 +357,15 @@ public:
 	// m_pAssignedCounter effettua un caching dei counters assegnati al documento:
 	// se ad un documento viene assegnato un counter, ulteriori eventuali assegnazioni vengono ignorate
 	// fino a che il documento non entra in stato di NEW
-	// questo comportamento può essere abilitato invocando EnableCounterCaching(TRUE);
-	// di default il comportamento è disattivo (per compatibilità col passato, onde evitare
+	// questo comportamento puï¿½ essere abilitato invocando EnableCounterCaching(TRUE);
+	// di default il comportamento ï¿½ disattivo (per compatibilitï¿½ col passato, onde evitare
 	// la generazione di bachi non previsti)
 	DataObj*		GetAssignedCounter				() {return m_bCacheCounter ? m_pAssignedCounter : NULL;}
 	void			SetAssignedCounter				(DataObj* pDataObj);
 	void			EnableCounterCaching			(BOOL bCacheCounter) {m_bCacheCounter = bCacheCounter;}
 
-	// Dice se il documento è in modalità unattended (perchè gestisce solo logiche 
-	// di business senza interfaccia (ad es. in fase import/export) o perchè lanciato 
+	// Dice se il documento ï¿½ in modalitï¿½ unattended (perchï¿½ gestisce solo logiche 
+	// di business senza interfaccia (ad es. in fase import/export) o perchï¿½ lanciato 
 	// dallo scheduler
 	BOOL	IsInUnattendedMode () const;
 

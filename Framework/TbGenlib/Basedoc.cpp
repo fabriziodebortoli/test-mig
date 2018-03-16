@@ -114,8 +114,9 @@ CBaseDocument::CBaseDocument()
 	m_pSymTable				(NULL),
 	m_bForwardingSysKeydownToChild(FALSE),
 	m_bForwardingSysKeydownToParent(FALSE),
-	m_pDataSynchroNotifier	(NULL)
-{	
+	m_pDataSynchroNotifier	(NULL),
+	m_bNeedsUpdateDataView	(false)
+{
 	m_ThreadId = AfxGetThread()->m_nThreadID;
 
 	m_pSymTable = new SymTable(); 

@@ -291,7 +291,6 @@ public:
 	int		m_nAuxQueries;	
 	int		m_nAdmQueries;	
 	int		m_nUpdateDataViewLevel;
-	bool	m_bNeedsUpdateDataView;
 	bool	m_bUpdatingDataView;
 	bool	m_bWaitingForUpdateDataView;
 	int		m_nDisabled;
@@ -726,8 +725,8 @@ public:
 	void	SuspendUpdateDataView	();
 	void	ResumeUpdateDataView	();
 	void	UpdateDataView			(BOOL bForce = FALSE);
-	void	ExecuteUpdateDataView	();
-	virtual void	AbortAllViews	();
+	virtual	void	ExecuteUpdateDataView	();
+	virtual void	AbortAllViews			();
 
 	void	InvalidateActiveTabDialog();
 	void	EnableAllControlLinks	(BOOL bEnable = TRUE);

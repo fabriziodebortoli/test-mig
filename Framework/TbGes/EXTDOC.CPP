@@ -481,7 +481,6 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_bSingleUserMode(FALSE),
 	m_bLockedDocument(FALSE),
 	m_nUpdateDataViewLevel(0),
-	m_bNeedsUpdateDataView(false),
 	m_bUpdatingDataView(false),
 	m_bWaitingForUpdateDataView(false),
 	m_nDisabled(0),
