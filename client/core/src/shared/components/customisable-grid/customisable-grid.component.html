@@ -6,7 +6,7 @@
     scrollable="none" [selectable]="{enabled: !disabled, mode: 'single'}" [reorderable]="true" (columnReorder)="columnReorder($event)"
     (columnResize)="columnResize($event)" [pageable]="pageable">
     <kendo-grid-column *ngFor="let col of state.gridData.columns; let idx = index; let last = last; let first = first" field="{{col.id}}"
-        title="{{col.id | uppercase}}" [class.first-column]="first" [hidden]="col.id === selectionColumnId || !settings.shownColumns[col.id]"
+        title="{{col.id | uppercase}}" [class.first-column]="first" [hidden]="col.id === selectionColumnId || !settings.columnsVisibility[col.id]"
         [width]="col.width" [filter]="tbTypeToFilter(col.type)">
         <ng-template kendoGridHeaderTemplate let-dataItem>
             {{dataItem.field}}
@@ -55,7 +55,7 @@
     <div *ngFor="let col of state.gridData.columns">
         <div *ngIf="col.id !== selectionColumnId" class="popup-content">
             <p>{{col.id}}</p>
-            <kendo-switch [(ngModel)]="settings.shownColumns[col.id]" [onLabel]="'S'" [offLabel]="'H'" (valueChange)="saveSettings()"></kendo-switch>
+            <kendo-switch [(ngModel)]="settings.columnsVisibility[col.id]" [onLabel]="_TB('S')" [offLabel]="_TB('H')" (valueChange)="columnVisibilityChanged()"></kendo-switch>
         </div>
     </div>
 </kendo-popup>

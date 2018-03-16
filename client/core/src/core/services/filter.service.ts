@@ -34,7 +34,7 @@ export class FilterService implements OnDestroy {
         'isnull': 'IsEmpty'
     }
 
-    private convertOperator: (string) => string = (op) => !(op as String) || !this._filterOperatorsMap[op] ? op :  this._filterOperatorsMap[op];
+    private convertOperator: (string) => string = (op) => !(op as String) || !this._filterOperatorsMap[op] ? op : this._filterOperatorsMap[op];
 
     public filterBag: Map<string, any> = new Map<string, any>();
 
@@ -106,18 +106,28 @@ export class FilterService implements OnDestroy {
         if (this.filterSubject$) this.filterSubject$.next(formattedValue);
     }
 
+    public hiddenFields: string[] = [];
+
     private format(value: CompositeFilter): CompositeFilter {
-        return !value || !value.filters || value.filters.length === 0 ? value : { ...value, filters: value.filters.map(f => (f instanceof SimpleFilter) ? this.formatSimple(f as SimpleFilter) : this.format(f as CompositeFilter)) };
+        return !value || !value.filters || value.filters.length === 0 ? value : {
+            ...value, filters: value.filters.map(f => (f instanceof SimpleFilter) ? 
+                this.removeHiddenFieldFilters(this.formatSimple(f as SimpleFilter)) : this.format(f as CompositeFilter))
+                .filter(x => x)
+        };
     }
 
-    private formatSimple(value: SimpleFilter) : SimpleFilter {
+    private formatSimple(value: SimpleFilter): SimpleFilter {
         const isFilterEmpty = !value || ((value.value === undefined || value.value === undefined) && !value.operator);
-        const emptyFilter = (value ? {...value, value: '' } : value);
-        return  isFilterEmpty ? emptyFilter
-            : (value.value instanceof Date) ? { ...value, value: value.value.toISOString(), operator: this.convertOperator(value.operator) } 
-            // Currently server crashes if Boolean values are not managed this way...
-            : ((typeof(value.value) === "boolean") ? {...value, value: value.value === true ? '1' : '0', operator: this.convertOperator(value.operator)}
-            : {...value, operator: this.convertOperator(value.operator)} );
+        const emptyFilter = (value ? { ...value, value: '' } : value);
+        return isFilterEmpty ? emptyFilter
+            : (value.value instanceof Date) ? { ...value, value: value.value.toISOString(), operator: this.convertOperator(value.operator) }
+                // Currently server crashes if Boolean values are not managed this way...
+                : ((typeof (value.value) === "boolean") ? { ...value, value: value.value === true ? '1' : '0', operator: this.convertOperator(value.operator) }
+                    : { ...value, operator: this.convertOperator(value.operator) });
+    }
+
+    private removeHiddenFieldFilters(value: SimpleFilter): SimpleFilter {
+        return this.hiddenFields.find(x => x === value.field) ? null : value;
     }
 
     constructor(private ngZone: NgZone) { }

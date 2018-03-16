@@ -59,9 +59,9 @@ export class State {
 // export class State extends Record(_State) { }
 
 export class Settings {
-    version = 2;
+    version = 2.1;
     reorderMap: string[] = [];
-    shownColumns: { [name: string]: boolean } = {};
+    columnsVisibility: { [name: string]: boolean } = {};
     widths: { [name: string]: number } = {};
     hash: string;
 }
@@ -166,7 +166,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         if (cols.length === 0) return cols;
         const reorderMap = this._settings.reorderMap;
         return cols.sort((a, b) => reorderMap.indexOf(a.id) - reorderMap.indexOf(b.id));
-    };
+    }
 
     /** columns returned by server could change over time... */
     private resetSettingsIfNew = cols => {
@@ -177,7 +177,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
             this._settings = new Settings();
             this._settings.hash = hash;
             this._settings.reorderMap = cols.map(x => x.id);
-            this._settings.shownColumns = cols.reduce((o, c) => ({ ...o, [c.id]: true }), {});
+            this._settings.columnsVisibility = cols.reduce((o, c) => ({ ...o, [c.id]: true }), {});
             this.saveSettings();
         }
         return this._settings;
@@ -247,6 +247,12 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
             'Int64': 'text'
         };
         return map[type] || 'text';
+    }
+
+    columnVisibilityChanged() {
+        this.saveSettings();
+        this.filterer.hiddenFields = Object.keys(this.settings.columnsVisibility).filter(k => !this.settings.columnsVisibility[k]);
+        this.filterer.onFilterChanged(this.filterer.filter);
     }
 
     // Object.keys(localStorage).filter(k => k.startsWith("storage")).reduce((o, v) => ({...o, [v]:JSON.parse(localStorage[v])}), {})
