@@ -102,8 +102,8 @@ $text-weight:500;
 }
 
 .tb-control .k-button {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     opacity: 1;
     border: 1px solid $border-disabled;
     background: $input-background-disabled;
@@ -184,7 +184,7 @@ $text-weight:500;
 }
 
 .tb-checkbox {
-    height: 28px;
+    height: 24px;
 }
 
 .k-checkbox-label,
@@ -258,4 +258,27 @@ textarea[disabled],
 .k-numeric-wrap .k-input[disabled],
 .k-dateinput-wrap .k-input[disabled] {
     color: $text-color-disabled;
+}
+
+.k-numerictextbox .k-numeric-wrap,
+.k-numeric-wrap .k-input[disabled] {
+    height: 22px;
+}
+
+.k-textbox,
+.k-input.k-textbox,
+.k-dateinput-wrap .k-input,
+.k-dropdown-wrap .k-input,
+.k-picker-wrap .k-input,
+.k-numeric-wrap .k-input,
+.k-dateinput-wrap .k-input[disabled] {
+    height: 22px;
+}
+
+.k-textbox:disabled,
+.k-textbox[disabled],
+.k-textbox.k-state-disabled,
+.k-dropdown-wrap.k-state-disabled .k-input,
+.k-dropdown-wrap .k-input[disabled] {
+    height: 24px;
 }
