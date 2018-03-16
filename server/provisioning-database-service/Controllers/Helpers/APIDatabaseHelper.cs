@@ -993,7 +993,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			if (!opRes.Result)
 				return opRes;
 
-			dbManager.ImportDefaultData = true;
+			dbManager.ImportDefaultData = false;
 			dbManager.ImportSampleData = false;
 			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
 			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
