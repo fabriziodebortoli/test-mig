@@ -873,15 +873,22 @@ void CTbWebHandler::GetDBTSlaveBufferedModel(const CString& path, const CNameVal
 			response.SetData(aResponse);
 			return;
 		}
-		DBTObject* dbt = pDoc->GetDBTByName(sDbtName);
-		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(dbt);
-		if (!dbt)
+		DBTObject* pDbt = NULL;
+		SqlRecord* pRecord = NULL;
+		DataObj* pField = NULL;
+		CString sBindingName;
+		//LPTSTR szBuff = sDbtName.GetBuffer();
+		//if (szBuff[0] == TS_ALIAS_IDENTIFIER)
+		//	szBuff[0] = ALIAS_IDENTIFIER;
+		//sDbtName.ReleaseBuffer();
+		pDoc->GetBindingInfo(sDbtName, L"", pDbt, pRecord, pField, sBindingName, TRUE);
+		DBTSlaveBuffered* buffered = dynamic_cast<DBTSlaveBuffered*>(pDbt);
+		if (!buffered)
 		{
 			aResponse.SetMessage(_TB("DBT not found."));
 			response.SetData(aResponse);
 			return;
 		}
-
 		buffered->SetJsonLimits(pageToSkip, pageToTake, currentRow);
 		response.SetData(_T("{}"));
 		response.SetMimeType(L"application/json");
