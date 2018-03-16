@@ -1,0 +1,35 @@
+.link {
+    background:none!important;
+    border:none; 
+    padding:0!important;
+    cursor:pointer;
+}
+
+.link:focus{
+    outline: none;
+}
+
+.align{
+    text-align: center !important;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color:#f6f6f6;
+}
+
+th {
+    background-color:  #0277bd;
+    color: #dddddd;
+}

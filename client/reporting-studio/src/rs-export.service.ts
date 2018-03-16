@@ -6,7 +6,6 @@ import { Subscription, Subject, Observable } from './rxjs.imports';
 
 import { PdfType, SvgType, PngType } from './models/export-type.model';
 import { ReportingStudioService } from './reporting-studio.service';
-import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 @Injectable()
 export class RsExportService {
@@ -24,20 +23,11 @@ export class RsExportService {
     titleReport: string;
     layoutId: string;
 
-    allUsers: boolean;
-    nameSnap: string;
-    snapshots: Snapshot[];
-    dateSnap: string;
-
     currentPDFCopy = 1;
 
     @Output() eventNextPage = new EventEmitter<void>();
     @Output() eventFirstPage = new EventEmitter<void>();
     @Output() eventCurrentPage = new EventEmitter<void>();
-    @Output() eventSnapshot = new EventEmitter<void>();
-    @Output() runSnapshot = new EventEmitter<void>();
-    @Output() deleteSnapshot = new EventEmitter<void>();
-
     @Output() rsExportPdf = new EventEmitter<void>();
     @Output() rsExportExcel = new EventEmitter<void>();
     @Output() rsExportDocx = new EventEmitter<void>();
@@ -47,7 +37,6 @@ export class RsExportService {
     exportpdf = false;
     exportexcel = false;
     exportdocx = false;
-    snapshot = false;
     pdf: string = "PDF";
     excel: string = "Excel";
     docx: string = "Docx";
@@ -55,23 +44,6 @@ export class RsExportService {
     visibleImg: boolean = false;
 
     constructor(public rsService: ReportingStudioService) { }
-
-    //------SNAPSHOT------------------------------------
-    initiaziedSnapshot(nameSnapshot, allUsers) {
-        this.nameSnap = nameSnapshot;
-        this.allUsers = allUsers;
-        this.eventSnapshot.emit();
-    }
-
-    startSnapshot(name, date, allUsers, run, del) {
-        this.nameSnap = name;
-        this.dateSnap = date;
-        this.allUsers = allUsers;
-        if(run)
-            this.runSnapshot.emit();
-        else if(del)
-            this.deleteSnapshot.emit();
-    }
 
     //------EXPORT PDF-----------------------------------
     initializedExport(from: number, to: number, copy: number, multiFile: boolean) {

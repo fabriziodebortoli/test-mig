@@ -2,6 +2,10 @@ body {
     overflow-y: hidden;
 }
 
+tb-view{
+    display: block !important;
+}
+
 .snapshotToolbarTop{
     display: flex;
     flex: 1 1 auto;

@@ -13,10 +13,16 @@ export class ReportingStudioService extends DocumentService {
     runEnabled: boolean = true;
     showAsk = false;
     isSnapshot: boolean = false;
+    showSnapshotDialog = false;
+    nameSnap: string = "";
+    allUsers: string = "";
+    namespace: string = "";
 
     rsServer: string = ''
     websocket: WebSocket;
     message: Subject<any> = new Subject<string>();
+
+    @Output() eventSnapshot = new EventEmitter<void>();
 
     constructor(
         params: TbComponentServiceParams,
@@ -106,6 +112,13 @@ export class ReportingStudioService extends DocumentService {
         let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         for (var i = 10; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
         return result;
+    }
+
+    //--------------------------------------------------
+    initiaziedSnapshot(nameSnapshot, allUsers) {
+        this.nameSnap = nameSnapshot;
+        this.allUsers = allUsers;
+        this.eventSnapshot.emit();
     }
 }
 

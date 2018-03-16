@@ -1,4 +1,3 @@
-import { HttpServiceRs } from './services/rs-httpservice';
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -23,13 +22,12 @@ import { Subscription } from './rxjs.imports';
 import { RsExportService } from './rs-export.service';
 import { ReportLayoutComponent } from './report-objects/layout/layout.component';
 import { ReportingStudioService } from './reporting-studio.service';
-import { Snapshot } from './report-objects/snapshotdialog/snapshot';
 
 @Component({
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService, RsExportService, EventDataService, HttpServiceRs]
+  providers: [ReportingStudioService, RsExportService, EventDataService]
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -50,14 +48,16 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   public data: any[];
 
   public curPageNum: number;
+
   public runningReport: boolean = false;
+  nameSnap: string = "";
+  dateSnap: string = "";
 
   public id: string;
 
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
-    public httpServiceRs: HttpServiceRs,
     eventData: EventDataService,
     changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
@@ -95,10 +95,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsExportService.eventNextPage.subscribe(() => this.nextPage());
     this.rsExportService.eventFirstPage.subscribe(() => this.firstPage());
     this.rsExportService.eventCurrentPage.subscribe(() => this.currentPage());
-    this.rsExportService.eventSnapshot.subscribe(() => this.snapshot());
-    this.rsExportService.runSnapshot.subscribe(() => this.runSnapshot());
-    this.rsExportService.deleteSnapshot.subscribe(() => this.deleteSnapshot());
     this.rsExportService.eventPageNumber.subscribe(() => this.pageNumber());
+
+    this.rsService.eventSnapshot.subscribe(() => this.saveSnapshot());
   }
 
   // -----------------------------------------------
@@ -125,6 +124,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       tbLoaderName: this.infoService.getTbLoaderInfo().name,
       snapshot: sn !== undefined ? sn : null
     };
+
+    this.rsService.namespace = this.args.nameSpace;
 
     if (this.args.params.runAtTbLoader) {
       message.componentId = this.cmpId;
@@ -208,8 +209,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
-          this.rsExportService.nameSnap = k.name_snapshot;
-          this.rsExportService.dateSnap = k.date_snapshot;
+          this.nameSnap = k.name_snapshot;
+          this.dateSnap = k.date_snapshot;
           this.runningReport = true;
           this.eventData.model.Title.value = "Snapshot of " + k.page.report_title;
           this.rsExportService.totalPages = parseInt(msg.page);
@@ -352,23 +353,18 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  snapshot() {
+  saveSnapshot() {
     //il flag user-allUser è passato insieme al numeroPagina
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + "," + this.rsExportService.nameSnap + "," + this.rsExportService.allUsers
+      page: 1 + "," + this.rsService.nameSnap + "," + this.rsService.allUsers
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------
-  createTableSnapshots(k: Snapshot[]) {
-    this.rsExportService.snapshots = k;
-  }
-
-  // -----------------------------------------------
-  runSnapshot() {
+  /*runSnapshot() {
     this.rsExportService.snapshot = false;
 
     let outerSnapshot: any;
@@ -379,21 +375,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       allUsers: this.rsExportService.allUsers
     };
     this.componentService.createReportComponent(this.args.nameSpace, true, outerSnapshot);
-  }
+  }*/
 
 
   //-------------------------------------------------- 
   startAskSnapshot() {
-    this.rsExportService.snapshot = true;
-    this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe(resp => this.createTableSnapshots(resp));
+    this.rsService.showSnapshotDialog = true;
   }
 
   //-------------------------------------------------- 
-  deleteSnapshot() {
+  /*deleteSnapshot() {
     this.rsExportService.snapshot = true;
     this.httpServiceRs.deleteSnapshotData(this.args.nameSpace, this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap)
       .subscribe(resp => this.createTableSnapshots(resp));
-  }
+  }*/
 
 
   //--------------------------------------------------

@@ -19,7 +19,7 @@
             </div>
 
             <div>
-                <h4 class="snapshotToolbarTop" *ngIf="runningReport">{{this.rsExportService.nameSnap}} - {{this.rsExportService.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</h4>
+                <h4 class="snapshotToolbarTop" *ngIf="runningReport">{{this.nameSnap}} - {{this.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</h4>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
         </tb-toolbar-bottom-button-dropup>
 
         <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
-        <rs-snapshotdialog *ngIf="rsExportService.snapshot"></rs-snapshotdialog>
+        <rs-snapshotdialog *ngIf="rsService.showSnapshotDialog"></rs-snapshotdialog>
     </tb-toolbar-bottom>
 </tb-frame>
 
