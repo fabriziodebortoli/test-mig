@@ -18,7 +18,7 @@ $text-weight:500;
 }
 
 .col {
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -26,14 +26,6 @@ $text-weight:500;
 
 .group {
     display: flex;
-}
-
-.tb-control {
-    padding: 3px;
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    align-items: center;
 }
 
 .k-list-container .k-nodata .k-button,

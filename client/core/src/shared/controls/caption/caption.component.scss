@@ -14,3 +14,10 @@
         text-overflow: ellipsis;
     }
 }
+
+:host-context(tb-header) {
+    .control-label {
+        min-width: 120px;
+        width: auto !important;
+    }
+}
