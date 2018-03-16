@@ -1,7 +1,7 @@
 import { WebSocketService } from './../../../core/services/websocket.service';
 import {
     Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ContentChild,
-    OnChanges, AfterContentInit, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
+    OnChanges, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
     ContentChildren, QueryList, Optional, Injector
 } from '@angular/core';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
@@ -24,6 +24,7 @@ import * as _ from 'lodash';
 export class ControlContainerComponent extends ControlComponent {
     @Input() type = '';
     @Input() errorMessage = '';
+    @Input() disableStateButton = false;
     private stateButtonEnabled$: Observable<boolean>;
     private get editIcon(): string {
         return this.stateData.iconEdit ? this.stateData.iconEdit : 'tb-edit';
