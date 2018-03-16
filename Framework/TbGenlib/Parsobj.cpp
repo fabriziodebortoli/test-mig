@@ -5571,6 +5571,9 @@ BOOL CParsedCtrl::IsValid(const DataObj& aValue)
 BOOL CParsedCtrl::UpdateCtrlData(BOOL bEmitError, BOOL bSendMessage /* = FALSE */)
 {
 	CBaseDocument* pDoc = GetDocument();
+	if (pDoc->IsDocumentClosing())
+		return TRUE;
+
 	AfxGetBaseApp()->SetOldCtrlData(NULL, NULL);
 	//okkio che qui la faccenda è delicata.
 	//la ResetValueChanging serve a ripristinare lo stato di m_nValueChanging a 0, alterato da una SendMessage di EN_VALUE_CHANGED

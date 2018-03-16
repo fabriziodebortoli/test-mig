@@ -394,14 +394,14 @@ void CBaseDocument::OnCloseDocument()
 	if (m_bRetryingLock)
 		return;
 	
-	m_bClosing = TRUE;//alcune operazioni in fase di chiusura non hanno più senso o sono dannose
-
 	// finché sono pilotato da un external controller non posso uscire
 	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
 		m_pExternalControllerInfo->m_Finished.Set();
 		return;
 	}
+	
+	m_bClosing = TRUE;//alcune operazioni in fase di chiusura non hanno più senso o sono dannose
 	
 	// rimuovo il puntatore dalla lista degli oggetti accessibili
 	// dalle funzioni esterne chiamate via SOAP

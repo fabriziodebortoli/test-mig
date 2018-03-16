@@ -196,6 +196,8 @@ public:
 			void	ClearMessageQueue();
 	virtual	BOOL	CloseDocument	(BOOL bAsync = TRUE);
 
+	BOOL	IsDocumentClosing() { return m_bClosing; }
+
 	// metodo che dice se il documento puo essere chiuso senza peredere informazioni o integrita,
 	// i figli lo reimplementano se aggiungono logica per impedire la chiusura.
 	// nelle implementazioni BISOGNA impostare il thread in unattended mode all'inizio del metodo e reimpostarlo in attended

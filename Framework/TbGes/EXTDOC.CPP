@@ -3803,6 +3803,8 @@ void CAbstractFormDoc::ReInitBrowser()
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnCloseDocument()
 {
+	GetNotValidView(FALSE);
+
 	if (m_pClientDocs)
 		m_pClientDocs->OnBeforeCloseDocument();
 
