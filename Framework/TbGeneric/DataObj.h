@@ -2552,7 +2552,7 @@ public:
 	virtual DBLENGTH	GetOleDBSize   (BOOL /*bUnicode*/ = TRUE) const { ASSERT(FALSE); return 0;}
 	virtual void*		GetOleDBDataPtr() const { ASSERT(FALSE); return NULL; }
 	virtual void		SerializeJsonValue(CJsonSerializer& jsonSerializer);
-
+	virtual void		AssignJsonValue(CJsonParser& jsonParser);	
 	BOOL	FixDataType(DataType newType);
 // diagnostics
 #ifdef _DEBUG

@@ -34,7 +34,7 @@ export class TextComponent extends ControlComponent implements OnChanges, OnInit
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
-    public store: Store
+    private store: Store
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }

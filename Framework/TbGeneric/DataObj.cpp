@@ -7063,21 +7063,37 @@ CString DataArray::FormatDataForXML(BOOL b) const
 //-----------------------------------------------------------------------------
 void DataArray::SerializeJsonValue(CJsonSerializer& jsonSerializer)
 {
-	jsonSerializer.WriteString(szValue, FormatDataForXML());
-	//  TODO qui sotto implementazione futura per quando anche la functionDescription sara' capace di gestire json
-	/*	jsonSerializer.OpenArray(_T("values"));
+	jsonSerializer.OpenArray(szValue);
 
-		for (int i = 0; i < GetSize(); i++)
-		{
-			DataObj* pObj = GetAt(i);
-			jsonSerializer.OpenObject(i);
-			jsonSerializer.WriteString(_T("value"), pObj->FormatDataForXML());
-			jsonSerializer.CloseObject();
-		}
+	for (int i = 0; i < GetSize(); i++)
+	{
+		DataObj* pObj = GetAt(i);
+		jsonSerializer.OpenObject(i);
+		jsonSerializer.WriteString(szValue, pObj->FormatDataForXML());
+		jsonSerializer.CloseObject();
+	}
 
-		jsonSerializer.CloseArray();*/
+	jsonSerializer.CloseArray();
 }
 
+//-----------------------------------------------------------------------------
+void DataArray::AssignJsonValue(CJsonParser& jsonParser)
+{
+	Clear();
+	if (!jsonParser.BeginReadArray(szValue))
+		return;
+	for (int i = 0; i < jsonParser.GetCount(); i++)
+	{
+		jsonParser.BeginReadObject(i);
+		DataObj* pItem = DataObj::DataObjCreate(m_BaseDataType);
+		pItem->AssignFromJson(jsonParser);
+		Add(pItem);
+		jsonParser.EndReadObject();
+	}
+
+	jsonParser.EndReadArray();
+	
+}
 //-----------------------------------------------------------------------------
 void DataArray::AssignFromXMLString(LPCTSTR lpszValue)
 {
