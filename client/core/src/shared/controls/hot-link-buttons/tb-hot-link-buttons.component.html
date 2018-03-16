@@ -1,15 +1,7 @@
 <ng-template #optionsTemplate>
     <div class="tb-hotlink-optionsPopup searchOptions" [ngStyle]="optionsPopupStyle">
-        <strong>Search for</strong>:
-        <br>
-        
-        <div *ngFor="let item of (state$ | async).selectionTypes" style="display: flex; width: auto" [ngClass]="getOptionClass(item)" (click)="selectionTypeChanged(item);toggleTableForOptions(tableTemplate);">
-            <div class="grid-container">
-                <div class="grid-item">
-                    <span *ngIf="item === state.selectionType" class="k-icon k-i-check" style="margin-right: 5px"></span>
-                </div>
-                <div class="grid-item">{{item}}</div>    
-            </div>
+        <div *ngFor="let item of (state$ | async).selectionTypes" style="display: flex; width: auto" [ngClass]="getOptionClass(item)" (click)="selectionTypeChanged(item, anchorTable, tableTemplate);">
+            <div class="grid-item">Search for {{item}}</div>   
         </div>
     </div>
 </ng-template>
@@ -17,6 +9,5 @@
     <tb-customisable-grid [canAutoFit]="false" [pageSize]="pageSize" [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-customisable-grid>
 </ng-template>
 <div class="hotlinkButtonsContainer" #hotLinkButtons>
-    <button #anchorOptions kendoButton tabindex="-1" (click)="toggleOptions(anchorOptions, optionsTemplate)" [icon]="'more-vertical'" [disabled]="!(slice$ | async)?.enabled"></button>
     <button #anchorTable kendoButton tabindex="-1" (click)="toggleTable(anchorTable, tableTemplate)" [icon]="'search'" [disabled]="!(slice$ | async)?.enabled"></button>
 </div>

@@ -148,6 +148,7 @@ export class HyperLinkService implements OnDestroy {
             this.elementInfo.element.style.color = this.styles.color;
             this.elementInfo.element.style.cursor = this.styles.cursor;
             this.elementInfo.element.style.pointerEvents = this.styles.pointerEvents;
+            if(this.elementInfo.clickSubscription) this.elementInfo.clickSubscription.unsubscribe();
             this.elementInfo.clickSubscription = Observable.fromEvent(document, 'click', { capture: true })
               .filter(e => (e as any) && this.elementInfo.element && this.elementInfo.element.contains((e as any).target))
               .subscribe(e => this.follow(info));
@@ -163,7 +164,7 @@ export class HyperLinkService implements OnDestroy {
             this.elementInfo.element.style.cursor = this.elementInfo.initInfo.cursor;
             this.elementInfo.element.style.pointerEvents = this.elementInfo.initInfo.pointerEvents;
             if(this.elementInfo.clickSubscription)
-                this.elementInfo.clickSubscription.unsubscribe()
+                this.elementInfo.clickSubscription.unsubscribe();
         }
     }
 

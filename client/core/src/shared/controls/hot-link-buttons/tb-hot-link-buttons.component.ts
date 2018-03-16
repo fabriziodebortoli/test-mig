@@ -8,22 +8,25 @@ import { ComponentMediator } from './../../../core/services/component-mediator.s
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HttpService } from './../../../core/services/http.service';
-import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupHelper } from './popup';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
+
 import { BehaviorSubject, Subscription, Observable, Subject } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
-import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
+import { HlComponent, HotLinkState, DefaultHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
 import { untilDestroy } from './../../commons/untilDestroy';
 import * as _ from 'lodash';
 import { findAnchestorByClass } from '../../commons/u';
 declare var document: any;
+
+type OpenCloseTableFunction = () => void;
 
 @Component({
   selector: 'tb-hotlink-buttons',
@@ -31,39 +34,46 @@ declare var document: any;
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
   providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
 })
-export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
+export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
 
+  @ViewChild("optionsTemplate") optionsTemplate;
+  @ViewChild("tableTemplate") tableTemplate;
+  @ViewChild("anchorTable") hotLinkButtonTemplate;
+
+  private _optionOffset: {top: number, left: number};
   private optionsPopupRef: PopupRef;
   private tablePopupRef: PopupRef;
   private optionsSub: Subscription;
-  private tableSub: Subscription;
   private gridAutofitSub: Subscription;
   private isTablePopupVisible = false;
+  private declareTablePopupVisible: () => void = () => { this.isTablePopupVisible = true; } 
+  private declareTablePopupHidden: () => void = () => { this.isTablePopupVisible = false; } 
   private isOptionsPopupVisible = false;
-
+  private declareOptionsPopupVisible: () => void = () => { this.isOptionsPopupVisible = true; } 
+  private declareOptionsPopupHidden: () => void = () => { this.isOptionsPopupVisible = false; } 
   private previousNext = true;
 
-  private get hasToAdjustTable(): boolean {
-    return (this.adjustTableSub && this.adjustTableSub.closed) || !this.adjustTableSub;
+  private get firstStateChange$(): Observable<any> {
+    return this.state$.pipe(untilDestroy(this)).filter(_ => this.tablePopupRef !== undefined).take(1);
   }
-  private adjustTableSub: Subscription;
-  private get adjustTable$(): Observable<any> {
-    return this.state$.pipe(untilDestroy(this))
-      .filter(_ => this.tablePopupRef !== undefined)
-      .take(1);
-  }
+
+  closeOptions() { this.showOptionsSubj$.next(false); } 
+  openOptions() { this.showOptionsSubj$.next(true); }
+  closeTable: OpenCloseTableFunction = () => { this.closeOptions(); this.showTableSubj$.next(false); this.stop(); }
+  openTable: OpenCloseTableFunction = () => this.showTableSubj$.next(true);
+  closePopups() { this.closeOptions(); this.closeTable(); }
 
   private showTableSubj$ = new BehaviorSubject(false);
-  public get showTable$(): Observable<boolean> { return this.showTableSubj$.asObservable(); }
+  public get showTable$(): Observable<boolean> { return this.showTableSubj$.filter(hasToOpen => hasToOpen).map(_ => true); }
+  public get hideTable$(): Observable<boolean> { return this.showTableSubj$.filter(hasToOpen => !hasToOpen).map(_ => false); }
 
   private showOptionsSubj$ = new BehaviorSubject(false);
-  public get showOptions$() { return this.showOptionsSubj$.asObservable(); }
+  public get showOptions$() { return this.showOptionsSubj$.filter(hasToOpen => hasToOpen).map(_ => true); }
+  public get hideOptions$() { return this.showOptionsSubj$.filter(hasToOpen => !hasToOpen).map(_ => false); }
 
   public get isDisabled(): boolean { if (!this.model) { return true; } return !this.model.enabled; }
 
   private oldTablePopupZIndex: string;
-
-  @ViewChild('anchorOptions') optionsButton: ElementRef;
 
   constructor(protected httpService: HttpService,
     protected documentService: DocumentService,
@@ -78,87 +88,81 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     super(mediator.layout, documentService, mediator.changeDetectorRef, paginator, filterer, hyperLinkService, mediator.eventData);
   }
 
-  private subscribeOpenTable(anchor, template) {
-    if (!this.tableSub)
-      this.tableSub = this.showTable$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
-        if (hasToOpen) {
-          let popupA = PopupHelper.getPopupAlign(anchor);
-          let anchorA = PopupHelper.getAnchorAlign(anchor);
-          this.tablePopupRef = this.tablePopupService.open({
-            anchor: anchor,
-            content: template,
-            popupAlign: popupA,
-            anchorAlign: anchorA,
-            popupClass: 'tb-hotlink-tablePopup',
-            appendTo: this.vcr
-          });
-          if (this.tablePopupRef.popupElement) {
-            this.oldTablePopupZIndex = this.tablePopupRef.popupElement.style.zIndex;
-            this.tablePopupRef.popupElement.style.maxWidth = PopupHelper.getScaledDimension(1000);
-            this.tablePopupRef.popupElement.style.zIndex = '-1';
-          }
-          this.tablePopupRef.popupOpen.asObservable()
-            .subscribe(_ => this.loadTable());
-        } else {
-          if (this.tablePopupRef) {
-            this.tablePopupRef.close();
-            this.tablePopupRef = null;
-          }
-          this.isTablePopupVisible = false;
-        }
-      });
-  }
-
-  private subscribeOpenOptions(anchor, template) {
-    if (!this.optionsSub) {
-      this.optionsSub = this.showOptions$.distinctUntilChanged().pipe(untilDestroy(this)).subscribe(hasToOpen => {
-        if (hasToOpen) {
-          this.optionsPopupRef = this.optionsPopupService.open({
-            anchor: anchor,
-            content: template,
-            appendTo: this.vcr
-          });
-          this.optionsPopupRef.popupOpen.asObservable()
-            .do(_ => this.isOptionsPopupVisible = true)
-            .subscribe(_ => this.loadOptions());
-        } else {
-          if (this.optionsPopupRef) { this.optionsPopupRef.close(); }
-          this.optionsPopupRef = null;
-          this.isOptionsPopupVisible = false;
-        }
-      });
+  private setPopupElementInBackground() {
+    if (this.tablePopupRef.popupElement) {
+      this.oldTablePopupZIndex = this.tablePopupRef.popupElement.style.zIndex;
+      this.tablePopupRef.popupElement.style.maxWidth = PopupHelper.getScaledDimension(1000);
+      this.tablePopupRef.popupElement.style.zIndex = '-1';
     }
   }
 
-  public getOptionClass(item: any): any {
-    return { elemSelected: item === this.state.selectionType, selTypeElem: true };
+  private setPopupElementInForeground() {
+    this.tablePopupRef.popupElement.style.zIndex = this.oldTablePopupZIndex;
   }
 
-  toggleTable(anchor, template) {
-    this.closeOptions();
-    if (this.showTableSubj$.value) { this.closeTable(); }
-    else { this.subscribeOpenTable(anchor, template); this.openTable(); }
-  }
+  private withOpenCloseTableLogic(): TbHotlinkButtonsComponent {
+      this.showTable$.pipe(untilDestroy(this)).subscribe(_ => {
+        let popupA = PopupHelper.getPopupAlign(this.hotLinkButtonTemplate.nativeElement);
+        let anchorA = PopupHelper.getAnchorAlign(this.hotLinkButtonTemplate.nativeElement);
+        this.tablePopupRef = this.tablePopupService.open({
+          anchor: this.hotLinkButtonTemplate.nativeElement,
+          content: this.tableTemplate,
+          popupAlign: popupA,
+          anchorAlign: anchorA,
+          popupClass: 'tb-hotlink-tablePopup',
+          appendTo: this.vcr});
+        this.setPopupElementInBackground();
+        this.tablePopupRef.popupOpen.asObservable()
+          .subscribe(_ => this.loadTable());
+      });
 
-  toggleOptions(anchor, template) {
-    this.closeTable();
-    if (this.showOptionsSubj$.value) { this.closeOptions(); }
-    else { this.subscribeOpenOptions(anchor, template); this.openOptions(); }
-  }
+      this.hideTable$.pipe(untilDestroy(this)).subscribe(_ => {
+        if (this.tablePopupRef) {
+          this.tablePopupRef.close();
+          this.tablePopupRef = null;
+        }
+        this.declareTablePopupHidden();
+      });
 
-  closeOptions() { this.showOptionsSubj$.next(false); }
-  openOptions() { this.showOptionsSubj$.next(true); }
-  closeTable() { this.showTableSubj$.next(false); this.stop(); }
-  openTable() { this.showTableSubj$.next(true); }
-  closePopups() { this.closeOptions(); this.closeTable(); }
+      this.showOptions$.pipe(untilDestroy(this)).subscribe(_ => {
+        this.optionsPopupRef = this.optionsPopupService.open({
+          content: this.optionsTemplate,
+          appendTo: this.vcr,
+          offset: this._optionOffset
+        });
+        this.optionsPopupRef.popupOpen.asObservable()
+          .do(_ => this.declareOptionsPopupVisible())
+          .subscribe(_ => this.loadOptions());
+      });
+    
+      this.hideOptions$.pipe(untilDestroy(this)).subscribe(_ => {
+        if (this.optionsPopupRef) { this.optionsPopupRef.close(); }
+          this.optionsPopupRef = null;
+          this.declareOptionsPopupHidden();
+      });
+
+      return this;
+  }
+  
+  public getOptionClass(item: any): any { return { selTypeElem: true }; }
+
+  toggleTable(anchor, template) { 
+    if(this.isTablePopupVisible) this.closeTable();  
+    else this.openTable();
+  }
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
+
+  private get queryTrigger() : Observable<ServerNeededParams> {
+    return Observable.combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
+      (slice, filter, sort) => ({ model: slice, customFilters: filter, customSort: sort }))
+  } 
+
+  private get 
   protected start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200, this.tablePopupRef.popup.location);
     this.paginator.start(1, this.pageSize,
-      Observable
-        .combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
-          (slice, filter, sort) => ({ model: slice, customFilters: filter, customSort: sort })),
+      this.queryTrigger,
       (pageNumber, serverPageSize, args) => {
         let ns = this.hotLinkInfo.namespace;
         if (!ns && args.model.selector && args.model.selector !== '') {
@@ -179,33 +183,41 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
         return this.httpService.getHotlinkData(ns, this.state.selectionType, p);
       });
 
-    if (this.hasToAdjustTable) this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
+    this.firstStateChange$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
     this.paginator.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
     });
   }
 
-  private adjustTablePopupGrid(): void {
+
+  private showGridFilters() {
     if (!this.tablePopupRef) return;
     let toggleFiltersBtn = ((this.tablePopupRef.popupElement.getElementsByClassName('tb-toggle-filters') as HTMLCollection).item(0) as HTMLElement);
-    if (toggleFiltersBtn) {
-      toggleFiltersBtn.click();
-      setTimeout(() => {
-        let autofitColumnsBtn = ((this.tablePopupRef.popupElement
-          .getElementsByClassName('tb-autofit-columns') as HTMLCollection).item(0) as HTMLElement);
-        if (autofitColumnsBtn) autofitColumnsBtn.click();
-        this.tablePopupRef.popupElement.style.zIndex = this.oldTablePopupZIndex;
-        this.isTablePopupVisible = true
-      });
-    }
+    if(!toggleFiltersBtn) return;
+    toggleFiltersBtn.click();
   }
 
-  private loadTable() { this.start(); }
+  private autofitGridColumns() {
+    let autofitColumnsBtn = ((this.tablePopupRef.popupElement
+      .getElementsByClassName('tb-autofit-columns') as HTMLCollection).item(0) as HTMLElement);
+    if (autofitColumnsBtn) autofitColumnsBtn.click();
+    this.setPopupElementInForeground();
+  }
 
-  selectionTypeChanged(type: string) {
+  private adjustTablePopupGrid(): void {
+     this.showGridFilters();
+      setTimeout(() => { 
+        this.autofitGridColumns();
+        this.declareTablePopupVisible();
+      });
+  }
+
+  selectionTypeChanged(type: string, anchor: any, tableTemplate: any) {
     this.state = this.state.with({ selectionType: type });
     this.closeOptions();
+    this.toggleTable(anchor, tableTemplate);
+    this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType });
   }
 
   selectionChanged(value: any) {
@@ -220,42 +232,54 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.emitModelChange();
     this.closePopups();
   }
+  
+  ngOnInit() {
+    this.withCloseOnEscLogic()
+      .withClickHandlingLogic()
+      .withHyperLinkLogic()
+      .withContextMenuLogic()
+      .withOpenCloseTableLogic();
+  }
+
+  private loadTable() { this.start(); }
 
   private async loadOptions() {
     let ns = this.currentHotLinkNamespace;
     if (!ns) ns = this.hotLinkInfo.namespace;
     let json = await this.httpService.getHotlinkSelectionTypes(ns).toPromise();
-    this.state.with({ selectionTypes: json.selections });
+    this.state = this.state.with({ selectionTypes: json.selections });
   }
 
-  shouldAddOnFly = (focusedElem: HTMLElement) => !this.optionsButton.nativeElement.contains(focusedElem);
- 
-  ngOnInit() {
-    this.adjustTableSub = this.adjustTable$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
 
+  private withCloseOnEscLogic(): TbHotlinkButtonsComponent {
     Observable.fromEvent(document, 'keyup', { capture: true })
-      .pipe(untilDestroy(this))
-      .filter(e => (e as any).keyCode === 27)
-      .subscribe(e => this.closePopups());
-
-    Observable.fromEvent(document, 'click', { capture: true }).pipe(untilDestroy(this))
-      .filter(e => ((this.tablePopupRef 
-          && !this.tablePopupRef.popupElement.contains((e as any).toElement) 
-          && !findAnchestorByClass(e['target'], 'customisable-grid-filter')
-          && !findAnchestorByClass(e['target'], 'k-calendar-view')
-          && !findAnchestorByClass(e['target'], 'k-popup'))
-        || (this.optionsPopupRef 
-          && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
-        && (this.isTablePopupVisible || this.isOptionsPopupVisible))
-      .subscribe(_ => setTimeout(() => this.closePopups()));
+    .pipe(untilDestroy(this))
+    .filter(e => (e as any).keyCode === 27)
+    .subscribe(e => this.closePopups());
+    return this;
   }
 
-  ngAfterViewInit() {
+  private withClickHandlingLogic(): TbHotlinkButtonsComponent {
+    Observable.fromEvent(document, 'click', { capture: true }).pipe(untilDestroy(this))
+    .filter(e => ((this.tablePopupRef && !this.tablePopupRef.popupElement.contains((e as any).toElement) 
+        && !findAnchestorByClass(e['target'], 'customisable-grid-filter')
+        && !findAnchestorByClass(e['target'], 'k-calendar-view')
+        && !findAnchestorByClass(e['target'], 'k-popup'))
+      || (this.optionsPopupRef 
+        && !this.optionsPopupRef.popupElement.contains((e as any).toElement)))
+      && (this.isTablePopupVisible || this.isOptionsPopupVisible))
+    .subscribe(_ => setTimeout(() => this.closePopups()));
+    return this;
+  }
+
+  private getHotLinkElement: () => HTMLElement = () => (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
+
+  private withHyperLinkLogic(): TbHotlinkButtonsComponent {
     // fix for themes css conflict in form.scss style 
     if (this.modelComponent) {
       this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
       this.hyperLinkService.start(
-        () => (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement,
+        this.getHotLinkElement,
         {
           name: this.hotLinkInfo.name,
           cmpId: this.documentService.mainCmpId,
@@ -265,12 +289,23 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
         },
         this.slice$,
         this.afterNoAddOnFly,
-        this.afterAddOnFly,
-        this.shouldAddOnFly);
+        this.afterAddOnFly);
     }
+    return this;
   }
 
-  ngOnDestroy() {
-    this.closePopups();
+  private withContextMenuLogic(): TbHotlinkButtonsComponent {
+    Observable.fromEvent<MouseEvent>(this.hotLinkButtonTemplate.nativeElement, 'contextmenu', { capture: true }).pipe(untilDestroy(this))
+    .do(e => e.preventDefault())
+    .do(_ => this.closeTable())
+    .pipe(untilDestroy(this))
+    .subscribe(e => {
+      this._optionOffset = {top: e.clientY, left: e.clientX};
+      if(this.isOptionsPopupVisible) this.closeOptions();
+      else this.openOptions()
+    });
+    return this;
   }
+
+  ngOnDestroy() { this.closePopups();  }
 }

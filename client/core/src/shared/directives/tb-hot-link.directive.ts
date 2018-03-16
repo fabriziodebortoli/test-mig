@@ -61,23 +61,19 @@ export class TbHotLinkDirective implements OnInit {
                 );
     }
 
-    ngOnInit() {
+    private get alternativeModelProvided(): boolean { return this.model !== undefined && this.model !== null; }
+    private createComponent(): ComponentRef<TbHotlinkButtonsComponent | TbHotlinkComboComponent> {
         let compFactory = (this.ancestor && this.ancestor.isCombo) ? this.cfr.resolveComponentFactory(TbHotlinkComboComponent) :
-            this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
-            this.cmp = compFactory ? this.viewContainer.createComponent<TbHotlinkButtonsComponent | TbHotlinkComboComponent>(compFactory) : undefined ;
-        if (!this.model) {
-            if(this.cmp) {
-                this.cmp.instance.modelComponent = this.ancestor;
-                this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
-            } else this.cmp.instance.slice$ = Observable.of({ value: null, enabled: false, selector: null, type: 0 });
-        } else {
-            if(this.ancestor) {
-                this.cmp.instance.modelComponent = this.ancestor;
-            }
-            this.cmp.instance.model = this.model;
-            this.cmp.instance.slice$ = Observable.of(this.model);
-        }
+                    this.cfr.resolveComponentFactory(TbHotlinkButtonsComponent);
+        return compFactory ? this.viewContainer.createComponent<TbHotlinkButtonsComponent | TbHotlinkComboComponent>(compFactory) : undefined ;
+    }
 
+    ngOnInit() {
+        this.cmp = this.createComponent();
+        this.cmp.instance.modelComponent = this.ancestor;
+        this.cmp.instance.slice$ = Observable.of(this.model);
         this.cmp.instance.hotLinkInfo = this.hotLinkInfo; 
+        if(this.alternativeModelProvided) this.cmp.instance.model = this.model;
+        else this.cmp.instance.slice$ = this.store.select(this.getSliceSelector(this.ancestor));
     }
 }

@@ -4,8 +4,8 @@ import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/ke
 import { debounceFirst } from './../../shared/commons/debounceFirst';
 import * as _ from 'lodash';
 
-export type SimpleFilter = { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
-export type CompositeFilter = { logic?: 'or' | 'and', filters?: Array<CompositeFilter | SimpleFilter> }
+export class SimpleFilter { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
+export class CompositeFilter { logic?: 'or' | 'and'; filters?: Array<CompositeFilter | SimpleFilter> }
 
 export function combineFiltersMap<T, T2, R>(left: Observable<T>, right: Observable<T2>, project: (v1: T, v2: T2) => R): Observable<R> {
     if (!left && !right) { return Observable.throw('You must specify at least one argument'); }
@@ -107,7 +107,7 @@ export class FilterService implements OnDestroy {
     }
 
     private format(value: CompositeFilter): CompositeFilter {
-        return !value || !value.filters || value.filters.length === 0 ? value : { ...value, filters: value.filters.map(f => (f as SimpleFilter) ? this.formatSimple(f as SimpleFilter) : this.format(f as CompositeFilter)) };
+        return !value || !value.filters || value.filters.length === 0 ? value : { ...value, filters: value.filters.map(f => (f instanceof SimpleFilter) ? this.formatSimple(f as SimpleFilter) : this.format(f as CompositeFilter)) };
     }
 
     private formatSimple(value: SimpleFilter) : SimpleFilter {
