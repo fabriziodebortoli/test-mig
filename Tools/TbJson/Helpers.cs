@@ -38,8 +38,6 @@ namespace Microarea.TbJson
                   )
              );
 
-
-
         public static string ResolveGetParentNameFunction(string ds, JObject jObj)
         {
             if (ds.IndexOf(Constants.getParentNameFunction) != -1)

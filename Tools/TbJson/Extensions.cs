@@ -39,6 +39,14 @@ namespace Microarea.TbJson
             return jObj.GetFlatString(Constants.id);
         }
 
+        //-----------------------------------------------------------------------------
+        public static string GetDataSource(this JObject jBinding)
+        {
+            string ds = jBinding[Constants.datasource]?.ToString();
+            if (string.IsNullOrEmpty(ds))
+                return ds;
+            return ds.Replace("@", "_");
+        }
         internal static bool TryGetId(this JToken jObj, out string id) =>
             (id = jObj.GetFlatString(Constants.id)) != null;
 
@@ -240,7 +248,7 @@ namespace Microarea.TbJson
             JObject obj = jObj?.GetParentItem()?.GetParentItem();
             if (obj != null)
             {
-               if (obj.GetWndObjType() == WndObjType.BodyEdit)
+                if (obj.GetWndObjType() == WndObjType.BodyEdit)
                     return Constants.tbBodyEditToolbarButton;
             }
 
@@ -261,7 +269,7 @@ namespace Microarea.TbJson
                 case CommandCategory.File:
                 case CommandCategory.Bottom:
                     return Constants.tbToolbarBottomButton;
-                
+
                 default:
                     return Constants.tbFloatingActionButton;
             }

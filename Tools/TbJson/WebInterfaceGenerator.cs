@@ -868,7 +868,7 @@ namespace Microarea.TbJson
                             JObject jBinding = jObj[Constants.binding] as JObject;
                             if (jBinding != null)
                             {
-                                string ds = jBinding[Constants.datasource]?.ToString();
+                                string ds = jBinding.GetDataSource();
                                 if (!string.IsNullOrEmpty(ds))
                                 {
                                     bodyEditName = ds;
@@ -1438,13 +1438,12 @@ namespace Microarea.TbJson
             if (jBinding == null)
                 return;
 
-            string ds = jBinding[Constants.datasource]?.ToString();
+            string ds = jBinding.GetDataSource();
             if (string.IsNullOrEmpty(ds))
                 return;
 
             ds = ResolveGetParentNameFunction(ds, jObj);
-
-            ds = ds.Replace("@", "__");
+            
             int idx = ds.IndexOf('.');
             string owner = "", field = "";
             if (idx == -1)
@@ -1555,13 +1554,12 @@ namespace Microarea.TbJson
             if (jBinding == null)
                 return;
 
-            string ds = jBinding[Constants.datasource]?.ToString();
+            string ds = jBinding.GetDataSource();
             if (string.IsNullOrEmpty(ds))
                 return;
 
             ds = ResolveGetParentNameFunction(ds, jObj);
-
-            ds = ds.Replace("@", "__");
+            
             int idx = ds.IndexOf('.');
             string owner = "", field = "";
             if (idx == -1)
