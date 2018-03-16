@@ -39,7 +39,12 @@ namespace Microarea.Common.MenuLoader
             private List<string> customAllUsersMenuFiles;
             private string customCurrentUserMenuPath;
             private List<string> customCurrentUserMenuFiles;
+            
+            //---------------------------------------------------------------------------
+            public ModuleMenuInfo()
+            {
 
+            }
 
             //---------------------------------------------------------------------------
             public ModuleMenuInfo(string aModuleName, string aModuleTitle, int aMenuViewOrder, string aPath)
@@ -155,6 +160,12 @@ namespace Microarea.Common.MenuLoader
             private string appName;
             private ApplicationType appType;
             private List<ModuleMenuInfo> modulesMenuInfos = null;
+
+             //---------------------------------------------------------------------------
+            public ApplicationMenuInfo()
+            {
+
+            }
 
             //---------------------------------------------------------------------------
             public ApplicationMenuInfo(string aApplicationName, ApplicationType aAppType)
@@ -275,6 +286,11 @@ namespace Microarea.Common.MenuLoader
             public bool FromFile
             {
                 get { return fromFile; }
+            }
+
+            public CachedMenuInfos()
+            {
+
             }
 
             //---------------------------------------------------------------------------

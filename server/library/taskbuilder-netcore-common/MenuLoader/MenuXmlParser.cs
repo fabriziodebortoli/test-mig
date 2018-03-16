@@ -2586,6 +2586,11 @@ namespace Microarea.Common.MenuLoader
 			public MenuXmlNode.NodeType	objectType;
 			public string				fileName;
 
+            public ObjectImageInfo()
+            {
+
+            }
+
             public ObjectImageInfo(string aAppName, string aObjectName, MenuXmlNode.NodeType aObjectType, string aFileName)
 			{
 				applicationName	= (aAppName != null) ? aAppName : String.Empty;
