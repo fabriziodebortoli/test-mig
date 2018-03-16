@@ -39,23 +39,19 @@ namespace Microarea.RSWeb.Render
         //int numPagSnapshot = 0;
 
         private int pageNum = 1;
-
         public const string ReportFolderNameFormatter = @"yyyyMMddTHHmmss";
 
         //--------------------------------------------------------------------------
         public JsonReportEngine(TbReportSession session)
         {
             ReportSession = session;
-
             session.EngineType = EngineType.FullExtraction;//TODO RSWEB .Paginated_Standard;
         }
 
         public void Execute()
         {
             StateMachine = new RSEngine(ReportSession);
-
             StateMachine.Step();
-
             // se ci sono stati errori li trasmetto nel file XML stesso
             if (StateMachine.HtmlPage == HtmlPageType.Error)
                 StateMachine.XmlGetErrors();
@@ -68,10 +64,10 @@ namespace Microarea.RSWeb.Render
             return woorm.ToJson(true, "page", true, StateMachine.ReportTitle);
         }
 
+        //---------------------------------------------------------------------
         public string GetJsonTemplatePage(ref int page)
         {
             WoormDocument woorm = StateMachine.Woorm;
-
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
                 while (!woorm.RdeReader.IsPageReady(page))
@@ -81,22 +77,19 @@ namespace Microarea.RSWeb.Render
                     //if (woorm.RdeReader.LoadTotPage())
                     //    break;
                 };  //wait 
-
             //TODO RSWEB bloccare prima
             if (page > woorm.RdeReader.TotalPages)
             {
                 page = woorm.RdeReader.TotalPages;
             }
-
             woorm.LoadPage(page);
-
             return woorm.ToJson(true);
         }
 
+        //---------------------------------------------------------------------
         public string GetJsonDataPage(int page = 1)
         {
             WoormDocument woorm = StateMachine.Woorm;
-
             //TODO RSWEB OTTIMIZZAZIONE sostituire con file system watcher
             if (StateMachine.Report.EngineType != EngineType.FullExtraction)
                 while (!woorm.RdeReader.IsPageReady(page))
@@ -106,17 +99,33 @@ namespace Microarea.RSWeb.Render
                     //if (woorm.RdeReader.LoadTotPage())
                     //    break;
                 };  //wait 
-
             //TODO RSWEB bloccare prima
             if (page > woorm.RdeReader.TotalPages)
             {
                 page = woorm.RdeReader.TotalPages;
             }
-
             woorm.LoadPage(page);
-
             return woorm.ToJson(false);
         }
+        //---------------------------------------------------------------------
+        public string GetJsonInfo(Info infoJson)
+        {
+            string report_title = StateMachine.ReportTitle;
+            string info = "{\"info\": {";
+
+            info += ("\"report_title\":") + (!report_title.IsNullOrEmpty() ? ('\"' + report_title + '\"') : ('\"' + ReportSession.Namespace.ToString() + '\"'));
+            if (!infoJson.name_snapshot.IsNullOrEmpty())
+            {
+                info += ',' + ("\"name_snapshot\":") + '\"' + infoJson.name_snapshot + '\"'; 
+            }
+            if (!infoJson.date_snapshot.IsNullOrEmpty())
+            {
+                info += ',' + ("\"date_snapshot\":") + '\"' + infoJson.date_snapshot + '\"';
+            }
+            info += "},";
+            return info;
+        }
+
 
         //---------------------------------------------------------------------
         //chiamata sul change delle askentry di tipo "runatserver"
@@ -127,7 +136,6 @@ namespace Microarea.RSWeb.Render
                 return string.Empty;
             if (StateMachine.Report.CurrentAskDialog != askDialog)
                 return string.Empty;
-
             askDialog.AssignAllAskData(values);
 
             return askDialog.ToJson();
@@ -147,7 +155,6 @@ namespace Microarea.RSWeb.Render
                 StateMachine.Step();
                 return string.Empty;
             }
-
             if (StateMachine.Report.CurrentAskDialog == null || !currentClientDialogName.CompareNoCase(StateMachine.Report.CurrentAskDialog.FormName))
             {
                 //il client ha fatto prev
@@ -155,7 +162,6 @@ namespace Microarea.RSWeb.Render
                 if (dlg != null)
                     StateMachine.Report.CurrentAskDialog = dlg;
             }
-
             if (StateMachine.Report.CurrentAskDialog == null)
                 return string.Empty;
 
@@ -163,7 +169,6 @@ namespace Microarea.RSWeb.Render
 
             //passa alla prossima dialog se esiste oppure inizia estrazione dati
             StateMachine.Step();
-
             return string.Empty;
         }
 
@@ -173,7 +178,6 @@ namespace Microarea.RSWeb.Render
             AskDialog askDialog = StateMachine.Report.Engine.GetAskDialog(currentClientDialogName);
             if (askDialog != null)
                 StateMachine.Report.CurrentAskDialog = askDialog;
-
             return askDialog.ToJson();
         }
 
@@ -195,13 +199,11 @@ namespace Microarea.RSWeb.Render
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
-
                 case MessageBuilder.CommandType.PREVASK:
                     {
                         msg.message = PreviousAskDialog(msg.page);
                         break;
                     }
-
                 case MessageBuilder.CommandType.UPDATEASK:
                     {
 
@@ -212,8 +214,6 @@ namespace Microarea.RSWeb.Render
 
                         break;
                     }
-
-                
                  case MessageBuilder.CommandType.ABORTASK:  //click on CANCEL
                    {
                        Debug.Assert(StateMachine.CurrentState == State.ExecuteAsk);
@@ -222,8 +222,6 @@ namespace Microarea.RSWeb.Render
                        StateMachine.Step();
                        break;
                    }
-                 
-
                 case MessageBuilder.CommandType.INITTEMPLATE:
                     {
                         msg.message = GetJsonInitTemplate();
@@ -231,8 +229,6 @@ namespace Microarea.RSWeb.Render
                     }
                 case MessageBuilder.CommandType.TEMPLATE:
                     {
-                        Variable currentCopyField = StateMachine.Woorm.SymbolTable.FindById(SpecialReportField.ID.CURRENT_COPY);
-                        currentCopyField.Data = 1;
                         int pos = msg.page.IndexOf(',');
                         if (pos > -1)
                         {
@@ -244,10 +240,15 @@ namespace Microarea.RSWeb.Render
                                 break;
                             if (!int.TryParse(copyNum, out copies))
                                 break;
-                          
-                            if (currentCopyField != null)
+
+                            if (!ReportSession.IsReportSnapshot)
                             {
-                                currentCopyField.Data = copies;
+                                Variable currentCopyField = StateMachine.Woorm.SymbolTable.FindById(SpecialReportField.ID.CURRENT_COPY);
+                                if (currentCopyField != null)
+                                {
+                                    currentCopyField.Data = 1;
+                                    currentCopyField.Data = copies;
+                                }
                             }
                            
                             //TODO RSWEB set copies number into symbol table
@@ -332,20 +333,6 @@ namespace Microarea.RSWeb.Render
                         msg.commandType = MessageBuilder.CommandType.NONE;
                         break;
                     }
-                case MessageBuilder.CommandType.RUNSNAPSHOT:
-                    {
-                        //il flag user-allUser è passato insieme al numeroPagina
-                        bool forAllUsers = false;
-                        string[] split = msg.page.Split(',');
-                        string name = split[1];
-                        string user = split[2];
-                        if (user.Equals("true"))
-                            forAllUsers = true;
-                        msg.message = RunJsonSnapshot(name, forAllUsers);
-                        msg.page = pageNum.ToString();
-                        msg.commandType = MessageBuilder.CommandType.SNAPSHOT;
-                        break;
-                    }
             }
             return msg;
         }
@@ -357,7 +344,6 @@ namespace Microarea.RSWeb.Render
             AskDialog dlg = StateMachine.Report.Engine.GetAskDialog(index);
             if (dlg == null)
                 return string.Empty;
-
             return dlg.ToJson();
         }
 
@@ -704,23 +690,22 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata per snapshot
-        public string GetJsonAllPages()
+        public string GetJsonAllPages(Info info)
         {
             WoormDocument woorm = StateMachine.Woorm;
 
-            string file = "{ \"pages\":[";
-
+            string reportTitle = StateMachine.ReportTitle;
+            string file = GetJsonInfo(info);
+            file  += "\"pages\":[";
+            
             for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
             {
                 woorm.LoadPage(i);
-
                 if (i > 1) file += ",";
 
-                file += woorm.ToJson(true);
+                file += woorm.ToJson(true, "page", true, reportTitle);
                 file += ",";
                 file += woorm.ToJson(false);
-
-
             }
             file += "]}";
             return file;//ToJson(null, false, false, false);
@@ -731,6 +716,11 @@ namespace Microarea.RSWeb.Render
             WoormDocument woorm = StateMachine.Woorm;
             string user = "";
 
+            Info infoSnap = new Info();
+            infoSnap.name_snapshot = name;
+            infoSnap.date_snapshot = DateTime.Now.ToString(ReportFolderNameFormatter);
+            infoSnap.report_title = StateMachine.ReportTitle;
+
             if (!forAllUsers)
                 user = ReportSession.UserInfo.User;
             else
@@ -738,16 +728,16 @@ namespace Microarea.RSWeb.Render
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
-            string pages = GetJsonAllPages();
-            string path = destinationPath + DateTime.Now.ToString(ReportFolderNameFormatter) + "_" + name + ".json";
-
+            string pages = GetJsonAllPages(infoSnap);
+            string path = destinationPath + infoSnap.date_snapshot + "_" + infoSnap.name_snapshot + ".json";
             File.WriteAllText(path, pages);
         }
 
-        public string RunJsonSnapshot(string name, bool forAllUsers)
+        public Message RunJsonSnapshot()
         {
+            ReportSnapshot snapshot = this.ReportSession.ReportSnapshot;
             string user = "";
-            if (!forAllUsers)
+            if (!snapshot.allUsers)
                 user = ReportSession.UserInfo.User;
             else
                 user = NameSolverStrings.AllUsers;
@@ -755,12 +745,22 @@ namespace Microarea.RSWeb.Render
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(ReportSession.FilePath, ReportSession.UserInfo.Company, user);
             string completePath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(ReportSession.FilePath), true);
 
-            using (StreamReader r = new StreamReader(completePath + name + ".json"))
+            using (StreamReader r = new StreamReader(completePath + snapshot.date+'_'+snapshot.name + ".json"))
             {
                 string json = r.ReadToEnd();
                 pagesSnapshot = JsonConvert.DeserializeObject<Snapshot>(json);
+                string infoSnap = JsonConvert.SerializeObject(pagesSnapshot.info);
+                string firstPage = pagesSnapshot.pages[0].ToString();
+                if (infoSnap.Length > 0)
+                    infoSnap = infoSnap.Substring(0, infoSnap.Length - 1);
+                if(firstPage.Length > 0)
+                    firstPage = firstPage.Substring(1, firstPage.Length - 1);
                 pageNum = pagesSnapshot.pages.Length / 2;
-                return pagesSnapshot.pages[0].ToString();
+                Message msg = new Message();
+                msg.message = infoSnap + ',' + firstPage;
+                msg.commandType = MessageBuilder.CommandType.SNAPSHOT;
+                msg.page = pageNum.ToString();
+                return msg;
             }
         }
 

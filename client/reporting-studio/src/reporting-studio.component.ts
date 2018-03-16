@@ -57,7 +57,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
-    public httpServiceRs : HttpServiceRs,
+    public httpServiceRs: HttpServiceRs,
     eventData: EventDataService,
     changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
@@ -77,18 +77,18 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.subMessage = this.rsService.message.subscribe(received => {
       this.onMessage(received);
-
     });
 
     this.rsInitStateMachine();
 
-    let message = {
-      commandType: CommandType.INITTEMPLATE,
-      message: "",
-      page: this.rsService.pageNum
-    };
-    this.rsService.doSend(JSON.stringify(message));
-
+    if (!this.rsService.isSnapshot) {
+      let message = {
+        commandType: CommandType.INITTEMPLATE,
+        message: "",
+        page: this.rsService.pageNum
+      };
+      this.rsService.doSend(JSON.stringify(message));
+    }
     this.rsExportService.rsExportPdf.subscribe(() => this.startSavePDF());
     this.rsExportService.rsExportExcel.subscribe(() => this.startSaveExcel());
     this.rsExportService.rsExportDocx.subscribe(() => this.startSaveDocx());
@@ -106,6 +106,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let p: string = '';
     let p2: string = '';
     if (this.args.params) {
+      if (this.args.params.snapshot !== undefined) {
+        var sn = this.args.params.snapshot;
+        this.rsService.isSnapshot = true;
+        this.args.params.snapshot = undefined;
+      }
       if (this.args.params.xargs != null) {
         p = JSON.stringify(this.args.params.xargs);
         p2 = decodeURIComponent(p);
@@ -117,7 +122,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       nameSpace: this.args.nameSpace,
       parameters: p2,
       authtoken: sessionStorage.getItem('authtoken'),
-      tbLoaderName: this.infoService.getTbLoaderInfo().name
+      tbLoaderName: this.infoService.getTbLoaderInfo().name,
+      snapshot: sn !== undefined ? sn : null
     };
 
     if (this.args.params.runAtTbLoader) {
@@ -130,7 +136,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   // -----------------------------------------------
   ngOnDestroy() {
     this.subMessage.unsubscribe();
-
     if (this.args.params.runAtTbLoader) {
       this.tbLoaderWebSocketService.closeServerComponent(this.rsService.mainCmpId);
     }
@@ -203,7 +208,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.getDocxData(k + ".docx");
           break;
         case CommandType.SNAPSHOT:
+          this.rsExportService.nameSnap = k.name_snapshot;
+          this.rsExportService.dateSnap = k.date_snapshot;
           this.runningReport = true;
+          this.eventData.model.Title.value = "Snapshot of " + k.page.report_title;
           this.rsExportService.totalPages = parseInt(msg.page);
           this.firstPage();
           break;
@@ -349,39 +357,42 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.SNAPSHOT,
       message: this.args.nameSpace,
-      page: 1 + "," + this.rsExportService.nameSnap + "," + this.rsExportService.user
+      page: 1 + "," + this.rsExportService.nameSnap + "," + this.rsExportService.allUsers
     };
     this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------
-  createTableSnapshots(k: Snapshot[]) { 
-    this.rsExportService.snapshots = k; 
+  createTableSnapshots(k: Snapshot[]) {
+    this.rsExportService.snapshots = k;
   }
 
   // -----------------------------------------------
   runSnapshot() {
     this.rsExportService.snapshot = false;
-    let message = {
-      commandType: CommandType.RUNSNAPSHOT,
-      message: this.args.nameSpace,
-      page: 1 + "," + this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap + "," + this.rsExportService.user
+
+    let outerSnapshot: any;
+    outerSnapshot = {};
+    outerSnapshot.snapshot = {
+      name: this.rsExportService.nameSnap,
+      date: this.rsExportService.dateSnap,
+      allUsers: this.rsExportService.allUsers
     };
-    this.rsService.doSend(JSON.stringify(message));
+    this.componentService.createReportComponent(this.args.nameSpace, true, outerSnapshot);
   }
 
-  
+
   //-------------------------------------------------- 
   startAskSnapshot() {
     this.rsExportService.snapshot = true;
-    this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe( resp => this.createTableSnapshots(resp));
+    this.httpServiceRs.getSnapshotData(this.args.nameSpace).subscribe(resp => this.createTableSnapshots(resp));
   }
 
   //-------------------------------------------------- 
   deleteSnapshot() {
     this.rsExportService.snapshot = true;
     this.httpServiceRs.deleteSnapshotData(this.args.nameSpace, this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap)
-      .subscribe( resp => this.createTableSnapshots(resp));
+      .subscribe(resp => this.createTableSnapshots(resp));
   }
 
 

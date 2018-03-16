@@ -35,7 +35,7 @@ namespace Microarea.RSWeb.Models
 
             // if ComponentId is received from client, it means this report is called from a tbloader document
             // ComponentId is the handle of woormdoc proxy tbloader side
-            TbReportSession session = new TbReportSession(ui, nsMsg.nameSpace, nsMsg.parameters, nsMsg.componentId);
+            TbReportSession session = new TbReportSession(ui, nsMsg);
             session.WebSocket = webSocket;
 
             if (!string.IsNullOrWhiteSpace(tbIstanceID))
@@ -48,8 +48,12 @@ namespace Microarea.RSWeb.Models
 
             JsonReportEngine engine = new JsonReportEngine(session);
 
-            engine.Execute();
+            if (session.ReportSnapshot == null)
+                engine.Execute();
+            else {
+                SendMessage(webSocket, engine.RunJsonSnapshot());
 
+            }
             return engine;
         }
 

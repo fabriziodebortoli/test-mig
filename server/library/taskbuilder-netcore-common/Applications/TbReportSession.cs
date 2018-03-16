@@ -635,16 +635,14 @@ namespace Microarea.Common.Applications
 
         public EngineType EngineType = EngineType.Paginated_Standard;
 
-        private string woormdocProxyId;
-
-        internal string WoormdocProxyId
-        {
-            get { return woormdocProxyId; }
-        }
+        internal string WoormdocProxyId { get; }
         internal bool IsCalledFromTbloader
         {
-            get { return !String.IsNullOrWhiteSpace(woormdocProxyId); }
+            get { return !String.IsNullOrWhiteSpace(WoormdocProxyId); }
         }
+        public bool IsReportSnapshot { get { return ReportSnapshot != null; } }
+
+        public ReportSnapshot ReportSnapshot { get; set; } 
         private string reportParameters;
         public string ReportParameters
         {
@@ -690,19 +688,30 @@ namespace Microarea.Common.Applications
         public string sessionID = Guid.NewGuid().ToString();
         public string uniqueID = Guid.NewGuid().ToString();
 
-        public TbReportSession(UserInfo ui, string ns, string parameters = "", string componentId = "")
-            : base(ui, ns)
+        public TbReportSession(UserInfo ui, NamespaceMessage nm)
+            : base(ui, nm.nameSpace)
         {
-            this.woormdocProxyId = componentId;
-            this.ReportNameSpace = new NameSpace(ns, NameSpaceObjectType.Report);
+            this.WoormdocProxyId = nm.componentId;
+            this.ReportNameSpace = new NameSpace(nm.nameSpace, NameSpaceObjectType.Report);
             this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
-            this.ReportParameters = parameters;
-
+            this.ReportParameters = nm.parameters;
+            this.ReportSnapshot = nm.snapshot;
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
 
             Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
         }
 
+        public TbReportSession(UserInfo ui, string  nameSpace)
+           : base(ui, nameSpace)
+        {
+            
+            this.ReportNameSpace = new NameSpace(nameSpace, NameSpaceObjectType.Report);
+            this.ReportPath = PathFinder.GetCustomUserReportFile(ui.Company, ui.ImpersonatedUser, ReportNameSpace, true);
+            this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
+            this.ReportParameters = "";
+            this.WoormdocProxyId = "";
+            Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
+        }
         //---------------------------------------------------------------------
         // private IBrandLoader BrandLoader = new BrandLoader();
     }

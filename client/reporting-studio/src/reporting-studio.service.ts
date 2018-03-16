@@ -9,13 +9,14 @@ import { CommandType } from './models/command-type.model';
 @Injectable()
 export class ReportingStudioService extends DocumentService {
     [x: string]: any;
-    public pageNum: number = 1;
-    public runEnabled: boolean = true;
-    public showAsk = false;
+    pageNum: number = 1;
+    runEnabled: boolean = true;
+    showAsk = false;
+    isSnapshot: boolean = false;
 
-    public rsServer: string = ''
-    public websocket: WebSocket;
-    public message: Subject<any> = new Subject<string>();
+    rsServer: string = ''
+    websocket: WebSocket;
+    message: Subject<any> = new Subject<string>();
 
     constructor(
         params: TbComponentServiceParams,

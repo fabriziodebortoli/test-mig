@@ -24,7 +24,7 @@ export class RsExportService {
     titleReport: string;
     layoutId: string;
 
-    user: boolean;
+    allUsers: boolean;
     nameSnap: string;
     snapshots: Snapshot[];
     dateSnap: string;
@@ -59,14 +59,14 @@ export class RsExportService {
     //------SNAPSHOT------------------------------------
     initiaziedSnapshot(nameSnapshot, allUsers) {
         this.nameSnap = nameSnapshot;
-        this.user = allUsers;
+        this.allUsers = allUsers;
         this.eventSnapshot.emit();
     }
 
-    startSnapshot(name, date, allusers, run, del) {
+    startSnapshot(name, date, allUsers, run, del) {
         this.nameSnap = name;
         this.dateSnap = date;
-        this.user = allusers;
+        this.allUsers = allUsers;
         if(run)
             this.runSnapshot.emit();
         else if(del)
