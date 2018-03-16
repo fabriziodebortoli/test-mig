@@ -176,9 +176,15 @@ export class NumbererComponent extends ControlComponent {
     setComponentMask() {
         if (this.eventData.model.FormMode != undefined) {
             switch (this.eventData.model.FormMode.value) {
-                case FormMode.BROWSE:
-                case FormMode.FIND: {
+                case FormMode.FIND:
                     this.mask = '';
+                    break;
+
+                case FormMode.BROWSE: {
+                    this.mask = '';
+                    if (this.model && this.model.value !== this.textbox.input.nativeElement.value) {
+                        this.textbox.input.nativeElement.value = this.model.value;
+                    }
                     break;
                 }
                 default: {
@@ -297,6 +303,7 @@ export class NumbererComponent extends ControlComponent {
     onKeyPress($event) {
         if ($event.charCode === 95) {
             $event.preventDefault();
+            return;
         }
     }
 
@@ -305,6 +312,11 @@ export class NumbererComponent extends ControlComponent {
         if (($event.keyCode === 63) || ($event.keyCode === 32)) {
             $event.preventDefault();
         }
+    }
+
+    onKeyUp($event) {
+        // VERIFICARE SE SI PUO' FARE CON LA MASCHERA
+        this.changeModelValue(null);
     }
 
     transformTypedChar(charStr) {
@@ -345,15 +357,19 @@ export class NumbererComponent extends ControlComponent {
         }
     }
 
-    changeModelValue(value: string) {
+    changeModelValue(event: any) {
         // if a mask with a fixed prefix is set, the textbox return as its value only the changeable part of it
         // ex. i'm creating a new document with number '17/00001' (fixed part) and the user completes it with a suffix, so the number becomes '17/00001AD'
         // the textbox return as its value only the suffix 'AD'. this compels me to read the entire value from the native element,
         // stripping the underscore from it 
 
         // this.model.value = value;
-        this.model.value = this.textbox.input.nativeElement.value.replace('_', ' ').trim();
-        this.valueWasPadded = false;
+        switch (this.eventData.model.FormMode.value) {
+            case FormMode.NEW:
+            case FormMode.EDIT:
+                this.model.value = this.textbox.input.nativeElement.value.replace('_', ' ').trim();
+                this.valueWasPadded = false;
+        }
     }
 
     // toggleState() {
