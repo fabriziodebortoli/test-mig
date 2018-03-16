@@ -1,23 +1,22 @@
-<kendo-dialog *ngIf="bodyEditService.rowViewVisible &&  bodyEditService.currentRow" kendoRippleContainer (close)="closeRowView()">
-
-    <kendo-dialog-titlebar>
-        <div class="title">
-            RowView
-        </div>
-    </kendo-dialog-titlebar>
+<kendo-window *ngIf="bodyEditService.rowViewVisible &&  bodyEditService.currentRow" [minWidth]="250">
+    <kendo-window-titlebar>
+        <div class='k-window-title'>{{title}}</div>
+        <button type="button" class="k-button" (click)="closeRowView()">{{_TB('Close')}}</button>
+    </kendo-window-titlebar>
 
     <div class="row-view-toolbar">
         <div class="buttons">
+            {{bodyEditService.currentDbtRowIdx}}
             <button kendoButton class="top-button toggle-button" (click)="firstRow()" [disabled]="this.bodyEditService.currentDbtRowIdx <= 0" [title]="_TB('First Row')">
                 <m4-icon icon="tb-top" class="toolbar-icon"></m4-icon>
             </button>
             <button kendoButton class="top-button toggle-button" (click)="prevRow()" [disabled]="this.bodyEditService.currentDbtRowIdx <= 0" [title]="_TB('Prev Row')">
                 <m4-icon icon="tb-up" class="toolbar-icon"></m4-icon>
             </button>
-            <button kendoButton class="top-button toggle-button" (click)="nextRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.model?.rowCount - 1" [title]="_TB('Next Row')">
+            <button kendoButton class="top-button toggle-button" (click)="nextRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.rowCount - 1" [title]="_TB('Next Row')">
                 <m4-icon icon="tb-down" class="toolbar-icon"></m4-icon>
             </button>
-            <button kendoButton class="top-button toggle-button" (click)="lastRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.model?.rowCount - 1" [title]="_TB('Last Row')">
+            <button kendoButton class="top-button toggle-button" (click)="lastRow()" [disabled]="bodyEditService.currentDbtRowIdx >= this.bodyEditService?.rowCount - 1" [title]="_TB('Last Row')">
                 <m4-icon icon="tb-bottom" class="toolbar-icon"></m4-icon>
             </button>
         </div>
@@ -27,7 +26,7 @@
         <ng-content></ng-content>
     </ng-template>
 
-    <kendo-dialog-actions>
-        <button kendoButton (click)="closeRowView()" [primary]="true">{{_TB('Close')}}</button>
-    </kendo-dialog-actions>
-</kendo-dialog>
+    <div class="text-right">
+        <button type="button" class="k-button" (click)="closeRowView()">{{_TB('Close')}}</button>
+    </div>
+</kendo-window>

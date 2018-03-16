@@ -22,6 +22,7 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { GridComponent } from '@progress/kendo-angular-grid';
 import { RowArgs } from '@progress/kendo-angular-grid/dist/es/rendering/common/row-class';
 import * as _ from 'lodash';
+import { WindowState } from '@progress/kendo-angular-dialog';
 
 const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 
@@ -34,7 +35,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
 export class RowViewFormComponent extends ControlComponent {
 
   @ContentChild(TemplateRef) rowViewTemplate: TemplateRef<any>;
-
+  public title: string = this._TB('RowView');
 
   constructor(
     public cdr: ChangeDetectorRef,
@@ -66,21 +67,5 @@ export class RowViewFormComponent extends ControlComponent {
 
   lastRow() {
     this.bodyEditService.lastRow();
-  }
-
-  canFirstRow() {
-    return this.bodyEditService.currentDbtRowIdx != 0;
-  }
-
-  canPrevRow() {
-    return this.bodyEditService.currentDbtRowIdx > 0;
-  }
-  
-  canNextRow() {
-    return this.bodyEditService.currentDbtRowIdx < this.bodyEditService.rowCount;
-  }
-
-  canLastRow() {
-    return this.bodyEditService.currentDbtRowIdx != this.bodyEditService.rowCount;
   }
 }
