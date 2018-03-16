@@ -562,41 +562,46 @@ void CDocumentSession::PushButtonsStateToClients(HWND hwnd)
 		resp.OpenObject(_T("buttonsState"));
 
 
-		for (int i = 0; i < pFrame->GetTabbedToolBar()->GetToolBarsCount(); i++)
+		CTBTabbedToolbar* pTabbedToolbar = pFrame->GetTabbedToolBar();
+		if (pTabbedToolbar)
 		{
-			CTBToolBar*  pToolbar = pFrame->GetTabbedToolBar()->GetToolBar(i);
-			int buttons = pToolbar->GetCount();
-			for (int j = 0; j < buttons; j++)
+			for (int i = 0; i < pFrame->GetTabbedToolBar()->GetToolBarsCount(); i++)
 			{
-				CBCGPToolbarButton* pButton = pToolbar->GetButton(j);
-				if (!pButton)
-					continue;
+				CTBToolBar*  pToolbar = pFrame->GetTabbedToolBar()->GetToolBar(i);
+				int buttons = pToolbar->GetCount();
+				for (int j = 0; j < buttons; j++)
+				{
+					CBCGPToolbarButton* pButton = pToolbar->GetButton(j);
+					if (!pButton)
+						continue;
 
-				CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbControls, pButton->m_nID);
-				CString cmpId = resource.m_strName;
-				resp.OpenObject(resource.m_strName);
-				// UINT nID, nStyle;
-				//int iImage;
-				CTBCmdUI ui(pButton->m_nID);
-				ui.DoUpdate(pFrame, TRUE);
+					CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbControls, pButton->m_nID);
+					CString cmpId = resource.m_strName;
+					resp.OpenObject(resource.m_strName);
+					// UINT nID, nStyle;
+					//int iImage;
+					CTBCmdUI ui(pButton->m_nID);
+					ui.DoUpdate(pFrame, TRUE);
 
-				BOOL isEnabled = ui.GetEnabled();
-				//int checkedState = ui.GetCheck();
+					BOOL isEnabled = ui.GetEnabled();
+					//int checkedState = ui.GetCheck();
 
-				resp.WriteBool(_T("enabled"), isEnabled == TRUE);
-				//resp.WriteString(_T("checkedState"),  checkedState);
+					resp.WriteBool(_T("enabled"), isEnabled == TRUE);
+					//resp.WriteString(_T("checkedState"),  checkedState);
 
 
-				/*TCHAR buff[32];
-				_itot_s((int)m_hWnd, buff, 10);
-				pResp->WriteString(_T("id"), buff);
-				pResp->OpenObject(_T("activation"));
-				pResp->WriteString(_T("id"), buff);
-				pResp->OpenObject(_T("activation"));
-*/
-				resp.CloseObject();
+					/*TCHAR buff[32];
+					_itot_s((int)m_hWnd, buff, 10);
+					pResp->WriteString(_T("id"), buff);
+					pResp->OpenObject(_T("activation"));
+					pResp->WriteString(_T("id"), buff);
+					pResp->OpenObject(_T("activation"));
+					*/
+					resp.CloseObject();
+				}
 			}
 		}
+
 		resp.CloseObject();
 		resp.CloseObject();
 		END_JSON_RESPONSE();
