@@ -171,7 +171,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		public bool ImportSampleDataSilentMode()
 		{
 			if (sampleManager != null)
-				sampleManager.ImportSampleDataSilentMode();
+				return sampleManager.ImportSampleDataSilentMode();
 			
 			return false;
 		}
@@ -180,7 +180,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		public bool ImportSampleDataForSubscription(ImportDataParameters parameters)
 		{
 			if (sampleManager != null)
-				sampleManager.ImportSampleDataForSubscription(parameters);
+				return sampleManager.ImportSampleDataForSubscription(parameters);
 
 			return false;
 		}
