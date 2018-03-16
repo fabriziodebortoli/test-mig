@@ -2475,10 +2475,18 @@ void CTBExplorerUserDlg::SaveObjs(CStringArray& aPathForSave, CString& sUserForS
 			else
 				strTargetPath = AfxGetPathFinder()->GetModuleFilesPath(m_NameSpace, CPathFinder::USERS, sUserForSave, TRUE);
 
+			if (strTargetPath == _T(""))
+			{
+				AfxMessageBox(cwsprintf(_TB("Object copy is not successfully completed")));
+				return;
+			}
+			
 			if (!bSaveLink)
-				bCompleted = ImportCopyFile(strTargetPath, sUserForSave, &aMessage, &aPathForSave);		
+				bCompleted = ImportCopyFile(strTargetPath, sUserForSave, &aMessage, &aPathForSave);
 			else
 				return;
+			
+
 			break;
 	}	
 
