@@ -1373,14 +1373,17 @@ namespace Microarea.TbJson
                 if (iconsConversionDictionary.TryGetValue(tempIcon, out string convertedValue))
                     htmlWriter.WriteAttribute(Constants.icon, convertedValue);
                 else 
-                { 
-                    if (icon.IndexOf("{{") >= 0) 
-                        icon = icon.ResolveInterplation(); 
-                    else 
-                    { 
-                        Console.Out.WriteLineAsync(string.Format("Warning: icon {0} not found in iconfont", icon)); 
+                {
+                    if (icon.IndexOf("{{") >= 0)
+                    {
+                        icon = icon.ResolveInterplation();
+                        htmlWriter.WriteAttribute(Square( Constants.icon), icon); 
+                    }
+                    else
+                    {
+                        Console.Out.WriteLineAsync(string.Format("Warning: icon {0} not found in iconfont", icon));
+                        htmlWriter.WriteAttribute(Constants.icon, icon); 
                     } 
-                    htmlWriter.WriteAttribute(Constants.icon, icon); 
                 } 
             }
             else
