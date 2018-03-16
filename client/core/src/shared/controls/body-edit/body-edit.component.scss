@@ -1,8 +1,11 @@
-// tb-body-edit {
-//     overflow: hidden;
-// }
+@import '../../../style/tb.scss';
+:host(tb-body-edit) {
+    margin: 2px 0;
+}
+
 ::ng-deep .body-edit {
     font-size: 12px;
+    border-color: #ddd;
     tr.k-state-selected,
     td.k-state-selected {
         transition: all 200ms ease;
@@ -26,7 +29,7 @@
     .k-grid-pager {
         padding: 0px;
         border-width: 1px 0 0;
-        border-color: #e3e3e3;
+        border-color: #ddd;
         font-size: 12px;
     }
     .k-grid th,
@@ -84,38 +87,69 @@ tb-icon {
 .body-edit-footer {
     display: flex;
     flex: 1;
-}
-
-.left-buttons {
-    display: flex;
-    flex: 1;
-    justify-content: flex-start;
-    .toolbar-icon {
-        font-size: 1.2em;
+    background-color: #f6f6f6;
+    border: 1px solid #ddd;
+    border-top: none;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 3px;
+    .left-buttons {
+        display: flex;
+        flex: 1;
+        justify-content: flex-start;
     }
-}
-
-.right-buttons {
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    .toolbar-icon {
-        font-size: 1.2em;
+    .right-buttons {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
     }
-}
-
-.center-buttons {
-    display: flex;
-    flex: 1;
-    justify-content: unset;
-    .toolbar-icon {
-        font-size: 1.2em;
+    .center-buttons {
+        display: flex;
+        flex: 1;
+        justify-content: unset;
     }
-}
-
-.pager-number {
-    font-weight: bold;
-    font-size: smaller;
+    .toolbar-icon {
+        font-size: 12px;
+        padding-top: 4px;
+    }
+    .pager-number {
+        font-weight: 500;
+        font-size: 12px;
+    }
+    button.k-button {
+        padding: 1px 0 0;
+        margin: 2px 0 2px 3px;
+        font-size: 12px;
+        display: flex;
+        flex-direction: row;
+        background: #fff;
+        border: 1px solid #cfe0e8;
+        border-radius: 3px;
+        transition: all 200ms ease;
+        width: 30px;
+        height: 30px;
+        &:hover {
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            background-color: $darkblue;
+            border-color: $darkblue;
+            color: #fff;
+            tb-icon,
+            i {
+                color: #fff;
+            }
+        }
+        &.k-state-disabled {
+            opacity: 1;
+            background-color: #f6f6f6;
+            border: 1px solid #f6f6f6;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            m4-icon {
+                color: #ccc;
+                background-color: #f6f6f6;
+                border: none;
+            }
+        }
+    }
 }
 
 ::ng-deep .k-grid th,

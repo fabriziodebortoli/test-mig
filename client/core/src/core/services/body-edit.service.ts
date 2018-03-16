@@ -13,7 +13,7 @@ export class BodyEditService {
   public bodyEditName: string;
   public prototype: any;
   public _currentRow: any;
-  public rowCount: number;
+  public rowCount: number = 0;
   public rows = [];
 
   public currentRowIdx: any;
@@ -54,7 +54,7 @@ export class BodyEditService {
   setModel(model: any) {
     this.rows = model.rows;
     this.prototype = model.prototype;
-    this.rowCount = model.rowCount;
+    this.rowCount = model ? model.rowCount : 0;
 
     this.currentDbtRowIdx = model.currentRowIdx;
     this.currentGridIdx = model.currentRowIdx - this.skip;
