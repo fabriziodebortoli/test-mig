@@ -2,7 +2,7 @@
     <div *ngIf="this.listSnap">
         <h3>Existing snapshots</h3>
         <hr>
-        <rs-snapshot-list [namespace]="this.rsService.namespace" (showList)="onShowList($event)"></rs-snapshot-list>
+        <rs-snapshot-list [namespace]="this.rsService.namespace" (showList)="onShowList($event)" (runSnapAndCloseDialog)="onRunAndClose($event)"></rs-snapshot-list>
         <br>
     </div>
     <br>

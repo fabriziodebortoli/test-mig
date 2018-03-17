@@ -14,6 +14,7 @@ export class SnapshotListComponent implements OnInit {
     snapshots: Snapshot[];
 
     @Output() showList = new EventEmitter<boolean>();
+    @Output() runSnapAndCloseDialog = new EventEmitter<void>();
 
     constructor(public rsSnapshotService: RsSnapshotService) {
         
@@ -30,6 +31,7 @@ export class SnapshotListComponent implements OnInit {
 
     runSnapshot(name: string, date: string, allusers: boolean) {
         this.rsSnapshotService.runSnapshot(name, date, allusers, this.namespace);
+        this.runSnapAndCloseDialog.emit();
     }
 
     deleteSnapshot(name: string, date: string, allusers: boolean) {

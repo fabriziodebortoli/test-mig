@@ -49,6 +49,10 @@ export class SnapshotdialogComponent {
     onShowList(isNotEmpty: boolean){
         this.listSnap = isNotEmpty;
     }
+
+    onRunAndClose(){
+       this.rsSnapshotService.showSnapshotDialog = false;
+    }
     
     openCollapse() {
       this.opened = !this.opened;
