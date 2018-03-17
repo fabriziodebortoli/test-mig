@@ -2896,7 +2896,8 @@ void CAbstractFormView::OnInitialUpdate()
     //utilizzato per centratura controlli
 	m_bInitialUpdateDone =  TRUE;
 
-	GetDocument()->OnAfterPrepareAuxData(this);
+	if(GetDocument())
+		GetDocument()->OnAfterPrepareAuxData(this);
 
 	//se e' stata personalizzata la centratura dei controlli in via programmativa non leggo il setting globale
 	if (!IsCenterControlsCustomized())
