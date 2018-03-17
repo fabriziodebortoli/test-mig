@@ -47,7 +47,7 @@ import { HyperLinkService} from './services/hyperlink.service';
 import { ComponentMediator } from './services/component-mediator.service';
 import { StorageService } from './services/storage.service';
 import { BodyEditService } from './services/body-edit.service';
-
+import { RsSnapshotService } from './services/rs-snapshot.service';
 
 export { AuthService } from './services/auth.service';
 export { TbComponentService } from './services/tbcomponent.service';
@@ -86,13 +86,14 @@ export { HyperLinkService} from './services/hyperlink.service';
 export { StorageService } from './services/storage.service';
 export { ComponentMediator } from './services/component-mediator.service';
 export { BodyEditService } from './services/body-edit.service';
+export { RsSnapshotService } from './services/rs-snapshot.service';
 
 export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
-    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService, BodyEditService
+    LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, StorageService, BodyEditService, RsSnapshotService
 ];
 
 import { CoreGuard } from './guards/core.guard';

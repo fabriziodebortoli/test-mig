@@ -13,7 +13,7 @@
                 <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="lastPage()"></tb-toolbar-top-button>
             </div>
 
-            <div class="menu-category esecution" *ngIf="!isSnapshot">
+            <div class="menu-category esecution" *ngIf="!this.rsService.isSnapshot">
                 <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="reRunReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="stopReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
             </div>
@@ -71,11 +71,11 @@
             <tb-toolbar-bottom-button icon="exporttosvg" [caption]="_TB('SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
             <tb-toolbar-bottom-button icon="tb-exporttoexcel" *ngIf="!runningReport" [caption]="_TB('Excel')" (click)="setExportFile(rsExportService.excel)"
                 class="dropUpButton"></tb-toolbar-bottom-button>
-            <tb-toolbar-bottom-button icon="exporttodocx" [caption]="_TB('DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <!--tb-toolbar-bottom-button icon="exporttodocx" [caption]="_TB('DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button-->
         </tb-toolbar-bottom-button-dropup>
 
-        <rs-exportdialog *ngIf="rsExportService.exportfile"> </rs-exportdialog>
-        <rs-snapshotdialog *ngIf="rsService.showSnapshotDialog"></rs-snapshotdialog>
+        <rs-exportdialog *ngIf="this.rsExportService.exportfile"> </rs-exportdialog>
+        <rs-snapshotdialog *ngIf="this.rsSnapshotService.showSnapshotDialog"></rs-snapshotdialog>
     </tb-toolbar-bottom>
 </tb-frame>
 

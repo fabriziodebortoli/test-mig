@@ -1,3 +1,4 @@
+import { RsSnapshotService } from '@taskbuilder/core';
 import { ReportingStudioService } from '../../reporting-studio.service';
 import { Subscription } from '../../rxjs.imports';
 import { Component, Input } from '@angular/core';
@@ -16,8 +17,9 @@ export class SnapshotdialogComponent {
     nameSnapshot: string = "";
     openSnapshot: string = "";
     opened: boolean = false;
+    listSnap: boolean = true;
 
-    constructor(public rsService: ReportingStudioService) {
+    constructor(public rsService: ReportingStudioService, public rsSnapshotService: RsSnapshotService) {
         this.nameSnapshot = "";
         this.openSnapshot = "";
     };
@@ -27,13 +29,13 @@ export class SnapshotdialogComponent {
     }
 
     close() {
-        this.rsService.showSnapshotDialog = false;
+        this.rsSnapshotService.showSnapshotDialog = false;
         this.ngOnDestroy();
     }
 
     saveSnapshot() {
         this.rsService.initiaziedSnapshot(this.nameSnapshot, this.allUsers);
-        this.rsService.showSnapshotDialog = false;
+        this.rsSnapshotService.showSnapshotDialog = false;
     }
 
     setSingleUser() {
@@ -42,6 +44,10 @@ export class SnapshotdialogComponent {
 
     setAllusers() {
         this.allUsers = true;
+    }
+
+    onShowList(isNotEmpty: boolean){
+        this.listSnap = isNotEmpty;
     }
     
     openCollapse() {

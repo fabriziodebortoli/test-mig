@@ -13,7 +13,7 @@ export class ReportingStudioService extends DocumentService {
     runEnabled: boolean = true;
     showAsk = false;
     isSnapshot: boolean = false;
-    showSnapshotDialog = false;
+    //showSnapshotDialog = false;
     nameSnap: string = "";
     allUsers: string = "";
     namespace: string = "";

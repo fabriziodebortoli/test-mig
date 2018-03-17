@@ -1,3 +1,31 @@
-input{
-     width: 50px;
+h3{
+    font-weight: 500;
+    color: #0277bd;
+    font-size: 14px;
+    margin: auto;
+}
+
+.fromToPage{
+    display: flex;
+    flex-direction: row;
+    padding: 1px;
+    align-items: center;
+    input {
+        width: auto;
+    }
+}
+
+label{
+    width: 100px;
+    text-align: right;
+    padding-right: 5px;
+}
+
+mat-radio-button{
+    margin: 2px;
+    margin-left: 25% !important;
+}
+
+.mat-radio-inner-circle{
+    background-color: #0277bd !important;
 }

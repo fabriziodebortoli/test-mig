@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService } from '@taskbuilder/core';
+import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService } from '@taskbuilder/core';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -27,7 +27,7 @@ import { ReportingStudioService } from './reporting-studio.service';
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
-  providers: [ReportingStudioService, RsExportService, EventDataService]
+  providers: [ReportingStudioService, RsExportService, EventDataService, RsSnapshotService]
 })
 
 export class ReportingStudioComponent extends DocumentComponent implements OnInit, OnDestroy {
@@ -58,6 +58,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
+    public rsSnapshotService : RsSnapshotService,
     eventData: EventDataService,
     changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
@@ -363,33 +364,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.doSend(JSON.stringify(message));
   }
 
-  // -----------------------------------------------
-  /*runSnapshot() {
-    this.rsExportService.snapshot = false;
-
-    let outerSnapshot: any;
-    outerSnapshot = {};
-    outerSnapshot.snapshot = {
-      name: this.rsExportService.nameSnap,
-      date: this.rsExportService.dateSnap,
-      allUsers: this.rsExportService.allUsers
-    };
-    this.componentService.createReportComponent(this.args.nameSpace, true, outerSnapshot);
-  }*/
-
-
   //-------------------------------------------------- 
   startAskSnapshot() {
-    this.rsService.showSnapshotDialog = true;
+    this.rsSnapshotService.showSnapshotDialog = true;
   }
-
-  //-------------------------------------------------- 
-  /*deleteSnapshot() {
-    this.rsExportService.snapshot = true;
-    this.httpServiceRs.deleteSnapshotData(this.args.nameSpace, this.rsExportService.dateSnap + "_" + this.rsExportService.nameSnap)
-      .subscribe(resp => this.createTableSnapshots(resp));
-  }*/
-
 
   //--------------------------------------------------
   startSaveSVG() {

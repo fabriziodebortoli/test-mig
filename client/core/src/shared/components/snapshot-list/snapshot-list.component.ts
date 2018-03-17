@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RsSnapshotService } from '../../../core/services/rs-snapshot.service';
 import { Snapshot } from '../../models/snapshot';
 
@@ -13,6 +13,8 @@ export class SnapshotListComponent implements OnInit {
     @Input() namespace;
     snapshots: Snapshot[];
 
+    @Output() showList = new EventEmitter<boolean>();
+
     constructor(public rsSnapshotService: RsSnapshotService) {
         
     }
@@ -23,6 +25,7 @@ export class SnapshotListComponent implements OnInit {
 
     createTableSnapshots(k: Snapshot[]) {
         this.snapshots = k;
+        this.showList.emit(this.snapshots.length > 0);
     }
 
     runSnapshot(name: string, date: string, allusers: boolean) {

@@ -1,8 +1,8 @@
-<kendo-dialog title="Report Snapshots" (close)="close()">
-    <div *ngIf="true">
+<kendo-dialog title="Report Snapshots" (close)="close()" [minWidth]="250" [width]="450">
+    <div *ngIf="this.listSnap">
         <h3>Existing snapshots</h3>
         <hr>
-        <rs-snapshot-list [namespace]="this.rsService.namespace"></rs-snapshot-list>
+        <rs-snapshot-list [namespace]="this.rsService.namespace" (showList)="onShowList($event)"></rs-snapshot-list>
         <br>
     </div>
     <br>
@@ -32,7 +32,7 @@
         </div>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton *ngIf="rsService.showSnapshotDialog && !this.opened" (click)="close()">Close</button>
-        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="rsService.showSnapshotDialog && this.opened" (click)="saveSnapshot()">Save</button>
+        <button kendoButton *ngIf="this.rsSnapshotService.showSnapshotDialog && !this.opened" (click)="close()">Close</button>
+        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="this.rsSnapshotService.showSnapshotDialog && this.opened" (click)="saveSnapshot()">Save</button>
     </kendo-dialog-actions>
 </kendo-dialog>

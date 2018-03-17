@@ -6,9 +6,8 @@ import { ComponentService } from './component.service';
 
 @Injectable()
 export class RsSnapshotService {
-    @Output() eventSnapshot = new EventEmitter<void>();
-    @Output() deleteSnapshot = new EventEmitter<void>();
 
+    showSnapshotDialog = false;
    
     constructor(
         public httpClient: HttpClient,
@@ -16,6 +15,7 @@ export class RsSnapshotService {
         public componentService: ComponentService) { }
 
     runSnapshot(nameSnap: string, dateSnap: string, allusers: boolean, nameSpace: string) {
+        this.showSnapshotDialog = false;
         let outerSnapshot: any;
         outerSnapshot = {};
         outerSnapshot.snapshot = {
