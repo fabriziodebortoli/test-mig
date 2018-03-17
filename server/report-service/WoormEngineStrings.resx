@@ -378,4 +378,7 @@
   <data name="EvalOutParameter" xml:space="preserve">
     <value>Unable to assign out value to parameter {0}</value>
   </data>
+  <data name="DatatableRuleJoinOn" xml:space="preserve">
+    <value>Invalid JOIN expression for a table rule</value>
+  </data>
 </root>

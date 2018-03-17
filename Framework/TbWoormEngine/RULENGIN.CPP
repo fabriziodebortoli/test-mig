@@ -2200,12 +2200,23 @@ CString DataTableRule::ToSqlString()
 //-----------------------------------------------------------------------------
 BOOL DataTableRule::FindKeyName (LPCTSTR pszFieldName)
 {
-	//TODO FindKeyName call HasMember, ma non verifica espresssioni interne a ContentOf contenute in WClause, GroupBy/OrderBy, calculated column
-	BOOL f = (m_pWhereClause	? m_pWhereClause->	HasMember(pszFieldName) : FALSE);
-	f = f || (m_pHavingClause	? m_pHavingClause->	HasMember(pszFieldName) : FALSE);	
-	f = f || m_WhenExpr.							HasMember(pszFieldName);	
+	//TODO FindKeyName call HasMember, ma NON verifica espressioni interne a ContentOf contenute in WClause, GroupBy/OrderBy, calculated column
+	if (m_pWhereClause	&& m_pWhereClause->	HasMember(pszFieldName))
+		return TRUE;
+	if (m_pHavingClause	&& m_pHavingClause->HasMember(pszFieldName))
+		return TRUE;
+	if (!m_WhenExpr.IsEmpty() && m_WhenExpr.HasMember(pszFieldName))
+		return TRUE;
 
-	return f;
+	if (m_pSelectionMap)
+		for (int i = 1; i < m_pSelectionMap->m_arSqlTableJoinInfoArray.m_arJoinOn.GetSize(); i++)
+		{
+			WClause* pJoinOn = m_pSelectionMap->m_arSqlTableJoinInfoArray.m_arJoinOn.GetAt(i);
+			if (pJoinOn && pJoinOn->HasMember(pszFieldName)) 
+				return TRUE;
+		}
+
+	return FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -2225,6 +2236,9 @@ void DataTableRule::GetParameters(CStringArray& parameters) const
 		m_pWhereClause->GetParameters(parameters);
 	if (m_pHavingClause)
 		m_pHavingClause->GetParameters(parameters);
+	//TODO da verificare se serve
+	//if (!this->m_WhenExpr.IsEmpty())
+	//	this->m_WhenExpr.GetParameters(parameters);
 }
 
 //-----------------------------------------------------------------------------

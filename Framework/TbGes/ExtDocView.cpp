@@ -100,7 +100,7 @@ public:
 //==============================================================================
 //	local CAnchorCtrl class
 //	classe prototipale di ausilio per ancorare la pulsantiera della WizardView al bottom della form
-//  TODO non è ancora generica
+//  TODO non ï¿½ ancora generica
 //==============================================================================
 class /*TB_EXPORT*/ CAnchorCtrl : public CObject
 {
@@ -270,7 +270,7 @@ void EnableControlLinks (ControlLinks* pControlLinks, BOOL bEnable, BOOL bMustSe
 			{
 				pDBT->SetReadOnly(!bEnable);
 				//il dbt prototipo deve seguire le sorti di quello corrente
-				//perché sono i suoi dataobj ad essere addlinkati nelle colonne
+				//perchï¿½ sono i suoi dataobj ad essere addlinkati nelle colonne
 				DBTSlaveBuffered* pDBTPrototype = (DBTSlaveBuffered*)pDBT->GetMainPrototype();
 				if (pDBTPrototype)
 					pDBTPrototype->SetReadOnly(!bEnable);
@@ -1719,7 +1719,7 @@ void CAbstractFormView::EnableViewControls()
 		return;
 		
 	// normal processing in interctive mode
-	// Non deve essere chiamata la DisableControlsAlways perchè viene
+	// Non deve essere chiamata la DisableControlsAlways perchï¿½ viene
 	// dato per scontato che basta la chiamata fatta dal documento al suo
 	// cambio di stato
 	switch (GetDocument()->GetFormMode())
@@ -2777,7 +2777,7 @@ void CAbstractFormView::OnInitialUpdate()
 	{
 		// resize view to dialog size
 		pFrame->SetFrameSize(GetDialogSize());
-		//perché la view dovrebbe modificare l'id della frame?
+		//perchï¿½ la view dovrebbe modificare l'id della frame?
 		//pFrame->SetIDHelp	(m_nID);
 	}
 	
@@ -2837,13 +2837,13 @@ void CAbstractFormView::OnInitialUpdate()
 			CTileGroup* pTileGroup = m_pTileGroups->GetAt(g);
 			if (pDoc) pDoc->AddClientDocTileDialog(pTileGroup);
 		}
-	// possibilità ai clientdoc di intervenire sulla BuildDataControlLinks
+	// possibilitï¿½ ai clientdoc di intervenire sulla BuildDataControlLinks
 	if (pDoc)
 		pDoc->OnBuildDataControlLinks(this);
 
 	ApplyTBVisualManager();
 	
-	if (!m_pJsonContext)//se sono json, il font letto dai settings è già impostato
+	if (!m_pJsonContext)//se sono json, il font letto dai settings ï¿½ giï¿½ impostato
 		SetDefaultFont();
 	
 	
@@ -3052,7 +3052,7 @@ void CAbstractFormView::OnSize(UINT nType, int cx, int cy)
 	if (!IsWindow(this->m_hWnd))
 		return;
 	//Prj. 6709 - tentativo fi risolvere il flickering
-	//tardare la SHOW della finestra più possibile, cioè fino alla resume della toolbar/tabbedtoolbar
+	//tardare la SHOW della finestra piï¿½ possibile, cioï¿½ fino alla resume della toolbar/tabbedtoolbar
 	CDockableFrame* pFrame = dynamic_cast<CDockableFrame*>(this->GetParentFrame());
 	//con questa modifica le finestre modali sono escluse dal algoritmo di flickering
 	if (pFrame && pFrame->IsLayoutSuspended(!IsModal()))
@@ -3070,7 +3070,7 @@ void CAbstractFormView::OnSize(UINT nType, int cx, int cy)
 
 	if (!GetCenterControls() || (m_pTabManagers && m_pTabManagers->GetSize()))
 	{
-		//visualizza la finestra se è stata nascosta e reset flag m_bTemporaryHidden
+		//visualizza la finestra se ï¿½ stata nascosta e reset flag m_bTemporaryHidden
 		if (GetNativeWindowVisible() && m_bTemporaryHidden && GetDocument()->IsInDesignMode() != CBaseDocument::DesignMode::DM_RUNTIME)
 		{
 			
@@ -3084,7 +3084,7 @@ void CAbstractFormView::OnSize(UINT nType, int cx, int cy)
 	if (m_bInitialUpdateDone)
 		CenterControls(this, cx, cy);
 
-	//visualizza la finestra se è stata nascosta e reset flag m_bTemporaryHidden
+	//visualizza la finestra se ï¿½ stata nascosta e reset flag m_bTemporaryHidden
 	if (GetNativeWindowVisible() && m_bTemporaryHidden && GetDocument()->IsInDesignMode() != CBaseDocument::DesignMode::DM_RUNTIME)
 	{
 		ShowWindow(SW_SHOW);
@@ -4648,10 +4648,10 @@ void CWizardFormView::OnWizardNext()
 	if (/*TODO RIMUOVERE TEST SU BATCH FRAME*/TRUE || GetDocument()->GetMasterFrame()->IsKindOf(RUNTIME_CLASS(CWizardBatchFrame)))
 		if (nextIDD == 0 && currentIDD != nextIDD) 
 		{
-			//La dispatch è già nella OnWizardFinish, in questo modo non viene dispatchata due volte
+			//La dispatch ï¿½ giï¿½ nella OnWizardFinish, in questo modo non viene dispatchata due volte
 			//((CWizardFormDoc*)GetDocument())->DispatchWizardFinish(currentIDD);
 
-			//altera il booleano che indica se la OnWizardFinish proviene da WizardNext o è diretta
+			//altera il booleano che indica se la OnWizardFinish proviene da WizardNext o ï¿½ diretta
 			m_bIsDirectCallToWizardFinishCall = FALSE;
 			OnWizardFinish();
 			m_bIsDirectCallToWizardFinishCall = TRUE;
@@ -4928,10 +4928,10 @@ void CWizardFormView::OnWizardFinish()
 	OnWizardEnd();
 
 	//spostata la dispatch in modo tale che arrivi il finish al test manager prima delle finestre di Errore
-	//questa dispatch NON VA REGISTRATA se la chiamata OnWizardFinish è originata dall'ultima OnWizardNext
+	//questa dispatch NON VA REGISTRATA se la chiamata OnWizardFinish ï¿½ originata dall'ultima OnWizardNext
 	CWizardTabDialog* pTabDlg = ((CWizardTabDialog*)GetTabManager()->GetActiveDlg());
 
-	//se è una chiamata diretta al metodo OnWizardFinish (Non proveniente da wizardNext) funziona normalmente
+	//se ï¿½ una chiamata diretta al metodo OnWizardFinish (Non proveniente da wizardNext) funziona normalmente
 	if (m_bIsDirectCallToWizardFinishCall)
 		((CWizardFormDoc*)GetDocument())->DispatchOnBeforeWizardFinish(pTabDlg->GetDialogID());
 	else
@@ -5084,7 +5084,7 @@ void CWizardFormView::SetWizardButtons(DWORD dwFlags)
 
 		if (bOnLastTab)
 		{
-			// la CanDoBatchExecute del documento va a decidere se la batch può essere fatta partire o meno
+			// la CanDoBatchExecute del documento va a decidere se la batch puï¿½ essere fatta partire o meno
 
 			if (GetDocument()->m_bBatchRunning & !m_bWizardFinished)
 			{

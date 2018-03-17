@@ -151,14 +151,16 @@ public:
 };
 
 //=========================================================================
+// class name c#/core: IfWhereClause : WhereClauseExpr
 class TB_EXPORT WClause : public WClauseExpr
 {
 	DECLARE_DYNAMIC(WClause)
 
 protected:
 	Expression*		m_pCondExpr;
-	WClauseExpr*	m_pThenWClause;
-	WClauseExpr*	m_pElseWClause;
+	WClauseExpr*	m_pThenWClause;	//could be instance of class WClause too
+	WClauseExpr*	m_pElseWClause; //could be instance of class WClause too
+
 	WClauseExpr*	m_pCurrWClause;
 
 public:

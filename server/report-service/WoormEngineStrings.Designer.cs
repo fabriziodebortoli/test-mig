@@ -186,7 +186,7 @@ namespace Microarea.RSWeb {
         }
         
         /// <summary>
-        ///    Looks up a localized string similar to Error in TableNames.CreateSchema: {0}.
+        ///    Looks up a localized string similar to Error in SelectedTable.CreateSchema: {0}.
         /// </summary>
         public static string CreateScheraError {
             get {
@@ -202,7 +202,18 @@ namespace Microarea.RSWeb {
                 return ResourceManager.GetString("DatatableRuleHaving", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///    Looks up a localized string similar to Invalid HAVING expression for a table rule.
+        /// </summary>
+        public static string DatatableRuleJoinOn
+        {
+            get
+            {
+                return ResourceManager.GetString("DatatableRuleJoinOn", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///    Looks up a localized string similar to Graphical table {0} already defined.
         /// </summary>

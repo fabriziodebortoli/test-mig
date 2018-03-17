@@ -97,7 +97,7 @@ namespace Microarea.RSWeb.WoormEngine
 	///		
 	///			1) Clausola Order By finale.
 	///			2) Const parameter nella chiamata di funzione esterna
-	///			3) Clausola Having nelle WhereClause delle Select
+	///			3) Clausola Having nelle WhereClauseExpr delle Select
 	///			4) Eliminato il codice di gestione del file temporaneo (tanto non funzionava)
 	///			
 	/// </summary>

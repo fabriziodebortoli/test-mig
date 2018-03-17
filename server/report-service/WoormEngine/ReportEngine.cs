@@ -38,21 +38,23 @@ namespace Microarea.RSWeb.WoormEngine
 	public enum RuleReturn { Abort, Backtrack, Success}
 
     /// <summary>
-	/// TableNames contiene i nomi con cui è conosciuta la tabella
+	/// SelectedTable contiene i nomi con cui è conosciuta la tabella
 	/// </summary>
 	//============================================================================       
-	public class TableNames
+	public class SelectedTable
 	{
 		private string		tableName;
 		private string		aliasName;
 		//private DataTable	schema = null;          TODO RSWEB get Column datatype (1)
 
-		public	Diagnostic	Diagnostic = new Diagnostic("TableNames");
+		public	Diagnostic	Diagnostic = new Diagnostic("SelectedTable");
 
         TbReportSession session = null;
 
-		//-----------------------------------------------------------------------------
-		public TableNames(string tableName, string tableAlias, TbReportSession s) : base()
+        public IfWhereClause  JoinOnClause = null;
+
+        //-----------------------------------------------------------------------------
+        public SelectedTable(string tableName, string tableAlias, TbReportSession s) : base()
 		{
             session = s;
 

@@ -18,7 +18,7 @@ namespace Microarea.RSWeb.WoormEngine
     // <Native>				::=	NATIVE <sql_expression> | ALL | BREAK
     // <SqlLike>			::= <SqlLikeExpression> | ALL | BREAK
     // <base_where_clause>	::= <Native> | <SqlLike>
-    // <WhereClause>		::=	<base_where_clause> | < CondWhereClause>
+    // <WhereClauseExpr>		::=	<base_where_clause> | < CondWhereClause>
     // <CondWhereClause>	::=	IF <bool_expression>
     //								THEN <where_clause> | ALL | BREAK
     //								[ ELSE <where_clause> | ALL | BREAK ]
@@ -58,38 +58,44 @@ namespace Microarea.RSWeb.WoormEngine
 	}
 
 	/// <summary>
-	/// WhereClause
+	/// WhereClauseExpr
 	/// </summary>
 	//=========================================================================
 	//class TB_EXPORT WClauseExpr : public Expression
-	public class WhereClause : Expression
+	public class WhereClauseExpr : Expression
 	{
 		static int paramNo = 1;
 
-		private bool native = false;
+        private bool native = false;
 
-		protected bool	FirstBind = true;
+		protected bool	firstBind = true;
 
-		//..................properties
+        public enum EClauseType { WHERE, HAVING, JOIN_ON };
+        private EClauseType clauseType = EClauseType.WHERE;
+        public EClauseType ClauseType { get => clauseType; set => clauseType = value; }
 
-		protected DataTableRule	dataTableRule = null;
+        public enum EJoinType { INNER, LEFT_OUTER, RIGHT_OUTER, FULL_OUTER, CROSS };
+        public EJoinType joinType = EJoinType.CROSS;
+        public EJoinType JoinType { get => joinType; set { joinType = value; clauseType = EClauseType.JOIN_ON;  } }
+
+        protected DataTableRule	dataTableRule = null;
 		protected Token			emptyWhere = Token.NOTOKEN;
 
-		protected string	        where = "";
+		protected string	        sql = "";
 		protected List<ParamItem>	parameters = new List<ParamItem>();
 
         public List<string> ForbiddenIdents = new List<string>();
 
 		//-----------------------------------------------------------------------------
 		public bool Native						{ get { return native; } }
-		virtual public string Where				{ get { return where; } }
+		virtual public string Sql				{ get { return sql; } }
 		virtual public List<ParamItem>	Parameters	{ get { return parameters; }}
 			
 		// è necessario disabilitare il check perchè si inseriscono nella espressione
 		// delle variabili al posto costanti ma il tipo non lo conosco e quindi
 		// creo un dato qualsiasi tanto mi serve solo il nome della variabile.
 		//-----------------------------------------------------------------------------
-		public WhereClause
+		public WhereClauseExpr
 			(
 				TbSession				session,
 				SymbolTable					symTable,
@@ -208,12 +214,24 @@ namespace Microarea.RSWeb.WoormEngine
 				return ParseNative(lex);
 
             // si imposta altri token di chiusura dell'espressione (perchè T_WHERE ?)
-            StopTokens = new StopTokens(new Token[] { Token.ORDER, Token.ELSE, Token.GROUP, Token.WHERE, Token.WHEN });
-						
-			// per il lex dell'espressione e` necessario conoscere il tipo di ritorno
-			// per poter effettuare gli opportuni check di congruenza, una Where Clause
-			// per definizione dovrebbe tornare true o false
-			if (!(base.Compile(lex, CheckResultType.Match, "Boolean")))
+            if (ClauseType == EClauseType.WHERE)
+                StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.GROUP, Token.HAVING, Token.ORDER, Token.WHEN });
+            else if (ClauseType == EClauseType.HAVING)
+                StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.ORDER, Token.WHEN });
+            if (ClauseType == EClauseType.JOIN_ON)
+                StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.GROUP, Token.HAVING, Token.ORDER, Token.WHEN,
+                                            Token.INNER, Token.CROSS, Token.FULL, Token.LEFT, Token.RIGHT, Token.SELECT
+                                             });
+            else
+            {
+                lex.SetError(ExpressionManagerStrings.SyntaxError);
+                return false;
+            }
+
+            // per il lex dell'espressione e` necessario conoscere il tipo di ritorno
+            // per poter effettuare gli opportuni check di congruenza, una Sql Clause
+            // per definizione dovrebbe tornare true o false
+            if (!(base.Compile(lex, CheckResultType.Match, "Boolean")))
 				return false;
 
 			// Se siamo arrivati in questo metodo vuol dire che e` stato trovato il token
@@ -295,7 +313,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-		// identifica nella where nativa solo le costanti e la variabili di symbol table
+		// identifica nella sql nativa solo le costanti e la variabili di symbol table
 		//-----------------------------------------------------------------------------
 		protected bool ParseVariableOrConstForNativeWhere(Parser lex)
 		{
@@ -618,7 +636,7 @@ namespace Microarea.RSWeb.WoormEngine
 		// correttamente. 
 		//
 		// NOTA : si usano i Token "Value" e "Native" per essere sicuri di non collidere con nomi
-		// di variabili usate nella Where, anche perche sono parole chiave e non possono essere utilizzate
+		// di variabili usate nella Sql, anche perche sono parole chiave e non possono essere utilizzate
 		// come nomi di variabili.
 		//
 		// Devo anche spostare il tutto in un'altro stack perchè posso cambiare alcuni item 
@@ -727,14 +745,14 @@ namespace Microarea.RSWeb.WoormEngine
 			return true;
 		}
 
-		// devo costruire la Where e la collezione di parametri solo la prima volta
+		// devo costruire la Sql e la collezione di parametri solo la prima volta
 		//-----------------------------------------------------------------------------
 		protected bool BindParams()
 		{
 			Debug.Assert(!Native);
-			if (FirstBind)
+			if (firstBind)
 			{
-				FirstBind = false;
+				firstBind = false;
 				
 				// Ci si deve appoggiare ad uno stack temporaneo poiche` per ottenere
 				// la espressione in formato infisso si usera` la classe ExpUnparse il
@@ -746,11 +764,11 @@ namespace Microarea.RSWeb.WoormEngine
 				ModifyVariableOrConst(ref modifiedStack);
 
 				// Finalmente si Unparsa l'espressione per ottenerne una sua versione in 
-				// formato stringa da passare a ODBC
+				// formato stringa
 				//
 				ExpressionUnparser expUnparse = new ExpressionUnparser();
 				
-				if (!expUnparse.Unparse(out where, modifiedStack))
+				if (!expUnparse.Unparse(out sql, modifiedStack))
 				{
 					SetError(ExpressionManagerStrings.SyntaxError);
 					return false;
@@ -760,14 +778,14 @@ namespace Microarea.RSWeb.WoormEngine
 			return true;
 		}
 
-		// devo costruire la Where e la collezione di parametri solo la prima volta
+		// devo costruire la Sql e la collezione di parametri solo la prima volta
 		//-----------------------------------------------------------------------------
 		protected bool BindParamsNative()
 		{
 			Debug.Assert(Native);
-			if (FirstBind)
+			if (firstBind)
 			{
-				FirstBind = false;
+				firstBind = false;
 				parameters = new List<ParamItem>();
 
 				// Le costanti e le variabili utente devono essere sostituite con
@@ -785,14 +803,14 @@ namespace Microarea.RSWeb.WoormEngine
 						Variable v = ((Variable) item);
 						int paramNo = parameters.Count + 1;
 						string paramName = "@" + v.Name + paramNo.ToString();
-						where += paramName + " ";
+						sql += paramName + " ";
 
 						// recupero il valore attuale e lo aggiungo ai parametri bindati
 						// Sono sicuro che si tratta solo di variabili in symbol table o costanti speciali
 						// e non nomi di tabelle perchè nel parsing ho costruito i parametri solo per loro
 						Variable actualValue = ResolveSymbolByReference(v, true);
 
-						// allora si tratta di una costante speciale che il parser della native where
+						// allora si tratta di una costante speciale che il parser della native sql
 						// ha sostituito con una variabile temporanea contenente il valore della costante
 						// e con un nome generato automaticamente
 						if (actualValue == null)
@@ -808,7 +826,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (item is Value)
 					{
 						Value v = (Value) item;
-						where += v.Data.ToString() + " ";
+						sql += v.Data.ToString() + " ";
 						continue;
 					}
 
@@ -823,20 +841,19 @@ namespace Microarea.RSWeb.WoormEngine
                             if (ConvertToNative(s, out w))
                                 v.Data = w;
                         }
- 						where += v.Data.ToString() + " ";
+ 						sql += v.Data.ToString() + " ";
 						continue;
 					}
 				}
 			}
 
-            where = where.Replace('\r', ' ').Replace('\n', ' ');
-            where = where.Replace("==", "=").Replace("!=", "<>");
+            sql = sql.Replace('\r', ' ').Replace('\n', ' ').Replace("==", "=").Replace("!=", "<>");
  
 			return true;
 		}
 
 		//----------------------------------------------------------------------------------
-		virtual public bool BuildWhere()
+		virtual public bool BuildSql()
 		{
 			if (emptyWhere == Token.NOTOKEN)
 			{
@@ -870,8 +887,8 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-		//-----------------------------------------------------------------------------
-		override public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
+        //-----------------------------------------------------------------------------
+        override public Value ApplySpecializedFunction(FunctionItem function, Stack<Item> paramStack)
 		{
 			switch (function.Name)
 			{
@@ -891,32 +908,89 @@ namespace Microarea.RSWeb.WoormEngine
 	/// IfWhereClause
 	/// </summary>
 	//=========================================================================
-	//class TB_EXPORT WClause : public WClauseExpr
-	public class IfWhereClause : WhereClause
+	//class name c++: WClause : public WClauseExpr
+	public class IfWhereClause : WhereClauseExpr
 	{
-		protected bool			currentCondition = true;
-		protected Expression	conditionExpression = null;
-		protected WhereClause	thenWhereClause = null;
-		protected WhereClause	elseWhereClause = null;
-		public	  bool			IsHavingClause = false;
+		protected Expression	    conditionExpression = null;
+		protected WhereClauseExpr	thenWhereClause = null; //could be instance of class IfWhereClause too
+        protected WhereClauseExpr	elseWhereClause = null; //could be instance of class IfWhereClause too
 
-		//-----------------------------------------------------------------------------
-		override public string Where		//SQL
+        protected SelectedTable     joinedTable = null;
+
+ 		protected bool			    currentCondition = true;
+
+        //-----------------------------------------------------------------------------
+        new public EClauseType ClauseType
+        {
+            get => base.ClauseType;
+            set
+            {
+                base.ClauseType = value;
+                if (thenWhereClause != null) thenWhereClause.ClauseType = value;
+                if (elseWhereClause != null) elseWhereClause.ClauseType = value;
+            }
+        }
+
+        new public EJoinType JoinType
+        {
+            get => base.JoinType;
+            set
+            {
+                base.JoinType = value;
+                if (thenWhereClause != null) thenWhereClause.JoinType = value;
+                if (elseWhereClause != null) elseWhereClause.JoinType = value;
+            }
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public IfWhereClause
+            (
+                TbSession       session,
+                SymbolTable     symTable,
+                DataTableRule   dataTableRule,
+                SelectedTable   selectedTable     = null,
+                EJoinType       joinType          = EJoinType.CROSS
+            )
+            :
+            base(session, symTable, dataTableRule)
+        {
+            if (selectedTable != null)
+            {
+                joinedTable = selectedTable;
+                joinedTable.JoinOnClause = this;
+
+                JoinType = joinType;
+           }
+ 
+            Init();
+        }
+
+        //-----------------------------------------------------------------------------
+        public void Init()
+        {
+            conditionExpression = null;
+            thenWhereClause = null;
+            elseWhereClause = null;
+        }
+        //-----------------------------------------------------------------------------
+
+          //-----------------------------------------------------------------------------
+        override public string Sql		//SQL
 		{ 
 			get 
 			{ 
 				if (conditionExpression == null)
-					return base.where;
+					return base.sql;
 
 				//E' ammesso che non sia presente il ramo else nell'if
 				//es. report JobTicketSheet in Manufacturing:
-				//Where If ( w_ManufacturingPlus ) 
-				//Then MA_ItemsTechnicalData.Item == w_Bom And w_PrintTechnicalData == TRUE  
-				//Order By  MA_ItemsTechnicalData.Item, MA_ItemsTechnicalData.Name ;
+				//Sql: Where If ( w_ManufacturingPlus ) 
+				//              Then MA_ItemsTechnicalData.Item == w_Bom And w_PrintTechnicalData == TRUE  
 				if (currentCondition && thenWhereClause != null)
-					return thenWhereClause.Where;
+					return thenWhereClause.Sql;
 				else if (elseWhereClause != null)
-					return elseWhereClause.Where;
+					return elseWhereClause.Sql;
 				return "";
 			}
 		}
@@ -931,7 +1005,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 				//E' ammesso che non sia presente il ramo else nell'if
 				//es. report JobTicketSheet in Manufacturing:
-				//Where If ( w_ManufacturingPlus ) 
+				//Sql If ( w_ManufacturingPlus ) 
 				//Then MA_ItemsTechnicalData.Item == w_Bom And w_PrintTechnicalData == TRUE  
 				//Order By  MA_ItemsTechnicalData.Item, MA_ItemsTechnicalData.Name ;
 				if (currentCondition && thenWhereClause != null)
@@ -943,36 +1017,55 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public IfWhereClause
-			(
-				TbSession				session,
-				SymbolTable					symTable,
-				DataTableRule				dataTableRule
-			)
-			:
-			base(session, symTable, dataTableRule)
-		{
-			Init();
-		}
-
-		//-----------------------------------------------------------------------------
-		public void Init()
-		{
-   			conditionExpression = null;
-			thenWhereClause = null;
-			elseWhereClause = null;
-		}
-
-		//-----------------------------------------------------------------------------
 		public override bool Unparse(Unparser unparser, bool emitSqltag = false)
 		{
-			if(emitSqltag)
-			{
-				if (IsHavingClause)
-					unparser.WriteTag(Token.HAVING, false);
-				else
-					unparser.WriteTag(Token.WHERE, false);
-			}
+            if (emitSqltag)
+            {
+                if (ClauseType == WhereClauseExpr.EClauseType.WHERE)
+                    unparser.WriteTag(Token.WHERE, false);
+                else if (ClauseType == WhereClauseExpr.EClauseType.HAVING)
+                    unparser.WriteTag(Token.HAVING, false);
+                else if (ClauseType == WhereClauseExpr.EClauseType.JOIN_ON)
+                {
+                    switch (this.JoinType)
+                    {
+                        case EJoinType.INNER:
+                            unparser.WriteTag(Token.INNER, false);
+                            unparser.WriteTag(Token.JOIN, false);
+                            unparser.WriteID(this.joinedTable.TableName);
+                            unparser.WriteTag(Token.ON, false);
+                            break;
+                        case EJoinType.LEFT_OUTER:
+                            unparser.WriteTag(Token.LEFT, false);
+                            unparser.WriteTag(Token.OUTER, false);
+                            unparser.WriteTag(Token.JOIN, false);
+                            unparser.WriteID(this.joinedTable.TableName);
+                            unparser.WriteTag(Token.ON, false);
+                            break;
+                        case EJoinType.RIGHT_OUTER:
+                            unparser.WriteTag(Token.RIGHT, false);
+                            unparser.WriteTag(Token.OUTER, false);
+                            unparser.WriteTag(Token.JOIN, false);
+                            unparser.WriteID(this.joinedTable.TableName);
+                            unparser.WriteTag(Token.ON, false);
+                            break;
+                        case EJoinType.FULL_OUTER:
+                            unparser.WriteTag(Token.FULL, false);
+                            unparser.WriteTag(Token.OUTER, false);
+                            unparser.WriteTag(Token.JOIN, false);
+                            unparser.WriteID(this.joinedTable.TableName);
+                            unparser.WriteTag(Token.ON, false);
+                            break;
+                        case EJoinType.CROSS:
+                            unparser.WriteTag(Token.CROSS, false);
+                            unparser.WriteTag(Token.JOIN, false);
+                            unparser.WriteID(this.joinedTable.TableName);
+                            break;
+                        default:
+                            return false;
+                    }
+                }
+            }
 
 			if (conditionExpression != null)
 			{
@@ -988,12 +1081,12 @@ namespace Microarea.RSWeb.WoormEngine
 
 					elseWhereClause.Unparse(unparser);
 				}
+
 				return true;
 			}
 
 			return base.Unparse(unparser);
 		}
-
 
 		//-----------------------------------------------------------------------------
 		public override bool Compile(Parser lex, CheckResultType check, string type)
@@ -1021,7 +1114,7 @@ namespace Microarea.RSWeb.WoormEngine
                 return false;
 
 			// siccome il vero ResultType è quello della clausola then o else, è necessario
-			// inizializzare quello della classe da cui la Where condizionale deriva. Con 
+			// inizializzare quello della classe da cui la Sql condizionale deriva. Con 
 			// approssimazione possiamo utilizzare quello della condizione.
 			resultType = conditionExpression.ResultType;
 			
@@ -1037,7 +1130,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			else
 			{
-				thenWhereClause = new WhereClause(TbSession, SymbolTable, dataTableRule);
+				thenWhereClause = new WhereClauseExpr(TbSession, SymbolTable, dataTableRule);
                 thenWhereClause.ForbiddenIdents = ForbiddenIdents;
 				if (!thenWhereClause.Compile(lex, check, type)) 
                     return false;
@@ -1054,7 +1147,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			else
 			{
-				elseWhereClause = new WhereClause(TbSession, SymbolTable, dataTableRule);
+				elseWhereClause = new WhereClauseExpr(TbSession, SymbolTable, dataTableRule);
                 elseWhereClause.ForbiddenIdents = ForbiddenIdents;
 				if (!elseWhereClause.Compile(lex, check, type)) 
                     return false;
@@ -1064,10 +1157,10 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public override bool BuildWhere()
+		public override bool BuildSql()
 		{
 			if (conditionExpression == null)
-    			return base.BuildWhere();
+    			return base.BuildSql();
 
 			Value v = conditionExpression.Eval();
 			if (conditionExpression.Error)
@@ -1079,7 +1172,7 @@ namespace Microarea.RSWeb.WoormEngine
 			currentCondition = (bool) v.Data;
 			if (currentCondition)
 			{
-				if (!thenWhereClause.BuildWhere())
+				if (!thenWhereClause.BuildSql())
 				{
 					SetError(thenWhereClause.Diagnostic);
 					return false;
@@ -1090,7 +1183,7 @@ namespace Microarea.RSWeb.WoormEngine
 					
 			if (elseWhereClause != null)
 			{
-				if (!elseWhereClause.BuildWhere())
+				if (!elseWhereClause.BuildSql())
 				{
 					SetError(elseWhereClause.Diagnostic);
 					return false;

@@ -520,10 +520,10 @@ void TblRuleData::AddHavingClause()
 //----------------------------------------------------------------------------
 void TblRuleData::AssignWhereClause(const WClause& aWhereClause)
 {
+	ASSERT_VALID(&aWhereClause);
 	if (m_pWhereClause)
 	{
 		ASSERT_VALID(m_pWhereClause);
-		ASSERT_VALID(&aWhereClause);
 		*m_pWhereClause = aWhereClause;
 	}
 	else
@@ -540,10 +540,11 @@ WClause* TblRuleData::GetHavingClause() const
 //----------------------------------------------------------------------------
 void TblRuleData::AssignHavingClause(const WClause& aHavingClause)
 {
+	ASSERT_VALID(&aHavingClause);
+
 	if (m_pHavingClause)
 	{
 		ASSERT_VALID(m_pHavingClause);
-		ASSERT_VALID(&aHavingClause);
 		*m_pHavingClause = aHavingClause;
 	}
 	else
@@ -1092,7 +1093,6 @@ void TblRuleData::GetCalculatedColumns(CStringArray &arCalculatedColumns)
        	arCalculatedColumns.Add(pObjLink->m_strPhysicalName);
 	}
 }
-
 
 //----------------------------------------------------------------------------
 DataFieldLink* TblRuleData::GetCalcColumn(LPCTSTR pszPublicName)
@@ -1722,7 +1722,7 @@ void TblRuleData::GetParameters(CStringArray& parameters) const
 {
 	parameters.RemoveAll();
 
-	for (int i = 0; i < this->m_arSqlTableJoinInfoArray.m_arJoinOn.GetSize(); i++)
+	for (int i = 1; i < this->m_arSqlTableJoinInfoArray.m_arJoinOn.GetSize(); i++)
 	{
 		WClause* pJoinOn = m_arSqlTableJoinInfoArray.m_arJoinOn.GetAt(i);
 		if (pJoinOn)
@@ -1733,6 +1733,7 @@ void TblRuleData::GetParameters(CStringArray& parameters) const
 		m_pWhereClause->GetParameters(parameters);
 	if (m_pHavingClause)
 		m_pHavingClause->GetParameters(parameters);
+	//TODO verificare se serve
 	//if (m_pWhenExpr)
 	//	m_pWhenExpr->GetParameters(parameters);
 }

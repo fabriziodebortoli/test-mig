@@ -804,8 +804,13 @@ namespace Microarea.Common.Lexan
 			return true;
 		}
 
-		//------------------------------------------------------------------------------
-		public bool Matched(Token tk)
+        public bool Match(Token tk)
+        {
+            return ParseTag(tk);
+        }
+
+        //------------------------------------------------------------------------------
+        public bool Matched(Token tk)
 		{
 			if (LookAhead() != tk)
 				return false;

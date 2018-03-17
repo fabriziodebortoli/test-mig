@@ -212,7 +212,7 @@ namespace Microarea.RSWeb.WoormEngine
 			Field aField  = (Field) letExpression.Field;
 
 			// try to eval the expression also if the ancestors are evaluated null because the dependency
-			// could be due to the where-clause expression
+			// could be due to the sql-clause expression
 			if ((Engine.NullRulesNum == 0) || !IsSonOfNullRules() || !whereExpression.IsEmpty)
 			{
 				if (!letExpression.IsEmpty)
@@ -501,15 +501,15 @@ namespace Microarea.RSWeb.WoormEngine
 	/// FromTablesList
 	/// </summary>
 	//============================================================================
-	public class FromTablesList : List<TableNames>
+	public class FromTablesList : List<SelectedTable>
 	{
 		//-----------------------------------------------------------------------------
 		public FromTablesList() : base() {}
 
 		//-----------------------------------------------------------------------------
-		public TableNames GetTableNames(string tableName)
+		public SelectedTable GetTableNames(string tableName)
 		{
-			foreach (TableNames tn in this)
+			foreach (SelectedTable tn in this)
 				if (string.Compare(tableName, tn.TableName, StringComparison.OrdinalIgnoreCase) == 0)
 					return tn;
 
@@ -519,7 +519,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetColumnType(string tableName, string columnName)
 		{
-			TableNames tn = GetTableNames(tableName);
+			SelectedTable tn = GetTableNames(tableName);
 			if (tn == null) return null;
 
 			return tn.GetColumnType(columnName);
@@ -528,7 +528,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetTableNameFromAlias(string tableAlias)
 		{
-			foreach (TableNames tn in this)
+			foreach (SelectedTable tn in this)
 				if (string.Compare(tableAlias, tn.AliasName, StringComparison.OrdinalIgnoreCase) == 0)	
 					return tn.TableName;
 
@@ -537,7 +537,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public string GetTableNameFromColumnName(string columnName)
 		{
-			foreach (TableNames tn in this)
+			foreach (SelectedTable tn in this)
 				if (tn.GetColumnType(columnName) != string.Empty)	
 					return tn.TableName;
 
@@ -552,10 +552,14 @@ namespace Microarea.RSWeb.WoormEngine
 	public class DataTableRule : RuleObj, IDisposable
 	{
 		private bool disposed = false;	// Track whether Dispose has been called.
+		public event EventHandler SearchTic;
 
 		public enum SelectMode { ALL, NOT_NULL, NULL }
-		public event EventHandler SearchTic;
 		
+		private List<Field>		selectFields = new List<Field>();
+
+		public	FromTablesList	FromTables = new FromTablesList();
+
 		private IfWhereClause	whereClause = null;
 		private IfWhereClause	havingClause = null;
 
@@ -566,19 +570,15 @@ namespace Microarea.RSWeb.WoormEngine
 		private bool			distinct = false;				//Sql Distinct clause
         private int             top = 0;				        //Sql TOP nn clause
 
-		private DBConnection	tbConnection	= null; 
-		private DBCommand tbCommand		= null;
-		private IDataReader		iDataReader		= null;
-
-		private List<Field>		selectFields = new List<Field>();
-		public	FromTablesList	FromTables = new FromTablesList();
-
-		private string			orderByDynamic = string.Empty;
+        private string			orderByDynamic = string.Empty;
 		private string			groupByDynamic = string.Empty;
         private string          extraFilter = string.Empty;
 
         private WoormEngineExpression whenExpr = null;
 
+		private DBConnection	tbConnection	= null; 
+		private DBCommand tbCommand		= null;
+		private IDataReader		iDataReader		= null;
 		// properties
 		//-----------------------------------------------------------------------------
 		public FieldSymbolTable SymbolTable { get { return Engine.RepSymTable.Fields;}}
@@ -638,7 +638,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			whereClause = new IfWhereClause(Session, Engine.RepSymTable.Fields, this);
 			havingClause = new IfWhereClause(Session, Engine.RepSymTable.Fields, this);
-			havingClause.IsHavingClause = true;
+			havingClause.ClauseType = WhereClauseExpr.EClauseType.HAVING;
 		}
 
 		// per fisico si intende un dato appartenente and una tabella ossia : table.variabile
@@ -652,7 +652,7 @@ namespace Microarea.RSWeb.WoormEngine
 				return false;
 
 			string tableName = columnName.Substring(0, nIdx);
-			foreach (TableNames info in FromTables)
+			foreach (SelectedTable info in FromTables)
 				if	(string.Compare(info.TableName, tableName, StringComparison.OrdinalIgnoreCase) == 0)
 					return true;
 
@@ -671,7 +671,7 @@ namespace Microarea.RSWeb.WoormEngine
 			int dotPos = strFromName.IndexOf('.');
 			Debug.Assert(dotPos != 0);
 
-			TableNames first = (TableNames)FromTables[0];
+			SelectedTable first = (SelectedTable)FromTables[0];
 			return (dotPos > 0) ? strFromName : first.TableName + '.' + strFromName;
 		}
 
@@ -822,7 +822,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 
             string str = strSql;
-            return WhereClause.ConvertToNative(this.SymbolTable, this.Session, null, str, out strSql);
+            return WhereClauseExpr.ConvertToNative(this.SymbolTable, this.Session, null, str, out strSql);
 		}
 
 		//----------------------------------------------------------------------------
@@ -832,7 +832,7 @@ namespace Microarea.RSWeb.WoormEngine
 			int index = f.QualifiedPhysicalName.IndexOf(".");
 			if (index == -1)
 			{
-				table = ((TableNames)fromTables[0]).TableName;
+				table = ((SelectedTable)fromTables[0]).TableName;
 				column = f.QualifiedPhysicalName;
 			}
 			else
@@ -865,91 +865,127 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//----------------------------------------------------------------------------
-		public bool Parse(Parser lex)
+		public bool Parse(Parser parser)
 		{
 			string publicName = "";
 			string physicalName = "";
 			int numTables = 0;
 
-			/*	Grammatica:
-				[FROM <table> [Alias <id>] { , <table> [Alias <id>]}]
-				[SELECT [NULL | NOT NULL] [DISTINCT] [TOP numrows]
-				[ [<column> [Alias <id>] | \{ <sql-native-expr> \}] ] INTO <field> ]
+            /*	Pseudo grammatica (TODO: da riscrivere):
+ *	            FROM <table> { [ , <table> } ] |
+                               [ CROSS JOIN <table> ] |
+                               [ [INNER JOIN | LEFT OUTER JOIN | RIGHT OUTER JOIN | FULL OUTER JOIN] <table> ON <on-clause> ]
+                             }
+				SELECT
+                        [NULL | NOT NULL] [DISTINCT] [TOP <top-rows>]
+				{ [ <column> | \{ <sql-native-expr> \} ]  INTO <field> , }
 			*/
 
-			if (!lex.ParseTag(Token.FROM))
+            if (!parser.ParseTag(Token.FROM))
 				return false;
 
-            bool comma;
+            bool bContinue = true;
+            bool natural = true;
 			do
 			{
-				string dataTableName = "";
+                WhereClauseExpr.EJoinType joinType = WhereClauseExpr.EJoinType.CROSS;
+                if (FromTables.Count > 0 && !natural)
+                {
+                    if (parser.Matched(Token.INNER) && parser.Match(Token.JOIN))
+                    {
+                        joinType = WhereClauseExpr.EJoinType.INNER;
+                    }
+                    else if (parser.Matched(Token.CROSS) && parser.Match(Token.JOIN))
+                    {
+                        joinType = WhereClauseExpr.EJoinType.CROSS;
+                    }
+                    else if (parser.Matched(Token.LEFT) && parser.Match(Token.OUTER) && parser.Match(Token.JOIN))
+                    {
+                        joinType = WhereClauseExpr.EJoinType.LEFT_OUTER;
+                    }
+                    else if (parser.Matched(Token.RIGHT) && parser.Match(Token.OUTER) && parser.Match(Token.JOIN))
+                    {
+                        joinType = WhereClauseExpr.EJoinType.RIGHT_OUTER;
+                    }
+                    else if (parser.Matched(Token.FULL) && parser.Match(Token.OUTER) && parser.Match(Token.JOIN))
+                    {
+                        joinType = WhereClauseExpr.EJoinType.FULL_OUTER;
+                    }
+
+                    if (parser.Error)
+                        return false;
+                }
+
+                string dataTableName = "";
 				string aliasTableName = "";
 
-				if (!lex.ParseID(out dataTableName))
+				if (!parser.ParseID(out dataTableName))
 					return false;
 
-				if (lex.Matched(Token.ALIAS) && !lex.ParseID(out aliasTableName))
+				if (parser.Matched(Token.ALIAS) && !parser.ParseID(out aliasTableName))
 					return false;
 
                 numTables++;
 
-				TableNames tableNames = new TableNames(dataTableName, aliasTableName, Engine.Report.ReportSession);
-				if (tableNames.Diagnostic.Error)
+				SelectedTable selectedTable = new SelectedTable(dataTableName, aliasTableName, Engine.Report.ReportSession);
+				if (selectedTable.Diagnostic.Error)
 				{
-					lex.SetError(tableNames.Diagnostic);
+					parser.SetError(selectedTable.Diagnostic);
 					return false;
 				}
-				FromTables.Add(tableNames);
+				FromTables.Add(selectedTable);
 
-                if (lex.Matched(Token.ON))
+                if (FromTables.Count > 0 && joinType != WhereClauseExpr.EJoinType.CROSS)
                 {
-                    WhereClause onClause = new WhereClause(Engine.Report.ReportSession, Engine.RepSymTable.Fields, this);
-                    if (!onClause.Compile(lex, CheckResultType.Match, "Boolean"))
+                    if (!parser.Match(Token.ON))
                         return false;
-                    if (lex.Error)
-                        return false;
-                }
 
-               comma = lex.Matched(Token.COMMA);
-                if (!comma && (lex.LookAhead(Token.LEFT) || lex.LookAhead(Token.RIGHT) || lex.LookAhead(Token.INNER) || lex.LookAhead(Token.FULL) || lex.LookAhead(Token.CROSS)))
-                {
-                    //TODO gestione OUTER JOIN - simula parsing sintattico per il TbLocalizer
-                    if (lex.LookAhead(Token.INNER) || lex.LookAhead(Token.CROSS))
-                    {
-                        lex.SkipToken(); lex.ParseTag(Token.JOIN);
-                    }
-                    else if (lex.LookAhead(Token.LEFT) || lex.LookAhead(Token.RIGHT) || lex.LookAhead(Token.FULL))
-                    {
-                        lex.SkipToken(); lex.ParseTag(Token.OUTER); lex.ParseTag(Token.JOIN);
-                    }
+                    IfWhereClause onClause = new IfWhereClause(Engine.Report.ReportSession, Engine.RepSymTable.Fields, this, selectedTable, joinType);
  
-                    if (lex.Error)
+                    if (!onClause.Compile(parser, CheckResultType.Match, "Boolean"))
                         return false;
-                    comma = true;
+                    if (parser.Error)
+                        return false;
+
+                    selectedTable.JoinOnClause = onClause;
                 }
 
-			} while (comma);
+                //----------------- 
+                bContinue = false;
+                if (natural && parser.Matched(Token.COMMA))
+                {
+                    bContinue = true;
+                }
+                else
+                {
+                    if (natural && FromTables.Count > 1)
+                        break;
 
-			if (!lex.ParseTag(Token.SELECT))
+                    natural = false;
+                    bContinue = parser.LookAhead(Token.INNER) || parser.LookAhead(Token.LEFT) || parser.LookAhead(Token.RIGHT) || parser.LookAhead(Token.FULL) || parser.LookAhead(Token.CROSS);
+                }
+            }
+            while (bContinue);
+
+            if (!parser.ParseTag(Token.SELECT))
 				return false;
 
 			constraint = SelectMode.ALL;
 
-			if (lex.Matched(Token.NOT) && lex.ParseTag(Token.NULL))
+			if (parser.Matched(Token.NOT) && parser.ParseTag(Token.NULL))
 				constraint = SelectMode.NOT_NULL;
 			else
-				if (!lex.Error && lex.Matched(Token.NULL))
+				if (!parser.Error && parser.Matched(Token.NULL))
 				constraint = SelectMode.NULL;
 			else
-				if (lex.Error) return false;
+				if (parser.Error) return false;
 
             List<string> forbiddenIdents = new List<string>();
 
-            distinct = lex.Matched(Token.DISTINCT);
-            if (lex.Matched(Token.TOP))
+            distinct = parser.Matched(Token.DISTINCT);
+            if (parser.Matched(Token.TOP))
             {
-                if (!lex.ParseInt(out top))
+                if (!parser.ParseInt(out top))
                     return false;
                 if (top < 0) top = 0;
             }
@@ -959,45 +995,44 @@ namespace Microarea.RSWeb.WoormEngine
 				do
 				{
 					bool nativeColumnExpr = false;
-					if (lex.Matched(Token.BRACEOPEN))
+					if (parser.Matched(Token.BRACEOPEN))
 					{
 						nativeColumnExpr = true;
 
-						lex.DoAudit = true;
+						parser.DoAudit = true;
 
-						if (!lex.SkipToToken(Token.BRACECLOSE)) 
+						if (!parser.SkipToToken(Token.BRACECLOSE)) 
 							return false;
 
-						physicalName = lex.GetAuditString();
-						lex.DoAudit = false;
+						physicalName = parser.GetAuditString();
+						parser.DoAudit = false;
 
-                        physicalName = physicalName.Replace("[ ", "[");
-                        physicalName = physicalName.Replace(" ]", "]");
+                        physicalName = physicalName.Replace("[ ", "[").Replace(" ]", "]");
 
-						if (!lex.ParseTag(Token.BRACECLOSE) || lex.Error )
+						if (!parser.ParseTag(Token.BRACECLOSE) || parser.Error )
 							return false;
 					}
-					else if (!lex.ParseID(out physicalName))
+					else if (!parser.ParseID(out physicalName))
 						return false;
 
-					if (!lex.ParseTag(Token.INTO) || !lex.ParseID(out publicName)) 
+					if (!parser.ParseTag(Token.INTO) || !parser.ParseID(out publicName)) 
 						return false;
 
 					Field aField = Engine.RepSymTable.Fields.Find(publicName);
 					if (aField == null)
 					{
-						lex.SetError(string.Format(ExpressionManagerStrings.UnknownField, publicName));
+						parser.SetError(string.Format(ExpressionManagerStrings.UnknownField, publicName));
 						return false;
 					}
 
 					if (aField.ReadOnly)
 					{
-						lex.SetError(string.Format(WoormEngineStrings.ReadOnlyField, publicName));
+						parser.SetError(string.Format(WoormEngineStrings.ReadOnlyField, publicName));
 						return false;
 					}
 					
 					if (aField.OwnerRule != null)
-						lex.SetError(string.Format(WoormEngineStrings.FieldAlreadyUsed, publicName));
+						parser.SetError(string.Format(WoormEngineStrings.FieldAlreadyUsed, publicName));
 
 					if (nativeColumnExpr)
 						aField.NativeColumnExpr = true;
@@ -1013,7 +1048,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                     forbiddenIdents.Add(publicName);
 				}
-				while (lex.Matched(Token.COMMA));
+				while (parser.Matched(Token.COMMA));
 			}
 			finally
 			{
@@ -1025,7 +1060,7 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 			}
 
-			if (lex.Error)	
+			if (parser.Error)	
                 return false;
 
 			/*	Grammatica:
@@ -1037,20 +1072,20 @@ namespace Microarea.RSWeb.WoormEngine
              *  ;
 			*/
             whereClause.ForbiddenIdents = forbiddenIdents;
-			if (lex.Matched(Token.WHERE) && !(whereClause.Compile(lex, CheckResultType.Match, "Boolean")))
+			if (parser.Matched(Token.WHERE) && !(whereClause.Compile(parser, CheckResultType.Match, "Boolean")))
 				return false;
             
-			if (lex.Error)	
+			if (parser.Error)	
 				return false;
 
-			if 	(lex.Matched(Token.GROUP))
+			if 	(parser.Matched(Token.GROUP))
 			{
 				if	(
-						!lex.ParseTag(Token.BY)	||
-						!ParseOrderBy(lex, ref groupBy) 
+						!parser.ParseTag(Token.BY)	||
+						!ParseOrderBy(parser, ref groupBy) 
 					)
 					return false;
-				if (lex.Error)	return false;
+				if (parser.Error)	return false;
 
                 if (groupBy.IndexOf('{') >= 0)
                     groupByDynamic = groupBy;
@@ -1063,23 +1098,23 @@ namespace Microarea.RSWeb.WoormEngine
                         groupByDynamic = groupBy;
                     }
                 }
-				if (lex.Matched(Token.HAVING)) 
+				if (parser.Matched(Token.HAVING)) 
 				{
                     havingClause.ForbiddenIdents = forbiddenIdents;
-					if (!havingClause.Compile(lex, CheckResultType.Match, "Boolean"))
+					if (!havingClause.Compile(parser, CheckResultType.Match, "Boolean"))
 						return false;
 				}
 			}
-			if (lex.Error) return false;
+			if (parser.Error) return false;
 
-			if 	(lex.Matched(Token.ORDER))
+			if 	(parser.Matched(Token.ORDER))
 			{
 				if	(
-						!lex.ParseTag(Token.BY)	||
-						!ParseOrderBy(lex, ref orderBy) 
+						!parser.ParseTag(Token.BY)	||
+						!ParseOrderBy(parser, ref orderBy) 
 					)
 					return false;
-				if (lex.Error) 
+				if (parser.Error) 
                     return false;
 
                 if (orderBy.IndexOf('{') >= 0)
@@ -1095,10 +1130,10 @@ namespace Microarea.RSWeb.WoormEngine
                 }
 			}
 
-            if (lex.Matched(Token.WHEN))
+            if (parser.Matched(Token.WHEN))
             {
                 whenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
-                if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
+                if (!whenExpr.Compile(parser, CheckResultType.Match, "Boolean"))
                     return false;
             }
 
@@ -1112,13 +1147,13 @@ namespace Microarea.RSWeb.WoormEngine
 
 				string[] tables = new string[FromTables.Count];
 				int i = 0;
-				foreach (TableNames tn in FromTables)
+				foreach (SelectedTable tn in FromTables)
 					tables.SetValue(tn.TableName, i++);
 
 				extraFilter = tbLoader.GetExtraFiltering(tables, string.Empty);
 			}
             */
-            return lex.ParseSep();
+            return parser.ParseSep();
 		}
 
 		//----------------------------------------------------------------------------
@@ -1131,7 +1166,7 @@ namespace Microarea.RSWeb.WoormEngine
 				if (i > 0)
 					unparser.WriteTag(Token.COMMA, false);
 
-				TableNames table = (FromTables[i] as TableNames);
+				SelectedTable table = (FromTables[i] as SelectedTable);
 				if (table == null)
 					continue;
 
@@ -1254,14 +1289,79 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public override bool Contains(string fieldName)
 		{
-            bool f = (whereClause != null ? whereClause.HasMember(fieldName) : false);
-            f = f || (havingClause != null ? havingClause.HasMember(fieldName) : false);
+            if (whereClause != null &&  whereClause.HasMember(fieldName)) 
+                return true;
+            if (havingClause != null && havingClause.HasMember(fieldName))
+                return true;
 
-            return f;
+            foreach (SelectedTable t in this.FromTables)
+            {
+                if (t.JoinOnClause != null && t.JoinOnClause.HasMember(fieldName))
+                    return true;
+            }
+
+            return false;
 		}
 
-		//-----------------------------------------------------------------------------
-		private bool ExecuteCommand()
+        //-----------------------------------------------------------------------------
+        public string GetFromTableList()
+        {
+            string fromList = "";
+            int current = 0;
+            foreach (SelectedTable t in FromTables)
+            {
+                if (current > 0)
+                {
+                    if (t.JoinOnClause != null)
+                    {
+                        if (t.JoinOnClause.JoinType != WhereClauseExpr.EJoinType.CROSS && t.JoinOnClause.Sql.IsNullOrEmpty())
+                        {
+                            Debug.Assert(false);
+                            fromList += " Cross Join " + t.TableName;
+                        }
+                        else switch (t.JoinOnClause.JoinType)
+                        {
+                            case WhereClauseExpr.EJoinType.INNER:
+                                {
+                                    fromList += " Inner Join " + t.TableName + " On " + t.JoinOnClause.Sql;
+                                    break;
+                                }
+                            case WhereClauseExpr.EJoinType.LEFT_OUTER:
+                                {
+                                    fromList += " Left Outer Join " + t.TableName + " On " + t.JoinOnClause.Sql;
+                                    break;
+                                }
+                            case WhereClauseExpr.EJoinType.RIGHT_OUTER:
+                                {
+                                    fromList += " Right Outer Join " + t.TableName + " On " + t.JoinOnClause.Sql;
+                                    break;
+                                }
+                            case WhereClauseExpr.EJoinType.FULL_OUTER:
+                                {
+                                    fromList += " Full Outer Join " + t.TableName + " On " + t.JoinOnClause.Sql;
+                                    break;
+                                }
+                            case WhereClauseExpr.EJoinType.CROSS:
+                            default:
+                                {
+                                    fromList += " Cross Join " + t.TableName;
+                                    break;
+                                }
+                        }
+                    }
+                    else
+                        fromList += ',' + t.TableName;
+                }
+                else
+                    fromList += t.TableName;
+
+                current++;
+            }
+            return fromList;
+        }
+
+        //-----------------------------------------------------------------------------
+        private bool ExecuteCommand()
 		{
 			string select = "SELECT ";
 
@@ -1296,7 +1396,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 
 			// aggiunge la clausola FROM con l'elenco dei nomi di tabella da cui estrarre i dati
-			select += " FROM " + GetTableNames();
+			select += " FROM " + GetFromTableList();
 
             string _groupBy = groupBy;
             string _orderBy = orderBy;
@@ -1314,7 +1414,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 			}
 
-            string filter = whereClause.Where;
+            string filter = whereClause.Sql;
             if (!filter.Contains(extraFilter))
             {
                 if (!filter.IsNullOrEmpty())
@@ -1331,8 +1431,8 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				select += " GROUP BY " + _groupBy;
 
-				if (havingClause.Where.Length > 0)
-					select += " HAVING " + havingClause.Where;
+				if (havingClause.Sql.Length > 0)
+					select += " HAVING " + havingClause.Sql;
 			}
 
 			// aggiunge la clausola ORDER BY
@@ -1342,7 +1442,7 @@ namespace Microarea.RSWeb.WoormEngine
             select = select.StripBlankNearSquareBrackets();
 
 			// effettua la connessione e la costruzione della query. Deve usare la esecuzione senza prepare
-			// perche la Where potrebbe cambiare a causa di IF presenti nella estensione sintattica di woorm
+			// perche la Sql potrebbe cambiare a causa di IF presenti nella estensione sintattica di woorm
 			// che devono essere valutati ad ogni giro di Rule
 			try
 			{
@@ -1436,7 +1536,24 @@ namespace Microarea.RSWeb.WoormEngine
 			if (Engine.NullRulesNum != 0 && IsSonOfNullRules())
 				return RuleReturn.Backtrack;
 
-			if (!whereClause.BuildWhere())
+            int current = 0;
+            foreach (SelectedTable t in FromTables)
+            {
+                if (current > 0 && t.JoinOnClause != null)
+                {
+                    if (!t.JoinOnClause.BuildSql())
+                    {
+                        if (t.JoinOnClause.Error)
+                            return RuleReturn.Backtrack;
+
+                        Engine.SetError(WoormEngineStrings.DatatableRuleJoinOn);
+                        return RuleReturn.Abort;
+                    }
+                }
+                current++;
+            }
+
+			if (!whereClause.BuildSql())
 			{
 				if (whereClause.Error)
 					return RuleReturn.Backtrack;
@@ -1444,17 +1561,17 @@ namespace Microarea.RSWeb.WoormEngine
 				Engine.SetError(WoormEngineStrings.WhereError);
 				return RuleReturn.Abort;
 			}
-			if (!havingClause.BuildWhere())
+			if (!havingClause.BuildSql())
 			{
-				if (whereClause.Error)
+				if (havingClause.Error)
 					return RuleReturn.Backtrack;
 
 				Engine.SetError(WoormEngineStrings.DatatableRuleHaving);
 				return RuleReturn.Abort;
 			}
 
-			// Crea la select ed il data reader già eseguito
-			if (!ExecuteCommand())
+            // Crea la select ed il data reader già eseguito
+            if (!ExecuteCommand())
 			{
 				Engine.SetError(WoormEngineStrings.QueryFailed);
 				return RuleReturn.Abort;
@@ -1661,21 +1778,6 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			Field rf = (Field) selectFields[i];
 			rf.Data = pri.Data;
-		}
-
-		// restituisce i nomi delle tabelle nella forma "Tab1,Tab2"
-		//-----------------------------------------------------------------------------
-		public string GetTableNames()
-		{
-			string names = "";
-			int current = 0;
-			foreach (TableNames tn in FromTables)
-			{
-				names += tn.TableName;
-				current++;
-				if (current < FromTables.Count) names += ",";
-			}
-			return names;
 		}
 	}
 
