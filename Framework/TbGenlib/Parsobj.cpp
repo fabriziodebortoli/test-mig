@@ -5571,7 +5571,7 @@ BOOL CParsedCtrl::IsValid(const DataObj& aValue)
 BOOL CParsedCtrl::UpdateCtrlData(BOOL bEmitError, BOOL bSendMessage /* = FALSE */)
 {
 	CBaseDocument* pDoc = GetDocument();
-	if (pDoc->IsDocumentClosing())
+	if (pDoc && pDoc->IsDocumentClosing())
 		return TRUE;
 
 	AfxGetBaseApp()->SetOldCtrlData(NULL, NULL);
