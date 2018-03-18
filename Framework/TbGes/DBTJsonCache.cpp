@@ -38,7 +38,7 @@ void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount, int currentRow)
 //----------------------------------------------------------------------------
 void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	BOOL bPatch = m_nCurrentRow == -2;
+	BOOL bPatch = m_nCurrentRow != -2;
 	if (!bPatch || ((m_pDBT->m_bReadOnly && m_bReadonly != B_TRUE) || (!m_pDBT->m_bReadOnly && m_bReadonly != B_FALSE)))
 	{
 		jsonSerializer.WriteBool(_T("enabled"), !m_pDBT->m_bReadOnly);
