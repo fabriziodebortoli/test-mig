@@ -50,6 +50,8 @@ CLockManagerInterface::CLockManagerInterface(const CString& strService, const CS
 		if (pDataObj && *((DataBool*)pDataObj))
 			m_pTBLockManager->EnableLockCache(true);
 	}
+
+	InitializeLockSessionID();
 }
 
 
@@ -92,7 +94,7 @@ BOOL CLockManagerInterface::Init (const CString& strDBName)
 		return FALSE;
 	}
 
-	InitializeLockSessionID();
+	//InitializeLockSessionID();
 
 	DataBool* pdbVal = (DataBool*)aFunctionDescription.GetReturnValue();
 	return (pdbVal ? *pdbVal : FALSE);
@@ -119,7 +121,7 @@ BOOL CLockManagerInterface::Init(MSqlConnection* pMSqlConnection)
 		return FALSE;
 	}
 
-	InitializeLockSessionID();
+	//InitializeLockSessionID();
 
 	DataBool* pdbVal = (DataBool*)aFunctionDescription.GetReturnValue();
 	return (pdbVal ? *pdbVal : FALSE);
