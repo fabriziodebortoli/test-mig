@@ -30,7 +30,7 @@ export class BOService extends DocumentService {
             models.forEach(model => {
                 if (model.id === cmpId) {
                     if (model.data) {
-                        this.applyPatch(this.eventData.model, model.data);
+                        this.applyPatch(this.eventData.model, model.data, '');
                     }
                     this.eventData.change.emit('');
                 }
@@ -159,7 +159,10 @@ export class BOService extends DocumentService {
         this.changedData = {};
         return patch;
     }
-    applyPatch(model: any, patch: any) {
+    addPrefix(prefix: string, name: string) {
+        return prefix ? prefix + '/' + name : name;
+    }
+    applyPatch(model: any, patch: any, name: string) {
 
         if (model instanceof Array) {
             if (!(patch instanceof Array)) {
@@ -175,7 +178,7 @@ export class BOService extends DocumentService {
                 //gli altri in più li aggiungo secchi
                 for (let i = model.length; i < patch.length; i++) {
                     let item = patch[i];
-                    addModelBehaviour(item, i.toString());
+                    addModelBehaviour(item, this.addPrefix(name, '[' + i.toString() + ']'));
                     this.attachEventsToModel(item);
                     model.push(item);
                 }
@@ -184,7 +187,7 @@ export class BOService extends DocumentService {
             }
             //applico il delta agli elementi comuni
             for (let i = 0; i < commonElNumber; i++) {
-                this.applyPatch(model[i], patch[i]);
+                this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']');
             }
         }
         else if (isDataObj(model)) {
@@ -197,11 +200,11 @@ export class BOService extends DocumentService {
                 let patchVal = patch[prop];
                 if (!model.hasOwnProperty(prop)) {
                     model[prop] = patchVal;
-                    addModelBehaviour(patchVal, prop);
+                    addModelBehaviour(patchVal, this.addPrefix(name, prop));
                     this.attachEventsToModel(patchVal);
                 } else {
                     if (patchVal instanceof Object) {
-                        this.applyPatch(model[prop], patchVal);
+                        this.applyPatch(model[prop], patchVal, this.addPrefix(name, prop));
                     }
                     else {
                         model[prop] = patchVal;
@@ -214,7 +217,12 @@ export class BOService extends DocumentService {
             model.modelChanged.emit();
         }
     }
-
+    private indexOfArray(prop: string): number {
+        if (prop[0] == '[') {
+            return parseInt(prop.substr(1, prop.length - 2));
+        }
+        return -1;
+    }
     private attachEventsToModel(model: any) {
         if (model instanceof Object) {
             if (isDataObj(model)) {//solo se è un dataobj
@@ -227,11 +235,27 @@ export class BOService extends DocumentService {
                         if (j == lastIdx) {
                             obj[subProp] = { _value: sender.value };
                         } else {
-                            if (obj.hasOwnProperty(subProp)) {
-                                obj = obj[subProp];
+                            let idx = this.indexOfArray(subProp);
+                            if (idx != -1) { //indice di array
+                                if (!obj[idx]) {
+                                    obj[idx] = {};//per ora non supporto array dentro ad array
+                                }
+                                obj = obj[idx];
                             } else {
-                                obj[subProp] = {};
-                                obj = obj[subProp];
+                                if (obj.hasOwnProperty(subProp)) {
+                                    obj = obj[subProp];
+                                } else {
+                                    //quardo se l'elemento successivo è un indice, in tal caso creo un array
+                                    let innerSubProp = props[j + 1];
+                                    if (this.indexOfArray(innerSubProp) != -1) {
+                                        obj[subProp] = [];
+                                    }
+                                    else {
+                                        obj[subProp] = {};
+
+                                    }
+                                    obj = obj[subProp];
+                                }
                             }
                         }
                     }
@@ -267,11 +291,11 @@ export class BOService extends DocumentService {
     isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.indexOf(idCommand) > 0;
     }
-    
+
     getWindowStrings(cmpId: string, culture: string) {
         this.webSocketService.getWindowStrings(cmpId, culture);
     }
-    
+
     doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(

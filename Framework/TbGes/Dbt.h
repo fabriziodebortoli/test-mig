@@ -806,7 +806,7 @@ public:
 	virtual bool		SetJson(CJsonParser& jsonParser);
 	
 	virtual void		SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow);
-
+	void				ResetJsonData();
 	SqlRecord*	GetCurrentMasterRecord(const CString& strDBTName = _T(""));
 
 	// useful getting routines

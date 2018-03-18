@@ -779,6 +779,12 @@ void CAbstractFormDoc::ResetJsonData(CJsonParser& json)
 	}
 
 	m_bJsonDataSent = FALSE;
+	for (int i = 0; i < m_arRegisteredDBTs.GetCount(); i++)
+	{
+		DBTObject* pDBT = m_arRegisteredDBTs.GetAt(i);
+		if (pDBT->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)))
+			((DBTSlaveBuffered*)pDBT)->ResetJsonData();
+	}
 }
 //-----------------------------------------------------------------------------	
 void CAbstractFormDoc::AttachXMLExpCriteria(CXMLBaseAppCriteria* pBaseExportCriteria)

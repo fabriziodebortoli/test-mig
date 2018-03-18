@@ -10,7 +10,11 @@ export function isDataObj(obj: any): boolean {
     return obj && obj._status !== undefined;
 }
 export function addModelBehaviour(model: any, name: string) {
-    if (model instanceof Object) {
+    if (model instanceof Array) {
+        for (let i = 0; i < model.length; i++) {
+            addModelBehaviour(model[i], name + '/[' + i.toString() + ']');
+        }
+    } else if (model instanceof Object) {
         if (isDataObj(model)) {//solo se è un dataobj
             addControlModelBehaviour(model, name);
         } else {
@@ -19,11 +23,6 @@ export function addModelBehaviour(model: any, name: string) {
             }
         }
         model.modelChanged = new EventEmitter<any>();
-    } else if (model instanceof Array) {
-        for (let i = 0; i < model.length; i++) {
-            addModelBehaviour(model[i], name + '/' + i.toString());
-        }
-
     }
 }
 export function addControlModelBehaviour(model: any, name: string) {

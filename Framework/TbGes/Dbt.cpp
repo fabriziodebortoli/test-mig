@@ -357,7 +357,7 @@ BOOL DBTObject::Open()
 		//@@BAUZI TODO da elimniare il cursore scrollabile del DBTSlaveBuffered. Da sostituire con la paginazione per il browser
 		//utilizzando il cursore scollabile il SqlRowSet viene automaticamente sconnesso dopo aver eseguito la query (xch� il risultato viene tenuto in cache)
 		m_pTable->Open(!m_bDBTOnView, this->IsKindOf(RUNTIME_CLASS(DBTSlaveBuffered)));
-	
+
 		if (this->IsKindOf(RUNTIME_CLASS(DBTMaster)) || this->IsKindOf(RUNTIME_CLASS(DBTSlave)))
 			m_pTable->SetOnlyOneRecordExpected();
 
@@ -374,14 +374,14 @@ BOOL DBTObject::Open()
 		m_pDocument->DispatchOnModifyDBTPrepareQuery(this, m_pTable);
 	}
 
-	CATCH(SqlException, e)
+		CATCH(SqlException, e)
 	{
 		ConditionalDisplayMessage(e->m_strError);
 		return FALSE;
 	}
 	END_CATCH
 
-	return TRUE;
+		return TRUE;
 }
 
 //-----------------------------------------------------------------------------	
@@ -2150,7 +2150,7 @@ DBTSlaveBuffered::DBTSlaveBuffered
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::CommonConstruct()
 {
-	m_pRecords = new RecordArray(); 
+	m_pRecords = new RecordArray();
 	m_pOldRecords = new RecordArray();
 	m_pJsonCache = new DBTJsonCache(this);
 }
@@ -4217,35 +4217,30 @@ void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
 	m_pJsonCache->SetJsonLimits(nRowFrom, nCount, nCurrentRow);
 	GetDocument()->UpdateDataView();
 }
-
+//-----------------------------------------------------------------------------	
+void DBTSlaveBuffered::ResetJsonData()
+{ 
+	m_pJsonCache->ResetJsonData();
+}
 //-----------------------------------------------------------------------------	
 bool DBTSlaveBuffered::SetJson(CJsonParser& jsonParser)
 {
-	bool modified = false;
-	if (jsonParser.BeginReadObject(GetName()))
-	{
-		SqlRecord *pRecord = GetRecord();
-		if (pRecord)
-			modified = pRecord->SetJson(jsonParser);
-		jsonParser.EndReadObject();
-	}
-	return modified;
+	return m_pJsonCache->SetJson(jsonParser);
 }
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJsonPatch(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	if (m_pJsonCache->IsModified())
-	{
-		jsonSerializer.OpenObject(GetName());
-		m_pJsonCache->GetJsonPatch(jsonSerializer, bOnlyWebBound);
-		jsonSerializer.CloseObject(TRUE);
-	}
+	jsonSerializer.OpenObject(GetName());
+	m_pJsonCache->GetJson(jsonSerializer, bOnlyWebBound);
+	jsonSerializer.CloseObject(TRUE);
 }
 
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	GetJsonPatch(jsonSerializer, bOnlyWebBound);
+	jsonSerializer.OpenObject(GetName());
+	m_pJsonCache->GetJson(jsonSerializer, bOnlyWebBound);
+	jsonSerializer.CloseObject(TRUE);
 }
 
 //-----------------------------------------------------------------------------	
