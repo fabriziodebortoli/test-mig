@@ -15,6 +15,7 @@ using static TaskBuilderNetCore.Data.Provider;
 using TaskBuilderNetCore.Interfaces;
 using Microarea.Common.Hotlink;
 using Microarea.Common;
+using System.Data.SqlClient;
 
 namespace Microarea.RSWeb.WoormEngine
 {
@@ -520,7 +521,8 @@ namespace Microarea.RSWeb.WoormEngine
 		public string GetColumnType(string tableName, string columnName)
 		{
 			SelectedTable tn = GetTableNames(tableName);
-			if (tn == null) return null;
+			if (tn == null) 
+                return null;
 
 			return tn.GetColumnType(columnName);
 		}
@@ -935,7 +937,7 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 				FromTables.Add(selectedTable);
 
-                if (FromTables.Count > 0 && joinType != WhereClauseExpr.EJoinType.CROSS)
+                if (FromTables.Count > 1 && joinType != WhereClauseExpr.EJoinType.CROSS)
                 {
                     if (!parser.Match(Token.ON))
                         return false;
@@ -978,7 +980,8 @@ namespace Microarea.RSWeb.WoormEngine
 				if (!parser.Error && parser.Matched(Token.NULL))
 				constraint = SelectMode.NULL;
 			else
-				if (parser.Error) return false;
+				if (parser.Error) 
+                    return false;
 
             List<string> forbiddenIdents = new List<string>();
 
@@ -1085,7 +1088,8 @@ namespace Microarea.RSWeb.WoormEngine
 						!ParseOrderBy(parser, ref groupBy) 
 					)
 					return false;
-				if (parser.Error)	return false;
+				if (parser.Error)	
+                    return false;
 
                 if (groupBy.IndexOf('{') >= 0)
                     groupByDynamic = groupBy;
@@ -1105,7 +1109,8 @@ namespace Microarea.RSWeb.WoormEngine
 						return false;
 				}
 			}
-			if (parser.Error) return false;
+			if (parser.Error) 
+                return false;
 
 			if 	(parser.Matched(Token.ORDER))
 			{
@@ -1307,10 +1312,15 @@ namespace Microarea.RSWeb.WoormEngine
         public string GetFromTableList()
         {
             string fromList = "";
-            int current = 0;
+            bool first = true;
             foreach (SelectedTable t in FromTables)
             {
-                if (current > 0)
+                if (first)
+                { 
+                    fromList += t.TableName; 
+                    first = false; 
+                }
+                else
                 {
                     if (t.JoinOnClause != null)
                     {
@@ -1352,11 +1362,7 @@ namespace Microarea.RSWeb.WoormEngine
                     else
                         fromList += ',' + t.TableName;
                 }
-                else
-                    fromList += t.TableName;
-
-                current++;
-            }
+             }
             return fromList;
         }
 
@@ -1474,39 +1480,19 @@ namespace Microarea.RSWeb.WoormEngine
                 }
 
                 tbCommand = new DBCommand(select, tbConnection);
-                tbCommand.CommandTimeout = 0; 
+                tbCommand.CommandTimeout = 0;
 
-				// faccio il bind dei parametri
-				foreach (ParamItem param in whereClause.Parameters)
-				{
-                    if (param.IsValueContentOf)
+                foreach (SelectedTable t in FromTables)
+                {
+                    if (t.JoinOnClause != null)
                     {
-                        if (tbCommand.CommandText.Contains(param.Name))
-                            tbCommand.CommandText = tbCommand.CommandText.Replace(param.Name, param.Data.ToString());
+                        BindParameters(t.JoinOnClause.Parameters);
                     }
-                    else
-                    {
-                        //TODO RSWEB add command parameter
-                        IDbDataParameter p = tbCommand.CreateParameter();
-                        p.ParameterName = param.Name;
-                        p.Value = param.Data;
-                        tbCommand.Parameters.Add(p);
-                    }
-				}
-
-				foreach (ParamItem param in havingClause.Parameters)
-				{
-					if (param.IsValueContentOf)
-					{
-						if (tbCommand.CommandText.Contains(param.Name))
-							tbCommand.CommandText = tbCommand.CommandText.Replace(param.Name, param.Data.ToString());
-
-					}
-					else
-						tbCommand.Parameters.Add(/*param.Name, */param.Data);
-				}
+                }
+                BindParameters(whereClause.Parameters);
+                BindParameters(havingClause.Parameters);
 				
-				// mi creo il DataReader
+				// creo il DataReader
 				iDataReader = tbCommand.ExecuteReader();
 			}
 			catch (DBException e)
@@ -1526,20 +1512,42 @@ namespace Microarea.RSWeb.WoormEngine
 				Engine.SetError(e.Message);
 				return false;
 			}
-
-			return true;
+            
+            return true;
 		}
 
-		//-----------------------------------------------------------------------------
-		private RuleReturn Execute()
+        //-----------------------------------------------------------------------------
+        void BindParameters(List<ParamItem> parameters)
+        {
+            // faccio il bind dei parametri
+            foreach (ParamItem param in parameters)
+            {
+                if (param.IsValueContentOf)
+                {
+                    if (tbCommand.CommandText.Contains(param.Name))
+                        tbCommand.CommandText = tbCommand.CommandText.Replace(param.Name, param.Data.ToString());
+                }
+                else
+                {
+                    //TODO RSWEB add command parameter
+                    IDbDataParameter p = tbCommand.CreateParameter();
+                    p.ParameterName = param.Name;
+                    p.Value = param.Data;
+
+                    tbCommand.Parameters.Add(p);
+                }
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        private RuleReturn Execute()
 		{
 			if (Engine.NullRulesNum != 0 && IsSonOfNullRules())
 				return RuleReturn.Backtrack;
 
-            int current = 0;
             foreach (SelectedTable t in FromTables)
             {
-                if (current > 0 && t.JoinOnClause != null)
+                if (t.JoinOnClause != null)
                 {
                     if (!t.JoinOnClause.BuildSql())
                     {
@@ -1550,7 +1558,6 @@ namespace Microarea.RSWeb.WoormEngine
                         return RuleReturn.Abort;
                     }
                 }
-                current++;
             }
 
 			if (!whereClause.BuildSql())

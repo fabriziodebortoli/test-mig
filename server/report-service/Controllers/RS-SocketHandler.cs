@@ -50,9 +50,9 @@ namespace Microarea.RSWeb.Models
 
             if (session.ReportSnapshot == null)
                 engine.Execute();
-            else {
-                SendMessage(webSocket, engine.RunJsonSnapshot());
-
+            else 
+            {
+                var fireAndForget = SendMessage(webSocket, engine.RunJsonSnapshot());
             }
             return engine;
         }

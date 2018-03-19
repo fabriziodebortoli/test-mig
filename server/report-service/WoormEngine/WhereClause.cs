@@ -78,6 +78,9 @@ namespace Microarea.RSWeb.WoormEngine
         public EJoinType joinType = EJoinType.CROSS;
         public EJoinType JoinType { get => joinType; set { joinType = value; clauseType = EClauseType.JOIN_ON;  } }
 
+        protected SelectedTable joinedTable = null;
+        public SelectedTable JoinedTable { get => joinedTable; set { joinedTable = value;  } }
+
         protected DataTableRule	dataTableRule = null;
 		protected Token			emptyWhere = Token.NOTOKEN;
 
@@ -218,7 +221,7 @@ namespace Microarea.RSWeb.WoormEngine
                 StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.GROUP, Token.HAVING, Token.ORDER, Token.WHEN });
             else if (ClauseType == EClauseType.HAVING)
                 StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.ORDER, Token.WHEN });
-            if (ClauseType == EClauseType.JOIN_ON)
+            else if (ClauseType == EClauseType.JOIN_ON)
                 StopTokens = new StopTokens(new Token[] { Token.ELSE,
                                             Token.INNER, Token.CROSS, Token.FULL, Token.LEFT, Token.RIGHT, Token.SELECT
                                              });
@@ -357,7 +360,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					if (SymbolTable.Contains(columnName))
 					{
-                        if ( ! ForbiddenIdents.Contains(columnName, StringComparer.OrdinalIgnoreCase))
+                        if (!ForbiddenIdents.Contains(columnName, StringComparer.OrdinalIgnoreCase))
                         {
                             PushSkippedToken(subExpression);
 
@@ -655,21 +658,49 @@ namespace Microarea.RSWeb.WoormEngine
             return true;
         }
 
-		// Le costanti e le variabili utente devono essere sostituite con
-		// "@Value" o "@NomeVariabile" come vuole la sintassi per il binding dei parametri.
-		// Anche le costanti sono bindate come parametri. in questo modo poiche cosi` facendo non ci
-		// si deve porre il problema della convenzione di "quoting" dello specifico DataBase
-		// lasciando all'interfaccia tra DataObj e parametro di ODBC il compito di quotare
-		// correttamente. 
-		//
-		// NOTA : si usano i Token "Value" e "Native" per essere sicuri di non collidere con nomi
-		// di variabili usate nella Sql, anche perche sono parole chiave e non possono essere utilizzate
-		// come nomi di variabili.
-		//
-		// Devo anche spostare il tutto in un'altro stack perchè posso cambiare alcuni item 
-		// da Value a Variable e non posso farlo all'interno del foreach.
-		//-----------------------------------------------------------------------------
-		protected bool ModifyVariableOrConst(ref Stack<Item> modifiedStack)
+        //-----------------------------------------------------------------------------
+        string GetPrefixParamName(string name = "Param") 
+        {
+	        switch (ClauseType)
+            {
+	        case EClauseType.WHERE:
+                name += "_w_";
+                break;
+	        case EClauseType.JOIN_ON:
+            {
+                int tableIndex = 1;
+                if (this.dataTableRule != null && this.JoinedTable != null)
+                {
+                    tableIndex = this.dataTableRule.FromTables.IndexOf(this.JoinedTable) + 1;
+                }
+
+                name += "_j_" + tableIndex.ToString() + '_';
+                break;
+            }
+	        case EClauseType.HAVING:
+                name += "_h_";
+                break;
+            }
+            
+	        return '@' + name + (parameters.Count + 1).ToString();
+        }
+
+        //-----------------------------------------------------------------------------
+        // Le costanti e le variabili utente devono essere sostituite con
+        // "@Value" o "@NomeVariabile" come vuole la sintassi per il binding dei parametri.
+        // Anche le costanti sono bindate come parametri. in questo modo poiche cosi` facendo non ci
+        // si deve porre il problema della convenzione di "quoting" dello specifico DataBase
+        // lasciando all'interfaccia tra DataObj e parametro di ODBC il compito di quotare
+        // correttamente. 
+        //
+        // NOTA : si usano i Token "Value" e "Native" per essere sicuri di non collidere con nomi
+        // di variabili usate nella Sql, anche perche sono parole chiave e non possono essere utilizzate
+        // come nomi di variabili.
+        //
+        // Devo anche spostare il tutto in un'altro stack perchè posso cambiare alcuni item 
+        // da Value a Variable e non posso farlo all'interno del foreach.
+        //-----------------------------------------------------------------------------
+        protected bool ModifyVariableOrConst(ref Stack<Item> modifiedStack)
 		{
 			Stack<Item> tempStack = new Stack<Item>();
 			foreach (Item item in modifiedStack)
@@ -706,12 +737,9 @@ namespace Microarea.RSWeb.WoormEngine
                         //Woorm tollera l'ambiguità
                         //if (physicalCol)
                         //    throw (new Exception(WoormEngineStrings.NameAmbiguity + itemVar.Name));
-
-						int paramNo = parameters.Count + 1;
-						//Compongo il nome usando nome + un separatore _ + numero parametro
-						//vedi an.17363
-						itemVar.Name = string.Format("@{0}_{1}", itemVar.Name, paramNo.ToString());
-						parameters.Add(new ParamItem(itemVar.Name, v));
+                        itemVar.Name = GetPrefixParamName(itemVar.Name);
+                        //vedi an.17363
+                        parameters.Add(new ParamItem(itemVar.Name, v));
 					}
 					else
 					{
@@ -732,18 +760,13 @@ namespace Microarea.RSWeb.WoormEngine
 				{
 					Value valore = (Value) item;
 
-					// Al posto del Value (costante) trovato si sostituisce con una variabile 
-					// fittizia con un nome fittizio "@Value" seguito da un numero progressivo
-					//
-
-					int paramNo = parameters.Count + 1;
-
-					string paramName = item is ValueContentOf ?
-						"{@Value" + paramNo.ToString() + "}" :
-						"@Value" + paramNo.ToString();
+					// Al posto del Value (costante) trovato si sostituisce con parametro
+                    string paramName = this.GetPrefixParamName();
 
                     if (item is ValueContentOf)
                     {
+                        paramName = '{' + paramName + '}' ;
+
                         string s = valore.Data as string;
                         if (s != null)
                         {
@@ -756,6 +779,7 @@ namespace Microarea.RSWeb.WoormEngine
 					Variable itemVar = new Variable(paramName, valore.Data);
 
 					parameters.Add(new ParamItem(paramName, valore, item is ValueContentOf));
+
 					tempStack.Push(itemVar);
 					continue;
 				}
@@ -828,9 +852,10 @@ namespace Microarea.RSWeb.WoormEngine
 					if (item is Variable)
 					{
 						Variable v = ((Variable) item);
-						int paramNo = parameters.Count + 1;
-						string paramName = "@" + v.Name + paramNo.ToString();
-						sql += paramName + " ";
+
+						string paramName = GetPrefixParamName(v.Name);
+
+						sql += paramName + ' ';
 
 						// recupero il valore attuale e lo aggiungo ai parametri bindati
 						// Sono sicuro che si tratta solo di variabili in symbol table o costanti speciali
@@ -840,20 +865,14 @@ namespace Microarea.RSWeb.WoormEngine
 						// allora si tratta di una costante speciale che il parser della native sql
 						// ha sostituito con una variabile temporanea contenente il valore della costante
 						// e con un nome generato automaticamente
-						if (actualValue == null)
-						{
-							parameters.Add(new ParamItem(paramName, v));
-							continue;
-						}
-
-						parameters.Add(new ParamItem(paramName, actualValue));
+						parameters.Add(new ParamItem(paramName, (actualValue == null ? v : actualValue)));
 						continue;
 					}
 
 					if (item is Value)
 					{
 						Value v = (Value) item;
-						sql += v.Data.ToString() + " ";
+						sql += v.Data.ToString() + ' ';
 						continue;
 					}
 
@@ -868,7 +887,7 @@ namespace Microarea.RSWeb.WoormEngine
                             if (ConvertToNative(s, out w))
                                 v.Data = w;
                         }
- 						sql += v.Data.ToString() + " ";
+ 						sql += v.Data.ToString() + ' ';
 						continue;
 					}
 				}
@@ -884,14 +903,19 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			if (emptyWhere == Token.NOTOKEN)
 			{
-				if (IsEmpty)	return true;
-				if (Native)		return BindParamsNative();
+				if (IsEmpty)	
+                    return true;
+
+				if (Native)		
+                    return BindParamsNative();
 				
 				return BindParams();
 			}
 			
-			if (emptyWhere == Token.BREAK)	return false;
-			if (emptyWhere == Token.ALL)	return true;
+			if (emptyWhere == Token.BREAK)	
+                return false;
+			if (emptyWhere == Token.ALL)	
+                return true;
 
 			return true;
 		}
@@ -942,8 +966,6 @@ namespace Microarea.RSWeb.WoormEngine
 		protected WhereClauseExpr	thenWhereClause = null; //could be instance of class IfWhereClause too
         protected WhereClauseExpr	elseWhereClause = null; //could be instance of class IfWhereClause too
 
-        protected SelectedTable     joinedTable = null;
-
  		protected bool			    currentCondition = true;
 
         //-----------------------------------------------------------------------------
@@ -969,6 +991,16 @@ namespace Microarea.RSWeb.WoormEngine
             }
         }
 
+        new public SelectedTable JoinedTable 
+        { 
+            get => joinedTable; 
+            set 
+            { 
+                base.JoinedTable = value;
+                if (thenWhereClause != null) thenWhereClause.JoinedTable = value;
+                if (elseWhereClause != null) elseWhereClause.JoinedTable = value;
+            }
+        }
 
         //-----------------------------------------------------------------------------
         public IfWhereClause
@@ -984,8 +1016,8 @@ namespace Microarea.RSWeb.WoormEngine
         {
             if (selectedTable != null)
             {
-                joinedTable = selectedTable;
-                joinedTable.JoinOnClause = this;
+                JoinedTable = selectedTable;
+                JoinedTable.JoinOnClause = this;
 
                 JoinType = joinType;
            }
@@ -1000,9 +1032,8 @@ namespace Microarea.RSWeb.WoormEngine
             thenWhereClause = null;
             elseWhereClause = null;
         }
-        //-----------------------------------------------------------------------------
 
-          //-----------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------
         override public string Sql		//SQL
 		{ 
 			get 
@@ -1039,6 +1070,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return thenWhereClause.Parameters;
 				else if (elseWhereClause != null)
 					return elseWhereClause.Parameters;
+
 				return new List<ParamItem>();
 			}
 		}

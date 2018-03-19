@@ -88,8 +88,15 @@ namespace TaskBuilderNetCore.Data
 
         public new DBDataReader ExecuteReader()
         {
-            reader = command.ExecuteReader();
-            return new DBDataReader(reader);
+            try
+            {
+                reader = command.ExecuteReader();
+                return new DBDataReader(reader);
+            }
+            catch (SqlException e)
+            {
+                throw new DBException("ExecuteReader fails", e);
+            }
         }
 
         public new DBDataReader ExecuteReader(CommandBehavior behavior)
@@ -116,7 +123,5 @@ namespace TaskBuilderNetCore.Data
         {
             return new DBDataReader(command.ExecuteReader(behavior));
         }
-
-
     }
 }

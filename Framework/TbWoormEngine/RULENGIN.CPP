@@ -1890,7 +1890,7 @@ BOOL DataTableRule::Parse(Parser& parser)
 			m_pDataTable = new SqlTable(m_pSelectionMap->GetAt(0), m_pTBContext->GetReadOnlySqlSession());
 
 		//----------------- 
-		if (m_pSelectionMap->GetSize() > 0)
+		if (m_pSelectionMap->GetSize() > 1)
 		{
 			WClause* pJoinOn = m_pSelectionMap->m_arSqlTableJoinInfoArray.m_arJoinOn[pos];
 			pJoinOn->SetSqlTable(m_pDataTable);
