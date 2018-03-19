@@ -82,7 +82,9 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         private void ParseRowView(string standardFolder, string resourcePath, JToken jRoot)
         {
-            foreach (JToken jRW in jRoot.SelectTokens("..rowView"))
+            List<JToken> list = new List<JToken>();
+            list.AddRange(jRoot.SelectTokens("..rowView"));
+            foreach (JToken jRW in list)
             {
                 string href = jRW.ToString();
                 if (string.IsNullOrEmpty(href))
@@ -97,6 +99,7 @@ namespace Microarea.TbJson
                     if (row.GetWndObjType() == WndObjType.ColTitle)
                         FillMissingColumnProps(jHref, row);
                 jRW.Parent.Parent[Constants.rowViewForm] = jHref;
+                jRW.Parent.Remove();
             }
         }
         //-----------------------------------------------------------------------------
@@ -426,7 +429,13 @@ namespace Microarea.TbJson
             foreach (JProperty pExternal in jHref.Properties())
             {
                 JToken t = jRoot[pExternal.Name];
-                if (t?.Type == JTokenType.Object)
+                if (pExternal.Name == Constants.rowViewForm)
+                {
+                    //il form di row view non va mergiato ma sostituito integralmente, per simmetria
+                    //col motore c++
+                    jRoot[Constants.rowViewForm] = jHref[Constants.rowViewForm].DeepClone();
+                }
+                else if (t?.Type == JTokenType.Object)
                 {
                     Merge(t, (JObject)pExternal.Value, activation);
                 }
