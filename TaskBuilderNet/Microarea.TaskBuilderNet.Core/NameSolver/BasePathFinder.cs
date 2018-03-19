@@ -74,9 +74,6 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		private static string magonetApplicationPath = null;
 		private static string microareaConsoleApplicationPath = null;
 
-        private bool easyStudioCustomizationsInCustom = true;
-        private string easyStudioHome = "ESHome";
-
 		/// <summary>
 		/// Indica se il programma sta girando all'interno del percorso di installazione (Apps o Standard ad es. per i web services)
 		/// </summary>
@@ -89,10 +86,9 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 		protected ArrayList applications;
 
 		protected CoreTypes.FunctionsList webMethods = null;
+        EasyStudioConfiguration easyStudioConfiguration = null;
+        public string EasyStudioHome { get => easyStudioConfiguration.Settings.HomeName; }
 
-        public bool EasyStudioCustomizationsInCustom { get => easyStudioCustomizationsInCustom; set => easyStudioCustomizationsInCustom = value; }
-        public string EasyStudioHome { get => easyStudioHome; set => easyStudioHome = value; }
-        
         public CoreTypes.FunctionsList WebMethods
 		{
 			get
@@ -576,44 +572,12 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			{
 				CalculatePathsOutsideInstallation();
 			}
-            LoadEasyStudioSettings();
+
+            easyStudioConfiguration = new EasyStudioConfiguration(this);
 			
 
 			return true;
 		}
-
-         //---------------------------------------------------------------------
-        private void LoadEasyStudioSettings()
-        {
-            string parentPath = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-
-            string file = "FileSystemManager.config";
-            string fileName = Path.Combine(parentPath, file);
-            if (!File.Exists(fileName))
-            {
-                string tbApps = Path.Combine(GetAppsPath(), NameSolverStrings.TbApps);
-                tbApps = Path.Combine(tbApps, Build);
-                fileName = Path.Combine(tbApps, file);
-            }
-
-            if (!File.Exists(fileName))
-                return;
-
-            using (XmlReader reader = XmlReader.Create(fileName))
-            {
-                reader.Read();
-                //reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);//< FileSystemManager >
-                reader.ReadToFollowing(NameSolverStrings.EasyStudio);
-
-                string temp = reader.GetAttribute("customizationsInStandard");
-                if (!string.IsNullOrEmpty(temp) && temp.CompareTo("true") == 0)
-                    this.easyStudioCustomizationsInCustom = false;
-                temp = reader.GetAttribute("homeName");
-                if (!string.IsNullOrEmpty(temp))
-                    EasyStudioHome = temp;
-
-            }
-        }
 
         //---------------------------------------------------------------------
         protected virtual bool CalculatePathsInsideInstallation()
@@ -2889,8 +2853,8 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
         public string GetEasyStudioCustomizationsPath()
         {
             return
-                EasyStudioCustomizationsInCustom ?
-                Path.Combine(Path.Combine(GetCustomPath(), NameSolverStrings.Subscription), EasyStudioHome) :
+                easyStudioConfiguration.Settings.CustomizationsInCustom ?
+                Path.Combine(Path.Combine(GetCustomPath(), NameSolverStrings.Subscription), easyStudioConfiguration.Settings.HomeName) :
                 GetStandardPath();
         }
 
@@ -4118,7 +4082,7 @@ namespace Microarea.TaskBuilderNet.Core.NameSolver
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");
 
-			string path = GetCustomDocumentPath(EasyStudioHome, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
+			string path = GetCustomDocumentPath(easyStudioConfiguration.Settings.HomeName, easybuilderApp.ApplicationName, easybuilderApp.ModuleName, documentNamespace.Document);
 			return string.IsNullOrEmpty(user)
 				? path
 				: Path.Combine(path, user);

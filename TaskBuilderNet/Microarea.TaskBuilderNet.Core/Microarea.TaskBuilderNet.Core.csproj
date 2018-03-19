@@ -435,6 +435,7 @@
     <Compile Include="NameSolver\DatabaseObjectsInfo.cs" />
     <Compile Include="NameSolver\DBObjectInfo.cs" />
     <Compile Include="NameSolver\DefaultTheme.cs" />
+    <Compile Include="NameSolver\EasyStudioConfiguration.cs" />
     <Compile Include="NameSolver\ParameterSettings.cs" />
     <Compile Include="NameSolver\ParameterSettings.Load.cs">
       <DependentUpon>ParameterSettings.cs</DependentUpon>
