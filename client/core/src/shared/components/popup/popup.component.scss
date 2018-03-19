@@ -28,7 +28,7 @@ $white: #ffffff;
 $bkg-medium: #0277bd;
 $shadow: rgba(205,210,214,.8);
 
-:host-context(tb-topbar-menu-elements) {
+:host-context(.topBarMenuComponentLike) {
   .tooltip {
       position: relative;
       .tooltip-content {
@@ -67,11 +67,10 @@ $shadow: rgba(205,210,214,.8);
           }
         }
       }
+    }
   }
-}
 
-
-::ng-deep .tooltip {
+.tooltip {
     position: relative;
     .tooltip-content {
       background: $bkg-medium;
@@ -100,12 +99,12 @@ $shadow: rgba(205,210,214,.8);
     }
     &.bottom {
       .tooltip-content {
-        bottom: calc(-500% - 14.5em);
-        left: calc(100%  - 9em);
+        bottom: calc(100% - 12em);
+        left: calc(100%  - 8em);
         transform: translateX(-50%);
         &::after {
           top: -5px;
-          left: 188px;
+          left: 142px;
         }
       }
       .tooltip-content > * {
