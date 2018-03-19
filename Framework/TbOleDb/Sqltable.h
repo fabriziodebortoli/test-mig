@@ -49,7 +49,7 @@
 				class SqlSession;
 		class DataObj;
 		class SqlRecord;   	// Single Data Row
-
+		class SqlBindingElem;
 	// CDocument
 		class CBaseDocument;
 
@@ -411,9 +411,7 @@ public:
 
 	SqlForeignKeysReader& GetForeignKeyReader () { return m_FKReader; }
 
-
 	BOOL	SameQuery() const;
-
 
 protected:	
 	void InitRow		();
@@ -694,6 +692,7 @@ public: //virtual method
 
 	CString GetQuery();
 	CString ToString(BOOL format/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, BOOL bAddTagCol /*=FALSE*/) const;
+	CString ParamToString(SqlBindingElem* pElem, BOOL bAddTagIn) const;
 	void StripBlankNearSquareBrackets();
 
 // diagnostics

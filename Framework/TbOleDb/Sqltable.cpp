@@ -4998,6 +4998,45 @@ void SqlTable::GetTableInfo	(SqlTableInfoArray& arTableInfo, BOOL bClear/*=TRUE*
 }
 
 //-----------------------------------------------------------------------------
+CString SqlTable::ParamToString(SqlBindingElem* pElem, BOOL bAddTagIn) const
+{
+	CString rep = GetConnection()->NativeConvert(pElem->GetDataObj());
+
+	CString name = pElem->GetBindName();
+	if (!name.IsEmpty())
+	{
+		int idx = ::ReverseFind(name, L"_w_"); //remove numeric postfix (Woorm wclause)
+		if (idx < 0)
+			idx = ::ReverseFind(name, L"_j_");
+		if (idx < 0)
+			idx = ::ReverseFind(name, L"_h_");
+		if (idx < 0)
+			idx = name.ReverseFind('_');
+		if (idx > 0)
+			name = name.Left(idx);
+	}
+
+	if (!name.IsEmpty() && !pElem->GetLocalName().IsEmpty())
+		name += L" - ";
+	name += pElem->GetLocalName();
+
+	if (bAddTagIn)
+	{
+		if (name.CompareNoCase(L"Param")/* != 0*/)
+			rep = L"{IN " + name + L" } ";
+	}
+	else
+	{
+		if (!name.IsEmpty() && name.CompareNoCase(L"Param")/* != 0*/)
+			rep = L"/*" + name + L"*/ " + rep;
+	}
+#ifdef _DEBUG
+	//rep = L" /*" + bindName + L"*/ " + rep;
+#endif
+	return rep;
+}
+
+//-----------------------------------------------------------------------------
 CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, BOOL bAddTagCol /*=FALSE*/) const
 {
 	CString query = m_strSQL;
@@ -5087,26 +5126,8 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 				if (nInx >= 0)
 				{
 					query.Delete(nInx, 1);
-					CString rep = GetConnection()->NativeConvert(pElem->GetDataObj());
-					
-					CString name = pElem->GetBindName();
-					if (!name.IsEmpty())
-					{
-						int idx = name.ReverseFind('_');	//remove numeric postfix (Woorm table rule and named query)
-						name = name.Left(idx);
-					}
 
-					if (!name.IsEmpty() && !pElem->GetLocalName().IsEmpty())
-						name += L" - ";
-					name += pElem->GetLocalName();
-
-					rep = bAddTagIn ?
-								L"{IN " + name + L" } "
-							:
-								name.IsEmpty() ?
-												 rep 
-											   :  
-												 L"/*" + name + L"*/ " + rep;
+					CString rep = ParamToString(pElem, bAddTagIn);
 					
 					query.Insert(nInx, rep);
 					start = nInx + rep.GetLength();
@@ -5123,41 +5144,11 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 						}
 						query.Delete(pos, bindName.GetLength() + c);
 
-						CString rep = GetConnection()->NativeConvert(pElem->GetDataObj());
+						CString rep = ParamToString(pElem, bAddTagIn);
 
-						CString name = bindName;
-						if (!name.IsEmpty())
-						{
-							int idx = ::ReverseFind(name, L"_w_"); //remove numeric postfix (Woorm wclause)
-							if (idx < 0)
-								idx = ::ReverseFind(name, L"_j_");
-							if (idx < 0)
-								idx = ::ReverseFind(name, L"_h_");
-							if (idx < 0)
-								idx = name.ReverseFind('_');
-							if (idx > 0)
-								name = name.Left(idx);
-						}
-
-						if (!name.IsEmpty() && !pElem->GetLocalName().IsEmpty())
-							name += L" - ";
-						name += pElem->GetLocalName();
-
-						if (bAddTagIn)
-						{
-							if (name.CompareNoCase(L"Param")/* != 0*/)							
-								rep = L"{IN " + name + L" } ";
-						}
-						else
-						{
-							if (!name.IsEmpty() && name.CompareNoCase(L"Param")/* != 0*/)
-								rep = L"/*" + name + L"*/ " + rep;
-						}
-#ifdef _DEBUG
-						//rep = L" /*" + bindName + L"*/ " + rep;
-#endif
 						query.Insert(pos, rep);
 						start = pos + rep.GetLength();
+
 						found = TRUE;
 					}
 					
