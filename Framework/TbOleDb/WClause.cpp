@@ -399,15 +399,24 @@ public:
 
 public:
 	ParamItem(const CString& strParamName, DataObj* pDataObj, BOOL bOwnDataObj);
+	ParamItem(const ParamItem& p);
 	~ParamItem();
 };
 
 //-----------------------------------------------------------------------------
-ParamItem::ParamItem(const CString& strParamName, DataObj* pDataObj, BOOL bOwnDataObj)
+ParamItem::ParamItem(const CString& strParamName, DataObj* pDataObj, BOOL bOwnsDataObj)
 	:
 	m_strParamName		(strParamName),
 	m_pAssociatedData	(pDataObj),
-	m_bOwnsDataObj		(bOwnDataObj)
+	m_bOwnsDataObj		(bOwnsDataObj)
+{}
+
+//-----------------------------------------------------------------------------
+ParamItem::ParamItem(const ParamItem& p)
+	:
+	m_strParamName		(p.m_strParamName),
+	m_pAssociatedData	(p.m_pAssociatedData),
+	m_bOwnsDataObj		(p.m_bOwnsDataObj)
 {}
 
 //-----------------------------------------------------------------------------
@@ -573,12 +582,7 @@ void WClauseExpr::operator = (const WClauseExpr& aWClause)
 		for (int i = 0; i < aWClause.m_pParamsArray->GetSize(); i++)
 		{
 			ParamItem* pParamItem = aWClause.m_pParamsArray->GetAt(i);
-			m_pParamsArray->Add(new ParamItem
-				(
-					pParamItem->m_strParamName,
-					pParamItem->m_pAssociatedData,
-					pParamItem->m_bOwnsDataObj
-				));
+			m_pParamsArray->Add(new ParamItem(*pParamItem));
 		}
 	}
 	m_arCommentTraceBefore.Copy(aWClause.m_arCommentTraceBefore);
@@ -648,13 +652,13 @@ BOOL WClauseExpr::Parse(Parser& lex)
 	}
 	else if (this->m_eClauseType == JOIN_ON)
 	{
+		AddStopTokens(T_SELECT);	//dopo la join
+
 		AddStopTokens(T_INNER);
 		AddStopTokens(T_CROSS);
 		AddStopTokens(T_FULL);
 		AddStopTokens(T_LEFT);
 		AddStopTokens(T_RIGHT);
-
-		AddStopTokens(T_SELECT);	//dopo le join
 	}
 
 	//lex.EnableAuditString();
@@ -697,7 +701,7 @@ BOOL WClauseExpr::ParseNative(Parser& lex)
 		if	(nOpenCASE > 0 && tk == T_END)
 			nOpenCASE--;
 
-		if	(tk == T_EOF || tk == T_SEP || nOpenCASE == 0 && tk == T_ELSE)
+		if	(tk == T_EOF || tk == T_SEP || (nOpenCASE == 0 && tk == T_ELSE))
 			break;
 
 		if	(tk == T_ROUNDOPEN)
@@ -705,8 +709,27 @@ BOOL WClauseExpr::ParseNative(Parser& lex)
 		else if	(tk == T_ROUNDCLOSE)
 			nOpenRoundBrackets--;
 
-		if	(nOpenRoundBrackets == 0 && (tk == T_ORDER || tk == T_GROUP || nOpenCASE == 0 && tk == T_WHEN))
-			break;
+		if	(nOpenRoundBrackets == 0)
+		{
+			if (nOpenCASE == 0 && tk == T_WHEN)
+				break;
+
+			if (m_eClauseType == WHERE)
+			{ 
+				if (tk == T_GROUP || tk == T_HAVING || tk == T_ORDER)
+					break;
+			}
+			else if (m_eClauseType == JOIN_ON)
+			{
+				if (tk == T_SELECT ||tk == T_INNER || tk == T_LEFT || tk == T_RIGHT || tk == T_CROSS || tk == T_FULL)
+					break;
+			}
+			else if (m_eClauseType == HAVING)
+			{
+				if (tk == T_ORDER)
+					break;
+			}
+		}
 
 		if	(!ParseVariableOrConstForNativeWhere(lex))
 			break;
@@ -1175,8 +1198,9 @@ BOOL WClauseExpr::ModifyVariableOrConst	(Stack& modifiedStack)
 										
 					// SOSTIUISCE il nome della variabile con una stringa transitoria ritornata
 					// dalla AddParamGetName (cfr. piu` sopra)
-					//
-					strVrbName = m_pParamsArray->AddParamGetName(strVrbName, pDataObj);
+					//CString name = strVrbName;
+					strVrbName = m_pParamsArray->AddParamGetName(GetPrefixParamName(strVrbName), pDataObj);
+					//ParamItem* pItem = m_pParamsArray[m_pParamsArray->GetUpperBound()];					
 				}
 				else
 				{
@@ -1222,7 +1246,8 @@ BOOL WClauseExpr::ModifyVariableOrConst	(Stack& modifiedStack)
 						m_pParamsArray = new ParamsArray;
 	
 					// Il DataObj del corrente ExpItemVal viene "POSSEDUTO" dal ParaItem ----v
-					strVrbName = m_pParamsArray->AddParamGetName(_T("Param"), pDataObj, TRUE);
+					CString name (GetPrefixParamName());
+					strVrbName = m_pParamsArray->AddParamGetName(name, pDataObj, TRUE);
 
 					// Dato che verra` deletato il ExpItemVal ci si assicura che non venga cancellato
 					// il DataObj associato riutilizzato dal ParamItem
@@ -1244,6 +1269,24 @@ void WClauseExpr::AddSqlParam(const CString& sParamName, DataObj* pAssociatedDat
 {
 	ASSERT_VALID(pAssociatedData);
 	m_pSqlTable->AddParam(sParamName, *pAssociatedData);
+}
+
+//-----------------------------------------------------------------------------
+CString WClauseExpr::GetPrefixParamName(CString name /*= L"Param"*/) const
+{
+	switch (this->m_eClauseType)
+	{
+	case WHERE:
+		name += L"_w";
+		break;
+	case JOIN_ON:
+		name += ::cwsprintf(L"_j_%d", m_nPrepareTableIndex);
+		break;
+	case HAVING:
+		name += L"_h";
+		break;
+	}
+	return name;
 }
 
 //-----------------------------------------------------------------------------
@@ -1295,8 +1338,6 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 	ModifyVariableOrConst(modifiedStack);
 
 	// Finalmente si Unparsa l'espressione per ottenerne una sua versione in formato stringa
-	// da passare a ODBC
-	//
 	CString strClause;             
 	ExpUnparse expUnparse;
 	
@@ -1327,7 +1368,7 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 				int nArrayIdx = (int) pszFilter[i] - 1;
 				ParamItem* pItem = m_pParamsArray->GetAt(nArrayIdx);
 				pszFilter[i] = BLANK_CHAR;
-				if (bAppend)
+				//if (bAppend) RICCARDO
 					pItem->m_strParamName += cwsprintf(_T("_%d"), nArrayIdx);
 			
 				// Vengono "bindati" alla table passata i parametri sulla base della
@@ -1348,12 +1389,6 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 			m_pSqlTable->m_strFilter += _T(" AND ");
 		m_pSqlTable->m_strFilter += strClause;
 	}
-	else if (m_eClauseType == EClauseType::HAVING)
-	{
-		if (bAppend && !m_pSqlTable->m_strHaving.IsEmpty()) 
-			m_pSqlTable->m_strHaving += _T(" AND ");
-		m_pSqlTable->m_strHaving += strClause;
-	}
 	else if (m_eClauseType == EClauseType::JOIN_ON)
 	{
 		ASSERT(m_nPrepareTableIndex > 0 && m_nPrepareTableIndex < m_arSqlTableInfo.GetSize());
@@ -1371,10 +1406,6 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 		{
 			m_pSqlTable->m_strFrom += L" Inner Join ";
 		}
-		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::CROSS)
-		{
-			m_pSqlTable->m_strFrom += L" Cross Join ";
-		}
 		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::LEFT_OUTER)
 		{
 			m_pSqlTable->m_strFrom += L" Left Outer Join ";
@@ -1386,6 +1417,10 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::FULL_OUTER)
 		{
 			m_pSqlTable->m_strFrom += L" Full Outer Join ";
+		}
+		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::CROSS)
+		{
+			m_pSqlTable->m_strFrom += L" Cross Join ";
 		}
 		else
 		{
@@ -1400,6 +1435,12 @@ BOOL WClauseExpr::BindParams(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend /*=FAL
 			m_pSqlTable->m_strFrom += L" On ";
 			m_pSqlTable->m_strFrom += strClause; 
 		}
+	}
+	else if (m_eClauseType == EClauseType::HAVING)
+	{
+		if (bAppend && !m_pSqlTable->m_strHaving.IsEmpty()) 
+			m_pSqlTable->m_strHaving += _T(" AND ");
+		m_pSqlTable->m_strHaving += strClause;
 	}
 	else
 	{
@@ -1430,10 +1471,10 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 
 		if (m_eClauseType == EClauseType::WHERE)
 			m_pSqlTable->m_strFilter.Empty();
-		else if (m_eClauseType == EClauseType::HAVING)
-			m_pSqlTable->m_strHaving.Empty();
 		else if (m_eClauseType == EClauseType::JOIN_ON)
 			m_pSqlTable->m_strFrom.Empty();
+		else if (m_eClauseType == EClauseType::HAVING)
+			m_pSqlTable->m_strHaving.Empty();
 	}		
 
 	if (IsEmpty())
@@ -1448,11 +1489,6 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		if (bAppend && !m_pSqlTable->m_strFilter.IsEmpty()) 
 			m_pSqlTable->m_strFilter += _T(" AND ");
 	}
-	else if (m_eClauseType == EClauseType::HAVING)
-	{
-		if (bAppend && !m_pSqlTable->m_strHaving.IsEmpty()) 
-			m_pSqlTable->m_strHaving += _T(" AND ");
-	} 
 	else if (m_eClauseType == EClauseType::JOIN_ON)
 	{
 		ASSERT(m_nPrepareTableIndex > 0 && m_nPrepareTableIndex < m_arSqlTableInfo.GetSize());
@@ -1469,10 +1505,6 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		{
 			m_pSqlTable->m_strFrom += L" Inner Join ";
 		}
-		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::CROSS)
-		{
-			m_pSqlTable->m_strFrom += L" Cross Join ";
-		}
 		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::LEFT_OUTER)
 		{
 			m_pSqlTable->m_strFrom += L" Left Outer Join ";
@@ -1485,6 +1517,10 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		{
 			m_pSqlTable->m_strFrom += L" Full Outer Join ";
 		}
+		else if (eJoinType == SqlTableJoinInfoArray::EJoinType::CROSS)
+		{
+			m_pSqlTable->m_strFrom += L" Cross Join ";
+		}
 		else
 		{
 			ASSERT(FALSE);
@@ -1493,6 +1529,11 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		m_pSqlTable->m_strFrom += m_arSqlTableInfo[m_nPrepareTableIndex]->GetTableName();
 		m_pSqlTable->m_strFrom += L" On ";
 	}
+	else if (m_eClauseType == EClauseType::HAVING)
+	{
+		if (bAppend && !m_pSqlTable->m_strHaving.IsEmpty()) 
+			m_pSqlTable->m_strHaving += _T(" AND ");
+	} 
 	else
 	{
 		ASSERT(FALSE);
@@ -1532,13 +1573,13 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 				{
 					m_pSqlTable->m_strFilter += _T("? ");
 				}
-				else if (m_eClauseType == EClauseType::HAVING)
-				{
-					m_pSqlTable->m_strHaving += _T("? ");
-				}
 				else if (m_eClauseType == EClauseType::JOIN_ON)
 				{
 					m_pSqlTable->m_strFrom += _T("? ");
+				}
+				else if (m_eClauseType == EClauseType::HAVING)
+				{
+					m_pSqlTable->m_strHaving += _T("? ");
 				}
 				
 				AddSqlParam(pItem->m_strParamName, pItem->m_pAssociatedData);
@@ -1565,13 +1606,13 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 					{
 						m_pSqlTable->m_strFilter += sContentOfVal + BLANK_CHAR;
 					}
-					else if (m_eClauseType == EClauseType::HAVING)
-					{
-						m_pSqlTable->m_strHaving +=  sContentOfVal + BLANK_CHAR;
-					}
 					else if (m_eClauseType == EClauseType::JOIN_ON)
 					{
 						m_pSqlTable->m_strFrom += sContentOfVal + BLANK_CHAR;
+					}
+					else if (m_eClauseType == EClauseType::HAVING)
+					{
+						m_pSqlTable->m_strHaving +=  sContentOfVal + BLANK_CHAR;
 					}
 					break;
 				}
@@ -1586,13 +1627,13 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 					{
 						m_pSqlTable->m_strFilter += ((DataStr*) ((ExpItemValWC*) pExpItem)->m_pVal)->GetString();
 					}
-					else if (m_eClauseType == EClauseType::HAVING)
-					{
-						m_pSqlTable->m_strHaving += ((DataStr*) ((ExpItemValWC*) pExpItem)->m_pVal)->GetString();
-					}
 					else if (m_eClauseType == EClauseType::JOIN_ON)
 					{
 						m_pSqlTable->m_strFrom += ((DataStr*)((ExpItemValWC*)pExpItem)->m_pVal)->GetString();
+					}
+					else if (m_eClauseType == EClauseType::HAVING)
+					{
+						m_pSqlTable->m_strHaving += ((DataStr*) ((ExpItemValWC*) pExpItem)->m_pVal)->GetString();
 					}
 			        break;
 				}
@@ -1604,7 +1645,8 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		
 				// COSTRUISCE il nome della variabile con una stringa transitoria ritornata
 				// dalla AddParamGetItem (cfr. piu` sopra)
-				ParamItem* pItem = m_pParamsArray->AddParamGetItem(_T("Param"), pDataObj);
+				CString name = GetPrefixParamName();
+				ParamItem* pItem = m_pParamsArray->AddParamGetItem(name, pDataObj);
 	
 				// Vengono "bindati" alla table passata i parametri sulla base della
 				// espressione
@@ -1612,13 +1654,13 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 				{
 					m_pSqlTable->m_strFilter += _T("? ");
 				}
-				else if (m_eClauseType == EClauseType::HAVING)
-				{
-					m_pSqlTable->m_strHaving += _T("? ");
-				}
 				else if (m_eClauseType == EClauseType::JOIN_ON)
 				{
 					m_pSqlTable->m_strFrom += _T("? ");
+				}
+				else if (m_eClauseType == EClauseType::HAVING)
+				{
+					m_pSqlTable->m_strHaving += _T("? ");
 				}
 
 				AddSqlParam(pItem->m_strParamName, pItem->m_pAssociatedData);
@@ -1627,13 +1669,21 @@ BOOL WClauseExpr::BindParamsNative(SqlTable* pSqlTable /*= NULL*/, BOOL bAppend 
 		}
 	}
 
-	CString& s = m_eClauseType == EClauseType::HAVING ? m_pSqlTable->m_strHaving : 
-									(m_eClauseType == EClauseType::JOIN_ON ? m_pSqlTable->m_strFrom :
-									 m_pSqlTable->m_strFilter);
-		s.Remove('\r');
-		s.Replace('\n', ' ');
-		s.Replace(_T("=="), _T("="));
-		s.Replace(_T("!="), _T("<>"));
+	CString& s =	m_eClauseType == EClauseType::WHERE 
+					? 
+					m_pSqlTable->m_strFilter 
+					: 
+					(
+						m_eClauseType == EClauseType::JOIN_ON 
+						? 
+						m_pSqlTable->m_strFrom 
+						:
+						m_pSqlTable->m_strHaving
+					);
+	s.Remove('\r');
+	s.Replace('\n', ' ');
+	s.Replace(_T("=="), _T("="));
+	s.Replace(_T("!="), _T("<>"));
 
 	//TRACE(m_pSqlTable->m_strFilter + '\n');
 	return TRUE;

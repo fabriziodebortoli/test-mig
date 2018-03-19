@@ -748,8 +748,54 @@ BOOL SymTable::UnParse (CXMLNode* pRootNode)
 		//	pNode->SetAttribute(L"title", pF->GetTitle());
 	}
 
-
 	return TRUE;
+}
+
+//-----------------------------------------------------------------------------
+CStringArray* SymTable::TraceFieldsModified(CStringArray* ar) 
+{ 
+	ASSERT_VALID(GetRoot());
+	if (ar) ASSERT_VALID(ar);
+	CStringArray* arOld = GetRoot()->m_parFieldsModified; 
+	GetRoot()->m_parFieldsModified = ar; 
+	if (arOld) ASSERT_VALID(arOld);
+	return arOld;
+}
+
+void SymTable::TraceFieldModify(const CString& name, BOOL noDuplicate/* = TRUE*/)
+{
+	ASSERT_VALID(GetRoot());
+	if (GetRoot()->m_parFieldsModified)
+	{
+		ASSERT_VALID(GetRoot()->m_parFieldsModified);
+		if (noDuplicate)
+			if (CStringArray_Find(*GetRoot()->m_parFieldsModified, name) > -1) return;
+
+		GetRoot()->m_parFieldsModified->Add(name);
+	}
+}
+
+CStringArray* SymTable::TraceFieldsUsed(CStringArray* ar)
+{
+	ASSERT_VALID(GetRoot());
+	if (ar) ASSERT_VALID(ar);
+	CStringArray* arOld = GetRoot()->m_parFieldsUsed; 
+	GetRoot()->m_parFieldsUsed = ar;
+	if (arOld) ASSERT_VALID(arOld);
+	return arOld;
+}
+
+void SymTable::TraceFieldsUsed(const CString& name, BOOL noDuplicate/* = TRUE*/)
+{
+	ASSERT_VALID(GetRoot());
+	if (GetRoot()->m_parFieldsUsed)
+	{
+		ASSERT_VALID(GetRoot()->m_parFieldsUsed);
+		if (noDuplicate)
+			if (CStringArray_Find(*GetRoot()->m_parFieldsUsed, name) > -1) return;
+
+		GetRoot()->m_parFieldsUsed->Add(name);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

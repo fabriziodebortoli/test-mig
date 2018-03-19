@@ -5113,43 +5113,55 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 				}
 				else
 				{
-					int pos = -1; BOOL found = FALSE;
-					while ((pos = query.Find(pElem->GetBindName(), start) ) > -1)
+					int pos = -1; BOOL found = FALSE; CString bindName = pElem->GetBindName();
+					while ((pos = query.Find(bindName, start) ) > -1)
 					{
 						int c = 0;
 						if (pos > 0 && query[pos - 1] == '@')
 						{
 							pos--; c++;
 						}
-						query.Delete(pos, pElem->GetBindName().GetLength() + c);
+						query.Delete(pos, bindName.GetLength() + c);
 
 						CString rep = GetConnection()->NativeConvert(pElem->GetDataObj());
 
-						CString name = pElem->GetBindName();
+						CString name = bindName;
 						if (!name.IsEmpty())
 						{
-							int idx = name.ReverseFind('_');	//remove numeric postfix (Woorm table rule and named query)
-							name = name.Left(idx);
+							int idx = ::ReverseFind(name, L"_w_"); //remove numeric postfix (Woorm wclause)
+							if (idx < 0)
+								idx = ::ReverseFind(name, L"_j_");
+							if (idx < 0)
+								idx = ::ReverseFind(name, L"_h_");
+							if (idx < 0)
+								idx = name.ReverseFind('_');
+							if (idx > 0)
+								name = name.Left(idx);
 						}
 
 						if (!name.IsEmpty() && !pElem->GetLocalName().IsEmpty())
 							name += L" - ";
 						name += pElem->GetLocalName();
 
-						rep = bAddTagIn ?
-							L"{IN " + name + L" } "
-							:
-							name.IsEmpty() ?
-							rep
-							:
-							L"/*" + name + L"*/ " + rep;
-
+						if (bAddTagIn)
+						{
+							if (name.CompareNoCase(L"Param")/* != 0*/)							
+								rep = L"{IN " + name + L" } ";
+						}
+						else
+						{
+							if (!name.IsEmpty() && name.CompareNoCase(L"Param")/* != 0*/)
+								rep = L"/*" + name + L"*/ " + rep;
+						}
+#ifdef _DEBUG
+						//rep = L" /*" + bindName + L"*/ " + rep;
+#endif
 						query.Insert(pos, rep);
 						start = pos + rep.GetLength();
 						found = TRUE;
 					}
 					
-					ASSERT_TRACE(found, "Binded parameter placeholder was not found\n");
+					ASSERT_TRACE1(found, "Binded parameter placeholder %s was not found\n", bindName);
 				}
 			}
 		}

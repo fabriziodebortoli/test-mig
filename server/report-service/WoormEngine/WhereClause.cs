@@ -219,7 +219,7 @@ namespace Microarea.RSWeb.WoormEngine
             else if (ClauseType == EClauseType.HAVING)
                 StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.ORDER, Token.WHEN });
             if (ClauseType == EClauseType.JOIN_ON)
-                StopTokens = new StopTokens(new Token[] { Token.ELSE, Token.GROUP, Token.HAVING, Token.ORDER, Token.WHEN,
+                StopTokens = new StopTokens(new Token[] { Token.ELSE,
                                             Token.INNER, Token.CROSS, Token.FULL, Token.LEFT, Token.RIGHT, Token.SELECT
                                              });
             else
@@ -256,28 +256,55 @@ namespace Microarea.RSWeb.WoormEngine
 			expressionStack.Clear(); 
 		
 			int openRoundBrackets = 0;
+            int openCASE = 0;
 
-			/*TODO riccardo: da expression
+            /*TODO riccardo: da expression
 			 * string preExprAudit = string.Empty;
 			 * bool currDoAudit = parser.DoAudit;
             if (currDoAudit)
                 preExprAudit = parser.GetAuditString();
 			 * */
-			lex.DoAudit = true; this.auditExpr = string.Empty;
+            lex.DoAudit = true; this.auditExpr = string.Empty;
 
 			while (!lex.Error)
 			{
 				Token tk = lex.LookAhead();
-				if	(tk == Token.EOF || tk == Token.SEP || tk == Token.ELSE)
+
+                if (tk == Token.CASE)
+                    openCASE++;
+
+                if (openCASE > 0 && tk == Token.END)
+                    openCASE--;
+
+                if (tk == Token.EOF || tk == Token.SEP || tk == Token.ELSE)
 					break;
 
 				if	(tk == Token.ROUNDOPEN)			openRoundBrackets++;
 				else if	(tk == Token.ROUNDCLOSE)	openRoundBrackets--;
 
-                if (openRoundBrackets == 0 && (tk == Token.ORDER || tk == Token.GROUP || tk == Token.WHEN))
-					break;
+                if (openRoundBrackets == 0)
+                {
+                    if (openCASE == 0 && tk == Token.WHEN)
+                        break;
 
-				if	(!ParseVariableOrConstForNativeWhere(lex))
+                    if (ClauseType == EClauseType.WHERE)
+                    {
+                        if (tk == Token.GROUP || tk == Token.HAVING || tk == Token.ORDER)
+                            break;
+                    }
+                    else if (ClauseType == EClauseType.JOIN_ON)
+                    {
+                        if (tk == Token.SELECT || tk == Token.INNER || tk == Token.LEFT || tk == Token.RIGHT || tk == Token.CROSS || tk == Token.FULL)
+                            break;
+                    }
+                    else if (ClauseType == EClauseType.HAVING)
+                    {
+                        if (tk == Token.ORDER)
+                            break;
+                    }
+                }
+
+                if (!ParseVariableOrConstForNativeWhere(lex))
 					break;
 			}
 

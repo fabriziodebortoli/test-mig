@@ -2362,7 +2362,10 @@ BOOL WhileRuleData::Parse(Parser& parser)
 	{
 		m_pCondExpr->SetStopTokens(T_DO);
 		if (!m_pCondExpr->Parse(parser, DATA_BOOL_TYPE, TRUE))
+		{
+			this->m_SymTable.TraceFieldsModified(pOld);
 			return FALSE;
+		}
 	}
 
 	if (parser.Match(T_DO))
@@ -2377,7 +2380,7 @@ BOOL WhileRuleData::Parse(Parser& parser)
 
    parser.Matched(T_SEP);
 
-   if (pOld)
+   if (pOld && m_arWSelFieldName.GetSize())
 	   pOld->Append(m_arWSelFieldName);
    this->m_SymTable.TraceFieldsModified(pOld);
 

@@ -139,7 +139,7 @@ protected:
 	BOOL	BindParams				(SqlTable* = NULL, BOOL bAppend = FALSE); //bAppend vedi sopra
 	BOOL	OpenTable				(BOOL bAppend = FALSE); // bAppend vedi sopra
 	void	AddSqlParam				(const CString& sParamName, DataObj* pAssociatedData);
-
+	CString GetPrefixParamName		(CString name = L"Param") const ;
 public:
 	static BOOL ConvertToNative
 	(

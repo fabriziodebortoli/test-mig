@@ -141,29 +141,10 @@ private:
 	CStringArray*	m_parFieldsModified = NULL;
 	CStringArray*	m_parFieldsUsed = NULL;
 public:
-	CStringArray*   TraceFieldsModified	(CStringArray* ar) { CStringArray* arOld = GetRoot()->m_parFieldsModified; GetRoot()->m_parFieldsModified = ar; return arOld; }
-	void			TraceFieldModify	(const CString& name, BOOL noDuplicate = TRUE) 
-						{ 
-							if (GetRoot()->m_parFieldsModified)
-							{ 
-								if (noDuplicate)
-									if (CStringArray_Find(*GetRoot()->m_parFieldsModified, name) > -1) return;
-
-								GetRoot()->m_parFieldsModified->Add(name);
-							} 
-						}
-
-	CStringArray*   TraceFieldsUsed(CStringArray* ar) { CStringArray* arOld = GetRoot()->m_parFieldsUsed; GetRoot()->m_parFieldsUsed = ar; return arOld; }
-	void			TraceFieldsUsed(const CString& name, BOOL noDuplicate = TRUE)
-	{
-		if (GetRoot()->m_parFieldsUsed)
-		{
-			if (noDuplicate)
-				if (CStringArray_Find(*GetRoot()->m_parFieldsUsed, name) > -1) return;
-
-			GetRoot()->m_parFieldsUsed->Add(name);
-		}
-	}
+	CStringArray*   TraceFieldsModified	(CStringArray* ar);
+	void			TraceFieldModify	(const CString& name, BOOL noDuplicate = TRUE);
+	CStringArray*   TraceFieldsUsed		(CStringArray* ar);
+ 	void			TraceFieldsUsed		(const CString& name, BOOL noDuplicate = TRUE);
 
 public:
 	SymTable();

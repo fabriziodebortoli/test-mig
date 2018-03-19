@@ -3382,7 +3382,6 @@ void InputMng::DoDynValueChanged(AskEntry* pAEChanged, BOOL bSetValueChanged)
 
 			if (arOld && arModified.GetSize())
 				arOld->Append(arModified);
-
 			m_pSymTable->TraceFieldsModified(arOld);
 
 			UpdateDynCtrlView();

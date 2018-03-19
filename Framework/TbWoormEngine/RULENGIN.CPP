@@ -1192,7 +1192,10 @@ BOOL WhileRule::Parse(Parser& parser)
 	{
 		m_CondExpr.SetStopTokens(T_DO);
 		if (!m_CondExpr.Parse(parser, DATA_BOOL_TYPE))
+		{
+			this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
 			return FALSE;
+		}
 	}
 
 	if (parser.Match(T_DO))
@@ -1208,7 +1211,7 @@ BOOL WhileRule::Parse(Parser& parser)
 
 	parser.Matched(T_SEP);
 
-	if (pOld)
+	if (pOld && m_arWSelFieldName.GetSize())
 		pOld->Append(m_arWSelFieldName);
 	this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
 
@@ -2387,7 +2390,7 @@ RuleReturn DataTableRule::ExecQuery(const Array* arOrderOnThisColumns /*= NULL*/
 	}
 	//-------------------------------------------------------------
 
-	if (m_pHavingClause && !m_pHavingClause->PrepareQuery (m_pWhereClause != NULL))
+	if (m_pHavingClause && !m_pHavingClause->PrepareQuery (bAppend || m_pWhereClause != NULL))
 	{
 		if (m_pHavingClause->GetErrId() == Expression::EMPTY_MESSAGE)
 			return RULE_BACKTRACK;

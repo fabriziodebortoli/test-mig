@@ -429,7 +429,10 @@ BOOL QueryObject::Parse (Parser& parser)
 	GetSymTable()->TraceFieldsUsed(&m_arExternalParameters);
 
 	if (!ParseInternal(parser))
+	{
+		GetSymTable()->TraceFieldsUsed(NULL);
 		return SetError(_TB("It fails parsing query"), parser.GetError());
+	}
 
 	GetSymTable()->TraceFieldsUsed(NULL);
 

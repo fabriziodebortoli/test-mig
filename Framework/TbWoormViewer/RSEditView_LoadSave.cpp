@@ -2104,10 +2104,10 @@ void CRSEditView::CheckRuleQuery()
 
 	if (!aTblRule.Parse(lex, FALSE, FALSE))
 	{
+		aTblRule.GetSymTable()->TraceFieldsUsed(NULL);
 		ShowDiagnostic(lex);
 		return;
 	}
-
 	aTblRule.GetSymTable()->TraceFieldsUsed(NULL);
 
 	CStringArray arParameters;
