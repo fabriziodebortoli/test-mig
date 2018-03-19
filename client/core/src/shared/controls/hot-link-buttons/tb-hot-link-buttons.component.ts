@@ -27,6 +27,7 @@ import { findAnchestorByClass } from '../../commons/u';
 declare var document: any;
 
 type OpenCloseTableFunction = () => void;
+const HotlinkButtonHeight = 16;
 
 @Component({
   selector: 'tb-hotlink-buttons',
@@ -38,7 +39,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   @ViewChild("optionsTemplate") optionsTemplate;
   @ViewChild("tableTemplate") tableTemplate;
-  @ViewChild("anchorTable") hotLinkButtonTemplate;
+  @ViewChild("hotLinkButton") hotLinkButtonTemplate;
 
   private _optionOffset: {top: number, left: number};
   private optionsPopupRef: PopupRef;
@@ -54,7 +55,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   private previousNext = true;
 
   private get firstStateChange$(): Observable<any> {
-    return this.state$.pipe(untilDestroy(this)).filter(_ => this.tablePopupRef !== undefined).take(1);
+    return this.state$.pipe(untilDestroy(this)).filter(state => state.gridData.columns && state.gridData.columns.length > 0 &&  this.tablePopupRef !== undefined).take(1);
   }
 
   closeOptions() { this.showOptionsSubj$.next(false); } 
@@ -74,6 +75,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   public get isDisabled(): boolean { if (!this.model) { return true; } return !this.model.enabled; }
 
   private oldTablePopupZIndex: string;
+  buttonIcon = 'tb-hotlink';
 
   constructor(protected httpService: HttpService,
     protected documentService: DocumentService,
@@ -100,53 +102,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.tablePopupRef.popupElement.style.zIndex = this.oldTablePopupZIndex;
   }
 
-  private withOpenCloseTableLogic(): TbHotlinkButtonsComponent {
-      this.showTable$.pipe(untilDestroy(this)).subscribe(_ => {
-        let popupA = PopupHelper.getPopupAlign(this.hotLinkButtonTemplate.nativeElement);
-        let anchorA = PopupHelper.getAnchorAlign(this.hotLinkButtonTemplate.nativeElement);
-        this.tablePopupRef = this.tablePopupService.open({
-          anchor: this.hotLinkButtonTemplate.nativeElement,
-          content: this.tableTemplate,
-          popupAlign: popupA,
-          anchorAlign: anchorA,
-          popupClass: 'tb-hotlink-tablePopup',
-          appendTo: this.vcr});
-        this.setPopupElementInBackground();
-        this.tablePopupRef.popupOpen.asObservable()
-          .subscribe(_ => this.loadTable());
-      });
-
-      this.hideTable$.pipe(untilDestroy(this)).subscribe(_ => {
-        if (this.tablePopupRef) {
-          this.tablePopupRef.close();
-          this.tablePopupRef = null;
-        }
-        this.declareTablePopupHidden();
-      });
-
-      this.showOptions$.pipe(untilDestroy(this)).subscribe(_ => {
-        this.optionsPopupRef = this.optionsPopupService.open({
-          content: this.optionsTemplate,
-          appendTo: this.vcr,
-          offset: this._optionOffset
-        });
-        this.optionsPopupRef.popupOpen.asObservable()
-          .do(_ => this.declareOptionsPopupVisible())
-          .subscribe(_ => this.loadOptions());
-      });
-    
-      this.hideOptions$.pipe(untilDestroy(this)).subscribe(_ => {
-        if (this.optionsPopupRef) { this.optionsPopupRef.close(); }
-          this.optionsPopupRef = null;
-          this.declareOptionsPopupHidden();
-      });
-
-      return this;
-  }
-  
   public getOptionClass(item: any): any { return { selTypeElem: true }; }
 
-  toggleTable(anchor, template) { 
+  toggleTable(e?: MouseEvent) { 
+    if(e) this.activateHotLinkIcon(e);
     if(this.isTablePopupVisible) this.closeTable();  
     else this.openTable();
   }
@@ -183,11 +142,11 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
         return this.httpService.getHotlinkData(ns, this.state.selectionType, p);
       });
 
-    this.firstStateChange$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
-
-    this.paginator.clientData.subscribe((d) => {
-      this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
-    });
+      
+      this.paginator.clientData.subscribe((d) => {
+        this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
+      });
+      this.firstStateChange$.pipe(untilDestroy(this)).subscribe(_ => this.adjustTablePopupGrid());
   }
 
 
@@ -213,10 +172,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
       });
   }
 
-  selectionTypeChanged(type: string, anchor: any, tableTemplate: any) {
+  selectionTypeChanged(type: string) {
     this.state = this.state.with({ selectionType: type });
     this.closeOptions();
-    this.toggleTable(anchor, tableTemplate);
+    this.toggleTable();
     this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType });
   }
 
@@ -305,6 +264,70 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
       else this.openOptions()
     });
     return this;
+  }
+
+  private cursorIsOnHLIconKeyPart(e: MouseEvent) : boolean { return e.offsetY < (HotlinkButtonHeight / 2); }
+  private activateHotLinkIcon(e: MouseEvent) {
+    if(this.cursorIsOnHLIconKeyPart(e)) { 
+      this.buttonIcon = 'tb-hotlinkup';
+      this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType });
+    } else {
+      this.buttonIcon = 'tb-hotlinkdown';
+      this.state = this.state.with({ selectionType: 'description' });
+    }
+  }
+
+  private restoreHotLinIconToDefault() { 
+    setTimeout(() => { 
+      this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType }); 
+      this.buttonIcon = 'tb-hotlink';
+      this.mediator.changeDetectorRef.detectChanges();
+    });
+  }
+
+  private withOpenCloseTableLogic(): TbHotlinkButtonsComponent {
+      this.showTable$.pipe(untilDestroy(this)).subscribe(_ => {
+        let popupA = PopupHelper.getPopupAlign(this.hotLinkButtonTemplate.nativeElement);
+        let anchorA = PopupHelper.getAnchorAlign(this.hotLinkButtonTemplate.nativeElement);
+        this.tablePopupRef = this.tablePopupService.open({
+          anchor: this.hotLinkButtonTemplate.nativeElement,
+          content: this.tableTemplate,
+          popupAlign: popupA,
+          anchorAlign: anchorA,
+          popupClass: 'tb-hotlink-tablePopup',
+          appendTo: this.vcr});
+        this.setPopupElementInBackground();
+        this.tablePopupRef.popupOpen.asObservable()
+          .subscribe(_ => this.loadTable());
+      });
+
+      this.hideTable$.pipe(untilDestroy(this)).subscribe(_ => {
+        if (this.tablePopupRef) {
+          this.tablePopupRef.close();
+          this.tablePopupRef = null;
+        }
+        this.declareTablePopupHidden();
+        this.restoreHotLinIconToDefault();
+      });
+
+      this.showOptions$.pipe(untilDestroy(this)).subscribe(_ => {
+        this.optionsPopupRef = this.optionsPopupService.open({
+          content: this.optionsTemplate,
+          appendTo: this.vcr,
+          offset: this._optionOffset
+        });
+        this.optionsPopupRef.popupOpen.asObservable()
+          .do(_ => this.declareOptionsPopupVisible())
+          .subscribe(_ => this.loadOptions());
+      });
+    
+      this.hideOptions$.pipe(untilDestroy(this)).subscribe(_ => {
+        if (this.optionsPopupRef) { this.optionsPopupRef.close(); }
+          this.optionsPopupRef = null;
+          this.declareOptionsPopupHidden();
+      });
+
+      return this;
   }
 
   ngOnDestroy() { this.closePopups();  }
