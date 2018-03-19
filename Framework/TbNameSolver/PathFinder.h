@@ -299,10 +299,14 @@ public:
 	const CString GetServerFileSystemCacheName() const;
 
 	// EasyStudio Customizations
+private:
 	CString			m_sESHome;
 	PosType			m_eESAppPosType;
-	void			SetEasyStudioParams(PosType posType, CString strHomeName);
-	BOOL			GetEasyStudioCustomizationsPosType() { return m_eESAppPosType; }
+
+public:
+	void			LoadEasyStudioConfiguration			();
+	BOOL			GetEasyStudioCustomizationsPosType	() { return m_eESAppPosType; }
+
 	const CString	GetEasyStudioHomePath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioCustomizationsPath(BOOL bCreateDir = FALSE) const;
 	const CString	GetEasyStudioReferencedAssembliesPath	() const;

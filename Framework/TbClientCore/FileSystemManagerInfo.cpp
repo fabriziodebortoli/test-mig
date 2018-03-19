@@ -19,7 +19,6 @@ static const TCHAR szXmlFileName[]				= _T("FileSystemManager.config");
 static const TCHAR szXmlRoot[]					= _T("FileSystemManager");
 static const TCHAR szXmlDriverKey[]				= _T("/FileSystemManager/Driver");
 static const TCHAR szXmlCachingKey[]			= _T("/FileSystemManager/Caching");
-static const TCHAR szXmlEasyStudioKey[]			= _T("/FileSystemManager/EasyStudio");
 static const TCHAR szXmlPerformanceCheckKey[]	= _T("/FileSystemManager/PerformanceCheck");
 static const TCHAR szXmlWebServiceDriverKey[]	= _T("/FileSystemManager/WebServiceDriver");
 static const TCHAR szXmlFileSystemDriverKey[]	 = _T("/FileSystemManager/FileSystemDriver");
@@ -47,11 +46,6 @@ static const TCHAR szXmlDBDriverTag[]		= _T("DatabaseDriver");
 static const TCHAR szXmlStandardConnectionString[] = _T("standardconnectionstring");
 static const TCHAR szXmlCustomConnectionString[] = _T("testCustomConnectionString");
 
-
-static const TCHAR szXmlEasyStudioAppsInStandard[]	= _T("customizationsInStandard");
-static const TCHAR szXmlEasyStudioHomeName[]		= _T("homeName");
-
-
 static const TCHAR szXmlTrueValue[]			= _T("True");
 static const TCHAR szXmlFalseValue[]		= _T("False");
 static const TCHAR szXmlIntZeroValue[]		= _T("0");
@@ -78,7 +72,6 @@ void CFileSystemManagerContent::OnBindParseFunctions ()
 {
 	BIND_PARSE_ATTRIBUTES	(szXmlDriverKey,			&CFileSystemManagerContent::ParseDriver);
 	BIND_PARSE_ATTRIBUTES	(szXmlCachingKey,			&CFileSystemManagerContent::ParseCaching);
-	BIND_PARSE_ATTRIBUTES	(szXmlEasyStudioKey,		&CFileSystemManagerContent::ParseEasyStudioKey);
 	BIND_PARSE_ATTRIBUTES	(szXmlPerformanceCheckKey,	&CFileSystemManagerContent::ParsePerformanceCheck);
 	BIND_PARSE_ATTRIBUTES	(szXmlWebServiceDriverKey ,	&CFileSystemManagerContent::ParseWebServiceDriver);
 	BIND_PARSE_ATTRIBUTES	(szXmlFileSystemDriverKey,	&CFileSystemManagerContent::ParseFileSystemDriver);
@@ -114,19 +107,6 @@ int CFileSystemManagerContent::ParseDriver (const CString& sUri, const CXMLSaxCo
 	m_pConfigInfo->m_bAutoDetectDriver =	sTmp.CompareNoCase(szXmlIntOneValue) == 0 || 
 											sTmp.CompareNoCase(szXmlTrueValue) == 0;
 		
-	return CXMLSaxContent::OK;
-}
-
-//------------------------------------------------------------------------------
-int CFileSystemManagerContent::ParseEasyStudioKey(const CString& sUri, const CXMLSaxContentAttributes& arAttributes)
-{
-	CString sTmp = arAttributes.GetAttributeByName(szXmlEasyStudioAppsInStandard);
-	BOOL bAppsInStandard = !sTmp.IsEmpty() && (sTmp.CompareNoCase(szXmlIntOneValue) == 0 || sTmp.CompareNoCase(szXmlTrueValue) == 0);
-
-	CString sESHome = arAttributes.GetAttributeByName(szXmlEasyStudioHomeName);
-
-	AfxGetPathFinder()->SetEasyStudioParams(bAppsInStandard ? CPathFinder::STANDARD : CPathFinder::CUSTOM, sESHome);
-
 	return CXMLSaxContent::OK;
 }
 

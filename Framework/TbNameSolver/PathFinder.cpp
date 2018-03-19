@@ -5,6 +5,8 @@
 #include "IFileSystemManager.h"
 #include "PathFinder.h"
 #include "LoginContext.h"
+#include "JsonSerializer.h"
+
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -164,6 +166,10 @@ const TCHAR szSettingsConfigFile[] = _T("Settings.config");
 const TCHAR szCandidateModulesSep[] = _T(";");
 
 static const TCHAR szEasyStudioHome[] = _T("ESHome");
+static const TCHAR szEasyStudioHomeName[] = _T("HomeName");
+static const TCHAR szEasyStudioCustomizationsInCustom[] = _T("CustomizationsInCustom");
+static const TCHAR szEasyStudioConfigFile[] = _T("EasyStudio.json");
+
 //DataSynchronizer
 static const TCHAR szSynchroProviders[] = _T("SynchroProviders");
 enum EncodingType { ANSI, UTF8, UTF16_BE, UTF16_LE };	//UTF16_BE: Big Endian (swap sui byte); UTF16_LE: Little Endian 
@@ -331,6 +337,7 @@ CPathFinder::CPathFinder()
 
 	m_sTbDllPath = GetPath(fname);
 	m_sESHome = szEasyStudioHome;
+
 }
 
 //-----------------------------------------------------------------------------
@@ -371,6 +378,8 @@ void CPathFinder::Init(const CString& sServer, const CString& sInstallationName,
 			m_bIsRunningInsideInstallation = TRUE;
 		}
 	}
+	
+	LoadEasyStudioConfiguration();
 }
 
 //-----------------------------------------------------------------------------
@@ -1169,10 +1178,10 @@ const CString CPathFinder::GetCompaniesPath(BOOL bCreateDir) const
 	//@@BAUZI: rename temporaneo così in sviluppo non si perdono le custom
 	// poi sarà il processo di migrazione che si preoccuperà di fare il rename e di portare i file nella tabella TB_CustomData
 	CString sCustomPath = GetCustomPath(bCreateDir);
-	
+
 	//CString sCompanyPath = sCustomPath + SLASH_CHAR + szCompanies;
 	CString sSubscriptionPath = sCustomPath + SLASH_CHAR + szSubscription;
-	
+
 	/*if (::ExistPath(sCompanyPath))
 		::RenameFile(sCompanyPath, sSubscriptionPath);
 	else*/
@@ -1192,7 +1201,7 @@ const CString CPathFinder::GetApplicationPath(const CString& sAppName, PosType p
 
 	// Personalizzazioni di EasyStudio: se sono su file system sono sulla home
 	// mentre se sono nel database sono nella current company
-	if	(aCompany == CPathFinder::EASYSTUDIO && (!AfxGetFileSystemManager()->IsManagedByAlternativeDriver(sPath)))
+	if (aCompany == CPathFinder::EASYSTUDIO && (!AfxGetFileSystemManager()->IsManagedByAlternativeDriver(sPath)))
 		sPath = GetEasyStudioCustomizationsPath();
 
 	if (bCreateDir)
@@ -1210,6 +1219,34 @@ const CString CPathFinder::GetApplicationPath(const CString& sAppName, PosType p
 const CString CPathFinder::GetConfigurationPath() const
 {
 	return m_sCustomPath + SLASH_CHAR + szConfiguration;
+}
+
+//-----------------------------------------------------------------------------
+void CPathFinder::LoadEasyStudioConfiguration()
+{
+	CString sFullFileName = m_sCustomPath + SLASH_CHAR + szEasyStudioConfigFile;
+	if (!ExistFile(sFullFileName))
+		return;
+
+	try
+	{
+		CStdioFile aFile(sFullFileName, CFile::modeRead);
+		CString aJson;
+		CString sTemp;
+		while (aFile.ReadString(sTemp))
+			aJson += sTemp;
+
+		CJsonParser aParser;
+		aParser.ReadJsonFromString(aJson);
+		bool bInCustom = true;
+		aParser.TryReadBool(szEasyStudioCustomizationsInCustom, bInCustom);
+		m_eESAppPosType = bInCustom == true ? CPathFinder::CUSTOM : CPathFinder::STANDARD;
+		aParser.TryReadString(szEasyStudioHomeName, m_sESHome);
+		aFile.Close();
+	}
+	catch (const std::exception&)
+	{
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -1312,15 +1349,6 @@ const CString CPathFinder::GetAllCompaniesPath(BOOL bCreateDir) const
 	if (bCreateDir)
 		CreateDirectory(sPath);
 	return sPath;
-}
-
-//-----------------------------------------------------------------------------
-void CPathFinder::SetEasyStudioParams(PosType posType, CString strHomeName) 
-{ 
-	m_eESAppPosType = posType; 
-	// lascio il default se serve
-	if (!m_sESHome.IsEmpty())
-		m_sESHome = strHomeName;
 }
 
 //-----------------------------------------------------------------------------
