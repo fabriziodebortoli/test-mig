@@ -327,9 +327,13 @@ namespace Microarea.RSWeb.Controllers
 
             foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
             {
-                string[] split = file.name.Split('_');
-                string date = split[0];
-                string nameS = split[1];
+                string date = "";
+                string nameS = "";
+                int indexUnderscore = file.name.IndexOfOccurrence("_");
+                if(indexUnderscore > 0)
+                    date = file.name.Substring(0, indexUnderscore);
+                if(indexUnderscore < file.name.Length)
+                    nameS = file.name.Substring(indexUnderscore+1);
 
                 DateTime dt;
                 bool b = DateTime.TryParse(file.name, out dt);
