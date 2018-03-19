@@ -1,4 +1,4 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, ControlContainerComponent, createSelector } from '@taskbuilder/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, ActivationService, EventDataService, ControlContainerComponent, createSelector } from '@taskbuilder/core';
 import { DataService, HttpService, ParameterService, MessageDlgResult, MessageDlgArgs, Selector } from '@taskbuilder/core';
 import { Component, Input, ChangeDetectorRef, OnInit, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
@@ -41,6 +41,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
     private store: Store,
     private httpservice: HttpService,
     private httpCore: CoreHttpService,
+    private activationService: ActivationService,
     private http: Http) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
@@ -64,11 +65,10 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
       //this.cc.errorMessage = 'Missing selector';
     }
 
-
-    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => this.isMasterBR = res.result);
-    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => this.isMasterIT = res.result);
-    this.httpservice.isActivated('ERP', 'MasterData_RO').take(1).subscribe(res => this.isMasterRO = res.result);
-    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => this.isEuropeanUnion = res.result);
+    this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
+    this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
+    this.isMasterRO = this.activationService.isActivated('ERP', 'MasterData_RO');
+    this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');    
   }
 
   public openMessageDialog(message: string): Promise<any> {

@@ -62,9 +62,6 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
     this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
     this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
     this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
-    // this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
-    // this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
-    // this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
   }
 
   onFormModeChanged(formMode: FormMode) {
