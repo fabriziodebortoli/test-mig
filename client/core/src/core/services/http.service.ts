@@ -187,6 +187,14 @@ export class HttpService {
             .catch(this.handleError);
     }
 
+    getModules(): Observable<any> {
+        return this.getData(this.infoService.getAccountManagerBaseUrl() + 'getModules/', { withCredentials: true })
+            .map((res: Response) => {
+                return res.json();
+            })
+            .catch(this.handleError);
+    }
+
     getFormattersTable(): Observable<any> {
         return this.getData(this.infoService.getFormattersServiceUrl() + 'getFormattersTable/', { withCredentials: true })
             .map((res: Response) => {
@@ -269,7 +277,7 @@ export class HttpService {
 
     addRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number, rowNumber: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take , rowNumber: rowNumber};
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take, rowNumber: rowNumber };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'addRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

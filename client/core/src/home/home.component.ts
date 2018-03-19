@@ -32,6 +32,7 @@ import { LoadingService } from './../core/services/loading.service';
 import { MenuService } from './../menu/services/menu.service';
 import { TbComponent } from './../shared/components/tb.component';
 import { DiagnosticService } from './../core/services/diagnostic.service';
+import { ActivationService } from './../core/services/activation.service';
 
 @Component({
   selector: 'tb-home',
@@ -73,6 +74,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     public resolver: ComponentFactoryResolver,
     public themeService: ThemeService,
     public eventManagerService: EventManagerService,
+    public activationService: ActivationService,
     private authService: AuthService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
@@ -127,6 +129,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.menuService.getMenuElements();
     this.settingsService.getSettings();
     this.enumsService.getEnumsTable();
+    this.activationService.getModules();
     this.formattersService.loadFormattersTable();
     //in modalità web non aspetto che tbloader venga su
     if (!this.isDesktop) {

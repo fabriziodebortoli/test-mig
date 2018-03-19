@@ -1,4 +1,5 @@
-import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, HttpService, ParameterService, ControlContainerComponent, Selector } from '@taskbuilder/core';
+import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, 
+  ActivationService, ParameterService, ControlContainerComponent, Selector } from '@taskbuilder/core';
 import { untilDestroy } from '@taskbuilder/core/shared/commons/untilDestroy';
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
@@ -34,13 +35,13 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
     changeDetectorRef: ChangeDetectorRef,
     private parameterService: ParameterService,
     private store: Store,
-    private httpservice: HttpService,
+    private activationService: ActivationService,
     private httpCore: CoreHttpService,
     private http: Http) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.store
       .select(s => s && s.FormMode.value)
       .pipe(untilDestroy(this))
@@ -58,9 +59,12 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
       //this.cc.errorMessage = 'Missing selector';
     }
 
-    this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
-    this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
-    this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
+    this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
+    this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
+    this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
+    // this.httpservice.isActivated('ERP', 'MasterData_BR').take(1).subscribe(res => { this.isMasterBR = res.result; })
+    // this.httpservice.isActivated('ERP', 'MasterData_IT').take(1).subscribe(res => { this.isMasterIT = res.result; })
+    // this.httpservice.isActivated('ERP', 'EuropeanUnion').take(1).subscribe(res => { this.isEuropeanUnion = res.result; })
   }
 
   onFormModeChanged(formMode: FormMode) {

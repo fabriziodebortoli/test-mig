@@ -97,7 +97,7 @@ namespace Microarea.AccountManager.Controllers
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
                 Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(authtoken);
-                
+
                 var result = new { Success = true, Culture = InstallationData.ServerConnectionInfo.PreferredLanguage, Message = "" };
                 return new JsonResult(result);
             }
@@ -142,15 +142,16 @@ namespace Microarea.AccountManager.Controllers
                     {
                         SetCulture(authtoken);
                     }
-                    
+
                 }
                 var result = new
                 {
                     Success = valid,
-                    Culture = valid 
-                        ? CultureInfo.CurrentUICulture.Name 
+                    Culture = valid
+                        ? CultureInfo.CurrentUICulture.Name
                         : InstallationData.ServerConnectionInfo.PreferredLanguage,
-                    Message = "" };
+                    Message = ""
+                };
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -195,6 +196,53 @@ namespace Microarea.AccountManager.Controllers
                 jsonWriter.WriteEndObject();
 
                 string s = sb.ToString();
+                return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------
+        [Route("getModules")]
+        public IActionResult GetModules()
+        {
+            try
+            {
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                if (string.IsNullOrEmpty(authtoken))
+                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+
+                //string json = "{\"Modules\": { \"Module\": [{ \"name\": \"erp.Manufacturing\" },{\"name\": \"erp.MRP\" }] }}";
+                var modules = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetModules();
+
+                var sb = new StringBuilder();
+                var sw = new StringWriter(sb);
+                using (var jsonWriter = new JsonTextWriter(sw))
+                {
+                    jsonWriter.Formatting = Formatting.Indented;
+
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("Modules");
+
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("Module");
+
+                    jsonWriter.WriteStartArray();
+
+                    foreach (string item in modules)
+                    {
+                        jsonWriter.WriteStartObject();
+                        jsonWriter.WritePropertyName("name");
+                        jsonWriter.WriteValue(item);
+                        jsonWriter.WriteEndObject();
+                    }
+                    jsonWriter.WriteEndArray();
+
+                    jsonWriter.WriteEndObject();
+                    jsonWriter.WriteEndObject();
+                }
                 return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
             }
             catch (Exception e)
