@@ -124,16 +124,6 @@ namespace Microarea.Common.FileSystemManager
                 companyName = reader.GetAttribute(FileSystemManagerStrings.szXmlName);
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmCompanyNameTag);
                 userName = reader.GetAttribute(FileSystemManagerStrings.szXmlUserNameTag);
-
-                reader.ReadToFollowing(FileSystemManagerStrings.szXmlEasyStudioTag);
-
-                string temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioCustomizationsInStandard);
-                if (!string.IsNullOrEmpty(temp) && temp.CompareTo(FileSystemManagerStrings.szXmlTrueValue) == 0)
-                    PathFinder.PathFinderInstance.EasyStudioAppsInCustom = false;
-                temp = reader.GetAttribute(FileSystemManagerStrings.easyStudioHomeName);
-                if (!string.IsNullOrEmpty(temp))
-                    PathFinder.PathFinderInstance.EasyStudioHome = temp;
-
             }
 
             return true;

@@ -37,8 +37,7 @@ namespace Microarea.Common.NameSolver
         public const int CustomModuleSegmentPath = 7;
         #endregion
 
-        bool easyStudioAppsInCustom = true;
-
+   
         #region membri privati
         private static readonly object staticLockTicket = new object();
         private static readonly object staticLockTicketFunctions = new object();
@@ -66,9 +65,6 @@ namespace Microarea.Common.NameSolver
         #endregion
 
         #region Proprieta' 
-
-        //-----------------------------------------------------------------------------
-        public bool EasyStudioAppsInCustom { get => easyStudioAppsInCustom; set => easyStudioAppsInCustom = value; }
 
         public string GetStandardPath { get { return standardPath; } }
         //-----------------------------------------------------------------------------
@@ -2674,15 +2670,17 @@ namespace Microarea.Common.NameSolver
 
         #region EasyStudio functions
 
-        string easyStudioHome = "ESHome";
-        public string EasyStudioHome { get { return easyStudioHome; } set { easyStudioHome = value; } } 
+        EasyStudioConfiguration easyStudioConfiguration;
 
         //-----------------------------------------------------------------------------
         public string GetEasyStudioHomePath(bool createDir = false)
         {
+            if (easyStudioConfiguration == null)
+                easyStudioConfiguration = new EasyStudioConfiguration(this);
+
             string path = string.Empty;
-            if (EasyStudioAppsInCustom)
-                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, EasyStudioHome);
+            if (easyStudioConfiguration.Settings.CustomizationsInCustom)
+                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, easyStudioConfiguration.Settings.HomeName);
             else
                 path = GetStandardPath;
 

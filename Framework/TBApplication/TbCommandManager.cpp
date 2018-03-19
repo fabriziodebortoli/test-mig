@@ -65,6 +65,9 @@ static const TCHAR szOnBeforeRunReport[]		= _T("OnBeforeRunReport");
 static const TCHAR szOnBeforeRunDocument[]		= _T("OnBeforeRunDocument");
 static const TCHAR szEnterpriseEdition[]		= _T("Enterprise");
 
+static const TCHAR szDynamicDocNs[] = _T("Document.framework.tbges.tbges.TbDynamicDocument");
+static const TCHAR szDynamicBatchDocNs[] = _T("Document.framework.tbges.tbges.TbDynamicBatchDocument");
+
 /*//-----------------------------------------------------------------------------
 class CNeedUpdateMenuBrowser
 {
@@ -252,11 +255,7 @@ const CSingleExtDocTemplate* CTbCommandManager::GetDocTemplate
 		CString sViewMode(pszViewMode);
 		if (AfxIsRemoteInterface())
 			sViewMode += szWeb;
-		if (bIsBatch)
-			pTemplate = AfxGetBaseApp()->GetDocTemplate(_T("Document.framework.tbges.tbges.TbDynamicBatchDocument"), sViewMode);
-		else
-			pTemplate = AfxGetBaseApp()->GetDocTemplate(_T("Document.framework.tbges.tbges.TbDynamicDocument"), sViewMode);
-
+		pTemplate = AfxGetBaseApp()->GetDocTemplate(bIsBatch ? szDynamicBatchDocNs : szDynamicDocNs, sViewMode);
 	}
 	else
 	{
