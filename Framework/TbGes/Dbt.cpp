@@ -789,15 +789,8 @@ void DBTObject::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 //-----------------------------------------------------------------------------	
 bool DBTObject::SetJson(CJsonParser& jsonParser)
 {
-	bool modified = false;
-	if (jsonParser.BeginReadObject(GetName()))
-	{
-		SqlRecord *pRecord = GetRecord();
-		if (pRecord)
-			modified = pRecord->SetJson(jsonParser);
-		jsonParser.EndReadObject();
-	}
-	return modified;
+	SqlRecord *pRecord = GetRecord();
+	return pRecord ? pRecord->SetJson(jsonParser) : false;
 }
 
 //--------------------------------------------------------------------------
@@ -4221,7 +4214,7 @@ void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
 }
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::ResetJsonData()
-{ 
+{
 	m_pJsonCache->ResetJsonData();
 }
 //-----------------------------------------------------------------------------	
