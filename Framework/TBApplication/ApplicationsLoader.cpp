@@ -112,6 +112,7 @@ BOOL CApplicationsLoader::LoadApplications (CStatusBarMsg*	pStatusBar)
 
 	// check for duplicate applications
 	if (ThereDuplicatesApplications(&arApps))
+		return FALSE;
 
 	AfxGetApplicationContext()->SetCustomSaveDialogClass(RUNTIME_CLASS(CCustomSaveDialog));
 

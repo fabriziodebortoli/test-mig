@@ -75,7 +75,7 @@ int CCustomSaveDialog::ShowDialog()
 //------------------------------------------------------------------------------
 void CCustomSaveDialog::EnableAllCompanies (const BOOL& bValue)
 {
-	m_bAllCompaniesEnabled = bValue;
+	m_bAllCompaniesEnabled = FALSE; //ora non è più possibile salvare per ALLCOMPANIES
 
 	if (m_bAllCompanies.m_hWnd)
 		m_bAllCompanies.ShowWindow(m_bAllCompaniesEnabled ? SW_SHOW : SW_HIDE);
