@@ -263,32 +263,32 @@ namespace Microarea.TbJson
         private string GetModelInitCode()
         {
             StringBuilder constructorCode = new StringBuilder();
-           /* constructorCode.Append("\t\tthis.bo.appendToModelStructure({");
-            var needComma = false;
-            foreach (var item in modelStructure)
-            {
-                if (needComma)
-                    constructorCode.Append(",");
-                else
-                    needComma = true;
-                constructorCode.Append("'");
-                constructorCode.Append(item.Key);
-                constructorCode.Append("':[");
-                var needComma1 = false;
-                foreach (var field in item.Value)
-                {
-                    if (needComma1)
-                        constructorCode.Append(",");
-                    else
-                        needComma1 = true;
-                    constructorCode.Append("'");
-                    constructorCode.Append(field);
-                    constructorCode.Append("'");
-                }
+            /* constructorCode.Append("\t\tthis.bo.appendToModelStructure({");
+             var needComma = false;
+             foreach (var item in modelStructure)
+             {
+                 if (needComma)
+                     constructorCode.Append(",");
+                 else
+                     needComma = true;
+                 constructorCode.Append("'");
+                 constructorCode.Append(item.Key);
+                 constructorCode.Append("':[");
+                 var needComma1 = false;
+                 foreach (var field in item.Value)
+                 {
+                     if (needComma1)
+                         constructorCode.Append(",");
+                     else
+                         needComma1 = true;
+                     constructorCode.Append("'");
+                     constructorCode.Append(field);
+                     constructorCode.Append("'");
+                 }
 
-                constructorCode.Append("]");
-            }
-            constructorCode.Append("});\r\n");*/
+                 constructorCode.Append("]");
+             }
+             constructorCode.Append("});\r\n");*/
             return constructorCode.ToString();
         }
 
@@ -863,19 +863,20 @@ namespace Microarea.TbJson
                             WriteControlAttributes(jObj, wc, insideRowView);
                             WriteAttribute(jObj, Constants.height, Constants.height);
 
-                            //estraggo il bodyeditname dal datasource
-                            string bodyEditName = string.Empty;
                             JObject jBinding = jObj[Constants.binding] as JObject;
                             if (jBinding != null)
                             {
                                 string ds = jBinding.GetDataSource();
                                 if (!string.IsNullOrEmpty(ds))
                                 {
-                                    bodyEditName = ds;
+                                    string alias = CheckAlias(ds);
+                                    if (string.IsNullOrEmpty(alias))
+                                        htmlWriter.WriteAttribute(Constants.bodyEditName, ds);
+                                    else
+                                        htmlWriter.WriteAttribute(Square(Constants.bodyEditName), alias);
                                 }
                             }
-                            if (!string.IsNullOrEmpty(bodyEditName))
-                                htmlWriter.Write(string.Format(" {0}=\"{1}\"", Constants.bodyEditName, bodyEditName));
+
 
                             jObj.GetString(Constants.id, out string cmpId);
 
@@ -1281,6 +1282,20 @@ namespace Microarea.TbJson
             }
         }
 
+        private string CheckAlias(string tableOrField)
+        {
+            if (tableOrField[0] == '@')
+                return string.Concat("alias('", tableOrField, "')");
+            else
+                return "";
+        }
+        private string CheckAlias(string table, string field)
+        {
+            if (table[0] == '@')
+                return string.Concat("alias('", table, "', '", field, "')");
+            else
+                return "";
+        }
         private string GetBodyEditColumnType(WebControl wCol)
         {
 
@@ -1372,19 +1387,19 @@ namespace Microarea.TbJson
 
                 if (iconsConversionDictionary.TryGetValue(tempIcon, out string convertedValue))
                     htmlWriter.WriteAttribute(Constants.icon, convertedValue);
-                else 
+                else
                 {
                     if (icon.IndexOf("{{") >= 0)
                     {
                         icon = icon.ResolveInterplation();
-                        htmlWriter.WriteAttribute(Square( Constants.icon), icon); 
+                        htmlWriter.WriteAttribute(Square(Constants.icon), icon);
                     }
                     else
                     {
                         Console.Out.WriteLineAsync(string.Format("Warning: icon {0} not found in iconfont", icon));
-                        htmlWriter.WriteAttribute(Constants.icon, icon); 
-                    } 
-                } 
+                        htmlWriter.WriteAttribute(Constants.icon, icon);
+                    }
+                }
             }
             else
             {
@@ -1443,22 +1458,22 @@ namespace Microarea.TbJson
                 return;
 
             ds = ResolveGetParentNameFunction(ds, jObj);
-            
+
             int idx = ds.IndexOf('.');
-            string owner = "", field = "";
+            string table = "", field = "";
             if (idx == -1)
             {
                 field = ds;
             }
             else
             {
-                owner = ds.Substring(0, idx);
+                table = ds.Substring(0, idx);
                 field = ds.Substring(idx + 1);
             }
 
             JObject jParentObject = null;
             //se l'owner � nullo...ma si tratta di un binding di uno slave buffered, risalgo la catena di parentela per trovare il bodyedit
-            if (string.IsNullOrEmpty(owner) && (jParentObject = jObj.GetParentItem()) != null)
+            if (string.IsNullOrEmpty(table) && (jParentObject = jObj.GetParentItem()) != null)
             {
                 if (jParentObject != null && jParentObject.GetWndObjType() == WndObjType.BodyEdit)
                 {
@@ -1466,7 +1481,7 @@ namespace Microarea.TbJson
                     var jBodyEditBinding = jParentObject[Constants.binding] as JObject;
                     if (jBodyEditBinding != null)
                     {
-                        owner = jBodyEditBinding[Constants.datasource]?.ToString();
+                        table = jBodyEditBinding.GetDataSource();
                     }
                 }
             }
@@ -1497,8 +1512,11 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square(Constants.caption), caption);
 
             WriteAttribute(jObj, Constants.width, Constants.width);
-            htmlWriter.WriteAttribute("columnName", field);
-
+            string alias = CheckAlias(table, field);
+            if (string.IsNullOrEmpty(alias))
+                htmlWriter.WriteAttribute(Constants.columnName, field);
+            else
+                htmlWriter.WriteAttribute(Square(Constants.columnName), alias);
             string title = jObj.GetLocalizableString(Constants.text);
             if (!string.IsNullOrEmpty(title))
                 htmlWriter.WriteAttribute(Square(Constants.title), title);
@@ -1559,18 +1577,18 @@ namespace Microarea.TbJson
                 return;
 
             ds = ResolveGetParentNameFunction(ds, jObj);
-            
-            int idx = ds.IndexOf('.');
-            string owner = "", field = "";
+
+            /*int idx = ds.IndexOf('.');
+            string table = "", field = "";
             if (idx == -1)
             {
                 field = ds;
             }
             else
             {
-                owner = ds.Substring(0, idx);
+                table = ds.Substring(0, idx);
                 field = ds.Substring(idx + 1);
-            }
+            }*/
 
             //RegisterModelField(owner, field);
 
@@ -1580,12 +1598,13 @@ namespace Microarea.TbJson
                 if (insideRowView)
                 {
                     //per la rowview,  [model]="OtherBranches?.Language"
-                    htmlWriter.WriteAttribute("[model]", string.Concat("currentRow", "?.", field));
+                    htmlWriter.WriteAttribute("[model]", string.Concat("currentRow?.", ds));
                 }
                 else
                 {
+                    
                     //[model]="eventData?.data?.DBT?.Languages?.Language"
-                    htmlWriter.WriteAttribute("[model]", string.Concat("eventData?.model", string.IsNullOrEmpty(owner) ? "" : "?." + owner, "?.", field));
+                    htmlWriter.WriteAttribute("[model]", string.Concat("eventData?.model?.", ds));
                 }
 
                 JObject jHKL = jBinding.GetObject(Constants.hotLink);

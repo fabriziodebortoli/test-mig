@@ -7910,7 +7910,39 @@ void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBou
 	}
 
 	jsonSerializer.WriteString(_T("id"), (LPCTSTR)id);
+	if (m_arDataSourceAliases.GetCount() || m_arFieldAliases.GetCount())
+	{
+		jsonSerializer.OpenObject(_T("aliases"));
 
+		for (int i = 0; i < m_arFieldAliases.GetCount(); i++)
+		{
+			CFieldAlias* pAlias = (CFieldAlias*)m_arFieldAliases.GetAt(i);
+			jsonSerializer.OpenObject(pAlias->m_sAlias);
+			jsonSerializer.WriteString(_T("actual"), pAlias->m_sActual);
+			jsonSerializer.CloseObject();
+		}
+
+
+		for (int i = 0; i < m_arDataSourceAliases.GetCount(); i++)
+		{
+			CDataSourceAlias* pAlias = (CDataSourceAlias*)m_arDataSourceAliases.GetAt(i);
+			jsonSerializer.OpenObject(pAlias->m_sAlias);
+			jsonSerializer.WriteString(_T("actual"), pAlias->m_sActual);
+			if (pAlias->m_arFields.GetCount())
+			{
+				for (int j = 0; j < pAlias->m_arFields.GetCount(); j++)
+				{
+					CFieldAlias* pFieldAlias = (CFieldAlias*)pAlias->m_arFields.GetAt(j);
+					jsonSerializer.OpenObject(pFieldAlias->m_sAlias);
+					jsonSerializer.WriteString(_T("actual"), pFieldAlias->m_sActual);
+					jsonSerializer.CloseObject();
+				}
+			}
+			jsonSerializer.CloseObject();
+		}
+
+		jsonSerializer.CloseObject();
+	}
 	jsonSerializer.OpenObject(_T("data"));
 	CXMLVariable* pVariable;
 	if (m_pVariablesArray)

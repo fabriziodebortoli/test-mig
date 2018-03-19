@@ -42,10 +42,7 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         public static string GetDataSource(this JObject jBinding)
         {
-            string ds = jBinding[Constants.datasource]?.ToString();
-            if (string.IsNullOrEmpty(ds))
-                return ds;
-            return ds.Replace("@", "_");
+            return jBinding[Constants.datasource]?.ToString();
         }
         internal static bool TryGetId(this JToken jObj, out string id) =>
             (id = jObj.GetFlatString(Constants.id)) != null;

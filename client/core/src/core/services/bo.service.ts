@@ -18,6 +18,7 @@ export class BOService extends DocumentService {
     subscriptions = [];
     boClients = new Array<BOClient>();
     changedData = {};
+    aliases = {};
     public windowStrings: EventEmitter<any> = new EventEmitter();
     public webSocketService: WebSocketService;
     constructor(params: BOServiceParams, eventData: EventDataService) {
@@ -29,6 +30,9 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             models.forEach(model => {
                 if (model.id === cmpId) {
+                    if (model.aliases) {
+                        this.aliases = model.aliases;
+                    }
                     if (model.data) {
                         this.applyPatch(this.eventData.model, model.data, '');
                     }
@@ -153,6 +157,26 @@ export class BOService extends DocumentService {
             const patch = this.getPatchedData();
             this.webSocketService.doControlCommand(this.mainCmpId, controlId, patch);
         }));
+    }
+    public alias(tableOrField: string, field?: string): string {
+        let tokens = tableOrField.split('.');
+        if (tokens.length == 2) {
+            tableOrField = tokens[0];
+            field = tokens[1];
+        }
+        let tableOrFieldObj = this.aliases[tableOrField];
+        if (!tableOrFieldObj) {
+            return tableOrField;
+        }
+        if (!field) {
+            return tableOrFieldObj.actual;
+        }
+        let fieldObj = tableOrFieldObj[field];
+        if (!fieldObj) {
+            fieldObj = { 'actual': field };
+        }
+        return (tokens.length == 2) ? tableOrFieldObj.actual + '.' + fieldObj.actual : fieldObj.actual;
+
     }
     getPatchedData(): any {
         const patch = this.changedData;

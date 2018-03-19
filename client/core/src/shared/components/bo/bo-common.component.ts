@@ -16,7 +16,7 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
     protected subscriptions: Subscription[] = [];
 
     constructor(
-        document: BOService,
+        public document: BOService,
         eventData: EventDataService,
         ciService: ComponentInfoService,
         changeDetectorRef: ChangeDetectorRef
@@ -27,12 +27,14 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
         this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
             if (me.cmpId === args.id) {
                 me.translations = args.strings;
-               document.saveToLocal(this.dictionaryId, me.translations);
+                document.saveToLocal(this.dictionaryId, me.translations);
             }
         }));
     }
 
-
+    public alias(tableOrField: string, field?: string): string {
+        return this.document.alias(tableOrField, field);
+    }
     readTranslationsFromServer() {
         let s = this.document as BOService;
         s.getWindowStrings(this.cmpId, this.ciService.globalInfoService.culture.value);
