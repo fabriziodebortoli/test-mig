@@ -75,7 +75,9 @@ export class BodyEditService {
     this.skip = event.skip;
 
     let sub = this.changeRow(this.skip).subscribe((res) => {
-      this.changeDBTRange();
+      if (res) {
+        this.changeDBTRange();
+      }
       sub.unsubscribe();
     });
   }
@@ -131,7 +133,7 @@ export class BodyEditService {
 
     let dataItem = this.rows[idx];
     if (!dataItem) {
-      return;
+      return Observable.empty<Response>();
     }
 
     this.currentRow = dataItem;
