@@ -187,7 +187,7 @@ export class BOService extends DocumentService {
             }
             //applico il delta agli elementi comuni
             for (let i = 0; i < commonElNumber; i++) {
-                this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']');
+                this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']'));
             }
         }
         else if (isDataObj(model)) {
