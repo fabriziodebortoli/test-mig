@@ -53,7 +53,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (currNode.IsApplication) 
 			{
-				List<MenuXmlNode> groupItems = currNode.GroupItems;
+                List<MenuXmlNode> groupItems = currNode.GroupItems;
 				if (groupItems != null && groupItems.Count > 0) 
 				{
 					foreach (MenuXmlNode groupNode in groupItems)

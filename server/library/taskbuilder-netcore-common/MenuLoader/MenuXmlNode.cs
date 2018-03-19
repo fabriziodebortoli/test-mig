@@ -4665,8 +4665,8 @@ namespace Microarea.Common.MenuLoader
 			XmlNodeList shortcutNodes = SelectNodes("child::" + XML_TAG_MENU_SHORTCUT);
 			if (shortcutNodes == null || shortcutNodes.Count == 0)
 				return null;
-			
-			List< MenuXmlNode> shortcutsItems = new List<MenuXmlNode>();
+
+            List<MenuXmlNode> shortcutsItems = new List<MenuXmlNode>();
 			foreach (XmlNode shortcut in shortcutNodes)
 			{
 				shortcutsItems.Add(new MenuXmlNode(shortcut));

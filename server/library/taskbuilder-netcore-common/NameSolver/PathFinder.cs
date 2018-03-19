@@ -2406,7 +2406,7 @@ namespace Microarea.Common.NameSolver
 
             ModuleInfo moduleInfo = GetModuleInfo(new NameSpace(namesp));
             Dictionary<string, string> objects = new Dictionary<string, string>();
-            //IList result = null;
+            IList result = null;
             string description = string.Empty;
             string nameSpace = string.Empty;
 
