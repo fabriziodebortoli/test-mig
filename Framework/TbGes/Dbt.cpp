@@ -3246,10 +3246,12 @@ void DBTSlaveBuffered::LoadNextRecords()
 			(m_nPreloadStep < 0 || nRecFound < m_nPreloadStep)
 			)
 		{
-			AddNewRecord(TRUE);
+			SqlRecord* pRec = AddNewRecord(TRUE);
+			PrepareDynamicColumns(pRec, TRUE);
 			nRecFound++;
 			m_pTable->MoveNext();
 		}
+
 	}
 		CATCH(CException, e)
 	{
