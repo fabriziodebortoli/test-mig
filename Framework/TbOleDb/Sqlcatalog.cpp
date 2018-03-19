@@ -2213,7 +2213,7 @@ IMPLEMENT_DYNCREATE(SqlCatalog, CMapStringToOb);
 //-----------------------------------------------------------------------------
 SqlCatalog::SqlCatalog()
 	:
-	m_bValid (TRUE),
+	m_bValid (FALSE),
 	m_bLoaded(FALSE)
 {
 }
@@ -2222,57 +2222,49 @@ SqlCatalog::SqlCatalog()
 void SqlCatalog::Load(SqlConnection *pConnection)
 {
 	TB_LOCK_FOR_WRITE();
-	if (m_bLoaded)
+
+	CTickTimeFormatter aTickFormatter;
+	DWORD dElapsedTick = 0;
+	DWORD dStartTick =  0;
+	DWORD dStopTick = 0;
+	//messo per fare test su performance e caricare più volte lo stesso catalog
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szConnectionSection,
+		_T("ReloadSqlCatalog"),
+		DataBool(FALSE),
+		szTbDefaultSettingFileName
+	);
+	BOOL bReload = pDataObj && *((DataBool*)pDataObj);
+	if (!m_bValid || bReload) //l'ho già caricato ed è valido
+	{
+		POSITION			pos;
+		CString				key;
+		SqlCatalogEntry* pCatalogEntry;
+
+		for (pos = GetStartPosition(); pos != NULL;)
+		{
+			GetNextAssoc(pos, key, (CObject*&)pCatalogEntry);
+			if (AfxIsValidAddress(pCatalogEntry, sizeof(SqlCatalogEntry)))
+				delete pCatalogEntry;
+		}
+		RemoveAll();
+	}
+	else		
 		return;
-	
-	m_bLoaded = TRUE;
-
-	//// usa il datasource di default
-	//SqlTables tables(pConnection);
-	//
-	//m_bValid = tables.GetTables() && tables.GetStoredProcedures() && tables.GetSize() > 0;
-
-	//// Riempie la mappa del catalog
-	//int nType;
-	//for (int i = 0; i <= tables.GetUpperBound(); i++)
-	//{
-	//	SqlTablesItem* pTable = tables[i];
-	//	if (pTable->m_strType.Find(_T("BASE TABLE")) >= 0)
-	//		nType = TABLE_TYPE;
-	//	else
-	//	{
-	//		if (pTable->m_strType.Find(_T("VIEW")) >= 0)
-	//			nType = VIEW_TYPE;
-	//		else 
-	//			nType = PROC_TYPE;
-	//	}
-	//	
-	//	//i moduli dinamici non hanno m_pSqlRecordClass
-	//	const CDbObjectDescription* pXmlDescri = AfxGetDbObjectDescription(pTable->m_strName);	
-	//	AddOnModule *pModule = pXmlDescri ? AfxGetAddOnModule(pXmlDescri->GetNamespace()) : NULL;
-
-	//	SqlCatalogEntry* pCatalogEntry = new SqlCatalogEntry(pTable->m_strName, nType);
-	//	pCatalogEntry->m_pTableItem = pTable;
-	//	//in caso di modulo dinamico, imposto già adesso le informazioni: non ci sarà una successiva fase di registrazione
-	//	if (pModule && pCatalogEntry->m_strSignature.IsEmpty())
-	//	{
-	//		pCatalogEntry->SetNamespace(pXmlDescri->GetNamespace());
-	//		pCatalogEntry->m_strSignature = pModule->GetModuleSignature();
-	//	}
-	//	SetEntry
-	//		(
-	//			pTable->m_strName, 
-	//			pCatalogEntry
-	//		);
-	//}   
 
 	
 	CMapStringToOb tablesMap;
 
 	TRY
 	{
+		dStartTick = GetTickCount();	
 		pConnection->LoadTables(&tablesMap);
 		pConnection->LoadProcedures(&tablesMap);
+		dStopTick = GetTickCount();
+		dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+		TRACE1("SqlCatalog::Load LoadSchema in: %s\n\r", (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
 	}
 	CATCH(SqlException, e)
 	{
@@ -2290,7 +2282,8 @@ void SqlCatalog::Load(SqlConnection *pConnection)
 	SqlTablesItem* pTable;
 	CString strKey;
 	POSITION pos;
-
+	dStartTick = GetTickCount();
+	int nEntriesCount = 0;
 	for (pos = tablesMap.GetStartPosition(); pos != NULL;)
 	{
 		tablesMap.GetNextAssoc(pos, strKey, (CObject*&)pTable);
@@ -2324,7 +2317,11 @@ void SqlCatalog::Load(SqlConnection *pConnection)
 			pTable->m_strName,
 			pCatalogEntry
 		);
+		nEntriesCount++;
 	}
+	dStopTick = GetTickCount();
+	dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
+	TRACE2("SqlCatalog::Load map %d entries in: %s\n\r", nEntriesCount, (LPCTSTR)aTickFormatter.FormatTime(dElapsedTick));
 
 	if (!LoadColumnCollations(pConnection))
 		AfxGetDiagnostic()->Add(_TB("Cannot load columns collation information from the catalog of the connected company database. The program will work with database default collation."), CDiagnostic::Warning);

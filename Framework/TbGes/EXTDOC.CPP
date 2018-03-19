@@ -4383,7 +4383,7 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 	}
 	END_CATCH
 
-		UnlockAll();
+	UnlockAll();
 	return bOk;
 }
 
@@ -5741,8 +5741,7 @@ void CAbstractFormDoc::BatchStart()
 			dwEndTick = ::GetTickCount();
 		}
 
-		//DisconnectFromDatabase();
-
+		UnlockAll(); //su richiesta dei gestionalisti
 		m_pTbContext->Disconnect();
 
 		if (m_bBatchRunning) // nel frattempo la batch potrbbe anche essere stata stoppata....

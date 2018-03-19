@@ -579,6 +579,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			commandText = "SELECT TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM INFORMATION_SCHEMA.TABLES";
 
 		command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+		command->CommandTimeout = 0;
 		if (m_pSqlTransactionClient)
 			command->Transaction = m_pSqlTransactionClient->mSqlTransaction;
 
@@ -657,7 +658,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 	if (pSqlTables->GetCount() == 0)
 	{
 		if (oldConnState == ConnectionState::Closed)
-		Close();
+			Close();
 		return;
 	}
 
@@ -673,6 +674,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			commandText += " ORDER BY SPECIFIC_NAME, ORDINAL_POSITION";
 
 			command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+			command->CommandTimeout = 0;
 			reader = command->ExecuteReader();
 
 			dStopTick = GetTickCount();
@@ -743,6 +745,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 
 			SqlColumnInfoObject* pColumnInfo = NULL;
 			command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
+			command->CommandTimeout = 0;
 			reader = command->ExecuteReader();
 			dStopTick = GetTickCount();
 			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
@@ -797,7 +800,8 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			}
 			if (reader)
 				reader->Close();
-
+			if (command)
+				delete command;
 			//Check the primarykey columns
 			dStopTick = GetTickCount();
 			dElapsedTick = (dStopTick >= dStartTick) ? dStopTick - dStartTick : 0;
@@ -811,7 +815,7 @@ void MSqlConnection::LoadSchemaInfo(const CString& strSchemaType, ::CMapStringTo
 			
 			pColumnInfo = NULL;
 			CString strColumnName;
-			command->CommandText = commandText;
+			command = gcnew SqlCommand(commandText, m_pSqlConnectionClient->mSqlConnection);
 			command->CommandTimeout = 0;
 			reader = command->ExecuteReader();
 
@@ -2340,7 +2344,7 @@ void MSqlCommand::FixupColumns()
 //---------------------------------------------------------------------------
 void MSqlCommand::ExecuteScalar(bool bPrepared /*=false*/)
 {
-	m_lRecordCounts = 0;
+	m_lRecordCounts = -1;
 	if (!m_pSqlCommandClient)
 	{
 		ASSERT(FALSE);
@@ -2383,7 +2387,7 @@ void MSqlCommand::ExecuteScalar(bool bPrepared /*=false*/)
 //---------------------------------------------------------------------------
 int MSqlCommand::ExecuteNonQuery(bool bPrepared /*=false*/)
 {
-	m_lRecordCounts = 0;
+	m_lRecordCounts = -1;
 
 	if (!m_pSqlCommandClient)
 	{
@@ -2913,7 +2917,7 @@ BOOL SqlLockManager::UnlockAllForCurrentConnection()
 
 	//per prima tolgo la riga dalla tabella
 	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE AccountName = \'" + m_strAccountName + "\'");
+	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE AccountName = \'" + m_strAccountName + "\' AND ProcessName = \'" + m_strProcessName + "\'");
 	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(strDeleteText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
