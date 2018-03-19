@@ -3,9 +3,19 @@
 	<Documents>
 		<Document namespace="Framework.TbGes.TbGes.TbDynamicDocument" localize="Tb Dynamic Document" classhierarchy="CTbDynamicDocument" securityhidden="true" published="false">
 			<InterfaceClass>ADMObj</InterfaceClass>
-		</Document>
-		<Document namespace="Framework.TbGes.TbGes.TbDynamicBatchDocument" localize="Tb Dynamic Batch Document" classhierarchy="CTbDynamicDocument" securityhidden="true" published="false"/>
-		<Document namespace="Framework.TbGes.TbGes.TbJSONDocument" localize="Tb JSON Document" classhierarchy="CTbDynamicDocument" securityhidden="true" published="false">
+      <ViewModes>
+        <Mode name="Default" />
+        <Mode name="DefaultWeb" />
+      </ViewModes>
+    </Document>
+		<Document namespace="Framework.TbGes.TbGes.TbDynamicBatchDocument" localize="Tb Dynamic Batch Document" classhierarchy="CTbDynamicDocument" securityhidden="true" published="false">
+      <ViewModes>
+        <Mode name="Default" />
+        <Mode name="DefaultWeb" />
+      </ViewModes>
+    </Document>
+
+    <Document namespace="Framework.TbGes.TbGes.TbJSONDocument" localize="Tb JSON Document" classhierarchy="CTbDynamicDocument" securityhidden="true" published="false">
 			<InterfaceClass>ADMObj</InterfaceClass>
 		</Document>
 		<Document namespace="Framework.TbGes.TbGes.Browser" localize="For opening web browser forms" dynamic="false" securityhidden="true">

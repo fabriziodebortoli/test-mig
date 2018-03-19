@@ -42,6 +42,7 @@ TB_EXPORT extern const TCHAR szOpenReport[];
 // ViewModes
 //-----------------------------------------------------------------------------
 #define szDefaultViewMode		_T("Default")
+#define szWeb					_T("Web")
 #define szBackgroundViewMode	_T("BackGround")	// TODOBRUNA eliminare
 #define szUnattendedViewMode	_T("Unattended")
 #define szNoInterface			_T("NoInterface")

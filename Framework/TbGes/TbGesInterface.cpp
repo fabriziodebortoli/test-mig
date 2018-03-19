@@ -22,6 +22,9 @@
 #include "JsonFrame.h"
 #include "JsonForms\JsonModelGenerator\IDD_GENERATE_JSON_MODEL_FRAME.hjson"
 #include "ModuleObjects\TBFSettings\JsonForms\IDD_TBF_COMPANYUSER_SETTINGS.hjson"
+#include <TbGes\JsonForms\EmptyView\IDD_EMPTY_VIEW.hjson>
+#include <TbGes\JsonForms\TbGes\IDD_MASTER_FRAME.hjson>
+#include <TbGes\JsonForms\TbGes\IDD_BATCH_FRAME.hjson>
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -39,28 +42,29 @@ static const char THIS_FILE[] = __FILE__;
 //
 //-----------------------------------------------------------------------------
 BEGIN_ADDON_INTERFACE()
-	DATABASE_RELEASE(400)
-	//-----------------------------------------------------------------------------
-	BEGIN_TABLES()
-		BEGIN_REGISTER_TABLES	()
-			REGISTER_TABLE	(TAutoincrementEntities)	
-			REGISTER_TABLE	(TAutonumberEntities)	
-			REGISTER_TABLE	(TAutonumberEntitiesYears)	
-			REGISTER_VIRTUAL_TABLE(TSummaryDetail)
-			REGISTER_VIRTUAL_TABLE(TNodeDetail)
-		END_REGISTER_TABLES		()
-	END_TABLES()
+DATABASE_RELEASE(400)
+//-----------------------------------------------------------------------------
+BEGIN_TABLES()
+BEGIN_REGISTER_TABLES()
+REGISTER_TABLE(TAutoincrementEntities)
+REGISTER_TABLE(TAutonumberEntities)
+REGISTER_TABLE(TAutonumberEntitiesYears)
+REGISTER_VIRTUAL_TABLE(TSummaryDetail)
+REGISTER_VIRTUAL_TABLE(TNodeDetail)
+END_REGISTER_TABLES()
+END_TABLES()
 
-	//-----------------------------------------------------------------------------
-	BEGIN_TEMPLATE()
-		REGISTER_SLAVE_JSON_TEMPLATE(IDD_GENERATE_JSON_MODEL_FRAME);
-		BEGIN_DOCUMENT (_NS_DOC("TbDynamicDocument"), TPL_NO_PROTECTION)
-			REGISTER_MASTER_TEMPLATE	(szDefaultViewMode,		CDynamicFormDoc,	CMasterFrame,	CDynamicFormView)
-			REGISTER_BKGROUND_TEMPLATE	(szBackgroundViewMode, CDynamicFormDoc)
+//-----------------------------------------------------------------------------
+BEGIN_TEMPLATE()
+		BEGIN_DOCUMENT(_NS_DOC("TbDynamicDocument"), TPL_NO_PROTECTION)
+			REGISTER_MASTER_TEMPLATE(szDefaultViewMode, CDynamicFormDoc, CMasterFrame, CDynamicFormView)
+			REGISTER_BKGROUND_TEMPLATE(szBackgroundViewMode, CDynamicFormDoc)
+			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode + CString(szWeb), CDynamicFormDoc, IDD_MASTER_FRAME)
 		END_DOCUMENT ()
 		BEGIN_DOCUMENT (_NS_DOC("TbDynamicBatchDocument"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE	(szDefaultViewMode,		CDynamicBatchFormDoc,	CBatchFrame,	CDynamicFormView)
 			REGISTER_BKGROUND_TEMPLATE	(szBackgroundViewMode, CDynamicBatchFormDoc)
+			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode + CString(szWeb), CDynamicBatchFormDoc, IDD_BATCH_FRAME)
 		END_DOCUMENT ()
 		BEGIN_DOCUMENT(_NS_DOC("TbJSONDocument"), TPL_NO_PROTECTION)
 			REGISTER_BKGROUND_TEMPLATE(szNoInterface, CJSONFormDoc)
@@ -74,6 +78,8 @@ BEGIN_ADDON_INTERFACE()
 		BEGIN_DOCUMENT(_NS_DOC("TBFSettings"), TPL_ADMIN_PROTECTION)
 			REGISTER_MASTER_JSON_TEMPLATE(szDefaultViewMode, DTBFSettings, IDD_TBF_COMPANYUSER_SETTINGS)
 		END_DOCUMENT()
+
+		REGISTER_SLAVE_JSON_TEMPLATE(IDD_GENERATE_JSON_MODEL_FRAME);
 	END_TEMPLATE()
 
 	BEGIN_ITEMSOURCE()

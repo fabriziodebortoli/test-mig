@@ -34,6 +34,9 @@
 #include <TbWoormViewer\WoormFrm.h>
 #include <TbWoormViewer\WoormVw.h>
 #include <TbWoormViewer\WoormDoc.hjson> //JSON AUTOMATIC UPDATE
+#include <TbGes\JsonForms\EmptyView\IDD_EMPTY_VIEW.hjson>
+#include <TbGes\JsonForms\TbGes\IDD_MASTER_FRAME.hjson>
+#include <TbGes\JsonForms\TbGes\IDD_BATCH_FRAME.hjson>
 
 #include <TbGes\extdoc.h>
 #include <TbGes\hotlink.h>
@@ -245,17 +248,15 @@ const CSingleExtDocTemplate* CTbCommandManager::GetDocTemplate
 
 	if (pDocDescri->IsDynamic())
 	{
-		pTemplate = AfxGetBaseApp()->GetDocTemplate
-			(
-				(_tcsicmp(pszViewMode, szBackgroundViewMode)) == 0 
-					? RUNTIME_CLASS(ADMView) 
-					: RUNTIME_CLASS(CDynamicFormView), 
-				0,
-				0,
-				(pDocDescri->GetViewMode(pszViewMode) && pDocDescri->GetViewMode(pszViewMode)->GetType() == VMT_BATCH)
-					? RUNTIME_CLASS(CDynamicBatchFormDoc)
-					: RUNTIME_CLASS(CDynamicFormDoc)
-			);
+		BOOL bIsBatch = pDocDescri->GetViewMode(pszViewMode) && pDocDescri->GetViewMode(pszViewMode)->GetType() == VMT_BATCH;
+		CString sViewMode(pszViewMode);
+		if (AfxIsRemoteInterface())
+			sViewMode += szWeb;
+		if (bIsBatch)
+			pTemplate = AfxGetBaseApp()->GetDocTemplate(_T("Document.framework.tbges.tbges.TbDynamicBatchDocument"), sViewMode);
+		else
+			pTemplate = AfxGetBaseApp()->GetDocTemplate(_T("Document.framework.tbges.tbges.TbDynamicDocument"), sViewMode);
+
 	}
 	else
 	{
