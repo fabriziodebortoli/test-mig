@@ -23,7 +23,7 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
   @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
   @Input() icon:string;
-  @Input() caption:string;
+  @Input() caption:string = this._TB('Print');
 
   public viewProductInfo: string;
   private eventDataServiceSubscription;
