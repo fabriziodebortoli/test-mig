@@ -1,7 +1,7 @@
 <div class="tbcontainer">
 
     <tb-bpm-icon class="topbar-menu-layout" *ngIf="isBPMActivated"></tb-bpm-icon>
-    <tb-es-context class="topbar-menu-layout" *ngIf="!isESActivated"></tb-es-context>
+    <tb-es-context class="topbar-menu-layout" *ngIf="settingsService.IsEasyStudioActivated"></tb-es-context>
     <tb-application-date class="topbar-menu-layout"></tb-application-date>
     <tb-connection-status *ngIf="!isDesktop" class="topbar-menu-layout"></tb-connection-status>
     <tb-topbar-menu-test class="topbar-menu-layout"></tb-topbar-menu-test>
@@ -9,6 +9,6 @@
     <!-- <tb-topbar-menu-app class="topbar-menu-layout"></tb-topbar-menu-app> -->
 
     <div class="topBarMenuComponentLike">
-            <m4-icon icon="tb-refresh" matTooltip="{{_TB('Synch')}}" (click)="clearCachedData()"></m4-icon>
-        </div>
+        <m4-icon icon="tb-refresh" matTooltip="{{_TB('Synch')}}" (click)="clearCachedData()"></m4-icon>
+    </div>
 </div>

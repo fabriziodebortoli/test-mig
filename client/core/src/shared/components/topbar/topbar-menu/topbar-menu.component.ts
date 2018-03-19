@@ -19,7 +19,6 @@ import { TbComponentService } from './../../../../core/services/tbcomponent.serv
 export class TopbarMenuComponent extends TbComponent implements OnDestroy{
 
   isDesktop: boolean;
-  isESActivated: boolean;
   isBPMActivated: boolean;
   subscription: Subscription
 
@@ -35,7 +34,6 @@ export class TopbarMenuComponent extends TbComponent implements OnDestroy{
     this.enableLocalization();
 
     this.isDesktop = infoService.isDesktop;
-    this.isESActivated = settingsService.IsEasyStudioActivated;
     this.subscription= httpService.isActivated('BPM','Connector').subscribe( res => {
       this.isBPMActivated = res.result;
     });
