@@ -160,7 +160,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
       let colComponent = this.grid.columns.toArray()[columnIndex];
       let colName = colComponent.field;
-      let isEnabled = this.bodyEditService.currentRow[colName].enabled
+      let isEnabled = this.bodyEditService.currentRow[colName].enabled && this.enabled
       if (isEnabled) {
         this.lastEditedRowIndex = rowIndex;
         this.lastEditedColumnIndex = columnIndex;
