@@ -431,18 +431,18 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //-----------------------------------------------------------------------------
-        public List<TBFile> GetFiles(string sPathName, string sFileExt)
+        public List<TBFile> GetFiles(string sPathName, string sFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
 
             if (IsManagedByAlternativeDriver(sPathName))
-                return GetAlternativeDriver().GetFiles(sPathName, sFileExt);
+                return GetAlternativeDriver().GetFiles(sPathName, sFileExt, searchOption);
             else
-                return GetFileSystemDriver().GetFiles(sPathName, sFileExt);
+                return GetFileSystemDriver().GetFiles(sPathName, sFileExt, searchOption);
 
         }
 
-        //-----------------------------------------------------------------------------
-        public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
+		//-----------------------------------------------------------------------------
+		public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
         {
             pSubFolders = new List<TBDirectoryInfo>();
             pFiles = new List<TBFile>();

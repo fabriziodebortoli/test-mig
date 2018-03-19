@@ -35,7 +35,7 @@ namespace TaskBuilderNetCore.Interfaces
         int[] GetFileAttributes(string sFileName);
         bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive);
         List<TBDirectoryInfo> GetSubFolders(string sPathName);
-        List<TBFile> GetFiles(string sPathName, string sFileExt);
+        List<TBFile> GetFiles(string sPathName, string sFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly);
         bool GetPathContent(string strPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles);
         bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen);
         string GetTemporaryBinaryFile(string sFileName);

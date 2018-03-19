@@ -39,10 +39,10 @@ namespace TaskBuilderNetCore.Interfaces
         bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive);
         List<TBDirectoryInfo> GetSubFolders(string sPathName);
         bool GetPathContent(string strPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles);
-        List<TBFile> GetFiles(string sPathName, string sFileExt);
+        List<TBFile> GetFiles(string sPathName, string sFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly);
 
         bool Start();
         bool Stop();
         bool IsStarted() ;
-    }
+	}
 }

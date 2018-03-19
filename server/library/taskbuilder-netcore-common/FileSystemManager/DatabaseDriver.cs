@@ -1538,7 +1538,7 @@ namespace Microarea.Common.FileSystemManager
         }
 
         //----------------------------------------------------------------------------
-        public List<TBFile> GetFiles( string strPathName,  string strFileExt)
+        public List<TBFile> GetFiles( string strPathName,  string strFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             List<TBFile> pFiles = new List<TBFile>();
 
@@ -1638,5 +1638,5 @@ namespace Microarea.Common.FileSystemManager
         {
             return started;
         }
-    }
+	}
 }
