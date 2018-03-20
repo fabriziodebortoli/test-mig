@@ -6,6 +6,7 @@ class RecordArray;
 class DBTJsonCache
 {
 	int m_nStart = 0;
+	int m_nStartSerialized = -1;//per controllare se devo serializzare m_nStart
 	int m_nCount = 0; 
 	DBTSlaveBuffered* m_pDBT;
 
@@ -22,6 +23,7 @@ public:
 	void GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	bool SetJson(CJsonParser& jsonParser);
 	void SetJsonLimits(int nRowFrom, int nCount, int currentRow);
+	void ResetJsonLimits();
 	void ResetJsonData();
 };
 

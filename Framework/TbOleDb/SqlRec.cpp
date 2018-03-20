@@ -2464,7 +2464,7 @@ void SqlRecord::GetJsonPatch(CJsonSerializer& jsonSerializer, SqlRecord* pOld, B
 			if (pData->HasChangedForJson(pOldData))
 			{
 				jsonSerializer.OpenObject(pItem->GetBindingName());
-				pData->SerializeToJson(jsonSerializer, true);
+				pData->SerializeToJson(jsonSerializer, true, pOldData);
 				jsonSerializer.CloseObject();
 			}
 		}

@@ -24,7 +24,7 @@ export class BodyEditService {
 
   public rowViewVisible: boolean = false;
 
-  public pageSize: number = 15;
+  public pageSize: number = 2;
   public rowHeight: number = 22;
   private minimumRowHeight: number = 22;
   private rowHeightStep: number = 10;
@@ -55,7 +55,7 @@ export class BodyEditService {
     this.rows = model.rows;
     this.prototype = model.prototype;
     this.rowCount = model ? model.rowCount : 0;
-
+    this.skip = model ? model.start : 0;
     this.currentDbtRowIdx = model.currentRowIdx;
     this.currentGridIdx = model.currentRowIdx - this.skip;
     if (model.rows && this.currentGridIdx >= 0 && this.currentGridIdx <= model.rows.length)

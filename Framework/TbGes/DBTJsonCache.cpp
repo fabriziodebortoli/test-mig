@@ -20,7 +20,12 @@ DBTJsonCache::~DBTJsonCache()
 	delete m_pClientRecords;
 }
 
-
+//----------------------------------------------------------------------------
+void DBTJsonCache::ResetJsonLimits()
+{
+	m_nStart = 0;
+	m_nCurrentRow = -1;
+}
 //----------------------------------------------------------------------------
 void DBTJsonCache::ResetJsonData()
 {
@@ -49,11 +54,15 @@ void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 		m_nCurrentRow = m_pDBT->GetCurrentRowIdx();
 		jsonSerializer.WriteInt(_T("currentRowIdx"), m_nCurrentRow);
 	}
-	BOOL rowChanged = FALSE;
 	if (!bPatch || m_pDBT->GetRowCount() != m_nRowCount)
 	{
 		m_nRowCount = m_pDBT->GetRowCount();
 		jsonSerializer.WriteInt(_T("rowCount"), m_nRowCount);
+	}
+	if (!bPatch || m_nStartSerialized != m_nStart)
+	{
+		m_nStartSerialized = m_nStart; 
+		jsonSerializer.WriteInt(_T("start"), m_nStart);
 	}
 
 	jsonSerializer.OpenObject(_T("prototype"));
@@ -63,29 +72,34 @@ void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 		m_pDBT->GetRecord()->GetJson(jsonSerializer, bOnlyWebBound);
 
 	jsonSerializer.CloseObject(TRUE);
-	jsonSerializer.OpenArray(_T("rows"));
+	jsonSerializer.OpenArray(_T("rows")); 
 	int i = 0;
 	for (int j = m_nStart; j < m_nStart + m_nCount; j++)
 	{
 		if (j >= m_pDBT->m_pRecords->GetCount())
 		{
+			m_pClientRecords->SetSize(i); 
 			break;
 		}
 		jsonSerializer.OpenObject(i);
 		SqlRecord* pCurrent = m_pDBT->m_pRecords->GetAt(j);
-		SqlRecord* pOld = NULL;
-		//se non c'è, lo aggiungo
-		if (j >= m_pClientRecords->GetSize())
-		{
-			pOld = pCurrent->Create();
-			m_pClientRecords->Add(pOld);
-		}
-		else
-		{
-			pOld = m_pClientRecords->GetAt(j);
-		}
 		if (bPatch)
+		{
+			SqlRecord* pOld = NULL;
+			//se non c'è, lo aggiungo
+			if (i >= m_pClientRecords->GetSize())
+			{
+				pOld = pCurrent->Create();
+				m_pClientRecords->Add(pOld);
+			}
+			else
+			{
+				pOld = m_pClientRecords->GetAt(i);
+			}
+
 			pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
+			*pOld = *pCurrent;
+		}
 		else
 			pCurrent->GetJson(jsonSerializer, bOnlyWebBound);
 

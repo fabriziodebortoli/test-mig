@@ -3324,7 +3324,8 @@ BOOL DBTSlaveBuffered::FindData(BOOL bPrepareOld)
 	}
 
 	OnFindData();
-
+	if (m_pJsonCache)
+		m_pJsonCache->ResetJsonLimits();
 	return bOk;
 }
 

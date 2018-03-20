@@ -1437,17 +1437,23 @@ void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch)
 		jsonSerializer.WriteInt(szType, GetDataType().m_wType);
 		jsonSerializer.WriteInt(szLength, GetColumnLen());
 	}
-
+	if (!m_pPreviousVal)
+		m_pPreviousVal = Clone();
 	SerializeToJson(jsonSerializer, patch, m_pPreviousVal);
-	AlignPreviousVal();
 }
 //-----------------------------------------------------------------------------
 void DataObj::SerializeToJson(CJsonSerializer& jsonSerializer, bool patch, DataObj* pPreviousVal)
 {
-	if (!patch || !m_pPreviousVal || m_pPreviousVal->m_wDataStatus != m_wDataStatus)
+	if (!patch || !pPreviousVal || pPreviousVal->m_wDataStatus != m_wDataStatus)
 		jsonSerializer.WriteInt(szStatus, m_wDataStatus);
-	if (!patch || !m_pPreviousVal || !m_pPreviousVal->IsEqual(*this))
+	if (!patch || !pPreviousVal || !pPreviousVal->IsEqual(*this))
 		SerializeJsonValue(jsonSerializer);
+
+	if (pPreviousVal)
+	{
+		pPreviousVal->Assign(*this);
+		pPreviousVal->m_wDataStatus = m_wDataStatus;
+	}
 }
 
 //-----------------------------------------------------------------------------
