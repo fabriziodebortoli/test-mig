@@ -1738,6 +1738,21 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(cmpId))
                 htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
 
+            htmlWriter.Write(" tbControl");
+
+            string anchor = jObj.GetFlatString(Constants.anchor);
+            if (!string.IsNullOrEmpty(anchor) && anchor.IndexOf("COL",StringComparison.InvariantCultureIgnoreCase) < 0)
+                htmlWriter.WriteAttribute("[staticArea]", "false");
+
+            string marginLeft = jObj.GetFlatString(Constants.marginLeft);
+            if (!string.IsNullOrEmpty(marginLeft))
+                htmlWriter.WriteAttribute("marginLeft", marginLeft);
+
+            string textAlign = jObj.GetTextAlign();
+            if (!string.IsNullOrEmpty(textAlign)) {
+                htmlWriter.WriteAttribute("textAlign", textAlign);
+            }
+
             foreach (var arg in wc.Args)
             {
                 if (string.IsNullOrEmpty(arg.Value))

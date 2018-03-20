@@ -103,4 +103,11 @@
         Hbox = 3,
         Vbox = 4
     }
+
+    public enum TextAlign
+    {
+        Left = 0,
+        Center = 1,
+        Right = 2
+    }
 }

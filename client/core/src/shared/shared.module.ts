@@ -339,6 +339,7 @@ import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 import { ColoredControlDirective } from './directives/colored-control.directive';
 import { NoStaticAreaDirective } from './directives/no-static-area.directive';
+import { TbControlDirective } from './directives/tb-control.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
@@ -348,12 +349,13 @@ export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 export { ColoredControlDirective } from './directives/colored-control.directive';
 export { NoStaticAreaDirective } from './directives/no-static-area.directive';
+export { TbControlDirective } from './directives/tb-control.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
     TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
-    TbHotLinkDirective, OutSideEventHandlerDirective, ColoredControlDirective, NoStaticAreaDirective
+    TbHotLinkDirective, OutSideEventHandlerDirective, ColoredControlDirective, NoStaticAreaDirective, TbControlDirective
 ];
 
 import { TbColorPipe } from './pipes/tbColor.pipe';

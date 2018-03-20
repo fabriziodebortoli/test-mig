@@ -95,6 +95,30 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------
+        internal static string GetTextAlign(this JToken jObj)
+        {
+            JToken t = jObj[Constants.textAlign];
+            if (t == null)
+                return null;
+
+            TextAlign align = TextAlign.Left;
+            Enum.TryParse<TextAlign>(t.Value<string>(), out align);
+
+            switch (align)
+            {
+                case TextAlign.Left:
+                    return null;
+                case TextAlign.Center:
+                    return "center";
+                case TextAlign.Right:
+                    return "right";
+                default:
+                    return null;
+            }
+                       
+        }
+
+        //-----------------------------------------------------------------------------
         internal static TileDialogStyle GetDialogStyle(this JToken jObj)
         {
             JToken t = jObj[Constants.tileStyle];

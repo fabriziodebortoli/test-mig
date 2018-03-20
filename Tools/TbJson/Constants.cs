@@ -151,6 +151,8 @@
         internal const string COL2 = "COL2";
         internal const string sClass = "class";
         internal const string div = "div";
+        internal const string marginLeft = "marginLeft";
+        internal const string textAlign = "textAlign";        
 
         internal const string propagateSelectionChange = "propagateSelectionChange";
         internal const string tbToolbarTopDropdown = "tb-toolbar-top-button-dropdown";
