@@ -406,14 +406,24 @@ namespace Microarea.RSWeb {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to WHERE clause already defined.
+        /// </summary>
+        public static string WhereExist {
+            get {
+                return ResourceManager.GetString("WhereExist", resourceCulture);
+            }
+        }
+        /// <summary>
         ///    Looks up a localized string similar to HAVING clause already defined.
         /// </summary>
-        public static string HavingExist {
-            get {
+        public static string HavingExist
+        {
+            get
+            {
                 return ResourceManager.GetString("HavingExist", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///    Looks up a localized string similar to Error running report.
         /// </summary>

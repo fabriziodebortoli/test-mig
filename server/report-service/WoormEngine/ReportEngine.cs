@@ -131,10 +131,11 @@ namespace Microarea.RSWeb.WoormEngine
 		private Diagnostic	diagnostic = new Diagnostic("RuleEngine");
 
 		private List<RuleObj> sortedRules = new List<RuleObj>();	// L'esecuzione si basa su queste
-		private List<RuleObj> unsortedRules = new List<RuleObj>();	// Costruito durante il parsing
+		private List<RuleObj> unsortedRules = new List<RuleObj>();  // Costruito durante il parsing
 
-	
-		private int		startPos = 0;
+        protected Expression whereExp = null;
+
+        private int		startPos = 0;
 		private int		stopPos = 0;
 		private int		lastElementPos = -1;
 		private int		lastSubTreePos = 0;
@@ -511,7 +512,21 @@ namespace Microarea.RSWeb.WoormEngine
 			// cioè in cascata tutte le azioni successive alla fecth eseguita dalle rule
 			if (fromRule > stopPos)
 			{
-				if (!ProcessTuple())
+                bool skipTuple = false;
+                if (whereExp != null && !whereExp.IsEmpty)
+                {
+                    Value v = whereExp.Eval();
+                    if (whereExp.Error || !v.Valid)
+                    {
+                        SetError(whereExp.Diagnostic);
+                        return RuleReturn.Abort;
+                    }
+                    skipTuple = ! (bool) v.Data;
+                }
+                if (skipTuple)
+                    return RuleReturn.Success;
+
+                if (!ProcessTuple())
 				{
 					SetError(WoormEngineStrings.BadCopyData);
 					return RuleReturn.Abort;
@@ -551,7 +566,9 @@ namespace Microarea.RSWeb.WoormEngine
 
 		private int			itemStart;
 		private bool		firstTuple;
-		private GroupBy		groupByExp = null;
+
+        //private Expression  whereExp = null;
+        private GroupBy		groupByExp = null;
 		private Expression	havingExp = null;
 
 		private RdeWriter		outChannel = null;
@@ -663,7 +680,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (havingExp != null && !havingExp.IsEmpty)
 			{
 				Value v = havingExp.Eval();
-				if (havingExp.Error)
+				if (havingExp.Error || !v.Valid)
 					return SetError(havingExp.Diagnostic);
 
 				skipTuple = !((bool)v.Data);
@@ -891,35 +908,53 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//---------------------------------------------------------------------------
-		private bool ParseHaving(Parser lex)
+		private bool ParseWhere(Parser lex)
 		{
-			if (havingExp != null)
+			if (whereExp != null)
 			{
-				lex.SetError(WoormEngineStrings.HavingExist);
+				lex.SetError(WoormEngineStrings.WhereExist);
 				return false;
 			}
 			    
-			havingExp = new Expression(Session, RepSymTable.Fields);
+			whereExp = new Expression(Session, RepSymTable.Fields);
 			
-			if (!(havingExp.Compile(lex, CheckResultType.Match, "Boolean")))
+			if (!(whereExp.Compile(lex, CheckResultType.Match, "Boolean")))
 				return false;
 
 			return lex.ParseSep();
 		}
 
+        //---------------------------------------------------------------------------
+        private bool ParseHaving(Parser lex)
+        {
+            if (havingExp != null)
+            {
+                lex.SetError(WoormEngineStrings.HavingExist);
+                return false;
+            }
 
-		//---------------------------------------------------------------------------
-		public bool ParseRules(Parser lex)
+            havingExp = new Expression(Session, RepSymTable.Fields);
+
+            if (!(havingExp.Compile(lex, CheckResultType.Match, "Boolean")))
+                return false;
+
+            return lex.ParseSep();
+        }
+
+        //---------------------------------------------------------------------------
+        public bool ParseRules(Parser lex)
 		{
-			if	(
-				!ParseQueryRule(lex)                                ||
-				(lex.Matched(Token.GROUP) && !ParseGroupBy(lex))     ||
-				(lex.Matched(Token.HAVING) && !ParseHaving(lex))		||
-				lex.Error
-				)
+			if	(!ParseQueryRule(lex) || lex.Error)
 				return false;
 
-			return BuildTree(lex, groupByExp);
+            if ((lex.Matched(Token.WHERE) && !ParseWhere(lex)) || lex.Error)
+                return false;
+            if ((lex.Matched(Token.GROUP) && !ParseGroupBy(lex)) || lex.Error)
+                return false;
+            if ((lex.Matched(Token.HAVING) && !ParseHaving(lex)) || lex.Error)
+                return false;
+
+            return BuildTree(lex, groupByExp);
 		}
 
 		//---------------------------------------------------------------------------
@@ -941,10 +976,16 @@ namespace Microarea.RSWeb.WoormEngine
 				unparser.WriteLine();
 			}
 
-			if (groupByExp != null)
-				groupByExp.Unparse(unparser);
+            //TUPLES: [WHERE ...] [GROUP BY ...] [HAVING ...]
+            if (whereExp != null && !whereExp.IsEmpty)
+            {
+                unparser.WriteTag(Token.WHERE, false);
+                unparser.WriteExpr(whereExp.ToString(), false);
+                unparser.WriteSep(true);
+            }
 
-			unparser.IncTab();
+            if (groupByExp != null)
+				groupByExp.Unparse(unparser);
 
 			if (havingExp != null && !havingExp.IsEmpty) 
 			{
@@ -952,7 +993,6 @@ namespace Microarea.RSWeb.WoormEngine
 				unparser.WriteExpr(havingExp.ToString(), false);
 				unparser.WriteSep(true);
 			}
-			unparser.DecTab();
 
 			return true;
 		}

@@ -381,4 +381,7 @@
   <data name="DatatableRuleJoinOn" xml:space="preserve">
     <value>Invalid JOIN expression for a table rule</value>
   </data>
+  <data name="WhereExist" xml:space="preserve">
+    <value>WHERE clause already defined</value>
+  </data>
 </root>
