@@ -155,13 +155,9 @@
 #define XML_CAPTION_TAG					_T("Caption") 
 #define XML_CAPTION_FIELD_TAG			_T("Field")
 #define XML_CAPTION_VALUE_ATTRIBUTE		_T("value")
-#define XML_PARTS_TAG					_T("Parts") 
-#define XML_PART_TAG					_T("Part") 
+#define XML_FRAME_ID_ATTRIBUTE			_T("frameID")
 #define XML_MANAGED_TYPE_ATTRIBUTE		_T("managedType")
-#define XML_MANAGED_UI_TYPE_ATTRIBUTE	_T("managedUIType")
-#define XML_MANAGED_LOADING_ATTRIBUTE	_T("loadingMode")
-#define XML_MANAGED_UILOADING_ATTRIBUTE	_T("uiLoadingMode")
-#define XML_MANAGED_MANUAL_VALUE		_T("manual")
+
 #define XML_ISO_SEPARATOR				_T(",")
 
 
@@ -186,7 +182,7 @@
 #define	XML_TRANSFERDISABLED_ATTRIBUTE	_T("transferdisabled")
 #define XML_EXCLUDEFROMEXTREF_ATTRIBUTE	_T("excludeFromExtRef")
 #define	XML_RUNNABLEALONE_ATTRIBUTE		_T("runnableAlone")
-#define	XML_MANAGEDTYPE_ATTRIBUTE		_T("managedType")
+
 #define	XML_DESIGNABLE_ATTRIBUTE		_T("designable")
 
 // ClientDocumentObjects

@@ -295,11 +295,6 @@ public:
 	/// <summary>
 	/// Internal Use
 	/// </summary>
-	static System::String^ GetViewManagedTypeName(int documentHandle, INameSpace^ documentPartNamespace);
-
-	/// <summary>
-	/// Internal Use
-	/// </summary>
 	static bool RunDocument(System::String^ command, System::String^ arguments);
 
 	/// <summary>

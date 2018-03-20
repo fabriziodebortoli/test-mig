@@ -168,8 +168,7 @@ CViewModeDescription::CViewModeDescription()
 	CBaseDescription(CTBNamespace::FORM),
 	m_Type(VMT_DATAENTRY),
 	m_bSchedulable(TRUE),
-	m_bNoWeb(FALSE),
-	m_loadingMode(CDocumentPartDescription::Automatic)
+	m_bNoWeb(FALSE)
 {
 }
 
@@ -192,15 +191,9 @@ void CViewModeDescription::SetNoWeb(const BOOL bNoWeb)
 }
 
 //----------------------------------------------------------------------------------------------
-void CViewModeDescription::SetLoadingMode(CDocumentPartDescription::LoadingMode loadingMode)
+void CViewModeDescription::SetFrameID(CString sFrameID)
 {
-	m_loadingMode = loadingMode;
-}
-
-//----------------------------------------------------------------------------------------------
-void CViewModeDescription::SetManagedType(CString sManagedType)
-{
-	m_sManagedType = sManagedType;
+	m_sFrameID = sFrameID;
 }
 
 //----------------------------------------------------------------------------------------------
@@ -218,6 +211,7 @@ void CViewModeDescription::Assign(const CViewModeDescription& vd)
 
 	m_Type = vd.m_Type;
 	m_bSchedulable = vd.m_bSchedulable;
+	m_sFrameID = vd.m_sFrameID;
 }
 
 //=============================================================================        

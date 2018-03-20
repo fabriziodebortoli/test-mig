@@ -40,11 +40,6 @@ private:
 								CViewModeDescription*	pDescri, 
 								const CTBNamespace&		nsParent
 							);
-	BOOL ParseDocumentPart		(
-									CXMLNode*					pNode, 
-									CDocumentPartDescription*	pDescri, 
-									const CTBNamespace&			nsParent
-								);
 };
 
 // lettura del file ClientDocumentObjects.xml

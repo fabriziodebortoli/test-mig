@@ -4,6 +4,7 @@
 #include <TbGes\Extdoc.h>
 #include <TbGes\InterfaceMacros.h>
 #include <TbGenlib\TBCommandInterface.h>
+#include <TbGenlib\BaseApp.h>
 
 #include "CDEasyBuilder.h"
 #include "NewDocument.h"
@@ -19,12 +20,13 @@ using namespace System;
 using namespace Microarea::EasyBuilder::Packager;
 using namespace Microarea::TaskBuilderNet::Core::EasyBuilder;
 
+static const TCHAR szDynamicDocNs[] = _T("Document.framework.tbges.tbges.TbDynamicDocument");
+static const TCHAR szDynamicBatchDocNs[] = _T("Document.framework.tbges.tbges.TbDynamicBatchDocument");
+
 ////////////////////////////////////////////////////////////////////////////
 //				Metodo statico che fa da ponte tra c# e c++ per l'aggiunta
 //				di file di customizzazione alla customList
 /////////////////////////////////////////////////////////////////////////////
-
-
 void __stdcall OnEventDispatch(const CString& path)
 {
 	BaseCustomizationContext::CustomizationContextInstance->AddToCurrentCustomizationList(gcnew String(path), true, false, String::Empty, String::Empty);
@@ -33,6 +35,54 @@ void __stdcall OnEventDispatch(const CString& path)
 ////////////////////////////////////////////////////////////////////////////
 //				INIZIO definizione della interfaccia di Add-On
 /////////////////////////////////////////////////////////////////////////////
+BOOL RegisterDynamicDocuments()
+{
+	const CSingleExtDocTemplate* pDataEntryTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicDocNs, szDefaultViewMode);
+	const CSingleExtDocTemplate* pBatchTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicBatchDocNs, szDefaultViewMode);
+
+	AddOnApplication* pAddOnApp;
+	for (int nApp = 0; nApp <= AfxGetAddOnAppsTable()->GetUpperBound(); nApp++)
+	{
+		pAddOnApp = AfxGetAddOnAppsTable()->GetAt(nApp);
+		ASSERT(pAddOnApp);
+
+		if (!pAddOnApp->IsACustomization())
+			continue;
+
+		for (int nMod = 0; nMod <= pAddOnApp->m_pAddOnModules->GetUpperBound(); nMod++)
+		{
+			AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(nMod);
+			ASSERT(pAddOnMod);
+
+			CBaseDescriptionArray* pDocumentsInfo = AfxGetDocumentDescriptionsOf(pAddOnMod->m_Namespace);
+			for (int d = 0; d < pDocumentsInfo->GetSize(); d++)
+			{
+				CDocumentDescription* pDocDescri = dynamic_cast<CDocumentDescription*>(pDocumentsInfo->GetAt(d));
+				if (!pDocDescri->IsDynamic())
+					continue;
+
+				CViewModeDescription*  pViewMode = pDocDescri->GetViewMode(szDefaultViewMode);
+				if (pViewMode && !pViewMode->GetFrameID().IsEmpty())
+				{
+					const CSingleExtDocTemplate* pSourceTemplate = (pViewMode->GetType() == ViewModeType::VMT_BATCH) ? pBatchTemplate : pDataEntryTemplate;
+
+					CSingleExtDocTemplate* pDestTemplate = new CSingleExtDocTemplate(pSourceTemplate, pSourceTemplate->m_pDocInvocationParams);
+					pDestTemplate->m_sViewMode += szWeb;
+					pDestTemplate->SetNamespace(pDocDescri->GetNamespace());
+
+					UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources);
+					pDestTemplate->SetIDResource(nID);
+
+					AfxGetBaseApp()->AddDocTemplate(pDestTemplate);
+				}
+			}
+		}
+	}
+
+	return TRUE;
+}
+
+//-----------------------------------------------------------------------------
 BOOL DsnChanged(FunctionDataInterface* pRDI)
 {
 	//Se è attivo EasyBuilder Designer allora l'aggiunta di un nuovo report deve
@@ -52,6 +102,7 @@ BOOL DsnChanged(FunctionDataInterface* pRDI)
 	if (AfxIsActivated(TBEXT_APP, EASYSTUDIO_DESIGNER_ACT))
 		AfxAttachCustomizationContextPointer(static_cast<ATTACHEVENT_FUNC>(&OnEventDispatch));
 
+	//RegisterDynamicDocuments();
 	return TRUE;
 }
 
@@ -68,7 +119,6 @@ BOOL ApplicationStarted(FunctionDataInterface* pRDI)
 	return TRUE;
 }
 
-
 //-----------------------------------------------------------------------------
 BEGIN_ADDON_INTERFACE()
 
@@ -84,6 +134,7 @@ BEGIN_ADDON_INTERFACE()
 		BEGIN_DOCUMENT(_NS_DOC("NewBatchDocument"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE(szDefaultViewMode, CNewBatchDocument, CBatchFrame, CDynamicFormView)
 		END_DOCUMENT()
+
 	END_TEMPLATE()
 
 	BEGIN_FUNCTIONS()

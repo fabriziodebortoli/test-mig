@@ -783,35 +783,6 @@ MWorker^ CUtility::GetCurrentWorker()
 {
 	return gcnew MWorker(AfxGetWorkersTable()->GetWorker(AfxGetWorkerId()));
 }
-
-//------------------------------------------------------------------------------------
-System::String^ CUtility::GetViewManagedTypeName(int documentHandle, INameSpace^ documentPartNamespace)
-{
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)(int)documentHandle;
-
-	if (!pDoc)
-		return nullptr;
-
-	const CDocumentDescription* pDocumentDescription = pDoc->GetXmlDescription();
-
-	if (!pDocumentDescription)
-		return nullptr;
-
-	CTBNamespace aNs((CString)documentPartNamespace->FullNameSpace);
-
-	CDocumentPartDescription* pPartDescription =
-		(CDocumentPartDescription*)pDocumentDescription->GetDocumentParts().GetInfo(aNs);
-
-	if (!pPartDescription)
-		return nullptr;
-
-	CViewModeDescription* firstViewMode = pPartDescription->GetFirstViewMode();
-
-	if (!firstViewMode)
-		return System::String::Empty;
-
-	return gcnew String(firstViewMode->GetManagedType());
-}
 		
 //-----------------------------------------------------------------------------
 bool CUtility::RunDocument(System::String^ command, System::String^ arguments)

@@ -97,7 +97,7 @@ public:
 	
 	const CTBNamespace&	GetNamespace()							{ return GetInfoOSL()->m_Namespace; }
 	void			SetNamespace	(const CTBNamespace& ns)	{ GetInfoOSL()->m_Namespace = ns; }
-
+	void			SetIDResource	(UINT nID)					{ m_nIDResource = nID; }
 	void			LoadMenuStrings () { AfxLoadMenuStrings (CMenu::FromHandle (m_hMenuInPlace), m_nIDResource); }
 
 private:

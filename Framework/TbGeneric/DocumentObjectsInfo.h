@@ -69,8 +69,7 @@ private:
 	ViewModeType	m_Type;
 	BOOL			m_bSchedulable;
 	BOOL			m_bNoWeb;
-	CString			m_sManagedType;
-	CDocumentPartDescription::LoadingMode m_loadingMode;
+	CString			m_sFrameID;
 public:
 	CViewModeDescription ();
 
@@ -79,14 +78,13 @@ public:
 	ViewModeType	GetType			() const { return m_Type; }
 	BOOL			GetSchedulable	() const { return m_bSchedulable; }
 	BOOL			GetNoWeb		() const { return m_bNoWeb; }
-	CString			GetManagedType	() const { return m_sManagedType; }
-	CDocumentPartDescription::LoadingMode	GetLoadingMode		() const { return m_loadingMode; };
+	CString			GetFrameID		() const { return m_sFrameID; }
+
 	// metodi di settaggio
 	void	SetType				(const ViewModeType aType);
 	void	SetSchedulable		(const BOOL& bSchedulable);
 	void	SetNoWeb			(const BOOL bNoWeb);
-	void	SetLoadingMode		(CDocumentPartDescription::LoadingMode loadingMode);
-	void	SetManagedType		(CString sManagedType);
+	void	SetFrameID			(CString sFrameID);
 
 	virtual CViewModeDescription*	Clone	();
 	void	Assign				(const CViewModeDescription& vd);

@@ -179,37 +179,10 @@ BOOL CXMLDocumentObjectsParser::ParseDocument(CXMLNode* pNode, CDocumentDescript
 	//documenti dinamici di easy builder
 	if (pNode->GetAttribute(XML_DOC_TEMPLATE_ATTRIBUTE, sValue))
 		pDescri->SetTemplateNamespace(new CTBNamespace(sValue));
-
-	if (pNode->GetAttribute(XML_MANAGEDTYPE_ATTRIBUTE, sValue))
-		pDescri->m_sManagedType = sValue;
 	
 	//documenti non editabili in design
 	if (pNode->GetAttribute(XML_DESIGNABLE_ATTRIBUTE, sValue))
 		pDescri->m_bDesignable = GetBoolFromXML(sValue);
-
-	// <Parts>
-	CXMLNode* pPartsNode = pNode->GetChildByName(XML_PARTS_TAG);
-
-	CString sNodeName;
-	if (pPartsNode && pPartsNode->GetChilds())
-	{
-		CDocumentPartDescription* pPartDescription;
-		CXMLNode* pPartNode;
-		for (int i=0; i <= pPartsNode->GetChilds()->GetUpperBound(); i++)
-		{
-			pPartNode = pPartsNode->GetChilds()->GetAt(i);
-
-			if (!pPartNode || !pPartNode->GetName(sNodeName) || sNodeName != XML_PART_TAG)
-				continue;
-
-			pPartDescription = new CDocumentPartDescription();
-
-			if (ParseDocumentPart(pPartNode, pPartDescription, pDocDescri->GetNamespace()))
-				pDocDescri->m_DocumentParts.Add(pPartDescription);
-			else
-				delete pPartDescription;
-		}
-	}
 
 	// <ViewModes>
 	CXMLNode* pViewsNode = pNode->GetChildByName(XML_VIEWMODES_TAG);
@@ -217,6 +190,7 @@ BOOL CXMLDocumentObjectsParser::ParseDocument(CXMLNode* pNode, CDocumentDescript
 	if (!pViewsNode || !pViewsNode->GetChilds())
 		return TRUE;
 
+	CString sNodeName;
 	CXMLNode* pViewNode;
 	CViewModeDescription* pNewDescription;
 	for (int i=0; i <= pViewsNode->GetChilds()->GetUpperBound(); i++)
@@ -280,17 +254,8 @@ BOOL CXMLDocumentObjectsParser::ParseViewMode (CXMLNode* pNode, CViewModeDescrip
 	else
 		pDescri->SetType(VMT_DATAENTRY);
 
-	if (pNode->GetAttribute(XML_MANAGEDTYPE_ATTRIBUTE, sValue))
-	{
-		pDescri->m_sManagedType = sValue;
-
-		pNode->GetAttribute(XML_MANAGED_UILOADING_ATTRIBUTE, sValue);
-	
-		if (_tcsicmp(sValue, XML_MANAGED_MANUAL_VALUE) == 0)
-			pDescri->SetLoadingMode(CDocumentPartDescription::Manual);
-		else
-			pDescri->SetLoadingMode(CDocumentPartDescription::Automatic);
-	}
+	if (pNode->GetAttribute(XML_FRAME_ID_ATTRIBUTE, sValue))
+		pDescri->SetFrameID(sValue);
 
 	pNode->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sValue);
 	pDescri->SetSchedulable (sValue.IsEmpty () || _tcsicmp(sValue, XML_TRUE_VALUE) == 0);
@@ -300,73 +265,6 @@ BOOL CXMLDocumentObjectsParser::ParseViewMode (CXMLNode* pNode, CViewModeDescrip
 
 	return TRUE;
 }
-
-//----------------------------------------------------------------------------------------------
-BOOL CXMLDocumentObjectsParser::ParseDocumentPart (CXMLNode* pNode, CDocumentPartDescription* pDescri, const CTBNamespace& aParent)
-{
-	CString sValue;
-	pNode->GetAttribute(XML_NAME_ATTRIBUTE, sValue);
-	if (sValue.IsEmpty())
-		pNode->GetAttribute(XML_NAMESPACE_ATTRIBUTE, sValue);
-	
-	CTBNamespace aObjectNs;
-	aObjectNs.AutoCompleteNamespace(CTBNamespace::DOCUMENT, sValue, aParent);
-	pDescri->SetNamespace(aObjectNs);
-
-	// country checking
-	pNode->GetAttribute(XML_ALLOWISO_ATTRIBUTE, sValue);
-	if (!sValue.IsEmpty() && !CXmlAttributeValidator::IsValidCountry (sValue, TRUE))
-		return FALSE;
-
-	pNode->GetAttribute(XML_DENYISO_ATTRIBUTE, sValue);
-	if (!sValue.IsEmpty() && !CXmlAttributeValidator::IsValidCountry (sValue, FALSE))
-		return FALSE;
-
-	pNode->GetAttribute(XML_ACTIVATION_ATTRIBUTE, sValue);
-	if (!sValue.IsEmpty() && !CXmlAttributeValidator::IsValidActivation (sValue))
-		return FALSE;
-
-	// se esiste come attributo localize
-	pNode->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sValue);
-	pDescri->SetNotLocalizedTitle(sValue);
-
-	pNode->GetAttribute(XML_MANAGED_TYPE_ATTRIBUTE, sValue);
-	pDescri->SetClass(sValue);
-
-	pNode->GetAttribute(XML_MANAGED_LOADING_ATTRIBUTE, sValue);
-	
-	if (_tcsicmp(sValue, XML_MANAGED_MANUAL_VALUE) == 0)
-		pDescri->SetLoadingMode(CDocumentPartDescription::Manual);
-	else
-		pDescri->SetLoadingMode(CDocumentPartDescription::Automatic);
-
-	// <ViewModes>
-	CXMLNode* pViewsNode = pNode->GetChildByName(XML_VIEWMODES_TAG);
-
-	if (!pViewsNode || !pViewsNode->GetChilds())
-		return TRUE;
-
-	CXMLNode* pViewNode;
-	CViewModeDescription* pNewDescription;
-	CString sNodeName;
-	for (int i=0; i <= pViewsNode->GetChilds()->GetUpperBound(); i++)
-	{
-		pViewNode = pViewsNode->GetChilds()->GetAt(i);
-
-		if (!pViewNode || !pViewNode->GetName(sNodeName) || sNodeName != XML_MODE_TAG)
-			continue;
-
-		pNewDescription = new CViewModeDescription();
-
-		if (ParseViewMode(pViewNode, pNewDescription, aObjectNs.ToString()))
-			pDescri->AddViewMode(pNewDescription);
-		else
-			delete pNewDescription;
-	}
-
-	return TRUE;
-}
-
 
 //----------------------------------------------------------------------------------------------
 //							CXMLClientDocumentObjectsContent
@@ -540,7 +438,6 @@ int CXMLClientDocumentObjectsContent::ParseClientDocument(const CString& sUri, c
 			m_pCurrentClientDocDescri->m_MsgRouting = CClientDocDescription::CD_MSG_AFTER;
 		else //if (sRoutingMode.CompareNoCase(_T("Before")) == 0)
 			m_pCurrentClientDocDescri->m_MsgRouting = CClientDocDescription::CD_MSG_BEFORE;
-	m_pCurrentClientDocDescri->m_sManagedDocType = arAttributes.GetAttributeByName (XML_MANAGEDTYPE_ATTRIBUTE);
 
 	m_pCurrentServerDescri->AddClientDoc(m_pCurrentClientDocDescri);
 
@@ -551,7 +448,6 @@ int CXMLClientDocumentObjectsContent::ParseClientDocument(const CString& sUri, c
 int CXMLClientDocumentObjectsContent::ParseClientDocumentViewMode(const CString& sUri, const CXMLSaxContentAttributes& arAttributes)
 {
 	CString sName			= arAttributes.GetAttributeByName (XML_NAME_ATTRIBUTE);
-	CString sManagedType	= arAttributes.GetAttributeByName (XML_MANAGEDTYPE_ATTRIBUTE);
 
 	if (sName.IsEmpty ())
 	{
@@ -561,7 +457,6 @@ int CXMLClientDocumentObjectsContent::ParseClientDocumentViewMode(const CString&
 
 	CViewModeDescription* pDescri = new CViewModeDescription();
 	pDescri->SetName			(sName);
-	pDescri->SetManagedType		(sManagedType);
 
 	m_pCurrentClientDocDescri->AddViewModeDescription(pDescri);
 
