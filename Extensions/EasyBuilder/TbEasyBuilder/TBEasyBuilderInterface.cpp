@@ -37,8 +37,10 @@ void __stdcall OnEventDispatch(const CString& path)
 /////////////////////////////////////////////////////////////////////////////
 BOOL RegisterDynamicDocuments()
 {
-	const CSingleExtDocTemplate* pDataEntryTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicDocNs, szDefaultViewMode);
-	const CSingleExtDocTemplate* pBatchTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicBatchDocNs, szDefaultViewMode);
+	CString sWebViewMode(szDefaultViewMode);
+	sWebViewMode += szWeb;
+	const CSingleExtDocTemplate* pDataEntryTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicDocNs, sWebViewMode);
+	const CSingleExtDocTemplate* pBatchTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicBatchDocNs, sWebViewMode);
 
 	AddOnApplication* pAddOnApp;
 	for (int nApp = 0; nApp <= AfxGetAddOnAppsTable()->GetUpperBound(); nApp++)
@@ -61,13 +63,12 @@ BOOL RegisterDynamicDocuments()
 				if (!pDocDescri->IsDynamic())
 					continue;
 
-				CViewModeDescription*  pViewMode = pDocDescri->GetViewMode(szDefaultViewMode);
+				CViewModeDescription*  pViewMode = pDocDescri->GetViewMode(sWebViewMode);
 				if (pViewMode && !pViewMode->GetFrameID().IsEmpty())
 				{
 					const CSingleExtDocTemplate* pSourceTemplate = (pViewMode->GetType() == ViewModeType::VMT_BATCH) ? pBatchTemplate : pDataEntryTemplate;
 
 					CSingleExtDocTemplate* pDestTemplate = new CSingleExtDocTemplate(pSourceTemplate, pSourceTemplate->m_pDocInvocationParams);
-					pDestTemplate->m_sViewMode += szWeb;
 					pDestTemplate->SetNamespace(pDocDescri->GetNamespace());
 
 					UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources);
@@ -102,7 +103,6 @@ BOOL DsnChanged(FunctionDataInterface* pRDI)
 	if (AfxIsActivated(TBEXT_APP, EASYSTUDIO_DESIGNER_ACT))
 		AfxAttachCustomizationContextPointer(static_cast<ATTACHEVENT_FUNC>(&OnEventDispatch));
 
-	//RegisterDynamicDocuments();
 	return TRUE;
 }
 
@@ -134,6 +134,9 @@ BEGIN_ADDON_INTERFACE()
 		BEGIN_DOCUMENT(_NS_DOC("NewBatchDocument"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE(szDefaultViewMode, CNewBatchDocument, CBatchFrame, CDynamicFormView)
 		END_DOCUMENT()
+
+	if (AfxIsRemoteInterface())
+		RegisterDynamicDocuments();
 
 	END_TEMPLATE()
 
