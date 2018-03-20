@@ -869,7 +869,7 @@ namespace Microarea.TbJson
                                 string ds = jBinding.GetDataSource();
                                 if (!string.IsNullOrEmpty(ds))
                                 {
-                                    string alias = CheckAlias(ds);
+                                    string alias = CheckAlias(ds, "");
                                     if (string.IsNullOrEmpty(alias))
                                         htmlWriter.WriteAttribute(Constants.bodyEditName, ds);
                                     else
@@ -1282,13 +1282,7 @@ namespace Microarea.TbJson
             }
         }
 
-        private string CheckAlias(string tableOrField)
-        {
-            if (tableOrField[0] == '@')
-                return string.Concat("alias('", tableOrField, "')");
-            else
-                return "";
-        }
+        
         private string CheckAlias(string table, string field)
         {
             if (string.IsNullOrEmpty(table))
@@ -1597,24 +1591,54 @@ namespace Microarea.TbJson
             //lo scrivo nell'html in tutti i casi, ma non quando sto generando il binding dello slavebuffered
             if (writeHtml)
             {
-                if (insideRowView)
+                string[] tokens = ds.Split('.');
+                if (tokens.Length == 1 || tokens.Length == 2)
                 {
-                    string alias = CheckAlias(ds);
-                    if (string.IsNullOrEmpty(alias))
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", AdjustModelExpression(ds)));
+                    StringBuilder alias = new StringBuilder();
+                    string table = tokens.Length == 1 ? "" : tokens[0];
+                    string field = tokens.Length == 1 ? tokens[0] : tokens[1];
+                    if (!string.IsNullOrEmpty(table))
+                    {
+                        string s = CheckAlias("", table);
+                        if (!string.IsNullOrEmpty(s))
+                        {
+                            alias.Append('[');
+                            alias.Append(s);
+                            alias.Append(']');
+                        }
+
+                    }
+                    if (!string.IsNullOrEmpty(field))
+                    {
+                        string s = CheckAlias(table, field);
+                        if (!string.IsNullOrEmpty(s))
+                        {
+                            alias.Append('[');
+                            alias.Append(s);
+                            alias.Append(']');
+                        }
+
+                    }
+                    if (insideRowView)
+                    {
+                        if (alias.Length == 0)
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", AdjustModelExpression(ds)));
+                        else
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow", alias));
+                    }
                     else
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow[", alias, "]"));
+                    {
+                        if (alias.Length == 0)
+                            //[model]="eventData?.data?.DBT?.Languages?.Language"
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", AdjustModelExpression(ds)));
+                        else
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model", alias));
+                    }
                 }
                 else
                 {
-                    string alias = CheckAlias(ds);
-                    if (string.IsNullOrEmpty(alias))
-                        //[model]="eventData?.data?.DBT?.Languages?.Language"
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", AdjustModelExpression(ds)));
-                    else
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model[", alias, "]"));
+                    throw new Exception("Invalid datasource: " + ds);
                 }
-
                 JObject jHKL = jBinding.GetObject(Constants.hotLink);
                 if (jHKL != null)
                 {
