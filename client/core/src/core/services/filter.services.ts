@@ -136,14 +136,20 @@ export class FilterService implements OnDestroy {
         return (this.sortChanged$ as BehaviorSubject<SortDescriptor[]>).getValue();
     }
 
-    public storeFocus() {
+    public storeFocus() {        
+        let filtersContainerRef = this.filtersContainerRef;
+        if(!filtersContainerRef)
+        {
+            return;
+        }
         this.lastChangedFilterIdx =
-            Array.from(this.filtersContainerRef.nativeElement.querySelectorAll('[kendofilterinput]'))
+            Array.from(filtersContainerRef.nativeElement.querySelectorAll('[kendofilterinput]'))
                 .findIndex(e => e === document.activeElement);
     }
 
     public restoreFocus() {
-        this.setFocus('[kendofilterinput]', this.lastChangedFilterIdx);
+        let lastChangedFilterIdx = this.lastChangedFilterIdx ? this.lastChangedFilterIdx : -1;
+        this.setFocus('[kendofilterinput]', lastChangedFilterIdx);
     }
 
     private setFocus(selector: string, index: number) {
