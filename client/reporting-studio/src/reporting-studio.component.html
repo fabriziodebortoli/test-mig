@@ -1,5 +1,6 @@
 <tb-frame>
     <iframe id="iframe" style="display:none;"></iframe>
+    <iframe id="printIframe" ></iframe>
     <tb-toolbar-top>
         <div class="toolbar-menu">
             <div class="menu-category search">
@@ -58,12 +59,9 @@
     </tb-frame-content>
 
     <tb-toolbar-bottom>
-        <!--tb-toolbar-bottom-button id="firstButton" *ngIf="!runningReport" [caption]="_TB('Snapshot Report')" (click)="startSnapshot()"></tb-toolbar-bottom-button-->
         <tb-toolbar-bottom-button id="firstButton" [caption]="_TB('Snapshot Report')" (click)="startAskSnapshot()"></tb-toolbar-bottom-button>
 
-        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Print')" class="toolbar-bottom">
-
-        </tb-toolbar-bottom-button-dropup>
+        <tb-toolbar-bottom-button icon="tb-sortupfilled" [caption]="_TB('Print')" (click)="printPDF()"></tb-toolbar-bottom-button>
 
         <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Export')" class="toolbar-bottom">
             <tb-toolbar-bottom-button icon="tb-exportpdf" [caption]="_TB('PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
