@@ -158,5 +158,6 @@
         internal const string dropDownButton = "dropDownButton";
         internal const string dropUpButton = "dropUpButton";
         internal const string isDropdown ="isDropdown";
+        internal const string model = "model";
     }
 }

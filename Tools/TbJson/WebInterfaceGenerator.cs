@@ -1291,10 +1291,22 @@ namespace Microarea.TbJson
         }
         private string CheckAlias(string table, string field)
         {
-            if (table[0] == '@')
-                return string.Concat("alias('", table, "', '", field, "')");
+            if (string.IsNullOrEmpty(table))
+            {
+                if (string.IsNullOrEmpty(field))
+                    return "";
+                if (field[0] == '@')
+                    return string.Concat("alias('", field, "')");
+                else
+                    return "";
+            }
             else
-                return "";
+            {
+                if (table[0] == '@')
+                    return string.Concat("alias('", table, "', '", field, "')");
+                else
+                    return "";
+            }
         }
         private string GetBodyEditColumnType(WebControl wCol)
         {
@@ -1578,33 +1590,25 @@ namespace Microarea.TbJson
 
             ds = ResolveGetParentNameFunction(ds, jObj);
 
-            /*int idx = ds.IndexOf('.');
-            string table = "", field = "";
-            if (idx == -1)
-            {
-                field = ds;
-            }
-            else
-            {
-                table = ds.Substring(0, idx);
-                field = ds.Substring(idx + 1);
-            }*/
-
-            //RegisterModelField(owner, field);
-
             //lo scrivo nell'html in tutti i casi, ma non quando sto generando il binding dello slavebuffered
             if (writeHtml)
             {
                 if (insideRowView)
                 {
-                    //per la rowview,  [model]="OtherBranches?.Language"
-                    htmlWriter.WriteAttribute("[model]", string.Concat("currentRow?.", ds));
+                    string alias = CheckAlias(ds);
+                    if (string.IsNullOrEmpty(alias))
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", ds));
+                    else
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow[", alias, "]"));
                 }
                 else
                 {
-                    
-                    //[model]="eventData?.data?.DBT?.Languages?.Language"
-                    htmlWriter.WriteAttribute("[model]", string.Concat("eventData?.model?.", ds));
+                    string alias = CheckAlias(ds);
+                    if (string.IsNullOrEmpty(alias))
+                        //[model]="eventData?.data?.DBT?.Languages?.Language"
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", ds));
+                    else
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model[", alias, "]"));
                 }
 
                 JObject jHKL = jBinding.GetObject(Constants.hotLink);
