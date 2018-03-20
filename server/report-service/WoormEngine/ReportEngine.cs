@@ -711,7 +711,13 @@ namespace Microarea.RSWeb.WoormEngine
 			if (reportActions != null && !reportActions.AlwaysActions.Exec())
 				return false;
 
-			if (UserBreak)
+            Field ff = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_FIRST_TUPLE);
+            if (ff != null)
+            {
+                ff.SetAllData(false, true);
+            }
+
+            if (UserBreak)
 				return false;
 			
 			// reset current data level
@@ -1242,9 +1248,14 @@ namespace Microarea.RSWeb.WoormEngine
 			// la prima riga server per inibire la BeforeAction di ogni evento all'inizio
 			// del report. Ovviamente posso solo avere AfterAction
 			status = ReportEngine.ReportStatus.FirstRow;
+            Field ff = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_FIRST_TUPLE);
+            if (ff != null)
+            {
+                ff.SetAllData(true, true);
+            }
 
-			// parto con la esecuzione di tutte le rules (che ovviamente scatenano eventi)
-			RuleReturn ruleReturn = ExecuteRules();
+            // parto con la esecuzione di tutte le rules (che ovviamente scatenano eventi)
+            RuleReturn ruleReturn = ExecuteRules();
 			if (ruleReturn != RuleReturn.Success)
 				return ruleReturn;
 		
@@ -1252,17 +1263,22 @@ namespace Microarea.RSWeb.WoormEngine
 			// eseguire solo le BeforeAction per tutti gli eventi che possono verificarsi.
 			// Quindi mi serve sapere che sono sull'ultima riga
 			status = ReportEngine.ReportStatus.LastRow;
+            Field fl = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_LAST_TUPLE);
+            if (fl != null)
+            {
+                fl.SetAllData(true, true);
+            }
 
-			// alzo il flag agli eventi che devono essere scatenati sulla base delle condizioni attuali
-			foreach (TriggeredEventActions te in triggeredEvents)
+            // alzo il flag agli eventi che devono essere scatenati sulla base delle condizioni attuali
+            foreach (TriggeredEventActions te in triggeredEvents)
 				if (!te.Check(false))
 					return RuleReturn.Abort;
 
 			SetLevel(DataLevel.Events);
-
-			// eseguo gli eventi che ho abilitato. Devo farlo separatamente al check per evitare che
-			// side effect tra valutazioni successive alterassero la sequenza degli eventi.
-			foreach (TriggeredEventActions te in triggeredEvents)
+ 
+            // eseguo gli eventi che ho abilitato. Devo farlo separatamente al check per evitare che
+            // side effect tra valutazioni successive alterassero la sequenza degli eventi.
+            foreach (TriggeredEventActions te in triggeredEvents)
 				if (!te.DoBeforeActions())
 					return RuleReturn.Abort;
 
@@ -1716,10 +1732,10 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         private void AddReportIsFirstTupleField()
         {
-            Field rf = new Field("Int32", SpecialReportField.NAME.IS_FIRST_TUPLE, this);
+            Field rf = new Field("Bool", SpecialReportField.NAME.IS_FIRST_TUPLE, this);
             rf.Hidden = true;
             rf.SetReadOnly();
-            rf.SetAllData(1, true);
+            rf.SetAllData(false, true);
             rf.Id = SpecialReportField.ID.IS_FIRST_TUPLE;
             rf.IsSpecialFieldInitialized = true;        //per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
 
@@ -1727,10 +1743,10 @@ namespace Microarea.RSWeb.WoormEngine
         }
         private void AddReportIsLastTupleField()
         {
-            Field rf = new Field("Int32", SpecialReportField.NAME.IS_LAST_TUPLE, this);
+            Field rf = new Field("Bool", SpecialReportField.NAME.IS_LAST_TUPLE, this);
             rf.Hidden = true;
             rf.SetReadOnly();
-            rf.SetAllData(1, true);
+            rf.SetAllData(false, true);
             rf.Id = SpecialReportField.ID.IS_LAST_TUPLE;
             rf.IsSpecialFieldInitialized = true;        //per evitare che la reinit dopo esecuzione ask lo resetti (in c++ c'e' un'espressione dummy x evitarlo)
 

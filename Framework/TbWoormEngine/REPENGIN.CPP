@@ -830,7 +830,6 @@ void RepEngine::ExecEngine ()
 			goto endExec;
 
 	m_EngineStatus = RE_BODY;	// the after actions are to be considered as part of a body report (TODO: RE_AFTER);
-	GetCallerDoc()->m_bIsLastTuple = FALSE;
 
 	if (m_pReportEvents ? !m_pReportEvents->GetAfterActions().Exec() : FALSE)
 		goto endExec;

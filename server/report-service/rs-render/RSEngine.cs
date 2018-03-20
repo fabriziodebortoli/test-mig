@@ -17,6 +17,7 @@ using System.Net.WebSockets;
 using System.Text;
 using Microarea.Common.NameSolver;
 using System.Collections.Generic;
+using Microarea.Common.CoreTypes;
 
 namespace Microarea.RSWeb.Render
 {
@@ -518,11 +519,24 @@ namespace Microarea.RSWeb.Render
                     case State.ExecuteExtraction:
                         {
                             Report.Engine.Status = ReportEngine.ReportStatus.FirstRow;
+                            {
+                                Field f = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_FIRST_TUPLE);
+                                if (f != null)
+                                {
+                                    f.SetAllData(true, true);
+                                }
+                                f = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_LAST_TUPLE);
+                                if (f != null)
+                                {
+                                    f.SetAllData(false, true);
+                                }
+                            }
 
                             //se chiamato via magic link, eseguo in maniera sincrona
                             if (Report.EngineType == EngineType.FullExtraction || Report.EngineType == EngineType.FullXML_OfficeXML || Report.EngineType == EngineType.PDFSharp_OfficePDF)
                             {
                                 CurrentInternalState = InternalState.ExecuteBeforeActions;
+
                                 DoExtraction();
 
                                 bool ok = this.Woorm.RdeReader.LoadTotPage();
@@ -532,6 +546,7 @@ namespace Microarea.RSWeb.Render
 
                                 Woorm.LoadPage(1);
                                 RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
+                                
                                 return false;
                             }
                             else
@@ -841,7 +856,6 @@ namespace Microarea.RSWeb.Render
                         }
                     case InternalState.ExecuteLastStep:
                         {
-
                             Report.FinalizeChannel();
                             CurrentInternalState = InternalState.End;
 
