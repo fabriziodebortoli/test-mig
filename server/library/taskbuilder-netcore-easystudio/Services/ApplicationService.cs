@@ -28,28 +28,29 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			var list =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
+			var listCustomizations =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
+
+			StringWriter sw = new StringWriter(new StringBuilder());
 			JsonWriter jsonWriter = new JsonTextWriter(sw);
 			jsonWriter.WriteStartObject();
 			jsonWriter.WritePropertyName("Customizations");
 
 			jsonWriter.WriteStartArray();
-			foreach (var item in list)
+			foreach (TBFile customiz in listCustomizations)
 			{
 				jsonWriter.WriteStartObject();
-				jsonWriter.WritePropertyName("fileName");
-				jsonWriter.WriteValue(item.PathName);
 
 				jsonWriter.WritePropertyName("customizationName");
-				jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(item.name));
+				jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(customiz.Name));
 
 				jsonWriter.WritePropertyName("applicationOwner");
-				jsonWriter.WriteValue(item.appName);
+				jsonWriter.WriteValue(customiz.ApplicationName);
 
 				jsonWriter.WritePropertyName("moduleOwner");
-				jsonWriter.WriteValue(item.moduleName);
+				jsonWriter.WriteValue(customiz.ModuleName);
+
+				jsonWriter.WritePropertyName("fileFullPath");
+				jsonWriter.WriteValue(customiz.PathName);
 
 				jsonWriter.WriteEndObject();
 			}

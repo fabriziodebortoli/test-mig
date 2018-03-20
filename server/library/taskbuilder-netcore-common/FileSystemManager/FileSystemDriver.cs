@@ -47,7 +47,7 @@ namespace Microarea.Common.FileSystemManager
 		public TBFile GetTBFile(string strCompleteFileName)
 		{
 			TBFile file = new TBFile(strCompleteFileName, null);
-			(file.appName, file.moduleName) = pathFinder.GetApplicationModuleNameFromPath2(strCompleteFileName);
+			(file.ApplicationName, file.ModuleName) = pathFinder.GetApplicationModuleNameFromPath(strCompleteFileName);
 			return file;
 		}
 
@@ -348,7 +348,6 @@ namespace Microarea.Common.FileSystemManager
 				}
 			}
 
-
 			return true;
 
 		}
@@ -367,16 +366,13 @@ namespace Microarea.Common.FileSystemManager
 		public List<TBFile> GetFiles(string sPathName, string extension, SearchOption searchOption = SearchOption.TopDirectoryOnly)
 		{
 			List<TBFile> files = new List<TBFile>();
-			string[] filesFullpath = Directory.GetFiles(sPathName, "*" + extension, searchOption);
+			string[] filesFullpath = Directory.GetFiles(sPathName, NameSolverStrings.Asterisk + extension, searchOption);
 
 			foreach (string fileFullName in filesFullpath)
 			{
-				files.Add(GetTBFile(fileFullName));
-				/*TBFile file = new TBFile(fileFullName, null);
-				pathFinder.GetApplicationModuleNameFromPath(fileFullName, out string appName, out string moduleName);
-				file.appName = appName;
-				file.moduleName = moduleName;
-				files.Add(file);*/
+				TBFile tBFile = GetTBFile(fileFullName);
+				if(tBFile != null)
+					files.Add(tBFile);
 			}
 
 			return files;

@@ -3724,7 +3724,7 @@ namespace Microarea.Common.MenuLoader
                         // un namespace, possono contenere a loro volta dei punti
                         // e, quindi, si possono incontrare file del tipo
                         // <imgFileName>.<restante_parte_di_namespace>.<ext>
-                        if (isFileNameComplete || String.Compare(imgFileName + aFileInfo.FileExtension, aFileInfo.name, StringComparison.OrdinalIgnoreCase) == 0)
+                        if (isFileNameComplete || String.Compare(imgFileName + aFileInfo.FileExtension, aFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0)
                             return aFileInfo;
                     }
                 }

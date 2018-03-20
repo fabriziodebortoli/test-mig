@@ -293,9 +293,9 @@ namespace Microarea.RSWeb.Controllers
 
             foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
             {               
-                string nameSnap = file.name.RemoveExtension(".json");
+                string nameSnap = file.Name.RemoveExtension(".json");
                 if (name == nameSnap)
-                    System.IO.File.Delete(destinationPath+file.name);
+                    System.IO.File.Delete(destinationPath+file.Name);
             }
 
             customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, NameSolverStrings.AllUsers);
@@ -303,9 +303,9 @@ namespace Microarea.RSWeb.Controllers
 
             //first = true;
             foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
-            {   string nameSnap = file.name.RemoveExtension(".json");
+            {   string nameSnap = file.Name.RemoveExtension(".json");
                 if (name == nameSnap)
-                    System.IO.File.Delete(destinationPath + file.name);
+                    System.IO.File.Delete(destinationPath + file.Name);
             }
             
             string s = ExtractSnapshot(ui, nameSpace);
@@ -329,14 +329,14 @@ namespace Microarea.RSWeb.Controllers
             {
                 string date = "";
                 string nameS = "";
-                int indexUnderscore = file.name.IndexOfOccurrence("_");
+                int indexUnderscore = file.Name.IndexOfOccurrence("_");
                 if(indexUnderscore > 0)
-                    date = file.name.Substring(0, indexUnderscore);
-                if(indexUnderscore < file.name.Length)
-                    nameS = file.name.Substring(indexUnderscore+1);
+                    date = file.Name.Substring(0, indexUnderscore);
+                if(indexUnderscore < file.Name.Length)
+                    nameS = file.Name.Substring(indexUnderscore+1);
 
                 DateTime dt;
-                bool b = DateTime.TryParse(file.name, out dt);
+                bool b = DateTime.TryParse(file.Name, out dt);
 
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + false.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";
@@ -348,14 +348,14 @@ namespace Microarea.RSWeb.Controllers
             //first = true;
             foreach (TBFile file in session.PathFinder.GetFiles(destinationPath, "*.json"))
             {
-                string[] split = file.name.Split('_');
+                string[] split = file.Name.Split('_');
                 string date = split[0];
                 string nameS = split[1];
                 //if (first) first = false;
                 //else s += ',';
 
                 DateTime dt;
-                bool b = DateTime.TryParse(file.name, out dt);
+                bool b = DateTime.TryParse(file.Name, out dt);
 
                 string name = nameS.RemoveExtension(".json");
                 s += "{" + true.ToJson("allUsers") + ',' + name.ToJson("name") + ',' + date.ToJson("date") + "},";

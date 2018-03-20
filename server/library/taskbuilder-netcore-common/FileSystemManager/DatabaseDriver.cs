@@ -508,7 +508,7 @@ namespace Microarea.Common.FileSystemManager
 
 	        pTBFile.isReadOnly = false;
 	        pTBFile.fileSize = nLen;
-	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.appName, out pTBFile.moduleName);
+	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
 	        if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
 		        pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 
@@ -591,7 +591,7 @@ namespace Microarea.Common.FileSystemManager
 
             pTBFile.isReadOnly = false;
             pTBFile.fileSize = dom.InnerXml.Length;
-            pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.appName, out pTBFile.moduleName);
+            pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
             if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
                 pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 
@@ -614,7 +614,7 @@ namespace Microarea.Common.FileSystemManager
 
 	        pTBFile.isReadOnly = false;
 	        pTBFile.fileSize = fileTextContent.Length;
-	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.appName, out pTBFile.moduleName);
+	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
 	        if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
 		        pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 	
@@ -807,8 +807,8 @@ namespace Microarea.Common.FileSystemManager
 			        pMetadataFile.fileID = (Int32)dr["FileID"];
 			        pMetadataFile.parentID = (Int32)dr["ParentID"];
 			        pMetadataFile.fileNamespace = (String)dr["Namespace"];
-			        pMetadataFile.appName = (String)dr["Application"];
-			        pMetadataFile.moduleName = (String)dr["Module"];
+			        pMetadataFile.ApplicationName = (String)dr["Application"];
+			        pMetadataFile.ModuleName = (String)dr["Module"];
 			        pMetadataFile.fileSize = (Int32)dr["FileSize"];	
 			        pMetadataFile.isReadOnly = ((String)dr["IsReadOnly"] == "1");
 			        pMetadataFile.isDirectory = ((String)dr["IsDirectory"] == "1");
@@ -997,7 +997,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlCommand.Parameters.Add(parentParam);
 
 			        sqlCommand.Parameters.AddWithValue("@PathName", relativePath);
-			        sqlCommand.Parameters.AddWithValue("@FileName", pTBFile.name);
+			        sqlCommand.Parameters.AddWithValue("@FileName", pTBFile.Name);
 			        sqlCommand.Parameters.AddWithValue("@CompleteFileName", relativePath);
 			        sqlCommand.Parameters.AddWithValue("@FileType", pTBFile.FileExtension);
 			        sqlCommand.Parameters.AddWithValue("@Application", strApplication);
@@ -1055,13 +1055,13 @@ namespace Microarea.Common.FileSystemManager
 	        //le path sono diverse
 	        if (string.Compare(strNewPath, pTBOldFileInfo.PathName, true) != 0)
 	        {
-		        pathFinder.GetApplicationModuleNameFromPath(strNewPath, out pTBOldFileInfo.appName, out pTBOldFileInfo.moduleName);
+		        pathFinder.GetApplicationModuleNameFromPath(strNewPath, out pTBOldFileInfo.ApplicationName, out pTBOldFileInfo.ModuleName);
 		        if (pTBOldFileInfo.isCustomPath = pathFinder.IsCustomPath(strNewPath))
 			        pTBOldFileInfo.accountName = pathFinder.GetUserNameFromPath(strNewPath);
 	        }
 
 	        pTBOldFileInfo.completeFileName = GetTBFSFileCompleteName(strNewName);
-	        pTBOldFileInfo.name = file.Name;
+	        pTBOldFileInfo.Name = file.Name;
 	        pTBOldFileInfo.FileExtension = file.Extension;
 
 	        return SaveTBFile(pTBOldFileInfo, bOverWrite);
@@ -1306,7 +1306,7 @@ namespace Microarea.Common.FileSystemManager
 			        }
 			        else
 			        {
-				        if (!CopyTBFile(pTBFile, strTargetPath + @"\\" + pTBFile.name, bOverwrite))
+				        if (!CopyTBFile(pTBFile, strTargetPath + @"\\" + pTBFile.Name, bOverwrite))
 					        return false;
 			        }
 		        }

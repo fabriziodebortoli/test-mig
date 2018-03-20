@@ -924,10 +924,11 @@ namespace TaskBuilderNetCore.Interfaces
         #region Constants
         public const string XmlDeclarationEncoding = "UTF-8";
         public const string XmlDeclarationVersion = "1.0";
-        #endregion
+		public const string Asterisk = "*";
+		#endregion
 
-        #region Nomi cartelle
-        public const string AppData = "App_Data";
+		#region Nomi cartelle
+		public const string AppData = "App_Data";
         public const string Running = "Running";
         public const string Description = "Description";
         public const string JsonForms = "JsonForms";
@@ -1057,7 +1058,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string EbLinkExtension = ".ebl";
 
 
-        public const string PdbExtensionSearchCriteria = "*" + PdbExtension;
+        public const string PdbExtensionSearchCriteria = Asterisk + PdbExtension;
 
 
         #endregion
@@ -1087,12 +1088,12 @@ namespace TaskBuilderNetCore.Interfaces
 
         #region File masks
         public const string MaskFileStorage = "*." + NameSolverStrings.FileStorage;
-        public const string MaskFileLicensed = "*" + LicensedExtension;
-        public const string MaskFileEncryptedArticle = "*" + CsmExtension;
-        public const string MaskFileDecryptedArticle = "*" + DecryptedArticleExtension;
-        public const string MaskFileXml = "*" + XmlExtension;
-        public const string MaskFileConfig = "*" + ConfigExtension;
-        public const string MaskFileMenu = "*" + MenuExtension;
+        public const string MaskFileLicensed = Asterisk + LicensedExtension;
+        public const string MaskFileEncryptedArticle = Asterisk + CsmExtension;
+        public const string MaskFileDecryptedArticle = Asterisk + DecryptedArticleExtension;
+        public const string MaskFileXml = Asterisk + XmlExtension;
+        public const string MaskFileConfig = Asterisk + ConfigExtension;
+        public const string MaskFileMenu = Asterisk + MenuExtension;
         public const string SourcesFolderNameMask = "{0}_src";
         #endregion
 
@@ -1179,13 +1180,12 @@ namespace TaskBuilderNetCore.Interfaces
 
         #endregion
 
-
         #region Security
         public const string ReportEditorRole = "ReportEditor";
-        #endregion
+		#endregion
 
-        //Tag Xml
-        public const string Configuration = "Configuration";
+		# region Tag Xml
+		public const string Configuration = "Configuration";
         public const string Application = "Application";
         public const string Applications = "Applications";
         public const string Customization = "Customization";
@@ -1238,23 +1238,22 @@ namespace TaskBuilderNetCore.Interfaces
 
 
         public const string RemoteClientsFile = "RemoteClients.xml";
+		#endregion
 
-        //funzionalità  menu
-        public const string MenuHistory = "MenuHistory";
+		//funzionalità  menu
+		public const string MenuHistory = "MenuHistory";
         public const string MenuMostUsed = "MenuMostUsed";
         public const string ShowFullMenuItems = "ShowFullMenuItems";
 
         #region EasyStudio
-
         public const string EasyStudio = "EasyStudio";
-   
         public const string EasyStudioDesigner = "EasyStudioDesigner";
         public const string EasyStudioSave = "EasyStudioSave";
         public const string EasyStudioGenerateCsProj = "GenerateCsproj";
         public const string EasyStudioPack = "EasyStudioPack";
-        #endregion
+		#endregion
 
-    }
+	}
 
     //=========================================================================
     public sealed class ReportObjectsXML

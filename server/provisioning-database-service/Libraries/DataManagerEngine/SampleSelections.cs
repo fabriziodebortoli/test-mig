@@ -48,11 +48,11 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				// skippo i file con un nome che inizia con DeploymentManifest (visto che potrebbe essere
 				// presente per esigenze di installazione di specifiche configurazioni dati di default/esempio 
 				// (esigenza sorta principalmente con i partner polacchi - miglioria 3067)
-				if (file.name.StartsWith("DeploymentManifest", StringComparison.OrdinalIgnoreCase))
+				if (file.Name.StartsWith("DeploymentManifest", StringComparison.OrdinalIgnoreCase))
 					continue;
 
 				// devo inserire in coda quelli con suffisso Append
-				if (Path.GetFileNameWithoutExtension(file.name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
 					appendFiles.Add(file.completeFileName);
 				else
 					ImportSel.AddItemInImportList(file.completeFileName);

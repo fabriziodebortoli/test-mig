@@ -165,65 +165,70 @@ namespace Microarea.EasyBuilder.UI
 			int openBracesToFind = 1;
 			//mi aspetto di trovare una graffa di chiusura
 			int closeBracesToFind = 1;
-
-			for (int r = 1; r < document.LineCount; r++)
+			try
 			{
-				IDocumentLine line = document.GetLineByNumber(r);
-				string sLine = document.GetText(line.Offset, line.Length);
-
-				Match fMatch = Regex.Match(sLine, pattern);
-				if (!fMatch.Success)
-					continue;
-				length = fMatch.Length;
-
-				id = new TextLocation(r, fMatch.Index);
-
-				//cerco la graffa di apertura
-				for (int braceRow = r - 1; braceRow >= 0; braceRow--)
+				for (int r = 1; r < document.LineCount; r++)
 				{
-					IDocumentLine s = document.GetLineByNumber(braceRow);
-					sLine = document.GetText(s.Offset, s.Length);
-					Match fBraceOpen = Regex.Match(sLine, "{");
-					Match fBraceClose = Regex.Match(sLine, "}");
-					if (!fBraceOpen.Success && !fBraceClose.Success)
+					IDocumentLine line = document.GetLineByNumber(r);
+					string sLine = document.GetText(line.Offset, line.Length);
+
+					Match fMatch = Regex.Match(sLine, pattern);
+					if (!fMatch.Success)
 						continue;
-					if (fBraceOpen.Value == "{") //se trovo una graffa di apertura, devo aspettarmi una graffa di chiusura in più
-						openBracesToFind--;
-					if (fBraceClose.Value == "}")
-						openBracesToFind++;
-					if (openBracesToFind == 0)
+					length = fMatch.Length;
+
+					id = new TextLocation(r, fMatch.Index);
+
+					//cerco la graffa di apertura
+					for (int braceRow = r - 1; braceRow >= 0; braceRow--)
 					{
-						openingBrace = new TextLocation(braceRow, fBraceOpen.Index);
-						if (openingBrace.Line == 1)
-						{//se la openingBrace è la prima del file, allora devo evidenziare tutto il file
-							closingBrace = new TextLocation(document.LineCount, fBraceOpen.Index);
-							return true;
+						IDocumentLine s = document.GetLineByNumber(braceRow);
+						sLine = document.GetText(s.Offset, s.Length);
+						Match fBraceOpen = Regex.Match(sLine, "{");
+						Match fBraceClose = Regex.Match(sLine, "}");
+						if (!fBraceOpen.Success && !fBraceClose.Success)
+							continue;
+						if (fBraceOpen.Value == "{") //se trovo una graffa di apertura, devo aspettarmi una graffa di chiusura in più
+							openBracesToFind--;
+						if (fBraceClose.Value == "}")
+							openBracesToFind++;
+						if (openBracesToFind == 0)
+						{
+							openingBrace = new TextLocation(braceRow, fBraceOpen.Index);
+							if (openingBrace.Line == 1)
+							{//se la openingBrace è la prima del file, allora devo evidenziare tutto il file
+								closingBrace = new TextLocation(document.LineCount, fBraceOpen.Index);
+								return true;
+							}
+							break;
 						}
-						break;
 					}
-				}
-				//cerco la graffa di apertura
-				for (int braceRow = r + 1; braceRow < document.LineCount; braceRow++)
-				{
-					IDocumentLine s = document.GetLineByNumber(braceRow);
-					sLine = document.GetText(s.Offset, s.Length);
-					Match fBrace = Regex.Match(sLine, "{|}");
-					if (!fBrace.Success) continue;
-					if (fBrace.Value == "}")//se trovo una graffa di chiusura, devo aspettarmi una graffa di apertura in più
-						closeBracesToFind--;
-					else
-						closeBracesToFind++;
-					if (closeBracesToFind == 0)
+					//cerco la graffa di apertura
+					for (int braceRow = r + 1; braceRow < document.LineCount; braceRow++)
 					{
-						closingBrace = new TextLocation(braceRow, fBrace.Index);
-						break;
+						IDocumentLine s = document.GetLineByNumber(braceRow);
+						sLine = document.GetText(s.Offset, s.Length);
+						Match fBrace = Regex.Match(sLine, "{|}");
+						if (!fBrace.Success) continue;
+						if (fBrace.Value == "}")//se trovo una graffa di chiusura, devo aspettarmi una graffa di apertura in più
+							closeBracesToFind--;
+						else
+							closeBracesToFind++;
+						if (closeBracesToFind == 0)
+						{
+							closingBrace = new TextLocation(braceRow, fBrace.Index);
+							break;
+						}
 					}
+
+					return openBracesToFind == 0 && closeBracesToFind == 0;
 				}
-
-				return openBracesToFind == 0 && closeBracesToFind == 0;
+				return false;
 			}
-
-			return false;
+			catch (Exception)
+			{
+				return false;
+			}
 
 		}
 		/// <summary>

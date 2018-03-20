@@ -1,18 +1,30 @@
 export class EsCustomizItem {
     
-    fileName: string
+    fileFullPath: string
     customizationName: string
     applicationOwner: string
     moduleOwner: string
     
-        public constructor(  fileName: string,
+        public constructor(  
             customizationName: string,
             applicationOwner: string,
-            moduleOwner: string) {
-                this.fileName = fileName,
+            moduleOwner: string,
+            fileFullPath: string
+        ) {
+                this.fileFullPath = fileFullPath,
                 this.customizationName = customizationName,
                 this.applicationOwner = applicationOwner,
                 this.moduleOwner = moduleOwner
         }
     }
     
+
+    export class PairAppMod {
+        application: string
+        module: string
+    
+        constructor(app, mod) {
+            this.application = app;
+            this.module = mod;
+        }
+    }    

@@ -1,19 +1,10 @@
 import { EasyStudioContextComponent } from './../../shared/components/easystudio-context/easystudio-context.component';
 import { SettingsService } from './settings.service';
-import { EsCustomizItem } from './../../shared/models/es-customization-item.model';
+import { EsCustomizItem, PairAppMod } from './../../shared/models/es-customization-item.model';
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
 
-export class MyObj {
-    application: string
-    module: string
-
-    constructor(app, mod) {
-        this.application = app;
-        this.module = mod;
-    }
-}
 @Injectable()
 export class EasystudioService {
 
@@ -24,7 +15,7 @@ export class EasystudioService {
     public modules: any[];                             //list of modules in the file system
     public applications: any[];                      //list of applics in the file system
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
-    public memoryESContext: { allApplications: MyObj[] };
+    public memoryESContext: { allApplications: PairAppMod[] };
     public memoryCustsList: { Customizations: EsCustomizItem[] };
 
     //--------------------------------------------------------------------------------  
@@ -227,7 +218,7 @@ export class EasystudioService {
     public createNewContext(newAppName, newModName, type) {
         this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, type).subscribe((result) => {
             if (result) {
-                let newObj = new MyObj(newAppName, newModName)
+                let newObj = new PairAppMod(newAppName, newModName)
                 if (this.memoryESContext.allApplications.find(e => e === newObj) === undefined)
                     this.memoryESContext.allApplications.push(newObj);
                 if (this.applications.find(e => e === newAppName) === undefined) { //nessuna occorrenza

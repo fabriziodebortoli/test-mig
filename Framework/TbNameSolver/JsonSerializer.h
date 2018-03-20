@@ -71,7 +71,7 @@ protected:
 public:
 	void Diff(CJsonWrapper& source, CJsonWrapper& target);
 	void Patch(CJsonWrapper& patch);
-	CString GetJson() const;
+	CString GetJson(bool needIndentation = false) const;
 	bool IsEmpty() { return m_Root.size() == 0; }
 	void operator = (const CJsonWrapper& other);
 	virtual void Clear();

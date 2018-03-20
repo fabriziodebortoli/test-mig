@@ -68,7 +68,7 @@ namespace Microarea.Common.NameSolver
 
 			// Le informazioni contenute nel file di brand principale "vincono"
 			// sempre su quelle contenute in eventuali file di brand aggiuntivi
-            bool isMainBrand = aFileToLoad.name.CompareNoCase(InstallationData.ServerConnectionInfo.MasterSolutionName + NameSolverStrings.BrandExtension);
+            bool isMainBrand = aFileToLoad.Name.CompareNoCase(InstallationData.ServerConnectionInfo.MasterSolutionName + NameSolverStrings.BrandExtension);
 
 			try
 			{

@@ -659,15 +659,15 @@ namespace Microarea.Common.MenuLoader
                         // va comunque aggiunto nei report dell'utente (anche se c'?un file omonimo nella standsard)
                         if
                             (
-                            ApplicationInfo.IsValidReportFileName(currentUserCustomReportFileInfo.name) &&
-                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, currentUserCustomReportFileInfo.name) &&
+                            ApplicationInfo.IsValidReportFileName(currentUserCustomReportFileInfo.Name) &&
+                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, currentUserCustomReportFileInfo.Name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, reportNamespace, MenuXmlNode.XML_TAG_REPORT) &&
                             (
                             addAllCustomReports ||
-                            !CurrentPathFinder.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + currentUserCustomReportFileInfo.name)
+                            !CurrentPathFinder.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + currentUserCustomReportFileInfo.Name)
                              )
                             )
-                            userCreatedReports.Add(currentUserCustomReportFileInfo.name);
+                            userCreatedReports.Add(currentUserCustomReportFileInfo.Name);
                     }
                 }
             }
@@ -684,19 +684,19 @@ namespace Microarea.Common.MenuLoader
                             ".",
                             aApplication.Name,
                             aModuleName,
-                            allUsersCustomReportFileInfo.name.Replace(NameSolverStrings.WrmExtension, string.Empty)
+                            allUsersCustomReportFileInfo.Name.Replace(NameSolverStrings.WrmExtension, string.Empty)
                             );
 
                         // Prima controllo che non esista un file omonimo sotto la standard o che
                         // il report non venga mai menzionato nel men?di applicazione.
                         if
                             (
-                            ApplicationInfo.IsValidReportFileName(allUsersCustomReportFileInfo.name) &&
-                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, allUsersCustomReportFileInfo.name) &&
+                            ApplicationInfo.IsValidReportFileName(allUsersCustomReportFileInfo.Name) &&
+                            !ExistsReportMenuCommand(aApplication.Name, aModuleName, allUsersCustomReportFileInfo.Name) &&
                             !ExistInCustomizedMenu(this.AppsMenuXmlParser.MenuXmlDoc, reportNamespace, MenuXmlNode.XML_TAG_REPORT) &&
                             (
                             addAllCustomReports ||
-                            !CurrentPathFinder.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + allUsersCustomReportFileInfo.name)
+                            !CurrentPathFinder.ExistFile(standardModuleReportpath + NameSolverStrings.Directoryseparetor + allUsersCustomReportFileInfo.Name)
                             )
                             )
                         {
@@ -706,7 +706,7 @@ namespace Microarea.Common.MenuLoader
                             {
                                 foreach (TBFile currentUserCustomReportFileInfo in currentUserCustomReportFiles)
                                 {
-                                    if (String.Compare(currentUserCustomReportFileInfo.name, allUsersCustomReportFileInfo.name, StringComparison.OrdinalIgnoreCase) == 0)
+                                    if (String.Compare(currentUserCustomReportFileInfo.Name, allUsersCustomReportFileInfo.Name, StringComparison.OrdinalIgnoreCase) == 0)
                                     {
                                         ignoreReport = true;
                                         break;
@@ -714,7 +714,7 @@ namespace Microarea.Common.MenuLoader
                                 }
                             }
                             if (!ignoreReport)
-                                userCreatedReports.Add(allUsersCustomReportFileInfo.name);
+                                userCreatedReports.Add(allUsersCustomReportFileInfo.Name);
                         }
                     }
                 }
@@ -971,7 +971,7 @@ namespace Microarea.Common.MenuLoader
                                     continue;
 
                                 foreach (TBFile aMenuFileInfo in menuFiles)
-                                    aModule.AddStandardMenuFile(aMenuFileInfo.name);
+                                    aModule.AddStandardMenuFile(aMenuFileInfo.Name);
                             }
                             else if (CurrentPathFinder.ExistPath(moduleMenuDirInfopath))
                             {
@@ -983,7 +983,7 @@ namespace Microarea.Common.MenuLoader
                                     continue;
 
                                 foreach (TBFile aMenuFileInfo in menuFiles)
-                                    aModule.AddStandardMenuFile(aMenuFileInfo.name);
+                                    aModule.AddStandardMenuFile(aMenuFileInfo.Name);
                             }
 
                             aApplication.AddModuleMenuInfos(aModule);
@@ -1048,7 +1048,7 @@ namespace Microarea.Common.MenuLoader
                             if (menuFiles.Count > 0)
                             {
                                 foreach (TBFile aMenuFileInfo in menuFiles)
-                                    aModule.AddCustomAllUsersMenuFile(aMenuFileInfo.name);
+                                    aModule.AddCustomAllUsersMenuFile(aMenuFileInfo.Name);
                             }
                         }
                         if (userName != null && userName.Length > 0 && userName != NameSolverStrings.AllUsers)
@@ -1059,7 +1059,7 @@ namespace Microarea.Common.MenuLoader
                                 if (menuFiles.Count > 0)
                                 {
                                     foreach (TBFile aMenuFileInfo in menuFiles)
-                                        aModule.AddCustomCurrentUserMenuFile(aMenuFileInfo.name);
+                                        aModule.AddCustomCurrentUserMenuFile(aMenuFileInfo.Name);
                                 }
                             }
                         }

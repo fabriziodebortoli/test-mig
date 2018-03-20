@@ -253,7 +253,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			foreach (TBFile file in importFileList)
 			{
 				// devo inserire in coda quelli con prefisso Append
-				if (Path.GetFileNameWithoutExtension(file.name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
+				if (Path.GetFileNameWithoutExtension(file.Name).EndsWith(DataManagerConsts.Append, StringComparison.OrdinalIgnoreCase))
 					appendFiles.Add(file.completeFileName);
 				else
 					defaultSel.ImportSel.AddItemInImportList(file.completeFileName);
@@ -322,8 +322,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
                 {
 					foreach (TBFile  fi in PathFinder.PathFinderInstance.GetFiles(file.StandardPath, "*Append.xml"))
 					{
-						idx = fi.name.IndexOf("Append");
-						table = fi.name.Substring(0, idx);
+						idx = fi.Name.IndexOf("Append");
+						table = fi.Name.Substring(0, idx);
 						if (missingTablesListForAppend.Contains(table))
 							importFileList.Add(fi);
 					}
@@ -333,8 +333,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 				{
 					foreach (TBFile fi in PathFinder.PathFinderInstance.GetFiles(file.CustomPath, "*Append.xml"))
 					{
-						idx = fi.name.IndexOf("Append");
-						table = fi.name.Substring(0, idx);
+						idx = fi.Name.IndexOf("Append");
+						table = fi.Name.Substring(0, idx);
 						if (missingTablesListForAppend.Contains(table))
 							importFileList.Add(fi);
 					}
@@ -488,7 +488,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 
 			foreach (TBFile tbFile in fileList)
 			{
-				if (string.Compare(Path.GetFileNameWithoutExtension(tbFile.name), defaultStep.Table, StringComparison.InvariantCultureIgnoreCase) == 0)
+				if (string.Compare(Path.GetFileNameWithoutExtension(tbFile.Name), defaultStep.Table, StringComparison.InvariantCultureIgnoreCase) == 0)
 				{
 					FileForUpgradeDefault f = new FileForUpgradeDefault(tbFile, defaultStep.Overwrite);
 					importFilesForUpgradeList.Add(f);

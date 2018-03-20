@@ -13,13 +13,14 @@ namespace TaskBuilderNetCore.Interfaces
         
         public long     fileID;
         public long     parentID;
-        public string   name;
-        
+
+		public string Name;
+		public string ApplicationName;
+		public string ModuleName;   
+
         public string   PathName;
         public string   fileNamespace;
-        public string   appName;
-        public string   moduleName;
-        public string   objectType;
+		public string   objectType;
         public long     fileSize;
         public byte[]   fileContent;
         public string   fileContentString; //contenuto del file di tipo testo
@@ -115,7 +116,7 @@ namespace TaskBuilderNetCore.Interfaces
             completeFileName = strCompleteFileName;
             string path = strCompleteFileName.Substring (0, strCompleteFileName.LastIndexOf('\\'));
             PathName = path;
-            name = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('\\') + 1);
+            Name = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('\\') + 1);
             FileExtension = strCompleteFileName.Substring(strCompleteFileName.LastIndexOf('.'));
 
         }
@@ -128,7 +129,7 @@ namespace TaskBuilderNetCore.Interfaces
             this.alternativeDriver = alternativeDriver;
             completeFileName = Path.Combine(strPathName, strName);
 
-            name = strName;
+            Name = strName;
             PathName = strPathName;
             isCustomPath = false;
             fileContent = null;

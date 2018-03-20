@@ -1624,24 +1624,29 @@ namespace Microarea.Common.NameSolver
 
 
 		//-------------------------------------------------------------------------------------
-		public (string,string) GetApplicationModuleNameFromPath2(String fullPath)
+		public (string,string) GetApplicationModuleNameFromPath(String fullPath)
 		{
 			var stdApplicationsPath = Path.Combine(GetStandardPath, NameSolverStrings.Applications);
 			string exterminate = "";
 			if (fullPath.Contains(stdApplicationsPath))
-				exterminate = stdApplicationsPath;						// C:\Develop\Standard\Applications  --->  newapp1\newmod1
+				// C:\Develop\Standard\Applications  --->  newapp1\newmod1
+				exterminate = stdApplicationsPath;						
 			else
 			{
-				var custApplicCompany = GetCustomCompanyPath();			//se torna null vuol dire che non c'� una company settata
+				var custApplicCompany = GetCustomCompanyPath();			
+				//se torna null vuol dire che non c'è una company settata
 				if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
-					exterminate = Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications);// C:\Develop\Custom\Subscription\CompanyName\applications  --->  newapp1\newmod1
+					// C:\Develop\Custom\Subscription\'CompanyName'\applications  --->  newapp1\newmod1
+					exterminate = Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications);
+
 				if(fullPath.Contains(GetEasyStudioCustomizationsPath()))
-					exterminate = GetEasyStudioCustomizationsPath();			// C:\Develop\Custom\Subscription\ESHome\Applications  --->  newapp1\newmod1
+					// C:\Develop\Custom\Subscription\ESHome\Applications  --->  newapp1\newmod1
+					exterminate = GetEasyStudioCustomizationsPath();			
 			}
 
 			if (string.IsNullOrEmpty(exterminate))
 				return (string.Empty, string.Empty);
-			var pathDifferences = fullPath.Replace(exterminate, string.Empty);		/*    \\newapp1\\newmod1           */
+			var pathDifferences = fullPath.Replace(exterminate, string.Empty);		/*    \\newapp1\\newmod1\\....           */
 			return (pathDifferences.Split('\\')[1], pathDifferences.Split('\\')[2]);
 		}
 
@@ -1715,7 +1720,7 @@ namespace Microarea.Common.NameSolver
 				sTemp = sTemp.Substring(0, nPosDir + 1);
 			}
 		}
-		
+	
 		//-----------------------------------------------------------------------------
 		public string GetCustomCompanyPath()
 		{
@@ -1964,7 +1969,7 @@ namespace Microarea.Common.NameSolver
 						foreach (TBFile fileName in tempList)
 						{
 							// � stato inserito gi� quello presente nella custom
-							if (string.Compare(fileName.name, file.name, StringComparison.OrdinalIgnoreCase) == 0)
+							if (string.Compare(fileName.Name, file.Name, StringComparison.OrdinalIgnoreCase) == 0)
 							{
 								insert = false;
 								break;
