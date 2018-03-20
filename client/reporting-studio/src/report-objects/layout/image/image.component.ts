@@ -1,9 +1,11 @@
+import { rect } from './../../../models/rect.model';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { graphrect } from './../../../models/graphrect.model';
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { InfoService } from '@taskbuilder/core';
+import { InfoService, UtilsService } from '@taskbuilder/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { ImgFitMode } from './../../../models/image-fit-mode.model';
 
 @Component({
   selector: 'rs-image',
@@ -15,7 +17,7 @@ export class ReportImageComponent {
   @Input() image: graphrect;
   @ViewChild('rsInnerImg') rsInnerImg: ElementRef;
 
-  constructor(private infoService: InfoService, private httpClient: HttpClient) {
+  constructor(private infoService: InfoService, private httpClient: HttpClient, public utils: UtilsService) {
   };
 
   private loadImage(url: string): Observable<any> {
@@ -23,7 +25,11 @@ export class ReportImageComponent {
   }
 
   applyStyle(): any {
+    let rgba = this.utils.hexToRgba(this.image.bkgcolor);
+    rgba.a = this.image.transparent ? 0 : 1;
+    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
+      'background-color': backgroundCol,
       'position': 'absolute',
       'left': this.image.rect.left + 'px',
       'top': this.image.rect.top + 'px',
@@ -56,9 +62,17 @@ export class ReportImageComponent {
 
   applyImageStyle(): any {
     let obj = {
+      'object-fit': this.image.fit_mode == ImgFitMode.BEST ? 'contain' : this.image.fit_mode == ImgFitMode.ORIGINAL ? 'none' : 'fill',
       'position': 'relative',
+      'margin-left': this.image.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.image.text_align == 'right' ? '0px' : 'auto',
+      'margin-top': this.image.vertical_align == 'top' ? '0px' : 'auto',
+      'margin-bottom': this.image.vertical_align == 'bottom' ? '0px' : 'auto',
+      'display':'block',
       'max-width': '100%',
-      'max-height': '100%'
+      'max-height': '100%',
+      'width': this.image.fit_mode != ImgFitMode.ORIGINAL ? 'inherit' :'fit-content',
+      'height':this.image.fit_mode != ImgFitMode.ORIGINAL ? 'inherit' :'fit-content'
     };
     return obj;
   }

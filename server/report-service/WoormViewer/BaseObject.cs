@@ -1981,6 +1981,14 @@ namespace Microarea.RSWeb.Objects
         }
     }
 
+    //================================================================================
+    public enum EnumImgFitMode   
+    {
+        Original,
+        Best,
+        Stretch
+    }
+
     /// <summary>
     /// Summary description for GraphRect.
     /// </summary>
@@ -1990,8 +1998,7 @@ namespace Microarea.RSWeb.Objects
     {
         public string ImageFileName;
         public bool IsCut = false;
-        public bool ShowProportional = false;
-        public bool ShowNativeImageSize = false;
+        public EnumImgFitMode ImgFitMode = EnumImgFitMode.Best;
         public Rectangle RectCutted;
         public AlignType Align = AlignType.DT_CENTER | AlignType.DT_VCENTER;
 
@@ -2019,8 +2026,7 @@ namespace Microarea.RSWeb.Objects
                 base.ToJsonTemplate(false) + ',' +
 
                 this.ImageFileName.ToJson("image", false, true) + ',' +
-                this.Align.ToHtml_align() +
-
+                this.Align.ToHtml_align() + ',' + this.ImgFitMode.ToJson("fit_mode") +
               '}';
 
             if (bracket)
@@ -2069,8 +2075,7 @@ namespace Microarea.RSWeb.Objects
             : base(s)
         {
             this.ImageFileName = s.ImageFileName;
-            this.ShowProportional = s.ShowProportional;
-            this.ShowNativeImageSize = s.ShowNativeImageSize;
+            this.ImgFitMode = s.ImgFitMode;
             this.IsCut = s.IsCut;
             this.RectCutted = s.RectCutted;
         }
@@ -2084,8 +2089,7 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public override bool Parse(WoormParser lex)
         {
-            ShowProportional = false;
-            ShowNativeImageSize = false;
+            ImgFitMode = EnumImgFitMode.Stretch;
             IsCut = false;
 
             bool ok = lex.LookAhead(Token.METAFILE) ? lex.ParseRect(Token.METAFILE, out Rect) : lex.ParseRect(Token.BITMAP, out Rect);
@@ -2094,11 +2098,11 @@ namespace Microarea.RSWeb.Objects
 
             if (lex.Matched(Token.PROPORTIONAL))
             {
-                ShowProportional = true;
+                ImgFitMode = EnumImgFitMode.Best;
             }
             else if (lex.Matched(Token.NATIVE))
             {
-                ShowNativeImageSize = true;
+                ImgFitMode = EnumImgFitMode.Original;
             }
 
             if (lex.LookAhead(Token.RECT))
@@ -2137,9 +2141,9 @@ namespace Microarea.RSWeb.Objects
 
             unparser.WriteRect(Token.BITMAP, Rect, false);
 
-            if (ShowProportional)
+            if (ImgFitMode == EnumImgFitMode.Best)
                 unparser.WriteTag(Token.PROPORTIONAL, false);
-            else if (ShowNativeImageSize)
+            else if (ImgFitMode == EnumImgFitMode.Original)
                 unparser.WriteTag(Token.NATIVE, false);
 
             if (IsCut)
@@ -2306,8 +2310,7 @@ namespace Microarea.RSWeb.Objects
         public bool IsImage;
         public bool IsCutted;
         public Rectangle RectCutted;
-        public bool ShowProportional;
-        public bool ShowNativeImageSize;
+        public EnumImgFitMode ImgFitMode;
 
         public bool Bookmark;
 
@@ -2490,7 +2493,7 @@ namespace Microarea.RSWeb.Objects
                 //this.Value.FormattedData    .ToJson("value", false, true) + 
 
                 (this.IsHtml ? ',' + this.IsHtml.ToJson("value_is_html") : "") +
-                (this.IsImage ? ',' + this.IsImage.ToJson("value_is_image") : "") +
+                (this.IsImage ? ',' + this.IsImage.ToJson("value_is_image") + ',' + this.ImgFitMode.ToJson("fit_mode") : "") +
                 (this.IsBarCode ? ',' + this.IsBarCode.ToJson("value_is_barcode") : "") +
                 (this.IsBarCode ? ',' + this.BarCode.ToJson() : "");
 
@@ -2598,8 +2601,7 @@ namespace Microarea.RSWeb.Objects
             this.IsTextFile = s.IsTextFile;
             this.IsImage = s.IsImage;
             this.IsCutted = s.IsCutted;
-            this.ShowProportional = s.ShowProportional;
-            this.ShowNativeImageSize = s.ShowNativeImageSize;
+            this.ImgFitMode = s.ImgFitMode;
 
             this.Bookmark = s.Bookmark;
             this.RectCutted = s.RectCutted;
@@ -2715,13 +2717,14 @@ namespace Microarea.RSWeb.Objects
 
             lex.SkipToken();
 
+            ImgFitMode = EnumImgFitMode.Stretch;
             if (lex.Matched(Token.PROPORTIONAL))
             {
-                ShowProportional = true;
+                ImgFitMode = EnumImgFitMode.Best;
             }
             else if (lex.Matched(Token.NATIVE))
             {
-                ShowNativeImageSize = true;
+                ImgFitMode = EnumImgFitMode.Original;
             }
 
             if (lex.LookAhead(Token.RECT))
@@ -2985,9 +2988,9 @@ namespace Microarea.RSWeb.Objects
             {
                 unparser.WriteTag(Token.BITMAP);
 
-                if (ShowProportional)
+                if (ImgFitMode == EnumImgFitMode.Best)
                     unparser.WriteTag(Token.PROPORTIONAL, false);
-                else if (ShowNativeImageSize)
+                else if (ImgFitMode == EnumImgFitMode.Original)
                     unparser.WriteTag(Token.NATIVE, false);
 
                 if (IsCutted)
