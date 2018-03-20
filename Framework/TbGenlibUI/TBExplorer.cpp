@@ -1146,7 +1146,7 @@ const CString& CTBExplorerUserDlg::GetTitleFromItemLoc (const CString& strName, 
 BOOL CTBExplorerUserDlg::FillListApps()
 {
 	CString			strApps			= _T("");
-	CString			strDefaultApp	= _T("");
+	//CString			strDefaultApp	= _T("");
 	CItemNoLoc*		pItemNoLoc		= NULL;
 	int				nApp = 0;
 
@@ -1181,8 +1181,8 @@ BOOL CTBExplorerUserDlg::FillListApps()
 		m_arAppItemLoc.Add(pItemNoLoc);
 
 		AddOnApplication* pAddOnApplicationExt = AfxGetBaseApp()->GetMasterAddOnApp();
-		if (strDefaultApp.IsEmpty() && strApps.CompareNoCase( pAddOnApplicationExt->m_strAddOnAppName) == 0)
-			strDefaultApp = strApps;
+		/*if (strDefaultApp.IsEmpty() && strApps.CompareNoCase( pAddOnApplicationExt->m_strAddOnAppName) == 0)
+			strDefaultApp = strApps;*/
 
 		CString strIcon;
 
@@ -1207,7 +1207,9 @@ BOOL CTBExplorerUserDlg::FillListApps()
 		nApp++;
 	}
 
-	if (m_NameSpace.GetApplicationName().CompareNoCase(AfxGetBaseApp()->GetTaskBuilderAddOnApp()->m_strAddOnAppName) == 0)
+	//TESTARE percorso release utente non sviluppatore TODO Elisa C
+	//permette salvataggio report modulo risorse e report di esempio
+	/*if (m_NameSpace.GetApplicationName().CompareNoCase(AfxGetBaseApp()->GetTaskBuilderAddOnApp()->m_strAddOnAppName) == 0)
 	{	
 		CStringArray	aModules;
 		m_NameSpace.SetApplicationName(strDefaultApp);
@@ -1216,7 +1218,7 @@ BOOL CTBExplorerUserDlg::FillListApps()
 		AddOnModule* pAddOnMod = pAddOnApplication->m_pAddOnModules->GetAt(0);
 
 		m_NameSpace.SetObjectName(CTBNamespace::MODULE, pAddOnMod->GetModuleName());
-	}
+	}*/
 
 	AddOnApplication* pSelApp = NULL;
 	if (!m_NameSpace.IsEmpty())
