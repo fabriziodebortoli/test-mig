@@ -308,9 +308,13 @@ void CJsonWrapper::Remove(int index)
 
 }
 //-----------------------------------------------------------------------------
-CString CJsonWrapper::GetJson() const
+CString CJsonWrapper::GetJson(bool needIndentation) const
 {
-	//Json::StyledWriter writer;
+	if (needIndentation) 
+	{
+		Json::StyledWriter writer;
+		return writer.write(m_Root).c_str();
+	}
 	Json::FastWriter writer;
 	return writer.write(m_Root).c_str();
 }

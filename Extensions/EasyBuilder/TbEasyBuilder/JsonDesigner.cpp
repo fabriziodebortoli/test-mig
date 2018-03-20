@@ -254,7 +254,7 @@ CString CEasyStudioDesignerDialog::GetCode()
 	pDesc->SetParsed(true);
 	CJsonSerializer ser;
 	pDesc->SerializeJson(ser);
-	return ser.GetJson();
+	return ser.GetJson(true);
 }
 
 //--------------------------------------------------------------------------------
