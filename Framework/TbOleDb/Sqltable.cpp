@@ -1013,7 +1013,10 @@ IMPLEMENT_DYNAMIC(SqlTable, SqlRowSet)
 //-----------------------------------------------------------------------------
 SqlTable::SqlTable()
 	:
-	IDisposingSourceImpl		(this)
+	IDisposingSourceImpl		(this),
+	SqlRowSet					(),
+	m_pRecord					(NULL),
+	m_pParamsRecord				(NULL)
 {
 	InitDataMember();
 	Initialize();
@@ -1918,7 +1921,7 @@ void SqlTable::Move(MoveType eTypeMove, int lSkip /*= 0*/)
 				break;
 
 			case EndOfRowSet:
-				InitColumns();
+				//InitColumns();
 				if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
 
 				// hit end of set
@@ -1933,7 +1936,7 @@ void SqlTable::Move(MoveType eTypeMove, int lSkip /*= 0*/)
 				break;
 
 			case BeginOfRowSet:
-				InitColumns();
+				//InitColumns();
 				if (m_pRecord) m_pRecord->SetFlags(FALSE, TRUE);
 
 				m_bBOF = TRUE;
@@ -3690,9 +3693,7 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 			
 			// is TBCreated or TBModified column and have empty values I haven't add the column in the columns list 
 			// because its value is automatically set by the DBMS
-			if (
-					//strColumnName.CompareNoCase(CREATED_COL_NAME) == 0 || 
-					//strColumnName.CompareNoCase(MODIFIED_COL_NAME) == 0
+			if (					
 					pDataObj == &(m_pRecord->f_TBCreated) ||
 					pDataObj == &(m_pRecord->f_TBModified)
 				)
@@ -3724,7 +3725,6 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 		//BIND DEI PARAMETRI		
 		int			nParam		= 0;
 		DataObj*	pDataObjPar	= NULL;
-		BOOL		bFixupMandatory = FALSE;
 
 		for (int n = 0; n <= m_pColumnArray->GetUpperBound(); n++)
 		{
@@ -3738,22 +3738,8 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 			//devo escludere i campi local introdotti dalla TBRowSecurity
 			const SqlColumnInfo* pItem = m_pRecord->GetColumnInfo(pDataObjPar);
 			if (pItem && pItem->m_bVirtual)
-				continue;
-
-						
-			// is TBCreated or TBModified column and have empty values I haven't add the column in the columns list 
-			// because its value is automatically set by the DBMS
-			if (
-					//(!strColumnName.CompareNoCase(CREATED_COL_NAME)  || 
-					//!strColumnName.CompareNoCase(MODIFIED_COL_NAME))
-					pDataObjPar == &(m_pRecord->f_TBCreated) ||
-					pDataObjPar == &(m_pRecord->f_TBModified)
-				)
-			{
-				bFixupMandatory = TRUE;
-				continue;
-			}
-
+				continue;						
+	
 			if (pSubBindElem->m_bAutoIncrement)
 				GetNextAutoincrementValue();
 
@@ -3786,11 +3772,7 @@ BOOL SqlTable::NativeInsert(BOOL bTraced /*=TRUE*/)
 		// i campi di tipo autincremental				
 		if (m_pRecord && m_pRecord->m_bAutoIncrement)
 			FixupAutoIncColumns();
-
-		////I have to read the TBCreated and TBModified column value
-		//if (bFixupMandatory)
-		//	FixupMandatoryColumns();
-		
+				
 		
 		if (bTraced) 
 			m_pRecord->GetTableInfo()->GetSqlCatalogEntry()->TraceOperation

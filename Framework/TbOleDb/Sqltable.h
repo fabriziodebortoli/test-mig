@@ -207,7 +207,7 @@ protected:
 	HRESULT Prepare();
 
 	//lasciato per compatibilità con il passato (serve per ERP Desktop)
-	void	OpenRowSet() { ExecuteNonQuery(); }
+	long	OpenRowSet() { return ExecuteNonQuery(); }
 	void	ExecutePagingCommand(MoveType eMoveType = E_MOVE_FIRST);
 
 public:
