@@ -43,12 +43,21 @@ MView::MView(IntPtr handleViewPtr)
 	: WindowWrapperContainer(handleViewPtr)
 { 
 	Handle = handleViewPtr;
-	m_pView = (CAbstractFormView*) GetWnd();	
-	frame = gcnew MFrame((IntPtr) m_pView->GetFrame()->m_hWnd, this);
-	NextTBPos = Point(0,0);
-	toolBarLevel = 0;
-	Visible = false;
-	suspendLayout = false;
+
+	if (!AfxIsRemoteInterface())
+	{
+		m_pView = (CAbstractFormView*)GetWnd();
+		frame = gcnew MFrame((IntPtr)m_pView->GetFrame()->m_hWnd, this);
+		NextTBPos = Point(0, 0);
+		toolBarLevel = 0;
+		Visible = false;
+		suspendLayout = false;
+	}
+	else
+	{
+		m_pView = NULL;
+	}
+
 	pathToSerialize = gcnew String(_T(""));
 }
 

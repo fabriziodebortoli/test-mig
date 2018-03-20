@@ -265,6 +265,11 @@ namespace Microarea.EasyBuilder.MVC
 		[ExcludeFromIntellisense]
 		public override void CallCreateComponents() 
 		{
+            if (PathFinderWrapper.IsRemoteInterface())
+            {
+                return;
+            }
+
             raise_SuspendLayout(this, new EasyBuilderEventArgs());
 
 			//azzoro la scroll position, le coordinate dei controlli sono relative ad uno scrolling 0,0

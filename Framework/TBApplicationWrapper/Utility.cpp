@@ -1053,3 +1053,9 @@ void PathFinderWrapper::TraceEasyStudioCustomizationLog(System::String^ text)
 
 	System::IO::File::AppendAllText(fullName,text);
 }
+
+//--------------------------------------------------------------------------------
+bool PathFinderWrapper::IsRemoteInterface()
+{
+	return AfxIsRemoteInterface() == TRUE;
+}
