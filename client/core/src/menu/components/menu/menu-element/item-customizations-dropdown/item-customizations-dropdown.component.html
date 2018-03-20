@@ -1,25 +1,27 @@
 <ng-template #template>
     <div id="customizationPopup">
-        <div class="itemSelected" *ngIf="easystudioService.isDesignable">
-            <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="getNewCustClass()">
-                {{_TB('New EasyStudio customization')}}
-            </div>
-        </div>
-        <div class="itemSelected" *ngIf="easystudioService.isDesignable && isNotEasyStudioDocument">
-            <div (click)="openCloneDialog()" [ngClass]="getNewCustClass()">
-                {{_TB('Clone as a New Document')}}
-            </div>
-        </div>
-        <div class="is-disabled" *ngIf="!easystudioService.isDesignable">
-            <div>{{_TB('This document/batch is not designable')}}</div>
-        </div>
-        <div *ngIf="easystudioService.customizations !== undefined && easystudioService.customizations.length > 0">
-            <hr />{{_TB('Edit EasyStudio Customization')}}:
-            <div *ngFor="let customization of easystudioService.customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
-                <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)" matTooltip="{{getToolTip(customization)}}" matTooltipShowDelay="500" matTooltipPosition='below'>
-                    {{customization.customizationName}}
+        <div *ngIf="easystudioService.isDesignable">
+            <div class="itemSelected">
+                <div (click)="openEasyStudioAndContextIfNeeded(objectM, null)" [ngClass]="getNewCustClass()">
+                    {{_TB('New EasyStudio customization')}}
                 </div>
             </div>
+            <div class="itemSelected" *ngIf="isNotEasyStudioDocument">
+                <div (click)="openCloneDialog()" [ngClass]="getNewCustClass()">
+                    {{_TB('Clone as a New Document')}}
+                </div>
+            </div>
+            <div *ngIf="easystudioService.customizations !== undefined && easystudioService.customizations.length > 0">
+                <hr />{{_TB('Edit EasyStudio Customization')}}:
+                <div *ngFor="let customization of easystudioService.customizations" class="itemSelected" [ngClass]="getCustomizClass(customization)">
+                    <div style="padding-left:30px" (click)="openEasyStudioAndContextIfNeeded(objectM, customization)" matTooltip="{{getToolTip(customization)}}" matTooltipShowDelay="500" matTooltipPosition='below'>
+                        {{customization.customizationName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!easystudioService.isDesignable" class="is-disabled">
+            <div>{{_TB('This document/batch is not designable')}}</div>
         </div>
     </div>
 </ng-template>

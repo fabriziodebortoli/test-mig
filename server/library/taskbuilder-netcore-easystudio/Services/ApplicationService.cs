@@ -10,6 +10,7 @@ using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
 using System;
+using Microarea.Common.Generic;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -28,7 +29,20 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			var listCustomizations =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
+			var listCustomizations =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, onlyDesignable);
+			var nsforDoc = new NameSpace(docNS);
+
+			var custsForUser = listCustomizations.Where( x=> 
+				(Path.GetDirectoryName(x.completeFileName) == PathFinder.GetCustomizationPath( nsforDoc, user, PathFinder.GetTBFile(x.completeFileName)))).ToList();
+			var custsForAllUsers = listCustomizations.Where( x =>
+				(Path.GetDirectoryName(x.completeFileName) == PathFinder.GetCustomizationPath( nsforDoc, null, PathFinder.GetTBFile(x.completeFileName)))).ToList();
+
+			var custsByName = custsForUser.Select(c => c.Name);
+			foreach (var custAllUser in custsForAllUsers)
+			{
+				if (!custsByName.Contains(custAllUser.Name))
+					custsForUser.Add(custAllUser);
+			}
 
 			StringWriter sw = new StringWriter(new StringBuilder());
 			JsonWriter jsonWriter = new JsonTextWriter(sw);
@@ -36,7 +50,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			jsonWriter.WritePropertyName("Customizations");
 
 			jsonWriter.WriteStartArray();
-			foreach (TBFile customiz in listCustomizations)
+			foreach (TBFile customiz in custsForUser)
 			{
 				jsonWriter.WriteStartObject();
 

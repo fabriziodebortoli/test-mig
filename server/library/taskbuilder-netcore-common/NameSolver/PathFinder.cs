@@ -1626,22 +1626,21 @@ namespace Microarea.Common.NameSolver
 		//-------------------------------------------------------------------------------------
 		public (string,string) GetApplicationModuleNameFromPath(String fullPath)
 		{
-			var stdApplicationsPath = Path.Combine(GetStandardPath, NameSolverStrings.Applications);
 			string exterminate = "";
-			if (fullPath.Contains(stdApplicationsPath))
-				// C:\Develop\Standard\Applications  --->  newapp1\newmod1
-				exterminate = stdApplicationsPath;						
+
+			var stdApplicationsPath = Path.Combine(GetStandardPath, NameSolverStrings.Applications);
+			if (fullPath.Contains(stdApplicationsPath))			
+				exterminate = stdApplicationsPath;		// C:\Develop\Standard\Applications 					
 			else
 			{
-				var custApplicCompany = GetCustomCompanyPath();			
-				//se torna null vuol dire che non c'è una company settata
+				var custApplicCompany = !string.IsNullOrEmpty(GetCustomCompanyPath()) ? //se empty, non c'è una company settata
+					Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications) : string.Empty;
 				if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
-					// C:\Develop\Custom\Subscription\'CompanyName'\applications  --->  newapp1\newmod1
-					exterminate = Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications);
+					exterminate = custApplicCompany;    // C:\Develop\Custom\Subscription\'CompanyName'\Applications 
 
-				if(fullPath.Contains(GetEasyStudioCustomizationsPath()))
-					// C:\Develop\Custom\Subscription\ESHome\Applications  --->  newapp1\newmod1
-					exterminate = GetEasyStudioCustomizationsPath();			
+				var custApplicESHome = GetEasyStudioCustomizationsPath();			
+				if(!string.IsNullOrEmpty(custApplicESHome) && fullPath.Contains(custApplicESHome))						
+					exterminate = custApplicESHome;		// C:\Develop\Custom\Subscription\ESHome\Applications		
 			}
 
 			if (string.IsNullOrEmpty(exterminate))
@@ -2739,8 +2738,66 @@ namespace Microarea.Common.NameSolver
 		}
 
 
+
+
+
+
+
+
+		//---------------------------------------------------------------------
+		public TBFile GetTBFile(string strCompleteFileName)
+		{
+			TBFile file = new TBFile(strCompleteFileName, null);
+			(file.ApplicationName, file.ModuleName) = GetApplicationModuleNameFromPath(strCompleteFileName);
+			return file;
+		}
+
+		//--------------------------------------------------------------------------------
+		public string GetCustomizationPath(INameSpace documentNamespace, string user, TBFile easybuilderApp)
+		{
+			if (!user.IsNullOrEmpty())
+				user = user.Replace("\\", ".");
+
+			string customModulePath = GetCustomModulePath(easyStudioConfiguration.Settings.HomeName, easybuilderApp.ApplicationName, easybuilderApp.ModuleName);
+			if (customModulePath == string.Empty) 	return string.Empty;
+
+			string customModuleObjectsPath = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
+			if (customModuleObjectsPath == string.Empty)		return string.Empty;
+
+			string path = Path.Combine(customModuleObjectsPath, documentNamespace.Document);
+			return string.IsNullOrEmpty(user)
+				? path
+				: Path.Combine(path, user);
+		}
+
+		//---------------------------------------------------------------------------------
+		public string GetCustomDocumentPath(string companyName, string application, string module, string document)
+		{
+			string customModulePath = GetCustomModulePath(companyName, application, module);
+			if (customModulePath == string.Empty)
+				return string.Empty;
+
+			string customModuleObjectsPath = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
+
+			//string customModuleObjectsPath = GetCustomModuleObjectsPath(companyName, application, module);
+			if (customModuleObjectsPath == string.Empty)
+				return string.Empty;
+
+			return Path.Combine(customModuleObjectsPath, document);
+		}
+
+		//---------------------------------------------------------------------------------
+		public string GetCustomModuleObjectsPath(string companyName, string application, string module)
+		{
+			string customModulePath = GetCustomModulePath(companyName, application, module);
+			if (customModulePath == string.Empty)
+				return string.Empty;
+
+			return Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
+		}
+
 		//-----------------------------------------------------------------------------
-		public List<TBFile> GetEasyStudioCustomizationsListFor(string documentNamespace, string user, bool onlyDesignable = true)
+		public List<TBFile> GetEasyStudioCustomizationsListFor(string documentNamespace, bool onlyDesignable = true)
 		{
 			IDocumentInfo info = GetDocumentInfo(new NameSpace(documentNamespace));
 			/* if (onlyDesignable && !info.IsDesignable)
@@ -2751,7 +2808,7 @@ namespace Microarea.Common.NameSolver
 			List<TBFile> listDll = new List<TBFile>();
 			foreach (var item in subfolders)
 			{
-				var dlls = GetFiles(item.CompleteDirectoryPath, NameSolverStrings.DllExtension, SearchOption.AllDirectories);
+				List<TBFile> dlls = GetFiles(item.CompleteDirectoryPath, NameSolverStrings.DllExtension, SearchOption.AllDirectories);
 				listDll.AddRange(dlls);
 			}
 			return listDll;

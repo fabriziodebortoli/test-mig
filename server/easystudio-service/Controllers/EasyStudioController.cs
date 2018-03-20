@@ -61,12 +61,12 @@ namespace Microarea.EasyStudio.Controllers
             }
         }
 
-		/*//---------------------------------------------------------------------
-		[Route("setCurrentContextFor"), HttpPost]
+		//---------------------------------------------------------------------
+		[Route("isEasyStudioDocument"), HttpPost]
 		public IActionResult IsEasyStudioDocument([FromBody] JObject value)
 		{
-			return ToResult(true.ToString());
-		}*/
-            
+			return ToResult(true.ToString()); //TODOROBY
+		}
+
 	}
 }

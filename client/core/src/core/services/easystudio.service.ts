@@ -93,16 +93,15 @@ export class EasystudioService {
                     })
                 }
             }
-            this.isDesignable = true; //canHaveCustoms; //TODOROBY
+            this.isDesignable = canHaveCustoms; 
         }));
     }
 
     //--------------------------------------------------------------------------------
     public isEasyStudioDocument(object: any) {
-        return true;//TODOROBY
-     /*   this.subscriptions.push(this.httpMenuService.isEasyStudioDocument(object).subscribe((result) => {
+        this.subscriptions.push(this.httpMenuService.isEasyStudioDocument(object).subscribe((result) => {
             return result;
-        }));*/
+        }));
     }
 
     //--------------------------------------------------------------------------------
@@ -197,8 +196,11 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public refreshEasyBuilderApps(type) {
         this.httpMenuService.updateCachedDateAndSave().subscribe();
-        this.httpMenuService.refreshEasyBuilderApps(type);
         this.initEasyStudioContext(type);
+      /*  this.subscriptions.push(this.httpMenuService.refreshEasyBuilderApps(type).subscribe((result) => {
+            this.initEasyStudioContext(type);
+            return result;
+        }));*/
     }
 
     //--------------------------------------------------------------------------------

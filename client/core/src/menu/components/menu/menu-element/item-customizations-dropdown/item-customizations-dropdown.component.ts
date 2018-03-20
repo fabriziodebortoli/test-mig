@@ -87,7 +87,7 @@ export class ItemCustomizationsDropdownComponent extends TbComponent implements 
   //--------------------------------------------------------------------------------
   initEasyStudio(object, template: TemplateRef<any>) {
     this.easystudioService.initEasyStudioData(object);
-    this.isNotEasyStudioDocument = !this.easystudioService.isEasyStudioDocument(this.objectM);
+    this.isNotEasyStudioDocument = !this.isEasyStudioDocument(this.objectM);
     this.togglePopup(template);
   }
 

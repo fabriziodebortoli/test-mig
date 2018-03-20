@@ -45,7 +45,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			{
 				if (!ExistPreferencesFile(user))
 				{
-					CreatePreferences(user);
+					if (!CreatePreferences(user))
+						return false;
 				}
 
 				XmlDocument doc = new XmlDocument();
@@ -136,11 +137,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
 			if (ExistPreferencesFile(user)) return false;
 
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.Indent = true;
-			settings.NewLineOnAttributes = false;
-
-			using (XmlWriter writer = XmlWriter.Create(GetPreferencesFullFileName(user), settings))
+			/*XmlWriterSettings settings = new XmlWriterSettings
+			{
+				Indent = true,
+				NewLineOnAttributes = false
+			};*/
+			XmlDocument doc = new XmlDocument();
+			using (XmlWriter writer = doc.CreateNavigator().AppendChild())
 			{
 				writer.WriteStartDocument(true);
 				writer.WriteStartElement(EasyStudioPreferencesXML.Element.ESPreferences);
@@ -163,9 +166,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 				writer.Flush();
 				writer.Dispose();
 			}
-	
-			return true;
-			//return Services.PathFinder.SaveTextFileFromStream(GetPreferencesFullFileName(user), );
+
+			return Services.PathFinder.SaveTextFileFromXml(GetPreferencesFullFileName(user), doc);
 
 		}
 
