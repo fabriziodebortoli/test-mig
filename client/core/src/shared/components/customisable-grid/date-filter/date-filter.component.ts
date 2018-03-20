@@ -3,7 +3,7 @@ import { CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Component, Input, ViewChild, AfterContentInit } from '@angular/core';
 import { State } from '../customisable-grid.component';
 import { EnumsService } from '../../../../core/services/enums.service';
-import { FilterService as CustomFilterService, SimpleFilter } from '../../../../core/services/filter.services';
+import { FilterService as CustomFilterService, SimpleFilter } from '../../../../core/services/filter.service';
 import { FormattersService } from '../../../../core/services/formatters.service';
 import { getDateFormatByFormatter, NullDate } from '../../../controls/date-input/u';
 

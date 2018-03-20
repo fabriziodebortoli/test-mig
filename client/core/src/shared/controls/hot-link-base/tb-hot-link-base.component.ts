@@ -15,7 +15,7 @@ import { HlComponent, HotLinkState } from './hotLinkTypes';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo} from '../../../core/services/hyperlink.service';
 
 import * as _ from 'lodash';

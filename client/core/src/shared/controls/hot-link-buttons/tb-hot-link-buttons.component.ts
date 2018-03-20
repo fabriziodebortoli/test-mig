@@ -17,7 +17,7 @@ import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-p
 
 import { BehaviorSubject, Subscription, Observable, Subject } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { HlComponent, HotLinkState, DefaultHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';

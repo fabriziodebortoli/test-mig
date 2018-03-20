@@ -20,7 +20,7 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams, GridData } from './../../../core/services/paginator.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
-import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { EnumFilterComponent } from './enum-filter/enum-filter.component';
 import { getEnumValueSiblings } from './enum-filter/U';

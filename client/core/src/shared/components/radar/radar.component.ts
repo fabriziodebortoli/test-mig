@@ -12,7 +12,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { DataService } from './../../../core/services/data.service';
 import { PaginatorService, ServerNeededParams, ClientPage, GridData } from './../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from './../../../core/services/filter.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
 import { StorageService } from './../../../core/services/storage.service';
 import { Subscription, BehaviorSubject, Observable, distinctUntilChanged, Observer, Subject } from './../../../rxjs.imports';

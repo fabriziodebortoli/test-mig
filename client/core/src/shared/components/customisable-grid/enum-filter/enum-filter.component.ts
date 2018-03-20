@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 import { State } from '../customisable-grid.component';
 import { getEnumValuesFromTag } from './U';
 import { EnumsService } from '../../../../core/services/enums.service';
-import { FilterService as CustomFilterService } from '../../../../core/services/filter.services'
+import { FilterService as CustomFilterService } from '../../../../core/services/filter.service'
 
 @Component({
     selector: 'tb-enum-filter',

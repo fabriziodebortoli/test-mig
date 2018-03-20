@@ -14,7 +14,7 @@ import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-dat
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
 import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
