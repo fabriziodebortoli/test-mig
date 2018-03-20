@@ -1576,7 +1576,11 @@ namespace Microarea.TbJson
                 }
             }
         }
-
+        //-----------------------------------------------------------------------------------------
+        private string AdjustModelExpression(string model)
+        {
+            return model.Replace(".", "?.");
+        }
         //-----------------------------------------------------------------------------------------
         private void WriteBindingAttributes(JObject jObj, bool writeHtml, bool insideRowView)
         {
@@ -1597,7 +1601,7 @@ namespace Microarea.TbJson
                 {
                     string alias = CheckAlias(ds);
                     if (string.IsNullOrEmpty(alias))
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", ds));
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", AdjustModelExpression(ds)));
                     else
                         htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow[", alias, "]"));
                 }
@@ -1606,7 +1610,7 @@ namespace Microarea.TbJson
                     string alias = CheckAlias(ds);
                     if (string.IsNullOrEmpty(alias))
                         //[model]="eventData?.data?.DBT?.Languages?.Language"
-                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", ds));
+                        htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", AdjustModelExpression(ds)));
                     else
                         htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model[", alias, "]"));
                 }
