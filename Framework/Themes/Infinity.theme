@@ -75,7 +75,10 @@
 			<ThemeElement name="TabberTabSelectedBkgColor" type="color" rgbHex="#F5FCFE" description="Tabber Selected Tab Background Color"/>
 			<ThemeElement name="TabberTabHoveringBkgColor" type="color" rgbHex="#D5E5F5" description="Tabber Tab Hovering Background Color"/>
 			<ThemeElement name="TabberTabHoveringForeColor" type="color" rgbHex="#1C619E" description="Tabber Tab Hovering Foreground Color"/>
-
+      <ThemeElement name="TabSelectorScrollBarFillBkg" type="color" rgbHex="#E5E5E5" description="Tab Selector ScrollBar BackGround Color" />
+      <ThemeElement name="TabSelectorScrollBarBkgButtonNoPressedColor" type="color" rgbHex="#E5E5E5" description="ScrollBar Background Button No Pressed Color"/>
+      <ThemeElement name="TabSelectorScrollBarBkgButtonPressedColor" type="color" rgbHex="#E5E5E5" description="ScrollBar Background Button Pressed Color"/>
+      
 			<!-- ScrollBar -->
 			<ThemeElement name="ScrollBarFillBkg" type="color" rgbHex="#F3F3F3" description="ScrollBar Background Color"/>
 			<ThemeElement name="ScrollBarThumbNoPressedColor" type="color" rgbHex="#000000" description="ScrollBar Thumb No Pressed Color"/>

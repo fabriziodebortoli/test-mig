@@ -20,7 +20,11 @@ END_MESSAGE_MAP()
 //-------------------------------------------------------------------------------------
 CTBScrollBar::CTBScrollBar() :
 	m_bVisible(TRUE),
-	m_nWidth(0)
+	m_nWidth(0),
+	m_BackGroundColor(AfxGetThemeManager()->GetScrollBarFillBkgColor()),
+	m_BkgButtonNoPressedColor(AfxGetThemeManager()->GetScrollBarBkgButtonNoPressedColor()),
+	m_BkgButtonPressedColor(AfxGetThemeManager()->GetScrollBarBkgButtonPressedColor()),
+	m_bThumbVisible(TRUE)
 {
 }
 

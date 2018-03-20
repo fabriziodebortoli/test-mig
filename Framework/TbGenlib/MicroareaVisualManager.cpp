@@ -439,8 +439,16 @@ void CMicroareaVisualManager::OnScrollBarDrawThumb(CDC* pDC, CBCGPScrollBar* pSc
 	}
 	else
 	{
-		dm.DrawRect(rect, AfxGetThemeManager()->GetScrollBarFillBkgColor(), (COLORREF)-1);
+		CTBScrollBar* pTBScrollBar = dynamic_cast<CTBScrollBar*>(pScrollBar);
+		if (pTBScrollBar)
+			dm.DrawRect(rect, pTBScrollBar->GetBackGroundColor(), (COLORREF)-1);
+		else
+			dm.DrawRect(rect, AfxGetThemeManager()->GetScrollBarFillBkgColor(), (COLORREF)-1);
+		
 		CRect ThumbRect = rect;
+
+		if (pTBScrollBar && !pTBScrollBar->GetThumbVisible())
+			ThumbRect.SetRectEmpty();
 
 		if (bHorz)
 		{
@@ -462,7 +470,12 @@ void CMicroareaVisualManager::OnScrollBarDrawThumb(CDC* pDC, CBCGPScrollBar* pSc
 //-----------------------------------------------------------------------------
 void CMicroareaVisualManager::OnScrollBarDrawButton(CDC* pDC, CBCGPScrollBar* pScrollBar, CRect rect, BOOL bHorz, BOOL bHighlighted, BOOL bPressed, BOOL bFirst, BOOL bDisabled)
 {
-	COLORREF clrFill = bPressed || bDisabled ? AfxGetThemeManager()->GetScrollBarBkgButtonPressedColor() : AfxGetThemeManager()->GetScrollBarBkgButtonNoPressedColor();
+	CTBScrollBar* pTBScrollBar = dynamic_cast<CTBScrollBar*>(pScrollBar);
+
+	COLORREF clrFillNoPressBtn = pTBScrollBar ? pTBScrollBar->GetBkgButtonNoPressedColor() : AfxGetThemeManager()->GetScrollBarBkgButtonNoPressedColor();
+	COLORREF clrFillPressBtn = pTBScrollBar ? pTBScrollBar->GetBkgButtonPressedColor() : AfxGetThemeManager()->GetScrollBarBkgButtonPressedColor();
+
+	COLORREF clrFill = bPressed || bDisabled ? clrFillPressBtn : clrFillNoPressBtn;
 	COLORREF clrLine = bPressed || bDisabled ? AfxGetThemeManager()->GetScrollBarThumbPressedColor() : AfxGetThemeManager()->GetScrollBarThumbNoPressedColor();
 
 	if (bDisabled) {
@@ -517,7 +530,12 @@ void CMicroareaVisualManager::OnScrollBarDrawButton(CDC* pDC, CBCGPScrollBar* pS
 void CMicroareaVisualManager::OnScrollBarFillBackground(CDC* pDC, CBCGPScrollBar* pScrollBar, CRect rect, BOOL bHorz, BOOL bHighlighted, BOOL bPressed, BOOL bFirst, BOOL bDisabled)
 {
 	CBCGPDrawManager dm(*pDC);
-	dm.DrawRect(rect, AfxGetThemeManager()->GetScrollBarFillBkgColor(), (COLORREF)-1);
+
+	CTBScrollBar* pTBScrollBar = dynamic_cast<CTBScrollBar*>(pScrollBar);
+	if (pTBScrollBar)
+		dm.DrawRect(rect, pTBScrollBar->GetBackGroundColor(), (COLORREF)-1);
+	else
+		dm.DrawRect(rect, AfxGetThemeManager()->GetScrollBarFillBkgColor(), (COLORREF)-1);
 }
 
 //-----------------------------------------------------------------------------

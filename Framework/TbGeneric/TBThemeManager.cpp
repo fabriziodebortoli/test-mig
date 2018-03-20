@@ -534,6 +534,9 @@ const TCHAR szTabSelectorBkgColor[] = _T("TabSelectorBkgColor");
 const TCHAR szTabSelectorMinWidth[] = _T("TabSelectorMinWidth");
 const TCHAR szTabSelectorMaxWidth[] = _T("TabSelectorMaxWidth");
 const TCHAR szTabSelectorMinHeight[] = _T("TabSelectorMinHeight");
+const TCHAR szTabSelectorScrollBarFillBkg[] = _T("TabSelectorScrollBarFillBkg");
+const TCHAR szTabSelectorScrollBarBkgButtonNoPressedColor[] = _T("TabSelectorScrollBarBkgButtonNoPressedColor");
+const TCHAR szTabSelectorScrollBarBkgButtonPressedColor[] = _T("TabSelectorScrollBarBkgButtonPressedColor");
 
 const TCHAR szBCMenuShadowColor[] = _T("BCMenuShadowColor");
 const TCHAR szBCMenu3DFaceColor[] = _T("BCMenu3DFaceColor");
@@ -1105,6 +1108,9 @@ void TBThemeManager::LoadSettings()
 	SetColorSetting(m_BCMenu3DFaceColor, szBCMenu3DFaceColor);
 	SetColorSetting(m_ToolbarBkgColor, szToolbarBkgColor);
 	SetColorSetting(m_ToolbarBkgSecondaryColor, szToolbarBkgSecondaryColor);
+	SetColorSetting(m_TabSelectorScrollBarFillBkg, szTabSelectorScrollBarFillBkg);
+	SetColorSetting(m_TabSelectorScrollBarBkgButtonNoPressedColor, szTabSelectorScrollBarBkgButtonNoPressedColor);
+	SetColorSetting(m_TabSelectorScrollBarBkgButtonPressedColor, szTabSelectorScrollBarBkgButtonPressedColor);
 	
 	SetColorSetting(m_ToolbarTextColor, szToolbarTextColor);
 	SetColorSetting(m_ToolbarTextColorHighlighted, szToolbarTextColorHighlighted);
@@ -2078,6 +2084,24 @@ COLORREF TBThemeManager::GetTabSelectorSelectedBkgColor()
 COLORREF TBThemeManager::GetTabSelectorBkgColor()
 {
 	return m_TabSelectorBkgColor.GetColor();
+}
+
+//------------------------------------------------------------------
+COLORREF TBThemeManager::GetTabSelectorScrollBarFillBkg()
+{
+	return m_TabSelectorScrollBarFillBkg.GetColor();
+}
+
+//------------------------------------------------------------------
+COLORREF TBThemeManager::GetTabSelectorScrollBarBkgButtonNoPressedColor()
+{
+	return m_TabSelectorScrollBarBkgButtonNoPressedColor.GetColor();
+}
+
+//------------------------------------------------------------------
+COLORREF TBThemeManager::GetTabSelectorScrollBarBkgButtonPressedColor()
+{
+	return m_TabSelectorScrollBarBkgButtonPressedColor.GetColor();
 }
 
 //-----------------------------------------------------------------------------
@@ -3298,6 +3322,9 @@ void TBThemeManager::Clear()
 	m_TabSelectorBkgColor.SetColor(m_BkgColor.GetColor());
 	m_bActivateDockPaneOnMouseClick = FALSE;
 	m_bBodyEditScrollBarInToolBar = TRUE;
+	m_TabSelectorScrollBarFillBkg.SetColor(m_BkgColor.GetColor());
+	m_TabSelectorScrollBarBkgButtonNoPressedColor.SetColor(m_BkgColor.GetColor());
+	m_TabSelectorScrollBarBkgButtonPressedColor.SetColor(m_BkgColor.GetColor());
 	m_bHasStatusBar = TRUE;
 	m_AlwaysDropDown = TRUE;
 	m_bShowThumbnails = TRUE;

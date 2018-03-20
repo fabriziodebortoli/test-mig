@@ -170,16 +170,38 @@ protected:
 class TB_EXPORT CSelectorButtonContainer : public CWnd
 {
 	DECLARE_DYNAMIC(CSelectorButtonContainer)
+
+private:
+	CTBScrollBar * m_pVScrollBar;
+	int m_nRealHeight;
+	int m_nScrollPosY;
+	int m_nScrollStepY;
+	int m_nScrollWidth;
+
 public:
 	CSelectorButtonContainer();
 	virtual ~CSelectorButtonContainer();
 
 public:
+	CTBScrollBar * GetVScrollBar() { return m_pVScrollBar; }
+	void CreateAccessories();
+	void SetRealHeight(int nHeight) { m_nRealHeight = nHeight; }
+	int  GetRealHeight() { return m_nRealHeight; }
+	void SetScrollVisible(BOOL bSet) {
+		if (m_pVScrollBar)
+			m_pVScrollBar->SetVisible(bSet);
+		if (bSet)
+			m_pVScrollBar->EnableWindow();
+	}
+	BOOL GetScrollVisible() { return m_pVScrollBar && m_pVScrollBar->isVisible(); }
+
 	// Accessibility - Method used to uniquely identify an object by Ranorex Spy
 	virtual HRESULT get_accName(VARIANT varChild, BSTR *pszName);
 
 private:
 	afx_msg	BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 
 	DECLARE_MESSAGE_MAP();
 };

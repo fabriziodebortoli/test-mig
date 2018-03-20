@@ -196,10 +196,18 @@ IMPLEMENT_DYNAMIC(CSelectorButtonContainer, CWnd)
 
 BEGIN_MESSAGE_MAP(CSelectorButtonContainer, CWnd)
 	ON_WM_ERASEBKGND()
+	ON_WM_VSCROLL()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 //------------------------------------------------------------------------------
 CSelectorButtonContainer::CSelectorButtonContainer()
+	:
+	m_pVScrollBar(NULL),
+	m_nRealHeight(0),
+	m_nScrollPosY(0),
+	m_nScrollStepY(0),
+	m_nScrollWidth(0)
 {
 	if (AfxGetApplicationContext()->IsActiveAccessibilityEnabled())
 		EnableActiveAccessibility();
@@ -208,6 +216,8 @@ CSelectorButtonContainer::CSelectorButtonContainer()
 //------------------------------------------------------------------------------
 CSelectorButtonContainer::~CSelectorButtonContainer()
 {
+	SAFE_DELETE(m_pVScrollBar);
+
 	if (m_pProxy != NULL)
 	{
 		//force disconnect accessibility clients
@@ -223,6 +233,53 @@ HRESULT CSelectorButtonContainer::get_accName(VARIANT varChild, BSTR *pszName)
 	return S_OK;
 }
 
+//------------------------------------------------------------------------------------
+void CSelectorButtonContainer::CreateAccessories()
+{
+	m_pVScrollBar = new CTBScrollBar();
+	CRect rect(0, 0, 0, 0);
+
+	UINT nIDC = AfxGetTBResourcesMap()->GetTbResourceID(_T("SelectorButtonContainerVScroll"), TbResourceType::TbControls);
+	if (!m_pVScrollBar->Create(SBS_VERT | WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, rect, this, nIDC))
+	{
+		TRACE0("SelectorBodyEditContainer::CreateAccessories: failed to create vertical scroll bar");
+		SAFE_DELETE(m_pVScrollBar);
+	}
+	else
+	{
+		SCROLLINFO sinfo;
+		if (m_pVScrollBar->GetScrollInfo(&sinfo))
+		{
+			sinfo.nPage = 1;
+			sinfo.nMax = GetRealHeight() - m_nScrollPosY;
+			VERIFY(m_pVScrollBar->SetScrollInfo(&sinfo));
+		}
+	}
+
+	m_pVScrollBar->SetThumbVisible(FALSE);
+	m_pVScrollBar->SetBackGroundColor(AfxGetThemeManager()->GetTabSelectorScrollBarFillBkg());
+	m_pVScrollBar->SetBkgButtonNoPressedColor(AfxGetThemeManager()->GetTabSelectorScrollBarBkgButtonNoPressedColor());
+	m_pVScrollBar->SetBkgButtonPressedColor(AfxGetThemeManager()->GetTabSelectorScrollBarBkgButtonPressedColor());
+	m_pVScrollBar->EnableScrollBar(ESB_ENABLE_BOTH);
+
+	m_nScrollStepY = AfxGetThemeManager()->GetTabSelectorMinHeight();
+	m_nScrollWidth = GetSystemMetrics(SM_CXVSCROLL);
+	m_pVScrollBar->SetVisible(FALSE);
+}
+
+//-----------------------------------------------------------------------------------
+void CSelectorButtonContainer::OnSize(UINT nType, int cx, int cy)
+{
+	__super::OnSize(nType, cx, cy);
+
+	CRect aRect;
+	this->GetWindowRect(aRect);
+	this->ScreenToClient(aRect);
+
+	if (m_pVScrollBar && m_pVScrollBar->m_hWnd)
+		m_pVScrollBar->SetWindowPos(NULL, aRect.right - m_nScrollWidth, aRect.top, m_nScrollWidth, aRect.bottom, SWP_SHOWWINDOW | SWP_NOZORDER);
+}
+
 //------------------------------------------------------------------------------
 BOOL CSelectorButtonContainer::OnEraseBkgnd(CDC* pDC)
 {
@@ -231,6 +288,43 @@ BOOL CSelectorButtonContainer::OnEraseBkgnd(CDC* pDC)
 	pDC->FillRect(&rclientRect, AfxGetThemeManager()->GetTabSelectorBkgColorBrush());
 
 	return TRUE;
+}
+
+//----------------------------------------------------------------------------------------------
+void CSelectorButtonContainer::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
+{
+	int nMaxPos = m_nRealHeight - m_nScrollStepY;
+
+	switch (nSBCode)
+	{
+	case SB_LINEUP:
+		if (m_nScrollPosY <= 0)
+			return;
+
+		m_nScrollPosY -= m_nScrollStepY;
+		SetScrollPos(SB_VERT, m_nScrollPosY);
+		ScrollWindow(0, m_nScrollStepY);
+		break;
+	case SB_LINEDOWN:
+		if (m_nScrollPosY >= nMaxPos)
+			return;
+
+		m_nScrollPosY += m_nScrollStepY;
+		SetScrollPos(SB_VERT, m_nScrollPosY);
+		ScrollWindow(0, -m_nScrollStepY);
+		break;
+	default:
+		return;
+	}
+
+	CRect aRect;
+	GetWindowRect(aRect);
+	ScreenToClient(aRect);
+
+	if (m_pVScrollBar && m_pVScrollBar->m_hWnd)
+		m_pVScrollBar->SetWindowPos(NULL, aRect.right - m_nScrollWidth, aRect.top, m_nScrollWidth, aRect.bottom, SWP_SHOWWINDOW | SWP_NOZORDER);
+
+	RedrawWindow();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -696,6 +790,11 @@ void CTabSelector::CalculateSelectorWidth()
 			labelY += selectorHeight;
 		}
 	}
+
+	if (!m_pSelectorButtonContainer)
+		return;
+
+	m_pSelectorButtonContainer->SetRealHeight(labelY);
 }
 
 //------------------------------------------------------------------------------
@@ -709,6 +808,13 @@ void CTabSelector::ArrangeItems()
 	{
 		if (m_pSelectorButtonContainer)
 		{
+			int nRealHeight = m_pSelectorButtonContainer->GetRealHeight();
+			if (nRealHeight > 0 && rect.Height() > 0 && rect.Height() < nRealHeight && !m_pSelectorButtonContainer->GetVScrollBar())
+			{
+				m_nSelectorWidth += GetSystemMetrics(SM_CXVSCROLL);
+				m_pSelectorButtonContainer->CreateAccessories();
+				m_pSelectorButtonContainer->SetScrollVisible(TRUE);
+			}
 			m_pSelectorButtonContainer->MoveWindow(0, 0, m_nSelectorWidth, rect.Height());
 		}
 		CWnd* pChild = GetWindow(GW_CHILD);

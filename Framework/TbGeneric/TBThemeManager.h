@@ -187,6 +187,9 @@ class TB_EXPORT TBThemeManager : public CObject, public CTileDesignModeParamsObj
 	TBThemeColor	m_TabSelectorHoveringForeColor;
 	TBThemeColor	m_TabSelectorSelectedBkgColor;
 	TBThemeColor	m_TabSelectorBkgColor;
+	TBThemeColor    m_TabSelectorScrollBarFillBkg;
+	TBThemeColor	m_TabSelectorScrollBarBkgButtonNoPressedColor;
+	TBThemeColor	m_TabSelectorScrollBarBkgButtonPressedColor;
 
 	TBThemeColor	m_StaticWithLineLineForeColor;
 	BOOL			m_ControlsUseBorders;
@@ -534,6 +537,9 @@ public:
 	COLORREF			GetTabSelectorHoveringForeColor();
 	COLORREF			GetTabSelectorSelectedBkgColor();
 	COLORREF			GetTabSelectorBkgColor();
+	COLORREF			GetTabSelectorScrollBarFillBkg();
+	COLORREF			GetTabSelectorScrollBarBkgButtonNoPressedColor();
+	COLORREF			GetTabSelectorScrollBarBkgButtonPressedColor();
 	CBrush*				GetTabSelectorBkgColorBrush();
 
 
