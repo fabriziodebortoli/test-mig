@@ -7,8 +7,10 @@
 
     {{applicationDate | date: dateFormat }}
     <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
-
-        <kendo-calendar [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-calendar>
+        <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
+            <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker>
+            <label>{{errorMessage}}</label>
+        </div>
     </div>
     <kendo-dialog-actions>
         <button kendoButton (click)="cancel()" class="k-secondary">{{_TB('Cancel')}}</button>
