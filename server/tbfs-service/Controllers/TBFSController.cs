@@ -55,7 +55,7 @@ namespace tbfs_service.Controllers
 
         //---------------------------------------------------------------------
         [Route("GetAllObjectsBytype")]
-        public IActionResult GetAllObjectsBytype(string appName, string modulesName, Enum objType)
+        public IActionResult GetAllObjectsBytype(string appName, string modulesName, ObjectType objType)
         {
             try
             {

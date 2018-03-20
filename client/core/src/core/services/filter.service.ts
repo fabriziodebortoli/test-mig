@@ -4,7 +4,9 @@ import { SortDescriptor, orderBy, CompositeFilterDescriptor } from '@progress/ke
 import { debounceFirst } from './../../shared/commons/debounceFirst';
 import * as _ from 'lodash';
 
-export class SimpleFilter { field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean }
+export class SimpleFilter {
+    field?: string | Function; operator: string | Function; value?: any; ignoreCase?: boolean
+}
 export class CompositeFilter { logic?: 'or' | 'and'; filters?: Array<CompositeFilter | SimpleFilter> }
 
 export function combineFiltersMap<T, T2, R>(left: Observable<T>, right: Observable<T2>, project: (v1: T, v2: T2) => R): Observable<R> {
@@ -110,8 +112,8 @@ export class FilterService implements OnDestroy {
 
     private format(value: CompositeFilter): CompositeFilter {
         return !value || !value.filters || value.filters.length === 0 ? value : {
-            ...value, filters: value.filters.map(f => (f instanceof SimpleFilter) ? 
-                this.removeHiddenFieldFilters(this.formatSimple(f as SimpleFilter)) : this.format(f as CompositeFilter))
+            ...value, filters: value.filters.map(f =>
+                this.removeHiddenFieldFilters(this.formatSimple(f as SimpleFilter)))
                 .filter(x => x)
         };
     }

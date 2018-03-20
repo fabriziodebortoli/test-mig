@@ -45,7 +45,9 @@ export class RadarComponent extends ControlComponent implements OnInit {
     @Input() selectionColumnId = 'TBGuid';
     @ViewChild('grid') grid: CustomisableGridComponent;
     @ViewChild('anchor', { read: ElementRef }) public anchorElRef: ElementRef;
-    public set state(s: State) { (this.state$ as BehaviorSubject<State>).next(s); }
+    public set state(s: State) { 
+        (this.state$ as BehaviorSubject<State>).next(s); 
+    }
     public get state(): State { return (this.state$ as BehaviorSubject<State>).getValue(); }
     state$: Observable<State> = new BehaviorSubject(State.new());
     pinned = false;
@@ -61,7 +63,7 @@ export class RadarComponent extends ControlComponent implements OnInit {
         public paginator: PaginatorService, private filterer: FilterService, private renderer: Renderer, private app: ApplicationRef,
         private _view: ViewContainerRef) {
         super(m.layout, m.tbComponent, m.changeDetectorRef);
-        RadarEventHandler.Attach(this);
+        RadarEventHandler.Handle(this, m.log, this.state$.map(s => s.canNavigate));
     }
 
     ngOnInit() {
@@ -143,7 +145,8 @@ export class RadarComponent extends ControlComponent implements OnInit {
     private show = (show: boolean) => {
         this.viewState = show ? ViewStates.opened : ViewStates.closed;
         this.changeDetectorRef.detectChanges();
-        show && this.elRef.nativeElement.querySelector('.k-grid-content.k-virtual-content').focus();
+        if (show)
+            this.elRef.nativeElement.focus();
     }
 
     async selectFirst() {

@@ -50,6 +50,7 @@ export class State {
         if (a) return new State().with(a);
         return new State();
     }
+    
     with(a: (Partial<State> | ((s: State) => Partial<State>))): Readonly<State> {
         if (typeof a === 'function')
             a = a(this as any);
@@ -173,8 +174,7 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
         if (!this._settings) this.loadSettings();
         if (cols.length === 0) return this._settings;
         let hash = getObjHash(cols, this.maxColumns);
-        if (new Settings().version !== this._settings.version || hash !== this._settings.hash || 
-            !this._settings.columnsVisibility || !this._settings.columnsVisibility.length) {
+        if (new Settings().version !== this._settings.version || hash !== this._settings.hash) {
             this._settings = new Settings();
             this._settings.hash = hash;
             this._settings.reorderMap = cols.map(x => x.id);

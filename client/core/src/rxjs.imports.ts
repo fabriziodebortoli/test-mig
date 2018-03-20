@@ -42,3 +42,7 @@ export * from 'rxjs/ReplaySubject';
 export * from 'rxjs/util/TimeoutError';
 export * from 'rxjs/util/isNumeric';
 
+export { untilDestroy } from './shared/commons/untilDestroy';
+export { debounceFirst } from './shared/commons/debounceFirst';
+export { when } from './shared/commons/when';
+

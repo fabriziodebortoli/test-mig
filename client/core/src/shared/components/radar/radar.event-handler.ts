@@ -1,20 +1,24 @@
 import { RadarComponent } from './radar.component';
-import { untilDestroy } from '../../commons/untilDestroy';
-import { Observable } from '../../../rxjs.imports';
+import { Observable, untilDestroy, when } from '../../../rxjs.imports';
+import { Logger } from '../../../core/services/logger.service';
 
 export default class RadarEventHandler {
-    static Attach(radar: RadarComponent): RadarEventHandler {
-        return new RadarEventHandler(radar);
+    static Handle(radar: RadarComponent, log: Logger, enabler?: Observable<boolean>): RadarEventHandler {
+        return new RadarEventHandler(radar, log, enabler);
     }
 
-    private constructor(r: any) {
+    private constructor(r: any, log: Logger, enabler?: Observable<boolean>) {
+        enabler = enabler || Observable.of(true);
         let prevPage = () => r.paginator.currentPage > 0 && r.previousPage();
         let nextPage = () => !r.paginator.noMorePages && r.nextPage();
-        let target = () => r.elRef.nativeElement.querySelector('.k-grid-content');
+        let grid = () => r.elRef.nativeElement.querySelector('.k-grid-content');
+        let hasClass = (el: any, classes: string) => el.classList && el.classList.value && el.classList.value.includes(classes);
+        let keyTarget = (e: Event) => e.target['type'] !== 'text';
+        let clickTarget = (e: Event) => grid().contains(e.target) && hasClass(e.target, "hotLinkGridCell");
 
-        Observable.fromEvent(r.elRef.nativeElement, 'keydown', { capture: true })
-            .pipe(untilDestroy(r))
-            .filter((e: Event) => target().contains(e.target))
+        Observable.fromEvent(r.elRef.nativeElement, 'keyup', { capture: true })
+            .pipe(untilDestroy(r), when(enabler))
+            .filter(keyTarget)
             .subscribe((e: KeyboardEvent) => {
                 switch (e.key) {
                     case 'w': r.selectPrevious(); break
@@ -27,8 +31,8 @@ export default class RadarEventHandler {
                     case 'PageDown': nextPage(); break;
                     case 'Enter': r.selectAndEdit(r.state.rows[r.state.selectedIndex]); break;
                     case 'Escape': r.m.eventData.openRadar.next(false); r.changeDetectorRef.markForCheck(); break;
-                    case 'a': target().scrollLeft -= 10; break;
-                    case 'd': target().scrollLeft += 10; break;
+                    case 'a': grid().scrollLeft -= 10; break;
+                    case 'd': grid().scrollLeft += 10; break;
                     default: return;
                 }
                 e.preventDefault();
@@ -37,8 +41,8 @@ export default class RadarEventHandler {
 
         let click$ = Observable.fromEvent(r.elRef.nativeElement, 'click', { capture: true }); // doubleclick
         click$
-            .pipe(untilDestroy(r))
-            .filter((e: Event) => target().contains(e.target))
+            .pipe(untilDestroy(r), when(enabler))
+            .filter(clickTarget)
             .buffer(click$.debounceTime(250))
             .filter(arr => arr.length >= 2)
             .subscribe((e: Event[]) => {
