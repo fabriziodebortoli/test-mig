@@ -64,7 +64,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		public string SqlMessage = string.Empty;// Message di tipo TBException
 
 		public string IsoState = string.Empty;
-		public bool UseUnicode = false;
+		public bool UseUnicode = true;
 
 		public DBNetworkType DBNetworkType = DBNetworkType.Small;
 		// gestione RowSecurityLayer
