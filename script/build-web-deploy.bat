@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 
 REM ===========================================================================
 REM Determines if launched by a command prompt or Windows Explorer
@@ -196,3 +196,15 @@ if "%~1"=="-skipcod" (goto end)
 robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
 robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
 :end
+
+
+IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\ (
+	IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Server\  (
+		exit /b 0
+		)
+
+) ELSE (
+	rem se non trova m4client o m4server, qualcosa è andato storto, exit con error code 1
+	exit /b 1
+)
+
