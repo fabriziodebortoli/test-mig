@@ -28,7 +28,39 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			return PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
+			var list =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, user, onlyDesignable);
+			StringBuilder sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			JsonWriter jsonWriter = new JsonTextWriter(sw);
+			jsonWriter.WriteStartObject();
+			jsonWriter.WritePropertyName("Customizations");
+
+			jsonWriter.WriteStartArray();
+			foreach (var item in list)
+			{
+				jsonWriter.WriteStartObject();
+				jsonWriter.WritePropertyName("fileName");
+				jsonWriter.WriteValue(item.PathName);
+
+				jsonWriter.WritePropertyName("customizationName");
+				jsonWriter.WriteValue(Path.GetFileNameWithoutExtension(item.name));
+
+				jsonWriter.WritePropertyName("applicationOwner");
+				jsonWriter.WriteValue(item.appName);
+
+				jsonWriter.WritePropertyName("moduleOwner");
+				jsonWriter.WriteValue(item.moduleName);
+
+				jsonWriter.WriteEndObject();
+			}
+		
+			jsonWriter.WriteEndArray();
+			jsonWriter.WriteEndObject();
+
+			jsonWriter.Close();
+			sw.Close();
+
+			return sw.ToString();
 		}
 
 		//---------------------------------------------------------------

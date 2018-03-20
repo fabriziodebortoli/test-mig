@@ -181,16 +181,6 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    updateCachedDateAndSave(): Observable<any> {
-        let obj = { user: sessionStorage.getItem('authtoken') };
-        let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
-        return this.httpService.postData(url, obj)
-            .map((res: any) => {
-                return res;
-            })
-            .catch(this.handleError);
-    }
-
     updateBaseCustomizationContext(app: string, mod: string): Observable<any> {
         let obj = { user: localStorage.getItem('_user'), applicationName: app, moduleName: mod };
         let url = this.infoService.getDocumentBaseUrl() + 'updateBaseCustomizationContext/';
@@ -224,6 +214,16 @@ export class HttpMenuService {
     }
 
     //#endregion 
+
+    updateCachedDateAndSave(): Observable<any> {
+        let obj = { user: sessionStorage.getItem('authtoken') };
+        let url = this.infoService.getMenuServiceUrl() + 'updateCachedDateAndSave/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
 
     getConnectionInfo(): Observable<any> {
 

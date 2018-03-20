@@ -47,15 +47,16 @@ CTbWebHandler::CTbWebHandler()
 	//functionMap.SetAt(_T("getCustomizationsForDocument/"), &CTbWebHandler::GetCustomizationsForDocumentFunction);
 	//functionMap.SetAt(_T("setAppAndModule/"),			&CTbWebHandler::SetAppAndModule);
 	//functionMap.SetAt(_T("createNewContext/"),			&CTbWebHandler::CreateNewContext);
-
+	//functionMap.SetAt(_T("refreshEasyBuilderApps/"),	&CTbWebHandler::RefreshEasyBuilderApps);
 	//update old basecustomizationcontext
-	functionMap.SetAt(_T("updateBaseCustomizationContext/"), &CTbWebHandler::SetAppAndModule);
+
 	//da mantenere in c++
-	functionMap.SetAt(_T("runEasyStudio/"),				&CTbWebHandler::RunEasyStudioFunction);
-	functionMap.SetAt(_T("refreshEasyBuilderApps/"),	&CTbWebHandler::RefreshEasyBuilderApps);
 	functionMap.SetAt(_T("cloneEasyStudioDocument/"),	&CTbWebHandler::CloneEasyStudioDocumentFunction);
-	functionMap.SetAt(_T("closeCustomizationContext/"), &CTbWebHandler::CloseCustomizationContextFunction);
 	functionMap.SetAt(_T("canModifyContext/"),			&CTbWebHandler::CanModifyContextFunction);
+	functionMap.SetAt(_T("updateBaseCustomizationContext/"), &CTbWebHandler::SetAppAndModule);
+	functionMap.SetAt(_T("runEasyStudio/"),				&CTbWebHandler::RunEasyStudioFunction);
+	functionMap.SetAt(_T("closeCustomizationContext/"), &CTbWebHandler::CloseCustomizationContextFunction);
+
 	
 }
 

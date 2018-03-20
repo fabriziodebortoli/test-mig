@@ -2698,47 +2698,21 @@ namespace Microarea.Common.NameSolver
 			}
 		}
 
-        string easyStudioHome = "ESHome";
-        public string EasyStudioHome { get { return easyStudioHome; } set { easyStudioHome = value; } } 
-        EasyStudioConfiguration easyStudioConfiguration;
-
-        //-----------------------------------------------------------------------------
-        public string GetEasyStudioHomePath(bool createDir = false)
-        {
-            string path = string.Empty;
-            if (EasyStudioAppsInCustom)
-                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, EasyStudioHome);
-            else
-                path = GetStandardPath;
-        //-----------------------------------------------------------------------------
-        public string GetEasyStudioHomePath(bool createDir = false)
-        {
-            if (easyStudioConfiguration == null)
-                easyStudioConfiguration = new EasyStudioConfiguration(this);
-
-            string path = string.Empty;
-            if (easyStudioConfiguration.Settings.CustomizationsInCustom)
-                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, easyStudioConfiguration.Settings.HomeName);
-            else
-                path = GetStandardPath;
-
-				return sb.ToString();
-
-			}
-		}
 		#endregion DellePiane
 
 		#region EasyStudio functions
 
-		string easyStudioHome = "ESHome";
-		public string EasyStudioHome { get { return easyStudioHome; } set { easyStudioHome = value; } }
+		EasyStudioConfiguration easyStudioConfiguration;
 
 		//-----------------------------------------------------------------------------
 		public string GetEasyStudioHomePath(bool createDir = false)
 		{
+			if (easyStudioConfiguration == null)
+				easyStudioConfiguration = new EasyStudioConfiguration(this);
+
 			string path = string.Empty;
-			if (EasyStudioAppsInCustom)
-				path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, EasyStudioHome);
+			if (easyStudioConfiguration.Settings.CustomizationsInCustom)
+				path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, easyStudioConfiguration.Settings.HomeName);
 			else
 				path = GetStandardPath;
 
