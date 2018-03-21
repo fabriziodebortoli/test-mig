@@ -967,8 +967,11 @@ namespace Microarea.RSWeb.WoormEngine
         //---------------------------------------------------------------------------
         bool ResolveQueries()
         {
-            foreach (QueryRule queryRule in UnsortedRules)
+            foreach (RuleObj r in UnsortedRules)
             {
+                QueryRule queryRule = r as QueryRule;
+                if (queryRule == null)
+                    continue;
                 QueryObject qry = RepSymTable.QueryObjects.Find(queryRule.Name);
                 if (qry == null) 
                     continue;
