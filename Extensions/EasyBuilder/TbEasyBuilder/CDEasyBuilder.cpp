@@ -773,7 +773,8 @@ void CDEasyBuilder::EasyBuilderIt()
 //------------------------------------------------------------------------------
 void CDEasyBuilder::OnUpdateEditForm (CCmdUI* pCmdUI)
 {	
-	BOOL bVisible = managedGate->IsFrameDockable() &&
+	BOOL bVisible =		AfxGetLoginInfos()->m_bEasyBuilderDeveloper &&
+						managedGate->IsFrameDockable() &&
 						AfxIsActivated(NameSolverStrings::Extensions, NameSolverStrings::EasyStudioDesigner) &&
 						m_pServerDocument->GetXmlDescription()->IsDesignable();
 
