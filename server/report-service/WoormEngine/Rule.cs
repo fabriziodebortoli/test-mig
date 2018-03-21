@@ -63,7 +63,7 @@ namespace Microarea.RSWeb.WoormEngine
 	//============================================================================
 	abstract public class RuleObj
 	{
-		public RuleEngine	    engine;
+        public RuleEngine	    engine;
 		public List<RuleObj>    Sons = new List<RuleObj>();		// valido solo dopo una BuildLinks
 		public List<RuleObj>	Parents = new List<RuleObj>();	// valido solo dopo una BuildLinks
 		public int		    	ParentsNum = 0;				// usato solo per il sort delle rules
@@ -75,6 +75,7 @@ namespace Microarea.RSWeb.WoormEngine
 		protected bool		    failed = false;
 		protected bool		    nullSolution = false;
 	
+        public enum SelectMode { ALL, NOT_NULL, NULL }
 		//-----------------------------------------------------------------------------
 		public RuleEngine	Engine	{ get { return engine; } set { engine = value; }}
 		public TbReportSession Session	{ get { return Engine.Session; }}
@@ -129,13 +130,22 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			return Parents.Count == 0;
 		}
-	}
 
-	/// <summary>
-	/// ExpressionRule
-	/// </summary>
-	//============================================================================
-	public class ExpressionRule : RuleObj
+        ///<summary>
+        ///Rimuove gli spazi terminali dalla stringa
+        /// </summary>
+        //-----------------------------------------------------------------------------
+        protected static string StripBlank(string data)
+        {
+            return data.TrimEnd(' ');
+        }
+    }
+
+    /// <summary>
+    /// ExpressionRule
+    /// </summary>
+    //============================================================================
+    public class ExpressionRule : RuleObj
 	{
 		private LetStatement	letExpression;
 		private WoormEngineExpression		whereExpression;
@@ -555,8 +565,6 @@ namespace Microarea.RSWeb.WoormEngine
 	{
 		private bool disposed = false;	// Track whether Dispose has been called.
 		public event EventHandler SearchTic;
-
-		public enum SelectMode { ALL, NOT_NULL, NULL }
 		
 		private List<Field>		selectFields = new List<Field>();
 
@@ -1599,7 +1607,7 @@ namespace Microarea.RSWeb.WoormEngine
 			try
 			{
                 int rowsFetched = 0;
-				bool bStrip = Session != null && Session.StripTrailingSpaces;
+                bool bStrip = true; // Session != null && Session.StripTrailingSpaces;
 				while (iDataReader.Read())
 				{
                     rowsFetched++;
@@ -1621,14 +1629,17 @@ namespace Microarea.RSWeb.WoormEngine
                         //ATTENZIONE: se rf.NativeColumnExpr allora rf.PhysicalName contiene l'espressione dinamica non ancora espansa
                         object o = iDataReader[i]; 
 
-						rf.Data = Common.CoreTypes.ObjectHelper.CastFromDBData(o, rf.Data);
+						object data = Common.CoreTypes.ObjectHelper.CastFromDBData(o, rf.Data);
 
 						//An. 17609
-						if (rf.Data is string && bStrip)
-							rf.Data = StripBlank(rf.Data as string);
+						if (data is string && bStrip)
+                            data = StripBlank(data as string);
+
+                        rf.Data = data;
 
 						rf.RuleDataFetched = true;
 						rf.ValidRuleData = true;
+
 						i++;
 					}
 			
@@ -1699,15 +1710,6 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 
 			return RuleReturn.Success;
-		}
-
-		///<summary>
-		///Rimuove gli spazi terminali dalla stringa
-		/// </summary>
-		//-----------------------------------------------------------------------------
-		private string StripBlank(string data)
-		{
-			return data.TrimEnd(' ');
 		}
 					
 		//-----------------------------------------------------------------------------
@@ -1794,12 +1796,14 @@ namespace Microarea.RSWeb.WoormEngine
 	//============================================================================
 	class QueryRule :  RuleObj
 	{
-		private string			queryName = string.Empty;
-		private QueryObject		query = null;
+		public string			Name = string.Empty;
+		public  QueryObject		Query = null;
 		private WoormEngineExpression	whenExpr = null;
 
-		//-----------------------------------------------------------------------------
-		public QueryRule(RuleEngine engine) : base(engine)
+        private SelectMode constraint = SelectMode.ALL; //Woorm type selection
+ 
+        //-----------------------------------------------------------------------------
+        public QueryRule(RuleEngine engine) : base(engine)
 		{
 			whenExpr = new WoormEngineExpression	(engine.Report.Engine, Session, engine.RepSymTable.Fields);
 		}
@@ -1808,8 +1812,10 @@ namespace Microarea.RSWeb.WoormEngine
 		//FindKeyName ?
 		public override bool Contains (string fieldName)
 		{
-			if (whenExpr.HasMember(fieldName)) return true;
-			if (query != null && query.HasMember(fieldName)) return true;
+			if (whenExpr.HasMember(fieldName)) 
+                return true;
+			if (Query != null && Query.HasMember(fieldName)) 
+                return true;
 			return false;
 		}
 
@@ -1823,37 +1829,39 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//-----------------------------------------------------------------------------
-		public bool	Parse (Parser lex)
+		public bool	Parse (Parser parser)
 		{
-			if (lex.ParseTag(Token.QUERY))
+			if (parser.ParseTag(Token.QUERY))
 			{
-				lex.ParseID( out queryName);
+                parser.ParseID( out Name);
 
-				//m_pField = (RuleItem*) m_pSymTable->FindItemMember(m_strQueryName);
-				//if (m_pField == NULL)
-				//{
-				//	parser.SetError(WoormExpression::FormatMessage(WoormExpression::UNKNOWN_FIELD), m_strQueryName);
-				//	return FALSE;
-				//}
+                constraint = SelectMode.ALL;
 
-				//TODO check type e new istance
+                if (parser.Matched(Token.NOT) && parser.ParseTag(Token.NULL))
+                    constraint = SelectMode.NOT_NULL;
+                else
+                    if (!parser.Error && parser.Matched(Token.NULL))
+                    constraint = SelectMode.NULL;
+                else
+                    if (parser.Error)
+                    return false;
 
-				if (lex.Matched(Token.WHEN))
+                if (parser.Matched(Token.WHEN))
 				{
 					whenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
-					if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))
+					if (!whenExpr.Compile(parser, CheckResultType.Match, "Boolean"))
 						return false;
 				}
-				lex.ParseTag(Token.SEP);
+                parser.ParseTag(Token.SEP);
 			}
-			return !lex.Error;
+			return !parser.Error;
 		}
 
 		//-----------------------------------------------------------------------------
 		public override bool Unparse(Unparser unparser)
 		{
 			unparser.WriteTag(Token.QUERY, false);
-			unparser.WriteID(this.queryName, false);
+			unparser.WriteID(this.Name, false);
 			
 			if (!whenExpr.IsEmpty)
 			{
@@ -1866,52 +1874,184 @@ namespace Microarea.RSWeb.WoormEngine
 			return true;
 		}
 
-		//-----------------------------------------------------------------------------
-		public override RuleReturn	Apply	()
-		{
-			failed = false;
-			nullSolution = false;
-			engine.NullRulesNum--;
+        //---------------------------------------------------------------------
+        private RuleReturn ExecQuery()
+        {
+            if (engine.NullRulesNum != 0 && IsSonOfNullRules())
+                return RuleReturn.Backtrack;
 
-			if (!whenExpr.IsEmpty)
-			{
-				Value cond = whenExpr.Eval();
-				if (whenExpr.Error)
-				{
-					engine.SetError(string.Format("Rule Query {0} is invalid", queryName));
-					return RuleReturn.Abort;
-				}
+            //-----
+            if (Query == null)
+            {
+                QueryObject qry = engine.RepSymTable.QueryObjects.Find(Name);
+                if (qry == null)
+                {
+                    engine.SetError(string.Format("Named query rule {0} is missing", Name));
+                    return RuleReturn.Abort;
+                }
+                Query = qry;
+                qry.IsQueryRule = true;
+            }
 
-				if (!(bool)(cond.Data)) 
-					return engine.ApplyRuleFrom(RuleId + 1);
-			}
+            //-----
+            if (!Query.Open())
+                return RuleReturn.Abort;
 
-            query = engine.RepSymTable.QueryObjects.Find(queryName) as QueryObject;
-            if (query == null)
-			{
-				engine.SetError(string.Format("Rule Query {0} is invalid", queryName));
-				return RuleReturn.Abort;
-			}
+            return RuleReturn.Success;
+        }
 
-            query.IsQueryRule = true;
+        //---------------------------------------------------------------------
+        private RuleReturn ExecSubQuery(ref bool bRecFoundForConstraint)
+        {
+            RuleReturn rr = RuleReturn.Success;
+            if (Query.IsEmpty())
+                return rr;
 
-			if (!query.Open())
-				return RuleReturn.Abort;
+            while (Query.Read())
+            {
+                if (constraint == SelectMode.NULL)
+                {
+                    bRecFoundForConstraint = true;
+                    break;
+                }
 
-			while (query.Read())
-			{
-				RuleReturn rr = engine.ApplyRuleFrom(RuleId + 1);	
-			}
-			query.Close();
-			return RuleReturn.Success;
-		}
-	}
+                failed = false;
 
-	/// <summary>
-	/// WhileRule
-	/// </summary>
-	//============================================================================
-	class WhileRule : RuleObj
+                if (nullSolution)
+                {
+                    nullSolution = false;
+                    engine.NullRulesNum--;
+                }
+
+                // this statement musts be in this place after fields updating
+                rr = engine.ApplyRuleFrom(RuleId + 1);
+
+                switch (rr)
+                {
+                    case RuleReturn.Abort:
+                        return RuleReturn.Abort;
+
+                    case RuleReturn.Backtrack:
+                        {
+                            if (!IsParentOfFailedRules())
+                                return RuleReturn.Backtrack;
+                            break;
+                        }
+
+                    case RuleReturn.Success:
+                        {
+                            bRecFoundForConstraint = true;
+                            break;
+                        }
+                }
+            }
+            return RuleReturn.Success;
+        }
+
+
+        //-----------------------------------------------------------------------------
+        public override RuleReturn Apply()
+        {
+            if (!whenExpr.IsEmpty)
+            {
+                Value cond = whenExpr.Eval();
+                if (whenExpr.Error)
+                {
+                    engine.SetError(string.Format("When-clause of named query rule {0} is invalid", Name));
+                    return RuleReturn.Abort;
+                }
+
+                if (!(bool)(cond.Data))
+                {
+                    engine.NullRulesNum--;
+                    return engine.ApplyRuleFrom(RuleId + 1);
+                }
+            }
+            //----
+
+            RuleReturn rr = ExecQuery();
+
+            bool bRecFoundForConstraint = false;
+            switch (rr)
+            {
+                case RuleReturn.Abort:
+                    return RuleReturn.Abort;
+
+                case RuleReturn.Success:
+                    {
+                        RuleReturn rr1 = ExecSubQuery(ref bRecFoundForConstraint);
+
+                        if (rr1 != RuleReturn.Success)
+                            return rr1;
+
+                        if (bRecFoundForConstraint && (constraint != SelectMode.NULL))
+                        {
+                            failed = false;
+                            return RuleReturn.Success;
+                        }
+
+                        break;
+                    }
+            }
+
+            if (
+                    (!bRecFoundForConstraint && (constraint == SelectMode.NOT_NULL)) ||
+                    (bRecFoundForConstraint && (constraint == SelectMode.NULL))
+                )
+            {
+                failed = true;
+                engine.SetError(string.Format("No data extracted from named query rule {0}", Name));
+
+                return RuleReturn.Backtrack;
+            }
+
+            failed = false;
+
+            if (!nullSolution)
+            {
+                nullSolution = true;
+                engine.NullRulesNum++;
+            }
+
+            // make null all own fields
+            for (int i = 0; i < GetSelFieldsNum(); i++)
+                GetSelField(i).SetNullRuleData();
+
+            return engine.ApplyRuleFrom(RuleId + 1);
+        }
+    
+        //---------------------------------------------------------------------
+        public int GetSelFieldsNum()
+        {
+            if (Query == null) 
+                return 0;
+
+            return Query.GetColumnCount();
+        }
+
+        public string GetSelFieldName(int i)
+        {
+            if (Query == null)
+                return null;
+            return Query.GetColumnName(i); ;
+        }
+        
+        public Field GetSelField(int i)
+        {
+            string name  = GetSelFieldName(i);
+            if (name == null)
+                return null;
+
+            Field f = this.Engine.RepSymTable.Fields.Find(name);
+            return f;
+        }
+ 	}
+
+    /// <summary>
+    /// WhileRule
+    /// </summary>
+    //============================================================================
+    class WhileRule : RuleObj
 	{
 		private WoormEngineExpression		condExpr = null;
 

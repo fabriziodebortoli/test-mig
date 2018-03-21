@@ -574,7 +574,6 @@ namespace Microarea.RSWeb.WoormEngine
 			EventDataUpdated = true;
 		}
 
-
 		// serve a far considerare il field come se fosse un null data in modo da
 		// poterlo considerare tale nelle varie espression e quin gestire "IS NULL" o "IS NOT NULL"
 		// nelle rule dei vari tipi (condizionali, espressioni, datatable, query)

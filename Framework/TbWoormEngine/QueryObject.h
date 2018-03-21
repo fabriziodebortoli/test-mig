@@ -41,16 +41,16 @@ protected:
 
 	CString			m_strSql;	//senza i tag, con i segnaposto dei parametri
 
-	long			m_nQueryHandle;
+	long			m_nQueryHandle = NULL;
 	
-	SymTable*		m_pSymbolTable;
+	SymTable*		m_pSymbolTable = NULL;
 
-	SqlSession*		m_pSqlSession;
-	SqlTable*		m_poSqlTable;
-	SqlRecord*		m_poSqlRecord;
+	SqlSession*		m_pSqlSession = NULL;
+	SqlTable*		m_poSqlTable = NULL;
+	SqlRecord*		m_poSqlRecord = NULL;
 
 	Array			m_TagLinks;
-	QueryObject*	m_pParent;
+	QueryObject*	m_pParent = NULL;
 
 	CMessages		m_msg;
 public:
@@ -65,7 +65,7 @@ private:
 	BOOL			m_bCursorUpdatable;
 	BOOL			m_bSensibility;
 
-	BOOL			m_bIsQueryRule;
+	BOOL			m_bIsQueryRule = FALSE;
 
 	CStringArray	m_arAllSelectedField;
 	CStringArray	m_arAllParameters;
@@ -78,6 +78,8 @@ public:
 	QueryObject (SymTable* pSymbolTable, SqlSession* pSession);
 	QueryObject (const CString& sName, SymTable* pSymbolTable, SqlSession* pSession, QueryObject* pParent = NULL);
 	virtual ~QueryObject ();
+
+	QueryObject*	GetRoot() { return m_pParent ? m_pParent->GetRoot() : this; }
 
 	virtual BOOL	Parse		(Parser& parser);
 	BOOL			Unparse		(Unparser& unparser, BOOL bSkipHeader = FALSE, BOOL bSkipBeginEnd = FALSE) const;

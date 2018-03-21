@@ -154,9 +154,10 @@ namespace Microarea.RSWeb.WoormEngine
 		public int			NullRulesNum	{ get { return nullRulesNum;} set { nullRulesNum = value; }}	
 		public RepSymTable	RepSymTable		{ get { return report.SymTable; }}
 		public List<RuleObj> SortedRules { get { return sortedRules; } }
+        public List<RuleObj> UnsortedRules { get { return unsortedRules; } }
 
-		//---------------------------------------------------------------------------
-		public string	PublicName { get { return publicName; } set { publicName = value; }}
+        //---------------------------------------------------------------------------
+        public string	PublicName { get { return publicName; } set { publicName = value; }}
 		public int		InternalId { get { return 0; }}
 
 		//---------------------------------------------------------------------------
@@ -954,11 +955,33 @@ namespace Microarea.RSWeb.WoormEngine
             if ((lex.Matched(Token.HAVING) && !ParseHaving(lex)) || lex.Error)
                 return false;
 
-            return BuildTree(lex, groupByExp);
+            return true; // BuildTree(lex, groupByExp);
 		}
 
-		//---------------------------------------------------------------------------
-		public bool UnparseRules(Unparser unparser)
+        //---------------------------------------------------------------------------
+        bool BuildTree(Parser parser)
+        {
+            return BuildTree(parser, groupByExp);
+        }
+
+        //---------------------------------------------------------------------------
+        bool ResolveQueries()
+        {
+            foreach (QueryRule queryRule in UnsortedRules)
+            {
+                QueryObject qry = RepSymTable.QueryObjects.Find(queryRule.Name);
+                if (qry == null) 
+                    continue;
+
+                queryRule.Query = qry;
+                qry.IsQueryRule = true;
+            }
+
+            return true;
+        }
+
+        //---------------------------------------------------------------------------
+        public bool UnparseRules(Unparser unparser)
 		{
 			if (SortedRules.Count > 0)
 			{
@@ -1938,20 +1961,26 @@ namespace Microarea.RSWeb.WoormEngine
 
 			if (!ParseFields(lex))
 				return false;
-
 			if (!ParseRules(lex))
 				return false;
-
-			if (
-					!ParseEvents(lex) ||
-					!ParseProcedures(lex) ||
-					!ParseQueries(lex) ||
-					!ParseAskingRules(lex) ||
-					!lex.ParseEnd()
-				)
+			if (!ParseEvents(lex))
 				return false;
+            if (!ParseProcedures(lex))
+                return false;
+            if (!ParseQueries(lex))
+                return false;
+            if (!ParseAskingRules(lex) )
+                return false;
+            if (!lex.ParseEnd())
+                return false;
 
-			return MakeAutoDisplayActions(lex);
+            if (!ResolveQueries())
+                return false;
+
+            if (!BuildTree(lex))
+                return false;
+
+            return MakeAutoDisplayActions(lex);
 		}
 
 		//---------------------------------------------------------------------------

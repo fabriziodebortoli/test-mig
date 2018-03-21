@@ -48,6 +48,7 @@ namespace Microarea.Common.Hotlink
 		private int             bindNumber = 0;
 
         public  bool            IsQueryRule = false;
+        private List<string>    selectFields = null;
 
         private bool            isOracle = false;
         private bool            isUnicode = false;
@@ -120,9 +121,10 @@ namespace Microarea.Common.Hotlink
 				tbConnection.Dispose();
 				tbConnection = null;
 			}
+
 			queryHandle = -1;
 			bindNumber = 0;
-		}
+        }
 
         #endregion
 
@@ -156,16 +158,43 @@ namespace Microarea.Common.Hotlink
 			{
 				TagLink tagLink = tagLinkArrayList[i];
 
-				if (string.Compare(tagLink.name, name, StringComparison.OrdinalIgnoreCase) == 0)
-					return true;
-                if (tagLink.expandClause != null && tagLink.expandClause.HasMember(name))
+				if ((tagLink.direction == TagType.IN || tagLink.direction == TagType.REF) && tagLink.name.CompareNoCase(name))
                     return true;
-                if (tagLink.elseClause != null && tagLink.elseClause.HasMember(name))
-                    return true;
+
+                if (tagLink.direction == TagType.EXPAND || tagLink.direction == TagType.INCLUDE || tagLink.direction == TagType.EVAL)
+                {
+                    if (tagLink.whenExpr != null && tagLink.whenExpr.HasMember(name))
+                        return true;
+                    if (tagLink.expandClause != null && tagLink.expandClause.HasMember(name))
+                        return true;
+                    if (tagLink.elseClause != null && tagLink.elseClause.HasMember(name))
+                        return true;
+               }
             }
 			return false;
 		}
 
+        public bool HasColumn(string name)
+        {
+            for (int i = 0; i < tagLinkArrayList.Count; i++)
+            {
+                TagLink tagLink = tagLinkArrayList[i];
+
+                if ((tagLink.direction == TagType.COL /*|| tagLink.direction == TagType.OUT|| tagLink.direction == TagType.REF*/) && tagLink.name.CompareNoCase(name))
+                    return true;
+
+                if (tagLink.direction == TagType.EXPAND || tagLink.direction == TagType.INCLUDE)
+                {
+                    if (tagLink.expandClause != null && tagLink.expandClause.HasColumn(name))
+                        return true;
+                    if (tagLink.elseClause != null && tagLink.elseClause.HasColumn(name))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        //------------------------------------------------------------------------------
         public bool Define(string sql, List<ColumnType> columns = null)
         {
             sql = "QUERY _q" + " BEGIN { " + sql + " } END";
@@ -208,6 +237,12 @@ namespace Microarea.Common.Hotlink
             }
             return ok;
          }
+
+        //------------------------------------------------------------------------------
+        public bool IsEmpty()
+        {
+            return iDataReader == null;
+        }
 
         //------------------------------------------------------------------------------
         public bool Parse (ref Parser parser)
@@ -646,6 +681,9 @@ namespace Microarea.Common.Hotlink
 			if (!ExpandTemplate( ref strSql)) 
 				return false;
 
+            selectFields = new List<string>();
+            SetCurrentQueryColumns();
+
             strSql = strSql.StripBlankNearSquareBrackets();
             strSql = strSql.Replace('\r', ' ');
             strSql = strSql.Replace('\n', ' ');
@@ -940,11 +978,12 @@ namespace Microarea.Common.Hotlink
 		//------------------------------------------------------------------------------
 		private bool ValorizeColumns ()
 		{
-			//Debug.WriteLine(string.Format("Query {0} Fetch row\n", queryNameString));
+            //Debug.WriteLine(string.Format("Query {0} Fetch row\n", queryNameString));
 
-			//TODO int nDataLevel = 0; //REPORT_ENGINE;//symbolTable->GetDataLevel(); // RULE_ENGINE QUERY_ENGINE REPORT_ENGINE
+            //TODO int nDataLevel = 0; //REPORT_ENGINE;//symbolTable->GetDataLevel(); // RULE_ENGINE QUERY_ENGINE REPORT_ENGINE
+            bool bStrip = true; // this.session != null && session.StripTrailingSpaces;
 
-			int columnIndex= 0;
+            int columnIndex= 0;
 			for (int i = 0; i < tagLinkArrayList.Count; i++)
 			{
 				TagLink tagLink = (TagLink)tagLinkArrayList[i];
@@ -987,17 +1026,19 @@ namespace Microarea.Common.Hotlink
 					//Debug.WriteLine(string.Format("Parameter {0}: {1}\n", tagLink.name, field.Data.ToString()));
 				}
 
+                object data = Common.CoreTypes.ObjectHelper.CastFromDBData(o, field.Data);
+
+                //An. 17609
+                if (data is string && bStrip)
+                    data = (data as string).TrimEnd(' ');
+
+                field.Data = data;
+
                 if (this.IsQueryRule)
                 {
-                    field.SetData(DataLevel.Events, CoreTypes.ObjectHelper.CastFromDBData(o, field.GetData(DataLevel.Events), field));
+                    field.RuleDataFetched = true;
+                    field.ValidRuleData = true;
                 }
-                else
-                    field.Data = CoreTypes.ObjectHelper.CastFromDBData(o, field.Data, field);
-
-                //Debug.WriteLine(string.Format("Field {0}: {1}\n", tagLink.name, field.Data.ToString()));
-
-                field.RuleDataFetched = true;
-				field.ValidRuleData = true;
 			}
 			return true;
 		}
@@ -1194,7 +1235,48 @@ namespace Microarea.Common.Hotlink
 			unparser.WriteLine();
 			return true;
 		}
-	}
+
+        //---------------------------------------------------------------------
+        QueryObject GetRoot() { return parentQuery != null ? parentQuery.GetRoot() : this; }
+
+        //---------------------------------------------------------------------
+        void SetCurrentQueryColumns()
+        {
+            for (int i = 0; i < tagLinkArrayList.Count; i++)
+            {
+                TagLink tagLink = tagLinkArrayList[i];
+
+                if (tagLink.direction == TagType.COL)
+                {
+                    GetRoot().selectFields.Add(tagLink.name);
+                    continue;
+                }
+
+                if (tagLink.direction == TagType.EXPAND || tagLink.direction == TagType.INCLUDE)
+                {
+                    if (tagLink.expandClause != null && tagLink.isWhen)
+                        tagLink.expandClause.SetCurrentQueryColumns();
+
+                    if (tagLink.elseClause != null && !tagLink.isWhen)
+                        tagLink.elseClause.SetCurrentQueryColumns();
+                }
+            }
+         }
+        public int GetColumnCount()        
+        {   
+            return selectFields != null ? selectFields.Count : 0; 
+        }
+
+        public string GetColumnName(int i)   
+        {
+            if (selectFields == null)
+                return null;
+            if (i >= selectFields.Count)
+                return null;
+
+            return selectFields[i];
+        }
+ 	}
 
 	//==================================================================================
 	public class TagLink : object

@@ -1672,16 +1672,10 @@ namespace Microarea.TaskBuilderNet.Woorm.WoormEngine
 			{
 				lex.ParseID( out queryName);
 
-				//m_pField = (RuleItem*) m_pSymTable->FindItemMember(m_strQueryName);
-				//if (m_pField == NULL)
-				//{
-				//	parser.SetError(WoormExpression::FormatMessage(WoormExpression::UNKNOWN_FIELD), m_strQueryName);
-				//	return FALSE;
-				//}
+                //constraint mode
+                lex.Parsed(Token.NOT); lex.Parsed(Token.NULL); lex.Parsed(Token.ALL);
 
-				//TODO check type e new istance
-
-				if (lex.Parsed(Token.WHEN))
+                if (lex.Parsed(Token.WHEN))
 				{
 					whenExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
 					if (!whenExpr.Compile(lex, CheckResultType.Match, "Boolean"))

@@ -124,16 +124,12 @@ int QueryObject::AddAllParameters (LPCTSTR pszName)
 
 int QueryObject::AddCurrentColumn(LPCTSTR pszName)
 {
-	CStringArray* pAr = m_pParent ? &m_pParent->m_arSelFieldName : &m_arSelFieldName;
-
-	return pAr->Add(pszName);
+	return GetRoot()->m_arSelFieldName.Add(pszName);
 }
 
 int QueryObject::AddCurrentParameter(LPCTSTR pszName)
 {
-	CStringArray* pAr = m_pParent ? &m_pParent->m_arParametersName : &m_arParametersName;
-
-	return pAr->Add(pszName);
+	return GetRoot()->m_arParametersName.Add(pszName);
 }
 //------------------------------------------------------------------------------
 void QueryObject::Clear ()
