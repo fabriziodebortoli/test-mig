@@ -35,7 +35,7 @@
 
                         <div class="error" *ngIf="authService.errorMessage">{{authService.errorMessage}}</div>
 
-                        <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="companies.length==0">Login</button>
+                        <button class="form-button" mat-raised-button color="primary" (click)="login();" [disabled]="!connectionData.user && companies.length==0">Login</button>
                     </div>
                 </tb-card-content>
             </tb-card>

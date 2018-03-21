@@ -102,22 +102,22 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
 
     let subs = this.httpService.getCompaniesForUser(user).subscribe((result) => {
       this.companies = result.Companies.Company.sort(this.compareCompanies).map(c => c.name);
-      
+
       if (this.companies.length == 0) {
         this.connectionData.company = undefined;
         localStorage.removeItem('_user');
         localStorage.removeItem('_company');
         this.authService.errorMessage = this._TB('No Companies associated to this user');
       }
-      
+
       if (this.companies.length > 0) {
-        if(!this.connectionData.company){
+        if (!this.connectionData.company) {
           this.connectionData.company = this.companies[0];
-        }else{
-          if(this.companies.indexOf(this.connectionData.company) == -1){
+        } else {
+          if (this.companies.indexOf(this.connectionData.company) == -1) {
             this.connectionData.company = this.companies[0];
           }
-        }        
+        }
       }
 
       subs.unsubscribe();
@@ -138,7 +138,7 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
 
 
   //-------------------------------------------------------------------------------------
-   loadState() {
+  loadState() {
     this.connectionData.user = localStorage.getItem('_user');
     this.connectionData.company = localStorage.getItem('_company');
 
@@ -191,7 +191,8 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
 
   keyUpFunction(event) {
     if (event.keyCode === 13) {
-      this.login();
+      if (this.connectionData.user && this.companies.length > 0)
+        this.login();
     }
   }
 
