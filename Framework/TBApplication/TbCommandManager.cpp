@@ -217,9 +217,11 @@ const CSingleExtDocTemplate* CTbCommandManager::GetDynamicDocTemplate
 		szDefaultViewModeWeb
 	);
 	CSingleExtDocTemplate* pDestTemplate = new CSingleExtDocTemplate(pSourceTemplate, pSourceTemplate->m_pDocInvocationParams);
-	pDestTemplate->SetNamespace(pDocDescri->GetNamespace());
+	CTBNamespace pNamespace = pDocDescri->GetNamespace();
+	pDestTemplate->SetNamespace(pNamespace);
 
-	UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources);
+	CString sContext = _T("D.") + pNamespace.GetApplicationName() + _T(".") + pNamespace.GetModuleName() + _T(".") + pNamespace.GetObjectName();
+	UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources, 1, sContext);
 	pDestTemplate->SetIDResource(nID);
 
 	AfxGetBaseApp()->AddDocTemplate(pDestTemplate);

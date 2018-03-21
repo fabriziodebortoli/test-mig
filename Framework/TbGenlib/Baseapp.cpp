@@ -1204,8 +1204,12 @@ const CSingleExtDocTemplate* CBaseApp::GetDocTemplate(const CString& sDocumentNa
 	{
 		TRACE1 ("No template of document %s found.\n",  (LPCTSTR) sDocumentName);
 	}
-	TB_OBJECT_LOCK(&m_TemplateCache);
-	m_TemplateCache.SetAt(strKey, pFoundTemplate);
+	else
+	{
+		TB_OBJECT_LOCK(&m_TemplateCache);
+		m_TemplateCache.SetAt(strKey, pFoundTemplate);
+	}
+
 	return pFoundTemplate;
 }
 
