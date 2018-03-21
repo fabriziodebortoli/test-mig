@@ -24,9 +24,9 @@ export class StorageOptions {
     withModule(m: string) { this.componentInfo.mod = m; return this; }
     /** mutates object */
     withCmpId(c: string) { this.componentInfo.cmpId = c; return this; }
-    /** 
+    /**
      * tries to fill ComponentInfo from a provided Injector
-     * @return mutated object 
+     * @return mutated object
      */
     tryGetCmpInfoFrom(i: Injector) {
         if (!i) return;
@@ -57,15 +57,28 @@ export interface StorageKeyGenerator {
 }
 
 export class DefaultStorageKeyGenerator implements StorageKeyGenerator {
-    constructor(private options: StorageOptions) { }
+    private globalKeyPart = ['storage'];
+
+    constructor(private options: StorageOptions, private log: Logger) { }
 
     public uniqueKey = (key: string, per: StorageScope) => this.uniqueKeyPer[per.key](key, per.user);
-
-    private globalKeyPart = ['storage'];
-    private userKeyPart = userScope =>
-        userScope === UserScope.Current ? [localStorage.getItem('_user'), localStorage.getItem('_company')] : [];
-    private docKeyPart = () => [this.options.componentInfo.app, this.options.componentInfo.mod].filter(x => x);
-    private cmpKeyPart = () => [this.options.componentInfo.type, this.options.componentInfo.cmpId].filter(x => x);
+    private userKeyPart = userScope => {
+        let user = localStorage.getItem('_user');
+        let company = localStorage.getItem('_company');
+        if (UserScope.Current && !user) this.log.warn('DefaultStorageKeyGenerator: missing user');
+        if (UserScope.Current && !company) this.log.warn('DefaultStorageKeyGenerator: missing company');
+        return userScope === UserScope.Current ? [user, company] : [];
+    }
+    private docKeyPart = () => {
+        if (!this.options.componentInfo.app) this.log.warn('DefaultStorageKeyGenerator: missing componentInfo.app');
+        if (!this.options.componentInfo.mod) this.log.warn('DefaultStorageKeyGenerator: missing componentInfo.mod');
+        return [this.options.componentInfo.app, this.options.componentInfo.mod].filter(x => x);
+    }
+    private cmpKeyPart = () => {
+        if (!this.options.componentInfo.type) this.log.warn('DefaultStorageKeyGenerator: missing componentInfo.type');
+        if (!this.options.componentInfo.cmpId) this.log.warn('DefaultStorageKeyGenerator: missing componentInfo.cmpId')
+        return [this.options.componentInfo.type, this.options.componentInfo.cmpId].filter(x => x);
+    }
 
     // tslint:disable-next-line:member-ordering
     private uniqueKeyPer = {

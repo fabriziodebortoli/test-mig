@@ -1,15 +1,19 @@
 import { Injectable, Injector } from '@angular/core';
 import { Logger } from './../../core/services/logger.service';
 import { Observable, Subject, Observer } from '../../rxjs.imports';
-import { StorageOptions, KeyScope, UserScope, DefaultStorageOptions, DefaultStorageKeyGenerator, StorageKeyGenerator } from './storage-key-generator';
+import {
+    StorageOptions, KeyScope, UserScope, DefaultStorageOptions,
+    DefaultStorageKeyGenerator, StorageKeyGenerator
+} from './storage-key-generator';
 
 @Injectable()
 export class StorageService {
     options: StorageOptions = new StorageOptions(DefaultStorageOptions);
-    keyGenerator: StorageKeyGenerator = new DefaultStorageKeyGenerator(this.options);
+    keyGenerator: StorageKeyGenerator;
 
-    constructor(private log: Logger, private injector: Injector) { 
+    constructor(private log: Logger, private injector: Injector) {
         this.options.tryGetCmpInfoFrom(injector);
+        this.keyGenerator = new DefaultStorageKeyGenerator(this.options, this.log);
     }
 
     /**
@@ -51,15 +55,16 @@ export class StorageService {
     }
 
     /**
-     * modify or add value by key in localstorage. logs an error in case of size limit reached
+     * modify or add value by key in localstorage. logs an error in case of size limit reached or generic
      * @param key storage key
-     * @returns the saved value. null if an error occurred
+     * @returns the saved value. null in case of error
      */
     set<T>(key: string, value: T): T;
     set(key: string, value: any): any {
         let ukey = this.keyGenerator.uniqueKey(key, this.options.scope);
         try {
             localStorage.setItem(ukey, JSON.stringify(value));
+            return value;
         } catch (e) {
             if (e.name === 'QUOTA_EXCEEDED_ERR' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
                 e.name === 'QuotaExceededError' || e.name === 'W3CException_DOM_QUOTA_EXCEEDED_ERR') {
@@ -69,7 +74,6 @@ export class StorageService {
             }
             return null;
         }
-        return value;
     }
 }
 
