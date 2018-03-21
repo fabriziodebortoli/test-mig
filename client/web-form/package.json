@@ -8,7 +8,6 @@
         "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src --no-save",
-        "link-icons": "npm link ../icons/src --no-save",
         "link-rs": "npm link ../reporting-studio/src --no-save",
         "postinstall": "npm run link-core && npm run link-rs",
         "lint": "tslint \"src/**/*.ts\"",
