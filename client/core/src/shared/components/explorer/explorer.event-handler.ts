@@ -1,10 +1,10 @@
-import { RadarComponent } from './radar.component';
+import { ExplorerComponent } from './explorer.component';
 import { Observable, untilDestroy, when } from '../../../rxjs.imports';
 import { Logger } from '../../../core/services/logger.service';
 
-export default class RadarEventHandler {
-    static Handle(radar: RadarComponent, log: Logger, enabler?: Observable<boolean>): RadarEventHandler {
-        return new RadarEventHandler(radar, log, enabler);
+export default class ExplorerEventHandler {
+    static Handle(radar: ExplorerComponent, log: Logger, enabler?: Observable<boolean>): ExplorerEventHandler {
+        return new ExplorerEventHandler(radar, log, enabler);
     }
 
     private constructor(r: any, log: Logger, enabler?: Observable<boolean>) {
@@ -21,9 +21,9 @@ export default class RadarEventHandler {
             .filter(keyTarget)
             .subscribe((e: KeyboardEvent) => {
                 switch (e.key) {
-                    case 'w': r.selectPrevious(); break
+                    case 'w': r.selectPrevious(); break;
                     case 'ArrowUp': e.ctrlKey && prevPage() || r.selectPrevious(); break;
-                    case 's': r.selectNext(); break
+                    case 's': r.selectNext(); break;
                     case 'ArrowDown': e.ctrlKey && nextPage() || r.selectNext(); break;
                     case 'q':
                     case 'PageUp': prevPage(); break;

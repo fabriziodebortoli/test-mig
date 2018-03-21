@@ -72,8 +72,7 @@ import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/top
 import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 import { UnsupportedComponent } from './components/unsupported.component';
 import { UnsupportedFactoryComponent } from './components/unsupported.component';
-import { OpenComponent } from './components/explorer/open/open.component';
-import { SaveComponent } from './components/explorer/save/save.component';
+import { ExplorerComponent } from './components/explorer/explorer.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
@@ -123,8 +122,7 @@ export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/top
 export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 export { UnsupportedComponent } from './components/unsupported.component';
 export { UnsupportedFactoryComponent } from './components/unsupported.component';
-export { OpenComponent } from './components/explorer/open/open.component';
-export { SaveComponent } from './components/explorer/save/save.component';
+export { ExplorerComponent } from './components/explorer/explorer.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
@@ -147,7 +145,7 @@ const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, OpenComponent, SaveComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
+    UnsupportedComponent, UnsupportedFactoryComponent, ExplorerComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
     TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent

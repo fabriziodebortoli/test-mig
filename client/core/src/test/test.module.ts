@@ -12,7 +12,7 @@ import { ExplorerComponent, ExplorerFactoryComponent } from './explorer/explorer
 import { GridTestComponent, GridTestFactoryComponent } from './grid-test/grid-test.component';
 import { IconsTestComponent, IconsTestFactoryComponent } from './icons-test/icons-test.component';
 import { RadarTestComponent, RadarTestFactoryComponent } from './radar-test/radar-test.component';
-import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-test.component";
+import { TreeTestComponent, TreeTestFactoryComponent } from './tree-test/tree-test.component';
 
 
 @NgModule({
@@ -23,7 +23,6 @@ import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-te
         FormsModule,
         RouterModule.forChild([
             { path: 'dataservice', component: DataServiceFactoryComponent },
-            { path: 'explorer', component: ExplorerFactoryComponent },
             { path: 'grid', component: GridTestFactoryComponent },
             { path: 'icons', component: IconsTestFactoryComponent },
             { path: 'radar', component: RadarTestFactoryComponent },
@@ -33,12 +32,11 @@ import { TreeTestComponent, TreeTestFactoryComponent } from "./tree-test/tree-te
     ],
     declarations: [
         DataServiceComponent, DataServiceFactoryComponent,
-        ExplorerComponent, ExplorerFactoryComponent,
         GridTestComponent, GridTestFactoryComponent,
         IconsTestComponent, IconsTestFactoryComponent,
         RadarTestComponent, RadarTestFactoryComponent,
         TreeTestComponent, TreeTestFactoryComponent
     ],
-    entryComponents: [DataServiceComponent, GridTestComponent, ExplorerComponent, IconsTestComponent, RadarTestComponent, TreeTestComponent]
+    entryComponents: [DataServiceComponent, GridTestComponent, IconsTestComponent, RadarTestComponent, TreeTestComponent]
 })
 export class TbTestModule { }

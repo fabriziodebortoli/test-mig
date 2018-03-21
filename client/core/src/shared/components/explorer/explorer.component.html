@@ -1,0 +1,76 @@
+<div class="main">
+    <div class="explorer-container">
+        <tb-toolbar-top>
+            <div class="toolbar-menu">
+                <div class="bread">
+                    <div class="path-part" *ngFor="let item of path" (click)="item !== currentItem && breadClick(item)" [title]="item.name" [ngClass]="{'selected': item === currentItem}">
+                        {{item.name}}
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <div class="menu-category exit" #anchor>
+                    <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" (click)="toggleSearch()"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button icon="tb-refresh" [caption]="_TB('Refresh')" (click)="refresh()"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button icon="tb-menu2" [caption]="_TB('Menu')" (click)="toggleMenu()"></tb-toolbar-top-button>
+                    <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Close')" (click)="close()"></tb-toolbar-top-button>
+                </div>
+            </div>
+        </tb-toolbar-top>
+        <div *ngIf="!(explorer.waiting$|async)" class="explorer">
+            <div class="item" *ngFor="let item of filteredItems" (click)="itemClick(item)" [title]="item.name">
+                <m4-icon class="folder" [icon]="currentItem.level === 2 ? 'tb-report' : 'tb-open'"></m4-icon>
+                <div class="label">
+                    {{item.name}}
+                </div>
+            </div>
+        </div>
+        <mat-spinner *ngIf="explorer.waiting$|async" class="widget-spinner" style="margin: auto"></mat-spinner>
+    </div>
+    <div class="uploader-container">
+        <kendo-upload [saveUrl]="saveUrl" [removeUrl]="removeUrl">
+        </kendo-upload>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<kendo-popup #searchPopup *ngIf="showSearch" [anchor]="anchor" class="popup" (anchorViewportLeave)="showSearch = false" [collision]="{ horizontal: 'flip', vertical: 'fit' }"
+    [anchorAlign]="{ horizontal: 'center', vertical: 'bottom' }" [popupAlign]="{ horizontal: 'center', vertical: 'top' }">
+    <input kendoTextBox [(ngModel)]="search" [placeholder]="_TB('Search...')" />
+</kendo-popup>
+
+<kendo-popup #menuPopup *ngIf="showMenu" [anchor]="anchor" class="popup" (anchorViewportLeave)="showMenu = false" [collision]="{ horizontal: 'flip', vertical: 'fit' }"
+    [anchorAlign]="{ horizontal: 'center', vertical: 'bottom' }" [popupAlign]="{ horizontal: 'center', vertical: 'top' }">
+    <div class="popup-row switch">
+        <p>{{isCustomSwitch .checked ? _TB('Standard') : _TB('Custom')}}</p>
+        <kendo-switch #isCustomSwitch [(ngModel)]="isCustom" [onLabel]="' '" [offLabel]="' '" (valueChange)="customLevelChanged()"></kendo-switch>
+    </div>
+    <div *ngIf="isCustom" class="popup-row">
+        <kendo-dropdownlist [data]="users" aria-placeholder="User..." style="width: 100%"></kendo-dropdownlist>
+    </div>
+</kendo-popup>
