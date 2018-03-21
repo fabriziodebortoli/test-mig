@@ -152,7 +152,6 @@ CAbstractFrame::CAbstractFrame()
 {
 	m_bHasStatusBar = AfxGetThemeManager()->HasStatusBar() && !AfxIsInUnattendedMode();
 	m_bHasToolbar = !AfxIsInUnattendedMode();
-	m_id_FILE_CLOSE = ID_FILE_CLOSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -255,12 +254,14 @@ BOOL CAbstractFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERI
 {
 	__try
 	{
+		// dopo la chiamata alla __super::OnCmdMsg this è stato distrutto ed i suoi datamember sono "cacca"
+		BOOL bDestroying = m_bDestroying;
 		BOOL bHandled = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
 		// la toolbar potrebbe morire durante il processo di closing
 		// per sicurezza controllo che non si sia in distruzione
 		// del frame
-		if (nID == ID_FILE_CLOSE || m_bDestroying)
+		if (bDestroying || nID == ID_FILE_CLOSE)
 			return bHandled;
 
 		if (!pHandlerInfo && m_pTabbedToolBar && nID && (nCode == CN_COMMAND || nCode == BN_CLICKED))
@@ -1075,6 +1076,7 @@ BOOL CAbstractFormFrame::CreateJsonToolbar(CWndObjDescription* pDescription)
 				ASSERT(FALSE);
 				continue;
 			}
+
 			CreateToolbarFromDesc(pToolBar, pToolBarDesc);
 		}
 		return TRUE;
