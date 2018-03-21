@@ -86,6 +86,9 @@ export function addControlModelBehaviour(model: any, name: string) {
         if (old !== this.status)
             this.statusChanged.emit(this);
     }
+    model.toString = function () {
+        return this._value;
+    }
 }
 
 
