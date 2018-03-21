@@ -104,16 +104,17 @@ namespace Microarea.TbJson
                 case CommandCategory.Search:
                 case CommandCategory.Navigation:
                 case CommandCategory.Edit:
-                    return "toolbar-menu";
-                case CommandCategory.Exit:
-                case CommandCategory.Advanced:
-                    return "toolbar-right";
                 case CommandCategory.Fab:
                 case CommandCategory.Radar:
                 case CommandCategory.Tools:
                 case CommandCategory.Print:
-				case CommandCategory.File:
+                case CommandCategory.File:
                 case CommandCategory.Undefined:
+                    return "toolbar-menu";
+                case CommandCategory.Exit:
+                case CommandCategory.Advanced:
+                    return "toolbar-right";
+                
                 default:
                     return "toolbar-undefined";
             }
