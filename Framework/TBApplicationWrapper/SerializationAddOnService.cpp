@@ -66,7 +66,13 @@ bool SerializationAddOnService::GenerateJson(MView^ view, System::String^ nameSp
 	);
 
 	System::String^ lastTokenNS = gcnew String(aNs.GetObjectName());
-	System::String^ path = BuildPath(gcnew String(aDocumentNs.ToString()), lastTokenNS);
+	System::String^ path;
+
+	if (view->IsDynamicDocument())	//nuova personalizzazione
+		path = BuildPath(gcnew String(aDocumentNs.ToString()), gcnew String(_T("")));
+	else
+		path = BuildPath(gcnew String(aDocumentNs.ToString()), lastTokenNS);
+
 	view->SetPathToSerialize(path);
 	view->GenerateJson(NULL, nullptr);
 

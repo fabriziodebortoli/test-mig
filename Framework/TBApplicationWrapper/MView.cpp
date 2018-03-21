@@ -59,6 +59,7 @@ MView::MView(IntPtr handleViewPtr)
 	}
 
 	pathToSerialize = gcnew String(_T(""));
+	jsonFrameId = gcnew String(_T("IDD_EMPTY_FRAME"));
 }
 
 //----------------------------------------------------------------------------
@@ -148,6 +149,8 @@ void MView::GenerateSerialization(CWndObjDescription* pParentDescription, List<S
 
 	ManageDocumentOutline();
 
+	ManageDocumentObjects();
+
 	ManageClientForms(serialization);
 
 	for (int i = jsonDescription->m_Children.GetUpperBound(); i >= 0; i--)
@@ -176,9 +179,8 @@ bool MView::ManageDocumentOutline()
 	}
 
 	CDummyDescription* pDocumentOutlineDescription = new CDummyDescription();
-	CString jsonFrameId = _T("IDD_EMPTY_FRAME");	
 	pDocumentOutlineDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
-	pDocumentOutlineDescription->m_strIds.Add(jsonFrameId);
+	pDocumentOutlineDescription->m_strIds.Add(CString(jsonFrameId));
 	pDocumentOutlineDescription->m_strName = this->Name + _T("Frame");
 	pDocumentOutlineDescription->m_arHrefHierarchy.Add(jsonBaseFrameId);
 	pDocumentOutlineDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
@@ -189,7 +191,7 @@ bool MView::ManageDocumentOutline()
 
 	CJsonSerializer ser;
 	pDocumentOutlineDescription->SerializeJson(ser);
-	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, gcnew String(jsonFrameId), tbjsonExtension)), ser.GetJson());
+	this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, jsonFrameId, tbjsonExtension)), ser.GetJson());
 
 	for (int i = pDocumentOutlineDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
@@ -219,6 +221,119 @@ bool MView::CreateClientFormChild
 		pClientForm->SetAttribute(XML_NAME_ATTRIBUTE, CString(element->Item1));
 		pClientForm->SetAttribute(XML_SERVER_ATTRIBUTE, sServerId);
 	}
+
+	return true;
+}
+
+//------------------------------------------------------------------------------------------------
+bool MView::ManageDocumentObjects()
+{
+	if (!this->IsDynamicDocument() || !this->m_pView || !this->m_pView->GetDocument())
+		return true;
+
+	CTBNamespace aNs = this->m_pView->GetDocument()->GetNamespace();
+	if (aNs.IsEmpty() || !aNs.IsValid())
+		return false;
+
+	CString currentApp = BaseCustomizationContext::CustomizationContextInstance->CurrentEasyBuilderApp->ApplicationName;
+	CString currentMod = BaseCustomizationContext::CustomizationContextInstance->CurrentEasyBuilderApp->ModuleName;
+	CTBNamespace nsModule(CTBNamespace::MODULE, CString(currentApp) + CTBNamespace::GetSeparator() + CString(currentMod));
+
+	CString sFileNameCompletePath = AfxGetPathFinder()->GetDocumentObjectsFullName(nsModule, CPathFinder::CUSTOM, CPathFinder::EASYSTUDIO);
+
+	CXMLDocumentObject aDoc;
+	CXMLNode* pDocuments = NULL;
+	CXMLNode* pDefaultWeb = NULL;
+	//manage clientforms tag for me
+	if (!ExistFile(sFileNameCompletePath))
+	{
+		ASSERT(FALSE);
+		return false;
+	}
+
+	if (!aDoc.LoadXMLFile(sFileNameCompletePath))
+		return false;
+
+	pDocuments = aDoc.GetRootChildByName(XML_DOCUMENTS_TAG);
+
+	if (!pDocuments)
+	{
+		ASSERT(FALSE);
+		return false;
+	}
+
+	CXMLNodeChildsList* pChildren = pDocuments->GetChilds();
+	if (pChildren)
+	{
+		for (int i = 0; i < pChildren->GetCount(); i++)
+		{
+			CXMLNode* pChild = pChildren->GetAt(i);
+			CString sNameSpace = _T("");
+			pChild->GetAttribute(XML_NAMESPACE_ATTRIBUTE, sNameSpace);
+			//CString ns = aNs.GetRightTokens(sNs.To   ObjectName(CTBNamespace::DOCUMENT);
+			CString ns = aNs.GetRightTokens(aNs.GetTokenArray()->GetCount() - 1);
+			if (!sNameSpace.Compare(ns))
+			{
+				CXMLNodeChildsList* pViewModes = pChild->GetChilds();
+				if (!pViewModes)
+				{
+					ASSERT(FALSE);
+					return false;
+				}
+				
+				BOOL bFound = FALSE;
+				CXMLNode* pMode = NULL;
+				CXMLNode* pChildViewMode = NULL;
+				for (int j = 0; j < pViewModes->GetCount() && !bFound; j++)
+				{
+					pChildViewMode = pViewModes->GetAt(j);
+					CXMLNodeChildsList* pModes = pChildViewMode->GetChilds();
+					
+					for (int k = 0; k < pModes->GetCount() && !bFound; k++)
+					{
+						pMode = pModes->GetAt(k);
+						CString sName = _T("");
+						pMode->GetAttribute(XML_NAME_ATTRIBUTE, sName);
+						if (!sName.Compare(_T("DefaultWeb")))
+							bFound = TRUE;
+					}
+				}
+
+				if (bFound)
+				{
+					if (pDefaultWeb)
+						SAFE_DELETE(pDefaultWeb);
+						
+					return true;
+				}
+				
+				if (!pDefaultWeb)
+				{
+					pDefaultWeb = pChildViewMode->CreateNewChild(XML_MODE_TAG);
+
+					CString sLocalize = _T("");
+					CString sType = _T("");
+					CString sSchedulable = _T("");
+					pMode->GetAttribute(XML_TYPE_ATTRIBUTE, sType);
+					pMode->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
+					pMode->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
+					pDefaultWeb->SetAttribute(XML_NAME_ATTRIBUTE, _T("DefaultWeb"));
+					pDefaultWeb->SetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
+					pDefaultWeb->SetAttribute(XML_TYPE_ATTRIBUTE, sType);
+					pDefaultWeb->SetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
+					pDefaultWeb->SetAttribute(XML_FRAMEID_ATTRIBUTE, CString(jsonFrameId));
+				}
+
+				break;
+			}
+				
+		}
+	}
+
+	CString aXML = _T("");
+	aDoc.GetXML(aXML);
+	this->SaveSerialization(sFileNameCompletePath, aXML);
+	//SAFE_DELETE(pDefaultWeb);
 
 	return true;
 }

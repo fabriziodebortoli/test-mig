@@ -161,7 +161,7 @@
 #define XML_ISO_SEPARATOR				_T(",")
 
 
-
+#define XML_FRAMEID_ATTRIBUTE			_T("frameID")
 #define XML_ACTIVATION_ATTRIBUTE		_T("activation")
 #define XML_ALLOWISO_ATTRIBUTE			_T("allowISO")
 #define XML_DENYISO_ATTRIBUTE			_T("denyISO")

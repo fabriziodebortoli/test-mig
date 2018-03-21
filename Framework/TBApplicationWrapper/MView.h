@@ -55,6 +55,7 @@ namespace Microarea {
 		bool					bVisible;
 		bool					suspendLayout;
 		System::String^			pathToSerialize;
+		System::String^			jsonFrameId;
 				
 	public:
 		/// <summary>
@@ -227,6 +228,7 @@ namespace Microarea {
 		void EventsJsonStringDeserialize(const CString& strEvents, CJsonSerializer& jsonSer, int& idx);
 		bool ManageSerializations(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
 		bool ManageDocumentOutline();
+		bool ManageDocumentObjects();
 		bool ManageClientForms(List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization);
 		bool CreateClientFormChild(CXMLNode* pClientForms, List<System::Tuple<System::String^, System::String^, System::Boolean>^>^ serialization, const CString& sServerId);
 		
