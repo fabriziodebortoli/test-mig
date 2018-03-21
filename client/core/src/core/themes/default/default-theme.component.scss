@@ -1,67 +1,202 @@
+$bkg-toolbarbottombuttonHover: #a1bcd778;
+$white: #ffffff;
+$bkg: #f5f5f6;
+$bkg-medium: #0277bd;
+$bkg-light:#ecf8ff;
+$shadow: rgba(205,210,214,.8);
+$darkblue:#00578c;
+$text-dark: black; 
+$text-medium:#9f9f9f;
+$text-light: $white;
+$border-topbarbutton:#cfe0e8;
+$bkg-toolbarbottombutton:#c0defc;
+$bkg-neutral:#BDBDBD;
+$bkg-toolbarbottombuttonHover:#c0defc;
 //tooltip
 .mat-tooltip {
     font-size: 12px !important;
-    background-color: #f5f5f6 !important;
-    color: black !important;
+    background-color: $bkg !important;
+    color: $text-dark !important;
     border-radius: 0px !important;
     padding: 10px 0px 10px 15px;
 }
 
 .sidenav-subtitle {
     h4 {
-        color:  #9f9f9f;
+        color:  $text-medium;
     }
 }
 /* COLORS */
-$white: #ffffff;
-$bkg-medium: #0277bd;
-$shadow: rgba(205,210,214,.8);
-$darkblue:#00578c;
+
 .default {
     .dropDownButton
-        {
-            .k-button {
+    {
+        .k-button {
+            &:hover,
+            &:focus{
+                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                background: $darkblue;
+                border-color: $darkblue;
+                color: $white;
+                tb-icon,
+                i {
+                    color: $white;
+                }
+            }
+
+            &:active {
+                background-color: $bkg-medium;
+                box-shadow: none;
+                color:$white;
+                border: 0px;
+            }
+        }
+    }
+         /*colore del tooltip delle icone nella top bar*/
+    .topBarMenuComponentLike
+    {
+        .tooltip {
+            .tooltip-content {
+            background: $bkg-medium;
+            &::after {
+                background: $bkg-medium;
+            }
+            }
+            &.bottom {
+            .tooltip-content {
+                top: calc(100%);
+                left: calc(100% - 7.1em);
+                bottom: unset !important;
+                transform: translateX(-50%);
+                &::after {
+                background: $bkg-medium;
+                top: -5px;
+                left: calc(100% - 1em);
+                }
+            }
+            }
+        }
+    }
+    .tooltip
+        { 
+            .tooltip-content {
+            background: $bkg-medium;
+            color: $text-light;
+            tb-icon {
+                color: $text-light;
+            }
+            &::after {
+            background: $bkg-medium;
+            }
+            .k-button,
+            .dropUpButton > 
+            .k-button 
+            {
+                background: $bkg-medium;
+
                 &:hover,
                 &:focus{
                     transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                    background: $darkblue;
-                    border-color: $darkblue;
-                    color: $white;
+                    background:$bkg-light;
+                    border-color: $bkg-light;
+                    color: $darkblue;
                     tb-icon,
                     i {
-                        color: $white;
+                        color: $darkblue;
                     }
                 }
-
+        
                 &:active {
                     background-color: $bkg-medium;
                     box-shadow: none;
-                    color:$white;
+                    color:$darkblue;
                     border: 0px;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    background-color: $bkg-neutral;
+                    border: 1px solid $bkg-neutral;
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    color: $text-medium;
+                    cursor: not-allowed;
+                    tb-icon {
+                        color: $text-medium;
+                        border: none;
+                    }
                 }
             }
         }
-    // .dropUpButton
-    // {
-    //     .k-button {
-    //         &:hover,
-    //         &:focus{
-    //             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-    //             background: $darkblue;
-    //             border-color: $darkblue;
-    //             color: $white;
-    //             tb-icon,
-    //             i {
-    //                 color: $white;
-    //             }
-    //         }
-    
-    //         &:active {
-    //             background-color: $bkg-medium;
-    //             box-shadow: none;
-    //             color:$white;
-    //             border: 0px;
-    //         }
-    //      }
-    // }
+     }  
+       //colore del bottone della toolbar bottom
+        tb-toolbar-bottom-button
+        {
+            .k-button {
+            background: $darkblue;
+            color: rgb(214, 214, 214);
+            &:hover
+            {
+                color: $text-dark;
+                background: $bkg-toolbarbottombuttonHover;
+                border: 0px;
+                }
+            }
+        }
+    tb-toolbar-top-button{
+        .k-button:hover {
+            background: transparent;
+        }
+        .top-button {
+            margin: 0;
+            padding: 0;
+            height: 30px;
+            min-width: 32px;
+            border: 0;
+            background: none;
+            &>span {
+                font-size: 12px;
+                line-height: 35px;
+                height: 35px;
+                margin: 0;
+                //padding: 0 8px 0 0;
+                text-align: left;
+                /** da riparlarne */
+                display: none;
+            }
+                tb-icon {
+                    background-color: $bkg-medium;
+                    border: 1px solid $border-topbarbutton;
+                    color:$text-light;
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    m4-icon {
+                        color:$text-light;
+                    }
+                    &:hover {
+                        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                        background-color: $bkg-toolbarbottombuttonHover;
+                        border-color:$border-topbarbutton;
+                        color:$text-dark;
+                        tb-icon,
+                        i {
+                            color: $text-dark;
+                        }
+                    }
+                    &:active {
+                        background-color:$bkg-medium;
+                        box-shadow: none;
+                        color: $text-medium;
+                    }
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    background-color: $bkg-light;
+                    border: 1px solid $bkg-light;
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    tb-icon {
+                        color: $text-medium;
+                        background-color: $bkg-neutral;
+                        border: none;
+                    }
+                }
+        }
+    }
 }

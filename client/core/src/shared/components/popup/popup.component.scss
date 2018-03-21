@@ -23,57 +23,9 @@ a {
   text-decoration: none;
 }
 
-/* COLORS */
-$white: #ffffff;
-$bkg-medium: #0277bd;
-$shadow: rgba(205,210,214,.8);
-
-:host-context(.topBarMenuComponentLike) {
-  .tooltip {
-      position: relative;
-      .tooltip-content {
-        background: $bkg-medium;
-        box-shadow: 0 5px 25px 5px $shadow;
-        box-sizing: border-box;
-        color: $white;
-        font-size: 12px;
-        line-height: 1.2;
-        letter-spacing: 1px;
-        max-width: 200px;
-        min-width: 145px;
-        padding: 1em;
-        position: absolute;
-        opacity: 1;
-        transition: all .3s ease;
-        z-index: 99999999999;
-        &::after {
-          background: $bkg-medium;
-          content: "";
-          height: 10px;
-          position: absolute;
-          transform: rotate(45deg);
-          width: 10px;
-        }
-      }
-      &.bottom {
-        .tooltip-content {
-          top: calc(100% + .3em);
-          left: calc(100% - 4.5em);
-          bottom: unset !important;
-          transform: translateX(-50%);
-          &::after {
-            top: -5px;
-            left: calc(100% - 2.7em);
-          }
-        }
-      }
-    }
-  }
-
-.tooltip {
+::ng-deep .tooltip {
     position: relative;
     .tooltip-content {
-      background: $bkg-medium;
       box-shadow: 0 5px 25px 5px $shadow;
       box-sizing: border-box;
       color: $white;
@@ -89,7 +41,6 @@ $shadow: rgba(205,210,214,.8);
       flex: 1 100%;
       z-index: 9999999;
       &::after {
-        background: $bkg-medium;
         content: "";
         height: 10px;
         position: absolute;
@@ -147,5 +98,4 @@ $shadow: rgba(205,210,214,.8);
       }
     }
   }
-  
 }

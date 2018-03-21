@@ -6,7 +6,7 @@
     height: 0px;
 }
 
-.tile-manager {
+::ng-deep .tile-manager {
     flex: 1;
     display: flex;
     // min-height: 100%;

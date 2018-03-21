@@ -3,7 +3,7 @@
     padding-left: 4px;
 }
 
-.menu-element {
+::ng-deep .menu-element {
     display: flex;
     flex-wrap: nowrap;
     align-content: stretch;

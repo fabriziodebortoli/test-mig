@@ -3,11 +3,22 @@ $bkg-light-opacity50: #F5F5F5; //rgba(204, 230, 255, 0.5);
 $bkg-medium:#9AB4D5;
 $bkg-dark:black; //#6b84a4;
 $bkg-neutral:#BDBDBD;
+$bkg-dashboard:#f1f1f1;
+$bkg-toolbarbottombutton:  #7594ba;
+$bkg-toolbarbottombuttonHover: #d4eaff78;
 $bkg: #fff;
 $text-light: #fff;
 $text-medium: #8f8f96;
 $text-dark: black;
 $font-size-tooltip: 12px;
+$shadow: rgba(205,210,214,.8);
+$border-itemsdashboard: #ddd;
+$border-topbarbutton:#7d8ea4;
+
+$borderleft-topbarbutton: #42b57a;
+$accordionbkg: rgba(154,180,213, 0.4);
+$accordionHover: rgba(168, 193, 136, 0.57);
+
 .infinity {
     //toolbar principale, dove si trova anche la "ricerca"
     .mat-toolbar.mat-primary {
@@ -32,6 +43,11 @@ $font-size-tooltip: 12px;
         background: $bkg-light;
         color: $text-dark;
         border-bottom-color: $bkg-medium;
+        .k-link> div > span,
+        .k-link> div > m4-icon
+        {
+            color:$bkg-dark;
+        }
     }
     //colore pulsanti finestre di messaggio modali
     .k-button.k-primary,
@@ -39,13 +55,13 @@ $font-size-tooltip: 12px;
     .k-button.k-primary:visited,
     .k-slider .k-draghandle,
     .k-switch-on .k-switch-handle {
-        background-color: $bkg-medium;
+        background-color: $bkg-dashboard;
         border-color: $bkg-medium;
         color: $text-dark;
     }
     .k-button.k-primary:hover,
     {
-        background-color: $bkg-light;
+        background-color: $bkg-medium;
         border-color: $bkg-light;
         color: $text-dark;
         background-image: none;
@@ -73,6 +89,8 @@ $font-size-tooltip: 12px;
     .menu-page .k-tabstrip-top>.k-tabstrip-items .k-item.k-state-active .k-link {
         color: $text-light;
         background: $bkg-dark;
+        border-bottom: 1px;
+        border-bottom-color: $bkg;
     }
     //tbcard, 
     .tb-card {
@@ -83,12 +101,14 @@ $font-size-tooltip: 12px;
         color:$text-dark;
         font-size: 17px;
     }
+    //singolo elemento del menu
     .menu-element
     {
         color:$bkg-dark;
         &:hover {
             background-color: $bkg-light-opacity50;
         }
+
         .menu-element-content 
         {
 		 font-size: 16px;
@@ -158,6 +178,10 @@ $font-size-tooltip: 12px;
         h4 {
             color: $text-light;
         }
+        m4-icon {
+            color: $text-light;
+
+        }
     }
     //stile quando usato nella sidenav
     /// inizio sidenav
@@ -204,8 +228,8 @@ $font-size-tooltip: 12px;
         .most-used-item,
         .favorite-item,
         .hiddentiles {
-            background: #f1f1f1;
-            border: 1px solid #ddd;
+            background: $bkg-dashboard;
+            border: 1px solid $border-itemsdashboard;
             margin: 3px 7px;
             height: 28px;
             &>span {
@@ -230,7 +254,7 @@ $font-size-tooltip: 12px;
                 color: $bkg-medium;
             }
             m4-icon.close {
-                color: #ddd;
+                color: $border-itemsdashboard;
                 &:hover {
                     color: $bkg-medium;
                 }
@@ -244,8 +268,8 @@ $font-size-tooltip: 12px;
         .favorites {
             ul.favorites-list {
                 .favorite-item {
-                    background: #f1f1f1;
-                    border: 1px solid #ddd;
+                    background:$bkg-dashboard;
+                    border: 1px solid $border-itemsdashboard;
                     margin: 3px 7px;
                     height: 28px;
                     color: $bkg-medium;
@@ -258,6 +282,7 @@ $font-size-tooltip: 12px;
             }
         }
     }
+
     .tbcontainer #anchor:hover,
     .tbcontainer #anchor:focus,
     .tbcontainer #anchor:visited {
@@ -277,37 +302,359 @@ $font-size-tooltip: 12px;
     }
     
     /*colore del tool tip del menu advanced*/
-    .tooltip
-    { 
-        .tooltip-content {
-        background: $bkg-medium;
-        color: $text-light;
-        &::after {
-          background: $bkg-medium;
-        }
-      }
-    }
-    .dropDownButton{
-        .k-button {
-            &:hover,
-            &:focus{
-                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                background:$bkg-light;
-                border-color: $bkg-light;
-                color: $bkg-dark;
-                tb-icon,
-                i {
+        .tooltip
+        { 
+            .tooltip-content {
+            background: $bkg-medium;
+            color: $text-light;
+            tb-icon {
+                color: $text-light;
+            }
+            &::after {
+            background: $bkg-medium;
+            }
+            .k-button,
+            .dropUpButton > 
+            .k-button 
+            {
+                background: $bkg-medium;
+
+                &:hover,
+                &:focus{
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    background:$bkg-light;
+                    border-color: $bkg-light;
                     color: $bkg-dark;
+                    tb-icon,
+                    i {
+                        color: $bkg-dark;
+                    }
+                }
+        
+                &:active {
+                    background-color: $bkg-medium;
+                    box-shadow: none;
+                    color:$bkg-dark;
+                    border: 0px;
+                }
+                &.k-state-disabled {
+                    opacity: 1;
+                    background-color: $bkg-neutral;
+                    border: 1px solid $bkg-neutral;
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    color: $text-medium;
+                    cursor: not-allowed;
+                    tb-icon {
+                        color: $text-medium;
+                        border: none;
+                    }
                 }
             }
-    
-            &:active {
-                background-color: $bkg-medium;
-                box-shadow: none;
-                color:$bkg-dark;
+        }
+     }  
+    //colore della toolbar bottom
+    .toolbar-bottom {
+        background: $bkg-medium;
+    }
+
+    tb-toolbar-top-button{
+        &:first-child tb-icon,
+        &:last-child tb-icon,
+        &:only-child tb-icon  {
+            border-left: 1px solid $borderleft-topbarbutton;
+        }
+    }
+        //colore del bottone della toolbar bottom
+        tb-toolbar-bottom-button
+        {
+            .k-button {
+            background: $bkg-toolbarbottombutton;
+            color: rgb(214, 214, 214);
+            &:hover
+            {
+                color: $text-dark;
+                background: $bkg-toolbarbottombuttonHover;
                 border: 0px;
+                }
             }
-         }
+        }
+        /*colore del tooltip delle icone nella top bar*/
+        .topBarMenuComponentLike
+        {
+            .tooltip {
+                position: relative;
+                .tooltip-content {
+                background: $bkg-medium;
+                box-shadow: 0 5px 25px 5px $shadow;
+                box-sizing: border-box;
+                color: $text-light;
+                font-size: 12px;
+                line-height: 1.2;
+                letter-spacing: 1px;
+                max-width: 200px;
+                min-width: 145px;
+                padding: 1em;
+                position: absolute;
+                opacity: 1;
+                transition: all .3s ease;
+                z-index: 99999999999;
+                &::after {
+                    background: $bkg-medium;
+                    content: "";
+                    height: 10px;
+                    position: absolute;
+                    transform: rotate(45deg);
+                    width: 10px;
+                }
+                .k-button {
+                    background: $bkg-medium;
+                    &:hover,
+                    &:focus{
+                        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                        background:$bkg-light;
+                        border-color: $bkg-light;
+                        color: $bkg-dark;
+                        tb-icon,
+                        i {
+                            color: $bkg-dark;
+                        }
+                    }
+            
+                    &:active {
+                        background-color: $bkg-medium;
+                        box-shadow: none;
+                        color:$bkg-dark;
+                        border: 0px;
+                    }
+                }
+                }
+                &.bottom {
+                .tooltip-content {
+                    top: calc(100% + .3em);
+                    left: calc(100% - 4.5em);
+                    bottom: unset !important;
+                    transform: translateX(-50%);
+                    &::after {
+                    top: -5px;
+                    left: calc(100% - 2.7em);
+                    }
+                }
+                }
+            }
+        }
+
+        /* colore degli item del selettore */
+        .tile-manager{
+        .tile-manager-selector{ 
+                ul.selector {
+                    li.active {
+                        background: $bkg-medium;
+                        color: $text-dark;
+                        &>span, 
+                        &>tb-icon {
+                            color:$text-light;
+                        }
+                    }
+                }
+            }
+        }
+    /*colore di bottoni della toolbar top*/
+        tb-toolbar-top-button{
+            .k-button:hover {
+                background: transparent;
+            }
+            .top-button {
+                margin: 0;
+                padding: 0;
+                height: 30px;
+                min-width: 32px;
+                border: 0;
+                background: none;
+                &>span {
+                    font-size: 12px;
+                    line-height: 35px;
+                    height: 35px;
+                    margin: 0;
+                    //padding: 0 8px 0 0;
+                    text-align: left;
+                    /** da riparlarne */
+                    display: none;
+                }
+                    tb-icon {
+                        background-color: $bkg-medium;
+                        border: 1px solid $border-topbarbutton;
+                        color:$text-light;
+                        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                        m4-icon {
+                            color:$text-light;
+                        }
+                        &:hover {
+                            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                            background-color: $bkg-toolbarbottombuttonHover;
+                            border-color:$border-topbarbutton;
+                            color:$text-dark;
+                            tb-icon,
+                            i {
+                                color: $text-dark;
+                            }
+                        }
+                        &:active {
+                            background-color:$bkg-medium;
+                            box-shadow: none;
+                            color: $text-medium;
+                        }
+                    }
+                    &.k-state-disabled {
+                        opacity: 1;
+                        background-color: $bkg-light;
+                        border: 1px solid $bkg-light;
+                        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                        tb-icon {
+                            color: $text-medium;
+                            background-color: $bkg-neutral;
+                            border: none;
+                        }
+                    }
+            }
+        }
+        .title {
+            &>span {
+            color: $bkg-dark;
+        }
+    }
+     /*ACCORDION*/
+     .menu-selector {
+        .k-tabstrip .k-item:hover,
+        .k-tabstrip .k-item .k-panelbar>.k-item>.k-link.k-header {
+            background: $bkg-dark;
+        }
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-expanded) .k-icon,
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-active) .k-icon {
+            color: $bkg-dark;
+        }
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-expanded),
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-active),
+        .k-panelbar .k-group>.k-item>.k-link.k-state-selected {
+            background: $accordionbkg;
+            color:$bkg-dark;
+        }
+        .k-panelbar .k-group>.k-item {
+            max-height: 41px;
+        }
+        .k-panelbar .k-group>.k-item>.k-link.k-state-selected:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 4px solid $bkg-dark;
+            position: absolute;
+            left: 0px;
+            top: 15px;
+            z-index: 9999;
+        }
+        .k-panelbar>.k-item>.k-link {
+            padding: 5px;
+            img {
+                max-width: 27px;
+                margin-right: 5px;
+            }
+            span {
+                color: $text-dark;
+            }
+            &.k-state-focused {
+                box-shadow: none;
+            }
+        }
+        .k-panelbar .k-group>.k-item>.k-link {
+            border: none;
+            border-color: transparent;
+            border-bottom: 1px solid $border-itemsdashboard;
+            m4-icon {
+                font-size: 20px;
+                margin: 0 15px 0 10px;
+                padding-top: 4px;
+                color: $bkg-dark;
+                height: 24px;
+                width: 20px;
+            }
+            span {
+                color: $text-dark;
+            }
+            &.k-state-focused {
+                box-shadow: none;
+            }
+        }
+        .k-panelbar .k-group>.k-item:first-child>.k-link {
+            padding-top: 5px;
+            box-shadow: inset 0 3px 3px -1px rgba(0, 0, 0, 0.2);
+        }
+        .k-panelbar .k-group>.k-item:last-child>.k-link {
+            border-bottom: none;
+            box-shadow: inset 0 -3px 3px -1px rgba(0, 0, 0, 0.2);
+            padding-bottom: 5px;
+        }
+        /* application selezionata */
+        .k-panelbar>.k-item.selected-application {
+            &>.k-link {
+                background: $accordionbkg;
+                border-bottom: 1px solid $border-itemsdashboard;
+            }
+            &>.k-icon {
+                color: $bkg-dark;
+            }
+        }
+        /* group selezionato */
+        .k-panelbar>.k-item.selected-group {
+            &>.k-link {
+                background: $bkg-light;
+                border-bottom: 1px solid $border-itemsdashboard
+            }
+            &>.k-icon {
+                color:  $bkg-dark;
+            }
+        }
+        .k-panelbar>.k-item.selected-group>.k-link:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 4px solid  $bkg-dark;
+            position: absolute;
+            left: 0px;
+            z-index: 9999;
+        }
+        /* hacks */
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-expanded):hover,
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-expanded).k-state-hover,
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-active):hover,
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-active).k-state-hover,
+        .k-panelbar>.k-item>.k-link:hover,
+        .k-panelbar>.k-item>.k-link.k-state-hover {
+            color: $text-dark;
+            background-color: $accordionHover;
+        }
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-expanded),
+        .k-panelbar>.k-item>.k-link.k-state-selected:not(.k-state-active) {
+            color: $text-dark;
+        }
+        &.collapsed {
+            .k-panelbar .k-group>.k-item>.k-link {
+                m4-icon {
+                    margin: 0 10px 0 0;
+                }
+                span {
+                    display: none;
+                    transition: display 0.4s ease;
+                }
+            }
+            .k-panelbar>.k-item.k-state-expanded>.k-link .k-icon,
+            .k-panelbar>.k-item.k-state-active>.k-link .k-icon,
+            .k-panelbar>.k-item>.k-link .k-icon {
+                display: none;
+            }
+        }
     }
 }
 

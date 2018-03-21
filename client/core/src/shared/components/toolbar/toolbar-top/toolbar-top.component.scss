@@ -23,7 +23,7 @@
     }
 }
 
-.title {
+::ng-deep .title {
     display: flex;
     flex: 1 1 auto;
     &>span {
