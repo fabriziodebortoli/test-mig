@@ -11,6 +11,15 @@
         color: #000;
         line-height: 16px;
     }
+    &.tb-italic label {
+        font-style: italic;
+    }
+    &.tb-underline label {
+        text-decoration: underline;
+    }
+    &.tb-bold label {
+        font-weight: 500;
+    }
 }
 
 :host-context(.no-static-area) {

@@ -152,8 +152,13 @@
         internal const string sClass = "class";
         internal const string div = "div";
         internal const string marginLeft = "marginLeft";
-        internal const string textAlign = "textAlign";        
+        internal const string textAlign = "textAlign";
 
+        internal const string font = "font";
+        internal const string bold = "bold";
+        internal const string italic = "italic";
+        internal const string underline = "underline";
+        
         internal const string propagateSelectionChange = "propagateSelectionChange";
         internal const string tbToolbarTopDropdown = "tb-toolbar-top-button-dropdown";
         internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";

@@ -1743,7 +1743,7 @@ namespace Microarea.TbJson
 
             string anchor = jObj.GetFlatString(Constants.anchor);
             if (!string.IsNullOrEmpty(anchor) && anchor.IndexOf("COL",StringComparison.InvariantCultureIgnoreCase) < 0)
-                htmlWriter.WriteAttribute("[staticArea]", "false");
+                htmlWriter.WriteAttribute(Square("staticArea"), "false");
 
             string marginLeft = jObj.GetFlatString(Constants.marginLeft);
             if (!string.IsNullOrEmpty(marginLeft))
@@ -1752,6 +1752,38 @@ namespace Microarea.TbJson
             string textAlign = jObj.GetTextAlign();
             if (!string.IsNullOrEmpty(textAlign)) {
                 htmlWriter.WriteAttribute("textAlign", textAlign);
+            }
+
+
+            var font = jObj[Constants.font];
+            if (font != null)
+            {
+                string underline = font.GetFlatString(Constants.underline);
+                if (!string.IsNullOrEmpty(underline))
+                {
+                    bool bUnderline = false;
+                    bool.TryParse(underline, out bUnderline);
+                    if (bUnderline)
+                        htmlWriter.WriteAttribute(Square("underline"), "true");
+                }
+
+                string bold = font.GetFlatString(Constants.bold);
+                if (!string.IsNullOrEmpty(bold))
+                {
+                    bool bBold = false;
+                    bool.TryParse(bold, out bBold);
+                    if (bBold)
+                        htmlWriter.WriteAttribute(Square("bold"), "true");
+                }
+
+                string italic = font.GetFlatString(Constants.italic);
+                if (!string.IsNullOrEmpty(italic))
+                {
+                    bool bItalic = false;
+                    bool.TryParse(italic, out bItalic);
+                    if (bItalic)
+                        htmlWriter.WriteAttribute(Square("italic"), "true");
+                }
             }
 
             foreach (var arg in wc.Args)
