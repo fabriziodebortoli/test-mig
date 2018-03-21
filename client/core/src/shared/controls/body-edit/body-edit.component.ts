@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, Input, OnDestroy, QueryList, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, QueryList, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation, SkipSelf } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
 import { SelectableSettings } from '@progress/kendo-angular-grid/dist/es/selection/selectable-settings';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
@@ -126,7 +126,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     if (this.bodyEditService.skip < 0) {
       this.bodyEditService.skip = 0;
-      this.bodyEditService.changeDBTRange();
+      this.bodyEditService.changeDBTRange( this.bodyEditService.skip, this.bodyEditService.pageSize, 0);
       this.bodyEditService.isLoading = false;
     }
 

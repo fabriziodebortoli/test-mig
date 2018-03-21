@@ -1608,23 +1608,24 @@ namespace Microarea.TbJson
                         }
 
                     }
+                    StringBuilder fieldAlias = new StringBuilder();
                     if (!string.IsNullOrEmpty(field))
                     {
                         string s = CheckAlias(table, field);
                         if (!string.IsNullOrEmpty(s))
                         {
-                            alias.Append('[');
-                            alias.Append(s);
-                            alias.Append(']');
+                            fieldAlias.Append('[');
+                            fieldAlias.Append(s);
+                            fieldAlias.Append(']');
+                            alias.Append(fieldAlias);
                         }
-
                     }
                     if (insideRowView)
                     {
-                        if (alias.Length == 0)
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", AdjustModelExpression(ds)));
+                        if (alias.Length == 0 || fieldAlias.Length == 0)
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", field));
                         else
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow", alias));
+                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow", fieldAlias));
                     }
                     else
                     {

@@ -24,7 +24,7 @@ export class BodyEditService {
 
   public rowViewVisible: boolean = false;
 
-  public pageSize: number = 2;
+  public pageSize: number = 15;
   public rowHeight: number = 22;
   private minimumRowHeight: number = 22;
   private rowHeightStep: number = 10;
@@ -55,7 +55,7 @@ export class BodyEditService {
     this.rows = model.rows;
     this.prototype = model.prototype;
     this.rowCount = model ? model.rowCount : 0;
-    this.skip = model ? model.start : 0;
+    this.skip = model && model.start ? model.start : 0;
     this.currentDbtRowIdx = model.currentRowIdx;
     this.currentGridIdx = model.currentRowIdx - this.skip;
     if (model.rows && this.currentGridIdx >= 0 && this.currentGridIdx <= model.rows.length)
@@ -74,12 +74,13 @@ export class BodyEditService {
   pageChange(event) {
     this.skip = event.skip;
 
-    let sub = this.changeRow(this.skip).subscribe((res) => {
-      if (res) {
-        this.changeDBTRange();
-      }
-      sub.unsubscribe();
-    });
+    this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
+    // let sub = this.changeRow(this.skip).subscribe((res) => {
+    //   if (res) {
+    //     this.changeDBTRange();
+    //   }
+    //   sub.unsubscribe();
+    // });
   }
 
   setRowViewVisibility(visible: boolean) {
@@ -89,43 +90,52 @@ export class BodyEditService {
   firstRow() {
     this.currentDbtRowIdx = 0
     this.currentGridIdx = 0
-    this.changeRow(this.currentDbtRowIdx).subscribe(() => { });
+    this.skip = 0;
+    this.changeRow(this.currentDbtRowIdx);
   }
 
   prevRow() {
     this.currentDbtRowIdx--;
     this.currentGridIdx--;
-    if (this.currentDbtRowIdx < this.skip || this.currentDbtRowIdx >= this.skip + this.pageSize) {
+    if (this.currentDbtRowIdx >= this.skip && this.currentDbtRowIdx < this.skip + this.pageSize - 1) {
+      //se sono nel range delle righe che ho già scaricato, non faccio niente, se non allineare tutto il record
+      this.changeRow(this.currentGridIdx);
+    }
+    else {
+      //
       let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
       this.skip = skip;
-      this.pageChange({ skip: this.skip, take: this.pageSize });
+
+      this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
       return;
     }
-    this.changeRow(this.currentGridIdx);
+
   }
 
   nextRow() {
     this.currentDbtRowIdx++;
     this.currentGridIdx++;
 
-    if (this.currentDbtRowIdx < this.skip || this.currentDbtRowIdx >= this.skip + this.pageSize) {
+    if (this.currentDbtRowIdx >= this.skip && this.currentDbtRowIdx < this.skip + this.pageSize - 1) {
+      //se sono nel range delle righe che ho già scaricato, non faccio niente, se non allineare tutto il record
+      this.changeRow(this.currentGridIdx);
+    }
+    else {
       let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
       this.skip = skip;
-      this.pageChange({ skip: this.skip, take: this.pageSize });
-      return;
+      this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
     }
-    this.changeRow(this.currentGridIdx).subscribe(() => { });
   }
-
 
   lastRow() {
     //qui devo scatenare il pagechange se ci sono più righe di quante ne sto vedendo
     this.currentDbtRowIdx = this.rowCount - 1;
     this.currentGridIdx = this.rowCount - 1;
-    this.changeRow(this.currentGridIdx).subscribe(() => { });
+    this.changeRow(this.currentGridIdx)
   }
 
-  changeRow(index: number): Observable<Response> {
+  //nel range di righe selezionate, posiziona sulla riga desiderata e comunica la stessa informazione al server
+  changeRow(index: number) {
 
     let idx = index - this.skip;
     this.currentDbtRowIdx = index;
@@ -133,23 +143,24 @@ export class BodyEditService {
 
     let dataItem = this.rows[idx];
     if (!dataItem) {
-      return Observable.empty<Response>();
+      return;
     }
 
     this.currentRow = dataItem;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    return this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).map((res: Response) => {
-      return res;
+    let sub = this.httpService.changeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, index).subscribe(() => {
+      sub.unsubscribe;
     });
   }
 
-  changeDBTRange() {
+  //avvisa il server che è richiesto un nuovo set di righe
+  changeDBTRange(skip:number, rowsToTake: number, desiredRow: number) {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     this.isLoading = true;
-    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, this.skip, this.pageSize, this.currentDbtRowIdx).subscribe((res) => {
+    console.log("skip, rowsToTake, rowSelected", skip, rowsToTake, desiredRow)
+    let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, skip, rowsToTake, desiredRow).subscribe((res) => {
       sub.unsubscribe();
     });
   }
-
 }
