@@ -46,7 +46,7 @@
         flex: 1;
         overflow: hidden;
         kendo-tabstrip {
-            background: #fff;
+            background: #f1f1f1;
             flex: 1;
         }
         .show-description m4-icon {
@@ -69,6 +69,7 @@
             min-height: 24px;
             white-space: nowrap;
             overflow: auto;
+            background: #fff;
         }
         .k-tabstrip-top>.k-tabstrip-items .k-item {
             border: none;
@@ -91,7 +92,7 @@
         .k-tabstrip-top>.k-tabstrip-items .k-item:hover .k-link {
             color: #00588c;
         }
-        .k-content {
+        .k-tabstrip>.k-content {
             background: #f1f1f1;
             flex: 1;
             border: none;
