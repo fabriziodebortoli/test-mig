@@ -1823,6 +1823,7 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.decimals, Constants.decimals);
             WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
             WriteAttribute(jObj, Constants.width, Constants.width);
+            WriteAttribute(jObj, Constants.height, Constants.height);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
 
