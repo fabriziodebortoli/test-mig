@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { DialogModule, WindowModule } from '@progress/kendo-angular-dialog';
+import { DialogModule } from '@progress/kendo-angular-dialog';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PopupModule } from '@progress/kendo-angular-popup';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -67,7 +67,6 @@ const KENDO_UI_MODULES = [
     GridModule,
     GaugesModule,
     ChartsModule,
-    WindowModule,
     DialogModule,
     DateInputsModule,
     DropDownsModule,

@@ -126,7 +126,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     if (this.bodyEditService.skip < 0) {
       this.bodyEditService.skip = 0;
-      this.bodyEditService.changeDBTRange( this.bodyEditService.skip, this.bodyEditService.pageSize, 0);
+      this.bodyEditService.changeDBTRange(this.bodyEditService.skip, this.bodyEditService.pageSize, 0);
       this.bodyEditService.isLoading = false;
     }
 
@@ -183,30 +183,20 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   //-----------------------------------------------------------------------------------------------
-  ben_row_changed(item) {
-
-    let selectedRow = item.selectedRows[0];
-    if (!selectedRow || !selectedRow.dataItem)
-      return;
-
-    this.bodyEditService.changeRow(selectedRow.index);
-  }
-
-  //-----------------------------------------------------------------------------------------------
   addRow() {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
-    let tempCount = this.bodyEditService.rowCount + 1;
-    let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
+    let tempCount = this.bodyEditService.currentDbtRowIdx + 1;
+    //let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
 
-    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, skip, this.bodyEditService.pageSize, tempCount).subscribe((res) => {
+    let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize, tempCount).subscribe((res) => {
 
-      if (res && res[this.bodyEditName]) {
-        this.updateModel(res[this.bodyEditName]);
-      }
-      else {
-        this.bodyEditService.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
-      }
+      // if (res && res[this.bodyEditName]) {
+      //   this.updateModel(res[this.bodyEditName]);
+      // }
+      // else {
+      //   this.bodyEditService.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
+      // }
 
       sub.unsubscribe();
     });

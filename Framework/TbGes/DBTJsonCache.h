@@ -22,7 +22,7 @@ public:
 
 	void GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound);
 	bool SetJson(CJsonParser& jsonParser);
-	void SetJsonLimits(int nRowFrom, int nCount, int currentRow);
+	void SetJsonLimits(int nRowFrom, int nCount);
 	void ResetJsonLimits();
 	void ResetJsonData();
 };

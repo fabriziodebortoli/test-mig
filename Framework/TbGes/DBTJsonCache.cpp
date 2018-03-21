@@ -33,11 +33,10 @@ void DBTJsonCache::ResetJsonData()
 }
 
 //----------------------------------------------------------------------------
-void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount, int currentRow)
+void DBTJsonCache::SetJsonLimits(int nRowFrom, int nCount)
 {
 	m_nStart = nRowFrom;
 	m_nCount = nCount;
-	m_nCurrentRow = currentRow;
 }
 
 //----------------------------------------------------------------------------

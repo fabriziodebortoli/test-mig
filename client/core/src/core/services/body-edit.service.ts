@@ -74,7 +74,7 @@ export class BodyEditService {
   pageChange(event) {
     this.skip = event.skip;
 
-    this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
+    this.changeDBTRange(this.skip, this.pageSize, this.skip);
     // let sub = this.changeRow(this.skip).subscribe((res) => {
     //   if (res) {
     //     this.changeDBTRange();
@@ -85,6 +85,16 @@ export class BodyEditService {
 
   setRowViewVisibility(visible: boolean) {
     this.rowViewVisible = visible;
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  ben_row_changed(item) {
+
+    let selectedRow = item.selectedRows[0];
+    if (!selectedRow || !selectedRow.dataItem)
+      return;
+
+    this.changeRow(selectedRow.index);
   }
 
   firstRow() {
@@ -99,13 +109,11 @@ export class BodyEditService {
     this.currentGridIdx--;
     if (this.currentDbtRowIdx >= this.skip && this.currentDbtRowIdx < this.skip + this.pageSize - 1) {
       //se sono nel range delle righe che ho già scaricato, non faccio niente, se non allineare tutto il record
-      this.changeRow(this.currentGridIdx);
+      this.changeRow(this.currentDbtRowIdx);
     }
     else {
       //
-      let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
-      this.skip = skip;
-
+      this.skip = this.skip + 1 - this.pageSize;
       this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
       return;
     }
@@ -118,11 +126,10 @@ export class BodyEditService {
 
     if (this.currentDbtRowIdx >= this.skip && this.currentDbtRowIdx < this.skip + this.pageSize - 1) {
       //se sono nel range delle righe che ho già scaricato, non faccio niente, se non allineare tutto il record
-      this.changeRow(this.currentGridIdx);
+      this.changeRow(this.currentDbtRowIdx);
     }
     else {
-      let skip = (Math.ceil(this.currentGridIdx / this.pageSize) * this.pageSize) - this.pageSize;
-      this.skip = skip;
+      this.skip = this.skip + this.pageSize -1 ;
       this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
     }
   }
@@ -155,7 +162,7 @@ export class BodyEditService {
   }
 
   //avvisa il server che è richiesto un nuovo set di righe
-  changeDBTRange(skip:number, rowsToTake: number, desiredRow: number) {
+  changeDBTRange(skip: number, rowsToTake: number, desiredRow: number) {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     this.isLoading = true;
     console.log("skip, rowsToTake, rowSelected", skip, rowsToTake, desiredRow)

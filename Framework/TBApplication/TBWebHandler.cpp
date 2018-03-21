@@ -754,10 +754,6 @@ void CTbWebHandler::ChangeRowDBTSlaveBuffered(const CString& path, const CNameVa
 		}
 
 		buffered->SetCurrentRow(nRow);
-		/*CJsonSerializer serializer;
-		buffered->GetJsonForSingleDBT(serializer, TRUE);
-		response.SetData(serializer.GetJson());
-		response.SetMimeType(L"application/json");*/
 		aResponse.SetOK();
 		response.SetData(aResponse);
 		return;
@@ -813,13 +809,14 @@ void CTbWebHandler::RemoveRowDBTSlaveBuffered(const CString& path, const CNameVa
 {
 	CString sDocumentID = params.GetValueByName(_T("cmpId"));
 	CString sDbtName = params.GetValueByName(_T("dbtName"));
-	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
-	int nRowToDelete = _ttoi(sRowNumber);
-
+	
 	CString sSkip = params.GetValueByName(_T("skip"));
 	CString sTake = params.GetValueByName(_T("take"));
+	CString sRowNumber = params.GetValueByName(_T("rowNumber"));
+
 	int pageToSkip = _ttoi(sSkip);
 	int pageToTake = _ttoi(sTake);
+	int nRowToDelete = _ttoi(sRowNumber);
 
 	CJSonResponse aResponse;
 	if (!sDocumentID.IsEmpty())

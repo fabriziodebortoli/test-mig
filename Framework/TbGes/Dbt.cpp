@@ -4210,7 +4210,8 @@ DBTObject*	DBTSlaveBuffered::GetDBTObject(const CTBNamespace& aNs) const
 //-----------------------------------------------------------------------------	
 void DBTSlaveBuffered::SetJsonLimits(int nRowFrom, int nCount, int nCurrentRow)
 {
-	m_pJsonCache->SetJsonLimits(nRowFrom, nCount, nCurrentRow);
+	m_pJsonCache->SetJsonLimits(nRowFrom, nCount);
+	SetCurrentRow(nCurrentRow);
 	GetDocument()->UpdateDataView();
 }
 //-----------------------------------------------------------------------------	

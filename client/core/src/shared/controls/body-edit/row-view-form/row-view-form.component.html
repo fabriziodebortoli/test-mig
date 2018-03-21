@@ -1,8 +1,10 @@
-<kendo-window *ngIf="bodyEditService.rowViewVisible &&  bodyEditService.currentRow" [minWidth]="250">
-    <kendo-window-titlebar>
-        <div class='k-window-title'>{{title}}</div>
-        <button type="button" class="k-button" (click)="closeRowView()">{{_TB('Close')}}</button>
-    </kendo-window-titlebar>
+<kendo-dialog *ngIf="bodyEditService.rowViewVisible &&  bodyEditService.currentRow" kendoRippleContainer (close)="closeRowView()">
+
+    <kendo-dialog-titlebar>
+        <div class="title">
+            RowView
+        </div>
+    </kendo-dialog-titlebar>
 
     <div class="row-view-toolbar">
         <div class="buttons">
@@ -26,7 +28,7 @@
         <ng-content></ng-content>
     </ng-template>
 
-    <div class="text-right">
-        <button type="button" class="k-button" (click)="closeRowView()">{{_TB('Close')}}</button>
-    </div>
-</kendo-window>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeRowView()" [primary]="true">{{_TB('Close')}}</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
