@@ -79,7 +79,7 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
-        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git"
+        "@taskbuilder/core": "file:../core/src",
+        "@taskbuilder/icons": "file:../icons/src"
     }
 }

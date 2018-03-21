@@ -12,8 +12,7 @@
         "lite": "lite-server",
         "playground:build": "tsc -p playground -w",
         "playground": "concurrently \"npm run build:watch\" \"npm run playground:build\" \"npm run lite\"",
-        "test": "tsc && karma start",
-        "link-core": "npm link ../core/src && cd src && npm link ../../core/src"
+        "test": "tsc && karma start"
     },
     "repository": {
         "type": "git",
@@ -80,7 +79,7 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
-        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git"
+        "@taskbuilder/core": "file:../core/src",
+        "@taskbuilder/icons": "file:../icons/src"
     }
 }

@@ -83,7 +83,7 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "@taskbuilder/core": "file:../core/src",
         "moment": "^2.19.1"
     }
 }

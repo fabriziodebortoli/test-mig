@@ -21,8 +21,8 @@
     "jsnext:main": "taskbuilder-sfm.js",
     "typings": "taskbuilder-sfm.d.ts",
     "peerDependencies": {
-        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
-        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
+        "@taskbuilder/core": "file:../../core/src",
+        "@taskbuilder/icons": "file:../../icons/src",
         "@angular/core": "^5.0.0",
         "@angular/forms": "^5.0.0",
         "@angular/http": "^5.0.0",

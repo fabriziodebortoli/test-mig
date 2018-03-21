@@ -77,7 +77,8 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "@taskbuilder/core": "file:../core/src",
+        "@taskbuilder/icons": "file:../icons/src",
         "@progress/kendo-angular-buttons": "^3.0.2",
         "@progress/kendo-angular-charts": "^2.0.0",
         "@progress/kendo-angular-dateinputs": "^2.0.1",
