@@ -3,7 +3,7 @@ import { Observable, untilDestroy, when } from '../../../rxjs.imports';
 import { Logger } from '../../../core/services/logger.service';
 
 export default class RadarEventHandler {
-    static Handle(radar: RadarComponent, log: Logger, enabler?: Observable<boolean>): RadarEventHandler {
+    static handle(radar: RadarComponent, log: Logger, enabler?: Observable<boolean>): RadarEventHandler {
         return new RadarEventHandler(radar, log, enabler);
     }
 

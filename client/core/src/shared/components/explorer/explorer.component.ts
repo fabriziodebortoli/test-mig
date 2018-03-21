@@ -3,6 +3,7 @@ import { EventDataService } from '../../../core/services/eventdata.service';
 import { ComponentMediator } from '../../../core/services/component-mediator.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { ControlComponent } from '../../../shared/controls/control.component';
+import ExplorerEventHandler from './explorer.event-handler';
 import { ExplorerService, Item, ObjType, UploadInterceptor } from '../../../core/services/explorer.service';
 import { Observable, BehaviorSubject } from '../../../rxjs.imports';
 import { get } from 'lodash';
@@ -40,6 +41,7 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
 
   constructor(public m: ComponentMediator, public explorer: ExplorerService) {
     super(m.layout, m.tbComponent, m.changeDetectorRef);
+    ExplorerEventHandler.handle(this);
   }
 
   async ngOnInit() { this.updateItems(rootItem); }
