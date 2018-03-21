@@ -4,6 +4,7 @@
     "license": "MIT",
     "scripts": {
         "start": "ng serve",
+        "ng": "node --max_old_space_size=9120 node_modules/@angular/cli/bin/ng serve --sourcemap=false",
         "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src --no-save",
