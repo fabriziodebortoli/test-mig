@@ -1381,11 +1381,21 @@ void CAbstractFormDoc::RegisterDBT(DBTObject* pDBT)
 	for (int i = 0; i <= m_arRegisteredDBTs.GetUpperBound(); i++)
 	{
 		pExistingDBT = (DBTObject*)m_arRegisteredDBTs.GetAt(i);
-		if (pExistingDBT && pExistingDBT == pDBT)
+		if (pExistingDBT)
 		{
-			ASSERT(FALSE);
-			TRACE1("CAbstractFormDoc::RegisterDBT %s duplicate registration!", pExistingDBT->GetNamespace().ToUnparsedString());
-			return;
+			if (pExistingDBT == pDBT)
+			{
+				ASSERT(FALSE);
+				TRACE1("CAbstractFormDoc::RegisterDBT %s duplicate registration!", pExistingDBT->GetNamespace().ToUnparsedString());
+				return;
+			}
+
+			if (pExistingDBT->GetNamespace() == pDBT->GetNamespace())
+			{
+				ASSERT(FALSE);
+				TRACE1("CAbstractFormDoc::RegisterDBT %s duplicate dbt namespace!", pExistingDBT->GetNamespace().ToUnparsedString());
+				return;
+			}
 		}
 	}
 
@@ -2685,7 +2695,7 @@ void CAbstractFormDoc::SetDefaultFocus()
 		SetViewFocus(GetNextView(pos), FALSE);*/
 	if (m_bNeedsUpdateDataView)
 		ExecuteUpdateDataView();
-		// set focus for master view activating also frame and view
+	// set focus for master view activating also frame and view
 	POSITION first = GetFirstViewPosition();
 	if (first != NULL)
 		SetViewFocus(GetNextView(first));
@@ -3133,7 +3143,7 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 		m_bNeedsUpdateDataView = true;
 		return;
 	}
-	
+
 	int delay = GetRefreshDelay();
 	if (bForce || delay <= 0)
 		ExecuteUpdateDataView();
@@ -4383,7 +4393,7 @@ BOOL CAbstractFormDoc::OnSaveDocument(LPCTSTR /*pszPathName*/)
 	}
 	END_CATCH
 
-	UnlockAll();
+		UnlockAll();
 	return bOk;
 }
 
