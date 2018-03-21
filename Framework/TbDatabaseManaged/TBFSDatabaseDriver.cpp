@@ -1123,7 +1123,8 @@ TBFile* TBFSDatabaseDriver::GetTBFile(const CString& strPathFileName)
 		else
 		{
 			strRelativePath = GetRelativePath(strTBFSFileName, true);
-			GetCustomTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\'"), strRelativePath), &aMetadataArray);
+			CString strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strPathFileName);
+			GetCustomTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\' AND AccountName = \'%s\'"), strRelativePath, strAccountName), &aMetadataArray);
 		}		
 	}
 	catch (SqlException^ e)
