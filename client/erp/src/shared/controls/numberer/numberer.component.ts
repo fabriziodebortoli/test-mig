@@ -39,6 +39,7 @@ export class NumbererComponent extends ControlComponent {
     private tbMask = '';
     private useFormatMask = false;
     private enableCtrlInEdit = false;
+    private enableStateInEdit = false;
     private paddingEnabled = true;
     private ctxMenuIndex = 0;
     private menuItemDisablePadding: ContextMenuItem;
@@ -50,7 +51,7 @@ export class NumbererComponent extends ControlComponent {
     mask = '';
     valueWasPadded = false;
     ctrlEnabled = false;
-    enableStateInEdit = false;
+    stateDataEnabled = false;
 
     constructor(
         public eventData: EventDataService,
@@ -157,6 +158,7 @@ export class NumbererComponent extends ControlComponent {
         if (this.eventData.model.FormMode) {
             let formMode = this.eventData.model.FormMode.value;
             this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
+            this.stateDataEnabled = (formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableStateInEdit))
         }
         this.setComponentMask();
         this.valueWasPadded = false;

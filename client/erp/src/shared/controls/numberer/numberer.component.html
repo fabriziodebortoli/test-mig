@@ -1,4 +1,4 @@
-<tb-control-container type="tb-numberer" [model]="model">
+<tb-control-container type="tb-numberer" [model]="model" [stateData]="stateData" [disableStateButton]="!stateDataEnabled">
     <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
         (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
