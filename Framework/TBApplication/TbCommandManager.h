@@ -197,6 +197,12 @@ private:
 											BOOL						bFromFunction,
 											BOOL						bUseDiagnostic
 										);
+	const CSingleExtDocTemplate*	GetDynamicDocTemplate
+										(
+											const CDocumentDescription*	pDocDescri,
+											LPCTSTR						pszViewMode
+										);
+
 	BOOL IsBackground					(LPCTSTR pszViewMode);
 	virtual void InitOnDemandEnabled ();
 public:

@@ -189,6 +189,46 @@ BOOL CTbCommandManager::CanUseNamespace(CTBNamespace tbNamespace, OSLTypeObject 
 }
 
 //-----------------------------------------------------------------------------
+const CSingleExtDocTemplate* CTbCommandManager::GetDynamicDocTemplate
+(
+	const CDocumentDescription*	pDocDescri,
+	LPCTSTR						pszViewMode
+)
+{
+	BOOL bIsBatch = pDocDescri->GetViewMode(pszViewMode) && pDocDescri->GetViewMode(pszViewMode)->GetType() == VMT_BATCH;
+	// versione desktop e view mode non attended
+	if (!AfxIsRemoteInterface() || _tcsicmp(pszViewMode, szDefaultViewMode) != 0)
+		return AfxGetBaseApp()->GetDocTemplate(bIsBatch ? szDynamicBatchDocNs : szDynamicDocNs, pszViewMode);
+
+	// la versione Web usa il viewmode specifico
+	const CSingleExtDocTemplate* pTemplate = AfxGetBaseApp()->GetDocTemplate(pDocDescri->GetNamespace().ToString(), szDefaultViewModeWeb);
+	if (pTemplate)
+		return pTemplate;
+	
+	// guardo se posso registrarlo
+	CViewModeDescription*  pViewMode = pDocDescri->GetViewMode(szDefaultViewModeWeb);
+	if (!pViewMode || pViewMode->GetFrameID().IsEmpty())
+		return NULL;
+
+	// se non c'e' lo registro al volo
+	const CSingleExtDocTemplate* pSourceTemplate = AfxGetBaseApp()->GetDocTemplate
+	(
+		bIsBatch ? szDynamicBatchDocNs : szDynamicDocNs,
+		szDefaultViewModeWeb
+	);
+	CSingleExtDocTemplate* pDestTemplate = new CSingleExtDocTemplate(pSourceTemplate, pSourceTemplate->m_pDocInvocationParams);
+	pDestTemplate->SetNamespace(pDocDescri->GetNamespace());
+
+	UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources);
+	pDestTemplate->SetIDResource(nID);
+
+	AfxGetBaseApp()->AddDocTemplate(pDestTemplate);
+	return pDestTemplate;
+}
+
+
+
+//-----------------------------------------------------------------------------
 const CSingleExtDocTemplate* CTbCommandManager::GetDocTemplate
 						(
 							const CDocumentDescription*	pDocDescri, 
@@ -251,17 +291,7 @@ const CSingleExtDocTemplate* CTbCommandManager::GetDocTemplate
 
 	if (pDocDescri->IsDynamic())
 	{
-		CString sViewMode(pszViewMode);
-		if (AfxIsRemoteInterface())
-		{
-			sViewMode += szWeb;
-			pTemplate = AfxGetBaseApp()->GetDocTemplate(pDocDescri->GetNamespace().ToString(), sViewMode);
-		}
-		else
-		{
-			BOOL bIsBatch = pDocDescri->GetViewMode(pszViewMode) && pDocDescri->GetViewMode(pszViewMode)->GetType() == VMT_BATCH;
-			pTemplate = AfxGetBaseApp()->GetDocTemplate(bIsBatch ? szDynamicBatchDocNs : szDynamicDocNs, sViewMode);
-		}
+		pTemplate = GetDynamicDocTemplate(pDocDescri, pszViewMode);
 	}
 	else
 	{

@@ -32,57 +32,6 @@ void __stdcall OnEventDispatch(const CString& path)
 	BaseCustomizationContext::CustomizationContextInstance->AddToCurrentCustomizationList(gcnew String(path), true, false, String::Empty, String::Empty);
 }
 
-////////////////////////////////////////////////////////////////////////////
-//				INIZIO definizione della interfaccia di Add-On
-/////////////////////////////////////////////////////////////////////////////
-BOOL RegisterDynamicDocuments()
-{
-	CString sWebViewMode(szDefaultViewMode);
-	sWebViewMode += szWeb;
-	const CSingleExtDocTemplate* pDataEntryTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicDocNs, sWebViewMode);
-	const CSingleExtDocTemplate* pBatchTemplate = AfxGetBaseApp()->GetDocTemplate(szDynamicBatchDocNs, sWebViewMode);
-
-	AddOnApplication* pAddOnApp;
-	for (int nApp = 0; nApp <= AfxGetAddOnAppsTable()->GetUpperBound(); nApp++)
-	{
-		pAddOnApp = AfxGetAddOnAppsTable()->GetAt(nApp);
-		ASSERT(pAddOnApp);
-
-		if (!pAddOnApp->IsACustomization())
-			continue;
-
-		for (int nMod = 0; nMod <= pAddOnApp->m_pAddOnModules->GetUpperBound(); nMod++)
-		{
-			AddOnModule* pAddOnMod = pAddOnApp->m_pAddOnModules->GetAt(nMod);
-			ASSERT(pAddOnMod);
-
-			CBaseDescriptionArray* pDocumentsInfo = AfxGetDocumentDescriptionsOf(pAddOnMod->m_Namespace);
-			for (int d = 0; d < pDocumentsInfo->GetSize(); d++)
-			{
-				CDocumentDescription* pDocDescri = dynamic_cast<CDocumentDescription*>(pDocumentsInfo->GetAt(d));
-				if (!pDocDescri->IsDynamic())
-					continue;
-
-				CViewModeDescription*  pViewMode = pDocDescri->GetViewMode(sWebViewMode);
-				if (pViewMode && !pViewMode->GetFrameID().IsEmpty())
-				{
-					const CSingleExtDocTemplate* pSourceTemplate = (pViewMode->GetType() == ViewModeType::VMT_BATCH) ? pBatchTemplate : pDataEntryTemplate;
-
-					CSingleExtDocTemplate* pDestTemplate = new CSingleExtDocTemplate(pSourceTemplate, pSourceTemplate->m_pDocInvocationParams);
-					pDestTemplate->SetNamespace(pDocDescri->GetNamespace());
-
-					UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(pViewMode->GetFrameID(), TbResourceType::TbResources);
-					pDestTemplate->SetIDResource(nID);
-
-					AfxGetBaseApp()->AddDocTemplate(pDestTemplate);
-				}
-			}
-		}
-	}
-
-	return TRUE;
-}
-
 //-----------------------------------------------------------------------------
 BOOL DsnChanged(FunctionDataInterface* pRDI)
 {
@@ -119,6 +68,9 @@ BOOL ApplicationStarted(FunctionDataInterface* pRDI)
 	return TRUE;
 }
 
+////////////////////////////////////////////////////////////////////////////
+//				INIZIO definizione della interfaccia di Add-On
+/////////////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
 BEGIN_ADDON_INTERFACE()
 
@@ -134,10 +86,6 @@ BEGIN_ADDON_INTERFACE()
 		BEGIN_DOCUMENT(_NS_DOC("NewBatchDocument"), TPL_NO_PROTECTION)
 			REGISTER_MASTER_TEMPLATE(szDefaultViewMode, CNewBatchDocument, CBatchFrame, CDynamicFormView)
 		END_DOCUMENT()
-
-	if (AfxIsRemoteInterface())
-		RegisterDynamicDocuments();
-
 	END_TEMPLATE()
 
 	BEGIN_FUNCTIONS()
