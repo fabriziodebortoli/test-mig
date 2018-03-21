@@ -270,7 +270,6 @@ bool MView::ManageDocumentObjects()
 			CXMLNode* pChild = pChildren->GetAt(i);
 			CString sNameSpace = _T("");
 			pChild->GetAttribute(XML_NAMESPACE_ATTRIBUTE, sNameSpace);
-			//CString ns = aNs.GetRightTokens(sNs.To   ObjectName(CTBNamespace::DOCUMENT);
 			CString ns = aNs.GetRightTokens(aNs.GetTokenArray()->GetCount() - 1);
 			if (!sNameSpace.Compare(ns))
 			{
