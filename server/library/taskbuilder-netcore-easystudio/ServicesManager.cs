@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TaskBuilderNetCore.EasyStudio.Serializers;
 using TaskBuilderNetCore.EasyStudio.Interfaces;
 using TaskBuilderNetCore.Interfaces;
+using System.Reflection;
 
 namespace TaskBuilderNetCore.EasyStudio
 {
@@ -39,6 +40,35 @@ namespace TaskBuilderNetCore.EasyStudio
             }
 
             return CreateService(serviceType);
+        }
+
+        //---------------------------------------------------------------
+        public IService GetService(string name)
+        {
+            foreach (IService service in this)
+            {
+                if (string.Compare(service.Name, name) == 0)
+                    return service;
+            }
+
+            Type serviceType = GetServiceType(name);
+            return serviceType == null ? null : CreateService(serviceType);
+        }
+
+        //---------------------------------------------------------------
+        private Type GetServiceType(string name)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (!typeof(IService).IsAssignableFrom(type))
+                    continue;
+
+                string serviceName = Component.GetNameAttributeFrom(type);
+                if (string.Compare(serviceName, name, true) == 0)
+                    return type;
+            }
+            return null;
         }
 
         //---------------------------------------------------------------

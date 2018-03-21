@@ -12,14 +12,7 @@ namespace TaskBuilderNetCore.EasyStudio
 	public class Component : EasyStudio.Interfaces.IComponent
     {
 		//---------------------------------------------------------------
-		virtual public string Name
-		{
-			get
-			{
-				var nameAttribute = GetType().GetTypeInfo().GetCustomAttributes(typeof(NameAttribute), true).FirstOrDefault() as DisplayNameAttribute;
-				return nameAttribute?.DisplayName;
-			}
-		}
+		virtual public string Name { get => GetNameAttributeFrom(GetType()); }
 
 		//---------------------------------------------------------------
 		virtual public string Description
@@ -64,5 +57,11 @@ namespace TaskBuilderNetCore.EasyStudio
 			return method != null;
 		}
 
-	}
+        //---------------------------------------------------------------
+        public static string GetNameAttributeFrom (Type type)
+        {
+            NameAttribute nameAttribute = type.GetTypeInfo().GetCustomAttributes(typeof(NameAttribute), true).FirstOrDefault() as NameAttribute;
+            return nameAttribute?.Name;
+        }
+    }
 }
