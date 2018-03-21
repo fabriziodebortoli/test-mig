@@ -78,7 +78,9 @@ void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 	{
 		if (j >= m_pDBT->m_pRecords->GetCount())
 		{
-			m_pClientRecords->SetSize(i); 
+			//ridimensione il buffer in base al numero ridotto di righe, altrimenti al giro successivo, se ci fossero più righe,
+			//effettuo una patch con una riga valorizzata invece che con una riga nulla
+			m_pClientRecords->SetSize(i);
 			break;
 		}
 		jsonSerializer.OpenObject(i);
@@ -98,11 +100,11 @@ void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 			}
 
 			pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
-			*pOld = *pCurrent;
 		}
 		else
+		{
 			pCurrent->GetJson(jsonSerializer, bOnlyWebBound);
-
+		}
 
 		jsonSerializer.CloseObject();
 		i++;
