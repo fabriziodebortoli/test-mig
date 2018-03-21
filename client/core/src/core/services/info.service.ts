@@ -64,7 +64,8 @@ export class InfoService {
             {
                 ui_culture: this.culture.value,
                 authtoken: sessionStorage.getItem('authtoken'),
-                tbLoaderName: this.getTbLoaderInfo().name
+                tbLoaderName: this.getTbLoaderInfo().name,
+                isDesktop: this.isDesktop
             });
     }
 
