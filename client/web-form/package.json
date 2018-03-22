@@ -8,7 +8,7 @@
         "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src --no-save",
-        "preinstall": "npm i ../reporting-studio/src",
+        "preinstall": "npm i ../reporting-studio/src && npm i ../erp/src",
         "postinstall": "npm run link-core",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
