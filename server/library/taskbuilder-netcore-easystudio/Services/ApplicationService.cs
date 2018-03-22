@@ -32,7 +32,6 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			var listCustomizations = GetListAllCustsUserAndAllUser(docNS, user, onlyDesignable);
 			return WriteJsonForListCustomizations(listCustomizations);		
 		}
-
 		//---------------------------------------------------------------
 		public List<TBFile> GetListAllCustsUserAndAllUser(string docNS, string user, bool onlyDesignable)
 		{
@@ -61,7 +60,6 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			//infine le ritorno per ordine alfabetico
 			return listCustsPurged.OrderBy(x => x.Name).ToList();
 		}
-
 		//---------------------------------------------------------------
 		private string WriteJsonForListCustomizations(List<TBFile> listCustomizations)
 		{
@@ -100,6 +98,80 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
+		public bool StillExist(string defaultContext, ApplicationType? applicationType)
+		{
+			ApplicationType appType = CheckAppType(applicationType);
+			var splitting = defaultContext.Split(Interfaces.Strings.Separator);
+			(string, string) pairTest = (splitting[0], splitting[1]);
+			List<(string, string)> json = GetPairsAppsMods(applicationType);
+			return json.Contains(pairTest);
+		}
+
+		//---------------------------------------------------------------
+		public string GetAppsModsAsJson(ApplicationType applicationType)
+		{
+			List<(string, string)> pairs = GetPairsAppsMods(applicationType);
+			return WriteJsonForListContext(pairs);
+		}
+
+		//---------------------------------------------------------------
+		public List<(string, string)> GetPairsAppsMods(ApplicationType? applicationType)
+		{
+			var listPairs = new List<(string, string)>();
+			ApplicationType appType = CheckAppType(applicationType);
+
+			var apps = GetApplications(appType);
+			foreach (var esApp in apps)
+			{
+				if (esApp == null) continue;
+				var mods = GetModules(esApp);
+				foreach (var esMod in mods)
+				{
+					listPairs.Add((esApp, esMod));
+				}
+			}
+			return listPairs;
+		}
+		//---------------------------------------------------------------
+		public string WriteJsonForListContext(List<(string, string)> pairs)
+		{
+			StringBuilder sb = new StringBuilder();
+			StringWriter sw = new StringWriter(sb);
+			JsonWriter jsonWriter = new JsonTextWriter(sw);
+			jsonWriter.WriteStartObject();
+			jsonWriter.WritePropertyName("allApplications");
+			jsonWriter.WriteStartArray();
+
+			foreach (var (esApp, esMod) in pairs)
+			{
+				jsonWriter.WriteStartObject();
+
+				jsonWriter.WritePropertyName("application");
+				jsonWriter.WriteValue(esApp);
+
+				jsonWriter.WritePropertyName("module");
+				jsonWriter.WriteValue(esMod);
+				jsonWriter.WriteEndObject();
+			}
+
+			jsonWriter.WriteEndArray();
+
+			LicenceService licenceService = Services.GetService<LicenceService>();
+			if (licenceService != null)
+			{
+				jsonWriter.WritePropertyName("DeveloperEd");
+				jsonWriter.WriteValue(licenceService.IsDeveloperEdition);
+			}
+
+			jsonWriter.WriteEndObject();
+			jsonWriter.Close();
+			sw.Close();
+
+			return sw.ToString();
+		}
+
+
+		//---------------------------------------------------------------
 		public string RefreshAll(ApplicationType type)
 		{
 			PathFinder.ApplicationInfos.Clear();
@@ -111,14 +183,14 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }             
             try
             {
                 if (ExistsApplication(applicationName))
                 {
-                    Diagnostic.Add(DiagnosticType.Error, string.Concat(applicationName, " ", Strings.ApplicationAlreadyExists));
+                    Diagnostic.Add(DiagnosticType.Error, string.Concat(applicationName, " ", Interfaces.Strings.ApplicationAlreadyExists));
                     return false;
                 }
                 return AppSerializer.CreateApplication(applicationName, type);
@@ -131,17 +203,26 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
+		public ApplicationType CheckAppType(ApplicationType? applicationType)
+		{
+			ApplicationType appType = ApplicationType.All;
+			if (applicationType != null)
+				appType = (ApplicationType)applicationType;
+			return appType;
+		}
+
+		//---------------------------------------------------------------
 		public bool CreateModule(string applicationName, string moduleName)
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }
 
             if (string.IsNullOrEmpty(moduleName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingModuleName);
                 return false;
             }
 
@@ -174,7 +255,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }
 
@@ -194,13 +275,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         {
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }
 
             if (string.IsNullOrEmpty(moduleName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingModuleName);
                 return false;
             }
 
@@ -241,7 +322,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
             if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }
 
@@ -262,13 +343,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return false;
             }
 
             if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingModuleName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingModuleName);
                 return false;
             }
             try
@@ -297,7 +378,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
             if (string.IsNullOrEmpty(applicationName))
             {
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
+                Diagnostic.Add(DiagnosticType.Error, Interfaces.Strings.MissingApplicationName);
                 return null;
             }
 
@@ -312,66 +393,9 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			return moduleNames;
 		}
 
-		//---------------------------------------------------------------
-		public string GetAppsModsAsJson(ApplicationType applicationType)
-		{
-			var apps = GetApplications(applicationType);
 
-			StringBuilder sb = new StringBuilder();
-			StringWriter sw = new StringWriter(sb);
-			JsonWriter jsonWriter = new JsonTextWriter(sw);
-			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("allApplications");
-			jsonWriter.WriteStartArray();
 
-			foreach (var esApp in apps)
-			{
-				if (esApp == null) continue;
-				var mods = GetModules(esApp);
-				foreach (var esMod in mods)
-				{
-					jsonWriter.WriteStartObject();
-
-					jsonWriter.WritePropertyName("application");
-					jsonWriter.WriteValue(esApp);
-
-					jsonWriter.WritePropertyName("module");
-					jsonWriter.WriteValue(esMod);
-					jsonWriter.WriteEndObject();
-				}
-			}
-
-			jsonWriter.WriteEndArray();
-
-            LicenceService licenceService = Services.GetService<LicenceService>();
-            if (licenceService != null)
-            {
-                jsonWriter.WritePropertyName("DeveloperEd");
-			    jsonWriter.WriteValue(licenceService.IsDeveloperEdition);
-            }
-
-            jsonWriter.WriteEndObject();
-			jsonWriter.Close();
-			sw.Close();
-
-			return sw.ToString();
-		}
 	}
 
-    //=========================================================================
-    internal class Strings
-    {
-        internal static readonly string MissingApplicationName = "Missing parameter applicationName";
-        internal static readonly string MissingModuleName = "Missing parameter moduleName";
-
-        internal static readonly string ErrorCreatingObject = "Error Creating Object";
-        internal static readonly string ErrorDeletingObject = "Error Deleting Object";
-
-		internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
-		internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
-        internal static readonly string ApplicationAlreadyExists = "Application already exists!";
-
-		internal static readonly string Separator = ";";
-	}
 }
 

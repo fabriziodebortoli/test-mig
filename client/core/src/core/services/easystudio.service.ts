@@ -52,7 +52,7 @@ export class EasystudioService {
     public isContextActive(): boolean {
         return this.currentApplication !== undefined && this.currentModule !== undefined;
     }
-    //--------------------------------------------------------------------------------
+   /* //--------------------------------------------------------------------------------
     public getCurrentContext(): any {
         this.subscriptions.push(this.httpMenuService.getCurrentContext().subscribe((result) => {
             let array = this.extractCouple(result);
@@ -62,7 +62,7 @@ export class EasystudioService {
             }
             return result;
         }));
-    }
+    }*/
     //--------------------------------------------------------------------------------
     private extractCouple(result: Response): string[] {
         if (result == undefined) return null;
@@ -196,12 +196,16 @@ export class EasystudioService {
 
     //--------------------------------------------------------------------------------
     public refreshEasyBuilderApps(type) {
-        this.httpMenuService.updateCachedDateAndSave().subscribe();
-        this.initEasyStudioContext(type);
-      /*  this.subscriptions.push(this.httpMenuService.refreshEasyBuilderApps(type).subscribe((result) => {
-            this.initEasyStudioContext(type);
-            return result;
-        }));*/
+        this.httpMenuService.updateCachedDateAndSave().subscribe(
+            (result) => {
+                if (result) {
+                    this.httpMenuService.checkAfterRefresh(type).subscribe();
+                    this.initEasyStudioContext(type);
+                    this.getDefaultContext(false);
+                }
+                return result;
+            }
+        );
     }
 
     //--------------------------------------------------------------------------------

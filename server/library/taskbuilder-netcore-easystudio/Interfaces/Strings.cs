@@ -18,6 +18,14 @@ namespace TaskBuilderNetCore.EasyStudio.Interfaces
 	
 		// messages
 		public static readonly string MissingApplicationType = "Missing parameter applicationType";
+		public static readonly string MissingApplicationName = "Missing parameter applicationName";
+		public static readonly string MissingModuleName = "Missing parameter moduleName";
+		public static readonly string ErrorCreatingObject = "Error Creating Object";
+		public static readonly string ErrorDeletingObject = "Error Deleting Object";
+		public static readonly string ObjectSuccessfullyCreated = "Successfully Created";
+		public static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
+		public static readonly string ApplicationAlreadyExists = "Application already exists!";
+		public static readonly string Separator = ";";
 
 	}
 

@@ -83,7 +83,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 				doc = null;
 				root = null;
 
-				return (result == ";") ? null : result;
+				return (result == Interfaces.Strings.Separator) ? null : result;
 			}
 			catch (Exception e)
 			{
@@ -97,7 +97,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			XmlElement defaultContext = (XmlElement)root.SelectSingleNode(EasyStudioPreferencesXML.Element.DefaultContext);
 			var a = defaultContext.GetAttribute(EasyStudioPreferencesXML.Attribute.DefaultApplication);
 			var b = defaultContext.GetAttribute(EasyStudioPreferencesXML.Attribute.DefaultModule);
-			return a + Strings.Separator + b;
+			return a + Interfaces.Strings.Separator + b;
 		}
 
 		//---------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			XmlElement currentContext = (XmlElement)root.SelectSingleNode(EasyStudioPreferencesXML.Element.CurrentContext);
 			var a = currentContext.GetAttribute(EasyStudioPreferencesXML.Attribute.CurrentApplication);
 			var b = currentContext.GetAttribute(EasyStudioPreferencesXML.Attribute.CurrentModule);
-			return a + Strings.Separator + b;
+			return a + Interfaces.Strings.Separator + b;
 		}
 
 		//---------------------------------------------------------------

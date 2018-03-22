@@ -45,6 +45,9 @@ namespace Microarea.EasyStudio.Controllers
             var moduleName = value[Strings.ModuleName]?.Value<string>();
 			string user = value[Strings.User]?.Value<string>();
 
+			if (string.IsNullOrEmpty(applicationName) || string.IsNullOrEmpty(moduleName) || string.IsNullOrEmpty(user))
+				throw new Exception();
+
 			if (applicationType == null)
                 Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
 			else
@@ -83,10 +86,7 @@ namespace Microarea.EasyStudio.Controllers
 			try
 			{
 				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
-
-				ApplicationType appType = ApplicationType.All;
-				if (applicationType != null)
-					appType = (ApplicationType)applicationType;
+				ApplicationType appType = AppService.CheckAppType(applicationType);
 
 				return ToResult(AppService.GetAppsModsAsJson(appType));
 			}
@@ -105,6 +105,8 @@ namespace Microarea.EasyStudio.Controllers
 			{
 				string docNS = value[Strings.Namespace]?.Value<string>();
 				string user = value[Strings.User]?.Value<string>();
+				if (string.IsNullOrEmpty(docNS) || string.IsNullOrEmpty(user))
+					throw new Exception();
 				var res = AppService.GetEasyStudioCustomizationsListFor(docNS, user);
 				return ToResult(res);
 			}
@@ -123,10 +125,7 @@ namespace Microarea.EasyStudio.Controllers
 			{
 				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
 
-				ApplicationType appType = ApplicationType.All;
-				if (applicationType != null)
-					appType = (ApplicationType)applicationType;
-
+				ApplicationType appType = AppService.CheckAppType(applicationType);
 				var json = AppService.RefreshAll(appType);
 
 				return ToResult(json);
@@ -137,5 +136,6 @@ namespace Microarea.EasyStudio.Controllers
                 return ToResult(Diagnostic);
 			}
 		}
+
 	}
 }
