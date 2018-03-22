@@ -115,6 +115,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       let dummyRow = [];
       for (let i = 0; i < columns.length; i++) {
           const col: column = columns[i];
+          if (col.hidden) {
+            continue;
+          }
           let idCell: string = col.id;
           let dummyCell = {};
           dummyCell[idCell] = { value : undefined };
