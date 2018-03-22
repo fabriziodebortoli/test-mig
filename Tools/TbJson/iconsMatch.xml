@@ -553,6 +553,7 @@
   <icon iconNs="framework.tbframeworkimages.images.25x25.resume.png" icon="tb-resume"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.generatejsonmodel.png" icon="tb-generatejsonmode"></icon>
   <icon iconNs="framework.tbframeworkimages.images.25x25.paste.png" icon="tb-paste"></icon>
+  <icon iconNs="framework.tbframeworkimages.images.25x25.details.png" icon="tb-details"></icon>
  
   <!--Extensions-->
   <icon iconNs="extensions.extensionsimages.images.20x20.device.png" icon="tb-device"></icon>
