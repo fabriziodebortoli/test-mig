@@ -4,7 +4,7 @@ import { rect } from './../../../models/rect.model';
 import { barcode } from './../../../models/barcode.model';
 
 import { Component, OnChanges, SimpleChanges, Input, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import bwipjs from 'bwip-angular2';
+//import bwipjs from 'bwip-angular2';
 
 @Component({
   selector: 'rs-barcode',
@@ -52,7 +52,7 @@ export class BarcodeComponent implements OnChanges {
     }
 
     let Id = this.id;
-    bwipjs(this.id, {
+   /* bwipjs(this.id, {
       bcid: this.barcode.type,       // Barcode type
       text: this.value,	             // Text to encode
       height: (Height * 25.4) / (this.dpi || 96),
@@ -66,7 +66,7 @@ export class BarcodeComponent implements OnChanges {
         console.log(err);
       } else {
       }
-    });
+    });*/
   }
 
   IncludeText() {
