@@ -525,9 +525,26 @@ namespace Microarea.RSWeb.WoormEngine
 		public void AssignGroupByData	(object aData, bool aValid) { ObjectHelper.Assign(ref groupByData, aData);	validGroupByData = aValid; }
 		public void AssignEventData		(object aData, bool aValid) { ObjectHelper.Assign(ref eventData, aData);	validEventData = aValid; }
 
-		//----------------------------------------------------------------------------
-		//public void ClearRuleData		() { ObjectHelper.Clear(ref this.data);		this.valid = true; }
-		public void ClearGroupByData	() { ObjectHelper.Clear(ref groupByData);	validGroupByData = true; }
+        public void AssignData(DataLevel lev, object aData, bool aValid)
+        {
+            switch (lev)
+            {
+                case DataLevel.Events:
+                    AssignEventData(aData, aValid);
+                    EventDataUpdated = true;
+                    break;
+                case DataLevel.GroupBy:
+                    AssignGroupByData(aData, aValid);
+                    GroupByDataUpdated = true;
+                    break;
+                case DataLevel.Rules:
+                    AssignRuleData(aData, aValid);
+                    break;
+            }
+        }
+        //----------------------------------------------------------------------------
+        //public void ClearRuleData		() { ObjectHelper.Clear(ref this.data);		this.valid = true; }
+        public void ClearGroupByData	() { ObjectHelper.Clear(ref groupByData);	validGroupByData = true; }
 		public void ClearEventData		() { ObjectHelper.Clear(ref eventData);		validEventData = true;}
 
 		//----------------------------------------------------------------------------

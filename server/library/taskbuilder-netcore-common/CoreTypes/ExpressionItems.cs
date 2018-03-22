@@ -634,7 +634,10 @@ namespace Microarea.Common.CoreTypes
         public ushort GetNewID() { return ++maxID; }
 
         public SymbolTable Parent { get { return parent; } set { parent = value; } }
-		public int Count { get { return symbols.Keys.Count; } }
+        public SymbolTable Root { get { return parent != null ? parent.Root : this; } }
+
+
+        public int Count { get { return symbols.Keys.Count; } }
 
         //-----------------------------------------------------------------------------
         public List<string> LocalizableStrings { get { return this.parent != null ? this.parent.LocalizableStrings : localizableStrings; } }

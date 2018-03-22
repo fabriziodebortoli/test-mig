@@ -13,14 +13,13 @@ namespace Microarea.RSWeb.WoormEngine
 	//============================================================================
 	abstract public class DataFunction : Expression
 	{
-		public string PublicName = string.Empty;
-		private Token token;
-
-		
-		private	Field	functionField; // deve essere un reference perchè si usa il field in symbol table
-
-		//---------------------------------------------------------------------------
-		public abstract void	GetFromData	(ref object aData, ref bool aValid);
+		public string   PublicName = string.Empty;
+		private Token   token;
+		private	Field	functionField;     //il field in symbol table
+        public long     Occurrence = 0;    //per gestire AVG/Count/First
+                                        
+        //---------------------------------------------------------------------------
+        public abstract void	GetFromData	(ref object aData, ref bool aValid);
 		public abstract void	GetToData	(ref object aData, ref bool aValid);
 
 		public abstract void	SetToData	(object aData, bool aValid);
@@ -56,7 +55,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			// evita di utilizzare dei dati che sono presenti nella tupla ma non sono stati
 			// aggiornati da una regola di estrazione (ricordati che posso avere rule in sequenza)
-			// la prima estrae una riga, la seconda 4 righe e la funzzione da valutare sulla tupla
+			// la prima estrae una riga, la seconda 4 righe e la funzione da valutare sulla tupla
 			// deve sommare 4 volte sulla seconda estrazione e solo una volta dalla prima.
 			if (!IsUpdated())
 				return true;
@@ -384,7 +383,7 @@ namespace Microarea.RSWeb.WoormEngine
 				Field pAccItem = SymbolTable.Find(PublicName) as Field;
 				if (pAccItem == null)
 				{
-					lex.SetError(string.Format(ExpressionManagerStrings.UnknownField, PublicName));
+					lex.SetError(string.Format(ExpressionManagerStrings.FieldByRule, PublicName));
 					return false;
 				}
 

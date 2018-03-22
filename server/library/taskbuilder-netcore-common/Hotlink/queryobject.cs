@@ -50,7 +50,8 @@ namespace Microarea.Common.Hotlink
         public bool             ValorizeAll = true;
         public  bool            IsQueryRule = false;
         private List<string>    selectFields = null;
- 
+        public List<string>     AllColumns = null;
+
         private bool            isOracle = false;
         private bool            isUnicode = false;
         private DBMSType        dbType = DBMSType.SQLSERVER;
@@ -148,6 +149,11 @@ namespace Microarea.Common.Hotlink
         //-------------------------------------------------------------------------------
         public int AddLink (string name, TagType direction, object data, int len, Expression whenExpr, QueryObject expandClause)
 		{
+            if (direction == TagType.COL)
+            {
+                AllColumns.Add(name);
+            }
+
 			tagLinkArrayList.Add(new TagLink(name, direction, data, len, whenExpr, expandClause));
             return tagLinkArrayList.Count - 1;
         }
@@ -248,7 +254,9 @@ namespace Microarea.Common.Hotlink
         //------------------------------------------------------------------------------
         public bool Parse (ref Parser parser)
 		{
-			tagLinkArrayList.Clear();
+			tagLinkArrayList.Clear(); 
+            AllColumns = new List<string>();
+            selectFields = new List<string>();
 
             /*  TODO RSWEB - dbType/Oracle/Unicode
                         if (this.session.UserInfo.LoginManager != null)

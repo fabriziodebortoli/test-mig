@@ -1280,7 +1280,7 @@ namespace Microarea.RSWeb.WoormEngine
         {
             if (lex.Matched(Token.BEFORE))
             {
-                BeforeActions = new Block(Report.Engine, null, null, true);
+                BeforeActions = new Block(null, Report.Engine, null, null, true);
                 BeforeActions.Parse(lex);
             }
             return !lex.Error;
@@ -1291,7 +1291,7 @@ namespace Microarea.RSWeb.WoormEngine
         {
             if (lex.Matched(Token.AFTER))
             {
-                AfterActions = new Block(Report.Engine, null, null, true);
+                AfterActions = new Block(null, Report.Engine, null, null, true);
                 AfterActions.Parse(lex);
             }
             return !lex.Error;

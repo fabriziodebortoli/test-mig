@@ -1566,19 +1566,19 @@ namespace Microarea.RSWeb.WoormEngine
 					if (onFormFeedDFA == null && onEndOfReportDFA == null)
 					{
 						// insert as first action the automatic field display actions
-						//
-						onFormFeedDFA = new DisplayFieldsAction(this, null);
+						onFormFeedDFA = new DisplayFieldsAction(onFormFeedActions.BeforeActions, this, null);
 						onFormFeedActions.BeforeActions.InsertActionAt(0, onFormFeedDFA);
 
 						// insert as last action the automatic field display actions
-						//
-                        onEndOfReportDFA = new DisplayFieldsAction(this, null);
+                        onEndOfReportDFA = new DisplayFieldsAction(reportActions.AfterActions, this, null);
 						onEndOfReportDFA.IsUnparsable = false;
 						reportActions.AfterActions.AddAction(onEndOfReportDFA);
 					}
 
-					onFormFeedDFA.AddField(field);
-					onEndOfReportDFA.AddField(field);
+					if (onFormFeedDFA != null) 
+                        onFormFeedDFA.AddField(field);
+					if (onEndOfReportDFA != null) 
+                        onEndOfReportDFA.AddField(field);
 				}
 				else
 				{
@@ -1600,7 +1600,7 @@ namespace Microarea.RSWeb.WoormEngine
 					//
 					if (alwaysDFA == null)
 					{
-                        alwaysDFA = new DisplayFieldsAction(this, null);
+                        alwaysDFA = new DisplayFieldsAction(reportActions.AlwaysActions, this, null);
 						// insert as first action the automatic field display actions
 						reportActions.AlwaysActions.InsertActionAt(0, alwaysDFA);
 					}
@@ -1622,7 +1622,7 @@ namespace Microarea.RSWeb.WoormEngine
 				triggeredEvents.Count == 0
 				)
 			{
-				autoFormFeed = new FormFeedAction(this, null);
+				autoFormFeed = new FormFeedAction(null, this, null);
 				return true;
 			}
 
@@ -1633,7 +1633,7 @@ namespace Microarea.RSWeb.WoormEngine
 					if (alwaysDFA != null && alwaysDFA.ExistColumnOf(displayTable))
 					{
 						DisplayTableAction pDisplayTableAction;
-						pDisplayTableAction = new DisplayTableAction(this, null, RdeWriter.Command.NextLine, displayTable);
+						pDisplayTableAction = new DisplayTableAction(reportActions.AlwaysActions, this, null, RdeWriter.Command.NextLine, displayTable);
 						pDisplayTableAction.IsUnparsable = false;
 						reportActions.AlwaysActions.AddAction(pDisplayTableAction);
 					}
@@ -1646,7 +1646,7 @@ namespace Microarea.RSWeb.WoormEngine
 					{
 						OnTableAction = true;
 
-						FormFeedAction ffa = new FormFeedAction(this, null);
+						FormFeedAction ffa = new FormFeedAction(displayTable.TableActions.BeforeActions, this, null);
 						ffa.IsUnparsable = false;
 						displayTable.TableActions.BeforeActions.AddAction(ffa);
 						OnTableAction = false;

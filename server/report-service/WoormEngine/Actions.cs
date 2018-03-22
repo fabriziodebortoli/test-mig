@@ -305,11 +305,14 @@ namespace Microarea.RSWeb.WoormEngine
 
 		RepSymTable SymTable = null;
         public FunctionPrototype Fun = null;
+        protected ActionObj parent = null;
 
         public bool CanRun() { return ActionState == ActionStates.STATE_NORMAL; }
 		public bool IsUnparsable = true;
-
+        virtual public bool HasMember(string name) { return false; }
         public virtual RepSymTable GetSymTable() { return SymTable; }
+
+        public Block GetRoot() { return (parent != null ? parent.GetRoot() : this as Block); }
 		
         //---------------------------------------------------------------------------
         public bool Fail (string error = "")
@@ -323,8 +326,9 @@ namespace Microarea.RSWeb.WoormEngine
 		public TbReportSession Session { get { return engine.Session; }}
 			
 		//---------------------------------------------------------------------------
-        public ActionObj(ReportEngine engin, RepSymTable symTable = null, FunctionPrototype fp = null) 
+        public ActionObj(ActionObj par, ReportEngine engin, RepSymTable symTable = null, FunctionPrototype fp = null) 
 		{
+            this.parent = par;
 			this.engine = engin;
             this.SymTable = symTable != null ? symTable : engin.RepSymTable;
             this.Fun = fp;
@@ -351,7 +355,8 @@ namespace Microarea.RSWeb.WoormEngine
 		public bool	HasBeginEnd = false;
 
         RepSymTable localSymTable = null;
-        
+        public bool IsRuleScope = false;
+
         public override RepSymTable GetSymTable	()  { return localSymTable != null ? localSymTable : base.GetSymTable(); }
 
 		//---------------------------------------------------------------------------
@@ -362,8 +367,8 @@ namespace Microarea.RSWeb.WoormEngine
         public bool EmptyCommands { get { return actions.Count == 0; } }
 		   
 		//---------------------------------------------------------------------------
-        public Block(ReportEngine engine, RepSymTable symTable = null, FunctionPrototype fp = null, bool limited = false)
-            : base(engine, symTable, fp)
+        public Block(ActionObj par, ReportEngine engine, RepSymTable symTable = null, FunctionPrototype fp = null, bool limited = false)
+            : base(par, engine, symTable, fp)
 		{
 			this.limited = limited;
 		}
@@ -442,7 +447,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 			if (!lex.ParseSep()) return null;
 
-			return new DisplayTableAction(engine, GetSymTable(), aCmd, displayTable);
+			return new DisplayTableAction(this, engine, GetSymTable(), aCmd, displayTable);
 		}
 
 		//---------------------------------------------------------------------------
@@ -484,7 +489,7 @@ namespace Microarea.RSWeb.WoormEngine
                 case Token.EVAL  :
 				case Token.RESET :
 				{
- 					AssignEvalResetAction actionObj = new AssignEvalResetAction(engine, GetSymTable());
+ 					AssignEvalResetAction actionObj = new AssignEvalResetAction(this, engine, GetSymTable());
 					if (actionObj.Parse(lex))
 						return actionObj;
 					break;
@@ -493,7 +498,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.IF :
 				{
                     lex.SkipToken();
-                    ConditionalAction actionObj = new ConditionalAction(engine, GetSymTable(), Fun);
+                    ConditionalAction actionObj = new ConditionalAction(this, engine, GetSymTable(), Fun);
 					if (actionObj.Parse(lex))
 						return actionObj;
 					break;
@@ -502,7 +507,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.WHILE :
 				{
                     lex.SkipToken();
-                    WhileLoopAction actionObj = new WhileLoopAction(engine, GetSymTable(), Fun);
+                    WhileLoopAction actionObj = new WhileLoopAction(this, engine, GetSymTable(), Fun);
 					if (actionObj.Parse(lex))
 						return actionObj;
 					break;
@@ -513,7 +518,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.DISPLAY_FREE_FIELDS :
 				{
                     lex.SkipToken();
-                    DisplayFieldsAction actionObj = new DisplayFieldsAction(engine, GetSymTable());
+                    DisplayFieldsAction actionObj = new DisplayFieldsAction(this, engine, GetSymTable());
 					if (actionObj.Parse(actionToken, lex, GetSymTable()))
 					{
 						engine.DisplayAction = true;
@@ -531,7 +536,7 @@ namespace Microarea.RSWeb.WoormEngine
 						return null;
 					}
 
-                    FormFeedAction actionObj = new FormFeedAction(engine, GetSymTable());
+                    FormFeedAction actionObj = new FormFeedAction(this, engine, GetSymTable());
 					if (!actionObj.Parse(lex))
 						return null;
 
@@ -551,7 +556,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.CALL :
 				{
                     lex.SkipToken();
-                    CallAction actionObj = new CallAction(engine, GetSymTable());
+                    CallAction actionObj = new CallAction(this, engine, GetSymTable());
 					if (actionObj.Parse(lex))
 						return actionObj;
 					
@@ -561,7 +566,7 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.ASK:
 				{
                     lex.SkipToken();
-                    AskDialogAction actionObj = new AskDialogAction(engine, GetSymTable());
+                    AskDialogAction actionObj = new AskDialogAction(this, engine, GetSymTable());
 					if (actionObj.Parse(lex))
 						return actionObj;
 						
@@ -572,7 +577,7 @@ namespace Microarea.RSWeb.WoormEngine
                 case Token.DEBUG:
 				case Token.ABORT:
                 {
-                    MessageBoxAction actionObj = new MessageBoxAction(engine, GetSymTable());
+                    MessageBoxAction actionObj = new MessageBoxAction(this, engine, GetSymTable());
 					if (actionObj.Parse(lex))
 						return actionObj;
 						
@@ -583,7 +588,7 @@ namespace Microarea.RSWeb.WoormEngine
                 case Token.BREAK:
                 case Token.CONTINUE:
                 {
-                    QuitBreakContinueAction actionObj = new QuitBreakContinueAction(engine, GetSymTable());
+                    QuitBreakContinueAction actionObj = new QuitBreakContinueAction(this, engine, GetSymTable());
                     if (actionObj.Parse(lex))
                         return actionObj;
 
@@ -591,7 +596,7 @@ namespace Microarea.RSWeb.WoormEngine
                 }
                 case Token.DO:
                 {
-                    DoExprAction actionObj = new DoExprAction(engine, GetSymTable());
+                    DoExprAction actionObj = new DoExprAction(this, engine, GetSymTable());
                     if (actionObj.Parse(lex))
                         return actionObj;
 
@@ -599,7 +604,7 @@ namespace Microarea.RSWeb.WoormEngine
                 }
                 case Token.RETURN:
                 {
-                    ReturnAction actionObj = new ReturnAction(engine, GetSymTable(), Fun);
+                    ReturnAction actionObj = new ReturnAction(this, engine, GetSymTable(), Fun);
                     if (actionObj.Parse(lex))
                         return actionObj;
 
@@ -607,7 +612,7 @@ namespace Microarea.RSWeb.WoormEngine
                 }
                 case Token.DISPLAY_CHART:
                 {
-                    DisplayChartAction actionObj = new DisplayChartAction(engine, GetSymTable());
+                    DisplayChartAction actionObj = new DisplayChartAction(this, engine, GetSymTable());
                     if (actionObj.Parse(lex))
                         return actionObj;
 
@@ -616,7 +621,7 @@ namespace Microarea.RSWeb.WoormEngine
 
                 default:
 				{
-                    DeclareAction actionObj = new DeclareAction(engine, GetSymTable(), this);
+                    DeclareAction actionObj = new DeclareAction(this, engine, GetSymTable(), this);
                     if (actionObj.Parse(lex))
                         return actionObj;
 
@@ -675,13 +680,24 @@ namespace Microarea.RSWeb.WoormEngine
 
 			return true;
 		}
-	}
 
-	/// <summary>
-	/// Procedure
-	/// </summary>
-	//============================================================================
-	public class Procedure : Block
+        //----------------------------------------------------------------------------
+        override public bool HasMember(string name)
+        {
+            foreach (ActionObj cmd in actions)
+            {
+                if (cmd.HasMember(name))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Procedure
+    /// </summary>
+    //============================================================================
+    public class Procedure : Block
 	{
 		private bool	calledFromOnFormFeed;
 		private bool	calledFromOnTable;
@@ -694,7 +710,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 		//---------------------------------------------------------------------------
 		public Procedure (ReportEngine engine)
-            : base (engine, null)
+            : base (null, engine, null)
 		{
 			calledFromOnFormFeed	= engine.OnFormFeedAction;
 			calledFromOnTable	    = engine.OnTableAction;
@@ -926,8 +942,8 @@ namespace Microarea.RSWeb.WoormEngine
 		public EventActions (ReportEngine engine)
 		{
 			this.engine = engine;
-			beforeActions  = new Block(engine);
-			afterActions   = new Block(engine);
+			beforeActions  = new Block(null, engine);
+			afterActions   = new Block(null, engine);
 		}
 
 		//---------------------------------------------------------------------------
@@ -1016,8 +1032,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private WoormEngineExpression	indexerExpr;
 
 		//---------------------------------------------------------------------------
-        public AssignEvalResetAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable)
+        public AssignEvalResetAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable)
 		{
 			field    	= null;
 			localExpr	= null;
@@ -1100,9 +1116,15 @@ namespace Microarea.RSWeb.WoormEngine
 						}
 					}
 
-					// se sono di una rule devo solo gestire eventData
-					if (field.OwnRule && engine.Status != ReportEngine.ReportStatus.Init)
-					{
+                    if (GetRoot() != null && engine != null && GetRoot().IsRuleScope)
+                    {
+                        DataLevel lev = engine.DataLevel;
+
+                        field.AssignData(lev, v.Data, v.Valid);
+                    }
+                    else if (field.OwnRule && engine.Status != ReportEngine.ReportStatus.Init)
+					{ 
+                        // se sono di una rule devo solo gestire eventData
 						field.AssignEventData(v.Data, v.Valid);
 						field.EventDataUpdated = true;
 
@@ -1240,25 +1262,35 @@ namespace Microarea.RSWeb.WoormEngine
 			
 			return true;
 		}
-	}
 
-	/// <summary>
-	/// ConditionalAction
-	/// </summary>
-	//============================================================================
-	public class ConditionalAction : ActionObj
+        //----------------------------------------------------------------------------
+        override public bool HasMember(string name)
+        {
+             if (localExpr != null && localExpr.HasMember(name))
+                return true;
+            if (indexerExpr != null && indexerExpr.HasMember(name))
+                return true;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// ConditionalAction
+    /// </summary>
+    //============================================================================
+    public class ConditionalAction : ActionObj
 	{
 		private WoormEngineExpression	conditionExpr;
 		private Block		thenBlock;
 		private Block		elseBlock;
 
 		//---------------------------------------------------------------------------
-        public ConditionalAction(ReportEngine engine, RepSymTable symTable, FunctionPrototype fp = null)
-            : base(engine, symTable, fp)
+        public ConditionalAction(ActionObj par, ReportEngine engine, RepSymTable symTable, FunctionPrototype fp = null)
+            : base(par, engine, symTable, fp)
 		{
             conditionExpr   = new WoormEngineExpression(engine, Session, GetSymTable().Fields);
-            thenBlock = new Block(engine, GetSymTable(), fp);
-            elseBlock = new Block(engine, GetSymTable(), fp);
+            thenBlock = new Block(this, engine, GetSymTable(), fp);
+            elseBlock = new Block(this, engine, GetSymTable(), fp);
 		}
 
 		//---------------------------------------------------------------------------
@@ -1369,23 +1401,35 @@ namespace Microarea.RSWeb.WoormEngine
 			unparser.DecTab();
 			return true;
 		}
-	}
 
-	/// <summary>
-	/// WhileLoopAction
-	/// </summary>
-	//============================================================================
-	public class WhileLoopAction : ActionObj
+        //----------------------------------------------------------------------------
+        override public bool HasMember(string name)
+        {
+            if (conditionExpr != null && conditionExpr.HasMember(name))
+                return true;
+            if (thenBlock != null && thenBlock.HasMember(name))
+                return true;
+            if (elseBlock != null && elseBlock.HasMember(name))
+                return true;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// WhileLoopAction
+    /// </summary>
+    //============================================================================
+    public class WhileLoopAction : ActionObj
 	{
 		private WoormEngineExpression	conditionExpr;
 		private Block		    block;
 
 		//---------------------------------------------------------------------------
-        public WhileLoopAction(ReportEngine engine, RepSymTable symTable, FunctionPrototype fp = null) 
-            : base (engine, symTable, fp)
+        public WhileLoopAction(ActionObj par, ReportEngine engine, RepSymTable symTable, FunctionPrototype fp = null) 
+            : base (par, engine, symTable, fp)
 		{
             conditionExpr = new WoormEngineExpression(engine, Session, GetSymTable().Fields);
-            block = new Block(engine, GetSymTable(), fp);
+            block = new Block(this, engine, GetSymTable(), fp);
 		}
 
 		//---------------------------------------------------------------------------
@@ -1459,13 +1503,24 @@ namespace Microarea.RSWeb.WoormEngine
 			unparser.DecTab();
 			return true;
 		}
-	}
 
-	/// <summary>
-	/// DisplayFieldsAction
-	/// </summary>
-	//============================================================================
-	public class DisplayFieldsAction : ActionObj
+        //----------------------------------------------------------------------------
+        override public bool HasMember(string name)
+        {
+            if (conditionExpr != null && conditionExpr.HasMember(name))
+                return true;
+            if (block != null && block.HasMember(name))
+                return true;
+            return false;
+        }
+
+    }
+
+    /// <summary>
+    /// DisplayFieldsAction
+    /// </summary>
+    //============================================================================
+    public class DisplayFieldsAction : ActionObj
 	{
 		private List<Field> fields = new List<Field>();	// array of Field property of RepSymTable
 		private Token actionToken = Token.NOTOKEN;
@@ -1473,8 +1528,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private List<Field> hiddenFields = new List<Field>();
 		
 		//---------------------------------------------------------------------------
-        public DisplayFieldsAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable) 
+        public DisplayFieldsAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable) 
 		{
 		}
 
@@ -1730,8 +1785,8 @@ namespace Microarea.RSWeb.WoormEngine
         private bool forced;
 
 		//---------------------------------------------------------------------------
-        public FormFeedAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable)
+        public FormFeedAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable)
 		{
 			calledFromOnTable = engine.OnTableAction;
 		}
@@ -1827,12 +1882,13 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public DisplayTableAction
 			(
-				ReportEngine		engine, 
+                ActionObj par, 
+                ReportEngine engine, 
                 RepSymTable         symTable,
 				RdeWriter.Command	rdeCommand,
                 DisplayTable        displayTable
             )
-            : base(engine, symTable)
+            : base(par, engine, symTable)
 		{
 			this.rdeCommand		= rdeCommand;
 			this.displayTable	= displayTable;
@@ -1894,8 +1950,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private Procedure procedure;
 
 		//---------------------------------------------------------------------------
-        public CallAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable)
+        public CallAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable)
 		{}
 
 		//---------------------------------------------------------------------------
@@ -1943,8 +1999,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private string	name;
 
 		//---------------------------------------------------------------------------
-        public AskDialogAction(ReportEngine engine, RepSymTable symTable)
-            : base (engine, symTable)
+        public AskDialogAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base (par, engine, symTable)
 		{}
 
 		// Non viene più supportato il costrutto ASK nelle action per le dialog On Ask
@@ -1986,8 +2042,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private Token			actionToken;
   
 		//---------------------------------------------------------------------------
-        public MessageBoxAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable)
+        public MessageBoxAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable)
 		{
             this.message = new WoormEngineExpression(engine, Session, GetSymTable().Fields);
         }
@@ -2079,8 +2135,8 @@ namespace Microarea.RSWeb.WoormEngine
 		private Token actionToken;
 
         //---------------------------------------------------------------------------
-        public QuitBreakContinueAction(ReportEngine engine, RepSymTable symTable)
-            : base (engine, symTable)
+        public QuitBreakContinueAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base (par, engine, symTable)
         {
         }
 
@@ -2170,8 +2226,8 @@ namespace Microarea.RSWeb.WoormEngine
         private WoormEngineExpression returnExpr = null;
   
         //---------------------------------------------------------------------------
-        public ReturnAction(ReportEngine engine, RepSymTable symTable, FunctionPrototype fp)
-            : base (engine, symTable, fp)
+        public ReturnAction(ActionObj par, ReportEngine engine, RepSymTable symTable, FunctionPrototype fp)
+            : base (par, engine, symTable, fp)
         {
         }
 
@@ -2239,8 +2295,8 @@ namespace Microarea.RSWeb.WoormEngine
         private WoormEngineExpression expr = null;
 
         //---------------------------------------------------------------------------
-        public DoExprAction(ReportEngine engine, RepSymTable symTable)
-            : base (engine, symTable)
+        public DoExprAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base (par, engine, symTable)
         {
 
         }
@@ -2300,8 +2356,8 @@ namespace Microarea.RSWeb.WoormEngine
         private Block scopeBlock = null;
 
         //---------------------------------------------------------------------------
-        public DeclareAction(ReportEngine engine, RepSymTable symTable, Block scope)
-            : base(engine, symTable)
+        public DeclareAction(ActionObj par, ReportEngine engine, RepSymTable symTable, Block scope)
+            : base(par, engine, symTable)
         {
             scopeBlock = scope;
         }
@@ -2372,12 +2428,11 @@ namespace Microarea.RSWeb.WoormEngine
     //============================================================================
     public class DisplayChartAction : ActionObj
     {
-
         private string ChartName;
 
         //---------------------------------------------------------------------------
-        public DisplayChartAction(ReportEngine engine, RepSymTable symTable)
-            : base(engine, symTable)
+        public DisplayChartAction(ActionObj par, ReportEngine engine, RepSymTable symTable)
+            : base(par, engine, symTable)
         {
         }
 
@@ -2443,8 +2498,8 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		public ReportEventActions (ReportEngine engine): base(engine)
 		{
-			alwaysBlock = new Block(engine);
-			finalizeBlock = new Block(engine);
+			alwaysBlock = new Block(null, engine);
+			finalizeBlock = new Block(null, engine);
 		}
 
 		//---------------------------------------------------------------------------

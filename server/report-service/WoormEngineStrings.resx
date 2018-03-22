@@ -301,7 +301,7 @@
     <value>RDE communications channel not open</value>
   </data>
   <data name="ReadOnlyField" xml:space="preserve">
-    <value>Variable {0} is read-only</value>
+    <value>Input field {0} is not allowed in aggregate function</value>
   </data>
   <data name="RecursiveRule" xml:space="preserve">
     <value>Crosslinked rules (recursiveness)</value>
@@ -383,5 +383,8 @@
   </data>
   <data name="WhereExist" xml:space="preserve">
     <value>WHERE clause already defined</value>
+  </data>
+  <data name="FieldByRule" xml:space="preserve">
+    <value>Field {0} has to valorized by rule</value>
   </data>
 </root>

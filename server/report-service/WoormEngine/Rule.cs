@@ -2045,7 +2045,22 @@ namespace Microarea.RSWeb.WoormEngine
             Field f = this.Engine.RepSymTable.Fields.Find(name);
             return f;
         }
- 	}
+
+        void SetRuleFields()
+        {
+            if (Query == null)
+                return;
+            
+            foreach (string name in Query.AllColumns)
+            {
+                Field f = engine.RepSymTable.Fields.Find(name);
+                if (f != null)
+                {
+                    f.OwnerRule = this;
+                }
+            }         
+        }
+    }
 
     /// <summary>
     /// WhileRule
@@ -2053,20 +2068,40 @@ namespace Microarea.RSWeb.WoormEngine
     //============================================================================
     class WhileRule : RuleObj
 	{
-		private WoormEngineExpression		condExpr = null;
+		WoormEngineExpression		condExpr = null;
+        Block Before = null;
+        Block After = null;
+        Block Body = null;
 
-		//-----------------------------------------------------------------------------
-		public WhileRule(RuleEngine engine) : base(engine)
+        List<string> selectedFieldName = new List<string>();
+
+        //-----------------------------------------------------------------------------
+        public WhileRule(RuleEngine engine) : base(engine)
 		{
 			condExpr = new WoormEngineExpression	(engine.Report.Engine, Session, engine.RepSymTable.Fields);
-		}
+
+            Before = new Block(null, engine.Report.Engine, engine.RepSymTable);
+            Body = new Block(null, engine.Report.Engine, engine.RepSymTable);
+            After = new Block(null, engine.Report.Engine, engine.RepSymTable);
+ 
+            Before.IsRuleScope = true;
+            Body.IsRuleScope = true;
+            After.IsRuleScope = true;
+        }
 
 		//-----------------------------------------------------------------------------
 		//FindKeyName ?
 		public override bool Contains (string fieldName)
 		{
-			if (condExpr.HasMember(fieldName)) return true;
-			return false;
+			if (condExpr.HasMember(fieldName)) 
+                return true;
+            if (Before != null && Before.HasMember(fieldName))
+                return true;
+            if (Body != null && Body.HasMember(fieldName))
+                return true;
+            if (After != null && After.HasMember(fieldName))
+                return true;
+            return false;
 		}
 
 		//-----------------------------------------------------------------------------
@@ -2081,18 +2116,41 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public bool	Parse (Parser lex)
 		{
-			if (lex.ParseTag(Token.WHILE))
+            //selectedFieldName.RemoveAll();
+            //CStringArray* pOld = engine.RepSymTable().Fields.TraceFieldsModified(ref selectedFieldName);
+
+            if (lex.Matched(Token.FOR))
+            {
+                if (!Before.Parse(lex))
+                    return false;
+            }
+
+            if (lex.Match(Token.WHILE))
 			{
 				condExpr.StopTokens = new StopTokens(new Token[] { Token.DO });
 				if (!condExpr.Compile(lex, CheckResultType.Match, "Boolean"))
 					return false;
-				lex.ParseTag(Token.DO);
-			}
-			return !lex.Error;
+
+                if (lex.Match(Token.DO))
+                {
+                    if (!Body.Parse(lex))
+                        return false;
+                }
+            }
+
+            if (lex.Matched(Token.CONTINUE))
+            {
+                if (!After.Parse(lex))
+                    return false;
+            }
+
+            SetRuleFields();
+
+            return !lex.Error;
 		}
 
-		//-----------------------------------------------------------------------------
-		public override bool Unparse(Unparser unparser)
+        //-----------------------------------------------------------------------------
+        public override bool Unparse(Unparser unparser)
 		{
 			if (!condExpr.IsEmpty) 
 			{
@@ -2106,15 +2164,19 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public override RuleReturn	Apply	()
 		{
+           bool first = true;
 			failed = false;
-			nullSolution = false;
-			engine.NullRulesNum--;
+            //nullSolution = false;
+            //engine.NullRulesNum--;
+
+            Before.Exec();
 
 			for(;;)
 			{
 				Value cond = condExpr.Eval();
 				if (condExpr.Error)
 				{
+                    failed = true;
 					engine.SetError(string.Format("Rule While is invalid"));
 					return RuleReturn.Abort;
 				}
@@ -2122,9 +2184,91 @@ namespace Microarea.RSWeb.WoormEngine
 				if (!(bool)(cond.Data)) 
 					break;
 
-				RuleReturn rr = engine.ApplyRuleFrom(RuleId + 1);	
-			}
-			return RuleReturn.Success;
+                if (first)
+                {
+                    first = false;
+                    nullSolution = false;
+                    engine.NullRulesNum--;
+                }
+
+                Body.Exec();
+
+                RuleReturn rr = engine.ApplyRuleFrom(RuleId + 1);
+                switch (rr)
+                {
+                    case RuleReturn.Abort:
+                        return RuleReturn.Abort;
+
+                    case RuleReturn.Backtrack:
+                        {
+                            if (!IsParentOfFailedRules())
+                                return RuleReturn.Backtrack;
+                            break;
+                        }
+                }
+
+               After.Exec();       //Iterator block
+            }
+
+            if (first)
+            {
+                nullSolution = true;
+                engine.NullRulesNum++;
+
+                // make null all own fields
+                foreach (string fname in selectedFieldName)
+                {
+                    Field f = this.Engine.RepSymTable.Fields.Find(fname);
+                    if (f != null)
+                        f.SetNullRuleData();
+                }
+
+                return engine.ApplyRuleFrom(RuleId + 1);
+            }
+
+            return RuleReturn.Success;
 		}
-	}
+        //---------------------------------------------------------------------
+        public int GetSelFieldsNum()
+        {
+            if (selectedFieldName == null)
+                return 0;
+
+            return selectedFieldName.Count;
+        }
+
+        public string GetSelFieldName(int i)
+        {
+            if (selectedFieldName == null)
+                return null;
+            return selectedFieldName[i];
+        }
+
+        public Field GetSelField(int i)
+        {
+            string name = GetSelFieldName(i);
+            if (name == null)
+                return null;
+
+            Field f = this.Engine.RepSymTable.Fields.Find(name);
+            return f;
+        }
+
+        //----------------------------------------------------------------------------
+        void SetRuleFields()
+        {
+            if (selectedFieldName == null)
+                return; //TODO RSWEB
+
+            foreach (string s in selectedFieldName)
+            {
+                Field f = engine.RepSymTable.Fields.Find(s);
+                if (f != null)
+                {
+                    f.OwnerRule = this;
+                }
+            }
+        }
+
+    }
 }

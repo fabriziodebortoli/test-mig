@@ -262,12 +262,22 @@ namespace Microarea.Common {
         /// <summary>
         ///   Looks up a localized string similar to Unknown variable {0} .
         /// </summary>
-        public static string UnknownField {
+        public static string FieldByRule {
             get {
+                return ResourceManager.GetString("FieldByRule", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown variable {0} .
+        /// </summary>
+        public static string UnknownField
+        {
+            get
+            {
                 return ResourceManager.GetString("UnknownField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Unknown function : {0}.
         /// </summary>
