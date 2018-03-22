@@ -38,9 +38,10 @@ export class BodyEditCheckBoxColumnComponent extends BodyEditColumnComponent {
 
   getWidth()
   {
-    let lenght = (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length) 
-    ? this.bodyEditService.prototype[this.columnName].length
-    : this.title? this.title.length : 10;
+    let col = this.bodyEditService.prototype ? this.bodyEditService.prototype[this.columnName] : null;
+    let lenght = col && col.length 
+    ? col.length
+    : this.title ? this.title.length : 10;
    return lenght *10;
   }
   
