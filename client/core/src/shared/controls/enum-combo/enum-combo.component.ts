@@ -38,7 +38,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     }
     set items(value: Array<ComboData>) {
 
-        this._items = this.translateItemsCodes(value);
+        this._items = value;
         this.items$.next(this._items);
     }
 
@@ -70,7 +70,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     private withItemSourceLogic(): EnumComboComponent {
         this.itemSource$
             .distinctUntilChanged((left, right) => areEqualsComboData(left, right))
-            .subscribe(itemSource => this.items = itemSource);
+            .subscribe(itemSource => this.items = this.translateItemsCodes(itemSource));
         return this;
     }
 
@@ -80,7 +80,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
 
     onOpen() {
         if (this.itemSource) { this.eventDataService.openDropdown.emit(this); }
-        else { this.items = convertToComboData(this.enumsService.getItemsFromTag(this.tag) as Array<any>); }
+        else { this.items = this.translateItemsCodes(convertToComboData(this.enumsService.getItemsFromTag(this.tag) as Array<any>)); }
     }
 
     @HostListener('keydown', ['$event'])
