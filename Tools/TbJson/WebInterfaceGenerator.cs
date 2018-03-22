@@ -1750,6 +1750,10 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(marginLeft))
                 htmlWriter.WriteAttribute("marginLeft", marginLeft);
 
+            string captionWidth = jObj.GetFlatString(Constants.captionWidth);
+            if (!string.IsNullOrEmpty(captionWidth))
+                htmlWriter.WriteAttribute(Square("captionWidth"), captionWidth);
+
             string textAlign = jObj.GetTextAlign();
             if (!string.IsNullOrEmpty(textAlign)) {
                 htmlWriter.WriteAttribute("textAlign", textAlign);

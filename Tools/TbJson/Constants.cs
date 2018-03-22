@@ -52,6 +52,7 @@
         internal const string tbPropertyGridItemGroup = "tb-property-grid-item-group";
 
         internal const string caption = "caption";
+        internal const string captionWidth = "captionWidth";
         internal const string title = "title";
         internal const string active = "active";
         internal const string columnType = "columnType";

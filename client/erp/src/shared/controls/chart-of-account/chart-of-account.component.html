@@ -1,5 +1,5 @@
 <div class="tb-control erp-hotlink-buttons">
-    <tb-caption *ngIf="caption" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
+    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <input width="80" style="margin-right: 4px" [ngModel]="model?.value" required="required" (blur)="onBlur()">
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>

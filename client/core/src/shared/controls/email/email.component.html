@@ -1,5 +1,5 @@
 <tb-control-container type="tb-email" [model]="model">
-    <tb-caption *ngIf="caption" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div (click)="onMailClick()">
         <input kendoTextBox maxlength="{{model?.length}}" id="{{cmpId}}" class="tb-text" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur($event)" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width"
         />

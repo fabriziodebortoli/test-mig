@@ -22,6 +22,7 @@ export class StateData {
 export class ControlComponent extends TbComponent implements OnDestroy/*, OnChanges*/ {
     private _model: any;
     private _width: number;
+    private _captionWidth: number;
     private _height: number;
     private _caption: string;
 
@@ -77,6 +78,15 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     @Input()
     set width(width: number) {
         this._width = width * this.widthFactor + 20;
+    }
+    
+    get captionWidth(): number {
+        return this._captionWidth;
+    }
+
+    @Input()
+    set captionWidth(captionWidth: number) {
+        this._captionWidth = captionWidth * this.widthFactor;
     }
 
     get height(): number {

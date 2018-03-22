@@ -5,7 +5,7 @@ import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
 
 @Directive({ selector: '[tbControl]' })
-export class TbControlDirective implements OnInit, OnDestroy  {
+export class TbControlDirective implements OnInit, OnDestroy {
 
     @Input() marginLeft: number;
     @Input() textAlign: string;
@@ -34,7 +34,9 @@ export class TbControlDirective implements OnInit, OnDestroy  {
         if (this.marginLeft)
             this.renderer.setStyle(this.el.nativeElement, 'margin-left', (this.marginLeft * this.widthFactor) + 'px');
 
-        if (!this.staticArea)
+        if (this.staticArea)
+            this.renderer.addClass(this.el.nativeElement, 'static-area');
+        else
             this.renderer.addClass(this.el.nativeElement, 'no-static-area');
 
         if (this.textAlign)
