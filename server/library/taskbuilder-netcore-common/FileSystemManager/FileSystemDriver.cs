@@ -213,7 +213,7 @@ namespace Microarea.Common.FileSystemManager
 				Directory.Delete(sPathName, bRecursive);
 
 			if (bAndEmptyParents && bRemoveRoot)
-				Directory.GetParent(sPathName).Delete();
+				Directory.GetParent(sPathName).Delete(true);
 
 		}
 
