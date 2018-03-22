@@ -120,9 +120,17 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
 
     //--------------------------------------------------------------------------------
     public refresh() {
+        this.ResetProperties();
         this.easystudioService.refreshEasyBuilderApps(this.type);
+    }
+
+    //--------------------------------------------------------------------------------
+    public ResetProperties() {
         this.applicSelected = undefined;
         this.moduleSelected = undefined;
+        this.defaultNewApp = undefined;
+        this.defaultNewMod = undefined;
+        this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
@@ -172,12 +180,15 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     //--------------------------------------------------------------------------------
     public showNewPair(show: boolean) {
         this.newPairVisible = show;
-        if (show) {
+        if (!show)  return;
+
+        if(this.applicSelected === undefined)
             this.newApplic = this.generateNewApplicationName();
+        else this.newApplic = this.applicSelected;
+        if(this.moduleSelected === undefined) 
             this.newModule = this.generateNewModuleName(this.applicSelected);
-            this.applicSelected = undefined;
-            this.moduleSelected = undefined;
-        }
+        else this.newModule = this.moduleSelected;               
+        
     }
 
     //---------------------------------------------------------------------------------------------
