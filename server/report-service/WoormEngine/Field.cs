@@ -545,7 +545,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//----------------------------------------------------------------------------
-		public void SetAllData(object aData, bool aValid)
+		override public void SetAllData(object aData, bool aValid)
 		{
             if (aData == null)
             {

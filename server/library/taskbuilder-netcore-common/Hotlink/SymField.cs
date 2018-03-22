@@ -64,6 +64,12 @@ namespace Microarea.Common.Hotlink
             this.data = value;
          }
 
+        virtual public void SetAllData(object value, bool aValid)
+        {
+            SetData(0, value);
+            Valid = aValid;
+        }
+
         //----------------------------------------------------------------------------
         public override object Data
         {
@@ -99,13 +105,14 @@ namespace Microarea.Common.Hotlink
 
         public bool ValidRuleData { get { return this.valid; } set { this.valid = value; } }
         public void ClearRuleData() { ObjectHelper.Clear(ref this.data); this.valid = true; }
+ 
         public bool RuleDataFetched { get { return ruleDataFetched; } set { ruleDataFetched = value; } }
 
         //----------------------------------------------------------------------------
         virtual public void ClearAllData()
         {
             ClearRuleData();
-
+ 
             RuleDataFetched = true;
         }
 

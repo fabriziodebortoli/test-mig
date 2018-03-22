@@ -1448,9 +1448,16 @@ BOOL QueryObject::ValorizeColumns (BOOL bFetched /*=TRUE*/, SqlTable* paramTable
 		}
 		else
 		{
-			if (m_bIsQueryRule) pField->RuleNullified();
-			else pField->GetData(lev)->Clear(FALSE);
-				
+			if (m_bIsQueryRule) 
+				pField->RuleNullified();
+			else if (m_bValorizeAll)
+			{
+				pField->GetData(0)->Clear(FALSE);
+				pField->GetData(1)->Clear(FALSE);
+				pField->GetData(2)->Clear(FALSE);
+			}
+			else 
+				pField->GetData(lev)->Clear(FALSE);
 		}
 
 		TRACE(_T("Column %s: %s\n"), pTag->m_strSqlName, pTag->m_pData->FormatData());

@@ -47,9 +47,10 @@ namespace Microarea.Common.Hotlink
 		private QueryObject		parentQuery	= null;
 		private int             bindNumber = 0;
 
+        public bool             ValorizeAll = true;
         public  bool            IsQueryRule = false;
         private List<string>    selectFields = null;
-
+ 
         private bool            isOracle = false;
         private bool            isUnicode = false;
         private DBMSType        dbType = DBMSType.SQLSERVER;
@@ -967,7 +968,11 @@ namespace Microarea.Common.Hotlink
 					) continue;
 	
 				SymField field = symbolTable.Find(tagLink.name) as SymField;
-                field.ClearAllData();
+
+                //if (this.ValorizeAll)
+                //    field.ClearAllData();
+                //else
+                    field.ClearAllData();
 
                 field.RuleDataFetched = true;
 				field.ValidRuleData = true;
@@ -1036,10 +1041,17 @@ namespace Microarea.Common.Hotlink
 
                 if (this.IsQueryRule)
                 {
+                    field.Data = data;
+
                     field.RuleDataFetched = true;
                     field.ValidRuleData = true;
                 }
-			}
+                else if (this.ValorizeAll)
+                    field.SetAllData(data, true);
+                else 
+                    field.Data = data;  //set Field/SymField current level data
+
+            }
 			return true;
 		}
 
