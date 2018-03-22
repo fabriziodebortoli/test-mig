@@ -247,7 +247,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
 
   validate() {
     this.cc.errorMessage = '';
-    if (!this.model || !this.ctrlEnabled) return;
+    if (!this.model || !this.ctrlEnabled || !this.value || this.value === '') return;
 
     if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode))
       this.cc.errorMessage = this._TB('Incorrect Tax Number');
