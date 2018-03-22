@@ -129,7 +129,7 @@ export class ReportTableComponent {
     const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
     const specStyle: any = dataItem[column.id];
 
-    const bk = specStyle.bkgcolor === undefined ? defStyle.bkgcolor : specStyle.bkgcolor;
+    const bk = (specStyle != undefined && specStyle.bkgcolor != undefined) ? specStyle.bkgcolor : defStyle != undefined ? defStyle.bkgcolor : 'unset';
     const rgba = this.utils.hexToRgba(bk);
     rgba.a = this.table.transparent ? 0 : 1;
     const backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
@@ -137,20 +137,20 @@ export class ReportTableComponent {
     let obj = {
       'height': this.table.row_height + 'px',
       'background-color': backgroundCol,
-      'border-left': specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
-      'border-right': specStyle.borders !== undefined ? (specStyle.borders.right ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.right ? defStyle.pen.width + 'px' : '0px'),
-      'border-bottom': specStyle.borders !== undefined ? (specStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px'),
-      'border-top': specStyle.borders !== undefined ? (specStyle.borders.top ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.top ? defStyle.pen.width + 'px' : '0px'),
+      'border-left': specStyle !== undefined && specStyle.borders !== undefined ? (specStyle.borders.left ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.left ? defStyle.pen.width + 'px' : '0px'),
+      'border-right': specStyle !== undefined && specStyle.borders !== undefined ? (specStyle.borders.right ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.right ? defStyle.pen.width + 'px' : '0px'),
+      'border-bottom': specStyle !== undefined && specStyle.borders !== undefined ? (specStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.bottom ? defStyle.pen.width + 'px' : '0px'),
+      'border-top': specStyle !== undefined && specStyle.borders !== undefined ? (specStyle.borders.top ? defStyle.pen.width + 'px' : '0px') : (defStyle.borders.top ? defStyle.pen.width + 'px' : '0px'),
       'border-color': defStyle.pen.color,
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
       'text-align': defStyle.text_align,
       'transform': 'rotate('+defStyle.rotateBy+'deg)',
-      'color': specStyle.textcolor === undefined ? 
-               specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
+      'color': specStyle !== undefined && specStyle.textcolor === undefined ? 
+                 specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
                :
-               specStyle.textcolor,
-      'text-decoration': specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
+               specStyle !== undefined  ? specStyle.textcolor : 'unset',
+      'text-decoration': specStyle === undefined || specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
       'padding': '0px'
     };
 
