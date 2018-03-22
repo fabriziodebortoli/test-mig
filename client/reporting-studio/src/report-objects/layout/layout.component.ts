@@ -18,7 +18,7 @@ import { title } from './../../models/title.model';
 import { gauge } from './../../models/gauge.model';
 import { TemplateItem } from '../../models/template-item.model';
 
-import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy, Type } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { ReportObjectType } from '../../models/report-object-type.model';
 
@@ -136,6 +136,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
     let template = this.FindTemplate(this.reportTemplate.page.layout.name);
     if (template !== undefined) {
+      this.CleanImageSrc(template.templateObjects);
       this.objects = template.templateObjects;
       this.setDocumentStyle(template.template.page);
       return;
@@ -368,6 +369,17 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       }
     }
     return undefined;
+  }
+
+  CleanImageSrc(objects: any[]){
+    for (let index = 0; index < this.objects.length; index++) {
+      let element = objects[index];
+      if(element instanceof graphrect)
+      {
+        element.src = "";
+      }
+    }
+
   }
 }
 

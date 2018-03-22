@@ -42,6 +42,7 @@ export class ReportImageComponent {
       'border-style': 'solid',
       'border-color': this.image.pen.color,
       'border-radius': this.image.ratio + 'px',
+      //'text-align': this.image.text_align,
       'box-sizing': 'border-box',
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
@@ -54,26 +55,66 @@ export class ReportImageComponent {
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
               this.rsInnerImg.nativeElement.src = reader.result;
-            };
+          };
       });
     }
     return obj;
   }
 
   applyImageStyle(): any {
+    let imgIsPortrait;
+    let imgRatioWH;
+    if(this.rsInnerImg && this.rsInnerImg.nativeElement)
+      imgRatioWH =  this.rsInnerImg.nativeElement.naturalWidth / this.rsInnerImg.nativeElement.naturalHeight;
+      imgIsPortrait = imgRatioWH < 1;
+    
+    let recRatioWH =  (this.image.rect.right - this.image.rect.left) / (this.image.rect.bottom - this.image.rect.top);
+    let recIsPortrait = recRatioWH < 1; 
+
+    let height = 'fit-content';
+    let width = 'fit-content';   
+
+    if(this.image.fit_mode == ImgFitMode.BEST)
+    {
+      if ((imgIsPortrait && !recIsPortrait)
+      || (imgIsPortrait == recIsPortrait && imgRatioWH < recRatioWH))
+      {
+        height = 'inherit';
+        width = 'initial';
+      }
+        
+     if ((!imgIsPortrait && recIsPortrait)
+      || (imgIsPortrait === recIsPortrait && imgRatioWH > recRatioWH))
+      {
+          height = 'initial';
+          width = 'inherit';
+      }
+    }
+    else if (this.image.fit_mode === ImgFitMode.STRETCH)
+      {       
+          height = 'inherit';        
+          width = 'inherit';
+      }
+      if (this.image.vertical_align === 'middle')
+        height = 'inherit';
+      if (this.image.text_align === 'center')
+        width = 'inherit';
+
+    
     let obj = {
-      'object-fit': this.image.fit_mode == ImgFitMode.BEST ? 'contain' : this.image.fit_mode == ImgFitMode.ORIGINAL ? 'none' : 'fill',
-      'position': 'relative',
-      'margin-left': this.image.text_align == 'left' ? '0px' : 'auto',
-      'margin-right': this.image.text_align == 'right' ? '0px' : 'auto',
-      'margin-top': this.image.vertical_align == 'top' ? '0px' : 'auto',
-      'margin-bottom': this.image.vertical_align == 'bottom' ? '0px' : 'auto',
-      'display':'block',
+      'object-fit': this.image.fit_mode === ImgFitMode.BEST ? 'contain' : this.image.fit_mode === ImgFitMode.ORIGINAL ? 'none' : 'fill',
+      'position': 'absolute',
+      'width': width,
+      'height': height,
+      'left': this.image.text_align !== 'right' ? '0px' : 'unset',
+      'right': this.image.text_align === 'right'? '0px':'unset',
+      'top': this.image.vertical_align !== 'bottom'? '0px':'unset',
+      'bottom': this.image.vertical_align === 'bottom'? '0px':'unset',
+      'display':'inline-block',
       'max-width': '100%',
-      'max-height': '100%',
-      'width': this.image.fit_mode != ImgFitMode.ORIGINAL ? 'inherit' :'fit-content',
-      'height':this.image.fit_mode != ImgFitMode.ORIGINAL ? 'inherit' :'fit-content'
+      'max-height': '100%'
     };
+
     return obj;
   }
 
