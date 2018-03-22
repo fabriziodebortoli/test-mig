@@ -1638,7 +1638,7 @@ namespace Microarea.Common.NameSolver
 				if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
 					exterminate = custApplicCompany;    // C:\Develop\Custom\Subscription\'CompanyName'\Applications 
 
-				var custApplicESHome = GetEasyStudioCustomizationsPath();			
+				var custApplicESHome = GetEasyStudioHomeApplicationsPath();			
 				if(!string.IsNullOrEmpty(custApplicESHome) && fullPath.Contains(custApplicESHome))						
 					exterminate = custApplicESHome;		// C:\Develop\Custom\Subscription\ESHome\Applications		
 			}
@@ -2727,7 +2727,7 @@ namespace Microarea.Common.NameSolver
 		}
 
 		//-----------------------------------------------------------------------------
-		public string GetEasyStudioCustomizationsPath(bool createDir = false)
+		public string GetEasyStudioHomeApplicationsPath(bool createDir = false)
 		{
 			string path = Path.Combine(GetEasyStudioHomePath(createDir), NameSolverStrings.Applications);
 
@@ -2737,63 +2737,26 @@ namespace Microarea.Common.NameSolver
 			return path;
 		}
 
-
-
-
-
-
-
-
-		//---------------------------------------------------------------------
-		public TBFile GetTBFile(string strCompleteFileName)
-		{
-			TBFile file = new TBFile(strCompleteFileName, null);
-			(file.ApplicationName, file.ModuleName) = GetApplicationModuleNameFromPath(strCompleteFileName);
-			return file;
-		}
-
 		//--------------------------------------------------------------------------------
-		public string GetCustomizationPath(INameSpace documentNamespace, string user, TBFile easybuilderApp)
+		public (string, string) GetCustomizationPath(INameSpace documentNamespace, string user, TBFile tbFile)
 		{
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");
 
-			string customModulePath = GetCustomModulePath(easyStudioConfiguration.Settings.HomeName, easybuilderApp.ApplicationName, easybuilderApp.ModuleName);
-			if (customModulePath == string.Empty) 	return string.Empty;
+			//"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ ...
+			string customModulePath = GetCustomModulePath(easyStudioConfiguration.Settings.HomeName, tbFile.ApplicationName, tbFile.ModuleName);
+			//"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ModuleObjects\\Contacts
+			string path = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects, documentNamespace.Document);
 
-			string customModuleObjectsPath = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
-			if (customModuleObjectsPath == string.Empty)		return string.Empty;
-
-			string path = Path.Combine(customModuleObjectsPath, documentNamespace.Document);
-			return string.IsNullOrEmpty(user)
-				? path
-				: Path.Combine(path, user);
+			if (path == string.Empty || !Directory.Exists(path))
+				return (string.Empty, string.Empty);
+			return (Path.Combine(path, user), path); // (string userPath, string allUserPath)
 		}
 
-		//---------------------------------------------------------------------------------
-		public string GetCustomDocumentPath(string companyName, string application, string module, string document)
+		//---------------------------------------------------------------------
+		public TBFile GetTBFile(string strCompleteFileName)
 		{
-			string customModulePath = GetCustomModulePath(companyName, application, module);
-			if (customModulePath == string.Empty)
-				return string.Empty;
-
-			string customModuleObjectsPath = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
-
-			//string customModuleObjectsPath = GetCustomModuleObjectsPath(companyName, application, module);
-			if (customModuleObjectsPath == string.Empty)
-				return string.Empty;
-
-			return Path.Combine(customModuleObjectsPath, document);
-		}
-
-		//---------------------------------------------------------------------------------
-		public string GetCustomModuleObjectsPath(string companyName, string application, string module)
-		{
-			string customModulePath = GetCustomModulePath(companyName, application, module);
-			if (customModulePath == string.Empty)
-				return string.Empty;
-
-			return Path.Combine(customModulePath, NameSolverStrings.ModuleObjects);
+			return fileSystemManager.GetTBFile(strCompleteFileName);
 		}
 
 		//-----------------------------------------------------------------------------

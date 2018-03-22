@@ -231,6 +231,8 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
         list = this.easystudioService.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
+    
+    //--------------------------------------------------------------------------------
     public sayCantCustomize() {
         this.snackBar.open(
             this._TB('It is not possible to change customization context with opened documents.\r\nPlease, close all documents.'),

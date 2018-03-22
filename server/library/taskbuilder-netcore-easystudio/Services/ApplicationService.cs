@@ -29,28 +29,49 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public string GetEasyStudioCustomizationsListFor(string docNS, string user, bool onlyDesignable = true)
 		{
-			var listCustomizations =  PathFinder.GetEasyStudioCustomizationsListFor(docNS, onlyDesignable);
+			var listCustomizations = GetListAllCustsUserAndAllUser(docNS, user, onlyDesignable);
+			return WriteJsonForListCustomizations(listCustomizations);		
+		}
+
+		//---------------------------------------------------------------
+		public List<TBFile> GetListAllCustsUserAndAllUser(string docNS, string user, bool onlyDesignable)
+		{
+			var listAllDllsFound = PathFinder.GetEasyStudioCustomizationsListFor(docNS, onlyDesignable);
 			var nsforDoc = new NameSpace(docNS);
+			var listCustsPurged = new List<TBFile>();
 
-			var custsForUser = listCustomizations.Where( x=> 
-				(Path.GetDirectoryName(x.completeFileName) == PathFinder.GetCustomizationPath( nsforDoc, user, PathFinder.GetTBFile(x.completeFileName)))).ToList();
-			var custsForAllUsers = listCustomizations.Where( x =>
-				(Path.GetDirectoryName(x.completeFileName) == PathFinder.GetCustomizationPath( nsforDoc, null, PathFinder.GetTBFile(x.completeFileName)))).ToList();
+			/*  listAllDllsFound ordinata per lunghezza decrescente, così da aggiungere prima tutte quelle per user specifico 
+				e dopo, se non presenti già con stesso nome, quelle per AllUser
+				ESEMPIO : 	\NewApplication1\\NewModule1\\ModuleObjects\\ContactOrigin\\sa\\ContactOrigin.dll"
+							\NewApplication1\\NewModule1\\ModuleObjects\\ContactOrigin\\ContactOrigin.dll"			*/
 
-			var custsByName = custsForUser.Select(c => c.Name);
-			foreach (var custAllUser in custsForAllUsers)
+			foreach (var aa in listAllDllsFound.OrderByDescending(x => x.completeFileName.Length))
 			{
-				if (!custsByName.Contains(custAllUser.Name))
-					custsForUser.Add(custAllUser);
+				var directoryFileName = Path.GetDirectoryName(aa.completeFileName);
+				TBFile tBFile =			PathFinder.GetTBFile (aa.completeFileName);
+				(string userPath, string allUserPath) = PathFinder.GetCustomizationPath(nsforDoc, user, tBFile);
+				if (!string.IsNullOrEmpty(userPath) && directoryFileName == userPath)
+					listCustsPurged.Add(tBFile);
+				else if (!string.IsNullOrEmpty(allUserPath) && directoryFileName == allUserPath)
+				{
+					if (!listCustsPurged.Any(x => x.Name == tBFile.Name))
+						listCustsPurged.Add(tBFile);
+				}
 			}
+			//infine le ritorno per ordine alfabetico
+			return listCustsPurged.OrderBy(x => x.Name).ToList();
+		}
 
+		//---------------------------------------------------------------
+		private string WriteJsonForListCustomizations(List<TBFile> listCustomizations)
+		{
 			StringWriter sw = new StringWriter(new StringBuilder());
 			JsonWriter jsonWriter = new JsonTextWriter(sw);
 			jsonWriter.WriteStartObject();
 			jsonWriter.WritePropertyName("Customizations");
 
 			jsonWriter.WriteStartArray();
-			foreach (TBFile customiz in custsForUser)
+			foreach (TBFile customiz in listCustomizations)
 			{
 				jsonWriter.WriteStartObject();
 
@@ -68,7 +89,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
 				jsonWriter.WriteEndObject();
 			}
-		
+
 			jsonWriter.WriteEndArray();
 			jsonWriter.WriteEndObject();
 
@@ -92,8 +113,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             {
                 Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationName);
                 return false;
-            }
-                
+            }             
             try
             {
                 if (ExistsApplication(applicationName))

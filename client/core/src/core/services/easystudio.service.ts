@@ -190,6 +190,7 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.closeCustomizationContext().subscribe((result) => {
             this.currentApplication = undefined;
             this.currentModule = undefined;
+            this.setAppAndModule(this.currentApplication, this.currentModule, false);
         }));
     }
 
