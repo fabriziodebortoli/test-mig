@@ -1,4 +1,4 @@
-﻿//==============================================================================
+//==============================================================================
 // Woorm code behind
 //==============================================================================
 
@@ -90,7 +90,7 @@ Links
 		LinkForm "Document.ERP.CustomersSuppliers.Documents.Customers" 
 			On w_CustomerSupplier 
 			Begin
-				Enum[49]  /* CustSupp Type */ CustSuppType = { 49 : 0 } ;
+				Enum[49]  /* CustSupp Type */ CustSuppType = {49:0} ;
 				String CustSupp = w_CustomerSupplier ;
 			End
 
@@ -168,7 +168,7 @@ Report
 			Select  Not NULL 
 				CompanyName          Into w_CompanyName ;
 
-			From MA_CustSupp , MA_CustSuppCustomerOptions 
+			From MA_CustSupp 
 			Select  Not NULL 
 				MA_CustSupp.CustSupp Into w_CustomerSupplier ,
 				MA_CustSupp.CompanyName Into w_CompanyNameCust ,
@@ -191,24 +191,9 @@ Report
 				MA_CustSupp.District Into w_District ,
 				MA_CustSupp.StreetNo Into w_StreetNo ,
 				MA_CustSupp.FiscalCode Into w_FiscalCode 
-			Where Native MA_CustSupp.CustSuppType = { 49 : 0 } And 
-				MA_CustSupp.CustSupp Between w_FromCustomer And w_ToCustomer And 
-				MA_CustSupp.Disabled = FALSE And 
-				( ( w_AllBlocked = TRUE ) Or 
-				( w_Blocked = TRUE And MA_CustSupp.CustSupp IN ( Select MA_CustSuppCustomerOptions.Customer From MA_CustSuppCustomerOptions Where MA_CustSuppCustomerOptions.CustSuppType = { 49 : 0 } And MA_CustSuppCustomerOptions.Blocked = TRUE ) ) Or 
-				( w_NonBlocked = TRUE And MA_CustSupp.CustSupp NOT IN ( Select MA_CustSuppCustomerOptions.Customer From MA_CustSuppCustomerOptions Where MA_CustSuppCustomerOptions.CustSuppType = { 49 : 0 } And MA_CustSuppCustomerOptions.Blocked = TRUE ) ) 
-				) And 
-				( ( w_AllDraft = TRUE ) Or 
-				( w_Draft = TRUE And MA_CustSupp.Draft = TRUE ) Or 
-				( w_NonDraft = TRUE And MA_CustSupp.Draft = FALSE ) 
-				) And 
-				( w_AllRegion = TRUE OR MA_CustSupp.Region = w_AskRegion ) And 
-				( w_AllCity = TRUE OR MA_CustSupp.City = w_AskCity ) And 
-				( w_AllCounty = TRUE OR MA_CustSupp.County = w_AskCounty ) And 
-				( MA_CustSupp.City Between w_InitialCities AND w_FinalCities ) And 
-				( MA_CustSupp.FederalState Between w_InitialFederalState AND w_FinalFederalState ) And 
-				MA_CustSuppCustomerOptions.Customer = CustSupp And 
-				MA_CustSuppCustomerOptions.Category Between w_FromCtg And w_ToCtg 
+			Where Native MA_CustSupp.CustSuppType = {49:0} And 
+				MA_CustSupp.CustSupp Between w_FromCustomer And w_ToCustomer 
+				
 			Order By MA_CustSupp.City ;
 		End
 
@@ -267,36 +252,9 @@ Report
 								w_FromCustomer Prompt = "From Customer" LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ( 0 , 0 ) ;
 								w_ToCustomer Prompt = "To Customer" UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustSupp ( 0 , 0 ) ;
 							End
-							Begin   
-								w_FromCtg Prompt = "From Category" LowerLimit HotLink ERP.CustomersSuppliers.Dbl.CustomersCategories ( ) ;
-								w_ToCtg Prompt = "To Category" UpperLimit HotLink ERP.CustomersSuppliers.Dbl.CustomersCategories ( ) ;
-							End
-							Begin   
-								w_AllDraft Style = 5 Prompt = "All" ;
-								w_Draft Style = 5 Prompt = "Only Draft" ;
-								w_NonDraft Style = 5 Prompt = "Only Not Draft" ;
-							End
-							Begin   
-								w_AllBlocked Style = 5 Prompt = "All" ;
-								w_Blocked Style = 5 Prompt = "Only Blocked" ;
-								w_NonBlocked Style = 5 Prompt = "Only Not Blocked" ;
-							End
-							Begin   When ( Not w_IsActivatedMasterBr ) ; 
-								w_AllCity Prompt = "All City" ;
-								w_AskCity Prompt = "City" ReadOnly w_AllCity HotLink ERP.Company.Dbl.City ( ) ;
-								w_AllCounty Prompt = "All County" ;
-								w_AskCounty Prompt = "County" ReadOnly w_AllCounty HotLink ERP.Company.Dbl.County ( ) ;
-								w_AllRegion Prompt = "All Region" ;
-								w_AskRegion Prompt = "Region" ReadOnly w_AllRegion HotLink ERP.Company.Dbl.Region ( ) ;
-							End
-							Begin   When ( w_IsActivatedMasterBr ) ; 
-								w_InitialCities Prompt = "From Cities" LowerLimit HotLink ERP.Company.Dbl.Cities ( 0 ) ;
-								w_FinalCities Prompt = "To Cities" UpperLimit HotLink ERP.Company.Dbl.Cities ( 0 ) ;
-								w_InitialFederalState Prompt = "From Federal state" LowerLimit HotLink ERP.Company.Dbl.FederalStates ( 0 ) ;
-								w_FinalFederalState Prompt = "To Federal state" UpperLimit HotLink ERP.Company.Dbl.FederalStates ( 0 ) ;
-							End
+							
+							
 						End
 				End
 		End
 End
-

@@ -90,6 +90,50 @@ export class RsExportService {
                     });
                 }).then((dataUri) => {
                     saveAs(dataUri, this.titleReport + '_copy_' + this.incrCopy + '.pdf');
+
+                    /*var doc = document.getElementById('iprint') as HTMLFrameElement;
+                    var newWin = window.frames['iprint'];
+                    newWin.location = dataUri;
+
+                    doc.onload = function(){
+                        
+
+                    }*/
+                    
+                    //var iframe = document.createElement('iframe');
+
+                    //doc.src = dataUri;
+
+                    /*newWin.addEventListener("loadeddata", function(){
+                        console.log("ho caricato il frame");
+                        newWin.focus();
+                        newWin.print();
+                    });*/
+                    /*doc.onload = function () {
+                        /*var x = window.open();
+                        x.document.title = "PRINT";
+                    }*/
+                    
+                    //doc.appendChild(document.body.appendChild(iframe));
+
+                  
+                   
+                    //iframe.src = dataUri;
+                    //document.body.appendChild(iframe);
+                    //let iframeWindow = iframe.contentWindow;
+                    /*iframeWindow.onload = function () {
+                        alert("Local iframe is now loaded.");
+                    };*/
+
+                    /*iframe.addEventListener("load", function(){
+                        console.log("ho caricato il frame");
+                        newWin.focus();
+                        newWin.print();
+                    });*/
+
+                    
+                    
+
                     this.pdfState = PdfType.NOPDF;
                 }).then(() => {
                     this.rsService.reset();

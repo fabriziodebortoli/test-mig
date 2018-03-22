@@ -431,6 +431,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     var s = this.infoService.getReportServiceUrl() + 'docx/' + filename;
     iframeHTML.src = s;
   }
+
+  //--------------------------------------------------
+  /*printPDF(){
+
+  }*/
 }
 
 
