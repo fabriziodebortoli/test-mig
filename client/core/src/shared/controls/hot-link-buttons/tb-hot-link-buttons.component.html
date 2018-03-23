@@ -1,6 +1,6 @@
 <ng-template #optionsTemplate>
-    <div class="tb-hotlink-optionsPopup searchOptions" [ngStyle]="optionsPopupStyle">
-        <div *ngFor="let item of (state$ | async).selectionTypes" style="display: flex; width: auto" [ngClass]="getOptionClass(item)" (click)="selectionTypeChanged(item);">
+    <div class="tb-hotlink-optionsPopup searchOptions" [ngStyle]="popupHandler.optionsPopupStyle">
+        <div *ngFor="let item of (state$ | async).selectionTypes" style="display: flex; width: auto" [ngClass]="{ selTypeElem: true }" (click)="selectionTypeChanged(item);">
             <div class="grid-item">Search for {{item}}</div>   
         </div>
     </div>
@@ -9,7 +9,7 @@
     <tb-customisable-grid [canAutoFit]="false" [pageSize]="pageSize" [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-customisable-grid>
 </ng-template>
 <div class="hotlinkButtonsContainer" #hotLinkButtons>
-    <button #hotLinkButton kendoButton tabindex="-1" (click)="toggleTable($event)" [disabled]="!(slice$ | async)?.enabled">
+    <button #hotLinkButton kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(slice$ | async)?.enabled">
         <m4-icon [icon]="buttonIcon"></m4-icon>
     </button>
 </div>

@@ -12,7 +12,7 @@ interface ChangeFocusEvent { source: HTMLElement; target: HTMLElement }
 
 //TODO: this is a orrible workaround... Structural review of "AddOnFly" behavior is needed!
 function isInAddOnFlyExclusionList(e: HTMLElement): boolean {
-    if(!e) return true;
+    if(!e) return false;
     let parentOfCurrElem = e.parentElement;
     if(!parentOfCurrElem) return false;
     if(e.classList.contains('k-tabstrip-items')) return true;
@@ -53,12 +53,20 @@ export class HyperLinkService implements OnDestroy {
     private getElementLogic: () => HTMLElement = () => null;
     private oldElementVaue: any;
 
-    private get focusChanged$(): Observable<ChangeFocusEvent> {
+    private get controlFocusChanged$(): Observable<ChangeFocusEvent> {
         return Observable.fromEvent<FocusEvent>(this.elementInfo.element, 'blur', {capture: false}).pipe(untilDestroy(this))
         .map(fe => ({source: fe.target as HTMLElement, target: fe.relatedTarget as HTMLElement}));
     }
 
-    start (getElementLogic: () => HTMLElement, 
+    private getHotLinkButtonFocusChanged$(hotLinkButton: HTMLElement): Observable<ChangeFocusEvent> {
+        return hotLinkButton ? Observable.fromEvent<FocusEvent>(hotLinkButton, 'blur', {capture: false}).pipe(untilDestroy(this))
+                                .map(fe => ({source: fe.target as HTMLElement, target: fe.relatedTarget as HTMLElement})) 
+                             :
+                              Observable.never<{source: HTMLElement, target:  HTMLElement}>();
+    }
+
+    start (getElementLogic: () => HTMLElement,
+           hotLinkButton: HTMLElement, 
            info: HyperLinkInfo, 
            slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
            onBackToFocus: (oldValue: any, value: any) => void,
@@ -67,7 +75,7 @@ export class HyperLinkService implements OnDestroy {
         if (!getElementLogic || !info) throw Error('You should provide a value form "getElement" and "info"');       
         this.withGetElementLogic(getElementLogic)
             .withHyperLinkLogic(info, slice$)
-            .withAddOnFlyLogic(info, slice$, onBackToFocus, onAfterAddOnFly, customShouldAddOnFlyPredicate);
+            .withAddOnFlyLogic(info, slice$, hotLinkButton, onBackToFocus, onAfterAddOnFly, customShouldAddOnFlyPredicate);
     }
 
     private withHyperLinkLogic(info: HyperLinkInfo, slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>) : HyperLinkService {
@@ -83,6 +91,7 @@ export class HyperLinkService implements OnDestroy {
 
     private withAddOnFlyLogic(info: HyperLinkInfo, 
         slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>,
+        hotLinkButton: HTMLElement,
         onBackToFocus: (oldValue: any, value: any) => void,
         onAfterAddOnFly: (any) => void,
         customShouldAddOnFlyPredicate?: (focusedElem: HTMLElement) => boolean): HyperLinkService {
@@ -90,10 +99,15 @@ export class HyperLinkService implements OnDestroy {
         this.onBackToFocus = onBackToFocus;
         this.onAfterAddOnFly = onAfterAddOnFly;
         this.shouldAddOnFly = (focusEvent: ChangeFocusEvent) => 
-            this.elementInfo.element.contains(focusEvent.source) 
+            this.elementInfo.element.contains(focusEvent.source) && 
+            !(hotLinkButton && hotLinkButton.contains(focusEvent.target))
             && !isInAddOnFlyExclusionList(focusEvent.target)
-            && (!customShouldAddOnFlyPredicate || customShouldAddOnFlyPredicate(focusEvent.target));
-        this.focusChanged$.filter(x => this.shouldAddOnFly(x)).subscribe(_ => this.addOnFly(info)); 
+            && (!focusEvent.target || !customShouldAddOnFlyPredicate || customShouldAddOnFlyPredicate(focusEvent.target));
+        this.controlFocusChanged$.merge(this.getHotLinkButtonFocusChanged$(hotLinkButton))
+        .filter(x => {
+            let should = this.shouldAddOnFly(x);
+            return should;
+        }).subscribe(_ => this.addOnFly(info)); 
         return this;
     }
 
@@ -139,7 +153,7 @@ export class HyperLinkService implements OnDestroy {
 
     private giveBackFocus(value: any) {
         this.elementInfo.element.focus();
-        if (this.onBackToFocus) this.onBackToFocus(this.oldElementVaue, value);
+        if (this.onBackToFocus) this.onBackToFocus(this.oldElementVaue, value); 
     }
 
     private enableHyperLink(info: HyperLinkInfo): void {

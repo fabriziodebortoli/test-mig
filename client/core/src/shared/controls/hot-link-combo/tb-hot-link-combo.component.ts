@@ -7,18 +7,19 @@ import { StorageService } from './../../../core/services/storage.service';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { HttpService } from './../../../core/services/http.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
-import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
+import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
-import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
+import { BehaviorSubject, Subscription } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
+import { TbHotlinkComboHyperLinkHandler } from './hyper-link-handler';
 import * as _ from 'lodash';
 
 declare var document: any;
@@ -43,7 +44,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator
   ) {
-    super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService);
+    super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService, httpService);
   }
 
   private dropDownOpened = false;
@@ -60,39 +61,12 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   disablePager: boolean = true;
-  get enablePager(): boolean {
-    return !this.disablePager;
-  }
+  get enablePager(): boolean { return !this.disablePager; }
 
-  protected start() {
+  start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200);
-    this.paginator.start(1, this.pageSize,
-      Observable
-        .combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
-          (slice, filter, sort) => ({ model: slice, customFilters: filter, customSort: sort })),
-      (pageNumber, serverPageSize, args) => {
-        let ns = this.hotLinkInfo.namespace;
-        if (!ns && args.model.selector && args.model.selector !== '') {
-          ns = args.model.items[args.model.selector].namespace;
-        }
-        this.currentHotLinkNamespace = ns;
-        let p: URLSearchParams = new URLSearchParams();
-        p.set('filter', JSON.stringify(args.model.value));
-        p.set('documentID', (this.tbComponentService as DocumentService).mainCmpId);
-        p.set('hklName', this.hotLinkInfo.name);
-        if (args.customFilters && args.customFilters.logic && args.customFilters.filters && args.customFilters.field)
-          p.set('customFilters', JSON.stringify(args.customFilters));
-        if (args.customSort)
-          p.set('customSort', JSON.stringify(args.customSort));
-        p.set('disabled', '0');
-        p.set('page', JSON.stringify(pageNumber + 1));
-        p.set('per_page', JSON.stringify(serverPageSize));
-        return this.httpService.getHotlinkData(ns, this.state.selectionType, p);
-      });
-
-    // this.state = this.state.with();
-
+    this.paginator.start(1, this.pageSize, this.queryTrigger,this.queryServer);
     this.paginator.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
       if (!this.combobox.isOpen) this.combobox.toggle(true);
@@ -154,33 +128,14 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     }
   }
 
-  private _hyperLinkElement: HTMLElement;
-  private get hyperLinkElement(): HTMLElement {
-    if(this._hyperLinkElement) return this._hyperLinkElement;
-    let searchBar = (this.vcr.element.nativeElement.parentNode.getElementsByClassName('k-searchbar') as HTMLCollection).item(0) as HTMLElement;
-    if(searchBar) {
-      this._hyperLinkElement = (searchBar.getElementsByClassName('k-input') as HTMLCollection).item(0) as HTMLElement;
-      return this._hyperLinkElement;
-    }
-    return undefined; 
-  }
-
-  ngAfterViewInit(): void {
-    this.hyperLinkService.start(
-      () => this.hyperLinkElement, 
-      { name: this.hotLinkInfo.name,
-        cmpId: this.documentService.mainCmpId, 
-        enableAddOnFly: this.hotLinkInfo.enableAddOnFly, 
-        mustExistData: this.hotLinkInfo.mustExistData,
-        model: this.modelComponent.model }, 
-        this.slice$, this.afterNoAddOnFly, this.afterAddOnFly);
-  }
-
   ngOnInit() {
     this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
     this.state = this.state.with({selectionType: 'combo'});
   }
 
-  ngOnDestroy() {
+  ngAfterViewInit() {
+    TbHotlinkComboHyperLinkHandler.Attach(this);
   }
+
+  ngOnDestroy() { }
 }
