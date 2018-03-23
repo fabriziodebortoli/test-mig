@@ -44,9 +44,7 @@
         "@progress/kendo-popup-common": "^1.2.3",
         "@progress/kendo-theme-default": "^2.47.5",
         "rxjs": "^5.5.6",
-        "zone.js": "^0.8.19"
-    },
-    "dependencies": {
+        "zone.js": "^0.8.19",
         "moment": "^2.19.1",
         "bwip-angular2": "^1.0.4"
     }

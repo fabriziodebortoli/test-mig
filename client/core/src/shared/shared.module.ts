@@ -35,11 +35,6 @@ const MATERIAL_MODULES = [
     MatProgressSpinnerModule
 ];
 
-import { TbIconsModule } from '@taskbuilder/icons';
-
-import { TbKendoModule } from './kendo/kendo.module';
-export * from './kendo/kendo.module';
-
 /**
  * Components
  */
@@ -60,7 +55,7 @@ import { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar
 import { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
 import { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
 import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
-import {PopupComponent}from './components/popup/popup.component';
+import { PopupComponent } from './components/popup/popup.component';
 import { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
 
 import { TopbarComponent } from './components/topbar/topbar.component';
@@ -146,7 +141,7 @@ const TB_COMPONENTS = [
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, ExplorerComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent,  DiagnosticComponent,
+    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
     TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent
 ];
@@ -212,8 +207,8 @@ export { StatusTileComponent } from './containers/tiles/status-tile-panel/status
 const TB_CONTAINERS = [
     FrameComponent, FrameContentComponent, ViewComponent, ViewContainerComponent, DockpaneComponent, DockpaneContainerComponent,
     TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
-    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent, 
-        TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
+    MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent,
+    TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
     StatusTilePanelComponent, StatusTileComponent, PanelComponent, FilterComponent
 ];
 
@@ -264,7 +259,7 @@ import { PropertyGridComponent } from './controls/property-grid/property-grid.co
 import { PropertyGridItemComponent } from './controls/property-grid/property-grid-item/property-grid-item.component';
 import { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 import { ControlContainerComponent } from './controls/control-container/control-container.component';
-import { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
+import { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
 import { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 
 
@@ -313,7 +308,7 @@ export { PropertyGridItemComponent } from './controls/property-grid/property-gri
 export { PropertyGridItemGroupComponent } from './controls/property-grid/property-grid-item-group/property-grid-item-group.component';
 export { ControlContainerComponent } from './controls/control-container/control-container.component';
 export { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
-export { RowViewFormComponent }from './controls/body-edit/row-view-form/row-view-form.component';
+export { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
 
 const TB_CONTROLS = [
     ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent,
@@ -321,9 +316,9 @@ const TB_CONTROLS = [
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent,TreeViewComponent, ApplicationDateComponent, PropertyGridComponent,    PropertyGridItemComponent,
-    BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent,BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
-     PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent
+    LinearGaugeComponent, HotlinkComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent, PropertyGridItemComponent,
+    BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent, BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
+    PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent
 ];
 
 /**
@@ -368,7 +363,7 @@ export { TbAsDropDownDataPipe } from './pipes/as-drop-down-data.pipe';
 import { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 export { TbAsDropDownValuePipe } from './pipes/as-drop-down-value.pipe';
 
-const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe,TbColorPipe, TbToUpper, TbDatePipe];
+const TB_PIPES = [TbEnumsPipe, TbAsDropDownDataPipe, TbAsDropDownValuePipe, TbColorPipe, TbToUpper, TbDatePipe];
 
 export { HotLinkInfo } from './models/hotLinkInfo.model';
 export { ComponentInfo } from './models/component-info.model';
@@ -387,6 +382,9 @@ export { CommandCategory } from './models/command-category.enum';
 export * from './models/store.models';
 export * from './commons/selector';
 
+import { TbIconsModule } from '@taskbuilder/icons';
+import { TbLibsModule } from '@taskbuilder/libs';
+
 /**
  * NON ESPORTARE
  */
@@ -399,9 +397,9 @@ const _MODULES = [
 ];
 
 @NgModule({
-    imports: [_MODULES, MATERIAL_MODULES, TbKendoModule],
+    imports: [_MODULES, MATERIAL_MODULES, TbLibsModule],
     declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
-    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TbKendoModule, TB_PIPES],
+    exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TB_PIPES, TbLibsModule],
     entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent, TbHotlinkComboComponent, TbHotLinkBaseComponent]
 })
 export class TbSharedModule { }

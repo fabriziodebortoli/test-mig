@@ -139,17 +139,7 @@ gulp.task('rollup:umd', function() {
                 'rxjs/add/observable/timer', 'rxjs/add/operator/take', 'rxjs/add/operator/takeUntil', 'rxjs/add/operator/toArray', 'rxjs/add/operator/do', 'rxjs/add/operator/repeat',
                 'rxjs/add/operator/timeout', 'rxjs/add/operator/share', 'rxjs/operator/map', 'rxjs/operator/pluck', 'rxjs/operator/distinctUntilChanged',
                 'rxjs/Subscription', 'rxjs/Observer', 'rxjs/observable/ErrorObservable', 'rxjs/util/TimeoutError', 'rxjs/add/operator/reduce',
-                'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric',
-                '@telerik/kendo-intl', '@progress/kendo-data-query', '@progress/kendo-angular-dialog', '@progress/kendo-angular-layout', '@progress/kendo-angular-popup',
-                '@progress/kendo-angular-buttons', '@progress/kendo-angular-inputs', '@progress/kendo-angular-dateinputs', '@progress/kendo-angular-dropdowns', '@progress/kendo-angular-grid',
-                '@progress/kendo-angular-charts', 'hammerjs', '@taskbuilder/icons', 'lodash',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component',
-                '@progress/kendo-angular-intl/locales/bg/numbers', '@progress/kendo-angular-intl/locales/bg/calendar', '@progress/kendo-angular-intl/locales/de-CH/numbers', '@progress/kendo-angular-intl/locales/de-CH/calendar',
-                '@progress/kendo-angular-intl/locales/el/numbers', '@progress/kendo-angular-intl/locales/el/calendar', '@progress/kendo-angular-intl/locales/en/numbers', '@progress/kendo-angular-intl/locales/en/calendar',
-                '@progress/kendo-angular-intl/locales/es-CL/numbers', '@progress/kendo-angular-intl/locales/es-CL/calendar', '@progress/kendo-angular-intl/locales/hu/numbers', '@progress/kendo-angular-intl/locales/hu/calendar',
-                '@progress/kendo-angular-intl/locales/it-CH/numbers', '@progress/kendo-angular-intl/locales/it-CH/calendar', '@progress/kendo-angular-intl/locales/it/numbers', '@progress/kendo-angular-intl/locales/it/calendar',
-                '@progress/kendo-angular-intl/locales/pl/numbers', '@progress/kendo-angular-intl/locales/pl/calendar', '@progress/kendo-angular-intl/locales/ro/numbers', '@progress/kendo-angular-intl/locales/ro/calendar',
-                '@progress/kendo-angular-intl/locales/si/numbers', '@progress/kendo-angular-intl/locales/si/calendar', '@progress/kendo-angular-intl/locales/tr/numbers', '@progress/kendo-angular-intl/locales/tr/calendar'
+                'rxjs/add/observable/combineLatest', 'rxjs/operator/reduce', 'rxjs/Subscriber', 'rxjs/util/isNumeric'
             ],
 
             // Format of generated bundle
