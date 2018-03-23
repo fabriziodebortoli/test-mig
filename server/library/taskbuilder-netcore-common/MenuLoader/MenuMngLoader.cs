@@ -894,7 +894,7 @@ namespace Microarea.Common.MenuLoader
             string userName = (menuPathFinder.User != null && menuPathFinder.User.Length > 0) ? menuPathFinder.User : NameSolverStrings.AllUsers;
 
 
-            foreach (ApplicationMenuInfo aApplication in CurrentPathFinder.ApplicationInfos)
+            foreach(ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
                     (aApplication.Type != ApplicationType.Customization ||
