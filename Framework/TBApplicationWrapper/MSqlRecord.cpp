@@ -6,6 +6,8 @@
 #include <TbGes\ExtDoc.h>
 
 #include "MSqlRecord.h"
+#include "MDocument.h"
+#include "BusinessObjectParams.h"
 #include "MDBTObjects.h"
 #include "MParsedControls.h"
 #include "Attributes.h"
@@ -985,8 +987,29 @@ void MSqlRecord::OnAfterCreateComponents()
 			SqlRecord* pExt = pRec->GetExtensions()->GetAt(j);
 			SqlRecordLocals* pLocals = dynamic_cast<SqlRecordLocals*>(pExt);
 			// qui le SqlRecordLocals non devono essere considerate perchè sono
-			// apportate dalla customizzazione e MAI dal gestionale
-			if (!pLocals)
+			// apportate dalla customizzazione e MAI dal gestionale, tranne che in
+			// caso di esposizione del BusinessObject dove servono x essere serializzate
+			MDocument^ document = dynamic_cast<MDocument^>(Document);
+			if (pLocals && document != nullptr)
+			{
+				CAbstractFormDoc* pDoc = document->GetDocument();
+				CManagedDocComponentObj* pParams = pDoc->GetManagedParameters();
+				CBusinessObjectInvocationInfo* pBOParams = dynamic_cast<CBusinessObjectInvocationInfo*>(pParams);
+				if (pBOParams && pBOParams->IsExposing())
+				{
+					SqlRecordItem* pItem;
+
+					for (int i = 0; i <= pExt->GetUpperBound(); i++)
+					{
+						pItem = pExt->GetAt(i);
+
+						MSqlRecordItem^	field = gcnew MLocalSqlRecordItem(this, pItem, false);
+
+						components->Add(field);
+					}
+				}
+			}
+			else
 				AddRecItems(pExt);
 		}
 	}
