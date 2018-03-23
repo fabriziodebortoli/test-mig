@@ -17,6 +17,6 @@ export class ActivationService {
     isActivated(application: string, functionality: string) : boolean {
         let key = (application + "." + functionality).toLowerCase();
 
-        return this.modules.find(s => s.name == key) !== undefined;
+        return this.modules.find(s => s == key) !== undefined;
     }
 }
