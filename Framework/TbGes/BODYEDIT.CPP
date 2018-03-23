@@ -6119,7 +6119,7 @@ void CBodyEdit::OnLButtonDown(UINT nFlags, CPoint point)
 
 	if (!CanLeaveCurrPos(nNewCurrRec))
 		return;
-
+	
 	m_nOldStartRecordIdx = -1;
 	m_nOldStartColumnIdx = -1;
 
@@ -8234,6 +8234,8 @@ BOOL CBodyEdit::UpdateData(BOOL bSignalError, BOOL bSendMessage /* = FALSE */)
 	if (!IsCtrlVisible())
 		return TRUE;
 
+	CLocalChange<BOOL> _l(m_bSetFocusOnly, TRUE);
+
 	ColumnInfo* pOriginalCol = m_ColumnsInfo[m_nCurrColumnIdx];
 	ColumnInfo* pStoledCol = GetAlternativeColumnForEditing(pOriginalCol, GetDBT()->GetCurrentRow());
 	ColumnInfo* pToBeUsedCol = pOriginalCol;
@@ -8365,7 +8367,7 @@ BOOL CBodyEdit::ShowCtrl(BOOL bRedraw)
 		pColToBeUse->ShowCtrl(pCurRec, rect);
 	else
 		pColToBeUse->ShowCtrl(pCurRec, xColOffs, yPos);
-
+	
 	OnSelCell(pCurRec, pColToBeUse);
 	if (m_pDBT->GetDocument())
 		m_pDBT->GetDocument()->DispatchOnBESelCell(this, pCurRec, pColToBeUse);
