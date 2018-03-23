@@ -332,6 +332,38 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
+            public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string user, DateTime date)
+            {
+                //Dve rimanere  cosi
+                string file = GetStandardMenuCachingFullFileName(user);
+                if (!PathFinder.PathFinderInstance.ExistFile(file))
+                    return null;
+                try
+                {
+                    XmlSerializer ser = GetSerializer();
+                    FileInfo fi = new FileInfo(file);  //ok
+
+                    using (StreamReader sw = new StreamReader(fi.OpenRead()))
+                    {
+                        CachedMenuInfos infos = ser.Deserialize(sw) as CachedMenuInfos;
+                        //Se rispetto alla struttura salvata non corrispondono le informazioni
+                        //richieste, non uso la cache e rigenero tutto dinamicamente						
+                        if (infos.CommandsTypeToLoad == commandsTypeToLoad &&
+                            infos.ConfigurationHash == configurationHash &&
+                            infos.Culture == CultureInfo.CurrentUICulture.Name &&
+                            DateTime.Compare(infos.CacheDate, date) > 0 &&
+                            infos.InstallationDate == InstallationData.InstallationDate)
+                            return infos;
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.Fail(ex.ToString());
+                    return null;
+                }
+            }
+            //---------------------------------------------------------------------------
             public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string user)
             {
                 //Dve rimanere  cosi
@@ -363,7 +395,6 @@ namespace Microarea.Common.MenuLoader
                     return null;
                 }
             }
-
 
             //---------------------------------------------------------------------------
             public void Save(string user)
@@ -762,13 +793,13 @@ namespace Microarea.Common.MenuLoader
         #endregion
 
         //---------------------------------------------------------------------------
-        public bool LoadCachedStandardMenu(CommandsTypeToLoad commandsTypeToLoad)
+        public bool LoadCachedStandardMenu(CommandsTypeToLoad commandsTypeToLoad, DateTime dateTime)
         {
 
             string configurationHash = LoginManager.LoginManagerInstance.GetConfigurationHash();
             try
             {
-                cachedInfos = CachedMenuInfos.Load(commandsTypeToLoad, configurationHash, menuPathFinder.User);
+                cachedInfos = CachedMenuInfos.Load(commandsTypeToLoad, configurationHash, menuPathFinder.User, dateTime);
                 return cachedInfos != null;
             }
             catch (Exception exception)
@@ -1467,12 +1498,12 @@ namespace Microarea.Common.MenuLoader
         }
 
         //----------------------------------------------------------------------------
-        public bool IsCached()
+        public bool IsCached(DateTime dateTime)
         {
             if (menuInfo == null)
                 menuInfo = new MenuInfo(pathFinder, authenticationToken, false); //todo LARA questo false sarebbe applusecurity che ancora nn abbiamo
             
-            return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All); //TODO LARA
+            return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All,  dateTime); //TODO LARA
         }
         //----------------------------------------------------------------------------
         public bool LoadAllMenus(bool applySecurityFilter, CommandsTypeToLoad commandsTypeToLoad, bool ignoreAllSecurityChecks, bool clearCachedData)

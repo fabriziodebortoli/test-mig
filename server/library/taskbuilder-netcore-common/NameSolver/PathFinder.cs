@@ -623,7 +623,7 @@ namespace Microarea.Common.NameSolver
 
 
 		#endregion static function
-
+         
 
 		#region public function
 		//---------------------------------------------------------------------------------

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Reflection;
-using System.Resources;
 using System.Text;
 using System.Xml;
 using Microarea.Common.Generic;
@@ -41,7 +37,7 @@ namespace Microarea.Common.MenuLoader
 					if (nMenuRows > -1)
 					{
                         //Lara
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user);
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user );
 						if (pInfo != null && nMenuRows > 0)
 							return null;
 						menuLoader.LoadAllMenus(false, false);
@@ -91,7 +87,7 @@ namespace Microarea.Common.MenuLoader
         {
             PathFinder pf = new PathFinder(company, user);
             MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
-            return !menuLoader.IsCached();
+            return !menuLoader.IsCached(dateTime);
 
             //TODO LARA NN LA CANCELLO ANCORA
             //parte x il file dell utente 
@@ -155,7 +151,7 @@ namespace Microarea.Common.MenuLoader
 					"//Object[",
 					string.Format(MenuTranslatorStrings.translateTemplate, "target", targetAttribute.Value) + " and ",
 					string.Format(MenuTranslatorStrings.translateTemplate, "objectType", objectTypeAttribute.Value) + " ] "));
-
+                 
 				if (searchNode == null)
 					continue;
 
