@@ -1640,7 +1640,7 @@ namespace Microarea.Common.NameSolver
                 if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
                     exterminate = custApplicCompany;    // C:\Develop\Custom\Subscription\'CompanyName'\Applications
 
-                var custApplicESHome = GetEasyStudioCustomizationsPath();
+                var custApplicESHome = GetEasyStudioHomeApplicationsPath();
                 if (!string.IsNullOrEmpty(custApplicESHome) && fullPath.Contains(custApplicESHome))
                     exterminate = custApplicESHome;        // C:\Develop\Custom\Subscription\ESHome\Applications        
             }
@@ -1650,7 +1650,16 @@ namespace Microarea.Common.NameSolver
             var pathDifferences = fullPath.Replace(exterminate, string.Empty);        /*    \\newapp1\\newmod1\\....           */
             return (pathDifferences.Split('\\')[1], pathDifferences.Split('\\')[2]);
         }
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioHomeApplicationsPath(bool createDir = false)
+        {
+            string path = Path.Combine(GetEasyStudioHomePath(createDir), NameSolverStrings.Applications);
 
+            if (createDir)
+                CreateFolder(path, true);
+
+            return path;
+        }
         //-------------------------------------------------------------------------------------
         public void GetApplicationModuleNameFromPath(String sObjectFullPath, out String strApplication, out String strModule)
 		{
@@ -2738,17 +2747,6 @@ namespace Microarea.Common.NameSolver
 			return path;
 		}
 
-		//-----------------------------------------------------------------------------
-		public string GetEasyStudioHomeApplicationsPath(bool createDir = false)
-		{
-			string path = Path.Combine(GetEasyStudioHomePath(createDir), NameSolverStrings.Applications);
-
-			if (createDir)
-				CreateFolder(path, true);
-
-			return path;
-		}
-
 		//--------------------------------------------------------------------------------
 		public (string, string) GetCustomizationPath(INameSpace documentNamespace, string user, TBFile tbFile)
 		{
@@ -2804,12 +2802,6 @@ namespace Microarea.Common.NameSolver
 			return fileSystemManager.GetServerConnectionConfig();
 		}
 
-
-        //---------------------------------------------------------------------
-        public TBFile GetTBFile(string strCompleteFileName)
-        {
-            return fileSystemManager.GetTBFile(strCompleteFileName);
-        }
         //-----------------------------------------------------------------------------
         public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
 		{

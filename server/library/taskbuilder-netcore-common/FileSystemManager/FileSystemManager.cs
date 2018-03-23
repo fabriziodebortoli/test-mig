@@ -618,14 +618,7 @@ namespace Microarea.Common.FileSystemManager
                 return GetFileSystemDriver().GetAllModuleInfo(strAppName);
         }
 
-		//-----------------------------------------------------------------------------
-		public TBFile GetTBFile(string strCompleteFileName)
-		{
-			if (GetAlternativeDriver() != null)
-				return GetAlternativeDriver().GetTBFile(strCompleteFileName);
-			else
-				return GetFileSystemDriver().GetTBFile(strCompleteFileName);
-		}
+		
 	}
 }
 
