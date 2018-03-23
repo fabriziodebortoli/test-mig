@@ -106,13 +106,14 @@ namespace Microarea.TbJson
                 return;
             }
 
-            JObject jRoot = parser.Parse(standardFolder, tbJsonFile, true) as JObject;
-            if (jRoot == null)
+            JToken jToken = parser.Parse(standardFolder, tbJsonFile, true);
+            if (jToken == null)
             {
                 Console.Out.WriteLineAsync("Invalid json file: " + tbJsonFile);
                 return;
             }
-            if (jRoot.GetWndObjType() != WndObjType.Frame && jRoot.GetWndObjType() != WndObjType.Dialog)
+            JObject jRoot = jToken as JObject;
+            if (jRoot == null || (jRoot.GetWndObjType() != WndObjType.Frame && jRoot.GetWndObjType() != WndObjType.Dialog))
                 return;
             bool slave = jRoot.GetWndObjType() == WndObjType.Dialog;
             AdjustStructure(jRoot);

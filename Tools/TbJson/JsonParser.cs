@@ -417,8 +417,12 @@ namespace Microarea.TbJson
             if (ar == null)
                 return;
             ar.Remove(jRoot);
+            string activation = jRoot.GetFlatString(Constants.activation);
             foreach (JObject objExternal in jHref.Children<JObject>())
             {
+                if (!string.IsNullOrEmpty(activation) && objExternal[Constants.activation] == null)
+                    objExternal[Constants.activation] = activation;
+
                 ar.Add(objExternal);
 
             }
