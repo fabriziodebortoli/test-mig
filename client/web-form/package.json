@@ -8,8 +8,6 @@
         "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src --no-save",
-        "preinstallNO": "npm i ../reporting-studio/src",
-        "postinstallNO": "npm run link-core",
         "lint": "tslint \"src/**/*.ts\"",
         "test": "ng test",
         "pree2e": "webdriver-manager update",
