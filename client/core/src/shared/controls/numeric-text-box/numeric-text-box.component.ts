@@ -34,7 +34,7 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   public constraint: RegExp = new RegExp('\\d');
   showError = '';
   public selectedValue: number;
-
+  private stateButtonDisabled = false;
   // public formatOptionsCurrency: any = {
   //   style: 'currency',
   //   currency: 'EUR'/*,

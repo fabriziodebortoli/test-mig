@@ -47,7 +47,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     @Input() public itemSource: any;
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") dropdownlist: any;
-
+    private stateButtonDisabled = false;
     translateItemsCodes(itemsArray: Array<ComboData>): Array<ComboData> {
         itemsArray.forEach(element => {
             element.code = (+element.code + (65536 * +this.tag)).toString();

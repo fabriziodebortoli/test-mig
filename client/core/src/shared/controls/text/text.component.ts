@@ -25,7 +25,7 @@ export class TextComponent extends ControlComponent implements OnChanges, OnInit
   @Input('textLimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
   @Input('multiline') multiline: boolean = false;
-
+  private stateButtonDisabled = false;
   //public mask = '';
   //public maxLenght = 0;
 
