@@ -40,7 +40,6 @@ PageLayout "default"
 				"Description" Alias 2  /* w_Description */ Width 342 ;
 			End
 
-
 		Text (1046,27,1072,718) "{Page} / {Page Number}" 
 			Begin
 				Style "PageNumber" 

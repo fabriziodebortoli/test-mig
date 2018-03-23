@@ -298,6 +298,9 @@ namespace Microarea.RSWeb.Objects
                 
                 if (!h && AnchorRepeaterID > 0)
                 {
+                    if (HideExpr == null)
+                        Document.SynchronizeSymbolTable(RepeaterRow);
+
                     Repeater rep = Document.Objects.FindBaseObj(AnchorRepeaterID) as Repeater;
                     if (rep != null)
                         h = rep.CheckIsHidden;
