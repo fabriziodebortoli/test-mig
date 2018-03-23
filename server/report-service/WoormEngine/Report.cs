@@ -319,11 +319,11 @@ namespace Microarea.RSWeb.WoormEngine
 
         //unparsa gli eventuali parametri out di report in stringa xml nella ReportSession
         //---------------------------------------------------------------------------
-        public  void UnparseOutParametersToReportSession()
+        public  bool UnparseOutParametersToReportSession()
         {
             //se non ci sono parametri, vuol dire che non ce n'erano nemmeno in out
             if (reportSession.ReportParameters == null || reportSession.ReportParameters.Length == 0)
-                return;
+                return false;
             
             //cerco gli eventuali parametri  in out
             ParametersList outParameters = new ParametersList();
@@ -337,13 +337,14 @@ namespace Microarea.RSWeb.WoormEngine
 
             if (outParameters.Count == 0)
             {
-                return;
+                return false;
             }
 
             XmlDocument outParamsDoc = new XmlDocument();
             outParamsDoc.AppendChild(outParamsDoc.CreateElement(WebMethodsXML.Element.Arguments));
             outParameters.Unparse(outParamsDoc.DocumentElement);
             ReportSession.ReportParameters = outParamsDoc.OuterXml;
+            return true;
         }
 
         //---------------------------------------------------------------------------
