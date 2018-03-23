@@ -22,11 +22,6 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
     padding: 10px 0px 10px 15px;
 }
 
-.sidenav-subtitle {
-    h4 {
-        color:  $text-medium;
-    }
-}
 /* COLORS */
 
 .default {
@@ -240,6 +235,11 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
                         border: none;
                     }
                 }
+        }
+    }
+    .sidenav-subtitle {
+        h4 {
+            color: $bkg-light;
         }
     }
 }
