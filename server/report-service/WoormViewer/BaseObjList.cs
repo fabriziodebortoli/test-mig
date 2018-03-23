@@ -152,9 +152,9 @@ namespace Microarea.RSWeb.WoormViewer
                 if (array && item.AnchorRepeaterID != 0)
                     continue;   //li emette il repeater 
 
-                if (!template && item.HideExpr != null && item.DynamicIsHidden)
+                if (!template && (item.HideExpr != null||item.AnchorRepeaterID != 0) && item.DynamicIsHidden)
                 {
-                    item.ToJsonHiddenData(true);
+                    s += item.ToJsonHiddenData(true);
                     continue;
                 }
 

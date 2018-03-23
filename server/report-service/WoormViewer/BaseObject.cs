@@ -2532,8 +2532,8 @@ namespace Microarea.RSWeb.Objects
             if (this.LabelTextColorExpr != null || this.LabelTextExpr != null)
                 s +=
                     "\"label\":{" +
-                        (this.LabelTextExpr != null ? this.DynamicLabelLocalizedText.ToJson("caption", false, true) + "," : "") +
-                        (this.LabelTextColorExpr != null ? this.DynamicLabelTextColor.ToJson("textcolor") : "") +
+                        (this.LabelTextExpr != null ? this.DynamicLabelLocalizedText.ToJson("caption", false, true) : "") +
+                        (this.LabelTextColorExpr != null ? (this.LabelTextExpr != null ? ", " : "") + this.DynamicLabelTextColor.ToJson("textcolor") : "") +
                     "},";
 
             s +=

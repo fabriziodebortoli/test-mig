@@ -211,6 +211,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
+          const h = element.fieldrect.baserect.baseobj.hidden;
+          if (h !== undefined && h !== obj.hidden){
+            obj.hidden = h;
+        }
           if (element.fieldrect.label !== undefined) {
             obj.label.caption = element.fieldrect.label.caption;
             if (element.fieldrect.label.textcolor !== undefined) {
@@ -237,6 +241,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
+          const h = element.textrect.baserect.baseobj.hidden;
+          if (h !== undefined && h !== obj.hidden){
+            obj.hidden = h;
+        }
           if (element.textrect.value !== undefined) {
             obj.value = element.textrect.value;
           }
