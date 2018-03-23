@@ -41,8 +41,15 @@ namespace ErpService.Controllers
                              mediaType: "application/json");
 
                 var response = await _httpClient.PostAsync(url, stringdata);
-                var content = await response.Content.ReadAsStringAsync();
-                return new ContentResult { Content = content, ContentType = "application/json" };
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return new ContentResult { Content = content, ContentType = "application/json" };
+                }
+                else
+                {
+                    return new JsonResult ( new { StatusCode = response.StatusCode.ToString(), ok = false, found ="" });
+                }
             }
         }
 

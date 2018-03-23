@@ -59,16 +59,15 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
         .pipe(untilDestroy(this))
         .subscribe(this.onSelectorChanged);
     }
-    else
-    {
-      console.log("Missing selector in " + this.cmpId );
+    else {
+      console.log("Missing selector in " + this.cmpId);
       //this.cc.errorMessage = 'Missing selector';
     }
 
     this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
     this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
     this.isMasterRO = this.activationService.isActivated('ERP', 'MasterData_RO');
-    this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');    
+    this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
   }
 
   public openMessageDialog(message: string): Promise<any> {
@@ -103,10 +102,10 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
     if (this.isTaxIdField(this.model.value, false))
       this.cc.contextMenu.push(this.menuItemITCheck);
 
-    if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, false))
+    if (this.isMasterRO && this.isoCode === 'RO' && !this.naturalPerson && this.isTaxIdField(this.model.value, true))
       this.cc.contextMenu.push(this.menuItemROCheck);
 
-    if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, false))
+    if (this.isEuropeanUnion && this.isTaxIdField(this.model.value, true))
       this.cc.contextMenu.push(this.menuItemEUCheck);
 
     if (this.isMasterBR && this.isoCode === 'BR')
@@ -155,12 +154,15 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
 
     try {
       let r = await this.httpCore.checkVatRO(this.model.value, today).toPromise();
-      let found = r.json().found;
-      if (found.length) {
+      let result = r.json();
+      if (result.found.length) {
         this.cc.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
-        this.fillFields(found);
+        this.fillFields(result.found);
       } else {
-        this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
+        if (!result.ok)
+          this.cc.errorMessage = result.statusCode;
+        else
+          this.cc.errorMessage = this._TB('INVALID: Incorrect Tax code or fiscal code.');
       }
     } catch (exc) {
       this.cc.errorMessage = exc;
@@ -172,6 +174,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
     let stato = await this.getStato();
 
     let r = await this.httpCore.checkVatEU(stato, this.model.value).toPromise();
+    
     if (r.json().isValid)
       this.cc.errorMessage = this._TB('VALID: The Tax code or Fiscal code is correct.');
     else
@@ -179,6 +182,16 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
 
     this.changeDetectorRef.detectChanges();
   }
+
+  // async prova()
+  // {
+  //   let p = new URLSearchParams();
+  //   p.set('filter', 'OLT');
+  //   p.set('ISOcode', 'RO');
+  //   p.set('disabled', '0');
+
+  //   let data = await this.dataService.getData('ERP.Company.Dbl.CountiesQuery', 'direct', p).take(1).toPromise();
+  // }
 
   async fillFields(result: any) {
     let slice = await this.store.select(this.selector).take(1).toPromise();
@@ -188,11 +201,17 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
 
       let reg = /(MUN.\s+|MUNICIPUL\s+|MUNICIPIUL\s+|JUD.\s+|JUDETUL\s+|)/g;
       let splitAddress = (<string>result[0].adresa).replace(reg, '').split(',');
+      let description = splitAddress[0];
 
-      let data = await this.dataService.getData('DataFile.ERP.Company.County', 'code', new URLSearchParams()).take(1).toPromise();
+      let p = new URLSearchParams();
+      p.set('filter', description);
+      p.set('ISOcode', this.isoCode);
+      p.set('disabled', '0');
+
+      let data = await this.dataService.getData('ERP.Company.Dbl.CountiesQuery', 'direct', p).take(1).toPromise();
       let county: any;
       if (data !== undefined) {
-        county = data.rows.find(x => x.Description === splitAddress[0]);
+        county = data.rows[0].MA_Counties_County;
       }
 
       if (county === undefined)
