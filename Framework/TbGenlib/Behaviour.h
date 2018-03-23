@@ -170,6 +170,8 @@ public:
 
 	CArray<IBehaviourService*>&		GetServices();
 	CArray<IBehaviourConsumer*>&	GetConsumers();
+	
+	void Dispose();
 
 private:
 	void UpdateBehavioursClient();

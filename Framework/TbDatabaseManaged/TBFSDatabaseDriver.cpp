@@ -509,7 +509,11 @@ BOOL TBFSDatabaseDriver::SaveBinaryFile(const CString& strPathFileName, BYTE* pB
 	pTBFile->m_FileSize = nLen;
 	AfxGetPathFinder()->GetApplicationModuleNameFromPath(strTBFSFileName, pTBFile->m_strAppName, pTBFile->m_strModuleName);
 	if (pTBFile->m_bIsCustomPath = AfxGetPathFinder()->IsCustomPath(strTBFSFileName))
+	{
 		pTBFile->m_strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strTBFSFileName);
+		if (pTBFile->m_strAccountName.IsEmpty())
+			pTBFile->m_strAccountName = szAllUserDirName;
+	}
 
 	BOOL bResult = SaveTBFile(pTBFile, TRUE);
 	delete pTBFile;
@@ -599,8 +603,10 @@ BOOL TBFSDatabaseDriver::SaveTextFile(const CString& strPathFileName, const CStr
 	pTBFile->m_FileSize = fileTextContent.GetLength();
 	AfxGetPathFinder()->GetApplicationModuleNameFromPath(strTBFSFileName, pTBFile->m_strAppName, pTBFile->m_strModuleName);
 	if (pTBFile->m_bIsCustomPath = AfxGetPathFinder()->IsCustomPath(strTBFSFileName))
-		pTBFile->m_strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strTBFSFileName);
-	
+	{	pTBFile->m_strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strTBFSFileName);
+		if (pTBFile->m_strAccountName.IsEmpty())
+			pTBFile->m_strAccountName = szAllUserDirName;
+	}
 	BOOL bResult = SaveTBFile(pTBFile, TRUE);
 	delete pTBFile;
 
@@ -1022,7 +1028,12 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 				parentID = -1;
 			parentID = GetFolder(pTBFile->m_strCompleteFileName, TRUE);
 			AfxGetPathFinder()->GetApplicationModuleNameFromPath(pTBFile->m_strCompleteFileName, strApplication, strModule);
-			strAccountName = AfxGetPathFinder()->GetUserNameFromPath(pTBFile->m_strCompleteFileName);
+			if (isCustom)
+			{
+				strAccountName = AfxGetPathFinder()->GetUserNameFromPath(pTBFile->m_strCompleteFileName);
+				if (strAccountName.IsEmpty())
+					strAccountName = szAllUserDirName;
+			}
 		}
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -1123,7 +1134,9 @@ TBFile* TBFSDatabaseDriver::GetTBFile(const CString& strPathFileName)
 		else
 		{
 			strRelativePath = GetRelativePath(strTBFSFileName, true);
-			CString strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strPathFileName);
+			CString strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strPathFileName); //restituisce empty per AllUsers
+			if (strAccountName.IsEmpty())
+				strAccountName = szAllUserDirName; //per simmetria con il file system
 			GetCustomTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\' AND AccountName = \'%s\'"), strRelativePath, strAccountName), &aMetadataArray);
 		}		
 	}
@@ -1155,7 +1168,11 @@ BOOL TBFSDatabaseDriver::CopyTBFile(TBFile* pTBOldFileInfo, const CString& strNe
 	{
 		AfxGetPathFinder()->GetApplicationModuleNameFromPath(strNewPath, pTBOldFileInfo->m_strAppName, pTBOldFileInfo->m_strModuleName);
 		if (pTBOldFileInfo->m_bIsCustomPath = AfxGetPathFinder()->IsCustomPath(strNewPath))
+		{
 			pTBOldFileInfo->m_strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strNewPath);
+			if (pTBOldFileInfo->m_strAccountName.IsEmpty())
+				pTBOldFileInfo->m_strAccountName = szAllUserDirName;
+		}
 	}
 	pTBOldFileInfo->m_strCompleteFileName = GetTBFSFileCompleteName(strNewName);
 	pTBOldFileInfo->m_strName = ::GetName(strNewPath);

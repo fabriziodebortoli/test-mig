@@ -85,7 +85,8 @@ public:
 
 
 public:
-	bool KeepOpen() const { return m_bKeepOpen; }
+	bool GetKeepOpen() const { return m_bKeepOpen; }
+	void SetKeepOpen(bool bSet) { m_bKeepOpen = bSet; }
 
 public:
 	void Open(bool stayOpen = false);

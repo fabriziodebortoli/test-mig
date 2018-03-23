@@ -209,7 +209,7 @@ void MSqlConnection::Open(bool keepOpen)
 		m_pSqlConnectionClient->mSqlConnection->Open();
 		SqlCommand^ command = gcnew SqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", m_pSqlConnectionClient->mSqlConnection);
 		command->ExecuteNonQuery();
-		m_bKeepOpen = keepOpen;
+		m_bKeepOpen = m_bKeepOpen || keepOpen;
 		delete command;
 	}
 	catch (SqlException^ e)
@@ -291,6 +291,7 @@ void MSqlConnection::Close()
 		}
 		m_pSqlConnectionClient->mSqlConnection->Close();
 	}
+	m_bKeepOpen = false;
 }
 
 
@@ -2160,7 +2161,7 @@ void MSqlCommand::ExecuteCommand(bool bPrepared /*= false*/)
 	
 	try
 	{	
-		m_lRecordCounts = 0;
+		m_lRecordCounts = -1;
 		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
 
 		if (m_pSqlConnection->m_pSqlTransactionClient)
@@ -2546,7 +2547,8 @@ void MSqlCommand::SetParametersValues()
 SqlLockManager::SqlLockManager()
 	:
 	m_pSqlConnection(NULL),
-	m_bOwnSqlConnection(false)
+	m_bOwnSqlConnection(false),
+	m_OldConnState(0)
 {
 }
 
@@ -2564,10 +2566,12 @@ SqlLockManager::~SqlLockManager()
 }
 
 //----------------------------------------------------------------------------------
-BOOL SqlLockManager::Init(MSqlConnection* pMSqlConnection, const CString& strUserName, const CString& strProcessName)
+BOOL SqlLockManager::Init(MSqlConnection* pMSqlConnection, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid)
 {
 	m_strAccountName = strUserName;
 	m_strProcessName = strProcessName;
+	m_strAuthenticationToken = strAuthenticationToken;
+	m_strProcessGuid = strProcessGuid;
 
 	m_pSqlConnection = pMSqlConnection;
 	m_bOwnSqlConnection = false;
@@ -2578,10 +2582,12 @@ BOOL SqlLockManager::Init(MSqlConnection* pMSqlConnection, const CString& strUse
 }
 
 //----------------------------------------------------------------------------------
-BOOL SqlLockManager::Init(const CString& strConnectionString, const CString& strUserName, const CString& strProcessName)
+BOOL SqlLockManager::Init(const CString& strConnectionString, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid)
 {
 	m_strAccountName = strUserName;
 	m_strProcessName = strProcessName;
+	m_strAuthenticationToken = strAuthenticationToken;
+	m_strProcessGuid = strProcessGuid;
 
 	m_pSqlConnection = new MSqlConnection();
 	m_pSqlConnection->SetConnectionString(strConnectionString);
@@ -2597,50 +2603,17 @@ BOOL SqlLockManager::Init(const CString& strConnectionString, const CString& str
 //----------------------------------------------------------------------------------
 void SqlLockManager::OpenConnection()
 {
-	if (!m_pSqlConnection->IsOpen())
-		m_pSqlConnection->Open();
+	m_OldConnState = m_pSqlConnection->GetConnectionState();
+	if ((ConnectionState)m_OldConnState == ConnectionState::Closed)
+		m_pSqlConnection->Open();	
 }
 
 //----------------------------------------------------------------------------------
 void SqlLockManager::CloseConnection()
 {
-
-	if (m_pSqlConnection->IsOpen() && !m_pSqlConnection->KeepOpen())
+	if (m_pSqlConnection->IsOpen() && (ConnectionState)m_OldConnState == ConnectionState::Closed && !m_pSqlConnection->GetKeepOpen())
 		m_pSqlConnection->Close();
 }
-
-//-----------------------------------------------------------------------
-LockEntry* SqlLockManager::ExtractLockEntry(const CString& strTableName, const CString& stLockKey, CString& strError)
-{
-	CString selectText = _T("SELECT * FROM TB_Locks WHERE TableName = '" + strTableName + "' AND LockKey = '" + stLockKey + "'");
-	SqlCommand^ selectCommand = gcnew SqlCommand(gcnew String(selectText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
-
-	SqlDataReader^ dataReader = nullptr;
-	LockEntry* lockEntry = nullptr;
-	try
-	{
-		dataReader = selectCommand->ExecuteReader();
-		if (dataReader->Read())
-		{
-			lockEntry = new LockEntry(stLockKey, (String^)dataReader["Context"]);
-			lockEntry->m_strLockUser = (String^)dataReader["AccountName"];
-			lockEntry->m_strLockApp = (String^)dataReader["ProcessName"];			
-		}
-	}
-	catch (SqlException^ e)
-	{
-		lockEntry = nullptr;
-		strError = e->Message;
-	}
-	finally
-	{
-		if (dataReader != nullptr && !dataReader->IsClosed)
-			dataReader->Close();
-		delete selectCommand;
-	}
-	return lockEntry;
-}
-
 
 /// <summary>
 /// Prenota un dato
@@ -2652,7 +2625,7 @@ LockEntry* SqlLockManager::ExtractLockEntry(const CString& strTableName, const C
 /// <param name="lockApp">in caso di record già in stato di lock restituisce l'applicazione che impegna il dato</param>
 /// <returns>true se il dato è stato prenotato con successo, false altrimenti</returns>
 //----------------------------------------------------------------------------------
-BOOL SqlLockManager::LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp)
+BOOL SqlLockManager::LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp, DataDate& lockerDate)
 {
 	bool result = true;
 	//per prima cosa verifico che non sia un lock già presente nella cache 
@@ -2666,18 +2639,43 @@ BOOL SqlLockManager::LockCurrent(const CString& strTableName, const CString& str
 		}
 		return result;
 	}
+	////performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
+	//CString fieldsValue = _T("\'" + strTableName + "\', '" + strLockKey + "\', \'" + m_strAccountName + "\', \'" + strContext + "\', \'" + m_strProcessName + "\'");
+	//CString insertText = _T("INSERT INTO TB_Locks (TableName, LockKey, AccountName, Context, ProcessName) VALUES " + "(" + fieldsValue + ")");
 
-	OpenConnection();
-
-	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString fieldsValue = _T("\'" + strTableName + "\', '" + strLockKey + "\', \'" + m_strAccountName + "\', \'" + strContext + "\', \'" + m_strProcessName + "\'");
-	CString insertText = _T("INSERT INTO TB_Locks (TableName, LockKey, AccountName, Context, ProcessName) VALUES " + "(" + fieldsValue + ")");
-
-	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(insertText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_lockcurrent", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 
 	try
-	{
+	{	
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@LockKey", gcnew String(strLockKey));
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		sqlCommand->Parameters->AddWithValue("@AccountName", gcnew String(m_strAccountName));
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		sqlCommand->Parameters->AddWithValue("@ProcessName", gcnew String(m_strProcessName));
+		sqlCommand->Parameters->AddWithValue("@ProcessGuid", gcnew String(m_strProcessGuid));
+
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Locked", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
+		param = sqlCommand->Parameters->Add("@LockerAccount", SqlDbType::VarChar, 128);
+		param->Direction = ParameterDirection::Output;
+		param = sqlCommand->Parameters->Add("@LockerProcess", SqlDbType::VarChar, 256);
+		param->Direction = ParameterDirection::Output;
+		param = sqlCommand->Parameters->Add("@LockerDate", SqlDbType::DateTime);
+		param->Direction = ParameterDirection::Output;
+
+		OpenConnection();
 		sqlCommand->ExecuteNonQuery();
+		result = (int)sqlCommand->Parameters["@Locked"]->Value == 1;
+		if (!result)
+		{
+			lockerUser = (String^)sqlCommand->Parameters["@LockerAccount"]->Value;
+			lockerApp = (String^)sqlCommand->Parameters["@LockerProcess"]->Value;
+			DateTime dateTime = (DateTime)sqlCommand->Parameters["@LockerDate"]->Value;
+			lockerDate.Assign(dateTime.Day, dateTime.Month, dateTime.Year, dateTime.Hour, dateTime.Minute, dateTime.Second);			
+		}
+		else
 		//ho effettuato il lock, ne faccio il cache
 		if (m_pCacheLocksEntries)
 			m_pCacheLocksEntries->AddLockEntry(strTableName, strLockKey, strContext);
@@ -2685,20 +2683,11 @@ BOOL SqlLockManager::LockCurrent(const CString& strTableName, const CString& str
 	}
 	catch (SqlException^ e)
 	{
-		result = false;
-		//il record è già locked
-		if (e->Number == 2627)
-		{
-			lockEntry = ExtractLockEntry(strTableName, strLockKey, m_strErrorMessage);
-			if (lockEntry)
-			{
-				lockerUser = CString(lockEntry->m_strLockKey);
-				lockerApp = CString(lockEntry->m_strLockApp);
-				delete lockEntry;
-			}
-		}
-		else
-			m_strErrorMessage = e->Message;
+		m_strErrorMessage = e->Message;
+	}
+	catch (Exception^ ex)
+	{
+		m_strErrorMessage = ex->Message;
 	}
 	finally
 	{
@@ -2727,15 +2716,30 @@ BOOL SqlLockManager::IsCurrentLocked(const CString& strTableName, const CString&
 		return !lockEntry->IsSameLock(strContext); //vuol dire che è locked da un altro contesto
 
 	bool result = false;
-	OpenConnection();
-	lockEntry = ExtractLockEntry(strTableName, strLockKey, m_strErrorMessage);
-	if (lockEntry)
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_iscurrentlocked", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	try
 	{
-		result = lockEntry->m_strContext != strContext;
-		delete lockEntry;
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@LockKey", gcnew String(strLockKey));
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Locked", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
+		OpenConnection();
+		sqlCommand->ExecuteNonQuery();
+		result = (int)sqlCommand->Parameters["@Locked"]->Value == 1;		
 	}
-	CloseConnection();
+	catch (SqlException^ e)
+	{
+		m_strErrorMessage = e->Message;
+	}
+	finally
+	{
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
 
+		CloseConnection();
+	}
 	return result;
 }
 
@@ -2755,15 +2759,31 @@ BOOL SqlLockManager::IsMyLock(const CString& strTableName, const CString& strLoc
 		return m_pCacheLocksEntries->ExistLockEntry(strTableName, strLockKey, strContext);
 
 	bool result = false;
-	OpenConnection();
-	LockEntry* lockEntry = ExtractLockEntry(strTableName, strLockKey, m_strErrorMessage);
-	if (lockEntry)
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_ismylock", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	try
 	{
-		result = lockEntry->m_strContext == strContext;
-		delete lockEntry;
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@LockKey", gcnew String(strLockKey));
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Locked", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
+		OpenConnection();
+		sqlCommand->ExecuteNonQuery();
+		result = (int)sqlCommand->Parameters["@Locked"]->Value == 1;
 	}
-	CloseConnection();
+	catch (SqlException^ e)
+	{
+		m_strErrorMessage = e->Message;
+	}
+	finally
+	{
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
 
+		CloseConnection();
+	}
 	return result;
 }
 
@@ -2777,24 +2797,58 @@ BOOL SqlLockManager::IsMyLock(const CString& strTableName, const CString& strLoc
 /// <param name="processName">Nome del processo che ha prenotato il dato</param>
 /// <returns>true se la funzione ha avuto successo</returns>
 //-----------------------------------------------------------------------
-BOOL SqlLockManager::GetLockInfo(const CString& strLockKey, const CString& strTableName, CString& lockerUser, CString& lockerApp)
+BOOL SqlLockManager::GetLockInfo(const CString& strLockKey, const CString& strTableName, CString& lockerUser, CString& lockerApp, DataDate& lockerDate)
 {
 	bool result = false;
 
 	//prima guardo nella cache
 	LockEntry* lockEntry = (m_pCacheLocksEntries) ? m_pCacheLocksEntries->GetLockEntry(strTableName, strLockKey) : NULL;
-	if (lockEntry == NULL)
-	{
-		//non è un dato in cache, leggo dalla tabella TB_Locks
-		OpenConnection();
-		lockEntry = ExtractLockEntry(strTableName, strLockKey, m_strErrorMessage);
-		CloseConnection();
-	}
-	if ((result = lockEntry != NULL))
+	if (lockEntry != NULL)
 	{
 		lockerUser = lockEntry->m_strLockKey;
 		lockerApp = lockEntry->m_strLockApp;
 		delete lockEntry;
+	}
+	
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_getlockinfo", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+
+	try
+	{
+		CString processGuid = _T(""); //@@TODO da valorizzare quando avro' il guid della singola istanza di TBLoader
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@LockKey", gcnew String(strLockKey));
+
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Result", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
+		param = sqlCommand->Parameters->Add("@LockerAccount", SqlDbType::VarChar, 128);
+		param->Direction = ParameterDirection::Output;
+		param = sqlCommand->Parameters->Add("@LockerProcess", SqlDbType::VarChar, 256);
+		param->Direction = ParameterDirection::Output;
+		param = sqlCommand->Parameters->Add("@LockerDate", SqlDbType::DateTime);
+		param->Direction = ParameterDirection::Output;
+
+		OpenConnection();
+		sqlCommand->ExecuteNonQuery();
+		result = (int)sqlCommand->Parameters["@Result"]->Value == 1;
+		if (result)
+		{
+			lockerUser = (String^)sqlCommand->Parameters["@LockerAccount"]->Value;
+			lockerApp = (String^)sqlCommand->Parameters["@LockerProcess"]->Value;
+			DateTime dateTime = (DateTime)sqlCommand->Parameters["@LockerDate"]->Value;
+			lockerDate.Assign(dateTime.Day, dateTime.Month, dateTime.Year, dateTime.Hour, dateTime.Minute, dateTime.Second);
+		}		
+	}
+	catch (SqlException^ e)
+	{
+		m_strErrorMessage = e->Message;
+	}
+	finally
+	{
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
+
+		CloseConnection();
 	}
 	return result;
 }
@@ -2810,30 +2864,33 @@ BOOL SqlLockManager::GetLockInfo(const CString& strLockKey, const CString& strTa
 //----------------------------------------------------------------------------------		
 BOOL SqlLockManager::UnlockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext)
 {
-	bool result = true;
-
-	//per prima tolgo la riga dalla tabella
-	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE TableName = \'" + strTableName + "\' AND LockKey = \'" + strLockKey + "\'" + " AND AccountName = \'" + m_strAccountName + "\'");
-	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(strDeleteText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
-
+	bool result = false;
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockcurrent", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@LockKey", gcnew String(strLockKey));
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Result", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
 		OpenConnection();
 		sqlCommand->ExecuteNonQuery();
-		//elimino l'entry dalla cache
-		if (m_pCacheLocksEntries)
+		result = (int)sqlCommand->Parameters["@Result"]->Value > 0;
+		//poi rimuovo la cache
+		if (result && m_pCacheLocksEntries)
 			m_pCacheLocksEntries->RemoveLockEntry(strTableName, strLockKey);
-
 	}
 	catch (SqlException^ e)
 	{
-		result = false;
 		m_strErrorMessage = e->Message;
 	}
 	finally
 	{
-		delete sqlCommand;
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
+
 		CloseConnection();
 	}
 	return result;
@@ -2846,29 +2903,31 @@ BOOL SqlLockManager::UnlockCurrent(const CString& strTableName, const CString& s
 //----------------------------------------------------------------------------------		
 BOOL SqlLockManager::UnlockAllTableContext(const CString& strTableName, const CString& strContext)
 {
-	bool result = true;
-	
-	//per prima tolgo le righe dalla tabella
-	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE TableName = \'" + strTableName + "\' AND Context = \'" + strContext + "\'" + " AND AccountName = \'" + m_strAccountName + "\'");
-	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(strDeleteText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
-	
+	bool result = false;
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockalltablecontext", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@TableName", gcnew String(strTableName));
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Result", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
 		OpenConnection();
 		sqlCommand->ExecuteNonQuery();
-		//poi rimuovo la cache
-		if (m_pCacheLocksEntries)
+		result = (int)sqlCommand->Parameters["@Result"]->Value > 0;
+		if (result && m_pCacheLocksEntries)
 			m_pCacheLocksEntries->RemoveEntriesForContext(strTableName, strContext);
 	}
 	catch (SqlException^ e)
 	{
-		result = false;
 		m_strErrorMessage = e->Message;
 	}
 	finally
 	{
-		delete sqlCommand;
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
+
 		CloseConnection();
 	}
 	return result;
@@ -2880,29 +2939,32 @@ BOOL SqlLockManager::UnlockAllTableContext(const CString& strTableName, const CS
 //----------------------------------------------------------------------------------		
 BOOL SqlLockManager::UnlockAllContext(const CString& strContext)
 {
-	bool result = true;
-
-	//per prima tolgo la riga dalla tabella
-	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE Context = \'" + strContext + "\'" + " AND AccountName = \'" + m_strAccountName + "\'");
-	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(strDeleteText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	bool result = false;
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockallcontext", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
-		OpenConnection(); 
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@Context", gcnew String(strContext));
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Result", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
+		OpenConnection();
 		sqlCommand->ExecuteNonQuery();
+		result = (int)sqlCommand->Parameters["@Result"]->Value > 0;
 		//dopo cancello la cache
-		if (m_pCacheLocksEntries)
+		if (result && m_pCacheLocksEntries)
 			m_pCacheLocksEntries->RemoveEntriesForContext(strContext);
 	}
 	catch (SqlException^ e)
 	{
-		result = false;
 		m_strErrorMessage = e->Message;
 	}
 	finally
 	{
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
+
 		CloseConnection();
-		delete sqlCommand;
 	}
 	return result;
 }
@@ -2913,30 +2975,31 @@ BOOL SqlLockManager::UnlockAllContext(const CString& strContext)
 //----------------------------------------------------------------------------------		
 BOOL SqlLockManager::UnlockAllForCurrentConnection()
 {
-	bool result = true;
-
-	//per prima tolgo la riga dalla tabella
-	//performance: costruisco secca la commandstring senza passare dai parametri e senza la string.Format
-	CString strDeleteText = _T("DELETE FROM TB_Locks WHERE AccountName = \'" + m_strAccountName + "\' AND ProcessName = \'" + m_strProcessName + "\'");
-	SqlCommand^ sqlCommand = gcnew SqlCommand(gcnew String(strDeleteText), m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	bool result = false;
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockallauthenticationtoken", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
+		sqlCommand->CommandType = CommandType::StoredProcedure;
+		sqlCommand->Parameters->AddWithValue("@AuthenticationToken", gcnew String(m_strAuthenticationToken));
+		SqlParameter^ param = sqlCommand->Parameters->Add("@Result", SqlDbType::Int);
+		param->Direction = ParameterDirection::ReturnValue;
 		OpenConnection();
 		sqlCommand->ExecuteNonQuery();
-		//dopo cancello la cache
-		if (m_pCacheLocksEntries)
+		result = (int)sqlCommand->Parameters["@Result"]->Value > 0;
+		//poi rimuovo la cache
+		if (result && m_pCacheLocksEntries)
 			m_pCacheLocksEntries->RemoveAll();
 	}
 	catch (SqlException^ e)
 	{
-		result = false;
 		m_strErrorMessage = e->Message;
 	}
 	finally
 	{
+		if (sqlCommand != nullptr)
+			delete sqlCommand;
+
 		CloseConnection();
-		delete sqlCommand;
 	}
 	return result;
-
 }

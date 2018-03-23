@@ -138,15 +138,22 @@ IBehaviourContext::IBehaviourContext ()
 //-----------------------------------------------------------------------------	
 IBehaviourContext::~IBehaviourContext ()
 {
+	Dispose();
+}
+
+//-----------------------------------------------------------------------------	
+void IBehaviourContext::Dispose()
+{
 	for (int i = m_Services.GetUpperBound(); i >= 0; i--)
 	{
 		CObject* pObject = dynamic_cast<CObject*>(m_Services.GetAt(i));
 		if (pObject)
 			delete pObject;
 	}
-	
+
 	m_Services.RemoveAll();
 }
+
 
 //-----------------------------------------------------------------------------	
 CRuntimeClass* IBehaviourContext::GetContextClass() const

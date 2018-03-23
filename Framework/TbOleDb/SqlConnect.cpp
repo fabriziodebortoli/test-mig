@@ -608,6 +608,7 @@ SqlConnection* SqlConnection::Clone()
 	pConnection->m_pCatalog = this->m_pCatalog;
 	pConnection->m_bValid = this->m_bValid;
 	pConnection->m_bTablesPresent = this->m_bTablesPresent;	
+	pConnection->GetDefaultSqlSession(); //faccio creare subito la SqlSession di Default così è sicuramente nella posizione 0
 	return pConnection;
 }
 
@@ -635,7 +636,7 @@ CLockManagerInterface* SqlConnection::GetLockManagerInterface()
 			AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
 		);
 
-		m_pLockManagerInterface->Init(this->GetDefaultSqlSession()->GetMSqlConnection());
+		m_pLockManagerInterface->Init(this->GetNewSqlSession()->GetMSqlConnection());
 	}
 	return m_pLockManagerInterface;
  }
@@ -687,7 +688,7 @@ SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext /*=NULL*/)
 
 	TRY
 	{
-		//pSession->Open();
+		pSession->GetMSqlConnection()->SetKeepOpen(m_bAlwaysConnected);
 		m_arSessionPool.Add(pSession);
 	}
 	CATCH(SqlException, e)	
@@ -725,7 +726,7 @@ BOOL SqlConnection::CanClose()
 	TB_LOCK_FOR_READ();
 	if (!m_bValid) return TRUE;
 
-	for (int nIdx = 0; nIdx < m_arSessionPool.GetUpperBound(); nIdx++) 	
+	for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++) 	
 		if (!m_arSessionPool.GetAt(nIdx)->CanClose())
 			return FALSE;
 
@@ -760,7 +761,11 @@ void SqlConnection::SetAlwaysConnected(bool bSet)
 	if (bSet)
 	{
 		if (m_nAlwaysConnectedRef == 0)
+		{
 			m_bAlwaysConnected = TRUE;
+			for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
+				m_arSessionPool.GetAt(nIdx)->GetMSqlConnection()->SetKeepOpen(true);
+		}
 		m_nAlwaysConnectedRef++;
 	}
 	else
@@ -769,8 +774,10 @@ void SqlConnection::SetAlwaysConnected(bool bSet)
 		m_nAlwaysConnectedRef = (m_nAlwaysConnectedRef > 0) ? m_nAlwaysConnectedRef - 1 : 0;
 		if (m_nAlwaysConnectedRef == 0)
 		{
-			m_bAlwaysConnected = FALSE;
+			m_bAlwaysConnected = FALSE;		
 			m_arSessionPool.ForceCloseSessions();
+			for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
+				m_arSessionPool.GetAt(nIdx)->GetMSqlConnection()->SetKeepOpen(false);
 		}
 	}
 }

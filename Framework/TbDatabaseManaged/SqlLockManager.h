@@ -71,6 +71,8 @@ public:
 class TB_EXPORT SqlLockManager
 {
 private:
+	CString						m_strAuthenticationToken;
+	CString						m_strProcessGuid;
 	CString						m_strAccountName;
 	CString						m_strCompanyConnectionString;
 	CString						m_strProcessName;
@@ -81,6 +83,8 @@ private:
 	//gestione cache
 	bool						m_bEnableLockCache;
 	CacheLocksEntries*			m_pCacheLocksEntries;
+
+	int							m_OldConnState;
 
 public:
 	SqlLockManager();
@@ -96,19 +100,18 @@ public:
 private:
 	void OpenConnection();
 	void CloseConnection();
-	LockEntry* ExtractLockEntry(const CString& strTableName, const CString& stLockKey, CString& strError);
 
 public:
-	BOOL	Init(MSqlConnection* pSqlConnection, const CString& strUserName, const CString& strProcessName);
-	BOOL	Init(const CString& strConnectionString, const CString& strUserName, const CString& strProcessName);
-	BOOL	LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp);
+	BOOL	Init(MSqlConnection* pSqlConnection, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid);
+	BOOL	Init(const CString& strConnectionString, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid);
+	BOOL	LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp, DataDate& lockerDate);
 	BOOL	UnlockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext);
 	BOOL	IsCurrentLocked(const CString& strTableName, const CString& strLockKey, const CString& strContext);
 	BOOL	IsMyLock(const CString& strTableName, const CString& strLockKey, const CString& strContext);
 	BOOL	UnlockAllForCurrentConnection();
 	BOOL	UnlockAllContext(const CString& strContext);
 	BOOL	UnlockAllTableContext(const CString& strTableName, const CString& strContext);
-	BOOL	GetLockInfo(const CString& strLockKey, const CString& strTableName, CString& lockerUser, CString& processName);
+	BOOL	GetLockInfo(const CString& strLockKey, const CString& strTableName, CString& lockerUser, CString& processName, DataDate& lockerDate);
 };
 
 

@@ -105,7 +105,7 @@ BOOL CLockManagerInterface::Init (const CString& strDBName)
 BOOL CLockManagerInterface::Init(MSqlConnection* pMSqlConnection)
 {
 	if (m_pTBLockManager)
-		return m_pTBLockManager->Init(pMSqlConnection, AfxGetLoginInfos()->m_strUserName, AfxGetLoginInfos()->m_strProcessName);
+		return m_pTBLockManager->Init(pMSqlConnection, AfxGetLoginInfos()->m_strUserName, AfxGetLoginInfos()->m_strProcessName, AfxGetAuthenticationToken(), _T(""));
 	
 	CFunctionDescription aFunctionDescription(_T("InitLock"));
 	InitFunction(aFunctionDescription);
@@ -167,7 +167,10 @@ BOOL CLockManagerInterface::LockCurrent(const CString& strCompanyDBName, const C
 	BOOL bResult = FALSE;
 	CString strLockUser, strLockApp;
 	if (m_pTBLockManager)
-		bResult = m_pTBLockManager->LockCurrent(strTableName, strLockKey, strAddress, strLockUser, strLockApp);
+	{
+		DataDate aLockerDate;
+		bResult = m_pTBLockManager->LockCurrent(strTableName, strLockKey, strAddress, strLockUser, strLockApp, aLockerDate);
+	}
 	else
 	{
 		CFunctionDescription aFunctionDescription(_T("LockRecordEx"));
@@ -357,8 +360,8 @@ BOOL CLockManagerInterface::GetLockInfo(const CString& strCompanyDBName, const C
 {
 	if (m_pTBLockManager)
 	{
-		CString strLockerUser, lockerApp;
-		BOOL bResult = (m_pTBLockManager->GetLockInfo(strTableName, strLockKey, strLockerUser, lockerApp));
+		CString strLockerUser, lockerApp;	
+		BOOL bResult = (m_pTBLockManager->GetLockInfo(strTableName, strLockKey, strLockerUser, lockerApp, lockTime));
 		if (bResult)
 		{
 			lockerUser.Assign(strLockerUser);
@@ -383,7 +386,7 @@ BOOL CLockManagerInterface::GetLockInfo(const CString& strCompanyDBName, const C
 	if (!InvokeWCFFunction(&aFunctionDescription, FALSE))
 	{
 		ASSERT(FALSE);
-		return DataDate::MAXVALUE;
+		return FALSE;
 	}
 
 	DataBool* pdbVal = (DataBool*)aFunctionDescription.GetReturnValue();
@@ -395,6 +398,7 @@ void CLockManagerInterface::InitializeLockSessionID()
 {
 	m_sLockSessionID = GetLockSessionID();
 }
+
 
 //----------------------------------------------------------------------------
 BOOL CLockManagerInterface::HasRestarted ()
@@ -409,10 +413,7 @@ BOOL CLockManagerInterface::HasRestarted ()
 const CString CLockManagerInterface::GetLockSessionID () const
 {
 	if (m_pTBLockManager)
-	{
-		ASSERT(FALSE);
-		return FALSE;
-	}
+		return m_sLockSessionID;
 
 	CFunctionDescription aFunctionDescription(_T("GetLockSessionID"));
 	InitFunction(aFunctionDescription);
@@ -435,7 +436,10 @@ BOOL CLockManagerInterface::LockDocument(const CString& strCompanyDBName, const 
 	BOOL bResult = FALSE;
 	CString strLockUser, strLockApp;
 	if (m_pTBLockManager)
-		bResult = m_pTBLockManager->LockCurrent(strDocumentNamespace, _T("LOCK"), strAddress, strLockUser, strLockApp);
+	{
+		DataDate aLockerDate;
+		bResult = m_pTBLockManager->LockCurrent(strDocumentNamespace, _T("LOCK"), strAddress, strLockUser, strLockApp, aLockerDate);
+	}
 	else
 	{
 		CFunctionDescription aFunctionDescription(_T("LockRecordEx"));
