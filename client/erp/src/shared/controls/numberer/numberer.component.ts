@@ -328,14 +328,18 @@ export class NumbererComponent extends ControlComponent {
             case FormMode.NEW:
             case FormMode.EDIT:
                 {
-                    let value = this.model.value;
+                    let value = this.textbox.input.nativeElement.value;
 
                     if (
                         value.trim() !== '' &&
                         isNumeric(value.substr(0, 1)) &&
                         !this.valueWasPadded
                     ) {
-                        this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
+                        if (this.eventData.model.FormMode.value == FormMode.FIND)
+                            this.textbox.input.nativeElement.value = this.maskToValue(this.splitMask(this.tbMask), value);
+                        else
+                            this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
+
                         this.valueWasPadded = true;
                     }
                 }
@@ -356,6 +360,9 @@ export class NumbererComponent extends ControlComponent {
 
         // this.model.value = value;
         switch (this.eventData.model.FormMode.value) {
+            case FormMode.FIND:
+                this.valueWasPadded = false;
+
             case FormMode.NEW:
             case FormMode.EDIT:
                 this.model.value = this.textbox.input.nativeElement.value.replace('_', ' ').trim();

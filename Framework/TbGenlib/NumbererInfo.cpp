@@ -207,7 +207,7 @@ void CNumbererRequest::GetJson(CJsonSerializer& jsonSerializer, CWnd* pWnd)
 {
 	// nell'entità mi sono appoggiata il control
 	jsonSerializer.OpenObject(m_nsEntity.ToUnparsedString());
-	jsonSerializer.WriteBool(_T("enableStateInEdit"), m_bDatabaseNumberingDisabled == TRUE ? true : false);
+	jsonSerializer.WriteBool(_T("enableStateInEdit"), m_bDatabaseNumberingDisabled == TRUE ? false : true);
 	jsonSerializer.WriteBool(_T("enableCtrlInEdit"), m_bEnableCtrlInEditMode == TRUE ? true : false);
 	jsonSerializer.WriteString(_T("formatMask"), m_FormatMask.GetMask());
 
