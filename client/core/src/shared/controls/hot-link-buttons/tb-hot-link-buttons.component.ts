@@ -6,7 +6,7 @@ import { LayoutService } from './../../../core/services/layout.service';
 import { StorageService } from './../../../core/services/storage.service';
 import { ComponentMediator } from './../../../core/services/component-mediator.service';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.services';
+import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HttpService } from './../../../core/services/http.service';
 
