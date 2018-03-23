@@ -217,20 +217,26 @@ namespace Microarea.Common.Hotlink
             {
                 foreach (ColumnType ct in columns)
                 {
-                    SymField field = null;
+                    Variable field = null;
                     if (!symbolTable.Contains(ct.columnName))
                     {
                         string t = ct.dataType;
+                        ushort tag = 0;
                         int idx = t.IndexOf('[');
                         if (idx > -1)
                         {
+                            int r = t.LastIndexOf(']');
+                            string stag = t.Mid(idx, r - idx);
+
+                            ushort.TryParse(stag, out tag);
+                            
                             t = t.Left(idx);
                         }
 
-                        field = new SymField(t, ct.columnName);
+                        field = new Variable(ct.columnName, 0, t, tag, null);
                         symbolTable.Add(field);
                     }
-                    else field = symbolTable.Find(ct.columnName) as SymField;
+                    else field = symbolTable.Find(ct.columnName) as Variable;
                     Debug.Assert(field != null);
                     if (field == null)
                         return false;
@@ -289,12 +295,12 @@ namespace Microarea.Common.Hotlink
 				return false;
 
 			string	sPrecAuditString	= string.Empty;
-			bool	bPrecAuditingState	= parser.DoAudit;
+			bool	bPrecAuditingState	= parser.EnableAudit;
 			
 			if (bPrecAuditingState) 
 				sPrecAuditString = parser.GetAuditString();
 			else
-				parser.DoAudit = true;
+				parser.EnableAudit = true;
 
 			if (!ParseInternal( ref parser))
 				return false;
@@ -318,7 +324,7 @@ namespace Microarea.Common.Hotlink
 			}
 			else
 			{
-				parser.DoAudit = false;
+				parser.EnableAudit = false;
 				if (!parser.ParseTag(Token.BRACECLOSE)) 
 					return false;
 			}
@@ -398,7 +404,7 @@ namespace Microarea.Common.Hotlink
 
 			string name	= string.Empty;
 			object pObj	= null;
-			SymField field	= null;
+			Variable field	= null;
   
 			Token token = parser.LookAhead();
 			switch (token)
@@ -424,7 +430,7 @@ namespace Microarea.Common.Hotlink
                             if (!DataTypeParser.Parse(parser, this.session.Enums, out aType, out woormType, out tag, out baseType))
                                 return false;
                         }
-                        field = new SymField(aType, name);
+                        field = new Variable(name, 0, aType, 0, null);
 
                         if (tag > 0 && woormType == "Enum")
                         {
@@ -435,7 +441,7 @@ namespace Microarea.Common.Hotlink
                         symbolTable.Add(field);
                     }
 
-					field = symbolTable.Find(name) as SymField;
+					field = symbolTable.Find(name) as Variable;
 					Debug.Assert(field != null);
 					if (field == null)
 						return false;
@@ -471,7 +477,7 @@ namespace Microarea.Common.Hotlink
 					if (!symbolTable.Contains(name)) 
 						return false;
 				
-					field = symbolTable.Find(name) as SymField;
+					field = symbolTable.Find(name) as Variable;
 					Debug.Assert(field != null);
 					if (field == null)
 						return false;
@@ -629,7 +635,7 @@ namespace Microarea.Common.Hotlink
 				if (!symbolTable.Contains(name)) 
 					return false;
 			
-				field = symbolTable.Find(name) as SymField;
+				field = symbolTable.Find(name) as Variable;
 				Debug.Assert(field != null);
 				if (field == null)
 					return false;
@@ -807,7 +813,7 @@ namespace Microarea.Common.Hotlink
 					    continue;
 				    }
 
-					SymField field = symbolTable.Find(tagLink.name) as SymField;
+					Variable field = symbolTable.Find(tagLink.name) as Variable;
 					Debug.Assert(field != null);
 					if (field == null) 
 						return false;
@@ -818,7 +824,7 @@ namespace Microarea.Common.Hotlink
 						return false;
 
 					Parser parser = new Parser(Parser.SourceType.FromString);
-					parser.DoAudit = true;
+					parser.EnableAudit = true;
 					if (!parser.Open(inc))
 						return false;
 					tagLink.expandClause = new QueryObject(string.Empty, symbolTable, session, parentQuery != null ? parentQuery : this);
@@ -905,7 +911,7 @@ namespace Microarea.Common.Hotlink
 				if (tagLink.direction == TagType.OUT) 
 					continue;
 
-				SymField field = symbolTable.Find(tagLink.name) as SymField;
+				Variable field = symbolTable.Find(tagLink.name) as Variable;
                 tbParameter.Value = CoreTypes.ObjectHelper.CastToDBData(field.Data);
 			}
 			return true;	
@@ -975,7 +981,7 @@ namespace Microarea.Common.Hotlink
 					tagLink.direction != TagType.REF
 					) continue;
 	
-				SymField field = symbolTable.Find(tagLink.name) as SymField;
+				Variable field = symbolTable.Find(tagLink.name) as Variable;
 
                 //if (this.ValorizeAll)
                 //    field.ClearAllData();
@@ -1019,7 +1025,7 @@ namespace Microarea.Common.Hotlink
 					tagLink.direction != TagType.REF
 					) continue;
 	
-				SymField field = symbolTable.Find(tagLink.name) as SymField;
+				Variable field = symbolTable.Find(tagLink.name) as Variable;
                 if (field == null)
                 {
                     Debug.Fail("Unknown column: " + tagLink.name);
@@ -1057,14 +1063,14 @@ namespace Microarea.Common.Hotlink
                 else if (this.ValorizeAll)
                     field.SetAllData(data, true);
                 else 
-                    field.Data = data;  //set Field/SymField current level data
+                    field.Data = data;  //set Field/Variable current level data
 
             }
 			return true;
 		}
 
         //------------------------------------------------------------------------------
-        public void EnumColumns(List<SymField> columns)
+        public void EnumColumns(List<Variable> columns)
         {
             for (int i = 0; i < tagLinkArrayList.Count; i++)
             {
@@ -1085,7 +1091,7 @@ namespace Microarea.Common.Hotlink
                 if (tagLink.direction != TagType.COL) 
                     continue;
 
-                SymField field = symbolTable.Find(tagLink.name) as SymField;
+                Variable field = symbolTable.Find(tagLink.name) as Variable;
                 columns.Add(field);
             }
          }

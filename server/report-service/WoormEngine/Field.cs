@@ -21,7 +21,7 @@ namespace Microarea.RSWeb.WoormEngine
 	/// </summary>
 	//============================================================================
 	//[Serializable]
-	public class Field : SymField
+	public class Field : Variable, IDisposable
 	{
 		const string DATA = "data";
 		const string DATATYPE = "dataType";
@@ -367,7 +367,7 @@ namespace Microarea.RSWeb.WoormEngine
         }
 
         //----------------------------------------------------------------------------
-        override public void Dispose()
+        virtual public void Dispose()
         {
             if (this.fwf != null)
             {
@@ -1494,4 +1494,11 @@ namespace Microarea.RSWeb.WoormEngine
                 unparser.Write(" /* " + Session.Enums.TagName(EnumTag) + " */ ");
 		}
 	}
+
+    //=============================================================================
+    public class FieldException : Exception
+    {
+        public FieldException(string message) : base(message) { }
+        public FieldException(string message, Exception inner) : base(message, inner) { }
+    }
 }

@@ -282,7 +282,7 @@ namespace Microarea.RSWeb.WoormViewer
                                     if (reader.MoveToAttribute(RdeWriterTokens.Attribute.IsColumn))
                                         strIsColumn = reader.Value;
 
-                                    Variable v = new Variable(name, data, ushort.Parse(id));
+                                    Variable v = new Variable(name, ushort.Parse(id), null, 0, data);
                                     v.WoormType = woormType;
                                     v.BaseType = baseType;
 

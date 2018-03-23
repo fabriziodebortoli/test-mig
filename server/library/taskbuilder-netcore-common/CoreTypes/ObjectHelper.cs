@@ -875,7 +875,7 @@ namespace Microarea.Common.CoreTypes
 		}
 
 		//-----------------------------------------------------------------------------
-		public static object CastFromDBData(object from, object to, SymField field = null)
+		public static object CastFromDBData(object from, object to, Variable field = null)
 		{
 			if (from is System.DBNull)
 			{

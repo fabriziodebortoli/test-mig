@@ -11,6 +11,8 @@ using Microarea.Common.CoreTypes;
 using Microarea.Common.DiagnosticManager;
 using Microarea.Common.Lexan;
 using System.Collections.Generic;
+using Microarea.Common.Generic;
+
 //using Microarea.Common.Temp;
 
 namespace Microarea.Common.Lexan
@@ -277,9 +279,14 @@ namespace Microarea.Common.Lexan
 		// audit trailing strings function....
 		// quando si attiva l'auditing viene conservato tutto ciò che si parsa che può essere ritornato come stringa
 		//------------------------------------------------------------------------------
-		public bool		DoAudit						            { get { return parserState.parserBuffer.DoAudit; } set { parserState.parserBuffer.DoAudit = value; }}
+		public bool		EnableAudit						        { get { return parserState.parserBuffer.DoAudit; } set { parserState.parserBuffer.DoAudit = value; }}
 		public string	GetAuditString	(bool reset = true)	    { return parserState.parserBuffer.GetAuditString(reset); }
-		public void	    SetAuditString  (string sa)				{ parserState.parserBuffer.AuditString.Append(sa); }
+		public void	    SetAuditString  (string sa)				
+        {
+            if (!EnableAudit)
+                return;
+            parserState.parserBuffer.AuditString.Append(sa); 
+        }
 
 		// Utility per gestire i numeri con il corretto Parse...
 		//------------------------------------------------------------------------------
@@ -769,8 +776,63 @@ namespace Microarea.Common.Lexan
 			return !Error;
 		}
 
-		//---------------------------------------------------------------------------------------------------
-		public bool LookAhead (Token[] tokens)
+        //--------------------------------------------------------------------------------
+        public bool SkipToToken2(Token token, bool skipToken, bool skipInnerBlock)
+        {
+            return SkipToToken2(new Token[] { token }, skipToken, skipInnerBlock);
+        }
+
+        public bool SkipToToken2(Token[] tokens, bool bConsumeIt, bool skipInnerCouple)
+        {
+            int i = 0;
+            while (!LookAhead(Token.EOF) && !Error)
+            {
+                Token tk = LookAhead();
+
+                if (skipInnerCouple)
+                {
+                    switch (tk)
+                    {
+                        case Token.BEGIN:
+                            if (!SkipBlock(Token.BEGIN, Token.END))
+                                return false;
+                            continue;
+                            break;
+                        case Token.ROUNDOPEN:
+                            if (!SkipBlock(Token.ROUNDOPEN, Token.ROUNDCLOSE))
+                                return false;
+                            continue;
+                            break;
+                        case Token.SQUAREOPEN:
+                            if (!SkipBlock(Token.SQUAREOPEN, Token.SQUARECLOSE))
+                                return false;
+                            continue;
+                            break;
+                        case Token.BRACEOPEN:
+                            if (!SkipBlock(Token.BRACEOPEN, Token.BRACECLOSE))
+                                return false;
+                            continue;
+                            break;
+                    }
+                }
+
+                for (i = 0; i < tokens.Length; i++)
+                {
+                    if (tk == tokens[i])
+                    {
+                        if (bConsumeIt)
+                            SkipToken();
+                        return true;
+                    }
+                }
+
+                SkipToken();
+            }
+            return !Error;
+        }
+
+        //---------------------------------------------------------------------------------------------------
+        public bool LookAhead (Token[] tokens)
 		{
 			foreach (Token t in tokens) 
 				if (LookAhead() == t) 
@@ -1321,14 +1383,110 @@ namespace Microarea.Common.Lexan
 
 			return ok;
 		}
+        //------------------------------------------------------------------------------
 
-		#region IDisposable Members
-
-		public void Dispose()
+        public void Dispose()
 		{
 			Close();
 		}
+        
+        //------------------------------------------------------------------------------
+        public bool ParseInnerContent(Token begin, Token end, out string content)
+        {
+            content = string.Empty;
 
-		#endregion
-	}
+            if (!ParseTag(begin))
+                return false;
+
+            string sOldAudit = string.Empty;
+            bool bAudit = EnableAudit; 
+            if (bAudit)
+                sOldAudit = GetAuditString();
+
+            EnableAudit = true;
+
+            if (!SkipToToken2(end, false, true))
+                return false;
+
+            content = GetAuditString();
+            if (bAudit) 
+                sOldAudit += content;
+
+            content.Trim();
+
+            EnableAudit = bAudit;
+            if (bAudit) 
+                SetAuditString(sOldAudit);
+
+            if (!ParseTag(end))
+                return false;
+
+            return !Error;
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool ParseBracedContent(out string content)
+        {
+            if (!ParseInnerContent(Token.BRACEOPEN, Token.BRACECLOSE, out content))
+                return false;
+            content = content.StripBlankNearSquareBrackets();
+            return true;
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool ParseSquaredIdent(out string ident)
+        {
+            ident = string.Empty;
+            if (LookAhead(Token.SQUAREOPEN))
+            {
+                if (!ParseInnerContent(Token.SQUAREOPEN, Token.SQUARECLOSE, out ident))
+                    return false;
+                ident = '[' + ident + ']';
+            }
+            else if (!ParseID(out ident))
+                return false;
+
+            return true;
+        }
+
+        public bool ParseSquaredCoupleIdent(out string name)
+        {
+            name = string.Empty;
+            if (LookAhead(Token.SQUAREOPEN))
+            {
+                if (!ParseSquaredIdent(out name))
+                    return false;
+
+                //if (LookAhead() && GetCurrentStringToken() == L"." && SkipToken())
+                if (Matched(Token.DOUBLE))
+                {
+                    string sCol = string.Empty;
+                    if (LookAhead(Token.SQUAREOPEN))
+                    {
+                        if (!ParseSquaredIdent(out sCol))
+                            return false;
+                    }
+                    else if (!ParseID(out sCol))
+                    {
+                        return false;
+                    }
+                    name += '.' + sCol;
+                }
+            }
+            else
+            {
+                if (!ParseID(out name))
+                    return false;
+
+                if (name[name.Length - 1] == '.')
+                {
+                    string sCol = string.Empty;
+                    if (!ParseSquaredIdent(out sCol))
+                        return false;
+                    name += sCol;
+                }
+            }
+            return true;
+        }
+    }
 }

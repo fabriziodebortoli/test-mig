@@ -760,7 +760,7 @@ namespace Microarea.RSWeb.WoormViewer
 				{
 					StringBuilder sb = new StringBuilder();
 					Parser lex = new Parser(Parser.SourceType.FromFile);
-					lex.DoAudit = true;
+					lex.EnableAudit = true;
 					if (lex.Open(Filename))
 					{
 						while (!lex.Eof && lex.LookAhead() != Token.REPORT)

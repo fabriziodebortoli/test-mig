@@ -1942,7 +1942,6 @@ BOOL DataTableRule::Parse(Parser& parser)
 	do
 	{
 		BOOL bNativeColumnExpr = FALSE;
-
 		if (parser.LookAhead(T_BRACEOPEN))
 		{
 			if (!parser.ParseBracedContent(strPhysicalName))

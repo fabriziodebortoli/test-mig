@@ -24,30 +24,30 @@ using System.Threading;
 
 namespace Microarea.Common.ExpressionManager
 {
-	public enum CheckResultType { Compatible, Match, Ignore }
+    public enum CheckResultType { Compatible, Match, Ignore }
 
-	/// <summary>
-	/// Summary description for Expression.
-	/// </summary>
-	///=============================================================================
-	public class Expression
-	{
-		private const string barCodeEncoderChars = "@@";
+    /// <summary>
+    /// Summary description for Expression.
+    /// </summary>
+    ///=============================================================================
+    public class Expression
+    {
+        private const string barCodeEncoderChars = "@@";
 
-		protected Parser parser;
-		protected string auditExpr = string.Empty;
-		protected Stack<Item> expressionStack = new Stack<Item>();
+        protected Parser parser;
+        protected string auditExpr = string.Empty;
+        protected Stack<Item> expressionStack = new Stack<Item>();
 
-		protected Diagnostic diagnostic = new Diagnostic("Expression");
-		protected StopTokens stopTokens = null;
-		protected string resultType = null;
+        protected Diagnostic diagnostic = new Diagnostic("Expression");
+        protected StopTokens stopTokens = null;
+        protected string resultType = null;
 
-		protected SymbolTable symbolTable = null;
-		protected TbSession tbSession;
+        protected SymbolTable symbolTable = null;
+        protected TbSession tbSession;
 
-		public bool ForceSkipTypeChecking = false;
+        public bool ForceSkipTypeChecking = false;
 
-		public bool HasRuleFields = false;
+        public bool HasRuleFields = false;
 
         //aggiunte espressioni per allinearsi con la versione gdi
         public bool hasField = false;
@@ -59,6 +59,7 @@ namespace Microarea.Common.ExpressionManager
 
         public bool vrbCompiled = false;
 
+        public virtual bool IsWClause { get { return false; } }
 
 		//-----------------------------------------------------------------------------
 		public Expression Clone()
@@ -1140,29 +1141,29 @@ namespace Microarea.Common.ExpressionManager
 			expressionStack.Clear();
 
 			string preExprAudit = string.Empty;
-			bool currDoAudit = aParser.DoAudit;
+			bool currDoAudit = aParser.EnableAudit;
 			if (currDoAudit)
 				preExprAudit = aParser.GetAuditString();
 			else
-				aParser.DoAudit = true;
+				aParser.EnableAudit = true;
 
 			// creo la struttura postfissa all'interno dello stack di espressione
 			ExpressionParser expParser = CreateParser();
+
 			ok = expParser.Parse(parser, expressionStack);
-			this.HasRuleFields = expParser.HasRuleFields;
-            this.hasField = expParser.hasField;
-            this.hasAskFields = expParser.hasAskFields;
-            this.hasInputFields = expParser.hasInputFields;
+			    this.HasRuleFields = expParser.HasRuleFields;
+                this.hasField = expParser.hasField;
+                this.hasAskFields = expParser.hasAskFields;
+                this.hasInputFields = expParser.hasInputFields;
+                this.vrbCompiled = expParser.vrbCompiled;
+                this.auditExpr = aParser.GetAuditString();
+                    this.auditExpr.TrimEnd();
+                    this.auditExpr.StripBlankNearSquareBrackets();
 
-            this.vrbCompiled = expParser.vrbCompiled;
-
-
-
-            this.auditExpr = aParser.GetAuditString();
-			if (currDoAudit)
+            if (currDoAudit)
 				aParser.SetAuditString(preExprAudit.IsNullOrEmpty() ? this.auditExpr : preExprAudit + ' ' + this.auditExpr);
 			else
-				aParser.DoAudit = false;
+				aParser.EnableAudit = false;
 
 			// lo stack non può essere vuoto altrimenti avrei una espressione vuota da analizzare
 			if (ok && expressionStack.Count == 0)
@@ -1219,7 +1220,9 @@ namespace Microarea.Common.ExpressionManager
 		//-----------------------------------------------------------------------------
 		protected virtual ExpressionParser CreateParser()
 		{
-			return new ExpressionParser(tbSession, symbolTable, stopTokens);
+            ExpressionParser p = new ExpressionParser(tbSession, symbolTable, stopTokens);
+            p.IsWClause = this.IsWClause;
+            return p;
 		}
 
 		// Determina se l'espressione parsata e` anche valutabile correttamente
@@ -1356,7 +1359,7 @@ namespace Microarea.Common.ExpressionManager
 				)
 			{
 				string tmpName = Guid.NewGuid().ToString();     //nome della variabile temporanea da usare come oggetto per la chiamata
-				Variable v = new Variable(tmpName, res.Data);   //aggiungo il valore di ritorno della funzione precedente nella symboltable
+				Variable v = new Variable(tmpName, 0, string.Empty, 0, res.Data);   //aggiungo il valore di ritorno della funzione precedente nella symboltable
 				symbolTable.Add(v);
 
 				Debug.Assert(f.ObjectName == "");
@@ -2996,7 +2999,14 @@ namespace Microarea.Common.ExpressionManager
 					}
 				case Token.GETTITLE:
 					{
-						paramStack.Pop();
+                        //TODO RSWEB
+						Item it = paramStack.Pop();
+                        if (it is Value)
+                        { 
+                        }
+                        else if (it is Variable)
+                        {
+                        }
 						return new Value("");
 					}
 				case Token.GETTHREADCONTEXT:
@@ -3717,7 +3727,32 @@ namespace Microarea.Common.ExpressionManager
 						return new Value((new DateTime(year, 1, 1)).EasterSunday());
 					}
 
-				case Token.FormatTbLink:
+                case Token.PrevValue:
+                    {
+                        Variable f = paramStack.Pop() as Variable;
+                        if (f != null && this.SymbolTable != null)
+                        {
+                            //TODO RSWEB
+                            //int lev = SymbolTable.DataLevel;
+                            //return new Value(f.GetData(min(2, lev + 1)));
+                        }
+                        //else TODO notifica errore
+                        break;
+                    }
+                case Token.NextValue:
+                    {
+                        Variable f = paramStack.Pop() as Variable;
+                        if (f != null && this.SymbolTable != null)
+                        {
+                            //TODO RSWEB
+                            //int lev = SymbolTable.DataLevel;
+                            //return new Value(f.GetData(max(0, lev - 1)));
+                        }
+                        //else TODO notifica errore
+                        break;
+                    }
+
+                case Token.FormatTbLink:
 					{
 						paramStack.Pop();
 						paramStack.Pop();
@@ -4448,7 +4483,10 @@ namespace Microarea.Common.ExpressionManager
 									returnType = ((DataArray)(di.Data)).BaseType;
 								}
 							}
-							else if (tkFun == Token.MIN || tkFun == Token.MAX)
+							else if (
+                                        tkFun == Token.MIN || tkFun == Token.MAX ||
+                                        tkFun == Token.PrevValue || tkFun == Token.NextValue
+                                    )
 							{
 								returnType = di.Data.GetType().Name;
 							}

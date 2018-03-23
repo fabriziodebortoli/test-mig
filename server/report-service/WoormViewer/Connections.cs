@@ -813,7 +813,7 @@ namespace Microarea.RSWeb.WoormViewer
                 lex.ParseEnd();
 
             //---- TODO
-            lex.DoAudit = true;
+            lex.EnableAudit = true;
 
             if (lex.Matched(Token.CONTEXT))
             {

@@ -10,13 +10,16 @@ using System.Runtime.Serialization;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces.Model;
 using TaskBuilderNetCore.Interfaces;
+using Microarea.Common.Hotlink;
 
 namespace Microarea.Common.CoreTypes
 {
-	/// <summary>
-	/// Summary description for Item.
-	/// </summary>
-	public class Item //: ICloneable
+    public enum DataLevel { Rules, GroupBy, Events }
+
+    /// <summary>
+    /// Summary description for Item.
+    /// </summary>
+    public class Item //: ICloneable
 	{
 		//-----------------------------------------------------------------------------
 		public Item () {  }
@@ -94,21 +97,23 @@ namespace Microarea.Common.CoreTypes
 
 	// anche internamente deve essere usata la proerty perchè è virtuale
 	//============================================================================
-	[Serializable]
-	[KnownType(typeof(DataEnum))]
-	public class Variable : DataItem, IComparable, ISerializable
+	public class Variable : DataItem, IComparable
 	{
-		const string ID = "id";
-		const string NAME = "name";
-
 		protected string	name;
 		protected ushort	id = 0;
 		protected bool		isColumn2 = false;
         public ushort       EnumTag = 0;    // used by Enums
         protected string    woormType = string.Empty;
         public string       BaseType = string.Empty;
-                                       //-----------------------------------------------------------------------------
-        public string       WoormType   { 
+
+        protected bool ruleDataFetched = false;
+        protected int len = 0;              // they need for eventual store on
+        public string Title = string.Empty;
+
+
+        //-----------------------------------------------------------------------------
+        public string       WoormType   
+        { 
             get {
                 if (woormType == string.Empty)
                     return DataType;
@@ -128,57 +133,103 @@ namespace Microarea.Common.CoreTypes
 		public ushort           Id          { get { return id;} set { id = value; } }
 		public virtual bool     IsColumn2   { get { return isColumn2; } set { isColumn2 = value; } }
 		
-        //-----------------------------------------------------------------------------
-		public Variable(string name, object data) : base(data)
-		{
-			this.name = name;
-			this.id = 0;
-		}
-
 		//-----------------------------------------------------------------------------
 		public Variable(string name) : base()
 		{
 			this.name = name;
-			this.id = 0;
 		}
 
 		//-----------------------------------------------------------------------------
-		public Variable(string name, ushort id) : base()
+		public Variable(string name, ushort id, string dataType, ushort enumTag, object data) : base(data)
 		{
 			this.name = name;
 			this.id = id;
-		}
+            this.EnumTag = enumTag;
 
-		//-----------------------------------------------------------------------------
-		public Variable(string name, object data, ushort id) : base(data)
-		{
-			this.name = name;
-			this.id = id;
-		}
+            if (data == null && !dataType.IsNullOrEmpty())
+                this.data = ObjectHelper.CreateObject(dataType);
+        }
 
-		//-----------------------------------------------------------------------------
-		public Variable() : base()
-		{
-			//TODO SILVANO
-		}
+        //----------------------------------------------------------------------------
+        public int Len { get { return len; } set { len = value; } }
 
-		//-----------------------------------------------------------------------------
-		public Variable(SerializationInfo info,StreamingContext context)
-		{
-			id = info.GetUInt16(ID);
-			name = info.GetString(NAME);
-		}
+        //----------------------------------------------------------------------------
+        virtual public void Assign(string svalue)
+        {
+            object o = this.Data;
+            ObjectHelper.Assign(ref o, svalue);
+            Data = o;
+        }
 
-		//-----------------------------------------------------------------------------
-		public virtual void GetObjectData(SerializationInfo info,StreamingContext context)
+        //----------------------------------------------------------------------------
+        virtual public object GetData(DataLevel l)
+        {
+            return this.data;
+        }
+
+        virtual public void SetData(DataLevel l, object value)
+        {
+            if (DataType == "Boolean")
+                value = ObjectHelper.CastBool(value);
+
+            this.data = value;
+        }
+
+        virtual public void SetAllData(object value, bool aValid)
+        {
+            SetData(0, value);
+            Valid = aValid;
+        }
+
+        //----------------------------------------------------------------------------
+        public override object Data
+        {
+            get
+            {
+                return this.data;
+            }
+            set
+            {
+                if (DataType == "Boolean")
+                    value = ObjectHelper.CastBool(value);
+
+                //An.17985 
+                if (WoormType == "Date" && value is DateTime)
+                    value = ((DateTime)value).Date;
+
+                this.data = value;
+            }
+        }
+
+        //----------------------------------------------------------------------------
+        public override bool Valid
+        {
+            get
+            {
+                return this.valid;
+            }
+            set
+            {
+                this.valid = value;
+            }
+        }
+
+        public bool ValidRuleData { get { return this.Valid; } set { this.Valid = value; } }
+        public void ClearRuleData() { ObjectHelper.Clear(ref this.data); this.Valid = true; }
+
+        public bool RuleDataFetched { get { return ruleDataFetched; } set { ruleDataFetched = value; } }
+
+        //----------------------------------------------------------------------------
+        virtual public void ClearAllData()
+        {
+            ClearRuleData();
+
+            RuleDataFetched = true;
+        }
+        //-----------------------------------------------------------------------------
+        public override object Clone()
 		{
-			info.AddValue(ID, id); 
-			info.AddValue(NAME, name);
-		}
-		//-----------------------------------------------------------------------------
-		public override object Clone()
-		{
-			Variable v = new Variable(Name, Data);
+			Variable v = new Variable(Name, Id, string.Empty, EnumTag, Data);
 			CopyProperties(v);
 			return v;
 		}
@@ -190,11 +241,18 @@ namespace Microarea.Common.CoreTypes
 			v.IsColumn2 = this.IsColumn2;
 			v.Id = this.Id;
             v.woormType = this.WoormType;
+            v.BaseType = this.BaseType;
             v.EnumTag = this.EnumTag;
-        }
+            v.Valid = this.Valid;
 
-		//-----------------------------------------------------------------------------
-		public override int GetHashCode()
+            v.ruleDataFetched = this.ruleDataFetched;
+           v.len = this.len;              // they need for eventual store on
+           v.Title = this.Title;
+
+    }
+
+    //-----------------------------------------------------------------------------
+    public override int GetHashCode()
 		{
 			return Name.ToLower().GetHashCode();
 		}
@@ -635,6 +693,7 @@ namespace Microarea.Common.CoreTypes
 
         public SymbolTable Parent { get { return parent; } set { parent = value; } }
         public SymbolTable Root { get { return parent != null ? parent.Root : this; } }
+        virtual public DataLevel DataLevel { get { return 0; } }
 
 
         public int Count { get { return symbols.Keys.Count; } }

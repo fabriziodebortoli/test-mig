@@ -126,8 +126,8 @@ namespace Microarea.Common.Hotlink
         ReferenceObjectsPrototype XmlDescription = null;
 
         public SymbolTable SymTable = new SymbolTable();
-        public SymField selection_type = new SymField("string", "selection_type");
-        public SymField filter_value = new SymField("string", "filter_value");
+        public Variable selection_type  = new Variable("selection_type" , 0, "string", 0, null);
+        public Variable filter_value    = new Variable("filter_value"   , 0, "string", 0, null);
 
         public QueryObject CurrentQuery = null;
 
@@ -298,7 +298,7 @@ namespace Microarea.Common.Hotlink
                 //Vengono aggiunti alla SymbolTable i parametri espliciti della descrizione
                 foreach (IParameter p in XmlDescription.Parameters)
                 {
-                    SymField paramField = new SymField(p.TbType, p.Name);
+                    Variable paramField = new Variable(p.Name, 0, p.TbType, 0, null);
 
                     string sp = requestQuery[p.Name];
 
@@ -619,14 +619,14 @@ namespace Microarea.Common.Hotlink
             if (!CurrentQuery.Open())
                 return false;
 
-            List<SymField> columns = new List<SymField>();
+            List<Variable> columns = new List<Variable>();
             CurrentQuery.EnumColumns(columns);
             CurrentQuery.Close();
 
             //emit json record header (localized title column, column name, datatype column
             list = "{\"columns\":[";
             bool first = true;
-            foreach (SymField f in columns)
+            foreach (Variable f in columns)
             {
                 if (first)
                     first = false;
@@ -657,7 +657,7 @@ namespace Microarea.Common.Hotlink
             if (!CurrentQuery.Open())
                 return false;
 
-            List<SymField> columns = new List<SymField>();
+            List<Variable> columns = new List<Variable>();
             CurrentQuery.EnumColumns(columns);
 
             //emit json record header (localized title column, column name, datatype column
@@ -667,7 +667,7 @@ namespace Microarea.Common.Hotlink
             {
                 string keyName = string.Empty;
 
-                SymField f0 = columns[0] as SymField;
+                Variable f0 = columns[0] as Variable;
                 int idxColDot = f0.Name.IndexOf('.');
                 int idxXmlDot = XmlDescription.DbFieldName.IndexOf('.');
 
@@ -695,7 +695,7 @@ namespace Microarea.Common.Hotlink
 
             records += "\"columns\":[";
             bool first = true;
-            foreach (SymField f in columns)
+            foreach (Variable f in columns)
             {
                 if (first)
                     first = false;
@@ -731,7 +731,7 @@ namespace Microarea.Common.Hotlink
             {
                 //emit json record
                 first = true;
-                foreach (SymField f in columns)
+                foreach (Variable f in columns)
                 {
                     object o = f.Data;
                     if (o == null)

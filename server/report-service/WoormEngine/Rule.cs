@@ -696,10 +696,10 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 		}
 
-		// Esegue il parsing del predicato ORDER BY 
-		// E' utilizzata anche per la GROUP BY (elenco di colonne della tabella)
-		//----------------------------------------------------------------------------
-		public bool ParseOrderBy(Parser lex, ref string result)
+         // Esegue il parsing del predicato ORDER BY 
+        // E' utilizzata anche per la GROUP BY (elenco di colonne della tabella)
+        //----------------------------------------------------------------------------
+        public bool ParseOrderBy(Parser lex, ref string result)
 		{
 			string tempName = " ";
 			string name = string.Empty;
@@ -709,11 +709,11 @@ namespace Microarea.RSWeb.WoormEngine
 				if (lex.LookAhead(Token.CONTENTOF))
 				{
 					string sPrecAuditString = string.Empty;
-					bool bPrecAuditingState = lex.DoAudit;
+					bool bPrecAuditingState = lex.EnableAudit;
 					if (bPrecAuditingState) 
 						sPrecAuditString = lex.GetAuditString();
 					else
-						lex.DoAudit = true;
+						lex.EnableAudit = true;
 
 					if (!lex.ParseTag(Token.CONTENTOF) || !lex.ParseTag(Token.ROUNDOPEN))
 						return false;
@@ -730,12 +730,12 @@ namespace Microarea.RSWeb.WoormEngine
 					}
 					else
 					{
-						lex.DoAudit = false;
+						lex.EnableAudit = false;
 					}
 				}
 				else
 				{
-					if (!lex.ParseID(out name))  
+					if (!lex.ParseSquaredCoupleIdent(out name))  
 						return false;
 
 					if (!IsQualifiedName(name) && !SymbolTable.Contains(name))
@@ -784,14 +784,14 @@ namespace Microarea.RSWeb.WoormEngine
 			if (!parser.ParseTag(Token.CONTENTOF) || !parser.ParseTag(Token.ROUNDOPEN)) 
 				return false;
 
-			parser.DoAudit = true;
+			parser.EnableAudit = true;
 			WoormEngineExpression expr = new WoormEngineExpression(this.Engine.Report.Engine, this.Session, this.SymbolTable);
 			expr.StopTokens = new StopTokens(new Token [] {Token.ROUNDCLOSE});
             expr.StopTokens.skipInnerRoundBrackets = true;
 			if (!expr.Compile(parser, CheckResultType.Match, "String"))
 				return false;
 			string auditExpr = parser.GetAuditString();
-			parser.DoAudit = false;
+			parser.EnableAudit = false;
 
 			int nEnd = parser.CurrentPos;
 
@@ -929,7 +929,7 @@ namespace Microarea.RSWeb.WoormEngine
                 string dataTableName = "";
 				string aliasTableName = "";
 
-				if (!parser.ParseID(out dataTableName))
+				if (!parser.ParseSquaredIdent(out dataTableName))
 					return false;
 
 				if (parser.Matched(Token.ALIAS) && !parser.ParseID(out aliasTableName))
@@ -1006,24 +1006,14 @@ namespace Microarea.RSWeb.WoormEngine
 				do
 				{
 					bool nativeColumnExpr = false;
-					if (parser.Matched(Token.BRACEOPEN))
+					if (parser.LookAhead(Token.BRACEOPEN))
 					{
-						nativeColumnExpr = true;
+                        if (!parser.ParseBracedContent(out physicalName))
+                            return false;
 
-						parser.DoAudit = true;
-
-						if (!parser.SkipToToken(Token.BRACECLOSE)) 
-							return false;
-
-						physicalName = parser.GetAuditString();
-						parser.DoAudit = false;
-
-                        physicalName = physicalName.Replace("[ ", "[").Replace(" ]", "]");
-
-						if (!parser.ParseTag(Token.BRACECLOSE) || parser.Error )
-							return false;
-					}
-					else if (!parser.ParseID(out physicalName))
+ 						nativeColumnExpr = true;
+                   }
+                   else if (!parser.ParseSquaredCoupleIdent(out physicalName))
 						return false;
 
 					if (!parser.ParseTag(Token.INTO) || !parser.ParseID(out publicName)) 

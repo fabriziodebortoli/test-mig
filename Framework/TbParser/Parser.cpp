@@ -595,7 +595,7 @@ BOOL Parser::ParseBracedContent(CString& content)
 {
 	if (!ParseInnerContent(T_BRACEOPEN, T_BRACECLOSE, content))
 		return FALSE;
-	StripBlankNearSquareBrackets(content);
+	::StripBlankNearSquareBrackets(content);
 	return TRUE;
 }
 

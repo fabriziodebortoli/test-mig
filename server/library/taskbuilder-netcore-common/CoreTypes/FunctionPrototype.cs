@@ -1121,6 +1121,9 @@ namespace Microarea.Common.CoreTypes
             Add(Token.SendBalloon, "Boolean", new string[] { "String", "String", "Int32", "DateTime", "Boolean", "Boolean", "Int64" });
             Add(Token.FormatTbLink, "String", new string[] { "String", "String", "Object" });
 
+            Add(Token.PrevValue, "Object", new string[] { "Object" });
+            Add(Token.NextValue, "Object", new string[] { "Object" });
+
             Add(Token.CONVERT, "Object", new string[] { "Object", "String" });
             Add(Token.TYPEOF, "String", new string[] { "Object" });
             Add(Token.ADDRESSOF, "Int64", new string[] { "String", "Object" });

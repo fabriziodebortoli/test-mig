@@ -93,12 +93,14 @@ namespace Microarea.RSWeb.WoormEngine
 		public bool Native						{ get { return native; } }
 		virtual public string Sql				{ get { return sql; } }
 		virtual public List<ParamItem>	Parameters	{ get { return parameters; }}
-			
-		// è necessario disabilitare il check perchè si inseriscono nella espressione
-		// delle variabili al posto costanti ma il tipo non lo conosco e quindi
-		// creo un dato qualsiasi tanto mi serve solo il nome della variabile.
-		//-----------------------------------------------------------------------------
-		public WhereClauseExpr
+
+        public override  bool IsWClause { get { return true; } }
+
+        // è necessario disabilitare il check perchè si inseriscono nella espressione
+        // delle variabili al posto costanti ma il tipo non lo conosco e quindi
+        // creo un dato qualsiasi tanto mi serve solo il nome della variabile.
+        //-----------------------------------------------------------------------------
+        public WhereClauseExpr
 			(
 				TbSession				session,
 				SymbolTable					symTable,
@@ -263,11 +265,11 @@ namespace Microarea.RSWeb.WoormEngine
 
             /*TODO riccardo: da expression
 			 * string preExprAudit = string.Empty;
-			 * bool currDoAudit = parser.DoAudit;
+			 * bool currDoAudit = parser.EnableAudit;
             if (currDoAudit)
                 preExprAudit = parser.GetAuditString();
 			 * */
-            lex.DoAudit = true; this.auditExpr = string.Empty;
+            lex.EnableAudit = true; this.auditExpr = string.Empty;
 
 			while (!lex.Error)
 			{
@@ -314,7 +316,7 @@ namespace Microarea.RSWeb.WoormEngine
 			string subExpression = lex.GetAuditString();
 			this.auditExpr += ' ' + subExpression;
 
-			lex.DoAudit = false;
+			lex.EnableAudit = false;
 
 			if (lex.Error  || openRoundBrackets != 0)
 				return false;
@@ -326,7 +328,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if (currDoAudit)
                 parser.SetAuditString (preExprAudit.IsNullOrEmpty() ? this.auditExpr : preExprAudit + ' ' + this.auditExpr);
             else
-                parser.DoAudit = false;
+                parser.EnableAudit = false;
 			 */
 			return true;
 		}
@@ -426,7 +428,7 @@ namespace Microarea.RSWeb.WoormEngine
 					string paramName = Token.NATIVE + paramNo.ToString(); 
                     paramNo++;
 
-					expressionStack.Push(new Variable(paramName, data));
+					expressionStack.Push(new Variable(paramName, 0, null, 0, data));
 
 					break;
 				}
@@ -443,7 +445,7 @@ namespace Microarea.RSWeb.WoormEngine
 
 					this.auditExpr += ' ' + lex.GetAuditString();
 					string paramName = Token.NATIVE + paramNo.ToString(); paramNo++;
-					expressionStack.Push(new Variable(paramName, (object)aString));
+					expressionStack.Push(new Variable(paramName, 0, null, 0, (object)aString));
 
 					break;
 				}
@@ -462,7 +464,7 @@ namespace Microarea.RSWeb.WoormEngine
 					this.auditExpr += ' ' + lex.GetAuditString();
 
 					string paramName = Token.NATIVE + paramNo.ToString(); paramNo++;
-					expressionStack.Push(new Variable(paramName, (object)cond));
+					expressionStack.Push(new Variable(paramName, 0, null, 0, (object)cond));
 
 					break;
 				}
@@ -516,7 +518,7 @@ namespace Microarea.RSWeb.WoormEngine
  
             Parser lex = new Parser (Parser.SourceType.FromString);
             lex.Open(source);
-	        lex.DoAudit = true;
+	        lex.EnableAudit = true;
 
 	        while (!lex.Error)
 	        {
@@ -776,7 +778,7 @@ namespace Microarea.RSWeb.WoormEngine
                         }
                     }
 
-					Variable itemVar = new Variable(paramName, valore.Data);
+					Variable itemVar = new Variable(paramName, 0, null, 0,valore.Data);
 
 					parameters.Add(new ParamItem(paramName, valore, item is ValueContentOf));
 

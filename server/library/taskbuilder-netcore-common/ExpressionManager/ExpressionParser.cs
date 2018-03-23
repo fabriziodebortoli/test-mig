@@ -432,8 +432,9 @@ namespace Microarea.Common.ExpressionManager
         public bool hasDynamicFragment = false;
 
         public bool vrbCompiled = false;
-
-        /// <summary>
+        public bool IsWClause = false;
+ 
+       /// <summary>
         /// EasyStudio - abilita il parsing di funzioni del tipo "object.method()"
         /// </summary>
         public bool AllowThisCallMethods
@@ -781,7 +782,14 @@ namespace Microarea.Common.ExpressionManager
 
                 case Token.SQUAREOPEN:
                     {
-                        if (!ParseArrayCreate(lex, stack))
+                        if (IsWClause)
+                        {
+                            string name;
+                            if (!lex.ParseSquaredCoupleIdent(out name))
+                                return;
+                            stack.Push(new Variable(name));
+                        }
+                        else if (!ParseArrayCreate(lex, stack))
                             return;
                         break;
                     }
@@ -833,12 +841,25 @@ namespace Microarea.Common.ExpressionManager
 
                         if (lex.LookAhead(Token.ROUNDOPEN))
                         {
-                            if (!ParseFunction(name, lex, stack)) return;
+                            if (!ParseFunction(name, lex, stack)) 
+                                return;
                             break;
                         }
                         else if (lex.LookAhead(Token.SQUAREOPEN))
                         {
-                            if (!ParseArrayIndexer(name, lex, stack)) return;
+                            if (IsWClause && name[name.Length - 1] == '.')
+                            {   //syntax:  table.[column]
+                                string sCol = string.Empty;
+                                if (!lex.ParseSquaredIdent(out sCol))
+                                    return;
+                                name += sCol;
+
+                                stack.Push(new Variable(name));
+                                break;
+                            }
+
+                            if (!ParseArrayIndexer(name, lex, stack)) 
+                                return;
                             break;
                         }
 
@@ -864,7 +885,6 @@ namespace Microarea.Common.ExpressionManager
                                 }
                                 stack.Push(v);
                                 break;
-
                             }
                         }
                         stack.Push(new Variable(name));
@@ -1046,6 +1066,10 @@ namespace Microarea.Common.ExpressionManager
 
                 case Token.SendBalloon:
                 case Token.FormatTbLink:
+
+                case Token.PrevValue:
+                case Token.NextValue:
+
                     {
                         if (!ParseFunction(lex, stack)) return;
                         break;
@@ -1215,7 +1239,7 @@ namespace Microarea.Common.ExpressionManager
                         tokenFun = Language.GetKeywordsToken("Array_" + name.Mid(idx + 1));
                         if (tokenFun != Token.NOTOKEN)
                         {
-                            stack.Push(new Variable(sArrayName, lex.CurrentPos)); //first parameter: array name
+                            stack.Push(new Variable(sArrayName)); //first parameter: array name
                             nrParams++;
                             name = Language.GetTokenString(tokenFun);
                         }
@@ -1250,7 +1274,26 @@ namespace Microarea.Common.ExpressionManager
             while (lex.LookAhead() != Token.ROUNDCLOSE && !lex.Error && !lex.Eof)
             {
                 nrParams++;
-                Expression(lex, stack);
+
+                if (nrParams == 1 && (tokenFun == Token.PrevValue || tokenFun == Token.NextValue))
+                {
+                    string sIdent;
+                    if (!lex.ParseID(out sIdent))
+                    {
+                        lex.SetError(ExpressionManagerStrings.SyntaxError);
+                        return false;
+                    }
+
+                    Variable f = this.symbolTable.Find(sIdent);
+                    if (f == null)
+                    {
+                        lex.SetError(ExpressionManagerStrings.SyntaxError);
+                        return false;
+                    }
+
+                    stack.Push(f);
+                }
+                else Expression(lex, stack);
 
                 if (lex.Error)
                     return false; // errore nel parsing del parametro
