@@ -19,9 +19,6 @@
     "module": "taskbuilder-core.js",
     "typings": "taskbuilder-core.d.ts",
     "peerDependencies": {
-        "@taskbuilder/bpm": "file:../../bpm/src",
-        "@taskbuilder/esp": "file:../../esp/src",
-        "@taskbuilder/sfm": "file:../../sfm/src",
         "@taskbuilder/icons": "file:../../icons/src",
         "@angular/animations": "^5.2.0",
         "@angular/cdk": "^5.2.0",
