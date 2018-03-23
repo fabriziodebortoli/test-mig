@@ -194,12 +194,13 @@ int GetRelationship(CWnd* pWnd1, CWnd* pWnd2)
 
 	while ((pGrandParentWnd = pGrandParentWnd->GetParent()) != NULL)
 		if (
-			pGrandParentWnd->IsChild(pWnd2) &&
-			(
-				pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CFormView)) ||
-				pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CDialog)) ||
-				pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CBaseTabManager)) ||
-				pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CBaseTileGroup))
+				pGrandParentWnd->m_hWnd == pWnd2->m_hWnd ||
+				pGrandParentWnd->IsChild(pWnd2) &&
+				(
+					pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CFormView)) ||
+					pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CDialog)) ||
+					pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CBaseTabManager)) ||
+					pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CBaseTileGroup))
 				)
 			)
 			return RELATIVE_FOCUSED;
@@ -7407,16 +7408,16 @@ void CParsedCtrl::DoSetFocus(CWnd* aWnd)
 //-----------------------------------------------------------------------------
 void CParsedCtrl::DoKillFocus(CWnd* pWnd)
 {
-	if (
-		pWnd == NULL ||
-		!IsWindow(pWnd->m_hWnd) ||
-		pWnd->m_hWnd == m_pOwnerWnd->m_hWnd ||
-		pWnd->GetDlgCtrlID() == IDCANCEL ||
-		pWnd->GetDlgCtrlID() == ID_HELP ||
-		pWnd->GetDlgCtrlID() == IDC_BE_DELETE ||
-		(
-			m_nErrorID == DUMMY &&
-			m_nWarningID == DUMMY
+	if	(
+			pWnd == NULL ||
+			!IsWindow(pWnd->m_hWnd) ||
+			pWnd->m_hWnd == m_pOwnerWnd->m_hWnd ||
+			pWnd->GetDlgCtrlID() == IDCANCEL ||
+			pWnd->GetDlgCtrlID() == ID_HELP ||
+			pWnd->GetDlgCtrlID() == IDC_BE_DELETE ||
+			(
+				m_nErrorID == DUMMY &&
+				m_nWarningID == DUMMY
 			)
 		)
 		// do nothing on Cancel (standard behavior)
@@ -10848,6 +10849,12 @@ bool CParsedForm::SetDefaultFocus()
 
 	if (!m_pControlLinks)
 		return false;
+
+//	Scommentare nel caso di verificassero ancora impropri Settaggi di fuoco al cambio di stato documento o altro 
+//	Vedi otimizzaznio id UpdateDataView() : germano 23/03/2018
+//
+//	if (GetDocument() && GetDocument()->m_bNeedsUpdateDataView)
+//		GetDocument()->ExecuteUpdateDataView();
 
 	if (!m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
 		return false;

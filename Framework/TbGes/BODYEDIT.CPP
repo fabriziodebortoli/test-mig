@@ -7057,7 +7057,7 @@ LRESULT CBodyEdit::OnLosingFocus(WPARAM wParam, LPARAM lParam)
 	if (lParam == 0)
 		return (LRESULT)0;
 
-	if (nRelationship != BROTHER_FOCUSED && nRelationship != PARENT_FOCUSED)
+	if (nRelationship == FOREIGN_FOCUSED)
 		m_wKeyState = 0;
 
 	// Se il fuoco sta andando fuori da body si da` la possibilita` di verificare
