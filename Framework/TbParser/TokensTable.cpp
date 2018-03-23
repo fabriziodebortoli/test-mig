@@ -555,12 +555,19 @@ static const TToken g_WoormTokens [] =
 	{ T_GAUGE_RANGE_COLOR		, _T("GaugeRangeColor") },
 	{ T_GAUGE_SCALE				, _T("GaugeScale") },
 
-	{ T_CCOUNT			, _T("CCount") },
-	{ T_CAVG			, _T("CAvg") },
-	{ T_CFIRST			, _T("CFirst") },
-	{ T_CLAST			, _T("CLast") },
+	{ T_CCOUNT					, _T("CCount") },
+	{ T_CAVG					, _T("CAvg") },
+	{ T_CFIRST					, _T("CFirst") },
+	{ T_CLAST					, _T("CLast") },
+
+	{ T_FPREV_VALUE				, _T("PrevValue") },
+	{ T_FNEXT_VALUE				, _T("NextValue") },
 
 //UNDOCUMENTED
+
+	//unused
+	{ T_DISPLAY_CHART			, _T("DisplayChart") },
+
 	{ T_RECORD					, _T("Record") },		//datatype  custom record
 	{ T_SQLRECORD				, _T("SqlRecord") },	//datatype  es: SQLRECORD TCustSupp rec; rec.CustSupp = '0001'
 
@@ -573,8 +580,6 @@ static const TToken g_WoormTokens [] =
 	{ T_FSQLRECORD_GETFIELD		, _T("SqlRecord_GetField") },
 	{ T_FOBJECT_GETFIELD		, _T("Object_GetField") },
 
-	{ T_DISPLAY_CHART			, _T("DisplayChart") },
-
 	//{ T_TOBJECT					, _T("Object") },
 	{ T_FCONVERT				, _T("Convert") },
 	{ T_FTYPEOF					, _T("TypeOf") },
@@ -583,9 +588,6 @@ static const TToken g_WoormTokens [] =
 
 	//dynamic hkl di TbMailer
 	{ T_FGETTITLE				, _T("GetTitle") },
-
-	{ T_FPREV_VALUE				, _T("PrevValue") },
-	{ T_FNEXT_VALUE				, _T("NextValue") },
 
 	//TB 4.0 attributo variabile  di Thread Context o sezione per variabili Document Context
 	{ T_CONTEXT					, _T("Context") },

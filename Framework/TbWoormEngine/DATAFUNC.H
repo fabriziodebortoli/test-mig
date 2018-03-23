@@ -67,17 +67,17 @@ public:
     BOOL        IsAnExpression  () const	{ return m_FunctionType == T_NOTOKEN; }
 	Token		GetFunctionType	() const	{ return m_FunctionType; }
 	void		SetFunctionType	(Token tk)	{ m_FunctionType = tk; }
-	void		IncOccurrence() { m_nOccurrence++; }
+    WoormField*	GetFuncItem     () const	{ return m_pFuncItem; }
 
     virtual DataObj&    GetData     ()				const   = 0;
     virtual DataObj&    GetAccData  ()				const   = 0;
     virtual BOOL        IsUpdated   (WoormField&)	const   = 0;
     virtual void        SetAccData  (DataObj&)				= 0;
 
-            WoormField*	GetFuncItem     () const { return m_pFuncItem; }
-
             BOOL        Eval			();
-			void		ResetOccurrence	();
+
+			void		ResetOccurrence	() { m_nOccurrence = 0;}
+			void		IncOccurrence	() { m_nOccurrence++; }
 
             BOOL        ParseFunction   (Parser&, DataObj* pAccData);
             BOOL        ParseExpression (Parser&, WoormField*);

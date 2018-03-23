@@ -198,12 +198,6 @@ BOOL DataFunction::Eval()
 }
 
 //---------------------------------------------------------------------------
-void DataFunction::ResetOccurrence()
-{
-	m_nOccurrence = 0;
-}
-
-//---------------------------------------------------------------------------
 BOOL DataFunction::ParseFunction(Parser& parser, DataObj* pAccData)
 {
     if (!parser.LookForAFunc())

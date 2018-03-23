@@ -1471,7 +1471,8 @@ namespace Microarea.RSWeb.WoormViewer
 						}
 						else
 						{
-                            found = true; tail = fieldRect.Value.CellTail;
+                            found = fieldRect.Value.RDEData != null; 
+                            tail = fieldRect.Value.CellTail;
 							return fieldRect.Value.RDEData;
 						}
 					}
@@ -1488,7 +1489,14 @@ namespace Microarea.RSWeb.WoormViewer
 
                             if (row == -1)
                             {
-                                found = true; tail = columnn.TotalCell.Value.CellTail;
+                                if (!columnn.ShowTotal)
+                                {
+                                    found = false;
+                                    return null;
+                                }
+
+                                found = columnn.TotalCell.Value.RDEData != null; 
+                                tail = columnn.TotalCell.Value.CellTail;
                                 return columnn.TotalCell.Value.RDEData;
                             }
  
@@ -1498,7 +1506,8 @@ namespace Microarea.RSWeb.WoormViewer
                             }
                             else
                             {
-                                found = true; tail = columnn.Cells[row].Value.CellTail;
+                                found = columnn.Cells[row].Value.RDEData != null; 
+                                tail = columnn.Cells[row].Value.CellTail;
                                 return columnn.Cells[row].Value.RDEData;
                             }
                         }
@@ -1520,7 +1529,8 @@ namespace Microarea.RSWeb.WoormViewer
                         }
                         else
                         {
-                            found = true; tail = f.Value.CellTail;
+                            found = f.Value.RDEData != null; 
+                            tail = f.Value.CellTail;
                             return f.Value.RDEData;
                         }
                     }

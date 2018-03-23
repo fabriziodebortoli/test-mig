@@ -16,8 +16,11 @@ namespace Microarea.RSWeb.WoormEngine
 		public string   PublicName = string.Empty;
 		private Token   token;
 		private	Field	functionField;     //il field in symbol table
-        public long     Occurrence = 0;    //per gestire AVG/Count/First
-                                        
+        public long     Occurrence = 0;    //per gestire Count/First/Last
+
+        public void ResetOccurrence() { Occurrence = 0; }
+        public void IncOccurrence() { Occurrence++; }
+
         //---------------------------------------------------------------------------
         public abstract void	GetFromData	(ref object aData, ref bool aValid);
 		public abstract void	GetToData	(ref object aData, ref bool aValid);
@@ -127,14 +130,39 @@ namespace Microarea.RSWeb.WoormEngine
 				}
 
 				case Token.CMIN :
-					if (ObjectHelper.IsGreater(to, from)) SetToData(from, true);
+					if (ObjectHelper.IsGreater(to, from)) 
+                        SetToData(from, true);
 					return true;
 
 				case Token.CMAX :
-					if (ObjectHelper.IsLess(to, from)) SetToData(from, true);
+					if (ObjectHelper.IsLess(to, from)) 
+                        SetToData(from, true);
 					return true;
-			}
-			return false;
+
+                case Token.CLAST:
+                    SetToData(from, true);
+                    return true;
+
+                case Token.CFIRST:
+                    if (Occurrence == 1)
+                        SetToData(from, true);
+                    return true;
+/*
+                case T_CCOUNT:
+                    {
+                        if (GetAccData().IsKindOf(RUNTIME_CLASS(DataLng)))
+                            SetAccData(DataLng(m_nOccurrence));
+                        else if (GetAccData().IsKindOf(RUNTIME_CLASS(DataInt)))
+                            SetAccData(DataInt(m_nOccurrence));
+                        else if (GetAccData().IsKindOf(RUNTIME_CLASS(DataDbl)))
+                            SetAccData(DataDbl(m_nOccurrence));
+                        else return FALSE;
+
+                        return TRUE;
+                    }
+*/
+            }
+            return false;
 		}
 
 
@@ -146,7 +174,12 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.CSUM		: 
 				case Token.CCAT 	:
 				case Token.CMIN		:
-				case Token.CMAX		: return true;
+				case Token.CMAX		:
+                case Token.CAVG     :
+                case Token.CCOUNT   :
+                case Token.CFIRST   :
+                case Token.CLAST    :
+                    return true;
 			}
 
 			return false;
@@ -189,8 +222,9 @@ namespace Microarea.RSWeb.WoormEngine
 					ok =	functionField.Data.GetType().Name == "String" &&
 							(groupByData == null || groupByData.GetType().Name == "String");
 					break;
-				}       
-				case Token.CSUM :
+				}
+                case Token.CAVG:
+                case Token.CSUM :
 				{
 					if (groupByData != null)
 					{
@@ -198,8 +232,10 @@ namespace Microarea.RSWeb.WoormEngine
 						string first = functionField.Data.GetType().Name;
 						string second = groupByData.GetType().Name;
 
-						if (first == "DateEnum" || first == "DateTime" || first == "Boolean")	break;
-						if (first == "String" && second != "String")							break;
+						if (first == "DateEnum" || first == "DateTime" || first == "Boolean")	
+                            break;
+						if (first == "String" && second != "String")							
+                            break;
 
 						ok = true;
 					}
@@ -211,7 +247,14 @@ namespace Microarea.RSWeb.WoormEngine
 					ok = functionField.Data.GetType().Name != "Boolean";
 					break;
 				}
-				default  : 
+                case Token.CCOUNT:
+                case Token.CFIRST:
+                case Token.CLAST:
+                    {
+                        ok = true;
+                        break;
+                    }
+                default: 
 				{
 					ok = false; 
 					break;

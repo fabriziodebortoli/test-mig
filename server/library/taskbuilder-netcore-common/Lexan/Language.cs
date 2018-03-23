@@ -649,9 +649,14 @@ namespace Microarea.Common.Lexan
 
             keywords.Add("InvertOrientation"    , Token.INVERT_ORIENTATION);
 
-            keywords.Add("PrevValue", Token.PrevValue);
-            keywords.Add("NextValue", Token.NextValue);
+            keywords.Add("PrevValue"            , Token.PrevValue);
+            keywords.Add("NextValue"            , Token.NextValue);
 
+            keywords.Add("CAvg"                 , Token.CAVG);
+            keywords.Add("CCount"               , Token.CCOUNT);
+            keywords.Add("CFirst"               , Token.CFIRST);
+            keywords.Add("CLast"                , Token.CLAST);
+ 
             //new tokes post 3.0 - THEY ARE NOT PUBLIC
             keywords.Add("Convert"              ,Token.CONVERT);
             keywords.Add("TypeOf"               ,Token.TYPEOF);
@@ -1239,6 +1244,11 @@ namespace Microarea.Common.Lexan
 
         PrevValue,
         NextValue,
+
+        CAVG,
+        CCOUNT,
+        CFIRST,
+        CLAST,
 
         // -------------------------------------------------  keywords end
         //new tokens post 3.0
