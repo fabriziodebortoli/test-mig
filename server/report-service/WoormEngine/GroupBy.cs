@@ -85,17 +85,44 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			foreach (GroupFunction function in groupFunctions)
 			{
-				if ((!onlyExpr || function.IsAnExpression) && !function.EvalFunction())
+				if (function.IsAnExpression)
 				{
-					engine.SetError(WoormEngineStrings.EvalGroupFunction);
-					return false;
+                    if (!function.EvalFunction())
+                    {
+                        engine.SetError(WoormEngineStrings.EvalGroupFunction);
+                        return false;
+                    }
+                    continue;
 				}
-			}
-			return true;
+
+                if (!onlyExpr || function.Token == Token.CCOUNT)
+                {
+                    if (!function.EvalFunction())
+                    {
+                        engine.SetError(WoormEngineStrings.EvalGroupFunction);
+                        return false;
+                    }
+                    continue;
+                }
+
+                function.IncOccurrence();
+            }
+            return true;
 		}
 
-		//---------------------------------------------------------------------------
-		public bool Parse(Parser lex)
+        //---------------------------------------------------------------------------
+        public void ResetOccurrence()
+        {
+            foreach (GroupFunction function in groupFunctions)
+            {
+                if (function.IsAnExpression)
+                    continue;
+                function.ResetOccurrence();
+            }
+        }
+
+        //---------------------------------------------------------------------------
+        public bool Parse(Parser lex)
 		{
 			StopTokens = new StopTokens(new Token[] { Token.DO });
 

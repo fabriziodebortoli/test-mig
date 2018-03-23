@@ -754,6 +754,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 
 				CopyRuleDataToGroupData();
+
 				if (!groupByExp.EvalFunction(true))
 					return SetError(groupByExp.Diagnostic);
 			}
@@ -763,7 +764,10 @@ namespace Microarea.RSWeb.WoormEngine
 					return false;
 
 				CopyRuleDataToGroupData();
-				if (!groupByExp.EvalFunction(true))
+
+                groupByExp.ResetOccurrence();
+
+                if (!groupByExp.EvalFunction(true))
 					return SetError(groupByExp.Diagnostic);
 			}
 			else if (Diagnostic.Error || !groupByExp.EvalFunction())

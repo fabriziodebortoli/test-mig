@@ -16,10 +16,10 @@ namespace Microarea.RSWeb.WoormEngine
 		public string   PublicName = string.Empty;
 		private Token   token;
 		private	Field	functionField;     //il field in symbol table
-        public long     Occurrence = 0;    //per gestire Count/First/Last
+        protected long     occurrence = 0;    //per gestire Count/First/Last
 
-        public void ResetOccurrence() { Occurrence = 0; }
-        public void IncOccurrence() { Occurrence++; }
+        public void ResetOccurrence() { occurrence = 0; }
+        public void IncOccurrence() { occurrence++; }
 
         //---------------------------------------------------------------------------
         public abstract void	GetFromData	(ref object aData, ref bool aValid);
@@ -63,7 +63,9 @@ namespace Microarea.RSWeb.WoormEngine
 			if (!IsUpdated())
 				return true;
 
-			object from = null;
+            IncOccurrence();
+
+            object from = null;
 			object to = null;
 			bool fromValid = true;
 			bool toValid = true;
@@ -92,13 +94,13 @@ namespace Microarea.RSWeb.WoormEngine
 
 				case Token.CSUM :
 				{
-					if	(ObjectHelper.DataType(to) == "String")
+					if	(ObjectHelper.DataType(to) == "Double")
 					{
-						string s = ObjectHelper.CastString(to) + ObjectHelper.CastString(from);
-						SetToData((object) s, true);
+						double result = ObjectHelper.CastDouble(to) + ObjectHelper.CastDouble(from);
+						SetToData((object) result, true);
 						return true;
 					}
-					
+
 					if	(ObjectHelper.DataType(to) == "Int32")
 					{
 						int i = ObjectHelper.CastInt(to) + ObjectHelper.CastInt(from);
@@ -112,24 +114,82 @@ namespace Microarea.RSWeb.WoormEngine
 						SetToData((object) result, true);
 						return true;
 					}
-										
+
+                    if (ObjectHelper.DataType(to) == "Int16")
+                    {
+                        short result = (short)(ObjectHelper.CastShort(to) + ObjectHelper.CastShort(from));
+                        SetToData((object)result, true);
+                        return true;
+                    }
+
+                    if (ObjectHelper.DataType(to) == "String")
+					{
+						string s = ObjectHelper.CastString(to) + ObjectHelper.CastString(from);
+						SetToData((object) s, true);
+						return true;
+					}
+															
 					if	(ObjectHelper.DataType(to) == "Single")
 					{
-						double result = ObjectHelper.CastFloat(to) + ObjectHelper.CastFloat(from);
+						float result = ObjectHelper.CastFloat(to) + ObjectHelper.CastFloat(from);
 						SetToData((object) result, true);
 						return true;
 					}
 										
-					if	(ObjectHelper.DataType(to) == "Double")
-					{
-						double result = ObjectHelper.CastDouble(to) + ObjectHelper.CastDouble(from);
-						SetToData((object) result, true);
-						return true;
-					}
 					return false;
 				}
 
-				case Token.CMIN :
+                case Token.CAVG:
+                    {
+                        if (ObjectHelper.DataType(to) == "Double")
+                        {
+                            double m = ObjectHelper.CastDouble(to);
+                            double curr = ObjectHelper.CastDouble(from);
+                            m = (double)(m + (curr - m) / (double)(occurrence));
+                            SetToData(m, true);
+                            return true;
+                        }
+
+                        if (ObjectHelper.DataType(to) == "Int32")
+                        {
+                            int m = ObjectHelper.CastInt(to);
+                            int curr = ObjectHelper.CastInt(from);
+                            m = (int) (m + (curr - m) / (double)(occurrence));
+                            SetToData(m, true);
+                            return true;
+                        }
+
+                        if (ObjectHelper.DataType(to) == "Int64")
+                        {
+                            long m = ObjectHelper.CastLong(to);
+                            long curr = ObjectHelper.CastLong(from);
+                            m = (long)(m + (curr - m) / (double)(occurrence));
+                            SetToData(m, true);
+                            return true;
+                        }
+
+                        if (ObjectHelper.DataType(to) == "Int16")
+                        {
+                            short m = ObjectHelper.CastShort(to);
+                            short curr = ObjectHelper.CastShort(from);
+                            m = (short)(m + (curr - m) / (double)(occurrence));
+                            SetToData(m, true);
+                            return true;
+                        }
+
+                        if (ObjectHelper.DataType(to) == "Single")
+                        {
+                            float m = ObjectHelper.CastFloat(to);
+                            float curr = ObjectHelper.CastFloat(from);
+                            m = (float)(m + (curr - m) / (float)(occurrence));
+                            SetToData(m, true);
+                            return true;
+                        }
+
+                        return false;
+                    }
+
+                case Token.CMIN :
 					if (ObjectHelper.IsGreater(to, from)) 
                         SetToData(from, true);
 					return true;
@@ -144,23 +204,15 @@ namespace Microarea.RSWeb.WoormEngine
                     return true;
 
                 case Token.CFIRST:
-                    if (Occurrence == 1)
+                    if (occurrence == 1)
                         SetToData(from, true);
                     return true;
-/*
-                case T_CCOUNT:
-                    {
-                        if (GetAccData().IsKindOf(RUNTIME_CLASS(DataLng)))
-                            SetAccData(DataLng(m_nOccurrence));
-                        else if (GetAccData().IsKindOf(RUNTIME_CLASS(DataInt)))
-                            SetAccData(DataInt(m_nOccurrence));
-                        else if (GetAccData().IsKindOf(RUNTIME_CLASS(DataDbl)))
-                            SetAccData(DataDbl(m_nOccurrence));
-                        else return FALSE;
 
-                        return TRUE;
+                case Token.CCOUNT:
+                    {
+                        SetToData(occurrence, true);                    
+                        return true;
                     }
-*/
             }
             return false;
 		}
