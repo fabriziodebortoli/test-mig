@@ -90,15 +90,16 @@ void DBTJsonCache::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 			//se non c'è, lo aggiungo
 			if (i >= m_pClientRecords->GetSize())
 			{
-				pOld = pCurrent->Create();
+				pCurrent->GetJson(jsonSerializer, bOnlyWebBound);
+				pOld = pCurrent->Clone();
+				pOld->AssignDataStatus(pCurrent);
 				m_pClientRecords->Add(pOld);
 			}
 			else
 			{
 				pOld = m_pClientRecords->GetAt(i);
+				pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
 			}
-
-			pCurrent->GetJsonPatch(jsonSerializer, pOld, bOnlyWebBound);
 		}
 		else
 		{

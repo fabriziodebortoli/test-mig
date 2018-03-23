@@ -13,7 +13,7 @@ import { ControlComponent } from './../../control.component';
   selector: 'tb-body-edit-enum-combo-column',
   templateUrl: './body-edit-enum-combo-column.component.html',
   styleUrls: ['./body-edit-enum-combo-column.component.scss'],
-  providers: [{provide: BodyEditColumnComponent, useExisting: forwardRef(() => BodyEditEnumComboColumnComponent) }]
+  providers: [{ provide: BodyEditColumnComponent, useExisting: forwardRef(() => BodyEditEnumComboColumnComponent) }]
 })
 export class BodyEditEnumComboColumnComponent extends BodyEditColumnComponent {
   @Input() title: string;
@@ -30,17 +30,14 @@ export class BodyEditEnumComboColumnComponent extends BodyEditColumnComponent {
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
-    public bodyEditService:BodyEditService
+    public bodyEditService: BodyEditService
   ) {
     super(enumsService, layoutService, tbComponentService, changeDetectorRef, bodyEditService);
   }
 
-  getWidth()
-  {
-    let lenght = (this.bodyEditService.prototype && this.bodyEditService.prototype[this.columnName].length) 
-    ? this.bodyEditService.prototype[this.columnName].length
-    : this.title? this.title.length : 10;
-   return lenght *10;
+  getWidth() {
+    let length = this.bodyEditService.getColumnLength(this.columnName, this.title);
+    return length * 10;
   }
 }
 

@@ -45,7 +45,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   private numberOfColumns: number = 0;
 
-  public enabled: boolean = false;
+
 
   public pageSizes = false;
   public previousNext = true;
@@ -84,7 +84,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   subscribeToSelector() {
     this.store.select('FormMode.value')
       .subscribe(m => {
-        this.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
+        this.bodyEditService.enabled = (m === FormMode.EDIT || m === FormMode.NEW) && (this.model && this.model.enabled);
         this.changeDetectorRef.markForCheck();
       });
 
@@ -160,7 +160,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
       let colComponent = this.grid.columns.toArray()[columnIndex];
       let colName = colComponent.field;
-      let isEnabled = this.bodyEditService.currentRow[colName].enabled && this.enabled
+      let isEnabled = this.bodyEditService.currentRow[colName].enabled && this.bodyEditService.enabled
       if (isEnabled) {
         this.lastEditedRowIndex = rowIndex;
         this.lastEditedColumnIndex = columnIndex;
@@ -257,6 +257,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.lastEditedRowIndex++;
     }
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+    setTimeout(() => {
+      var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
+     element.focus();
+   });
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -267,12 +271,17 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     if (this.lastEditedColumnIndex > 0) {
       this.lastEditedColumnIndex--;
+     
     }
     else {
       this.lastEditedColumnIndex = this.grid.columns.length;
       this.lastEditedRowIndex--;
     }
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+    setTimeout(() => {
+      var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
+      element.focus();
+    });
   }
 
   //-----------------------------------------------------------------------------------------------

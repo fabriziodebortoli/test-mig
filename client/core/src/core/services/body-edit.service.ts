@@ -9,6 +9,7 @@ import { Observable, Subject } from '../../rxjs.imports';
 @Injectable()
 export class BodyEditService {
 
+  public enabled: boolean = false;
   public isLoading: boolean = false;
   public bodyEditName: string;
   public prototype: any;
@@ -47,7 +48,7 @@ export class BodyEditService {
 
     this._currentRow = currentRow;
     for (var prop in this._currentRow) {
-      this._currentRow[prop].enabled = this.prototype[prop].enabled;
+      this._currentRow[prop].enabled = this.prototype[prop].enabled && this.enabled ;
     }
   }
 
@@ -85,6 +86,14 @@ export class BodyEditService {
 
   setRowViewVisibility(visible: boolean) {
     this.rowViewVisible = visible;
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  getColumnLength(colName, title): number {
+    let length = (this.prototype && this.prototype[colName] && this.prototype[colName].length > 0)
+      ? Math.max(title.length, this.prototype && this.prototype[colName].length)
+      : title ? title.length : 10;
+    return length;
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -129,7 +138,7 @@ export class BodyEditService {
       this.changeRow(this.currentDbtRowIdx);
     }
     else {
-      this.skip = this.skip + this.pageSize -1 ;
+      this.skip = this.skip + this.pageSize - 1;
       this.changeDBTRange(this.skip, this.pageSize, this.currentDbtRowIdx);
     }
   }

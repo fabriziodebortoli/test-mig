@@ -14,7 +14,7 @@ import { ControlComponent } from './../../control.component';
   selector: 'tb-body-edit-checkbox-column',
   templateUrl: './body-edit-checkbox-column.component.html',
   styleUrls: ['./body-edit-checkbox-column.component.scss'],
-  providers: [{provide: BodyEditColumnComponent, useExisting: forwardRef(() => BodyEditCheckBoxColumnComponent) }]
+  providers: [{ provide: BodyEditColumnComponent, useExisting: forwardRef(() => BodyEditCheckBoxColumnComponent) }]
 })
 export class BodyEditCheckBoxColumnComponent extends BodyEditColumnComponent {
   @Input() title: string;
@@ -31,19 +31,14 @@ export class BodyEditCheckBoxColumnComponent extends BodyEditColumnComponent {
     public layoutService: LayoutService,
     public tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
-    public bodyEditService:BodyEditService
+    public bodyEditService: BodyEditService
   ) {
     super(enumsService, layoutService, tbComponentService, changeDetectorRef, bodyEditService);
   }
 
-  getWidth()
-  {
-    let col = this.bodyEditService.prototype ? this.bodyEditService.prototype[this.columnName] : null;
-    let lenght = col && col.length 
-    ? col.length
-    : this.title ? this.title.length : 10;
-   return lenght *10;
+  getWidth() {
+    let length = this.bodyEditService.getColumnLength(this.columnName, this.title);
+    return length * 10;
   }
-  
 }
 

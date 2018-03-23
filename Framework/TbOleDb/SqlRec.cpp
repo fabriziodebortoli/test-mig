@@ -2210,7 +2210,14 @@ void SqlRecord::SetStatus (BOOL bValid, RecordStatus aStatusFlag)
 	else
 		m_wRecStatus &= ~aStatusFlag; 
 }
-	
+//-----------------------------------------------------------------------------
+void SqlRecord::AssignDataStatus(SqlRecord* pSource)
+{
+	ASSERT(GetSizeEx() == pSource->GetSizeEx());
+	ASSERT(GetRuntimeClass() == pSource->GetRuntimeClass());
+	for (int nCol = 0; nCol < GetSizeEx(); nCol++)
+		GetDataObjAt(nCol)->m_wDataStatus = pSource->GetDataObjAt(nCol)->m_wDataStatus;
+}
 //---------------------------------------------------------------------------------------------------------------------
 void SqlRecord::Clear(BOOL bValid)	
 { m_wRecStatus = 0; SetValid(bValid); }

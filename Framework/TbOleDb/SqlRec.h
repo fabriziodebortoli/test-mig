@@ -506,11 +506,11 @@ public:
 	bool	IsInsertedByUI() const  { return m_bInsertedByUI; }
 
 	void    SetColumnAsNativeExpression(DataObj* pDataObj);
+	void	AssignDataStatus(SqlRecord* pSource);
 
 private:
 	void	Initialize		();
 	void	SetStatus	(BOOL bValid, RecordStatus aStatusFlag);
-
 	//imposta solo il flag globale del record
 	void	SetModified	(BOOL bModified = TRUE);
 	//loop sui fields
