@@ -1184,7 +1184,12 @@ BOOL WhileRule::Parse(Parser& parser)
 
 	if (parser.Matched(T_FOR))
 	{
-		m_pBefore->Parse(parser);
+		if (!m_pBefore->Parse(parser))
+		{
+			this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
+			return FALSE;
+		}
+
 		m_pBefore->m_strOwnerName = L"Rule." + GetDescription() + L".Init";
 	}
 		
@@ -1200,12 +1205,20 @@ BOOL WhileRule::Parse(Parser& parser)
 
 	if (parser.Match(T_DO))
 	{
-		m_pBody->Parse(parser);
+		if (!m_pBody->Parse(parser))
+		{
+			this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
+			return FALSE;
+		}
 	}
 
 	if (parser.Matched(T_CONTINUE))
 	{
-		m_pAfter->Parse(parser);
+		if (!m_pAfter->Parse(parser))
+		{
+			this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
+			return FALSE;
+		}
 		m_pAfter->m_strOwnerName = L"Rule." + GetDescription() + L".Repeat";
 	}
 
@@ -1213,6 +1226,7 @@ BOOL WhileRule::Parse(Parser& parser)
 
 	if (pOld && m_arWSelFieldName.GetSize())
 		pOld->Append(m_arWSelFieldName);
+
 	this->m_OwnerEngine.GetSymTable().TraceFieldsModified(pOld);
 
 	SetRuleFields(TRUE);

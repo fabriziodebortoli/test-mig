@@ -686,17 +686,61 @@ namespace Microarea.Common.CoreTypes
         protected Dictionary<string, Variable> symbols = new Dictionary<string, Variable>(StringComparer.OrdinalIgnoreCase);
 
         private List<string> localizableStrings = new List<string>();
-        protected SymbolTable parent = null;
-
+ 
         public ushort maxID = 1000;
         public ushort GetNewID() { return ++maxID; }
-
+        //-----------------------------------------------------------------------------
+        protected SymbolTable parent = null;
         public SymbolTable Parent { get { return parent; } set { parent = value; } }
         public SymbolTable Root { get { return parent != null ? parent.Root : this; } }
-        virtual public DataLevel DataLevel { get { return 0; } }
-
-
         public int Count { get { return symbols.Keys.Count; } }
+
+        virtual public DataLevel DataLevel { get { return 0; } }
+        //-----------------------------------------------------------------------------
+        List<string> fieldsModified = null;
+        public List<string> TraceFieldsModified(List<string> ar)
+        {
+            List<string> old = fieldsModified;
+            fieldsModified = ar;
+            return old;
+        }
+        public void AddTraceFieldModify(string name, bool noDuplicate = true)
+        {
+            if (fieldsModified == null)
+                return;
+
+            name = name.ToLower();
+
+            if (noDuplicate)
+            {
+                if (fieldsModified.IndexOf(name) > -1)
+                    return; 
+            }
+            fieldsModified.Add(name);
+        }
+
+        //-----------------------------------------------------------------------------
+        List<string> fieldsUsed = null;
+        public List<string> TraceFieldsUsed(List<string> ar)
+        {
+            List<string> old = fieldsUsed;
+            fieldsUsed = ar;
+            return old;
+        }
+        public void AddTraceFieldUsed(string name, bool noDuplicate = true)
+        {
+            if (fieldsUsed == null)
+                return;
+
+            name = name.ToLower();
+
+            if (noDuplicate)
+            {
+                if (fieldsUsed.IndexOf(name) > -1)
+                    return;
+            }
+            fieldsUsed.Add(name);
+        }
 
         //-----------------------------------------------------------------------------
         public List<string> LocalizableStrings { get { return this.parent != null ? this.parent.LocalizableStrings : localizableStrings; } }

@@ -1188,7 +1188,9 @@ namespace Microarea.RSWeb.WoormEngine
 				return false;
 			}
 
-			if (actionToken == Token.ID)
+           GetSymTable().Fields.AddTraceFieldModify(fieldName);
+
+            if (actionToken == Token.ID)
 			{
 				if (field.IsArray || (lex.LookAhead(Token.SQUAREOPEN) && field.DataType == "String"))
 				{

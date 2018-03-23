@@ -368,6 +368,8 @@ namespace Microarea.RSWeb.WoormEngine
 
 							this.auditExpr += ' ' + lex.GetAuditString();
 
+                            SymbolTable.AddTraceFieldUsed(columnName);
+
                             // metto una variabile fittizzia che mi permette di fare il giusto bind
                             expressionStack.Push(new Variable(columnName));
                             break;

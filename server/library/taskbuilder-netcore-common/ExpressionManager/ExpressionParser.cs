@@ -854,6 +854,9 @@ namespace Microarea.Common.ExpressionManager
                                     return;
                                 name += sCol;
 
+                                if (this.symbolTable != null && this.symbolTable.Find(name) != null)
+                                    symbolTable.AddTraceFieldUsed(name);
+
                                 stack.Push(new Variable(name));
                                 break;
                             }
@@ -869,6 +872,8 @@ namespace Microarea.Common.ExpressionManager
                             Variable v = this.symbolTable.Find(name);
                             if (v != null)
                             {
+                                symbolTable.AddTraceFieldUsed(name);
+
                                 this.hasField = true;
                                 if (v.IsRuleFields())
                                 {
@@ -1239,6 +1244,8 @@ namespace Microarea.Common.ExpressionManager
                         tokenFun = Language.GetKeywordsToken("Array_" + name.Mid(idx + 1));
                         if (tokenFun != Token.NOTOKEN)
                         {
+                            symbolTable.AddTraceFieldUsed(sArrayName);
+
                             stack.Push(new Variable(sArrayName)); //first parameter: array name
                             nrParams++;
                             name = Language.GetTokenString(tokenFun);
@@ -1258,6 +1265,7 @@ namespace Microarea.Common.ExpressionManager
                     fp = this.symbolTable.ResolveCallMethod(name, out handleName) as FunctionPrototype;
                     if (fp != null && !handleName.IsNullOrEmpty())
                     {
+                        symbolTable.AddTraceFieldUsed(handleName);
                         // push object handle as first parameters
                         stack.Push(new Variable(handleName));
                         nrParams++;

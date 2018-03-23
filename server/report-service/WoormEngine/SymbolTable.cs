@@ -105,26 +105,18 @@ namespace Microarea.RSWeb.WoormEngine
         public FieldSymbolTable()
         {
             AddAlias("Woorm", "Framework.TbWoormViewer.TbWoormViewer");
+            AddAlias("RS", "Framework.TbWoormViewer.TbWoormViewer");
         }
 
         public FieldSymbolTable(FieldSymbolTable parent)
             : base(parent)
         {
             if (parent == null)
+            {
                 AddAlias("Woorm", "Framework.TbWoormViewer.TbWoormViewer");
+                AddAlias("RS", "Framework.TbWoormViewer.TbWoormViewer");
+            }
         }
-
-			//--------------------------------------------------------------------------
-		//public FieldSymbolTable(SerializationInfo info, StreamingContext context)
-		//{
-		//	//error = info.GetBoolean(ERROR);
-		//}
-
-		////--------------------------------------------------------------------------
-		//public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		//{
-		//	base.GetObjectData(info, context);
-		//}
 
         //-----------------------------------------------------------------------------
         public new Field Find(string name)

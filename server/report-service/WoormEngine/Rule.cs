@@ -2106,33 +2106,50 @@ namespace Microarea.RSWeb.WoormEngine
 		//-----------------------------------------------------------------------------
 		public bool	Parse (Parser lex)
 		{
-            //selectedFieldName.RemoveAll();
-            //CStringArray* pOld = engine.RepSymTable().Fields.TraceFieldsModified(ref selectedFieldName);
-
+            selectedFieldName = new List<string>();
+            List<string> old = engine.RepSymTable.Fields.TraceFieldsModified(selectedFieldName);
+ 
             if (lex.Matched(Token.FOR))
             {
                 if (!Before.Parse(lex))
+                {
+                    engine.RepSymTable.Fields.TraceFieldsModified(old);
                     return false;
+                }
             }
 
             if (lex.Match(Token.WHILE))
 			{
 				condExpr.StopTokens = new StopTokens(new Token[] { Token.DO });
-				if (!condExpr.Compile(lex, CheckResultType.Match, "Boolean"))
-					return false;
+                if (!condExpr.Compile(lex, CheckResultType.Match, "Boolean"))
+                {
+                    engine.RepSymTable.Fields.TraceFieldsModified(old);
+                    return false;
+                }
 
                 if (lex.Match(Token.DO))
                 {
                     if (!Body.Parse(lex))
+                    {
+                        engine.RepSymTable.Fields.TraceFieldsModified(old);
                         return false;
+                    }
                 }
             }
 
             if (lex.Matched(Token.CONTINUE))
             {
                 if (!After.Parse(lex))
+                {
+                    engine.RepSymTable.Fields.TraceFieldsModified(old);
                     return false;
+                }
             }
+
+            //if (old != null)
+            //    old += selectedFieldName;
+
+            engine.RepSymTable.Fields.TraceFieldsModified(old);
 
             SetRuleFields();
 

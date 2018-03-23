@@ -49,6 +49,7 @@ namespace Microarea.Common.Hotlink
 
         public bool             ValorizeAll = true;
         public  bool            IsQueryRule = false;
+
         private List<string>    selectFields = null;
         public List<string>     AllColumns = null;
 
