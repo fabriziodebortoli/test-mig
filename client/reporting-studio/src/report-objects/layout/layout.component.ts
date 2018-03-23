@@ -212,20 +212,18 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             continue;
           }
           const h = element.fieldrect.baserect.baseobj.hidden;
-          if (h !== undefined && h !== obj.hidden){
+          if (h !== undefined && h !== obj.hidden) {
             obj.hidden = h;
-        }
+          }
           if (element.fieldrect.label !== undefined) {
             obj.label.caption = element.fieldrect.label.caption;
             if (element.fieldrect.label.textcolor !== undefined) {
               obj.label.textcolor = element.fieldrect.label.textcolor;
             }
           }
-
           if (element.fieldrect.link !== undefined) {
             obj.link = new link(element.fieldrect.link);
           }
-
           if (element.fieldrect.textcolor !== undefined) {
             obj.textcolor = element.fieldrect.textcolor;
           }
@@ -242,9 +240,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             continue;
           }
           const h = element.textrect.baserect.baseobj.hidden;
-          if (h !== undefined && h !== obj.hidden){
+          if (h !== undefined && h !== obj.hidden) {
             obj.hidden = h;
-        }
+          }
           if (element.textrect.value !== undefined) {
             obj.value = element.textrect.value;
           }
@@ -257,14 +255,16 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         }
         else if (element.table !== undefined) {
           id = element.table.baseobj.id;
-          value = element.table.rows;
           let obj = this.FindObj(id);
           if (obj === undefined) {
             continue;
           }
-
+          const h = element.table.baseobj.hidden;
+          if (h !== undefined && h !== obj.hidden) {
+           obj.hidden = h;
+          }
+          value = element.table.rows;
           let columns = element.table.columns;
-
           for (let i = 0; i < obj.columns.length; i++) {
             let target: column = obj.columns[i];
             let source: column = columns[i];
@@ -278,24 +278,27 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             if (source.width !== undefined) {
               target.width = source.width;
             }
-
             if (source.title !== undefined) {
-
               if (source.title.textcolor !== undefined) {
                 target.title.textcolor = source.title.textcolor;
               }
-
               if (source.title.bkgcolor !== undefined) {
                 target.title.bkgcolor = source.title.bkgcolor;
               }
             }
           }
-
           obj.value = value;
         }
         else if (element.chart !== undefined) {
           id = element.chart.baserect.baseobj.id;
           let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+          const h = element.chart.baserect.baseobj.hidden;
+         if (h !== undefined && h !== obj.hidden){
+          obj.hidden = h;
+         }
           if (obj.series)
             obj.series = [];
           element.chart.series.forEach(element => {
@@ -313,6 +316,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (obj === undefined) {
             continue;
           }
+          const h = element.gauge.baserect.baseobj.hidden;
+         if (h !== undefined && h !== obj.hidden){
+          obj.hidden = h;
+         }
           if (element.gauge.pointers && obj.pointers)
           {
             for (let i=0;i<element.gauge.pointers.length;i++){
@@ -321,7 +328,29 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
             }
           }
         }
-      } catch (a) {
+        else if (element.sqrrect !== undefined) {
+          id = element.sqrrect.baserect.baseobj.id;
+          let obj = this.FindObj(id);
+          if (obj === undefined) {
+            continue;
+          }
+          const h = element.sqrrect.baserect.baseobj.hidden;
+          if (h !== undefined && h !== obj.hidden){
+            obj.hidden = h;
+        }
+      }
+      else if (element.graphrect !== undefined) {
+        id = element.graphrect.baserect.baseobj.id;
+        let obj = this.FindObj(id);
+        if (obj === undefined) {
+          continue;
+        }
+        const h = element.graphrect.baserect.baseobj.hidden;
+        if (h !== undefined && h !== obj.hidden){
+          obj.hidden = h;
+      }
+    }
+  } catch (a) {
         console.log(a);
         let k = a;
       }
