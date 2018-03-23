@@ -934,11 +934,13 @@ public:
 	virtual void OnBuildDataControlLinks		(CTabDialog*);
 	virtual void OnBuildDataControlLinks		(CAbstractFormView*);
 	virtual void OnBuildDataControlLinks		(CTileDialog*);
+	virtual void OnPrepareAuxData				(UINT nID) {}
 	virtual void OnPrepareAuxData				(CTabDialog*);
 	virtual void OnPrepareAuxData				(CAbstractFormView*);
 	virtual void OnPrepareAuxData				(CTileGroup*);
 	virtual void OnPrepareAuxData				(CTileDialog*);
-	virtual void OnUpdateTitle					(CTileDialog*){}
+	virtual void OnUpdateTitle					(CTileDialog*);
+	virtual void OnUpdateTitle					(UINT nID){}
 	virtual CString OnGetCaption(CAbstractFormView*) { return _T(""); }
 	virtual void OnManageAfterBatchExecute		() {}
 
@@ -1184,7 +1186,9 @@ public:
 	virtual  void OnBEHideCtrl		(CBodyEdit*, SqlRecord* , ColumnInfo* )  {}
 	virtual  void OnBEEnableButton	(CBodyEdit* , CBEButton* ) {}
 	void DoPinUnpin(CBaseTileDialog* pTileDialog);
-	virtual	 void OnPinUnpin		(CBaseTileDialog* pTileDialog) {}
+	void DoPinUnpin(UINT nDialogId, bool isPinned);
+	virtual	 void OnPinUnpin(CBaseTileDialog* pTileDialog);
+	virtual	 void OnPinUnpin(UINT nDialogId, bool isPinned) {}
 	virtual WebCommandType OnGetWebCommandType(UINT commandID);
 
 	CRuntimeClass* DispatchOnModifySqlRecordClass	(DBTObject*, const CString& sDBTName, CRuntimeClass* pSqlRecordClass);

@@ -1119,12 +1119,26 @@ BOOL CAbstractFormDoc::DeleteButton(UINT nID)
 }
 
 //-----------------------------------------------------------------------------
+void CAbstractFormDoc::DoPinUnpin(UINT nDialogId, bool isPinned)
+{
+	OnPinUnpin(nDialogId, isPinned);
+	m_pClientDocs->OnPinUnpin(nDialogId, isPinned);
+	//if (GetHotFilterManager())
+	//	GetHotFilterManager()->OnPinUnpin(pTileDialog);
+}
+//-----------------------------------------------------------------------------
 void CAbstractFormDoc::DoPinUnpin(CBaseTileDialog* pTileDialog)
 {
 	OnPinUnpin(pTileDialog);
 	m_pClientDocs->OnPinUnpin(pTileDialog);
 	if (GetHotFilterManager())
 		GetHotFilterManager()->OnPinUnpin(pTileDialog);
+}
+
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::OnPinUnpin(CBaseTileDialog* pTileDialog)
+{
+	OnPinUnpin(pTileDialog->GetDialogID(), TRUE == pTileDialog->IsPinned());
 }
 
 //-----------------------------------------------------------------------------
@@ -1392,7 +1406,7 @@ void CAbstractFormDoc::RegisterDBT(DBTObject* pDBT)
 
 			if (pExistingDBT->GetNamespace() == pDBT->GetNamespace())
 			{
-				ASSERT(FALSE);
+//				ASSERT(FALSE);
 				TRACE1("CAbstractFormDoc::RegisterDBT %s duplicate dbt namespace!", pExistingDBT->GetNamespace().ToUnparsedString());
 				return;
 			}
@@ -4579,11 +4593,17 @@ void CAbstractFormDoc::OnBuildDataControlLinks(CTileDialog* pTile)
 
 	m_pClientDocs->OnInitializeUI(pTile->GetNamespace());
 }
+//-----------------------------------------------------------------------------
+void CAbstractFormDoc::OnUpdateTitle(CTileDialog* pTabDlg)
+{
+	OnUpdateTitle(pTabDlg->GetDialogID());
+}
 
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnPrepareAuxData(CTabDialog* pTabDlg)
 {
 	m_pClientDocs->OnPrepareAuxData(pTabDlg);
+	OnPrepareAuxData(pTabDlg->GetDialogID());
 }
 
 //-----------------------------------------------------------------------------
@@ -4596,11 +4616,13 @@ void CAbstractFormDoc::OnPrepareAuxData(CAbstractFormView* pView)
 void CAbstractFormDoc::OnPrepareAuxData(CTileDialog* pTileDlg)
 {
 	m_pClientDocs->OnPrepareAuxData(pTileDlg);
+	OnPrepareAuxData(pTileDlg->GetDialogID());
 }
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnPrepareAuxData(CTileGroup* pTileGroup)
 {
 	m_pClientDocs->OnPrepareAuxData(pTileGroup);
+	OnPrepareAuxData(pTileGroup->m_pDlgInfoItem->GetDialogID());
 }
 // do related record action based on document mode	
 //-----------------------------------------------------------------------------

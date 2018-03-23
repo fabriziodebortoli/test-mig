@@ -42,6 +42,9 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("queryHyperLink")] = &CTBSocketHandler::QueryHyperLink;
 	functionMap[_T("openNewHyperLink")] = &CTBSocketHandler::OpenNewHyperLink;
 	functionMap[_T("doControlCommand")] = &CTBSocketHandler::DoControlCommand;
+	functionMap[_T("updateTitle")] = &CTBSocketHandler::DoUpdateTitle;
+	functionMap[_T("prepareAuxData")] = &CTBSocketHandler::DoPrepareAuxData;
+	functionMap[_T("pinUnpin")] = &CTBSocketHandler::DoPinUnpin;
 
 }
 
@@ -304,6 +307,86 @@ void CTBSocketHandler::DoControlCommand(CJsonParser& json)
 	{
 		pDoc->OnCmdMsg(id, EN_CTRL_STATE_CHANGED, NULL, NULL);
 		pDoc->UpdateDataView();
+	}
+}
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::DoPrepareAuxData(CJsonParser& json)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//e non potrei chiudere con la ResumePushToClient
+	//pSession->SuspendPushToClient();
+	CString sId = json.ReadString(_T("id"));
+	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
+	HWND cmpId = ReadComponentId(json);
+	//aggiornamento del model
+	pSession->SetJsonModel(json, cmpId);
+	//esecuzione comando
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CUpdateDataViewLevel _upd(pDoc);
+	if (pDoc)
+	{
+		pDoc->OnPrepareAuxData(id);
+	}
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::DoUpdateTitle(CJsonParser& json)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//e non potrei chiudere con la ResumePushToClient
+	//pSession->SuspendPushToClient();
+	CString sId = json.ReadString(_T("id"));
+	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
+	HWND cmpId = ReadComponentId(json);
+	//aggiornamento del model
+	pSession->SetJsonModel(json, cmpId);
+	//esecuzione comando
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CUpdateDataViewLevel _upd(pDoc);
+	if (pDoc)
+	{
+		pDoc->OnUpdateTitle(id);
+	}
+}
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::DoPinUnpin(CJsonParser& json)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+
+	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//e non potrei chiudere con la ResumePushToClient
+	//pSession->SuspendPushToClient();
+	CString sId = json.ReadString(_T("id"));
+	bool isPinned = json.ReadBool(_T("pinned"));
+	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
+	HWND cmpId = ReadComponentId(json);
+	//aggiornamento del model
+	pSession->SetJsonModel(json, cmpId);
+	//esecuzione comando
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CUpdateDataViewLevel _upd(pDoc);
+	if (pDoc)
+	{
+		pDoc->DoPinUnpin(id, isPinned);
 	}
 }
 //--------------------------------------------------------------------------------

@@ -623,7 +623,12 @@ void CClientDocArray::OnBuildDataControlLinks(CTileDialog* pTile)
 	for (int i = 0; i <= GetUpperBound(); i++)
 		GetAt(i)->OnBuildDataControlLinks(pTile);
 }
-
+//-----------------------------------------------------------------------------
+void CClientDocArray::OnPrepareAuxData(UINT nID)
+{	
+	for (int i = 0; i <= GetUpperBound(); i++)
+		GetAt(i)->OnPrepareAuxData(nID);
+}
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnPrepareAuxData(CTileGroup* pTileGroup)
 {	
@@ -763,6 +768,14 @@ void CClientDocArray::OnPinUnpin(CBaseTileDialog* pTileDialog)
 		return;
 	for (int i = 0; i <= GetUpperBound(); i++)
 		GetAt(i)->OnPinUnpin(pTileDialog);
+}
+//-----------------------------------------------------------------------------
+void CClientDocArray::OnPinUnpin(UINT nDialogId, bool isPinned)
+{
+	if (this == NULL)
+		return;
+	for (int i = 0; i <= GetUpperBound(); i++)
+		GetAt(i)->OnPinUnpin(nDialogId, isPinned);
 }
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnUpdateTitle(CBaseTileDialog* pTileDialog)

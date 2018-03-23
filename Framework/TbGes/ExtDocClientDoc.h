@@ -422,6 +422,7 @@ protected:
 	virtual void OnParsedControlCreated	(CParsedCtrl* pCtrl)	{  }//chiamato dopo la creazione del controllo, permette di modificarne lo stato
 	virtual void OnColumnInfoCreated	(ColumnInfo* pColInfo)	{  }//chiamato dopo la creazione della colonna, permette di modificarne lo stato
 	virtual void OnPinUnpin				(CBaseTileDialog* pTileDialog) {}
+	virtual void OnPinUnpin				(UINT nDialogId, bool isPinned) {}
 	virtual void OnUpdateTitle			(CBaseTileDialog* pTileDialog) {}
 	virtual void OnPropertyCreated		(CTBProperty* pProperty) {}
 	virtual	BOOL OnGetToolTipProperties	(CBETooltipProperties* pTooltip) {return FALSE;}
@@ -498,6 +499,7 @@ protected:
 	virtual void		OnBuildDataControlLinks (CTileDialog*)					{}
 	virtual void		OnPrepareAuxData		(CTabDialog*)					{}
 	virtual void		OnPrepareAuxData		(CTileGroup*)					{}
+	virtual void		OnPrepareAuxData		(UINT nID)						{}
 	virtual void		OnPrepareAuxData		(CAbstractFormView*)			{}
 	virtual void		OnPrepareAuxData		(CTileDialog*)					{}
 	virtual void		OnDestroyTabDialog		(CTabDialog*)					{}
@@ -772,6 +774,7 @@ protected:
 	void OnBuildDataControlLinks(CTabDialog*);
 	void OnBuildDataControlLinks(CAbstractFormView*);
 	void OnBuildDataControlLinks(CTileDialog*);
+	void OnPrepareAuxData		(UINT nID);
 	void OnPrepareAuxData		(CTileGroup*);
 	void OnPrepareAuxData		(CTabDialog*);
 	void OnPrepareAuxData		(CAbstractFormView*);
@@ -823,6 +826,7 @@ protected:
 	void OnParsedControlCreated	(CParsedCtrl* pCtrl);
 	void OnColumnInfoCreated	(ColumnInfo* pColInfo);
 	void OnPinUnpin				(CBaseTileDialog* pTileDialog);
+	void OnPinUnpin				(UINT nDialogId, bool isPinned);
 	void OnUpdateTitle			(CBaseTileDialog* pTileDialog);
 	void OnPropertyCreated		(CTBProperty * pProperty);
 	BOOL OnGetToolTipProperties	(CBETooltipProperties* pTooltip);
