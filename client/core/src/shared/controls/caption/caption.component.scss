@@ -10,13 +10,22 @@
         color: #000;
         line-height: 16px;
     }
-    &.tb-italic label {
+}
+
+:host-context(.tb-italic) {
+    label {
         font-style: italic;
     }
-    &.tb-underline label {
+}
+
+:host-context(.tb-underline) {
+    label {
         text-decoration: underline;
     }
-    &.tb-bold label {
+}
+
+:host-context(.tb-bold) {
+    label {
         font-weight: 500;
     }
 }
@@ -29,6 +38,24 @@
 
 :host-context(.static-area) {
     label {
-        width: 170px;
+        width: 170px  !important;
+    }
+}
+
+:host-context(.text-align-left) {
+    label {
+        text-align: left;
+    }
+}
+
+:host-context(.text-align-center) {
+    label {
+        text-align: center;
+    }
+}
+
+:host-context(.text-align-right) {
+    label {
+        text-align: right;
     }
 }

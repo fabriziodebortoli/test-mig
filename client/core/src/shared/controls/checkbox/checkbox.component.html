@@ -1,5 +1,5 @@
 <tb-control-container type="tb-checkbox" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <tb-caption [captionWidth]="width/widthFactor-20" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <input type="checkbox" id="{{cmpId}}" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="modelChanged($event)" class="k-checkbox">
     <label class="k-checkbox-label" for="{{cmpId}}">&nbsp;</label>
 </tb-control-container>
