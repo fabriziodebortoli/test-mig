@@ -215,7 +215,7 @@ namespace Microarea.Common.Generic
             //---------------------------------------------------------------------
             public static void ClearCachedData(string currentUser)
             {
-                Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
+                Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();//TODO LARA
                 MenuInfo.CachedMenuInfos.Delete(currentUser);
             }
 

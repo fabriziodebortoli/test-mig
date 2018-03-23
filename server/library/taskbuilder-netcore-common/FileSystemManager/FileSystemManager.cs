@@ -133,6 +133,14 @@ namespace Microarea.Common.FileSystemManager
         }
 
 
+        //---------------------------------------------------------------------------------
+        public TBFile GetTBFile(string completedFileName)
+        {
+            if (IsManagedByAlternativeDriver(completedFileName))
+                return GetAlternativeDriver().GetTBFile(completedFileName);
+            else
+                return GetFileSystemDriver().GetTBFile(completedFileName);
+        }
 
         //-----------------------------------------------------------------------------
         public string GetServerConnectionConfig()

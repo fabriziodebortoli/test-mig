@@ -60,10 +60,9 @@ namespace Microarea.Common.MenuLoader
 			return doc;
 		}
 		//---------------------------------------------------------------------
-		private static XmlDocument GetMenuXml(string user, string company, string authenticationToken, bool clearCachedData)
+		private static XmlDocument GetMenuXml(string user, string company, string authenticationToken, bool clearCachedData, PathFinder pf)
 		{
-			PathFinder pf = new PathFinder(company, user);
-			XmlDocument doc = null;
+            XmlDocument doc = null;
 			try
 			{
                 MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
@@ -78,47 +77,69 @@ namespace Microarea.Common.MenuLoader
 			if (doc == null)
 				throw new Exception("new menu not found");
 
-			ProcessMostUsedNodes(doc, user, company);
+			ProcessMostUsedNodes(doc, user, company, pf);
 
-			ProcessFavoritesNodes(doc, user, company);
+			ProcessFavoritesNodes(doc, user, company, pf);
 
-			ProcessHiddenNodes(doc, user, company);
+			ProcessHiddenNodes(doc, user, company, pf);
 
 			return doc;
 		}
 
-		//---------------------------------------------------------------------
-		/// <summary>
-		/// Se il menu è già stato caricato, ritorna il json al menu in caricamento (e lo cancella),
-		/// altrimenti lo carica al volo e lo ritorna
-		/// </summary>
-		public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken, bool clearCachedData)
+        //---------------------------------------------------------------------------------
+        public static bool IsOldMenuFile(string user, string company, DateTime dateTime, string authenticationToken)
+        {
+            PathFinder pf = new PathFinder(company, user);
+            MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
+            return !menuLoader.IsCached();
+
+            //TODO LARA NN LA CANCELLO ANCORA
+            //parte x il file dell utente 
+            //string originalStandardFile = pf.GetCustomUserCachedMenuFile();
+
+            //if (pf.ExistFile(originalStandardFile))
+            //{
+            //    TBFile file = pf.GetTBFile(originalStandardFile);
+            //    if (file == null)
+            //        return false;
+
+            //    if (DateTime.Compare(file.LastWriteTime, dateTime) > 0)
+            //        return true;
+            //}
+        }
+
+        //---------------------------------------------------------------------
+        /// <summary>
+        /// Se il menu è già stato caricato, ritorna il json al menu in caricamento (e lo cancella),
+        /// altrimenti lo carica al volo e lo ritorna
+        /// </summary>
+        public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken, bool clearCachedData)
 		{
-            
-        	string originalStandardFile = MenuInfo.GetFullMenuCachingFullFileName(user); 
-            FileInfo originalStandardFileInfo = new FileInfo(originalStandardFile);
+            //TODO LARA
+             PathFinder pf = new PathFinder(company, user);
 
-			if (PathFinder.PathFinderInstance.ExistFile(originalStandardFile))
-			{
-				string result = File.ReadAllText(originalStandardFileInfo.FullName);
-				try
-				{
-                    PathFinder.PathFinderInstance.RemoveFile(originalStandardFileInfo.FullName);
-				}
-				catch (Exception)
-				{
-				}
-				return result;
-			}
+   //         string originalStandardFile = pf.GetCustomUserCachedMenuFile();
+           
+			//if (pf.ExistFile(originalStandardFile))
+			//{
+                
+   //             return pf.GetFileTextFromFileName(originalStandardFile);
+   //         }
 
-			XmlDocument doc = GetMenuXml(user, company, authenticationToken, clearCachedData);
-			return NewMenuFunctions.GetAngularJSSafeJson(doc);
-		}
+			XmlDocument doc = GetMenuXml(user, company, authenticationToken, clearCachedData, pf);
+            return NewMenuFunctions.GetAngularJSSafeJson(doc);
+
+            //byte[] byteArray = Encoding.UTF8.GetBytes(result);
+            //MemoryStream stream = new MemoryStream(byteArray);
+          //  pf.SaveTextFileFromStream(originalStandardFile, stream);
+
+        //    return result;
+
+        }
 
 		//---------------------------------------------------------------------
-		private static void ProcessMostUsedNodes(XmlDocument doc, string user, string company)
+		private static void ProcessMostUsedNodes(XmlDocument doc, string user, string company, PathFinder pf)
 		{
-			PathFinder pf = new PathFinder(company, user);
 			string mostUsedFile = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
 			XmlDocument mostUsedDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(mostUsedFile);
 			XmlNodeList nodeList = mostUsedDoc.SelectNodes("//MostUsed");
@@ -163,9 +184,8 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------
-		private static void ProcessFavoritesNodes(XmlDocument doc, string user, string company)
-		{
-			PathFinder pf = new PathFinder(company, user);
+		private static void ProcessFavoritesNodes(XmlDocument doc, string user, string company, PathFinder pf)
+        {
 			string favoritesFile = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
 			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile);
 			XmlNodeList nodeList = favoritesDoc.SelectNodes("//Favorite");
@@ -213,9 +233,8 @@ namespace Microarea.Common.MenuLoader
 
 
 		//---------------------------------------------------------------------
-		private static void ProcessHiddenNodes(XmlDocument doc, string user, string company)
-		{
-			PathFinder pf = new PathFinder(company, user);
+		private static void ProcessHiddenNodes(XmlDocument doc, string user, string company, PathFinder pf)
+        {
 			string favoritesFile = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
 			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile);
 

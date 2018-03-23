@@ -126,26 +126,28 @@ namespace Microarea.Common.NameSolver
 			}
 		}
 
-		//----------------------------------------------------------------------------
-		/// <summary>
-		/// Indica se il path finder sta girando sullo stesso server dell'installazione
-		/// </summary>
-		private bool InitFileSystemManager(PathFinder pathfinder)
-		{
-			fileSystemManager = new FileSystemManager.FileSystemManager(pathfinder)
-			{
-				FileSystemDriver = new FileSystemDriver(pathfinder) // lui c'� sempre
-			};
-			FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
-			managerInfo.LoadFile();
-			if (managerInfo.GetDriver() == DriverType.Database)
-			{
-				DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), managerInfo.GetCustomConnectionString());
-				fileSystemManager.AlternativeDriver = dataBaseDriver;
-			}
-
-			return true;
-		}
+        //----------------------------------------------------------------------------
+        /// <summary>
+        /// Indica se il path finder sta girando sullo stesso server dell'installazione
+        /// </summary>
+        private bool InitFileSystemManager(PathFinder pathfinder)
+        {
+            fileSystemManager = new Common.FileSystemManager.FileSystemManager(pathfinder);
+            fileSystemManager.FileSystemDriver = new FileSystemDriver(pathfinder); // lui c e sempre
+            FileSystemManagerInfo managerInfo = new FileSystemManagerInfo();
+            managerInfo.LoadFile();
+            if (managerInfo.GetDriver() == DriverType.Database)
+            {
+                DatabaseDriver dataBaseDriver = new DatabaseDriver(pathfinder, managerInfo.GetStandardConnectionString(), managerInfo.GetCustomConnectionString());
+                fileSystemManager.AlternativeDriver = dataBaseDriver;
+            }
+            //if (pathfinder.user.IsNullOrEmpty() && pathfinder.company.IsNullOrEmpty())
+            //{
+            //    pathfinder.user = managerInfo.GetUserName();
+            //    pathfinder.company = managerInfo.GetCompanyName();
+            //}
+            return true;
+        }
 
 		//----------------------------------------------------------------------------
 		/// <summary>
@@ -1605,7 +1607,7 @@ namespace Microarea.Common.NameSolver
 			string sTemp = file.Directory.FullName;
 
 			int nPos = sTemp.LastIndexOf('\\');
-			string strUser = sTemp.Substring(sTemp.Length - (nPos + 1));
+			string strUser = sTemp.Substring(nPos + 1);
 
 			if (string.IsNullOrEmpty(strUser))
 				return string.Empty;
@@ -1617,40 +1619,40 @@ namespace Microarea.Common.NameSolver
 
 			// se sono in AllUsers ritorno vuoto, cio� non utente
 			if (string.Compare(strUser, "AllUsers", true) == 0)
-				return string.Empty;
+				return NameSolverStrings.AllUsers;
 
 			return strUser.Replace('.', '\\');
 		}
 
 
-		//-------------------------------------------------------------------------------------
-		public (string,string) GetApplicationModuleNameFromPath(String fullPath)
-		{
-			string exterminate = "";
+        //-----------------------------------------------------------------------------
+        public (string, string) GetApplicationModuleNameFromPath(String fullPath)
+        {
+            string exterminate = "";
 
-			var stdApplicationsPath = Path.Combine(GetStandardPath, NameSolverStrings.Applications);
-			if (fullPath.Contains(stdApplicationsPath))			
-				exterminate = stdApplicationsPath;		// C:\Develop\Standard\Applications 					
-			else
-			{
-				var custApplicCompany = !string.IsNullOrEmpty(GetCustomCompanyPath()) ? //se empty, non c'è una company settata
-					Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications) : string.Empty;
-				if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
-					exterminate = custApplicCompany;    // C:\Develop\Custom\Subscription\'CompanyName'\Applications 
+            var stdApplicationsPath = Path.Combine(GetStandardPath, NameSolverStrings.Applications);
+            if (fullPath.Contains(stdApplicationsPath))
+                exterminate = stdApplicationsPath;        // C:\Develop\Standard\Applications                     
+            else
+            {
+                var custApplicCompany = !string.IsNullOrEmpty(GetCustomCompanyPath()) ? //se empty, non c'è una company settata
+                    Path.Combine(GetCustomCompanyPath(), NameSolverStrings.Applications) : string.Empty;
+                if (!string.IsNullOrEmpty(custApplicCompany) && fullPath.Contains(custApplicCompany))
+                    exterminate = custApplicCompany;    // C:\Develop\Custom\Subscription\'CompanyName'\Applications
 
-				var custApplicESHome = GetEasyStudioHomeApplicationsPath();			
-				if(!string.IsNullOrEmpty(custApplicESHome) && fullPath.Contains(custApplicESHome))						
-					exterminate = custApplicESHome;		// C:\Develop\Custom\Subscription\ESHome\Applications		
-			}
+                var custApplicESHome = GetEasyStudioCustomizationsPath();
+                if (!string.IsNullOrEmpty(custApplicESHome) && fullPath.Contains(custApplicESHome))
+                    exterminate = custApplicESHome;        // C:\Develop\Custom\Subscription\ESHome\Applications        
+            }
 
-			if (string.IsNullOrEmpty(exterminate))
-				return (string.Empty, string.Empty);
-			var pathDifferences = fullPath.Replace(exterminate, string.Empty);		/*    \\newapp1\\newmod1\\....           */
-			return (pathDifferences.Split('\\')[1], pathDifferences.Split('\\')[2]);
-		}
+            if (string.IsNullOrEmpty(exterminate))
+                return (string.Empty, string.Empty);
+            var pathDifferences = fullPath.Replace(exterminate, string.Empty);        /*    \\newapp1\\newmod1\\....           */
+            return (pathDifferences.Split('\\')[1], pathDifferences.Split('\\')[2]);
+        }
 
-		//-------------------------------------------------------------------------------------
-		public void GetApplicationModuleNameFromPath(String sObjectFullPath, out String strApplication, out String strModule)
+        //-------------------------------------------------------------------------------------
+        public void GetApplicationModuleNameFromPath(String sObjectFullPath, out String strApplication, out String strModule)
 		{
 			int nPathToken = 0;
 			int nPos = 0;
@@ -1998,16 +2000,26 @@ namespace Microarea.Common.NameSolver
 		}
 
 
-		#endregion public fanction
+        #endregion public fanction
 
 
+      
+        private const string FullMenuCachingFileName = "FullMenu.{0}.json";
+        //---------------------------------------------------------------------------------
+        public string GetCustomUserCachedMenuFile()
+        {
+            string path = GetCustomUserApplicationDataPath();
+            if (!ExistPath(path))
+                CreateFolder(path, false);
+
+            return Path.Combine(path, string.Format(FullMenuCachingFileName, CultureInfo.CurrentUICulture.Name));
+        }
+
+        #region private function
 
 
-		#region private function
-
-
-		//---------------------------------------------------------------------------
-		private InstallationVersion installationVer;
+        //---------------------------------------------------------------------------
+        private InstallationVersion installationVer;
 
 		/// <summary>
 		/// Converte uno share di rete in un path fisico 
@@ -2793,8 +2805,13 @@ namespace Microarea.Common.NameSolver
 		}
 
 
-		//-----------------------------------------------------------------------------
-		public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
+        //---------------------------------------------------------------------
+        public TBFile GetTBFile(string strCompleteFileName)
+        {
+            return fileSystemManager.GetTBFile(strCompleteFileName);
+        }
+        //-----------------------------------------------------------------------------
+        public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
 		{
 			return fileSystemManager.LoadXmlDocument(dom, filename);
 		}

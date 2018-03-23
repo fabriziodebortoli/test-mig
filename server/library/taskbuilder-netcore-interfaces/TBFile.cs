@@ -66,7 +66,7 @@ namespace TaskBuilderNetCore.Interfaces
                 if (alternativeDriver == null)
                     return fileInfo.CreationTime;
 
-                return alternativeDriver.GetTBFile(completeFileName).creationTime;
+                return creationTime;
             }
         }
 
@@ -78,14 +78,14 @@ namespace TaskBuilderNetCore.Interfaces
                 if (alternativeDriver == null)
                     return fileInfo.IsReadOnly;
 
-                return alternativeDriver.GetTBFile(completeFileName).isReadOnly;
+                return isReadOnly;
             }
             set
             {
                 if (alternativeDriver == null)
                     fileInfo.IsReadOnly = value;
 
-                alternativeDriver.GetTBFile(completeFileName).isReadOnly = value;
+                isReadOnly = value;
             }
         }
 
@@ -97,7 +97,7 @@ namespace TaskBuilderNetCore.Interfaces
                 if (alternativeDriver == null)
                     return fileInfo.LastWriteTime;
 
-                return alternativeDriver.GetTBFile(completeFileName).lastWriteTime;
+                return lastWriteTime;
             }
         }
 

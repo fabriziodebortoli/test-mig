@@ -130,27 +130,21 @@ namespace Microarea.Common.FileSystemManager
 			return sr.BaseStream;
 		}
 
-		//-----------------------------------------------------------------------------
-		public String GetFileTextFromFileName(string sFileName)
-		{
-			string fileContent = string.Empty;
-			StreamReader sr = null;
+        //-----------------------------------------------------------------------------
+        public String GetFileTextFromFileName(string sFileName)
+        {
+            string fileContent = string.Empty;
 
-			if (sFileName == string.Empty)
-				return null;
-
-			if (!File.Exists(sFileName))
-				return null;
-			try
-			{
-				// file content
-				sr = new StreamReader(File.OpenRead(sFileName), true);
-				fileContent = sr.ReadToEnd();
-			}
-			catch (Exception)
-			{
-				return null;
-			}
+            if (sFileName == string.Empty || !File.Exists(sFileName))
+                return string.Empty;
+            try
+            {
+                fileContent = File.ReadAllText(sFileName);
+            }
+            catch (Exception)
+            {
+                return string.Empty; 
+            }
 
 			return fileContent;
 		}

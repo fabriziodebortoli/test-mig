@@ -34,7 +34,7 @@ namespace Microarea.Menu.Controllers
                 long.TryParse(storageMenuDate, out long nStorageMenudate);
                 DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(nStorageMenudate);
                 DateTime dateTime = dateTimeOffset.UtcDateTime;
-                bool isTooOld = true;
+                bool isTooOld = NewMenuLoader.IsOldMenuFile(user, company, dateTime, authtoken);
 
                 return new ContentResult { StatusCode = 200, Content = isTooOld.ToJson(), ContentType = "application/json" };
             }
@@ -54,10 +54,8 @@ namespace Microarea.Menu.Controllers
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
-                string clearCachedData = value["clearCachedData"]?.Value<string>();
-                bool clearCache = bool.Parse(clearCachedData);
 
-                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, clearCache);
+                string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, true);
                 return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
             }
             catch (Exception e)

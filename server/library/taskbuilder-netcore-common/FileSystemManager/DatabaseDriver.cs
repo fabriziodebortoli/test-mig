@@ -44,7 +44,7 @@ namespace Microarea.Common.FileSystemManager
         public string GetType(string fileFullName)
         {
 	        INameSpace aTBNamespace = pathFinder.GetNamespaceFromPath(fileFullName);
-	        if (aTBNamespace.IsValid())
+	        if (aTBNamespace != null && aTBNamespace.IsValid())
 	        {
 		        Type strType = aTBNamespace.GetType();
 		        return strType.ToString().ToUpper();
@@ -58,7 +58,7 @@ namespace Microarea.Common.FileSystemManager
 	        if (lowerFileName.Contains("module.config")) 
 		        return "MODULE";
 
-	        if (lowerFileName.Contains(".menu")) 
+	        if (lowerFileName.Contains(".menu") || lowerFileName.Contains("fullmenu")) 
 		        return "MENU";
 
 	        if (lowerFileName.Contains("description"))
@@ -146,6 +146,10 @@ namespace Microarea.Common.FileSystemManager
             if (pathFinder.IsEasyStudioPath(fileName) )
                 return !string.IsNullOrEmpty(GetCustomConnectionString());
 
+            path = pathFinder.GetCustomPath();
+            if (fileName.Contains(path))
+                return true;
+
             return false;
 
         }
@@ -189,7 +193,7 @@ namespace Microarea.Common.FileSystemManager
 
 		        String strInsertCommandText = (bCustom)
 			        ? string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, TBCreatedID, TBModifiedID)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), strFolder, application, module, GetWorkerId())
-			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', {5})", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module, szInstanceKey);
+			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module, szInstanceKey);
 
                 trans = sqlConnection.BeginTransaction();
                 command = new SqlCommand(strInsertCommandText, sqlConnection, trans);
@@ -284,9 +288,10 @@ namespace Microarea.Common.FileSystemManager
 		        }
 		        else
 		        {
+                    string userName = pathFinder.GetUserNameFromPath(strPathFileName);
 			        strRelativePath = GetRelativePath(strTBFSFileName, true);
 
-                    aMetadataArray = GetCustomTBFileInfo(" CompleteFileName = \'" + strRelativePath + "'");
+                    aMetadataArray = GetCustomTBFileInfo(" CompleteFileName = \'" + strRelativePath + "' and accountName = '" + userName + "'");
 		        }		
 	        }
 	        catch (SqlException e)
@@ -443,7 +448,7 @@ namespace Microarea.Common.FileSystemManager
 		        strRelativePath = GetRelativePath(strPathName, isCustom);
 
                 //TODO LARA nn mi ricordo perche' 
-		        pathFinder.GetApplicationModuleNameFromPath(strPathName, out strApplication, out strModule);
+                (strApplication,strModule) =  pathFinder.GetApplicationModuleNameFromPath(strPathName); 
                 connection = new SqlConnection(connectionString);
                 connection.Open();
 
@@ -508,7 +513,7 @@ namespace Microarea.Common.FileSystemManager
 
 	        pTBFile.isReadOnly = false;
 	        pTBFile.fileSize = nLen;
-	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
+	        (pTBFile.ApplicationName, pTBFile.ModuleName) = pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName);
 	        if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
 		        pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 
@@ -591,7 +596,7 @@ namespace Microarea.Common.FileSystemManager
 
             pTBFile.isReadOnly = false;
             pTBFile.fileSize = dom.InnerXml.Length;
-            pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
+            (pTBFile.ApplicationName, pTBFile.ModuleName)  = pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName);
             if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
                 pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 
@@ -607,14 +612,15 @@ namespace Microarea.Common.FileSystemManager
 	        if (string.IsNullOrEmpty(strPathFileName))
 		        return false;
 	        string strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
-
-	        TBFile pTBFile = new TBFile(strTBFSFileName,  this);
-            pTBFile.fileContentString = fileTextContent.ToString(); //todo lara
+ 
+            TBFile pTBFile = new TBFile(strTBFSFileName,  this);
+            StreamReader reader = new StreamReader(fileTextContent);
+            pTBFile.fileContentString = reader.ReadToEnd(); 
 	        pTBFile.objectType = GetType(strTBFSFileName);
 
 	        pTBFile.isReadOnly = false;
 	        pTBFile.fileSize = fileTextContent.Length;
-	        pathFinder.GetApplicationModuleNameFromPath(strTBFSFileName, out pTBFile.ApplicationName, out pTBFile.ModuleName);
+            (pTBFile.ApplicationName, pTBFile.ModuleName) = pathFinder.GetApplicationModuleNameFromPath(strPathFileName);
 	        if (pTBFile.isCustomPath = pathFinder.IsCustomPath(strTBFSFileName))
 		        pTBFile.accountName = pathFinder.GetUserNameFromPath(strTBFSFileName);
 	
@@ -963,7 +969,7 @@ namespace Microarea.Common.FileSystemManager
 			        if (IsARootPath(pTBFile.completeFileName))
 				        parentID = -1;
 			        parentID = GetFolder(pTBFile.completeFileName, true);
-			        pathFinder.GetApplicationModuleNameFromPath(pTBFile.completeFileName, out strApplication, out strModule);
+			        (strApplication, strModule) = pathFinder.GetApplicationModuleNameFromPath(pTBFile.completeFileName);
 			        strAccountName = pathFinder.GetUserNameFromPath(pTBFile.completeFileName);
 		        }
 		        sqlConnection = new SqlConnection(connectionString);
@@ -972,7 +978,7 @@ namespace Microarea.Common.FileSystemManager
 		        //aggiungo i parametri
 		        //prima quelli comuni tra update ed insert
 		        sqlCommand.Parameters.AddWithValue("@FileSize", (Int32)pTBFile.fileSize);
-		        sqlCommand.Parameters.AddWithValue("@FileTextContent", pTBFile.fileContent);
+		        sqlCommand.Parameters.AddWithValue("@FileTextContent", pTBFile.fileContentString);
 		        SqlParameter binaryContentParam = new SqlParameter("@BinaryContent", SqlDbType.VarBinary);
 		        if (pTBFile.fileContent != null)
 		        {
@@ -1055,7 +1061,7 @@ namespace Microarea.Common.FileSystemManager
 	        //le path sono diverse
 	        if (string.Compare(strNewPath, pTBOldFileInfo.PathName, true) != 0)
 	        {
-		        pathFinder.GetApplicationModuleNameFromPath(strNewPath, out pTBOldFileInfo.ApplicationName, out pTBOldFileInfo.ModuleName);
+                (pTBOldFileInfo.ApplicationName, pTBOldFileInfo.ModuleName) = pathFinder.GetApplicationModuleNameFromPath(strNewPath);
 		        if (pTBOldFileInfo.isCustomPath = pathFinder.IsCustomPath(strNewPath))
 			        pTBOldFileInfo.accountName = pathFinder.GetUserNameFromPath(strNewPath);
 	        }
