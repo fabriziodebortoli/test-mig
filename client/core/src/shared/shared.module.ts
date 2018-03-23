@@ -57,6 +57,7 @@ import { FloatingActionMenuComponent } from './components/floating-action-menu/f
 import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
 
 import { TopbarComponent } from './components/topbar/topbar.component';
 import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
@@ -133,6 +134,7 @@ export { ChangePasswordHostComponent } from './components/change-password-host/c
 export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
 export { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 export { PopupComponent } from './components/popup/popup.component';
+export { TooltipComponent } from './components/tooltip/tooltip.component';
 export { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
 
 
@@ -143,7 +145,7 @@ const TB_COMPONENTS = [
     UnsupportedComponent, UnsupportedFactoryComponent, ExplorerComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
-    TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent
+    TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent, TooltipComponent
 ];
 
 /**

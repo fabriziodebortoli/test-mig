@@ -1,5 +1,8 @@
 <div (click)="open()" id="divOpDate" class="topBarMenuComponentLike">
-    <m4-icon icon="tb-calendar" matTooltip="{{_TB('Operation Date')}}: {{applicationDate | date: dateFormat  }}" matTooltipShowDelay="500"></m4-icon>
+    
+    <tb-tooltip tooltipText="{{_TB('Operation Date')}}: {{applicationDate | date: dateFormat  }}">
+        <m4-icon icon="tb-calendar" tbTooltip></m4-icon>  
+    </tb-tooltip>
 </div>
 
 
