@@ -154,6 +154,12 @@ namespace Microarea.RSWeb.WoormViewer
 
                 if (!template && (item.HideExpr != null||item.AnchorRepeaterID != 0) && item.DynamicIsHidden)
                 {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else s += ',';
+
                     s += item.ToJsonHiddenData(true);
                     continue;
                 }

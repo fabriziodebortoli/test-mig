@@ -130,7 +130,7 @@ namespace Microarea.RSWeb.Objects
         {
              string s = "\"baseobj\":{" +
                             IdToJson() + ',' +
-                            false.ToJson("hidden") +
+                            true.ToJson("hidden") +
                             '}';
             if (bracket)
                 s = '{' + s + '}';
