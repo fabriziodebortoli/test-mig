@@ -1,11 +1,11 @@
-<tb-text *ngIf="text.type==='String'" [model]="text" caption="{{text?.caption}}" cmpId="{{text?.id}}" (blur)="onBlur($event)"></tb-text>
+<tb-text *ngIf="text.type==='String'" [model]="text" caption="{{text?.caption}}" cmpId="{{text?.id}}" (blur)="onBlur($event)" class="align"></tb-text>
 <tb-date-input *ngIf="text.type==='DateTime'" formatter="DateTime" [readonly]="false" [model]="text" caption="{{text?.caption}}"
   cmpId="{{text?.id}}" (blur)="onBlur($event)"></tb-date-input>
 <tb-date-input *ngIf="text.type==='Date'" formatter="Date" [readonly]="false" [model]="text" caption="{{text?.caption}}"
   cmpId="{{text?.id}}" (blur)="onBlur($event)"></tb-date-input>
 <tb-numeric-text-box *ngIf="text.type==='Double'" formatter="Double" caption="{{text?.caption}}" cmpId="{{text?.id}}" [model]="text"
-  (blur)="onBlur($event)"></tb-numeric-text-box>
+  (blur)="onBlur($event)" class="align"></tb-numeric-text-box>
 <tb-numeric-text-box *ngIf="text.type==='Int32'" formatter="Double" caption="{{text?.caption}}" cmpId="{{text?.id}}" [model]="text"
-  (blur)="onBlur($event)"></tb-numeric-text-box>
+  (blur)="onBlur($event)" class="align"></tb-numeric-text-box>
 <tb-numeric-text-box *ngIf="text.type==='Int16'" formatter="Double" caption="{{text?.caption}}" cmpId="{{text?.id}}" [model]="text"
-  (blur)="onBlur($event)"></tb-numeric-text-box>
+  (blur)="onBlur($event)" class="align"></tb-numeric-text-box>

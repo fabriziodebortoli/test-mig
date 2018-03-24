@@ -181,7 +181,7 @@ namespace Microarea.RSWeb.Controllers
 
             try
             {
-                Stream f = PathFinder.PathFinderInstance.GetStream(filename, true);
+                Stream f = PathFinder.PathFinderInstance.GetStream(pathComplete, false);
 
                 Response.ContentType = "application/vnd.ms-excel";
                 Response.Headers.Add("content-disposition", "attachment; filename="+filename);
@@ -214,7 +214,7 @@ namespace Microarea.RSWeb.Controllers
 
             try
             {
-                Stream f = PathFinder.PathFinderInstance.GetStream(filename, true);
+                Stream f = PathFinder.PathFinderInstance.GetStream(pathComplete, false);
 
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
                 Response.Headers.Add("content-disposition", "attachment; filename=" + filename);

@@ -4,3 +4,7 @@
     margin-left: 7px;
     width: 0px !important;
 }
+
+:host ::ng-deep .tb-control{
+    height: 100%;
+}

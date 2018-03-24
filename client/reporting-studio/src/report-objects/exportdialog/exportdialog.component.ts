@@ -1,3 +1,4 @@
+import { AskdialogService } from './../askdialog/askdialog.service';
 import { check } from './../../models/check.model';
 import { RsExportService } from './../../rs-export.service';
 import { Subscription } from '../../rxjs.imports';
@@ -8,25 +9,35 @@ import { formatNumber } from '@telerik/kendo-intl';
     selector: 'rs-exportdialog',
     templateUrl: './exportdialog.component.html',
     styleUrls: ['./exportdialog.component.scss'],
+    providers: [AskdialogService]
 })
 
 export class ExportdialogComponent implements OnDestroy {
+    @Input() check: check;
     subscriptions: Subscription[] = [];
     from: number;
     to: number;
     copy: number;
-
     inputDisable: boolean = true;
-    multicopyDisable: boolean = true;
 
-    check: boolean = true;
-    multicopy: boolean = false;
-
-    constructor(public rsExportService: RsExportService) {
+    constructor(public rsExportService: RsExportService, public askDialogService: AskdialogService) {
+        let jsonObj: any ={};
         this.from = 1;
         this.to = this.rsExportService.totalPages;
         this.copy = 1;
-    };
+        jsonObj.field = {}
+        jsonObj.field.name = "multicopy";
+        jsonObj.field.id = "idMulticopy";
+        jsonObj.field.type = "Boolean";
+        jsonObj.field.value = false;
+
+        jsonObj.name = "checkExportDialog";
+        jsonObj.caption = "Multi file";
+        jsonObj.enabled = false;
+        jsonObj.value = false;
+        jsonObj.runatserver = false;
+        this.check = new check(jsonObj);
+    }
 
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -42,12 +53,8 @@ export class ExportdialogComponent implements OnDestroy {
 
     startExport() {
         this.rsExportService.currentPDFCopy = 1;
-        this.rsExportService.initializedExport(this.from, this.to, this.copy, this.multicopy);
+        this.rsExportService.initializedExport(this.from, this.to, this.copy, this.check.value);
         this.rsExportService.exportfile = false;
-    }
-
-    setMulticopy() {
-        this.multicopy = !this.multicopy;
     }
 
     setAllPages() {
@@ -62,11 +69,9 @@ export class ExportdialogComponent implements OnDestroy {
 
     changeMulticopy(){
         if (this.copy > 1)
-            this.multicopyDisable = false;
+            this.check.enabled = true;
         else if(this.copy = 1)
-            this.multicopyDisable = true;
-
+            this.check.enabled = false;
     }
-
 }
 

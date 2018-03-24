@@ -492,7 +492,8 @@ namespace Microarea.RSWeb.Render
                             worksheetPart.Worksheet.Save();
 
                             if (currentPage == lastPage)
-                                return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+                                //return fileName.ToJson();
+                            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
                         }
                         else continue;
                     }
@@ -500,7 +501,8 @@ namespace Microarea.RSWeb.Render
                 }
             }
             if (fogli.Count > 0)
-                return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+               // return fileName.ToJson();
+            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
             else
                 return "Errore".ToJson();
         }
