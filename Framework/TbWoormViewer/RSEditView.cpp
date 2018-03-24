@@ -596,6 +596,7 @@ void CRSEditorFrame::OnClose()
 	if (m_pEditView->DoClose())
 	{
 		m_pEditView->m_bBusy = FALSE;
+		SetDestroying();
 		__super::OnClose();
 	}
 

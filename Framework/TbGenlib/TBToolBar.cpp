@@ -6182,6 +6182,10 @@ BOOL CTBToolBar::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 
+	CAbstractFrame* pParentFrame = dynamic_cast<CAbstractFrame*>(GetParentFrame());
+	if (pParentFrame && pParentFrame->IsDestroying())
+		return TRUE;
+		
 	return __super::PreTranslateMessage(pMsg);
 }
 
@@ -6443,7 +6447,6 @@ CTBTabbedToolbar::~CTBTabbedToolbar()
 
 	if (pParentFrame)
 		pParentFrame->SetDestroying();
-
 
 	for (int i = m_Toolbars.GetCount() - 1; i >= 0; i--)
 		SAFE_DELETE(m_Toolbars.GetAt(i));

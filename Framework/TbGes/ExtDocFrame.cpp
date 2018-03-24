@@ -206,7 +206,7 @@ BOOL CAbstractFrame::PreTranslateMessage(MSG* pMsg)
 	CBaseDocument* pDocument = (CBaseDocument*)GetActiveDocument();
 	if (pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST && pDocument)
 	{
-		//Se il documento è in DESIGN mode (easybuilder) allora non applico le shortcut
+		//Se il documento ï¿½ in DESIGN mode (easybuilder) allora non applico le shortcut
 		if (pDocument->IsInDesignMode())
 			return FALSE;
 
@@ -249,23 +249,32 @@ BOOL CAbstractFrame::DestroyWindow()
 	return __super::DestroyWindow();
 }
 
+static int s_ID_GotoMaster = ID_EXTDOC_GOTO_MASTER;	
+
 //-----------------------------------------------------------------------------
 BOOL CAbstractFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	__try
 	{
-		// dopo la chiamata alla __super::OnCmdMsg this è stato distrutto ed i suoi datamember sono "cacca"
+		// dopo la chiamata alla __super::OnCmdMsg this ï¿½ stato distrutto ed i suoi datamember sono "cacca"
 		BOOL bDestroying = m_bDestroying;
+		HWND hw = m_hWnd;	//il flag sopra non basta, a volte muore nella chiamata __super::OnCmdMsg
+		BOOL existToolbar = m_pTabbedToolBar != NULL;
 		BOOL bHandled = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
 		// la toolbar potrebbe morire durante il processo di closing
 		// per sicurezza controllo che non si sia in distruzione
 		// del frame
-		if (bDestroying || nID == ID_FILE_CLOSE)
+		if (bDestroying || nID == ID_FILE_CLOSE || nID == s_ID_GotoMaster)
 			return bHandled;
 
-		if (!pHandlerInfo && m_pTabbedToolBar && nID && (nCode == CN_COMMAND || nCode == BN_CLICKED))
+		if (!pHandlerInfo && nID && existToolbar && (nCode == CN_COMMAND || nCode == BN_CLICKED))
 		{
+			//paramento per morte in chiamata __super::OnCmdMsg
+			if (hw && !::IsWindow(hw))	//ha un costo, ma comunque marginale rispetto all'azione che segue
+				return bHandled;
+
+			ASSERT_VALID(m_pTabbedToolBar);
 			CTBToolBar* pToolBar = m_pTabbedToolBar->FindToolBar(nID);
 
 			if (pToolBar)
@@ -410,7 +419,7 @@ LRESULT CAbstractFrame::OnGetDocumentTitleInfo(WPARAM wParam, LPARAM lParam)
 		TCHAR* pMsgBuff = (TCHAR*)wParam;
 		UINT nSize = (UINT)lParam;
 
-		//restituisco il testo della finestra, più la lunghezza del titolo
+		//restituisco il testo della finestra, piï¿½ la lunghezza del titolo
 		//usato dal menu per sapere quanta parte del titolo finestra corrisponde al titolo documento
 		//(il testo della finestra infatti inizia sempre col titolo del documento)
 		CString strWindowText;
@@ -452,7 +461,7 @@ void CAbstractFrame::OnUserHelpList(UINT nID)
 //-----------------------------------------------------------------------------
 void CAbstractFrame::GetMessageString(UINT nID, CString& rMessage) const
 {
-	//cast necessario perché il 'this' è const
+	//cast necessario perchï¿½ il 'this' ï¿½ const
 	CDocument* pActiveDoc = ((CAbstractFrame*)this)->GetActiveDocument();
 
 	CString strMessage;
@@ -497,11 +506,11 @@ BOOL CAbstractFrame::OnToolTipText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 	// Gestisce dinamicamente solo i tooltips di toolbar, in ogni altro caso rimanda alla gestione
 	// standard di MFC
 	if (
-		(	// non è un control, ma un bottone di toolbar
+		(	// non ï¿½ un control, ma un bottone di toolbar
 			pNMHDR->code == TTN_NEEDTEXTA && !(pTTTA->uFlags & TTF_IDISHWND) ||
 			pNMHDR->code == TTN_NEEDTEXTW && !(pTTTW->uFlags & TTF_IDISHWND)
 			) &&
-			(nID != 0) && // nID è zero su un separatore
+			(nID != 0) && // nID ï¿½ zero su un separatore
 		(pActiveDoc != NULL) &&
 		pActiveDoc->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)) &&
 		((CAbstractFormDoc*)pActiveDoc)->GetToolTipText(nID, strMessage)
@@ -510,7 +519,7 @@ BOOL CAbstractFrame::OnToolTipText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 		// Riproduce il comportamento standard di MFC, per il tooltip 
 		// usa la parte di messaggio dopo il primo \n
 		int nPos = strMessage.Find(_T("\n"));
-		if (nPos > -1) // se il \n non c'è, pazienza, seguirà la strada standard di MFC
+		if (nPos > -1) // se il \n non c'ï¿½, pazienza, seguirï¿½ la strada standard di MFC
 		{
 			CString strTipText;
 			strTipText = strMessage.Mid(nPos + 1);
@@ -818,7 +827,7 @@ LRESULT CAbstractFormFrame::OnEnable(WPARAM wParam, LPARAM lParam)
 		{
 			bool bDocDisabled = pDoc->IsDisabled();
 			BOOL bEnabled = wParam;
-			//se il documento è disabilitato, vince sullo stato della frame
+			//se il documento ï¿½ disabilitato, vince sullo stato della frame
 			if (bDocDisabled && bEnabled)
 				EnableWindow(FALSE);
 		}
@@ -1137,7 +1146,7 @@ void CAbstractFormFrame::CreateToolbarFromDesc(CTBToolBar *pToolBar, CToolbarDes
 		CToolbarBtnDescription* pToolBarBtnDesc = (CToolbarBtnDescription*)pDesc1;
 		if (pToolBarBtnDesc->m_bIsSeparator)
 		{
-			//non metto subito il separatore, per non avere due o più separatori contigui nel caso di bottoni non visibili
+			//non metto subito il separatore, per non avere due o piï¿½ separatori contigui nel caso di bottoni non visibili
 			separatorPending = true;
 			continue;
 		}
@@ -1729,7 +1738,7 @@ BOOL CAbstractFormFrame::OnPopulatedDropDown(UINT nIdCommand)
 						if (pRoot->GetSonAt(i)->GetSonsUpperBound() >= 0)
 						{
 							bGrupsExists = TRUE;
-							continue; // è un gruppo...
+							continue; // ï¿½ un gruppo...
 						}
 
 						bCheck = currentIdx == nDefaultIdx;
@@ -1751,7 +1760,7 @@ BOOL CAbstractFormFrame::OnPopulatedDropDown(UINT nIdCommand)
 					for (int i = 0; i <= min(pRoot->GetSonsUpperBound(), ID_EXTDOC_DDTB_ENUMREPORT_MAX); i++)
 					{
 						if (pRoot->GetSonAt(i)->GetSonsUpperBound() < 0)
-							continue; // si tratta di un report Custom già inserito in precedenza
+							continue; // si tratta di un report Custom giï¿½ inserito in precedenza
 
 						if (pRoot->GetSonAt(i)->GetUseSubMenu())
 						{
@@ -1889,7 +1898,7 @@ void CAbstractFormFrame::OnToolbarDropDown(NMHDR* pnmh, LRESULT *plr)
 
 	else if (pnmtb->iItem == ID_EXTDOC_REPORT)
 	{
-		//TODOLUCA, questo codice è parzialmente copiat in ExtDoc sotto il metodo GetAttachedReport()
+		//TODOLUCA, questo codice ï¿½ parzialmente copiat in ExtDoc sotto il metodo GetAttachedReport()
 		//Andrebbero unificati
 		CStringArray arReports;
 		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetActiveDocument();
@@ -1967,8 +1976,8 @@ void CAbstractFormFrame::OnToolbarDropDown(NMHDR* pnmh, LRESULT *plr)
 	}
 }
 
-// creo il menù popup per la gestione delle query.
-// questo menù visualizza: la query tutt'ora in esecuzione, la query predefinita e il comando
+// creo il menï¿½ popup per la gestione delle query.
+// questo menï¿½ visualizza: la query tutt'ora in esecuzione, la query predefinita e il comando
 // per modificare-editare le query
 //-----------------------------------------------------------------------------
 void CAbstractFormFrame::CreateQueryMenu(BOOL bShowQueryManager /*=FALSE*/)

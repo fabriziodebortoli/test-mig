@@ -158,7 +158,9 @@ void CBusinessServiceProviderClientDoc::OnCtrlStateChanged(UINT nID)
 //-----------------------------------------------------------------------------
 BOOL  CBusinessServiceProviderClientDoc::IsBadCmdMsg(UINT nID)
 {
-	return (nID == ID_EXTDOC_GOTO_MASTER);
+	//viene inizializzato solo alla prima chiamata, evita lookup nella mappa delle risorse
+	static int s_ID_GotoMaster = ID_EXTDOC_GOTO_MASTER;
+	return (nID == s_ID_GotoMaster);
 }
 
 //-----------------------------------------------------------------------------

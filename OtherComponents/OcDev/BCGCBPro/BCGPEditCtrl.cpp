@@ -2635,8 +2635,9 @@ int CBCGPEditCtrl::GetNumOfCharsInText (const CString& strText, TCHAR ch)
 int CBCGPEditCtrl::GetNumOfCharsInText (int nStart, int nEnd, TCHAR ch, BOOL bSkipHidden) const
 {
 	ASSERT (nStart >= 0);
-	ASSERT (nEnd < m_strBuffer.GetLength ());
-	
+	//ASSERT (nEnd < m_strBuffer.GetLength ());
+	nEnd = min( nEnd, m_strBuffer.GetLength() - 1);
+
 	if (nStart > nEnd)
 	{
 		return 0;

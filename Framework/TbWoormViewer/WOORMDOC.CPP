@@ -9580,7 +9580,10 @@ void CWoormDocMng::OnUpdateGotoPage(CCmdUI* pCmdUI)
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnUpdateMovePage(CCmdUI* pCmdUI)
 {
-	BOOL bOk = IsFilledWithData();
+	BOOL bOk = //IsFilledWithData();
+
+		 !m_pRDEmanager->IsClosed() &&  m_Creating == NONE && GetObjects().GetSize();
+
 	// can't use because OnIdle is called only once by scheduler
 	// && m_pRDEmanager->lastPage() > 0;
 

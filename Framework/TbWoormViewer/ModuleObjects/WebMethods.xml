@@ -147,15 +147,15 @@
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryCall" type="bool" localize="It executes a SQL stored procedure.">
       <Param name="queryName" type="string" mode="in" />
     </Function>
-    <!--   
+  <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsEof" type="bool" securityhidden="true">
+      <Param name="queryName" type="string" mode="in" />
+    </Function>
+     <!--   
  
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsFailed" type="bool" securityhidden="true">
       <Param name="queryName" type="string" mode="in" />
     </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsEof" type="bool" securityhidden="true">
-      <Param name="queryName" type="string" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryGetSqlString" type="string" securityhidden="true">
+     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryGetSqlString" type="string" securityhidden="true">
       <Param name="queryName" type="string" mode="in" />
     </Function>
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryGetErrorInfo" type="string" securityhidden="true">
