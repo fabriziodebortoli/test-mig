@@ -1,10 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { BPMStandaloneComponent } from '@taskbuilder/bpm';
-import { ESPStandaloneComponent } from '@taskbuilder/esp';
-import { SFMStandaloneComponent } from '@taskbuilder/sfm';
-
 import { environment } from './../environments/environment';
 
 import {
@@ -25,10 +21,7 @@ const webOnlyRoutes = [
   { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
   { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
-  { path: 'bpm', loadChildren: '@taskbuilder/bpm#BPMModule' },
   { path: 'layout', loadChildren: 'app/layout/layout.module#LayoutModule' },
-  { path: 'esp', loadChildren: '@taskbuilder/esp#ESPModule' },
-  { path: 'sfm', loadChildren: '@taskbuilder/sfm#SFMModule' },
   ...appRoutes
 ];
 const allEnvRoutes = [];
