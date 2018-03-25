@@ -2396,7 +2396,10 @@ namespace Microarea.RSWeb.Objects
         public BasicText Title = null;
 
         public List<Column> Columns;
+
         public bool[] Interlines;
+        public bool[] RowWithTitles;
+        public string[] RowWithCustomTitle;
 
         public bool FiscalEnd = false;  // abilita la tracciatura  di una z a fine tabella
 
@@ -2481,9 +2484,13 @@ namespace Microarea.RSWeb.Objects
                 width += Columns[i].ColumnRect.Width;
             }
 
-            // creo i flags di interlinea
-            Interlines = new bool[rows];
-            ClearInterlines();
+            // creo i flags di interlinea/row titles
+            Interlines          = new bool[rows];
+            RowWithTitles       = new bool[rows];
+            RowWithCustomTitle  = new string[rows];
+
+            ClearInterlinesTitles();
+            //----------------------------
 
             // modifico i valori dei rettangoli (la dimensione della colonna e' gia' ok)
             // posso usare la posizione 0 perche' tutte le colonne hanno un totale anche se non mostrato
@@ -2535,7 +2542,9 @@ namespace Microarea.RSWeb.Objects
                 pColumn.Table = this;   //CHANGE OWNER TABLE
                 Columns.Add(pColumn);
             }
-            source.Interlines.CopyTo(this.Interlines, 0);
+            source.Interlines           .CopyTo(this.Interlines, 0);
+            source.RowWithTitles        .CopyTo(this.RowWithTitles, 0);
+            source.RowWithCustomTitle   .CopyTo(this.RowWithCustomTitle, 0);
             //m_arAlternateEasyviewOnPage.Copy(source.m_arAlternateEasyviewOnPage);
         }
 
@@ -2963,15 +2972,19 @@ namespace Microarea.RSWeb.Objects
             foreach (Column col in Columns)
                 col.ClearData();
 
-            ClearInterlines();
+            ClearInterlinesTitles();
         }
 
         //------------------------------------------------------------------------------
-        public void ClearInterlines()
+        public void ClearInterlinesTitles()
         {
-            for (int row = 0; row < Interlines.Length; row++) Interlines[row] = false;
+            for (int row = 0; row < Interlines.Length; row++)
+            {
+                Interlines[row] = false;
+                RowWithTitles[row] = false;
+                RowWithCustomTitle[row] = null;
+            }
         }
-
 
         // si assume che tutti le dimensioni dei titoli delle colonne siano stati
         // già correttamente settari e tutte le righe hanno la stessa altezza

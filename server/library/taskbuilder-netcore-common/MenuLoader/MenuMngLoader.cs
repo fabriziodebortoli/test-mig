@@ -1446,7 +1446,7 @@ namespace Microarea.Common.MenuLoader
         private PathFinder pathFinder = null;
         private string authenticationToken = string.Empty;
 
-        private IBrandLoader brandLoader = null;
+        //private IBrandLoader brandLoader = null;
 
         #region MenuLoader constructors
 

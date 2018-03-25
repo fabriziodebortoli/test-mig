@@ -590,6 +590,18 @@ namespace Microarea.RSWeb.WoormViewer
             if (t != null && t.CurrentRow > 0)
                 t.Interlines[t.CurrentRow - 1] = true;
         }
+        public void TitleLine(XmlReader reader)
+        {
+            Table t = GetTableRepeater(reader) as Table;
+            if (t != null)
+                t.RowWithTitles[t.CurrentRow++] = true;
+        }
+        public void CustomTitleLine(XmlReader reader)
+        {
+            Table t = GetTableRepeater(reader) as Table;
+            if (t != null)
+                t.RowWithCustomTitle[t.CurrentRow++] = string.Empty;
+        }
 
         //------------------------------------------------------------------------------
         public void LoadPage(int pageNumber)
@@ -680,6 +692,10 @@ namespace Microarea.RSWeb.WoormViewer
                                 case RdeWriterTokens.Element.NextLine: NextLine(reader); break;
                                 case RdeWriterTokens.Element.SpaceLine: NextLine(reader); break;
                                 case RdeWriterTokens.Element.Interline: Interline(reader); break;
+                                case RdeWriterTokens.Element.TitleLine: TitleLine(reader); break;
+                                case RdeWriterTokens.Element.CustomTitleLine: CustomTitleLine(reader); break;
+
+
                                 case RdeWriterTokens.Element.NewPage: woorm.NewPage(); break;
                                 case RdeWriterTokens.Element.Message: Message(reader); break;
 

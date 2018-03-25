@@ -278,7 +278,9 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				Tag(cmd.ToString());
                 Attribute(RdeWriterTokens.Attribute.ID, id);
-				return true; 
+                if (o != null)
+                    Attribute(RdeWriterTokens.Attribute.Value, o);
+                return true; 
 			}
 			return false;
 		}

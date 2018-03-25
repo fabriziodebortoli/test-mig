@@ -797,22 +797,22 @@ namespace Microarea.Common.Lexan
                             if (!SkipBlock(Token.BEGIN, Token.END))
                                 return false;
                             continue;
-                            break;
+                            //break;
                         case Token.ROUNDOPEN:
                             if (!SkipBlock(Token.ROUNDOPEN, Token.ROUNDCLOSE))
                                 return false;
                             continue;
-                            break;
+                            //break;
                         case Token.SQUAREOPEN:
                             if (!SkipBlock(Token.SQUAREOPEN, Token.SQUARECLOSE))
                                 return false;
                             continue;
-                            break;
+                            //break;
                         case Token.BRACEOPEN:
                             if (!SkipBlock(Token.BRACEOPEN, Token.BRACECLOSE))
                                 return false;
                             continue;
-                            break;
+                            //break;
                     }
                 }
 

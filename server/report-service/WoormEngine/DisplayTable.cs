@@ -107,7 +107,7 @@ namespace Microarea.RSWeb.WoormEngine
 		}
 
 		//---------------------------------------------------------------------------
-		public bool WriteLine (ReportEngine reportEngine, RdeWriter.Command command)
+		public bool WriteLine (ReportEngine reportEngine, RdeWriter.Command command, object val = null)
 		{
 			if (multiLineFieldsNum > 0)
 			{
@@ -147,15 +147,16 @@ namespace Microarea.RSWeb.WoormEngine
 						return false;
 					}
 				}
-				return WriteLine (reportEngine, command);
+				return WriteLine (reportEngine, command, val);
 			}
 
 			multiLineFieldsCurrLine = 0;
-			return WriteLineSeparator(reportEngine, command);
+
+			return WriteLineSeparator(reportEngine, command, val);
 		}
 
 		//---------------------------------------------------------------------------
-		public bool WriteLineSeparator (ReportEngine reportEngine, RdeWriter.Command command)
+		public bool WriteLineSeparator (ReportEngine reportEngine, RdeWriter.Command command, object val = null)
 		{
 			if (!dataDisplayed) 
 				return true;
@@ -163,7 +164,7 @@ namespace Microarea.RSWeb.WoormEngine
 			if ((command != RdeWriter.Command.Interline) && !ExecOverflowActions()) 
 				goto writeError;
 
-			if (!reportEngine.OutChannel.WriteIDCommand(internalId, PublicName, internalId, null, command, string.Empty))
+			if (!reportEngine.OutChannel.WriteIDCommand(internalId, PublicName, internalId, val, command, string.Empty))
 				goto writeError;
 
 			if	(

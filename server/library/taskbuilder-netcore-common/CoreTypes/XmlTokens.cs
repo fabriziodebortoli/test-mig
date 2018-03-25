@@ -205,10 +205,14 @@ namespace Microarea.Common.CoreTypes
 			public const string Graphics	= "Graphics";
 			public const string LowerInput	= "LowerInput";
 			public const string UpperInput	= "UpperInput";
+
 			public const string NextLine	= "NextLine";
 			public const string SpaceLine	= "SpaceLine";
 			public const string Interline	= "Interline";
-			public const string NewPage		= "NewPage";
+            public const string TitleLine   = "TitleLine";
+            public const string CustomTitleLine = "CustomTitle";
+
+            public const string NewPage		= "NewPage";
 			public const string Message		= "Message";
             public const string Array       = "Array";
         }

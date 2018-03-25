@@ -426,28 +426,32 @@ namespace Microarea.RSWeb.WoormEngine
 		//---------------------------------------------------------------------------
 		private ActionObj ParseDisplayTableAction(Parser lex, RdeWriter.Command aCmd)
 		{
+            Expression customTitle = null;
             if (aCmd == RdeWriter.Command.CustomTitleLine)
             {
-                //TODO
-                Expression e = new Expression(engine.Session, GetSymTable().Fields);
-                bool ok = e.Compile(lex, CheckResultType.Match, "String");
-
-                aCmd = RdeWriter.Command.NextLine;
+                customTitle = new Expression(engine.Session, GetSymTable().Fields);
+                bool ok = customTitle.Compile(lex, CheckResultType.Match, "String");
+                if (!ok)
+                {
+                   return null;
+                }               
+                aCmd = RdeWriter.Command.CustomTitleLine;
             }
             else if (aCmd == RdeWriter.Command.TitleLine)
             {
-                //TODO
-                aCmd = RdeWriter.Command.NextLine;
+                aCmd = RdeWriter.Command.TitleLine;
             }
 
             DisplayTable displayTable = engine.ParseDisplayTable(lex);
-			if (displayTable == null) return null;    // error set by ParseDisplayTable
+			if (displayTable == null) 
+                return null;    // error set by ParseDisplayTable
 
 			engine.DisplayAction = true;
 
-			if (!lex.ParseSep()) return null;
+			if (!lex.ParseSep()) 
+                return null;
 
-			return new DisplayTableAction(this, engine, GetSymTable(), aCmd, displayTable);
+			return new DisplayTableAction(this, engine, GetSymTable(), aCmd, displayTable, customTitle);
 		}
 
 		//---------------------------------------------------------------------------
@@ -464,7 +468,7 @@ namespace Microarea.RSWeb.WoormEngine
 				action == Token.SPACELINE			|| 
 				action == Token.NEXTLINE			||
                 action == Token.TITLELINE           ||
-                action == Token.CUSTOM_TITLELINE ||
+                action == Token.CUSTOM_TITLELINE    ||
                 action == Token.ASK					||
 				action == Token.ABORT				||
 				action == Token.MESSAGE;
@@ -1878,23 +1882,25 @@ namespace Microarea.RSWeb.WoormEngine
 	//============================================================================
 	public class DisplayTableAction : ActionObj
 	{
-		private RdeWriter.Command		rdeCommand;
-		private DisplayTable			displayTable;	// property of RepSymTable
-
-		//---------------------------------------------------------------------------
-		public DisplayTableAction
+		private RdeWriter.Command		rdeCommand = RdeWriter.Command.NextLine;
+		private DisplayTable			displayTable = null;   // property of RepSymTable
+        private Expression              customTitle = null;
+        //---------------------------------------------------------------------------
+        public DisplayTableAction
 			(
                 ActionObj par, 
                 ReportEngine engine, 
                 RepSymTable         symTable,
 				RdeWriter.Command	rdeCommand,
-                DisplayTable        displayTable
+                DisplayTable        displayTable,
+                Expression          customTitle = null
             )
             : base(par, engine, symTable)
 		{
 			this.rdeCommand		= rdeCommand;
 			this.displayTable	= displayTable;
-		}
+            this.customTitle    = customTitle;
+        }
 
 		//---------------------------------------------------------------------------
 		public override bool Exec()
@@ -1907,7 +1913,29 @@ namespace Microarea.RSWeb.WoormEngine
 				if (string.Compare((string)currentLayout.Data, displayTable.LayoutTable) != 0)
 					return true;
 			}
-			return displayTable.WriteLine(engine, rdeCommand);
+ 
+            if (rdeCommand == RdeWriter.Command.CustomTitleLine)
+            {
+                if (this.customTitle == null) 
+                    return true;
+
+                Value ret = customTitle.Eval();
+
+                if (customTitle.Error)
+                {
+                    engine.SetError(customTitle.Diagnostic, WoormEngineStrings.EvalEventExpression);
+                    return false;
+                }
+
+                displayTable.DataDisplayed = true;
+
+                return displayTable.WriteLine(engine, rdeCommand, ret.Data);
+            }
+
+            if (rdeCommand == RdeWriter.Command.TitleLine)
+                displayTable.DataDisplayed = true;
+
+            return displayTable.WriteLine(engine, rdeCommand);
 		}
 
 		//---------------------------------------------------------------------------
