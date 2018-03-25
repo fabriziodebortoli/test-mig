@@ -246,7 +246,6 @@ public:
 	TDisposablePtr<CRSEditViewDocked>			m_pEditorDockedView;
 
 	TDisposablePtr<CRSEditView>					m_pEditView;
-	TDisposablePtr<CRSEditViewDebug>			m_pEditViewDebug;
 
 	BOOL SelectLayoutObject(CObject* pObj, BOOL bPassive = TRUE);
 

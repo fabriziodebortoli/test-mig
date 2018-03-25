@@ -159,7 +159,7 @@ public:
 	SymTable*			GetRoot			() const					{ return m_pParentSymTable ? m_pParentSymTable->GetRoot() : const_cast<SymTable*>(this); }
 
 	void	 			SetDataLevel	(int level)					{ m_nDataLevel = level; }
-	int		 			GetDataLevel	()	const					{ return m_nDataLevel; }
+	int		 			GetDataLevel	()	const					{ return m_pParentSymTable ? GetRoot()->m_nDataLevel : m_nDataLevel; }
 
 	virtual void		SetDocument		(CBaseDocument*	pDocument)	{ m_pDocument = pDocument; }
 	CBaseDocument*		GetDocument		() const					{ return m_pDocument; }
@@ -224,6 +224,12 @@ public:
 	//aggiunge una callback da chiamare alla distruzione del documento
 	void AddDisposingHandler (CObject* pListener, ON_DISPOSING_METHOD pHandler) { m_Handler.AddDisposingHandler(pListener, pHandler); }
 	void RemoveDisposingHandlers (CObject* pListener) { m_Handler.RemoveDisposingHandlers(pListener); }
+
+private:
+	int m_nCurrentFieldIndex = 0;
+public:
+	SymField* GetFirstField();
+	SymField* GetNextField();
 };
 
 //-----------------------------------------------------------------------------

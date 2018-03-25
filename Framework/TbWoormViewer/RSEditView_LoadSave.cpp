@@ -1884,6 +1884,10 @@ void CRSEditView::CheckQuery_AddParameters(const CStringArray& arParameters, Sym
 
 		WoormField* pF = dynamic_cast<WoormField*>(pSymTable->GetField(sFName));
 		ASSERT_VALID(pF); if (!pF) continue;
+		CString sDescr;
+		sDescr += _T("Data-type: ") + pF->GetDataType().ToString() + L"; ";
+		sDescr += cwsprintf(_T("ID: %d"), pF->GetId()) + L"; ";
+		sDescr += pF->GetSourceDescription() + L"; ";
 
 		const CParsedCtrlFamily* pFamily = AfxGetParsedControlsRegistry()->GetDefaultFamilyInfo(pF->GetData()->GetDataType());
 		ASSERT_VALID(pFamily); if (!pFamily) continue;
@@ -1909,11 +1913,15 @@ void CRSEditView::CheckQuery_AddParameters(const CStringArray& arParameters, Sym
 				pHKL = (HotKeyLink*)pDescri->m_pComponentClass->CreateObject();
 				pHKL->EnableAddOnFly(FALSE);
 				pHKL->MustExistData(FALSE);
+
+				sDescr += _TB("Namespace hotlink: ") + askField->m_nsHotLink.ToUnparsedString();
 			}
 		}
 
-		CTBProperty* prop = ((CRSEditorParametersView*)GetEditorFrame(TRUE)->m_pParametersView)->m_pPropGridParams->AddProperty
-(sFName, sFName + L" (" + pF->GetData()->GetDataType().ToString() + L")", L"", pF->GetData(), nLastUI, style, ctrl->GetClass(), pHKL);
+		CTBProperty* prop = ((CRSEditorParametersView*)GetEditorFrame(TRUE)->m_pParametersView)->m_pPropGridParams->
+							AddProperty	(sFName, sFName, L"", pF->GetData(), nLastUI, style, ctrl->GetClass(), pHKL);
+
+		prop->SetDescription(sDescr);
 
 		if (pF->GetData()->GetDataType().IsNumeric())
 		{

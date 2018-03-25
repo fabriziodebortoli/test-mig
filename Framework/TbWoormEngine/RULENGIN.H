@@ -47,7 +47,7 @@ public:
 };
 
 //============================================================================
-class TB_EXPORT RuleEngine : public CObject
+class TB_EXPORT RuleEngine : public CObject, public IDisposingSourceImpl
 {
 	friend  ExpRule;
 	friend  CondRule;

@@ -63,6 +63,7 @@ IMPLEMENT_DYNAMIC(RuleEngine, CObject);
 //-----------------------------------------------------------------------------
 RuleEngine::RuleEngine (WoormTable& aSymTable, EngineScheduler& aScheduler)
 	:
+	IDisposingSourceImpl(this),
 	m_SymTable			(aSymTable),
 	m_Scheduler			(aScheduler),
 	m_EngineStatus		(8),

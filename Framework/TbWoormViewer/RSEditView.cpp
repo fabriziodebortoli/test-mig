@@ -2712,7 +2712,6 @@ CRSEditorFrame* CRSEditorParametersView::GetFrame()
 // ---------------------------------------------------------------------------- -
 void CRSEditorParametersView::BuildDataControlLinks()
 {
-	GetFrame()->m_pParametersView = this;
 	m_pPropGridParams = new CustomParametersPropertyGrid;
 	m_pPropGridParams->m_pParentForm = this;
 	
@@ -2723,18 +2722,20 @@ void CRSEditorParametersView::BuildDataControlLinks()
 		delete m_pPropGridParams;
 		return;
 	}
-	m_pPropGridParams->EnableDescriptionArea(FALSE);
+	m_pPropGridParams->EnableDescriptionArea(TRUE);
 }
 
 //-----------------------------------------------------------------------------
 void CRSEditorParametersView::OnInitialUpdate()
 {
 	__super::OnInitialUpdate();
+
+	GetFrame()->m_pParametersView = this;
+
 	CRect rect;
 	GetWindowRect(rect);	
 	SetScrollSizes(MM_TEXT, CSize(rect.Width(), 0));
 }
-
 
 //=============================================================================
 IMPLEMENT_DYNCREATE(CRSEditorSymbolTableViewDebug, CRSDockedView);
@@ -2745,16 +2746,16 @@ END_MESSAGE_MAP()
 CRSEditorSymbolTableViewDebug::CRSEditorSymbolTableViewDebug()
 	:
 	CRSDockedView(_T("CRSEditorSymbolTableViewDebug"), IDD_RS_EditorParametersView),
-	m_pPropGridParams(NULL)
+	m_pPropGrid(NULL)
 {
 
 }
 
 CRSEditorSymbolTableViewDebug::~CRSEditorSymbolTableViewDebug()
 {
-	SAFE_DELETE(m_pPropGridParams);
+	SAFE_DELETE(m_pPropGrid);
 	if (GetFrame())
-		GetFrame()->m_pParametersView = NULL;
+		GetFrame()->m_pSymbolTableView = NULL;
 }
 
 CWoormDocMng* CRSEditorSymbolTableViewDebug::GetDocument()
@@ -2771,130 +2772,166 @@ CRSEditorDebugFrame* CRSEditorSymbolTableViewDebug::GetFrame()
 // ---------------------------------------------------------------------------- -
 void CRSEditorSymbolTableViewDebug::BuildDataControlLinks()
 {
-	GetFrame()->m_pParametersView = this;
+	GetFrame()->m_pSymbolTableView = this;
 
 	CRect rect;
 	GetWindowRect(rect);
 	SetScrollSizes(MM_TEXT, CSize(rect.Width(), 0));
 
 	CreateGrid();
-	LoadSymbolTable();
+	//posticipata LoadSymbolTable();
 }
 
 //-----------------------------------------------------------------------------
 void CRSEditorSymbolTableViewDebug::CreateGrid()
 {
-	ASSERT(m_pPropGridParams == NULL);
-	m_pPropGridParams = new CustomParametersPropertyGrid;
-	m_pPropGridParams->SetParentForm( this);
+	ASSERT(m_pPropGrid == NULL);
+	m_pPropGrid = new CustomParametersPropertyGrid;
+	m_pPropGrid->SetParentForm( this);
 
 	CRect rect;
 	GetWindowRect(rect);
-	if (!m_pPropGridParams->Create(WS_MAXIMIZE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, CRect(0, 0, 0, 0), this, IDC_RS_EditorParametersGrid))
+	if (!m_pPropGrid->Create(WS_MAXIMIZE | WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP, CRect(0, 0, 0, 0), this, IDC_RS_EditorParametersGrid))
 	{
 		ASSERT(FALSE);
-		SAFE_DELETE(m_pPropGridParams);
+		SAFE_DELETE(m_pPropGrid);
 		return;
 	}
-	m_pPropGridParams->EnableDescriptionArea(FALSE);
-	m_pPropGridParams->AdjustLayout();
+	m_pPropGrid->EnableDescriptionArea(TRUE);
+	m_pPropGrid->AdjustLayout();
 }
 
 //-----------------------------------------------------------------------------
 UINT GetDebuggerIDC(UINT id)
 { return AfxGetTBResourcesMap()->GetTbResourceID(::cwsprintf(L"RS_debugger_%d", id), TbControls); }
 
-void CRSEditorSymbolTableViewDebug::LoadSymbolTable()
+void CRSEditorSymbolTableViewDebug::AddField(CustomParametersPropertyGrid* grid, WoormField* pF, UINT& nFieldIDC)
 {
-	CustomParametersPropertyGrid* grid = this->m_pPropGridParams;
+	if (!pF || !pF->GetData()) 
+		return;
 
-	WoormTable* pSymTable = GetDocument()->GetEngineSymTable();
+	DataType dt = pF->GetData()->GetDataType();
+	if (dt == DataType::Object) dt = DataType::Long;
+	else if (dt == DataType::Array) dt = ((DataArray*)pF->GetData())->GetBaseDataType();
 
-	UINT nFieldIDC = 1;	//
-	for (int i = 0; i < pSymTable->GetCount(); i++)
+	const CParsedCtrlFamily* pFamily = AfxGetParsedControlsRegistry()->GetDefaultFamilyInfo(dt);
+	ASSERT_VALID(pFamily); if (!pFamily) return;
+	CRegisteredParsedCtrl * ctrl = pFamily->GetRegisteredControl(dt);
+	ASSERT_VALID(ctrl); if (!ctrl) return;
+
+	DWORD style = 0;
+	if (pF->GetData()->GetDataType() == DataType::Bool)
+		style = BS_AUTOCHECKBOX;
+	else if (pF->GetData()->GetDataType().m_wType == DATA_ENUM_TYPE)
+		style = CBS_DROPDOWNLIST;
+
+	HotKeyLink* pHKL = NULL;
+	CString sDescr;
+	sDescr +=  _T("Data-type: ") + dt.ToString() + L"; ";
+	sDescr += cwsprintf(_T("ID: %d"), pF->GetId()) + L"; ";
+	sDescr += pF->GetSourceDescription() + ';';
+	
+	if (pF->IsInput() || (*pF->GetData(0) == *pF->GetData(1) && *pF->GetData(0) == *pF->GetData(2)))
 	{
-		WoormField* pF = pSymTable->GetAt(i);
-		if (!pF->GetData()) continue;
-
-		DataType dt = pF->GetData()->GetDataType();
-		if (dt == DataType::Object) dt = DataType::Long;
-		else if (dt == DataType::Array) dt = ((DataArray*)pF->GetData())->GetBaseDataType() ;
-
-		const CParsedCtrlFamily* pFamily = AfxGetParsedControlsRegistry()->GetDefaultFamilyInfo(dt);
-		ASSERT_VALID(pFamily); if (!pFamily) continue;
-		CRegisteredParsedCtrl * ctrl = pFamily->GetRegisteredControl(dt);
-		ASSERT_VALID(ctrl); if (!ctrl) continue;
-
-		DWORD style = 0;
-		if (pF->GetData()->GetDataType() == DataType::Bool)
-			style = BS_AUTOCHECKBOX;
-		else if (pF->GetData()->GetDataType().m_wType == DATA_ENUM_TYPE)
-			style = CBS_DROPDOWNLIST;
-
-		HotKeyLink* pHKL = NULL;
-
-		if (pF->IsInput() || (*pF->GetData(0) == *pF->GetData(1) && *pF->GetData(0) == *pF->GetData(2)))
+		if (pF->GetData()->GetDataType() == DataType::Array)
 		{
-			if (pF->GetData()->GetDataType() == DataType::Array)
+			DataArray* pAr = dynamic_cast<DataArray*>(pF->GetData());
+			CTBProperty* propAr = grid->AddProperty(pF->GetName(), pF->GetName(), pF->GetName());
+			for (int i = 0; i < min(pAr->GetSize(), 100); i++)
 			{
-				DataArray* pAr = dynamic_cast<DataArray*>(pF->GetData());
-				CTBProperty* propAr = grid->AddProperty(pF->GetName(), pF->GetName(), pF->GetName());
-				for (int i = 0; i < min(pAr->GetSize(), 100); i++)
-				{
-					CString s = cwsprintf(pF->GetName()+L"[%d]", i);
-					/*CTBProperty* pChild = */grid->AddSubItem(propAr, s, s, s, pAr->GetAt(i), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass());
-				}
-				propAr->Expand(FALSE);
-				continue;
+				CString s = cwsprintf(pF->GetName() + L"[%d]", i);
+				/*CTBProperty* pChild = */grid->AddSubItem(propAr, s, s, s, pAr->GetAt(i), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass());
 			}
-			else if (pF->IsAsk())
-			{
-				AskFieldData* askField = GetDocument()->GetEditorManager()->GetPrgData()->GetAskRuleData()->GetAskField(pF->GetName());
-
-				BOOL isDynamic, isXml;
-				FunctionDataInterface* pDescri = AfxGetTbCmdManager()->GetHotlinkDescription(askField->m_nsHotLink, isDynamic, isXml);
-
-				if (pDescri)
-				{
-					pHKL = (HotKeyLink*)pDescri->m_pComponentClass->CreateObject();
-					pHKL->EnableAddOnFly(FALSE);
-					pHKL->MustExistData(FALSE);
-				}
-			}
-
-			CTBProperty* prop = grid->AddProperty(pF->GetName(), pF->GetName() + L" (" + pF->GetData()->GetDataType().ToString() + L")", L"", pF->GetData(), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass(), pHKL);
-			if (pF->GetId() > SpecialReportField::REPORT_LOWER_SPECIAL_ID) prop->Enable(FALSE);
-			if (!pF->GetData()->IsValid())
-				prop->SetState(_TB("Invalid value"));
-			continue;
+			propAr->Expand(FALSE);
+			propAr->SetDescription(::cwsprintf(_TB("Array base-type: %s; count: %d") + pAr->GetBaseDataType().ToString(), pAr->GetSize())); 
+			return;
 		}
-		else
-		{	
-			CTBProperty* prop = grid->AddProperty(pF->GetName(), pF->GetName() + L" (" + pF->GetData()->GetDataType().ToString() + L")", _TB("Multivalue"));
-			for (int i = 0; i < 3; i++)
+		else if (pF->IsAsk())
+		{
+			AskFieldData* askField = GetDocument()->GetEditorManager()->GetPrgData()->GetAskRuleData()->GetAskField(pF->GetName());
+
+			BOOL isDynamic, isXml;
+			FunctionDataInterface* pDescri = AfxGetTbCmdManager()->GetHotlinkDescription(askField->m_nsHotLink, isDynamic, isXml);
+
+			if (pDescri)
 			{
-				CString sName, sDescr, sCaption;
-				switch (i)
-				{
-				case 0:
-					sName = L"Rule";
-					sCaption = sDescr = _TB("Rule data");
-					break;
-				case 1:
-					sName = L"Query";
-					sCaption = sDescr = _TB("Query data");
-					break;
-				case 2:
-					sName = L"Report";
-					sCaption = sDescr = _TB("Report data");
-					break;
-				}
-				CTBProperty* pChild = grid->AddSubItem(prop, pF->GetName() + L" - " + sName, sCaption, sDescr, pF->GetData(i), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass(), pHKL);
-				if (i == pSymTable->GetDataLevel())
-					pChild->SetState(_TB("Current value"), _T('>'), RS_COLOR_PROP_IMPORTANT);
+				pHKL = (HotKeyLink*)pDescri->m_pComponentClass->CreateObject();
+				pHKL->EnableAddOnFly(FALSE);
+				pHKL->MustExistData(FALSE);
+
+				sDescr += _TB("Namespace hotlink: ") + askField->m_nsHotLink.ToUnparsedString();
 			}
+		}
+
+		CTBProperty* prop = grid->AddProperty(pF->GetName(), pF->GetName(), L"", pF->GetData(), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass(), pHKL);
+
+		if (pF->GetId() > SpecialReportField::REPORT_LOWER_SPECIAL_ID) 
+		{
+			sDescr += _TB("Predefined field");
+			//prop->Enable(FALSE);
+		}
+
+		if (!pF->GetData()->IsValid())
+			prop->SetState(_TB("Invalid value"));
+
+		prop->SetDescription(sDescr);
+		return;
+	}
+	else
+	{
+		CTBProperty* prop = grid->AddProperty(pF->GetName(), pF->GetName(), _TB("Multivalue"));
+		prop->SetDescription(sDescr);
+
+		for (int i = 0; i < 3; i++)
+		{
+			CString sName, sDescr, sCaption;
+			switch (i)
+			{
+			case 0:
+				sName = L"Rule";
+				sCaption = sDescr = _TB("Rule data");
+				break;
+			case 1:
+				sName = L"Query";
+				sCaption = sDescr = _TB("Query data");
+				break;
+			case 2:
+				sName = L"Report";
+				sCaption = sDescr = _TB("Report data");
+				break;
+			}
+			CTBProperty* pChild = grid->AddSubItem(prop, pF->GetName() + L" - " + sName, sCaption, sDescr, pF->GetData(i), GetDebuggerIDC(nFieldIDC++), style, ctrl->GetClass(), pHKL);
+			if (i == pF->GetSymTable()->GetDataLevel())
+				pChild->SetState(_TB("Current value"), _T('>'), RS_COLOR_PROP_IMPORTANT);
 		}
 	}
+}
+
+void CRSEditorSymbolTableViewDebug::LoadSymbolTable()
+{
+	CustomParametersPropertyGrid* grid = this->m_pPropGrid;
+
+	SymTable* pSymTable = GetDocument()->GetEngineSymTable();
+
+	/*CRSEditViewDebug*/CRSEditView* pV = GetFrame()->m_pEditView;
+
+	if (
+		 pV &&
+		pV->m_Context.m_eType == CRSEditViewParameters::EditorMode::EM_DEBUG_ACTIONS &&
+		pV->m_Context.m_pCurrActionObj)
+	{
+		ASSERT_VALID(GetFrame()->m_pEditView->m_Context.m_pCurrActionObj);
+		pSymTable = GetFrame()->m_pEditView->m_Context.m_pCurrActionObj->GetSymTable();
+	}
+
+	UINT nFieldIDC = 1;	
+	SymField* pF = pSymTable->GetFirstField();
+	do 
+	{
+		AddField(grid, dynamic_cast<WoormField*>(pF), nFieldIDC);
+	}
+	while (pF = pSymTable->GetNextField());
+
 	grid->AdjustLayout();
 	GetFrame()->UpdateWindow();
 }
@@ -3431,10 +3468,10 @@ int CRSEditView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 //-----------------------------------------------------------------------------
 void CRSEditView::OnInitialUpdate()
 {
-	__super::OnInitialUpdate();
-
 	if (GetEditorFrame(FALSE))
 		GetEditorFrame(TRUE)->m_pEditView = this;
+
+	__super::OnInitialUpdate();
 
 	ASSERT_VALID(GetEditCtrl());
 }
@@ -4240,6 +4277,14 @@ CRSEditorDebugFrame* CRSEditViewDebug::GetEditorFrame(BOOL bMustExists)
 }
 
 //-----------------------------------------------------------------------------
+void CRSEditViewDebug::OnInitialUpdate()
+{
+	__super::OnInitialUpdate();
+
+	ASSERT_VALID(GetEditCtrl());
+}
+
+//-----------------------------------------------------------------------------
 BOOL CRSEditViewDebug::OpenDebugger(ActionObj* pCurrCmd)
 {
 	if (!GetEditorFrame(FALSE))
@@ -4256,9 +4301,10 @@ BOOL CRSEditViewDebug::OpenDebugger(ActionObj* pCurrCmd)
 		m_Context.SetDebugAction(pCurrCmd);
 	}
 
-	CRSEditorToolDebugView* pTDView = dynamic_cast<CRSEditorToolDebugView*>(GetEditorFrame(TRUE)->m_pToolTreeView);
+	CRSEditorToolDebugView* pTDView = dynamic_cast<CRSEditorToolDebugView*>((CRSEditorToolView*)GetEditorFrame(TRUE)->m_pToolTreeView);
 	ASSERT_VALID(pTDView);
 	pTDView->m_pEditView = this;
+	GetEditorFrame(TRUE)->m_pEditView = this;
 
 	pTDView->FillForDebug(this);
 
@@ -4271,6 +4317,10 @@ BOOL CRSEditViewDebug::OpenDebugger(ActionObj* pCurrCmd)
 
 		GetEditorFrame(TRUE)->m_pToolTreeView->m_TreeCtrl.SelectRSTreeItemData(pRootCmd, GetEditorFrame(TRUE)->m_pToolTreeView->m_TreeCtrl.m_htEvents, FALSE);
 	}
+
+	CRSEditorSymbolTableViewDebug* pV = GetEditorFrame(TRUE)->m_pSymbolTableView;
+	if (pV)
+		pV->LoadSymbolTable();
 
 	DoEvent(TRUE);
 

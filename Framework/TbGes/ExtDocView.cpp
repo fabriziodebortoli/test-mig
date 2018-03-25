@@ -1263,6 +1263,8 @@ void CAbstractFormView::OnPaint()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormView::OnEraseBkgnd(CDC* pDC)
 {
+	if (pDC == NULL) 
+		return TRUE;			
 	if (DoEraseBkgnd(pDC))
 		return TRUE;
 

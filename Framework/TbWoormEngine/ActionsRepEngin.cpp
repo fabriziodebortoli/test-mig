@@ -1331,6 +1331,10 @@ ConditionalAction::ConditionalAction (ActionObj* pParent, SymTable* pSymTable, R
 	m_ActionType = ACT_CONDITIONAL;
 }
 
+ConditionalAction::~ConditionalAction()
+{
+}
+
 //---------------------------------------------------------------------------
 BOOL ConditionalAction::Exec()
 {
@@ -2991,7 +2995,7 @@ BOOL DeclareAction::Parse(Parser& parser)
 	if (pExistField)	//alternativa ammettere se livello di scope � superiore, ma forse � fonte di errore
 		return parser.SetError(_TB("Duplicate identificator name"), strFieldName);
 
-	m_pLocalField = new WoormField(strFieldName, WoormField::FIELD_INPUT, aType);
+	m_pLocalField = new WoormField(strFieldName, WoormField::FIELD_INPUT, aType, 0);
 
 	if (aType == DataType::Array)
 	{

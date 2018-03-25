@@ -52,11 +52,11 @@ public:
 private:
 	WoormSymTableType		m_TableType;
 
-	DisplayTables*			m_pDisplayTables;
+	DisplayTables*			m_pDisplayTables = NULL;
 
-	RepEngine*				m_pRepEngine;
+	RepEngine*				m_pRepEngine = NULL;
 
-	GlobalId*				m_pGlobalId;
+	GlobalId*				m_pGlobalId = NULL;
 
 	Array					m_arProcedures;
 	Array					m_arQueries;
@@ -95,7 +95,7 @@ public:
 	virtual QueryObjItem*		FindQuery		(LPCTSTR) const;
 	
 	void		AddRepEngine			(RepEngine* pRepEngine)		{ m_pRepEngine = pRepEngine; }
-	RepEngine*	GetRepEngine			() const					{ return m_pRepEngine; }
+	RepEngine*	GetRepEngine			() const;
 	
 	void		SetOwnerId				(CBaseDocument* pDocument);
 

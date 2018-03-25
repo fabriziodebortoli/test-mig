@@ -816,6 +816,33 @@ CString SymTable::GenerateName(LPCTSTR pszFromName, const CString& strPrefix)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+SymField* SymTable::GetFirstField()
+{
+	m_nCurrentFieldIndex = 0;
+
+	SymField* pParentF = NULL;
+	if (m_pParentSymTable) 
+		pParentF = m_pParentSymTable->GetFirstField();
+
+	if (GetSize())
+	{
+		return GetAt(0);
+	}
+	return pParentF;
+}
+
+SymField* SymTable::GetNextField()
+{
+	if (m_nCurrentFieldIndex < GetUpperBound())
+	{
+		m_nCurrentFieldIndex++;
+		return GetAt(m_nCurrentFieldIndex);
+	}
+	return m_pParentSymTable ? m_pParentSymTable->GetNextField() : NULL;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 int CompareFieldByName(CObject* po1, CObject* po2)
 {
 	SymField* p1 = (SymField*)po1;

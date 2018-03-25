@@ -315,6 +315,8 @@ public:
 	BOOL			AddMethodList		(const CRuntimeClass* rcStopBaseClassName);
 
 	CString			BindRuleItem		(const RecordArray& aBindRecord, const SqlTableInfoArray& arSqlTableJoinInfoArray);
+
+	CString			GetRepFieldTypeDescription() const;	
 protected:
 	BOOL			ParseDisplayAttribute	(Parser&, WoormTable*);
 	void 			UnparseDisplayAttribute	(Unparser&, BOOL bNoDispTableName);

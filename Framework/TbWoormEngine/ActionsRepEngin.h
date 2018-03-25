@@ -299,6 +299,7 @@ private:
 
 public:
 	ConditionalAction (ActionObj* m_pParent, SymTable*, RepEngine*, CFunctionDescription* pFun);
+	virtual ~ConditionalAction();
 
 public:
 	BOOL	Exec	();

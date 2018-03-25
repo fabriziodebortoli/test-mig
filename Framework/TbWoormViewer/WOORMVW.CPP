@@ -673,6 +673,8 @@ BOOL CWoormView::DrawBitmap(CDC* pDC, CPoint ptOrigin, const CString& strBmpName
 //------------------------------------------------------------------------------
 BOOL CWoormView::OnEraseBkgnd(CDC* pDC)
 {
+	if (pDC == NULL)
+		return TRUE;
 	BOOL bRet = CBCGPScrollView::OnEraseBkgnd(pDC);
 
 	if (pDC->IsPrinting())

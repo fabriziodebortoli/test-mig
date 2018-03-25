@@ -120,6 +120,12 @@ void WoormTable::SetDocument (CBaseDocument* pDocument)
 }
 
 //----------------------------------------------------------------------------
+RepEngine*	WoormTable::GetRepEngine() const 
+{ 
+	return m_pRepEngine; 
+}
+
+//----------------------------------------------------------------------------
 void WoormTable::SetOwnerId (CBaseDocument* pCallerDocument)	
 { 
 	if (!pCallerDocument)

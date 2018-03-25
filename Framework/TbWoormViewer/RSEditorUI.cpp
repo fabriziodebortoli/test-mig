@@ -212,7 +212,7 @@ CRSEditViewDebug* CWoormFrame::CreateEditViewDebug()
 
 	pEdtViewDebug->SetLanguage(L"WRM", FALSE);
 
-	m_pEditViewDebug = pEdtViewDebug;
+	m_pEditView = pEdtViewDebug;
 
 	return pEdtViewDebug;
 }
@@ -426,12 +426,6 @@ void CWoormFrame::ClosePanels()
 		if (m_pEditView->GetEditCtrl())
 			m_pEditView->GetEditCtrl()->SetModified(FALSE);
 		m_pEditView->GetEditorFrame(TRUE)->SendMessage(WM_CLOSE, 0, 0);
-	}
-	if (m_pEditViewDebug)
-	{
-		if (m_pEditViewDebug->GetEditCtrl())
-			m_pEditViewDebug->GetEditCtrl()->SetModified(FALSE);
-		m_pEditViewDebug->GetEditorFrame(TRUE)->SendMessage(WM_CLOSE, 0, 0);
 	}
 
 	if (m_pEnginePane)

@@ -36,13 +36,8 @@ class CRSEditorPreviewView;
 class CUndoButton;
 class CCustomEditCtrl;
 class CRSEditViewTreeCtrl;
+
 //===========================================================================
-
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-//=============================================================================
 class TB_EXPORT CRSEditorFrame : public CAbstractFrame
 {
 	friend class CRSEditView;
@@ -63,17 +58,16 @@ protected:
 	CBCGPCaptionBar				m_CaptionBar;
 
 public:
-	CRSEditorToolView*			m_pToolTreeView = NULL;
-	CRSEditorDiagnosticView*	m_pDiagnosticView = NULL;
-	CRSEditorGridView*			m_pGridView = NULL;
-	CAbstractFormView*			m_pParametersView = NULL;	
-	CRSEditorPreviewView*		m_pPreviewView = NULL;
-
-	TDisposablePtr<CRSEditView>	m_pEditView;
+	TDisposablePtr<CRSEditorToolView>			m_pToolTreeView;
+	TDisposablePtr<CRSEditorDiagnosticView>		m_pDiagnosticView;
+	TDisposablePtr<CRSEditorGridView>			m_pGridView;
+	TDisposablePtr<CRSEditorParametersView>		m_pParametersView;
+	TDisposablePtr<CRSEditorPreviewView>		m_pPreviewView;
+	TDisposablePtr<CRSEditorSymbolTableViewDebug>		m_pSymbolTableView;
+	TDisposablePtr<CRSEditView>					m_pEditView;
 
 	CBCGPToolbarComboBoxButton* GetFindCombo();
 	CBCGPToolbarComboBoxButton* GetReplaceCombo();
-
 
 public:
 	CRSEditorFrame::CRSEditorFrame();
@@ -393,7 +387,7 @@ class TB_EXPORT CRSEditorSymbolTableViewDebug : public CRSDockedView
 {
 	DECLARE_DYNCREATE(CRSEditorSymbolTableViewDebug)
 public:
-	CustomParametersPropertyGrid* m_pPropGridParams;
+	CustomParametersPropertyGrid* m_pPropGrid;
 
 	CRSEditorSymbolTableViewDebug();
 	virtual ~CRSEditorSymbolTableViewDebug();
@@ -405,6 +399,8 @@ protected:
 	virtual	void BuildDataControlLinks();
 
 	void CreateGrid();
+	void AddField(CustomParametersPropertyGrid* grid, WoormField* pF, UINT& nFieldIDC);
+public:
 	void LoadSymbolTable();
 
 	DECLARE_MESSAGE_MAP()
@@ -774,7 +770,7 @@ protected:
 	afx_msg void OnUpdateEditToggleoutlining(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateEditCollapsetodefinitions(CCmdUI* pCmdUI);
 	afx_msg void OnNcPaint();
-			void CreateSymbolTableView();
+			//void CreateSymbolTableView();
 
 	afx_msg void OnUpdateCaretPos(CCmdUI* pCmdUI);
 	afx_msg void OnShowHint();
@@ -892,7 +888,10 @@ public:
 	CRSEditorDebugFrame* GetEditorFrame(BOOL bMustExists);
 
 	BOOL OpenDebugger(ActionObj* pCurrCmd);
+
 	virtual void StepOver();
+
+	virtual void OnInitialUpdate();
 
 	//DECLARE_MESSAGE_MAP();
 };

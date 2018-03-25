@@ -785,6 +785,8 @@ void CTaskBuilderDockPane::OnWindowPosChanged(WINDOWPOS* lpwndpos)
 //-------------------------------------------------------------------------------------
 BOOL CTaskBuilderDockPane::OnEraseBkgnd(CDC* pDC)
 {
+	if (pDC == NULL)
+		return TRUE;
 	__super::OnEraseBkgnd(pDC);
 
 	CRect rclientRect;

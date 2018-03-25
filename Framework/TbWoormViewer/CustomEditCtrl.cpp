@@ -1086,7 +1086,7 @@ BOOL CCustomEditCtrl::ToggleBreakpoint()
 	CRSEditorDebugFrame* pRSFr = dynamic_cast<CRSEditorDebugFrame*>(pFr);
 	if (pRSFr && pRSFr->m_pToolTreeView)
 	{
-		((CRSEditorToolDebugView*)pRSFr->m_pToolTreeView)->ToggleBreakpoint(nCurrRow, bMarkerSet);
+		((CRSEditorToolDebugView*)(CRSEditorToolView*)(pRSFr->m_pToolTreeView))->ToggleBreakpoint(nCurrRow, bMarkerSet);
 	}
 
 	return bMarkerSet;
