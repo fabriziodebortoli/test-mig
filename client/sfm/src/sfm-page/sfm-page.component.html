@@ -3,6 +3,15 @@
         <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId=""></tb-toolbar-top-button>
     </tb-toolbar-top>
     <tb-frame-content>
-        <p>SFM</p>
+        <table>
+            <th>Workder ID</th>
+            <th>ManOrd ID</th>
+            <th>RtgStep</th>
+            <tr *ngFor="let elem of prova">
+                <td>{{elem.SF_LabourAssignment_WorkerID}}</td>
+                <td>{{elem.SF_LabourAssignment_ManOrdId}}</td>
+                <td>{{elem.SF_LabourAssignment_RtgStep}}</td>
+            </tr>
+        </table>
     </tb-frame-content>
 </tb-frame>
