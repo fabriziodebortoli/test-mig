@@ -9,6 +9,7 @@ namespace SharedCode
         internal static string namedPipe = "CLIENTFORMSPROVIDER_" + Path.GetFileName(GetInstallationFolder());
         internal const string clientFormsCommand = "clientforms";
         internal const string controlClassesCommand = "controlclasses";
+        internal const string iconsMatchCommand = "iconsMatch";
 
         internal static string GetInstallationFolder()
         {
@@ -30,6 +31,7 @@ namespace SharedCode
             this.exclude = exclude;
         }
     }
+
     class ClientFormMap : Dictionary<string, List<ClientForm>>
     {
     }
@@ -37,7 +39,11 @@ namespace SharedCode
     class ControlClassMap : Dictionary<string, WebControl>
     {
     }
-    
+
+    class IconsMatchMap : Dictionary<string, string>
+    {
+    }
+
     public class ArgMap : Dictionary<string, string>
     {
     }

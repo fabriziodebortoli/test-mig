@@ -80,7 +80,7 @@ namespace Microarea.TbJson
                             Console.Out.WriteLineAsync(errorMessage);
                         }
                     }
-                    
+
                     //non devo più tornare colonne, ma gli oggetti contenuti
                     return new WebControl(Constants.tbText);
                 case WndObjType.PropertyGrid:

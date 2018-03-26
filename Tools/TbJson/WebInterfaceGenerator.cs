@@ -27,7 +27,6 @@ namespace Microarea.TbJson
         private int logIndent = 0;
         private HtmlTextWriter htmlWriter = null;
         private readonly JsonParser parser = new JsonParser();
-        private readonly Dictionary<string, string> iconsConversionDictionary = new Dictionary<string, string>();
         private Dictionary<string, JToken> constants = new Dictionary<string, JToken>();
         private Dictionary<string, StringBuilder> contextMenus = new Dictionary<string, StringBuilder>();
 
@@ -36,31 +35,10 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------------------
         public WebInterfaceGenerator(bool verbose)
         {
-            LoadIconsConversionTable();
             verboseOutput = verbose;
         }
 
-        //-----------------------------------------------------------------------------------------
-        private void LoadIconsConversionTable()
-        {
-            string xml = Resources.iconsMatch;
-            var doc = new XmlDocument();
-            doc.LoadXml(xml);
-
-            foreach (XmlNode currentIcon in doc.SelectNodes("//icons/icon"))
-            {
-                if (currentIcon.Attributes["iconNs"] == null || currentIcon.Attributes["icon"] == null)
-                    continue;
-
-                string iconNs = currentIcon.Attributes["iconNs"].Value.ToLower();
-                string icon = currentIcon.Attributes["icon"].Value.ToLower();
-                if (iconsConversionDictionary.TryGetValue(iconNs, out string value))
-                    continue;
-
-                iconsConversionDictionary.Add(iconNs, icon);
-            }
-        }
-
+   
         //-----------------------------------------------------------------------------------------
         internal void Generate(string fileOrFolder, string mergedJsonDir, bool onlyMerged)
         {
@@ -1392,7 +1370,8 @@ namespace Microarea.TbJson
                 if (tempIcon.StartsWith("image."))
                     tempIcon = tempIcon.Substring("image.".Length, icon.Length - "image.".Length);
 
-                if (iconsConversionDictionary.TryGetValue(tempIcon, out string convertedValue))
+                IconsMatchMap map = CacheConnector.GetIconsMatch();
+                if (map.TryGetValue(tempIcon, out string convertedValue))
                     htmlWriter.WriteAttribute(Constants.icon, convertedValue);
                 else
                 {

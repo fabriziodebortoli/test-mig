@@ -10,6 +10,7 @@ namespace ClientFormsProvider
     {
         ClientFormMap clientForms;
         ControlClassMap controlClasses;
+        IconsMatchMap iconsMatch;
 
         //-----------------------------------------------------------------------------
         public ClientFormMap ClientForms
@@ -29,11 +30,21 @@ namespace ClientFormsProvider
             }
         }
 
+       //-----------------------------------------------------------------------------
+       public Dictionary<string, string> IconsMatchMap
+        {
+            get
+            {
+                return iconsMatch;
+            }
+        }
+
         //-----------------------------------------------------------------------------
         public void Parse(string folder)
         {
             clientForms = new ClientFormMap();
             controlClasses = new ControlClassMap();
+            iconsMatch = new IconsMatchMap();
             string[] files = Directory.GetFiles(folder, "*.xml", SearchOption.AllDirectories);
 
             foreach (var file in files)
@@ -42,6 +53,28 @@ namespace ClientFormsProvider
                     ExtractClientForms(file);
                 else if (Path.GetFileNameWithoutExtension(file).Equals("webcontrols", StringComparison.InvariantCultureIgnoreCase))
                     ExtractControlClasses(file);
+                else if (Path.GetFileNameWithoutExtension(file).Equals("iconsmatch", StringComparison.InvariantCultureIgnoreCase))
+                    LoadIconsConversionTable(file);
+            }
+        }
+
+        //-----------------------------------------------------------------------------------------
+        public void LoadIconsConversionTable(string file)
+        {
+            var doc = new XmlDocument();
+            doc.Load(file);
+
+            foreach (XmlNode currentIcon in doc.SelectNodes("//icons/icon"))
+            {
+                if (currentIcon.Attributes["iconNs"] == null || currentIcon.Attributes["icon"] == null)
+                    continue;
+
+                string iconNs = currentIcon.Attributes["iconNs"].Value.ToLower();
+                string icon = currentIcon.Attributes["icon"].Value.ToLower();
+                if (iconsMatch.TryGetValue(iconNs, out string value))
+                    continue;
+
+                iconsMatch.Add(iconNs, icon);
             }
         }
 

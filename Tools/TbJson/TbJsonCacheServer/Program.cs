@@ -48,6 +48,9 @@ namespace ClientFormsProvider
                             case Shared.controlClassesCommand:
                                 response = parser.ControlClasses;
                                 break;
+                            case Shared.iconsMatchCommand:
+                                response = parser.IconsMatchMap;
+                                break;
                             default:
                                 response = "Unknown command";
                                 break;

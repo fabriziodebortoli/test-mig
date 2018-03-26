@@ -114,7 +114,6 @@
     <Content Include="..\..\Framework\TbUtility\TbJson\TbJsonCacheServer.exe">
       <Link>output\TbJsonCacheServer.exe</Link>
     </Content>
-    <None Include="iconsMatch.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\Module.ts" />

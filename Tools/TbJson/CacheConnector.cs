@@ -12,6 +12,7 @@ namespace Microarea.TbJson
     {
         static ClientFormMap clientForms;
         static ControlClassMap controlClasses;
+        static IconsMatchMap iconsMatch;
         private const string serverProcess = "TbJsonCacheServer";
 
         //-----------------------------------------------------------------------------
@@ -34,6 +35,16 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------
+        internal static IconsMatchMap GetIconsMatch()
+        {
+            if (iconsMatch == null)
+            {
+                iconsMatch = GetCachedObject<IconsMatchMap>(Shared.iconsMatchCommand);
+            }
+            return iconsMatch;
+        }
+
+        //-----------------------------------------------------------------------------
         private static T GetCachedObject<T>(string cmd)
         {
             using (NamedPipeClientStream pipeClient = GetNamedPipeStream())
@@ -46,7 +57,6 @@ namespace Microarea.TbJson
                     string s = sr.ReadToEnd();
                     return new JsonSerializer().Deserialize<T>(new JsonTextReader(new StringReader(s)));
                 }
-
             }
         }
 
