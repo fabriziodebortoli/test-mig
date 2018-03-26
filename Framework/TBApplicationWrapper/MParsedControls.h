@@ -132,6 +132,7 @@ namespace Microarea {
 				static System::String^  contentTag = "content";
 				static System::String^  namespaceTag = "namespace";
 				static System::String^  eventTag = "event";
+				static System::String^  eventHandlerTag = "eventHandler";
 
 			public:
 				/// <summary>

@@ -347,6 +347,7 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^ ev = evEnumerator->Current;
 		jsonSer.WriteString(CString(namespaceTag), CString(this->Namespace->ToString()));
 		jsonSer.WriteString(CString(eventTag), CString(ev->EventName));
+		jsonSer.WriteString(CString(eventHandlerTag), CString(ev->EventHandlerName));
 		jsonSer.CloseObject();
 		i++;
 	}
