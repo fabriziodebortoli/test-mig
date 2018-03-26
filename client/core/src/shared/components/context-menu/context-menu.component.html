@@ -2,24 +2,26 @@
 
     <button kendoButton (click)="onToggle()" icon="more-vertical"></button>
 
-    <kendo-popup *ngIf="show" popupClass='{{popupClass}}' [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign" [popupAlign]="popupAlign">
-        <button kendoButton *ngFor="let menuItem of contextMenu" class="content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)" (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
+    <kendo-popup *ngIf="show" popupClass='{{popupClass}}' [anchor]="anchor" [collision]="collision" [anchorAlign]="anchorAlign"
+        [popupAlign]="popupAlign">
+        <button kendoButton *ngFor="let menuItem of contextMenu" class="cm-content" [disabled]="!menuItem?.enabled" (mouseenter)="openSubItems(true, menuItem)"
+            (mouseleave)="openSubItems(false, menuItem)" (mousedown)="setMouseDown()" (click)="doCommand(menuItem)">
             <div #anchor2 class="divW">
                 <m4-icon *ngIf="hasSubItems(menuItem)" icon="tb-chevronleftfilled" class="subsIcon"></m4-icon>
-                <span [ngClass]="{ 'spaceOn': !hasSubItems(menuItem)}"> {{menuItem?.text}} </span>
+                <span [ngClass]="hasSubItems(menuItem) ? 'spaceOn' : 'spaceOff'"> {{menuItem?.text}} </span>
                 <m4-icon *ngIf="menuItem?.checked" icon="tb-ok" class="checkIcon"></m4-icon>
             </div>
             <!-- <kendo-popup *ngIf="menuItem?.showMySub" [anchor]="anchor2" (anchorViewportLeave)="outView(menuItem)" [collision]="collision"
                 [anchorAlign]="anchorAlign2" [popupAlign]="popupAlign2" [popupClass]="'content popup'"> -->
             <kendo-popup *ngIf="menuItem?.showMySub" [anchor]="anchor2" (anchorViewportLeave)="outView(menuItem)" [collision]="collision"
                 [anchorAlign]="anchorAlign2" [popupClass]="'content popup'">
-                <button kendoButton *ngFor="let subItem of menuItem.subItems" class="content" (click)="doCommand(subItem)" [disabled]="!subItem?.enabled">
+                <button kendoButton *ngFor="let subItem of menuItem.subItems" class="cm-content" (click)="doCommand(subItem)" [disabled]="!subItem?.enabled">
                     <div class="divW">
                         <m4-icon *ngIf="menuItem?.checked" icon="tb-ok" class="checkIcon"></m4-icon>
                         <span class="spaceOn"> {{subItem?.text}} </span>
                     </div>
                 </button>
-    </kendo-popup>
-    </button>
+            </kendo-popup>
+        </button>
     </kendo-popup>
 </div>

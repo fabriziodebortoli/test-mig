@@ -17,7 +17,7 @@ import { Logger } from './../../../core/services/logger.service';
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss']
 })
-export class ContextMenuComponent  extends TbComponent {
+export class ContextMenuComponent extends TbComponent {
   anchorAlign: Align = { horizontal: 'left', vertical: 'bottom' };
   popupAlign: Align = { horizontal: 'right', vertical: 'top' };
   public collision: Collision = { horizontal: 'flip', vertical: 'fit' };
@@ -31,17 +31,18 @@ export class ContextMenuComponent  extends TbComponent {
   @Input() fontIcon = 'tb-menu2';
   @Input() contextMenu: ContextMenuItem[];
   @Input() popupClass = 'content popup';
+  @Input() locked = false;
   @ViewChild('anchor') divFocus: HTMLElement;
 
 
 
   constructor(
-    public webSocketService: WebSocketService, 
+    public webSocketService: WebSocketService,
     public eventDataService: EventDataService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
     public logger: Logger
-) {
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
     // SCENARIO 1: RIEMPIRE DA SERVER
@@ -56,7 +57,7 @@ export class ContextMenuComponent  extends TbComponent {
 
   onOpen() {
   }
-  onTranslationsReady(){
+  onTranslationsReady() {
     super.onTranslationsReady();
     // this.contextMenu.splice(0, this.contextMenu.length);
     // const subItems_bis = new Array<ContextMenuItem>();
@@ -79,7 +80,7 @@ export class ContextMenuComponent  extends TbComponent {
 
   public doCommand(menuItem: any) {
     if (!menuItem) {
-      this.logger.debug('NOT doCommand for ContextMenu!'); 
+      this.logger.debug('NOT doCommand for ContextMenu!');
       return;
     }
     if (this.hasSubItems(menuItem)) {
@@ -98,7 +99,13 @@ export class ContextMenuComponent  extends TbComponent {
 
   public onToggle(): void {
     this.logger.debug(this.show);
-    this.show = !this.show;
+
+    if (this.locked) {
+      this.show = false;
+    } else {
+      this.show = !this.show;
+    }
+
     if (!this.show && this.currentItem !== null && this.currentItem !== undefined) {
       this.currentItem.showMySub = false;
     }

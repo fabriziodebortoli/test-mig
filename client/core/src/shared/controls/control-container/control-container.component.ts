@@ -25,15 +25,16 @@ export class ControlContainerComponent extends ControlComponent {
     @Input() type = '';
     @Input() errorMessage = '';
     @Input() disableStateButton = false;
+    @Input() contextMenuLocked = false;
     @Output() stateInfo: EventEmitter<{ invertState: boolean, model: string }> = new EventEmitter();
 
     private stateButtonEnabled$: Observable<boolean>;
     private get editIcon(): string {
         return this.stateData.iconEdit ? this.stateData.iconEdit : 'tb-edit';
-    } ;
+    };
     private get executeIcon(): string {
         return this.stateData.iconExecute ? this.stateData.iconExecute : 'tb-execute';
-    } ;
+    };
     constructor(public layoutService: LayoutService,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef,

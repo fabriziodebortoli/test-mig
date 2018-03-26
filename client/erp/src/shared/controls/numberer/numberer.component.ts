@@ -43,6 +43,7 @@ export class NumbererComponent extends ControlComponent {
     private automaticNumbering = true;
     private invertState = false;
     private stateModel: string;
+    private contextMenuLocked = false;
 
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
 
@@ -158,16 +159,17 @@ export class NumbererComponent extends ControlComponent {
     }
     onTranslationsReady() {
         super.onTranslationsReady();
-        this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
-        this.menuItemEnablePadding = new ContextMenuItem(this._TB('enable automatic digit padding in front of the number'), '', true, false, null, this.togglePadding.bind(this));
-        this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding in front of the number'), '', true, false, null, this.doPadding.bind(this));
+        this.menuItemDisablePadding = new ContextMenuItem(this._TB('disable automatic digit padding'), '', true, false, null, this.togglePadding.bind(this));
+        this.menuItemEnablePadding = new ContextMenuItem(this._TB('enable automatic digit padding'), '', true, false, null, this.togglePadding.bind(this));
+        this.menuItemDoPadding = new ContextMenuItem(this._TB('perform digit padding'), '', true, false, null, this.doPadding.bind(this));
     }
 
     onFormModeChanged() {
         if (this.eventData.model.FormMode) {
             let formMode = this.eventData.model.FormMode.value;
             this.ctrlEnabled = (formMode === FormMode.FIND || formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableCtrlInEdit));
-            this.stateDataEnabled = (formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableStateInEdit))
+            this.stateDataEnabled = (formMode === FormMode.NEW || (formMode === FormMode.EDIT && this.enableStateInEdit));
+            this.contextMenuLocked = (formMode === FormMode.BROWSE);
         }
         this.setComponentMask();
         this.valueWasPadded = false;
