@@ -285,9 +285,9 @@ export class HttpService {
             });
     }
 
-    removeRowDBTSlaveBuffered(cmpId: any, dbtName: any, rowNumber: number) {
+    removeRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number, rowNumber: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, rowNumber: rowNumber };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName,  skip: skip, take: take, rowNumber: rowNumber };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'removeRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {

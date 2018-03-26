@@ -795,7 +795,7 @@ void CTbWebHandler::AddRowDBTSlaveBuffered(const CString& path, const CNameValue
 			return;
 		}
 
-		SqlRecord* pRecord = buffered->AddRecord();
+		SqlRecord* pRecord = buffered->InsertRecord(currentRow);
 		pRecord->SetStorable();
 		buffered->SetJsonLimits(pageToSkip, pageToTake, currentRow);
 		response.SetData(_T("{}"));

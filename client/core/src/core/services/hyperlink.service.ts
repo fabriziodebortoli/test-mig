@@ -28,19 +28,21 @@ export class HyperLinkService implements OnDestroy {
     public get elementInfo(): {element: HTMLElement, clickSubscription?: Subscription, initInfo: { color: string, textDecoration: string, cursor: string, pointerEvents: string }} {
         if(!this._elementInfo) {
             let e = this.getElementLogic();
-            let oldColor = e.style.color;
-            let oldDecoration = e.style.textDecoration;
-            let oldCursor = e.style.cursor;
-            let oldPointerEvents = e.style.pointerEvents;
-            this._elementInfo = { 
-                element: e,
-                initInfo: {
-                color: oldColor,
-                textDecoration: oldDecoration,
-                cursor: oldCursor,
-                pointerEvents: oldPointerEvents
-                }
-            };
+            if (e){
+                let oldColor = e.style.color;
+                let oldDecoration = e.style.textDecoration;
+                let oldCursor = e.style.cursor;
+                let oldPointerEvents = e.style.pointerEvents;
+                this._elementInfo = { 
+                    element: e,
+                    initInfo: {
+                    color: oldColor,
+                    textDecoration: oldDecoration,
+                    cursor: oldCursor,
+                    pointerEvents: oldPointerEvents
+                    }
+                };
+            }
         }
         return this._elementInfo;
     }

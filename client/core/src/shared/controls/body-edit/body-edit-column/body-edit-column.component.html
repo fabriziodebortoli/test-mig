@@ -1,4 +1,4 @@
-<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="getWidth()" [editable]="true" [style]="{'height': bodyEditService.rowHeight+'px'}">
+<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="getWidth()" [editable]="true" [style]="{'height': bodyEditService.rowHeight+'px'}" [ngClass]="{ 'editing': bodyEditService.enabled }">
 
     <ng-template kendoGridHeaderTemplate>
         <div class="headerTitle">
@@ -8,14 +8,16 @@
 
     <ng-template kendoGridCellTemplate let-dataItem="dataItem">
         <div *ngIf="dataItem">
-            <!-- <div *ngIf="dataItem" [ngClass]="bodyEditService.prototype[columnName]?.enabled == true ? 'editable' : ''"> -->
             {{dataItem[columnName]?.value}}
         </div>
     </ng-template>
 
     <ng-template kendoGridEditTemplate let-dataItem="dataItem">
         <ng-template *ngIf="dataItem" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{ columnModel: dataItem[columnName]  }">
-            <ng-content></ng-content>
+            <div class="editing">
+                <ng-content>
+                </ng-content>
+            </div>
         </ng-template>
     </ng-template>
 

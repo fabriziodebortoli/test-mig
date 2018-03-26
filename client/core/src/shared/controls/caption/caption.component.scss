@@ -38,7 +38,7 @@
 
 :host-context(.static-area) {
     label {
-        width: 170px  !important;
+        width: 170px !important;
     }
 }
 
@@ -58,4 +58,8 @@
     label {
         text-align: right;
     }
+}
+
+:host-context(.k-grid-table) {
+    display: none;
 }

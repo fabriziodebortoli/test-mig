@@ -190,14 +190,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     //let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
 
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize, tempCount).subscribe((res) => {
-
-      // if (res && res[this.bodyEditName]) {
-      //   this.updateModel(res[this.bodyEditName]);
-      // }
-      // else {
-      //   this.bodyEditService.pageChange({ skip: skip, take: this.bodyEditService.pageSize });
-      // }
-
       sub.unsubscribe();
     });
   }
@@ -208,10 +200,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       return;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
-    let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.currentDbtRowIdx).subscribe((res) => {
-      let dbt = res[this.bodyEditName];
-      this.updateModel(dbt);
-
+    let sub = this.httpService.removeRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize, this.bodyEditService.currentDbtRowIdx).subscribe((res) => {
       sub.unsubscribe();
     });
   }
@@ -259,8 +248,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
     setTimeout(() => {
       var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
-     element.focus();
-   });
+      if (element)
+        element.focus();
+    });
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -271,7 +261,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
     if (this.lastEditedColumnIndex > 0) {
       this.lastEditedColumnIndex--;
-     
+
     }
     else {
       this.lastEditedColumnIndex = this.grid.columns.length;
@@ -280,7 +270,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
     setTimeout(() => {
       var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
-      element.focus();
+      if (element)
+        element.focus();
     });
   }
 

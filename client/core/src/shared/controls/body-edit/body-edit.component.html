@@ -1,6 +1,7 @@
-<ng-content class="toolbar-buttons"></ng-content>
+<ng-content class="toolbar-buttons">
+</ng-content>
 
-<kendo-grid #grid [ngClass]="bodyEditService.isLoading? 'k-loading-image': ''" class="body-edit" [data]="gridView" [resizable]="true" [scrollable]="'virtual'" [rowHeight]="bodyEditService.rowHeight" [navigable]="true" (selectionChange)="bodyEditService.ben_row_changed($event)"
+<kendo-grid #grid [ngClass]="{ 'k-loading-image': bodyEditService.isLoading}" class="body-edit" [data]="gridView" [resizable]="true" [scrollable]="'virtual'" [rowHeight]="bodyEditService.rowHeight" [navigable]="true" (selectionChange)="bodyEditService.ben_row_changed($event)"
     [rowSelected]="isRowSelected" [selectable]="selectableSettings" (cellClick)="cellClickHandler($event)" (cellClose)="cellCloseHandler($event)" [height]="height" (pageChange)="bodyEditService?.pageChange($event)" [pageSize]="bodyEditService.pageSize" [skip]="bodyEditService.skip"
     [pageable]="{buttonCount: 0, info: false, pageSizes: pageSizes, previousNext: previousNext }">
 

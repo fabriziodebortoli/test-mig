@@ -1,6 +1,48 @@
 @import '../../../style/tb.scss';
 :host(tb-body-edit) {
     margin: 2px 0;
+     ::ng-deep .tb-control {
+        padding: 0;
+    }
+     ::ng-deep .group {
+        flex: 1;
+    }
+     ::ng-deep .k-grid th,
+     ::ng-deep .k-grid td {
+        padding: 0;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+     ::ng-deep textarea,
+     ::ng-deep input {
+        border: none !important;
+        width: 100%;
+    }
+    .editing {
+         ::ng-deep .body-edit {
+            td {
+                background: #ffffde;
+            }
+        }
+        .k-combobox {
+            widows: 100%;
+            border: none;
+        }
+        .k-colorpicker,
+        .k-combobox,
+        .k-dateinput,
+        .k-datepicker,
+        .k-datetimepicker,
+        .k-dropdown,
+        .k-multiselect,
+        .k-numerictextbox,
+        .k-maskedtextbox,
+        .k-timepicker {
+            border: none;
+        }
+    }
 }
 
 ::ng-deep .body-edit {
@@ -150,13 +192,4 @@ tb-icon {
             }
         }
     }
-}
-
-::ng-deep .k-grid th,
- ::ng-deep .k-grid td {
-    padding: 1px 3px;
-    font-size: 12px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
