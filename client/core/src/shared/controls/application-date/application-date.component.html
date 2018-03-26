@@ -1,15 +1,10 @@
 <div (click)="open()" id="divOpDate" class="topBarMenuComponentLike">
-
-    <!--<tb-tooltip tooltipText="{{_TB('Operation Date')}}: {{applicationDate | date: dateFormat  }}">
-        <m4-icon icon="tb-calendar" tbTooltip></m4-icon>  
-    </tb-tooltip>-->
+    <m4-icon icon="erp-calendarflash" matTooltip="{{_TB('Operation Date')}}: {{applicationDate | date: dateFormat  }}" matTooltipShowDelay="500"></m4-icon>
 </div>
 
 
 <kendo-dialog title="{{_TB('Change application date')}}" *ngIf="opened" (close)="cancel()">
-
-    {{applicationDate | date: dateFormat }}
-    <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
+ <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
         <div *ngIf="applicationDate != undefined" style="text-align: center; margin: 30px;">
             <kendo-datepicker [format]="dateFormat" [value]="applicationDate" (valueChange)="handleChange($event)"></kendo-datepicker>
             <label>{{errorMessage}}</label>
