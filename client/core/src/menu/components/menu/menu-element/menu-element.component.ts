@@ -1,3 +1,4 @@
+import { EasystudioService } from './../../../../core/services/easystudio.service';
 import { SettingsService } from './../../../../core/services/settings.service';
 import { ItemCustomizationsDropdownComponent } from './item-customizations-dropdown/item-customizations-dropdown.component';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
@@ -24,6 +25,7 @@ export class MenuElementComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public settingService: SettingsService,
+    public easystudioService : EasystudioService,
     public imageService: ImageService
   ) {
     this.lorem = this.lorem.slice(0, Math.floor((Math.random() * 147) + 55));
@@ -43,7 +45,7 @@ export class MenuElementComponent {
   //---------------------------------------------------------------------------------------------
   canShowEasyStudioButton(object) {
     return this.showEasyBuilderOptions &&
-      this.settingService.IsEasyStudioActivated &&
+      this.easystudioService.easyStudioActivation() &&
       (object.objectType.toLowerCase() == 'document' || object.objectType.toLowerCase() == 'batch') &&
       !object.noeasystudio;
   }

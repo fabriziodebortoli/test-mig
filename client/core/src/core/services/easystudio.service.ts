@@ -4,10 +4,13 @@ import { EsCustomizItem, PairAppMod } from './../../shared/models/es-customizati
 import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from '../../rxjs.imports';
+import { InfoService } from './info.service';
 
 @Injectable()
 export class EasystudioService {
 
+
+    public easystudioEdition: string;
     public isDesignable: boolean;
     public subscriptions = [];
     public currentModule: string;                      //current module selected by ESContext
@@ -38,9 +41,11 @@ export class EasystudioService {
 
     //#region both
     //--------------------------------------------------------------------------------
-    constructor(public httpMenuService: HttpMenuService,
-        public settingService: SettingsService) {
-        this.getDefaultContext(false);
+    constructor(
+        public httpMenuService: HttpMenuService,
+        public infoService: InfoService,
+        public settingsService: SettingsService) {
+            this.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -52,17 +57,12 @@ export class EasystudioService {
     public isContextActive(): boolean {
         return this.currentApplication !== undefined && this.currentModule !== undefined;
     }
-   /* //--------------------------------------------------------------------------------
-    public getCurrentContext(): any {
-        this.subscriptions.push(this.httpMenuService.getCurrentContext().subscribe((result) => {
-            let array = this.extractCouple(result);
-            if (array !== null && array !== undefined) {
-                this.currentApplication = array[0];
-                this.currentModule = array[1];
-            }
-            return result;
-        }));
-    }*/
+
+    //--------------------------------------------------------------------------------
+    public easyStudioActivation(): any {
+        return this.settingsService.IsEasyStudioActivated && this.infoService.isDesktop;
+    }
+
     //--------------------------------------------------------------------------------
     private extractCouple(result: Response): string[] {
         if (result == undefined) return null;
@@ -137,7 +137,7 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public initEasyStudioContext(type) {
         this.subscriptions.push(this.httpMenuService.getEsAppsAndModules(type).subscribe((result) => {
-            this.extractNamesAllApps(result);
+            this.extractInfos(result);
             return result;
         }));
     }
@@ -147,16 +147,25 @@ export class EasystudioService {
         return this.httpMenuService.canModifyContext().map((res: Response) => res.json());
     }
 
-    //--------------------------------------------------------------------------------
-    private extractNamesAllApps(result: Response) {
+     //--------------------------------------------------------------------------------
+     public extractInfos(result: Response) {
         if (result == undefined) return;
         this.applications = [];
         this.modules = [];
 
-       // let resultJson = result.json();
-       
         let body = JSON.parse((result["_body"]));
         if(!body) return false;
+        this.extractNamesAllApps(body);
+        this.extractESEdition(body);
+    }
+
+    //--------------------------------------------------------------------------------
+    public extractESEdition(body: any) {
+        this.easystudioEdition = body["DeveloperEd"];
+    }
+
+    //--------------------------------------------------------------------------------
+    private extractNamesAllApps(body: any) {
         this.memoryESContext = body; //JSON.parse(body.Message);
         let allApplications = this.memoryESContext["allApplications"];
 

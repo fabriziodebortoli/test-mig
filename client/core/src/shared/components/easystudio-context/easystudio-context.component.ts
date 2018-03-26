@@ -1,8 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { MatSnackBar } from '@angular/material';
 import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
-import { SettingsService } from './../../../core/services/settings.service';
-import { InfoService } from './../../../core/services/info.service';
 import { EasystudioService } from './../../../core/services/easystudio.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
@@ -44,8 +42,6 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
 
     constructor(
         public easystudioService: EasystudioService,
-        public infoService: InfoService,
-        public settingsService: SettingsService,
         public snackBar: MatSnackBar,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef) {

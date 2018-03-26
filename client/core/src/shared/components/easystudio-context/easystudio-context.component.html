@@ -1,4 +1,4 @@
-<div *ngIf="settingsService.IsEasyStudioActivated && infoService.isDesktop" class="esContainer">
+<div *ngIf="easystudioService.easyStudioActivation()" class="esContainer">
 
     <div class="appAndModule" *ngIf="contextIsValid()">
         <div class="ebButtons">
