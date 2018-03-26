@@ -86,6 +86,7 @@ class TB_EXPORT IBehaviourService
 private:	
 	IBehaviourContext*	m_pContext;
 	CString				m_sInstanceName;
+	BOOL				m_bAutoDestroy;
 
 public:
 	IBehaviourService();
@@ -93,6 +94,8 @@ public:
 public:
 	IBehaviourContext*	GetContext();
 	void				SetContext(IBehaviourContext* pContext);
+	BOOL				IsAutoDestroy() const;
+	void				SetAutoDestroy(const BOOL bValue);
 	CString				GetInstanceName() const;
 	void				SetInstanceName(const CString& sName);
 
@@ -171,7 +174,7 @@ public:
 	CArray<IBehaviourService*>&		GetServices();
 	CArray<IBehaviourConsumer*>&	GetConsumers();
 	
-	void Dispose();
+	void OnCloseBehaviours();
 
 private:
 	void UpdateBehavioursClient();

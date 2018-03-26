@@ -70,7 +70,8 @@ void IBehaviourRequest::OnRequestExecuted (const BehaviourEvents& evnt, IBehavio
 //-----------------------------------------------------------------------------	
 IBehaviourService::IBehaviourService()
 	:
-	m_pContext(NULL)
+	m_pContext(NULL),
+	m_bAutoDestroy(FALSE)
 {
 }
 
@@ -124,6 +125,17 @@ void IBehaviourService::SetInstanceName(const CString& sName)
 	m_sInstanceName = sName; 
 }
 
+//-----------------------------------------------------------------------------	
+BOOL IBehaviourService::IsAutoDestroy() const
+{
+	return m_bAutoDestroy;
+}
+
+//-----------------------------------------------------------------------------	
+void IBehaviourService::SetAutoDestroy(const BOOL bValue)
+{
+	m_bAutoDestroy = bValue;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ///							IBehaviourContext
@@ -138,20 +150,19 @@ IBehaviourContext::IBehaviourContext ()
 //-----------------------------------------------------------------------------	
 IBehaviourContext::~IBehaviourContext ()
 {
-	Dispose();
+	OnCloseBehaviours();
 }
 
 //-----------------------------------------------------------------------------	
-void IBehaviourContext::Dispose()
+void IBehaviourContext::OnCloseBehaviours()
 {
 	for (int i = m_Services.GetUpperBound(); i >= 0; i--)
 	{
 		CObject* pObject = dynamic_cast<CObject*>(m_Services.GetAt(i));
-		if (pObject)
+		IBehaviourService* pService = dynamic_cast<IBehaviourService*>(pObject);
+		if (pService && pService->IsAutoDestroy())
 			delete pObject;
 	}
-
-	m_Services.RemoveAll();
 }
 
 
@@ -252,6 +263,7 @@ IBehaviourService*  IBehaviourContext::CreateBehaviourService (CBehavioursRegist
 	IBehaviourService* pBehaviour = dynamic_cast<IBehaviourService*>(pRegistryEntry->GetClass()->CreateObject());
 	pBehaviour->SetInstanceName(pRegistryEntry->GetNamespace());
 	pBehaviour->SetContext(GetContext());
+	pBehaviour->SetAutoDestroy(TRUE);
 	m_Services.Add(pBehaviour);
 	
 	pBehaviour->OnInitService();

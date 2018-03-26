@@ -3890,9 +3890,8 @@ void CAbstractFormDoc::OnCloseDocument()
 	ASSERT(m_pHotKeyLinks);
 	SAFE_DELETE(m_pHotKeyLinks);
 
-	Dispose();
-
 	__super::OnCloseDocument();
+	OnCloseBehaviours();
 }
 
 //------------------------------------------------------------------------------

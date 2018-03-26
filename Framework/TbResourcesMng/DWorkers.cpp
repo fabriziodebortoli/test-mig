@@ -926,58 +926,7 @@ void DWorkers::OnIsDisabledChanged()
 
 	GetWorkers()->f_CompanyLogin.SetReadOnly(GetWorkers()->f_Disabled);
 
-	UpdateDataView();
-
-	TResources aResRec;
-	SqlTable aTable(&aResRec, GetReadOnlySqlSession());
-
-	TAbsenceReasons aAbsRec;
-	SqlTable aAbsTable(&aAbsRec, GetReadOnlySqlSession());
-
-	TRY
-	{
-		aTable.SelectAll();
-		aTable.Open();
-		aTable.Query();
-		BOOL bLock;
-		bLock = aTable.LockCurrent();
-		bLock = aTable.LockCurrent();
-		bLock = aTable.IsCurrentLocked();
-		bLock = aTable.UnlockCurrent();
-		while (!aTable.IsEOF())
-		{
-			bLock = aTable.LockCurrent();
-			aTable.MoveNext();
-		}
-		bLock = aTable.LockTable(_T("DummyTable"));
-		bLock = aTable.UnlockTable(_T("DummyTable"));
-
-		aAbsTable.SelectAll();
-		aAbsTable.Open();
-		aAbsTable.Query();
-		while (!aAbsTable.IsEOF())
-		{
-			bLock = aAbsTable.LockCurrent();
-			aAbsTable.MoveNext();
-		}
-		bLock = aAbsTable.m_pContext->GetLockMng(GetReadOnlySqlSession()->GetSqlConnection()->GetDatabaseName())->IsMyLock(&aAbsTable);
-		bLock = aAbsTable.m_pContext->GetLockMng(GetReadOnlySqlSession()->GetSqlConnection()->GetDatabaseName())->IsCurrentLocked(&aTable);
-
-		bLock = aAbsTable.UnlockAll();
-		bLock = aTable.UnlockAll();
-		aAbsTable.Close();
-		aTable.Close();
-
-	}
-	CATCH(SqlException, e)
-	{
-		if (aAbsTable.IsOpen())
-			aAbsTable.Close();
-		
-		if (aTable.IsOpen())
-			aTable.Close();
-	}
-	END_CATCH
+	UpdateDataView();	
 }
 
 //-----------------------------------------------------------------------------
