@@ -52,6 +52,8 @@ export class TbHotlinkButtonsPopupHandler {
     .withBackGroundZIndex()
       .transform();
     this.setPopupElementInForeground = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
+      .withMaxWidth(1000)
+      .withAddRight(30)
       .withForeGroundZIndex().transform();
     this.showGridPupup = () => {
       this.setPopupElementInForeground();
