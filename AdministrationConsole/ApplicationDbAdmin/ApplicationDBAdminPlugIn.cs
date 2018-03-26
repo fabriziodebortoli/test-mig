@@ -889,7 +889,7 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 			foreach (ApplicationInfo ai in consolePathFinder.ApplicationInfos)
 				foreach (ModuleInfo mi in ai.Modules)
 					if (mi.DatabaseObjectsInfo.IsDevelopmentVersion)
-						modules.Add(new DevelopmentModuleRelease(ai.Name, mi.DatabaseObjectsInfo.Signature, mi.DatabaseObjectsInfo.Release));
+						modules.Add(new DevelopmentModuleRelease(ai.ApplicationConfigInfo.DbSignature, mi.DatabaseObjectsInfo.Signature, mi.DatabaseObjectsInfo.Release));
 
 			return modules;
 		}
