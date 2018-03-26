@@ -1,6 +1,8 @@
-<tb-control-container type="tb-numberer" [model]="model" [stateData]="stateData" [disableStateButton]="!stateDataEnabled">
+<tb-control-container type="tb-numberer" [model]="model" [stateData]="stateData" [disableStateButton]="!stateDataEnabled"
+    (stateInfo)='onStateInfo($event)'>
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled" (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
+    <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
+        (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
         (blur)="onBlur($event)">
     </kendo-maskedtextbox>
     <ng-template [ngIf]="hotLink">

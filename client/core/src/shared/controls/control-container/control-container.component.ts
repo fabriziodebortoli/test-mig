@@ -25,6 +25,8 @@ export class ControlContainerComponent extends ControlComponent {
     @Input() type = '';
     @Input() errorMessage = '';
     @Input() disableStateButton = false;
+    @Output() stateInfo: EventEmitter<{ invertState: boolean, model: string }> = new EventEmitter();
+
     private stateButtonEnabled$: Observable<boolean>;
     private get editIcon(): string {
         return this.stateData.iconEdit ? this.stateData.iconEdit : 'tb-edit';
@@ -49,7 +51,7 @@ export class ControlContainerComponent extends ControlComponent {
 
     stateButtonClick(e: any) {
         _.set(this.eventData.model, this.valuePath(),
-         !_.get(this.eventData.model, this.valuePath()));
+            !_.get(this.eventData.model, this.valuePath()));
         this.eventData.change.emit('');
         this.eventData.raiseControlCommand(this.stateData.cmpId);
     }
@@ -58,6 +60,7 @@ export class ControlContainerComponent extends ControlComponent {
         if (this.stateData) {
             if (!this.stateData.cmpId)
                 this.retrieveParentComponentId();
+            this.stateInfo.emit({ invertState: this.stateData.invertState, model: this.stateData.model });
         }
     }
 
@@ -68,6 +71,10 @@ export class ControlContainerComponent extends ControlComponent {
         } catch (e) {
             this.logger.error('Errore durante la ricerca dell\' Id della componente:' + e);
         }
+    }
+
+    ngOnDestroy() {
+        this.stateInfo.complete();
     }
 }
 

@@ -31,11 +31,6 @@ export class NumbererComponent extends ControlComponent {
 
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
-    // private tbEditIcon = 'tb-edit';
-    // private tbExecuteIcon = 'tb-execute';
-    // private currentState: NumbererStateEnum;
-    // private icon: string;
-
     private tbMask = '';
     private useFormatMask = false;
     private enableCtrlInEdit = false;
@@ -45,6 +40,9 @@ export class NumbererComponent extends ControlComponent {
     private menuItemDisablePadding: ContextMenuItem;
     private menuItemEnablePadding: ContextMenuItem;
     private menuItemDoPadding: ContextMenuItem;
+    private automaticNumbering = true;
+    private invertState = false;
+    private stateModel: string;
 
     // PADDING: in modalità find se maschera vuota allora padding default = false, altrimenti true
 
@@ -135,6 +133,17 @@ export class NumbererComponent extends ControlComponent {
         }
     }
 
+    onStateInfo(event: any) {
+        this.invertState = event.invertState;
+        this.store.select({
+            'dataSource': event.model + '.value',
+        }).subscribe(
+            v => {
+                this.automaticNumbering = v ? (this.invertState ? v.dataSource : !v.dataSource) : this.invertState;
+            }
+        );
+    }
+
     buildContextMenu(hasMenu: boolean = true) {
         this.cc.contextMenu.splice(this.ctxMenuIndex, this.cc.contextMenu.length);
         if (hasMenu) {
@@ -166,6 +175,7 @@ export class NumbererComponent extends ControlComponent {
 
     togglePadding() {
         switch (this.eventData.model.FormMode.value) {
+            case FormMode.FIND:
             case FormMode.NEW:
             case FormMode.EDIT:
                 {
@@ -197,7 +207,7 @@ export class NumbererComponent extends ControlComponent {
 
         value = value.trim();
 
-        if (value.length === 0)
+        if (value.length === 0 || !this.automaticNumbering)
             return '';
 
         for (let i = 0, len = tbMask.length; i < len; i++) {
@@ -323,26 +333,17 @@ export class NumbererComponent extends ControlComponent {
     }
 
     doPadding() {
-        switch (this.eventData.model.FormMode.value) {
-            case FormMode.FIND:
-            case FormMode.NEW:
-            case FormMode.EDIT:
-                {
-                    let value = this.textbox.input.nativeElement.value;
+        if (this.eventData.model.FormMode.value == FormMode.FIND) {
+            let value = this.textbox.input.nativeElement.value;
 
-                    if (
-                        value.trim() !== '' &&
-                        isNumeric(value.substr(0, 1)) &&
-                        !this.valueWasPadded
-                    ) {
-                        if (this.eventData.model.FormMode.value == FormMode.FIND)
-                            this.textbox.input.nativeElement.value = this.maskToValue(this.splitMask(this.tbMask), value);
-                        else
-                            this.model.value = this.maskToValue(this.splitMask(this.tbMask), value);
-
-                        this.valueWasPadded = true;
-                    }
-                }
+            if (
+                value.trim() !== '' &&
+                isNumeric(value.substr(0, 1)) &&
+                !this.valueWasPadded
+            ) {
+                this.textbox.input.nativeElement.value = this.maskToValue(this.splitMask(this.tbMask), value);
+                this.valueWasPadded = true;
+            }
         }
     }
 
@@ -369,16 +370,5 @@ export class NumbererComponent extends ControlComponent {
                 this.valueWasPadded = false;
         }
     }
-
-    // toggleState() {
-    //     if (this.currentState == NumbererStateEnum.MaskedInput) {
-    //         this.icon = this.tbEditIcon;
-    //         this.currentState = NumbererStateEnum.FreeInput
-    //     }
-    //     else {
-    //         this.icon = this.tbExecuteIcon;
-    //         this.currentState = NumbererStateEnum.MaskedInput
-    //     }
-    // }
 
 }
