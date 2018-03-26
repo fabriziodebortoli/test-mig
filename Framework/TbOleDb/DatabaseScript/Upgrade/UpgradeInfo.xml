@@ -13,7 +13,17 @@
 	</DBRel>
   <DBRel numrel="401">
     <Level1>
-      <Step numstep="1" script="Create_TB_CustomTBFS.sql" />
+      <Step numstep="1" script="TB_CustomTBFS.sql" />
+      <Step numstep="2" script="TB_Locks.sql" />
+      <Step numstep="3" script="sp_getlockinfo.sql" />
+      <Step numstep="4" script="sp_iscurrentlocked.sql" />
+      <Step numstep="5" script="sp_ismylock.sql" />
+      <Step numstep="6" script="sp_lockcurrent.sql" />
+      <Step numstep="7" script="sp_unlockalltoken.sql" />
+      <Step numstep="8" script="sp_unlockallcontext.sql" />
+      <Step numstep="9" script="sp_unlockallprocess.sql" />      
+      <Step numstep="10" script="sp_unlockalltablecontext.sql" />
+      <Step numstep="11" script="sp_unlockcurrent.sql" />      
     </Level1>
-  </DBRel>
+  </DBRel>  
 </UpgradeInfo>

@@ -2976,7 +2976,7 @@ BOOL SqlLockManager::UnlockAllContext(const CString& strContext)
 BOOL SqlLockManager::UnlockAllForCurrentConnection()
 {
 	bool result = false;
-	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockallauthenticationtoken", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
+	SqlCommand^ sqlCommand = gcnew SqlCommand("sp_unlockalltoken", m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection);
 	try
 	{
 		sqlCommand->CommandType = CommandType::StoredProcedure;
