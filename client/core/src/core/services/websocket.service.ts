@@ -234,6 +234,11 @@ export class WebSocketService extends LocalizationService {
         this.safeSend(data);
 
     }
+    getActivationData(cmpId: String) {
+        const data = { cmd: 'getActivationData', cmpId: cmpId };
+        this.safeSend(data);
+
+    }
     checkMessageDialog(cmpId: String) {
         const data = { cmd: 'checkMessageDialog', cmpId: cmpId };
         this.safeSend(data);

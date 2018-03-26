@@ -15,7 +15,7 @@ import { TbComponent } from "../components/tb.component";
 export class DocumentComponent extends TbComponent implements OnInit {
 
     viewModeType: ViewModeType;
-    title: string;
+    public title: string;
     args: any;//used tu pass initialization arguments to the component
 
     constructor(

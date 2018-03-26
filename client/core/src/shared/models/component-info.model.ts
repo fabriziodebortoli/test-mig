@@ -11,5 +11,6 @@ export class ComponentInfo {
     // document: DocumentService = null;
     document = null;
     tbLoaderDoc = false;//indica se si tratta di un componente che corrisponde ad un documento tbloader
+    title='';//il titolo del componente
     args: any = {};
 }

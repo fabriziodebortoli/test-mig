@@ -51,10 +51,13 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
             if (this.cmpRef.instance.ciService)
                 this.cmpRef.instance.ciService.componentInfo = this.componentInfo;
             //per i componenti slave, documento ed eventi sono condivisi col componente master
-            if (!this.cmpRef.instance.document)
+            if (!this.cmpRef.instance.document) {
                 this.cmpRef.instance.document = this.componentInfo.document;
-            else
+                this.cmpRef.instance.tbComponentService = this.componentInfo.document;
+            }
+            else {
                 this.cmpRef.instance.document.init(this.componentInfo.id); //assegno l'id al servizio (uguale a quello del componente)
+            }
 
             this.cmpRef.instance.args = this.componentInfo.args;
             this.subscriptions.push(this.cmpRef.instance.document.eventData.openMessageDialog.subscribe(
@@ -69,12 +72,14 @@ export class DynamicCmpComponent implements OnInit, OnDestroy {
             //se la eseguo subito, lancia un'eccezione quando esegue l'aggiornamento dei binding, come se fosse in un momento sbagliato
             setTimeout(() => {
                 this.componentInfo.document = this.cmpRef.instance.document;
+                this.componentInfo.title = this.cmpRef.instance.title;
                 this.componentService.onComponentCreated(this.componentInfo);
+               
             }, 1);
 
         }
     }
-
+    
     ngOnDestroy() {
         if (this.cmpRef) {
             this.cmpRef.destroy();

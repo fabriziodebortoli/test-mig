@@ -23,6 +23,7 @@ private:
 	void DoCloseDiagnostic(CJsonParser& json);
 	void GetOpenDocuments(CJsonParser& json);
 	void GetDocumentData(CJsonParser& json);
+	void GetActivationData(CJsonParser& json);
 	void GetWindowStrings(CJsonParser& json);
 	void CheckMessageDialog(CJsonParser& json);
 	void DoFillListBox(CJsonParser& json);

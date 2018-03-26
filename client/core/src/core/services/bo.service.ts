@@ -34,7 +34,7 @@ export class BOService extends DocumentService {
                         this.aliases = model.aliases;
                     }
                     if (model.data) {
-                        this.applyPatch(this.eventData.model, model.data, '');
+                        this.applyPatch(this.eventData.model, model.data, '', true);
                     }
                     this.eventData.change.emit('');
                 }
@@ -46,7 +46,7 @@ export class BOService extends DocumentService {
             const cmpId = this.mainCmpId;
             components.forEach(cmp => {
                 if (cmp.id === cmpId) {
-                    this.eventData.activation = cmp.activation;
+                    this.applyPatch(this.eventData.activation, cmp.activation, '', false);
                 }
             });
         }));
@@ -186,7 +186,7 @@ export class BOService extends DocumentService {
     addPrefix(prefix: string, name: string) {
         return prefix ? prefix + '/' + name : name;
     }
-    applyPatch(model: any, patch: any, name: string) {
+    applyPatch(model: any, patch: any, name: string, addEvents: boolean) {
 
         if (model instanceof Array) {
             if (!(patch instanceof Array)) {
@@ -202,8 +202,10 @@ export class BOService extends DocumentService {
                 //gli altri in più li aggiungo secchi
                 for (let i = model.length; i < patch.length; i++) {
                     let item = patch[i];
-                    addModelBehaviour(item, this.addPrefix(name, '[' + i.toString() + ']'));
-                    this.attachEventsToModel(item);
+                    if (addEvents) {
+                        addModelBehaviour(item, this.addPrefix(name, '[' + i.toString() + ']'));
+                        this.attachEventsToModel(item);
+                    }
                     model.push(item);
                 }
             } else { //client e server hanno lo stesso numero di elementi
@@ -211,7 +213,7 @@ export class BOService extends DocumentService {
             }
             //applico il delta agli elementi comuni
             for (let i = 0; i < commonElNumber; i++) {
-                this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']'));
+                this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']'), addEvents);
             }
         }
         else if (isDataObj(model)) {
@@ -224,11 +226,13 @@ export class BOService extends DocumentService {
                 let patchVal = patch[prop];
                 if (!model.hasOwnProperty(prop)) {
                     model[prop] = patchVal;
-                    addModelBehaviour(patchVal, this.addPrefix(name, prop));
+                    if (addEvents) {
+                        addModelBehaviour(patchVal, this.addPrefix(name, prop));
                     this.attachEventsToModel(patchVal);
+                    }
                 } else {
                     if (patchVal instanceof Object) {
-                        this.applyPatch(model[prop], patchVal, this.addPrefix(name, prop));
+                        this.applyPatch(model[prop], patchVal, this.addPrefix(name, prop), addEvents);
                     }
                     else {
                         model[prop] = patchVal;
@@ -320,6 +324,9 @@ export class BOService extends DocumentService {
         this.webSocketService.getWindowStrings(cmpId, culture);
     }
 
+    getActivationData(cmpId: string) {
+        this.webSocketService.getActivationData(cmpId);
+    }
     doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(

@@ -166,9 +166,10 @@ export class ComponentService {
       }
     };
 
-    if (this.currentComponent.modal) {
+    if (this.currentComponent.parentId) {
       this.components.some(cmp => {
         if (cmp.id == this.currentComponent.parentId) {
+          this.currentComponent.document = cmp.document;
           this.activateComponent = false;
           cmp.document.eventData.openDynamicDialog.emit(this.currentComponent);
           return true;

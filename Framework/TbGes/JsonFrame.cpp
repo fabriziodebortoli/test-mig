@@ -82,8 +82,12 @@ template <class T> LRESULT CJsonFrameT<T>::OnGetActivationData(WPARAM wParam, LP
 	CJsonSerializer* pResp = (CJsonSerializer*)wParam;
 	int* pIndex = (int*)lParam;
 	pResp->OpenObject(*pIndex);
+	//i dati di attivazione vengono salvati nel client sul servizio associato alla frame principale
+	HWND hwnd = ((CBaseDocument*) GetDocument())->GetFrameHandle();
+	if (!hwnd)
+		hwnd = m_hWnd;
 	TCHAR buff[32];
-	_itot_s((int)m_hWnd, buff, 10);
+	_itot_s((int)hwnd, buff, 10);
 	pResp->WriteString(_T("id"), buff);
 	pResp->OpenObject(_T("activation"));
 	CStringArray arIds;

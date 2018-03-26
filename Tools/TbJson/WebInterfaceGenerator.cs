@@ -93,7 +93,7 @@ namespace Microarea.TbJson
             JObject jRoot = jToken as JObject;
             if (jRoot == null || (jRoot.GetWndObjType() != WndObjType.Frame && jRoot.GetWndObjType() != WndObjType.Dialog))
                 return;
-            bool slave = jRoot.GetWndObjType() == WndObjType.Dialog;
+            bool slave = jRoot.GetWndObjType() == WndObjType.Dialog || jRoot.GetBool(Constants.slave);
             AdjustStructure(jRoot);
             //CheckDuplicates(jRoot);
             string file = null;
@@ -127,7 +127,7 @@ namespace Microarea.TbJson
                 {
                     this.htmlWriter = writer;
                     this.indent = 0;
-                    GenerateHtml(jRoot, WndObjType.Undefined, false);
+                    GenerateHtml(jRoot, WndObjType.Undefined, false, slave);
                 }
             }
             if (slave)
@@ -609,7 +609,7 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------
-        private void GenerateHtml(JObject jObj, WndObjType parentType, bool insideRowView)
+        private void GenerateHtml(JObject jObj, WndObjType parentType, bool insideRowView, bool slave)
         {
             WndObjType type = jObj.GetWndObjType();
             switch (type)
@@ -631,7 +631,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -648,7 +648,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -659,7 +659,7 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbFrameContent, this, false))
                         {
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
                         break;
                     }
@@ -669,7 +669,7 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbViewContainer, this, false))
                         {
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
                         break;
                     }
@@ -692,7 +692,7 @@ namespace Microarea.TbJson
                         {
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -737,13 +737,13 @@ namespace Microarea.TbJson
                         string sClass = jObj.GetFlatString(Constants.ngClass);
                         if (!string.IsNullOrEmpty(tag))
                         {
-                            if (tag == Constants.tbToolbarTop)
+                            if (!slave && tag == Constants.tbToolbarTop)
                                 htmlWriter.Write("  <ng-container #radar></ng-container>\r\n");
 
                             //se ho una div ma nessuna classe, è inutile metterla
                             if (tag == Constants.div && string.IsNullOrEmpty(sClass))
                             {
-                                GenerateHtmlChildren(jObj, type, insideRowView);
+                                GenerateHtmlChildren(jObj, type, insideRowView, slave);
                             }
                             else
                             {
@@ -755,7 +755,7 @@ namespace Microarea.TbJson
                                         WriteHideAttributeByCategory(sClass);
                                     }
                                     w.CloseBeginTag();
-                                    GenerateHtmlChildren(jObj, type, insideRowView);
+                                    GenerateHtmlChildren(jObj, type, insideRowView, slave);
                                 }
                             }
                         }
@@ -768,7 +768,7 @@ namespace Microarea.TbJson
                             {
                                 w.CloseBeginTag();
 
-                                GenerateHtmlChildren(jObj, type, insideRowView);
+                                GenerateHtmlChildren(jObj, type, insideRowView, slave);
                             }
                         }
 
@@ -779,7 +779,7 @@ namespace Microarea.TbJson
                             {
                                 w.CloseBeginTag();
 
-                                GenerateHtmlChildren(jObj, type, insideRowView);
+                                GenerateHtmlChildren(jObj, type, insideRowView, slave);
                             }
                         }
 
@@ -814,7 +814,7 @@ namespace Microarea.TbJson
                                 if (!string.IsNullOrEmpty(cmd))
                                     htmlWriter.WriteAttribute(Square(Constants.buttonClick), cmd);
                                 w.CloseBeginTag();
-                                GenerateHtmlChildren(jObj, type, false);
+                                GenerateHtmlChildren(jObj, type, false, slave);
                             }
                         }
 
@@ -827,7 +827,7 @@ namespace Microarea.TbJson
                         {
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -862,7 +862,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
 
                             JObject jRowViewForm = jObj[Constants.rowViewForm] as JObject;
 
@@ -877,7 +877,7 @@ namespace Microarea.TbJson
                                         htmlWriter.WriteAttribute("let-currentRow", "currentRow");
                                         wTemplate.CloseBeginTag();
 
-                                        GenerateHtmlChildren(jRowViewForm, parentType, true);
+                                        GenerateHtmlChildren(jRowViewForm, parentType, true, slave);
                                     }
                                 }
                             }
@@ -948,7 +948,7 @@ namespace Microarea.TbJson
                                 {
                                     w2.CloseBeginTag();
 
-                                    GenerateTileGroup(jObj, Constants.tbTileGroup, type, insideRowView);
+                                    GenerateTileGroup(jObj, Constants.tbTileGroup, type, insideRowView, slave);
                                 }
 
                             }
@@ -957,7 +957,7 @@ namespace Microarea.TbJson
                         }
 
                         string tag = getTileGroupType(jObj);
-                        GenerateTileGroup(jObj, tag, type, insideRowView);
+                        GenerateTileGroup(jObj, tag, type, insideRowView, slave);
 
                         break;
                     }
@@ -995,7 +995,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
 
                             w.CloseBeginTag();
-                            GenerateTileChildren(jObj, type, insideRowView);
+                            GenerateTileChildren(jObj, type, insideRowView, slave);
 
                         }
 
@@ -1020,7 +1020,7 @@ namespace Microarea.TbJson
                                 htmlWriter.WriteAttribute(Constants.hasPinnableTiles, "true");
 
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -1045,7 +1045,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
 
                             w.CloseBeginTag();
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -1166,7 +1166,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
                         break;
                     }
@@ -1178,7 +1178,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
                         break;
                     }
@@ -1192,7 +1192,7 @@ namespace Microarea.TbJson
                             WriteControlAttributes(jObj, wc, insideRowView);
                             w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
                         break;
                     }
@@ -1228,7 +1228,7 @@ namespace Microarea.TbJson
                                     htmlWriter.WriteAttribute("[hint]", hint);
                                 w.CloseBeginTag();
 
-                                GenerateHtmlChildren(jObj, type, insideRowView);
+                                GenerateHtmlChildren(jObj, type, insideRowView, slave);
                             }
                         }
                         else
@@ -1255,7 +1255,7 @@ namespace Microarea.TbJson
 
                 default:
                     {
-                        GenerateHtmlChildren(jObj, type, insideRowView);
+                        GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         break;
                     }
             }
@@ -1298,7 +1298,7 @@ namespace Microarea.TbJson
 
         }
 
-        private void GenerateTileGroup(JObject jObj, String tag, WndObjType type, bool insideRowView)
+        private void GenerateTileGroup(JObject jObj, String tag, WndObjType type, bool insideRowView, bool slave)
         {
             using (var w = new OpenCloseTagWriter(tag, this, false))
             {
@@ -1317,7 +1317,7 @@ namespace Microarea.TbJson
 
                 w.CloseBeginTag();
 
-                GenerateHtmlChildren(jObj, type, insideRowView);
+                GenerateHtmlChildren(jObj, type, insideRowView, slave);
             }
         }
 
@@ -1927,7 +1927,7 @@ namespace Microarea.TbJson
         }*/
 
         //-----------------------------------------------------------------------------
-        private void GenerateTileChildren(JToken jObj, WndObjType parentType, bool insideRowView)
+        private void GenerateTileChildren(JToken jObj, WndObjType parentType, bool insideRowView, bool slave)
         {
             Dictionary<string, List<JObject>> anchorMap = new Dictionary<string, List<JObject>>();
             JArray jItems = jObj.GetItems();
@@ -1959,7 +1959,7 @@ namespace Microarea.TbJson
                     w.CloseBeginTag();
                     foreach (JObject obj in l)
                     {
-                        GenerateInlineControls(obj, parentType, anchorMap, true, insideRowView);
+                        GenerateInlineControls(obj, parentType, anchorMap, true, insideRowView, slave);
 
                     }
                 }
@@ -1973,7 +1973,7 @@ namespace Microarea.TbJson
                     w.CloseBeginTag();
                     foreach (JObject obj in l)
                     {
-                        GenerateInlineControls(obj, parentType, anchorMap, true, insideRowView);
+                        GenerateInlineControls(obj, parentType, anchorMap, true, insideRowView, slave);
 
                     }
                 }
@@ -1981,7 +1981,7 @@ namespace Microarea.TbJson
 
         }
 
-        private void GenerateInlineControls(JObject obj, WndObjType parentType, Dictionary<string, List<JObject>> anchorMap, bool needOuterDiv, bool insideRowView)
+        private void GenerateInlineControls(JObject obj, WndObjType parentType, Dictionary<string, List<JObject>> anchorMap, bool needOuterDiv, bool insideRowView, bool slave)
         {
             List<JObject> l = null;
             string id = obj.GetId();
@@ -1995,9 +1995,9 @@ namespace Microarea.TbJson
                     htmlWriter.Write(" class=\"anchored\"");
                     w.CloseBeginTag();
                 }
-                GenerateHtml(obj, parentType, insideRowView);
+                GenerateHtml(obj, parentType, insideRowView, slave);
                 foreach (JObject objSameLine in l)
-                    GenerateInlineControls(objSameLine, parentType, anchorMap, false, insideRowView);
+                    GenerateInlineControls(objSameLine, parentType, anchorMap, false, insideRowView, slave);
 
                 if (w != null)
                     w.Dispose();
@@ -2005,20 +2005,20 @@ namespace Microarea.TbJson
             }
             else
             {
-                GenerateHtml(obj, parentType, insideRowView);
+                GenerateHtml(obj, parentType, insideRowView, slave);
             }
         }
 
 
         //-----------------------------------------------------------------------------
-        private void GenerateHtmlChildren(JToken jObj, WndObjType parentType, bool insideRowView)
+        private void GenerateHtmlChildren(JToken jObj, WndObjType parentType, bool insideRowView, bool slave)
         {
             JArray jItems = jObj.GetItems();
             if (jItems != null)
             {
                 foreach (JObject obj in jItems.Children<JObject>())
                 {
-                    GenerateHtml(obj, parentType, insideRowView);
+                    GenerateHtml(obj, parentType, insideRowView, slave);
                 }
             }
         }

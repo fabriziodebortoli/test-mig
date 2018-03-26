@@ -287,7 +287,6 @@ void CDocumentSession::RemoveJsonModelProvider(IJsonModelProvider* pProvider)
 void CDocumentSession::OnAddThreadWindow(HWND hwnd)
 {
 	m_arWindowsToNotifyForCreation.Add(hwnd);
-	m_arWindowsToNotifyForActivation.Add(hwnd);
 	PushWindowsToClients();
 }
 //----------------------------------------------------------------------------
@@ -510,24 +509,15 @@ void CDocumentSession::PushDataToClients(IJsonModelProvider* pProvider)
 	PushDataToClients();
 }
 //----------------------------------------------------------------------------
-void CDocumentSession::PushActivationDataToClients()
+void CDocumentSession::PushActivationDataToClients(HWND hwnd)
 {
-	if (m_bIgnoreModelChanges == 0 && m_arWindowsToNotifyForActivation.GetSize())
-	{
-		BEGIN_JSON_RESPONSE(ActivationData);
-		resp.OpenArray(_T("components"));
-		int index = 0;
-		for (int i = 0; i < m_arWindowsToNotifyForActivation.GetSize(); i++)
-		{
-			HWND hwnd = m_arWindowsToNotifyForActivation[i];
-			::SendMessage(hwnd, UM_GET_ACTIVATION_DATA, (WPARAM)&(resp), (LPARAM)&index);
-		}
-		resp.CloseArray();
-		m_arWindowsToNotifyForActivation.RemoveAll();
+	BEGIN_JSON_RESPONSE(ActivationData);
+	resp.OpenArray(_T("components"));
+	int index = 0;
+	::SendMessage(hwnd, UM_GET_ACTIVATION_DATA, (WPARAM)&(resp), (LPARAM)&index);
 
-		END_JSON_RESPONSE();
-		PushToClients(resp);
-	}
+	END_JSON_RESPONSE();
+	PushToClients(resp);
 }
 
 //----------------------------------------------------------------------------

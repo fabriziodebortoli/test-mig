@@ -32,6 +32,7 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("doCloseDiagnosticDialog")] = &CTBSocketHandler::DoCloseDiagnostic;
 	functionMap[_T("getOpenDocuments")] = &CTBSocketHandler::GetOpenDocuments;
 	functionMap[_T("getDocumentData")] = &CTBSocketHandler::GetDocumentData;
+	functionMap[_T("getActivationData")] = &CTBSocketHandler::GetActivationData;
 	functionMap[_T("getWindowStrings")] = &CTBSocketHandler::GetWindowStrings;
 	functionMap[_T("checkMessageDialog")] = &CTBSocketHandler::CheckMessageDialog;
 	functionMap[_T("doFillListBox")] = &CTBSocketHandler::DoFillListBox;
@@ -628,6 +629,19 @@ void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 	//pSession->ResumePushToClient();
 }
 
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::GetActivationData(CJsonParser& json)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+	HWND cmpId = ReadComponentId(json);
+	pSession->PushActivationDataToClients(cmpId);
+}
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::GetDocumentData(CJsonParser& json)
 {
@@ -646,7 +660,6 @@ void CTBSocketHandler::GetDocumentData(CJsonParser& json)
 		((CAbstractFormDoc*)pDoc)->ResetJsonData(json);
 		pSession->PushDataToClients((CAbstractFormDoc*)pDoc);
 		pSession->PushMessageMapToClients(((CAbstractFormDoc*)pDoc));
-		pSession->PushActivationDataToClients();
 		pSession->PushButtonsStateToClients(cmpId);
 	}
 }

@@ -22,14 +22,6 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
         changeDetectorRef: ChangeDetectorRef
     ) {
         super(document, eventData, ciService, changeDetectorRef);
-
-        let me = this;
-        this.subscriptions.push(document.windowStrings.subscribe((args: any) => {
-            if (me.cmpId === args.id) {
-                me.translations = args.strings;
-                document.saveToLocal(this.dictionaryId, me.translations);
-            }
-        }));
     }
 
     public alias(tableOrField: string, field?: string): string {
@@ -40,6 +32,15 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
         s.getWindowStrings(this.cmpId, this.ciService.globalInfoService.culture.value);
     }
     ngOnInit() {
+        let me = this;
+
+        this.document.getActivationData(this.cmpId);
+        this.subscriptions.push(this.document.windowStrings.subscribe((args: any) => {
+            if (me.cmpId === args.id) {
+                me.translations = args.strings;
+                me.document.saveToLocal(this.dictionaryId, me.translations);
+            }
+        }));
         const ci = this.ciService.componentInfo;
         this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.ciService.globalInfoService.culture.value;
         super.ngOnInit();

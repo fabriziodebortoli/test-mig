@@ -43,7 +43,6 @@ private:
 	DWORD						m_nLoginThreadID;
 	DWORD						m_nDocumentThreadID = 0;
 	CArray<HWND>				m_arWindowsToNotifyForCreation;//finestre la cui creazione necessita di essere notificata al client
-	CArray<HWND>				m_arWindowsToNotifyForActivation;//finestre le cui espressioni di attivazione necessitano di essere notificata al client
 	CArray<IJsonModelProvider*>	m_arJsonModelsToNotify;//modelli dati che necessitano di essere notificati al client
 	CArray<IJsonModelProvider*>	m_arJsonModelsToUpdate;//modelli dati che necessitano di essere aggiornati con i dati arrivati dal client
 
@@ -73,7 +72,7 @@ public:
 	void PushDiagnosticToClients();
 	void PushRunErrorToClients();
 	void PushMessageToClients();
-	void PushActivationDataToClients();
+	void PushActivationDataToClients(HWND hwnd);
 	void PushRadarInfoToClient(CAbstractFormDoc* pDoc);
 	void PushButtonsStateToClients(HWND hwnd);
 	void SuspendPushToClient();

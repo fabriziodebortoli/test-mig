@@ -52,7 +52,7 @@ void CJsonModelGenerator::OnGenerate()
 	session.Start();
 	m_pCallerDoc->ResetJsonData(dummy);
 	session.PushMessageMapToClients(m_pCallerDoc);
-	session.PushActivationDataToClients();
+	//session.PushActivationDataToClients();
 	session.Stop();
 	session.Save(sPath + _T("\\getDocumentData.json"));
 	if (m_pCallerDoc->m_pDBTMaster->GetRecord()->IsEmpty())
