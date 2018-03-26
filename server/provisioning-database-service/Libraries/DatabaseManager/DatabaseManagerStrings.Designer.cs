@@ -1726,7 +1726,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specified database {0} already exists on server {1}..
+        ///   Looks up a localized string similar to Database {0} already exists on server {1}, no further operation is needed..
         /// </summary>
         internal static string WarningDBAlreadyExists {
             get {
@@ -1735,7 +1735,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specified database {0} does not exist on server {1}, so it will be created..
+        ///   Looks up a localized string similar to Database {0} does not exist on server {1}, so it will be created..
         /// </summary>
         internal static string WarningDBNotExists {
             get {
@@ -1744,7 +1744,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specified login {0} exists on server {1}..
+        ///   Looks up a localized string similar to Specified login {0} exists on server {1}, no further operation is needed..
         /// </summary>
         internal static string WarningLoginAlreadyExists {
             get {
@@ -1753,7 +1753,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Specified login &apos;{0}&apos; does not exist on server &apos;{1}&apos;, so it will be created..
+        ///   Looks up a localized string similar to Login &apos;{0}&apos; does not exist on server &apos;{1}&apos;, so it will be created..
         /// </summary>
         internal static string WarningLoginNotExists {
             get {

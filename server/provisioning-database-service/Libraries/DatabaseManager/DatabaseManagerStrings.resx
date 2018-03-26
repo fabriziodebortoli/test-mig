@@ -680,10 +680,10 @@ Please contact your reseller for further information.</value>
     <value>The unicode value of the two databases is not compatible</value>
   </data>
   <data name="WarningDBNotExists" xml:space="preserve">
-    <value>Specified database {0} does not exist on server {1}, so it will be created.</value>
+    <value>Database {0} does not exist on server {1}, so it will be created.</value>
   </data>
   <data name="WarningLoginNotExists" xml:space="preserve">
-    <value>Specified login '{0}' does not exist on server '{1}', so it will be created.</value>
+    <value>Login '{0}' does not exist on server '{1}', so it will be created.</value>
   </data>
   <data name="ErrorDeletingObjectsFromDB" xml:space="preserve">
     <value>An error occurred deleting objects from database '{0}'.</value>
@@ -692,9 +692,9 @@ Please contact your reseller for further information.</value>
     <value>An error occurred during set '{0}' login as dbowner for database '{1}'.</value>
   </data>
   <data name="WarningDBAlreadyExists" xml:space="preserve">
-    <value>Specified database {0} already exists on server {1}.</value>
+    <value>Database {0} already exists on server {1}, no further operation is needed.</value>
   </data>
   <data name="WarningLoginAlreadyExists" xml:space="preserve">
-    <value>Specified login {0} exists on server {1}.</value>
+    <value>Specified login {0} exists on server {1}, no further operation is needed.</value>
   </data>
 </root>
