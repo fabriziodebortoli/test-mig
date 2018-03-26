@@ -168,6 +168,7 @@ const TCHAR szCandidateModulesSep[] = _T(";");
 static const TCHAR szEasyStudioHome[] = _T("ESHome");
 static const TCHAR szEasyStudioHomeName[] = _T("HomeName");
 static const TCHAR szEasyStudioCustomizationsInCustom[] = _T("CustomizationsInCustom");
+static const TCHAR szTrueString[] = _T("true");
 static const TCHAR szEasyStudioConfigFile[] = _T("EasyStudio.json");
 
 //DataSynchronizer
@@ -1239,7 +1240,12 @@ void CPathFinder::LoadEasyStudioConfiguration()
 		CJsonParser aParser;
 		aParser.ReadJsonFromString(aJson);
 		bool bInCustom = true;
-		aParser.TryReadBool(szEasyStudioCustomizationsInCustom, bInCustom);
+		if (!aParser.TryReadBool(szEasyStudioCustomizationsInCustom, bInCustom))
+		{
+			CString boolStr = szTrueString;
+			aParser.TryReadString(szEasyStudioCustomizationsInCustom, boolStr);
+			bInCustom = boolStr.CompareNoCase(szTrueString) == 0;
+		}
 		m_eESAppPosType = bInCustom == true ? CPathFinder::CUSTOM : CPathFinder::STANDARD;
 		aParser.TryReadString(szEasyStudioHomeName, m_sESHome);
 		aFile.Close();
