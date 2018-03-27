@@ -5,6 +5,7 @@ using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
 using System.IO;
+using Nustache.Core;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -97,7 +98,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             if (string.IsNullOrEmpty(codeTemplate))
                 return false;
 
-            Nustache.Core.Render.StringToFile(codeTemplate, dataToSerialize, fullPathFileDestination);
+            Render.StringToFile(codeTemplate, dataToSerialize, fullPathFileDestination, RenderContextBehaviour.GetDefaultRenderContextBehaviour());
 
             return true;
         }

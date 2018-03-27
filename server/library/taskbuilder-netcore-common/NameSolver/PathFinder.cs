@@ -2747,8 +2747,18 @@ namespace Microarea.Common.NameSolver
 			return path;
 		}
 
-		//--------------------------------------------------------------------------------
-		public (string, string) GetCustomizationPath(INameSpace documentNamespace, string user, TBFile tbFile)
+        //---------------------------------------------------------------------------------
+        public string GetEasyStudioReferencedAssembliesPath()
+        {
+            string path = string.Empty;
+            if (easyStudioConfiguration.Settings.CustomizationsInCustom)
+                return Path.Combine(GetEasyStudioHomePath(), easyStudioConfiguration.Settings.ReferencedAssemblies);
+            
+            return Path.Combine(GetStandardPath, easyStudioConfiguration.Settings.ReferencedAssemblies);
+        }
+
+        //--------------------------------------------------------------------------------
+        public (string, string) GetCustomizationPath(INameSpace documentNamespace, string user, TBFile tbFile)
 		{
 			if (!user.IsNullOrEmpty())
 				user = user.Replace("\\", ".");

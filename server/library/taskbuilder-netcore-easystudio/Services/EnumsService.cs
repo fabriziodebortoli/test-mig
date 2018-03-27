@@ -222,7 +222,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 return false;
             }
 
-            EnumTags enumTags = EnumsTable.Tags.GetTagsByModule(moduleNamespace.ToString());
+            EnumTags enumTags = EnumsTable.Tags;
 
             return EnumsSerializer.GenerateSourceCode(info, appInfo.ApplicationType, enumTags);
         }
