@@ -928,11 +928,7 @@ namespace Microarea.Common.MenuLoader
             foreach(ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
-                    (aApplication.Type != ApplicationType.Customization ||
-                        aApplication == null ||
-                        aApplication.ModulesMenuInfos == null ||
-                        aApplication.ModulesMenuInfos.Count == 0
-                    )
+                    (aApplication == null || aApplication.ModulesMenuInfos == null ||aApplication.ModulesMenuInfos.Count == 0)
                     continue;
 
                 foreach (ModuleMenuInfo aModule in aApplication.ModulesMenuInfos)
