@@ -60,7 +60,8 @@
 		Fab = 8,
 		Exit = 9,
 		File = 10,
-        Bottom = 11
+        Bottom = 11,
+		DropDownButton = 12
     }
 
     public enum ViewCategory
