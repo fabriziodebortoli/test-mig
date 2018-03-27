@@ -1,0 +1,90 @@
+// 
+:host {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.widget {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
+    margin-bottom: 0;
+}
+
+.widget-title {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tb-card-header .tb-card-subtitle:not(:first-child),
+.tb-card>.tb-card-xl-image:first-child {
+    margin-top: -16px;
+}
+
+.widget-content {
+    flex: 1;
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+.widget-content-area {
+    height: 100%;
+}
+
+.widget-icon {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.widget-icon-menu {
+    margin-left: -20px;
+    font-size: 20px;
+    margin-top: 3px;
+    width: 20px;
+}
+
+.widget-spacer {
+    flex: 1 1 auto;
+}
+
+.widget-hr {
+    margin-top: 0;
+    margin-bottom: 5px;
+    border-style: solid;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.widget-footer {
+    padding: 10px 10px 5px 10px;
+    box-sizing: border-box;
+}
+
+.widget-footer-elements {
+    display: flex;
+    flex-direction: row;
+}
+
+.widget-timestamp {
+    font-size: 12px;
+    padding-left: 10px;
+}
+
+.widget-spinner {
+    margin: auto;
+    width: 50px;
+}
+
+h4 {
+    font-weight: 500;
+    font-size: 22px;
+    color: inherit;
+    margin: 0;
+}

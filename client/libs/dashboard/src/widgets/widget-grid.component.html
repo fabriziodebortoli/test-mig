@@ -1,0 +1,14 @@
+<kendo-grid class="widget-grid" [ngClass]="widget?.layout?.gridFormat?.color ? widget?.layout?.gridFormat?.color : 'blue'" [data]="widget?.data?.grid?.rows" [style.height.px]="gridHeight()">
+    <div *ngFor="let col of widget.data?.grid?.columns">
+        <kendo-grid-column *ngIf="col.width" field="{{col.id}}" title="{{col.caption}}" [class]="'grid-cell ' + (col.right ? 'grid-cell-right' : '')" [width]="col.width">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a href="javascript:void(0)" (click)="onClick($event, rowIndex, dataItem)">{{dataItem[col.id]}}</a>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column *ngIf="!col.width" field="{{col.id}}" title="{{col.caption}}" [class]="'grid-cell ' + (col.right ? 'grid-cell-right' : '')">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a href="javascript:void(0)" (click)="onClick($event, rowIndex, dataItem)">{{dataItem[col.id]}}</a>
+            </ng-template>
+        </kendo-grid-column>
+    </div>
+</kendo-grid>

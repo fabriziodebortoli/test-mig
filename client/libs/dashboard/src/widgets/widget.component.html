@@ -1,0 +1,30 @@
+<tb-card class="tb-card widget" [isCollapsed]="false">
+    <tb-card-header *ngIf="widget.layout.style !== 'stats'" class="tb-card-header widget-header">
+        <tb-card-title class="widget-title" [title]="widget.title" [icon]="more_vert"></tb-card-title>
+        <tb-card-subtitle *ngIf="widget.subtitle" class="tb-card-subtitle widget-subtitle" [subTitle]="widget.title"></tb-card-subtitle>
+        <span class="widget-spacer"></span>
+        <m4-icon icon="tb-link" *ngIf="widget.link" class="widget-icon" (click)="executeLink()"></m4-icon>
+    </tb-card-header>
+    <tb-card-content class="tb-card-content">
+        <div #cardContent class="widget-content">
+            <mat-spinner *ngIf="widget?.isLoading" class="widget-spinner"></mat-spinner>
+            <div class="widget-content-area" *ngIf="!widget?.isLoading">
+                <tb-widget-stats *ngIf="widget?.layout?.style === 'stats'" [widget]="widget"></tb-widget-stats>
+                <tb-widget-grid *ngIf="widget?.layout?.style === 'grid'" [widget]="widget"></tb-widget-grid>
+                <tb-widget-chart *ngIf="widget?.layout?.style === 'chart'" [widget]="widget"></tb-widget-chart>
+                <div *ngIf="widget.layout.style === 'void'">
+                    <p>Widget not found: {{widget.namespace}}</p>
+                </div>
+            </div>
+        </div>
+    </tb-card-content>
+    <tb-card-footer class="widget-footer">
+        <hr class="widget-hr" />
+        <div class="widget-footer-elements">
+            <m4-icon icon="tb-refresh" class="widget-icon" (click)="onRefreshClicked()"></m4-icon>
+            <span class="widget-timestamp">{{widget.data?.lastExecuted}}</span>
+            <span class="widget-spacer"></span>
+            <m4-icon icon="tb-options" class="widget-icon"></m4-icon>
+        </div>
+    </tb-card-footer>
+</tb-card>

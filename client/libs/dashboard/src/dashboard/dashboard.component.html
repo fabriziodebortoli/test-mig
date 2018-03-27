@@ -1,0 +1,48 @@
+<tb-frame>
+    <tb-toolbar-top caption="{{userName}}'s Page 1">
+        <tb-toolbar-separator></tb-toolbar-separator>
+        <tb-toolbar-top-button iconType="M4" icon="erp-document" caption="Test" cmpId="Test"></tb-toolbar-top-button>
+        <tb-toolbar-top-button iconType="M4" icon="erp-cash" caption="Test" cmpId="Test"></tb-toolbar-top-button>
+    </tb-toolbar-top>
+
+    <tb-frame-content>
+        <div class="dashboard-page">
+
+            <div class="dashboard-sidebar">
+                <div class="dashboard-sidebar-riq">
+                    <h4>{{_TB('Favorites')}}
+                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearFavorites()" matTooltip="{{_TB('Clear favorite list')}}" matTooltipPosition="after" *ngIf="menuService?.favorites.length > 0"></m4-icon>
+                    </h4>
+                    <tb-favorites class="dashboard"></tb-favorites>
+                </div>
+                <div class="dashboard-sidebar-riq">
+                    <h4>{{_TB('Recently used')}}
+                        <m4-icon class="close" icon="tb-delete" (click)="menuService.clearMostUsed()" matTooltip="{{_TB('Clear most used list') }}" matTooltipPosition="after" *ngIf="menuService?.mostUsed.length > 0"></m4-icon>
+                    </h4>
+                    <tb-most-used class="dashboard"></tb-most-used>
+                </div>
+
+                <div class="dashboard-sidebar-riq">
+                    <tb-clock class="dashboard"></tb-clock>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+
+                <tb-header-strip title="Dashboard">
+
+                    <div class="header-strip-content">
+                        <button class="tool" kendoButton><m4-icon icon="tb-refresh"></m4-icon></button>
+                        <button class="tool" kendoButton><m4-icon icon="tb-options"></m4-icon></button>
+                    </div>
+
+                    <div class="header-strip-under">
+                        <div>{{userName}}'s Page 1</div>
+                    </div>
+                </tb-header-strip>
+
+                <tb-widget-container></tb-widget-container>
+            </div>
+        </div>
+    </tb-frame-content>
+</tb-frame>
