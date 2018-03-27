@@ -78,6 +78,16 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.editNextColumn();
       return;
     }
+
+    if (event.ctrlKey && event.keyCode == 38) {
+      this.editAboveCell();
+      return;
+    }
+
+    if (event.ctrlKey && event.keyCode == 40) {
+      this.editBelowCell();
+      return;
+    }
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -232,6 +242,34 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   decreaseRowHeight() {
 
     this.bodyEditService.decreaseRowHeight();
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  editAboveCell() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedRowIndex > 0) {
+      this.lastEditedRowIndex--;
+      this.bodyEditService.prevRow();
+      this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+      this.focusCell(this.lastEditedColumnIndex);
+    }
+  }
+
+  //-----------------------------------------------------------------------------------------------
+  editBelowCell() {
+    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+      return;
+    }
+
+    if (this.lastEditedRowIndex < this.bodyEditService.rowCount - 1) {
+      this.lastEditedRowIndex++;
+      this.bodyEditService.nextRow();
+      this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+      this.focusCell(this.lastEditedColumnIndex);
+    }
   }
 
   //-----------------------------------------------------------------------------------------------
