@@ -41,7 +41,7 @@ import { @@NAME@@Service } from '@@SERVICEFILE@@';
         super.ngOnDestroy();
     }
 
-    openRadar = () => this.eventData.showRadar.next(true);
+    openRadar = () => { this.eventData.showRadar.next(true); return true; }
 
     hideToolbarsWhenRadarVisible = () =>
         this.eventData.showRadar.subscribe(hide =>
