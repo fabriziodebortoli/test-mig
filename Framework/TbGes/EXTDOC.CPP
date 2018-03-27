@@ -2734,6 +2734,9 @@ void CAbstractFormDoc::SetFormTitle(const CString& strTitle)
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::SetCtrlFocus(UINT nIDC)
 {
+	if (AfxIsRemoteInterface())
+		return FALSE;
+
 	CWnd* pWnd = GetWndLinkedCtrl(nIDC);
 	if (pWnd == NULL)
 		return FALSE;
