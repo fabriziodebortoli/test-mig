@@ -33,9 +33,14 @@ CItemSource::~CItemSource()
 //-----------------------------------------------------------------------------
 CAbstractFormDoc* CItemSource::GetDocument()
 {
-	return m_pControl ? (CAbstractFormDoc*)m_pControl->GetDocument() : NULL;
+	return m_pDocument;
 }
 
+//-----------------------------------------------------------------------------
+void CItemSource::SetDocument(CAbstractFormDoc* pDoc)
+{
+	m_pDocument = pDoc;
+}
 
 //-----------------------------------------------------------------------------
 CString CItemSource::GetDescription(const DataObj* pValue)

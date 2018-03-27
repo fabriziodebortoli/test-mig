@@ -8532,6 +8532,7 @@ CItemSource* CAbstractFormDoc::GetItemSource(const CString& sName, const CTBName
 		{
 			pDS->SetName(sName);
 			pDS->SetNamespace(aNameSpace.ToString());
+			pDS->SetDocument(this);
 			if (pDS->IsKindOf(RUNTIME_CLASS(CItemSourceXml)))
 				((CItemSourceXml*)pDS)->Initialize(sParameter, bUseProductLanguage, bAllowChanges);
 			m_ItemSources.Add(pDS);

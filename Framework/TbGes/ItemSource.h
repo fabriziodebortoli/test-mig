@@ -37,6 +37,7 @@ class TB_EXPORT CItemSource : public CObject, public IItemSource
        DECLARE_DYNCREATE(CItemSource)
 protected:
        CParsedCtrl * m_pControl = NULL;
+	   CAbstractFormDoc* m_pDocument = NULL;
        CString m_strName;
        CString m_strNamespace;
        bool m_bShowDescription = false;
@@ -48,6 +49,7 @@ public:
 
        void SetControl(CParsedCtrl* pControl);
        CAbstractFormDoc* GetDocument();
+       void SetDocument(CAbstractFormDoc* pDoc);
        bool GetNoData() { return m_bNoData; }
 
        //CParsedCtrl* GetControl() { return m_pControl; }
