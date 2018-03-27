@@ -170,17 +170,19 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   }
 
   //-----------------------------------------------------------------------------------------------
+  public cellCloseHandler(args: any) {
+    // this.lastEditedRowIndex = -1;
+    // this.lastEditedColumnIndex = -1;
+  }
+
+  //-----------------------------------------------------------------------------------------------
   createFakeRows(numberOfVisibleRows: number) {
     for (let index = 0; index < numberOfVisibleRows; index++) {
       this.fakeRows.push({})
     }
   }
 
-  //-----------------------------------------------------------------------------------------------
-  public cellCloseHandler(args: any) {
-    // this.lastEditedRowIndex = -1;
-    // this.lastEditedColumnIndex = -1;
-  }
+
 
   //-----------------------------------------------------------------------------------------------
   addRow() {
@@ -243,14 +245,12 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     }
     else {
       this.lastEditedColumnIndex = 0
+
       this.lastEditedRowIndex++;
+      this.bodyEditService.nextRow();
     }
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-    setTimeout(() => {
-      var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
-      if (element)
-        element.focus();
-    });
+    this.focusCell(this.lastEditedColumnIndex);
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -266,12 +266,22 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     else {
       this.lastEditedColumnIndex = this.grid.columns.length;
       this.lastEditedRowIndex--;
+      this.bodyEditService.prevRow();
     }
     this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
+    this.focusCell(this.lastEditedColumnIndex);
+  }
+
+  focusCell(index: number) {
     setTimeout(() => {
-      var element: HTMLElement = document.querySelector(`.k-grid-edit-row > td:nth-child(${this.lastEditedColumnIndex}) input`) as HTMLElement;
+      var element = <HTMLElement>document.querySelector(`.k-grid-edit-row > td:nth-child(${index + 1}) input`);
       if (element)
         element.focus();
+      else {
+        element = <HTMLElement>document.querySelector(`.k-grid-edit-row > td:nth-child(${index + 1}) textarea`);
+        if (element)
+          element.focus();
+      }
     });
   }
 
