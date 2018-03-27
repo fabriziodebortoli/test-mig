@@ -28,7 +28,7 @@
         "@angular/router": "^5.2.0",
         "@taskbuilder/core": "file:../core/src",
         "@taskbuilder/erp": "file:../erp/src",
-        "@taskbuilder/icons": "file:../icons/src",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
         "@taskbuilder/reporting-studio": "file:../reporting-studio/src",
         "@types/hammerjs": "^2.0.33",
