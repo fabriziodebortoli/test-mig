@@ -4636,7 +4636,7 @@ void CAbstractFormDoc::OnPrepareAuxData(CTileDialog* pTileDlg)
 void CAbstractFormDoc::OnPrepareAuxData(CTileGroup* pTileGroup)
 {
 	m_pClientDocs->OnPrepareAuxData(pTileGroup);
-	OnPrepareAuxData(pTileGroup->m_pDlgInfoItem->GetDialogID());
+	OnPrepareAuxData(pTileGroup->GetDlgCtrlID());
 }
 // do related record action based on document mode	
 //-----------------------------------------------------------------------------
