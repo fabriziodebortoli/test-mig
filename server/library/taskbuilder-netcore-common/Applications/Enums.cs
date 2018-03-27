@@ -1165,8 +1165,21 @@ namespace Microarea.Common.Applications
             return false;
 		}
 
-		//-----------------------------------------------------------------------------
-		public EnumTag GetTag(string aName)
+        //-----------------------------------------------------------------------------
+        public EnumTags GetTagsByModule(string moduleNamespace)
+        {
+            EnumTags myEnumTags = new EnumTags();
+            foreach (EnumTag tag in this)
+            {
+                if (string.Compare(tag.OwnerModule.NameSpace.ToString(), moduleNamespace, StringComparison.OrdinalIgnoreCase) == 0)
+                    myEnumTags.Add(tag);
+
+            }
+            return myEnumTags;
+        }
+
+        //-----------------------------------------------------------------------------
+        public EnumTag GetTag(string aName)
 		{
 			foreach (EnumTag tag in this)
 				if (string.Compare(tag.Name, aName, StringComparison.OrdinalIgnoreCase) == 0)

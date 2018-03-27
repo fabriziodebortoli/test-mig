@@ -16,6 +16,7 @@ namespace Microarea.EasyStudio.Controllers
             internal static readonly string ObjectSuccessfullyCreated = "Successfully Created";
             internal static readonly string ObjectSuccessfullyDeleted = "Successfully Deleted";
             internal static readonly string TagDefaultValueSuccessfullyChanged = "Tag default value Successfully Changed";
+            internal static readonly string EnumsGenerateSourceCodeSuccessfullyTerminated = "Enums Generate Source Code successfully Generated";
         }
 
         protected IServiceManager Services { get; set; }

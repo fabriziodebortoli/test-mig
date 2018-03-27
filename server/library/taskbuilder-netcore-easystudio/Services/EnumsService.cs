@@ -4,6 +4,7 @@ using TaskBuilderNetCore.Common.CustomAttributes;
 using Microarea.Common.NameSolver;
 using Microarea.Common.Applications;
 using TaskBuilderNetCore.EasyStudio.Serializers;
+using System.Text.RegularExpressions;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -12,13 +13,16 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 	[DefaultSerializer(typeof(EnumsSerializer))]
 	public class EnumsService : Service
 	{
+
         //=========================================================================
         internal class Strings
         {
+            internal static readonly string MissingAppInfoForModule = "Missing application info for module";
             internal static readonly string MissingModule       = "Module namespace unknown, module not declared";
             internal static readonly string MissingModuleParameter = "Module namespace parameter";
             internal static readonly string TagAlreadyDeclared  = "Tag is already declared";
             internal static readonly string CannotAddTagInTable = "Cannot Add Tag into enums table";
+            internal static readonly string NameNotValid = "Name contains invalid characters";
             internal static readonly string MissingOrEmptyParameters = "Missing parameters: value and name are mandatory";
             internal static readonly string TagNotDeclared = "Tag Not Declared";
             internal static readonly string TagNotDeclaredInModule = "Tag Not Declared in Module";
@@ -28,6 +32,9 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             internal static readonly string CannotChangeDefaultValueTag = "Cannot Change Default Value Tag";
             internal static readonly string Or = "Or";
         }
+
+        //-------------------------------------------------------------
+        private static readonly string CharsetNotValidPattern = "^[A-Za-z0-9_]*$";
 
         //---------------------------------------------------------------
         Enums enumsTable = null;
@@ -52,7 +59,18 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		{
 		}
 
-		//---------------------------------------------------------------
+        //-----------------------------------------------------------------
+        private bool IsValid(string name)
+        {
+            Regex charsetNotValidRegex = new Regex(CharsetNotValidPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var match = charsetNotValidRegex.Match(name);
+            if (match.Success)
+                return true;
+
+            return false;
+        }
+
+        //---------------------------------------------------------------
 		public bool CreateTag(INameSpace moduleNameSpace, ushort value, string name, string description = "", bool hidden = false)
 		{
             if (value == 0 || string.IsNullOrEmpty(name))
@@ -72,6 +90,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             if (info == null)
                 return false;
 
+            //control the chars
+            if (!IsValid(name))
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(name, ": ", Strings.NameNotValid));
+                return false;
+            }
+
             tag = EnumsTable.AddEnumTag(info, name, value);
             if (tag == null)
             {
@@ -83,6 +108,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             tag.Hidden = hidden;
 
             return EnumsSerializer.SaveDeclaration(info, EnumsTable);
+
         }
 
         //---------------------------------------------------------------
@@ -182,11 +208,23 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             return info;
         }
 
-        //---------------------------------------------------------------
-        public bool GenerateSourceCode(INameSpace moduleNameSpace)
-		{
-            ModuleInfo info = GetModuleInfo(moduleNameSpace);
-            return info != null ? EnumsSerializer.GenerateSourceCode(info) : false;
+        //--------------------------------------------------------------------
+        public bool GenerateSourceCode(INameSpace moduleNamespace)
+        {
+            ModuleInfo info = GetModuleInfo(moduleNamespace);
+            if (info == null)
+                return false;
+
+            ApplicationInfo appInfo = PathFinder.GetApplicationInfo(moduleNamespace);
+            if (appInfo == null)
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(Strings.MissingAppInfoForModule, moduleNamespace.ToString()));
+                return false;
+            }
+
+            EnumTags enumTags = EnumsTable.Tags.GetTagsByModule(moduleNamespace.ToString());
+
+            return EnumsSerializer.GenerateSourceCode(info, appInfo.ApplicationType, enumTags);
         }
 
         //---------------------------------------------------------------
@@ -206,6 +244,13 @@ namespace TaskBuilderNetCore.EasyStudio.Services
             if (tag == null)
             {
                 Diagnostic.Add(DiagnosticType.Error, string.Concat(tag.Name, ": ", Strings.TagNotDeclared));
+                return false;
+            }
+
+            //control the chars
+            if (!IsValid(name))
+            {
+                Diagnostic.Add(DiagnosticType.Error, string.Concat(name, ": ", Strings.NameNotValid));
                 return false;
             }
 

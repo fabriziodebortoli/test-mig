@@ -138,5 +138,26 @@ namespace Microarea.EasyStudio.Controllers
 
             return ToResult(Diagnostic);
         }
+
+        //-----------------------------------------------------------------------------------------
+        [Route("generateSourceCode"), HttpGet]
+        public IActionResult GenerateSourceCode(string moduleNamespace)
+        {
+            if (EnumsService.GenerateSourceCode(new NameSpace(moduleNamespace)))
+                Diagnostic.Add(DiagnosticType.Information, string.Concat(moduleNamespace, " ", BaseStrings.EnumsGenerateSourceCodeSuccessfullyTerminated));
+
+            return ToResult(Diagnostic);
+        }
+
+        //--------------------------------------------------------------------------------------------
+        [Route("generateSourceCode"), HttpPost]
+        public IActionResult GenerateSourceCode([FromBody] JObject jsonParams)
+        {
+            string moduleNamespace = jsonParams[Strings.moduleNamespace]?.Value<string>();
+            string name = jsonParams[Strings.name]?.Value<string>();
+            EnumsService.GenerateSourceCode(new NameSpace(moduleNamespace));
+
+            return ToResult(Diagnostic);
+        }
     }
 }

@@ -4,7 +4,7 @@ using TaskBuilderNetCore.Documents.Model.Interfaces;
 using Microarea.Common.NameSolver;
 using TaskBuilderNetCore.Interfaces;
 using TaskBuilderNetCore.Common.CustomAttributes;
-//using Nustache.Core;
+using System.IO;
 
 namespace TaskBuilderNetCore.EasyStudio.Services
 {
@@ -18,21 +18,62 @@ namespace TaskBuilderNetCore.EasyStudio.Services
         {
             get
             {
-                ModuleInfo moduleInfo = PathFinder.GetModuleInfoByName(NameSolverStrings.Extensions, NameSolverStrings.EasyStudio);
-                if (moduleInfo == null)
-                    return string.Empty;
-
-                string templatePath = System.IO.Path.Combine(moduleInfo.Path, NameSolverStrings.Files);
-                return System.IO.Path.Combine(templatePath, NameSolverStrings.Templates);
+                return Path.Combine(PathFinder.GetEasyStudioHomePath(), NameSolverStrings.Templates, NameSolverStrings.Sourcecode);
             }
         }
 
+        //--------------------------------------------------------------------------------
+        internal string SubPathTBApplication
+        {
+            get
+            {
+                return NameSolverStrings.TbApplication;
+            }
+        }
+
+        //------------------------------------------------------------------------------------
+        internal string SubPathCustomization
+        {
+            get
+            {
+                return NameSolverStrings.Customization;
+            }
+        }
+
+        //---------------------------------------------------------------------------------------
+        public string GetTemplateCode(ApplicationType appType, string fileName)
+        {
+            string code = string.Empty;
+            string templateFullName = string.Empty;
+            switch (appType)
+            {
+                case ApplicationType.TaskBuilderApplication:
+                    templateFullName = Path.Combine(TemplatePath, SubPathTBApplication, fileName);
+                    break;
+                case ApplicationType.Customization:
+                    templateFullName = Path.Combine(TemplatePath, SubPathCustomization, fileName);
+                    break;
+                default:
+                    return code;
+            }
+
+            if (!this.PathFinder.ExistFile(templateFullName))
+                return code;
+
+            using (StreamReader templateReader = new StreamReader(templateFullName))
+            {
+                code = templateReader.ReadToEnd();
+            }
+
+            return code;
+        }
+
         //----------------------------------------------------------------------------
-        public string GetTemplateCode(IDocument doc, string fileName)
+        public string GetTemplateCode(IDocument doc, string subPath, string fileName)
         {
             string templateFullName = System.IO.Path.Combine(TemplatePath, fileName);
             string code = string.Empty;
-            /*
+            
             if (!this.PathFinder.ExistPath(templateFullName))
                 return code;
 
@@ -42,10 +83,23 @@ namespace TaskBuilderNetCore.EasyStudio.Services
                 code = templateReader.ReadToEnd();
                 if (!string.IsNullOrEmpty(code))
                 {
-                   // code = Render.StringToString(code, doc);
+                   //code = Render.StringToString(code, doc);
                 }
-            }*/
+            }
             return code;
+        }
+
+        //-------------------------------------------------------------------------------------
+        public bool ManageSerialization(ApplicationType appType, string fileTemplate, object dataToSerialize, string fullPathFileDestination)
+        {
+            string codeTemplate = GetTemplateCode(appType, fileTemplate);
+
+            if (string.IsNullOrEmpty(codeTemplate))
+                return false;
+
+            Nustache.Core.Render.StringToFile(codeTemplate, dataToSerialize, fullPathFileDestination);
+
+            return true;
         }
     }
 }

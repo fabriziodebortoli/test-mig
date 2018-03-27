@@ -955,7 +955,7 @@ namespace TaskBuilderNetCore.Interfaces
         public const string Themes = "Themes";
         public const string Thumbnails = "Thumbnails";
         public const string DesignerFolderName = "designer";
-
+        
         #endregion
 
         #region File xml
@@ -1115,7 +1115,7 @@ namespace TaskBuilderNetCore.Interfaces
 
 		public const string TaskBuilder = "TaskBuilder";
         public const string TaskBuilderApplications = "Applications";
-        public const string TbApplication = "TbApplication";
+        public const string TbApplication = "TBApplication";
         public const string TBS = "TBS";
 
         #endregion
@@ -1164,7 +1164,8 @@ namespace TaskBuilderNetCore.Interfaces
         public const string ExportProfiles = "ExportProfiles";
         public const string Backup = "Backup";
         public const string Templates = "Templates";
-
+        public const string Sourcecode = "Sourcecode";
+        
         public const string StandardDictionaryFile = "Dictionary.bin";
 
         // SynchroConnector folder and file

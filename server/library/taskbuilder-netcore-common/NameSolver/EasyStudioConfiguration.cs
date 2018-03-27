@@ -8,12 +8,15 @@ namespace Microarea.Common.NameSolver
     {
         bool    customizationsInCustom = true;
         string  homeName = "ESHome";
+        string  templatesName = "Templates";
 
         //-----------------------------------------------------------------------------
         public string HomeName { get { return homeName; } set { homeName = value; } }
         //-----------------------------------------------------------------------------
         public bool CustomizationsInCustom { get => customizationsInCustom; set => customizationsInCustom = value; }
 
+        //-------------------------------------------------------------------------------
+        public string TemplatesName { get { return templatesName; } }
         //-----------------------------------------------------------------------------
         public EasyStudioSettings()
         {

@@ -17,13 +17,13 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
         //---------------------------------------------------------------
         public override bool Create(IDocument doc)
         {
-            /*      TemplateCodeService templateService = ServicesManager.ServicesManagerInstance.GetService(typeof(TemplateCodeService)) as TemplateCodeService;
-                  if (templateService == null)
-                      return false;
-
-                  // "Document.h"
-                  string code = templateService.GetTemplateCode(doc, templateHeader);*/
             string code = string.Empty;
+
+            ServicesManager servMng = new ServicesManager();
+            TemplateCodeService templateService = servMng.GetService<TemplateCodeService>();
+
+            code = templateService.GetTemplateCode(doc, templateService.SubPathTBApplication, templateHeader);
+
             ModuleInfo info = PathFinder.GetModuleInfoByName(doc.NameSpace.Application, doc.NameSpace.Module);
             string docPath = info.GetDocumentPath(doc.NameSpace.Document);
 
@@ -32,7 +32,7 @@ namespace TaskBuilderNetCore.EasyStudio.Serializers
             {
                 // "Document.cpp"
                 fileName = docPath + System.IO.Path.GetExtension(templateSource);
-               // code = templateService.GetTemplateCode(doc, templateSource);
+                code = templateService.GetTemplateCode(doc, templateService.SubPathTBApplication, templateSource);
                 return base.Create(doc, fileName, code);
             }
 
