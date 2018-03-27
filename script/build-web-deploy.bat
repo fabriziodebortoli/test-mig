@@ -1,5 +1,9 @@
-﻿@echo off
+@echo off
+cls
 
+
+echo Checking requirements...
+echo.
 REM ===========================================================================
 REM Determines if launched by a command prompt or Windows Explorer
 REM ===========================================================================
@@ -115,7 +119,7 @@ IF %ERRORLEVEL% NEQ 0 (
 WHERE dotnet > NUL 2>&1
 IF %ERRORLEVEL% NEQ 0 (
     ECHO.
-    ECHO .NET Core has not been installed
+    echo.NET Core has not been installed
     ECHO.
     SET FAILED=1 
 )
@@ -135,68 +139,142 @@ REM ===========================================================================
 REM Perform the steps to build the web part of the desktop version
 REM ===========================================================================
 
-@ECHO ON
-setlocal EnableDelayedExpansion
-set /p serverVersion=<server-version.txt
+echo Requirements OK...
 
+echo.
+
+setlocal EnableDelayedExpansion
+
+echo Checking local/server versions...
+set /p serverVersion=<server-version.txt
 cd %DevPath%\Standard\Taskbuilder\script
 
-
 IF NOT EXIST "local-version.txt" (
-	ECHO clean
-
-	call ng-clean.bat 
 	
-   	ECHO clean executed
-	
-	@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
+    echo Clean needed
+    echo.
+    call ng-clean.bat 	
+	cd %DevPath%\Standard\Taskbuilder\client\web-form\     
 
+    
+    echo NPM INSTALL
+    echo.
 	call npm i --no-save >> %DevPath%\5_npm_install.log
+    echo NPM INSTALL Completed - See log: %DevPath%\5_npm_install.log
+    
+    echo.
 	
 	cd %DevPath%\Standard\Taskbuilder\script
-	ECHO >local-version.txt !serverVersion!
+	echo >local-version.txt !serverVersion!
+
 ) ELSE (
 
 	set /p serverVersion=<server-version.txt
 	set /p localVersion=<local-version.txt
 
 	IF !serverVersion! GTR  !localVersion! (
-		ECHO clean
-		
-		call ng-clean.bat 
-		ECHO clean executed
-		
-		@cd %DevPath%\Standard\Taskbuilder\client\web-form\ 
+		echo Clean needed
+        echo.
+        call ng-clean.bat 	
+        cd %DevPath%\Standard\Taskbuilder\client\web-form\     
 
-		call npm i --no-save >> %DevPath%\5_npm_install.log
+        
+        echo NPM INSTALL
+        echo.
+        call npm i --no-save >> %DevPath%\5_npm_install.log
+        echo NPM INSTALL Completed - See log: %DevPath%\5_npm_install.log
+        
+        echo.
+
 		cd %DevPath%\Standard\Taskbuilder\script
 		ECHO >local-version.txt !serverVersion!
 	) 
 )
 
-call TbJson.bat
+echo.
 
+echo TsJson execution...
+echo.
+call TbJson.bat
+echo TsJson completed...
+
+
+echo.
 @cd %DevPath%\Standard\Taskbuilder\client\web-form\
+
+echo Building Angular M4Client... 
+echo.
+echo NON CHIUDETE QUESTA FINESTRA, OPERAZIONE MOLTO LUNGA IN CORSO...
+echo.
 node --max_old_space_size=5120 "node_modules\@angular\cli\bin\ng" build --env=desktop --no-sourcemaps --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Client" >> %DevPath%\7_ng_build.log
+echo.
+echo Build M4Client completed - See log: %DevPath%\7_ng_build.log
+echo.
+
+echo Building Angular M4Web...
+echo.
+echo NON CHIUDETE QUESTA FINESTRA, OPERAZIONE MOLTO LUNGA IN CORSO...
+echo.
 node --max_old_space_size=9120 "node_modules\@angular\cli\bin\ng" build --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Web" >> %DevPath%\7_ng_build-web.log
+echo.
+echo Build M4Web completed - See log: %DevPath%\7_ng_build-web.log
+
+echo.
 
 @cd %DevPath%\Standard\Taskbuilder\server\web-server
+echo.
+
+echo Restoring DotNet project...
+echo.
 dotnet restore
+echo.
+
+echo iisreset
+echo.
 iisreset
+echo.
+
+echo Publishing DotNet project...
+echo.
 dotnet publish --framework netcoreapp2.0 --output "%DevPath%\Standard\TaskBuilder\WebFramework\M4Server" --configuration release >> %DevPath%\8_dotnet_publish.log
+echo.
+echo Dotnet project published - See log: %DevPath%\8_dotnet_publish.log
+
+echo.
 
 if "%~1"=="-skipcod" (goto end)
 
+echo ClickOneDeployer - Generazione config.json...
+echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
-
+echo.
+echo ClickOneDeployer - Manifest per macchine build 1...
+echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe Deploy /root %DevPath%\Apps /clean true /version debug
-
+echo.
+echo ClickOneDeployer - Manifest per macchine build 2...
+echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe updatedeployment /root %DevPath%\Apps /version debug
+echo.
 
+
+echo Copia in corso di config.json da M4Client a M4Web
+echo.
 robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
+echo.
+
+echo Copia in corso di web.config da web-form a M4Web
+echo.
 robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
+echo.
+
 :end
 
+echo.
+
+echo build-web-deploy.bat terminato
+
+echo.
 
 IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\ (
 	IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Server\  (
@@ -207,4 +285,3 @@ IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\ (
 	rem se non trova m4client o m4server, qualcosa è andato storto, exit con error code 1
 	exit /b 1
 )
-
