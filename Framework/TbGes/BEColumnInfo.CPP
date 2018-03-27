@@ -1069,7 +1069,7 @@ BOOL ColumnInfo::HideCtrl()
 	{
 		m_pParsedCtrl->Attach(m_pBaseDataObj);
 		m_pParsedCtrl->DetachAllStateData ();
-		m_pParsedCtrl->EnableCtrl(FALSE);
+		//m_pParsedCtrl->EnableCtrl(FALSE);
 	}
 	
 	return TRUE;
