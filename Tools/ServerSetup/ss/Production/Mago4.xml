@@ -401,7 +401,7 @@
             <IncludeFile name="*.asmx|*.asax|*.aspx|*.ascx|*.config|*.css" />
             <ExcludeFile name="*.debug.*|*.release.*" />
           </IncludeFolder>
-          <IncludeFolder name="M4Client|M4Server" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" fragment="yes" createWebApplication="yes" recursive="yes">
+          <IncludeFolder name="M4Client|M4Server|M4Web" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" fragment="yes" createWebApplication="yes" recursive="yes">
               <IncludeFile name="*" />
           </IncludeFolder>
           <IncludeFolder name="*" virtualPath="[FOLDERNAME]" dedicatedAppPool="yes" enable32bit="no" fragment="yes" createWebApplication="yes">
