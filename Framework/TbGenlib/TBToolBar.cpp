@@ -7316,12 +7316,16 @@ CInfoOSLButton* CTBTabbedToolbar::FindOslInfoButton(UINT nID)
 }
 
 //-------------------------------------------------------------------------------------
-CTBToolBar*	CTBTabbedToolbar::FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszText)
+CTBToolBar*	CTBTabbedToolbar::FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszText, LPCTSTR lpszLabel /*= NULL*/)
 {
 	CTBToolBar* pToolBar = FindToolBar(lpszText);
 	if (pToolBar) return pToolBar;
 	pToolBar = new CTBToolBar();
-	if (!pToolBar->CreateEmptyTabbedToolbar(pParentWnd, lpszText))
+
+	CString sLabel = _T("");
+	if (lpszLabel != NULL) sLabel = lpszLabel;
+
+	if (!pToolBar->CreateEmptyTabbedToolbar(pParentWnd, lpszText, sLabel))
 	{
 		TRACE("Failed to create the toolBar.\n");
 		return NULL;

@@ -1077,9 +1077,9 @@ BOOL CAbstractFormFrame::CreateJsonToolbar(CWndObjDescription* pDescription)
 			}
 			//if (!((CJsonContext*)m_pToolbarContext)->CanCreateControl(pDesc))
 			//	continue;
-
 			CToolbarDescription* pToolBarDesc = (CToolbarDescription*)pDesc;
-			CTBToolBar*	pToolBar = m_pTabbedToolBar->FindToolBarOrAdd(this, pToolBarDesc->m_strName);
+			CString sLabel = AfxLoadJsonString(pToolBarDesc->m_strText, pToolBarDesc);
+			CTBToolBar*	pToolBar = m_pTabbedToolBar->FindToolBarOrAdd(this, pToolBarDesc->m_strName, sLabel);
 			if (!pToolBar)
 			{
 				ASSERT(FALSE);
@@ -1093,7 +1093,8 @@ BOOL CAbstractFormFrame::CreateJsonToolbar(CWndObjDescription* pDescription)
 	case CWndObjDescription::Toolbar:
 	{
 		CToolbarDescription* pToolBarDesc = (CToolbarDescription*)pDescription;
-		CTBToolBar*	pToolBar = m_pTabbedToolBar->FindToolBarOrAdd(this, pToolBarDesc->m_strName);
+		CString sLabel = AfxLoadJsonString(pToolBarDesc->m_strText, pToolBarDesc);
+		CTBToolBar*	pToolBar = m_pTabbedToolBar->FindToolBarOrAdd(this, pToolBarDesc->m_strName, sLabel);
 		if (!pToolBar)
 		{
 			ASSERT(FALSE);

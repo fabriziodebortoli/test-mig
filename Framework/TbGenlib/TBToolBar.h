@@ -773,7 +773,7 @@ public:
 	void				AdjustLayoutActiveTab();
 
 	CTBToolBar*			FindToolBar(LPCTSTR lpszText);
-	CTBToolBar*			FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszText);
+	CTBToolBar*			FindToolBarOrAdd(CWnd* pParentWnd, LPCTSTR lpszText, LPCTSTR lpszLabel = NULL);
 	INT					FindButton(CString sNameSpace);
 	CInfoOSLButton*		FindOslInfoButton(CString sNameSpace);
 	CInfoOSLButton*		FindOslInfoButton(UINT nID);
