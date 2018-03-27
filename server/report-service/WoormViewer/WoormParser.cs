@@ -121,19 +121,19 @@ namespace Microarea.RSWeb.WoormViewer
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseTextColor (out Color color)
+		public bool ParseTextColor (out Color color, bool parseSep = true)
 		{
 			return
 				ParseColor  (Token.TEXTCOLOR, out color) &&
-				ParseSep    ();
+                parseSep ? ParseSep() : true;
 		}
 
 		//------------------------------------------------------------------------------
-		public bool ParseBkgColor (out Color color)
+		public bool ParseBkgColor (out Color color, bool parseSep = true)
 		{
 			return
 				ParseColor  (Token.BKGCOLOR, out color) &&
-				ParseSep    ();
+                parseSep ? ParseSep() : true;
 		}
 
 		//------------------------------------------------------------------------------

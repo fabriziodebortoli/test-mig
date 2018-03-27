@@ -709,10 +709,13 @@ void Table::DrawRows (CDC& DC, CRect invalid, BOOL bPreview, BOOL bMarkExportabl
 				if (!sCustomTitle.IsEmpty())
 				{
 					// ---- save and replace column style attributes and text value
-					CString sSaveTitle = pColumn->m_Title.GetText(); pColumn->m_Title.SetText(sCustomTitle);
-					Expression* pSaveTitleExpr = pColumn->m_pTitleExpr; pColumn->m_pTitleExpr = NULL;
+					CString		sSaveTitle			= pColumn->m_Title.GetText();		pColumn->m_Title.SetText(sCustomTitle);
+					Expression* pSaveTitleExpr		= pColumn->m_pTitleExpr;			pColumn->m_pTitleExpr = NULL;
+					Expression* pSaveTextColorExpr	= pColumn->m_pTitleTextColorExpr;	pColumn->m_pTitleTextColorExpr	= m_SubTitle.m_pTextColorExpr;
+					Expression* pSaveBkgColorExpr	= pColumn->m_pTitleBkgColorExpr;	pColumn->m_pTitleBkgColorExpr	= m_SubTitle.m_pBkgColorExpr;
 					BasicTextStyle saveStyle (pColumn->m_Title);
 					pColumn->m_Title.Assign(m_SubTitle);
+					BOOL bSaveMiniHtml = pColumn->m_bMiniHtml; pColumn->m_bMiniHtml = m_SubTitle.m_bMiniHtml;
 					//-------------------------------------
 	
 					CRect rect(pCell->GetCellRect());
@@ -721,10 +724,13 @@ void Table::DrawRows (CDC& DC, CRect invalid, BOOL bPreview, BOOL bMarkExportabl
 
 					pColumn->DrawColumnTitle(DC, rect, TRUE, TRUE, rect, nRow);
 
-					//---- restore column title attributes------------------------
-					pColumn->m_Title.SetText(sSaveTitle); 
-					pColumn->m_pTitleExpr = pSaveTitleExpr;
-					pColumn->m_Title.Assign(saveStyle);
+					//---- restore column title attributes ----
+					pColumn->m_Title				.SetText(sSaveTitle); 
+					pColumn->m_pTitleExpr			= pSaveTitleExpr;
+					pColumn->m_pTitleTextColorExpr	= pSaveTextColorExpr;
+					pColumn->m_pTitleBkgColorExpr	= pSaveBkgColorExpr;
+					pColumn->m_Title				.Assign(saveStyle);
+					pColumn->m_bMiniHtml			= bSaveMiniHtml;
 					break;
 				}
 			}

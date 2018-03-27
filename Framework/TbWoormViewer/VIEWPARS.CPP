@@ -119,19 +119,19 @@ BOOL ViewParser::ParseBorders (Borders& brd)
 }
 
 //------------------------------------------------------------------------------
-BOOL ViewParser::ParseTextColor (COLORREF& rgbColor)
+BOOL ViewParser::ParseTextColor (COLORREF& rgbColor, BOOL parseSep/* = TRUE*/)
 {
 	return
 		ParseColor  (T_TEXTCOLOR, rgbColor) &&
-		ParseSep    ();
+		(parseSep ? ParseSep() : TRUE);
 }
 
 //------------------------------------------------------------------------------
-BOOL ViewParser::ParseBkgColor (COLORREF& rgbColor)
+BOOL ViewParser::ParseBkgColor (COLORREF& rgbColor, BOOL parseSep/* = TRUE*/)
 {
 	return
 		ParseColor  (T_BKGCOLOR, rgbColor) &&
-		ParseSep    ();
+		(parseSep ?  ParseSep    () : TRUE);
 }
 
 //------------------------------------------------------------------------------

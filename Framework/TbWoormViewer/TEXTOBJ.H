@@ -59,7 +59,7 @@ public:
 
 	Expression*		m_pTextColorExpr = NULL;	
 	Expression*		m_pBkgColorExpr = NULL;
-
+	BOOL			m_bMiniHtml = FALSE;
 	// operators
 	SubTotalStyle& operator = (const SubTotalStyle&);
 };

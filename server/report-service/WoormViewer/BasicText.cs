@@ -5,6 +5,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.Applications;
 using Microarea.Common.CoreTypes;
 using Microarea.RSWeb.WoormViewer;
+using Microarea.Common.ExpressionManager;
 //using Microarea.RSWeb.Temp;
 
 namespace Microarea.RSWeb.Objects
@@ -108,7 +109,7 @@ namespace Microarea.RSWeb.Objects
 	//[KnownType(typeof(FontData))]
 	public class BasicText //: ISerializable
 	{
-		private WoormDocument document; 
+		protected WoormDocument document; 
 		//stringhe usate per serializzare
 		//const string TEXT = "Text"; 
 		//const string FONTDATA = "FontData";
@@ -119,7 +120,7 @@ namespace Microarea.RSWeb.Objects
 		public Color BkgColor = Defaults.DefaultBackColor;
 		public AlignType Align = Defaults.DefaultTextAlign;
 		public string FontStyleName = DefaultFont.Testo;
-		private FontData fontData = null;
+        protected FontData fontData = null;
 
 		public string DataType = "String";	// tipo del dato contenuto dal campo
 		
@@ -176,7 +177,25 @@ namespace Microarea.RSWeb.Objects
 			FontStyleName = s.FontStyleName;
             fontData = s.FontData;
             DataType = s.DataType;
+
             document = s.document;
         }
 	}
+
+    public class BasicTextColored : BasicText
+    {
+        public Expression TextColorExpr = null;
+        public Expression BkgColorExpr = null;
+        public bool MiniHtml = false;
+
+        public BasicTextColored(WoormDocument doc) : base(doc)
+        {
+        }
+
+        //------------------------------------------------------------------------------
+        public BasicTextColored(BasicText s) : base(s)
+        {
+
+        }
+    }
 }

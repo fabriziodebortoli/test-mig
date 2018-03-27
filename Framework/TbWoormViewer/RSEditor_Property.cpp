@@ -6396,16 +6396,20 @@ void CRS_ObjectPropertyView::LoadTableAppearenceProperties(Table* pTable)
 		CrsProp* pSubTitleGroup = new CrsProp(_TB("Sub Title"), 0, FALSE);
 
 		//BackGround Color 
-		pSubTitleGroup->AddSubItem(new CRSColorProp(pTable, _TB("Background Color"), &(pTable->m_SubTitle.m_rgbBkgColor), _TB("The backGround color of the table sub title")));
+		//pSubTitleGroup->AddSubItem(new CRSColorWithExprProp	(pTable, _TB("Background Color"),	&(pTable->m_SubTitle.m_rgbBkgColor),	&(pTable->m_SubTitle.m_pBkgColorExpr), _TB("The backGround color of the table sub title"), this));
+		pSubTitleGroup->AddSubItem(new CRSColorProp				(pTable, _TB("Background Color"), &(pTable->m_SubTitle.m_rgbBkgColor), _TB("The backGround color of the table sub title")));
 
 		//Text Color
-		pSubTitleGroup->AddSubItem(new CRSColorProp(pTable, _TB("Text Color"), &(pTable->m_SubTitle.m_rgbTextColor), _TB("The text Color of the table sub title")));
+		//pSubTitleGroup->AddSubItem(new CRSColorWithExprProp	(pTable, _TB("Text Color"),	&(pTable->m_SubTitle.m_rgbTextColor),	&(pTable->m_SubTitle.m_pTextColorExpr), _TB("The text Color of the table sub title"), this));
+		pSubTitleGroup->AddSubItem(new CRSColorProp				(pTable, _TB("Text Color"), &(pTable->m_SubTitle.m_rgbTextColor), _TB("The text Color of the table sub title")));
 
 		//alignment bitwise
 		pSubTitleGroup->AddSubItem(new CRSAlignBitwiseProp(this, pTable, _TB("Alignment"), &pTable->m_SubTitle.m_nAlign, FALSE, FALSE, FALSE));
 
 		//pSubTitleGroup
 		pSubTitleGroup->AddSubItem(new CRSSetFontDlgProp(pTable, _TB("Font Style"), CRSSetFontDlgProp::PropertyType::TableSubTitle));
+
+		pSubTitleGroup->AddSubItem(new CRSBoolProp(pTable, _TB("Mini html"), &(pTable->m_SubTitle.m_bMiniHtml), _TB("Mini html ...")));
 
 		//add to the parent group
 		m_pAppearenceGroup->AddSubItem(pSubTitleGroup);
@@ -8941,6 +8945,7 @@ BOOL CRSBoolProp::OnUpdateValue()
 	BOOL value = this->GetValue();
 
 	*m_pBValue = value == 0 ? FALSE : TRUE;
+
 	if (m_pOwner)
 	{
 		GenericDrawObj* pGenObj = dynamic_cast<GenericDrawObj*>(m_pOwner);
@@ -8953,7 +8958,6 @@ BOOL CRSBoolProp::OnUpdateValue()
 		WoormIni* pWoormIni = dynamic_cast<WoormIni*>(m_pOwner);
 		if (pWoormIni)
 			pWoormIni->WriteWoormSettings();
-
 	}
 
 	else if (m_pColumns)

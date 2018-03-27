@@ -117,6 +117,7 @@ SubTotalStyle& SubTotalStyle::operator = (const SubTotalStyle& source)
 	if (source.m_pBkgColorExpr)
 		m_pBkgColorExpr = new Expression(*source.m_pBkgColorExpr);
 
+	m_bMiniHtml = source.m_bMiniHtml;
 	return *this;
 }
 

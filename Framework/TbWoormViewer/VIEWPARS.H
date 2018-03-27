@@ -35,8 +35,8 @@ public:
 	BOOL ParseRatio			(int&, int&);
 	BOOL ParsePen			(BorderPen&);
 	BOOL ParseBorders		(Borders&);
-	BOOL ParseTextColor		(COLORREF&);
-	BOOL ParseBkgColor		(COLORREF&);
+	BOOL ParseTextColor		(COLORREF&, BOOL parseSep = TRUE);
+	BOOL ParseBkgColor		(COLORREF&, BOOL parseSep = TRUE);
 	BOOL ParseAlign			(AlignType&);
 	BOOL ParseExtendedAlign (AlignType&);
 	BOOL ParseWidth			(int&);

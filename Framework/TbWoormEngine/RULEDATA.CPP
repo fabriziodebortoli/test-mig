@@ -2396,19 +2396,19 @@ void WhileRuleData::Unparse(Unparser& oFile)
     {
 		if (!m_pBefore->IsEmpty())
 		{
-			oFile.UnparseTag (T_FOR,  FALSE);
+			oFile.UnparseTag (T_FOR,  TRUE);
 			m_pBefore->Unparse(oFile);
 		}
 
         oFile.UnparseTag    (T_WHILE,      	FALSE);
         oFile.UnparseExpr   (m_pCondExpr->ToString(),	FALSE);
+        oFile.UnparseTag    (T_DO,      	TRUE);
 
-       oFile.UnparseTag    (T_DO,      	FALSE);
-	   m_pBody->Unparse(oFile);
+	    m_pBody->Unparse(oFile);
 
 		if (!m_pAfter->IsEmpty())
 		{
-			oFile.UnparseTag (T_CONTINUE,  FALSE);
+			oFile.UnparseTag (T_CONTINUE,  TRUE);
 			m_pAfter->Unparse(oFile);
 		}
 

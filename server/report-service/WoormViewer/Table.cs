@@ -2395,6 +2395,8 @@ namespace Microarea.RSWeb.Objects
         public BorderPen TitlePen = new BorderPen();
         public BasicText Title = null;
 
+        public BasicTextColored SubTitleCustom = null;
+
         public List<Column> Columns;
 
         public bool[] Interlines;
@@ -2775,7 +2777,30 @@ namespace Microarea.RSWeb.Objects
                         r += ',';
                     }
 
-                    r += cell.ToJsonData(borders, UseColorEasyview(row));
+                    if (this.RowWithTitles[row])
+                    {
+                        Cell c = new Cell(cell);
+                            c.Value.BkgColor        = column.DynamicTitleBkgColor;
+                            c.Value.TextColor       = column.DynamicTitleTextColor;
+                            c.Value.FormattedData   = column.DynamicTitleLocalizedText;
+                            c.Value.FontData        = column.Title.FontData;
+                            c.Value.Align           = column.Title.Align;
+
+                        r += c.ToJsonData(borders, false);
+                    }
+                    else if (!this.RowWithCustomTitle[row].IsNullOrEmpty())
+                    {
+                        Cell c = new Cell(cell);
+                        c.Value.BkgColor        = this.SubTitleCustom.BkgColor;
+                        c.Value.TextColor       = this.SubTitleCustom.TextColor;
+                        c.Value.FormattedData   = this.RowWithCustomTitle[row];
+                        c.Value.FontData        = this.SubTitleCustom.FontData;
+                        c.Value.Align           = this.SubTitleCustom.Align;
+
+                        r += c.ToJsonData(borders, false);
+                    }
+                    else
+                        r += cell.ToJsonData(borders, UseColorEasyview(row));
 
                     firstCol = false;
                 }
@@ -3164,6 +3189,11 @@ namespace Microarea.RSWeb.Objects
                             return false;
                         break;
 
+                    case Token.SUBTOTAL:
+                        if (!ParseSubTotalTitle(lex))
+                            return false;
+                        break;
+
                     case Token.BORDERS:
                     case Token.NO_BORDERS:
                         if (!Borders.Parse(lex))
@@ -3262,7 +3292,6 @@ namespace Microarea.RSWeb.Objects
             return ok;
         }
 
-        //------------------------------------------------------------------------------
         private bool ParseTableTitleOptions(WoormParser lex)
         {
             bool ok = true;
@@ -3272,7 +3301,6 @@ namespace Microarea.RSWeb.Objects
             return ok;
         }
 
-        //------------------------------------------------------------------------------
         private bool ParseTableTitleBlock(WoormParser lex)
         {
             if (lex.LookAhead(Token.BEGIN))
@@ -3284,7 +3312,6 @@ namespace Microarea.RSWeb.Objects
             return ParseTableTitleOption(lex, false);
         }
 
-        //------------------------------------------------------------------------------
         private bool ParseTableTitle(WoormParser lex)
         {
             bool ok = true;
@@ -3294,6 +3321,114 @@ namespace Microarea.RSWeb.Objects
                     (
                     lex.ParseTag(Token.TITLE) &&
                     ParseTableTitleBlock(lex)
+                    );
+
+            return ok;
+        }
+
+        //------------------------------------------------------------------------------
+        private bool ParseSubTotalTitleOption(WoormParser lex, bool blk)
+        {
+            bool ok = true;
+            do
+            {
+                switch (lex.LookAhead())
+                {
+                    case Token.TEXTCOLOR:
+                    {
+                        ok = lex.ParseTextColor(out SubTitleCustom.TextColor, false);
+                        if (ok && lex.Matched(Token.COMMA))
+                        {
+                            SubTitleCustom.TextColorExpr = new WoormViewerExpression(Document);
+                            SubTitleCustom.TextColorExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
+                            SubTitleCustom.TextColorExpr.ForceSkipTypeChecking = Document.ForLocalizer;
+                            if (!SubTitleCustom.TextColorExpr.Compile(lex, CheckResultType.Match, "Int32"))
+                            {
+                                lex.SetError(WoormViewerStrings.BadColorExpression);
+                                return false;
+                            }
+                        }
+                        if (ok) ok = lex.Match(Token.SEP);
+                        break;
+                }
+                    case Token.BKGCOLOR:
+                    {
+                        ok = lex.ParseBkgColor(out SubTitleCustom.BkgColor, false);
+                        if (ok && lex.Matched(Token.COMMA))
+                        {
+                            SubTitleCustom.BkgColorExpr = new WoormViewerExpression(Document);
+                            SubTitleCustom.BkgColorExpr.StopTokens = new StopTokens(new Token[] { Token.SEP });
+                            SubTitleCustom.BkgColorExpr.ForceSkipTypeChecking = Document.ForLocalizer;
+                            if (!SubTitleCustom.BkgColorExpr.Compile(lex, CheckResultType.Match, "Int32"))
+                            {
+                                lex.SetError(WoormViewerStrings.BadColorExpression);
+                                return false;
+                            }
+                        }
+                        if (ok) ok = lex.Match(Token.SEP);
+                        break;
+                    }
+
+                    case Token.ALIGN:
+                        ok = lex.ParseAlign(out SubTitleCustom.Align);
+                        break;
+
+                    case Token.FONTSTYLE:
+                        ok = lex.ParseFont(out SubTitleCustom.FontStyleName);
+                        break;
+
+                    case Token.HTML:
+                        SubTitleCustom.MiniHtml = lex.Match(Token.HTML);
+                        break;
+
+                    case Token.END:
+                        if (blk)
+                            break;
+
+                        lex.SetError(WoormViewerStrings.UnexpectedEnd);
+                        return false;
+
+                    default:
+                        if (blk)
+                        {
+                            lex.SetError(WoormViewerStrings.UnexpectedEnd);
+                            ok = false;
+                        }
+                        break;
+                }
+            }
+            while (ok && blk);
+            return ok;
+        }
+
+        private bool ParseSubTotalTitleOptions(WoormParser lex)
+        {
+            bool ok = true;
+            do { ok = ParseSubTotalTitleOption(lex, true) && !lex.Error && !lex.Eof; }
+            while (ok && !lex.LookAhead(Token.END));
+            return ok;
+        }
+
+        private bool ParseSubTotalTitleBlock(WoormParser lex)
+        {
+            if (lex.LookAhead(Token.BEGIN))
+                return
+                    lex.ParseBegin() &&
+                    ParseSubTotalTitleOptions(lex) &&
+                    lex.ParseEnd();
+
+            return ParseSubTotalTitleOption(lex, false);
+        }
+
+        private bool ParseSubTotalTitle(WoormParser lex)
+        {
+            bool ok = true;
+
+            if (lex.Matched(Token.SUBTOTAL))
+                ok =
+                    (
+                        lex.ParseTag(Token.TITLE) &&
+                        ParseSubTotalTitleBlock(lex)
                     );
 
             return ok;

@@ -6230,16 +6230,20 @@ BOOL CWoormDocMng::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINF
 void CWoormDocMng::OnPostOpenWoormDoc(BOOL bRunReport)
 {
 	ASSERT_VALID(this);
-	CWoormFrame* pFrame = GetWoormFrame();
-	ASSERT_VALID(pFrame);
-	ASSERT(pFrame->m_hWnd);
 
-	if (m_pWoormInfo->m_bHideFrame)
-		pFrame->ShowWindow(SW_HIDE);
-	else if (m_pWoormInfo->m_bIconized)
-		pFrame->ShowWindow(SW_SHOWMINIMIZED);
-	else
-		pFrame->CreateTools(this);
+	CWoormFrame* pFrame = GetWoormFrame(FALSE);
+	if (pFrame)
+	{
+		ASSERT_VALID(pFrame);
+		ASSERT(pFrame->m_hWnd);
+
+		if (m_pWoormInfo->m_bHideFrame)
+			pFrame->ShowWindow(SW_HIDE);
+		else if (m_pWoormInfo->m_bIconized)
+			pFrame->ShowWindow(SW_SHOWMINIMIZED);
+		else
+			pFrame->CreateTools(this);
+	}
 
 	// SendMessage e non Post per permettere di cancellare il pWormInfo
 	// da chi sta chiamando e non dal report stesso nel caso sia di proprieta

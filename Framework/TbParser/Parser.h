@@ -28,6 +28,7 @@ public:
 	BOOL ParseSep		();
 	BOOL ParseString	(CString& str, BOOL bEscaped = TRUE);
 	BOOL ParseColor		(Token, COLORREF&);
+	BOOL ParseColor		(COLORREF& dwColor);
 	BOOL ParseItem		(CString& itemName);
 	BOOL ParseSubscr	(int& val);
 	BOOL ParseSubscr	(int& val1, int& val2);

@@ -1554,10 +1554,8 @@ void WhileLoopAction::Unparse(Unparser& oFile, BOOL /*bNewLine = TRUE*/, BOOL /*
 	}
 
 	oFile.UnparseTag	(T_WHILE,			FALSE);
-	oFile.UnparseExpr	(m_ConditionExpr.ToString(),	TRUE);
-		
-	oFile.IncTab();
-	oFile.UnparseTag(T_DO, FALSE);
+	oFile.UnparseExpr	(m_ConditionExpr.ToString(),	FALSE);
+	oFile.UnparseTag	(T_DO, TRUE);
         
     // if block has Begin-End syntax no CrLf is wrote to append a separator
 	m_Block.Unparse(oFile, FALSE);
@@ -1565,7 +1563,6 @@ void WhileLoopAction::Unparse(Unparser& oFile, BOOL /*bNewLine = TRUE*/, BOOL /*
 	if (m_Block.m_bHasBeginEnd)
 		oFile.UnparseSep(TRUE);	// it need a separator and a cr-lf pair
 
-	oFile.DecTab();
 	oFile.UnparseComment(this->m_arCommentTraceAfter);
 }
 

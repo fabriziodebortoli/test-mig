@@ -2213,8 +2213,8 @@ void Table::UnparseTitle(ViewUnparser& ofile)
 //------------------------------------------------------------------------------
 void Table::UnparseSubTitle(ViewUnparser& ofile)
 {
-	BOOL col = m_SubTitle.m_rgbTextColor != DEFAULT_SUBTOTAL_FOREGROUND;
-	BOOL bkg = m_SubTitle.m_rgbBkgColor != DEFAULT_SUBTOTAL_BACKGROUND;
+	BOOL col = m_SubTitle.m_rgbTextColor != DEFAULT_SUBTOTAL_FOREGROUND || (m_SubTitle.m_pTextColorExpr && !m_SubTitle.m_pTextColorExpr->IsEmpty());
+	BOOL bkg = m_SubTitle.m_rgbBkgColor != DEFAULT_SUBTOTAL_BACKGROUND	|| (m_SubTitle.m_pBkgColorExpr	&& !m_SubTitle.m_pBkgColorExpr->IsEmpty());
 	BOOL alg = m_SubTitle.m_nAlign != DEFAULT_SUBTOTAL_STRING_ALIGN;
 	BOOL fnt = m_SubTitle.m_nFontIdx != m_pDocument->m_pFontStyles->GetFontIdx(FNT_SUBTOTAL_STRING);
 	WORD wbr = (WORD)(col + bkg + alg + fnt );
@@ -2222,8 +2222,30 @@ void Table::UnparseSubTitle(ViewUnparser& ofile)
 
 	if (wbr)	{ ofile.UnparseTag(T_SUBTOTAL, FALSE); ofile.UnparseTag(T_TITLE, blk); }
 	if (blk)	ofile.UnparseBegin();
-	if (col)    ofile.UnparseTextColor(m_SubTitle.m_rgbTextColor);
-	if (bkg)    ofile.UnparseBkgColor(m_SubTitle.m_rgbBkgColor);
+
+	if (col)    
+	{
+		ofile.UnparseTextColor(m_SubTitle.m_rgbTextColor, FALSE);
+		if (m_SubTitle.m_pTextColorExpr && !m_SubTitle.m_pTextColorExpr->IsEmpty())
+		{
+			ofile.UnparseTag(T_COMMA, FALSE);
+			ofile.UnparseExpr(m_SubTitle.m_pTextColorExpr->ToString(), FALSE);
+			ofile.UnparseTag(T_SEP);
+		}
+		else ofile.UnparseCrLf();
+	}
+	if (bkg)    
+	{
+		ofile.UnparseBkgColor(m_SubTitle.m_rgbBkgColor, FALSE);
+		if (m_SubTitle.m_pBkgColorExpr && !m_SubTitle.m_pBkgColorExpr->IsEmpty())
+		{
+			ofile.UnparseTag(T_COMMA, FALSE);
+			ofile.UnparseExpr(m_SubTitle.m_pBkgColorExpr->ToString(), FALSE);
+			ofile.UnparseTag(T_SEP);
+		}
+		else ofile.UnparseCrLf();
+	}
+
 	if (alg)    ofile.UnparseAlign(m_SubTitle.m_nAlign);
 	if (fnt)    ofile.UnparseFont(m_pDocument->m_pFontStyles, m_SubTitle.m_nFontIdx);
 	if (blk)	ofile.UnparseEnd();
@@ -2597,10 +2619,43 @@ BOOL Table::ParseTableSubTitleOption(ViewParser& lex, BOOL blk)
 	{
 		switch (lex.LookAhead())
 		{
-		case T_TEXTCOLOR: ok = lex.ParseTextColor(m_SubTitle.m_rgbTextColor);  break;
-		case T_BKGCOLOR: ok = lex.ParseBkgColor(m_SubTitle.m_rgbBkgColor);   break;
+		case T_TEXTCOLOR: 
+		{
+			ok = lex.ParseTextColor(m_SubTitle.m_rgbTextColor, FALSE);  
+			
+			if (ok && lex.Matched(T_COMMA))
+			{
+				m_SubTitle.m_pTextColorExpr = new Expression(&(m_pDocument->m_ViewSymbolTable));
+				m_SubTitle.m_pTextColorExpr->SetStopTokens(T_SEP);
+				if (!m_SubTitle.m_pTextColorExpr->Parse(lex, DataType::Long, TRUE))
+				{
+					lex.SetError(_TB("Parser error in custom subtitle conditional text color expression:") + _T("\r\n"));
+					return FALSE;
+				}
+			}
+			if (ok) ok = lex.Match(T_SEP);
+			break;
+		}
+		case T_BKGCOLOR: 
+		{
+			ok = lex.ParseBkgColor(m_SubTitle.m_rgbBkgColor, FALSE);
+
+			if (ok && lex.Matched(T_COMMA))
+			{
+				m_SubTitle.m_pBkgColorExpr = new Expression(&(m_pDocument->m_ViewSymbolTable));
+				m_SubTitle.m_pBkgColorExpr->SetStopTokens(T_SEP);
+				if (!m_SubTitle.m_pBkgColorExpr->Parse(lex, DataType::Long, TRUE))
+				{
+					lex.SetError(_TB("Parser error in custom subtitle conditional background color expression:") + _T("\r\n"));
+					return FALSE;
+				}
+			}
+			if (ok) ok = lex.Match(T_SEP);
+			break;
+		}
 
 		case T_ALIGN: ok = lex.ParseAlign(m_SubTitle.m_nAlign);      break;
+
 		case T_FONTSTYLE:
 			ok = lex.ParseFont(m_pDocument->m_pFontStyles, m_SubTitle.m_nFontIdx);
 			break;
@@ -2609,6 +2664,11 @@ BOOL Table::ParseTableSubTitleOption(ViewParser& lex, BOOL blk)
 			if (blk) return ok;
 			lex.SetError(_TB("Unexpected END on the table sub-title"));
 			return FALSE;
+		case T_HTML:
+		{
+			lex.SkipToken();
+			m_SubTitle.m_bMiniHtml = TRUE;
+		}
 
 		default:
 			if (blk)

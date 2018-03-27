@@ -255,6 +255,11 @@ BOOL Parser::ParseGUID (GUID& aGuid)
 
 
 //------------------------------------------------------------------------------
+BOOL Parser::ParseColor(COLORREF& dwColor)
+{
+	return ParseColor(T_NULL_TOKEN, dwColor);
+}
+
 BOOL Parser::ParseColor (Token token, COLORREF& dwColor)
 {
 	int nRed, nGreen, nBlue;
