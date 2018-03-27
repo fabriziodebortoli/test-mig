@@ -1,0 +1,6 @@
+{
+  "ProvisioningParameters": {
+    "HostName": "localhost",
+    "PortNumber": 10344
+  }
+}

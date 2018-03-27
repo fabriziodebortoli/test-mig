@@ -28,8 +28,7 @@ namespace Microarea.TbLoaderGate
         private readonly IHostingEnvironment hostingEnvironment;
         private TBLoaderStub stub;
         TBLoaderConnectionParameters options;
-
-        public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters, IHostingEnvironment hostingEnvironment)
+        public TBLoaderController(IOptions<TBLoaderConnectionParameters> parameters,IHostingEnvironment hostingEnvironment)
         {
             options = parameters.Value;
             this.hostingEnvironment = hostingEnvironment;

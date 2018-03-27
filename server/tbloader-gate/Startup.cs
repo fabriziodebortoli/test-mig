@@ -15,8 +15,8 @@ namespace Microarea.TbLoaderGate
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("tbloader.config.json", optional: true);
-
+                .AddJsonFile("tbloader.config.json", optional: true)
+                .AddJsonFile("provisioning.config.json", optional: true);
             //if (env.IsDevelopment())
             //{
             //    // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709

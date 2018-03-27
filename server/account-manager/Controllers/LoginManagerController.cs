@@ -11,12 +11,20 @@ using System.Globalization;
 using Newtonsoft.Json.Linq;
 using Microarea.Common.Applications;
 using Microarea.Common.Generic;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Microarea.AccountManager.Controllers
 {
     [Route("account-manager")]
     public class LoginManagerController : Controller
     {
+        ProvisioningParameters provisioningOptions;
+        public LoginManagerController(IOptions<ProvisioningParameters> provisioningParameters, IHostingEnvironment hostingEnvironment)
+        {
+            provisioningOptions = provisioningParameters.Value;
+        }
+
         private void SetCulture(string authenticationToken)
         {
             LoginManagerSession loginManagerSession = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);

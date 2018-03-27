@@ -28,7 +28,8 @@ namespace WebApplication
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("tbloader.config.json", optional: true);
+                .AddJsonFile("tbloader.config.json", optional: true)
+                .AddJsonFile("provisioning.config.json", optional: true);
 
             //if (env.IsDevelopment())
             //{
