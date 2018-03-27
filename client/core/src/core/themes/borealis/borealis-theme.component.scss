@@ -678,6 +678,16 @@ $accordionHover: rgba(94, 193, 136, 0.57);
             }
         }
     }
+
+    .topbar-menu-layout {
+        .k-button {
+            background-color: $bkg-medium;
+            &:hover {
+                background-color: $bkg-light;
+            }
+    
+        }
+     }
 }
 
 .mat-tooltip {
