@@ -1852,10 +1852,13 @@ BOOL CTBToolBar::IsToolbarMenuButton(int iButton)
 //-------------------------------------------------------------------------------------
 void CTBToolBar::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	int iButton = HitTest(point);
-	if (IsToolbarMenuButton(iButton))
-		return;
-	__super::OnLButtonDblClk(nFlags, point);
+	// La gestione da parte dei BCG genera una ripetizione del
+	// OnLButtonDown nelle toolBar
+
+	//int iButton = HitTest(point);
+	//if (IsToolbarMenuButton(iButton))
+	//	return;
+	//__super::OnLButtonDblClk(nFlags, point);
 }
 
 //-------------------------------------------------------------------------------------
