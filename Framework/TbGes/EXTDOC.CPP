@@ -6831,7 +6831,7 @@ BOOL CAbstractFormDoc::GoInBrowserMode(const CString& sPK)
 		//la richiamo per valorizzare eventuali altre colonne diverse da quelle di chiave
 		pMasterRec->SetColumnNameValue(sPK, this);
 
-		//UpdateDataView(); sostituito da NEEDS_UPDATE_DATA_VIEW();
+		UpdateDataView(); 
 		return TRUE;
 	}
 	else if (sMode.CompareNoCase(L"EDIT") == 0)

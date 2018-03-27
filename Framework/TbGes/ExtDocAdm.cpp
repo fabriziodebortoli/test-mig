@@ -151,7 +151,7 @@ BOOL ADMObj::ADMNewDocument()
 	m_pDocument->EnableControls();
 	m_pDocument->ToolBarButtonsHideGhost(0);
 
-	//m_pDocument->UpdateDataView(); sostituita da CUpdateDataViewLevel __upd(m_pDocument);
+	m_pDocument->UpdateDataView();
 	
 	return TRUE;
 }
@@ -242,7 +242,7 @@ BOOL ADMObj::ADMEditDocument()
 
 	m_pDocument->EnableControls();
 	m_pDocument->ToolBarButtonsHideGhost(0);
-	//m_pDocument->UpdateDataView(); sostituita da CUpdateDataViewLevel __upd(m_pDocument);
+	m_pDocument->UpdateDataView();
 
 	return TRUE;
 }
