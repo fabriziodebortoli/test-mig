@@ -80,6 +80,6 @@
     },
     "dependencies": {
         "@taskbuilder/core": "file:../core/src",
-        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git"
     }
 }

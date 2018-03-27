@@ -19,7 +19,8 @@
     "module": "taskbuilder-core.js",
     "typings": "taskbuilder-core.d.ts",
     "peerDependencies": {
-        "@taskbuilder/icons": "file:../../icons/src",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
+        "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
         "@angular/animations": "^5.2.0",
         "@angular/cdk": "^5.2.0",
         "@angular/core": "^5.2.0",
