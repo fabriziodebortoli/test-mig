@@ -115,25 +115,24 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     ngOnChanges(changes: {}) {
         if (!this.model)
             return;
-
         if (this.model.type != 10) {
             this.logger.debug("wrong databinding, not a data enum");
         }
-
         this.tag = this.model.tag;
-
         if (!this.modelChangedSubscription) {
-            this.modelChangedSubscription = this.model.modelChanged.subscribe(
-                () => {
-                    let enumItem = this.enumsService.getEnumsItem(this.model.value);
-                    let desc = (enumItem == undefined) ? '' : enumItem.name;
-
-                    let obj: Array<ComboData> = [{ code: this.model.value, description: desc }];
-                    this.items = obj;
-                    this.selectedItem = obj[0];
-                }
-            )
+            this.trySetSelectedItem();
+            this.modelChangedSubscription = this.model.modelChanged
+                .pipe(untilDestroy(this))
+                .subscribe(this.trySetSelectedItem);
         }
+    }
+
+    trySetSelectedItem = () => {
+        let enumItem = this.enumsService.getEnumsItem(this.model.value);
+        let desc = enumItem && enumItem.name || '';
+        let obj: Array<ComboData> = [{ code: this.model.value, description: desc }];
+        this.items = obj;
+        this.selectedItem = obj[0];
     }
 
     ngOnDestroy() { this.items$.complete(); }
