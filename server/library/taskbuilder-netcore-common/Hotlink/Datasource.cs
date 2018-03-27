@@ -20,6 +20,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microarea.Common.NameSolver;
+using Microarea.Common.DBData;
 
 namespace Microarea.Common.Hotlink
 {
@@ -178,22 +179,36 @@ namespace Microarea.Common.Hotlink
                     customWhere += colName + string.Format(" LIKE '%{0}%'", ff.Value);
                 else if (ff.Operator.CompareNoCase("DoesNotContain"))
                     customWhere += colName + string.Format("NOT LIKE '%{0}%'", ff.Value);
-                else if (ff.Operator.CompareNoCase("IsEqualTo"))
-                    customWhere += colName + string.Format(" = {0}", ff.Value);
-                else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
-                    customWhere += colName + string.Format(" <> {0}", ff.Value);
                 else if (ff.Operator.CompareNoCase("StartsWith"))
                     customWhere += colName + string.Format(" LIKE '{0}%'", ff.Value);
                 else if (ff.Operator.CompareNoCase("EndsWith"))
                     customWhere += colName + string.Format(" LIKE '%{0}'", ff.Value);
                 else if (ff.Operator.CompareNoCase("IsNull"))
-                    customWhere += colName + string.Format(" IS NULL", ff.Value);
+                    customWhere += colName + " IS NULL";
                 else if (ff.Operator.CompareNoCase("IsNotNull"))
-                    customWhere += colName + string.Format(" IS NOT NULL", ff.Value);
+                    customWhere += colName + " IS NOT NULL";
                 else if (ff.Operator.CompareNoCase("IsEmpty"))
-                    customWhere += colName + string.Format(" = ''", ff.Value);
+                    customWhere += colName + " = ''";
                 else if (ff.Operator.CompareNoCase("IsNotEmpty"))
-                    customWhere += colName + string.Format(" <> ''", ff.Value);
+                    customWhere += colName + " <> ''";
+                else
+                {
+                    string val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType); ;
+
+                    if (ff.Operator.CompareNoCase("IsEqualTo"))
+                        customWhere += colName + string.Format(" = {0}", val);
+                    else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
+                        customWhere += colName + string.Format(" <> {0}", val);
+
+                    else if (ff.Operator.CompareNoCase("IsLessThen"))
+                        customWhere += colName + string.Format(" < {0}", val);
+                    else if (ff.Operator.CompareNoCase("IsLessThenOrEqualTo"))
+                        customWhere += colName + string.Format(" <= {0}", val);
+                    else if (ff.Operator.CompareNoCase("IsGreaterThen"))
+                        customWhere += colName + string.Format(" > {0}", val);
+                    else if (ff.Operator.CompareNoCase("IsGreaterThenOrEqualto"))
+                        customWhere += colName + string.Format(" >= {0}", val);
+                }
             }
 
             return customWhere;

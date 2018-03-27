@@ -1023,10 +1023,23 @@ namespace Microarea.Common.CoreTypes
 
 				case "DateTime"	:
 				{
-					DateTime d = NullTbDateTime; 
-					try { if (from.Length > 0) d = DateTime.Parse(from); }
-					catch (Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
-					return d;
+					DateTime d = NullTbDateTime;
+                        try
+                        {
+                            if (from.Length > 0)
+                                d = DateTime.Parse(from);
+                        }
+                        catch (Exception e)
+                        {
+                            if (throwException)
+                                throw (new ObjectHelperException(e.Message));
+                            else Debug.Fail(e.Message);
+                        }
+                        finally
+                        {
+                            
+                        }
+                        return d;
 				};
 
 				case "DataEnum"	:
