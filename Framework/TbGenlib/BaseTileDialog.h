@@ -81,10 +81,11 @@ public:
 	int	  m_nMinWidth			= NULL_COORD;
 	int	  m_nMinHeight			= NULL_COORD;
 	int	  m_nMaxWidth			= NULL_COORD;
-
+	
 	TileDialogSize m_Size		= TILE_STANDARD;
 	TileDialogStyle m_Style		= TDS_NONE;
-	
+	CString m_strCollapsedTitle;
+
 	CWndTileDescription(CWndObjDescription* pParent)
 		: CWndPanelDescription(pParent)
 	{

@@ -73,6 +73,7 @@
 #define szJsonCmd								_T("cmd")
 #define szJsonCol2Margin						_T("col2Margin")
 #define szJsonCollapsed							_T("collapsed")
+#define szJsonCollapsedTitle					_T("collapsedTitle")
 #define szJsonCollapsible						_T("collapsible")
 #define szJsonCols								_T("cols")
 #define szJsonComboType							_T("comboType")

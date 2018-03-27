@@ -4595,9 +4595,19 @@ void CAbstractFormDoc::OnBuildDataControlLinks(CTileDialog* pTile)
 	m_pClientDocs->OnInitializeUI(pTile->GetNamespace());
 }
 //-----------------------------------------------------------------------------
-void CAbstractFormDoc::OnUpdateTitle(CTileDialog* pTabDlg)
+void CAbstractFormDoc::OnUpdateTitle(CTileDialog* pTileDlg)
 {
-	OnUpdateTitle(pTabDlg->GetDialogID());
+	OnUpdateTitle(pTileDlg->GetDialogID());
+	if (pTileDlg->IsKindOf(RUNTIME_CLASS(CJsonTileDialog)))
+	{
+		CJsonTileDialog* pJsonTile = ((CJsonTileDialog*)pTileDlg);
+		CWndTileDescription* pDesc = (CWndTileDescription*)pJsonTile->GetJsonContext()->m_pDescription;
+		pDesc->EvaluateExpressions(pJsonTile->GetJsonContext(), false);
+		CString s = AfxLoadJsonString(pDesc->m_strText, pDesc);
+		pTileDlg->SetTitle(s);
+		s = AfxLoadJsonString(pDesc->m_strCollapsedTitle, pDesc);
+		pTileDlg->SetCollapsedDescription(s);
+	}
 }
 
 //-----------------------------------------------------------------------------

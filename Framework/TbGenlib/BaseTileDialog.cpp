@@ -78,7 +78,7 @@ void CWndTileDescription::SerializeJson(CJsonSerializer& strJson)
 	SERIALIZE_INT(m_nMinWidth, szJsonMinWidth, NULL_COORD);
 	SERIALIZE_INT(m_nMaxWidth, szJsonMaxWidth, NULL_COORD);
 	SERIALIZE_INT(m_nMinHeight, szJsonMinHeight, NULL_COORD);
-
+	SERIALIZE_STRING(m_strCollapsedTitle, szJsonCollapsedTitle);
 	__super::SerializeJson(strJson);
 
 }
@@ -103,6 +103,7 @@ void CWndTileDescription::ParseJson(CJsonFormParser& parser)
 	PARSE_INT(m_nMinWidth, szJsonMinWidth);
 	PARSE_INT(m_nMaxWidth, szJsonMaxWidth);
 	PARSE_INT(m_nMinHeight, szJsonMinHeight);
+	PARSE_STRING(m_strCollapsedTitle, szJsonCollapsedTitle);
 
 }
 
@@ -128,6 +129,7 @@ void CWndTileDescription::Assign(CWndObjDescription* pDesc)
 		m_bHasStaticArea = pTileDesc->m_bHasStaticArea;
 		m_bHasTitle = pTileDesc->m_bHasTitle;
 		m_nCol2Margin = pTileDesc->m_nCol2Margin;
+		m_strCollapsedTitle	= pTileDesc->m_strCollapsedTitle;
 		m_Size = pTileDesc->m_Size;
 		m_Style = pTileDesc->m_Style;
 		m_nFlex = pTileDesc->m_nFlex;
