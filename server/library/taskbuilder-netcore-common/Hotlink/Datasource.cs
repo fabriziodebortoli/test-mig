@@ -163,7 +163,10 @@ namespace Microarea.Common.Hotlink
             bool first = true;
             foreach (FilterField ff in customFilters.filters)
             {
-                string colName = ff.field.Replace("__", ".");
+                string colName = ff.field?.Replace("__", ".");
+                if (string.IsNullOrWhiteSpace(colName))
+                    return customWhere;
+
                 if (!first)
                 {
                     customWhere += ' ' + customFilters.logic + ' ';
