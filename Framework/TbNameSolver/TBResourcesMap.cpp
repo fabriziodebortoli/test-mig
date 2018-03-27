@@ -559,8 +559,21 @@ void CJsonResource::GetInfo(CString& sFile, CTBNamespace& moduleNamespace) const
 	{
 		sFile = AfxGetPathFinder()->GetModuleObjectsPath(moduleNamespace, CPathFinder::STANDARD);
 		sFile += SLASH_CHAR + category + SLASH_CHAR + szJsonForms + SLASH_CHAR + m_strName + szTBJsonFileExt;
-		if (docOwner || ExistFile(sFile))
+		if (ExistFile(sFile))
 			return;
+
+		if (docOwner)
+		{
+			//Se il file non esiste nella standard di documento allora potrebbe trattarsi di un documento dinamico realizzato
+			//con EasyStudio che vive nella cartella Custom: provo a cercarlo nella custom
+			sFile = AfxGetPathFinder()->GetModuleObjectsPath(moduleNamespace, CPathFinder::CUSTOM, FALSE, CPathFinder::EASYSTUDIO);
+			sFile += SLASH_CHAR + category + SLASH_CHAR + szJsonForms + SLASH_CHAR + m_strName + szTBJsonFileExt;
+			if (ExistFile(sFile))
+			{
+				//Se lo trovo nella Custom allora ho trovato il mio file json di documento
+				return;
+			}
+		}
 	}
 	//altrimenti in una sottocartella della jsonforms di modulo
 	sFile = AfxGetPathFinder()->GetJsonFormPath(moduleNamespace, CPathFinder::PosType::STANDARD);

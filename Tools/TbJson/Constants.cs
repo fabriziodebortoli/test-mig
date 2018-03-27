@@ -8,6 +8,7 @@
         internal const string jsonForms = "JsonForms";
         internal const string moduleObjects = "ModuleObjects";
         internal const string standard = "Standard";
+        internal const string custom = "Custom";
         internal const string tbFrame = "tb-frame";
         internal const string tbFrameContent = "tb-frame-content";
         internal const string tbToolbarTop = "tb-toolbar-top";

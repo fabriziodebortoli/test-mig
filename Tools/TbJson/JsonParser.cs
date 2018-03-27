@@ -398,7 +398,15 @@ namespace Microarea.TbJson
             while (i >= 0)
             {
                 if (tokens[i].Equals(Constants.standard, StringComparison.InvariantCultureIgnoreCase))
+                {
                     break;
+                }
+                if (tokens[i].Equals(Constants.custom, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    tokens[i] = Constants.standard;
+                    break;
+                }
+
                 i--;
             }
             if (i < 0)
