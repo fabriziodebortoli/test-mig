@@ -53,8 +53,8 @@ import { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/tool
 import { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
 import { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
 import { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
-import { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
-import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
+// import { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+// import { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
 //import { TooltipComponent } from './components/tooltip/tooltip.component';
@@ -131,8 +131,8 @@ export { TbHotlinkComboComponent } from './controls/hot-link-combo/tb-hot-link-c
 export { TbHotLinkBaseComponent } from './controls/hot-link-base/tb-hot-link-base.component';
 export { ChangePasswordComponent } from './components/change-password/change-password.component';
 export { ChangePasswordHostComponent } from './components/change-password-host/change-password-host.component';
-export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
-export { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
+// export { FloatingActionMenuComponent } from './components/floating-action-menu/floating-action-menu.component';
+// export { FloatingActionButtonComponent } from './components/floating-action-menu/floating-action-button/floating-action-button.component';
 export { PopupComponent } from './components/popup/popup.component';
 //export { TooltipComponent } from './components/tooltip/tooltip.component';
 export { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
@@ -144,7 +144,7 @@ const TB_COMPONENTS = [
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, ExplorerComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
-    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, FloatingActionMenuComponent, FloatingActionButtonComponent, CustomisableGridComponent,
+    TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, /*FloatingActionMenuComponent, FloatingActionButtonComponent, */CustomisableGridComponent,
     TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent//, TooltipComponent
 ];
 
