@@ -16,8 +16,8 @@ export class SnapshotdialogComponent {
     allUsers: boolean = false;
     nameSnapshot: string = "";
     openSnapshot: string = "";
-    opened: boolean = false;
     listSnap: boolean = true;
+    expandIconVisible: boolean;
 
     constructor(public rsService: ReportingStudioService, public rsSnapshotService: RsSnapshotService) {
         this.nameSnapshot = "";
@@ -48,6 +48,7 @@ export class SnapshotdialogComponent {
 
     onShowList(isNotEmpty: boolean){
         this.listSnap = isNotEmpty;
+        this.expandIconVisible = this.listSnap;
     }
 
     onRunAndClose(){
@@ -55,6 +56,6 @@ export class SnapshotdialogComponent {
     }
     
     openCollapse() {
-      this.opened = !this.opened;
+      this.expandIconVisible = !this.expandIconVisible;
     }
 }

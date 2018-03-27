@@ -8,14 +8,14 @@
     <br>
     <div *ngIf="!this.rsService.isSnapshot">
         <div class="collapse">
-            <h3>Create new snapshot</h3>
             <button class="link" (click)="openCollapse()">
-                <m4-icon *ngIf="!this.opened" icon="tb-down"></m4-icon>
-                <m4-icon *ngIf="this.opened" icon="tb-up"></m4-icon>
+                <m4-icon *ngIf="this.expandIconVisible" icon="tb-add2"></m4-icon>
+                <m4-icon *ngIf="!this.expandIconVisible" icon="tb-minusmathfilled"></m4-icon>
+                <h3>New snapshot</h3>
             </button>
         </div>
-        <hr>
-        <div [ngClass]="{hide: !opened}">
+        <div [ngClass]="{hide: this.expandIconVisible}">
+            <hr>
             <kendo-textbox-container>
                 <div class="inputName">
                     <label>Name </label>
@@ -25,14 +25,13 @@
             <br>
             <br>
             <h3>Save for</h3>
-
             <mat-radio-button checked="checked" (click)="setSingleUser()">This user</mat-radio-button>
             <br>
             <mat-radio-button (click)="setAllusers()">All Users</mat-radio-button>
         </div>
     </div>
     <kendo-dialog-actions>
-        <button kendoButton *ngIf="this.rsSnapshotService.showSnapshotDialog && !this.opened" (click)="close()">Close</button>
-        <button kendoButton [disabled]="nameSnapshot==''" *ngIf="this.rsSnapshotService.showSnapshotDialog && this.opened" (click)="saveSnapshot()">Save</button>
+        <button kendoButton *ngIf="this.rsSnapshotService.showSnapshotDialog && nameSnapshot==''" (click)="close()">Close</button>
+        <button kendoButton *ngIf="this.rsSnapshotService.showSnapshotDialog && nameSnapshot!='' && !this.expandIconVisible" (click)="saveSnapshot()">Save</button>
     </kendo-dialog-actions>
 </kendo-dialog>
