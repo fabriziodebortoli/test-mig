@@ -1,7 +1,8 @@
+import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { MatSnackBar } from '@angular/material';
 import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
-import { EasystudioService } from './../../../core/services/easystudio.service';
+import { EasystudioService, ApplicationType } from './../../../core/services/easystudio.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
@@ -35,10 +36,12 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     public newApplic: string;
     public newModule: string;
     public wantSetPairAsDefault = false;
-    public type = "Customization";
+  //  public type = ApplicationType.Customization;
 
     public newPairVisible = false;
     public isDefault = false;
+
+    @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
 
     constructor(
         public easystudioService: EasystudioService,
@@ -58,11 +61,23 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
         this.openCustomizationContext = this._TB('Open Customization Context');
         this.closeCustomizationContext = this._TB('Close customization context');
 
-        this.easystudioService.initEasyStudioContext(this.type);
+        this.easystudioService.initEasyStudioContext();
+        this.onTabSelect(null);
     }
 
     //--------------------------------------------------------------------------------
     ngOnDestroy() {
+    }
+
+    //--------------------------------------------------------------------------------
+    public onTabSelect(e) {
+        let oldType = this.easystudioService.applicType;
+        this.easystudioService.applicType = ( e == null || e.index == 0 )
+            ? ApplicationType.Customization  : ApplicationType.TBApplication ;
+        if(oldType != this.easystudioService.applicType){
+            this.easystudioService.modules = [];
+            this.ResetProperties();
+        }
     }
 
     //--------------------------------------------------------------------------------
@@ -85,10 +100,8 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
             this.opened = false;
             this.newPairVisible = false;
             this.easystudioService.closeCustomizationContext();
-            this.applicSelected = undefined;
-            this.moduleSelected = undefined;
             this.wantSetPairAsDefault = false;
-            this.isDefault = false;
+            this.ResetProperties();
         });
     }
 
@@ -96,6 +109,9 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     public cancel() {
         this.opened = false;
         this.newPairVisible = false;
+        this.ResetProperties();
+        this.kendoTabStripInstance.selectTab(0);
+        this.easystudioService.applicType = ApplicationType.Customization;
     }
 
     //--------------------------------------------------------------------------------
@@ -117,21 +133,21 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     //--------------------------------------------------------------------------------
     public refresh() {
         this.ResetProperties();
-        this.easystudioService.refreshEasyBuilderApps(this.type);
+        this.kendoTabStripInstance.selectTab(0);
+        this.easystudioService.applicType = ApplicationType.Customization;
+        this.easystudioService.refreshEasyBuilderApps();
     }
 
     //--------------------------------------------------------------------------------
     public ResetProperties() {
         this.applicSelected = undefined;
         this.moduleSelected = undefined;
-        this.defaultNewApp = undefined;
-        this.defaultNewMod = undefined;
         this.isDefault = false;
     }
 
     //--------------------------------------------------------------------------------
     public ok() {
-        let elemSearched = this.easystudioService.memoryESContext.allApplications.find(
+        let elemSearched = this.easystudioService.getMemoryForType().find(
             c => c.application === this.applicSelected && c.module === this.moduleSelected);
         if (elemSearched === undefined) //ora per default, se hanno digitato una coppia che non esista, gliela creo
             this.addNewPair(this.applicSelected, this.moduleSelected);
@@ -191,8 +207,8 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     public addNewPair(newAppName, newModName) {
         if (newAppName === undefined || newModName === undefined)
             return;
-        if (this.easystudioService.memoryESContext.allApplications.indexOf(newAppName, newModName) === -1) {
-            this.easystudioService.createNewContext(newAppName, newModName, this.type);//type = standard or custom
+        if (this.easystudioService.getMemoryForType().indexOf(newAppName, newModName) === -1) {
+            this.easystudioService.createNewContext(newAppName, newModName);//type = standard or custom
             this.applicSelected = newAppName;
             this.moduleSelected = newModName;
         }

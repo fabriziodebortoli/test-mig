@@ -87,9 +87,19 @@ export class HttpMenuService {
             .catch(this.handleError);
     }
 
-    checkAfterRefresh(type: string): Observable<any> {
+    checkAfterRefresh(type: string): Observable<any> { //aggiornamento file preferences se necessario
         let obj = { user: localStorage.getItem('_user'), applicationType: type };
         let url = this.callInfoService + 'checkAfterRefresh/';
+        return this.httpService.postData(url, obj)
+            .map((res: any) => {
+                return res;
+            })
+            .catch(this.handleError);
+    }
+
+    cleanApplicationInfosPathFinder(): Observable<any> { //aggiornamento file preferences se necessario
+        let obj = { user: localStorage.getItem('_user')};
+        let url = this.callInfoService + 'application/refreshAll/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
                 return res;

@@ -27,11 +27,19 @@
                 {{title}}
             </div>
         </kendo-dialog-titlebar>
+        <kendo-tabstrip (tabSelect)="onTabSelect($event)" #kendoTabStripInstance="kendoTabStrip">
+            <kendo-tabstrip-tab [title]="'Customizations'" [selected]="true">
+                <ng-template kendoTabContent> </ng-template>
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab [title]="'TbApplications'" #tabTbApps *ngIf="easystudioService.easystudioEdition">
+                <ng-template kendoTabContent> </ng-template>
+            </kendo-tabstrip-tab>
+        </kendo-tabstrip>
         <div class="central">
             <nav>
                 <div class=" list8">
                     <h1 class="tit">{{_TB('Applications')}}</h1>
-                    <ul *ngFor="let app of easystudioService.getApplications()">
+                    <ul *ngFor="let app of easystudioService.applications">
                         <li id="{{app}}" [ngClass]="{'selected': applicSelected === app}">
                             <span (click)="setApplic(app);">{{app}}</span>
                         </li>
@@ -41,7 +49,7 @@
             <article id="article" *ngIf="applicSelected !== undefined">
                 <div class=" list8">
                     <h1 class="tit">{{_TB('Modules')}}</h1>
-                    <ul *ngFor="let mod of easystudioService.getModules()">
+                    <ul *ngFor="let mod of easystudioService.modules">
                         <li id="{{mod}}" [ngClass]="{'selected': moduleSelected === mod}">
                             <span (click)="setModule(mod)">{{mod}}</span>
                         </li>
@@ -49,7 +57,6 @@
                 </div>
             </article>
         </div>
-
         <div *ngIf="!newPairVisible" class="pushbutton">
             <kendo-textbox-container>
                 <label [for]="applicationChosen1">{{_TB('Selected application')}}</label>
@@ -74,8 +81,8 @@
             <m4-icon class="pushB" icon="tb-closewindows" (click)="showNewPair(false)" matTooltip="{{_TB('Close')}}" matTooltipShowDelay="500"></m4-icon>
             <m4-icon class="pushB" icon="tb-select" (click)="addNewPair(newApplic, newModule)" matTooltip="{{_TB('Ok') }}" matTooltipShowDelay="500"></m4-icon>
         </div>
-
         <kendo-dialog-actions>
+
             <button kendoButton (click)="refresh()">{{_TB('Refresh') }}</button>
             <button kendoButton (click)="ok()" [disabled]="!selectionIsValid() || newPairVisible">{{_TB('Ok')}}</button>
             <button kendoButton (click)="cancel()">{{_TB('Cancel') }}</button>

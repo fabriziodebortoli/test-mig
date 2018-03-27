@@ -10,33 +10,76 @@ import { InfoService } from './info.service';
 export class EasystudioService {
 
 
-    public easystudioEdition: string;
+    public applicType: any;
     public isDesignable: boolean;
     public subscriptions = [];
     public currentModule: string;                      //current module selected by ESContext
     public currentApplication: string;                 //current applic selected by ESContext          
-    public modules: any[];                             //list of modules in the file system
-    public applications: any[];                      //list of applics in the file system
+
     public customizations: EsCustomizItem[];    //list of customization in the file system, each knows its owners
-    public memoryESContext: { allApplications: PairAppMod[] };
     public memoryCustsList: { Customizations: EsCustomizItem[] };
 
+    public memoryCusts: { appsList: PairAppMod[] };
+    public memoryTbApps:{ appsList: PairAppMod[] };
+
+    private custsApps: any[] = [];
+    private tbappApps: any[] = [];
     //--------------------------------------------------------------------------------  
-    private _defaultApplication:string; //default applic read from preferences
-    get defaultApplication():string {
-        return this._defaultApplication;
+    get applications(): any[] {
+        // this.modules = [];
+        if (this.applicType == ApplicationType.Customization)
+            return this.custsApps;
+        if (this.applicType == ApplicationType.TBApplication)
+            return this.tbappApps;
     }
-    set defaultApplication(theBar:string) {
-        this._defaultApplication = theBar;
+    set applications(theBar: any[]) {
+        if (this.applicType == ApplicationType.Customization)
+            this.custsApps = theBar;
+        if (this.applicType == ApplicationType.TBApplication)
+            this.tbappApps = theBar;
+    }
+
+    private custsMods: any[] = [];
+    private tbappMods: any[] = [];
+    //--------------------------------------------------------------------------------  
+    get modules(): any[] {
+        if (this.applicType == ApplicationType.Customization)
+            return this.custsMods;
+        if (this.applicType == ApplicationType.TBApplication)
+            return this.tbappMods;
+    }
+    set modules(theBar: any[]) {
+        if (this.applicType == ApplicationType.Customization)
+            this.custsMods = theBar;
+        if (this.applicType == ApplicationType.TBApplication)
+            this.tbappMods = theBar;
+    }
+
+    //--------------------------------------------------------------------------------  
+    private _easystudioEdition: boolean; //default applic read from preferences
+    get easystudioEdition(): boolean {
+        return this._easystudioEdition;
+    }
+    set easystudioEdition(theBar: boolean) {
+        this._easystudioEdition = theBar;
     }
 
     //--------------------------------------------------------------------------------
-    private _defaultModule:string;//default module read from preferences
-    get defaultModule():string {
+    private _defaultModule: string;//default module read from preferences
+    get defaultModule(): string {
         return this._defaultModule;
     }
-    set defaultModule(theBar:string) {
+    set defaultModule(theBar: string) {
         this._defaultModule = theBar;
+    }
+
+    //--------------------------------------------------------------------------------  
+    private _defaultApplication: string; //default applic read from preferences
+    get defaultApplication(): string {
+        return this._defaultApplication;
+    }
+    set defaultApplication(theBar: string) {
+        this._defaultApplication = theBar;
     }
 
     //#region both
@@ -45,7 +88,7 @@ export class EasystudioService {
         public httpMenuService: HttpMenuService,
         public infoService: InfoService,
         public settingsService: SettingsService) {
-            this.getDefaultContext(false);
+        this.getDefaultContext(false);
     }
 
     //--------------------------------------------------------------------------------
@@ -93,7 +136,7 @@ export class EasystudioService {
                     })
                 }
             }
-            this.isDesignable = canHaveCustoms; 
+            this.isDesignable = canHaveCustoms;
         }));
     }
 
@@ -135,9 +178,14 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public initEasyStudioContext(type) {
-        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules(type).subscribe((result) => {
-            this.extractInfos(result);
+    public initEasyStudioContext() {
+        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules(ApplicationType.Customization).subscribe((result) => {
+            this.extractInfos(result, ApplicationType.Customization);
+            return result;
+        }));
+
+        this.subscriptions.push(this.httpMenuService.getEsAppsAndModules(ApplicationType.TBApplication).subscribe((result) => {
+            this.extractInfos(result, ApplicationType.TBApplication);
             return result;
         }));
     }
@@ -147,33 +195,59 @@ export class EasystudioService {
         return this.httpMenuService.canModifyContext().map((res: Response) => res.json());
     }
 
-     //--------------------------------------------------------------------------------
-     public extractInfos(result: Response) {
+    //--------------------------------------------------------------------------------
+    public extractInfos(result: Response, type: ApplicationType) {
         if (result == undefined) return;
-        this.applications = [];
-        this.modules = [];
 
         let body = JSON.parse((result["_body"]));
-        if(!body) return false;
-        this.extractNamesAllApps(body);
+        if (!body) return false;
         this.extractESEdition(body);
+        if (type == ApplicationType.Customization)
+            this.extractNamesAllApps(body);
+        else if (type == ApplicationType.TBApplication)
+            this.extractNamesTbApps(body);
     }
 
     //--------------------------------------------------------------------------------
     public extractESEdition(body: any) {
         this.easystudioEdition = body["DeveloperEd"];
     }
+   
+    //--------------------------------------------------------------------------------
+    public getMemoryForType(): PairAppMod[] {
+        if (this.applicType == ApplicationType.Customization)
+            return this.memoryCusts["appsList"];
+        if (this.applicType == ApplicationType.TBApplication)
+            return this.memoryTbApps["appsList"];
+    }
 
     //--------------------------------------------------------------------------------
     private extractNamesAllApps(body: any) {
-        this.memoryESContext = body; //JSON.parse(body.Message);
-        let allApplications = this.memoryESContext["allApplications"];
+        this.custsApps = [];
+        this.modules = [];
+        this.memoryCusts = body;
+        let allApplications = this.getMemoryForType();
 
         if (!allApplications) return;
         for (var index = 0; index < allApplications.length; index++) {
             var applicElem = allApplications[index].application;
-            if (this.applications.find(e => e === applicElem) === undefined)
-                this.applications.push(applicElem);
+            if (this.custsApps.find(e => e === applicElem) === undefined)
+                this.custsApps.push(applicElem);
+        }
+    }
+
+    //--------------------------------------------------------------------------------
+    private extractNamesTbApps(body: any) {
+        this.tbappApps = [];
+        this.modules = [];
+        this.memoryTbApps = body; 
+        let allApplications = this.memoryTbApps["appsList"]; //in apertura il type non cambia, non posso prenderlo dal metodo
+
+        if (!allApplications) return;
+        for (var index = 0; index < allApplications.length; index++) {
+            var applicElem = allApplications[index].application;
+            if (this.tbappApps.find(e => e === applicElem) === undefined)
+                this.tbappApps.push(applicElem);
         }
     }
 
@@ -204,17 +278,20 @@ export class EasystudioService {
     }
 
     //--------------------------------------------------------------------------------
-    public refreshEasyBuilderApps(type) {
+    public refreshEasyBuilderApps(type = undefined) {
         this.httpMenuService.updateCachedDateAndSave().subscribe(
             (result) => {
                 if (result) {
                     this.httpMenuService.checkAfterRefresh(type).subscribe();
-                    this.initEasyStudioContext(type);
+                    this.memoryCusts = undefined;
+                    this.memoryTbApps = undefined;
+                    this.initEasyStudioContext();
                     this.getDefaultContext(false);
                 }
                 return result;
             }
         );
+        this.subscriptions.push(this.httpMenuService.cleanApplicationInfosPathFinder().subscribe());
     }
 
     //--------------------------------------------------------------------------------
@@ -222,21 +299,22 @@ export class EasystudioService {
         this.subscriptions.push(this.httpMenuService.setAppAndModule(applicSelected, moduleSelected, isThisPairDefault).subscribe((result) => {
             this.currentApplication = applicSelected;
             this.currentModule = moduleSelected;
-            if(isThisPairDefault){ //getDefaultContext(true)
+            if (isThisPairDefault) {
                 this.defaultApplication = applicSelected;
-                this.defaultModule =  moduleSelected;
+                this.defaultModule = moduleSelected;
             }
             this.httpMenuService.updateBaseCustomizationContext(this.currentApplication, this.currentModule).subscribe();
         }));
     }
 
     //--------------------------------------------------------------------------------
-    public createNewContext(newAppName, newModName, type) {
-        this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, type).subscribe((result) => {
+    public createNewContext(newAppName, newModName) {
+        this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, this.applicType)
+        .subscribe((result) => {
             if (result) {
-                let newObj = new PairAppMod(newAppName, newModName)
-                if (this.memoryESContext.allApplications.find(e => e === newObj) === undefined)
-                    this.memoryESContext.allApplications.push(newObj);
+                let newObj = new PairAppMod(newAppName, newModName);
+                if (this.getMemoryForType().find(e => e === newObj) === undefined)
+                    this.getMemoryForType().push(newObj);
                 if (this.applications.find(e => e === newAppName) === undefined) { //nessuna occorrenza
                     this.applications.push(newAppName);
                 }
@@ -252,18 +330,24 @@ export class EasystudioService {
 
     //--------------------------------------------------------------------------------
     public getModulesBy(app: string) {
-        let y = this.memoryESContext;
-        if (!y) return;
+        let apps = this.getMemoryForType();
+        if (apps == undefined) return null;
         let modulesLocal: any[] = new Array();
-        for (var index = 0; index < y.allApplications.length; index++) {
-            var element = y.allApplications[index].application;
+
+        for (var index = 0; index < apps.length; index++) {
+            var element = apps[index].application;
             if (element !== app)
                 continue;
-            if (modulesLocal.indexOf(y.allApplications[index].module) === -1)  //nessuna occorrenza
-                modulesLocal.push(y.allApplications[index].module);
+            if (modulesLocal.indexOf(apps[index].module) === -1)  //nessuna occorrenza
+                modulesLocal.push(apps[index].module);
         }
         return modulesLocal;
     }
 
     //#endregion
 }
+
+export enum ApplicationType {
+    Customization = 'Customization',
+    TBApplication = 'TaskBuilderApplication'
+} 

@@ -98,9 +98,8 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		}
 
 		//---------------------------------------------------------------
-		public bool StillExist(string defaultContext, ApplicationType? applicationType)
+		public bool StillExist(string defaultContext, ApplicationType applicationType)
 		{
-			ApplicationType appType = CheckAppType(applicationType);
 			var splitting = defaultContext.Split(Interfaces.Strings.Separator);
 			(string, string) pairTest = (splitting[0], splitting[1]);
 			List<(string, string)> json = GetPairsAppsMods(applicationType);
@@ -139,7 +138,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 			StringWriter sw = new StringWriter(sb);
 			JsonWriter jsonWriter = new JsonTextWriter(sw);
 			jsonWriter.WriteStartObject();
-			jsonWriter.WritePropertyName("allApplications");
+			jsonWriter.WritePropertyName("appsList");
 			jsonWriter.WriteStartArray();
 
 			foreach (var (esApp, esMod) in pairs)
@@ -172,10 +171,10 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 
 
 		//---------------------------------------------------------------
-		public string RefreshAll(ApplicationType type)
+		public void RefreshAll(ApplicationType type)
 		{
 			PathFinder.ApplicationInfos.Clear();
-			return GetAppsModsAsJson(type);
+			//return GetAppsModsAsJson(type);
 		}
 
 		//---------------------------------------------------------------
@@ -205,7 +204,7 @@ namespace TaskBuilderNetCore.EasyStudio.Services
 		//---------------------------------------------------------------
 		public ApplicationType CheckAppType(ApplicationType? applicationType)
 		{
-			ApplicationType appType = ApplicationType.All;
+			ApplicationType appType = ApplicationType.TaskBuilderApplication | ApplicationType.Customization;
 			if (applicationType != null)
 				appType = (ApplicationType)applicationType;
 			return appType;

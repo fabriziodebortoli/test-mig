@@ -79,13 +79,15 @@ namespace Microarea.EasyStudio.Controllers
 			try
 			{
 				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
+				ApplicationType appType = AppService.CheckAppType(applicationType);
+
 				string user = value[Strings.User]?.Value<string>();
 				if (string.IsNullOrEmpty(user))
 					throw new Exception();
 
 				var defaultContext = GetContextPair(user, true);
 				bool outcome = true;
-				if (! AppService.StillExist(defaultContext, applicationType))
+				if (! AppService.StillExist(defaultContext, appType))
 					outcome = PrefService.SetContextPreferences(string.Empty, string.Empty, true, user);
 
 				return ToResult(outcome.ToString());

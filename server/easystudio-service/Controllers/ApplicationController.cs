@@ -41,17 +41,17 @@ namespace Microarea.EasyStudio.Controllers
         public IActionResult Create([FromBody] JObject value)
         {
             string applicationName = value[Strings.ApplicationName]?.Value<string>();
+
             var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
-            var moduleName = value[Strings.ModuleName]?.Value<string>();
+			ApplicationType appType = AppService.CheckAppType(applicationType);
+
+			var moduleName = value[Strings.ModuleName]?.Value<string>();
 			string user = value[Strings.User]?.Value<string>();
 
 			if (string.IsNullOrEmpty(applicationName) || string.IsNullOrEmpty(moduleName) || string.IsNullOrEmpty(user))
 				throw new Exception();
 
-			if (applicationType == null)
-                Diagnostic.Add(DiagnosticType.Error, Strings.MissingApplicationType);
-			else
-                AppService.Create(user, applicationName, (ApplicationType)applicationType, moduleName);
+			AppService.Create(user, applicationName, appType, moduleName);
 
             return ToResult(Diagnostic);
         }
@@ -126,9 +126,9 @@ namespace Microarea.EasyStudio.Controllers
 				var applicationType = value[Strings.ApplicationType]?.ToObject<ApplicationType>();
 
 				ApplicationType appType = AppService.CheckAppType(applicationType);
-				var json = AppService.RefreshAll(appType);
+				AppService.RefreshAll(appType);
 
-				return ToResult(json);
+				return ToResult("");
 			}
 			catch (Exception e)
 			{
