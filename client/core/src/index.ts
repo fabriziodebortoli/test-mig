@@ -22,12 +22,6 @@ import { TbMenuModule } from './menu/menu.module';
 export * from './menu/menu.module';
 
 /**
- * Modulo Dashboard
- */
-import { TbDashboardModule } from './dashboard/dashboard.module';
-export * from './dashboard/dashboard.module';
-
-/**
  * Modulo Settings
  */
 import { TbSettingsModule } from './settings/settings.module';
@@ -43,7 +37,6 @@ const TB_MODULES = [
   TbSharedModule,
   TbMenuModule,
   TbIconsModule,
-  TbDashboardModule,
   TbTestModule,
   TbSettingsModule
 ];
