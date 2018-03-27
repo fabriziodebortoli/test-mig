@@ -110,7 +110,7 @@ public:
 public:
 	//posso lavorare in un contesto differente rispetto a quello della connessione
 	// vedi gestione messaggi legati al contesto del documento
-	SqlSession	(SqlConnection* pConnection, CBaseContext* = NULL);
+	SqlSession	(SqlConnection* pConnection, CBaseContext* = NULL, bool bUseMARS = true);
 	SqlSession	(MSqlConnection*, SqlConnection*, CBaseContext* = NULL);
 	~SqlSession	();
 
@@ -259,6 +259,7 @@ public:
 	// crea una nuova sessione e la inserisce in m_arSessionPool
 	SqlSession* GetNewSqlSession(CBaseContext* pBaseContext = NULL);
 	SqlSession* GetNewSqlSession(CTBContext* pTBContext);
+	SqlSession* GetNewSqlSession(CBaseContext* pContext, bool bUseMARS);
 
 	// rimuove la sessione dalla session pool
 	void		RemoveSession(SqlSession*);

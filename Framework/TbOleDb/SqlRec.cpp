@@ -592,6 +592,9 @@ void SqlRecord::Initialize()
 //-----------------------------------------------------------------------------
 void SqlRecord::SetConnection(SqlConnection* pConnection)
 {
+	if (m_nType == VIRTUAL_TYPE)
+		return;
+
 	if (!pConnection)
 	{
 		ASSERT(FALSE);

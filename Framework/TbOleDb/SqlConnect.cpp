@@ -155,7 +155,7 @@ void SqlSessionPool::ForceCloseSessions()
 IMPLEMENT_DYNAMIC(SqlSession, SqlObject)
 
 //-----------------------------------------------------------------------------
-SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NULL*/)
+SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NULL*/, bool bUseMARS /*= true*/)
 	:
 	SqlObject(pContext ? pContext : pConnection->m_pContext),
 	m_pSqlConnection		(pConnection),
@@ -166,7 +166,11 @@ SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NUL
 	m_bStayOpen				(FALSE)
 {
 	m_pSession = new MSqlConnection();
-	m_pSession->SetConnectionString(pConnection->m_strConnectionString);
+	CString strConnectionString = pConnection->m_strConnectionString;
+	if (bUseMARS && strConnectionString.Find(_T("MultipleActiveResultSets=True"), 0) == -1)
+		strConnectionString += _T(";MultipleActiveResultSets=True;");
+
+	m_pSession->SetConnectionString(strConnectionString);
 }
 
 //-----------------------------------------------------------------------------
@@ -240,7 +244,7 @@ void SqlSession::ReleaseCommands()
 //-----------------------------------------------------------------------------
 SqlSession* SqlSession::CreateUpdatableSqlSession()
 {
-	SqlSession* pUpdateableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext);
+	SqlSession* pUpdateableSqlSession = m_pSqlConnection->GetNewSqlSession(m_pContext, false);
 	pUpdateableSqlSession->m_bForUpdate = true;
 	return pUpdateableSqlSession;
 }
@@ -567,8 +571,6 @@ SqlConnection::~SqlConnection()
 void SqlConnection::SetConnectionString(const CString& strConnectionString)
 {
 	m_strConnectionString = strConnectionString;
-	if (m_strConnectionString.Find(_T("MultipleActiveResultSets=True"), 0) == -1)
-		m_strConnectionString += _T(";MultipleActiveResultSets=True;"); 
 }
 
 //-----------------------------------------------------------------------------
@@ -636,7 +638,7 @@ CLockManagerInterface* SqlConnection::GetLockManagerInterface()
 			AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
 		);
 
-		m_pLockManagerInterface->Init(this->GetNewSqlSession()->GetMSqlConnection());
+		m_pLockManagerInterface->Init(this->GetNewSqlSession(NULL, false)->GetMSqlConnection());
 	}
 	return m_pLockManagerInterface;
  }
@@ -671,7 +673,7 @@ SqlSession* SqlConnection::GetNewSqlSession(CTBContext* pTBContext)
 {
  	TRY
 	{
-		return GetNewSqlSession(pTBContext ? pTBContext->m_pBaseContext : NULL);
+		return GetNewSqlSession( pTBContext ? pTBContext->m_pBaseContext : NULL, true);
 	}
 	CATCH(SqlException, e)	
 	{
@@ -679,12 +681,25 @@ SqlSession* SqlConnection::GetNewSqlSession(CTBContext* pTBContext)
 	}	
 	END_CATCH
 }
-
 //-----------------------------------------------------------------------------
 SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext /*=NULL*/)
 {
+	TRY
+	{
+		return GetNewSqlSession(pContext, true);
+	}
+		CATCH(SqlException, e)
+	{
+		THROW_LAST();
+	}
+	END_CATCH
+}
+
+//-----------------------------------------------------------------------------
+SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext, bool bUseMARS)
+{
     TB_LOCK_FOR_WRITE();
-	SqlSession* pSession = new SqlSession(this, pContext);
+	SqlSession* pSession = new SqlSession(this, pContext, bUseMARS);
 
 	TRY
 	{
