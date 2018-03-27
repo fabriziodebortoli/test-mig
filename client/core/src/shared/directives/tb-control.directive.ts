@@ -31,7 +31,7 @@ export class TbControlDirective implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        if (this.marginLeft)
+        if (this.marginLeft > 0)
             this.renderer.setStyle(this.el.nativeElement, 'margin-left', (this.marginLeft * this.widthFactor) + 'px');
 
         if (this.staticArea)
