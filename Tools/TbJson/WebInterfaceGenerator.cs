@@ -968,6 +968,7 @@ namespace Microarea.TbJson
 
                         string tag = Constants.tbTile;
 
+                       
                         if (!string.IsNullOrEmpty(title) || jObj.GetParentItem().GetWndObjType() == WndObjType.TileGroup)
                             tag = Constants.tbPanel;
 
@@ -979,8 +980,17 @@ namespace Microarea.TbJson
 
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
-                            if (!string.IsNullOrEmpty(title) && tag != Constants.tbTile)
-                                htmlWriter.WriteAttribute(Square(Constants.title), title);
+                            if (tag != Constants.tbTile)
+                            {
+                                if (!string.IsNullOrEmpty(title))
+                                    htmlWriter.WriteAttribute(Square(Constants.title), title);
+                                string collapsedTitle = jObj.GetLocalizableString(Constants.collapsedTitle);
+                                if (!string.IsNullOrEmpty(collapsedTitle))
+                                    htmlWriter.WriteAttribute(Square(Constants.collapsedTitle), collapsedTitle);
+                            }
+                            string cmpId = jObj.GetId();
+                            if (!string.IsNullOrEmpty(cmpId))
+                                htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
 
                             htmlWriter.Write(" tbTile");
                             htmlWriter.Write(jObj.GetTileDialogSize().ToString());
@@ -1302,6 +1312,10 @@ namespace Microarea.TbJson
         {
             using (var w = new OpenCloseTagWriter(tag, this, false))
             {
+                string cmpId = jObj.GetId();
+                if (!string.IsNullOrEmpty(cmpId))
+                    htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
+
                 htmlWriter.Write(" tbLayoutType");
                 htmlWriter.Write(jObj.GetLayoutType().ToString());
                 htmlWriter.Write(" ");

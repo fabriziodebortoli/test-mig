@@ -306,28 +306,32 @@ export class BOService extends DocumentService {
         this.webSocketService.checkMessageDialog(cmpId);
         this.webSocketService.getDocumentData(cmpId);
     }
-    dispose() {
+    public dispose() { 
         super.dispose();
         delete this.serverSideCommandMap;
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
-
-    close() {
+ 
+    public close() {
         super.close();
         this.webSocketService.closeServerComponent(this.mainCmpId);
     }
-    isServerSideCommand(idCommand: string) {
+    public isServerSideCommand(idCommand: string) {
         return this.serverSideCommandMap.indexOf(idCommand) > 0;
     }
 
-    getWindowStrings(cmpId: string, culture: string) {
+    public getWindowStrings(cmpId: string, culture: string) {
         this.webSocketService.getWindowStrings(cmpId, culture);
     }
 
-    getActivationData(cmpId: string) {
+    public getActivationData(cmpId: string) {
         this.webSocketService.getActivationData(cmpId);
     }
-    doCommand(componentId: string, id: string) {
+
+    public activateContainer(id: string, active:boolean) {
+        this.webSocketService.activateContainer(this.mainCmpId, id, active);
+    }
+    public doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(
             componentId ? componentId : this.mainCmpId,
@@ -336,7 +340,7 @@ export class BOService extends DocumentService {
         console.log("doCommand", patch);
 
     }
-    doChange(id: string) {
+    public doChange(id: string) {
         if (this.isServerSideCommand(id)) {
             const patch = this.getPatchedData();
             this.webSocketService.doValueChanged(this.mainCmpId, id, patch);

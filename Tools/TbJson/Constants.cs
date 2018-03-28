@@ -169,5 +169,6 @@
         internal const string isDropdown ="isDropdown";
         internal const string model = "model";
         internal const string slave = "slave";
+        internal const string collapsedTitle= "collapsedTitle";
     }
 }

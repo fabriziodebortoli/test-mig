@@ -375,6 +375,7 @@ private:
 	BOOL				m_bJsonDataSent;//serve per capire cosa mandare: la prima volta l'intero json, dopo solo i delta
 	CNumbererBinder*	m_pNumbererBinder;
 	CMap<CString, LPCTSTR, CString, LPCTSTR> m_ForwardHotlinks;//elenco degli hotlink dichiarati nel json ma non necessariamente ancora istanziati 
+	CUIntArray			m_arWebActiveContainers;//lista di id delle tile, tilegroup e tab attivi sul client
 protected:
 	CXMLDocInfo*		m_pXMLDocInfo;
 
@@ -955,6 +956,7 @@ public:
 	//da disabilitare i campi se il documento è chiamato da HotLink
 	virtual void OnDisableControlsForCallLink() {};
 
+	void ActivateWebClientContainer(UINT nID, bool bActivate);
 
 	// dynamic variabiles
 	CXMLVariable*		GetVariable				(const CString& sName);

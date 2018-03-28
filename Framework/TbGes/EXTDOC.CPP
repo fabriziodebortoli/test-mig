@@ -3258,7 +3258,10 @@ BOOL CAbstractFormDoc::DispatchPrepareAuxData(BOOL bOnlyDocument/* = FALSE*/)
 		return FALSE;
 	aPerfCrono.Stop();
 	//TRACE(cwsprintf(cwsprintf(_T("Document OnPrepareAuxData  %s \n\r"), aPerfCrono.GetFormattedElapsedTime())));
-
+	for (int i = 0; i < m_arWebActiveContainers.GetCount(); i++)
+	{
+		OnPrepareAuxData(m_arWebActiveContainers[i]);
+	}
 	FireBehaviour(bhe_OnPrepareAuxData, TRUE);
 
 	if (bOnlyDocument)
@@ -4478,6 +4481,21 @@ void CAbstractFormDoc::DispatchOnAfterBatchExecute()
 	m_pClientDocs->OnAfterBatchExecute();
 }
 
+//----------------------------------------------------------------------------------
+void CAbstractFormDoc::ActivateWebClientContainer(UINT nID, bool bActivate)
+{
+	for (int i = 0; i < m_arWebActiveContainers.GetCount(); i++)
+	{
+		if (m_arWebActiveContainers[i] == nID)
+		{
+			if (!bActivate)
+				m_arWebActiveContainers.RemoveAt(i);
+			return;
+		}
+	}
+	if (bActivate)
+		m_arWebActiveContainers.Add(nID);
+}
 
 // Reimplementabili per la fantasia bacata del programmatore (non si sa' mai)
 //-----------------------------------------------------------------------------
