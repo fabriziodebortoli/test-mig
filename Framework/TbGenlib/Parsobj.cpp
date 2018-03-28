@@ -8349,7 +8349,7 @@ BOOL CParsedCtrl::PreProcessMessage(MSG* pMsg)
 		{
 		case VK_SHIFT:	m_wKeyState &= ~KEY_SHIFT_DOWN;	break;
 		case VK_CONTROL:	m_wKeyState &= ~KEY_CTRL_DOWN;	break;
-		case VK_MENU:	m_wKeyState &= ~KEY_ALT_DOWN;	break;
+		case VK_MENU:	m_wKeyState &= ~KEY_ALT_DOWN;	return TRUE;	// per risolvere caratteri spuri causati dallo witch di tab con ALT+PgUp o ALT+PgDown
 		}
 	}
 

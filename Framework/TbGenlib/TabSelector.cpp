@@ -459,7 +459,7 @@ BOOL CTabSelector::ProcessSysKeyMessage(MSG* pMsg)
 						
 			for (int i = 0; i < m_arSelectors.GetSize(); i++)
 			{
-				CSelectorButton* pSelectorButton = m_arSelectors.GetAt(i); 
+				pSelectorButton = m_arSelectors.GetAt(i); 
 				if (!pSelectorButton || !pSelectorButton->m_pDlgInfoItem->IsVisible())
 					continue;
 
