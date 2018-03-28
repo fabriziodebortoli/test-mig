@@ -1357,6 +1357,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
         public const string PrefixEvent = "ES_EVENTS_";
         public const string FileName = "UserMethods.json";
         public const string OwnerNameSpace = "OwnerNameSpace";
+        public const string Owner = "Owner";
         public const string EventName = "EventName";
         public const string EventHandlerName = "EventHandlerName";
         public const string Items = "items";

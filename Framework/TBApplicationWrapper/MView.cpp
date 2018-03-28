@@ -476,11 +476,14 @@ void MView::EventsJsonStringDeserialize(const CString& strEvents, CJsonSerialize
 				CString sNs = parser.ReadString(CString(EventsJson::OwnerNameSpace));
 				CString sEvent = parser.ReadString(CString(EventsJson::EventName));
 				CString sEventHandler = parser.ReadString(CString(EventsJson::EventHandlerName));
+				CString sID = parser.ReadString(CString(EventsJson::Owner));
 
 				jsonSer.OpenObject(idx);
 				jsonSer.WriteString(CString(EventsJson::OwnerNameSpace), sNs);
 				jsonSer.WriteString(CString(EventsJson::EventName), sEvent);
 				jsonSer.WriteString(CString(EventsJson::EventHandlerName), sEventHandler);
+				jsonSer.WriteString(CString(EventsJson::Owner), sID);
+				
 				jsonSer.CloseObject();
 				idx++;
 			}

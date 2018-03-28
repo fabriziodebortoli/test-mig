@@ -349,6 +349,7 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		jsonSer.WriteString(CString(EventsJson::OwnerNameSpace), CString(this->Namespace->ToString()));
 		jsonSer.WriteString(CString(EventsJson::EventName), CString(ev->EventName));
 		jsonSer.WriteString(CString(EventsJson::EventHandlerName), CString(ev->EventHandlerName));
+		jsonSer.WriteString(CString(EventsJson::Owner), CString(FullId));
 		jsonSer.CloseObject();
 		i++;
 	}

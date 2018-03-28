@@ -48,6 +48,11 @@ namespace Microarea.EasyBuilder.MVC
         /// </summary>
         public string OwnerNameSpace { get => ownerNameSpace; set => ownerNameSpace = value; }
 
+        string owner;
+        /// <summary>
+        /// namespace owner object
+        /// </summary>
+        public string Owner { get => owner; set => owner = value; }
         //-----------------------------------------------------------------------------
         /// <summary>
         /// constructor
