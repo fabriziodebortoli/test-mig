@@ -118,7 +118,7 @@ namespace Microarea.Common.FileSystemManager
 				if (!readStream)
 					return File.Open(sFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-				sr = new StreamReader(File.OpenRead(sFileName), true);
+				sr = new StreamReader(File.OpenRead(sFileName));
 				fileContent = sr.ReadToEnd();
 
 			}

@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
+using static Microarea.Common.MenuLoader.MenuInfo;
+using System.Xml.Serialization;
 
 namespace Microarea.Common.FileSystemManager
 {
@@ -172,6 +174,29 @@ namespace Microarea.Common.FileSystemManager
                 return GetAlternativeDriver().GetFileTextFromFileName(sFileName);
             else
                 return GetFileSystemDriver().GetFileTextFromFileName(sFileName);
+        }
+
+        //-----------------------------------------------------------------------------
+        public void SaveCachedMenuSerialization(string sFileName, CachedMenuInfos cachedMenuInfos)
+        {
+            // no lock is required as methods invoked work only on local variables
+            // an they don't locks other objects
+
+            if (IsManagedByAlternativeDriver(sFileName))
+            {
+
+         //       return GetAlternativeDriver().SaveCachedMenuSerialization(sFileName, cachedMenuInfos);
+
+            }
+            else
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(CachedMenuInfos));
+                FileInfo fi = new FileInfo(sFileName); //OK
+                using (StreamWriter sw = fi.CreateText())
+                    ser.Serialize(sw, cachedMenuInfos);
+            }
+                
+
         }
 
         //-----------------------------------------------------------------------------

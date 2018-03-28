@@ -334,16 +334,13 @@ namespace Microarea.Common.MenuLoader
             //---------------------------------------------------------------------------
             public static bool Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string company, DateTime date)
             {
-                //Dve rimanere  cosi
                 string file = GetStandardMenuCachingFullFileName(company);
                 if (!PathFinder.PathFinderInstance.ExistFile(file))
                     return true;
                 try
                 {
                     XmlSerializer ser = GetSerializer();
-                    FileInfo fi = new FileInfo(file);  //ok
-
-                    using (StreamReader sw = new StreamReader(fi.OpenRead()))
+                    using (Stream sw = PathFinder.PathFinderInstance.GetStream(file, false))
                     {
                         CachedMenuInfos infos = ser.Deserialize(sw) as CachedMenuInfos;
                         //Se rispetto alla struttura salvata non corrispondono le informazioni
@@ -354,6 +351,7 @@ namespace Microarea.Common.MenuLoader
                             DateTime.Compare(infos.CacheDate, date) > 0 &&
                             infos.InstallationDate == InstallationData.InstallationDate)
                             return true;
+
                         return false;
                     }
                 }
@@ -399,38 +397,17 @@ namespace Microarea.Common.MenuLoader
             //---------------------------------------------------------------------------
             public void Save(string company)
             {
-                ////Deve rimanere cosi
-                //string file = GetStandardMenuCachingFullFileName(pathFinder.Company); 
-                //try
-                //{
-
-                //    XmlSerializer ser = GetSerializer();
-                //    FileInfo fi = new FileInfo(file); //OK
-                //    using (Stream stream = new  MemoryStream())
-                //    {
-                //        ser.Serialize(stream, this);
-                //        pathFinder.SaveTextFileFromStream(file, stream);
-                //    }
-                //}
-                //catch (Exception exx)
-                //{
-                //}
-
-                //Deve rimanere cosi
                 string file = GetStandardMenuCachingFullFileName(company);
                 try
                 {
-                    XmlSerializer ser = GetSerializer();
-                    FileInfo fi = new FileInfo(file); //OK
-                    using (StreamWriter sw = fi.CreateText())
-                        ser.Serialize(sw, this);
+                    PathFinder.PathFinderInstance.SaveCachedMenuSerialization(file, this);
                 }
                 catch (Exception)
                 {
                 }
-
-                //---------------------------------------------------------------------------
             }
+
+            //---------------------------------------------------------------------------
             public static void Delete(string company)
             {
                 try

@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Xml;
 using Microarea.Common.Lexan;
 using Microarea.Common.StringLoader;
+using static Microarea.Common.MenuLoader.MenuInfo;
 
 namespace Microarea.Common.NameSolver
 {
@@ -2830,8 +2831,14 @@ namespace Microarea.Common.NameSolver
 			return fileSystemManager.GetStream(sFileName, readStream);
 		}
 
-		//-----------------------------------------------------------------------------
-		public bool SaveTextFileFromStream(string sFileName, Stream sFileContent)
+        //-----------------------------------------------------------------------------
+        public void SaveCachedMenuSerialization(string sFileName, CachedMenuInfos cachedMenuInfos)
+        {
+            fileSystemManager.SaveCachedMenuSerialization(sFileName, cachedMenuInfos);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool SaveTextFileFromStream(string sFileName, Stream sFileContent)
 		{
 			return fileSystemManager.SaveTextFileFromStream(sFileName, sFileContent);
 		}
