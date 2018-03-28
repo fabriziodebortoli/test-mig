@@ -105,7 +105,7 @@ export class HyperLinkService implements OnDestroy {
             !(hotLinkButton && hotLinkButton.contains(focusEvent.target))
             && !isInAddOnFlyExclusionList(focusEvent.target)
             && (!focusEvent.target || !customShouldAddOnFlyPredicate || customShouldAddOnFlyPredicate(focusEvent.target));
-        this.controlFocusChanged$.merge(this.getHotLinkButtonFocusChanged$(hotLinkButton))
+        this.controlFocusChanged$.filter(_ => info.model.enabled === true).merge(this.getHotLinkButtonFocusChanged$(hotLinkButton))
         .filter(x => {
             let should = this.shouldAddOnFly(x);
             return should;
