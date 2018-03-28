@@ -80,6 +80,9 @@
         </IncludeFolder>
         <IncludeFile name="*.exe|*.dll|*.config"/>
       </IncludeFolder>
+	  <IncludeFolder name="TBLoaderService">
+        <IncludeFile name="*.exe|*.dll|*.config"/>
+      </IncludeFolder>
       <IncludeFolder name="ProvisioningConfigurator" featureName="PAAS" installedByDefault="no" hiddenFeature="yes">
 			  <IncludeFolder name="*-*" featureName="[FOLDERNAME]" recursive="yes">
 				  <IncludeFile name="*" />
