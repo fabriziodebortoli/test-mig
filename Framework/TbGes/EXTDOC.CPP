@@ -4494,7 +4494,10 @@ void CAbstractFormDoc::ActivateWebClientContainer(UINT nID, bool bActivate)
 		}
 	}
 	if (bActivate)
+	{
 		m_arWebActiveContainers.Add(nID);
+		OnUpdateTitle(nID);
+	}
 }
 
 // Reimplementabili per la fantasia bacata del programmatore (non si sa' mai)
