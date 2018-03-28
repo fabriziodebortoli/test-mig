@@ -34,6 +34,9 @@
     .k-grid-content {
         outline: none;
     }
+    kendo-numerictextbox .k-select {
+        display: none;
+    }
 }
 
 .pager-buttons {

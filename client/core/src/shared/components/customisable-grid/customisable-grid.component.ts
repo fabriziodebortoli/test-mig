@@ -245,7 +245,8 @@ export class CustomisableGridComponent extends ControlComponent implements OnIni
             'DateTime': 'date',
             'String': 'text',
             'Enum': 'text',
-            'Int64': 'text'
+            'Int32': 'numeric',
+            'Int64': 'numeric'
         };
         return map[type] || 'text';
     }
