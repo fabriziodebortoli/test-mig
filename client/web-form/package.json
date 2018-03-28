@@ -5,6 +5,8 @@
     "scripts": {
         "start": "ng serve",
         "ng": "node --max_old_space_size=9120 node_modules/@angular/cli/bin/ng serve --sourcemap=false --build-optimizer=false",
+        "build-stats": "node --max_old_space_size=9120 node_modules/@angular/cli/bin/ng build --stats-json",
+        "stats": "webpack-bundle-analyzer dist/stats.json",
         "build": "ng build",
         "clean": "rimraf ./node_modules",
         "link-core": "npm link ../core/src --no-save",
@@ -59,6 +61,7 @@
         "protractor": "~5.1.2",
         "ts-node": "~4.1.0",
         "tslint": "~5.9.1",
-        "typescript": "~2.5.3"
+        "typescript": "~2.5.3",
+        "webpack-bundle-analyzer": "^2.11.1"
     }
 }
