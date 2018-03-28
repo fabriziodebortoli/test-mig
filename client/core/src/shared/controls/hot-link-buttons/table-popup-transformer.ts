@@ -95,11 +95,6 @@ export class TablePopupTransformer extends Builder< HTMLElement, TablePopupTrans
     }
       
     transform() {let t = this.tQueue.pop();
-        while(t) {
-            console.log('PRE ' + this.context.style.zIndex);
-            console.log(t);
-            t(); 
-            console.log('POST ' + this.context.style.zIndex);
-            t = this.tQueue.pop(); }
+        while(t) { t(); t = this.tQueue.pop(); }
     }
 }

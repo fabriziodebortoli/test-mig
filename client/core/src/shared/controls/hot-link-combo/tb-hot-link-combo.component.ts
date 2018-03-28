@@ -47,16 +47,13 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService, httpService);
   }
 
-  private dropDownOpened = false;
   openDropDown(ev) {
     ev.preventDefault();
     this.start();
-    this.dropDownOpened = true;
   }
 
   closeDropDown() {
     this.stop();
-    this.dropDownOpened = false;
     this.disablePager = true;
   }
 
@@ -114,9 +111,9 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   public onFilterChange(filter: string): void {
-    if (this.dropDownOpened) {
-      if (filter === '' || !filter) this.filter = { logic: 'and', filters: [] };
-      else this.filter = { logic: 'and', filters: [{ field: this.state.selectionColumn, operator: 'contains', value: filter }] };
+    if(this.modelComponent &&  this.modelComponent.model) {
+      this.modelComponent.model.value = filter;
+      this.emitModelChange();
     }
   }
 
