@@ -1,5 +1,4 @@
-@import '../../../../style/tb.scss';
-
+@import '../../../../style/vars.scss';
 .tbcontainer {
     display: flex;
     flex-direction: row;
@@ -9,7 +8,7 @@
     /*Bottoni del menu */
     .topbar-menu-layout {
          ::ng-deep .k-button {
-            color:white;
+            color: white;
             background-color: #0277bd;
             background-image: none;
             border-color: transparent;

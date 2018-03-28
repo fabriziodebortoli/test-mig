@@ -1,101 +1,103 @@
 /* COLORS */
-@import '../../../style/tb.scss';
 
+@import '../../../style/vars.scss';
 $white: #ffffff;
 $bkg-medium: #0277bd;
-$shadow: rgba(205,210,214,.8);
-
-.k-button{
+$shadow: rgba(205, 210, 214, .8);
+.k-button {
     background: $white;
     border: 0px;
-    &:hover, &:focus, &:active{
+    &:hover,
+    &:focus,
+    &:active {
         background: #f7f7f7;
         border: 0px;
     }
 }
+
 .row {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 ::ng-deep .tooltip {
     position: relative;
     .tooltip-content {
-      box-shadow: 0 5px 25px 5px $shadow;
-      box-sizing: border-box;
-      color: $white;
-      font-size: 12px;
-      line-height: 1.2;
-      letter-spacing: 1px;
-      max-width: 200px;
-      min-width: 145px;
-      padding: 1em;
-      position: absolute;
-      opacity: 1;
-      transition: all .3s ease;
-      flex: 1 100%;
-      z-index: 9999999;
-      &::after {
-        content: "";
-        height: 10px;
+        box-shadow: 0 5px 25px 5px $shadow;
+        box-sizing: border-box;
+        color: $white;
+        font-size: 12px;
+        line-height: 1.2;
+        letter-spacing: 1px;
+        max-width: 200px;
+        min-width: 145px;
+        padding: 1em;
         position: absolute;
-        transform: rotate(45deg);
-        width: 10px;
-      }
+        opacity: 1;
+        transition: all .3s ease;
+        flex: 1 100%;
+        z-index: 9999999;
+        &::after {
+            content: "";
+            height: 10px;
+            position: absolute;
+            transform: rotate(45deg);
+            width: 10px;
+        }
     }
     &.bottom {
-      .tooltip-content {
-        bottom: calc(100% - 12em);
-        left: calc(100%  - 8em);
-        transform: translateX(-50%);
-        &::after {
-          top: -5px;
-          left: 142px;
+        .tooltip-content {
+            bottom: calc(100% - 12em);
+            left: calc(100% - 8em);
+            transform: translateX(-50%);
+            &::after {
+                top: -5px;
+                left: 142px;
+            }
         }
-      }
-      .tooltip-content > * {
-        flex: 1 100%;
-      }
+        .tooltip-content>* {
+            flex: 1 100%;
+        }
     }
-      &.top {
-    .tooltip-content {
-      bottom: 3.5em;
-      left: 0%;
-      transform: translateX(-30%);
-      &::after {
-        bottom: -5px;
-        left: 50%;
-        margin-left: -5px;
-      }
+    &.top {
+        .tooltip-content {
+            bottom: 3.5em;
+            left: 0%;
+            transform: translateX(-30%);
+            &::after {
+                bottom: -5px;
+                left: 50%;
+                margin-left: -5px;
+            }
+        }
     }
-  }
-  &.right {
-    .tooltip-content {
-      left: calc(100% + 1.5em);
-      top: 50%;
-      transform: translateY(-50%);
-      &::after {
-        left: -5px;
-        margin-top: -5px;
-        top: 50%;
-      }
+    &.right {
+        .tooltip-content {
+            left: calc(100% + 1.5em);
+            top: 50%;
+            transform: translateY(-50%);
+            &::after {
+                left: -5px;
+                margin-top: -5px;
+                top: 50%;
+            }
+        }
     }
-  }
-  &.left {
-    .tooltip-content {
-      right: calc(100% + 1.5em);
-      top: 50%;
-      transform: translateY(-50%);
-      &::after {
-        right: -5px;
-        margin-top: -5px;
-        top: 50%;
-      }
+    &.left {
+        .tooltip-content {
+            right: calc(100% + 1.5em);
+            top: 50%;
+            transform: translateY(-50%);
+            &::after {
+                right: -5px;
+                margin-top: -5px;
+                top: 50%;
+            }
+        }
     }
-  }
 }

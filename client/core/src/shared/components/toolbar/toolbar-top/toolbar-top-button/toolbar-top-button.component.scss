@@ -1,4 +1,4 @@
-@import '../../../../../style/tb.scss';
+@import '../../../../../style/vars.scss';
 :host(tb-toolbar-top-button) {
     &:first-child tb-icon {
         margin-left: 3px;
@@ -96,12 +96,14 @@
     margin-top: 4px;
 }
 
+
 /* COLORS */
+
 $white: #ffffff;
 $bkg-medium: #0277bd;
-$shadow: rgba(205,210,214,.8);
+$shadow: rgba(205, 210, 214, .8);
 :host-context(.dropDownButton) {
-    ::ng-deep.k-button {
+     ::ng-deep.k-button {
         border: 0px;
         width: 100%;
         color: $white;
@@ -111,8 +113,8 @@ $shadow: rgba(205,210,214,.8);
         font-weight: 400;
         border-radius: 0px;
         padding: 0px 18px 0px 18px;
-        ::ng-deep &:hover,
-        ::ng-deep  &:focus{
+         ::ng-deep &:hover,
+         ::ng-deep &:focus {
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             background: $darkblue;
             border-color: $darkblue;
@@ -122,11 +124,10 @@ $shadow: rgba(205,210,214,.8);
                 color: $white;
             }
         }
-
-        ::ng-deep &:active {
+         ::ng-deep &:active {
             background-color: $bkg-medium;
             box-shadow: none;
-            color:$white;
+            color: $white;
             border: 0px;
         }
     }
@@ -136,10 +137,9 @@ $shadow: rgba(205,210,214,.8);
         display: flex;
     }
     tb-icon,
-    &:first-child tb-icon, 
+    &:first-child tb-icon,
     &:last-child tb-icon,
-    &:only-child tb-icon
-    {
+    &:only-child tb-icon {
         width: 35px;
         font-size: 20px;
         margin: 0px;
@@ -154,10 +154,9 @@ $shadow: rgba(205,210,214,.8);
         border-radius: 0px;
         text-align: left;
         //padding-left: 5px;
-
         &:hover {
             background-color: transparent;
-            color:$white;
+            color: $white;
             tb-icon,
             i {
                 color: $white;
@@ -171,8 +170,6 @@ $shadow: rgba(205,210,214,.8);
         padding: 0px 18px 0px 18px;
         height: 35px;
     }
-    
-    
     m4-icon {
         font-size: 30px;
         width: 35px;

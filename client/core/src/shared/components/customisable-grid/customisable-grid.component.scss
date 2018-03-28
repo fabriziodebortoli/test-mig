@@ -1,4 +1,4 @@
-@import '../../../style/tb.scss';
+@import '../../../style/vars.scss';
 :host ::ng-deep {
     font-size: 13px;
     tr.k-state-selected,
@@ -6,7 +6,8 @@
         color: $selected-text;
         background-color: $selected-bg;
     }
-    .k-grid-header .k-header, .k-grid-header .k-header>.k-link {
+    .k-grid-header .k-header,
+    .k-grid-header .k-header>.k-link {
         text-align: center;
         font-weight: bold;
     }
