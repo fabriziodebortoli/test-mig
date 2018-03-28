@@ -17,4 +17,8 @@ export class TbHotlinkButtonsContextMenuHandler {
             else hlb.popupHandler.openOptions()
         });
     }
+
+    public activate(e: any) {
+        
+    }
 }
