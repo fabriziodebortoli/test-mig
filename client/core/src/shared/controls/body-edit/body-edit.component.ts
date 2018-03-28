@@ -52,8 +52,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   public gridView: GridDataResult = { data: [], total: 0 };
 
-  private lastEditedRowIndex: number = -1;
-  private lastEditedColumnIndex: number = -1;
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
@@ -70,16 +68,16 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   //-----------------------------------------------------------------------------------------------
   @HostListener('window:keydown', ['$event'])
   public keyup(event: KeyboardEvent): void {
-    if (event.shiftKey && event.keyCode == 9) {
-      this.editPreviousColumn();
+    if ((event.shiftKey && event.keyCode == 9) || event.keyCode == 37) {
+      this.editPreviousCell();
       return;
     }
     if (event.keyCode === 9) {
-      this.editNextColumn();
+      this.editNextCell();
       return;
     }
 
-    if (event.ctrlKey && event.keyCode == 38) {
+    if ((event.ctrlKey && event.keyCode == 38) || event.keyCode == 30) {
       this.editAboveCell();
       return;
     }
@@ -172,8 +170,8 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       let colName = colComponent.field;
       let isEnabled = this.bodyEditService.currentRow[colName].enabled && this.bodyEditService.enabled
       if (isEnabled) {
-        this.lastEditedRowIndex = rowIndex;
-        this.lastEditedColumnIndex = columnIndex;
+        this.bodyEditService.lastEditedRowIndex = rowIndex;
+        this.bodyEditService.lastEditedColumnIndex = columnIndex;
         sender.editCell(rowIndex, columnIndex);
       }
     }
@@ -246,68 +244,68 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   editAboveCell() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+    if (this.bodyEditService.lastEditedRowIndex < 0 || this.bodyEditService.lastEditedColumnIndex < 0) {
       return;
     }
 
-    if (this.lastEditedRowIndex > 0) {
-      this.lastEditedRowIndex--;
+    if (this.bodyEditService.lastEditedRowIndex > 0) {
+      this.bodyEditService.lastEditedRowIndex--;
       this.bodyEditService.prevRow();
-      this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-      this.focusCell(this.lastEditedColumnIndex);
+      this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+      this.focusCell(this.bodyEditService.lastEditedColumnIndex);
     }
   }
 
   //-----------------------------------------------------------------------------------------------
   editBelowCell() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+    if (this.bodyEditService.lastEditedRowIndex < 0 || this.bodyEditService.lastEditedColumnIndex < 0) {
       return;
     }
 
-    if (this.lastEditedRowIndex < this.bodyEditService.rowCount - 1) {
-      this.lastEditedRowIndex++;
+    if (this.bodyEditService.lastEditedRowIndex < this.bodyEditService.rowCount - 1) {
+      this.bodyEditService.lastEditedRowIndex++;
       this.bodyEditService.nextRow();
-      this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-      this.focusCell(this.lastEditedColumnIndex);
+      this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+      this.focusCell(this.bodyEditService.lastEditedColumnIndex);
     }
   }
 
   //-----------------------------------------------------------------------------------------------
-  editNextColumn() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+  editNextCell() {
+    if (this.bodyEditService.lastEditedRowIndex < 0 || this.bodyEditService.lastEditedColumnIndex < 0) {
       return;
     }
 
-    if (this.lastEditedColumnIndex < this.grid.columns.length) {
-      this.lastEditedColumnIndex++;
+    if (this.bodyEditService.lastEditedColumnIndex < this.grid.columns.length) {
+      this.bodyEditService.lastEditedColumnIndex++;
     }
     else {
-      this.lastEditedColumnIndex = 0
+      this.bodyEditService.lastEditedColumnIndex = 0
 
-      this.lastEditedRowIndex++;
+      this.bodyEditService.lastEditedRowIndex++;
       this.bodyEditService.nextRow();
     }
-    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-    this.focusCell(this.lastEditedColumnIndex);
+    this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+    this.focusCell(this.bodyEditService.lastEditedColumnIndex);
   }
 
   //-----------------------------------------------------------------------------------------------
-  editPreviousColumn() {
-    if (this.lastEditedRowIndex < 0 || this.lastEditedColumnIndex < 0) {
+  editPreviousCell() {
+    if (this.bodyEditService.lastEditedRowIndex < 0 || this.bodyEditService.lastEditedColumnIndex < 0) {
       return;
     }
 
-    if (this.lastEditedColumnIndex > 0) {
-      this.lastEditedColumnIndex--;
+    if (this.bodyEditService.lastEditedColumnIndex > 0) {
+      this.bodyEditService.lastEditedColumnIndex--;
 
     }
     else {
-      this.lastEditedColumnIndex = this.grid.columns.length;
-      this.lastEditedRowIndex--;
+      this.bodyEditService.lastEditedColumnIndex = this.grid.columns.length;
+      this.bodyEditService.lastEditedRowIndex--;
       this.bodyEditService.prevRow();
     }
-    this.grid.editCell(this.lastEditedRowIndex, this.lastEditedColumnIndex);
-    this.focusCell(this.lastEditedColumnIndex);
+    this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+    this.focusCell(this.bodyEditService.lastEditedColumnIndex);
   }
 
   focusCell(index: number) {

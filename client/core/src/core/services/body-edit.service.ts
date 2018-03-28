@@ -30,6 +30,10 @@ export class BodyEditService {
   private minimumRowHeight: number = 22;
   private rowHeightStep: number = 10;
 
+  public lastEditedRowIndex: number = -1;
+  public lastEditedColumnIndex: number = -1;
+
+
   public skip = -1;
 
   constructor(
@@ -48,7 +52,7 @@ export class BodyEditService {
 
     this._currentRow = currentRow;
     for (var prop in this._currentRow) {
-      this._currentRow[prop].enabled = this.prototype[prop].enabled && this.enabled ;
+      this._currentRow[prop].enabled = this.prototype[prop].enabled && this.enabled;
     }
   }
 
