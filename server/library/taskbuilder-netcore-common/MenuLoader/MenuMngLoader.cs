@@ -332,12 +332,12 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string user, DateTime date)
+            public static bool Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string company, DateTime date)
             {
                 //Dve rimanere  cosi
-                string file = GetStandardMenuCachingFullFileName(user);
+                string file = GetStandardMenuCachingFullFileName(company);
                 if (!PathFinder.PathFinderInstance.ExistFile(file))
-                    return null;
+                    return true;
                 try
                 {
                     XmlSerializer ser = GetSerializer();
@@ -353,21 +353,21 @@ namespace Microarea.Common.MenuLoader
                             infos.Culture == CultureInfo.CurrentUICulture.Name &&
                             DateTime.Compare(infos.CacheDate, date) > 0 &&
                             infos.InstallationDate == InstallationData.InstallationDate)
-                            return infos;
-                        return null;
+                            return true;
+                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.Fail(ex.ToString());
-                    return null;
+                    return true;
                 }
             }
             //---------------------------------------------------------------------------
-            public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string user)
+            public static CachedMenuInfos Load(CommandsTypeToLoad commandsTypeToLoad, string configurationHash, string company)
             {
                 //Dve rimanere  cosi
-                string file = GetStandardMenuCachingFullFileName(user);
+                string file = GetStandardMenuCachingFullFileName(company);
                 if (!PathFinder.PathFinderInstance.ExistFile(file))
                     return null;
                 try
@@ -397,32 +397,45 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public void Save(string user)
+            public void Save(string company)
             {
+                ////Deve rimanere cosi
+                //string file = GetStandardMenuCachingFullFileName(pathFinder.Company); 
+                //try
+                //{
+
+                //    XmlSerializer ser = GetSerializer();
+                //    FileInfo fi = new FileInfo(file); //OK
+                //    using (Stream stream = new  MemoryStream())
+                //    {
+                //        ser.Serialize(stream, this);
+                //        pathFinder.SaveTextFileFromStream(file, stream);
+                //    }
+                //}
+                //catch (Exception exx)
+                //{
+                //}
+
                 //Deve rimanere cosi
-                string file = GetStandardMenuCachingFullFileName(pathFinder.Company); 
+                string file = GetStandardMenuCachingFullFileName(company);
                 try
                 {
-
                     XmlSerializer ser = GetSerializer();
                     FileInfo fi = new FileInfo(file); //OK
-                    using (Stream stream = new  MemoryStream())
-                    {
-                        ser.Serialize(stream, this);
-                        pathFinder.SaveTextFileFromStream(file, stream);
-                    }
+                    using (StreamWriter sw = fi.CreateText())
+                        ser.Serialize(sw, this);
                 }
-                catch (Exception exx)
+                catch (Exception)
                 {
                 }
 
                 //---------------------------------------------------------------------------
             }
-            public static void Delete(string user)
+            public static void Delete(string company)
             {
                 try
                 {
-                    string file = GetStandardMenuCachingFullFileName(user);
+                    string file = GetStandardMenuCachingFullFileName(company);
 
                     if (PathFinder.PathFinderInstance.ExistPath(Path.GetDirectoryName(file)))
                         PathFinder.PathFinderInstance.RemoveFolder(Path.GetDirectoryName(file), true, true, true);
@@ -799,14 +812,13 @@ namespace Microarea.Common.MenuLoader
             string configurationHash = LoginManager.LoginManagerInstance.GetConfigurationHash();
             try
             {
-                cachedInfos = CachedMenuInfos.Load(commandsTypeToLoad, configurationHash, menuPathFinder.User, dateTime);
-                return cachedInfos != null;
+                return CachedMenuInfos.Load(commandsTypeToLoad, configurationHash, menuPathFinder.Company, dateTime);
             }
             catch (Exception exception)
             {
                 Debug.Fail("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + exception.Message);
 
-                return false;
+                return true; //TODO LARA LUCA
             }
         }
 
@@ -993,7 +1005,7 @@ namespace Microarea.Common.MenuLoader
                     }
                 }
 
-                cachedInfos.Save(menuPathFinder.User);
+                cachedInfos.Save(menuPathFinder.Company);
             //}
 
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
@@ -1499,7 +1511,7 @@ namespace Microarea.Common.MenuLoader
             if (menuInfo == null)
                 menuInfo = new MenuInfo(pathFinder, authenticationToken, false); //todo LARA questo false sarebbe applusecurity che ancora nn abbiamo
             
-            return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All,  dateTime); //TODO LARA
+            return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All,  dateTime); 
         }
         //----------------------------------------------------------------------------
         public bool LoadAllMenus(bool applySecurityFilter, CommandsTypeToLoad commandsTypeToLoad, bool ignoreAllSecurityChecks, bool clearCachedData)

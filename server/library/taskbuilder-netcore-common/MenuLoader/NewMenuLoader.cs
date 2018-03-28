@@ -37,7 +37,7 @@ namespace Microarea.Common.MenuLoader
 					if (nMenuRows > -1)
 					{
                         //Lara
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), user );
+						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), company );
 						if (pInfo != null && nMenuRows > 0)
 							return null;
 						menuLoader.LoadAllMenus(false, false);
@@ -87,7 +87,7 @@ namespace Microarea.Common.MenuLoader
         {
             PathFinder pf = new PathFinder(company, user);
             MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
-            return !menuLoader.IsCached(dateTime);
+            return menuLoader.IsCached(dateTime);
 
             //TODO LARA NN LA CANCELLO ANCORA
             //parte x il file dell utente 
