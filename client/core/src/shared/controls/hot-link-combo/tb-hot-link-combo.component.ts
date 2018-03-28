@@ -12,7 +12,7 @@ import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
-import { BehaviorSubject, Subscription } from '../../../rxjs.imports';
+import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
@@ -124,6 +124,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
       this.emitModelChange();
     }
   }
+
+  valueNormalizer = (text$: Observable<string>) => text$.map(text => ({ id: text, displayString: 'text' }));
 
   ngOnInit() {
     this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;

@@ -5,6 +5,7 @@
                 [value]="slice$ | async | asDropDownValue"
                 [textField]="'id'"
                 [valueField]="'id'"
+                [valueNormalizer]="valueNormalizer"
                 [loading]="paginator.waiting$ | async"
                 (open)="openDropDown($event)"
                 (close)="closeDropDown()"
