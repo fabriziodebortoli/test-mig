@@ -1258,7 +1258,13 @@ void FetchSingleColumn(Object^ value, SqlBindObject* pColumn)
 				if (value->GetType() == Int32::typeid)
 					((DataLng*)pDataObj)->Assign((Int32)value);
 				else
-					((DataLng*)pDataObj)->Assign((Int16)value);
+				{
+					if (value->GetType() == Int16::typeid)
+						((DataLng*)pDataObj)->Assign((Int16)value);
+					else
+						if (value->GetType() == Decimal::typeid)
+							((DataLng*)pDataObj)->Assign(Convert::ToInt32(value));
+				}
 				break;
 
 

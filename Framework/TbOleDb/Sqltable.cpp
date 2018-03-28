@@ -916,7 +916,7 @@ void SqlRowSet::ExecuteQuery(LPCTSTR lpszSQL)
 	m_strSQL = lpszSQL;
 	TRY
 	{
-		ExecuteCommand();
+		ExecuteNonQuery();
 	}
 	CATCH(MSqlException, e)
 	{

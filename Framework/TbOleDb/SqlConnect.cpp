@@ -1017,7 +1017,7 @@ SqlConnection::ExecuteResult SqlConnection::ExtendedExecuteSQL(LPCTSTR lpszSQL, 
 	ASSERT(AfxIsValidString(lpszSQL));
 	
 	//OLEDB
-	SqlTable table(pSession ?  pSession : GetDefaultSqlSession());
+	SqlTable table(pSession ? pSession->GetUpdatableSqlSession() : GetDefaultSqlSession()->GetUpdatableSqlSession());
 	TRY
 	{	
 		if (bLock && !table.LockTable(strLockKey, bUseMessageBox, pRetriesMng))
@@ -1057,8 +1057,8 @@ void SqlConnection::ExecuteSQL(LPCTSTR lpszSQL, SqlSession* pSession /*= NULL*/)
 	ASSERT_VALID(this);
 	ASSERT(AfxIsValidString(lpszSQL));
 	
-	//OLEDB
-	SqlTable table(pSession ?  pSession : GetDefaultSqlSession());
+	//OLEDB //di solito sono usate per query di upadate/delete
+	SqlTable table(pSession ? pSession->GetUpdatableSqlSession() : GetDefaultSqlSession()->GetUpdatableSqlSession());
 	TRY
 	{	
 		table.Open(FALSE, E_NO_CURSOR);
