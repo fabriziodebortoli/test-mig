@@ -1,3 +1,7 @@
 :host(tb-tile-panel) {
     overflow: hidden;
+    display:flex;
+    .tile-panel{
+        flex:1;
+    }
 }
