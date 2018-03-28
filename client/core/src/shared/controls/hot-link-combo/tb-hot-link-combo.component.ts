@@ -19,7 +19,10 @@ import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlin
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
+import { HotLinkComboSelectionType, DescriptionHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
 import { TbHotlinkComboHyperLinkHandler } from './hyper-link-handler';
+import { TbHotlinkComboEventHandler } from './event-handler';
+
 import * as _ from 'lodash';
 
 declare var document: any;
@@ -127,13 +130,16 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   valueNormalizer = (text$: Observable<string>) => text$.map(text => ({ id: text, displayString: 'text' }));
 
+  setSelectionType(t: string) { this.state = this.state.with({selectionType: t}); }
+
   ngOnInit() {
     this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
-    this.state = this.state.with({selectionType: 'combo'});
+    this.setSelectionType(HotLinkComboSelectionType)
   }
 
   ngAfterViewInit() {
     TbHotlinkComboHyperLinkHandler.Attach(this);
+    TbHotlinkComboEventHandler.Attach(this);
   }
 
   ngOnDestroy() { }

@@ -3,6 +3,7 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
 export const DefaultHotLinkSelectionType = 'code';
+export const HotLinkComboSelectionType = 'combo';
 export const DescriptionHotLinkSelectionType = 'description';
 
 export class HotLinkState extends State {
