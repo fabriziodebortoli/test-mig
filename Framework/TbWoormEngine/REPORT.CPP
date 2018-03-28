@@ -1923,8 +1923,7 @@ LRESULT CAbstractWoormFrame::OnGetComponent(WPARAM wParam, LPARAM lParam)
 	pResp->WriteString(_T("id"), buff);
 
 	CString sName = GetDocument()->GetNamespace().ToUnparsedString();
-	sName = sName.TrimRight(_T(".wrm"));
-
+	
 	pResp->WriteString(_T("name"), sName);
 	pResp->WriteString(_T("app"), _T("rs"));
 	pResp->WriteString(_T("mod"), _T("reportingstudio"));

@@ -359,7 +359,6 @@ namespace Microarea.RSWeb.WoormViewer
 		private bool			disposed = false;	// Track whether Dispose has been called.
 		private WoormParser		lex;
 		private WoormDocument	woorm;
-		private bool			noWeb = false;
 		private bool			localLex = false;
 		private int				reportRelease;
 		private int				reportModifyRelease = 0;
@@ -371,7 +370,8 @@ namespace Microarea.RSWeb.WoormViewer
 		public enum OutDateOperator { ND, LT, LE, EQ, GT, GE };
 
 		//------------------------------------------------------------------------------
-		public bool			NoWeb					{ get { return noWeb; }}
+		private bool			_noWeb = false;
+		public bool			NoWeb					{ get { return false; } set { _noWeb = value; } }
 		public int			ReportRelease			{ get { return reportRelease; }}
 		public int			ReportModifyRelease		{ get { return reportModifyRelease;  }}
 		public IDiagnostic	Diagnostic				{ get { return lex.Diagnostic; }}
@@ -434,7 +434,7 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			if (lex.LookAhead() == Token.NO_WEB)
 			{
-				noWeb = true;
+				NoWeb = true;
 				lex.SkipToken();
 			}
 			if (lex.Matched(Token.INVALID))

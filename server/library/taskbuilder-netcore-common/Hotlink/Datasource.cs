@@ -164,9 +164,14 @@ namespace Microarea.Common.Hotlink
             bool first = true;
             foreach (FilterField ff in customFilters.filters)
             {
-                string colName = ff.field?.Replace("__", ".");
-                if (string.IsNullOrWhiteSpace(colName))
-                    return customWhere;
+                if (ff.field == null) 
+                    continue;
+                string colName = ff.field;
+                if (colName.IsNullOrWhiteSpace())
+                    continue;
+
+                colName = colName.Replace("__", ".");
+                Variable colField = SymTable.Find(colName);
 
                 if (!first)
                 {
@@ -193,20 +198,23 @@ namespace Microarea.Common.Hotlink
                     customWhere += colName + " <> ''";
                 else
                 {
-                    string val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType); ;
+                    //TODO RSWEB - RICCARDO - convertire il tipo di dato con il tipo di colField
+                    string val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType);
+
+                    //----
 
                     if (ff.Operator.CompareNoCase("IsEqualTo"))
                         customWhere += colName + string.Format(" = {0}", val);
                     else if (ff.Operator.CompareNoCase("IsNotEqualTo"))
                         customWhere += colName + string.Format(" <> {0}", val);
 
-                    else if (ff.Operator.CompareNoCase("IsLessThen"))
+                    else if (ff.Operator.CompareNoCase("LowerTo"))
                         customWhere += colName + string.Format(" < {0}", val);
-                    else if (ff.Operator.CompareNoCase("IsLessThenOrEqualTo"))
+                    else if (ff.Operator.CompareNoCase("LowerOrEqualTo"))
                         customWhere += colName + string.Format(" <= {0}", val);
-                    else if (ff.Operator.CompareNoCase("IsGreaterThen"))
+                    else if (ff.Operator.CompareNoCase("GreaterTo"))
                         customWhere += colName + string.Format(" > {0}", val);
-                    else if (ff.Operator.CompareNoCase("IsGreaterThenOrEqualto"))
+                    else if (ff.Operator.CompareNoCase("GreaterOrEqualTo"))
                         customWhere += colName + string.Format(" >= {0}", val);
                 }
             }

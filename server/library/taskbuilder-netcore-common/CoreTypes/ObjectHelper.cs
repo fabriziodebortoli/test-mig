@@ -588,7 +588,7 @@ namespace Microarea.Common.CoreTypes
 				return b == TrueString || b.CompareNoCase("true");
 			}
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastBool");
+			//Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastBool");
 			return false;
 		}
 
