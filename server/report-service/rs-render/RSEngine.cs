@@ -18,6 +18,7 @@ using System.Text;
 using Microarea.Common.NameSolver;
 using System.Collections.Generic;
 using Microarea.Common.CoreTypes;
+using Newtonsoft.Json;
 
 namespace Microarea.RSWeb.Render
 {
@@ -772,7 +773,15 @@ namespace Microarea.RSWeb.Render
                         {
                             //string tot = this.Woorm.RdeReader.TotalPages.ToJson("totalPages", true) ;
                             //RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, tot); //TotalPages //.Wait();
-
+                            if (HtmlPage == HtmlPageType.Error)
+                            {
+                                string jsonDiagnostic = "";
+                                foreach (string s in Errors)
+                                {
+                                    jsonDiagnostic += '\n' + s;
+                                }
+                                RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.DIAGNOSTIC, jsonDiagnostic.ToJson("Errors", true, true));
+                            }
                             return false;
                         }
 

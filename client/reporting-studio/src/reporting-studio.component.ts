@@ -55,6 +55,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   public id: string;
 
+  diagnosticErrors: "No Errors"; 
+
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
@@ -216,6 +218,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.eventData.model.Title.value = "Snapshot of " + k.page.report_title;
           this.rsExportService.totalPages = parseInt(msg.page);
           this.firstPage();
+          break;
+        case CommandType.DIAGNOSTIC:
+          this.diagnosticErrors = k.Errors;
           break;
       }
       //TODO when report finishes execution, send result to tbloader server report (if any)
