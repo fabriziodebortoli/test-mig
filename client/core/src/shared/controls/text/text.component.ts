@@ -66,7 +66,8 @@ export class TextComponent extends ControlComponent implements OnChanges, OnInit
   }
 
   setlength(len: number) {
-    this.maxLength = this.model ? this.model.length : 0;
+    if (len > 0) 
+      this.maxLength = len;
     if (this.textlimit > 0 && (this.maxLength == 0 || this.textlimit < this.maxLength)) {
       this.maxLength = this.textlimit;
     }

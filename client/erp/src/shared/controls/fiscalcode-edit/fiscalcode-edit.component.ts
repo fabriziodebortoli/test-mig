@@ -1,5 +1,5 @@
 import { FormMode, ContextMenuItem, Store, TbComponentService, LayoutService, ControlComponent, EventDataService, 
-  ActivationService, ParameterService, ControlContainerComponent, Selector } from '@taskbuilder/core';
+  ActivationService, ParameterService, ControlContainerComponent, Selector, createSelector } from '@taskbuilder/core';
 import { untilDestroy } from '@taskbuilder/core/shared/commons/untilDestroy';
 import { Component, Input, ChangeDetectorRef, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { CoreHttpService } from '../../../core/services/core/core-http.service';
@@ -16,6 +16,8 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
   @Input('readonly') readonly = false;
   @Input() slice;
   @Input() selector: Selector<any, any>;
+  @Input('maxLength') maxLength: number = 524288;
+  @Input('textLimit') textlimit: number = 0;
 
   @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
@@ -43,10 +45,15 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
 
   async ngOnInit() {
     this.store
-      .select(s => s && s.FormMode.value)
+      .select(
+        createSelector(
+          s => s.FormMode && s.FormMode.value,
+          t => t.BatchMode && t.BatchMode.value,
+          (formMode, batchMode) => ({ formMode, batchMode })
+        )
+      )
       .pipe(untilDestroy(this))
-      .subscribe(v =>
-        this.onFormModeChanged(v));
+      .subscribe(this.onSelectorChanged);
 
     if (this.selector) {
       this.store
@@ -59,13 +66,21 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
       //this.cc.errorMessage = 'Missing selector';
     }
 
+    this.store.select(_ => this.model && this.model.length).
+    subscribe(l => this.onlenghtChanged(l));
+
     this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
     this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
     this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
   }
 
-  onFormModeChanged(formMode: FormMode) {
-    this.ctrlEnabled = formMode === FormMode.FIND || formMode === FormMode.NEW || formMode === FormMode.EDIT;
+  onlenghtChanged(len: any) {
+    if (len !== undefined)
+      this.setlength(len);
+  }
+
+  onSelectorChanged = obj => {
+    this.ctrlEnabled = obj.formMode === FormMode.FIND || obj.formMode === FormMode.NEW || obj.formMode === FormMode.EDIT || obj.batchMode === true;
     this.buildContextMenu();
 
     if (!this.ctrlEnabled) {
@@ -299,4 +314,13 @@ export class FiscalCodeEditComponent extends ControlComponent implements OnInit 
   }
 
   get isValid(): boolean { return !this.cc.errorMessage; }
+
+  setlength(len: number) {
+    if (len > 0) 
+      this.maxLength = len;
+    if (this.textlimit > 0 && (this.maxLength == 0 || this.textlimit < this.maxLength)) {
+      this.maxLength = this.textlimit;
+    }
+  }
+
 }

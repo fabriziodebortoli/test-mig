@@ -131,7 +131,7 @@ protected:
 public :
 	CObserverContext		m_ObserverContext;
 	// Dati per gestire i Templates Batch che usano Frame e View particolari
-	BOOL					m_bBatch;				// TODOBRUNA eliminare
+	DataBool				m_bBatch;				// TODOBRUNA eliminare
 	BOOL					m_bBatchRunning;
 	BOOL					m_bBatchCloseAfterExecution;
 	BOOL					m_bCloseChildReport;

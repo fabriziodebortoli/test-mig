@@ -16,6 +16,8 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   @Input('readonly') readonly = false;
   @Input() slice;
   @Input() selector: Selector<any, any>;
+  @Input('maxLength') maxLength: number = 524288;
+  @Input('textLimit') textlimit: number = 0;
 
   @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
 
@@ -53,7 +55,8 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
           this.selector.nest('naturalPerson.value'),
           this.selector.nest('isoCode.value'),
           s => s.FormMode && s.FormMode.value,
-          (naturalperson, isocode, formMode) => ({ naturalperson, isocode, formMode })
+          t => t.BatchMode && t.BatchMode.value,
+          (naturalperson, isocode, formMode, batchMode) => ({ naturalperson, isocode, formMode, batchMode })
         )
       )
         .pipe(untilDestroy(this))
@@ -64,10 +67,18 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
       //this.cc.errorMessage = 'Missing selector';
     }
 
+    this.store.select(_ => this.model && this.model.length).
+    subscribe(l => this.onlenghtChanged(l));
+
     this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
     this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
     this.isMasterRO = this.activationService.isActivated('ERP', 'MasterData_RO');
     this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
+  }
+  
+  onlenghtChanged(len: any) {
+    if (len !== undefined)
+      this.setlength(len);
   }
 
   public openMessageDialog(message: string): Promise<any> {
@@ -77,7 +88,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   }
 
   onSelectorChanged = obj => {
-    this.ctrlEnabled = obj.formMode === FormMode.FIND || obj.formMode === FormMode.NEW || obj.formMode === FormMode.EDIT;
+    this.ctrlEnabled = obj.formMode === FormMode.FIND || obj.formMode === FormMode.NEW || obj.formMode === FormMode.EDIT || obj.batchMode === true;
     this.naturalPerson = obj.naturalperson;
 
     let isoChanged = this.isoCode != obj.isocode;
@@ -282,4 +293,12 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   }
 
   get isValid(): boolean { return !this.cc.errorMessage; }
+
+  setlength(len: number) {
+    if (len > 0) 
+      this.maxLength = len;
+    if (this.textlimit > 0 && (this.maxLength == 0 || this.textlimit < this.maxLength)) {
+      this.maxLength = this.textlimit;
+    }
+  }
 }

@@ -3366,6 +3366,7 @@ BOOL CAbstractFormDoc::InitDocument()
 	), TRUE);
 
 	DeclareVariable(_T("FormMode"), &m_FormMode);
+	DeclareVariable(_T("BatchMode"), &m_bBatch);
 	//sospendo la comunicazione al client finch� il documento non � pronto, per evitare messaggi inutili
 	//dar� poi il via libera nella CAbstractFormDoc::OnFrameCreated()
 	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
