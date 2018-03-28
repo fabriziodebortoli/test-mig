@@ -19,6 +19,7 @@ using Microarea.TaskBuilderNet.Interfaces.EasyBuilder;
 using Microarea.TaskBuilderNet.Interfaces.Model;
 using Microarea.TaskBuilderNet.Interfaces.View;
 using Microarea.EasyBuilder.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Microarea.EasyBuilder.MVC
 {
@@ -426,29 +427,31 @@ namespace Microarea.EasyBuilder.MVC
 	internal class NonBatchFilterAttribute : TBEventFilterAttribute
 	{
 	}
-	/// <summary>
-	/// The DocumentController is the primary object for the customization
-	/// architecture: it is the root of the object model representing the document
-	/// that you are customizing.
-	/// Through the DocumentController you have access to the part of the model
-	/// representing all the UI (i.e.: the DocumentView) and the part of the
-	/// model representing data (i.e.: the MDocument), gaining the control
-	/// over all the document stuff.
-	/// All the business logic realized by the customizer is inserted in the
-	/// body of the DocumentController class under the form of class methods.
-	/// This is the base class for all controllers customization classes EasyBuilder generates
-	/// to customize any document.
-	/// </summary>
-	/// <seealso cref="Microarea.TaskBuilderNet.Core.EasyBuilder.EasyBuilderComponent"/>
-	/// <seealso cref="Microarea.TaskBuilderNet.Interfaces.EasyBuilder.IEasyBuilderContainer"/>
-	/// <seealso cref="Microarea.EasyBuilder.MVC.DocumentView"/>
- 	/// <seealso cref="Microarea.Framework.TBApplicationWrapper.MDocument"/>
-	//=============================================================================
-	[PropertyTabAttribute(typeof(EventsTab), PropertyTabScope.Component)]
+
+    /// <summary>
+    /// The DocumentController is the primary object for the customization
+    /// architecture: it is the root of the object model representing the document
+    /// that you are customizing.
+    /// Through the DocumentController you have access to the part of the model
+    /// representing all the UI (i.e.: the DocumentView) and the part of the
+    /// model representing data (i.e.: the MDocument), gaining the control
+    /// over all the document stuff.
+    /// All the business logic realized by the customizer is inserted in the
+    /// body of the DocumentController class under the form of class methods.
+    /// This is the base class for all controllers customization classes EasyBuilder generates
+    /// to customize any document.
+    /// </summary>
+    /// <seealso cref="Microarea.TaskBuilderNet.Core.EasyBuilder.EasyBuilderComponent"/>
+    /// <seealso cref="Microarea.TaskBuilderNet.Interfaces.EasyBuilder.IEasyBuilderContainer"/>
+    /// <seealso cref="Microarea.EasyBuilder.MVC.DocumentView"/>
+    /// <seealso cref="Microarea.Framework.TBApplicationWrapper.MDocument"/>
+    //=============================================================================
+    [PropertyTabAttribute(typeof(EventsTab), PropertyTabScope.Component)]
 	[ExcludeFromIntellisense]
 	[DesignerSerializer(typeof(ControllerSerializer), typeof(CodeDomSerializer))]
 	public class DocumentController : MEasyBuilderContainer, IModelRoot, IDocumentController
 	{
+   
 		/// <summary>
 		/// 
 		/// </summary>
@@ -459,6 +462,11 @@ namespace Microarea.EasyBuilder.MVC
 		private NameSpace			customizationNameSpace;
 		private EasyBuilderScriptingManager scriptManager;
         private bool canBeLoaded = true;
+        JsonEvents jsonEvents;
+        /// <summary>
+        /// static declared events in JSON
+        /// </summary>
+        public JsonEvents JSONEvents { get => jsonEvents; set => jsonEvents = value; }
 
         /// <summary>
         /// Public static property used only for businessobjects purpose
@@ -1338,13 +1346,13 @@ namespace Microarea.EasyBuilder.MVC
 			get { return new ComponentCollection(components.ToArray()); }
 		}
 
-		/// <summary>
-		/// Remove the given component from the collection of children.
-		/// </summary>
-		/// <param name="component">The component to be removed from DocumentController components collection</param>
-		/// <seealso cref="System.ComponentModel.IComponent"/>
-		//-----------------------------------------------------------------------------
-		[ExcludeFromIntellisense]
+        /// <summary>
+        /// Remove the given component from the collection of children.
+        /// </summary>
+        /// <param name="component">The component to be removed from DocumentController components collection</param>
+        /// <seealso cref="System.ComponentModel.IComponent"/>
+        //-----------------------------------------------------------------------------
+        [ExcludeFromIntellisense]
 		public override void Remove(IComponent component)
 		{
 			components.Remove(component);
@@ -1647,6 +1655,69 @@ namespace Microarea.EasyBuilder.MVC
 			return found;
 		}
 
+        //--------------------------------------------------------------------------------
+        internal string GetJsonFormsPath(string assemblyPath)
+        {
+            if (string.IsNullOrEmpty(assemblyPath))
+                return assemblyPath;
+            string path = assemblyPath.ToLower();
+            string[] tokens = path.Split(Path.DirectorySeparatorChar);
+            string jsonFormsPath = string.Empty;
+            bool stopNext = false;
+            for (int i=0; i < tokens.Length; i++)
+            {
+                string token = tokens[i];
+                if (token.EndsWith(":"))
+                    jsonFormsPath = string.Concat(token, Path.DirectorySeparatorChar);
+                else
+                    jsonFormsPath = Path.Combine(jsonFormsPath, token);
+
+                // mi stoppo alla cartella di documento
+                if (stopNext)
+                    break;
+
+                if (string.Compare(NameSolverStrings.ModuleObjects, token, true) == 0)
+                    stopNext = true;
+            }
+
+            jsonFormsPath = Path.Combine(jsonFormsPath, NameSolverStrings.JsonForms);
+
+            return jsonFormsPath;
+        }
+
+        //--------------------------------------------------------------------------------
+        [ExcludeFromIntellisense]
+        internal void Init(string assemblyPath)
+        {
+            if (PathFinderWrapper.IsRemoteInterface())
+                LoadJsonEvents(assemblyPath);
+        }
+
+        //--------------------------------------------------------------------------------
+        [ExcludeFromIntellisense]
+        internal void LoadJsonEvents(string assemblyPath)
+        {
+            try
+            {
+                string fileName = Path.Combine(GetJsonFormsPath(assemblyPath), EventsJson.FileName);
+                if (!PathFinderWrapper.ExistFile(fileName))
+                    return;
+        
+                // TODOBRUNA da farsi ritornare lo stream dal path finder
+                using (StreamReader r = new StreamReader(fileName))
+                {
+                    string json = r.ReadToEnd();
+
+                    JSONEvents = JsonConvert.DeserializeObject<JsonEvents>(json);
+                    r.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw(e);
+            }
+        }
+
 		#region IEasyBuilderContainer Members
 
 		/// <summary>
@@ -1698,16 +1769,6 @@ namespace Microarea.EasyBuilder.MVC
 			return EasyBuilderComponent.GetComponent(Components, controlName);
 		}
 
-		//-----------------------------------------------------------------------------
-	/*	/// <summary>
-		/// Calls the execution of the rules.
-		/// </summary>
-		public override void FireBehaviours(object sender, EasyBuilderBehaviourEventArgs eventArg)
-		{
-			base.FireBehaviours(sender, eventArg);
-			foreach (EasyBuilderComponent component in Components)
-				component.FireBehaviours(sender, eventArg);
-		}*/
 		#endregion
 	}
 }

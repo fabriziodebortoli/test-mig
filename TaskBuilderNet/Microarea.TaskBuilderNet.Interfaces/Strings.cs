@@ -1351,8 +1351,19 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		}
 	}
 
-	//=========================================================================
-	public sealed class ConstString
+    //========================================================================
+    public sealed class EventsJson
+    {
+        public const string PrefixEvent = "ES_EVENTS_";
+        public const string FileName = "UserMethods.json";
+        public const string OwnerNameSpace = "OwnerNameSpace";
+        public const string EventName = "EventName";
+        public const string EventHandlerName = "EventHandlerName";
+        public const string Items = "items";
+    }
+
+    //=========================================================================
+    public sealed class ConstString
 	{
 		public const string providerNT = "WinNT://";
 		public const string MicroareaSite = "www.microarea.it";

@@ -585,7 +585,7 @@ namespace Microarea.EasyBuilder.MVC
                     controller.View.Visible = true;
 
 				controller.ExceptionRaised += new EventHandler<ExceptionRaisedEventArgs>(Controller_ExceptionRaised);
-
+                controller.Init(assemblyPath);
 				Add(controller);
 				controllerPaths.Add(controller, assemblyPath);
 			}

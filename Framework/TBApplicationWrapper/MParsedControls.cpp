@@ -21,6 +21,7 @@
 using namespace Microarea::Framework::TBApplicationWrapper;
 using namespace Microarea::TaskBuilderNet::Core::EasyBuilder;
 using namespace Microarea::TaskBuilderNet::Core::EasyBuilder::Refactor;
+using namespace Microarea::TaskBuilderNet::Interfaces;
 using namespace System::Runtime::InteropServices;
 using namespace System::Collections::Generic;
 using namespace System::Drawing::Drawing2D;
@@ -345,9 +346,9 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		}
 		jsonSer.OpenObject(i);
 		Microarea::TaskBuilderNet::Core::EasyBuilder::EventInfo^ ev = evEnumerator->Current;
-		jsonSer.WriteString(CString(namespaceTag), CString(this->Namespace->ToString()));
-		jsonSer.WriteString(CString(eventTag), CString(ev->EventName));
-		jsonSer.WriteString(CString(eventHandlerTag), CString(ev->EventHandlerName));
+		jsonSer.WriteString(CString(EventsJson::OwnerNameSpace), CString(this->Namespace->ToString()));
+		jsonSer.WriteString(CString(EventsJson::EventName), CString(ev->EventName));
+		jsonSer.WriteString(CString(EventsJson::EventHandlerName), CString(ev->EventHandlerName));
 		jsonSer.CloseObject();
 		i++;
 	}
@@ -359,7 +360,7 @@ void EasyBuilderControl::GenerateJsonForEvents(List<System::Tuple<System::String
 		(
 			gcnew Tuple<System::String^, System::String^, System::Boolean>
 			(
-				String::Concat(prefixEvent, this->Namespace),	
+				String::Concat(EventsJson::PrefixEvent, this->Namespace),
 				gcnew String(jsonSer.GetJson()),
 				false
 			)

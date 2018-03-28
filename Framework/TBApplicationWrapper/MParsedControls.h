@@ -125,14 +125,9 @@ namespace Microarea {
 				IWindowWrapperContainer^	parent;
 
 			public:
-				static System::String^  prefixEvent = "ES_EVENTS_";
-				static System::String^  userMethods = "UserMethods.json";
 				static System::String^  tbjsonExtension = ".tbjson";
 				static System::String^  backSlash = "\\";
 				static System::String^  contentTag = "content";
-				static System::String^  namespaceTag = "namespace";
-				static System::String^  eventTag = "event";
-				static System::String^  eventHandlerTag = "eventHandler";
 
 			public:
 				/// <summary>

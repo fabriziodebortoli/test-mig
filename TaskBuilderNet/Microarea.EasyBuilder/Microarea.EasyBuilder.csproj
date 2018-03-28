@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="JsonProcessor.cs" />
     <Compile Include="ModuleObjectsManager.cs" />
+    <Compile Include="MVC\JsonEvents.cs" />
     <Compile Include="NewCustomizationInfos.cs" />
     <Compile Include="NoSourcesOrDatException.cs" />
     <Compile Include="ObjectModel.cs" />

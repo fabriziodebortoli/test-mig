@@ -450,7 +450,7 @@ bool MView::ManageSerializations(List<System::Tuple<System::String^, System::Str
 	int n = 0;
 	for each (Tuple<System::String^, System::String^, System::Boolean>^ element in serialization)
 	{
-		if (element->Item1->IndexOf(prefixEvent) < 0)
+		if (element->Item1->IndexOf(EventsJson::PrefixEvent) < 0)
 			this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, element->Item1, tbjsonExtension)), CString(element->Item2));
 		else
 			EventsJsonStringDeserialize(CString(element->Item2), jsonSerEv, n);
@@ -458,7 +458,7 @@ bool MView::ManageSerializations(List<System::Tuple<System::String^, System::Str
 	jsonSerEv.CloseArray();
 
 	if (n > 0)
-		this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, userMethods)), jsonSerEv.GetJson());
+		this->SaveSerialization(CString(String::Concat(pathToSerialize, backSlash, EventsJson::FileName)), jsonSerEv.GetJson());
 
 	return true;
 }
@@ -473,14 +473,14 @@ void MView::EventsJsonStringDeserialize(const CString& strEvents, CJsonSerialize
 		{
 			if (parser.BeginReadObject(i))
 			{
-				CString sNs = parser.ReadString(CString(namespaceTag));
-				CString sEvent = parser.ReadString(CString(eventTag));
-				CString sEventHandler = parser.ReadString(CString(eventHandlerTag));
+				CString sNs = parser.ReadString(CString(EventsJson::OwnerNameSpace));
+				CString sEvent = parser.ReadString(CString(EventsJson::EventName));
+				CString sEventHandler = parser.ReadString(CString(EventsJson::EventHandlerName));
 
 				jsonSer.OpenObject(idx);
-				jsonSer.WriteString(CString(namespaceTag), sNs);
-				jsonSer.WriteString(CString(eventTag), sEvent);
-				jsonSer.WriteString(CString(eventHandlerTag), sEventHandler);
+				jsonSer.WriteString(CString(EventsJson::OwnerNameSpace), sNs);
+				jsonSer.WriteString(CString(EventsJson::EventName), sEvent);
+				jsonSer.WriteString(CString(EventsJson::EventHandlerName), sEventHandler);
 				jsonSer.CloseObject();
 				idx++;
 			}
