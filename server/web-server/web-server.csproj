@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <PackageId>web-server</PackageId>
     <UserSecretsId>aspnet-WebApplication-095A7864-9B4A-44DE-BDEF-99A046BE5DE5</UserSecretsId>
-     
+    <NoWarn>PC001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
