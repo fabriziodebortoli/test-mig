@@ -77,7 +77,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set width(width: number) {
-        this._width = width * this.widthFactor/* + 20*/;
+        this._width = Math.round(width * this.widthFactor);
     }
 
     get captionWidth(): number {
@@ -95,7 +95,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
 
     @Input()
     set height(height: number) {
-        this._height = height * this.heightFactor;
+        this._height = Math.round(height * this.heightFactor);
     }
 
     get model(): any {

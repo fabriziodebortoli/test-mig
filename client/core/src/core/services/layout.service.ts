@@ -47,8 +47,8 @@ export class LayoutService {
 
       let offsetHeight = dpiElement.offsetHeight;
       let offsetWidth = dpiElement.offsetWidth;
-      this.setHeightFactor(Math.round(offsetHeight / 55));
-      this.setWidthFactor(Math.round(offsetWidth / 55));
+      this.setHeightFactor(Math.round(offsetHeight / 55 * 100) / 100);
+      this.setWidthFactor(Math.round(offsetWidth / 55 * 100) / 100);
       //pixels * dpioffset / 72  = points
     }
 
