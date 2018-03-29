@@ -2799,7 +2799,6 @@ void CRS_ObjectPropertyView::CreateNewElement()
 			pRepField->SetFieldType(WoormField::RepFieldType::FIELD_COLUMN);
 			pRepField->SetDispTable(currentTable->GetName());
 		}
-
 		else 
 			pRepField->SetFieldType(WoormField::RepFieldType::FIELD_NORMAL);
 

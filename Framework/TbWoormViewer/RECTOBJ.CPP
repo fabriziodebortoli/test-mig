@@ -4606,6 +4606,9 @@ FieldRect::~FieldRect ()
 	ClearDynamicAttributes();
 }
 
+void FieldRect::SetInternalID()
+{ ASSERT(FALSE); }		//FieldRect use it
+
 //---------------------------------------------------------------------------
 void FieldRect::RenameAlias(int offset)
 {

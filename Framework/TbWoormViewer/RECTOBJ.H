@@ -674,6 +674,7 @@ public:
 	FieldRect	(const FieldRect& source);
 	~FieldRect ();
 	virtual BaseObj* Clone() const { return new FieldRect(*this); }
+	virtual  void	SetInternalID();
 
 public:
 	BOOL	GetAppendMailPart		() const { return m_bAppendMailPart; }

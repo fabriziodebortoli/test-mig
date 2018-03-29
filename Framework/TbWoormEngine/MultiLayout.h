@@ -22,7 +22,7 @@ public:
 	virtual int		GetViewCurrentRow	() const { return 0; }					//Table/Repeater override it
 	virtual WORD	GetInternalID	() const { return m_wInternalID; }		//Table/Repeater/FieldRect use it
 	virtual	WORD	GetRDESearchID	() const { return m_wInternalID; };		//Table/Repeater override it: returns active column's ID
-
+	virtual void	SetInternalID()  { ASSERT(FALSE); }		//FieldRect use it
 };
 
 #include "endh.dex"

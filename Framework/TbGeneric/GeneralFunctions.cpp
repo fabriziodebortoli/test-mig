@@ -1399,41 +1399,42 @@ int FindEndBlock(CString s, TCHAR chBegin, TCHAR chEnd, int startIndex/* = 0*/)
 }
 
 //-----------------------------------------------------------------------------
-int FindWord(CString s, CString sub, BOOL noCase/* = TRUE*/, int startIndex /*= 0*/, BOOL skipInnerRound/* = FALSE*/)
+int FindWord(CString s, CString word, BOOL noCase/* = TRUE*/, int startIndex /*= 0*/, BOOL skipInnerRound/* = FALSE*/)
 {
 	if (noCase)
 	{
 		s.MakeLower();
-		sub.MakeLower();
+		word.MakeLower();
 	}
 
-	while((startIndex + sub.GetLength()) <= s.GetLength())
+	while((startIndex + word.GetLength()) <= s.GetLength())
 	{	
-		int idx = s.Find(sub, startIndex);
-		if (idx < 0)
+		int idxWord = s.Find(word, startIndex);
+		if (idxWord < 0)
 			break;
 
 		if (skipInnerRound)
 		{
-			int pos = s.Find('(', startIndex);
-			if (pos > -1 && pos < idx)
+			int idxOpenRound = s.Find('(', startIndex);
+			if (idxOpenRound > -1 && idxOpenRound < idxWord)
 			{
-				startIndex = FindEndBlock(s, '(', ')', startIndex);
+				startIndex = ::FindEndBlock(s, '(', ')', idxOpenRound);
 				if (startIndex < 0 || startIndex >= s.GetLength())
 					break;
-				if (startIndex > idx)
+				if (startIndex > idxWord)
 					continue;
 			}
 		}
-		startIndex = idx + sub.GetLength();
 
-		if (idx > 0 && IsCharAlphaNumeric(s[idx - 1]))
+		startIndex = idxWord + word.GetLength();
+
+		if (idxWord > 0 && IsCharAlphaNumeric(s[idxWord - 1]))
 			continue;
 
 		if (startIndex < s.GetLength() && IsCharAlphaNumeric(s[startIndex]))
 			continue;
 
-		return idx;
+		return idxWord;
 	}
 	return -1;
 }

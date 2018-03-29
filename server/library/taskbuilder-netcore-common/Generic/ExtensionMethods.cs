@@ -125,36 +125,36 @@ namespace Microarea.Common.Generic
         }
 
         //--------------------------------------------------------------------------------
-        public static int IndexOfWord(this string source, string toCheck, bool noCase = true, int startIndex = 0, bool skipInnerRound = false)
+        public static int IndexOfWord(this string source, string word, bool noCase = true, int startIndex = 0, bool skipInnerRound = false)
         {
-            while ((startIndex + toCheck.Length) <= source.Length)
+            while ((startIndex + word.Length) <= source.Length)
             {
-                int idx = noCase ? source.IndexOfNoCase(toCheck, startIndex) : source.IndexOf(toCheck, startIndex);
-                if (idx < 0)
+                int idxWord = noCase ? source.IndexOfNoCase(word, startIndex) : source.IndexOf(word, startIndex);
+                if (idxWord < 0)
                     break;
 
                 if (skipInnerRound)
                 {
-                    int pos = source.IndexOf('(', startIndex);
-                    if (pos > -1 && pos < idx)
+                    int idxOpenRound = source.IndexOf('(', startIndex);
+                    if (idxOpenRound > -1 && idxOpenRound < idxWord)
                     {
-                        startIndex = source.FindEndBlock('(', ')', startIndex);
+                        startIndex = source.FindEndBlock('(', ')', idxOpenRound);
                         if (startIndex < 0 || startIndex >= source.Length)
                             break;
-                        if (startIndex > idx)
+                        if (startIndex > idxWord)
                             continue;
                     }
                 }
 
-                startIndex = idx + toCheck.Length;
+                startIndex = idxWord + word.Length;
 
-                if (idx > 0 && char.IsLetterOrDigit(source[idx - 1]))
+                if (idxWord > 0 && char.IsLetterOrDigit(source[idxWord - 1]))
                     continue;
 
                 if (startIndex < source.Length && char.IsLetterOrDigit(source[startIndex]))
                     continue;
 
-                return idx;
+                return idxWord;
             }
             return -1;
         }

@@ -5025,7 +5025,7 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 
 	if (bAddTagCol && this->m_pColumnArray && this->m_pColumnArray->GetCount())
 	{
-		int idx = ::FindWord(query, L"From", TRUE, TRUE, 0);	/*TODO debole potrebbero esserci tab o newline o colonne basate su SUB QUERY*/
+		int idx = ::FindWord(query, L"From", TRUE, 0, TRUE);
 		if (idx > -1)
 		{
 			query = query.Mid(idx);
