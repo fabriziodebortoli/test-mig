@@ -55,7 +55,7 @@ private:
 class TB_EXPORT DataFunction : public Expression      // only for EVAL function
 {
 private:
-    WoormField*		m_pFuncItem;
+    WoormField*		m_pFuncItem = NULL;
     long			m_nOccurrence = 0;         //per gestire AVG/Count/First
 
 protected:
@@ -63,6 +63,7 @@ protected:
 
 public:
     DataFunction (SymTable*);
+	DataFunction (const DataFunction&);
 
     BOOL        IsAnExpression  () const	{ return m_FunctionType == T_NOTOKEN; }
 	Token		GetFunctionType	() const	{ return m_FunctionType; }
@@ -93,6 +94,7 @@ private:
 public:
 	EventFunction (SymTable*, WoormField&);
 	EventFunction (SymTable*, WoormField&, LPCTSTR pszExpression, const DataType&);
+	EventFunction (const EventFunction&);
 
 public:
 	virtual DataObj&		GetData		() const;
@@ -104,7 +106,7 @@ public:
 	virtual	void		Reset		(BOOL bResetAll = TRUE);
 			BOOL			Parse		(Parser&);
 
-	CString		GetPublicName	() const			{ ASSERT(!m_strPublicName.IsEmpty()); return m_strPublicName;	}
+	CString		GetPublicName	() const			{ return m_strPublicName;	}
 	void		SetPublicName	(LPCTSTR szName)	{ m_strPublicName = szName;	}
 
 	BOOL		CanDeleteField	(LPCTSTR);

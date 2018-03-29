@@ -2710,42 +2710,48 @@ void CWoormDocMng::OnObjectPaste()
 		if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
 		{
 			//TODO solo campi funzione/espressione
-/*
-pRepField->SetExprRuleField(TRUE);
-
-ExpRuleData* pExpRuleData = new ExpRuleData(*pSymTable);
-pExpRuleData->SetPublicName(m_NewName);
-pExpRuleData->m_ThenExpr.AssignStr(m_NewType.FormatDefaultValue());
-
-pSymTable->Add(pRepField);
-
-GetDocument()->m_pEditorManager->GetPrgData()->GetRuleData()->Add(pExpRuleData);
-
-*/
 			WoormField* pF = GetEditorSymTable()->GetFieldByID(m_pCurrentObj->GetInternalID());
-			if (pF && !pF->IsRuleField() && 
-				(pF->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
-					pF->GetSourceEnum() == WoormField::SourceFieldType::HIDDEN_FIELD
-				))
+
+			if (
+				pF && 
+					(
+						pF->GetFieldType() == WoormField::RepFieldType::FIELD_NORMAL ||
+						pF->GetFieldType() == WoormField::RepFieldType::FIELD_INPUT
+					)
+					&&
+					(
+						pF->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
+						pF->GetSourceEnum() == WoormField::SourceFieldType::EXPRESSION_FIELD ||
+						pF->GetSourceEnum() == WoormField::SourceFieldType::ASK_FIELD ||
+						pF->GetSourceEnum() == WoormField::SourceFieldType::HIDDEN_FIELD
+					)
+				)
 			{
-/*
-				WoormField* pFN = new WoormField(*pF);
-				GetEditorSymTable()->Add(pFN);
+				WoormField* pFieldNew = new WoormField(pF, GetEditorSymTable()->GetNextId());
+				GetEditorSymTable()->Add(pFieldNew);
 
 				pNew = new FieldRect(*(FieldRect*)m_pCurrentObj);
-				pNew->SetInternalID(pFN->GetId());
+				pNew->SetInternalID(pFieldNew->GetId());
 
+				if (pF->IsRuleField())
+				{
+					ExpRuleData* pRule = (ExpRuleData*) m_pEditorManager->GetPrgData()->GetRuleData()->GetRuleData(pF->GetName(), RuleType::RULE_EXPR, 0);
+					if (pRule)
+					{
+						pFieldNew->SetExprRuleField(TRUE);
+						ExpRuleData* pNewExpRule = new ExpRuleData(*pRule);
+						pNewExpRule->SetPublicName(pFieldNew->GetName());
+					
+						m_pEditorManager->GetPrgData()->GetRuleData()->Add(pNewExpRule);
 
-				int nAlias = pNew->GetInternalID();
-				WoormField* pF = GetEditorSymTable()->GetFieldByID(nAlias);
-				ASSERT_VALID(pF);
-				SyncronizeViewSymbolTable(pF);
+						RefreshRSTree(ERefreshEditor::Rules);
+					}
+				}
+
+				SyncronizeViewSymbolTable(pFieldNew);
 
 				RefreshRSTree(ERefreshEditor::Variables);
-*/
 			}
-
-
 		}
 		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(FileRect)))
 		{

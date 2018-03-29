@@ -106,6 +106,79 @@ WoormField::WoormField
 }
 
 //----------------------------------------------------------------------------
+WoormField::WoormField
+				(
+					WoormField* pClone,
+					WORD nAlias/* = SpecialReportField::NO_INTERNAL_ID*/
+				)
+	: SymField(*pClone)
+{
+	SetId(nAlias);
+	m_strName = m_strName + ::cwsprintf(L"_%d", nAlias);
+
+	m_FieldType		= pClone->m_FieldType;
+
+	m_bHidden		= pClone->m_bHidden;
+
+	//TODO non  clona le info dei campi di askdialog (perchè probabilmente non è stata clonata)
+	//m_bAsk		= FALSE;// pClone->m_bAsk;
+	//m_bReInit		= FALSE;// pClone->m_bReInit;
+	//m_bStatic		= FALSE;// pClone->m_bStatic;
+	//m_bLowerLimit	= FALSE;// pClone->m_bLowerLimit;
+	//m_bUpperLimit	= FALSE;// pClone->m_bUpperLimit;
+
+	m_bMultiline	= pClone->m_bMultiline;
+	m_nLen			= pClone->m_nLen;                 // they need for eventual store on
+	m_nNumDec		= pClone->m_nNumDec;              // temporary file
+
+	m_pInitExpression = pClone->m_pInitExpression
+		? new Expression(*pClone->m_pInitExpression)
+		: NULL;
+
+	m_pEventFunction = pClone->m_pEventFunction
+		? new EventFunction(*pClone->m_pEventFunction)
+		: NULL;
+	if (pClone->m_pEventFunction && 
+		!pClone->m_pEventFunction->GetPublicName().IsEmpty() &&
+		m_strName.Find(pClone->m_pEventFunction->GetPublicName()) == 0
+		)
+		m_pEventFunction->SetPublicName(m_strName);
+
+	m_bNativeColumnExpr		= pClone->m_bNativeColumnExpr;
+	m_strPhysicalName		= pClone->m_strPhysicalName;
+
+	m_sXmlAliasName			= pClone->m_sXmlAliasName + ::cwsprintf(L"_%d", nAlias);
+	m_bNoXml				= pClone->m_bNoXml;
+
+	m_sThreadContextVar		= pClone->m_sThreadContextVar;
+	m_bOwnThreadContextVar	= pClone->m_bOwnThreadContextVar;
+
+	m_bIsExprField			= pClone->m_bIsExprField;
+	m_bIsTableField			= pClone->m_bIsTableField;
+	m_bIsSpecialField		= pClone->m_bIsSpecialField;
+	m_strDisplayTable		= pClone->m_strDisplayTable;
+
+	//TODO non  clona le info di Engine
+	//RuleItem
+	//m_bRuleDataUpdated = FALSE;
+	//m_bReadOnly = FALSE;
+	//m_pOwnerRule = NULL;          // only used to resolve order by expression
+ //  //QueryItem
+	//m_pQryData = NULL;
+	//m_bQryDataUpdated = FALSE;
+	//m_pGroupFunction = NULL;		// property of GroupBy
+	//// WoormField
+	//m_bDisplayed = FALSE;
+	//m_AccumKind = 0;
+	//m_bRepDataUpdated = FALSE;
+	//m_pRepData = NULL;
+	//m_pOwnRepField = NULL;		// WoormField Owner (only for SubTotal/ColTotal fields)
+	//m_Substrings;
+	//m_pDisplayTable = NULL;	// Display Table Owner
+
+}
+
+//----------------------------------------------------------------------------
 WoormField::~WoormField()
 {
 	SAFE_DELETE (m_pInitExpression);

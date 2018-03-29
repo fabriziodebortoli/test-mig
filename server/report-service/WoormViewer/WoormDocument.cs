@@ -1946,6 +1946,7 @@ namespace Microarea.RSWeb.WoormViewer
              s += '{' +
                    (template ? "template" : "data").ToJson("type") + ','  +
                     pageNo.ToJson("page_number") + ',' +
+                    this.Objects.Name.ToJson("layout_name") + ',' +
                     ("\"report_title\":" ) + (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"')) +','+
                     (template ? this.pageInfo.ToJson(this.Objects.Invert) + ',' : "") +
                    this.Objects.ToJson(template, "layout") +

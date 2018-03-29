@@ -530,7 +530,11 @@ WORD WoormTable::GetCurId() const
 	return m_pGlobalId ? m_pGlobalId->GetId() : SpecialReportField::NO_INTERNAL_ID;
 }
 
-//----------------------------------------------------------------------------
+WORD WoormTable::GetNextId() 
+{
+	return m_pGlobalId ? m_pGlobalId->GetNextId() : SpecialReportField::NO_INTERNAL_ID;
+}
+
 void WoormTable::SetLastId(WORD wId)
 {
 	if (m_pGlobalId) 

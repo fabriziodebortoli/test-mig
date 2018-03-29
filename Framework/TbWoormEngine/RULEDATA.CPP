@@ -1970,6 +1970,20 @@ ExpRuleData::ExpRuleData(WoormTable& aSymTable)
 	m_bDisableUniqueConstraint(FALSE)
 {}
 
+ExpRuleData::ExpRuleData(const ExpRuleData& rule)
+	:
+	RuleDataObj(rule.m_SymTable),
+
+	m_strPublicName (rule.m_strPublicName),
+	m_TestExpr(rule.m_TestExpr),
+	m_ThenExpr(rule.m_ThenExpr),
+	m_ElseExpr(rule.m_ElseExpr),
+
+	m_pValidateWhereExpr(rule.m_pValidateWhereExpr ? new Expression(*rule.m_pValidateWhereExpr) : NULL),
+	m_bDisableUniqueConstraint (rule.m_bDisableUniqueConstraint)
+{
+}
+
 ExpRuleData::~ExpRuleData()
 {
 	SAFE_DELETE(m_pValidateWhereExpr);

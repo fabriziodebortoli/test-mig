@@ -119,8 +119,9 @@ public:
 public:
 	BOOL		MoreVisibleFreeFields	(LPCTSTR)	const;
 
-	virtual void		SetLastId		(WORD wId);
 	virtual WORD		GetCurId		() const;
+	virtual WORD		GetNextId		();
+	virtual void		SetLastId		(WORD wId);
 
 	virtual INT_PTR		Add				(SymField*);
 

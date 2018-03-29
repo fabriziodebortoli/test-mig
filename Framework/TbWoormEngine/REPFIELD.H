@@ -53,34 +53,55 @@ public:
 	};
 
 protected:
-	RepFieldType	m_FieldType;
+	RepFieldType	m_FieldType = RepFieldType::FIELD_NORMAL;
 
-	BOOL		m_bHidden;
-	BOOL		m_bAsk;
-		BOOL		m_bReInit;
-		BOOL		m_bStatic;
-		BOOL		m_bLowerLimit;
-		BOOL		m_bUpperLimit;
+	BOOL		m_bHidden = TRUE;;
+	BOOL		m_bAsk = FALSE;
+		BOOL		m_bReInit = FALSE;
+		BOOL		m_bStatic = FALSE;
+		BOOL		m_bLowerLimit = FALSE;
+		BOOL		m_bUpperLimit = FALSE;
 
-	BOOL		m_bMultiline;
-	int			m_nLen;                 // they need for eventual store on
-	int         m_nNumDec;              // temporary file
+	BOOL		m_bMultiline = FALSE;
+	int			m_nLen = 0;                 // they need for eventual store on
+	int         m_nNumDec = 0;              // temporary file
 
-	Expression*		m_pInitExpression;
+	Expression*		m_pInitExpression = NULL;
 
-	BOOL			m_bNativeColumnExpr;
+	BOOL			m_bNativeColumnExpr = FALSE;
 	CString			m_strPhysicalName;
 
 	CString			m_sXmlAliasName;
-	BOOL			m_bNoXml;
+	BOOL			m_bNoXml = FALSE;
 
 	CString			m_sThreadContextVar;
-	BOOL			m_bOwnThreadContextVar;
+	BOOL			m_bOwnThreadContextVar = FALSE;
 
-	BOOL			m_bIsExprField;
-	BOOL			m_bIsTableField;
-	BOOL			m_bIsSpecialField;
+	BOOL			m_bIsExprField = FALSE;
+	BOOL			m_bIsTableField = FALSE;
+	BOOL			m_bIsSpecialField = FALSE;
 	CString			m_strDisplayTable;
+
+	//RuleItem
+	BOOL			m_bRuleDataUpdated = FALSE;
+
+	BOOL			m_bReadOnly = FALSE;
+
+	RuleObj*		m_pOwnerRule = NULL;          // only used to resolve order by expression
+	//QueryItem
+	DataObj*		m_pQryData = NULL;
+	BOOL			m_bQryDataUpdated = FALSE;
+	GroupFunction*	m_pGroupFunction = NULL;		// property of GroupBy
+
+	// WoormField
+	BOOL			m_bDisplayed = FALSE;
+	RDEcmd			m_AccumKind = 0;
+	BOOL			m_bRepDataUpdated = FALSE;
+	DataObj*		m_pRepData = NULL;
+	WoormField*		m_pOwnRepField = NULL;		// WoormField Owner (only for SubTotal/ColTotal fields)
+	EventFunction*	m_pEventFunction = NULL;
+	CStringArray	m_Substrings;
+	DisplayTableEntry*	m_pDisplayTable = NULL;	// Display Table Owner
 
 public:													
 	WoormField
@@ -92,6 +113,11 @@ public:
 			DataObj* pValue = NULL, 
 			BOOL bCloneValue = TRUE
 		);
+	WoormField
+	(
+		WoormField*, 
+		WORD nAlias = SpecialReportField::NO_INTERNAL_ID
+	);
 
 	~WoormField();
 
@@ -184,31 +210,6 @@ public:
 	virtual BOOL	OwnThreadContextVar		() const				{	return !m_sThreadContextVar.IsEmpty() && m_bOwnThreadContextVar;	}
 	void			SetOwnThreadContextVar	(BOOL b) 				{ m_bOwnThreadContextVar = b; }
 
-//RuleItem
-protected:
-
-	BOOL			m_bRuleDataUpdated;
-
-	BOOL			m_bReadOnly;
-
-	RuleObj*		m_pOwnerRule;          // only used to resolve order by expression
-
-//QueryItem
-	DataObj*		m_pQryData;
-	BOOL			m_bQryDataUpdated;
-	GroupFunction*	m_pGroupFunction;		// property of GroupBy
-
-// WoormField
-	BOOL			m_bDisplayed;
-
-	RDEcmd			m_AccumKind;
-	BOOL			m_bRepDataUpdated;
-	DataObj*		m_pRepData;
-	WoormField*		m_pOwnRepField;		// WoormField Owner (only for SubTotal/ColTotal fields)
-	EventFunction*	m_pEventFunction;
-	CStringArray	m_Substrings;
-
-	DisplayTableEntry*	m_pDisplayTable;	// Display Table Owner
 //------------------------------------------------
 //RuleItem
 public:

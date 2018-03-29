@@ -4606,8 +4606,24 @@ FieldRect::~FieldRect ()
 	ClearDynamicAttributes();
 }
 
-void FieldRect::SetInternalID()
-{ ASSERT(FALSE); }		//FieldRect use it
+void FieldRect::SetInternalID(WORD ID)
+{ 
+	WoormField* pField = m_pDocument->GetEditorSymTable() ? m_pDocument->GetEditorSymTable()->GetFieldByID(m_wInternalID) : NULL;
+	if (pField)
+	{
+		ASSERT_VALID(pField);
+		ASSERT(
+			(pField->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
+				pField->GetSourceEnum() == WoormField::SourceFieldType::EXPRESSION_FIELD ||
+				pField->GetSourceEnum() == WoormField::SourceFieldType::ASK_FIELD ||
+				pField->GetSourceEnum() == WoormField::SourceFieldType::HIDDEN_FIELD)
+			&&
+			(pField->GetFieldType() == WoormField::RepFieldType::FIELD_NORMAL ||
+				pField->GetFieldType() == WoormField::RepFieldType::FIELD_INPUT)
+		);
+	}
+	this->m_wInternalID = ID;
+}		
 
 //---------------------------------------------------------------------------
 void FieldRect::RenameAlias(int offset)
@@ -5618,7 +5634,7 @@ void FieldRect::UnparseAuxProp (ViewUnparser& ofile)
 	if (bLab)
 	{
 		ofile.UnparseTag (T_LABEL, FALSE);
-		if (m_pLabelTextExpr != NULL && ! m_pDocument->m_Template.m_bIsSavingTemplate) 
+		if (m_pLabelTextExpr != NULL && !m_pLabelTextExpr->IsEmpty() && !m_pDocument->m_Template.m_bIsSavingTemplate)
 		{
 			ofile.UnparseTag (T_ASSIGN, FALSE);
 
@@ -5675,7 +5691,7 @@ void FieldRect::Unparse (ViewUnparser& ofile)
 	ofile.UnparseAlias (m_wInternalID,                		        FALSE);
 	ofile.Write (_T(" /* ") + GetFieldName() +  _T(" */ "),			FALSE);
 
-	if (m_pFormatExpr && !m_pDocument->m_Template.m_bIsSavingTemplate)
+	if (m_pFormatExpr && !m_pFormatExpr->IsEmpty() && !m_pDocument->m_Template.m_bIsSavingTemplate)
 	{
 		ofile.UnparseTag(T_FORMATSTYLE, FALSE);
 		ofile.UnparseTag(T_ASSIGN, FALSE);

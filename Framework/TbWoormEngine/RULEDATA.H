@@ -252,6 +252,7 @@ public:
 
 public:
 	ExpRuleData(WoormTable& aSymTable);
+	ExpRuleData(const ExpRuleData& rule);
 	virtual ~ExpRuleData();
 
 public:

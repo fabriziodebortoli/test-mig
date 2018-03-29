@@ -30,6 +30,15 @@ DataFunction::DataFunction(SymTable* pSymTable)
 {
 }
 
+DataFunction::DataFunction(const DataFunction& dfun)
+	: 
+	Expression		(dfun),
+	m_pFuncItem		(dfun.m_pFuncItem),
+	m_nOccurrence	(dfun.m_nOccurrence),
+	m_FunctionType	(dfun.m_FunctionType)
+{
+}
+
 //---------------------------------------------------------------------------
 BOOL DataFunction::Eval()
 {
@@ -359,7 +368,6 @@ EventFunction::EventFunction (SymTable* pSymTable, WoormField& AccField)
 	m_AccumulatorField	(AccField)
 {}
 
-//----------------------------------------------------------------------------
 EventFunction::EventFunction(SymTable* pSymTable, WoormField& AccField, LPCTSTR pszExpr, const DataType& aDataType)
 	:
     DataFunction		(pSymTable),
@@ -367,6 +375,14 @@ EventFunction::EventFunction(SymTable* pSymTable, WoormField& AccField, LPCTSTR 
 {
 	Parser lex(pszExpr);
 	Expression::Parse(lex, aDataType, TRUE);
+}
+
+EventFunction::EventFunction(const EventFunction& evfun)
+	:
+	DataFunction		(evfun),
+	m_strPublicName		(evfun.m_strPublicName),
+	m_AccumulatorField	(evfun.m_AccumulatorField)
+{
 }
 
 //---------------------------------------------------------------------------

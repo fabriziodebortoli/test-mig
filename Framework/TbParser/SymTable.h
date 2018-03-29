@@ -24,20 +24,20 @@ class TB_EXPORT SymField : public BaseField
 	DECLARE_DYNAMIC(SymField)
 
 private:
-	WORD		m_wId;		//such as Woorm 'Alias'
-	SymTable*	m_pTable;
+	WORD		m_wId = 0;		//such as Woorm 'Alias'
+	SymTable*	m_pTable = NULL;
 
-	CFunctionDescriptionArray* m_parMethods;
+	CFunctionDescriptionArray* m_parMethods = NULL;
 
-	int			m_nRefCount;
-	int			m_nLeftRefCount;
+	int			m_nRefCount = 0;
+	int			m_nLeftRefCount = 0;
 
 	CString		m_strTitle;
 	CString		m_strTag;
 
-	IDataProvider* m_pProvider;
+	IDataProvider* m_pProvider = NULL;
 
-	CObject*	m_pCustomData;
+	CObject*	m_pCustomData = NULL;
 
 public:
 	SymField (const CString& strName, DataType dt = DataType::Null, WORD nId = SpecialReportField::NO_INTERNAL_ID, DataObj* pValue = NULL, BOOL bCloneValue = TRUE);
@@ -182,6 +182,7 @@ public:
 	BOOL				IsEmpty			() const { return GetSize() <= m_nCountSpecialFields; }
 	// Woorm
 	virtual WORD		GetCurId		() const { return 0; }
+	virtual WORD		GetNextId		()  { return 0; }
 	virtual void		SetLastId		(WORD ) {}
 
 	virtual void		DeleteMeAsLocalScope();
