@@ -202,6 +202,10 @@ protected:
 	void OnBuildingSecurityTree	(CTBTreeCtrl* pTree, ::Array* arInfoTreeItems);
 public:
 	void EasyBuilderIt					();
+
+	// routing
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+
 protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void ChooseContext();
@@ -235,9 +239,11 @@ private:
 	AddNewTagType GetAddNewTag();
 	DocumentController^ GetActiveController();
 	BusinessObject^ GetCaller();
+	System::String^ DecodeEventName(int nCode);
 
 public:
 	static	BOOL IsLicenseForEasyBuilderVerified();
+	
 };
 
 #include "endh.dex"

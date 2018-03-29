@@ -2426,4 +2426,52 @@ void CDEasyBuilder::OnBuildingSecurityTree (CTBTreeCtrl* pTree, ::Array* pInfoTr
 		documentControllers->UnloadAndDisableNotWorkingControllers(notWorkingControllers);
 }
 
+//-----------------------------------------------------------------------------
+String^ CDEasyBuilder::DecodeEventName(int nCode)
+{
+	switch (nCode)
+	{
+		case EN_VALUE_CHANGED:
+			return "ValueChanged";
+		case BN_CLICKED:
+			return "Click";
+		case BEN_ROW_CHANGED:
+			return "RowChanged";
+	}
+	
+	return String::Empty;
+}
 
+//-----------------------------------------------------------------------------
+BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+{
+	BOOL bResult = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+	
+	BOOL bManaged =
+		nCode == EN_VALUE_CHANGED ||
+		nCode == BN_CLICKED /*||
+		nCode == EN_CTRL_STATE_CHANGED /*||
+		nCode == BEN_ROW_CHANGED*/;
+
+	if (bManaged && AfxIsRemoteInterface())
+	{
+		DocumentControllers^ controllers = documentControllers;
+		if (controllers == nullptr)
+			return bResult == TRUE;
+		
+		IList<DocumentController^>^ notWorkingControllers = gcnew List<DocumentController^>();
+		for each (DocumentController^ controller in controllers)
+		{
+			CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
+			String^ eventName = DecodeEventName(nCode);
+			String^ targetID = gcnew String(resource.m_strName);
+
+			EXECUTE_SAFE_CONTROLLER_CODE(
+				controller->DispatchWebMessage(eventName, targetID);
+
+			)
+
+		}
+	}
+	return (bResult == TRUE);
+}

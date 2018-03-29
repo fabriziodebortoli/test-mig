@@ -1759,16 +1759,56 @@ namespace Microarea.EasyBuilder.MVC
 		{
 			return EasyBuilderComponent.HasComponent(Components, controlName);
 		}
-		/// <summary>
-		/// retrieves the component given the name
-		/// </summary>
-		/// <param name="controlName"></param>
-		/// <returns></returns>
-		public override IComponent GetComponent(string controlName)
+        /// <summary>
+        /// retrieves the component given the name
+        /// </summary>
+        /// <param name="controlName"></param>
+        /// <returns></returns>
+        //-----------------------------------------------------------------------------
+        public override IComponent GetComponent(string controlName)
 		{
 			return EasyBuilderComponent.GetComponent(Components, controlName);
 		}
 
-		#endregion
-	}
+        /// <summary>
+        /// dispatch a message from Web interface
+        /// </summary>
+        /// <param name="eventName"></param>
+        /// <param name="targetID"></param>
+        //-----------------------------------------------------------------------------
+        public void DispatchWebMessage(string eventName, string targetID)
+        {
+            JsonEvent jsonEvent = LookupJsonEvent(eventName, targetID);
+            if (jsonEvent == null)
+                return;
+
+            MethodInfo methodInfo = GetType().GetMethod(jsonEvent.EventHandlerName);
+            if (methodInfo != null)
+            {
+                EasyBuilderEventArgs args = new EasyBuilderEventArgs();
+                methodInfo.Invoke(controller.View, new[] { args });
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        private JsonEvent LookupJsonEvent(string eventName, string targetID)
+        {
+            if (jsonEvents == null)
+                return null;
+
+            foreach (JsonEvent jsonev in jsonEvents.items)
+            {
+                if (jsonev.EventName.CompareNoCase(eventName) &&
+                        (
+                            jsonev.Owner.CompareNoCase(targetID) ||
+                            jsonev.OwnerNameSpace.CompareNoCase(targetID)
+                        )
+                    )
+                    return jsonev;
+            }
+            return null;
+        }
+
+        #endregion
+    }
 }
