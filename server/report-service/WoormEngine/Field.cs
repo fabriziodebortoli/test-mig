@@ -359,8 +359,16 @@ namespace Microarea.RSWeb.WoormEngine
             s += this.Name.ToJson("name") + ',';
             s += this.Id.ToJson("id", "id") + ',';
 
-            s += this.Data.GetType().Name.ToJson("type") + ',';
-
+            //Per le date viene usato il WoormType per pilotarne il formattatore (nelle askdialog ad es. le variabili di tipo Date non mostrano ore:minuti, quelle dateTime si)
+            //Il type del Data non serve a discriminare perche in entrambi i casi e' DateTime
+            if (this.Data is DateTime)
+            {
+                s += this.WoormType.ToJson("type") + ',';
+            }
+            else
+            {
+                s += this.Data.GetType().Name.ToJson("type") + ',';
+            }
             s += this.Data.ToJson("value");
 
             return s + '}';

@@ -938,8 +938,9 @@ namespace Microarea.Common.Generic
 
         public static string ToJson(this DateTime d, string name = null, bool bracket = false)
         {
-            //       o: 2008-06-15T21:15:07.0000000   see https://msdn.microsoft.com/it-it/library/zdtaw1bw(v=vs.110).aspx
-            return d.ToString("o").ToJson(name, bracket, false, true);
+            // Same format of model send from Tbloader to document, as they shared the same client control 1799-12-31T00: 00:00
+            //      s: 2008-06-15T21:15:07  see https://msdn.microsoft.com/it-it/library/zdtaw1bw(v=vs.110).aspx
+            return d.ToString("s").ToJson(name, bracket, false, true);
         }
 
         //----------------------------------------------------------------------------------

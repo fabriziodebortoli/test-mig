@@ -15,6 +15,7 @@ import * as moment from 'moment';
 export class AskTextComponent implements OnInit {
 
   @Input() text: text;
+  modelWithModelChanged: any;  //used for datecontrol, only because inner DateInputComponent uses it 
 
   constructor(public rsService: ReportingStudioService, public adService: AskdialogService) { }
 
@@ -25,9 +26,15 @@ export class AskTextComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.text.type === 'DateTime') {
-      const t2 = moment.parseZone(this.text.value, 'DD/MM/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss');
-      this.text.value = new Date(t2);
+    if (this.text.type === 'DateTime' || this.text.type === 'Date') {
+      this.modelWithModelChanged = this.text;
+      this.modelWithModelChanged.modelChanged = new EventEmitter<any>();
+    }
+  }
+
+  ngAfterViewInit(){
+    if (this.text.type === 'DateTime' || this.text.type === 'Date') {
+      this.modelWithModelChanged.modelChanged.emit();
     }
   }
 
