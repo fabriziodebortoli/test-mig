@@ -1842,7 +1842,7 @@ BOOL CAbstractFormFrame::OnPopulatedDropDown(UINT nIdCommand)
 	else if (nIdCommand == ID_EXTDOC_FIND)
 	{
 		menu.AppendMenu(MF_STRING, ID_EXTDOC_FIND, _TB("Specific"));
-		menu.AppendMenu(MF_STRING, ID_EXTDOC_QUERY, _TB("By Query"), TBIcon(szQuery_Find + AfxGetThemeManager()->GetToolbarIconRightTerminal(), TOOLBAR));
+		menu.AppendMenu(MF_STRING, ID_EXTDOC_QUERY, _TB("By Query"), TBIcon(szQuery_Find, TOOLBAR));
 		m_pTabbedToolBar->UpdateDropdownMenu(nIdCommand, &menu);
 	}
 	else if (nIdCommand == ID_EXTDOC_SWITCHTO)
