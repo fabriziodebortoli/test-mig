@@ -1656,7 +1656,7 @@ CString TblRuleData::ToNamedQuery()
 		return FALSE;
 
 	CString query = m_SqlTest.m_pDataTable->ToString(TRUE, TRUE, FALSE);
-	int idx = ::FindWord(query, L"From");
+	int idx = ::FindWord(query, L"From", TRUE, 0, TRUE);
 	if (idx > -1)
 	{
 		query = query.Mid(idx);

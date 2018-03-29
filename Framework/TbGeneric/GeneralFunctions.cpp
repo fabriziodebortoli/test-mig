@@ -1382,7 +1382,24 @@ int FindNoCase(CString s, CString sub, int startIndex /*= 0*/)
 }
 
 //-----------------------------------------------------------------------------
-int FindWord(CString s, CString sub, BOOL noCase/* = TRUE*/, int startIndex /*= 0*/)
+int FindEndBlock(CString s, TCHAR chBegin, TCHAR chEnd, int startIndex/* = 0*/)
+{
+	if (s[startIndex] != chBegin)
+		return -1;
+
+	int openBlock = 1; int i = startIndex + 1;
+	for (; i < s.GetLength() && openBlock > 0; i++)
+	{
+		if (s[i] == chEnd)
+			openBlock--;
+		else if (s[i] == chBegin)
+			openBlock++;
+	}
+	return i >= s.GetLength() ? -1 : i;
+}
+
+//-----------------------------------------------------------------------------
+int FindWord(CString s, CString sub, BOOL noCase/* = TRUE*/, int startIndex /*= 0*/, BOOL skipInnerRound/* = FALSE*/)
 {
 	if (noCase)
 	{
@@ -1396,6 +1413,18 @@ int FindWord(CString s, CString sub, BOOL noCase/* = TRUE*/, int startIndex /*= 
 		if (idx < 0)
 			break;
 
+		if (skipInnerRound)
+		{
+			int pos = s.Find('(', startIndex);
+			if (pos > -1 && pos < idx)
+			{
+				startIndex = FindEndBlock(s, '(', ')', startIndex);
+				if (startIndex < 0 || startIndex >= s.GetLength())
+					break;
+				if (startIndex > idx)
+					continue;
+			}
+		}
 		startIndex = idx + sub.GetLength();
 
 		if (idx > 0 && IsCharAlphaNumeric(s[idx - 1]))
@@ -1409,7 +1438,7 @@ int FindWord(CString s, CString sub, BOOL noCase/* = TRUE*/, int startIndex /*= 
 	return -1;
 }
 
-int ReverseFindWord(CString source, CString word, BOOL noCase/* = TRUE*/, int startIndex /*= -1*/)
+int ReverseFindWord(CString source, CString word, BOOL noCase/* = TRUE*/, int startIndex /*= -1*/, BOOL skipInnerRound /*= FALSE*/)
 {
 	if (startIndex < 0)
 		startIndex = source.GetLength() - 1;
@@ -1419,7 +1448,7 @@ int ReverseFindWord(CString source, CString word, BOOL noCase/* = TRUE*/, int st
 
 	startIndex = source.GetLength() - startIndex - 1;
 
-	return FindWord(source, word, noCase, startIndex);
+	return FindWord(source, word, noCase, startIndex, skipInnerRound);
 }
 
 //-----------------------------------------------------------------------------

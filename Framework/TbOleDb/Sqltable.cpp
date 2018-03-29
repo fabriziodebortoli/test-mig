@@ -5025,7 +5025,7 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 
 	if (bAddTagCol && this->m_pColumnArray && this->m_pColumnArray->GetCount())
 	{
-		int idx = ::FindWord(query, L"From");	/*TODO debole potrebbero esserci tab o newline*/
+		int idx = ::FindWord(query, L"From", TRUE, TRUE, 0);	/*TODO debole potrebbero esserci tab o newline o colonne basate su SUB QUERY*/
 		if (idx > -1)
 		{
 			query = query.Mid(idx);
@@ -5036,27 +5036,33 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 				SqlBindingElem* pElem = dynamic_cast<SqlBindingElem*>(this->m_pColumnArray->GetAt(i));
 				if (pElem)
 				{
-					DataType dt = pElem->GetDataType();
-					CString name = pElem->GetBindName(TRUE);
-
-					CString title;
-					int pos = name.Find('.');
-					if (pos < 0)
-						title = AfxLoadDatabaseString(name, this->GetTableName());
-					else
-					{
-						CString colName = name.Left(pos);
-						CString table = name.Mid(pos+1);
-						title = AfxLoadDatabaseString(colName, table);
-					}
-
-					if (first)
-					{
-						first = false;	
-					}
+					if (first) first = false;	
 					else columns.Append(bFormat ? L", " : L",");
 
+					CString name = pElem->GetBindName(TRUE);
 					columns.Append(name);
+
+					DataType dt = pElem->GetDataType();
+					CString title;
+
+					if (name.Find('(') > -1)
+					{
+						//calculated column
+						name = ::cwsprintf(L"Column_%d", i);
+					}
+					else
+					{
+						int pos = name.Find('.');
+						if (pos < 0)
+							title = AfxLoadDatabaseString(name, this->GetTableName());
+						else
+						{
+							CString colName = name.Left(pos);
+							CString table = name.Mid(pos+1);
+							title = AfxLoadDatabaseString(colName, table);
+						}
+					}
+
 					columns.Append(cwsprintf (L" {COL %s", name));
 					if (dt != DataType::String && dt != DataType::Text)
 						columns.Append(cwsprintf(L" TYPE %s", dt.ToString()));

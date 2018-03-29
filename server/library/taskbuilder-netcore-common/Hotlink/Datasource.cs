@@ -352,9 +352,6 @@ namespace Microarea.Common.Hotlink
                 sm = XmlDescription.GetMode(selectionType);
             }
 
-            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
-            string customSort = PrepareCustomSort(requestQuery["customSort"]);
-
             string query = string.Empty;
             if (sm == null)
             {
@@ -409,6 +406,9 @@ namespace Microarea.Common.Hotlink
                 return false;
             }
 
+            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
+            string customSort = PrepareCustomSort(requestQuery["customSort"]);
+
             this.CurrentQuery.SetCustomWhere(customWhere);
             this.CurrentQuery.SetCustomSort(customSort);
 
@@ -446,9 +446,6 @@ namespace Microarea.Common.Hotlink
                 }
             }
 
-            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
-            string customSort = PrepareCustomSort(requestQuery["customSort"]);
-
             string response = await TbSession.GetRadarQuery(Session, documentId, name);
             if (response.IsNullOrEmpty())
             {
@@ -470,6 +467,9 @@ namespace Microarea.Common.Hotlink
                 Debug.Fail("DS fails to prepare radar query");
                 return null;
             }
+
+            string customWhere = PrepareCustomFilter(requestQuery["customFilters"]);
+            string customSort = PrepareCustomSort(requestQuery["customSort"]);
 
             this.CurrentQuery.SetCustomWhere(customWhere);
             this.CurrentQuery.SetCustomSort(customSort);
@@ -768,7 +768,10 @@ namespace Microarea.Common.Hotlink
 
                     if (first)
                     {
-                        rows += '{';
+                        if (rows != string.Empty)
+                            rows += ",{";
+                        else 
+                            rows += '{';
                         first = false;
                     }
                     else
@@ -778,10 +781,9 @@ namespace Microarea.Common.Hotlink
                  
                     rows += o.ToJson(f.Name.Replace(".", "__"));
                 }
-                rows += "},\n";
+                if (!first)
+                    rows += "}";
             }
-            if (rows != string.Empty)
-                rows = rows.Remove(rows.Length - 2); //ultima ,
 
             records += rows + "]}";
 

@@ -2703,6 +2703,65 @@ void CWoormDocMng::OnObjectCopy()
 //------------------------------------------------------------------------------
 void CWoormDocMng::OnObjectPaste()
 {
+	if (m_pCurrentObj && !m_pMultipleSelObj)
+	{
+		BaseObj* pNew = NULL;
+
+		if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(FieldRect)))
+		{
+			//TODO solo campi funzione/espressione
+
+			// RefreshRSTree(ERefreshEditor::Variables);
+
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(FileRect)))
+		{
+			pNew = new FileRect(*(FileRect*)m_pCurrentObj);
+
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(TextRect)))
+		{
+			pNew = new TextRect(*(TextRect*)m_pCurrentObj);
+
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(GraphRect)))
+		{
+			pNew = new GraphRect(*(GraphRect*)m_pCurrentObj);
+
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)))
+		{
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Repeater)))
+		{
+		}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Chart)))
+		{
+		}
+		//else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Gauge)))
+		//{
+		//}
+		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(SqrRect)))
+		{
+			pNew = new SqrRect(*(SqrRect*)m_pCurrentObj);
+
+		}
+		//--------------------------------
+		if (pNew)
+		{
+			GetObjects().Add(pNew);
+
+			RefreshRSTree(ERefreshEditor::Layouts, pNew);
+
+			if (pNew == m_pCurrentObj)
+			{
+				ASSERT_VALID(m_pCurrentObj);
+				m_pCurrentObj->AddCreateUndoInfo();
+			}
+
+			UpdateWindow();
+		}
+	}
 }
 
 //------------------------------------------------------------------------------

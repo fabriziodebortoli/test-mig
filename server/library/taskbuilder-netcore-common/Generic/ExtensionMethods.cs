@@ -108,13 +108,43 @@ namespace Microarea.Common.Generic
 		}
 
         //--------------------------------------------------------------------------------
-        public static int IndexOfWord(this string source, string toCheck, int startIndex = 0, bool noCase = true)
+        public static int FindEndBlock(this string s, char chBegin, char chEnd, int startIndex = 0)
+        {
+            if (s[startIndex] != chBegin)
+                return -1;
+
+            int openBlock = 1; int i = startIndex + 1;
+            for (; i < s.Length && openBlock > 0; i++)
+            {
+                if (s[i] == chEnd)
+                    openBlock--;
+                else if (s[i] == chBegin)
+                    openBlock++;
+            }
+            return i >= s.Length ? -1 : i;
+        }
+
+        //--------------------------------------------------------------------------------
+        public static int IndexOfWord(this string source, string toCheck, bool noCase = true, int startIndex = 0, bool skipInnerRound = false)
         {
             while ((startIndex + toCheck.Length) <= source.Length)
             {
                 int idx = noCase ? source.IndexOfNoCase(toCheck, startIndex) : source.IndexOf(toCheck, startIndex);
                 if (idx < 0)
                     break;
+
+                if (skipInnerRound)
+                {
+                    int pos = source.IndexOf('(', startIndex);
+                    if (pos > -1 && pos < idx)
+                    {
+                        startIndex = source.FindEndBlock('(', ')', startIndex);
+                        if (startIndex < 0 || startIndex >= source.Length)
+                            break;
+                        if (startIndex > idx)
+                            continue;
+                    }
+                }
 
                 startIndex = idx + toCheck.Length;
 
@@ -129,7 +159,7 @@ namespace Microarea.Common.Generic
             return -1;
         }
 
-        public static int LastIndexOfWord(this string source, string word, int startIndex = -1, bool noCase = true)
+        public static int LastIndexOfWord(this string source, string word, bool noCase = true, int startIndex = -1, bool skipInnerRound = false)
         {
             if (startIndex <= 0)
                 startIndex = source.Length - 1;
@@ -138,7 +168,7 @@ namespace Microarea.Common.Generic
 
             string src = source.Reverse();
 
-            int index = src.IndexOfWord(word.Reverse(), startIndex, noCase);
+            int index = src.IndexOfWord(word.Reverse(), noCase, startIndex, skipInnerRound);
             if (index == -1)
                 return -1;
 

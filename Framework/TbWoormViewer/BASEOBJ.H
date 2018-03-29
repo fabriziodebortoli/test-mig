@@ -189,7 +189,7 @@ protected:
 	BOOL			m_bFirstTime;
 	BOOL			m_bChanged;
 	CPoint			m_ptPrevPos;
-	CMicroEntry*	m_pRectSE;
+	CMicroEntry*	m_pRectSE = NULL;
 	CRect			m_rectStartMouseMove;
 
 protected:
