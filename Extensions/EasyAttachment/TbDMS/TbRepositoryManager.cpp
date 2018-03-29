@@ -509,7 +509,7 @@ CTypedBarcode TbRepositoryManager::GetBarcodeValue(const CString& strReportNames
 }
 
 //-------------------------------------------------------------------------------------------------------
-::ArchiveResult	TbRepositoryManager::ArchiveFile(CString fileName, CString description, int& archivedDocID, CString& strMessages)
+::ArchiveResult	TbRepositoryManager::ArchiveFile(const CString& fileName, const CString& description, int& archivedDocID, CString& strMessages)
 {
 	if (!AfxGetOleDbMng()->EasyAttachmentEnable())
 		return ::ArchiveResult::Cancel;
@@ -525,7 +525,7 @@ CTypedBarcode TbRepositoryManager::GetBarcodeValue(const CString& strReportNames
 }
 
 //-----------------------------------------------------------------------------
-::ArchiveResult	TbRepositoryManager::AttachArchivedDocInDocument(int archivedDocID, CString documentNamespace, CString primaryKey, int& attachmentID, CString& strMessages)
+::ArchiveResult	TbRepositoryManager::AttachArchivedDocInDocument(int archivedDocID, const CString& documentNamespace, const CString& primaryKey, int& attachmentID, CString& strMessages)
 {
 	return (AttachArchivedDocInDocumentFunct(archivedDocID, documentNamespace, primaryKey, attachmentID, strMessages)) ? ::ArchiveResult::TerminatedSuccess : ::ArchiveResult::TerminatedWithError;
 }

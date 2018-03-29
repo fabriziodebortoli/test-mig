@@ -106,8 +106,8 @@ public:
 	::ArchiveResult		GeneratePapery(const CString& strReportName, const CString& strBarcode, CBaseDocument* pCallerDoc, CString& strMessage);
 
 	//archiving operation
-	::ArchiveResult		ArchiveFile(CString fileName, CString description, int& archivedDocID, CString& strMessage);
-	::ArchiveResult		AttachArchivedDocInDocument(int archivedDocID, CString documentNamespace, CString primaryKey, int& nAttachmentID, CString& strMessage);
+	::ArchiveResult		ArchiveFile(const CString& fileName, const CString& description, int& archivedDocID, CString& strMessage);
+	::ArchiveResult		AttachArchivedDocInDocument(int archivedDocID, const CString& documentNamespace, const CString& primaryKey, int& nAttachmentID, CString& strMessage);
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
