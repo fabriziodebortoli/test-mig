@@ -1,28 +1,33 @@
 {
-  "name": "@taskbuilder/menu",
-  "version": "0.1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Microarea/Taskbuilder"
-  },
-  "author": {
-    "name": "Fabrizio De Bortoli",
-    "email": "fabrizio.debortoli@microarea.it"
-  },
-  "keywords": [
-    "angular"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Microarea/Taskbuilder/issues"
-  },
-  "main": "menu.umd.js",
-  "module": "menu.js",
-  "jsnext:main": "menu.js",
-  "typings": "menu.d.ts",
-  "peerDependencies": {
-    "@angular/core": "^4.0.0",
-    "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4"
-  }
+    "name": "@taskbuilder/menu",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Microarea/Taskbuilder"
+    },
+    "author": {
+        "name": "Fabrizio De Bortoli",
+        "email": "fabrizio.debortoli@microarea.it"
+    },
+    "keywords": [
+        "angular"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Microarea/Taskbuilder/issues"
+    },
+    "main": "menu.umd.js",
+    "module": "menu.js",
+    "jsnext:main": "menu.js",
+    "typings": "menu.d.ts",
+    "peerDependencies": {
+        "@angular/core": "^5.2.0",
+        "@angular/forms": "^5.2.0",
+        "@angular/http": "^5.2.0",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
+        "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
+        "rxjs": "^5.5.6",
+        "zone.js": "^0.8.19"
+    }
 }
