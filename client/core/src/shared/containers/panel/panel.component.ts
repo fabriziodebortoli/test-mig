@@ -10,6 +10,14 @@ import { TbComponent } from '../../components/tb.component';
   styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
+
+  _title: string;
+  _collapsedTitle: string;
+  @Input() isCollapsed: boolean = false;
+  @Input() isCollapsible: boolean = false;
+  realTitle = ""
+  @Output() toggle = new EventEmitter<boolean>();
+
   constructor(
     private boService: BOService,
     tbComponentService: TbComponentService,
@@ -18,7 +26,6 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
     super(tbComponentService, changeDetectorRef);
   }
   ngOnInit() {
-    this.calculateRealTitle();
     this.boService.activateContainer(this.cmpId, true);
   }
   ngOnDestroy() {
@@ -26,12 +33,20 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
     this.boService.activateContainer(this.cmpId, false);
   }
 
-  @Input() title: string;
-  @Input() collapsedTitle: string;
-  @Input() isCollapsed: boolean = false;
-  @Input() isCollapsible: boolean = false;
-  realTitle = ""
-  @Output() toggle = new EventEmitter<boolean>();
+  @Input() public set title(val: string) {
+    this._title = val;
+    this.calculateRealTitle();
+  }
+  public get title() : string {
+    return this._title;
+  }
+  @Input() public set collapsedTitle(val: string) {
+    this._collapsedTitle = val;
+    this.calculateRealTitle();
+  } 
+  public get collapsedTitle() : string {
+    return this._collapsedTitle;
+  }
 
   toggleCollapse(emit: boolean = true): void {
 
@@ -46,10 +61,10 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
   }
 
   calculateRealTitle() {
-    if (this.isCollapsed && this.collapsedTitle) {
-      this.realTitle = this.collapsedTitle;
+    if (this.isCollapsed && this._collapsedTitle) {
+      this.realTitle = this._collapsedTitle;
     } else {
-      this.realTitle = this.title;
+      this.realTitle = this._title;
     }
 
   }
