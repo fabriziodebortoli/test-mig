@@ -1,4 +1,5 @@
 import { title } from './title.model';
+import { ImgFitMode } from './image-fit-mode.model';
 
 export class column {
     id: string;
@@ -8,6 +9,7 @@ export class column {
     value_is_image: boolean;
     value_is_barcode: boolean;
     title: title;
+    fit_mode: ImgFitMode;
     //total: column_total;
 
     constructor(jsonObj: any) {

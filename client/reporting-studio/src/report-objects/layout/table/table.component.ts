@@ -1,9 +1,14 @@
+import { baserect } from './../../../models/baserect.model';
+import { graphrect } from './../../../models/graphrect.model';
+import { fieldrect } from './../../../models/fieldrect.model';
 import { cell } from './../../../models/cell.model';
 import { column } from './../../../models/column.model';
 import { table } from './../../../models/table.model';
 import { UtilsService, InfoService } from '@taskbuilder/core';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'rs-table',
@@ -14,8 +19,11 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 export class ReportTableComponent {
 
   @Input() table: table;
-  src: string
-  constructor(public utils: UtilsService, public infoService: InfoService) { }
+  @ViewChild('rsInnerImg') rsInnerImg: ElementRef;
+
+  constructor(public utils: UtilsService , private httpClient: HttpClient, public infoService: InfoService) { 
+   
+  }
 
   // -----------------------------------------------------
   getValue(dataItem: any, colId: any, colIndex: number): any {
@@ -81,18 +89,19 @@ export class ReportTableComponent {
   getColumnHeaderStyle(column: column): any {
     if (column.hidden)
         return {};
+      let bordersSize = (column.title.borders.bottom ? column.title.pen.width : 0) + 
+      (column.title.borders.top ? column.title.pen.width : 0);
     let obj = {
       'text-decoration': column.title.font.underline ? 'underline' : 'none',
       'color': column.title.textcolor,
-      'border-left': column.title.borders.left ? column.title.pen.width + 'px' : '0px',
+      'border-left': column.title.borders.left ? column.title.pen.width  + 'px' : '0px',
       'border-right': column.title.borders.right ? column.title.pen.width + 'px' : '0px',
-      'border-bottom': column.title.borders.bottom ? column.title.pen.width + 1 + 'px' : '0px',
+      'border-bottom': column.title.borders.bottom ? column.title.pen.width  + 1 + 'px' : '0px',
       'border-top': column.title.borders.top ? column.title.pen.width + 'px' : '0px',
       'border-color': column.title.pen.color,
       'background-color': column.title.bkgcolor,
       'border-style': 'solid',
-      'height': (column.title.rect.bottom - column.title.rect.top) + 'px',
-      'padding': '0px',
+      'height': (column.title.rect.bottom - column.title.rect.top) - bordersSize + 'px',
       'text-align': column.title.text_align,
       'vertical-align': column.title.vertical_align
     };
@@ -109,7 +118,7 @@ export class ReportTableComponent {
       'font-style': column.title.font.italic ? 'italic' : 'normal',
       'font-weight': column.title.font.bold ? 'bold' : 'normal',
       'white-space': 'pre-line',
-      'text-align': column.title.text_align,
+      'text-align': column.title.text_align
     };
     return obj;
   }
@@ -124,6 +133,10 @@ export class ReportTableComponent {
     return obj;
   }
 
+  // -----------------------------------------------------
+  private loadImage(url: string): Observable<any> {
+    return this.httpClient.get(url, { responseType: 'blob'})  // load the image as a blob
+  }
   // -----------------------------------------------------
   getSingleCellStyle(dataItem: any, rowIndex: number, column: column): any {
     const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
@@ -151,13 +164,27 @@ export class ReportTableComponent {
                :
                specStyle !== undefined  ? specStyle.textcolor : 'unset',
       'text-decoration': specStyle === undefined || specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
-      'padding': '0px'
+      'padding': '0px',
+      'box-sizing': 'border-box',
     };
+    
+    const newSrc = this.infoService.getBaseUrl() + '/rs/image/' + defStyle.value
+    if (defStyle.value !== '' && newSrc !== defStyle.src) {
+        defStyle.src = newSrc;
+        this.loadImage(defStyle.src).subscribe(blob => {
+          let reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+              this.rsInnerImg.nativeElement.src = reader.result;
+          };
+      });
+    }
 
-    if (column.value_is_image) {
+
+    /*if (column.value_is_image) {
       //this.image.src = 'http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg';
       dataItem[column.id].src = this.infoService.getBaseUrl() + '/rs/image/' + dataItem[column.id].value;
-    }
+    }*/
     return obj;
   }
 
@@ -177,13 +204,13 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  getImageStyle() {
+  /*getImageStyle() {
     let obj = {
       'max-width': ' 100%',
       'max-height': '100%'
     }
     return obj;
-  }
+  }*/
 
   // -----------------------------------------------------
   public findDefaultStyle(id: string, rowIndex: number): cell {
@@ -200,5 +227,67 @@ export class ReportTableComponent {
     }
     return undefined;
   }
+
+  // -----------------------------------------------------
+
+ applyImageStyle(dataItem: any, rowIndex: number, column: column): any {
+    /* const cellStyle: any = dataItem[column.id];
+    let imgIsPortrait;
+    let imgRatioWH;
+    if(this.rsInnerImg && this.rsInnerImg.nativeElement)
+      imgRatioWH =  this.rsInnerImg.nativeElement.naturalWidth / this.rsInnerImg.nativeElement.naturalHeight;
+      imgIsPortrait = imgRatioWH < 1;
+    
+    let recRatioWH =  (this.image.rect.right - this.image.rect.left) / (this.image.rect.bottom - this.image.rect.top);
+    let recIsPortrait = recRatioWH < 1; 
+
+    let height = 'fit-content';
+    let width = 'fit-content';   
+
+    if(column.fit_mode == ImgFitMode.BEST)
+    {
+      if ((imgIsPortrait && !recIsPortrait)
+      || (imgIsPortrait == recIsPortrait && imgRatioWH < recRatioWH))
+      {
+        height = 'inherit';
+        width = 'initial';
+      }
+        
+     if ((!imgIsPortrait && recIsPortrait)
+      || (imgIsPortrait === recIsPortrait && imgRatioWH > recRatioWH))
+      {
+          height = 'initial';
+          width = 'inherit';
+      }
+    }
+    else if (this.image.fit_mode === ImgFitMode.STRETCH)
+      {       
+          height = 'inherit';        
+          width = 'inherit';
+      }
+      if (this.image.vertical_align === 'middle')
+        height = 'inherit';
+      if (this.image.text_align === 'center')
+        width = 'inherit';
+
+    
+    let obj = {
+      'object-fit': this.image.fit_mode === ImgFitMode.BEST ? 'contain' : this.image.fit_mode === ImgFitMode.ORIGINAL ? 'none' : 'fill',
+      'position': 'absolute',
+      'width': width,
+      'height': height,
+      'left': this.image.text_align !== 'right' ? '0px' : 'unset',
+      'right': this.image.text_align === 'right'? '0px':'unset',
+      'top': this.image.vertical_align !== 'bottom'? '0px':'unset',
+      'bottom': this.image.vertical_align === 'bottom'? '0px':'unset',
+      'display':'inline-block',
+      'max-width': '100%',
+      'max-height': '100%'
+    };
+
+    return obj;
+  }*/
+
+}
 }
 

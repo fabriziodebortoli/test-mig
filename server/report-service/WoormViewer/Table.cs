@@ -735,6 +735,7 @@ namespace Microarea.RSWeb.Objects
         public bool IsTemplate = false;             //Indica che gli attributi grafici di questo oggetto sono usati come template	
 
         public bool IsHtml = false;
+        public EnumImgFitMode ImgFitMode = EnumImgFitMode.Best;
 
         internal Rectangle CellRect(int row) { return Cells[row].RectCell; }
         internal Rectangle TotalRect() { return TotalCell.RectCell; }
@@ -817,8 +818,7 @@ namespace Microarea.RSWeb.Objects
             this.TotalCell = null;
             this.ShowTotal = source.ShowTotal;
             this.ShowAsBitmap = source.ShowAsBitmap;
-            this.ShowProportional = source.ShowProportional;
-            this.ShowNativeImageSize = source.ShowNativeImageSize;
+            this.ImgFitMode = source.ImgFitMode;
             this.BarCode = source.BarCode;
             this.IsTextFile = source.IsTextFile;
             this.IsHidden = source.IsHidden;
@@ -938,15 +938,11 @@ namespace Microarea.RSWeb.Objects
                             this.Title.FontData.ToJson() +
                     '}';
 
-            s +=
-                // (/*this.MultipleRow*/true   ? ',' + this.MultipleRow    .ToJson("value_is_multiline")   : "") +
-                (/*this.IsHtml*/true ? ',' + this.IsHtml.ToJson("value_is_html") : "") +
-                (/*this.ShowAsBitmap*/true ? ',' + this.ShowAsBitmap.ToJson("value_is_image") : "") +
-                (/*this.ShowAsBarCode*/true ? ',' + this.ShowAsBarCode.ToJson("value_is_barcode") : "") +
-                (this.ShowAsBarCode ? "," + this.BarCode.ToJson() : "");
-
-            //s += (/*this.ShowTotal*/true ? ',' + this.ShowTotal.ToJson("show_total") : "");
-            //s += (this.ShowTotal ? ',' + this.TotalCell.ToJsonTemplate() : "");
+            s += ',' + this.IsHtml.ToJson("value_is_html") +
+                 ',' + this.ShowAsBitmap.ToJson("value_is_image") +
+                 ',' + this.ShowAsBarCode.ToJson("value_is_barcode") +
+                 (this.ShowAsBarCode ? "," + this.BarCode.ToJson() : "") +
+                 ( this.ShowAsBitmap ? "," + this.ImgFitMode.ToJson("fit_mode") : "") ;
 
             s += '}';
 
@@ -1601,13 +1597,14 @@ namespace Microarea.RSWeb.Objects
             if (lex.Matched(Token.BITMAP))
             {
                 ShowAsBitmap = true;
+                ImgFitMode = EnumImgFitMode.Stretch;
 
                 if (lex.Matched(Token.PROPORTIONAL))
                 {
-                    ShowProportional = true;
+                    ImgFitMode = EnumImgFitMode.Best;
                 }
                 else if (lex.Matched(Token.NATIVE))
-                    ShowNativeImageSize = true;
+                    ImgFitMode = EnumImgFitMode.Original;
             }
 
             // Considera il dato come il nome di un tipo di BARCODE
@@ -2226,9 +2223,9 @@ namespace Microarea.RSWeb.Objects
             {
                 unparser.WriteTag(Token.BITMAP, false);
 
-                if (ShowProportional)
+                if (ImgFitMode == EnumImgFitMode.Best)
                     unparser.WriteTag(Token.PROPORTIONAL, false);
-                else if (ShowNativeImageSize)
+                else if (ImgFitMode == EnumImgFitMode.Original)
                     unparser.WriteTag(Token.NATIVE, false);
             }
             else if (IsBarCode)
