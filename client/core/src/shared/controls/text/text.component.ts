@@ -13,8 +13,7 @@ import { Subscription } from '../../../rxjs.imports';
 
 @Component({
   selector: 'tb-text',
-  templateUrl: './text.component.html',
-  styleUrls: ['./text.component.scss']
+  templateUrl: './text.component.html'
 })
 export class TextComponent extends ControlComponent implements OnChanges, OnInit {
 

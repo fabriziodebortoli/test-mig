@@ -1,10 +1,4 @@
-$input-background:#ffffde;
-$input-background-disabled:#fafafa;
-$border:#ddd;
-$border-disabled:#ddd;
-$text-color:#000;
-$text-color-disabled:#333;
-$text-weight:500;
+@import './vars.scss';
 .anchored {
     display: flex;
 }
@@ -218,18 +212,20 @@ $text-weight:500;
     margin-left: -2px;
 }
 
-textarea {
+textarea.tb-textarea {
     background-color: $input-background;
     border: 1px solid $border-disabled;
     opacity: 1;
-    padding: 4px 8px;
+    padding: 0 3px;
     letter-spacing: -0.3px;
-}
-
-textarea[disabled] {
-    background-color: $input-background-disabled;
-    border: 1px solid $border-disabled;
+    line-height: 22px;
+    resize: none;
     font-weight: $text-weight;
+    font-size:12px;
+    &[disabled] {
+        background-color: $input-background-disabled;
+        border: 1px solid $border-disabled;
+    }
 }
 
 .k-disabled [disabled],
