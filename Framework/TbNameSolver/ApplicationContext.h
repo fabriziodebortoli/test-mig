@@ -15,6 +15,7 @@ class CPathFinder;
 class CCompanyContext;
 class CThreadInfoArray;
 class Formatter;
+class IRabbitMQ;
 
 struct structColorDocument 
 {
@@ -126,6 +127,7 @@ private:
 	CObject*					m_pClientObjects;
 	CObject*					m_pBehavioursRegistry;	
 	IFileSystemManager* 		m_pFileSystemManager;
+	IRabbitMQ*					m_pRabbitMQManager;
 	HWND						m_nMenuWindowHandle;
 	CThreadInfoArray			m_arThreadInfo;	
 	CTBResourcesMap				m_TbResourcesMap;//la mappa delle risorse deve essere globale, e non per thread, perché la message map dei documenti è statica
@@ -195,6 +197,7 @@ public:
 	CPathFinder*		GetPathFinder()							{ return m_pPathFinder; }
 	CObject*			GetClientObjects()						{ return m_pClientObjects; }
 	IFileSystemManager* GetFileSystemManager()					{ return m_pFileSystemManager; }
+	IRabbitMQ*			GetRabbitMQ()							{ return m_pRabbitMQManager; }
 	CLoginContext*		GetLoginContext(const CString& strName);
 	CLoginContext*		GetLoginContext(DWORD id);
 	void				GetLoginContextIds(CDWordArray& arIds);
@@ -258,6 +261,8 @@ private:
 	void AttachStandardDocumentsTable(CObject* pObj);
 	void AttachPathFinder(CPathFinder* pObj);
 	void AttachFileSystemManager(IFileSystemManager* pObj);
+	void AttachRabbitMQManager(IRabbitMQ* pObj);
+	
 	void AttachFileSystemManagerWS(CObject* pObj)			{ delete m_pFileSystemManagerWS; m_pFileSystemManagerWS = pObj;}
 	void AttachEnumsTable(CObject* pObj)					{ delete m_pEnumsTable; m_pEnumsTable = pObj;}
 	void AttachDataFilesManager(CObject* pObj)				{ delete m_pDataFilesManager; m_pDataFilesManager = pObj;}

@@ -95,6 +95,9 @@
     <ClCompile Include="BarCodeCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CRabbitMQManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="BEGINH.DEX">
@@ -182,6 +185,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BarCodeCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CRabbitMQManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -52,7 +52,7 @@
 #include <TbGenlibManaged\main.h>
 
 #include <TbRadar\TBRadarFactoryUI.h>
-
+#include <TbGenLibManaged\CRabbitMQManager.h>
 #include "TaskBuilderApp.h"
 #include "LibrariesLoader.h"
 #include "TbCommandManager.h"
@@ -62,6 +62,7 @@
 #include "ApplicationsLoader.h"
 #include "ThreadMainWindow.h"
 #include "LoginThread.h"
+
 
 
 #ifdef _DEBUG
@@ -490,6 +491,9 @@ BOOL CTaskBuilderApp::InitApplicationContext(const CString& strFileServer, const
 	// to reanable Web Service Management (pContext->AttachFileSystemManagerWS(new CFileSystemManagerWebService());)
 	CFileSystemManager* pFSManager = new CFileSystemManager(new CFileSystemDriver());
 	pContext->AttachFileSystemManager (pFSManager);
+
+	////Rabbit 
+	pContext->AttachRabbitMQManager(new CRabbitMQManager());
 
 	CTBExplorerFactoryUI *pObject = new CTBExplorerFactoryUI();
 	pObject->m_rtcDocumentExplorer = RUNTIME_CLASS(CDocumentExplorerDlg);

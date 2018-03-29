@@ -7,6 +7,7 @@
 #include "LoginContext.h"
 #include "LockTracer.h"
 #include "CompanyContext.h"
+#include "InterfaceClasses.h"
 
 // CApplicationContext
 
@@ -69,6 +70,7 @@ CApplicationContext::CApplicationContext()
 	m_pAddOnFieldsTable(NULL),
 	m_pDeclaredDBReleasesTable(NULL),
 	m_pFileSystemManager(NULL),
+	m_pRabbitMQManager(NULL),
 	m_pEnumsTable(NULL),
 	m_pDataFilesManager(NULL),
 	m_pClientDocsTable(NULL),
@@ -131,6 +133,7 @@ void CApplicationContext::FreeObjects()
 	delete m_pPathFinder;
 	delete m_pClientObjects;
 	delete m_pFileSystemManager;
+	delete m_pRabbitMQManager;
 	delete m_pMailConnector;
 	delete m_pAddOnFieldsTable;
 	delete m_pDeclaredDBReleasesTable;
@@ -171,6 +174,13 @@ const CString& CApplicationContext::GetAppTitle()
 	return m_strAppTitle;
 }
 
+
+//----------------------------------------------------------------------------
+void CApplicationContext::AttachRabbitMQManager(IRabbitMQ* pObj)
+{
+	delete m_pRabbitMQManager;
+	m_pRabbitMQManager = pObj;
+}
 //----------------------------------------------------------------------------
 void CApplicationContext::AttachFileSystemManager(IFileSystemManager* pObj)	
 { 

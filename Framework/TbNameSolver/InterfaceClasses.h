@@ -10,4 +10,12 @@ public:
 		const CRect& rectImage) = 0;
 };
 
+class TB_EXPORT IRabbitMQ
+{
+public:
+	virtual BOOL PublishRabbitMQMessage(CString message, CString queueName) = 0;
+};
+
+
+
 #include "endh.dex"

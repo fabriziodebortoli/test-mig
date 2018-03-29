@@ -346,6 +346,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BarCodeCreator.cpp" />
+    <ClCompile Include="CRabbitMQManager.cpp" />
     <ClCompile Include="ExpandTemplateMng.cpp" />
     <ClCompile Include="ManagedEventsHandler.cpp" />
     <ClCompile Include="ManagedWindowWrapper.cpp" />
@@ -383,6 +384,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BarCodeCreator.h" />
+    <ClInclude Include="CRabbitMQManager.h" />
     <ClInclude Include="ExpandTemplateMng.h" />
     <ClInclude Include="ManagedEventsHandler.h" />
     <ClInclude Include="ManagedWindowWrapper.h" />
