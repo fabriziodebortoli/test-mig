@@ -198,8 +198,51 @@ namespace Microarea.Common.Hotlink
                     customWhere += colName + " <> ''";
                 else
                 {
+                    string val = string.Empty;
                     //TODO RSWEB - RICCARDO - convertire il tipo di dato con il tipo di colField
-                    string val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType);
+                                        
+                    if (colField != null)
+                    {
+                        object ov;
+                        if (colField.WoormType.CompareNoCase("Double"))
+                        {
+                            ov = ObjectHelper.CastDouble(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                         else if (colField.WoormType.CompareNoCase("Integer") || colField.WoormType.CompareNoCase("Int32") || colField.WoormType.CompareNoCase("Int16"))
+                        {
+                            ov = ObjectHelper.CastInt(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                        else if (colField.WoormType.CompareNoCase("Long") || colField.WoormType.CompareNoCase("Int64"))
+                        {
+                            ov = ObjectHelper.CastLong(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                        else if (colField.WoormType.CompareNoCase("Date") || colField.WoormType.CompareNoCase("DateTime"))
+                        {
+                            ov = ObjectHelper.CastDateTime(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                        else if (colField.WoormType.CompareNoCase("Bool") || colField.WoormType.CompareNoCase("Boolean"))
+                        {
+                            ov = ObjectHelper.CastBool(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                        else if (colField.WoormType.CompareNoCase("Enum") || colField.WoormType.CompareNoCase("DataEnum"))
+                        {
+                            ov = ObjectHelper.CastDataEnum(ff.Value);
+                            val = DBInfo.GetNativeConvert(ov, false, this.Session.UserInfo.DatabaseType);
+                        }
+                        else
+                        {
+                            val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType);
+                        }
+                    }
+                    else
+                    {
+                        val = DBInfo.GetNativeConvert(ff.Value, false, this.Session.UserInfo.DatabaseType);
+                    }
 
                     //----
 
