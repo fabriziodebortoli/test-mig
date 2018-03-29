@@ -144,17 +144,17 @@ WoormField::WoormField
 		)
 		m_pEventFunction->SetPublicName(m_strName);
 
-	m_bNativeColumnExpr		= pClone->m_bNativeColumnExpr;
-	m_strPhysicalName		= pClone->m_strPhysicalName;
+	//m_bNativeColumnExpr		= pClone->m_bNativeColumnExpr;
+	//m_strPhysicalName		= pClone->m_strPhysicalName;
 
-	m_sXmlAliasName			= pClone->m_sXmlAliasName + ::cwsprintf(L"_%d", nAlias);
+	m_sXmlAliasName			= pClone->m_sXmlAliasName.IsEmpty() ? L"" : pClone->m_sXmlAliasName + ::cwsprintf(L"_%d", nAlias);
 	m_bNoXml				= pClone->m_bNoXml;
 
 	m_sThreadContextVar		= pClone->m_sThreadContextVar;
 	m_bOwnThreadContextVar	= pClone->m_bOwnThreadContextVar;
 
 	m_bIsExprField			= pClone->m_bIsExprField;
-	m_bIsTableField			= pClone->m_bIsTableField;
+	//m_bIsTableField			= pClone->m_bIsTableField;
 	m_bIsSpecialField		= pClone->m_bIsSpecialField;
 	m_strDisplayTable		= pClone->m_strDisplayTable;
 

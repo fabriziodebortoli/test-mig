@@ -1702,7 +1702,7 @@ void CWoormView::TransformFieldRectInColumn()
 				GetDocument()->m_pCurrentObj = NULL;
 				GetDocument()->m_pActiveRect->Clear();
 
-				m_pTransStartTable->AddColumn(GetDocument()->m_wCreatingColumnIds);
+				m_pTransStartTable->AddColumns(GetDocument()->m_wCreatingColumnIds);
 
 				GetDocument()->SyncronizeViewSymbolTable(GetDocument()->GetEditorSymTable());
 
@@ -4104,7 +4104,7 @@ BOOL CWoormView::AddHiddenVariableFromDrop(CNodeTreeArray*& pAr, BOOL isNewTable
 	else if (pTable) // inserisce nuove colonne in una tabella esistente 
 	{
 
-		pTable->AddColumn(GetDocument()->m_wCreatingColumnIds);
+		pTable->AddColumns(GetDocument()->m_wCreatingColumnIds);
 
 		GetDocument()->SyncronizeViewSymbolTable(GetDocument()->GetEditorSymTable());
 

@@ -6595,7 +6595,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		if (!field)
 			return;
 		ASSERT_VALID(field);
-		if (field->m_bIsTableField)
+		if (field->IsTableRuleField())
 		{
 			HTREEITEM parentHt = this->m_TreeCtrl.GetParentItem(pNode->m_ht);
 			CNodeTree* pParentNode = (CNodeTree*)m_TreeCtrl.GetItemData(parentHt);

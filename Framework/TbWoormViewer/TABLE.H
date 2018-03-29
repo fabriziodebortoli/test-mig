@@ -236,7 +236,7 @@ protected:
 	BOOL	ColumnCanBeBarCode	() const;
 
 	WORD			GetActiveColumnId	() const;// { return m_Columns[m_nActiveColumn]->GetInternalID(); }
-	TableColumn*	GetActiveColumn		() const { return m_Columns[m_nActiveColumn]; }
+	TableColumn*	GetActiveColumn		() const { return m_nActiveColumn > -1 ? m_Columns[m_nActiveColumn] : NULL; }
 
 	//Printer Attributes
 	BOOL	ColumnIsAnchorLeft		() const;
@@ -440,8 +440,10 @@ public:
 	virtual void		SetWrmStyleClass	(GenericDrawObj* templateObj)	{ SetStyle(dynamic_cast<Table*>(templateObj)); }
 
 	// column manipulation functions
-	void	AddColumn			(CWordArray& ids, TblRuleData* pTblRule = NULL);
-	void	AddColumn			(int nIDM, TblRuleData* pTblRule = NULL);
+	void	AddColumns			(CWordArray& ids, BOOL bClone = FALSE);
+	void	AddColumn			(int nID, BOOL bClone = FALSE);
+	void	AddColumn			(int nID, TblRuleData* pTblRule);
+
 	BOOL	MoveColumn			(BOOL bLeft);
 	BOOL	MoveColumn			(int nFromAlias, int nToAlias);
 	void	AddColumnTotal		();

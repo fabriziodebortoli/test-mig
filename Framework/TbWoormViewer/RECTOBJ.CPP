@@ -4613,9 +4613,10 @@ void FieldRect::SetInternalID(WORD ID)
 	{
 		ASSERT_VALID(pField);
 		ASSERT(
-			(pField->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
+			(	pField->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
 				pField->GetSourceEnum() == WoormField::SourceFieldType::EXPRESSION_FIELD ||
 				pField->GetSourceEnum() == WoormField::SourceFieldType::ASK_FIELD ||
+				pField->GetSourceEnum() == WoormField::SourceFieldType::DB_FIELD ||
 				pField->GetSourceEnum() == WoormField::SourceFieldType::HIDDEN_FIELD)
 			&&
 			(pField->GetFieldType() == WoormField::RepFieldType::FIELD_NORMAL ||

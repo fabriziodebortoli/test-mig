@@ -364,6 +364,7 @@ public:
 	FormatIdx	GetColumnFormatIdx		() const;
 
 	virtual WORD	GetInternalID		() const;
+	virtual void	SetInternalID		(WORD id) ;
 
 	CBarCode*	GetBarCode				() const;
 
@@ -506,6 +507,8 @@ inline FontIdx		TableColumn::GetSubTotalFontIdx		() const	{ return m_SubTotal.Ge
 inline FontIdx		TableColumn::GetTotalFontIdx		() const	{ return m_pTotalCell->GetCellFontIdx(); }
 
 inline WORD			TableColumn::GetInternalID			() const	{ return m_wInternalID;		}
+inline void			TableColumn::SetInternalID			(WORD id)  { m_wInternalID = id; }
+
 inline BOOL			TableColumn::IsMultiRow				() const	{ return m_bMultipleRow;	}
 
 inline BOOL			TableColumn::IsBitmap				() const	{ return m_ShowAs == EFieldShowAs::FT_IMAGE && m_pBitmap != NULL; }

@@ -1484,7 +1484,7 @@ void Table::SetObjCursor(ActionType nAction)
 
 
 //------------------------------------------------------------------------------
-BOOL Table::EditorManagerCreateField(int nIDM, CWordArray& ids, TblRuleData* pTblRule/*=NULL*/)
+BOOL Table::EditorManagerCreateField(int nIDM, CWordArray& ids, TblRuleData* /*pTblRule=NULL*/)
 {
 	EditorManager* pEdt = m_pDocument->m_pEditorManager;
 	/*if (nIDM == ID_ADD_DATA_FIELD)
@@ -1499,7 +1499,14 @@ BOOL Table::EditorManagerCreateField(int nIDM, CWordArray& ids, TblRuleData* pTb
 }
 
 //------------------------------------------------------------------------------
-void Table::AddColumn(CWordArray& ids, TblRuleData* pTblRule /*= NULL*/)
+
+void Table::AddColumn(int nID, BOOL bClone/*=FALSE*/)
+{
+	CWordArray ids; ids.Add(nID);
+	AddColumns(ids, bClone);
+}
+
+void Table::AddColumns(CWordArray& ids, BOOL bClone/*=FALSE*/)
 {
 	if (m_Columns.GetUpperBound() == -1)
 	{ 
@@ -1520,7 +1527,8 @@ void Table::AddColumn(CWordArray& ids, TblRuleData* pTblRule /*= NULL*/)
 
 			// copy active column for adding process
 			TableColumn* old_column = m_Columns[nCol];
-			TableColumn* new_column = new TableColumn(*old_column, ids[i]);
+			TableColumn* new_column = bClone ? new TableColumn(*old_column) : new TableColumn(*old_column, ids[i]);
+			if (bClone) new_column->SetInternalID(ids[i]);
 
 			m_pDocument->SetTemplateStyle(new_column);
 			// add to array list and clear data from previosus column
@@ -1540,7 +1548,8 @@ void Table::AddColumn(CWordArray& ids, TblRuleData* pTblRule /*= NULL*/)
 
 			// copy active column for adding process
 			TableColumn* old_column = m_Columns[nCol];
-			TableColumn* new_column = new TableColumn(*old_column, ids[i]);
+			TableColumn* new_column = bClone ? new TableColumn(*old_column) : new TableColumn(*old_column, ids[i]);
+			if (bClone) new_column->SetInternalID(ids[i]);
 
 			nCol++;
 			m_pDocument->SetTemplateStyle(new_column);
@@ -1588,19 +1597,21 @@ void Table::AddColumn(CWordArray& ids, TblRuleData* pTblRule /*= NULL*/)
 
 	m_pDocument->UpdateWindow();
 	m_pDocument->SetModifiedFlag();
+
+	m_pDocument->RefreshRSTree(ERefreshEditor::Layouts, this);
 }
 
-void Table::AddColumn(int nIDM, TblRuleData* pTblRule/* = NULL*/)
+void Table::AddColumn(int nID, TblRuleData* pTblRule)
 {
 	if ((m_nActiveColumn < 0) || (m_nActiveColumn > m_Columns.GetUpperBound()))
 		return;
 
 	// add new entry if user want it. (don't add new table)
 	CWordArray ids;
-	if (!EditorManagerCreateField(nIDM, ids, pTblRule)) 
+	if (!EditorManagerCreateField(nID, ids, pTblRule)) 
 		return;
 
-	AddColumn(ids, pTblRule);
+	AddColumns(ids);
 }
 
 //------------------------------------------------------------------------------

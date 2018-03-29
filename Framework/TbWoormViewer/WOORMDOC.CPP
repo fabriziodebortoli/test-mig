@@ -2723,6 +2723,7 @@ void CWoormDocMng::OnObjectPaste()
 						pF->GetSourceEnum() == WoormField::SourceFieldType::FUNCTION_FIELD ||
 						pF->GetSourceEnum() == WoormField::SourceFieldType::EXPRESSION_FIELD ||
 						pF->GetSourceEnum() == WoormField::SourceFieldType::ASK_FIELD ||
+						pF->GetSourceEnum() == WoormField::SourceFieldType::DB_FIELD ||
 						pF->GetSourceEnum() == WoormField::SourceFieldType::HIDDEN_FIELD
 					)
 				)
@@ -2733,7 +2734,7 @@ void CWoormDocMng::OnObjectPaste()
 				pNew = new FieldRect(*(FieldRect*)m_pCurrentObj);
 				pNew->SetInternalID(pFieldNew->GetId());
 
-				if (pF->IsRuleField())
+				if (pF->IsExprRuleField())
 				{
 					ExpRuleData* pRule = (ExpRuleData*) m_pEditorManager->GetPrgData()->GetRuleData()->GetRuleData(pF->GetName(), RuleType::RULE_EXPR, 0);
 					if (pRule)
@@ -2770,6 +2771,19 @@ void CWoormDocMng::OnObjectPaste()
 		}
 		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Table)))
 		{
+			Table* t = (Table*)m_pCurrentObj;
+			TableColumn* pCol = t->GetActiveColumn();
+			if (pCol)
+			{
+				WoormField* pF = GetEditorSymTable()->GetFieldByID(pCol->GetInternalID());
+				if (pF)
+				{
+					WoormField* pFieldNew = new WoormField(pF, GetEditorSymTable()->GetNextId());
+					GetEditorSymTable()->Add(pFieldNew);
+
+					t->AddColumn(pFieldNew->GetId(), TRUE);
+				}
+			}
 		}
 		else if (m_pCurrentObj->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
@@ -2788,6 +2802,10 @@ void CWoormDocMng::OnObjectPaste()
 		//--------------------------------
 		if (pNew)
 		{
+			CSize cs = CSize(pNew->GetBaseRect().Width() / 2, pNew->GetBaseRect().Height() / 2);
+			pNew->m_BaseRect.left += cs.cx; pNew->m_BaseRect.right += cs.cx;
+			pNew->m_BaseRect.top += cs.cy; pNew->m_BaseRect.bottom += cs.cy;
+
 			GetObjects().Add(pNew);
 
 			RefreshRSTree(ERefreshEditor::Layouts, pNew);

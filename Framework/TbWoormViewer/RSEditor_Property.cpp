@@ -1640,7 +1640,7 @@ void CRS_ObjectPropertyView::OnFindRuleBtn()
 	}
 
 	ASSERT_VALID(wrmField);
-	if (wrmField && (wrmField->m_bIsTableField || wrmField->IsExprRuleField()))
+	if (wrmField && (wrmField->IsTableRuleField() || wrmField->IsExprRuleField()))
 	{
 		//deseleziono il nodo precedentemente selezionato
 		GetDocument()->ClearSelectionFromAllTrees(NULL);
@@ -2867,11 +2867,11 @@ void CRS_ObjectPropertyView::CreateNewElement()
 		if (currentTable)
 		{
 			if (option == 2)
-				currentTable->AddColumn(GetDocument()->m_wCreatingColumnIds);
+				currentTable->AddColumns(GetDocument()->m_wCreatingColumnIds);
 			else
 			{
 				CWordArray ids; ids.Add(pRepField->GetId());
-				currentTable->AddColumn(ids);
+				currentTable->AddColumns(ids);
 			}
 
 		}
@@ -3891,7 +3891,7 @@ void CRS_ObjectPropertyView::LoadVariableGeneralSettings(WoormField* wrmField)
 	if (!wrmField->m_bIsTableField)
 		m_pGeneralSettings->AddSubItem(new CRSExpressionProp(_TB("Initial expression"), &wrmField->GetInitExpression(), wrmField->GetDataType(), wrmField->GetSymTable(), this));
 
-	if (wrmField->IsExprRuleField() && !wrmField->m_bIsTableField)
+	if (wrmField->IsExprRuleField() && !wrmField->IsTableRuleField())
 	{
 		//RuleObj* pRule = wrmField->GetOwnerRule(); //NO � la Rule dell'engine e non dell'editor
 		RuleDataObj* pRule = GetDocument()->m_pEditorManager->GetRuleData()->GetRuleData(wrmField->GetName());
@@ -3909,7 +3909,7 @@ void CRS_ObjectPropertyView::LoadVariableGeneralSettings(WoormField* wrmField)
 	}
 
 	//Evaluation Expression must open text editor
-	else if (!wrmField->IsExprRuleField() && (wrmField->GetDataType() != DataType::Array) && !wrmField->IsInput() && !wrmField->m_bIsTableField)
+	else if (!wrmField->IsExprRuleField() && (wrmField->GetDataType() != DataType::Array) && !wrmField->IsInput() && !wrmField->IsTableRuleField())
 	{ 
 		if (wrmField->GetEventFunction() == NULL)
 			wrmField->SetEmptyEventFunction(wrmField->GetSymTable(), wrmField->GetName());
@@ -4513,7 +4513,7 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 			if (currentTable)
 			{
 				CWordArray ids; ids.Add(pRepField->GetId());
-				currentTable->AddColumn(ids);
+				currentTable->AddColumns(ids);
 			}
 
 			else
@@ -5650,7 +5650,7 @@ void CRS_ObjectPropertyView::LoadFieldProperties(CNodeTree* pNode)
 		m_pPropGrid->AddProperty(typeProp, FALSE, FALSE);
 
 		m_eShowVariableTypeBtn = wrmField->GetSourceEnum();
-		m_bShowFindRuleBtn = wrmField->m_bIsTableField || wrmField->IsExprRuleField();
+		m_bShowFindRuleBtn = wrmField->IsTableRuleField() || wrmField->IsExprRuleField();
 		m_bShowRequestFieldBtn = wrmField->IsAsk();
 	}
 
@@ -6583,7 +6583,7 @@ void CRS_ObjectPropertyView::LoadColumnProperties(CNodeTree* pNode)
 		m_pPropGrid->AddProperty(typeProp, FALSE, FALSE);
 
 		m_eShowVariableTypeBtn = wrmField->GetSourceEnum();
-		m_bShowFindRuleBtn = wrmField->m_bIsTableField || wrmField->IsExprRuleField();
+		m_bShowFindRuleBtn = wrmField->IsTableRuleField() || wrmField->IsExprRuleField();
 	}
 
 	//Id
