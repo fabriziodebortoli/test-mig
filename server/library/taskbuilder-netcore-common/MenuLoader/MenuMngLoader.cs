@@ -357,7 +357,7 @@ namespace Microarea.Common.MenuLoader
                 }
                 catch (Exception ex)
                 {
-                    Debug.Fail(ex.ToString());
+                    Debug.WriteLine(ex.ToString());
                     return true;
                 }
             }
@@ -793,8 +793,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + exception.Message);
-
+                Debug.WriteLine("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + exception.Message);
                 return true; //TODO LARA LUCA
             }
         }
