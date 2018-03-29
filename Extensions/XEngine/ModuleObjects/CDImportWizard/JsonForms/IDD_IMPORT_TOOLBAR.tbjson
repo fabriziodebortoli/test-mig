@@ -8,7 +8,8 @@
       "name": "ImportXml",
       "text": "Import",
       "type": 15, /*ToolbarButton*/
-      "category": 8 /*Fab*/
+      "category": 8, /*Fab*/
+      "environment": "desktop"
     }
 	],
 	"name": "Tools",

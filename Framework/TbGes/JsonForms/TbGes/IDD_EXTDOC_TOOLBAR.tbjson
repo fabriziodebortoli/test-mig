@@ -198,6 +198,7 @@
         },
         {
           "hint": "Customize the document",
+          "environment": "desktop",
           "icon": "Framework.TbFrameworkImages.Images.25x25.Customize.png",
           "id": "ID_EXTDOC_CUSTOMIZE",
           "name": "Customize",

@@ -8,7 +8,8 @@
       "name": "Inspect",
       "text": "Inspect field",
       "type": 15 /*ToolbarButton*/,
-      "category": 8 /*Fab*/
+      "category": 8, /*Fab*/
+      "environment": "desktop"
     }
 	]
 }
