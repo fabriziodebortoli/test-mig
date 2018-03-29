@@ -27,17 +27,10 @@ export * from './menu/menu.module';
 import { TbSettingsModule } from './settings/settings.module';
 export * from './settings/settings.module';
 
-/**
- * Modulo Test
- */
-import { TbTestModule } from './test/test.module';
-export * from './test/test.module';
-
 const TB_MODULES = [
   TbSharedModule,
   TbMenuModule,
   TbIconsModule,
-  TbTestModule,
   TbSettingsModule
 ];
 

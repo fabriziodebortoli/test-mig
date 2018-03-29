@@ -19,7 +19,6 @@ import { appRoutes } from './applications/app.routing';
 
 const webOnlyRoutes = [
   { path: 'rs', loadChildren: '@taskbuilder/reporting-studio#ReportingStudioModule' },
-  { path: 'test', loadChildren: '@taskbuilder/core#TbTestModule' },
   { path: 'framework/tbges/IDD_Unsupported', component: UnsupportedFactoryComponent },
   { path: 'layout', loadChildren: 'app/layout/layout.module#LayoutModule' },
   ...appRoutes
