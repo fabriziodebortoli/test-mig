@@ -119,7 +119,9 @@
 
   <!-- tb-enum-combo -->
   <WebControl controlClass="EnumCombo" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
-  <WebControl controlClass="EnumStatic" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
+  <WebControl controlClass="EnumStatic" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column">
+	<arg name="readonly" value="true"></arg>
+  </WebControl>
   <WebControl controlClass="EnumListBox" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
   <WebControl controlClass="EnumButton" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
 

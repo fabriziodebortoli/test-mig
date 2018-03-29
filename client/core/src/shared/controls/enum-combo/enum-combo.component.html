@@ -1,6 +1,6 @@
 <tb-control-container type="tb-enum-combo" [model]="model" [stateData]="stateData" [disableStateButton]="stateButtonDisabled">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-dropdownlist #ddl id="{{cmpId}}" [data]="items$ | async" [textField]="'description'" [disabled]="!model?.enabled" [valueField]="'code'" [value]="selectedItem" (valueChange)="valueChange($event)" (selectionChange)="selectionChange($event)" (open)="onOpen()"
+    <kendo-dropdownlist #ddl id="{{cmpId}}" [data]="items$ | async" [textField]="'description'" [disabled]="!model?.enabled || readonly" [valueField]="'code'" [value]="selectedItem" (valueChange)="valueChange($event)" (selectionChange)="selectionChange($event)" (open)="onOpen()"
         [style.width.px]="width" [popupSettings]="{ width: 'auto' }" (focus)="focus()">
         <ng-template kendoDropDownListItemTemplate let-dataItem>
             <div class="dropDownItem dropDownItemDescription">{{ dataItem.description }}</div>
