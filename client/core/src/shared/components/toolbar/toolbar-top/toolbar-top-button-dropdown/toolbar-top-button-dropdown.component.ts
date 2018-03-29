@@ -22,6 +22,8 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
 
   @Input() icon = 'tb-menu2';
   @Input() cmpId = '_BUTTONGROUPADVANCED';
+  @Input() caption = '';
+  @Input() click: () => boolean = () => true;
   public viewProductInfo: string;
   private eventDataServiceSubscription;
   private _disabled = false;
