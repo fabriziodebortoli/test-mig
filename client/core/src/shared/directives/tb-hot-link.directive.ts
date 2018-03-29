@@ -49,15 +49,18 @@ export class TbHotLinkDirective implements OnInit {
         return createSelector(
             s => this.compMod ? this.compMod.enabled : false,
             s => this.compMod ? this.compMod.value : undefined,
+            s => this.compMod ? this.compMod.uppercase : false,
             s => this.getFromEdsModel(ancestor.hotLink.selector),
             s =>  this.compMod ? { value: this.compMod.value, 
                                    enabled: this.compMod.enabled,
                                    type: this.compMod.type ? this.compMod.type : 0,
-                                   selector: this.getFromEdsModel(ancestor.hotLink.selector) }
+                                   selector: this.getFromEdsModel(ancestor.hotLink.selector),
+                                   uppercase: this.compMod.uppercase }
                    : { value: undefined,
                        enabled: false,
                        type: 0,
-                       selector: this.getFromEdsModel(ancestor.hotLink.selector) }
+                       selector: this.getFromEdsModel(ancestor.hotLink.selector),
+                       uppercase: false }
                 );
     }
 

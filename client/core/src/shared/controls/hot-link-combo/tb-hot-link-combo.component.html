@@ -5,6 +5,7 @@
                 [value]="slice$ | async | asDropDownValue | toUpper: modelComponent?.model?.uppercase"
                 [textField]="'id'"
                 [valueField]="'id'"
+                [clearButton]="false"
                 [valueNormalizer]="valueNormalizer"
                 [loading]="paginator.waiting$ | async"
                 (open)="openDropDown($event)"
@@ -13,6 +14,7 @@
                 [filterable]="true"
                 (filterChange)="onFilterChange($event)"
                 (selectionChange)="selectionChanged($event)"
+                [readonly]="!(slice$ | async)?.enabled"
                 [disabled]="!(slice$ | async)?.enabled">
         <ng-template kendoDropDownListItemTemplate let-dataItem>
             <div class="dropDownItem dropDownItemId">{{ dataItem.id }}</div>

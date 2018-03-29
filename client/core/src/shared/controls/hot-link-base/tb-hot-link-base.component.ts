@@ -24,6 +24,8 @@ import { URLSearchParamsBuilder } from './../../commons/builder';
 
 import * as _ from 'lodash';
 
+export type HotLinkSlice = { value: any, enabled: boolean, selector: any, type: number, uppercase?:boolean }
+
 @Component({
     template: ''
 })
@@ -46,9 +48,9 @@ export class TbHotLinkBaseComponent extends ControlComponent {
     set state(state: HotLinkState) { this._state = state; this.state$.next(state); }
     get state(): HotLinkState { return this._state; }
 
-    private _slice$: Observable<{ value: any, enabled: boolean, selector: any, type: number }>;
-    set slice$(value: Observable<{ value: any, enabled: boolean, selector: any, type: number }>) { this._slice$ = value; }
-    get slice$(): Observable<{ value: any, enabled: boolean, selector: any, type: number }>{ 
+    private _slice$: Observable<HotLinkSlice>;
+    set slice$(value: Observable<HotLinkSlice>) { this._slice$ = value; }
+    get slice$(): Observable<HotLinkSlice>{ 
         return (!this.modelComponent || !this.modelComponent.slice$) ?  this._slice$ : this.modelComponent.slice$;
     }
 

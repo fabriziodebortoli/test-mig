@@ -36,6 +36,9 @@ declare var document: any;
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('combobox') public combobox: any;
+  get width(): number { 
+    return this.modelComponent.width; 
+  }
 
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
