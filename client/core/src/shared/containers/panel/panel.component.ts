@@ -18,6 +18,7 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
     super(tbComponentService, changeDetectorRef);
   }
   ngOnInit() {
+    this.calculateRealTitle();
     this.boService.activateContainer(this.cmpId, true);
   }
   ngOnDestroy() {
@@ -38,15 +39,18 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
       return;
 
     this.isCollapsed = !this.isCollapsed;
-    if (this.isCollapsed) {
-      if (this.collapsedTitle) {
-        this.realTitle = this.collapsedTitle;
-      } else {
-        this.realTitle = this.title;
-      }
-    }
+    this.calculateRealTitle();
     if (emit)
       this.toggle.emit(this.isCollapsed);
+
+  }
+
+  calculateRealTitle() {
+    if (this.isCollapsed && this.collapsedTitle) {
+      this.realTitle = this.collapsedTitle;
+    } else {
+      this.realTitle = this.title;
+    }
 
   }
 }
