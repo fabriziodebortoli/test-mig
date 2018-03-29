@@ -64,13 +64,16 @@ void CNewDocument::OnFrameCreated ()
 	//solo dopo che la frame è stata creata posso entrare in editing della customizzazione
 	//chiedo all'utente di indicare un modulo di customizzazione se non ne esiste uno
 	//se ho creato correttamente il documento, entro in editing, altrimenti esco
+	bool batch = false;
+	if (m_bBatch)
+		batch = true;
 	if (
 		NewDocument::SaveNewDocument(
 			owner,
 			gcnew MDocument((System::IntPtr)(int)this),
 			nullptr,
 			false,
-			m_bBatch==TRUE,
+			batch,
 			title,
 			nullptr
 			)
