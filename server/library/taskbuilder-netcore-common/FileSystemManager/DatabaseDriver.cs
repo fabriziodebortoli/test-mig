@@ -614,9 +614,11 @@ namespace Microarea.Common.FileSystemManager
 	        string strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
  
             TBFile pTBFile = new TBFile(strTBFSFileName,  this);
+
             StreamReader reader = new StreamReader(fileTextContent);
-            pTBFile.fileContentString = reader.ReadToEnd(); 
-	        pTBFile.objectType = GetType(strTBFSFileName);
+            pTBFile.fileContentString = reader.ReadToEnd();
+
+            pTBFile.objectType = GetType(strTBFSFileName);
 
 	        pTBFile.isReadOnly = false;
 	        pTBFile.fileSize = fileTextContent.Length;
