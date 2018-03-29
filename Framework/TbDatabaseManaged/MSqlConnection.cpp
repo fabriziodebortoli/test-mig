@@ -1939,10 +1939,22 @@ long  MSqlCommand::GetTotalRecords()
 	try
 	{
 		String^ strCommandText = gcnew String(m_strCommandText);
-		int nPos = strCommandText->LastIndexOf("ORDER BY", StringComparison::InvariantCultureIgnoreCase) ;
+		//faccio la select del solo primo campo x evitare problemi con le join
+		int nPos = strCommandText->LastIndexOf(" FROM ", StringComparison::InvariantCultureIgnoreCase);
+		if (nPos > 0)
+		{
+			//cerco la prima virgola
+			int nFirstComma = strCommandText->IndexOf(",");
+			if (nFirstComma > 0)
+				//String^ fieldsToRemove = strCommandText->Substring(nFirstComma, nPos);
+				strCommandText = strCommandText->Remove(nFirstComma, nPos - nFirstComma);
+		}
+
+		//devo togliere l'eventuale order by (la sintassi Select COUNT(*) FROM (...) AS CT non l'ammette)
+		nPos = strCommandText->LastIndexOf("ORDER BY", StringComparison::InvariantCultureIgnoreCase) ;
 		if ( nPos > 0 )
 			strCommandText = strCommandText->Substring(0, nPos);
-
+		 
 		pCommand->Connection = m_pSqlCommandClient->mSqlCommand->Connection;
 		pCommand->Transaction = m_pSqlCommandClient->mSqlCommand->Transaction;
 		pCommand->CommandText = String::Format("SELECT COUNT(*) FROM ( {0} ) AS CT", strCommandText);
@@ -1957,7 +1969,7 @@ long  MSqlCommand::GetTotalRecords()
 	}
 	catch (SqlException^ e)
 	{
-		throw(e);		
+		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
 }
 
@@ -2152,6 +2164,14 @@ void MSqlCommand::ExecutePagingCommand(MoveType eMoveType, bool bPrepared /*= fa
 
 		throw(new MSqlException(new SqlExceptionClient(e)));
 	}
+
+	catch (MSqlException* ex)
+	{
+		SAFE_DELETE(m_pSqlDataTableClient);
+
+		throw(ex);
+	}
+	
 }
 	
 	

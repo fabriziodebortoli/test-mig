@@ -1789,14 +1789,20 @@ long SqlTable::GetRowSetCount()
 	//se ho un valore corretto restituito dal rows allora utilizzo quello
 	if (m_strSQL.IsEmpty())
 		return 0;
+	TRY
+	{
+		//se � un cursore scrollabile oppure in caso di forwardonly ho terminato il ciclo di fetch
+		if (m_bScrollable || m_bEOF || m_bUpdatable)
+			return m_pRowSet->GetRecordsAffected();
 
-	//se � un cursore scrollabile oppure in caso di forwardonly ho terminato il ciclo di fetch
-	if (m_bScrollable || m_bEOF || m_bUpdatable)
-		return m_pRowSet->GetRecordsAffected();
-
-	//eseguo una select count(*) from (m_strSQL tolta la ORDER BY)
-	return m_pRowSet->GetTotalRecords();
-
+		//eseguo una select count(*) from (m_strSQL tolta la ORDER BY)
+		return m_pRowSet->GetTotalRecords();
+	}
+	CATCH(MSqlException, e)
+	{	
+		return -1;
+	}
+	END_CATCH
 }
 
 

@@ -438,7 +438,10 @@ CTransactionContext::CTransactionContext(SqlConnection* pSqlConnection, CTBConte
 	m_bTxError			(FALSE)
 {
 	if (pSqlConnection && pSqlConnection->IsValid())
+	{
 		m_pSqlConnection = pSqlConnection;
+		GetSqlSession();
+	}
 }
 
 
