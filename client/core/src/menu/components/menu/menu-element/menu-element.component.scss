@@ -1,6 +1,7 @@
 :host(tb-menu-element) {
     padding-right: 4px;
     padding-left: 4px;
+    overflow: hidden;
 }
 
 ::ng-deep .menu-element {
@@ -57,7 +58,7 @@
             font-size: 14px;
             margin-right: 4px;
             margin-top: 4px;
-            line-height: 18px;
+            line-height: 16px;
         }
         .object-type.Document {
             color: #0277bd;
