@@ -1,5 +1,5 @@
 <tb-control-container type="tb-date-input" [model]="model">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <kendo-datepicker [(ngModel)]="selectedDate" [format]="getFormat()" (ngModelChange)="onChange($event)" [focusedDate]="selectedDate"
-        placeholder=" " [disabled]="!model?.enabled || readonly" (blur)="onBlur($event)" [style.width.px]="width"> </kendo-datepicker>
+        placeholder=" " [disabled]="!model?.enabled || readonly" (blur)="onBlur($event)" [style.width.px]="width + 24"> </kendo-datepicker>
 </tb-control-container>
