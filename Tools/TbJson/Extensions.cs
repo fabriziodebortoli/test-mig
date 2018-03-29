@@ -272,6 +272,8 @@ namespace Microarea.TbJson
                 if (obj.GetWndObjType() == WndObjType.BodyEdit)
                     return Constants.tbBodyEditToolbarButton;
             }
+            if (jObj.GetBool(Constants.isDropdown))
+                return Constants.tbToolbarTopButtonDropdown;
 
             switch (jObj.GetCommandCategory())
             {

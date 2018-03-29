@@ -38,7 +38,7 @@ namespace Microarea.TbJson
             verboseOutput = verbose;
         }
 
-   
+
         //-----------------------------------------------------------------------------------------
         internal void Generate(string fileOrFolder, string mergedJsonDir, bool onlyMerged)
         {
@@ -787,40 +787,16 @@ namespace Microarea.TbJson
                     }
                 case WndObjType.ToolbarButton:
                     {
-                        bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
-
-                        if (!(isSeparator == true))
-                        {
-                            /*	using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbToolbarSeparator, this, true, true))
-                            {
-
-                            }
-                        else*/
-
-
-                            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, true))
-                            {
-                                WriteActivationAttribute(jObj);
-                                AddIconAttribute(jObj);
-                                WriteButtonInfo(jObj);
-
-                                string caption = jObj.GetLocalizableString(Constants.text);
-                                if (!string.IsNullOrEmpty(caption))
-                                    htmlWriter.WriteAttribute(Square(Constants.caption), caption);
-                                string cmpId = jObj.GetId();
-                                if (!string.IsNullOrEmpty(cmpId))
-                                    htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
-                                var cmd = jObj.GetClick();
-                                if (!string.IsNullOrEmpty(cmd))
-                                    htmlWriter.WriteAttribute(Square(Constants.buttonClick), cmd);
-                                w.CloseBeginTag();
-                                GenerateHtmlChildren(jObj, type, false, slave);
-                            }
-                        }
+                        GenerateButtonTag(jObj, slave, type);
+                        break;
+                    }
+                case WndObjType.MenuItem:
+                    {
+                        if (parentType == WndObjType.ToolbarButton)
+                            GenerateButtonTag(jObj, slave, type);
 
                         break;
                     }
-
                 case WndObjType.TileManager:
                     {
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTileManager, this, false))
@@ -939,7 +915,7 @@ namespace Microarea.TbJson
                                     htmlWriter.WriteAttribute(Square(Constants.title), title);
                                 }
 
-                                AddIconAttribute(jObj);
+                                AddIconAttribute(jObj, jObj.GetFlatString(Constants.icon));
 
                                 tmTab.CloseBeginTag();
 
@@ -968,7 +944,7 @@ namespace Microarea.TbJson
 
                         string tag = Constants.tbTile;
 
-                       
+
                         if (!string.IsNullOrEmpty(title) || jObj.GetParentItem().GetWndObjType() == WndObjType.TileGroup)
                             tag = Constants.tbPanel;
 
@@ -1271,7 +1247,33 @@ namespace Microarea.TbJson
             }
         }
 
-        
+        private void GenerateButtonTag(JObject jObj, bool slave, WndObjType type)
+        {
+            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
+            {
+                WriteActivationAttribute(jObj);
+                string icon = jObj.GetFlatString(Constants.icon);
+                if (string.IsNullOrEmpty(icon))
+                {
+                    icon = jObj.GetParentItem().GetFlatString(Constants.icon);
+                }
+                AddIconAttribute(jObj, icon);
+                WriteButtonInfo(jObj);
+
+                string caption = jObj.GetLocalizableString(Constants.text);
+                if (!string.IsNullOrEmpty(caption))
+                    htmlWriter.WriteAttribute(Square(Constants.caption), caption);
+                string cmpId = jObj.GetId();
+                if (!string.IsNullOrEmpty(cmpId))
+                    htmlWriter.WriteAttribute(Constants.cmpId, cmpId);
+                var cmd = jObj.GetClick();
+                if (!string.IsNullOrEmpty(cmd))
+                    htmlWriter.WriteAttribute(Square(Constants.buttonClick), cmd);
+                w.CloseBeginTag();
+                GenerateHtmlChildren(jObj, type, false, slave);
+            }
+        }
+
         private string CheckAlias(string table, string field)
         {
             if (string.IsNullOrEmpty(table))
@@ -1375,9 +1377,8 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------------------
-        private void AddIconAttribute(JObject jObj)
+        private void AddIconAttribute(JObject jObj, string icon)
         {
-            string icon = jObj.GetFlatString(Constants.icon);
             if (!string.IsNullOrEmpty(icon))
             {
                 string tempIcon = icon.ToLower();
@@ -1736,7 +1737,7 @@ namespace Microarea.TbJson
             htmlWriter.Write(" tbControl");
 
             string anchor = jObj.GetFlatString(Constants.anchor);
-            if (!string.IsNullOrEmpty(anchor) && anchor.IndexOf("COL",StringComparison.InvariantCultureIgnoreCase) < 0)
+            if (!string.IsNullOrEmpty(anchor) && anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
                 htmlWriter.WriteAttribute(Square("staticArea"), "false");
 
             string marginLeft = jObj.GetFlatString(Constants.marginLeft);
@@ -1748,7 +1749,8 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square("captionWidth"), captionWidth);
 
             string textAlign = jObj.GetTextAlign();
-            if (!string.IsNullOrEmpty(textAlign)) {
+            if (!string.IsNullOrEmpty(textAlign))
+            {
                 htmlWriter.WriteAttribute("textAlign", textAlign);
             }
 
