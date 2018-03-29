@@ -5,7 +5,7 @@
             <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)" [disabled]="!(model?.enabled) || readonly" (ngModelChange)="model.value=$event" [style.width.px]="width" />
         </ng-template>
         <ng-template [ngIf]="rows>1 || multiline">
-            <textarea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width" [style.height.px]="height-2" rows="{{rows}}"></textarea>
+            <textarea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width" [style.height.px]="height" rows="{{rows}}"></textarea>
         </ng-template>
         <ng-template [ngIf]="hotLink">
             <ng-template [tbHotLink]="hotLink"></ng-template>

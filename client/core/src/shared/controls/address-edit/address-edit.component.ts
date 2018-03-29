@@ -84,14 +84,6 @@ export class AddressEditComponent extends ControlComponent {
         this.buildContextMenu();
     }
 
-    getCorrectHeight() {
-        return isNaN(this.height) ? this.height.toString() : this.height + 'px';
-    }
-
-    getCorrectWidth() {
-        return isNaN(this.width) ? this.width.toString() : this.width + 'px';
-    }
-
     dataChanged() {
         if (!this.model)
             return undefined
