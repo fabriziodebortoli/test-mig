@@ -43,6 +43,11 @@ namespace Microarea.TbJson
 			{
 				if (!string.IsNullOrWhiteSpace(cssClass))
 					btn[Constants.ngClass] = cssClass;
+                if (btn.GetBool(Constants.isDropdown))
+                {
+                    foreach(JObject jMenuItem in btn.GetItems())
+                        jMenuItem[Constants.ngClass] = Constants.dropDownButton;
+                }
 				jItems.Add(btn);
 			}
         }
