@@ -24,6 +24,7 @@ import { TbHotlinkComboHyperLinkHandler } from './hyper-link-handler';
 import { TbHotlinkComboEventHandler } from './event-handler';
 
 import * as _ from 'lodash';
+import { ComboBoxData } from '../../models/combo-box-data';
 
 declare var document: any;
 
@@ -128,7 +129,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     }
   }
 
-  valueNormalizer = (text$: Observable<string>) => text$.map(text => ({ id: text, displayString: 'text' }));
+  valueNormalizer = (text$: Observable<string>) => text$.map(text => (new ComboBoxData({ id: text, displayString: '' })));
 
   setSelectionType(t: string) { this.state = this.state.with({selectionType: t}); }
 

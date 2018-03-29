@@ -2,7 +2,7 @@
                 [data]="state$ | async | asDropDownData"
                 [allowCustom]="true"
                 [popupSettings]="{ width: 'auto' }"
-                [value]="slice$ | async | asDropDownValue"
+                [value]="slice$ | async | asDropDownValue | toUpper: modelComponent?.model?.uppercase"
                 [textField]="'id'"
                 [valueField]="'id'"
                 [valueNormalizer]="valueNormalizer"
