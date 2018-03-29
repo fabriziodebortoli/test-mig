@@ -7,10 +7,6 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 import { TbComponent } from './../../../../../shared/components/tb.component';
 import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
 import { InfoService } from './../../../../../core/services/info.service';
-import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
-import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-
-
 
 @Component({
   selector: 'tb-toolbar-top-button-dropdown',
@@ -24,11 +20,15 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   @ViewChild('anchor') public anchor: ElementRef;
   @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
+  @Input() icon = 'tb-menu2';
+  @Input() cmpId = '_BUTTONGROUPADVANCED';
   public viewProductInfo: string;
   private eventDataServiceSubscription;
+  private _disabled = false;
 
  constructor(
   public componentService: ComponentService,
+  public eventData: EventDataService,
   public eventDataService: EventDataService,
   public infoService: InfoService,
   tbComponentService: TbComponentService,
@@ -47,14 +47,24 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   }); 
 }
 
+@Input() public set disabled(value: boolean) {
+  this._disabled = value;
+}
+public get disabled(): boolean {
+  return this._disabled ||
+    (this.eventData.buttonsState &&
+    this.eventData.buttonsState[this.cmpId] &&
+    !this.eventData.buttonsState[this.cmpId].enabled);
+}
+
 ngOnDestroy() {
   this.eventDataServiceSubscription.unsubscribe();
 }
 
 public toggle(show?: boolean): void {
   this.show = show !== undefined ? show : !this.show;
-  
 }
+
 @HostListener('document:click', ['$event'])
 public documentClick(event: any): void {
     if (!this.contains(event.target)) {

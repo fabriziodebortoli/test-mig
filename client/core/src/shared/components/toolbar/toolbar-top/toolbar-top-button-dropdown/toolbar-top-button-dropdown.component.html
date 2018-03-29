@@ -1,5 +1,5 @@
 <div #anchor>
-<tb-toolbar-top-button icon="tb-menu2" cmpId="_BUTTONGROUPADVANCED" (click)="toggle()"></tb-toolbar-top-button>  
+<tb-toolbar-top-button [icon]="icon" cmpId="cmpId" (click)="toggle()"  [disabled]="disabled" ></tb-toolbar-top-button>  
 <tb-popup *ngIf="show" class="tooltip bottom">
     <ng-content></ng-content>
 </tb-popup>
