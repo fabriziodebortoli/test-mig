@@ -26,7 +26,7 @@
 		<PackageReference Include="Microsoft.Windows.Compatibility.Shims" Version="2.0.0-preview1-25914-04" />
 		<PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
 		<PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.4.2" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
 		<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
 		<PackageReference Include="System.ServiceModel.Duplex" Version="4.4.1" />
@@ -34,18 +34,18 @@
 		<PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
 		<PackageReference Include="system.xml.xpath.xmldocument" Version="4.3.0" />
 		<PackageReference Include="System.Collections" Version="4.3.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
 		<PackageReference Include="System.ServiceModel.Primitives" Version="4.4.1" />
 		<PackageReference Include="System.ServiceModel.Http" Version="4.4.1" />
 		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.4.1" />
