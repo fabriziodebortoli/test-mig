@@ -11,7 +11,7 @@ export class TbHotlinkComboEventHandler {
     }
 
     readonly getHotLinkElement: () => HTMLElement;
-    readonly setUppercase: (hlb: any) => void = (hlb) => {
+    readonly setUppercase: (hlb: any) => void = hlb => {
         let uppercase = get(hlb, 'modelComponent.model.uppercase');
         if(uppercase) {
             let elem = this.getHotLinkElement();
@@ -40,6 +40,5 @@ export class TbHotlinkComboEventHandler {
         hlb.slice$
         .pipe(untilDestroy(hlb)).filter(x => x.length !== undefined).map(x => x.length).distinctUntilChanged()
         .subscribe(maxLenght => this.setMaxLenght(hlb, maxLenght));
-
     }
 }

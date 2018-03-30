@@ -111,6 +111,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.emitModelChange();
     this.popupHandler.closePopups();
   }
+
+  exitButtonClick() {
+    this.popupHandler.closeTable();
+  }
   
   private loadOptions() {
     let ns = this.currentHotLinkNamespace;

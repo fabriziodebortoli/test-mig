@@ -6,7 +6,13 @@
     </div>
 </ng-template>
 <ng-template #tableTemplate>
-    <tb-customisable-grid [canAutoFit]="false" [pageSize]="pageSize" [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)"></tb-customisable-grid>
+    <tb-customisable-grid [canAutoFit]="false" [pageSize]="pageSize" [height]="300" [state]="state$ | async" (selectionChange)="selectionChanged($event)" (selectAndEdit)="selectAndEdit($event)">
+        <ng-template #customisableGridButtonsTemplate>
+            <button kendoButton class="pager-button" (click)="exitButtonClick()" [title]="_TB('Exit')">
+                <tb-icon [iconType]="'M4'" icon="tb-escape" class="toolbar-icon"></tb-icon>
+            </button>
+        </ng-template>
+    </tb-customisable-grid>
 </ng-template>
 <div class="hotlinkButtonsContainer" #hotLinkButtons>
     <button #hotLinkButton kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(slice$ | async)?.enabled">

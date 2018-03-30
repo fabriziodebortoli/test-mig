@@ -1,3 +1,5 @@
+@import '../../../style/vars.scss';
+
 .hotlinkButtonsContainer {
     display: -webkit-inline-box;
 }
@@ -32,6 +34,21 @@
     .grid-item {
         padding: 2px;
         text-align: center;
+    }
+}
+
+.pager-button {
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    min-width: 38px;
+    border: 0;
+    background: none;
+    &:hover {
+        background: $background;
+    }
+    &:focus {
+        box-shadow: none;
     }
 }
 

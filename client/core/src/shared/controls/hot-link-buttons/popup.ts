@@ -18,7 +18,7 @@ export class TbHotlinkButtonsPopupHandler {
   
   optionsPopupRef: PopupRef;
   tablePopupRef: PopupRef;
-  isTablePopupVisible = false;
+  isTablePopupVisible = true;
   declareTablePopupVisible: () => void = () => { this.isTablePopupVisible = true; } 
   declareTablePopupHidden: () => void = () => { this.isTablePopupVisible = false; } 
   isOptionsPopupVisible = false;
@@ -70,9 +70,7 @@ export class TbHotlinkButtonsPopupHandler {
             anchorAlign: anchorAlign,
             popupClass: 'tb-hotlink-tablePopup',
             appendTo: hlb.vcr});
-        console.log(this.tablePopupRef.popupElement.style);
         this.setPopupElementInBackground(popupAlign);
-        console.log(this.tablePopupRef.popupElement.style);
         this.tablePopupRef.popupOpen.asObservable().subscribe(_ => onTablePopupOpen());
     });
       
