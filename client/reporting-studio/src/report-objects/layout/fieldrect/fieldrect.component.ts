@@ -38,7 +38,6 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'border-radius': this.rect.ratio + 'px',
       'border-style': 'solid',
       'box-sizing': 'border-box',
-
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px '
       + this.rect.shadow_height + 'px ' + this.rect.shadow_color
 
@@ -50,21 +49,36 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',  
-      'position': 'relative',
-      //'position': 'absolute',
-      //'left':'0px',
-      //'top': '0px',
-      //'display': 'block',
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
       'font-weight': this.rect.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
-      'text-align': this.rect.text_align,
       'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
-      'white-space': 'pre-line',
-      'vertical-align':this.rect.vertical_align
+      'white-space': this.rect.line === 'single_line' ? 'nowrap' : 'pre-line',
+      'display': 'flex'
+    };
+    return obj;
+  }
+
+  applyDummyTableStyle(): any {
+    let obj = {
+      'text-align': this.rect.text_align,
+      'margin-left': this.rect.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.text_align == 'right' ? '0px' : 'auto',
+      'height': 'inherit',
+      'width': 'inherit',
+      'table-layout': 'fixed',
+    };
+    return obj;
+  }
+
+  applyDummyCellStyle(): any {
+    let obj = {
+      'width': 'inherit',
+      'vertical-align': this.rect.vertical_align,
+      'overflow':'hidden',
     };
     return obj;
   }
@@ -72,22 +86,40 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyLabelStyle(): any {
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
-      'position': 'relative',
-      'display': 'block',
-      'overflow': 'hidden',
-      'white-space': 'nowrap',
-      'text-align': this.rect.label.text_align,
-      'transform': 'rotate('+this.rect.label.rotateBy+'deg)',
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
       'font-style': this.rect.label.font.italic ? 'italic' : 'normal',
       'font-weight': this.rect.label.font.bold ? 'bold' : 'normal',
+      'position': 'absolute',
+      'overflow': 'hidden',
+      'text-align': this.rect.label.text_align,
+      'transform': 'rotate('+this.rect.label.rotateBy+'deg)',  
       'text-decoration': this.rect.label.font.underline ? 'underline' : 'none',
       'color': this.rect.label.textcolor,
+      'white-space': this.rect.label.line === 'single_line' ? 'nowrap' : 'pre-line',
+      'display': 'flex'
     };
     return obj;
   }
 
-
+  applyDummyCellLabelStyle(): any {
+    let obj = {
+      'width': 'inherit',
+      'vertical-align': this.rect.label.vertical_align,
+      'overflow':'hidden',
+    };
+    return obj;
+  }
+  applyDummyTableLabelStyle(): any {
+    let obj = {
+      'text-align': this.rect.label.text_align,
+      'margin-left': this.rect.label.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.label.text_align == 'right' ? '0px' : 'auto',
+      'height': 'inherit',
+      'table-layout': 'fixed',
+    };
+    return obj;
+  }
 
 }

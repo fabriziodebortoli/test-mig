@@ -1,0 +1,42 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+
+Properties
+	Begin
+		Title "Allineamneto label e contenuto Field rect" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "" 
+	End
+
+PageLayout "default" 
+	Begin
+		Field (116,218,280,572) Alias 1  /* w_field */ 
+			Begin
+				Align 2122 ;
+				Label = "Label del campo di testo: anche la label può andare a capo ed essere allineata nelle diverse posizioni esattamente come il contenuto" ;
+					Begin
+						Align 2114 ;
+					End
+			End
+		Field (319,218,463,573) Alias 2  /* w_field2 */ 
+			Begin
+				Align 2117 ;
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Variables
+			String       w_field [15] Alias 1 Init = "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur" ;
+			String       w_field2 [15] Alias 2 Init = "Lorem ipsum dolor sit amet, consectetur adipisci elit, " + CHR ( 10 ) + CHR ( 13 ) + "sed eiusmod tempor incidunt ut labore" + CHR ( 10 ) + CHR ( 13 ) + " et dolore magna aliqua. Ut enim ad minim veniam, " + CHR ( 10 ) + CHR ( 13 ) + "quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur" ;
+		End
+
+End
+

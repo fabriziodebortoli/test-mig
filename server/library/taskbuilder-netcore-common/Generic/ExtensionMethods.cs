@@ -969,7 +969,11 @@ namespace Microarea.Common.Generic
             if ((a & AlignType.DT_EX_270) == AlignType.DT_EX_270)
                 rotateBy = "90";
 
-            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align");
+            string line = "multi_line";
+            if ((a & AlignType.DT_SINGLELINE) == AlignType.DT_SINGLELINE)
+                line = "single_line";
+
+            string s = textAlign.ToJson("text_align") + ',' + verticalAlign.ToJson("vertical_align") + ',' + line.ToJson("line");
 
             if (rotateBy != "0")
                 s = s + ',' + rotateBy.ToJson("rotateBy");
