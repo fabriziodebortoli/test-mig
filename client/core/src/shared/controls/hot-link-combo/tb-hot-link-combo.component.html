@@ -10,7 +10,7 @@
                 [loading]="paginator.waiting$ | async"
                 (open)="openDropDown($event)"
                 (close)="closeDropDown()"
-                [style.width.px]="width"
+                [style.width.px]="width+8"
                 [filterable]="true"
                 (filterChange)="onFilterChange($event)"
                 (selectionChange)="selectionChanged($event)"
@@ -22,7 +22,7 @@
         </ng-template>
         <ng-template kendoComboBoxFooterTemplate>
             <div *ngIf="enablePager"
-                 [style.width.px]="width" 
+                 [style.width.px]="width+8" 
                  [style.display]="'flex'" 
                  [style.background]="'white'"
                  [style.border-top-style]="'solid'"

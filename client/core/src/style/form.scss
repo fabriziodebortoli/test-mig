@@ -189,6 +189,7 @@
     font-size: 13px;
     line-height: 18px;
     color: #333;
+    margin: 3px 0 0;
 }
 
 .k-checkbox-label::before,
@@ -261,6 +262,7 @@ textarea[disabled],
     color: $text-color-disabled;
 }
 
+.k-dropdown-wrap.k-state-disabled .k-input, .k-dropdown-wrap .k-input[disabled],
 .k-numerictextbox .k-numeric-wrap,
 .k-numeric-wrap .k-input[disabled] {
     height: 22px;
@@ -278,8 +280,6 @@ textarea[disabled],
 
 .k-textbox:disabled,
 .k-textbox[disabled],
-.k-textbox.k-state-disabled,
-.k-dropdown-wrap.k-state-disabled .k-input,
-.k-dropdown-wrap .k-input[disabled] {
+.k-textbox.k-state-disabled{
     height: 24px;
 }
