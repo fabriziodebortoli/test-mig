@@ -4,6 +4,9 @@ import { AskObjectType } from './ask-object-type.model';
 
 export class dropdownlist extends askObj {
     list: dropdownListPair[] = [];
+    //set always visible because TB core inner control uses such property to show/hide itself
+    //AskDialog manages visibility on the RS-Ask outer control 
+    visible = true;
     constructor(jsonObj: any) {
         super(jsonObj);
         this.obj = AskObjectType.dropdownlist;
