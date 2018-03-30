@@ -10,6 +10,7 @@ export class EventDataService implements OnDestroy {
     public command: EventEmitter<CommandEventArgs> = new EventEmitter();
     public change: EventEmitter<string> = new EventEmitter();
     public openDropdown: EventEmitter<any> = new EventEmitter();
+    public checkListBoxAction: EventEmitter<any> = new EventEmitter();
     public radarRecordSelected: EventEmitter<any> = new EventEmitter();
     public behaviours: EventEmitter<any> = new EventEmitter();
     public openRadar: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

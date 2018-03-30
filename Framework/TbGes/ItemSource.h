@@ -57,9 +57,10 @@ public:
 
        virtual void SetName(const CString& strName) { m_strName = strName; }
        virtual void SetNamespace(const CString& strNamespace) { m_strNamespace = strNamespace; }
-
+	   
        CString GetName() { return m_strName; }
        CString GetNamespace() { return m_strNamespace; }
+	   CJsonSerializer GetJson(const CString& cmpId);
 
        bool GetShowDescription() { return m_bShowDescription; }
        void SetShowDescription(bool bShowDescription) { m_bShowDescription = bShowDescription; }
@@ -68,8 +69,7 @@ public:
        virtual CString GetDescription(const DataObj* pValue);
        virtual       BOOL IsValidItem(const DataObj&) { return TRUE; }
        virtual       void OnControlAttached() { }
-
-
+	   virtual       void OnGetJson(CJsonSerializer& jsonSerializer) { }
 };
 
 

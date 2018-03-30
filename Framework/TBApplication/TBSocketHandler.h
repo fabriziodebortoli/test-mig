@@ -27,6 +27,7 @@ private:
 	void GetWindowStrings(CJsonParser& json);
 	void CheckMessageDialog(CJsonParser& json);
 	void DoFillListBox(CJsonParser& json);
+	void DoCheckListBoxAction(CJsonParser& json);
 	void SetReportResult(CJsonParser& json);
 	void RunDocument(CJsonParser& json);
 	void BrowseRecord(CJsonParser& json);

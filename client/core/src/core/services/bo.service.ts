@@ -126,6 +126,10 @@ export class BOService extends DocumentService {
             this.webSocketService.doFillListBox(this.mainCmpId, obj);
         }));
 
+        this.subscriptions.push(this.eventData.checkListBoxAction.subscribe((obj: any) => {
+            this.webSocketService.doCheckListBoxAction(this.mainCmpId, obj);
+        }));
+
         this.subscriptions.push(this.eventData.closeMessageDialog.subscribe((args: MessageDlgResult) => {
             this.webSocketService.doCloseMessageDialog(this.mainCmpId, args);
         }));
@@ -229,7 +233,7 @@ export class BOService extends DocumentService {
                     model[prop] = patchVal;
                     if (addEvents) {
                         addModelBehaviour(patchVal, this.addPrefix(name, prop));
-                    this.attachEventsToModel(patchVal);
+                        this.attachEventsToModel(patchVal);
                     }
                 } else {
                     if (patchVal instanceof Object) {

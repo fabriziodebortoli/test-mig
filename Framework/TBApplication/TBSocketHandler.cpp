@@ -46,7 +46,7 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("updateTitle")] = &CTBSocketHandler::DoUpdateTitle;
 	functionMap[_T("activateContainer")] = &CTBSocketHandler::DoActivateClientContainer;
 	functionMap[_T("pinUnpin")] = &CTBSocketHandler::DoPinUnpin;
-
+	functionMap[_T("doCheckListBoxAction")] = &CTBSocketHandler::DoCheckListBoxAction;
 }
 
 //--------------------------------------------------------------------------------
@@ -477,6 +477,48 @@ void CTBSocketHandler::SetReportResult(CJsonParser& json)
 		pWoormDoc->SetJsonResult(json);
 	}
 }
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
+{
+	HWND docId = ReadComponentId(json);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(docId);
+	if (!pDoc)
+		return;
+
+	CString controlId = json.ReadString(_T("controlId"));
+	if (!controlId)
+		return;
+
+	CString action = json.ReadString(_T("action"));
+
+	if (json.BeginReadObject(_T("itemSource")))
+	{
+		CString itemSourceName = json.ReadString(_T("name"));
+		CString itemSourceNamespace = json.ReadString(_T("namespace"));
+
+		CItemSource* pItemSource = pDoc->GetItemSource(itemSourceName, CTBNamespace(CTBNamespace::ITEMSOURCE, itemSourceNamespace));
+
+
+		if (!pItemSource)
+			return;
+
+		if (action == "getList")
+		{
+			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+            if (!pSession)
+            {
+                    ASSERT(FALSE);
+                    return;
+            }
+
+			CJsonSerializer resp = pItemSource->GetJson(controlId);
+
+            pSession->PushToClients(resp);
+		}
+	}
+}
+
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 {

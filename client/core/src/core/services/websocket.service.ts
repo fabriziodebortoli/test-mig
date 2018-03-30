@@ -25,6 +25,7 @@ export class WebSocketService extends LocalizationService {
     public runError = new EventEmitter<any>();
     public activationData = new EventEmitter<any>();
     public itemSource = new EventEmitter<any>();
+    public itemSourceExtended = new EventEmitter<any>();
     public open = new EventEmitter<any>();
     public close = new EventEmitter<any>();
     public message = new EventEmitter<MessageDlgArgs>();
@@ -82,6 +83,7 @@ export class WebSocketService extends LocalizationService {
                         case 'WindowClose': $this.windowClose.emit(obj.args); break;
                         case 'RunError': $this.runError.emit(obj.args); break;
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
+                        case 'ItemSourceExtended': $this.itemSourceExtended.emit(obj.args); break;
                         case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
                         case 'AddOnFly': $this.addOnFly.emit({ name: obj.args['name'], value: obj.args['value'] }); break;
                         // when tbloader has connected to gate, I receive this message; then I can
@@ -188,6 +190,13 @@ export class WebSocketService extends LocalizationService {
 
         this.safeSend(data);
     }
+
+    doCheckListBoxAction(cmpId: String, obj: any): void {
+        const data = { cmd: 'doCheckListBoxAction', cmpId: cmpId, itemSource: obj.itemSource, controlId: obj.cmpId, action: obj.action };
+
+        this.safeSend(data);
+    }
+
     closeServerComponent(cmpId: string) {
         this.doCommand(cmpId, 'ID_FILE_CLOSE');
     }

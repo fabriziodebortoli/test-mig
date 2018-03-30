@@ -19,11 +19,11 @@ export class @@NAME@@Component extends BOSlaveComponent implements OnInit, OnDes
 
     ngOnInit() {
         super.ngOnInit();
+        /*definizione variabili*/
         @@INITCODE@@
     }
     ngOnDestroy() {
         super.ngOnDestroy();
-        /*definizione variabili*/
     }
 
 }

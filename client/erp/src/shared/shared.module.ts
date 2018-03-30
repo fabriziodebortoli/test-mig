@@ -13,6 +13,7 @@ import { NumbererComponent } from './controls/numberer/numberer.component';
 import { ItemEditComponent } from './controls/item-edit/item-edit.component';
 import { AutoSearchEditComponent } from './controls/auto-search-edit/auto-search-edit.component';
 import { ChartOfAccountComponent } from './controls/chart-of-account/chart-of-account.component';
+import { UpdateManagerListComponent } from './controls/update-manager-list/update-manager-list.component';
 
 import { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 
@@ -26,6 +27,7 @@ export { NumbererComponent } from './controls/numberer/numberer.component';
 export { ItemEditComponent } from './controls/item-edit/item-edit.component';
 export { AutoSearchEditComponent } from './controls/auto-search-edit/auto-search-edit.component';
 export { ChartOfAccountComponent } from './controls/chart-of-account/chart-of-account.component';
+export { UpdateManagerListComponent } from './controls/update-manager-list/update-manager-list.component';
 
 export { KeyValueFilterPipe } from './pipes/key-value-filter.pipe';
 
@@ -39,7 +41,8 @@ const ERP_COMPONENTS = [
     StrBinEditComponent,
     TaxIdEditComponent,
     FiscalCodeEditComponent,
-    ChartOfAccountComponent
+    ChartOfAccountComponent,
+    UpdateManagerListComponent
 ];
 
 const ERP_PIPES = [

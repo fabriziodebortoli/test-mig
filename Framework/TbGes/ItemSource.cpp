@@ -68,6 +68,20 @@ void CItemSource::SetControl(CParsedCtrl* pControl) {
 	}
 }
 
+//-----------------------------------------------------------------------------
+CJsonSerializer CItemSource::GetJson(const CString& cmpId) 
+{
+	CJsonSerializer resp;
+	resp.WriteString(_T("cmd"), _T("ItemSourceExtended"));
+	resp.OpenObject(_T("args"));
+	resp.WriteString(_T("cmpId"), cmpId);
+
+	OnGetJson(resp);
+	
+	resp.CloseObject();
+	return resp;
+};
+
 //-------------------------------------------------------------------------------------------
 //			CItemSourceXml
 //-------------------------------------------------------------------------------------------
