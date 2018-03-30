@@ -24,7 +24,7 @@ import { URLSearchParamsBuilder } from './../../commons/builder';
 
 import * as _ from 'lodash';
 
-export type HotLinkSlice = { value: any, enabled: boolean, selector: any, type: number, uppercase?:boolean }
+export type HotLinkSlice = { value: any, enabled: boolean, selector: any, type: number, uppercase?:boolean, length?: number }
 
 @Component({
     template: ''
