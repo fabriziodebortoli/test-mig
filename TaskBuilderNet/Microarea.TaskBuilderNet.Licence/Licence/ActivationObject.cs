@@ -1462,7 +1462,7 @@ namespace Microarea.TaskBuilderNet.Licence.Licence
                     ArrayList list = VerifyAddon(p, ipi);
                     foreach (string name in list)
                     {
-                        if (!modules.Contains(name))
+                        if (!modules.Contains(name.ToLower(CultureInfo.InvariantCulture)))
                             modules.Add(name.ToLower(CultureInfo.InvariantCulture));
                     }
                 }
