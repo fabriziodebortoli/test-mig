@@ -175,5 +175,6 @@
         internal const string model = "model";
         internal const string slave = "slave";
         internal const string collapsedTitle= "collapsedTitle";
+        internal const string bottom = "bottom";
     }
 }

@@ -32,12 +32,13 @@ namespace Microarea.TbJson
 
         static private void AddButton(JArray items, JObject btn)
         {
-            JObject jOuter = GetItemByTag(items, GetToolbarOuterSection(btn.GetCommandCategory()), "");
+            JObject jOuter = GetItemByTag(items, GetToolbarOuterSection(btn), "");
             JObject jInner = GetItemByTag(jOuter.GetItems(true), Constants.div, GetToolbarInnerSectionClass(btn.GetCommandCategory()));
             JObject jCat = GetItemByTag(jInner.GetItems(true), Constants.div, GetToolbarCategoryClass(btn.GetCommandCategory()));
             string group = GetToolbarButtonGroup(btn.GetCommandCategory());
 			string cssClass = GetToolbarButtonCssClass(btn.GetCommandCategory());
 			JObject jButton = string.IsNullOrEmpty(group) ? jCat : GetItemByTag(jCat.GetItems(true), group, "");
+            btn[Constants.category] = (int)btn.GetCommandCategory();
             JArray jItems = jButton.GetItems(true);
 			if (jItems.Find(btn.GetId()) == null)
 			{
@@ -78,13 +79,15 @@ namespace Microarea.TbJson
 			}
 		}
 
-		static private string GetToolbarOuterSection(CommandCategory cat)
+		static private string GetToolbarOuterSection(JObject btn)
         {
+            CommandCategory cat = btn.GetCommandCategory();
             switch (cat)
             {
                 
                 case CommandCategory.Print:
 				case CommandCategory.File:
+                case CommandCategory.Bottom:
                     return Constants.tbToolbarBottom;
                 case CommandCategory.Undefined:
                 case CommandCategory.Search:

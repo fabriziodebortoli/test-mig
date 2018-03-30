@@ -137,7 +137,11 @@ namespace Microarea.TbJson
             if (jObj.GetFlatString(Constants.id) == "ID_EXTDOC_RADAR")
                 return CommandCategory.Search; // TODOPD
             JToken cat = jObj[Constants.category];
-            return cat == null ? CommandCategory.Undefined : (CommandCategory)cat.Value<int>();
+            if (cat != null)
+                return (CommandCategory)cat.Value<int>();
+            if (jObj.GetParentItem().GetBool(Constants.bottom))
+                return CommandCategory.Bottom;
+            return CommandCategory.Undefined;
         }
         //-----------------------------------------------------------------------------
         internal static ViewCategory GetViewCategory(this JToken jObj)
