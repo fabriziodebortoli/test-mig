@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 cls
 
 
@@ -211,6 +211,14 @@ echo.
 echo Build M4Client completed - See log: %DevPath%\7_ng_build.log
 echo.
 
+echo ClickOneDeployer - Generazione config.json...
+echo.
+%DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
+echo.
+
+
+if "%~2"=="-skipM4Web" (goto other)
+
 echo Building Angular M4Web...
 echo.
 echo NON CHIUDETE QUESTA FINESTRA, OPERAZIONE MOLTO LUNGA IN CORSO...
@@ -218,6 +226,20 @@ echo.
 node --max_old_space_size=9120 "node_modules\@angular\cli\bin\ng" build --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Web" >> %DevPath%\7_ng_build-web.log
 echo.
 echo Build M4Web completed - See log: %DevPath%\7_ng_build-web.log
+
+
+echo Copia in corso di config.json da M4Client a M4Web
+echo.
+robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
+echo.
+
+echo Copia in corso di web.config da web-form a M4Web
+echo.
+robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
+echo.
+
+:other
+
 
 echo.
 
@@ -242,12 +264,9 @@ echo Dotnet project published - See log: %DevPath%\8_dotnet_publish.log
 
 echo.
 
+
 if "%~1"=="-skipcod" (goto end)
 
-echo ClickOneDeployer - Generazione config.json...
-echo.
-%DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
-echo.
 echo ClickOneDeployer - Manifest per macchine build 1...
 echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe Deploy /root %DevPath%\Apps /clean true /version debug
@@ -257,16 +276,6 @@ echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe updatedeployment /root %DevPath%\Apps /version debug
 echo.
 
-
-echo Copia in corso di config.json da M4Client a M4Web
-echo.
-robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
-echo.
-
-echo Copia in corso di web.config da web-form a M4Web
-echo.
-robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
-echo.
 
 :end
 
