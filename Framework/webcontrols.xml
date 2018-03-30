@@ -115,7 +115,9 @@
 
   <!-- tb-bool-edit -->
   <WebControl controlClass="BoolEdit" control="tb-bool-edit"></WebControl>
-  <WebControl controlClass="BoolStatic" control="tb-bool-edit"></WebControl>
+  <WebControl controlClass="BoolStatic" control="tb-bool-edit">
+	<arg name="readonly" value="true"></arg>
+  </WebControl>
 
   <!-- tb-enum-combo -->
   <WebControl controlClass="EnumCombo" control="tb-enum-combo" columnControl="tb-body-edit-enum-combo-column"></WebControl>
