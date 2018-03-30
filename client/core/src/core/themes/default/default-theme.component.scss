@@ -25,33 +25,33 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
 /* COLORS */
 
 .default {
-    .dropDownButton
-    {
-        .k-button {
-            tb-icon,
-            i {
-                color: $white;
-            }
-            &:hover,
-            &:focus{
-                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                background: $darkblue;
-                border-color: $darkblue;
-                color: $white;
-                tb-icon,
-                i {
-                    color: $white;
-                }
-            }
+    // .dropDownButton
+    // {
+    //     .k-button {
+    //         tb-icon,
+    //         i {
+    //             color: $white;
+    //         }
+    //         &:hover,
+    //         &:focus{
+    //             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+    //             background: $darkblue;
+    //             border-color: $darkblue;
+    //             color: $white;
+    //             tb-icon,
+    //             i {
+    //                 color: $white;
+    //             }
+    //         }
 
-            &:active {
-                background-color: $bkg-medium;
-                box-shadow: none;
-                color:$white;
-                border: 0px;
-            }
-        }
-    }
+    //         &:active {
+    //             background-color: $bkg-medium;
+    //             box-shadow: none;
+    //             color:$white;
+    //             border: 0px;
+    //         }
+    //     }
+    // }
          /*colore del tooltip delle icone nella top bar*/
     .topBarMenuComponentLike
     {
@@ -113,56 +113,56 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
             }
         }
     }
-    .tooltip
-        { 
-            .tooltip-content {
-            background: $bkg-medium;
-            color: $text-light;
-            tb-icon {
-                color: $text-light;
-            }
-            &::after {
-            background: $bkg-medium;
-            }
-            .k-button,
-            .dropUpButton > 
-            .k-button 
-            {
-                background: $bkg-medium;
+    // .tooltip
+    //     { 
+    //         .tooltip-content {
+    //         background: $bkg-medium;
+    //         color: $text-light;
+    //         tb-icon {
+    //             color: $text-light;
+    //         }
+    //         &::after {
+    //         background: $bkg-medium;
+    //         }
+    //         .k-button,
+    //         .dropUpButton > 
+    //         .k-button 
+    //         {
+    //             background: $bkg-medium;
 
-                &:hover,
-                &:focus{
-                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                    background:$bkg-light;
-                    border-color: $bkg-light;
-                    color: $darkblue;
-                    tb-icon,
-                    i {
-                        color: $darkblue;
-                    }
-                }
+    //             &:hover,
+    //             &:focus{
+    //                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+    //                 background:$bkg-light;
+    //                 border-color: $bkg-light;
+    //                 color: $darkblue;
+    //                 tb-icon,
+    //                 i {
+    //                     color: $darkblue;
+    //                 }
+    //             }
         
-                &:active {
-                    background-color: $bkg-medium;
-                    box-shadow: none;
-                    color:$darkblue;
-                    border: 0px;
-                }
-                &.k-state-disabled {
-                    opacity: 1;
-                    background-color: $bkg-neutral;
-                    border: 1px solid $bkg-neutral;
-                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                    color: $text-medium;
-                    cursor: not-allowed;
-                    tb-icon {
-                        color: $text-medium;
-                        border: none;
-                    }
-                }
-            }
-        }
-     }  
+    //             &:active {
+    //                 background-color: $bkg-medium;
+    //                 box-shadow: none;
+    //                 color:$darkblue;
+    //                 border: 0px;
+    //             }
+    //             &.k-state-disabled {
+    //                 opacity: 1;
+    //                 background-color: $bkg-neutral;
+    //                 border: 1px solid $bkg-neutral;
+    //                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+    //                 color: $text-medium;
+    //                 cursor: not-allowed;
+    //                 tb-icon {
+    //                     color: $text-medium;
+    //                     border: none;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //  }  
        //colore del bottone della toolbar bottom
         tb-toolbar-bottom-button
         {
@@ -183,59 +183,59 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
         .k-button:hover {
             background: transparent;
         }
-        .top-button {
-            margin: 0;
-            padding: 0;
-            height: 30px;
-            min-width: 32px;
-            border: 0;
-            background: none;
-            &>span {
-                font-size: 12px;
-                line-height: 35px;
-                height: 35px;
-                margin: 0;
-                //padding: 0 8px 0 0;
-                text-align: left;
-                /** da riparlarne */
-                display: none;
-            }
-                tb-icon {
-                    background-color: $white;
-                    border: 1px solid $border-topbarbutton;
-                    color:$darkblue;
-                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                    m4-icon {
-                        color:$darkblue;
-                    }
-                    &:hover {
-                        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                        background-color: $darkblue;
-                        border-color:$darkblue;
-                        color:$white;
-                        tb-icon,
-                        i {
-                            color: $white;
-                        }
-                    }
-                    &:active {
-                        background-color:$bkg-medium;
-                        box-shadow: none;
-                        color: $white;
-                    }
-                }
-                &.k-state-disabled {
-                    opacity: 1;
-                    background-color: $bkg-light;
-                    border: 1px solid $bkg-light;
-                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                    tb-icon {
-                        color: $text-gray;
-                        background-color: $bkg-light;
-                        border: none;
-                    }
-                }
-        }
+        // .top-button {
+        //     margin: 0;
+        //     padding: 0;
+        //     height: 30px;
+        //     min-width: 32px;
+        //     border: 0;
+        //     background: none;
+        //     &>span {
+        //         font-size: 12px;
+        //         line-height: 35px;
+        //         height: 35px;
+        //         margin: 0;
+        //         //padding: 0 8px 0 0;
+        //         text-align: left;
+        //         /** da riparlarne */
+        //         display: none;
+        //     }
+        //         tb-icon {
+        //             background-color: $white;
+        //             border: 1px solid $border-topbarbutton;
+        //             color:$darkblue;
+        //             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+        //             m4-icon {
+        //                 color:$darkblue;
+        //             }
+        //             &:hover {
+        //                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+        //                 background-color: $darkblue;
+        //                 border-color:$darkblue;
+        //                 color:$white;
+        //                 tb-icon,
+        //                 i {
+        //                     color: $white;
+        //                 }
+        //             }
+        //             &:active {
+        //                 background-color:$bkg-medium;
+        //                 box-shadow: none;
+        //                 color: $white;
+        //             }
+        //         }
+        //         &.k-state-disabled {
+        //             opacity: 1;
+        //             background-color: $bkg-light;
+        //             border: 1px solid $bkg-light;
+        //             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+        //             tb-icon {
+        //                 color: $text-gray;
+        //                 background-color: $bkg-light;
+        //                 border: none;
+        //             }
+        //         }
+        // }
     }
     .sidenav-subtitle {
         h4 {

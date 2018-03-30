@@ -21,89 +21,116 @@
     &:hover {
         cursor: not-allowed;
     }
-}
 
-::ng-deep .top-button {
-    margin: 0;
-    padding: 0;
-    height: 30px;
-    min-width: 32px;
-    border: 0;
-    background: none;
-    &>span {
-        font-size: 12px;
-        line-height: 35px;
-        height: 35px;
+
+    .top-button {
         margin: 0;
-        //padding: 0 8px 0 0;
-        text-align: left;
-        /** da riparlarne */
-        display: none;
-    }
-    tb-icon {
-        min-width: 32px;
+        padding: 0;
         height: 30px;
-        font-size: 20px;
-        margin: 0;
-        padding-top: 0;
-        box-shadow: none;
-        background-color: #fff;
-        border: 1px solid #cfe0e8;
-        border-left: none;
-        border-radius: none;
-        color: $darkblue;
-        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-        m4-icon {
-            color: $darkblue;
+        min-width: 32px;
+        border: 0;
+        background: none;
+        &>span {
+            font-size: 12px;
+            line-height: 35px;
+            height: 35px;
+            margin: 0;
+            //padding: 0 8px 0 0;
+            text-align: left;
+            /** da riparlarne */
+            display: none;
         }
-        &:hover {
+        tb-icon {
+            min-width: 32px;
+            height: 30px;
+            font-size: 20px;
+            margin: 0;
+            padding-top: 0;
+            box-shadow: none;
+            background-color: #fff;
+            border: 1px solid #cfe0e8;
+            border-left: none;
+            border-radius: none;
+            color: $darkblue;
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-            background-color: $darkblue;
-            border-color: $darkblue;
-            color: #fff;
-            tb-icon,
-            i {
+            m4-icon {
+                color: $darkblue;
+            }
+            &:hover {
+                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                background-color: $darkblue;
+                border-color: $darkblue;
+                color: #fff;
+                tb-icon,
+                i {
+                    color: #fff;
+                }
+            }
+            &:active {
+                background-color: #0277bd;
+                box-shadow: none;
                 color: #fff;
             }
         }
-        &:active {
-            background-color: #0277bd;
-            box-shadow: none;
-            color: #fff;
-        }
-    }
-    &.k-state-disabled {
-        opacity: 1;
-        background-color: $bkg-light;
-        border: 1px solid $bkg-light;
-        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-        tb-icon {
-            color: #ccc;
+        &.k-state-disabled {
+            opacity: 1;
             background-color: $bkg-light;
-            border: none;
+            border: 1px solid $bkg-light;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            tb-icon {
+                color: #ccc;
+                border: none;
+            }
         }
     }
-}
+    tb-icon .div-icon {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
 
-::ng-deep tb-icon .div-icon {
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
+    .div-icon img {
+        height: 20px;
+        margin-top: 4px;
+    }
 }
-
-.div-icon img {
-    height: 20px;
-    margin-top: 4px;
-}
-
 
 /* COLORS */
 
 $white: #ffffff;
 $bkg-medium: #0277bd;
 $shadow: rgba(205, 210, 214, .8);
+// :host-context(.default) {
+// .dropDownButton
+//     {
+//         .k-button {
+//             tb-icon,
+//             i {
+//                 color: $white;
+//             }
+//             &:hover,
+//             &:focus{
+//                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+//                 background: $darkblue;
+//                 border-color: $darkblue;
+//                 color: $white;
+//                 tb-icon,
+//                 i {
+//                     color: $white;
+//                 }
+//             }
+
+//             &:active {
+//                 background-color: $bkg-medium;
+//                 box-shadow: none;
+//                 color:$white;
+//                 border: 0px;
+//             }
+//         }
+//     }
+// }
 :host-context(.dropDownButton) {
-     ::ng-deep.k-button {
+     .k-button {
         border: 0px;
         width: 100%;
         color: $white;
@@ -113,8 +140,8 @@ $shadow: rgba(205, 210, 214, .8);
         font-weight: 400;
         border-radius: 0px;
         padding: 0px 18px 0px 18px;
-         ::ng-deep &:hover,
-         ::ng-deep &:focus {
+        &:hover,
+        &:focus {
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             background: $darkblue;
             border-color: $darkblue;
@@ -124,22 +151,22 @@ $shadow: rgba(205, 210, 214, .8);
                 color: $white;
             }
         }
-         ::ng-deep &:active {
+        &:active {
             background-color: $bkg-medium;
             box-shadow: none;
             color: $white;
             border: 0px;
         }
-    }
+
     span {
         width: 100%;
         text-align: left;
         display: flex;
+        color:$white;
     }
-    tb-icon,
-    &:first-child tb-icon,
-    &:last-child tb-icon,
-    &:only-child tb-icon {
+
+    tb-icon
+         {
         width: 35px;
         font-size: 20px;
         margin: 0px;
@@ -153,6 +180,9 @@ $shadow: rgba(205, 210, 214, .8);
         font-weight: 400;
         border-radius: 0px;
         text-align: left;
+        i {
+            color: $white;
+        }
         //padding-left: 5px;
         &:hover {
             background-color: transparent;
@@ -166,21 +196,34 @@ $shadow: rgba(205, 210, 214, .8);
             color: $white;
         }
     }
-    .top-button {
+     .top-button {
         padding: 0px 18px 0px 18px;
         height: 35px;
+    }
+    &.k-state-disabled {
+        opacity: 1;
+        background-color: $bkg-light;
+        border: 1px solid $bkg-light;
+        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+        tb-icon, span
+         {
+            color: #ccc;
+            border: none;
+        }
     }
     m4-icon {
         font-size: 30px;
         width: 35px;
+        color: $white;
     }
     .div-icon {
         width: 35px;
         height: 35px;
         line-height: 35px;
     }
-    .div-icon img {
+        .div-icon img {
         height: 20px;
         margin-top: 4px;
-    }
+     }
+}
 }

@@ -25,9 +25,10 @@ a {
     text-decoration: none;
 }
 
-::ng-deep .tooltip {
+.tooltip {
     position: relative;
     .tooltip-content {
+        background: $bkg-medium;
         box-shadow: 0 5px 25px 5px $shadow;
         box-sizing: border-box;
         color: $white;
@@ -45,6 +46,7 @@ a {
         &::after {
             content: "";
             height: 10px;
+            background: $bkg-medium;
             position: absolute;
             transform: rotate(45deg);
             width: 10px;
@@ -52,8 +54,8 @@ a {
     }
     &.bottom {
         .tooltip-content {
-            bottom: calc(100% - 12em);
-            left: calc(100% - 8em);
+            bottom: calc(100% -  8.7em);
+            left: calc(100% - 5.5em);
             transform: translateX(-50%);
             &::after {
                 top: -5px;
@@ -97,6 +99,18 @@ a {
                 right: -5px;
                 margin-top: -5px;
                 top: 50%;
+            }
+        }
+    }
+}
+:host-context(.advanced)
+{
+    .tooltip.bottom {
+        .tooltip-content {
+            left: calc(100% - 7em);
+            &::after {
+                top: -5px;
+                left: 133px;
             }
         }
     }
