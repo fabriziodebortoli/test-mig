@@ -14,6 +14,7 @@ class Formatter;
 #include "MFormatters.h"
 #include "EBEventArgs.h"
 #include "MHotLink.h"
+#include "ESEnums.h"
 #include "TBParsedControlHost.h"
 #include "Utility.h"
 #include "MControlsExtenders.h"
@@ -82,36 +83,6 @@ namespace Microarea {
 				NO_CHECK_EXIST = CS_PATH_STYLE_NO_CHECK_EXIST,
 				ENABLE_DEL = CS_COMBO_DROPDOWNLIST_STYLE_ENABLE_DEL
 			};
-
-			/// <summary>
-			/// Describes an EasyBuilder action dispatched via post message or send message.
-			/// </summary>
-			/// <value></value>
-			//================================================================================
-			public enum EasyBuilderAction
-			{
-				/// <summary>
-				/// No action, default value.
-				/// </summary>
-				None = 0,
-				/// <summary>
-				/// A row is changed, used for all grid controls.
-				/// </summary>
-				RowChanged = 1,
-				/// <summary>
-				/// A button was clicked.
-				/// </summary>
-				Clicked = 2,
-				/// <summary>
-				/// A value changed.
-				/// </summary>
-				ValueChanged = 3,
-				/// <summary>
-				/// State Button Clicked
-				/// </summary>
-				StateButtonClicked = 4
-			};
-
 
 			/// <summary>
 			/// Root class for all EasyBuilder control wrappers

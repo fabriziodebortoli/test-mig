@@ -19,9 +19,9 @@
 #include "NewDocument.h"
 #include "JsonDesigner.h"
 #include "TBEasyBuilder.h"
+#include <TBApplicationWrapper\ESEnums.h>
 #include <TBApplicationWrapper\BusinessObjectParams.h>
 #include <TBApplicationWrapper\resource.hjson>
-
 #ifdef _DEBUG
 #undef THIS_FILE
 static const char  THIS_FILE[] = __FILE__;
@@ -2427,17 +2427,19 @@ void CDEasyBuilder::OnBuildingSecurityTree (CTBTreeCtrl* pTree, ::Array* pInfoTr
 }
 
 //-----------------------------------------------------------------------------
-String^ CDEasyBuilder::DecodeEventName(int nCode)
+String^ CDEasyBuilder::DecodeEventName(int nCode, bool isEasyBuilderAction)
 {
-	switch (nCode)
-	{
-		case EN_VALUE_CHANGED:
-			return "ValueChanged";
-		case BN_CLICKED:
-			return "Click";
-		case BEN_ROW_CHANGED:
-			return "RowChanged";
-	}
+	if (nCode == EN_VALUE_CHANGED || (isEasyBuilderAction && EasyBuilderAction::ValueChanged))
+		return "ValueChanged";
+	
+	if (nCode == BEN_ROW_CHANGED || (isEasyBuilderAction && EasyBuilderAction::RowChanged))
+		return "RowChanged";
+
+	if (nCode == EN_CTRL_STATE_CHANGED || (isEasyBuilderAction && EasyBuilderAction::StateButtonClicked))
+		return "StateButtonClicked";
+
+	if (isEasyBuilderAction && EasyBuilderAction::Clicked)
+		return "Clicked";
 	
 	return String::Empty;
 }
@@ -2451,14 +2453,10 @@ void CDEasyBuilder::ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAct
 	if (nCode <= 0 && !isEasyBuilderAction)
 		return;
 	
-	BOOL bManaged =
-		nCode == EN_VALUE_CHANGED ||
-		nCode == BN_CLICKED;
-	/*||
-	nCode == EN_CTRL_STATE_CHANGED /*||
-	nCode == BEN_ROW_CHANGED*/;
-
-	if (!bManaged)
+	CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
+	String^ eventName = DecodeEventName(nCode, isEasyBuilderAction == TRUE);
+	String^ targetID = gcnew String(resource.m_strName);
+	if (String::IsNullOrEmpty(eventName) || String::IsNullOrEmpty(targetID))
 		return;
 
 	DocumentControllers^ controllers = documentControllers;
@@ -2468,10 +2466,6 @@ void CDEasyBuilder::ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAct
 	IList<DocumentController^>^ notWorkingControllers = gcnew List<DocumentController^>();
 	for each (DocumentController^ controller in controllers)
 	{
-		CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
-		String^ eventName = DecodeEventName(nCode);
-		String^ targetID = gcnew String(resource.m_strName);
-
 		EXECUTE_SAFE_CONTROLLER_CODE(
 			controller->DispatchWebMessage(eventName, targetID);
 

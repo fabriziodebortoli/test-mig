@@ -241,7 +241,7 @@ private:
 	AddNewTagType GetAddNewTag();
 	DocumentController^ GetActiveController();
 	BusinessObject^ GetCaller();
-	System::String^ DecodeEventName(int nCode);
+	System::String^ DecodeEventName(int nCode, bool isEasyBuilderAction);
 
 public:
 	static	BOOL IsLicenseForEasyBuilderVerified();
