@@ -94,8 +94,8 @@ export class BodyEditService {
 
   //-----------------------------------------------------------------------------------------------
   getColumnLength(colName, title): number {
-    let length = (this.prototype && this.prototype[colName] && this.prototype[colName].length > 0)
-      ? Math.max(title.length, this.prototype && this.prototype[colName].length)
+    let length = (this.prototype && this.prototype[colName] && this.prototype[colName].length > 0 && title && title.length > 0)
+      ? Math.max(title.length, this.prototype[colName].length)
       : title && title.length > 0 ? title.length : 10;
     return length;
   }
