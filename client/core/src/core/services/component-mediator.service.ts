@@ -22,7 +22,7 @@ export class ComponentMediator {
         public eventData: EventDataService,
         public data: DataService,
         public storage: StorageService,
-        @Optional() private injector: Injector,
+        @Optional() public injector: Injector,
     ) {
         this.log = tbComponent.logger;
         this.document = tbComponent as DocumentService;
