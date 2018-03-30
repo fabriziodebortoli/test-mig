@@ -33,11 +33,11 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
     this.boService.activateContainer(this.cmpId, false, false);
   }
 
-  @Input() public set title(val: string) {
-    this._title = val;
+  @Input() public set title(val: any) {
+    this._title = val instanceof Object ? val.value : val;
     this.calculateRealTitle();
   }
-  public get title() : string {
+  public get title() : any {
     return this._title;
   }
   @Input() public set collapsedTitle(val: string) {
