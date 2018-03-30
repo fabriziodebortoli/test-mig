@@ -2443,38 +2443,48 @@ String^ CDEasyBuilder::DecodeEventName(int nCode)
 }
 
 //-----------------------------------------------------------------------------
-BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+void CDEasyBuilder::ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAction)
 {
-	BOOL bResult = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
-	if (nCode == 0)
-		return bResult;
-
-
+	/*if (!AfxIsRemoteInterface())
+		return;*/
+	
+	if (nCode <= 0 && !isEasyBuilderAction)
+		return;
+	
 	BOOL bManaged =
 		nCode == EN_VALUE_CHANGED ||
 		nCode == BN_CLICKED;
-		 /*||
-		nCode == EN_CTRL_STATE_CHANGED /*||
-		nCode == BEN_ROW_CHANGED*/;
+	/*||
+	nCode == EN_CTRL_STATE_CHANGED /*||
+	nCode == BEN_ROW_CHANGED*/;
 
-	if (bManaged && AfxIsRemoteInterface())
+	if (!bManaged)
+		return;
+
+	DocumentControllers^ controllers = documentControllers;
+	if (controllers == nullptr)
+		return;
+
+	IList<DocumentController^>^ notWorkingControllers = gcnew List<DocumentController^>();
+	for each (DocumentController^ controller in controllers)
 	{
-		DocumentControllers^ controllers = documentControllers;
-		if (controllers == nullptr)
-			return bResult == TRUE;
-		
-		IList<DocumentController^>^ notWorkingControllers = gcnew List<DocumentController^>();
-		for each (DocumentController^ controller in controllers)
-		{
-			CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
-			String^ eventName = DecodeEventName(nCode);
-			String^ targetID = gcnew String(resource.m_strName);
+		CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
+		String^ eventName = DecodeEventName(nCode);
+		String^ targetID = gcnew String(resource.m_strName);
 
-			EXECUTE_SAFE_CONTROLLER_CODE(
-				controller->DispatchWebMessage(eventName, targetID);
+		EXECUTE_SAFE_CONTROLLER_CODE(
+			controller->DispatchWebMessage(eventName, targetID);
 
-			)
-		}
+		)
 	}
+}
+
+//-----------------------------------------------------------------------------
+BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+{
+	BOOL bResult = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+
+	ProcessWebMessage(nID, nCode, false);
+
 	return (bResult == TRUE);
 }

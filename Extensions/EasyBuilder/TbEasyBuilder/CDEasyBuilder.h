@@ -205,6 +205,8 @@ public:
 
 	// routing
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	
+	void ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAction);
 
 protected:
 	DECLARE_MESSAGE_MAP()
