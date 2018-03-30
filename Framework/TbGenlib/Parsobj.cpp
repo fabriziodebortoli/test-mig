@@ -5985,6 +5985,9 @@ BOOL CParsedCtrl::IsFindMode() const
 //-----------------------------------------------------------------------------
 void CParsedCtrl::ModifiedCtrlData()
 {
+	if (!AfxIsRemoteInterface())
+		return;
+
 	CBaseDocument* pDoc = GetDocument();
 	AfxGetBaseApp()->SetOldCtrlData(NULL, NULL);
 	//okkio che qui la faccenda è delicata.
@@ -6019,7 +6022,7 @@ void CParsedCtrl::ModifiedCtrlData()
 				if (AfxGetBaseApp()->SetOldCtrlData(m_pData, m_pOldData))
 				{
 					_reset.ValueChanging();
-					GetCtrlParent()->SendMessage(UM_VALUE_CHANGED, GetCtrlID(), (LPARAM)m_pData);
+						GetCtrlParent()->SendMessage(UM_VALUE_CHANGED, GetCtrlID(), (LPARAM)m_pData);
 
 					AfxGetBaseApp()->SetOldCtrlData(m_pData, NULL);
 				}
@@ -6040,6 +6043,7 @@ void CParsedCtrl::ModifiedCtrlData()
 			else
 			{
 				NotifyToParent(EN_VALUE_CHANGED);
+
 				if (m_pControlBehaviour)
 					m_pControlBehaviour->OnValueChanged();
 			}
@@ -6133,6 +6137,7 @@ BOOL CParsedCtrl::EnableCtrl(BOOL bEnable /* = TRUE */)
 {
 	if (AfxIsRemoteInterface())
 		return FALSE;
+
 	ASSERT(m_pOwnerWnd);
 
 	if (m_StateCtrls.GetSize())
@@ -6195,6 +6200,7 @@ BOOL CParsedCtrl::ShowCtrl(int nCmdShow)
 {
 	if (AfxIsRemoteInterface())
 		return FALSE;
+
 	ASSERT(m_pOwnerWnd);
 
 	if (m_pButton)

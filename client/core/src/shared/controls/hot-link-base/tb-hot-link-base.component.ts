@@ -89,7 +89,7 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         if(this.hotLinkInfo.namespace) return this.hotLinkInfo.namespace;
         let hlSelector = _.get(srvParams, 'model.selector');
         if (!hlSelector) throw Error('Namespace Missing in HotLinkInfo')
-        return _.get(srvParams, `model.items[${hlSelector}]`);
+        return _.get(srvParams, `model.items['${hlSelector}']`);
     }
 
     

@@ -927,8 +927,11 @@ void HotKeyLink::RecordAvailable()
 		OnAssignSelectedValue(pData, pHotLinkRecordData);
 	}
 
-	if (AfxIsRemoteInterface() &&  (GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) != 0)
+	if (AfxIsRemoteInterface() && (GetRunningMode() & CALL_LINK_FROM_CTRL_WEB) != 0)
+	{
 		m_pDocument->UpdateDataView();
+		return;
+	}
 
 	if (m_pRadarDoc)
 		m_pRadarDoc->SetCanBeParentWindow(FALSE);//se la ModifiedCtrlData scatenasse una messagebox, non deve prendere il radar come parent
