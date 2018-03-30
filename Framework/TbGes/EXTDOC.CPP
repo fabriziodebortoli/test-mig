@@ -4498,6 +4498,7 @@ void CAbstractFormDoc::ActivateWebClientContainer(UINT nID, bool bActivate)
 	{
 		m_arWebActiveContainers.Add(nID);
 		OnUpdateTitle(nID);
+		OnPrepareAuxData(nID); 
 	}
 }
 
