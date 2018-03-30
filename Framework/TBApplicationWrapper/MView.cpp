@@ -640,9 +640,6 @@ void MView::AfterWndProc(Message% m)
 			int senderHashCode = this->GetHashCode();
 			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
 		}
-		if (nCode == BN_CLICK)
-			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, Clicked, (LPARAM) nID);
-		}
 		else if (nCode ==  EN_CTRL_STATE_CHANGED)
 		{
 			EasyBuilderEventArgs^ args = gcnew EasyBuilderEventArgs();
