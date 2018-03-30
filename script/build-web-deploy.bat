@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 cls
 
 
@@ -291,6 +291,6 @@ IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\ (
 		)
 
 ) ELSE (
-	rem se non trova m4client o m4server, qualcosa è andato storto, exit con error code 1
+	rem se non trova m4client o m4server, qualcosa � andato storto, exit con error code 1
 	exit /b 1
 )
