@@ -45,8 +45,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   private numberOfColumns: number = 0;
 
-
-
   public pageSizes = false;
   public previousNext = true;
 
@@ -96,6 +94,10 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.changeDetectorRef.markForCheck();
       });
 
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+      this.resetBodyEditColumns();
+    }));
+
     let name = this.bodyEditName;
     this.store.select(name)
       .subscribe(m => {
@@ -125,35 +127,28 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     this.createFakeRows(numberOfVisibleRows);
     this.bodyEditService.pageSize = Math.max(this.bodyEditService.pageSize, numberOfVisibleRows);
 
-    this.subscriptions.push(this.be_columns.changes.subscribe((changes) => {
-      if (this.numberOfColumns != changes.length) {
-        this.numberOfColumns = changes.length;
-        this.resetBodyEditColumns();
-      }
-    }));
-
     if (this.bodyEditService.skip < 0) {
       this.bodyEditService.skip = 0;
       this.bodyEditService.changeDBTRange(this.bodyEditService.skip, this.bodyEditService.pageSize, 0);
       this.bodyEditService.isLoading = false;
     }
 
-    resolvedPromise.then(() => {
-      this.resetBodyEditColumns();
-    });
+    this.resetBodyEditColumns();
 
     this.subscribeToSelector();
   }
 
   resetBodyEditColumns() {
-    resolvedPromise.then(() => {
+    setTimeout(() => {
       let cols = this.be_columns.toArray();
       let internalColumnComponents = [];
       for (let i = 0; i < cols.length; i++) {
-        internalColumnComponents.push(cols[i].columnComponent);
+        let currentCol = cols[i];
+        if (currentCol.activated && !currentCol.hidden)
+          internalColumnComponents.push(currentCol.columnComponent);
       }
       this.grid.columns.reset(internalColumnComponents);
-    });
+    }, 1);
   }
 
 

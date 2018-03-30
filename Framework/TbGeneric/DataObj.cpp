@@ -3909,8 +3909,13 @@ void DataDbl::AssignJsonValue(CJsonParser& jsonParser)
 {
 	double value;
 	CString strVal;
+	int intVal;
 	if (jsonParser.TryReadDouble(szValue, value))
 		m_nValue = value;
+	else if (jsonParser.TryReadInt(szValue, intVal))
+	{
+		m_nValue = intVal;
+	}
 	else if (jsonParser.TryReadString(szValue, strVal))
 	{
 		m_nValue = _tstof(strVal);

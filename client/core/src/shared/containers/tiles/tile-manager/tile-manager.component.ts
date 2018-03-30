@@ -1,3 +1,5 @@
+import { EventDataService } from './../../../../core/services/eventdata.service';
+import { Store } from './../../../../core/services/store.service';
 import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 import { Component, ContentChildren, QueryList, AfterContentInit, ViewChild, ViewEncapsulation, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
@@ -33,8 +35,10 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   @ContentChildren(TileManagerTabComponent) tilegroups: QueryList<TileManagerTabComponent>;
   constructor(
     public logger: Logger,
+    public eventData: EventDataService,
     public tbComponentService: TbComponentService,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    public store: Store
   ) {
     super(tbComponentService, changeDetectorRef);
   }
@@ -44,30 +48,34 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   }
 
   getTilegroups() {
-    return this.tilegroups.toArray();
+    return this.tilegroups.filter(
+      (currentTab) => {
+        return currentTab.activated;
+      });
   }
 
   ngAfterContentInit() {
-    resolvedPromise.then(() => {
-      this.resetTileManagerTabs();
-    });
+    this.resetTileManagerTabs();
 
-    this.subscriptions.push(this.tilegroups.changes.subscribe((changes) => {
-      if (this.numberOfTabs != changes.length) {
-        this.numberOfTabs = changes.length;
-        this.resetTileManagerTabs();
-      }
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+      this.resetTileManagerTabs();
     }));
   }
 
   resetTileManagerTabs() {
-    let tilegroups = this.tilegroups.toArray();
-    let internalTabComponents = [];
-    for (let i = 0; i < tilegroups.length; i++) {
-      internalTabComponents.push(tilegroups[i].tabComponent);
-    }
-    this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-    this.changeTilegroupByIndex(0);
+
+    setTimeout(() => {
+      let tilegroups = this.getTilegroups();
+      let internalTabComponents = [];
+      for (let i = 0; i < tilegroups.length; i++) {
+        let currentTab = tilegroups[i];
+        if (currentTab.activated) {
+          internalTabComponents.push(currentTab.tabComponent);
+        }
+      }
+      this.kendoTabStripInstance.tabs.reset(internalTabComponents);
+      this.changeTilegroupByIndex(0);
+    }, 1);
   }
 
   changeTilegroupByIndex(i) {

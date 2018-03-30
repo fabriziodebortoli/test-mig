@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding, ChangeDetectorRef, Input, HostListener } from '@angular/core';
+import { EventDataService } from './../../../../core/services/eventdata.service';
+import { Component, OnInit, ElementRef, ViewEncapsulation, AfterContentInit, ContentChildren, QueryList, ViewChild, trigger, transition, style, animate, state, HostBinding, ChangeDetectorRef, Input, HostListener, OnDestroy } from '@angular/core';
 
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
 
@@ -16,7 +17,7 @@ import { DockpaneComponent } from './../dockpane.component';
     ])
   ]
 })
-export class DockpaneContainerComponent implements AfterContentInit {
+export class DockpaneContainerComponent implements AfterContentInit, OnDestroy {
 
   @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
   @ViewChild('kendoTabStripInstance', { read: ElementRef }) k: ElementRef;
@@ -28,9 +29,15 @@ export class DockpaneContainerComponent implements AfterContentInit {
   }
 
   dockState: string = 'collapsed';
-  @HostBinding('class.collapsed') get collapsed () { return this.dockState === 'collapsed' }
-  @HostBinding('class.expanded') get expanded () { return this.dockState === 'expanded' }
+  @HostBinding('class.collapsed') get collapsed() { return this.dockState === 'collapsed' }
+  @HostBinding('class.expanded') get expanded() { return this.dockState === 'expanded' }
   idxActive: number = null;
+
+  subscriptions = [];
+
+  constructor(public eventData: EventDataService) {
+
+  }
 
   @HostListener('document:click', ['$event'])
   public documentClick(event: any): void {
@@ -50,6 +57,19 @@ export class DockpaneContainerComponent implements AfterContentInit {
     /**
      * TODO - Usare store per pushare il component dockpane solo quando arriva effettivamente l'activation
      */
+
+    this.resetDockingPane();
+
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+      this.resetDockingPane();
+    }));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => { sub.unsubscribe(); });
+  }
+
+  resetDockingPane() {
     setTimeout(() => {
       let dockpanes = this.dockpanes.toArray();
       let internalTabComponents = [];
@@ -60,7 +80,6 @@ export class DockpaneContainerComponent implements AfterContentInit {
       }
       this.kendoTabStripInstance.tabs.reset(internalTabComponents);
     }, 1000);
-
   }
 
   changeDockpaneByIndex(i) {

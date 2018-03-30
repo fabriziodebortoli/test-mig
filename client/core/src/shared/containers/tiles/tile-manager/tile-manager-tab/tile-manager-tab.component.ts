@@ -7,20 +7,21 @@ import { TabStripTabComponent } from '@progress/kendo-angular-layout/dist/es/tab
   styleUrls: ['./tile-manager-tab.component.scss']
 })
 export class TileManagerTabComponent {
-  
+
+  @Input() activated: boolean = true;
   @ContentChild(TemplateRef) templateRef: any;
   @ViewChild(TabStripTabComponent) tabComponent;
-    
+
   @Input() iconType: string = 'M4';
   @Input() _icon: string = 'erp-purchaseorder';
 
   @Input()
   set icon(icon: any) {
-      this._icon = icon instanceof Object ? icon.value : icon;
+    this._icon = icon instanceof Object ? icon.value : icon;
   }
 
   get icon() {
-      return this._icon;
+    return this._icon;
   }
 
 
@@ -33,6 +34,6 @@ export class TileManagerTabComponent {
   @Input() public set title(value: string) {
     this._title = value.replace("&", "");
   }
-  
+
   constructor() { }
 }

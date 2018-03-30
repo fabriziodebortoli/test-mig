@@ -133,6 +133,11 @@
         internal const string textlimit = "textLimit";
         internal const string multiline = "multiline";
 
+        internal const string grayed = "grayed";
+        internal const string noChangeGrayed = "noChangeGrayed";
+        internal const string hidden = "hidden";
+        internal const string activated = "activated";
+
         internal const string maxValue = "maxValue";
         internal const string minValue = "minValue";
         internal const string decimals = "decimals";

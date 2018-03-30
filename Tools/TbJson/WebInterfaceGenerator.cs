@@ -870,12 +870,17 @@ namespace Microarea.TbJson
                         string bodyEditColumnType = string.IsNullOrEmpty(wCol.ColumnName) ? Constants.tbBodyEditColumn : wCol.ColumnName;
                         using (var w = new OpenCloseTagWriter(bodyEditColumnType, this, false))
                         {
-                            WriteActivationAttribute(jObj);
+                            WriteActivatedAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
                             WriteAttribute(jObj, Constants.rows, Constants.rows);
                             WriteAttribute(jObj, Constants.chars, Constants.chars);
                             WriteAttribute(jObj, Constants.width, Constants.width);
+
+                            WriteAttribute(jObj, Constants.hidden, Constants.hidden);
+                            WriteAttribute(jObj, Constants.grayed, Constants.grayed);
+                            WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
+                            
 
                             w.CloseBeginTag();
 
@@ -908,7 +913,7 @@ namespace Microarea.TbJson
                         {
                             using (var tmTab = new OpenCloseTagWriter(Constants.tbTileManagerTab, this, false))
                             {
-                                WriteActivationAttribute(jObj);
+                                WriteActivatedAttribute(jObj);
                                 string title = jObj.GetLocalizableString(Constants.text);
                                 if (!string.IsNullOrEmpty(title))
                                 {
@@ -1410,12 +1415,19 @@ namespace Microarea.TbJson
         }
 
         //-----------------------------------------------------------------------------------------
-
         private void WriteActivationAttribute(JObject jObj)
         {
             string activation = jObj.GetFlatString(Constants.activation);
             if (!string.IsNullOrEmpty(activation))
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + GetSafeActivationString(activation));
+        }
+            
+        //-----------------------------------------------------------------------------------------
+        private void WriteActivatedAttribute(JObject jObj)
+        {
+            string activation = jObj.GetFlatString(Constants.activation);
+            if (!string.IsNullOrEmpty(activation))
+                htmlWriter.WriteAttribute(Square(Constants.activated), "eventData?.activation?." + GetSafeActivationString(activation));
         }
 
         //-----------------------------------------------------------------------------------------

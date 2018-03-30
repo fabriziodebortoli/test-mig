@@ -23,6 +23,8 @@ export class EventDataService implements OnDestroy {
     public closeMessageDialog: EventEmitter<MessageDlgResult> = new EventEmitter();
     public closeDiagnosticDialog: EventEmitter<DiagnosticDlgResult> = new EventEmitter();
 
+    public activationChanged: EventEmitter<string> = new EventEmitter();
+
     public oldModel: any = {}; // model before user changes (I need it for delta construction)
     public model: any = {}; // current model
 

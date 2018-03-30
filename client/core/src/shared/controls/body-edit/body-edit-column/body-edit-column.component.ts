@@ -16,6 +16,11 @@ import { ControlComponent } from './../../control.component';
 export class BodyEditColumnComponent extends ControlComponent {
   @Input() title: string;
 
+  @Input() activated :boolean = true;
+  @Input() grayed :boolean = false;
+  @Input() noChangeGrayed :boolean = false;
+  @Input() hidden :boolean = false;
+
   @Input() columnName: string;
 
   @Input() formatter: string;
@@ -27,7 +32,7 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   @ViewChild(ColumnComponent) columnComponent;
   @ContentChild(TemplateRef) itemTemplate: TemplateRef<any>;
-  
+
   constructor(
     public enumsService: EnumsService,
     public layoutService: LayoutService,
@@ -40,7 +45,6 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   public getWidth() {
     let length = this.bodyEditService.getColumnLength(this.columnName, this.title);
-      
     let minChars = this.chars > 0 ? Math.min(length, this.chars) : length;
     return minChars * 10;
   }
