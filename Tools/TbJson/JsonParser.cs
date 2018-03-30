@@ -461,7 +461,6 @@ namespace Microarea.TbJson
                         JToken toMerge = null;
                         if (id == null || (toMerge = arCurrent.Find(id)) == null)
                         {
-                            arCurrent.Add(objExternal);
                             if (!string.IsNullOrEmpty(activation))
                             {
                                 string s = objExternal[Constants.activation]?.ToString();
@@ -469,7 +468,10 @@ namespace Microarea.TbJson
                                     s = activation;
                                 else
                                     s = activation + "&(" + s + ")";
+                                objExternal[Constants.activation] = s;
                             }
+                            arCurrent.Add(objExternal);
+                           
                         }
                         else
                         {

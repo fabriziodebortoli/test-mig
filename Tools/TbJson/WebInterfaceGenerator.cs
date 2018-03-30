@@ -29,6 +29,7 @@ namespace Microarea.TbJson
         private readonly JsonParser parser = new JsonParser();
         private Dictionary<string, JToken> constants = new Dictionary<string, JToken>();
         private Dictionary<string, StringBuilder> contextMenus = new Dictionary<string, StringBuilder>();
+        private Regex activationRegEx = CreateActivationRegEx();
 
         private bool verboseOutput = false;
 
@@ -1420,20 +1421,61 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------------------
         private string GetSafeActivationString(string activation)
         {
-            activation = activation.Replace("&&", "And")
-                .Replace("&", "And")
-                .Replace("<", "_")
-                .Replace(">", "_")
-                .Replace("'", "_")
-                .Replace("(", "_")
-                .Replace(")", "_")
-                .Replace(" ", "")
-                .Replace("!", "Not")
-                .Replace("||", "Or")
-                .Replace("|", "Or")
-                .Replace(".", "_")
-                .Replace("\"", "_");
-            return "_" + activation;
+            string encoded = "_" + activationRegEx.Replace(activation, new MatchEvaluator(ReplaceInActivation));
+            return encoded;
+
+        }
+        //-----------------------------------------------------------------------------------------
+        //ATTENZIONE! il risultato di questo metodo deve corrispondere a quello ritornato dal metodo 
+        //CString CJsonContext::GetSafeActivationString(CString strActivation)
+        private static Regex CreateActivationRegEx()
+        {
+            StringBuilder pattern = new StringBuilder();
+            string[] tokens = new string[] {
+            "&&",
+            "&",
+            "<",
+            ">",
+            "'",
+            "(",
+            ")",
+            " ",
+            "!",
+            "||",
+            "|",
+            ".",
+            "\""
+            };
+            foreach (string s in tokens)
+            {
+                if (pattern.Length > 0)
+                    pattern.Append('|');
+                pattern.Append("(");
+                pattern.Append(Regex.Escape(s));
+                pattern.Append(")");
+            }
+            return new Regex(pattern.ToString(), RegexOptions.Compiled | RegexOptions.Singleline);
+        }
+
+        private string ReplaceInActivation(Match match)
+        {
+            switch (match.Value)
+            {
+                case "&&": return "And";
+                case "&": return "And";
+                case "<": return "_";
+                case ">": return "_";
+                case "'": return "_";
+                case "(": return "_";
+                case ")": return "_";
+                case " ": return "";
+                case "!": return "Not";
+                case "||": return "Or";
+                case "|": return "Or";
+                case ".": return "_";
+                case "\"": return "_";
+            }
+            return match.Value;
         }
 
         //-----------------------------------------------------------------------------------------
