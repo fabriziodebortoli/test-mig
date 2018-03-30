@@ -239,8 +239,8 @@ export class WebSocketService extends LocalizationService {
         this.safeSend(data);
 
     }
-    activateContainer(cmpId: string, id: string, active: boolean) {
-        const data = { cmd: 'activateContainer', cmpId: cmpId, id:id, active:active };
+    activateContainer(cmpId: string, id: string, active: boolean, isTileGroup: boolean/*serve per permettere al server di attribuire la giusta numerazione all'id*/) {
+        const data = { cmd: 'activateContainer', cmpId: cmpId, id:id, active:active, isTileGroup: isTileGroup };
         this.safeSend(data);
 
     }

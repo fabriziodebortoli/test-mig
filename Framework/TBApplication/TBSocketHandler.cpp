@@ -323,7 +323,9 @@ void CTBSocketHandler::DoActivateClientContainer(CJsonParser& json)
 	CString sId = json.ReadString(_T("id"));
 	bool active = false;
 	json.TryReadBool(_T("active"), active);
-	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
+	bool tileGroup = false;
+	json.TryReadBool(_T("isTileGroup"), tileGroup);
+	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, tileGroup ? TbCommands : TbResources);
 	HWND cmpId = ReadComponentId(json);
 	//aggiornamento del model
 	pSession->SetJsonModel(json, cmpId);

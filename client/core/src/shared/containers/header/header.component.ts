@@ -18,10 +18,10 @@ export class TbHeaderComponent extends TbComponent implements OnInit, OnDestroy
     super(tbComponentService, changeDetectorRef);
   }
   ngOnInit() {
-    this.boService.activateContainer(this.cmpId, true);
+    this.boService.activateContainer(this.cmpId, true, true);
   }
   ngOnDestroy() {
 
-    this.boService.activateContainer(this.cmpId, false);
+    this.boService.activateContainer(this.cmpId, false, true);
   }
 }

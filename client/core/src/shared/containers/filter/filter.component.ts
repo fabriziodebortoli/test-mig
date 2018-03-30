@@ -24,11 +24,11 @@ export class FilterComponent extends TbComponent implements OnInit, OnDestroy {
     super(tbComponentService, changeDetectorRef);
   }
   ngOnInit() {
-    this.boService.activateContainer(this.cmpId, true);
+    this.boService.activateContainer(this.cmpId, true, false);
   }
   ngOnDestroy() {
 
-    this.boService.activateContainer(this.cmpId, false);
+    this.boService.activateContainer(this.cmpId, false, false);
   }
   togglePin(emit: boolean = true): void {
     if (!this.isPinnable) return;

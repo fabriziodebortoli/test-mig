@@ -329,8 +329,8 @@ export class BOService extends DocumentService {
         this.webSocketService.getActivationData(cmpId);
     }
 
-    public activateContainer(id: string, active:boolean) {
-        this.webSocketService.activateContainer(this.mainCmpId, id, active);
+    public activateContainer(id: string, active:boolean, isTileGroup: boolean) {
+        this.webSocketService.activateContainer(this.mainCmpId, id, active, isTileGroup);
     }
     public doCommand(componentId: string, id: string) {
         const patch = this.getPatchedData();
