@@ -22,16 +22,16 @@ export class BodyEditToolbarButtonComponent extends TbComponent {
 
   @Input()
   set icon(icon: any) {
-      this._icon = icon instanceof Object ? icon.value : icon;
+    this._icon = icon instanceof Object ? icon.value : icon;
   }
 
   get icon() {
-      return this._icon;
+    return this._icon;
   }
 
   /**
    * Optional command called on button click.
-   * @returns {boolean} return true to call default command as well.
+   * @returns return true to call default command as well.
    */
   @Input() click: () => boolean = () => true;
 
@@ -58,7 +58,7 @@ export class BodyEditToolbarButtonComponent extends TbComponent {
   public get disabled(): boolean {
     return this._disabled ||
       (this.eventData.buttonsState &&
-      this.eventData.buttonsState[this.cmpId] &&
-      !this.eventData.buttonsState[this.cmpId].enabled);
+        this.eventData.buttonsState[this.cmpId] &&
+        !this.eventData.buttonsState[this.cmpId].enabled);
   }
 }

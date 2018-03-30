@@ -2,7 +2,7 @@ import { WebSocketService } from './../../../core/services/websocket.service';
 import {
     Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ContentChild,
     OnChanges, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef,
-    ContentChildren, QueryList, Optional, Injector
+    ContentChildren, Optional, Injector
 } from '@angular/core';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';

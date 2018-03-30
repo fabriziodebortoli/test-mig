@@ -19,18 +19,18 @@ export class ToolbarTopButtonComponent extends TbComponent {
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
   @Input() _icon: string = '';
 
-    @Input()
-    set icon(icon: any) {
-        this._icon = icon instanceof Object ? icon.value : icon;
-    }
+  @Input()
+  set icon(icon: any) {
+    this._icon = icon instanceof Object ? icon.value : icon;
+  }
 
-    get icon() {
-        return this._icon;
-    }
+  get icon() {
+    return this._icon;
+  }
 
   /**
    * Optional command called on button click.
-   * @returns {boolean} return true to call default command as well.
+   * @returns return true to call default command as well.
    */
   @Input() click: () => boolean = () => true;
 
@@ -57,7 +57,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
   public get disabled(): boolean {
     return this._disabled ||
       (this.eventData.buttonsState &&
-      this.eventData.buttonsState[this.cmpId] &&
-      !this.eventData.buttonsState[this.cmpId].enabled);
+        this.eventData.buttonsState[this.cmpId] &&
+        !this.eventData.buttonsState[this.cmpId].enabled);
   }
 }

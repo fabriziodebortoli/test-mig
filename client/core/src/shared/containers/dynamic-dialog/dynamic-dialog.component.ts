@@ -6,7 +6,7 @@ import { EventDataService } from './../../../core/services/eventdata.service';
 import { DocumentComponent } from './../../components/document.component';
 import { DocumentService } from './../../../core/services/document.service';
 import { ComponentInfo } from './../../models/component-info.model';
-import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, forwardRef, ContentChildren, QueryList, AfterContentInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Type, Input, ViewChild, ViewContainerRef, ComponentRef, ChangeDetectorRef, forwardRef, ContentChildren, AfterContentInit, OnDestroy } from '@angular/core';
 import { TbComponent } from './../../components/tb.component';
 
 @Component({

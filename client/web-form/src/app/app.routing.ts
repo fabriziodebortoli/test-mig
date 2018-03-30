@@ -8,11 +8,11 @@ import {
   LoginComponent,
   PageNotFoundComponent,
   UnsupportedFactoryComponent,
-  ProxyRouteComponent,
-  HomeComponent,
-  StandaloneDocumentComponent,
-  StandaloneReportComponent
+  ProxyRouteComponent
 } from '@taskbuilder/core';
+
+import { HomeComponent, StandaloneDocumentComponent, StandaloneReportComponent } from '@taskbuilder/menu';
+
 import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
 import { appRoutes } from './applications/app.routing';

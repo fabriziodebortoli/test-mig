@@ -6,6 +6,7 @@ import { ConnectionInfoComponent } from './connection-info/connection-info.compo
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { ThemeChangerComponent } from './theme-changer/theme-changer.component';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './settings-container/settings-container.component';
+export * from './settings-container/settings-container.component';
 
 import { TbSharedModule } from './../shared/shared.module';
 import { TbMenuModule } from './../menu/menu.module';

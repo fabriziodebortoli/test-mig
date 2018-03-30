@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { untilDestroy } from '../../commons/untilDestroy';
 
-type ComboData = { code: any, description: any };
+export type ComboData = { code: any, description: any };
 const convertToComboData: (arr: Array<any>) => Array<ComboData> = (arr) => arr.map(x => ({ code: x['value'], description: x['name'] }));
 const areEqualsComboData: (left: any, right: any) => boolean = (left, right) => JSON.stringify(left) === JSON.stringify(right);
 

@@ -10,6 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 
 import { TbCoreModule, ComponentService, InfoService } from '@taskbuilder/core';
+import { TbMenuModule } from '@taskbuilder/menu';
 
 import { environment } from './../environments/environment';
 export function loadConfig(config) {
@@ -26,6 +27,7 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         SharedModule,
         routing,
         ReportingStudioModule,
+        TbMenuModule,
         TbCoreModule.forRoot()
     ],
     providers: [

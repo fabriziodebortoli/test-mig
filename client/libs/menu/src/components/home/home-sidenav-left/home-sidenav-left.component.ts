@@ -1,16 +1,8 @@
 import { Component, ViewEncapsulation, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 
-import { TbComponent } from './../../shared/components/tb.component';
+import { Subscription } from 'rxjs';
 
-import { Subscription } from '../../rxjs.imports';
-
-import { TabberService } from './../../core/services/tabber.service';
-import { ImageService } from './../../menu/services/image.service';
-import { UtilsService } from './../../core/services/utils.service';
-import { MenuService } from './../../menu/services/menu.service';
-import { HttpMenuService } from './../../menu/services/http-menu.service';
-import { SidenavService } from './../../core/services/sidenav.service';
-import { TbComponentService } from './../../core/services/tbcomponent.service';
+import { TbComponent, SidenavService, HttpMenuService, MenuService, UtilsService, ImageService, TabberService, TbComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-home-sidenav-left',
@@ -39,8 +31,8 @@ export class HomeSidenavLeftComponent extends TbComponent implements OnDestroy {
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => this.sidenavOpened = opened));
   }
 
-  itemSelected(){
-    if(this.sidenavPinned) return;
+  itemSelected() {
+    if (this.sidenavPinned) return;
 
     this.sidenavService.openedChange(false);
   }

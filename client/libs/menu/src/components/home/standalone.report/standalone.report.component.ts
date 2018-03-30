@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { ComponentService } from './../../core/services/component.service';
-import { HttpService } from './../../core/services/http.service';
-import { DynamicCmpComponent } from './../../shared/components/dynamic-cmp.component';
+import { DynamicCmpComponent, HttpService, ComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-standalone',
-  templateUrl: './standalone.report.component.html',
-  styleUrls: ['./standalone.report.component.scss']
+  templateUrl: './standalone.report.component.html'
 })
 export class StandaloneReportComponent implements OnInit {
   namespace: string;

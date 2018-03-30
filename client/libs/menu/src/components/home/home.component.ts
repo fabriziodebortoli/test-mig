@@ -1,38 +1,19 @@
-import { Logger } from './../core/services/logger.service';
-import { AuthService } from './../core/services/auth.service';
-import { TbComponentService } from './../core/services/tbcomponent.service';
-import { EventManagerService } from './../core/services/event-manager.service';
-import { ThemeService } from './../core/services/theme.service';
-import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './../settings/settings-container/settings-container.component';
-import { BoolEditComponent } from './../shared/controls/bool-edit/bool-edit.component';
-import { SettingsService } from './../core/services/settings.service';
-import { Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener, ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import {
+  Component, OnInit, Output, EventEmitter, ViewChild, OnDestroy, HostListener,
+  ElementRef, AfterContentInit, ViewEncapsulation, ComponentFactoryResolver, ChangeDetectorRef
+} from '@angular/core';
 
-import { Subscription } from '../rxjs.imports';
-
-import { MessageDlgArgs } from './../shared/models/message-dialog.model';
-import { ComponentInfo } from './../shared/models/component-info.model';
+import { Subscription } from 'rxjs';
 
 import { TabStripComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component";
 import { TabStripTabComponent } from "@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component";
-import { MessageDialogComponent } from './../shared/containers/message-dialog/message-dialog.component';
 
-import { InfoService } from './../core/services/info.service';
-import { UtilsService } from './../core/services/utils.service';
-import { ComponentInfoService } from './../core/services/component-info.service';
-import { EnumsService } from './../core/services/enums.service';
-import { FormattersService } from './../core/services/formatters.service';
-import { TabberService } from './../core/services/tabber.service';
-import { LayoutService } from './../core/services/layout.service';
-import { ComponentService } from './../core/services/component.service';
-import { TaskBuilderService } from './../core/services/taskbuilder.service';
-import { SidenavService } from './../core/services/sidenav.service';
-import { LoadingService } from './../core/services/loading.service';
-
-import { MenuService } from './../menu/services/menu.service';
-import { TbComponent } from './../shared/components/tb.component';
-import { DiagnosticService } from './../core/services/diagnostic.service';
-import { ActivationService } from './../core/services/activation.service';
+import {
+  ComponentInfoService, TbComponent, MessageDialogComponent, ComponentInfo, SidenavService, TaskBuilderService,
+  ComponentService, LayoutService, TabberService, MenuService, SettingsService, EnumsService, FormattersService,
+  InfoService, LoadingService, ThemeService, EventManagerService, ActivationService, AuthService, TbComponentService,
+  Logger, MessageDlgArgs, SettingsContainerComponent
+} from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-home',
@@ -155,14 +136,14 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((pinned) => this.sidenavPinned = pinned));
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => {
       this.sidenavOpened = opened;
-      
-        if (opened){
-          this.sidenav.open();
-        }
-        else{
-          this.sidenav.close();
-        }
-      
+
+      if (opened) {
+        this.sidenav.open();
+      }
+      else {
+        this.sidenav.close();
+      }
+
     }));
 
     this.layoutService.detectDPI();

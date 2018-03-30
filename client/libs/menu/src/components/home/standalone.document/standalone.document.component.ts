@@ -1,15 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { ComponentService } from './../../core/services/component.service';
-import { WebSocketService } from './../../core/services/websocket.service';
-import { TaskBuilderService } from './../../core/services/taskbuilder.service';
-import { DynamicCmpComponent } from './../../shared/components/dynamic-cmp.component';
+import { DynamicCmpComponent, WebSocketService, TaskBuilderService, ComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-standalone-document',
-  templateUrl: './standalone.document.component.html',
-  styleUrls: ['./standalone.document.component.scss']
+  templateUrl: './standalone.document.component.html'
 })
 export class StandaloneDocumentComponent implements OnInit {
   namespace: string;
@@ -41,7 +37,7 @@ export class StandaloneDocumentComponent implements OnInit {
   }
 
   ngOnInit() {
-    let sub = this.taskbuilderService.openTbConnectionAndShowDiagnostic().subscribe(res => { sub.unsubscribe();});
+    let sub = this.taskbuilderService.openTbConnectionAndShowDiagnostic().subscribe(res => { sub.unsubscribe(); });
   }
 
 }

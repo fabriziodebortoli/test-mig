@@ -77,7 +77,8 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core', '@angular/common', '@taskbuilder/core'
+                '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             output: {
@@ -120,21 +121,26 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core', '@angular/common', '@taskbuilder/core'
+                '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
+                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             output: {
                 // The name to use for the module for UMD/IIFE bundles
                 // (required for bundles with exports)
                 // See "name" in https://rollupjs.org/#core-functionality
-                name: 'menu',
+                name: 'taskbuilder-menu',
 
                 // See "globals" in https://rollupjs.org/#core-functionality
                 globals: {
                     'typescript': 'ts',
                     '@angular/core': 'core',
                     '@angular/common': 'common',
-                    '@taskbuilder/core': 'core$1'
+                    '@taskbuilder/core': 'core$1',
+                    '@angular/forms': 'forms',
+                    '@angular/router': 'router',
+                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
+                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component'
                 },
 
                 // Format of generated bundle
@@ -156,7 +162,7 @@ gulp.task('rollup:umd', function() {
             }
 
         }))
-        .pipe(rename('menu.umd.js'))
+        .pipe(rename('taskbuilder-menu.umd.js'))
         .pipe(gulp.dest(distFolder));
 });
 

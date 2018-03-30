@@ -4,7 +4,7 @@ var gulp = require('gulp'),
     ngc = require('@angular/compiler-cli/src/main').main,
     rollup = require('gulp-rollup'),
     rename = require('gulp-rename'),
-    del = require('del'),
+    fs = require('fs-extra'),
     runSequence = require('run-sequence'),
     inlineResources = require('./tools/gulp/inline-resources');
 
@@ -21,7 +21,7 @@ gulp.task('clean:dist', function() {
 
     // Delete contents but not dist folder to avoid broken npm links
     // when dist directory is removed while npm link references it.
-    return deleteFolders([distFolder + '/**', '!' + distFolder]);
+    return fs.emptyDirSync(distFolder);
 });
 
 /**
@@ -93,14 +93,16 @@ gulp.task('rollup:fesm', function() {
                 '@angular/common/locales/si', '@angular/common/locales/tr', '@angular/common/locales/pt', '@angular/common/locales/zh', '@angular/common/locales/hr',
                 '@angular/common/locales/de', '@angular/common/locales/es', '@angular/common/locales/fr', '@angular/common/locales/sr', '@angular/common/locales/sr-Cyrl',
                 '@angular/common/locales/sr-Latn', '@angular/common/locales/sl', '@angular/common/locales/ru',
-                'QueryList', 'of', 'delay', 'HttpEventType', 'HttpResponse', 'TabStripComponent', 'lodash', '@telerik/kendo-intl',
+                'HttpResponse', 'lodash', '@telerik/kendo-intl',
                 '@progress/kendo-angular-grid', '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component',
                 '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component', 'hammerjs'
             ],
 
-            // Format of generated bundle
-            // See "format" in https://rollupjs.org/#core-functionality
-            format: 'es',
+            output: {
+                // Format of generated bundle
+                // See "format" in https://rollupjs.org/#core-functionality
+                format: 'es'
+            },
 
             // Skip THIS_IS_UNDEFINED warnings 
             onwarn: function(warning) {
@@ -153,97 +155,98 @@ gulp.task('rollup:umd', function() {
                 '@angular/common/locales/si', '@angular/common/locales/tr', '@angular/common/locales/pt', '@angular/common/locales/zh', '@angular/common/locales/hr',
                 '@angular/common/locales/de', '@angular/common/locales/es', '@angular/common/locales/fr', '@angular/common/locales/sr', '@angular/common/locales/sr-Cyrl',
                 '@angular/common/locales/sr-Latn', '@angular/common/locales/sl', '@angular/common/locales/ru',
-                'QueryList', 'of', 'delay', 'HttpEventType', 'HttpResponse', 'TabStripComponent', 'lodash', '@telerik/kendo-intl',
+                'HttpResponse', 'lodash', '@telerik/kendo-intl',
                 '@progress/kendo-angular-grid', '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component',
                 '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component', 'hammerjs'
             ],
 
-            // Format of generated bundle
-            // See "format" in https://rollupjs.org/#core-functionality
-            format: 'umd',
+            output: {
+                // The name to use for the module for UMD/IIFE bundles
+                // (required for bundles with exports)
+                // See "name" in https://rollupjs.org/#core-functionality
+                name: 'taskbuilder-core',
 
-            // Export mode to use
-            // See "exports" in https://rollupjs.org/#danger-zone
-            exports: 'named',
+                // See "globals" in https://rollupjs.org/#core-functionality
+                globals: {
+                    typescript: 'ts',
+                    '@angular/core': 'core',
+                    '@angular/common': 'common',
+                    '@angular/material': 'material',
+                    '@angular/router': 'router',
+                    '@angular/http': 'http',
+                    'rxjs/Observable': 'Observable',
+                    'rxjs/Rx': 'Rx',
+                    'rxjs/BehaviorSubject': 'BehaviorSubject',
+                    'rxjs/Subject': 'Subject',
+                    'rxjs/operator/map': 'map$1',
+                    'rxjs/operator/pluck': 'pluck',
+                    'rxjs/operator/distinctUntilChanged': 'distinctUntilChanged$1',
+                    'rxjs/Subscription': 'Subscription',
+                    'rxjs/Observer': 'Observer',
+                    'rxjs/observable/ErrorObservable': 'ErrorObservable',
+                    'rxjs/util/TimeoutError': 'TimeoutError',
+                    'rxjs/operator/reduce': 'reduce$1',
+                    'rxjs/Subscriber': 'Subscriber',
+                    'rxjs/util/isNumeric': 'isNumeric',
+                    '@angular/forms': 'forms',
+                    '@angular/material/index': 'index',
+                    '@taskbuilder/icons': 'icons',
+                    '@progress/kendo-angular-dialog': 'kendoAngularDialog',
+                    '@progress/kendo-angular-layout': 'kendoAngularLayout',
+                    '@progress/kendo-angular-popup': 'kendoAngularPopup',
+                    '@progress/kendo-angular-buttons': 'kendoAngularButtons',
+                    '@progress/kendo-angular-inputs': 'kendoAngularInputs',
+                    '@progress/kendo-angular-dateinputs': 'kendoAngularDateinputs',
+                    '@progress/kendo-angular-dropdowns': 'kendoAngularDropdowns',
+                    '@progress/kendo-angular-grid': 'kendoAngularGrid',
+                    '@progress/kendo-angular-charts': 'kendoAngularCharts',
+                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
+                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component',
+                    '@progress/kendo-data-query': 'kendoDataQuery',
+                    '@angular/animations': 'animations',
+                    '@telerik/kendo-intl': 'kendoIntl',
+                    'lodash': '_',
+                    'rxjs/observable/of': 'of$1',
+                    'rxjs/operator/concat': 'concat$1',
+                    'rxjs/operator/publishLast': 'publishLast$1',
+                    'rxjs/operator/toPromise': 'toPromise$1',
+                    'rxjs/observable/ConnectableObservable': 'ConnectableObservable',
+                    'rxjs/ReplaySubject': 'ReplaySubject',
+                    'rxjs/operators': 'operators',
+                    '@angular/common/http': 'http$1',
+                    'rxjs/operators/delay': 'delay',
+                    '@taskbuilder/libs': 'libs',
+                    '@angular/common/locales/bg': 'localebg',
+                    '@angular/common/locales/de-CH': 'localedech',
+                    '@angular/common/locales/el': 'localeel',
+                    '@angular/common/locales/en': 'localeen',
+                    '@angular/common/locales/es-CL': 'localeescl',
+                    '@angular/common/locales/hu': 'localehu',
+                    '@angular/common/locales/it': 'localeit',
+                    '@angular/common/locales/it-CH': 'localeitch',
+                    '@angular/common/locales/pl': 'localepl',
+                    '@angular/common/locales/ro': 'localero',
+                    '@angular/common/locales/si': 'localesi',
+                    '@angular/common/locales/tr': 'localetr',
+                    '@angular/common/locales/pt': 'localept',
+                    '@angular/common/locales/zh': 'localezh',
+                    '@angular/common/locales/hr': 'localehr',
+                    '@angular/common/locales/de': 'localede',
+                    '@angular/common/locales/es': 'localees',
+                    '@angular/common/locales/fr': 'localefr',
+                    '@angular/common/locales/sr': 'localesr',
+                    '@angular/common/locales/sr-Cyrl': 'localesrcyrl',
+                    '@angular/common/locales/sr-Latn': 'localesrlatn',
+                    '@angular/common/locales/sl': 'localesl',
+                    '@angular/common/locales/ru': 'localeru',
+                },
+                // Format of generated bundle
+                // See "format" in https://rollupjs.org/#core-functionality
+                format: 'umd',
 
-            // The name to use for the module for UMD/IIFE bundles
-            // (required for bundles with exports)
-            // See "name" in https://rollupjs.org/#core-functionality
-            name: 'taskbuilder-core',
-
-            // See "globals" in https://rollupjs.org/#core-functionality
-            globals: {
-                typescript: 'ts',
-                '@angular/core': 'core',
-                '@angular/common': 'common',
-                '@angular/material': 'material',
-                '@angular/router': 'router',
-                '@angular/http': 'http',
-                'rxjs/Observable': 'Observable',
-                'rxjs/Rx': 'Rx',
-                'rxjs/BehaviorSubject': 'BehaviorSubject',
-                'rxjs/Subject': 'Subject',
-                'rxjs/operator/map': 'map$1',
-                'rxjs/operator/pluck': 'pluck',
-                'rxjs/operator/distinctUntilChanged': 'distinctUntilChanged$1',
-                'rxjs/Subscription': 'Subscription',
-                'rxjs/Observer': 'Observer',
-                'rxjs/observable/ErrorObservable': 'ErrorObservable',
-                'rxjs/util/TimeoutError': 'TimeoutError',
-                'rxjs/operator/reduce': 'reduce$1',
-                'rxjs/Subscriber': 'Subscriber',
-                'rxjs/util/isNumeric': 'isNumeric',
-                '@angular/forms': 'forms',
-                '@angular/material/index': 'index',
-                '@taskbuilder/icons': 'icons',
-                '@progress/kendo-angular-dialog': 'kendoAngularDialog',
-                '@progress/kendo-angular-layout': 'kendoAngularLayout',
-                '@progress/kendo-angular-popup': 'kendoAngularPopup',
-                '@progress/kendo-angular-buttons': 'kendoAngularButtons',
-                '@progress/kendo-angular-inputs': 'kendoAngularInputs',
-                '@progress/kendo-angular-dateinputs': 'kendoAngularDateinputs',
-                '@progress/kendo-angular-dropdowns': 'kendoAngularDropdowns',
-                '@progress/kendo-angular-grid': 'kendoAngularGrid',
-                '@progress/kendo-angular-charts': 'kendoAngularCharts',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component',
-                '@progress/kendo-data-query': 'kendoDataQuery',
-                '@angular/animations': 'animations',
-                '@telerik/kendo-intl': 'kendoIntl',
-                'lodash': '_',
-                'rxjs/observable/of': 'of$1',
-                'rxjs/operator/concat': 'concat$1',
-                'rxjs/operator/publishLast': 'publishLast$1',
-                'rxjs/operator/toPromise': 'toPromise$1',
-                'rxjs/observable/ConnectableObservable': 'ConnectableObservable',
-                'rxjs/ReplaySubject': 'ReplaySubject',
-                'rxjs/operators': 'operators',
-                '@angular/common/http': 'http$1',
-                'rxjs/operators/delay': 'delay',
-                '@taskbuilder/libs': 'libs',
-                '@angular/common/locales/bg': 'localebg',
-                '@angular/common/locales/de-CH': 'localedech',
-                '@angular/common/locales/el': 'localeel',
-                '@angular/common/locales/en': 'localeen',
-                '@angular/common/locales/es-CL': 'localeescl',
-                '@angular/common/locales/hu': 'localehu',
-                '@angular/common/locales/it': 'localeit',
-                '@angular/common/locales/it-CH': 'localeitch',
-                '@angular/common/locales/pl': 'localepl',
-                '@angular/common/locales/ro': 'localero',
-                '@angular/common/locales/si': 'localesi',
-                '@angular/common/locales/tr': 'localetr',
-                '@angular/common/locales/pt': 'localept',
-                '@angular/common/locales/zh': 'localezh',
-                '@angular/common/locales/hr': 'localehr',
-                '@angular/common/locales/de': 'localede',
-                '@angular/common/locales/es': 'localees',
-                '@angular/common/locales/fr': 'localefr',
-                '@angular/common/locales/sr': 'localesr',
-                '@angular/common/locales/sr-Cyrl': 'localesrcyrl',
-                '@angular/common/locales/sr-Latn': 'localesrlatn',
-                '@angular/common/locales/sl': 'localesl',
-                '@angular/common/locales/ru': 'localeru',
+                // Export mode to use
+                // See "exports" in https://rollupjs.org/#danger-zone
+                exports: 'named'
             },
 
             // Skip THIS_IS_UNDEFINED warnings 
@@ -297,14 +300,14 @@ gulp.task('copy:readme', function() {
  * 10. Delete /.tmp folder
  */
 gulp.task('clean:tmp', function() {
-    return deleteFolders([tmpFolder]);
+    return deleteFolder(tmpFolder);
 });
 
 /**
  * 11. Delete /build folder
  */
 gulp.task('clean:build', function() {
-    return deleteFolders([buildFolder]);
+    return deleteFolder(buildFolder);
 });
 
 gulp.task('compile', function() {
@@ -324,7 +327,9 @@ gulp.task('compile', function() {
         function(err) {
             if (err) {
                 console.log('ERROR:', err.message);
-                deleteFolders([distFolder, tmpFolder, buildFolder]);
+                deleteFolder(distFolder);
+                deleteFolder(tmpFolder);
+                deleteFolder(buildFolder);
             } else {
                 console.log('Compilation finished succesfully');
             }
@@ -338,15 +343,23 @@ gulp.task('watch', function() {
     gulp.watch(`${srcFolder}/**/*`, ['compile']);
 });
 
-gulp.task('clean', ['clean:dist', 'clean:tmp', 'clean:build']);
+gulp.task('clean', function(callback) {
+    runSequence('clean:dist', 'clean:tmp', 'clean:build', callback);
+});
 
-gulp.task('build', ['clean', 'compile']);
-gulp.task('build:watch', ['build', 'watch']);
+gulp.task('build', function(callback) {
+    runSequence('clean', 'compile', callback);
+});
+
+gulp.task('build:watch', function(callback) {
+    runSequence('build', 'watch', callback);
+});
+
 gulp.task('default', ['build:watch']);
 
 /**
  * Deletes the specified folder
  */
-function deleteFolders(folders) {
-    return del(folders);
+function deleteFolder(folder) {
+    return fs.removeSync(folder);
 }
