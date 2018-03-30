@@ -1,35 +1,69 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, ElementRef, HostListener, Input,
+  trigger, state, style, transition, animate, Output, EventEmitter
+} from '@angular/core';
 import { EventDataService } from '../../../core/services/eventdata.service';
 import { ComponentMediator } from '../../../core/services/component-mediator.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { ControlComponent } from '../../../shared/controls/control.component';
-import ExplorerEventHandler from './explorer.event-handler';
-import { ExplorerService, Item, ObjType, UploadInterceptor } from '../../../core/services/explorer.service';
-import { Observable, BehaviorSubject } from '../../../rxjs.imports';
-import { get } from 'lodash';
+import { ExplorerEventHandler } from './explorer.event-handler';
+import { ExplorerService, Item, ObjType, rootItem } from '../../../core/services/explorer.service';
+import { Observable, BehaviorSubject, Subject } from '../../../rxjs.imports';
+import { Maybe } from '../../commons/monads/maybe';
+import { fuzzysearch } from '../../commons/u';
+import { get, cloneDeep } from 'lodash';
 
-const rootItem: Item = { name: 'Explorer', namespace: '', level: 0 };
+export class ExplorerOptions {
+  objType: ObjType = ObjType.Document;
+  startNamespace?: string;
+  upload?: boolean;
+  saveUrl?: string = 'http://localhost:5000/tbfs-service/UploadObject';
+  removeUrl?: string = 'http://localhost:5000/tbfs-service/RemoveObject';
+  constructor(opt?: Partial<ExplorerOptions>) { Object.assign(this, cloneDeep(opt)); }
+}
+
+export class ExplorerItem {
+  constructor(public name: string, public namespace: string) { }
+}
+
+export class ExplorerResult {
+  constructor(public items?: ExplorerItem[]) { }
+}
+
+export const ViewStates = { opened: 'opened', closed: 'closed' };
 
 @Component({
   selector: 'tb-explorer',
   templateUrl: './explorer.component.html',
   styleUrls: ['./explorer.component.scss'],
-  providers: [ComponentMediator, StorageService]
+  providers: [ComponentMediator, StorageService],
+  animations: [
+    trigger('shrinkOut', [
+      state(ViewStates.opened, style({ height: '*' })),
+      state(ViewStates.closed, style({ height: 0, overflow: 'hidden' })),
+      transition(ViewStates.opened + ' <=> ' + ViewStates.closed, animate('150ms ease-in-out'))
+    ])
+  ],
 })
 export class ExplorerComponent extends ControlComponent implements OnInit {
-  @Input() saveUrl = 'mockInsertUrl';
-  @Input() removeUrl = 'mockRemoveUrl';
-  @Input() objectType: ObjType = ObjType.Document;
+  private _search: string;
+  private _currentItem: Item;
+  @Input() options = new ExplorerOptions();
+  @Output() selectionChanged = new EventEmitter<ExplorerItem>();
+  @Output() stateChanged = new EventEmitter<string>();
+  @Output() itemClick = new EventEmitter<Item>();
   @ViewChild('anchor') public anchor: ElementRef;
   @ViewChild('menuPopup', { read: ElementRef }) public menuPopup: ElementRef;
   @ViewChild('searchPopup', { read: ElementRef }) public findPopup: ElementRef;
-  items: Item[];
-  get filteredItems(): Item[] {
-    return this.items.filter(i => i.name.toLowerCase().includes(this.search.toLowerCase()));
+  get filteredItems(): Item[] { // TODOPD: memoize
+    return this.items && this.items.filter(i => i['match'] = fuzzysearch(this.search.toLowerCase(), i.name.toLowerCase())) || [];
   }
-  search: string;
-  private _currentItem: Item;
+  get search() { return this._search; }
+  set search(v: string) { this._search = v; this.selectedItem = null; }
   get currentItem(): Item { return this._currentItem; }
+  items: Item[];
+  viewState = ViewStates.closed;
+  selectedItem: Item;
   currentPath: string[];
   path: Item[] = [rootItem];
   showMenu = false;
@@ -39,43 +73,53 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   isCustom = false;
   get users() { return [...this.baseUsers, ...this.otherUsers]; }
 
-  constructor(public m: ComponentMediator, public explorer: ExplorerService) {
+  constructor(public m: ComponentMediator, public explorer: ExplorerService, private elRef: ElementRef) {
     super(m.layout, m.tbComponent, m.changeDetectorRef);
     ExplorerEventHandler.handle(this);
   }
 
-  async ngOnInit() { this.updateItems(rootItem); }
-  breadClick(item: Item) { this.updateItems(item); }
-  itemClick(item: Item) { this.updateItems(item); }
-  close() { }
-  customLevelChanged() { this.updateItems(this.currentItem); }
-  refresh() { this.updateItems(this.currentItem); }
+  async ngOnInit() { this.updateItemsInside(rootItem); }
 
-  async updateItems(item: Item) {
+  breadClick(item: Item) { this.updateItemsInside(item); }
+  _itemClick(item: Item) {
+    this.updateItemsInside(item);
+    this.itemClick.emit(item);
+  }
+  customLevelChanged() { this.updateItemsInside(this.currentItem); }
+  refresh() { this.updateItemsInside(this.currentItem); }
+  close() { }
+  select(item: Item) { this.selectionChanged.emit(new ExplorerItem(item.name, item.namespace)); }
+
+  async updateItemsInside(item: Item): Promise<void> {
+    if (item.level === 3) return;
+    (await this.getItemsInside(item)).map(items => {
+      this.items = items;
+      this.path = this.getPathFor(item);
+      this._currentItem = item;
+      this.search = '';
+      this.viewState = item.level === 2 ? ViewStates.opened : ViewStates.closed;
+    });
+  }
+
+  async getItemsInside(item: Item) {
     switch (item.level) {
-      case 1:
-        this.items = await this.explorer.GetModules(item);
-        this.path = [rootItem, item];
-        this._currentItem = item;
-        this.search = '';
-        break;
-      case 2:
-        this.items = await this.explorer.GetObjs(this.path[1], item, this.objectType);
-        this.path = [rootItem, item.parent, item];
-        this._currentItem = item;
-        this.search = '';
-        break;
-      case 3: return;
-      default:
-        this.items = await this.explorer.GetApplications();
-        this.path = [rootItem];
-        this._currentItem = rootItem;
-        this.search = '';
+      case 0: return this.explorer.GetApplications();
+      case 1: return this.explorer.GetModules(item);
+      case 2: return this.explorer.GetObjs(this.path[1], item, this.options.objType);
     }
   }
 
+  getPathFor(item: Item) {
+    const res = [];
+    while (item) {
+      res.push(item);
+      item = item.parent;
+    }
+    return res.reverse();
+  }
+
   @HostListener('document:click', ['$event'])
-  public documentClick(event: any): void {
+  documentClick(event: any): void {
     if (this.showMenu && !this.anchor.nativeElement.contains(event.target) &&
       !this.menuPopup.nativeElement.contains(event.target))
       this.showMenu = false;
@@ -84,13 +128,52 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
       this.toggleSearch();
   }
 
-  public toggleSearch() {
+  async toggleSearch(force?: boolean, startingText?: string) {
     if (this.showMenu) this.toggleMenu();
-    this.showSearch = !this.showSearch;
+    if (!this.showSearch && typeof startingText !== 'undefined') this.search += startingText;
+    this.showSearch = force || !this.showSearch;
+    await Observable.timer(0).toPromise();
+    this.focus();
   }
 
-  public toggleMenu() {
+  focus() {
+    if (this.showSearch) {
+      const el = this.elRef.nativeElement.querySelector('kendo-popup [kendotextbox]');
+      if (el) el.focus();
+    } else this.elRef.nativeElement.querySelector('.main').focus();
+  }
+
+  toggleMenu(force?: boolean) {
     if (this.showSearch) this.toggleSearch();
-    this.showMenu = !this.showMenu;
+    this.showMenu = force || !this.showMenu;
+  }
+
+  completeEventHandler(e: any) {
+    console.log('complete: ' + JSON.stringify(e));
+  }
+
+  uploadEventHandler(e) {
+    // todopd
+    // const headers = new Headers();
+    // headers.append('Authorization', this.info.getAuthorization());
+    e.data = {
+      currentNamespace: this.currentItem.namespace,
+      authenticationTokenKey: this.explorer.info.getAuthorization()
+    };
+  }
+
+  removeEventHandler(e) {
+    e.data = {
+      authenticationTokenKey: this.explorer.info.getAuthorization()
+    };
+  }
+
+  successEventHandler(e) {
+    console.log('The ' + e.operation + ' was successful');
+  }
+
+  errorEventHandler(e) {
+    console.log('The ' + e.operation + ' failed');
   }
 }
+

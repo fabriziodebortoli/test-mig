@@ -6,31 +6,36 @@ import { InfoService } from './info.service';
 import { Subject, Observable, BehaviorSubject, of, concat } from '../../rxjs.imports';
 import { delay } from 'rxjs/operators/delay';
 import { get } from 'lodash';
+import { Maybe } from '../../shared/commons/monads/maybe';
 
 export enum ObjType { Document, Report, File, Image, Profile }
 export interface Item { namespace?: string; name?: string; level: number; parent?: Item; }
+export const rootItem: Item = { name: 'root', namespace: '', level: 0 };
 const augmentItem = (partial: Partial<Item>) => item => {
-    item = { ...item, ...partial }; item.name = item.name || item.title; return item;
+    item = { ...item, ...partial };
+    item.name = item.name || item.title;
+    item.namespace = item.namespace || item.NameSpace;
+    return item;
 };
 
 @Injectable()
 export class ExplorerService {
     private _waiting$ = new BehaviorSubject(false);
 
-    constructor(private info: InfoService, private http: Http) { }
+    constructor(public info: InfoService, private http: Http) { }
 
     get waiting$() { return this._waiting$.asObservable(); }
 
-    async GetApplications(): Promise<Item[]> {
-        return this.tryGetMap('GettAllApplications', r => r.applications.map(augmentItem({ level: 1 })));
+    async GetApplications(): Promise<Maybe<Item[]>> {
+        return this.tryGetMap('GettAllApplications', r => r.applications.map(augmentItem({ level: 1, parent: rootItem })));
     }
 
-    async GetModules(app: Item): Promise<Item[]> {
+    async GetModules(app: Item): Promise<Maybe<Item[]>> {
         return this.tryGetMap({ method: 'GetAllModulesByApplication', params: { 'appName': app.name.toLowerCase() } },
             r => r.modules.map(augmentItem({ parent: app, level: 2 })));
     }
 
-    async GetObjs(app: Item, module: Item, type: ObjType): Promise<Item[]> {
+    async GetObjs(app: Item, module: Item, type: ObjType): Promise<Maybe<Item[]>> {
         return this.tryGetMap({
             method: 'GetAllObjectsBytype', params: {
                 'appName': app.name.toLowerCase(),
@@ -49,7 +54,7 @@ export class ExplorerService {
         return [];
     }
 
-    async tryGetMap(method: string | { method: string, params?: { [n: string]: any } }, map?: (p: any) => any, ): Promise<any> {
+    async tryGetMap(method: string | { method: string, params?: { [n: string]: any } }, map?: (p: any) => any, ): Promise<Maybe<any>> {
         const search = new URLSearchParams();
         if (typeof method !== 'string') {
             const m = method as any;
@@ -65,26 +70,6 @@ export class ExplorerService {
             .toPromise();
         this._waiting$.next(false);
         if (res && map) res = map(res);
-        return res;
-    }
-}
-
-@Injectable()
-export class UploadInterceptor implements HttpInterceptor {
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url === 'mockSaveUrl') {
-            const events: Observable<HttpEvent<any>>[] = [0, 30, 60, 100].map((x) => of(<HttpProgressEvent>{
-                type: HttpEventType.UploadProgress,
-                loaded: x,
-                total: 100
-            }).pipe(delay(1000)));
-            const success = of(new HttpResponse({ status: 200 })).pipe(delay(1000));
-            events.push(success);
-            return Observable.concat(...events);
-        }
-        if (req.url === 'mockRemoveUrl') {
-            return of(new HttpResponse({ status: 200 }));
-        }
-        return next.handle(req);
+        return Maybe.from(res);
     }
 }

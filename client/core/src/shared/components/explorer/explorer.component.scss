@@ -1,8 +1,22 @@
 @import '../../../style/vars.scss';
+
 $explorerbkg:white;
 .main {
     display: flex;
     flex-direction: column;
+    height: 380px;
+}
+
+:host {
+    ::ng-deep .toolbar-top {
+        border: 1px solid #cfe0e8;
+    }
+    ::ng-deep .toolbar-top .menu .toolbar-menu {
+        margin-left: 10px;
+    }
+    .explorer:focus, .explorer-container:focus, .main:focus {
+        outline: none;
+    }
 }
 
 :host ::ng-deep kendo-upload {
@@ -22,8 +36,9 @@ $explorerbkg:white;
     display: flex;
     flex-flow: column;
     width: 570px;
-    height: 350px;
+    max-height: 380px;
     background: $explorerbkg;
+    flex: 1 1;
 }
 
 .uploader-container {
@@ -86,6 +101,9 @@ $explorerbkg:white;
     flex-flow: column;
     align-content: center;
     color: base-text;
+    &.selected {
+        color: $accent;
+    }
     &:hover {
         color: $accent;
     }
@@ -105,6 +123,16 @@ $explorerbkg:white;
     white-space: nowrap;
     width: 120px;
     text-align: center;
+    padding: 0px 6px;
+}
+
+.char {
+    display: inline-block;
+    min-width: 3px;
+}
+
+.char-matched {
+    color: $series-e;
 }
 
 .popup {
