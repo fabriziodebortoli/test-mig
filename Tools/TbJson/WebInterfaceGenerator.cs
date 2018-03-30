@@ -631,8 +631,7 @@ namespace Microarea.TbJson
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 
-                            if(jObj.GetViewCategory() == ViewCategory.DataEntry)
-                                GenerateHtmlChildren(jObj, type, insideRowView, slave);
+                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
                         break;
@@ -991,13 +990,6 @@ namespace Microarea.TbJson
 
                 case WndObjType.TilePanel:
                     {
-                        if(jObj[Constants.id] == null)
-                        
-                            Console.Out.WriteLineAsync(string.Format("Warning: TilePanel in documento con name: {0} ", jObj[Constants.name]));
-                        else
-                            Console.Out.WriteLineAsync(string.Format("Warning: TilePanel in documento con name: {0} ", jObj[Constants.id]));
-
-
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTilePanel, this, false))
                         {
                             string title = jObj.GetLocalizableString(Constants.text);
