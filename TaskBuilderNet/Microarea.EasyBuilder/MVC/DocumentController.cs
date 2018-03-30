@@ -462,7 +462,9 @@ namespace Microarea.EasyBuilder.MVC
 		private NameSpace			customizationNameSpace;
 		private EasyBuilderScriptingManager scriptManager;
         private bool canBeLoaded = true;
+        
         JsonEvents jsonEvents;
+        List<MethodInfo> cachedMethodInfos = new List<MethodInfo>();
         /// <summary>
         /// static declared events in JSON
         /// </summary>
@@ -1782,11 +1784,38 @@ namespace Microarea.EasyBuilder.MVC
             if (jsonEvent == null)
                 return;
 
-            MethodInfo methodInfo = GetType().GetMethod(jsonEvent.EventHandlerName);
-            if (methodInfo != null)
+            // cerco nella cache se l'ho già caricato
+            // anche in c# al di sotto di 1000 elementi gli 
+            // array sono i piu' efficienti
+            MethodInfo methodInfo = null;
+            foreach (MethodInfo m in cachedMethodInfos)
             {
-                EasyBuilderEventArgs args = new EasyBuilderEventArgs();
-                methodInfo.Invoke(controller.View, new[] { args });
+                if (m.Name == jsonEvent.EventHandlerName)
+                {
+                    methodInfo = m;
+                    break;
+                }
+            }
+            try
+            {
+                // altrimenti lo carico via reflection
+                if (methodInfo == null)
+                {
+                    methodInfo = GetType().GetMethod(jsonEvent.EventHandlerName);
+                   if (methodInfo != null)
+                        cachedMethodInfos.Add(methodInfo);
+                }
+                if (methodInfo != null)
+                {
+                    EasyBuilderEventArgs args = new EasyBuilderEventArgs();
+                    args.Handled = true;
+                    methodInfo.Invoke(this, new object[] { View, args });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

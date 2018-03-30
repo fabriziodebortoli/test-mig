@@ -2446,10 +2446,14 @@ String^ CDEasyBuilder::DecodeEventName(int nCode)
 BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	BOOL bResult = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
-	
+	if (nCode == 0)
+		return bResult;
+
+
 	BOOL bManaged =
 		nCode == EN_VALUE_CHANGED ||
-		nCode == BN_CLICKED /*||
+		nCode == BN_CLICKED;
+		 /*||
 		nCode == EN_CTRL_STATE_CHANGED /*||
 		nCode == BEN_ROW_CHANGED*/;
 
@@ -2470,7 +2474,6 @@ BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERIN
 				controller->DispatchWebMessage(eventName, targetID);
 
 			)
-
 		}
 	}
 	return (bResult == TRUE);
