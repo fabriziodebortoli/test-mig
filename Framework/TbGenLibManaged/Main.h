@@ -44,4 +44,5 @@ TB_EXPORT bool ApplicationFilterMessage(LPMSG lpMsg);
 TB_EXPORT void PushToClients(const CString& sClientId, const CString& sMessage);
 TB_EXPORT void MakeTransparent(const BYTE* sourceBuffer, int nSourceSize, COLORREF transparentColor, BYTE*& buffer, int& nSize );
 TB_EXPORT int GetWebSocketsConnectorPort();        
+TB_EXPORT void MengleActivationString(CString& sActivation);
 #include "endh.dex"

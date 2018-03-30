@@ -636,3 +636,8 @@ void MakeTransparent(const BYTE* sourceBuffer, int nSourceSize, COLORREF transpa
 	Marshal::Copy(ar, 0, (IntPtr)buffer, nSize); 
 	delete bmp;
 }
+
+void MengleActivationString(CString& sActivation)
+{
+	sActivation = Functions::GetSafeActivationString(gcnew String(sActivation));
+}

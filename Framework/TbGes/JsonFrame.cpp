@@ -2,6 +2,7 @@
 
 #include <TbGenlib\TBSplitterWnd.h>
 
+#include <TbGenLibManaged\Main.h>
 #include "JsonFrame.h"
 #include "JsonFormEngineEx.h"
 #include <TbFrameworkImages\GeneralFunctions.h>
@@ -98,7 +99,9 @@ template <class T> LRESULT CJsonFrameT<T>::OnGetActivationData(WPARAM wParam, LP
 
 	for (int i = 0; i < arIds.GetSize(); i++)
 	{
-		pResp->WriteBool(arIds[i], arActivated[i]);
+		CString sId = arIds[i];
+		MengleActivationString(sId);
+		pResp->WriteBool(sId, arActivated[i]);
 	}
 	pResp->CloseObject();
 	pResp->CloseObject();

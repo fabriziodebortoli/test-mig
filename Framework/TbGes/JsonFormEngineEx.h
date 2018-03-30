@@ -49,7 +49,8 @@ public:
 	bool CheckActivation(CString singleActivation);
 	bool CheckActivationExpression(const CString& activationExpression);
 	void GetActivationExpressions(CStringArray& arIds, CArray<bool>& arActivated);
-	
+	void GetActivationExpressions(CWndObjDescription* pDesc, CStringArray& arIds, CArray<bool>& arActivated);
+
 	CString AdjustExpression(const CString& sRawExpression);
 	void AttachItemSource(CItemSourceDescription* pItemSource, CParsedCtrl* pParsedCtrl);
 	void AttachDataAdapter(CDataAdapterDescription* pDataAdapterDescription, CParsedCtrl* pParsedCtrl);

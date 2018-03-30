@@ -692,28 +692,37 @@ CString CJsonContext::AdjustExpression(const CString& sRawExpression)
 //---------------------------------------------------------------------------
 void CJsonContext::GetActivationExpressions(CStringArray& arIds, CArray<bool>& arActivated)
 {
-	CArray<CWndObjDescription*> stack;
-	stack.Add(m_pDescription);
-	while (!stack.IsEmpty())
+	GetActivationExpressions(m_pDescription, arIds, arActivated);
+}
+//---------------------------------------------------------------------------
+void CJsonContext::GetActivationExpressions(CWndObjDescription* pDesc, CStringArray& arIds, CArray<bool>& arActivated)
+{
+	if (!pDesc->m_strActivation.IsEmpty())
 	{
-		int idx = stack.GetUpperBound();
-		CWndObjDescription* pCurrent = stack[idx];
-		stack.RemoveAt(idx);
-		if (!pCurrent->m_strActivation.IsEmpty())
+		bool found = false;
+		for (int i = 0; i < arIds.GetCount(); i++)
+			if (arIds[i] == pDesc->m_strActivation)
+			{
+				found = true;
+				break;
+			}
+		if (!found)
 		{
-			arIds.Add(GetSafeActivationString(pCurrent->m_strActivation));
-			arActivated.Add(CheckActivationExpression(pCurrent->m_strActivation));
+			arIds.Add(pDesc->m_strActivation);
+			arActivated.Add(CheckActivationExpression(pDesc->m_strActivation));
 		}
-		for (int i = 0; i < pCurrent->m_Children.GetCount(); i++)
-		{
-			stack.Add(pCurrent->m_Children.GetAt(i));
-		}
+	}
+	for (int i = 0; i < pDesc->m_Children.GetCount(); i++)
+	{
+		GetActivationExpressions(pDesc->m_Children.GetAt(i), arIds, arActivated);
 	}
 }
 
 //---------------------------------------------------------------------------
 CString CJsonContext::GetSafeActivationString(CString strActivation)
 {
+	if (strActivation == L"ERP.QualityInspection")
+		ASSERT(FALSE);
 	strActivation.Replace(_T("&&"), _T("And"));
 	strActivation.Replace(_T(">"), _T("_"));
 	strActivation.Replace(_T("'"), _T("_"));

@@ -21,6 +21,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Microarea.TaskBuilderNet.Core.Generic
 {
@@ -746,10 +747,68 @@ namespace Microarea.TaskBuilderNet.Core.Generic
 
 			return true;
 		}
+        private static Regex activationRegEx = CreateActivationRegEx();
+        //-----------------------------------------------------------------------------------------
+        //ATTENZIONE! il risultato di questo metodo deve corrispondere a quello ritornato dal metodo 
+        //usato in tbjson.exe
+        private static Regex CreateActivationRegEx()
+        {
+            StringBuilder pattern = new StringBuilder();
+            string[] tokens = new string[] {
+            "&&",
+            "&",
+            "<",
+            ">",
+            "'",
+            "(",
+            ")",
+            " ",
+            "!",
+            "||",
+            "|",
+            ".",
+            "\""
+            };
+            foreach (string s in tokens)
+            {
+                if (pattern.Length > 0)
+                    pattern.Append('|');
+                pattern.Append("(");
+                pattern.Append(Regex.Escape(s));
+                pattern.Append(")");
+            }
+            return new Regex(pattern.ToString(), RegexOptions.Compiled | RegexOptions.Singleline);
+        }
+        //-----------------------------------------------------------------------------------------
+        public static string GetSafeActivationString(string activation)
+        {
+            string encoded = "_" + activationRegEx.Replace(activation, new MatchEvaluator(ReplaceInActivation));
+            return encoded;
 
-		//=====================================================================
+        }
+        private static string ReplaceInActivation(Match match)
+        {
+            switch (match.Value)
+            {
+                case "&&": return "And";
+                case "&": return "And";
+                case "<": return "_";
+                case ">": return "_";
+                case "'": return "_";
+                case "(": return "_";
+                case ")": return "_";
+                case " ": return "";
+                case "!": return "Not";
+                case "||": return "Or";
+                case "|": return "Or";
+                case ".": return "_";
+                case "\"": return "_";
+            }
+            return match.Value;
+        }
+        //=====================================================================
 
-		public static bool IsUrlReachable(string url)
+        public static bool IsUrlReachable(string url)
 		{
 			if (url == string.Empty)
 				return false;
