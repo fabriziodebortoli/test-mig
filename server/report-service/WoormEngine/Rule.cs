@@ -1383,18 +1383,29 @@ namespace Microarea.RSWeb.WoormEngine
 			int current = 0;
 			foreach (Field rf in selectFields)
 			{
-				if (rf.NativeColumnExpr)
-				{
-					//se c'e' contentof espando
-					String s = rf.QualifiedPhysicalName;
+                if (rf.NativeColumnExpr)
+                {
+                    //se c'e' contentof espando
+                    String s = rf.QualifiedPhysicalName;
 
-					ExpandContentOfClause(ref s);
+                    ExpandContentOfClause(ref s);
 
-					select += s;
-				}
-				else
-				    select += rf.QualifiedPhysicalName;
-
+                    select += s;
+                }
+                else
+                {
+                    if (FromTables.Count == 1)
+                        select += rf.QualifiedPhysicalName;
+                    else
+                    {
+                        string colName = rf.QualifiedPhysicalName;
+                        if (colName.IndexOf('.') == -1)
+                        {
+                            colName = FromTables[0].TableName + '.' + colName;
+                        }
+                        select += colName;
+                    }
+                }
 				current++;
 				if (current < selectFields.Count) select += ",";
 			}
