@@ -48,6 +48,9 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     @Input()
     public formatter: string;
 
+    @Input('readonly') 
+    readonly: boolean = false;
+
     public widthFactor: number = 1;
     public heightFactor: number = 1;
 
