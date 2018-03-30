@@ -22,6 +22,8 @@ export class RsExportService {
     filePdf = new Group();
     titleReport: string;
     layoutId: string;
+    datauri:string;
+    nameFile:string = "";
 
     currentPDFCopy = 1;
 
@@ -46,11 +48,12 @@ export class RsExportService {
     constructor(public rsService: ReportingStudioService) { }
 
     //------EXPORT PDF-----------------------------------
-    initializedExport(from: number, to: number, copy: number, multiFile: boolean) {
+    initializedExport(from: number, to: number, copy: number, multiFile: boolean, nameFile: string) {
         this.firstPageExport = from;
         this.lastPageExport = to;
         this.numberOfCopy = copy;
         this.incrCopy = 0;
+        this.nameFile = nameFile.replace(/\s/g, '');
         this.multiFile = multiFile;
         if (this.exportpdf)
             this.rsExportPdf.emit();
@@ -89,51 +92,9 @@ export class RsExportService {
                         multiPage: true
                     });
                 }).then((dataUri) => {
-                    saveAs(dataUri, this.titleReport + '_copy_' + this.incrCopy + '.pdf');
-
-                    /*var doc = document.getElementById('iprint') as HTMLFrameElement;
-                    var newWin = window.frames['iprint'];
-                    newWin.location = dataUri;
-
-                    doc.onload = function(){
-                        
-
-                    }*/
-                    
-                    //var iframe = document.createElement('iframe');
-
-                    //doc.src = dataUri;
-
-                    /*newWin.addEventListener("loadeddata", function(){
-                        console.log("ho caricato il frame");
-                        newWin.focus();
-                        newWin.print();
-                    });*/
-                    /*doc.onload = function () {
-                        /*var x = window.open();
-                        x.document.title = "PRINT";
-                    }*/
-                    
-                    //doc.appendChild(document.body.appendChild(iframe));
-
-                  
-                   
-                    //iframe.src = dataUri;
-                    //document.body.appendChild(iframe);
-                    //let iframeWindow = iframe.contentWindow;
-                    /*iframeWindow.onload = function () {
-                        alert("Local iframe is now loaded.");
-                    };*/
-
-                    /*iframe.addEventListener("load", function(){
-                        console.log("ho caricato il frame");
-                        newWin.focus();
-                        newWin.print();
-                    });*/
-
-                    
-                    
-
+                    let name = this.nameFile != "" ? this.nameFile : this.titleReport;
+                    saveAs(dataUri, name + '_copy_' + this.incrCopy + '.pdf');
+                    this.datauri = dataUri;
                     this.pdfState = PdfType.NOPDF;
                 }).then(() => {
                     this.rsService.reset();

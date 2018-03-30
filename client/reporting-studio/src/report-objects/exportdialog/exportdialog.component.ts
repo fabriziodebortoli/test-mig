@@ -19,12 +19,14 @@ export class ExportdialogComponent implements OnDestroy {
     to: number;
     copy: number;
     inputDisable: boolean = true;
+    nameFile: string;
 
     constructor(public rsExportService: RsExportService, public askDialogService: AskdialogService) {
         let jsonObj: any ={};
         this.from = 1;
         this.to = this.rsExportService.totalPages;
         this.copy = 1;
+        this.nameFile = this.rsExportService.titleReport;
         jsonObj.field = {}
         jsonObj.field.name = "multicopy";
         jsonObj.field.id = "idMulticopy";
@@ -53,7 +55,7 @@ export class ExportdialogComponent implements OnDestroy {
 
     startExport() {
         this.rsExportService.currentPDFCopy = 1;
-        this.rsExportService.initializedExport(this.from, this.to, this.copy, this.check.value);
+        this.rsExportService.initializedExport(this.from, this.to, this.copy, this.check.value, this.nameFile);
         this.rsExportService.exportfile = false;
     }
 

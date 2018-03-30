@@ -1,4 +1,15 @@
 <kendo-dialog title="Export Report" (close)="close()" [minWidth]="250" [width]="450">
+    <h3>Export name</h3>
+    <hr>
+    <div class="fromToPage">
+        <kendo-textbox-container>
+            <div class="inputName">
+                <label>Name </label>
+                <input kendoTextBox maxlength="40" [(ngModel)]="nameFile" />
+            </div>
+        </kendo-textbox-container>
+    </div>
+    <br>
     <h3>Export range</h3>
     <hr>
     <div>

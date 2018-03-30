@@ -408,7 +408,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     let message = {
       commandType: CommandType.EXPORTEXCEL,
       message: this.args.nameSpace,
-      page: this.rsExportService.firstPageExport + "," + this.rsExportService.lastPageExport
+      page: this.rsExportService.firstPageExport + "," + this.rsExportService.lastPageExport + "," + this.rsExportService.nameFile
     };
     this.rsService.doSend(JSON.stringify(message));
   }

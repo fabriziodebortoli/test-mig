@@ -29,3 +29,12 @@ mat-radio-button{
 .mat-radio-inner-circle{
     background-color: #0277bd !important;
 }
+
+.inputName{
+    display: inherit;
+    align-items: center;
+    margin: auto;
+    label{
+        margin-right: 5%;
+    }
+}

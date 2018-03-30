@@ -308,10 +308,11 @@ namespace Microarea.RSWeb.Render
                         string[] split = msg.page.Split(',');
                         string firstPage = split[0];
                         string lastPage = split[1];
+                        string nameFile = split[2];
                         int first, last = 0;
                         Int32.TryParse(firstPage, out first);
                         Int32.TryParse(lastPage, out last);
-                        msg.message = GetExcelDataPage(first, last);
+                        msg.message = GetExcelDataPage(first, last, nameFile);
                         break;
                     }
                 /*case MessageBuilder.CommandType.EXPORTDOCX:
@@ -355,7 +356,7 @@ namespace Microarea.RSWeb.Render
 
         //---------------------------------------------------------------------
         //chiamata per esportare excel
-        public string GetExcelDataPage(int firstPage, int lastPage)
+        public string GetExcelDataPage(int firstPage, int lastPage, string nameFile)
         {
             int currentPage = firstPage;
             WoormDocument woorm = StateMachine.Woorm;
@@ -365,7 +366,7 @@ namespace Microarea.RSWeb.Render
                     System.Threading.Tasks.Task.Delay(1000).Wait();
                 };
             string result = Path.GetTempPath();
-            string fileName = result + woorm.Properties.Title.Remove(' ', 0, 0) + ".xlsx";
+            string fileName = result + nameFile.Remove(' ', 0, 0) + ".xlsx";
 
             int numFoglio = 0;
             List<InfoSheet> fogli = new List<InfoSheet>();
@@ -492,8 +493,7 @@ namespace Microarea.RSWeb.Render
                             worksheetPart.Worksheet.Save();
 
                             if (currentPage == lastPage)
-                                //return fileName.ToJson();
-                            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+                                return nameFile.Remove(' ', 0, 0).ToJson();
                         }
                         else continue;
                     }
@@ -501,8 +501,7 @@ namespace Microarea.RSWeb.Render
                 }
             }
             if (fogli.Count > 0)
-               // return fileName.ToJson();
-            return woorm.Properties.Title.Remove(' ', 0, 0).ToJson();
+                return nameFile.Remove(' ', 0, 0).ToJson();
             else
                 return "Errore".ToJson();
         }
