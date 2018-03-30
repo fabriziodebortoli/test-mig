@@ -996,15 +996,19 @@ namespace Microarea.TbJson
 
                 case WndObjType.TilePanel:
                     {
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbTilePanel, this, false))
+                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbPanel, this, false))
                         {
                             string title = jObj.GetLocalizableString(Constants.text);
                             if (!string.IsNullOrEmpty(title))
                                 htmlWriter.WriteAttribute(Square(Constants.title), title);
 
+                            htmlWriter.Write(" tbTile");
+                            htmlWriter.Write(jObj.GetTileDialogSize().ToString());
+                            htmlWriter.Write(" ");
+
                             WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
                             WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
-                            WriteAttribute(jObj, Constants.showAsTile, Constants.showAsTile);
+                            //WriteAttribute(jObj, Constants.showAsTile, Constants.showAsTile);
 
                             WriteActivationAttribute(jObj);
 
