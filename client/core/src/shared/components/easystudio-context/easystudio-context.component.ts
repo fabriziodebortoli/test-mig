@@ -9,6 +9,7 @@ import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { TbComponent } from './../../../shared/components/tb.component';
+import { SettingsService } from './../../../core/services/settings.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
 
     constructor(
+        public settingsService:SettingsService,
         public easystudioService: EasystudioService,
         public snackBar: MatSnackBar,
         tbComponentService: TbComponentService,
