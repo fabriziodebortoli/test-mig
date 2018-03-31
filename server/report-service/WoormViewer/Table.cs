@@ -5018,6 +5018,9 @@ namespace Microarea.RSWeb.Objects
             else
                 rowSeparator = Borders.RowSeparator;
 
+            if (Borders.RowSepPen != null && Borders.RowSepPen.Width == 0)
+                rowSeparator = false;
+
             //gestione VMergeEmptyCell e VMergeTailCell
             //controllo preventivamente se la colonna ha uno dei due modi di visualizzazione attivo per evitare 
             //di entrare nell'if e fare operazioni inutili

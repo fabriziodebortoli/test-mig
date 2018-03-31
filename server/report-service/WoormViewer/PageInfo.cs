@@ -239,17 +239,13 @@ namespace Microarea.RSWeb.WoormViewer
 
             s += '{';
 
+            //TODO RSWEB - pagina a video > pagina in stampa (per impostare la pagina fisica occorre scalare tutte le dimensioni)
             //int l = this.printerPageInfo.dmPaperLength / 10 ;
             //int w = this.printerPageInfo.dmPaperWidth / 10 ;
             int l = this.dmPaperLength / 10;
             int w = this.dmPaperWidth / 10;
+            //----
 
-            //if (dmOrientation == PageInfo.DM_ORIENTATION)
-            //{
-            //    int t = l;
-            //    l = w;
-            //    w = t;
-            //}
             if (invert)
             {
                 int t = l;
