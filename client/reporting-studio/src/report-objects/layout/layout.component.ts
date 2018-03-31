@@ -35,6 +35,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
 
   public layoutStyle: any = {};
   public layoutBackStyle: any = {};
+  public layoutObjectDivStyle: any = {};
   public objects: baseobj[] = [];
   public templates: TemplateItem[] = [];
   currentPage: number;
@@ -372,25 +373,32 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'height': (layout.pageinfo.length) + 'mm',
       'background-color': 'white',
       'border': '1px solid #ccc',
-//      'margin-left': (layout.pageinfo.margin.left) + 'px',
- //     'margin-top': (layout.pageinfo.margin.top) + 'px',
-      'margin': (layout.pageinfo.margin.top) + 'px' + ' 1px 1px ' + (layout.pageinfo.margin.left) + 'px',
       'position': 'relative',
+      'margin': '5px auto',
+      'padding-top': (layout.pageinfo.margin.top) + 'px',
+      'padding-left': (layout.pageinfo.margin.left) + 'px',
     }
 
-    if (this.rsExportService.pdfState == PdfType.NOPDF || this.rsExportService.svgState == SvgType.NOSVG || this.rsExportService.pngState == PngType.NOPNG) {
+    if (this.rsExportService.pdfState === PdfType.NOPDF 
+      || this.rsExportService.svgState === SvgType.NOSVG 
+      || this.rsExportService.pngState === PngType.NOPNG) {
       this.layoutBackStyle = {
         'width': '100%',
         'height': this.viewHeight - 65 + 'px',
         'position': 'relative',
-        'overflow': 'scroll'
+        'overflow': 'scroll',
       }
     }
 
-    if (this.rsExportService.pdfState == PdfType.PDF || this.rsExportService.svgState == SvgType.SVG || this.rsExportService.pngState == PngType.PNG) {
+    if (this.rsExportService.pdfState === PdfType.PDF 
+      || this.rsExportService.svgState === SvgType.SVG 
+      || this.rsExportService.pngState === PngType.PNG) {
       this.layoutBackStyle = {
         'overflow': 'hidden'
       }
+    }
+    this.layoutObjectDivStyle = {
+      'position':'relative',
     }
   }
 

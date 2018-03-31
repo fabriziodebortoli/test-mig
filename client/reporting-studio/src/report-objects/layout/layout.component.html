@@ -1,6 +1,6 @@
 <div [ngStyle]="layoutBackStyle" *ngIf="!showAsk">
   <div [ngStyle]="layoutStyle">
-    <div *ngFor="let item of objects">
+    <div *ngFor="let item of objects" [ngStyle]="layoutObjectDivStyle">
       <div [ngSwitch]="item.obj">
 
         <rs-textrect [rect]="item" *ngSwitchCase="ROT.textrect"> </rs-textrect>
