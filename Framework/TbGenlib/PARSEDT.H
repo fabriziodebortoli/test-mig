@@ -968,7 +968,8 @@ public:
 
 public:
 	// virtual functions
-	
+
+	virtual void	DoPaint			(CDC* pDC);
 	virtual	void	SetValue		(const DataObj& aValue);
 	virtual	void	SetValue		(LPCTSTR pszValue = NULL);
 

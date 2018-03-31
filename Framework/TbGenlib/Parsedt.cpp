@@ -384,7 +384,7 @@ BOOL CParsedEdit::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT
 
 	if (dwStyle & WS_EX_CLIENTEDGE)
 	{
-	   bOk = CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), dwStyle&~WS_EX_CLIENTEDGE, rect, pParentWnd, nID);
+	   bOk = CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), _T(""), dwStyle & ~WS_EX_CLIENTEDGE, rect, pParentWnd, nID);
 	}
 	else
 	{
@@ -5001,6 +5001,119 @@ void CParsedStatic::OnPaint()
 
 	DoPaint(&dc);
 	m_clrText = old;
+}
+
+//-----------------------------------------------------------------------------
+void CParsedStatic::DoPaint(CDC* pDC)
+{
+	const DWORD dwStyle = GetStyle();
+	if ((dwStyle & SS_ICON) == SS_ICON)
+	{
+		__super::DoPaint(pDC);
+		return;
+	}
+
+	CRect rectText;
+	GetClientRect(rectText);
+
+	if ((GetStyle() & WS_BORDER) != 0 || (GetExStyle() & WS_EX_CLIENTEDGE) != 0)
+	{
+		// per allinearlo al paint dell'Edit
+		rectText.top += 1;
+		rectText.DeflateRect(5, 1);
+	}
+
+	if (m_hFont != NULL && ::GetObjectType(m_hFont) != OBJ_FONT)
+	{
+		m_hFont = NULL;
+	}
+
+	CFont* pOldFont = m_hFont == NULL ?
+		(CFont*)pDC->SelectStockObject(DEFAULT_GUI_FONT) :
+		pDC->SelectObject(CFont::FromHandle(m_hFont));
+
+	ASSERT(pOldFont != NULL);
+
+	UINT uiDTFlags = DT_WORDBREAK;
+
+	if (dwStyle & SS_CENTER)
+	{
+		uiDTFlags |= DT_CENTER;
+	}
+	else if (dwStyle & SS_RIGHT)
+	{
+		uiDTFlags |= DT_RIGHT;
+	}
+
+	if (dwStyle & SS_NOPREFIX)
+	{
+		uiDTFlags |= DT_NOPREFIX;
+	}
+
+	if ((dwStyle & SS_CENTERIMAGE) == SS_CENTERIMAGE)
+	{
+		uiDTFlags |= DT_SINGLELINE | DT_VCENTER;
+	}
+
+	if ((dwStyle & SS_ELLIPSISMASK) == SS_ENDELLIPSIS)
+	{
+		uiDTFlags |= DT_END_ELLIPSIS;
+	}
+
+	if ((dwStyle & SS_ELLIPSISMASK) == SS_PATHELLIPSIS)
+	{
+		uiDTFlags |= DT_PATH_ELLIPSIS;
+	}
+
+	if ((dwStyle & SS_ELLIPSISMASK) == SS_WORDELLIPSIS)
+	{
+		uiDTFlags |= DT_WORD_ELLIPSIS;
+	}
+
+#if (!defined _BCGSUITE_)
+	COLORREF clrText = m_clrText == (COLORREF)-1 ? CBCGPVisualManager::GetInstance()->GetDlgTextColor(GetParent()) : m_clrText;
+
+#if (!defined BCGP_EXCLUDE_RIBBON)
+	if (m_bBackstageMode && m_clrText == (COLORREF)-1)
+	{
+		clrText = CBCGPVisualManager::GetInstance()->GetRibbonBackstageTextColor();
+	}
+#endif
+
+#else
+	COLORREF clrText = m_clrText == (COLORREF)-1 ? globalData.clrBarText : m_clrText;
+#endif
+
+	if (!IsWindowEnabled())
+	{
+#ifndef _BCGSUITE_
+		clrText = CBCGPVisualManager::GetInstance()->GetToolbarDisabledTextColor();
+#else
+		clrText = globalData.clrGrayedText;
+#endif
+	}
+
+	CString strText;
+	GetWindowText(strText);
+
+	if (strText.Find(_T('\t')) >= 0)
+	{
+		uiDTFlags |= (DT_TABSTOP | 0x40);
+	}
+
+	if (!m_bOnGlass)
+	{
+		COLORREF clrTextOld = pDC->SetTextColor(clrText);
+		pDC->SetBkMode(TRANSPARENT);
+		pDC->DrawText(strText, rectText, uiDTFlags);
+		pDC->SetTextColor(clrTextOld);
+	}
+	else
+	{
+		CBCGPVisualManager::GetInstance()->DrawTextOnGlass(pDC, strText, rectText, uiDTFlags, 6, IsWindowEnabled() ? m_clrText : globalData.clrGrayedText);
+	}
+
+	pDC->SelectObject(pOldFont);
 }
 
 //-----------------------------------------------------------------------------
