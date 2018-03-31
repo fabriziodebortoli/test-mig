@@ -372,8 +372,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'height': (layout.pageinfo.length) + 'mm',
       'background-color': 'white',
       'border': '1px solid #ccc',
-      'margin-left': (layout.pageinfo.margin.left) + 'px',
-      'margin-top': (layout.pageinfo.margin.top) + 'px',
+//      'margin-left': (layout.pageinfo.margin.left) + 'px',
+ //     'margin-top': (layout.pageinfo.margin.top) + 'px',
+      'margin': (layout.pageinfo.margin.top) + 'px' + ' 1px 1px ' + (layout.pageinfo.margin.left) + 'px',
       'position': 'relative',
     }
 
