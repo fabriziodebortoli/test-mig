@@ -794,11 +794,13 @@ CBarCode::CBarCode()
 	m_nRowsNo(-1),
 	m_nColumnsNo(-1)
 {
-	DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	CTBNamespace ns(_NS_MOD("Module.Framework.TbWoormViewer"));
+	//DataObj* pSetting = AfxGetSettingValue(snsTbGenlib, szReportSection, szBarCodeType, DataStr(), szTbDefaultSettingFileName);
+	DataObj * pSetting = AfxGetSettingValue(ns, szDefaultBarcodeSection, szBarCodeType, DataStr(), szBarcode2DFileName);
 	CString sDefaultBarcode = pSetting ? pSetting->Str() : _T("");	
 	CString strTemp;
 	
-	CTBNamespace ns(_NS_MOD("Module.Framework.TbWoormViewer"));
+	
 	pSetting = AfxGetSettingValue(ns, szWoormGeneralOptions, szCheckBarcodeSize, DataBool(TRUE));
 	m_bCheckSize = pSetting ? *((DataBool*) pSetting) : TRUE;
 
