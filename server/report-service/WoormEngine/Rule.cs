@@ -838,6 +838,7 @@ namespace Microarea.RSWeb.WoormEngine
 		//----------------------------------------------------------------------------
 		CultureInfo GetCollateCulture(FromTablesList fromTables, Field f)
 		{
+/*
 			string table, column;
 			int index = f.QualifiedPhysicalName.IndexOf(".");
 			if (index == -1)
@@ -850,29 +851,36 @@ namespace Microarea.RSWeb.WoormEngine
 				table = f.QualifiedPhysicalName.Substring(0, index);
 				column = f.QualifiedPhysicalName.Substring(index + 1);
 			}
-
-			try
-			{
-				if (tbConnection == null)
-				{
-                    if (string.IsNullOrEmpty(Engine.Report.ReportSession.CompanyDbConnection))
-                        return CultureInfo.InvariantCulture;
-                    /*TODO RSWEB new DBConnection (tipo database e collate) */
-					tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider TODO rsweb*/);
-					tbConnection.Open();
-				}
+*/
+            try
+            {
+                //if (tbConnection == null)
+                //{
+                //    if (string.IsNullOrEmpty(Engine.Report.ReportSession.CompanyDbConnection))
+                //        return CultureInfo.InvariantCulture;
+                //    // TODO RSWEB new DBConnection (tipo database e collate) */
+                //    tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider TODO rsweb*/);
+                //    tbConnection.Open();
+                //}
                 string collation = "";/*TODO RSWEB Microarea.TaskBuilderNet.Data.DatabaseLayer.TBCheckDatabase.GetColumnCollation(tbConnection, table, column); */
                 return (collation.Length == 0 || collation == TaskBuilderNetCore.Data.NameSolverDatabaseStrings.SQLLatinCollation)
-					? CultureInfo.InvariantCulture 
-					: Session.UserInfo.CompanyCulture;
-			}
-	
-			catch (DBException e)
-			{
-				Engine.SetError(e.Message);
-				return CultureInfo.InvariantCulture;
-			}
-		}
+                    ? 
+                        CultureInfo.InvariantCulture
+                    : 
+                        Session.UserInfo.CompanyCulture;
+            }
+            catch (DBException e)
+            {
+                Engine.SetError(e.Message);
+                //tbConnection.Close(); tbConnection = null;
+                return CultureInfo.InvariantCulture;
+            }
+            catch (Exception e)
+            {
+                //tbConnection.Close(); tbConnection = null;
+                return CultureInfo.InvariantCulture;
+            }
+        }
 
 		//----------------------------------------------------------------------------
 		public bool Parse(Parser parser)
@@ -1001,65 +1009,69 @@ namespace Microarea.RSWeb.WoormEngine
                 if (top < 0) top = 0;
             }
 
-			try
-			{
-				do
-				{
-					bool nativeColumnExpr = false;
-					if (parser.LookAhead(Token.BRACEOPEN))
-					{
+            try
+            {
+                do
+                {
+                    bool nativeColumnExpr = false;
+                    if (parser.LookAhead(Token.BRACEOPEN))
+                    {
                         if (!parser.ParseBracedContent(out physicalName))
                             return false;
 
- 						nativeColumnExpr = true;
-                   }
-                   else if (!parser.ParseSquaredCoupleIdent(out physicalName))
-						return false;
+                        nativeColumnExpr = true;
+                    }
+                    else if (!parser.ParseSquaredCoupleIdent(out physicalName))
+                        return false;
 
-					if (!parser.ParseTag(Token.INTO) || !parser.ParseID(out publicName)) 
-						return false;
+                    if (!parser.ParseTag(Token.INTO) || !parser.ParseID(out publicName))
+                        return false;
 
-					Field aField = Engine.RepSymTable.Fields.Find(publicName);
-					if (aField == null)
-					{
-						parser.SetError(string.Format(ExpressionManagerStrings.UnknownField, publicName));
-						return false;
-					}
+                    Field aField = Engine.RepSymTable.Fields.Find(publicName);
+                    if (aField == null)
+                    {
+                        parser.SetError(string.Format(ExpressionManagerStrings.UnknownField, publicName));
+                        return false;
+                    }
 
-					if (aField.ReadOnly)
-					{
-						parser.SetError(string.Format(WoormEngineStrings.ReadOnlyField, publicName));
-						return false;
-					}
-					
-					if (aField.OwnerRule != null)
-						parser.SetError(string.Format(WoormEngineStrings.FieldAlreadyUsed, publicName));
+                    if (aField.ReadOnly)
+                    {
+                        parser.SetError(string.Format(WoormEngineStrings.ReadOnlyField, publicName));
+                        return false;
+                    }
 
-					if (nativeColumnExpr)
-						aField.NativeColumnExpr = true;
+                    if (aField.OwnerRule != null)
+                        parser.SetError(string.Format(WoormEngineStrings.FieldAlreadyUsed, publicName));
 
-					aField.PhysicalName = physicalName;
+                    if (nativeColumnExpr)
+                        aField.NativeColumnExpr = true;
 
-					if (aField.DataType.CompareNoCase("String")) 
-						aField.CollateCulture = GetCollateCulture(FromTables, aField);
+                    aField.PhysicalName = physicalName;
 
-					aField.OwnerRule = this;
+                    if (aField.DataType.CompareNoCase("String"))
+                        aField.CollateCulture = GetCollateCulture(FromTables, aField);
 
-					selectFields.Add(aField);
+                    aField.OwnerRule = this;
+
+                    selectFields.Add(aField);
 
                     forbiddenIdents.Add(publicName);
-				}
-				while (parser.Matched(Token.COMMA));
-			}
-			finally
-			{
-				if (tbConnection != null)
-				{
-					if (tbConnection.State != ConnectionState.Closed)
-						tbConnection.Close();
-					tbConnection = null;
-				}
-			}
+                }
+                while (parser.Matched(Token.COMMA));
+            }
+            catch (Exception e)
+            {
+                parser.SetError(e.Message + '-' + e.InnerException.Message);
+            }
+            finally
+            {
+                if (tbConnection != null)
+                {
+                    if (tbConnection.State != ConnectionState.Closed)
+                        tbConnection.Close();
+                    tbConnection = null;
+                }
+            }
 
 			if (parser.Error)	
                 return false;

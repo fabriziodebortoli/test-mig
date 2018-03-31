@@ -843,7 +843,8 @@ namespace Microarea.RSWeb.WoormEngine
 						{
 							DataTableRule dataTableRule = new DataTableRule(this);
 							AddRule(dataTableRule);
-							if (!dataTableRule.Parse(lex)) return false;
+							if (!dataTableRule.Parse(lex)) 
+                                return false;
 							break;
 						}
 			
@@ -851,7 +852,8 @@ namespace Microarea.RSWeb.WoormEngine
 						{
 							ConditionalRule condRule = new ConditionalRule(this);
 							AddRule(condRule);
-							if (!condRule.Parse(lex)) return false;
+							if (!condRule.Parse(lex)) 
+                                return false;
 							break;
 						}
 			
@@ -859,7 +861,8 @@ namespace Microarea.RSWeb.WoormEngine
 						{
 							ExpressionRule expRule = new ExpressionRule(this);
 							AddRule(expRule);
-							if (!expRule.Parse(lex)) return false;
+							if (!expRule.Parse(lex)) 
+                                return false;
 							break;
 						}
 
@@ -867,14 +870,16 @@ namespace Microarea.RSWeb.WoormEngine
 						{
 							QueryRule qr = new QueryRule(this);
 							AddRule(qr);
-							if (!qr.Parse(lex)) return false;
+							if (!qr.Parse(lex)) 
+                                return false;
 							break;
 						}
 						case Token.WHILE   :
 						{
 							WhileRule wr = new WhileRule(this);
 							AddRule(wr);
-							if (!wr.Parse(lex)) return false;
+							if (!wr.Parse(lex)) 
+                                return false;
 							break;
 						}
 			
