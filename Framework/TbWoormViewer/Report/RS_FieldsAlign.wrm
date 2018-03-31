@@ -16,6 +16,18 @@ Properties
 
 PageLayout "default" 
 	Begin
+		Text (33,236,49,362) "TESTO IN CAMPO PICCOLO" 
+			Begin
+			End
+		Field (66,237,83,674) Alias 3  /* w_fieldLittle */ 
+			Begin
+				Pen (0,0,0) Size 2;
+				Align 2154 ;
+				Label "Label CAMPO PICCOLO" 
+					Begin
+						Align 2152 ;
+					End
+			End
 		Field (116,218,280,572) Alias 1  /* w_field */ 
 			Begin
 				Align 2122 ;
@@ -26,7 +38,7 @@ PageLayout "default"
 			End
 		Field (319,218,463,573) Alias 2  /* w_field2 */ 
 			Begin
-				Align 2117 ;
+				Align 67653 ;
 			End
 	End
 
@@ -36,6 +48,7 @@ Report
 		Variables
 			String       w_field [15] Alias 1 Init = "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur" ;
 			String       w_field2 [15] Alias 2 Init = "Lorem ipsum dolor sit amet, consectetur adipisci elit, " + CHR ( 10 ) + CHR ( 13 ) + "sed eiusmod tempor incidunt ut labore" + CHR ( 10 ) + CHR ( 13 ) + " et dolore magna aliqua. Ut enim ad minim veniam, " + CHR ( 10 ) + CHR ( 13 ) + "quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur" ;
+			String       w_fieldLittle [15] Alias 3 Init = "FIELD TEXT IN CAMPO PICCOLO" ;
 		End
 
 End

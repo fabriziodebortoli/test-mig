@@ -213,6 +213,7 @@ export class ReportTableComponent {
       'height': 'inherit',
       'width': 'inherit',
       'table-layout': 'fixed',
+      'border-spacing': '0px',
     };
     return obj;
   }
@@ -223,6 +224,7 @@ export class ReportTableComponent {
     let obj = {
       'width': 'inherit',
       'vertical-align': defStyle.vertical_align,
+      'text-align': defStyle.text_align,
       'overflow':'hidden',
     };
     return obj;

@@ -2,30 +2,27 @@
 // Woorm code behind
 //==============================================================================
 
-Release 7 Rect (57,2099,959,3549) 
+Release 7 Rect (49,2,1038,1918) 
 PageLayout "default" 
 	Begin
 		Field (19,15,112,639) Alias 1  /* w_LinkReport */ 
 			Begin
+				Align 2154 ;
 				Label "LinkReport" 
 			End
-
 		Field (154,17,257,639) Alias 2  /* w_LinkForm */ 
 			Begin
 				Label "LinkForm" 
 			End
-
 		Text (304,16,393,638) """Will be other links type such as URL, Google maps, and files to download (PDF, docx, Excel ...)""" 
 			Begin
 				Align 2133 ;
 				FontStyle "BigText" ;
 			End
-
 		Field (448,44,544,545) Alias 3  /* w_contract */ 
 			Begin
 				Label "w_contract" 
 			End
-
 	End
 Links
 	Begin
@@ -60,11 +57,11 @@ Report
 		End
 
 		Rules
-			w_LinkReport = "Click to open the REPORT ISOCountryCode"  ;
+			w_LinkReport = "Click to open the REPORT ISOCountryCode" ;
 
-			w_LinkForm = "Click to open DOCUMENT ISOCountryCode"  ;
+			w_LinkForm = "Click to open DOCUMENT ISOCountryCode" ;
 
-			w_contract = "link report contract"  ;
+			w_contract = "link report contract" ;
 		End
 
 End

@@ -26,10 +26,10 @@
         </rs-link>
       </div>
 
-      <rs-link *ngIf="!rect.value_is_html && rect.link" [link]="rect.link">
-        <table>
+      <rs-link *ngIf="!rect.value_is_html && rect.link" [link]="rect.link" [ngStyle]="applyValueStyle()">
+        <table [ngStyle]="applyDummyTableStyle()">
           <tr>
-            <td [ngStyle]="applyValueStyle()">{{rect.value}}</td>
+            <td [ngStyle]="applyDummyCellStyle()">{{rect.value}}</td>
           </tr>
         </table>
       </rs-link>

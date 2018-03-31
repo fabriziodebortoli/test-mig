@@ -1,6 +1,8 @@
 .link{
     cursor:pointer;
     text-decoration: underline;
+    width: inherit;
+    height: inherit;
 }
 .linkClicked {
     text-decoration: underline;

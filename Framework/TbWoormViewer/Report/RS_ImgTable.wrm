@@ -16,7 +16,7 @@ Properties
 
 PageLayout "default" 
 	Begin
-		Table (46,5) "Table_6" Alias 6  /* Table_6 */ Origin (24,6) Heights (26,18,47,14) 
+		Table (46,5) "Table_6" Alias 6  /* Table_6 */ Origin (24,6) Heights (26,18,26,14) 
 		HideTitle
 		Borders  RowSep 
 			Begin
@@ -25,7 +25,12 @@ PageLayout "default"
 				"Description" Alias 2  /* MA_Items_Description */ Width 121 ;
 				"Description Text" Alias 3  /* MA_Items_DescriptionText */ Width 161 ;
 				"Picture" Alias 5  /* MA_Items_Picture */ Width 123 Bitmap Proportional ;
-				Title Column (1)  BkgColor (255,222,173) ;
+				Title
+					Begin
+						Column (0)  Align 2145 ;
+						Column (1)  BkgColor (255,222,173) ;
+						Column (2)  Align 2150 ;
+					End
 				ColTotal
 					Begin
 						Column (0)  Align 2144 ;
@@ -36,9 +41,12 @@ PageLayout "default"
 
 				Body
 					Begin
-						Cell (0,0,45,0)  Align 2144 ;
+						Cell (0,0)  Align 2146 ;
+						Cell (1,0,45,0)  Align 2144 ;
 						Cell (0,1,45,1)  Align 2149 ;
-						Cell (0,2,45,2)  Align 2122 ;
+						Cell (0,2,1,2)  Align 2122 ;
+						Cell (2,2)  Align 2114 ;
+						Cell (3,2,45,2)  Align 2122 ;
 						Cell (0,4,45,4)  Align 2150 ;
 					End
 

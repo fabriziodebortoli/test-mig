@@ -22,7 +22,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyStyle(): any {
     let rgba = this.utils.hexToRgba(this.rect.bkgcolor);
     rgba.a = this.rect.transparent ? 0 : 1;
-    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
+    let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';    
     let obj = {
       'position': 'absolute',
       'top': this.rect.rect.top + 'px',
@@ -46,9 +46,10 @@ export class ReportFieldrectComponent implements AfterViewInit {
   }
 
   applyValueStyle(): any {
+    let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left + 'px',
-      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',  
+      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
+      'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',  
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -70,6 +71,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'height': 'inherit',
       'width': 'inherit',
       'table-layout': 'fixed',
+      'border-spacing': '0px',
     };
     return obj;
   }
@@ -78,6 +80,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'width': 'inherit',
       'vertical-align': this.rect.vertical_align,
+      'text-align': this.rect.text_align,
       'overflow':'hidden',
     };
     return obj;
@@ -107,7 +110,8 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'width': 'inherit',
       'vertical-align': this.rect.label.vertical_align,
-      'overflow':'hidden',
+      'text-align': this.rect.text_align,
+      'overflow':'hidden',  
     };
     return obj;
   }
@@ -118,6 +122,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'margin-right': this.rect.label.text_align == 'right' ? '0px' : 'auto',
       'height': 'inherit',
       'table-layout': 'fixed',
+      'border-spacing': '0px',
     };
     return obj;
   }
