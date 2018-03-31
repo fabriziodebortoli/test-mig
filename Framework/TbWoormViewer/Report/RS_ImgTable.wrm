@@ -16,25 +16,29 @@ Properties
 
 PageLayout "default" 
 	Begin
-		Table (46,5) "Table_6" Alias 6  /* Table_6 */ Origin (24,6) Heights (26,18,29,14) 
+		Table (46,5) "Table_6" Alias 6  /* Table_6 */ Origin (24,6) Heights (26,18,47,14) 
 		HideTitle
 		Borders  RowSep 
 			Begin
 				"Item" Alias 4  /* MA_Items_Item */ Width 121 ;
 				"Base Price" Alias 1  /* MA_Items_BasePrice */ Width 177 FormatStyle "Money" Total ;
 				"Description" Alias 2  /* MA_Items_Description */ Width 121 ;
-				"Description Text" Alias 3  /* MA_Items_DescriptionText */ Width 79 ;
-				"Picture" Alias 5  /* MA_Items_Picture */ Width 261 Bitmap Proportional ;
+				"Description Text" Alias 3  /* MA_Items_DescriptionText */ Width 161 ;
+				"Picture" Alias 5  /* MA_Items_Picture */ Width 123 Bitmap Proportional ;
 				Title Column (1)  BkgColor (255,222,173) ;
 				ColTotal
 					Begin
-						Column (2)  Align 2154 ;
+						Column (0)  Align 2144 ;
+						Column (1)  Align 2149 ;
+						Column (2)  Align 2122 ;
 						Column (4)  Align 2150 ;
 					End
 
 				Body
 					Begin
-						Cell (0,2,45,2)  Align 2154 ;
+						Cell (0,0,45,0)  Align 2144 ;
+						Cell (0,1,45,1)  Align 2149 ;
+						Cell (0,2,45,2)  Align 2122 ;
 						Cell (0,4,45,4)  Align 2150 ;
 					End
 
@@ -53,9 +57,9 @@ Report
 		Variables
 			Money        MA_Items_BasePrice [23] Alias 1  Column ;
 			String       MA_Items_Description [23] Alias 2  Column ;
-			String       MA_Items_DescriptionText [15] Alias 3  Column ;
+			String       MA_Items_DescriptionText [31] Alias 3  Column ;
 			String       MA_Items_Item [23] Alias 4  Column ;
-			String       MA_Items_Picture [51] Alias 5  Column ;
+			String       MA_Items_Picture [23] Alias 5  Column ;
 			Money        TotMA_Items_BasePrice = Csum (MA_Items_BasePrice ) Alias 7  ColTotal ;
 		End
 

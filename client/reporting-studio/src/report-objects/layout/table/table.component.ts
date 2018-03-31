@@ -204,13 +204,29 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  /*getImageStyle() {
+  getDummyTableStyle(dataItem: any, rowIndex: number, column: column){
+    const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
     let obj = {
-      'max-width': ' 100%',
-      'max-height': '100%'
-    }
+      'text-align': defStyle.text_align,
+      'margin-left': defStyle.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': defStyle.text_align == 'right' ? '0px' : 'auto',
+      'height': 'inherit',
+      'width': 'inherit',
+      'table-layout': 'fixed',
+    };
     return obj;
-  }*/
+  }
+
+  // -----------------------------------------------------
+  getDummyCellStyle(dataItem: any, rowIndex: number, column: column){
+    const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
+    let obj = {
+      'width': 'inherit',
+      'vertical-align': defStyle.vertical_align,
+      'overflow':'hidden',
+    };
+    return obj;
+  }
 
   // -----------------------------------------------------
   public findDefaultStyle(id: string, rowIndex: number): cell {
@@ -229,7 +245,6 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-
  applyImageStyle(dataItem: any, rowIndex: number, column: column): any {
     /* const cellStyle: any = dataItem[column.id];
     let imgIsPortrait;
@@ -289,5 +304,13 @@ export class ReportTableComponent {
   }*/
 
 }
+  // -----------------------------------------------------
+  /*getImageStyle() {
+    let obj = {
+      'max-width': ' 100%',
+      'max-height': '100%'
+    }
+    return obj;
+  }*/
 }
 
