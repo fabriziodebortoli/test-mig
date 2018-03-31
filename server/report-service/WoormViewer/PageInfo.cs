@@ -148,12 +148,19 @@ namespace Microarea.RSWeb.WoormViewer
 				margins.Height = bottom - top;
 			}
 
-			if (ok && lex.LookAhead(Token.PAGE_PRINTER_INFO))
-			{
-				printerPageInfo.Parse(lex);
-			}
-				
-			/*short splitter = 0;
+            if (ok && lex.LookAhead(Token.PAGE_PRINTER_INFO))
+            {
+                printerPageInfo.Parse(lex);
+            }
+            else
+            {
+                printerPageInfo.dmOrientation   = dmOrientation;
+                printerPageInfo.dmPaperLength   = dmPaperLength;
+                printerPageInfo.dmPaperSize     = dmPaperSize;
+                printerPageInfo.dmPaperWidth    = dmPaperWidth;
+            }
+
+            /*short splitter = 0;
 			if (ok && lex.LookAhead(Token.PAGE_HSPLITTER))
 			{	
 				lex.SkipToken();
@@ -179,7 +186,7 @@ namespace Microarea.RSWeb.WoormViewer
 				ok = ok && lex.ParseClose();
 			}*/
 
-			return ok;
+            return ok;
 		}
 
 		//--------------------------------------------------------------------------
@@ -232,15 +239,17 @@ namespace Microarea.RSWeb.WoormViewer
 
             s += '{';
 
-            int l = this.printerPageInfo.dmPaperLength / 10 ;
-            int w = this.printerPageInfo.dmPaperWidth / 10 ;
+            //int l = this.printerPageInfo.dmPaperLength / 10 ;
+            //int w = this.printerPageInfo.dmPaperWidth / 10 ;
+            int l = this.dmPaperLength / 10;
+            int w = this.dmPaperWidth / 10;
 
-            if (dmOrientation == PageInfo.DM_ORIENTATION)
-            {
-                int t = l;
-                l = w;
-                w = t;
-            }
+            //if (dmOrientation == PageInfo.DM_ORIENTATION)
+            //{
+            //    int t = l;
+            //    l = w;
+            //    w = t;
+            //}
             if (invert)
             {
                 int t = l;
@@ -251,7 +260,7 @@ namespace Microarea.RSWeb.WoormViewer
             s += l.ToJson("length") + ',';
             s += w.ToJson("width") + ',';
 
-            s += this.Margins.ToJson("margins");
+            s += this.Margins.ToJson("margin");
                        
             s += '}';
 
@@ -271,11 +280,11 @@ namespace Microarea.RSWeb.WoormViewer
     public class PrinterPageInfo
 	{
 		bool  UseCloningPrint	= true;
+
 		public short dmOrientation		= PageInfo.DMORIENT_PORTRAIT;
-		public short dmPaperSize = PageInfo.DMPAPER_A4;
-		public short dmPaperLength = 2100;		//	A4_WIDTH	in decimi di millimetro
-		public short dmPaperWidth = 2970;		// 	A4_HEIGHT	in decimi di millimetro
-	
+		public short dmPaperSize        = PageInfo.DMPAPER_A4;
+		public short dmPaperLength      = 2100;		//	A4_WIDTH	in decimi di millimetro
+		public short dmPaperWidth       = 2970;		// 	A4_HEIGHT	in decimi di millimetro
 	
 		//--------------------------------------------------------------------------
 		public bool Parse(Parser lex)
@@ -287,12 +296,14 @@ namespace Microarea.RSWeb.WoormViewer
 
 			bool ok = 
 				lex.ParseOpen	() &&
+
 				lex.ParseShort	(out dmOrientation)		&& lex.ParseComma() &&
 				lex.ParseShort	(out dmPaperSize)		&& lex.ParseComma() &&
 				lex.ParseShort	(out dmPaperWidth)		&& lex.ParseComma() &&
 				lex.ParseShort	(out dmPaperLength)		&& lex.ParseComma() &&
 			
 				lex.ParseBool	(out UseCloningPrint)	&&
+
 				lex.ParseClose	();
 
 			return ok;
@@ -303,11 +314,15 @@ namespace Microarea.RSWeb.WoormViewer
 		{
 			unparser.WriteTag(Token.PAGE_PRINTER_INFO, false);
 			unparser.WriteOpen(false);
+            //TODO orientation
 			unparser.Write(1, false); unparser.WriteComma(false);
+            //----
 			unparser.Write(dmPaperSize, false); unparser.WriteComma(false);
 			unparser.Write(dmPaperWidth, false); unparser.WriteComma(false);
 			unparser.Write(dmPaperLength, false); unparser.WriteComma(false);
+
 			unparser.Write(UseCloningPrint, false);
+
 			unparser.WriteClose();
 		}
 

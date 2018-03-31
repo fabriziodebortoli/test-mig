@@ -372,9 +372,11 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       'height': (layout.pageinfo.length) + 'mm',
       'background-color': 'white',
       'border': '1px solid #ccc',
-      'margin': '5px auto',
+      'margin-left': (layout.pageinfo.margin.left) + 'px',
+      'margin-top': (layout.pageinfo.margin.top) + 'px',
       'position': 'relative',
     }
+
     if (this.rsExportService.pdfState == PdfType.NOPDF || this.rsExportService.svgState == SvgType.NOSVG || this.rsExportService.pngState == PngType.NOPNG) {
       this.layoutBackStyle = {
         'width': '100%',
