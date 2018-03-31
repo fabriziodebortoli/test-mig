@@ -12,28 +12,19 @@ namespace Microarea.Common.Applications
     [Serializable]
     public class BorderPen
 	{
-        public Color Color;
+        public Color Color = Color.Black;
 		public int Width = 1;
 
 		//------------------------------------------------------------------------------
 		public BorderPen()
 		{
-			Color = Color.FromArgb(255, 0, 0, 0);
-            Width = 1;
 		}
 
 		//------------------------------------------------------------------------------
-		public BorderPen(Color aColor)
+		public BorderPen(Color aColor, int w = 1)
 		{
 			Color = aColor;
-			Width = 1;
-		}
-
-		//------------------------------------------------------------------------------
-		public BorderPen(int aWidth, Color aColor)
-		{
-			Width = aWidth;
-			Color = aColor;
+			Width = w;
 		}
 
         //------------------------------------------------------------------------------

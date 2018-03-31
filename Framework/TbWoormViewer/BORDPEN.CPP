@@ -162,8 +162,6 @@ void Borders::Update(CString sB)
 //==============================================================================
 //------------------------------------------------------------------------------
 TableBorders::TableBorders()
-	: 
-	m_pRowSepPen(NULL)
 {
 	Init(TRUE);
 
@@ -174,8 +172,6 @@ TableBorders::TableBorders()
 
 //------------------------------------------------------------------------------
 TableBorders::TableBorders(BOOL bEnabled)
-	: 
-	m_pRowSepPen(NULL)
 {
 	Init(bEnabled);
 
@@ -186,8 +182,6 @@ TableBorders::TableBorders(BOOL bEnabled)
 
 //------------------------------------------------------------------------------
 TableBorders::TableBorders (const TableBorders& source)
-	: 
-	m_pRowSepPen(NULL)
 {
 	*this = source;
 }
@@ -225,8 +219,20 @@ BOOL TableBorders::operator == (const TableBorders& source) const
 
 			(m_pRowSepPen && source.m_pRowSepPen ?
 				*m_pRowSepPen == *source.m_pRowSepPen :
-				m_pRowSepPen == source.m_pRowSepPen)			
-		);
+				m_pRowSepPen == source.m_pRowSepPen)	&&	
+	
+			(m_pInterlinePen && source.m_pInterlinePen ?
+				*m_pInterlinePen == *source.m_pInterlinePen :
+				m_pInterlinePen == source.m_pInterlinePen) &&
+
+			(m_pColumnSepPen && source.m_pColumnSepPen ?
+			*m_pColumnSepPen == *source.m_pColumnSepPen :
+			m_pColumnSepPen == source.m_pColumnSepPen) &&
+
+			(m_pColumnTitleSepPen && source.m_pColumnTitleSepPen ?
+				*m_pColumnTitleSepPen == *source.m_pColumnTitleSepPen :
+				m_pColumnTitleSepPen == source.m_pColumnTitleSepPen)
+			);
 }
 
 //------------------------------------------------------------------------------
@@ -266,7 +272,19 @@ TableBorders& TableBorders::operator = (const TableBorders& source)
 
 	SAFE_DELETE(m_pRowSepPen);
 	if (source.m_pRowSepPen)
-		m_pRowSepPen			= new BorderPen(*source.m_pRowSepPen);
+		m_pRowSepPen = new BorderPen(*source.m_pRowSepPen);
+
+	SAFE_DELETE(m_pInterlinePen);
+	if (source.m_pInterlinePen)
+		m_pInterlinePen = new BorderPen(*source.m_pInterlinePen);
+
+	SAFE_DELETE(m_pColumnSepPen);
+	if (source.m_pColumnSepPen)
+		m_pColumnSepPen = new BorderPen(*source.m_pColumnSepPen);
+
+	SAFE_DELETE(m_pColumnTitleSepPen);
+	if (source.m_pColumnTitleSepPen)
+		m_pColumnTitleSepPen = new BorderPen(*source.m_pColumnTitleSepPen);
 
 	return *this;
 }
@@ -429,24 +447,60 @@ BOOL TableBorders::ParseBorder(ViewParser& lex, BOOL blk)
 			case T_NO_CTL   : ok = lex.SkipToken(); m_bColumnTitleLeft     = FALSE;    break;
 			case T_NO_CTR   : ok = lex.SkipToken(); m_bColumnTitleRight    = FALSE;    break;
 
-			case T_NO_CTS   : ok = lex.SkipToken(); m_bColumnTitleSeparator= FALSE;    break;
-			case T_NO_CSE   : ok = lex.SkipToken(); m_bColumnSeparator     = FALSE;    break;
-			case T_ROWSEP   : 
-				{
-					ok = lex.SkipToken(); 
-					if (lex.Matched(T_DYNAMIC))
-						m_bRowSeparatorDynamic = TRUE;  
-					else
-						m_bRowSeparator        = TRUE;  
-					
-					if (lex.LookAhead(T_PEN))
-					{
-						m_pRowSepPen = new BorderPen();
-						ok = ok && lex.ParsePen(*m_pRowSepPen);
-					}
+			case T_NO_CTS   : 
+			{
+				lex.SkipToken();
+				m_bColumnTitleSeparator = FALSE;
 
-					break;
+				if (lex.LookAhead(T_PEN))
+				{
+					m_pColumnTitleSepPen = new BorderPen();
+					ok = lex.ParsePen(*m_pColumnTitleSepPen);
+					if (ok && m_pColumnTitleSepPen->m_nWidth > 0)
+						m_bColumnTitleSeparator = TRUE;
 				}
+				break;
+			}
+
+			case T_NO_CSE   : 
+			{
+				lex.SkipToken();
+				m_bColumnSeparator = FALSE;
+
+				if (lex.LookAhead(T_PEN))
+				{
+					m_pColumnSepPen = new BorderPen();
+					ok = lex.ParsePen(*m_pColumnSepPen);
+					if (ok && m_pColumnSepPen->m_nWidth > 0)
+						m_bColumnSeparator = TRUE;
+				}
+				break;
+			}
+
+			case T_ROWSEP   : 
+			{
+				lex.SkipToken(); 
+				if (lex.Matched(T_DYNAMIC))
+					m_bRowSeparatorDynamic = TRUE;  
+				else
+					m_bRowSeparator        = TRUE;  
+					
+				if (lex.LookAhead(T_PEN))
+				{
+					m_pRowSepPen = new BorderPen();
+					ok = lex.ParsePen(*m_pRowSepPen);
+				}
+
+				break;
+			}
+
+			case T_INTERLINE:
+			{
+				lex.SkipToken();
+				m_pInterlinePen = new BorderPen();
+				ok = lex.ParsePen(*m_pInterlinePen);
+				break;
+			}
 
 			case T_NO_BOT   : ok = lex.SkipToken(); m_bBodyTop             = FALSE;    break;
 			case T_NO_BOB   : ok = lex.SkipToken(); m_bBodyBottom          = FALSE;    break;

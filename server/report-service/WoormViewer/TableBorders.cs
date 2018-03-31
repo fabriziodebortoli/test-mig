@@ -16,12 +16,15 @@ namespace Microarea.RSWeb.WoormViewer
         public Borders Body = new Borders();
         public Borders Total = new Borders();
 
-        public bool ColumnTitleSeparator;
-		public bool ColumnSeparator;
+        public bool ColumnTitleSeparator = false;
+        public BorderPen ColumnTitleSepPen = new BorderPen();
+        public bool ColumnSeparator = false;
+        public BorderPen ColumnSepPen = new BorderPen();
 
-		public bool RowSeparator;
-		public bool DynamicRowSeparator;
+		public bool RowSeparator = false;
+		public bool DynamicRowSeparator = false;
 		public BorderPen RowSepPen = new BorderPen();
+        public BorderPen InterlinePen = new BorderPen();
 
         //------------------------------------------------------------------------------
         public TableBorders()
@@ -108,15 +111,21 @@ namespace Microarea.RSWeb.WoormViewer
 				e1.Body.Left == e2.Body.Left &&
 				e1.Body.Right == e2.Body.Right &&
 				e1.Body.Top == e2.Body.Top &&
-				e1.ColumnSeparator == e2.ColumnSeparator &&
 				e1.ColumnTitle.Bottom == e2.ColumnTitle.Bottom &&
 				e1.ColumnTitle.Left == e2.ColumnTitle.Left &&
 				e1.ColumnTitle.Right == e2.ColumnTitle.Right &&
-				e1.ColumnTitleSeparator == e2.ColumnTitleSeparator &&
 				e1.ColumnTitle.Top == e2.ColumnTitle.Top &&
+
+				e1.ColumnSeparator == e2.ColumnSeparator &&
+                e1.ColumnSepPen == e2.ColumnSepPen &&
+				e1.ColumnTitleSeparator == e2.ColumnTitleSeparator &&
+                e1.ColumnTitleSepPen == e2.ColumnTitleSepPen &&
+
 				e1.RowSeparator == e2.RowSeparator &&
 				e1.RowSepPen == e2.RowSepPen &&
-				e1.TableTitle.Bottom == e2.TableTitle.Bottom &&
+                e1.InterlinePen == e2.InterlinePen &&
+
+                e1.TableTitle.Bottom == e2.TableTitle.Bottom &&
 				e1.TableTitle.Left == e2.TableTitle.Left &&
 				e1.TableTitle.Right == e2.TableTitle.Right &&
 				e1.TableTitle.Top == e2.TableTitle.Top &&
@@ -146,10 +155,11 @@ namespace Microarea.RSWeb.WoormViewer
 			if (ColumnTitle.Bottom)		counter++;
 			if (!ColumnTitle.Left)       counter++;
 			if (!ColumnTitle.Right)      counter++;
+
 			if (!ColumnTitleSeparator)  counter++;
+			if (!ColumnSeparator)   counter++;
 
 			if (RowSeparator)       counter++;
-			if (!ColumnSeparator)   counter++;
 
 			if (!Body.Top)       counter++;
 			if (!Body.Left)      counter++;
@@ -174,18 +184,51 @@ namespace Microarea.RSWeb.WoormViewer
 				switch (lex.LookAhead())
 				{
 					case Token.EOF: lex.SetError(WoormViewerStrings.WoormViewerErrorUnexpectedEof); ok = false; break;
+
 					case Token.NO_TTT			: lex.SkipToken(); TableTitle.Top		= false;    break;
 					case Token.NO_TTL			: lex.SkipToken(); TableTitle.Left		= false;    break;
 					case Token.NO_TTR			: lex.SkipToken(); TableTitle.Right		= false;    break;
-					case Token.TITLE_BOTTOM		: lex.SkipToken(); TableTitle.Bottom		= true;		break;
+					case Token.TITLE_BOTTOM		: lex.SkipToken(); TableTitle.Bottom	= true;		break;
+
 					case Token.NO_CTT			: lex.SkipToken(); ColumnTitle.Top		= false;    break;
 					case Token.NO_CTL			: lex.SkipToken(); ColumnTitle.Left		= false;    break;
-					case Token.NO_CTR			: lex.SkipToken(); ColumnTitle.Right		= false;    break;
-					case Token.NO_CTS			: lex.SkipToken(); ColumnTitleSeparator	= false;    break;
+					case Token.NO_CTR			: lex.SkipToken(); ColumnTitle.Right	= false;    break;
 					case Token.COLTITLE_BOTTOM	: lex.SkipToken(); ColumnTitle.Bottom	= true;		break;
+
+					case Token.NO_CTS			: 
+                                            {
+                                                lex.SkipToken();
+                                                ColumnTitleSeparator = false;
+
+                                                if (lex.LookAhead(Token.PEN))
+                                                {
+                                                    ColumnTitleSepPen = new BorderPen();
+                                                    ok = ok && lex.ParsePen(ColumnTitleSepPen);
+                                                    if (ColumnTitleSepPen.Width > 0)
+                                                        ColumnTitleSeparator = true;
+                                                }
+                                                break;
+                                            }
+
+                    case Token.NO_CSE   : 
+                                           { 
+                                                lex.SkipToken(); 
+                                                ColumnSeparator = false; 
+
+                                                if (lex.LookAhead(Token.PEN))
+                                                {
+                                                    ColumnSepPen = new BorderPen();
+                                                    ok = ok && lex.ParsePen(ColumnSepPen);
+                                                    if (ColumnSepPen.Width > 0)
+                                                        ColumnSeparator = true;
+                                                }
+                                                break; 
+                                          }
+
 					case Token.YE_RSE   : 
 										  lex.SkipToken(); 
-										  RowSeparator			= true;     
+										  RowSeparator			= true;   
+  
 										  DynamicRowSeparator = lex.Matched(Token.DYNAMIC);
 
 										  if (lex.LookAhead(Token.PEN))
@@ -194,13 +237,18 @@ namespace Microarea.RSWeb.WoormViewer
 											  ok = ok && lex.ParsePen(RowSepPen);
 										  }
 										  break;
+                    case Token.INTERLINE:
+                                        lex.SkipToken();
+                                        InterlinePen = new BorderPen();
+                                        ok = ok && lex.ParsePen(RowSepPen);
+                                        break;
 
-					case Token.NO_CSE   : lex.SkipToken(); ColumnSeparator		= false;    break;
-					case Token.NO_BOT   : lex.SkipToken(); Body.Top				= false;    break;
+                    case Token.NO_BOT   : lex.SkipToken(); Body.Top				= false;    break;
 					case Token.NO_BOR   : lex.SkipToken(); Body.Right			= false;    break;
-					case Token.NO_BOL   : lex.SkipToken(); Body.Left				= false;    break;
+					case Token.NO_BOL   : lex.SkipToken(); Body.Left			= false;    break;
 					case Token.NO_BOB   : lex.SkipToken(); Body.Bottom			= false;    break;
-					case Token.TOTAL_TOP: lex.SkipToken(); Total.Top				= true;		break;
+
+					case Token.TOTAL_TOP: lex.SkipToken(); Total.Top			= true;		break;
 					case Token.NO_TOR   : lex.SkipToken(); Total.Right			= false;    break;
 					case Token.NO_TOL   : lex.SkipToken(); Total.Left			= false;    break;
 					case Token.NO_TOB   : lex.SkipToken(); Total.Bottom			= false;    break;
@@ -335,7 +383,15 @@ namespace Microarea.RSWeb.WoormViewer
                                 DynamicRowSeparator.ToJson("row_sep_dynamic") + ',' +
                                 RowSepPen.ToJson("row_sep_pen") +
                                 '}';
+            /*
+                    if (this.Borders.ColumnTitleSeparator && this.Borders.ColumnTitleSepPen != null && this.Borders.ColumnTitleSepPen.Width > 0) 
+                    s += this.Borders.ColumnTitleSepPen.ToJson("ColumnTitleSepPen") +  ',';
+                if (this.Borders.ColumnSeparator && this.Borders.ColumnSepPen != null && this.Borders.ColumnSepPen.Width > 0)
+                    s += this.Borders.ColumnSepPen.ToJson("ColumnSepPen") + ',';
+                if (this.Borders.RowSeparator && this.Borders.RowSepPen != null && this.Borders.RowSepPen.Width > 0)
+                    s += this.Borders.RowSepPen.ToJson("RowSepPen") + ',';
 
+             */
             if (bracket)
                 s = '{' + s + '}';
 

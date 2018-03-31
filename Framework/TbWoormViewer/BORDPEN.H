@@ -129,19 +129,18 @@ public:
 	//proprietà ternaria: no, separatore semplice, multiline
 	BOOL	m_bRowSeparator;
 	BOOL	m_bRowSeparatorDynamic;	//separatore fra righe multiline
-	//TODO
-	BorderPen* m_pRowSepPen;
+	
+	//TODO manca editor 
+	BorderPen* m_pRowSepPen = NULL;
+	BorderPen* m_pColumnSepPen = NULL;
+	BorderPen* m_pColumnTitleSepPen = NULL;
+	BorderPen* m_pInterlinePen = NULL;
 
 //TOTAL
 	BOOL	m_bTotalTop;
 	BOOL	m_bTotalBottom;
 	BOOL	m_bTotalLeft;
 	BOOL	m_bTotalRight;
-
-	//TODO
-	//BorderPen* m_pColumnTitleSepPen;
-	//BorderPen* m_pColumnSepPen;
-	//BorderPen* m_pInterlinePen;
 
 protected:
 	int		Changed		() const;
@@ -155,7 +154,9 @@ public:
 	TableBorders ();
 	TableBorders (BOOL bEnable);
 	TableBorders (const TableBorders&);
-	virtual ~TableBorders () { SAFE_DELETE(m_pRowSepPen); }
+	virtual ~TableBorders () 
+			{ SAFE_DELETE(m_pRowSepPen); SAFE_DELETE(m_pInterlinePen); 
+			 SAFE_DELETE(m_pColumnSepPen); SAFE_DELETE(m_pColumnTitleSepPen); }
 
 	void	Init	(BOOL enabled);
 	BOOL	Parse	(ViewParser&);

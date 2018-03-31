@@ -2594,8 +2594,9 @@ namespace Microarea.RSWeb.Objects
                      ) : "")
                     +
 
-               this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
-               this.FiscalEnd.ToJson("fiscal_end") + ',';
+            this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
+            this.FiscalEnd.ToJson("fiscal_end") + ',';
+
             //this.EasyviewColor.ToJson("alternate_color") + ',' +
 
             s += ToJsonColumns(true) + ',';
@@ -5071,7 +5072,6 @@ namespace Microarea.RSWeb.Objects
                         )
                     )
                     rowSeparator = false;
-
             }
 
             return (!lastRow && (rowSeparator || Interlines[cell.AtRowNumber])) || (lastRow && Borders.Body.Bottom);
