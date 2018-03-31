@@ -249,7 +249,10 @@ namespace Microarea.RSWeb.WoormViewer
             }
 
             s += l.ToJson("length") + ',';
-            s += w.ToJson("width");
+            s += w.ToJson("width") + ',';
+
+            s += this.Margins.ToJson("margins");
+                       
             s += '}';
 
             if (bracket)

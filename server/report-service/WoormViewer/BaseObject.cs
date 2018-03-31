@@ -102,7 +102,7 @@ namespace Microarea.RSWeb.Objects
 
                 (this.TooltipExpr != null ? ',' + DynamicTooltip.ToJson("tooltip", false, true) : "") +
 
-                (/*DropShadowHeight != 0*/ true ?
+                (DropShadowHeight > 0 ?
                     ',' + DropShadowHeight.ToJson("shadow_height") +
                     ',' + DropShadowColor.ToJson("shadow_color")
                     : "") +

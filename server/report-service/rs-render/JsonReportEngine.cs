@@ -126,7 +126,6 @@ namespace Microarea.RSWeb.Render
             return info;
         }
 
-
         //---------------------------------------------------------------------
         //chiamata sul change delle askentry di tipo "runatserver"
         public string UpdateJsonAskDialog(List<AskDialogElement> values, string currentDialogName)
@@ -698,7 +697,12 @@ namespace Microarea.RSWeb.Render
             string reportTitle = StateMachine.ReportTitle;
             string file = GetJsonInfo(info);
             file  += "\"pages\":[";
-            
+
+            //se salvo uno snapshot sulla prima pagina, poi non invierebbe mai completi gli eventuali layout successivi
+            List<string> currentList = woorm.LayoutTemplateSendedToClient;  
+            //per inserire nello snapshot i layout completi 1 volta
+            woorm.LayoutTemplateSendedToClient = new List<string>();
+
             for (int i = 1; i <= woorm.RdeReader.TotalPages; i++)
             {
                 woorm.LoadPage(i);
@@ -709,6 +713,8 @@ namespace Microarea.RSWeb.Render
                 file += woorm.ToJson(false);
             }
             file += "]}";
+
+            woorm.LayoutTemplateSendedToClient = currentList;
             return file;//ToJson(null, false, false, false);
         }
 
@@ -729,7 +735,9 @@ namespace Microarea.RSWeb.Render
 
             string customPath = ReportSession.PathFinder.GetCustomReportPathFromWoormFile(woorm.Filename, ReportSession.UserInfo.Company, user);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(woorm.Filename), true);
+
             string pages = GetJsonAllPages(infoSnap);
+
             string path = destinationPath + infoSnap.date_snapshot + "_" + infoSnap.name_snapshot + ".json";
             File.WriteAllText(path, pages);
         }
@@ -757,6 +765,7 @@ namespace Microarea.RSWeb.Render
                 if(firstPage.Length > 0)
                     firstPage = firstPage.Substring(1, firstPage.Length - 1);
                 pageNum = pagesSnapshot.pages.Length / 2;
+
                 Message msg = new Message();
                 msg.message = infoSnap + ',' + firstPage;
                 msg.commandType = MessageBuilder.CommandType.SNAPSHOT;

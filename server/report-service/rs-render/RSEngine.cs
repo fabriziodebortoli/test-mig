@@ -901,12 +901,15 @@ namespace Microarea.RSWeb.Render
        public void ReRun()
        {
             reRun = true;
+
+            Woorm.LayoutTemplateSendedToClient = new List<string>(); //TODO sembrerebbe che il client li butta via al rerun
+
             Report.SymTable.DisplayTables.ResetAllRowsCounter();
+
             Report.Engine.PrepareForReRun();
 
             CurrentState = State.Start;
             Step();
         }
-
     }
  }

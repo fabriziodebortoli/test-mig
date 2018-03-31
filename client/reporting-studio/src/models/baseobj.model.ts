@@ -16,7 +16,7 @@ export class baseobj {
         this.rect = new rect(jsonObj.rect);
         this.transparent = jsonObj.transparent;
         this.tooltip = jsonObj.tooltip ? jsonObj.tooltip : '';
-        this.shadow_height = jsonObj.shadow_height;
-        this.shadow_color = jsonObj.shadow_color;
+        this.shadow_height = jsonObj.shadow_height ? jsonObj.shadow_height : 0;
+        this.shadow_color  = jsonObj.shadow_color ? jsonObj.shadow_color : '#F0F8FF';
     };
 }

@@ -655,47 +655,50 @@ namespace Microarea.RSWeb.WoormViewer
 	/// ================================================================================
 	public class WoormDocument : IDisposable, IWoormDocumentObj
 	{
-		private bool disposed = false;	// Track whether Dispose has been called.
-		private bool loadAsTemplate = false;  //vuol dire che il woormDocument e' caricato come template
-		private bool onlyGraphInfo = false;
+		public  TbReportSession     ReportSession;
+		protected string		uniqueID = "";
+		protected string		sessionID = "";
 		
 		private string pageFilename = string.Empty;
 		private string pageFilenameWithoutExt = string.Empty;
 		
 		private MultiLayout		layouts = null;
 		private PageInfo		pageInfo = new PageInfo();
-
 		private Options			options = new Options();
 		private Properties		properties = new Properties();
+		private ConnectionLinks	connections	= null;
+		protected FontStyles	fontStyles;
+		protected FormatStyles	formatStyles;
+
 		private OSLInfo			oslInfo = new OSLInfo();
 		private string			graphicSection;
 		private bool			noWeb = false;
-		private ConnectionLinks	connections	= null;
 		private string			description = "";
 		private bool			templateError = false;
         public  bool            ForceVerticalAlignLabelRelative = true;
 
 		protected string		filename;
-		protected FontStyles	fontStyles;
-		protected FormatStyles	formatStyles;
 		protected WoormParser	lex;
-		protected string		uniqueID = "";
-		protected string		sessionID = "";
 		protected bool			forLocalizer = false;
 
 		public event EventHandler Disposed;
+
+		private bool disposed = false;	// Track whether Dispose has been called.
+		private bool loadAsTemplate = false;  //vuol dire che il woormDocument e' caricato come template
+		private bool onlyGraphInfo = false;
 
 		// correlati al caricamento di dati dal RdeReader;
 		public	int					CurrentPage = 1;	
 		public	StringCollection	Messages = new StringCollection();
 		public	RdeReader			RdeReader;
 		public	ReleaseChecker		ReleaseChecker;
-		public  TbReportSession     ReportSession;
 		public	INameSpace			Namespace = new NameSpace("");
 		public	WoormTemplate       Template = new WoormTemplate();
 
-		// properties
-		public Layout Objects							{ get { return layouts.Current; } }
+        public  List<string>        LayoutTemplateSendedToClient = new List<string>();
+
+        // properties
+        public Layout Objects							{ get { return layouts.Current; } }
 		public bool ReplaceHiddenWhenExpr				{ get; set; }
 
 		public WoormParser		Lex						{ get { return lex;}}
@@ -1931,7 +1934,9 @@ namespace Microarea.RSWeb.WoormViewer
 
             int pageNo = 1;
             if (this.RdeReader != null)
+            {
                 pageNo = this.RdeReader.CurrentPage;
+            }
             else if (!template)
             {
                 //TODO errore
@@ -1943,13 +1948,33 @@ namespace Microarea.RSWeb.WoormViewer
                 return string.Empty;
             }
 
+            bool fullTemplate = template;
+            if (template)
+            {
+                if (LayoutTemplateSendedToClient.IndexOf(this.Objects.Name) > -1)
+                {
+                    fullTemplate = false;
+                }
+                else
+                {
+                    LayoutTemplateSendedToClient.Add(this.Objects.Name);
+                }
+            }
+            
+            string title = (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"'));
+
              s += '{' +
-                   (template ? "template" : "data").ToJson("type") + ','  +
-                    pageNo.ToJson("page_number") + ',' +
+                    title.ToJson("report_title", false, true) + ','+
+
+                    (template ? "template" : "data").ToJson("type") + ','  +
                     this.Objects.Name.ToJson("layout_name") + ',' +
-                    ("\"report_title\":" ) + (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"')) +','+
-                    (template ? this.pageInfo.ToJson(this.Objects.Invert) + ',' : "") +
-                   this.Objects.ToJson(template, "layout") +
+                    pageNo.ToJson("page_number") + 
+
+                    (fullTemplate ? ',' + this.pageInfo.ToJson(this.Objects.Invert) : "") +
+                   
+                    ((!template || fullTemplate) ? 
+                        ',' + this.Objects.ToJson(template, "layout") :
+                        ',' + (new Layout(null, this.Objects.Name)).ToJson(true, "layout")) +
                  '}';
 
             if (bracket)

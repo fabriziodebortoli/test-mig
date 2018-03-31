@@ -221,14 +221,16 @@ namespace Microarea.RSWeb.WoormViewer
             : base(woorm)
         {
             Name = name;
-
-            AddSpecialLayoutFieldRect(woorm);
-            AddSpecialCurrentPageFieldRect(woorm);
-            AddSpecialLastPageFieldRect(woorm);
-            AddSpecialCurrentCopyFieldRect(woorm);
-            AddSpecialOwnerIDFieldRect(woorm);
-            AddSpecialStatusFieldRect(woorm);
-            AddSpecialPrintOnLetterHeadFieldRect(woorm);
+            if (woorm != null)
+            {
+                AddSpecialLayoutFieldRect(woorm);
+                AddSpecialCurrentPageFieldRect(woorm);
+                AddSpecialLastPageFieldRect(woorm);
+                AddSpecialCurrentCopyFieldRect(woorm);
+                AddSpecialOwnerIDFieldRect(woorm);
+                AddSpecialStatusFieldRect(woorm);
+                AddSpecialPrintOnLetterHeadFieldRect(woorm);
+            }
          }
 
         /// ---------------------------------------------------------------------------------

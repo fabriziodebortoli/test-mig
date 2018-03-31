@@ -134,7 +134,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       return;
     }
 
-    let template = this.FindTemplate(this.reportTemplate.page.layout.name);
+    let template = this.FindTemplate(this.reportTemplate.page.layout_name);
     if (template !== undefined) {
       this.CleanImageSrc(template.templateObjects);
       this.objects = template.templateObjects;
@@ -184,7 +184,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       objects.push(obj);
     }
 
-    this.templates.push(new TemplateItem(this.reportTemplate.page.layout.name, this.reportTemplate, objects));
+    //if (!this.ExistsTemplate(this.reportTemplate.page.layout.name))
+      this.templates.push(new TemplateItem(this.reportTemplate.page.layout_name, this.reportTemplate, objects));
+
     this.objects = objects;
     return;
   }
@@ -204,7 +206,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       let element = this.reportData.page.layout.objects[index];
       try {
         if (element.fieldrect !== undefined) {
-          // let caption = element.fieldrect.label.caption;
+          // FIELDRECT
           id = element.fieldrect.baserect.baseobj.id;
           value = element.fieldrect.value;
           let obj = this.FindObj(id);
@@ -230,10 +232,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           if (element.fieldrect.bkgcolor !== undefined) {
             obj.bkgcolor = element.fieldrect.bkgcolor;
           }
-          //obj.label.caption = caption;
           obj.value = value;
         }
         else if (element.textrect !== undefined) {
+          //TEXTRECT
           id = element.textrect.baserect.baseobj.id;
           let obj = this.FindObj(id);
           if (obj === undefined) {
@@ -254,6 +256,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           }
         }
         else if (element.table !== undefined) {
+          //TABLE
           id = element.table.baseobj.id;
           let obj = this.FindObj(id);
           if (obj === undefined) {
@@ -290,6 +293,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           obj.value = value;
         }
         else if (element.chart !== undefined) {
+          //CHART
           id = element.chart.baserect.baseobj.id;
           let obj = this.FindObj(id);
           if (obj === undefined) {
@@ -311,6 +315,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           }
         }
         else if (element.gauge !== undefined) {
+          //GAUGE
           id = element.gauge.baserect.baseobj.id;
           let obj = this.FindObj(id);
           if (obj === undefined) {
@@ -329,6 +334,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
           }
         }
         else if (element.sqrrect !== undefined) {
+          //SQRRECT
           id = element.sqrrect.baserect.baseobj.id;
           let obj = this.FindObj(id);
           if (obj === undefined) {
@@ -340,6 +346,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         }
       }
       else if (element.graphrect !== undefined) {
+        //GRAPHRECT - image
         id = element.graphrect.baserect.baseobj.id;
         let obj = this.FindObj(id);
         if (obj === undefined) {
@@ -382,7 +389,6 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         'overflow': 'hidden'
       }
     }
-
   }
 
   // -----------------------------------------------
@@ -399,13 +405,22 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   // -----------------------------------------------
-  public FindTemplate(name: string): TemplateItem {
+  public FindTemplate(name: string) : TemplateItem {
     for (let index = 0; index < this.templates.length; index++) {
       if (this.templates[index].templateName === name) {
         return this.templates[index];
       }
     }
     return undefined;
+  }
+
+  public ExistsTemplate(name: string) : boolean {
+    for (let index = 0; index < this.templates.length; index++) {
+      if (this.templates[index].templateName === name) {
+        return true;
+      }
+    }
+    return false;
   }
 
   CleanImageSrc(objects: any[]){
