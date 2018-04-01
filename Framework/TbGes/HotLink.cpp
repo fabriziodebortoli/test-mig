@@ -656,14 +656,23 @@ HotKeyLink::FindResult HotKeyLink::OnFindRecord
 			}
 			else
 			{
-				if (AfxIsRemoteInterface())
-					SetRunningMode(GetRunningMode() | CALL_LINK_FROM_CTRL_WEB);
+				SetAddOnFlyRunning(TRUE);
 
 				// non si sta effettuando la richiesta tramite il control, ma direttamente
 				// da programma e quindi si puo` chiamare la CallLink direttamente
 				//
-				SetAddOnFlyRunning(TRUE);
+				if (AfxIsRemoteInterface())
+				{
+					SetRunningMode(GetRunningMode() | CALL_LINK_FROM_CTRL_WEB);
+
+					// viene abilitato la sola "virualizzazione" di questo metoto : il defalt non deve fare nulla
+					m_bDisableDoCallLink = TRUE;
+					DoCallLink(FALSE);
+					m_bDisableDoCallLink = FALSE;
+				}
+
 				CallLink(pDataObj, TRUE);
+
 				SetAddOnFlyRunning(FALSE);
 			}
 		}
