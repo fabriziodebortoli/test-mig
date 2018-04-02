@@ -2756,8 +2756,8 @@ namespace Microarea.RSWeb.WoormEngine
 
 					if (!aField.OwnRule)
 					{
-						lex.SetError(string.Format(WoormEngineStrings.IllegalField, strBuffer));
-						return false;
+						//lex.SetError(string.Format(WoormEngineStrings.IllegalField, strBuffer));
+						//return false;
 					}
 
 					breakList.Add(aField);

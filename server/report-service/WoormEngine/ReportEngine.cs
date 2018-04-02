@@ -985,8 +985,18 @@ namespace Microarea.RSWeb.WoormEngine
                 if (qry == null) 
                     continue;
 
+                //----
                 queryRule.Query = qry;
                 qry.IsQueryRule = true;
+
+                List<Variable> columns = new List<Variable> ();
+                qry.EnumColumns(columns);
+                foreach (Variable v in columns)
+                {
+                    //field = SymbolTable.Find(name) as Field;
+                    if (v is Field)
+                        (v as Field).OwnerRule = queryRule;
+                }
             }
 
             return true;

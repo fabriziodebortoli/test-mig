@@ -492,8 +492,8 @@ namespace Microarea.RSWeb.WoormEngine
 				        	
 			if (!FunctionField.OwnRule)
 			{
-				lex.SetError(string.Format(WoormEngineStrings.IllegalGroupExpression, FunctionField.PublicName));
-				return false;
+				//lex.SetError(string.Format(WoormEngineStrings.IllegalGroupExpression, FunctionField.PublicName));
+				//return false;
 			}
 
 			if (FunctionField.GroupFunction != null)

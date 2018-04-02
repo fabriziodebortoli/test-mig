@@ -219,8 +219,8 @@ namespace Microarea.RSWeb.WoormEngine
 					}
 					if (!field.OwnRule)
 					{
-						lex.SetError(string.Format(WoormEngineStrings .IllegalField, name));
-						return false;
+						//lex.SetError(string.Format(WoormEngineStrings .IllegalField, name));
+						//return false;
 					}
 				}
 			}
