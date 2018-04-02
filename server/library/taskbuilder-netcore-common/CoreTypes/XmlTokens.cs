@@ -210,7 +210,7 @@ namespace Microarea.Common.CoreTypes
 			public const string SpaceLine	= "SpaceLine";
 			public const string Interline	= "Interline";
             public const string TitleLine   = "TitleLine";
-            public const string CustomTitleLine = "CustomTitle";
+            public const string SubTitleLine = "SubTitleLine";
 
             public const string NewPage		= "NewPage";
 			public const string Message		= "Message";

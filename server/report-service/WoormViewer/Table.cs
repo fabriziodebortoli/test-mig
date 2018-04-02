@@ -65,10 +65,11 @@ namespace Microarea.RSWeb.Objects
         //------------------------------------------------------------------------------
         public Cell(Cell source)
         {
-            this.Value = source.Value;
+            this.Value = new WoormValue(source.Value);
             this.RectCell = source.RectCell;
             this.AtRowNumber = source.AtRowNumber;  //== m_nCurrRow?
             this.column = source.column;
+            this.SubTotal = source.SubTotal;
         }
 
         //------------------------------------------------------------------------------
@@ -420,40 +421,78 @@ namespace Microarea.RSWeb.Objects
                             :
                             this.FormattedDataForWrite.ToJson("value", false, true)
                         );
+
             //BORDERS
-            if (column.Table.HasDynamicHiddenColumns() || column.Table.HasDynamicBorders() || column.Table.Borders.DynamicRowSeparator)
+            if (
+                    column.Table.HasDynamicHiddenColumns() ||
+                    column.Table.HasDynamicBorders() || 
+                    column.Table.Borders.DynamicRowSeparator ||
+                    column.Table.NeedsUpdateCellStyle
+                )
                 s += ',' + cellBorders.ToJson();
 
+            //TODO RSWEB - ottimizzazione json: inviare attributi grafici celle solo se
+            // la colonna ha subtotali 
+            // e/o subtitle 
+            // e/o la colonna ha espressioni dinamiche 
+
+            //ALIGNENT
+            if (this.SubTotal)
+            {
+                s += ',' + this.column.SubTotal.Align.ToHtml_align();
+            }
+            else
+            {
+                s += ',' + this.Value.Align.ToHtml_align();
+            }
+
             //TEXTCOLOR
-            if (!this.SubTotal && column.TextColorExpr != null)
-                s += ',' + this.DynamicTextColor.ToJson("textcolor");
-            else if (this.SubTotal)
+            if (this.SubTotal)
+            {
                 s += ',' + this.DynamicSubTotalTextColor.ToJson("textcolor");
+            }
+            else
+            {
+                s += ',' + this.DynamicTextColor.ToJson("textcolor");
+            }
 
             //BKGCOLOR
-            if (!this.SubTotal && column.BkgColorExpr != null)
-                s += ',' + this.GetDynamicBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
-            else if (this.SubTotal)
+            if (this.SubTotal)
+            {
                 s += ',' + this.GetDynamicSubTotalBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateSubTotalBkgColor).ToJson("bkgcolor");
+            }
+            else
+            {
+                s += ',' + this.GetDynamicBkgColor(useAlternateColor ? this.column.Table.EasyviewColor : this.TemplateBkgColor).ToJson("bkgcolor");
+            }
 
             //FONT
-            if (!this.SubTotal && column.TextFontStyleExpr != null)
-            {
-                string fontstyle = this.DynamicTextFontStyleName;
-
-                if (!fontstyle.CompareNoCase(this.Value.FontStyleName))
-                {
-                    FontElement fe = column.Table.Document.GetFontElement(fontstyle);
-                    if (fe != null)
-                    {
-                        FontData fontData = new FontData(fe);
-                        s += ',' + fontData.ToJson();
-                    }
-                }
-            }
-            else if (this.SubTotal)
+            if (this.SubTotal)
             {
                 s += ',' + this.column.SubTotal.FontData.ToJson();
+            }
+            else
+            {
+               if (column.TextFontStyleExpr != null)
+               {
+                    string fontstyle = this.DynamicTextFontStyleName;
+
+                    if (!fontstyle.CompareNoCase(this.Value.FontStyleName))
+                    {
+                        FontElement fe = column.Table.Document.GetFontElement(fontstyle);
+                        if (fe != null)
+                        {
+                            FontData fontData = new FontData(fe);
+                            s += ',' + fontData.ToJson();
+                        }
+                        else
+                            s += ',' + this.Value.FontData.ToJson();
+                    }
+                    else 
+                        s += ',' + this.Value.FontData.ToJson();
+                }
+                else 
+                    s += ',' + this.Value.FontData.ToJson();
             }
 
             //TOOLTIP
@@ -2722,7 +2761,7 @@ namespace Microarea.RSWeb.Objects
 
                     Borders borders = new Borders
                                             (
-                                                false,
+                                                row == 0 && this.HideColumnsTitle && this.HideTableTitle,
                                                 firstCol && this.Borders.Body.Left,
                                                 this.HasBottomBorderAtCell(cell),
                                                 (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
@@ -2746,6 +2785,8 @@ namespace Microarea.RSWeb.Objects
 
             return s + "]";
         }
+
+        public bool NeedsUpdateCellStyle = false;
 
         public string ToJsonRowsData()
         {
@@ -2785,7 +2826,7 @@ namespace Microarea.RSWeb.Objects
 
                     Borders borders = new Borders
                                              (
-                                                 false,
+                                                 row == 0 && this.HideColumnsTitle && this.HideTableTitle,
                                                  firstCol && this.Borders.Body.Left,
                                                  this.HasBottomBorderAtCell(cell),
                                                  (!lastCol && this.Borders.ColumnSeparator) || (lastCol && this.Borders.Body.Right)
@@ -2809,7 +2850,8 @@ namespace Microarea.RSWeb.Objects
 
                     if (this.RowWithTitles[row])
                     {
-                         Cell c = new Cell(cell); 
+                        NeedsUpdateCellStyle = true;
+                        Cell c = new Cell(cell); 
 
                         c.Value.FormattedData   = column.DynamicTitleLocalizedText;
 
@@ -2822,6 +2864,7 @@ namespace Microarea.RSWeb.Objects
                     }
                     else if (!this.RowWithCustomTitle[row].IsNullOrEmpty())
                     {
+                        NeedsUpdateCellStyle = true;
                         Cell c = new Cell(cell);
 
                         c.Value.FormattedData   = this.RowWithCustomTitle[row];

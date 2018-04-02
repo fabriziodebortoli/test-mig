@@ -1884,7 +1884,7 @@ namespace Microarea.RSWeb.WoormEngine
 	{
 		private RdeWriter.Command		rdeCommand = RdeWriter.Command.NextLine;
 		private DisplayTable			displayTable = null;   // property of RepSymTable
-        private Expression              customTitle = null;
+        private Expression              subTitleExpr = null;
         //---------------------------------------------------------------------------
         public DisplayTableAction
 			(
@@ -1899,7 +1899,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			this.rdeCommand		= rdeCommand;
 			this.displayTable	= displayTable;
-            this.customTitle    = customTitle;
+            this.subTitleExpr    = customTitle;
         }
 
 		//---------------------------------------------------------------------------
@@ -1916,20 +1916,20 @@ namespace Microarea.RSWeb.WoormEngine
  
             if (rdeCommand == RdeWriter.Command.SubTitleLine)
             {
-                if (this.customTitle == null) 
+                if (this.subTitleExpr == null) 
                     return true;
 
-                Value ret = customTitle.Eval();
+                Value subTtitle = subTitleExpr.Eval();
 
-                if (customTitle.Error)
+                if (subTitleExpr.Error)
                 {
-                    engine.SetError(customTitle.Diagnostic, WoormEngineStrings.EvalEventExpression);
+                    engine.SetError(subTitleExpr.Diagnostic, WoormEngineStrings.EvalEventExpression);
                     return false;
                 }
 
                 displayTable.DataDisplayed = true;
 
-                return displayTable.WriteLine(engine, rdeCommand, ret.Data);
+                return displayTable.WriteLine(engine, rdeCommand, subTtitle.Data);
             }
 
             if (rdeCommand == RdeWriter.Command.TitleLine)

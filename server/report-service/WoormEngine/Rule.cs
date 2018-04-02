@@ -877,6 +877,7 @@ namespace Microarea.RSWeb.WoormEngine
             }
             catch (Exception e)
             {
+                Engine.SetError(e.Message);
                 //tbConnection.Close(); tbConnection = null;
                 return CultureInfo.InvariantCulture;
             }
