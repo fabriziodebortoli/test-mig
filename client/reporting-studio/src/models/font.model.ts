@@ -9,9 +9,9 @@ export class font {
     constructor(jsonObj: any) {
         this.face = jsonObj.face;
         this.size = jsonObj.size;
-        this.italic = jsonObj.italic;
-        this.bold = jsonObj.bold;
-        this.underline = jsonObj.underline;
-        this.fontcolor =  jsonObj.fontcolor;
+        this.italic = jsonObj.italic ? jsonObj.italic : false;
+        this.bold = jsonObj.bold ? jsonObj.bold : false;
+        this.underline = jsonObj.underline ? jsonObj.underline : false;
+        this.fontcolor =  jsonObj.fontcolor ? jsonObj.fontcolor : "#000000";
     }
 }

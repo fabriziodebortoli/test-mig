@@ -598,7 +598,7 @@ namespace Microarea.Common.Lexan
 			keywords.Add("Time"					,Token.TIME);
 			keywords.Add("Title"				,Token.TITLE);
             keywords.Add("TitleLine"            ,Token.TITLELINE);
-            keywords.Add("CustomTitleLine"      ,Token.CUSTOM_TITLELINE);
+            keywords.Add("SubTitleLine"         ,Token.SUBTITLELINE);
             keywords.Add("TitleBottom"			,Token.TITLE_BOTTOM);
 			keywords.Add("Then"					,Token.THEN);
 			keywords.Add("Top"					,Token.TOP);
@@ -1189,7 +1189,7 @@ namespace Microarea.Common.Lexan
 		TIME,
 		TITLE,
 		TITLE_BOTTOM,
-        TITLELINE, CUSTOM_TITLELINE,
+        TITLELINE, SUBTITLELINE,
         THEN,
 		TOP,
 		TOTAL,

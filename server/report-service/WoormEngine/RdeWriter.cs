@@ -20,7 +20,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
 			// DisplayTable
 			NextLine,
-			TitleLine, CustomTitleLine,
+			TitleLine, SubTitleLine,
             Interline,
 
 			// RectField

@@ -367,6 +367,7 @@ namespace Microarea.RSWeb.Objects
                 return s;
             }
         }
+
         //---------------------------------------------------------------------
         public string ToJsonTemplate(Borders borders, bool useAlternateColor)
         {
@@ -404,7 +405,6 @@ namespace Microarea.RSWeb.Objects
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
             //VALUE
-
             this.Value.FormattedData = string.Empty;
             if (this.Value.RDEData != null)
             {
@@ -413,7 +413,6 @@ namespace Microarea.RSWeb.Objects
                     formatStyleName = "string";
 
                 this.Value.FormattedData = column.Table.Document.FormatFromSoapData(formatStyleName, this.column.InternalID, this.Value.RDEData);
-
             }
 
             s += (this.SubTotal ?
@@ -469,7 +468,28 @@ namespace Microarea.RSWeb.Objects
             s += "}}";
             return s;
         }
+
+        public string ToJsonDataTitle(Borders cellBorders)
+        {
+             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
+
+             s += this.FormattedDataForWrite.ToJson("value", false, true);
+ 
+            s += ',' + cellBorders.ToJson();
+
+            s += ',' + this.TemplateTextColor.ToJson("textcolor");
+            
+            s += ',' + this.TemplateBkgColor.ToJson("bkgcolor");
+ 
+            s += ',' + this.Value.FontData.ToJson();
+
+            s += ',' + this.CellAlign.ToHtml_align();
+
+            s += "}}";
+            return s;
+        }
     }
+
     /// <summary>
     /// SubTotalCell : 
     /// servono solo gli stili dei font e gli align. da sostituire a quelli della cella
@@ -938,11 +958,16 @@ namespace Microarea.RSWeb.Objects
                             this.Title.FontData.ToJson() +
                     '}';
 
-            s += ',' + this.IsHtml.ToJson("value_is_html") +
-                 ',' + this.ShowAsBitmap.ToJson("value_is_image") +
-                 ',' + this.ShowAsBarCode.ToJson("value_is_barcode") +
-                 (this.ShowAsBarCode ? "," + this.BarCode.ToJson() : "") +
-                 ( this.ShowAsBitmap ? "," + this.ImgFitMode.ToJson("fit_mode") : "") ;
+            if (this.IsHtml)
+                s += ',' + this.IsHtml.ToJson("value_is_html");
+
+            if (this.ShowAsBitmap)
+                s += ',' + this.ShowAsBitmap.ToJson("value_is_image") +
+                     ',' + ((int)this.ImgFitMode).ToJson("fit_mode");
+
+            if (this.ShowAsBarCode)
+                s += ',' + this.ShowAsBarCode.ToJson("value_is_barcode") +
+                     ',' + this.BarCode.ToJson();
 
             s += '}';
 
@@ -2735,6 +2760,13 @@ namespace Microarea.RSWeb.Objects
             {
                 string r = "[";
 
+                if (this.RowWithTitles[row] || !this.RowWithCustomTitle[row].IsNullOrEmpty())
+                {
+                    Document.SynchronizeSymbolTable();
+                }
+                else
+                    Document.SynchronizeSymbolTable(row);
+
                 bool firstCol = true;
                 for (int col = 0; col <= lastColumn; col++)
                 {
@@ -2777,26 +2809,30 @@ namespace Microarea.RSWeb.Objects
 
                     if (this.RowWithTitles[row])
                     {
-                        Cell c = new Cell(cell);
-                            c.Value.BkgColor        = column.DynamicTitleBkgColor;
-                            c.Value.TextColor       = column.DynamicTitleTextColor;
-                            c.Value.FormattedData   = column.DynamicTitleLocalizedText;
-                            c.Value.FontData        = column.Title.FontData;
-                            c.Value.Align           = column.Title.Align;
+                         Cell c = new Cell(cell); 
 
-                        r += c.ToJsonData(borders, false);
+                        c.Value.FormattedData   = column.DynamicTitleLocalizedText;
+
+                        c.Value.BkgColor        = column.DynamicTitleBkgColor;
+                        c.Value.TextColor       = column.DynamicTitleTextColor;
+                        c.Value.FontData        = column.Title.FontData;
+                        c.Value.Align           = column.Title.Align;
+
+                        r += c.ToJsonDataTitle(borders);
                     }
                     else if (!this.RowWithCustomTitle[row].IsNullOrEmpty())
                     {
                         Cell c = new Cell(cell);
+
+                        c.Value.FormattedData   = this.RowWithCustomTitle[row];
+
                         c.Value.BkgColor        = this.SubTitleCustom.BkgColor;
                         c.Value.TextColor       = this.SubTitleCustom.TextColor;
-                        c.Value.FormattedData   = this.RowWithCustomTitle[row];
                         c.Value.FontData        = this.SubTitleCustom.FontData;
                         c.Value.Align           = this.SubTitleCustom.Align;
 
-                        r += c.ToJsonData(borders, false);
-                    }
+                        r += c.ToJsonDataTitle(borders);
+                   }
                     else
                         r += cell.ToJsonData(borders, UseColorEasyview(row));
 
@@ -3273,7 +3309,8 @@ namespace Microarea.RSWeb.Objects
                         break;
 
                     case Token.END:
-                        if (blk) return ok;
+                        if (blk) 
+                            return ok;
                         lex.SetError(WoormViewerStrings.UnexpectedEnd);
                         return false;
 
@@ -3328,6 +3365,7 @@ namespace Microarea.RSWeb.Objects
         private bool ParseSubTotalTitleOption(WoormParser lex, bool blk)
         {
             bool ok = true;
+            SubTitleCustom = new BasicTextColored(this.Document);
             do
             {
                 switch (lex.LookAhead())
@@ -3381,7 +3419,7 @@ namespace Microarea.RSWeb.Objects
 
                     case Token.END:
                         if (blk)
-                            break;
+                            return ok;
 
                         lex.SetError(WoormViewerStrings.UnexpectedEnd);
                         return false;

@@ -370,6 +370,7 @@ namespace Microarea.RSWeb.WoormViewer
             return true;
         }
        //------------------------------------------------------------------------------
+        /*
         public string ToJson(string name = "tableborders", bool bracket = false)
         {
             string s = name.ToJson() + ":{" +
@@ -383,7 +384,7 @@ namespace Microarea.RSWeb.WoormViewer
                                 DynamicRowSeparator.ToJson("row_sep_dynamic") + ',' +
                                 RowSepPen.ToJson("row_sep_pen") +
                                 '}';
-            /*
+            / *
                     if (this.Borders.ColumnTitleSeparator && this.Borders.ColumnTitleSepPen != null && this.Borders.ColumnTitleSepPen.Width > 0) 
                     s += this.Borders.ColumnTitleSepPen.ToJson("ColumnTitleSepPen") +  ',';
                 if (this.Borders.ColumnSeparator && this.Borders.ColumnSepPen != null && this.Borders.ColumnSepPen.Width > 0)
@@ -391,11 +392,12 @@ namespace Microarea.RSWeb.WoormViewer
                 if (this.Borders.RowSeparator && this.Borders.RowSepPen != null && this.Borders.RowSepPen.Width > 0)
                     s += this.Borders.RowSepPen.ToJson("RowSepPen") + ',';
 
-             */
+             * /
             if (bracket)
                 s = '{' + s + '}';
 
             return s;
         }
+*/
     }
 }

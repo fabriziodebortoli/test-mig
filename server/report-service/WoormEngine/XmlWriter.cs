@@ -496,7 +496,7 @@ namespace Microarea.RSWeb.WoormEngine
 				{
 					case Command.NextLine:
 					case Command.TitleLine:
-                    case Command.CustomTitleLine:
+                    case Command.SubTitleLine:
                     case Command.Interline:
 					{
                         tableNodes.AddNewRow(tableId);

@@ -596,11 +596,11 @@ namespace Microarea.RSWeb.WoormViewer
             if (t != null)
                 t.RowWithTitles[t.CurrentRow++] = true;
         }
-        public void CustomTitleLine(XmlReader reader)
+        public void SubTitleLine(XmlReader reader)
         {
             Table t = GetTableRepeater(reader) as Table;
             if (t != null)
-                t.RowWithCustomTitle[t.CurrentRow++] = string.Empty;
+                t.RowWithCustomTitle[t.CurrentRow++] = reader.Value;
         }
 
         //------------------------------------------------------------------------------
@@ -693,7 +693,7 @@ namespace Microarea.RSWeb.WoormViewer
                                 case RdeWriterTokens.Element.SpaceLine: NextLine(reader); break;
                                 case RdeWriterTokens.Element.Interline: Interline(reader); break;
                                 case RdeWriterTokens.Element.TitleLine: TitleLine(reader); break;
-                                case RdeWriterTokens.Element.CustomTitleLine: CustomTitleLine(reader); break;
+                                case RdeWriterTokens.Element.CustomTitleLine: SubTitleLine(reader); break;
 
 
                                 case RdeWriterTokens.Element.NewPage: woorm.NewPage(); break;

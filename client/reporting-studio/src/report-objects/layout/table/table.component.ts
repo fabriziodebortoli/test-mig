@@ -36,6 +36,8 @@ export class ReportTableComponent {
 
   // -----------------------------------------------------
   getTitleStyle(): any {
+    if (!this.table.title)
+      return {};
 
     let rgbaBkgColor = this.utils.hexToRgba(this.table.title.bkgcolor);
     let backgroundColor = 'rgba(' + rgbaBkgColor.r + ',' + rgbaBkgColor.g + ',' +rgbaBkgColor.b + ',' + 1 + ')';
@@ -89,7 +91,9 @@ export class ReportTableComponent {
   getColumnHeaderStyle(column: column): any {
     if (column.hidden)
         return {};
-      let bordersSize = (column.title.borders.bottom ? column.title.pen.width : 0) + 
+    if (!column.title)
+        return {};
+    let bordersSize = (column.title.borders.bottom ? column.title.pen.width : 0) + 
       (column.title.borders.top ? column.title.pen.width : 0);
     let obj = {
       'text-decoration': column.title.font.underline ? 'underline' : 'none',
@@ -111,6 +115,8 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getColumnHeaderFont(column: column): any {
     if (column.hidden)
+        return {};
+    if (!column.title)
         return {};
     let obj = {
       'font-family': column.title.font.face,

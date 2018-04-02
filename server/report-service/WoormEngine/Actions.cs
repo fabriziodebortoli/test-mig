@@ -427,7 +427,7 @@ namespace Microarea.RSWeb.WoormEngine
 		private ActionObj ParseDisplayTableAction(Parser lex, RdeWriter.Command aCmd)
 		{
             Expression customTitle = null;
-            if (aCmd == RdeWriter.Command.CustomTitleLine)
+            if (aCmd == RdeWriter.Command.SubTitleLine)
             {
                 customTitle = new Expression(engine.Session, GetSymTable().Fields);
                 bool ok = customTitle.Compile(lex, CheckResultType.Match, "String");
@@ -435,7 +435,7 @@ namespace Microarea.RSWeb.WoormEngine
                 {
                    return null;
                 }               
-                aCmd = RdeWriter.Command.CustomTitleLine;
+                aCmd = RdeWriter.Command.SubTitleLine;
             }
             else if (aCmd == RdeWriter.Command.TitleLine)
             {
@@ -468,7 +468,7 @@ namespace Microarea.RSWeb.WoormEngine
 				action == Token.SPACELINE			|| 
 				action == Token.NEXTLINE			||
                 action == Token.TITLELINE           ||
-                action == Token.CUSTOM_TITLELINE    ||
+                action == Token.SUBTITLELINE    ||
                 action == Token.ASK					||
 				action == Token.ABORT				||
 				action == Token.MESSAGE;
@@ -552,9 +552,9 @@ namespace Microarea.RSWeb.WoormEngine
 				case Token.INTERLINE    : { lex.SkipToken(); return ParseDisplayTableAction(lex, RdeWriter.Command.Interline); }
                 //TODO RSWEB
                 case Token.TITLELINE    : { lex.SkipToken(); return ParseDisplayTableAction(lex, RdeWriter.Command.TitleLine); }
-                case Token.CUSTOM_TITLELINE: { lex.SkipToken(); return ParseDisplayTableAction(lex, RdeWriter.Command.CustomTitleLine); }
+                case Token.SUBTITLELINE: { lex.SkipToken(); return ParseDisplayTableAction(lex, RdeWriter.Command.SubTitleLine); }
 
-                case Token.SPACELINE    :   //sinonimo
+                case Token.SPACELINE    :   //sinonimo - TODO dovrebbe essere doppia NEXTLINE
 				case Token.NEXTLINE     : { lex.SkipToken(); return ParseDisplayTableAction(lex, RdeWriter.Command.NextLine); }
 
 				case Token.CALL :
@@ -1914,7 +1914,7 @@ namespace Microarea.RSWeb.WoormEngine
 					return true;
 			}
  
-            if (rdeCommand == RdeWriter.Command.CustomTitleLine)
+            if (rdeCommand == RdeWriter.Command.SubTitleLine)
             {
                 if (this.customTitle == null) 
                     return true;
@@ -1949,8 +1949,8 @@ namespace Microarea.RSWeb.WoormEngine
 				case RdeWriter.Command.TitleLine:
 					unparser.WriteTag(Token.TITLELINE, false);
 					break;
-                case RdeWriter.Command.CustomTitleLine:
-                    unparser.WriteTag(Token.CUSTOM_TITLELINE, false);
+                case RdeWriter.Command.SubTitleLine:
+                    unparser.WriteTag(Token.SUBTITLELINE, false);
                     //TODO manca espressione
                     break;
                 case RdeWriter.Command.Interline:
