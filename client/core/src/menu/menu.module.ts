@@ -8,6 +8,7 @@ import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
 import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
+import { LogoutComponent } from './components/logout/logout.component';
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
 import { SearchComponent } from './components/menu/search/search.component';
 import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -24,6 +25,7 @@ import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tile
 
 export { LoginComponent } from './components/login/login.component';
 export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
+export { LogoutComponent } from './components/logout/logout.component';
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
 export { SearchComponent } from './components/menu/search/search.component';
 export { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
@@ -70,6 +72,7 @@ const NG_MODULES = [
     declarations: [
         LoginComponent,
         ApplicationSelectorComponent,
+        LogoutComponent,
         FavoritesComponent,
         MostUsedComponent,
         GroupSelectorComponent,
@@ -87,6 +90,7 @@ const NG_MODULES = [
     exports: [
         LoginComponent,
         ApplicationSelectorComponent,
+        LogoutComponent,
         FavoritesComponent,
         MostUsedComponent,
         GroupSelectorComponent,
@@ -101,5 +105,5 @@ const NG_MODULES = [
     ],
     providers: [TB_MENU_SERVICES]
 })
-export class TbMenuModule {}
+export class TbMenuModule { }
 
