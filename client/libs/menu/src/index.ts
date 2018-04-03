@@ -70,6 +70,12 @@ const TB_MENU_COMPONENTS = [
   HiddenTilesComponent
 ];
 
+/**
+ * Modulo Settings
+ */
+import { TbSettingsModule } from './settings/settings.module';
+export * from './settings/settings.module';
+
 const NG_MODULES = [
   CommonModule,
   ReactiveFormsModule,
@@ -81,7 +87,8 @@ const NG_MODULES = [
     NG_MODULES,
     CoreMenu,
     TbIconsModule,
-    TbSharedModule
+    TbSharedModule,
+    TbSettingsModule
   ],
   declarations: [
     TB_MENU_COMPONENTS,
@@ -89,7 +96,8 @@ const NG_MODULES = [
   ],
   exports: [
     TB_MENU_COMPONENTS,
-    TB_HOME_COMPONENTS
+    TB_HOME_COMPONENTS,
+    TbSettingsModule
   ],
   // providers: [MenuService]
 })

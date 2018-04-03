@@ -12,8 +12,10 @@ import {
   ComponentInfoService, TbComponent, MessageDialogComponent, ComponentInfo, SidenavService, TaskBuilderService,
   ComponentService, LayoutService, TabberService, MenuService, SettingsService, EnumsService, FormattersService,
   InfoService, LoadingService, ThemeService, EventManagerService, ActivationService, AuthService, TbComponentService,
-  Logger, MessageDlgArgs, SettingsContainerComponent
+  Logger, MessageDlgArgs
 } from '@taskbuilder/core';
+
+import { SettingsContainerComponent } from './../../settings/settings-container/settings-container.component';
 
 @Component({
   selector: 'tb-home',

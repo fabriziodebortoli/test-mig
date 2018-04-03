@@ -1,15 +1,8 @@
-import { ChangePasswordComponent } from './../../shared/components/change-password/change-password.component';
-import { ComponentService } from '../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef, ViewChild } from '@angular/core';
 
-import { DocumentComponent } from './../../shared/components/document.component';
-import { DataService } from './../../core/services/data.service';
-import { EventDataService } from './../../core/services/eventdata.service';
+import { DataService, EventDataService, DocumentComponent, InfoService, HttpMenuService, ComponentService } from '@taskbuilder/core';
 
 import { SettingsPageService } from '../settings-page.service';
-import { InfoService } from './../../core/services/info.service';
-
-import { HttpMenuService } from '../../menu/services/http-menu.service';
 
 @Component({
   selector: 'tb-settings-container',
@@ -42,19 +35,19 @@ export class SettingsContainerComponent extends DocumentComponent implements OnI
 
   goToSite() {
     let subs = this.httpMenuService.goToSite().subscribe((result) => {
-        subs.unsubscribe();
-        window.open(result.url, "_blank");
-
-    });
-}
-
-activateViaSMS() {
-  let subs = this.httpMenuService.activateViaSMS().subscribe((result) => {
       subs.unsubscribe();
       window.open(result.url, "_blank");
-  });
 
-}
+    });
+  }
+
+  activateViaSMS() {
+    let subs = this.httpMenuService.activateViaSMS().subscribe((result) => {
+      subs.unsubscribe();
+      window.open(result.url, "_blank");
+    });
+
+  }
 
 
 

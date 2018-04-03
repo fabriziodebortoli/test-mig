@@ -8,8 +8,7 @@ import { ThemeChangerComponent } from './theme-changer/theme-changer.component';
 import { SettingsContainerComponent, SettingsContainerFactoryComponent } from './settings-container/settings-container.component';
 export * from './settings-container/settings-container.component';
 
-import { TbSharedModule } from './../shared/shared.module';
-import { TbMenuModule } from './../menu/menu.module';
+import { TbSharedModule, TbMenuModule } from '@taskbuilder/core';
 import { TbIconsModule } from '@taskbuilder/icons';
 
 @NgModule({

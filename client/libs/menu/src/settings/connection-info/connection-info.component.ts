@@ -1,8 +1,6 @@
-import { TbComponent } from './../../shared/components/tb.component';
-import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { TbComponentService } from './../../core/services/tbcomponent.service';
-import { InfoService } from './../../core/services/info.service';
+
+import { TbComponent, HttpMenuService, InfoService, TbComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-connection-info',
@@ -14,6 +12,7 @@ export class ConnectionInfoComponent extends TbComponent implements OnInit, OnDe
   public connectionInfos: any;
 
   private subscriptions = [];
+
   constructor(
     public httpMenuService: HttpMenuService,
     public infoService: InfoService,
@@ -22,7 +21,6 @@ export class ConnectionInfoComponent extends TbComponent implements OnInit, OnDe
   ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
-
   }
 
   ngOnInit() {

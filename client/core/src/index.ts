@@ -19,16 +19,9 @@ export * from './shared/shared.module';
 import { TbMenuModule } from './menu/menu.module';
 export * from './menu/menu.module';
 
-/**
- * Modulo Settings
- */
-import { TbSettingsModule } from './settings/settings.module';
-export * from './settings/settings.module';
-
 const TB_MODULES = [
   TbSharedModule,
-  TbMenuModule,
-  TbSettingsModule
+  TbMenuModule
 ];
 
 @NgModule({
