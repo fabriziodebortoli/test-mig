@@ -22,7 +22,7 @@
     "typings": "taskbuilder-esp.d.ts",
     "peerDependencies": {
         "@taskbuilder/core": "file:../../core/src",
-        "@taskbuilder/icons": "file:../../icons/src",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@angular/core": "^5.0.0",
         "@angular/forms": "^5.0.0",
         "@angular/http": "^5.0.0",

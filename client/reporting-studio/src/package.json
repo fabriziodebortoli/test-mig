@@ -23,7 +23,7 @@
         "@angular/forms": "^5.2.0",
         "@angular/common": "^5.2.0",
         "@taskbuilder/core": "file:../../core/src",
-        "@taskbuilder/icons": "file:../../icons/src",
+        "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@progress/kendo-angular-buttons": "^3.0.2",
         "@progress/kendo-angular-charts": "^2.0.0",
         "@progress/kendo-angular-dateinputs": "^2.0.1",
