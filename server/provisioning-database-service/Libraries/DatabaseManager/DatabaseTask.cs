@@ -95,11 +95,15 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			FILEGROWTH = {8} {9} {10})
 			COLLATE {11}";
 
+		// comando per la creazione del database versione compatta
+		public const string CreateSQLDbCompact = "CREATE DATABASE [{0}] COLLATE {1}";
+
 		public const string CustomMaxSizeDb = ", MAXSIZE = {0}"; // se richiesto va al posto di {4} e/o {8}
 		public const string CustomSizeDb = ", SIZE = {0}"; // se richiesto va al posto di {5} e/o {10}
 
 		// creazione database Azure SQL Database
 		public const string CreateAzureDb = "CREATE DATABASE [{0}] COLLATE {1}	(EDITION = N'{2}', SERVICE_OBJECTIVE = N'{3}', MAXSIZE = {4})";
+		public const string CreateAzureDbCompact = "CREATE DATABASE [{0}] COLLATE {1}";
 
 		// impostazione truncate log file
 		public const string SetTruncateLogFileSimple = "ALTER DATABASE [{0}] SET RECOVERY SIMPLE";
@@ -312,8 +316,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 						DateTime start = DateTime.Now;
 						Debug.WriteLine(string.Format("MPLOG - Start SQL Server database {0} creation: ", createParameters.DatabaseName) + start.ToString("hh:mm:ss.fff"));
+
 						createDbCommand.ExecuteNonQuery();
 						DateTime end = DateTime.Now;
+
 						Debug.WriteLine("MPLOG - End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
 						TimeSpan ts = end - start;
 						Debug.WriteLine("MPLOG - SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
@@ -357,6 +363,77 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
 				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
 				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.Create");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
+				success = false;
+			}
+
+			DatabaseTaskEventArgs args = new DatabaseTaskEventArgs();
+			args.Result = success;
+			args.DatabaseTaskDiagnostic = diagnostic;
+			OperationCompleted?.Invoke(this, args);
+
+			return success;
+		}
+
+		/// <summary>
+		/// Impostando solo il nome del database, questo viene creato con i parametri di default
+		/// ma senza leggerli 
+		/// </summary>
+		//---------------------------------------------------------------------
+		// Esempio sintassi Transact-SQL:
+		// CREATE DATABASE [MioDb] COLLATE Latin1_General_CI_AS
+		//---------------------------------------------------------------------
+		public bool CreateSQLDatabaseCompact(string databaseName)
+		{
+			bool success = false;
+
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return success;
+			}
+
+			try
+			{
+				using (TBConnection myConnection = new TBConnection(CurrentStringConnection, DBMSType.SQLSERVER))
+				{
+					myConnection.Open();
+
+					using (TBCommand createDbCommand = new TBCommand(myConnection))
+					{
+						createDbCommand.CommandTimeout = 500;
+
+						createDbCommand.CommandText = string.Format
+							(
+							DatabaseTaskConsts.CreateSQLDbCompact,		// sintassi base della CREATE DATABASE
+							databaseName,								// nome del database
+							NameSolverDatabaseStrings.SQLLatinCollation // imposto la COLLATION di database con Latin1...
+							);
+
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("MPLOG - Start SQL Server database {0} creation: ", databaseName) + start.ToString("hh:mm:ss.fff"));
+
+						createDbCommand.ExecuteNonQuery();
+
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("MPLOG - End SQL Server database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("MPLOG - SQL Server database creation - total seconds: " + ts.TotalSeconds.ToString());
+					}
+					
+					success = true;
+				}
+			}
+			catch (TBException e)
+			{
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.CreateSQLDatabaseCompact");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
@@ -452,6 +529,75 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
 				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
 				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.CreateAzureDatabase");
+				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
+				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
+				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);
+				extendedInfo.Add(DatabaseManagerStrings.Procedure, e.Procedure);
+				diagnostic.Set(DiagnosticType.Error, e.Message, extendedInfo);
+				result = false;
+			}
+
+			DatabaseTaskEventArgs args = new DatabaseTaskEventArgs();
+			args.Result = result;
+			args.DatabaseTaskDiagnostic = diagnostic;
+			OperationCompleted?.Invoke(this, args);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Create database template for Azure SQL Database and Azure SQL Data Warehouse Database
+		/// </summary>
+		//---------------------------------------------------------------------
+		// CREATE DATABASE <Database_Name> COLLATE <collation_Name> 
+		//---------------------------------------------------------------------
+		public bool CreateAzureDatabaseCompact(string databaseName)
+		{
+			bool result = false;
+
+			if (string.IsNullOrWhiteSpace(CurrentStringConnection))
+			{
+				diagnostic.Set(DiagnosticType.Error, DatabaseManagerStrings.ErrConnectStringEmpty);
+				return result;
+			}
+
+			try
+			{
+				using (TBConnection myConnection = new TBConnection(CurrentStringConnection, DBMSType.SQLSERVER))
+				{
+					myConnection.Open();
+
+					using (TBCommand createDbCommand = new TBCommand(myConnection))
+					{
+						createDbCommand.CommandTimeout = 500;
+
+						createDbCommand.CommandText = string.Format
+							(
+							DatabaseTaskConsts.CreateAzureDbCompact,    // sintassi base della CREATE DATABASE per Azure
+							databaseName,								// nome del database
+							NameSolverDatabaseStrings.SQLLatinCollation	// imposto la COLLATION di database con Latin1...
+							);
+
+						DateTime start = DateTime.Now;
+						Debug.WriteLine(string.Format("MPLOG - Start Azure database {0} creation: ", databaseName) + start.ToString("hh:mm:ss.fff"));
+
+						createDbCommand.ExecuteNonQuery();
+
+						DateTime end = DateTime.Now;
+						Debug.WriteLine("MPLOG - End Azure database creation: " + end.ToString("hh:mm:ss.fff"));
+						TimeSpan ts = end - start;
+						Debug.WriteLine("MPLOG - Azure database creation - total seconds: " + ts.TotalSeconds.ToString());
+					}
+
+					result = true;
+				}
+			}
+			catch (TBException e)
+			{
+				ExtendedInfo extendedInfo = new ExtendedInfo();
+				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
+				extendedInfo.Add(DatabaseManagerStrings.Library, "Microarea.TaskBuilderNet.Data.DatabaseLayer");
+				extendedInfo.Add(DatabaseManagerStrings.Function, "DatabaseTask.CreateAzureDatabaseCompact");
 				extendedInfo.Add(DatabaseManagerStrings.Source, e.Source);
 				extendedInfo.Add(DatabaseManagerStrings.StackTrace, e.StackTrace);
 				extendedInfo.Add(DatabaseManagerStrings.Number, e.Number);

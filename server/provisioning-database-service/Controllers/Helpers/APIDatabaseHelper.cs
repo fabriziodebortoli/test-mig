@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using TaskBuilderNetCore.Interfaces;
 
@@ -47,7 +48,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			dTask.CurrentStringConnection = connectionString;
 
 			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			// se sono riuscita a connettermi allora
 			// vado a controllare che se l'edizione di SQL sia compatibile con il provider prescelto
@@ -103,10 +104,10 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			if (dTask.Diagnostic.Error)
 			{
 				opRes.Result = false;
-				opRes.Message = dTask.Diagnostic.ToJson(true);
+				opRes.Message = dTask.Diagnostic.GetErrorsStrings();
 			}
 			else
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			return opRes;
 		}
@@ -152,10 +153,20 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				return opRes;
 			}
 
-			if (!existERPDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+			if (existERPDb)
+			{
+				// il db e' azure segnalo un errore bloccante
+				if (extSubDatabase.DB == DB.sqlazure)
+				{
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+					opRes.Result = false;
+					opRes.Code = -1;
+				}
+				else
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+			}
 			else
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
 
 			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
 			if (dTask.Diagnostic.Error)
@@ -168,10 +179,20 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				return opRes;
 			}
 
-			if (!existDMSDb)
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+			if (existDMSDb)
+			{
+				// il db e' azure segnalo un errore bloccante
+				if (extSubDatabase.DB == DB.sqlazure)
+				{
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.ErrorDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DBServer) });
+					opRes.Result = false;
+					opRes.Code = -1;
+				}
+				else
+					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+			}
 			else
-				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
 			//
 
 			// check informazioni database (Unicode - Collation)
@@ -188,6 +209,9 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				}
 				else
 				{
+					// qui devo controllare la compatibilita' delle collation con 
+					// vedi vecchio metodo CompatibilitySQLDatabaseCulture
+
 					if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
 					{
 						if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
@@ -219,7 +243,6 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			if (dTask.Diagnostic.Error)
 			{
 				opRes.Result = false;
-				//opRes.Message = dTask.Diagnostic.ToJson(true);
 				msgList.Add(new OperationResult() { Message = dTask.Diagnostic.GetErrorsStrings() });
 				opRes.Code = -1;
 			}
@@ -247,7 +270,10 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 						// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
 						// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
 						if (err == 916)
-							opRes.Result = true;
+						{
+							opRes.Result = opRes.Result && true;
+							msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+						}
 						else
 						{
 							if (err == 18456)
@@ -304,7 +330,10 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 							// se errorNr == 916 si tratta di mancanza di privilegi per la connessione 
 							// ma la coppia utente/password e' corretta (altrimenti il nr di errore ritornato sarebbe 18456)
 							if (errorNr == 916)
-								opRes.Result = true;
+							{
+								opRes.Result = opRes.Result && true;
+								msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningLoginAlreadyExists, extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBServer) });
+							}
 							else
 							{
 								if (errorNr == 18456)
@@ -418,7 +447,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = connectionString };
 			opRes.Result = dTask.DeleteDatabaseObjects();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			return opRes;
 		}
@@ -517,12 +546,12 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			DatabaseTask dTask = new DatabaseTask(isAzureDB);
 			opRes.Result = dTask.DeleteDatabase(deleteContent);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 			return opRes;
 		}
 
 		//---------------------------------------------------------------------
-		public static OperationResult CheckDatabases(ExtendedSubscriptionDatabase subDatabase)
+		public static OperationResult CheckAndCreateDatabases(ExtendedSubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -544,7 +573,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			// operazione forse superflua se il TestConnection viene fatto a monte dall'interfaccia angular
 			opRes.Result = dTask.TryToConnect();
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();//dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;
@@ -570,15 +599,11 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				else
 				{
 					// impostazione parametri creazione contenitore db su SqlServer
-					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-					sqlParam.DatabaseName = subDatabase.Database.DBName;
-
 					// I create ERP database
-					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
+					opRes.Result = dTask.CreateSQLDatabaseCompact(subDatabase.Database.DBName);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings(); // dTask.Diagnostic.ToJson(true);
-
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 				if (!opRes.Result)
 					return opRes;
 			}
@@ -600,15 +625,11 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				else
 				{
 					// impostazione parametri creazione contenitore db su SqlServer
-					SQLCreateDBParameters sqlParam = new SQLCreateDBParameters();
-					sqlParam.DatabaseName = subDatabase.Database.DMSDBName;
-
 					// I create DMS database
-					opRes.Result = dTask.CreateSQLDatabase(sqlParam);
+					opRes.Result = dTask.CreateSQLDatabaseCompact(subDatabase.Database.DMSDBName);
 				}
 
-				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();// dTask.Diagnostic.ToJson(true);
-
+				opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 				if (!opRes.Result)
 					return opRes;
 			}
@@ -653,14 +674,17 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			}
 
 			subDatabase.Database.IsUnicode = erpDBInfo.UseUnicode;
-			subDatabase.Database.DatabaseCulture = "1040"; //todo : lcid della collation
+
+			CultureInfo ci = new CultureInfo(subDatabase.Collation);
+
+			subDatabase.Database.DatabaseCulture = ci.LCID.ToString(); //todo : lcid della collation
 			opRes.Result = true;
 
 			return opRes;
 		}
 
 		//---------------------------------------------------------------------
-		public static OperationResult CheckLogin(ExtendedSubscriptionDatabase subDatabase, bool isDMS = false)
+		public static OperationResult CheckAndCreateLogin(ExtendedSubscriptionDatabase subDatabase, bool isDMS = false)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -699,7 +723,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			if (dTask.Diagnostic.Error)
 			{
 				opRes.Result = false;
-				opRes.Message = dTask.Diagnostic.ToJson(true);
+				opRes.Message = dTask.Diagnostic.GetErrorsStrings();
 				return opRes;
 			}
 
@@ -712,7 +736,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 					opRes.Result = dTask.CreateUser(dbowner, dbName);
 
 				if (!opRes.Result)
-					opRes.Message = dTask.Diagnostic.ToJson(true);
+					opRes.Message = dTask.Diagnostic.GetErrorsStrings();
 
 				return opRes;
 			}
@@ -727,7 +751,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				dTask.CurrentStringConnection = string.Format(isAzureDB ? NameSolverDatabaseStrings.SQLAzureConnection : NameSolverDatabaseStrings.SQLConnection, serverName, dbName, dbowner, password);
 				opRes.Result = dTask.TryToConnect();
 				if (!opRes.Result)
-					opRes.Message = dTask.Diagnostic.ToJson(true);
+					opRes.Message = dTask.Diagnostic.GetErrorsStrings();
 			}
 
 			return opRes;
@@ -849,7 +873,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------------
 		private static void AddConfiguration(PathFinder pf, string appName, string modName, ref List<string> configList, string configType, string iso)
 		{
-			string standardDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
+			string standardDir = string.Compare(configType, NameSolverStrings.Default, StringComparison.InvariantCultureIgnoreCase) == 0
 				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
 				: pf.GetStandardDataManagerSamplePath(appName, modName, iso);
 
@@ -936,7 +960,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			// creo la login dbowner
 			opRes.Result = dTask.CreateLogin(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBPassword);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;
@@ -953,7 +977,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			// I create ERP database
 			opRes.Result = dTask.CreateAzureDatabase(param); //dTask.CreateSQLDatabase(sqlParam); 
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;
@@ -963,21 +987,21 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			sqlParam.DatabaseName = extSubDatabase.Database.DMSDBName;
 
 			opRes.Result = dTask.CreateAzureDatabase(param); //dTask.CreateSQLDatabase(sqlParam); 
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;
 
 			// associo la login appena creata al database di ERP con il ruolo di db_owner
 			opRes.Result = dTask.CreateUser(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DBName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;
 
 			// associo la login appena creata al database DMS con il ruolo di db_owner
 			opRes.Result = dTask.CreateUser(extSubDatabase.Database.DBOwner, extSubDatabase.Database.DMSDBName);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.ToJson(true);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dTask.Diagnostic.GetErrorsStrings();
 
 			if (!opRes.Result)
 				return opRes;

@@ -493,6 +493,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					DmsConnection = new TBConnection(connectDmsDB, DBMSType.SQLSERVER);
 					DmsConnection.Open();
 				}
+
+				Int32.TryParse(subDatabase.DatabaseCulture, out databaseCulture);
 			}
 			catch (TBException e)
 			{

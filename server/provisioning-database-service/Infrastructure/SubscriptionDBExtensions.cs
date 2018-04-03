@@ -3,15 +3,22 @@
 namespace Microarea.ProvisioningDatabase.Infrastructure
 {
 	/// <summary>
-	/// Classe utilizzata per passare al back-end l'oggetto SubscriptionDatabase e 
-	/// le credenziali di amministrazione al server
+	/// Classe passata dal provisioning back-end contenente le informazioni
+	/// dell'oggetto SubscriptionDatabase e le credenziali di amministrazione al server
+ 	/// piu' le informazioni aggiuntive specificate al momento della sottoscrizione 
+	/// della subscription: country, collation, tipo DB di appoggio
 	/// </summary>
 	//================================================================================
 	public class ExtendedSubscriptionDatabase
 	{
 		public DatabaseCredentials AdminCredentials;
 		public SubscriptionDatabase Database;
+		public string Country = string.Empty;
+		public string Collation = string.Empty;
+		public DB DB = DB.unknown;
 	}
+
+	public enum DB { sqlazure = 0, onpremises = 1, othercloud = 2, privatecloud = 3, unknown = 4, };
 
 	/// <summary>
 	/// Classe con le informazioni lette dalla tabella TB_DBMark, per controllare che 

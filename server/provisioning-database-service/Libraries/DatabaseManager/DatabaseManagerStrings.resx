@@ -697,4 +697,7 @@ Please contact your reseller for further information.</value>
   <data name="WarningLoginAlreadyExists" xml:space="preserve">
     <value>Specified login {0} exists on server {1}, no further operation is needed.</value>
   </data>
+  <data name="ErrorDBAlreadyExists" xml:space="preserve">
+    <value>Database {0} already exists on server {1}, unable to proceed.</value>
+  </data>
 </root>

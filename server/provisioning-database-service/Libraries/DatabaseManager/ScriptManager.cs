@@ -69,14 +69,14 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 					if (connection.IsSqlConnection())
 					{
 						// questa mi serve cmq per passarla alla Regex
-						columnCollation = string.Empty; //CultureHelper.GetWindowsCollation(this.databaseCulture); //@@TODOMICHI
+						columnCollation = CultureHelper.GetWindowsCollation(this.databaseCulture); //@@TODOMICHI
 
 						databaseCollation = TBCheckDatabase.GetDatabaseCollation(connection);
 						if (databaseCollation.Length <= 0)
 							databaseCollation = TBCheckDatabase.GetServerCollation(connection);
 
 						// se la collation non è compatibile con l'LCID allora le considero diverse e la applico
-						differentCollation = false; //!CultureHelper.IsCollationCompatibleWithCulture(this.databaseCulture, databaseCollation); //@@TODOMICHI
+						differentCollation = !CultureHelper.IsCollationCompatibleWithCulture(this.databaseCulture, databaseCollation); //@@TODOMICHI
 
 						// Devo effettuare un ulteriore controllo per evitare di applicare una Collation mista 
 						// e quindi di incappare in errori strani eseguendo gli script
@@ -93,8 +93,8 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							isSupportedLanguageForFullTextSearch = TBCheckDatabase.IsSupportedLanguageForFullTextSearch(connection, this.databaseCulture);
 					}
 
-					if (connection.IsPostgreConnection()) differentCollation = false;
-
+					if (connection.IsPostgreConnection())
+						differentCollation = false;
 				}
 			}
 		}

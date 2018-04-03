@@ -700,6 +700,15 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database {0} already exists on server {1}, unable to proceed..
+        /// </summary>
+        internal static string ErrorDBAlreadyExists {
+            get {
+                return ResourceManager.GetString("ErrorDBAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred deleting objects from database &apos;{0}&apos;..
         /// </summary>
         internal static string ErrorDeletingObjectsFromDB {

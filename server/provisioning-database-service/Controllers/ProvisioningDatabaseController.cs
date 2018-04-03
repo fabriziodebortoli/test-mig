@@ -165,8 +165,8 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			}
 
 			// eseguo i controlli preventivi sui database ERP+DMS (unicode, collation, etc.)
-
-			opRes = APIDatabaseHelper.CheckDatabases(extSubDatabase);
+			// e crea i database
+			opRes = APIDatabaseHelper.CheckAndCreateDatabases(extSubDatabase);
 
 			if (!opRes.Result)
 			{
@@ -175,50 +175,18 @@ namespace Microarea.ProvisioningDatabase.Controllers
 				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 			}
 
-			// check login per erp db
-			opRes = APIDatabaseHelper.CheckLogin(extSubDatabase);
+			// check/create login per erp db
+			opRes = APIDatabaseHelper.CheckAndCreateLogin(extSubDatabase);
 
+			// check/create login per DMS db
 			if (opRes.Result)
-				opRes = APIDatabaseHelper.CheckLogin(extSubDatabase, true);
+				opRes = APIDatabaseHelper.CheckAndCreateLogin(extSubDatabase, true);
 
-            if (!opRes.Result)//@TODO se fallisce la checklogin interrompo perchè potrebbe non aver creato nulla, per esempio se password non rispettano le policy
-            {
+            if (!opRes.Result)
 				opRes.Message = Strings.OperationKO;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-            }
 
-			// se tutto ok allora devo aggiornare i campi nella SubscriptionDatabase
-			// e poi eseguire il check del database 
-			// se e' necessario un aggiornamento devo chiedere prima conferma all'utente
-			/*DatabaseManager dbManager = APIDatabaseHelper.CreateDatabaseManager();
-			opRes.Result = dbManager.ConnectAndCheckDBStructure(extSubDatabase.Database);
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-			if (!opRes.Result)
-			{
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
-
-			dbManager.ImportDefaultData = true;
-			dbManager.ImportSampleData = false;
-			opRes.Result = dbManager.DatabaseManagement(false) && !dbManager.ErrorInRunSqlScript; // passo il parametro cosi' salvo il log
-			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
-
-			if (!opRes.Result)
-			{
-				//re-imposto il flag UnderMaintenance a false
-				opRes = APIDatabaseHelper.SetSubscriptionDBUnderMaintenance(extSubDatabase.Database, burgerData, false);
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}*/
-
-			if (!opRes.Result)
-			{
-				opRes.Message = Strings.OperationKO;
-				jsonHelper.AddPlainObject<OperationResult>(opRes);
-				return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
-			}
+			// DEVO PASSARE NEL CONTENT LA SUBSCRIPTIONDATABASE PERCHE' CONTIENE LA DATABASECULTURE CORRETTA!!!
+			opRes.Content = extSubDatabase;
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
