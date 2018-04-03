@@ -1961,7 +1961,7 @@ namespace Microarea.RSWeb.WoormViewer
                 }
             }
             
-            string title = (!reportTitle.IsNullOrEmpty() ? ('\"' + reportTitle + '\"') : ('\"' + this.Namespace.ToString() + '\"'));
+            string title = (!reportTitle.IsNullOrEmpty() ?  reportTitle : this.Namespace.ToString() );
 
              s += '{' +
                     title.ToJson("report_title", false, true) + ','+
