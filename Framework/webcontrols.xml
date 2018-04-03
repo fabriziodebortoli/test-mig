@@ -97,7 +97,9 @@
   </WebControl>
 
   <!-- tb-section-title -->
-  <WebControl controlClass="LabelStatic" control="tb-section-title"></WebControl>
+  <WebControl controlClass="LabelStatic" control="tb-section-title">
+    <arg name="[linePosition]" value="[linePosition]"></arg>
+  </WebControl>
 
   <!-- tb-label-static -->
   <!--

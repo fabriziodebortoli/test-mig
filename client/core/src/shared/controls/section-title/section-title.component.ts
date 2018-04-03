@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ControlComponent } from './../control.component';
 
@@ -7,4 +7,6 @@ import { ControlComponent } from './../control.component';
   templateUrl: './section-title.component.html',
   styleUrls: ['./section-title.component.scss']
 })
-export class SectionTitleComponent extends ControlComponent {}
+export class SectionTitleComponent extends ControlComponent {
+  @Input() linePosition: boolean = true;
+}
