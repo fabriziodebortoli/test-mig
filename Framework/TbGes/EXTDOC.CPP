@@ -4869,7 +4869,20 @@ BOOL CAbstractFormDoc::SaveModified()
 		DisconnectFromDatabase();
 		break;
 
-	case IDCANCEL: return FALSE;       // don't continue
+	case IDCANCEL:
+	{
+		CView*	pView = GetFirstView();
+		if (pView)
+		{
+			CAbstractFrame* pFrame = dynamic_cast<CAbstractFrame*>(pView->GetParentFrame());
+			if (pFrame)
+			{
+				pFrame->RemoveDestroying();
+			}
+		}
+
+		return FALSE;       // don't continue
+	}
 	case IDNO: break;
 	default: ASSERT(FALSE); break;
 	}

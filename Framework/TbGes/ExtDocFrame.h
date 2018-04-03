@@ -48,8 +48,9 @@ public:		//	Constructor & Destructors
 	virtual ~CAbstractFrame();
 
 public:	
-	const BOOL&				IsDestroying	() { return m_bDestroying; }
-	void					SetDestroying	()		{ m_bDestroying = TRUE;  }
+	const BOOL&				IsDestroying	 ()		 { return m_bDestroying; }
+	void					SetDestroying	 ()		 { m_bDestroying = TRUE;  }
+	void					RemoveDestroying ()		 { m_bDestroying = FALSE; }
 	CDockingPanes*			GetDockPane		()		 { return &m_DockingPanes; }
 	const BOOL&				HasToolbar		() const { return m_bHasToolbar; }
 	const BOOL&				HasStatusBar	() const { return m_bHasStatusBar; }
