@@ -629,6 +629,12 @@ namespace Microarea.TbJson
                             htmlWriter.Write(jObj.GetViewCategory().ToString());
                             htmlWriter.Write(" ");
 
+                            string title = jObj.GetLocalizableString(Constants.text);
+                            if (!string.IsNullOrEmpty(title))
+                            {
+                                htmlWriter.WriteAttribute(Square(Constants.title), title);
+                            }
+
                             WriteActivationAttribute(jObj);
                             w.CloseBeginTag();
 

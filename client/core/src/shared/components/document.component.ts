@@ -15,9 +15,14 @@ import { TbComponent } from "../components/tb.component";
 export class DocumentComponent extends TbComponent implements OnInit {
 
     viewModeType: ViewModeType;
-    public title: string;
+    protected _title ='';
     args: any;//used tu pass initialization arguments to the component
-
+    public set title(val: string) {
+        this._title = val;
+    }
+    public get title(): string {
+        return this._title;
+    }
     constructor(
         public document: DocumentService,
         public eventData: EventDataService,
@@ -29,7 +34,7 @@ export class DocumentComponent extends TbComponent implements OnInit {
 
     ngOnInit() {
         this.viewModeType = this.document.getViewModeType();
-        this.title = this.document.getHeader();
+        this._title = this.document.getHeader();
         super.ngOnInit();
     }
 

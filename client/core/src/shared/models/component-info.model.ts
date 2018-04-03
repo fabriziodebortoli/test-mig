@@ -1,4 +1,6 @@
+import { DocumentComponent } from './../components/document.component';
 import { ComponentFactory } from '@angular/core';
+import { TbComponent } from '../..';
 
 export class ComponentInfo {
     factory: ComponentFactory<any>;//usata per creare dinamicamente il componente
@@ -11,6 +13,6 @@ export class ComponentInfo {
     // document: DocumentService = null;
     document = null;
     tbLoaderDoc = false;//indica se si tratta di un componente che corrisponde ad un documento tbloader
-    title='';//il titolo del componente
     args: any = {};
+    instance: DocumentComponent; 
 }

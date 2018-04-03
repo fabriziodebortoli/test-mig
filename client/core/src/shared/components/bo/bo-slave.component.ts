@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { FrameComponent } from './../../containers/frame/frame.component';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 
 import { BOCommonComponent } from './bo-common.component';
 
@@ -13,6 +14,7 @@ import { BOService } from '../../../core/services/bo.service';
 })
 export class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDestroy {
     protected bo: BOService;
+    @ViewChild(FrameComponent) frame: FrameComponent;
     constructor(
         eventData: EventDataService,
         ciService: ComponentInfoService,
@@ -24,8 +26,17 @@ export class BOSlaveComponent extends BOCommonComponent implements OnInit, OnDes
     ngOnInit() {
         super.ngOnInit();
         this.bo = this.document as BOService;
+        
+    }
+    public get title(): string {
+        if (this.frame && this.frame.title) {
+            this._title = this.frame.title;
         }
-
+        return this._title;
+    }
+    public set title(val: string) {
+        this._title = val;
+    }
     ngOnDestroy() {
         super.ngOnDestroy();
     }

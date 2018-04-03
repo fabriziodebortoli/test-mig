@@ -1,5 +1,5 @@
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Input } from '@angular/core';
 
 import { Subscription } from '../../../rxjs.imports';
 
@@ -13,7 +13,8 @@ export class FrameComponent implements OnInit, OnDestroy {
   public viewHeightSubscription: Subscription;
 
   @HostBinding('style.height') viewHeight: Number;
-
+  @Input() title = "";
+  
   constructor(public layoutService: LayoutService) { }
 
   ngOnInit() {

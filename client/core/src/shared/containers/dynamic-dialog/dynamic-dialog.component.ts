@@ -19,8 +19,16 @@ export class DynamicDialogComponent extends TbComponent implements OnDestroy {
     opened = false;
     componentInfo: ComponentInfo;
     subscriptions = [];
-    public title = "";
 
+    protected _title: string;
+    public set title(val: string) {
+        this._title = val;
+    }
+    public get title(): string {
+        return this.componentInfo && this.componentInfo.instance 
+        ? this.componentInfo.instance.title
+        : this._title;
+    }
     constructor(
         public componentService: ComponentService,
         public webSocketService: WebSocketService,
@@ -33,9 +41,7 @@ export class DynamicDialogComponent extends TbComponent implements OnDestroy {
     open(componentInfo: ComponentInfo) {
         this.componentInfo = componentInfo;
         this.opened = true;
-        this.subscriptions.push(this.componentService.componentInfoCreated.subscribe(arg => {
-            this.title = this.componentInfo.title;
-        }));
+
         this.subscriptions.push(this.webSocketService.windowClose.subscribe(data => {
             if (this.componentInfo && data && data.id && data.id === this.componentInfo.id) {
                 this.opened = false;
@@ -45,7 +51,7 @@ export class DynamicDialogComponent extends TbComponent implements OnDestroy {
             }
         }));
     }
-
+   
     close() {
         this.webSocketService.doClose(this.componentInfo.id);
     }
