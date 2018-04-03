@@ -48,10 +48,7 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   }
 
   getTilegroups() {
-    return this.tilegroups.filter(
-      (currentTab) => {
-        return currentTab.activated;
-      });
+    return this.tilegroups.filter((currentTab) => currentTab.activated);
   }
 
   ngAfterContentInit() {
