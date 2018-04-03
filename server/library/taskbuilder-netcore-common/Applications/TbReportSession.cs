@@ -380,7 +380,7 @@ namespace Microarea.Common.Applications
 
 
         //---------------------------------------------------------------------
-        internal class IsActivateResultMessage
+        internal class IsActivatedResultMessage
         {
             public bool result { get; set; }
         }
@@ -409,7 +409,7 @@ namespace Microarea.Common.Applications
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
-                    IsActivateResultMessage res = JsonConvert.DeserializeObject<IsActivateResultMessage>(stringResponse);
+                    IsActivatedResultMessage res = JsonConvert.DeserializeObject<IsActivatedResultMessage>(stringResponse);
                     session.activationsCache.TryAdd(new Tuple<string, string>(app, fun), res.result);
                     return res.result;
                 }
