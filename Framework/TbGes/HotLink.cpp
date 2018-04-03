@@ -1165,7 +1165,7 @@ void HotKeyLink::CallLink(DataObj* pData /* = NULL */, BOOL bAskForCallLink /* =
 		return;
 	}
 
-	if (bFromCtrl && bAskForCallLink && pOwnerCtrl)
+	if (bFromCtrl && bAskForCallLink && pOwnerCtrl && (GetRunningMode() & CALL_LINK_FROM_CTRL) != 0)
 		pOwnerCtrl->SetCtrlFocus();
 
 	// Se la CallLink e` stata chiamata dal radar, chiamato dal control, allora

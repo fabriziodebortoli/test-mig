@@ -5985,9 +5985,6 @@ BOOL CParsedCtrl::IsFindMode() const
 //-----------------------------------------------------------------------------
 void CParsedCtrl::ModifiedCtrlData()
 {
-	if (!AfxIsRemoteInterface())
-		return;
-
 	CBaseDocument* pDoc = GetDocument();
 	AfxGetBaseApp()->SetOldCtrlData(NULL, NULL);
 	//okkio che qui la faccenda è delicata.
@@ -6010,7 +6007,7 @@ void CParsedCtrl::ModifiedCtrlData()
 		if (HasBeenInvalidated())
 			bOk = FALSE;
 
-		if (bOk)
+		if (bOk && !AfxIsRemoteInterface())
 		{
 			// prima di tutto visualizza il dato
 			SetValue(*m_pData);
@@ -6022,16 +6019,16 @@ void CParsedCtrl::ModifiedCtrlData()
 				if (AfxGetBaseApp()->SetOldCtrlData(m_pData, m_pOldData))
 				{
 					_reset.ValueChanging();
-						GetCtrlParent()->SendMessage(UM_VALUE_CHANGED, GetCtrlID(), (LPARAM)m_pData);
-
+					GetCtrlParent()->SendMessage(UM_VALUE_CHANGED, GetCtrlID(), (LPARAM)m_pData);
 					AfxGetBaseApp()->SetOldCtrlData(m_pData, NULL);
 				}
+
 				bOk = !HasBeenInvalidated();
 			}
 		}
 	}
 
-	if (bOk)
+	if (bOk && !AfxIsRemoteInterface())
 	{
 		// send a control specific message if the value is changed
 		if (AfxGetBaseApp()->SetOldCtrlData(m_pData, m_pOldData))
@@ -6049,6 +6046,7 @@ void CParsedCtrl::ModifiedCtrlData()
 			}
 			AfxGetBaseApp()->SetOldCtrlData(m_pData, NULL);
 		}
+
 		if (!bFindMode)
 			bOk = !HasBeenInvalidated();
 	}
@@ -6058,6 +6056,9 @@ void CParsedCtrl::ModifiedCtrlData()
 		delete m_pOldData;
 		m_pOldData = NULL;
 	}
+
+	if (AfxIsRemoteInterface())
+		return;
 
 	if (!bOk)
 	{
@@ -6218,6 +6219,9 @@ BOOL CParsedCtrl::ShowCtrl(int nCmdShow)
 //-----------------------------------------------------------------------------
 CWnd* CParsedCtrl::SetCtrlFocus(BOOL bSetSel/* = FALSE*/)
 {
+	if (AfxIsRemoteInterface())
+		return NULL;
+
 	ASSERT(m_pOwnerWnd);
 
 	CWnd* pWnd = m_pOwnerWnd->SetFocus();
@@ -6231,6 +6235,9 @@ CWnd* CParsedCtrl::SetCtrlFocus(BOOL bSetSel/* = FALSE*/)
 //-----------------------------------------------------------------------------
 BOOL CParsedCtrl::SetCtrlPos(const CWnd* pWndInsertAfter, int x, int y, int cx, int cy, UINT nFlags)
 {
+	if (AfxIsRemoteInterface())
+		return FALSE;
+
 	ASSERT(m_pOwnerWnd);
 	return m_pOwnerWnd->SetWindowPos(pWndInsertAfter, x, y, cx, cy, nFlags);
 }
@@ -6391,7 +6398,6 @@ CSize CParsedCtrl::AdaptNewSize(UINT nCols, UINT nRows, BOOL /* bButtonsIncluded
 }
 
 //-----------------------------------------------------------------------------
-
 CFont*	CParsedCtrl::GetPreferredFont() const
 {
 	return (
