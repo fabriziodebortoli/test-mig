@@ -52,27 +52,25 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   }
 
   ngAfterContentInit() {
-    this.resetTileManagerTabs();
+    this.resetTileManagerTabs(0);
 
-    this.subscriptions.push(this.tilegroups.changes.subscribe(() => { this.resetTileManagerTabs(); }));
-
-    this.changeTilegroupByIndex(0);
+    this.subscriptions.push(this.tilegroups.changes.subscribe(() => { this.resetTileManagerTabs(this.idxActive); }));
   }
 
-  resetTileManagerTabs() {
+  resetTileManagerTabs(index: number) {
 
     setTimeout(() => {
       let tempGroups = this.getTilegroups();
       let internalTabComponents = [];
       tempGroups.forEach((current) => { internalTabComponents.push(current.tabComponent); });
       this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-      
+      this.changeTilegroupByIndex(index);
     }, 1);
   }
 
   changeTilegroupByIndex(i) {
-    this.idxActive = i;
-    this.kendoTabStripInstance.selectTab(i)
+      this.idxActive = i;
+      this.kendoTabStripInstance.selectTab(i);
   }
 
   getSelectorIcon() {
