@@ -156,24 +156,20 @@ void CTBSocketHandler::OpenNewHyperLink(CJsonParser& json)
 void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments)
 {
 	CBaseDocument* pDoc = NULL;
-	{	//LASCIARE LA GRAFFA, E' LO SCOPE DI SwitchTemporarilyMode tmp
-		//in questa fase non vanno segnalati messaggi con dialog modali
-		SwitchTemporarilyMode tmp(UNATTENDED);
 
-		AfxGetDiagnostic()->StartSession(_TB("Document opening messages"));
-		pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
+	AfxGetDiagnostic()->StartSession(_TB("Document opening messages"));
+	pDoc = AfxGetTbCmdManager()->RunDocument(sNamespace, szDefaultViewMode, FALSE, NULL, NULL);
 
-		if (!pDoc)
+	if (!pDoc)
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		if (pSession)
 		{
-			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-			if (pSession)
-			{
-				pSession->PushRunErrorToClients();
-			}
+			pSession->PushRunErrorToClients();
 		}
-		AfxGetDiagnostic()->EndSession();
-		return;
 	}
+	AfxGetDiagnostic()->EndSession();
+	return;
 	
 	if (!sArguments.IsEmpty())
 	{

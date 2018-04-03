@@ -3747,7 +3747,23 @@ endopen:
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnNewDocument()
 {
-	return CanRunDocument() && CAbstractFormDoc::OnOpenDocument(NULL);
+	UserInteractionMode oldMode;
+	CThreadContext* pThread = NULL;
+	if (AfxIsRemoteInterface())
+	{
+		//in modalità web non devono esserci MessageBox in fase di apertura del documento
+		pThread = AfxGetThreadContext();
+		oldMode = pThread->GetUserInteractionMode();
+		pThread->SetUserInteractionMode(UNATTENDED);
+	
+	}
+	BOOL b = CanRunDocument();
+
+	if (pThread)
+	{
+		pThread->SetUserInteractionMode(oldMode);
+	}
+	return b && CAbstractFormDoc::OnOpenDocument(NULL);
 }
 
 //-----------------------------------------------------------------------------

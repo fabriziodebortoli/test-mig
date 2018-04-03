@@ -755,7 +755,7 @@ void CBaseDocument::SetAssignedCounter (DataObj* pDataObj)
 ///previene l'utilizzo della message box se la messaggistica è disabilitata
 int CBaseDocument::Message(LPCTSTR lpszText, UINT nType /*= MB_OK*/, UINT nIDHelp /*= 0*/, LPCTSTR lpszAdditionalText /*= NULL*/, CMessages::MessageType MsgType /*MSG_ERROR*/)
 {
-	if (IsInUnattendedMode())
+	if (IsInUnattendedMode() && m_pMessages)
 	{
 		m_pMessages->Add(lpszText, MsgType);
 		return NO_MSG_BOX_SHOWN;
