@@ -1,11 +1,8 @@
-import { EasystudioService } from './../../../../core/services/easystudio.service';
-import { SettingsService } from './../../../../core/services/settings.service';
-import { ItemCustomizationsDropdownComponent } from './item-customizations-dropdown/item-customizations-dropdown.component';
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ImageService } from './../../../services/image.service';
-import { UtilsService } from './../../../../core/services/utils.service';
-import { MenuService } from './../../../services/menu.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
+
+import { HttpMenuService, MenuService, UtilsService, SettingsService, EasystudioService, ImageService } from '@taskbuilder/core';
+
+import { ItemCustomizationsDropdownComponent } from './item-customizations-dropdown/item-customizations-dropdown.component';
 
 @Component({
   selector: 'tb-menu-element',
@@ -25,7 +22,7 @@ export class MenuElementComponent {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public settingService: SettingsService,
-    public easystudioService : EasystudioService,
+    public easystudioService: EasystudioService,
     public imageService: ImageService
   ) {
     this.lorem = this.lorem.slice(0, Math.floor((Math.random() * 147) + 55));

@@ -1,19 +1,19 @@
-@import '../../../../style/vars.scss';
-.favorites {
+@import '~@taskbuilder/core/style/vars.scss';
+.most-used {
     margin-bottom: 20px;
 }
 
-ul.favorites-list {
+ul.most-used-list {
     padding: 0;
     margin: 0;
 }
 
-.favorite-item {
+.most-used-item {
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    color: $bkg-light;
     line-height: 30px;
+    color: $bkg-light;
     background-color: $blue;
     transition: background-color 200ms ease-in;
     &:hover {
@@ -44,7 +44,7 @@ ul.favorites-list {
     }
 }
 
-.favorites-empty {
+.most-used-empty {
     font-size: 12px;
     margin: 0;
     padding: 0 11px;

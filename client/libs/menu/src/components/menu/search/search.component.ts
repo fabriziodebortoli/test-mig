@@ -1,11 +1,9 @@
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { MenuService } from './../../../services/menu.service';
-import { TbComponent } from './../../../../shared/components/tb.component';
+import { TbComponent, MenuService, SettingsService, TbComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-search',
@@ -25,7 +23,7 @@ export class SearchComponent extends TbComponent implements OnInit, OnDestroy {
     public settingsService: SettingsService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
 

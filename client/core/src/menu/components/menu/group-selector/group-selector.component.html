@@ -1,9 +1,0 @@
-<div class="groups" *ngIf="menuService != undefined">
-    <ul class="groups-list">
-        <li *ngFor="let group of menuService?.selectedApplication?.Group" (click)=selectGroup(group) [ngClass]="group == menuService.selectedGroup ? 'selected' : ''">
-            <m4-icon [icon]="group?.icon ? group?.icon : 'tb-mago4'" class="group-icon" *ngIf="group?.icon != undefined || group?.image_file == undefined"></m4-icon>
-            <img [src]="imageService.getStaticImage(group)" *ngIf="group?.icon == undefined && group?.image_file != undefined" />
-            <span>{{group?.title}}</span>
-        </li>
-    </ul>
-</div>

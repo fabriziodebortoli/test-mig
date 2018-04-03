@@ -7,38 +7,12 @@ import { TbSharedModule } from './../shared/shared.module';
 import { Logger } from './../core/services/logger.service';
 
 import { LoginComponent } from './components/login/login.component';
-import { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 import { LogoutComponent } from './components/logout/logout.component';
-import { FavoritesComponent } from './components/menu/favorites/favorites.component';
-import { SearchComponent } from './components/menu/search/search.component';
-import { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-import { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
-import { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
-import { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
-import { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
-import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
-import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
-import { MostUsedComponent } from './components/menu/most-used/most-used.component';
-import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
+
 
 export { LoginComponent } from './components/login/login.component';
-export { ApplicationSelectorComponent } from './components/menu/application-selector/application-selector.component';
 export { LogoutComponent } from './components/logout/logout.component';
-export { FavoritesComponent } from './components/menu/favorites/favorites.component';
-export { SearchComponent } from './components/menu/search/search.component';
-export { GroupSelectorComponent } from './components/menu/group-selector/group-selector.component';
-export { MenuComponent } from './components/menu/menu.component';
-export { MenuContainerComponent } from './components/menu/menu-container/menu-container.component';
-export { MenuContentComponent } from './components/menu/menu-content/menu-content.component';
-export { MenuElementComponent } from './components/menu/menu-element/menu-element.component';
-export { ItemCustomizationsDropdownComponent } from './components/menu/menu-element/item-customizations-dropdown/item-customizations-dropdown.component';
-export { MenuStepperComponent } from './components/menu/menu-stepper/menu-stepper.component';
-export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.component';
-export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
-export { MostUsedComponent } from './components/menu/most-used/most-used.component';
-export { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
+
 
 import { MenuService } from './services/menu.service';
 import { HttpMenuService } from './services/http-menu.service';
@@ -71,37 +45,11 @@ const NG_MODULES = [
 
     declarations: [
         LoginComponent,
-        ApplicationSelectorComponent,
-        LogoutComponent,
-        FavoritesComponent,
-        MostUsedComponent,
-        GroupSelectorComponent,
-        MenuContainerComponent,
-        MenuContentComponent,
-        MenuElementComponent,
-        ItemCustomizationsDropdownComponent,
-        MenuStepperComponent,
-        SearchComponent,
-        MenuComponent,
-        MenuTabberComponent,
-        MenuTabComponent,
-        HiddenTilesComponent
+        LogoutComponent
     ],
     exports: [
         LoginComponent,
-        ApplicationSelectorComponent,
-        LogoutComponent,
-        FavoritesComponent,
-        MostUsedComponent,
-        GroupSelectorComponent,
-        MenuContainerComponent,
-        MenuContentComponent,
-        MenuElementComponent,
-        ItemCustomizationsDropdownComponent,
-        MenuStepperComponent,
-        SearchComponent,
-        MenuComponent,
-        HiddenTilesComponent
+        LogoutComponent
     ],
     providers: [TB_MENU_SERVICES]
 })

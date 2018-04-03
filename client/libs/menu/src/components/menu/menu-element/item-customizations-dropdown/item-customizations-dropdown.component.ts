@@ -1,13 +1,11 @@
-import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
-import { TbComponent } from './../../../../../shared/components/tb.component';
-import { CloneDocumentDialogComponent } from './../../../../../shared/components/clone-document-dialog/clone-document-dialog.component';
-import { EsCustomizItem } from './../../../../../shared/models/es-customization-item.model';
-import { EasystudioService } from './../../../../../core/services/easystudio.service';
-import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { EasyStudioContextComponent } from './../../../../../shared/components/easystudio-context/easystudio-context.component';
 import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef, HostListener, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpMenuService } from './../../../../services/http-menu.service';
+
+import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
+
+import { TbComponent, CloneDocumentDialogComponent, EasystudioService, TbComponentService } from '@taskbuilder/core';
+
+import { EsCustomizItem } from '@taskbuilder/core/shared/models/es-customization-item.model';
 
 @Component({
   selector: 'tb-item-customizations-dropdown',

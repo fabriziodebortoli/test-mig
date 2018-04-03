@@ -1,12 +1,5 @@
-import { TbComponent } from './../../../../shared/components/tb.component';
-import { SettingsService } from './../../../../core/services/settings.service';
+import { TbComponent, MenuService, UtilsService, SettingsService, TbComponentService } from '@taskbuilder/core';
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-
-
-import { UtilsService } from './../../../../core/services/utils.service';
-import { ImageService } from './../../../services/image.service';
-import { MenuService } from './../../../services/menu.service';
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
 
 @Component({
   selector: 'tb-hidden-tiles',
@@ -23,11 +16,9 @@ export class HiddenTilesComponent extends TbComponent {
     public settingsService: SettingsService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
   }
 
-  
 }
-

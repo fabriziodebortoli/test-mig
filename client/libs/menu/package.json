@@ -30,6 +30,7 @@
         "url": "https://github.com/Microarea/Taskbuilder/issues"
     },
     "devDependencies": {
+        "@angular/animations": "^5.2.0",
         "@angular/common": "^5.2.0",
         "@angular/compiler": "^5.2.0",
         "@angular/compiler-cli": "^5.2.0",

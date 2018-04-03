@@ -1,8 +1,0 @@
-<div class="application-selector">
-    <ul class="application-list" *ngIf="menuService?.allMenus">
-        <li *ngFor="let application of menuService?.allMenus" (click)="selectApplication(application)" [ngClass]="application == menuService.selectedApplication ? 'selected' : ''">
-            <img [src]="imageService.getApplicationIcon(application)" /><br />
-            <p>{{application.title}}</p>
-        </li>
-    </ul>
-</div>

@@ -77,8 +77,9 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
+                '@angular/animations', '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
+                '@taskbuilder/icons',
+                '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             output: {
@@ -121,8 +122,9 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
-                '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
+                '@angular/animations', '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
+                '@taskbuilder/icons',
+                '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
             output: {
@@ -140,7 +142,10 @@ gulp.task('rollup:umd', function() {
                     '@angular/forms': 'forms',
                     '@angular/router': 'router',
                     '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
-                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component'
+                    '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component',
+                    '@taskbuilder/icons': 'icons',
+                    '@angular/animations': 'animations',
+                    '@progress/kendo-angular-popup': 'kendoAngularPopup'
                 },
 
                 // Format of generated bundle

@@ -1,12 +1,6 @@
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
-import { ImageService } from './../../../services/image.service';
-import { UtilsService } from './../../../../core/services/utils.service';
-import { MenuService } from './../../../services/menu.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
-import { TbComponent } from './../../../../shared/components/tb.component';
+import { TbComponent, HttpMenuService, MenuService, UtilsService, ImageService, SettingsService, TbComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-most-used',

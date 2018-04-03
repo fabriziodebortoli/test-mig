@@ -1,12 +1,6 @@
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { TbComponent } from './../../../../shared/components/tb.component';
-import { EventManagerService } from './../../../../core/services/event-manager.service';
+import { TbComponent, HttpMenuService, MenuService, UtilsService, ImageService, EventManagerService, TbComponentService } from '@taskbuilder/core';
 import { Component, Input, HostBinding, ChangeDetectorRef } from '@angular/core';
 
-import { ImageService } from './../../../services/image.service';
-import { UtilsService } from './../../../../core/services/utils.service';
-import { MenuService } from './../../../services/menu.service';
-import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-menu-content',
@@ -47,12 +41,11 @@ export class MenuContentComponent extends TbComponent {
 
   set tile(tile: any) {
     this._tile = tile;
-    this.objects = this._tile.Object.filter(element => 
-      {
-        let env = element.environment ? element.environment.toLowerCase() : '';
-        let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
-        return show;
-      });
+    this.objects = this._tile.Object.filter(element => {
+      let env = element.environment ? element.environment.toLowerCase() : '';
+      let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
+      return show;
+    });
   }
 
   getPinnedClass(tile) {

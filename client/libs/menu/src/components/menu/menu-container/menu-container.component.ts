@@ -2,15 +2,7 @@ import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, Afte
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from "rxjs/Rx";
 
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
-import { ComponentService } from './../../../../core/services/component.service';
-import { SettingsService } from './../../../../core/services/settings.service';
-import { SidenavService } from './../../../../core/services/sidenav.service';
-import { UtilsService } from './../../../../core/services/utils.service';
-import { ImageService } from './../../../services/image.service';
-import { MenuService } from './../../../services/menu.service';
-
-import { TbComponent } from '../../../../shared/components/tb.component';
+import { TbComponent, MenuService, UtilsService, SettingsService, ImageService, SidenavService, ComponentService, TbComponentService } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-menu-container',
@@ -24,7 +16,6 @@ import { TbComponent } from '../../../../shared/components/tb.component';
     ])
   ]
 })
-
 export class MenuContainerComponent extends TbComponent implements AfterContentInit, OnDestroy {
 
   public subscriptions: Subscription[] = [];
@@ -230,10 +221,10 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
       if (array) {
         for (let i = 0; i < array.length; i++) {
 
-          let element =array[i];
+          let element = array[i];
           let env = element.environment ? element.environment.toLowerCase() : '';
           let show = env == '' || (this.tbComponentService.infoService.isDesktop && env == 'desktop') || (!this.tbComponentService.infoService.isDesktop && env == 'web')
-          if (this.tileIsVisible(element) && !element.hiddenTile && show )
+          if (this.tileIsVisible(element) && !element.hiddenTile && show)
             newArray.push(element);
         }
       }
@@ -247,7 +238,7 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
       return newArray;
     }
 
-}
+  }
 
   //---------------------------------------------------------------------------------------------
   ifTileHasObjects(tile) {

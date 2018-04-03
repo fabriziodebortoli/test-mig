@@ -1,19 +1,13 @@
-import { TbComponent } from './../../../../shared/components/tb.component';
-import { SettingsService } from './../../../../core/services/settings.service';
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
-
-import { UtilsService } from './../../../../core/services/utils.service';
-import { ImageService } from './../../../services/image.service';
-import { MenuService } from './../../../services/menu.service';
-import { TbComponentService } from './../../../../core/services/tbcomponent.service';
+import { MenuService, ImageService, UtilsService, SettingsService, TbComponentService, TbComponent } from '@taskbuilder/core';
 
 @Component({
   selector: 'tb-favorites',
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.scss']
 })
-export class FavoritesComponent extends TbComponent  {
+export class FavoritesComponent extends TbComponent {
 
   @Output() itemSelected: EventEmitter<any> = new EventEmitter();
 
@@ -24,11 +18,10 @@ export class FavoritesComponent extends TbComponent  {
     public settingsService: SettingsService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
   }
-
 
   runFunction(object) {
     this.menuService.runFunction(object);
