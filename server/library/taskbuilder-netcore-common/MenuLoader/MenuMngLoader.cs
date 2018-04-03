@@ -343,12 +343,14 @@ namespace Microarea.Common.MenuLoader
                     using (Stream sw = PathFinder.PathFinderInstance.GetStream(file, false))
                     {
                         CachedMenuInfos infos = ser.Deserialize(sw) as CachedMenuInfos;
+
+                        DateTime cacheUtdDateTime = DateTime.SpecifyKind(infos.CacheDate, DateTimeKind.Utc);
                         //Se rispetto alla struttura salvata non corrispondono le informazioni
                         //richieste, non uso la cache e rigenero tutto dinamicamente						
                         if (infos.CommandsTypeToLoad == commandsTypeToLoad &&
                             infos.ConfigurationHash == configurationHash &&
                             infos.Culture == CultureInfo.CurrentUICulture.Name &&
-                            DateTime.Compare(infos.CacheDate, date) > 0 &&
+                            DateTime.Compare(cacheUtdDateTime, date) > 0 &&
                             infos.InstallationDate == InstallationData.InstallationDate)
                             return true;
 
