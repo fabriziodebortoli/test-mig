@@ -121,6 +121,8 @@ protected:
 	//paging
 	int			m_nPageSize;
 
+private:
+	bool m_bRemoved;
 	
 
 public:

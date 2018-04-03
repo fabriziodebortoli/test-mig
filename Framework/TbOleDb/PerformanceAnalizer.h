@@ -16,15 +16,15 @@ class SqlPerformanceMng;
 
 enum PerformanceType { E_PROC_TYPE, E_DB_TYPE}; 
 
-	#define START_DB_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(START_TIME,  Operation, this); 
-	#define STOP_DB_TIME(Operation)		if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(STOP_TIME,	 Operation, this); 
-	#define PAUSE_DB_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(PAUSE_TIME,  Operation, this); 
-	#define RESUME_DB_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(RESUME_TIME, Operation, this); 
+#define START_DB_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(START_TIME,  Operation, this); 
+#define STOP_DB_TIME(Operation)		{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(STOP_TIME,	 Operation, this); 
+#define PAUSE_DB_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(PAUSE_TIME,  Operation, this); 
+#define RESUME_DB_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeDBTimeOperation(RESUME_TIME, Operation, this); 
 
-	#define START_PROC_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (START_TIME,	Operation);
-	#define STOP_PROC_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (STOP_TIME,	Operation);
-	#define PAUSE_PROC_TIME(Operation)	if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (PAUSE_TIME,  Operation);
-	#define RESUME_PROC_TIME(Operation) if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (RESUME_TIME, Operation);
+#define START_PROC_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (START_TIME,	Operation);
+#define STOP_PROC_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (STOP_TIME,	Operation);
+#define PAUSE_PROC_TIME(Operation)	{}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (PAUSE_TIME,  Operation);
+#define RESUME_PROC_TIME(Operation) {}//if (m_pContext->m_pSqlPerformanceMng) m_pContext->m_pSqlPerformanceMng->MakeProcTimeOperation (RESUME_TIME, Operation);
 
 
 // operazioni standard di comunicazione con il database

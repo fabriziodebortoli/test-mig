@@ -310,6 +310,7 @@ void SqlRowSet::Initialize()
 	m_strErrorFound.Empty();
 	m_eCursorType	= E_FAST_FORWARD_ONLY;
 	m_nPageSize = 0;
+	m_bRemoved = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -394,7 +395,10 @@ void SqlRowSet::Connect()
 	START_DB_TIME(DB_CONNECT_CMD)
 		
 	if (m_pSqlSession)
+	{
 		m_pSqlSession->AddCommand(this);
+		m_bRemoved = false;
+	}
 
 	STOP_DB_TIME(DB_CONNECT_CMD)
 }
@@ -408,8 +412,12 @@ void SqlRowSet::Disconnect()
 
 	if (m_pRowSet && m_pRowSet->IsConnected())
 		m_pRowSet->Disconnect();
-	if (m_pSqlSession)
+	if (!m_bRemoved && m_pSqlSession && AfxIsValidAddress(m_pSqlSession, sizeof(SqlSession)))
+	{
 		m_pSqlSession->RemoveCommand(this);
+		m_bRemoved = true;
+	}
+
 
 	STOP_DB_TIME(DB_DISCONNECT_CMD)
 	
