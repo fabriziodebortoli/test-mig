@@ -318,6 +318,7 @@
     <ClCompile Include="FileSystemManagerWebService.cpp" />
     <ClCompile Include="LockManagerInterface.cpp" />
     <ClCompile Include="LoginManagerInterface.cpp" />
+    <ClCompile Include="InvokeRestFunction.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseDebugInfo|Win32'">Create</PrecompiledHeader>
@@ -335,6 +336,7 @@
   <ItemGroup>
     <ClInclude Include="DataSynchronizerWrapper.h" />
     <ClInclude Include="FileSystemManagerWebService.h" />
+    <ClInclude Include="InvokeRestFunction.h" />
     <ClInclude Include="LockManagerInterface.h" />
     <ClInclude Include="LoginManagerInterface.h" />
     <ClInclude Include="stdafx.h" />

@@ -9,6 +9,7 @@
 
 #include <TbXmlCore\XmlDocObj.h>
 
+#include "InvokeRestFunction.h"
 #include "LoginManagerInterface.h"
 
 //----------------------------------------------------------------------------
@@ -56,6 +57,7 @@ void CLoginManagerInterface::InitFunction(CFunctionDescription& aFunctionDescrip
 BOOL CLoginManagerInterface::InitLogin (const CString&	sAuthenticationToken)
 {
 	if (sAuthenticationToken.IsEmpty())
+
 		return FALSE;
 
 	CLoginInfos& infos = AfxGetLoginContext()->m_LoginInfos;
@@ -90,7 +92,7 @@ BOOL CLoginManagerInterface::InitLogin (const CString&	sAuthenticationToken)
 }
 
 //-----------------------------------------------------------------------------
-CString CLoginManagerInterface::GetIToken()
+CString CLoginManagerInterface::GetIToken() //@@ DA TOGLIERE - usato da IMago
 {
 	CFunctionDescription aFunctionDescription(_T("GetIToken"));
 
@@ -133,7 +135,7 @@ CString	CLoginManagerInterface::GetUserDescriptionById(int loginId)
 }
 
 //----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::IsUserLoggedByName(CString user)
+BOOL CLoginManagerInterface::IsUserLoggedByName(CString user) //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("IsUserLoggedByName"));
 	InitFunction(aFunctionDescription);
@@ -155,7 +157,7 @@ BOOL CLoginManagerInterface::IsUserLoggedByName(CString user)
 
 
 //----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::ValidateUser(CString user, CString password, BOOL ntAuth)
+BOOL CLoginManagerInterface::ValidateUser(CString user, CString password, BOOL ntAuth) //@@ DA TOGLIERE - usato da IMago
 {
 	CFunctionDescription aFunctionDescription(_T("ValidateUser"));
 	InitFunction(aFunctionDescription);
@@ -200,7 +202,7 @@ BOOL CLoginManagerInterface::ValidateUser(CString user, CString password, BOOL n
 }
 
 //----------------------------------------------------------------------------
-void CLoginManagerInterface::EnumCompanies(CString userName, CStringArray& ar)
+void CLoginManagerInterface::EnumCompanies(CString userName, CStringArray& ar)//@@ DA TOGLIERE 
 {
 	CFunctionDescription aFunctionDescription(_T("EnumCompanies"));
 	InitFunction(aFunctionDescription);
@@ -264,7 +266,7 @@ CString	CLoginManagerInterface::GetUserEmailByName(CString login)
 	return dsOut ? dsOut->Str() : _T("");	
 }
 //----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::IsWinNTUser(const CString& loginName)
+BOOL CLoginManagerInterface::IsWinNTUser(const CString& loginName) //@@ DA TOGLIERE
 {
 	if (loginName.IsEmpty())
 	{
@@ -298,22 +300,16 @@ BOOL CLoginManagerInterface::IsWinNTUser(const CString& loginName)
 //----------------------------------------------------------------------------
 BOOL CLoginManagerInterface::GetLoginInformation(const CString&	authenticationToken, CLoginInfos* pLoginInfos)
 {
-	CFunctionDescription aFunctionDescription(_T("GetLoginInformation"));
-	
-	InitFunction(aFunctionDescription);
-	
-	aFunctionDescription.AddStrParam(_T("authenticationToken"), AfxGetAuthenticationToken());
-
-	DataStr 
-		dsUserName, 
+	DataStr
+		dsUserName,
 		dsUserDescription,
-		dsCompanyName, 
+		dsCompanyName,
 		dsDBName,
 		dsDBServer,
-		dsPreferredLanguage, 
+		dsPreferredLanguage,
 		dsApplicationLanguage,
-		dsProviderName, 
-		dsProviderDescription, 
+		dsProviderName,
+		dsProviderDescription,
 		dsProviderCompanyConnectionString,
 		dsNonProviderCompanyConnectionString,
 		dsDBUser,
@@ -321,19 +317,40 @@ BOOL CLoginManagerInterface::GetLoginInformation(const CString&	authenticationTo
 		dsEmail;
 
 	DataInt diLoginId, diCompanyId, diProviderId;
-	
+
 	DataBool
-		dbAdmin, 
+		dbAdmin,
 		ebDeveloper,
-		dbSecurity, 
+		dbSecurity,
 		dbAuditing,
 		dbRowSecurity,
-		dbUseKeyedUpdate, 
+		dbUseKeyedUpdate,
 		dbTransactionUse,
 		dbUseUnicode,
-		dbUseConstParameter, 
+		dbUseConstParameter,
 		dbStripTrailingSpaces,
 		dbDataSynchro;
+
+	/*CRestFunctionDescription aRestDescription(_T("getLoginInformation"));
+	aRestDescription.InitConnectionInfo(_T("POST"), _T("account-manager/"), 5000);
+
+	aRestDescription.AddStrParam(_T("authenticationToken"), authenticationToken);
+	aRestDescription.AddOutParam(_T("userName"), &dsUserName);
+	aRestDescription.AddOutParam(_T("companyName"), &dsCompanyName);
+	aRestDescription.AddOutParam(_T("admin"), &dbAdmin);
+	aRestDescription.AddOutParam(_T("connectionString"), &dsNonProviderCompanyConnectionString);
+	aRestDescription.AddOutParam(_T("providerName"), &dsProviderName);
+	aRestDescription.AddOutParam(_T("useUnicode"), &dbUseUnicode);
+	aRestDescription.AddOutParam(_T("preferredLanguage"), &dsPreferredLanguage);
+	aRestDescription.AddOutParam(_T("applicationLanguage"), &dsApplicationLanguage);
+	if (!aRestDescription.ExecuteRequest())
+		return FALSE;*/
+
+	CFunctionDescription aFunctionDescription(_T("GetLoginInformation"));
+	
+	InitFunction(aFunctionDescription);
+	
+	aFunctionDescription.AddStrParam(_T("authenticationToken"), AfxGetAuthenticationToken());	
 				
 	aFunctionDescription.AddOutParam(_T("userName"),							&dsUserName);
 	aFunctionDescription.AddOutParam(_T("userDescription"),						&dsUserDescription);
@@ -417,6 +434,10 @@ BOOL CLoginManagerInterface::GetLoginInformation(const CString&	authenticationTo
 	bOk = FillUserRoles(pLoginInfos) && bOk;	
 	bOk = FillCompanyLanguages(pLoginInfos) && bOk;
 	
+
+	bool isValid;
+	IsValidToken(AfxGetAuthenticationToken(), isValid);
+
 	return bOk;
 }
 
@@ -443,7 +464,7 @@ int	CLoginManagerInterface::GetCompanyLoggedUsersNumber(int companyId)
 }
 
 //----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::CanTokenRunTB()
+BOOL CLoginManagerInterface::CanTokenRunTB() //@@DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("Sbrill"));
 	
@@ -522,7 +543,7 @@ BOOL CLoginManagerInterface::SendErrorFile (const CString& strLogFilePath, CStri
 
 
 //----------------------------------------------------------------------------
-CString CLoginManagerInterface::GetLoggedUsersAdvanced()
+CString CLoginManagerInterface::GetLoggedUsersAdvanced() //@@ DA TOGLIERE
 {
 
 	CFunctionDescription aFunctionDescription(_T("GetLoggedUsersAdvanced"));
@@ -548,6 +569,26 @@ CString CLoginManagerInterface::GetLoggedUsersAdvanced()
 BOOL CLoginManagerInterface::IsValidToken(const CString& strToken, bool& isValid)
 { 
 	isValid = true;
+
+	/*CRestFunctionDescription aRestDescription(_T("isValidToken"));
+	aRestDescription.InitConnectionInfo(_T("POST"), _T("account-manager/"), 5000);
+
+	aRestDescription.AddStrParam(_T("authenticationToken"), strToken);
+	DataBool dbSuccess;
+	DataStr dsCulture, dsMessage;
+
+	aRestDescription.AddOutParam(_T("success"), &dbSuccess);
+	aRestDescription.AddOutParam(_T("culture"), &dsCulture);
+	aRestDescription.AddOutParam(_T("message"), &dsMessage);
+
+	if (aRestDescription.ExecuteRequest())
+	{
+		isValid = (dbSuccess) ? true : false;
+		return TRUE;
+	}
+
+	return FALSE;*/
+	
 	CFunctionDescription aFunctionDescription(_T("IsValidToken"));
 	
 	InitFunction(aFunctionDescription);
@@ -755,7 +796,7 @@ CString CLoginManagerInterface::GetMobileToken(CString token, int loginType)
 
 
 //-----------------------------------------------------------------------------
-void CLoginManagerInterface::PurgeMessageByTag(CString tag, CString user)
+void CLoginManagerInterface::PurgeMessageByTag(CString tag, CString user) //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("PurgeMessageByTag"));
 
@@ -769,7 +810,7 @@ void CLoginManagerInterface::PurgeMessageByTag(CString tag, CString user)
 }
 
 //-----------------------------------------------------------------------------
-void CLoginManagerInterface::LogOff()
+void CLoginManagerInterface::LogOff() //@@DA TOGLIERE 
 {
 	CFunctionDescription aFunctionDescription(_T("LogOff"));
 	
@@ -781,7 +822,7 @@ void CLoginManagerInterface::LogOff()
 }
 
 //-----------------------------------------------------------------------------
-void CLoginManagerInterface::LogOff(CString token)
+void CLoginManagerInterface::LogOff(CString token) //@@DA TOGLIERE 
 {
 	CFunctionDescription aFunctionDescription(_T("LogOff"));
 
@@ -794,7 +835,7 @@ void CLoginManagerInterface::LogOff(CString token)
 
 
 //-----------------------------------------------------------------------------
-int CLoginManagerInterface::LogIn(const CString& sCompany, const CString& sUser, const CString& sPassword, BOOL overWriteLogin, CString& authToken)
+int CLoginManagerInterface::LogIn(const CString& sCompany, const CString& sUser, const CString& sPassword, BOOL overWriteLogin, CString& authToken) //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("LoginCompact"));
 	
@@ -817,7 +858,7 @@ int CLoginManagerInterface::LogIn(const CString& sCompany, const CString& sUser,
 }
 
 //-----------------------------------------------------------------------------
-int CLoginManagerInterface::GetTokenProcessType()
+int CLoginManagerInterface::GetTokenProcessType()  //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("GetTokenProcessType"));
 	
@@ -991,7 +1032,7 @@ BOOL CLoginManagerInterface::GetActivatedModules (CStringArray& arModules)
 }
 
 //-----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::GetAuthenticationInformations(const CString& strAuthenticationToken, DataStr& strLoginName, DataStr& strCompName)
+BOOL CLoginManagerInterface::GetAuthenticationInformations(const CString& strAuthenticationToken, DataStr& strLoginName, DataStr& strCompName)  //@@ DA TOGLIERE
 {
 	if (strAuthenticationToken.IsEmpty())
 		return FALSE;
@@ -1180,7 +1221,7 @@ BOOL CLoginManagerInterface::GetUserRoles(const CString strUser, const CString s
 }
 
 //-----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::GetRoleUsers(const CString& strCompany, const CString& strRole, CStringArray& roleUsers)
+BOOL CLoginManagerInterface::GetRoleUsers(const CString& strCompany, const CString& strRole, CStringArray& roleUsers)  //@@ DA TOGLIERE
 {
 	roleUsers.RemoveAll();
 
@@ -1220,7 +1261,7 @@ BOOL CLoginManagerInterface::GetRoleUsers(const CString& strCompany, const CStri
 }
 
 //-----------------------------------------------------------------------------
-void CLoginManagerInterface::FillSystemDBConnectionString()
+void CLoginManagerInterface::FillSystemDBConnectionString() //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("GetSystemDBConnectionString"));
 	InitFunction(aFunctionDescription);
@@ -1251,7 +1292,7 @@ CString CLoginManagerInterface::GetSystemDBConnectionString()
 
 // dato l'id della company mi restituisce il dbowner (non l'utente applicativo ma l'utente di database)
 //-----------------------------------------------------------------------------
-CString CLoginManagerInterface::GetDbOwner(int companyId)
+CString CLoginManagerInterface::GetDbOwner(int companyId)  //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("GetDbOwner"));
 	InitFunction(aFunctionDescription);
@@ -1406,7 +1447,7 @@ CString CLoginManagerInterface::GetUserInfoCode()
 	return m_strUserInfoCode;
 }
 //-----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::FillDatabaseType(CLoginInfos* pLoginInfos)
+BOOL CLoginManagerInterface::FillDatabaseType(CLoginInfos* pLoginInfos) //@@ DA TOGLIERE
 { 
 	CFunctionDescription aFunctionDescription(_T("GetDatabaseType"));
 	InitFunction(aFunctionDescription);
@@ -1430,7 +1471,7 @@ BOOL CLoginManagerInterface::FillDatabaseType(CLoginInfos* pLoginInfos)
 }
 
 //-----------------------------------------------------------------------------
-CString CLoginManagerInterface::GetBrandedApplicationTitle(const CString& strApplicationName)
+CString CLoginManagerInterface::GetBrandedApplicationTitle(const CString& strApplicationName) //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("GetBrandedApplicationTitle"));
 	InitFunction(aFunctionDescription);
@@ -1567,7 +1608,7 @@ CString CLoginManagerInterface::GetAspNetUser() const
 
 // Dice se un utente è amministatore dell'Area Riservata su sito web
 //----------------------------------------------------------------------------
-BOOL CLoginManagerInterface::UserCanAccessWebSitePrivateArea()
+BOOL CLoginManagerInterface::UserCanAccessWebSitePrivateArea() //@@ DA TOGLIERE
 {
 	CFunctionDescription aFunctionDescription(_T("UserCanAccessWebSitePrivateArea"));
 	InitFunction(aFunctionDescription);
@@ -1590,7 +1631,7 @@ BOOL CLoginManagerInterface::UserCanAccessWebSitePrivateArea()
 
 
 //----------------------------------------------------------------------------
-void CLoginManagerInterface::AdvancedSendTaggedBalloon
+void CLoginManagerInterface::AdvancedSendTaggedBalloon //@@ DA TOGLIERE
 (
 	const CString&	sBodyMsg,
 	const DataDate& dtExpireDate,

@@ -13,7 +13,79 @@ class DataType;
 
 //esegue una chiamata ad una funzione di una classe di ApplicationServerInterface
 //----------------------------------------------------------------------------
-class TB_EXPORT CFunctionDescription : public CBaseDescription
+class TB_EXPORT CBaseFunctionDescription : public CBaseDescription
+{
+	DECLARE_DYNCREATE(CBaseFunctionDescription);
+
+protected:
+	CDataObjDescription		m_ReturnValue;
+	CBaseDescriptionArray	m_arFunctionParams;	// parametri di input
+
+public:
+	CString					m_strError;			// descrizione errore funzione
+
+public:
+	CBaseFunctionDescription(CString strFunctionName);
+	CBaseFunctionDescription(CTBNamespace::NSObjectType aNSType);
+	CBaseFunctionDescription(const CTBNamespace& ns);
+	CBaseFunctionDescription();
+
+public:
+	//usate dal framework
+	int						AddParam(CDataObjDescription* pParam);
+	int						InternalAddParam(const CString& strParamName, DataObj* pValue, BOOL bDataObjOwner);
+	//usate queste per aggiungere parametri al woorminfo
+	int						AddStrParam(const CString& strParamName, const CString& strValue);
+	int						AddIntParam(const CString& strParamName, int nValue);
+	int						AddTimeParam(const CString& strParamName, CTime dtValue);
+	int						AddParam(const CString& strParamName, DataObj* pValue);
+
+	int						AddOutParam(const CString& strParamName, DataObj* pValue);
+	int						AddInOutParam(const CString& strParamName, DataObj* pValue);
+
+	int						AddOutParam(CDataObjDescription* pParam);
+	int						AddInOutParam(CDataObjDescription* pParam);
+
+	BOOL					RemoveParam(const CString& strParamName);
+
+	CDataObjDescription&	GetReturnValueDescription() { return m_ReturnValue; }
+	void					SetReturnValueDescription(const CDataObjDescription& aRetValue);
+
+	DataType				GetReturnValueDataType() { return m_ReturnValue.GetDataType(); }
+	DataObj*				GetReturnValue() { return m_ReturnValue.GetValue(); }
+
+	void					SetReturnValue(const DataObj& aVal) { m_ReturnValue.SetValue(aVal); }
+	void					SetVoidDefaultReturnValue(const BOOL bValue) { m_ReturnValue.SetVoidAsDefaultType(bValue); }
+
+	BOOL					GetParamValue(CString strParamName, CString &strRetVal);
+	BOOL					GetParamValue(CString strParamName, int& nRetVal);
+	BOOL					GetBoolParamValue(CString strParamName, BOOL& bRetVal);
+	BOOL					GetParamValue(CString strParamName, CTime& dtRetVal);
+	BOOL					GetParamValue(CString strParamName, CStringArray& arrayRetVal);
+
+	DataObj*				GetParamValue(const CString& strParamName);
+	DataObj*				GetParamValue(int i);
+
+	int						GetParamIndex(const CString& strParamName);
+
+	void					SetParamValue(const CString& strParamName, const DataObj& aVal);
+	void					SetParamValue(int i, const DataObj& aVal);
+
+	CDataObjDescription*	GetParamDescription(const int& i);
+	CDataObjDescription*	GetParamDescription(const CString& strParamName);
+	void					RemoveParamsStartingWith(const CString& strParamStart);
+	CBaseDescriptionArray&	GetParameters() { return m_arFunctionParams; }
+	BOOL					SetParametersValue(CBaseDescriptionArray&);
+
+	int						GetParamCount() const { return m_arFunctionParams.GetCount(); }
+	const CString&			GetError() const { return m_strError; }
+};
+
+
+//esegue una chiamata ad una funzione di una classe di ApplicationServerInterface
+// interfaccia SOAP
+//----------------------------------------------------------------------------
+class TB_EXPORT CFunctionDescription : public CBaseFunctionDescription
 {
 	DECLARE_DYNCREATE(CFunctionDescription);
 
@@ -22,9 +94,7 @@ private:
 	CString					m_strServiceNamespace;	// namespace del WEB service (se esterno)
 	CString					m_strServer;			// nome del server del WEB service (se esterno)
 	UINT					m_nPort;				// porta del WEB service (se esterno)
-
-	CDataObjDescription		m_ReturnValue;
-	CBaseDescriptionArray	m_arFunctionParams;	// parametri di input
+		
 
 	BOOL					m_bPublished;
 	BOOL					m_bPostCommand;
@@ -36,11 +106,11 @@ private:
 	CString					m_sTBScript;
 
 public:
-	CString					m_strError;			// descrizione errore funzione
+
 	CString					m_strGroup;
 public:
 	//costruttore che prende un XML, lo parsa e riempie i membri
-	CFunctionDescription (CString strFunctionName);
+	CFunctionDescription(CString strFunctionName);
 	CFunctionDescription (CTBNamespace::NSObjectType aNSType);
 	CFunctionDescription (const CTBNamespace& ns);
 	CFunctionDescription (const CFunctionDescription& fd) { Assign(fd); }
@@ -49,58 +119,13 @@ public:
 public:
 	virtual const CString GetTitle	() const;
 
-	//usate dal framework
-	int						AddParam			(CDataObjDescription* pParam);
-	int						InternalAddParam	(const CString& strParamName, DataObj* pValue, BOOL bDataObjOwner);
-	//usate queste per aggiungere parametri al woorminfo
-	int						AddStrParam			(const CString& strParamName, const CString& strValue);
-	int						AddIntParam			(const CString& strParamName, int nValue);
-	int						AddTimeParam		(const CString& strParamName, CTime dtValue);
-	int						AddParam			(const CString& strParamName, DataObj* pValue);
-	
-	int						AddOutParam			(const CString& strParamName, DataObj* pValue);
-	int						AddInOutParam		(const CString& strParamName, DataObj* pValue);
 
-	int						AddOutParam			(CDataObjDescription* pParam);
-	int						AddInOutParam		(CDataObjDescription* pParam);
-
-	BOOL					RemoveParam			(const CString& strParamName);
-
-	CDataObjDescription&	GetReturnValueDescription	() { return m_ReturnValue; }
-	void					SetReturnValueDescription	(const CDataObjDescription& aRetValue);
-
-	DataType				GetReturnValueDataType		() { return m_ReturnValue.GetDataType(); }
-	DataObj*				GetReturnValue				() { return m_ReturnValue.GetValue(); }
-
-	void					SetReturnValue				(const DataObj& aVal) { m_ReturnValue.SetValue(aVal); }
-	void					SetVoidDefaultReturnValue	(const BOOL bValue)  { m_ReturnValue.SetVoidAsDefaultType(bValue); }
-
-	BOOL					GetParamValue		(CString strParamName, CString &strRetVal);
-	BOOL					GetParamValue		(CString strParamName, int& nRetVal);
-	BOOL					GetBoolParamValue	(CString strParamName, BOOL& bRetVal);
-	BOOL					GetParamValue		(CString strParamName, CTime& dtRetVal);
-	BOOL					GetParamValue		(CString strParamName, CStringArray& arrayRetVal);
-
-	DataObj*				GetParamValue		(const CString& strParamName);
-	DataObj*				GetParamValue		(int i);	
-
-	int						GetParamIndex		(const CString& strParamName);
-
-	void					SetParamValue		(const CString& strParamName, const DataObj& aVal);
-	void					SetParamValue		(int i, const DataObj& aVal);
-
-	CDataObjDescription*	GetParamDescription (const int& i);
-	CDataObjDescription*	GetParamDescription	 (const CString& strParamName);
-	void					RemoveParamsStartingWith(const CString& strParamStart);
-	CBaseDescriptionArray&	GetParameters		() { return m_arFunctionParams; }
-	BOOL					SetParametersValue	(CBaseDescriptionArray&);
 	
 	int						GetContextHandle	();
-	int						GetParamCount		() const { return m_arFunctionParams.GetCount(); }
 
 	const BOOL				IsPublished			() const { return m_bPublished; } 
 		  BOOL				IsThisCallMethods	() const { return /*m_bThisCallMethods*/!m_sClassType.IsEmpty(); } 
-	const CString&			GetError			() const { return m_strError;	}
+
 	const BOOL				IsPostCommand		() const { return m_bPostCommand; } 
 	const BOOL				AlwaysCalledIfEvent	() const { return m_bAlwaysCalledIfEvent; } 
 	const BOOL				IsManaged			() const { return !m_sManagedType.IsEmpty(); } 

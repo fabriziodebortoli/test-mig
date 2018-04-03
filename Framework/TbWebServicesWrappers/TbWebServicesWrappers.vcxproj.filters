@@ -36,6 +36,9 @@
     <ClCompile Include="DataSynchronizerWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InvokeRestFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TbWebServicesWrappers.def">
@@ -66,6 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataSynchronizerWrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InvokeRestFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,17 +28,362 @@ static const TCHAR szError[]			= _T("Error");
 #define	XML_EXECUTEDEPLOY_POLICY		_T("executeDeployPolicy")
 
 
+
+
+// Oggetto base da cui derivano le classi che si occupano delle chiamate SOAP/WOORM e REST
+//----------------------------------------------------------------------------
+//						CBaseFunctionDescription
+//----------------------------------------------------------------------------
+IMPLEMENT_DYNCREATE(CBaseFunctionDescription, CBaseDescription);
+
+//------------------------------------------------------------------------------
+CBaseFunctionDescription::CBaseFunctionDescription()
+	:
+	CBaseDescription(CTBNamespace::FUNCTION)
+{
+}
+
+//------------------------------------------------------------------------------
+CBaseFunctionDescription::CBaseFunctionDescription(CString strFunctionName)
+	:
+	CBaseDescription(CTBNamespace::FUNCTION)
+{
+	SetName(strFunctionName);
+}
+
+//------------------------------------------------------------------------------
+CBaseFunctionDescription::CBaseFunctionDescription(CTBNamespace::NSObjectType aNSType)
+	:
+	CBaseDescription(aNSType)
+{
+}
+
+//------------------------------------------------------------------------------
+CBaseFunctionDescription::CBaseFunctionDescription(const CTBNamespace& ns)
+	:
+	CBaseDescription(ns)
+{
+}
+
+
+//aggiunge un parametro di input 
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::InternalAddParam(const CString& strParamName, DataObj* pValue, BOOL bDataObjOwner)
+{
+	if (strParamName.GetLength() == 0)
+		return -1;
+	//RemoveParam(strParamName);
+
+	CDataObjDescription* pParam = new CDataObjDescription(strParamName, bDataObjOwner ? pValue->DataObjClone() : pValue, bDataObjOwner);
+
+	return m_arFunctionParams.Add(pParam);
+}
+
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddParam(const CString& strParamName, DataObj* pValue)
+{
+	return InternalAddParam(strParamName, pValue, TRUE);
+}
+
+//----------------------------------------------------------------------------------------------
+int CBaseFunctionDescription::AddParam(CDataObjDescription* pParam)
+{
+	RemoveParam(pParam->GetName());
+	return m_arFunctionParams.Add(pParam);
+}
+
+//aggiunge un parametro di input di tipo stringa
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddStrParam(const CString& strParamName, const CString& strValue)
+{
+	if (strParamName.GetLength() == 0)
+		return -1;
+	//RemoveParam(strParamName);
+
+	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataStr(strValue), TRUE);
+
+	return m_arFunctionParams.Add(pParam);
+}
+
+//aggiunge un parametro di input di tipo intero
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddIntParam(const CString& strParamName, int nValue)
+{
+	if (strParamName.GetLength() == 0)
+		return -1;
+	//RemoveParam(strParamName);
+
+	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataInt(nValue), TRUE);
+
+	return m_arFunctionParams.Add(pParam);
+}
+
+//aggiunge un parametro di input di tipo datetime
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::AddTimeParam(const CString& strParamName, CTime dtValue)
+{
+	if (strParamName.GetLength() == 0)
+		return FALSE;
+	//RemoveParam(strParamName);
+
+	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataDate(dtValue), TRUE);
+	m_arFunctionParams.Add(pParam);
+
+	return TRUE;
+}
+
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddOutParam(const CString& strParamName, DataObj* pValue)
+{
+	if (strParamName.GetLength() == 0 || pValue == NULL)
+		return -1;
+	//RemoveParam(strParamName);
+
+	int i = AddParam(new CDataObjDescription(strParamName, pValue->GetDataType(), CDataObjDescription::_OUT));
+	CDataObjDescription* pd = GetParamDescription(i);
+	pd->SetDataObj(pValue);
+	return i;
+}
+
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddOutParam(CDataObjDescription* pParam)
+{
+	//RemoveParam(pParam->GetName());
+
+	pParam->SetPassedMode(CDataObjDescription::_OUT);
+	int i = AddParam(pParam);
+	return i;
+}
+
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddInOutParam(CDataObjDescription* pParam)
+{
+	//RemoveParam(pParam->GetName());
+
+	pParam->SetPassedMode(CDataObjDescription::_INOUT);
+	int i = AddParam(pParam);
+	return i;
+}
+
+//----------------------------------------------------------------------------
+int CBaseFunctionDescription::AddInOutParam(const CString& strParamName, DataObj* pValue)
+{
+	if (strParamName.GetLength() == 0 || pValue == NULL)
+		return -1;
+	//RemoveParam(strParamName);
+
+	int i = AddParam(new CDataObjDescription(strParamName, pValue->GetDataType(), CDataObjDescription::_INOUT));
+	CDataObjDescription* pd = GetParamDescription(i);
+	pd->SetDataObj(pValue);
+	return i;
+}
+
+
+//rinuove un parametro
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::RemoveParam(const CString& strParamName)
+{
+	int nIdx = GetParamIndex(strParamName);
+	if (nIdx > -1)
+		m_arFunctionParams.RemoveAt(nIdx);
+
+	return nIdx > -1;
+}
+
+//----------------------------------------------------------------------------
+int	 CBaseFunctionDescription::GetParamIndex(const CString& strParamName)
+{
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription* pdod = (CDataObjDescription*)m_arFunctionParams.GetAt(i);
+		if (_tcsicmp(pdod->GetName(), strParamName) == 0)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+//----------------------------------------------------------------------------
+void CBaseFunctionDescription::SetParamValue(const CString& strParamName, const DataObj& aVal)
+{
+	GetParamDescription(strParamName)->SetValue(aVal);
+}
+
+void CBaseFunctionDescription::SetParamValue(int i, const DataObj& aVal)
+{
+	GetParamDescription(i)->SetValue(aVal);
+}
+
+//----------------------------------------------------------------------------
+DataObj* CBaseFunctionDescription::GetParamValue(const CString& strParamName)
+{
+	CDataObjDescription* par = GetParamDescription(strParamName);
+	return par ? par->GetValue() : NULL;
+}
+
+//----------------------------------------------------------------------------
+DataObj* CBaseFunctionDescription::GetParamValue(int i)
+{
+	CDataObjDescription* par = GetParamDescription(i);
+	return par ? par->GetValue() : NULL;
+}
+
+//dopo che la funzione è stata processata si possono chiedere i valori di ritorno
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::GetParamValue(CString strParamName, CString& strRetVal)
+{
+	strRetVal = _T("");
+	CDataObjDescription* par = GetParamDescription(strParamName);
+
+	if (
+		strParamName == par->GetName() &&
+		par->GetDataType() == DataType::String
+		)
+	{
+		strRetVal = par->GetValue()->Str();
+		return TRUE;
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::GetParamValue(CString strParamName, int& nRetVal)
+{
+	//pulire
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i));
+		if (strParamName == pFunctionParam->GetName() && pFunctionParam->GetDataType() == DataType::Integer)
+		{
+			nRetVal = *((DataInt*)(pFunctionParam->GetValue()));
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::GetBoolParamValue(CString strParamName, BOOL& bRetVal)
+{
+	//pulire
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i));
+		if (strParamName == pFunctionParam->GetName() && pFunctionParam->GetDataType() == DataType::Bool)
+		{
+			bRetVal = *((DataBool*)(pFunctionParam->GetValue()));
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::GetParamValue(CString strParamName, CTime& dtRetVal)
+{
+	//pulire
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i));
+		if (strParamName == pFunctionParam->GetName() && pFunctionParam->GetDataType() == DataType::DateTime)
+		{
+			dtRetVal = CStringToCTime(pFunctionParam->GetValue()->FormatDataForXML());
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------
+CDataObjDescription* CBaseFunctionDescription::GetParamDescription(const int& i)
+{
+	return i < GetParameters().GetSize() ? (CDataObjDescription*)(GetParameters().GetAt(i)) : NULL;
+}
+
+//----------------------------------------------------------------------------
+CDataObjDescription* CBaseFunctionDescription::GetParamDescription(const CString& strParamName)
+{
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription*  p = GetParamDescription(i);
+		if (_tcsicmp(strParamName, p->GetName()) == 0)
+			return p;
+	}
+	return NULL;
+}
+
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::SetParametersValue(CBaseDescriptionArray& ar)
+{
+	if (m_arFunctionParams.GetUpperBound() != ar.GetUpperBound())
+		return FALSE;
+
+	for (int i = 0; i <= ar.GetUpperBound(); i++)
+	{
+		CDataObjDescription* pDst = (CDataObjDescription*)m_arFunctionParams.GetAt(i);
+		CDataObjDescription* pSrc = (CDataObjDescription*)ar.GetAt(i);
+
+		if (!DataType::IsCompatible(pSrc->GetDataType(), pDst->GetDataType()))
+			return FALSE;
+
+		pDst->GetValue()->Assign(*pSrc->GetValue());
+	}
+	return TRUE;
+}
+
+//----------------------------------------------------------------------------
+void CBaseFunctionDescription::RemoveParamsStartingWith(const CString& strParamStart)
+{
+	for (int i = m_arFunctionParams.GetUpperBound(); i >= 0; i--)
+	{
+		CDataObjDescription*  p = GetParamDescription(i);
+		if (p->GetName().Find(strParamStart) == 0)
+			m_arFunctionParams.RemoveAt(i);
+	}
+}
+
+
+//----------------------------------------------------------------------------
+BOOL CBaseFunctionDescription::GetParamValue(CString strParamName, CStringArray& arrayRetVal)
+{
+	arrayRetVal.RemoveAll();
+
+	for (int i = 0; i < m_arFunctionParams.GetSize(); i++)
+	{
+		CDataObjDescription* pFunctionParam = (CDataObjDescription*)m_arFunctionParams.GetAt(i);
+		if (!pFunctionParam)
+			continue;
+
+		if (strParamName == pFunctionParam->GetName() && pFunctionParam->IsArray())
+		{
+			DataArray* pAr = (DataArray*)pFunctionParam->GetValue();
+			for (int n = 0; n < pAr->GetSize(); n++)
+				arrayRetVal.Add(pAr->GetAt(n)->Str());
+
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+//----------------------------------------------------------------------------------------------
+void CBaseFunctionDescription::SetReturnValueDescription(const CDataObjDescription& aRetValue)
+{
+	m_ReturnValue = aRetValue;
+}
+
 // Oggetto che effettua una chiamata ad una funzione remota attraverso socket in xml
 // dopo aver effettuato la chiamata attende che il server risponda
 //----------------------------------------------------------------------------
 //						CFunctionDescription
 //----------------------------------------------------------------------------
-IMPLEMENT_DYNCREATE(CFunctionDescription, CBaseDescription);
+IMPLEMENT_DYNCREATE(CFunctionDescription, CBaseFunctionDescription);
 
 //------------------------------------------------------------------------------
 CFunctionDescription::CFunctionDescription()
 	: 
-	CBaseDescription		(CTBNamespace::FUNCTION),
+	CBaseFunctionDescription(CTBNamespace::FUNCTION),
 	m_bPostCommand			(TRUE),
 	m_bAlwaysCalledIfEvent	(FALSE),
 	m_nPort					(0),
@@ -49,7 +394,7 @@ CFunctionDescription::CFunctionDescription()
 //------------------------------------------------------------------------------
 CFunctionDescription::CFunctionDescription(CString strFunctionName)
 	: 
-	CBaseDescription		(CTBNamespace::FUNCTION),
+	CBaseFunctionDescription(CTBNamespace::FUNCTION),
 	m_bPostCommand			(TRUE),
 	m_bAlwaysCalledIfEvent	(FALSE),
 	m_nPort					(0),
@@ -61,7 +406,7 @@ CFunctionDescription::CFunctionDescription(CString strFunctionName)
 //------------------------------------------------------------------------------
 CFunctionDescription::CFunctionDescription(CTBNamespace::NSObjectType aNSType)
 	:
-	CBaseDescription		(aNSType),
+	CBaseFunctionDescription(aNSType),
 	m_bPostCommand			(TRUE),
 	m_bAlwaysCalledIfEvent	(FALSE),
 	m_nPort					(0),
@@ -72,7 +417,7 @@ CFunctionDescription::CFunctionDescription(CTBNamespace::NSObjectType aNSType)
 //------------------------------------------------------------------------------
 CFunctionDescription::CFunctionDescription(const CTBNamespace& ns)
 	:
-	CBaseDescription		(ns),
+	CBaseFunctionDescription(ns),
 	m_bPostCommand			(TRUE),
 	m_bAlwaysCalledIfEvent	(FALSE),
 	m_nPort					(0),
@@ -88,309 +433,6 @@ const CString CFunctionDescription::GetTitle() const
 								szWebMethods, 
 								AfxGetDictionaryPathFromNamespace(m_Namespace, TRUE)
 							);
-}
-
-
-//aggiunge un parametro di input 
-//----------------------------------------------------------------------------
-int CFunctionDescription::InternalAddParam(const CString& strParamName, DataObj* pValue, BOOL bDataObjOwner)
-{
-	if (strParamName.GetLength() == 0)
-		return -1;
-	RemoveParam(strParamName);
-	
-	CDataObjDescription* pParam = new CDataObjDescription(strParamName, bDataObjOwner ? pValue->DataObjClone() : pValue, bDataObjOwner);
-
-	return m_arFunctionParams.Add(pParam);
-}
-
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddParam(const CString& strParamName, DataObj* pValue)
-{
-	return InternalAddParam(strParamName, pValue, TRUE);
-}
-
-//----------------------------------------------------------------------------------------------
-int CFunctionDescription::AddParam(CDataObjDescription* pParam)
-{
-	RemoveParam(pParam->GetName());
-	return m_arFunctionParams.Add (pParam);
-}
-
-//aggiunge un parametro di input di tipo stringa
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddStrParam(const CString& strParamName, const CString& strValue)
-{
-	if(strParamName.GetLength() == 0)
-		return -1;
-	RemoveParam(strParamName);
-	
-	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataStr(strValue), TRUE);
-	
-	return m_arFunctionParams.Add(pParam);
-}
-
-//aggiunge un parametro di input di tipo intero
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddIntParam(const CString& strParamName, int nValue)
-{
-	if(strParamName.GetLength() == 0)
-		return -1;
-	RemoveParam(strParamName);
-	
-	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataInt(nValue), TRUE);
-	
-	return m_arFunctionParams.Add(pParam);
-}
-
-//aggiunge un parametro di input di tipo datetime
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::AddTimeParam(const CString& strParamName, CTime dtValue)
-{
-	if(strParamName.GetLength() == 0)
-		return FALSE;
-	RemoveParam(strParamName);
-	
-	CDataObjDescription* pParam = new CDataObjDescription(strParamName, new DataDate(dtValue), TRUE);
-	m_arFunctionParams.Add(pParam);
-
-	return TRUE;
-}
-
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddOutParam(const CString& strParamName, DataObj* pValue)
-{
-	if(strParamName.GetLength() == 0 || pValue == NULL)
-		return -1;
-	RemoveParam(strParamName);
-	
-	int i = AddParam(new CDataObjDescription(strParamName, pValue->GetDataType(), CDataObjDescription::_OUT));
-	CDataObjDescription* pd = GetParamDescription(i);
-	pd->SetDataObj(pValue);
-	return i;
-}
-
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddOutParam(CDataObjDescription* pParam)
-{
-	RemoveParam(pParam->GetName());
-	
-	pParam->SetPassedMode(CDataObjDescription::_OUT);
-	int i = AddParam(pParam);
-	return i;
-}
-
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddInOutParam(CDataObjDescription* pParam)
-{
-	RemoveParam(pParam->GetName());
-	
-	pParam->SetPassedMode(CDataObjDescription::_INOUT);
-	int i = AddParam(pParam);
-	return i;
-}
-
-//----------------------------------------------------------------------------
-int CFunctionDescription::AddInOutParam(const CString& strParamName, DataObj* pValue)
-{
-	if(strParamName.GetLength() == 0 || pValue == NULL)
-		return -1;
-	RemoveParam(strParamName);
-	
-	int i = AddParam(new CDataObjDescription(strParamName, pValue->GetDataType(), CDataObjDescription::_INOUT));
-	CDataObjDescription* pd = GetParamDescription(i);
-	pd->SetDataObj(pValue);
-	return i;
-}
-
-//----------------------------------------------------------------------------
-//int CFunctionDescription::AddOutParam(const CString& strParamName, DataType baseType, DataObjArray* pValues)
-//{
-//	if(strParamName.GetLength() == 0 || pValues == NULL)
-//		return -1;
-//	RemoveParam(strParamName);
-//
-//	int i = AddParam(new CDataObjDescription(strParamName, baseType, CDataObjDescription::_OUT));
-//	CDataObjDescription* pd = GetParamDescription(i);
-//	pd->SetDataObj(pValues);
-//	return i;
-//}
-//
-////----------------------------------------------------------------------------
-//int CFunctionDescription::AddInOutParam(const CString& strParamName, DataType baseType, DataObjArray* pValues)
-//{
-//	if(strParamName.GetLength() == 0 || pValues == NULL)
-//		return -1;
-//	RemoveParam(strParamName);
-//
-//	int i = AddParam(new CDataObjDescription(strParamName, baseType, CDataObjDescription::_INOUT));
-//	CDataObjDescription* pd = GetParamDescription(i);
-//	pd->SetDataObj(pValues);
-//	return i;
-//}
-
-//rinuove un parametro
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::RemoveParam (const CString& strParamName)
-{
-	int nIdx = GetParamIndex(strParamName);
-	if (nIdx > -1)
-		m_arFunctionParams.RemoveAt(nIdx);
-
-	return nIdx > -1;
-}
-
-//----------------------------------------------------------------------------
-int	 CFunctionDescription::GetParamIndex (const CString& strParamName)
-{
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription* pdod = (CDataObjDescription*) m_arFunctionParams.GetAt(i);
-		if (_tcsicmp(pdod->GetName(), strParamName) == 0)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
-//----------------------------------------------------------------------------
-void CFunctionDescription::SetParamValue (const CString& strParamName, const DataObj& aVal)	
-{ 
-	GetParamDescription(strParamName)->SetValue(aVal);			
-}
-
-void CFunctionDescription::SetParamValue (int i, const DataObj& aVal) 
-{ 
-	GetParamDescription(i)->SetValue(aVal); 
-}
-
-//----------------------------------------------------------------------------
-DataObj* CFunctionDescription::GetParamValue (const CString& strParamName)	
-{ 
-	CDataObjDescription* par = GetParamDescription(strParamName);
-	return par ? par->GetValue(): NULL; 
-}
-
-//----------------------------------------------------------------------------
-DataObj* CFunctionDescription::GetParamValue (int i)	
-{ 
-	CDataObjDescription* par = GetParamDescription(i);
-	return par ? par->GetValue(): NULL; 
-}
-
-//dopo che la funzione è stata processata si possono chiedere i valori di ritorno
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::GetParamValue(CString strParamName, CString& strRetVal)
-{
-	strRetVal = _T("");
-	CDataObjDescription* par = GetParamDescription(strParamName);
-
-	if (
-			strParamName == par->GetName() &&
-			par->GetDataType() == DataType::String
-		)
-	{
-		strRetVal = par->GetValue()->Str();
-		return TRUE;
-	}
-	return FALSE;
-}
-
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::GetParamValue(CString strParamName, int& nRetVal)
-{
-//pulire
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i)); 
-		if(strParamName == pFunctionParam->GetName() &&	pFunctionParam->GetDataType() == DataType::Integer)
-		{
-			nRetVal = *((DataInt*)(pFunctionParam->GetValue()));
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::GetBoolParamValue(CString strParamName, BOOL& bRetVal)
-{
-	//pulire
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i)); 
-		if(strParamName == pFunctionParam->GetName() && pFunctionParam->GetDataType() == DataType::Bool)
-		{
-			bRetVal = *((DataBool*)(pFunctionParam->GetValue()));
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::GetParamValue(CString strParamName, CTime& dtRetVal)
-{
-	//pulire
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription* pFunctionParam = ((CDataObjDescription*)m_arFunctionParams.GetAt(i)); 
-		if(strParamName == pFunctionParam->GetName() && pFunctionParam->GetDataType() == DataType::DateTime)
-		{
-			dtRetVal = CStringToCTime(pFunctionParam->GetValue()->FormatDataForXML());
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
-
-//----------------------------------------------------------------------------
-CDataObjDescription* CFunctionDescription::GetParamDescription (const int& i) 
-{ 
-	return i < GetParameters().GetSize() ? (CDataObjDescription*)(GetParameters().GetAt(i)) : NULL;
-}
-
-//----------------------------------------------------------------------------
-CDataObjDescription* CFunctionDescription::GetParamDescription	 (const CString& strParamName) 
-{ 
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription*  p = GetParamDescription(i);
-		if (_tcsicmp(strParamName, p->GetName()) == 0)
-			return p;
-	}
-	return NULL;
-}
-
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::SetParametersValue	(CBaseDescriptionArray& ar)
-{
-	if (m_arFunctionParams.GetUpperBound() != ar.GetUpperBound())
-		return FALSE;
-
-	for (int i = 0; i <= ar.GetUpperBound(); i++)
-	{
-		CDataObjDescription* pDst = (CDataObjDescription*) m_arFunctionParams.GetAt(i);
-		CDataObjDescription* pSrc = (CDataObjDescription*) ar.GetAt(i);
-
-		if (!DataType::IsCompatible(pSrc->GetDataType(), pDst->GetDataType()))
-			return FALSE;
-
-		pDst->GetValue()->Assign(*pSrc->GetValue());
-	}
-	return TRUE;
-}
-
-//----------------------------------------------------------------------------
-void CFunctionDescription::RemoveParamsStartingWith(const CString& strParamStart)
-{
-	for (int i = m_arFunctionParams.GetUpperBound(); i >=0; i--)
-	{
-		CDataObjDescription*  p = GetParamDescription(i);
-		if (p->GetName().Find(strParamStart) == 0)
-			m_arFunctionParams.RemoveAt(i);
-	}
 }
 
 //----------------------------------------------------------------------------
@@ -412,28 +454,6 @@ int CFunctionDescription::GetContextHandle()
 	return contextHandle;
 }
 
-//----------------------------------------------------------------------------
-BOOL CFunctionDescription::GetParamValue(CString strParamName, CStringArray& arrayRetVal)
-{
-	arrayRetVal.RemoveAll();
-
-	for(int i = 0 ; i < m_arFunctionParams.GetSize() ; i++)
-	{
-		CDataObjDescription* pFunctionParam = (CDataObjDescription*) m_arFunctionParams.GetAt(i);
-		if(!pFunctionParam)
-			continue;
-
-		if(strParamName == pFunctionParam->GetName() && pFunctionParam->IsArray())
-		{
-			DataArray* pAr = (DataArray*) pFunctionParam->GetValue();
-			for (int n = 0 ; n < pAr->GetSize() ; n++)
-				arrayRetVal.Add(pAr->GetAt(n)->Str());
-			
-			return TRUE;
-		}
-	}
-	return FALSE;
-}
 
 //----------------------------------------------------------------------------------------------
 const BOOL CFunctionDescription::IsFullExecutePolicy () const
@@ -459,11 +479,6 @@ void CFunctionDescription::SetAlwaysCalledIfEvent (const BOOL bValue)
 	m_bAlwaysCalledIfEvent = bValue;
 }
 
-//----------------------------------------------------------------------------------------------
-void CFunctionDescription::SetReturnValueDescription (const CDataObjDescription& aRetValue)
-{
-	m_ReturnValue = aRetValue;
-}
 
 //----------------------------------------------------------------------------
 BOOL CFunctionDescription::ParseArguments (const DataStr& strXml)
