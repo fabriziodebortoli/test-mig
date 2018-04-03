@@ -1,12 +1,17 @@
-import { Component, Input, TemplateRef, ContentChild, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ContentChild, ViewChild, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+
 import { TabStripTabComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component';
+
+import { EventDataService } from './../../../../../core/services/eventdata.service';
 
 @Component({
   selector: 'tb-tile-manager-tab',
   templateUrl: './tile-manager-tab.component.html',
   styleUrls: ['./tile-manager-tab.component.scss']
 })
-export class TileManagerTabComponent {
+export class TileManagerTabComponent implements AfterContentInit  {
+
+  subscriptions = [];
 
   @Input() activated: boolean = true;
   @ContentChild(TemplateRef) templateRef: any;
@@ -19,21 +24,31 @@ export class TileManagerTabComponent {
   set icon(icon: any) {
     this._icon = icon instanceof Object ? icon.value : icon;
   }
-
+  
   get icon() {
     return this._icon;
   }
-
-
+  
   private _title: string;
-
+  
   public get title(): string {
     return this._title;
   }
-
+  
   @Input() public set title(value: string) {
     this._title = value.replace("&", "");
   }
+  
+  constructor(
+    private eventData:EventDataService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
-  constructor() { }
+  ngAfterContentInit() {
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => this.cdr.markForCheck() ));
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((s) => { s.unsubscribe(); });
+  }
 }
