@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService } from '@taskbuilder/core';
@@ -55,7 +55,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   public id: string;
 
-  diagnosticErrors: "No Errors"; 
+  diagnosticErrors: "No Errors";
 
   constructor(
     public rsService: ReportingStudioService,
@@ -351,6 +351,19 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.pageNum = this.rsExportService.firstPageExport;
     this.rsService.doSend(JSON.stringify(message));
     this.rsExportService.currentPDFCopy++;
+  }
+
+  // -----------------------------------------------
+  navigatePag(numPag: number){
+    if(numPag > this.rsExportService.totalPages)
+      alert("Questo report non contiene la pagina numero " + numPag);
+    let message = {
+      commandType: CommandType.TEMPLATE,
+      message: this.args.nameSpace,
+      page: numPag
+    };
+    this.rsService.pageNum = message.page;
+    this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------

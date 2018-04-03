@@ -1,6 +1,6 @@
 <tb-frame>
     <style>
-         @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
     </style>
     <iframe id="iframe" style="display:none;"></iframe>
     <!--iframe id="iprint" name="iprint"></iframe-->
@@ -15,6 +15,18 @@
                 <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="prevPage()"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="nextPage()"></tb-toolbar-top-button>
                 <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="lastPage()"></tb-toolbar-top-button>
+            </div>
+
+            <div class="menu-category pagetopage" >
+                <input class="contatorePag" *ngIf="!this.rsService.isSnapshot" type="number" value="this.rsService.pageNum" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [(ngModel)]="this.rsService.pageNum">
+                <input class="contatorePag" *ngIf="this.rsService.isSnapshot" type="number" value="this.rsService.pageNum" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [(ngModel)]="this.rsService.pageNum" disabled>
+                <div class="pagTot">
+                    <table>
+                        <tr>
+                            <td> / {{rsExportService.totalPages}} </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
             <div class="menu-category esecution" *ngIf="!this.rsService.isSnapshot">
@@ -55,7 +67,7 @@
                 <ng-template>
                     <tb-view>
                         <p>Page Info</p>
-                         Errors: {{ this.diagnosticErrors }} 
+                        Errors: {{ this.diagnosticErrors }}
                     </tb-view>
                 </ng-template>
             </tb-dockpane>
