@@ -19,6 +19,7 @@ using Microarea.Common.MenuLoader;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using static Microarea.Common.MenuLoader.MenuLoader;
 
 namespace Microarea.Common.Generic
 {
@@ -213,10 +214,10 @@ namespace Microarea.Common.Generic
             /// </summary>
             /// <returns></returns>
             //---------------------------------------------------------------------
-            public static void ClearCachedData(string currentUser)
+            public static void ClearCachedData(string company, PathFinder pathFinder, CommandsTypeToLoad commandsTypeToLoad )
             {
-                Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();//TODO LARA
-                MenuInfo.CachedMenuInfos.Delete(currentUser);
+                Microarea.Common.StringLoader.StringLoader.ClearDictionaryCache();
+                MenuInfo.CachedMenuInfos.Delete(company, pathFinder, commandsTypeToLoad);
             }
 
             /// <summary>

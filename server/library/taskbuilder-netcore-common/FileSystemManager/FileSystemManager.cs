@@ -66,7 +66,6 @@ namespace Microarea.Common.FileSystemManager
         //-----------------------------------------------------------------------------
         public FileSystemManager(IFileSystemDriver pFileSystem, IFileSystemDriver pAlternative /*NULL*/, PathFinder aPathFinder)
         {
-            //TODO LARA
             AttachFileSystemDriver(pFileSystem, false);
 
             fileSystemDriverOwner = true;
@@ -89,7 +88,6 @@ namespace Microarea.Common.FileSystemManager
         public bool DetectAndAttachAlternativeDriver()
         {
             bool wSAvailable = false;
-            //string strSysDBConnectionString = ""; // aPathFinder.st(); todo Lara
             string strSysDBConnectionString = configFile.GetStandardConnectionString();
 
 
@@ -127,8 +125,7 @@ namespace Microarea.Common.FileSystemManager
                 if (nPos > 0)
                     strSysDBConnectionString = strSysDBConnectionString.Substring(strSysDBConnectionString.Length - nPos);
 
-                //TODO LARA X CUSTOM CONNECTION
-                string customConnection = "";
+                string customConnection  = configFile.GetCustomConnectionString();
                 AttachAlternativeDriver(new DatabaseDriver(pathFinder, strSysDBConnectionString, customConnection), true);
             }
 

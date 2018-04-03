@@ -407,14 +407,16 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public static void Delete(string company)
+            public static void Delete(string company, PathFinder pathFinder, CommandsTypeToLoad commandsTypeToLoad)
             {
                 try
-                {//TODO LARA
-                    //string file = GetStandardMenuCachingFullFileName(company);
+                {
+                    CachedMenuInfos cachedMenuInfos = new CachedMenuInfos();
 
-                    //if (PathFinder.PathFinderInstance.ExistPath(Path.GetDirectoryName(file)))
-                    //    PathFinder.PathFinderInstance.RemoveFolder(Path.GetDirectoryName(file), true, true, true);
+                        string file = cachedMenuInfos.GetStandardMenuCachingFullFileName(company);
+
+                    if (pathFinder.ExistPath(Path.GetDirectoryName(file)))
+                        pathFinder.RemoveFolder(Path.GetDirectoryName(file), true, true, true);
                 }
                 catch (Exception)
                 {
@@ -792,7 +794,7 @@ namespace Microarea.Common.MenuLoader
             catch (Exception exception)
             {
                 Debug.WriteLine("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + exception.Message);
-                return true; //TODO LARA LUCA
+                return true;
             }
         }
 
@@ -1399,7 +1401,7 @@ namespace Microarea.Common.MenuLoader
         public bool IsCached(DateTime dateTime)
         {
             if (menuInfo == null)
-                menuInfo = new MenuInfo(pathFinder, authenticationToken, false); //todo LARA questo false sarebbe applusecurity che ancora nn abbiamo
+                menuInfo = new MenuInfo(pathFinder, authenticationToken, false); //todo LARA questo false sarebbe applysecurity che ancora nn abbiamo
             
             return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All,  dateTime); 
         }
@@ -1410,7 +1412,8 @@ namespace Microarea.Common.MenuLoader
             menuInfo = new MenuInfo(pathFinder, authenticationToken, applySecurityFilter);
 
             if (clearCachedData)
-                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.User);
+                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.User, pathFinder, commandsTypeToLoad);
+
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
             menuInfo.ScanCustomMenuComponents();
 

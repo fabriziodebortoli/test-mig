@@ -126,7 +126,6 @@ namespace Microarea.Common.FileSystemManager
             string strStartPath = pathFinder.GetStandardPath; ;
             if (bCustom)
                 strStartPath = pathFinder.GetCustomCompanyPath(pathFinder.Company);
-
             
             strStartPath = strStartPath.ToUpper();
             int nPos = strRelativePath.IndexOf(strStartPath);
@@ -251,7 +250,6 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         public Stream GetStream(string strPathFileName, bool readStream)
         {
-            //TODO LARA READSTREAM
             if (String.IsNullOrEmpty(strPathFileName))
                 return null;
 
@@ -418,13 +416,10 @@ namespace Microarea.Common.FileSystemManager
             return pModulesPath;
         }
 
-        //TODO LARA
         //----------------------------------------------------------------------------
         public string GetCustomConnectionString() 
         {
-            //stringa di connessione della company chiedi a ilaria
             return customConnectionString;
-        //       return (AfxGetLoginInfos()) ? AfxGetLoginInfos().m_strNonProviderCompanyConnectionString : "";
         }
 
 
@@ -453,7 +448,6 @@ namespace Microarea.Common.FileSystemManager
 		        connectionString = (isCustom) ? GetCustomConnectionString() : standardConnectionString;
 		        strRelativePath = GetRelativePath(strPathName, isCustom);
 
-                //TODO LARA nn mi ricordo perche' 
                 (strApplication,strModule) =  pathFinder.GetApplicationModuleNameFromPath(strPathName); 
                 connection = new SqlConnection(connectionString);
                 connection.Open();
@@ -495,8 +489,7 @@ namespace Microarea.Common.FileSystemManager
 	        Debug.Fail(tBFile.completeFileName);
 	        if (tBFile != null)
 	        {
-		        nLen = (pBinaryContent != null) ? (int) tBFile.fileSize : 0; //TODO LARA CHIEDI A ANNA
-                //lo metto a null così il distrutture del TBFile non va a cancellare l'area di memoria di m_pFileContent che è stata assegnata a pBinaryContent
+		        nLen = (pBinaryContent != null) ? (int) tBFile.fileSize : 0; 
                 tBFile.fileContent = null;
                 tBFile = null;
 	        }
@@ -597,7 +590,7 @@ namespace Microarea.Common.FileSystemManager
             string strTBFSFileName = GetTBFSFileCompleteName(sFileName);
 
             TBFile pTBFile = new TBFile(strTBFSFileName, this);
-            pTBFile.fileContentString = dom.InnerXml; //todo lara
+            pTBFile.fileContentString = dom.InnerXml; 
             pTBFile.objectType = GetType(strTBFSFileName);
 
             pTBFile.isReadOnly = false;

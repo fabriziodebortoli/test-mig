@@ -12,6 +12,7 @@ using Microarea.Common.NameSolver;
 using Microarea.Common.WebServicesWrapper;
 using Newtonsoft.Json;
 using TaskBuilderNetCore.Interfaces;
+using static Microarea.Common.MenuLoader.MenuInfo;
 using static Microarea.Common.MenuLoader.MenuLoader;
 
 namespace Microarea.Common.MenuLoader
@@ -37,11 +38,11 @@ namespace Microarea.Common.MenuLoader
 					if (nMenuRows > -1)
 					{
                         //Lara
-
-						//MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), company );
-						//if (pInfo != null && nMenuRows > 0)
-						//	return null;
-						menuLoader.LoadAllMenus(false, false);
+                        CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), pf);
+                        MenuInfo.CachedMenuInfos pInfo = cachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), company);
+                        if (pInfo != null && nMenuRows > 0)
+                            return null;
+                        menuLoader.LoadAllMenus(false, false);
 						doc = menuLoader.ProcessMenu();
 					}
 				}
@@ -111,8 +112,8 @@ namespace Microarea.Common.MenuLoader
         /// altrimenti lo carica al volo e lo ritorna
         /// </summary>
         public static string LoadMenuWithFavoritesAsJson(string user, string company, string authenticationToken, bool clearCachedData)
-		{
-            //TODO LARA
+		{ 
+            //TODO LARA taengo ancora
              PathFinder pf = new PathFinder(company, user);
 
    //         string originalStandardFile = pf.GetCustomUserCachedMenuFile();

@@ -104,8 +104,6 @@ namespace TaskBuilderNetCore.Interfaces
         //----------------------------------------------------------------------------
         public TBFile(string strCompleteFileName, IFileSystemDriver alternativeDriver)
         {
-
-            //TODO LARA AGGIUNGI PATHNAME
             if (alternativeDriver == null)
             {
                 FileInfo fileInfo = new FileInfo(strCompleteFileName);

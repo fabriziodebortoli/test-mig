@@ -38,7 +38,7 @@ namespace Microarea.Common.FileSystemManager
 		}
 
 		//---------------------------------------------------------------------
-		public bool IsAManagedObject(string sFileName) //TODO LARA
+		public bool IsAManagedObject(string sFileName) 
 		{
 			return true;
 		}
