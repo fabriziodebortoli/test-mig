@@ -17,8 +17,6 @@ using namespace System::Runtime::InteropServices;
 static const TCHAR szMPInstanceTBFS[] = _T("MP_InstanceTBFS");
 static const TCHAR szTBCustomTBFS[] = _T("TB_CustomTBFS");
 
-static const TCHAR szInstanceKey[] = _T("inst1"); //da mettere come variabile del TBFSDatabaseDriver
-
 static const TCHAR szQueryDB[] = _T("QueryDB");
 static const TCHAR szFetch[] = _T("Fetch");
 
@@ -171,9 +169,6 @@ int InsertMetadataFolder(SqlConnection^ sqlConnection, String^ strFolder, String
 	int parentID = -1;
 	//verifico se la path esiste
 	String^ commandText = String::Format("SELECT FileID from {0} WHERE PathName = '{1}' AND IsDirectory = '1'", tableName, strFolder);
-	if (!bCustom)
-		commandText += String::Format(" AND InstanceKey = \'{0}\'", gcnew String(szInstanceKey));
-
 	try
 	{
 		//if (pMetadataPerformance) pMetadataPerformance->MakeTimeOperation(QUERY_METADATA, START_TIME);
@@ -201,7 +196,7 @@ int InsertMetadataFolder(SqlConnection^ sqlConnection, String^ strFolder, String
 
 		String^ strInsertCommandText = (bCustom)
 			? String::Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, TBCreatedID, TBModifiedID)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "NULL" : parentID.ToString(), strFolder, application, module, AfxGetWorkerId())
-			: String::Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', {5})", tableName, (parentID == -1) ? "NULL" : parentID.ToString(), parent, application, module, gcnew String(szInstanceKey));
+			: String::Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', {5})", tableName, (parentID == -1) ? "NULL" : parentID.ToString(), parent, application, module);
 	
 		//if (pMetadataPerformance) pMetadataPerformance->MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlTrans = sqlConnection->BeginTransaction();
@@ -296,7 +291,7 @@ void TBFSDatabaseDriver::GetAllApplicationInfo(CStringArray* pArray)
 	String^ commandText;
 	try
 	{
-		commandText = String::Format("Select PathName FROM {0} WHERE ObjectType = \'APPLICATION\' AND InstanceKey = \'{1}\' ORDER BY FileID", gcnew String (szMPInstanceTBFS), gcnew String(szInstanceKey));
+		commandText = String::Format("Select PathName FROM {0} WHERE ObjectType = \'APPLICATION\' ORDER BY FileID", gcnew String (szMPInstanceTBFS));
 				
 		sqlConnection = gcnew SqlConnection(gcnew String(m_StandardConnectionString));
 		sqlConnection->Open();
@@ -353,7 +348,7 @@ void TBFSDatabaseDriver::GetAllModuleInfo(const CString& strAppName, CStringArra
 	try
 	{
 		//MakeTimeOperation(QUERY_METADATA, START_TIME);
-		commandText = String::Format("Select PathName FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\' AND InstanceKey = \'{2}\' ORDER BY FileID", gcnew String(szMPInstanceTBFS), gcnew String(strAppName), gcnew String(szInstanceKey));
+		commandText = String::Format("Select PathName FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\' ORDER BY FileID", gcnew String(szMPInstanceTBFS), gcnew String(strAppName));
 		sqlConnection = gcnew SqlConnection(gcnew String(m_StandardConnectionString));
 		sqlConnection->Open();
 		sqlCommand = gcnew SqlCommand(commandText, sqlConnection);
@@ -458,6 +453,9 @@ int TBFSDatabaseDriver::GetFolder(const CString& strPathName, const BOOL& bCreat
 //----------------------------------------------------------------------------
 BOOL TBFSDatabaseDriver::CreateFolder(const CString& strPathName, const BOOL& /*bRecursive*/)
 {
+	if (IsARootPath(strPathName))
+		return TRUE;
+
 	return GetFolder(strPathName, TRUE) != -1;
 }
 
@@ -556,8 +554,6 @@ int TBFSDatabaseDriver::GetFile(const CString& strPathFileName)
 		sqlConnection = gcnew SqlConnection(connectionString);
 		sqlConnection->Open();
 		commandText = String::Format("Select FileID from {0} where CompleteFileName = '{1}'", tableName, gcnew String(strRelativePath));
-		if (!isCustom)
-			commandText += String::Format(" AND InstanceKey = \'{0}\'", gcnew String(szInstanceKey));
 
 		sqlCommand = gcnew SqlCommand(commandText, sqlConnection);
 		System::Object^ value = sqlCommand->ExecuteScalar();
@@ -725,10 +721,8 @@ BOOL TBFSDatabaseDriver::RenameFile(const CString& strOldFileName, const CString
 		sqlConnection->Open();
 		FileInfo file(gcnew String(strNewFileName));
 		
-		commandText = String::Format("UPDATE {0} SET  FileName = {1}, FileType = {2}, CompleteFileName = {3} WHERE CompleteFileName = '{4}'", tableName, file.Name, file.Extension, gcnew String(strNewRelativePath), gcnew String(strOldRelativePath));
-		if (!isCustom)
-			commandText += String::Format(" AND InstanceKey = \'{0}\'", gcnew String(szInstanceKey));
-
+		commandText = String::Format("UPDATE {0} SET  FileName = '{1}', FileType = '{2}', CompleteFileName = '{3}' WHERE CompleteFileName = '{4}'", tableName, file.Name, file.Extension, gcnew String(strNewRelativePath), gcnew String(strOldRelativePath));
+	
 		sqlCommand = gcnew SqlCommand(commandText, sqlConnection);
 		int nResult = sqlCommand->ExecuteNonQuery();
 		MakeTimeOperation(QUERY_METADATA, STOP_TIME);
@@ -737,7 +731,7 @@ BOOL TBFSDatabaseDriver::RenameFile(const CString& strOldFileName, const CString
 		delete sqlConnection;
 		return nResult == 1;
 	}
-	catch (SqlException^)
+	catch (SqlException^ e)
 	{
 
 		if (sqlCommand)
@@ -748,6 +742,7 @@ BOOL TBFSDatabaseDriver::RenameFile(const CString& strOldFileName, const CString
 			sqlConnection->Close();
 			delete sqlConnection;
 		}
+		CString strMsg = e->Message;
 		ASSERT(FALSE);
 		return FALSE;
 	}
@@ -790,9 +785,7 @@ BOOL TBFSDatabaseDriver::GetFileStatus(const CString& strPathFileName, CFileStat
 		sqlConnection = gcnew SqlConnection(connectionString);
 		sqlConnection->Open();
 		commandText = String::Format("Select FileSize, CreationTime, LastWriteTime, IsDirectory, IsReadOnly from {0} where CompleteFileName = '{1}'", tableName, gcnew String(strRelativePath));
-		if (!isCustom)
-			commandText += String::Format(" AND InstanceKey = \'{0}\'", gcnew String(szInstanceKey));
-
+		
 		sqlCommand = gcnew SqlCommand(commandText, sqlConnection);
 
 		dr = sqlCommand->ExecuteReader();
@@ -1018,18 +1011,23 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 		
 
-		strCommandText = (fileID > -1)
-			? String::Format("UPDATE {0} SET LastWriteTime = GetDate(), FileSize = @FileSize, FileContent = @BinaryContent, FileTextContent = @FileTextContent, TBModified = GetDate(), TBModifiedID = @TBModifiedID WHERE FileID = @FileID", tableName)
-			: (isCustom)
-			? String::Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, AccountName, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly, @BinaryContent, @FileTextContent, @AccountName, @TbCreatedID, @TBModifiedID)", tableName)
-			: String::Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, InstanceKey, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent, @InstanceKey @TbCreatedID, @TBModifiedID)", tableName);
-
+		if (fileID > -1)
+		{
+			strCommandText = (isCustom)
+				? String::Format("UPDATE {0} SET LastWriteTime = GetDate(), FileSize = @FileSize, FileContent = @BinaryContent, FileTextContent = @FileTextContent, TBModified = GetDate(), TBModifiedID = @TBModifiedID WHERE FileID = @FileID", tableName)
+				: String::Format("UPDATE {0} SET LastWriteTime = GetDate(), FileSize = @FileSize, FileContent = @BinaryContent, FileTextContent = @FileTextContent WHERE FileID = @FileID", tableName);
+		}
+		else
+		{
+			strCommandText = (isCustom)
+				? String::Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, AccountName, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly, @BinaryContent, @FileTextContent, @AccountName, @TbCreatedID, @TBModifiedID)", tableName)
+				: String::Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent)  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent)", tableName);
+		}
 		//se non ho ancora inserito il file mi devo far dare il parentID e se non esiste inserirlo
 		if (fileID == -1)
 		{
-			if (IsARootPath(pTBFile->m_strCompleteFileName))
-				parentID = -1;
-			parentID = GetFolder(pTBFile->m_strPathName, TRUE);
+			
+			parentID = IsARootPath(pTBFile->m_strPathName) ? -1 : GetFolder(pTBFile->m_strPathName, TRUE);
 			AfxGetPathFinder()->GetApplicationModuleNameFromPath(pTBFile->m_strCompleteFileName, strApplication, strModule);
 			if (isCustom)
 			{
@@ -1057,8 +1055,7 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 			binaryContentParam->Value = System::DBNull::Value;
 
 		sqlCommand->Parameters->Add(binaryContentParam);
-		sqlCommand->Parameters->AddWithValue("@TBModifiedID", (Int32)AfxGetWorkerId());
-
+	
 		//se sto aggiungendo una nuova riga allora devo fare il bind anche degli altri parametri
 		if (fileID <= 0)
 		{
@@ -1079,15 +1076,18 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 			sqlCommand->Parameters->AddWithValue("@ObjectType", gcnew String(pTBFile->m_ObjectType));
 			sqlCommand->Parameters->AddWithValue("@IsDirectory", gcnew String((pTBFile->m_IsDirectory) ? "1" : "0"));
 			sqlCommand->Parameters->AddWithValue("@IsReadOnly", gcnew String((pTBFile->m_IsReadOnly) ? "1" : "0"));
-			sqlCommand->Parameters->AddWithValue("@TbCreatedID", (Int32)AfxGetWorkerId());
 			if (isCustom)
+			{
 				sqlCommand->Parameters->AddWithValue("@AccountName", gcnew String(strAccountName));
-			else
-				sqlCommand->Parameters->AddWithValue("@InstanceKey", gcnew String(szInstanceKey));
+				sqlCommand->Parameters->AddWithValue("@TbCreatedID", (Int32)AfxGetWorkerId());
+			}
 		}
 		else //parametro della where clause nel caso di update
 			sqlCommand->Parameters->AddWithValue("@FileID", (Int32)fileID);
 
+		if (isCustom)
+			sqlCommand->Parameters->AddWithValue("@TbModifiedID", (Int32)AfxGetWorkerId());
+	
 		sqlCommand->ExecuteNonQuery();
 		MakeTimeOperation(QUERY_METADATA, STOP_TIME);
 		delete sqlCommand;
@@ -1132,7 +1132,7 @@ TBFile* TBFSDatabaseDriver::GetTBFile(const CString& strPathFileName)
 		if (AfxGetPathFinder()->IsStandardPath(strTBFSFileName))
 		{
 			strRelativePath = GetRelativePath(strTBFSFileName, false);			
-			GetStandardTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\' AND InstanceKey = \'%s\'"), strRelativePath, szInstanceKey), &aMetadataArray);
+			GetStandardTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\'"), strRelativePath), &aMetadataArray);
 		}
 		else
 		{
@@ -1481,9 +1481,6 @@ BOOL TBFSDatabaseDriver::GetSubFolders(const CString& strPathName, CStringArray*
 		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 
 		commandText = String::Format("Select X.PathName from {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\' AND X.IsDirectory = \'1\'", tableName, relativePath);
-		//devo aggiungere il filtro per l'instance name
-		if (!isCustom)
-			commandText += String::Format(" AND X.InstanceKey = \'{0}\'", gcnew String(szInstanceKey));
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
 		sqlConnection->Open();
@@ -1567,9 +1564,6 @@ BOOL TBFSDatabaseDriver::GetTBFolderContent(const CString& strPathName, TBMetada
 			if (bFolders || bFiles)
 				strCommandText += cwsprintf(_T(" AND X.IsDirectory = \'%s\'"), (bFolders) ? '0' : '1');
 
-		if (!isCustom)
-			strCommandText += cwsprintf(_T(" AND Y.InstanceKey = \'%s\'"), szInstanceKey);
-
 		GetTBFilesInfo(strConnectionString, strCommandText, pFolderContent, isCustom, m_pMetadataPerformance);
 	}
 	catch (SqlException^ e)
@@ -1621,9 +1615,6 @@ BOOL TBFSDatabaseDriver::GetPathContent(const CString& strPathName, BOOL bFolder
 		else
 			if (bFolders || bFiles)
 				commandText += String::Format(" AND X.IsDirectory = \'{0}\'))", (bFolders) ? '0' : '1');
-		
-		if (!isCustom)
-			commandText += String::Format(" AND Y.InstanceKey =\'{0}\'", gcnew String(szInstanceKey));
 		
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
@@ -1705,9 +1696,6 @@ BOOL TBFSDatabaseDriver::GetFiles(const CString& strPathName, const CString& str
 			CString fileType = (strFileExt.Find(_T('*')) == 0) ? strFileExt.Right(strFileExt.GetLength() - 1) : strFileExt;			
 			commandText += String::Format(" AND X.FileType = \'{0}\'", gcnew String(fileType));
 		}
-
-		if (!isCustom)
-			commandText += String::Format(" AND Y.InstanceKey =\'{0}\'", gcnew String(szInstanceKey));
 
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
