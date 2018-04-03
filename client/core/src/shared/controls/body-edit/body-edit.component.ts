@@ -94,7 +94,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
         this.changeDetectorRef.markForCheck();
       });
 
-    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+    this.subscriptions.push(this.be_columns.changes.subscribe(() => {
       this.resetBodyEditColumns();
     }));
 

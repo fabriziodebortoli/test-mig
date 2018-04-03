@@ -54,22 +54,15 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
   ngAfterContentInit() {
     this.resetTileManagerTabs();
 
-    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
-      this.resetTileManagerTabs();
-    }));
+    this.subscriptions.push(this.tilegroups.changes.subscribe(() => { this.resetTileManagerTabs(); }));
   }
 
   resetTileManagerTabs() {
 
     setTimeout(() => {
-      let tilegroups = this.getTilegroups();
+      let tempGroups = this.getTilegroups();
       let internalTabComponents = [];
-      for (let i = 0; i < tilegroups.length; i++) {
-        let currentTab = tilegroups[i];
-        if (currentTab.activated) {
-          internalTabComponents.push(currentTab.tabComponent);
-        }
-      }
+      tempGroups.forEach((current) => { internalTabComponents.push(current.tabComponent); });
       this.kendoTabStripInstance.tabs.reset(internalTabComponents);
       this.changeTilegroupByIndex(0);
     }, 1);

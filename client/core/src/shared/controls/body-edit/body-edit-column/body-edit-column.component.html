@@ -1,4 +1,4 @@
-<kendo-grid-column field="{{columnName}}" title="{{title}}" [width]="getWidth()" [editable]="true" [style]="{'height': bodyEditService.rowHeight+'px'}" [ngClass]="{ 'editing': bodyEditService.enabled }">
+<kendo-grid-column *ngIf="activated && !hidden" field="{{columnName}}" title="{{title}}" [width]="getWidth()" [editable]="true" [style]="{'height': bodyEditService.rowHeight+'px'}" [ngClass]="{ 'editing': bodyEditService.enabled }">
 
     <ng-template kendoGridHeaderTemplate>
         <div class="headerTitle">
