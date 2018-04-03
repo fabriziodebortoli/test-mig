@@ -1,7 +1,7 @@
 import { ControlContainerComponent } from './../control-container/control-container.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
-import { Component, Input, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, AfterViewInit, ChangeDetectorRef, ViewChild, HostListener, ElementRef } from '@angular/core';
 
 import { EventDataService } from './../../../core/services/eventdata.service';
 
@@ -23,6 +23,14 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   @Input('chars') chars: number = 0;
 
   @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+
+  @ViewChild('email') public email: ElementRef;
+  @HostListener('document:click', ['$event'])
+  public documentClick(event: any): void {
+    if (this.contains(event.target)) {
+      this.onMailClick();
+    }
+  }
 
   constructor(
     public eventData: EventDataService,
@@ -63,8 +71,10 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   onMailClick() {
-    if (this.model.enabled || this.model.value.trim().length == 0)
-      return;
+    if (!this.model.value) return;
+
+    if (this.model.enabled || this.model.value.trim().length == 0) return;
+
     location.href = "mailto:" + this.model.value;
     return 0;
   }
@@ -86,5 +96,9 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
     }
 
     this.eventData.change.emit(this.cmpId);
+  }
+
+  private contains(target: any): boolean {
+    return (this.email ? this.email.nativeElement.contains(target) : false);
   }
 }
