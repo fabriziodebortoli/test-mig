@@ -312,16 +312,6 @@ export class HttpMenuService {
             });
     }
 
-
-    clearCachedData(): Observable<any> {
-        var url = this.infoService.getMenuServiceUrl() + 'clearCachedData/';
-        return this.httpService.postData(url, undefined)
-            .map((res: Response) => {
-                return res.ok;
-            });
-    }
-
-
     activateViaSMS(): Observable<any> {
         return this.http.get(this.infoService.getMenuServiceUrl() + 'getPingViaSMSUrl/', { withCredentials: true })
             .map((res: Response) => {

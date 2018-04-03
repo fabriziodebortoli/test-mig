@@ -55,6 +55,8 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
     this.resetTileManagerTabs();
 
     this.subscriptions.push(this.tilegroups.changes.subscribe(() => { this.resetTileManagerTabs(); }));
+
+    this.changeTilegroupByIndex(0);
   }
 
   resetTileManagerTabs() {
@@ -64,7 +66,7 @@ export class TileManagerComponent extends TbComponent implements AfterContentIni
       let internalTabComponents = [];
       tempGroups.forEach((current) => { internalTabComponents.push(current.tabComponent); });
       this.kendoTabStripInstance.tabs.reset(internalTabComponents);
-      this.changeTilegroupByIndex(0);
+      
     }, 1);
   }
 

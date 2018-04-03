@@ -222,27 +222,6 @@ namespace Microarea.Menu.Controllers
             }
         }
 
-
-        //---------------------------------------------------------------------
-        [Route("clearCachedData")]
-        public IActionResult ClearCachedData([FromBody] JObject value)
-        {
-            try
-            {
-                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
-                if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
-
-                string user = value["user"]?.Value<string>();
-                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(user);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-            }
-            catch (Exception e)
-            {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-            }
-        }
-
         //---------------------------------------------------------------------
         [Route("getProductInfo")]
         public IActionResult GetProductInfo()
