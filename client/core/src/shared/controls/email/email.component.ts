@@ -70,8 +70,11 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   onBlur(e): any {
+    if (!this.model.value) return;
+
     this.constraint = new RegExp('^[a-zA-Z0-9_\+-]+(\.[a-zA-Z0-9_\+-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.([a-zA-Z]{2,})$', 'i');
     var arEmail = this.model.value.split(";");
+
     this.cc.errorMessage = '';
     if (arEmail.length > 0) {
       for (var i = 0; i < arEmail.length; i++) {
