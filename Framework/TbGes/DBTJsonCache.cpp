@@ -120,18 +120,19 @@ bool DBTJsonCache::SetJson(CJsonParser& jsonParser)
 
 	if (jsonParser.BeginReadArray(_T("rows")))
 	{
-		for (int i = m_nStart; i < m_nStart + m_nCount; i++)
+		for (int i = 0; i < jsonParser.GetCount(); i++)
 		{
-			if (i >= m_pDBT->GetSize())
+			int idx = m_nStart + i;
+			if (idx >= m_pDBT->GetSize())
 				break;
-			SqlRecord *pRecord = m_pDBT->GetRow(i);
 			if (jsonParser.BeginReadObject(i))
 			{
+				SqlRecord *pRecord = m_pDBT->GetRow(idx);
+			
 				modified = pRecord->SetJson(jsonParser) || modified;
 				jsonParser.EndReadObject();
-				int idx = i - m_nStart;
 				SqlRecord* pOld = NULL;
-				if (idx >= m_pClientRecords->GetSize())
+				if (i >= m_pClientRecords->GetSize())
 				{
 					pOld = pRecord->Clone();
 					m_pClientRecords->Add(pOld);
