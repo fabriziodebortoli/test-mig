@@ -107,8 +107,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 								string.Empty
 								);
 				string error = "Error exporting table " + tableName + "\r\nFile name " + fileName + e.Message;
-				Debug.Fail(error);
-				Debug.WriteLine(error + e.ToString());
+				Debug.WriteLine("ExportManager " + error + e.ToString());
 			}
 
 			// al termine dell'elaborazione setto la progress bar e visualizzo il messaggio
@@ -256,13 +255,13 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//					break;
 		//				}
 
-  //                  case DBMSType.POSTGRE:
-  //                      {
-  //                          ExportPostgreTable(entry.TableName, query, ref dataSet);
-  //                          if (dataSet.Tables.Count > 0)
-  //                              dataSet.Tables[dataSet.Tables.Count - 1].TableName = entry.TableName;
-  //                          break;
-  //                      }
+		//                  case DBMSType.POSTGRE:
+		//                      {
+		//                          ExportPostgreTable(entry.TableName, query, ref dataSet);
+		//                          if (dataSet.Tables.Count > 0)
+		//                              dataSet.Tables[dataSet.Tables.Count - 1].TableName = entry.TableName;
+		//                          break;
+		//                      }
 
 		//			default:
 		//				return false; //ERRORE
@@ -376,7 +375,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//	}
 		//	catch (OutOfMemoryException ome)
 		//	{
-		//		Debug.Fail(ome.ToString());
+		//		Debug.WriteLine(ome.ToString());
 		//		dbDiagnostic.SetMessage
 		//			(
 		//			false,
@@ -391,7 +390,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//	}
 		//	catch (TBException tbExc)
 		//	{
-		//		Debug.Fail(tbExc.ToString());
+		//		Debug.WriteLine(tbExc.ToString());
 		//		dbDiagnostic.SetMessage
 		//			(
 		//			false,
@@ -406,7 +405,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//	}
 		//	catch (Exception e)
 		//	{
-		//		Debug.Fail(e.ToString());
+		//		Debug.WriteLine(e.ToString());
 		//		dbDiagnostic.SetMessage
 		//			(
 		//			false,
@@ -419,7 +418,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//			);
 		//		return false;
 		//	}
-			
+
 		//	return true;
 		//}
 
@@ -432,7 +431,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//{
 		//	XmlDocument xDoc = new XmlDocument();
 		//	xDoc.Load(File.OpenText(fileName));
-						
+
 		//	//root del documento (DataTables)
 		//	XmlElement root = xDoc.DocumentElement;
 		//	if (root != null)
@@ -443,7 +442,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 		//	xDoc.WriteContentTo(writer);
 		//	writer.Flush();
 		//}		
-		# endregion
+		#endregion
 
 		///<summary>
 		/// Metodo richiamato SOLO per i database Oracle (fix anomalia nr. 18146)

@@ -539,8 +539,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				sb.Append(" --> ");
 				sb.Append(visitingNodes[visitingNodes.Count - 1].Label);
 
-				string message = string.Concat("Recursion detected! Node sequence: \r\n", sb);
-				Debug.Fail(message);
+				Debug.WriteLine(string.Concat("DirectGraph: Recursion detected! Node sequence: \r\n", sb));
 				throw new Exception(sb.ToString());
 			}
 

@@ -277,11 +277,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
                 //using (StreamReader reader = new StreamReader(fs))
                 //	scriptText = reader.ReadToEnd();
                 scriptText = PathFinder.PathFinderInstance.GetFileTextFromFileName(pathFileSql);
-
             }
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				ExtendedInfo extendedInfo = new ExtendedInfo();
 				extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
 				extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteFileSql");
@@ -390,8 +389,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 							continue;
 						}
 
-					Debug.Fail(e.Message);
-
 					// se la lunghezza del message è superiore ai 400 chr la tronco 
 					// (altrimenti ho un errore in fase di visualizzazione nel Diagnostico)
 					error = (e.Message.Length > 400) ? e.Message.Substring(0, 400) : e.Message;
@@ -421,7 +418,10 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				}
 				catch (Exception e)
 				{
-					Debug.Fail(e.Message);
+					Debug.WriteLine(e.Message);
+					Debug.WriteLine(fi != null ? "Path file: " + fi.completeFileName : string.Empty);
+					Debug.WriteLine("Script text: " + statement);
+
 					ExtendedInfo extendedInfo = new ExtendedInfo();
 					extendedInfo.Add(DatabaseManagerStrings.Description, e.Message);
 					extendedInfo.Add(DatabaseManagerStrings.Function, "ExecuteFileSql");

@@ -353,8 +353,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch (Exception e)
 			{
-				Debug.WriteLine(e.Message);
-				Debug.Fail("TaskBuilderNet.Data.DatabaseLayer.ExecuteManager.Execute() " + e.Message);
+				Debug.WriteLine("TaskBuilderNet.Data.DatabaseLayer.ExecuteManager.Execute() " + e.Message);
 			}
 			finally
 			{

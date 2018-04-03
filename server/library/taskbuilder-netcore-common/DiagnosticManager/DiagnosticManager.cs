@@ -87,7 +87,7 @@ namespace Microarea.Common.DiagnosticManager
 				if (o != null)
 					return o;
 
-				Debug.Fail("ExtendedInfo[] : Invalid element type");
+				Debug.WriteLine("ExtendedInfo[] : Invalid element type");
 				return null;
 			}
 			set
@@ -283,7 +283,7 @@ namespace Microarea.Common.DiagnosticManager
 		public bool WriteEventLogEntry(/*EventLog aEventLog*/)
 		{
             return true;
-            // TODO rsweb
+			// TODO rsweb
 			//if (aEventLog == null)
 			//	return false;
 
@@ -303,7 +303,7 @@ namespace Microarea.Common.DiagnosticManager
 			//}
 			//catch (Exception exception)
 			//{
-			//	Debug.Fail("Error in DiagnosticItem.WriteEventLogEntry: " + exception.Message);
+			//	Debug.WriteLine("Error in DiagnosticItem.WriteEventLogEntry: " + exception.Message);
 			//	return false;
 			//}
 		}
@@ -329,7 +329,7 @@ namespace Microarea.Common.DiagnosticManager
 			}
 			catch (Exception e)
 			{
-				Debug.Fail("Error in DiagnosticItem.WriteLogOnFile: " + e.Message);
+				Debug.WriteLine("Error in DiagnosticItem.WriteLogOnFile: " + e.Message);
 			}
 		}
 	}
@@ -1155,7 +1155,7 @@ namespace Microarea.Common.DiagnosticManager
 		//{
 		//	if (ownerName == null || ownerName == String.Empty)
 		//	{
-		//		Debug.Fail("Error in Diagnostic.GetDiagnosticEventLog: unspecified log source name.");
+		//		Debug.WriteLine("Error in Diagnostic.GetDiagnosticEventLog: unspecified log source name.");
 		//		return null;
 		//	}
 
@@ -1185,7 +1185,7 @@ namespace Microarea.Common.DiagnosticManager
 		//	}
 		//	catch (Exception)
 		//	{
-		//		//Debug.Fail("Error in DiagnosticItem.WriteEventLogEntry: " + exception.Message);
+		//		//Debug.WriteLine("Error in DiagnosticItem.WriteEventLogEntry: " + exception.Message);
 		//		return null;
 		//	}
 		//}

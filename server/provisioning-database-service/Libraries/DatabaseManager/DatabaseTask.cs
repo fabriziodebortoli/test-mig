@@ -1637,7 +1637,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		{
 			if (isAzureDB)
 			{
-				Debug.Fail("Microarea.ProvisioningDatabase.Libraries.DatabaseManager.ExistLoginIntoDb method unavailable for Azure database!!");
+				Debug.WriteLine("Microarea.ProvisioningDatabase.Libraries.DatabaseManager.ExistLoginIntoDb method unavailable for Azure database!!");
 				return false;
 			}
 
@@ -1693,7 +1693,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		{
 			if (isAzureDB)
 			{
-				Debug.Fail("Microarea.ProvisioningDatabase.Libraries.DatabaseManager.LoginIsDBOwnerRole method unavailable for Azure database!!");
+				Debug.WriteLine("Microarea.ProvisioningDatabase.Libraries.DatabaseManager.LoginIsDBOwnerRole method unavailable for Azure database!!");
 				return false;
 			}
 

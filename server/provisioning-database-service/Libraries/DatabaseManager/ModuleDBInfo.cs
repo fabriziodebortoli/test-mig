@@ -106,7 +106,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch(XmlException e)
 			{
-				Debug.Fail(string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
 				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrorDuringParsingXmlFile, fileXML, e.LineNumber, e.LinePosition));
 				return;
 			}
@@ -126,7 +125,6 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 
 			if (root == null)
 			{
-				Debug.Fail(string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fileXML));
 				Debug.WriteLine(string.Format(DatabaseManagerStrings.ErrorXmlSyntaxError, fileXML));
 				return;
 			}

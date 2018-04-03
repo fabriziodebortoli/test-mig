@@ -742,7 +742,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine("CatalogColumn::GetCompleteDBType: " + e.Message);
 			}
 			
 			return colType;		
@@ -1066,7 +1066,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{				
-				Debug.Fail(e.Message);
+				Debug.WriteLine("CatalogTableInfo::LoadFKConstraintsName: " + e.Message);
 			}
 		}
 	
@@ -1096,7 +1096,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{				
-				Debug.Fail(e.Message);
+				Debug.WriteLine("CatalogTableInfo::LoadRefFKConstraints: " + e.Message);
 			}
 		}
 
@@ -1300,7 +1300,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch (TBException e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine("CatalogEntry::GetCompleteDBType: " + e.Message);
 			}
 
 			return string.Empty;
@@ -1794,7 +1794,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch(TBException e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine("CatalogInfo::Load: " + e.Message);
 				valid = false;
 				throw;
 			}
@@ -1832,8 +1832,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			}
 			catch(TBException e)
 			{
-				Debug.Fail(e.Message);
-				Debug.WriteLine(string.Format("CatalogInfo::LoadAllInformationSchema (errore analizzando la tabella {0})", table));
+				Debug.WriteLine(string.Format("CatalogInfo::LoadAllInformationSchema (errore analizzando la tabella {0}) {1}", table, e.Message));
 				throw;
 			}	
 		}
