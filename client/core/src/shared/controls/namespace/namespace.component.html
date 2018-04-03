@@ -1,0 +1,9 @@
+<tb-control-container type="tb-namespace" [contextMenu]="contextMenu" [stateData]="stateData" [model]="model">
+    <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <div class="group">
+        <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)"
+            [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
+            <tb-explorer-dialog></tb-explorer-dialog>
+    </div>
+    <div class="has-error">{{errorMessage}}</div>
+</tb-control-container>

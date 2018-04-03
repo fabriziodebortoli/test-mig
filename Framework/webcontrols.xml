@@ -15,7 +15,7 @@
   <!--statebutton -->
   <WebControl controlClass="PathEdit" control="tb-text"></WebControl>
   <WebControl controlClass="BrowsePathEdit" control="tb-text"></WebControl>
-  <WebControl controlClass="NamespaceEdit" control="tb-text"></WebControl>
+  <WebControl controlClass="NamespaceEdit" control="tb-namespace"></WebControl>
   <WebControl controlClass="LinkEdit" control="tb-link"></WebControl>
   <WebControl controlClass="PhoneEdit" control="tb-phone">
     <arg name="mask" value="[mask]"></arg>

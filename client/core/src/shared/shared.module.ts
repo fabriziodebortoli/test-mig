@@ -68,7 +68,6 @@ import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/top
 import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 import { UnsupportedComponent } from './components/unsupported.component';
 import { UnsupportedFactoryComponent } from './components/unsupported.component';
-import { ExplorerComponent } from './components/explorer/explorer.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
@@ -118,7 +117,6 @@ export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/top
 export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 export { UnsupportedComponent } from './components/unsupported.component';
 export { UnsupportedFactoryComponent } from './components/unsupported.component';
-export { ExplorerComponent } from './components/explorer/explorer.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
 export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
@@ -142,7 +140,7 @@ const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
     ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
-    UnsupportedComponent, UnsupportedFactoryComponent, ExplorerComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
+    UnsupportedComponent, UnsupportedFactoryComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
     BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, /*FloatingActionMenuComponent, FloatingActionButtonComponent, */CustomisableGridComponent,
     TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent//, TooltipComponent
@@ -263,7 +261,8 @@ import { PropertyGridItemGroupComponent } from './controls/property-grid/propert
 import { ControlContainerComponent } from './controls/control-container/control-container.component';
 import { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
 import { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
-
+import { NamespaceComponent } from './controls/Namespace/namespace.component';
+import { ExplorerComponent, ExplorerDialogComponent, ExplorerItem, ExplorerOptions, ExplorerResult } from './components/explorer/explorer-dialog.component';
 
 export { LinkComponent } from './controls/link/link.component';
 export { LinearGaugeComponent } from './controls/charts/linear-gauge/linear-gauge.component';
@@ -311,16 +310,18 @@ export { PropertyGridItemGroupComponent } from './controls/property-grid/propert
 export { ControlContainerComponent } from './controls/control-container/control-container.component';
 export { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 export { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
+export { NamespaceComponent } from './controls/Namespace/namespace.component';
+export { ExplorerComponent, ExplorerDialogComponent, ExplorerItem, ExplorerOptions, ExplorerResult } from './components/explorer/explorer-dialog.component';
 
 const TB_CONTROLS = [
-    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent,
+    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent,NamespaceComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
     LinearGaugeComponent, HotlinkComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent, PropertyGridItemComponent,
     BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent, BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
-    PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent
+    PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent, ExplorerDialogComponent, ExplorerComponent
 ];
 
 /**
@@ -381,6 +382,7 @@ export { ViewModeType } from './models/view-mode-type.model';
 export { ConnectionStatus } from './models/connection-status.enum';
 export { FormMode } from './models/form-mode.enum';
 export { CommandCategory } from './models/command-category.enum';
+export { ObjType } from '../core/services/explorer.service';
 export * from './models/store.models';
 export * from './commons/selector';
 export * from './commons/untilDestroy';
