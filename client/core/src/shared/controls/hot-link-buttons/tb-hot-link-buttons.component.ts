@@ -96,7 +96,6 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.state = this.state.with({ selectionType: type });
     this.popupHandler.closeOptions();
     this.search();
-    this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType });
   }
 
   selectionChanged(value: any) {

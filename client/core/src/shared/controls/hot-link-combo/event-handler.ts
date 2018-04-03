@@ -26,8 +26,8 @@ export class TbHotlinkComboEventHandler {
         this.getHotLinkElement = () => hlb.combobox.wrapper.getElementsByClassName('k-input')[0] as HTMLElement;
         Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
         .pipe(untilDestroy(hlb))
-        .filter(e => e.keyCode === 119 /*F8*/ || e.keyCode === 120 /*F9*/)
-        .map(e => e.keyCode === 119 ? HotLinkComboSelectionType : DescriptionHotLinkSelectionType)
+        .filter(e => e.key === 'F8' || e.key === 'F9')
+        .map(e => e.key === 'F8' ? HotLinkComboSelectionType : DescriptionHotLinkSelectionType)
         .subscribe(selectionType => {
             hlb.setSelectionType(selectionType);
             if (!hlb.combobox.isOpen) hlb.combobox.toggle(true);

@@ -19,8 +19,8 @@ export class TbHotlinkButtonsEventHandler {
 
         Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
         .pipe(untilDestroy(hlb))
-        .filter(e => e.keyCode === 119 /*F8*/ || e.keyCode === 120 /*F9*/)
-        .map(e => e.keyCode === 119 ? DefaultHotLinkSelectionType : DescriptionHotLinkSelectionType)
+        .filter(e => e.key === 'F8' || e.key === 'F9')
+        .map(e => e.key === 'F8' ? DefaultHotLinkSelectionType : DescriptionHotLinkSelectionType)
         .subscribe(selectionType =>{
             hlb.setHotLinkIcon(selectionType);
             hlb.selectionTypeChanged(selectionType);
