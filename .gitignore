@@ -117,7 +117,6 @@ ipch/
 
 # Fix file ignorati erroneamente
 !OtherComponents/**
-!packages/**
 
 # Non ha senso mettere in GIT i packages, vengono scaricati on demand da visual studio
 Tools/InternationalStudio/packages/
