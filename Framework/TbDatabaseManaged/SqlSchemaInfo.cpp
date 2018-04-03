@@ -80,7 +80,6 @@ SqlColumnInfoObject::SqlColumnInfoObject()
 {
 }
 
-
 // costruttore utile per gestire le colonne vituali (cioe' presenti nel record
 // ma non nel database). Il tipo usato per il database e' uno dei possibili per
 // le conversioni canoniche
@@ -186,13 +185,270 @@ BOOL SqlColumnInfoObject::IsEqual(const SqlColumnInfoObject& cf) const
 		m_bLoadedFromDB == cf.m_bLoadedFromDB;
 }
 
+// Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
+//-----------------------------------------------------------------------------
+void SqlColumnInfoObject::SetDataObjInfo(DataObj* pDataObj) const
+{
+	pDataObj->SetAllocSize(GetColumnLength());
+	//pDataObj->SetCollateCultureSensitive(m_bUseCollationCulture == TRUE);
+	pDataObj->SetSqlDataType(m_nSqlDataType);
+}
+
+// Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
+//-----------------------------------------------------------------------------
+void SqlColumnInfoObject::UpdateDataObjType(DataObj* pDataObj)
+{
+	ASSERT_VALID(pDataObj);
+
+	if (m_bDataObjInfoUpdated)
+		return;
+
+	//TB_LOCK_FOR_WRITE();
+	//qualcuno nel frattempo potrebbe averlo modificato
+	//if (m_bDataObjInfoUpdated)
+	//	return;
+
+	m_bDataObjInfoUpdated = true;
+
+	m_DataObjType = pDataObj->GetDataType();
+
+	if (m_bLoadedFromDB)
+	{
+		if (m_DataObjType.m_wType == DATA_ENUM_TYPE)
+		{
+			m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
+
+#ifdef _DEBUG
+			if (m_DataObjType.m_wTag == 0)
+			{
+				ASSERT_TRACE2
+				(
+					FALSE,
+					"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
+					(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+				);
+			}
+#endif		
+		}
+		return;
+	}
+
+	//questo switch serve solo per i campi locali utilizzati per le query
+	switch (m_DataObjType.m_wType)
+	{
+	case DATA_STR_TYPE:
+		m_nSqlDataType = DBTYPE_WSTR;
+		//TODO m_lLength		= nLen;
+		break;
+
+	case DATA_MON_TYPE:
+	case DATA_QTA_TYPE:
+	case DATA_PERC_TYPE:
+	case DATA_DBL_TYPE:
+		m_nSqlDataType = DBTYPE_R8;
+		m_lPrecision = 15;
+		m_lLength = 8;
+		break;
+
+	case DATA_DATE_TYPE:
+		m_nSqlDataType = DBTYPE_DBTIMESTAMP;
+		m_lPrecision = 19;
+		m_lLength = 4;
+		break;
+
+	case DATA_LNG_TYPE:
+		m_nSqlDataType = DBTYPE_I4;
+		m_lPrecision = LONG_PRECISION;
+		m_lLength = 4;
+		break;
+
+	case DATA_ENUM_TYPE:
+		m_nSqlDataType = DBTYPE_I4;
+		m_lPrecision = LONG_PRECISION;
+		m_lLength = 4;
+
+		m_DataObjType.m_wTag = ((DataEnum*)pDataObj)->GetTagValue();
+
+#ifdef _DEBUG
+		if (m_DataObjType.m_wTag == 0)
+		{
+			ASSERT_TRACE2
+			(
+				FALSE,
+				"SqlColumnInfo::UpdateDataObjInfo: the column %s.%s has an invalid DataEnum type: tag is 0\n",
+				(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+			);
+		}
+#endif
+		break;
+
+	case DATA_BOOL_TYPE:
+		m_nSqlDataType = DBTYPE_STR;
+		m_lPrecision = 1;
+		m_lLength = 1;
+		break;
+
+	case DATA_INT_TYPE:
+		m_nSqlDataType = DBTYPE_I2;
+		m_lPrecision = INT_PRECISION;
+		m_lLength = 2;
+		break;
+
+	case DATA_GUID_TYPE:
+		m_nSqlDataType = DBTYPE_GUID;
+		m_lLength = 16;
+		break;
+
+	case DATA_TXT_TYPE:
+		m_nSqlDataType = DBTYPE_STR;
+
+	case DATA_BLOB_TYPE:
+		m_nSqlDataType = DBTYPE_BYTES;
+		break;
+
+		//case DATA_BLOB_TYPE:	
+	default:
+		ASSERT_TRACE2(FALSE,
+			"SqlColumnInfoObject::UpdateDataObjType: the column %s.%s has an invalid datatype\n",
+			(LPCTSTR)m_strTableName, (LPCTSTR)m_strColumnName
+		);
+		break;
+	}
+}
+// Aggiorna i data menbri sulla base del tipo di DataObj a cui e' collegato
+//-----------------------------------------------------------------------------
+void SqlColumnInfoObject::ForceUpdateDataObjType(DataObj* pDataObj)
+{
+	m_DataObjType = pDataObj->GetDataType();
+	m_lLength = 50;
+
+	m_bDataObjInfoUpdated = false;
+	m_bLoadedFromDB = FALSE;
+
+	UpdateDataObjType(pDataObj);
+}
+
+/*Questa  routine serve essenzialmente a Woorm per proporre all'utente tutte
+le conversioni in DataObj possibili a partire dal tipo SQL della colonna.
+Il valore di default e' il primo elemento del vettore (che deve essere
+allocato fuori, ma puo' non essere inizializzato).*/
+
+//-----------------------------------------------------------------------------
+BOOL SqlColumnInfoObject::GetDataObjTypes(CWordArray& aDataObjTypes) const
+{
+	// Cosi' siamo sicuri che non rimangano precedenti conversioni
+	aDataObjTypes.RemoveAll();
+
+	// tipo base SQL (vedi SQLColumns in ODBC help)
+	switch (m_nSqlDataType)
+	{
+	case DBTYPE_I2:
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		return TRUE;
+
+	case DBTYPE_I4:
+		aDataObjTypes.Add(DATA_LNG_TYPE);
+		aDataObjTypes.Add(DATA_ENUM_TYPE);
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		return TRUE;
+
+	case DBTYPE_R4:
+	case DBTYPE_R8:
+		aDataObjTypes.Add(DATA_DBL_TYPE);
+		aDataObjTypes.Add(DATA_QTA_TYPE);
+		aDataObjTypes.Add(DATA_MON_TYPE);
+		aDataObjTypes.Add(DATA_PERC_TYPE);
+		return TRUE;
+
+	case DBTYPE_DBDATE:
+	case DBTYPE_DBTIME:
+	case DBTYPE_DBTIMESTAMP:
+		aDataObjTypes.Add(DATA_DATE_TYPE);
+		return TRUE;
+
+	case DBTYPE_NUMERIC:
+		if (m_lPrecision == 1 && m_nScale == 0)
+			aDataObjTypes.Add(DATA_BOOL_TYPE);
+		//continue on next cases
+	case DBTYPE_DECIMAL:
+	case DBTYPE_VARNUMERIC:
+		if (m_nScale) // e' sicuramente un valore in floating point
+		{
+			aDataObjTypes.Add(DATA_DBL_TYPE);
+			aDataObjTypes.Add(DATA_QTA_TYPE);
+			aDataObjTypes.Add(DATA_MON_TYPE);
+			aDataObjTypes.Add(DATA_PERC_TYPE);
+			return TRUE;
+		}
+
+		// scala = 0 e superiore al max integer
+		if (m_lPrecision > INT_PRECISION)
+		{
+			aDataObjTypes.Add(DATA_LNG_TYPE);
+			aDataObjTypes.Add(DATA_ENUM_TYPE);
+			aDataObjTypes.Add(DATA_DBL_TYPE);
+			aDataObjTypes.Add(DATA_QTA_TYPE);
+			aDataObjTypes.Add(DATA_MON_TYPE);
+			aDataObjTypes.Add(DATA_PERC_TYPE);
+			return TRUE;
+		}
+
+		aDataObjTypes.Add(DATA_INT_TYPE);
+		aDataObjTypes.Add(DATA_LNG_TYPE);
+		aDataObjTypes.Add(DATA_ENUM_TYPE);
+
+		aDataObjTypes.Add(DATA_DBL_TYPE);
+		aDataObjTypes.Add(DATA_QTA_TYPE);
+		aDataObjTypes.Add(DATA_MON_TYPE);
+		aDataObjTypes.Add(DATA_PERC_TYPE);
+		return TRUE;
+
+	case DBTYPE_WSTR:
+	case DBTYPE_STR:
+		if (m_lLength == 1)
+			aDataObjTypes.Add(DATA_BOOL_TYPE);
+		aDataObjTypes.Add(DATA_STR_TYPE);
+		aDataObjTypes.Add(DATA_TXT_TYPE);
+		aDataObjTypes.Add(DATA_GUID_TYPE); //per ORACLE
+		return TRUE;
+
+	case DBTYPE_BOOL:
+		aDataObjTypes.Add(DATA_BOOL_TYPE);
+		return TRUE;
+
+	case DBTYPE_GUID:
+		aDataObjTypes.Add(DATA_GUID_TYPE);
+		aDataObjTypes.Add(DATA_STR_TYPE); //per ORACLE
+		return TRUE;
+
+		// conversione parzialmente supportata da MicroArea
+	case DBTYPE_BYTES:
+		aDataObjTypes.Add(DATA_BLOB_TYPE);	//@@TODO
+		return FALSE;
+	}
+
+	return FALSE;
+}
+
+//-----------------------------------------------------------------------------------------
+DataType SqlColumnInfoObject::GetDataObjType() const
+{
+	if (m_DataObjType == DataType::Null)
+	{
+		CWordArray wa;
+		if (GetDataObjTypes(wa))
+			return wa[0];
+	}
+
+	return m_DataObjType;
+}
 
 //-----------------------------------------------------------------------------------------
 #ifdef _DEBUG
 void SqlColumnInfoObject::Dump(CDumpContext& dc) const
 {
 	ASSERT_VALID(this);
-	AFX_DUMP0(dc, " SqlColumnInfo\n");
+	AFX_DUMP0(dc, " SqlColumnInfoObject\n");
 	dc << "\tTable Name = " << m_strTableName << "\n";
 	dc << "\tColumn Name = " << m_strColumnName << "\n";
 

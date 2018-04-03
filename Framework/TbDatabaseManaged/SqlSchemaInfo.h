@@ -82,13 +82,28 @@ public:
 	SqlColumnInfoObject();
 	SqlColumnInfoObject(const SqlColumnInfoObject&);
 	SqlColumnInfoObject
-	(
-		const	CString&	strTableName,
-		const	CString&	strColumnName,
-		const	DataObj&	aDataObj	);
+						(
+							const	CString&	strTableName,
+							const	CString&	strColumnName,
+							const	DataObj&	aDataObj	
+						);
 
 	virtual	BOOL IsEqual(const SqlColumnInfoObject& cf) const;
 
+	long			GetColumnLength() const { return m_lLength; }
+	int				GetColumnDecimal() const { return m_nDecimal; }
+	const CString&	GetTableName() const { return m_strTableName; }
+	const CString&	GetColumnName() const { return m_strColumnName; }
+	CString			GetQualifiedColumnName() const { return m_strTableName + '.' + m_strColumnName; }
+	CString			GetColumnTitle() const { return m_strColumnTitle; }
+
+public:
+	DataType 		GetDataObjType() const;
+	// Aggiorna i dati correlati al dataobj
+	void SetDataObjInfo(DataObj* pDataObj) const;
+	void UpdateDataObjType(DataObj* pDataObj);
+	void ForceUpdateDataObjType(DataObj* pDataObj);
+	BOOL GetDataObjTypes(CWordArray& aDataObjTypes) const;
 	// diagnostics
 #ifdef _DEBUG
 public:

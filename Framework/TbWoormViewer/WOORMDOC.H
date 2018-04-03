@@ -82,7 +82,7 @@ class MultiColumnSelection;
 class CNodeTreeArray;
 class CRSTreeCtrl;
 class CNodeTree;
-class SqlColumnInfo;
+class SqlColumnInfoObject;
 class TotalCell;
 class CMyStatusBar;
 
@@ -1301,7 +1301,7 @@ public:
 	void			RefreshObjectPropertyView();
 
 	TblRuleData*	AddDBColumns_GetOrCreateTblRule		(CNodeTree* pNode);
-	WoormField*		AddDBColumns_CreateField			(SqlColumnInfo*, TblRuleData*, int idxTable);
+	WoormField*		AddDBColumns_CreateField			(SqlColumnInfoObject*, TblRuleData*, int idxTable);
 	WoormField*		AddDBColumns_CreateField			(CNodeTree* pNode, TblRuleData*, int idxTable);
 	WoormField*		AddDBColumns_FromToolBar			(CNodeTree* pNode, BOOL bSelectIt, TblRuleData* pCurrTblRule, int idxTable, BOOL bRefresh = TRUE, CStringArray* varNames = NULL);
 	WoormField*		AddDBColumns_FromToolBar			(CNodeTreeArray*, BOOL bSelectLast, TblRuleData* pCurrTblRule, int idxTable, CStringArray* varNames = NULL);

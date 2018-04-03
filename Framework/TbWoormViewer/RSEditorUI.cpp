@@ -1319,7 +1319,7 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 	}
 	else if (eType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO)
 	{
-		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pItem);
+		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pItem);
 		if (pCol->m_bSpecial)
 			nImage = CRSTreeCtrlImgIdx::PrimaryKey;
 	}
@@ -4191,7 +4191,7 @@ void CRSTreeCtrl::FillColumns(CHelperSqlCatalog::CTableColumns* pTC, HTREEITEM h
 	ASSERT_VALID(pTC);
 	for (int c = 0; c < pTC->m_arSortedColumns.GetSize(); c++)
 	{
-		SqlColumnInfo* pCol = (SqlColumnInfo*)(pTC->m_arSortedColumns.GetAt(c));
+		SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pTC->m_arSortedColumns.GetAt(c));
 		BOOL bLinked = FALSE;
 		if (parLinks)
 		{
@@ -4295,7 +4295,7 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 							tableNameKey += '.';
 							for (int i = 0; i < pCatalogEntry->m_pTableInfo->GetSizePhisycalColumns(); i++)
 							{
-								const SqlColumnInfo* pCol = pCatalogEntry->m_pTableInfo->GetAt(i);
+								const SqlColumnInfoObject* pCol = pCatalogEntry->m_pTableInfo->GetAt(i);
 								ASSERT_VALID(pCol);
 								if (!pCol || pCol->m_bVirtual)
 									continue;
@@ -6611,7 +6611,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 			//rivaluto il puntatore
 			if (pSqlTableInfo)
 			{
-				const SqlColumnInfo* pSqlColumnInfo = pSqlTableInfo->GetColumnInfo(field->GetPhysicalName());
+				const SqlColumnInfoObject* pSqlColumnInfo = pSqlTableInfo->GetColumnInfo(field->GetPhysicalName());
 				if (pSqlColumnInfo)
 				{
 					CString sNameTrad = pSqlColumnInfo->GetColumnTitle();
@@ -6639,7 +6639,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pNode->m_pItemData);
+		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pNode->m_pItemData);
 		if (pCol)
 		{
 			CString sNameTrad = pCol->GetColumnTitle();
@@ -9150,14 +9150,14 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 					);
 					if (sTargetVar.IsEmpty())
 					{
-						DataStr dummy; SqlColumnInfo sci(sTargetTableName, pFTKaux->m_sColumnName, dummy);
+						DataStr dummy; SqlColumnInfoObject sci(sTargetTableName, pFTKaux->m_sColumnName, dummy);
 
 						int idx = pTargetTC->m_arSortedColumns.BinarySearch(&sci);
 						if (idx < 0)
 						{
 							goto l_after_join;
 						}
-						SqlColumnInfo* pColInfo = (SqlColumnInfo*)(pTargetTC->m_arSortedColumns[idx]);
+						SqlColumnInfoObject* pColInfo = (SqlColumnInfoObject*)(pTargetTC->m_arSortedColumns[idx]);
 						if (!pColInfo)
 						{
 							goto l_after_join;
@@ -9201,14 +9201,14 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 			);
 			if (sTargetVar.IsEmpty())
 			{
-				DataStr dummy; SqlColumnInfo sci(sTargetTableName, pSER->m_sExtPrimaryKey, dummy);
+				DataStr dummy; SqlColumnInfoObject sci(sTargetTableName, pSER->m_sExtPrimaryKey, dummy);
 
 				int idx = pTargetTC->m_arSortedColumns.BinarySearch(&sci);
 				if (idx < 0)
 				{
 					goto l_after_join;
 				}
-				SqlColumnInfo* pColInfo = (SqlColumnInfo*)(pTargetTC->m_arSortedColumns[idx]);
+				SqlColumnInfoObject* pColInfo = (SqlColumnInfoObject*)(pTargetTC->m_arSortedColumns[idx]);
 				if (!pColInfo)
 				{
 					goto l_after_join;
@@ -10821,7 +10821,7 @@ void CRSToolBoxDBView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfo* pCol = (SqlColumnInfo*)(pNode->m_pItemData);
+		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pNode->m_pItemData);
 		CString sNameTrad = pCol->GetColumnTitle();
 		CString	strBuffer(pCol->GetDataObjType().ToString());
 		strBuffer += cwsprintf(_T("( %d"), pCol->GetColumnLength());

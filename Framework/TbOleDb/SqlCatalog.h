@@ -56,30 +56,31 @@ public:
 		const	CString&	strTableName,
 		const	CString&	strColumnName,
 		const	DataObj&	aDataObj
-	);
-public:
-	long			GetColumnLength() const { return m_lLength; }
-	int				GetColumnDecimal() const { return m_nDecimal; }
-	const CString&	GetTableName() const { return m_strTableName; }
-	const CString&	GetColumnName() const { return m_strColumnName; }
-	CString			GetQualifiedColumnName() const { return m_strTableName + '.' + m_strColumnName; }
-	CString			GetColumnTitle() const { return m_strColumnTitle; }
+	) : SqlColumnInfoObject(strTableName, strColumnName, aDataObj) {}
 
-	DataType 		GetDataObjType() const;
+
+	virtual	BOOL IsEqual(const SqlColumnInfoObject& c) const { return __super::IsEqual(c); }
+
+	long			GetColumnLength			() const { return __super::GetColumnLength(); }
+	int				GetColumnDecimal		() const { return __super::GetColumnDecimal(); }
+	const CString&	GetTableName			() const { return __super::GetTableName(); }
+	const CString&	GetColumnName			() const { return __super::GetColumnName(); }
+	CString			GetQualifiedColumnName	() const { return __super::GetQualifiedColumnName(); }
+	CString			GetColumnTitle			() const { return __super::GetColumnTitle(); }
+
+	DataType 		GetDataObjType			() const { return __super::GetDataObjType(); }
 	// Aggiorna i dati correlati al dataobj
-	void SetDataObjInfo(DataObj* pDataObj) const;
-	void UpdateDataObjType(DataObj* pDataObj);
-	void ForceUpdateDataObjType(DataObj* pDataObj);
-	BOOL GetDataObjTypes(CWordArray& aDataObjTypes) const;
+	void	SetDataObjInfo			(DataObj* pDataObj) const			{ __super::SetDataObjInfo(pDataObj); }
+	void	UpdateDataObjType		(DataObj* pDataObj)					{ __super::UpdateDataObjType(pDataObj); }
+	void	ForceUpdateDataObjType	(DataObj* pDataObj)					{ __super::ForceUpdateDataObjType(pDataObj); }
+	BOOL	GetDataObjTypes			(CWordArray& aDataObjTypes) const	{ return __super::GetDataObjTypes(aDataObjTypes); }
+
 	// diagnostics
 #ifdef _DEBUG
 public:
 	void Dump(CDumpContext& dc) const;
-	void AssertValid() const { SqlColumnInfoObject::AssertValid(); }
 #endif //_DEBUG
-
 };
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //								SqlTables

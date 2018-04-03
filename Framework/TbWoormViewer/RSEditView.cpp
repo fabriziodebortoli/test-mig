@@ -1182,7 +1182,7 @@ void CRSEditorToolView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		}
 		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 		{
-			SqlColumnInfo* pCol = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+			SqlColumnInfoObject* pCol = dynamic_cast<SqlColumnInfoObject*>(pNode->m_pItemData);
 			ASSERT_VALID(pCol);
 			if (!pCol)
 				return;
@@ -1697,7 +1697,7 @@ void CRSEditorToolView::OnEdit(BOOL textSelected)
 		}
 		case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 		{
-			SqlColumnInfo* pCol = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+			SqlColumnInfoObject* pCol = dynamic_cast<SqlColumnInfoObject*>(pNode->m_pItemData);
 			ASSERT_VALID(pCol);
 			if (!pCol)
 				return;
@@ -2061,7 +2061,7 @@ void CRSEditorToolView::OnAdd()
 				return;
 			}
 
-			SqlColumnInfo* pColInfo = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+			SqlColumnInfoObject* pColInfo = dynamic_cast<SqlColumnInfoObject*>(pNode->m_pItemData);
 			ASSERT_VALID(pColInfo);
 			if (!pColInfo)
 			{
@@ -4630,7 +4630,7 @@ CString CRSEditViewTreeCtrl::GetNodeString(CNodeTree* pNode)
 	}
 	case CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		SqlColumnInfo* pCol = dynamic_cast<SqlColumnInfo*>(pNode->m_pItemData);
+		SqlColumnInfoObject* pCol = dynamic_cast<SqlColumnInfoObject*>(pNode->m_pItemData);
 		ASSERT_VALID(pCol);
 		if (!pCol)
 			break;

@@ -14705,12 +14705,12 @@ TblRuleData* CWoormDocMng::AddDBColumns_GetOrCreateTblRule(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 WoormField* CWoormDocMng::AddDBColumns_CreateField(CNodeTree* pNode, TblRuleData* pTblRule, int idxTable)
 {
-	SqlColumnInfo* pColumn = (SqlColumnInfo*)(pNode->m_pItemData);
+	SqlColumnInfoObject* pColumn = (SqlColumnInfoObject*)(pNode->m_pItemData);
 
 	return AddDBColumns_CreateField(pColumn, pTblRule, idxTable);
 }
 
-WoormField* CWoormDocMng::AddDBColumns_CreateField(SqlColumnInfo* pColumn, TblRuleData* pTblRule, int idxTable)
+WoormField* CWoormDocMng::AddDBColumns_CreateField(SqlColumnInfoObject* pColumn, TblRuleData* pTblRule, int idxTable)
 {
 	if (pTblRule->m_arSqlTableJoinInfoArray.GetAt(idxTable)->GetTableName().CompareNoCase(pColumn->GetTableName()))
 		return NULL;
