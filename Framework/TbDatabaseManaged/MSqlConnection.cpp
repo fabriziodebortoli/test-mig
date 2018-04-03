@@ -1940,7 +1940,7 @@ long  MSqlCommand::GetTotalRecords()
 	{
 		String^ strCommandText = gcnew String(m_strCommandText);
 		//faccio la select del solo primo campo x evitare problemi con le join
-		int nPos = strCommandText->LastIndexOf(" FROM ", StringComparison::InvariantCultureIgnoreCase);
+		int nPos = strCommandText->IndexOf(" FROM ", StringComparison::InvariantCultureIgnoreCase);
 		if (nPos > 0)
 		{
 			//cerco la prima virgola
