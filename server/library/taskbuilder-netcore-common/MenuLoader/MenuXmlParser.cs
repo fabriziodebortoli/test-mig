@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -29,16 +28,10 @@ namespace Microarea.Common.MenuLoader
             get { return menuXmlDoc; }
             set { menuXmlDoc = value; }
         }
-        //---------------------------------------------------------------------------
-        public ObjectsImageInfos ImageInfos
-        {
-            get { return imgInfos; }
-            set { imgInfos = value; }
-        }
+   
 
         private MenuXmlNode root = null;
         private MenuXmlNode currApplicationNode = null;
-        private MenuXmlNode currGroupNode = null;
         private ObjectsImageInfos imgInfos = null;
 
         private List<string> loadErrorMessages = null;
@@ -52,45 +45,11 @@ namespace Microarea.Common.MenuLoader
         {
         }
 
-        //---------------------------------------------------------------------------
-        public MenuXmlParser(MenuXmlParser aMenuXmlParser)
-        {
-            if (aMenuXmlParser == null)
-                return;
-
-            if (aMenuXmlParser.menuXmlDoc != null)
-                menuXmlDoc = (XmlDocument)aMenuXmlParser.menuXmlDoc.CloneNode(true);
-
-            SetApplication(aMenuXmlParser.GetCurrentApplicationName());
-            SetGroup(aMenuXmlParser.GetCurrentGroupName());
-
-            if (aMenuXmlParser.ImageInfos != null)
-                CopyImageInfos(aMenuXmlParser.ImageInfos);
-
-        }
-
+   
         #endregion
 
         #region MenuXmlParser public properties
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public MenuXmlNode CurrentApplication
-        {
-            get
-            {
-                return currApplicationNode;
-            }
-        }
 
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public MenuXmlNode CurrentGroup
-        {
-            get
-            {
-                return currGroupNode;
-            }
-        }
 
         //---------------------------------------------------------------------------
         [XmlIgnore]
@@ -106,71 +65,7 @@ namespace Microarea.Common.MenuLoader
             }
         }
 
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool HasApplicationChildNodes
-        {
-            get
-            {
-                if (Root == null)
-                    return false;
-
-                return Root.HasApplicationChildNodes;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool HasCommandDescendantsNodes
-        {
-            get
-            {
-                if (Root == null)
-                    return false;
-
-                return Root.HasCommandDescendantsNodes;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool HasOfficeItemsDescendantsNodes
-        {
-            get
-            {
-                if (Root == null)
-                    return false;
-
-                return Root.HasOfficeItemsDescendantsNodes;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool HasExcelItemsDescendantsNodes
-        {
-            get
-            {
-                if (Root == null)
-                    return false;
-
-                return Root.HasExcelItemsDescendantsNodes;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool HasWordItemsDescendantsNodes
-        {
-            get
-            {
-                if (Root == null)
-                    return false;
-
-                return Root.HasWordItemsDescendantsNodes;
-            }
-        }
-
+  
         //---------------------------------------------------------------------------
         [XmlIgnore]
         public MenuXmlNode MenuActionsNode
@@ -207,77 +102,6 @@ namespace Microarea.Common.MenuLoader
                     return null;
 
                 return MenuActionsNode.MenuActionsItems;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public List<MenuXmlNode> ShortcutsItems
-        {
-            get
-            {
-                if (CommandShortcutsNode == null)
-                    return null;
-
-                return CommandShortcutsNode.ShortcutsItems;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public int ApplicationsCount
-        {
-            get
-            {
-                if (Root == null || !root.Node.HasChildNodes)
-                    return 0;
-
-                int i = 0;
-                foreach (XmlNode childNode in root.Node.ChildNodes)
-                {
-                    if ((childNode is XmlElement) && String.Compare(childNode.Name, MenuXmlNode.XML_TAG_APPLICATION) == 0)
-                        i++;
-                }
-                return i;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public int GroupsCount
-        {
-            get
-            {
-                if (currApplicationNode == null || !currApplicationNode.Node.HasChildNodes)
-                    return 0;
-
-                int i = 0;
-                foreach (XmlNode childNode in currApplicationNode.Node.ChildNodes)
-                {
-                    if ((childNode is XmlElement) && String.Compare(childNode.Name, MenuXmlNode.XML_TAG_GROUP) == 0)
-                        i++;
-                }
-                return i;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public bool AreGroupsPresent
-        {
-            get
-            {
-                return (GroupsCount > 0);
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        [XmlIgnore]
-        public List<string> LoadErrorMessages
-        {
-            get
-            {
-                return loadErrorMessages;
             }
         }
 
@@ -372,12 +196,6 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public MenuXmlNode CreateApplicationNode(string applicationName, string appTitle, string originalAppTitle)
-        {
-            return CreateApplicationNode(applicationName, appTitle, originalAppTitle, null, false);
-        }
-
-        //---------------------------------------------------------------------------
         public MenuXmlNode CreateApplicationNode(string applicationName, string appTitle)
         {
             return CreateApplicationNode(applicationName, appTitle, null, null, false);
@@ -454,46 +272,6 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public MenuXmlNode CreateGroupNode
-            (
-            MenuXmlNode applicationNode,
-            string groupName,
-            string groupTitle,
-            string originalGroupTitle,
-            MenuXmlNode referenceGroupNode,
-            bool insertBeforeRef
-            )
-        {
-            if
-                (
-                menuXmlDoc == null ||
-                groupName == null ||
-                groupName.Length == 0 ||
-                applicationNode == null ||
-                applicationNode.OwnerDocument != menuXmlDoc ||
-                !applicationNode.IsApplication
-                )
-                return null;
-
-            if
-                (
-                referenceGroupNode != null &&
-                referenceGroupNode.OwnerDocument == menuXmlDoc &&
-                referenceGroupNode.IsGroup &&
-                String.Compare(applicationNode.GetNameAttribute(), referenceGroupNode.GetApplicationName()) == 0
-                )
-                return CreateGroupNode(applicationNode, groupName, groupTitle, originalGroupTitle, referenceGroupNode.GetNameAttribute(), insertBeforeRef);
-
-            return CreateGroupNode(applicationNode, groupName, groupTitle, originalGroupTitle, String.Empty, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateGroupNode(MenuXmlNode applicationNode, string groupName, string groupTitle, string originalGroupTitle)
-        {
-            return CreateGroupNode(applicationNode, groupName, groupTitle, originalGroupTitle, String.Empty, false);
-        }
-
-        //---------------------------------------------------------------------------
         public MenuXmlNode CreateGroupNode(MenuXmlNode applicationNode, string groupName, string groupTitle)
         {
             return CreateGroupNode(applicationNode, groupName, groupTitle, null, String.Empty, false);
@@ -503,12 +281,6 @@ namespace Microarea.Common.MenuLoader
         public MenuXmlNode CreateGroupNodeAfterAll(MenuXmlNode applicationNode, string groupName, string groupTitle, string originalGroupTitle)
         {
             return CreateGroupNode(applicationNode, groupName, groupTitle, originalGroupTitle, MenuXmlNode.XML_ATTRIBUTE_INSERT_ALL_VALUE, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateGroupNodeAfterAll(MenuXmlNode applicationNode, string groupName, string groupTitle)
-        {
-            return CreateGroupNodeAfterAll(applicationNode, groupName, groupTitle, null);
         }
 
         //---------------------------------------------------------------------------
@@ -584,12 +356,7 @@ namespace Microarea.Common.MenuLoader
             }
         }
 
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateMenuNode(MenuXmlNode parentNode, string menuName, string menuTitle, string originalMenuTitle)
-        {
-            return CreateMenuNode(parentNode, menuName, menuTitle, originalMenuTitle, null, false);
-        }
-
+  
         //---------------------------------------------------------------------------
         public MenuXmlNode CreateMenuNode(MenuXmlNode parentNode, string menuName, string menuTitle)
         {
@@ -597,162 +364,9 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public MenuXmlNode CreateMenuNode(MenuXmlNode parentNode, string menuName)
-        {
-            return CreateMenuNode(parentNode, menuName, menuName, null, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateDocumentCommandNode
-            (
-                MenuXmlNode parentNode,
-                string commandTitle,
-                string originalCommandTitle,
-                string commandDescription,
-                string command,
-                string arguments,
-                MenuXmlNode referenceCommandNode,
-                bool insertBeforeRef
-            )
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_DOCUMENT, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, referenceCommandNode, insertBeforeRef);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateDocumentCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_DOCUMENT, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateDocumentCommandNode(MenuXmlNode parentNode, string commandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateDocumentCommandNode(parentNode, commandTitle, null, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateBatchCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments, MenuXmlNode referenceCommandNode, bool insertBeforeRef)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_BATCH, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, referenceCommandNode, insertBeforeRef);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateBatchCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_BATCH, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateBatchCommandNode(MenuXmlNode parentNode, string commandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateBatchCommandNode(parentNode, commandTitle, null, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateReportCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments, MenuXmlNode referenceCommandNode, bool insertBeforeRef)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_REPORT, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, referenceCommandNode, insertBeforeRef);
-        }
-
-        //---------------------------------------------------------------------------
         public MenuXmlNode CreateReportCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments)
         {
             return CreateCommandNode(MenuXmlNode.XML_TAG_REPORT, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateReportCommandNode(MenuXmlNode parentNode, string commandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateReportCommandNode(parentNode, commandTitle, null, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateFunctionCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments, MenuXmlNode referenceCommandNode, bool insertBeforeRef)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_FUNCTION, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, referenceCommandNode, insertBeforeRef);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateFunctionCommandNode(MenuXmlNode parentNode, string commandTitle, string originalCommandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateCommandNode(MenuXmlNode.XML_TAG_FUNCTION, parentNode, commandTitle, originalCommandTitle, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateFunctionCommandNode(MenuXmlNode parentNode, string commandTitle, string commandDescription, string command, string arguments)
-        {
-            return CreateFunctionCommandNode(parentNode, commandTitle, null, commandDescription, command, arguments, null, false);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode CreateOfficeFileCommandNode(MenuXmlNode parentNode, string aModuleName, string officeFullFilename)
-        {
-            if (parentNode == null || officeFullFilename == null || officeFullFilename.Length == 0)
-                return null;
-
-            string officeFilename = Path.GetFileNameWithoutExtension(officeFullFilename);
-            string officeExtension = Path.GetExtension(officeFullFilename);
-
-            MenuXmlNode.OfficeItemApplication officeApp = MenuXmlNode.OfficeItemApplication.Undefined;
-            MenuXmlNode.MenuXmlNodeCommandSubType officesubType = null;
-
-            if (String.Compare(officeExtension, NameSolverStrings.ExcelDocumentExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.ExcelTemplateExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.WordDocumentExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Word;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.WordTemplateExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Word;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.Excel2007DocumentExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT_2007);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.Excel2007TemplateExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE_2007);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.Word2007DocumentExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Word;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT_2007);
-            }
-            else if (String.Compare(officeExtension, NameSolverStrings.Word2007TemplateExtension, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                officeApp = MenuXmlNode.OfficeItemApplication.Word;
-                officesubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE_2007);
-            }
-            else
-                return null;
-
-            string officeFileItemObject = parentNode.GetApplicationName();
-            if (aModuleName != null && aModuleName.Length > 0)
-                officeFileItemObject += NameSpace.TokenSeparator + aModuleName;
-            officeFileItemObject += NameSpace.TokenSeparator + officeFilename;
-
-            MenuXmlNode officeCommandNode = CreateCommandNode(MenuXmlNode.XML_TAG_OFFICE_ITEM, parentNode, officeFilename, null, String.Empty, officeFileItemObject, String.Empty, null, false);
-
-            if (officeCommandNode != null)
-            {
-                officeCommandNode.SetOfficeApplication(officeApp);
-                officeCommandNode.CommandSubType = officesubType;
-            }
-
-            return officeCommandNode;
         }
 
         //---------------------------------------------------------------------------
@@ -802,295 +416,6 @@ namespace Microarea.Common.MenuLoader
                 return null;
 
             return root.GetApplicationNodeByName(applicationName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetCommandDescendantNodesByObjectName(string aCommandName)
-        {
-            if (root == null || aCommandName == null || aCommandName.Length == 0)
-                return null;
-
-            return root.GetCommandDescendantNodesByObjectName(aCommandName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetDocumentNodesByObjectName(string aCommandName)
-        {
-            if (root == null || aCommandName == null || aCommandName.Length == 0)
-                return null;
-
-            return root.GetDocumentDescendantNodesByObjectName(aCommandName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetReportNodesByObjectName(string reportName)
-        {
-            if (root == null || reportName == null || reportName.Length == 0)
-                return null;
-
-            return root.GetReportDescendantNodesByObjectName(reportName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetFunctionNodesByObjectName(string aCommandName)
-        {
-            if (root == null || aCommandName == null || aCommandName.Length == 0)
-                return null;
-
-            return root.GetFunctionDescendantNodesByObjectName(aCommandName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetBatchNodesByObjectName(string aCommandName)
-        {
-            if (root == null || aCommandName == null || aCommandName.Length == 0)
-                return null;
-
-            return root.GetBatchDescendantNodesByObjectName(aCommandName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetExeNodesByObjectName(string aCommandName)
-        {
-            if (root == null || aCommandName == null || aCommandName.Length == 0)
-                return null;
-
-            return root.GetExeDescendantNodesByObjectName(aCommandName);
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SetApplication(string applicationName)
-        {
-            if (root == null || applicationName == null || applicationName.Length == 0)
-                return false;
-
-            MenuXmlNode applicationNode = GetApplicationNodeByName(applicationName);
-            if (applicationNode == null)
-                return false;
-
-            currApplicationNode = applicationNode;
-            return true;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SetApplication(MenuXmlNode applicationNode)
-        {
-            if
-                (
-                root == null ||
-                applicationNode == null ||
-                applicationNode.OwnerDocument != menuXmlDoc ||
-                !applicationNode.IsApplication
-                )
-                return false;
-
-            currApplicationNode = applicationNode;
-            return true;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SetGroup(MenuXmlNode groupNode)
-        {
-            if (currApplicationNode == null || groupNode == null || !groupNode.IsGroup)
-                return false;
-
-            currGroupNode = groupNode;
-            return true;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SetGroup(string groupName)
-        {
-            if (currApplicationNode == null || groupName == null || groupName.Length == 0)
-                return false;
-
-            MenuXmlNode groupNode = currApplicationNode.GetGroupNodeByName(groupName);
-            if (groupNode == null)
-                return false;
-
-            return SetGroup(groupNode);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetFirstApplicationNode()
-        {
-            currApplicationNode = null;
-
-            if (root == null || !root.Node.HasChildNodes)
-                return null;
-
-            foreach (XmlNode childNode in root.Node.ChildNodes)
-            {
-                if ((childNode is XmlElement) && String.Compare(childNode.Name, MenuXmlNode.XML_TAG_APPLICATION) == 0)
-                {
-                    currApplicationNode = new MenuXmlNode(childNode);
-                    return currApplicationNode;
-                }
-            }
-            return null;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SeekToFirstApplicationNode()
-        {
-            MenuXmlNode firstApplication = GetFirstApplicationNode();
-            return (firstApplication != null);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetNextApplicationNode()
-        {
-            MenuXmlNode tmpNode = currApplicationNode;
-            while (tmpNode != null)
-            {
-                XmlNode sibling = tmpNode.Node.NextSibling;
-                tmpNode = (sibling != null) ? new MenuXmlNode(sibling) : null;
-                if (tmpNode != null && tmpNode.IsApplication)
-                    break;
-            }
-            currApplicationNode = tmpNode;
-            return currApplicationNode;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool MoveToNextApplicationNode()
-        {
-            MenuXmlNode nextApplication = GetNextApplicationNode();
-            return (nextApplication != null);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetFirstGroupNode()
-        {
-            currGroupNode = null;
-            if (currApplicationNode == null || !currApplicationNode.Node.HasChildNodes)
-                return null;
-
-            foreach (XmlNode childNode in currApplicationNode.Node.ChildNodes)
-            {
-                if ((childNode is XmlElement) && String.Compare(childNode.Name, MenuXmlNode.XML_TAG_GROUP) == 0)
-                {
-                    currGroupNode = new MenuXmlNode(childNode);
-                    return currGroupNode;
-                }
-            }
-            return null;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool SeekToFirstGroupNode()
-        {
-            MenuXmlNode firstGroup = GetFirstGroupNode();
-            return (firstGroup != null);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetNextGroupNode()
-        {
-            MenuXmlNode tmpNode = currGroupNode;
-            while (tmpNode != null)
-            {
-                XmlNode sibling = tmpNode.Node.NextSibling;
-                tmpNode = (sibling != null) ? new MenuXmlNode(sibling) : null;
-                if (tmpNode != null && tmpNode.IsGroup)
-                    break;
-            }
-            currGroupNode = tmpNode;
-            return currGroupNode;
-        }
-
-        //---------------------------------------------------------------------------
-        public bool MoveToNextGroupNode()
-        {
-            MenuXmlNode nextGroup = GetNextGroupNode();
-            return (nextGroup != null);
-        }
-
-        //---------------------------------------------------------------------------
-        public string GetCurrentApplicationName()
-        {
-            if (currApplicationNode == null)
-                return String.Empty;
-            return currApplicationNode.GetNameAttribute();
-        }
-
-        //---------------------------------------------------------------------------
-        public string GetCurrentApplicationTitle()
-        {
-            if (currApplicationNode == null)
-                return String.Empty;
-
-            if (currApplicationNode.Title != null && currApplicationNode.Title.Length > 0)
-                return currApplicationNode.Title;
-
-            return GetCurrentApplicationName();
-        }
-
-        //---------------------------------------------------------------------------
-        public string GetCurrentGroupTitle()
-        {
-            if (currGroupNode == null)
-                return String.Empty;
-            return currGroupNode.Title;
-        }
-
-        //---------------------------------------------------------------------------
-        public string GetCurrentGroupName()
-        {
-            if (currGroupNode == null)
-                return String.Empty;
-            return currGroupNode.GetNameAttribute();
-        }
-
-        //---------------------------------------------------------------------------
-        public List<MenuXmlNode> GetEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
-        {
-            if (root == null || aCommandNodeToFind == null || !aCommandNodeToFind.IsCommand)
-                return null;
-
-            List<MenuXmlNode> applications = root.ApplicationsItems;
-            if (applications == null || applications.Count == 0)
-                return null;
-
-            List<MenuXmlNode> equivalentCommands = new List<MenuXmlNode>();
-            foreach (MenuXmlNode appNode in applications)
-            {
-                List<MenuXmlNode> equivalentAppCommands = appNode.GetApplicationEquivalentCommandsList(aCommandNodeToFind);
-                if (equivalentAppCommands == null || equivalentAppCommands.Count == 0)
-                    continue;
-                equivalentCommands.AddRange(equivalentAppCommands);
-            }
-            return (equivalentCommands.Count > 0) ? equivalentCommands : null;
-        }
-
-        //---------------------------------------------------------------------------
-        public List<MenuXmlNode> GetEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
-        {
-            if (root == null || aExternalItemNodeToFind == null || !aExternalItemNodeToFind.IsExternalItem)
-                return null;
-
-            return GetEquivalentExternalItemsList(aExternalItemNodeToFind.ExternalItemType, aExternalItemNodeToFind.ItemObject);
-        }
-
-        //---------------------------------------------------------------------------
-        public List<MenuXmlNode> GetEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
-        {
-            if (root == null || aExternalItemObject == null || aExternalItemObject.Length == 0 || aExternalItemType == null || aExternalItemType.Length == 0)
-                return null;
-
-            List<MenuXmlNode> applications = root.ApplicationsItems;
-            if (applications == null || applications.Count == 0)
-                return null;
-
-            List<MenuXmlNode> equivalentExternalItems = new List<MenuXmlNode>();
-            foreach (MenuXmlNode appNode in applications)
-            {
-                List<MenuXmlNode> equivalentAppExternalItems = appNode.GetApplicationEquivalentExternalItemsList(aExternalItemType, aExternalItemObject);
-                if (equivalentAppExternalItems == null || equivalentAppExternalItems.Count == 0)
-                    continue;
-                equivalentExternalItems.AddRange(equivalentAppExternalItems);
-            }
-            return (equivalentExternalItems.Count > 0) ? equivalentExternalItems : null;
         }
 
         //---------------------------------------------------------------------------
@@ -1161,121 +486,6 @@ namespace Microarea.Common.MenuLoader
                 if (applicationNode != null)
                     applicationNode.SetImageFileName(imgFileFullName);
             }
-        }
-
-        //---------------------------------------------------------------------------
-        public bool LoadFavoritesMenuFile
-            (
-            MenuInfo menuInfo,
-            string fileToLoad,
-            CommandsTypeToLoad commandsTypeToLoad,
-            bool isForSaving
-            )
-        {
-            aMenuInfo = menuInfo;
-
-            try
-            {
-                if (fileToLoad == null || fileToLoad.Length == 0 || commandsTypeToLoad == CommandsTypeToLoad.Undefined)
-                    return false;
-
-                if (menuXmlDoc == null)
-                    menuXmlDoc = new XmlDocument();
-
-                XmlDocument tmpMenuXmlDoc = null;
-                tmpMenuXmlDoc = PathFinder.PathFinderInstance.LoadXmlDocument(tmpMenuXmlDoc, fileToLoad);
-
-                MenuXmlNode tmpRoot = new MenuXmlNode(tmpMenuXmlDoc.DocumentElement);
-
-                if (tmpRoot.Node == null || !tmpRoot.IsRoot)
-                {
-                    AddLoadErrorMessage(String.Format(MenuManagerLoaderStrings.InvalidMenuFileMsg, fileToLoad));
-                    return false;
-                }
-
-                if (!tmpRoot.HasChildNodes)
-                    return true;
-
-                if (Root == null && !CreateRoot())
-                    return false;
-
-                string installationPath = (aMenuInfo != null && aMenuInfo.CurrentPathFinder != null)
-                    ? aMenuInfo.CurrentPathFinder.GetInstallationPath
-                    : String.Empty;
-
-                List<MenuXmlNode> applicationItems = tmpRoot.ApplicationsItems;
-                if (applicationItems != null)
-                {
-                    foreach (MenuXmlNode appNodeToAdd in applicationItems)
-                    {
-                        MenuXmlNode appNode = AddApplicationNode(appNodeToAdd, commandsTypeToLoad);
-                        if (appNode == null)
-                            continue;
-
-                        if (!isForSaving)
-                        {
-                            string applicationName = appNode.GetNameAttribute();
-
-                            string appImageLink = appNode.ImageLink;
-                            if (appImageLink != null && appImageLink.Length > 0)
-                            {
-                                if (!string.IsNullOrEmpty(installationPath) && !Path.IsPathRooted(appImageLink))
-                                    appImageLink = Path.Combine(installationPath, appImageLink);
-                                AddApplicationImageInfo(applicationName, appImageLink);
-                            }
-
-                            List<MenuXmlNode> groupItems = appNode.GroupItems;
-                            if (groupItems != null)
-                            {
-                                foreach (MenuXmlNode aGroupNode in groupItems)
-                                {
-                                    string groupName = aGroupNode.GetNameAttribute();
-                                    if (groupName != null && groupName.Length > 0)
-                                    {
-                                        string groupImageLink = aGroupNode.ImageLink;
-                                        if (groupImageLink != null && groupImageLink.Length > 0)
-                                        {
-                                            if (!string.IsNullOrEmpty(installationPath) && !Path.IsPathRooted(groupImageLink))
-                                                groupImageLink = Path.Combine(installationPath, groupImageLink);
-                                            AddGroupImageInfo(applicationName, groupName, groupImageLink);
-                                        }
-                                    }
-                                    FindGroupCommandsImages(null, aGroupNode, (aMenuInfo != null) ? aMenuInfo.CurrentPathFinder : null);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                MenuXmlNode tmpCommandShortcutsNode = tmpRoot.GetCommandShortcutsNode();
-                if (tmpCommandShortcutsNode != null)
-                    LoadCommandShortcuts(tmpCommandShortcutsNode, commandsTypeToLoad);
-
-                MenuXmlNode tmpMenuActionsNode = (MenuXmlNode)tmpRoot.GetMenuActionsNode();
-                if (tmpMenuActionsNode != null)
-                    ApplyMenuChanges(tmpMenuActionsNode, commandsTypeToLoad, isForSaving);
-
-                return true;
-            }
-            catch (XmlException exception)
-            {
-                AddLoadErrorMessage(String.Format(MenuManagerLoaderStrings.LoadMenuFileErrFmtMsg, fileToLoad, exception.Message));
-
-                Debug.Fail("XmlException raised in MenuXmlParser.LoadFavoritesMenuFile: " + exception.Message);
-
-                return false;
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode AddMenuNodeToExistingNode
-            (
-            MenuXmlNode parentNode,
-            MenuXmlNode aMenuNodeToAdd,
-            bool deep
-            )
-        {
-            return AddMenuNodeToExistingNode(parentNode, aMenuNodeToAdd, deep, CommandsTypeToLoad.All);
         }
 
         //---------------------------------------------------------------------------
@@ -1380,82 +590,6 @@ namespace Microarea.Common.MenuLoader
             {
                 Debug.Fail("XmlException raised in MenuXmlParser.AddMenuNodeToExistingNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddMenuNodeToExistingNode"), exception);
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode AddMenuNode(MenuXmlNode aMenuNode, bool deep, CommandsTypeToLoad commandsTypeToLoad)
-        {
-            try
-            {
-                if (aMenuNode == null || !aMenuNode.IsMenu)
-                    return null;
-
-                MenuXmlNode appNodeToAdd = (MenuXmlNode)aMenuNode.GetApplicationNode();
-                if (appNodeToAdd == null)
-                    return null;
-
-                MenuXmlNode groupNodeToAdd = (MenuXmlNode)aMenuNode.GetGroupNode();
-                if (groupNodeToAdd == null)
-                    return null;
-
-                if (menuXmlDoc == null)
-                    menuXmlDoc = new XmlDocument();
-
-                if (Root == null && !CreateRoot())
-                    return null;
-
-                MenuXmlNode applicationNode = GetApplicationNodeByName(appNodeToAdd.GetNameAttribute());
-                // Se c'è già il nodo di applicazione mi "aggancio" a quello, altrimenti ne creo uno nuovo
-                if (applicationNode == null)
-                    applicationNode = AppendNodeCopy(root, appNodeToAdd, false, commandsTypeToLoad);
-
-                MenuXmlNode groupNode = applicationNode.GetGroupNodeByName(groupNodeToAdd.GetNameAttribute());
-                if (groupNode == null)
-                    groupNode = AppendNodeCopy(applicationNode, groupNodeToAdd, false, commandsTypeToLoad);
-
-                if (applicationNode.ApplyStateToAllDescendants)
-                    groupNode.State = groupNode.State | applicationNode.State;
-
-                return AddMenuNodeToExistingNode(groupNode, aMenuNode, deep, commandsTypeToLoad);
-            }
-            catch (XmlException exception)
-            {
-                Debug.Fail("XmlException raised in MenuXmlParser.AddMenuNode: " + exception.Message);
-                throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddMenuNode"), exception);
-            }
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode AddCommandNode(MenuXmlNode aCommandNode, bool deep, CommandsTypeToLoad commandsTypeToLoad)
-        {
-            try
-            {
-                if (aCommandNode == null || !aCommandNode.IsCommand)
-                    return null;
-
-                MenuXmlNode menuNodeToAdd = aCommandNode.GetParentMenu();
-                if (menuNodeToAdd == null)
-                    return null;
-
-                MenuXmlNode addedMenuNode = AddMenuNode(menuNodeToAdd, false, commandsTypeToLoad);
-                if (addedMenuNode == null)
-                    return null;
-
-                MenuXmlNode parentnode = addedMenuNode;
-                List<MenuXmlNode> nodeToTraceCommandHierarchyList = aCommandNode.GetCommandsHierarchyList();
-                if (nodeToTraceCommandHierarchyList != null)
-                {
-                    foreach (MenuXmlNode ascendant in nodeToTraceCommandHierarchyList)
-                        parentnode = AddMenuNodeToExistingNode(parentnode, ascendant, false, commandsTypeToLoad);
-                }
-
-                return AddMenuNodeToExistingNode(parentnode, aCommandNode, deep, commandsTypeToLoad);
-            }
-            catch (XmlException exception)
-            {
-                Debug.Fail("XmlException raised in MenuXmlParser.AddCommandNode: " + exception.Message);
-                throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddCommandNode"), exception);
             }
         }
 
@@ -1791,100 +925,6 @@ namespace Microarea.Common.MenuLoader
         //---------------------------------------------------------------------------
         public MenuXmlNode AddShortcutNode
             (
-            string shortcutName,
-            MenuXmlNode.MenuXmlNodeType shortcutType,
-            MenuXmlNode.MenuXmlNodeCommandSubType shortcutSubType,
-            string shortcutCommand,
-            string shortcutDescription,
-            string shortcutImageLink,
-            string shortcutArguments,
-            string differentCommandImage,
-            string activation,
-            CommandsTypeToLoad commandsTypeToLoad,
-            MenuXmlNode.OfficeItemApplication officeApplication,
-            bool noweb,
-            bool runNativeReport,
-            bool startup
-            )
-        {
-            if
-                (
-                shortcutName == null ||
-                shortcutName.Length == 0 ||
-                !shortcutType.IsCommand ||
-                !MenuLoader.IsNodeTypeToLoad(shortcutType, officeApplication, commandsTypeToLoad) ||
-                shortcutCommand == null ||
-                shortcutCommand.Length == 0
-                )
-                return null;
-
-            if (CommandShortcutsNode == null && !CreateCommandShortcutsNode())
-                return null;
-
-            // Se esiste già un nodo di shortcut con lo stesso nome cambio il suo attributo di
-            // comando altrimenti ne creo uno nuovo
-            MenuXmlNode shortcut = CommandShortcutsNode.GetShortcutNodeByNameAndType(shortcutName, shortcutType, officeApplication);
-            if (shortcut != null)
-            {
-                shortcut.ReplaceShortcutNodeData
-                    (
-                    shortcutSubType,
-                    shortcutCommand,
-                    shortcutDescription,
-                    shortcutImageLink,
-                    shortcutArguments,
-                    differentCommandImage,
-                    activation,
-                    noweb,
-                    runNativeReport
-                    );
-
-                return shortcut;
-            }
-
-            XmlElement newElement = menuXmlDoc.CreateElement(MenuXmlNode.XML_TAG_MENU_SHORTCUT);
-            if (newElement == null)
-                return null;
-
-            newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_NAME, shortcutName);
-            newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_TYPE, shortcutType.GetXmlTag());
-            if (shortcutSubType != null)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_SUBTYPE, shortcutSubType.GetXmlTag());
-
-            newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_COMMAND, shortcutCommand);
-            if (shortcutDescription != null && shortcutDescription.Length > 0)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_DESCR, shortcutDescription);
-            if (shortcutImageLink != null && shortcutImageLink.Length > 0)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_IMAGE_LINK, shortcutImageLink);
-            if (differentCommandImage != null && differentCommandImage.Length > 0)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_USE_COMMAND_IMAGE, differentCommandImage);
-            if (activation != null && activation.Length > 0)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_ACTIVATION, activation);
-            if (noweb)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_NO_WEB, "true");
-            if (runNativeReport)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_RUNNATIVE, "true");
-
-            if (shortcutType.IsOfficeItem && officeApplication != MenuXmlNode.OfficeItemApplication.Undefined)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_OFFICE_APP, officeApplication.ToString());
-
-            if (startup)
-                newElement.SetAttribute(MenuXmlNode.XML_ATTRIBUTE_SHORTCUT_STARTUP, "true");
-
-            XmlNode addedShortcutNode = CommandShortcutsNode.Node.AppendChild(newElement);
-
-            if (addedShortcutNode != null)
-            {
-                shortcut = new MenuXmlNode(addedShortcutNode);
-                if (shortcutArguments != null && shortcutArguments.Length > 0)
-                    shortcut.CreateArgumentsChild(shortcutArguments);
-            }
-            return shortcut;
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode AddShortcutNode
-            (
             MenuXmlNode shortcutNodeToAdd,
             CommandsTypeToLoad commandsTypeToLoad
             )
@@ -1920,45 +960,6 @@ namespace Microarea.Common.MenuLoader
             return ((addedShortcutNode != null) ? new MenuXmlNode(addedShortcutNode) : null);
         }
 
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, MenuXmlNode.MenuXmlNodeType aShortcutType)
-        {
-            if (CommandShortcutsNode == null)
-                return null;
-
-            return CommandShortcutsNode.GetShortcutNodeByNameAndType(aShortcutName, aShortcutType);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, MenuXmlNode.MenuXmlNodeType aShortcutType, MenuXmlNode.OfficeItemApplication aOfficeApplication)
-        {
-            if (CommandShortcutsNode == null)
-                return null;
-
-            if (aShortcutType.IsOfficeItem)
-                return CommandShortcutsNode.GetShortcutNodeByNameAndType(aShortcutName, aShortcutType, aOfficeApplication);
-
-            return CommandShortcutsNode.GetShortcutNodeByNameAndType(aShortcutName, aShortcutType);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetDocumentShortcutNodeByName(string aDocumentShortcutName)
-        {
-            if (CommandShortcutsNode == null)
-                return null;
-
-            return CommandShortcutsNode.GetDocumentShortcutNodeByName(aDocumentShortcutName);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNode GetReportShortcutNodeByName(string aReportShortcutName)
-        {
-            if (CommandShortcutsNode == null)
-                return null;
-
-            return CommandShortcutsNode.GetReportShortcutNodeByName(aReportShortcutName);
-        }
-
         /// <summary>
         /// Loads the command shortcuts described by a node
         /// </summary>
@@ -1982,83 +983,6 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        // Il concetto di nodo di tipo ExternalItem è stato introdotto al fine di
-        // consentire l’inserimento nel menù di elementi di tipologia diversa da tutte
-        // quelle predefinite ovvero relative ai comandi standard di un applicativo TB.
-        // Se si definisce un simile nodo, per caratterizzarne la tipologia, è necessario
-        // valorizzare il suo attributo "type". Il valore assegnato a "type" è dato da
-        // una stringa il cui contenuto, così come il  testo interno al suo sotto-nodo
-        // Object, è a completa discrezione di chi lo inserisce.
-        // Grazie all’attributo facoltativo "image_index" si può specificare quale 
-        // immagine usare per visualizzare l’elemento all’interno dell’interfaccia grafica.
-        // Se non viene inserito tale attributo, l’indice dell’immagine viene posto per
-        // default pari a -1 e l’immagine visualizzata sarà, appunto, quella prevista
-        // per default nel caso di comandi generici.
-        //---------------------------------------------------------------------------
-        public MenuXmlNode AddExternalItemNodeToExistingNode
-            (
-            MenuXmlNode parentNode,
-            string itemTitle,
-            string itemType,
-            string itemObject,
-            string itemGuidText,
-            string arguments,
-            int imageIndex
-            )
-        {
-            MenuXmlNode addedExternalItemNode = null;
-            try
-            {
-                if
-                    (
-                    parentNode == null ||
-                    !(parentNode.IsMenu || parentNode.IsCommand) ||
-                    menuXmlDoc == null ||
-                    parentNode.Node.OwnerDocument != menuXmlDoc ||
-                    itemTitle == null ||
-                    itemTitle.Length == 0 ||
-                    itemObject == null ||
-                    itemObject.Length == 0
-                    )
-                    return null;
-
-                MenuXmlNode cmdNode = parentNode.GetCommandNodeByObjectName(itemObject);
-                if
-                    (
-                    cmdNode != null &&
-                    cmdNode.IsExternalItem &&
-                    String.Compare(itemType, cmdNode.ExternalItemType) == 0
-                    ) // il nodo esiste già e quindi non va riaggiunto
-                    return cmdNode;
-
-                MenuXmlNode.MenuXmlNodeType externalItemType = new MenuXmlNode.MenuXmlNodeType(MenuXmlNode.NodeType.ExternalItem);
-                XmlElement newExternalItemElement = menuXmlDoc.CreateElement(externalItemType.GetXmlTag());
-                if (newExternalItemElement == null)
-                    return null;
-
-                addedExternalItemNode = new MenuXmlNode(parentNode.Node.AppendChild(newExternalItemElement));
-
-                addedExternalItemNode.ExternalItemType = itemType;
-                addedExternalItemNode.ExternalItemImageIndex = imageIndex;
-
-                if (parentNode.ApplyStateToAllDescendants)
-                    addedExternalItemNode.State = parentNode.State;
-
-                addedExternalItemNode.CreateTitleChild(itemTitle, null);
-                addedExternalItemNode.CreateObjectChild(itemObject);
-                addedExternalItemNode.CreateGuidChild(itemGuidText);
-                addedExternalItemNode.CreateArgumentsChild(arguments);
-
-                return addedExternalItemNode;
-            }
-            catch (XmlException exception)
-            {
-                Debug.Fail("XmlException raised in MenuXmlParser.AddExternalItemNodeToExistingNode: " + exception.Message);
-                throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddExternalItemNodeToExistingNode"), exception);
-            }
-        }
-
-        //---------------------------------------------------------------------------
         public string GetApplicationImageFileName(string aApplicationName)
         {
             if (imgInfos == null)
@@ -2078,19 +1002,6 @@ namespace Microarea.Common.MenuLoader
                 return String.Empty;
 
             int objBmpInfoIdx = imgInfos.FindObject(aApplicationName, aGroupName, MenuXmlNode.NodeType.Group);
-            if (objBmpInfoIdx == -1)
-                return String.Empty;
-
-            return imgInfos[objBmpInfoIdx].fileName;
-        }
-
-        //---------------------------------------------------------------------------
-        public string GetCommandImageFileName(string aApplicationName, string aCommandItemObject)
-        {
-            if (imgInfos == null)
-                return String.Empty;
-
-            int objBmpInfoIdx = imgInfos.FindObject(aApplicationName, aCommandItemObject, MenuXmlNode.NodeType.Command);
             if (objBmpInfoIdx == -1)
                 return String.Empty;
 
@@ -2121,49 +1032,6 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        public MenuXmlNode FindMatchingNode(MenuXmlNode aNode)
-        {
-            try
-            {
-                if (root == null || aNode == null)
-                    return null;
-
-                string nodeName = aNode.GetNameAttribute();
-                if (nodeName == null || nodeName.Length == 0)
-                    return null;
-
-                if (!aNode.IsApplication && !aNode.IsGroup && !aNode.IsMenu && !aNode.IsCommand)
-                {
-                    Debug.Fail("MenuXmlParser.FindMatchingNode Error: wrong node type.");
-                    return null;
-                }
-
-                if (aNode.IsApplication)
-                    return FindMatchingApplicationNode(aNode);
-
-                if (aNode.IsGroup)
-                    return FindMatchingGroupNode(aNode);
-
-                MenuXmlNode menuNode = FindMatchingMenuNode(aNode);
-
-                if (aNode.IsMenu)
-                    return menuNode;
-
-                if (menuNode == null)
-                    return null;
-
-                if (aNode.IsCommand)
-                    return FindMatchingCommandNode(menuNode, aNode);
-            }
-            catch (Exception exception)
-            {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingNode: " + exception.Message);
-                throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingNode"), exception);
-            }
-            return null;
-        }
-
-        //---------------------------------------------------------------------------
         public int AddCommandImageInfo(MenuXmlNode aCommandNode, string aFileName)
         {
             if
@@ -2183,75 +1051,7 @@ namespace Microarea.Common.MenuLoader
             return imgInfos.AddObjectImageInfo(aCommandNode.GetApplicationName(), aCommandNode.ItemObject, MenuXmlNode.NodeType.Command, aFileName);
         }
 
-        //---------------------------------------------------------------------------
-        public void RemoveApplicationImageInfo(string aApplicationName, string aFileName)
-        {
-            if
-                (
-                imgInfos == null ||
-                aApplicationName == null ||
-                aApplicationName.Length == 0 ||
-                aFileName == null ||
-                aFileName.Length == 0
-                )
-                return;
-
-            imgInfos.RemoveObjectImageInfo(aApplicationName, aApplicationName, MenuXmlNode.NodeType.Application, aFileName);
-        }
-
-        //---------------------------------------------------------------------------
-        public void RemoveGroupImageInfo(string aApplicationName, string aGroupName, string aFileName)
-        {
-            if
-                (
-                imgInfos == null ||
-                aApplicationName == null ||
-                aApplicationName.Length == 0 ||
-                aGroupName == null ||
-                aGroupName.Length == 0 ||
-                aFileName == null ||
-                aFileName.Length == 0
-                )
-                return;
-
-            imgInfos.RemoveObjectImageInfo(aApplicationName, aGroupName, MenuXmlNode.NodeType.Group, aFileName);
-        }
-
-        //---------------------------------------------------------------------------
-        public void RemoveCommandImageInfo(string aApplicationName, string aCommandObject, string aFileName)
-        {
-            if
-                (
-                imgInfos == null ||
-                aApplicationName == null ||
-                aApplicationName.Length == 0 ||
-                aCommandObject == null ||
-                aCommandObject.Length == 0 ||
-                aFileName == null ||
-                aFileName.Length == 0
-                )
-                return;
-
-            imgInfos.RemoveObjectImageInfo(aApplicationName, aCommandObject, MenuXmlNode.NodeType.Command, aFileName);
-        }
-
-        //---------------------------------------------------------------------------
-        public void CopyImageInfos(MenuXmlParser aParser)
-        {
-            if (aParser == null || aParser.ImageInfos == null || aParser.ImageInfos.Count == 0)
-                return;
-
-            CopyImageInfos(aParser.ImageInfos);
-
-            return;
-        }
-
-        //---------------------------------------------------------------------------
-        public void CopyNodeImageInfos(MenuXmlNode aNode, MenuXmlParser originalMenuParser, PathFinder aPathFinder)
-        {
-            CopyNodeImageInfos(aNode, originalMenuParser, aPathFinder, true);
-        }
-
+   
         //---------------------------------------------------------------------------
         public static string MakeFileNameRelativeToInstallationPath(PathFinder aPathFinder, string aFileName)
         {
@@ -2295,89 +1095,6 @@ namespace Microarea.Common.MenuLoader
             }
 
             return aFileName;
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetAllCommandDescendants(string aApplicationName, string aGroupName)
-        {
-            MenuXmlNode startSearchNode = null;
-
-            if (aApplicationName != null && aApplicationName.Length > 0)
-            {
-                MenuXmlNode applicationNode = GetApplicationNodeByName(aApplicationName);
-                if (applicationNode == null)
-                    return null;
-
-                if (aGroupName != null && aGroupName.Length > 0)
-                {
-                    MenuXmlNode groupNode = applicationNode.GetGroupNodeByName(aGroupName);
-                    if (groupNode == null)
-                        return null;
-                    startSearchNode = groupNode;
-                }
-                else
-                    startSearchNode = applicationNode;
-            }
-            else
-                startSearchNode = this.root;
-
-            if (startSearchNode == null)
-                return null;
-
-            return startSearchNode.GetAllCommandDescendants();
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetAllCommandDescendants(string aApplicationName)
-        {
-            return GetAllCommandDescendants(aApplicationName, String.Empty);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetAllCommands()
-        {
-            return GetAllCommandDescendants(String.Empty);
-        }
-
-        //---------------------------------------------------------------------------
-        public MenuXmlNodeCollection GetAllCommands(string aCommandItemObject, CommandsTypeToLoad commandsTypeToSearch)
-        {
-            if
-                (
-                this.Root == null ||
-                aCommandItemObject == null ||
-                aCommandItemObject.Length == 0 ||
-                commandsTypeToSearch == CommandsTypeToLoad.Undefined
-                )
-                return null;
-
-            return this.root.GetAllCommands(aCommandItemObject, commandsTypeToSearch);
-        }
-
-        //---------------------------------------------------------------------------
-        public void SetCommandDescendantsExternalDescription(PathFinder aPathFinder, string aApplicationName, string aGroupName)
-        {
-            if (aPathFinder == null)
-                return;
-
-            MenuXmlNodeCollection commandsFound = GetAllCommandDescendants(aApplicationName, aGroupName);
-            if (commandsFound == null || commandsFound.Count == 0)
-                return;
-
-            foreach (MenuXmlNode aCommandNode in commandsFound)
-                MenuInfo.SetExternalDescription(aPathFinder, aCommandNode);
-        }
-
-        //---------------------------------------------------------------------------
-        public void SetCommandDescendantsExternalDescription(PathFinder aPathFinder, string aApplicationName)
-        {
-            SetCommandDescendantsExternalDescription(aPathFinder, aApplicationName, String.Empty);
-        }
-
-        //---------------------------------------------------------------------------
-        public void SetAllCommandsExternalDescription(PathFinder aPathFinder)
-        {
-            SetCommandDescendantsExternalDescription(aPathFinder, String.Empty);
         }
 
         //---------------------------------------------------------------------------
@@ -3584,20 +2301,6 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------------
-        private void CopyImageInfos(ObjectsImageInfos imgInfosToCopy)
-        {
-            if (imgInfosToCopy == null || imgInfosToCopy.Count == 0)
-                return;
-
-            if (imgInfos == null)
-                imgInfos = new ObjectsImageInfos();
-
-            imgInfos.AddRange(imgInfosToCopy);
-
-            return;
-        }
-
-        //---------------------------------------------------------------------------
         private void CopyNodeImageFileLink(MenuXmlNode aNode, MenuXmlParser originalMenuParser, PathFinder aPathFinder)
         {
             if
@@ -3845,17 +2548,6 @@ namespace Microarea.Common.MenuLoader
             }
         }
 
-        //---------------------------------------------------------------------------
-        internal bool LoadMenuXml
-            (
-            PathFinder aPathFinder,
-            XmlElement menuElement,
-            CommandsTypeToLoad commandsTypeToLoad
-            )
-        {
-            return LoadMenuXml(aPathFinder, String.Empty, menuElement, commandsTypeToLoad);
-        }
-
         #endregion // MenuXmlParser internal methods
 
         /// <summary>
@@ -4022,20 +2714,6 @@ namespace Microarea.Common.MenuLoader
         }
         public MenuXmlParserException(string message) : this(message, null)
         {
-        }
-        public MenuXmlParserException() : this(String.Empty, null)
-        {
-        }
-
-        //-----------------------------------------------------------------------
-        public string ExtendedMessage
-        {
-            get
-            {
-                if (InnerException == null || InnerException.Message == null || InnerException.Message.Length == 0)
-                    return Message;
-                return Message + "\n(" + InnerException.Message + ")";
-            }
         }
     }
     #endregion

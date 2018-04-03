@@ -111,8 +111,6 @@ namespace Microarea.Common.NameSolver
 					{
 						pathFinderInstance = new PathFinder();
 						pathFinderInstance.Init();
-						pathFinderInstance.LoadPrototypes();
-
 					}
 					return pathFinderInstance;
 				}
@@ -122,7 +120,6 @@ namespace Microarea.Common.NameSolver
 				lock (staticLockTicket)
 				{
 					PathFinderInstance = value;
-					PathFinderInstance.LoadPrototypes();
 				}
 			}
 		}
@@ -493,7 +490,7 @@ namespace Microarea.Common.NameSolver
 			appsPath = Path.Combine(installationPath, NameSolverStrings.Apps);
 			publishPath = Path.Combine(appsPath, NameSolverStrings.Publish);
 
-			return PathFinder.PathFinderInstance.ExistPath(standardPath);
+			return ExistPath(standardPath);
 		}
 		//---------------------------------------------------------------------
 		protected void CalculatePathsOutsideInstallation()
@@ -512,7 +509,7 @@ namespace Microarea.Common.NameSolver
 				customPath = TryConvertToPhysicalPath(customPath);
 			}
 
-			if (!PathFinder.PathFinderInstance.ExistPath(standardPath))
+			if (!ExistPath(standardPath))
 				throw new Exception(string.Format(Messages.InvalidInstallation, installation, standardPath));
 		}
 		/// <summary>
@@ -542,18 +539,18 @@ namespace Microarea.Common.NameSolver
 			}
 
 
-			if (!PathFinder.PathFinderInstance.ExistPath(apps))
+			if (!ExistPath(apps))
 			{
 				//tapullo per far funzionare il migratore report che legge la vecchia struttura
 				if (ApplicationInfo.MatchType(applicationType, ApplicationType.TaskBuilderApplication))
 					apps = apps.Replace(NameSolverStrings.TaskBuilderApplications, "TaskBuilderApplications");
 
-				if (!PathFinder.PathFinderInstance.ExistPath(apps))
+				if (!ExistPath(apps))
 					return true;
 			}
 
 
-			tempApplications = PathFinder.PathFinderInstance.GetAllApplicationInfo(apps);
+			tempApplications = GetAllApplicationInfo(apps);
 
 
 			// controlla le dichiarazioni di directory ed elimina quelle 
@@ -642,8 +639,8 @@ namespace Microarea.Common.NameSolver
 				RemoteFileServer,
 				Installation,
 				Process.GetCurrentProcess().ProcessName));
-			if (create && !PathFinder.PathFinderInstance.ExistPath(s))
-				PathFinder.PathFinderInstance.CreateFolder(s, false);
+			if (create && !ExistPath(s))
+				CreateFolder(s, false);
 			return s;
 		}
 		/// <summary>
@@ -1501,16 +1498,17 @@ namespace Microarea.Common.NameSolver
 
 			return Path.Combine(fileDir, aNameSpace.Image);
 		}
-		//-----------------------------------------------------------------------------
-		public void LoadPrototypes()
-		{
-			if (webMethods == null)
-			{
-				webMethods = new CoreTypes.FunctionsList();
-			}
-		}
-		//----------------------------------------------------------------------------------------------
-		public String GetMasterApplicationSolutionsThemeFolder()
+
+        //-----------------------------------------------------------------------------
+        public void LoadPrototypes()
+        {
+            if (webMethods == null)
+            {
+                webMethods = new CoreTypes.FunctionsList();
+            }
+        }
+        //----------------------------------------------------------------------------------------------
+        public String GetMasterApplicationSolutionsThemeFolder()
 		{
 			StringCollection collection = new StringCollection();
 			GetApplicationsList(ApplicationType.TaskBuilderApplication, out collection);
@@ -1523,7 +1521,7 @@ namespace Microarea.Common.NameSolver
 				strMainBrandFolder = Path.Combine(GetStandardApplicationPath(applicationName), NameSolverStrings.Solutions);
 				strThemeFolder = Path.Combine(GetStandardApplicationPath(applicationName), NameSolverStrings.Themes);
 				strMainBrandFile = Path.Combine(strMainBrandFolder, NameSolverStrings.MainBrandFile);
-				if (ExistFile(strMainBrandFile) && PathFinder.PathFinderInstance.ExistPath(strThemeFolder))
+				if (ExistFile(strMainBrandFile) && ExistPath(strThemeFolder))
 				{
 					return strThemeFolder;
 				}
@@ -1649,6 +1647,8 @@ namespace Microarea.Common.NameSolver
             if (string.IsNullOrEmpty(exterminate))
                 return (string.Empty, string.Empty);
             var pathDifferences = fullPath.Replace(exterminate, string.Empty);        /*    \\newapp1\\newmod1\\....           */
+            if (pathDifferences == null || pathDifferences == string.Empty)
+                return (string.Empty, string.Empty);
             return (pathDifferences.Split('\\')[1], pathDifferences.Split('\\')[2]);
         }
         //-----------------------------------------------------------------------------

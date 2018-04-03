@@ -384,7 +384,7 @@ namespace Microarea.Common.Hotlink
 
                 if (PathFinder.PathFinderInstance.ExistPath(referenceObjectsFolderPath))
 				{
-                    PathFinder.PathFinderInstance.CreateFolder(referenceObjectsFolderPath, false);
+                    PathFinder.PathFinderInstance.CreateFolder(referenceObjectsFolderPath, true);
 				}
 
 				string referenceOnbjectsFileName = Path.Combine(

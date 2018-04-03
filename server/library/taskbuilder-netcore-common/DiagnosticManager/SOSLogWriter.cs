@@ -18,7 +18,7 @@ namespace Microarea.Common.DiagnosticManager
 			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
 			if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
-                PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
+                PathFinder.PathFinderInstance.CreateFolder(dirPath, true);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 
@@ -49,7 +49,7 @@ namespace Microarea.Common.DiagnosticManager
 			string dirPath = Path.Combine(PathFinder.PathFinderInstance.GetCustomCompanyLogPath(companyName), NameSolverStrings.EasyAttachmentSync);
 
 			if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
-                PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
+                PathFinder.PathFinderInstance.CreateFolder(dirPath, true);
 
 			string filePath = Path.Combine(dirPath, string.Format("{0}_{1}.txt", string.IsNullOrWhiteSpace(logName) ? "SOSConnector" : logName + "Log", DateTime.Now.ToString("yyyy-MM-dd")));
 

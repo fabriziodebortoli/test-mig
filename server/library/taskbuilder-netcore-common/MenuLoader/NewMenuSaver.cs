@@ -67,7 +67,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             JArray favs = JsonConvert.DeserializeObject<JArray>(favorites);
             if (favs == null)
@@ -113,7 +113,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             JArray most = JsonConvert.DeserializeObject<JArray>(mostUsed);
             if (most == null)
@@ -157,9 +157,9 @@ namespace Microarea.Common.MenuLoader
         }
 
         //---------------------------------------------------------------------	
-        private static bool UpdateShowNrElements(string file, string nrElements)
+        private static bool UpdateShowNrElements(string file, string nrElements, PathFinder pf)
         {
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             XmlNode node = doc.SelectSingleNode("/Root");
 
@@ -181,7 +181,7 @@ namespace Microarea.Common.MenuLoader
         {
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
-            return UpdateShowNrElements(file, nrElements);
+            return UpdateShowNrElements(file, nrElements, pf);
         }
 
         //---------------------------------------------------------------------	
@@ -189,7 +189,7 @@ namespace Microarea.Common.MenuLoader
         {
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserHistoryFile(pf);
-            return UpdateShowNrElements(file, nrElements);
+            return UpdateShowNrElements(file, nrElements, pf);
         }
 
         //---------------------------------------------------------------------	
@@ -198,7 +198,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserPreferencesFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             //cerco il nodo per namespace
             XmlNode node = doc.SelectSingleNode(
@@ -242,7 +242,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserPreferencesFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             XmlNode node = doc.SelectSingleNode(
             string.Concat(
@@ -286,7 +286,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserHistoryFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             doc.DocumentElement.RemoveAll();
 
@@ -302,7 +302,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
             doc.DocumentElement.RemoveAll();
 
             SaveXml(doc, file);
@@ -340,7 +340,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             string startSearch = string.Concat(
                 "//Favorite[",
@@ -407,7 +407,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
             XmlNode node = doc.SelectSingleNode(
                 string.Concat(
@@ -454,7 +454,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
             XmlNode node = doc.SelectSingleNode(
                             string.Concat(
                             "//HiddenTile[",
@@ -479,7 +479,7 @@ namespace Microarea.Common.MenuLoader
             PathFinder pf = new PathFinder(company, user);
             string file = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
 
-            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+            XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
             doc.DocumentElement.RemoveAll();
 
             SaveXml(doc, file);

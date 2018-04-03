@@ -58,7 +58,8 @@ namespace Microarea.Common.FileSystemManager
 	        if (lowerFileName.Contains("module.config")) 
 		        return "MODULE";
 
-	        if (lowerFileName.Contains(".menu") || lowerFileName.Contains("fullmenu")) 
+	        if (lowerFileName.Contains("menu") || lowerFileName.Contains("hiddenTiles.bin") || lowerFileName.Contains("history.bin") ||
+                lowerFileName.Contains("preference.bin") || lowerFileName.Contains("preference.xml") ) 
 		        return "MENU";
 
 	        if (lowerFileName.Contains("description"))
@@ -110,8 +111,9 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         bool IsARootPath(string strTBFSFolder)
         {
-            return (pathFinder.IsStandardPath (strTBFSFolder)|| pathFinder.IsCustomPath (strTBFSFolder)|| 
-                strTBFSFolder.CompareTo(pathFinder.GetCustomSubscriptionPath()) == 0 || strTBFSFolder.CompareTo(pathFinder.GetCustomCompanyPath()) == 0);
+            return (strTBFSFolder.CompareTo(pathFinder.GetCustomSubscriptionPath()) == 0 ||
+                    strTBFSFolder.CompareTo(pathFinder.GetCustomCompanyPath(pathFinder.Company)) == 0 ||
+                    strTBFSFolder.CompareTo(pathFinder.GetStandardPath) == 0);
         }
 
         //toglie la parte assoluto della path c:\InstallationName\Standard o c:\InstallationName\Custom\Companies\Companyname
@@ -121,7 +123,11 @@ namespace Microarea.Common.FileSystemManager
             string strRelativePath = strPathFileName;
             strRelativePath =strRelativePath.ToUpper();
 
-            string strStartPath = (bCustom) ? pathFinder.GetCustomSubscriptionPath() : pathFinder.GetStandardPath;
+            string strStartPath = pathFinder.GetStandardPath; ;
+            if (bCustom)
+                strStartPath = pathFinder.GetCustomCompanyPath(pathFinder.Company);
+
+            
             strStartPath = strStartPath.ToUpper();
             int nPos = strRelativePath.IndexOf(strStartPath);
             int nEscape = (strStartPath.Length + 1);
@@ -188,12 +194,12 @@ namespace Microarea.Common.FileSystemManager
 			        parentID = InsertMetadataFolder(sqlConnection, parent, application, module, bCustom, accountName, toCreate);
 		        else
 			        //la directory esiste già
-			        if (parentID > -1)
+			        if (parentID > -1 || !toCreate)
 				        return parentID;
 
 		        String strInsertCommandText = (bCustom)
-			        ? string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, TBCreatedID, TBModifiedID)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), strFolder, application, module, GetWorkerId())
-			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module, szInstanceKey);
+			        ? string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1')", tableName, (parentID == -1) ? "null" : parentID.ToString(), strFolder, application, module)
+			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module, szInstanceKey);
 
                 trans = sqlConnection.BeginTransaction();
                 command = new SqlCommand(strInsertCommandText, sqlConnection, trans);
@@ -611,13 +617,11 @@ namespace Microarea.Common.FileSystemManager
         {
 	        if (string.IsNullOrEmpty(strPathFileName))
 		        return false;
-	        string strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
- 
-            TBFile pTBFile = new TBFile(strTBFSFileName,  this);
 
+	        string strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
+            TBFile pTBFile = new TBFile(strTBFSFileName,  this);
             StreamReader reader = new StreamReader(fileTextContent);
             pTBFile.fileContentString = reader.ReadToEnd();
-
             pTBFile.objectType = GetType(strTBFSFileName);
 
 	        pTBFile.isReadOnly = false;
@@ -890,7 +894,7 @@ namespace Microarea.Common.FileSystemManager
 	        {
 		        string strCommandText = "Select * from " + szMPInstanceTBFS+ " where  " + whereClause;
                 pArray = GetTBFilesInfo(standardConnectionString, strCommandText, false);
-	        }
+	       }
 	        catch (SqlException e)
 	        {
 		        throw(e);
@@ -963,14 +967,14 @@ namespace Microarea.Common.FileSystemManager
 			        ? string.Format("UPDATE {0} SET LastWriteTime = GetDate(), FileSize = @FileSize, FileContent = @BinaryContent, FileTextContent = @FileTextContent, TBModified = GetDate(), TBModifiedID = @TBModifiedID WHERE FileID = @FileID", tableName)
 			        : (isCustom)
 			        ? string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, AccountName, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly, @BinaryContent, @FileTextContent, @AccountName, @TbCreatedID, @TBModifiedID)", tableName)
-			        : string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, InstanceKey, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent, @InstanceKey @TbCreatedID, @TBModifiedID)", tableName);
+			        : string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, InstanceKey )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent, @InstanceKey)", tableName);
 
 		        //se non ho ancora inserito il file mi devo far dare il parentID e se non esiste inserirlo
 		        if (fileID == -1)
 		        {
 			        if (IsARootPath(pTBFile.completeFileName))
 				        parentID = -1;
-			        parentID = GetFolder(pTBFile.completeFileName, true);
+			        parentID = GetFolder(pTBFile.PathName, true);
 			        (strApplication, strModule) = pathFinder.GetApplicationModuleNameFromPath(pTBFile.completeFileName);
 			        strAccountName = pathFinder.GetUserNameFromPath(pTBFile.completeFileName);
 		        }
@@ -1097,7 +1101,7 @@ namespace Microarea.Common.FileSystemManager
 	        if (IsARootPath(strPathName))
 		        return true;
 
-	        return GetFolder(strPathName, false) != 0;
+	        return GetFolder(strPathName, false) != -1;
         }
 
         //----------------------------------------------------------------------------

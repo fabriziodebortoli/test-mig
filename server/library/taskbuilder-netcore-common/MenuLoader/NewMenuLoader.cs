@@ -37,9 +37,10 @@ namespace Microarea.Common.MenuLoader
 					if (nMenuRows > -1)
 					{
                         //Lara
-						MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), company );
-						if (pInfo != null && nMenuRows > 0)
-							return null;
+
+						//MenuInfo.CachedMenuInfos pInfo = MenuInfo.CachedMenuInfos.Load(CommandsTypeToLoad.All, LoginFacilities.loginManager.GetConfigurationHash(), company );
+						//if (pInfo != null && nMenuRows > 0)
+						//	return null;
 						menuLoader.LoadAllMenus(false, false);
 						doc = menuLoader.ProcessMenu();
 					}
@@ -137,7 +138,7 @@ namespace Microarea.Common.MenuLoader
 		private static void ProcessMostUsedNodes(XmlDocument doc, string user, string company, PathFinder pf)
 		{
 			string mostUsedFile = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
-			XmlDocument mostUsedDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(mostUsedFile);
+			XmlDocument mostUsedDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(mostUsedFile, pf);
 			XmlNodeList nodeList = mostUsedDoc.SelectNodes("//MostUsed");
 			foreach (XmlNode nodeToProcess in nodeList)
 			{
@@ -183,7 +184,7 @@ namespace Microarea.Common.MenuLoader
 		private static void ProcessFavoritesNodes(XmlDocument doc, string user, string company, PathFinder pf)
         {
 			string favoritesFile = NewMenuFunctions.GetCustomUserFavoriteFile(pf);
-			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile);
+			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile, pf);
 			XmlNodeList nodeList = favoritesDoc.SelectNodes("//Favorite");
 			foreach (XmlNode nodeToProcess in nodeList)
 			{
@@ -232,7 +233,7 @@ namespace Microarea.Common.MenuLoader
 		private static void ProcessHiddenNodes(XmlDocument doc, string user, string company, PathFinder pf)
         {
 			string favoritesFile = NewMenuFunctions.GetCustomUserHiddenTilesFile(pf);
-			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile);
+			XmlDocument favoritesDoc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(favoritesFile, pf);
 
 
 			XmlNodeList nodeList = favoritesDoc.SelectNodes("//HiddenTile");
@@ -285,7 +286,7 @@ namespace Microarea.Common.MenuLoader
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserMostUsedFile(pf);
 
-			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 			string nrElementToShow = string.Empty;
 			string nrRecordsToShow = string.Empty;
 
@@ -298,7 +299,7 @@ namespace Microarea.Common.MenuLoader
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserPreferencesFile(pf);
 
-			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
 			return NewMenuFunctions.GetAngularJSSafeJson(doc);
 		}
@@ -309,7 +310,7 @@ namespace Microarea.Common.MenuLoader
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserPreferencesFile(pf);
 
-			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
 			//cerco il nodo per namespace
 			XmlNode node = doc.SelectSingleNode(
@@ -332,7 +333,7 @@ namespace Microarea.Common.MenuLoader
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserHistoryFile(pf);
 
-			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 			return GetNrOfElementsToShow(doc);
 		}
 
@@ -342,7 +343,7 @@ namespace Microarea.Common.MenuLoader
 			PathFinder pf = new PathFinder(company, user);
 			string file = NewMenuFunctions.GetCustomUserHistoryFile(pf);
 
-			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file);
+			XmlDocument doc = NewMenuFunctions.GetCustomUserAppDataXmlDocument(file, pf);
 
 			return NewMenuFunctions.GetAngularJSSafeJson(doc);
 		}
@@ -695,7 +696,7 @@ namespace Microarea.Common.MenuLoader
 				jsonWriter.WritePropertyName("Applications");
 				jsonWriter.WriteStartArray();
 				
-				PathFinder.PathFinderInstance.GetApplicationsList(ApplicationType.All, out StringCollection apps);
+				PathFinder. PathFinderInstance.GetApplicationsList(ApplicationType.All, out StringCollection apps);
 			    BrandLoader brand = new BrandLoader();
 
 
@@ -958,7 +959,7 @@ namespace Microarea.Common.MenuLoader
 				{
 					string dirPath = Path.GetDirectoryName(_logfile);
 					if (!PathFinder.PathFinderInstance.ExistPath(dirPath))
-                        PathFinder.PathFinderInstance.CreateFolder(dirPath, false);
+                        PathFinder.PathFinderInstance.CreateFolder(dirPath, true);
 					sw = File.AppendText(_logfile);
 				}
 				catch (Exception ex)

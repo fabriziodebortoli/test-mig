@@ -213,7 +213,7 @@ namespace Microarea.Common.Generic
 		public static string GetImagePath(string imageFile)
 		{
             if (!PathFinder.PathFinderInstance.ExistPath(TempImagesPath))
-                PathFinder.PathFinderInstance.CreateFolder(TempImagesPath, false);
+                PathFinder.PathFinderInstance.CreateFolder(TempImagesPath, true);
 
             return Path.Combine(TempImagesPath, imageFile);
 		}

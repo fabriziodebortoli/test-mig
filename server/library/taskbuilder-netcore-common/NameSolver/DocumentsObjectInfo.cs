@@ -368,7 +368,7 @@ namespace Microarea.Common.NameSolver
                     return false;
                 string path = Path.GetDirectoryName(filePath);
                 if (!parentModuleInfo.CurrentPathFinder.ExistPath(path))
-                    parentModuleInfo.CurrentPathFinder.CreateFolder(path, false);
+                    parentModuleInfo.CurrentPathFinder.CreateFolder(path, true);
                 parentModuleInfo.CurrentPathFinder.LoadXmlDocument(documentObjectsDocument, filePath);
                 return true;
 

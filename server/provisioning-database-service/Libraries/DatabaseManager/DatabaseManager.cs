@@ -520,7 +520,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				try
 				{
 					if (!ContextInfo.PathFinder.ExistPath(path))
-                        ContextInfo.PathFinder.CreateFolder(path, false);
+                        ContextInfo.PathFinder.CreateFolder(path, true);
 					// se incontro problemi di accesso per la creazione della cartella creo il file di log
 					// nella Custom, in modo da non perdere le informazioni
 				}

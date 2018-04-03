@@ -56,7 +56,7 @@ namespace Microarea.RSWeb.WoormEngine
 		virtual public void Close(string file)
 		{
             string dirPath = Path.GetDirectoryName(file);
-            PathFinder.PathFinderInstance.CreateFolder(dirPath, false); 
+            PathFinder.PathFinderInstance.CreateFolder(dirPath, true); 
 
             if (output != null) 
                 PathFinder.PathFinderInstance.SaveTextFileFromXml(file, output);

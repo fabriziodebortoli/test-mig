@@ -421,7 +421,7 @@ namespace Microarea.Common.Generic
                 try 
                 {
                     if (!PathFinder.PathFinderInstance.ExistPath(destinationFileInfo.Directory.FullName))
-                        PathFinder.PathFinderInstance.CreateFolder(destinationFileInfo.Directory.FullName, false);
+                        PathFinder.PathFinderInstance.CreateFolder(destinationFileInfo.Directory.FullName, true);
 
                     if (destinationFileInfo.LastWriteTimeUtc.ToString("s") != sourceFileInfo.LastWriteTimeUtc.ToString("s"))
                     {

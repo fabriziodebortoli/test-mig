@@ -24,7 +24,7 @@ namespace Microarea.Common.CoreTypes
             if (create && !createdWoormTempPath)
             {
                 if (!PathFinder.PathFinderInstance.ExistPath(woormTempPath))
-                    PathFinder.PathFinderInstance.CreateFolder(woormTempPath, false);
+                    PathFinder.PathFinderInstance.CreateFolder(woormTempPath, true);
                 createdWoormTempPath = true;
             }
             return woormTempPath;
@@ -36,7 +36,7 @@ namespace Microarea.Common.CoreTypes
 			string path = WoormTempPath(create) + NameSolverStrings.Directoryseparetor + sessionID; 
 			
 			if (create && !PathFinder.PathFinderInstance.ExistPath(path))
-                PathFinder.PathFinderInstance.CreateFolder(path, false);
+                PathFinder.PathFinderInstance.CreateFolder(path, true);
 
 			return path;
 		}	
@@ -51,7 +51,7 @@ namespace Microarea.Common.CoreTypes
 				//DateTime.Now.ToString(ReportFolderNameFormatter);
 
 			if (create && !PathFinder.PathFinderInstance.ExistPath(path))
-                PathFinder.PathFinderInstance.CreateFolder(path, false);
+                PathFinder.PathFinderInstance.CreateFolder(path, true);
 
 			return path;
 		}
@@ -64,7 +64,7 @@ namespace Microarea.Common.CoreTypes
 			string path = WoormSessionPath(sessionID, create) + NameSolverStrings.Directoryseparetor + uniqueID;
 			
 			if (create && !PathFinder.PathFinderInstance.ExistPath(path))
-                PathFinder.PathFinderInstance.CreateFolder(path, false);
+                PathFinder.PathFinderInstance.CreateFolder(path, true);
 
 			return path;
 		}

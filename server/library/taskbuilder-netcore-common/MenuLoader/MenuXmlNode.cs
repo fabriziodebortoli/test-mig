@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -9,7 +8,6 @@ using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.Common.StringLoader;
 using TaskBuilderNetCore.Interfaces;
-using static Microarea.Common.MenuLoader.MenuLoader;
 
 namespace Microarea.Common.MenuLoader
 {
@@ -389,27 +387,6 @@ namespace Microarea.Common.MenuLoader
 				return node.OwnerDocument;
 			}
 		}
-		
-		//---------------------------------------------------------------------------
-		public MenuXmlNode NextSibling
-		{
-			get
-			{
-				if (node == null)
-					return null;
-				XmlNode nextNode = node.NextSibling;
-				while (nextNode != null)
-				{
-					if (nextNode.Name == node.Name)
-					{
-						MenuXmlNode sibling = new MenuXmlNode(nextNode);
-						return sibling;
-					}
-					nextNode = node.NextSibling;
-				}
-				return null;
-			}
-		}
 
 		//---------------------------------------------------------------------------
 		public bool IsRoot
@@ -488,29 +465,7 @@ namespace Microarea.Common.MenuLoader
 				return type.IsRunBatch;
 			}
 		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsStandardBatch
-		{
-			get
-			{
-				if (!IsRunBatch || commandSubType == null)
-					return false;
-				return commandSubType.IsStandardBatch;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsWizardBatch
-		{
-			get
-			{
-				if (!IsRunBatch || commandSubType == null)
-					return false;
-				return commandSubType.IsWizardBatch;
-			}
-		}
-		
+
 		//---------------------------------------------------------------------------
 		public bool IsRunFunction
 		{
@@ -519,61 +474,6 @@ namespace Microarea.Common.MenuLoader
 				if (!IsCommand)
 					return false;
 				return type.IsRunFunction;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsRunDocumentFunction
-		{
-			get
-			{
-				if (!IsRunFunction || commandSubType == null)
-					return false;
-				return commandSubType.IsRunDocumentFunction;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsRunReportFunction
-		{
-			get
-			{
-				if (!IsRunFunction || commandSubType == null)
-					return false;
-				return commandSubType.IsRunReportFunction;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsRunBatchFunction
-		{
-			get
-			{
-				if (!IsRunFunction || commandSubType == null)
-					return false;
-				return commandSubType.IsRunBatchFunction;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsRunTextFunction
-		{
-			get
-			{
-				if (!IsRunFunction || commandSubType == null)
-					return false;
-				return commandSubType.IsRunTextFunction;
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool IsRunExecutableFunction
-		{
-			get
-			{
-				if (!IsRunFunction || commandSubType == null)
-					return false;
-				return commandSubType.IsRunExecutableFunction;
 			}
 		}
 
@@ -951,181 +851,6 @@ namespace Microarea.Common.MenuLoader
 				return (String.Compare(GetShortcutTypeXmlTag(), XML_TAG_OFFICE_ITEM) == 0) ;
 			}
 		}
-
-		//---------------------------------------------------------------------------
-		public bool IsOfficeDocumentShortcut
-		{
-			get
-			{
-				return (IsOfficeItemShortcut && commandSubType != null && commandSubType.IsDocument);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsOfficeTemplateShortcut
-		{
-			get
-			{
-				return (IsOfficeItemShortcut && commandSubType != null && commandSubType.IsTemplate);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsOfficeDocumentShortcut2007
-		{
-			get
-			{
-				return (IsOfficeItemShortcut && commandSubType != null && commandSubType.IsDocument2007);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsOfficeTemplateShortcut2007
-		{
-			get
-			{
-				return (IsOfficeItemShortcut && commandSubType != null && commandSubType.IsTemplate2007);
-			}
-		}
-
-	
-		//---------------------------------------------------------------------------
-		public bool IsExcelItemShortcut
-		{
-			get
-			{
-				if (!IsOfficeItemShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Excel);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsExcelDocumentShortcut
-		{
-			get
-			{
-				if (!IsOfficeDocumentShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Excel);
-			}
-		}
-			//---------------------------------------------------------------------------
-		public bool IsExcelDocumentShortcut2007
-		{
-			get
-			{
-				if (!IsOfficeDocumentShortcut2007)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Excel);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsExcelTemplateShortcut
-		{
-			get
-			{
-				if (!IsOfficeTemplateShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Excel);
-			}
-
-		}
-		//---------------------------------------------------------------------------
-		public bool IsExcelTemplateShortcut2007
-		{
-			get
-			{
-				if (!IsOfficeTemplateShortcut2007)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Excel);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsWordItemShortcut
-		{
-			get
-			{
-				if (!IsOfficeItemShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Word);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsWordDocumentShortcut
-		{
-			get
-			{
-				if (!IsOfficeDocumentShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Word);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsWordTemplateShortcut
-		{
-			get
-			{
-				if (!IsOfficeTemplateShortcut)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Word);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsWordDocumentShortcut2007
-		{
-			get
-			{
-				if (!IsOfficeDocumentShortcut2007)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Word);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsWordTemplateShortcut2007
-		{
-			get
-			{
-				if (!IsOfficeTemplateShortcut2007)
-					return false;
-
-				return (GetOfficeApplication() == OfficeItemApplication.Word);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsArgumentsNode
-		{
-			get
-			{
-				return (node != null && type.IsArgumentsNode);
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool IsArgument
-		{
-			get
-			{
-				return (node != null && type.IsArgument);
-			}
-		}
-
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeState State
 		{
@@ -1147,179 +872,6 @@ namespace Microarea.Common.MenuLoader
 					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, (state != null) ? state.ToString() : NodeState.Undefined.ToString());
 			}
 		}
-		
-		//---------------------------------------------------------------------------
-		public bool ProtectedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.Protected : false;
-			}
-			set
-			{			
-				MenuXmlNodeState currentState = State;
-
-				currentState.Protected = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-				
-				if (ProtectedStateChanged != null)
-					ProtectedStateChanged(this, new MenuNodeEventArgs(this));
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool HasAllCommandDescendantsInProtectedState { get{ return HasAllCommandDescendantsInState(NodeState.Protected); }}
-		//---------------------------------------------------------------------------
-		public bool HasAtLeastOneCommandDescendantInProtectedState { get{ return HasAtLeastOneCommandDescendantInState(NodeState.Protected); }}
-		//---------------------------------------------------------------------------
-		public bool HasNoCommandDescendantsInProtectedState { get{ return HasNoCommandDescendantsInState(NodeState.Protected); }}
-
-		//---------------------------------------------------------------------------
-		public bool TracedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.Traced : false;
-			}
-			set
-			{
-				MenuXmlNodeState currentState = State;
-
-				currentState.Traced = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool AccessDeniedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.AccessDenied : false;
-			}
-			set
-			{
-				MenuXmlNodeState currentState = State;
-
-				currentState.AccessDenied = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool AccessAllowedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.AccessAllowed : false;
-			}
-			set
-			{
-				MenuXmlNodeState currentState = State;
-
-				currentState.AccessAllowed = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool AccessPartiallyAllowedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.AccessPartiallyAllowed : false;
-			}
-			set
-			{
-				MenuXmlNodeState currentState = State;
-
-				currentState.AccessPartiallyAllowed = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public bool AccessInUnattendedModeAllowedState
-		{
-			get
-			{
-				MenuXmlNodeState state = null;
-				if (node != null && node.NodeType == XmlNodeType.Element)
-				{
-					string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_STATE);
-					if (attributeValue == null || attributeValue.Length == 0)
-						return false;
-					state = new MenuXmlNodeState(Convert.ToInt32(attributeValue));
-				}
-
-				return (state != null) ? state.AccessInUnattendedModeAllowed : false;
-			}
-			set
-			{
-				MenuXmlNodeState currentState = State;
-
-				currentState.AccessInUnattendedModeAllowed = value;
-
-				if (node != null && node.NodeType == XmlNodeType.Element)
-					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
-			}
-		}
-
 		//---------------------------------------------------------------------------
 		public bool ApplyStateToAllDescendants
 		{
@@ -1346,37 +898,7 @@ namespace Microarea.Common.MenuLoader
 					((XmlElement)node).SetAttribute(XML_ATTRIBUTE_STATE, currentState.ToString());
 			}
 		}
-		
-		//---------------------------------------------------------------------------
-		public bool HasAllCommandDescendantsInTracedState { get{ return HasAllCommandDescendantsInState(NodeState.Traced); }}
-		//---------------------------------------------------------------------------
-		public bool HasAtLeastOneCommandDescendantInTracedState { get{ return HasAtLeastOneCommandDescendantInState(NodeState.Traced); }}
-		//---------------------------------------------------------------------------
-		public bool HasNoCommandDescendantsInTracedState { get{ return HasNoCommandDescendantsInState(NodeState.Traced); }}
 
-		//---------------------------------------------------------------------------
-		public bool HasOtherTitles
-		{
-			get
-			{
-				if (node == null || !node.HasChildNodes)
-					return false;
-
-				foreach (XmlNode child in node.ChildNodes)
-				{
-					if 
-						(
-						child is XmlElement && 
-						String.Compare(child.Name, XML_TAG_OTHER_TITLE) == 0 &&
-						child.InnerText != null &&
-						child.InnerText.Length > 0
-						)
-						return true;
-				}
-				return false;
-			}
-		}
-		
 		//---------------------------------------------------------------------------
 		public bool HasChildNodes
 		{
@@ -1387,24 +909,6 @@ namespace Microarea.Common.MenuLoader
 				return node.HasChildNodes;
 			}
 		}
-		
-		//---------------------------------------------------------------------------
-		public bool HasApplicationChildNodes
-		{
-			get
-			{
-				if (node == null || !IsRoot || !HasChildNodes)
-					return false;
-
-				XmlNodeList appNodes = SelectNodes("child::" + XML_TAG_APPLICATION);
-				return (appNodes != null && appNodes.Count > 0);
-			}
-		}
-
-		/// <summary>
-		/// Returns the list of application items that belongs to the node (only if the node represents the document root, otherwise returns null)
-		/// </summary>
-		/// <returns>An ArrayList that contains all the children of the node that represent applications.</returns>
 		//---------------------------------------------------------------------------
 		public List<MenuXmlNode> ApplicationsItems
 		{
@@ -1490,18 +994,6 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> ArgumentsItems
-		{
-			get
-			{
-				if (node == null)
-					return null;
-
-				return BuildArgumentsItemsList();
-			}
-		}
-
-		//---------------------------------------------------------------------------
 		public Guid GuidValue
 		{
 			get
@@ -1577,78 +1069,6 @@ namespace Microarea.Common.MenuLoader
 				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_USER_REPORTS_GROUP, value.ToString());
 			}
 		}
-
-		//---------------------------------------------------------------------------
-		public bool UserOfficeFilesGroup
-		{
-			get
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !IsGroup)
-					return false;
-
-				string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_USER_OFFICE_FILES_GROUP);
-				if (attributeValue == null || attributeValue.Length == 0)
-					return false;
-
-				bool userOfficeFilesGroup = false;
-				try
-				{
-					userOfficeFilesGroup = Convert.ToBoolean(attributeValue);
-				}
-				catch(FormatException formatException)
-				{
-					Debug.Fail("FormatException raised getting MenuXmlNode.UserOfficeFilesGroup property: " + formatException.Message);
-				}
-				catch(OverflowException overflowException)
-				{
-					Debug.Fail("OverflowException raised getting MenuXmlNode.UserOfficeFilesGroup property: " + overflowException.Message);
-				}
-				return userOfficeFilesGroup;
-			}
-			set
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !IsGroup)
-				{
-					Debug.Fail("Error during MenuXmlNode.UserOfficeFilesGroup property setting: invalid node.");
-					return;
-				}
-				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_USER_OFFICE_FILES_GROUP, value.ToString());
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public CommandOrigin CommandOrigin
-		{
-			get
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsCommand || IsShortcut))
-					return CommandOrigin.Unknown;
-
-				string attributeValue = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_COMMAND_ORIGIN);
-				if (attributeValue == null || attributeValue.Length == 0)
-					return CommandOrigin.Unknown;
-
-				try
-				{
-					return (CommandOrigin)Enum.Parse(typeof(CommandOrigin), attributeValue);
-				}
-				catch (ArgumentException)
-				{
-					// nel file xml non c'?una stringa che corrisponda ad un valore di PathFinder.CommandOrigin
-				}
-				return CommandOrigin.Unknown;
-			}
-			set
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsCommand || IsShortcut))
-				{
-					Debug.Fail("Error during MenuXmlNode.CommandOrigin property setting: invalid node.");
-					return;
-				}
-				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_COMMAND_ORIGIN, value.ToString());
-			}
-		}
-
 		//---------------------------------------------------------------------------
 		public string ExternalDescription
 		{
@@ -1678,90 +1098,6 @@ namespace Microarea.Common.MenuLoader
 			}
 		}
 
-		//---------------------------------------------------------------------------
-		public DateTime ReportFileCreationTime
-		{
-			get
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsRunReport || IsReportShortcut))
-					return DateTime.MinValue;
-
-				// Se l'attributo non esiste devo restituire DateTime.MinValue
-				if (!((XmlElement)node).HasAttribute(XML_ATTRIBUTE_REPORT_CREATION_TIME))
-					return DateTime.MinValue;
-
-				string dateText = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_REPORT_CREATION_TIME);
-				if (dateText == null || dateText.Length == 0)
-					return DateTime.MinValue;
-
-				try
-				{
-					// Creates a CultureInfo set to InvariantCulture.
-					CultureInfo invariantCulture = new CultureInfo(String.Empty);
-					return DateTime.Parse(dateText, invariantCulture);
-				}
-				catch(Exception)
-				{
-					return DateTime.MinValue;
-				}
-			}
-			set
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsRunReport || IsReportShortcut))
-				{
-					Debug.Fail("Error during MenuXmlNode.ReportFileCreationTime property setting: invalid node.");
-					return;
-				}
-
-				// Creates a CultureInfo set to InvariantCulture.
-				CultureInfo invariantCulture = new CultureInfo(String.Empty);
-				// Converts value to a string formatted for InvariantCulture,
-				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_REPORT_CREATION_TIME, value.ToString("d",invariantCulture));
-			}
-		}
-		
-		//---------------------------------------------------------------------------
-		public DateTime ReportFileLastWriteTime
-		{
-			get
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsRunReport || IsReportShortcut))
-					return DateTime.MinValue;
-
-				// Se l'attributo non esiste devo restituire DateTime.MinValue
-				if (!((XmlElement)node).HasAttribute(XML_ATTRIBUTE_REPORT_LAST_WRITE_TIME))
-					return DateTime.MinValue;
-
-				string dateText = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_REPORT_LAST_WRITE_TIME);
-				if (dateText == null || dateText.Length == 0)
-					return DateTime.MinValue;
-
-				try
-				{
-					// Creates a CultureInfo set to InvariantCulture.
-					CultureInfo invariantCulture = new CultureInfo(String.Empty);
-					return DateTime.Parse(dateText, invariantCulture);
-				}
-				catch(Exception)
-				{
-					return DateTime.MinValue;
-				}
-			}
-			set
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !(IsRunReport || IsReportShortcut))
-				{
-					Debug.Fail("Error during MenuXmlNode.ReportFileLastWriteTime property setting: invalid node.");
-					return;
-				}
-
-				// Creates a CultureInfo set to InvariantCulture.
-				CultureInfo invariantCulture = new CultureInfo(String.Empty);
-				// Converts value to a string formatted for InvariantCulture,
-				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_REPORT_LAST_WRITE_TIME, value.ToString("d",invariantCulture));
-			}
-		}
-		
 		//---------------------------------------------------------------------------
 		public bool IsCommandImageToSearch
 		{
@@ -1866,29 +1202,6 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public int ExternalItemImageIndex
-		{
-			get
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !IsExternalItem)
-					return -1;
-
-				string indexText = ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_EXTERNAL_IMAGE_IDX);
-				if (indexText == null || indexText.Length == 0)
-					return -1;
-
-				return Convert.ToInt32(indexText);
-			}
-			set
-			{
-				if (node == null || node.NodeType != XmlNodeType.Element || !IsExternalItem)
-					return;
-
-				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_EXTERNAL_IMAGE_IDX, (value >= 0) ? value.ToString() : String.Empty);
-			}
-		}
-
-		//---------------------------------------------------------------------------
 		public string ImageLink
 		{
 			get
@@ -1928,14 +1241,6 @@ namespace Microarea.Common.MenuLoader
             IsStartupShortcut = false;
 		} 
 
-		//---------------------------------------------------------------------------
-		public void ClearChilds()
-		{
-			if (node == null)
-				return;
-			foreach (XmlNode child in node.SelectNodes("child::*"))
-				node.RemoveChild(child);
-		}
 		//---------------------------------------------------------------------------
 		public MenuXmlNode GetParentNode()
 		{
@@ -2087,28 +1392,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			return null;
 		}
-		
-		/// <summary>
-		/// Returns the first level ancestor menu node of this node if it is a menu (not of first level) or a command item
-		/// </summary>
-		/// <returns>First level ancestor menu node</returns>
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetFirstLevelAncestorMenu()
-		{
-			if (node == null || node.ParentNode == null || !(IsMenu || IsCommand))
-				return null;
 
-			MenuXmlNode aParentMenuNode = this;
-			while(aParentMenuNode != null)
-			{
-				MenuXmlNode aTmpParentMenuNode = aParentMenuNode.GetParentMenu();
-				if (aTmpParentMenuNode == null)
-					break;
-				aParentMenuNode = aTmpParentMenuNode;
-			}
-
-			return aParentMenuNode;
-		}
 		/// <summary>
 		/// Returns the name of the parent menu of this node if it a menu (not of first level) or a command item
 		/// </summary>
@@ -2121,39 +1405,6 @@ namespace Microarea.Common.MenuLoader
 				return String.Empty;
 
 			return parentMenu.GetMenuName();
-		}
-		
-		/// <summary>
-		/// Returns the title of the parent menu of this node if it a menu (not of first level) or a command item
-		/// </summary>
-		/// <returns>Menu title</returns>
-		//---------------------------------------------------------------------------
-		public string GetParentMenuTitle()
-		{
-			MenuXmlNode parentMenu = GetParentMenu();
-			if (parentMenu == null)
-				return String.Empty;
-
-			return parentMenu.Title;
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetFirstLevelAncestorCommand()
-		{
-			if (node == null || node.ParentNode == null || !IsCommand)
-				return null;
-
-			MenuXmlNode aCommandNode = this;
-
-			while(aCommandNode != null)
-			{
-				MenuXmlNode aTmpParentMenuNode = aCommandNode.GetParentNode();
-				if (aTmpParentMenuNode == null || aTmpParentMenuNode.IsMenu)
-					break;
-				aCommandNode = aTmpParentMenuNode;
-			}
-
-			return aCommandNode;
 		}
 
 		/// <summary>
@@ -2238,26 +1489,6 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		/// <summary>
-		/// Builds a string containing the complete command hierarchy of this node
-		/// </summary>
-		/// <returns>Menu hierarchy string</returns>
-		//---------------------------------------------------------------------------
-		public string GetCommandsHierarchyTitlesString()
-		{
-            List<MenuXmlNode> hierarchyList = GetCommandsHierarchyList();
-
-			string hierarchy = String.Empty;
-			if (hierarchyList != null)
-			{
-				foreach (MenuXmlNode ascendant in hierarchyList)
-					hierarchy += ascendant.Title + ActionMenuPathSeparator;
-			}
-			hierarchy += Title;
-
-			return hierarchy;
-		}
-
-		/// <summary>
 		/// Searches an application child node by its name (only if the node represents the root of the document, otherwise returns null)
 		/// </summary>
 		/// <param name="aApplicationName">application name</param>
@@ -2289,66 +1520,6 @@ namespace Microarea.Common.MenuLoader
 		
 			return new MenuXmlNode(appNode);
 		}
-
-		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> GetApplicationEquivalentCommandsList(MenuXmlNode aCommandNodeToFind)
-		{
-			if (node == null || !IsApplication || !HasChildNodes || aCommandNodeToFind == null || !aCommandNodeToFind.IsCommand)
-				return null;
-			
-			XmlNodeList commandNodes = null;
-			if (aCommandNodeToFind.IsExternalItem)
-				commandNodes = SelectNodes("descendant::" + aCommandNodeToFind.ExternalItemType + "[child::" + XML_TAG_OBJECT +"='" + aCommandNodeToFind.ItemObject + "']" );
-			else
-				commandNodes = SelectNodes("descendant::" + aCommandNodeToFind.Name + "[child::" + XML_TAG_OBJECT +"='" + aCommandNodeToFind.ItemObject + "']" );
-			if (commandNodes == null || commandNodes.Count == 0)
-				return null;
-
-            List<MenuXmlNode> commandMenuNodes = new List<MenuXmlNode>();
-			foreach (XmlNode commandXmlNode in commandNodes)
-			{
-				if (commandXmlNode != null && (commandXmlNode is XmlElement) && commandXmlNode != aCommandNodeToFind.Node)
-					commandMenuNodes.Add(new MenuXmlNode(commandXmlNode));
-			}
-			return commandMenuNodes;
-		}
-
-		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> GetApplicationEquivalentExternalItemsList(MenuXmlNode aExternalItemNodeToFind)
-		{
-			if (node == null || !IsApplication || !HasChildNodes || aExternalItemNodeToFind == null || !aExternalItemNodeToFind.IsExternalItem)
-				return null;
-
-			return GetApplicationEquivalentExternalItemsList(aExternalItemNodeToFind.ExternalItemType, aExternalItemNodeToFind.ItemObject);
-		}
-
-		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> GetApplicationEquivalentExternalItemsList(string aExternalItemType, string aExternalItemObject)
-		{
-			if 
-				(
-					node == null || 
-					!IsApplication || 
-					!HasChildNodes || 
-					aExternalItemObject == null || 
-					aExternalItemObject.Length == 0 || 
-					aExternalItemType == null || 
-					aExternalItemType.Length == 0
-				)
-				return null;
-
-			XmlNodeList externalItems = SelectNodes("descendant::" + XML_TAG_MENU_EXTERNAL_ITEM + "[@" + XML_ATTRIBUTE_EXTERNAL_ITEM_TYPE +"='" + aExternalItemType + "' and child::" + XML_TAG_OBJECT +"='" + aExternalItemObject + "']" );
-
-			if (externalItems == null || externalItems.Count == 0)
-				return null;
-
-            List<MenuXmlNode> externalItemsMenuNodes = new List<MenuXmlNode>();
-			foreach (XmlNode externalItemNode in externalItems)
-			{
-				externalItemsMenuNodes.Add(new MenuXmlNode(externalItemNode));
-			}
-			return externalItemsMenuNodes;
-		}
 		
 		/// <summary>
 		/// Searches a group child node by its name (only if the node represents an application, otherwise returns null)
@@ -2367,53 +1538,6 @@ namespace Microarea.Common.MenuLoader
 		
 			return new MenuXmlNode(groupNode);
 		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, MenuXmlNodeType aShortcutType)
-		{
-			// Se si tratta di uno shortcut per l'apertura di file di Office
-			// l'applicazione in questione deve necessariamente essere specificata!
-			if (aShortcutType.IsOfficeItem)
-			{
-				Debug.Fail("MenuXmlNode.GetShortcutNodeByNameAndType Error: undefined Office application.");
-				return null;
-			}
-
-			return	GetShortcutNodeByNameAndType(aShortcutName, aShortcutType, MenuXmlNode.OfficeItemApplication.Undefined);
-		}
-		
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, MenuXmlNodeType aShortcutType, MenuXmlNode.OfficeItemApplication officeApplication)
-		{
-			if 
-				(
-				aShortcutName == null || 
-				aShortcutName.Length == 0 || 
-				aShortcutType == null || 
-				node == null || 
-				!IsCommandShortcutsNode || 
-				!HasChildNodes ||
-				(aShortcutType.IsOfficeItem && officeApplication == MenuXmlNode.OfficeItemApplication.Undefined)
-				)
-				return null;
-
-			return GetShortcutNodeByNameAndType(aShortcutName, aShortcutType.GetXmlTag(), officeApplication);
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, string aShortcutType)
-		{
-			// Se si tratta di uno shortcut per l'apertura di file di Office
-			// l'applicazione in questione deve necessariamente essere specificata!
-			if (String.Compare(aShortcutType, XML_TAG_OFFICE_ITEM) == 0)
-			{
-				Debug.Fail("MenuXmlNode.GetShortcutNodeByNameAndType Error: undefined Office application.");
-				return null;
-			}
-	
-			return	GetShortcutNodeByNameAndType(aShortcutName, aShortcutType, MenuXmlNode.OfficeItemApplication.Undefined);
-		}
-		
 		//---------------------------------------------------------------------------
 		public MenuXmlNode GetShortcutNodeByNameAndType(string aShortcutName, string aShortcutType, MenuXmlNode.OfficeItemApplication officeApplication)
 		{
@@ -2439,18 +1563,6 @@ namespace Microarea.Common.MenuLoader
 				return null;
 		
 			return nodeFound;
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetDocumentShortcutNodeByName(string aDocumentShortcutName)
-		{
-			return GetShortcutNodeByNameAndType(aDocumentShortcutName, XML_TAG_DOCUMENT);
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetReportShortcutNodeByName(string aReportShortcutName)
-		{
-			return GetShortcutNodeByNameAndType(aReportShortcutName, XML_TAG_REPORT);
 		}
 
 		/// <summary>
@@ -2522,51 +1634,15 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public MenuXmlNode GetCommandNodeByObjectName(string aCommandName)
-		{
-			if (aCommandName == null || aCommandName.Length == 0 || node == null || !(IsMenu || IsCommand) || !HasChildNodes)
-				return null;
-
-			foreach (XmlNode childNode in node.ChildNodes)
-			{
-				if (!IsXmlNodeNameOfTypeCommand(childNode))
-					continue;
-				
-				MenuXmlNode aCommandNode = new MenuXmlNode(childNode);
-				if (String.Compare(aCommandNode.itemObject, aCommandName) == 0)
-					return aCommandNode;
-			}
-			return null;
-		}
-
-		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetDocumentDescendantNodes()
 		{
 			return SearchCommandDescendantNodes(XML_TAG_DOCUMENT);
 		}
 
 		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetCommandDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(String.Empty, aCommandName);
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetDocumentDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_DOCUMENT, aCommandName);
-		}
-
-		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetReportDescendantNodes()
 		{
 			return SearchCommandDescendantNodes(XML_TAG_REPORT);
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetReportDescendantNodesByObjectName(string reportName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_REPORT, reportName);
 		}
 		
 		//---------------------------------------------------------------------------
@@ -2576,21 +1652,9 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetFunctionDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_FUNCTION, aCommandName);
-		}
-
-		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetBatchDescendantNodes()
 		{
 			return SearchCommandDescendantNodes(XML_TAG_BATCH);
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetBatchDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_BATCH, aCommandName);
 		}
 
 		//---------------------------------------------------------------------------
@@ -2605,46 +1669,11 @@ namespace Microarea.Common.MenuLoader
 			return SearchCommandDescendantNodes(XML_TAG_TEXT);
 		}
 
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetExeDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_EXE, aCommandName);
-		}
-
         //---------------------------------------------------------------------------
         public MenuXmlNodeCollection GetExternalItemDescendantNodes()
         {
             return SearchCommandDescendantNodes(XML_TAG_MENU_EXTERNAL_ITEM);
         }
-
-        //---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetExternalItemDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_MENU_EXTERNAL_ITEM, aCommandName);
-		}
-		
-		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> GetExternalItemDescendantNodesByTypeAttribute(string typeAttribute)
-		{
-			if 
-				(
-					node == null ||
-					!HasChildNodes ||
-					typeAttribute == null ||
-					typeAttribute.Length == 0
-				)
-				return null;
-			
-			XmlNodeList descendantNodes = SelectNodes("descendant::" + XML_TAG_MENU_EXTERNAL_ITEM + "[@" + XML_ATTRIBUTE_EXTERNAL_ITEM_TYPE +"='" + typeAttribute + "']" );
-			if (descendantNodes == null || descendantNodes.Count == 0)
-				return null;
-
-            List<MenuXmlNode> descendantNodesList = new List<MenuXmlNode>();
-			foreach (XmlNode aNode in descendantNodes)
-				descendantNodesList.Add(new MenuXmlNode(aNode));
-
-			return descendantNodesList;
-		}
 
 		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetOfficeItemDescendantNodes()
@@ -2652,74 +1681,6 @@ namespace Microarea.Common.MenuLoader
 			return SearchCommandDescendantNodes(XML_TAG_OFFICE_ITEM);
 		}
 
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetOfficeItemDescendantNodesByObjectName(string aCommandName)
-		{
-			return SearchCommandDescendantNodesByObjectName(XML_TAG_OFFICE_ITEM, aCommandName);
-		}
-
-		//---------------------------------------------------------------------------
-		public List<MenuXmlNode> GetOfficeItemDescendantNodesByApplicationAttribute(string applicationAttribute)
-		{
-			if 
-				(
-				node == null ||
-				!HasChildNodes ||
-				applicationAttribute == null ||
-				applicationAttribute.Length == 0
-				)
-				return null;
-			
-			XmlNodeList descendantNodes = SelectNodes("descendant::" + XML_TAG_OFFICE_ITEM + "[@" + XML_ATTRIBUTE_OFFICE_ITEM_APP +"='" + applicationAttribute + "']" );
-			if (descendantNodes == null || descendantNodes.Count == 0)
-				return null;
-
-            List<MenuXmlNode> descendantNodesList = new List<MenuXmlNode>();
-			foreach (XmlNode aNode in descendantNodes)
-				descendantNodesList.Add(new MenuXmlNode(aNode));
-
-			return descendantNodesList;
-		}
-
-		//---------------------------------------------------------------------------
-		public bool HasSchedulableDescendantNodes()
-		{
-			if (GetReportDescendantNodes() != null)
-				return true;
-			if (GetBatchDescendantNodes() != null)
-				return true;
-			if (GetFunctionDescendantNodes() != null)
-				return true;
-			return false;
-		}
-
-		//---------------------------------------------------------------------------
-		// Un nodo etichettato con XML_TAG_MENU_ACTIONS contiene delle possibili 
-		// modifiche da apportare alla struttura globale di men?gi?caricata.
-		// Grazie ai nodi contenuti in un nodo di tipo MenuActions ?possibile 
-		// specificare in un file di men?delle operazioni che vanno a ripercuotersi
-		// sulla struttura preesistente.
-		// Un nodo di MenuActions deve essere figlio della radice del documento.
-		// In esso vengono definite delle operazioni di aggiunta (nodi di etichettati
-		// con XML_TAG_ADD_ACTION) o di rimozione (XML_TAG_REMOVE_ACTION) di parti
-		// del men?
-		// Un nodo di operazione deve contenere la specifica dell’applicazione alla
-		// quale l’operazione si riferisce. Tale applicazione deve essere stata 
-		// introdotta nei file caricati precedentemente a quello corrente.
-		// Se l’operazione non agisce sull’intero ramo di men?di applicazione, ma solo
-		// su una sua sotto-struttura, occorre identificarne il percorso gerarchico.
-		// Ci?si ottiene mediante nodi etichettati con XML_TAG_ACTION_GROUP e con 
-		// XML_TAG_ACTION_MENU_PATH, rispettivamente per individuare il gruppo ed il 
-		// relativo ramo di men?sui quali agire. 
-		// Se l’operazione riguarda l’intero gruppo, il nodo XML_TAG_ACTION_MENU_PATH
-		// ?assente.
-		// Nel testo contenuto all’interno di un nodo di tipo XML_TAG_ACTION_MENU_PATH
-		// si specifica il percorso gerarchico del men? ovvero, rispettando il loro
-		// ordine gerarchico, si concatenano i titoli dei singoli nodi di tipo Menu
-		// dai quali discende quello sul quale si vuole agire, separandoli tra loro
-		// mediante la sequenza di caratteri ActionMenuPathSeparator.
-		// Infine, se l’operazione riguarda dei nodi di comando, essi vanno elencati
-		// sotto un nodo etichettato con XML_TAG_ACTION_COMMANDS.
 		//---------------------------------------------------------------------------
 		public MenuXmlNode GetMenuActionsNode()
 		{
@@ -2895,30 +1856,7 @@ namespace Microarea.Common.MenuLoader
 
 			return ((XmlElement)groupNode).GetAttribute(XML_ATTRIBUTE_IMAGE_LINK);
 		}
-
-		/// <summary>
-		/// Returns the menu path node of a node action (only if the node represents an action, otherwise returns null)
-		/// </summary>
-		/// <returns>Menu path node</returns>
-		//---------------------------------------------------------------------------
-		public MenuXmlNode GetActionMenuPathNode()
-		{
-			if (node == null || !IsAction || !HasChildNodes)
-				return null;
-
-			foreach (XmlNode childNode in node.ChildNodes)
-			{
-				if (childNode.Name == XML_TAG_ACTION_MENU_PATH)
-					return new MenuXmlNode(childNode);
-			}
-			return null;
-		}
-
-		/// <summary>
-		/// Returns the menu path of a node action (only if the node represents an action, otherwise returns an empty string)
-		/// </summary>
-		/// <returns>Menu path</returns>
-		//---------------------------------------------------------------------------
+    	//---------------------------------------------------------------------------
 		public string GetActionMenuNamesPath()
 		{
 			if (node == null || !IsAction || !HasChildNodes)
@@ -3023,16 +1961,6 @@ namespace Microarea.Common.MenuLoader
 
 			return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_SHORTCUT_TYPE);
 		}
-
-		//---------------------------------------------------------------------------
-		public string GetShortcutCommandSubType()
-		{
-			if (node == null || node.NodeType != XmlNodeType.Element || !IsShortcut)
-				return String.Empty;
-
-			return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_SHORTCUT_SUBTYPE);
-		}
-
 		//---------------------------------------------------------------------------
 		public string GetShortcutCommand()
 		{
@@ -3068,79 +1996,6 @@ namespace Microarea.Common.MenuLoader
 				return String.Empty;
 		
 			return argumentsOuterXml;
-		}
-
-		//---------------------------------------------------------------------------
-		public string GetArgumentName()
-		{
-			if (node == null || node.NodeType != XmlNodeType.Element || !IsArgument)
-				return String.Empty;
-		
-			return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_ARGUMENT_NAME);
-		}
-
-		//---------------------------------------------------------------------------
-		public string GetArgumentTitle()
-		{
-			if (node == null || !IsArgument)
-				return String.Empty;
-
-			XmlNode titleChild = SelectChild(XML_TAG_ARGUMENT_TITLE);
-			if (titleChild == null)
-				return String.Empty;
-			
-			return titleChild.InnerText;
-		}
-
-		//---------------------------------------------------------------------------
-		public string GetArgumentType()
-		{
-			if (node == null || !IsArgument)
-				return String.Empty;
-
-			XmlNode datatypeChild = SelectChild(XML_TAG_ARGUMENT_DATATYPE);
-			if (datatypeChild == null)
-				return String.Empty;
-
-			if (datatypeChild.NodeType != XmlNodeType.Element)
-			{
-				Debug.Fail("MenuXmlNode.GetArgumentType Error.");
-				return String.Empty;
-			}
-			
-			return ((XmlElement)datatypeChild).GetAttribute(XML_ATTRIBUTE_ARGUMENT_TYPE);
-		}
-
-		//---------------------------------------------------------------------------
-		public string GetArgumentPassingMode()
-		{
-			if (node == null || !IsArgument)
-				return String.Empty;
-
-			XmlNode datatypeChild = SelectChild(XML_TAG_ARGUMENT_DATATYPE);
-			if (datatypeChild == null)
-				return String.Empty;
-
-			if (datatypeChild.NodeType != XmlNodeType.Element)
-			{
-				Debug.Fail("MenuXmlNode.GetArgumentType Error.");
-				return String.Empty;
-			}
-			
-			return ((XmlElement)datatypeChild).GetAttribute(XML_ATTRIBUTE_ARGUMENT_PASSINGMODE);
-		}
-
-		//---------------------------------------------------------------------------
-		public string GetArgumentValue()
-		{
-			if (node == null || !IsArgument)
-				return String.Empty;
-
-			XmlNode valueChild = SelectChild(XML_TAG_ARGUMENT_VALUE);
-			if (valueChild == null)
-				return String.Empty;
-			
-			return valueChild.InnerText;
 		}
 
 		//---------------------------------------------------------------------------
@@ -3419,67 +2274,6 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public bool HasOfficeItemsDescendantsNodes
-		{
-			get
-			{			
-				if (node == null || !node.HasChildNodes || !(IsRoot || IsApplication || IsGroup || IsMenu || IsCommand))
-					return false;
-
-				try
-				{
-					XmlNodeList descendantNodes = SelectNodes("descendant::" + XML_TAG_OFFICE_ITEM);
-					return (descendantNodes != null && descendantNodes.Count > 0);
-				}
-				catch(MenuXmlNodeException)
-				{
-					return false;
-				}
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool HasExcelItemsDescendantsNodes
-		{
-			get
-			{			
-				if (node == null || !node.HasChildNodes || !(IsRoot || IsApplication || IsGroup || IsMenu || IsCommand))
-					return false;
-
-				try
-				{
-					XmlNodeList descendantNodes = SelectNodes("descendant::" + XML_TAG_OFFICE_ITEM + "[@" + XML_ATTRIBUTE_OFFICE_ITEM_APP +"='" + OfficeItemApplication.Excel.ToString() + "']");
-					return (descendantNodes != null && descendantNodes.Count > 0);
-				}
-				catch(MenuXmlNodeException)
-				{
-					return false;
-				}
-			}
-		}
-
-		//---------------------------------------------------------------------------
-		public bool HasWordItemsDescendantsNodes
-		{
-			get
-			{			
-				if (node == null || !node.HasChildNodes || !(IsRoot || IsApplication || IsGroup || IsMenu || IsCommand))
-					return false;
-
-				try
-				{
-					XmlNodeList descendantNodes = SelectNodes("descendant::" + XML_TAG_OFFICE_ITEM + "[@" + XML_ATTRIBUTE_OFFICE_ITEM_APP +"='" + OfficeItemApplication.Word.ToString() + "']");
-					return (descendantNodes != null && descendantNodes.Count > 0);
-				}
-				catch(MenuXmlNodeException)
-				{
-					return false;
-				}
-			}
-		}
-
-		
-		//---------------------------------------------------------------------------
 		public bool RemoveChild(MenuXmlNode aMenuNodeToRemove)
 		{
 			if (node == null || aMenuNodeToRemove == null || !HasChildNodes)
@@ -3627,55 +2421,7 @@ namespace Microarea.Common.MenuLoader
 			else  if (IsOfficeItemShortcut)
 				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_SHORTCUT_OFFICE_APP, aOfficeItemApplication.ToString());
 		}
-		
-		//---------------------------------------------------------------------------
-		public bool CheckMagicDocumentsInstallation()
-		{
-			if (node == null || node.NodeType != XmlNodeType.Element || !(IsOfficeItem || IsOfficeItemShortcut))
-				return false;
-
-			string attributeValue = (((XmlElement)node).GetAttribute(XML_ATTRIBUTE_CHECK_MAGICDOC_INST));
-
-			try
-			{
-				if (attributeValue != null && attributeValue.Length > 0)
-					return Convert.ToBoolean(attributeValue);
-			}
-			catch(FormatException)
-			{
-			}
-			return false;
-		}
-
-		// In un nodo di tipo Gruppo, Menu o di Comando si pu?inserire l’attributo
-		// di "insert_before" o quello di "insert_after". 
-		// In tal modo ?possibile inserire il ramo di men?o il comando contenuto
-		// nel nodo rispettivamente prima o dopo a quella definita da un suo “fratello?
-		// dello stesso tipo. 
-		// Il valore assegnato all’attributo deve corrispondere, cio? al titolo di
-		// un nodo dello stesso tipo che discende dal medesimo nodo padre.
-		// Se non vengono specificati attributi di "insert_before" o di "insert_after",
-		// l'elemento (ramo o comando) contenuto nel corrente nodo viene “appeso?in 
-		// fondo a quelli con gerarchia corrispondente caricati in precedenza.
-		//---------------------------------------------------------------------------
-		public string GetInsertBeforeAttribute()
-		{
-			if (node == null || node.NodeType != XmlNodeType.Element)
-				return String.Empty;
-
-			return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_INSERT_BEFORE);
-		}
-		
-		//---------------------------------------------------------------------------
-		public string GetInsertAfterAttribute()
-		{
-			if (node == null || node.NodeType != XmlNodeType.Element)
-				return String.Empty;
-
-			return ((XmlElement)node).GetAttribute(XML_ATTRIBUTE_INSERT_AFTER);
-		}
-		
-		//---------------------------------------------------------------------------
+	    //---------------------------------------------------------------------------
 		public MenuXmlNode InsertXmlNodeChild(XmlNode aXmlNodeToInsert)
 		{
 			if 
@@ -3893,106 +2639,6 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		//---------------------------------------------------------------------------
-		public bool ExistsOfficeMenuCommand(string aModuleName, string aOfficeFileName)
-		{
-			if 
-				(
-				node == null ||
-				!(IsApplication || IsGroup || IsMenu) ||
-				aModuleName == null ||
-				aModuleName.Length == 0 ||
-				aOfficeFileName == null ||
-				aOfficeFileName.Length == 0
-				)
-				return false;
-
-			MenuXmlNode appNode = GetApplicationNode();
-			if (appNode == null)
-				return false;
-
-			string applicationName = appNode.GetApplicationName();
-			string officeFileName = aOfficeFileName.ToLower(CultureInfo.InvariantCulture);
-			MenuXmlNode.OfficeItemApplication officeApp = MenuXmlNode.OfficeItemApplication.Undefined;
-			MenuXmlNode.MenuXmlNodeCommandSubType officeCommandSubType = null;
-			string fileExtension = String.Empty;
-
-			if (officeFileName.EndsWith(NameSolverStrings.ExcelDocumentExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT);
-				fileExtension = NameSolverStrings.ExcelDocumentExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.ExcelTemplateExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE);
-				fileExtension = NameSolverStrings.ExcelTemplateExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.WordDocumentExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Word;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT);
-				fileExtension = NameSolverStrings.WordDocumentExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.WordTemplateExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Word;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE);
-				fileExtension = NameSolverStrings.WordTemplateExtension;
-			}
-
-			if (officeFileName.EndsWith(NameSolverStrings.Excel2007DocumentExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT_2007);
-				fileExtension = NameSolverStrings.Excel2007DocumentExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.Excel2007TemplateExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Excel;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE_2007);
-				fileExtension = NameSolverStrings.Excel2007TemplateExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.Word2007DocumentExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Word;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_DOCUMENT_2007);
-				fileExtension = NameSolverStrings.Word2007DocumentExtension;
-			}
-			else if (officeFileName.EndsWith(NameSolverStrings.Word2007TemplateExtension.ToLower(CultureInfo.InvariantCulture)))
-			{
-				officeApp = MenuXmlNode.OfficeItemApplication.Word;
-				officeCommandSubType = new MenuXmlNode.MenuXmlNodeCommandSubType(MenuXmlNode.MenuXmlNodeCommandSubType.XML_OFFICE_ITEM_SUBTYPE_TEMPLATE_2007);
-				fileExtension = NameSolverStrings.Word2007TemplateExtension;
-			}
-			else
-				return false;
-
-			string xpathExpression = "descendant::" + MenuXmlNode.XML_TAG_OFFICE_ITEM;
-			xpathExpression += "[@" + MenuXmlNode.XML_ATTRIBUTE_OFFICE_ITEM_APP + "= '" + officeApp.ToString() + "' and ";
-			xpathExpression += "@" + MenuXmlNode.XML_ATTRIBUTE_COMMAND_SUBTYPE + "= '" + officeCommandSubType.GetXmlTag() + "' and ";
-			xpathExpression += "translate(child::" + MenuXmlNode.XML_TAG_OBJECT + ", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '";
-			xpathExpression += applicationName.ToLower(CultureInfo.InvariantCulture) + NameSpace.TokenSeparator + aModuleName.ToLower(CultureInfo.InvariantCulture) + NameSpace.TokenSeparator + officeFileName + "']";
-
-			XmlNode officeFileNode = appNode.Node.SelectSingleNode(xpathExpression);
-
-			if (officeFileNode != null)
-				return true;
-
-			officeFileName = officeFileName.Substring(0, officeFileName.Length - fileExtension.Length);
-
-			xpathExpression = "descendant::" + MenuXmlNode.XML_TAG_OFFICE_ITEM;
-			xpathExpression += "[@" + MenuXmlNode.XML_ATTRIBUTE_OFFICE_ITEM_APP + "= '" + officeApp.ToString() + "' and ";
-			xpathExpression += "@" + MenuXmlNode.XML_ATTRIBUTE_COMMAND_SUBTYPE + "= '" + officeCommandSubType.GetXmlTag() + "' and ";
-			xpathExpression += "translate(child::" + MenuXmlNode.XML_TAG_OBJECT + ", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz') = '";
-			xpathExpression += applicationName.ToLower(CultureInfo.InvariantCulture) + NameSpace.TokenSeparator + aModuleName.ToLower(CultureInfo.InvariantCulture) + NameSpace.TokenSeparator + officeFileName + "']";
-
-			officeFileNode = appNode.Node.SelectSingleNode(xpathExpression);
-			
-			return (officeFileNode != null);
-		}
-		
-		//---------------------------------------------------------------------------
 		public MenuXmlNodeCollection GetAllCommandDescendants()
 		{
 			if (node == null)
@@ -4020,127 +2666,6 @@ namespace Microarea.Common.MenuLoader
 			}
 
 			return menuNodesFound;
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection GetAllCommands(string aCommandItemObject, CommandsTypeToLoad commandsTypeToSearch)
-		{
-			if 
-				(
-				node == null ||
-				aCommandItemObject == null || 
-				aCommandItemObject.Length == 0 || 
-				commandsTypeToSearch == CommandsTypeToLoad.Undefined
-				)
-				return null;
-
-			MenuXmlNodeCollection menuNodesFound = null;
-			try
-			{
-				string xpathExpression =  @"descendant::*[(";
-				
-				string commandTypesExpression = String.Empty;
-
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Form) == CommandsTypeToLoad.Form)
-					commandTypesExpression = "self::" + MenuXmlNode.XML_TAG_DOCUMENT;
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Batch) == CommandsTypeToLoad.Batch)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_BATCH;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Report) == CommandsTypeToLoad.Report)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_REPORT;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Function) == CommandsTypeToLoad.Function)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_FUNCTION;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Text) == CommandsTypeToLoad.Text)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_TEXT;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.Exe) == CommandsTypeToLoad.Exe)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_EXE;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.ExternalItem) == CommandsTypeToLoad.ExternalItem)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_MENU_EXTERNAL_ITEM;
-				}
-				if ((commandsTypeToSearch & CommandsTypeToLoad.OfficeItem) != 0)
-				{
-					if (commandTypesExpression.Length > 0)
-						commandTypesExpression += " or ";
-					commandTypesExpression += "self::" + MenuXmlNode.XML_TAG_OFFICE_ITEM;
-					if ((commandsTypeToSearch & CommandsTypeToLoad.ExcelItem) == CommandsTypeToLoad.ExcelItem)
-						commandTypesExpression += "[@" + XML_ATTRIBUTE_OFFICE_ITEM_APP +"='" + OfficeItemApplication.Excel.ToString() + "']" ;
-					else if ((commandsTypeToSearch & CommandsTypeToLoad.WordItem) == CommandsTypeToLoad.WordItem)
-						commandTypesExpression += "[@" + XML_ATTRIBUTE_OFFICE_ITEM_APP +"='" + OfficeItemApplication.Word.ToString() + "']" ;
-				}
-				if (commandTypesExpression.Length == 0)
-					return null;
-
-				xpathExpression += commandTypesExpression;
-
-				xpathExpression += (") and child::" + MenuXmlNode.XML_TAG_OBJECT + "='" + aCommandItemObject + "']");
-
-				XmlNodeList commandDescendants = node.SelectNodes(xpathExpression);
-				if (commandDescendants != null && commandDescendants.Count > 0)
-					menuNodesFound = new MenuXmlNodeCollection(commandDescendants);
-			}
-			catch(MenuXmlNodeException exception)
-			{
-				Debug.Fail(exception.ExtendedMessage);
-			}
-
-			return menuNodesFound;
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNodeCollection SelectMenuNodes(string xpathExpression)
-		{
-			XmlNodeList selectedNodes = SelectNodes(xpathExpression);
-			
-			return (selectedNodes != null && selectedNodes.Count > 0) ? new MenuXmlNodeCollection(selectedNodes) : null;
-		}
-
-		//---------------------------------------------------------------------------
-		public MenuXmlNode SelectSingleMenuNode(string xpathExpression)
-		{
-			XmlNode selectedNode = SelectSingleNode(xpathExpression);
-
-			return (selectedNode != null) ? new MenuXmlNode(selectedNode) : null;
-		}
-
-		//---------------------------------------------------------------------------
-		public string[] GetOtherTitles()
-		{
-			if (node == null || !node.HasChildNodes)
-				return null;
-
-			List<string> otherTitles = new List<string>();
-
-			foreach (XmlNode child in node.ChildNodes)
-			{
-				if (!(child is XmlElement) || child.Name != XML_TAG_OTHER_TITLE)
-					continue;
-
-				otherTitles.Add(child.InnerText);
-			}
-
-            return otherTitles.ToArray();//  (otherTitles.Count > 0) ? (string[])otherTitles(typeof(string)) : null;
 		}
 
 		//---------------------------------------------------------------------------
@@ -4240,33 +2765,7 @@ namespace Microarea.Common.MenuLoader
 			return descendantNodesList;
 		}
 
-		//---------------------------------------------------------------------------
-		private MenuXmlNodeCollection SearchCommandDescendantNodesByObjectName(string tag, string childValue)
-		{
-			if 
-				(
-					node == null ||
-					!HasChildNodes ||
-					childValue == null ||
-					childValue.Length == 0
-				)
-				return null;
-
-			if (tag == null || tag.Length == 0)
-				tag = "*";
-
-			XmlNodeList descendantNodes = SelectNodes("descendant::" + tag + "[" + XML_TAG_OBJECT +"='" + childValue + "']" );
-			if (descendantNodes == null || descendantNodes.Count == 0)
-				return null;
-
-			MenuXmlNodeCollection descendantNodesList = new MenuXmlNodeCollection();
-			foreach (XmlNode aNode in descendantNodes)
-				descendantNodesList.Add(new MenuXmlNode(aNode));
-
-			return descendantNodesList;
-		}
-
-		//---------------------------------------------------------------------------
+     	//---------------------------------------------------------------------------
 		private void SetTypeFromXmlTag()
 		{
 			if (node == null)
@@ -4673,56 +3172,6 @@ namespace Microarea.Common.MenuLoader
 			}
 			return shortcutsItems;
 		}
-
-		//---------------------------------------------------------------------------
-		private List<MenuXmlNode> BuildArgumentsItemsList()
-		{
-			if (node == null  || !IsArgumentsNode || !node.HasChildNodes)
-				return null;
-
-			XmlNodeList argNodes = SelectNodes("child::" + XML_TAG_COMMAND_ARGUMENT);
-			if (argNodes == null || argNodes.Count == 0)
-				return null;
-
-            List<MenuXmlNode> argsItems = new List<MenuXmlNode>();
-			foreach (XmlNode arg in argNodes)
-			{
-				argsItems.Add(new MenuXmlNode(arg));
-			}
-			return argsItems;
-		}
-
-		//---------------------------------------------------------------------------
-		private void AssignStateToAllDescendants()
-		{
-			if (node == null || !HasChildNodes)
-				return;
-			
-			foreach ( XmlNode child in node.ChildNodes)
-			{
-				MenuXmlNode childMenuNode = new MenuXmlNode(child);
-				childMenuNode.State = State;
-			}
-		}
-
-        //---------------------------------------------------------------------------
-        private bool HasAllCommandDescendantsInState(NodeState aNodeState)
-        {
-            return HasAllCommandDescendantsInState(node, aNodeState);
-        }
-
-        //---------------------------------------------------------------------------
-        private bool HasAtLeastOneCommandDescendantInState(NodeState aNodeState)
-        {
-            return HasAtLeastOneCommandDescendantInState(node, aNodeState);
-        }
-
-		//---------------------------------------------------------------------------
-		private bool HasNoCommandDescendantsInState(NodeState aNodeState)
-		{
-			return !HasAtLeastOneCommandDescendantInState(aNodeState);
-		}
-
 		#endregion
 
 		#region MenuXmlNode static methods
@@ -4750,128 +3199,6 @@ namespace Microarea.Common.MenuLoader
 			}
 		}
 
-        //---------------------------------------------------------------------------
-        private static bool HasAllCommandDescendantsInState(XmlNode aNode, NodeState aNodeState)
-        {
-            if (aNode == null || aNode.ChildNodes == null || aNode.ChildNodes.Count == 0)
-                return false;
-
-            string xpathExpression = @"descendant::*[self::" + XML_TAG_DOCUMENT +
-                " or self::" + XML_TAG_REPORT +
-                " or self::" + XML_TAG_BATCH +
-                " or self::" + XML_TAG_FUNCTION +
-                " or self::" + XML_TAG_TEXT +
-                " or self::" + XML_TAG_EXE +
-                " or self::" + XML_TAG_MENU_EXTERNAL_ITEM +
-                " or self::" + XML_TAG_OFFICE_ITEM + "]";
-            XmlNodeList commandDescendants = aNode.SelectNodes(xpathExpression);
-            if (commandDescendants == null || commandDescendants.Count == 0)
-                return false;
-
-            int stateMask = (int)NodeState.Undefined;
-            string stateAttributeValue = ((XmlElement)aNode).GetAttribute(XML_ATTRIBUTE_STATE);
-            if (stateAttributeValue != null && stateAttributeValue.Length > 0)
-                stateMask = Convert.ToInt32(stateAttributeValue);
-
-            if
-                (
-                ((stateMask & (int)aNodeState) == (int)aNodeState) &&
-                ((stateMask & (int)NodeState.ApplyStateToAllDescendants) == (int)NodeState.ApplyStateToAllDescendants)
-                )
-                return true;
-
-            foreach (XmlNode childNode in commandDescendants)
-            {
-                if (childNode == null || childNode.NodeType != XmlNodeType.Element)
-                    continue;
-
-                stateMask = (int)NodeState.Undefined;
-                stateAttributeValue = ((XmlElement)childNode).GetAttribute(XML_ATTRIBUTE_STATE);
-                if (stateAttributeValue != null && stateAttributeValue.Length > 0)
-                    stateMask = Convert.ToInt32(stateAttributeValue);
-
-                if ((stateMask & (int)aNodeState) != (int)aNodeState)
-                    return false;
-            }
-
-            return true;
-        }
-
-        //---------------------------------------------------------------------------
-        private static bool HasAtLeastOneCommandDescendantInState(XmlNode aNode, NodeState aNodeState)
-        {
-            if (aNode == null || aNode.ChildNodes == null || aNode.ChildNodes.Count == 0)
-                return false;
-
-            string xpathExpression = @"descendant::*[self::" + XML_TAG_DOCUMENT +
-                " or self::" + XML_TAG_REPORT +
-                " or self::" + XML_TAG_BATCH +
-                " or self::" + XML_TAG_FUNCTION +
-                " or self::" + XML_TAG_TEXT +
-                " or self::" + XML_TAG_EXE +
-                " or self::" + XML_TAG_MENU_EXTERNAL_ITEM +
-                " or self::" + XML_TAG_OFFICE_ITEM + "]";
-            XmlNodeList commandDescendants = aNode.SelectNodes(xpathExpression);
-            if (commandDescendants == null || commandDescendants.Count == 0)
-                return false;
-
-            int stateMask = (int)NodeState.Undefined;
-            string stateAttributeValue = ((XmlElement)aNode).GetAttribute(XML_ATTRIBUTE_STATE);
-            if (stateAttributeValue != null && stateAttributeValue.Length > 0)
-                stateMask = Convert.ToInt32(stateAttributeValue);
-
-            if
-                (
-                ((stateMask & (int)aNodeState) == (int)aNodeState) &&
-                ((stateMask & (int)NodeState.ApplyStateToAllDescendants) == (int)NodeState.ApplyStateToAllDescendants)
-                )
-                return true;
-
-            foreach (XmlNode childNode in commandDescendants)
-            {
-                if (childNode == null || childNode.NodeType != XmlNodeType.Element)
-                    continue;
-
-                stateMask = (int)NodeState.Undefined;
-                stateAttributeValue = ((XmlElement)childNode).GetAttribute(XML_ATTRIBUTE_STATE);
-                if (stateAttributeValue != null && stateAttributeValue.Length > 0)
-                    stateMask = Convert.ToInt32(stateAttributeValue);
-
-                if ((stateMask & (int)aNodeState) == (int)aNodeState)
-                    return true;
-            }
-
-            return false;
-        }
-
-        //---------------------------------------------------------------------------
-		public static string BuildArgumentsInnerXml(string argName, string argTitle, string argType, string argPassingMode, string argValue)
-		{
-			string xmlArgs = String.Empty;
-			
-			xmlArgs += "<" + XML_TAG_COMMAND_ARGUMENT;
-
-			if (argName != null && argName.Length > 0)
-				xmlArgs += " " + XML_ATTRIBUTE_ARGUMENT_NAME + " = \"" + XmlConvert.EncodeLocalName(argName) + "\"";
-			xmlArgs += ">";
-
-			if (argTitle != null && argTitle.Length > 0)
-				xmlArgs += "<" + XML_TAG_ARGUMENT_TITLE + " " + XML_ATTRIBUTE_ARGUMENT_LOCALIZABLE + "=\"true\">" + argTitle + "</" + XML_TAG_ARGUMENT_TITLE + ">";
-
-			xmlArgs += "<" + XML_TAG_ARGUMENT_DATATYPE;
-			if (argType != null && argType.Length > 0)
-				xmlArgs += " " + XML_ATTRIBUTE_ARGUMENT_TYPE + "=\"" + argType + "\"";
-			if (argPassingMode != null && argPassingMode.Length > 0)
-				xmlArgs += " " + XML_ATTRIBUTE_ARGUMENT_PASSINGMODE+ "=\"" + argPassingMode + "\"";
-			xmlArgs += "/>";
-
-			if (argValue != null && argValue.Length > 0)
-				xmlArgs += "<" + XML_TAG_ARGUMENT_VALUE + ">" + argValue + "</" + MenuXmlNode.XML_TAG_ARGUMENT_VALUE + ">";
-			xmlArgs += "</" + XML_TAG_COMMAND_ARGUMENT + ">";
-
-			return xmlArgs;
-		}
-		
 		//---------------------------------------------------------------------------
 		public static MenuXmlNode CreateArgumentsNodeFromOuterXml(string aArgumentsOuterXml, XmlDocument aXmlDocument)
 		{
@@ -4968,27 +3295,7 @@ namespace Microarea.Common.MenuLoader
 		}
 
 		#endregion
-		
-		#region MenuXmlNode Events classes and declarations
-		//============================================================================
-		public class MenuNodeEventArgs : EventArgs
-		{
-			private MenuXmlNode node = null;
-			//----------------------------------------------------------------------------
-			public MenuNodeEventArgs(MenuXmlNode aNode)
-			{
-				node = aNode;
-			}
 
-			//----------------------------------------------------------------------------
-			public MenuXmlNode Node { get{ return node; } }
-		}
-		//============================================================================
-		public delegate void MenuNodeEventHandler(object sender, MenuNodeEventArgs e);
-		//---------------------------------------------------------------------------
-		public event MenuNodeEventHandler ProtectedStateChanged;
-
-		#endregion
 
 		#region MenuXmlNodeType class
 		//============================================================================
@@ -5065,11 +3372,6 @@ namespace Microarea.Common.MenuLoader
 				SetTypeFlagFromXmlTag(aXmlTag);
 			}
 
-			//---------------------------------------------------------------------------
-			public MenuXmlNodeType(MenuXmlNodeType aNodeType)
-			{
-				typeMask = aNodeType.typeMask;
-			}
 
 			//---------------------------------------------------------------------------
 			public override bool Equals(object obj) 
@@ -5086,20 +3388,8 @@ namespace Microarea.Common.MenuLoader
 				return typeMask;
 			}
 
-			//---------------------------------------------------------------------------
-			public static bool operator ==(MenuXmlNodeType type1, MenuXmlNodeType type2) 
-			{
-				if ((object)type1 == null)
-					return ((object)type2 == null);
-				
-				return type1.Equals(type2);
-			}
 
-			//---------------------------------------------------------------------------
-			public static bool operator !=(MenuXmlNodeType type1, MenuXmlNodeType type2) 
-			{
-				return !(type1 == type2);
-			}
+
 			
 			//---------------------------------------------------------------------------
 			private void SetTypeFlagFromXmlTag(string aXmlTag)
@@ -5297,9 +3587,6 @@ namespace Microarea.Common.MenuLoader
 			{
 				return ((typeMask & (int)flag) == (int)flag);
 			}
-
-			//-------------------------------------------------------------------------------------
-			public bool IsUndefined	{ get{ return typeMask == (int)NodeType.Undefined; } }
 			//-------------------------------------------------------------------------------------
 			public bool IsRoot { get { return CheckTypeFlag(NodeType.Root);	}}
 			//-------------------------------------------------------------------------------------
@@ -5492,111 +3779,7 @@ namespace Microarea.Common.MenuLoader
 				return ((stateMask & (int)flag) ==  (int)flag);
 			}
 
-			//---------------------------------------------------------------------------
-			public bool Protected
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.Protected);
-				}
-				set
-				{
-					if (value)
-						stateMask |= (int)NodeState.Protected;
-					else
-						stateMask &= ~(int)NodeState.Protected;
-				}
-			}
-
-			//---------------------------------------------------------------------------
-			public bool Traced
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.Traced);
-				}
-				set
-				{
-					if (value)
-						stateMask |= (int)NodeState.Traced;
-					else
-						stateMask &= ~(int)NodeState.Traced;
-				}
-			}
-
-			//---------------------------------------------------------------------------
-			public bool AccessDenied
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.AccessDenied);
-				}
-				set
-				{
-					if (value)
-					{
-						stateMask &= ~(int)(NodeState.AccessAllowed | NodeState.AccessPartiallyAllowed);
-						stateMask |= (int)NodeState.AccessDenied;
-					}
-					else
-						stateMask &= ~(int)NodeState.AccessDenied;
-				}
-			}
-			
-			//---------------------------------------------------------------------------
-			public bool AccessAllowed
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.AccessAllowed);
-				}
-				set
-				{
-					if (value)
-					{
-						stateMask &= ~(int)(NodeState.AccessDenied | NodeState.AccessPartiallyAllowed);
-						stateMask |= (int)NodeState.AccessAllowed;
-					}
-					else
-						stateMask &= ~(int)NodeState.AccessAllowed;
-				}
-			}
-
-			//---------------------------------------------------------------------------
-			public bool AccessPartiallyAllowed
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.AccessPartiallyAllowed);
-				}
-				set
-				{
-					if (value)
-					{
-						stateMask &= ~(int)(NodeState.AccessDenied | NodeState.AccessAllowed);
-						stateMask |= (int)NodeState.AccessPartiallyAllowed;
-					}
-					else
-						stateMask &= ~(int)NodeState.AccessPartiallyAllowed;
-				}
-			}
-
-			//---------------------------------------------------------------------------
-			public bool AccessInUnattendedModeAllowed
-			{
-				get
-				{
-					return CheckStateFlag(NodeState.AccessInUnattendedModeAllowed);
-				}
-				set
-				{
-					if (value)
-						stateMask |= (int)NodeState.AccessInUnattendedModeAllowed;
-					else
-						stateMask &= ~(int)NodeState.AccessInUnattendedModeAllowed;
-				}
-			}
-
+		
 			//---------------------------------------------------------------------------
 			public bool ApplyStateToAllDescendants
 			{
@@ -5613,13 +3796,7 @@ namespace Microarea.Common.MenuLoader
 				}
 			}
 			
-			// overload operator &
-			//---------------------------------------------------------------------------
-			public static MenuXmlNodeState operator &(MenuXmlNodeState state1, MenuXmlNodeState state2) 
-			{
-				return new MenuXmlNodeState(state1.stateMask & state2.stateMask);
-			}
-
+		
 			// overload operator |
 			//---------------------------------------------------------------------------
 			public static MenuXmlNodeState operator |(MenuXmlNodeState state1, MenuXmlNodeState state2) 
@@ -5668,17 +3845,6 @@ namespace Microarea.Common.MenuLoader
 			public const string XML_OFFICE_ITEM_SUBTYPE_TEMPLATE		= "AppTemplate";
 			public const string XML_OFFICE_ITEM_SUBTYPE_TEMPLATE_2007	= "AppTemplate2007";
 			
-			//---------------------------------------------------------------------------
-			public MenuXmlNodeCommandSubType(int aSubTypeMask)
-			{
-				subTypeMask = aSubTypeMask;
-			}
-
-			//---------------------------------------------------------------------------
-			public MenuXmlNodeCommandSubType(NodeType flag)
-			{
-				subTypeMask = (int)flag;
-			}
 
 			//---------------------------------------------------------------------------
 			public MenuXmlNodeCommandSubType(string aXmlTag)
@@ -5686,11 +3852,6 @@ namespace Microarea.Common.MenuLoader
 				SetCommandSubTypeFlagFromXmlTag(aXmlTag);
 			}
 
-			//---------------------------------------------------------------------------
-			public MenuXmlNodeCommandSubType(MenuXmlNodeCommandSubType aSubType)
-			{
-				subTypeMask = aSubType.subTypeMask;
-			}
 
 			//---------------------------------------------------------------------------
 			public override bool Equals(object obj) 
@@ -5840,8 +4001,6 @@ namespace Microarea.Common.MenuLoader
 				return ((subTypeMask & (int)flag) == (int)flag);
 			}
 
-			//-------------------------------------------------------------------------------------
-			public bool IsUndefined	{ get{ return subTypeMask == (int)CommandNodeSubType.Undefined; } }
 			//-------------------------------------------------------------------------------------
 			public bool IsForm { get { return CheckTypeFlag(CommandNodeSubType.Form); } }
 			//-------------------------------------------------------------------------------------
@@ -6062,41 +4221,6 @@ namespace Microarea.Common.MenuLoader
 				Add(aNodeToAdd);
 		}
 
-		//---------------------------------------------------------------------------
-		new public void Insert(int index, MenuXmlNode aNodeToInsert)
-		{
-			if (index < 0 || index > Count - 1)
-				return;
-
-			if (Contains(aNodeToInsert))
-				return;
-
-			base.Insert(index, aNodeToInsert);
-		}
-
-		//---------------------------------------------------------------------------
-		public void Insert(MenuXmlNode beforeNode, MenuXmlNode aNodeToInsert)
-		{
-			if (beforeNode == null)
-				Add(aNodeToInsert);
-
-			if (!Contains(beforeNode))
-				return;
-
-			if (Contains(aNodeToInsert))
-				return;
-
-			Insert(IndexOf(beforeNode), aNodeToInsert);
-		}
-
-		//---------------------------------------------------------------------------
-		new public void RemoveAt(int index)
-		{
-			if (index < 0 || index > Count - 1)
-				return;
-
-			base.RemoveAt(index);
-		}
 
 		//---------------------------------------------------------------------------
 		public bool ContainsSameNode(MenuXmlNode aNodeToSearch)
@@ -6185,27 +4309,6 @@ namespace Microarea.Common.MenuLoader
 
 			}
 			return subtractionCollection;
-		}
-	
-		//--------------------------------------------------------------------------------------------------------------------------------
-		public void SortByTitles()
-		{
-			if (Count <= 1)
-				return;
-
-			// BubbleSort
-			for (int j = (Count -1); j > 0; j--) 
-			{
-				for (int i=0; i < j; i++) 
-				{
-					if (String.Compare(this[i].Title, this[i+1].Title) > 0)
-					{
-						MenuXmlNode tmpNode = this[i];
-						this[i] = this[i+1];
-						this[i+1] = tmpNode;
-					}
-				}
-			}
 		}
 			
 		//---------------------------------------------------------------------------

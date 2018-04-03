@@ -57,7 +57,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 			{
 				//DataSet dataSet = null;
 				if (!PathFinder.PathFinderInstance.ExistPath (DataMngPath))
-                    PathFinder.PathFinderInstance.CreateFolder(DataMngPath, false);
+                    PathFinder.PathFinderInstance.CreateFolder(DataMngPath, true);
 						
 				if (!expSelections.OneFileForTable)
 				{

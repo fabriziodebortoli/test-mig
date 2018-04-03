@@ -150,7 +150,7 @@ namespace Microarea.ProvisioningDatabase.Libraries.DataManagerEngine
 							defaultSel.SelectedConfiguration);
 
 						if (!PathFinder.PathFinderInstance.ExistPath(expMng.DataMngPath))
-                            PathFinder.PathFinderInstance.CreateFolder(expMng.DataMngPath, false);
+                            PathFinder.PathFinderInstance.CreateFolder(expMng.DataMngPath, true);
 
 						//@@TODOMICHI
 						//expMng.ExportTable(entry, ref dataSet);
