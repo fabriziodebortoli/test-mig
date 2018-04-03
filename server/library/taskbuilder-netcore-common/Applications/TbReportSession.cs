@@ -58,6 +58,8 @@ namespace Microarea.Common.Applications
         public string TbInstanceID = string.Empty;
         public bool LoggedToTb = false;
 
+        private Dictionary<Tuple<string, string>, bool> activationsCache = new Dictionary<Tuple<string, string>, bool>();
+
         public WebSocket WebSocket = null;
 
         public PathFinder PathFinder = null;
@@ -374,28 +376,42 @@ namespace Microarea.Common.Applications
                 }
             }
         }
+
+
+
+        //---------------------------------------------------------------------
+        internal class IsActivateResultMessage
+        {
+            public bool result { get; set; }
+        }
+
         //---------------------------------------------------------------------
         public static async Task<bool> IsActivated(TbSession session, string app, string fun)
         {
+
+            if (session.activationsCache.TryGetValue(new Tuple<string, string>(app, fun), out bool result))
+            {
+                return result;
+            }
+
             using (var client = new HttpClient())
             {
                 try
                 {
                     client.BaseAddress = new Uri(session.TbBaseAddress);
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("application", app),
-                       new KeyValuePair<string, string>("functionality", fun)
-                    });
-
-                    var response = await client.PostAsync("account-manager/isActivated/", content);
+                    //As the method in account manager receive parameters in [FromBody] mode, we just use a json obj
+                    //see https://stackoverflow.com/questions/37750451/send-http-post-message-in-asp-net-core-using-httpclient-postasjsonasync/37751250
+                    JObject jObj = new JObject();
+                    jObj.Add("application", app);
+                    jObj.Add("functionality", fun);
+                   
+                    var response = await client.PostAsync("account-manager/isActivated/", new StringContent(JsonConvert.SerializeObject(jObj), Encoding.UTF8, "application/json"));
                     response.EnsureSuccessStatusCode(); // Throw in not success
 
                     var stringResponse = await response.Content.ReadAsStringAsync();
-
-                    //TODO RSWEB decodificare meglio result value
-                    return stringResponse.IndexOf("true") > 0;
+                    IsActivateResultMessage res = JsonConvert.DeserializeObject<IsActivateResultMessage>(stringResponse);
+                    session.activationsCache.TryAdd(new Tuple<string, string>(app, fun), res.result);
+                    return res.result;
                 }
                 catch (HttpRequestException e)
                 {
