@@ -3,7 +3,7 @@
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
     <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
         (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
-        (blur)="onBlur($event)">
+        prompt=" " (blur)="onBlur($event)">
     </kendo-maskedtextbox>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>
