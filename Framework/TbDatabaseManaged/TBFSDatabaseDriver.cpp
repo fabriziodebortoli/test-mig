@@ -194,8 +194,10 @@ int InsertMetadataFolder(SqlConnection^ sqlConnection, String^ strFolder, String
 			parentID = InsertMetadataFolder(sqlConnection, parent, application, module, bCustom, accountName, toCreate);// , pMetadataPerformance);
 		else
 			//la directory esiste già
-			if (parentID > -1)
+		{
+			if (parentID > -1 || !toCreate)
 				return parentID;
+		}
 
 		String^ strInsertCommandText = (bCustom)
 			? String::Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, TBCreatedID, TBModifiedID)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}', '{5}')", tableName, (parentID == -1) ? "NULL" : parentID.ToString(), strFolder, application, module, AfxGetWorkerId())
@@ -1027,7 +1029,7 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 		{
 			if (IsARootPath(pTBFile->m_strCompleteFileName))
 				parentID = -1;
-			parentID = GetFolder(pTBFile->m_strCompleteFileName, TRUE);
+			parentID = GetFolder(pTBFile->m_strPathName, TRUE);
 			AfxGetPathFinder()->GetApplicationModuleNameFromPath(pTBFile->m_strCompleteFileName, strApplication, strModule);
 			if (isCustom)
 			{
@@ -1206,7 +1208,7 @@ BOOL TBFSDatabaseDriver::ExistPath(const CString& strPathName)
 	if (IsARootPath(strPathName))
 		return TRUE;
 
-	return GetFolder(strPathName, FALSE) != 0;
+	return GetFolder(strPathName, FALSE) != -1;
 }
 
 //----------------------------------------------------------------------------

@@ -1804,7 +1804,7 @@ MSqlCommand::~MSqlCommand()
 void MSqlCommand::Init()
 {
 	m_lRecordCounts = -1;
-	m_nCommandTimeout = 30;
+	m_nCommandTimeout = 0;
 	m_nPageSize = 0;
 	m_nCurrentPage = 0;
 	m_nLastPage = 0;
