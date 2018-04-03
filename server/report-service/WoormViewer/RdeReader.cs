@@ -61,6 +61,19 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------------
         public TbSession Session { get { return woorm.ReportSession; } }
 
+        //------------------------------------------------------------------------------
+        public static string XmlAuxDecode(string s)
+        {
+            return s.Replace("&euro;", "€");
+        }
+/*
+        public  static object XmlAuxDecode(object o)
+        {
+            if (o is string)
+                return (o as string).Replace("&euro;", "€");
+            return o;
+        }
+*/
         //---------------------------------------------------------------------------
         public string GetVariableTypeFromId(ushort id)
         {
@@ -267,16 +280,18 @@ namespace Microarea.RSWeb.WoormViewer
 
                                     reader.MoveToAttribute(RdeWriterTokens.Attribute.Name);
                                     string name = reader.Value;
-
-                                    reader.MoveToAttribute(RdeWriterTokens.Attribute.Value);
                                     object data = null;
-                                    if (dataType == "DataArray")
+ 
+                                    if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
                                     {
-                                        string arrayValue = reader.Value;
-                                        data = SoapTypes.FromSoapDataArray(arrayValue, baseType);
-                                     }
-                                    else
-                                        data = SoapTypes.From(reader.Value, dataType);
+                                        string strValue = XmlAuxDecode(reader.Value);
+                                        if (dataType == "DataArray")
+                                        {
+                                            data = SoapTypes.FromSoapDataArray(strValue, baseType);
+                                        }
+                                        else
+                                            data = SoapTypes.From(strValue, dataType);
+                                    }
 
                                     string strIsColumn = null;
                                     if (reader.MoveToAttribute(RdeWriterTokens.Attribute.IsColumn))
@@ -365,8 +380,9 @@ namespace Microarea.RSWeb.WoormViewer
 
             string val = string.Empty;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
-                val = WebUtility.HtmlDecode(reader.Value);
-
+            {
+                val = XmlAuxDecode(WebUtility.HtmlDecode(reader.Value));
+            }
             Variable f = SymbolTable.FindById(id);
             if (f == null)
                 return;
@@ -380,10 +396,10 @@ namespace Microarea.RSWeb.WoormViewer
             f.Data = ar;
 
             //DEBUG
-            ar.Elements.ForEach(e => Debug.Write(e+" "));         
+            //ar.Elements.ForEach(e => Debug.Write(e+" "));         
         }
 
-        //------------------------------------------------------------------------------
+ 
         public void SetElement(XmlReader reader, CellType cellType)
 {
             reader.MoveToAttribute(RdeWriterTokens.Attribute.ID);
@@ -391,7 +407,9 @@ namespace Microarea.RSWeb.WoormViewer
 
             string val = string.Empty;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
-                val = WebUtility.HtmlDecode(reader.Value);
+            {
+                val = XmlAuxDecode(WebUtility.HtmlDecode(reader.Value));
+            }
 
             bool isCellTail = false;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.CellTail))
@@ -604,7 +622,7 @@ namespace Microarea.RSWeb.WoormViewer
 
             string val = string.Empty;
             if (reader.MoveToAttribute(RdeWriterTokens.Attribute.Value))
-                val = WebUtility.HtmlDecode(reader.Value);
+                val = XmlAuxDecode(WebUtility.HtmlDecode(reader.Value));
             else
                 return;
 

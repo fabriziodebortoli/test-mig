@@ -869,8 +869,13 @@ namespace Microarea.Common.Generic
                 s = s.Replace("\t", "\\t");
                 s = s.Replace("\r", "\\r");
                 s = s.Replace("\n", "\\n");
+                s = s.Replace("\f", "\\f");
 
                 s = s.Replace("\"", "\\\"");
+ 
+                //s = s.Replace("€", "\\u20AC");
+            //    if (s.IndexOf('€') > -1)
+            //        s = s.Replace("€", "&euro;");
             }
 
             if (quoted)

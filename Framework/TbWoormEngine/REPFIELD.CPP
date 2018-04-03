@@ -714,20 +714,20 @@ BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 						(
 							_istdigit(sLine[nLenBreak])
 							&&
-							wcschr(L"��$", sLine[nLenBreak - 1])
+							wcschr(L"€£$", sLine[nLenBreak - 1])
 						)
 						||
 						(
 							_istdigit(sLine[nLenBreak - 1])
 							&&
-							wcschr(L"��$", sLine[nLenBreak])
+							wcschr(L"€&$", sLine[nLenBreak])
 						)
 					);
 					nLenBreak--
 				)
 			{
 				//It is better brutal break on special char than breaking on the last char
-				if (nLenSpecialChar < 0 && wcschr(L".,-:/��$", sLine[nLenBreak]))
+				if (nLenSpecialChar < 0 && wcschr(L".,-:/€&$", sLine[nLenBreak]))
 					nLenSpecialChar = min (nLenBreak + 1, nLenHeadLine);
 			}
 

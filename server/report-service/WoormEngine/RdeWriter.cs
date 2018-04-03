@@ -270,7 +270,18 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			return false;
 		}
-		
+
+ 		//---------------------------------------------------------------------------
+        public static object XmlAuxEncode(object o)
+        {
+            if (!(o is string))
+                return o;
+            string s = o as string;
+            if (s.IndexOf('€') > -1)
+                return s.Replace("€", "&euro;");
+            return s;
+        }
+
 		//---------------------------------------------------------------------------
         virtual public bool WriteIDCommand(ushort tableId, string name, int id, object o, Command cmd, string WoormType)		
 		{ 
@@ -279,7 +290,7 @@ namespace Microarea.RSWeb.WoormEngine
 				Tag(cmd.ToString());
                 Attribute(RdeWriterTokens.Attribute.ID, id);
                 if (o != null)
-                    Attribute(RdeWriterTokens.Attribute.Value, o);
+                    Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
                 return true; 
 			}
 			return false;
@@ -292,7 +303,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				Tag(RdeWriterTokens.Element.SubTotal);
 				Attribute(RdeWriterTokens.Attribute.ID, id);
-				Attribute(RdeWriterTokens.Attribute.Value, o);
+				Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
 				//indica se e' una cella il cui contenuto e' la coda di una stringa iniziata nella corrispondente cella
 				//della una riga precedente
 				if (isCellTail) 
@@ -309,7 +320,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				Tag(RdeWriterTokens.Element.Total);
 				Attribute(RdeWriterTokens.Attribute.ID, id);
-				Attribute(RdeWriterTokens.Attribute.Value, o);
+				Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
 				//indica se e' una cella il cui contenuto e' la coda di una stringa iniziata nella corrispondente cella
 				//della una riga precedente
 				if (isCellTail) 
@@ -326,7 +337,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				Tag(RdeWriterTokens.Element.Cell);
 				Attribute(RdeWriterTokens.Attribute.ID, id);
-                Attribute(RdeWriterTokens.Attribute.Value, o);
+                Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
                 //indica se e' una cella il cui contenuto e' la coda di una stringa iniziata nella corrispondente cella
 				//della una riga precedente
 				if (isCellTail)
@@ -343,7 +354,7 @@ namespace Microarea.RSWeb.WoormEngine
 			{
 				Tag(RdeWriterTokens.Element.Cell);
 				Attribute(RdeWriterTokens.Attribute.ID, id);
-                Attribute(RdeWriterTokens.Attribute.Value, o);
+                Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
 
 				//layout lo scrivo anche come attributo della radice in modo che sia letto come prima cosa dal 
 				//visualizzatore e possa caricare subito l'array degli objects corretto
@@ -368,7 +379,7 @@ namespace Microarea.RSWeb.WoormEngine
                     return false;
                 string s = ar.ToString();
 
-                Attribute(RdeWriterTokens.Attribute.Value, s);
+                Attribute(RdeWriterTokens.Attribute.Value, XmlAuxEncode(o));
 
                 return true;
             }
