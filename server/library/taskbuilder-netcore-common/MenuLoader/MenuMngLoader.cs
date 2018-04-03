@@ -411,7 +411,9 @@ namespace Microarea.Common.MenuLoader
             {
                 try
                 {
-                    CachedMenuInfos cachedMenuInfos = new CachedMenuInfos();
+                    string configurationHash = LoginManager.LoginManagerInstance.GetConfigurationHash();
+
+                    CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, pathFinder);
 
                         string file = cachedMenuInfos.GetStandardMenuCachingFullFileName(company);
 
