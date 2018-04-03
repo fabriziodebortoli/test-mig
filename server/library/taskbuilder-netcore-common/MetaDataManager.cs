@@ -13,15 +13,13 @@ namespace Microarea.Common
         private string connectionStringStandard;
         private string connectionStringCustom;
         private PathFinder pf;
-        private string instanceKey;
         private SqlConnection connect = null;
         private SqlCommand mySQLCommand = null;
 
 
         //---------------------------------------------------------------------
-        public MetaDataManagerTool(string instanceKey, string aConnectionStringStandardstring, string serverName, string installation)
+        public MetaDataManagerTool(string aConnectionStringStandardstring, string serverName, string installation)
         {
-            this.instanceKey = instanceKey;
             //pf = new PathFinder("USR-BAUZONEANN", "DEVELOPMENT_NEXT", "ERP_NEWDB", "sa");
             //pf = new PathFinder("USR-calandrini", "DEv_next", "WebMago", "sa");
             pf = new PathFinder(serverName, installation, "pippo", "sa");
@@ -54,13 +52,12 @@ namespace Microarea.Common
             connect = new SqlConnection(connectionStringStandard);
             connect.Open();
 
-            string sInsert = @"insert into  MP_InstanceTBFS (InstanceKey, ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
+            string sInsert = @"insert into  MP_InstanceTBFS (ParentID, Namespace, Application, Module, PathName, CompleteFileName, FileName, FileType, FileSize, ObjectType, CreationTime, LastWriteTime, IsDirectory, IsReadOnly, FileContent, FileTextContent)
 					output INSERTED.FileID
                     VALUES
-					(@InstanceKey, @ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
+					(@ParentID, @Namespace, @Application, @Module,  @PathName, @CompleteFileName,  @FileName, @FileType, @FileSize, @ObjectType, @CreationTime, @LastWriteTime, @IsDirectory, @IsReadOnly, @FileContent, @FileTextContent)";
 
             mySQLCommand = new SqlCommand(sInsert, connect);
-            mySQLCommand.Parameters.AddWithValue("@InstanceKey", instanceKey);
             mySQLCommand.Parameters.Add(new SqlParameter("@ParentID", SqlDbType.Int));
             mySQLCommand.Parameters.Add(new SqlParameter("@Namespace", SqlDbType.VarChar));
             mySQLCommand.Parameters.Add(new SqlParameter("@PathName", SqlDbType.VarChar));
@@ -248,19 +245,6 @@ namespace Microarea.Common
             }
             connect.Close();
         }
-
-        //---------------------------------------------------------------------
-        public void DeleteAllStandardMetaDataInDBByInstance(string instanceKey)
-        {
-            connect = new SqlConnection(connectionStringStandard);
-            connect.Open();
-
-            string sDelete = @"delete from  MP_InstanceTBFS where InstanceKey = " + instanceKey;
-            mySQLCommand = new SqlCommand(sDelete, connect);
-            mySQLCommand.ExecuteNonQuery();
-            connect.Close();
-        }
-
         //---------------------------------------------------------------------
         private void ThemesInsert(string folderPath, int idModulo, bool isCustom, string appName, string moduleName)
         {

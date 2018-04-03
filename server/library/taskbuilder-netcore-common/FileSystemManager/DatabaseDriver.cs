@@ -20,7 +20,7 @@ namespace Microarea.Common.FileSystemManager
     {
         private string standardConnectionString = string.Empty;
         private string customConnectionString = string.Empty;
-        private const string szInstanceKey = "ff";
+
         private const string szMPInstanceTBFS = "MP_InstanceTBFS";
         private const string szTBCustomMetadata = "TB_CustomTBFS";
         private PathFinder pathFinder = null;
@@ -172,8 +172,6 @@ namespace Microarea.Common.FileSystemManager
 	        int parentID = -1;
 	        //verifico se la path esiste
 	        String commandText = string.Format("SELECT FileID from {0} WHERE PathName = '{1}' AND IsDirectory = '1'", tableName, strFolder);
-	        if (!bCustom)
-		        commandText += string.Format(" AND InstanceKey = \'{0}\'", szInstanceKey);
 
             SqlCommand command = null;
 
@@ -198,7 +196,7 @@ namespace Microarea.Common.FileSystemManager
 
 		        String strInsertCommandText = (bCustom)
 			        ? string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1')", tableName, (parentID == -1) ? "null" : parentID.ToString(), strFolder, application, module)
-			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory, InstanceKey)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1', '{5}')", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module, szInstanceKey);
+			        : string.Format("INSERT INTO {0} (ParentID, PathName, Application, Module, CompleteFileName, ObjectType, IsDirectory)  VALUES ( {1}, '{2}', '{3}', '{4}', '{2}\\', 'DIRECTORY', '1')", tableName, (parentID == -1) ? "null" : parentID.ToString(), parent, application, module);
 
                 trans = sqlConnection.BeginTransaction();
                 command = new SqlCommand(strInsertCommandText, sqlConnection, trans);
@@ -288,7 +286,7 @@ namespace Microarea.Common.FileSystemManager
 		        {
 			        strRelativePath = GetRelativePath(strTBFSFileName, false);
 
-                    aMetadataArray = GetStandardTBFileInfo(string.Format(" InstanceKey =  '{0}' AND CompleteFileName ='{1}'", szInstanceKey, strRelativePath));
+                    aMetadataArray = GetStandardTBFileInfo(string.Format("  CompleteFileName ='{0}'", strRelativePath));
 		        }
 		        else
 		        {
@@ -319,7 +317,7 @@ namespace Microarea.Common.FileSystemManager
 	        String commandText;
 	        try
 	        {
-		        commandText = string.Format("Select application FROM {0} WHERE ObjectType = \'APPLICATION\' AND InstanceKey = \'{1}\' ORDER BY FileID", szMPInstanceTBFS, szInstanceKey);
+		        commandText = string.Format("Select application FROM {0} WHERE ObjectType = \'APPLICATION\'  ORDER BY FileID", szMPInstanceTBFS );
 
                 connection = new SqlConnection(standardConnectionString);
                 connection.Open();
@@ -377,7 +375,7 @@ namespace Microarea.Common.FileSystemManager
 	        try
 	        {
                 strAppName = strAppName.Substring(strAppName.LastIndexOf('\\') + 1);
-                commandText = string.Format("Select Module FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\' AND InstanceKey = \'{2}\' ORDER BY FileID", szMPInstanceTBFS, strAppName, szInstanceKey);
+                commandText = string.Format("Select Module FROM {0} WHERE ObjectType = \'MODULE\' AND Application = \'{1}\'  ORDER BY FileID", szMPInstanceTBFS, strAppName);
                 connection = new SqlConnection(standardConnectionString);
                 connection.Open();
 		        sqlCommand = new SqlCommand(commandText, connection);
@@ -727,8 +725,6 @@ namespace Microarea.Common.FileSystemManager
 		        FileInfo file = new FileInfo(strNewFileName);
 		
 		        commandText = string.Format("UPDATE {0} SET  FileName = {1}, FileType = {2}, CompleteFileName = {3} WHERE CompleteFileName = '{4}'", tableName, file.Name, file.Extension, strNewRelativePath, strOldRelativePath);
-		        if (!isCustom)
-			        commandText += string.Format(" AND InstanceKey = \'{0}\'", szInstanceKey);
 
 		        sqlCommand = new SqlCommand(commandText, sqlConnection);
 		        int nResult = sqlCommand.ExecuteNonQuery();
@@ -960,7 +956,7 @@ namespace Microarea.Common.FileSystemManager
 			        ? string.Format("UPDATE {0} SET LastWriteTime = GetDate(), FileSize = @FileSize, FileContent = @BinaryContent, FileTextContent = @FileTextContent, TBModified = GetDate(), TBModifiedID = @TBModifiedID WHERE FileID = @FileID", tableName)
 			        : (isCustom)
 			        ? string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, AccountName, TbCreatedID, TBModifiedID )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly, @BinaryContent, @FileTextContent, @AccountName, @TbCreatedID, @TBModifiedID)", tableName)
-			        : string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent, InstanceKey )  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent, @InstanceKey)", tableName);
+			        : string.Format("INSERT INTO {0} (ParentID, PathName, FileName, CompleteFileName, FileType, FileSize, Application, Module, ObjectType,IsDirectory,IsReadOnly,FileContent,FileTextContent)  VALUES ( @ParentID, @PathName, @FileName, @CompleteFileName, @FileType, @FileSize, @Application, @Module, @ObjectType, @IsDirectory, @IsReadOnly ,@BinaryContent,  @FileTextContent)", tableName);
 
 		        //se non ho ancora inserito il file mi devo far dare il parentID e se non esiste inserirlo
 		        if (fileID == -1)
@@ -1013,9 +1009,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlCommand.Parameters.AddWithValue("@TbCreatedID", (Int32)GetWorkerId());
 			        if (isCustom)
 				        sqlCommand.Parameters.AddWithValue("@AccountName", strAccountName);
-			        else
-				        sqlCommand.Parameters.AddWithValue("@InstanceKey", szInstanceKey);
-		        }
+	            }
 		        else //parametro della where clause nel caso di update
 			        sqlCommand.Parameters.AddWithValue("@FileID", (Int32)fileID);
 
@@ -1357,10 +1351,6 @@ namespace Microarea.Common.FileSystemManager
 		        tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 
 		        commandText = string.Format("Select X.PathName from {0} X,  {0} Y WHERE X.ParentID = Y.FileID AND Y.PathName =  \'{1}\' AND X.IsDirectory = \'1\'", tableName, relativePath);
-		        //devo aggiungere il filtro per l'instance name
-		        if (!isCustom)
-			        commandText += string.Format(" AND X.InstanceKey = \'{0}\'", szInstanceKey);
-
 		        sqlConnection = new SqlConnection(connectionString);
 		        sqlConnection.Open();
 		        sqlCommand = new SqlCommand(commandText, sqlConnection);
@@ -1437,10 +1427,6 @@ namespace Microarea.Common.FileSystemManager
 			        if (bFolders || bFiles)
 				        strCommandText += string.Format(" AND X.IsDirectory = \'%s\'", (bFolders) ? '0' : '1');
 
-		        if (!isCustom)
-			        strCommandText += string.Format(" AND Y.InstanceKey = \'%s\'", szInstanceKey);
-
-
                 List<TBFile> pArray = GetTBFilesInfo(standardConnectionString, strCommandText, false);
 
                 return pArray;
@@ -1498,8 +1484,6 @@ namespace Microarea.Common.FileSystemManager
 			        if (bFolders || bFiles)
 				        commandText += string.Format(" AND X.IsDirectory = \'{0}\'", (bFolders) ?  '1': '0' );
 		
-		        if (!isCustom)
-			        commandText += string.Format(" AND Y.InstanceKey =\'{0}\'", szInstanceKey);
 
 		        sqlConnection = new SqlConnection(connectionString);
 		        sqlConnection.Open();
@@ -1581,8 +1565,6 @@ namespace Microarea.Common.FileSystemManager
 			        commandText += string.Format(" AND X.FileType = \'{0}\'", fileType);
 		        }
 
-		        if (!isCustom)
-			        commandText += string.Format(" AND Y.InstanceKey =\'{0}\'", szInstanceKey);
 
 		        sqlConnection = new SqlConnection(connectionString);
 		        sqlConnection.Open();
