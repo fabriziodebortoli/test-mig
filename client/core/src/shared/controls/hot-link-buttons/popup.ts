@@ -16,6 +16,7 @@ export class TbHotlinkButtonsPopupHandler {
     return new TbHotlinkButtonsPopupHandler(hlb, onTablePopupOpen);
   }
   
+  anchorAlign: Align;
   optionsPopupRef: PopupRef;
   tablePopupRef: PopupRef;
   isTablePopupVisible = true;
@@ -39,7 +40,7 @@ export class TbHotlinkButtonsPopupHandler {
   openTable: OpenCloseTableFunction = () => this.showTableSubj$.next(true);
   closePopups() { this.closeOptions(); this.closeTable(); }
 
-  readonly setPopupElementInBackground: (align: Align) => void; 
+  readonly setPopupElementInBackground: () => void; 
   readonly setPopupElementInForeground: () => void;
   readonly showGridPupup: () => void;
   readonly getHotLinkElement: () => HTMLElement;
@@ -48,29 +49,35 @@ export class TbHotlinkButtonsPopupHandler {
   private constructor (hlb: any, onTablePopupOpen: OnTablePopupOpen) {
     this.getHotLinkElement = () => (hlb.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
     this.closeTable = () => { this.closeOptions(); this.showTableSubj$.next(false); hlb.stop(); }
-    this.setPopupElementInBackground = (align: Align) => TablePopupTransformer.On(this.tablePopupRef.popupElement, align)
+    this.setPopupElementInBackground = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
     .withBackGroundZIndex()
-      .transform();
+    .withMaxWidth(1)
+    .withMaxHeight(1)
+    .build();
     this.setPopupElementInForeground = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
+      .withMaxHeight(400)
       .withMaxWidth(1000)
-      .withAddRight(30)
-      .withForeGroundZIndex().transform();
+      .if()
+        .isTrue(builder => DisplayHelper.needsRightMargin(this.anchorAlign, builder.popupElement))
+        .then()
+        .withRight(30)
+      .withForeGroundZIndex().build();
     this.showGridPupup = () => {
       this.setPopupElementInForeground();
       this.declareTablePopupVisible();
     };
 
     this.showTable$.pipe(untilDestroy(hlb)).subscribe(_ => {
-        let popupAlign = DisplayHelper.getPopupAlign(hlb.hotLinkButtonTemplate.nativeElement);
-        let anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);
+        this.anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);
+        let popupAlign = DisplayHelper.getPopupAlign(this.anchorAlign);
         this.tablePopupRef = hlb.tablePopupService.open({
             anchor: hlb.hotLinkButtonTemplate.nativeElement,
             content: hlb.tableTemplate,
             popupAlign: popupAlign,
-            anchorAlign: anchorAlign,
+            anchorAlign: this.anchorAlign,
             popupClass: 'tb-hotlink-tablePopup',
             appendTo: hlb.vcr});
-        this.setPopupElementInBackground(popupAlign);
+        this.setPopupElementInBackground();
         this.tablePopupRef.popupOpen.asObservable().subscribe(_ => onTablePopupOpen());
     });
       
