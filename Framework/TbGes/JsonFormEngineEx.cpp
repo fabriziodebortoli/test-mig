@@ -3261,6 +3261,8 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 					}
 
 				}
+				if (pWndDesc->m_pControlBehaviourDescription)
+					pContext->AttachControlBehaviour(pWndDesc->m_pControlBehaviourDescription, pControl);
 
 				pParsedForm->m_pControlLinks->Add(pObject);
 			}

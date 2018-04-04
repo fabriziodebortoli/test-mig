@@ -273,8 +273,22 @@ void CTBSocketHandler::DoCommand(CJsonParser& json)
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
 	HWND cmpId = ReadComponentId(json);
+	DWORD idc = 0;
+	CString controlId;
+	if (json.TryReadString(_T("controlId"), controlId))
+		idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
+
 	//aggiornamento del model
 	pSession->SetJsonModel(json, cmpId);
+	if (idc)
+	{
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+		CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+		if (pCtrl && pCtrl->GetControlBehaviour())
+		{
+			pCtrl->GetControlBehaviour()->OnCmdMsg(id, 0, NULL, NULL);
+		}
+	}
 	SendMessage(cmpId, WM_COMMAND, id, NULL);
 	//pSession->ResumePushToClient();
 }
