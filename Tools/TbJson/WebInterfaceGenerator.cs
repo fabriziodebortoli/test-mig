@@ -1265,7 +1265,11 @@ namespace Microarea.TbJson
 
         private void GenerateButtonTag(JObject jObj, bool slave, WndObjType type)
         {
-            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
+			bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
+			if (isSeparator == true)
+				return;
+
+			using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
             {
                 WriteActivationAttribute(jObj);
                 string icon = jObj.GetFlatString(Constants.icon);
