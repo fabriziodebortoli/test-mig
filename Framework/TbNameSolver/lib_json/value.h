@@ -335,7 +335,8 @@ namespace Json {
       /// \pre type() is objectValue or nullValue
       /// \post type() is unchanged
       Value removeMember( const Char* key );
-      /// Same as removeMember(const Char*)
+	  Value removeMember( int index );
+	  /// Same as removeMember(const Char*)
       Value removeMember( const std::wstring &key );
 
       /// Return true if the object has a member named key.
