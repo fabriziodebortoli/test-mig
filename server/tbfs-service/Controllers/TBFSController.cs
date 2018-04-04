@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using FakeItEasy;
 using Microarea.Common.WebServicesWrapper;
 using System.Security.Authentication;
+using Microarea.Common.Generic;
+using TaskBuilderNetCore.Interfaces;
 
 namespace tbfs_service.Controllers
 {
@@ -48,6 +50,70 @@ namespace tbfs_service.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
+
+        //---------------------------------------------------------------------
+        [Route("ExistFile")]
+        public IActionResult ExistFile(NameSpace objNameSpace, string user, string companyName)
+        {
+            try
+            {
+
+                INameSpaceType type = objNameSpace.NameSpaceType;
+                bool isValid = objNameSpace.IsValid();
+
+                if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(companyName))
+                {
+                    //Son nella custom
+                    //path company 
+                    string custompath = PathFinder.PathFinderInstance.GetCustomCompanyPath(companyName);
+
+
+                }
+
+                //  string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
+                string json = "";// PathFinder.PathFinderInstance.get(authtoken);
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
+        //-------------------------------------------------------------------------------
+        public IActionResult GetObjsByCustomizationLevel(Enum objType, string objNamespace, string userName, string company)
+        {
+             try
+            {
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
+                string json = PathFinder.PathFinderInstance.GetJsonAllObjectsByTypeAndCustomizationLevel(authtoken, objNamespace, userName, company, objType);
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
+        ////---------------------------------------------------------------------
+        //[Route("GetFileNameFromNamespace")]
+        //public IActionResult GetFileNameFromNamespace(NameSpace objNameSpace, string user)
+        //{
+        //    try
+        //    {
+        //        objNameSpace.NameSpaceType
+        //      //  string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+        //        //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
+        //        string json = PathFinder.PathFinderInstance.get(authtoken);
+        //        return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+        //    }
+        //}
 
         //---------------------------------------------------------------------
         [Route("GetAllModulesByApplication")]
