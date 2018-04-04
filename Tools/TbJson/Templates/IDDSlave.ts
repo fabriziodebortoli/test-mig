@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-
-import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent, ComponentInfoService, BOService, ContextMenuItem  } from '@taskbuilder/core';
+import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent, ComponentInfoService, BOService, ContextMenuItem } from '@taskbuilder/core';
+import { Store, createSelectorByMap } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-@@NAME@@',
@@ -11,7 +11,8 @@ import { ComponentService, EventDataService, BOSlaveComponent, ControlComponent,
 export class @@NAME@@Component extends BOSlaveComponent implements OnInit, OnDestroy {
      /*dichiarazione variabili*/
 	constructor(eventData: EventDataService,
-		ciService: ComponentInfoService,
+        ciService: ComponentInfoService,
+        private store: Store,
 		changeDetectorRef: ChangeDetectorRef) {
         super(eventData, ciService, changeDetectorRef);
         this.subscriptions.push(this.eventData.change.subscribe(() => changeDetectorRef.detectChanges()));
