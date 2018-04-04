@@ -1,8 +1,10 @@
 <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
-    <div *ngIf="!rect.value_is_barcode && !rect.value_is_html" matTooltip="{{rect.tooltip}}" matTooltipPosition="after">
-      <table>
+    <div *ngIf="!rect.value_is_barcode && !rect.value_is_html"
+    [ngStyle]="applyValueStyle()"
+    matTooltip="{{rect.tooltip}}" matTooltipPosition="after">
+      <table [ngStyle]="applyDummyTableStyle()">
         <tr>
-          <td [ngStyle]="applyValueStyle()">{{rect.value}}</td>
+          <td [ngStyle]="applyDummyCellStyle()">{{rect.value}}</td>
         </tr>
       </table>
     </div>

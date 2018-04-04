@@ -50,6 +50,7 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   // -----------------------------------------------
   ngOnInit() {
     this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    this.rsExportService.imageLoaded.subscribe(()=> this.createPDF());
   }
 
   // -----------------------------------------------
@@ -74,8 +75,9 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
         this.reportData = undefined;
       }
       else {
-        if (this.rsExportService.pdfState == PdfType.PDF) {
-          this.createPDF();
+        if (this.rsExportService.pdfState === PdfType.PDF) {
+          if(this.rsExportService.imgCounter === 0)
+            this.createPDF();
         }
         else this.UpdateData();
         if (this.rsExportService.svgState == SvgType.SVG) {

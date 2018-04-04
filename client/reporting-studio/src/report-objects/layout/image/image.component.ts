@@ -1,3 +1,4 @@
+import { RsExportService } from './../../../rs-export.service';
 import { rect } from './../../../models/rect.model';
 import { ReportingStudioService } from './../../../reporting-studio.service';
 import { graphrect } from './../../../models/graphrect.model';
@@ -6,6 +7,7 @@ import { InfoService, UtilsService } from '@taskbuilder/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ImgFitMode } from './../../../models/image-fit-mode.model';
+import { PdfType, SvgType, PngType } from './../../../models/export-type.model';
 
 @Component({
   selector: 'rs-image',
@@ -17,10 +19,11 @@ export class ReportImageComponent {
   @Input() image: graphrect;
   @ViewChild('rsInnerImg') rsInnerImg: ElementRef;
 
-  constructor(private infoService: InfoService, private httpClient: HttpClient, public utils: UtilsService) {
+  constructor(private infoService: InfoService, private httpClient: HttpClient, public utils: UtilsService,
+    public rsExportService: RsExportService) {
   };
 
-  private loadImage(url: string): Observable<any> {
+  private loadImage(url: string): Observable<any> {   
     return this.httpClient.get(url, { responseType: 'blob'})  // load the image as a blob
   }
 
@@ -42,7 +45,6 @@ export class ReportImageComponent {
       'border-style': 'solid',
       'border-color': this.image.pen.color,
       'border-radius': this.image.ratio + 'px',
-      //'text-align': this.image.text_align,
       'box-sizing': 'border-box',
       'box-shadow': this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_height + 'px ' + this.image.shadow_color
     };
@@ -50,11 +52,18 @@ export class ReportImageComponent {
     const newSrc = this.infoService.getBaseUrl() + '/rs/image/' + this.image.value
     if (this.image.value !== '' && newSrc !== this.image.src) {
         this.image.src = newSrc;
+        if(this.rsExportService.pdfState === PdfType.PDF)
+          this.rsExportService.incrementImgCounter();
         this.loadImage(this.image.src).subscribe(blob => {
           let reader = new FileReader();
           reader.readAsDataURL(blob);
           reader.onloadend = () => {
               this.rsInnerImg.nativeElement.src = reader.result;
+              if(this.rsExportService.pdfState === PdfType.PDF) {
+                this.rsInnerImg.nativeElement.onload = () => {
+                  this.rsExportService.decrementImgCounter();
+              };
+            }
           };
       });
     }
@@ -100,8 +109,8 @@ export class ReportImageComponent {
       if (this.image.text_align === 'center')
         width = 'inherit';
 
-    
-    let obj = {
+
+      let obj = {
       'object-fit': this.image.fit_mode === ImgFitMode.BEST ? 'contain' : this.image.fit_mode === ImgFitMode.ORIGINAL ? 'none' : 'fill',
       'position': 'absolute',
       'width': width,

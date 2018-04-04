@@ -24,6 +24,7 @@ export class RsExportService {
     layoutId: string;
     datauri:string;
     nameFile:string = "";
+    imgCounter: number = 0;
 
     currentPDFCopy = 1;
 
@@ -34,6 +35,7 @@ export class RsExportService {
     @Output() rsExportExcel = new EventEmitter<void>();
     @Output() rsExportDocx = new EventEmitter<void>();
     @Output() eventPageNumber = new EventEmitter<void>();
+    @Output() imageLoaded = new EventEmitter<void>();
 
     exportfile = false;
     exportpdf = false;
@@ -64,8 +66,22 @@ export class RsExportService {
         this.exportpdf = false;
         this.exportexcel = false;
         this.exportdocx = false;
+        this.imgCounter = 0;
     }
 
+    //----------------------------------------------------
+    incrementImgCounter() {
+        this.imgCounter++;
+    }
+
+    //----------------------------------------------------
+    decrementImgCounter() {
+        this.imgCounter--;
+        if( this.imgCounter === 0)
+            this.imageLoaded.emit();
+    }
+
+    //----------------------------------------------------
     async appendPDF() {
         await drawDOM(document.getElementById(this.layoutId))
             .then((group: Group) => {

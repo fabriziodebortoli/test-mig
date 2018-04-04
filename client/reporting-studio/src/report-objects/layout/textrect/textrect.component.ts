@@ -28,8 +28,6 @@ export class ReportTextrectComponent implements AfterViewInit {
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
     let obj = {
       'position': 'absolute',
-      'overflow': 'hidden',
-      //'display': 'table',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
@@ -55,8 +53,6 @@ export class ReportTextrectComponent implements AfterViewInit {
     let obj = {
       'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
-      'position': 'relative',
-      //'display': 'table-cell',
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
@@ -64,12 +60,35 @@ export class ReportTextrectComponent implements AfterViewInit {
       'font-weight': this.rect.font.bold ? 'bold' : 'normal',
       'text-decoration': this.rect.font.underline ? 'underline' : 'none',
       'text-align': this.rect.text_align,
-      'vertical-align': this.rect.vertical_align,
       'transform': 'rotate(' + this.rect.rotateBy + 'deg)',
-      'padding': '0 4px',
-      'white-space': 'pre-line'
+      'white-space': this.rect.line === 'single_line' ? 'nowrap' : 'pre-line',
+      'display': 'flex',
+      'overflow': 'hidden',
     };
 
+    return obj;
+  }
+
+  applyDummyTableStyle(): any {
+    let obj = {
+      'text-align': this.rect.text_align,
+      'margin-left': this.rect.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.text_align == 'right' ? '0px' : 'auto',
+      'height': 'inherit',
+      'width': 'inherit',
+      'table-layout': 'fixed',
+      'border-spacing': '0px',
+    };
+    return obj;
+  }
+
+  applyDummyCellStyle(): any {
+    let obj = {
+      'width': 'inherit',
+      'vertical-align': this.rect.vertical_align,
+      'text-align': this.rect.text_align,
+      'overflow':'hidden',
+    };
     return obj;
   }
 }

@@ -9,6 +9,7 @@ export class textrect extends baserect {
     textcolor: string;
     text_align: string;
     vertical_align: string;
+    line: string;
     rotateBy: string;
     font: font;
     value_is_html: boolean;
@@ -19,6 +20,7 @@ export class textrect extends baserect {
         this.obj = ReportObjectType.textrect;
         this.text_align = jsonObj.text_align;
         this.vertical_align = jsonObj.vertical_align;
+        this.line = jsonObj.line;
         this.rotateBy = jsonObj.rotateBy ? jsonObj.rotateBy : 0;
         this.value = jsonObj.value ? jsonObj.value : '';
         this.bkgcolor = jsonObj.bkgcolor;
