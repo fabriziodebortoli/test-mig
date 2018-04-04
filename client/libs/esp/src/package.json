@@ -21,7 +21,7 @@
     "jsnext:main": "taskbuilder-esp.js",
     "typings": "taskbuilder-esp.d.ts",
     "peerDependencies": {
-        "@taskbuilder/core": "file:../../core/src",
+        "@taskbuilder/core": "git+https://github.com/Microarea/ng-core.git",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@angular/core": "^5.0.0",
         "@angular/forms": "^5.0.0",
