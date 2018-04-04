@@ -81,9 +81,11 @@ gulp.task('rollup:fesm', function() {
                 '@taskbuilder/icons', '@taskbuilder/core'
             ],
 
-            // Format of generated bundle
-            // See "format" in https://rollupjs.org/#core-functionality
-            format: 'es',
+            output: {
+                // Format of generated bundle
+                // See "format" in https://rollupjs.org/#core-functionality
+                format: 'es'
+            },
 
             // Skip THIS_IS_UNDEFINED warnings 
             onwarn: function(warning) {
@@ -123,27 +125,29 @@ gulp.task('rollup:umd', function() {
                 '@taskbuilder/icons', '@taskbuilder/core'
             ],
 
-            // Format of generated bundle
-            // See "format" in https://rollupjs.org/#core-functionality
-            format: 'umd',
+            output: {
+                // Format of generated bundle
+                // See "format" in https://rollupjs.org/#core-functionality
+                format: 'umd',
 
-            // Export mode to use
-            // See "exports" in https://rollupjs.org/#danger-zone
-            exports: 'named',
+                // Export mode to use
+                // See "exports" in https://rollupjs.org/#danger-zone
+                exports: 'named',
 
-            // The name to use for the module for UMD/IIFE bundles
-            // (required for bundles with exports)
-            // See "name" in https://rollupjs.org/#core-functionality
-            name: 'taskbuilder-easystudio',
+                // The name to use for the module for UMD/IIFE bundles
+                // (required for bundles with exports)
+                // See "name" in https://rollupjs.org/#core-functionality
+                name: 'taskbuilder-easystudio',
 
-            // See "globals" in https://rollupjs.org/#core-functionality
-            globals: {
-                'typescript': 'ts',
-                '@angular/core': 'core',
-                '@angular/router': 'router',
-                '@angular/common': 'common',
-                '@taskbuilder/icons': 'icons',
-                '@taskbuilder/core': 'core$1'
+                // See "globals" in https://rollupjs.org/#core-functionality
+                globals: {
+                    'typescript': 'ts',
+                    '@angular/core': 'core',
+                    '@angular/router': 'router',
+                    '@angular/common': 'common',
+                    '@taskbuilder/icons': 'icons',
+                    '@taskbuilder/core': 'core$1'
+                }
             },
 
             // Skip THIS_IS_UNDEFINED warnings 
