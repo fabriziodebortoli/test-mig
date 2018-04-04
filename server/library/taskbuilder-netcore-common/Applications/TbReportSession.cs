@@ -713,7 +713,7 @@ namespace Microarea.Common.Applications
             this.ReportParameters = nm.parameters;
             this.ReportSnapshot = nm.snapshot;
             this.Localizer = new StringLoader.WoormLocalizer(this.ReportPath, PathFinder);
-            this.ApplicationDate = new DateTime(nm.applicationDate.year, nm.applicationDate.month, nm.applicationDate.year);
+            this.ApplicationDate = new DateTime(nm.applicationDate.year, nm.applicationDate.month, nm.applicationDate.day);
 
             Thread.CurrentThread.CurrentUICulture = ui.UserUICulture;
         }
