@@ -13,7 +13,42 @@
           "name": "Find",
           "text": "Search",
           "type": 15 /*ToolbarButton*/,
-          "category": 3 /*Search*/
+          "category": 3, /*Search*/
+          "environment": "desktop"
+        },
+        {
+          "hint": "Search for a specific document",
+          "icon": "Framework.TbFrameworkImages.Images.25x25.Find.png",
+          "id": "ID_EXTDOC_FIND",
+          "isDropdown": false,
+          "name": "Find",
+          "text": "Search",
+          "type": 15 /*ToolbarButton*/,
+          "category": 3, /*Search*/
+          "environment": "web"
+        },
+        {
+          "hint": "Search with radar",
+          "icon": "Framework.TbFrameworkImages.Images.25x25.Radar.png",
+          "id": "ID_EXTDOC_RADAR",
+          "isDropdown": true,
+          "name": "Radar",
+          "text": "Radar",
+          "type": 15 /*ToolbarButton*/,
+          "category": 7, /*radar*/
+          "environment": "desktop"
+        },
+        {
+          "hint": "Search with radar",
+          "icon": "Framework.TbFrameworkImages.Images.25x25.Radar.png",
+          "id": "ID_EXTDOC_RADAR",
+          "isDropdown": false,
+          "name": "Radar",
+          "text": "Radar",
+          "type": 15 /*ToolbarButton*/,
+          "category": 3, /*Search*/
+          "environment": "web"
+
         },
         {
           "id": "ID_SEPARATOR",
@@ -60,16 +95,6 @@
           "id": "ID_SEPARATOR",
           "isSeparator": true,
           "type": 15 /*ToolbarButton*/
-        },
-        {
-          "hint": "Search with radar",
-          "icon": "Framework.TbFrameworkImages.Images.25x25.Radar.png",
-          "id": "ID_EXTDOC_RADAR",
-          "isDropdown": true,
-          "name": "Radar",
-          "text": "Radar",
-          "type": 15 /*ToolbarButton*/,
-          "category": 7 /*radar*/
         },
         {
           "id": "ID_SEPARATOR",
