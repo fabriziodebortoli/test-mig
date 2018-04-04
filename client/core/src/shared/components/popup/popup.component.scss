@@ -35,7 +35,7 @@ a {
         font-size: 12px;
         line-height: 1.2;
         letter-spacing: 1px;
-        max-width: 200px;
+        max-width: 250px;
         min-width: 145px;
         padding: 1em;
         position: absolute;
@@ -54,12 +54,13 @@ a {
     }
     &.bottom {
         .tooltip-content {
-            bottom: calc(100% -  8.7em);
-            left: calc(100% - 5.5em);
+            bottom: unset !important;
+            left: calc(50%);
+            top: calc(100% + 0.5em);
             transform: translateX(-50%);
             &::after {
                 top: -5px;
-                left: 142px;
+                left: calc(100% - 9em);
             }
         }
         .tooltip-content>* {
@@ -108,9 +109,85 @@ a {
     .tooltip.bottom {
         .tooltip-content {
             left: calc(100% - 7em);
+            top: calc(100% + 0.5em);
+            bottom: unset !important;
             &::after {
                 top: -5px;
                 left: 133px;
+            }
+        }
+    }
+}
+$white: #ffffff;
+$bkg: #f5f5f6;
+$bkg-medium: #0277bd;
+$bkg-light:#ecf8ff;
+$shadow: rgba(205,210,214,.8);
+$darkblue:#00578c;
+$text-dark: black; 
+$text-medium:#9f9f9f;
+$text-light: $white;
+$text-gray:#ccc;
+$border-topbarbutton:#cfe0e8;
+$bkg-toolbarbottombutton:#065aad;
+$bkg-neutral:#BDBDBD;
+$bkg-toolbarbottombuttonHover:#a1bcd778;
+:host-context(.topBarMenuComponentLike)
+{
+    .tooltip {
+        .tooltip-content {
+        background: $bkg-medium;
+        &::after {
+            background: $bkg-medium;
+        }
+
+        .k-button
+        {
+            background: $bkg-medium;
+            &:hover,
+            &:focus{
+                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                background:$bkg-light;
+                border-color: $bkg-light;
+                color: $text-medium;
+                tb-icon,
+                i {
+                    color: $text-medium;
+                }
+            }
+    
+            &:active {
+                background-color: $bkg-medium;
+                box-shadow: none;
+                color:$text-light;
+                border: 0px;
+            }
+            &.k-state-disabled {
+                opacity: 1;
+                background-color: $bkg-neutral;
+                border: 1px solid $bkg-neutral;
+                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                color: $text-medium;
+                cursor: not-allowed;
+                tb-icon {
+                    color: $text-medium;
+                    border: none;
+                }
+            }
+        }
+
+        }
+        &.bottom {
+            .tooltip-content {
+                top: calc(100%);
+                left: calc(100% - 7em);
+                bottom: unset !important;
+                transform: translateX(-50%);
+                &::after {
+                background: $bkg-medium;
+                top: -5px;
+                left: calc(100% - 1em);
+                }
             }
         }
     }

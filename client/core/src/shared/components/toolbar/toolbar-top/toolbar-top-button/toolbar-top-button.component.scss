@@ -4,7 +4,7 @@
         margin-left: 3px;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        //border-left: 1px solid #cfe0e8;
+        //border-left: 1px solid $border-top-button-active;
     }
     &:last-child tb-icon {
         margin-right: 3px;
@@ -16,7 +16,7 @@
         border-radius: 4px;
         margin-right: 3px;
         margin-left: 3px;
-        //border-left: 1px solid #cfe0e8;
+        //border-left: 1px solid $border-top-button-active;
     }
     &:hover {
         cursor: not-allowed;
@@ -47,8 +47,8 @@
             margin: 0;
             padding-top: 0;
             box-shadow: none;
-            background-color: #fff;
-            border: 1px solid #cfe0e8;
+            background-color: $color-light;
+            border: 1px solid $border-top-button-active;
             border-left: none;
             border-radius: none;
             color: $darkblue;
@@ -60,26 +60,26 @@
                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
                 background-color: $darkblue;
                 border-color: $darkblue;
-                color: #fff;
+                color: $color-light;
                 tb-icon,
                 i {
-                    color: #fff;
+                    color: $color-light;
                 }
             }
             &:active {
-                background-color: #0277bd;
+                background-color: $blue;
                 box-shadow: none;
-                color: #fff;
+                color: $color-light;
             }
         }
         &.k-state-disabled {
             opacity: 1;
             background-color: $bkg-light;
-            border: 1px solid $bkg-light;
+            //border: 1px solid $bkg-light;
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             tb-icon {
-                color: #ccc;
-                border: none;
+                color: $color-top-button-disabled;
+                border-color: $border-top-button-disabled;
             }
         }
     }
@@ -95,45 +95,16 @@
     }
 }
 
-/* COLORS */
+tb-toolbar-top-button.dropDownButton{
+    display: flex;
+    flex-direction: column;
+}
 
-$white: #ffffff;
-$bkg-medium: #0277bd;
-$shadow: rgba(205, 210, 214, .8);
-// :host-context(.default) {
-// .dropDownButton
-//     {
-//         .k-button {
-//             tb-icon,
-//             i {
-//                 color: $white;
-//             }
-//             &:hover,
-//             &:focus{
-//                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-//                 background: $darkblue;
-//                 border-color: $darkblue;
-//                 color: $white;
-//                 tb-icon,
-//                 i {
-//                     color: $white;
-//                 }
-//             }
-
-//             &:active {
-//                 background-color: $bkg-medium;
-//                 box-shadow: none;
-//                 color:$white;
-//                 border: 0px;
-//             }
-//         }
-//     }
-// }
 :host-context(.dropDownButton) {
-     .k-button {
+    .k-button {
         border: 0px;
         width: 100%;
-        color: $white;
+        color: $color-light;
         cursor: pointer;
         line-height: 30px;
         font-size: 14px;
@@ -145,85 +116,88 @@ $shadow: rgba(205, 210, 214, .8);
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             background: $darkblue;
             border-color: $darkblue;
-            color: $white;
+            color:$color-light;
             tb-icon,
             i {
-                color: $white;
+                color:$color-light;
             }
         }
         &:active {
-            background-color: $bkg-medium;
+            background-color:  $blue;
             box-shadow: none;
-            color: $white;
+            color:$color-light;
             border: 0px;
         }
 
-    span {
-        width: 100%;
-        text-align: left;
-        display: flex;
-        color:$white;
-    }
-
-    tb-icon
-         {
-        width: 35px;
-        font-size: 20px;
-        margin: 0px;
-        padding-top: 0px;
-        box-shadow: none;
-        background-color: transparent;
-        transition: none;
-        border: 0px;
-        color: $white;
-        line-height: 30px;
-        font-weight: 400;
-        border-radius: 0px;
-        text-align: left;
-        i {
-            color: $white;
+        span {
+            width: 100%;
+            text-align: left;
+            display: flex;
+            color:$color-light;
+            flex: 1 0 auto;
         }
-        //padding-left: 5px;
-        &:hover {
+
+        tb-icon
+            {
+            width: 35px;
+            font-size: 20px;
+            margin: 0px;
+            padding-top: 0px;
+            box-shadow: none;
             background-color: transparent;
-            color: $white;
-            tb-icon,
+            transition: none;
+            border: 0px;
+            color:$color-light;
+            line-height: 30px;
+            font-weight: 400;
+            border-radius: 0px;
+            text-align: left;
+            flex: 1 0 auto;
             i {
-                color: $white;
+                color:$color-light;
+            }
+            //padding-left: 5px;
+            &:hover {
+                background-color: transparent;
+                color:$color-light;
+                tb-icon,
+                i {
+                    color:$color-light;
+                }
+            }
+            &:active {
+                color:$color-light;
             }
         }
-        &:active {
-            color: $white;
+        .top-button {
+            padding: 0px 18px 0px 18px;
+            height: 35px;
+        }
+        &.k-state-disabled {
+            opacity: 1;
+            background-color: $bkg-light;
+            border: 1px solid $bkg-light;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            tb-icon, span
+            {
+                color:$color-top-button-disabled;
+                border: none;
+            }
+        }
+        m4-icon {
+            font-size: 30px;
+            width: 35px;
+            color:$color-light;
+        }
+        .div-icon {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+        }
+            .div-icon img {
+            height: 20px;
+            margin-top: 4px;
         }
     }
-     .top-button {
-        padding: 0px 18px 0px 18px;
-        height: 35px;
-    }
-    &.k-state-disabled {
-        opacity: 1;
-        background-color: $bkg-light;
-        border: 1px solid $bkg-light;
-        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-        tb-icon, span
-         {
-            color: #ccc;
-            border: none;
-        }
-    }
-    m4-icon {
-        font-size: 30px;
-        width: 35px;
-        color: $white;
-    }
-    .div-icon {
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-    }
-        .div-icon img {
-        height: 20px;
-        margin-top: 4px;
-     }
 }
-}
+
