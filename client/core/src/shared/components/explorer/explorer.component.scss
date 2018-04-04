@@ -33,11 +33,13 @@ $explorerbkg: white;
     padding: 0;
     background: transparent;
   }
-  .k-upload .k-upload-files {
-    overflow: auto;
-    max-height: 106px;
-  }
 }
+
+:host ::ng-deep .k-upload .k-upload-files {
+  overflow: auto;
+  max-height: 106px;
+}
+
 
 .explorer-container {
   display: flex;
