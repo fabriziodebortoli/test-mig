@@ -59,7 +59,18 @@ MView::MView(IntPtr handleViewPtr)
 	}
 
 	pathToSerialize = gcnew String(_T(""));
-	jsonFrameId = gcnew String(_T("IDD_EMPTY_FRAME"));
+
+	//manage jsonFrameId
+	if (!this->m_pView || !this->m_pView->GetDocument())
+	{
+		jsonFrameId = gcnew String(_T("IDD_EMPTY_FRAME"));
+		return;
+	}
+	
+	CTBNamespace aNs = this->m_pView->GetDocument()->GetNamespace();
+	CString ns = aNs.GetRightTokens(aNs.GetTokenArray()->GetCount() - 1);
+	ns.Replace(_T("."), _T("_"));
+	jsonFrameId = String::Concat(gcnew String(_T("IDD_")), gcnew String(ns.MakeUpper()), gcnew String(_T("_FRAME")));
 }
 
 //----------------------------------------------------------------------------
