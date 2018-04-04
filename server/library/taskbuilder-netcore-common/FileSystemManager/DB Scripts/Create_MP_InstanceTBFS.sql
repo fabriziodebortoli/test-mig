@@ -28,7 +28,6 @@ CREATE NONCLUSTERED INDEX [IX_MP_InstanceTBFS_2] ON [dbo].[MP_InstanceTBFS]([Fil
 CREATE NONCLUSTERED INDEX [IX_MP_InstanceTBFS_3] ON [dbo].[MP_InstanceTBFS] ([FileName] ASC )ON [PRIMARY]
 CREATE NONCLUSTERED INDEX [IX_MP_InstanceTBFS_4] ON [dbo].[MP_InstanceTBFS]( [PathName] ASC ) ON [PRIMARY]
 CREATE NONCLUSTERED INDEX [IX_MP_InstanceTBFS_5] ON [dbo].[MP_InstanceTBFS]( [ParentID] ASC ) ON [PRIMARY]
-ALTER TABLE [dbo].[MP_InstanceTBFS] ADD  CONSTRAINT [DF_InstanceTBFS_InstanceKey]  DEFAULT ('') FOR [InstanceKey]
 ALTER TABLE [dbo].[MP_InstanceTBFS] ADD  CONSTRAINT [DF_InstanceTBFS_PathName]  DEFAULT ('') FOR [PathName]
 ALTER TABLE [dbo].[MP_InstanceTBFS] ADD  CONSTRAINT [DF_InstanceTBFS_FileName]  DEFAULT ('') FOR [FileName]
 ALTER TABLE [dbo].[MP_InstanceTBFS] ADD  CONSTRAINT [DF_InstanceTBFS_FileType]  DEFAULT ('DIRECTORY') FOR [FileType]
