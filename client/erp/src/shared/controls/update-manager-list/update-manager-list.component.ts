@@ -10,6 +10,8 @@ import { untilDestroy } from '@taskbuilder/core/shared/commons/untilDestroy';
 
 type UMErpAction = { index: number, value: boolean, enabled: boolean, description: string };
 
+enum CheckListBoxAction { CLB_QUERY_LIST = 0, CLB_SET_VALUES = 1, CLB_DBL_CLICK = 2 };
+
 @Component({
     selector: "erp-update-manager-list",
     templateUrl: './update-manager-list.component.html',
@@ -19,8 +21,7 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
 
     umActions$ = new Subject<Array<UMErpAction>>();
     _umActions: Array<UMErpAction>;
-
-    action = "";
+    currentIndex = -1;
 
     @Input() public itemSource: any;
 
@@ -33,8 +34,7 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
 
     ngAfterViewInit() {
         if (this.itemSource) {
-            this.action = 'getList';
-            this.eventData.checkListBoxAction.emit(this);
+            this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_QUERY_LIST));
         }
     }
 
@@ -75,7 +75,27 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
     }
 
     valueChanged(event) {
-        this.model.value = event;
-        this.eventData.change.emit(this.cmpId);
+        this._umActions[this.currentIndex].value = event;
+        this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_SET_VALUES, this.currentIndex));
+    }
+
+    onDblClick(event) {
+        this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_DBL_CLICK, this.currentIndex));
+    }
+
+    onClick(event) {
+        if (event && event.target)
+            this.currentIndex = +event.target.id;
+    }
+
+    getActionObject(action: CheckListBoxAction, itemID: number = 0): any {
+        //  let jsonCheckList = JSON.stringify(this._umActions);
+        return {
+            list: this._umActions,
+            action: action,
+            cmpId: this.cmpId,
+            itemSource: this.itemSource,
+            itemID: itemID
+        }
     }
 }

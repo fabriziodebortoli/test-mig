@@ -38,6 +38,8 @@ private:
 	void DoActivateClientContainer(CJsonParser& json);
 	void DoPinUnpin(CJsonParser& json);
 	void DoUpdateTitle(CJsonParser& json);
+
+	void pushCheckListBoxItemSource(CJsonParser& json, CAbstractFormDoc* pDoc, const CString& controlId);
 };
 
 #include "endh.dex"

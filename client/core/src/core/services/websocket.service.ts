@@ -192,7 +192,7 @@ export class WebSocketService extends LocalizationService {
     }
 
     doCheckListBoxAction(cmpId: String, obj: any): void {
-        const data = { cmd: 'doCheckListBoxAction', cmpId: cmpId, itemSource: obj.itemSource, controlId: obj.cmpId, action: obj.action };
+        const data = { cmd: 'doCheckListBoxAction', cmpId: cmpId, itemSource: obj.itemSource, controlId: obj.cmpId, action: obj.action, list: obj.list };
 
         this.safeSend(data);
     }
@@ -201,8 +201,8 @@ export class WebSocketService extends LocalizationService {
         this.doCommand(cmpId, '', 'ID_FILE_CLOSE');
     }
 
-    doCommand(cmpId: String, commandId: String, controlId:string, modelData?: any): void {
-        const data = { cmd: 'doCommand', cmpId: cmpId, id: commandId, controlId:controlId, data: modelData };
+    doCommand(cmpId: String, commandId: String, controlId: string, modelData?: any): void {
+        const data = { cmd: 'doCommand', cmpId: cmpId, id: commandId, controlId: controlId, data: modelData };
         this.safeSend(data);
     }
     doControlCommand(cmpId: String, id: String, modelData?: any): void {
@@ -249,7 +249,7 @@ export class WebSocketService extends LocalizationService {
 
     }
     activateContainer(cmpId: string, id: string, active: boolean, isTileGroup: boolean/*serve per permettere al server di attribuire la giusta numerazione all'id*/) {
-        const data = { cmd: 'activateContainer', cmpId: cmpId, id:id, active:active, isTileGroup: isTileGroup };
+        const data = { cmd: 'activateContainer', cmpId: cmpId, id: id, active: active, isTileGroup: isTileGroup };
         this.safeSend(data);
 
     }

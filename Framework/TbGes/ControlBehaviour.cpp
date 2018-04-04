@@ -42,3 +42,9 @@ BOOL CControlBehaviour::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDL
 	}
 	return __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
+
+//-----------------------------------------------------------------------------
+void CControlBehaviour::ReceiveInfo(CJsonParser& json)
+{
+	OnReceiveInfo(json);
+}

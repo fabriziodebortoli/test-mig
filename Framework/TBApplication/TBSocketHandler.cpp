@@ -491,6 +491,8 @@ void CTBSocketHandler::SetReportResult(CJsonParser& json)
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 {
+	enum CheckListBoxAction { CLB_QUERY_LIST = 0, CLB_SET_VALUES = 1, CLB_DBL_CLICK = 2 };
+
 	HWND docId = ReadComponentId(json);
 	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(docId);
 	if (!pDoc)
@@ -500,7 +502,44 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 	if (!controlId)
 		return;
 
-	CString action = json.ReadString(_T("action"));
+	DWORD idc;
+	
+	int action = json.ReadInt(_T("action"));
+
+	switch (action)
+	{
+		case CLB_QUERY_LIST:
+		{
+			pushCheckListBoxItemSource(json, pDoc, controlId);
+			break;
+		}
+		case CLB_SET_VALUES:
+		{
+			idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
+			if (!idc)
+				return;
+
+			CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+			if (!pCtrl || !pCtrl->GetControlBehaviour())
+				return;
+
+			pCtrl->GetControlBehaviour()->ReceiveInfo(json);
+			pushCheckListBoxItemSource(json, pDoc, controlId);
+			break;
+		}
+	}
+
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFormDoc* pDoc, const CString& controlId)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+			ASSERT(FALSE);
+			return;
+	}
 
 	if (json.BeginReadObject(_T("itemSource")))
 	{
@@ -513,19 +552,9 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 		if (!pItemSource)
 			return;
 
-		if (action == "getList")
-		{
-			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-            if (!pSession)
-            {
-                    ASSERT(FALSE);
-                    return;
-            }
-
 			CJsonSerializer resp = pItemSource->GetJson(controlId);
 
-            pSession->PushToClients(resp);
-		}
+			pSession->PushToClients(resp);	
 	}
 }
 

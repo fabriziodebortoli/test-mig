@@ -35,7 +35,10 @@ public:
 	virtual void SetNamespace(const CString& strNamespace) { m_strNamespace = strNamespace; }
 	virtual void OnPrepareForFind(SqlRecord* pRec) {}
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	virtual void OnReceiveInfo(CJsonParser& json) {}
+
 	void NotifyValueChanged();
+	void ReceiveInfo(CJsonParser& json);
 
 	CString GetName() { return m_strName; }
 	CString GetNamespace() { return m_strNamespace; }
