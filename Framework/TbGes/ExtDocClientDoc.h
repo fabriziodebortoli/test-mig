@@ -497,11 +497,11 @@ protected:
 	virtual void		OnBuildDataControlLinks (CTabDialog*)					{}
 	virtual void		OnBuildDataControlLinks (CAbstractFormView*)			{}
 	virtual void		OnBuildDataControlLinks (CTileDialog*)					{}
-	virtual void		OnPrepareAuxData		(CTabDialog*)					{}
-	virtual void		OnPrepareAuxData		(CTileGroup*)					{}
 	virtual void		OnPrepareAuxData		(UINT nID)						{}
+	virtual void		OnPrepareAuxData		(CTabDialog* pTab);
+	virtual void		OnPrepareAuxData		(CTileGroup* pGroup);
+	virtual void		OnPrepareAuxData		(CTileDialog* pTile);
 	virtual void		OnPrepareAuxData		(CAbstractFormView*)			{}
-	virtual void		OnPrepareAuxData		(CTileDialog*)					{}
 	virtual void		OnDestroyTabDialog		(CTabDialog*)					{}
 	virtual CString		OnGetCaption			(CAbstractFormView*)			{ return _T(""); }
 

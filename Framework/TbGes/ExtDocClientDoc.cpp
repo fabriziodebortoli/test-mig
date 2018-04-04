@@ -105,6 +105,22 @@ void CClientDoc::SetTabDialogImage(UINT nTabberIDD, UINT nTabDialogIDD, CString 
 	pTabManager->SetTabDialogImage(nTabDialogIDD, aNsImage);
 }
 //-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTabDialog* pTab)
+{ 
+	OnPrepareAuxData(pTab->GetDlgCtrlID());
+}
+//-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTileGroup* pGroup) 
+{ 
+	OnPrepareAuxData(pGroup->GetDlgCtrlID());
+}
+//-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTileDialog* pTile)
+{
+	OnPrepareAuxData(pTile->GetDlgCtrlID());
+}
+
+//-----------------------------------------------------------------------------
 void CClientDoc::AddTabDialog
 	(
 	UINT			nTabDlgID,
