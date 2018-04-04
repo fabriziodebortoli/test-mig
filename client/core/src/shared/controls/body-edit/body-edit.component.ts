@@ -148,6 +148,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
           internalColumnComponents.push(currentCol.columnComponent);
       }
       this.grid.columns.reset(internalColumnComponents);
+      this.changeDetectorRef.markForCheck();
     }, 1);
   }
 
