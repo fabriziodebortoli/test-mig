@@ -233,13 +233,13 @@ export class AddressEditComponent extends ControlComponent {
 
     createAddress(slice: any): string {
         let address = '';
-        address = this.addAddressElem(address, slice.address.value);
-        address = this.addAddressElem(address, slice.streetNo.value);
-        address = this.addAddressElem(address, slice.city.value);
-        address = this.addAddressElem(address, slice.county.value);
-        address = this.addAddressElem(address, slice.country.value);
-        address = this.addAddressElem(address, slice.federal.value);
-        address = this.addAddressElem(address, slice.zipCode.value);
+        address = this.addAddressElem(address, slice.address? slice.address.value : '');
+        address = this.addAddressElem(address, slice.streetNo? slice.streetNo.value : '');
+        address = this.addAddressElem(address, slice.city? slice.city.value : '');
+        address = this.addAddressElem(address, slice.county? slice.county.value : '');
+        address = this.addAddressElem(address, slice.country? slice.country.value : '');
+        address = this.addAddressElem(address, slice.federal? slice.federal.value : '');
+        address = this.addAddressElem(address, slice.zipCode? slice.zipCode.value : '');
 
         return address;
     }
