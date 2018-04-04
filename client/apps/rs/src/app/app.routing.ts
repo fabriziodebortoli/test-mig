@@ -5,7 +5,8 @@ import { ReportingStudioFactoryComponent } from '@taskbuilder/reporting-studio';
 
 import { environment } from './../environments/environment';
 
-import { CoreGuard, LoginComponent, PageNotFoundComponent, HomeComponent, ProxyRouteComponent } from '@taskbuilder/core';
+import { CoreGuard, LoginComponent, PageNotFoundComponent, ProxyRouteComponent } from '@taskbuilder/core';
+import { HomeComponent } from '@taskbuilder/menu';
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
   { path: '', component: HomeComponent, canActivate: [CoreGuard] },
