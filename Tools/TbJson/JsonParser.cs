@@ -270,6 +270,9 @@ namespace Microarea.TbJson
                 Debug.Assert(jRoot[Constants.href].Value<string>().Equals(href));
                 jRoot.Remove(Constants.href);
             }
+            string existingActivation = jRoot.GetFlatString(Constants.activation);
+            if (!string.IsNullOrEmpty(existingActivation))
+                jRoot.Remove(Constants.activation);
             string resourceName;
             string file = GetFile(standardFolder, resourcePath, href, out resourceName);
             if (!File.Exists(file))
@@ -278,6 +281,13 @@ namespace Microarea.TbJson
             JToken jHref = Parse(standardFolder, file, false);
             if (jHref == null)
                 throw new Exception(string.Concat("Invalid href: ", href));
+
+            //se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
+            if (!string.IsNullOrEmpty(existingActivation))
+            {
+                foreach (JObject item in jHref.GetItems())
+                    AddActivationAttribute(existingActivation, item);
+            }
             if (jHref.GetWndObjType() == WndObjType.Frame)
             {
                 JArray hier = jRoot[Constants.HrefHierarchy] as JArray;
@@ -305,6 +315,7 @@ namespace Microarea.TbJson
             {
                 ParseHref(jRoot, activation, jHref);
             }
+            
         }
 
         private void ParseHref(JObject jRoot, string activation, JToken jHref)
@@ -461,17 +472,9 @@ namespace Microarea.TbJson
                         JToken toMerge = null;
                         if (id == null || (toMerge = arCurrent.Find(id)) == null)
                         {
-                            if (!string.IsNullOrEmpty(activation))
-                            {
-                                string s = objExternal[Constants.activation]?.ToString();
-                                if (string.IsNullOrEmpty(s))
-                                    s = activation;
-                                else
-                                    s = activation + "&(" + s + ")";
-                                objExternal[Constants.activation] = s;
-                            }
+                            AddActivationAttribute(activation, objExternal);
                             arCurrent.Add(objExternal);
-                           
+
                         }
                         else
                         {
@@ -500,6 +503,19 @@ namespace Microarea.TbJson
                         }
                     }
                 }
+            }
+        }
+
+        private static void AddActivationAttribute(string activation, JToken objExternal)
+        {
+            if (!string.IsNullOrEmpty(activation))
+            {
+                string s = objExternal[Constants.activation]?.ToString();
+                if (string.IsNullOrEmpty(s))
+                    s = activation;
+                else
+                    s = activation + "&(" + s + ")";
+                objExternal[Constants.activation] = s;
             }
         }
     }

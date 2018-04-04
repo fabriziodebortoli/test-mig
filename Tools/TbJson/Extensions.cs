@@ -24,7 +24,7 @@ namespace Microarea.TbJson
         //-----------------------------------------------------------------------------
         internal static JArray GetItems(this JToken jObj, bool createIfNone = false)
         {
-            JArray ar = jObj[Constants.items] as JArray;
+            JArray ar = jObj is JObject ? jObj[Constants.items] as JArray : null;
             if (ar == null)
             {
                 ar = new JArray();
@@ -377,7 +377,10 @@ namespace Microarea.TbJson
 
             if (result == null || !(result is JValue))
                 return null;
-            return result.Value<string>();
+            string s = result.Value<string>();
+            if (result.Type == JTokenType.Boolean)
+                s = s.ToLower();
+            return s;
         }
         //-----------------------------------------------------------------------------
         internal static string GetSafeJsonString(this JToken jObj)
