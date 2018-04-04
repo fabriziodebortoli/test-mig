@@ -3,7 +3,7 @@
         <tb-toolbar-top>
             <div class="toolbar-menu">
                 <div class="bread">
-                        <div class="path-part" *ngFor="let item of path" (click)="item !== currentItem && breadClick(item)" [title]="item.name" [ngClass]="{'selected': item === currentItem}">
+                    <div class="path-part" *ngFor="let item of path" (click)="item !== currentItem && breadClick(item)" [title]="item.name" [ngClass]="{'selected': item === currentItem}">
                         {{item.name}}
                     </div>
                 </div>
@@ -30,8 +30,8 @@
         <mat-spinner *ngIf="explorer.waiting$|async" class="widget-spinner" style="margin: auto"></mat-spinner>
     </div>
     <div class="uploader-container" [@shrinkOut]="viewState" *ngIf="options.upload">
-        <kendo-upload (upload)="uploadEventHandler($event)" (remove)="removeEventHandler($event)" (error)="errorEventHandler($event)" (complete)="completeEventHandler($event)"
-            (success)="successEventHandler($event)" [autoUpload]="true" [saveUrl]="'http://localhost:5000/tbfs-service/UploadObject'" [removeUrl]="options.removeUrl">
+        <kendo-upload #uploader (upload)="uploadEventHandler($event)" [autoUpload]="false" (error)="errorEventHandler($event)" (success)="successEventHandler($event)"
+            [saveUrl]="options.uploadUrl" [restrictions]="options.uploadRestrictions" [saveHeaders]="saveHeaders">
         </kendo-upload>
     </div>
 </div>

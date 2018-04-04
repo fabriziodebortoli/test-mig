@@ -5,10 +5,10 @@ import { EventDataService } from './eventdata.service';
 import { InfoService } from './info.service';
 import { Subject, Observable, BehaviorSubject, of, concat } from '../../rxjs.imports';
 import { delay } from 'rxjs/operators/delay';
-import { get } from 'lodash';
 import { Maybe } from '../../shared/commons/monads/maybe';
+import { get } from 'lodash';
 
-export enum ObjType { Document, Report, File, Image, Profile }
+export enum ObjType { Document, Report, File, Image }
 export interface Item { namespace?: string; name?: string; level: number; parent?: Item; }
 export const rootItem: Item = { name: 'root', namespace: '', level: 0 };
 const augmentItem = (partial: Partial<Item>) => item => {
@@ -54,6 +54,12 @@ export class ExplorerService {
         return [];
     }
 
+    getHeaders() {
+        const headers = new Headers();
+        headers.append('Authorization', this.info.getAuthorization());
+        return headers;
+    }
+
     async tryGetMap(method: string | { method: string, params?: { [n: string]: any } }, map?: (p: any) => any, ): Promise<Maybe<any>> {
         const search = new URLSearchParams();
         if (typeof method !== 'string') {
@@ -61,11 +67,9 @@ export class ExplorerService {
             m.params && Object.keys(m.params).forEach(k => search.set(k, m.params[k]));
             method = m.method;
         }
-        const headers = new Headers();
-        headers.append('Authorization', this.info.getAuthorization());
         const url = this.info.getBaseUrl() + '/tbfs-service/' + method;
         this._waiting$.next(true);
-        let res = await this.http.get(url, { headers, search, withCredentials: true })
+        let res = await this.http.get(url, { headers: this.getHeaders(), search, withCredentials: true })
             .map(r => r && r.ok && r.text() ? r.json() : null)
             .toPromise();
         this._waiting$.next(false);

@@ -8,9 +8,8 @@ export function tryOrDefault<T>(f: () => T, def?: T): T {
     try {
         return f();
     } catch (e) {
-        console.error(e);
         return def;
-    } 
+    }
 }
 
 export function findAnchestorByClass(el: any, cls: string): any {
@@ -43,22 +42,35 @@ export function arrayFrom(arrayLike: any, mapfn?: (v: any, k: number) => any): a
     return Maybe.none();
 }
 
-export function fuzzysearch (needle, haystack) {
+export function fuzzysearch(needle, haystack) {
     const hlen = haystack.length;
     const nlen = needle.length;
     if (nlen > hlen) {
-      return false;
+        return false;
     }
     const pos = new Array(hlen);
     outer: for (let i = 0, j = 0; i < nlen; i++) {
-      const nch = needle.charCodeAt(i);
-      while (j < hlen) {
-        if (haystack.charCodeAt(j++) === nch) {
-          pos[j - 1] = true;
-          continue outer;
+        const nch = needle.charCodeAt(i);
+        while (j < hlen) {
+            if (haystack.charCodeAt(j++) === nch) {
+                pos[j - 1] = true;
+                continue outer;
+            }
         }
-      }
-      return false;
+        return false;
     }
     return pos;
+}
+
+export module Dom {
+    export const targetHasClass = (classes: string) => (e: Event) => tryOrDefault(() => (e.target as any).classList.value.includes(classes));
+    export const targetHasAnchestorWithClass = (classes: string) => (e: Event) => findAnchestorByClass(classes)(e.target as Element);
+    export const targetHasOrHasAnchestorWithClass = (classes: string) => (e: Event) => targetHasClass(classes)(e) || targetHasAnchestorWithClass(classes)(e);
+    export const prevent = (e: Event) => { e.preventDefault(); e.stopPropagation(); };
+    export const hasClass = (classes: string) => (e: Element) => tryOrDefault(() => (e.classList as any).value.includes(classes));
+    export const findAnchestorByClass = (cls: string) => (el: Element) => {
+        if (!el) return null;
+        while ((el = el.parentElement) && !hasClass(cls)(el));
+        return el;
+    }
 }

@@ -17,8 +17,10 @@ export class ExplorerOptions {
   objType: ObjType = ObjType.Document;
   startNamespace?: string;
   upload?: boolean;
-  saveUrl?: string = 'http://localhost:5000/tbfs-service/UploadObject';
-  removeUrl?: string = 'http://localhost:5000/tbfs-service/RemoveObject';
+  uploadUrl?: string = 'http://localhost:5000/tbfs-service/UploadObject';
+  uploadRestrictions? = {
+    maxFileSize: 4194304
+  };
   constructor(opt?: Partial<ExplorerOptions>) { Object.assign(this, cloneDeep(opt)); }
 }
 
@@ -55,6 +57,7 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   @ViewChild('anchor') public anchor: ElementRef;
   @ViewChild('menuPopup', { read: ElementRef }) public menuPopup: ElementRef;
   @ViewChild('searchPopup', { read: ElementRef }) public findPopup: ElementRef;
+  @ViewChild('uploader') public uploader: any;
   get filteredItems(): Item[] { // TODOPD: memoize
     return this.items && this.items.filter(i => i['match'] = fuzzysearch(this.search.toLowerCase(), i.name.toLowerCase())) || [];
   }
@@ -71,14 +74,22 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   baseUsers = ['All', localStorage.getItem('_user')];
   otherUsers = [];
   isCustom = false;
+  saveHeaders;
   get users() { return [...this.baseUsers, ...this.otherUsers]; }
+
+  double() {
+    alert('pippo');
+  }
 
   constructor(public m: ComponentMediator, public explorer: ExplorerService, private elRef: ElementRef) {
     super(m.layout, m.tbComponent, m.changeDetectorRef);
     ExplorerEventHandler.handle(this);
   }
 
-  async ngOnInit() { this.updateItemsInside(rootItem); }
+  async ngOnInit() {
+    this.saveHeaders = this.explorer.getHeaders();
+    this.updateItemsInside(rootItem); 
+  }
 
   breadClick(item: Item) { this.updateItemsInside(item); }
   _itemClick(item: Item) {
@@ -98,6 +109,7 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
       this._currentItem = item;
       this.search = '';
       this.viewState = item.level === 2 ? ViewStates.opened : ViewStates.closed;
+      this.clearUploadList();
     });
   }
 
@@ -148,32 +160,20 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
     this.showMenu = force || !this.showMenu;
   }
 
-  completeEventHandler(e: any) {
-    console.log('complete: ' + JSON.stringify(e));
+  clearUploadList() {
+    this.uploader && this.uploader.fileList && this.uploader.fileList.clear();
   }
 
   uploadEventHandler(e) {
-    // todopd
-    // const headers = new Headers();
-    // headers.append('Authorization', this.info.getAuthorization());
-    e.data = {
-      currentNamespace: this.currentItem.namespace,
-      authenticationTokenKey: this.explorer.info.getAuthorization()
-    };
-  }
-
-  removeEventHandler(e) {
-    e.data = {
-      authenticationTokenKey: this.explorer.info.getAuthorization()
-    };
+    e.data = { currentNamespace: this.currentItem.namespace };
   }
 
   successEventHandler(e) {
-    console.log('The ' + e.operation + ' was successful');
+    e.response.body.content
+      .map(f => new ExplorerItem(f.name, f.ns))
+      .forEach(i => this.selectionChanged.emit(i));
   }
 
-  errorEventHandler(e) {
-    console.log('The ' + e.operation + ' failed');
-  }
+  errorEventHandler(e) { }
 }
 

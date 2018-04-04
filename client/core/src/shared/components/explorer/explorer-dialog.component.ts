@@ -40,15 +40,24 @@ export class ExplorerDialogComponent extends TbComponent {
         setTimeout(() => this.explorer.focus());
         return Observable.create(o => {
             setTimeout(() => {
-                this.close$
-                    .merge(this.explorer.selectionChanged.asObservable())
-                    .first()
+                    this.sourceFor$(options)
+                    .take(1)
                     .do(() => this.close())
-                    .map(s => new ExplorerResult(s && [new ExplorerItem(s.name, s.namespace)]))
+                    .map(s => new ExplorerResult(s))
                     .subscribe(o);
             });
         });
     }
+
+    sourceFor$ = (options: ExplorerOptions) => options.upload ? this.uploadSource$() : this.selectSource$();
+
+    selectSource$ = () => this.explorer.selectionChanged.asObservable()
+        .merge(this.close$)
+        .map(s => s ? [s] : []);
+
+    uploadSource$ = () => this.explorer.selectionChanged.asObservable()
+        .buffer(this.close$)
+
 
     close() { this.close$.next(); this.opened = false; }
 }

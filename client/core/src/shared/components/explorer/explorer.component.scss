@@ -4,7 +4,7 @@ $explorerbkg:white;
 .main {
     display: flex;
     flex-direction: column;
-    height: 380px;
+    height: 400px;
 }
 
 :host {
@@ -20,8 +20,8 @@ $explorerbkg:white;
 }
 
 :host ::ng-deep kendo-upload {
-    background: transparent;
-    border-width: 0px;
+    border: 1px solid #cfe0e8;
+    background: $bkg-light;
     .k-button.k-upload-button {
         background: transparent;
         border-width: 1px;
@@ -29,6 +29,10 @@ $explorerbkg:white;
     .k-upload-files.k-reset {
         max-height: 106px;
         overflow: auto;
+    }
+    .k-upload .k-clear-selected, .k-upload .k-upload-selected {
+        padding: 0;
+        background: transparent;
     }
 }
 
