@@ -52,7 +52,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return GetAuthenticationErrorResponse();
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -73,15 +73,12 @@ namespace DataService.Controllers
             string authHeader = HttpContext.Request.Headers["Authorization"];
             if (string.IsNullOrWhiteSpace(authHeader))
             {
-                Debug.Fail("non sei autenticato! (Authorization)");
-
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return GetAuthenticationErrorResponse();
             }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
             {
-                Debug.Fail("Missing login infos");
-                return new ContentResult { StatusCode = 401, Content = "Missing login infos!", ContentType = "application/text" };
+                return GetAuthenticationErrorResponse();
             }
 
             TbSession session = new TbSession(ui, nameSpace);
@@ -157,12 +154,12 @@ namespace DataService.Controllers
             string authHeader = HttpContext.Request.Headers["Authorization"];
             if (string.IsNullOrWhiteSpace(authHeader))
             {
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return GetAuthenticationErrorResponse();
             }
             UserInfo ui = GetLoginInformation();
             if (ui == null)
             {
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return GetAuthenticationErrorResponse();
             }
 
             TbSession session = new TbSession(ui, null);
@@ -189,29 +186,11 @@ namespace DataService.Controllers
             return new ContentResult { Content = records, ContentType = "application/json" };
         }
 
+
         //---------------------------------------------------------------------
-        public IActionResult Index()
+        private IActionResult GetAuthenticationErrorResponse()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
+            return new ContentResult { StatusCode = 401, Content = "Authentication needed", ContentType = "application/text" };
         }
     }
 }

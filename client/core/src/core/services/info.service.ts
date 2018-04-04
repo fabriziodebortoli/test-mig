@@ -18,7 +18,10 @@ export class InfoService {
     culture = createEmptyModel();
     cultureId = 'ui_culture';
     tbLoaderInfoId = 'tbLoaderInfo';
+    applicationDateId = 'application_date';
     tbLoaderInfo: TBLoaderInfo;
+    applicationDate = new Date(); //TODO Luca/Silvano il client dovra pilotare data applicazione anche verso il tbloader
+
     getProductInfoPromise: Promise<void>;
 
     constructor(
@@ -42,6 +45,25 @@ export class InfoService {
         return this.culture.value;
     }
 
+    setApplicationDate(applicationDate: Date) {
+        this.applicationDate = applicationDate;
+        localStorage.setItem(this.applicationDateId, JSON.stringify(this.applicationDate));
+    }
+
+    getApplicationDate(): Date {
+        if (!this.applicationDate) {
+            let s = localStorage.getItem(this.applicationDateId);
+            if (s) {
+                this.applicationDate = JSON.parse(s);
+            }
+            else {
+                this.applicationDate = new Date();
+            }
+        }
+
+        return this.applicationDate;
+    }
+    
     getTbLoaderInfo(): TBLoaderInfo {
         if (!this.tbLoaderInfo) {
             let s = localStorage.getItem(this.tbLoaderInfoId);
@@ -55,6 +77,7 @@ export class InfoService {
 
         return this.tbLoaderInfo;
     }
+    
     setTbLoaderInfo(info: TBLoaderInfo) {
         this.tbLoaderInfo = info;
         localStorage.setItem(this.tbLoaderInfoId, JSON.stringify(this.tbLoaderInfo));
@@ -65,6 +88,7 @@ export class InfoService {
                 ui_culture: this.culture.value,
                 authtoken: sessionStorage.getItem('authtoken'),
                 tbLoaderName: this.getTbLoaderInfo().name,
+                applicationDate: this.applicationDate,
                 isDesktop: this.isDesktop
             });
     }

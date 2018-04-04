@@ -76,11 +76,13 @@ export class ApplicationDateComponent extends TbComponent implements OnInit, OnD
     }
 
     public ok() {
+        
         this.httpMenuService.changeApplicationDate(this.internalDate)
             .subscribe((tbRes: OperationResult) => {
                 if (!tbRes.error) {
                     this.applicationDate = this.internalDate;
                     this.opened = false;
+                    this.infoService.setApplicationDate(this.internalDate);
                 }
                 this.diagnosticService.showDiagnostic(tbRes.messages);
             });
