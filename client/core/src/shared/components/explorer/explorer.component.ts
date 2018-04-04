@@ -77,10 +77,6 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   saveHeaders;
   get users() { return [...this.baseUsers, ...this.otherUsers]; }
 
-  double() {
-    alert('pippo');
-  }
-
   constructor(public m: ComponentMediator, public explorer: ExplorerService, private elRef: ElementRef) {
     super(m.layout, m.tbComponent, m.changeDetectorRef);
     ExplorerEventHandler.handle(this);

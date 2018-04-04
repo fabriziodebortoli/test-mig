@@ -9,14 +9,8 @@ import { Maybe } from '../../shared/commons/monads/maybe';
 import { get } from 'lodash';
 
 export enum ObjType { Document, Report, File, Image }
-export interface Item { namespace?: string; name?: string; level: number; parent?: Item; }
-export const rootItem: Item = { name: 'root', namespace: '', level: 0 };
-const augmentItem = (partial: Partial<Item>) => item => {
-    item = { ...item, ...partial };
-    item.name = item.name || item.title;
-    item.namespace = item.namespace || item.NameSpace;
-    return item;
-};
+export interface Item { namespace?: string; name?: string; level: number; parent?: Item; icon?: string; type?: ObjType }
+export const rootItem: Item = { name: 'Root', namespace: '', level: 0 };
 
 @Injectable()
 export class ExplorerService {
@@ -43,7 +37,7 @@ export class ExplorerService {
                 'objType': type
             }
         }, r => r.objects
-            .map(augmentItem({ parent: module, level: 3 })));
+            .map(augmentItem({ parent: module, level: 3 }, type)));
     }
 
     async GetObjsByNamespace(namespace: string, type: ObjType): Promise<Item[]> {
@@ -77,3 +71,21 @@ export class ExplorerService {
         return Maybe.from(res);
     }
 }
+
+const augmentItem = (partial: Partial<Item>, type?: ObjType) => item => {
+    const humanizeName = (name: string) => {
+        let idx = -1;
+        if ((idx = name.lastIndexOf('/')) !== -1) return name.slice(idx + 1);
+        if ((idx = name.lastIndexOf('\\')) !== -1) return name.slice(idx + 1);
+        return name;
+    };
+    const typeToIcon = (type?: ObjType) =>
+        typeof type === 'undefined' ? 'tb-open'
+        : { [ObjType.Document]: 'erp-document', [ObjType.File]: 'erp-documenttextnote', [ObjType.Report]: 'tb-report', [ObjType.Image]: 'tb-picture' }[type]
+    item = { ...item, ...partial };
+    item.name = humanizeName(item.name || item.title);
+    item.namespace = item.namespace || item.NameSpace;
+    item.type = type;
+    item.icon = typeToIcon(type);
+    return item;
+};

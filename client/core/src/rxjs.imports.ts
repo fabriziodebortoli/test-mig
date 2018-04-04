@@ -15,7 +15,6 @@ import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/publishLast';
-import 'rxjs/add/operator/firstOrDefault';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/combineLatest';
