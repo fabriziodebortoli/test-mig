@@ -302,10 +302,7 @@ void CJsonWrapper::Remove(const CString& sName)
 void CJsonWrapper::Remove(int index)
 {
 	Json::Value* pParent = m_Stack.top();
-	CString s;
-	s.Format(_T("%d"), index);
-	pParent->removeMember(s);
-
+	pParent->removeMember(index);
 }
 //-----------------------------------------------------------------------------
 CString CJsonWrapper::GetJson(bool needIndentation) const
@@ -359,6 +356,37 @@ void CJsonParser::Assign(const CJsonWrapper& other)
 {
 	__super::Assign(other);
 	Reset();
+}
+//-----------------------------------------------------------------------------
+void CJsonParser::TrimWebSections()
+{
+	TrimWebSections(m_Root, m_Root, NULL);
+}
+//-----------------------------------------------------------------------------
+void CJsonParser::TrimWebSections(Json::Value& parent, Json::Value& node, Json::ValueIterator* pIt)
+{
+	Json::ValueIterator itEnd = node.end();
+	for (Json::ValueIterator it = node.begin(); it != itEnd; it++)
+	{
+		const Json::Char* szName = it.memberName();
+		if (_tcscmp(szName, _T("environment")) == 0)
+		{
+			Json::Value val = *it;
+			if (val.isString() && _tcscmp(_T("web"), val.asCString()) == 0)
+			{
+				const Json::Char* szName = pIt->memberName();
+				if (szName && szName[0])
+					parent[szName] = Json::Value();
+				else
+					parent[pIt->index()] = Json::Value();
+				return;
+			}
+		}
+		else
+		{
+			TrimWebSections(node, *it, &it);
+		}
+	}
 }
 //-----------------------------------------------------------------------------
 void CJsonParser::Assign(const Json::Value& root)

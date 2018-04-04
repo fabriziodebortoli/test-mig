@@ -119,6 +119,9 @@ public:
 	virtual Json::Value& GetCurrent();
 	virtual void Assign(const CJsonWrapper& other); 
 	void Assign(const Json::Value& root);
+	void TrimWebSections();
+	void TrimWebSections(Json::Value& parent, Json::Value& node, Json::ValueIterator* pIt);
+
 };
 //=================================================================================================
 class TB_EXPORT CJsonSerializer : public CJsonWrapper

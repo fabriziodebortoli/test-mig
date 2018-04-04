@@ -1139,6 +1139,20 @@ Value::get( const std::wstring &key,
 {
    return get( key.c_str(), defaultValue );
 }
+Value
+Value::removeMember(int index)
+{
+	JSON_ASSERT(type_ == nullValue || type_ == arrayValue);
+	if (type_ == nullValue)
+		return null;
+	CZString actualKey(index);
+	ObjectValues::iterator it = value_.map_->find(actualKey);
+	if (it == value_.map_->end())
+		return null;
+	Value old(it->second);
+	value_.map_->erase(it);
+	return old;
+}
 
 Value
 Value::removeMember( const Char* key )

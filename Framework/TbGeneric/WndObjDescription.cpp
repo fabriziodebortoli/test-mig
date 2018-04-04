@@ -3580,7 +3580,7 @@ void CWndObjDescriptionContainer::ParseJson(CJsonFormParser& parser)
 	for (int i = 0; i < parser.GetCount(); i++)
 	{
 		if (!parser.BeginReadObject(i))
-			return;
+			continue;
 
 		ParseJsonItem(parser);
 		parser.EndReadObject();
