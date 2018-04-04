@@ -219,10 +219,8 @@ textarea.tb-textarea {
     background-color: $input-background;
     border: 1px solid $border-disabled;
     opacity: 1;
-    padding: 0 3px;
+    padding: 4px 3px 0;
     letter-spacing: 0.25px;
-    line-height: 22px;
-    min-height: 22px;
     resize: none;
     font-weight: $text-weight;
     font-size:12px;
