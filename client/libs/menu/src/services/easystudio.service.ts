@@ -1,10 +1,9 @@
-import { EasyStudioContextComponent } from './../../shared/components/easystudio-context/easystudio-context.component';
-import { SettingsService } from './settings.service';
-import { EsCustomizItem, PairAppMod } from './../../shared/models/es-customization-item.model';
-import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from '../../rxjs.imports';
-import { InfoService } from './info.service';
+import { Observable } from 'rxjs/Observable';
+import { InfoService, SettingsService } from '@taskbuilder/core';
+import { EsCustomizItem, PairAppMod } from '@taskbuilder/core/shared/models/es-customization-item.model';
+
+import { HttpMenuService } from './http-menu.service';
 
 @Injectable()
 export class EasystudioService {
@@ -20,7 +19,7 @@ export class EasystudioService {
     public memoryCustsList: { Customizations: EsCustomizItem[] };
 
     public memoryCusts: { appsList: PairAppMod[] };
-    public memoryTbApps:{ appsList: PairAppMod[] };
+    public memoryTbApps: { appsList: PairAppMod[] };
 
     private custsApps: any[] = [];
     private tbappApps: any[] = [];
@@ -212,7 +211,7 @@ export class EasystudioService {
     public extractESEdition(body: any) {
         this.easystudioEdition = body["DeveloperEd"];
     }
-   
+
     //--------------------------------------------------------------------------------
     public getMemoryForType(): PairAppMod[] {
         if (this.applicType == ApplicationType.Customization)
@@ -240,7 +239,7 @@ export class EasystudioService {
     private extractNamesTbApps(body: any) {
         this.tbappApps = [];
         this.modules = [];
-        this.memoryTbApps = body; 
+        this.memoryTbApps = body;
         let allApplications = this.memoryTbApps["appsList"]; //in apertura il type non cambia, non posso prenderlo dal metodo
 
         if (!allApplications) return;
@@ -310,22 +309,22 @@ export class EasystudioService {
     //--------------------------------------------------------------------------------
     public createNewContext(newAppName, newModName) {
         this.subscriptions.push(this.httpMenuService.createNewContext(newAppName, newModName, this.applicType)
-        .subscribe((result) => {
-            if (result) {
-                let newObj = new PairAppMod(newAppName, newModName);
-                if (this.getMemoryForType().find(e => e === newObj) === undefined)
-                    this.getMemoryForType().push(newObj);
-                if (this.applications.find(e => e === newAppName) === undefined) { //nessuna occorrenza
-                    this.applications.push(newAppName);
-                }
-                this.modules = this.getModulesBy(newAppName);
+            .subscribe((result) => {
+                if (result) {
+                    let newObj = new PairAppMod(newAppName, newModName);
+                    if (this.getMemoryForType().find(e => e === newObj) === undefined)
+                        this.getMemoryForType().push(newObj);
+                    if (this.applications.find(e => e === newAppName) === undefined) { //nessuna occorrenza
+                        this.applications.push(newAppName);
+                    }
+                    this.modules = this.getModulesBy(newAppName);
 
-                this.httpMenuService.updateCachedDateAndSave().subscribe();
-                this.setAppAndModule(newAppName, newModName, false);
-                return true;
-            }
-            return result;
-        }));
+                    this.httpMenuService.updateCachedDateAndSave().subscribe();
+                    this.setAppAndModule(newAppName, newModName, false);
+                    return true;
+                }
+                return result;
+            }));
     }
 
     //--------------------------------------------------------------------------------

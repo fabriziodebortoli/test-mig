@@ -27,7 +27,7 @@ import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
         SharedModule,
         routing,
         ReportingStudioModule,
-        TbMenuModule,
+        TbMenuModule.forRoot(),
         TbCoreModule.forRoot()
     ],
     providers: [

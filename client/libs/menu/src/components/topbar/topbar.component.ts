@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { Subscription } from '../../../rxjs.imports';
-import { SidenavService } from './../../../core/services/sidenav.service';
+import { Subscription } from 'rxjs/Subscription';
+import { SidenavService } from '@taskbuilder/core';
 @Component({
   selector: 'tb-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss']
 })
-export class TopbarComponent implements OnDestroy{
+export class TopbarComponent implements OnDestroy {
 
   subscriptions: Subscription[] = [];
   sidenavPinned: boolean = false;

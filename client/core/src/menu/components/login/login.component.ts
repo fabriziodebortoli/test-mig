@@ -1,7 +1,7 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { AnyFn } from './../../../shared/commons/selector';
 import { LoadingService } from './../../../core/services/loading.service';
-import { MenuService } from './../../services/menu.service';
+
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from '../../../rxjs.imports';
@@ -47,7 +47,6 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
     public logger: Logger,
     public httpService: HttpService,
     public utilsService: UtilsService,
-    public menuService: MenuService,
     public loadingService: LoadingService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
@@ -163,7 +162,6 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
     this.connectionData.overwrite = overwrite;
     let subs = this.authService.login(this.connectionData).subscribe(result => {
       if (result.success) {
-        this.menuService.clearCachedData = false;
         this.connectionData.overwrite = false;
         let url = this.authService.getRedirectUrl();
         this.logger.debug('Redirect Url', url);

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 
-import { TbComponent, HttpMenuService, InfoService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, InfoService, TbComponentService } from '@taskbuilder/core';
+
+import { HttpMenuService } from './../../services/http-menu.service';
 
 @Component({
   selector: 'tb-connection-info',

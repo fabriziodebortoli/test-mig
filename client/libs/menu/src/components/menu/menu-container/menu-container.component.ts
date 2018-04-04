@@ -2,7 +2,10 @@ import { Component, Input, OnInit, OnDestroy, ViewChild, ViewEncapsulation, Afte
 import { animate, transition, trigger, state, style, keyframes, group } from "@angular/animations";
 import { Subscription } from "rxjs/Rx";
 
-import { TbComponent, MenuService, UtilsService, SettingsService, ImageService, SidenavService, ComponentService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, UtilsService, SettingsService, SidenavService, ComponentService, TbComponentService } from '@taskbuilder/core';
+
+import { MenuService } from './../../../services/menu.service';
+import { ImageService } from './../../../services/image.service';
 
 @Component({
   selector: 'tb-menu-container',

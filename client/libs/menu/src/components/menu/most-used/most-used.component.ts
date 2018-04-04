@@ -1,6 +1,10 @@
 import { Component, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
-import { TbComponent, HttpMenuService, MenuService, UtilsService, ImageService, SettingsService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, UtilsService, SettingsService, TbComponentService } from '@taskbuilder/core';
+
+import { ImageService } from './../../../services/image.service';
+import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-most-used',

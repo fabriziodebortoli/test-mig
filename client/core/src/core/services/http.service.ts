@@ -287,7 +287,7 @@ export class HttpService {
 
     removeRowDBTSlaveBuffered(cmpId: any, dbtName: any, skip: number, take: number, rowNumber: number) {
 
-        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName,  skip: skip, take: take, rowNumber: rowNumber };
+        let obj = { authtoken: sessionStorage.getItem('authtoken'), cmpId: cmpId, dbtName: dbtName, skip: skip, take: take, rowNumber: rowNumber };
         var urlToRun = this.infoService.getDocumentBaseUrl() + 'removeRowDBTSlaveBuffered/';
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
@@ -302,6 +302,26 @@ export class HttpService {
         return this.postData(urlToRun, obj)
             .map((res: Response) => {
                 return res.json();
+            });
+    }
+
+    getThemes(): Observable<any> {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
+        var url = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        return this.postData(url, obj)
+            .map((res: Response) => {
+                return res.json();
+            });
+    }
+
+    changeThemes(theme: string): Observable<OperationResult> {
+
+        let obj = { authtoken: sessionStorage.getItem('authtoken') };
+        var url = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
+        return this.postData(url, obj)
+            .map((res: Response) => {
+                return this.createOperationResult(res);
             });
     }
 }

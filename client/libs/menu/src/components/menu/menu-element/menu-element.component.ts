@@ -1,8 +1,13 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 
-import { HttpMenuService, MenuService, UtilsService, SettingsService, EasystudioService, ImageService } from '@taskbuilder/core';
+import { UtilsService, SettingsService } from '@taskbuilder/core';
 
 import { ItemCustomizationsDropdownComponent } from './item-customizations-dropdown/item-customizations-dropdown.component';
+
+import { ImageService } from './../../../services/image.service';
+import { EasystudioService } from './../../../services/easystudio.service';
+import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-menu-element',

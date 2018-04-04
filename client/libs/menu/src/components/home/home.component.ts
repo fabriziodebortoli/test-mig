@@ -10,11 +10,12 @@ import { TabStripTabComponent } from "@progress/kendo-angular-layout/dist/es/tab
 
 import {
   ComponentInfoService, TbComponent, MessageDialogComponent, ComponentInfo, SidenavService, TaskBuilderService,
-  ComponentService, LayoutService, TabberService, MenuService, SettingsService, EnumsService, FormattersService,
+  ComponentService, LayoutService, TabberService, SettingsService, EnumsService, FormattersService,
   InfoService, LoadingService, ThemeService, EventManagerService, ActivationService, AuthService, TbComponentService,
   Logger, MessageDlgArgs
 } from '@taskbuilder/core';
 
+import { MenuService } from './../../services/menu.service';
 import { SettingsContainerComponent } from './../../settings/settings-container/settings-container.component';
 
 @Component({

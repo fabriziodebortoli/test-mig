@@ -1,11 +1,8 @@
-import { Component, Input, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { ContextMenuItem, WebSocketService, EventDataService } from '@taskbuilder/core';
+import { Component, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
 
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-
-import { EventDataService } from './../../../../../core/services/eventdata.service';
-import { WebSocketService } from './../../../../../core/services/websocket.service';
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
 
 @Component({
     selector: 'tb-topbar-menu-elements',
@@ -13,8 +10,8 @@ import { ContextMenuItem } from './../../../../models/context-menu-item.model';
     styleUrls: ['./topbar-menu-elements.component.scss']
 })
 export class TopbarMenuElementsComponent {
-     show = false;
-    
+    show = false;
+
     @ViewChild('anchor') public anchor: ElementRef;
     @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
@@ -39,20 +36,20 @@ export class TopbarMenuElementsComponent {
     @HostListener('document:click', ['$event'])
     public documentClick(event: any): void {
         if (!this.contains(event.target)) {
-          this.toggle(false);
+            this.toggle(false);
         }
     }
-    
+
     @HostListener('keydown', ['$event'])
     public keydown(event: any): void {
         if (event.keyCode === 27) {
             this.toggle(false);
         }
     }
-    
+
     private contains(target: any): boolean {
-      return this.anchor.nativeElement.contains(target) ||
-          (this.popup ? this.popup.nativeElement.contains(target) : false);
+        return this.anchor.nativeElement.contains(target) ||
+            (this.popup ? this.popup.nativeElement.contains(target) : false);
     }
 
     public toggle(show?: boolean): void {

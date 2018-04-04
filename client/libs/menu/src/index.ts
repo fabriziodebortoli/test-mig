@@ -27,6 +27,35 @@ const TB_HOME_COMPONENTS = [
 ];
 
 /**
+ * TOPBAR
+ */
+import { TopbarComponent } from './components/topbar/topbar.component';
+import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
+import { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
+import { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
+import { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
+import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
+
+export { TopbarComponent } from './components/topbar/topbar.component';
+export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
+export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
+export { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
+export { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
+export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
+export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
+
+const TB_TOPBAR_COMPONENTS = [
+  TopbarComponent,
+  TopbarMenuComponent,
+  TopbarMenuTestComponent,
+  TopbarMenuUserComponent,
+  TopbarMenuAppComponent,
+  TopbarMenuElementsComponent,
+  BPMIconComponent
+];
+
+/**
  * MENU
  */
 import { FavoritesComponent } from './components/menu/favorites/favorites.component';
@@ -41,6 +70,7 @@ import { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.c
 import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
+import { ApplicationDateComponent } from './components/application-date/application-date.component';
 
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
 export { SearchComponent } from './components/menu/search/search.component';
@@ -54,6 +84,7 @@ export { MenuTabberComponent } from './components/menu/menu-tabber/menu-tabber.c
 export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-tab.component';
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
 export { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
+export { ApplicationDateComponent } from './components/application-date/application-date.component';
 
 const TB_MENU_COMPONENTS = [
   FavoritesComponent,
@@ -67,7 +98,42 @@ const TB_MENU_COMPONENTS = [
   MenuTabberComponent,
   MenuTabComponent,
   MostUsedComponent,
-  HiddenTilesComponent
+  HiddenTilesComponent,
+  ApplicationDateComponent
+];
+
+/**
+ * MENU Services
+ */
+import { ImageService } from './services/image.service';
+import { MenuService } from './services/menu.service';
+import { HttpMenuService } from './services/http-menu.service';
+import { EasystudioService } from './services/easystudio.service';
+
+export { ImageService } from './services/image.service';
+export { MenuService } from './services/menu.service';
+export { HttpMenuService } from './services/http-menu.service';
+export { EasystudioService } from './services/easystudio.service';
+
+export const TB_MENU_SERVICES = [
+  ImageService,
+  MenuService,
+  HttpMenuService,
+  EasystudioService
+];
+
+/**
+ * EASYSTUDIO
+ */
+import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+import { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
+
+export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
+export { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
+
+const TB_EASYSTUDIO_COMPONENTS = [
+  EasyStudioContextComponent,
+  CloneDocumentDialogComponent
 ];
 
 /**
@@ -92,20 +158,25 @@ const NG_MODULES = [
   ],
   declarations: [
     TB_MENU_COMPONENTS,
-    TB_HOME_COMPONENTS
+    TB_HOME_COMPONENTS,
+    TB_TOPBAR_COMPONENTS,
+    TB_EASYSTUDIO_COMPONENTS
   ],
   exports: [
     TB_MENU_COMPONENTS,
     TB_HOME_COMPONENTS,
+    TB_TOPBAR_COMPONENTS,
+    TB_EASYSTUDIO_COMPONENTS,
     TbSettingsModule
   ],
-  // providers: [MenuService]
+  providers: [TB_MENU_SERVICES],
+  entryComponents: [CloneDocumentDialogComponent]
 })
 export class TbMenuModule {
-  // static forRoot(): ModuleWithProviders {
-  //   return {
-  //     ngModule: TbMenuModule,
-  //     providers: [MenuService]
-  //   };
-  // }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: TbMenuModule,
+      providers: [TB_MENU_SERVICES]
+    };
+  }
 }

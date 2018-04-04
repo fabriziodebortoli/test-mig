@@ -1,14 +1,8 @@
-import { EasystudioService } from './../../core/services/easystudio.service';
+import { EasystudioService } from './easystudio.service';
+import { UtilsService, Logger, HttpService, InfoService, OperationResult } from '@taskbuilder/core';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
-import { Observable } from '../../rxjs.imports';
-
-import { OperationResult } from './../../shared/models/operation-result.model';
-
-import { InfoService } from './../../core/services/info.service';
-import { HttpService } from './../../core/services/http.service';
-import { Logger } from './../../core/services/logger.service';
-import { UtilsService } from './../../core/services/utils.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class HttpMenuService {
@@ -98,7 +92,7 @@ export class HttpMenuService {
     }
 
     cleanApplicationInfosPathFinder(): Observable<any> { //aggiornamento file preferences se necessario
-        let obj = { user: localStorage.getItem('_user')};
+        let obj = { user: localStorage.getItem('_user') };
         let url = this.callInfoService + 'application/refreshAll/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {
@@ -334,26 +328,6 @@ export class HttpMenuService {
         return this.httpService.postData(url, obj)
             .map((res: Response) => {
                 return res.json();
-            });
-    }
-
-    getThemes(): Observable<any> {
-
-        let obj = { authtoken: sessionStorage.getItem('authtoken') };
-        var url = this.infoService.getDocumentBaseUrl() + 'getThemes/';
-        return this.httpService.postData(url, obj)
-            .map((res: Response) => {
-                return res.json();
-            });
-    }
-
-    changeThemes(theme: string): Observable<OperationResult> {
-
-        let obj = { authtoken: sessionStorage.getItem('authtoken') };
-        var url = this.infoService.getDocumentBaseUrl() + 'changeThemes/?theme=' + theme;
-        return this.httpService.postData(url, obj)
-            .map((res: Response) => {
-                return this.httpService.createOperationResult(res);
             });
     }
 

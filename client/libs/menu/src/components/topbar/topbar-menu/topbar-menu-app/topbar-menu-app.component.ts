@@ -1,14 +1,8 @@
-import { CommandEventArgs } from './../../../../models/eventargs.model';
 import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { TbComponent, ContextMenuItem, UtilsService, EventDataService, TbComponentService, CommandEventArgs } from '@taskbuilder/core';
 
-import { EventDataService } from './../../../../../core/services/eventdata.service';
-import { UtilsService } from './../../../../../core/services/utils.service';
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
-
-import { MenuService } from './../../../../../menu/services/menu.service';
-import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
-import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
-import { TbComponent } from './../../../../../shared/components/tb.component';
+import { MenuService } from './../../../../services/menu.service';
+import { HttpMenuService } from './../../../../services/http-menu.service';
 
 @Component({
     selector: 'tb-topbar-menu-app',

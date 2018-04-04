@@ -77,8 +77,8 @@ gulp.task('rollup:fesm', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animations', '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
-                '@taskbuilder/icons',
+                '@angular/animations', '@angular/core', '@angular/common', '@angular/http', '@angular/forms', '@angular/router',
+                '@taskbuilder/core', '@taskbuilder/icons',
                 '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
@@ -122,8 +122,8 @@ gulp.task('rollup:umd', function() {
             // A list of IDs of modules that should remain external to the bundle
             // See "external" in https://rollupjs.org/#core-functionality
             external: [
-                '@angular/animations', '@angular/core', '@angular/common', '@taskbuilder/core', '@angular/forms', '@angular/router',
-                '@taskbuilder/icons',
+                '@angular/animations', '@angular/core', '@angular/common', '@angular/http', '@angular/forms', '@angular/router',
+                '@taskbuilder/core', '@taskbuilder/icons',
                 '@progress/kendo-angular-popup', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component', '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component'
             ],
 
@@ -140,6 +140,7 @@ gulp.task('rollup:umd', function() {
                     '@angular/common': 'common',
                     '@taskbuilder/core': 'core$1',
                     '@angular/forms': 'forms',
+                    '@angular/http': 'http',
                     '@angular/router': 'router',
                     '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component': 'tabstrip_component',
                     '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip-tab.component': 'tabstripTab_component',

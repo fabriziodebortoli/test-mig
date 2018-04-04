@@ -1,6 +1,9 @@
-import { TbComponent, HttpMenuService, MenuService, UtilsService, ImageService, EventManagerService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, UtilsService, EventManagerService, TbComponentService } from '@taskbuilder/core';
 import { Component, Input, HostBinding, ChangeDetectorRef } from '@angular/core';
 
+import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
+import { ImageService } from './../../../services/image.service';
 
 @Component({
   selector: 'tb-menu-content',

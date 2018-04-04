@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, Input, HostListener } from '@angular/core';
-
 import { Subscription } from 'rxjs/Rx';
+import { EventDataService, ComponentInfoService, SettingsService, EventManagerService, EnumsService, ViewModeType } from '@taskbuilder/core';
 
-import { EventDataService, ComponentInfoService, MenuService, SettingsService, EventManagerService, EnumsService, ViewModeType } from '@taskbuilder/core';
+import { MenuService } from './../../services/menu.service';
 
 @Component({
   selector: 'tb-menu',

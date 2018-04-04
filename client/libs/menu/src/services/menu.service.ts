@@ -1,17 +1,9 @@
-import { DiagnosticService } from './../../core/services/diagnostic.service';
-import { SettingsService } from './../../core/services/settings.service';
-import { LoadingService } from './../../core/services/loading.service';
+import { Subscription } from 'rxjs/Subscription';
+import { HttpService, WebSocketService, Logger, UtilsService, SettingsService, ComponentService, InfoService, DiagnosticService, LoadingService } from '@taskbuilder/core';
 import { Injectable, EventEmitter, ComponentFactoryResolver, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
-import { Observable, BehaviorSubject, Subscription } from '../../rxjs.imports';
 
-import { InfoService } from './../../core/services/info.service';
-import { HttpService } from './../../core/services/http.service';
-import { ComponentService } from './../../core/services/component.service';
-import { UtilsService } from './../../core/services/utils.service';
-import { WebSocketService } from './../../core/services/websocket.service';
-import { Logger } from './../../core/services/logger.service';
 import { ImageService } from './image.service';
 import { HttpMenuService } from './http-menu.service';
 

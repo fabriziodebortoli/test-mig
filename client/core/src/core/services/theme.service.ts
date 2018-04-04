@@ -1,8 +1,7 @@
-import { DiagnosticService } from './diagnostic.service';
-import { HttpMenuService } from './../../menu/services/http-menu.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { DiagnosticService } from './diagnostic.service';
 import { HttpService } from './http.service';
 
 @Injectable()
@@ -13,7 +12,6 @@ export class ThemeService {
     constructor(
         public httpService: HttpService,
         public router: Router,
-        private httpMenuService: HttpMenuService,
         private diagnosticService: DiagnosticService
     ) {
     }
@@ -40,7 +38,7 @@ export class ThemeService {
     //---------------------------------------------------------------------------------------------
     loadThemes() {
         this.themes = [];
-        let subs = this.httpMenuService.getThemes().subscribe((res) => {
+        let subs = this.httpService.getThemes().subscribe((res) => {
             this.themes = res.Themes.Theme;
 
             for (var i = 0; i < this.themes.length; i++) {
@@ -50,13 +48,13 @@ export class ThemeService {
             }
             subs.unsubscribe();
             if (this.currentTheme)
-               this.applyTheme(this.currentTheme);
+                this.applyTheme(this.currentTheme);
         });
     }
 
     //---------------------------------------------------------------------------------------------
     changeTheme(theme) {
-        let subs = this.httpMenuService.changeThemes(theme.path).subscribe((res) => {
+        let subs = this.httpService.changeThemes(theme.path).subscribe((res) => {
             if (!res.error) {
                 this.loadThemes();
             }

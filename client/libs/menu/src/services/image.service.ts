@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Logger } from './../../core/services/logger.service';
-import { InfoService } from './../../core/services/info.service';
-import { HttpService } from './../../core/services/http.service';
+import { Logger, HttpService, InfoService } from '@taskbuilder/core';
 
 @Injectable()
 export class ImageService {

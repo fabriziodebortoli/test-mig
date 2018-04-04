@@ -1,20 +1,8 @@
-import { TaskBuilderService } from './../../../../../core/services/taskbuilder.service';
-import { DiagnosticService } from './../../../../../core/services/diagnostic.service';
-import { SettingsService } from './../../../../../core/services/settings.service';
-import { HttpService } from './../../../../../core/services/http.service';
-import { InfoService } from './../../../../../core/services/info.service';
-import { HttpMenuService } from './../../../../../menu/services/http-menu.service';
-import { ComponentService } from './../../../../../core/services/component.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from '../../../../../rxjs.imports';
+import { Subscription } from 'rxjs/Subscription';
+import { TbComponent, ContextMenuItem, ComponentService, AuthService, EventDataService, InfoService, HttpService, SettingsService, DiagnosticService, TaskBuilderService, TbComponentService, CommandEventArgs } from '@taskbuilder/core';
 
-import { CommandEventArgs } from './../../../../models/eventargs.model';
-import { ContextMenuItem } from './../../../../models/context-menu-item.model';
-
-import { AuthService } from './../../../../../core/services/auth.service';
-import { EventDataService } from './../../../../../core/services/eventdata.service';
-import { TbComponent } from './../../../../../shared/components/tb.component';
-import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
+import { HttpMenuService } from './../../../../services/http-menu.service';
 
 @Component({
     selector: 'tb-topbar-menu-user',

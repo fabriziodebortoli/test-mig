@@ -1,24 +1,19 @@
+import { TbComponent, SettingsService, TbComponentService } from '@taskbuilder/core';
 import { TabStripComponent } from '@progress/kendo-angular-layout/dist/es/tabstrip/tabstrip.component';
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { MatSnackBar } from '@angular/material';
 import { TopbarMenuAppComponent } from './../topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
-import { EasystudioService, ApplicationType } from './../../../core/services/easystudio.service';
 import { LayoutModule, PanelBarExpandMode } from '@progress/kendo-angular-layout';
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Button } from '@progress/kendo-angular-buttons';
 import { Collision } from '@progress/kendo-angular-popup/dist/es/models/collision.interface';
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
-import { TbComponent } from './../../../shared/components/tb.component';
-import { SettingsService } from './../../../core/services/settings.service';
 
+import { ApplicationType, EasystudioService } from './../../services/easystudio.service';
 
 @Component({
     selector: 'tb-es-context',
     templateUrl: './easystudio-context.component.html',
     styleUrls: ['./easystudio-context.component.scss']
 })
-
-
 export class EasyStudioContextComponent extends TbComponent implements OnInit, OnDestroy {
 
     public opened: boolean = false;
@@ -37,7 +32,7 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     public newApplic: string;
     public newModule: string;
     public wantSetPairAsDefault = false;
-  //  public type = ApplicationType.Customization;
+    //  public type = ApplicationType.Customization;
 
     public newPairVisible = false;
     public isDefault = false;
@@ -45,9 +40,8 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     @ViewChild('kendoTabStripInstance') kendoTabStripInstance: TabStripComponent;
 
     constructor(
-        public settingsService:SettingsService,
+        public settingsService: SettingsService,
         public easystudioService: EasystudioService,
-        public snackBar: MatSnackBar,
         tbComponentService: TbComponentService,
         changeDetectorRef: ChangeDetectorRef) {
         super(tbComponentService, changeDetectorRef);
@@ -74,9 +68,9 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     //--------------------------------------------------------------------------------
     public onTabSelect(e) {
         let oldType = this.easystudioService.applicType;
-        this.easystudioService.applicType = ( e == null || e.index == 0 )
-            ? ApplicationType.Customization  : ApplicationType.TBApplication ;
-        if(oldType != this.easystudioService.applicType){
+        this.easystudioService.applicType = (e == null || e.index == 0)
+            ? ApplicationType.Customization : ApplicationType.TBApplication;
+        if (oldType != this.easystudioService.applicType) {
             this.easystudioService.modules = [];
             this.ResetProperties();
         }
@@ -194,15 +188,15 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
     //--------------------------------------------------------------------------------
     public showNewPair(show: boolean) {
         this.newPairVisible = show;
-        if (!show)  return;
+        if (!show) return;
 
-        if(this.applicSelected === undefined)
+        if (this.applicSelected === undefined)
             this.newApplic = this.generateNewApplicationName();
         else this.newApplic = this.applicSelected;
-        if(this.moduleSelected === undefined) 
+        if (this.moduleSelected === undefined)
             this.newModule = this.generateNewModuleName(this.applicSelected);
-        else this.newModule = this.moduleSelected;               
-        
+        else this.newModule = this.moduleSelected;
+
     }
 
     //---------------------------------------------------------------------------------------------
@@ -256,13 +250,14 @@ export class EasyStudioContextComponent extends TbComponent implements OnInit, O
         list = this.easystudioService.getModulesBy(newName);
         return list.indexOf(newModName) !== -1;
     }
-    
+
     //--------------------------------------------------------------------------------
     public sayCantCustomize() {
-        this.snackBar.open(
-            this._TB('It is not possible to change customization context with opened documents.\r\nPlease, close all documents.'),
-            this._TB('Ok')
-        );
+        alert("TO DO - utilizzare diagnostic - " + this._TB('It is not possible to change customization context with opened documents.\r\nPlease, close all documents.'))
+        // this.snackBar.open(
+        //     this._TB('It is not possible to change customization context with opened documents.\r\nPlease, close all documents.'),
+        //     this._TB('Ok')
+        // );
     }
     //--------------------------------------------------------------------------------
     public openDefaultContextMethod(): void {

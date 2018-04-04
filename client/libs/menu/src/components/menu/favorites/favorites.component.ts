@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
-import { MenuService, ImageService, UtilsService, SettingsService, TbComponentService, TbComponent } from '@taskbuilder/core';
+import { UtilsService, SettingsService, TbComponentService, TbComponent } from '@taskbuilder/core';
+
+import { MenuService } from './../../../services/menu.service';
+import { ImageService } from './../../../services/image.service';
 
 @Component({
   selector: 'tb-favorites',

@@ -1,16 +1,10 @@
 import { Component, OnInit, OnDestroy, Pipe, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { formatDate } from '@telerik/kendo-intl';
 
-import { Subscription, Subject } from '../../../rxjs.imports';
+import { TbComponent, InfoService, TaskBuilderService, DiagnosticService, TbComponentService, OperationResult } from '@taskbuilder/core';
 
-import { OperationResult } from './../../models/operation-result.model';
-
-import { InfoService } from './../../../core/services/info.service';
-import { TaskBuilderService } from './../../../core/services/taskbuilder.service';
-import { HttpMenuService } from './../../../menu/services/http-menu.service';
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { TbComponent } from './../../../shared/components/tb.component';
-import { DiagnosticService } from './../../../core/services/diagnostic.service';
+import { HttpMenuService } from './../../services/http-menu.service';
 
 @Component({
     selector: 'tb-application-date',

@@ -1,6 +1,6 @@
-import { ComponentService } from './../../../../core/services/component.service';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { URLSearchParams, Http, Response } from '@angular/http';
+import { ComponentService } from '@taskbuilder/core';
 
 @Component({
     selector: 'tb-bpm-icon',
