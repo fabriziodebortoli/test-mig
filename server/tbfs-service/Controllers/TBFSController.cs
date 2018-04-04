@@ -148,6 +148,23 @@ namespace tbfs_service.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
+
+
+        UserInfo GetLoginInformation()
+        {
+            var sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+            if (string.IsNullOrEmpty(sAuthT)) return null;
+            ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch { }
+            var loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+            return new UserInfo(loginInfo, sAuthT);
+        }
+
+
         /// <summary>
         /// https://github.com/angular/angular/issues/18680#issuecomment-330425866        
         /// </summary>
@@ -157,42 +174,20 @@ namespace tbfs_service.Controllers
         /// <returns></returns>
         [HttpPost("UploadObject")]
         [RequestSizeLimit(100_000_000)]
-        public IActionResult UploadObject(ICollection<IFormFile> files, string currentNamespace, string authenticationTokenKey)
+        public IActionResult UploadObject(ICollection<IFormFile> files, string currentNamespace) //applicazione moduleo e tipo ???
         {
-            var session = LoginManagerSessionManager.GetLoginManagerSession(authenticationTokenKey);
+            var session = GetLoginInformation();
             if (session == null)
-            {
                 throw new AuthenticationException();
-            }
             if (files == null || files.Count < 1)
-            {
                 throw new ArgumentNullException(nameof(files));
-            }
             try
             {
                 var handler = A.Fake<IFileHandler>(); // TODO => implementare metodo interfaccia caricamento file
-                var finalPaths = handler.Upload(files, currentNamespace, authenticationTokenKey);
-                return new ContentResult { StatusCode = 204, Content = finalPaths.ToString(), ContentType = "text/plain" };
-            }
-            catch (Exception e)
-            {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-            }
-        }
-
-        [HttpPost("RemoveObject")]
-        public IActionResult RemoveObject(string[] fileNamespaces, string authenticationTokenKey)
-        {
-            var session = LoginManagerSessionManager.GetLoginManagerSession(authenticationTokenKey);
-            if (session == null)
-            {
-                throw new AuthenticationException();
-            }
-            try
-            {
-                var handler = A.Fake<IFileHandler>(); // TODO => implementare metodo interfaccia rimozione file
-                handler.Remove(fileNamespaces, authenticationTokenKey);
-                return new ContentResult { StatusCode = 204, Content = "OK", ContentType = "text/plain" };
+                A.CallTo(() => handler.Upload(files, currentNamespace, session.AuthenticationToken))
+                    .Returns(new[] { "a" });
+                var finalPaths = handler.Upload(files, currentNamespace, session.AuthenticationToken);
+                return Ok(new { Content = files.Select((f, i) => new { name = f.FileName, ns = finalPaths.ElementAt(i) }) });
             }
             catch (Exception e)
             {
