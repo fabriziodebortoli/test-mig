@@ -455,7 +455,7 @@ protected:
 	virtual void OnLoadAttachedDocument	(CFinderDoc*) {}; 	
 
 	virtual BOOL OnAttachData			 ()	{ return TRUE; }
-	virtual BOOL OnPrepareAuxData		 ()	{ return TRUE; }
+	virtual BOOL OnPrepareAuxData() { return TRUE; }
 
 	virtual BOOL OnInitAuxData			 ()	{ return TRUE; }
 	virtual void OnBeforeBrowseRecord	 () {}

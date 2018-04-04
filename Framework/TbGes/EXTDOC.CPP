@@ -3260,9 +3260,10 @@ BOOL CAbstractFormDoc::DispatchPrepareAuxData(BOOL bOnlyDocument/* = FALSE*/)
 	//TRACE(cwsprintf(cwsprintf(_T("Document OnPrepareAuxData  %s \n\r"), aPerfCrono.GetFormattedElapsedTime())));
 	for (int i = 0; i < m_arWebActiveContainers.GetCount(); i++)
 	{
-		DWORD dwID = m_arWebActiveContainers[i];
-		OnPrepareAuxData(dwID);
-		OnUpdateTitle(dwID);
+		DWORD id = m_arWebActiveContainers[i];
+		OnPrepareAuxData(id);
+		m_pClientDocs->OnPrepareAuxData(id);
+		OnUpdateTitle(id);
 	}
 	FireBehaviour(bhe_OnPrepareAuxData, TRUE);
 
