@@ -9,7 +9,7 @@
         min-width: 117px;
         width: auto !important;
     }
-     ::ng-deep .tile-standard {
+    ::ng-deep .tile-standard, ::ng-deep .tile-mini {
         flex: 0;
     }
 }
