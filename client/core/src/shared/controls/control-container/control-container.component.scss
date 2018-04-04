@@ -1,17 +1,23 @@
-.has-error {
-    color: red;
+:host(tb-control-container){
+    .tb-control {
+        padding: 2px;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .has-error {
+        color: red;
+    }
 }
+
+
 
  :host button ::ng-deep tb-icon>div {
     line-height: 0px;
 }
 
 ::ng-deep .tb-control {
-    padding: 2px;
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    align-items: flex-start;
     .tb-control {
         padding: 0;
     }
