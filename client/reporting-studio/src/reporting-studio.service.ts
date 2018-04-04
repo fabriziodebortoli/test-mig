@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { Injectable, EventEmitter, Output, Input } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { EventDataService, DocumentService, ComponentService, TbComponentServiceParams } from '@taskbuilder/core';
@@ -22,6 +22,7 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     message: Subject<any> = new Subject<string>();
 
+    @Input() pagNumNavigate = 1;
     @Output() eventSnapshot = new EventEmitter<void>();
 
     constructor(

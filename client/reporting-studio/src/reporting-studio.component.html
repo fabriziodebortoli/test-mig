@@ -18,8 +18,8 @@
             </div>
 
             <div class="menu-category pagetopage" >
-                <input class="contatorePag" *ngIf="!this.rsService.isSnapshot" type="number" value="this.rsService.pageNum" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [(ngModel)]="this.rsService.pageNum">
-                <input class="contatorePag" *ngIf="this.rsService.isSnapshot" type="number" value="this.rsService.pageNum" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [(ngModel)]="this.rsService.pageNum" disabled>
+                <input class="contatorePag" *ngIf="!this.rsService.isSnapshot" type="number" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [ngModel]="this.rsService.pagNumNavigate">
+                <input class="contatorePag" *ngIf="this.rsService.isSnapshot" type="number" min="1" max="{{rsExportService.totalPages}}" [(ngModel)]="this.rsService.pagNumNavigate" disabled>
                 <div class="pagTot">
                     <table>
                         <tr>

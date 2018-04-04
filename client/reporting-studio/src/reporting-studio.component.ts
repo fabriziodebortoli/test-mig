@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService } from '@taskbuilder/core';
+import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService, DiagnosticService } from '@taskbuilder/core';
 
 import { Image, Surface, Path, Text, Group, drawDOM, DrawOptions, exportPDF } from '@progress/kendo-drawing';
 import { saveAs } from '@progress/kendo-file-saver';
@@ -61,6 +61,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
     public rsSnapshotService : RsSnapshotService,
+    public diagnosticService: DiagnosticService,
     eventData: EventDataService,
     changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
@@ -357,8 +358,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   navigatePag(numPag: number){
-    if(numPag > this.rsExportService.totalPages)
-      alert("Questo report non contiene la pagina numero " + numPag);
+    if(numPag > this.rsExportService.totalPages){
+      /*this.diagnosticService.showDiagnostic([{text: "This report doesn't contain page number " + numPag}]);
+      this.lastPage();
+      this.rsService.pagNumNavigate = this.curPageNum;*/
+    }
     let message = {
       commandType: CommandType.TEMPLATE,
       message: this.args.nameSpace,
