@@ -468,8 +468,8 @@ void SqlBrowser::SetInvalidQuery (const BOOL bValidQuery)
 	
 	// forza la Query perche` potrebbe non essere toccato alcun bottone
 	// di browse e allora lo stato non sarebbe piu` coerente
-	if (m_bInvalidQuery && m_pTable->IsEmpty())
-		Query(E_MOVE_LAST);
+	/*if (m_bInvalidQuery && m_pTable->IsEmpty())
+		Query(E_MOVE_LAST);*/
 }
 
 //-----------------------------------------------------------------------------	
