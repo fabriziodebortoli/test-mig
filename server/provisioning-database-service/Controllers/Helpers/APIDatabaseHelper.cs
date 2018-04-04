@@ -113,7 +113,8 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		}
 
 		/// <summary>
-		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare il database
+		/// Metodo per eseguire il check preventivo dei vari dati inseriti dall'utente per salvare
+		/// la SubscriptionDatabase
 		/// </summary>
 		/// <param name="extSubDatabase"></param>
 		/// <returns></returns>
@@ -140,7 +141,11 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			DatabaseTask dTask = new DatabaseTask(isAzureDB) { CurrentStringConnection = masterConnectionString };
 
-			// check databases existence
+			// per le info della DBMark
+			DBInfo erpDBInfo = null;
+			DBInfo dmsDBInfo = null;
+
+			// check esistenza database ERP
 			bool existERPDb = dTask.ExistDataBase(extSubDatabase.Database.DBName);
 
 			if (dTask.Diagnostic.Error)
@@ -164,10 +169,22 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				}
 				else
 					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
+
+				//int erpDBCulture = DBGenericFunctions.AssignDatabaseCultureValue(extSubDatabase.Country, extSubDatabase.Collation, masterConnectionString, DBMSType.SQLSERVER);
+
+				// il db esiste, leggo le info delle dbmark
+				erpDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DBName);
+				if (erpDBInfo.HasError)
+				{
+					msgList.Add(new OperationResult() { Message = string.Format("Error reading data from TB_DBMark in database {0} ({1})", extSubDatabase.Database.DBName, erpDBInfo.Error) });
+					opRes.Result = false;
+					opRes.Code = -1;
+				}
 			}
 			else
 				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DBName, extSubDatabase.Database.DBServer) });
 
+			// check esistenza database DMS
 			bool existDMSDb = dTask.ExistDataBase(extSubDatabase.Database.DMSDBName);
 			if (dTask.Diagnostic.Error)
 			{
@@ -190,17 +207,23 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				}
 				else
 					msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBAlreadyExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
+
+				// il db esiste, leggo le info delle dbmark
+				dmsDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DMSDBName);
+				if (dmsDBInfo.HasError)
+				{
+					msgList.Add(new OperationResult() { Message = string.Format("Error reading data from TB_DBMark in database {0} ({1})", extSubDatabase.Database.DMSDBName, erpDBInfo.Error) });
+					opRes.Result = false;
+					opRes.Code = -1;
+				}
 			}
 			else
 				msgList.Add(new OperationResult() { Message = string.Format(DatabaseManagerStrings.WarningDBNotExists, extSubDatabase.Database.DMSDBName, extSubDatabase.Database.DMSDBServer) });
 			//
 
-			// check informazioni database (Unicode - Collation)
+			// check compatibilita' unicode
 			if (existERPDb && existDMSDb)
 			{
-				DBInfo erpDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DBName);
-				DBInfo dmsDBInfo = LoadDBMarkInfo(masterConnectionString, extSubDatabase.Database.DMSDBName);
-
 				if (erpDBInfo.HasError || dmsDBInfo.HasError)
 				{
 					opRes.Result = false;
@@ -214,6 +237,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 					if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
 					{
+						// check compatibilita' unicode tra i due database
 						if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
 						{
 							opRes.Result = false;
@@ -644,7 +668,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				return opRes;
 			}
 
-			if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)//questi bool sono rimasti vecchi , se non esistevano dopo creazione db rimangono a false, è corretto?
+			if (erpDBInfo.ExistDBMark && dmsDBInfo.ExistDBMark)
 			{
 				if (erpDBInfo.UseUnicode != dmsDBInfo.UseUnicode)
 				{
@@ -673,13 +697,14 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				// in AC controllava tutte le tabelle 
 			}
 
+			// se i database esistono controllo l'impostazione dello unicode e della collation
+			// poi ritorno l'informazione al provisioning (che si occupa di salvare i dati del SubscriptionDatabase
 			subDatabase.Database.IsUnicode = erpDBInfo.UseUnicode;
 
 			CultureInfo ci = new CultureInfo(subDatabase.Collation);
+			subDatabase.Database.DatabaseCulture = ci.LCID.ToString();
 
-			subDatabase.Database.DatabaseCulture = ci.LCID.ToString(); //todo : lcid della collation
 			opRes.Result = true;
-
 			return opRes;
 		}
 
@@ -760,15 +785,18 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------
 		private static DBInfo LoadDBMarkInfo(string connectionString, string dbName)
 		{
-			// devo cambiare il nome del database senza utilizzare la ChangeDatabase, non supportata da Azure
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = dbName };
-
 			DBInfo info = new DBInfo { Name = dbName };
 			if (string.IsNullOrWhiteSpace(dbName))
+			{
+				info.Error = "DbName is empty!";
 				return info;
+			}
 
 			try
 			{
+				// devo cambiare il nome del database senza utilizzare la ChangeDatabase, non supportata da Azure
+				SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString) { InitialCatalog = dbName };
+
 				using (TBConnection myConnection = new TBConnection(builder.ConnectionString, DBMSType.SQLSERVER))
 				{
 					myConnection.Open();

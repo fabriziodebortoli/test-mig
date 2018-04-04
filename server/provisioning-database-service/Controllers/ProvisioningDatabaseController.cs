@@ -185,7 +185,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
             if (!opRes.Result)
 				opRes.Message = Strings.OperationKO;
 
-			// DEVO PASSARE NEL CONTENT LA SUBSCRIPTIONDATABASE PERCHE' CONTIENE LA DATABASECULTURE CORRETTA!!!
+			// DEVO PASSARE NEL CONTENT LA SUBSCRIPTIONDATABASE PERCHE' CONTIENE LE INFO DI DATABASECULTURE E UNICODE CORRETTE!!!
 			opRes.Content = extSubDatabase;
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
