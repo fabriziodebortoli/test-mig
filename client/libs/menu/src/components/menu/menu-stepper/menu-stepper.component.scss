@@ -8,18 +8,16 @@
     li {
         display: inline-flex;
         font-weight: 500;
-    }
-    li.current {
-        font-style: italic;
-        font-weight: bold;
-    }
-    li m4-icon {
-        font-size: 6px;
-        line-height: 18px;
-    }
-    li div {
-        padding: 0 3px;
-        // cursor: pointer;
+        &.current {
+            font-style: italic;
+        }
+        m4-icon {
+            font-size: 6px;
+            line-height: 18px;
+        }
+        div {
+            padding: 0 3px;
+        }
     }
 }
 
