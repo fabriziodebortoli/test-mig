@@ -1178,6 +1178,9 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbStatusTile, this, false))
                         {
                             WriteActivationAttribute(jObj);
+                            WriteAttribute(jObj, Constants.clickable, Constants.clickable);
+                            WriteAttribute(jObj, Constants.visible, Constants.visible);
+                            WriteAttribute(jObj, Constants.backgroundColor, Constants.backgroundColor);
                             w.CloseBeginTag();
 
                             GenerateHtmlChildren(jObj, type, insideRowView, slave);

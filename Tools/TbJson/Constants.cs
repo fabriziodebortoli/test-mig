@@ -69,6 +69,10 @@
         internal const string tileStyle = "tileStyle";
         internal const string buttonClick = "click";
 
+        internal const string clickable = "clickable";
+        internal const string visible = "visible";
+        internal const string backgroundColor = "backgroundColor";
+
         internal const string Const = "const";
         internal const string text = "text";
         internal const string hint = "hint";
@@ -165,16 +169,16 @@
         internal const string bold = "bold";
         internal const string italic = "italic";
         internal const string underline = "underline";
-        
+
         internal const string propagateSelectionChange = "propagateSelectionChange";
         internal const string tbToolbarTopDropdown = "tb-toolbar-top-button-dropdown";
         internal const string tbToolbarBottomDropup = "tb-toolbar-bottom-button-dropup";
         internal const string dropDownButton = "dropDownButton";
         internal const string dropUpButton = "dropUpButton";
-        internal const string isDropdown ="isDropdown";
+        internal const string isDropdown = "isDropdown";
         internal const string model = "model";
         internal const string slave = "slave";
-        internal const string collapsedTitle= "collapsedTitle";
+        internal const string collapsedTitle = "collapsedTitle";
         internal const string bottom = "bottom";
     }
 }

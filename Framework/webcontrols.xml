@@ -155,10 +155,7 @@
 	-->
 
   <!-- tb-image -->
-  <WebControl controlClass="PictureStatic" control="tb-image">
-    <arg name="[height]" value="[height]"></arg>
-    <arg name="[width]" value="[width]"></arg>
-  </WebControl>
+  <WebControl controlClass="PictureStatic" control="tb-image"></WebControl>
   <WebControl controlClass="NamespaceBitmap" control="tb-image"></WebControl>
   <!-- da decidere se migrare al ParsedStateImage -->
   <WebControl controlClass="IntegerBitmap" control="tb-image"></WebControl>

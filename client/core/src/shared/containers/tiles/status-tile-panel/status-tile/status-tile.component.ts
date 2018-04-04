@@ -7,9 +7,13 @@ import { Component, Input } from '@angular/core';
 })
 export class StatusTileComponent {
 
+
   active: boolean = true;
 
   @Input() title: string;
+  @Input() clickable: boolean;
+  @Input() visible: boolean;
+  @Input() backgroundColor: string;
 
   constructor() { }
 
