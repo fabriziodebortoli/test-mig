@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, QueryList, AfterViewInit, ContentChildren, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit, Input, QueryList, AfterContentInit, ContentChildren, OnDestroy } from '@angular/core';
 import { PanelComponent } from '../../panel/panel.component';
 import { untilDestroy } from './../../../commons/untilDestroy';
 
@@ -7,23 +8,34 @@ import { untilDestroy } from './../../../commons/untilDestroy';
   templateUrl: './layout-container.component.html',
   styleUrls: ['./layout-container.component.scss']
 })
-export class LayoutContainerComponent implements AfterViewInit, OnDestroy {
+export class LayoutContainerComponent implements AfterContentInit, OnDestroy {
+
+  subscriptions: Subscription[] = [];
 
   @ContentChildren(PanelComponent) panels: QueryList<PanelComponent>
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
 
-    this.panels.forEach(panel => {
-      panel.toggle.asObservable().pipe(untilDestroy(this)).subscribe((r) => {
-        this.panels.forEach(p => {
-          if (p !== panel)
-            p.toggleCollapse(false);
-        });
+    this.panels.changes.subscribe(() => {
+      this.dispose(); // potrebbero arrivare delle attivazioni successivamente quindi verrebbero replicate le subscription
+      this.panels.forEach(panel => {
+        this.subscriptions.push(panel.toggle.asObservable().subscribe((r) => {
+          this.panels.forEach(p => {
+            if (p !== panel)
+              p.toggleCollapse(false);
+          });
+        }));
       });
     });
 
   }
 
-  ngOnDestroy() { }
+  dispose() {
+    this.subscriptions.forEach(subs => subs.unsubscribe());
+  }
+
+  ngOnDestroy() {
+    this.dispose();
+  }
 
 }
