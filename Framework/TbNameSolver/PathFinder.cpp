@@ -215,7 +215,7 @@ TBFile::TBFile(const CString& strCompleteFileName)
 	m_pFileContent(NULL),
 	m_FileSize(0)
 {
-	m_strName = ::GetName(strCompleteFileName);
+	m_strName = ::GetNameWithExtension(strCompleteFileName);
 	m_strPathName = ::GetPath(strCompleteFileName);
 	m_strFileType = ::GetExtension(m_strName);
 }

@@ -409,18 +409,15 @@ void SqlRowSet::Disconnect()
 	ASSERT_VALID(this);
 	TRACE_SQL(_T("DisconnectCommand"), this);
 	START_DB_TIME(DB_DISCONNECT_CMD)
-
-	if (m_pRowSet && m_pRowSet->IsConnected())
-		m_pRowSet->Disconnect();
-	if (!m_bRemoved && m_pSqlSession && AfxIsValidAddress(m_pSqlSession, sizeof(SqlSession)))
-	{
-		m_pSqlSession->RemoveCommand(this);
-		m_bRemoved = true;
-	}
-
-
-	STOP_DB_TIME(DB_DISCONNECT_CMD)
-	
+		if (!m_bRemoved)
+		{
+			if (m_pRowSet && m_pRowSet->IsConnected())
+				m_pRowSet->Disconnect();
+			if (m_pSqlSession && AfxIsValidAddress(m_pSqlSession, sizeof(SqlSession)))
+				m_pSqlSession->RemoveCommand(this);
+			m_bRemoved = true;
+		}
+	STOP_DB_TIME(DB_DISCONNECT_CMD)	
 }
 
 // deve evitare di usare la ClearQuery perche` il record potrebbe essere stato
