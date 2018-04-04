@@ -6,6 +6,7 @@
 
 #include <TbGenlib\parsctrl.h>
 #include <TBGenlib\baseapp.h>
+#include <TBOleDb\SqlCatalog.h>
 
 #include "ActionsRepEngin.h"
 #include "rpsymtbl.h"

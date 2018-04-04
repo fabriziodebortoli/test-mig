@@ -636,6 +636,32 @@ void SqlTableJoinInfoArray::QualifiedLinks()
 }
 
 /////////////////////////////////////////////////////////////////////////////
+SqlColumnInfo::SqlColumnInfo
+(
+	const	CString&	strTableName,
+	const	CString&	strColumnName,
+	const	DataObj&	aDataObj
+) : SqlColumnInfoObject(strTableName, strColumnName, aDataObj) 
+{}
+
+
+BOOL SqlColumnInfo::IsEqual(const SqlColumnInfoObject& c) const { return __super::IsEqual(c); }
+
+long			SqlColumnInfo::GetColumnLength() const { return __super::GetColumnLength(); }
+int				SqlColumnInfo::GetColumnDecimal() const { return __super::GetColumnDecimal(); }
+const CString&	SqlColumnInfo::GetTableName() const { return __super::GetTableName(); }
+const CString&	SqlColumnInfo::GetColumnName() const { return __super::GetColumnName(); }
+CString			SqlColumnInfo::GetQualifiedColumnName() const { return __super::GetQualifiedColumnName(); }
+CString			SqlColumnInfo::GetColumnTitle() const { return __super::GetColumnTitle(); }
+
+DataType 		SqlColumnInfo::GetDataObjType() const { return __super::GetDataObjType(); }
+// Aggiorna i dati correlati al dataobj
+void	SqlColumnInfo::SetDataObjInfo(DataObj* pDataObj) const { __super::SetDataObjInfo(pDataObj); }
+void	SqlColumnInfo::UpdateDataObjType(DataObj* pDataObj) { __super::UpdateDataObjType(pDataObj); }
+void	SqlColumnInfo::ForceUpdateDataObjType(DataObj* pDataObj) { __super::ForceUpdateDataObjType(pDataObj); }
+BOOL	SqlColumnInfo::GetDataObjTypes(CWordArray& aDataObjTypes) const { return __super::GetDataObjTypes(aDataObjTypes); }
+
+//-----------------------------------------------------------------------------
 
 #ifdef _DEBUG
 void SqlColumnInfo::Dump(CDumpContext& dc) const

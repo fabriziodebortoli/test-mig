@@ -52,28 +52,27 @@ class TB_EXPORT SqlColumnInfo : public SqlColumnInfoObject
 	// constructor	
 public:
 	SqlColumnInfo
-	(
-		const	CString&	strTableName,
-		const	CString&	strColumnName,
-		const	DataObj&	aDataObj
-	) : SqlColumnInfoObject(strTableName, strColumnName, aDataObj) {}
+			(
+				const	CString&	strTableName,
+				const	CString&	strColumnName,
+				const	DataObj&	aDataObj
+			);
 
+	virtual	BOOL IsEqual(const SqlColumnInfoObject& c) const;
 
-	virtual	BOOL IsEqual(const SqlColumnInfoObject& c) const { return __super::IsEqual(c); }
+	long			GetColumnLength			() const;
+	int				GetColumnDecimal		() const; 
+	const CString&	GetTableName			() const;
+	const CString&	GetColumnName			() const;
+	CString			GetQualifiedColumnName	() const;
+	CString			GetColumnTitle			() const;
 
-	long			GetColumnLength			() const { return __super::GetColumnLength(); }
-	int				GetColumnDecimal		() const { return __super::GetColumnDecimal(); }
-	const CString&	GetTableName			() const { return __super::GetTableName(); }
-	const CString&	GetColumnName			() const { return __super::GetColumnName(); }
-	CString			GetQualifiedColumnName	() const { return __super::GetQualifiedColumnName(); }
-	CString			GetColumnTitle			() const { return __super::GetColumnTitle(); }
-
-	DataType 		GetDataObjType			() const { return __super::GetDataObjType(); }
+	DataType 		GetDataObjType			() const;
 	// Aggiorna i dati correlati al dataobj
-	void	SetDataObjInfo			(DataObj* pDataObj) const			{ __super::SetDataObjInfo(pDataObj); }
-	void	UpdateDataObjType		(DataObj* pDataObj)					{ __super::UpdateDataObjType(pDataObj); }
-	void	ForceUpdateDataObjType	(DataObj* pDataObj)					{ __super::ForceUpdateDataObjType(pDataObj); }
-	BOOL	GetDataObjTypes			(CWordArray& aDataObjTypes) const	{ return __super::GetDataObjTypes(aDataObjTypes); }
+	void	SetDataObjInfo			(DataObj* pDataObj) const;
+	void	UpdateDataObjType		(DataObj* pDataObj);
+	void	ForceUpdateDataObjType	(DataObj* pDataObj);
+	BOOL	GetDataObjTypes			(CWordArray& aDataObjTypes) const;
 
 	// diagnostics
 #ifdef _DEBUG
