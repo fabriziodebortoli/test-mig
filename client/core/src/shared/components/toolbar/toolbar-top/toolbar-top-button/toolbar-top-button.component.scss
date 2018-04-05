@@ -22,7 +22,6 @@
         cursor: not-allowed;
     }
 
-
     .top-button {
         margin: 0;
         padding: 0;
@@ -30,6 +29,9 @@
         min-width: 32px;
         border: 0;
         background: none;
+        ::ng-deep tb-icon .div-icon {
+            padding-top:3px;
+        }
         &>span {
             font-size: 12px;
             line-height: 35px;
@@ -78,16 +80,14 @@
             //border: 1px solid $bkg-light;
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             tb-icon {
-                color: $color-top-button-disabled;
-                border-color: $border-top-button-disabled;
+                color: #888;
+                border:none;
+                background: $bkg-light;
+                
             }
         }
     }
-    tb-icon .div-icon {
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-    }
+    
 
     .div-icon img {
         height: 20px;
