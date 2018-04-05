@@ -206,18 +206,9 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 		public DBMarkTable GetRecoveryRows()
 		{
 			DBMarkTable tblRecovery = new DBMarkTable(tbConnection, dbMarkTableName);
-			/*foreach (DBMarkRow r in this.Rows)
-			{
-				if (r.Status)
-					continue;
-				tblRecovery.Rows.Add(r);
-			}*/
-
 			tblRecovery.Rows.AddRange(this.Rows.FindAll(rec => (!rec.Status)));
-
 			return tblRecovery;
 		}
-
 
 		/// <summary>
 		/// controllo sulla tabella DB_Mark se esiste una riga già inserita per quell'
@@ -440,6 +431,56 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 				message = e.Message;
 				Debug.WriteLine(string.Format("Error DBMarkTable::UpdatePreviousSignature for {0} table", dbMarkTableName));
 				Debug.WriteLine(e.Message);
+				transaction.Rollback();
+				return false;
+			}
+			finally
+			{
+				if (transaction != null)
+					transaction.Dispose();
+			}
+
+			return true;
+		}
+		
+		///<summary>
+		/// Update della tabella DBMark per aggiornare i numeri di release con la gestione Rewind
+		///</summary>
+		//---------------------------------------------------------------------------
+		public bool UpdateDevelopmentModuleRelease(List<DevelopmentModuleRelease> modulesList, out string message)
+		{
+			message = string.Empty;
+
+			string updateRow = "UPDATE {0} SET DBRelease = @rel WHERE Application = @app AND AddOnModule = @mod";
+
+			IDbTransaction transaction = null;
+
+			try
+			{
+				transaction = tbConnection.BeginTransaction();
+
+				using (TBCommand cmd = new TBCommand(tbConnection))
+				{
+					// metto tutto sotto transazione, cosi se qualcosa non va a buon fine non invalido i dati della DBMark di partenza
+					cmd.Transaction = transaction;
+
+					foreach (DevelopmentModuleRelease dmr in modulesList)
+					{
+						cmd.Parameters.Clear();
+						cmd.CommandText = string.Format(updateRow, dbMarkTableName);
+						cmd.Parameters.Add("@app", dmr.Application);
+						cmd.Parameters.Add("@mod", dmr.Module);
+						cmd.Parameters.Add("@rel", (dmr.DBRelease - 1));
+						cmd.ExecuteNonQuery();
+					}
+				}
+
+				transaction.Commit();
+			}
+			catch (TBException e)
+			{
+				message = string.Format("Error DBMarkInfo::UpdateDevelopmentModuleInfo for {0} table ended with errors {1}", dbMarkTableName, e.Message);
+				Debug.WriteLine(message);
 				transaction.Rollback();
 				return false;
 			}

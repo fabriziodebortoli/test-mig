@@ -426,7 +426,7 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
 			{
 				opRes.Result = false;
-				opRes.Message = Strings.ImportDataNotAvailable;
+				opRes.Message = Strings.DatabaseWithNoTables;
 				return opRes;
 			}
 
@@ -827,8 +827,6 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------
 		public static DatabaseManager CreateDatabaseManager()
 		{
-			//PathFinder pf = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
-
 			//@@TODO: per ora l'edition e' impostata come Professional (informazione che dovra' pervenire dal nuovo LM)
 			// non e' chiaro se e quali altri tipi di edizione saranno previsti
 			PathFinder.PathFinderInstance.Edition = "Professional";
@@ -846,8 +844,6 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 		//---------------------------------------------------------------------------
 		public static Dictionary<string, List<string>> GetConfigurationList(string configType, string iso)
 		{
-			//PathFinder pathFinder = new PathFinder("USR-DELBENEMIC", "dev_next", "WebERP", "sa") { Edition = "Professional" };
-
 			//@@TODO: per ora l'edition e' impostata come Professional (informazione che dovra' pervenire dal nuovo LM)
 			// non e' chiaro se e quali altri tipi di edizione saranno previsti
 			PathFinder.PathFinderInstance.Edition = "Professional";
@@ -905,12 +901,12 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 				? pf.GetStandardDataManagerDefaultPath(appName, modName, iso)
 				: pf.GetStandardDataManagerSamplePath(appName, modName, iso);
 
-            // per ora ignoro la Custom (da capire eventualmente da dove verra' caricata)
-           /* string customDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
-				? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
-				: pf.GetCustomDataManagerSamplePath(appName, modName, iso);*/
+			// per ora ignoro la Custom (da capire eventualmente da dove verra' caricata)
+			/* string customDir = (configType.CompareTo(NameSolverStrings.Default) == 0)
+				 ? pf.GetCustomDataManagerDefaultPath(appName, modName, iso)
+				 : pf.GetCustomDataManagerSamplePath(appName, modName, iso);*/
 
-            StringCollection tempList = new StringCollection();
+			StringCollection tempList = new StringCollection();
 
 			/*if (pf.ExistPath(customDir))
 				foreach (TBDirectoryInfo dir in pf.GetSubFolders(customDir))
@@ -1052,6 +1048,88 @@ namespace Microarea.ProvisioningDatabase.Controllers.Helpers
 
 			opRes.Content = extSubDatabase;
 			return opRes;
+		}
+
+		/// <summary>
+		/// Ricerca almeno un file DatabaseObjects.xml che abbia l'attributo
+		/// development="true" nel nodo Release (gestione Rewind)
+		/// </summary>
+		//---------------------------------------------------------------------
+		public static OperationResult IsDevelopmentVersion()
+		{
+			OperationResult opRes = new OperationResult();
+
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
+					if (mi.DatabaseObjectsInfo.IsDevelopmentVersion)
+					{
+						// me ne basta trovare uno e ritorno
+						opRes.Result = true;
+						return opRes;
+					}
+
+			return opRes;
+		}
+
+		/// <summary>
+		/// Esegue il rewind dei moduli che necessitano di questa operazione
+		/// </summary>
+		/// <param name="extSubDatabase"></param>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		public static OperationResult RewindDatabase(SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			// carico la lista dei moduli che necessitano una 
+			List<DevelopmentModuleRelease> modules = GetModulesWithDevelopmentRelease();
+			if (modules.Count == 0)
+			{
+				opRes.Result = true;
+				opRes.Message = Strings.NoModulesForRewind;
+				return opRes;
+			}
+
+			DatabaseManager dbManager = CreateDatabaseManager();
+			opRes.Result = dbManager.ConnectAndCheckDBStructure(subDatabase);
+			opRes.Message = opRes.Result ? Strings.OperationOK : dbManager.DBManagerDiagnostic.ToString();
+			if (!opRes.Result)
+				return opRes;
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				opRes.Message = Strings.DatabaseWithNoTables;
+				return opRes;
+			}
+
+			string message = string.Empty;
+
+			if (!dbManager.RewindDatabaseRelease(modules, out message))
+			{
+				opRes.Result = false;
+				opRes.Message = message;
+				return opRes;
+			}
+
+			opRes.Result = true;
+			opRes.Message = Strings.OperationOK;
+			return opRes;
+		}
+
+		/// <summary>
+		/// List all modules information that need rewind operation
+		/// </summary>
+		/// <returns></returns>
+		//---------------------------------------------------------------------
+		private static List<DevelopmentModuleRelease> GetModulesWithDevelopmentRelease()
+		{
+			List<DevelopmentModuleRelease> modules = new List<DevelopmentModuleRelease>();
+			foreach (ApplicationInfo ai in PathFinder.PathFinderInstance.ApplicationInfos)
+				foreach (ModuleInfo mi in ai.Modules)
+					if (mi.DatabaseObjectsInfo.IsDevelopmentVersion)
+						modules.Add(new DevelopmentModuleRelease(ai.ApplicationConfigInfo.DbSignature, mi.DatabaseObjectsInfo.Signature, mi.DatabaseObjectsInfo.Release));
+
+			return modules;
 		}
 	}
 }

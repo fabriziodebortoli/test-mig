@@ -80,7 +80,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/testconnection")]
-		public IActionResult ApiTestConnection(string checkCode, [FromBody] DatabaseCredentials dbCredentials)
+		public IActionResult ApiTestConnection([FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -106,7 +106,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/exist/{dbName}")]
-		public IActionResult ApiExistDatabase(string checkCode, string dbName, [FromBody] DatabaseCredentials dbCredentials)
+		public IActionResult ApiExistDatabase(string dbName, [FromBody] DatabaseCredentials dbCredentials)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -126,7 +126,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/check")]
-		public IActionResult ApiCheck(string checkCode, [FromBody] ExtendedSubscriptionDatabase extSubDatabase)
+		public IActionResult ApiCheck([FromBody] ExtendedSubscriptionDatabase extSubDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -201,7 +201,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/import/default/{iso}/{configuration}")]
-		public IActionResult ApiImportDefaultData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
+		public IActionResult ApiImportDefaultData(string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = APIDatabaseHelper.ImportData(NameSolverStrings.Default, iso, configuration, importDataContent);
 			
@@ -218,7 +218,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/import/sample/{iso}/{configuration}")]
-		public IActionResult ApiImportSampleData(string checkCode, string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
+		public IActionResult ApiImportSampleData(string iso, string configuration, [FromBody] ImportDataBodyContent importDataContent)
 		{
 			OperationResult opRes = APIDatabaseHelper.ImportData(NameSolverStrings.Sample, iso, configuration, importDataContent);
 
@@ -233,7 +233,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/deleteobjects")]
-		public IActionResult ApiDeleteDatabaseObjects(string checkCode, [FromBody]SubscriptionDatabase subDatabase)
+		public IActionResult ApiDeleteDatabaseObjects([FromBody]SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -258,7 +258,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/delete")]
-		public IActionResult ApiDeleteDatabase(string checkCode, [FromBody]DeleteDatabaseBodyContent deleteContent)
+		public IActionResult ApiDeleteDatabase([FromBody]DeleteDatabaseBodyContent deleteContent)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -293,7 +293,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/checkstructure")]
-		public IActionResult ApiCheckDatabaseStructure(string checkCode, [FromBody] SubscriptionDatabase subDatabase)
+		public IActionResult ApiCheckDatabaseStructure([FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = APIDatabaseHelper.CheckDatabaseStructure(subDatabase);
 
@@ -310,7 +310,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		/// <returns></returns>
 		//---------------------------------------------------------------------
 		[HttpPost("api/database/upgradestructure/{configuration?}")]
-		public IActionResult ApiUpgradeDatabaseStructure(string checkCode, string configuration, [FromBody] SubscriptionDatabase subDatabase)
+		public IActionResult ApiUpgradeDatabaseStructure(string configuration, [FromBody] SubscriptionDatabase subDatabase)
 		{
 			OperationResult opRes = APIDatabaseHelper.UpgradeDatabaseStructure(configuration, subDatabase);
 
@@ -348,7 +348,7 @@ namespace Microarea.ProvisioningDatabase.Controllers
 		//---------------------------------------------------------------------
 		[HttpGet("api/database/configurations/{configType}/{iso}")]
 		[Produces("application/json")]
-		public IActionResult ApiGetConfigurations(string checkCode, string configType, string iso)
+		public IActionResult ApiGetConfigurations(string configType, string iso)
 		{
 			OperationResult opRes = new OperationResult();
 
@@ -368,6 +368,38 @@ namespace Microarea.ProvisioningDatabase.Controllers
 			opRes.Content = APIDatabaseHelper.GetConfigurationList(configType, iso);
 
 			jsonHelper.AddPlainObject<OperationResult>(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		/// <summary>
+		/// Returns if the installation has at least one module in development version
+		/// </summary>
+		//---------------------------------------------------------------------
+		[HttpGet("api/database/isdevelopmentversion")]
+		[Produces("application/json")]
+		public IActionResult ApiIsDevelopmentVersion()
+		{
+			OperationResult opRes = new OperationResult();
+
+			opRes.Content = APIDatabaseHelper.IsDevelopmentVersion();
+
+			jsonHelper.AddPlainObject(opRes);
+			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
+		}
+
+		/// <summary>
+		/// Execute the rewind against subscription database
+		/// </summary>
+		//---------------------------------------------------------------------
+		[HttpPost("api/database/rewind")]
+		[Produces("application/json")]
+		public IActionResult ApiRewindDatabase([FromBody] SubscriptionDatabase subDatabase)
+		{
+			OperationResult opRes = new OperationResult();
+
+			opRes.Content = APIDatabaseHelper.RewindDatabase(subDatabase);
+
+			jsonHelper.AddPlainObject(opRes);
 			return new ContentResult { StatusCode = 200, Content = jsonHelper.WritePlainAndClear(), ContentType = "application/json" };
 		}
 	}

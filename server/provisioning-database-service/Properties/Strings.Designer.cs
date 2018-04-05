@@ -70,6 +70,15 @@ namespace Microarea.ProvisioningDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The application database does not contain any table, unable to proceed!.
+        /// </summary>
+        public static string DatabaseWithNoTables {
+            get {
+                return ResourceManager.GetString("DatabaseWithNoTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AccountName / Password is empty.
         /// </summary>
         public static string EmptyCredentials {
@@ -97,11 +106,11 @@ namespace Microarea.ProvisioningDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ERP database does not contain any table, unable to proceed!.
+        ///   Looks up a localized string similar to No modules need rewind operation..
         /// </summary>
-        public static string ImportDataNotAvailable {
+        public static string NoModulesForRewind {
             get {
-                return ResourceManager.GetString("ImportDataNotAvailable", resourceCulture);
+                return ResourceManager.GetString("NoModulesForRewind", resourceCulture);
             }
         }
         
