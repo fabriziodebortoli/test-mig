@@ -514,6 +514,7 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 			break;
 		}
 		case CLB_SET_VALUES:
+		case CLB_DBL_CLICK:
 		{
 			idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
 			if (!idc)

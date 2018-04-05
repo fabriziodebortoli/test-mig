@@ -192,7 +192,7 @@ export class WebSocketService extends LocalizationService {
     }
 
     doCheckListBoxAction(cmpId: String, obj: any): void {
-        const data = { cmd: 'doCheckListBoxAction', cmpId: cmpId, itemSource: obj.itemSource, controlId: obj.cmpId, action: obj.action, list: obj.list };
+        const data = { cmd: 'doCheckListBoxAction', cmpId: cmpId, itemSource: obj.itemSource, controlId: obj.cmpId, action: obj.action, list: obj.list, itemID: obj.itemID };
 
         this.safeSend(data);
     }
