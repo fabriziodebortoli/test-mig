@@ -291,32 +291,26 @@ bool MView::ManageDocumentObjects()
 					return false;
 				}
 				
-				BOOL bFound = FALSE;
-				CXMLNode* pMode = NULL;
+				CXMLNode* pModeToCopy = NULL;
 				CXMLNode* pChildViewMode = NULL;
-				for (int j = 0; j < pViewModes->GetCount() && !bFound; j++)
+				for (int j = 0; j < pViewModes->GetCount(); j++)
 				{
 					pChildViewMode = pViewModes->GetAt(j);
 					CXMLNodeChildsList* pModes = pChildViewMode->GetChilds();
 					
-					for (int k = 0; k < pModes->GetCount() && !bFound; k++)
+					for (int k = pModes->GetUpperBound(); k >= 0; k--)
 					{
-						pMode = pModes->GetAt(k);
+						CXMLNode* pMode = pModes->GetAt(k);
 						CString sName = _T("");
 						pMode->GetAttribute(XML_NAME_ATTRIBUTE, sName);
 						if (!sName.Compare(_T("DefaultWeb")))
-							bFound = TRUE;
+							pChildViewMode->RemoveChild(pMode);
+						else
+							pModeToCopy = pMode;
+							
 					}
 				}
 
-				if (bFound)
-				{
-					if (pDefaultWeb)
-						SAFE_DELETE(pDefaultWeb);
-						
-					return true;
-				}
-				
 				if (!pDefaultWeb)
 				{
 					pDefaultWeb = pChildViewMode->CreateNewChild(XML_MODE_TAG);
@@ -324,9 +318,9 @@ bool MView::ManageDocumentObjects()
 					CString sLocalize = _T("");
 					CString sType = _T("");
 					CString sSchedulable = _T("");
-					pMode->GetAttribute(XML_TYPE_ATTRIBUTE, sType);
-					pMode->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
-					pMode->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
+					pModeToCopy->GetAttribute(XML_TYPE_ATTRIBUTE, sType);
+					pModeToCopy->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
+					pModeToCopy->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
 					pDefaultWeb->SetAttribute(XML_NAME_ATTRIBUTE, _T("DefaultWeb"));
 					pDefaultWeb->SetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
 					pDefaultWeb->SetAttribute(XML_TYPE_ATTRIBUTE, sType);
@@ -343,8 +337,7 @@ bool MView::ManageDocumentObjects()
 	CString aXML = _T("");
 	aDoc.GetXML(aXML);
 	this->SaveSerialization(sFileNameCompletePath, aXML);
-	//SAFE_DELETE(pDefaultWeb);
-
+	
 	return true;
 }
 
