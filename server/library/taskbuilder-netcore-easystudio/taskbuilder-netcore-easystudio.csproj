@@ -11,10 +11,4 @@
     <ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="NustacheNetCore">
-      <HintPath>dlls\NustacheNetCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
