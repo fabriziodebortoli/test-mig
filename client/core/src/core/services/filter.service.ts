@@ -41,7 +41,7 @@ export class FilterService implements OnDestroy {
     public filterBag: Map<string, any> = new Map<string, any>();
 
     public debounceTime = 200;
-    public filtersContainerRef: ElementRef;
+    public filtersContainerRef: () => ElementRef;
     public lastChangedFilterIdx: number = 0;
     private _debounced = true;
     private filterSubject$ = new BehaviorSubject<CompositeFilter>({});
@@ -83,9 +83,9 @@ export class FilterService implements OnDestroy {
         return this.filterTyping$.filter(x => x.isFirst);
     }
 
-    public start(debounceTime: number, filterContainer?: ElementRef) {
+    public start(debounceTime: number, filterContainer?: (() => ElementRef) | ElementRef ) {
         if (debounceTime >= this.debounceTime) { this.debounceTime = debounceTime; }
-        this.filtersContainerRef = filterContainer;
+        this.filtersContainerRef = typeof filterContainer === 'function' ? filterContainer : () => filterContainer;
     }
 
     public stop() {
@@ -149,7 +149,7 @@ export class FilterService implements OnDestroy {
     }
 
     public storeFocus() {        
-        let filtersContainerRef = this.filtersContainerRef;
+        let filtersContainerRef = this.filtersContainerRef();
         if(!filtersContainerRef)
         {
             return;
@@ -166,7 +166,7 @@ export class FilterService implements OnDestroy {
 
     private setFocus(selector: string, index: number) {
         setTimeout(() => {
-            const filters = this.filtersContainerRef.nativeElement.querySelectorAll(selector);
+            const filters = this.filtersContainerRef().nativeElement.querySelectorAll(selector);
             filters && filters[index] && filters[index].focus();
         }, 100);
     }

@@ -27,7 +27,7 @@ import { findAnchestorByClass } from '../../commons/u';
 import { TbHotlinkButtonsEventHandler } from './event-handler';
 import { TbHotlinkButtonsHyperLinkHandler } from './hyper-link-handler';
 import { TbHotlinkButtonsContextMenuHandler } from './context-menu-handler';
-import { TbHotlinkButtonsPopupHandler, OpenCloseTableFunction } from './popup';
+import { TbHotlinkButtonsPopupHandler } from './popup';
 
 import { Observable } from '../../../rxjs.imports';
 import * as _ from 'lodash';
@@ -51,16 +51,15 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   buttonIcon = 'tb-hotlink';
 
   readonly start: () => void = () => {
-    this.filterer.start(200, this.popupHandler.tablePopupRef.popup.location);
-    this.paginator.start(1, this.pageSize, this.queryTrigger, this.queryServer);
-    this.paginator.clientData.subscribe(d => this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) }));
+    this.filterer.start(200, () => this.popupHandler.tablePopupRef.popup.location);
+    this.paginatorService.start(1, this.pageSize, this.queryTrigger, this.queryServer);
+    this.paginatorService.clientData.subscribe(d => this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) }));
     this.firstStateChange$.pipe(untilDestroy(this)).subscribe(_ => this.popupHandler.showGridPupup());
   }
 
   private get firstStateChange$(): Observable<boolean> {
     return this.state$.pipe(untilDestroy(this))
       .skip(1)
-      .filter(state => this.popupHandler.tablePopupRef !== undefined)
       .map(state => state.gridData.columns && state.gridData.columns.length > 0).take(1);
   }
 
@@ -68,7 +67,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   constructor(protected httpService: HttpService,
     protected enumService: EnumsService,
-    protected paginator: PaginatorService,
+    protected paginatorService: PaginatorService,
     protected filterer: FilterService,
     protected optionsPopupService: PopupService,
     protected tablePopupService: PopupService,
@@ -76,7 +75,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator,
     protected hyperLinkService: HyperLinkService) {
-    super(mediator.layout, documentService, mediator.changeDetectorRef, paginator, filterer, hyperLinkService, mediator.eventData, httpService);
+    super(mediator.layout, documentService, mediator.changeDetectorRef, paginatorService, filterer, hyperLinkService, mediator.eventData, httpService);
   }
 
   ngOnInit() {
@@ -88,8 +87,8 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   search(e?: MouseEvent) { 
     if(e) this.activateHotLinkIcon(e);
-    if(this.popupHandler.isTablePopupVisible) this.popupHandler.closeTable();  
-    else this.popupHandler.openTable();
+    if(this.popupHandler.isTablePopupVisible) this.popupHandler.onHklExit();  
+    else this.popupHandler.onSearch();
   }
 
   selectionTypeChanged(type: string) {
@@ -99,7 +98,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   }
 
   selectionChanged(value: any) {
-    let idx = this.paginator.getClientPageIndex(value.index);
+    let idx = this.comboInputTyping$.getClientPageIndex(value.index);
     let k = this.state.gridData.data.slice(idx, idx + 1);
     this.value = k[0][this.state.selectionColumn];
     if (this.modelComponent && this.modelComponent.model) {
@@ -112,7 +111,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   }
 
   exitButtonClick() {
-    this.popupHandler.closeTable();
+    this.popupHandler.onHklExit();
   }
   
   private loadOptions() {

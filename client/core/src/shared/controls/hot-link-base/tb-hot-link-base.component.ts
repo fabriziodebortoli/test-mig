@@ -70,7 +70,7 @@ export class TbHotLinkBaseComponent extends ControlComponent {
     constructor(layoutService: LayoutService,
         protected documentService: DocumentService,
         protected changeDetectorRef: ChangeDetectorRef,
-        protected paginator: PaginatorService,
+        protected paginatorService: PaginatorService,
         protected filterer: FilterService,
         protected hyperLinkService: HyperLinkService,
         protected eventDataService: EventDataService,
@@ -78,7 +78,7 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         super(layoutService, documentService, changeDetectorRef);
     }
     
-    stop() { this.paginator.stop(); this.filterer.stop(); }
+    stop() { this.paginatorService.stop(); this.filterer.stop(); }
     
     protected emitModelChange() {
         // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError

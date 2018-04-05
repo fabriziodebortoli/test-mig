@@ -7,7 +7,7 @@
                 [valueField]="'id'"
                 [clearButton]="false"
                 [valueNormalizer]="valueNormalizer"
-                [loading]="paginator.waiting$ | async"
+                [loading]="paginatorService.waiting$ | async"
                 (open)="openDropDown($event)"
                 (close)="closeDropDown()"
                 [style.width.px]="width+8"
@@ -30,14 +30,14 @@
                  [style.border-top-color]="'#E9E9E9'">
                 <div style='display: flex;'>
                     <button kendoButton (click)="firstDefaultPage()" [icon]="'arrow-end-left'"
-                        [disabled]="paginator.isFirstPage"
+                        [disabled]="paginatorService.isFirstPage"
                         style="flex: 1;"></button>
                     <button kendoButton (click)="prevDefaultPage()" [icon]="'arrow-60-left'"
-                        [disabled]="paginator.isFirstPage"
+                        [disabled]="paginatorService.isFirstPage"
                         style="flex: 1;"></button>
                 </div>
                 <button kendoButton (click)="nextDefaultPage()" [icon]="'arrow-60-right'"
-                    [disabled]="paginator.noMorePages"
+                    [disabled]="paginatorService.noMorePages"
                     style="flex: auto;"></button>
             </div>
         </ng-template>

@@ -10,7 +10,7 @@ export class TbHotlinkButtonsContextMenuHandler {
     private constructor (hlb: TbHotlinkButtonsComponent) {
         Observable.fromEvent<MouseEvent>(hlb.hotLinkButtonTemplate.nativeElement, 'contextmenu', { capture: true })
         .pipe(untilDestroy(hlb))
-        .do(e => e.preventDefault()).do(_ => hlb.popupHandler.closeTable())
+        .do(e => e.preventDefault()).do(_ => hlb.popupHandler.onHklExit())
         .subscribe(e => {
             hlb.popupHandler.optionOffset = {top: e.clientY, left: e.clientX};
             if (hlb.popupHandler.isOptionsPopupVisible) hlb.popupHandler.closeOptions();

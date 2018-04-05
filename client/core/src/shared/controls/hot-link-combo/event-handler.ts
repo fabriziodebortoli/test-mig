@@ -23,7 +23,9 @@ export class TbHotlinkComboEventHandler {
         (elem as any).maxLength = maxLenght;
     };
     private constructor (hlb: any) {
-        this.getHotLinkElement = () => hlb.combobox.wrapper.getElementsByClassName('k-input')[0] as HTMLElement;
+        this.getHotLinkElement = () => {
+            return hlb.combobox.wrapper.getElementsByClassName('k-input')[0] as HTMLElement;
+        }
         Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
         .pipe(untilDestroy(hlb))
         .filter(e => e.key === 'F8' || e.key === 'F9')
@@ -31,6 +33,12 @@ export class TbHotlinkComboEventHandler {
         .subscribe(selectionType => {
             hlb.setSelectionType(selectionType);
             if (!hlb.combobox.isOpen) hlb.combobox.toggle(true);
+        });
+
+        Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'blur',  {capture: true})
+        .pipe(untilDestroy(hlb))
+        .subscribe(_ => {
+            hlb.emitModelChange();
         });
 
         hlb.slice$

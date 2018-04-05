@@ -12,7 +12,7 @@ import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
-import { BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
+import { Subject, BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
@@ -39,24 +39,26 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   get width(): number { 
     return this.modelComponent.width; 
   }
+  private comboInputTyping$: Subject<any> = new Subject<any>();
 
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
     protected documentService: DocumentService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
-    public paginator: PaginatorService,
+    public paginatorService: PaginatorService,
     protected filterer: FilterService, 
     protected hyperLinkService: HyperLinkService,
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator
   ) {
-    super(layoutService, documentService, changeDetectorRef, paginator, filterer, hyperLinkService, eventDataService, httpService);
+    super(layoutService, documentService, changeDetectorRef, paginatorService, filterer, hyperLinkService, eventDataService, httpService);
   }
 
   openDropDown(ev) {
     ev.preventDefault();
     this.start();
+    this.comboInputTyping$.next(this.modelComponent.model);
   }
 
   closeDropDown() {
@@ -67,60 +69,46 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   disablePager: boolean = true;
   get enablePager(): boolean { return !this.disablePager; }
 
+  protected get queryTrigger(): Observable<ServerNeededParams> {
+    return this.comboInputTyping$.asObservable().map(x => ({ model: x }));
+  }
+
   start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200);
-    this.paginator.start(1, this.pageSize, this.queryTrigger,this.queryServer);
-    this.paginator.clientData.subscribe((d) => {
+    this.paginatorService.start(1, this.pageSize, this.queryTrigger ,this.queryServer);
+    this.paginatorService.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
       if (!this.combobox.isOpen) this.combobox.toggle(true);
     });
 
-    this.filterer.filterChanged$
-      .filter(x => x.logic !== undefined && this.modelComponent && this.modelComponent.model)
-      .subscribe(x => {
-          this.modelComponent.model.value = _.get(x, 'filters[0].value');
-          this.emitModelChange();
-      });
-
-    this.paginator.waiting$.pipe(untilDestroy(this))
-      .subscribe(waiting => this.disablePager = (this.paginator.isFirstPage && this.paginator.noMorePages) || (waiting && this.paginator.isJustInitialized));
-  }
-
-  private _filter: CompositeFilterDescriptor;
-  public get filter(): CompositeFilterDescriptor {
-    return this._filter;
-  }
-
-  public set filter(value: CompositeFilterDescriptor) {
-    this._filter = _.cloneDeep(value);
-    this.filterer.filter = _.cloneDeep(value);
-    this.filterer.onFilterChanged(value);
+    this.paginatorService.waiting$.pipe(untilDestroy(this))
+      .subscribe(waiting => this.disablePager = (this.paginatorService.isFirstPage && this.paginatorService.noMorePages) || (waiting && this.paginatorService.isJustInitialized));
   }
 
   protected async pageChange(event: PageChangeEvent) {
-    await this.paginator.pageChange(event.skip, event.take);
+    await this.paginatorService.pageChange(event.skip, event.take);
   }
 
   protected async nextDefaultPage() {
     this.defaultPageCounter++;
-    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+    await this.paginatorService.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
   }
 
   protected async prevDefaultPage() {
     this.defaultPageCounter--;
-    await this.paginator.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
+    await this.paginatorService.pageChange(this.defaultPageCounter * this.pageSize, this.pageSize);
   }
 
   protected async firstDefaultPage() {
     this.defaultPageCounter = 0;
-    await this.paginator.pageChange(0, this.pageSize);
+    await this.paginatorService.pageChange(0, this.pageSize);
   }
 
-  public onFilterChange(filter: string): void {
+  onFilterChange(filter: string): void {
     if(this.modelComponent &&  this.modelComponent.model) {
       this.modelComponent.model.value = filter;
-      this.emitModelChange();
+      this.comboInputTyping$.next(this.modelComponent.model);
     }
   }
 

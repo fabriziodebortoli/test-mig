@@ -8,15 +8,14 @@ import { set } from 'lodash';
 import { TablePopupTransformer, DisplayHelper } from './table-popup-transformer';
 
 
-export type OpenCloseTableFunction = () => void;
-export type OnTablePopupOpen = () => void;
+export type SearchOrExitFunction = () => void;
+export type OnSearch = () => void;
 
 export class TbHotlinkButtonsPopupHandler {
-  static Attach(hlb: TbHotlinkButtonsComponent, onTablePopupOpen: OnTablePopupOpen): TbHotlinkButtonsPopupHandler { 
-    return new TbHotlinkButtonsPopupHandler(hlb, onTablePopupOpen);
+  static Attach(hlb: TbHotlinkButtonsComponent, onSearch: OnSearch): TbHotlinkButtonsPopupHandler { 
+    return new TbHotlinkButtonsPopupHandler(hlb, onSearch);
   }
   
-  anchorAlign: Align;
   optionsPopupRef: PopupRef;
   tablePopupRef: PopupRef;
   isTablePopupVisible = true;
@@ -27,61 +26,53 @@ export class TbHotlinkButtonsPopupHandler {
   declareOptionsPopupHidden: () => void = () => { this.isOptionsPopupVisible = false; } 
   optionOffset: {top: number, left: number};
 
-  private showTableSubj$ = new BehaviorSubject(false);
+  private searchOrExitSubj$ = new BehaviorSubject(false);
   private showOptionsSubj$ = new BehaviorSubject(false);
-  get showTable$(): Observable<boolean> { return this.showTableSubj$.distinctUntilChanged().filter(hasToOpen => hasToOpen).map(_ => true); }
-  get hideTable$(): Observable<boolean> { return this.showTableSubj$.distinctUntilChanged().filter(hasToOpen => !hasToOpen).map(_ => false); }
+  get search$(): Observable<boolean> { return this.searchOrExitSubj$.distinctUntilChanged().filter(hasToOpen => hasToOpen).map(_ => true); }
+  get exit$(): Observable<boolean> { return this.searchOrExitSubj$.distinctUntilChanged().filter(hasToOpen => !hasToOpen).map(_ => false); }
   get showOptions$() { return this.showOptionsSubj$.filter(hasToOpen => hasToOpen).map(_ => true); }
   get hideOptions$() { return this.showOptionsSubj$.filter(hasToOpen => !hasToOpen).map(_ => false); }
   
   closeOptions() { this.showOptionsSubj$.next(false); } 
   openOptions() { this.showOptionsSubj$.next(true); }
-  closeTable: OpenCloseTableFunction;
-  openTable: OpenCloseTableFunction = () => this.showTableSubj$.next(true);
-  closePopups() { this.closeOptions(); this.closeTable(); }
+  onHklExit: SearchOrExitFunction;
+  onSearch: SearchOrExitFunction = () => this.searchOrExitSubj$.next(true);
+  closePopups() { this.closeOptions(); this.onHklExit(); }
 
-  readonly setPopupElementInBackground: () => void; 
-  readonly setPopupElementInForeground: () => void;
+  readonly resizeTablePopup: () => void;
   readonly showGridPupup: () => void;
   readonly getHotLinkElement: () => HTMLElement;
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
 
-  private constructor (hlb: any, onTablePopupOpen: OnTablePopupOpen) {
+  private constructor (hlb: any, onSearch: OnSearch) {
     this.getHotLinkElement = () => (hlb.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
-    this.closeTable = () => { this.closeOptions(); this.showTableSubj$.next(false); hlb.stop(); }
-    this.setPopupElementInBackground = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
-    .withBackGroundZIndex()
-    .withMaxWidth(1)
-    .withMaxHeight(1)
-    .build();
-    this.setPopupElementInForeground = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
+    this.onHklExit = () => { this.closeOptions(); this.searchOrExitSubj$.next(false); hlb.stop(); }
+    this.resizeTablePopup = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
       .withMaxHeight(400)
       .withMaxWidth(1000)
       .if()
-        .isTrue(builder => DisplayHelper.needsRightMargin(this.anchorAlign, builder.popupElement))
+        .isTrue(builder => 
+          DisplayHelper.needsRightMargin(DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement), hlb.hotLinkButtonTemplate.nativeElement))
         .then()
         .withRight(30)
-      .withForeGroundZIndex().build();
+      .build();
     this.showGridPupup = () => {
-      this.setPopupElementInForeground();
-      this.declareTablePopupVisible();
-    };
-
-    this.showTable$.pipe(untilDestroy(hlb)).subscribe(_ => {
-        this.anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);
-        let popupAlign = DisplayHelper.getPopupAlign(this.anchorAlign);
+      let anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);
+        let popupAlign = DisplayHelper.getPopupAlign(anchorAlign);
         this.tablePopupRef = hlb.tablePopupService.open({
             anchor: hlb.hotLinkButtonTemplate.nativeElement,
             content: hlb.tableTemplate,
             popupAlign: popupAlign,
-            anchorAlign: this.anchorAlign,
+            anchorAlign: anchorAlign,
             popupClass: 'tb-hotlink-tablePopup',
             appendTo: hlb.vcr});
-        this.setPopupElementInBackground();
-        this.tablePopupRef.popupOpen.asObservable().subscribe(_ => onTablePopupOpen());
-    });
+      this.resizeTablePopup();
+      this.declareTablePopupVisible();
+    };
+
+    this.search$.pipe(untilDestroy(hlb)).subscribe(_ => onSearch());
       
-    this.hideTable$.pipe(untilDestroy(hlb)).subscribe(_ => {
+    this.exit$.pipe(untilDestroy(hlb)).subscribe(_ => {
       if (this.tablePopupRef) {
           this.tablePopupRef.close();
           this.tablePopupRef = null;

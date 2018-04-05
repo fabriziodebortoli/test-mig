@@ -87,6 +87,19 @@ export abstract class DeferredBuilder<T, U extends DeferredBuilder<T, U>> {
         this.tQueue = new BuilderQueue<() => void>();
     }
     if(): DeferredIfContext<U> { return DeferredIfContext.New(this as any as U); }
-    with(key: string, value: any): DeferredBuilder<T, U> {  this.push(() => { if (!this.skip) this.doContextSet(key, value); this.skip = false; }); return this; }
-    build() { let t = this.tQueue.pop(); while(t) { t(); t = this.tQueue.pop(); } }
+    with(key: string, value: any): DeferredBuilder<T, U> {  
+        this.push(() => { 
+            if (!this.skip)
+                this.doContextSet(key, value);
+            this.skip = false;
+         });
+        return this; 
+    }
+    build() { 
+        let t = this.tQueue.pop();
+        while(t) {
+            t(); 
+            t = this.tQueue.pop();
+        }
+    }
 }
