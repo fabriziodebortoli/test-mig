@@ -1876,15 +1876,7 @@ namespace Microarea.TbJson
                 }
             }
 
-            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
-            if (jObj[Constants.selector] is JObject jSelector)
-            {
-                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
-            }
-            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
-            {
-                WriteSelector(cmpId, wc.Selector.value, jObj);
-            }
+            WriteSelector(jObj, wc, cmpId);
 
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
@@ -2000,6 +1992,20 @@ namespace Microarea.TbJson
             }
 
         }
+
+        private void WriteSelector(JObject jObj, WebControl wc, string cmpId)
+        {
+            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
+            if (jObj[Constants.selector] is JObject jSelector)
+            {
+                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
+            }
+            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
+            {
+                WriteSelector(cmpId, wc.Selector.value, jObj);
+            }
+        }
+
         //-----------------------------------------------------------------------------
         /*private void RegisterModelField(string owner, string field)
         {
