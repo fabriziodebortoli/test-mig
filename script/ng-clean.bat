@@ -9,15 +9,15 @@ cd ..\..\libs\menu\src
 call rimraf node_modules
 
 echo \client\reporting-studio cleaning...
-cd ..\..\..\reporting-studio\src
+cd ..\..\..\libs\reporting-studio\src
 call rimraf node_modules
 
 REM echo \client\icons cleaning...
-REM cd ..\..\icons\src
+REM cd ..\..\..\libs\icons\src
 REM call rimraf node_modules
 
 echo \client\erp cleaning...
-cd ..\..\erp\src
+cd ..\..\..\erp\src
 call rimraf node_modules
 
 REM echo \client\bpm cleaning...
