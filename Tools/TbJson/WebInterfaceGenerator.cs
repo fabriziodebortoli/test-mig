@@ -872,12 +872,15 @@ namespace Microarea.TbJson
                         WebControl wCol = GetWebControl(jObj);
                         if (jObj == null)
                             break;
+                        string cmpId = jObj.GetId();
 
                         string bodyEditColumnType = string.IsNullOrEmpty(wCol.ColumnName) ? Constants.tbBodyEditColumn : wCol.ColumnName;
                         using (var w = new OpenCloseTagWriter(bodyEditColumnType, this, false))
                         {
                             WriteActivatedAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
+
+                            WriteSelector(jObj, wCol, cmpId);
 
                             WriteAttribute(jObj, Constants.rows, Constants.rows);
                             WriteAttribute(jObj, Constants.chars, Constants.chars);
@@ -886,7 +889,6 @@ namespace Microarea.TbJson
                             WriteAttribute(jObj, Constants.hidden, Constants.hidden);
                             WriteAttribute(jObj, Constants.grayed, Constants.grayed);
                             WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
-                            
 
                             w.CloseBeginTag();
 
@@ -1268,11 +1270,11 @@ namespace Microarea.TbJson
 
         private void GenerateButtonTag(JObject jObj, bool slave, WndObjType type)
         {
-			bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
-			if (isSeparator == true)
-				return;
+            bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
+            if (isSeparator == true)
+                return;
 
-			using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
+            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
             {
                 WriteActivationAttribute(jObj);
                 string icon = jObj.GetFlatString(Constants.icon);
@@ -1438,7 +1440,7 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(activation))
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + GetSafeActivationString(activation));
         }
-            
+
         //-----------------------------------------------------------------------------------------
         private void WriteActivatedAttribute(JObject jObj)
         {
@@ -1993,19 +1995,6 @@ namespace Microarea.TbJson
 
         }
 
-        private void WriteSelector(JObject jObj, WebControl wc, string cmpId)
-        {
-            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
-            if (jObj[Constants.selector] is JObject jSelector)
-            {
-                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
-            }
-            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
-            {
-                WriteSelector(cmpId, wc.Selector.value, jObj);
-            }
-        }
-
         //-----------------------------------------------------------------------------
         /*private void RegisterModelField(string owner, string field)
         {
@@ -2146,6 +2135,21 @@ namespace Microarea.TbJson
                 htmlWriter.Write("\r\n");
         }
 
+        //-----------------------------------------------------------------------------
+        private void WriteSelector(JObject jObj, WebControl wc, string cmpId)
+        {
+            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
+            if (jObj[Constants.selector] is JObject jSelector)
+            {
+                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
+            }
+            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
+            {
+                WriteSelector(cmpId, wc.Selector.value, jObj);
+            }
+        }
+
+        //-----------------------------------------------------------------------------
         private void WriteSelector(string cmpId, string value, JObject jObj)
         {
             var slice = $"{cmpId}_Slice$";
