@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, AfterViewInit, HostListener } from '@angular/core';
 
 import {
     EventDataService, LayoutService, TbComponentService, ControlComponent, Store, Selector, createSelector, FormMode, WebSocketService
@@ -79,7 +79,8 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
         this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_SET_VALUES, this.currentIndex));
     }
 
-    onDblClick(event) {
+    @HostListener('dblclick', ['$event'])
+    onDblClick(event: any) {
         this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_DBL_CLICK, this.currentIndex));
     }
 

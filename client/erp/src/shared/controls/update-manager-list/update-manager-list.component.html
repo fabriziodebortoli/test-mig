@@ -1,11 +1,11 @@
 <!-- <tb-control-container type="erp-update-manager-list"> -->
 <div *ngFor="let item of umActions$ | async">
     <input type="checkbox" id="{{item.index}}" [ngModel]="item.value" [disabled]="!item.enabled" (ngModelChange)="valueChanged($event)"
-        (click)="onClick($event)" (dblclick)="onDblClick($event)" class="k-checkbox">
+        (click)="onClick($event)" class="k-checkbox">
     <label class="k-checkbox-label" for="{{item.index}}">{{item.description}}</label>
 </div>
 <!-- </tb-control-container> -->
-
+<!-- (dblclick)="onDblClick($event)" -->
 
 <!-- (click)="onClick($event)"  -->
 
