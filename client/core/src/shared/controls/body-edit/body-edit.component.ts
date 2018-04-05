@@ -29,7 +29,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./body-edit.component.scss'],
   providers: [BodyEditService]
 })
-export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
+export class BodyEditComponent extends ControlComponent implements AfterContentInit, OnDestroy {
 
   @ContentChildren(BodyEditColumnComponent) be_columns: QueryList<BodyEditColumnComponent>;
   @ViewChild(GridComponent) grid;
@@ -95,6 +95,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       });
 
     this.subscriptions.push(this.be_columns.changes.subscribe(() => {
+      this.resetBodyEditColumns();
+    }));
+
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+      this.changeDetectorRef.detectChanges();
       this.resetBodyEditColumns();
     }));
 
