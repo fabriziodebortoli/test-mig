@@ -1012,6 +1012,8 @@ void CBodyEdit::SetCurrLine(int nRec, int nStart /*= -1*/)
 //-----------------------------------------------------------------------------
 LRESULT CBodyEdit::OnSetCell(WPARAM wParam, LPARAM lParam)
 {
+	m_bValidatingCell = FALSE; //ripristino la OnLosingFocus
+
 	if ((int)wParam >= m_pDBT->GetSize())
 		return 1;
 
@@ -7897,20 +7899,27 @@ BOOL CBodyEdit::SetToBadCell(int nBadRec, DataObj* pData, BOOL bEmitError)
 	if (pData == NULL)
 		return FALSE;
 
-	if (nBadRec != m_nCurrRecordIdx)
-		SetCurrRecord(nBadRec, FALSE);
-
 	m_nOldStartRecordIdx = -1;
 	m_nOldStartColumnIdx = -1;
 
 	// lookup data position in the current record	
-	SqlRecord* pCurRec = m_pDBT->GetRow(m_nCurrRecordIdx);
+	SqlRecord* pCurRec = m_pDBT->GetRow(nBadRec);
 	int nDataInfoIdx = pCurRec->Lookup(pData);
 	ASSERT(nDataInfoIdx != -1);
 
-	for (m_nCurrColumnIdx = 0; m_nCurrColumnIdx < m_ColumnsInfo.GetSize(); m_nCurrColumnIdx++)
+	int nColumnIdx;
+	for (nColumnIdx = 0; nColumnIdx < m_ColumnsInfo.GetSize(); nColumnIdx++)
 		if (m_ColumnsInfo[m_nCurrColumnIdx]->m_nDataInfoIdx == nDataInfoIdx)
 			break;
+
+	if (nColumnIdx != m_nCurrColumnIdx || nBadRec != m_nCurrRecordIdx)
+		GetCurrColumn()->HideCtrl();
+
+	if (nColumnIdx != m_nCurrColumnIdx)
+		m_nCurrColumnIdx = nColumnIdx;
+
+	if (nBadRec != m_nCurrRecordIdx)
+		SetCurrRecord(nBadRec, FALSE);
 
 	if (m_nCurrColumnIdx >= m_ColumnsInfo.GetSize())
 	{
@@ -7926,15 +7935,22 @@ BOOL CBodyEdit::SetToBadCell(int nBadRec, DataObj* pData, BOOL bEmitError)
 		m_nCurrColumnIdx = 0;
 	}
 
-	if (ResetToVisiblePosition())
-		InvalidateBody();
-
 	if (bEmitError)
 	{
+		if (ResetToVisiblePosition())
+			InvalidateBody();
+
 		m_pDBT->m_bDBTErrorPending = FALSE;
 		m_pDBT->ConditionalDisplayMessage(m_pDBT->m_strDBTError, MB_OK | MB_ICONSTOP);
 
 		ShowCtrl(FALSE);
+	}
+	else
+	{
+		// per ovviare al crash nel caso di SetToBadCell fatta in fase di OnLosingFocus (Checkrecords) 
+		// an. 26516
+		m_bValidatingCell = TRUE; //inibisco la OnLosingFocus, in questa fase il fuoco non deve uscire dalla cella
+		PostMessage(UM_BE_SETCELL, (WPARAM)m_nCurrRecordIdx, (LPARAM)m_nCurrColumnIdx);
 	}
 
 	return TRUE;
