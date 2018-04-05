@@ -163,7 +163,9 @@ namespace Microarea.Common.NameSolver
 		private int		release;
 		private string	previousApplication;
 		private string	previousModule;
+
 		private bool	dms = false;
+		private bool	isDevelopmentVersion = false; // gestione rewind
 
 		private ModuleInfo	parentModuleInfo;
 
@@ -186,6 +188,10 @@ namespace Microarea.Common.NameSolver
 		//--------------------------------------------------------------------------------
 		public int			Release			{ get {return release;} }
 
+		// Attributo per la gestione del rewind di modulo
+		//--------------------------------------------------------------------------------
+		public bool IsDevelopmentVersion { get { return isDevelopmentVersion; } }
+		
 		// Oggetti per il database documentale
 		//--------------------------------------------------------------------------------
 		public bool			Dms				{ get { return dms; } }
@@ -312,6 +318,13 @@ namespace Microarea.Common.NameSolver
 					if (node.InnerText != null && node.InnerText.Length > 0)
 						try { release = Int32.Parse(node.InnerText); } 
 						catch (Exception) {}
+
+					// leggo l'attributo development dal tag <Release> (facoltativo)
+					// se esiste ed e' impostato a true si tratta di un modulo in sviluppo (per l'opzione Rewind)
+					string developmentAttribute = ((XmlElement)node).GetAttribute(DataBaseObjectsXML.Attribute.Development);
+					if (!string.IsNullOrWhiteSpace(developmentAttribute) &&
+						string.Compare(developmentAttribute, bool.TrueString, StringComparison.InvariantCultureIgnoreCase) == 0)
+						isDevelopmentVersion = true;
 				}
 
 				// PreviousSignature
