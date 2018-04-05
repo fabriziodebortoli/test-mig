@@ -1637,8 +1637,9 @@ CWoormDocMng::CWoormDocMng()
 	//---------------
 	m_bIsUserReportsDeveloper = IsUserReportsDeveloper();
 
-	DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szWoormRunningOptions, L"ShowRSBetaFeatures", DataBool(FALSE), szTbWoormViewerSettingFileName);
-	m_bBetaFeatures = pSetting ? *((DataBool*)pSetting) : FALSE;
+	//DataObj* pSetting = AfxGetSettingValue(snsTbWoormViewer, szWoormRunningOptions, L"ShowRSBetaFeatures", DataBool(FALSE), szTbWoormViewerSettingFileName);
+	//m_bBetaFeatures = pSetting ? *((DataBool*)pSetting) : FALSE;
+	m_bBetaFeatures = TRUE;
 }
 
 //-----------------------------------------------------------------------------
