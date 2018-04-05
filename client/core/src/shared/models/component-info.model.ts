@@ -14,5 +14,7 @@ export class ComponentInfo {
     document = null;
     tbLoaderDoc = false;//indica se si tratta di un componente che corrisponde ad un documento tbloader
     args: any = {};
-    instance: DocumentComponent; 
+    width: number;
+    height: number;
+    instance: DocumentComponent;
 }

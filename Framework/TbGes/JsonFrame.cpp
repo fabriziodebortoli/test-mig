@@ -46,6 +46,10 @@ template <class T> LRESULT CJsonFrameT<T>::OnGetComponent(WPARAM wParam, LPARAM 
 	pResp->WriteString(_T("name"), GetName(m_pJsonContext->m_JsonResource.GetFile()));
 	pResp->WriteString(_T("app"), m_pJsonContext->m_JsonResource.GetOwnerNamespace().GetApplicationName());
 	pResp->WriteString(_T("mod"), m_pJsonContext->m_JsonResource.GetOwnerNamespace().GetModuleName());
+	if (m_pJsonContext->m_pDescription->m_Width != NULL_COORD)
+		pResp->WriteInt(_T("width"), m_pJsonContext->m_pDescription->m_Width);
+	if (m_pJsonContext->m_pDescription->m_Height != NULL_COORD)
+		pResp->WriteInt(_T("height"), m_pJsonContext->m_pDescription->m_Height);
 
 	pResp->CloseObject();
 	return 1L;
