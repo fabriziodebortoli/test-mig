@@ -38,11 +38,98 @@ bool MFrame::WndProc(Message% m)
 	return __super::WndProc(m);
 }
 
+//=============================================================================
+// 
+//=============================================================================
+//----------------------------------------------------------------------------
+bool MWndProc::WndProc(WindowWrapperContainer^ container,System::Windows::Forms::Message% m)
+{
+	return true;
+}
+
+//----------------------------------------------------------------------------
+void MWndProc::AfterWndProc(WindowWrapperContainer^ view, System::Windows::Forms::Message% m)
+{
+}
+
+//----------------------------------------------------------------------------
+void MDesktopWndProc::AfterWndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m)
+{
+	if (m.Msg == WM_COMMAND)
+	{
+		WPARAM wParam = (WPARAM)(int)m.WParam;
+		LPARAM lParam = (LPARAM)(int)m.LParam;
+		DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
+
+		if (nCode == EN_VALUE_CHANGED)
+		{
+			int senderHashCode = this->GetHashCode();
+			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
+		}
+		else if (nCode == EN_CTRL_STATE_CHANGED)
+		{
+			EasyBuilderEventArgs^ args = gcnew EasyBuilderEventArgs();
+			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, StateButtonClicked, (LPARAM)&args);
+		}
+		return;
+	}
+
+	MView^ view = (MView^)container;
+	if (m.Msg == UM_LAYOUT_CHANGED && view->LayoutObject != nullptr)
+		view->LayoutObject->CallCreateComponents();
+
+}
+
+//----------------------------------------------------------------------------
+bool MWebWndProc::WndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m)
+{
+
+	CView* pView = dynamic_cast<CView*>(container->GetWnd());
+	CDocument*  pDoc = pView ? pView->GetDocument() : NULL;
+	if (!pDoc)
+		return true;
+
+	switch (m.Msg)
+	{
+		case WM_COMMAND:
+		{
+			WPARAM wParam = (WPARAM)(int)m.WParam;
+			LPARAM lParam = (LPARAM)(int)m.LParam;
+			DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
+
+			switch (nCode)
+			{
+				case BEN_ROW_CHANGED:
+				{
+					pDoc->OnCmdMsg(nID, UM_EASYBUILDER_WEB_ACTION + RowChanged, NULL, NULL);
+					break;
+				}
+				case BN_CLICKED:
+				{
+					pDoc->OnCmdMsg(nID, UM_EASYBUILDER_WEB_ACTION + Clicked, NULL, NULL);
+					break;
+				}
+				default:
+					pDoc->OnCmdMsg(nID, nCode, NULL, NULL);
+					break;
+			}
+				
+			break;
+		}
+	}
+	return true;
+}
+
 //----------------------------------------------------------------------------
 MView::MView(IntPtr handleViewPtr)
 	: WindowWrapperContainer(handleViewPtr)
 { 
 	Handle = handleViewPtr;
+
+	if (AfxIsRemoteInterface())
+		mWndProc = gcnew MWebWndProc();
+	else
+		mWndProc = gcnew MDesktopWndProc();
 
 	if (!AfxIsRemoteInterface())
 	{
@@ -629,32 +716,18 @@ void MView::Invalidate()
 }
 
 //----------------------------------------------------------------------------
+bool MView::WndProc(System::Windows::Forms::Message% m)
+{
+	bool ok = __super::WndProc(m);
+	return mWndProc->WndProc(this, m) && ok;
+	
+}
+
+//----------------------------------------------------------------------------
 void MView::AfterWndProc(Message% m)
 {
 	__super::AfterWndProc(m);
-
-	if (m.Msg == WM_COMMAND)
-	{
-		WPARAM wParam = (WPARAM)(int)m.WParam;
-		LPARAM lParam = (LPARAM)(int)m.LParam;
-		DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
-
-		if (nCode ==  EN_VALUE_CHANGED)
-		{
-			int senderHashCode = this->GetHashCode();
-			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
-		}
-		else if (nCode ==  EN_CTRL_STATE_CHANGED)
-		{
-			EasyBuilderEventArgs^ args = gcnew EasyBuilderEventArgs();
-			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, StateButtonClicked, (LPARAM)&args);
-		}
-		return;
-	}
-
-	if (m.Msg == UM_LAYOUT_CHANGED && LayoutObject != nullptr)
-		LayoutObject->CallCreateComponents();
-
+	mWndProc->AfterWndProc(this, m);
 }
 
 //----------------------------------------------------------------------------

@@ -322,7 +322,7 @@ export class BOService extends DocumentService {
         this.webSocketService.closeServerComponent(this.mainCmpId);
     }
     public isServerSideCommand(idCommand: string) {
-        return this.serverSideCommandMap.indexOf(idCommand) > 0;
+        return this.serverSideCommandMap.indexOf(idCommand) >= 0;
     }
 
     public getWindowStrings(cmpId: string, culture: string) {

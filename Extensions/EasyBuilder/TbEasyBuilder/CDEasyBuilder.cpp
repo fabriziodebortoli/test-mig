@@ -2427,18 +2427,25 @@ void CDEasyBuilder::OnBuildingSecurityTree (CTBTreeCtrl* pTree, ::Array* pInfoTr
 }
 
 //-----------------------------------------------------------------------------
-String^ CDEasyBuilder::DecodeEventName(int nCode, bool isEasyBuilderAction)
+String^ CDEasyBuilder::DecodeEventName(int nInCode, bool is)
 {
-	if (nCode == EN_VALUE_CHANGED || (isEasyBuilderAction && EasyBuilderAction::ValueChanged))
+	bool isEasyBuilderAction = false;
+	int nCode = nInCode;
+	if (nCode > UM_EASYBUILDER_WEB_ACTION && nCode <= UM_EASYBUILDER_WEB_ACTION + StateButtonClicked)
+	{
+		nCode -= UM_EASYBUILDER_WEB_ACTION;
+		true;
+	}
+	if (nCode == EN_VALUE_CHANGED || (isEasyBuilderAction && nCode == EasyBuilderAction::ValueChanged))
 		return "ValueChanged";
 	
-	if (nCode == BEN_ROW_CHANGED || (isEasyBuilderAction && EasyBuilderAction::RowChanged))
+	if (nCode == BEN_ROW_CHANGED || (isEasyBuilderAction && nCode == EasyBuilderAction::RowChanged))
 		return "RowChanged";
 
-	if (nCode == EN_CTRL_STATE_CHANGED || (isEasyBuilderAction && EasyBuilderAction::StateButtonClicked))
+	if (nCode == EN_CTRL_STATE_CHANGED || (isEasyBuilderAction && nCode == EasyBuilderAction::StateButtonClicked))
 		return "StateButtonClicked";
 
-	if (isEasyBuilderAction && EasyBuilderAction::Clicked)
+	if (isEasyBuilderAction && nCode == EasyBuilderAction::Clicked)
 		return "Clicked";
 	
 	return String::Empty;
@@ -2447,12 +2454,12 @@ String^ CDEasyBuilder::DecodeEventName(int nCode, bool isEasyBuilderAction)
 //-----------------------------------------------------------------------------
 void CDEasyBuilder::ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAction)
 {
-	/*if (!AfxIsRemoteInterface())
-		return;*/
-	
-	if (nCode <= 0 && !isEasyBuilderAction)
+	if (nCode < 0)
 		return;
 	
+	if (nCode == 0)
+		return;
+
 	CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
 	String^ eventName = DecodeEventName(nCode, isEasyBuilderAction == TRUE);
 	String^ targetID = gcnew String(resource.m_strName);
@@ -2478,7 +2485,32 @@ BOOL CDEasyBuilder::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERIN
 {
 	BOOL bResult = __super::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 
-	ProcessWebMessage(nID, nCode, false);
+	if (AfxIsRemoteInterface())
+		ProcessWebMessage(nID, nCode, nCode == UM_EASYBUILDER_ACTION || UM_EASYBUILDER_WEB_ACTION);
 
 	return (bResult == TRUE);
+}
+
+//-----------------------------------------------------------------------------
+void CDEasyBuilder::PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs)
+{
+	__super::PopulateMessagesIDsArrayForPushToClients(arIDs);
+	DocumentControllers^ controllers = documentControllers;
+	if (controllers == nullptr)
+		return;
+
+	IList<DocumentController^>^ notWorkingControllers = gcnew List<DocumentController^>();
+	for each (DocumentController^ controller in controllers)
+	{
+		EXECUTE_SAFE_CONTROLLER_CODE
+		(
+			List<System::String^>^ ids = controller->GetEventHandlerIDs();
+			for each(String^ sID in ids)
+			{
+				UINT nID = AfxGetTBResourcesMap()->GetTbResourceID(CString(sID), TbResourceType::TbControls);
+				if (nID > 0)
+					arIDs.Add(nID);
+			}
+		)
+	}
 }

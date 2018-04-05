@@ -648,6 +648,7 @@ protected:
 
 	virtual BOOL OnValidatePasteDBTRows	(SqlRecord* pRec, CTBEDataCoDecRecordToValidate&) { return TRUE; }
 	virtual void OnAddFormsOnDockPane(CTaskBuilderDockPane* pPane) {};
+	virtual void PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs);
 
 public:
 	virtual void 		OnBeforeXMLImport	() {}
@@ -928,6 +929,7 @@ protected:
 	
 	BOOL OnBeforeEscape			();
 	void OnBuildingSecurityTree	(CTBTreeCtrl* pTree, Array* arInfoTreeItems);
+	void PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs);
 
 public:
 	void 	OnBeforeXMLImport	();

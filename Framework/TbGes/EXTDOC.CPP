@@ -9012,6 +9012,7 @@ void CAbstractFormDoc::GetIDsUsedInMessageMap(CArray<int>& arIDs)
 {
 	arIDs.RemoveAll();
 	PopulateIDsArrayFromMessageMap(GetMessageMap(), arIDs);
+	m_pClientDocs->PopulateMessagesIDsArrayForPushToClients(arIDs);
 }
 
 

@@ -481,6 +481,12 @@ BOOL CClientDoc::NamespaceEquals(const CString& aCDNamespace)
 	return m_Namespace.ToUnparsedString().CompareNoCase(aCDNamespace) == 0;
 }
 
+//-----------------------------------------------------------------------------
+void CClientDoc::PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs)
+{
+	m_pServerDocument->PopulateIDsArrayFromMessageMap(GetMessageMap(), arIDs);
+}
+
 //////////////////////////////////////////////////////////////////////////////
 //					CClientDocArray implementation
 //////////////////////////////////////////////////////////////////////////////
@@ -1471,9 +1477,14 @@ void CClientDocArray::OnAddFormsOnDockPane(CTaskBuilderDockPane* pPane)
 {
 	for (int i = 0; i <= GetUpperBound(); i++)
 		GetAt(i)->OnAddFormsOnDockPane(pPane);
-
 }
 
+//-----------------------------------------------------------------------------
+void CClientDocArray::PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs)
+{
+	for (int i = 0; i <= GetUpperBound(); i++)
+		GetAt(i)->PopulateMessagesIDsArrayForPushToClients(arIDs);
+}
 
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnDMSEvent(DMSEventTypeEnum eventType, int eventKey)

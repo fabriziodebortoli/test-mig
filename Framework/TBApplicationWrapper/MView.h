@@ -11,7 +11,7 @@ using namespace Microarea::TaskBuilderNet::Interfaces::View;
 #include "MPanel.h"
 
 class CAbstractFormView;
-
+ 
 namespace Microarea {
 	namespace Framework {
 		namespace TBApplicationWrapper
@@ -38,6 +38,59 @@ namespace Microarea {
 		virtual	bool WndProc (System::Windows::Forms::Message% m) override;
 	};
 
+
+	/// <summary>
+	/// Wrapper class for the WndProcMessages
+	/// </summary>
+	//=============================================================================
+	[ExcludeFromIntellisense]
+	ref class MWndProc
+	{
+	public:
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		virtual	bool WndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m);
+
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		virtual	void AfterWndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m);
+
+	};
+
+	/// <summary>
+	/// Wrapper class for Desktop WndProcMessages
+	/// </summary>
+	//=============================================================================
+	[ExcludeFromIntellisense]
+	ref class MDesktopWndProc : MWndProc
+	{
+	public:
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		virtual	void AfterWndProc(WindowWrapperContainer^ view, System::Windows::Forms::Message% m) override;
+	};
+
+	/// <summary>
+	/// Wrapper class for the WndProcMessages
+	/// </summary>
+	//=============================================================================
+	[ExcludeFromIntellisense]
+	ref class MWebWndProc : MWndProc
+	{
+	public:
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		[ExcludeFromIntellisense]
+		virtual	bool WndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m) override;
+	};
+
 	/// <summary>
 	/// Wrapper class for the taskbuilder CAbstractFormView class
 	/// </summary>
@@ -56,7 +109,8 @@ namespace Microarea {
 		bool					suspendLayout;
 		System::String^			pathToSerialize;
 		System::String^			jsonFrameId;
-				
+		MWndProc^				mWndProc;
+
 	public:
 		/// <summary>
 		/// Internal Use: Initializes a new instance of MDBTObject
@@ -277,6 +331,11 @@ namespace Microarea {
 		/// </summary>
 		[ExcludeFromIntellisense]
 		virtual HWND GetControlHandle(const CTBNamespace& aNamespace) override;
+
+		/// <summary>
+		/// Internal Use
+		/// </summary>
+		virtual	bool WndProc(System::Windows::Forms::Message% m) override;
 
 		/// <summary>
 		/// Internal Use
