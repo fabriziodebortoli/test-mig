@@ -3498,6 +3498,7 @@ BOOL CAbstractFormDoc::InitDocument()
 		(
 			OnExistTables() && m_pClientDocs->OnExistTables() &&
 			OnAttachData() && (m_bOnAttachClient || (!m_bOnAttachClient && m_pClientDocs->OnAttachData())) && // per le procedure batch in cui non viene fatto l'Attach del dbtmaster
+			DispatchOnAfterAttachData() &&
 			!m_pMessages->ErrorFound()
 			)
 		)
@@ -7070,6 +7071,12 @@ BOOL CAbstractFormDoc::DispatchOnEnableTabSelChanging(UINT nTabber, UINT nFromID
 	return
 		OnEnableTabSelChanging(nTabber, nFromIDD, nToIDD) &&
 		m_pClientDocs->OnEnableTabSelChanging(nTabber, nFromIDD, nToIDD);
+}
+
+//--------------------------------------------------------------------------------
+BOOL CAbstractFormDoc::DispatchOnAfterAttachData()
+{
+	return OnAfterOnAttachData() && m_pClientDocs->OnAfterOnAttachData();
 }
 
 //------------------------------------------------------------------------------

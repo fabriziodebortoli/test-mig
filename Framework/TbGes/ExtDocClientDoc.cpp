@@ -1150,6 +1150,18 @@ BOOL CClientDocArray::OnEnableTabSelChanging(UINT nTabber, UINT nFromIDD, UINT n
 	return bOk;
 }
 
+//-------------------------------------------------------------------------------------------------
+BOOL CClientDocArray::OnAfterOnAttachData()
+{
+	BOOL bOK = TRUE;
+	for (int i = 0; i <= GetUpperBound() && bOK; i++)
+	{
+		bOK = bOK && GetAt(i)->OnAfterOnAttachData();
+	}
+
+	return bOK;
+}
+
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnTabSelChanged (UINT nTabber, UINT nTabIDD)
 {

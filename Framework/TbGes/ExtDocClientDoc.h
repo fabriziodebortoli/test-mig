@@ -538,6 +538,7 @@ protected:
 	virtual BOOL OnBECandDoDeleteRow		(CBodyEdit*) { return TRUE; }
 
 	virtual BOOL		OnEnableTabSelChanging(UINT /*nTabber*/, UINT /*nFromIDD*/, UINT /*nToIDD*/) { return TRUE; }
+	virtual BOOL		OnAfterOnAttachData() { return TRUE; }
 	virtual void		OnTabSelChanged(UINT /*nTabber*/, UINT /*nTabIDD*/) { }
 	virtual BOOL		OnToolbarDropDown (UINT, CMenu& ) { return FALSE; }
 
@@ -886,6 +887,7 @@ protected:
 	BOOL OnBECandDoDeleteRow	(CBodyEdit*);
 
 	BOOL OnEnableTabSelChanging	(UINT /*nTabber*/, UINT /*nFromIDD*/, UINT /*nToIDD*/);
+	BOOL OnAfterOnAttachData	();
 	void OnTabSelChanged		(UINT /*nTabber*/, UINT /*nTabIDD*/);
 
 	BOOL OnToolbarDropDown		(UINT nID, CMenu&);

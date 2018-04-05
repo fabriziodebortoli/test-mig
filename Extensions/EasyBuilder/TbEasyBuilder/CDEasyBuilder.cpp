@@ -1520,7 +1520,7 @@ void CDEasyBuilder::OnAfterBatchExecute()
 }
 
 //-----------------------------------------------------------------------------
-BOOL CDEasyBuilder::OnAttachData()
+BOOL CDEasyBuilder::OnAfterOnAttachData()
 {
 	Attach(new CDEasyBuilderEventManager());
 	if (documentControllers)
