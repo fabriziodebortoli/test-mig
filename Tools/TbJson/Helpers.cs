@@ -9,7 +9,7 @@ namespace Microarea.TbJson
 {
     public static class Helpers
     {
-        private static readonly Regex exp = new Regex("{{2}([a-zA-Z0-9]*)}{2}", RegexOptions.Compiled);
+        private static readonly Regex exp = new Regex("{{2}(.*)}{2}", RegexOptions.Compiled);
 
         /// <summary>
         /// Racchiude un tag tra parentesi quadre
