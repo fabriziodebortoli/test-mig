@@ -84,7 +84,7 @@ namespace tbfs_service.Controllers
         //-------------------------------------------------------------------------------
         public IActionResult GetObjsByCustomizationLevel(Enum objType, string objNamespace, string userName, string company)
         {
-             try
+            try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
@@ -154,14 +154,14 @@ namespace tbfs_service.Controllers
         {
             var sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT)) return null;
-            //ISession hsession = null;
-            //try
-            //{
-            //    hsession = HttpContext.Session;
-            //}
-            //catch { }
-          //  var loginInfo = null; // LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
-            return new UserInfo(new LoginInfoMessage(), sAuthT);
+            Microsoft.AspNetCore.Http.ISession hsession = null;
+            try
+            {
+                hsession = HttpContext.Session;
+            }
+            catch { }
+            var loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+            return new UserInfo(loginInfo, sAuthT);
         }
 
 
