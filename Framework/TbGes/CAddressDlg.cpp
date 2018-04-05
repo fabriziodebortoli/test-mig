@@ -87,9 +87,13 @@ void CAddressDlg::UpdateAllLocalCtrl()
 	m_AddressControl.UpdateCtrlView();
 	m_StreetNumberControl.UpdateCtrlView();
 	m_CityControl.UpdateCtrlView();
-	m_CountyControl.UpdateCtrlView();
-	m_RegionControl.UpdateCtrlView();
-	m_FederalStateControl.UpdateCtrlView();
+	if (!m_pGeocoder->IsBrazil())
+	{
+		m_CountyControl.UpdateCtrlView();
+		m_RegionControl.UpdateCtrlView();
+	}
+	else
+		m_FederalStateControl.UpdateCtrlView();
 	m_CountryControl.UpdateCtrlView();
 	m_ZipCodeControl.UpdateCtrlView();
 	m_LatitudeControl.UpdateCtrlView();
@@ -219,17 +223,9 @@ void CAddressTileDlg::BuildDataControlLinks()
 	{
 		CWnd* pWnd = NULL;
 
-		pParentDlg->m_CountyControl.ShowWindow(SW_HIDE);
-		pParentDlg->m_RegionControl.ShowWindow (SW_HIDE);
-
 		pWnd = GetDlgItem(IDC_ADDRESS_REGION_STATIC);
 		if (pWnd) pWnd->SetWindowTextW(_TB("Federal state"));
-
-		pWnd = GetDlgItem(IDC_ADDRESS_COUNTY_STATIC);
-		if (pWnd) pWnd->ShowWindow(SW_HIDE);
 	}
-	else
-		pParentDlg->m_FederalStateControl.ShowWindow(SW_HIDE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

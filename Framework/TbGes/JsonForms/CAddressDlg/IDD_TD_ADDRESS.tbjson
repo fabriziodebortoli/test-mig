@@ -50,6 +50,7 @@
     },
     {
       "id": "IDC_ADDRESS_REGION_CODE",
+	  "activation": "ERP.MasterData_BR",
       "type": 2,
       "x": 101,
       "y": 56,
@@ -63,6 +64,7 @@
     },
     {
       "id": "IDC_ADDRESS_REGION",
+      "activation": "!ERP.MasterData_BR",
       "type": 2,
       "x": 101,
       "y": 56,
@@ -76,6 +78,7 @@
     },
     {
       "id": "IDC_ADDRESS_COUNTY",
+      "activation": "!ERP.MasterData_BR",
       "type": 2,
       "x": 280,
       "y": 56,
@@ -181,6 +184,7 @@
     },
     {
       "id": "IDC_ADDRESS_COUNTY_STATIC",
+      "activation": "!ERP.MasterData_BR",
       "type": 2,
       "text": "County",
       "x": 200,
