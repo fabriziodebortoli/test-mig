@@ -872,7 +872,6 @@ namespace Microarea.TbJson
                         WebControl wCol = GetWebControl(jObj);
                         if (jObj == null)
                             break;
-                        string cmpId = jObj.GetId();
 
                         string bodyEditColumnType = string.IsNullOrEmpty(wCol.ColumnName) ? Constants.tbBodyEditColumn : wCol.ColumnName;
                         using (var w = new OpenCloseTagWriter(bodyEditColumnType, this, false))
@@ -880,7 +879,6 @@ namespace Microarea.TbJson
                             WriteActivatedAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
-                            WriteSelector(jObj, wCol, cmpId);
 
                             WriteAttribute(jObj, Constants.rows, Constants.rows);
                             WriteAttribute(jObj, Constants.chars, Constants.chars);
@@ -903,6 +901,10 @@ namespace Microarea.TbJson
                                     WriteAttribute(jObj, Constants.chars, Constants.chars);
 
                                     WriteColumnBindingAttributes(jObj, true);
+
+                                    var cmpId = getControlId(jObj);
+                                    WriteSelector(jObj, wCol, cmpId);
+
 
                                     var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
                                     if (propagateSelectionChange != null)

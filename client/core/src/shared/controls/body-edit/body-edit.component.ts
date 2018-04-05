@@ -12,7 +12,6 @@ import { addModelBehaviour } from './../../../shared/models/control.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { ControlComponent } from './../control.component';
 import { Store } from './../../../core/services/store.service';
-import { createSelectorByMap } from './../../commons/selector';
 import { BodyEditColumnComponent } from './body-edit-column/body-edit-column.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
