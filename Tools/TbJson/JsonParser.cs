@@ -270,9 +270,7 @@ namespace Microarea.TbJson
                 Debug.Assert(jRoot[Constants.href].Value<string>().Equals(href));
                 jRoot.Remove(Constants.href);
             }
-            string existingActivation = "";// jRoot.GetFlatString(Constants.activation);
-            if (!string.IsNullOrEmpty(existingActivation))
-                jRoot.Remove(Constants.activation);
+
             string resourceName;
             string file = GetFile(standardFolder, resourcePath, href, out resourceName);
             if (!File.Exists(file))
@@ -282,12 +280,7 @@ namespace Microarea.TbJson
             if (jHref == null)
                 throw new Exception(string.Concat("Invalid href: ", href));
 
-            //se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
-            if (!string.IsNullOrEmpty(existingActivation))
-            {
-                foreach (JObject item in jHref.GetItems())
-                    AddActivationAttribute(existingActivation, item);
-            }
+
             if (jHref.GetWndObjType() == WndObjType.Frame)
             {
                 JArray hier = jRoot[Constants.HrefHierarchy] as JArray;
@@ -315,7 +308,7 @@ namespace Microarea.TbJson
             {
                 ParseHref(jRoot, activation, jHref);
             }
-            
+
         }
 
         private void ParseHref(JObject jRoot, string activation, JToken jHref)
@@ -341,6 +334,14 @@ namespace Microarea.TbJson
                                 if (list.Count > 0)
                                 {
                                     jRoot.Remove();
+                                    string existingActivation = jRoot.GetFlatString(Constants.activation);
+                                    if (!string.IsNullOrEmpty(existingActivation))
+                                    {
+                                        jRoot.Remove(Constants.activation);
+                                        //se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
+                                        foreach (JObject item in jRoot.GetItems())
+                                            AddActivationAttribute(existingActivation, item);
+                                    }
                                     foreach (JObject jObj in list)
                                         Merge(jObj, (JObject)jRoot.DeepClone(), activation);
                                     break;
