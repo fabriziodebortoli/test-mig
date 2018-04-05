@@ -1,8 +1,11 @@
-<tb-control-container type="tb-namespace" [contextMenu]="contextMenu" [stateData]="stateData" [model]="model">
+<tb-control-container type="tb-namespace" [contextMenu]="contextMenu" [model]="model">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div class="group">
         <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)"
             [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
+            <button kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(model?.enabled)">
+                <m4-icon [icon]="tb-folderfind"></m4-icon>
+            </button>
             <tb-explorer-dialog></tb-explorer-dialog>
     </div>
     <div class="has-error">{{errorMessage}}</div>

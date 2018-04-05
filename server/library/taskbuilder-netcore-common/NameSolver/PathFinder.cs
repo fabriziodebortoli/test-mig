@@ -2631,39 +2631,48 @@ namespace Microarea.Common.NameSolver
             if ((ObjectType)objType == ObjectType.Report)
             {
                 string path = moduleInfo.GetStandardReportPath();
-                string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
-
-                foreach (string fileName in reportFiles)
+                if (Directory.Exists(path))
                 {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = GetReportDescriptionFromFileName(fileName);
-                    objects.Add(nameSpace, description);
+                    string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
+
+                    foreach (string fileName in reportFiles)
+                    {
+                        nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        description = GetReportDescriptionFromFileName(fileName);
+                        objects.Add(nameSpace, description);
+                    }
                 }
             }
 
             if ((ObjectType)objType == ObjectType.Image)
             {
                 string path = moduleInfo.GetStandardImagePath();
-                string[] imageFiles = Directory.GetFiles(path, "*.*");
-
-                foreach (string fileName in imageFiles)
+                if (Directory.Exists(path))
                 {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = fileName;
-                    objects.Add(nameSpace, description);
+                    string[] imageFiles = Directory.GetFiles(path, "*.*");
+
+                    foreach (string fileName in imageFiles)
+                    {
+                        nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        description = fileName;
+                        objects.Add(nameSpace, description);
+                    }
                 }
             }
 
             if ((ObjectType)objType == ObjectType.File)
             {
                 string path = moduleInfo.GetStandardFilePath();
-                string[] files = Directory.GetFiles(path, "*.*");
-
-                foreach (string fileName in files)
+                if (Directory.Exists(path))
                 {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = fileName;
-                    objects.Add(nameSpace, description);
+                    string[] files = Directory.GetFiles(path, "*.*");
+
+                    foreach (string fileName in files)
+                    {
+                        nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        description = fileName;
+                        objects.Add(nameSpace, description);
+                    }
                 }
             }
 
