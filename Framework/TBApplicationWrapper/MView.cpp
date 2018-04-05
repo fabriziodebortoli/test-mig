@@ -63,7 +63,7 @@ void MDesktopWndProc::AfterWndProc(WindowWrapperContainer^ container, System::Wi
 
 		if (nCode == EN_VALUE_CHANGED)
 		{
-			int senderHashCode = this->GetHashCode();
+			int senderHashCode = container->GetHashCode();
 			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
 		}
 		else if (nCode == EN_CTRL_STATE_CHANGED)
@@ -73,11 +73,9 @@ void MDesktopWndProc::AfterWndProc(WindowWrapperContainer^ container, System::Wi
 		}
 		return;
 	}
-
-	MView^ view = (MView^)container;
-	if (m.Msg == UM_LAYOUT_CHANGED && view->LayoutObject != nullptr)
+	MView^ view = dynamic_cast<MView^>(container);
+	if (m.Msg == UM_LAYOUT_CHANGED && view != nullptr && view->LayoutObject != nullptr)
 		view->LayoutObject->CallCreateComponents();
-
 }
 
 //----------------------------------------------------------------------------
