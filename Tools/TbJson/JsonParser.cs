@@ -270,7 +270,7 @@ namespace Microarea.TbJson
                 Debug.Assert(jRoot[Constants.href].Value<string>().Equals(href));
                 jRoot.Remove(Constants.href);
             }
-            string existingActivation = jRoot.GetFlatString(Constants.activation);
+            string existingActivation = "";// jRoot.GetFlatString(Constants.activation);
             if (!string.IsNullOrEmpty(existingActivation))
                 jRoot.Remove(Constants.activation);
             string resourceName;
