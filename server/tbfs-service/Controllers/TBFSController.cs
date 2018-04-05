@@ -154,14 +154,14 @@ namespace tbfs_service.Controllers
         {
             var sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
             if (string.IsNullOrEmpty(sAuthT)) return null;
-            ISession hsession = null;
-            try
-            {
-                hsession = HttpContext.Session;
-            }
-            catch { }
-            var loginInfo = LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
-            return new UserInfo(loginInfo, sAuthT);
+            //ISession hsession = null;
+            //try
+            //{
+            //    hsession = HttpContext.Session;
+            //}
+            //catch { }
+          //  var loginInfo = null; // LoginInfoMessage.GetLoginInformation(hsession, sAuthT);
+            return new UserInfo(new LoginInfoMessage(), sAuthT);
         }
 
 
