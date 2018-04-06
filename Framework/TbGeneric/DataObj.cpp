@@ -1482,7 +1482,7 @@ void DataObj::AssignFromJson(CJsonParser& jsonParser)
 	if (jsonParser.TryReadInt(szStatus, status))
 		m_wDataStatus = status;
 
-	void AlignPreviousVal();
+	AlignPreviousVal();
 }
 
 //@@ rivedere
