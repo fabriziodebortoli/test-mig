@@ -102,9 +102,10 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
       this.setlength(len);
   }
 
-  onBlur($event) {
-    if (!this.validate()) {
+  async onBlur($event) {
+    if (!await this.validate()) {
       this.errorMessage = this._TB('Incorrect namespace.');
+      this.changeDetectorRef.detectChanges();
       return;
     }
 
@@ -116,26 +117,21 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     this.errorMessage = '';
     // Se non ci sono punti, non sono un namespace
     const elem = this.value.split('.');
-    if (elem.length === 0)
-      return false;
+    if (elem.length < 3)
+      return Promise.resolve(false);
 
     // Se il primo token non è nei predefiniti non sono un namespace valido
     if (ObjType[elem[0]] === undefined)
-      return false;
+      return Promise.resolve(false);
 
     // Guardo se trovo il file selezionato tramite le API
-    let val = elem.slice(1).join('.');
-    let res = await this.explorerService.GetByUser(this.objectType, val, this.user);
-
-    return true;
+    return await this.explorerService.ExistsObject(this.value, this.user, this.company, this.culture);
   }
 
   // Metodo con OnChanges
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.model || !this.model)
       return;
-
-
 
     this.setlength(this.model.length)
   }

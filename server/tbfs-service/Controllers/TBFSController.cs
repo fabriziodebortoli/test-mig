@@ -48,7 +48,7 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("ExistObject/{objnameSpace}/{user}/{company}/{culture}")]//mauro
+        [Route("ExistObject")]//mauro
         public IActionResult ExistObject(string objnameSpace, string user, string companyName, string culture)
         {
             try
@@ -89,7 +89,7 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("GetFileNameFromNamespace/{objnameSpace}/{user}/{company}/{culture}")]//mauro
+        [Route("GetFileNameFromNamespace")]//mauro
         public IActionResult GetFileNameFromNamespace(string objnameSpace, string user, string company, string culture)
         {
             try
