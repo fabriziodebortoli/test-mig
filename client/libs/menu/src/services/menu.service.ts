@@ -405,6 +405,7 @@ export class MenuService {
             this.removeFromFavoritesInternal(object);
         }
 
+        localStorage.setItem('_lastAllMenu', JSON.stringify(this.allMenus));
         let subs = this.httpMenuService.updateFavorites(this.favorites).subscribe(() => {
             subs.unsubscribe()
         });
@@ -676,6 +677,7 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     addToMostUsed(object) {
         this.addToMostUsedArray(object);
+        localStorage.setItem('_lastAllMenu', JSON.stringify(this.allMenus));
         let subs = this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
             subs.unsubscribe()
         });
@@ -684,6 +686,7 @@ export class MenuService {
     //---------------------------------------------------------------------------------------------
     removeFromMostUsed(object) {
         this.removeFromMostUsedArray(object);
+        localStorage.setItem('_lastAllMenu', JSON.stringify(this.allMenus));
         let subs = this.httpMenuService.updateMostUsed(this.mostUsed).subscribe(() => {
             subs.unsubscribe()
         });

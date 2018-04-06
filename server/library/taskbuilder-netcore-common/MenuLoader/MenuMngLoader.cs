@@ -416,9 +416,9 @@ namespace Microarea.Common.MenuLoader
                     CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, pathFinder);
 
                         string file = cachedMenuInfos.GetStandardMenuCachingFullFileName(company);
-
-                    if (pathFinder.ExistPath(Path.GetDirectoryName(file)))
-                        pathFinder.RemoveFolder(Path.GetDirectoryName(file), true, true, true);
+                    string dirName = Path.GetDirectoryName(file);
+                    if (pathFinder.ExistPath(dirName))
+                        pathFinder.RemoveFolder(dirName, true, false, false);
                 }
                 catch (Exception)
                 {
