@@ -8199,6 +8199,13 @@ BOOL CBodyEdit::SetCurrRecord(int nNewRec, BOOL bNotify /* = TRUE */)
 	if (m_nCurrRecordIdx >= 0 && bNotify)
 	{
 		NotifyToParent(BEN_ROW_CHANGED);
+
+		// Aggiuna per risolvere il problema che l'ottimizzazione inserita da Marco, 
+		// su macchine meno performanti, venga persa la SetSel(0,-1) fatta dalla SetCtrlFocus(TRUE) 
+		// An. 26571
+		if (GetDocument()->m_bNeedsUpdateDataView)
+				GetDocument()->ExecuteUpdateDataView();
+
 		DoMessageOnRecordChanged();
 	}
 
@@ -10063,7 +10070,7 @@ DataObj* CBodyEdit::GetCtrlData(const CString& sName, int nRow /*= 0*/)
 		if (pRec)
 		{
 			pRec->SetInsertedByUI();
-			GetDocument()->UpdateDataView();//force FindRecord for HKL descriptions
+			GetDocument()->UpdateDataView(TRUE);//force FindRecord for HKL descriptions
 		}
 	}
 	else if (nRow < GetRowNumber())
