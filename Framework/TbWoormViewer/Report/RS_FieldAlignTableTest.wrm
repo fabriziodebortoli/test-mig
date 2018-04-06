@@ -3,6 +3,17 @@
 //==============================================================================
 
 Release 7 Rect (49,2,1038,1918) 
+
+Properties
+	Begin
+		Title "Test campi allineati ed ancorati a tabella" 
+		Subject "" 
+		Author "" 
+		ReportProducer "" 
+		Comments "" 
+		DefaultSecurityRoles "" 
+	End
+
 PageInfo (2,9,2970,2100,100,1,1,True ) 
 
 PageLayout "default" 

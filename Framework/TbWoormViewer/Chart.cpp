@@ -260,13 +260,13 @@ BOOL Chart::ParseSeries(ViewParser& lex, CSeries* pSeries)
 		pF = dynamic_cast<WoormField*>(m_pDocument->m_ViewSymbolTable.GetField(sVarName));
 		if (!pF)
 		{
-			lex.SetError(_TB("TODO - il campo associato alla serie non esiste"));
+			lex.SetError(_TB("Field associated to series doesn't exist"));
 			return FALSE;
 		}
 
 		if (!pF->IsArray() && !pF->IsColumn())
 		{
-			lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
+			lex.SetError(_TB("Field associated to series must be an array or a table column"));
 			return FALSE;
 		}
 
@@ -274,12 +274,12 @@ BOOL Chart::ParseSeries(ViewParser& lex, CSeries* pSeries)
 		{
 			if (pF->IsColTotal() || pF->IsSubTotal())
 			{
-				lex.SetError(_TB("TODO - il campo associato alla serie non può essere il totale/subtotale di una colonna"));
+				lex.SetError(_TB("Field associated to series can't be a table column total or subtotal"));
 				return FALSE;
 			}
 			if (!pF->GetDataType().IsNumeric())
 			{
-				lex.SetError(_TB("TODO - il campo associato alla serie deve essere numerico"));
+				lex.SetError(_TB("Field associated to series must be numeric"));
 				return FALSE;
 			}
 		}
@@ -310,21 +310,21 @@ BOOL Chart::ParseSeries(ViewParser& lex, CSeries* pSeries)
 				WoormField* pF = dynamic_cast<WoormField*>(m_pDocument->m_ViewSymbolTable.GetField(sVarName));
 				if (!pF)
 				{
-					lex.SetError(_TB("TODO - il campo associato al set di colori della serie non esiste"));
+					lex.SetError(_TB("Field associated to color set of series doesn't exist"));
 					return FALSE;
 				}
 
 				if (!pF->IsArray() && !pF->IsColumn())
 				{
-					lex.SetError(_TB("TODO - il campo associato al set di colori della serie non è un array/colonna"));
+					lex.SetError(_TB("Field associated to color set of series must be an array or a column"));
 					return FALSE;
 				}
 
 				if (pF->IsColumn())
 				{
-					if (pF->GetDataType() != DataType::String && pF->GetDataType() != DataType::Array)
+					if (pF->GetDataType() != DataType::String && pF->GetDataType() != DataType::Long)
 					{
-						lex.SetError(_TB("TODO - il campo associato al set di colori della serie deve essere di tipo stringa"));
+						lex.SetError(_TB("Field associated to color set of series must be a long (rgb)"));
 						return FALSE;
 					}
 				}
@@ -400,13 +400,13 @@ BOOL Chart::ParseCategory(ViewParser& lex)
 			WoormField* pF = dynamic_cast<WoormField*>(m_pDocument->m_ViewSymbolTable.GetField(sVarName));
 			if (!pF)
 			{
-				lex.SetError(_TB("TODO - il campo associato alla serie non esiste"));
+				lex.SetError(_TB("Field associated to series doesn't exist"));
 				return FALSE;
 			}
 
 			if (!pF->IsArray() && !pF->IsColumn())
 			{
-				lex.SetError(_TB("TODO - il campo associato alla serie non è un array/colonna"));
+				lex.SetError(_TB("Field associated to series must be an array or a column"));
 				return FALSE;
 			}
 
@@ -414,7 +414,7 @@ BOOL Chart::ParseCategory(ViewParser& lex)
 			{
 				if (pF->IsColTotal() || pF->IsSubTotal())
 				{
-					lex.SetError(_TB("TODO - il campo associato alla serie non può essere il totale/subtotale di una colonna"));
+					lex.SetError(_TB("Field associated to series can't be  a table column total or subtotal"));
 					return FALSE;
 				}
 			}
@@ -797,7 +797,7 @@ void Chart::SyncChart()
 	}
 	//se il grafico avesse attiva la proprietà del colore
 	//if(!m_bColored || *GetColor() == 0)
-		pChart->SetColors(CBCGPChartTheme::ChartTheme::CT_BLUE);
+		pChart->SetColors(CBCGPChartTheme::ChartTheme::CT_GREEN);
 	
 	pChart->SetChartType(GetBCGPChartCategory(m_eChartType), GetBCGPChartType(m_eChartType));
 
@@ -837,6 +837,7 @@ BOOL Chart::SyncSeries(CSeries* pSeries)
 		{
 			pSeries->m_arRgbColor.RemoveAll();
 			DataArray* seriesColors = m_pDocument->GetDataArrayFromId(pSeries->m_pFieldColor->GetId(), m_arOwnerBag);
+			if(seriesColors)
 			{
 				COLORREF color = 0;
 				for (int i = 0; i < seriesColors->GetSize(); i++)
@@ -1135,7 +1136,8 @@ BOOL Chart::SyncCategoriesSeries(CSeries* pSeries, CBCGPChartSeries* pBCGSeries)
 
 			if (bSetColor && i < pSeries->m_arRgbColor.GetSize())
 			{
-				BCGPChartFormatSeries* pFSeries = GetColoredFormatSeries(pSeries->m_arRgbColor[i], new BCGPChartFormatSeries(pBCGSeries->GetSeriesFormat()));
+				COLORREF col = pSeries->m_arRgbColor[i];
+				BCGPChartFormatSeries* pFSeries = GetColoredFormatSeries(col, new BCGPChartFormatSeries(pBCGSeries->GetSeriesFormat()));
 
 				pBCGSeries->AddDataPoint(sCatValue, val, pFSeries);
 				SAFE_DELETE(pFSeries);
@@ -1384,6 +1386,7 @@ CString Chart::GetTooltip( int /*nPage = -1*/, CPoint point )
 			m_pChart->SetDirty(FALSE);
 			m_pChart->OnGetToolTip(pt, spToolTip, spDesc);
 			sTip = spToolTip + _T(" ") + spDesc;
+			sTip = sTip.Trim();
 		}
 	}
 

@@ -6128,9 +6128,9 @@ void CRS_ObjectPropertyView::LoadChartSeriesPropertyGrid(CNodeTree* pNode)
 
 
 	// Add Behavior properties------------------------------------------------
-	m_pBehaviorGroup = new CrsProp(_TB("Behavior"));
-	m_pBehaviorGroup->AddSubItem(new CRSBoolProp(this, _TB("Hidden"), &m_bIsHidden));
-	m_pPropGrid->AddProperty(m_pBehaviorGroup);
+	//m_pBehaviorGroup = new CrsProp(_TB("Behavior"));
+	//m_pBehaviorGroup->AddSubItem(new CRSBoolProp(this, _TB("Hidden"), &m_bIsHidden));
+	//m_pPropGrid->AddProperty(m_pBehaviorGroup);
 }
 
 // ----------------------------------------------------------------------------
@@ -24229,7 +24229,7 @@ void CRS_ObjectPropertyView::LoadJoinTablePropertyGrid(CNodeTree* pNode)
 //-----------------------------------------------------------------------------
 void CRS_ObjectPropertyView::LoadColumnPropertyGrid(CNodeTree* pNode)
 {
-	CrsProp* pPropGeneral = new CrsProp(_TB("TODO column"));
+	CrsProp* pPropGeneral = new CrsProp(_TB("Column")); //TODO
 
 	//TODO datatype
 
