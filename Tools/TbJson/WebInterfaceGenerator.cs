@@ -1812,7 +1812,7 @@ namespace Microarea.TbJson
             htmlWriter.Write(" tbControl");
 
             string anchor = jObj.GetFlatString(Constants.anchor);
-            if (!string.IsNullOrEmpty(anchor) && anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
+            if (string.IsNullOrEmpty(anchor) || anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
                 htmlWriter.WriteAttribute(Square("staticArea"), "false");
 
             string marginLeft = jObj.GetFlatString(Constants.marginLeft);
@@ -1889,7 +1889,12 @@ namespace Microarea.TbJson
 
             WriteAttribute(jObj, Constants.decimals, Constants.decimals);
             WriteAttribute(jObj, Constants.numberDecimal, Constants.decimals);
-            WriteAttribute(jObj, Constants.width, Constants.width);
+
+            String width = jObj.GetFlatString(Constants.width);
+            int.TryParse(width, out int iWidth);
+            if (iWidth > 0)
+                WriteAttribute(jObj, Constants.width, Constants.width);
+
             WriteAttribute(jObj, Constants.height, Constants.height);
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
