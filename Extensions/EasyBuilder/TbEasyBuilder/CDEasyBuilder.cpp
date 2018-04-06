@@ -2427,15 +2427,8 @@ void CDEasyBuilder::OnBuildingSecurityTree (CTBTreeCtrl* pTree, ::Array* pInfoTr
 }
 
 //-----------------------------------------------------------------------------
-String^ CDEasyBuilder::DecodeEventName(int nInCode, bool is)
+String^ CDEasyBuilder::DecodeEventName(int nCode, bool isEasyBuilderAction)
 {
-	bool isEasyBuilderAction = false;
-	int nCode = nInCode;
-	if (nCode > UM_EASYBUILDER_WEB_ACTION && nCode <= UM_EASYBUILDER_WEB_ACTION + StateButtonClicked)
-	{
-		nCode -= UM_EASYBUILDER_WEB_ACTION;
-		true;
-	}
 	if (nCode == EN_VALUE_CHANGED || (isEasyBuilderAction && nCode == EasyBuilderAction::ValueChanged))
 		return "ValueChanged";
 	
@@ -2445,8 +2438,8 @@ String^ CDEasyBuilder::DecodeEventName(int nInCode, bool is)
 	if (nCode == EN_CTRL_STATE_CHANGED || (isEasyBuilderAction && nCode == EasyBuilderAction::StateButtonClicked))
 		return "StateButtonClicked";
 
-	if (isEasyBuilderAction && nCode == EasyBuilderAction::Clicked)
-		return "Clicked";
+	if (nCode == BN_CLICKED || (isEasyBuilderAction && nCode == EasyBuilderAction::Clicked))
+		return "Click";
 	
 	return String::Empty;
 }
@@ -2457,9 +2450,6 @@ void CDEasyBuilder::ProcessWebMessage(UINT nID, int nCode, BOOL isEasyBuilderAct
 	if (nCode < 0)
 		return;
 	
-	if (nCode == 0)
-		return;
-
 	CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbResourceType::TbControls, nID);
 	String^ eventName = DecodeEventName(nCode, isEasyBuilderAction == TRUE);
 	String^ targetID = gcnew String(resource.m_strName);
