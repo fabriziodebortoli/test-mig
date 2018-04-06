@@ -12,7 +12,7 @@ import { URLSearchParams } from '@angular/http';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
-import { Subject, BehaviorSubject, Subscription, Observable } from '../../../rxjs.imports';
+import { Subject, BehaviorSubject, Subscription, Observable, debounceFirst } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
@@ -39,7 +39,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   get width(): number { 
     return this.modelComponent.width; 
   }
-  private comboInputTyping$: Subject<any> = new Subject<any>();
+
+  comboInputTyping$: Subject<any> = new Subject<any>();
 
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
@@ -57,8 +58,9 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   openDropDown(ev) {
     ev.preventDefault();
+    let v = _.get(this.modelComponent.model, 'value');
+    this.comboInputTyping$.next(v ? v : '');
     this.start();
-    this.comboInputTyping$.next(this.modelComponent.model);
   }
 
   closeDropDown() {
@@ -66,11 +68,15 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     this.disablePager = true;
   }
 
+  onControlFocusLost: () => void = () => {
+    this.eventDataService.change.emit(this.modelComponent.cmpId);
+  };
+
   disablePager: boolean = true;
   get enablePager(): boolean { return !this.disablePager; }
 
   protected get queryTrigger(): Observable<ServerNeededParams> {
-    return this.comboInputTyping$.asObservable().map(x => ({ model: x }));
+    return this.comboInputTyping$.pipe(debounceFirst(200)).map(x => ({ model: x }));
   }
 
   start() {
@@ -107,8 +113,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   onFilterChange(filter: string): void {
     if(this.modelComponent &&  this.modelComponent.model) {
-      this.modelComponent.model.value = filter;
-      this.comboInputTyping$.next(this.modelComponent.model);
+      this.modelComponent.model.value = this.modelComponent.model.uppercase ? filter.toUpperCase() : filter;
+      this.comboInputTyping$.next(filter);
     }
   }
 
@@ -134,5 +140,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     TbHotlinkComboEventHandler.Attach(this);
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+    this.comboInputTyping$.complete();
+    this.stop();
+  }
 }

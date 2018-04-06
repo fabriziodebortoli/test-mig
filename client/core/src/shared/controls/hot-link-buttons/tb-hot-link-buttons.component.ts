@@ -98,7 +98,7 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   }
 
   selectionChanged(value: any) {
-    let idx = this.comboInputTyping$.getClientPageIndex(value.index);
+    let idx = this.paginatorService.getClientPageIndex(value.index);
     let k = this.state.gridData.data.slice(idx, idx + 1);
     this.value = k[0][this.state.selectionColumn];
     if (this.modelComponent && this.modelComponent.model) {

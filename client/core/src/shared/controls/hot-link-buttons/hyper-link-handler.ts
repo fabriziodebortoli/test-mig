@@ -7,10 +7,13 @@ export class TbHotlinkButtonsHyperLinkHandler {
 
     private getHotLinkElement: () => HTMLElement;
     private shouldAddOnFly: (focusedElem: HTMLElement) => boolean;
+    private onControlFocusLost: () => void;
 
     private constructor (hlb: any) {
         this.getHotLinkElement = () => (hlb.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
         this.shouldAddOnFly = (focusedElem: HTMLElement) => !hlb.hotLinkButtonTemplate.nativeElement.contains(focusedElem);
+        this.onControlFocusLost = () => {};
+
         // fix for themes css conflict in form.scss style 
         if (hlb.modelComponent) {
             hlb.mediator.storage.options.componentInfo.cmpId = hlb.modelComponent.cmpId;
@@ -27,6 +30,7 @@ export class TbHotlinkButtonsHyperLinkHandler {
                 hlb.slice$,
                 hlb.afterNoAddOnFly,
                 hlb.afterAddOnFly,
+                this.onControlFocusLost,
                 this.shouldAddOnFly);
         }
     }

@@ -35,12 +35,6 @@ export class TbHotlinkComboEventHandler {
             if (!hlb.combobox.isOpen) hlb.combobox.toggle(true);
         });
 
-        Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'blur',  {capture: true})
-        .pipe(untilDestroy(hlb))
-        .subscribe(_ => {
-            hlb.emitModelChange();
-        });
-
         hlb.slice$
         .pipe(untilDestroy(hlb)).filter(x => x.uppercase).map(x => x.uppercase).distinctUntilChanged()
         .subscribe(_ => this.setUppercase(hlb));
