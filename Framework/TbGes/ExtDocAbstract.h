@@ -1056,6 +1056,7 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 
 			BOOL DoSave				(LPCTSTR pszPathName, BOOL bReplace = TRUE);
 	virtual BOOL SaveModified		(); // return TRUE if ok to continue
+			void RemoveDestroying	();
 	virtual void OnCloseDocument	();
 	virtual	BOOL CloseDocument		(BOOL bAsync = TRUE);
 	

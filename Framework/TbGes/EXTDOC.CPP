@@ -4780,22 +4780,28 @@ void CAbstractFormDoc::EnableControls()
 }
 
 //------------------------------------------------------------------------------
-BOOL CAbstractFormDoc::SaveModified()
+void CAbstractFormDoc::RemoveDestroying()
 {
 	CView*	pView = GetFirstView();
 	CAbstractFrame* pFrame = NULL;
-	if (pView) 
+	if (pView)
 		pFrame = dynamic_cast<CAbstractFrame*>(pView->GetParentFrame());
-	
+	if (pFrame)
+		pFrame->RemoveDestroying();
+}
+
+//------------------------------------------------------------------------------
+BOOL CAbstractFormDoc::SaveModified()
+{
 	if (!__super::SaveModified())
 	{
-		if (pFrame)	pFrame->RemoveDestroying();
+		RemoveDestroying();
 		return FALSE;
 	}
 
 	if (!m_pClientDocs->SaveModified())
 	{
-		if (pFrame)	pFrame->RemoveDestroying();
+		RemoveDestroying();
 		return FALSE;
 	}
 
@@ -4804,13 +4810,13 @@ BOOL CAbstractFormDoc::SaveModified()
 		if (m_bBatchRunning)
 		{
 			Message(_TB("Processing...\r\nYou cannot quit without aborting it."));
-			if (pFrame)	pFrame->RemoveDestroying();
+			RemoveDestroying();
 			return FALSE;
 		}
 
 		if (m_pFormManager && !m_pFormManager->SaveModified())
 		{
-			if (pFrame)	pFrame->RemoveDestroying();
+			RemoveDestroying();
 			return FALSE;       // don't continue
 		}
 
@@ -4819,13 +4825,13 @@ BOOL CAbstractFormDoc::SaveModified()
 
 	if (m_pRadarDoc && !m_pRadarDoc->SaveModified())
 	{
-		if (pFrame)	pFrame->RemoveDestroying();
+		RemoveDestroying();
 		return FALSE;       // don't continue
 	}
 
 	if (m_pFormManager && !m_pFormManager->SaveModified())
 	{
-		if (pFrame)	pFrame->RemoveDestroying();
+		RemoveDestroying();
 		return FALSE;       // don't continue
 	}
 
@@ -4857,7 +4863,7 @@ BOOL CAbstractFormDoc::SaveModified()
 		// force Update and test for all controls view
 		if (GetNotValidView(TRUE))
 		{
-			if (pFrame)	pFrame->RemoveDestroying();
+			RemoveDestroying();
 			return FALSE;
 		}
 
@@ -4877,7 +4883,7 @@ BOOL CAbstractFormDoc::SaveModified()
 			m_pTbContext->StopTime(ONOK_TIME);
 			DisconnectFromDatabase();
 			m_pMessages->Show(TRUE);
-			if (pFrame)	pFrame->RemoveDestroying();
+			RemoveDestroying();
 			return FALSE;
 		}
 
@@ -4887,7 +4893,7 @@ BOOL CAbstractFormDoc::SaveModified()
 			Message(_TB("Unable to open a new transaction.\r\nDocument not saved"));
 			m_pTbContext->StopTime(ONOK_TIME);
 			DisconnectFromDatabase();
-			if (pFrame)	pFrame->RemoveDestroying();
+			RemoveDestroying();
 			return FALSE;
 		}
 		m_pTbContext->StopTime(ONOK_TIME);
@@ -4899,7 +4905,7 @@ BOOL CAbstractFormDoc::SaveModified()
 
 	case IDCANCEL:
 	{
-		if (pFrame)	pFrame->RemoveDestroying();
+		RemoveDestroying();
 		return FALSE;       // don't continue
 	}
 	case IDNO: break;
