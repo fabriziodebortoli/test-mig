@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, ChangeDetectorRef, Output, EventEmitter, 
 
 import { Subscription } from 'rxjs';
 
-import { TbComponent, SidenavService, UtilsService, TabberService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, SidenavService, UtilsService, TbComponentService } from '@taskbuilder/core';
 
 import { ImageService } from './../../../services/image.service';
 import { MenuService } from './../../../services/menu.service';
@@ -25,7 +25,6 @@ export class HomeSidenavLeftComponent extends TbComponent implements OnDestroy {
     public menuService: MenuService,
     public utilsService: UtilsService,
     public imageService: ImageService,
-    public tabberService: TabberService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef
   ) {
