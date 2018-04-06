@@ -72,6 +72,20 @@ namespace Microarea.TbJson
                 Console.Out.WriteLineAsync("Generate End");
         }
         //-----------------------------------------------------------------------------
+        private void TrimNoWebSections(JToken jRoot)
+        {
+            List<JToken> toRemove = new List<JToken>();
+            foreach (JToken t in jRoot.SelectTokens("..environment"))
+            {
+                if (t.ToString() == "desktop")
+                    toRemove.Add(t.Parent.Parent);
+            }
+            foreach (JToken t in toRemove)
+            {
+                t.Remove();
+            }
+        }
+        //-----------------------------------------------------------------------------
         private void GenerateFromFile(string tbJsonFile, string mergedJsonDir, bool onlyMerged)
         {
             //modelStructure.Clear();
@@ -94,6 +108,9 @@ namespace Microarea.TbJson
             JObject jRoot = jToken as JObject;
             if (jRoot == null || (jRoot.GetWndObjType() != WndObjType.Frame && jRoot.GetWndObjType() != WndObjType.Dialog))
                 return;
+            
+            TrimNoWebSections(jToken);
+
             bool slave = jRoot.GetWndObjType() == WndObjType.Dialog || jRoot.GetBool(Constants.slave);
             AdjustStructure(jRoot);
             //CheckDuplicates(jRoot);
