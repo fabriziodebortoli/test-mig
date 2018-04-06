@@ -1,3 +1,4 @@
-:host {
+:host(tb-panel) {
     display: flex;
+    &.collapsed{height: 35px;}
 }

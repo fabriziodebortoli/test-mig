@@ -1,6 +1,6 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { BOService } from './../../../core/services/bo.service';
-import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewEncapsulation, EventEmitter, OnDestroy, ChangeDetectorRef, HostBinding } from '@angular/core';
 import { TbComponent } from '../../components/tb.component';
 
 
@@ -13,7 +13,8 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
 
   _title: string;
   _collapsedTitle: string;
-  @Input() isCollapsed: boolean = false;
+
+  @HostBinding('class.collapsed') @Input() isCollapsed: boolean = false;
   @Input() isCollapsible: boolean = false;
   realTitle = ""
   @Output() toggle = new EventEmitter<boolean>();
@@ -37,27 +38,41 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
     this._title = val instanceof Object ? val.value : val;
     this.calculateRealTitle();
   }
-  public get title() : any {
+  public get title(): any {
     return this._title;
   }
   @Input() public set collapsedTitle(val: string) {
     this._collapsedTitle = val;
     this.calculateRealTitle();
-  } 
-  public get collapsedTitle() : string {
+  }
+  public get collapsedTitle(): string {
     return this._collapsedTitle;
   }
 
-  toggleCollapse(emit: boolean = true): void {
-
+  toggleCollapse(): void {
     if (!this.isCollapsible)
       return;
 
     this.isCollapsed = !this.isCollapsed;
     this.calculateRealTitle();
-    if (emit)
-      this.toggle.emit(this.isCollapsed);
 
+    this.toggle.emit(this.isCollapsed);
+  }
+
+  collapse(): void {
+    if (!this.isCollapsible)
+      return;
+
+    this.isCollapsed = true;
+    this.calculateRealTitle();
+  }
+
+  expand(): void {
+    if (!this.isCollapsible)
+      return;
+
+    this.isCollapsed = false;
+    this.calculateRealTitle();
   }
 
   calculateRealTitle() {
