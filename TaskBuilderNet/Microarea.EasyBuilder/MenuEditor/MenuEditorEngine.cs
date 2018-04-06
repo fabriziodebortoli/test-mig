@@ -344,7 +344,7 @@ namespace Microarea.EasyBuilder.MenuEditor
 			{
 				new DomUpdater(workingDoc).AddNode(
 					String.Format(
-						"/AppMenu/Application[@name=\"{0}\" and @owner=\"{1}\"]/Group[@name=\"Group1\" and @owner=\"{1}\"]/Menu[@name=\"Menu1\" and @owner=\"{1}\"]",
+                        "/AppMenu/Application[@name=\"{0}\" and @owner=\"{1}\"]/Group[@name=\"Group1\" and @owner=\"{1}\"]/Menu[@name=\"Menu1\" and @owner=\"{1}\"]/Menu[@name=\"Menu11\" and @owner=\"{1}\"]",
 						BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp.ApplicationName,
 						owner
 						),
