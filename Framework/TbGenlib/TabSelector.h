@@ -185,6 +185,7 @@ public:
 public:
 	CTBScrollBar * GetVScrollBar() { return m_pVScrollBar; }
 	void CreateAccessories();
+	void ResetVScrollBar();
 	void SetRealHeight(int nHeight) { m_nRealHeight = nHeight; }
 	int  GetRealHeight() { return m_nRealHeight; }
 	void SetScrollVisible(BOOL bSet) {

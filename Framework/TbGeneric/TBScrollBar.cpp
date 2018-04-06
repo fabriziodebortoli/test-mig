@@ -54,6 +54,7 @@ BOOL CTBScrollBar::isVisible()
 void CTBScrollBar::SetVisible(BOOL bVisible /*= TRUE*/) 
 { 
 	m_bVisible = bVisible; 
+	ShowWindow(bVisible ? SW_SHOW : SW_HIDE);
 }
 
 //-------------------------------------------------------------------------------------

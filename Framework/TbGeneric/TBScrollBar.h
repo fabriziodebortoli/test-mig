@@ -21,7 +21,6 @@ private:
 public:
 	BOOL isVisible();
 	void SetVisible	(BOOL bVisible = TRUE);
-	void SetHidden  (BOOL bHidden = TRUE);
 	int GetWidth();
 	int GetHeight();
 	void SetBackGroundColor(COLORREF color) { m_BackGroundColor = color; }

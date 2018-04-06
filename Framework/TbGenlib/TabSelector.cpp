@@ -267,6 +267,15 @@ void CSelectorButtonContainer::CreateAccessories()
 	m_pVScrollBar->SetVisible(FALSE);
 }
 
+//-------------------------------------------------------------------------------------
+void CSelectorButtonContainer::ResetVScrollBar()
+{
+	SetScrollPos(SB_VERT, 0);
+	ScrollWindow(0, m_nScrollPosY);
+	m_nScrollPosY = 0;
+	RedrawWindow();
+}
+
 //-----------------------------------------------------------------------------------
 void CSelectorButtonContainer::OnSize(UINT nType, int cx, int cy)
 {
@@ -276,7 +285,7 @@ void CSelectorButtonContainer::OnSize(UINT nType, int cx, int cy)
 	this->GetWindowRect(aRect);
 	this->ScreenToClient(aRect);
 
-	if (m_pVScrollBar && m_pVScrollBar->m_hWnd)
+	if (m_pVScrollBar && m_pVScrollBar->m_hWnd && m_pVScrollBar->isVisible())
 		m_pVScrollBar->SetWindowPos(NULL, aRect.right - m_nScrollWidth, aRect.top, m_nScrollWidth, aRect.bottom, SWP_SHOWWINDOW | SWP_NOZORDER);
 }
 
@@ -814,6 +823,27 @@ void CTabSelector::ArrangeItems()
 				m_nSelectorWidth += GetSystemMetrics(SM_CXVSCROLL);
 				m_pSelectorButtonContainer->CreateAccessories();
 				m_pSelectorButtonContainer->SetScrollVisible(TRUE);
+			}
+			else if (m_pSelectorButtonContainer->GetVScrollBar())
+			{
+				BOOL bIsScrollVisible = m_pSelectorButtonContainer->GetVScrollBar()->isVisible();
+				if (rect.Height() < nRealHeight)
+				{
+					//i have scrollbar
+					if (!bIsScrollVisible)
+						m_nSelectorWidth += GetSystemMetrics(SM_CXVSCROLL);
+
+					m_pSelectorButtonContainer->SetScrollVisible(TRUE);
+				}
+				else
+				{
+					//i have no scrollbar
+					if (bIsScrollVisible)
+						m_nSelectorWidth -= GetSystemMetrics(SM_CXVSCROLL);
+
+					m_pSelectorButtonContainer->ResetVScrollBar();
+					m_pSelectorButtonContainer->SetScrollVisible(FALSE);
+				}
 			}
 			m_pSelectorButtonContainer->MoveWindow(0, 0, m_nSelectorWidth, rect.Height());
 		}
