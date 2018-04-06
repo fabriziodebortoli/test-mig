@@ -60,10 +60,10 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   constructor(
     public rsService: ReportingStudioService,
     public rsExportService: RsExportService,
-    public rsSnapshotService : RsSnapshotService,
+    public rsSnapshotService: RsSnapshotService,
     public diagnosticService: DiagnosticService,
     eventData: EventDataService,
-    changeDetectorRef: ChangeDetectorRef,
+    public changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
 
     public componentService: ComponentService,
@@ -103,6 +103,34 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.eventSnapshot.subscribe(() => this.saveSnapshot());
   }
+
+
+
+
+  ngDoCheck(){
+    console.log("DoCheck");
+  }
+
+  ngAfterContentChecked(){
+    console.log("AfeterContentChecked");
+  }
+
+  ngAfeterViewChecked(){
+    console.log("AfeterViewChecked");
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // -----------------------------------------------
   rsInitStateMachine() {
@@ -206,7 +234,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           break;
         case CommandType.EXPORTEXCEL:
           if (k == "Errore") {
-            window.alert("Errore: non ci sono dati da esportare in Excel");
+            this.diagnosticService.showDiagnostic([{ text: "There aren't data to export Excel" }]);
             break;
           }
           this.getExcelData(k + ".xlsx");
@@ -357,19 +385,23 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
-  navigatePag(numPag: number){
-    if(numPag > this.rsExportService.totalPages){
-      /*this.diagnosticService.showDiagnostic([{text: "This report doesn't contain page number " + numPag}]);
-      this.lastPage();
-      this.rsService.pagNumNavigate = this.curPageNum;*/
+  navigatePag(event: any) {
+    if (event.key === "Enter") {
+      let numPag = parseInt(event.target.value)
+      if (numPag > this.rsExportService.totalPages) {
+        this.diagnosticService.showDiagnostic([{ text: "This report doesn't contain page number " + numPag }]);
+        this.rsService.pageNum = this.curPageNum;
+      }
+      else {
+        let message = {
+          commandType: CommandType.TEMPLATE,
+          message: this.args.nameSpace,
+          page: numPag
+        };
+        this.rsService.pageNum = message.page;
+        this.rsService.doSend(JSON.stringify(message));
+      }
     }
-    let message = {
-      commandType: CommandType.TEMPLATE,
-      message: this.args.nameSpace,
-      page: numPag
-    };
-    this.rsService.pageNum = message.page;
-    this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------

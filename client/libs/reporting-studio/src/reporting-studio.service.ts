@@ -22,7 +22,6 @@ export class ReportingStudioService extends DocumentService {
     websocket: WebSocket;
     message: Subject<any> = new Subject<string>();
 
-    @Input() pagNumNavigate = 1;
     @Output() eventSnapshot = new EventEmitter<void>();
 
     constructor(

@@ -2,7 +2,7 @@
     {{askGroup.caption}}
 </h3>
 <hr>
-<div *ngIf="askGroup.isRadioGroup" class="radioGroupCenter">
+<div *ngIf="askGroup.isRadioGroup">
     <mat-radio-group>
         <div *ngFor="let item of askGroup.entries" >
             <div [ngSwitch]="item.obj" *ngIf="!item.hidden">
