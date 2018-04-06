@@ -55,7 +55,12 @@ namespace TaskBuilderNetCore.Interfaces
         Tabber,
         TabDialog,
         Grid,
-        GridColumn
+        GridColumn,
+        Profile,
+        PDF,
+        RFT,
+        ODT,
+        ODS
 		//Sono solo nella parte C++: DATAFILE, EVENTHANDLER, PROFILE, ALIAS
 	}
 }

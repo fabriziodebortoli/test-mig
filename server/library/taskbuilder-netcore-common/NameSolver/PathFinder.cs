@@ -1597,110 +1597,105 @@ namespace Microarea.Common.NameSolver
                 throw new Exception(Messages.PathFinderInitFailed);
         }
 
-        ////----------------------------------------------------------------------
-        //public string GetFileNameFromNamespace(NameSpace objNameSpace, string user,  string company)
-        //{
-        // if (!objNameSpace.IsValid())
-        //  return string.Empty;
+        //----------------------------------------------------------------------
+        public string GetFileNameFromNamespace(NameSpace objNameSpace, string user, string company, string culture)
+        {
+            if (!objNameSpace.IsValid())
+                return string.Empty;
 
-        //    string extension = GetObjectDefaultExtension(objNameSpace);
-        //    string fileName = SLASH_CHAR + objNameSpace.GetObjectName();
+            ModuleInfo moduleInfo = GetModuleInfo(objNameSpace);
 
-        //    if (!string.IsNullOrEmpty(extension))
-        //        fileName += extension;
+            string fileName = objNameSpace.ObjectName;
 
-        //    string sFullFileName;
-        // switch (objNameSpace.NameSpaceType.Type)
-        // {
-        //        case NameSpaceObjectType.Report:
-        //        {
-        //                sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, false);
-        //                if (ExistFile(sFullFileName))
-        //                    return sFullFileName;
 
-        //                //sFullFileName = GetModuleReportPath(objNameSpace, CPathFinder::ALL_USERS) + sFileName;
-        //                //if (ExistFile(sFullFileName))
-        //                //    return sFullFileName;
+            string sFullFileName;
+            switch (objNameSpace.NameSpaceType.Type)
+            {
+                case NameSpaceObjectType.Report:
+                    {
+                        sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, false);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName, " .wrm");
 
-        //                //return GetModuleReportPath(objNameSpace, CPathFinder::STANDARD) + sFileName;
-        //        }
-        //        case NameSpaceObjectType.Image:
-        //  case NameSpaceObjectType.Text:
-        //        case NameSpaceObjectType.File:
-        //  {
-        //                sFullFileName = aModuleInfo.GetCustomFileFullFilename(objNameSpace.File, user);
-        //                if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        break;
+                    }
+                case NameSpaceObjectType.Image:
+                case NameSpaceObjectType.Text:
+                case NameSpaceObjectType.PDF:
+                case NameSpaceObjectType.RFT:
+                case NameSpaceObjectType.File:
+                    {
+                        sFullFileName = moduleInfo.GetCustomFilePath(user);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //   sFullFileName = GetModuleFilesPath(objNameSpace, CPathFinder::ALL_USERS) + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        sFullFileName = moduleInfo.GetCustomAllUserFilePath();
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
+                        
 
-        //   return GetModuleFilesPath(objNameSpace, CPathFinder::STANDARD) + sFileName;
-        //  }
-        //        case NameSpaceObjectType.DataFile:
+                        return moduleInfo.GetStandardFilePath() + fileName;
 
-        //        {
-        //   ASSERT(!sCulture.IsEmpty());
-        //            sFileName += szXmlExt;
+                    }
+                case NameSpaceObjectType.DataFile:
+                    {
 
-        //   sFullFileName = GetModuleDataFilePath(objNameSpace, CPathFinder::USERS, sUser) + SLASH_CHAR + sCulture + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        fileName += ".xml";
+                        
+                        //TODO LARA xche il c# nn va sulla custom????????? todo RIky
+                        sFullFileName = GetStandardDataFilePath(objNameSpace.Application, objNameSpace.Module, culture);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //   sFullFileName = GetModuleDataFilePath(aNamespace, CPathFinder::ALL_USERS) + SLASH_CHAR + sCulture + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        return string.Empty;
+                    }
+                case NameSpaceObjectType.Profile:
+                    {
+                        sFullFileName = moduleInfo.GetCustomDocumentSchemaFilesPath(fileName, user, company);
+                        if(ExistFile(sFullFileName + "\\" + "Document.xml")) 
+                            return sFullFileName;
 
-        //   return GetModuleDataFilePath(objNameSpace, CPathFinder::STANDARD) + SLASH_CHAR + sCulture + sFileName;
-        //  }
+                        sFullFileName = moduleInfo.GetCustomAllsUserDocumentSchemaFilesPath(fileName, company);
+                        if (ExistFile(sFullFileName + "\\" + "Document.xml"))
+                            return sFullFileName;
 
-        //        //case NameSpaceObjectType.):
-        //        //{
-        //        // CTBNamespace nsDocument =
-        //        //              sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::USERS, sUser) + sFileName;
-        //        // if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
-        //        //  return sFullFileName;
+                        return moduleInfo.GetStandardDocumentSchemaFilesPath(fileName);
+                    }
 
-        //        // sFullFileName = GetDocumentExportProfilesPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-        //        // if (ExistFile(sFullFileName + SLASH_CHAR + szDocument))
-        //        //  return sFullFileName;
+                case NameSpaceObjectType.WordDocument:
+                case NameSpaceObjectType.WordTemplate:
+                case NameSpaceObjectType.ODT:
+                    {
+                        sFullFileName = moduleInfo.GetCustomWordDocumentFullFilename(fileName, user);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //        // return GetDocumentExportProfilesPath(aNamespace, CPathFinder::STANDARD) + sFileName;
-        //        //}
+                        sFullFileName = moduleInfo.GetCustomWordDocumentFullFilename(fileName);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //        case NameSpaceObjectType.WordDocument:
-        //        case NameSpaceObjectType.WordTemplate:
-        //  {
-        //   sFullFileName = GetModuleWordDocPath(objNameSpace, CPathFinder::USERS, sUser) + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        return objNameSpace.GetWordDocumentFileName();
+                    }
 
-        //   sFullFileName = GetModuleWordDocPath(objNameSpace, CPathFinder::ALL_USERS) + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                case NameSpaceObjectType.ExcelDocument:
+                case NameSpaceObjectType.ExcelTemplate:
+                case NameSpaceObjectType.ODS:
+                    {
+                        sFullFileName = moduleInfo.GetCustomExcelDocumentFullFilename(fileName, user);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //   return GetModuleWordDocPath(objNameSpace, CPathFinder::STANDARD) + sFileName;
-        //  }
+                        sFullFileName = moduleInfo.GetCustomExcelDocumentFullFilename(fileName);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
 
-        //        case NameSpaceObjectType.ExcelDocument:
-        //  case NameSpaceObjectType.ExcelTemplate:
-        //  {
-        //   sFullFileName = GetModuleExcelDocPath(objNameSpace, CPathFinder::USERS, sUser) + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+                        return objNameSpace.GetExcelDocumentFileName();
+                    }
 
-        //   sFullFileName = GetModuleExcelDocPath(aNamespace, CPathFinder::ALL_USERS) + sFileName;
-        //   if (ExistFile(sFullFileName))
-        //    return sFullFileName;
+            }
 
-        //   return GetModuleExcelDocPath(objNameSpace, CPathFinder::STANDARD) + sFileName;
-        //  }
-
-        // }
-
-        // return sFullFileName;
-        //}
+            return string.Empty;
+        }
 
         //-----------------------------------------------------------------------------
         public string GetUserNameFromPath(String sObjectFullPath)

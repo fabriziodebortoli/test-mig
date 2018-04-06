@@ -1372,8 +1372,14 @@ namespace Microarea.Common.NameSolver
 			return System.IO.Path.Combine(GetCustomFilePath(), PathFinder.GetUserPath(userName));
 		}
 
-		//-------------------------------------------------------------------------------
-		public string GetCustomTextFullFilename(string text)
+        //-------------------------------------------------------------------------------
+        public string GetCustomAllUserFilePath()
+        {
+            return System.IO.Path.Combine(GetCustomFilePath(), NameSolverStrings.AllUsers);
+        }
+
+        //-------------------------------------------------------------------------------
+        public string GetCustomTextFullFilename(string text)
 		{
 			return GetCustomTextFullFilename(text, NameSolverStrings.AllUsers);
 		}
@@ -1574,8 +1580,16 @@ namespace Microarea.Common.NameSolver
 			return System.IO.Path.Combine(GetCustomDocumentSchemaFilesPath(documentName, subscription), PathFinder.GetUserPath(userName));
 		}
 
-		//-------------------------------------------------------------------------------
-		public string GetCustomDocumentSchemaFullFilename(string documentName, string schemaName)
+        //-------------------------------------------------------------------------------
+        public string GetCustomAllsUserDocumentSchemaFilesPath(string documentName, string subscription)
+        {
+            if (documentName == null || documentName == String.Empty)
+                return String.Empty;
+            //return GetCustomDocumentSchemaFilesPath(documentName);
+            return System.IO.Path.Combine(GetCustomDocumentSchemaFilesPath(documentName, subscription), NameSolverStrings.AllUsers);
+        }
+        //-------------------------------------------------------------------------------
+        public string GetCustomDocumentSchemaFullFilename(string documentName, string schemaName)
 		{
 			return GetCustomDocumentSchemaFullFilename(documentName, schemaName, NameSolverStrings.AllUsers);
 		}

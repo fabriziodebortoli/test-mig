@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Microarea.Common;
 using Microarea.Common.Applications;
 using Microarea.Common.NameSolver;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using FakeItEasy;
-using Microarea.Common.WebServicesWrapper;
 using System.Security.Authentication;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
@@ -35,7 +31,7 @@ namespace tbfs_service.Controllers
 
 
         //---------------------------------------------------------------------
-        [Route("GettAllApplications")]
+        [Route("GettAllApplications")] //Paolo
         public IActionResult GettAllApplications()
         {
             try
@@ -52,7 +48,7 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("ExistFile")]
+        [Route("ExistFile")]// Mauro
         public IActionResult ExistFile(NameSpace objNameSpace, string user, string companyName)
         {
             try
@@ -82,13 +78,14 @@ namespace tbfs_service.Controllers
         }
 
         //-------------------------------------------------------------------------------
-        public IActionResult GetObjsByCustomizationLevel(Enum objType, string objNamespace, string userName, string company)
+        public IActionResult GetObjsByCustomizationLevel(Enum objType, string objNamespace, string userName, string company) //paolo
         {
             try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
-                string json = PathFinder.PathFinderInstance.GetJsonAllObjectsByTypeAndCustomizationLevel(authtoken, objNamespace, userName, company, objType);
+                PathFinder pf = new PathFinder(company, userName);
+                string json = pf.GetJsonAllObjectsByTypeAndCustomizationLevel(authtoken, objNamespace, userName, company, objType);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -97,26 +94,30 @@ namespace tbfs_service.Controllers
             }
         }
 
-        ////---------------------------------------------------------------------
-        //[Route("GetFileNameFromNamespace")]
-        //public IActionResult GetFileNameFromNamespace(NameSpace objNameSpace, string user)
-        //{
-        //    try
-        //    {
-        //        objNameSpace.NameSpaceType
-        //      //  string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
-        //        //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
-        //        string json = PathFinder.PathFinderInstance.get(authtoken);
-        //        return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
-        //    }
-        //}
+        //---------------------------------------------------------------------
+        [Route("GetFileNameFromNamespace/{objnameSpace}/{user}/{company}/{culture}")]//mauro
+        public IActionResult GetFileNameFromNamespace(string objnameSpace, string user, string company, string culture)
+        {
+            try
+            {
+                NameSpace objNameSpace = new NameSpace(objnameSpace);
+                if (!objNameSpace.IsValid())
+                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
+
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+
+                PathFinder pf = new PathFinder(company, user);
+                string json = pf.GetFileNameFromNamespace(objNameSpace, user, company, culture);
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
 
         //---------------------------------------------------------------------
-        [Route("GetAllModulesByApplication")]
+        [Route("GetAllModulesByApplication")] //paolo
         public IActionResult GetAllModulesByApplication(string appName)
         {
             try
@@ -133,7 +134,7 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("GetAllObjectsBytype")]
+        [Route("GetAllObjectsBytype")] //paolo
         public IActionResult GetAllObjectsBytype(string appName, string modulesName, ObjectType objType)
         {
             try
