@@ -104,34 +104,6 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     this.rsService.eventSnapshot.subscribe(() => this.saveSnapshot());
   }
 
-
-
-
-  ngDoCheck(){
-    console.log("DoCheck");
-  }
-
-  ngAfterContentChecked(){
-    console.log("AfeterContentChecked");
-  }
-
-  ngAfeterViewChecked(){
-    console.log("AfeterViewChecked");
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   // -----------------------------------------------
   rsInitStateMachine() {
     let p: string = '';
