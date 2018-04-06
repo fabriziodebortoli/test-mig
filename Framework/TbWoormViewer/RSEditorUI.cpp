@@ -3901,7 +3901,7 @@ BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 
 	editView->GetEditCtrl()->AddIntellisenseWord(L"html", L"html", L"html", L"", L"");
 
-	for (int i = CHtmlTag::EHtmlTag::HTML_TAG_NEWLINE; i != CHtmlTag::EHtmlTag::HTML_TAG_LAST; i++)
+	for (int i = CHtmlTag::EHtmlTag::HTML_TAG_NEWLINE; i < CHtmlTag::EHtmlTag::HTML_TAG_LAST; i++)
 	{
 		CHtmlTag::EHtmlTag myTag = static_cast<CHtmlTag::EHtmlTag>(i);
 

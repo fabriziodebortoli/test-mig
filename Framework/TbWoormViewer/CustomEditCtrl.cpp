@@ -58,19 +58,16 @@ struct StringIndex
 	int		nIndex = 1;
 };
 
-
-
-
-
 /////////////////////////////////////////////////////////////////////////////
 // IntellisenseWndExtended
-
 
 CStringList CCustomEditCtrl::m_lstFind;
 
 CCustomEditCtrl::CCustomEditCtrl()
 {
+	m_bIsModified = FALSE;
 	m_bReadOnly = FALSE;
+
 	m_bCheckColorTags = FALSE;
 	m_bCopyRTFToClipboard = TRUE;
 	m_bReplaceTabsAndEOLOnCopy = TRUE;
@@ -78,19 +75,23 @@ CCustomEditCtrl::CCustomEditCtrl()
 	m_bEnableCurrentLineCopy = TRUE;
 	m_bColorHyperlink = TRUE;
 	m_bBlockSelectionMode = TRUE;
+
 	EnableGradientMarkers(TRUE);
-	m_bDragTextMode = TRUE;
+
 	m_bEnableToolTips = TRUE;
 	m_nUndoBufferSize = 200;
 	m_bUndoCharMode = FALSE;
 	m_nScrollMouseWheelSpeed = 1;
 	m_bScrollVertEmptyPage = TRUE;
+
+	m_bDragTextMode = TRUE;
+	m_DropTarget.Register(this);
+
+	m_bEnableBreakpoints = FALSE;
+
 	EnableIntelliSense();
 	m_bIntelliSenseMode = TRUE;
-	m_bIsModified = FALSE;
-	m_DropTarget.Register(this);
 	m_pIntelliSenseWnd = NULL;
-	m_bEnableBreakpoints = FALSE;
 	m_mIntelliMap = NULL;
 }
 
@@ -104,7 +105,6 @@ void CCustomEditCtrl::EmptyIntellisense()
 		SAFE_DELETE(m_mIntelliMap);	 */
 
 	m_mIntelliMap = new IntellisenseMap();
-
 }
 
 //------------------------------------------------------------------
@@ -114,10 +114,14 @@ void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CStr
 		return;
 	if (!IsIntelliSenseEnabled())
 		return;
+	if (!m_mIntelliMap)
+		return;
 
 	key.Replace((CString)" ", (CString)"_");
 
 	IntellisenseMap::IntellisenseNode* lastNode = m_mIntelliMap->insert(key.MakeUpper());
+	if (!lastNode)
+		return;
 
 	//the word already exist
 	if (lastNode->data)
@@ -128,11 +132,9 @@ void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CStr
 	data->m_strItemValue = intelliValue;
 	data->m_strAdditionalInfo = additionalInfo;
 	data->m_strItemHelp = help;
+
 	lastNode->data = data;
-
-
 }
-
 
 void CCustomEditCtrl::AddToolTipItem(LPCTSTR word, LPCTSTR toolTip)
 {
@@ -151,7 +153,6 @@ void CCustomEditCtrl::ColorVariables(CWoormDocMng* doc, BOOL viewMode)
 		:
 		doc->m_pEditorManager->GetPrgData()->GetSymTable();
 	ASSERT(pSymTable);
-
 
 	for (int i = 0; i < pSymTable->GetSize(); i++)
 	{

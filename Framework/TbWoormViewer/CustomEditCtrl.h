@@ -19,7 +19,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // CCustomEditCtrl window
 
-
 static const DWORD g_dwBreakPointType = g_dwBCGPEdit_FirstUserDefinedMarker;
 static const DWORD g_dwColorBreakPointType = g_dwBCGPEdit_FirstUserDefinedMarker << 1;
 static const DWORD g_dwBookmarkPointType = g_dwBCGPEdit_FirstUserDefinedMarker;
@@ -34,8 +33,6 @@ public:
 	~IntellisenseWndExtended();
 	CBCGPBaseIntelliSenseLB* GetIntelliList() { return m_pLstBoxData;}
 	virtual BOOL DestroyWindow();
-
-
 };
 
 class TB_EXPORT IntellisenseData : public CBCGPIntelliSenseData
@@ -58,9 +55,7 @@ public:
 		m_strItemValue = other.m_strItemValue;
 		return *this;
 	}
-
 };
-
 
 // IntellisenseMap is based on TRIE data structure 
 class TB_EXPORT IntellisenseMap {
@@ -92,6 +87,7 @@ protected:
 	IntellisenseData* createDataCopy(IntellisenseData* data);
 };
 
+//=============================================================================
 
 class TB_EXPORT CCustomEditCtrl : public CBCGPEditCtrl
 {
@@ -104,7 +100,7 @@ public:
 
 // Attributes
 public:
-	BOOL	m_bCheckColorTags;	// TRUE if check for tags (<....>) in "OnGetCharColor"
+	BOOL	m_bCheckColorTags = FALSE;	// TRUE if check for tags (<....>) in "OnGetCharColor"
 
 // Operations
 public:
@@ -150,7 +146,6 @@ public:
 		{
 			return FALSE;
 		}*/
-
 		return TRUE;
 	}
 
@@ -160,7 +155,6 @@ public:
 		{
 			return FALSE;
 		}*/
-
 		return TRUE;
 	}
 
@@ -190,11 +184,11 @@ public:
 	void SetIntellisenseMode(BOOL mode);
 	BOOL IsIntellisenseActive() { return m_pIntelliSenseWnd ? TRUE : FALSE;}
 	void ForceIntellisense();
+
 	BOOL m_bForceIntellisense = FALSE;
 
    // intellisense
-	IntellisenseMap*	m_mIntelliMap;
-
+	IntellisenseMap*	m_mIntelliMap = NULL;
 
 	// Generated message map functions
 protected:
@@ -210,7 +204,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	BOOL	m_bEnableBreakpoints;
+	BOOL	m_bEnableBreakpoints = FALSE;
 	CMapStringToString	m_mTipString;
 
 	CBCGPToolBarImages	m_ImageBreak;
@@ -227,7 +221,6 @@ private:
 		void AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help);
 		void EmptyIntellisense();
 	
-
 	private:
 		CString FormatEnum(WORD nTag, WORD nItem);
 		void ReplaceText(CString, CString);
