@@ -1089,6 +1089,9 @@ public:
 	void	SetShowToolBarTab(BOOL bAutoHide = TRUE) { m_bShowToolBarTab = bAutoHide; }
 	BOOL	GetShowToolBarTab() { return m_bShowToolBarTab; }
 
+	void		PopulatedMenuButton(CTBToolbarMenuButton* pMenuButton);
+	CDocument*	GetParentDocument();
+
 private:
 	void AddRightSpaceObj();
 	void AddLeftSpaceObj();

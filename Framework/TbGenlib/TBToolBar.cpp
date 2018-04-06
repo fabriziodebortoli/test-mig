@@ -4976,23 +4976,36 @@ BOOL CTBToolBar::AutoHideButton(CBCGPToolbarButton* pButton)
 }
 
 //----------------------------------------------------------------------------
-BOOL CTBToolBar::ISMenuButtonVoicesEnabled(CTBToolbarMenuButton* pMenuButton)
+void CTBToolBar::PopulatedMenuButton(CTBToolbarMenuButton* pMenuButton)
 {
-	CDocument* pDoc = NULL;
-	if (m_pParentTabbedToolbar) {
-		pDoc = m_pParentTabbedToolbar->GetParentDocument();
-		if (pDoc) {
-			CBaseDocument* pBaseDoc = dynamic_cast<CBaseDocument*> (pDoc);
-			if (pBaseDoc) {
-				CBaseDocument::FormMode eLastFormMode = pBaseDoc->GetFormMode();
-				if (m_PrevFormMode != eLastFormMode) {
-					// Update all drop Down Menu to change document state
-					pMenuButton->OnPopulatedMenuButton();
-				}
-				m_PrevFormMode = eLastFormMode;
+	CDocument* pDoc = GetParentDocument();	
+	if (pDoc) {
+		CBaseDocument* pBaseDoc = dynamic_cast<CBaseDocument*> (pDoc);
+		if (pBaseDoc) {
+			CBaseDocument::FormMode eLastFormMode = pBaseDoc->GetFormMode();
+			if (m_PrevFormMode != eLastFormMode) {
+				// Update all drop Down Menu to change document state
+				pMenuButton->OnPopulatedMenuButton();
 			}
+			m_PrevFormMode = eLastFormMode;
 		}
 	}
+}
+
+//----------------------------------------------------------------------------
+CDocument* CTBToolBar::GetParentDocument()
+{
+	CDocument* pDoc = NULL;
+	if (m_pParentTabbedToolbar) 
+		pDoc = m_pParentTabbedToolbar->GetParentDocument();
+	return pDoc;
+}
+
+//----------------------------------------------------------------------------
+BOOL CTBToolBar::ISMenuButtonVoicesEnabled(CTBToolbarMenuButton* pMenuButton)
+{
+	CDocument* pDoc = GetParentDocument();
+	PopulatedMenuButton(pMenuButton);
 
 	CMenu menu;
 	HMENU hMenu = pMenuButton->GetMenu();

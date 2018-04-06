@@ -565,6 +565,61 @@ void CDocumentSession::PushButtonsStateToClients(HWND hwnd)
 					if (!pButton)
 						continue;
 
+					// Is a menu Button ?
+					CTBToolbarMenuButton* pMenuButton = dynamic_cast<CTBToolbarMenuButton*> (pButton);
+					BOOL bAllDisable = FALSE;
+					if (pMenuButton)
+					{
+						CDocument* pDoc = pToolbar->GetParentDocument();
+						pToolbar->PopulatedMenuButton(pMenuButton);
+						CMenu menu;
+						HMENU hMenu = pMenuButton->GetMenu();
+						if (hMenu != NULL)
+						{
+							menu.Attach(hMenu);
+							int iMenuCount = menu.GetMenuItemCount();
+							if (pDoc && iMenuCount > 0)
+							{
+								bAllDisable = TRUE;
+								for (int i = 0; i < iMenuCount; i++)
+								{
+									CString sMenuString;
+									menu.GetMenuString(i, sMenuString, MF_BYPOSITION);
+									UINT menuState = menu.GetMenuState(i, MF_BYPOSITION);
+									// Is a separator
+									if (menuState & MF_SEPARATOR) {
+										continue;
+									}
+
+									UINT nID = menu.GetMenuItemID(i);
+									CCmdUI state;
+									state.m_nIndexMax = iMenuCount;
+									state.m_nIndex = i;
+									state.m_pMenu = &menu;
+									state.m_nID = nID;
+									pDoc->OnCmdMsg(nID, CN_UPDATE_COMMAND_UI, &state, NULL);
+
+									menuState = menu.GetMenuState(nID, MF_BYCOMMAND);
+									BOOL isMenuEnable = !(menuState & MF_DISABLED);
+									INT isMenuCheck = (menuState & MF_CHECKED ? 1 : 0);
+									
+									CJsonResource menuResource = AfxGetTBResourcesMap()->DecodeID(TbControls, nID);
+									CString cmpId = menuResource.m_strName;
+									resp.OpenObject(menuResource.m_strName);
+									resp.WriteBool(_T("enabled"), isMenuEnable == TRUE);
+									resp.WriteInt(_T("checkStatus"), isMenuCheck);
+									resp.CloseObject();
+									
+									if (bAllDisable && isMenuEnable)
+									{
+										bAllDisable = FALSE;
+									}
+								}
+							}
+						}
+					}
+					
+					// ToolBar button
 					CJsonResource resource = AfxGetTBResourcesMap()->DecodeID(TbControls, pButton->m_nID);
 					CString cmpId = resource.m_strName;
 					resp.OpenObject(resource.m_strName);
@@ -575,9 +630,13 @@ void CDocumentSession::PushButtonsStateToClients(HWND hwnd)
 
 					BOOL isEnabled = ui.GetEnabled();
 					int checkedState = ui.GetCheck();
+
+					// If all items voice of menu is disable the button is disable
+					if (bAllDisable)
+						isEnabled = FALSE;
+
 					resp.WriteBool(_T("enabled"), isEnabled == TRUE);
 					resp.WriteInt(_T("checkStatus"), checkedState);
-					
 					resp.CloseObject();
 				}
 			}
