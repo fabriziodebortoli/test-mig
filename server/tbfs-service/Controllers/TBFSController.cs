@@ -48,28 +48,22 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("ExistFile")]// Mauro
-        public IActionResult ExistFile(NameSpace objNameSpace, string user, string companyName)
+        [Route("ExistObject/{objnameSpace}/{user}/{company}/{culture}")]//mauro
+        public IActionResult ExistObject(string objnameSpace, string user, string companyName, string culture)
         {
             try
             {
+                NameSpace objNameSpace = new NameSpace(objnameSpace);
 
-                INameSpaceType type = objNameSpace.NameSpaceType;
-                bool isValid = objNameSpace.IsValid();
+                if (!objNameSpace.IsValid())
+                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
 
-                if (!string.IsNullOrEmpty(user) && !string.IsNullOrEmpty(companyName))
-                {
-                    //Son nella custom
-                    //path company 
-                    string custompath = PathFinder.PathFinderInstance.GetCustomCompanyPath(companyName);
+                string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
+                PathFinder pf = new PathFinder(companyName, user);
+                bool exist = pf.ExistObject(objNameSpace, user, companyName, culture);
 
-                }
-
-                //  string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
-                //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
-                string json = "";// PathFinder.PathFinderInstance.get(authtoken);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new ContentResult { StatusCode = 200, Content = exist.ToJson(), ContentType = "application/json" };
             }
             catch (Exception e)
             {

@@ -1598,6 +1598,27 @@ namespace Microarea.Common.NameSolver
         }
 
         //----------------------------------------------------------------------
+        public bool ExistObject(NameSpace objNameSpace, string user, string company, string culture)
+        {
+            if (!objNameSpace.IsValid())
+                return false;
+
+            if (objNameSpace.NameSpaceType.Type == NameSpaceObjectType.Document)
+            {
+                ModuleInfo moduleInfo = GetModuleInfo(objNameSpace);
+
+                foreach (DocumentInfo doc in moduleInfo.DocumentObjectsInfo.Documents)
+                {
+                    if (string.Compare(doc.NameSpace.FullNameSpace, objNameSpace.FullNameSpace, true) == 0)
+                        return true;
+                }
+
+                return false;
+            }
+
+            return (GetFileNameFromNamespace(objNameSpace, user, company, culture) != string.Empty);
+        }
+        //----------------------------------------------------------------------
         public string GetFileNameFromNamespace(NameSpace objNameSpace, string user, string company, string culture)
         {
             if (!objNameSpace.IsValid())
@@ -1617,9 +1638,24 @@ namespace Microarea.Common.NameSolver
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName, " .wrm");
 
-                        break;
+                        return  string.Empty;
                     }
                 case NameSpaceObjectType.Image:
+                    {
+                        sFullFileName = moduleInfo.GetCustomImagePath(user);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
+
+                        sFullFileName = moduleInfo.GetCustomImagePath(NameSolverStrings.AllUsers);
+                        if (ExistFile(sFullFileName))
+                            return Path.Combine(sFullFileName, fileName);
+
+                        sFullFileName =  Path.Combine(moduleInfo.GetStandardImagePath(), fileName);
+                        if (ExistFile(sFullFileName))
+                            return sFullFileName;
+
+                        return string.Empty;
+                    }
                 case NameSpaceObjectType.Text:
                 case NameSpaceObjectType.PDF:
                 case NameSpaceObjectType.RFT:
@@ -1632,9 +1668,12 @@ namespace Microarea.Common.NameSolver
                         sFullFileName = moduleInfo.GetCustomAllUserFilePath();
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
-                        
 
-                        return moduleInfo.GetStandardFilePath() + fileName;
+                        sFullFileName = Path.Combine(moduleInfo.GetStandardFilePath(), fileName);
+                        if (ExistFile(sFullFileName))
+                            return sFullFileName;
+
+                        return string.Empty;
 
                     }
                 case NameSpaceObjectType.DataFile:
@@ -1658,8 +1697,13 @@ namespace Microarea.Common.NameSolver
                         sFullFileName = moduleInfo.GetCustomAllsUserDocumentSchemaFilesPath(fileName, company);
                         if (ExistFile(sFullFileName + "\\" + "Document.xml"))
                             return sFullFileName;
+                        
+                        sFullFileName = moduleInfo.GetStandardDocumentSchemaFilesPath(fileName);
+                        if (ExistFile(sFullFileName))
+                            return sFullFileName;
 
-                        return moduleInfo.GetStandardDocumentSchemaFilesPath(fileName);
+                        return string.Empty;
+
                     }
 
                 case NameSpaceObjectType.WordDocument:
@@ -1674,7 +1718,11 @@ namespace Microarea.Common.NameSolver
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
-                        return objNameSpace.GetWordDocumentFileName();
+                        sFullFileName = objNameSpace.GetWordDocumentFileName();
+                        if (ExistFile(sFullFileName))
+                            return sFullFileName;
+
+                        return string.Empty;
                     }
 
                 case NameSpaceObjectType.ExcelDocument:
@@ -1689,7 +1737,11 @@ namespace Microarea.Common.NameSolver
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
-                        return objNameSpace.GetExcelDocumentFileName();
+                        sFullFileName = objNameSpace.GetExcelDocumentFileName();
+                        if (ExistFile(sFullFileName))
+                            return sFullFileName;
+
+                        return string.Empty;
                     }
 
             }
