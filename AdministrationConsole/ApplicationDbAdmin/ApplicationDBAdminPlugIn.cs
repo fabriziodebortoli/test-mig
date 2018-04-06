@@ -842,6 +842,12 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 			EnableProgressBarFromPlugIn(sender);
 
 			List<DevelopmentModuleRelease> modules = GetModulesWithDevelopmentRelease();
+			if (modules.Count == 0)
+			{
+				MessageBox.Show(Strings.NoModulesForRewind);
+				DisableProgressBarFromPlugIn(sender);
+				return;
+			}
 
 			// utilizzo il costruttore con l'indicazione dell'id della company e del tipo di configurazione da caricare
 			dbManager = new DatabaseManager
@@ -865,6 +871,14 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin
 					DiagnosticViewer.ShowDiagnostic(DBAdminDiagnostic);
 				// chiudo la connessione
 				dbManager.CloseConnection();
+				DisableProgressBarFromPlugIn(sender);
+				return;
+			}
+
+			if (dbManager.StatusDB == DatabaseStatus.EMPTY)
+			{
+				MessageBox.Show(Strings.ErrStopWizard);
+				DisableProgressBarFromPlugIn(sender);
 				return;
 			}
 

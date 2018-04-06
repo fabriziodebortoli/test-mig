@@ -2,7 +2,7 @@ import { ElementRef } from '@angular/core';
 import { ExplorerComponent } from './explorer.component';
 import { Observable, untilDestroy, when } from '../../../rxjs.imports';
 import { Logger } from '../../../core/services/logger.service';
-import { tryArrayFrom } from '../../commons/u';
+import { tryArrayFrom, Dom } from '../../commons/u';
 import { Maybe } from '../../commons/monads/maybe';
 import { FlexElements } from './flex-elements';
 
@@ -14,38 +14,43 @@ export class ExplorerEventHandler {
         return new ExplorerEventHandler(e);
     }
 
-    hasClass = (el: any, classes: string) => el.classList && el.classList.value && el.classList.value.includes(classes);
-
     private constructor(private cmp: any) {
         this.el = cmp.m.injector.get(ElementRef).nativeElement;
         this.elements = FlexElements.create(this.el, '.explorer .item.selected', '.explorer .item');
-        const prevent = e => { e.preventDefault(); e.stopPropagation(); };
         Observable.fromEvent(this.el, 'keyup', { capture: true })
             .pipe(untilDestroy(cmp))
             .subscribe(async (e: KeyboardEvent) => {
                 switch (e.key) {
-                    case 'ArrowUp': this.up(); prevent(e); break;
-                    case 'ArrowDown': this.down(); prevent(e); break;
-                    case 'ArrowLeft': this.left(); prevent(e); break;
-                    case 'ArrowRight': this.right(); prevent(e); break;
-                    case 'Enter': this.open(); prevent(e); break;
-                    case 'Escape': this.close(); prevent(e); break;
-                    case 'Backspace': !this.cmp.showSearch && this.back(); prevent(e); break;
+                    case 'ArrowUp': this.up(); Dom.prevent(e); break;
+                    case 'ArrowDown': this.down(); Dom.prevent(e); break;
+                    case 'ArrowLeft': this.left(); Dom.prevent(e); break;
+                    case 'ArrowRight': this.right(); Dom.prevent(e); break;
+                    case 'Enter': this.open(); Dom.prevent(e); break;
+                    case 'Escape': this.close(); Dom.prevent(e); break;
+                    case 'Backspace': !this.cmp.showSearch && this.back(); Dom.prevent(e); break;
                     default: this.isAlphaNumeric(e.keyCode) && await this.find(e.key);
                 }
             });
+
         cmp.itemClick
             .pipe(untilDestroy(cmp))
             .buffer(cmp.itemClick.debounceTime(250))
             .filter(arr => arr.length >= 2)
             .subscribe(item => cmp.select(item[0]));
+
+        Observable.merge(
+            Observable.fromEvent(this.el, 'dragover'),
+            Observable.fromEvent(this.el, 'drop')
+        ).pipe(untilDestroy(cmp))
+            .filter(Dom.targetHasOrHasAnchestorWithClass('explorer'))
+            .subscribe(Dom.prevent);
     }
 
     private isAlphaNumeric = (keyCode: number) => keyCode >= 48 && keyCode <= 90;
     private open() {
         if (!this.cmp.selectedItem) return;
         if (this.cmp.selectedItem.level === 3) {
-            this.cmp.select(this.cmp.selectedItem.level);
+            this.cmp.select(this.cmp.selectedItem);
             return;
         }
         this.cmp.updateItemsInside(this.cmp.selectedItem);

@@ -814,6 +814,7 @@ public:
 	BOOL DispatchOnGetCustomColor (const CBodyEdit*, CBodyEditRowSelected* /*CurRow*/);
 	BOOL DispatchOnDblClick (const CBodyEdit*, UINT /*nFlags*/, CBodyEditRowSelected* /*CurRow*/); 
 	BOOL DispatchOnEnableTabSelChanging(UINT /*nTabber*/, UINT /*nFromIDD*/, UINT /*nToIDD*/);
+	BOOL DispatchOnAfterAttachData();
 	void DispatchOnTabSelChanged(UINT /*nTabber*/, UINT /*nTabIDD*/);
 	BOOL DispatchOnShowingBodyEditContextMenu(CBodyEdit*, CMenu*, int /*nCol*/, int /*nRow*/, CPoint /*ptClient*/); 
 	
@@ -1099,7 +1100,7 @@ public:	//permettono di personalizzare il comportamento dei controlli creati da 
 	virtual BOOL OnShowingPopupMenu	(UINT, CMenu*) { return TRUE; }
 	virtual BOOL OnRunReport	(CWoormInfo*) { return TRUE; }
 	virtual BOOL OnToolbarDropDown (UINT, CMenu& ) { return FALSE; }
-
+	virtual BOOL OnAfterOnAttachData() { return TRUE; }
 	//reimplementabile per effettuare dei controlli in fase iniziale ed eventualmente abortire l'apertura del documento
 	virtual BOOL CanRunDocument () { return TRUE; } 
 

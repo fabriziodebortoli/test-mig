@@ -3,8 +3,10 @@ import { Component, Input, ViewEncapsulation, OnDestroy, TemplateRef, ElementRef
 import { Align } from '@progress/kendo-angular-popup/dist/es/models/align.interface';
 import { PopupRef, PopupService } from '@progress/kendo-angular-popup';
 
-import { TbComponent, CloneDocumentDialogComponent, EasystudioService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, TbComponentService } from '@taskbuilder/core';
 
+import { CloneDocumentDialogComponent } from './../../../clone-document-dialog/clone-document-dialog.component';
+import { EasystudioService } from './../../../../services/easystudio.service';
 import { EsCustomizItem } from '@taskbuilder/core/shared/models/es-customization-item.model';
 
 @Component({

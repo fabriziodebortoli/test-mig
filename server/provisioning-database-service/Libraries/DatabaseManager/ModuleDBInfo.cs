@@ -1831,4 +1831,24 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			PreviousModule		= previousMod;
 		}
 	}
+
+	///<summary>
+	/// Classe di appoggio per la gestione Rewind versione database
+	/// Tengo da parte le informazioni per fare l'update
+	///</summary>
+	//============================================================================
+	public class DevelopmentModuleRelease
+	{
+		public string Application = string.Empty;
+		public string Module = string.Empty;
+		public int DBRelease = 0;
+
+		//---------------------------------------------------------------------------
+		public DevelopmentModuleRelease(string application, string module, int release)
+		{
+			Application = application;
+			Module = module;
+			DBRelease = release;
+		}
+	}
 }

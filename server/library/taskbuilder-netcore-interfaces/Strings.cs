@@ -187,6 +187,7 @@ namespace TaskBuilderNetCore.Interfaces
             public const string Mastertable = "mastertable";
 			public const string Application = "application";
 			public const string Module		= "module";
+			public const string Development = "development";
 		}
 	}
 

@@ -6,14 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NustacheNetCore\NustacheNetCore\NustacheNetCore.csproj" />
     <ProjectReference Include="..\taskbuilder-netcore-common\taskbuilder-netcore-common.csproj" />
     <ProjectReference Include="..\taskbuilder-netcore-interfaces\taskbuilder-netcore-interfaces.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="NustacheNetCore">
-      <HintPath>dlls\NustacheNetCore.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

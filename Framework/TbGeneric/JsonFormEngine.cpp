@@ -829,30 +829,7 @@ void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonC
 	return ParseDescriptionFromText(ar, pContext, file.ReadToEnd(), sActivation, pDescriptionToMerge, expectedType);
 }
 
-//-----------------------------------------------------------------------------
-void CJsonFormEngineObj::TrimWebSections(CJsonParser& parser)
-{
-	CJsonIterator* pIterator = parser.BeginIteration();
-	CString strEnv, strKey;
-	int index;
-	CJsonParser s;
-	while (pIterator->GetNext(strKey, index, s))
-	{
-		if (s.IsEmpty())
-			continue;
-		if (s.TryReadString(_T("environment"), strEnv) && strEnv == _T("web"))
-		{
-			if (index > -1)
-				parser.Remove(index);
-			else if (!strKey.IsEmpty())
-				parser.Remove(strKey);
-		}
-		else
-		{
-			TrimWebSections(s);
-		}
-	}
-}
+
 //-----------------------------------------------------------------------------
 void CJsonFormEngineObj::ParseDescriptionFromText(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, LPCTSTR lpszText, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
 {
@@ -868,7 +845,7 @@ void CJsonFormEngineObj::ParseDescriptionFromText(CArray<CWndObjDescription*>&ar
 		MessageBox(0, _TB("" + sErrorMex + "\n" + sError), (LPCWSTR)sErrorMex, 0);
 		return;
 	}
-	//TrimWebSections(parser);
+	parser.TrimWebSections();
 	if (pDescriptionToMerge)//leggo un delta
 	{
 		bool bOldForAppend = parser.m_bForAppend;

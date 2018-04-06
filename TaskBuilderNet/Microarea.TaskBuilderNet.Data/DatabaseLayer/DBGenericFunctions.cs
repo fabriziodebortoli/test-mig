@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using Microarea.TaskBuilderNet.Core.Generic;
 using Microarea.TaskBuilderNet.Core.NameSolver;
@@ -158,70 +159,52 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 		//---------------------------------------------------------------------
 		public static void SetDatabaseCollationIfNoUserTables(string companyConnectionString, DBMSType dbType)
 		{
-			if (companyConnectionString.Length <= 0 || dbType == DBMSType.ORACLE)
+			if (string.IsNullOrWhiteSpace(companyConnectionString) || dbType == DBMSType.ORACLE)
 				return;
-
-			TBConnection tbConn = null;
-			TBDatabaseSchema schema = null;
-			SchemaDataTable dataTable = null;
 
 			bool existUserTables = true;
 
 			try
 			{
-				tbConn = new TBConnection(companyConnectionString, dbType);
-				tbConn.Open();
-				schema = new TBDatabaseSchema(tbConn);
-				dataTable = schema.GetAllSchemaObjects(DBObjectTypes.TABLE);
-				if (dataTable != null)
-					existUserTables = (dataTable.Rows.Count >= 1);
+				using (TBConnection tbConn = new TBConnection(companyConnectionString, dbType))
+				{
+					tbConn.Open();
+					TBDatabaseSchema schema = new TBDatabaseSchema(tbConn);
+					SchemaDataTable dataTable = schema.GetAllSchemaObjects(DBObjectTypes.TABLE);
+					if (dataTable != null)
+						existUserTables = (dataTable.Rows.Count >= 1);
+				}
 			}
 			catch
 			{
-				if (tbConn != null && tbConn.State == ConnectionState.Open)
-				{
-					tbConn.Close();
-					tbConn.Dispose();
-				}
 				return;
 			}
 
-			// se sul db non esistono tabelle dell'utente altero la collate del database con la latina (solo se diversa)
-			if (!existUserTables)
-			{
-				string alterCollate = "ALTER DATABASE {0} COLLATE {1}";
+			if (existUserTables || dbType != DBMSType.SQLSERVER)
+				return;
 
-				if (dbType == DBMSType.SQLSERVER)
+			string companyDbName = string.Empty;
+			try
+			{
+				using (TBConnection tbConn = new TBConnection(companyConnectionString, dbType))
 				{
-					if (string.Compare
-						(TBCheckDatabase.GetDatabaseCollation(tbConn),
-						NameSolverDatabaseStrings.SQLLatinCollation,
-						true,
-						CultureInfo.InvariantCulture) != 0
-						)
+					tbConn.Open();
+					companyDbName = tbConn.Database;
+					// se sul db non esistono tabelle dell'utente altero la collate del database con la latina (solo se diversa)
+					if (string.Compare(TBCheckDatabase.GetDatabaseCollation(tbConn), NameSolverDatabaseStrings.SQLLatinCollation, StringComparison.InvariantCultureIgnoreCase) != 0)
 					{
 						TBCommand command = new TBCommand(tbConn);
-						string companyDbName = tbConn.Database;
+						
 						tbConn.ChangeDatabase(DatabaseLayerConsts.MasterDatabase);
-						command.CommandText = string.Format(alterCollate, companyDbName, NameSolverDatabaseStrings.SQLLatinCollation);
-
-						try
-						{
-							command.ExecuteReader();
-						}
-						catch
-						{
-						}
-
+						command.CommandText = string.Format("ALTER DATABASE [{0}] COLLATE {1}", companyDbName, NameSolverDatabaseStrings.SQLLatinCollation);
+						command.ExecuteNonQuery();
 						tbConn.ChangeDatabase(companyDbName);
 					}
 				}
 			}
-
-			if (tbConn != null && tbConn.State == ConnectionState.Open)
+			catch (Exception e)
 			{
-				tbConn.Close();
-				tbConn.Dispose();
+				Debug.WriteLine(string.Format("Error in ALTER DATABASE {0} ({1})", companyDbName, e.Message));
 			}
 		}
 

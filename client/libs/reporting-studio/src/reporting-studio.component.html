@@ -1,0 +1,96 @@
+<tb-frame>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+    </style>
+    <iframe id="iframe" style="display:none;"></iframe>
+    <!--iframe id="iprint" name="iprint"></iframe-->
+    <tb-toolbar-top>
+        <div class="toolbar-menu">
+            <!--div class="menu-category search">
+                <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')"></tb-toolbar-top-button>
+            </div-->
+
+            <div class="menu-category navigation">
+                <tb-toolbar-top-button icon="tb-first" [caption]="_TB('First')" (click)="firstPage()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-prev" [caption]="_TB('Previous Page')" (click)="prevPage()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-next" [caption]="_TB('Next Page')" (click)="nextPage()"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-last" [caption]="_TB('Last')" (click)="lastPage()"></tb-toolbar-top-button>
+            </div>
+
+            <div class="menu-category pagetopage" >
+                <input class="contatorePag" *ngIf="!this.rsService.isSnapshot" type="number" min="1" max="{{rsExportService.totalPages}}" (ngModelChange)="navigatePag($event)" [ngModel]="this.rsService.pagNumNavigate">
+                <input class="contatorePag" *ngIf="this.rsService.isSnapshot" type="number" min="1" max="{{rsExportService.totalPages}}" [(ngModel)]="this.rsService.pagNumNavigate" disabled>
+                <div class="pagTot">
+                    <table>
+                        <tr>
+                            <td> / {{rsExportService.totalPages}} </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="menu-category esecution" *ngIf="!this.rsService.isSnapshot">
+                <tb-toolbar-top-button icon="tb-startreport" [caption]="_TB('Run Report')" (click)="reRunReport()" [disabled]="!rsService.runEnabled"></tb-toolbar-top-button>
+                <tb-toolbar-top-button icon="tb-stopreport" [caption]="_TB('Stop Report')" (click)="stopReport()" [disabled]="rsService.runEnabled"></tb-toolbar-top-button>
+            </div>
+
+            <div>
+                <h4 class="snapshotToolbarTop" *ngIf="runningReport">{{this.nameSnap}} - {{this.dateSnap | date:"dd/MM/yyyy HH:mm:ss"}}</h4>
+            </div>
+        </div>
+
+        <div class="toolbar-right">
+            <div class="menu-category exit">
+                <tb-toolbar-top-button icon="tb-exit" [caption]="_TB('Exit')" (click)="closeReport()"></tb-toolbar-top-button>
+            </div>
+        </div>
+    </tb-toolbar-top>
+
+    <tb-frame-content>
+        <tb-view-container>
+            <tb-view>
+                <rs-askdialog *ngIf="rsService.showAsk" [ask]="askDialogTemplate"></rs-askdialog>
+                <div id="{{id}}">
+                    <rs-layout [reportTemplate]="reportTemplate" [reportData]="reportData"></rs-layout>
+                </div>
+            </tb-view>
+        </tb-view-container>
+        <tb-dockpane-container>
+            <tb-dockpane [title]="_TB('Properties')" iconType="M4" icon="tb-options">
+                <ng-template>
+                    <tb-view>
+                        <p>Properties</p>
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+            <tb-dockpane [title]="_TB('Page Info')" iconType="M4" icon="tb-info">
+                <ng-template>
+                    <tb-view>
+                        <p>Page Info</p>
+                        Errors: {{ this.diagnosticErrors }}
+                    </tb-view>
+                </ng-template>
+            </tb-dockpane>
+        </tb-dockpane-container>
+    </tb-frame-content>
+
+    <tb-toolbar-bottom>
+        <tb-toolbar-bottom-button id="firstButton" icon="tb-snapshot" [caption]="_TB('Snapshot Report')" (click)="startAskSnapshot()"></tb-toolbar-bottom-button>
+        <!--tb-toolbar-bottom-button [caption]="_TB('Print')" (click)="printPDF()"></tb-toolbar-bottom-button-->
+        <tb-toolbar-bottom-button-dropup icon="tb-sortupfilled" [caption]="_TB('Export')" class="toolbar-bottom">
+            <tb-toolbar-bottom-button icon="tb-exportpdf" [caption]="_TB('PDF')" (click)="setExportFile(rsExportService.pdf)" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button icon="tb-exportpng" [caption]="_TB('PNG')" (click)="startSavePNG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button icon="tb-exportsvg" [caption]="_TB('SVG')" (click)="startSaveSVG()" class="dropUpButton"></tb-toolbar-bottom-button>
+            <tb-toolbar-bottom-button icon="tb-apptemplateexcel" *ngIf="!runningReport" [caption]="_TB('Excel')" (click)="setExportFile(rsExportService.excel)"
+                class="dropUpButton"></tb-toolbar-bottom-button>
+            <!--tb-toolbar-bottom-button icon="tb-exportdocx" [caption]="_TB('DocX')" (click)="setExportFile(rsExportService.docx)" class="dropUpButton"></tb-toolbar-bottom-button-->
+        </tb-toolbar-bottom-button-dropup>
+
+        <rs-exportdialog *ngIf="this.rsExportService.exportfile"> </rs-exportdialog>
+        <rs-snapshotdialog *ngIf="this.rsSnapshotService.showSnapshotDialog"></rs-snapshotdialog>
+    </tb-toolbar-bottom>
+</tb-frame>
+
+
+<div id="testdiv" style="height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;"></div>
+<!--NO REFACTORING!! NON TOCCARE! -->

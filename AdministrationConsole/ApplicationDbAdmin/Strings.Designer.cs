@@ -476,6 +476,15 @@ namespace Microarea.Console.Plugin.ApplicationDBAdmin {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No modules need rewind operation..
+        /// </summary>
+        internal static string NoModulesForRewind {
+            get {
+                return ResourceManager.GetString("NoModulesForRewind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open with Internet Explorer.
         /// </summary>
         internal static string OpensWithExplorerContextMenu {

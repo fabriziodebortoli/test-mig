@@ -1,6 +1,8 @@
-import { HttpMenuService, Logger, DiagnosticService, ThemeService } from '@taskbuilder/core';
+import { Logger, DiagnosticService, ThemeService } from '@taskbuilder/core';
 import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { Http } from '@angular/http';
+
+import { HttpMenuService } from './../../services/http-menu.service';
 
 @Component({
     selector: 'tb-theme-changer',

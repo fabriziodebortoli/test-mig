@@ -59,19 +59,11 @@ import { PopupComponent } from './components/popup/popup.component';
 import { SnapshotListComponent } from './components/snapshot-list/snapshot-list.component';
 //import { TooltipComponent } from './components/tooltip/tooltip.component';
 
-import { TopbarComponent } from './components/topbar/topbar.component';
-import { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
-import { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
-import { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
-import { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
-import { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
-import { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
+
 import { UnsupportedComponent } from './components/unsupported.component';
 import { UnsupportedFactoryComponent } from './components/unsupported.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
-import { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
-import { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 import { TbIconComponent } from './components/tb-icon/tb-icon.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -108,19 +100,10 @@ export { ToolbarBottomComponent } from './components/toolbar/toolbar-bottom/tool
 export { ToolbarBottomButtonComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button/toolbar-bottom-button.component';
 export { ToolbarBottomButtonDropupComponent } from './components/toolbar/toolbar-bottom/toolbar-bottom-button-dropup/toolbar-bottom-button-dropup.component';
 export { ToolbarTopButtonDrodownComponent } from './components/toolbar/toolbar-top/toolbar-top-button-dropdown/toolbar-top-button-dropdown.component';
-export { TopbarComponent } from './components/topbar/topbar.component';
-export { TopbarMenuComponent } from './components/topbar/topbar-menu/topbar-menu.component';
-export { TopbarMenuTestComponent } from './components/topbar/topbar-menu/topbar-menu-test/topbar-menu-test.component';
-export { TopbarMenuUserComponent } from './components/topbar/topbar-menu/topbar-menu-user/topbar-menu-user.component';
-export { TopbarMenuAppComponent } from './components/topbar/topbar-menu/topbar-menu-app/topbar-menu-app.component';
-export { TopbarMenuElementsComponent } from './components/topbar/topbar-menu/topbar-menu-element/topbar-menu-elements.component';
-export { BPMIconComponent } from './components/topbar/bpm-icon/bpm-icon.component';
 export { UnsupportedComponent } from './components/unsupported.component';
 export { UnsupportedFactoryComponent } from './components/unsupported.component';
 export { RadarComponent } from './components/radar/radar.component';
 export { CultureSelectorComponent } from './components/culture-selector/culture-selector.component';
-export { EasyStudioContextComponent } from './components/easystudio-context/easystudio-context.component';
-export { CloneDocumentDialogComponent } from './components/clone-document-dialog/clone-document-dialog.component';
 export { TbIconComponent } from './components/tb-icon/tb-icon.component';
 export { LoadingComponent } from './components/loading/loading.component';
 export { DiagnosticComponent } from './components/diagnostic/diagnostic.component';
@@ -139,9 +122,9 @@ export { SnapshotListComponent } from './components/snapshot-list/snapshot-list.
 const TB_COMPONENTS = [
     ProxyRouteComponent, DynamicCmpComponent, DynamicCmpComponentTree, ContextMenuComponent, DocumentComponent, PageNotFoundComponent, HeaderStripComponent,
     ToolbarTopComponent, ToolbarTopButtonComponent, ToolbarSeparatorComponent, ToolbarBottomComponent, ToolbarBottomButtonComponent, ToolbarBottomButtonDropupComponent,
-    ToolbarTopButtonDrodownComponent, TopbarComponent, TopbarMenuComponent, TopbarMenuTestComponent, TopbarMenuUserComponent, TopbarMenuAppComponent, TopbarMenuElementsComponent, BPMIconComponent,
+    ToolbarTopButtonDrodownComponent,
     UnsupportedComponent, UnsupportedFactoryComponent, RadarComponent, CultureSelectorComponent, TbIconComponent,
-    BOComponent, BOSlaveComponent, BOCommonComponent, CloneDocumentDialogComponent, EasyStudioContextComponent, LoadingComponent, DiagnosticComponent,
+    BOComponent, BOSlaveComponent, BOCommonComponent, LoadingComponent, DiagnosticComponent,
     TbHotlinkButtonsComponent, ChangePasswordComponent, ChangePasswordHostComponent, /*FloatingActionMenuComponent, FloatingActionButtonComponent, */CustomisableGridComponent,
     TbHotlinkComboComponent, TbHotLinkBaseComponent, EnumFilterComponent, DateFilterComponent, PopupComponent, SnapshotListComponent//, TooltipComponent
 ];
@@ -225,7 +208,6 @@ import { BodyEditEnumComboColumnComponent } from './controls/body-edit/body-edit
 import { BodyEditToolbarComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar.component';
 import { BodyEditToolbarButtonComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 import { TreeViewComponent } from './controls/treeview/tree-view.component';
-import { ApplicationDateComponent } from './controls/application-date/application-date.component';
 import { StateButtonComponent } from './controls/state-button/state-button.component';
 import { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 import { SectionTitleComponent } from './controls/section-title/section-title.component';
@@ -274,7 +256,6 @@ export { BodyEditEnumComboColumnComponent } from './controls/body-edit/body-edit
 export { BodyEditToolbarComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar.component';
 export { BodyEditToolbarButtonComponent } from './controls/body-edit/body-edit-toolbar/body-edit-toolbar-button/body-edit-toolbar-button.component';
 export { TreeViewComponent } from './controls/treeview/tree-view.component';
-export { ApplicationDateComponent } from './controls/application-date/application-date.component';
 export { StateButtonComponent } from './controls/state-button/state-button.component';
 export { ComboSimpleComponent } from './controls/combo-simple/combo-simple.component';
 export { SectionTitleComponent } from './controls/section-title/section-title.component';
@@ -314,12 +295,12 @@ export { NamespaceComponent } from './controls/Namespace/namespace.component';
 export { ExplorerComponent, ExplorerDialogComponent, ExplorerItem, ExplorerOptions, ExplorerResult } from './components/explorer/explorer-dialog.component';
 
 const TB_CONTROLS = [
-    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent,NamespaceComponent,
+    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent, NamespaceComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
     ImageComponent, LinkComponent, PlaceholderComponent, StateButtonComponent, FileComponent, BoolEditComponent,
-    LinearGaugeComponent, HotlinkComponent, TreeViewComponent, ApplicationDateComponent, PropertyGridComponent, PropertyGridItemComponent,
+    LinearGaugeComponent, HotlinkComponent, TreeViewComponent, PropertyGridComponent, PropertyGridItemComponent,
     BodyEditComponent, BodyEditColumnComponent, BodyEditCheckBoxColumnComponent, BodyEditEnumComboColumnComponent, BodyEditToolbarButtonComponent, BodyEditToolbarComponent,
     PropertyGridItemGroupComponent, ControlContainerComponent, RowViewFormComponent, ExplorerDialogComponent, ExplorerComponent
 ];
@@ -386,6 +367,7 @@ export { ObjType } from '../core/services/explorer.service';
 export * from './models/store.models';
 export * from './commons/selector';
 export * from './commons/untilDestroy';
+export * from './models/es-customization-item.model';
 
 import { TbIconsModule } from '@taskbuilder/icons';
 import { TbLibsModule } from '@taskbuilder/libs';
@@ -403,8 +385,8 @@ const _MODULES = [
 
 @NgModule({
     imports: [_MODULES, MATERIAL_MODULES, TbLibsModule],
-    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, CloneDocumentDialogComponent, TB_PIPES],
+    declarations: [TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TB_PIPES],
     exports: [MATERIAL_MODULES, TB_CONTAINERS, TB_COMPONENTS, TB_CONTROLS, TB_DIRECTIVES, TB_PIPES, TbLibsModule],
-    entryComponents: [UnsupportedComponent, RadarComponent, CloneDocumentDialogComponent, TbHotlinkButtonsComponent, TbHotlinkComboComponent, TbHotLinkBaseComponent]
+    entryComponents: [UnsupportedComponent, RadarComponent, TbHotlinkButtonsComponent, TbHotlinkComboComponent, TbHotLinkBaseComponent]
 })
 export class TbSharedModule { }

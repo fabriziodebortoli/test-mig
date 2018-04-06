@@ -17,7 +17,6 @@ import { ComponentService } from './services/component.service';
 import { ComponentInfoService } from './services/component-info.service';
 import { DataService } from './services/data.service';
 import { DocumentService } from './services/document.service';
-import { EasystudioService } from './services/easystudio.service';
 import { EnumsService } from './services/enums.service';
 import { FormattersService } from './services/formatters.service';
 import { EventDataService } from './services/eventdata.service';
@@ -42,8 +41,8 @@ import { Store } from './services/store.service';
 import { ThemeService } from './services/theme.service';
 import { ParameterService } from './services/parameters.service';
 import { PaginatorService } from './services/paginator.service';
-import { FilterService} from './services/filter.service';
-import { HyperLinkService} from './services/hyperlink.service';
+import { FilterService } from './services/filter.service';
+import { HyperLinkService } from './services/hyperlink.service';
 import { ComponentMediator } from './services/component-mediator.service';
 import { StorageService } from './services/storage.service';
 import { BodyEditService } from './services/body-edit.service';
@@ -60,7 +59,6 @@ export { ComponentService } from './services/component.service';
 export { ComponentInfoService } from './services/component-info.service';
 export { DataService } from './services/data.service';
 export { DocumentService } from './services/document.service';
-export { EasystudioService } from './services/easystudio.service';
 export { EnumsService } from './services/enums.service';
 export { FormattersService } from './services/formatters.service';
 export { EventDataService } from './services/eventdata.service';
@@ -82,8 +80,8 @@ export { Store } from './services/store.service';
 export { ThemeService } from './services/theme.service';
 export { ParameterService } from './services/parameters.service';
 export { PaginatorService } from './services/paginator.service';
-export { FilterService} from './services/filter.service';
-export { HyperLinkService} from './services/hyperlink.service';
+export { FilterService } from './services/filter.service';
+export { HyperLinkService } from './services/hyperlink.service';
 export { StorageService } from './services/storage.service';
 export { ComponentMediator } from './services/component-mediator.service';
 export { BodyEditService } from './services/body-edit.service';
@@ -91,7 +89,7 @@ export { RsSnapshotService } from './services/rs-snapshot.service';
 export { ActivationService } from './services/activation.service';
 
 export const TB_SERVICES = [
-    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService, EasystudioService,
+    TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService,
     EnumsService, ParameterService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
@@ -112,7 +110,7 @@ import { BorealisTheme } from './themes/borealis/borealis-theme.component';
 import { DefaultTheme } from './themes/default/default-theme.component';
 import { InfinityTheme } from './themes/infinity/infinity-theme.component';
 
-const THEME_COMPONENTS = [    BorealisTheme, DefaultTheme, InfinityTheme];
+const THEME_COMPONENTS = [BorealisTheme, DefaultTheme, InfinityTheme];
 
 /**
  * Pagine informative (404, ServerDown, Landing, ecc)
@@ -222,7 +220,7 @@ export class TbCoreModule {
             providers: [TB_SERVICES, TB_GUARDS]
         };
     }
-    constructor( @Optional() @SkipSelf() parentModule: TbCoreModule) {
+    constructor(@Optional() @SkipSelf() parentModule: TbCoreModule) {
         if (parentModule) {
             throw new Error(
                 'TbCoreModule is already loaded. Import it in the AppModule only');

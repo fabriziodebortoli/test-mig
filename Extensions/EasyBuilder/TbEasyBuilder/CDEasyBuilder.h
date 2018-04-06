@@ -151,7 +151,6 @@ protected:
 	CAbstractFormDoc::LockStatus	OnLockDocumentForEdit		();
 	CAbstractFormDoc::LockStatus	OnLockDocumentForDelete	();
 
-	BOOL OnAttachData			 ();
 	BOOL OnPrepareAuxData		 ();
 
 	BOOL OnInitAuxData			 ();
@@ -165,6 +164,7 @@ protected:
 	void OnDisableControlsAlways	();
 	void OnDisableControlsAlways	(CTabDialog* pTabDialog);
 
+	virtual BOOL	OnAfterOnAttachData		();
 	virtual void	OnPrepareBrowser		(SqlTable*);
 
 	virtual void	OnPrepareAuxData		 (CTabDialog* pTabDialog);
@@ -194,6 +194,7 @@ protected:
 	BOOL OnValidateRadarSelection	(SqlRecord* pRec, CTBNamespace nsHotLinkNamespace, HotKeyLink* pHotKeyLink);
 	BOOL OnValidateRadarSelection	(SqlRecord* pRec, HotKeyLink* pHotKeyLink);
 
+	virtual void PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs);
 	virtual WebCommandType OnGetWebCommandType(UINT commandID) override;
 
 	CManagedDocComponentObj*	GetComponent	(CString& sParentNamespace, CString& sName);

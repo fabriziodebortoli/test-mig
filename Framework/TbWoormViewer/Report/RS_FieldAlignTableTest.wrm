@@ -1,0 +1,73 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (49,2,1038,1918) 
+PageInfo (2,9,2970,2100,100,1,1,True ) 
+
+PageLayout "default" 
+	Begin
+		Field (46,426,97,548) Alias 6  /* w_field */ 
+			Begin
+				Label "w_field" 
+			End
+		Text (49,185,89,306) "ciao" 
+			Begin
+			End
+		Table (24,4) "Table_3" Alias 3  /* Table_3 */ Origin (185,70) Heights (26,18,14,14) 
+		HideTitle
+		Borders  RowSep 
+			Begin
+				"MA_CustSupp_CustSupp" Alias 1  /* MA_CustSupp_CustSupp */ Width 121 ;
+				"MA_CustSupp_CustSuppType" Alias 2  /* MA_CustSupp_CustSuppType */ Width 121 FormatStyle "Enum" ;
+				"MA_CustSupp_CustSuppKind" Alias 4  /* MA_CustSupp_CustSuppKind */ Width 121 FormatStyle "Enum" ;
+				"MA_CustSupp_Address" Alias 5  /* MA_CustSupp_Address */ Width 121 ;
+			End
+
+
+		Field (113,668,128,789) Alias 7  /* w_fieldR */ 
+			Begin
+				Label "w_fieldR" 
+			End
+		SqrRect (449,305,482,427) 
+			Begin
+				Pen (0,0,0) Size 4;
+			End
+		Field (460,547,488,669) Alias 8  /* w_fieldB */ 
+			Begin
+				AnchorColumn Alias 5 
+				Label "w_fieldB" 
+			End
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Table_3 [24] Alias 3 ;
+		End
+
+		Variables
+			String       MA_CustSupp_CustSupp [23] Alias 1  Column ;
+			Enum[49]      /* CustSupp Type */ MA_CustSupp_CustSuppType [15] Alias 2  Column ;
+			Enum[118]     /* CustSupp Kind */ MA_CustSupp_CustSuppKind [15] Alias 4  Column ;
+			String       MA_CustSupp_Address [15] Alias 5  Column ;
+			String       w_field [15] Alias 6 Init = "gatto" ;
+			String       w_fieldR [15] Alias 7 ;
+			String       w_fieldB [15] Alias 8 ;
+		End
+
+		Rules
+			From MA_CustSupp 
+			Select 
+				CustSupp             Into MA_CustSupp_CustSupp ,
+				CustSuppType         Into MA_CustSupp_CustSuppType ,
+				CustSuppKind         Into MA_CustSupp_CustSuppKind ,
+				Address              Into MA_CustSupp_Address ;
+		End
+
+
+		Events
+		End
+End
+

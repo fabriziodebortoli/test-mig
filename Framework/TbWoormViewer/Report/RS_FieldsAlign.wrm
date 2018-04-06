@@ -18,6 +18,7 @@ PageLayout "default"
 	Begin
 		Text (33,236,49,362) "TESTO IN CAMPO PICCOLO" 
 			Begin
+				Align 2144 ;
 			End
 		Field (66,237,83,674) Alias 3  /* w_fieldLittle */ 
 			Begin

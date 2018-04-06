@@ -33,7 +33,7 @@
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
         "@taskbuilder/menu": "file:../libs/menu/src",
-        "@taskbuilder/reporting-studio": "file:../reporting-studio/src",
+        "@taskbuilder/reporting-studio": "file:../libs/reporting-studio/src",
         "@types/hammerjs": "^2.0.33",
         "core-js": "^2.4.1",
         "hammerjs": "^2.0.8",

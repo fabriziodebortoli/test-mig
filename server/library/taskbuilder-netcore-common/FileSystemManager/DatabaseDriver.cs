@@ -949,7 +949,8 @@ namespace Microarea.Common.FileSystemManager
 		        }
 		        connectionString = (isCustom) ? GetCustomConnectionString() : standardConnectionString;
 		        strRelativePath = GetRelativePath(pTBFile.completeFileName, isCustom);
-		        tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
+                String relativePath = GetRelativePath(pTBFile.PathName , isCustom); ;
+                tableName = (isCustom) ? szTBCustomMetadata : szMPInstanceTBFS;
 		
 
 		        strCommandText = (fileID > -1)
@@ -989,7 +990,7 @@ namespace Microarea.Common.FileSystemManager
 		        //se sto aggiungendo una nuova riga allora devo fare il bind anche degli altri parametri
 		        if (fileID <= 0)
 		        {
-			        String relativePath = strRelativePath;
+			        
 			        SqlParameter parentParam = new SqlParameter("@ParentID", SqlDbType.Int);
 			        if (parentID > -1)
 				        parentParam.Value = parentID;
@@ -999,7 +1000,7 @@ namespace Microarea.Common.FileSystemManager
 
 			        sqlCommand.Parameters.AddWithValue("@PathName", relativePath);
 			        sqlCommand.Parameters.AddWithValue("@FileName", pTBFile.Name);
-			        sqlCommand.Parameters.AddWithValue("@CompleteFileName", relativePath);
+			        sqlCommand.Parameters.AddWithValue("@CompleteFileName", strRelativePath);
 			        sqlCommand.Parameters.AddWithValue("@FileType", pTBFile.FileExtension);
 			        sqlCommand.Parameters.AddWithValue("@Application", strApplication);
 			        sqlCommand.Parameters.AddWithValue("@Module", strModule);

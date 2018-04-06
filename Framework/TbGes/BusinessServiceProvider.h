@@ -350,6 +350,7 @@ protected:// Funzioni reimplementabili per agire in modo analogo ad un ClientDoc
 
 	virtual BOOL OnAttachData				()				{ return TRUE; }
 	virtual BOOL OnPrepareAuxData			()				{ return TRUE; }
+	virtual BOOL OnPrepareAuxData			(UINT nID)		{ return TRUE; }
 	virtual BOOL OnInitAuxData				()				{ return TRUE; }
 	virtual void OnGoInBrowseMode			()				{}
 	virtual void OnBeforeBrowseRecord		()				{}
@@ -592,6 +593,7 @@ protected:
 	
 	virtual BOOL OnAttachData				()								{ return m_pBSP->OnAttachData(); }
 	virtual BOOL OnPrepareAuxData			()								{ return m_pBSP->OnPrepareAuxData();}
+	virtual void OnPrepareAuxData			(UINT nID)						{ m_pBSP->OnPrepareAuxData(nID); }
 	virtual BOOL OnInitAuxData				()								{ return m_pBSP->OnInitAuxData(); }
 	virtual void OnGoInBrowseMode			()								{ m_pBSP->OnGoInBrowseMode(); }
 	virtual void OnBeforeBrowseRecord		()								{ m_pBSP->OnBeforeBrowseRecord(); }

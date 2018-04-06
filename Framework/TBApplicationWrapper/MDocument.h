@@ -359,7 +359,7 @@ namespace Microarea { namespace Framework	{ namespace TBApplicationWrapper
 		/// <summary>
 		/// Forces the update of data on the View
 		/// </summary>
-		void UpdateDataView() { if (GetDocument()) GetDocument()->UpdateDataView(); }
+		void UpdateDataView();
 	
 		/// <summary>
 		/// Internal Use

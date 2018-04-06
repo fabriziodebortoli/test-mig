@@ -3161,109 +3161,112 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 			{
 				pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 			}
-			if (pDataObj)
+
+			if (pInfo && !pInfo->m_strName.IsEmpty() && pContext->m_pDoc)
 			{
-				if (pInfo && !pInfo->m_strName.IsEmpty() && pContext->m_pDoc)
-				{
-					pHotLink = pContext->m_pDoc->GetHotLink(pInfo->m_strName, CTBNamespace(CTBNamespace::HOTLINK, pInfo->m_strNamespace));
+				pHotLink = pContext->m_pDoc->GetHotLink(pInfo->m_strName, CTBNamespace(CTBNamespace::HOTLINK, pInfo->m_strNamespace));
 
 #ifdef DEBUG
-					if (pContext->m_pDoc->GetDesignMode() != CBaseDocument::DM_STATIC)
-						ASSERT(pHotLink);
+				if (pContext->m_pDoc->GetDesignMode() != CBaseDocument::DM_STATIC)
+					ASSERT(pHotLink);
 #endif
 
-					if (pHotLink)
-						pHotLink->Parameterize(pInfo, pChild->m_pBindings->m_nButtonId);
+				if (pHotLink)
+					pHotLink->Parameterize(pInfo, pChild->m_pBindings->m_nButtonId);
 
-				}
-				DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
-				CRuntimeClass* pClass = pContext->GetControlClass(pChild->m_strControlClass, pChild->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
-				if (!pClass)
-				{
-					ASSERT(FALSE);
-					continue;
-				}
-				//se non ha data obj, come fara il gestionalista a fare EnableWindow() ecc.?
-				CAbstractFormDoc* pDoc = pContext->m_pDoc;
-				CParsedCtrl* pControl = pDoc ? pDoc->DispatchOnCreateParsedCtrl(nIDC, pClass) : NULL;
-				CObject* pObject = pClass->CreateObject();
-				if (pControl == NULL)
-					pControl = GetParsedCtrl(pObject);
+			}
+			DWORD dwNeededStyle = 0, dwNeededExStyle = 0;
+			CRuntimeClass* pClass = pContext->GetControlClass(pChild->m_strControlClass, pChild->m_Type, pDataObj, dwNeededStyle, dwNeededExStyle);
+			if (!pClass)
+			{
+				ASSERT(FALSE);
+				continue;
+			}
+			//se non ha data obj, come fara il gestionalista a fare EnableWindow() ecc.?
+			CAbstractFormDoc* pDoc = pContext->m_pDoc;
+			CParsedCtrl* pControl = pDoc ? pDoc->DispatchOnCreateParsedCtrl(nIDC, pClass) : NULL;
+			CObject* pObject = pClass->CreateObject();
+			if (pControl == NULL)
+				pControl = GetParsedCtrl(pObject);
+			if (!pControl)
+				continue;
 
-				ASSERT(pControl);
-
-				pChild->m_pAssociatedControl = pControl;
-				pControl->m_pOwnerWndDescription = pChild;
-				if (!pWndDesc->m_bVisible)
+			pChild->m_pAssociatedControl = pControl;
+			pControl->m_pOwnerWndDescription = pChild;
+			//pControl->Attach(nBtnID);
+			pControl->AttachDocument(pDoc);
+			if (pDataObj)
+			{
+				if (!pChild->m_bVisible)
 					pDataObj->SetHide();
-				//pControl->Attach(nBtnID);
-				pControl->AttachDocument(pDoc);
 				pControl->Attach(pDataObj);
+			}
+			if (pHotLink)
+			{
+				pHotLink->AttachDocument(pContext->m_pDoc);
+				pControl->AttachHotKeyLink(pHotLink);
+			}
 
-				if (pHotLink)
+			// pRecord can be NULL for DataObj not conneted to any SqlRecord
+			// use default len and precision
+			//
+			if (pRec && pDataObj)
+			{
+				long nLength = 0;
+				TRY
 				{
-					pHotLink->AttachDocument(pContext->m_pDoc);
-					pControl->AttachHotKeyLink(pHotLink);
+					nLength = pRec->GetColumnLength(pDataObj); //potrebbe essere anche un parametro
 				}
-
-				// pRecord can be NULL for DataObj not conneted to any SqlRecord
-				// use default len and precision
-				//
-				if (pRec)
+					CATCH(SqlException, e)
 				{
-					long nLength = 0;
-					TRY
+					delete pControl;
+					ASSERT(FALSE);
+					THROW_LAST();
+				}
+				END_CATCH
+
+					pControl->SetCtrlMaxLen(nLength, FALSE);
+				pControl->AttachRecord(pRec);
+			}
+
+			if (pHotLink)
+			{
+				pHotLink->DoOnCreatedOwnerCtrl();
+			}
+
+			if (pChild->m_pNumbererDescription)
+			{
+				CString sService = pChild->m_pNumbererDescription->m_sServiceNs;
+				if (!pChild->m_pNumbererDescription->m_sServiceName.IsEmpty())
+					sService += szNsInstanceSeparator + pChild->m_pNumbererDescription->m_sServiceName;
+				pControl->AttachNumberer(sService, FALSE, pChild->m_pNumbererDescription->m_bUseFormatMask);
+			}
+
+			if (pChild->m_pStateData)
+			{
+				if (pContext->m_pDoc)
+					pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+				if (pDataObj)
+				{
+					pControl->AttachStateData(pDataObj, pChild->m_pStateData->m_bInvertDefaultStates == B_TRUE);
+					//pControl->UpdateStateButtons();
+					if (pChild->m_pNumbererDescription)
 					{
-						nLength = pRec->GetColumnLength(pDataObj); //potrebbe essere anche un parametro
-					}
-						CATCH(SqlException, e)
-					{
-						delete pControl;
-						ASSERT(FALSE);
-						THROW_LAST();
-					}
-					END_CATCH
-
-						pControl->SetCtrlMaxLen(nLength, FALSE);
-					pControl->AttachRecord(pRec);
-				}
-
-				if (pHotLink)
-				{
-					pHotLink->DoOnCreatedOwnerCtrl();
-				}
-
-				if (pChild->m_pNumbererDescription)
-				{
-					CString sService = pChild->m_pNumbererDescription->m_sServiceNs;
-					if (!pChild->m_pNumbererDescription->m_sServiceName.IsEmpty())
-						sService += szNsInstanceSeparator + pChild->m_pNumbererDescription->m_sServiceName;
-					pControl->AttachNumberer(sService, FALSE, pChild->m_pNumbererDescription->m_bUseFormatMask);
-				}
-
-				if (pWndDesc->m_pStateData)
-				{
-					if (pContext->m_pDoc)
-						pContext->GetBindingInfo(pWndDesc->GetID(), pWndDesc->m_strName, pWndDesc->m_pStateData->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
-					if (pDataObj)
-					{
-						pControl->AttachStateData(pDataObj, pChild->m_pStateData->m_bInvertDefaultStates == B_TRUE);
-						//pControl->UpdateStateButtons();
-						if (pChild->m_pNumbererDescription)
+						CStateCtrlObj* pStateButton = pControl->GetStateCtrl(pDataObj);
+						if (pStateButton)
 						{
-							CStateCtrlObj* pStateButton = pControl->GetStateCtrl(pDataObj);
-							if (pStateButton)
-							{
-								pStateButton->EnableStateInEditMode(pChild->m_pStateData->m_bEnableStateInEdit);
-								pStateButton->EnableCtrlInEditMode(pChild->m_pStateData->m_bEnableStateCtrlInEdit);
-							}
+							pStateButton->EnableStateInEditMode(pChild->m_pStateData->m_bEnableStateInEdit);
+							pStateButton->EnableCtrlInEditMode(pChild->m_pStateData->m_bEnableStateCtrlInEdit);
 						}
 					}
-
 				}
-
-				pParsedForm->m_pControlLinks->Add(pObject);
 			}
+
+			if (pChild->m_pControlBehaviourDescription)
+				pContext->AttachControlBehaviour(pChild->m_pControlBehaviourDescription, pControl);
+
+			pParsedForm->m_pControlLinks->Add(pObject);
+
 		}
 
 

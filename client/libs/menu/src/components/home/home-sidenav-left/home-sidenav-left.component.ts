@@ -2,7 +2,11 @@ import { Component, ViewEncapsulation, ChangeDetectorRef, Output, EventEmitter, 
 
 import { Subscription } from 'rxjs';
 
-import { TbComponent, SidenavService, HttpMenuService, MenuService, UtilsService, ImageService, TabberService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, SidenavService, UtilsService, TabberService, TbComponentService } from '@taskbuilder/core';
+
+import { ImageService } from './../../../services/image.service';
+import { MenuService } from './../../../services/menu.service';
+import { HttpMenuService } from './../../../services/http-menu.service';
 
 @Component({
   selector: 'tb-home-sidenav-left',

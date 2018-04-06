@@ -1772,6 +1772,7 @@ namespace Microarea.EasyBuilder.MVC
 			return EasyBuilderComponent.GetComponent(Components, controlName);
 		}
 
+   
         /// <summary>
         /// dispatch a message from Web interface
         /// </summary>
@@ -1838,6 +1839,22 @@ namespace Microarea.EasyBuilder.MVC
             return null;
         }
 
-        #endregion
+        //-----------------------------------------------------------------------------
+        /// <summary>
+        /// gets event handlers ids for push to clients notifications
+        /// </summary>
+        /// <returns></returns>
+        public List<string>  GetEventHandlerIDs()
+        {
+            List<string> ids = new List<string>();
+            foreach (JsonEvent jsonev in jsonEvents.items)
+            {
+                ids.Add(jsonev.Owner);
+                ids.Add(jsonev.OwnerNameSpace);
+            }
+            return ids;
+        }
+
+    #endregion
     }
 }

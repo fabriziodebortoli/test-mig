@@ -75,10 +75,19 @@ namespace Microarea.Common.Applications
         public string parameters { get; set; }
         public string authtoken { get; set; }
         public string tbLoaderName { get; set; }
+        public ApplicationDate applicationDate { get; set; }
         //used to communicate to caller document in case this report is a document's report        
         public string componentId { get; set; }
         [JsonProperty(Required = Required.AllowNull)]
         public ReportSnapshot snapshot { get; set; }
+
+    }
+
+    public class ApplicationDate
+    {
+        public int year { get; set; }
+        public int month { get; set; }
+        public int day { get; set; }
     }
 
     public class ReportSnapshot

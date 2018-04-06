@@ -468,6 +468,12 @@ DocumentContext^ MDocument::Context::get ()
 	return context;
 }
 
+//-----------------------------------------------------------------------------
+void MDocument::UpdateDataView()
+{
+	if (GetDocument())
+		GetDocument()->UpdateDataView(TRUE);
+}
 
 //-----------------------------------------------------------------------------
 MXMLVariableArray^ MDocument::XMLVariableArray::get()

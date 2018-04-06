@@ -1414,7 +1414,7 @@ namespace Microarea.Common.MenuLoader
             menuInfo = new MenuInfo(pathFinder, authenticationToken, applySecurityFilter);
 
             if (clearCachedData)
-                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.User, pathFinder, commandsTypeToLoad);
+                Microarea.Common.Generic.InstallationInfo.Functions.ClearCachedData(menuInfo.CurrentPathFinder.Company, pathFinder, commandsTypeToLoad);
 
             menuInfo.ScanStandardMenuComponents(environmentStandAlone, commandsTypeToLoad);
             menuInfo.ScanCustomMenuComponents();

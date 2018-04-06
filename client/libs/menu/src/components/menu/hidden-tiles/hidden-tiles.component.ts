@@ -1,5 +1,7 @@
-import { TbComponent, MenuService, UtilsService, SettingsService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, UtilsService, SettingsService, TbComponentService } from '@taskbuilder/core';
 import { Component, OnInit, Output, EventEmitter, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+
+import { MenuService } from './../../../services/menu.service';
 
 @Component({
   selector: 'tb-hidden-tiles',

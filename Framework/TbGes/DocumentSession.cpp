@@ -704,9 +704,7 @@ void CDocumentSession::PushBehavioursToClient(IBehaviourContext* pContext)
 
 	BEGIN_JSON_RESPONSE(Behaviours);
 	resp.OpenObject(_T("response"));
-	TCHAR buff[32];
-	_itot_s((int)hWnd, buff, 10);
-	resp.WriteString(_T("id"), buff);
+	
 
 	resp.OpenObject(_T("behaviours"));
 
@@ -748,12 +746,19 @@ void CDocumentSession::PushBehavioursToClient(IBehaviourContext* pContext)
 		}
 	}
 
-	resp.CloseObject();
-	resp.CloseObject();
+	resp.CloseObject(TRUE);
 
+	bool bEmpty = resp.IsCurrentEmpty();
+	if (!bEmpty)
+	{
+		TCHAR buff[32];
+		_itot_s((int)hWnd, buff, 10);
+		resp.WriteString(_T("id"), buff);
+	}
+	resp.CloseObject(TRUE);
 	END_JSON_RESPONSE();
-
-	PushToClients(resp);
+	if (!bEmpty)
+		PushToClients(resp);
 }
 
 //----------------------------------------------------------------------------

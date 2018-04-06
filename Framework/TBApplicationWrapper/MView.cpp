@@ -38,11 +38,96 @@ bool MFrame::WndProc(Message% m)
 	return __super::WndProc(m);
 }
 
+//=============================================================================
+// 
+//=============================================================================
+//----------------------------------------------------------------------------
+bool MWndProc::WndProc(WindowWrapperContainer^ container,System::Windows::Forms::Message% m)
+{
+	return true;
+}
+
+//----------------------------------------------------------------------------
+void MWndProc::AfterWndProc(WindowWrapperContainer^ view, System::Windows::Forms::Message% m)
+{
+}
+
+//----------------------------------------------------------------------------
+void MDesktopWndProc::AfterWndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m)
+{
+	if (m.Msg == WM_COMMAND)
+	{
+		WPARAM wParam = (WPARAM)(int)m.WParam;
+		LPARAM lParam = (LPARAM)(int)m.LParam;
+		DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
+
+		if (nCode == EN_VALUE_CHANGED)
+		{
+			int senderHashCode = container->GetHashCode();
+			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
+		}
+		else if (nCode == EN_CTRL_STATE_CHANGED)
+		{
+			EasyBuilderEventArgs^ args = gcnew EasyBuilderEventArgs();
+			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, StateButtonClicked, (LPARAM)&args);
+		}
+		return;
+	}
+	MView^ view = dynamic_cast<MView^>(container);
+	if (m.Msg == UM_LAYOUT_CHANGED && view != nullptr && view->LayoutObject != nullptr)
+		view->LayoutObject->CallCreateComponents();
+}
+
+//----------------------------------------------------------------------------
+bool MWebWndProc::WndProc(WindowWrapperContainer^ container, System::Windows::Forms::Message% m)
+{
+
+	CView* pView = dynamic_cast<CView*>(container->GetWnd());
+	CDocument*  pDoc = pView ? pView->GetDocument() : NULL;
+	if (!pDoc)
+		return true;
+
+	switch (m.Msg)
+	{
+		case WM_COMMAND:
+		{
+			WPARAM wParam = (WPARAM)(int)m.WParam;
+			LPARAM lParam = (LPARAM)(int)m.LParam;
+			DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
+
+			switch (nCode)
+			{
+				case BEN_ROW_CHANGED:
+				{
+					pDoc->OnCmdMsg(nID, UM_EASYBUILDER_WEB_ACTION + RowChanged, NULL, NULL);
+					break;
+				}
+				case BN_CLICKED:
+				{
+					pDoc->OnCmdMsg(nID, UM_EASYBUILDER_WEB_ACTION + Clicked, NULL, NULL);
+					break;
+				}
+				default:
+					pDoc->OnCmdMsg(nID, nCode, NULL, NULL);
+					break;
+			}
+				
+			break;
+		}
+	}
+	return true;
+}
+
 //----------------------------------------------------------------------------
 MView::MView(IntPtr handleViewPtr)
 	: WindowWrapperContainer(handleViewPtr)
 { 
 	Handle = handleViewPtr;
+
+	if (AfxIsRemoteInterface())
+		mWndProc = gcnew MWebWndProc();
+	else
+		mWndProc = gcnew MDesktopWndProc();
 
 	if (!AfxIsRemoteInterface())
 	{
@@ -59,7 +144,18 @@ MView::MView(IntPtr handleViewPtr)
 	}
 
 	pathToSerialize = gcnew String(_T(""));
-	jsonFrameId = gcnew String(_T("IDD_EMPTY_FRAME"));
+
+	//manage jsonFrameId
+	if (!this->m_pView || !this->m_pView->GetDocument())
+	{
+		jsonFrameId = gcnew String(_T("IDD_EMPTY_FRAME"));
+		return;
+	}
+	
+	CTBNamespace aNs = this->m_pView->GetDocument()->GetNamespace();
+	CString ns = aNs.GetRightTokens(aNs.GetTokenArray()->GetCount() - 1);
+	ns.Replace(_T("."), _T("_"));
+	jsonFrameId = String::Concat(gcnew String(_T("IDD_")), gcnew String(ns.MakeUpper()), gcnew String(_T("_FRAME")));
 }
 
 //----------------------------------------------------------------------------
@@ -280,32 +376,26 @@ bool MView::ManageDocumentObjects()
 					return false;
 				}
 				
-				BOOL bFound = FALSE;
-				CXMLNode* pMode = NULL;
+				CXMLNode* pModeToCopy = NULL;
 				CXMLNode* pChildViewMode = NULL;
-				for (int j = 0; j < pViewModes->GetCount() && !bFound; j++)
+				for (int j = 0; j < pViewModes->GetCount(); j++)
 				{
 					pChildViewMode = pViewModes->GetAt(j);
 					CXMLNodeChildsList* pModes = pChildViewMode->GetChilds();
 					
-					for (int k = 0; k < pModes->GetCount() && !bFound; k++)
+					for (int k = pModes->GetUpperBound(); k >= 0; k--)
 					{
-						pMode = pModes->GetAt(k);
+						CXMLNode* pMode = pModes->GetAt(k);
 						CString sName = _T("");
 						pMode->GetAttribute(XML_NAME_ATTRIBUTE, sName);
 						if (!sName.Compare(_T("DefaultWeb")))
-							bFound = TRUE;
+							pChildViewMode->RemoveChild(pMode);
+						else
+							pModeToCopy = pMode;
+							
 					}
 				}
 
-				if (bFound)
-				{
-					if (pDefaultWeb)
-						SAFE_DELETE(pDefaultWeb);
-						
-					return true;
-				}
-				
 				if (!pDefaultWeb)
 				{
 					pDefaultWeb = pChildViewMode->CreateNewChild(XML_MODE_TAG);
@@ -313,9 +403,9 @@ bool MView::ManageDocumentObjects()
 					CString sLocalize = _T("");
 					CString sType = _T("");
 					CString sSchedulable = _T("");
-					pMode->GetAttribute(XML_TYPE_ATTRIBUTE, sType);
-					pMode->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
-					pMode->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
+					pModeToCopy->GetAttribute(XML_TYPE_ATTRIBUTE, sType);
+					pModeToCopy->GetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
+					pModeToCopy->GetAttribute(XML_SCHEDULABLE_ATTRIBUTE, sSchedulable);
 					pDefaultWeb->SetAttribute(XML_NAME_ATTRIBUTE, _T("DefaultWeb"));
 					pDefaultWeb->SetAttribute(XML_LOCALIZE_ATTRIBUTE, sLocalize);
 					pDefaultWeb->SetAttribute(XML_TYPE_ATTRIBUTE, sType);
@@ -332,8 +422,7 @@ bool MView::ManageDocumentObjects()
 	CString aXML = _T("");
 	aDoc.GetXML(aXML);
 	this->SaveSerialization(sFileNameCompletePath, aXML);
-	//SAFE_DELETE(pDefaultWeb);
-
+	
 	return true;
 }
 
@@ -625,32 +714,18 @@ void MView::Invalidate()
 }
 
 //----------------------------------------------------------------------------
+bool MView::WndProc(System::Windows::Forms::Message% m)
+{
+	bool ok = __super::WndProc(m);
+	return mWndProc->WndProc(this, m) && ok;
+	
+}
+
+//----------------------------------------------------------------------------
 void MView::AfterWndProc(Message% m)
 {
 	__super::AfterWndProc(m);
-
-	if (m.Msg == WM_COMMAND)
-	{
-		WPARAM wParam = (WPARAM)(int)m.WParam;
-		LPARAM lParam = (LPARAM)(int)m.LParam;
-		DECLARE_WM_COMMAND_PARAMS(wParam, lParam, nID, nCode, hwnd);
-
-		if (nCode ==  EN_VALUE_CHANGED)
-		{
-			int senderHashCode = this->GetHashCode();
-			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, ValueChanged, (LPARAM)senderHashCode);
-		}
-		else if (nCode ==  EN_CTRL_STATE_CHANGED)
-		{
-			EasyBuilderEventArgs^ args = gcnew EasyBuilderEventArgs();
-			::SendMessage(hwnd, UM_EASYBUILDER_ACTION, StateButtonClicked, (LPARAM)&args);
-		}
-		return;
-	}
-
-	if (m.Msg == UM_LAYOUT_CHANGED && LayoutObject != nullptr)
-		LayoutObject->CallCreateComponents();
-
+	mWndProc->AfterWndProc(this, m);
 }
 
 //----------------------------------------------------------------------------

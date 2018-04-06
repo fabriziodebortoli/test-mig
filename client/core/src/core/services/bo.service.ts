@@ -61,7 +61,7 @@ export class BOService extends DocumentService {
         this.subscriptions.push(this.eventData.command.subscribe((args: CommandEventArgs) => {
             const ret = this.onCommand(args.commandId);
             if (ret === true) {
-                this.doCommand(args.componentId, args.commandId);
+                this.doCommand(args.componentId, args.commandId, '');
                 return;
             }
             if (ret === false) {
@@ -71,7 +71,7 @@ export class BOService extends DocumentService {
             if (ret.subscribe) {
                 const subs = ret.subscribe(goOn => {
                     if (goOn) {
-                        this.doCommand(args.componentId, args.commandId);
+                        this.doCommand(args.componentId, args.commandId, '');
                     }
                     if (subs) {
                         subs.unsubscribe();
@@ -322,7 +322,7 @@ export class BOService extends DocumentService {
         this.webSocketService.closeServerComponent(this.mainCmpId);
     }
     public isServerSideCommand(idCommand: string) {
-        return this.serverSideCommandMap.indexOf(idCommand) > 0;
+        return this.serverSideCommandMap.indexOf(idCommand) >= 0;
     }
 
     public getWindowStrings(cmpId: string, culture: string) {
@@ -336,11 +336,12 @@ export class BOService extends DocumentService {
     public activateContainer(id: string, active:boolean, isTileGroup: boolean) {
         this.webSocketService.activateContainer(this.mainCmpId, id, active, isTileGroup);
     }
-    public doCommand(componentId: string, id: string) {
+    public doCommand(componentId: string, commandId: string, controlId:string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(
             componentId ? componentId : this.mainCmpId,
-            id,
+            commandId,
+            controlId,
             patch);
         console.log("doCommand", patch);
 

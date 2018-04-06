@@ -12,7 +12,6 @@ import { addModelBehaviour } from './../../../shared/models/control.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { ControlComponent } from './../control.component';
 import { Store } from './../../../core/services/store.service';
-import { createSelectorByMap } from './../../commons/selector';
 import { BodyEditColumnComponent } from './body-edit-column/body-edit-column.component';
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
@@ -29,7 +28,7 @@ const resolvedPromise = Promise.resolve(null); //fancy setTimeout
   styleUrls: ['./body-edit.component.scss'],
   providers: [BodyEditService]
 })
-export class BodyEditComponent extends ControlComponent implements AfterContentInit, AfterViewInit, OnDestroy {
+export class BodyEditComponent extends ControlComponent implements AfterContentInit, OnDestroy {
 
   @ContentChildren(BodyEditColumnComponent) be_columns: QueryList<BodyEditColumnComponent>;
   @ViewChild(GridComponent) grid;
@@ -98,6 +97,11 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.resetBodyEditColumns();
     }));
 
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => {
+      this.changeDetectorRef.detectChanges();
+      this.resetBodyEditColumns();
+    }));
+
     let name = this.bodyEditName;
     this.store.select(name)
       .subscribe(m => {
@@ -148,6 +152,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
           internalColumnComponents.push(currentCol.columnComponent);
       }
       this.grid.columns.reset(internalColumnComponents);
+      this.changeDetectorRef.markForCheck();
     }, 1);
   }
 

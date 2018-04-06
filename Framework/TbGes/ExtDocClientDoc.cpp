@@ -105,6 +105,22 @@ void CClientDoc::SetTabDialogImage(UINT nTabberIDD, UINT nTabDialogIDD, CString 
 	pTabManager->SetTabDialogImage(nTabDialogIDD, aNsImage);
 }
 //-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTabDialog* pTab)
+{ 
+	OnPrepareAuxData(pTab->GetDlgCtrlID());
+}
+//-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTileGroup* pGroup) 
+{ 
+	OnPrepareAuxData(pGroup->GetDlgCtrlID());
+}
+//-----------------------------------------------------------------------------
+void CClientDoc::OnPrepareAuxData(CTileDialog* pTile)
+{
+	OnPrepareAuxData(pTile->GetDlgCtrlID());
+}
+
+//-----------------------------------------------------------------------------
 void CClientDoc::AddTabDialog
 	(
 	UINT			nTabDlgID,
@@ -463,6 +479,12 @@ void CClientDoc::GetComponents (CManagedDocComponentObj* pRequest, Array& return
 BOOL CClientDoc::NamespaceEquals(const CString& aCDNamespace)
 {
 	return m_Namespace.ToUnparsedString().CompareNoCase(aCDNamespace) == 0;
+}
+
+//-----------------------------------------------------------------------------
+void CClientDoc::PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs)
+{
+	m_pServerDocument->PopulateIDsArrayFromMessageMap(GetMessageMap(), arIDs);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1134,6 +1156,18 @@ BOOL CClientDocArray::OnEnableTabSelChanging(UINT nTabber, UINT nFromIDD, UINT n
 	return bOk;
 }
 
+//-------------------------------------------------------------------------------------------------
+BOOL CClientDocArray::OnAfterOnAttachData()
+{
+	BOOL bOK = TRUE;
+	for (int i = 0; i <= GetUpperBound() && bOK; i++)
+	{
+		bOK = bOK && GetAt(i)->OnAfterOnAttachData();
+	}
+
+	return bOK;
+}
+
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnTabSelChanged (UINT nTabber, UINT nTabIDD)
 {
@@ -1443,9 +1477,14 @@ void CClientDocArray::OnAddFormsOnDockPane(CTaskBuilderDockPane* pPane)
 {
 	for (int i = 0; i <= GetUpperBound(); i++)
 		GetAt(i)->OnAddFormsOnDockPane(pPane);
-
 }
 
+//-----------------------------------------------------------------------------
+void CClientDocArray::PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs)
+{
+	for (int i = 0; i <= GetUpperBound(); i++)
+		GetAt(i)->PopulateMessagesIDsArrayForPushToClients(arIDs);
+}
 
 //-----------------------------------------------------------------------------
 void CClientDocArray::OnDMSEvent(DMSEventTypeEnum eventType, int eventKey)

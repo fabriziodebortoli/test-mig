@@ -1,4 +1,4 @@
 <tb-control-container type="tb-phone" [model]="model">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <textarea class="tb-textarea" id="{{cmpId}}" name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width" [style.height.px]="height" rows="{{rows}}"></textarea>
+    <textarea class="tb-textarea" id="{{cmpId}}" name="{{cmpId}}" maxlength="{{model?.length}}" [readonly]="readonly" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width" [style.height.px]="height-3" rows="{{rows}}"></textarea>
 </tb-control-container>

@@ -1421,9 +1421,9 @@ namespace Microarea.TaskBuilderNet.Data.DatabaseLayer
 				foreach (ModuleInfo mi in ai.Modules)
 					if (mi.DatabaseObjectsInfo.IsDevelopmentVersion)
 					{
+						// me ne basta trovare uno e ritorno
 						isDevelopmentVersion = true;
-						// me ne basta trovare uno e faccio break
-						break;
+						return;
 					}
 		}
 		# endregion

@@ -5,18 +5,12 @@ import { EventDataService } from './eventdata.service';
 import { InfoService } from './info.service';
 import { Subject, Observable, BehaviorSubject, of, concat } from '../../rxjs.imports';
 import { delay } from 'rxjs/operators/delay';
-import { get } from 'lodash';
 import { Maybe } from '../../shared/commons/monads/maybe';
+import { get } from 'lodash';
 
-export enum ObjType { Document, Report, File, Image, Profile }
-export interface Item { namespace?: string; name?: string; level: number; parent?: Item; }
-export const rootItem: Item = { name: 'root', namespace: '', level: 0 };
-const augmentItem = (partial: Partial<Item>) => item => {
-    item = { ...item, ...partial };
-    item.name = item.name || item.title;
-    item.namespace = item.namespace || item.NameSpace;
-    return item;
-};
+export enum ObjType { Document, Report, File, Image }
+export interface Item { namespace?: string; name?: string; level: number; parent?: Item; icon?: string; type?: ObjType }
+export const rootItem: Item = { name: 'Root', namespace: '', level: 0 };
 
 @Injectable()
 export class ExplorerService {
@@ -43,7 +37,7 @@ export class ExplorerService {
                 'objType': type
             }
         }, r => r.objects
-            .map(augmentItem({ parent: module, level: 3 })));
+            .map(augmentItem({ parent: module, level: 3 }, type)));
     }
 
     async GetObjsByNamespace(namespace: string, type: ObjType): Promise<Item[]> {
@@ -54,6 +48,12 @@ export class ExplorerService {
         return [];
     }
 
+    getHeaders() {
+        const headers = new Headers();
+        headers.append('Authorization', this.info.getAuthorization());
+        return headers;
+    }
+
     async tryGetMap(method: string | { method: string, params?: { [n: string]: any } }, map?: (p: any) => any, ): Promise<Maybe<any>> {
         const search = new URLSearchParams();
         if (typeof method !== 'string') {
@@ -61,11 +61,9 @@ export class ExplorerService {
             m.params && Object.keys(m.params).forEach(k => search.set(k, m.params[k]));
             method = m.method;
         }
-        const headers = new Headers();
-        headers.append('Authorization', this.info.getAuthorization());
         const url = this.info.getBaseUrl() + '/tbfs-service/' + method;
         this._waiting$.next(true);
-        let res = await this.http.get(url, { headers, search, withCredentials: true })
+        let res = await this.http.get(url, { headers: this.getHeaders(), search, withCredentials: true })
             .map(r => r && r.ok && r.text() ? r.json() : null)
             .toPromise();
         this._waiting$.next(false);
@@ -73,3 +71,21 @@ export class ExplorerService {
         return Maybe.from(res);
     }
 }
+
+const augmentItem = (partial: Partial<Item>, type?: ObjType) => item => {
+    const humanizeName = (name: string) => {
+        let idx = -1;
+        if ((idx = name.lastIndexOf('/')) !== -1) return name.slice(idx + 1);
+        if ((idx = name.lastIndexOf('\\')) !== -1) return name.slice(idx + 1);
+        return name;
+    };
+    const typeToIcon = (type?: ObjType) =>
+        typeof type === 'undefined' ? 'tb-open'
+        : { [ObjType.Document]: 'erp-document', [ObjType.File]: 'erp-documenttextnote', [ObjType.Report]: 'tb-report', [ObjType.Image]: 'tb-picture' }[type]
+    item = { ...item, ...partial };
+    item.name = humanizeName(item.name || item.title);
+    item.namespace = item.namespace || item.NameSpace;
+    item.type = type;
+    item.icon = typeToIcon(type);
+    return item;
+};

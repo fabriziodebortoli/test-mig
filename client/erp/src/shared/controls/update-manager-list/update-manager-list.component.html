@@ -1,11 +1,13 @@
 <!-- <tb-control-container type="erp-update-manager-list"> -->
 <div *ngFor="let item of umActions$ | async">
     <input type="checkbox" id="{{item.index}}" [ngModel]="item.value" [disabled]="!item.enabled" (ngModelChange)="valueChanged($event)"
-        class="k-checkbox">
+        (click)="onClick($event)" class="k-checkbox">
     <label class="k-checkbox-label" for="{{item.index}}">{{item.description}}</label>
 </div>
 <!-- </tb-control-container> -->
+<!-- (dblclick)="onDblClick($event)" -->
 
+<!-- (click)="onClick($event)"  -->
 
 <!-- <kendo-grid [data]="gridData" [selectable]="{enabled: model?.enabled, mode: 'single', checkboxOnly: false}" [height]="500">
         <kendo-grid-checkbox-column></kendo-grid-checkbox-column>

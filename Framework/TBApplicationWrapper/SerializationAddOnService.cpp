@@ -17,6 +17,7 @@ using namespace Microarea::Framework::TBApplicationWrapper;
 using namespace Microarea::TaskBuilderNet::Core::NameSolver;
 
 static const TCHAR szBak[] = _T("_bak");
+static const TCHAR szBakExtension[] = _T(".bak");
 
 //////////////////////////////////////////////////////////////
 SerializationAddOnService::SerializationAddOnService() {}
@@ -27,7 +28,7 @@ System::String^ SerializationAddOnService::BuildPath(System::String^ nsDocument,
 	CTBNamespace aNs((CString)nsDocument);
 
 	CString path = AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, FALSE, lastTokenNS);
-	CString bakPath = path + _T("_bak");
+	CString bakPath = path + szBak;
 
 	//delete bakPath if exists
 	if (ExistPath(bakPath))
@@ -35,13 +36,21 @@ System::String^ SerializationAddOnService::BuildPath(System::String^ nsDocument,
 		CStringArray allFiles;
 		GetFiles(bakPath, _T("*.*"), &allFiles);
 		for (int i = allFiles.GetUpperBound(); i >= 0; i--)
-			::RemoveFile(allFiles[i]);
-		
+			RemoveFile(allFiles[i]);
+				
 		::RemoveDirectory(bakPath);
 	}
 
 	if (ExistPath(path))
 		::RenameFilePath(path, bakPath);
+
+	if (ExistPath(bakPath))
+	{
+		CStringArray allFiles;
+		GetFiles(bakPath, _T("*.*"), &allFiles);
+		for (int i = 0; i <= allFiles.GetUpperBound(); i++)
+			::RenameFilePath(allFiles[i], allFiles[i] + szBakExtension);
+	}
 
 	return gcnew System::String(AfxGetPathFinder()->GetJsonFormPath(aNs, CPathFinder::CUSTOM, TRUE, CString(lastTokenNS)));
 }

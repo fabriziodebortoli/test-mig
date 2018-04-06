@@ -8,6 +8,8 @@ using Microarea.Common.DiagnosticManager;
 using Microarea.Common.NameSolver;
 using Microarea.ProvisioningDatabase.Libraries.DataManagerEngine;
 using Microarea.ProvisioningDatabase.Infrastructure.Model.Interfaces;
+using System.Diagnostics;
+using System.Data;
 
 namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 {
@@ -588,6 +590,43 @@ namespace Microarea.ProvisioningDatabase.Libraries.DatabaseManager
 			// inserisco nella listview il riferimento al file di log appena creato
 			ExecuteManager_OnElaborationProgressMessage(null, true, fileName, NameSolverStrings.Log, DatabaseManagerStrings.CreateLogFile, filePath, null);
 		}
-		# endregion
+		#endregion
+
+		#region Gestione rewind database (per riportare indietro il numero di release dei moduli interessati)
+		//---------------------------------------------------------------------
+		public bool RewindDatabaseRelease(List<DevelopmentModuleRelease> modules, out string message)
+		{
+			bool result = false;
+
+			try
+			{
+				if (this.contextInfo.Connection != null && contextInfo.Connection.State == ConnectionState.Closed)
+				{
+					contextInfo.Connection.ConnectionString = contextInfo.ConnectAzDB;
+					contextInfo.Connection.Open();
+				}
+				else
+				{
+					message = DatabaseManagerStrings.ErrorConnectionNotValid;
+					return result;
+				}
+
+				result = this.checkDbStructInfo.DBMarkInfo.DBMarkTable.UpdateDevelopmentModuleRelease(modules, out message);
+			}
+			catch (TBException e)
+			{
+				message = string.Format("Error DatabaseManager::RewindDatabaseRelease ended with errors {0}", e.Message);
+				Debug.WriteLine(message);
+				return false;
+			}
+			finally
+			{
+				contextInfo.CloseConnection();
+			}
+
+			return result;
+		}
+		#endregion
+
 	}
 }

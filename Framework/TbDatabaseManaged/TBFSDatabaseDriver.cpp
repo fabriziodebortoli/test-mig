@@ -23,65 +23,71 @@ static const TCHAR szFetch[] = _T("Fetch");
 
 
 //---------------------------------------------------------------------
-CString GetType(const CString& fileFullName)
+void GetTypeAndNamespace(const CString& fileFullName, CString& strType, CString& strNamespace)
 {
 	CTBNamespace aTBNamespace = AfxGetPathFinder()->GetNamespaceFromPath(fileFullName);
 	if (aTBNamespace.IsValid())
 	{
-		CString strType = aTBNamespace.GetTypeString();
-		return strType.MakeUpper();
+		strNamespace = aTBNamespace.ToString();
+		strType = aTBNamespace.GetTypeString();
+		strType.MakeUpper();
+		return;
 	}
-
+	strNamespace = _T("");
 	CString lowerFileName = fileFullName;
 	lowerFileName.MakeLower();
+	CString strExt = ::GetExtension(fileFullName);
+	strExt.MakeLower();
 	if (lowerFileName.Find(_T("application.config")) > 0)
-		return _T("APPLICATION");
-
-	if (lowerFileName.Find(_T("module.config")) > 0)
-		return _T("MODULE");
-
-	if (lowerFileName.Find(_T(".menu")) > 0)
-		return _T("MENU");
-
-	if (lowerFileName.Find(_T("description")) > 0)
-		return _T("DESCRIPTION");
-
-	if (lowerFileName.Find(_T("exportprofiles")) > 0)
-		return _T("EXPORTPROFILES");
-
-	if (lowerFileName.Find(_T("datamanager")) > 0)
-		return _T("DATA");
-
-	if (lowerFileName.Find(_T("brand")) > 0)
-		return _T("BRAND");
-
-	if (lowerFileName.Find(_T("themes")) > 0)
-		return _T("THEMES");
-
-	if (lowerFileName.Find(_T(".sql")) > 0)
-		return _T("SQL");
-
-	if (lowerFileName.Find(_T(".hjson"))  > 0 || lowerFileName.Find(_T(".tbjson")) > 0)
-		return _T("JSONFORM");
-
-	if (lowerFileName.Find(_T("settings.config"))  > 0 || lowerFileName.Find(_T("\\settings\\"))  > 0)
-		return _T("SETTING");
-
-	if (lowerFileName.Find(_T(".gif"))  > 0 || lowerFileName.Find(_T(".jpg"))  > 0 || lowerFileName.Find(_T(".png")) > 0)
-		return _T("IMAGE");
-
-	if (lowerFileName.Find(_T("\\moduleobjects\\")) > 0)
-	{
-		CString fileName = lowerFileName.Right(lowerFileName.ReverseFind('\\') + 1);
-		fileName = fileName.Left(fileName.ReverseFind('.'));
-		return fileName.MakeUpper();
-	}
-	return _T("");
+		strType = _T("APPLICATION");
+	else
+		if (lowerFileName.Find(_T("module.config")) > 0)
+			strType = _T("MODULE");	
+		else
+			if (strExt.Compare(_T(".menu")) == 0)
+				strType = _T("MENU");
+			else
+				if (strExt.Compare(_T("description")) == 0)
+					strType = _T("DESCRIPTION");
+				else
+					if (strExt.Compare(_T("exportprofiles")) == 0)
+						strType = _T("EXPORTPROFILES");
+					else
+						if (strExt.Compare(_T("datamanager")) == 0)
+							strType = _T("DATA");
+						else
+							if (strExt.Compare(_T("brand")) == 0)
+								strType = _T("BRAND");
+							else
+								if (strExt.Compare(_T("themes")) == 0)
+									strType = _T("THEMES");
+								else
+									if (strExt.Compare(_T(".sql")) == 0)
+										strType = _T("SQL");
+									else
+										if (strExt.Compare(_T(".hjson"))  == 0 || strExt.Compare(_T(".tbjson")) == 0)
+											strType = _T("JSONFORM");
+										else
+											if (strExt.Compare(_T("settings.config"))  == 0 || strExt.Compare(_T("\\settings\\"))  == 0)
+												strType = _T("SETTING");
+											else
+												if (strExt.Compare(_T(".gif"))  == 0 || strExt.Compare(_T(".jpg"))  == 0 || strExt.Compare(_T(".png")) == 0)
+													strType = _T("IMAGE");
+												else	
+													if (strExt.Compare(_T(".rad"))  == 0)
+														strType = _T("RADAR");
+													else
+														if (lowerFileName.Find(_T("\\moduleobjects\\")) > 0)
+														{
+															CString fileName = (strExt.Compare(_T("xml")) == 0) ? ::GetName(lowerFileName) : strExt;
+															strType = fileName.MakeUpper();
+														}
 }
 
 
 //è possibile che le richieste vengano eseguite anche con della path che contengono URL_SLASH_CHAR
 // mentre sul DB le path sono sempre salvate con SLASH_CHAR
+//----------------------------------------------------------------------------
 CString GetTBFSFileCompleteName(const CString& strPathFileName)
 {
 	CString strFileName = strPathFileName;
@@ -467,10 +473,8 @@ CString	TBFSDatabaseDriver::GetTextFile(const CString& strPathFileName)
 	
 	TBFile* pTBFile = GetTBFile(strPathFileName);
 	CString strTextContent = (pTBFile) ? pTBFile->GetContentAsString() : _T("");
-	ASSERT(pTBFile);
 	if (pTBFile)
 		delete pTBFile;
-	ASSERT(!strTextContent.IsEmpty());
 	return strTextContent;
 }
 
@@ -504,7 +508,7 @@ BOOL TBFSDatabaseDriver::SaveBinaryFile(const CString& strPathFileName, BYTE* pB
 	CString strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
 	TBFile* pTBFile = new TBFile(strTBFSFileName);
 	pTBFile->m_pFileContent = pBinaryContent;
-	pTBFile->m_ObjectType = GetType(strTBFSFileName);
+	GetTypeAndNamespace(strTBFSFileName, pTBFile->m_ObjectType, pTBFile->m_strNamespace);
 	pTBFile->m_IsDirectory = false;
 	pTBFile->m_IsReadOnly = false;
 	pTBFile->m_FileSize = nLen;
@@ -595,8 +599,8 @@ BOOL TBFSDatabaseDriver::SaveTextFile(const CString& strPathFileName, const CStr
 	CString strTBFSFileName = GetTBFSFileCompleteName(strPathFileName);
 
 	TBFile* pTBFile = new TBFile(strTBFSFileName);
-	pTBFile->m_strFileContent = fileTextContent;
-	pTBFile->m_ObjectType = GetType(strTBFSFileName);
+	pTBFile->m_strFileContent = fileTextContent; 
+	GetTypeAndNamespace(strTBFSFileName, pTBFile->m_ObjectType, pTBFile->m_strNamespace);
 	pTBFile->m_IsDirectory = false;
 	pTBFile->m_IsReadOnly = false;
 	pTBFile->m_FileSize = fileTextContent.GetLength();
@@ -986,7 +990,7 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 
 	String^ connectionString;
 	String^ tableName;	
-	CString strRelativePath;
+	//CString strRelativePath;
 	CString strApplication, strModule, strAccountName;
 	bool isCustom = false;
 	int parentID = -1;
@@ -1007,7 +1011,7 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 			isCustom = true;
 		}
 		connectionString = (isCustom) ? gcnew String(GetCustomConnectionString()) : gcnew String(m_StandardConnectionString);
-		strRelativePath = GetRelativePath(pTBFile->m_strCompleteFileName, isCustom);
+		//strRelativePath = GetRelativePath(pTBFile->m_strPathName, isCustom);
 		tableName = (isCustom) ? gcnew String(szTBCustomTBFS) : gcnew String(szMPInstanceTBFS);
 		
 
@@ -1025,17 +1029,8 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 		}
 		//se non ho ancora inserito il file mi devo far dare il parentID e se non esiste inserirlo
 		if (fileID == -1)
-		{
-			
 			parentID = IsARootPath(pTBFile->m_strPathName) ? -1 : GetFolder(pTBFile->m_strPathName, TRUE);
-			AfxGetPathFinder()->GetApplicationModuleNameFromPath(pTBFile->m_strCompleteFileName, strApplication, strModule);
-			if (isCustom)
-			{
-				strAccountName = AfxGetPathFinder()->GetUserNameFromPath(pTBFile->m_strCompleteFileName);
-				if (strAccountName.IsEmpty())
-					strAccountName = szAllUserDirName;
-			}
-		}
+		
 		MakeTimeOperation(QUERY_METADATA, START_TIME);
 		sqlConnection = gcnew SqlConnection(connectionString);
 		sqlConnection->Open();
@@ -1059,7 +1054,9 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 		//se sto aggiungendo una nuova riga allora devo fare il bind anche degli altri parametri
 		if (fileID <= 0)
 		{
-			String^ relativePath = gcnew String(strRelativePath);
+			String^ relativePath = gcnew String(GetRelativePath(pTBFile->m_strPathName, isCustom));
+			String^ relativeCompleteFileName = gcnew String(GetRelativePath(pTBFile->m_strCompleteFileName, isCustom));
+
 			SqlParameter^ parentParam = gcnew SqlParameter("@ParentID", SqlDbType::Int);
 			if (parentID > -1)
 				parentParam->Value = parentID;
@@ -1069,16 +1066,16 @@ BOOL TBFSDatabaseDriver::SaveTBFile(TBFile* pTBFile, const BOOL& bOverWrite)
 
 			sqlCommand->Parameters->AddWithValue("@PathName", relativePath);
 			sqlCommand->Parameters->AddWithValue("@FileName", gcnew String(pTBFile->m_strName));
-			sqlCommand->Parameters->AddWithValue("@CompleteFileName", relativePath);
+			sqlCommand->Parameters->AddWithValue("@CompleteFileName", relativeCompleteFileName);
 			sqlCommand->Parameters->AddWithValue("@FileType", gcnew String(pTBFile->m_strFileType));
-			sqlCommand->Parameters->AddWithValue("@Application", gcnew String(strApplication));
-			sqlCommand->Parameters->AddWithValue("@Module", gcnew String(strModule));
+			sqlCommand->Parameters->AddWithValue("@Application", gcnew String(pTBFile->m_strAppName));
+			sqlCommand->Parameters->AddWithValue("@Module", gcnew String(pTBFile->m_strModuleName));
 			sqlCommand->Parameters->AddWithValue("@ObjectType", gcnew String(pTBFile->m_ObjectType));
 			sqlCommand->Parameters->AddWithValue("@IsDirectory", gcnew String((pTBFile->m_IsDirectory) ? "1" : "0"));
 			sqlCommand->Parameters->AddWithValue("@IsReadOnly", gcnew String((pTBFile->m_IsReadOnly) ? "1" : "0"));
 			if (isCustom)
 			{
-				sqlCommand->Parameters->AddWithValue("@AccountName", gcnew String(strAccountName));
+				sqlCommand->Parameters->AddWithValue("@AccountName", gcnew String(pTBFile->m_strAccountName));
 				sqlCommand->Parameters->AddWithValue("@TbCreatedID", (Int32)AfxGetWorkerId());
 			}
 		}
@@ -1137,10 +1134,7 @@ TBFile* TBFSDatabaseDriver::GetTBFile(const CString& strPathFileName)
 		else
 		{
 			strRelativePath = GetRelativePath(strTBFSFileName, true);
-			CString strAccountName = AfxGetPathFinder()->GetUserNameFromPath(strPathFileName); //restituisce empty per AllUsers
-			if (strAccountName.IsEmpty())
-				strAccountName = szAllUserDirName; //per simmetria con il file system
-			GetCustomTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\' AND AccountName = \'%s\'"), strRelativePath, strAccountName), &aMetadataArray);
+			GetCustomTBFileInfo(cwsprintf(_T(" CompleteFileName = \'%s\'"), strRelativePath), &aMetadataArray);
 		}		
 	}
 	catch (SqlException^ e)

@@ -879,6 +879,7 @@ namespace Microarea.TbJson
                             WriteActivatedAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
+
                             WriteAttribute(jObj, Constants.rows, Constants.rows);
                             WriteAttribute(jObj, Constants.chars, Constants.chars);
                             WriteAttribute(jObj, Constants.width, Constants.width);
@@ -886,7 +887,6 @@ namespace Microarea.TbJson
                             WriteAttribute(jObj, Constants.hidden, Constants.hidden);
                             WriteAttribute(jObj, Constants.grayed, Constants.grayed);
                             WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
-                            
 
                             w.CloseBeginTag();
 
@@ -901,6 +901,10 @@ namespace Microarea.TbJson
                                     WriteAttribute(jObj, Constants.chars, Constants.chars);
 
                                     WriteColumnBindingAttributes(jObj, true);
+
+                                    var cmpId = getControlId(jObj);
+                                    WriteSelector(jObj, wCol, cmpId);
+
 
                                     var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
                                     if (propagateSelectionChange != null)
@@ -1178,6 +1182,9 @@ namespace Microarea.TbJson
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbStatusTile, this, false))
                         {
                             WriteActivationAttribute(jObj);
+                            WriteAttribute(jObj, Constants.clickable, Constants.clickable);
+                            WriteAttribute(jObj, Constants.visible, Constants.visible);
+                            WriteAttribute(jObj, Constants.backgroundColor, Constants.backgroundColor);
                             w.CloseBeginTag();
 
                             GenerateHtmlChildren(jObj, type, insideRowView, slave);
@@ -1265,6 +1272,10 @@ namespace Microarea.TbJson
 
         private void GenerateButtonTag(JObject jObj, bool slave, WndObjType type)
         {
+            bool? isSeparator = jObj[Constants.isSeparator]?.Value<bool>();
+            if (isSeparator == true)
+                return;
+
             using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
             {
                 WriteActivationAttribute(jObj);
@@ -1431,7 +1442,7 @@ namespace Microarea.TbJson
             if (!string.IsNullOrEmpty(activation))
                 htmlWriter.WriteAttribute("*ngIf", "eventData?.activation?." + GetSafeActivationString(activation));
         }
-            
+
         //-----------------------------------------------------------------------------------------
         private void WriteActivatedAttribute(JObject jObj)
         {
@@ -1869,15 +1880,7 @@ namespace Microarea.TbJson
                 }
             }
 
-            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
-            if (jObj[Constants.selector] is JObject jSelector)
-            {
-                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
-            }
-            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
-            {
-                WriteSelector(cmpId, wc.Selector.value, jObj);
-            }
+            WriteSelector(jObj, wc, cmpId);
 
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
@@ -1993,6 +1996,7 @@ namespace Microarea.TbJson
             }
 
         }
+
         //-----------------------------------------------------------------------------
         /*private void RegisterModelField(string owner, string field)
         {
@@ -2133,6 +2137,21 @@ namespace Microarea.TbJson
                 htmlWriter.Write("\r\n");
         }
 
+        //-----------------------------------------------------------------------------
+        private void WriteSelector(JObject jObj, WebControl wc, string cmpId)
+        {
+            // se il selettore � descritto nel tbjson uso quello, altrimenti lo cerco nell'xml
+            if (jObj[Constants.selector] is JObject jSelector)
+            {
+                WriteSelector(cmpId, $"{{{string.Join(",\r\n", jSelector.Properties().Select(x => $"{x.Name}: '{x.Value}'"))}}}", jObj);
+            }
+            else if (!(string.IsNullOrEmpty(wc.Selector.value) || string.IsNullOrEmpty(cmpId)))
+            {
+                WriteSelector(cmpId, wc.Selector.value, jObj);
+            }
+        }
+
+        //-----------------------------------------------------------------------------
         private void WriteSelector(string cmpId, string value, JObject jObj)
         {
             var slice = $"{cmpId}_Slice$";

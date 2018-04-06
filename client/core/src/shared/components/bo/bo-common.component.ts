@@ -42,7 +42,7 @@ export class BOCommonComponent extends DocumentComponent implements OnInit, OnDe
             }
         }));
         const ci = this.ciService.componentInfo;
-        this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.ciService.globalInfoService.culture.value;
+        // this.dictionaryId = ci.app.toLowerCase() + '/' + ci.mod.toLowerCase() + '/' + ci.name + '/' + this.ciService.globalInfoService.culture.value;
         super.ngOnInit();
     }
     ngOnDestroy() {

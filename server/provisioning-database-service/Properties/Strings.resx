@@ -141,7 +141,10 @@
   <data name="SQLProviderAndEditionNotCompatible" xml:space="preserve">
     <value>The provider and the edition of SQL Server you have chosen are not compatible. Please choose another one.</value>
   </data>
-  <data name="ImportDataNotAvailable" xml:space="preserve">
-    <value>ERP database does not contain any table, unable to proceed!</value>
+  <data name="DatabaseWithNoTables" xml:space="preserve">
+    <value>The application database does not contain any table, unable to proceed!</value>
+  </data>
+  <data name="NoModulesForRewind" xml:space="preserve">
+    <value>No modules need rewind operation.</value>
   </data>
 </root>

@@ -273,8 +273,22 @@ void CTBSocketHandler::DoCommand(CJsonParser& json)
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
 	HWND cmpId = ReadComponentId(json);
+	DWORD idc = 0;
+	CString controlId;
+	if (json.TryReadString(_T("controlId"), controlId))
+		idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
+
 	//aggiornamento del model
 	pSession->SetJsonModel(json, cmpId);
+	if (idc)
+	{
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+		CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+		if (pCtrl && pCtrl->GetControlBehaviour())
+		{
+			pCtrl->GetControlBehaviour()->OnCmdMsg(id, 0, NULL, NULL);
+		}
+	}
 	SendMessage(cmpId, WM_COMMAND, id, NULL);
 	//pSession->ResumePushToClient();
 }
@@ -477,6 +491,8 @@ void CTBSocketHandler::SetReportResult(CJsonParser& json)
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 {
+	enum CheckListBoxAction { CLB_QUERY_LIST = 0, CLB_SET_VALUES = 1, CLB_DBL_CLICK = 2 };
+
 	HWND docId = ReadComponentId(json);
 	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(docId);
 	if (!pDoc)
@@ -486,7 +502,45 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 	if (!controlId)
 		return;
 
-	CString action = json.ReadString(_T("action"));
+	DWORD idc;
+	
+	int action = json.ReadInt(_T("action"));
+
+	switch (action)
+	{
+		case CLB_QUERY_LIST:
+		{
+			pushCheckListBoxItemSource(json, pDoc, controlId);
+			break;
+		}
+		case CLB_SET_VALUES:
+		case CLB_DBL_CLICK:
+		{
+			idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
+			if (!idc)
+				return;
+
+			CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+			if (!pCtrl || !pCtrl->GetControlBehaviour())
+				return;
+
+			pCtrl->GetControlBehaviour()->ReceiveInfo(json);
+			pushCheckListBoxItemSource(json, pDoc, controlId);
+			break;
+		}
+	}
+
+}
+
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFormDoc* pDoc, const CString& controlId)
+{
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (!pSession)
+	{
+			ASSERT(FALSE);
+			return;
+	}
 
 	if (json.BeginReadObject(_T("itemSource")))
 	{
@@ -499,19 +553,9 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 		if (!pItemSource)
 			return;
 
-		if (action == "getList")
-		{
-			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-            if (!pSession)
-            {
-                    ASSERT(FALSE);
-                    return;
-            }
-
 			CJsonSerializer resp = pItemSource->GetJson(controlId);
 
-            pSession->PushToClients(resp);
-		}
+			pSession->PushToClients(resp);	
 	}
 }
 

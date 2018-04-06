@@ -2797,7 +2797,8 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 	PARSE_INT(m_MarginTop, szJsonMarginTop);
 	PARSE_INT(m_MarginBottom, szJsonMarginBottom);
 
-	if (AfxIsRemoteInterface())
+	// SlaveViews dimensions are not scaled in desktop app, same logic applies to web
+	/*if (AfxIsRemoteInterface())
 	{
 		int xFactor = AfxGetThemeManager()->GetBaseUnitsWidth();
 		int yFactor = AfxGetThemeManager()->GetBaseUnitsHeight();
@@ -2810,7 +2811,8 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 		m_Width = MulDiv(m_Width, xFactor, 100);
 
 		m_Height = MulDiv(m_Height, xFactor, 100);
-	}
+	}*/
+
 	if (parser.Has(szJsonStyle))
 		m_nStyle = parser.ReadInt(szJsonStyle);
 	if (parser.Has(szJsonExStyle))
@@ -3580,7 +3582,7 @@ void CWndObjDescriptionContainer::ParseJson(CJsonFormParser& parser)
 	for (int i = 0; i < parser.GetCount(); i++)
 	{
 		if (!parser.BeginReadObject(i))
-			return;
+			continue;
 
 		ParseJsonItem(parser);
 		parser.EndReadObject();

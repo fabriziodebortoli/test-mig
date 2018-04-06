@@ -3260,9 +3260,10 @@ BOOL CAbstractFormDoc::DispatchPrepareAuxData(BOOL bOnlyDocument/* = FALSE*/)
 	//TRACE(cwsprintf(cwsprintf(_T("Document OnPrepareAuxData  %s \n\r"), aPerfCrono.GetFormattedElapsedTime())));
 	for (int i = 0; i < m_arWebActiveContainers.GetCount(); i++)
 	{
-		DWORD dwID = m_arWebActiveContainers[i];
-		OnPrepareAuxData(dwID);
-		OnUpdateTitle(dwID);
+		DWORD id = m_arWebActiveContainers[i];
+		OnPrepareAuxData(id);
+		m_pClientDocs->OnPrepareAuxData(id);
+		OnUpdateTitle(id);
 	}
 	FireBehaviour(bhe_OnPrepareAuxData, TRUE);
 
@@ -3497,6 +3498,7 @@ BOOL CAbstractFormDoc::InitDocument()
 		(
 			OnExistTables() && m_pClientDocs->OnExistTables() &&
 			OnAttachData() && (m_bOnAttachClient || (!m_bOnAttachClient && m_pClientDocs->OnAttachData())) && // per le procedure batch in cui non viene fatto l'Attach del dbtmaster
+			DispatchOnAfterAttachData() &&
 			!m_pMessages->ErrorFound()
 			)
 		)
@@ -4779,32 +4781,52 @@ void CAbstractFormDoc::EnableControls()
 //------------------------------------------------------------------------------
 BOOL CAbstractFormDoc::SaveModified()
 {
-
+	CView*	pView = GetFirstView();
+	CAbstractFrame* pFrame = NULL;
+	if (pView) 
+		pFrame = dynamic_cast<CAbstractFrame*>(pView->GetParentFrame());
+	
 	if (!__super::SaveModified())
+	{
+		if (pFrame)	pFrame->RemoveDestroying();
 		return FALSE;
+	}
 
 	if (!m_pClientDocs->SaveModified())
+	{
+		if (pFrame)	pFrame->RemoveDestroying();
 		return FALSE;
+	}
 
 	if (GetType() == VMT_BATCH || GetType() == VMT_FINDER)
 	{
 		if (m_bBatchRunning)
 		{
 			Message(_TB("Processing...\r\nYou cannot quit without aborting it."));
+			if (pFrame)	pFrame->RemoveDestroying();
 			return FALSE;
 		}
 
 		if (m_pFormManager && !m_pFormManager->SaveModified())
+		{
+			if (pFrame)	pFrame->RemoveDestroying();
 			return FALSE;       // don't continue
+		}
 
 		return TRUE;
 	}
 
 	if (m_pRadarDoc && !m_pRadarDoc->SaveModified())
+	{
+		if (pFrame)	pFrame->RemoveDestroying();
 		return FALSE;       // don't continue
+	}
 
 	if (m_pFormManager && !m_pFormManager->SaveModified())
+	{
+		if (pFrame)	pFrame->RemoveDestroying();
 		return FALSE;       // don't continue
+	}
 
 	// Can save only if NEW or EDIT, used by FinderDoc too
 	if (!CanDoSaveRecord())
@@ -4833,7 +4855,10 @@ BOOL CAbstractFormDoc::SaveModified()
 	case IDYES:
 		// force Update and test for all controls view
 		if (GetNotValidView(TRUE))
+		{
+			if (pFrame)	pFrame->RemoveDestroying();
 			return FALSE;
+		}
 
 		ConnectToDatabase(szSaveAction);
 
@@ -4851,6 +4876,7 @@ BOOL CAbstractFormDoc::SaveModified()
 			m_pTbContext->StopTime(ONOK_TIME);
 			DisconnectFromDatabase();
 			m_pMessages->Show(TRUE);
+			if (pFrame)	pFrame->RemoveDestroying();
 			return FALSE;
 		}
 
@@ -4860,6 +4886,7 @@ BOOL CAbstractFormDoc::SaveModified()
 			Message(_TB("Unable to open a new transaction.\r\nDocument not saved"));
 			m_pTbContext->StopTime(ONOK_TIME);
 			DisconnectFromDatabase();
+			if (pFrame)	pFrame->RemoveDestroying();
 			return FALSE;
 		}
 		m_pTbContext->StopTime(ONOK_TIME);
@@ -4871,16 +4898,7 @@ BOOL CAbstractFormDoc::SaveModified()
 
 	case IDCANCEL:
 	{
-		CView*	pView = GetFirstView();
-		if (pView)
-		{
-			CAbstractFrame* pFrame = dynamic_cast<CAbstractFrame*>(pView->GetParentFrame());
-			if (pFrame)
-			{
-				pFrame->RemoveDestroying();
-			}
-		}
-
+		if (pFrame)	pFrame->RemoveDestroying();
 		return FALSE;       // don't continue
 	}
 	case IDNO: break;
@@ -7055,6 +7073,12 @@ BOOL CAbstractFormDoc::DispatchOnEnableTabSelChanging(UINT nTabber, UINT nFromID
 		m_pClientDocs->OnEnableTabSelChanging(nTabber, nFromIDD, nToIDD);
 }
 
+//--------------------------------------------------------------------------------
+BOOL CAbstractFormDoc::DispatchOnAfterAttachData()
+{
+	return OnAfterOnAttachData() && m_pClientDocs->OnAfterOnAttachData();
+}
+
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::DispatchOnTabSelChanged(UINT nTabber, UINT nTabIDD)
 {
@@ -8988,6 +9012,7 @@ void CAbstractFormDoc::GetIDsUsedInMessageMap(CArray<int>& arIDs)
 {
 	arIDs.RemoveAll();
 	PopulateIDsArrayFromMessageMap(GetMessageMap(), arIDs);
+	m_pClientDocs->PopulateMessagesIDsArrayForPushToClients(arIDs);
 }
 
 

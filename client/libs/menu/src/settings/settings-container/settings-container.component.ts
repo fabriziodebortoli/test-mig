@@ -1,7 +1,8 @@
 import { Component, OnInit, ComponentFactoryResolver, ChangeDetectorRef, ViewChild } from '@angular/core';
 
-import { DataService, EventDataService, DocumentComponent, InfoService, HttpMenuService, ComponentService } from '@taskbuilder/core';
+import { DataService, EventDataService, DocumentComponent, InfoService, ComponentService } from '@taskbuilder/core';
 
+import { HttpMenuService } from './../../services/http-menu.service';
 import { SettingsPageService } from '../settings-page.service';
 
 @Component({

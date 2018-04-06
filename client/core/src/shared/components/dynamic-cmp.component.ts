@@ -27,6 +27,7 @@ export class DynamicCmpComponentTree {
 }
 @Component({
     selector: 'tb-dynamic-cmp',
+    styles: [':host(tb-dynamic-cmp){flex:1}'],
     template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {

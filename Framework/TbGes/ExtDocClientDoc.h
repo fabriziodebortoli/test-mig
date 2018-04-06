@@ -455,7 +455,7 @@ protected:
 	virtual void OnLoadAttachedDocument	(CFinderDoc*) {}; 	
 
 	virtual BOOL OnAttachData			 ()	{ return TRUE; }
-	virtual BOOL OnPrepareAuxData		 ()	{ return TRUE; }
+	virtual BOOL OnPrepareAuxData() { return TRUE; }
 
 	virtual BOOL OnInitAuxData			 ()	{ return TRUE; }
 	virtual void OnBeforeBrowseRecord	 () {}
@@ -497,11 +497,11 @@ protected:
 	virtual void		OnBuildDataControlLinks (CTabDialog*)					{}
 	virtual void		OnBuildDataControlLinks (CAbstractFormView*)			{}
 	virtual void		OnBuildDataControlLinks (CTileDialog*)					{}
-	virtual void		OnPrepareAuxData		(CTabDialog*)					{}
-	virtual void		OnPrepareAuxData		(CTileGroup*)					{}
 	virtual void		OnPrepareAuxData		(UINT nID)						{}
+	virtual void		OnPrepareAuxData		(CTabDialog* pTab);
+	virtual void		OnPrepareAuxData		(CTileGroup* pGroup);
+	virtual void		OnPrepareAuxData		(CTileDialog* pTile);
 	virtual void		OnPrepareAuxData		(CAbstractFormView*)			{}
-	virtual void		OnPrepareAuxData		(CTileDialog*)					{}
 	virtual void		OnDestroyTabDialog		(CTabDialog*)					{}
 	virtual CString		OnGetCaption			(CAbstractFormView*)			{ return _T(""); }
 
@@ -538,6 +538,7 @@ protected:
 	virtual BOOL OnBECandDoDeleteRow		(CBodyEdit*) { return TRUE; }
 
 	virtual BOOL		OnEnableTabSelChanging(UINT /*nTabber*/, UINT /*nFromIDD*/, UINT /*nToIDD*/) { return TRUE; }
+	virtual BOOL		OnAfterOnAttachData() { return TRUE; }
 	virtual void		OnTabSelChanged(UINT /*nTabber*/, UINT /*nTabIDD*/) { }
 	virtual BOOL		OnToolbarDropDown (UINT, CMenu& ) { return FALSE; }
 
@@ -647,6 +648,7 @@ protected:
 
 	virtual BOOL OnValidatePasteDBTRows	(SqlRecord* pRec, CTBEDataCoDecRecordToValidate&) { return TRUE; }
 	virtual void OnAddFormsOnDockPane(CTaskBuilderDockPane* pPane) {};
+	virtual void PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs);
 
 public:
 	virtual void 		OnBeforeXMLImport	() {}
@@ -886,6 +888,7 @@ protected:
 	BOOL OnBECandDoDeleteRow	(CBodyEdit*);
 
 	BOOL OnEnableTabSelChanging	(UINT /*nTabber*/, UINT /*nFromIDD*/, UINT /*nToIDD*/);
+	BOOL OnAfterOnAttachData	();
 	void OnTabSelChanged		(UINT /*nTabber*/, UINT /*nTabIDD*/);
 
 	BOOL OnToolbarDropDown		(UINT nID, CMenu&);
@@ -926,6 +929,7 @@ protected:
 	
 	BOOL OnBeforeEscape			();
 	void OnBuildingSecurityTree	(CTBTreeCtrl* pTree, Array* arInfoTreeItems);
+	void PopulateMessagesIDsArrayForPushToClients(CArray<int>& arIDs);
 
 public:
 	void 	OnBeforeXMLImport	();

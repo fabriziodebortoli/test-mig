@@ -3,7 +3,9 @@ import { FormControl } from '@angular/forms';
 
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { TbComponent, MenuService, SettingsService, TbComponentService } from '@taskbuilder/core';
+import { TbComponent, SettingsService, TbComponentService } from '@taskbuilder/core';
+
+import { MenuService } from './../../../services/menu.service';
 
 @Component({
   selector: 'tb-search',
