@@ -26,6 +26,7 @@ namespace Microarea.Common.Applications
 		//private const string			SessionKey				= "UserInfoKey";
 
 		public const string AuthenticationTokenKey = "authtoken";
+        public const string IsDesktop = "isDesktop";
 		public string AuthenticationToken = string.Empty;
 
 		public string Company = string.Empty;

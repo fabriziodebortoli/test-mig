@@ -51,6 +51,9 @@ namespace Microarea.AccountManager.Controllers
                 string askingProcess = value["askingProcess"]?.Value<string>();
                 string overwriteLoginString = value["overwrite"]?.Value<string>();
                 bool.TryParse(overwriteLoginString, out bool overwriteLogin);
+
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LoginCompact(user, company, password, askingProcess, overwriteLogin, out string authenticationToken);
 
                 string errorMessage = "";
@@ -80,6 +83,10 @@ namespace Microarea.AccountManager.Controllers
                 string user = value["user"]?.Value<string>();
                 string oldPassword = value["oldPassword"]?.Value<string>();
                 string newPassword = value["newPassword"]?.Value<string>();
+
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
+
                 int result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.ChangePassword(user, oldPassword, newPassword);
                 string errorMessage = "";
                 if (result != 0)
@@ -104,6 +111,8 @@ namespace Microarea.AccountManager.Controllers
                 if (string.IsNullOrEmpty(authtoken))
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
                 Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.LogOff(authtoken);
 
                 var result = new { Success = true, Culture = InstallationData.ServerConnectionInfo.PreferredLanguage, Message = "" };
@@ -123,6 +132,8 @@ namespace Microarea.AccountManager.Controllers
             try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
                 if (string.IsNullOrEmpty(authtoken))
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
@@ -143,6 +154,8 @@ namespace Microarea.AccountManager.Controllers
             {
                 bool valid = false;
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
                 if (!string.IsNullOrEmpty(authtoken))
                 {
                     valid = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsValidToken(authtoken);
@@ -175,6 +188,9 @@ namespace Microarea.AccountManager.Controllers
             try
             {
                 //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
+
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
                 string user = value["user"]?.Value<string>();
                 string[] companies = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.EnumCompanies(user);
 
@@ -219,6 +235,9 @@ namespace Microarea.AccountManager.Controllers
             try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
+
                 if (string.IsNullOrEmpty(authtoken))
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
@@ -275,6 +294,9 @@ namespace Microarea.AccountManager.Controllers
                 //string json = "{\"Companies\": { \"Company\": [{ \"name\": \"Development\" },{\"name\": \"Development2\" }] }}";
                 string application = value["application"]?.Value<string>();
                 string functionality = value["functionality"]?.Value<string>();
+
+                bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
+
 
                 bool result = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.IsActivated(application, functionality);
 
