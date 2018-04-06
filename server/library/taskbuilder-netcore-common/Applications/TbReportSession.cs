@@ -45,7 +45,8 @@ namespace Microarea.Common.Applications
     {
         public UserInfo UserInfo = null;
 
-        public string TbBaseAddress = "http://localhost:5000/";
+        private string tbBaseAddress;
+        public string TbBaseAddress { get => tbBaseAddress; set => tbBaseAddress = value; }
 
         public const string TbBaseRoute = "tbloader/api/";
         public const string TbLoginRoute = "tb/document/initTBLogin/";
@@ -116,7 +117,6 @@ namespace Microarea.Common.Applications
             this.UserInfo = ui ?? throw new InvalidSessionException();
             this.Namespace = ns;
             this.PathFinder = new PathFinder(ui.Company, ui.ImpersonatedUser);
-
             if (!LoadSessionInfo(null, false, this.PathFinder))
                 throw new InvalidSessionException();
             ;

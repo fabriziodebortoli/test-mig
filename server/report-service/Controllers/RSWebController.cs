@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Cors;
 using Microarea.Common;
 using System.Collections.Generic;
 using Microarea.Common.CoreTypes;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 
 /*
@@ -33,6 +35,14 @@ namespace Microarea.RSWeb.Controllers
     [Route("rs")]
     public class RSWebController : Controller
     {
+        public RSWebController()
+        {
+        }
+        public RSWebController(IOptions<RSConfigParameters> parameters, IHostingEnvironment hostingEnvironment)
+        {
+           
+        }
+
         UserInfo GetLoginInformation()
         {
             string sAuthT = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);

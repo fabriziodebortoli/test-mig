@@ -7,8 +7,9 @@ using Microarea.RSWeb.Models;
 using System;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microarea.RSWeb.Controllers;
+using Microsoft.Extensions.Configuration;
 
 namespace Microarea.RSWeb
 {
@@ -16,11 +17,17 @@ namespace Microarea.RSWeb
     {
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IConfiguration configuration)
 		{
+            RSConfigParameters options = new RSConfigParameters();
+            configuration.GetSection("RSConfigParameters").Bind(options);
+            RSSocketHandler.ConfigParameters = options;
+
             app.Use(RSSocketHandler.Listen);
-		}
+            
+        }
 
         public void ConfigureServices(IConfiguration configuration, IServiceCollection services)
         {
+          //  services.Configure<RSConfigParameters>(options => configuration.GetSection("RSConfigParameters").Bind(options));
         }
 
         public void MapRoutes(IRouteBuilder routes)

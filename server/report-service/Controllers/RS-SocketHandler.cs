@@ -20,8 +20,11 @@ namespace Microarea.RSWeb.Models
     /// <summary>
     /// Handle socket connections and messages reception
     /// </summary>
-    public class RSSocketHandler
+    public static class RSSocketHandler
     {
+        static RSConfigParameters configParameters;
+        public static RSConfigParameters ConfigParameters { get => configParameters; set => configParameters = value; }
+
         private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket, string tbIstanceID = "")
         {
             if (nsMsg == null || nsMsg.authtoken == null)
@@ -35,7 +38,9 @@ namespace Microarea.RSWeb.Models
 
             // if ComponentId is received from client, it means this report is called from a tbloader document
             // ComponentId is the handle of woormdoc proxy tbloader side
+            
             TbReportSession session = new TbReportSession(ui, nsMsg);
+            session.TbBaseAddress = configParameters.TbLoaderGateFullUrl;
             session.WebSocket = webSocket;
 
             if (!string.IsNullOrWhiteSpace(tbIstanceID))

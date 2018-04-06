@@ -1,0 +1,8 @@
+{
+  "RSConfigParameters": { 
+		"TbLoaderGateProtocol": "http",
+		"TbLoaderGateHost": "localhost",
+		"TbLoaderGatePort": 5000,
+		"IsStandAlone" : false
+	}
+}
