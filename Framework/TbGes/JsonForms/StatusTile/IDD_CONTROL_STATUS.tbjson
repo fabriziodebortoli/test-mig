@@ -17,7 +17,8 @@
       "height": 6,
       "tabStop": false,
       "blackFrame": true,
-      "controlClass": "LinearGauge"
+      "controlClass": "LinearGauge",
+      "environment": "desktop"
     },
     {
       "id": "IDC_CONTROL_STATIC_UP",
