@@ -46,7 +46,6 @@
             min-width: 32px;
             height: 30px;
             font-size: 20px;
-            margin: 0;
             padding-top: 0;
             box-shadow: none;
             background-color: $color-light;
@@ -81,13 +80,17 @@
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             tb-icon {
                 color: #888;
-                border:none;
+                border:1px solid #ecf8ff;
                 background: $bkg-light;
                 
             }
         }
     }
-    
+    tb-icon .div-icon {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+    }
 
     .div-icon img {
         height: 20px;
@@ -137,11 +140,10 @@ tb-toolbar-top-button.dropDownButton{
             flex: 1 0 auto;
         }
 
-        tb-icon
+       tb-icon
             {
             width: 35px;
             font-size: 20px;
-            margin: 0px;
             padding-top: 0px;
             box-shadow: none;
             background-color: transparent;

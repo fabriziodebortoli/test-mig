@@ -60,7 +60,7 @@ a {
             transform: translateX(-50%);
             &::after {
                 top: -5px;
-                left: calc(100% - 9em);
+                left: calc(50%);
             }
         }
         .tooltip-content>* {
@@ -179,14 +179,13 @@ $bkg-toolbarbottombuttonHover:#a1bcd778;
         }
         &.bottom {
             .tooltip-content {
-                top: calc(100%);
-                left: calc(100% - 7em);
                 bottom: unset !important;
+                left: calc(50%);
+                top: calc(100% + 0.5em);
                 transform: translateX(-50%);
                 &::after {
-                background: $bkg-medium;
-                top: -5px;
-                left: calc(100% - 1em);
+                    top: -5px;
+                    left: calc(50%);
                 }
             }
         }

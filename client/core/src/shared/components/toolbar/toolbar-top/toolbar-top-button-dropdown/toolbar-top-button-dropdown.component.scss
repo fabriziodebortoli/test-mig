@@ -1,0 +1,128 @@
+@import '../../../../../style/vars.scss';
+:host(tb-toolbar-top-button-dropdown) {
+    &:hover {
+        cursor: not-allowed;
+    }
+
+    .top-button {
+        margin: 0;
+        padding: 0;
+        height: 30px;
+        min-width: 32px;
+        border: 0;
+        background: none;
+
+    .ddbutton {
+        display: flex;
+        flex-direction: row;
+        background:white;
+        border: 1px solid  $border-top-button-active;
+        border-left: none;
+        width: 45px;
+            &:hover {
+                transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                background-color: $darkblue;
+                border-color: $darkblue;
+                color: $color-light;
+                m4-icon.arrow,
+                m4-icon,
+                i {
+                    color: $color-light;
+                }
+            }
+        m4-icon.arrow{
+            border: 0px;
+            min-width: 1px;
+            height: 12px;
+            font-size: 11px;
+            background-color:transparent;
+            margin-top: 8px;
+            // &:hover {
+            //     transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            //     background-color: $darkblue;
+            //     border-color: $darkblue;
+            //     color: $color-light;
+            //     m4-icon.arrow,
+            //     tb-icon,
+            //     i {
+            //         color: $color-light;
+            //     }
+            // }
+            // &:active {
+            //     background-color: $blue;
+            //     box-shadow: none;
+            //     color: $color-light;
+            // }
+        }
+        m4-icon {
+            min-width: 32px;
+            height: 30px;
+            font-size: 20px;
+            margin: 0;
+            padding-top: 0;
+            box-shadow: none;
+            background-color: transparent;
+            //border: 1px solid $border-top-button-active;
+            border-left: none;
+            border-radius: none;
+            color: $darkblue;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            // &:hover {
+            //     transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            //     background-color: $darkblue;
+            //     border-color: $darkblue;
+            //     color: $color-light;
+            //     m4-icon.arrow,
+            //     tb-icon,
+            //     i {
+            //         color: $color-light;
+            //     }
+            // }
+            // &:active {
+            //     background-color: $blue;
+            //     box-shadow: none;
+            //     color: $color-light;
+            // }
+        }
+    }
+         // &:first-child .ddbutton > m4-icon {
+        //     margin-left: 3px;
+        //     border-top-left-radius: 4px;
+        //     border-bottom-left-radius: 4px;
+        //     //border-left: 1px solid $border-top-button-active;
+        // }
+        // &:last-child .ddbutton > m4-icon {
+        //     margin-right: 3px;
+        //     border-top-right-radius: 4px;
+        //     border-bottom-right-radius: 4px;
+        //     border-left: none;
+        // }
+        // &:only-child .ddbutton > m4-icon {
+        //     border-radius: 4px;
+        //     margin-right: 3px;
+        //     margin-left: 3px;
+        //     //border-left: 1px solid $border-top-button-active;
+        // }
+        
+        &.k-state-disabled {
+            opacity: 1;
+            background-color: $bkg-light;
+            
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            .ddbutton {
+                padding: 3px 0px 0px 0px;
+                border: none;
+                background: $bkg-light;
+                m4-icon, m4-icon.arrow  {
+                color: $color-top-button-disabled;
+                }
+               
+            }
+            .ddbutton img {
+                height: 20px;
+                margin-top: 4px;
+            }
+        }
+    }
+   
+}
