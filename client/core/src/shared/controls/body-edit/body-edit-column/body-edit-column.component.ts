@@ -23,6 +23,9 @@ export class BodyEditColumnComponent extends ControlComponent {
 
   @Input() columnName: string;
 
+  @Input() slice: any; // TODO tapullo temporaneo
+  @Input() selector: any; // TODO tapullo temporaneo
+
   @Input() formatter: string;
   @Input() readonly = false;
 
