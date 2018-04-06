@@ -146,7 +146,6 @@ public:
 public:
 	BOOL IsEOF()		{ return !m_pTable || m_pTable->IsEOF(); }
 	void MoveNext()		{ if (m_pTable) m_pTable->MoveNext(); *m_pOldRecord = *m_pRecord; }
-	void Disconnect()	{ if (m_pTable) m_pTable->Disconnect(); }
 };
 
 #include "endh.dex"
