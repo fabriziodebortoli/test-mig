@@ -88,14 +88,11 @@ HotKeyLink* CExpCriteriaWizardDoc::GetHotLink(const CString& sName, const CTBNam
 	{
 		//poi lo cerco nel documento chiamante, senza passare il namespace così non lo crea se non lo trova
 		pHotKeyLink = m_pExportCriteria->m_pDoc->GetHotLink(sName);
-
-		//se non lo trovo, lo faccio creare al volo, ammesso che abbia il namespace valido
-		if (!pHotKeyLink && !aNameSpace.IsEmpty())
-			pHotKeyLink = m_pExportCriteria->m_pDoc->GetHotLink(sName, aNameSpace);
 	}
-	//se non lo trovo, lo faccio creare al volo al documento chiamante, ammesso che abbia il namespace valido
+	//se non lo trovo, lo faccio creare al volo, ammesso che abbia il namespace valido
 	if (!pHotKeyLink && !aNameSpace.IsEmpty())
-		pHotKeyLink = __super::GetHotLink(sName);
+		pHotKeyLink = __super::GetHotLink(sName, aNameSpace);
+
 	return pHotKeyLink;
 }
 //---------------------------------------------------------------------------
