@@ -1,12 +1,20 @@
 <tb-control-container type="tb-namespace" [contextMenu]="contextMenu" [model]="model">
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div class="group">
-        <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)"
-            [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
-            <button kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(model?.enabled)">
-                <m4-icon [icon]="tb-folderfind"></m4-icon>
-            </button>
-            <tb-explorer-dialog></tb-explorer-dialog>
+        <ng-template [ngIf]="rows<2 && !multiline">
+            <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)"
+                [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" />
+        </ng-template>
+        <ng-template [ngIf]="rows>1 || multiline">
+            <textarea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase"
+                (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width+8" [style.height.px]="height-3"
+                rows="{{rows}}">
+        </textarea>
+        </ng-template>
+        <button kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(model?.enabled)">
+            <m4-icon [icon]="tb-folderfind"></m4-icon>
+        </button>
+        <tb-explorer-dialog></tb-explorer-dialog>
     </div>
     <div class="has-error">{{errorMessage}}</div>
 </tb-control-container>

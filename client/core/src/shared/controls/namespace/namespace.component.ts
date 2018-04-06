@@ -26,6 +26,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
 
   @Input('readonly') readonly: boolean = false;
   @Input('chars') chars: number = 0;
+  @Input('rows') rows: number = 0;
   @Input('objType') objType: string = "Report";
   @Input('textLimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
