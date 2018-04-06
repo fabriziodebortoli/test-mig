@@ -574,19 +574,10 @@ void CDocumentSession::PushButtonsStateToClients(HWND hwnd)
 					ui.DoUpdate(pFrame, TRUE);
 
 					BOOL isEnabled = ui.GetEnabled();
-					//int checkedState = ui.GetCheck();
-
+					int checkedState = ui.GetCheck();
 					resp.WriteBool(_T("enabled"), isEnabled == TRUE);
-					//resp.WriteString(_T("checkedState"),  checkedState);
-
-
-					/*TCHAR buff[32];
-					_itot_s((int)m_hWnd, buff, 10);
-					pResp->WriteString(_T("id"), buff);
-					pResp->OpenObject(_T("activation"));
-					pResp->WriteString(_T("id"), buff);
-					pResp->OpenObject(_T("activation"));
-					*/
+					resp.WriteInt(_T("checkStatus"), checkedState);
+					
 					resp.CloseObject();
 				}
 			}

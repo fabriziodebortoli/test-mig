@@ -1,3 +1,4 @@
+import { CheckStatus } from './../../../../models/check_status.enum';
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 
 import { ComponentInfoService } from './../../../../../core/services/component-info.service';
@@ -15,6 +16,7 @@ import { TbComponent } from '../../../tb.component';
 export class ToolbarTopButtonComponent extends TbComponent {
 
   private _disabled = false;
+  private _checkStatus = CheckStatus.UNDEFINED;
   @Input() caption: string = '';
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
   @Input() _icon: string = '';
@@ -59,5 +61,20 @@ export class ToolbarTopButtonComponent extends TbComponent {
       (this.eventData.buttonsState &&
         this.eventData.buttonsState[this.cmpId] &&
         !this.eventData.buttonsState[this.cmpId].enabled);
+  }
+
+  @Input() public set checkStatus(value: CheckStatus) {
+    this._checkStatus = value;
+  }
+  public get checkStatus(): CheckStatus {
+    if (this._checkStatus != CheckStatus.UNDEFINED) {
+      return this._checkStatus;
+    }
+    let status = undefined;
+    if (this.eventData.buttonsState &&
+      this.eventData.buttonsState[this.cmpId]) {
+      status = this.eventData.buttonsState[this.cmpId].checkStatus;
+    }
+    return status ? status : CheckStatus.UNDEFINED;
   }
 }
