@@ -139,6 +139,7 @@ public:
 	virtual void				LoadStop					();
 
 public:	//virtual methods exposed by CAbstractFormDoc
+	virtual void				PerformBatchOperations		();
 	virtual BOOL				OnOpenDocument				(LPCTSTR);
 	virtual BOOL				CanDoBatchExecute			();
 	virtual BOOL				OnAttachData				();

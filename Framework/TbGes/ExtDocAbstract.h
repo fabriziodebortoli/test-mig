@@ -335,6 +335,7 @@ protected:
 	BOOL m_bSingleUserMode;
 	BOOL m_bLockedDocument;
 	BOOL m_bUpdateDefaultReport; //save or no default report choosing report in dropdown of 'Print' toolbar button
+	BOOL m_bClassicRunFromExternalController;
 
 public:	//	Data Member	
 	DBTMaster*				m_pDBTMaster;
@@ -885,6 +886,8 @@ public:		//	Function Member
 	void ValorizeControlData(ControlLinks *pLinks, BOOL bNotifyChange);
 	void RetrieveControlData(ControlLinks *pLinks);
 	virtual void ExecuteBatchFromExternalController();
+	virtual void PerformBatchOperations() {}
+
 public:
 	virtual BOOL SetControlAutomaticExpression	(UINT nID, const CString& strExp);
 	virtual BOOL GetControlAutomaticExpression	(UINT& nID, CString& strExp);

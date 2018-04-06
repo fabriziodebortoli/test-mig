@@ -488,7 +488,8 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_bFavoritesState(FALSE),
 	m_pHeaderTitle(NULL),
 	m_bUpdateDefaultReport(TRUE),
-	m_pNumbererBinder(NULL)
+	m_pNumbererBinder(NULL),
+	m_bClassicRunFromExternalController(TRUE)
 {
 	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
 	// Imposta il documento in modo BROWSE
@@ -5520,9 +5521,15 @@ void CAbstractFormDoc::ForcePreparePrimaryKey()
 void CAbstractFormDoc::ExecuteBatchFromExternalController()
 {
 	m_pMessages->StartSession();
-	CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(GetFirstView());
-	if (pView)
-		pView->PerformBatchOperations();
+	if (m_bClassicRunFromExternalController)
+	{
+		CAbstractFormView* pView = dynamic_cast<CAbstractFormView*>(GetFirstView());
+		if (pView)
+			pView->PerformBatchOperations();
+	}
+	else
+		PerformBatchOperations();
+
 	m_pMessages->EndSession();
 
 }

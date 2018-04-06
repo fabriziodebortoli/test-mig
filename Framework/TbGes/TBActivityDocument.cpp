@@ -209,7 +209,7 @@ CTBActivityDocument::CTBActivityDocument()
 	m_bGoToStart					(FALSE)
 {
 	m_bBatch = TRUE;
-
+	m_bClassicRunFromExternalController = FALSE;
 	SetGaugeUpperRange();
 
 	SetDocAccel(IDR_TB_ACTIVITY_DOCUMENT_ACCELERATOR);
@@ -242,13 +242,20 @@ BOOL CTBActivityDocument::OnAttachData()
 	return TRUE;
 }
 
+//-----------------------------------------------------------------------------------------------------------
+void CTBActivityDocument::PerformBatchOperations()
+{
+	LoadStart();
+	BatchStart();
+}
+
 //-------------------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::OnOpenDocument(LPCTSTR lpszPathName)
 {
 	if (!__super::OnOpenDocument(lpszPathName))
 		return FALSE;
 
-	if (IsEditingParamsFromExternalController())
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
 		m_eFiltersActionOnExtract = E_ACTIVITY_PANELACTION::ACTIVITY_NOT_COLLAPSE;
 		m_eActionsActionOnExtract = E_ACTIVITY_PANELACTION::ACTIVITY_NOT_COLLAPSE;
@@ -323,8 +330,8 @@ CTBActivityDocument::~CTBActivityDocument()
 //--------------------------------------------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::CanDoBatchExecute()
 {
-	if (IsEditingParamsFromExternalController())
-		return TRUE;
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
+		return FALSE;
 
 	if (m_eResultsType == E_ACTIVITYTYPE::ACTIVITY_GRID && (!GetDBT() || GetDBT()->GetUpperBound() < 0))
 		return FALSE;
@@ -579,6 +586,12 @@ BOOL CTBActivityDocument::DispatchOnBeforeUndoExtraction()
 //-----------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnUpdateLoadDataStart(CCmdUI* pCmdUI)
 {
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
+	{
+		pCmdUI->Enable(FALSE);
+		return;
+	}
+
 	BOOL bEnable = DoUpdateLoadDataStart();
 
 	pCmdUI->Enable(bEnable);
@@ -587,10 +600,6 @@ void CTBActivityDocument::OnUpdateLoadDataStart(CCmdUI* pCmdUI)
 //----------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::DoUpdateLoadDataStart()
 {
-	// Se si � in editazione parameteri dello scheduler il bottone estrai � disattivo
-	if (IsEditingParamsFromExternalController())
-		return FALSE;		
-	
 	if (m_bExtractingData)
 		return FALSE;
 
@@ -601,7 +610,7 @@ BOOL CTBActivityDocument::DoUpdateLoadDataStart()
 void CTBActivityDocument::OnLoadDataStart()
 {
 	// Se si � in editazione parameteri dello scheduler il bottone estrai � disattivo
-	if (IsEditingParamsFromExternalController())
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 		return;
 
 	if (GetNotValidView(TRUE))
@@ -719,7 +728,7 @@ void CTBActivityDocument::OnLoadResume()
 //-----------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnLoadStop()
 {
-	if (IsEditingParamsFromExternalController())
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 		return;
 
 	GetNotValidView(TRUE);
@@ -1140,6 +1149,12 @@ BOOL CTBActivityDocument::DoUpdateUndoExtraction()
 //-----------------------------------------------------------------------------------------------
 void CTBActivityDocument::OnUpdateBatchStartStop(CCmdUI* pCmdUI)
 {
+	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
+	{
+		pCmdUI->Enable(FALSE);
+		return;
+	}
+
 	BOOL bEnable = DoUpdateBatchStartStop();
 
 	pCmdUI->Enable(bEnable);
@@ -1149,7 +1164,7 @@ void CTBActivityDocument::OnUpdateBatchStartStop(CCmdUI* pCmdUI)
 //----------------------------------------------------------------------------------------------------
 BOOL CTBActivityDocument::DoUpdateBatchStartStop()
 {
-	return (IsEditingParamsFromExternalController() || CanDoBatchExecute());
+	return CanDoBatchExecute();
 }
 
 //-----------------------------------------------------------------------------------------------
